@@ -17,11 +17,14 @@ export class AddFuelIndentComponent implements OnInit {
   reg = null;
   Type: number = 1;
   vid = null;
+  isFlag:boolean=true;
   regno = null;
   rowid = null;
+  fuelStations=[];
   value = null;
+  source='';
   issueDate = new Date();
-  expiryTime = new Date(new Date().setDate(new Date(this.issueDate).getDate() + 15));
+  expiryTime = new Date(new Date().setDate(new Date(this.issueDate).getDate() + 3));
   amount = null;
   indentType = 1;
   amt = null;
@@ -31,11 +34,26 @@ export class AddFuelIndentComponent implements OnInit {
   refid = null;
   refname = null;
   remark = null;
-  source_dest = null;
+  source_dest = '';
+  sourceId=null;
+
   title = '';
-  name = '';
+  fuelId=null;
   result = [];
   brands = [];
+
+  data = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  headings = [];
+  valobj = {};
   vehicle = {
     type: 1,
     subType: "-1"
@@ -60,16 +78,22 @@ export class AddFuelIndentComponent implements OnInit {
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     public common: CommonService) {
-    this.common.handleModalSize('class', 'modal-lg', '500');
+    this.getFuelStationList();
+    this.common.handleModalSize('class', 'modal-lg', '1000');
     console.log("Title", this.common.params.flag);
     console.log("doc", this.common.params.doc);
     if (this.common.params.doc) {
+      this.fuelId = this.common.params.doc._fsid;
+      console.log("fsname",this.fuelId);
       this.regno = this.common.params.doc.regno ? this.common.params.doc.regno : null;
+      this.getFuelIndent();
       this.vid = this.common.params.doc._vid ? this.common.params.doc._vid : null;
       this.remark = this.common.params.doc.Remarks ? this.common.params.doc.Remarks : '--'
       this.vehicle.subType = this.common.params.doc._ref_type;
       this.vehicle.type = this.common.params.doc._vehasstype;
-      this.source_dest = this.common.params.doc['Ref Details'];
+      this.sourceId = this.common.params.doc._ref_id;
+      this.source_dest=this.common.params.doc['Ref Details'];
+      console.log("goutam",this.source_dest)
       if (this.common.params.doc.Fuel) {
         this.amount = this.common.params.doc.Fuel;
         this.indentType = 1;
@@ -86,15 +110,12 @@ export class AddFuelIndentComponent implements OnInit {
         this.selectedlist(this.Type);
         this.refid = this.common.params.doc._ref_id ? this.common.params.doc._ref_id : null;
       }
-
-      this.name = this.common.params.doc['Fuel Station'];
-      console.log("NAME123", this.name);
       this.rowid = this.common.params.doc._id;
       this.issueDate = new Date(this.common.dateFormatter(this.common.params.doc._issue_date));
       this.expiryTime = new Date(this.common.dateFormatter(this.common.params.doc._expiry_date));
     }
-
-  }
+   
+}
 
   ngOnInit() {
     this.Form = this.formBuilder.group({
@@ -102,6 +123,7 @@ export class AddFuelIndentComponent implements OnInit {
       autosuggestion: ['', Validators.required],
       autosuggestion1: ['', Validators.required],
       dropDown: ['',],
+      source_dest:['',],
       select1: ['',],
       dropDownsubtype: ['',],
     });
@@ -123,13 +145,13 @@ export class AddFuelIndentComponent implements OnInit {
     this.selectedlist(this.Type);
 
   }
-
-  resetData() {
-    document.getElementById('brand')['value'] = '';
-  }
+  // resetData() {
+  //   document.getElementById('brand')['value'] = '';
+  // }
 
   selectedlist(Type) {
     if (Type == 11) {
+      this.isFlag=true;
       this.value = 1;
       const params = {
         vid: this.vid,
@@ -145,6 +167,7 @@ export class AddFuelIndentComponent implements OnInit {
     }
     if (Type == 12) {
       this.value = 1;
+      this.isFlag=true;
       const params = {
         vid: this.vid,
         regno: this.regno,
@@ -159,6 +182,7 @@ export class AddFuelIndentComponent implements OnInit {
     }
     if (Type == 13) {
       this.value = 1;
+      this.isFlag=true;
       const params = {
         vid: this.vid,
       };
@@ -166,28 +190,10 @@ export class AddFuelIndentComponent implements OnInit {
       this.api.post('Suggestion/getVehicleStates', params)
         .subscribe(res => {
           this.brands = res['data'];
-          // let data = res['data'];
-          // for (const eleement in data) {
-          //   if (data.hasOwnProperty(eleement)) {
-          //     const thisdata = data[eleement];
-          //     data[eleement]['source_dest'] = data[eleement]['loc_site'];
-          //   }
-          // }
-          // this.brands = data;
-          // console.log(' Api Response:', this.brands);
         },
           err => console.error('Activity Api Error:', err));
     }
   }
-
-  // openReminderModal() {
-  //   this.common.params = { title: "Target Time", returnData: true };
-  //   const activeModal = this.modalService.open(ReminderComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-  //   activeModal.result.then(data => {
-  //     console.log("data", data);
-  //     this.expiryTime = data.date;
-  //    });
-  // }
 
   submit() {
     if(this.issueDate==null){
@@ -211,8 +217,7 @@ export class AddFuelIndentComponent implements OnInit {
         this.amt = null;
         this.ltr = this.amount;
       }
-
-      if (this.common.params.flag == 'Update') {
+     if (this.common.params.flag == 'Update') {
         console.log("Update")
         const params = {
           rowid: this.rowid,
@@ -292,9 +297,12 @@ export class AddFuelIndentComponent implements OnInit {
 
   getRefDetails(details) {
     console.log("refname", details);
-    this.source_dest = details.source_dest;
-    this.refid = details.id ? details.id : null;
-    return this.refid;
+   // this.source = details['source_dest'];
+    console.log("souce dest",this.source_dest)
+    this.refid = details.target.value;
+    this.isFlag=false;
+    console.log("refid",this.refid);
+   // return this.refid;
   }
 
   handleVehicleTypeChange() {
@@ -315,17 +323,85 @@ export class AddFuelIndentComponent implements OnInit {
     this.value = null;
     this.vehicle.subType = '-1';
     console.log('regno', this.regno, this.vid);
+    this.getFuelIndent();
     return this.vid;
-
-  }
+   }
 
   getFuelStation(stationList) {
-    this.fsid = stationList.id;
-    return this.fsid;
+    this.fsid = stationList.target.value;
+    console.log("fsid",this.fsid,stationList);
   }
 
-  testFunction(){
-    console.log('_______');
+  getFuelStationList(){
+    this.api.get("Suggestion/getFuelStaionWrtFo").subscribe(
+      res => {
+        this.fuelStations=res['data'];
+        console.log("datA",res);
+     },
+      err => {
+        console.log(err);
+      }
+    );
+   }
+
+   getFuelIndent() {
+    const params="startdate="+this.common.dateFormatter1(new Date(new Date().setDate(new Date(new Date).getDate()-7)))+"&enddate="+this.common.dateFormatter1(new Date)+"&addedBy="+null+"&status="+-2+"&regno="+this.regno;
+       console.log("params", params);
+    console.log("params", params);
+    ++this.common.loading;
+    this.api.get('Fuel/getPendingFuelIndentWrtFo?' + params)
+      .subscribe(res => {
+        --this.common.loading;
+        this.data = [];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
+        if (!res['data']) return;
+        this.data = res['data'];
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+        this.table.data.columns = this.getTableColumns();
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
   }
+
+  getTableColumns() {
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("Type", this.headings[i]);
+        console.log("doc index value:", doc[this.headings[i]]);
+        
+    
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+      }
+      columns.push(this.valobj);
+    });
+    return columns;
+  }
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1)
+  }
+
 
 }

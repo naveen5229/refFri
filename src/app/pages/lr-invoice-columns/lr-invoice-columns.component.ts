@@ -8,7 +8,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'lr-invoice-columns',
   templateUrl: './lr-invoice-columns.component.html',
-  styleUrls: ['./lr-invoice-columns.component.scss']
+  styleUrls: ['./lr-invoice-columns.component.scss', "../pages.component.css",]
 })
 export class LrInvoiceColumnsComponent implements OnInit {
   party = {
@@ -16,6 +16,8 @@ export class LrInvoiceColumnsComponent implements OnInit {
     id: null,
     address: null
   }
+  docType = 1;
+  LrInvoiceColumns = [];
   constructor(
     public common: CommonService,
     public accountService: AccountService,
@@ -39,7 +41,6 @@ export class LrInvoiceColumnsComponent implements OnInit {
       .subscribe(res => {
         console.log("branchdetails", res['data']);
       }, err => {
-        this.common.loading--;
         console.log(err);
       });
   }
@@ -53,4 +54,51 @@ export class LrInvoiceColumnsComponent implements OnInit {
     });
   }
 
+  getLrInvoiceColumns() {
+    this.common.loading++;
+    let params = {
+      branchId: this.accountService.selected.branch.id,
+      type: this.docType,
+      partyId: this.party.id,
+    }
+    this.api.post('LorryReceiptsOperation/getLrInvoiceFields', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("getLrInvoiceColumns", res['data']);
+        this.LrInvoiceColumns = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  resetData(type) {
+    this.party.id = null;
+  }
+
+
+  saveLrInvoiceColumns() {
+    this.common.loading++;
+    let params = {
+      branchId: this.accountService.selected.branch.id,
+      type: this.docType,
+      partyId: this.party.id,
+      lrInvoiceColumns: JSON.stringify(this.LrInvoiceColumns),
+    }
+    console.log("Params", params)
+    this.api.post('LorryReceiptsOperation/saveLrInvoiceFields', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("saveLrInvoiceColumns", res['data'][0].rtn_id);
+        if (res['data'][0].rtn_id > 0) {
+          this.common.showToast("Successfully Added");
+        }
+        else {
+          this.common.showError("res['data'][0].rtn_msg");
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 }

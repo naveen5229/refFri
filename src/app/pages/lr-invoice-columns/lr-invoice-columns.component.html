@@ -1,6 +1,6 @@
 <nb-card style="border:0px;">
   <nb-card-header>
-    <h5>Frieght Expenses</h5>
+    <h5>LR-Invoice Columns</h5>
   </nb-card-header>
   <nb-card-body>
     <div class="row">
@@ -23,20 +23,37 @@
             <span>
               <auto-suggestion (onSelected)="getPartyDetail($event)" url="Suggestion/GetCompanies" display="name"
                 placeholder="Search Party Name" style="width:100%;" class="col-md-9 auto-suggest"
-                [preSelected]="{name:party.name}">
+                [preSelected]="{name:party.name}" (change)="resetData($event)">
               </auto-suggestion><i class="fa fa-plus  add col-md-3" (click)="addParty()"></i>
             </span>
           </td>
           <td> <label>Type</label></td>
           <td>
-            <select class="form-control" [(ngModel)]="doc-type">
-              <option value="invoice">Invoice</option>
-              <option value="supporting-docx">Supporting-Docx</option>
+            <select class="form-control" [(ngModel)]="docType">
+              <option value="1">Invoice</option>
+              <option value="2">Supporting-Docx</option>
             </select>
           </td>
-          <td><button class="btn btn-primary">Show Coulmns</button></td>
+          <td><button class="btn btn-primary" (click)="getLrInvoiceColumns()">Show Coulmns</button></td>
         </tr>
       </table>
+      <div *ngIf="LrInvoiceColumns.length>0">
+        <table class="table table-bordered">
+          <thead class="thead">
+            <th></th>
+            <th>Column Title</th>
+            <th>Column Order</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let column of LrInvoiceColumns;let i=index">
+              <td><input type="checkbox" [(ngModel)]=column.r_selected class="form control"></td>
+              <td><input type="text" [(ngModel)]=column.r_coltitle class="form control"></td>
+              <td><input type="text" [(ngModel)]=column.r_colorder class="form control"></td>
+            </tr>
+          </tbody>
+          <button class="btn btn-primary" (click)="saveLrInvoiceColumns();">Save</button>
+        </table>
+      </div>
     </div>
   </nb-card-body>
 </nb-card>

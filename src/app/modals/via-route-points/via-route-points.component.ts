@@ -224,7 +224,6 @@ export class ViaRoutePointsComponent implements OnInit {
     }
    
     let params = {
-
       routeId: this.routeId,
       lat: this.lat,
       long: this.long,
@@ -237,14 +236,8 @@ export class ViaRoutePointsComponent implements OnInit {
       this.common.showToast("Please Enter Location");
       return;
     }
-    if (this.duration < 1 || this.duration > 800){
-      this.common.showToast("Please Enter Duration With Range 0 To 800");
-      return;
-    }
-    if (this.kms < 1 || this.kms > 10000){
-      this.common.showToast("Please Enter kms With Rane 0 To 10000");
-      return;
-    }
+    
+   
    
     else {
       console.log(params);

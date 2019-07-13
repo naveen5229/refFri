@@ -146,7 +146,7 @@ export class OutstandingComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Out Standing From :'+this.outStanding.startDate+' To :'+this.outStanding.endDate);
 
       }, err => {
         this.common.loading--;

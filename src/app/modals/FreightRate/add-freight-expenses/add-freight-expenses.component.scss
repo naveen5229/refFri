@@ -52,3 +52,12 @@ table{
         padding: 6px 15px;
     }
 }
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+    max-height: calc(100vh - 450px);
+}
+.btn-primary{
+    padding: 5px 15px;
+    border-radius: 3px;
+    text-transform: capitalize;
+}

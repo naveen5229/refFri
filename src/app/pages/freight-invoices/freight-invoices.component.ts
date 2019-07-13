@@ -2,19 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { DatePipe } from '@angular/common';
-import { UserService } from '../../@core/data/users.service';
+import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
-import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
+import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
+import { FreightInvoiceComponent } from '../../modals/FreightRate/freight-invoice/freight-invoice.component';
+import { LrAssignComponent } from '../../modals/LRModals/lr-assign/lr-assign.component';
+import { ViewFrieghtInvoiceComponent } from '../../modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
 
 @Component({
-  selector: 'freight-revenue',
-  templateUrl: './freight-revenue.component.html',
-  styleUrls: ['./freight-revenue.component.scss', '../pages.component.css']
+  selector: 'freight-invoices',
+  templateUrl: './freight-invoices.component.html',
+  styleUrls: ['./freight-invoices.component.scss', '../pages.component.css']
 })
-export class FreightRevenueComponent implements OnInit {
-  startTime = new Date(new Date().setDate(new Date().getDate() - 15));
+export class FreightInvoicesComponent implements OnInit {
+  startTime = new Date(new Date().setDate(new Date().getDate() - 7));
   endTime = new Date();
   data = [];
   table = {
@@ -33,9 +35,8 @@ export class FreightRevenueComponent implements OnInit {
     private datePipe: DatePipe,
     public user: UserService,
     private modalService: NgbModal) {
-    this.viewFreightRevenue();
+    this.viewFreightInvoice();
     this.common.refresh = this.refresh.bind(this);
-
   }
 
   ngOnInit() {
@@ -43,11 +44,11 @@ export class FreightRevenueComponent implements OnInit {
 
 
   refresh() {
-    this.viewFreightRevenue();
+    this.viewFreightInvoice();
   }
 
 
-  viewFreightRevenue() {
+  viewFreightInvoice() {
     if (!this.startTime || !this.endTime) {
       this.common.showError("Dates cannot be blank.");
       return;
@@ -60,7 +61,7 @@ export class FreightRevenueComponent implements OnInit {
     console.log("params", params);
     ++this.common.loading;
 
-    this.api.post('FrieghtRate/viewRevenue', params)
+    this.api.post('FrieghtRate/getInvoices', params)
       .subscribe(res => {
         --this.common.loading;
 
@@ -87,8 +88,7 @@ export class FreightRevenueComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        let action = { title: this.formatTitle('action'), placeholder: this.formatTitle('action'), hideHeader: true };
-        this.table.data.headings['action'] = action;
+
 
 
         this.table.data.columns = this.getTableColumns();
@@ -110,7 +110,7 @@ export class FreightRevenueComponent implements OnInit {
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
 
       }
-      this.valobj['action'] = { class: '', icons: this.freightDelete(doc) };
+      this.valobj['Action'] = { class: '', icons: this.freightDelete(doc) };
       columns.push(this.valobj);
 
     });
@@ -125,14 +125,20 @@ export class FreightRevenueComponent implements OnInit {
   freightDelete(row) {
 
     let icons = [];
+
     icons.push(
       {
-        class: "fas fa-edit",
-        action: this.editFreightRevenue.bind(this, row),
+        class: "far fa-eye",
+        action: this.lrAssign.bind(this, row),
       },
+
       {
         class: "fas fa-trash-alt",
         action: this.deleteRow.bind(this, row),
+      },
+      {
+        class:"fas fa-print",
+        action:this.printInvoice.bind(this,row),
       }
     )
     return icons;
@@ -141,6 +147,8 @@ export class FreightRevenueComponent implements OnInit {
     console.log("row:", row);
     let params = {
       id: row._id,
+      partyId: row._party_id,
+      branchId: row._branch_id
 
     }
     if (row._id) {
@@ -152,14 +160,11 @@ export class FreightRevenueComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.common.loading++;
-          this.api.post('FrieghtRate/deleteRevenue', params)
+          this.api.post('FrieghtRate/deleteInvoices', params)
             .subscribe(res => {
               this.common.loading--;
-              console.log("Result:", res['data'][0].y_msg);
-
-              this.common.showToast(res['data'][0].y_msg);
-              if (res['data'][0].y_id > 0)
-                this.viewFreightRevenue();
+              this.common.showToast(res['msg']);
+                this.viewFreightInvoice();
 
             }, err => {
               this.common.loading--;
@@ -170,43 +175,38 @@ export class FreightRevenueComponent implements OnInit {
     }
   }
 
-  addFreightRevenue() {
-    this.common.handleModalSize('class', 'modal-lg', '1100');
-    this.common.params = { title: 'Add Freight Revenue ' };
-    const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+
+  lrAssign(row) {
+    this.common.handleModalSize('class', 'modal-lg', '800');
+    this.common.params = { row: row };
+    const activeModal = this.modalService.open(LrAssignComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
     activeModal.result.then(data => {
       console.log('Date:', data);
       if (data) {
-        this.viewFreightRevenue();
+        this.viewFreightInvoice();
       }
     });
   }
 
 
 
-
-  editFreightRevenue(row) {
-    this.common.handleModalSize('class', 'modal-lg', '1100');
-    this.common.params = { title: 'Edit Freight Revenue ', row: row };
-    const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+  invoice() {
+    const activeModal = this.modalService.open(FreightInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
-      if (data) {
-        this.viewFreightRevenue();
-      }
+      this.viewFreightInvoice();
     });
   }
 
-  transfer() {
-    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+  printInvoice(invoice) {
+    console.log("invoice", invoice);
+    this.common.params = { invoiceId:invoice._id }
+    const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
 
     });
   }
-
-
-
 
 
 }
