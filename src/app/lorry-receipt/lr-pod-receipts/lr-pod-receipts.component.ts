@@ -7,6 +7,7 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-details.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'lr-pod-receipts',
@@ -104,8 +105,7 @@ export class LrPodReceiptsComponent implements OnInit {
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.getImage.bind(this, doc, 'site') };
-
+          this.valobj[this.headings[i]] = { value: "",action:null ,icons: [{ class: 'fa fa-edit', action: this.getImage.bind(this, doc, 'site') },{ class: 'fa fa-trash', action:this.deleteLr.bind(this,doc) }]  };
         }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
@@ -115,6 +115,16 @@ export class LrPodReceiptsComponent implements OnInit {
     });
     return columns;
   }
+
+  deleteLr(doc) {
+    console.log("values", doc);
+    const params = {
+      rowid: doc._id,
+    }
+  
+  }
+
+  
 
   getImage(receipt) {
     console.log("val",receipt);
