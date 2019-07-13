@@ -19,11 +19,23 @@
           placeholder="End Date" (click)="getDate('end')">
       </div>
       <div class="col-sm-2">
+        <select [(ngModel)]="lrType" class="form-control" (change)="getLorryReceipts()"
+          style=" border: 2px solid darkcyan; font-size: 13px">
+          <option value="0">Pending</option>
+          <option value="1">Complete</option>
+          <option value="-1">Rejected</option>
+          <option value="2">All</option>
+
+        </select>
+      </div>
+      <div class="col-sm-2">
         <button class="btn btn-primary m-0" (click)="getLorryReceipts()">submit</button>
       </div>
-      <div class="col-sm-4" style="text-align: right">
+
+      <div class="col-sm-2" style="text-align: right">
         <button (click)="openGenerateLr(false)" class="btn btn-primary">LR Generate</button>
       </div>
+
     </div>
     <div>
       <smart-table *ngIf="receipts && receipts.length" [data]="table.receipts" [settings]="table.settings"
@@ -33,7 +45,9 @@
         No Data available !
       </div>
     </div>
-
+    <div class="col-sm-4" style="text-align: right">
+      <!-- <button (click)="printInvoice(false)" class="btn btn-primary">Print Invoice</button> -->
+    </div>
   </nb-card-body>
 </nb-card>
 <router-outlet></router-outlet>

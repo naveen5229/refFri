@@ -230,6 +230,11 @@ export class DataService {
             icon: 'fa fa-bar-chart',
             link: '/admin/pod-dashboard',
           },
+          {
+            title: 'Nearby Pods',
+            icon: 'fa fa-bar-chart',
+            link: '/admin/nearby-pods',
+          },
         ]
       },
       {

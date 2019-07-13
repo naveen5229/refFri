@@ -14,10 +14,12 @@ export class HttpResponseHandlerService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       tap(response => {
+        // console.log("Response Body---->", response);
         /****************** FOR LOGOUT **************** */
         if (response['body'] && response['body']['code']) {
           const code = response['body']['code'];
           const codes = [101];
+        
           if (codes.indexOf(code) !== -1) {
             localStorage.clear();
             setTimeout(() => {
@@ -25,6 +27,17 @@ export class HttpResponseHandlerService implements HttpInterceptor {
             }, 1000);
             this.router.navigate(['/auth/login']);
           }
+        }
+        if (response['body'] && response['body']['encData']){
+           
+            // console.log("heres");
+            let data = atob(response['body']['encData']);
+            console.log("Encrypted Base64 From Api-->" ,response['body']['encData'] );
+             console.log("Encrypted From Api-->",data);
+            data = JSON.parse(data);
+            console.log("Decrypted Data-->", data);
+            response['body'] = data;
+          
         }
       }),
       catchError((err: any) => {

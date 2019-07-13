@@ -163,7 +163,7 @@ export class PodDashboardComponent implements OnInit {
         if (this.headings[i] == "Action") {
 
           // this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-task', action: this.view.bind(this, doc.url) }, { class: 'fa fa-task', action: this.view.bind(this, doc.url) }] };
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-user', action: this.change.bind(this, doc) }, { class: 'fa fa-tasks', action: this.view.bind(this, doc._img_url) }] };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-user', action: this.change.bind(this, doc) }, { class: 'fa fa-tasks', action: this.view.bind(this, doc._img_url) }, { class: 'fa fa-picture-o', action: this.lrview.bind(this, doc._img_url2) }] };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -224,26 +224,23 @@ export class PodDashboardComponent implements OnInit {
 
 
   }
+  lrview(url) {
+    let images = [{
+      name: "Lr",
+      image: url
+    }];
+    this.common.params = { images, title: 'Lr Image' };
+    const activeModal2 = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
+
+
+  }
   change(details) {
     console.log('details', details);
     this.common.params = { details };
     const activeModal = this.modalService.open(LrPodDashboardComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
       if (data.response) {
-        // this.chartObject2 = {
-        //   type: '',
-        //   data: {},
-        //   options: {},
-        //   elements: {},
-        //   lables: [],
-        //   yAxes: [],
-        //   ticks: {},
-        //   min: '',
-        //   max: '',
-        //   stepSize: '',
-        //   startAngle: '',
-        //   backgroundColor: [],
-        // };
+
         this.reset();
       }
     });

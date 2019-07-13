@@ -98,22 +98,29 @@ export class SmartTableComponent implements OnInit {
       object: 0,
       string: 0,
       number: 0,
+      time: 0,
       date: 0
     };
 
     const numberPattern = new RegExp(/^([0-9])*(\.)([0-9])*$/);
     const datePattern = new RegExp(/([0-2][0-9]|(3)[0-1])( |\/|-|)([a-zA-Z]{3})( |\/|-|)(([0-1][0-9])|([2][0-3]){2})(:)([0-5][0-9])$/);
-
+    const timePattern = new RegExp(/^([0-9])*(\:)([0-9])*$/);
     this.columns.forEach(column => {
       let value = column[key].value
       if (datePattern.test(value)) counts.date++
       else if (numberPattern.test(value)) counts.number++;
+      else if (timePattern.test(value)) counts.time++;
       else if (typeof value == 'string') counts.string++;
       else counts.object++;
     });
-    console.log(counts);
+
+    console.info('Sort Counts:', counts);
     this.columns.sort((a, b) => {
-      if (!counts.number) {
+      if (counts.time > counts.number) {
+        let firstValue = parseFloat(a[key].value.replace(':', '.'));
+        let secondValue = parseFloat(b[key].value.replace(':', '.'));
+        return firstValue - secondValue;
+      } else if (!counts.number) {
         let firstValue = a[key].value ? a[key].value.toLowerCase() : '';
         let secondValue = b[key].value ? b[key].value.toLowerCase() : '';
         if (firstValue < secondValue) //sort string ascending
