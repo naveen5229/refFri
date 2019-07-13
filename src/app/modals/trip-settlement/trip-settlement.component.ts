@@ -49,6 +49,7 @@ export class TripSettlementComponent implements OnInit {
         for (let index = 0; index < 6; index++) {
           let dataKey = this.getIndexName(index);
           this.data[index] = [];
+          this.columnsValue[index] = [];
           this.data[index] = res['data'][dataKey];
           if (this.data[index]) {
             console.log("data", this.data[index]);
