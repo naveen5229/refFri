@@ -22,15 +22,11 @@
         </div>
       </div>
     </div>
-    <!-- <div class="col-4">
-      <button class="btn btn-primary m-0" (click)="assignGroups()">Assign</button>
 
-    </div> -->
   </div>
   <div class="row mt-3 m-0 p-0 form-check-box" *ngIf="dataList && dataList.length">
     <label>Select Lr</label>
     <div class="w-100 form-check-main">
-      <!-- <input type="checkbox" (change)="selectAll($event.target.checked)" id="all" name="all"> -->
       <div class="form-check" *ngFor="let cat of dataList">
         <input class="form-check-input" (change)="onChange(cat.id, $event.target.checked)" name="{{ cat.Name }}"
           type="checkbox" id="{{cat.Name}}">
