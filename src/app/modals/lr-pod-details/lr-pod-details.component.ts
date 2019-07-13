@@ -89,6 +89,8 @@ export class LrPodDetailsComponent implements OnInit {
             hideHeader: true
           }
         };
+        this.Details=[];
+        this.addMore();
         this.headings = [];
         this.valobj = {};
         if (!res['data']) return;
