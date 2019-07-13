@@ -10,7 +10,7 @@
       <label>Status</label>
     </div>
     <div class="col-9">
-      <select class="form-control"  [(ngModel)]="id">
+      <select class="form-control" [(ngModel)]="id">
         <option *ngFor="let status of status" [value]="status.id">
           {{status.name}}
 
@@ -28,6 +28,21 @@
       </textarea>
     </div>
   </div>
+  <div class="row form-group" *ngIf="adviceId==4">
+    <div class="col-3">
+      <label>Fuel Station</label>
+    </div>
+    <div class="col-9">
+      <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="fuelId" (change)="getFuelStation($event)">
+        <option *ngFor="let fuel of fuelStations" [value]="fuel.id">
+          {{fuel.name}}
+        </option>
+      </select>
+
+    </div>
+  </div>
+
+
 </div>
 <div class="modal-footer">
   <div class="text-center">

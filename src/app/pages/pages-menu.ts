@@ -136,18 +136,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-list',
         link: '/pages/lr-invoice-columns',
       },
-      {
-        title: 'Freight Revenue',
-        icon: 'nb-list',
-        link: '/pages/freight-revenue',
-      },
+
       {
         title: 'Freight Invoice',
         icon: 'nb-list',
         link: '/pages/freight-invoices',
       },
       {
-        title: 'Freight Expenses',
+        title: 'Freight Expenses/Revenue',
         icon: 'nb-list',
         link: '/pages/freight-expenses',
       },
@@ -157,16 +153,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/lorry-receipts',
       },
 
-      // {
-      //   title: 'Generate LR',
-      //   icon: 'fas fa-receipt',
-      //   link: '/pages/generate-lr',
-      // },
-      // {
-      //   title: 'Generate LTL',
-      //   icon: 'fas fa-receipt',
-      //   link: '/pages/generate-lr-no-vehicles',
-      // },
       {
         title: 'Generate LR Manifest',
         icon: 'fas fa-receipt',
@@ -192,6 +178,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-bar-chart',
         link: '/pages/pod-dashboard',
       },
+      {
+        title: 'Nearby Pods',
+        icon: 'fa fa-bar-chart',
+        link: '/pages/nearby-pods',
+      },
     ]
   },
   {
@@ -202,6 +193,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Call Suggestion',
         icon: 'fas fa-traffic-light',
         link: '/pages/driver-call-suggestion',
+        home: true,
+      },
+      {
+        title: 'Site In & Out',
+        icon: 'fas fa-truck',
+        link: '/pages/site-in-out',
         home: true,
       },
       {
