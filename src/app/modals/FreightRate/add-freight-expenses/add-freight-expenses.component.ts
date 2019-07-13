@@ -66,6 +66,7 @@ export class AddFreightExpensesComponent implements OnInit {
       this.expense.refTypeName = this.common.params.expenseData._ref_name;
       this.expense.vehicleId = this.common.params.expenseData._vid;
       this.expense.refId = this.common.params.expenseData._ref_id;
+      this.expense.remarks = this.common.params.expenseData._remarks;
       // this.getExpenseDetails();
     }
     this.getExpenses();
