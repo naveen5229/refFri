@@ -96,7 +96,6 @@ export class TripSettlementComponent implements OnInit {
   getTableColumns(index) {
     this.data[index].map(doc => {
       this.valobj[index] = {};
-      this.columnsValue[index] = [];
       for (let i = 0; i < this.headings[index].length; i++) {
         this.valobj[index][this.headings[index][i]] = doc[this.headings[index][i]];
       }
