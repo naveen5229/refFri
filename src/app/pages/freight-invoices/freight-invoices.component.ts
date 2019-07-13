@@ -194,7 +194,7 @@ export class FreightInvoicesComponent implements OnInit {
     const activeModal = this.modalService.open(FreightInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
-
+      this.viewFreightInvoice();
     });
   }
 
