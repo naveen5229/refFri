@@ -1,6 +1,6 @@
 <nb-card style="border:0px;">
   <nb-card-header>
-    <h5>Frieght Expenses</h5>
+    <h5>Frieght Expenses/Revenue</h5>
   </nb-card-header>
   <nb-card-body>
     <div class="row submit-exp">
@@ -13,11 +13,27 @@
           placeholder="End Date" (click)="getDate('end')">
       </div>
       <div class="col-sm-2">
+        <select class="form-control" (change)="getSelection()" [(ngModel)]="statusid">
+          <option *ngFor="let status of status" [value]="status.id">
+            {{status.name}}
+
+          </option>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <select class="form-control" (change)="getType()" [(ngModel)]="Typeid">
+          <option *ngFor="let typedet of type" [value]="typedet.id">
+            {{typedet.name}}
+
+          </option>
+        </select>
+      </div>
+      <div class="col-sm-2">
         <button class="btn btn-primary m-0" (click)="getExpenses()">submit</button>
       </div>
-      <div class="col-sm-6 text-right">
+      <!-- <div class="col-sm-6 text-right">
         <button (click)="openExpenseModal(false)" class="btn btn-primary">Add Expense</button>
-      </div>
+      </div> -->
     </div>
 
     <div *ngIf="data && data.length" class="mt-3">

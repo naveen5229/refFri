@@ -23,6 +23,7 @@ import { ViaRoutesComponent } from './admin/via-routes/via-routes.component';
 import { PodDashboardComponent } from './admin/pod-dashboard/pod-dashboard.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
 import { ChartModule } from 'angular2-chartjs';
+import { NearbyPodsComponent } from './admin/nearby-pods/nearby-pods.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -38,9 +39,8 @@ const PAGES_COMPONENTS = [
     ViewSubModalServiceComponent,
     VehiclesComponent,
     ViaRoutesComponent,
-    PodDashboardComponent
-
-
+    PodDashboardComponent,
+    NearbyPodsComponent
 
 ];
 

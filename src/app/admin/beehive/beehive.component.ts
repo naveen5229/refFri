@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { element } from '@angular/core/src/render3';
-import { SELECT_PANEL_INDENT_PADDING_X } from '@angular/material';
+import { EncryptService } from '../../services/encrypt.service';
 @Component({
   selector: 'beehive',
   templateUrl: './beehive.component.html',
@@ -13,7 +12,10 @@ export class BeehiveComponent implements OnInit {
   lat1: "";
   long1: "";
   circlesData = [];
+  encryptSecretKey = 'elogist123';
+  data = null;
   LatLong = [];
+  publicKey1133 = null;
   lat2: "";
   latLngs: "";
   long2: "";
@@ -28,26 +30,168 @@ export class BeehiveComponent implements OnInit {
   size = "";
   first = null;
   second = null;
+  print = null;
+  encryptedArray = [];
+  decrypt = null;
+  privateDecrypted: any;
 
   constructor(
     public mapService: MapService,
     public api: ApiService,
-    public common: CommonService
+    public common: CommonService,
+    public encrypt: EncryptService
   ) {
     this.LatLong = this.common.params;
+    // console.log(this.pass1);
+    // console.log(this.pass);
+    // console.log("private-->",this.forgePrivateKey);
+    // console.log("public-->",this.forgePublicKey);
+    // console.log("public pem-->",this.publicKey);
+    // console.log("public ssh-->",this.sshPublicKey);
+    
+   
   }
   ngOnInit() {
 
   }
 
-  ngAfterViewInit() {
-    this.mapService.mapIntialize("map", 8);
+  // ngAfterViewInit() {
+  //   this.mapService.mapIntialize("map", 8);
 
-    setTimeout(() => {
-      this.getMapping();
-    }, 2000);
-  }
+  //   setTimeout(() => {
+  //     this.getMapping();
+  //   }, 2000);
+  // }
+// getEncrypt(){
+//   this.encryptedArray = this.encrypt.encryptData(this.data , this.publicKey);
+//   // this.getDecrypt(this.encryptedArray[0] , this.privateKey , this.encryptedArray[1]);
+//   console.log(this.encryptedArray[0]);
+//   console.log(this.encryptedArray[1]);
+// }
+// getDecrypt(print , privateKey, transmitData){
+//   this.privateDecrypted = this.encrypt.decrypt(print , privateKey);
+//   this.print = this.encrypt.decryptData(transmitData , this.privateDecrypted );
+//   console.log("decypted---->",this.print);
+//   console.log("privateDecrypted---->",this.privateDecrypted);
+//   // this.print = this.encrypt.decryptData(this.decrypt);
+// }
+// encrypt1(){
+//   // this.print = this.encrypt.encrypt(this.data, this.pass);
+//   this.decrypt = this.print;
+//   console.log(this.decrypt);
+// }
+// decrypt1(){
+//   // this.print = this.encrypt.decrypt(this.decrypt,this.pubprivkey.private);
+//   console.log(print);
+// }
+// getTweetNacl(publicKey){
+//   let alice =nacl.box.keyPair();
+//   alice = nacl.box.keyPair.fromSecretKey(alice.secretKey);
+// let nonce = nacl.randomBytes(24);
+// // message for Alice
+// let utf8 = this.data;
+// // Bob encrypts message for Alice
+// const box = nacl.box(
+//   naclutil.decodeUTF8(utf8),
+//   nonce,
+//   publicKey,
+//   alice.secretKey
+// );
+// let data = naclutil.decodeUTF8(utf8);
+// this.tweetNacl(box,alice.publicKey);
 
+// }
+// getPublicKey(){
+//   ++this.common.loading;
+//   this.api.get('Test/getPublicKey')
+//     .subscribe(res => {
+//       --this.common.loading;
+//       console.log("response", res);
+//       this.publicKey1133 = res['data'];
+//       this.getTweetNacl(this.publicKey1133);
+//       // console.log("Receipt",this.receipts);
+//     }, err => {
+//       --this.common.loading;
+//       console.log('Err:', err);
+//     });
+// }
+// tweetNacl(box , publicKey  ) {
+//   const params = {
+//     box: box,
+//     public :  publicKey,
+//   };
+//   console.log("params-->",params);
+//   this.common.loading++;
+//   this.api.post("Test/tweetNacl",params)
+//     .subscribe(res => {
+//       let data = res['data'];
+//       this.common.loading--;
+//       console.log('Res: ', res['data']);
+//     }, err => {
+//       console.error(err);
+//       this.common.showError();
+//     });
+// }
+checkEncrypt(){
+  let params = {
+    name : "This is Prateek",
+    company : "Elogist",
+    data : this.data
+  };
+  this.common.loading++;
+  this.api.post("Test/encrpytDecryptTest",params)
+    .subscribe(res => {
+      let data = res['data'];
+      this.common.loading--;
+      console.log('Res: ', res);
+    }, err => {
+      console.error(err);
+      this.common.showError();
+    });
+}
+checkEncrypt1(){
+  let params = {
+    name : "This is Prateek",
+    company : "Elogist",
+    data : this.data
+  };
+  this.common.loading++;
+  this.api.postEncrypt("Test/encrpytDecryptTest",params)
+    .subscribe(res => {
+      let data = res['data'];
+      this.common.loading--;
+      console.log('Res: ', res);
+    }, err => {
+      console.error(err);
+      this.common.showError();
+    });
+}
+getSubSites(){
+  // this.getFencing();
+   let params = "name=prateek";
+   this.common.loading++;
+   this.api.get('Test/checkEncrypt?'+params)
+           .subscribe(res =>{
+             this.common.loading--;
+             console.log('res: ',res);
+           }, err =>{
+             this.common.loading--;
+             this.common.showError();
+           });
+ }
+ getSubSites1(){
+  // this.getFencing();
+   let params = "name=prateek";
+   this.common.loading++;
+   this.api.getEncrypt('Test/checkEncrypt?'+params)
+           .subscribe(res =>{
+             this.common.loading--;
+             console.log('res: ',res);
+           }, err =>{
+             this.common.loading--;
+             this.common.showError();
+           });
+ }
   getMapping() {
     this.mapService.clearAll();
     console.log('params:---------------- ');

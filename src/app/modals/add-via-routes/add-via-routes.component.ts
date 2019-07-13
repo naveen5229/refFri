@@ -138,15 +138,7 @@ export class AddViaRoutesComponent implements OnInit {
       endName: this.routeData.placeName2
 
     };
-    if (this.routeData.duration > 800) {
-      this.common.showError("Select Hour in under 800(Hr)");
-      return;
-    }
-    if (this.routeData.kms <= 1 || this.routeData.kms > 10000) {
-      this.common.showError("Select KM in range (1,10000)");
-      return;
-    }
-
+   
     console.log("Data :", params);
 
     this.common.loading++;
