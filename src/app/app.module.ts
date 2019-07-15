@@ -195,7 +195,7 @@ import { LrNearbyPodComponent } from './modals/LRModals/lr-nearby-pod/lr-nearby-
 import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
 import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
 import { TypeMasterComponent } from './modals/type-master/type-master.component';
-import { PodStateViewComponent } from './modals/LRModals/pod-state-view/pod-state-view.component';
+
 
 
 
@@ -363,7 +363,7 @@ import { PodStateViewComponent } from './modals/LRModals/pod-state-view/pod-stat
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
-    PodStateViewComponent,
+
 
 
   ],
@@ -526,7 +526,7 @@ import { PodStateViewComponent } from './modals/LRModals/pod-state-view/pod-stat
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
-    PodStateViewComponent
+
 
 
 
