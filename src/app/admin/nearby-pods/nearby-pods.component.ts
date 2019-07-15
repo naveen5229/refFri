@@ -134,7 +134,7 @@ export class NearbyPodsComponent implements OnInit {
         if (this.headings[i] == "Action") {
 
           // this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-task', action: this.view.bind(this, doc.url) }, { class: 'fa fa-task', action: this.view.bind(this, doc.url) }] };
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-user', action: this.change.bind(this, doc) }, { class: 'fa fa-map-marker', action: this.view.bind(this, doc) }] };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-user', action: this.change.bind(this, doc) }, { class: 'fa fa-map-marker', action: this.view.bind(this, doc) }, { class: 'fa fa-picture-o', action: this.LRimage.bind(this, doc._img_url2) }, { class: 'fa fa-image', action: this.podimage.bind(this, doc._img_url) }] };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -177,6 +177,25 @@ export class NearbyPodsComponent implements OnInit {
     let title = 'Location'
     this.common.params = { location, title };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
+
+  }
+  LRimage(url) {
+    let images = [{
+      name: "Lr",
+      image: url
+    }];
+    this.common.params = { images, title: 'Lr Image' };
+    const activeModal2 = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
+
+
+  }
+  podimage(url) {
+    let images = [{
+      name: "Lr",
+      image: url
+    }];
+    this.common.params = { images, title: 'Lr Image' };
+    const activeModal2 = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
 
   }
 }
