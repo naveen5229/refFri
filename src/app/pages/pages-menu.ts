@@ -143,6 +143,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/freight-invoices',
       },
       {
+        title: 'Transfer',
+        icon: 'nb-list',
+        link: '/pages/transfers',
+      },
+      {
         title: 'Freight Expenses/Revenue',
         icon: 'nb-list',
         link: '/pages/freight-expenses',

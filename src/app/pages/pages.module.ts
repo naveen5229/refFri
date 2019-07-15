@@ -69,6 +69,7 @@ import { FreightExpensesComponent } from './freight-expenses/freight-expenses.co
 import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
 import { SiteInOutComponent } from './site-in-out/site-in-out.component';
 import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.component';
+import { TransfersComponent } from './transfers/transfers.component';
 
 
 const PAGES_COMPONENTS = [
@@ -139,6 +140,7 @@ const PAGES_COMPONENTS = [
     LrInvoiceColumnsComponent,
     SiteInOutComponent,
     FreightInvoicesComponent,
+    TransfersComponent,
     // CustomDatePipe
   ],
   exports: [
