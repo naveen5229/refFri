@@ -1,24 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfirmComponent } from '../../confirm/confirm.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
-import { DatePickerComponent } from '../../date-picker/date-picker.component';
-import { AddConsigneeComponent } from '../../LRModals/add-consignee/add-consignee.component';
-import { ConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
-  selector: 'freight-input-without-location',
-  templateUrl: './freight-input-without-location.component.html',
-  styleUrls: ['./freight-input-without-location.component.scss']
+  selector: 'lr-rate',
+  templateUrl: './lr-rate.component.html',
+  styleUrls: ['./lr-rate.component.scss']
 })
-export class FreightInputWithoutLocationComponent implements OnInit {
-
-
-  combineJson = []
-  general = {
-    param: null,
-    minRange: null,
-    maxRange: null,
+export class LrRateComponent implements OnInit {
+  general = [{
     fixed: null,
     distance: null,
     weight: null,
@@ -29,32 +21,12 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     weightDistance: null,
     loading: null,
     unloading: null,
-    fuelClass: null,
-    fuelBaseRate: null,
-    fuelVariation: null,
-    qty: null
-  };
-  filters = [{
-    param: null,
-    minRange: null,
-    maxRange: null,
-    fixed: null,
-    distance: null,
-    weight: null,
-    shortage: null,
-    shortagePer: null,
-    detenation: null,
-    delay: null,
-    weightDistance: null,
-    loading: null,
-    unloading: null,
-    fuelClass: null,
-    fuelBaseRate: null,
-    fuelVariation: null,
-    qty: null
-
+    qty: null,
+    mgWeight: null,
+    mgQty: null
   }];
-  frpId = null;
+
+  lrId = null;
 
   data = [];
   table = {
@@ -75,8 +47,9 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     public api: ApiService,
     public activeModal: NgbActiveModal,
   ) {
-    this.frpId = this.common.params.id ? this.common.params.id : null;
-    this.getFrieghtRateDetails();
+    console.log("this.common.params.LrData", this.common.params.LrData);
+    this.lrId = this.common.params.LrData.lr_id ? this.common.params.LrData.lr_id : null;
+    this.getLrRateDetails();
     this.common.handleModalSize('class', 'modal-lg', '1600');
   }
 
@@ -87,54 +60,29 @@ export class FreightInputWithoutLocationComponent implements OnInit {
   }
 
 
-  addMore() {
-    this.filters.push({
-      param: null,
-      minRange: null,
-      maxRange: null,
-      fixed: null,
-      distance: null,
-      weight: null,
-      shortage: null,
-      shortagePer: null,
-      detenation: null,
-      delay: null,
-      weightDistance: null,
-      loading: null,
-      unloading: null,
-      fuelClass: null,
-      fuelBaseRate: null,
-      fuelVariation: null,
-      qty: null
 
-    });
-  }
-
-  saveFrightInput() {
-    let frieghtRateData = [];
-    frieghtRateData.push(this.general);
-    this.filters.forEach(element => {
-      frieghtRateData.push(element);
-    });
-    console.log("frieghtRateData", frieghtRateData);
+  saveLrRateInput() {
+    let lrRateData = JSON.stringify(this.general)
     ++this.common.loading;
     let params = {
-      frpId: this.frpId,
-      type: 'formula',
-
-      frieghtRateData: JSON.stringify(frieghtRateData),
-      // filterParams: JSON.stringify(this.filters)
+      lrId: this.lrId,
+      lrRateData: lrRateData
     }
     console.log("params", params);
 
 
-    this.api.post('FrieghtRate/saveFrieghtRateDetails', params)
+    this.api.post('LorryReceiptsOperation/saveLrRates', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log(res['data'][0].result);
-        this.common.showToast(res['data'][0].result);
-        this.getFrieghtRateDetails();
+        console.log(res);
+        if (res['data'][0].r_id > 0) {
+          this.common.showToast("Successfully Added");
+          this.getLrRateDetails();
+        }
+        else {
+          this.common.showError(res['data'][0].r_msg);
 
+        }
       }, err => {
         --this.common.loading;
         this.common.showError(err);
@@ -143,15 +91,14 @@ export class FreightInputWithoutLocationComponent implements OnInit {
   }
 
 
-  getFrieghtRateDetails() {
+  getLrRateDetails() {
     let params = {
-      frpId: this.frpId,
-      type: 'formula',
+      lrId: this.lrId
     }
     console.log("params", params);
     ++this.common.loading;
 
-    this.api.post('FrieghtRate/getFrieghtRateDetails', params)
+    this.api.post('LorryReceiptsOperation/getLrRates', params)
       .subscribe(res => {
         --this.common.loading;
         this.data = [];
@@ -200,7 +147,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
 
       }
-      this.valobj['action'] = { class: '', icons: this.freightDelete(doc) };
+      this.valobj['action'] = { class: '', icons: this.lrRateDelete(doc) };
       columns.push(this.valobj);
 
     });
@@ -211,7 +158,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
-  freightDelete(row) {
+  lrRateDelete(row) {
 
     let icons = [];
     icons.push(
@@ -223,12 +170,12 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     return icons;
   }
   deleteRow(row) {
-    console.log("row:", row);
     let params = {
-      id: row._id,
-      type: 'formula',
+      id: row._rateid,
+      lrId: row._lrid
     }
-    if (row._id) {
+    console.log("params:", params);
+    if (row._rateid) {
       this.common.params = {
         title: 'Delete  ',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
@@ -237,12 +184,16 @@ export class FreightInputWithoutLocationComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.common.loading++;
-          this.api.post('FrieghtRate/deleteFrieghtRateDetails', params)
+          this.api.post('LorryReceiptsOperation/deleteLrRate', params)
             .subscribe(res => {
               this.common.loading--;
-              this.common.showToast(res['data'][0].y_msg);
-              if (res['data'][0].y_id > 0)
-                this.getFrieghtRateDetails();
+
+              if (res['data'][0].r_id > 0) {
+                this.common.showToast("Successfully Deleted");
+                this.getLrRateDetails();
+              } else {
+                this.common.showError(res['data'][0].r_msg);
+              }
 
             }, err => {
               this.common.loading--;
