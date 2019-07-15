@@ -21,7 +21,7 @@
         </select>
       </div>
       <div class="col-sm-2">
-        <select class="form-control" (change)="getType()" [(ngModel)]="Typeid">
+        <select class="form-control" [(ngModel)]="Typeid">
           <option *ngFor="let typedet of type" [value]="typedet.id">
             {{typedet.name}}
 

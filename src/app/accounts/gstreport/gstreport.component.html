@@ -1,0 +1,94 @@
+<nb-card style="border: 0px;">
+
+  <nb-card-body>
+    <div class="row">
+      <div class="col-9">
+        <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+
+        <div class="row mt-2 align-items-sm-end">
+      
+          <div class="col">
+            <div class="form-group">           
+
+              <div class="form-group debit_box m-0 w-100">
+                <label class="tjr-label">Filter Report</label>
+                <select class="tjr_select form-control" [(ngModel)]="bankBook.reportype" >
+                  <option value="b2b">b2b</option>
+                  <option value="b2cl">b2cl</option>
+                  <option value="b2cs">b2cs</option>
+                  <option value="cdnr">cdnr</option>
+                  <option value="cdnur">cdnur</option>
+                  <option value="exp">exp</option>
+                  <option value="at">at</option>
+                  <option value="atadj">atadj</option>
+                  <option value="exemp">exemp</option>
+                  <option value="hsn">hsn</option>
+                  <option value="docs">docs</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">Starting Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
+                id="startdate" placeholder="Select Date" name="account-date" [(ngModel)]="bankBook.startdate"
+                maxlength="10">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">End Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="enddate"
+                placeholder="Select Date" name="account-enddate" [(ngModel)]="bankBook.enddate" maxlength="10">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getVoucherEdited()"
+                id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+     
+    </div>
+
+    <div class="table-box">
+       
+        <table class="table table-bordered" id="table">
+
+            <thead style="background-color:#263238; color:#fff;">
+             <tr><th>S.No</th>
+                <th *ngFor="let item of headings">
+                     {{item}}                 
+                </th>
+                
+              </tr>
+            </thead>             
+                <tr *ngFor="let item of DayData; let i = index;">
+                  <td>{{ i+1}}</td>
+                  <td *ngFor="let itemheading of headings">
+                      {{item[itemheading]}}                 
+                 </td>
+              
+            </tr>
+          </table>
+    </div>
+
+  </nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="bankBook[f2Date]"
+        maxlength="10">
+    </div>
+  </div>
+</div>

@@ -199,6 +199,7 @@ import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-dis
 import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
 import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
 import { TypeMasterComponent } from './modals/type-master/type-master.component';
+import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
 
 
 @NgModule({
@@ -369,6 +370,7 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
+    TripSettlementComponent,
 
   ],
   entryComponents: [
@@ -534,7 +536,7 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
-
+    TripSettlementComponent
 
 
   ],

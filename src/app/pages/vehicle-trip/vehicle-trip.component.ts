@@ -19,6 +19,7 @@ import { start } from 'repl';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 import { BulkVehicleNextServiceDetailComponent } from '../../modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 import { PrintManifestComponent } from '../../modals/print-manifest/print-manifest.component';
+import { TripSettlementComponent } from '../../modals/trip-settlement/trip-settlement.component';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -155,6 +156,8 @@ export class VehicleTripComponent implements OnInit {
             { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, this.vehicleTrips[i]) },
             { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, this.vehicleTrips[i]) },
             { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, this.vehicleTrips[i]) },
+            { class: 'fa fa-chart-bar status', action: this.tripSettlement.bind(this, this.vehicleTrips[i]) },
+
           ]
         }
         if (this.user._loggedInBy == "admin") {
@@ -175,59 +178,6 @@ export class VehicleTripComponent implements OnInit {
     this.vehicleId = value.id;
     this.vehicleRegNo = value.regno;
   }
-
-
-  // setTable() {
-  //   let headings = {
-  //     vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
-  //     startDate: { title: 'Start Date', placeholder: 'Start Date' },
-  //     startName: { title: 'Start Name ', placeholder: 'Start Name' },
-  //     endName: { title: 'End Name ', placeholder: 'End Name ' },
-  //     endDate: { title: 'End Date', placeholder: 'End Date' },
-  //     action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'del' },
-  //   };
-  //   return {
-  //     data: {
-  //       headings: headings,
-  //       columns: this.getTableColumns()
-  //     },
-  //     settings: {
-  //       hideHeader: true, tableHeight: '75vh'
-  //     }
-
-  //   }
-  // }
-
-  // getTableColumns() {
-  //   let columns = [];
-  //   this.vehicleTrips.map(doc => {
-  //     let column = {
-  //       vehicleNumber: { value: doc.regno },
-  //       startDate: { value: this.datePipe.transform(doc.start_time, 'dd MMM hh:mm a') },
-  //       startName: { value: doc.start_name },
-  //       endName: { value: doc.end_name },
-  //       endDate: { value: this.datePipe.transform(doc.end_time, 'dd MMM hh:mm a') },
-  //       action: {
-
-  //         value: '', isHTML: true, action: null, icons: [
-  //           { class: 'fa fa-pencil-square-o  edit-btn', isHTML: `<h2>test</h2>`, action: this.update.bind(this, doc) },
-  //           { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, doc) },
-  //           { class: " fa fa-trash remove", action: this.deleteTrip.bind(this, doc) },
-  //           { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, doc) },
-  //           { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, doc) },
-  //           { class: 'fa fa-chart-bar  status', action: this.vehicleStates.bind(this, doc) }
-  //         ]
-  //       },
-
-
-  //       rowActions: {
-  //         click: 'selectRow'
-  //       }
-  //     };
-  //     columns.push(column);
-  //   });
-  //   return columns;
-  // }
 
 
   getUpadte(vehicleTrip) {
@@ -316,6 +266,16 @@ export class VehicleTripComponent implements OnInit {
 
     });
   }
+
+
+  tripSettlement(row) {
+    this.common.params = { row: row };
+    const activeModal = this.modalService.open(TripSettlementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.getVehicleTrips();
+    });
+  }
+
 
   openChangeDriverModal(vehicleTrip) {
     this.common.params = { vehicleId: vehicleTrip.vehicle_id, vehicleRegNo: vehicleTrip.regno };
@@ -412,7 +372,6 @@ export class VehicleTripComponent implements OnInit {
     });
 
   }
-
 
 
 }

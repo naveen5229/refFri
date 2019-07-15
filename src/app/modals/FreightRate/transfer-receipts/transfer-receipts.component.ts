@@ -12,7 +12,7 @@ export class TransferReceiptsComponent implements OnInit {
   transferReceipt = {
     vehicleId: null,
     vehicleRegNo: null,
-    refernceType: 0,
+    refernceType: 1,
     refId: null,
     refTypeName: null,
     date: new Date(),

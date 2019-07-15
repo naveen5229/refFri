@@ -32,6 +32,11 @@
               <input type="number" class="form-control" name="number2" placeholder="KMS" [(ngModel)]="kms" min="1"
                 max="10000" />
             </td>
+            <td colspan="2">
+              <label>Order</label><br>
+              <input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="order" min="1"
+                max="900" />
+            </td>
           </tr>
 
 
@@ -50,11 +55,11 @@
       </table>
 
       <table class="tbl table table-bordered table-hover">
-        <thead class="thead">
+        <thead class="thead" *ngIf="tableData && tableData.length">
           <tr>
             <th style="width:40px;">S.No</th>
             <th>Name</th>
-            <th>Duration(Hrs)</th>
+            <th>Order</th>
             <th>Kms</th>
             <th>Action</th>
           </tr>
