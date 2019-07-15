@@ -12,7 +12,8 @@ export class DateService {
     public router: Router,
     public api: ApiService,
     private datePipe: DatePipe,
-    public common: CommonService) { }
+    public common: CommonService,
+    ) { }
 
   dateFormatter(date, type = 'YYYYMMDD', withTime = true) {
     let d = new Date(date);

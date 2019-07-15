@@ -213,10 +213,13 @@ export class CostCenterViewComponent implements OnInit {
   // }
 
 
-  getBookDetail(voucherId) {
+  getBookDetail(voucherId,vouhercode) {
     console.log('vouher id', voucherId);
-    this.common.params = voucherId;
+    this.common.params={
 
+      vchid :voucherId,
+      vchcode:vouhercode
+    }
     const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);

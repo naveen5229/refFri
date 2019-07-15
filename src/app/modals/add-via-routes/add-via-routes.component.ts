@@ -41,6 +41,16 @@ export class AddViaRoutesComponent implements OnInit {
   ismap = false;
   ismap2 = false;
   isstart = false;
+  routeTypes = [{
+    name: 'Loaded',
+    id: '0'
+  },
+  {
+    name: 'Empty',
+    id: '1'
+  }
+  ];
+  routeId = '0';
 
   constructor(private mapService: MapService,
     private api: ApiService,
@@ -135,17 +145,10 @@ export class AddViaRoutesComponent implements OnInit {
       duration: this.routeData.duration,
       kms: this.routeData.kms,
       startName: this.routeData.placeName,
-      endName: this.routeData.placeName2
+      endName: this.routeData.placeName2,
+      routeType: this.routeId
 
     };
-    if (this.routeData.duration > 800) {
-      this.common.showError("Select Hour in under 800(Hr)");
-      return;
-    }
-    if (this.routeData.kms <= 1 || this.routeData.kms > 10000) {
-      this.common.showError("Select KM in range (1,10000)");
-      return;
-    }
 
     console.log("Data :", params);
 

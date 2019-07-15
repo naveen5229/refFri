@@ -7,7 +7,10 @@
       <div class="col-sm-4">
         <p>{{today | date:'dd-MM-yyyy hh:mm:ss a':'+0530'}}</p>
       </div>
-      <div class="col-sm-4" style="text-align:right">
+      <div class="col-sm-2">
+        <button class="btn btn-primary" (click)="openCompactForm()">Compact</button>
+      </div>
+      <div class="col-sm-2" style="text-align:right">
         <span class="pdf-icon" title="PDF Export" (click)="printPDF('tbldocs');" style="cursor: pointer;"><i
             class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="printCsv('tbldocs')"

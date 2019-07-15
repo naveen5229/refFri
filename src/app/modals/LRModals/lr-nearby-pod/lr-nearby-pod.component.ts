@@ -52,6 +52,12 @@ export class LrNearbyPodComponent implements OnInit {
       this.refDetails = null;
     }
   }
+  getSelection(){
+
+  }
+  resetData(){
+    
+  }
   PodDetailsChange() {
     let params = {
       lrId: this.lrId,
