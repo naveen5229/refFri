@@ -143,9 +143,8 @@ export class GstreportComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getCSVFromTableIdNew('table',foname,cityaddress,'','',remainingstring3);
-      // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
-
+       this.common.getCSVFromTableIdNew(['b2b','b2cl'],foname,cityaddress,'','',remainingstring3);
+     
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);

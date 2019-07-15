@@ -128,7 +128,7 @@
         [ngClass]="{'highlight' : selectedRow == i}"> -->
 
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
-        (dblclick)="getBookDetail(dataItem.y_voucher_id)" (enter)="getBookDetail(dataItem.y_voucherid) "
+        (dblclick)="getBookDetail(dataItem.y_voucher_id)" (enter)="getBookDetail(dataItem.y_voucherid,dataItem.y_code) "
         [ngClass]="{'highlight' : selectedRow == i,'greterline' :(dataItem.y_days > 1) ,'lowerline' : (dataItem.y_days < 0)}">
         <td>{{ i+1 }}</td>
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
