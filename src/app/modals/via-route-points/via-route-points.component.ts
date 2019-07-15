@@ -267,4 +267,28 @@ export class ViaRoutePointsComponent implements OnInit {
 
     }
   }
+
+  updateOrder(data) {
+    let params = {
+      data: JSON.stringify(data),
+    }
+    console.log(params);
+    this.common.loading++;
+    this.api.post('ViaRoutes/updateViaRouteOrder', params)
+      .subscribe(res => {
+        this.common.loading--;
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
+          this.viewTable();
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg)
+        }
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+
+  }
 }
