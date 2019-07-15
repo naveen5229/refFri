@@ -69,6 +69,7 @@ import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-colum
 import { SiteInOutComponent } from './site-in-out/site-in-out.component';
 import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.component';
 import { NearbyPodsComponent } from '../admin/nearby-pods/nearby-pods.component';
+import { CardMappingComponent } from './card-mapping/card-mapping.component';
 
 const routes: Routes = [{
   path: '',
@@ -134,6 +135,12 @@ const routes: Routes = [{
 
     path: 'ticket-site-details',
     component: TicketSiteDetailsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+
+    path: 'card-mapping',
+    component: CardMappingComponent,
     canActivate: [AuthGuard],
   },
   {
