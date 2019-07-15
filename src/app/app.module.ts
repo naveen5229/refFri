@@ -191,12 +191,17 @@ import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.comp
 import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
 import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
+import { LrPodDetailsComponent } from './modals/lr-pod-details/lr-pod-details.component';
+import { FreightRateCalculationComponent } from './modals/freight-rate-calculation/freight-rate-calculation.component';
+import { ViewFrieghtInvoiceComponent } from './modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
 import { LrNearbyPodComponent } from './modals/LRModals/lr-nearby-pod/lr-nearby-pod.component';
+import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-distance-covered-compact-form/vehicle-distance-covered-compact-form.component';
 import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
 import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
 import { TypeMasterComponent } from './modals/type-master/type-master.component';
 import { PodStateViewComponent } from './modals/LRModals/pod-state-view/pod-state-view.component';
 
+import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
 
 
 @NgModule({
@@ -359,15 +364,20 @@ import { PodStateViewComponent } from './modals/LRModals/pod-state-view/pod-stat
     AdviceViewComponent,
     TransferReceiptsComponent,
     AddFreightExpensesComponent,
+    LrPodDetailsComponent,
+    FreightRateCalculationComponent,
+    ViewFrieghtInvoiceComponent,
     LrNearbyPodComponent,
+    VehicleDistanceCoveredCompactFormComponent,
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
     PodStateViewComponent,
-
+    TripSettlementComponent,
 
   ],
   entryComponents: [
+    ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
     AddFreightExpensesComponent,
     FreightInputWithoutLocationComponent,
@@ -522,12 +532,15 @@ import { PodStateViewComponent } from './modals/LRModals/pod-state-view/pod-stat
     ClearAdvicesComponent,
     AdviceViewComponent,
     TransferReceiptsComponent,
+    LrPodDetailsComponent,
+    FreightRateCalculationComponent,
     LrNearbyPodComponent,
+    VehicleDistanceCoveredCompactFormComponent,
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
-    PodStateViewComponent
-
+    PodStateViewComponent,
+    TripSettlementComponent
 
 
   ],

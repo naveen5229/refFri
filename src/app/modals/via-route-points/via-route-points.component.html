@@ -27,15 +27,15 @@
                 placeholder="Enter Location" name="mapName" minlength="1" maxlength="100" />
 
             </td>
-            <td colspan="1">
-              <label>Time (Hrs)</label><br>
-              <input type="number" class="form-control" name="number1" placeholder="Duration" [(ngModel)]="duration"
-                min="1" max="800" />
-            </td>
             <td colspan="2">
               <label>Kilometres</label><br>
               <input type="number" class="form-control" name="number2" placeholder="KMS" [(ngModel)]="kms" min="1"
                 max="10000" />
+            </td>
+            <td colspan="2">
+              <label>Order</label><br>
+              <input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="order" min="1"
+                max="900" />
             </td>
           </tr>
 
@@ -55,11 +55,11 @@
       </table>
 
       <table class="tbl table table-bordered table-hover">
-        <thead class="thead">
+        <thead class="thead" *ngIf="tableData && tableData.length">
           <tr>
             <th style="width:40px;">S.No</th>
             <th>Name</th>
-            <th>Duration(Hrs)</th>
+            <th>Order</th>
             <th>Kms</th>
             <th>Action</th>
           </tr>
@@ -68,9 +68,13 @@
           <tr *ngFor="let data of tableData; let i = index;">
             <td style="width:40px;">{{i+1}}</td>
             <td style="width:40px;">{{data.name}}</td>
-            <td>{{data.duration}}</td>
+            <td><input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="data.via_order">
             <td>{{data.kms}}</td>
             <td><i class="fas fa-times text-red" (click)="clickDelete(data.name , i)"></i></td>
+          </tr>
+          <tr>
+            <button class="btn btn-primary add-route  pt-1" (click)="updateOrder(tableData)"
+              style="margin-top:3px;">Update Order</button>
           </tr>
         </tbody>
 
@@ -80,7 +84,6 @@
     <div class="col-6 pl-0">
       <input name="location" id="loc" [(ngModel)]="loc" [value]="loc" type="text" style="width: 25%;"
         placeholder="Enter Location" class="form-control">
-
       <div id="map" style="width: 100%; height:68vh">
       </div>
     </div>

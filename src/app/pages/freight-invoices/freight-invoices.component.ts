@@ -8,6 +8,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { FreightInvoiceComponent } from '../../modals/FreightRate/freight-invoice/freight-invoice.component';
 import { LrAssignComponent } from '../../modals/LRModals/lr-assign/lr-assign.component';
+import { ViewFrieghtInvoiceComponent } from '../../modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
 
 @Component({
   selector: 'freight-invoices',
@@ -87,8 +88,7 @@ export class FreightInvoicesComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        let action = { title: this.formatTitle('action'), placeholder: this.formatTitle('action'), hideHeader: true };
-        this.table.data.headings['action'] = action;
+
 
 
         this.table.data.columns = this.getTableColumns();
@@ -110,7 +110,7 @@ export class FreightInvoicesComponent implements OnInit {
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
 
       }
-      this.valobj['action'] = { class: '', icons: this.freightDelete(doc) };
+      this.valobj['Action'] = { class: '', icons: this.freightDelete(doc) };
       columns.push(this.valobj);
 
     });
@@ -135,6 +135,10 @@ export class FreightInvoicesComponent implements OnInit {
       {
         class: "fas fa-trash-alt",
         action: this.deleteRow.bind(this, row),
+      },
+      {
+        class:"fas fa-print",
+        action:this.printInvoice.bind(this,row),
       }
     )
     return icons;
@@ -143,6 +147,8 @@ export class FreightInvoicesComponent implements OnInit {
     console.log("row:", row);
     let params = {
       id: row._id,
+      partyId: row._party_id,
+      branchId: row._branch_id
 
     }
     if (row._id) {
@@ -154,13 +160,10 @@ export class FreightInvoicesComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.common.loading++;
-          this.api.post('FrieghtRate/deleteRevenue', params)
+          this.api.post('FrieghtRate/deleteInvoices', params)
             .subscribe(res => {
               this.common.loading--;
-              console.log("Result:", res['data'][0].y_msg);
-
-              this.common.showToast(res['data'][0].y_msg);
-              if (res['data'][0].y_id > 0)
+              this.common.showToast(res['msg']);
                 this.viewFreightInvoice();
 
             }, err => {
@@ -189,6 +192,16 @@ export class FreightInvoicesComponent implements OnInit {
 
   invoice() {
     const activeModal = this.modalService.open(FreightInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      this.viewFreightInvoice();
+    });
+  }
+
+  printInvoice(invoice) {
+    console.log("invoice", invoice);
+    this.common.params = { invoiceId:invoice._id }
+    const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
 

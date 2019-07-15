@@ -110,9 +110,9 @@ export class LrGenerateComponent implements OnInit {
     date.setDate(date.getDate());
     this.lr.date = date;
     this.getAllFieldName();
-    console.log("this.lr.date", this.lr.date);
+    console.log("this.common.params.LrData", this.common.params.LrData);
     if (this.common.params.LrData) {
-      this.lr.id = this.common.params.LrData.lr_id;
+      this.lr.id = this.common.params.LrData.lr_id ? this.common.params.LrData.lr_id : this.common.params.LrData.id;
       this.getLrDetails();
       this.btntxt = 'UPDATE'
     }

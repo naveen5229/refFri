@@ -19,6 +19,9 @@ import { SharedModule } from '../shared.module';
 import { ViewSubModalServiceComponent } from './view-sub-modal-service/view-sub-modal-service.component';
 import { AddAdvancedMaintenanceComponent } from './model/add-advanced-maintenance/add-advanced-maintenance.component';
 import { ViewSummaryDetailsComponent } from './model/view-summary-details/view-summary-details.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ChartModule } from 'angular2-chartjs';
+import { ResizableModule } from 'angular-resizable-element';
 
 const PAGES_COMPONENTS = [
   VehicleMaintenanceComponent,
@@ -31,7 +34,9 @@ const PAGES_COMPONENTS = [
     DashboardModule,
     DirectiveModule,
     ImageViewerModule,
-    SharedModule
+    SharedModule,
+    ChartModule,
+    ResizableModule
   ],
   providers: [DatePipe],
   declarations: [
@@ -43,6 +48,7 @@ const PAGES_COMPONENTS = [
     MaintenanceSummaryComponent,
     MaintenanceReportComponent,
     ViewSummaryDetailsComponent,
+    DashboardComponent,
   ],
   entryComponents: [
     AddMaintenanceComponent,
