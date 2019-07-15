@@ -1,30 +1,25 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener ,Pipe, PipeTransform} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
+import * as _ from 'lodash';
 
 @Component({
-  selector: 'bankbooks',
-  templateUrl: './bankbooks.component.html',
-  styleUrls: ['./bankbooks.component.scss']
+  selector: 'gstreport',
+  templateUrl: './gstreport.component.html',
+  styleUrls: ['./gstreport.component.scss']
 })
-export class BankbooksComponent implements OnInit {
+export class GstreportComponent implements OnInit {
   selectedName = '';
+  headings=[];
+  totalLength=0;
   bankBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    ledger: {
-      name: 'All',
-      id: 0
-    },
-    branch: {
-      name: 'All',
-      id: 0
-    },
-
+    startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
+    reportype: 'b2b',
     issumrise: 'true'
 
   };
@@ -54,10 +49,8 @@ export class BankbooksComponent implements OnInit {
     // this.getVoucherTypeList();
     this.common.refresh = this.refresh.bind(this);
 
-    this.getBranchList();
-    this.getLedgers();
-    this.setFoucus('ledger');
-    this.common.currentPage = 'Bank Book';
+    this.setFoucus('startdate');
+    this.common.currentPage = 'Gst Report';
 
 
   }
@@ -69,12 +62,21 @@ export class BankbooksComponent implements OnInit {
 
   }
   refresh() {
-
-    this.getBranchList();
-    this.getLedgers();
     this.setFoucus('ledger');
   }
+  getTableColumnName() {
 
+  this.headings = [];
+  let first_rec = this.DayData[0];
+  for (var key in first_rec) {
+    //console.log('kys',first_rec[key]);
+      this.headings.push(key);
+    
+  }
+
+  console.log("headings", this.headings);
+ // this.getTableColumns();
+}
 
   // getVoucherTypeList() {
   //   let params = {
@@ -92,23 +94,11 @@ export class BankbooksComponent implements OnInit {
   //       this.common.showError();
   //     });
   // }
-  getBranchList() {
-    let params = {
-      search: 123
-    };
-    this.common.loading++;
-    this.api.post('Suggestion/GetBranchList', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
-        this.branchdata = res['data'];
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
+ 
 
-  }
+
+  
+  
   pdfFunction(){
     let params = {
       search: 'test'
@@ -127,7 +117,7 @@ export class BankbooksComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Bank Book From :'+this.bankBook.startdate+' To :'+this.bankBook.enddate);
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Gst From :'+this.bankBook.startdate+' To :'+this.bankBook.enddate);
 
       }, err => {
         this.common.loading--;
@@ -153,68 +143,38 @@ export class BankbooksComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getCSVFromTableIdNew('table',foname,cityaddress,'','',remainingstring3);
-      // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
-
+       this.common.getCSVFromTableIdNew(['b2b','b2cl'],foname,cityaddress,'','',remainingstring3);
+     
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
   }
-
-  // getAllLedger() {
-  //   let params = {
-  //     search: 123
-  //   };
-  //   this.common.loading++;
-  //   this.api.post('Suggestion/GetAllLedger', params)
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       console.log('Res:', res['data']);
-  //       this.ledgerData = res['data'];
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log('Error: ', err);
-  //       this.common.showError();
-  //     });
-
-  // }
-  getLedgers() {
-    //this.showSuggestions = true;
-    let url = 'Suggestion/GetLedger?transactionType=' + 'credit' + '&voucherId=' + (-1) + '&search=' + 'test';
-    console.log('URL: ', url);
-    this.api.get(url)
-      .subscribe(res => {
-        console.log(res);
-        this.ledgerData = res['data'];
-        console.log('ledger data new', this.ledgerData[0].y_ledger_id);
-      }, err => {
-        console.error(err);
-        this.common.showError();
-      });
-    this.setFoucus('ref-code');
-  }
-  getBankBook() {
+  getVoucherEdited() {
     console.log('Accounts:', this.bankBook);
     let params = {
       startdate: this.bankBook.startdate,
       enddate: this.bankBook.enddate,
-      ledger: this.bankBook.ledger.id,
-      branchId: this.bankBook.branch.id,
+      reporttype: this.bankBook.reportype
     };
 
     this.common.loading++;
-    this.api.post('Company/GetBankBook', params)
+    this.api.post('Voucher/getGstReport', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
-        this.DayData = res['data'];
-        this.filterData();
-        if (this.DayData.length) {
-          document.activeElement['blur']();
-          this.selectedRow = 0;
-        }
+        console.log('Res report:', res['data'][0]);
+       
+        this.DayData =res['data'];
+        this.getTableColumnName();
+        //this.filterData();
+        this.totalLength = this.DayData.length;
+        // if (this.DayData.length) {
+
+        //   // console.log('lenght',this.DayData.length);
+        //   // document.activeElement['blur']();
+        //   this.selectedRow = 0;
+        // }
 
       }, err => {
         this.common.loading--;
@@ -223,6 +183,11 @@ export class BankbooksComponent implements OnInit {
       });
 
   }
+
+  counter(i: number) {
+    return new Array(i);
+}
+
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -263,23 +228,19 @@ export class BankbooksComponent implements OnInit {
     this.bankBook[datestring] = date + separator + month + separator + year;
   }
 
-  filterData() {
-    let yCodes = [];
-    this.DayData.map(dayData => {
-      if (yCodes.indexOf(dayData.y_code) !== -1) {
-        dayData.y_code = ' ';
-        dayData.y_date = 0;
-      }
-    });
-  }
+  // filterData() {
+  //   let yCodes = [];
+  //   this.DayData.map(dayData => {
+  //     if (yCodes.indexOf(dayData.y_code) !== -1) {
+  //       dayData.y_code = ' ';
+  //       dayData.y_date = 0;
+  //     }
+  //   });
+  // }
 
-  getBookDetail(voucherId,vouhercode) {
+  getBookDetail(voucherId) {
     console.log('vouher id', voucherId);
-    this.common.params={
-
-      vchid :voucherId,
-      vchcode:vouhercode
-    }
+    this.common.params = voucherId;
 
     const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
@@ -308,7 +269,7 @@ export class BankbooksComponent implements OnInit {
     console.log('Active event', event, this.activeId);
     if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id,'');
+      this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id);
       return;
     }
     if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
