@@ -44,12 +44,14 @@ export class ViaRoutePointsComponent implements OnInit {
     this.firstCoordinates = [{
       lat: this.doc._start_lat,
       lng: this.doc._start_long,
+      title:this.doc.start_name,
       color: '00FF00',
       subType: 'marker'
     },
     {
       lat: this.doc._end_lat,
       lng: this.doc._end_long,
+      title:this.doc.end_name,
       color: 'FF0000',
       subType: 'marker'
     }];
@@ -148,6 +150,7 @@ export class ViaRoutePointsComponent implements OnInit {
           rowCoordinates.push({
             lat: this.tableData[i]._lat,
             lng: this.tableData[i]._long,
+            title:this.tableData[i].name,
           });
         }
         let polypath = [];

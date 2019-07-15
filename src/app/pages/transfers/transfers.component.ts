@@ -12,7 +12,8 @@ import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-rec
   styleUrls: ['./transfers.component.scss', '../pages.component.css']
 })
 export class TransfersComponent implements OnInit {
-
+  startTime = new Date(new Date().setDate(new Date().getDate() - 7));;
+  endTime = new Date();
   data = [];
   table = {
     data: {
@@ -44,10 +45,11 @@ export class TransfersComponent implements OnInit {
 
 
   viewTransfer() {
-
+    const params = "startTime=" + this.common.dateFormatter(this.startTime) +
+      "&endTime=" + this.common.dateFormatter(this.endTime);
     ++this.common.loading;
 
-    this.api.get('FrieghtRate/getTransfers?')
+    this.api.get('FrieghtRate/getTransfers?' + params)
       .subscribe(res => {
         --this.common.loading;
 
