@@ -199,6 +199,8 @@ import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-dis
 import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
 import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
 import { TypeMasterComponent } from './modals/type-master/type-master.component';
+
+
 import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
 
 
@@ -370,6 +372,9 @@ import { TripSettlementComponent } from './modals/trip-settlement/trip-settlemen
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
+
+
+
     TripSettlementComponent,
 
   ],
@@ -536,6 +541,9 @@ import { TripSettlementComponent } from './modals/trip-settlement/trip-settlemen
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
+
+
+
     TripSettlementComponent
 
 
