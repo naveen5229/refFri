@@ -200,6 +200,7 @@ import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/fr
 import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
 import { TypeMasterComponent } from './modals/type-master/type-master.component';
 import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
+import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/edit-via-routes-points.component';
 
 
 @NgModule({
@@ -371,6 +372,7 @@ import { TripSettlementComponent } from './modals/trip-settlement/trip-settlemen
     LrAssignComponent,
     TypeMasterComponent,
     TripSettlementComponent,
+    EditViaRoutesPointsComponent,
 
   ],
   entryComponents: [
@@ -536,7 +538,8 @@ import { TripSettlementComponent } from './modals/trip-settlement/trip-settlemen
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
-    TripSettlementComponent
+    TripSettlementComponent,
+    EditViaRoutesPointsComponent
 
 
   ],
