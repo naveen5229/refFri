@@ -67,7 +67,6 @@ export class SaveAdvicesComponent implements OnInit {
   data = [];
 
   preSelectedDriver = null;
-  flag = true;
   constructor(public common: CommonService,
     public api: ApiService,
     private activeModal: NgbActiveModal) {
@@ -107,16 +106,12 @@ export class SaveAdvicesComponent implements OnInit {
         if (res['data'].length > 0) {
           this.driverName = res['data'][0].empname;
           this.driverId = res['data'][0].driver_id;
-
-        } else
-          this.flag = false;
-
+          document.getElementById("driver")['value'] = res['data'][0].empname;
+        }
       }, err => {
         this.common.loading--;
         this.common.showError();
       })
-
-
   }
 
 

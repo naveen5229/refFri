@@ -20,7 +20,7 @@
     </div>
     <div class="col-2" *ngIf="id==1">
       <auto-suggestion (onSelected)="selectVechile($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-        inputId="driver" placeholder=" ">
+        inputId="regno" placeholder=" ">
       </auto-suggestion>
     </div>
     <div class="col-2" *ngIf="id!=1">
