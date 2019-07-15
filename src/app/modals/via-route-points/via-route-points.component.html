@@ -68,9 +68,13 @@
           <tr *ngFor="let data of tableData; let i = index;">
             <td style="width:40px;">{{i+1}}</td>
             <td style="width:40px;">{{data.name}}</td>
-            <td>{{data.duration}}</td>
+            <td><input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="data.via_order">
             <td>{{data.kms}}</td>
             <td><i class="fas fa-times text-red" (click)="clickDelete(data.name , i)"></i></td>
+          </tr>
+          <tr>
+            <button class="btn btn-primary add-route  pt-1" (click)="updateOrder(tableData)"
+              style="margin-top:3px;">Update Order</button>
           </tr>
         </tbody>
 
@@ -80,7 +84,6 @@
     <div class="col-6 pl-0">
       <input name="location" id="loc" [(ngModel)]="loc" [value]="loc" type="text" style="width: 25%;"
         placeholder="Enter Location" class="form-control">
-
       <div id="map" style="width: 100%; height:68vh">
       </div>
     </div>

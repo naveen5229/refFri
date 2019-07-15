@@ -21,7 +21,7 @@ export class SaveAdvicesComponent implements OnInit {
     name: 'group',
     id: '3'
   }]
-  id = null;
+  id = 1;
   advice_type_id = null;
   market = null;
   group = null;
