@@ -229,6 +229,7 @@ export class DashboardComponent implements OnInit {
         !isRefresh && this.common.loading--;
         ////console.log(err);
       }
+       
     );
   }
 
