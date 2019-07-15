@@ -39,17 +39,17 @@
       </select>
     </div>
     <div class="col-2">
-      <select class="form-control" name="refernceDatas" id="refernceDatas"
-        (change)="revenue.refId=$event.id;revenue.refTypeName=$event.source_dest">
+      <select class="form-control" name="refernceDatas" id="refernceDatas" [(ngModel)]="revenue.refId"
+        (onChange)="revenue.refId=$event.id ; revenue.refTypeName=$event.source_dest">
         <option value="-1">select type</option>
         <option *ngFor="let refernce of refernceData; let i = index" [value]="refernce.id">
           {{refernce.source_dest}}
         </option>
       </select>
 
-      <auto-suggestion (onSelected)="revenue.refId=$event.id;revenue.refTypeName=$event.source_dest"
+      <!-- <auto-suggestion (onSelected)="revenue.refId=$event.id;revenue.refTypeName=$event.source_dest"
         display="source_dest" placeholder=" " style=" width:60%;" [data]="refernceData" inputId="driver">
-      </auto-suggestion>
+      </auto-suggestion> -->
     </div>
   </div>
   <div class="row mb-3 align-items-baseline">
