@@ -107,7 +107,7 @@ export class LrGenerateComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
   ) {
-    this.common.handleModalSize('class', 'modal-lg', '1300');
+    this.common.handleModalSize('class', 'modal-lg', '1600');
     let date = new Date();
     date.setDate(date.getDate());
     this.lr.date = date;
@@ -363,7 +363,7 @@ export class LrGenerateComponent implements OnInit {
           console.log('response :', res['data'][0].rtn_id);
           if (res['data'][0].rtn_id > 0) {
             this.common.showToast("LR Generated Successfully");
-            this.lrView(res['data'][0].rtn_id);
+            //this.lrView(res['data'][0].rtn_id);
           } else {
             this.common.showError(res['data'][0].rtn_msg);
           }
@@ -462,7 +462,11 @@ export class LrGenerateComponent implements OnInit {
           particularDetails = JSON.parse(res['data']).details
 
           this.setlrDetails(lrDetails);
-          this.setlrParticulars(particularDetails);
+          if (particularDetails.length > 0) {
+            this.setlrParticulars(particularDetails);
+          } else {
+
+          }
         }
       }, err => {
         --this.common.loading;
@@ -479,7 +483,7 @@ export class LrGenerateComponent implements OnInit {
     }
     console.log("branchDetails", branchDetails);
 
-    this.lr.taxPaidBy = "" + lrDetails.taxpaid_by;
+    this.lr.taxPaidBy = lrDetails.taxpaid_by ? "" + lrDetails.taxpaid_by : "" + -1;
     this.lr.consigneeName = lrDetails.consignee;
     this.lr.consigneeAddress = lrDetails.consignee_address;
     this.lr.consigneeId = lrDetails.consignee_id;
@@ -489,8 +493,8 @@ export class LrGenerateComponent implements OnInit {
     this.lr.consignorId = lrDetails.consigner_id;
     this.lr.invoicePayer = lrDetails.invoiceto_name;
     this.lr.invoicePayerId = lrDetails.invoice_payer_id;
-    this.lr.invoiceTo = lrDetails.invoiceto_type;
-    this.lr.paymentTerm = lrDetails.pay_type;
+    this.lr.invoiceTo = lrDetails.invoiceto_type ? lrDetails.invoiceto_type : -1;
+    this.lr.paymentTerm = lrDetails.pay_type ? lrDetails.pay_type : -1;
     this.lr.payableAmount = lrDetails.total_amount;
     this.lr.lrNumberText = lrDetails.lr_prefix;
     this.lr.lrNumber = lrDetails.lr_num;
@@ -509,9 +513,9 @@ export class LrGenerateComponent implements OnInit {
     this.lr.netWeight = lrDetails.net_weight;
     this.lr.grossWeight = lrDetails.gross_weight;
     this.lr.tareWeight = lrDetails.tare_weight ? lrDetails.tare_weight : 0;
-    this.lr.lrType = lrDetails.lr_asstype;
-    this.lr.vehicleType = lrDetails.veh_asstype;
-    this.lr.lrCategory = lrDetails.is_ltl;
+    this.lr.lrType = lrDetails.lr_asstype ? lrDetails.lr_asstype : 0;
+    this.lr.vehicleType = lrDetails.veh_asstype ? lrDetails.veh_asstype : 1;
+    this.lr.lrCategory = lrDetails.is_ltl ? lrDetails.is_ltl : 0;
     this.driver.name = lrDetails.driver_name;
     this.driver.licenseNo = lrDetails.driver_license;
     this.mobileno = lrDetails.driver_mobile
