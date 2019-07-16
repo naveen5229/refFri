@@ -65,14 +65,21 @@ export class SaveAdvicesComponent implements OnInit {
   refernceData = [];
   ModeData = [];
   data = [];
-
   preSelectedDriver = null;
+  edit = 0;
   constructor(public common: CommonService,
     public api: ApiService,
     private activeModal: NgbActiveModal) {
-    console.log('Refernce:', this.referenceId);
+    this.common.handleModalSize('class', 'modal-lg', '1100');
     this.getType();
     this.getPaymentMode();
+    if (this.common.params.row) {
+      console.info("test");
+      this.edit = 1;
+      this.vid = this.common.params.row._vid;
+      this.regno = this.common.params.row.Regno;
+
+    }
   }
 
   ngOnInit() {
