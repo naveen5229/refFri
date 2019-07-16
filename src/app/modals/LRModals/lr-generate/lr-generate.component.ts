@@ -278,6 +278,16 @@ export class LrGenerateComponent implements OnInit {
   }
 
   saveDetails() {
+    let today, futureDay, pastDay;
+    today = new Date();
+    futureDay = new Date(today.setDate(today.getDate() + 30));
+    today = new Date();
+    pastDay = new Date(today.setDate(today.getDate() - 30));
+    console.log("futureDay", futureDay, "pastDay", pastDay);
+    if ((this.lr.date > futureDay) || (this.lr.date < pastDay)) {
+      alert("Date should not be before 30 days and after 30 days ");
+      return 0;
+    }
 
     if ((!this.lr.sourceLat) || (!this.lr.destinationLat)) {
       this.common.showError("Source and Destination Location selection are required");
@@ -363,6 +373,7 @@ export class LrGenerateComponent implements OnInit {
           console.log('response :', res['data'][0].rtn_id);
           if (res['data'][0].rtn_id > 0) {
             this.common.showToast("LR Generated Successfully");
+            this.closeModal();
             //this.lrView(res['data'][0].rtn_id);
           } else {
             this.common.showError(res['data'][0].rtn_msg);
@@ -386,17 +397,14 @@ export class LrGenerateComponent implements OnInit {
 
 
   getDate() {
-    this.common.params = { ref_page: 'generate-lr' };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        this.lr.date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        // this.dateByIcon=true;
-        console.log('lrdate: by getDate ' + this.lr.date);
 
-      }
-
-    });
+    let today, futureDay, pastDay;
+    today = new Date();
+    futureDay = new Date(today.setDate(today.getDate() + 30))
+    futureDay = this.common.dateFormatter(futureDay);
+    pastDay = new Date(today.setDate(today.getDate() - 30))
+    pastDay = this.common.dateFormatter(pastDay);
+    console.log("futureDay", futureDay, "pastDay", pastDay);
   }
   resetData() {
     this.vehicleId = null;
@@ -505,7 +513,7 @@ export class LrGenerateComponent implements OnInit {
     this.lr.destinationLat = lrDetails.destination_lat;
     this.lr.destinationLng = lrDetails.destination_long;
     this.lr.remark = lrDetails.remark;
-    this.lr.date = new Date(this.common.dateFormatter(lrDetails.lr_date));
+    this.lr.date = lrDetails.lr_date ? new Date(this.common.dateFormatter(lrDetails.lr_date)) : this.lr.date;
     this.lr.amount = lrDetails.amount ? lrDetails.amount : 0;
     this.lr.advanceAmount = lrDetails.advance_amount;
     this.lr.remainingAmount = lrDetails.pending_amount;
