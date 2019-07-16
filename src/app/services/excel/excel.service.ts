@@ -14,7 +14,7 @@ export class ExcelService {
   getMultipleSheetsInExcel(sheetNamesdata, foName, address, gstNo, csvdata) {
       let sheets = {};
       
-      console.log('sheet',sheetNamesdata,'csvdata',csvdata);
+      //console.log('sheet',sheetNamesdata,'csvdata',csvdata);
     for(let sheet in csvdata) {
       sheets[sheet] = XLSX.utils.json_to_sheet((csvdata[sheet]) ? csvdata[sheet] :[] );
     }
