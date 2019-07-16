@@ -1,7 +1,10 @@
 import { Component, OnInit, Renderer } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddFuelIndentComponent } from '../add-fuel-indent/add-fuel-indent.component';
+import { SaveAdvicesComponent } from '../save-advices/save-advices.component';
+import { TransferReceiptsComponent } from '../FreightRate/transfer-receipts/transfer-receipts.component';
 
 @Component({
   selector: 'trip-settlement',
@@ -24,6 +27,8 @@ export class TripSettlementComponent implements OnInit {
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
+    private modalService: NgbModal,
+
     public renderer: Renderer
   ) {
     console.log("data:row", this.common.params.row);
@@ -127,6 +132,34 @@ export class TripSettlementComponent implements OnInit {
     return formattedFields;
   }
 
+  openTransferModal() {
+    console.log("openTransferModal");
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    });
+  }
+  openFuelIndentModal() {
+    console.log("openFuelIndentModal");
+
+    this.common.params = {
+      title: 'Add Fuel Indent',
+      flag: 'Add'
+    };
+
+    const activeModal = this.modalService.open(AddFuelIndentComponent, {
+      size: "lg",
+      container: "nb-layout"
+    })
 
 
+  }
+  openAdviceModal() {
+    console.log("openAdviceModal");
+
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    });
+  }
 }

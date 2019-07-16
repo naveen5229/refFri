@@ -201,6 +201,7 @@ import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.compone
 import { TypeMasterComponent } from './modals/type-master/type-master.component';
 import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
 import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/edit-via-routes-points.component';
+import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 
 
 @NgModule({
@@ -373,9 +374,10 @@ import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/ed
     TypeMasterComponent,
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
-
+    LrRateComponent,
   ],
   entryComponents: [
+    LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
     AddFreightExpensesComponent,
@@ -539,9 +541,8 @@ import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/ed
     LrAssignComponent,
     TypeMasterComponent,
     TripSettlementComponent,
-    EditViaRoutesPointsComponent
-
-
+    EditViaRoutesPointsComponent,
+    TripSettlementComponent,
   ],
   imports: [
     BrowserModule,

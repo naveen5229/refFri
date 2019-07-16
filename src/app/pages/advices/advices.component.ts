@@ -125,6 +125,8 @@ export class AdvicesComponent implements OnInit {
 
 
   actionIcons(details) {
+    console.log("details:", details);
+
     let icons = [];
 
     icons.push(
@@ -138,6 +140,9 @@ export class AdvicesComponent implements OnInit {
         action: this.clearAdvices.bind(this, details),
       }
     )
+    if (details.Status == "Accept" || details.Status == "Reject") {
+      icons.pop();
+    }
 
     return icons;
   }

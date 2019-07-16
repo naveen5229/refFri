@@ -97,6 +97,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: 'Card Mapping',
+        icon: 'nb-notifications',
+        link: '/pages/card-mapping',
+        home: true,
+      },
+      {
         title: 'Tickets All',
         icon: 'nb-title',
         link: '/pages/tickets-all',
