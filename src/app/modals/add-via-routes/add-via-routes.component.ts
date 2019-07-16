@@ -41,6 +41,16 @@ export class AddViaRoutesComponent implements OnInit {
   ismap = false;
   ismap2 = false;
   isstart = false;
+  routeTypes = [{
+    name: 'Loaded',
+    id: '0'
+  },
+  {
+    name: 'Empty',
+    id: '1'
+  }
+  ];
+  routeId = '0';
 
   constructor(private mapService: MapService,
     private api: ApiService,
@@ -135,10 +145,11 @@ export class AddViaRoutesComponent implements OnInit {
       duration: this.routeData.duration,
       kms: this.routeData.kms,
       startName: this.routeData.placeName,
-      endName: this.routeData.placeName2
+      endName: this.routeData.placeName2,
+      routeType: this.routeId
 
     };
-   
+
     console.log("Data :", params);
 
     this.common.loading++;

@@ -20,15 +20,13 @@
     </div>
     <div class="col-2" *ngIf="id==1">
       <auto-suggestion (onSelected)="selectVechile($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-        inputId="driver">
+        inputId="regno" placeholder=" ">
       </auto-suggestion>
     </div>
-    <div class="col-2" *ngIf="id==2">
-      <input type="text" class="form-control" inputId="driver" name="name" [(ngModel)]="regno">
+    <div class="col-2" *ngIf="id!=1">
+      <input type="text" class="form-control" inputId="driver" name="name" placeholder="Regno" [(ngModel)]="regno">
     </div>
-    <div class="col-2" *ngIf="id==3">
-      <input type="text" class="form-control" inputId="driver" name="group" [(ngModel)]="regno">
-    </div>
+
     <div class="col-2">
       <label>Reference</label>
     </div>
@@ -41,9 +39,17 @@
       </select>
     </div>
     <div class="col-2">
-      <auto-suggestion (onSelected)="revenue.refId=$event.id;revenue.refTypeName=$event.source_dest"
+      <select class="form-control" name="refernceDatas" id="refernceDatas" [(ngModel)]="revenue.refId"
+        (onChange)="revenue.refId=$event.id ; revenue.refTypeName=$event.source_dest">
+        <option value="-1">select type</option>
+        <option *ngFor="let refernce of refernceData; let i = index" [value]="refernce.id">
+          {{refernce.source_dest}}
+        </option>
+      </select>
+
+      <!-- <auto-suggestion (onSelected)="revenue.refId=$event.id;revenue.refTypeName=$event.source_dest"
         display="source_dest" placeholder=" " style=" width:60%;" [data]="refernceData" inputId="driver">
-      </auto-suggestion>
+      </auto-suggestion> -->
     </div>
   </div>
   <div class="row mb-3 align-items-baseline">
@@ -85,7 +91,8 @@
       <label>Driver</label>
     </div>
     <div class="col-2">
-      <auto-suggestion (onSelected)="selectName($event)" url="Booster/getDrivers" display="empname" inputId="driver">
+      <auto-suggestion (onSelected)="getDriverName($event)" url="Booster/getDrivers" display="empname" inputId="driver"
+        [preSelected]="{empname:driverName}" placeholder="Search Driver">
       </auto-suggestion>
     </div>
     <div class="col-2">

@@ -1,0 +1,56 @@
+<div class="modal-header">
+  <h5>LR Rate Input</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <div class="table-conan general-coef">
+    <h6>General Multiplier</h6>
+    <table *ngFor="let gen of general">
+      <tr>
+        <td>Mg-Weight </td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.mgWeight></td>
+        <td>Mg-Qty</td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.mgQty></td>
+        <td>Fixed(<i class="fas fa-rupee-sign"></i>)</td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.fixed></td>
+        <td>Distance(/KM) </td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.distance></td>
+        <td>Weight(/Tn) </td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.weight></td>
+        <td>Shortage(/Tn)</td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.shortage></td>
+        <td>Shortage %</td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.shortagePer></td>
+
+
+      </tr>
+      <tr>
+        <td>Detention (/Hr) </td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.detenation></td>
+        <td>Delay (/Hr)</td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.delay></td>
+        <td>Wt-Dist (/Tn-Hr) </td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.weightDistance></td>
+        <td>Loading (/Tn) </td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.loading></td>
+        <td>Unloading × </td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.unloading></td>
+        <td>Qty</td>
+        <td><input type="text" class="form-control" [(ngModel)]=gen.qty></td>
+      </tr>
+    </table>
+  </div>
+
+
+  <div class="text-right mt-3 mb-3">
+    <button class="btn btn-primary submit" (click)="saveLrRateInput()">Submit</button>
+  </div>
+  <h4 *ngIf="data && data.length">
+    Lr Rates
+  </h4>
+  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="ratesTable">
+  </smart-table>
+</div>
