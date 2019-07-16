@@ -125,9 +125,15 @@ export class AdvicesComponent implements OnInit {
 
 
   actionIcons(details) {
+    console.log("details:", details);
+
     let icons = [];
 
     icons.push(
+      {
+        class: "fa fa-pencil",
+        action: this.saveAdvices.bind(this, details),
+      },
       {
         class: "far fa-eye",
         action: this.adviceView.bind(this, details),
@@ -138,6 +144,9 @@ export class AdvicesComponent implements OnInit {
         action: this.clearAdvices.bind(this, details),
       }
     )
+    if (details.Status == "Accept" || details.Status == "Reject") {
+      icons.pop();
+    }
 
     return icons;
   }
@@ -147,7 +156,9 @@ export class AdvicesComponent implements OnInit {
   }
 
 
-  saveAdvices() {
+  saveAdvices(row) {
+    console.log("row Data:", row);
+    this.common.params = { row: row };
     this.common.handleModalSize('class', 'modal-lg', '1100');
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
