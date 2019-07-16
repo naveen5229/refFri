@@ -156,7 +156,7 @@ export class VehicleTripComponent implements OnInit {
             { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, this.vehicleTrips[i]) },
             { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, this.vehicleTrips[i]) },
             { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, this.vehicleTrips[i]) },
-            { class: 'fa fa-chart-bar status', action: this.tripSettlement.bind(this, this.vehicleTrips[i]) },
+            { class: 'fa fa-handshake-o trip-settlement', action: this.tripSettlement.bind(this, this.vehicleTrips[i]) },
 
           ]
         }
