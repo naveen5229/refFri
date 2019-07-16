@@ -364,7 +364,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
       home: true,
     },
     {
-
       title: 'Advices',
       icon: 'fas fa-question',
       link: '/pages/advices',
@@ -383,8 +382,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-car-battery',
     link: '/battery/battery-inventory'
   },
-
-
   {
     title: 'Accounts',
     icon: 'fa fa-money',
@@ -400,6 +397,4 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-tools',
     link: '/ware-house/ware-house-dashbord'
   },
-
-
 ];
