@@ -71,7 +71,7 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    // console.log("--------------------+++++++++", changes);
+    //console.log("--------------------+++++++++", changes);
     if (changes.preSelected) {
       this.preSelected = changes.preSelected.currentValue;
       this.handlePreSelection();
@@ -81,6 +81,7 @@ export class AutoSuggestionComponent implements OnInit {
 
   handlePreSelection() {
     this.selectedSuggestion = this.preSelected;
+    this.searchText = '';
     if (typeof (this.display) != 'object')
       this.searchText = this.preSelected[this.display];
     else {
@@ -90,6 +91,7 @@ export class AutoSuggestionComponent implements OnInit {
         index++;
       }
     }
+    //console.log("--------------------+++++++++", this.searchText);
   }
 
   getSuggestions() {
