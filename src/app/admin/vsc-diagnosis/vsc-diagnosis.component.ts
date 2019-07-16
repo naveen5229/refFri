@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { FoSiteCountComponent } from '../../modals/fo-site-count/fo-site-count.component';
 @Component({
   selector: 'vsc-diagnosis',
   templateUrl: './vsc-diagnosis.component.html',
@@ -207,6 +208,10 @@ export class VscDiagnosisComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       });
+  }
+
+  getfoSiteDetails() {
+    const activeModal = this.modalService.open(FoSiteCountComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
   }
 
 }
