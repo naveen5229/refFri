@@ -301,12 +301,12 @@
                 </td>
                 <td>
                   <div class="col-sm-5" style="padding:0px">
-                    <select class="form-control" [(ngModel)]="particular.weight_unit">
-                      <option value="kg">Kg</option>
-                      <option value="ton">Ton</option>
-                      <option value="lt">Ltr</option>
-                      <option value="gal">Gallan</option>
-                    </select>
+                    <input class="form-control" type="text" list="unitTitles" name="companies-type"
+                      [(ngModel)]="particular.weight_unit_name"
+                      (change)="getWeightUnitId(particular.weight_unit_name , i)">
+                    <datalist id="unitTitles">
+                      <option *ngFor="let unitField of unitFields ;" [value]="unitField.name"></option>
+                    </datalist>
                   </div>
                   <div class="col-sm-7" style="padding:0px">
                     <input type="text" class="form-control" [(ngModel)]="particular.weight">
@@ -418,7 +418,7 @@
             <button class="btn btn-primary btn-loadInvoice" type="button"
               (click)="loadImage('Invoice')">Invoice</button>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3" style="margin-bottom: 15px">
             <button class="btn btn-primary btn-loadOther" type="button" (click)="loadImage('Other')">Others</button>
           </div>
           <!-- <div class="col-sm-3 fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"
