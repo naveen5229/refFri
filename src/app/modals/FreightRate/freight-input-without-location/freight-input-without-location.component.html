@@ -121,7 +121,7 @@
   <div class="text-right mt-3 mb-3">
     <button class="btn btn-primary submit" (click)="saveFrightInput()">Submit</button>
   </div>
-  <h4>
+  <h4 *ngIf="data && data.length">
     Freight Rates
   </h4>
   <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithOutLocation">

@@ -202,6 +202,7 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
 
 
 import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
+import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 
 
 @NgModule({
@@ -376,9 +377,11 @@ import { TripSettlementComponent } from './modals/trip-settlement/trip-settlemen
 
 
     TripSettlementComponent,
+    LrRateComponent,
 
   ],
   entryComponents: [
+    LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
     AddFreightExpensesComponent,

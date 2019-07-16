@@ -18,6 +18,7 @@ import { AddFieldComponent } from '../add-field/add-field.component';
 })
 export class LrGenerateComponent implements OnInit {
   images = [];
+  unitFields = []
   branches = null;
   vehicleId = null;
   vehicleRegNo = null;
@@ -61,7 +62,7 @@ export class LrGenerateComponent implements OnInit {
     netWeight: 0,
     tareWeight: 0,
     invoicePayer: null,
-    invoiceTo: 9,
+    invoiceTo: 2,
     invoicePayerId: null,
   };
   fofields = []
@@ -70,7 +71,8 @@ export class LrGenerateComponent implements OnInit {
       material: null,
       articles: null,
       weight: null,
-      weight_unit: 'kg',
+      weight_unit: null,
+      weight_unit_name: null,
       invoice: null,
       material_value: null,
       customjsonfields: [
@@ -110,6 +112,7 @@ export class LrGenerateComponent implements OnInit {
     date.setDate(date.getDate());
     this.lr.date = date;
     this.getAllFieldName();
+    this.getUnit();
     console.log("this.common.params.LrData", this.common.params.LrData);
     if (this.common.params.LrData) {
       this.lr.id = this.common.params.LrData.lr_id ? this.common.params.LrData.lr_id : this.common.params.LrData.id;
@@ -245,7 +248,8 @@ export class LrGenerateComponent implements OnInit {
       material: null,
       articles: null,
       weight: null,
-      weight_unit: 'kg',
+      weight_unit: null,
+      weight_unit_name: null,
       invoice: null,
       material_value: null,
 
@@ -594,10 +598,30 @@ export class LrGenerateComponent implements OnInit {
       .subscribe(res => {
         this.fofields = res['data'];
       }, err => {
-        this.common.loading--;
         console.log(err);
       });
   }
 
+  getUnit() {
+    let params = {
+      search: 123
+    };
+    this.api.post('Suggestion/getUnit', params)
+      .subscribe(res => {
+        console.log('resooo', res);
+        this.unitFields = res['data'];
+      }, err => {
+        console.log(err);
+      });
+  }
 
+  getWeightUnitId(type, index) {
+    console.log("Type Id", type);
+
+    this.particulars[index].weight_unit = this.unitFields.find((element) => {
+      console.log("element==", element);
+      return element.name == type;
+    }).id;
+    console.log("this.particulars[index].weight_unit ", this.particulars[index].weight_unit)
+  }
 }
