@@ -3,7 +3,6 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
-import { EditViaRoutesPointsComponent } from '../edit-via-routes-points/edit-via-routes-points.component';
 
 @Component({
   selector: 'via-route-points',
