@@ -59,20 +59,30 @@ export class AddFreightRevenueComponent implements OnInit {
 
     this.getFreightHeads();
 
-    console.log("this.common.params.expenseData", this.common.params.revenueData);
+    console.log("this.common.params.revenue", this.common.params.revenueData);
     if (this.common.params.revenueData) {
       this.revenue.id = this.common.params.revenueData._id;
-      this.revenue.vehicleType = this.common.params.revenueData._vehasstype;
-      this.revenue.vehicleRegNo = this.common.params.revenueData.Regno;
-      this.revenue.refernceType = this.common.params.revenueData._ref_type;
-      this.revenue.refTypeName = this.common.params.revenueData._ref_name;
-      this.revenue.vehicleId = this.common.params.revenueData._vid;
       this.revenue.refId = this.common.params.revenueData._ref_id;
+      this.revenue.refernceType = this.common.params.revenueData._ref_type;
+
       this.revenue.remarks = this.common.params.revenueData._rev_remarks;
-      // this.getExpenseDetails();
+      this.getRevenueDetails();
     }
     this.getRevenue();
-
+    const params = "id=" + this.revenue.refId +
+      "&type=" + this.revenue.refernceType;
+    this.api.get('Vehicles/getRefrenceDetails?' + params)
+      .subscribe(res => {
+        console.log(res['data']);
+        let resultData = res['data'][0];
+        this.revenue.vehicleId = resultData.vid;
+        this.revenue.vehicleRegNo = resultData.regno;
+        this.revenue.refTypeName = resultData.ref_name;
+        this.revenue.vehicleType = resultData.vehasstype
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
 
@@ -80,7 +90,9 @@ export class AddFreightRevenueComponent implements OnInit {
 
   }
 
+  getRevenueDetails() {
 
+  }
 
   getFrieghtHeaderId(type, index) {
     console.log("Type Id", type);
