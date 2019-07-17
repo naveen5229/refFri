@@ -165,9 +165,6 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
-
-
-
   addDriver() {
     this.common.params = { vehicleId: this.vehicleId, vehicleRegNo: this.vehicleRegNo };
     const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
