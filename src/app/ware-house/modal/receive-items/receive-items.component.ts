@@ -8,16 +8,29 @@ import { ApiService } from '../../../services/api.service';
   styleUrls: ['./receive-items.component.scss']
 })
 export class ReceiveItemsComponent implements OnInit {
-  dataReceive='';
-  dataMainFest='';
-  table = null;
+  wareHouseList=[];
+  manifestList=[];
+  manifestId=null;
+  wareHouseId=null;
+  lrList=[];
   data = [];
-  id='';
+  itmeName=null;
+  table=null;
+  remarks=null;
+  startDate=null;
+  selectedLr = [{ 
+    mId:null,
+    uId:null,
+    cmpId:null,
+    refType:null,
+    refId:null,
+    qty:null,
+  }];
 
   constructor(public activeModal:NgbActiveModal,
     public api:ApiService) { 
-      this.getData();
-      this.getTable();
+      this.getWareHouseList();
+     this.getManifestList();
     }
 
   ngOnInit() {
@@ -27,42 +40,70 @@ export class ReceiveItemsComponent implements OnInit {
     this.activeModal.close();
   }
 
-  getData(){
-    this.api.get("Suggestion/getWarehouseList").subscribe(
-      res => {
-        this.dataReceive = res['data']
-        console.log("autosugg", this.dataReceive);
-
-      }
-    )
-    this.api.get("Suggestion/getManifestName").subscribe(
-      res => {
-        this.dataMainFest = res['data']
-        console.log("autosugg", this.dataMainFest);
-        console.log("iss",this.id)
-
-      }
-    )
-
+  getWareHouseList() {
+    this.api.get('Suggestion/getWarehouseList')
+      .subscribe(res => {
+        this.wareHouseList = res['data'];
+        console.log('type', this.wareHouseList);
+      }, err => {
+      });
   }
 
-  getList(event) {
-    this.id = event.target.value;
-    console.log("event", this.id);
-
+  getManifestList() {
+    this.api.get('Suggestion/getManifestName')
+      .subscribe(res => {
+        this.manifestList = res['data'];
+        console.log('type', this.manifestList);
+      }, err => {
+      });
+      this.getLrList();
   }
   
-  getTable() {
-    console.log("iss1",this.id)
-   const params="manifestId=" + this.id;
-
+  getLrList() {
+   const params="manifestId=" + this.manifestId;
     this.api.get('WareHouse/getLrWrtManifest?' + params)
       .subscribe(res => {
-        this.data = res['data'] || [];
+       // this.data = res['data'] || [];
+       this.lrList=[];
+         this.lrList=res['data'];
         // this.table = this.setTable();
         console.log("datA", res);
       }, err => {
         console.log(err);
       });
+}
+
+selectedLrList(event,list){
+  if(event.target.checked){    
+    console.log("list",list);  
+    this.selectedLr.push({
+      mId:list.materialid,
+      uId:list.unittype,
+      cmpId:list.consignee_id,
+      refType:11,
+      refId:list.lrid,
+      qty:list.qty
+    }); 
+    console.log("selected",this.selectedLr);
+  }
+  else{
+    this.selectedLr.splice(list,1);
+  }
+}
+
+saveLr(){
+  let params = {
+    itemName:this.itmeName,
+    whId:this.wareHouseId,
+    dttime:this.startDate,
+    remarks:this.remarks,
+    whDetails:JSON.stringify(this.selectedLr),
+  }
+  console.log("params",params);
+  this.api.post('WareHouse/saveWhDetails', params)
+    .subscribe(res => {
+
+    }, err => {
+    });
 }
 }

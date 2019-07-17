@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReceiveItemsComponent } from '../modal/receive-items/receive-items.component';
+import { ManualItemsComponent } from '../modal/manual-items/manual-items.component';
 
 @Component({
   selector: 'ware-house-receipts',
@@ -18,6 +19,10 @@ export class WareHouseReceiptsComponent implements OnInit {
   receiveItems(){
       const activeModal = this.modalService.open(ReceiveItemsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   
+    }
+
+    Manual(){
+      const activeModal = this.modalService.open(ManualItemsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     }
   }
 
