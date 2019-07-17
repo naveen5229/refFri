@@ -10,13 +10,26 @@ import { CommonService } from '../../../services/common.service';
 })
 export class ManualItemsComponent implements OnInit {
   unitList=[];
-  wareHouseList=[];
   wareHouseId=null;
+  startDate=new Date();
+  remarks=null;
+  selectLr=[{
+    material_id:null,
+    unitype_id:null,
+    item_name:null,
+    company_id:null,
+    ref_type:-1,
+    ref_id:null,
+    qty:null,
+    remarks:this.remarks
+  }]; 
+
+ 
   constructor(public activeModal:NgbActiveModal,
     public api:ApiService,
     public common:CommonService) { 
+      // this.common.handleModalSize('class', 'modal-lg', '1500');
       this.getUnitList();
-      this.getWareHouseList();
   }
 
   ngOnInit() {
@@ -39,15 +52,40 @@ export class ManualItemsComponent implements OnInit {
       });
   }
 
-  getWareHouseList() {
-    this.api.get('Suggestion/getWarehouseList')
-      .subscribe(res => {
-        this.wareHouseList = res['data'];
-        console.log('type', this.wareHouseList);
-      }, err => {
-
-        this.common.showError();
-      });
+  addMore() {
+    this.selectLr.push({
+      material_id:null,
+      unitype_id:null,
+      item_name:null,
+      company_id:null,
+      ref_type:-1,
+      ref_id:null,
+      qty:null,
+      remarks:this.remarks
+    });
   }
 
+  saveLr(){
+    let params = {
+      whId:this.common.params.warehouseId,
+      dttime:this.startDate,
+      whDetails:JSON.stringify(this.selectLr),
+    }
+    this.common.loading++;
+    console.log("params",params);
+    this.api.post('WareHouse/saveWhDetailsManually', params)
+      .subscribe(res => {
+        if (res['data'][0].y_id > 0) {
+          this.common.loading--;
+          this.common.showToast(res['data'][0].y_msg);
+        }
+        else {
+          this.common.loading--;
+          this.common.showError(res['data'][0].y_msg)
+        }
+       
+  
+      }, err => {
+      });
+  }
 }

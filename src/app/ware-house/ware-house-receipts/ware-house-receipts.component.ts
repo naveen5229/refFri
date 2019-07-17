@@ -55,9 +55,14 @@ export class WareHouseReceiptsComponent implements OnInit {
         this.valobj = {};
         for (let i = 0; i < this.headings.length; i++) {
           console.log("doc index value:", doc[this.headings[i]]);
-            this.valobj['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this, doc.status, doc.foid) }
+          if(this.headings[i]=="Action"){
+            this.valobj['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this, doc) }
+          }
+           else{
+            this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+           } 
           
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+         
         
         }
         columns.push(this.valobj);
@@ -91,8 +96,13 @@ export class WareHouseReceiptsComponent implements OnInit {
       );
     }
   
-    showAction() {
-      this.common.params = {warehouseId : this.wareHouseId};
+    showAction(doc) {
+      this.common.params = {
+        warehouseId : this.wareHouseId,
+        manifestId:doc._manifest_id,
+        item_name:doc['Ch Num']
+      };
+      console.log("id",this.common.params);
       const activeModal = this.modalService.open(ReceiveItemsComponent, {
         size: "lg",
         container: "nb-layout"
@@ -114,6 +124,9 @@ export class WareHouseReceiptsComponent implements OnInit {
     }
 
     Manual(){
+      this.common.params = {
+        warehouseId : this.wareHouseId,
+      };
       const activeModal = this.modalService.open(ManualItemsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     }
   }

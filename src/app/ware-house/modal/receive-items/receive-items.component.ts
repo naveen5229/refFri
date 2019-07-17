@@ -9,29 +9,21 @@ import { CommonService } from '../../../services/common.service';
   styleUrls: ['./receive-items.component.scss']
 })
 export class ReceiveItemsComponent implements OnInit {
-  wareHouseList=[];
-  manifestList=[];
   manifestId=null;
   wareHouseId=null;
   lrList=[];
   data = [];
-  itmeName=null;
-  table=null;
+  itmeName=this.common.params.item_name;
   remarks=null;
-  startDate=null;
-  selectedLr = [{ 
-    mId:null,
-    uId:null,
-    cmpId:null,
-    refType:null,
-    refId:null,
-    qty:null,
-  }];
+  startDate=new Date();
+  selectedLr = [];
+  selectedAll: false;
 
   constructor(public activeModal:NgbActiveModal,
-    public api:ApiService) { 
-      this.getWareHouseList();
-     this.getManifestList();
+    public api:ApiService,
+    public common:CommonService) { 
+    this.getLrList();
+     console.log("params",this.common.params);
     }
 
   ngOnInit() {
@@ -40,49 +32,53 @@ export class ReceiveItemsComponent implements OnInit {
   closeModal() {
     this.activeModal.close();
   }
-
-  getWareHouseList() {
-    this.api.get('Suggestion/getWarehouseList')
-      .subscribe(res => {
-        this.wareHouseList = res['data'];
-        console.log('type', this.wareHouseList);
-      }, err => {
-      });
-  }
-
-  getManifestList() {
-    this.api.get('Suggestion/getManifestName')
-      .subscribe(res => {
-        this.manifestList = res['data'];
-        console.log('type', this.manifestList);
-      }, err => {
-      });
-      this.getLrList();
-  }
   
   getLrList() {
-   const params="manifestId=" + this.manifestId;
+   const params="manifestId=" + this.common.params.manifestId;
     this.api.get('WareHouse/getLrWrtManifest?' + params)
       .subscribe(res => {
        // this.data = res['data'] || [];
        this.lrList=[];
          this.lrList=res['data'];
         // this.table = this.setTable();
-        console.log("datA", res);
+        console.log("datA", this.lrList);
       }, err => {
         console.log(err);
       });
+}
+
+selectAll() {
+ if (this.selectedAll) {
+    for (var i = 0; i < this.lrList.length; i++) {
+     // this.vehCostList[i].selected = this.selectedAll;
+     this.selectedLr.push({
+      material_id:this.lrList[i].materialid,
+      unitype_id:this.lrList[i].unittype,
+      company_id:this.lrList[i].consignee_id,
+      ref_type:11,
+      ref_id:this.lrList[i].lrid,
+      qty:this.lrList[i].qty
+    }); 
+    }
+  } else {
+    for (var i = 0; i < this.lrList.length; i++) {
+     // this.vehCostList[i].selected = false;
+      this.selectedLr = [];
+    }
+  }
+
+  console.log('select All', this.selectAll);
 }
 
 selectedLrList(event,list){
   if(event.target.checked){    
     console.log("list",list);  
     this.selectedLr.push({
-      mId:list.materialid,
-      uId:list.unittype,
-      cmpId:list.consignee_id,
-      refType:11,
-      refId:list.lrid,
+      material_id:list.materialid,
+      unitype_id:list.unittype,
+      company_id:list.consignee_id,
+      ref_type:11,
+      ref_id:list.lrid,
       qty:list.qty
     }); 
     console.log("selected",this.selectedLr);
@@ -95,14 +91,24 @@ selectedLrList(event,list){
 saveLr(){
   let params = {
     itemName:this.itmeName,
-    whId:this.wareHouseId,
+    whId:this.common.params.warehouseId,
     dttime:this.startDate,
     remarks:this.remarks,
     whDetails:JSON.stringify(this.selectedLr),
   }
+  this.common.loading++;
   console.log("params",params);
   this.api.post('WareHouse/saveWhDetails', params)
     .subscribe(res => {
+      if (res['data'][0].y_id > 0) {
+        this.common.loading--;
+        this.common.showToast(res['data'][0].y_msg);
+      }
+      else {
+        this.common.loading--;
+        this.common.showError(res['data'][0].y_msg)
+      }
+     
 
     }, err => {
     });

@@ -7,32 +7,6 @@
 <div class="modal-body">
     <div class="row mt-2">
         <div class="col-3">
-            <label>wareHouse</label>
-        </div>
-        <div class="col-4">
-            <select class="form-control" [(ngModel)]="wareHouseId">
-                  <option *ngFor="let unit of wareHouseList" [value]="unit.id">
-                    {{unit.name}}
-                  </option>
-             </select>
-        </div>
-    </div>
-
-    <div class="row mt-2">
-        <div class="col-3">
-            <label>Manifest</label>
-        </div>
-        <div class="col-4">
-            <select class="form-control" [(ngModel)]="manifestId" (change)="getLrList()">
-                  <option *ngFor="let manifest of manifestList" [value]="manifest.id">
-                    {{manifest.source_dest}}
-                  </option>
-             </select>
-        </div>
-    </div>
-
-    <div class="row mt-2">
-        <div class="col-3">
             <label>item name</label>
         </div>
         <div class="col-4">
@@ -45,9 +19,9 @@
     </div>
     <div>
         <table frame="box" style="width:100%">
-            <thead *ngIf="manifestId!=null">
+            <thead>
                 <tr>
-                    <th><b>selected items</b></th>
+                    <th><b>selected items<input type="checkbox" name="vlist" [(ngModel)]="selectedAll" (ngModelChange)="selectAll()"></b></th>
                     <th><b>receipt_no</b></th>
                     <th><b>source</b></th>
                     <th><b>destination</b></th>
@@ -66,8 +40,6 @@
                     <td>{{list.receipt_no}}</td>
                     <td>{{list.source }}</td>
                     <td>{{list.destination}}</td>
-
-
                 </tr>
             </tbody>
         </table>
@@ -93,18 +65,4 @@
     <div class="mt-2">
         <button type="button" class="btn btn-primary" (click)="saveLr()">save</button>
     </div>
-
-    <!-- <div class="row" style="margin-top:5px">
-    <div class="col-md-4">
-        <label> MainFest: </label>
-    </div>
-    <div classs="col-5">
-        <select placeholder="Name" class=name (change)="getList($event)">
-            <option *ngFor="let element of dataMainFest" [value]="element.id">{{element.description}}
-  
-            </option>
-          </select>
-
-    </div>
-</div> -->
 </div>

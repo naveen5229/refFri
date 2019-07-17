@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-    <div class="row mt-2">
+    <!-- <div class="row mt-2">
         <div class="col-3">
             <label>wareHouse</label>
         </div>
@@ -16,17 +16,115 @@
                 </option>
               </select>
         </div>
+    </div> -->
+    <div class="table-conan filter-coff">
+        <div>
+            <div *ngFor="let lr of selectLr; let i= index">
+                <div class="row mt-2">
+                    <div class="col-3">
+                        <label>material</label>
+                    </div>
+                    <div class="col-4">
+                        <auto-suggestion (onSelected)="lr.material_id=($event.id)" id="material" url="Suggestion/GetMaterialTypes" display="name" placeholder="Enter value" style="width:60%;">
+                        </auto-suggestion>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-3">
+                        <label>item name</label>
+                    </div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" [(ngModel)]="lr.item_name">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-3">
+                        <label>company</label>
+                    </div>
+                    <div class="col-4">
+                        <auto-suggestion (onSelected)="lr.company_id=($event.id)" id="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:60%;">
+                        </auto-suggestion>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-3">
+                        <label>unit Type</label>
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control" [(ngModel)]="lr.unitype_id">
+                              <option *ngFor="let unit of unitList" [value]="unit.id">
+                               {{unit.name}}
+                               </option>
+                         </select>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-3">
+                        <label>remark</label>
+                    </div>
+                    <div class="col-4">
+                        <textarea name="comment" class="form-control" form="usrform" [(ngModel)]="lr.remark"></textarea>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-3">
+                        <label>Quantity</label>
+                    </div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" [(ngModel)]="lr.qty">
+                    </div>
+
+                    <div *ngIf="i == selectLr.length-1"><button class="btn btn-primary" (click)="addMore()"><i
+                           class="fa fa-plus add">
+                       </i></button></div>
+                    <div *ngIf="i != 0 "> <button class="btn btn-danger" (click)="selectLr.splice(i,1)"><i
+                   class="fa fa-trash remove"></i></button></div>
+                </div>
+            </div>
+
+        </div>
     </div>
     <div class="row mt-2">
+        <div class="col-3">
+            <label>Date</label>
+        </div>
+        <div class="col-4">
+            <uj-date-time-picker [isTime]="false" (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+            </uj-date-time-picker>
+        </div>
+    </div>
+
+
+
+    <!-- <div class="row mt-2">
+        <div class="col-3">
+            <label>material</label>
+        </div>
+        <div class="col-4">
+            <auto-suggestion (onSelected)="materialId=($event.id)" id="material" url="Suggestion/GetMaterialTypes" display="name" placeholder="Enter value" style="width:60%;">
+            </auto-suggestion>
+        </div>
+    </div> -->
+
+    <!-- <div class="row mt-2">
+        <div class="col-3">
+            <label>company</label>
+        </div>
+        <div class="col-4">
+            <auto-suggestion (onSelected)="companyId=($event.id)" id="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:60%;">
+            </auto-suggestion>
+        </div>
+    </div> -->
+    <!-- <div class="row mt-2">
         <div class="col-3">
             <label>item name</label>
         </div>
         <div class="col-4">
             <input type="text" class="form-control">
         </div>
-    </div>
+    </div> -->
 
-    <div class="row mt-2">
+    <!-- <div class="row mt-2">
         <div class="col-3">
             <label>unit Type</label>
         </div>
@@ -38,40 +136,39 @@
                 </option>
               </select>
         </div>
-    </div>
-
-    <div class="row mt-2">
+    </div> -->
+    <!-- <div class="row mt-2">
         <div class="col-3">
-            <label>material</label>
+            <label>Quantity</label>
         </div>
         <div class="col-4">
-            <auto-suggestion (onSelected)="materialId=($event.id)" id="material" url="Suggestion/GetMaterialTypes" display="name" placeholder="Enter value" style="width:60%;">
-            </auto-suggestion>
+            <input type="text" class="form-control" [(ngModel)]="quantity">
         </div>
-    </div>
+    </div> -->
 
-    <div class="row mt-2">
+
+
+    <!-- <div class="row mt-2">
         <div class="col-3">
-            <label>company</label>
+            <label>Date</label>
         </div>
         <div class="col-4">
-            <auto-suggestion (onSelected)="companyId=($event.id)" id="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:60%;">
-            </auto-suggestion>
+            <uj-date-time-picker [isTime]="false" (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+            </uj-date-time-picker>
         </div>
-    </div>
+    </div> -->
 
-    <div class="row mt-2">
+    <!-- <div class="row mt-2">
         <div class="col-3">
             <label>remark</label>
         </div>
         <div class="col-4">
             <textarea name="comment" class="form-control" form="usrform" [(ngModel)]="remark"></textarea>
-            <!-- <textarea name="comment" class="form-control" form="usrform"> -->
         </div>
-    </div>
+    </div> -->
 
 </div>
 <div class="modal-footer text-right">
-    <button type="button" class="btn btn-primary">submit</button>
+    <button type="button" class="btn btn-primary" (click)="saveLr()">submit</button>
 
 </div>
