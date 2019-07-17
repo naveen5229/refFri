@@ -1,0 +1,62 @@
+<nb-card style="margin:0px; border:0px;">
+    <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
+        <div class="modal-header mb-3">
+            <h5 class="modal-title" id="modal-basic-title">Select Address</h5>
+            <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+      <div class="modal-body add_leader_account">
+       
+  
+        <table class="invoice_tabel">
+          <thead style="background: #263238; color:#fff;">
+            <tr>
+             <th>&nbsp;</th>
+              <th>Salutation</th>
+              <th>Name</th>
+              <th>Mobile No.</th>
+              <th>Email</th>
+              <th>Pan No.</th>
+              <th>Tan No.</th>
+              <th>Gst No.</th>
+              <th>State</th>
+              <th>City</th>
+              <th>Address</th>
+              <th>Remarks</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let Details of accDetails; let i = index;">
+              <td><input type="radio" name="address" [value]="Details.address"  [(ngModel)]="address"></td>
+              <td>{{Details.salutionname}}</td>
+              <td>{{Details.name}}</td>
+              <td>{{Details.mobileno}}</td>
+              <td>{{Details.email}}</td>
+              <td>{{Details.pan_no}}</td>
+              <td>{{Details.tan_no}}</td>
+              <td>{{Details.gst_no}}</td>
+              <td>{{Details.province_name}}</td>
+              <td>{{Details.city_name}}</td>
+              <td>{{Details.address}}</td>
+              <td>{{Details.remarks}}</td>
+            </tr>
+          </tbody>
+        </table>
+  
+      
+      </div>
+  
+      <div class="modal-footer">
+          <div class="row">
+            <div class="col">
+              <button class="btn btn-dark" type="button" outline (click)="dismiss(true)" id="submit"
+                style="cursor: pointer;">Submit</button>
+            </div>
+          </div>
+      </div>
+      
+    </nb-card-body>
+  </nb-card>
+  
