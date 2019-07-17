@@ -54,25 +54,20 @@
   </div>
 
   <ng-template #preselectedValue>
-
     <div class="row mb-3 align-items-baseline">
       <div class="col-2">
         <label>Regno</label>
       </div>
       <div class="col-2">
-        <input type="text" name="name" placeholder="Regno" [(ngModel)]="regno" readonly>
+        <input type="text" name="name" placeholder="Regno" class="form-control" [(ngModel)]="regno" readonly>
       </div>
-
-
       <div class="col-2">
         <label>Reference</label>
       </div>
       <div class="col-2">
-        <select class="form-control" (change)="refernceTypes()" [(ngModel)]="referenceId">
-          <option *ngFor="let reftype of referenceType" [value]="reftype.id">
-            {{reftype.name}}
-          </option>
-        </select>
+        <label>
+          {{referenceName}}
+        </label>
       </div>
       <div class="col-4">
         <select class="form-control" name="refernceDatas" id="refernceDatas" [(ngModel)]="revenue.refId"
@@ -82,8 +77,6 @@
             {{refernce.source_dest}}
           </option>
         </select>
-
-
       </div>
     </div>
   </ng-template>

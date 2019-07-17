@@ -56,6 +56,7 @@ export class SaveAdvicesComponent implements OnInit {
     id: '14'
   }]
   referenceId = null;
+  referenceName = null;
   startDate = new Date();
   revenue = {
     refId: null,
@@ -78,7 +79,12 @@ export class SaveAdvicesComponent implements OnInit {
       this.edit = 1;
       this.vid = this.common.params.row._vid;
       this.regno = this.common.params.row.Regno;
-
+      if (this.common.params.row._ref_id) {
+        this.referenceId = this.common.params.row._ref_type;
+        this.revenue.refId = this.common.params.row._ref_id;
+        this.revenue.refTypeName = this.common.params.row._ref_name;
+        this.getRefernceType(this.referenceId);
+      }
     }
   }
 
@@ -122,8 +128,13 @@ export class SaveAdvicesComponent implements OnInit {
   }
 
 
-  getRefernceType() {
-    // console.log('Refernce:', this.referenceId);
+  getRefernceType(typeId) {
+    this.referenceType.map(element => {
+      if (element.id == typeId) {
+        return this.referenceName = element.name;
+      }
+    });
+    this.refernceTypes();
   }
   getType() {
 
