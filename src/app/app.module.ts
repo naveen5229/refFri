@@ -191,12 +191,17 @@ import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.comp
 import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
 import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
+import { LrPodDetailsComponent } from './modals/lr-pod-details/lr-pod-details.component';
+import { FreightRateCalculationComponent } from './modals/freight-rate-calculation/freight-rate-calculation.component';
 import { ViewFrieghtInvoiceComponent } from './modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
 import { LrNearbyPodComponent } from './modals/LRModals/lr-nearby-pod/lr-nearby-pod.component';
 import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-distance-covered-compact-form/vehicle-distance-covered-compact-form.component';
 import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
 import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
 import { TypeMasterComponent } from './modals/type-master/type-master.component';
+import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
+import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/edit-via-routes-points.component';
+import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 
 
 @NgModule({
@@ -359,15 +364,20 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
     AdviceViewComponent,
     TransferReceiptsComponent,
     AddFreightExpensesComponent,
+    LrPodDetailsComponent,
+    FreightRateCalculationComponent,
     ViewFrieghtInvoiceComponent,
     LrNearbyPodComponent,
     VehicleDistanceCoveredCompactFormComponent,
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
-
+    TripSettlementComponent,
+    EditViaRoutesPointsComponent,
+    LrRateComponent,
   ],
   entryComponents: [
+    LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
     AddFreightExpensesComponent,
@@ -523,14 +533,16 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
     ClearAdvicesComponent,
     AdviceViewComponent,
     TransferReceiptsComponent,
+    LrPodDetailsComponent,
+    FreightRateCalculationComponent,
     LrNearbyPodComponent,
     VehicleDistanceCoveredCompactFormComponent,
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
-
-
-
+    TripSettlementComponent,
+    EditViaRoutesPointsComponent,
+    TripSettlementComponent,
   ],
   imports: [
     BrowserModule,

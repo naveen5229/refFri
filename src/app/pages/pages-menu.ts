@@ -97,6 +97,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: 'Card Mapping',
+        icon: 'nb-notifications',
+        link: '/pages/card-mapping',
+        home: true,
+      },
+      {
         title: 'Tickets All',
         icon: 'nb-title',
         link: '/pages/tickets-all',
@@ -141,6 +147,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Freight Invoice',
         icon: 'nb-list',
         link: '/pages/freight-invoices',
+      },
+      {
+        title: 'Transfer',
+        icon: 'nb-list',
+        link: '/pages/transfers',
       },
       {
         title: 'Freight Expenses/Revenue',

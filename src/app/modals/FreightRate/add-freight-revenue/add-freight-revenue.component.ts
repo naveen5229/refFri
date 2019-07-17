@@ -68,6 +68,7 @@ export class AddFreightRevenueComponent implements OnInit {
       this.revenue.refTypeName = this.common.params.revenueData._ref_name;
       this.revenue.vehicleId = this.common.params.revenueData._vid;
       this.revenue.refId = this.common.params.revenueData._ref_id;
+      this.revenue.remarks = this.common.params.revenueData._rev_remarks;
       // this.getExpenseDetails();
     }
     this.getRevenue();

@@ -10,6 +10,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { ActivatedRoute } from '@angular/router';
 import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
 import { ViewFrieghtInvoiceComponent } from '../../modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
+import { LrRateComponent } from '../../modals/LRModals/lr-rate/lr-rate.component';
+import { TripSettlementComponent } from '../../modals/trip-settlement/trip-settlement.component';
 
 @Component({
   selector: 'lorry-reccipts',
@@ -160,6 +162,8 @@ export class LorryRecciptsComponent implements OnInit {
           },
           { class: 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) },
           { class: 'fa fa-trash icon red', action: this.deleteLr.bind(this, R) },
+          { class: 'fa fa-inr  icon', action: this.lrRates.bind(this, R) },
+          { class: 'fa fa-handshake-o  icon', action: this.tripSettlement.bind(this, R) },
           ]//`<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R),
           // `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteLr.bind(this, R)
         }
@@ -214,6 +218,18 @@ export class LorryRecciptsComponent implements OnInit {
       });
   }
 
+  tripSettlement(row) {
+    console.log("======", row)
+    let refData = {
+      refId: row.lr_id,
+      refType: 11
+    }
+    this.common.params = { refData: refData }
+    const activeModal = this.modalService.open(TripSettlementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    });
+  }
+
   openGenerateLr(Lr) {
     console.log("Lr", Lr);
     this.common.params = { LrData: Lr }
@@ -225,13 +241,12 @@ export class LorryRecciptsComponent implements OnInit {
     });
   }
 
-  // printInvoice(invoice) {
-  //   console.log("invoice", invoice);
-  //   this.common.params = { invoiceId: 1 }
-  //   const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-  //   activeModal.result.then(data => {
-  //     console.log('Date:', data);
-
-  //   });
-  // }
+  lrRates(Lr) {
+    console.log("Lr", Lr);
+    this.common.params = { LrData: Lr }
+    const activeModal = this.modalService.open(LrRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+    });
+  }
 }
