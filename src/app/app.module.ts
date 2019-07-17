@@ -202,6 +202,7 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
 
 
 import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
+import { GotPassComponent } from './ware-house/modals/got-pass/got-pass.component';
 
 
 @NgModule({
@@ -377,6 +378,10 @@ import { TripSettlementComponent } from './modals/trip-settlement/trip-settlemen
 
     TripSettlementComponent,
 
+
+
+    GotPassComponent,
+
   ],
   entryComponents: [
     ViewFrieghtInvoiceComponent,
@@ -544,7 +549,8 @@ import { TripSettlementComponent } from './modals/trip-settlement/trip-settlemen
 
 
 
-    TripSettlementComponent
+    TripSettlementComponent,
+    GotPassComponent
 
 
   ],
