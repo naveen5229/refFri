@@ -207,7 +207,7 @@ export class RoutesTrafficKpisComponent implements OnInit {
         }
         else if (strval.indexOf('_') === -1) {
           val = strval;
-        } 
+        }
         else {
           val = null;
         }
@@ -278,10 +278,10 @@ export class RoutesTrafficKpisComponent implements OnInit {
     }
   }
 
-  resetData(event, index) {
-    this.trafficKpi[index].modelId = null;
-    console.log(event);
-  }
+  // resetData(event, index) {
+  //   this.trafficKpi[index].modelId = null;
+  //   console.log(event);
+  // }
 
 
 }

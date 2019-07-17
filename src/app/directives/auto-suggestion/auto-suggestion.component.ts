@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AutoSuggestionComponent implements OnInit {
 
   @Output() onSelected = new EventEmitter();
+  @Output() unSelected = new EventEmitter();
   @Output() noDataFound = new EventEmitter();
   @Output() onChange = new EventEmitter();
 
@@ -43,7 +44,6 @@ export class AutoSuggestionComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     public common: CommonService) {
-
   }
 
   ngOnInit() {
@@ -125,15 +125,21 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   selectSuggestion(suggestion) {
+    console.log('_____hey i m inside select suggestion', suggestion);
     // this.searchText = suggestion[this.display];
     if (this.isMultiSelect) {
+      console.log('_____hey i m inside select suggestion');
       this.selectedSuggestions.push(suggestion);
       this.onSelected.emit(this.selectedSuggestions);
       this.searchText = '';
     } else {
+      console.log('_____hey i m inside select suggestion');
       this.selectedSuggestion = suggestion;
       this.onSelected.emit(suggestion);
       this.searchText = this.generateString(suggestion);
+      setTimeout(() => {
+        console.log(this.selectedSuggestion);
+      })
     }
 
     this.showSuggestions = false;
@@ -176,6 +182,19 @@ export class AutoSuggestionComponent implements OnInit {
       }
     }
 
+
+  }
+
+  handleUnselected() {
+    setTimeout(() => {
+      let isSelected = false;
+      this.suggestions.map(suggestion => {
+        if (this.searchText === this.generateString(suggestion) && JSON.stringify(this.selectedSuggestion) == JSON.stringify(suggestion)) {
+          isSelected = true;
+        }
+      });
+      if (!isSelected) this.unSelected.emit(null);
+    }, 100);
 
   }
 
