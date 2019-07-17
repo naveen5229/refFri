@@ -4,6 +4,18 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row" style="margin-top:10px; margin-bottom:10px;">
+      <div class="col-md-2 pr-0">
+        <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-md-2 pr-0">
+        <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
+          [dateTimeValue]="endTime">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary m-0" (click)="viewTransfer()">Search</button>
+      </div>
 
       <div class="col-md-2">
         <button class="btn btn-primary m-0" (click)="addTransfer()">Add</button>

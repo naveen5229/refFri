@@ -12,7 +12,8 @@ import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-rec
   styleUrls: ['./transfers.component.scss', '../pages.component.css']
 })
 export class TransfersComponent implements OnInit {
-
+  startTime = new Date(new Date().setDate(new Date().getDate() - 7));;
+  endTime = new Date();
   data = [];
   table = {
     data: {
@@ -44,10 +45,11 @@ export class TransfersComponent implements OnInit {
 
 
   viewTransfer() {
-
+    const params = "startTime=" + this.common.dateFormatter(this.startTime) +
+      "&endTime=" + this.common.dateFormatter(this.endTime);
     ++this.common.loading;
 
-    this.api.get('FrieghtRate/getTransfers?')
+    this.api.get('FrieghtRate/getTransfers?' + params)
       .subscribe(res => {
         --this.common.loading;
 
@@ -74,9 +76,6 @@ export class TransfersComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-
-
-
         this.table.data.columns = this.getTableColumns();
       }, err => {
         --this.common.loading;
@@ -85,19 +84,16 @@ export class TransfersComponent implements OnInit {
       });
   }
   getTableColumns() {
-
     let columns = [];
     console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
-
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
       }
       // this.valobj['Action'] = { class: '', icons: this.freightDelete(doc) };
-      // columns.push(this.valobj);
+      columns.push(this.valobj);
 
     });
 

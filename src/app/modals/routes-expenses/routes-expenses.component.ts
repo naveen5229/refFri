@@ -212,14 +212,14 @@ export class RoutesExpensesComponent implements OnInit {
         } else {
           val = null;
         }
-      
+
         docobj.routeId = doc['_route_id'];
         valobj[this.headings[i]] = {
           value: '',
           isHTML: false,
           icons: [
             { class: '', action: null, txt: val },
-            { class: this.headings[i] == "Model" || val && 'fa fa-trash ml-2 text-danger', action: this.headings[i] == "Model"|| val && this.deleteRow.bind(this, doc, rowId), }
+            { class: this.headings[i] == "Model" || val && 'fa fa-trash ml-2 text-danger', action: this.headings[i] == "Model" || val && this.deleteRow.bind(this, doc, rowId), }
           ],
         };
       }
@@ -280,10 +280,10 @@ export class RoutesExpensesComponent implements OnInit {
     }
   }
 
-  resetData(event, index) {
-    this.routeExpenses[index].modelId = null;
-    console.log(event);
-  }
+  // resetData(event, index) {
+  //   this.routeExpenses[index].modelId = null;
+  //   console.log(event);
+  // }
 
 
 }
