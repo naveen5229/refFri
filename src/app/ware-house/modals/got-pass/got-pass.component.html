@@ -1,0 +1,85 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Got Pass</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-3">
+      <label>Item List</label>
+    </div>
+    <div class="col-3">
+      <!-- <select class="form-control" [(ngModel)]="itemId">
+              <option *ngFor="let items of itemList" [value]="items.id">
+                {{items.name}}
+    
+              </option>
+            </select> -->
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-3">
+      <label>State</label>
+    </div>
+    <div class="col-3">
+      <select class="form-control" [(ngModel)]="StateId">
+        <option *ngFor="let state of stateType" [value]="state.id">
+          {{state.name}}
+
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-3">
+      <label>Unit Type</label>
+    </div>
+    <div class="col-3">
+      <select class="form-control" [(ngModel)]="unitTypeId">
+        <option *ngFor="let unit of unitList" [value]="unit.id">
+          {{unit.name}}
+
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-3">
+      <label>Quantity</label>
+    </div>
+    <div class="col-3">
+      <select class="form-control" [(ngModel)]="quantityId">
+        <option *ngFor="let qauntityList of quantity" [value]="qauntityList.id">
+          {{qauntityList.name}}
+
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-3">
+      <label>Date Time</label>
+    </div>
+    <div class="col-3">
+      <uj-date-time-picker (onChanged)="Date=$event" class="" [dateTimeValue]="Date" [isTime]=false>
+      </uj-date-time-picker>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3">
+      <label>User Details</label>
+    </div>
+    <div class="col-3">
+      <input type="text-area" class="form-control" name="details" [(ngModel)]="userInput">
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="text-center">
+    <button class="btn btn-primary" id="button" (click)="getAdvice()">Submit</button>
+  </div>
+  <div class="text-left">
+    <button class="btn btn-danger" id="button" (click)="cancelRequest()">Cancel</button>
+  </div>
+</div>

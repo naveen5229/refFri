@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { WareHouseComponent } from './ware-house-component';
 import { WareHouseDashbordComponent } from './ware-house-dashbord/ware-house-dashbord.component';
+import { WarehouseInventoryComponent } from './warehouse-inventory/warehouse-inventory.component';
 
 
 const routes: Routes = [
@@ -10,10 +11,15 @@ const routes: Routes = [
         path: '',
         component: WareHouseComponent,
         children: [
-         
+
             {
-                path:'ware-house-dashbord',
-                component:WareHouseDashbordComponent
+                path: 'ware-house-dashbord',
+                component: WareHouseDashbordComponent
+            },
+
+            {
+                path: 'warehouse-inventory',
+                component: WarehouseInventoryComponent
             }
 
 

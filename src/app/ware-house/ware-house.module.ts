@@ -6,6 +6,7 @@ import { DirectiveModule } from '../directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { WareHouseComponent } from './ware-house-component';
 import { WareHouseDashbordComponent } from './ware-house-dashbord/ware-house-dashbord.component';
+import { WarehouseInventoryComponent } from './warehouse-inventory/warehouse-inventory.component';
 
 
 const PAGES_COMPONENTS = [
@@ -16,6 +17,7 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
     WareHouseDashbordComponent,
+    WarehouseInventoryComponent,
 
   ],
   imports: [
