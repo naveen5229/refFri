@@ -7,7 +7,7 @@
 <nb-card>
   <nb-card-body class="m-0 p-0" (keydown)="common.enterHandler($event)">
     <div class="modal-body">
-      <div [class]="img_flag?'col-md-7':'col-md-12'">
+      <div [class]="img_flag?'col-md-6':'col-md-12'">
         <table class="table table-bordered gerrate_tabel">
           <tr>
             <td><label>
@@ -40,7 +40,6 @@
               <label>Branch
                 <select class="form-control" [(ngModel)]="accountService.selected.branch"
                   (change)="getBranchDetails();">
-                  <option value="">Select Branch</option>
                   <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}</option>
                 </select>
               </label>
@@ -197,6 +196,7 @@
                   <option value="1">ToPay</option>
                   <option value="2">Paid</option>
                   <option value="3">To Be Billed</option>
+                  <option value="-1">None</option>
                 </select></td>
               <td><label *ngIf="lr.paymentTerm!=2">Advance Amount</label></td>
               <td>
@@ -213,6 +213,8 @@
                   <option value="1">Consignee</option>
                   <option value="2">Consignor</option>
                   <option value="9">Others</option>
+                  <option value="-1">N.A.</option>
+
                 </select></td>
               <td><label *ngIf="lr.invoiceTo==9">Payee name</label></td>
               <td>
@@ -262,6 +264,10 @@
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
                       value="4">Exempt
                   </label>
+                  <label class="radio-btn">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
+                      value="-1">N.A.
+                  </label>
                 </span>
               </td>
               <td>
@@ -301,12 +307,12 @@
                 </td>
                 <td>
                   <div class="col-sm-5" style="padding:0px">
-                    <select class="form-control" [(ngModel)]="particular.weight_unit">
-                      <option value="kg">Kg</option>
-                      <option value="ton">Ton</option>
-                      <option value="lt">Ltr</option>
-                      <option value="gal">Gallan</option>
-                    </select>
+                    <input class="form-control" type="text" list="unitTitles" name="companies-type"
+                      [(ngModel)]="particular.weight_unit_name"
+                      (change)="getWeightUnitId(particular.weight_unit_name , i)">
+                    <datalist id="unitTitles">
+                      <option *ngFor="let unitField of unitFields ;" [value]="unitField.name"></option>
+                    </datalist>
                   </div>
                   <div class="col-sm-7" style="padding:0px">
                     <input type="text" class="form-control" [(ngModel)]="particular.weight">
@@ -409,7 +415,7 @@
 
 
       </div>
-      <div class="col-md-5" *ngIf="img_flag">
+      <div class="col-md-6" *ngIf="img_flag">
         <div class="clearfix mb-3">
           <div class="col-sm-4">
             <button class="btn btn-primary btn-loadLr" type="button" (click)="loadImage('LR')">Lorry Receipt</button>
@@ -418,7 +424,7 @@
             <button class="btn btn-primary btn-loadInvoice" type="button"
               (click)="loadImage('Invoice')">Invoice</button>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3" style="margin-bottom: 15px">
             <button class="btn btn-primary btn-loadOther" type="button" (click)="loadImage('Other')">Others</button>
           </div>
           <!-- <div class="col-sm-3 fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"
