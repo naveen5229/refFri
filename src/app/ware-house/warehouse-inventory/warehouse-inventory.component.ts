@@ -91,7 +91,7 @@ export class WarehouseInventoryComponent implements OnInit {
           console.log("ico1n")
         
           if(this.headings[i]=='Action'){
-            this.valobj['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this, doc.status, doc.foid) }
+            this.valobj['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this, doc._item_id) }
           }
           else{
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
@@ -124,8 +124,10 @@ export class WarehouseInventoryComponent implements OnInit {
   }
 
 
-  showAction() {
-    // this.common.params = {warehouseId : this.wareHouseId};
+  showAction(_item_id) {
+    this.common.params = 
+    {_item_id};
+    console.log( "Item",this.common.params )
     const activeModal = this.modalService.open(GotPassComponent, {
       size: "lg",
       container: "nb-layout"

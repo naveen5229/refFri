@@ -63,6 +63,10 @@ StateId = null;
     public activeModal: NgbActiveModal) {
     this.getUnitList();
     this.getItems();
+   this.itemId =this.common.params._item_id
+    console.log("items1", this.itemId)
+    this.common.handleModalSize('class', 'modal-lg', '550');
+
     this.stateType=[{
  
       name: 'Transhipment',
@@ -163,7 +167,7 @@ StateId = null;
     const  params = {
     stateId:this.StateId,
     unitType:this.unitTypeId,
-    itemId:this.itemsId,
+    itemId:this.itemId,
     qty:this.quantityId,
     dttime:TDate,
     remarks:this.remark,

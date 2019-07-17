@@ -5,15 +5,20 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="row" style="margin-bottom:10px">
-    <div class="col-3">
-      <input type="radio" name="In" value="In" [(ngModel)]="selectOption" (change)="onSet(selectOption)" checked>In<br>
-    </div>
-    <div class="col-3">
-      <input type="radio" name="Out" value="Out" (change)="onSet(selectOption)" [(ngModel)]="selectOption"> Out<br>
+      <div class="row">
+        <div class="col">
+            <div class="text-center">
+
+      <input type="radio" name="In" value="In" [(ngModel)]="selectOption" (change)="onSet(selectOption)" checked>Out
+      <input type="radio" name="Out" value="Out" (change)="onSet(selectOption)" [(ngModel)]="selectOption"> In
+
     </div>
   </div>
-  <div class="row" style="margin-bottom:10px">
+
+</div>
+
+   
+  <!-- <div class="row" style="margin-bottom:10px">
     <div class="col-3">
       <label>Item List</label>
     </div>
@@ -24,12 +29,12 @@
           </option>
         </select>
 </div>
-  </div>
+  </div> -->
   <div class="row" style="margin-bottom:10px">
     <div class="col-3">
-      <label>State</label>
+      <label>State*</label>
     </div>
-    <div class="col-3" *ngIf="selectOption=='In'; else state2">
+    <div class="col-3" *ngIf="selectOption=='In'; else state2 ">
       <select class="form-control" [(ngModel)]="StateId">
         <option *ngFor="let state of stateType" [value]="state.id">
           {{state.name}}
@@ -40,7 +45,7 @@
     </div>
     <ng-template #state2>
       <div class="col-3"> 
-        <select class="form-control" [(ngModel)]="StateId">
+        <select class="form-control" [(ngModel)]="StateId" >
           <option *ngFor="let state of stateType1" [value]="state.id">
             {{state.name}}
           </option>
@@ -51,10 +56,10 @@
   </div>
   <div class="row" style="margin-bottom:10px">
     <div class="col-3">
-      <label>Unit Type</label>
+      <label>Unit Type*</label>
     </div>
     <div class="col-3">
-      <select class="form-control" [(ngModel)]="unitTypeId">
+      <select class="form-control" [(ngModel)]="unitTypeId" >
         <option *ngFor="let unit of unitList" [value]="unit.id">
           {{unit.name}}
 
@@ -64,19 +69,19 @@
   </div>
   <div class="row" style="margin-bottom:10px">
     <div class="col-3">
-      <label>Quantity</label>
+      <label>Quantity*</label>
     </div>
     <div class="col-3">
-      <input type="text" class="form-control" [(ngModel)]="quantityId">
+      <input type="text" class="form-control" [(ngModel)]="quantityId" style="width:225">
        
     </div>
   </div>
   <div class="row" style="margin-bottom:10px">
     <div class="col-3">
-      <label>Date Time</label>
+      <label>Date Time*</label>
     </div>
     <div class="col-3">
-      <uj-date-time-picker (onChanged)="Date=$event" class="" [dateTimeValue]="Date" [isTime]=false>
+      <uj-date-time-picker (onChanged)="Date=$event" size="10" class="" [dateTimeValue]="Date" [isTime]=True style="width:225">
       </uj-date-time-picker>
     </div>
   </div>
@@ -85,16 +90,15 @@
       <label>Remark</label>
     </div>
     <div class="col-3">
-      <input type='text' class="form-control" [(ngModel)]="remark">
-      
+            <textarea rows="2" cols="30" [(ngModel)]="remark"></textarea>
     </div>
   </div>
   <div class="row">
     <div class="col-3">
-      <label>User Details</label>
+      <label>User Details*</label>
     </div>
     <div class="col-3">
-      <textarea rows="4" cols="50" [(ngModel)]="userInput"></textarea>
+      <textarea rows="4" cols="30" [(ngModel)]="userInput"></textarea>
 
     </div>
   </div>
