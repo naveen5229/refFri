@@ -5,5 +5,9 @@
 
   <nb-card-body>
     <button class="btn btn-primary" (click)="manualWareHouseEntry()">ADD</button>
+    <div>
+        <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="wareHouseInventory">
+        </smart-table> 
+      </div>
   </nb-card-body>
 </nb-card>

@@ -1,44 +1,53 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Got Pass</h5>
+  <h5 class="modal-title" id="modal-basic-title">Get Pass</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-    <div class="row" style="margin-bottom:10px">
-        <div class="col-3">
-    <input type="radio" name="Out" value="In" checked>In<br>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-3">
+      <input type="radio" name="In" value="In" [(ngModel)]="selectOption" (change)="onSet(selectOption)" checked>In<br>
     </div>
     <div class="col-3">
-
-  <input type="radio" name="In" value="Out"> Out<br>
-  </div>
+      <input type="radio" name="Out" value="Out" (change)="onSet(selectOption)" [(ngModel)]="selectOption"> Out<br>
     </div>
+  </div>
   <div class="row" style="margin-bottom:10px">
     <div class="col-3">
       <label>Item List</label>
     </div>
-    <div class="col-3">
-      <!-- <select class="form-control" [(ngModel)]="itemId">
-              <option *ngFor="let items of itemList" [value]="items.id">
-                {{items.name}}
-    
-              </option>
-            </select> -->
-    </div>
+    <div classs="col-3">
+        <select placeholder="Name" class='form-control' [(ngModel)]="itemsId" >
+          <option *ngFor="let element of dataItems" [value]="element.id">{{element.item_name}}
+
+          </option>
+        </select>
+</div>
   </div>
   <div class="row" style="margin-bottom:10px">
     <div class="col-3">
       <label>State</label>
     </div>
-    <div class="col-3">
+    <div class="col-3" *ngIf="selectOption=='In'; else state2">
       <select class="form-control" [(ngModel)]="StateId">
         <option *ngFor="let state of stateType" [value]="state.id">
           {{state.name}}
 
         </option>
       </select>
+
     </div>
+    <ng-template #state2>
+      <div class="col-3"> 
+        <select class="form-control" [(ngModel)]="StateId">
+          <option *ngFor="let state of stateType1" [value]="state.id">
+            {{state.name}}
+          </option>
+        </select>
+
+      </div>
+    </ng-template>
   </div>
   <div class="row" style="margin-bottom:10px">
     <div class="col-3">
@@ -58,12 +67,8 @@
       <label>Quantity</label>
     </div>
     <div class="col-3">
-      <select class="form-control" [(ngModel)]="quantityId">
-        <option *ngFor="let qauntityList of quantity" [value]="qauntityList.id">
-          {{qauntityList.name}}
-
-        </option>
-      </select>
+      <input type="text" class="form-control" [(ngModel)]="quantityId">
+       
     </div>
   </div>
   <div class="row" style="margin-bottom:10px">
@@ -80,12 +85,8 @@
       <label>Remark</label>
     </div>
     <div class="col-3">
-      <select class="form-control" [(ngModel)]="remark">
-        <option *ngFor="let remarkList of remark" [value]="remarkList.id">
-          {{remarkList.name}}
-
-        </option>
-      </select>
+      <input type='text' class="form-control" [(ngModel)]="remark">
+      
     </div>
   </div>
   <div class="row">
@@ -93,12 +94,11 @@
       <label>User Details</label>
     </div>
     <div class="col-3">
-      <textarea rows="4" cols="50" [(ngModel)]="userInput"></textarea>>
-        </textarea>
-         
+      <textarea rows="4" cols="50" [(ngModel)]="userInput"></textarea>
+
     </div>
   </div>
-  
+
 </div>
 <div class="modal-footer">
   <div class="text-center">
