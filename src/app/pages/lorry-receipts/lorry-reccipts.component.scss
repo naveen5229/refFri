@@ -159,3 +159,11 @@ input[type="text"] {
     border-radius: 3px;
     color: #fff;
 }
+
+:host ::ng-deep .i-red-cross {
+  color: red; font-size: 18px;
+}
+
+:host ::ng-deep .i-green {
+  color: green; font-size: 18px;
+}
