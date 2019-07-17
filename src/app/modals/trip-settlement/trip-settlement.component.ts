@@ -135,6 +135,11 @@ export class TripSettlementComponent implements OnInit {
   }
 
   openTransferModal() {
+    let refData = {
+      refType: this.refType,
+      refId: this.refId
+    };
+    this.common.params = { refData: refData };
     console.log("openTransferModal");
     this.common.handleModalSize('class', 'modal-lg', '1100');
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -157,8 +162,12 @@ export class TripSettlementComponent implements OnInit {
 
   }
   openAdviceModal() {
+    let refData = {
+      refType: this.refType,
+      refId: this.refId
+    };
+    this.common.params = { refData: refData };
     console.log("openAdviceModal");
-
     this.common.handleModalSize('class', 'modal-lg', '1100');
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

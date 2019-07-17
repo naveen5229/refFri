@@ -308,7 +308,7 @@ export class LorryRecciptsComponent implements OnInit {
   openPodDeatilsModal(receipt) {
     console.log("val", receipt);
 
-    this.common.params = receipt.lr_id;
+    this.common.params = receipt._podid;
     const activeModel = this.modalService.open(LrPodDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
   }
 }

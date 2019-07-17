@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddFreightExpensesComponent } from '../../modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 
 @Component({
   selector: 'freight-expenses',
@@ -30,6 +31,10 @@ export class FreightExpensesComponent implements OnInit {
   }, {
     name: 'Manifest',
     id: '12'
+  },
+  {
+    name: 'Trip',
+    id: '14'
   },
   {
     name: 'Any',
@@ -177,6 +182,17 @@ export class FreightExpensesComponent implements OnInit {
             ]
           };
         }
+        else if (this.headings[i] == "Transfer") {
+          this.valobj[this.headings[i]] = {
+            value: "",
+            action: null,
+            isHTML: false,
+            icons: [
+              { class: 'fa fa-edit', action: this.openTransferReceipt.bind(this, doc) },
+              // { action: null, txt: doc._rev_count }
+            ]
+          };
+        }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -203,5 +219,17 @@ export class FreightExpensesComponent implements OnInit {
       this.getExpenses();
     })
 
+  }
+  openTransferReceipt(transfer) {
+    console.log("advice", transfer);
+    let refData = {
+      refId: transfer._ref_id,
+      refType: transfer._ref_type,
+    }
+    this.common.params = { refData: refData };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.getExpenses();
+    })
   }
 }
