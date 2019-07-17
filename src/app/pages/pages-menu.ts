@@ -392,9 +392,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-tools',
     link: '/vehicle-maintenance/add-vehicle-maintenance'
   },
-  {
-    title: 'Ware House',
-    icon: 'fas fa-tools',
-    link: '/ware-house/ware-house-dashbord'
-  },
+  // {
+  //   title: 'Ware House',
+  //   icon: 'fas fa-tools',
+  //   link: '/ware-house/ware-house-dashbord'
+  // },
 ];

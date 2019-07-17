@@ -12,14 +12,14 @@
         <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
           placeholder="End Date" (click)="getDate('end')">
       </div>
-      <div class="col-sm-2">
+      <!-- <div class="col-sm-2">
         <select class="form-control" (change)="getSelection()" [(ngModel)]="statusid">
           <option *ngFor="let status of status" [value]="status.id">
             {{status.name}}
 
           </option>
         </select>
-      </div>
+      </div> -->
       <div class="col-sm-2">
         <select class="form-control" [(ngModel)]="Typeid">
           <option *ngFor="let typedet of type" [value]="typedet.id">

@@ -76,9 +76,6 @@ export class TransfersComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-
-
-
         this.table.data.columns = this.getTableColumns();
       }, err => {
         --this.common.loading;
@@ -87,19 +84,16 @@ export class TransfersComponent implements OnInit {
       });
   }
   getTableColumns() {
-
     let columns = [];
     console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
-
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
       }
       // this.valobj['Action'] = { class: '', icons: this.freightDelete(doc) };
-      // columns.push(this.valobj);
+      columns.push(this.valobj);
 
     });
 
