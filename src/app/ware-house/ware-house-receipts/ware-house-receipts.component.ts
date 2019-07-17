@@ -54,10 +54,13 @@ export class WareHouseReceiptsComponent implements OnInit {
         this.valobj = {};
         for (let i = 0; i < this.headings.length; i++) {
           console.log("doc index value:", doc[this.headings[i]]);
+              
+          if(this.headings[i]=='Action'){
             this.valobj['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this, doc.status, doc.foid) }
-          
+          }
+          else{
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-        
+          }
         }
         columns.push(this.valobj);
       });

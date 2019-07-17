@@ -81,26 +81,29 @@ export class WarehouseInventoryComponent implements OnInit {
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
-
-   getTableColumns() {
+  getTableColumns() {
     let columns = [];
     console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
-          this.valobj['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this, doc.status, doc.foid) }
+          console.log("ico1n")
         
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-      
+          if(this.headings[i]=='Action'){
+            this.valobj['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this, doc.status, doc.foid) }
+          }
+          else{
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+          }
       }
       columns.push(this.valobj);
     });
     return columns;
   }
 
+
   getdata(){
-  
     console.log("ap")
     this.api.get("WareHouse/getStockItemPendingList").subscribe(
       res => {
@@ -119,6 +122,7 @@ export class WarehouseInventoryComponent implements OnInit {
       }
     );
   }
+
 
   showAction() {
     // this.common.params = {warehouseId : this.wareHouseId};

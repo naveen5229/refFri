@@ -190,7 +190,7 @@ StateId = null;
         }
       }, err => {
         this.common.showError("item_id,date or other detail is missing" );
-        console.log('Error: ', err);
+        // console.log('Error: ', err);
       });
   }
 
