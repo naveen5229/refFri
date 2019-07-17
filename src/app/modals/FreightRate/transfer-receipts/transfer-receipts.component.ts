@@ -25,15 +25,45 @@ export class TransferReceiptsComponent implements OnInit {
   refernceData = [];
   typesData = [];
   ModeData = [];
+  edit = 0;
+  referenceType = [{
+    name: 'select Type',
+    id: '0'
+
+  },
+  {
+    name: 'Lr',
+    id: '11'
+  },
+  {
+    name: 'Manifest',
+    id: '12'
+  },
+  {
+    name: 'state',
+    id: '13'
+  },
+  {
+    name: 'Trip',
+    id: '14'
+  }]
 
 
   constructor(public modalService: NgbModal,
     public common: CommonService,
     public activeModal: NgbActiveModal,
     public api: ApiService) {
-    this.getTypeList();
+    this.common.handleModalSize('class', 'modal-lg', '800', 'px', 1);
+
     this.getPaymentMode();
 
+    if (this.common.params.refData) {
+      this.edit = 1;
+      this.transferReceipt.refernceType = this.common.params.refData.refType;
+      this.transferReceipt.refId = this.common.params.refData.refId;
+      this.getReferenceData();
+      this.getRefernceType(this.transferReceipt.refId);
+    }
   }
 
   ngOnInit() {
@@ -43,7 +73,32 @@ export class TransferReceiptsComponent implements OnInit {
   closeModal() {
     this.activeModal.close();
   }
+  getRefernceType(typeId) {
+    this.referenceType.map(element => {
+      if (element.id == typeId) {
+        return this.transferReceipt.refTypeName = element.name;
+      }
+    });
+    this.refernceTypes();
+  }
+  getReferenceData() {
+    const params = "id=" + this.transferReceipt.refId +
+      "&type=" + this.transferReceipt.refernceType;
+    this.api.get('Vehicles/getRefrenceDetails?' + params)
+      .subscribe(res => {
+        console.log(res['data']);
+        let resultData = res['data'][0];
+        this.transferReceipt.vehicleId = resultData.vid;
+        this.transferReceipt.vehicleRegNo = resultData.regno;
+        this.transferReceipt.refTypeName = resultData.ref_name;
+        // this.id = resultData.vehasstype
+        this.refernceTypes();
 
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 
   getvehicleData(vehicle) {
     this.transferReceipt.vehicleId = vehicle.id;

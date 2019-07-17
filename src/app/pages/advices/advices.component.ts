@@ -130,8 +130,9 @@ export class AdvicesComponent implements OnInit {
     let icons = [];
 
     icons.push(
+
       {
-        class: "fa fa-pencil",
+        class: "far fa-pencil",
         action: this.saveAdvices.bind(this, details),
       },
       {
@@ -157,8 +158,11 @@ export class AdvicesComponent implements OnInit {
 
 
   saveAdvices(row) {
-    console.log("row Data:", row);
-    this.common.params = { row: row };
+    let refData = {
+      refId: row._ref_id,
+      refType: row._ref_type
+    }
+    this.common.params = { refData: refData };
     this.common.handleModalSize('class', 'modal-lg', '1100');
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
