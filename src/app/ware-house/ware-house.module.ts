@@ -8,6 +8,7 @@ import { WareHouseComponent } from './ware-house-component';
 import { WareHouseDashbordComponent } from './ware-house-dashbord/ware-house-dashbord.component';
 import { WareHouseReceiptsComponent } from './ware-house-receipts/ware-house-receipts.component';
 import { ReceiveItemsComponent } from './modal/receive-items/receive-items.component';
+import { WarehouseInventoryComponent } from './warehouse-inventory/warehouse-inventory.component';
 
 
 const PAGES_COMPONENTS = [
@@ -20,6 +21,7 @@ const PAGES_COMPONENTS = [
     WareHouseDashbordComponent,
     WareHouseReceiptsComponent,
     ReceiveItemsComponent,
+    WarehouseInventoryComponent,
 
   ],
   entryComponents:[
