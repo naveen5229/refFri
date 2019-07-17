@@ -11,7 +11,7 @@
       </div>
       <div classs="col-5">
         <select placeholder="Name" class=name >
-          <option *ngFor="let element of dataReceive" [value]="element.id">{{element.description}}
+          <option *ngFor="let element of dataReceive" [value]="element.id">{{element.name}}
 
           </option>
         </select>
@@ -24,7 +24,7 @@
         </div>
         <div classs="col-5">
           <select placeholder="Name" class=name (change)="getList($event)">
-            <option *ngFor="let element of dataMainFest" [value]="element.id">{{element.description}}
+            <option *ngFor="let element of dataMainFest" [value]="element.id">{{element.name}}
   
             </option>
           </select>

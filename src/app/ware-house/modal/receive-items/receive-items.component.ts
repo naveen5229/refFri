@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/api.service';
+import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'receive-items',
@@ -12,12 +13,15 @@ export class ReceiveItemsComponent implements OnInit {
   dataMainFest='';
   table = null;
   data = [];
-  id='';
+  id=null;
 
   constructor(public activeModal:NgbActiveModal,
-    public api:ApiService) { 
+    public api:ApiService,
+    public common:CommonService) { 
       this.getData();
       this.getTable();
+      this.id = this.common.params.warehouseId;
+      console.log("is", this.id  )
     }
 
   ngOnInit() {
@@ -47,6 +51,7 @@ export class ReceiveItemsComponent implements OnInit {
   }
 
   getList(event) {
+    console.log("get")
     this.id = event.target.value;
     console.log("event", this.id);
 
