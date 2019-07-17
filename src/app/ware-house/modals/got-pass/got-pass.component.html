@@ -5,6 +5,15 @@
   </button>
 </div>
 <div class="modal-body">
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-3">
+    <input type="radio" name="Out" value="In" checked>In<br>
+    </div>
+    <div class="col-3">
+
+  <input type="radio" name="In" value="Out"> Out<br>
+  </div>
+    </div>
   <div class="row" style="margin-bottom:10px">
     <div class="col-3">
       <label>Item List</label>
@@ -66,14 +75,30 @@
       </uj-date-time-picker>
     </div>
   </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-3">
+      <label>Remark</label>
+    </div>
+    <div class="col-3">
+      <select class="form-control" [(ngModel)]="remark">
+        <option *ngFor="let remarkList of remark" [value]="remarkList.id">
+          {{remarkList.name}}
+
+        </option>
+      </select>
+    </div>
+  </div>
   <div class="row">
     <div class="col-3">
       <label>User Details</label>
     </div>
     <div class="col-3">
-      <input type="text-area" class="form-control" name="details" [(ngModel)]="userInput">
+      <textarea rows="4" cols="50" [(ngModel)]="userInput"></textarea>>
+        </textarea>
+         
     </div>
   </div>
+  
 </div>
 <div class="modal-footer">
   <div class="text-center">

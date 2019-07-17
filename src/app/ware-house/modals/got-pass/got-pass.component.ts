@@ -16,6 +16,7 @@ export class GotPassComponent implements OnInit {
   unitTypeId = null;
   unitList = [];
   Date = null;
+  remark=''
   quantity = [{
     name: '5',
     id: '5'
