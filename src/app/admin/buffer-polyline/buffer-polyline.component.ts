@@ -59,7 +59,7 @@ export class BufferPolylineComponent implements OnInit {
       }
     }
 
-    this.kmsShow = (total/1000).toFixed(2);
+    this.kmsShow = (total / 1000).toFixed(2);
   }
 
   ngAfterViewInit() {
@@ -245,7 +245,33 @@ export class BufferPolylineComponent implements OnInit {
     }
   }
 
-
+  boundSearch() {
+    let boundBox = this.mapService.getMapBounds();
+    let bounds = {
+      lat: (boundBox.lat1 + boundBox.lat2) / 2,
+      long: (boundBox.lng1 + boundBox.lng2) / 2,
+      bound: Math.max(Math.abs(boundBox.lat1 - boundBox.lat2) / 2,
+        Math.abs(boundBox.lng1 - boundBox.lng2) / 2)
+    };
+    this.commonService.loading++;
+    this.apiService.post("Buffer/getBuffer", bounds)
+      .subscribe(res => {
+        this.commonService.loading--;
+        let data = res['data'];
+        if (!res['success']) {
+          this.commonService.showError(res['msg']);
+          return;
+        }
+        this.mapService.resetPolyPaths();
+        this.mapService.createPolyPathsManual(data, (poly, event) => {
+          this.remove(poly.id);
+        });
+      }, err => {
+        console.error(err);
+        this.commonService.showError();
+        this.mapService.isDrawAllow = true;
+      });
+  }
 
   search(isZoom = true) {
     console.log("position1", this.position);
