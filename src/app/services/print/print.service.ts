@@ -48,25 +48,118 @@ export class PrintService {
         [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 124, align: 'right' }],
         [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 125, align: 'right' }],
         [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 127, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 128, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 129, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 130, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 131, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 132, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 133, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 134, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 135, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 136, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 137, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 138, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 139, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 140, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 141, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 142, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 143, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 144, align: 'right' }],
-        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 145, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+        [{ "txt": "Total" }, { "txt": 100, align: 'right' }, { "txt": 126, align: 'right' }],
+
+
         [{ "txt": { "name": "In Words", "value": "One Hundred " }, "colspan": 3 }],
         [{ "txt": { "name": "Narration", "value": "test" }, "colspan": 3 }],
       ]
@@ -208,55 +301,93 @@ export class PrintService {
     ppContainer.className = 'pp-container';
     ppContainer.id = 'pp-container';
     mainElement.appendChild(ppContainer);
-
-    let pageContainer1 = this.createPage(json);
-    ppContainer.appendChild(pageContainer1);
-    let page1 = pageContainer1.children[0];
-    let pageInsider1 = page1.children[0];
-    pageInsider1.appendChild(this.getHeader(json));
-    pageInsider1.appendChild(this.getDetails(json));
-
-    pageInsider1.appendChild(this.createTable(json));
-    let table1 = pageInsider1.children[2].children[0];
-    table1.appendChild(this.setTableHead(json));
-
-    let tbody1 = this.setTableBody(json)
-    table1.appendChild(tbody1);
-    for (let i = 0; i < json.table.rows.length; i++) {
-      let row = this.createTableRow(json.table.rows[i]);
-      tbody1.appendChild(row);
-      console.log('__', page1['offsetHeight'], pageInsider1['offsetHeight']);
-      if (pageInsider1['offsetHeight'] + row.offsetHeight > page1['offsetHeight'] && i != json.table.rows.length - 1) {
-        json.table.rows.splice(0, i + 1);
-        break;
+    let pageIndex = 1;
+    let rowIndex = 0;
+    while (rowIndex != json.table.rows.length - 1) {
+      let pageContainer = this.createPage(json);
+      ppContainer.appendChild(pageContainer);
+      let page = pageContainer.children[0];
+      let pageInsider = page.children[0];
+      if (pageIndex == 1) {
+        pageInsider.appendChild(this.getHeader(json));
+        pageInsider.appendChild(this.getDetails(json));
       }
+
+      let tableContainer = this.createTable(json);
+      pageInsider.appendChild(tableContainer);
+      let table = tableContainer.children[0];
+      if (pageIndex == 1) {
+        table.appendChild(this.setTableHead(json));
+      }
+
+      let tbody = this.setTableBody(json)
+      table.appendChild(tbody);
+      for (let i = rowIndex; i < json.table.rows.length; i++) {
+        let row = this.createTableRow(json.table.rows[i]);
+        tbody.appendChild(row);
+        console.log('__', page['offsetHeight'], pageInsider['offsetHeight']);
+        if (pageInsider['offsetHeight'] + row.offsetHeight > page['offsetHeight'] && i != json.table.rows.length - 1) {
+          // json.table.rows.splice(0, i + 1);
+          rowIndex = i + 1;
+          break;
+        }
+        rowIndex = i;
+      }
+      if (rowIndex == json.table.rows.length - 1) {
+        pageContainer.appendChild(this.getSignature(json));
+      }
+      pageContainer.appendChild(this.getFooter(json, pageIndex));
+      pageIndex++;
     }
 
-    pageContainer1.appendChild(this.getFooter(json, 1));
+    // let pageContainer1 = this.createPage(json);
+    // ppContainer.appendChild(pageContainer1);
+    // let page1 = pageContainer1.children[0];
+    // let pageInsider1 = page1.children[0];
+    // pageInsider1.appendChild(this.getHeader(json));
+    // pageInsider1.appendChild(this.getDetails(json));
 
-    let pageContainer2 = this.createPage(json);
-    ppContainer.appendChild(pageContainer2);
-    let page2 = pageContainer2.children[0];
-    let pageInsider2 = page2.children[0];
+    // pageInsider1.appendChild(this.createTable(json));
+    // let table1 = pageInsider1.children[2].children[0];
+    // table1.appendChild(this.setTableHead(json));
 
-    pageInsider2.appendChild(this.createTable(json));
-    let table2 = pageInsider2.children[0].children[0];
-    table2.appendChild(this.setTableHead(json));
+    // let tbody1 = this.setTableBody(json)
+    // table1.appendChild(tbody1);
+    // for (let i = 0; i < json.table.rows.length; i++) {
+    //   let row = this.createTableRow(json.table.rows[i]);
+    //   tbody1.appendChild(row);
+    //   console.log('__', page1['offsetHeight'], pageInsider1['offsetHeight']);
+    //   if (pageInsider1['offsetHeight'] + row.offsetHeight > page1['offsetHeight'] && i != json.table.rows.length - 1) {
+    //     json.table.rows.splice(0, i + 1);
+    //     break;
+    //   }
+    // }
 
-    let tbody2 = this.setTableBody(json)
-    table2.appendChild(tbody2);
-    for (let i = 0; i < json.table.rows.length; i++) {
-      let row = this.createTableRow(json.table.rows[i]);
-      tbody2.appendChild(row);
-      console.log('2__', page2['offsetHeight'], pageInsider2['offsetHeight']);
-      if (pageInsider2['offsetHeight'] + row.offsetHeight > page2['offsetHeight']) {
-        json.table.rows.splice(0, i);
-        break;
-      }
-    }
+    // pageContainer1.appendChild(this.getFooter(json, 1));
 
-    pageContainer2.appendChild(this.getSignature(json));
-    pageContainer2.appendChild(this.getFooter(json, 2));
+    // let pageContainer2 = this.createPage(json);
+    // ppContainer.appendChild(pageContainer2);
+    // let page2 = pageContainer2.children[0];
+    // let pageInsider2 = page2.children[0];
+
+    // pageInsider2.appendChild(this.createTable(json));
+    // let table2 = pageInsider2.children[0].children[0];
+    // table2.appendChild(this.setTableHead(json));
+
+    // let tbody2 = this.setTableBody(json)
+    // table2.appendChild(tbody2);
+    // for (let i = 0; i < json.table.rows.length; i++) {
+    //   let row = this.createTableRow(json.table.rows[i]);
+    //   tbody2.appendChild(row);
+    //   console.log('2__', page2['offsetHeight'], pageInsider2['offsetHeight']);
+    //   if (pageInsider2['offsetHeight'] + row.offsetHeight > page2['offsetHeight']) {
+    //     json.table.rows.splice(0, i);
+    //     break;
+    //   }
+    // }
+
+    // pageContainer2.appendChild(this.getSignature(json));
+    // pageContainer2.appendChild(this.getFooter(json, 2));
   }
 
   getFooter(json, page) {
