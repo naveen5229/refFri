@@ -1,5 +1,4 @@
-@media print,
-screen {
+@media print {
 
     html {
         height: 100%;
@@ -16,6 +15,16 @@ screen {
         overflow: visible !important;
     }
 
+    /****** Settings for Mizilla ******/
+    @-moz-document url-prefix() {
+        .print-page-container {
+            height: 340mm !important;
+        }
+
+        .pp-container {
+            font-size-adjust: 0.4;
+        }
+    }
 
     // used for body tag to hide other view
     .printing {
@@ -24,55 +33,34 @@ screen {
         }
     }
 
-    // Set mozilla font size
-    @-moz-document url-prefix() {
-        .pp-container {
-            font-size-adjust: 0.4;
-        }
-    }
-
     // print page warpper like as body
     .printing-page {
-        // position: absolute;
         top: 0;
         left: 0;
         width: auto;
         height: auto;
         z-index: 9999999;
         background: #fff;
-        // padding: 50px 50px 0px 100px;
         overflow: visible;
+    }
+
+    .print-page-container {
+        position: relative;
+        height: 418mm;
+        padding: 50px 50px 0px 100px;
+        page-break-after: always;
+        page-break-inside: avoid;
     }
 
     // print page container
     .print-page {
         height: calc(100% - 150px);
-        border: 3px solid #000;
-    }
-
-    .page-insider {}
-
-    .print-page-container {
-        position: relative;
-        height: 418mm;
-        // padding-top: 30px;
-        padding: 50px 50px 0px 100px;
-        page-break-after: always;
-        page-break-inside: avoid;
-        border: 3px solid red;
-    }
-
-    .print-page-container:not(:first-child) {
-        // padding-top: 30px;
-        // margin-top: 100px;
-
     }
 
     .pp-container {
         position: relative;
         background: #fff;
         height: 100%;
-
 
         .pp-v1-details {
             margin-top: 15px;
