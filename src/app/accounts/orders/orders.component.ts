@@ -83,7 +83,7 @@ export class OrdersComponent implements OnInit {
       discountate: 0,
       rate: 0,
       amount: 0,
-      default:true
+      defaultcheck:true
     }]
   };
 
@@ -217,7 +217,7 @@ export class OrdersComponent implements OnInit {
         discountate: 0,
         rate: 0,
         amount: 0,
-        default:true
+        defaultcheck:true
       }]
     };
   }
@@ -243,7 +243,7 @@ export class OrdersComponent implements OnInit {
       discountate: 0,
       rate: 0,
       amount: 0,
-      default:true
+      defaultcheck:false
 
     });
   }
@@ -352,7 +352,8 @@ export class OrdersComponent implements OnInit {
       if (data.response) {
         console.log(data.taxDetails);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
-        this.order.amountDetails[i].lineamount += data.taxDetails[0].totalamount;
+        this.order.amountDetails[i].lineamount = 0;
+        this.order.amountDetails[i].lineamount =  this.order.amountDetails[i].amount+data.taxDetails[0].totalamount;
         this.setFoucus('plustransparent');
         // this.addLedger(data.ledger);
       }
@@ -1038,7 +1039,10 @@ export class OrdersComponent implements OnInit {
       deleteview: ledger.deleteview,
       delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
-      bankname:ledger.bankname
+      bankname:ledger.bankname,
+      costcenter: ledger.costcenter,
+      taxtype:ledger.taxtype,
+      taxsubtype:ledger.taxsubtype
     };
 
     console.log('params11: ', params);
@@ -1300,4 +1304,6 @@ export class OrdersComponent implements OnInit {
       }
     });
   }
+
+ 
 }
