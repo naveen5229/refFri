@@ -56,7 +56,7 @@ export class TransferReceiptsComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService) {
     this.getPaymentMode();
-    if (this.common.params.refData) {
+    if (this.common.params && this.common.params.refData) {
       this.edit = 1;
       this.transferReceipt.refernceType = this.common.params.refData.refType;
       this.transferReceipt.refId = this.common.params.refData.refId;

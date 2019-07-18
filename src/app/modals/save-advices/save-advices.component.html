@@ -30,7 +30,7 @@
     <div class="col-2">
       <label>Reference</label>
     </div>
-    <div class="col-2">
+    <div class="col-1">
       <select class="form-control" (change)="refernceTypes()" [(ngModel)]="referenceId">
         <option *ngFor="let reftype of referenceType" [value]="reftype.id">
           {{reftype.name}}
@@ -56,20 +56,23 @@
   <ng-template #preselectedValue>
     <div class="row mb-3 align-items-baseline">
       <div class="col-2">
-        <label>Regno Number</label>
+        <label>Regno </label>
       </div>
       <div class="col-2">
         <span>{{regno}}</span>
       </div>
-      <div class="col-2">
-        <label>Reference Type</label>
+      <div class="col-1">
+        <label>Type</label>
       </div>
       <div class="col-2">
         <span>
           {{referenceName}}
         </span>
       </div>
-      <div class="col-4">
+      <div class="col-2">
+        <label>Name</label>
+      </div>
+      <div class="col-3">
         <span>{{advice.refTypeName}}</span>
 
       </div>
@@ -92,7 +95,7 @@
       </select>
 
     </div>
-    <div class="col-2">
+    <div class="col-1">
       <span><b>Mode</b></span>
     </div>
     <div class="col-2">
@@ -108,7 +111,7 @@
     <div class="col-2">
       <label>User value</label>
     </div>
-    <div class="col-2">
+    <div class="col-3">
       <input type="number" class="form-control" name="value" id="value" [(ngModel)]="user_value">
     </div>
   </div>
@@ -121,14 +124,14 @@
         [preSelected]="{empname:driverName}" placeholder="Search Driver">
       </auto-suggestion>
     </div>
-    <div class="col-2">
+    <div class="col-1">
       <label>Date</label>
     </div>
     <div class="col-2">
       <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate" [isTime]=false>
       </uj-date-time-picker>
     </div>
-    <div class="col-1">
+    <div class="col-2">
       <label>Remark</label>
     </div>
     <div class="col-3">

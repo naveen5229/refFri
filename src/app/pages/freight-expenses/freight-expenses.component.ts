@@ -202,7 +202,7 @@ export class FreightExpensesComponent implements OnInit {
             isHTML: false,
             icons: [
               { class: 'fa fa-edit', action: this.openadvice.bind(this, doc) },
-              // { action: null, txt: doc._trans_count }
+              { action: null, txt: doc._adv_count }
             ]
           };
         }
@@ -247,6 +247,8 @@ export class FreightExpensesComponent implements OnInit {
   }
 
   openadvice(row) {
+    this.common.handleModalSize('class', 'modal-lg', '900', 'px');
+
     let refData = {
       refId: row._ref_id,
       refType: row._ref_type

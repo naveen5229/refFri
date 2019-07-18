@@ -108,6 +108,7 @@ export class TransfersComponent implements OnInit {
   addTransfer() {
     // console.log("invoice", invoice);
     // this.common.params = { invoiceId:invoice._id }
+    this.common.params = { refData: null };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
