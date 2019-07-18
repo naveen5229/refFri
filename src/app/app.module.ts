@@ -185,14 +185,23 @@ import { AddFuelIndentComponent } from './modals/add-fuel-indent/add-fuel-indent
 import { LrGenerateComponent } from './modals/LRModals/lr-generate/lr-generate.component';
 import { AddFieldComponent } from './modals/LRModals/add-field/add-field.component';
 import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
-
-
-
-
-
-
-
-
+import { SaveAdvicesComponent } from './modals/save-advices/save-advices.component';
+import { EntityFlagsComponent } from './modals/entity-flags/entity-flags.component';
+import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.component';
+import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
+import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
+import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
+import { LrPodDetailsComponent } from './modals/lr-pod-details/lr-pod-details.component';
+import { FreightRateCalculationComponent } from './modals/freight-rate-calculation/freight-rate-calculation.component';
+import { ViewFrieghtInvoiceComponent } from './modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
+import { LrNearbyPodComponent } from './modals/LRModals/lr-nearby-pod/lr-nearby-pod.component';
+import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-distance-covered-compact-form/vehicle-distance-covered-compact-form.component';
+import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
+import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
+import { TypeMasterComponent } from './modals/type-master/type-master.component';
+import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
+import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/edit-via-routes-points.component';
+import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 
 
 @NgModule({
@@ -349,13 +358,29 @@ import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-rev
     LrGenerateComponent,
     AddFieldComponent,
     AddFreightRevenueComponent,
-
-
-
-
+    SaveAdvicesComponent,
+    EntityFlagsComponent,
+    ClearAdvicesComponent,
+    AdviceViewComponent,
+    TransferReceiptsComponent,
+    AddFreightExpensesComponent,
+    LrPodDetailsComponent,
+    FreightRateCalculationComponent,
+    ViewFrieghtInvoiceComponent,
+    LrNearbyPodComponent,
+    VehicleDistanceCoveredCompactFormComponent,
+    FreightInvoiceComponent,
+    LrAssignComponent,
+    TypeMasterComponent,
+    TripSettlementComponent,
+    EditViaRoutesPointsComponent,
+    LrRateComponent,
   ],
   entryComponents: [
+    LrRateComponent,
+    ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
+    AddFreightExpensesComponent,
     FreightInputWithoutLocationComponent,
     FreightInputLocationComponent,
     VehicleTyreSummaryComponent,
@@ -502,9 +527,22 @@ import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-rev
     RoutesTrafficKpisComponent,
     AddFuelIndentComponent,
     AddFieldComponent,
-    AddFreightRevenueComponent
-
-
+    AddFreightRevenueComponent,
+    SaveAdvicesComponent,
+    EntityFlagsComponent,
+    ClearAdvicesComponent,
+    AdviceViewComponent,
+    TransferReceiptsComponent,
+    LrPodDetailsComponent,
+    FreightRateCalculationComponent,
+    LrNearbyPodComponent,
+    VehicleDistanceCoveredCompactFormComponent,
+    FreightInvoiceComponent,
+    LrAssignComponent,
+    TypeMasterComponent,
+    TripSettlementComponent,
+    EditViaRoutesPointsComponent,
+    TripSettlementComponent,
   ],
   imports: [
     BrowserModule,

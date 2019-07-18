@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'add-freight-revenue',
@@ -10,184 +10,242 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./add-freight-revenue.component.scss', '../../../pages/pages.component.css']
 })
 export class AddFreightRevenueComponent implements OnInit {
+  endDate = new Date();
   revenue = {
     id: null,
     vehicleType: 1,
     vehicleId: null,
     vehicleRegNo: null,
     refernceType: 0,
-    date: new Date(),
-    shortage: null,
-    damage: null,
-    delay: null,
-    loadDetention: null,
-    unloadDetention: null,
-    tolls: null,
-    amount: null,
-    remark: null,
     refId: null,
-    otherAmount: null,
     refTypeName: null,
-  };
+    remarks: ''
+  }
+  freightHeads = [];
+  revenueDetails = [{
+    frHead: null,
+    value: null
+  },
+  {
+    frHead: null,
+    frHeadId: null,
+    value: null
+  }, {
+    frHead: null,
+    value: null
+  }]
+  title = "Save Revenue";
+  result = [];
   refernceData = [];
-  title = null;
+  data = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  headings = [];
+  valobj = {};
+
 
   constructor(public modalService: NgbModal,
     public common: CommonService,
     public activeModal: NgbActiveModal,
-    public api: ApiService) {
-    this.common.handleModalSize('class', 'modal-lg', '1100');
-    this.title = this.common.params.title ? this.common.params.title : '';
-    console.log("Row data:", this.common.params.row);
-    if (this.common.params.row) {
-      let date = new Date();
-      this.revenue.id = this.common.params.row._id;
-      this.revenue.vehicleType = this.common.params.row._vehasstype;
-      this.revenue.vehicleRegNo = this.common.params.row.Regno;
-      this.revenue.vehicleId = this.common.params.row._vid;
-      this.revenue.amount = this.common.params.row.Revenue;
-      this.revenue.date = this.common.params.row._dttime ? new Date(this.common.params.row._dttime) : date;
-      this.revenue.refernceType = this.common.params.row._ref_type;
-      this.revenue.refTypeName = this.common.params.row['Ref Name'];
-      this.revenue.refId = this.common.params.row._ref_id;
-      this.refernceTypes();
-      this.revenue.damage = this.common.params.row._damage_penality;
-      this.revenue.delay = this.common.params.row._delay_penality;
-      this.revenue.shortage = this.common.params.row._short_penality;
-      this.revenue.loadDetention = this.common.params.row._load_detention;
-      this.revenue.unloadDetention = this.common.params.row._unload_dentention;
-      this.revenue.tolls = this.common.params.row._tolls;
-      this.revenue.otherAmount = this.common.params.row._others_amt;
-      this.revenue.remark = this.common.params.row._remarks;
+    public api: ApiService,
+    private formBuilder: FormBuilder) {
 
+    this.getFreightHeads();
 
+    console.log("this.common.params.revenue", this.common.params.revenueData);
+    if (this.common.params.revenueData) {
+      this.revenue.id = this.common.params.revenueData._id;
+      this.revenue.refId = this.common.params.revenueData._ref_id;
+      this.revenue.refernceType = this.common.params.revenueData._ref_type;
 
+      this.revenue.remarks = this.common.params.revenueData._rev_remarks;
+      this.getRevenueDetails();
     }
+    this.getRevenue();
+    const params = "id=" + this.revenue.refId +
+      "&type=" + this.revenue.refernceType;
+    this.api.get('Vehicles/getRefrenceDetails?' + params)
+      .subscribe(res => {
+        console.log(res['data']);
+        let resultData = res['data'][0];
+        this.revenue.vehicleId = resultData.vid;
+        this.revenue.vehicleRegNo = resultData.regno;
+        this.revenue.refTypeName = resultData.ref_name;
+        this.revenue.vehicleType = resultData.vehasstype
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
+
   ngOnInit() {
+
+  }
+
+  getRevenueDetails() {
+
+  }
+
+  getFrieghtHeaderId(type, index) {
+    console.log("Type Id", type);
+
+    this.revenueDetails[index].frHeadId = this.freightHeads.find((element) => {
+      return element.r_name == type;
+    }).r_id;
+    console.log("this.expenseDetails[index].frHeadId ", this.revenueDetails[index].frHeadId)
   }
   closeModal() {
     this.activeModal.close();
   }
-  resetData(type) {
 
-    this.revenue.vehicleType = type.target.value;
-    this.resetvehicle();
-    this.refernceTypes();
-  }
-  resetvehicle() {
-    document.getElementById('vehicleno')['value'] = '';
-    this.revenue.vehicleId = null;
-    this.revenue.vehicleRegNo = null;
-    this.resetRefernceType();
+  getRefrenceData(type) {
+    this.revenue.refId = this.refernceData.find((element) => {
+      console.log("element", element);
+      return element.source_dest == type;
+    }).id;
+    this.revenue.refTypeName = type;
   }
 
-  resetRefernceType(isReset = true) {
-    document.getElementById('referncetype')['value'] = '';
-    if (isReset)
-      this.revenue.refernceType = null;
-    this.refernceData = [];
-  }
-  getvehicleData(vehicle) {
-    this.revenue.vehicleId = vehicle.id;
-    this.revenue.vehicleRegNo = vehicle.regno;
+  addField(index) {
+    this.revenueDetails.push(
+      {
+        frHead: null,
+        value: null,
+      }
+    )
   }
 
-  refernceTypes() {
-
-    let type = this.revenue.refernceType + "";
-
-    let url = null;
-    let params = {
-      vid: this.revenue.vehicleId,
-      regno: this.revenue.vehicleRegNo
-    };
-
-    switch (type) {
-      case '11':
-        url = "Suggestion/getLorryReceipts";
-        break;
-      case '12':
-        url = "Suggestion/getLorryManifest";
-        break;
-      case '13':
-        url = "Suggestion/getVehicleStates";
-        break;
-      default:
-        url = null;
-        return;
-
-    }
-
-
-    console.log("params", params);
-    this.api.post(url, params)
+  getFreightHeads() {
+    this.api.get('FrieghtRate/getFreightHeads?type=REV')
       .subscribe(res => {
-        this.refernceData = res['data'];
+        this.freightHeads = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  saveDetails() {
+    ++this.common.loading;
+
+    let params = {
+      vehicleId: this.revenue.vehicleId,
+      vehicleNo: this.revenue.vehicleRegNo,
+      vehicleType: this.revenue.vehicleType,
+      referId: this.revenue.refId,
+      referType: this.revenue.refernceType,
+      remarks: this.revenue.remarks,
+      podId: null,
+      expenseDetails: JSON.stringify(this.revenueDetails),
+    }
+    console.log("params", params);
+
+
+    this.api.post('FrieghtRate/saveFrieghtRevenue', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('response :', res);
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast("Freight added Successfully");
+          this.getRevenue();
+        } else {
+          this.common.showError(res['data'][0].y_msg);
+        }
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+
+  getRevenue() {
+    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
+    let params = {
+      refId: this.revenue.refId,
+      refType: this.revenue.refernceType
+
+    };
+    console.log('params', params);
+    ++this.common.loading;
+    this.api.post('FrieghtRate/getFrieghtRevenue', params)
+      .subscribe(res => {
+        --this.common.loading;
+        this.data = res['data'];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
+        if (!this.data || !this.data.length) {
+          //document.getElementById('mdl-body').innerHTML = 'No record exists';
+          return;
+        }
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+        this.table.data.columns = this.getTableColumns();
+
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+
+  }
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+  getTableColumns() {
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        if (this.headings[i] == "Action") {
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash', action: this.DeleteExpense.bind(this, doc) }] };
+        }
+        else {
+
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+        }
+      }
+      columns.push(this.valobj);
+    });
+    return columns;
+  }
+  DeleteExpense(del) {
+    let params = {
+      revId: del._rev_id,
+      ledgerId: del._ledger_id
+    }
+    ++this.common.loading;
+    this.api.post('FrieghtRate/deleteRevenue', params)
+      .subscribe(res => {
+        --this.common.loading;
+        this.getRevenue();
       }, err => {
         this.common.loading--;
         this.common.showError(err);
         console.log('Error: ', err);
       });
   }
-
-
-  checkValue(ref, refKey, value) {
-
-    if (ref[refKey] > value) {
-      ref[refKey] = value;
-    }
-    else if (ref[refKey] < 0) {
-      ref[refKey] = 0;
-    }
-    console.log("ref", ref, value);
-  }
-
-  saveRevenue() {
-    ++this.common.loading;
-    let params = {
-      row_id: this.revenue.id,
-      vid: this.revenue.vehicleId,
-      regno: this.revenue.vehicleRegNo,
-      vehasstype: this.revenue.vehicleType,
-      ref_type: this.revenue.refernceType,
-      ref_id: this.revenue.refId,
-      ref_name: this.revenue.refTypeName,
-      amount: this.revenue.amount,
-      dttime: this.common.dateFormatter(this.revenue.date),
-      short_penality: this.revenue.shortage,
-      damage_penality: this.revenue.damage,
-      delay_penality: this.revenue.delay,
-      load_detention: this.revenue.loadDetention,
-      unload_dentention: this.revenue.unloadDetention,
-      tolls: this.revenue.tolls,
-      freight_rate_id: null,
-      remarks: this.revenue.remark,
-      other_amt: this.revenue.otherAmount,
-
-    }
-    let url = this.revenue.id ? 'FrieghtRate/editRevenue' : 'FrieghtRate/saveRevenue';
-    console.log("params", params);
-    this.api.post(url, params)
-      .subscribe(res => {
-        --this.common.loading;
-        console.log(res['data'][0].result);
-        if (res['data'][0].y_id > 0) {
-          this.common.showToast(res['data'][0].y_msg);
-          this.activeModal.close({ data: true });
-        }
-        else {
-          this.common.showError(res['data'][0].y_msg);
-
-        }
-      }, err => {
-        --this.common.loading;
-        this.common.showError(err);
-        console.log('Error: ', err);
-      });
-  }
-
-
 
 }

@@ -146,7 +146,7 @@ export class OutstandingComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Out Standing From :'+this.outStanding.startDate+' To :'+this.outStanding.endDate);
 
       }, err => {
         this.common.loading--;
@@ -170,7 +170,7 @@ export class OutstandingComponent implements OnInit {
     let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
     let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
    
-       let cityaddress =address+ remainingstring1 + remainingstring3;
+       let cityaddress =address+ remainingstring1;
        let foname=(res['data'][0])? res['data'][0].foname:'';
        this.common.getCSVFromTableIdNew('table',foname,cityaddress,'','',remainingstring3);
       // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);

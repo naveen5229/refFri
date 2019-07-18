@@ -69,7 +69,7 @@ export class DaybookpendingComponent implements OnInit {
     //  this.getBranchList();
     this.getAllLedger();
     this.setFoucus('vouchertype');
-    this.common.currentPage = 'Day Book Pending';
+    this.common.currentPage = 'Voucher Pending';
 
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
@@ -375,7 +375,7 @@ export class DaybookpendingComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Voucher Pending From :'+this.DayBook.startdate+' To :'+this.DayBook.enddate);
 
       }, err => {
         this.common.loading--;
@@ -399,7 +399,7 @@ export class DaybookpendingComponent implements OnInit {
     let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
     let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
    
-       let cityaddress =address+ remainingstring1 + remainingstring3;
+       let cityaddress =address+ remainingstring1;
        let foname=(res['data'][0])? res['data'][0].foname:'';
        this.common.getCSVFromTableIdNew('table',foname,cityaddress,'','',remainingstring3);
       // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);

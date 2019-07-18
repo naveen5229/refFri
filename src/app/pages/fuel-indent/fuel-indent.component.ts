@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ReminderComponent } from '../../modals/reminder/reminder.component';
 import { AddFuelIndentComponent } from '../../modals/add-fuel-indent/add-fuel-indent.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'fuel-indent',
@@ -25,6 +26,22 @@ export class FuelIndentComponent implements OnInit {
 
   headings = [];
   valobj = {};
+  vehicleType=0;
+  vehicleStatus=0;
+  regno=null;
+
+  dropDown1 = [
+    { name: 'Self', id: 0 },
+    { name: 'Company', id: 1 },
+  ];
+
+  dropDown2 = [
+    { name: 'Pending', id: 0 },
+    { name: 'Complete', id: 1 },
+    { name: 'reject', id: -1 },
+    { name: 'All', id: -2 },
+
+  ];
   
   endDate=new Date();
   startDate=new Date(new Date().setDate(new Date(this.endDate).getDate()-7));
@@ -39,8 +56,8 @@ export class FuelIndentComponent implements OnInit {
   }
 
  getFuelIndent() {
-    const params="startdate="+this.common.dateFormatter1(this.startDate)+"&enddate="+this.common.dateFormatter1(this.endDate);
-    //   console.log("params", params);
+    const params="startdate="+this.common.dateFormatter1(this.startDate)+"&enddate="+this.common.dateFormatter1(this.endDate)+"&addedBy="+this.vehicleType+"&status="+this.vehicleStatus+"&regno="+this.regno;
+       console.log("params", params);
     console.log("params", params);
     ++this.common.loading;
     this.api.get('Fuel/getPendingFuelIndentWrtFo?' + params)
@@ -86,7 +103,7 @@ export class FuelIndentComponent implements OnInit {
         console.log("doc index value:", doc[this.headings[i]]);
          if (this.headings[i] == "Action") {
           console.log("Test");
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.editFuelIndent.bind(this,doc,'Update') }] };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.editFuelIndent.bind(this,doc,'Update') },{ class: 'fa fa-trash', action:this.deleteFuelIndent.bind(this,doc) },] };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -116,6 +133,36 @@ export class FuelIndentComponent implements OnInit {
         this.getFuelIndent();
       }
     });
+  }
+
+  
+
+  deleteFuelIndent(doc) {
+    console.log("values", doc);
+    const params = {
+      rowid: doc._id,
+    }
+    if (doc._id) {
+      this.common.params = {
+        title: 'Delete  ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          console.log("par", params);
+          this.api.post('Fuel/deleteFuelIndent', params)
+            .subscribe(res => {
+              console.log('Api Response:', res)
+              this.common.showToast(res['msg']);
+              this.getFuelIndent();
+              this.common.loading--;
+            },
+              err => console.error(' Api Error:', err));
+        }
+      });
+    }
   }
 
   addFuelIndent(add) {

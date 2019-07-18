@@ -62,7 +62,15 @@ import { FSEEntryComponent } from './fse-entry/fse-entry.component';
 import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-input.component';
 import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
 import { ViaRoutesComponent } from '../admin/via-routes/via-routes.component';
-import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
+import { PodDashboardComponent } from '../admin/pod-dashboard/pod-dashboard.component';
+import { AdvicesComponent } from './advices/advices.component';
+import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
+import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
+import { SiteInOutComponent } from './site-in-out/site-in-out.component';
+import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.component';
+import { NearbyPodsComponent } from '../admin/nearby-pods/nearby-pods.component';
+import { CardMappingComponent } from './card-mapping/card-mapping.component';
+import { TransfersComponent } from './transfers/transfers.component';
 
 const routes: Routes = [{
   path: '',
@@ -132,6 +140,12 @@ const routes: Routes = [{
   },
   {
 
+    path: 'card-mapping',
+    component: CardMappingComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+
     path: 'ticket-details',
     component: TicketDetailsComponent,
     canActivate: [AuthGuard],
@@ -176,6 +190,12 @@ const routes: Routes = [{
 
     path: 'driver-call-suggestion',
     component: DriverCallSuggestionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+
+    path: 'site-in-out',
+    component: SiteInOutComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -258,6 +278,11 @@ const routes: Routes = [{
   {
     path: 'remaining-fuel',
     component: RemainingFuelComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'lr-invoice-columns',
+    component: LrInvoiceColumnsComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -392,11 +417,37 @@ const routes: Routes = [{
     component: ViaRoutesComponent,
     canActivate: [AuthGuard]
   },
+
   {
-    path: 'freight-revenue',
-    component: FreightRevenueComponent,
+    path: 'freight-expenses',
+    component: FreightExpensesComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'pod-dashboard',
+    component: PodDashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'advices',
+    component: AdvicesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'freight-invoices',
+    component: FreightInvoicesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'nearby-pods',
+    component: NearbyPodsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'transfers',
+    component: TransfersComponent,
+    canActivate: [AuthGuard]
+  }
   ],
 }];
 

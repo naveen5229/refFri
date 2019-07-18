@@ -1,197 +1,80 @@
 <div class="modal-header">
-  <h5>{{title}}</h5>
+  <h5>Add Freight Revenue</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <div class="row mb-3">
-    <div class="col-6">
-      <div class="row">
-        <div class="col-3">
-          <span><b>Vehicle Type</b></span>
-        </div>
-        <div class="col-3 pl-0">
-          <select class="form-control" [(ngModel)]="revenue.vehicleType" (change)="resetData($event)">
-            <option value="1">Own</option>
-            <option value="2">Group</option>
-            <option value="3">Market</option>
-
-          </select>
-        </div>
-        <div class="col-3">
-          <span><b>Vehicle No*</b></span>
-        </div>
-        <div class="col-3 pl-0" *ngIf="revenue.vehicleType==1">
-          <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-            placeholder=" " (change)="resetvehicle()" inputId="vehicleno" [preSelected]="{regno:revenue.vehicleRegNo}">
-          </auto-suggestion>
-        </div>
-        <div class="col-3 pl-0" *ngIf="revenue.vehicleType!=1">
-          <input type="text" [(ngModel)]="revenue.vehicleRegNo" class="form-control" placeholder=" " id="vehicleno">
-        </div>
-      </div>
+  <div class="row mb-2">
+    <div class="col-3">
+      <label>Registration Number</label>
     </div>
-    <div class="col-6">
-      <div class="row">
-        <div class="col-4 pr-0">
-          <span><b>Transaction Time</b></span>
-        </div>
-
-        <div class="col-8">
-          <uj-date-time-picker (onChanged)="revenue.date = $event" [dateTimeValue]="revenue.date" [isTime]="true">
-          </uj-date-time-picker>
-        </div>
-      </div>
-    </div>
-
-
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-12">
-      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Revenue</h5>
-    </div>
-    <div class="col-6">
-      <div class="row">
-        <div class="col-3 offset-2">
-          <span><b>Revenue(₹)</b></span>
-        </div>
-        <div class="col-6 pl-0">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'amount',100000)" name="revenueamount"
-            id="revenueamount" [(ngModel)]="revenue.amount">
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-6">
-      <div class="row">
-        <div class="col-3 pr-0">
-          <span><b>Reference Type</b></span>
-        </div>
-        <div class="col-4">
-          <select class="form-control" name="reftype" [(ngModel)]="revenue.refernceType"
-            (change)="resetRefernceType(false);refernceTypes()">
-            <option value="0">Select Type</option>
-            <option value="11">Lr</option>
-            <option value="12">Manifest</option>
-            <option value="13">State</option>
-          </select>
-        </div>
-
-        <div class="col-5">
-          <auto-suggestion (onSelected)="revenue.refId=$event.id;revenue.refTypeName=$event.source_dest"
-            display="source_dest" placeholder=" " style="width:60%;" [data]="refernceData" inputId="referncetype"
-            [preSelected]="{source_dest:revenue.refTypeName}">
-          </auto-suggestion>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-12">
-      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Penalty</h5>
-    </div>
-    <div class="col-6 offset-1">
-      <div class="row">
-        <div class="col-3">
-          <span><b>Shortage(₹)</b></span>
-        </div>
-        <div class="col-3 pl-0">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'shortage',100000)" name="shortage"
-            id="shortage" [(ngModel)]="revenue.shortage">
-        </div>
-        <div class="col-3">
-          <span><b>Damage(₹)</b></span>
-        </div>
-        <div class="col-3 pl-0">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'damage',100000)" name="damage"
-            id="damage" [(ngModel)]="revenue.damage">
-        </div>
-      </div>
-
+    <div class="col-2">
+      <label>{{revenue.vehicleRegNo}}</label>
     </div>
     <div class="col-3">
-      <div class="row">
-        <div class="col-4">
-          <span><b>Delay(₹)</b></span>
-        </div>
-        <div class="col-8">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'delay',100000)" name="delay" id="delay"
-            [(ngModel)]="revenue.delay">
-
-        </div>
-      </div>
+      <label>Reference type</label>
     </div>
-
-
-
-
-  </div>
-
-  <div class="row mb-5">
-    <div class="col-12">
-      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Reimbursement</h5>
-    </div>
-    <div class="col-6 offset-1">
-      <div class="row">
-        <div class="col-3 pr-0">
-          <span><b>Load Detention(₹)</b></span>
-        </div>
-        <div class="col-3 pl-0">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'loadDetention',100000)"
-            name="Detention" id="Detention" [(ngModel)]="revenue.loadDetention">
-        </div>
-        <div class="col-3 pr-0">
-          <span><b>Unload Detention(₹)</b></span>
-        </div>
-        <div class="col-3 pl-0">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'unloadDetention',100000)"
-            name="unloadDetention" id="unloadDetention" [(ngModel)]="revenue.unloadDetention">
-        </div>
-      </div>
-    </div>
-    <div class="col-3">
-      <div class="row">
-        <div class="col-4">
-          <span><b>Tolls(₹)</b></span>
-        </div>
-        <div class="col-8">
-          <input type="number" class="form-control" name="tolls" id="tolls" (input)="checkValue(revenue,'tolls',100000)"
-            [(ngModel)]="revenue.tolls">
-        </div>
-      </div>
+    <div class="col-4">
+      {{revenue.refTypeName}}
     </div>
   </div>
+  <div class="expense-table">
+    <table class="table table-bordered">
+      <thead class="thead">
+        <th>Heads Name</th>
+        <th>Amount</th>
+        <th>Action</th>
+      </thead>
+      <tbody>
 
-  <div class="row mb-4">
-    <div class="col-3">
-      <div class="row">
-        <div class="col-6">
-          <span><b>Other Amount(₹)</b></span>
-        </div>
-        <div class="col-6 pl-0">
-          <input type="number" class="form-control" name="amount" id="amount"
-            (input)="checkValue(revenue,'otherAmount',100000)" [(ngModel)]="revenue.otherAmount">
-        </div>
-      </div>
+        <tr *ngFor=" let revenueDetail of revenueDetails; let j = index; ">
+          <td>
+            <input class="form-control" type="text" list="otherTitles" name="revenueDetail-type"
+              [(ngModel)]="revenueDetail.frHead" (change)="getFrieghtHeaderId(revenueDetail.frHead , j)">
+            <datalist id="otherTitles">
+              <option *ngFor="let freightHead of freightHeads ;" [value]="freightHead.r_name">
+              </option>
+            </datalist>
+            <!-- <auto-suggestion (onSelected)="customjsonfield.field1 = $event.name;" display="name" [data]="fofields"
+                    [preSelected]="{name:customjsonfield.field1}" placeholder="Name"></auto-suggestion> -->
+            <!-- <select [(ngModel)]="customjsonfield.field1">
+                    <option value="">Select</option>
+                    <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
+                  </select> -->
+          </td>
+          <td>
+            <input type="number" class="form-control" [(ngModel)]="revenueDetail.value">
+          </td>
+
+          <td>
+
+            <button class="btn btn-primary" (click)="addField(j)" *ngIf="j == revenueDetails.length-1"><i
+                class="fa fa-plus add"></i></button>
+            <button class="btn btn-danger" (click)="revenueDetails.splice(j,1)" *ngIf="j !== 0"><i
+                class="fa fa-trash remove"></i></button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row mb-3 align-items-baseline">
+    <div class="col-1 mr-3 pr-0">
+      <span><b>Remarks</b></span>
     </div>
-    <div class="col-6">
-      <div class="row">
-        <div class="col-3">
-          <span><b>Remark</b></span>
-        </div>
-        <div class="col-9 pl-0">
-          <textarea rows="5" name="remark" id="remark" row="5" rows="3" class="form-control"
-            [(ngModel)]="revenue.remark"></textarea>
-        </div>
-      </div>
+
+    <div class="col-4 pl-0">
+      <textarea [(ngModel)]="revenue.remarks" class="form-control"></textarea>
+    </div>
+
+    <div class="col-2 pl-0">
+      <button class="btn btn-primary" form="expense-Form" id=""
+        (click)="saveDetails();">{{revenue.id?'Edit':'Add'}}</button>
     </div>
   </div>
-
-  <div class="modal-footer">
-    <button class="btn btn-primary" (click)="saveRevenue()">{{revenue.id?'Edit':'Add'}}</button>
+  <div *ngIf="data && data.length" class="mt-3">
+    <smart-table [data]="table.data" [settings]="table.settings"></smart-table>
   </div>
+
+</div>

@@ -1,12 +1,9 @@
 <nb-card style="border:0px;">
   <nb-card-header>
-    <h5>Freight Revenue</h5>
+    <h5>Transfer</h5>
   </nb-card-header>
   <nb-card-body>
     <div class="row" style="margin-top:10px; margin-bottom:10px;">
-
-
-
       <div class="col-md-2 pr-0">
         <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
         </uj-date-time-picker>
@@ -16,12 +13,14 @@
           [dateTimeValue]="endTime">
         </uj-date-time-picker>
       </div>
-      <div class="col-md-2 ">
-        <button type="submit" class="btn btn-primary m-0" (click)="viewFreightRevenue()">Search</button>
+      <div class="col-md-2">
+        <button class="btn btn-primary m-0" (click)="viewTransfer()">Search</button>
       </div>
-      <div class="col-md-6" style="padding-left: 40%">
-        <button class="btn btn-primary m-0" (click)="addFreightRevenue()">Add</button>
+
+      <div class="col-md-2">
+        <button class="btn btn-primary m-0" (click)="addTransfer()">Add</button>
       </div>
+
     </div>
     <div>
       <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithLocation">

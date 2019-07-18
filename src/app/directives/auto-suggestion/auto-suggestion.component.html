@@ -1,4 +1,4 @@
-<div class="suggestion-container" [formGroup]="searchForm" (keydown)="handleKeyDown($event)">
+<div class="suggestion-container" [formGroup]="parentForm || searchForm" (keydown)="handleKeyDown($event)">
 
     <div class="tagsinput_main">
         <div class="tagsinput">
@@ -10,7 +10,8 @@
             <input type="text" autocomplete="off" [formControlName]="controlName || 'search'" name="suggestion-input"
                 class="form-control search-input" (input)="getSuggestions()" [ngClass]="className || 'custom-input-1'"
                 [(ngModel)]="searchText" [placeholder]="placeholder || 'Enter search text'"
-                [id]="inputId || 'suggestion'" [name]="name || 'suggestion'" required autocomplete="off">
+                [id]="inputId || 'suggestion'" [name]="name || 'suggestion'" required autocomplete="off"
+                (ngModelChange)="handleUnselected()">
         </div>
     </div>
     <div class="suggestions" *ngIf="showSuggestions && suggestions.length && searchText">
@@ -20,8 +21,8 @@
         </p>
     </div>
 
-    <!-- <div *ngIf="parentForm && f.search.errors" class="invalid-feedback">
-        <div *ngIf="f.search.errors.required">Last Name is required</div>
+    <!-- <div *ngIf="parentForm && f.controlName.errors" class="invalid-feedback">
+        <div *ngIf="f.controlName.errors.required"> Name is required</div>
     </div> -->
 </div>
 

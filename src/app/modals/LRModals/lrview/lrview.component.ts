@@ -78,10 +78,6 @@ export class LRViewComponent implements OnInit {
     console.log('Formatted :', formattedFields);
     return formattedFields;
   }
-  
-  keyHandler(event){
-    
-  }
 
 
 }

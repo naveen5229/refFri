@@ -100,7 +100,8 @@ nb-card-header {
 .selected {
   background-color: #576c77
 }
-table tr.highlight {
+
+.highlight {
   background-color: #FFEE75 !important;
   color: #000 !important;
 }
@@ -146,4 +147,15 @@ table tr.highlight {
 
 .td-mini .col-8 {
   border-right: 1px solid #c7c7c7;
+}
+.expand-div {
+  position: absolute;
+  right: 20px;
+
+  label {
+      font-weight: 500;
+      margin-right: 10px;
+      margin-left: 5px;
+      vertical-align: middle;
+  }
 }

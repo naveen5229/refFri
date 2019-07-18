@@ -67,7 +67,7 @@
       </div>
       <div class="col-3">
         <input type="file" class="file-control" id="lisence-photo" formControlName="lisencephoto"
-          (change)="handleFileSelection($event,2) ">
+          (change)="handleFileSelection($event,1) ">
       </div>
 
       <div class="col-3">
@@ -90,7 +90,7 @@
       </div>
       <div class="col-3">
         <input type="file" class="file-control" id="aadhar-photo" formControlName="aadharphoto"
-          (change)="handleFileSelection($event,3)">
+          (change)="handleFileSelection($event,2)">
       </div>
 
 
@@ -101,7 +101,7 @@
       </div>
       <div class="col-3">
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
-          placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="doj" readonly>
+          placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="dateofJoin">
       </div>
     </div>
 
@@ -121,7 +121,7 @@
       </div>
       <div class="col-3">
         <input type="file" class="file-control" id="upload-photo" formControlName="uploadPhoto"
-          (change)="handleFileSelection($event,1)">
+          (change)="handleFileSelection($event,3)">
       </div>
     </div>
     <div class="row margin-top-15">

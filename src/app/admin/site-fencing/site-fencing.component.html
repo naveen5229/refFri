@@ -32,15 +32,14 @@
               </td>
               <td>
                 <button (click)="ignoreSite()" class="btn btn-primary">Ignore</button>
+                <button routerLink="/admin/halt-density" class="btn btn-primary ml-1">Buff</button>                
               </td>
 
             </tr>
             <tr>
               <td>
-                <button (click)="clearAll()" class="btn btn-primary"
-                  style="display: inline-block; margin-right: 5px;  ">Clear</button>
-                <button (click)="showHeat();" class="btn btn-primary mr-1">{{isHeatAble?'HH':'SH'}}</button>
-                <button routerLink="/admin/halt-density" class="btn btn-primary ml-1">Buff</button>
+                <button (click)="clearAll()" class="btn btn-primary mr-1">Clear</button>
+                <button (click)="showHeat();" class="btn btn-primary">{{isHeatAble?'HH':'SH'}}</button>
               </td>
               <td>
                 <button (click)="loadMarkers()" class="btn btn-primary"

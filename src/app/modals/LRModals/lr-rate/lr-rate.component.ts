@@ -1,0 +1,208 @@
+import { Component, OnInit } from '@angular/core';
+import { ConfirmComponent } from '../../confirm/confirm.component';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommonService } from '../../../services/common.service';
+import { ApiService } from '../../../services/api.service';
+
+@Component({
+  selector: 'lr-rate',
+  templateUrl: './lr-rate.component.html',
+  styleUrls: ['./lr-rate.component.scss']
+})
+export class LrRateComponent implements OnInit {
+  general = [{
+    fixed: null,
+    distance: null,
+    weight: null,
+    shortage: null,
+    shortagePer: null,
+    detenation: null,
+    delay: null,
+    weightDistance: null,
+    loading: null,
+    unloading: null,
+    qty: null,
+    mgWeight: null,
+    mgQty: null
+  }];
+
+  lrId = null;
+
+  data = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  headings = [];
+  valobj = {};
+
+  constructor(
+    private modalService: NgbModal,
+    public common: CommonService,
+    public api: ApiService,
+    public activeModal: NgbActiveModal,
+  ) {
+    console.log("this.common.params.LrData", this.common.params.LrData);
+    this.lrId = this.common.params.LrData.lr_id ? this.common.params.LrData.lr_id : null;
+    this.getLrRateDetails();
+    this.common.handleModalSize('class', 'modal-lg', '1600');
+  }
+
+  ngOnInit() {
+  }
+  closeModal() {
+    this.activeModal.close();
+  }
+
+
+
+  saveLrRateInput() {
+    let lrRateData = JSON.stringify(this.general)
+    ++this.common.loading;
+    let params = {
+      lrId: this.lrId,
+      lrRateData: lrRateData
+    }
+    console.log("params", params);
+
+
+    this.api.post('LorryReceiptsOperation/saveLrRates', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log(res);
+        if (res['data'][0].r_id > 0) {
+          this.common.showToast("Successfully Added");
+          this.getLrRateDetails();
+        }
+        else {
+          this.common.showError(res['data'][0].r_msg);
+
+        }
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+
+
+  getLrRateDetails() {
+    let params = {
+      lrId: this.lrId
+    }
+    console.log("params", params);
+    ++this.common.loading;
+
+    this.api.post('LorryReceiptsOperation/getLrRates', params)
+      .subscribe(res => {
+        --this.common.loading;
+        this.data = [];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
+
+        if (!res['data']) return;
+        this.data = res['data'];
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+        let action = { title: this.formatTitle('action'), placeholder: this.formatTitle('action'), hideHeader: true };
+        this.table.data.headings['action'] = action;
+
+        this.table.data.columns = this.getTableColumns();
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+
+  getTableColumns() {
+
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
+
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("doc index value:", doc[this.headings[i]]);
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+
+      }
+      this.valobj['action'] = { class: '', icons: this.lrRateDelete(doc) };
+      columns.push(this.valobj);
+
+    });
+
+    return columns;
+  }
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+  lrRateDelete(row) {
+
+    let icons = [];
+    icons.push(
+      {
+        class: "fas fa-trash-alt",
+        action: this.deleteRow.bind(this, row),
+      }
+    )
+    return icons;
+  }
+  deleteRow(row) {
+    let params = {
+      id: row._rateid,
+      lrId: row._lrid
+    }
+    console.log("params:", params);
+    if (row._rateid) {
+      this.common.params = {
+        title: 'Delete  ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          this.api.post('LorryReceiptsOperation/deleteLrRate', params)
+            .subscribe(res => {
+              this.common.loading--;
+
+              if (res['data'][0].r_id > 0) {
+                this.common.showToast("Successfully Deleted");
+                this.getLrRateDetails();
+              } else {
+                this.common.showError(res['data'][0].r_msg);
+              }
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
+  }
+
+
+}

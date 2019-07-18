@@ -77,7 +77,7 @@
     <table class="table table-bordered" id="table">
       <thead style="background-color:#263238; color:#fff;">
         <tr>
-          <th>#</th>
+          <th>S.No</th>
           <th>Date</th>
           <th>Code</th>
           <th>Customer Code</th>
@@ -88,8 +88,8 @@
         </tr>
       </thead>
       <tr *ngFor="let dataItem of ledgerData; let i = index;" (click)="selectedRow = i"
-        (dblclick)="(dataItem.y_type.length != '') ? getBookDetail(dataItem.y_voucherid) : '' "
-        (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
+        (dblclick)="(dataItem.y_type.length != '') ? getBookDetail(dataItem.y_voucherid,dataItem.y_code) : '' "
+        (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i,'radclass':(dataItem.y_type == null) }">
         <td>{{i + 1}}</td>
         <td>{{dataItem.y_date | date : 'dd-MMM-yy'}}</td>
         <td>{{dataItem.y_code}}</td>

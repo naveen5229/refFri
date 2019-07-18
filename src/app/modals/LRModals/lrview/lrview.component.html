@@ -1,5 +1,5 @@
 <nb-card>
-  <nb-card-body class="m-0 p-0" (keydown)="keyHandler($event)">
+  <nb-card-body class="m-0 p-0">
     <div style="background-color:#ffffff;width:100%">
       <div class="modal-header doNotPrint" *ngIf="lrDetails">
         <div class="row w-100">
@@ -70,6 +70,12 @@
                 <address>{{lrDetails.consignee_address}}</address>
               </td>
             </tr>
+            <tr *ngIf="lrDetails.invoiceto_name">
+              <td colspan="3">
+                <b>Invoice To : </b>
+                {{lrDetails.invoiceto_name}}
+              </td>
+            </tr>
           </tbody>
         </table>
         <table class="w-100">
@@ -85,7 +91,7 @@
                       <b>Particulars</b>
                     </td>
                     <td>
-                      <b>Weight (Tons)</b>
+                      <b>Weight</b>
                     </td>
                   </tr>
                   <tr *ngFor="let particular of particulars ; let i = index">
@@ -101,31 +107,53 @@
                         <span *ngIf="field.value"> , {{field.name}} : </span>
                         <span *ngIf="field.value">{{field.value}}</span></span>
                     </td>
-                    <td>{{particular.weight}}</td>
+                    <td>{{particular.weight}} {{particular.weight_unit_code}}</td>
                   </tr>
                 </tbody>
+              </table>
+              <table class="table table-bordered">
+                <tr>
+                  <td *ngIf="lrDetails.net_weight">
+                    Net Weight :
+                    {{lrDetails.net_weight}}
+                  </td>
+                  <td *ngIf="lrDetails.gross_weight">
+                    Gross Weight :
+                    {{lrDetails.gross_weight}}
+                  </td>
+                  <td *ngIf="lrDetails.tare_weight">
+                    Tare Weight :
+                    {{lrDetails.tare_weight}}
+                  </td>
+                </tr>
               </table>
             </td>
             <td style="vertical-align: top; width: 25%;">
               <table class="table table-bordered table-hover">
                 <tbody>
                   <tr>
-                    <td><b>Payment Type : </b>{{lrDetails.paytype}} </td>
+                    <td><b>Payment Type : </b>{{lrDetails.str_paytype}} </td>
                   </tr>
                   <tr>
-                    <td><b>GST Paid By :</b> {{lrDetails.taxpaidby}}</td>
+                    <td><b>GST Paid By :</b> {{lrDetails.str_taxpaidby}}</td>
                   </tr>
                   <tr>
                     <td><b>Amount :</b> {{lrDetails.amount}}</td>
                   </tr>
-                  <tr>
-                    <td *ngIf="lrDetails.gstrate"><b>GST Rate :</b> {{lrDetails.gstrate}} %</td>
+                  <tr *ngIf="lrDetails.gstrate">
+                    <td><b>GST Rate :</b> {{lrDetails.gstrate}} %</td>
                   </tr>
-                  <tr>
-                    <td *ngIf="lrDetails.gstamount"><b>GST Amount :</b> {{lrDetails.gstamount}}</td>
+                  <tr *ngIf="lrDetails.gstamount">
+                    <td><b>GST Amount :</b> {{lrDetails.gstamount}}</td>
                   </tr>
                   <tr>
                     <td><b> Total Amount :</b> {{lrDetails.total_amount}}</td>
+                  </tr>
+                  <tr *ngIf="lrDetails.advance_amount">
+                    <td><b> Advance Amount :</b> {{lrDetails.advance_amount}}</td>
+                  </tr>
+                  <tr *ngIf="lrDetails.pending_amount">
+                    <td><b> Remaining Amount :</b> {{lrDetails.pending_amount}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -140,7 +168,8 @@
               {{lrDetails.lr_terms}}
             </td>
             <td style="vertical-align: top; width: 25%;">
-              <b>Logistic Sign</b>
+              <div style="height:100px"><b>Logistic Sign</b></div>
+              <div><b>Receiver Sign</b></div>
             </td>
           </tr>
         </table>
