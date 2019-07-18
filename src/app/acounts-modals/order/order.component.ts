@@ -869,7 +869,19 @@ export class OrderComponent implements OnInit {
       primarygroupid: ledger.account.primarygroup_id,
       account_id: ledger.account.id,
       accDetails: ledger.accDetails,
-      x_id: 0
+      x_id: 0,
+      branchname: ledger.branchname,
+      branchcode: ledger.branchcode,
+      accnumber: ledger.accnumber,
+      creditdays: ledger.creditdays,
+      openingbalance: ledger.openingbalance,
+      isdr: ledger.openingisdr,
+      approved: ledger.approved,
+      deleteview: ledger.deleteview,
+      delete: ledger.delete,
+      costcenter: ledger.costcenter,
+      taxtype:ledger.taxtype,
+      taxsubtype:ledger.taxsubtype
     };
 
     console.log('params11: ', params);

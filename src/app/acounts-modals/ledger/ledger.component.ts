@@ -48,6 +48,8 @@ export class LedgerComponent implements OnInit {
     delete: 0,
     bankname: '',
     costcenter: 0,
+    taxsubtype:'',
+    taxtype:'',
     accDetails: [{
       id: '',
       salutation: {
@@ -69,7 +71,8 @@ export class LedgerComponent implements OnInit {
       state: {
         name: '',
         id: ''
-      }
+      },
+      defaultcheck:'true'
     }]
   };
   allowBackspace = true;
@@ -114,6 +117,8 @@ export class LedgerComponent implements OnInit {
         deleteview: (this.common.params.ledgerdata[0].y_del_review == true) ? 1 : 0,
         costcenter: (this.common.params.ledgerdata[0].is_constcenterallow == true) ? 1 : 0,
         delete: 0,
+        taxsubtype:this.common.params.ledgerdata[0].y_tax_sub_type,
+         taxtype:this.common.params.ledgerdata[0].y_tax_type,
         accDetails: []
       };
       console.log('Accounts: ', this.Accounts);
@@ -140,7 +145,9 @@ export class LedgerComponent implements OnInit {
           state: {
             name: detail.province_name,
             id: detail.province_id
-          }
+          },
+      defaultcheck:detail.y_dtl_is_default
+
         });
       });
     }
@@ -171,7 +178,7 @@ export class LedgerComponent implements OnInit {
   }
 
   generateIDs() {
-    let IDs = ['undergroup'];
+    let IDs = ['undergroup','taxtype','taxsubtype'];
     this.Accounts.accDetails.map((amountDetails, index) => {
       IDs.push('salutation-' + index);
       IDs.push('state-' + index);
@@ -192,8 +199,26 @@ export class LedgerComponent implements OnInit {
     state: [],
     salutiondata: [],
     city: [],
-    list: []
+    list: [],
+    taxtype:[{
+      id:'GST',
+      name:'GST'
+      },{
+        id:'Others',
+        name:'Others'
+        }],
+    taxsubtype:[{
+      id:'',
+      name:'Central tax'},{
+        id:'cess',
+      name:'Cess'},{
+        id:'integrated tax',
+      name:'Integrated Tax'},
+     {id:'state tax',
+      name:'State Tax'
+      }]
   };
+
 
 
   addDetails() {
@@ -218,7 +243,9 @@ export class LedgerComponent implements OnInit {
       state: {
         name: '',
         id: ''
-      }
+      },
+      defaultcheck:'false'
+
 
     });
   }
@@ -436,8 +463,12 @@ export class LedgerComponent implements OnInit {
       } else if (activeId.includes('creditdays')) {
         this.setFoucus('costcenter');
       } else if (activeId.includes('costcenter')) {
+        this.setFoucus('taxtype');
+      } else if (activeId.includes('taxtype')) {
+        this.setFoucus('taxsubtype');
+      }else if (activeId.includes('taxsubtype')) {
         this.setFoucus('isbank');
-      } else if (activeId.includes('salutation-')) {
+      }else if (activeId.includes('salutation-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('accountName-' + index);
       } else if (activeId.includes('accountName-')) {
@@ -495,7 +526,7 @@ export class LedgerComponent implements OnInit {
         if (index != 0) {
           this.setFoucus('remarks-' + (index - 1));
         } else {
-          this.setFoucus('creditdays');
+          this.setFoucus('isbank');
         }
       } else if (activeId.includes('accountName-')) {
         let index = activeId.split('-')[1];
@@ -538,6 +569,10 @@ export class LedgerComponent implements OnInit {
       if (activeId == 'undergroup') this.setFoucus('aliasname');
       if (activeId == 'aliasname') this.setFoucus('name');
       if (activeId == 'name') this.setFoucus('code');
+      if (activeId == 'isbank') this.setFoucus('taxsubtype');
+      if (activeId == 'taxsubtype') this.setFoucus('taxtype');
+      if (activeId == 'taxtype') this.setFoucus('costcenter');
+
       if (activeId == 'code') {
         console.log('active 3', activeId);
         this.setFoucus('user')
@@ -594,6 +629,8 @@ export class LedgerComponent implements OnInit {
     else if (activeId.includes('salutation-')) this.autoSuggestion.data = this.suggestions.salutiondata;
     else if (activeId.includes('state-')) this.autoSuggestion.data = this.suggestions.state;
     else if (activeId.includes('city-')) this.autoSuggestion.data = this.suggestions.city;
+    else if (activeId.includes('taxtype')) this.autoSuggestion.data = this.suggestions.taxtype;
+    else if (activeId.includes('taxsubtype') && this.Accounts.taxtype.includes('GST') ) this.autoSuggestion.data = this.suggestions.taxsubtype;
     else {
       this.autoSuggestion.data = [];
       this.autoSuggestion.display = '';
@@ -626,6 +663,12 @@ export class LedgerComponent implements OnInit {
       this.Accounts.accDetails[index].city.name = suggestion.name;
       this.Accounts.accDetails[index].city.id = suggestion.id;
 
+    }
+    else if (activeId.includes('taxtype')) {
+      this.Accounts.taxtype = suggestion.name;
+    }
+    else if (activeId.includes('taxsubtype')) {
+      this.Accounts.taxsubtype = suggestion.name;
     }
   }
 
@@ -732,6 +775,12 @@ export class LedgerComponent implements OnInit {
         this.common.showError();
       });
   }
-
+  changedefault(i){
+    console.log('defaulyt check value', this.Accounts.accDetails[i].defaultcheck);
+    this.Accounts.accDetails.map(checkvalue=>{
+          checkvalue.defaultcheck='false';
+    });
+    this.Accounts.accDetails[i].defaultcheck='true';
+  }
 
 }
