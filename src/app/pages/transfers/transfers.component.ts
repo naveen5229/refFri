@@ -147,11 +147,12 @@ export class TransfersComponent implements OnInit {
           this.api.post('FrieghtRate/deleteTransfers', params)
             .subscribe(res => {
               this.common.loading--;
-              if (res['data'].r_id > 0) {
+              if (res['data'][0].y_id > 0) {
                 this.common.showToast('Success');
+                this.viewTransfer();
               }
               else {
-                this.common.showToast(res['data'].r_msg);
+                this.common.showToast(res['data'][0].y_msg);
               }
             }, err => {
               this.common.loading--;

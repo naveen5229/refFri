@@ -105,6 +105,7 @@ export class TransferReceiptsComponent implements OnInit {
   getvehicleData(vehicle) {
     this.transferReceipt.vehicleId = vehicle.id;
     this.transferReceipt.vehicleRegNo = vehicle.regno;
+    this.transferReceipt.refernceType = '0';
   }
 
   resetvehicle() {
@@ -163,6 +164,14 @@ export class TransferReceiptsComponent implements OnInit {
     console.log("test", type);
     this.transferReceipt.selectOption = type;
   }
+  changeRefernceType(type) {
+    console.log("Type Id", type);
+    this.transferReceipt.refId = this.refernceData.find((element) => {
+      console.log(element.source_dest == type);
+      return element.source_dest == type;
+    }).id;
+  }
+
 
   getTypeList() {
     this.common.loading++;
@@ -196,7 +205,7 @@ export class TransferReceiptsComponent implements OnInit {
     let params = {
       vid: this.transferReceipt.vehicleId,
       regno: this.transferReceipt.vehicleRegNo,
-      vehasstype: 0,
+      vehasstype: 1,
       advice_type_id: this.transferReceipt.adviceTypeId,
       advice_mode: this.transferReceipt.modeId,
       dttime: this.common.dateFormatter(this.transferReceipt.date),
