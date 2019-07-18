@@ -1,4 +1,5 @@
-@media print {
+@media print,
+screen {
 
     html {
         height: 100%;
@@ -6,11 +7,13 @@
 
     @page {
         margin: 0;
+        padding: 0;
     }
 
     body {
         margin: 0px;
         padding: 0px;
+        overflow: visible !important;
     }
 
 
@@ -30,17 +33,41 @@
 
     // print page warpper like as body
     .printing-page {
-        position: absolute;
+        // position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
+        width: auto;
+        height: auto;
         z-index: 9999999;
         background: #fff;
-        padding: 50px 50px 0px 100px;
+        // padding: 50px 50px 0px 100px;
+        overflow: visible;
     }
 
     // print page container
+    .print-page {
+        height: calc(100% - 150px);
+        border: 3px solid #000;
+    }
+
+    .page-insider {}
+
+    .print-page-container {
+        position: relative;
+        height: 418mm;
+        // padding-top: 30px;
+        padding: 50px 50px 0px 100px;
+        page-break-after: always;
+        page-break-inside: avoid;
+        border: 3px solid red;
+    }
+
+    .print-page-container:not(:first-child) {
+        // padding-top: 30px;
+        // margin-top: 100px;
+
+    }
+
     .pp-container {
         position: relative;
         background: #fff;
@@ -53,8 +80,8 @@
         }
 
         .pp-v1-signature {
-            position: fixed;
-            bottom: 130px;
+            position: absolute;
+            bottom: 80px;
             left: 0;
             width: 100%;
             text-align: right;
@@ -73,7 +100,7 @@
         }
 
         .pp-v1-footer {
-            position: fixed;
+            position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
