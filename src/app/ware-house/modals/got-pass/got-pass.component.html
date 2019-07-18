@@ -5,17 +5,13 @@
   </button>
 </div>
 <div class="modal-body">
-      <div class="row">
-        <div class="col">
+      <div class="row" style="margin-bottom:10px">
             <div class="text-center">
-
-      <input type="radio" name="In" value="In" [(ngModel)]="selectOption" (change)="onSet(selectOption)" checked>Out
-      <input type="radio" name="Out" value="Out" (change)="onSet(selectOption)" [(ngModel)]="selectOption"> In
-
+                       <input type="radio" name="In" value="In" [(ngModel)]="selectOption" (change)="onSet(selectOption)" checked>Out
+                       <input type="radio" name="Out" value="Out" (change)="onSet(selectOption)" [(ngModel)]="selectOption"> In
     </div>
   </div>
 
-</div>
 
    
   <!-- <div class="row" style="margin-bottom:10px">
@@ -34,8 +30,8 @@
     <div class="col-3">
       <label>State*</label>
     </div>
-    <div class="col-3" *ngIf="selectOption=='In'; else state2 ">
-      <select class="form-control" [(ngModel)]="StateId">
+    <div class="col-3" *ngIf="selectOption=='In'; else state2 "style="width:215px"  >
+      <select class="form-control" [(ngModel)]="StateId" style="width:215px">
         <option *ngFor="let state of stateType" [value]="state.id">
           {{state.name}}
 
@@ -45,7 +41,7 @@
     </div>
     <ng-template #state2>
       <div class="col-3"> 
-        <select class="form-control" [(ngModel)]="StateId" >
+        <select class="form-control" [(ngModel)]="StateId" style="width:215px">
           <option *ngFor="let state of stateType1" [value]="state.id">
             {{state.name}}
           </option>
@@ -54,25 +50,25 @@
       </div>
     </ng-template>
   </div>
-  <div class="row" style="margin-bottom:10px">
+  <!-- <div class="row" style="margin-bottom:10px">
     <div class="col-3">
       <label>Unit Type*</label>
     </div>
-    <div class="col-3">
-      <select class="form-control" [(ngModel)]="unitTypeId" >
-        <option *ngFor="let unit of unitList" [value]="unit.id">
+    <div class="col-3" width="200px">
+      <select class="form-control" [(ngModel)]="unitTypeId" style="width:215px" >
+        <option *ngFor="let unit of unitList" [value]="unit.id" >
           {{unit.name}}
 
         </option>
       </select>
     </div>
-  </div>
+  </div> -->
   <div class="row" style="margin-bottom:10px">
     <div class="col-3">
       <label>Quantity*</label>
     </div>
-    <div class="col-3">
-      <input type="text" class="form-control" [(ngModel)]="quantityId" style="width:225">
+    <div class="col-3" width="200px">
+      <input type="text" class="form-control" [(ngModel)]="quantityId" style="width:215px">
        
     </div>
   </div>
@@ -80,10 +76,14 @@
     <div class="col-3">
       <label>Date Time*</label>
     </div>
-    <div class="col-3">
-      <uj-date-time-picker (onChanged)="Date=$event" size="10" class="" [dateTimeValue]="Date" [isTime]=True style="width:225">
+    <div class="col-9">
+      <uj-date-time-picker (onChanged)="Date=$event" [dateTimeValue]="Date"  >
       </uj-date-time-picker>
     </div>
+    <!-- <div class="col-3">
+      <uj-date-time-picker (onChanged)=   [dateTimeValue]= [style="width:215px">
+      </uj-date-time-picker>
+    </div> -->
   </div>
   <div class="row" style="margin-bottom:10px">
     <div class="col-3">
@@ -102,13 +102,16 @@
 
     </div>
   </div>
-
 </div>
-<div class="modal-footer">
   <div class="text-center">
     <button class="btn btn-primary" id="button" (click)="getAdvice()">Submit</button>
   </div>
-  <div class="text-left">
-    <button class="btn btn-danger" id="button" (click)="cancelRequest()">Cancel</button>
+  <div class="col-3" >
+    <button class="btn btn-danger" id="button" (click)="cancelRequest()" style="margin-top:-66px">Cancel</button>
   </div>
+
+
+<div>
+  <smart-table *ngIf="stateData && stateData.length" [data]="table.data" [settings]="table.settings" id="wareHouseInventory">
+  </smart-table> 
 </div>

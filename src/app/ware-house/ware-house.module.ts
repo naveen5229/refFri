@@ -7,8 +7,10 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { WareHouseComponent } from './ware-house-component';
 import { WareHouseDashbordComponent } from './ware-house-dashbord/ware-house-dashbord.component';
 import { WareHouseReceiptsComponent } from './ware-house-receipts/ware-house-receipts.component';
-import { ReceiveItemsComponent } from './modal/receive-items/receive-items.component';
 import { WarehouseInventoryComponent } from './warehouse-inventory/warehouse-inventory.component';
+import { StateLogsComponent } from './state-logs/state-logs.component';
+import { ReceiveItemsComponent } from './modals/receive-items/receive-items.component';
+import { CheckDetailComponent } from './modals/check-detail/check-detail.component';
 
 
 const PAGES_COMPONENTS = [
@@ -20,8 +22,10 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     WareHouseDashbordComponent,
     WareHouseReceiptsComponent,
-    ReceiveItemsComponent,
     WarehouseInventoryComponent,
+    StateLogsComponent,
+    ReceiveItemsComponent,
+    CheckDetailComponent
 
   ],
   entryComponents:[
