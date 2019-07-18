@@ -183,6 +183,17 @@ export class FreightExpensesComponent implements OnInit {
             ]
           };
         }
+        else if (this.headings[i] == "Transfer") {
+          this.valobj[this.headings[i]] = {
+            value: "",
+            action: null,
+            isHTML: false,
+            icons: [
+              { class: 'fa fa-edit', action: this.openTransferReceipt.bind(this, doc) },
+              { action: null, txt: doc._trans_count }
+            ]
+          };
+        }
 
         else if (this.headings[i] == "Advice") {
           this.valobj[this.headings[i]] = {
