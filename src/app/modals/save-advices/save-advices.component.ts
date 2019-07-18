@@ -22,7 +22,7 @@ export class SaveAdvicesComponent implements OnInit {
     id: '3'
   }]
   id = 1;
-  advice_type_id = null;
+  advice_type_id = '-1';
   market = null;
   group = null;
   type = [];
@@ -32,7 +32,7 @@ export class SaveAdvicesComponent implements OnInit {
   user_value = null;
   driverId = null;
   driverName = null;
-  modeId = null;
+  modeId = '-1';
   remark = null;
   referenceType = [{
     name: 'select Type',
@@ -59,7 +59,7 @@ export class SaveAdvicesComponent implements OnInit {
   referenceName = null;
   startDate = new Date();
   advice = {
-    refId: null,
+    refId: '-1',
     refTypeName: null,
     refernceType: 0
   };

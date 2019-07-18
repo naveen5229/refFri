@@ -12,13 +12,13 @@ export class TransferReceiptsComponent implements OnInit {
   transferReceipt = {
     vehicleId: null,
     vehicleRegNo: null,
-    refernceType: 1,
+    refernceType: '0',
     refId: null,
     refTypeName: null,
     date: new Date(),
     selectOption: "transfer",
-    adviceTypeId: null,
-    modeId: null,
+    adviceTypeId: '-1',
+    modeId: '-1',
     amount: null,
     remark: null
   };
@@ -29,7 +29,7 @@ export class TransferReceiptsComponent implements OnInit {
   ModeData = [];
   edit = 0;
   referenceType = [{
-    name: 'select Type',
+    name: 'Select Type',
     id: '0'
 
   },
@@ -96,7 +96,6 @@ export class TransferReceiptsComponent implements OnInit {
         this.transferReceipt.refTypeName = resultData.ref_name;
         // this.id = resultData.vehasstype
         this.refernceTypes();
-
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -114,6 +113,7 @@ export class TransferReceiptsComponent implements OnInit {
     this.transferReceipt.vehicleRegNo = null;
     this.resetRefernceType();
   }
+
   resetRefernceType(isReset = true) {
     document.getElementById('referncetype')['value'] = '';
     if (isReset)
@@ -128,11 +128,7 @@ export class TransferReceiptsComponent implements OnInit {
       vid: this.transferReceipt.vehicleId,
       regno: this.transferReceipt.vehicleRegNo
     };
-    // const urls = {
-    //   11: "Suggestion/getLorryReceipts",
-    //   12: 
-    // };
-    // url = urls[type] || null ;
+
     switch (type) {
       case '11':
         url = "Suggestion/getLorryReceipts";
@@ -167,6 +163,7 @@ export class TransferReceiptsComponent implements OnInit {
     console.log("test", type);
     this.transferReceipt.selectOption = type;
   }
+
   getTypeList() {
     this.common.loading++;
     this.api.get('Suggestion/getTypeMaster?typeId=55')
@@ -192,7 +189,8 @@ export class TransferReceiptsComponent implements OnInit {
         this.common.showError();
       });
   }
-  save() {
+
+  saveTransfer() {
     console.log("Params");
     ++this.common.loading;
     let params = {
@@ -212,7 +210,6 @@ export class TransferReceiptsComponent implements OnInit {
       is_transfer: this.transferReceipt.selectOption,
       pay_mode: this.transferReceipt.modeId,
       remarks: this.transferReceipt.remark
-
     };
     this.api.post("LorryReceiptsOperation/saveTransfers", params)
       .subscribe(res => {
@@ -224,7 +221,6 @@ export class TransferReceiptsComponent implements OnInit {
         }
         else {
           this.common.showError(res['data'][0].y_msg);
-
         }
       }, err => {
         --this.common.loading;
@@ -232,7 +228,6 @@ export class TransferReceiptsComponent implements OnInit {
         console.log('Error: ', err);
       });
   }
-
 
 
 }

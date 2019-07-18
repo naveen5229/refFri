@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'transfers',
@@ -89,10 +90,23 @@ export class TransfersComponent implements OnInit {
     this.data.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+        if (this.headings[i] == "Action") {
+          this.valobj[this.headings[i]] = {
+            value: "",
+            action: null,
+            isHTML: false,
+            icons: [
+              { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc) },
+            ]
+          };
+        }
+        else {
+
+          console.log("doc index value:", doc[this.headings[i]]);
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+        }
+
       }
-      // this.valobj['Action'] = { class: '', icons: this.freightDelete(doc) };
       columns.push(this.valobj);
 
     });
@@ -114,6 +128,38 @@ export class TransfersComponent implements OnInit {
       console.log('Date:', data);
       this.viewTransfer();
     });
+  }
+  deleteTransfer(row) {
+    console.log("row", row);
+    let params = {
+      id: row._id,
+    }
+    if (row._id) {
+      this.common.params = {
+        title: 'Delete Route ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('FrieghtRate/deleteTransfers', params)
+            .subscribe(res => {
+              this.common.loading--;
+              if (res['data'].r_id > 0) {
+                this.common.showToast('Success');
+              }
+              else {
+                this.common.showToast(res['data'].r_msg);
+              }
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
   }
 
 }
