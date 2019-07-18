@@ -62,7 +62,7 @@ export class TransferReceiptsComponent implements OnInit {
       this.transferReceipt.refernceType = this.common.params.refData.refType;
       this.transferReceipt.refId = this.common.params.refData.refId;
       this.getReferenceData();
-      this.getRefernceType(this.transferReceipt.refId);
+      this.getRefernceType(this.transferReceipt.refernceType);
     }
   }
 
