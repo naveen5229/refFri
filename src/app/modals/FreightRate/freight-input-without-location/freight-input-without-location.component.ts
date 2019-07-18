@@ -13,8 +13,8 @@ import { ConfirmComponent } from '../../confirm/confirm.component';
 })
 export class FreightInputWithoutLocationComponent implements OnInit {
 
-
-  combineJson = []
+  freightRateparams = [];
+  combineJson = [];
   general = {
     param: null,
     minRange: null,
@@ -22,6 +22,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     fixed: null,
     distance: null,
     weight: null,
+    mgWeight: null,
     shortage: null,
     shortagePer: null,
     detenation: null,
@@ -32,15 +33,18 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     fuelClass: null,
     fuelBaseRate: null,
     fuelVariation: null,
-    qty: null
+    qty: null,
+    mgQty: null,
   };
   filters = [{
     param: null,
+    paramValue: null,
     minRange: null,
     maxRange: null,
     fixed: null,
     distance: null,
     weight: null,
+    mgWeight: null,
     shortage: null,
     shortagePer: null,
     detenation: null,
@@ -51,7 +55,8 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     fuelClass: null,
     fuelBaseRate: null,
     fuelVariation: null,
-    qty: null
+    qty: null,
+    mgQty: null
 
   }];
   frpId = null;
@@ -77,6 +82,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
   ) {
     this.frpId = this.common.params.id ? this.common.params.id : null;
     this.getFrieghtRateDetails();
+    this.getFreightRateparams();
     this.common.handleModalSize('class', 'modal-lg', '1600');
   }
 
@@ -90,11 +96,13 @@ export class FreightInputWithoutLocationComponent implements OnInit {
   addMore() {
     this.filters.push({
       param: null,
+      paramValue: null,
       minRange: null,
       maxRange: null,
       fixed: null,
       distance: null,
       weight: null,
+      mgWeight: null,
       shortage: null,
       shortagePer: null,
       detenation: null,
@@ -105,8 +113,8 @@ export class FreightInputWithoutLocationComponent implements OnInit {
       fuelClass: null,
       fuelBaseRate: null,
       fuelVariation: null,
-      qty: null
-
+      qty: null,
+      mgQty: null
     });
   }
 
@@ -253,5 +261,13 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     }
   }
 
-
+  getFreightRateparams() {
+    this.api.get('FrieghtRate/getFreightRateparams')
+      .subscribe(res => {
+        console.log('resooo', res['data']);
+        this.freightRateparams = res['data'];
+      }, err => {
+        console.log(err);
+      });
+  }
 }

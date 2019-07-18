@@ -181,8 +181,8 @@ export class LorryRecciptsComponent implements OnInit {
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
-        Revenue: R.revenue_amount ? { value: R.revenue_amount, action: this.openRevenueModal.bind(this, R) } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.openRevenueModal.bind(this, R) }] },
-        Expense: R.expense_amount ? { value: R.expense_amount, action: this.openExpenseModal.bind(this, R) } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.openExpenseModal.bind(this, R) }] },
+        Revenue: R.revenue_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.lrRates.bind(this, R, 0) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.lrRates.bind(this, R, 0) }] },
+        Expense: R.expense_amount > 1 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.lrRates.bind(this, R, 1) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.lrRates.bind(this, R, 1) }] },
         PodImage: R.podimage ? { value: `<span>view</span>`, isHTML: true, action: this.getPodImage.bind(this, R) } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
         PodDetails: R.poddetails ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.openPodDeatilsModal.bind(this, R) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.openPodDeatilsModal.bind(this, R) }] },
         PodReceived: R.podreceived ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-check i-green' }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
@@ -193,7 +193,7 @@ export class LorryRecciptsComponent implements OnInit {
           },
           { class: 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) },
           { class: 'fa fa-trash icon red', action: this.deleteLr.bind(this, R) },
-          { class: 'fa fa-inr  icon', action: this.lrRates.bind(this, R) },
+          // { class: 'fa fa-inr  icon', action: this.lrRates.bind(this, R,0) },
           { class: 'fa fa-handshake-o  icon', action: this.tripSettlement.bind(this, R) },
           ]//`<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R),
           // `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteLr.bind(this, R)
@@ -272,9 +272,12 @@ export class LorryRecciptsComponent implements OnInit {
     });
   }
 
-  lrRates(Lr) {
-    console.log("Lr", Lr);
-    this.common.params = { LrData: Lr }
+  lrRates(Lr, type) {
+    let rate = {
+      lrId: Lr.lr_id,
+      rateType: type
+    }
+    this.common.params = { rate: rate }
     const activeModal = this.modalService.open(LrRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data:', data);
