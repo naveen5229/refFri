@@ -23,6 +23,8 @@ export class TransferReceiptsComponent implements OnInit {
     remark: null
   };
   refernceData = [];
+  referenceName = null;
+
   typesData = [];
   ModeData = [];
   edit = 0;
@@ -53,17 +55,16 @@ export class TransferReceiptsComponent implements OnInit {
     public common: CommonService,
     public activeModal: NgbActiveModal,
     public api: ApiService) {
-    this.common.handleModalSize('class', 'modal-lg', '800', 'px', 1);
-
     this.getPaymentMode();
-
-    if (this.common.params.refData) {
+    this.getTypeList();
+    if (this.common.params && this.common.params.refData) {
       this.edit = 1;
       this.transferReceipt.refernceType = this.common.params.refData.refType;
       this.transferReceipt.refId = this.common.params.refData.refId;
       this.getReferenceData();
-      this.getRefernceType(this.transferReceipt.refId);
+      this.getRefernceType(this.transferReceipt.refernceType);
     }
+
   }
 
   ngOnInit() {
@@ -73,14 +74,16 @@ export class TransferReceiptsComponent implements OnInit {
   closeModal() {
     this.activeModal.close();
   }
+
   getRefernceType(typeId) {
     this.referenceType.map(element => {
       if (element.id == typeId) {
-        return this.transferReceipt.refTypeName = element.name;
+        return this.referenceName = element.name;
       }
     });
     this.refernceTypes();
   }
+
   getReferenceData() {
     const params = "id=" + this.transferReceipt.refId +
       "&type=" + this.transferReceipt.refernceType;
@@ -125,7 +128,11 @@ export class TransferReceiptsComponent implements OnInit {
       vid: this.transferReceipt.vehicleId,
       regno: this.transferReceipt.vehicleRegNo
     };
-
+    // const urls = {
+    //   11: "Suggestion/getLorryReceipts",
+    //   12: 
+    // };
+    // url = urls[type] || null ;
     switch (type) {
       case '11':
         url = "Suggestion/getLorryReceipts";

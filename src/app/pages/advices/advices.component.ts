@@ -131,6 +131,10 @@ export class AdvicesComponent implements OnInit {
 
     icons.push(
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> lalit
       {
         class: "far fa-eye",
         action: this.adviceView.bind(this, details),
@@ -154,7 +158,11 @@ export class AdvicesComponent implements OnInit {
 
 
   saveAdvices() {
+<<<<<<< HEAD
    
+=======
+    this.common.params = { refData: null };
+>>>>>>> lalit
     this.common.handleModalSize('class', 'modal-lg', '1100');
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
