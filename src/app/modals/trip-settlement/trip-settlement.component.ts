@@ -168,11 +168,7 @@ export class TripSettlementComponent implements OnInit {
     };
     this.common.params = { refData: refData };
     console.log("openAdviceModal");
-<<<<<<< HEAD
-    this.common.handleModalSize('class', 'modal-lg', '1100');
-=======
     this.common.handleModalSize('class', 'modal-lg', '900', 'px', 1);
->>>>>>> lalit
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
     });
