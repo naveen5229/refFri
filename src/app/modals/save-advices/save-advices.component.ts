@@ -71,7 +71,6 @@ export class SaveAdvicesComponent implements OnInit {
   constructor(public common: CommonService,
     public api: ApiService,
     private activeModal: NgbActiveModal) {
-    this.common.handleModalSize('class', 'modal-lg', '800', 'px', 1);
 
     this.getType();
     this.getPaymentMode();

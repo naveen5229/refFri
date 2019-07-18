@@ -7,9 +7,17 @@
 }
 :host ::ng-deep .tableFixHead{
     table{
+        thead{
+            tr{
+                th:nth-last-child(1),th:nth-last-child(2),th:nth-last-child(3),th:nth-last-child(4){
+                    width: 80px;
+                }
+            }
+        }
         tbody{
             tr{
                 td{
+
                     div{
                         i{
                             font-size: 16px;

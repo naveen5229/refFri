@@ -17,12 +17,12 @@ export class AddFuelIndentComponent implements OnInit {
   reg = null;
   Type: number = 1;
   vid = null;
-  isFlag:boolean=true;
+  isFlag: boolean = true;
   regno = null;
   rowid = null;
-  fuelStations=[];
+  fuelStations = [];
   value = null;
-  source='';
+  source = '';
   issueDate = new Date();
   expiryTime = new Date(new Date().setDate(new Date(this.issueDate).getDate() + 3));
   amount = null;
@@ -35,10 +35,10 @@ export class AddFuelIndentComponent implements OnInit {
   refname = null;
   remark = null;
   source_dest = '';
-  sourceId=null;
+  sourceId = null;
 
   title = '';
-  fuelId=null;
+  fuelId = null;
   result = [];
   brands = [];
 
@@ -79,12 +79,12 @@ export class AddFuelIndentComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public common: CommonService) {
     this.getFuelStationList();
-    this.common.handleModalSize('class', 'modal-lg', '1000');
+    this.common.handleModalSize('class', 'modal-lg', '900', 'px', 1);
     console.log("Title", this.common.params.flag);
     console.log("doc", this.common.params.doc);
     if (this.common.params.doc) {
       this.fuelId = this.common.params.doc._fsid;
-      console.log("fsname",this.fuelId);
+      console.log("fsname", this.fuelId);
       this.regno = this.common.params.doc.regno ? this.common.params.doc.regno : null;
       this.getFuelIndent();
       this.vid = this.common.params.doc._vid ? this.common.params.doc._vid : null;
@@ -92,8 +92,8 @@ export class AddFuelIndentComponent implements OnInit {
       this.vehicle.subType = this.common.params.doc._ref_type;
       this.vehicle.type = this.common.params.doc._vehasstype;
       this.sourceId = this.common.params.doc._ref_id;
-      this.source_dest=this.common.params.doc['Ref Details'];
-      console.log("goutam",this.source_dest)
+      this.source_dest = this.common.params.doc['Ref Details'];
+      console.log("goutam", this.source_dest)
       if (this.common.params.doc.Fuel) {
         this.amount = this.common.params.doc.Fuel;
         this.indentType = 1;
@@ -114,8 +114,8 @@ export class AddFuelIndentComponent implements OnInit {
       this.issueDate = new Date(this.common.dateFormatter(this.common.params.doc._issue_date));
       this.expiryTime = new Date(this.common.dateFormatter(this.common.params.doc._expiry_date));
     }
-   
-}
+
+  }
 
   ngOnInit() {
     this.Form = this.formBuilder.group({
@@ -123,7 +123,7 @@ export class AddFuelIndentComponent implements OnInit {
       autosuggestion: ['', Validators.required],
       autosuggestion1: ['', Validators.required],
       dropDown: ['',],
-      source_dest:['',],
+      source_dest: ['',],
       select1: ['',],
       dropDownsubtype: ['',],
     });
@@ -151,7 +151,7 @@ export class AddFuelIndentComponent implements OnInit {
 
   selectedlist(Type) {
     if (Type == 11) {
-      this.isFlag=true;
+      this.isFlag = true;
       this.value = 1;
       const params = {
         vid: this.vid,
@@ -167,7 +167,7 @@ export class AddFuelIndentComponent implements OnInit {
     }
     if (Type == 12) {
       this.value = 1;
-      this.isFlag=true;
+      this.isFlag = true;
       const params = {
         vid: this.vid,
         regno: this.regno,
@@ -182,7 +182,7 @@ export class AddFuelIndentComponent implements OnInit {
     }
     if (Type == 13) {
       this.value = 1;
-      this.isFlag=true;
+      this.isFlag = true;
       const params = {
         vid: this.vid,
       };
@@ -196,13 +196,13 @@ export class AddFuelIndentComponent implements OnInit {
   }
 
   submit() {
-    if(this.issueDate==null){
+    if (this.issueDate == null) {
       this.common.showToast("please enter issue Date");
     }
-    else if(this.expiryTime==null){
+    else if (this.expiryTime == null) {
       this.common.showToast("please enter expiryTime");
     }
-    else if(this.issueDate < this.expiryTime) {
+    else if (this.issueDate < this.expiryTime) {
       this.amt = null;
       this.ltr = this.amount;
       if (this.vehicle.type == 3) {
@@ -217,7 +217,7 @@ export class AddFuelIndentComponent implements OnInit {
         this.amt = null;
         this.ltr = this.amount;
       }
-     if (this.common.params.flag == 'Update') {
+      if (this.common.params.flag == 'Update') {
         console.log("Update")
         const params = {
           rowid: this.rowid,
@@ -246,8 +246,8 @@ export class AddFuelIndentComponent implements OnInit {
             else {
               this.common.showError(res['data'][0].y_msg)
             }
-           
-           
+
+
           },
             err => console.error('Api Error:', err));
         console.log("parameter", params);
@@ -297,12 +297,12 @@ export class AddFuelIndentComponent implements OnInit {
 
   getRefDetails(details) {
     console.log("refname", details);
-   // this.source = details['source_dest'];
-    console.log("souce dest",this.source_dest)
+    // this.source = details['source_dest'];
+    console.log("souce dest", this.source_dest)
     this.refid = details.target.value;
-    this.isFlag=false;
-    console.log("refid",this.refid);
-   // return this.refid;
+    this.isFlag = false;
+    console.log("refid", this.refid);
+    // return this.refid;
   }
 
   handleVehicleTypeChange() {
@@ -325,28 +325,28 @@ export class AddFuelIndentComponent implements OnInit {
     console.log('regno', this.regno, this.vid);
     this.getFuelIndent();
     return this.vid;
-   }
+  }
 
   getFuelStation(stationList) {
     this.fsid = stationList.target.value;
-    console.log("fsid",this.fsid,stationList);
+    console.log("fsid", this.fsid, stationList);
   }
 
-  getFuelStationList(){
+  getFuelStationList() {
     this.api.get("Suggestion/getFuelStaionWrtFo").subscribe(
       res => {
-        this.fuelStations=res['data'];
-        console.log("datA",res);
-     },
+        this.fuelStations = res['data'];
+        console.log("datA", res);
+      },
       err => {
         console.log(err);
       }
     );
-   }
+  }
 
-   getFuelIndent() {
-    const params="startdate="+this.common.dateFormatter1(new Date(new Date().setDate(new Date(new Date).getDate()-7)))+"&enddate="+this.common.dateFormatter1(new Date)+"&addedBy="+null+"&status="+-2+"&regno="+this.regno;
-       console.log("params", params);
+  getFuelIndent() {
+    const params = "startdate=" + this.common.dateFormatter1(new Date(new Date().setDate(new Date(new Date).getDate() - 7))) + "&enddate=" + this.common.dateFormatter1(new Date) + "&addedBy=" + null + "&status=" + -2 + "&regno=" + this.regno;
+    console.log("params", params);
     console.log("params", params);
     ++this.common.loading;
     this.api.get('Fuel/getPendingFuelIndentWrtFo?' + params)
@@ -390,9 +390,9 @@ export class AddFuelIndentComponent implements OnInit {
       for (let i = 0; i < this.headings.length; i++) {
         console.log("Type", this.headings[i]);
         console.log("doc index value:", doc[this.headings[i]]);
-        
-    
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+
+
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
       columns.push(this.valobj);
     });
