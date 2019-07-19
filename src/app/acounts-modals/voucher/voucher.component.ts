@@ -14,6 +14,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { VouchercostcenterComponent } from '../vouchercostcenter/vouchercostcenter.component';
 import { PdfService } from '../../services/pdf/pdf.service';
+import { PrintService } from '../../services/print/print.service';
 
 
 @Component({
@@ -54,6 +55,7 @@ export class VoucherComponent implements OnInit {
     public user: UserService,
     public router: Router,
     public modalService: NgbModal,
+    private printService: PrintService,
     public accountService: AccountService,
     private activeModal: NgbActiveModal,
     public pdfService: PdfService) {
@@ -187,8 +189,8 @@ export class VoucherComponent implements OnInit {
   modelCondition() {
     console.log('gess');
     this.showConfirm = false;
-  //  this.activeModal.close();
-  this.dismiss(false);
+    //  this.activeModal.close();
+    this.dismiss(false);
   }
   modelConditionsure() {
     this.showConfirm = false;
@@ -235,7 +237,7 @@ export class VoucherComponent implements OnInit {
 
 
   dismiss(response) {
-    console.log('Voucher:', this.voucher,'test response',response);
+    console.log('Voucher:', this.voucher, 'test response', response);
     if (response && this.voucher.total.debit !== this.voucher.total.credit) {
       this.common.showError('Credit And Debit Amount Should be Same');
       return;
@@ -246,14 +248,15 @@ export class VoucherComponent implements OnInit {
       return;
     }
     console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch.id != 0);
-    if (this.accountService.selected.branch.id != 0) {
+    if (response && this.accountService.selected.branch.id != 0) {
       // this.accountService.selected.branch
       this.addVoucher();
       this.showConfirm = false;
       event.preventDefault();
       return;
-    } else if(response==false){
-     // this.activeModal.close();
+    } else if (response == false) {
+      // this.activeModal.close();
+      console.log('false condition true',response)
       this.activeModal.close({ data: false });
     }
     else {
@@ -287,11 +290,11 @@ export class VoucherComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res['data'].code);
         if (res['success']) {
-        
+
           //  this.common.showToast('Your Code :' + res['data'].code);
           //  this.common.showToast('Voucher Updated Succesfully');
-         // this.setFoucus('ref-code');
-          
+          // this.setFoucus('ref-code');
+
 
           if (res['data'][0].save_voucher_v1) {
             if (this.voucher.print) {
@@ -323,7 +326,7 @@ export class VoucherComponent implements OnInit {
         this.common.showError();
       });
   }
-  printFunction(){
+  printFunction() {
     let params = {
       search: 'test'
     };
@@ -333,8 +336,8 @@ export class VoucherComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res11:', res['data']);
-       // this.Vouchers = res['data'];
-        this.printVoucher(this.voucher, res['data']);
+        // this.Vouchers = res['data'];
+        this.print(this.voucher, res['data']);
 
       }, err => {
         this.common.loading--;
@@ -406,7 +409,7 @@ export class VoucherComponent implements OnInit {
       narration: voucherdataprint.remarks
     };
 
-    console.log('print pdf data', pdfData);
+    //console.log('print pdf data', pdfData);
     let datapdf = this.pdfService.createPdfHtml(pdfData);
     let divToPrint = datapdf.innerHTML;
     let newWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
@@ -533,8 +536,8 @@ export class VoucherComponent implements OnInit {
         } else {
           this.addVoucher();
         }
-      }if (key == 'n'){
-          this.modelConditionsure();
+      } if (key == 'n') {
+        this.modelConditionsure();
       }
       return;
     }
@@ -925,6 +928,9 @@ export class VoucherComponent implements OnInit {
       deleteview: ledger.deleteview,
       delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
+      costcenter: ledger.costcenter,
+      taxtype:ledger.taxtype,
+      taxsubtype:ledger.taxsubtype
     };
 
     console.log('params11: ', params);
@@ -965,25 +971,25 @@ export class VoucherComponent implements OnInit {
           this.voucher.delete = 1;
           // this.addOrder(this.order);
           //this.dismiss(true);
-          
-          this.deleteFunction(1,'true');
-          
+
+          this.deleteFunction(1, 'true');
+
           // this.activeModal.close({ response: true, ledger: this.voucher });
           // this.common.loading--;
         }
       });
     }
   }
-  restore(){
-    this.deleteFunction(1,'false');
+  restore() {
+    this.deleteFunction(1, 'false');
   }
-  approve(ID){
-    this.deleteFunction(0,'true');
+  approve(ID) {
+    this.deleteFunction(0, 'true');
   }
-  deleteFunction(type,typeans){
+  deleteFunction(type, typeans) {
     let params = {
       id: this.voucher.xId,
-      flagname: (type==1) ? 'deleted':'forapproved',
+      flagname: (type == 1) ? 'deleted' : 'forapproved',
       flagvalue: typeans
     };
     this.common.loading++;
@@ -993,12 +999,12 @@ export class VoucherComponent implements OnInit {
         console.log('res: ', res);
         //this.getStockItems();
         this.activeModal.close({ response: true, ledger: this.voucher });
-        if(type==1 && typeans=='true'){
-        this.common.showToast(" This Value Has been Deleted!");
-        }else  if(type==1 && typeans=='false'){
-        this.common.showToast(" This Value Has been Restored!");
+        if (type == 1 && typeans == 'true') {
+          this.common.showToast(" This Value Has been Deleted!");
+        } else if (type == 1 && typeans == 'false') {
+          this.common.showToast(" This Value Has been Restored!");
         } else {
-        this.common.showToast(" This Value Has been Approved!");
+          this.common.showToast(" This Value Has been Approved!");
         }
       }, err => {
         this.common.loading--;
@@ -1065,6 +1071,69 @@ export class VoucherComponent implements OnInit {
 
       console.log('Testiong', this.voucher.amountDetails[index]);
     });
+
+  }
+
+  print(voucherdataprint, companydata) {
+
+    let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
+    let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
+    let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
+
+    let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
+    let rows = [];
+    voucherdataprint.amountDetails.map(value => {
+      if (value.transactionType == 'debit') {
+        rows.push([{ txt: value.ledger.name }, { txt: value.amount, align: 'right' }, { txt: '' }]);
+      } else {
+        rows.push([{ txt: value.ledger.name }, { txt: '' }, { txt: value.amount, align: 'right' }]);
+      }
+    });
+
+    rows.push([
+      { txt: 'Total' },
+      { txt: voucherdataprint.total.debit, align: 'right' },
+      { txt: voucherdataprint.total.credit, align: 'right' }
+    ]);
+
+    rows.push([{ txt: { name: 'In Words', value: this.pdfService.convertNumberToWords(voucherdataprint.total.debit) }, colspan: 3 }]);
+    rows.push([{ txt: { name: 'Narration', value: voucherdataprint.remarks }, colspan: 3 }]);
+
+
+    let invoiceJson = {
+      headers: [
+        { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+        { txt: companydata[0].addressline },
+        { txt: cityaddress },
+        { txt: this.voucherName, size: '20px', weight: 600, align: 'left' }
+      ],
+      details: [
+        { name: 'Voucher Number', value: voucherdataprint.code },
+        { name: 'Branch', value: companydata[0].branchname },
+        { name: 'Voucher Date', value: voucherdataprint.date },
+      ],
+      table: {
+        headings: [
+          { txt: 'Particulars' },
+          { txt: 'Debit Amount' },
+          { txt: 'Credit Amount' }
+        ],
+        rows: rows
+      },
+      signatures: ['Accountant', 'Approved By'],
+      footer: {
+        left: { name: 'Powered By', value: 'Elogist Solutions' },
+        center: { name: 'Printed Date', value: '06-July-2019' },
+        right: { name: 'Page No', value: 1 },
+      }
+
+
+    };
+
+    console.log('JSON', invoiceJson);
+
+    localStorage.setItem('InvoiceJSO', JSON.stringify(invoiceJson));
+    this.printService.printInvoice(invoiceJson, 1);
 
   }
 

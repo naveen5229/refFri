@@ -92,7 +92,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
 
     let params = {
       startDate: this.fromDate,
-      endDate: this.endDate,
+      endDate: this.common.dateFormatter(this.endDate).split(' ')[0] + " 23:59:59",
       foId: this.foid,
       status: this.lrType
     };
@@ -738,10 +738,8 @@ export class LorryReceiptDetailsComponent implements OnInit {
   }
 
   openGenerateLr(data) {
-    let Lr = {
-      lr_id: data.id
-    }
-    this.common.params = { LrData: Lr }
+    console.log("data00000", data);
+    this.common.params = { LrData: data }
     const activeModal = this.modalService.open(LrGenerateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data:', data);

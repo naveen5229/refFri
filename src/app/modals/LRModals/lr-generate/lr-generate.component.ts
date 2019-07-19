@@ -18,6 +18,7 @@ import { AddFieldComponent } from '../add-field/add-field.component';
 })
 export class LrGenerateComponent implements OnInit {
   images = [];
+  unitFields = []
   branches = null;
   vehicleId = null;
   vehicleRegNo = null;
@@ -40,7 +41,10 @@ export class LrGenerateComponent implements OnInit {
     sameAsDelivery: false,
     paymentTerm: 1,
     payableAmount: 0,
+    advanceAmount: 0,
+    remainingAmount: 0,
     lrNumber: null,
+    lrNumberText: '',
     sourceCity: null,
     sourceLat: null,
     sourceLng: null,
@@ -53,7 +57,13 @@ export class LrGenerateComponent implements OnInit {
     gstPer: 0,
     lrType: 1,
     vehicleType: 1,
-    lrCategory: 1
+    lrCategory: 0,
+    grossWeight: 0,
+    netWeight: 0,
+    tareWeight: 0,
+    invoicePayer: null,
+    invoiceTo: 2,
+    invoicePayerId: null,
   };
   fofields = []
   particulars = [
@@ -61,6 +71,8 @@ export class LrGenerateComponent implements OnInit {
       material: null,
       articles: null,
       weight: null,
+      weight_unit: null,
+      weight_unit_name: null,
       invoice: null,
       material_value: null,
       customjsonfields: [
@@ -95,16 +107,20 @@ export class LrGenerateComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
   ) {
-    this.common.handleModalSize('class', 'modal-lg', '1300');
+    this.common.handleModalSize('class', 'modal-lg', '1600');
     let date = new Date();
     date.setDate(date.getDate());
     this.lr.date = date;
     this.getAllFieldName();
-    console.log("this.lr.date", this.lr.date);
+    this.getUnit();
+    console.log("this.common.params.LrData", this.common.params.LrData);
     if (this.common.params.LrData) {
-      this.lr.id = this.common.params.LrData.lr_id;
+      this.lr.id = this.common.params.LrData.lr_id ? this.common.params.LrData.lr_id : this.common.params.LrData.id;
       this.getLrDetails();
       this.btntxt = 'UPDATE'
+    }
+    if (this.accountService.selected.branch.id) {
+      this.getBranchDetails();
     }
   }
 
@@ -123,9 +139,26 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
+  getBranchDetails() {
+    if (this.accountService.selected.branch.id && (!this.lr.lrNumber || !this.lr.lrNumberText)) {
+      this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
+        .subscribe(res => {
+          console.log("branchdetails", res['data']);
+          this.setBranchDetails(res['data'][0]);
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
+  }
+
+  setBranchDetails(lrDetails) {
+    this.lr.lrNumber = lrDetails.lrnum;
+    this.lr.lrNumberText = lrDetails.lrprefix;
+  }
   addConsignee() {
     console.log("open material modal")
-    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Data:', data);
 
@@ -195,6 +228,11 @@ export class LrGenerateComponent implements OnInit {
     this.lr.consigneeName = consignee.name;
     this.lr.consigneeId = consignee.id;
   }
+
+  getInvoicePayerDetail(InvoicePayer) {
+    this.lr.invoicePayer = InvoicePayer.name;
+    this.lr.invoicePayerId = InvoicePayer.id;
+  }
   fillConsigneeAddress() {
     console.log("sameAsDelivery", this.lr.consigneeAddress);
     if (this.lr.sameAsDelivery)
@@ -207,6 +245,8 @@ export class LrGenerateComponent implements OnInit {
       material: null,
       articles: null,
       weight: null,
+      weight_unit: null,
+      weight_unit_name: null,
       invoice: null,
       material_value: null,
 
@@ -235,6 +275,16 @@ export class LrGenerateComponent implements OnInit {
   }
 
   saveDetails() {
+    let today, futureDay, pastDay;
+    today = new Date();
+    futureDay = new Date(today.setDate(today.getDate() + 30));
+    today = new Date();
+    pastDay = new Date(today.setDate(today.getDate() - 30));
+    console.log("futureDay", futureDay, "pastDay", pastDay);
+    if ((this.lr.date > futureDay) || (this.lr.date < pastDay)) {
+      alert("Date should not be before 30 days and after 30 days ");
+      return 0;
+    }
 
     if ((!this.lr.sourceLat) || (!this.lr.destinationLat)) {
       this.common.showError("Source and Destination Location selection are required");
@@ -271,25 +321,31 @@ export class LrGenerateComponent implements OnInit {
         });
       }
 
-      let lrDate = this.common.dateFormatter(this.lr.date).split(' ')[0];
+      let lrDate = this.common.dateFormatter(this.lr.date);
 
       let params = {
         lrId: this.lr.id,
         branchId: this.accountService.selected.branch.id,
         vehicleId: this.vehicleId,
         lrNo: this.lr.lrNumber,
+        lrNoText: this.lr.lrNumberText,
         lrDate: lrDate,
         driverId: this.driver.id,
         source: this.lr.sourceCity,
         destination: this.lr.destinationCity,
         consignorId: this.lr.consignorId,
         consigneeId: this.lr.consigneeId,
+        invoiceTo: this.lr.invoiceTo,
+        invoicePayerId: this.lr.invoicePayerId,
         amount: this.lr.amount,
         gstPer: this.lr.gstPer,
         totalAmount: this.lr.payableAmount,
         payType: this.lr.paymentTerm,
+        advanceAmount: this.lr.advanceAmount,
         taxPaid: this.lr.taxPaidBy,
         travelAgentId: this.taId,
+        netWeight: this.lr.netWeight,
+        grossWeight: this.lr.grossWeight,
         deliveryAddress: this.lr.deliveryAddress,
         lrDetails: JSON.stringify(particulars),
         remarks: this.lr.remark,
@@ -314,7 +370,8 @@ export class LrGenerateComponent implements OnInit {
           console.log('response :', res['data'][0].rtn_id);
           if (res['data'][0].rtn_id > 0) {
             this.common.showToast("LR Generated Successfully");
-            this.lrView(res['data'][0].rtn_id);
+            this.closeModal();
+            //this.lrView(res['data'][0].rtn_id);
           } else {
             this.common.showError(res['data'][0].rtn_msg);
           }
@@ -335,36 +392,16 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
-  checkDateFormat() {
-    let dateValue = this.lr.date;
-    let datereg = /^\d{4}[-]\d{2}[-]\d{2}$/;
-    console.log('this.lrdate', this.lr.date);
-    if (dateValue.length < 8) return;
-
-    if (dateValue.match(datereg))
-      return;
-    else {
-      let date = dateValue[0] + dateValue[1];
-      let month = dateValue[2] + dateValue[3];
-      let year = dateValue.substring(4, 8);
-      // this.lrDate= date + '/' + month + '/' + year;
-      this.lr.date = year + '-' + month + '-' + date;
-      console.log('checkDateFormat', this.lr.date);
-    }
-  }
 
   getDate() {
-    this.common.params = { ref_page: 'generate-lr' };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        this.lr.date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        // this.dateByIcon=true;
-        console.log('lrdate: by getDate ' + this.lr.date);
 
-      }
-
-    });
+    let today, futureDay, pastDay;
+    today = new Date();
+    futureDay = new Date(today.setDate(today.getDate() + 30))
+    futureDay = this.common.dateFormatter(futureDay);
+    pastDay = new Date(today.setDate(today.getDate() - 30))
+    pastDay = this.common.dateFormatter(pastDay);
+    console.log("futureDay", futureDay, "pastDay", pastDay);
   }
   resetData() {
     this.vehicleId = null;
@@ -375,8 +412,18 @@ export class LrGenerateComponent implements OnInit {
     calPer = 100 + parseFloat('' + this.lr.gstPer);
     this.lr.payableAmount = (this.lr.amount * calPer) / 100;
     console.log(calPer, "lr payable amount", this.lr.payableAmount);
+    this.calculateReminingAmount();
   }
 
+  calculateTareWeight() {
+    this.lr.tareWeight = this.lr.grossWeight - this.lr.netWeight;
+    console.log("this.lr.tareWeight", this.lr.tareWeight);
+  }
+
+  calculateReminingAmount() {
+    this.lr.remainingAmount = this.lr.payableAmount - this.lr.advanceAmount;
+    console.log("this.lr.remainingAmount", this.lr.remainingAmount);
+  }
   closeModal() {
     this.activeModal.close(true);
   }
@@ -420,7 +467,11 @@ export class LrGenerateComponent implements OnInit {
           particularDetails = JSON.parse(res['data']).details
 
           this.setlrDetails(lrDetails);
-          this.setlrParticulars(particularDetails);
+          if (particularDetails.length > 0) {
+            this.setlrParticulars(particularDetails);
+          } else {
+
+          }
         }
       }, err => {
         --this.common.loading;
@@ -437,7 +488,7 @@ export class LrGenerateComponent implements OnInit {
     }
     console.log("branchDetails", branchDetails);
 
-    this.lr.taxPaidBy = "" + lrDetails.taxpaid_by;
+    this.lr.taxPaidBy = lrDetails.taxpaid_by ? "" + lrDetails.taxpaid_by : "" + -1;
     this.lr.consigneeName = lrDetails.consignee;
     this.lr.consigneeAddress = lrDetails.consignee_address;
     this.lr.consigneeId = lrDetails.consignee_id;
@@ -445,9 +496,13 @@ export class LrGenerateComponent implements OnInit {
     this.lr.consignorAddress = lrDetails.consigner_address;
     this.lr.consignorName = lrDetails.consignor;
     this.lr.consignorId = lrDetails.consigner_id;
-    this.lr.paymentTerm = lrDetails.pay_type;
+    this.lr.invoicePayer = lrDetails.invoiceto_name;
+    this.lr.invoicePayerId = lrDetails.invoice_payer_id;
+    this.lr.invoiceTo = lrDetails.invoiceto_type ? lrDetails.invoiceto_type : -1;
+    this.lr.paymentTerm = lrDetails.pay_type ? lrDetails.pay_type : -1;
     this.lr.payableAmount = lrDetails.total_amount;
-    this.lr.lrNumber = lrDetails.receipt_no;
+    this.lr.lrNumberText = lrDetails.lr_prefix;
+    this.lr.lrNumber = lrDetails.lr_num;
     this.lr.sourceCity = lrDetails.source;
     this.lr.sourceLat = lrDetails.source_lat;
     this.lr.sourceLng = lrDetails.source_long;
@@ -455,12 +510,17 @@ export class LrGenerateComponent implements OnInit {
     this.lr.destinationLat = lrDetails.destination_lat;
     this.lr.destinationLng = lrDetails.destination_long;
     this.lr.remark = lrDetails.remark;
-    this.lr.date = new Date(this.common.dateFormatter(lrDetails.lr_date));
-    this.lr.amount = lrDetails.amount;
+    this.lr.date = lrDetails.lr_date ? new Date(this.common.dateFormatter(lrDetails.lr_date)) : this.lr.date;
+    this.lr.amount = lrDetails.amount ? lrDetails.amount : 0;
+    this.lr.advanceAmount = lrDetails.advance_amount;
+    this.lr.remainingAmount = lrDetails.pending_amount;
     this.lr.gstPer = lrDetails.gstrate;
-    this.lr.lrType = lrDetails.lr_asstype;
-    this.lr.vehicleType = lrDetails.veh_asstype;
-    this.lr.lrCategory = lrDetails.is_ltl;
+    this.lr.netWeight = lrDetails.net_weight;
+    this.lr.grossWeight = lrDetails.gross_weight;
+    this.lr.tareWeight = lrDetails.tare_weight ? lrDetails.tare_weight : 0;
+    this.lr.lrType = lrDetails.lr_asstype ? lrDetails.lr_asstype : 0;
+    this.lr.vehicleType = lrDetails.veh_asstype ? lrDetails.veh_asstype : 1;
+    this.lr.lrCategory = lrDetails.is_ltl ? lrDetails.is_ltl : 0;
     this.driver.name = lrDetails.driver_name;
     this.driver.licenseNo = lrDetails.driver_license;
     this.mobileno = lrDetails.driver_mobile
@@ -482,20 +542,36 @@ export class LrGenerateComponent implements OnInit {
     console.log("particularDetails+++++", particularDetails);
     particularDetails.forEach(detail => {
       let customjfields = [];
-      detail.customjsonfields.forEach((customjfield, index) => {
-        const customIndex = Math.floor(index / 4);
-        const fieldIndex = (index % 4) + 1;
-        if (!customjfields[customIndex]) {
-          customjfields[customIndex] = {};
-          for (let i = 1; i <= 4; i++) {
-            customjfields[customIndex]['field' + i] = "";
-            customjfields[customIndex]['value' + i] = "";
+      if (detail.customjsonfields) {
+        detail.customjsonfields.forEach((customjfield, index) => {
+          const customIndex = Math.floor(index / 4);
+          const fieldIndex = (index % 4) + 1;
+          if (!customjfields[customIndex]) {
+            customjfields[customIndex] = {};
+            for (let i = 1; i <= 4; i++) {
+              customjfields[customIndex]['field' + i] = "";
+              customjfields[customIndex]['value' + i] = "";
+            }
           }
-        }
 
-        customjfields[customIndex]['field' + fieldIndex] = customjfield.name;
-        customjfields[customIndex]['value' + fieldIndex] = customjfield.value;
-      });
+          customjfields[customIndex]['field' + fieldIndex] = customjfield.name;
+          customjfields[customIndex]['value' + fieldIndex] = customjfield.value;
+        });
+      }
+      else {
+        customjfields = [
+          {
+            field1: null,
+            value1: null,
+            field2: null,
+            value2: null,
+            field3: null,
+            value3: null,
+            field4: null,
+            value4: null,
+          }
+        ]
+      }
       detail.customjsonfields = customjfields;
     });
     this.particulars = particularDetails;
@@ -531,10 +607,30 @@ export class LrGenerateComponent implements OnInit {
       .subscribe(res => {
         this.fofields = res['data'];
       }, err => {
-        this.common.loading--;
         console.log(err);
       });
   }
 
+  getUnit() {
+    let params = {
+      search: 123
+    };
+    this.api.post('Suggestion/getUnit', params)
+      .subscribe(res => {
+        console.log('resooo', res);
+        this.unitFields = res['data'];
+      }, err => {
+        console.log(err);
+      });
+  }
 
+  getWeightUnitId(type, index) {
+    console.log("Type Id", type);
+
+    this.particulars[index].weight_unit = this.unitFields.find((element) => {
+      console.log("element==", element);
+      return element.name == type;
+    }).id;
+    console.log("this.particulars[index].weight_unit ", this.particulars[index].weight_unit)
+  }
 }

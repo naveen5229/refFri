@@ -156,7 +156,9 @@ export class LedgersComponent implements OnInit {
       delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
       bankname: ledger.bankname,
-      costcenter: ledger.costcenter
+      costcenter: ledger.costcenter,
+      taxtype:ledger.taxtype,
+      taxsubtype:ledger.taxsubtype
     };
 
     console.log('params11: ', params);

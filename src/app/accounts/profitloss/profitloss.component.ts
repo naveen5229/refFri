@@ -38,6 +38,18 @@ export class ProfitlossComponent implements OnInit {
   lastActiveId = '';
   showDateModal = false;
   activedateid = '';
+  active = {
+    liabilities: {
+      mainGroup: [],
+      subGroup: []
+    },
+    asset: {
+      mainGroup: [],
+      subGroup: []
+    }
+  };
+  viewType = 'sub';
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -48,6 +60,7 @@ export class ProfitlossComponent implements OnInit {
     this.getBranchList();
     this.setFoucus('startdate');
     this.common.currentPage = 'Profit & Loss A/C';
+
   }
 
   ngOnInit() {
@@ -70,6 +83,7 @@ export class ProfitlossComponent implements OnInit {
       });
 
   }
+ 
 
   getBalanceSheet() {
     console.log('Balance Sheet:', this.plData);
@@ -177,10 +191,19 @@ export class ProfitlossComponent implements OnInit {
       }
       delete asset.profitLossData;
     });
+    this.changeViewType();
   }
 
   filterData(assetdata, slug) {
     return assetdata.filter(data => { return (data.y_is_assets === slug ? true : false) });
+  }
+  handleExpandation(event, index, type, section, parentIndex?) {
+    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
+    event.stopPropagation();
+    if (this.active[type][section].indexOf(section + index + parentIndex) === -1) this.active[type][section].push(section + index + parentIndex)
+    else {
+      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex), 1);
+    }
   }
   keyHandler(event) {
     const key = event.key.toLowerCase();
@@ -285,5 +308,67 @@ export class ProfitlossComponent implements OnInit {
       //this.common.showToast('Voucher updated');
 
     });
+  }
+
+  generateCsvData() {
+    let liabilitiesJson = [];
+    this.liabilities.forEach(liability => {
+      liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
+      liability.subGroups.forEach(subGroup => {
+        liabilitiesJson.push({ liability: '(SG)'+subGroup.name, liabilityAmount: subGroup.total });
+        subGroup.profitLossData.forEach(balanceSheet => {
+          liabilitiesJson.push({ liability: '(L)'+balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
+        });
+      });
+    });
+
+    let assetsJson = [];
+    this.assets.forEach(asset => {
+      assetsJson.push({ asset: '(MG)'+asset.name, assetAmount: asset.amount });
+      asset.subGroups.forEach(subGroup => {
+        assetsJson.push({ asset: '(SG)'+subGroup.name, assetAmount: subGroup.total });
+        subGroup.profitLossData.forEach(balanceSheet => {
+          assetsJson.push({ asset:'(L)'+ balanceSheet.y_ledger_name, assetAmount: balanceSheet.y_amount });
+        });
+      });
+    });
+    let mergedArray = [];
+    for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
+      if (liabilitiesJson[i] && assetsJson[i] && i < liabilitiesJson.length - 1 && i < assetsJson.length - 1) {
+        mergedArray.push(Object.assign({}, liabilitiesJson[i], assetsJson[i]));
+      } else if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
+        mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '' }));
+      } else if (assetsJson[i] && i < assetsJson.length - 1) {
+        mergedArray.push(Object.assign({}, { liability: '', liabilityAmount: '' }, assetsJson[i]));
+      }
+    }
+    mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
+    mergedArray.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
+
+
+    this.csvService.jsonToExcel(mergedArray);
+    console.log('Merged:', mergedArray);
+  }
+
+  changeViewType() {
+    this.active.liabilities.mainGroup = [];
+    this.active.liabilities.subGroup = [];
+    this.active.asset.mainGroup = [];
+    this.active.asset.subGroup = [];
+
+    if (this.viewType == 'sub') {
+      this.liabilities.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0));
+      this.assets.forEach((asset, i) => this.active.asset.mainGroup.push('mainGroup' + i + 0));
+    } else if (this.viewType == 'all') {
+      this.liabilities.forEach((liability, i) => {
+        this.active.liabilities.mainGroup.push('mainGroup' + i + 0);
+        liability.subGroups.forEach((subGroup, j) => this.active.liabilities.subGroup.push('subGroup' + i + j));
+      });
+
+      this.assets.forEach((asset, i) => {
+        this.active.asset.mainGroup.push('mainGroup' + i + 0);
+        asset.subGroups.forEach((subGroup, j) => this.active.asset.subGroup.push('subGroup' + i + j));
+      });
+    }
   }
 }

@@ -37,6 +37,7 @@ import { VehicleCostCenterListComponent } from './vehicle-cost-center-list/vehic
 import { MappedFuelVoucherComponent } from './mapped-fuel-voucher/mapped-fuel-voucher.component';
 import { VehicleLedgersComponent } from './vehicle-ledgers/vehicle-ledgers.component';
 import {  DaybookpendingComponent } from './daybookpending/daybookpending.component';
+import {  GstreportComponent } from './gstreport/gstreport.component';
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -200,6 +201,10 @@ const routes: Routes = [{
         {
             path:'daybookpending',
             component: DaybookpendingComponent
+        },
+        {
+            path:'gstreport',
+            component: GstreportComponent
         }
     ],
 

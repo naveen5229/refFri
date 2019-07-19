@@ -79,6 +79,9 @@ table{
             font-weight: normal;
             width: 150px;
         }
+        th:nth-child(1){
+            width: 50px;
+        }
         th:last-child{
             width: auto;
         }
@@ -96,6 +99,9 @@ table{
                 outline: none;
                 box-shadow: none;
             }
+        }
+        td:nth-child(1){
+            width: 50px;
         }
     }
     tbody{
@@ -154,3 +160,6 @@ table{
     font-size: 30px;
     color: #217346;
 }
+.radclass{
+    background-color: #808080 !important;
+    }

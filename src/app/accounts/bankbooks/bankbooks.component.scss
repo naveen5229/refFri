@@ -71,6 +71,9 @@ table{
             font-weight: normal;
             width: 140px;
         }
+        th:nth-child(1){
+            width: 50px;
+        }
         th:last-child{
             width: auto;
         }
@@ -88,6 +91,9 @@ table{
                 outline: none;
                 box-shadow: none;
             }
+        }
+        td:nth-child(1){
+            width: 50px;
         }
     }
     tbody{
@@ -145,4 +151,7 @@ table{
 .exel-icon{
     font-size: 30px;
     color: #217346;
+}
+.radclass{
+background-color: #808080 !important;
 }

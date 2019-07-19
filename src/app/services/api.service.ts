@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AccountService } from './account.service';
+import { encode } from 'punycode';
 // import { CommonService } from '../services/common.service';
 
 @Injectable({
@@ -13,8 +14,8 @@ export class ApiService {
   // URL: string = 'http://elogist.in/testservices/'; // prod Server
   URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://localhost/transtruck/booster_webservices/';
-  // URL: string = 'http://192.168.0.180/booster_webservices/'; // Sachin
-  // URL: string = 'http://192.168.0.121/booster_webservices/'; // Umang
+  // URL: string = 'http://192.168.0.179/booster_webservices/'; // Sachin
+  // URL: string = 'http://192.168.1.124/booster_webservices/'; // Umang
   // URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
   // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
@@ -32,13 +33,32 @@ export class ApiService {
     if (this.user._customer.id) {
       body['foAdminId'] = this.user._customer.id;
       // console.log(body['foAdminId']);
-      console.log("foAdminId", body);
+      // console.log("foAdminId", body);
     }
 
     if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch.id;
 
-    console.log('BODY: ', body);
+    // console.log('BODY: ', body);
     return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
+  }
+  postEncrypt(subURL: string, body: any, options?) {
+    if (this.user._customer.id) {
+      body['foAdminId'] = this.user._customer.id;
+      body = JSON.stringify(body);
+      body = btoa(body);
+      body = { encData: body };
+      // console.log(body['foAdminId']);
+      // console.log("foAdminId", body);
+      console.log("Encrypted Params-->", body);
+
+    }
+
+    if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch.id;
+
+    // console.log('BODY: ', body);
+    let encoded = this.http.post(this.URL + subURL, body, { headers: this.setHeaders() });
+    return encoded;
+    // encoded = atob(encoded);
   }
 
   get(subURL: string, params?: any) {
@@ -60,6 +80,39 @@ export class ApiService {
 
 
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
+  }
+  getEncrypt(subURL: string, params?: any) {
+    let url = subURL.split("?");
+    let dataBase64 = null;
+    if (this.user._customer.id) {
+      if (subURL.includes('?')) {
+        subURL += '&foAdminId=' + this.user._customer.id;
+        var data = new Object();
+        let url = subURL.split("?");
+        let parameter = url[1];
+        let paramsKeyValue = parameter.split("&");
+        for (var key in paramsKeyValue) {
+          var value = paramsKeyValue[key].split("=");
+          data[value[0]] = value[1];
+        }
+        let dataString = JSON.stringify(data);
+        dataBase64 = btoa(dataString);
+        // let newParams = {encData: dataBase64};
+      } else {
+        subURL += '?foAdminId=' + this.user._customer.id;
+      }
+    }
+
+    if (this.router.url.includes('accounts') && this.accountService.selected.branch) {
+      if (subURL.includes('?')) {
+        subURL += '&branch=' + this.accountService.selected.branch.id;
+      } else {
+        subURL += '?branch=' + this.accountService.selected.branch.id;
+      }
+    };
+
+
+    return this.http.get(this.URL + url[0] + '?encData=' + dataBase64, { headers: this.setHeaders() })
   }
 
   get3(subURL: string, params?: any) {

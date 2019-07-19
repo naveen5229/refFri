@@ -1,0 +1,192 @@
+button.add{
+    border-radius: 3px;
+    text-transform: capitalize;
+    padding: 7px 15px;
+}
+:host ::ng-deep .tableFixHead{
+    table{
+        tr{
+            td:last-child{
+                i{
+                    margin-right: 8px;
+                    &.fa-user{
+                        color: #20d320;
+                        span{
+                            position: absolute;
+                            display: none;
+                            padding: 10px 43px;
+                            font-weight: normal;
+                            font-size: 11px;
+                            left: -38px;
+                            top: -28px;
+                            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                            font-family: Roboto;
+                            z-index: 9999;
+                            &:before{
+                                content: 'Change State';
+                                display: block;
+                                position: absolute;
+                                top: 0px;
+                                left: 0px;
+                                background-color: #20d320;
+                                border-radius: 3px;
+                                padding: 5px 10px;
+                                color: #fff;
+                                width: 100%;
+                            }
+                            &:after{
+                                content: '';
+                                width: 0;
+                                height: 0;
+                                border-left: 5px solid transparent;
+                                border-right: 5px solid transparent;
+                                border-top: 5px solid #20d320;
+                                position: absolute;
+                                bottom: -5px;
+                                right: 50%;
+                                -webkit-transform: translate(50%);
+                                transform: translate(50%);
+                            }
+                        }
+                        &:hover span{
+                            display: block;
+                        }
+                    }
+                    &.fa-map-marker{
+                        color: red;
+                        span{
+                            position: absolute;
+                            display: none;
+                            padding: 10px 35px;
+                            font-weight: normal;
+                            font-size: 11px;
+                            left: -28px;
+                            top: -28px;
+                            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                            font-family: Roboto;
+                            z-index: 9999;
+                            &:before{
+                                content: 'Loacation';
+                                display: block;
+                                position: absolute;
+                                top: 0px;
+                                left: 0px;
+                                background-color: #ff0000;
+                                border-radius: 3px;
+                                padding: 5px 10px;
+                                color: #fff;
+                                width: 100%;
+                            }
+                            &:after{
+                                content: '';
+                                width: 0;
+                                height: 0;
+                                border-left: 5px solid transparent;
+                                border-right: 5px solid transparent;
+                                border-top: 5px solid #ff0000;
+                                position: absolute;
+                                bottom: -5px;
+                                right: 50%;
+                                -webkit-transform: translate(50%);
+                                transform: translate(50%);
+                            }
+                        }
+                        &:hover span{
+                            display: block;
+                        }
+                    }
+                    &.fa-picture-o{
+                        color: #0b5fff;
+                        span{
+                            position: absolute;
+                            display: none;
+                            padding: 10px 35px;
+                            font-weight: normal;
+                            font-size: 11px;
+                            left: -28px;
+                            top: -28px;
+                            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                            font-family: Roboto;
+                            z-index: 9999;
+                            &:before{
+                                content: 'Lr Image';
+                                display: block;
+                                position: absolute;
+                                top: 0px;
+                                left: 0px;
+                                background-color: #0b5fff;
+                                border-radius: 3px;
+                                padding: 5px 10px;
+                                color: #fff;
+                                width: 100%;
+                            }
+                            &:after{
+                                content: '';
+                                width: 0;
+                                height: 0;
+                                border-left: 5px solid transparent;
+                                border-right: 5px solid transparent;
+                                border-top: 5px solid #0b5fff;
+                                position: absolute;
+                                bottom: -5px;
+                                right: 50%;
+                                -webkit-transform: translate(50%);
+                                transform: translate(50%);
+                            }
+                        }
+                        &:hover span{
+                            display: block;
+                        }
+                    }
+                    &.fa-image{
+                        color: #0b5fff;
+                        span{
+                            position: absolute;
+                            display: none;
+                            padding: 10px 22px;
+                            font-weight: normal;
+                            font-size: 11px;
+                            left: -18px;
+                            top: -28px;
+                            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                            font-family: Roboto;
+                            z-index: 9999;
+                            &:before{
+                                content: 'POD';
+                                display: block;
+                                position: absolute;
+                                top: 0px;
+                                left: 0px;
+                                background-color: #0b5fff;
+                                border-radius: 3px;
+                                padding: 5px 10px;
+                                color: #fff;
+                                width: 100%;
+                            }
+                            &:after{
+                                content: '';
+                                width: 0;
+                                height: 0;
+                                border-left: 5px solid transparent;
+                                border-right: 5px solid transparent;
+                                border-top: 5px solid #0b5fff;
+                                position: absolute;
+                                bottom: -5px;
+                                right: 50%;
+                                -webkit-transform: translate(50%);
+                                transform: translate(50%);
+                            }
+                        }
+                        &:hover span{
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

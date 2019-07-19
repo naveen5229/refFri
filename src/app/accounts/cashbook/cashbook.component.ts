@@ -129,7 +129,7 @@ export class CashbookComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Cash Book From :'+this.DayBook.startdate+' To :'+this.DayBook.enddate);
 
       }, err => {
         this.common.loading--;
@@ -153,7 +153,7 @@ export class CashbookComponent implements OnInit {
     let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
     let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
    
-       let cityaddress =address+ remainingstring1 + remainingstring3;
+       let cityaddress =address+ remainingstring1;
        let foname=(res['data'][0])? res['data'][0].foname:'';
        this.common.getCSVFromTableIdNew('table',foname,cityaddress,'','',remainingstring3);
       // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
@@ -241,11 +241,13 @@ export class CashbookComponent implements OnInit {
       }
     });
   }
-
-  getBookDetail(voucherId) {
+  getBookDetail(voucherId,vouhercode) {
     console.log('vouher id', voucherId);
-    this.common.params = voucherId;
+    this.common.params={
 
+      vchid :voucherId,
+      vchcode:vouhercode
+    }
     const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
@@ -273,7 +275,7 @@ export class CashbookComponent implements OnInit {
     console.log('Active event', event, this.activeId);
     if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id);
+      this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id,'');
       return;
     }
 

@@ -1,0 +1,7 @@
+b{
+    font-weight: 700;
+}
+:host ::ng-deep auto-suggestion .suggestions{
+    max-height: 175px;
+    overflow: auto;
+}

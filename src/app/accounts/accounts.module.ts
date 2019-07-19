@@ -39,6 +39,7 @@ import { VehicleCostCenterListComponent } from './vehicle-cost-center-list/vehic
 import { MappedFuelVoucherComponent } from './mapped-fuel-voucher/mapped-fuel-voucher.component';
 import { VehicleLedgersComponent } from './vehicle-ledgers/vehicle-ledgers.component';
 import { DaybookpendingComponent } from './daybookpending/daybookpending.component';
+import { GstreportComponent } from './gstreport/gstreport.component';
 const PAGES_COMPONENTS = [
   AccountsComponent,
 ];
@@ -86,7 +87,8 @@ const PAGES_COMPONENTS = [
     VehicleCostCenterListComponent,
     MappedFuelVoucherComponent,
     VehicleLedgersComponent,
-    DaybookpendingComponent
+    DaybookpendingComponent,
+    GstreportComponent
     //StockSubtypeComponent
   ],
 })
