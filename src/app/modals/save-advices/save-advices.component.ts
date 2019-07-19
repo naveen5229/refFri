@@ -22,7 +22,7 @@ export class SaveAdvicesComponent implements OnInit {
     id: '3'
   }]
   id = 1;
-  advice_type_id = null;
+  advice_type_id = '-1';
   market = null;
   group = null;
   type = [];
@@ -32,7 +32,7 @@ export class SaveAdvicesComponent implements OnInit {
   user_value = null;
   driverId = null;
   driverName = null;
-  modeId = null;
+  modeId = '-1';
   remark = null;
   referenceType = [{
     name: 'select Type',
@@ -59,7 +59,7 @@ export class SaveAdvicesComponent implements OnInit {
   referenceName = null;
   startDate = new Date();
   advice = {
-    refId: null,
+    refId: '-1',
     refTypeName: null,
     refernceType: 0
   };
@@ -71,13 +71,12 @@ export class SaveAdvicesComponent implements OnInit {
   constructor(public common: CommonService,
     public api: ApiService,
     private activeModal: NgbActiveModal) {
-    this.common.handleModalSize('class', 'modal-lg', '800', 'px', 1);
 
     this.getType();
     this.getPaymentMode();
 
 
-    if (this.common.params.refData) {
+    if (this.common.params && this.common.params.refData) {
       this.edit = 1;
       this.referenceId = this.common.params.refData.refType;
       this.advice.refId = this.common.params.refData.refId;
@@ -102,6 +101,7 @@ export class SaveAdvicesComponent implements OnInit {
         this.advice.refTypeName = resultData.ref_name;
         this.id = resultData.vehasstype
         this.refernceTypes();
+        this.getDriverInfo();
 
       }, err => {
         this.common.loading--;
@@ -126,10 +126,8 @@ export class SaveAdvicesComponent implements OnInit {
     let params = {
       vid: this.vid
     };
-    this.common.loading++;
     this.api.post('Drivers/getDriverInfo', params)
       .subscribe(res => {
-        this.common.loading--;
         console.log('res', res['data']);
         if (res['data'].length > 0) {
           this.driverName = res['data'][0].empname;

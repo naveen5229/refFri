@@ -134,6 +134,7 @@
           <div class="row" *ngIf="(order.ordertype.id != -8)">
             <div class="col">
               <div class="form-group">
+                  <label class="ref-label">Billing Address</label>
                 <textarea class="form-control ref-input" name="account-billingaddress" id="billingaddress"
                   [readonly]="(order.ordertype.id == -6 || order.ordertype.id ==-7)" [(ngModel)]="order.billingaddress"
                   placeholder="Vender Billing Address"></textarea>
@@ -144,6 +145,7 @@
 
             <div class="col">
               <div class="form-group">
+                  <label class="ref-label">Invoice Remarks</label>
                 <textarea class="form-control ref-input" name="account-orderremarks" id="orderremarks"
                   [readonly]="(order.ordertype.id == -6 || order.ordertype.id ==-7)" [(ngModel)]="order.orderremarks"
                   placeholder="Invoice Remarks"></textarea>
@@ -268,6 +270,7 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
+                  <label class="ref-label">Billing Address</label>
                 <textarea class="form-control ref-input" name="account-billingaddress" id="billingaddress"
                   [readonly]="(order.ordertype.id == -6 || order.ordertype.id ==-7 )" [(ngModel)]="order.billingaddress"
                   placeholder="Party Billing Address"></textarea>
@@ -275,6 +278,7 @@
             </div>
             <div class="col">
               <div class="form-group">
+                  <label class="ref-label">Consignee Address</label>
                 <textarea class="form-control ref-input" name="account-grnremarks" id="grnremarks"
                   [(ngModel)]="order.grnremarks" [readonly]="(order.ordertype.id == -6 || order.ordertype.id ==-7 )"
                   placeholder="Consignee Address"></textarea>
@@ -284,6 +288,7 @@
 
             <div class="col">
               <div class="form-group">
+                  <label class="ref-label">Invoice Remarks</label>
                 <textarea class="form-control ref-input" name="account-orderremarks" id="orderremarks"
                   [readonly]="(order.ordertype.id == -6 || order.ordertype.id ==-7 )" [(ngModel)]="order.orderremarks"
                   placeholder="Invoice Remarks"></textarea>

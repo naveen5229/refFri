@@ -169,7 +169,9 @@ export class VehicleLedgersComponent implements OnInit {
         delete: 0,
         x_id: 0,
         bankname: '',
-        costcenter: 0
+        costcenter: 0,
+        taxtype:'',
+        taxsubtype:''
       };
       console.log('params', params);
       let promise = new Promise((resolve, reject) => {

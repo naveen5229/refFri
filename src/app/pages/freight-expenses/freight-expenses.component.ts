@@ -6,6 +6,7 @@ import { AddFreightExpensesComponent } from '../../modals/FreightRate/add-freigh
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
+import { SaveAdvicesComponent } from '../../modals/save-advices/save-advices.component';
 
 @Component({
   selector: 'freight-expenses',
@@ -189,7 +190,19 @@ export class FreightExpensesComponent implements OnInit {
             isHTML: false,
             icons: [
               { class: 'fa fa-edit', action: this.openTransferReceipt.bind(this, doc) },
-              // { action: null, txt: doc._rev_count }
+              { action: null, txt: doc._trans_count }
+            ]
+          };
+        }
+
+        else if (this.headings[i] == "Advice") {
+          this.valobj[this.headings[i]] = {
+            value: "",
+            action: null,
+            isHTML: false,
+            icons: [
+              { class: 'fa fa-edit', action: this.openadvice.bind(this, doc) },
+              { action: null, txt: doc._adv_count }
             ]
           };
         }
@@ -231,5 +244,19 @@ export class FreightExpensesComponent implements OnInit {
     activeModal.result.then(data => {
       this.getExpenses();
     })
+  }
+
+  openadvice(row) {
+    this.common.handleModalSize('class', 'modal-lg', '900', 'px');
+
+    let refData = {
+      refId: row._ref_id,
+      refType: row._ref_type
+    }
+    this.common.params = { refData: refData };
+    const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.getExpenses();
+    });
   }
 }
