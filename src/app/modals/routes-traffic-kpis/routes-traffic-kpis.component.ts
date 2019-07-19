@@ -11,21 +11,15 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 })
 export class RoutesTrafficKpisComponent implements OnInit {
   id = this.common.params.doc._id ? this.common.params.doc._id : null;
-
-  brands = [];
-  modelId = null;
-  dltId: number = 0;
-  dltModelId: number = 0;
-  dltRouterId: number = 0;
-  brandId = null;
-  targetTime = null;
-  allowedTime = null;
-  route = [{
-    routeId: this.id,
-    targetTime: null,
-    allowedTime: null,
+  trafficKpi = [{
     modelId: null,
-  }]
+    kpiType: null,
+    value: null,
+    routeId: this.id,
+  }];
+  noTrash = null;
+  models = [];
+  expensesType = [];
 
   data = [];
   table = {
@@ -37,19 +31,19 @@ export class RoutesTrafficKpisComponent implements OnInit {
       hideHeader: true
     }
   };
-
   headings = [];
   valobj = {};
 
   constructor(
-    public activeModal: NgbActiveModal,
-    public common: CommonService,
     private modalService: NgbModal,
-    public api: ApiService
+    public common: CommonService,
+    public api: ApiService,
+    public activeModal: NgbActiveModal
   ) {
     this.vehicleModalTypes();
+    this.getExpensesType();
+    this.viewExpenses();
     this.addMore();
-    this.getdata();
   }
 
   ngOnInit() {
@@ -60,9 +54,83 @@ export class RoutesTrafficKpisComponent implements OnInit {
     this.api.get('Vehicles/getVehicleModelsMaster?brandId=-1')
       .subscribe(res => {
         this.common.loading--;
-        this.brands = res['data'];
+        this.models = res['data'];
+        console.log("Model Type", this.models);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+  closeModal() {
+    this.activeModal.close();
+  }
 
-        console.log("Maintenance Type", this.brands);
+  getExpensesType() {
+    this.common.loading++;
+    this.api.get('Suggestion/getTypeMaster?typeId=57')
+      .subscribe(res => {
+        this.common.loading--;
+        this.expensesType = res['data'];
+        console.log("Exp Type", this.expensesType);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+  getModelService(modelId) {
+    console.log("ModelID:", modelId);
+  }
+
+  addMore() {
+    this.trafficKpi.push({
+      modelId: null,
+      kpiType: null,
+      value: null,
+      routeId: this.id
+    });
+
+  }
+
+  validationCheck() {
+    let isValidate = true;
+    this.trafficKpi.forEach(element => {
+      console.log("Value:", element.value);
+      if (element.value && (element.value <= 0)) {
+        this.common.showError("value Value is not Valid");
+        isValidate = false;
+        return isValidate;
+      }
+    });
+    return isValidate;
+  }
+
+  saveExpenses() {
+    if (!this.validationCheck()) {
+      return;
+    }
+    let params = {
+      data: JSON.stringify(this.trafficKpi),
+    }
+    this.common.loading++;
+    this.api.post('ViaRoutes/trafficKpiAdd', params)
+      .subscribe(res => {
+        this.common.loading--;
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
+          this.trafficKpi = [{
+            modelId: null,
+            kpiType: null,
+            value: null,
+            routeId: this.id,
+          }];
+          this.viewExpenses();
+          this.addMore();
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg)
+        }
+
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -70,69 +138,14 @@ export class RoutesTrafficKpisComponent implements OnInit {
   }
 
 
-  dismiss() {
-    this.activeModal.close();
-  }
 
-  submit() {
-    console.log("para", JSON.stringify(this.route))
-    this.api.post('ViaRoutes/trafficKpiAdd', { data: JSON.stringify(this.route) })
-      .subscribe(res => {
-        if (res['data'][0].y_id > 0) {
-          this.common.showToast(res['data'][0].y_msg);
-          this.route = [{
-            routeId: this.id,
-            targetTime: null,
-            allowedTime: null,
-            modelId: null,
-          }];
-          this.addMore();
-          this.getdata();
-        }
-        else {
-          this.common.showError(res['data'][0].y_msg);
-        }
-      },
-        err => console.error('Activity Api Error:', err));
-  }
-
-  addMore() {
-    this.route.push({
-      routeId: this.id,
-      targetTime: null,
-      allowedTime: null,
-      modelId: null
-    });
-  }
-
-  getTableColumns() {
-    let columns = [];
-    console.log("Data=", this.data);
-    this.data.map(doc => {
-      this.valobj = {};
-      for (let i = 0; i < this.headings.length; i++) {
-        console.log("Type", this.headings[i]);
-        console.log("doc index value:", doc[this.headings[i]]);
-        if (this.headings[i] == "Action") {
-          console.log("Test");
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash-alt', action: this.deleteTrafficKpis.bind(this, doc) }] };
-        } else {
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-        }
-      }
-      columns.push(this.valobj);
-    });
-    return columns;
-  }
-
-  getdata() {
-    const params = "routeId=" + this.id;
-    //   console.log("params", params);
-    console.log("params", params);
+  viewExpenses() {
     ++this.common.loading;
-    this.api.get('ViaRoutes/viewTrafficKpis?' + params)
+
+    this.api.get('ViaRoutes/viewTrafficKpis?routeId=' + this.id)
       .subscribe(res => {
         --this.common.loading;
+
         this.data = [];
         this.table = {
           data: {
@@ -145,16 +158,25 @@ export class RoutesTrafficKpisComponent implements OnInit {
         };
         this.headings = [];
         this.valobj = {};
+
         if (!res['data']) return;
         this.data = res['data'];
         let first_rec = this.data[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
+        let key = "Model";
+        this.headings.push(key);
+        let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+        this.table.data.headings[key] = headerObj;
+        for (key in first_rec) {
+          if (key.charAt(0) != "_" && key != "Model") {
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
           }
         }
+        // let action = { title: this.formatTitle('action'), placeholder: this.formatTitle('action'), hideHeader: true };
+        // this.table.data.headings['action'] = action;
+
+
         this.table.data.columns = this.getTableColumns();
       }, err => {
         --this.common.loading;
@@ -163,40 +185,75 @@ export class RoutesTrafficKpisComponent implements OnInit {
       });
   }
 
+
+  getTableColumns() {
+    let columns = [];
+
+    this.data.map(doc => {
+      let valobj = {};
+      let docobj = { routeId: 0 };
+      let rowId = '';
+      let val = 0;
+      for (var i = 0; i < this.headings.length; i++) {
+        console.log("doc Data:", doc);
+        let strval = doc[this.headings[i]];
+        console.log("srtvalue", strval);
+
+        if (strval.indexOf('_') > 0) {
+          let arrval = strval.split('_');
+          val = arrval[0];
+          rowId = arrval[1];
+          console.log("RowId", rowId);
+        }
+        else if (strval.indexOf('_') === -1) {
+          val = strval;
+        }
+        else {
+          val = null;
+        }
+        docobj.routeId = doc['_route_id'];
+        valobj[this.headings[i]] = {
+          value: '',
+          isHTML: false,
+          icons: [
+            { class: '', action: null, txt: val },
+            { class: this.headings[i] == "Model" || val && 'fa fa-trash ml-2 text-danger', action: this.headings[i] == "Model" || val && this.deleteRow.bind(this, doc, rowId), }
+          ],
+        };
+      }
+      // icons: val > 0 ? this.delete(doc[this.headings[i]]) : ''
+
+      columns.push(valobj);
+    });
+    return columns;
+  }
+
   formatTitle(title) {
-    return title.charAt(0).toUpperCase() + title.slice(1)
+    return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
-  selectId(event, i) {
-    this.modelId = event.id;
-    this.brandId = event.brand_id;
-    this.route[i]['modelId'] = this.modelId;
-    console.log("route", this.route);
-    console.log("ids", this.modelId, this.brandId);
-  }
+  // delete(row) {
+  //   let icons = [];
+  //   icons.push(
+  //     {
+  //       class: "fas fa-trash-alt",
+  //       action: this.deleteRow.bind(this, row),
+  //       value: row,
+  //     }
+  //   )
+  //   return icons;
+  // }
+  deleteRow(row, id) {
+    console.log("row:", row);
+    console.log("id", id);
 
-  viewTrafficKpis() {
-    const params = "routeId=" + this.id;
-    console.log("params", params);
-    this.common.loading++;
-    this.api.get('ViaRoutes/viewTrafficKpis?' + params)
-      .subscribe(res => {
-        this.data = res['data'];
-        console.log("data", this.data);
-        this.common.loading--;
-      }, err => {
-        this.common.showError();
-      })
-  }
 
-  deleteTrafficKpis(doc) {
-    console.log("values", doc);
-    const params = {
-      id: doc._id,
-      routeId: doc._route_id,
-      modelId: doc._model_id,
+    let params = {
+      id: id,
+      routeId: row._route_id,
+      modelId: row._model_id
     }
-    if (doc._id) {
+    if (id) {
       this.common.params = {
         title: 'Delete  ',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
@@ -205,22 +262,26 @@ export class RoutesTrafficKpisComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.common.loading++;
-          console.log("par", params);
           this.api.post('ViaRoutes/deleteTrafficKpis', params)
             .subscribe(res => {
-              console.log('Api Response:', res)
-              this.common.showToast(res['msg']);
-              this.getdata();
               this.common.loading--;
-            },
-              err => console.error(' Api Error:', err));
+
+              this.common.showToast(res['msg']);
+
+              this.viewExpenses();
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
         }
       });
     }
   }
 
-  resetData(event, index) {
-    this.route[index].modelId = null;
-    console.log(event);
-  }
+  // resetData(event, index) {
+  //   this.trafficKpi[index].modelId = null;
+  //   console.log(event);
+  // }
+
+
 }

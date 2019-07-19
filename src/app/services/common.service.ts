@@ -359,9 +359,11 @@ export class CommonService {
 
   handleModalSize(type, name, size, sizeType = "px", position = 0) {
     setTimeout(() => {
-      if (type == "class") {
-        document.getElementsByClassName(name)[position]["style"].maxWidth =
-          size + sizeType;
+      if (type == "class" && document.getElementsByClassName(name)[position]) {
+        if (document.getElementsByClassName(name)[position]["style"]) {
+          document.getElementsByClassName(name)[position]["style"].maxWidth =
+            size + sizeType;
+        }
       }
     }, 10);
   }
@@ -560,7 +562,7 @@ export class CommonService {
     return status;
   }
 
-  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
+  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?) {
     // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
@@ -693,7 +695,13 @@ export class CommonService {
         let hdglen = center_heading.length / 2;
         doc.setFontSize(14);
         doc.setFont("times", "bold", "text-center");
-        doc.text(center_heading, x - hdglen - 40, y);
+        doc.text(center_heading, x - hdglen - 50, y);
+      }
+      if (lower_left_heading != "undefined" && lower_left_heading != null && lower_left_heading != '') {
+        let xpos = 35;
+        y = 65;
+        doc.setFont("times", "bold", "text-center");
+        doc.text(lower_left_heading, xpos, y);
       }
       doc.text(time, 30, 60);
       y = 15;
@@ -738,8 +746,8 @@ export class CommonService {
     doc.save("report.pdf");
   }
 
-  getPDFFromTableIdnew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
-    // console.log("Action Data:", doNotIncludes); return;
+  getPDFFromTableIdnew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, reportname?) {
+    console.log("Action Data:", reportname);
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
@@ -857,6 +865,15 @@ export class CommonService {
 
       //}
       let pageWidth = parseInt(doc.internal.pageSize.width);
+      if (reportname != "undefined" && reportname != null && reportname != '') {
+        x = pageWidth / 2;
+        let hdglen = reportname.length / 2;
+        let xpos = x - hdglen - 180;
+        y = 68;
+        doc.setFontSize(8);
+        doc.setFont("Times New Roman", "text-left");
+        doc.text(reportname, xpos, y);
+      }
       if (left_heading != "undefined" && left_heading != null && left_heading != '') {
         x = pageWidth / 2;
         let hdglen = left_heading.length / 2;
@@ -875,15 +892,15 @@ export class CommonService {
       }
       doc.text(time, 30, 60);
       y = 15;
-      doc.addImage(eltimg, 'JPEG', (pageWidth - 400), 15, 50, 50, 'logo', 'NONE', 0);
+      // doc.addImage(eltimg, 'JPEG', (pageWidth - 400), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
 
       doc.line(20, 70, pageWidth - 20, 70);
 
       // FOOTER
       let printDate = this.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
-      var powerdata = '     Powered By Elogist Solution       Print On : ';
-      var str = "Page " + data.pageCount + powerdata + printDate;
+      var powerdata = 'Powered By Elogist Solution';
+      var str = powerdata + '                                                 Print On : ' + printDate + '                                                                      ' + "Page " + data.pageCount;
 
       doc.setFontSize(10);
       doc.text(
@@ -936,7 +953,7 @@ export class CommonService {
     });
   }
 
-  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
+  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?) {
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
@@ -947,6 +964,7 @@ export class CommonService {
 
     let leftData = { left_heading };
     let centerData = { center_heading };
+    let lowerLeft = { lower_left_heading };
     let doctime = { time };
 
     let info = [];
@@ -955,6 +973,7 @@ export class CommonService {
     info.push(organization);
     info.push(blankline);
     info.push(leftData);
+    info.push(lowerLeft);
     info.push(centerData, doctime);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
@@ -1142,6 +1161,116 @@ export class CommonService {
       }
     }
     new Angular5Csv(info, "report.csv");
+  }
+
+  getMultipleCSVFromTableIdNew(tblArray, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
+   let tblEltId ='';
+    tblArray.forEach(tblid => {
+      tblEltId=tblid;
+ 
+    let tblelt = document.getElementById(tblEltId);
+    if (tblelt.nodeName != "TABLE") {
+      tblelt = document.querySelector("#" + tblEltId + " table");
+    }
+
+    let organization = { "elogist Solutions": "elogist Solutions" };
+    let blankline = { "": "" };
+
+    let leftData = { '': '', left_heading };
+    let centerData = { '': '', center_heading };
+    let doctime = { time };
+    let last = { '': '', lastheading };
+
+    let info = [];
+    let hdgs = {};
+    let arr_hdgs = [];
+    // info.push(organization);
+    //info.push(blankline);
+    info.push(leftData);
+    info.push(centerData);
+    info.push(last);
+    let hdgCols = tblelt.querySelectorAll('th');
+    if (hdgCols.length >= 1) {
+      for (let i = 0; i < hdgCols.length; i++) {
+        let isBreak = false;
+        for (const donotInclude in doNotIncludes) {
+          if (doNotIncludes.hasOwnProperty(donotInclude)) {
+            const thisNotInclude = doNotIncludes[donotInclude];
+            if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+              isBreak = true;
+              break;
+            }
+          }
+        }
+        if (isBreak)
+          continue;
+
+
+        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+          continue;
+        if (hdgCols[i].classList.contains('del'))
+          continue;
+        let elthtml = hdgCols[i].innerHTML;
+        if (elthtml.indexOf('<input') > -1) {
+          let eltinput = hdgCols[i].querySelector("input");
+          let attrval = eltinput.getAttribute("placeholder");
+          hdgs[attrval] = attrval;
+          arr_hdgs.push(attrval);
+        } else if (elthtml.indexOf('<img') > -1) {
+          let eltinput = hdgCols[i].querySelector("img");
+          let attrval = eltinput.getAttribute("title");
+          hdgs[attrval] = attrval;
+          arr_hdgs.push(attrval);
+        } else if (elthtml.indexOf('href') > -1) {
+          let strval = hdgCols[i].innerHTML;
+          hdgs[strval] = strval;
+          arr_hdgs.push(strval);
+        } else {
+          let plainText = elthtml.replace(/<[^>]*>/g, '');
+          hdgs[plainText] = plainText;
+          arr_hdgs.push(plainText);
+        }
+      }
+    }
+    info.push(hdgs);
+
+    let tblrows = tblelt.querySelectorAll('tbody tr');
+    if (tblrows.length >= 1) {
+      for (let i = 0; i < tblrows.length; i++) {
+        if (tblrows[i].classList.contains('cls-hide'))
+          continue;
+        let rowCols = tblrows[i].querySelectorAll('td');
+        let rowdata = [];
+        for (let j = 0; j < rowCols.length; j++) {
+          if (rowCols[j].classList.contains('del'))
+            continue;
+          let colhtml = rowCols[j].innerHTML;
+          if (colhtml.indexOf('input') > -1) {
+            let eltinput = rowCols[j].querySelector("input");
+            let attrval = eltinput.getAttribute('placeholder');
+            rowdata[arr_hdgs[j]] = attrval;
+          } else if (colhtml.indexOf('img') > -1) {
+            let eltinput = rowCols[j].querySelector("img");
+            let attrval = eltinput && eltinput.getAttribute('title');
+            rowdata[arr_hdgs[j]] = attrval;
+          } else if (colhtml.indexOf('href') > -1) {
+            let strval = rowCols[j].innerHTML;
+            rowdata[arr_hdgs[j]] = strval;
+          } else if (colhtml.indexOf('</i>') > -1) {
+            let pattern = /<i.* title="([^"]+)/g;
+            let match = pattern.exec(colhtml);
+            if (match != null && match.length)
+              rowdata[arr_hdgs[j]] = match[1];
+          } else {
+            let plainText = colhtml.replace(/<[^>]*>/g, '');
+            rowdata[arr_hdgs[j]] = plainText;
+          }
+        }
+        info.push(rowdata);
+      }
+    }
+    new Angular5Csv(info, "report.csv");
+  });
   }
   formatTitle(strval) {
     let pos = strval.indexOf('_');
@@ -1438,4 +1567,29 @@ export class CommonService {
     else this.loading--;
   }
 
+  enterHandler(e) {
+    switch (e.keyCode) {
+      case 13: //Enter
+        var focusableElements = document.querySelectorAll('input,select,textarea')
+        var index = Array.prototype.indexOf.call(focusableElements, document.activeElement)
+        if (e.shiftKey)
+          focus(focusableElements, index - 1)
+        else
+          focus(focusableElements, index + 1)
+
+        e.preventDefault()
+        break;
+    }
+    function focus(elements, index) {
+      if (elements[index])
+        elements[index].focus()
+    }
+  }
+
+  async getFoDetails() {
+    this.loading++;
+    let result = await this.api.post('Voucher/GetCompanyHeadingData', { search: '1' }).toPromise();
+    this.loading--;
+    return result['data'][0];
+  }
 }

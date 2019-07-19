@@ -11,15 +11,11 @@
 
     <table>
       <tbody *ngFor="let routeExp of routeExpenses; let i= index">
-
         <tr>
           <td>Model</td>
-
           <td>
-
             <auto-suggestion (onSelected)="routeExp.modelId = $event.id;" display="name" [data]="models" placeholder=" "
-              [preSelected]="null" (change)="resetData($event,i)"></auto-suggestion>
-
+              (unSelected)="routeExp.modelId = $event"></auto-suggestion>
           </td>
 
           <td>ExpensesType </td>
@@ -32,7 +28,7 @@
           </td>
 
           <td>Amount </td>
-          <td><input type="text" class="form-control" [(ngModel)]=routeExp.amount></td>
+          <td><input type="number" class="form-control" [(ngModel)]=routeExp.amount></td>
 
           <td *ngIf="i == routeExpenses.length-1"><button class="btn btn-primary" (click)="addMore()"><i
                 class="fa fa-plus add">

@@ -33,6 +33,7 @@
 
       <thead style="background-color:#263238; color:#fff;">
         <tr>
+          <th>S.No</th>
           <th>Stock Item</th>
           <th>Unit</th>
           <th>sales return</th>
@@ -51,7 +52,8 @@
       <tbody>
         <tr *ngFor="let openingStock of openingStocks;  let i = index;" (click)="selectedRow = i"
           [ngClass]="{'highlight' : selectedRow == i}">
-          <td>{{openingStock['Stock Item']}}</td>
+        <td>{{ i+1 }}</td>
+        <td>{{openingStock['Stock Item']}}</td>
           <td>{{openingStock['Unit']}}</td>
           <td>{{openingStock['sr_total_qty  ']}}</td>
           <td>{{openingStock['pr_total_qty ']}}</td>

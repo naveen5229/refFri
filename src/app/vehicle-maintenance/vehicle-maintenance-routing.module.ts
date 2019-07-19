@@ -7,11 +7,18 @@ import { ViewSubModalServiceComponent } from '../vehicle-maintenance/view-sub-mo
 import { AddVehicleMaintenanceComponent } from './add-vehicle-maintenance/add-vehicle-maintenance.component';
 // import { MaintenanaceDashboardComponent } from './maintenanace-dashboard/maintenanace-dashboard.component';
 import { MaintenanceSummaryComponent } from './maintenance-summary/maintenance-summary.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
-const routes: Routes = [{
+const routes: Routes = [
+    
+    {
     path: '',
     component: VehicleMaintenanceComponent,
     children: [
+        {
+            path:'home',
+            component: DashboardComponent
+        },
         {
             path: 'add-vehicle-maintenance',
             component: AddVehicleMaintenanceComponent,

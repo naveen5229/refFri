@@ -1,0 +1,34 @@
+.add {
+    content: '\f040';
+    display: block;
+    font-family: "FontAwesome";
+    font-size: 14px;
+    color: blue;
+}
+
+.fuel-indent .btn {
+    border-radius: 3px;
+    padding: 5px;
+    text-transform: capitalize;
+}
+
+:host ::ng-deep .tableFixHead {
+    table {
+        tr {
+            td:last-child {
+                div {
+                    i {
+                        font-size: 16px;
+                        margin-right: 8px;
+                        &.fa-edit {
+                            color: blue;
+                        }
+                        &.fa-trash {
+                            color: red;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -608,6 +608,57 @@ mwlResizable {
     .icon.fa-tachometer-alt:hover span{
         display: block;
     }
+
+
+
+
+
+
+    .icon.fa-flag-checkered {
+        color: #d84a11;
+        span{
+            position: absolute;
+            display: none;
+            padding: 10px 35px;
+            font-weight: normal;
+            font-size: 11px;
+            left: -28px;
+            top: -28px;
+            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+            font-family: Roboto;
+            z-index:9999;
+        }
+        span::before{
+            content: 'Entity flag';
+            display: block;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background-color: #d84a11;
+            border-radius: 3px;
+            padding: 5px 10px;
+            color:#fff;
+            width: 100%;
+        }
+        span::after{
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #d84a11;
+            position: absolute;
+            bottom: -5px;
+            right: 50%;
+            transform: translate(50%);
+        }
+        
+}
+.icon.fa-flag-checkered:hover span{
+    display: block;
+}
+
     }
 
     .loading {
@@ -647,7 +698,7 @@ mwlResizable {
 .exel-icon{
     bottom: 35px;
     position: absolute;
-    left: -60px;
+    right: 30px;
     background-color: #4fa9ff;
     font-size: 16px;
     border-radius: 100px;

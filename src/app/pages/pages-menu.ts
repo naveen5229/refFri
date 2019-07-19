@@ -97,6 +97,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: 'Card Mapping',
+        icon: 'nb-notifications',
+        link: '/pages/card-mapping',
+        home: true,
+      },
+      {
         title: 'Tickets All',
         icon: 'nb-title',
         link: '/pages/tickets-all',
@@ -132,9 +138,25 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/frieght-rate-input',
       },
       {
-        title: 'Freight Revenue',
+        title: 'LR-Invoice Columns',
         icon: 'nb-list',
-        link: '/pages/freight-revenue',
+        link: '/pages/lr-invoice-columns',
+      },
+
+      {
+        title: 'Freight Invoice',
+        icon: 'nb-list',
+        link: '/pages/freight-invoices',
+      },
+      {
+        title: 'Transfer',
+        icon: 'nb-list',
+        link: '/pages/transfers',
+      },
+      {
+        title: 'Freight Expenses/Revenue',
+        icon: 'nb-list',
+        link: '/pages/freight-expenses',
       },
       {
         title: 'Lorry Receipts',
@@ -142,16 +164,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/lorry-receipts',
       },
 
-      // {
-      //   title: 'Generate LR',
-      //   icon: 'fas fa-receipt',
-      //   link: '/pages/generate-lr',
-      // },
-      // {
-      //   title: 'Generate LTL',
-      //   icon: 'fas fa-receipt',
-      //   link: '/pages/generate-lr-no-vehicles',
-      // },
       {
         title: 'Generate LR Manifest',
         icon: 'fas fa-receipt',
@@ -172,6 +184,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-book',
         link: '/pages/expenses',
       },
+      {
+        title: 'POD Dashboard',
+        icon: 'fa fa-bar-chart',
+        link: '/pages/pod-dashboard',
+      },
+      {
+        title: 'Nearby Pods',
+        icon: 'fa fa-bar-chart',
+        link: '/pages/nearby-pods',
+      },
     ]
   },
   {
@@ -182,6 +204,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Call Suggestion',
         icon: 'fas fa-traffic-light',
         link: '/pages/driver-call-suggestion',
+        home: true,
+      },
+      {
+        title: 'Site In & Out',
+        icon: 'fas fa-truck',
+        link: '/pages/site-in-out',
         home: true,
       },
       {
@@ -249,6 +277,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Fuel Station Entry',
         icon: 'fas fa-gas-pump',
         link: '/pages/fse-entry',
+        home: true,
+      },
+      {
+        title: 'Fuel Indent',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-indent',
         home: true,
       },
     ]
@@ -328,7 +362,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
       icon: 'fas fa-align-justify',
       link: '/pages/pending-licence',
       home: true,
-    }
+    },
+    {
+      title: 'Advices',
+      icon: 'fas fa-question',
+      link: '/pages/advices',
+      home: true,
+    },
+
     ]
   },
   {
@@ -341,8 +382,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-car-battery',
     link: '/battery/battery-inventory'
   },
-
-
   {
     title: 'Accounts',
     icon: 'fa fa-money',
@@ -353,6 +392,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-tools',
     link: '/vehicle-maintenance/add-vehicle-maintenance'
   },
-
-
+  // {
+  //   title: 'Ware House',
+  //   icon: 'fas fa-tools',
+  //   link: '/ware-house/ware-house-dashbord'
+  // },
 ];

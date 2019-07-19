@@ -150,6 +150,8 @@ nb-card-body ::-webkit-scrollbar-thumb {
     color: #f73c3c;
     font-weight: 600;
     text-align: center;
+    width: 100%;
+    margin: 0px 15px;
 }
 
 :host ::ng-deep .nb-home::before {

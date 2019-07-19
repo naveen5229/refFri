@@ -1,39 +1,47 @@
 <div class="modal-header">
-  <h5 class="modal-title">Advance Route</h5>
+  <h5>Route Advance</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <div class="table-conan filter-coff">
 
+
+  <div class="table-conan filter-coff">
     <table>
-      <tbody *ngFor="let routes of route; let i= index">
+      <tbody *ngFor="let route of routeAdvance; let i= index">
         <tr>
           <td>Model</td>
           <td>
-            <auto-suggestion (onSelected)="selectId($event,i)" placeholder=" " display="name" [data]="brands"
-              [preSelected]="null" (change)="resetData($event,i)">
+            <auto-suggestion (onSelected)="route.modelId = $event.id;" display="name" [data]="models" placeholder=""
+              (unSelected)="route.modelId = $event">
             </auto-suggestion>
           </td>
-          <td>Cash(₹)</td>
-          <td><input type="number" class="form-control" [(ngModel)]="routes.cash"></td>
-          <td>Fuel Amount(₹)</td>
-          <td><input type="number" class="form-control" [(ngModel)]="routes.fuelAmt"></td>
-          <td *ngIf="i == route.length-1">
-            <button class="btn btn-primary" (click)="addMore()"><i class="fa fa-plus add">
+          <td>ExpensesType </td>
+          <td>
+            <select [(ngModel)]="route.expenseType">
+              <option *ngFor="let exp of expensesType;" [value]="exp.id">{{exp.description}}</option>
+            </select>
+            <!-- <auto-suggestion (onSelected)="route.expenseType = $event.id;" display="description"
+              [data]="expensesType" [preSelected]="null"></auto-suggestion> -->
+          </td>
+
+          <td>Amount </td>
+          <td><input type="number" class="form-control" [(ngModel)]=route.amount></td>
+          <td *ngIf="i == routeAdvance.length-1"><button class="btn btn-primary" (click)="addMore()"><i
+                class="fa fa-plus add">
               </i></button></td>
-          <td *ngIf="i != 0"> <button class="btn btn-danger" (click)="route.splice(i,1)"><i
+          <td *ngIf="i != 0"> <button class="btn btn-danger" (click)="routeAdvance.splice(i,1)"><i
                 class="fa fa-trash remove"></i></button></td>
         </tr>
+
       </tbody>
     </table>
   </div>
-  <div class="mt-1 mb-2 text-right ">
-    <button type="submit" id="submit" class="btn btn-primary" (click)="advanceRoute()">Submit</button>
+
+  <div class="text-right mt-3 mb-3">
+    <button class="btn btn-primary submit" (click)="saveAdvance()">Submit</button>
   </div>
-  <div>
-    <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="cardMapping">
-    </smart-table>
-  </div>
+  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="routeAdvance">
+  </smart-table>
 </div>

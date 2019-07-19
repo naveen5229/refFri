@@ -63,7 +63,14 @@ import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.co
 import { VehicleDistanceWithOdometerComponent } from './vehicle-distance-with-odometer/vehicle-distance-with-odometer.component';
 import { FSEEntryComponent } from './fse-entry/fse-entry.component';
 import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-input.component';
-import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
+import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
+import { AdvicesComponent } from './advices/advices.component';
+import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
+import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
+import { SiteInOutComponent } from './site-in-out/site-in-out.component';
+import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.component';
+import { CardMappingComponent } from './card-mapping/card-mapping.component';
+import { TransfersComponent } from './transfers/transfers.component';
 
 
 const PAGES_COMPONENTS = [
@@ -128,7 +135,14 @@ const PAGES_COMPONENTS = [
     VehicleDistanceWithOdometerComponent,
     FSEEntryComponent,
     FrieghtRateInputComponent,
-    FreightRevenueComponent,
+    FuelIndentComponent,
+    AdvicesComponent,
+    FreightExpensesComponent,
+    LrInvoiceColumnsComponent,
+    SiteInOutComponent,
+    FreightInvoicesComponent,
+    CardMappingComponent,
+    TransfersComponent,
     // CustomDatePipe
   ],
   exports: [

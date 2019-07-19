@@ -1,0 +1,40 @@
+<nb-card style="border: 0px; height: 100%;">
+  <nb-card-header>
+      <h5>Card Mapping</h5>
+
+  </nb-card-header>
+  <nb-card-body>
+          <div class="row mb-3">
+              <div class="col-2">
+                  <auto-suggestion (onSelected)="getDriverId($event)" url="Suggestion/getDriverName" [display]="['empname','mobileno']"  seperator="-" placeholder="Driver Name" style="width:60%;"></auto-suggestion>
+              </div>
+              <div class="col-2">
+                <select [(ngModel)]="is_card" >
+                    <option value="0">Select Card Type</option>
+                    <option value="1">IOCL</option>
+                    <option value="2">BPCL</option>
+                    <option value="3">Hapay</option>
+                    <option value="4">Toll</option>
+                    <option value="5">HPCL</option>
+
+                  </select>
+              </div>
+              <div class="col-2">
+                  <input type="text" class="form-control" placeholder="card no" [(ngModel)]="cardNo">
+              </div>
+              <div class="col-4">
+                <uj-date-time-picker  (onChanged)="checkdate($event)" [dateTimeValue]="date" [isTime]="false">
+                </uj-date-time-picker></div>
+              <div class="col-2">
+                  <button type="button" class="btn btn-primary" (click)="addDriverCard()">SAVE</button>
+              </div>
+        
+          <div>
+            <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="cardMapping">
+            </smart-table>
+          </div>
+      </div>
+      
+     
+  </nb-card-body>
+</nb-card>

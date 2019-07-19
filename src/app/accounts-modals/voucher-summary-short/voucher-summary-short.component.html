@@ -92,6 +92,7 @@
               <th>End Location</th>
               <th>Start Date</th>
               <th>End Date</th>
+              <th>Trip Empty</th>
             </tr>
           </thead>
           <tbody>
@@ -106,6 +107,8 @@
               <td>{{trip.end_name || '--'}}</td>
               <td>{{trip.start_time | date : 'dd MMM'}}</td>
               <td>{{trip.end_time | date : 'dd MMM' || '--'}}</td>
+              <td *ngIf="trip.is_empty==true">{{'Yes'}}</td>
+              <td *ngIf="trip.is_empty==false">{{'No'}}</td>
             </tr>
           </tbody>
         </table>
@@ -205,7 +208,7 @@
                       </td>
                       
                       <td *ngIf="i == 0">
-                        <button (click)="addDetails()" class="plustransparent btn btn-plus btn-primary"><i class="fa fa-plus"></i></button>
+                        <button (click)="addDetails()" class="plustransparent btn btn-plus btn-dark"><i class="fa fa-plus"></i></button>
                       </td>
                       <td *ngIf="i !== 0">
                         <button (click)="accDetails.splice(i,1)" class="btn btn-danger">
@@ -231,26 +234,42 @@
         </div>
  
         
-        <div class="clearfix">
-          <div class="total_box">
+        <div class="clearfix row">
+          <!-- <div class="total_box">
             Total
           </div>
           <div class="total_input">
             <input type="number" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal" disabled>
+          </div> -->
+          <div class="form-group col-2 mt-4">
+            <label class="tjr-label">Total</label>
+            <input type="number" class="form-control" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal" disabled readonly>
           </div>
-          <div class="total_box">
+
+          <!-- <div class="total_box">
             Remarks
           </div>
           <div class="total_textarea">
             <textarea class="form-control ref-input" id="narration" name="narration" [(ngModel)]="narration">
             </textarea>
+          </div> -->
+          <div class="form-group col-4 mt-4">
+            <label class="tjr-label">Remarks</label>
+            <textarea class="form-control ref-input total_textarea" id="narration" name="narration" [(ngModel)]="narration">
+            </textarea>
           </div>
-          <div class="total_box">
+          <!-- <div class="total_box">
             Net Total
           </div>
           <div class="total_input">
             <input type="number" [name]="netTotal" [id]="netTotal" [(ngModel)]="netTotal" disabled>
+          </div> -->
+
+          <div class="form-group col-2 mt-4">
+            <label class="tjr-label lasttotal">Net Total</label>
+            <input type="number" class="form-control lasttotal" [name]="netTotal" [id]="netTotal" [(ngModel)]="netTotal" disabled readonly>
           </div>
+
         </div>
       </div>
 

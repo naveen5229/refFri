@@ -1,0 +1,51 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Clear Advices</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row form-group">
+    <div class="col-3">
+      <label>Status</label>
+    </div>
+    <div class="col-9">
+      <select class="form-control" [(ngModel)]="id">
+        <option *ngFor="let status of status" [value]="status.id">
+          {{status.name}}
+
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-3">
+      <label>Remark</label>
+    </div>
+    <div class="col-9">
+      <textarea class="form-control" name="remark" id="remark" maxlength="500" [(ngModel)]="remarks">
+
+      </textarea>
+    </div>
+  </div>
+  <div class="row form-group" *ngIf="adviceId==4">
+    <div class="col-3">
+      <label>Fuel Station</label>
+    </div>
+    <div class="col-9">
+      <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="fuelId" (change)="getFuelStation($event)">
+        <option *ngFor="let fuel of fuelStations" [value]="fuel.id">
+          {{fuel.name}}
+        </option>
+      </select>
+
+    </div>
+  </div>
+
+
+</div>
+<div class="modal-footer">
+  <div class="text-center">
+    <button class="btn btn-primary" id="button" (click)="ClearAdvices()">Submit</button>
+  </div>
+</div>
