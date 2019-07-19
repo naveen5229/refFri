@@ -87,7 +87,7 @@
           <label>Type</label>
         </div>
 
-        <div class="radio-type col-8">
+        <div class="radio-type col-8" style="padding-left: 37px;">
           <input type="radio" value="transfer" name="radio" [(ngModel)]="transferReceipt.selectOption"
             (change)="report(transferReceipt.selectOption)">Transfer
           <input type="radio" value="receipt" name="radio" [(ngModel)]="transferReceipt.selectOption"
@@ -97,10 +97,10 @@
     </div>
     <div class="col-7">
       <div class="row">
-        <div class="col-4 pr-0">
+        <div class="col-3 pr-0">
           <span><b> Time</b></span>
         </div>
-        <div class="col-6 " style="padding-left: 32px;">
+        <div class="col-6 " style="padding-left: 30px;">
           <uj-date-time-picker (onChanged)="transferReceipt.date = $event" [dateTimeValue]="transferReceipt.date"
             [isTime]="false">
           </uj-date-time-picker>
