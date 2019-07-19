@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-// import { ReceiveItemsComponent } from '../modal/receive-items/receive-items.component';
-import { ManualItemsComponent } from '../modal/manual-items/manual-items.component';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { CommonService } from '../../services/common.service';
+import { ReceiveItemsComponent } from '../modal/receive-items/receive-items.component';
+import { ManualItemsComponent } from '../modal/manual-items/manual-items.component';
 
 @Component({
   selector: 'ware-house-receipts',
@@ -113,20 +113,20 @@ export class WareHouseReceiptsComponent implements OnInit {
     }
   
     showAction(doc) {
-      // if(this.wareHouseId!=null){
-      //   this.common.params = {
-      //     warehouseId : this.wareHouseId,
-      //     manifestId:doc._manifest_id,
-      //     item_name:doc['Ch Num']
-      //   };
-      //   console.log("id",this.common.params);
-      //   const activeModal = this.modalService.open(ReceiveItemsComponent, {
-      //     size: "lg",
-      //     container: "nb-layout"
-      //   });
-      // }else{
-      //   this.common.showToast("please select WareHouse")
-      // }
+      if(this.wareHouseId!=null){
+        this.common.params = {
+          warehouseId : this.wareHouseId,
+          manifestId:doc._manifest_id,
+          item_name:doc['Ch Num']
+        };
+        console.log("id",this.common.params);
+        const activeModal = this.modalService.open(ReceiveItemsComponent, {
+          size: "lg",
+          container: "nb-layout"
+        });
+      }else{
+        this.common.showToast("please select WareHouse")
+      }
      
     }
 

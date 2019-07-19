@@ -4,7 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ApiService } from '../../services/api.service';
-import { GotPassComponent } from '../modals/got-pass/got-pass.component';
+import { GotPassComponent } from '../modal/got-pass/got-pass.component';
 @Component({
   selector: 'warehouse-inventory',
   templateUrl: './warehouse-inventory.component.html',
@@ -20,7 +20,7 @@ export class WarehouseInventoryComponent implements OnInit {
       hideHeader: true
     }
   };
-  request = 0
+  request =0;
   dataInventory = null;
   startDate = null;
   endDate = null;
@@ -140,10 +140,15 @@ export class WarehouseInventoryComponent implements OnInit {
     let startDate = this.common.dateFormatter(this.startDate);
     let endDate = this.common.dateFormatter(this.endDate);
     const params =
-      `startDate=${startDate}&endDate=${endDate}&whId=${this.wareHouseId}`
+      {
+        startDate:startDate,
+        endDate:endDate,
+         whId:this.wareHouseId,
+        status:this.request
+        }
 
     console.log("params", params)
-    this.api.get("WareHouse/getStockItemPendingList?" + params).subscribe(
+    this.api.post("WareHouse/getStockItemPendingList",params).subscribe(
       res => {
         this.data = [];
         this.data = res['data'];
