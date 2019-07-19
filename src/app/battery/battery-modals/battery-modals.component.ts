@@ -102,8 +102,15 @@ export class BatteryModalsComponent implements OnInit {
       maxlimit: stockItem.maxlimit,
       isactive: stockItem.isactive,
       inventary: stockItem.inventary,
-      stockunit: stockItem.unit.id
-
+      stockunit: stockItem.unit.id,
+      gst:stockItem.gst,
+      details:stockItem.hsndetail,
+      hsnno:stockItem.hsnno,
+      isnon:stockItem.isnon,
+      cess:stockItem.cess,
+     igst:stockItem.igst,
+     taxability:stockItem.taxability,
+     calculationtype:stockItem.calculationtype
     };
 
     console.log('params: ', params);
