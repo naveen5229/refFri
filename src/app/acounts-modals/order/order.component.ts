@@ -123,7 +123,7 @@ export class OrderComponent implements OnInit {
     this.setFoucus('ordertype');
     this.getInvoiceDetail();
     // this.common.currentPage = 'Invoice';
-    this.common.handleModalSize('class', 'modal-lg', '1250');
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
     // console.log("open data ",this.invoiceDetail[]);
 
   }
@@ -184,7 +184,7 @@ export class OrderComponent implements OnInit {
           this.order.amountDetails[index].rate = invoiceDetail.y_dtl_rate;
           this.order.amountDetails[index].lineamount = invoiceDetail.y_dtl_lineamount;
           this.order.amountDetails[index].remarks = invoiceDetail.y_invoice_remarks;
-          this.order.amountDetails[index].amount = invoiceDetail.y_dtl_amount;
+          this.order.amountDetails[index].amount = parseFloat(invoiceDetail.y_dtl_amount);
           this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
         });
@@ -437,16 +437,17 @@ export class OrderComponent implements OnInit {
   }
 
   TaxDetails(i) {
+    this.common.handleModalSize('class', 'modal-lg', '1150','px',1);
     this.common.params = this.order.amountDetails[i].taxDetails;
 
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
+       console.log('tax Detail Data new : ', data);
       if (data.response) {
         console.log(data.taxDetails);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
         this.order.amountDetails[i].lineamount =0;
-        this.order.amountDetails[i].lineamount = this.order.amountDetails[i].amount+data.taxDetails[0].totalamount;
+        this.order.amountDetails[i].lineamount = this.order.amountDetails[i].amount +data.taxDetails[0].totalamount;//this.order.amountDetails[i].amount+data.taxDetails[0].totalamount
         this.setFoucus('plustransparent');
         // this.addLedger(data.ledger);
       }
@@ -847,6 +848,7 @@ export class OrderComponent implements OnInit {
 
   openledger(ledger?) {
     console.log('ledger123', ledger);
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',1);
     if (ledger) this.common.params = ledger;
     const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
@@ -938,7 +940,15 @@ export class OrderComponent implements OnInit {
       maxlimit: stockItem.maxlimit,
       isactive: stockItem.isactive,
       inventary: stockItem.inventary,
-      stockunit: stockItem.unit.id
+      stockunit: stockItem.unit.id,
+      gst:stockItem.gst,
+      details:stockItem.hsndetail,
+      hsnno:stockItem.hsnno,
+      isnon:stockItem.isnon,
+      cess:stockItem.cess,
+     igst:stockItem.igst,
+     taxability:stockItem.taxability,
+     calculationtype:stockItem.calculationtype
 
     };
 
