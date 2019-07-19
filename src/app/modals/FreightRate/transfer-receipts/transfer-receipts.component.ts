@@ -12,27 +12,58 @@ export class TransferReceiptsComponent implements OnInit {
   transferReceipt = {
     vehicleId: null,
     vehicleRegNo: null,
-    refernceType: 1,
+    refernceType: '0',
     refId: null,
     refTypeName: null,
     date: new Date(),
     selectOption: "transfer",
-    adviceTypeId: null,
-    modeId: null,
+    adviceTypeId: '-1',
+    modeId: '-1',
     amount: null,
     remark: null
   };
   refernceData = [];
+  referenceName = null;
+
   typesData = [];
   ModeData = [];
+  edit = 0;
+  referenceType = [{
+    name: 'Select Type',
+    id: '0'
+
+  },
+  {
+    name: 'Lr',
+    id: '11'
+  },
+  {
+    name: 'Manifest',
+    id: '12'
+  },
+  {
+    name: 'state',
+    id: '13'
+  },
+  {
+    name: 'Trip',
+    id: '14'
+  }]
 
 
   constructor(public modalService: NgbModal,
     public common: CommonService,
     public activeModal: NgbActiveModal,
     public api: ApiService) {
-    this.getTypeList();
     this.getPaymentMode();
+    this.getTypeList();
+    if (this.common.params && this.common.params.refData) {
+      this.edit = 1;
+      this.transferReceipt.refernceType = this.common.params.refData.refType;
+      this.transferReceipt.refId = this.common.params.refData.refId;
+      this.getReferenceData();
+      this.getRefernceType(this.transferReceipt.refernceType);
+    }
 
   }
 
@@ -44,10 +75,37 @@ export class TransferReceiptsComponent implements OnInit {
     this.activeModal.close();
   }
 
+  getRefernceType(typeId) {
+    this.referenceType.map(element => {
+      if (element.id == typeId) {
+        return this.referenceName = element.name;
+      }
+    });
+    this.refernceTypes();
+  }
+
+  getReferenceData() {
+    const params = "id=" + this.transferReceipt.refId +
+      "&type=" + this.transferReceipt.refernceType;
+    this.api.get('Vehicles/getRefrenceDetails?' + params)
+      .subscribe(res => {
+        console.log(res['data']);
+        let resultData = res['data'][0];
+        this.transferReceipt.vehicleId = resultData.vid;
+        this.transferReceipt.vehicleRegNo = resultData.regno;
+        this.transferReceipt.refTypeName = resultData.ref_name;
+        // this.id = resultData.vehasstype
+        this.refernceTypes();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 
   getvehicleData(vehicle) {
     this.transferReceipt.vehicleId = vehicle.id;
     this.transferReceipt.vehicleRegNo = vehicle.regno;
+    this.transferReceipt.refernceType = '0';
   }
 
   resetvehicle() {
@@ -56,6 +114,7 @@ export class TransferReceiptsComponent implements OnInit {
     this.transferReceipt.vehicleRegNo = null;
     this.resetRefernceType();
   }
+
   resetRefernceType(isReset = true) {
     document.getElementById('referncetype')['value'] = '';
     if (isReset)
@@ -105,6 +164,15 @@ export class TransferReceiptsComponent implements OnInit {
     console.log("test", type);
     this.transferReceipt.selectOption = type;
   }
+  changeRefernceType(type) {
+    console.log("Type Id", type);
+    this.transferReceipt.refId = this.refernceData.find((element) => {
+      console.log(element.source_dest == type);
+      return element.source_dest == type;
+    }).id;
+  }
+
+
   getTypeList() {
     this.common.loading++;
     this.api.get('Suggestion/getTypeMaster?typeId=55')
@@ -130,13 +198,14 @@ export class TransferReceiptsComponent implements OnInit {
         this.common.showError();
       });
   }
-  save() {
+
+  saveTransfer() {
     console.log("Params");
     ++this.common.loading;
     let params = {
       vid: this.transferReceipt.vehicleId,
       regno: this.transferReceipt.vehicleRegNo,
-      vehasstype: 0,
+      vehasstype: 1,
       advice_type_id: this.transferReceipt.adviceTypeId,
       advice_mode: this.transferReceipt.modeId,
       dttime: this.common.dateFormatter(this.transferReceipt.date),
@@ -150,7 +219,6 @@ export class TransferReceiptsComponent implements OnInit {
       is_transfer: this.transferReceipt.selectOption,
       pay_mode: this.transferReceipt.modeId,
       remarks: this.transferReceipt.remark
-
     };
     this.api.post("LorryReceiptsOperation/saveTransfers", params)
       .subscribe(res => {
@@ -162,7 +230,6 @@ export class TransferReceiptsComponent implements OnInit {
         }
         else {
           this.common.showError(res['data'][0].y_msg);
-
         }
       }, err => {
         --this.common.loading;
@@ -170,7 +237,6 @@ export class TransferReceiptsComponent implements OnInit {
         console.log('Error: ', err);
       });
   }
-
 
 
 }

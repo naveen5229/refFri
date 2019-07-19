@@ -19,17 +19,20 @@ export class FuelRulesComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    //this.common.refresh = this.refresh.bind(this);
+    this.common.refresh = this.refresh.bind(this);
     this.getFuelNorms();
 
   }
 
   ngOnInit() {
   }
+  refresh() {
+    this.getFuelNorms();
+  }
 
   addFuelRule() {
     this.common.params = {};
-    const activeModal = this.modalService.open(AddFuelFullRuleComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddFuelFullRuleComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.getFuelNorms();
@@ -38,12 +41,13 @@ export class FuelRulesComponent implements OnInit {
   }
 
   getFuelNorms() {
+    this.fuelNorms = [];
     this.common.loading++;
     this.api.get('Fuel/getFuelFullNorms')
       .subscribe(res => {
         this.common.loading--;
         console.log('res', res['data']);
-        this.fuelNorms = res['data'];
+        this.fuelNorms = res['data'] || [];
         this.table = this.setTable();
       }, err => {
         this.common.loading--;

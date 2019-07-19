@@ -243,7 +243,7 @@ export class VehicleTripComponent implements OnInit {
   deleteTrip(vehicleTrip) {
     console.log("deleteTrip", vehicleTrip);
     let params = {
-      tripId: vehicleTrip.id
+      tripId: vehicleTrip._tripid
     }
     ++this.common.loading;
     this.api.post('VehicleTrips/deleteVehicleTrip', params)
@@ -262,14 +262,18 @@ export class VehicleTripComponent implements OnInit {
     this.common.params = { vehicleTrip: vehicleTrip };
     const activeModal = this.modalService.open(UpdateTripDetailComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
-      this.getVehicleTrips();
 
     });
   }
 
 
   tripSettlement(row) {
-    this.common.params = { row: row };
+    console.log("======", row)
+    let refData = {
+      refId: row._tripid,
+      refType: 14
+    }
+    this.common.params = { refData: refData }
     const activeModal = this.modalService.open(TripSettlementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.getVehicleTrips();

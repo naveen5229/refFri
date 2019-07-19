@@ -130,6 +130,7 @@ export class AdvicesComponent implements OnInit {
     let icons = [];
 
     icons.push(
+
       {
         class: "far fa-eye",
         action: this.adviceView.bind(this, details),
@@ -153,6 +154,7 @@ export class AdvicesComponent implements OnInit {
 
 
   saveAdvices() {
+    this.common.params = { refData: null };
     this.common.handleModalSize('class', 'modal-lg', '1100');
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
