@@ -62,7 +62,7 @@ boolean=0
    this.StateId = this.common.params.stateId;
    this.selectOption = this.StateId > 0 ? 'In': 'Out';
     console.log("items1", this.itemId)
-    this.common.handleModalSize('class', 'modal-lg', '500');
+    this.common.handleModalSize('class', 'modal-lg', '550');
 
     this.stateType=[{
       name: 'Transhipment',
@@ -162,7 +162,7 @@ boolean=0
     let TDate = this.common.dateFormatter(this.Date);
     if(this.selectOption =='Out'){
     if(this.quantityId==this.common.params.quantity){
-      confirm("Are you sure that you want delete this record" )
+      confirm("Are you sure that you want close this record" )
         this.boolean=1
     }
   }
@@ -193,7 +193,7 @@ boolean=0
         }
         else
         {
-          this.common.showError("item_id,date or other detail is missing ");
+          this.common.showError("date or other detail is missing ");
 
         }
       }, err => {
