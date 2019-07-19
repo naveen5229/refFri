@@ -5,6 +5,7 @@ import { WareHouseComponent } from './ware-house-component';
 import { WareHouseDashbordComponent } from './ware-house-dashbord/ware-house-dashbord.component';
 import { WareHouseReceiptsComponent } from './ware-house-receipts/ware-house-receipts.component';
 import { WarehouseInventoryComponent } from './warehouse-inventory/warehouse-inventory.component';
+import { StateLogsComponent } from './state-logs/state-logs.component';
 
 
 const routes: Routes = [
@@ -13,10 +14,7 @@ const routes: Routes = [
         component: WareHouseComponent,
         children: [
 
-            {
-                path: 'ware-house-dashbord',
-                component: WareHouseDashbordComponent
-            },
+         
 
             {
                 path:'ware-house-dashbord',
@@ -29,8 +27,11 @@ const routes: Routes = [
             {
                 path: 'warehouse-inventory',
                 component: WarehouseInventoryComponent
+            },
+            {
+                path: 'state-logs',
+                component: StateLogsComponent
             }
-
 
 
         ],
