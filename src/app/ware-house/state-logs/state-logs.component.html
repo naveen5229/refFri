@@ -1,0 +1,30 @@
+<nb-card>
+  <nb-card-header>State Logs</nb-card-header>
+<nb-card-body>
+  <div class="row">
+      <div classs="col-4">
+          <select placeholder="Name" class='name' [(ngModel)]="wareHouseId" >
+            <option *ngFor="let element of dataWareHouse" [value]="element.id">{{element.name}}
+  
+            </option>
+          </select>
+  </div>
+  <div class="col-4">
+      <select placeholder="Name" class=name [(ngModel)]="stateId">
+          <option *ngFor="let stateList of dataState" [value]="stateList.id">{{stateList.description}}
+
+          </option>
+        </select>
+
+      </div>
+  <div class="col-3">
+      <button class="btn btn-primary" id="button" (click)="getState()">Submit</button>
+    </div>
+  </div>
+  <div>
+      <smart-table *ngIf="stateData && stateData.length" [data]="table.data" [settings]="table.settings" id="wareHouseInventory">
+      </smart-table> 
+    </div>
+
+</nb-card-body>
+</nb-card>
