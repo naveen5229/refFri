@@ -96,7 +96,8 @@ export class GenericModelComponent implements OnInit {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
         if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash', action: this.delete.bind(this, doc) }] };
+          if (this.deleteUrl)
+            this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash', action: this.delete.bind(this, doc) }] };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
