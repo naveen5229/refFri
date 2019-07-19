@@ -328,6 +328,7 @@
           <th *ngIf="(order.ordertype.id != -8)">Line Amount</th>
 
           <th *ngIf="(order.ordertype.id != -8)">remarks</th>
+          
           <th *ngIf="(order.ordertype.id != -8)"></th>
           <th></th>
         </tr>
@@ -398,9 +399,11 @@
               [readonly]="(order.ordertype.id == -6 || order.ordertype.id ==-7)" [id]="'remarks-' + i"
               [(ngModel)]="amountDetail.remarks" placeholder="Please Enter Remarks">
           </td>
+         
           <td *ngIf="(order.ordertype.id != -8)">
             <button (click)="TaxDetails(i)" [id]="'taxDetail-'+i" class="btn btn-taxdet">Tax</button>
           </td>
+         
           <td *ngIf="i == 0 && (order.ordertype.id != -6 || order.ordertype.id !=-7 || order.ordertype.id != -8)">
             <button class="plustransparent btn btn-plus" id="plustransparent" (click)="addAmountDetails()"><i
                 class="fa fa-plus"></i></button></td>
