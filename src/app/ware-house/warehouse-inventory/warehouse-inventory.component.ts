@@ -133,12 +133,12 @@ export class WarehouseInventoryComponent implements OnInit {
     };
     this.headings = [];
     this.valobj = {};
-    if (this.startDate == null) {
-      this.startDate = null;
-      this.endDate = null;
-    }
-    let startDate = this.common.dateFormatter(this.startDate);
-    let endDate = this.common.dateFormatter(this.endDate);
+    // if (this.startDate == null) {
+    //   this.startDate = null;
+    //   this.endDate = null;
+    // }
+    let startDate = this.startDate!=null ? this.common.dateFormatter1(this.startDate): null;
+    let endDate = this.endDate!=null ?  this.common.dateFormatter1(this.endDate): null;
     const params =
       {
         startDate:startDate,

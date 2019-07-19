@@ -12,18 +12,18 @@ import { ConfirmComponent } from '../../../modals/confirm/confirm.component';
 })
 export class GotPassComponent implements OnInit {
   itemList = [];
-  Test=null;
-  dataItems=[]
+  Test = null;
+  dataItems = []
   itemId = null;
   quantityId = null;
   unitTypeId = null;
   unitList = [];
   Date = new Date();
-  remark=''; 
-   itemsId=null;
+  remark = '';
+  itemsId = null;
 
 
-  selectOption="In";
+  selectOption = "In";
   stateData = [];
   table = {
     data: {
@@ -40,16 +40,17 @@ export class GotPassComponent implements OnInit {
   headings = [];
   valobj = {};
   stateType = [{
-    id:null,
-  name:null
+    id: null,
+    name: null
   }];
-  stateType1=[{
-    id:null,
-    name:null
+  stateType1 = [{
+    id: null,
+    name: null
   }];
-  userInput='';
-StateId = null;
-boolean=0
+  userInput = '';
+  StateId = null;
+  boolean = 0;
+  stateFind = null;
 
   constructor(public common: CommonService,
     public modalService: NgbModal,
@@ -58,13 +59,17 @@ boolean=0
     this.getUnitList();
     this.getItems();
     this.getStateData();
-   this.itemId =this.common.params.itemId;
-   this.StateId = this.common.params.stateId;
-   this.selectOption = this.StateId > 0 ? 'In': 'Out';
+    console.log("para", this.common.params)
+    this.quantityId = this.common.params.quantity
+    this.stateFind = this.common.params.quantity
+
+    this.itemId = this.common.params.itemId;
+    this.StateId = this.common.params.stateId;
+    this.selectOption = this.StateId > 0 ? 'In' : 'Out';
     console.log("items1", this.itemId)
     this.common.handleModalSize('class', 'modal-lg', '550');
 
-    this.stateType=[{
+    this.stateType = [{
       name: 'Transhipment',
       id: 2
     }, {
@@ -79,32 +84,32 @@ boolean=0
       id: 6
     }, {
       name: ' Delivered',
-      id: 1 
+      id: 1
     }];
-    this.stateType1=[ {
+    this.stateType1 = [{
       name: 'Receive Manifest',
       id: -1
     }, {
       name: 'Received By GP',
       id: -2
     },
-      {
-     name: 'Received Lr',
+    {
+      name: 'Received Lr',
       id: -3
     }, {
       name: 'Returned Back',
       id: -4
     },
     {
-    name: 'Increase In Count',
-    id: -6
-  }];
+      name: 'Increase In Count',
+      id: -6
+    }];
   }
 
   ngOnInit() {
   }
 
-  getItems(){
+  getItems() {
     this.api.get("WareHouse/getWhStockItem").subscribe(
       res => {
         this.dataItems = res['data']
@@ -139,68 +144,111 @@ boolean=0
     this.activeModal.close();
   }
 
-  onSet(type){
-    this.selectOption='';
+  onSet(type) {
+    this.selectOption = null;
     this.selectOption = type;
-    if(this.selectOption =='In')
+    console.log('select type:', this.selectOption);
+     if(this.selectOption =='Out')
     {   
-      console.log("test", this.selectOption);
-        console.log("data",this.stateType);
-         
+      console.log("stateFind", this.selectOption);
           return this.stateType;
-
       }
       else{
          return this.stateType1;
       }
-    }
+  }
 
+
+
+
+  getAdvice() {
+    console.log(this.selectOption);
+    if(!this.StateId){
+      this.common.showError("State Type Missing");
+      return;
+    }
+    if (this.selectOption == 'Out') {
+      console.log("stateFind", this.selectOption);
+      if (this.quantityId === this.stateFind) {
+        this.common.params = {
+          title: 'Closing Stock',
+          description: 'Are you sure you want close this stock?'
+        };
+        console.log("Inside confirm model")
+        const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
+        activeModal.result.then(data => {
+          if (data.response) {
+            console.log('res', data.response);
+            this.boolean = 1;
+            this.saveStock();
+          }
+        });
+        
+      }
+      else if (this.quantityId > this.stateFind) {
+        console.log("out1")
+        return this.common.showError("Quantity should be less  than  and equal  your stock ");
+      }
+      else if(this.quantityId < this.stateFind){
+      this.saveStock();
+      }
+  
+    } 
+    else if( this.selectOption == 'In'){
+      this.saveStock();
+    }
  
 
-
-  getAdvice(){
+    
+    
+    
+  }
+  
+  saveStock(){
     let TDate = this.common.dateFormatter(this.Date);
-    if(this.selectOption =='Out'){
-    if(this.quantityId==this.common.params.quantity){
-      confirm("Are you sure that you want close this record" )
-        this.boolean=1
-    }
+  const params = {
+    stateId: this.StateId,
+    itemId: this.itemId,
+    qty: this.quantityId,
+    dttime: TDate,
+    remarks: this.remark,
+    perDetail: this.userInput,
+    isClose: this.boolean
+
   }
+ if(this.quantityId > 0){
+    return this.common.showError("Quantity should not  be in nagative ");
 
-    const  params = {
-    stateId:this.StateId,
-    itemId:this.itemId,
-    qty:this.quantityId,
-    dttime:TDate,
-    remarks:this.remark,
-    perDetail:this.userInput,
-    isClose:this.boolean
-      
-    } 
-   
-    console.log("result",params)
-    this.common.loading++;
-    this.api.post('WareHouse/saveWhStockItemState', params)
-      .subscribe(res => {
-        this.common.loading--;
-        this.unitList = res['data'];
-        console.log('type', this.unitList);
-        if (res['data'][0].y_id > 0) {
+   }
+  console.log("result", params)
+  this.common.loading++;
+  this.api.post('WareHouse/saveWhStockItemState', params)
+    .subscribe(res => {
+      this.common.loading--;
+      this.unitList = res['data'];
+      console.log('type', this.unitList);
+      if (this.quantityId < res['data'].qty) {
+        this.common.showError(res['msg']);
 
-          this.common.showToast("Sucessfully insert");
+      }
 
-          this.activeModal.close({ data: true });
-        }
-        else
-        {
-          this.common.showError("date or other detail is missing ");
+ 
+      if (res['data'][0].y_id > 0) {
 
-        }
-      }, err => {
-        this.common.showError();
-        // console.log('Error: ', err);
-      });
-  }
+        this.common.showToast("Sucessfully insert");
+
+        this.activeModal.close({ data: true });
+      }
+      else {
+        this.common.showError(res['msg']);
+
+      }
+    }, err => {
+      this.common.showError();
+      // console.log('Error: ', err);
+    });
+}
+    
 
 
   getTableColumns() {
@@ -220,7 +268,7 @@ boolean=0
 
   getStateData() {
     console.log("ap")
-    const params="itemId=" + this.common.params.itemId;
+    const params = "itemId=" + this.common.params.itemId;
     this.api.get("wareHouse/getAllStatesWrtItem?" + params).subscribe(
       res => {
         this.stateData = [];
@@ -242,6 +290,6 @@ boolean=0
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
-  
-  }
+
+}
 
