@@ -131,7 +131,6 @@ export class AdvicesComponent implements OnInit {
 
     icons.push(
 
-
       {
         class: "far fa-eye",
         action: this.adviceView.bind(this, details),

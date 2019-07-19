@@ -202,6 +202,7 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
 import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
 import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/edit-via-routes-points.component';
 import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
+import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
 
 
 @NgModule({
@@ -375,6 +376,7 @@ import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
     LrRateComponent,
+    LedgeraddressComponent,
   ],
   entryComponents: [
     LrRateComponent,
@@ -543,6 +545,7 @@ import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
     TripSettlementComponent,
+    LedgeraddressComponent
   ],
   imports: [
     BrowserModule,
