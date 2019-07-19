@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ReceiveItemsComponent } from '../modal/receive-items/receive-items.component';
-import { ManualItemsComponent } from '../modal/manual-items/manual-items.component';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { CommonService } from '../../services/common.service';
+import { ReceiveItemsComponent } from '../modal/receive-items/receive-items.component';
+import { ManualItemsComponent } from '../modal/manual-items/manual-items.component';
 
 @Component({
   selector: 'ware-house-receipts',

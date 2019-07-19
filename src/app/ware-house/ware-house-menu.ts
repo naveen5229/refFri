@@ -18,6 +18,12 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         link: '/ware-house/warehouse-inventory',
         home: true,
     },
+    {
+        title: 'State Logs',
+        icon: 'far fa-warehouse',
+        link: '/ware-house/state-logs',
+        home: true,
+    },
 
 
 ];
