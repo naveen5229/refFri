@@ -6,13 +6,25 @@
 
     @page {
         margin: 0;
+        padding: 0;
     }
 
     body {
         margin: 0px;
         padding: 0px;
+        overflow: visible !important;
     }
 
+    /****** Settings for Mizilla ******/
+    @-moz-document url-prefix() {
+        .print-page-container {
+            height: 340mm !important;
+        }
+
+        .pp-container {
+            font-size-adjust: 0.4;
+        }
+    }
 
     // used for body tag to hide other view
     .printing {
@@ -21,31 +33,34 @@
         }
     }
 
-    // Set mozilla font size
-    @-moz-document url-prefix() {
-        .pp-container {
-            font-size-adjust: 0.4;
-        }
-    }
-
     // print page warpper like as body
     .printing-page {
-        position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
+        width: auto;
+        height: auto;
         z-index: 9999999;
         background: #fff;
+        overflow: visible;
+    }
+
+    .print-page-container {
+        position: relative;
+        height: 418mm;
         padding: 50px 50px 0px 100px;
+        page-break-after: always;
+        page-break-inside: avoid;
     }
 
     // print page container
+    .print-page {
+        height: calc(100% - 150px);
+    }
+
     .pp-container {
         position: relative;
         background: #fff;
         height: 100%;
-
 
         .pp-v1-details {
             margin-top: 15px;
@@ -53,8 +68,8 @@
         }
 
         .pp-v1-signature {
-            position: fixed;
-            bottom: 130px;
+            position: absolute;
+            bottom: 80px;
             left: 0;
             width: 100%;
             text-align: right;
@@ -73,7 +88,7 @@
         }
 
         .pp-v1-footer {
-            position: fixed;
+            position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;

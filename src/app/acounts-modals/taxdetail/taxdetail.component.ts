@@ -36,6 +36,9 @@ export class TaxdetailComponent implements OnInit {
       this.taxdetails = this.common.params;
       this.common.params = null;
     }
+
+    this.common.handleModalSize('class', 'modal-lg', '1050');
+
   }
 
   allowBackspace = true;

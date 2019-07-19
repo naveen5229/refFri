@@ -199,10 +199,10 @@ import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-dis
 import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
 import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
 import { TypeMasterComponent } from './modals/type-master/type-master.component';
-
-
 import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
-import { GotPassComponent } from './ware-house/modals/got-pass/got-pass.component';
+import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/edit-via-routes-points.component';
+import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
+import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
 
 
 @NgModule({
@@ -373,17 +373,13 @@ import { GotPassComponent } from './ware-house/modals/got-pass/got-pass.componen
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
-
-
-
     TripSettlementComponent,
-
-
-
-    GotPassComponent,
-
+    EditViaRoutesPointsComponent,
+    LrRateComponent,
+    LedgeraddressComponent,
   ],
   entryComponents: [
+    LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
     AddFreightExpensesComponent,
@@ -546,13 +542,10 @@ import { GotPassComponent } from './ware-house/modals/got-pass/got-pass.componen
     FreightInvoiceComponent,
     LrAssignComponent,
     TypeMasterComponent,
-
-
-
     TripSettlementComponent,
-    GotPassComponent
-
-
+    EditViaRoutesPointsComponent,
+    TripSettlementComponent,
+    LedgeraddressComponent
   ],
   imports: [
     BrowserModule,

@@ -13,29 +13,29 @@ import { DatePickerComponent } from '../date-picker/date-picker.component';
 export class UpdateTripDetailComponent implements OnInit {
   prevehicleId = '';
   vehicleTrip = {
-    targetTime:null,
-    startTime:null,
-    VehicleId :null,
-    startName :null,
-    endName : null,
-    tripId : null,
-    tripTypeId : null,
-    vehicleRegNo : null
+    targetTime: null,
+    startTime: null,
+    VehicleId: null,
+    startName: null,
+    endName: null,
+    tripId: null,
+    tripTypeId: null,
+    vehicleRegNo: null
   }
 
 
   constructor(
-    public common : CommonService,
-    public api : ApiService,
+    public common: CommonService,
+    public api: ApiService,
     public activeModal: NgbActiveModal,
     private datePipe: DatePipe,
     private modalService: NgbModal,
-  ) { 
+  ) {
     console.log("vehicle Trip", this.common.params.vehicleTrip);
-    this.vehicleTrip.tripId = this.common.params.vehicleTrip.id;
+    this.vehicleTrip.tripId = this.common.params.vehicleTrip._tripid;
     this.vehicleTrip.tripTypeId = this.common.params.vehicleTrip.trip_type_id;
     this.vehicleTrip.VehicleId = this.common.params.vehicleTrip.vehicle_id;
-    this.vehicleTrip.vehicleRegNo= this.common.params.vehicleTrip.regno;
+    this.vehicleTrip.vehicleRegNo = this.common.params.vehicleTrip.regno;
     this.vehicleTrip.startName = this.common.params.vehicleTrip.start_name;
     this.vehicleTrip.startTime = this.common.params.vehicleTrip.start_time;
     this.vehicleTrip.endName = this.common.params.vehicleTrip.end_name;
@@ -53,8 +53,8 @@ export class UpdateTripDetailComponent implements OnInit {
       if (data.date) {
         // if(type=='start')
         // this.startTime = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        if(type=='end')
-        this.vehicleTrip.targetTime = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+        if (type == 'end')
+          this.vehicleTrip.targetTime = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
       }
     });
   }
@@ -62,17 +62,17 @@ export class UpdateTripDetailComponent implements OnInit {
     this.activeModal.close();
   }
   updateTrip() {
-      this.vehicleTrip.startTime = this.common.dateFormatter(this.vehicleTrip.startTime);
-      this.vehicleTrip.targetTime = this.common.dateFormatter(this.vehicleTrip.targetTime);
+    this.vehicleTrip.startTime = this.common.dateFormatter(this.vehicleTrip.startTime);
+    this.vehicleTrip.targetTime = this.common.dateFormatter(this.vehicleTrip.targetTime);
     let params = {
       vehicleId: this.vehicleTrip.VehicleId,
       startTrip: this.vehicleTrip.startName,
-      endTrip:this.vehicleTrip.endName,
-      tripTypeId:this.vehicleTrip.tripTypeId,
-      tripId:this.vehicleTrip.tripId,
+      endTrip: this.vehicleTrip.endName,
+      tripTypeId: this.vehicleTrip.tripTypeId,
+      tripId: this.vehicleTrip.tripId,
       startTime: this.vehicleTrip.startTime,
       endTime: this.vehicleTrip.targetTime,
-     
+
     }
     console.log("params", params);
     ++this.common.loading;
@@ -86,5 +86,5 @@ export class UpdateTripDetailComponent implements OnInit {
         --this.common.loading;
         console.log('Err:', err);
       });
-}
+  }
 }
