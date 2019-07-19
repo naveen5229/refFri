@@ -28,13 +28,10 @@
                 <div class="col-2">
                     <button class="btn btn-primary w-100" id="button" (click)="Manual()">Manual</button>
                 </div>
-
             </div>
             <div class="mt-2">
                 <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="wareHouse">
                 </smart-table>
-
-
             </div>
         </div>
     </nb-card-body>
