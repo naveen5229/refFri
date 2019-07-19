@@ -13,8 +13,9 @@
         <tr>
           <td>Model</td>
           <td>
-            <auto-suggestion (onSelected)="route.modelId = $event.id;" display="name" [data]="models" placeholder=" "
-              [preSelected]="null" (change)="resetData($event,i)"></auto-suggestion>
+            <auto-suggestion (onSelected)="route.modelId = $event.id;" display="name" [data]="models" placeholder=""
+              (unSelected)="route.modelId = $event">
+            </auto-suggestion>
           </td>
           <td>ExpensesType </td>
           <td>

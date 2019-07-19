@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ReceiveItemsComponent } from '../modals/receive-items/receive-items.component';
+// import { ReceiveItemsComponent } from '../modal/receive-items/receive-items.component';
+import { ManualItemsComponent } from '../modal/manual-items/manual-items.component';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { CommonService } from '../../services/common.service';
@@ -25,28 +26,25 @@ export class WareHouseReceiptsComponent implements OnInit {
   };
   wareHouseId=null;
   dataReceive='';
-  startDate = null;
-  endDate=null;
+  endDate=new Date();
+  startDate =new Date(new Date().setDate(new Date(this.endDate).getDate() - 10));;
+ 
   headings = [];
   valobj = {};
-  constructor(
-    public api: ApiService,
+  constructor( public api: ApiService,
     public user: UserService,
     public common: CommonService,
-    public modalService:NgbModal
-  ) {
-    this.getWareData()
+    public modalService:NgbModal) {
+    this.getWareData();
+    this.common.refresh=this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
 
-
-  // receiveItems(){
-  //     const activeModal = this.modalService.open(ReceiveItemsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  
-  //   }
-
+  refresh(){
+    this.getWareData(); 
+  }
     getTableColumns() {
       let columns = [];
       console.log("Data=", this.data);
@@ -54,13 +52,12 @@ export class WareHouseReceiptsComponent implements OnInit {
         this.valobj = {};
         for (let i = 0; i < this.headings.length; i++) {
           console.log("doc index value:", doc[this.headings[i]]);
-              
-          if(this.headings[i]=='Action'){
-            this.valobj['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this, doc.status, doc.foid) }
+          if(this.headings[i]=="Action"){
+            this.valobj['Action'] = { class: 'fa fa-edit', action: this.showAction.bind(this, doc) }
           }
-          else{
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-          }
+           else{
+            this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+           }          
         }
         columns.push(this.valobj);
       });
@@ -68,37 +65,69 @@ export class WareHouseReceiptsComponent implements OnInit {
     }
   
     getdata(){
-      let startDate = this.common.dateFormatter(this.startDate);
-      let endDate = this.common.dateFormatter(this.endDate);
-      const params={
-        startDate:startDate,
-        endDate:endDate
-      }
-      console.log("ap")
-      this.api.post("WareHouse/getManifestPendingList" ,params).subscribe(
-        res => {
-          this.data = [];
-          this.data = res['data'];
-          console.log("result", res);
-          let first_rec = this.data[0];
-          for (var key in first_rec) {
-            if (key.charAt(0) != "_") {
-              this.headings.push(key);
-              let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-              this.table.data.headings[key] = headerObj;
-            }
-          }
-          this.table.data.columns = this.getTableColumns();
+      if(this.wareHouseId!=null){
+        let startDate = this.common.dateFormatter(this.startDate);
+        let endDate = this.common.dateFormatter(this.endDate);
+        const params={
+          startDate:startDate,
+          endDate:endDate,
+          whId:this.wareHouseId
         }
-      );
+        console.log("ap");
+        this.common.loading++;
+        this.api.post("WareHouse/getManifestPendingList" ,params).subscribe(
+          res => {
+            this.common.loading--;
+           this.data = [];
+           this.table = {
+              data: {
+                headings: {},
+                columns: []
+              },
+              settings: {
+                hideHeader: true
+          
+              }
+          
+            };
+           
+           this.headings = [];
+            this.valobj = {};
+            this.data = res['data'];
+            console.log("result", res);
+            let first_rec = this.data[0];
+            for (var key in first_rec) {
+              if (key.charAt(0) != "_") {
+                this.headings.push(key);
+                let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+                this.table.data.headings[key] = headerObj;
+              }
+            }
+            this.table.data.columns = this.getTableColumns();
+          }
+        );
+      }else{
+        this.common.showToast("Please Select WareHouse");
+      }
+    
     }
   
-    showAction() {
-      this.common.params = {warehouseId : this.wareHouseId};
-      const activeModal = this.modalService.open(ReceiveItemsComponent, {
-        size: "lg",
-        container: "nb-layout"
-      });
+    showAction(doc) {
+      // if(this.wareHouseId!=null){
+      //   this.common.params = {
+      //     warehouseId : this.wareHouseId,
+      //     manifestId:doc._manifest_id,
+      //     item_name:doc['Ch Num']
+      //   };
+      //   console.log("id",this.common.params);
+      //   const activeModal = this.modalService.open(ReceiveItemsComponent, {
+      //     size: "lg",
+      //     container: "nb-layout"
+      //   });
+      // }else{
+      //   this.common.showToast("please select WareHouse")
+      // }
+     
     }
 
     getWareData(){
@@ -113,6 +142,18 @@ export class WareHouseReceiptsComponent implements OnInit {
 
     formatTitle(title) {
       return title.charAt(0).toUpperCase() + title.slice(1)
+    }
+
+    Manual(){
+      if(this.wareHouseId!=null){
+        this.common.params = {
+          warehouseId : this.wareHouseId,
+        };
+        const activeModal = this.modalService.open(ManualItemsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      }else{
+        this.common.showToast("please select wareHouse")
+      }
+     
     }
   }
 

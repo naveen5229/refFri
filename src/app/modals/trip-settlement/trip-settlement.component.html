@@ -20,7 +20,7 @@
       </div>
 
       <div class="modal-body" id="print-section">
-        <div class="row" *ngIf="headings[0] && headings[0].length>0">
+        <div class="row">
           <div class="label-div"><label>{{label[0]}}</label></div>
           <div style="width:100%">
             <table class="table table-bordered table-hover" style="width: 100%">
@@ -42,7 +42,7 @@
         <div class="row" style="border-top:1px solid black">
 
           <div class="col-8">
-            <div class="row " *ngIf="headings[1] && headings[1].length>0">
+            <div class="row ">
               <div class="label-div"><label>{{label[1]}}</label><i class="fa fa-plus add"
                   (click)="openTransferModal()"></i></div>
               <div style="width:100%">
@@ -58,7 +58,7 @@
                 </table>
               </div>
             </div>
-            <div class="row" *ngIf="headings[2] && headings[2].length>0">
+            <div class="row">
               <div class="label-div"><label>{{label[2]}} </label><i class="fa fa-plus add"
                   (click)="openFuelIndentModal()"></i></div>
               <div style="width:100%">
@@ -74,7 +74,7 @@
                 </table>
               </div>
             </div>
-            <div class="row" *ngIf="headings[3] && headings[3].length>0">
+            <div class="row">
               <div class="label-div"><label>{{label[3]}}</label><i class="fa fa-plus add"
                   (click)="openAdviceModal()"></i></div>
               <div style="width:100%">

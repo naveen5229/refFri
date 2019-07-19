@@ -19,13 +19,12 @@
             </td>
             <td colspan="1">
               <label>Location</label> <br>
-              <auto-suggestion *ngIf="this.selected == 0" (onSelected)="selectSite($event)"
+                <auto-suggestion *ngIf="this.selected == 0 " (onSelected)="selectSite($event)"
                 url="Suggestion/getSites?typeId=1" seperator="-" [display]="['name','sd_loc_name']"
-                placeholder="Search Site" [preSelected]="null">
+                placeholder="Search Site" inputId="site" [preSelected]="siteLoc" >
               </auto-suggestion>
-              <input class="form-control" *ngIf="this.selected == 1" type="text" [(ngModel)]="mapName"
-                placeholder="Enter Location" name="mapName" minlength="1" maxlength="100" />
-
+              <input class="form-control" *ngIf="this.selected == 1 " type="text" [(ngModel)]="mapName"
+                placeholder="Enter Location" name="mapName" minlength="1" maxlength="100" id="map" />
             </td>
             <td colspan="2">
               <label>Kilometres</label><br>
@@ -48,7 +47,10 @@
           </div>
           <div class="col-3 text-right">
             <button type="button" class="btn btn-primary add-route  pt-1" (click)="sendRoute()"
-              style="margin-top:10px;">ADD</button>
+              style="margin-top:10px;">{{this.editId == -1?'EDIT':'ADD'}}</button>
+            <button *ngIf="this.editId == -1" type="button" class="btn btn-primary add-route  pt-1" (click)="cancelEdit()"
+              style="margin-top:10px;">CANCEL EDIT</button>
+
           </div>
 
         </div>
@@ -70,7 +72,8 @@
             <td style="width:40px;">{{data.name}}</td>
             <td><input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="data.via_order">
             <td>{{data.kms}}</td>
-            <td><i class="fas fa-times text-red" (click)="clickDelete(data.name , i)"></i></td>
+            <td><i class="fas fa-times text-red" (click)="clickDelete(data.name , i)"></i>
+                <i class="fas fa-edit edit" (click)="editRow(i)"></i></td>
           </tr>
           <tr>
             <button class="btn btn-primary add-route  pt-1" (click)="updateOrder(tableData)"
