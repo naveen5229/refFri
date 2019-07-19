@@ -4,11 +4,11 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
-  selector: 'advice-view',
-  templateUrl: './advice-view.component.html',
-  styleUrls: ['./advice-view.component.scss']
+  selector: 'generic-model',
+  templateUrl: './generic-model.component.html',
+  styleUrls: ['./generic-model.component.scss']
 })
-export class AdviceViewComponent implements OnInit {
+export class GenericModelComponent implements OnInit {
   data = [];
   response = [];
   table = {
@@ -24,11 +24,25 @@ export class AdviceViewComponent implements OnInit {
   headings = [];
   valobj = {};
   vehicleId = null;
+  viewUrl = null;
+  deleteUrl = null;
+  deleteParams = {};
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     private commonService: CommonService,
     public api: ApiService, ) {
-    this.vehicleId = this.common.params.advice._vid ? this.common.params.advice._vid : null;
+    if (this.common.params && this.common.params.data) {
+      console.log("Dynamic Data", this.common.params.data);
+      let str = "?";
+      Object.keys(this.common.params.data.view.param).forEach(element => {
+        if (str == '?')
+          str += element + "=" + this.common.params.data.view.param[element];
+        else
+          str += "&" + element + "=" + this.common.params.data.view.param[element];
+      });
+      this.viewUrl = this.common.params.data.view.api + str;
+      this.deleteUrl = this.common.params.data.delete.api;
+    }
     this.AdviceViews();
   }
 
@@ -48,13 +62,12 @@ export class AdviceViewComponent implements OnInit {
 
     this.headings = [];
     this.valobj = {};
-    let params = "vId=" + this.vehicleId;
+
     this.common.loading++;
-    this.api.get('Drivers/getAdvicesSingleVehicle?' + params)
+    this.api.get(this.viewUrl)
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
-
 
         if (this.data == null) {
           this.data = [];
@@ -68,7 +81,6 @@ export class AdviceViewComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        // this.showdoughnut();
         this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
@@ -80,16 +92,11 @@ export class AdviceViewComponent implements OnInit {
   }
   getTableColumns() {
     let columns = [];
-
     this.data.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        // console.log("Type", this.headings[i]);
-        // console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
-
-          // this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-task', action: this.view.bind(this, doc.url) }, { class: 'fa fa-task', action: this.view.bind(this, doc.url) }] };
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash', action: this.change.bind(this, doc) }] };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash', action: this.delete.bind(this, doc) }] };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -98,26 +105,24 @@ export class AdviceViewComponent implements OnInit {
     });
     return columns;
   }
-  change(doc) {
-    let params = {
-      vId: this.vehicleId,
-      id: doc._id
-    }
+
+  delete(doc) {
     this.common.loading++;
-    this.api.post('Drivers/deleteAdvice', params)
+    Object.keys(this.common.params.data.delete.param).forEach(element => {
+      console.log("element value:", element);
+      this.deleteParams[element] = doc[this.common.params.data.delete.param[element]];
+    });
+    this.api.post(this.deleteUrl, this.deleteParams)
       .subscribe(res => {
         this.common.loading--;
         this.response = res['data'];
         this.AdviceViews();
-
-        //this.type = res['data'];
-        //console.log('type', this.type);
-
       }, err => {
         this.common.loading--;
         this.common.showError();
       });
   }
+
   closeModal() {
     this.activeModal.close();
   }
