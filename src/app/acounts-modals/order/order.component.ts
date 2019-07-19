@@ -445,7 +445,8 @@ export class OrderComponent implements OnInit {
       if (data.response) {
         console.log(data.taxDetails);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
-        this.order.amountDetails[i].lineamount += data.taxDetails[0].totalamount;
+        this.order.amountDetails[i].lineamount =0;
+        this.order.amountDetails[i].lineamount = this.order.amountDetails[i].amount+data.taxDetails[0].totalamount;
         this.setFoucus('plustransparent');
         // this.addLedger(data.ledger);
       }
