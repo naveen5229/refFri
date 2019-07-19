@@ -48,9 +48,10 @@ export class ReceiveItemsComponent implements OnInit {
 }
 
 selectAll() {
+  console.log('select all::::::::::::')
  if (this.selectedAll) {
     for (var i = 0; i < this.lrList.length; i++) {
-     // this.vehCostList[i].selected = this.selectedAll;
+     this.lrList[i].selected = this.selectedAll;
      this.selectedLr.push({
       material_id:this.lrList[i].materialid,
       unitype_id:this.lrList[i].unittype,
@@ -62,7 +63,7 @@ selectAll() {
     }
   } else {
     for (var i = 0; i < this.lrList.length; i++) {
-     // this.vehCostList[i].selected = false;
+      this.lrList[i].selected = false;
       this.selectedLr = [];
     }
   }
@@ -103,13 +104,12 @@ saveLr(){
       if (res['data'][0].y_id > 0) {
         this.common.loading--;
         this.common.showToast(res['data'][0].y_msg);
+        this.activeModal.close();
       }
       else {
         this.common.loading--;
         this.common.showError(res['data'][0].y_msg)
       }
-     
-
     }, err => {
     });
 }

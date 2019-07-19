@@ -7,7 +7,7 @@
 <div class="modal-body">
     <div class="row mt-2">
         <div class="col-3">
-            <label>item name</label>
+            <label>Item name</label>
         </div>
         <div class="col-4">
             <input type="text" class="form-control" [(ngModel)]="itmeName">
@@ -21,7 +21,7 @@
         <table frame="box" style="width:100%">
             <thead>
                 <tr>
-                    <th><b>selected items<input type="checkbox" name="vlist" [(ngModel)]="selectedAll" (ngModelChange)="selectAll()"></b></th>
+                    <th><b><input type="checkbox" name="vlist" [(ngModel)]="selectedAll" (ngModelChange)="selectAll()"></b></th>
                     <th><b>receipt_no</b></th>
                     <th><b>source</b></th>
                     <th><b>destination</b></th>
@@ -30,13 +30,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let list of lrList;let i=index;">
-                    <!-- <td>{{i+1}}</td>
-              <td>
-                <input type="checkbox" [name]="'trip-' + i" [id]="'trip-' + i" [(ngModel)]="trip.isChecked"
-                  (ngModelChange)="checkedAllSelected()"
-                  [disabled]="(trip.voucher_id && (VoucherId !=trip.voucher_id))">
-              </td> -->
-                    <td><input type="checkbox" (change)="selectedLrList($event,list)"> </td>
+                    <td><input type="checkbox" (change)="selectedLrList($event,list)" [name]="'list-' + i" [(ngModel)]="list.selected"> </td>
                     <td>{{list.receipt_no}}</td>
                     <td>{{list.source }}</td>
                     <td>{{list.destination}}</td>
@@ -49,7 +43,7 @@
             <label>Date</label>
         </div>
         <div class="col-4">
-            <uj-date-time-picker [isTime]="false" (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+            <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
             </uj-date-time-picker>
         </div>
     </div>

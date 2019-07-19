@@ -12,7 +12,6 @@ export class ManualItemsComponent implements OnInit {
   unitList=[];
   wareHouseId=null;
   startDate=new Date();
-  remarks=null;
   selectLr=[{
     material_id:null,
     unitype_id:null,
@@ -21,14 +20,14 @@ export class ManualItemsComponent implements OnInit {
     ref_type:-1,
     ref_id:null,
     qty:null,
-    remarks:this.remarks
+    remarks:null,
   }]; 
 
  
   constructor(public activeModal:NgbActiveModal,
     public api:ApiService,
     public common:CommonService) { 
-      // this.common.handleModalSize('class', 'modal-lg', '1500');
+       this.common.handleModalSize('class', 'modal-lg', '1200');
       this.getUnitList();
   }
 
@@ -61,7 +60,7 @@ export class ManualItemsComponent implements OnInit {
       ref_type:-1,
       ref_id:null,
       qty:null,
-      remarks:this.remarks
+      remarks:null
     });
   }
 
@@ -78,6 +77,7 @@ export class ManualItemsComponent implements OnInit {
         if (res['data'][0].y_id > 0) {
           this.common.loading--;
           this.common.showToast(res['data'][0].y_msg);
+          this.activeModal.close();
         }
         else {
           this.common.loading--;

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { isArray } from 'util';
+import { LocationSelectionComponent } from '../location-selection/location-selection.component';
 
 @Component({
   selector: 'freight-rate-calculation',
@@ -11,19 +13,18 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class FreightRateCalculationComponent implements OnInit {
   
-  isFormSubmit = false;
-  Form: FormGroup;
+  keepGoing = true;
+  searchString = '';
   companyId=null;
   origin=null;
   siteId=null;
-  materialId=null;
   destination=null;
   weight=null;
-  qty=null;
   distance=null;
   detention=null;
   delay=null;
   shortage=null;
+  qty=null;
   shortagePer=null;
   radioValue=1;
   value=null;
@@ -41,53 +42,143 @@ export class FreightRateCalculationComponent implements OnInit {
 
   headings = [];
   valobj = {};
+  fofields=[];
+
+  materialDetails=[{
+    articles:null,
+    weight:null,
+    material_value:null,
+    weight_unit:null,
+    materialId:null,
+    material:null,
+    customjsonfields: [
+      {
+        field1: null,
+        value1: null,
+        field2: null,
+        value2: null,
+        field3: null,
+        value3: null,
+        field4: null,
+        value4: null,
+      }
+    ],
+  }]
+
   constructor(public api:ApiService,
     private activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder,
+    private modalService: NgbModal,
     public common:CommonService) { 
+      this.getAllFieldName();
       this.common.handleModalSize('class', 'modal-lg', '1000');
     }
 
   ngOnInit() {
-    this.Form = this.formBuilder.group({
-      company: ['', Validators.required],
-      origin: ['', Validators.required],
-      material: ['', Validators.required],
-      destination:['', Validators.required],
+  }
 
-  
+  getAllFieldName() {
+    this.api.get('Suggestion/lrFoFields?sugId=1')
+      .subscribe(res => {
+        this.fofields = res['data'];
+        console.log("fo",this.fofields);
+      }, err => {
+        console.log(err);
+      });
+  }
+
+  addMore() {
+    this.materialDetails.push({
+      articles:null,
+      weight:null,
+      material_value:null,
+      weight_unit:null,
+      materialId:null,
+      material:null,
+      customjsonfields: [
+        {
+          field1: null,
+          value1: null,
+          field2: null,
+          value2: null,
+          field3: null,
+          value3: null,
+          field4: null,
+          value4: null,
+        }
+      ],
     });
   }
 
-  get f() {
-    return this.Form.controls;
+  addField(index) {
+    this.materialDetails[index].customjsonfields.push(
+      {
+        field1: null,
+        value1: null,
+        field2: null,
+        value2: null,
+        field3: null,
+        value3: null,
+        field4: null,
+        value4: null,
+      }
+    )
   }
 
+  getFrieghtRate(){
+      this.shortage=null;
+      this.shortagePer=this.value;
+      if(this.radioValue==0){
+          this.shortage=this.value;
+          this.shortagePer=null;
+        } else{
+                this.shortage=null;
+                this.shortagePer=this.value;
+       }
 
-  submit(){
-      this.shortage=null;
-      this.shortagePer=this.value;
-    if(this.radioValue==0){
-      this.shortage=this.value;
-      this.shortagePer=null;
-    }
-    else{
-      this.shortage=null;
-      this.shortagePer=this.value;
-    }
+      let particulars = JSON.parse(JSON.stringify(this.materialDetails));
+      console.log('particulars', particulars);
+
+      if (particulars) {
+        particulars.map(particular => {
+          let keys = [];
+          particular.customfields = [];
+          if (typeof particular.customjsonfields == 'string') {
+            particular.customjsonfields = JSON.parse(particular.customjsonfields);
+            keys = Object.keys(particular.customjsonfields);
+            console.log("keys---", keys);
+            particular.customfields[0] = {};
+            for (let i = 0; i < keys.length; i++) {
+              particular.customfields[0][keys[i]] = particular.customjsonfields[keys[i]]
+            }
+          } else if (isArray(particular.customjsonfields)) {
+            particular.customjsonfields.forEach((customjsonfield, index) => {
+              keys = Object.keys(customjsonfield);
+              console.log("keys:", keys);
+              particular.customfields[index] = {};
+              for (let i = 0; i < keys.length - 1; i = i + 2) {
+                particular.customfields[index][customjsonfield[keys[i]]] = customjsonfield[keys[i + 1]]
+              }
+            });
+
+          }
+          delete particular.customjsonfield;
+          console.log("customfields", particular.customfields);
+        });
+      }
+      console.log("param123", particulars);
     const params = {
       companyId: this.companyId,
       siteId: this.siteId,
-      materialId: this.materialId,
       origin:this.origin,
       destination:this.destination,
       weight:this.weight,
-      qty:this.qty,
       detention:this.detention,
       delay:this.delay,
+      qty:this.qty,
       shortage:this.shortage,
       shortagePer:this.shortagePer,
       distance:this.distance,
+      materialDetails:JSON.stringify(particulars)
     };
      ++this.common.loading;
     console.log("params",params);
@@ -147,4 +238,28 @@ export class FreightRateCalculationComponent implements OnInit {
     this.activeModal.close();
   }
 
+  onChangeAuto(search) {
+    this.searchString = search;
+    console.log('..........', search);
+  }
+
+  takeAction(res){
+    setTimeout(()=>{
+      console.log('here reaches');
+    if (this.keepGoing && this.searchString.length) {
+      this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+      const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      this.keepGoing = false;
+      activeModal.result.then(res => {
+        console.log('response----', res.location);
+        this.keepGoing = true;
+        if (res.location.lat) {
+          this.origin = res.location.name;
+          (<HTMLInputElement>document.getElementById('endname')).value = this.origin; 
+          this.keepGoing = true;
+         }
+       })
+      }
+    }, 1000);
+  }
 }
