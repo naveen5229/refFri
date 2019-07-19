@@ -244,8 +244,7 @@ export class BufferPolylineComponent implements OnInit {
 
     }
   }
-
-  boundSearch() {
+  mapGetCenterAndBound(){
     let boundBox = this.mapService.getMapBounds();
     let bounds = {
       lat: (boundBox.lat1 + boundBox.lat2) / 2,
@@ -253,6 +252,10 @@ export class BufferPolylineComponent implements OnInit {
       bound: Math.max(Math.abs(boundBox.lat1 - boundBox.lat2) / 2,
         Math.abs(boundBox.lng1 - boundBox.lng2) / 2)
     };
+    return bounds;
+  }
+  boundSearch() {
+    let bounds = this.mapGetCenterAndBound();
     this.commonService.loading++;
     this.apiService.post("Buffer/getBuffer", bounds)
       .subscribe(res => {
@@ -370,6 +373,10 @@ export class BufferPolylineComponent implements OnInit {
             .subscribe(res => {
               this.commonService.loading--;
               this.commonService.showToast(res['msg']);
+              let bounds = this.mapGetCenterAndBound();
+              let position = bounds.lat + "," + bounds.long;
+              this.clearAll();
+              this.position = position;
               this.search();
             }, err => {
               this.commonService.loading--;
