@@ -124,9 +124,17 @@ export class WareHouseReceiptsComponent implements OnInit {
           size: "lg",
           container: "nb-layout"
         });
+        activeModal.result.then(data => {
+          if (data.response) {
+            this.getdata();
+          }
+        });
+       
       }else{
         this.common.showToast("please select WareHouse")
       }
+
+     
      
     }
 
