@@ -55,7 +55,8 @@ export class LedgeraddressComponent implements OnInit {
   dismiss(response) {
     console.log('Accounts address:', this.address);
     // console.log('Accounts:', response);
-    this.activeModal.close({ response: response, adddata: this.address });
+    
+    this.activeModal.close({ response: response, adddata:this.address.split("@")[0],addressid:this.address.split("@")[1] });
     // this.activeModal.close({ ledger: this.Accounts });
   }
 

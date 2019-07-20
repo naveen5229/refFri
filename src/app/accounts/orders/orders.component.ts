@@ -45,6 +45,7 @@ export class OrdersComponent implements OnInit {
     shipmentlocation: '',
     orderid: 0,
     delete: 0,
+    ledgeraddressid:null,
     // branch: {
     //   name: '',
     //   id: ''
@@ -179,6 +180,8 @@ export class OrdersComponent implements OnInit {
       shipmentlocation: '',
       orderid: 0,
       delete: 0,
+    ledgeraddressid:null,
+
       // branch: {
       //   name: '',
       //   id: ''
@@ -344,7 +347,11 @@ export class OrdersComponent implements OnInit {
   }
 
   TaxDetails(i) {
-    this.common.params = this.order.amountDetails[i].taxDetails;
+    this.common.params={
+      taxDetail : this.order.amountDetails[i].taxDetails,
+     amount : this.order.amountDetails[i].amount
+    }
+   
 
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
     activeModal.result.then(data => {
@@ -369,7 +376,7 @@ export class OrdersComponent implements OnInit {
   onSelectedaddress(selectedData, type, display) {
     this.order[type].name = selectedData[display];
     this.order[type].id = selectedData.id;
-    this.order.billingaddress = selectedData.address;
+  //  this.order.billingaddress = selectedData.address;
     console.log('order User: ', this.order);
   }
 
@@ -398,6 +405,7 @@ export class OrdersComponent implements OnInit {
       // approved: order.Approved,
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
+      ledgeraddressid:order.ledgeraddressid,
       x_id: 0
     };
 
@@ -980,7 +988,8 @@ export class OrdersComponent implements OnInit {
     } else if (this.activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      this.order.billingaddress = suggestion.address;
+     // this.order.billingaddress = suggestion.address;
+     //getAddressByLedgerId(suggestion.id);
     } else if (this.activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
@@ -1178,11 +1187,12 @@ export class OrdersComponent implements OnInit {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
       this.order.billingaddress = suggestion.address;
+      this.getAddressByLedgerId(suggestion.id);
     } else if (activeId == 'purchaseledger') {
       console.log('>>>>>>>>>',suggestion);
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
-      this.getAddressByLedgerId(suggestion.id);
+     // this.getAddressByLedgerId(suggestion.id);
     } else if (activeId.includes('stockitem')) {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].stockitem.name = suggestion.name;
@@ -1286,6 +1296,8 @@ export class OrdersComponent implements OnInit {
 
         }else{
           this.order.billingaddress=res['data'][0]['address'];
+        this.order.ledgeraddressid=res['data'][0]['id'];
+
         }
        // this.totalitem = res['data'][0].get_stockitemavailableqty;
         //  console.log('totalitem : -',totalitem);

@@ -45,6 +45,7 @@ export class OrderComponent implements OnInit {
     shipmentlocation: '',
     orderid: 0,
     delete: 0,
+    ledgeraddressid:null,
     // branch: {
     //   name: '',
     //   id: ''
@@ -273,6 +274,7 @@ export class OrderComponent implements OnInit {
       shipmentlocation: '',
       orderid: 0,
       delete: 0,
+    ledgeraddressid:null,
       // branch: {
       //   name: '',
       //   id: ''
@@ -438,8 +440,10 @@ export class OrderComponent implements OnInit {
 
   TaxDetails(i) {
     this.common.handleModalSize('class', 'modal-lg', '1150','px',1);
-    this.common.params = this.order.amountDetails[i].taxDetails;
-
+    this.common.params = {
+    taxDetail : this.order.amountDetails[i].taxDetails,
+    amount : this.order.amountDetails[i].amount
+    };
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
     activeModal.result.then(data => {
        console.log('tax Detail Data new : ', data);
@@ -493,7 +497,9 @@ export class OrderComponent implements OnInit {
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
       x_id: order.orderid,
-      delete: order.delete
+      delete: order.delete,
+      ledgeraddressid:order.ledgeraddressid,
+
     };
 
     console.log('params11: ', params);
@@ -997,11 +1003,11 @@ export class OrderComponent implements OnInit {
     } else if (activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      this.order.billingaddress = suggestion.address;
+     // this.order.billingaddress = suggestion.address;
+      this.getAddressByLedgerId(suggestion.id);
     } else if (activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
-      this.getAddressByLedgerId(suggestion.id);
 
     } else if (activeId.includes('stockitem')) {
       const index = parseInt(activeId.split('-')[1]);
@@ -1121,6 +1127,7 @@ export class OrderComponent implements OnInit {
 
         }else{
           this.order.billingaddress=res['data'][0]['address'];
+        this.order.ledgeraddressid=res['data'][0]['id'];
         }
        // this.totalitem = res['data'][0].get_stockitemavailableqty;
         //  console.log('totalitem : -',totalitem);
@@ -1143,6 +1150,7 @@ export class OrderComponent implements OnInit {
       if (data.response) {
         console.log('data order responce',data);
         this.order.billingaddress=data.adddata;
+        this.order.ledgeraddressid=data.addressid;
         return;
       }
     });
