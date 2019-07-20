@@ -149,8 +149,12 @@ export class FrieghtRateInputComponent implements OnInit {
   }
 
   openWithoutLocationModal(row) {
-    let id = row._id;
-    this.common.params = { id };
+    console.log("row", row);
+    let data = {
+      frpId: row._id,
+      locId: false
+    }
+    this.common.params = { data: data };
     console.log("without location");
     const activeModal = this.modalService.open(FreightInputWithoutLocationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -161,9 +165,11 @@ export class FrieghtRateInputComponent implements OnInit {
     });
   }
   openWithLocationModal(row) {
+    console.log("row", row);
+
     let id = row._id;
+    console.log("with location", id);
     this.common.params = { id };
-    console.log("with location");
     const activeModal = this.modalService.open(FreightInputLocationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data && data.response) {
