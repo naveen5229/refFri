@@ -8,15 +8,15 @@
 <div class="modal-body">
   <div *ngIf="generalModal">
     <div class="row">
-      <div class="col-sm-7"><label> Weight(/Tn) </label></div>
+      <div class="col-sm-7"><label> Rate(/Tn) </label></div>
       <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.weight></div>
     </div>
     <div class="row">
-      <div class="col-sm-7"><label>MG-Weight(/Tn)</label></div>
+      <div class="col-sm-7"><label>MG-Weight(In Tons)</label></div>
       <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.mgWeight></div>
     </div>
     <div class="row">
-      <div class="col-sm-7"><label>Qty</label> </div>
+      <div class="col-sm-7"><label>Rate/Qty</label> </div>
       <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.qty></div>
     </div>
     <div class="row">
@@ -24,7 +24,7 @@
       <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.mgQty></div>
     </div>
     <div class="row" *ngFor="let filter of filters; let i= index">
-      <div class="col-sm-7"><label>Allowed Shortage</label><br>
+      <div class="col-sm-7"><label>Penalty Shortage(/Kg)</label><br>
         <span>
           <label><input type="radio" [name]="'as_'+i" [id]="'as_'+i" value="shortage" [(ngModel)]="filter.param"
               (click)="allowedShortageReset(i)"> <b>Shortage Value</b></label>
