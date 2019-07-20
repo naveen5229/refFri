@@ -152,7 +152,7 @@ export class LedgerComponent implements OnInit {
       });
     }
 
-    this.common.handleModalSize('class', 'modal-lg', '1250');
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
     this.GetSalution();
     // this.getUserData();
     this.getUnderGroup();
