@@ -169,6 +169,7 @@ export class OrderComponent implements OnInit {
         this.order.shipmentlocation = this.invoiceDetail[0].y_shipmentlocation;
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
         this.order.delete = 0;
+        this.order.ledgeraddressid=this.invoiceDetail[0].y_ledger_address_id;
 
         this.invoiceDetail.map((invoiceDetail, index) => {
           if (!this.order.amountDetails[index]) {
