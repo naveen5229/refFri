@@ -1,9 +1,40 @@
 <nb-card>
   <nb-card-header>
-    <h2>ware House Inventory</h2>
+    <h2>Ware House Inventory</h2>
   </nb-card-header>
 
-  <nb-card-body>
-    <button class="btn btn-primary" (click)="manualWareHouseEntry()">ADD</button>
+  <nb-card-body>     
+      <div class="row" style="margin-top:10px">
+          <div classs="col-4">
+              <select placeholder="Name" class='name' [(ngModel)]="wareHouseId" >
+                <option *ngFor="let element of dataInventory" [value]="element.id">{{element.name}}
+      
+                </option>
+              </select>
+      </div>
+        <div class="col-3">
+          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
+          </uj-date-time-picker>
+        </div>
+        <div class="col-3">
+          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false >
+          </uj-date-time-picker>
+        </div>  
+        <div class="form-group">
+            <select [(ngModel)]="request" class="form-control w-100">
+              <option value="0">Pending</option>
+              <option value="1">Cleared</option>
+            </select>
+          </div>
+        
+        <div class="col-2">
+          <button class="btn btn-primary w-100" id="button" (click)="getdata()">Submit</button>
+        </div>
+      
+        </div>   
+         <div>
+        <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="wareHouseInventory">
+        </smart-table> 
+      </div>
   </nb-card-body>
 </nb-card>

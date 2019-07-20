@@ -21,6 +21,10 @@ export class LrPodDetailsComponent implements OnInit {
     { name: 'Other Remark', id: 7 },
   ];
 
+  title = '';
+  images = [];
+  activeImage = '';
+
   data = [];
   table = {
     data: {
@@ -48,9 +52,19 @@ export class LrPodDetailsComponent implements OnInit {
     private modalService: NgbModal,
     public api:ApiService) {
       console.log("id",this.common.params);
-      this.podId=this.common.params;
+      this.podId=this.common.params.receipt;
       this.getLrPodDetail();
-   // this.common.handleModalSize('class', 'modal-lg', '2000');
+    this.common.handleModalSize('class', 'modal-lg', '1000');
+    this.common.params.images.map(image => {
+      if (image.name) {
+        if (image.image)
+          this.images.push(image.image);
+      } else {
+        this.images.push(image);
+      }
+    });
+  //  this.title = this.common.params.title;
+    this.activeImage = this.images[0];
    }
 
   ngOnInit() {

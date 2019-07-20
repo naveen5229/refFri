@@ -1,0 +1,13 @@
+:host ::ng-deep .tableFixHead{
+    table{
+        tr{
+          
+            td:nth-child(6){
+                &.blue {
+                    color: blue;
+                    font-weight: 700;
+                }
+            }    
+        }   
+    } 
+}

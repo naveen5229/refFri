@@ -22,7 +22,8 @@ export class TripSettlementComponent implements OnInit {
   valobj = [{}];
   columnsValue = [[]];
 
-  vehicleId = null;
+  refId = null;
+  refType = null;
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -32,8 +33,9 @@ export class TripSettlementComponent implements OnInit {
     public renderer: Renderer
   ) {
     console.log("data:row", this.common.params.row);
-    this.vehicleId = this.common.params.row._vid;
-    this.common.handleModalSize('class', 'modal-lg', '1500');
+    this.refId = this.common.params.refData.refId;
+    this.refType = this.common.params.refData.refType;
+    this.common.handleModalSize('class', 'modal-lg', '1500', 'px', 0);
     this.printInvoice();
   }
 
@@ -48,7 +50,7 @@ export class TripSettlementComponent implements OnInit {
   printInvoice() {
     ++this.common.loading;
 
-    this.api.get('TripsData/getTripSettlement?vId=' + this.vehicleId)
+    this.api.get('TripsData/getTripSettlement?refId=' + this.refId + '&refType=' + this.refType)
       .subscribe(res => {
         --this.common.loading;
         for (let index = 0; index < 6; index++) {
@@ -133,8 +135,13 @@ export class TripSettlementComponent implements OnInit {
   }
 
   openTransferModal() {
+    let refData = {
+      refType: this.refType,
+      refId: this.refId
+    };
+    this.common.params = { refData: refData };
     console.log("openTransferModal");
-    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.handleModalSize('class', 'modal-lg', '900', 'px', 1);
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
     });
@@ -155,9 +162,13 @@ export class TripSettlementComponent implements OnInit {
 
   }
   openAdviceModal() {
+    let refData = {
+      refType: this.refType,
+      refId: this.refId
+    };
+    this.common.params = { refData: refData };
     console.log("openAdviceModal");
-
-    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.handleModalSize('class', 'modal-lg', '900', 'px', 1);
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
     });

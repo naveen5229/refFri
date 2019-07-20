@@ -359,9 +359,8 @@ export class CommonService {
 
   handleModalSize(type, name, size, sizeType = "px", position = 0) {
     setTimeout(() => {
-      if (type == "class") {
-        if (document.getElementsByClassName(name)) {
-          console.log("Test");
+      if (type == "class" && document.getElementsByClassName(name)[position]) {
+        if (document.getElementsByClassName(name)[position]["style"]) {
           document.getElementsByClassName(name)[position]["style"].maxWidth =
             size + sizeType;
         }

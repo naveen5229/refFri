@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdviceViewComponent } from './advice-view.component';
+import { LrRateComponent } from './lr-rate.component';
 
-describe('AdviceViewComponent', () => {
-  let component: AdviceViewComponent;
-  let fixture: ComponentFixture<AdviceViewComponent>;
+describe('LrRateComponent', () => {
+  let component: LrRateComponent;
+  let fixture: ComponentFixture<LrRateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdviceViewComponent ]
+      declarations: [ LrRateComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdviceViewComponent);
+    fixture = TestBed.createComponent(LrRateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

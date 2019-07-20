@@ -138,9 +138,12 @@ export class LrPodReceiptsComponent implements OnInit {
     },
     ];
     console.log("images:", images);
-    this.common.params = { images, title: 'LR Details' };
-    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass:'imageviewcomp' });
-    this.common.params=receipt._id;
+    this.common.params = { 
+      images,
+      receipt:receipt._id,
+     };
+   // const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass:'imageviewcomp' });
+    //this.common.params=receipt._id;
     const activeModel= this.modalService.open(LrPodDetailsComponent,{ size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
   }
 }

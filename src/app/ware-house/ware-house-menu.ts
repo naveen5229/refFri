@@ -8,9 +8,20 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Ware House Receipts',
+        icon: 'fa fa-home',
+        link: '/ware-house/ware-house-receipts',
+    },
+    {
         title: 'Ware House Inventory',
         icon: 'far fa-warehouse',
         link: '/ware-house/warehouse-inventory',
+        home: true,
+    },
+    {
+        title: 'State Logs',
+        icon: 'far fa-warehouse',
+        link: '/ware-house/state-logs',
         home: true,
     },
 
