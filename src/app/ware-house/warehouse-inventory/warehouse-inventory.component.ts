@@ -148,8 +148,12 @@ export class WarehouseInventoryComponent implements OnInit {
         }
 
     console.log("params", params)
+    this.common.loading++;
+
     this.api.post("WareHouse/getStockItemPendingList",params).subscribe(
       res => {
+      this.common.loading--;
+
         this.data = [];
         this.data = res['data'];
         console.log("result", res);
@@ -178,7 +182,10 @@ export class WarehouseInventoryComponent implements OnInit {
     });
     activeModal.result.then(data => {
       //console.log("data", data.respone);
-      this.getdata();
+      if(data){
+
+        this.getdata();
+      }
 
     });
   }

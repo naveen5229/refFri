@@ -192,11 +192,22 @@ export class GotPassComponent implements OnInit {
       else if(this.quantityId < this.stateFind){
       this.saveStock();
       }
+      // else if(this.quantityId<0)
+      // {
+      //   return this.common.showError("Quantity should not be nagative ");
+
+      // }
   
     } 
     else if( this.selectOption == 'In'){
       this.saveStock();
-    }
+    //  if(this.quantityId<0)
+    // {
+    //   return this.common.showError("Quantity should not be nagative ");
+
+    // }
+
+  }
  
 
     
@@ -216,7 +227,7 @@ export class GotPassComponent implements OnInit {
     isClose: this.boolean
 
   }
- if(this.quantityId > 0){
+ if(this.quantityId < 0){
     return this.common.showError("Quantity should not  be in nagative ");
 
    }
