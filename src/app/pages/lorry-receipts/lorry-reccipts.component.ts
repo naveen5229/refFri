@@ -10,6 +10,11 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { ActivatedRoute } from '@angular/router';
 import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
 import { ViewFrieghtInvoiceComponent } from '../../modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
+import { LrRateComponent } from '../../modals/LRModals/lr-rate/lr-rate.component';
+import { TripSettlementComponent } from '../../modals/trip-settlement/trip-settlement.component';
+import { AddFreightExpensesComponent } from '../../modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
+import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
+import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-details.component';
 
 @Component({
   selector: 'lorry-reccipts',
@@ -25,6 +30,8 @@ export class LorryRecciptsComponent implements OnInit {
   startDate = '';
   endDate = '';
   lrType = "2";
+  lrCategory = -1;
+  vehicleType = -1;
   // showMsg = false;
   constructor(
     public api: ApiService,
@@ -56,7 +63,9 @@ export class LorryRecciptsComponent implements OnInit {
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
       endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
       type: this.viewType,
-      status: this.lrType
+      status: this.lrType,
+      lrCategory: this.lrCategory,
+      vehicleType: this.vehicleType
     };
 
     ++this.common.loading;
@@ -99,6 +108,20 @@ export class LorryRecciptsComponent implements OnInit {
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
   }
 
+  getPodImage(receipt) {
+    console.log("val", receipt);
+    let images = [{
+      name: "POD-1",
+      image: receipt.podimage
+    }
+    ];
+    console.log("images:", images);
+    this.common.params = { images, title: 'POD Image' };
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
+
+  }
+
+
   printLr(receipt) {
     console.log("receipts", receipt);
     this.common.params = { lrId: receipt.lr_id }
@@ -120,7 +143,12 @@ export class LorryRecciptsComponent implements OnInit {
       Source: { title: 'Source', placeholder: 'Source' },
       Destination: { title: 'Destination', placeholder: 'Destination' },
       AddTime: { title: 'AddTime', placeholder: 'AddTime' },
-      Image: { title: 'Image', placeholder: 'Image' },
+      Revenue: { title: 'Revenue', placeholder: 'Revenue' },
+      Expense: { title: 'Expense', placeholder: 'Expense' },
+      PodImage: { title: 'PodImage', placeholder: 'PodImage' },
+      PodDetails: { title: 'PodDetails', placeholder: 'PodDetails' },
+      PodReceived: { title: 'PodReceived', placeholder: 'PodReceived' },
+      LRImage: { title: 'LRImage', placeholder: 'LRImage' },
       Action: { title: 'Action', placeholder: 'Action' },
 
     };
@@ -153,13 +181,20 @@ export class LorryRecciptsComponent implements OnInit {
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
-        Image: R.lr_image ? { value: `<span>view</span>`, isHTML: true, action: this.getImage.bind(this, R) } : '',
+        Revenue: R.revenue_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.lrRates.bind(this, R, 0) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.lrRates.bind(this, R, 0) }] },
+        Expense: R.expense_amount > 1 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.lrRates.bind(this, R, 1) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.lrRates.bind(this, R, 1) }] },
+        PodImage: R.podimage ? { value: `<span>view</span>`, isHTML: true, action: this.getPodImage.bind(this, R) } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
+        PodDetails: R.poddetails ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.openPodDeatilsModal.bind(this, R) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.openPodDeatilsModal.bind(this, R) }] },
+        PodReceived: R.podreceived ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-check i-green' }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
+        LRImage: R.lr_image ? { value: `<span>view</span>`, isHTML: true, action: this.getImage.bind(this, R) } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
         Action: {
           value: '', isHTML: true, action: null, icons: [{
             class: 'fa fa-print icon green', action: this.printLr.bind(this, R)
           },
           { class: 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) },
           { class: 'fa fa-trash icon red', action: this.deleteLr.bind(this, R) },
+          // { class: 'fa fa-inr  icon', action: this.lrRates.bind(this, R,0) },
+          { class: 'fa fa-handshake-o  icon', action: this.tripSettlement.bind(this, R) },
           ]//`<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R),
           // `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteLr.bind(this, R)
         }
@@ -214,6 +249,18 @@ export class LorryRecciptsComponent implements OnInit {
       });
   }
 
+  tripSettlement(row) {
+    console.log("======", row)
+    let refData = {
+      refId: row.lr_id,
+      refType: 11
+    }
+    this.common.params = { refData: refData }
+    const activeModal = this.modalService.open(TripSettlementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    });
+  }
+
   openGenerateLr(Lr) {
     console.log("Lr", Lr);
     this.common.params = { LrData: Lr }
@@ -225,13 +272,47 @@ export class LorryRecciptsComponent implements OnInit {
     });
   }
 
-  // printInvoice(invoice) {
-  //   console.log("invoice", invoice);
-  //   this.common.params = { invoiceId: 1 }
-  //   const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-  //   activeModal.result.then(data => {
-  //     console.log('Date:', data);
+  lrRates(Lr, type) {
+    let rate = {
+      lrId: Lr.lr_id,
+      rateType: type
+    }
+    this.common.params = { rate: rate }
+    const activeModal = this.modalService.open(LrRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+    });
+  }
 
-  //   });
-  // }
+  openExpenseModal(lr) {
+    let expense = {
+      _ref_type: 11,
+      _ref_id: lr.lr_id
+    }
+    console.log("openExpenseModal ", expense);
+    this.common.params = { expenseData: expense };
+    const activeModal = this.modalService.open(AddFreightExpensesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+    });
+  }
+  openRevenueModal(lr) {
+    let revenue = {
+      _ref_type: 11,
+      _ref_id: lr.lr_id
+    }
+    console.log("openExpenseModal ", revenue);
+    this.common.params = { revenueData: revenue };
+    const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    })
+
+  }
+  openPodDeatilsModal(receipt) {
+    console.log("val", receipt);
+
+    this.common.params = receipt._podid;
+    const activeModel = this.modalService.open(LrPodDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
+  }
 }
+

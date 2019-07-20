@@ -13,8 +13,8 @@ import { ConfirmComponent } from '../../confirm/confirm.component';
 })
 export class FreightInputWithoutLocationComponent implements OnInit {
 
-
-  combineJson = []
+  freightRateparams = [];
+  combineJson = [];
   general = {
     param: null,
     minRange: null,
@@ -22,6 +22,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     fixed: null,
     distance: null,
     weight: null,
+    mgWeight: null,
     shortage: null,
     shortagePer: null,
     detenation: null,
@@ -32,15 +33,18 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     fuelClass: null,
     fuelBaseRate: null,
     fuelVariation: null,
-    qty: null
+    qty: null,
+    mgQty: null,
   };
   filters = [{
     param: null,
+    paramValue: null,
     minRange: null,
     maxRange: null,
     fixed: null,
     distance: null,
     weight: null,
+    mgWeight: null,
     shortage: null,
     shortagePer: null,
     detenation: null,
@@ -51,10 +55,12 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     fuelClass: null,
     fuelBaseRate: null,
     fuelVariation: null,
-    qty: null
+    qty: null,
+    mgQty: null
 
   }];
   frpId = null;
+  locId = null;
 
   data = [];
   table = {
@@ -75,8 +81,11 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     public api: ApiService,
     public activeModal: NgbActiveModal,
   ) {
-    this.frpId = this.common.params.id ? this.common.params.id : null;
+    console.log("this.common.params.data", this.common.params.data);
+    this.frpId = this.common.params.data.frpId ? this.common.params.data.frpId : null;
+    this.locId = this.common.params.data.locId ? this.common.params.data.locId : null;
     this.getFrieghtRateDetails();
+    this.getFreightRateparams();
     this.common.handleModalSize('class', 'modal-lg', '1600');
   }
 
@@ -87,22 +96,16 @@ export class FreightInputWithoutLocationComponent implements OnInit {
   }
 
 
-  addCompany() {
-    console.log("open material modal")
-    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
-    activeModal.result.then(data => {
-      console.log('Data:', data);
-    });
-  }
-
   addMore() {
     this.filters.push({
       param: null,
+      paramValue: null,
       minRange: null,
       maxRange: null,
       fixed: null,
       distance: null,
       weight: null,
+      mgWeight: null,
       shortage: null,
       shortagePer: null,
       detenation: null,
@@ -113,8 +116,8 @@ export class FreightInputWithoutLocationComponent implements OnInit {
       fuelClass: null,
       fuelBaseRate: null,
       fuelVariation: null,
-      qty: null
-
+      qty: null,
+      mgQty: null
     });
   }
 
@@ -128,6 +131,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     ++this.common.loading;
     let params = {
       frpId: this.frpId,
+      locId: this.locId,
       type: 'formula',
 
       frieghtRateData: JSON.stringify(frieghtRateData),
@@ -154,6 +158,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
   getFrieghtRateDetails() {
     let params = {
       frpId: this.frpId,
+      locId: this.locId,
       type: 'formula',
     }
     console.log("params", params);
@@ -261,5 +266,13 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     }
   }
 
-
+  getFreightRateparams() {
+    this.api.get('FrieghtRate/getFreightRateparams')
+      .subscribe(res => {
+        console.log('resooo', res['data']);
+        this.freightRateparams = res['data'];
+      }, err => {
+        console.log(err);
+      });
+  }
 }

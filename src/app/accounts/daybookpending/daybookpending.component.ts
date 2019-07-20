@@ -521,9 +521,10 @@ export class DaybookpendingComponent implements OnInit {
         // console.log('Data: ', data);
         if (data.response) {
           //this.addLedger(data.ledger);
+        this.getDayBook();
+
         }
        // this.selectedVehicle.id =0
-        this.getDayBook();
       });
     }else {
       let tripExpDriver=this.tripExpDriver;

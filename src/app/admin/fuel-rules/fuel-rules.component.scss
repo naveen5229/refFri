@@ -27,6 +27,7 @@ nb-card-header{
 }
 :host ::ng-deep .tag .no-search span {
     color: black;
+    background-color: white !important;
 
 }
 :host ::ng-deep .edit-btn{
