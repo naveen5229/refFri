@@ -6,6 +6,13 @@ import { DirectiveModule } from '../directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { WareHouseComponent } from './ware-house-component';
 import { WareHouseDashbordComponent } from './ware-house-dashbord/ware-house-dashbord.component';
+import { WareHouseReceiptsComponent } from './ware-house-receipts/ware-house-receipts.component';
+import { ManualItemsComponent } from './modal/manual-items/manual-items.component';
+import { WarehouseInventoryComponent } from './warehouse-inventory/warehouse-inventory.component';
+import { StateLogsComponent } from './state-logs/state-logs.component';
+import { ReceiveItemsComponent } from './modal/receive-items/receive-items.component';
+import { CheckDetailComponent } from './modal/check-detail/check-detail.component';
+import { GotPassComponent } from './modal/got-pass/got-pass.component';
 
 
 const PAGES_COMPONENTS = [
@@ -16,8 +23,20 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
     WareHouseDashbordComponent,
-
+    WareHouseReceiptsComponent,
+    ManualItemsComponent,
+    WarehouseInventoryComponent,
+    StateLogsComponent,
+    ReceiveItemsComponent,
+    CheckDetailComponent,
+    GotPassComponent
   ],
+  entryComponents:[
+    ReceiveItemsComponent,
+    ManualItemsComponent,
+    GotPassComponent
+  ],
+  
   imports: [
     CommonModule,
     WareHouseRoutingModule,
