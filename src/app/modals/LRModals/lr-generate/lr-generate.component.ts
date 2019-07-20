@@ -57,7 +57,7 @@ export class LrGenerateComponent implements OnInit {
     gstPer: 0,
     lrType: 1,
     vehicleType: 1,
-    lrCategory: 1,
+    lrCategory: 0,
     grossWeight: 0,
     netWeight: 0,
     tareWeight: 0,
@@ -107,7 +107,7 @@ export class LrGenerateComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
   ) {
-    this.common.handleModalSize('class', 'modal-lg', '1300');
+    this.common.handleModalSize('class', 'modal-lg', '1600');
     let date = new Date();
     date.setDate(date.getDate());
     this.lr.date = date;
@@ -140,7 +140,7 @@ export class LrGenerateComponent implements OnInit {
   }
 
   getBranchDetails() {
-    if (this.accountService.selected.branch.id && (this.lr.lrNumber || this.lr.lrNumberText)) {
+    if (this.accountService.selected.branch.id && (!this.lr.lrNumber || !this.lr.lrNumberText)) {
       this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
         .subscribe(res => {
           console.log("branchdetails", res['data']);
@@ -164,9 +164,6 @@ export class LrGenerateComponent implements OnInit {
 
     });
   }
-
-
-
 
   addDriver() {
     this.common.params = { vehicleId: this.vehicleId, vehicleRegNo: this.vehicleRegNo };
@@ -278,6 +275,16 @@ export class LrGenerateComponent implements OnInit {
   }
 
   saveDetails() {
+    let today, futureDay, pastDay;
+    today = new Date();
+    futureDay = new Date(today.setDate(today.getDate() + 30));
+    today = new Date();
+    pastDay = new Date(today.setDate(today.getDate() - 30));
+    console.log("futureDay", futureDay, "pastDay", pastDay);
+    if ((this.lr.date > futureDay) || (this.lr.date < pastDay)) {
+      alert("Date should not be before 30 days and after 30 days ");
+      return 0;
+    }
 
     if ((!this.lr.sourceLat) || (!this.lr.destinationLat)) {
       this.common.showError("Source and Destination Location selection are required");
@@ -363,7 +370,8 @@ export class LrGenerateComponent implements OnInit {
           console.log('response :', res['data'][0].rtn_id);
           if (res['data'][0].rtn_id > 0) {
             this.common.showToast("LR Generated Successfully");
-            this.lrView(res['data'][0].rtn_id);
+            this.closeModal();
+            //this.lrView(res['data'][0].rtn_id);
           } else {
             this.common.showError(res['data'][0].rtn_msg);
           }
@@ -386,17 +394,14 @@ export class LrGenerateComponent implements OnInit {
 
 
   getDate() {
-    this.common.params = { ref_page: 'generate-lr' };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        this.lr.date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        // this.dateByIcon=true;
-        console.log('lrdate: by getDate ' + this.lr.date);
 
-      }
-
-    });
+    let today, futureDay, pastDay;
+    today = new Date();
+    futureDay = new Date(today.setDate(today.getDate() + 30))
+    futureDay = this.common.dateFormatter(futureDay);
+    pastDay = new Date(today.setDate(today.getDate() - 30))
+    pastDay = this.common.dateFormatter(pastDay);
+    console.log("futureDay", futureDay, "pastDay", pastDay);
   }
   resetData() {
     this.vehicleId = null;
@@ -462,7 +467,11 @@ export class LrGenerateComponent implements OnInit {
           particularDetails = JSON.parse(res['data']).details
 
           this.setlrDetails(lrDetails);
-          this.setlrParticulars(particularDetails);
+          if (particularDetails.length > 0) {
+            this.setlrParticulars(particularDetails);
+          } else {
+
+          }
         }
       }, err => {
         --this.common.loading;
@@ -479,7 +488,7 @@ export class LrGenerateComponent implements OnInit {
     }
     console.log("branchDetails", branchDetails);
 
-    this.lr.taxPaidBy = "" + lrDetails.taxpaid_by;
+    this.lr.taxPaidBy = lrDetails.taxpaid_by ? "" + lrDetails.taxpaid_by : "" + -1;
     this.lr.consigneeName = lrDetails.consignee;
     this.lr.consigneeAddress = lrDetails.consignee_address;
     this.lr.consigneeId = lrDetails.consignee_id;
@@ -489,8 +498,8 @@ export class LrGenerateComponent implements OnInit {
     this.lr.consignorId = lrDetails.consigner_id;
     this.lr.invoicePayer = lrDetails.invoiceto_name;
     this.lr.invoicePayerId = lrDetails.invoice_payer_id;
-    this.lr.invoiceTo = lrDetails.invoiceto_type;
-    this.lr.paymentTerm = lrDetails.pay_type;
+    this.lr.invoiceTo = lrDetails.invoiceto_type ? lrDetails.invoiceto_type : -1;
+    this.lr.paymentTerm = lrDetails.pay_type ? lrDetails.pay_type : -1;
     this.lr.payableAmount = lrDetails.total_amount;
     this.lr.lrNumberText = lrDetails.lr_prefix;
     this.lr.lrNumber = lrDetails.lr_num;
@@ -501,7 +510,7 @@ export class LrGenerateComponent implements OnInit {
     this.lr.destinationLat = lrDetails.destination_lat;
     this.lr.destinationLng = lrDetails.destination_long;
     this.lr.remark = lrDetails.remark;
-    this.lr.date = new Date(this.common.dateFormatter(lrDetails.lr_date));
+    this.lr.date = lrDetails.lr_date ? new Date(this.common.dateFormatter(lrDetails.lr_date)) : this.lr.date;
     this.lr.amount = lrDetails.amount ? lrDetails.amount : 0;
     this.lr.advanceAmount = lrDetails.advance_amount;
     this.lr.remainingAmount = lrDetails.pending_amount;
@@ -509,9 +518,9 @@ export class LrGenerateComponent implements OnInit {
     this.lr.netWeight = lrDetails.net_weight;
     this.lr.grossWeight = lrDetails.gross_weight;
     this.lr.tareWeight = lrDetails.tare_weight ? lrDetails.tare_weight : 0;
-    this.lr.lrType = lrDetails.lr_asstype;
-    this.lr.vehicleType = lrDetails.veh_asstype;
-    this.lr.lrCategory = lrDetails.is_ltl;
+    this.lr.lrType = lrDetails.lr_asstype ? lrDetails.lr_asstype : 0;
+    this.lr.vehicleType = lrDetails.veh_asstype ? lrDetails.veh_asstype : 1;
+    this.lr.lrCategory = lrDetails.is_ltl ? lrDetails.is_ltl : 0;
     this.driver.name = lrDetails.driver_name;
     this.driver.licenseNo = lrDetails.driver_license;
     this.mobileno = lrDetails.driver_mobile

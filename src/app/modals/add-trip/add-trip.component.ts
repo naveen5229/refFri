@@ -108,9 +108,9 @@ export class AddTripComponent implements OnInit {
 
   addTrip() {
     console.log(this.vehicleTrip);
-    this.startTime = this.common.dateFormatter(this.startTime);
+    this.startTime = this.common.dateFormatter(this.startTime).split(' ')[0];
     console.log('startTime', this.startTime);
-    this.targetTime = this.common.dateFormatter(this.targetTime);
+    this.targetTime = this.common.dateFormatter(this.targetTime).split(' ')[0];
     console.log('targetTime', this.targetTime);
     let params = {
       vehicleId: this.VehicleId,

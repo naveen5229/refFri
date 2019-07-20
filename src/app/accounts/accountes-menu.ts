@@ -175,7 +175,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/mapped-fuel-voucher'
             },
             {
-                title: 'Gst Rport',
+                title: 'GST Reports',
                 link: '/accounts/gstreport'
             },
 
