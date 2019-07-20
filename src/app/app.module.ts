@@ -202,7 +202,7 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
 
 
 import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
-import { GotPassComponent } from './ware-house/modals/got-pass/got-pass.component';
+
 
 
 @NgModule({
@@ -380,7 +380,7 @@ import { GotPassComponent } from './ware-house/modals/got-pass/got-pass.componen
 
 
 
-    GotPassComponent,
+
 
   ],
   entryComponents: [
@@ -550,7 +550,7 @@ import { GotPassComponent } from './ware-house/modals/got-pass/got-pass.componen
 
 
     TripSettlementComponent,
-    GotPassComponent
+
 
 
   ],

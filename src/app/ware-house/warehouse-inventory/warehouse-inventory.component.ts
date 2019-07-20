@@ -4,7 +4,6 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ApiService } from '../../services/api.service';
-import { GotPassComponent } from '../modals/got-pass/got-pass.component';
 @Component({
   selector: 'warehouse-inventory',
   templateUrl: './warehouse-inventory.component.html',
@@ -32,9 +31,7 @@ export class WarehouseInventoryComponent implements OnInit {
 
   ngOnInit() {
   }
-  manualWareHouseEntry() {
-    this.modalService.open(GotPassComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
+
   nearByPods() {
     this.table = {
       data: {
