@@ -4,6 +4,19 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row submit-exp">
+
+      <div class="col-sm-2 pr-0">
+        <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-sm-2 pr-0">
+        <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
+          [dateTimeValue]="endTime">
+        </uj-date-time-picker>
+      </div>
+
+
+      <!-- 
       <div class="col-sm-2">
         <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
           placeholder="Start Date" (click)="getDate('start')">
@@ -11,15 +24,8 @@
       <div class="col-sm-2">
         <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
           placeholder="End Date" (click)="getDate('end')">
-      </div>
-      <!-- <div class="col-sm-2">
-        <select class="form-control" (change)="getSelection()" [(ngModel)]="statusid">
-          <option *ngFor="let status of status" [value]="status.id">
-            {{status.name}}
-
-          </option>
-        </select>
       </div> -->
+
       <div class="col-sm-2">
         <select class="form-control" [(ngModel)]="Typeid">
           <option *ngFor="let typedet of type" [value]="typedet.id">
