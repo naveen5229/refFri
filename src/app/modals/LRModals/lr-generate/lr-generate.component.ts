@@ -57,7 +57,7 @@ export class LrGenerateComponent implements OnInit {
     gstPer: 0,
     lrType: 1,
     vehicleType: 1,
-    lrCategory: 1,
+    lrCategory: 0,
     grossWeight: 0,
     netWeight: 0,
     tareWeight: 0,
@@ -140,7 +140,7 @@ export class LrGenerateComponent implements OnInit {
   }
 
   getBranchDetails() {
-    if (this.accountService.selected.branch.id && (this.lr.lrNumber || this.lr.lrNumberText)) {
+    if (this.accountService.selected.branch.id && (!this.lr.lrNumber || !this.lr.lrNumberText)) {
       this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
         .subscribe(res => {
           console.log("branchdetails", res['data']);
@@ -164,9 +164,6 @@ export class LrGenerateComponent implements OnInit {
 
     });
   }
-
-
-
 
   addDriver() {
     this.common.params = { vehicleId: this.vehicleId, vehicleRegNo: this.vehicleRegNo };

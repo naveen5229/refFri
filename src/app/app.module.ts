@@ -188,7 +188,6 @@ import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-rev
 import { SaveAdvicesComponent } from './modals/save-advices/save-advices.component';
 import { EntityFlagsComponent } from './modals/entity-flags/entity-flags.component';
 import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.component';
-import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
 import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { LrPodDetailsComponent } from './modals/lr-pod-details/lr-pod-details.component';
@@ -202,6 +201,8 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
 import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
 import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/edit-via-routes-points.component';
 import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
+import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
+import { GenericModelComponent } from './modals/generic-model/generic-model.component';
 
 
 @NgModule({
@@ -361,7 +362,7 @@ import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
     SaveAdvicesComponent,
     EntityFlagsComponent,
     ClearAdvicesComponent,
-    AdviceViewComponent,
+    GenericModelComponent,
     TransferReceiptsComponent,
     AddFreightExpensesComponent,
     LrPodDetailsComponent,
@@ -375,6 +376,7 @@ import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
     LrRateComponent,
+    LedgeraddressComponent,
   ],
   entryComponents: [
     LrRateComponent,
@@ -531,7 +533,7 @@ import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
     SaveAdvicesComponent,
     EntityFlagsComponent,
     ClearAdvicesComponent,
-    AdviceViewComponent,
+    GenericModelComponent,
     TransferReceiptsComponent,
     LrPodDetailsComponent,
     FreightRateCalculationComponent,
@@ -543,6 +545,7 @@ import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
     TripSettlementComponent,
+    LedgeraddressComponent
   ],
   imports: [
     BrowserModule,

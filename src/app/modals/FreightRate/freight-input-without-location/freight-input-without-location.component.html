@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5>Freight Rate Input</h5>
+  <h5>Freight Rate Input <span *ngIf="locId">(Location)</span></h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -16,6 +16,8 @@
         <td><input type="text" class="form-control" [(ngModel)]=general.distance></td>
         <td>Weight(/Tn) </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.weight></td>
+        <td>Mg-Weight </td>
+        <td><input type="text" class="form-control" [(ngModel)]=general.mgWeight></td>
         <td>Shortage(/Tn)</td>
         <td><input type="text" class="form-control" [(ngModel)]=general.shortage></td>
         <td>Shortage %</td>
@@ -41,6 +43,8 @@
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelVariation></td>
         <td>Qty </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.qty></td>
+        <td>Mg-Qty</td>
+        <td><input type="text" class="form-control" [(ngModel)]=general.mgQty></td>
       </tr>
     </table>
   </div>
@@ -51,22 +55,14 @@
         <tr>
           <td>Param</td>
           <td><select [(ngModel)]=filter.param style="width: 100%;">
-              <option value="weight">Weight</option>
-              <option value="distance">Distance</option>
-              <option value="shortage">Shortage</option>
-              <option value="shortagePer">Shortage % </option>
-              <option value="detenation">Detention </option>
-              <option value="delay">Delay</option>
-              <option value="wt-dist">Weight-Distance</option>
-              <option value="loading">Loading</option>
-              <option value="unloading">Unloading </option>
-              <option value="fuelClass">Fuel Class </option>
-              <option value="fuelBaseRate">Fuel Base Rate </option>
-              <option value="fuelVariation">Fuel Variation </option>
-              <option value="qty">Qty</option>
+              <option *ngFor="let freightRateparam of freightRateparams" [value]="freightRateparam.r_value">
+                {{freightRateparam.r_name}}</option>
+
+
             </select>
           </td>
-
+          <td>Name</td>
+          <td><input type="text" class="form-control" [(ngModel)]=filter.paramValue></td>
           <td>Min Range</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.minRange></td>
           <td>Max Range</td>
@@ -79,6 +75,8 @@
           <td><input type="text" class="form-control" [(ngModel)]=filter.distance></td>
           <td>Weight(/Tn)</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.weight></td>
+          <td>Mg-Weight </td>
+          <td><input type="text" class="form-control" [(ngModel)]=filter.mgWeight></td>
           <td>Shortage(/Tn) </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.shortage></td>
           <td>Shortage %</td>
@@ -105,6 +103,8 @@
           <td><input type="text" class="form-control" [(ngModel)]=filter.fuelVariation></td>
           <td>Qty </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.qty></td>
+          <td>Mg-Qty</td>
+          <td><input type="text" class="form-control" [(ngModel)]=filter.mgQty></td>
           <td *ngIf="i == filters.length-1"><button class="btn btn-primary" (click)="addMore()"><i
                 class="fa fa-plus add">
               </i></button></td>

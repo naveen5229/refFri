@@ -197,7 +197,95 @@
 
             </div>
           </div>
+          <div class="row radiostockitem">
+            <div class="col-3">
+              <label>GST</label>
+            <div class="row iaactive">     
+                <div class="col-6 pr-0 pl-1">
+                  <div class="form-group">
+                    <input type="radio" class="form-control" name="gst" id="gst"
+                      [(ngModel)]="stockItem.gst" [value]="true" (keydown.enter)="stockItem.gst = true;"
+                      [checked]="true">
+                    <label>Yes</label>
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <input type="radio" class="form-control" name="gst" [(ngModel)]="stockItem.gst"
+                      id="notgst" [value]="false" (keydown.enter)="stockItem.gst = true;">
+                    <label>No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+                        <div class="col" *ngIf="stockItem.gst">
+                          <div class="form-grpou">
+                            <label>HSN/SAC Details</label>
+                            <input type="text" class="form-control" id="hsndetail" autocomplete="off" name="stock-hsndetail"
+                              [(ngModel)]="stockItem.hsndetail">
+                          </div>
+                        </div>
+                        <div class="col" *ngIf="stockItem.gst">
+                          <div class="form-group">
+                            <label>HSN/SAC No.</label>
+                            <input type="text" class="form-control" name="hsnno" autocomplete="off" id="hsnno"
+                              [(ngModel)]="stockItem.hsnno">
+                          </div>
+                        </div>
+                        <div class="col-3" *ngIf="stockItem.gst">
+                          <label>Is Non-Gst</label>
+                          <div class="row iaactive">     
+                            <div class="col-6 pr-0 pl-1">
+                              <div class="form-group">
+                                <input type="radio" class="form-control" name="isnon" id="isnon"
+                                  [(ngModel)]="stockItem.isnon" [value]="true" (keydown.enter)="stockItem.isnon = true;"
+                                  [checked]="true">
+                                <label>Yes</label>
+                              </div>
+                            </div>
+                            <div class="col-6 pl-0">
+                              <div class="form-group">
+                                <input type="radio" class="form-control" name="isnon" [(ngModel)]="stockItem.isnon"
+                                  id="notisnon" [value]="false" (keydown.enter)="stockItem.isnon = true;">
+                                <label>No</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
         </div>
+        <div class="row radiostockitem"  *ngIf="stockItem.gst">
+         
+                      <div class="col" *ngIf="!stockItem.isnon">
+                        <div class="form-group">
+                          <label>GST Calculation Type</label>
+                          <input type="text" class="form-control" id="calculationtype" autocomplete="off" name="stock-calculationtype"
+                            [(ngModel)]="stockItem.calculationtype">
+                        </div>
+                      </div>
+                      <div class="col" *ngIf="!stockItem.isnon">
+                        <div class="form-group">
+                          <label>GST Taxability</label>
+                          <input type="text" class="form-control" name="taxability" autocomplete="off" id="taxability"
+                            [(ngModel)]="stockItem.taxability">
+                        </div>
+                      </div>
+                      <div class="col" *ngIf="!stockItem.isnon">
+                        <div class="form-grpou">
+                          <label>IGST</label>
+                          <input type="text" class="form-control" id="igst" autocomplete="off" name="stock-igst"
+                            [(ngModel)]="stockItem.igst">
+                        </div>
+                      </div>
+                      <div class="col" *ngIf="!stockItem.isnon">
+                        <div class="form-group">
+                          <label>CESS</label>
+                          <input type="text" class="form-control" name="cesstype" autocomplete="off" id="cess"
+                            [(ngModel)]="stockItem.cess">
+                        </div>
+                      </div>
+                      
+      </div>
+      </div>
         <div class="col-3">
           <div class="auto-sugg">
             <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"

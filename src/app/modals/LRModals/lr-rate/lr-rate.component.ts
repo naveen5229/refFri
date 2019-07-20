@@ -10,10 +10,17 @@ import { ApiService } from '../../../services/api.service';
   styleUrls: ['./lr-rate.component.scss']
 })
 export class LrRateComponent implements OnInit {
-  general = [{
+  freightRateparams = [];
+  type = null;
+  combineJson = [];
+  general = {
+    param: null,
+    minRange: null,
+    maxRange: null,
     fixed: null,
     distance: null,
     weight: null,
+    mgWeight: null,
     shortage: null,
     shortagePer: null,
     detenation: null,
@@ -22,8 +29,27 @@ export class LrRateComponent implements OnInit {
     loading: null,
     unloading: null,
     qty: null,
+    mgQty: null,
+  };
+  filters = [{
+    param: null,
+    paramValue: null,
+    minRange: null,
+    maxRange: null,
+    fixed: null,
+    distance: null,
+    weight: null,
     mgWeight: null,
+    shortage: null,
+    shortagePer: null,
+    detenation: null,
+    delay: null,
+    weightDistance: null,
+    loading: null,
+    unloading: null,
+    qty: null,
     mgQty: null
+
   }];
 
   lrId = null;
@@ -47,9 +73,11 @@ export class LrRateComponent implements OnInit {
     public api: ApiService,
     public activeModal: NgbActiveModal,
   ) {
-    console.log("this.common.params.LrData", this.common.params.LrData);
-    this.lrId = this.common.params.LrData.lr_id ? this.common.params.LrData.lr_id : null;
+    console.log("this.common.params.LrData", this.common.params.rate);
+    this.lrId = this.common.params.rate.lrId ? this.common.params.rate.lrId : null;
+    this.type = this.common.params.rate.rateType ? this.common.params.rate.rateType : null;
     this.getLrRateDetails();
+    this.getLRtRateparams();
     this.common.handleModalSize('class', 'modal-lg', '1600');
   }
 
@@ -60,13 +88,42 @@ export class LrRateComponent implements OnInit {
   }
 
 
+  addMore() {
+    this.filters.push({
+      param: null,
+      paramValue: null,
+      minRange: null,
+      maxRange: null,
+      fixed: null,
+      distance: null,
+      weight: null,
+      mgWeight: null,
+      shortage: null,
+      shortagePer: null,
+      detenation: null,
+      delay: null,
+      weightDistance: null,
+      loading: null,
+      unloading: null,
+      qty: null,
+      mgQty: null
+    });
+  }
+
 
   saveLrRateInput() {
-    let lrRateData = JSON.stringify(this.general)
+
+    let lrRateData = [];
+    lrRateData.push(this.general);
+    this.filters.forEach(element => {
+      lrRateData.push(element);
+    });
+    let lrRateDatas = JSON.stringify(lrRateData);
     ++this.common.loading;
     let params = {
       lrId: this.lrId,
-      lrRateData: lrRateData
+      lrRateData: lrRateDatas,
+      rateType: '' + this.type
     }
     console.log("params", params);
 
@@ -93,7 +150,8 @@ export class LrRateComponent implements OnInit {
 
   getLrRateDetails() {
     let params = {
-      lrId: this.lrId
+      lrId: this.lrId,
+      rateType: '' + this.type
     }
     console.log("params", params);
     ++this.common.loading;
@@ -204,5 +262,13 @@ export class LrRateComponent implements OnInit {
     }
   }
 
-
+  getLRtRateparams() {
+    this.api.get('FrieghtRate/getFreightRateparams')
+      .subscribe(res => {
+        console.log('resooo', res['data']);
+        this.freightRateparams = res['data'];
+      }, err => {
+        console.log(err);
+      });
+  }
 }

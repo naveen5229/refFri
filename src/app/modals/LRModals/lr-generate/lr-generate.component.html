@@ -98,16 +98,13 @@
                 <!-- <ng-template *ngIf="flag==true; then showText; else showSuggestion" ></ng-template>
                 <ng-template #showText><input type="text" class="form-control" style="width:200px" [(ngModel)]="mobileno" placeholder="" autocomplete="off" readonly></ng-template>
                 <ng-template #showSuggestion> -->
-                <div class="row">
-                  <div class="col-10">
-                    <auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
-                      placeholder="Select Driver" style="width:100%;" class="auto-suggest d-block"
-                      [preSelected]="{mobileno:mobileno,id:driver.id}" placeholder="Search Driver"></auto-suggestion>
-                  </div>
-                  <div class="col-md-2"><i class="fa fa-plus add" (click)="addDriver()"></i> </div>
-                </div>
-                <!-- </ng-template> -->
-
+                <span>
+                  <auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
+                    placeholder="Select Driver" style="width:100%;" class="col-md-9 auto-suggest d-block"
+                    [preSelected]="{mobileno:mobileno,id:driver.id}" placeholder="Search Driver"></auto-suggestion>
+                  <i class="fa fa-plus add col-md-3" (click)="addDriver()"></i>
+                  <!-- </ng-template> -->
+                </span>
               </td>
 
               <td><label> Driver: </label> {{driver.name}} </td>

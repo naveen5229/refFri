@@ -49,6 +49,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'ware-house',
+    loadChildren: 'app/ware-house/ware-house.module#WareHouseModule',
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'documents',
     loadChildren: 'app/documents/documents.module#DocumentsModule',
     canActivate: [AuthGuard],

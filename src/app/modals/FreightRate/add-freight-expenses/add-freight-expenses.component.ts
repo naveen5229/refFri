@@ -54,25 +54,36 @@ export class AddFreightExpensesComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService,
   ) {
-    //this.common.handleModalSize('class', 'modal-lg', '1100');
     this.getFreightHeads();
 
     console.log("this.common.params.expenseData", this.common.params.expenseData);
     if (this.common.params.expenseData) {
       this.expense.id = this.common.params.expenseData._id;
-      this.expense.vehicleType = this.common.params.expenseData._vehasstype;
-      this.expense.vehicleRegNo = this.common.params.expenseData.Regno;
-      this.expense.refernceType = this.common.params.expenseData._ref_type;
-      this.expense.refTypeName = this.common.params.expenseData._ref_name;
-      this.expense.vehicleId = this.common.params.expenseData._vid;
       this.expense.refId = this.common.params.expenseData._ref_id;
+      this.expense.refernceType = this.common.params.expenseData._ref_type;
       this.expense.remarks = this.common.params.expenseData._exp_remarks;
-      // this.getExpenseDetails();
+      this.getExpenseDetails();
     }
     this.getExpenses();
 
   }
   ngOnInit() {
+  }
+  getExpenseDetails() {
+    const params = "id=" + this.expense.refId +
+      "&type=" + this.expense.refernceType;
+    this.api.get('Vehicles/getRefrenceDetails?' + params)
+      .subscribe(res => {
+        console.log(res['data']);
+        let resultData = res['data'][0];
+        this.expense.vehicleId = resultData.vid;
+        this.expense.vehicleRegNo = resultData.regno;
+        this.expense.refTypeName = resultData.ref_name;
+        this.expense.vehicleType = resultData.vehasstype
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
   getFrieghtHeaderId(type, index) {
