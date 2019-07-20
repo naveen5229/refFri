@@ -48,15 +48,16 @@
                 <label>Origin</label>
             </div>
             <div class="col-4">
-                <auto-suggestion (onSelected)="selectLocation($event.location, 'endname')" inputId="endname" (noDataFound)="takeAction($event.location)" (onChange)="onChangeAuto($event)" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" placeholder="Enter origin name"
-                    style="width:60%;">
+                <auto-suggestion (onSelected)="selectLocation($event.location, 'endname')" inputId="endname" (noDataFound)="takeAction($event.location)" (onChange)="onChangeAuto($event,'source')" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location"
+                    placeholder="Enter origin name" style="width:60%;">
                 </auto-suggestion>
             </div>
             <div class="col-2">
                 <label>Destination</label>
             </div>
             <div class="col-3">
-                <auto-suggestion (onSelected)="selectDestination($event.location,'destination')" inputId="destination" url="Location/getPlaceFromRedis" display="location" placeholder="Enter Destination" style="width:60%;">
+                <auto-suggestion (onSelected)="selectDestination($event.location,'destination')" inputId="destination" url="Location/getPlaceFromRedis" (noDataFound)="takeAction1($event.location)" display="location" placeholder="Enter Destination" (onChange)="onChangeAuto($event,'destination')"
+                    [isNoDataFoundEmit]="true" style="width:60%;">
                 </auto-suggestion>
             </div>
         </div>
