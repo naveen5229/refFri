@@ -20,7 +20,7 @@ export class WarehouseInventoryComponent implements OnInit {
       hideHeader: true
     }
   };
-  request =0;
+  request = 0;
   dataInventory = null;
   startDate = null;
   endDate = null;
@@ -140,15 +140,15 @@ export class WarehouseInventoryComponent implements OnInit {
     let startDate = this.common.dateFormatter(this.startDate);
     let endDate = this.common.dateFormatter(this.endDate);
     const params =
-      {
-        startDate:startDate,
-        endDate:endDate,
-         whId:this.wareHouseId,
-        status:this.request
-        }
+    {
+      startDate: startDate,
+      endDate: endDate,
+      whId: this.wareHouseId,
+      status: this.request
+    }
 
     console.log("params", params)
-    this.api.post("WareHouse/getStockItemPendingList",params).subscribe(
+    this.api.post("WareHouse/getStockItemPendingList", params).subscribe(
       res => {
         this.data = [];
         this.data = res['data'];
@@ -172,7 +172,7 @@ export class WarehouseInventoryComponent implements OnInit {
   showAction(itemId, stateName, stateId, quantity) {
     this.common.params = { itemId, stateName, stateId, quantity };
     console.log("Item", this.common.params)
-    const activeModal=this.modalService.open(GotPassComponent, {
+    const activeModal = this.modalService.open(GotPassComponent, {
       size: "lg",
       container: "nb-layout"
     });
