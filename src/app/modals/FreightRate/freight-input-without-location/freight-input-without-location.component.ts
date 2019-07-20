@@ -60,6 +60,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
 
   }];
   frpId = null;
+  locId = null;
 
   data = [];
   table = {
@@ -80,7 +81,9 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     public api: ApiService,
     public activeModal: NgbActiveModal,
   ) {
-    this.frpId = this.common.params.id ? this.common.params.id : null;
+    console.log("this.common.params.data", this.common.params.data);
+    this.frpId = this.common.params.data.frpId ? this.common.params.data.frpId : null;
+    this.locId = this.common.params.data.locId ? this.common.params.data.locId : null;
     this.getFrieghtRateDetails();
     this.getFreightRateparams();
     this.common.handleModalSize('class', 'modal-lg', '1600');
@@ -128,6 +131,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     ++this.common.loading;
     let params = {
       frpId: this.frpId,
+      locId: this.locId,
       type: 'formula',
 
       frieghtRateData: JSON.stringify(frieghtRateData),
@@ -154,6 +158,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
   getFrieghtRateDetails() {
     let params = {
       frpId: this.frpId,
+      locId: this.locId,
       type: 'formula',
     }
     console.log("params", params);
