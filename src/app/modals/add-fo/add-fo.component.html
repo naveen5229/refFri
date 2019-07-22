@@ -150,20 +150,20 @@
 
   </form>
 
-  
+
 
 </div>
 <div class="modal-footer">
   <table *ngIf="showTable" class="table table-bordered mt-3">
 
     <thead class="thead" style="background-color: cadetblue; color: white">
-      <tr  >
-          <th>S.No</th>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Company Id</th>
-          <th>Show All company</th>
-          <th>Company</th>
+      <tr>
+        <th>S.No</th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Company Id</th>
+        <th>Show All company</th>
+        <th>Company</th>
 
 
       </tr>
@@ -175,14 +175,18 @@
         <td>{{data.id}}</td>
         <td>{{data.name}}</td>
         <td>{{data.company_id}}</td>
-        <td><select [(ngModel)]="is_showCompany" class="form-control" style=" border: 2px solid darkcyan; font-size: 15px" (change)="showCompany(value)">
-          <option [value]="false">False </option>
-          <option [value]="true">True</option>
-        </select></td>    
-        <td> <auto-suggestion (onSelected)="selectCompany($event)" url="Suggestion/GetCompanies" [preSelected]="{name:companyName,id:is_company}"
-          [display]="['name','id']" seperator="-" placeholder="Search By  Company Name">
-        </auto-suggestion></td>
-        </tr>
+        <td><select [(ngModel)]="is_showCompany" class="form-control"
+            style=" border: 2px solid darkcyan; font-size: 15px" (change)="showCompany(value)">
+            <option [value]="false">False </option>
+            <option [value]="true">True</option>
+          </select></td>
+        <td>
+          <auto-suggestion (onSelected)="selectCompany($event)" url="Suggestion/GetCompanies"
+            [preSelected]="companyName ? {name:companyName, id: is_company} : ''" [display]="['name','id']" seperator="-"
+            placeholder="Search By  Company Name">
+          </auto-suggestion>
+        </td>
+      </tr>
     </tbody>
   </table>
 

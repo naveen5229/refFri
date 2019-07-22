@@ -186,36 +186,7 @@ export class AddFoComponent implements OnInit {
 
   }
 
-  // formatTitle(title) {
-  //   return title.charAt(0).toUpperCase() + title.slice(1)
-  // }
-
-
-  // getTableColumns() {
-
-  //   let columns = [];
-  //   console.log("Data=", this.data);
-  //   this.data.map(doc => {
-  //     this.valobj = {};
-  //     for (let i = 0; i < this.headings.length; i++) {
-  //       console.log("doc index value:", doc[this.headings[i]]);
-  //       console.log("ico1n")
-
-  //       if (this.headings[i] == 'company_id')
-  //        {
-  //         //  if(this.headings[i]== null){
-  //         this.valobj['company_id'] = { class: "fa fa-edit", action: this.showFoDetails.bind(this, doc._item_id, doc.State, doc._state_id, doc.RemQauantity) }
-  //         //  }
-  //       }
-  //       else {
-  //         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: '' };
-  //       }
-  //     }
-  //     columns.push(this.valobj);
-  //   });
-  //   return columns;
-  // }
-
+ 
   getSmartTableData() {
 
     let params = 'foid=' + this.foid
@@ -240,16 +211,7 @@ export class AddFoComponent implements OnInit {
         console.log("result", this.is_showCompany);
         console.log("result1s", this.companyName);
 
-        // let first_rec = this.data[0];
-        //     for (var key in first_rec) {
-        //       if (key.charAt(0) != "_") {
-        //         this.headings.push(key);
-        //         let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-        //         this.table.data.headings[key] = headerObj;
-        //       }
-        //     }
-        //     this.table.data.columns = this.getTableColumns();
-        //   }
+     
       });
   }
 
@@ -258,9 +220,7 @@ export class AddFoComponent implements OnInit {
     this.companyId = event.id
     console.log("event1", event.id)
     this.companyName = event.name
-
-    this.changeCompanyDetail()
-
+    this.changeCompanyDetail();
   }
 
   changeCompanyDetail() {
@@ -269,13 +229,11 @@ export class AddFoComponent implements OnInit {
       companyId: this.companyId
     }
     this.common.loading++;
-
     this.api.post('Gisdb/updateFoDetails', params)
       .subscribe(res => {
         this.common.loading--;
         if (res['msg'] == "Success") {
           this.common.showToast("Successfully Update")
-          this.activeModal.close();
         }
         console.log('Res:', res['data']);
       }, err => {
@@ -291,20 +249,19 @@ showCompany(){
   else
   {
     this.is_showCompany=1
-
   }
   const params = {
     foid: this.foid,
     show_allcompany: this.is_showCompany
   }
   this.common.loading++;
-
   this.api.post('Gisdb/changeFoCompanyFlag', params)
     .subscribe(res => {
       this.common.loading--;
       if (res['msg'] == "Success") {
         this.common.showToast("Successfully Update")
-        this.activeModal.close();
+        this.is_showCompany= params.show_allcompany
+
       }
       console.log('Res:', res['data']);
     }, err => {
