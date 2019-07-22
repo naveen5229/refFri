@@ -16,6 +16,7 @@ export class LrRateComponent implements OnInit {
   generalModal = true;
   title = "General";
   btnTitle = "Advance Form";
+  isAdvanced = false;
   postAllowed = null;
   general = {
     param: null,
@@ -134,7 +135,7 @@ export class LrRateComponent implements OnInit {
       lrId: this.lrId,
       lrRateData: lrRateDatas,
       rateType: '' + this.type,
-      isAdvanced: !this.generalModal
+      isAdvanced: this.isAdvanced
     }
     console.log("params", params);
 
@@ -163,7 +164,7 @@ export class LrRateComponent implements OnInit {
     let params = {
       lrId: this.lrId,
       rateType: '' + this.type,
-      isAdvanced: !this.generalModal
+      isAdvanced: this.isAdvanced
     }
     console.log("params", params);
     ++this.common.loading;
@@ -184,6 +185,7 @@ export class LrRateComponent implements OnInit {
         this.headings = [];
         this.valobj = {};
 
+        this.resetValue();
         if (!res['data']) return;
         this.data = res['data'];
         if (res['data'] && this.generalModal) {
@@ -289,16 +291,18 @@ export class LrRateComponent implements OnInit {
 
   changeModalData() {
     if (!this.generalModal) {
+
       this.common.handleModalSize('class', 'modal-lg', '500');
       this.title = "General";
       this.btnTitle = "Advance Form";
       this.filters[0].param = "shortage";
-
+      this.isAdvanced = false;
     }
     else if (this.generalModal) {
       this.common.handleModalSize('class', 'modal-lg', '1600');
       this.title = "Advance";
       this.btnTitle = "General Form";
+      this.isAdvanced = true;
 
     }
     this.getLrRateDetails();
@@ -313,13 +317,31 @@ export class LrRateComponent implements OnInit {
   }
 
   setValue(data) {
-    console.log("data++", data);
-    this.general.weight = data[0]['wt_coeff'];
-    this.general.mgWeight = data[0]['mg_weight'];
-    this.general.qty = data[0]['qty_coeff'];
-    this.general.mgQty = data[0]['mg_qty'];
-    this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
-    this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
-    this.filters[0].shortage = data[1] && data[1]['short_coeff'] ? data[1]['short_coeff'] : data[1]['short_coeff'];
+    console.log("isAdvanced", this.isAdvanced);
+    if (!this.isAdvanced) {
+      this.general.weight = data[0]['wt_coeff'];
+      this.general.fixed = data[0]['fixed_amt'];
+      this.general.mgWeight = data[0]['mg_weight'];
+      this.general.qty = data[0]['qty_coeff'];
+      this.general.mgQty = data[0]['mg_qty'];
+      this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
+      this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
+      this.filters[0].shortage = data[1] && data[1]['short_coeff'] ? data[1]['short_coeff'] : data[1]['short_coeff'];
+    }
+    else {
+      this.resetValue();
+    }
+  }
+
+  resetValue() {
+    console.log("reset feunction");
+    this.general.weight = null;
+    this.general.fixed = null;
+    this.general.mgWeight = null;
+    this.general.qty = null;
+    this.general.mgQty = null;
+    this.filters[0].param = null;
+    this.filters[0].minRange = null;
+    this.filters[0].shortage = null;
   }
 }
