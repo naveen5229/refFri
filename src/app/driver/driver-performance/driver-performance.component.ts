@@ -75,7 +75,9 @@ export class DriverPerformanceComponent implements OnInit {
         tableHeight: '75vh',
       }
     };
-
+    this.driverPerformance = [];
+    this.headings = [];
+    this.valobj = {};
     const params = {
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
       endDate: this.common.dateFormatter1(this.endDate.split(' ')[0])
