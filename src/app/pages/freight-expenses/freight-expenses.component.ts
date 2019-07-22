@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddFreightExpensesComponent } from '../../modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
+import { SaveAdvicesComponent } from '../../modals/save-advices/save-advices.component';
 
 @Component({
   selector: 'freight-expenses',
@@ -32,13 +34,17 @@ export class FreightExpensesComponent implements OnInit {
     id: '12'
   },
   {
+    name: 'Trip',
+    id: '14'
+  },
+  {
     name: 'Any',
     id: '-1'
   }]
   statusid = 1;
   Typeid = -1;
-  startDate = '';
-  endDate = '';
+  startTime = new Date(new Date().setDate(new Date().getDate() - 15));;
+  endTime = new Date();
   data = [];
   table = {
     data: {
@@ -56,11 +62,11 @@ export class FreightExpensesComponent implements OnInit {
     public common: CommonService,
     private modalService: NgbModal,
   ) {
-    let today;
-    today = new Date();
-    this.endDate = this.common.dateFormatter(today);
-    this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
-    console.log('dates ', this.endDate, this.startDate)
+    // let today;
+    // today = new Date();
+    // this.endDate = this.common.dateFormatter(today);
+    // this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
+    // console.log('dates ', this.endDate, this.startDate)
     this.getExpenses();
     this.common.refresh = this.refresh.bind(this);
 
@@ -75,35 +81,12 @@ export class FreightExpensesComponent implements OnInit {
     this.getExpenses();
 
   }
-  getDate(type) {
 
-    this.common.params = { ref_page: 'LrView' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (type == 'start') {
-          this.startDate = '';
-          return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
-          console.log('fromDate', this.startDate);
-        }
-        else {
-
-          this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
-          // return this.endDate = date.setDate( date.getDate() + 1 )
-          console.log('endDate', this.endDate);
-        }
-
-      }
-
-    });
-
-
-  }
 
   getExpenses() {
-    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
+    var enddate = new Date(this.common.dateFormatter1(this.endTime).split(' ')[0]);
     let params = {
-      startTime: this.common.dateFormatter1(this.startDate).split(' ')[0],
+      startTime: this.common.dateFormatter1(this.startTime).split(' ')[0],
       endTime: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
       status: this.statusid,
       type: this.Typeid
@@ -177,6 +160,29 @@ export class FreightExpensesComponent implements OnInit {
             ]
           };
         }
+        else if (this.headings[i] == "Transfer") {
+          this.valobj[this.headings[i]] = {
+            value: "",
+            action: null,
+            isHTML: false,
+            icons: [
+              { class: 'fa fa-edit', action: this.openTransferReceipt.bind(this, doc) },
+              { action: null, txt: doc._trans_count }
+            ]
+          };
+        }
+
+        else if (this.headings[i] == "Advice") {
+          this.valobj[this.headings[i]] = {
+            value: "",
+            action: null,
+            isHTML: false,
+            icons: [
+              { class: 'fa fa-edit', action: this.openadvice.bind(this, doc) },
+              { action: null, txt: doc._adv_count }
+            ]
+          };
+        }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -203,5 +209,31 @@ export class FreightExpensesComponent implements OnInit {
       this.getExpenses();
     })
 
+  }
+  openTransferReceipt(transfer) {
+    console.log("advice", transfer);
+    let refData = {
+      refId: transfer._ref_id,
+      refType: transfer._ref_type,
+    }
+    this.common.params = { refData: refData };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.getExpenses();
+    })
+  }
+
+  openadvice(row) {
+    this.common.handleModalSize('class', 'modal-lg', '900', 'px');
+
+    let refData = {
+      refId: row._ref_id,
+      refType: row._ref_type
+    }
+    this.common.params = { refData: refData };
+    const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.getExpenses();
+    });
   }
 }

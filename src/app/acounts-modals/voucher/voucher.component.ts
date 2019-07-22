@@ -248,7 +248,7 @@ export class VoucherComponent implements OnInit {
       return;
     }
     console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch.id != 0);
-    if (this.accountService.selected.branch.id != 0) {
+    if (response && this.accountService.selected.branch.id != 0) {
       // this.accountService.selected.branch
       this.addVoucher();
       this.showConfirm = false;
@@ -256,6 +256,7 @@ export class VoucherComponent implements OnInit {
       return;
     } else if (response == false) {
       // this.activeModal.close();
+      console.log('false condition true',response)
       this.activeModal.close({ data: false });
     }
     else {
@@ -927,6 +928,9 @@ export class VoucherComponent implements OnInit {
       deleteview: ledger.deleteview,
       delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
+      costcenter: ledger.costcenter,
+      taxtype:ledger.taxtype,
+      taxsubtype:ledger.taxsubtype
     };
 
     console.log('params11: ', params);

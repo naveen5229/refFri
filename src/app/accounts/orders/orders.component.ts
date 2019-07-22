@@ -11,6 +11,7 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 import { WareHouseModalComponent } from '../../acounts-modals/ware-house-modal/ware-house-modal.component';
 import { AccountService } from '../../services/account.service';
+import {LedgeraddressComponent} from '../../acounts-modals/ledgeraddress/ledgeraddress.component';
 
 @Component({
   selector: 'orders',
@@ -44,6 +45,7 @@ export class OrdersComponent implements OnInit {
     shipmentlocation: '',
     orderid: 0,
     delete: 0,
+    ledgeraddressid:null,
     // branch: {
     //   name: '',
     //   id: ''
@@ -81,7 +83,8 @@ export class OrdersComponent implements OnInit {
       lineamount: 0,
       discountate: 0,
       rate: 0,
-      amount: 0
+      amount: 0,
+      defaultcheck:true
     }]
   };
 
@@ -152,6 +155,7 @@ export class OrdersComponent implements OnInit {
 
     this.setFoucus('ordertype');
     this.common.currentPage = this.order.ordertype.name;
+    
   }
 
   ngOnInit() {
@@ -176,6 +180,8 @@ export class OrdersComponent implements OnInit {
       shipmentlocation: '',
       orderid: 0,
       delete: 0,
+    ledgeraddressid:null,
+
       // branch: {
       //   name: '',
       //   id: ''
@@ -213,7 +219,8 @@ export class OrdersComponent implements OnInit {
         lineamount: 0,
         discountate: 0,
         rate: 0,
-        amount: 0
+        amount: 0,
+        defaultcheck:true
       }]
     };
   }
@@ -238,7 +245,8 @@ export class OrdersComponent implements OnInit {
       lineamount: 0,
       discountate: 0,
       rate: 0,
-      amount: 0
+      amount: 0,
+      defaultcheck:false
 
     });
   }
@@ -339,7 +347,11 @@ export class OrdersComponent implements OnInit {
   }
 
   TaxDetails(i) {
-    this.common.params = this.order.amountDetails[i].taxDetails;
+    this.common.params={
+      taxDetail : this.order.amountDetails[i].taxDetails,
+     amount : this.order.amountDetails[i].amount
+    }
+   
 
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
     activeModal.result.then(data => {
@@ -347,7 +359,8 @@ export class OrdersComponent implements OnInit {
       if (data.response) {
         console.log(data.taxDetails);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
-        this.order.amountDetails[i].lineamount += data.taxDetails[0].totalamount;
+        this.order.amountDetails[i].lineamount = 0;
+        this.order.amountDetails[i].lineamount =  this.order.amountDetails[i].amount+data.taxDetails[0].totalamount;
         this.setFoucus('plustransparent');
         // this.addLedger(data.ledger);
       }
@@ -363,7 +376,7 @@ export class OrdersComponent implements OnInit {
   onSelectedaddress(selectedData, type, display) {
     this.order[type].name = selectedData[display];
     this.order[type].id = selectedData.id;
-    this.order.billingaddress = selectedData.address;
+  //  this.order.billingaddress = selectedData.address;
     console.log('order User: ', this.order);
   }
 
@@ -392,6 +405,7 @@ export class OrdersComponent implements OnInit {
       // approved: order.Approved,
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
+      ledgeraddressid:order.ledgeraddressid,
       x_id: 0
     };
 
@@ -974,7 +988,8 @@ export class OrdersComponent implements OnInit {
     } else if (this.activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      this.order.billingaddress = suggestion.address;
+     // this.order.billingaddress = suggestion.address;
+     //getAddressByLedgerId(suggestion.id);
     } else if (this.activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
@@ -1033,7 +1048,10 @@ export class OrdersComponent implements OnInit {
       deleteview: ledger.deleteview,
       delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
-      bankname:ledger.bankname
+      bankname:ledger.bankname,
+      costcenter: ledger.costcenter,
+      taxtype:ledger.taxtype,
+      taxsubtype:ledger.taxsubtype
     };
 
     console.log('params11: ', params);
@@ -1096,7 +1114,14 @@ export class OrdersComponent implements OnInit {
       maxlimit: stockItem.maxlimit,
       isactive: stockItem.isactive,
       inventary: stockItem.inventary,
-      stockunit: stockItem.unit.id
+      stockunit: stockItem.unit.id, gst:stockItem.gst,
+      details:stockItem.hsndetail,
+      hsnno:stockItem.hsnno,
+      isnon:stockItem.isnon,
+      cess:stockItem.cess,
+     igst:stockItem.igst,
+     taxability:stockItem.taxability,
+     calculationtype:stockItem.calculationtype
 
     };
 
@@ -1162,9 +1187,12 @@ export class OrdersComponent implements OnInit {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
       this.order.billingaddress = suggestion.address;
+      this.getAddressByLedgerId(suggestion.id);
     } else if (activeId == 'purchaseledger') {
+      console.log('>>>>>>>>>',suggestion);
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
+     // this.getAddressByLedgerId(suggestion.id);
     } else if (activeId.includes('stockitem')) {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].stockitem.name = suggestion.name;
@@ -1254,5 +1282,47 @@ export class OrdersComponent implements OnInit {
       });
   }
 
+  getAddressByLedgerId(id){
+    let params = {
+      ledgerid: id
+    };
+    // this.common.loading++;
+    this.api.post('Accounts/GetAddressByLedgerId', params)
+      .subscribe(res => {
+        // this.common.loading--;
+        console.log('Res ledger<<<<<<<<<<<<:', res['data']);
+        if(res['data'].length>1){
+          this.showAddpopup(res['data']);
 
+        }else{
+          this.order.billingaddress=res['data'][0]['address'];
+        this.order.ledgeraddressid=res['data'][0]['id'];
+
+        }
+       // this.totalitem = res['data'][0].get_stockitemavailableqty;
+        //  console.log('totalitem : -',totalitem);
+     //   return this.totalitem;
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+
+  showAddpopup(address){
+    console.log('data salutaion :: ??',address);
+    this.common.params={
+      addressdata:address
+    };
+    const activeModal = this.modalService.open(LedgeraddressComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log('data order responce',data);
+        this.order.billingaddress=data.adddata;
+        return;
+      }
+    });
+  }
+
+ 
 }

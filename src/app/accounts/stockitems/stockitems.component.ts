@@ -52,7 +52,7 @@ export class StockitemsComponent implements OnInit {
   }
 
   openStockItemModal(stockitem?) {
-    console.log('stockitem', stockitem);
+    console.log('stockitem close time', stockitem);
     if (stockitem) {
       this.common.params = stockitem;
       const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
@@ -71,7 +71,16 @@ export class StockitemsComponent implements OnInit {
             isactive: data.stockItem.isactive,
             inventary: data.stockItem.inventary,
             stockunit: data.stockItem.unit.id,
-            stockItemid: stockitem.id
+            stockItemid: stockitem.id,
+            gst:data.stockItem.gst,
+            details:data.stockItem.details,
+            hsnno:data.stockItem.hsnno,
+            isnon:data.stockItem.isnon,
+            cess:data.stockItem.cess,
+            igst:data.stockItem.igst,
+            taxability:data.stockItem.taxability,
+            calculationtype:data.stockItem.calculationtype
+
           };
           console.log('paramsans: ', params);
           this.common.loading++;
@@ -123,11 +132,19 @@ export class StockitemsComponent implements OnInit {
       maxlimit: stockItem.maxlimit,
       isactive: stockItem.isactive,
       inventary: stockItem.inventary,
-      stockunit: stockItem.unit.id
+      stockunit: stockItem.unit.id,
+      gst:stockItem.gst,
+      details:stockItem.hsndetail,
+      hsnno:stockItem.hsnno,
+      isnon:stockItem.isnon,
+      cess:stockItem.cess,
+     igst:stockItem.igst,
+     taxability:stockItem.taxability,
+     calculationtype:stockItem.calculationtype
 
     };
 
-    console.log('params: ', params);
+    console.log('params: stocks ', params);
     this.common.loading++;
 
     this.api.post('Stock/InsertStockItem', params)

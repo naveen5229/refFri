@@ -97,6 +97,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: 'Card Mapping',
+        icon: 'nb-notifications',
+        link: '/pages/card-mapping',
+        home: true,
+      },
+      {
         title: 'Tickets All',
         icon: 'nb-title',
         link: '/pages/tickets-all',
@@ -358,7 +364,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
       home: true,
     },
     {
-
       title: 'Advices',
       icon: 'fas fa-question',
       link: '/pages/advices',
@@ -377,8 +382,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-car-battery',
     link: '/battery/battery-inventory'
   },
-
-
   {
     title: 'Accounts',
     icon: 'fa fa-money',

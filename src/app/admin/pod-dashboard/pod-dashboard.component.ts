@@ -1,27 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
-import { from } from 'rxjs';
 import { LrPodDashboardComponent } from '../../modals/LRModals/lr-pod-dashboard/lr-pod-dashboard.component';
-import { ConsolidateFuelAverageComponent } from '../consolidate-fuel-average/consolidate-fuel-average.component';
 @Component({
   selector: 'pod-dashboard',
   templateUrl: './pod-dashboard.component.html',
   styleUrls: ['./pod-dashboard.component.scss']
 })
 export class PodDashboardComponent implements OnInit {
-  data = [];
-
-  value = [];
-  summary = [];
-  stateid = null;
-  stateName = [];
-  stateCount = [];
-  Show = [];
-  chartObject2 = {
+  chart = {
     type: '',
     data: {},
     options: {},
@@ -33,11 +22,13 @@ export class PodDashboardComponent implements OnInit {
     max: '',
     stepSize: '',
     startAngle: '',
-    backgroundColor: []
+    backgroundColor: [],
+    legend: {}
+
   };
 
   table = {
-    value: {
+    data: {
       headings: {},
       columns: []
     },
@@ -46,203 +37,166 @@ export class PodDashboardComponent implements OnInit {
     }
   };
 
-  headings = [];
-  valobj = {};
+  allPendingPODs = [];
+  pendingPODs = [];
+  states = [];
+  chartData = {
+    labels: [],
+    data: []
+  };
 
-
-  constructor(private activeModal: NgbActiveModal,
-    public common: CommonService,
-    private commonService: CommonService,
+  constructor(public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal) {
-
-    this.reset();
+    this.getPendingPods();
     this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
+
   refresh() {
-    this.reset();
-  }
-  ngAfterViewChecked() {
-    // console.log('CHART DATA:', this.chartObject2.data);
+    this.getPendingPods();
   }
 
-  reset() {
-    this.value = [];
-    this.table = {
-      value: {
-        headings: {},
-        columns: []
-      },
-      settings: {
-        hideHeader: true
-      }
-    };
-
-    this.chartObject2 = {
-      type: '',
-      data: {},
-      options: {},
-      elements: {},
-      lables: [],
-      yAxes: [],
-      ticks: {},
-      min: '',
-      max: '',
-      stepSize: '',
-      startAngle: '',
-      backgroundColor: [],
-    };
-    this.stateName = [];
-    this.stateCount = [];
-    this.summary = [];
-    this.headings = [];
-    this.valobj = {};
-    this.PodDetails();
-  }
-
-  PodDetails() {
+  getPendingPods() {
     this.common.loading++;
     this.api.get('LorryReceiptsOperation/getPendingPods')
       .subscribe(res => {
         this.common.loading--;
-        this.data = res['data'];
-
-        this.value = res['data']['result'];
-        this.summary = res['data']['summary'];
-        // if (this.value == null || this.summary == null) {
-        //   this.value = [];
-        //   this.summary = [];
-        // }
-        console.log("Sumaary Data", this.summary);
-        console.log("Count:", this.stateCount);
-        // this.stateName = [];
-        //this.stateCount = [];
-        this.summary.forEach(info => {
-          this.stateName.push(info['State Name']);
-          this.stateCount.push(info.count);
-        });
-        console.log('', this.stateName, '', this.stateCount);
-
-
-        if (this.value == null) {
-          this.value = [];
-          this.table = null;
-        }
-        let first_rec = this.value[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.value.headings[key] = headerObj;
-          }
-        }
-        // this.showdoughnut();
-        this.table.value.columns = this.getTableColumns();
-        this.showdoughnut();
+        console.info('Res:', res);
+        this.allPendingPODs = res['data']['result'];
+        this.pendingPODs = res['data']['result'];
+        this.states = res['data']['summary'];
+        this.handleChart();
+        this.generateTable();
       }, err => {
         this.common.loading--;
         this.common.showError();
       });
   }
 
+  handleChart() {
+    this.chart.type = 'pie';
+    this.chart.data = {
+      labels: this.states.map(state => { return state['State Name'] }),
+      datasets: [
+        {
+          label: 'Zones',
+          data: this.states.map(state => { return state.count }),
+          backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#85144b", "#F012BE", "#3D9970", "#111111",]
+        },
+      ]
+    };
+
+    legend: {
+      display: false
+    }
+
+    this.chart.options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        display: false
+      },
+
+
+    };
+    console.log('This:', this.chart);
+  }
+
+  generateTable() {
+    this.table = {
+      data: {
+        headings: this.getHeadings(),
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+  }
+
+  getHeadings() {
+    let headings = {};
+    for (var key in this.allPendingPODs[0]) {
+      if (key.charAt(0) != "_") {
+        headings[key] = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+      }
+    }
+    headings['Action'] = { title: 'Action', hideSearch: true };
+    return headings;
+  }
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
+
   getTableColumns() {
     let columns = [];
 
-    this.value.map(doc => {
-      this.valobj = {};
-      for (let i = 0; i < this.headings.length; i++) {
-        // console.log("Type", this.headings[i]);
-        // console.log("doc index value:", doc[this.headings[i]]);
-        if (this.headings[i] == "Action") {
-
-          // this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-task', action: this.view.bind(this, doc.url) }, { class: 'fa fa-task', action: this.view.bind(this, doc.url) }] };
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-user', action: this.change.bind(this, doc) }, { class: 'fa fa-tasks', action: this.view.bind(this, doc._img_url) }, { class: 'fa fa-picture-o', action: this.lrview.bind(this, doc._img_url2) }] };
+    this.pendingPODs.map(pendingPOD => {
+      let column = {};
+      for (let key in this.getHeadings()) {
+        if (key == 'Action') {
+          column[key] = {
+            value: "",
+            action: null,
+            icons: [
+              { class: 'fa fa-user', action: this.changeState.bind(this, pendingPOD) },
+              { class: 'fa fa-tasks', action: this.viewPODImages.bind(this, pendingPOD._img_url) },
+              { class: 'fa fa-picture-o', action: this.viewLRImages.bind(this, pendingPOD._img_url2) }]
+          };
         } else {
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+          column[key] = { value: pendingPOD[key], class: 'black', action: '' };
         }
       }
-      columns.push(this.valobj);
+      columns.push(column);
     });
+    console.log('Columns:', columns);
     return columns;
   }
 
-  showdoughnut() {
-    this.chartObject2.type = 'pie';
-    this.chartObject2.data = {
-      // labels: this.dateDay ? this.dateDay : this.kmpdDate,
-      labels: this.stateName,
-      datasets: [
-        {
-          label: 'Zones',
-          data: this.stateCount,
-          backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#85144b", "#F012BE", "#3D9970", "#111111",]
-        },
-
-      ]
-    };
-    this.chartObject2.options = {
-      responsive: true,
-      maintainAspectRatio: false
-    };
-    console.log('This:', this.chartObject2);
+  changeState(pendingPOD) {
+    console.log('pendingPOD', pendingPOD);
+    this.common.params = { details: pendingPOD };
+    const activeModal = this.modalService.open(LrPodDashboardComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getPendingPods();
+      }
+    });
   }
 
-
-  view(url) {
-    // let images
-    let field = url.split(',');
-    // field.forEach(elements => {
-    //   images = [{
-    //     name: "POD",
-    //     image: elements
-    //   }];
-    // })
-    // for (let i = 0; i < field.length; i++) {
-    //   images = [{
-    //     name: "POD",
-    //     image: field[i]
-    //   }];
-    // }
-    let images = [{
-      name: "POD",
-      image: field[0]
-    }, {
-      name: "POD",
-      image: field[1]
-    }]
+  viewPODImages(url) {
+    let images = url.split(',').map(image => {
+      return { name: 'POD', image }
+    });
 
     this.common.params = { images, title: 'POD Image' };
-    const activeModal2 = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
-
-
-
+    this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
   }
-  lrview(url) {
+
+  viewLRImages(url) {
     let images = [{
       name: "Lr",
       image: url
     }];
     this.common.params = { images, title: 'Lr Image' };
-    const activeModal2 = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
-
-
+    this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
   }
-  change(details) {
-    console.log('details', details);
-    this.common.params = { details };
-    const activeModal = this.modalService.open(LrPodDashboardComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
-    activeModal.result.then(data => {
-      if (data.response) {
 
-        this.reset();
-      }
-    });
+  filterPODs(state) {
+    if (state === 'all') {
+      this.pendingPODs = this.allPendingPODs;
+    } else {
+      this.pendingPODs = this.allPendingPODs.filter(pod => {
+        if (pod._state_id == state._state_id) {
+          return true;
+        }
+        return false;
+      });
+    }
+    this.generateTable();
   }
 }

@@ -21,8 +21,8 @@ export class SaveAdvicesComponent implements OnInit {
     name: 'group',
     id: '3'
   }]
-  id = null;
-  advice_type_id = null;
+  id = 1;
+  advice_type_id = '-1';
   market = null;
   group = null;
   type = [];
@@ -30,9 +30,9 @@ export class SaveAdvicesComponent implements OnInit {
   regno = null;
   description = null;
   user_value = null;
-  ref_id = null;
-  ref_name = null;
-  modeId = null;
+  driverId = null;
+  driverName = null;
+  modeId = '-1';
   remark = null;
   referenceType = [{
     name: 'select Type',
@@ -56,32 +56,62 @@ export class SaveAdvicesComponent implements OnInit {
     id: '14'
   }]
   referenceId = null;
+  referenceName = null;
   startDate = new Date();
-  revenue = {
-    refId: null,
+  advice = {
+    refId: '-1',
     refTypeName: null,
     refernceType: 0
   };
   refernceData = [];
   ModeData = [];
   data = [];
+  preSelectedDriver = null;
+  edit = 0;
   constructor(public common: CommonService,
     public api: ApiService,
     private activeModal: NgbActiveModal) {
-    console.log('Refernce:', this.referenceId);
+
     this.getType();
     this.getPaymentMode();
+
+
+    if (this.common.params && this.common.params.refData) {
+      this.edit = 1;
+      this.referenceId = this.common.params.refData.refType;
+      this.advice.refId = this.common.params.refData.refId;
+      this.getReferenceData();
+      this.getRefernceType(this.referenceId);
+    }
   }
 
   ngOnInit() {
   }
-  getSelection() {
-    // console.log('', this.id);
-  }
-  selectName(details) {
-    this.ref_id = details.id;
-    this.ref_name = details.empname;
 
+
+  getReferenceData() {
+    const params = "id=" + this.advice.refId +
+      "&type=" + this.referenceId;
+    this.api.get('Vehicles/getRefrenceDetails?' + params)
+      .subscribe(res => {
+        console.log(res['data']);
+        let resultData = res['data'][0];
+        this.vid = resultData.vid;
+        this.regno = resultData.regno;
+        this.advice.refTypeName = resultData.ref_name;
+        this.id = resultData.vehasstype
+        this.refernceTypes();
+        this.getDriverInfo();
+
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+  getDriverName(details) {
+    this.driverId = details.id;
+    this.driverName = details.empname;
+    return this.driverId
   }
   getTypeDetails(res) {
 
@@ -90,9 +120,34 @@ export class SaveAdvicesComponent implements OnInit {
 
     this.vid = det.id;
     this.regno = det.regno;
+    this.getDriverInfo();
   }
-  getRefernceType() {
-    // console.log('Refernce:', this.referenceId);
+  getDriverInfo() {
+    let params = {
+      vid: this.vid
+    };
+    this.api.post('Drivers/getDriverInfo', params)
+      .subscribe(res => {
+        console.log('res', res['data']);
+        if (res['data'].length > 0) {
+          this.driverName = res['data'][0].empname;
+          this.driverId = res['data'][0].driver_id;
+          document.getElementById("driver")['value'] = res['data'][0].empname;
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+
+
+  getRefernceType(typeId) {
+    this.referenceType.map(element => {
+      if (element.id == typeId) {
+        return this.referenceName = element.name;
+      }
+    });
+    this.refernceTypes();
   }
   getType() {
 
@@ -176,10 +231,10 @@ export class SaveAdvicesComponent implements OnInit {
       dttime: this.common.dateFormatter1(this.startDate),
       user_value: this.user_value,
       rec_value: null,
-      for_ref_id: this.ref_id,
-      for_ref_name: this.ref_name,
-      ref_id: this.revenue.refId,
-      ref_name: this.revenue.refTypeName,
+      for_ref_id: this.driverId,
+      for_ref_name: this.driverName,
+      ref_id: this.advice.refId,
+      ref_name: this.advice.refTypeName,
       ref_type: this.referenceId,
       remarks: this.remark
     }

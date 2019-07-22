@@ -209,7 +209,7 @@ export class RoutesAdvancesComponent implements OnInit {
           isHTML: false,
           icons: [
             { class: '', action: null, txt: val },
-            { class: this.headings[i] == "Model" || val && 'fa fa-trash ml-2 text-danger', action: this.headings[i] == "Model"|| val && this.deleteRow.bind(this, doc, rowId), }
+            { class: this.headings[i] == "Model" || val && 'fa fa-trash ml-2 text-danger', action: this.headings[i] == "Model" || val && this.deleteRow.bind(this, doc, rowId), }
           ],
         };
       }
@@ -258,10 +258,12 @@ export class RoutesAdvancesComponent implements OnInit {
     }
   }
 
-  resetData(event, index) {
-    this.routeAdvance[index].modelId = null;
-    console.log(event);
-  }
+  // resetData(event, index) {
+  //   this.routeAdvance[index].modelId = null;
+  //   console.log(event);
+  // }
+
+
 
 
 }

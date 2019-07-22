@@ -69,8 +69,9 @@ import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-colum
 import { SiteInOutComponent } from './site-in-out/site-in-out.component';
 import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.component';
 import { NearbyPodsComponent } from '../admin/nearby-pods/nearby-pods.component';
+import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
-
+import { SitesComponent } from './sites/sites.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -135,6 +136,12 @@ const routes: Routes = [{
 
     path: 'ticket-site-details',
     component: TicketSiteDetailsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+
+    path: 'card-mapping',
+    component: CardMappingComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -440,7 +447,12 @@ const routes: Routes = [{
     path: 'transfers',
     component: TransfersComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'sites',
+    component: SitesComponent,
+    canActivate: [AuthGuard]
+  },
   ],
 }];
 

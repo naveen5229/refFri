@@ -1,7 +1,10 @@
 import { Component, OnInit, Renderer } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddFuelIndentComponent } from '../add-fuel-indent/add-fuel-indent.component';
+import { SaveAdvicesComponent } from '../save-advices/save-advices.component';
+import { TransferReceiptsComponent } from '../FreightRate/transfer-receipts/transfer-receipts.component';
 
 @Component({
   selector: 'trip-settlement',
@@ -19,16 +22,20 @@ export class TripSettlementComponent implements OnInit {
   valobj = [{}];
   columnsValue = [[]];
 
-  vehicleId = null;
+  refId = null;
+  refType = null;
   constructor(
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
+    private modalService: NgbModal,
+
     public renderer: Renderer
   ) {
     console.log("data:row", this.common.params.row);
-    this.vehicleId = this.common.params.row._vid;
-    this.common.handleModalSize('class', 'modal-lg', '1500');
+    this.refId = this.common.params.refData.refId;
+    this.refType = this.common.params.refData.refType;
+    this.common.handleModalSize('class', 'modal-lg', '1500', 'px', 0);
     this.printInvoice();
   }
 
@@ -43,7 +50,7 @@ export class TripSettlementComponent implements OnInit {
   printInvoice() {
     ++this.common.loading;
 
-    this.api.get('TripsData/getTripSettlement?vId=' + this.vehicleId)
+    this.api.get('TripsData/getTripSettlement?refId=' + this.refId + '&refType=' + this.refType)
       .subscribe(res => {
         --this.common.loading;
         for (let index = 0; index < 6; index++) {
@@ -127,6 +134,43 @@ export class TripSettlementComponent implements OnInit {
     return formattedFields;
   }
 
+  openTransferModal() {
+    let refData = {
+      refType: this.refType,
+      refId: this.refId
+    };
+    this.common.params = { refData: refData };
+    console.log("openTransferModal");
+    this.common.handleModalSize('class', 'modal-lg', '900', 'px', 1);
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    });
+  }
+  openFuelIndentModal() {
+    console.log("openFuelIndentModal");
+
+    this.common.params = {
+      title: 'Add Fuel Indent',
+      flag: 'Add'
+    };
+
+    const activeModal = this.modalService.open(AddFuelIndentComponent, {
+      size: "lg",
+      container: "nb-layout"
+    })
 
 
+  }
+  openAdviceModal() {
+    let refData = {
+      refType: this.refType,
+      refId: this.refId
+    };
+    this.common.params = { refData: refData };
+    console.log("openAdviceModal");
+    this.common.handleModalSize('class', 'modal-lg', '900', 'px', 1);
+    const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    });
+  }
 }

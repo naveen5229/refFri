@@ -6,6 +6,7 @@ import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import * as _ from 'lodash';
+import { ExcelService } from '../../services/excel/excel.service';
 
 @Component({
   selector: 'gstreport',
@@ -45,6 +46,7 @@ export class GstreportComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    private excelService: ExcelService,
     public modalService: NgbModal) {
     // this.getVoucherTypeList();
     this.common.refresh = this.refresh.bind(this);
@@ -70,8 +72,7 @@ export class GstreportComponent implements OnInit {
   let first_rec = this.DayData[0];
   for (var key in first_rec) {
     //console.log('kys',first_rec[key]);
-      this.headings.push(key);
-    
+      this.headings.push(key);    
   }
 
   console.log("headings", this.headings);
@@ -125,7 +126,36 @@ export class GstreportComponent implements OnInit {
         this.common.showError();
       });
   }
-  csvFunction(){
+  
+
+  getCsvData() {
+    console.log('Accounts:', this.bankBook);
+    let params = {
+      startdate: this.bankBook.startdate,
+      enddate: this.bankBook.enddate,
+      reporttype: 'all'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/getGstAllReport', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res report:', res['data'][0]);
+       
+        this.csvFunction(res['data']);
+      
+        this.totalLength = this.DayData.length;
+        
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+  csvFunction(csvdata){
     let params = {
       search: 'test'
     };
@@ -143,8 +173,36 @@ export class GstreportComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getCSVFromTableIdNew('table',foname,cityaddress,'','',remainingstring3);
-      // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
+       this.excelService.getMultipleSheetsInExcel(['b2b','b2cl','b2cs','cdnr','cdnur','exp','at','atadj','exemp','hsn','docs'],foname,cityaddress,remainingstring3,csvdata);
+
+     
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+
+  getCsvReport() {
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+        // this.Vouchers = res['data'];
+        let address = (res['data'][0]) ? res['data'][0].addressline + '\n' : '';
+        let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1;
+        let foname = (res['data'][0]) ? res['data'][0].foname : '';
+        this.common.getCSVFromTableIdNew('table', foname, cityaddress, '', '', remainingstring3);
+        // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
 
       }, err => {
         this.common.loading--;
@@ -152,6 +210,7 @@ export class GstreportComponent implements OnInit {
         this.common.showError();
       });
   }
+
   getVoucherEdited() {
     console.log('Accounts:', this.bankBook);
     let params = {

@@ -6,33 +6,31 @@
 
 </div>
 <div class="modal-body">
-  <div class="row mb-3 align-items-baseline">
-    <div class="col-2">
+  <div class="row mb-3 align-items-baseline" *ngIf="edit==0; else preselectedValue">
+    <div class="col-1">
       <label>Vehicle Type</label>
     </div>
-    <div class="col-2">
-      <select class="form-control" (change)="getSelection();resetData()" [(ngModel)]="id">
+    <div class="col-3">
+      <select class="form-control" (change)="resetData()" [(ngModel)]="id">
         <option *ngFor="let status of option" [value]="status.id">
           {{status.name}}
 
         </option>
       </select>
     </div>
-    <div class="col-2" *ngIf="id==1">
+    <div class="col-3" *ngIf="id==1">
       <auto-suggestion (onSelected)="selectVechile($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-        inputId="driver">
+        inputId="regno" placeholder=" ">
       </auto-suggestion>
     </div>
-    <div class="col-2" *ngIf="id==2">
-      <input type="text" class="form-control" inputId="driver" name="name" [(ngModel)]="regno">
+    <div class="col-3" *ngIf="id!=1">
+      <input type="text" class="form-control" inputId="driver" name="name" placeholder="Regno" [(ngModel)]="regno">
     </div>
-    <div class="col-2" *ngIf="id==3">
-      <input type="text" class="form-control" inputId="driver" name="group" [(ngModel)]="regno">
-    </div>
+
     <div class="col-2">
       <label>Reference</label>
     </div>
-    <div class="col-2">
+    <div class="col-1">
       <select class="form-control" (change)="refernceTypes()" [(ngModel)]="referenceId">
         <option *ngFor="let reftype of referenceType" [value]="reftype.id">
           {{reftype.name}}
@@ -41,18 +39,53 @@
       </select>
     </div>
     <div class="col-2">
-      <auto-suggestion (onSelected)="revenue.refId=$event.id;revenue.refTypeName=$event.source_dest"
+      <select class="form-control" name="refernceDatas" id="refernceDatas" [(ngModel)]="advice.refId"
+        (onChange)="advice.refId=$event.id ; advice.refTypeName=$event.source_dest">
+        <option value="-1">Select type</option>
+        <option *ngFor="let refernce of refernceData; let i = index" [value]="refernce.id">
+          {{refernce.source_dest}}
+        </option>
+      </select>
+
+      <!-- <auto-suggestion (onSelected)="advice.refId=$event.id;advice.refTypeName=$event.source_dest"
         display="source_dest" placeholder=" " style=" width:60%;" [data]="refernceData" inputId="driver">
-      </auto-suggestion>
+      </auto-suggestion> -->
     </div>
   </div>
+
+  <ng-template #preselectedValue>
+    <div class="row mb-3 align-items-baseline">
+      <div class="col-1">
+        <label>Regno </label>
+      </div>
+      <div class="col-3">
+        <span>{{regno}}</span>
+      </div>
+
+      <div class="col-2">
+        <span><b>
+            {{referenceName}}
+          </b>
+        </span>
+      </div>
+
+      <div class="col-5">
+        <span>{{advice.refTypeName}}</span>
+
+      </div>
+    </div>
+  </ng-template>
+
+
+
   <div class="row mb-3 align-items-baseline">
-    <div class="col-2">
+    <div class="col-1">
       <label>Advice type</label>
     </div>
 
-    <div class="col-2">
+    <div class="col-3">
       <select class="form-control" (change)="getTypeDetails($event)" [(ngModel)]="advice_type_id">
+        <option value="-1">Select type</option>
         <option *ngFor="let type of type" [value]="type.id">
           {{type.description}}
 
@@ -60,11 +93,12 @@
       </select>
 
     </div>
-    <div class="col-2">
+    <div class="col-1">
       <span><b>Mode</b></span>
     </div>
     <div class="col-2">
       <select class="form-control" [(ngModel)]="modeId">
+        <option value="-1">Select type</option>
         <option *ngFor="let mode of ModeData" [value]="mode.id">
           {{mode.description}}
         </option>
@@ -76,26 +110,27 @@
     <div class="col-2">
       <label>User value</label>
     </div>
-    <div class="col-2">
+    <div class="col-3">
       <input type="number" class="form-control" name="value" id="value" [(ngModel)]="user_value">
     </div>
   </div>
   <div class="row mb-3 align-items-center">
-    <div class="col-2">
+    <div class="col-1">
       <label>Driver</label>
     </div>
-    <div class="col-2">
-      <auto-suggestion (onSelected)="selectName($event)" url="Booster/getDrivers" display="empname" inputId="driver">
+    <div class="col-3">
+      <auto-suggestion (onSelected)="getDriverName($event)" url="Booster/getDrivers" display="empname" inputId="driver"
+        [preSelected]="{empname:driverName}" placeholder="Search Driver">
       </auto-suggestion>
     </div>
-    <div class="col-2">
+    <div class="col-1">
       <label>Date</label>
     </div>
     <div class="col-2">
       <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate" [isTime]=false>
       </uj-date-time-picker>
     </div>
-    <div class="col-1">
+    <div class="col-2">
       <label>Remark</label>
     </div>
     <div class="col-3">
