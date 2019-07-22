@@ -258,7 +258,7 @@ export class AddPumpComponent implements OnInit {
       'lng1': boundBox.lng1,
       'lat2': boundBox.lat2,
       'lng2': boundBox.lng2,
-      'typeId': this.typeId
+      'typeId': 101
     };
     this.api.post("VehicleStatusChange/getSiteAndSubSite", bounds)
       .subscribe(res => {
