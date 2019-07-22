@@ -15,7 +15,7 @@ export class LrRateComponent implements OnInit {
   combineJson = [];
   generalModal = true;
   title = "General";
-  btnTitle = "Advance Modal";
+  btnTitle = "Advance Form";
   postAllowed = null;
   general = {
     param: null,
@@ -291,14 +291,14 @@ export class LrRateComponent implements OnInit {
     if (!this.generalModal) {
       this.common.handleModalSize('class', 'modal-lg', '500');
       this.title = "General";
-      this.btnTitle = "Advance Modal";
+      this.btnTitle = "Advance Form";
       this.filters[0].param = "shortage";
 
     }
     else if (this.generalModal) {
       this.common.handleModalSize('class', 'modal-lg', '1600');
       this.title = "Advance";
-      this.btnTitle = "General Modal";
+      this.btnTitle = "General Form";
 
     }
     this.getLrRateDetails();

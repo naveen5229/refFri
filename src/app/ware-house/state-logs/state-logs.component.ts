@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'state-logs',
@@ -9,9 +10,11 @@ import { ApiService } from '../../services/api.service';
 export class StateLogsComponent implements OnInit {
   dataState=[];
   dataWareHouse=[];
-  stateId=null;
-  wareHouseId=null;
+  stateId=2;
+  wareHouseId=20;
   stateData=[]
+  startDate = null;
+  endDate = null;
   table = {
     data: {
       headings: {},
@@ -25,7 +28,8 @@ export class StateLogsComponent implements OnInit {
   };
   headings = [];
   valobj = {};
-  constructor( public api:ApiService) {
+  constructor( public api:ApiService,
+    public common:CommonService) {
     this.getWareData();
     this.getData();
    }
@@ -57,7 +61,9 @@ export class StateLogsComponent implements OnInit {
 
 
   getState(){
-    const params=`whId=${this.wareHouseId}&stateId=${this.stateId}`
+    let startDate =  this.common.dateFormatter1(this.startDate);
+    let endDate =  this.common.dateFormatter1(this.endDate);
+    const params=`whId=${this.wareHouseId}&stateId=${this.stateId}&startDate=${startDate}&endDate=${endDate}`
     console.log(params);
     this.api.get("WareHouse/getStateLogsWrtWh?" + params).subscribe(
       res => {
@@ -92,6 +98,7 @@ export class StateLogsComponent implements OnInit {
     });
     return columns;
   }
+
  formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
