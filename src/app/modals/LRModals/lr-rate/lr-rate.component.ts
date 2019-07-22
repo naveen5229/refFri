@@ -13,6 +13,10 @@ export class LrRateComponent implements OnInit {
   freightRateparams = [];
   type = null;
   combineJson = [];
+  generalModal = true;
+  title = "General";
+  btnTitle = "Advance Form";
+  postAllowed = null;
   general = {
     param: null,
     minRange: null,
@@ -78,7 +82,13 @@ export class LrRateComponent implements OnInit {
     this.type = this.common.params.rate.rateType ? this.common.params.rate.rateType : null;
     this.getLrRateDetails();
     this.getLRtRateparams();
-    this.common.handleModalSize('class', 'modal-lg', '1600');
+    if (this.generalModal) {
+      this.common.handleModalSize('class', 'modal-lg', '500');
+      this.filters[0].param = "shortage";
+    } else {
+      this.common.handleModalSize('class', 'modal-lg', '1600');
+
+    }
   }
 
   ngOnInit() {
@@ -123,7 +133,8 @@ export class LrRateComponent implements OnInit {
     let params = {
       lrId: this.lrId,
       lrRateData: lrRateDatas,
-      rateType: '' + this.type
+      rateType: '' + this.type,
+      isAdvanced: !this.generalModal
     }
     console.log("params", params);
 
@@ -151,7 +162,8 @@ export class LrRateComponent implements OnInit {
   getLrRateDetails() {
     let params = {
       lrId: this.lrId,
-      rateType: '' + this.type
+      rateType: '' + this.type,
+      isAdvanced: !this.generalModal
     }
     console.log("params", params);
     ++this.common.loading;
@@ -174,6 +186,9 @@ export class LrRateComponent implements OnInit {
 
         if (!res['data']) return;
         this.data = res['data'];
+        if (res['data'] && this.generalModal) {
+          this.setValue(res['data']);
+        }
         let first_rec = this.data[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
@@ -270,5 +285,41 @@ export class LrRateComponent implements OnInit {
       }, err => {
         console.log(err);
       });
+  }
+
+  changeModalData() {
+    if (!this.generalModal) {
+      this.common.handleModalSize('class', 'modal-lg', '500');
+      this.title = "General";
+      this.btnTitle = "Advance Form";
+      this.filters[0].param = "shortage";
+
+    }
+    else if (this.generalModal) {
+      this.common.handleModalSize('class', 'modal-lg', '1600');
+      this.title = "Advance";
+      this.btnTitle = "General Form";
+
+    }
+    this.getLrRateDetails();
+    this.generalModal = !this.generalModal;
+  }
+  allowedShortageReset(index) {
+    this.filters[index].minRange = null;
+  }
+  postAllowedReset() {
+    this.general.shortage = null;
+    this.general.shortagePer = null;
+  }
+
+  setValue(data) {
+    console.log("data++", data);
+    this.general.weight = data[0]['wt_coeff'];
+    this.general.mgWeight = data[0]['mg_weight'];
+    this.general.qty = data[0]['qty_coeff'];
+    this.general.mgQty = data[0]['mg_qty'];
+    this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
+    this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
+    this.filters[0].shortage = data[1] && data[1]['short_coeff'] ? data[1]['short_coeff'] : data[1]['short_coeff'];
   }
 }

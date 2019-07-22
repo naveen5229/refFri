@@ -28,8 +28,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let Details of accDetails; let i = index;">
-              <td><input type="radio" name="address" [value]="Details.address"  [(ngModel)]="address"></td>
+            <tr *ngFor="let Details of accDetails; let i = index;" (click)="selectedRow = i; address = Details.address"  [ngClass]="{'highlight' : selectedRow == i}">
+              <td><input type="radio" name="address" [value]="Details.address+'@'+Details.id"  [(ngModel)]="address"></td>
               <td>{{Details.salutionname}}</td>
               <td>{{Details.name}}</td>
               <td>{{Details.mobileno}}</td>
