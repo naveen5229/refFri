@@ -9,10 +9,10 @@
             <div class="row">
               <div class="col-3"></div>
               <div class="col-3">
-                  <input type="radio" name="In" value="In" [(ngModel)]="selectOption" (change)="onSet(selectOption)" checked>Out
+                  <input type="radio" name="In" value="In" [(ngModel)]="selectOption" (change)="onSet(selectOption)" checked>In
               </div>
               <div class="col-3">
-           <input type="radio" name="Out" value="Out" (change)="onSet(selectOption)" [(ngModel)]="selectOption"> In
+           <input type="radio" name="Out" value="Out" (change)="onSet(selectOption)" [(ngModel)]="selectOption">Out
           </div>
           </div>
 
@@ -35,7 +35,7 @@
     <div class="col-3">
       <label>State*:</label>
     </div>
-    <div class="col-9" *ngIf="selectOption=='In'; else state2 " >
+    <div class="col-9" *ngIf="selectOption=='Out'; else state2 " >
       <select class="form-control" [(ngModel)]="StateId" >
         <option *ngFor="let state of stateType" [value]="state.id">
           {{state.name}}
