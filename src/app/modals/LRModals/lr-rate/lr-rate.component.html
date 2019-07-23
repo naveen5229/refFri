@@ -8,6 +8,10 @@
 <div class="modal-body">
   <div *ngIf="generalModal">
     <div class="row">
+      <div class="col-sm-7"><label> Fixed (<i class="fas fa-rupee-sign"></i>) </label></div>
+      <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.fixed></div>
+    </div>
+    <div class="row">
       <div class="col-sm-7"><label> Rate(/Tn) </label></div>
       <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.weight></div>
     </div>
