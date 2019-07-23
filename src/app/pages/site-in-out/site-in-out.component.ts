@@ -155,9 +155,16 @@ export class SiteInOutComponent implements OnInit {
       console.log(element.name == type);
       if (element.is_flag == 2) {
         this.isFlag = 2;
+        document.getElementById("sitedataList").style.color = "red";
+      }
+      else {
+        this.isFlag = 1;
+        document.getElementById("sitedataList").style.color = "black";
+
       }
       return element.name == type;
     }).id;
+
   }
 
 }
