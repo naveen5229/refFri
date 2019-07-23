@@ -752,10 +752,11 @@ export class PdfService {
     let details = await this.common.getFoDetails();
 
     const pdfElement = document.getElementById(elementId);
+      // <img src="assets/images/elogist.png" alt="elogist" style="width: 85px;">
     let headerHtml = `<div class="container">
     <div class="row">
       <div class="col-2" style="padding: 20px 30px 20px 0px;">
-        <img src="assets/images/elogist.png" alt="elogist" style="width: 85px;">
+      
       </div>
       <div class="col-10" style="padding: 20px 30px 20px 0px;">
         <div style="font-size: 18px;margin-bottom: 5px;letter-spacing: 1px;"><strong>${details.foname}</strong></div>

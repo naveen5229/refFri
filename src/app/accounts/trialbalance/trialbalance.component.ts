@@ -465,6 +465,7 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
   }
   generateCsvData() {
     let liabilitiesJson = [];
+    liabilitiesJson.push(Object.assign({Ledger:"Ledger",OpeningBalance:'Opening Balance',amountdr:'Amount(Debit)',amountcr:'Amount(Credit)',amount:'Closing Balance'}));
     this.trialBalanceData.forEach(liability => {
       liabilitiesJson.push({ Ledger: '(MG)'+liability.name, OpeningBalance : liability.openingamount,amountdr:liability.dramount,amountcr :liability.cramount,amount:liability.amount});
       liability.subGroups.forEach(subGroup => {
