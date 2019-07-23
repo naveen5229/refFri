@@ -51,6 +51,7 @@ export class GotPassComponent implements OnInit {
   StateId = null;
   boolean = 0;
   stateFind = null;
+  
 
   constructor(public common: CommonService,
     public modalService: NgbModal,
