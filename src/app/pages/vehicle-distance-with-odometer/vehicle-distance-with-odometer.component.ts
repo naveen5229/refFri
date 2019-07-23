@@ -72,7 +72,7 @@ export class VehicleDistanceWithOdometerComponent implements OnInit {
     return columns;
   }
 
-  submit(){
+  showData(){
     
      const params = {
       fromTime:this.common.dateFormatter1(this.startDate),

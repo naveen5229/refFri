@@ -203,6 +203,7 @@ import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/ed
 import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
 import { GenericModelComponent } from './modals/generic-model/generic-model.component';
+import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
 
 
 @NgModule({
@@ -377,6 +378,7 @@ import { GenericModelComponent } from './modals/generic-model/generic-model.comp
     EditViaRoutesPointsComponent,
     LrRateComponent,
     LedgeraddressComponent,
+    UploadDocsComponent,
   ],
   entryComponents: [
     LrRateComponent,
@@ -545,7 +547,9 @@ import { GenericModelComponent } from './modals/generic-model/generic-model.comp
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
     TripSettlementComponent,
-    LedgeraddressComponent
+    LedgeraddressComponent,
+    UploadDocsComponent,
+
   ],
   imports: [
     BrowserModule,
