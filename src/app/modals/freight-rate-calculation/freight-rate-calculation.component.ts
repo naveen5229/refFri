@@ -15,6 +15,7 @@ export class FreightRateCalculationComponent implements OnInit {
 
   keepGoing = true;
   searchString = '';
+  destinationString='';
   companyId = null;
   origin = null;
   siteId = null;
@@ -251,9 +252,15 @@ export class FreightRateCalculationComponent implements OnInit {
     this.activeModal.close();
   }
 
-  onChangeAuto(search) {
-    this.searchString = search;
-    console.log('..........', search);
+  onChangeAuto(search,type) {
+    if(type=='source'){
+      this.searchString = search;
+      console.log('..........', search);
+    }
+    else{
+       this.destinationString = search;
+    }
+   
   }
 
   
@@ -271,6 +278,26 @@ export class FreightRateCalculationComponent implements OnInit {
           if (res.location.lat) {
             this.origin = res.location.name.split(',')[0];
             (<HTMLInputElement>document.getElementById('endname')).value = this.origin;
+            this.keepGoing = true;
+          }
+        })
+      }
+    }, 1000);
+  }
+
+  takeAction1(res) {
+    setTimeout(() => {
+      console.log('here reaches');
+      if (this.keepGoing && this.destinationString.length) {
+        this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+        this.keepGoing = false;
+        activeModal.result.then(res => {
+          console.log('response----', res.location);
+          this.keepGoing = true;
+          if (res.location.lat) {
+            this.destination = res.location.name.split(',')[0];
+            (<HTMLInputElement>document.getElementById('destination')).value = this.destination;
             this.keepGoing = true;
           }
         })
