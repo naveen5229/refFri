@@ -54,7 +54,7 @@ export class SiteInOutComponent implements OnInit {
   getReport() {
     let url = null;
     if (this.isFlag == 2) {
-      url = "site/getLocalSiteInOutHistory";
+      url = "Site/getLocalSiteInOutHistory";
     }
     else {
       url = "Site/getSiteInAndOut"
