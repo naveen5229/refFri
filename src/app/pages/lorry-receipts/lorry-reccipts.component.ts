@@ -48,9 +48,14 @@ export class LorryRecciptsComponent implements OnInit {
     this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
     console.log('dates ', this.endDate, this.startDate)
     this.getLorryReceipts();
-
+    this.common.refresh = this.refresh.bind(this);
 
   }
+
+  refresh() {
+    this.getLorryReceipts();
+  }
+
 
   ngOnInit() {
   }

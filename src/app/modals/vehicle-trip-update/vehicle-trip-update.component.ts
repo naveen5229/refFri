@@ -260,7 +260,8 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
   selectLocation(place) {
     console.log("palce", place);
-    this.placementSite = null;
+    this.placementSite = place.id;
+    this.vehicleTrip.siteId = null;
     this.vehicleTrip.endLat = place.lat;
     this.vehicleTrip.endLng = place.long;
     this.vehicleTrip.endName = place.location || place.name;
@@ -295,7 +296,7 @@ export class VehicleTripUpdateComponent implements OnInit {
             (<HTMLInputElement>document.getElementById('endname')).value = this.vehicleTrip.endName;
             this.vehicleTrip.endLat = res.location.lat;
             this.vehicleTrip.endLng = res.location.lng;
-            this.placementSite = null;
+            this.placementSite = res.location.id;
             this.keepGoing = true;
           }
         })
