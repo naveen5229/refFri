@@ -19,7 +19,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class DropDownListComponent implements OnInit {
 
-  @Input() options: Array<string>;
+  @Input() options = [];
   @Input() selected: number;
   @Input() className: string;
   @Input() placeholder: string;

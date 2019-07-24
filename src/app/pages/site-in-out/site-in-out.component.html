@@ -5,15 +5,16 @@
   <nb-card-body>
     <div class="row align-items-center">
       <div class="col-2">
-        <input class="form-control" (change)="changeRefernceType(siteName);" placeholder="Site Name" type="text"
+        <auto-suggestion [data]="sitesDatalist" display="name" (onSelected)="checkValue($event)"
+          [bGConditions]="bGConditions">
+        </auto-suggestion>
+        <!-- <input class="form-control" (change)="changeRefernceType(siteName);" placeholder="Site Name" type="text"
           list="siteDatalist" name="sitedatalist" id="sitedataList" [(ngModel)]="siteName">
         <datalist id="siteDatalist">
           <option *ngFor="let site of sitesDatalist;" [value]="site.name">{{site.name}}--{{site.id}}
           </option>
-        </datalist>
-        <!-- <drop-down-list formControlName="type" [options]="sitesDatalist">
+        </datalist> -->
 
-        </drop-down-list> -->
       </div>
       <div class="col-1 pr-0">
         <label>Start Date</label>
@@ -42,6 +43,7 @@
         </span>
       </div>
     </div>
+    <div style="height: 500px"></div>
     <div>
       <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="siteInAndOut">
       </smart-table>

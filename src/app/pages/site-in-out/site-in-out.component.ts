@@ -28,6 +28,12 @@ export class SiteInOutComponent implements OnInit {
   endDate = new Date();
   startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 7));
   isFlag = 1;
+
+  bGConditions = [
+    { key: 'is_flag', value: 1, class: 'normal' },
+    { key: 'is_flag', value: 2, class: 'abnormal' }
+  ];
+
   constructor(
     public apiService: ApiService,
     public common: CommonService,

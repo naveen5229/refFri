@@ -16,7 +16,8 @@
     </div>
     <div class="suggestions" *ngIf="showSuggestions && suggestions.length && searchText">
         <p *ngFor="let suggestion of suggestions; let i = index;" class="suggestion"
-            [ngClass]="activeSuggestion == i ? 'active-suggestion' : ''" (click)="selectSuggestion(suggestion)">
+            [ngClass]="activeSuggestion == i ? 'active-suggestion' : classFinder(suggestion)"
+            (click)="selectSuggestion(suggestion)">
             {{generateString(suggestion)}}
         </p>
     </div>

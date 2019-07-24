@@ -14,3 +14,8 @@
         color: #227849;
     }
 }
+:host::ng-deep{
+    .abnormal{
+        background: red;
+    }
+}
