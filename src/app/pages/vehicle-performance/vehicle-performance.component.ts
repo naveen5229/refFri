@@ -38,12 +38,15 @@ export class VehiclePerformanceComponent implements OnInit {
     this.endDate = this.common.dateFormatter(today);
     start = new Date(today.setDate(today.getDate() - 7));
     this.startDate = this.common.dateFormatter(start);
-    console.log("Start Date:", this.startDate);
-    console.log("end Date:", this.endDate);
-this.common.refresh=this.refresh.bind(this);
+    this.common.refresh = this.refresh.bind(this);
+
+
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.getVehiclePerformance();
   }
 
   refresh(){
@@ -80,7 +83,7 @@ this.common.refresh=this.refresh.bind(this);
         tableHeight: '75vh',
       }
     };
-    this.vehiclePerformance=[];
+    this.vehiclePerformance = [];
 
     const params = {
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
