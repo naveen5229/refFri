@@ -156,13 +156,13 @@ export class LocationSelectionComponent implements OnInit {
 
     let dislat = place.geometry.viewport.getNorthEast().lat() - place.geometry.viewport.getSouthWest().lat();
     let disLong = place.geometry.viewport.getNorthEast().lng() - place.geometry.viewport.getSouthWest().lng();
-    console.log('district:', district);
-    console.log('city:', city);
-    console.log('state:', state);
-    console.log('placelat:', lat);
-    console.log('placelng:', lng);
-    console.log('dislat:', dislat);
-    console.log('dislng:', disLong);
+    // console.log('district:', district);
+    // console.log('city:', city);
+    // console.log('state:', state);
+    // console.log('placelat:', lat);
+    // console.log('placelng:', lng);
+    // console.log('dislat:', dislat);
+    // console.log('dislng:', disLong);
 
     if (city != null && district != null && state != null) {
 
@@ -312,8 +312,8 @@ export class LocationSelectionComponent implements OnInit {
           }
           if (this.data[0]['r_id'] > 1) {
             this.r_id = this.data[0].r_id;
-            this.activeModal.close({ location: this.location, r_id: this.r_id });
-            console.log('RID:', this.r_id);
+            this.activeModal.close({ location: (this.location, this.r_id) });
+            // console.log('RID:', this.location);
 
           }
           // this.common.showToast(res['msg']);
