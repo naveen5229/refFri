@@ -157,7 +157,7 @@ export class EditFillingComponent implements OnInit {
           this.common.loading--;
           console.log("result");
           console.log(res);
-          if (res["success"] == true) {
+          if (res["success"]) {
             this.common.showToast(res['msg']);
             // this.common.showToast("Details Updated Successfully");
 
