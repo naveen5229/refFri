@@ -103,6 +103,10 @@ export class SiteInOutComponent implements OnInit {
       this.valobj = {};
 
       for (let i = 0; i < this.headings.length; i++) {
+        if (this.headings['entryTime']) {
+          this.valobj[this.headings[i]] = { value: this.common.changeDateformat2(doc[this.headings[i]]), class: 'black', action: '' };
+
+        }
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
 
@@ -161,14 +165,11 @@ export class SiteInOutComponent implements OnInit {
       console.log(element.name == type);
       if (element.is_flag == 2) {
         this.isFlag = 2;
-        document.getElementById("sitedataList").style.color = "red";
+        // document.getElementById("sitedataList").style.color = "red";
       }
-      else {
-        this.isFlag = 1;
-        document.getElementById("sitedataList").style.color = "black";
 
-      }
-      return element.name == type;
+      console.log("Site Id", this.siteId);
+      return element.id == type.id;
     }).id;
 
   }

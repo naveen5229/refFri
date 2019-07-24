@@ -5,7 +5,7 @@
   <nb-card-body>
     <div class="row align-items-center">
       <div class="col-2">
-        <auto-suggestion [data]="sitesDatalist" display="name" (onSelected)="checkValue($event)"
+        <auto-suggestion [data]="sitesDatalist" display="name" (onSelected)="changeRefernceType($event)"
           [bGConditions]="bGConditions">
         </auto-suggestion>
         <!-- <input class="form-control" (change)="changeRefernceType(siteName);" placeholder="Site Name" type="text"
