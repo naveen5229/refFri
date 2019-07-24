@@ -203,6 +203,10 @@ import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/ed
 import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
 import { GenericModelComponent } from './modals/generic-model/generic-model.component';
+import { AddCompanyBranchComponent } from './modals/add-company-branch/add-company-branch.component';
+import { CompanyAssociationComponent } from './modals/company-association/company-association.component';
+import { CompanyEstablishmentComponent } from './modals/company-establishment/company-establishment.component';
+import { CompanyContactsComponent } from './modals/company-contacts/company-contacts.component';
 
 
 @NgModule({
@@ -377,6 +381,10 @@ import { GenericModelComponent } from './modals/generic-model/generic-model.comp
     EditViaRoutesPointsComponent,
     LrRateComponent,
     LedgeraddressComponent,
+    AddCompanyBranchComponent,
+    CompanyAssociationComponent,
+    CompanyEstablishmentComponent,
+    CompanyContactsComponent,
   ],
   entryComponents: [
     LrRateComponent,
@@ -545,7 +553,11 @@ import { GenericModelComponent } from './modals/generic-model/generic-model.comp
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
     TripSettlementComponent,
-    LedgeraddressComponent
+    LedgeraddressComponent,
+    AddCompanyBranchComponent,
+    CompanyAssociationComponent,
+    CompanyEstablishmentComponent,
+    CompanyContactsComponent,
   ],
   imports: [
     BrowserModule,
