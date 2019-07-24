@@ -49,9 +49,7 @@ export class VehiclePerformanceComponent implements OnInit {
     this.getVehiclePerformance();
   }
 
-  refresh(){
-    this.getVehiclePerformance();
-  }
+ 
 
 
   getDate(type) {

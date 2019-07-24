@@ -245,7 +245,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Site',
         icon: 'fas fa-truck',
-        link: '/pages/site',
+        link: '/pages/sites',
         home: true,
       },
     ]
