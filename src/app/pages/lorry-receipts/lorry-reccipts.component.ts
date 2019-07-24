@@ -281,6 +281,8 @@ export class LorryRecciptsComponent implements OnInit {
     const activeModal = this.modalService.open(LrRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data:', data);
+      this.getLorryReceipts();
+
     });
   }
 
