@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
 
+const PAGE_SIZE = {
+  chrome: 360,
+  firefox: 280,
+  safari: 360,
+  ei: 280,
+  edge: 360,
+  opera: 360
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,6 +47,7 @@ export class PrintService {
 
   constructor() { }
 
+
   /**
    * Print Invoice used to print invoices in different formats
    * @param json JSON data in printing format
@@ -74,6 +84,8 @@ export class PrintService {
    * @param json - JSON data in format 1
    */
   invoiceFormat1(ppContainer: HTMLElement, json: any) {
+    const DPI = this.getDPI();
+    const pageSize = PAGE_SIZE[this.detectBrowser()];
     let pageIndex = 1;
     let rowIndex = 0;
     while (rowIndex != json.table.rows.length - 1) {
@@ -98,7 +110,8 @@ export class PrintService {
       for (let i = rowIndex; i < json.table.rows.length; i++) {
         let row = this.createTrHtml(json.table.rows[i]);
         tbody.appendChild(row);
-        if (pageInsider['offsetHeight'] + row.offsetHeight > page['offsetHeight'] && i != json.table.rows.length - 1) {
+        let mm = (pageInsider['offsetHeight'] + row.offsetHeight * 25.4) / DPI;
+        if (mm > pageSize && i != json.table.rows.length - 1) {
           rowIndex = i + 1;
           break;
         }
@@ -244,4 +257,53 @@ export class PrintService {
     bodyElement.removeChild(printElement);
     bodyElement.className = bodyElement.className.replace(' printing', '');
   }
+
+
+  getDPI() {
+    let div = document.createElement("div");
+    div.style.height = "1in";
+    div.style.width = "1in";
+    div.style.top = "-100%";
+    div.style.left = "-100%";
+    div.style.position = "absolute";
+
+    document.body.appendChild(div);
+
+    let result = div.offsetHeight;
+
+    document.body.removeChild(div);
+
+    return result;
+  }
+
+  detectBrowser() {
+    let broswers = {
+      opera: false,
+      firefox: false,
+      safari: false,
+      ie: false,
+      edge: false,
+      chrome: false,
+      blink: false
+    };
+
+    broswers.opera = (!!window['opr'] && !!window['opr'].addons) || !!window['opera'] || navigator.userAgent.indexOf(' OPR/') >= 0;
+    broswers.firefox = typeof window['InstallTrigger'] !== 'undefined';
+    broswers.safari = /constructor/i.test(window['HTMLElement']) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari']);
+    broswers.ie = /*@cc_on!@*/false || !!document['documentMode'];
+    broswers.edge = !broswers.ie && !!window['StyleMedia'];
+    broswers.chrome = !!window['chrome'] && (!!window['chrome'].webstore || !!window['chrome'].runtime);
+
+    let browserName = '';
+    for (let broswer in broswers) {
+      if (broswers[broswer]) {
+        browserName = broswer;
+        break;
+      }
+    }
+
+    return browserName;
+  }
+
+
 }
