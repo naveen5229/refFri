@@ -7,6 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddPumpComponent } from '../add-pump/add-pump.component';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'edit-filling',
@@ -14,6 +15,7 @@ import { AddPumpComponent } from '../add-pump/add-pump.component';
   styleUrls: ['./edit-filling.component.scss', '../../pages/pages.component.css']
 })
 export class EditFillingComponent implements OnInit {
+  isFormSubmit = false;
   title = '';
   filldate = '';
   litres = 0;
@@ -23,12 +25,13 @@ export class EditFillingComponent implements OnInit {
   amount = 0.0;
   pump = '';
   pump_id = 0;
-  vehicle_id = 0;
+  vehicleId = 0;
   filling_id = 0;
   isPump = true;
   pumpPayType = '-21';
   driverCash = 0;
   odoVal = 0;
+  refNo = null;
 
 
 
@@ -37,6 +40,7 @@ export class EditFillingComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
+
     private activeModal: NgbActiveModal) {
     this.common.handleModalSize('class', 'modal-lg', '800');
 
@@ -51,31 +55,43 @@ export class EditFillingComponent implements OnInit {
     this.amount = rec.amount;
     this.pump = rec.pp;
     this.pump_id = rec.fuel_station_id;
-    this.vehicle_id = rec.vehicle_id;
+    this.vehicleId = rec.vehicle_id;
     this.filling_id = rec.id;
     this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
     this.odoVal = rec.odometer ? rec.odometer : 0;
   }
 
   ngOnInit() {
+
   }
+
+
+
 
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
 
   getDate() {
-    this.common.params = { ref_page: 'user-call-summary' };
+    this.common.params = { ref_page: 'fuelFilling' };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
+        this.filldate = this.common.dateFormatter1(data.date).split(' ')[0];
         console.log("data date:");
         console.log(data.date);
-        this.filldate = data.date;
+        this.filldate = this.common.changeDateformat1(this.filldate);
 
       }
 
     });
+  }
+
+  resetvehicle() {
+    console.log('________________________________________');
+    // document.getElementById('vehicleno')['value'] = '';
+    this.vehicleId = null;
+    this.regno = null;
   }
 
   getPumpData(pump) {
@@ -93,7 +109,7 @@ export class EditFillingComponent implements OnInit {
 
   getVehData(veh) {
     console.log("sel:", veh);
-    this.vehicle_id = veh.id;
+    this.vehicleId = veh.id;
     this.regno = veh.regno;
     console.log("regno:", this.regno);
   }
@@ -101,7 +117,7 @@ export class EditFillingComponent implements OnInit {
   submitFillingData() {
     console.log('fill date', this.filldate);
     if (this.filldate == null || this.filldate == '') {
-      this.common.showToast('Fill Date To Continue');
+      this.common.showError('Fill Date To Continue');
       return;
     } else {
       if (this.isfull == false) {
@@ -110,7 +126,7 @@ export class EditFillingComponent implements OnInit {
       let fmtdate = this.common.dateFormatter1(this.filldate).split(' ')[0];
       console.log("date::", fmtdate);
       let params = {
-        vehId: this.vehicle_id,
+        vehId: this.vehicleId,
         siteId: this.pump_id,
         litres: this.litres,
         rate: this.rate,
@@ -123,7 +139,8 @@ export class EditFillingComponent implements OnInit {
         fuelCompany: '',
         petrolPumpId: this.pump_id,
         driver_cash: this.driverCash,
-        odometer_val: this.odoVal
+        odometer_val: this.odoVal,
+        refNum: this.refNo
       };
       console.log("rowdata", this.common.params.rowfilling);
       console.log("newparams", params);
