@@ -27,7 +27,7 @@
         </p>
     </div>
 
-    <div class="suggestions suggetion-all" *ngIf="!showSuggestions && suggestions.length ">
+    <div class="suggetion-all" *ngIf="!showSuggestions && suggestions.length ">
         <p *ngFor="let suggestion of suggestions; let i = index;" class="suggestion"
             [ngClass]="activeSuggestion == i ? 'active-suggestion' : classFinder(suggestion)"
             (click)="selectSuggestion(suggestion)">
