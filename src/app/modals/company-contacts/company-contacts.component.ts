@@ -22,6 +22,10 @@ export class CompanyContactsComponent implements OnInit {
   MobileNo=null;
   email=null;
   remark=null;
+  userCmpnyId=this.common.params.cmpId;
+  assCmpnyId=null;
+  contactId=null;
+  update=false;
   constructor(public api:ApiService,
     public activeModal:NgbActiveModal,
     public common:CommonService) {
@@ -58,16 +62,24 @@ export class CompanyContactsComponent implements OnInit {
       branchId:this.branchId,
       remark:this.remark,
       name:this.name,
-      estbType:this.establishmentType
+      estbId:this.establishmentType,
+      deptName:this.deptName,
+      designation:this.designation,
+      phoneNo:this.phoneNo,
+      mobNo:this.MobileNo,
+      email:this.email,
+      assCmpnyId:this.assCmpnyId,
+      userCmpnyId:this.userCmpnyId,
+      contactId:this.contactId
     }
     ++this.common.loading;
     console.log("params", params);
-    this.api.post('ManageParty/saveCmpEstablishment', params)
+    this.api.post('ManageParty/saveCompContacts', params)
       .subscribe(res => {
       --this.common.loading; 
       if(res['success']){
-        // this.update=true;
-        // this.activeModal.close({ response: this.update });
+        this.update=true;
+        this.activeModal.close({ response: this.update });
       }    
       },
         err => {

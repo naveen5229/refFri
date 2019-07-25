@@ -67,7 +67,8 @@
                     </div>
                 </div>
                 <div class="mt-2">
-
+                    <smart-table *ngIf="companyContacts &&  companyContacts.length" [data]="table3.companyContacts" [settings]="table3.settings" id="companycontacts">
+                    </smart-table>
                 </div>
             </div>
         </div>

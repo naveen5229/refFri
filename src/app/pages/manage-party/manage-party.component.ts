@@ -28,6 +28,16 @@ export class ManagePartyComponent implements OnInit {
   data = [];
   cmpAssoc = [];
   cmpEstablishment=[];
+  companyContacts=[];
+  table3 = {
+    companyContacts: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
   table2 = {
     cmpEstablishment: {
       headings: {},
@@ -66,6 +76,7 @@ export class ManagePartyComponent implements OnInit {
     this.getCompanyBranches();
     this.getCompanyAssoc();
     this.getCompanyEstablishment();
+    this.getCompanyContacts();
   }
 
   ngOnInit() {
@@ -330,10 +341,76 @@ export class ManagePartyComponent implements OnInit {
     });
   }
 
-  addCompanyContacts(){
+  getCompanyContacts() {
+    this.common.loading++;
+    this.api.get('ManageParty/getCmpContacts')
+      .subscribe(res => {
+        this.common.loading--;
+        this.companyContacts = [];
+        this.table3 = {
+          companyContacts: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
+        if (!res['data']) return;
+        this.companyContacts = res['data'];
+        let first_rec = this.companyContacts[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table3.companyContacts.headings[key] = headerObj;
+          }
+        }
+        this.table3.companyContacts.columns = this.getTableColumns3();
+        console.log('Api Response:', res);
+      },
+        err => {
+          this.common.loading--;
+          console.error('Api Error:', err);
+        });
+
+  }
+
+
+  getTableColumns3() {
+    let columns = [];
+    console.log("Data=", this.data);
+    this.companyContacts.map(contactDetail => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("Type", this.headings[i]);
+        if (this.headings[i] == "Action") {
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.addCompanyContacts.bind(this,contactDetail) }] };
+        }
+        else {
+          this.valobj[this.headings[i]] = { value: contactDetail[this.headings[i]], class: 'black', action: '' };
+        }
+      }
+      columns.push(this.valobj);
+    });
+    return columns;
+  }
+
+  addCompanyContacts(contactDetail?){
+    this.common.params = contactDetail ? { contactDetail } : {
+      cmpId: this.companyId,
+      cmpName: this.companyName,
+    };
     const activeModal = this.modalService.open(CompanyContactsComponent, {
       size: "md",
       container: "nb-layout"
+    });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getCompanyContacts();
+      }
     });
 
   }

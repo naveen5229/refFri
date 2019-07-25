@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
+import { AddConsigneeComponent } from '../../../modals/LRModals/add-consignee/add-consignee.component';
 
 @Component({
   selector: 'manual-items',
@@ -11,7 +12,9 @@ import { CommonService } from '../../../services/common.service';
 export class ManualItemsComponent implements OnInit {
   unitList=[];
   wareHouseId=null;
+  isFormSubmit = false;
   startDate=new Date();
+  Today=new Date();
   selectLr=[{
     material_id:null,
     unitype_id:null,
@@ -26,13 +29,17 @@ export class ManualItemsComponent implements OnInit {
  
   constructor(public activeModal:NgbActiveModal,
     public api:ApiService,
+    public modalService:NgbModal,
     public common:CommonService) { 
        this.common.handleModalSize('class', 'modal-lg', '1200');
       this.getUnitList();
   }
 
   ngOnInit() {
+   
   }
+
+
 
   closeModal() {
     this.activeModal.close();
@@ -87,5 +94,9 @@ export class ManualItemsComponent implements OnInit {
   
       }, err => {
       });
+  }
+
+  addCompany(){
+    this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: "drag-box" })
   }
 }

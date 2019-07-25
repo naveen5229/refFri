@@ -19,6 +19,7 @@ export class ReceiveItemsComponent implements OnInit {
   startDate = new Date();
   selectedLr = [];
   selectedAll: false;
+  Today=new Date();
 
   constructor(public activeModal: NgbActiveModal,
     public api: ApiService,
@@ -85,23 +86,29 @@ export class ReceiveItemsComponent implements OnInit {
         };
       })),
     }
-    console.log('LRLIST: ', params);
-   console.log('LR List:', this.lrList);
-    this.common.loading++;
-    console.log("params", params);
-    this.api.post('WareHouse/saveWhDetails', params)
-      .subscribe(res => {
-        if (res['data'][0].y_id > 0) {
-          this.common.loading--;
-          this.common.showToast(res['data'][0].y_msg);
-          this.result = res['data'];
-          this.activeModal.close({ response: this.result });
-        }
-        else {
-          this.common.loading--;
-          this.common.showError(res['data'][0].y_msg)
-        }
-      }, err => {
-      });
+    if(params.whDetails.length==2){
+      this.common.showToast("Please Select At Least One Row");
+    }else{
+      console.log('LRLIST: ', params.whDetails.length);
+      console.log('LR List:', this.lrList);
+       this.common.loading++;
+       console.log("params", params);
+       this.api.post('WareHouse/saveWhDetails', params)
+         .subscribe(res => {
+           if (res['data'][0].y_id > 0) {
+             this.common.loading--;
+             this.common.showToast(res['data'][0].y_msg);
+             this.result = res['data'];
+             this.activeModal.close({ response: this.result });
+           }
+           else {
+             this.common.loading--;
+             this.common.showError(res['data'][0].y_msg)
+           }
+         }, err => {
+         });
+
+    }
+   
   }
 }
