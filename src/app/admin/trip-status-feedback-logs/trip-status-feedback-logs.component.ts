@@ -37,9 +37,15 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
     this.endDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() + 1)))).split(' ')[0];
     console.log('dates ', this.endDate, this.startDate)
     this.getTripLogs();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    console.log('Refresh');
+    this.getTripLogs();
   }
 
   getDate(type) {

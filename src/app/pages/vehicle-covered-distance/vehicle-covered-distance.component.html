@@ -8,7 +8,8 @@
         <p>{{today | date:'dd-MM-yyyy hh:mm:ss a':'+0530'}}</p>
       </div>
       <div class="col-sm-2">
-        <button class="btn btn-primary" (click)="openCompactForm()">Compact</button>
+        <button class="btn btn-primary pt-1 pb-1 rounded-sm text-capitalize"
+          (click)="openCompactForm()">Compact</button>
       </div>
       <div class="col-sm-2" style="text-align:right">
         <span class="pdf-icon" title="PDF Export" (click)="printPDF('tbldocs');" style="cursor: pointer;"><i

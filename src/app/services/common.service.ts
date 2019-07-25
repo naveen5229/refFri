@@ -888,7 +888,7 @@ export class CommonService {
         let hdglen = center_heading.length / 2;
         doc.setFontSize(14);
         doc.setFont("times", "text-center");
-        doc.text(center_heading, x - hdglen - 40, y);
+        doc.text(center_heading, x - hdglen - 70, y);
       }
       doc.text(time, 30, 60);
       y = 15;

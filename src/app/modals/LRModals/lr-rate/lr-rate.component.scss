@@ -129,3 +129,14 @@ h4{
 .row{
     margin-bottom:10px;
 }
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+    max-height: 400px;
+    table{
+        tr{
+            th{
+                width: 100px;
+            }
+        }
+    }
+}

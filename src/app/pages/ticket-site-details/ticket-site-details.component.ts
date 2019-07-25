@@ -38,9 +38,15 @@ export class TicketSiteDetailsComponent implements OnInit {
     console.log(this.title, this.secType1, this.secType2);
 
     this.getNotificationDetails();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+  refresh() {
+
+    this.getNotificationDetails();
   }
 
   getNotificationDetails() {
