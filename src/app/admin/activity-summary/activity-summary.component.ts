@@ -40,11 +40,18 @@ export class ActivitySummaryComponent implements OnInit {
     this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
     this.startDate = (this.common.dateFormatter(today)).split(' ')[0];
     console.log('dates ', this.endDate, this.startDate)
-    this.getSummary();
+    this.common.refresh = this.refresh.bind(this);
+
+   
   }
 
   ngOnInit() {
   }
+
+  refresh() {
+    console.log('Refresh');
+    this.getSummary();
+    }
 
   getDate(type) {
 

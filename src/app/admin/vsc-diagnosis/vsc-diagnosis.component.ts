@@ -38,6 +38,12 @@ export class VscDiagnosisComponent implements OnInit {
     this.endDate = this.common.dateFormatter(new Date());
     this.startDate = this.common.dateFormatter(new Date().setDate(new Date().getDate() - 15));
     this.getSiteRule()
+    this.common.refresh = this.refresh.bind(this);
+
+  }
+  refresh() {
+    console.log('Refresh');
+    this.getSiteRule();
   }
 
   ngOnInit() {

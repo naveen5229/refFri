@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DropDownListComponent } from './drop-down-list.component';
+import { GetUserBankInfoComponent } from './get-user-bank-info.component';
 
-describe('DropDownListComponent', () => {
-  let component: DropDownListComponent;
-  let fixture: ComponentFixture<DropDownListComponent>;
+describe('GetUserBankInfoComponent', () => {
+  let component: GetUserBankInfoComponent;
+  let fixture: ComponentFixture<GetUserBankInfoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DropDownListComponent ]
+      declarations: [ GetUserBankInfoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DropDownListComponent);
+    fixture = TestBed.createComponent(GetUserBankInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
