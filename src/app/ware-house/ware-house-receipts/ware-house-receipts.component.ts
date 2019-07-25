@@ -86,11 +86,8 @@ export class WareHouseReceiptsComponent implements OnInit {
               },
               settings: {
                 hideHeader: true
-          
-              }
-          
-            };
-           
+              }    
+            };    
            this.headings = [];
             this.valobj = {};
             this.data = res['data'];
@@ -132,10 +129,7 @@ export class WareHouseReceiptsComponent implements OnInit {
        
       }else{
         this.common.showToast("please select WareHouse")
-      }
-
-     
-     
+      }    
     }
 
     getWareData(){
