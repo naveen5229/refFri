@@ -5,14 +5,14 @@
   </button>
 </div>
 <div class="modal-body">
-    <div class="row mt-2">
+    <!-- <div class="row mt-2">
         <div class="col-3">
             <label>Item name</label>
         </div>
         <div class="col-4">
             <input type="text" class="form-control" [(ngModel)]="itmeName">
         </div>
-    </div>
+    </div> -->
     <div class="mt-2">
         <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="lrmanifest">
         </smart-table>
@@ -22,17 +22,21 @@
             <thead>
                 <tr>
                     <th><b><input type="checkbox" name="vlist" [(ngModel)]="selectedAll" (ngModelChange)="selectAll()"></b></th>
-                    <th><b>receipt_no</b></th>
-                    <th><b>source</b></th>
-                    <th><b>destination</b></th>
+                    <th><b>Receipt_no</b></th>
+                    <th><b>Source</b></th>
+                    <th><b>Destination</b></th>
+                    <th><b>Item Name</b></th>
+                    <th><b>Quantity</b></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let list of lrList;let i=index;">
-                    <td><input type="checkbox" (change)="selectedLrList($event,list)" [name]="'list-' + i" [(ngModel)]="list.selected"> </td>
+                    <td><input type="checkbox" [name]="'list-' + i" [(ngModel)]="list.selected"> </td>
                     <td>{{list.receipt_no}}</td>
                     <td>{{list.source }}</td>
                     <td>{{list.destination}}</td>
+                    <td><input type="text" class="form-control" [(ngModel)]="list.item_name"></td>
+                    <td><input type="text" class="form-control" [(ngModel)]="list.qty"></td>
                 </tr>
             </tbody>
         </table>

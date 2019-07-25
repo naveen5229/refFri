@@ -54,7 +54,7 @@ export class AutoSuggestionComponent implements OnInit {
 
   ngAfterViewInit() {
     // console.log('URL:', this.url);
-    // console.log('URL:', this.display);
+    console.log('URL:', this.preSelected);
     if (this.preSelected) this.handlePreSelection();
 
     // console.log('Is Array:', Array.isArray(this.display));
@@ -71,15 +71,16 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    //console.log("--------------------+++++++++", changes);
+    console.log("--------------------+++++++++", changes);
     if (changes.preSelected) {
       this.preSelected = changes.preSelected.currentValue;
-      this.handlePreSelection();
+      this.preSelected && this.handlePreSelection();
     }
 
   }
 
   handlePreSelection() {
+    console.log('Inside::::::---');
     this.selectedSuggestion = this.preSelected;
     this.searchText = '';
     if (typeof (this.display) != 'object')
@@ -189,7 +190,7 @@ export class AutoSuggestionComponent implements OnInit {
     setTimeout(() => {
       let isSelected = false;
       this.suggestions.map(suggestion => {
-        if (this.searchText === this.generateString(suggestion) && JSON.stringify(this.selectedSuggestion) == JSON.stringify(suggestion)) {
+        if (this.searchText === this.generateString(suggestion) && this.generateString(this.selectedSuggestion) == this.generateString(suggestion)) {
           isSelected = true;
         }
       });
