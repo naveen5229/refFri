@@ -208,6 +208,7 @@ import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component'
 import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
 
 
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -383,6 +384,7 @@ import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.c
     GetUserBankInfoComponent,
     UploadDocsComponent,
     OrderdetailComponent,
+
   ],
   entryComponents: [
     LrRateComponent,
@@ -554,8 +556,8 @@ import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.c
     LedgeraddressComponent,
     GetUserBankInfoComponent,
     UploadDocsComponent,
-
     OrderdetailComponent,
+
   ],
   imports: [
     BrowserModule,

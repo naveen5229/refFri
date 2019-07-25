@@ -59,7 +59,7 @@ import { ViaRoutesComponent } from './via-routes/via-routes.component';
 import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
 import { PodDashboardComponent } from './pod-dashboard/pod-dashboard.component';
 import { NearbyPodsComponent } from './nearby-pods/nearby-pods.component';
-
+import { LocationsComponent } from './locations/locations.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -342,6 +342,11 @@ const routes: Routes = [{
         {
             path: 'nearby-pods',
             component: NearbyPodsComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'locations',
+            component: LocationsComponent,
             canActivate: [RouteGuard]
         }
 
