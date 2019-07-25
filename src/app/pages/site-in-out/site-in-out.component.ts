@@ -63,6 +63,17 @@ export class SiteInOutComponent implements OnInit {
   }
 
   getReport() {
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    this.data = [];
+
     let url = null;
     if (this.isFlag == 2) {
       url = "Site/getLocalSiteInOutHistory";
@@ -79,7 +90,6 @@ export class SiteInOutComponent implements OnInit {
     }
     console.log(params);
     this.common.loading++;
-    this.data = [];
     this.apiService.post(url, params)
       .subscribe(res => {
         this.common.loading--;
