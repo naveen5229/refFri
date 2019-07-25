@@ -71,6 +71,7 @@ import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.co
 import { NearbyPodsComponent } from '../admin/nearby-pods/nearby-pods.component';
 import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
+import { SitesComponent } from './sites/sites.component';
 import { ManagePartyComponent } from './manage-party/manage-party.component';
 
 const routes: Routes = [{
@@ -450,6 +451,10 @@ const routes: Routes = [{
     canActivate: [AuthGuard]
   },
   {
+    path: 'sites',
+    component: SitesComponent,
+    canActivate: [AuthGuard]
+  },{    
     path: 'manage-party',
     component: ManagePartyComponent,
     canActivate: [AuthGuard]

@@ -79,6 +79,11 @@ export class AddFuelFullRuleComponent implements OnInit {
   }
 
   saveRule() {
+
+    if (parseInt(this.Rules.angleFrom) < 0 || parseInt(this.Rules.angleTo) < 0 || parseInt(this.Rules.angleTo) > 360) {
+      this.common.showToast('Invalid Anlge !!');
+      return;
+    }
     let val
     if (this.Rules.isNegative) {
       val = 1;

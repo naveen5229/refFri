@@ -48,6 +48,8 @@ export class LorryRecciptsComponent implements OnInit {
     this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
     console.log('dates ', this.endDate, this.startDate)
     this.getLorryReceipts();
+    this.common.refresh = this.refresh.bind(this);
+
 
 
   }
@@ -55,7 +57,10 @@ export class LorryRecciptsComponent implements OnInit {
   ngOnInit() {
   }
 
+  refresh() {
 
+    this.getLorryReceipts();
+  }
   getLorryReceipts() {
     console.log('viewtype:', this.viewType);
     var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
@@ -281,6 +286,8 @@ export class LorryRecciptsComponent implements OnInit {
     const activeModal = this.modalService.open(LrRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data:', data);
+      this.getLorryReceipts();
+
     });
   }
 

@@ -30,6 +30,8 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() apiHitLimit: Number;
   @Input() isNoDataFoundEmit: boolean;
   @Input() isMultiSelect: boolean;
+  @Input() bGConditions: any[] = [];
+
   counter = 0;
   searchText = '';
   showSuggestions = false;
@@ -39,6 +41,7 @@ export class AutoSuggestionComponent implements OnInit {
   searchForm = null;
   activeSuggestion = -1;
   selectedSuggestions = [];
+  isAllData = false;
 
   constructor(public api: ApiService,
     private cdr: ChangeDetectorRef,
@@ -54,7 +57,7 @@ export class AutoSuggestionComponent implements OnInit {
 
   ngAfterViewInit() {
     // console.log('URL:', this.url);
-    // console.log('URL:', this.display);
+    console.log('URL:', this.preSelected);
     if (this.preSelected) this.handlePreSelection();
 
     // console.log('Is Array:', Array.isArray(this.display));
@@ -71,15 +74,16 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    //console.log("--------------------+++++++++", changes);
+    console.log("--------------------+++++++++", changes);
     if (changes.preSelected) {
       this.preSelected = changes.preSelected.currentValue;
-      this.handlePreSelection();
+      this.preSelected && this.handlePreSelection();
     }
 
   }
 
   handlePreSelection() {
+    console.log('Inside::::::---');
     this.selectedSuggestion = this.preSelected;
     this.searchText = '';
     if (typeof (this.display) != 'object')
@@ -189,13 +193,27 @@ export class AutoSuggestionComponent implements OnInit {
     setTimeout(() => {
       let isSelected = false;
       this.suggestions.map(suggestion => {
-        if (this.searchText === this.generateString(suggestion) && JSON.stringify(this.selectedSuggestion) == JSON.stringify(suggestion)) {
+        if (this.searchText === this.generateString(suggestion) && this.generateString(this.selectedSuggestion) == this.generateString(suggestion)) {
           isSelected = true;
         }
       });
       if (!isSelected) this.unSelected.emit(null);
     }, 100);
+  }
 
+  classFinder(suggestion) {
+    let className = '';
+    this.bGConditions.forEach(condition => {
+      if (suggestion[condition.key] == condition.value) {
+        className = condition.class;
+      }
+    });
+    return className;
+  }
+
+  showAllSuggestion() {
+    this.showSuggestions = true;
+    this.suggestions = this.data;
   }
 
 

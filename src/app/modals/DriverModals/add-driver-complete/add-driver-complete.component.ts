@@ -6,6 +6,7 @@ import { CommonService } from '../../../services/common.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../../services/api.service';
 import { UserService } from '../../../services/user.service';
+import { UploadDocsComponent } from '../../upload-docs/upload-docs.component';
 
 @Component({
   selector: 'add-driver-complete',
@@ -77,11 +78,11 @@ export class AddDriverCompleteComponent implements OnInit {
       name: this.driverForm.controls.name.value,
       mobileNo: this.driverForm.controls.mobileno.value,
       mobileNo2: this.driverForm.controls.mobileno2.value,
-      photo: this.driver.photo,
-      lisenceNo: this.driverForm.controls.lisenceno.value,
-      licencePhoto: this.driver.lisencePhoto,
-      aadharNo: this.driverForm.controls.aadharno.value,
-      aadharPhoto: this.driver.adharPhoto,
+      // photo: this.driver.photo,
+      // lisenceNo: this.driverForm.controls.lisenceno.value,
+      // licencePhoto: this.driver.lisencePhoto,
+      // aadharNo: this.driverForm.controls.aadharno.value,
+      // aadharPhoto: this.driver.adharPhoto,
       guarantorName: this.driverForm.controls.guranter.value,
       guarantorMobile: this.driverForm.controls.guranterno.value,
       doj: this.driver.doj,
@@ -92,7 +93,9 @@ export class AddDriverCompleteComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.common.showToast(res['msg']);
+        if(res['msg'] == "Success")
         this.closeModal();
+        const activeModal = this.modalService.open(UploadDocsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       }, err => {
         this.common.loading--;
         console.log(err);

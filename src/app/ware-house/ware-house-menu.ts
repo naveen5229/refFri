@@ -3,24 +3,24 @@ import { NbMenuItem } from '@nebular/theme';
 export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Home Dashboard',
-        icon: 'fa fa-home',
-        link: '/ware-house/ware-house-dashbord',
+        icon: 'fas fa-clipboard-check',
+        link: '/pages/dashboard',
         home: true,
     },
     {
         title: 'Ware House Receipts',
-        icon: 'fa fa-home',
+        icon: 'fas fa-receipt',
         link: '/ware-house/ware-house-receipts',
     },
     {
         title: 'Ware House Inventory',
-        icon: 'far fa-warehouse',
+        icon: 'fas fa-dolly-flatbed',
         link: '/ware-house/warehouse-inventory',
         home: true,
     },
     {
         title: 'State Logs',
-        icon: 'far fa-warehouse',
+        icon: 'fas fa-clipboard-check',
         link: '/ware-house/state-logs',
         home: true,
     },

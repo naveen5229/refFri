@@ -169,6 +169,8 @@ export class AddPumpComponent implements OnInit {
     this.infoWindow.setContent(`
     <p>Site Id :${event.id}</p>
     <p>Pump Name :${event.name}</p>`);
+
+
     // this.infoWindow.setContent("Flicker Test");
     this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long));
     this.infoWindow.open(this.mapService.map);
@@ -245,7 +247,7 @@ export class AddPumpComponent implements OnInit {
       'lng1': boundBox.lng1,
       'lat2': boundBox.lat2,
       'lng2': boundBox.lng2,
-      'typeId': this.typeId
+      'typeId': 101
     };
     this.api.post("VehicleStatusChange/getSiteAndSubSite", bounds)
       .subscribe(res => {

@@ -20,10 +20,10 @@ export class WarehouseInventoryComponent implements OnInit {
       hideHeader: true
     }
   };
-  request =0;
+  request = 0;
   dataInventory = null;
-  startDate = null;
-  endDate = null;
+  endDate=new Date();
+  startDate =new Date(new Date().setDate(new Date(this.endDate).getDate() - 1));;  
   headings = [];
   valobj = {};
   data = [];
@@ -133,23 +133,27 @@ export class WarehouseInventoryComponent implements OnInit {
     };
     this.headings = [];
     this.valobj = {};
-    if (this.startDate == null) {
-      this.startDate = null;
-      this.endDate = null;
-    }
-    let startDate = this.common.dateFormatter(this.startDate);
-    let endDate = this.common.dateFormatter(this.endDate);
+    // if (this.startDate == null) {
+    //   this.startDate = null;
+    //   this.endDate = null;
+    // }
+    let startDate = this.startDate != null ? this.common.dateFormatter1(this.startDate) : null;
+    let endDate = this.endDate != null ? this.common.dateFormatter1(this.endDate) : null;
     const params =
-      {
-        startDate:startDate,
-        endDate:endDate,
-         whId:this.wareHouseId,
-        status:this.request
-        }
+    {
+      startDate: startDate,
+      endDate: endDate,
+      whId: this.wareHouseId,
+      status: this.request
+    }
 
     console.log("params", params)
-    this.api.post("WareHouse/getStockItemPendingList",params).subscribe(
+    this.common.loading++;
+
+    this.api.post("WareHouse/getStockItemPendingList", params).subscribe(
       res => {
+        this.common.loading--;
+
         this.data = [];
         this.data = res['data'];
         console.log("result", res);
@@ -172,13 +176,16 @@ export class WarehouseInventoryComponent implements OnInit {
   showAction(itemId, stateName, stateId, quantity) {
     this.common.params = { itemId, stateName, stateId, quantity };
     console.log("Item", this.common.params)
-    const activeModal=this.modalService.open(GotPassComponent, {
+    const activeModal = this.modalService.open(GotPassComponent, {
       size: "lg",
       container: "nb-layout"
     });
     activeModal.result.then(data => {
       //console.log("data", data.respone);
-      this.getdata();
+      if (data) {
+
+        this.getdata();
+      }
 
     });
   }
