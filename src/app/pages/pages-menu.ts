@@ -242,6 +242,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicles',
         home: true,
       },
+      {
+        title: 'Site',
+        icon: 'fas fa-truck',
+        link: '/pages/sites',
+        home: true,
+      },
     ]
   },
 
