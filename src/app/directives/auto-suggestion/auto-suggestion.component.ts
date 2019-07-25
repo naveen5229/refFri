@@ -41,6 +41,7 @@ export class AutoSuggestionComponent implements OnInit {
   searchForm = null;
   activeSuggestion = -1;
   selectedSuggestions = [];
+  isAllData = false;
 
   constructor(public api: ApiService,
     private cdr: ChangeDetectorRef,
@@ -102,6 +103,7 @@ export class AutoSuggestionComponent implements OnInit {
     this.apiHitLimit = this.apiHitLimit ? this.apiHitLimit : 3;
 
     this.showSuggestions = true;
+    this.getAllData();
     if (this.data) {
       this.suggestions = this.data.filter(data => data[this.display].toLowerCase().includes(this.searchText.toLowerCase()));
       this.suggestions.splice(10, this.suggestions.length - 1);
@@ -207,6 +209,17 @@ export class AutoSuggestionComponent implements OnInit {
       }
     });
     return className;
+  }
+  getAllData() {
+    console.log("test");
+    this.showSuggestions = false;
+    this.isAllData = true;
+    this.suggestions = [];
+    if (this.data) {
+      this.suggestions = this.data.filter(data => data[this.display].toLowerCase().includes(this.searchText.toLowerCase()));
+      console.log("All suggestion:", this.suggestions);
+    }
+
   }
 
 

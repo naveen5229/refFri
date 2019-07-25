@@ -41,8 +41,13 @@ export class SiteInOutComponent implements OnInit {
     public user: UserService
   ) {
     this.getAllFoSites();
+    this.common.refresh = this.refresh.bind(this);
+
   }
   ngOnInit() {
+  }
+  refresh() {
+    this.getAllFoSites();
   }
   getAllFoSites() {
     this.common.loading++;
@@ -103,12 +108,10 @@ export class SiteInOutComponent implements OnInit {
       this.valobj = {};
 
       for (let i = 0; i < this.headings.length; i++) {
-        if (this.headings['entryTime']) {
-          this.valobj[this.headings[i]] = { value: this.common.changeDateformat2(doc[this.headings[i]]), class: 'black', action: '' };
 
-        }
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+
 
       }
       columns.push(this.valobj);
@@ -167,10 +170,13 @@ export class SiteInOutComponent implements OnInit {
         this.isFlag = 2;
         // document.getElementById("sitedataList").style.color = "red";
       }
+      else {
+        this.isFlag = 1;
+      }
 
-      console.log("Site Id", this.siteId);
       return element.id == type.id;
     }).id;
+    console.log("is Flag Id", this.isFlag);
 
   }
 

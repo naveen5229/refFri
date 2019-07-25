@@ -80,3 +80,22 @@
     // width: auto;
     display: inline-block;
 }
+.tagsinput{
+    span{
+        position: relative;
+        .fa-sort-down{
+            position: absolute;
+            right: 10px;
+            top: 0px;
+            display: none;
+        }
+    }
+    span:hover .fa-sort-down{
+        display: block;
+    }
+}
+.suggetion-all{
+    height: 218px;
+    overflow: auto;
+    width: auto;
+}
