@@ -1,10 +1,9 @@
 <nb-card>
     <nb-card-header>
-        Ware House Receipt
-
+        <h5>Ware House Receipt</h5>
     </nb-card-header>
     <nb-card-body>
-        <div class="container">
+        <div class="clearfix">
 
             <div class="row" style="margin-top:10px">
                 <div class="col-3">
@@ -17,16 +16,18 @@
                 </div>
                 <div classs="col-2">
                     <select placeholder="Name" class="form-control" [(ngModel)]="wareHouseId">
-                          <option *ngFor="let element of dataReceive" [value]="element.id">{{element.name}}
-                           </option>
-                       </select>
+                        <option *ngFor="let element of dataReceive" [value]="element.id">{{element.name}}
+                        </option>
+                    </select>
                 </div>
 
                 <div class="col-2">
-                    <button class="btn btn-primary w-100" id="button" (click)="getdata()">Submit</button>
+                    <button class="btn btn-primary w-100 pt-2 pb-2 rounded-sm text-capitalize" id="button"
+                        (click)="getdata()">Submit</button>
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-primary w-100" id="button" (click)="Manual()">Manual</button>
+                    <button class="btn btn-primary w-100 pt-2 pb-2 rounded-sm text-capitalize" id="button"
+                        (click)="Manual()">Manual</button>
                 </div>
             </div>
             <div class="mt-2">
