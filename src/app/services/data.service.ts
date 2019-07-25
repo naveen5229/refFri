@@ -133,7 +133,13 @@ export class DataService {
           title: 'Transport Area Fencing',
           icon: 'fas fa-coins',
           link: '/admin/transport-area',
-        }]
+        },
+        {
+          title: 'locations',
+          icon: 'fas fa-map',
+          link: '/admin/locations',
+        },
+        ]
       },
 
       {

@@ -205,6 +205,7 @@ import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeradd
 import { GenericModelComponent } from './modals/generic-model/generic-model.component';
 
 
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -377,6 +378,7 @@ import { GenericModelComponent } from './modals/generic-model/generic-model.comp
     EditViaRoutesPointsComponent,
     LrRateComponent,
     LedgeraddressComponent,
+
   ],
   entryComponents: [
     LrRateComponent,
@@ -545,7 +547,8 @@ import { GenericModelComponent } from './modals/generic-model/generic-model.comp
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
     TripSettlementComponent,
-    LedgeraddressComponent
+    LedgeraddressComponent,
+
   ],
   imports: [
     BrowserModule,

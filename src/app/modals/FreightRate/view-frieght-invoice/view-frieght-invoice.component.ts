@@ -26,7 +26,7 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
   ) {
 
     this.invoiceId = this.common.params.invoiceId;
-    this.common.handleModalSize('class', 'modal-lg', '820');
+    this.common.handleModalSize('class', 'modal-lg', '1200');
     this.printInvoice();
   }
 
@@ -49,8 +49,8 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         this.data = [];
-        // this.invoiceDetails = res['data'].invoicedetails[0];
-        // console.log("this.invoiceDetails", this.invoiceDetails);
+        this.invoiceDetails = res['data'].invoicedetails[0];
+        console.log("this.invoiceDetails", this.invoiceDetails);
         this.data = res['data'].result;
         if (this.data) {
           console.log("data", this.data);
