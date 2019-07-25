@@ -4,7 +4,7 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Home Dashboard',
         icon: 'fa fa-home',
-        link: '/ware-house/ware-house-dashbord',
+        link: '/pages/dashboard',
         home: true,
     },
     {
