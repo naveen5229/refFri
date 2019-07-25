@@ -70,10 +70,16 @@ export class TrendsComponent implements OnInit {
     public datepipe: DatePipe,
     public modalService: NgbModal) {
     this.getDefaultTrend();
+    this.common.refresh = this.refresh.bind(this);
+
 
   }
 
   ngOnInit() { }
+  refresh() {
+
+    this.getDefaultTrend();
+  }
 
   getDefaultTrend() {
 

@@ -21,10 +21,12 @@ export class VehiclesViewComponent implements OnInit {
     public modalService: NgbModal,
     public activeModal: NgbActiveModal) {
 
+
   }
 
   ngOnInit() {
   }
+
 
   getFoList(details) {
 

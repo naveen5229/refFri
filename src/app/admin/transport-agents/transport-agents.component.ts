@@ -15,9 +15,16 @@ export class TransportAgentsComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal) { 
-      this.getTransportAgent(); }
+      this.getTransportAgent();
+      this.common.refresh = this.refresh.bind(this);
+    }
 
   ngOnInit() {
+  }
+
+  refresh() {
+    console.log('Refresh');
+    this.getTransportAgent();
   }
 
   getTransportAgent(){
