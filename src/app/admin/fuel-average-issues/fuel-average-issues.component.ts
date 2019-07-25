@@ -20,9 +20,17 @@ export class FuelAverageIssuesComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal) {
     this.getFuelAvgIssues();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  
+  refresh() {
+    console.log('Refresh');
+    this.getFuelAvgIssues();
   }
 
   getFuelAvgIssues() {

@@ -33,12 +33,18 @@ export class VehiclesComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+      this.common.refresh = this.refresh.bind(this);
 
     this.getVehiclesDetail();
   }
 
 
   ngOnInit() {
+  }
+
+  refresh() {
+    console.log('Refresh');
+    this.getVehiclesDetail();
   }
   getVehiclesDetail() {
     this.common.loading++;

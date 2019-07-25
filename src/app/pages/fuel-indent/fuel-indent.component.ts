@@ -49,10 +49,16 @@ export class FuelIndentComponent implements OnInit {
     private modalService: NgbModal,
     public common: CommonService) {
       this.getFuelIndent();
+      this.common.refresh = this.refresh.bind(this);
+
    
   }
 
   ngOnInit() {
+  }
+  refresh() {
+
+    this.getFuelIndent();
   }
 
  getFuelIndent() {

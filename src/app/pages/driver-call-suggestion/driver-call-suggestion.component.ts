@@ -46,11 +46,17 @@ export class DriverCallSuggestionComponent implements OnInit {
     today.setDate(today.getDate() - 1);
     this.stryesterday = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     this.getReport();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
+ refresh() {
+
+    this.getReport();
+  }
   getReportdata(dis_all) {
     console.log("dis_all", dis_all);
     if (dis_all == '11') {

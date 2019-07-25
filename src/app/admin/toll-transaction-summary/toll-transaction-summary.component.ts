@@ -26,9 +26,16 @@ export class TollTransactionSummaryComponent implements OnInit {
     public user: UserService,
   ) {
     this.gettollTransactionSummary();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh() {
+    console.log('Refresh');
+    this.gettollTransactionSummary();
   }
   getDate(time) {
     const activeModal = this.modalservice.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });

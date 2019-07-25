@@ -204,6 +204,9 @@ import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
 import { GenericModelComponent } from './modals/generic-model/generic-model.component';
 import { AddReceiptsComponent } from './modals/add-receipts/add-receipts.component';
+import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
+import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
+import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
 
 
 @NgModule({
@@ -379,6 +382,9 @@ import { AddReceiptsComponent } from './modals/add-receipts/add-receipts.compone
     LrRateComponent,
     LedgeraddressComponent,
     AddReceiptsComponent,
+    GetUserBankInfoComponent,
+    UploadDocsComponent,
+    OrderdetailComponent,
   ],
   entryComponents: [
     LrRateComponent,
@@ -548,7 +554,11 @@ import { AddReceiptsComponent } from './modals/add-receipts/add-receipts.compone
     EditViaRoutesPointsComponent,
     TripSettlementComponent,
     LedgeraddressComponent,
-    AddReceiptsComponent
+    AddReceiptsComponent,
+    GetUserBankInfoComponent,
+    UploadDocsComponent,
+
+    OrderdetailComponent,
   ],
   imports: [
     BrowserModule,

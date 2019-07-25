@@ -48,12 +48,17 @@ export class FuelAverageAnalysisComponent implements OnInit {
     private datePipe: DatePipe, ) {
 
     this.getfuelAverageDetails();
+    this.common.refresh = this.refresh.bind(this);
+
 
   }
 
   ngOnInit() {
   }
+  refresh() {
 
+    this.getfuelAverageDetails();
+  }
   selectType() {
     this.getfuelAverageDetails();
   }
