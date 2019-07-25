@@ -1,25 +1,32 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Stock Exchange</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <h5 class="modal-title" id="modal-basic-title">Stock Exchange</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-      
-            <div class="row">
-              <div class="col-3"></div>
-              <div class="col-3">
-                  <input type="radio" name="In" value="In" [(ngModel)]="selectOption" (change)="onSet(selectOption)" checked>In
-              </div>
-              <div class="col-3">
-           <input type="radio" name="Out" value="Out" (change)="onSet(selectOption)" [(ngModel)]="selectOption">Out
-          </div>
-          </div>
 
-<hr>
+    <div class="row in-out-radio">
+        <div class="col-6 text-center">
+            <label class="checkpointer">
+              <i>In</i>
+              <input type="radio" name="In" value="In" [(ngModel)]="selectOption" (change)="onSet(selectOption)" checked>
+              <span></span>
+          </label>
+        </div>
+        <div class="col-6 text-center">
+            <label class="checkpointer">
+              <i>Out</i>
+              <input type="radio" name="Out" value="Out" (change)="onSet(selectOption)" [(ngModel)]="selectOption">
+              <span></span>
+          </label>
+        </div>
+    </div>
 
-   
-  <!-- <div class="row" style="margin-bottom:10px">
+    <hr>
+
+
+    <!-- <div class="row" style="margin-bottom:10px">
     <div class="col-3">
       <label>Item List</label>
     </div>
@@ -31,31 +38,31 @@
         </select>
 </div>
   </div> -->
-  <div class="row" style="margin-bottom:10px">
-    <div class="col-3">
-      <label>State*:</label>
-    </div>
-    <div class="col-9" *ngIf="selectOption=='Out'; else state2 " >
-      <select class="form-control" [(ngModel)]="StateId" >
+    <div class="row mb-3">
+        <div class="col-3">
+            <label>State*:</label>
+        </div>
+        <div class="col-9" *ngIf="selectOption=='Out'; else state2 ">
+            <select class="form-control" [(ngModel)]="StateId">
         <option *ngFor="let state of stateType" [value]="state.id">
           {{state.name}}
 
         </option>
       </select>
 
-    </div>
-    <ng-template #state2>
-      <div class="col-9"> 
-        <select class="form-control" [(ngModel)]="StateId">
+        </div>
+        <ng-template #state2>
+            <div class="col-9">
+                <select class="form-control" [(ngModel)]="StateId">
           <option *ngFor="let state of stateType1" [value]="state.id">
             {{state.name}}
           </option>
         </select>
 
-      </div>
-    </ng-template>
-  </div>
-  <!-- <div class="row" style="margin-bottom:10px">
+            </div>
+        </ng-template>
+    </div>
+    <!-- <div class="row" style="margin-bottom:10px">
     <div class="col-3">
       <label>Unit Type*</label>
     </div>
@@ -68,56 +75,49 @@
       </select>
     </div>
   </div> -->
-  <div class="row" style="margin-bottom:10px">
-    <div class="col-3">
-      <label>Quantity*:</label>
+    <div class="row mb-3">
+        <div class="col-3">
+            <label>Quantity*:</label>
+        </div>
+        <div class="col-9">
+            <input type="number" class="form-control" [(ngModel)]="quantityId">
+
+        </div>
     </div>
-    <div class="col-9">
-      <input type="text" class="form-control" [(ngModel)]="quantityId" >
-       
+    <div class="row mb-3">
+        <div class="col-3">
+            <label>Date Time*:</label>
+        </div>
+        <div class="col-9">
+            <uj-date-time-picker (onChanged)="Date=$event" [dateTimeValue]="Date">
+            </uj-date-time-picker>
+        </div>
     </div>
-  </div>
-  <div class="row" style="margin-bottom:10px">
-    <div class="col-3">
-      <label>Date Time*:</label>
-    </div>
-    <div class="col-9">
-      <uj-date-time-picker (onChanged)="Date=$event" [dateTimeValue]="Date"  >
-      </uj-date-time-picker>
-    </div>
-    <!-- <div class="col-3">
-      <uj-date-time-picker (onChanged)=   [dateTimeValue]= [style="width:215px">
-      </uj-date-time-picker>
-    </div> -->
-  </div>
-  <div class="row" style="margin-bottom:10px">
-    <div class="col-3">
-      <label>Remark:</label>
-    </div>
-    <div class="col-9">
+    <div class="row mb-3">
+        <div class="col-3">
+            <label>Remark:</label>
+        </div>
+        <div class="col-9">
             <textarea rows="2" cols="55" class="form-control" [(ngModel)]="remark"></textarea>
+        </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-3">
-      <label>User Details*:</label>
-    </div>
-    <div class="col-9">
-      <textarea rows="4" cols="55" class="form-control" [(ngModel)]="userInput"></textarea>
+    <div class="row mb-3">
+        <div class="col-3">
+            <label>User Details*:</label>
+        </div>
+        <div class="col-9">
+            <textarea rows="4" cols="55" class="form-control" [(ngModel)]="userInput"></textarea>
 
+        </div>
     </div>
-  </div>
+    <div class="row">
+        <div class="col-12 text-right">
+            <button class="btn btn-danger mr-3 pt-2 pb-2 rounded-sm text-capitalize" id="button" (click)="cancelRequest()">Cancel</button>
+            <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" id="button" (click)="getAdvice()">Submit</button>
+        </div>
+    </div>
 </div>
-  <div class="text-center">
-      <button class="btn btn-danger" id="button" (click)="cancelRequest()" style="border-radius:2px;margin-left:245px;padding:5px 15px;">Cancel</button>
-
-  </div>
-  <div class="text-right" >
-      <button class="btn btn-primary" id="button" (click)="getAdvice()" style="margin-top:-54px;border-radius:2px; padding: 5px 15px; margin-right:5px;font-weight:bold">Submit</button>
-  </div>
-
-
 <div class="modal-footer">
-  <smart-table *ngIf="stateData && stateData.length" [data]="table.data" [settings]="table.settings" id="wareHouseInventory">
-  </smart-table> 
+    <smart-table *ngIf="stateData && stateData.length" [data]="table.data" [settings]="table.settings" id="wareHouseInventory">
+    </smart-table>
 </div>

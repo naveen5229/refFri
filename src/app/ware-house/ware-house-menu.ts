@@ -24,6 +24,12 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         link: '/ware-house/state-logs',
         home: true,
     },
+    {
+        title: 'Manage Stock Exchange',
+        icon: 'far fa-warehouse',
+        link: '/ware-house/manage-stock-exchange',
+        home: true,
+    },
 
 
 ];

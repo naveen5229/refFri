@@ -170,10 +170,17 @@ export class GotPassComponent implements OnInit {
     }
     if (this.selectOption == 'Out') {
       console.log("stateFind", this.selectOption);
-      if (this.quantityId === this.stateFind) {
+      if(this.quantityId== 0)
+      {
+        return this.common.showError("You have no items in stock ");
+
+      }
+      else  if (this.quantityId === this.stateFind) {
         this.common.params = {
           title: 'Closing Stock',
-          description: 'Are you sure you want close this stock?'
+          description: 'Are you sure you want close this stock?',
+          btn2:"No",
+          btn1:'Yes'
         };
         console.log("Inside confirm model")
         const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
@@ -183,6 +190,7 @@ export class GotPassComponent implements OnInit {
             this.boolean = 1;
             this.saveStock();
           }
+      
         });
         
       }
@@ -193,11 +201,7 @@ export class GotPassComponent implements OnInit {
       else if(this.quantityId < this.stateFind){
       this.saveStock();
       }
-      // else if(this.quantityId<0)
-      // {
-      //   return this.common.showError("Quantity should not be nagative ");
-
-      // }
+     
   
     } 
     else if( this.selectOption == 'In'){
@@ -232,6 +236,7 @@ export class GotPassComponent implements OnInit {
     return this.common.showError("Quantity should not  be in nagative ");
 
    }
+
   console.log("result", params)
   this.common.loading++;
   this.api.post('WareHouse/saveWhStockItemState', params)

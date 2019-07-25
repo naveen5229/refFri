@@ -35,5 +35,4 @@ export class ConfirmComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-
 }
