@@ -332,13 +332,13 @@ export class TradingComponent implements OnInit {
     }, 100);
   }
 
-  openLedgerViewModel(ledgerId, ledgerName) {
+  openLedgerViewModel(ledgerId, ledgerName,typeid) {
     console.log('ledger id 00000', ledgerId);
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,
       ledger: ledgerId,
-      vouchertype: 0,
+      vouchertype: (typeid==null)? 0 : typeid,
       ledgername: ledgerName
 
     };
