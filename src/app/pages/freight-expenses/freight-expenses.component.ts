@@ -40,11 +40,32 @@ export class FreightExpensesComponent implements OnInit {
   {
     name: 'Any',
     id: '-1'
-  }]
+  }];
+
+  actionTypes = [{
+    name: 'Any',
+    id: '-1'
+  }, {
+    name: 'Expense',
+    id: '1'
+  },
+  {
+    name: 'Revenue',
+    id: '2'
+  },
+  {
+    name: 'Transfer',
+    id: '3'
+  },
+  {
+    name: 'Advice',
+    id: '4'
+  }];
   statusid = 1;
   Typeid = -1;
-  startDate = '';
-  endDate = '';
+  actionTypeId = -1;
+  startTime = new Date(new Date().setDate(new Date().getDate() - 15));;
+  endTime = new Date();
   data = [];
   table = {
     data: {
@@ -62,11 +83,11 @@ export class FreightExpensesComponent implements OnInit {
     public common: CommonService,
     private modalService: NgbModal,
   ) {
-    let today;
-    today = new Date();
-    this.endDate = this.common.dateFormatter(today);
-    this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
-    console.log('dates ', this.endDate, this.startDate)
+    // let today;
+    // today = new Date();
+    // this.endDate = this.common.dateFormatter(today);
+    // this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
+    // console.log('dates ', this.endDate, this.startDate)
     this.getExpenses();
     this.common.refresh = this.refresh.bind(this);
 
@@ -74,6 +95,8 @@ export class FreightExpensesComponent implements OnInit {
 
   ngOnInit() {
   }
+
+
   getSelection() {
 
   }
@@ -81,38 +104,16 @@ export class FreightExpensesComponent implements OnInit {
     this.getExpenses();
 
   }
-  getDate(type) {
 
-    this.common.params = { ref_page: 'LrView' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (type == 'start') {
-          this.startDate = '';
-          return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
-          console.log('fromDate', this.startDate);
-        }
-        else {
-
-          this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
-          // return this.endDate = date.setDate( date.getDate() + 1 )
-          console.log('endDate', this.endDate);
-        }
-
-      }
-
-    });
-
-
-  }
 
   getExpenses() {
-    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
+    var enddate = new Date(this.common.dateFormatter1(this.endTime).split(' ')[0]);
     let params = {
-      startTime: this.common.dateFormatter1(this.startDate).split(' ')[0],
+      startTime: this.common.dateFormatter1(this.startTime).split(' ')[0],
       endTime: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
       status: this.statusid,
-      type: this.Typeid
+      type: this.Typeid,
+      actionType: this.actionTypeId
     };
 
     ++this.common.loading;

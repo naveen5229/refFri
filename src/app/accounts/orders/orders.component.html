@@ -147,6 +147,7 @@
 
             <div class="col">
               <div class="form-group">
+                  <label class="ref-label">Invoice Remarks</label>
                 <textarea class="form-control ref-input" name="account-orderremarks" id="orderremarks"
                   [readonly]="(order.ordertype.id == -6 || order.ordertype.id ==-7)" [(ngModel)]="order.orderremarks"
                   placeholder="Invoice Remarks"></textarea>
@@ -431,6 +432,9 @@
 
     <div class="modal-footer">
       <div class="row">
+        <div class="col">
+            <input type="checkbox" name="print" id="print" [(ngModel)]="order.print">Print After Save
+        </div>
         <div class="col">
           <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
             style="cursor: pointer;">Cancel</button>

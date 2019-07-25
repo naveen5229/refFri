@@ -19,7 +19,9 @@ export class RouteMapperComponent implements OnInit {
   constructor(private modalService: NgbModal,
     private mapService: MapService,
     private apiService: ApiService,
-    private commonService: CommonService) { }
+    private commonService: CommonService) {
+      
+     }
 
   ngOnInit() {
   }
@@ -27,6 +29,8 @@ export class RouteMapperComponent implements OnInit {
     this.mapService.mapIntialize("map");
     this.mapService.setMapType(0);
   }
+
+  
   polypath = [
     {
       lat: null,

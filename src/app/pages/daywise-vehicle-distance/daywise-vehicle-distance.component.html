@@ -1,11 +1,11 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-5">
+      <div class="col-6">
         <h5> Day Wise Vehicle Distance</h5>
       </div>
 
-      <div class="col-sm-1">
+      <div class="col-6 text-right">
         <span>
           <span class="pdf-icon" title="PDF Export" (click)="printPDF('daywiseVehDistance')" style="cursor: pointer;"><i
               class="fa fa-file-pdf"></i></span>
@@ -16,7 +16,7 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div class="row" style="margin:10px">
+    <div class="row mb-3">
 
       <div class="col-3">
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
@@ -27,7 +27,8 @@
           placeholder="end Date" [value]="endDate | date: 'dd MMM yyyy'" name="date1">
       </div>
       <div class="col-3">
-        <button class="btn btn-primary" (click)="getDistance()">Get Distance</button>
+        <button class="btn btn-primary pt-1 pb-1 rounded-sm text-capitalize" (click)="getDistance()">Get
+          Distance</button>
       </div>
     </div>
     <div class="container">

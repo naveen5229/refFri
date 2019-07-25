@@ -3,6 +3,7 @@ import { MapService } from '../../services/map.service';
 import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -29,9 +30,18 @@ export class SiteFencingComponent implements OnInit {
   constructor(public mapService: MapService,
     private apiService: ApiService,
     private router: Router,
-    private commonService: CommonService) { }
+    private commonService: CommonService) {
+      this.getTypeIds();
+      this.getRemainingTable();
+      this. commonService.refresh = this.refresh.bind(this);
+
+     }
 
   ngOnInit() {
+  
+  }
+  refresh() {
+    console.log('Refresh');
     this.getTypeIds();
     this.getRemainingTable();
   }
