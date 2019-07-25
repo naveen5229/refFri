@@ -9,6 +9,7 @@ import { ImportDocumentComponent } from '../../documents/documentation-modals/im
 import { EditDriverComponent } from '../../modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { UploadDocsComponent } from '../../modals/upload-docs/upload-docs.component';
 @Component({
   selector: 'driver-list',
   templateUrl: './driver-list.component.html',
@@ -16,6 +17,20 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 })
 export class DriverListComponent implements OnInit {
   driverLists = [];
+  data = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+
+    }
+
+  };
+  headings = [];
+  valobj = {};
 
   constructor(public api: ApiService,
     public router: Router,
@@ -102,4 +117,49 @@ export class DriverListComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1024');
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
+
+  getTableColumns() {
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("doc index value:", doc[this.headings[i]]);
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+      }
+      columns.push(this.valobj);
+    });
+    return columns;
+  }
+
+  getdata() {
+    console.log("ap")
+    this.api.get("Task/getTaskLogs.json").subscribe(
+      res => {
+        this.data = [];
+        this.data = res['data'];
+        console.log("result", res);
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+        this.table.data.columns = this.getTableColumns();
+      }
+    );
+  }
+    
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1)
+  }
+
+  updateDriver(){
+    const activeModal = this.modalService.open(UploadDocsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+
+  }
+
 }

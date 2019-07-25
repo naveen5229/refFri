@@ -21,10 +21,17 @@ export class ManualTollTransactionSummaryComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal, ) {
     this.gettollTransactionSummary();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
 
+  }
+
+  refresh() {
+    console.log('Refresh');
+    this.gettollTransactionSummary();
   }
   selectVehicle(userVeh) {
     this.regno = userVeh.id;

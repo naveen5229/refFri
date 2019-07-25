@@ -27,11 +27,17 @@ export class TripOnwardDelayComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal) {
     this.getData();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
+  refresh() {
+
+    this.getData();
+  }
   getData() {
     this.onwardDelayData = [];
     this.common.loading++;
