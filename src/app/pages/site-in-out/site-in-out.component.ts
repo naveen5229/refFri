@@ -106,13 +106,9 @@ export class SiteInOutComponent implements OnInit {
     console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
-
       for (let i = 0; i < this.headings.length; i++) {
-
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
-
       }
       columns.push(this.valobj);
 
@@ -162,21 +158,16 @@ export class SiteInOutComponent implements OnInit {
       });
   }
   changeRefernceType(type) {
-    console.log("Type Id", type);
-
     this.siteId = this.sitesDatalist.find((element) => {
       console.log(element.name == type);
       if (element.is_flag == 2) {
         this.isFlag = 2;
-        // document.getElementById("sitedataList").style.color = "red";
       }
       else {
         this.isFlag = 1;
       }
-
       return element.id == type.id;
     }).id;
-    console.log("is Flag Id", this.isFlag);
 
   }
 
