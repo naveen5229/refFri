@@ -8,7 +8,11 @@ import { UserService } from '../../@core/data/users.service';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
-import {LedgeraddressComponent} from '../../acounts-modals/ledgeraddress/ledgeraddress.component';
+import { LedgeraddressComponent } from '../../acounts-modals/ledgeraddress/ledgeraddress.component';
+import { PrintService } from '../../services/print/print.service';
+import { PdfService } from '../../services/pdf/pdf.service';
+
+
 
 
 
@@ -45,7 +49,7 @@ export class OrderComponent implements OnInit {
     shipmentlocation: '',
     orderid: 0,
     delete: 0,
-    ledgeraddressid:null,
+    ledgeraddressid: null,
     // branch: {
     //   name: '',
     //   id: ''
@@ -113,7 +117,9 @@ export class OrderComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private activeModal: NgbActiveModal,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    private printService: PrintService,
+    public pdfService: PdfService) {
     this.getBranchList();
     this.getInvoiceTypes();
     this.getPurchaseLedgers();
@@ -124,7 +130,7 @@ export class OrderComponent implements OnInit {
     this.setFoucus('ordertype');
     this.getInvoiceDetail();
     // this.common.currentPage = 'Invoice';
-    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
     // console.log("open data ",this.invoiceDetail[]);
 
   }
@@ -169,7 +175,7 @@ export class OrderComponent implements OnInit {
         this.order.shipmentlocation = this.invoiceDetail[0].y_shipmentlocation;
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
         this.order.delete = 0;
-        this.order.ledgeraddressid=this.invoiceDetail[0].y_ledger_address_id;
+        this.order.ledgeraddressid = this.invoiceDetail[0].y_ledger_address_id;
 
         this.invoiceDetail.map((invoiceDetail, index) => {
           if (!this.order.amountDetails[index]) {
@@ -275,7 +281,7 @@ export class OrderComponent implements OnInit {
       shipmentlocation: '',
       orderid: 0,
       delete: 0,
-    ledgeraddressid:null,
+      ledgeraddressid: null,
       // branch: {
       //   name: '',
       //   id: ''
@@ -440,19 +446,19 @@ export class OrderComponent implements OnInit {
   }
 
   TaxDetails(i) {
-    this.common.handleModalSize('class', 'modal-lg', '1150','px',1);
+    this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 1);
     this.common.params = {
-    taxDetail : this.order.amountDetails[i].taxDetails,
-    amount : this.order.amountDetails[i].amount
+      taxDetail: this.order.amountDetails[i].taxDetails,
+      amount: this.order.amountDetails[i].amount
     };
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
     activeModal.result.then(data => {
-       console.log('tax Detail Data new : ', data);
+      console.log('tax Detail Data new : ', data);
       if (data.response) {
         console.log(data.taxDetails);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
-        this.order.amountDetails[i].lineamount =0;
-        this.order.amountDetails[i].lineamount = this.order.amountDetails[i].amount +data.taxDetails[0].totalamount;//this.order.amountDetails[i].amount+data.taxDetails[0].totalamount
+        this.order.amountDetails[i].lineamount = 0;
+        this.order.amountDetails[i].lineamount = this.order.amountDetails[i].amount + data.taxDetails[0].totalamount;//this.order.amountDetails[i].amount+data.taxDetails[0].totalamount
         this.setFoucus('plustransparent');
         // this.addLedger(data.ledger);
       }
@@ -499,7 +505,7 @@ export class OrderComponent implements OnInit {
       amountDetails: order.amountDetails,
       x_id: order.orderid,
       delete: order.delete,
-      ledgeraddressid:order.ledgeraddressid,
+      ledgeraddressid: order.ledgeraddressid,
 
     };
 
@@ -855,7 +861,7 @@ export class OrderComponent implements OnInit {
 
   openledger(ledger?) {
     console.log('ledger123', ledger);
-    this.common.handleModalSize('class', 'modal-lg', '1250','px',1);
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 1);
     if (ledger) this.common.params = ledger;
     const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
@@ -890,8 +896,8 @@ export class OrderComponent implements OnInit {
       deleteview: ledger.deleteview,
       delete: ledger.delete,
       costcenter: ledger.costcenter,
-      taxtype:ledger.taxtype,
-      taxsubtype:ledger.taxsubtype
+      taxtype: ledger.taxtype,
+      taxsubtype: ledger.taxsubtype
     };
 
     console.log('params11: ', params);
@@ -948,14 +954,14 @@ export class OrderComponent implements OnInit {
       isactive: stockItem.isactive,
       inventary: stockItem.inventary,
       stockunit: stockItem.unit.id,
-      gst:stockItem.gst,
-      details:stockItem.hsndetail,
-      hsnno:stockItem.hsnno,
-      isnon:stockItem.isnon,
-      cess:stockItem.cess,
-     igst:stockItem.igst,
-     taxability:stockItem.taxability,
-     calculationtype:stockItem.calculationtype
+      gst: stockItem.gst,
+      details: stockItem.hsndetail,
+      hsnno: stockItem.hsnno,
+      isnon: stockItem.isnon,
+      cess: stockItem.cess,
+      igst: stockItem.igst,
+      taxability: stockItem.taxability,
+      calculationtype: stockItem.calculationtype
 
     };
 
@@ -1004,7 +1010,7 @@ export class OrderComponent implements OnInit {
     } else if (activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-     // this.order.billingaddress = suggestion.address;
+      // this.order.billingaddress = suggestion.address;
       this.getAddressByLedgerId(suggestion.id);
     } else if (activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
@@ -1114,7 +1120,7 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  getAddressByLedgerId(id){
+  getAddressByLedgerId(id) {
     let params = {
       ledgerid: id
     };
@@ -1123,16 +1129,16 @@ export class OrderComponent implements OnInit {
       .subscribe(res => {
         // this.common.loading--;
         console.log('Res ledger<<<<<<<<<<<<:', res['data']);
-        if(res['data'].length>1){
+        if (res['data'].length > 1) {
           this.showAddpopup(res['data']);
 
-        }else{
-          this.order.billingaddress=res['data'][0]['address'];
-        this.order.ledgeraddressid=res['data'][0]['id'];
+        } else {
+          this.order.billingaddress = res['data'][0]['address'];
+          this.order.ledgeraddressid = res['data'][0]['id'];
         }
-       // this.totalitem = res['data'][0].get_stockitemavailableqty;
+        // this.totalitem = res['data'][0].get_stockitemavailableqty;
         //  console.log('totalitem : -',totalitem);
-     //   return this.totalitem;
+        //   return this.totalitem;
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -1140,20 +1146,206 @@ export class OrderComponent implements OnInit {
       });
   }
 
-  showAddpopup(address){
-    console.log('data salutaion :: ??',address);
-    this.common.params={
-      addressdata:address
+  showAddpopup(address) {
+    console.log('data salutaion :: ??', address);
+    this.common.params = {
+      addressdata: address
     };
     this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 1);
     const activeModal = this.modalService.open(LedgeraddressComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       if (data.response) {
-        console.log('data order responce',data);
-        this.order.billingaddress=data.adddata;
-        this.order.ledgeraddressid=data.addressid;
+        console.log('data order responce', data);
+        this.order.billingaddress = data.adddata;
+        this.order.ledgeraddressid = data.addressid;
         return;
       }
     });
+  }
+
+  printFunction() {
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data'], 'this.order', this.order);
+        // this.Vouchers = res['data'];
+        this.print(this.order, res['data']);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  print(voucherdataprint, companydata) {
+
+    let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
+    let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
+    let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
+
+    let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
+    let rows = [];
+
+    voucherdataprint.amountDetails.map((invoiceDetail, index) => {
+      rows.push([
+        { txt: invoiceDetail.warehouse.name || '' },
+        { txt: invoiceDetail.stockitem.name || '' },
+        { txt: invoiceDetail.stockunit.name || '' },
+        { txt: invoiceDetail.qty || '' },
+        { txt: invoiceDetail.rate || '' },
+        { txt: invoiceDetail.amount || '' },
+        { txt: invoiceDetail.lineamount || '' },
+        { txt: invoiceDetail.remarks || '' }
+      ]);
+      // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
+
+    });
+let invoiceJson={};
+    if(voucherdataprint.ordertype.name.toLowerCase().includes('purchase') || voucherdataprint.ordertype.name.toLowerCase().includes('debit note')){
+     invoiceJson = {
+      headers: [
+        { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+        { txt: companydata[0].addressline },
+        { txt: cityaddress },
+        { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
+      ],
+     
+      details: [
+     
+        { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
+        { name: 'Invoice No', value: voucherdataprint.custcode },
+        { name: 'Invoice Date', value: voucherdataprint.date },
+        { name: 'Purchase Ledger', value: voucherdataprint.purchaseledger.name },
+        { name: 'Supplier Ledger', value: voucherdataprint.ledger.name },
+        { name: 'Supplier Ref. No', value: voucherdataprint.vendorbidref },
+        { name: 'P.O.No.', value: voucherdataprint.qutationrefrence },
+        { name: 'Shipment Location', value: voucherdataprint.shipmentlocation },
+        { name: 'Payment Terms', value: voucherdataprint.paymentterms },
+        { name: 'Bilty Number', value: voucherdataprint.biltynumber },
+        { name: 'Bilty Date', value: voucherdataprint.biltydate },
+        { name: 'Dilivery Terms', value: voucherdataprint.deliveryterms },
+        { name: 'Billing Address', value: voucherdataprint.billingaddress },
+        { name: 'Invoice Remarks', value: voucherdataprint.orderremarks }
+      ],
+      table: {
+        headings: [
+          { txt: 'Ware House' },
+          { txt: 'Stock Item' },
+          { txt: 'Stock Unit' },
+          { txt: 'Quantity' },
+          { txt: 'Rate' },
+          { txt: 'Amount' },
+          { txt: 'Line Amount' },
+          { txt: 'Remarks' }
+        ],
+        rows: rows
+      },
+      signatures: ['Accountant', 'Approved By'],
+      footer: {
+        left: { name: 'Powered By', value: 'Elogist Solutions' },
+        center: { name: 'Printed Date', value: '06-July-2019' },
+        right: { name: 'Page No', value: 1 },
+      }
+
+
+    };
+  }
+  if(voucherdataprint.ordertype.name.toLowerCase().includes('wastage')){
+    invoiceJson = {
+     headers: [
+       { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+       { txt: companydata[0].addressline },
+       { txt: cityaddress },
+       { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
+     ],
+    
+     details: [
+    
+       { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
+       { name: 'Invoice No', value: voucherdataprint.custcode },
+       { name: 'Invoice Date', value: voucherdataprint.date },
+       { name: 'Purchase Ledger', value: voucherdataprint.purchaseledger.name },
+     ],
+     table: {
+       headings: [
+         { txt: 'Ware House' },
+         { txt: 'Stock Item' },
+         { txt: 'Stock Unit' },
+         { txt: 'Quantity' }
+     
+       ],
+       rows: rows
+     },
+     signatures: ['Accountant', 'Approved By'],
+     footer: {
+       left: { name: 'Powered By', value: 'Elogist Solutions' },
+       center: { name: 'Printed Date', value: '06-July-2019' },
+       right: { name: 'Page No', value: 1 },
+     }
+
+
+   };
+ }
+  if(voucherdataprint.ordertype.name.toLowerCase().includes('sales') || voucherdataprint.ordertype.name.toLowerCase().includes('credit note')){
+    invoiceJson = {
+     headers: [
+       { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+       { txt: companydata[0].addressline },
+       { txt: cityaddress },
+       { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
+     ],
+    
+     details: [
+    
+       { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
+       { name: 'Invoice No', value: voucherdataprint.custcode },
+       { name: 'Invoice Date', value: voucherdataprint.date },
+       { name: 'Sales Ledger', value: voucherdataprint.purchaseledger.name },
+       { name: 'Party Name', value: voucherdataprint.ledger.name },
+       { name: 'Order No', value: voucherdataprint.vendorbidref },
+       { name: 'Other Reference', value: voucherdataprint.qutationrefrence },
+       { name: 'Shipment Location', value: voucherdataprint.shipmentlocation },
+       { name: 'Payment Terms', value: voucherdataprint.paymentterms },
+       { name: 'Eway Bill Number', value: voucherdataprint.biltynumber },
+       { name: 'Eway Bill Date', value: voucherdataprint.biltydate },
+       { name: 'Dilivery Terms', value: voucherdataprint.deliveryterms },
+       { name: 'Billing Address', value: voucherdataprint.billingaddress },
+       { name: 'Consignee Address', value: voucherdataprint.grnremarks },
+       { name: 'Invoice Remarks', value: voucherdataprint.orderremarks }
+     ],
+     table: {
+       headings: [
+         { txt: 'Ware House' },
+         { txt: 'Stock Item' },
+         { txt: 'Stock Unit' },
+         { txt: 'Quantity' },
+         { txt: 'Rate' },
+         { txt: 'Amount' },
+         { txt: 'Line Amount' },
+         { txt: 'Remarks' }
+       ],
+       rows: rows
+     },
+     signatures: ['Accountant', 'Approved By'],
+     footer: {
+       left: { name: 'Powered By', value: 'Elogist Solutions' },
+       center: { name: 'Printed Date', value: '06-July-2019' },
+       right: { name: 'Page No', value: 1 },
+     }
+
+
+   };
+ }
+
+    console.log('JSON', invoiceJson);
+
+    localStorage.setItem('InvoiceJSO', JSON.stringify(invoiceJson));
+    this.printService.printInvoice(invoiceJson, 1);
+
   }
 }
