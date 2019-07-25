@@ -190,7 +190,7 @@ export class AutoSuggestionComponent implements OnInit {
     setTimeout(() => {
       let isSelected = false;
       this.suggestions.map(suggestion => {
-        if (this.searchText === this.generateString(suggestion) && JSON.stringify(this.selectedSuggestion) == JSON.stringify(suggestion)) {
+        if (this.searchText === this.generateString(suggestion) && this.generateString(this.selectedSuggestion) == this.generateString(suggestion)) {
           isSelected = true;
         }
       });
