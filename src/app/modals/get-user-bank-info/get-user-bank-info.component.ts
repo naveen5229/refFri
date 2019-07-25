@@ -12,7 +12,7 @@ import { ApiService } from '../../services/api.service';
 export class GetUserBankInfoComponent implements OnInit {
 foid = null;
 bankData= null;
-bankId = null;
+bankId = -1;
 userName = null;
 bankView=null;
 userName2 = null;
@@ -79,10 +79,14 @@ valobj = {};
       console.log("bank info-->",this.bankInfo);
       if (this.bankInfo[0]['y_id'] > 0){
         this.common.showToast("Crediantial Has Inserted")
+        this.viewFoDetails();
+        this.resetDetails();
+
       }
       else{
         this.common.showToast("Error")
       }
+      
     }, err => {
       this.common.loading--;
       console.log(err);
@@ -153,7 +157,7 @@ valobj = {};
         // console.log("Type", this.headings[i]);
         // console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
-          // this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-task', action: this.view.bind(this, doc.url) }, { class: 'fa fa-task', action: this.view.bind(this, doc.url) }] };
+          this.valobj[this.headings[i]] = { value: "",  icons: [{ class: 'fas fa-trash-alt', action: this.clickDelete.bind(this, doc) }] };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -161,5 +165,36 @@ valobj = {};
       columns.push(this.valobj);
     });
     return columns;
+  }
+
+  resetDetails(){
+    this.userName2 = null;
+    this.password = null;
+    this.userName = null;
+    this.bankId = -1;
+    this.foid = null;
+  }
+  deleteRow(doc){
+    let params = {
+      rowId : doc._id
+    }
+    console.log("params->",params);
+    this.common.loading++;
+    this.api.post('FoBankTransactions/deleteFoBankInfo', params)
+    .subscribe(res => {
+      this.common.loading--;
+      this.data = res['data'];
+      console.log("response",res);
+      this.viewFoDetails();
+    }, err => {
+      this.common.loading--;
+      console.log(err);
+    });
+
+  }
+  clickDelete(doc) {
+    if (confirm("Are you sure to delete ")) {
+      this.deleteRow(doc);
+    }
   }
 }
