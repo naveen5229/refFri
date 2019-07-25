@@ -31,9 +31,16 @@ export class PlacementsDashBoardComponent implements OnInit {
     private modalService: NgbModal) {
     this.getPlacements();
     this.getVehiclePlacement();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+  refresh() {
+
+    this.getPlacements();
+    this.getVehiclePlacement
   }
 
   getPlacements() {

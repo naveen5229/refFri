@@ -38,6 +38,11 @@ export class SiteInOutComponent implements OnInit {
   }
   ngOnInit() {
   }
+
+  refresh() {
+
+    this.getAllFoSites();
+  }
   getAllFoSites() {
     this.common.loading++;
     this.apiService.get('Site/getAllFoSites')

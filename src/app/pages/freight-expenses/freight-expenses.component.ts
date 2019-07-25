@@ -74,6 +74,8 @@ export class FreightExpensesComponent implements OnInit {
 
   ngOnInit() {
   }
+
+
   getSelection() {
 
   }

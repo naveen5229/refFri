@@ -62,11 +62,17 @@ export class NearbyPodsComponent implements OnInit {
     // this.endDate = this.common.dateFormatter1(new Date());
     console.log('branchId', this.BranchID);
     console.log('rangeId:', this.RangeId);
+    this.common.refresh = this.refresh.bind(this);
+
 
   }
 
   ngOnInit() {
 
+  }
+  refresh() {
+    console.log('Refresh');
+    this.getBranchList();
   }
   getBranch() {
     this.branchId = this.BranchID;
