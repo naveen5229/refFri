@@ -243,8 +243,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'Sites',
-        icon: 'fas fa-info-circle',
+        title: 'Site',
+        icon: 'fas fa-truck',
         link: '/pages/sites',
         home: true,
       },
@@ -398,9 +398,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-tools',
     link: '/vehicle-maintenance/add-vehicle-maintenance'
   },
-  // {
-  //   title: 'Ware House',
-  //   icon: 'fas fa-tools',
-  //   link: '/ware-house/ware-house-dashbord'
-  // },
+  {
+    title: 'Ware-House',
+    icon: 'fas fa-tools',
+    link: '/ware-house/ware-house-receipts'
+  },
+
+
 ];

@@ -19,3 +19,12 @@
     width: 20px; height: 20px;
 }
 .add-pp-lnk { margin-top: 5px; cursor: pointer;  }
+.invalid-feedback{
+
+    display: inline-block;
+    font-size: 14px;
+    color: red;
+}
+.requiredfield{
+    color: red;   
+}

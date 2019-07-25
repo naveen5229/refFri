@@ -23,6 +23,7 @@
           <span [hidden]="!mobile.errors.minlength">Invalid Mobile number</span>
 
         </div>
+        <span *ngIf="code==1 ">User already Exist</span>
       </div>
       <div class="col-3">
         <div class="form-group">
@@ -60,7 +61,7 @@
           <input type="Password" class="form-control" placeholder="Password" [(ngModel)]="company.password"
             name="Password" autocomplete="off" #password="ngModel" required>
           <div *ngIf="pincode.errors && isFormSubmit" class="vaidation-errors">
-            <span [hidden]="!address.errors.required">Pin Code is mandatory</span>
+            <span [hidden]="!address.errors.required">Password is mandatory</span>
           </div>
         </div>
       </div>
@@ -148,6 +149,47 @@
     </div>
 
   </form>
+
+
+
+</div>
+<div class="modal-footer">
+  <table *ngIf="showTable" class="table table-bordered mt-3">
+
+    <thead class="thead" style="background-color: cadetblue; color: white">
+      <tr>
+        <th>S.No</th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Company Id</th>
+        <th>Show All company</th>
+        <th>Company</th>
+
+
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let data of foDetaildata; let i=index;">
+        <td>{{ i+1 }}</td>
+        <td>{{data.id}}</td>
+        <td>{{data.name}}</td>
+        <td>{{data.company_id}}</td>
+        <td><select [(ngModel)]="is_showCompany" class="form-control"
+            style=" border: 2px solid darkcyan; font-size: 15px" (change)="showCompany(value)">
+            <option [value]="false">False </option>
+            <option [value]="true">True</option>
+          </select></td>
+        <td>
+          <auto-suggestion (onSelected)="selectCompany($event)" url="Suggestion/GetCompanies"
+            [preSelected]="companyName ? {name:companyName, id: is_company} : ''" [display]="['name','id']" seperator="-"
+            placeholder="Search By  Company Name">
+          </auto-suggestion>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 
 
 </div>

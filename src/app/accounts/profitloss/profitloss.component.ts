@@ -312,6 +312,7 @@ export class ProfitlossComponent implements OnInit {
 
   generateCsvData() {
     let liabilitiesJson = [];
+    liabilitiesJson.push(Object.assign({liability:"Particulars",liabilityAmount:'Amount'}));
     this.liabilities.forEach(liability => {
       liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
       liability.subGroups.forEach(subGroup => {
@@ -323,6 +324,7 @@ export class ProfitlossComponent implements OnInit {
     });
 
     let assetsJson = [];
+    assetsJson.push(Object.assign({asset:"Particulars",assetAmount:'Amount'}));
     this.assets.forEach(asset => {
       assetsJson.push({ asset: '(MG)'+asset.name, assetAmount: asset.amount });
       asset.subGroups.forEach(subGroup => {

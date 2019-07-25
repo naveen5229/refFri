@@ -133,12 +133,12 @@ export class WarehouseInventoryComponent implements OnInit {
     };
     this.headings = [];
     this.valobj = {};
-    if (this.startDate == null) {
-      this.startDate = null;
-      this.endDate = null;
-    }
-    let startDate = this.common.dateFormatter(this.startDate);
-    let endDate = this.common.dateFormatter(this.endDate);
+    // if (this.startDate == null) {
+    //   this.startDate = null;
+    //   this.endDate = null;
+    // }
+    let startDate = this.startDate != null ? this.common.dateFormatter1(this.startDate) : null;
+    let endDate = this.endDate != null ? this.common.dateFormatter1(this.endDate) : null;
     const params =
     {
       startDate: startDate,
@@ -148,8 +148,12 @@ export class WarehouseInventoryComponent implements OnInit {
     }
 
     console.log("params", params)
+    this.common.loading++;
+
     this.api.post("WareHouse/getStockItemPendingList", params).subscribe(
       res => {
+        this.common.loading--;
+
         this.data = [];
         this.data = res['data'];
         console.log("result", res);
@@ -178,7 +182,10 @@ export class WarehouseInventoryComponent implements OnInit {
     });
     activeModal.result.then(data => {
       //console.log("data", data.respone);
-      this.getdata();
+      if (data) {
+
+        this.getdata();
+      }
 
     });
   }

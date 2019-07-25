@@ -147,6 +147,7 @@
 
             <div class="col">
               <div class="form-group">
+                  <label class="ref-label">Invoice Remarks</label>
                 <textarea class="form-control ref-input" name="account-orderremarks" id="orderremarks"
                   [readonly]="(order.ordertype.id == -6 || order.ordertype.id ==-7)" [(ngModel)]="order.orderremarks"
                   placeholder="Invoice Remarks"></textarea>

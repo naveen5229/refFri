@@ -12,6 +12,7 @@ import { LedgerComponent} from '../ledger/ledger.component';
 })
 export class TaxdetailComponent implements OnInit {
   showConfirm = false;
+  amount=0;
   taxdetails = [{
     taxledger: {
       name: '',
@@ -34,8 +35,10 @@ export class TaxdetailComponent implements OnInit {
     public modalService: NgbModal) {
     this.setFoucus('taxledger-0');
     this.getPurchaseLedgers();
-    if(this.common.params && this.common.params.length){
-      this.taxdetails = this.common.params;
+    console.log('tax detail ',this.common.params,this.common.params.taxDetail.length);
+    this.amount = this.common.params.amount;
+    if(this.common.params && this.common.params.taxDetail.length){
+      this.taxdetails = this.common.params.taxDetail;
       this.common.params = null;
     }
 
