@@ -5,6 +5,8 @@
 .suggestions {
     position: relative;
     height: auto;
+    max-height: 216px;
+    overflow: auto;
     z-index: 9999;
     background: #fff;
     width: 95%;
@@ -93,9 +95,4 @@
     span:hover .fa-sort-down{
         display: block;
     }
-}
-.suggetion-all{
-    height: 218px;
-    overflow: auto;
-    width: auto;
 }

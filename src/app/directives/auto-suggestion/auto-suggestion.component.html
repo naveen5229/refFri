@@ -14,12 +14,12 @@
                     [placeholder]="placeholder || 'Enter search text'" [id]="inputId || 'suggestion'"
                     [name]="name || 'suggestion'" required autocomplete="off" (ngModelChange)="handleUnselected()">
 
-                <i class="fas fa-sort-down" (click)="getAllData()"></i>
+                <i class="fas fa-sort-down" (click)="showAllSuggestion()"></i>
             </span>
 
         </div>
     </div>
-    <div class="suggestions" *ngIf="showSuggestions && suggestions.length && searchText">
+    <div class="suggestions" *ngIf="showSuggestions && suggestions.length">
         <p *ngFor="let suggestion of suggestions; let i = index;" class="suggestion"
             [ngClass]="activeSuggestion == i ? 'active-suggestion' : classFinder(suggestion)"
             (click)="selectSuggestion(suggestion)">
@@ -27,13 +27,13 @@
         </p>
     </div>
 
-    <div class="suggetion-all" *ngIf="!showSuggestions && suggestions.length ">
+    <!-- <div class="suggetion-all" *ngIf="!showSuggestions && suggestions.length ">
         <p *ngFor="let suggestion of suggestions; let i = index;" class="suggestion"
             [ngClass]="activeSuggestion == i ? 'active-suggestion' : classFinder(suggestion)"
             (click)="selectSuggestion(suggestion)">
             {{generateString(suggestion)}}
         </p>
-    </div>
+    </div> -->
 
     <!-- <div *ngIf="parentForm && f.controlName.errors" class="invalid-feedback">
         <div *ngIf="f.controlName.errors.required"> Name is required</div>
