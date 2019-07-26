@@ -1,0 +1,93 @@
+<div class="modal-header">
+    <h5>{{common.params.title}}</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="add-company-branch">
+        <div class="row">
+            <div class="col-4">
+            </div>
+            <div class="col-2">
+                <input type="radio" name="self" [(ngModel)]="companyStatus" (change)="chooseCompany($event)" value="self" checked>Self
+            </div>
+            <div class="col-2">
+                <input type="radio" name="self" [(ngModel)]="companyStatus" (change)="companyName=null" value="Other">Other
+            </div>
+        </div>
+        <div class="row  mt-2">
+            <div class="col-4">
+                <label>Company:</label>
+            </div>
+            <div *ngIf="companyStatus == 'self'" class="col-8">
+                <input type="text" class="form-control" [(ngModel)]="companyName" placeholder="Enter Company name" readonly>
+            </div>
+            <div *ngIf="companyStatus == 'Other'" class="col-8">
+                <auto-suggestion (onSelected)="companyId=($event.id)" id="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:60%;" [preSelected]="{name:companyName}">
+                </auto-suggestion>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Branch Name:</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" placeholder="Enter branch name" [(ngModel)]="branchName">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>address:</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" placeholder="Enter address" [(ngModel)]="address">
+            </div>
+
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>state:</label>
+            </div>
+            <div class="col-8">
+                <auto-suggestion (onSelected)="stateId=($event.id);" display="name" [data]="state" placeholder="enter State" style="width:60%;" [preSelected]="{name:name}"></auto-suggestion>
+                <!-- <auto-suggestion (onSelected)="state=($event.name)" url="Suggestion/GetState" display="location" placeholder="Enter state name" style="width:60%;"></auto-suggestion> -->
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>city</label>
+            </div>
+            <div class="col-8">
+                <auto-suggestion (onSelected)="locId=($event.id)" url="Location/getPlaceFromRedis" display="location" placeholder="Enter city name" style="width:60%;" [preSelected]="{location:location}"></auto-suggestion>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Pincode:</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" placeholder="Enter pincode" [(ngModel)]="pinCode">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>GST NO:</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" placeholder="Enter GST No" [(ngModel)]="gstIn">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Remark</label>
+            </div>
+            <div class="col-8">
+                <textarea name="comment" class="form-control" form="usrform" [(ngModel)]="remark"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer mt-2">
+    <button type="button" class="btn btn-primary" (click)="addCompany()">{{common.params.flag}}</button>
+</div>
