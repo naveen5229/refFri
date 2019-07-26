@@ -66,7 +66,7 @@ export class ManageStockExchangeComponent implements OnInit {
     public activeModal: NgbActiveModal) {
     // this.getUnitList();
     this.getItems();
-    // this.getStateData();
+    this.getStateData();
   //  this.getAllFoSites()
     this.getWareData();
     // console.log("para", this.common.params)
@@ -158,8 +158,9 @@ export class ManageStockExchangeComponent implements OnInit {
 
     this.itemId = this.sitesDatalist.find((element) => {
       console.log(element.name == type);
-      return element.item_name == type;
+      // return element.item_name == type;
     }).id;
+   this.getStateData()
 
   }
 //   getUnitList() {
@@ -317,8 +318,21 @@ getTableColumns() {
 }
 
 getStateData() {
+  this.stateData = [];
+  this.table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  this.headings = [];
+  this.valobj = {};
   console.log("ap")
   const params = "itemId=" + this.itemId;
+
   this.api.get("wareHouse/getAllStatesWrtItem?" + params).subscribe(
     res => {
       this.stateData = [];

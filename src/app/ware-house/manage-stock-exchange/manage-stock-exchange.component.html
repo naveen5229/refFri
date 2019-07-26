@@ -4,22 +4,24 @@
             <div class="col-10">
                 <h5>Manage Stock Exchange</h5>
             </div>
-            <div class="col-2">
-                <div class="row in-out-radio">
-                    <div class="col-7 text-right">
-                        <input type="radio" name="In" value="In" [(ngModel)]="selectOption" (change)="onSet(selectOption)" checked>
-                        <span>In</span>
-                    </div>
-                    <div class="col-5 text-right">
-                        <input type="radio" name="Out" value="Out" (change)="onSet(selectOption)" [(ngModel)]="selectOption">
-                        <span>Out</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </nb-card-header>
     <nb-card-body>
         <div class="clearfix">
+            <div class="row mb-3">
+                <div class="col-2">
+                    <div class="row in-out-radio">
+                        <div class="col-5">
+                            <input type="radio" name="In" value="In" [(ngModel)]="selectOption" (change)="onSet(selectOption)" checked>
+                            <span>In</span>
+                        </div>
+                        <div class="col-7 text-left">
+                            <input type="radio" name="Out" value="Out" (change)="onSet(selectOption)" [(ngModel)]="selectOption">
+                            <span>Out</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row mb-3">
                 <div class="col-2">
                     <div class="form-group">
@@ -41,7 +43,7 @@
                         <label>Item Id</label>
                         <input class="form-control" placeholder="Site Name" (change)="changeRefernceType(itemName);" type="text" list="siteDatalist" name="sitedatalist" id="sitedataList" [(ngModel)]="itemName">
                         <datalist id="siteDatalist">
-                <option *ngFor="let site of sitesDatalist;" [value]="site.item_name">{{site.item_name}}--{{site.id}}
+                <option *ngFor="let site of sitesDatalist;" [value]="site.item_name">{{site.item_name}}
                 </option>
               </datalist>
                         <!-- <drop-down-list formControlName="type" [options]="sitesDatalist">
