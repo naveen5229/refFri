@@ -212,6 +212,8 @@ import { CompanyAssociationComponent } from './modals/company-association/compan
 import { CompanyEstablishmentComponent } from './modals/company-establishment/company-establishment.component';
 import { CompanyContactsComponent } from './modals/company-contacts/company-contacts.component';
 import { AddMaterialComponent } from './modals/LRModals/add-material/add-material.component';
+import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
+
 
 
 @NgModule({
@@ -395,8 +397,11 @@ import { AddMaterialComponent } from './modals/LRModals/add-material/add-materia
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
     AddMaterialComponent,
+    LRRateCalculatorComponent,
+
   ],
   entryComponents: [
+    LRRateCalculatorComponent,
     LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
@@ -573,6 +578,7 @@ import { AddMaterialComponent } from './modals/LRModals/add-material/add-materia
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
     AddMaterialComponent,
+
   ],
   imports: [
     BrowserModule,
