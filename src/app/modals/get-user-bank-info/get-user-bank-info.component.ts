@@ -11,8 +11,11 @@ import { ApiService } from '../../services/api.service';
 })
 export class GetUserBankInfoComponent implements OnInit {
 foid = null;
+type = null;
 bankData= null;
+selected = null;
 bankId = -1;
+fuelId=-1;
 userName = null;
 bankView=null;
 userName2 = null;
@@ -31,6 +34,7 @@ table = {
 };
 headings = [];
 valobj = {};
+fuelData=null;
   constructor(
     public activeModal: NgbActiveModal,
     public common: CommonService,
@@ -38,6 +42,7 @@ valobj = {};
   ) {
     this.common.handleModalSize('class', 'modal-lg', '1500');
     this.getBankName();
+    this.getFuelName();
     console.log("Bank data-->",this.bankData);
    }
 
@@ -57,6 +62,18 @@ valobj = {};
         this.common.loading--;
         this.bankData = res['data'];
         console.log('type', this.bankData);
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+  getFuelName() {
+    this.common.loading++;
+    this.api.get('Suggestion/getTypeMaster?typeId=65')
+      .subscribe(res => {
+        this.common.loading--;
+        this.fuelData = res['data'];
+        console.log('type', this.fuelData);
       }, err => {
         this.common.loading--;
         this.common.showError();
@@ -172,7 +189,6 @@ valobj = {};
     this.password = null;
     this.userName = null;
     this.bankId = -1;
-    this.foid = null;
   }
   deleteRow(doc){
     let params = {
@@ -195,6 +211,16 @@ valobj = {};
   clickDelete(doc) {
     if (confirm("Are you sure to delete ")) {
       this.deleteRow(doc);
+    }
+  }
+  setRadio(type){
+    if (type == 0){
+      this.selected = 0;
+      this.type = 'bank';
+    }
+    else{
+      this.selected = 1;
+      this.type = 'fuel';
     }
   }
 }
