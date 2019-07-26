@@ -18,7 +18,7 @@ export class AddConsigneeComponent implements OnInit {
     name: null,
     address: null,
     panNo: "",
-    mobileNo: null,
+   // mobileNo: null,
     gstNo: null
   }
 
@@ -37,7 +37,7 @@ export class AddConsigneeComponent implements OnInit {
       address: [''],
       gstNo: [''],
       panNo: ['', [Validators.required, Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$")]],
-      mobileNo: ['', [Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+    //  mobileNo: ['', [Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
     });
   }
   // convenience getter for easy access to form fields
@@ -56,7 +56,7 @@ export class AddConsigneeComponent implements OnInit {
     let params = {
       pan: this.consignee.panNo,
       name: this.consignee.name,
-      mobileNo: this.consignee.mobileNo,
+      //mobileNo: this.consignee.mobileNo,
       address: this.consignee.address,
       gstNo: this.consignee.gstNo
 
