@@ -446,6 +446,12 @@ export class OrderComponent implements OnInit {
   }
 
   TaxDetails(i) {
+    if(this.order.amountDetails[i].amount==0){
+      console.log('test hello again',this.order.amountDetails[i].amount,i);
+      this.common.showError('Please fill correct amount');      
+      this.setFoucus('rate'+i);
+      
+      }else{
     this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 1);
     this.common.params = {
       taxDetail: JSON.parse(JSON.stringify(this.order.amountDetails[i].taxDetails)),
@@ -465,6 +471,7 @@ export class OrderComponent implements OnInit {
       }
     });
   }
+}
 
   onSelected(selectedData, type, display) {
     this.order[type].name = selectedData[display];
