@@ -18,7 +18,7 @@
               <div class="col-md-4">
                 <input autocomplete="off" type="text" class="form-control" name="account-name"
                   [(ngModel)]="Accounts.name" id="name" (input)="Accounts.aliasname=Accounts.name"
-                  [value]="Accounts.name |titlecase" placeholder="Please Enter Name">
+                   (keyup)="capitalizeFirstLetter(Accounts.name)" placeholder="Please Enter Name">
               </div>
               <div class="col-md-2 text-center">
                 <label>Alias Name</label>
