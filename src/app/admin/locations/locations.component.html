@@ -1,0 +1,19 @@
+<nb-card>
+  <nb-card-header>
+    Location
+  </nb-card-header>
+  <nb-card-body>
+    <div class="container">
+      <div class="row" style="margin-bottom:10px">
+        <div class="col-3">
+          <input type="text" class="form-control" name="location" [(ngModel)]="location">
+        </div>
+        <div class="col-3">
+          <button class="btn btn-primary mr-3" (click)="saveLocation()">Search Location</button>
+          <button class="btn btn-primary" (click)="ADD()">ADD</button>
+        </div>
+      </div>
+    </div>
+    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+  </nb-card-body>
+</nb-card>

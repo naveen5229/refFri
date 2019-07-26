@@ -303,5 +303,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/nearby-pods',
         home: true,
     },
+    {
+        title: 'locations',
+        icon: 'fa fa-map',
+        link: '/admin/locations',
+        home: true,
+    },
 
 ];

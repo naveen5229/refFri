@@ -211,6 +211,8 @@ import { AddCompanyBranchComponent } from './modals/add-company-branch/add-compa
 import { CompanyAssociationComponent } from './modals/company-association/company-association.component';
 import { CompanyEstablishmentComponent } from './modals/company-establishment/company-establishment.component';
 import { CompanyContactsComponent } from './modals/company-contacts/company-contacts.component';
+import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
+
 
 
 @NgModule({
@@ -393,8 +395,11 @@ import { CompanyContactsComponent } from './modals/company-contacts/company-cont
     CompanyAssociationComponent,
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
+    LRRateCalculatorComponent,
+
   ],
   entryComponents: [
+    LRRateCalculatorComponent,
     LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
@@ -570,6 +575,7 @@ import { CompanyContactsComponent } from './modals/company-contacts/company-cont
     CompanyAssociationComponent,
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
+
   ],
   imports: [
     BrowserModule,
