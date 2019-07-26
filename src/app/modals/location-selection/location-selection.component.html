@@ -12,19 +12,19 @@
           <label>City</label>
         </div>
         <div class="col-2">
-          {{city?city:'N.A'}}
+          {{location.name?location.name:'N.A'}}
         </div>
         <div class="col-2">
           <label>District</label>
         </div>
         <div class="col-2">
-          {{district?district:'N.A'}}
+          {{location.district?location.district:'N.A'}}
         </div>
         <div class="col-2">
           <label>State</label>
         </div>
         <div class="col-2">
-          {{state?state:'N.A'}}
+          {{location.state?location.state:'N.A'}}
         </div>
       </div>
     </div>
@@ -36,12 +36,11 @@
     <div class="input-container">
       <div class="row">
         <div class="col-md-12" style="margin-bottom:25px;">
-          <input type="text" style="background:#F8F8F8;" name="location" id="location" [(ngModel)]="location.name"
+          <input type="text" style="background:#F8F8F8;" name="location" id="location" [(ngModel)]="name"
             placeholder="{{placeholder}}">
         </div>
       </div>
     </div>
     <div #map id="map"> </div>
-    <!-- <button class="btn btn-success" color="dark" (click)="modelDismiss(true)">DONE</button> -->
   </div>
 </div>
