@@ -28,6 +28,12 @@ export class SiteInOutComponent implements OnInit {
   endDate = new Date();
   startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 7));
   isFlag = 1;
+
+  bGConditions = [
+    { key: 'is_flag', value: 1, class: 'normal' },
+    { key: 'is_flag', value: 2, class: 'abnormal' }
+  ];
+
   constructor(
     public apiService: ApiService,
     public common: CommonService,
@@ -35,12 +41,12 @@ export class SiteInOutComponent implements OnInit {
     public user: UserService
   ) {
     this.getAllFoSites();
+    this.common.refresh = this.refresh.bind(this);
+
   }
   ngOnInit() {
   }
-
   refresh() {
-
     this.getAllFoSites();
   }
   getAllFoSites() {
@@ -57,6 +63,17 @@ export class SiteInOutComponent implements OnInit {
   }
 
   getReport() {
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    this.data = [];
+
     let url = null;
     if (this.isFlag == 2) {
       url = "Site/getLocalSiteInOutHistory";
@@ -73,7 +90,6 @@ export class SiteInOutComponent implements OnInit {
     }
     console.log(params);
     this.common.loading++;
-    this.data = [];
     this.apiService.post(url, params)
       .subscribe(res => {
         this.common.loading--;
@@ -100,11 +116,9 @@ export class SiteInOutComponent implements OnInit {
     console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
-
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
       }
       columns.push(this.valobj);
 
@@ -154,20 +168,15 @@ export class SiteInOutComponent implements OnInit {
       });
   }
   changeRefernceType(type) {
-    console.log("Type Id", type);
-
     this.siteId = this.sitesDatalist.find((element) => {
       console.log(element.name == type);
       if (element.is_flag == 2) {
         this.isFlag = 2;
-        document.getElementById("sitedataList").style.color = "red";
       }
       else {
         this.isFlag = 1;
-        document.getElementById("sitedataList").style.color = "black";
-
       }
-      return element.name == type;
+      return element.id == type.id;
     }).id;
 
   }

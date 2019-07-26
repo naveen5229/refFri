@@ -421,7 +421,7 @@ export class LrGenerateComponent implements OnInit {
   }
 
   calculateReminingAmount() {
-    this.lr.remainingAmount = this.lr.payableAmount - this.lr.advanceAmount;
+    this.lr.remainingAmount = parseFloat((this.lr.payableAmount - this.lr.advanceAmount).toFixed(2));
     console.log("this.lr.remainingAmount", this.lr.remainingAmount);
   }
   closeModal() {

@@ -3,6 +3,7 @@ import { ConfirmComponent } from '../../confirm/confirm.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
+import { LRRateCalculatorComponent } from '../lrrate-calculator/lrrate-calculator.component';
 
 @Component({
   selector: 'lr-rate',
@@ -11,6 +12,8 @@ import { ApiService } from '../../../services/api.service';
 })
 export class LrRateComponent implements OnInit {
   freightRateparams = [];
+  calculatedRate = null;
+  rateDiv = true;
   type = null;
   combineJson = [];
   generalModal = true;
@@ -81,8 +84,13 @@ export class LrRateComponent implements OnInit {
     console.log("this.common.params.LrData", this.common.params.rate);
     this.lrId = this.common.params.rate.lrId ? this.common.params.rate.lrId : null;
     this.type = this.common.params.rate.rateType ? this.common.params.rate.rateType : null;
+    this.generalModal = this.common.params.rate.generalModal ? this.common.params.rate.generalModal : false;
+    this.title = this.common.params.rate.generalModal ? "General" : "Advance";
+    this.btnTitle = this.common.params.rate.generalModal ? "Advance Form" : "General Form";
+    this.isAdvanced = this.common.params.rate.generalModal ? false : true;
     this.getLrRateDetails();
     this.getLRtRateparams();
+
     if (this.generalModal) {
       this.common.handleModalSize('class', 'modal-lg', '500');
       this.filters[0].param = "shortage";
@@ -186,12 +194,16 @@ export class LrRateComponent implements OnInit {
         this.valobj = {};
 
         this.resetValue();
-        if (!res['data']) return;
+        if (!res['data']) {
+          this.rateDiv = true;
+          return;
+        };
         this.data = res['data'];
         if (res['data'] && this.generalModal) {
           this.setValue(res['data']);
         }
         let first_rec = this.data[0];
+        this.rateDiv = this.data[0]._allowedit;
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
@@ -324,6 +336,7 @@ export class LrRateComponent implements OnInit {
       this.general.mgWeight = data[0]['mg_weight'];
       this.general.qty = data[0]['qty_coeff'];
       this.general.mgQty = data[0]['mg_qty'];
+      this.rateDiv = this.data[0]['_allowedit'];
       this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
       this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
       this.filters[0].shortage = data[1] && data[1]['short_coeff'] ? data[1]['short_coeff'] : data[1]['short_coeff'];
@@ -343,5 +356,20 @@ export class LrRateComponent implements OnInit {
     this.filters[0].param = null;
     this.filters[0].minRange = null;
     this.filters[0].shortage = null;
+  }
+
+
+
+  calculateRate() {
+    const refData = {
+      refId: this.lrId,
+      refTypeId: 11,
+      isExpense: '' + this.type
+    };
+    this.common.params = { refData: refData }
+    const activeModal = this.modalService.open(LRRateCalculatorComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    });
   }
 }
