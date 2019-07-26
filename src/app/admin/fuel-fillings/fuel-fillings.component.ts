@@ -31,6 +31,7 @@ export class FuelFillingsComponent implements OnInit {
         amount: { title: 'Amount', placeholder: 'Amount' },
         addtime: { title: 'Addtime', placeholder: 'Addtime' },
         username: { title: 'Username', placeholder: 'Username' },
+        refName: { title: 'RefName', placeholder: 'RefName' },
       },
       columns: []
     },
@@ -160,6 +161,7 @@ export class FuelFillingsComponent implements OnInit {
         amount: { value: frec.amount },
         addtime: { value: this.datePipe.transform(frec.addtime, 'dd MMM yyyy') },
         username: { value: frec.username },
+        refName: { value: frec.refnum },
         rowActions: {}
       };
 

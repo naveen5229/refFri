@@ -26,7 +26,7 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
   ) {
 
     this.invoiceId = this.common.params.invoiceId;
-    this.common.handleModalSize('class', 'modal-lg', '820');
+    this.common.handleModalSize('class', 'modal-lg', '1200');
     this.printInvoice();
   }
 

@@ -61,13 +61,16 @@ export class StateLogsComponent implements OnInit {
 
 
   getState(){
-    let startDate =  this.common.dateFormatter1(this.startDate);
-    let endDate =  this.common.dateFormatter1(this.endDate);
+    let startDate = this.startDate != null ? this.common.dateFormatter1(this.startDate) : null;
+    let endDate = this.endDate != null ? this.common.dateFormatter1(this.endDate) : null;
     const params=`whId=${this.wareHouseId}&stateId=${this.stateId}&startDate=${startDate}&endDate=${endDate}`
     console.log(params);
+    this.common.loading++;
     this.api.get("WareHouse/getStateLogsWrtWh?" + params).subscribe(
       res => {
         this.stateData = [];
+        this.common.loading--;
+
         this.stateData = res['data'];
         console.log("result", res);
         let first_rec = this.stateData[0];
@@ -79,8 +82,11 @@ export class StateLogsComponent implements OnInit {
           }
         }
         this.table.data.columns = this.getTableColumns();
-      }
-    );
+      }, err => {
+        this.common.showError();
+        // console.log('Error: ', err);
+    
+      });
 
   }
     

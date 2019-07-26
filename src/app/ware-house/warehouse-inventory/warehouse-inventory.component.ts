@@ -22,8 +22,8 @@ export class WarehouseInventoryComponent implements OnInit {
   };
   request = 0;
   dataInventory = null;
-  startDate = null;
-  endDate = null;
+  endDate=new Date();
+  startDate =new Date(new Date().setDate(new Date(this.endDate).getDate() - 1));;  
   headings = [];
   valobj = {};
   data = [];
