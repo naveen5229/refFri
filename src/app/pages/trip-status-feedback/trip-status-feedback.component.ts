@@ -18,11 +18,17 @@ export class TripStatusFeedbackComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.getTrips();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
+  refresh() {
+
+    this.getTrips();
+  }
   getTrips() {
     this.common.loading++;
     this.api.get('TripsOperation/tripDetailsForVerification')

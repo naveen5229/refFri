@@ -8,7 +8,6 @@ td {
     font-size: 12px;
     font-weight: 500;
     padding: 8px;
-
 }
 
 .thead-dark {
@@ -23,6 +22,7 @@ td {
 }
 
 /* button Css */
+
 .btn {
     background: #f2f2f2;
     font-weight: bold;
@@ -41,32 +41,31 @@ td {
 }
 
 /*  Cancel button css */
+
 .btn.btn-danger {
     background-color: #da2240;
     color: white;
     background-color: #f05e77;
 }
 
-.btn.btn-danger:hover,
-.btn.btn-danger:active,
-.btn.btn-danger:focus {
+.btn.btn-danger:hover, .btn.btn-danger:active, .btn.btn-danger:focus {
     background-color: #e22242;
 }
 
 /* submit Button Css */
+
 .btn.btn-primary {
     background-color: #3c6ac7;
     color: #fff;
     background-color: #73a1ff;
 }
 
-.btn.btn-primary:hover,
-.btn.btn-primary:active,
-.btn.btn-primary:focus {
+.btn.btn-primary:hover, .btn.btn-primary:active, .btn.btn-primary:focus {
     background-color: #0054ff;
 }
 
 /* Default Button css */
+
 .btn.btn-default.btn-sm {
     float: right;
     margin-right: 50%;
@@ -90,58 +89,37 @@ nb-card-body ::-webkit-scrollbar-thumb {
 }
 
 ::-webkit-scrollbar-button:vertical:start:decrement {
-    background:
-        linear-gradient(120deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(240deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(0deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
+    background: linear-gradient(120deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(240deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(0deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
     background-color: #b6b6b6;
 }
 
 ::-webkit-scrollbar-button:vertical:end:increment {
-    background:
-        linear-gradient(300deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(60deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(180deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
+    background: linear-gradient(300deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(60deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(180deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
     background-color: #b6b6b6;
 }
 
 ::-webkit-scrollbar-button:horizontal:end:increment {
-    background:
-        linear-gradient(210deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(330deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(90deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
+    background: linear-gradient(210deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(330deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(90deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
     background-color: #b6b6b6;
 }
 
 ::-webkit-scrollbar-button:horizontal:start:decrement {
-    background:
-        linear-gradient(30deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(150deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(270deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
+    background: linear-gradient(30deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(150deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(270deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
     background-color: #b6b6b6;
 }
 
 ::-webkit-scrollbar-button:vertical:end:increment {
-    background:
-        linear-gradient(300deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(60deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(180deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
+    background: linear-gradient(300deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(60deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(180deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
     background-color: #b6b6b6;
 }
 
 ::-webkit-scrollbar-button:horizontal:end:increment {
-    background:
-        linear-gradient(210deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(330deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(90deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
+    background: linear-gradient(210deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(330deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(90deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
     background-color: #b6b6b6;
 }
 
 ::-webkit-scrollbar-button:horizontal:start:decrement {
-    background:
-        linear-gradient(30deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(150deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
-        linear-gradient(270deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
+    background: linear-gradient(30deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(150deg, #696969 40%, rgba(0, 0, 0, 0) 41%), linear-gradient(270deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
     background-color: #b6b6b6;
 }
 
@@ -151,7 +129,6 @@ nb-card-body ::-webkit-scrollbar-thumb {
     font-weight: 600;
     text-align: center;
     width: 100%;
-    margin: 0px 15px;
 }
 
 :host ::ng-deep .nb-home::before {

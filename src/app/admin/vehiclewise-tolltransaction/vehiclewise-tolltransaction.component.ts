@@ -26,9 +26,16 @@ export class VehiclewiseTolltransactionComponent implements OnInit {
     public user: UserService,
   ) {
     this.gettollTransactionSummary();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+  
+  refresh() {
+    console.log('Refresh');
+    this.gettollTransactionSummary();
   }
   getDate(date) {
     this.common.params = { ref_page: "card usage" };

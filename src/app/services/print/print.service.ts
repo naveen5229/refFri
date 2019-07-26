@@ -88,7 +88,7 @@ export class PrintService {
     const pageSize = PAGE_SIZE[this.detectBrowser()];
     let pageIndex = 1;
     let rowIndex = 0;
-    while (rowIndex != json.table.rows.length - 1) {
+    while (rowIndex < json.table.rows.length) {
       let pageContainer = this.createPageHtml();
       ppContainer.appendChild(pageContainer);
       let page = pageContainer.children[0];
@@ -115,9 +115,9 @@ export class PrintService {
           rowIndex = i + 1;
           break;
         }
-        rowIndex = i;
+        rowIndex++;
       }
-      if (rowIndex == json.table.rows.length - 1) {
+      if (rowIndex == json.table.rows.length) {
         pageContainer.appendChild(this.createSignatureHtml(json.signatures));
       }
       pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));

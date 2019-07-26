@@ -61,7 +61,7 @@
           <input type="Password" class="form-control" placeholder="Password" [(ngModel)]="company.password"
             name="Password" autocomplete="off" #password="ngModel" required>
           <div *ngIf="pincode.errors && isFormSubmit" class="vaidation-errors">
-            <span [hidden]="!address.errors.required">Pin Code is mandatory</span>
+            <span [hidden]="!address.errors.required">Password is mandatory</span>
           </div>
         </div>
       </div>
