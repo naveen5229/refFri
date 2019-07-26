@@ -31,9 +31,15 @@ export class TicketSubscribeComponent implements OnInit {
     public user: UserService,
     public activeModal: NgbActiveModal) {
     this.getVscEntry();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    console.log('Refresh');
+    this.getVscEntry();
   }
 
   subscribe() {

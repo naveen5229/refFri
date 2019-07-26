@@ -52,15 +52,15 @@ export class LorryRecciptsComponent implements OnInit {
 
   }
 
-  refresh() {
-    this.getLorryReceipts();
-  }
 
 
   ngOnInit() {
   }
 
+  refresh() {
 
+    this.getLorryReceipts();
+  }
   getLorryReceipts() {
     console.log('viewtype:', this.viewType);
     var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);

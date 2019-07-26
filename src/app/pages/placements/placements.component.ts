@@ -17,9 +17,15 @@ export class PlacementsComponent implements OnInit {
     public modalService: NgbModal,
   ) {
     this.getPlacement();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+  refresh() {
+
+    this.getPlacement();
   }
   getPlacement() {
     this.common.loading++;

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
@@ -9,8 +9,9 @@ import { AutoSuggetionInSideComponent } from './auto-suggetion-in-side/auto-sugg
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import { MonthPickerComponent } from './month-picker/month-picker.component';
 
+
 @NgModule({
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, DateInputsModule],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, DateInputsModule,],
     exports: [
         CommonModule,
         FormsModule,
@@ -18,10 +19,14 @@ import { MonthPickerComponent } from './month-picker/month-picker.component';
         SmartTableComponent,
         AutoSuggetionInSideComponent,
         DateTimePickerComponent,
-        MonthPickerComponent
+        MonthPickerComponent,
     ],
     declarations: [AutoSuggestionComponent, SmartTableComponent, AutoSuggetionInSideComponent,
         DateTimePickerComponent,
-        MonthPickerComponent],
+        MonthPickerComponent,
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    providers: [],
+
 })
 export class DirectiveModule { }

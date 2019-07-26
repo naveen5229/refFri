@@ -1,11 +1,11 @@
 <nb-card>
   <nb-card-header>
-    <h4>Pending Licences</h4>
+    <h5>Pending Licences</h5>
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
     <div class="container">
-      <div class="row">
-        <div class="col-1 pl-0 pt-2">{{data.length}} Records</div>
+      <div class="row align-items-center">
+        <div class="col-1 pl-0 pr-0"><b>{{data.length}} Records</b></div>
         <div class="col-sm-3 list">
           <select name="list" class="form-control " (change)="selectList($event.target.value)">
             <option class="form-control" [value]="0">Pending Licence</option>

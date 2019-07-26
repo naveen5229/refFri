@@ -292,13 +292,13 @@ export class ProfitlossComponent implements OnInit {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
   }
-  openLedgerViewModel(ledgerId, ledgerName) {
+  openLedgerViewModel(ledgerId, ledgerName,typeid) {
     console.log('ledger id 00000', ledgerId);
     this.common.params = {
       startdate: this.plData.startdate,
       enddate: this.plData.enddate,
       ledger: ledgerId,
-      vouchertype: 0,
+      vouchertype: (typeid==null) ? 0: typeid,
       ledgername: ledgerName
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
@@ -312,6 +312,7 @@ export class ProfitlossComponent implements OnInit {
 
   generateCsvData() {
     let liabilitiesJson = [];
+    liabilitiesJson.push(Object.assign({liability:"Particulars",liabilityAmount:'Amount'}));
     this.liabilities.forEach(liability => {
       liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
       liability.subGroups.forEach(subGroup => {
@@ -323,6 +324,7 @@ export class ProfitlossComponent implements OnInit {
     });
 
     let assetsJson = [];
+    assetsJson.push(Object.assign({asset:"Particulars",assetAmount:'Amount'}));
     this.assets.forEach(asset => {
       assetsJson.push({ asset: '(MG)'+asset.name, assetAmount: asset.amount });
       asset.subGroups.forEach(subGroup => {

@@ -15,7 +15,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     // },
     {
         title: 'Accounts Master',
-        icon: 'fa fa-user-circle-o',
+        icon: 'fas fa-user-circle',
 
         children: [
 
@@ -56,11 +56,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ],
     },
 
-    
-    
+
+
     {
         title: 'Stock Master',
-        icon: 'fa fa-building-o',
+        icon: 'fas fa-building',
 
         children: [
 
@@ -123,8 +123,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/daybooks/0'
             },
             {
-              title:'Voucher Pending For Approval',
-              link:'/accounts/daybookpending'  
+                title: 'Voucher Pending For Approval',
+                link: '/accounts/daybookpending'
             },
             {
                 title: 'Bank Book',
@@ -276,7 +276,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
     {
         title: 'Store Requisition',
-        icon: 'fa fa-building-o',
+        icon: 'fas fa-building',
 
         children: [
 
@@ -316,7 +316,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
     {
         title: 'Advance Voucher',
-        icon: 'fa fa-building-o',
+        icon: 'fas fa-building',
 
         children: [
             {
@@ -326,7 +326,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title: 'Trip Voucher Expense(Short)',
                 link: '/accounts/trip-voucher-expense/1'
-             },
+            },
             {
                 title: 'Fuel Fillings',
                 link: '/accounts/fuelfillings'

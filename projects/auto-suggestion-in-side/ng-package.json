@@ -1,0 +1,7 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/auto-suggestion-in-side",
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  }
+}
