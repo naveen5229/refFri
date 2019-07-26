@@ -15,8 +15,8 @@
                             <label>Material<span class="text-red">*</span></label>
                         </div>
                         <div class="col-2">
-                            <auto-suggestion class="w-100" (onSelected)="lr.material_id=($event.id)" (focusout)="select('GetMaterialTypes')" inputId="GetMaterialTypes" name="GetMaterialTypes" url="Suggestion/GetMaterialTypes" display="name" placeholder="Enter value" style="width:75%; display: inline-block"
-                                [preSelected]="{name:material}">
+                            <auto-suggestion class="w-100" (onSelected)="lr.material_id=($event.id)" (focusout)="setMaterialValue('GetMaterialTypes')" inputId="GetMaterialTypes" name="GetMaterialTypes" url="Suggestion/GetMaterialTypes" display="name" placeholder="Enter value" style="width:75%; display: inline-block"
+                                (unSelected)="lr.material_id = $event">
                             </auto-suggestion>
                             <div *ngIf="lr.material_id==null && isFormSubmit" class="err">
                                 <span>
@@ -26,7 +26,7 @@
 
                         </div>
                         <div class="col-1">
-                            <button type="button" class="btn btn-primary pt-1 pb-1 rounded-sm w-100" (click)="addmatrial()"><i class="fa fa-plus add">
+                            <button type="button" class="btn btn-primary pt-1 pb-1 rounded-sm w-100" (click)="addmaterial()"><i class="fa fa-plus add">
                                     </i></button>
                         </div>
                         <div class="col-1 p-0">
@@ -44,7 +44,8 @@
                             <label>Party<span class="text-red">*</span></label>
                         </div>
                         <div class="col-2">
-                            <auto-suggestion class="w-100" (onSelected)="lr.company_id=($event.id)" id="company" name="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:75%; display: inline-block;">
+                            <auto-suggestion class="w-100" (onSelected)="lr.company_id=($event.id)" inputId="company" (focusout)="setParty('company')" name="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:75%; display: inline-block;"
+                                (unSelected)="lr.company_id = $event">
                             </auto-suggestion>
                             <div *ngIf="lr.company_id==null && isFormSubmit" class="err">
                                 <span>

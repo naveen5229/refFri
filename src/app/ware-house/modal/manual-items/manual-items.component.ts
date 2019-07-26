@@ -3,6 +3,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 import { AddConsigneeComponent } from '../../../modals/LRModals/add-consignee/add-consignee.component';
+import { AddMaterialComponent } from '../../../modals/LRModals/add-material/add-material.component';
 
 @Component({
   selector: 'manual-items',
@@ -71,11 +72,19 @@ export class ManualItemsComponent implements OnInit {
       remarks:null
     });
   }
-  select(GetMaterialTypes){
+
+  setMaterialValue(GetMaterialTypes){
     console.log("8888888");
     if(this.selectLr['material_id']==null){
       document.getElementById(GetMaterialTypes)['value'] = ''
     }
+  }
+
+  setParty(company){
+    if(this.selectLr['company_id']==null){
+      document.getElementById(company)['value'] = ''
+    }
+
   }
 
   saveLr(){
@@ -96,8 +105,7 @@ export class ManualItemsComponent implements OnInit {
         else {
           this.common.loading--;
           this.common.showError(res['data'][0].y_msg)
-        }
-       
+        }  
   
       }, err => {
       });
@@ -105,5 +113,13 @@ export class ManualItemsComponent implements OnInit {
 
   addCompany(){
     this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: "drag-box" })
+  }
+
+  addmaterial(){
+    const activeModal = this.modalService.open(AddMaterialComponent, {
+      size: "sm",
+      container: "nb-layout"
+    });
+    
   }
 }

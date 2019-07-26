@@ -25,10 +25,27 @@ export class CompanyContactsComponent implements OnInit {
   userCmpnyId=this.common.params.cmpId;
   assCmpnyId=null;
   contactId=null;
+  companyName=null;
   Update=false;
   constructor(public api:ApiService,
     public activeModal:NgbActiveModal,
     public common:CommonService) {
+      console.log("param",this.common.params.contactDetail);
+      if(this.common.params.contactDetail){
+        this.branchId=this.common.params.contactDetail._branchid;
+        this.MobileNo=this.common.params.contactDetail.MobNO;
+        this.phoneNo=this.common.params.contactDetail.PhoneNO;
+        this.remark=this.common.params.contactDetail.Remark;
+        this.assCmpnyId=this.common.params.contactDetail._asscompid;
+        this.userCmpnyId=this.common.params.contactDetail._usercmpyid;
+        this.establishmentType=this.common.params.contactDetail._estabid;
+        this.name=this.common.params.contactDetail.Name;
+        this.email=this.common.params.contactDetail.Email;
+        this.designation=this.common.params.contactDetail.Designation;
+        this.deptName=this.common.params.contactDetail['Dept Name'];
+        this.contactId=this.common.params.contactDetail._id;
+      //  this.companyName=this.common.params.contactDetail.
+      }
     this.getCompanyBranchs();
     this.getCompanyEstablishmentType();
    }

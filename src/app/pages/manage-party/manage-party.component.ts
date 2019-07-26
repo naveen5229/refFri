@@ -25,6 +25,8 @@ export class ManagePartyComponent implements OnInit {
     { name: 'Others', id: 2 },
   ];
 
+  companyExist=[];
+
   data = [];
   cmpAssoc = [];
   cmpEstablishment=[];
@@ -77,9 +79,18 @@ export class ManagePartyComponent implements OnInit {
     this.getCompanyAssoc();
     this.getCompanyEstablishment();
     this.getCompanyContacts();
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+
+  refresh() {
+    this.checkCompany();
+    this.getCompanyBranches();
+    this.getCompanyAssoc();
+    this.getCompanyEstablishment();
+    this.getCompanyContacts();
   }
 
   checkCompany() {
@@ -87,6 +98,11 @@ export class ManagePartyComponent implements OnInit {
       .subscribe(res => {
         this.companyId = res['data'][0].company_id;
         this.companyName = res['data'][0].Company;
+        this.companyExist=res['data'];
+        if(this.companyExist.length <= 0 ){
+          this.common.showToast("please add company");
+
+        }
         console.log("para", this.companyId, this.companyName, res['data'])
         console.log(res)
       }, err => {
