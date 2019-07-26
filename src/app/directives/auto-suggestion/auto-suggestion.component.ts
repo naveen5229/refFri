@@ -30,6 +30,8 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() apiHitLimit: Number;
   @Input() isNoDataFoundEmit: boolean;
   @Input() isMultiSelect: boolean;
+  @Input() bGConditions: any[] = [];
+
   counter = 0;
   searchText = '';
   showSuggestions = false;
@@ -39,6 +41,7 @@ export class AutoSuggestionComponent implements OnInit {
   searchForm = null;
   activeSuggestion = -1;
   selectedSuggestions = [];
+  isAllData = false;
 
   constructor(public api: ApiService,
     private cdr: ChangeDetectorRef,
@@ -196,7 +199,21 @@ export class AutoSuggestionComponent implements OnInit {
       });
       if (!isSelected) this.unSelected.emit(null);
     }, 100);
+  }
 
+  classFinder(suggestion) {
+    let className = '';
+    this.bGConditions.forEach(condition => {
+      if (suggestion[condition.key] == condition.value) {
+        className = condition.class;
+      }
+    });
+    return className;
+  }
+
+  showAllSuggestion() {
+    this.showSuggestions = true;
+    this.suggestions = this.data;
   }
 
 

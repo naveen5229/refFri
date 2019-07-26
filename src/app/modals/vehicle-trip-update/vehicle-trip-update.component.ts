@@ -40,7 +40,6 @@ export class VehicleTripUpdateComponent implements OnInit {
   placementSite = null;
   placementSuggestion = [];
   ref_page = null;
-  cLT = 'city';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -78,9 +77,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip', false), 1000);
 
   }
-  changeLocationType(clt) {
-    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip', clt), 1000);
-  }
+
   openReminderModal() {
     this.common.params.returnData = true;
     this.common.params.title = "Target Time";
@@ -255,12 +252,13 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.vehicleTrip.endName = placementSuggestion.y_loc_name;
     this.vehicleTrip.endLat = placementSuggestion.y_lat;
     this.vehicleTrip.endLng = placementSuggestion.y_long;
-    this.placementSite = null;
+    this.placementSite = placementSuggestion.y_site_id;
 
   }
   selectLocation(place) {
     console.log("palce", place);
-    this.placementSite = null;
+    this.placementSite = place.id;
+    this.vehicleTrip.siteId = null;
     this.vehicleTrip.endLat = place.lat;
     this.vehicleTrip.endLng = place.long;
     this.vehicleTrip.endName = place.location || place.name;
@@ -284,21 +282,24 @@ export class VehicleTripUpdateComponent implements OnInit {
       if (this.keepGoing && this.searchString.length) {
         this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
-          console.log('response----', res.location);
-          this.keepGoing = true;
-          if (res.location.lat) {
-            this.vehicleTrip.endName = res.location.name;
-
-            (<HTMLInputElement>document.getElementById('endname')).value = this.vehicleTrip.endName;
-            this.vehicleTrip.endLat = res.location.lat;
-            this.vehicleTrip.endLng = res.location.lng;
-            this.placementSite = null;
+          if (res != null) {
+            console.log('response----', res, res.location, res.id);
             this.keepGoing = true;
+            if (res.location.lat) {
+              this.vehicleTrip.endName = res.location.name;
+
+              (<HTMLInputElement>document.getElementById('endname')).value = this.vehicleTrip.endName;
+              this.vehicleTrip.endLat = res.location.lat;
+              this.vehicleTrip.endLng = res.location.lng;
+              this.placementSite = null;
+              this.keepGoing = true;
+            }
           }
         })
+
       }
     }, 1000);
 

@@ -433,6 +433,9 @@
     <div class="modal-footer">
       <div class="row">
         <div class="col">
+            <input type="checkbox" name="print" id="print" [(ngModel)]="order.print">Print After Save
+        </div>
+        <div class="col">
           <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
             style="cursor: pointer;">Cancel</button>
         </div>

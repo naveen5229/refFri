@@ -203,7 +203,11 @@ import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/ed
 import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
 import { GenericModelComponent } from './modals/generic-model/generic-model.component';
+import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
 import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
+import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
+import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
+
 
 
 @NgModule({
@@ -378,9 +382,14 @@ import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component'
     EditViaRoutesPointsComponent,
     LrRateComponent,
     LedgeraddressComponent,
+    GetUserBankInfoComponent,
     UploadDocsComponent,
+    OrderdetailComponent,
+    LRRateCalculatorComponent,
+
   ],
   entryComponents: [
+    LRRateCalculatorComponent,
     LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
@@ -548,7 +557,9 @@ import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component'
     EditViaRoutesPointsComponent,
     TripSettlementComponent,
     LedgeraddressComponent,
+    GetUserBankInfoComponent,
     UploadDocsComponent,
+    OrderdetailComponent,
 
   ],
   imports: [

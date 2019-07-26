@@ -40,9 +40,30 @@ export class FreightExpensesComponent implements OnInit {
   {
     name: 'Any',
     id: '-1'
-  }]
+  }];
+
+  actionTypes = [{
+    name: 'Any',
+    id: '-1'
+  }, {
+    name: 'Expense',
+    id: '1'
+  },
+  {
+    name: 'Revenue',
+    id: '2'
+  },
+  {
+    name: 'Transfer',
+    id: '3'
+  },
+  {
+    name: 'Advice',
+    id: '4'
+  }];
   statusid = 1;
   Typeid = -1;
+  actionTypeId = -1;
   startTime = new Date(new Date().setDate(new Date().getDate() - 15));;
   endTime = new Date();
   data = [];
@@ -91,7 +112,8 @@ export class FreightExpensesComponent implements OnInit {
       startTime: this.common.dateFormatter1(this.startTime).split(' ')[0],
       endTime: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
       status: this.statusid,
-      type: this.Typeid
+      type: this.Typeid,
+      actionType: this.actionTypeId
     };
 
     ++this.common.loading;
