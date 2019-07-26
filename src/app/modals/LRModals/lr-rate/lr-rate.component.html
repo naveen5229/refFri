@@ -163,9 +163,16 @@
   <div class="text-right mt-3 mb-3">
     <button class="btn btn-primary submit" (click)="saveLrRateInput()">Submit</button>
   </div>
-  <h4 *ngIf="data && data.length && !generalModal">
+  <div class="row">
+    <div class="col-sm-5">
+      <button (click)='calculateRate()' class="btn btn-class1">Calculate Rate</button>
+    </div>
+
+  </div>
+
+  <h6 *ngIf="data && data.length && !generalModal">
     Lr Rates
-  </h4>
+  </h6>
   <smart-table *ngIf="data && data.length && !generalModal" [data]="table.data" [settings]="table.settings"
     id="ratesTable">
   </smart-table>

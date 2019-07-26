@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { OrderComponent } from '../../acounts-modals/order/order.component';
-import { UserService } from '../../@core/data/users.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-import { TaxdetailComponent } from '../../acounts-modals/taxdetail/taxdetail.component';
+import { TaxdetailComponent } from '../taxdetail/taxdetail.component';
+import { UserService } from '../../@core/data/users.service';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
-import { WareHouseModalComponent } from '../../acounts-modals/ware-house-modal/ware-house-modal.component';
-import { AccountService } from '../../services/account.service';
-import {LedgeraddressComponent} from '../../acounts-modals/ledgeraddress/ledgeraddress.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { LedgeraddressComponent } from '../../acounts-modals/ledgeraddress/ledgeraddress.component';
 import { PrintService } from '../../services/print/print.service';
+import { PdfService } from '../../services/pdf/pdf.service';
+
 
 @Component({
-  selector: 'orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  selector: 'orderdetail',
+  templateUrl: './orderdetail.component.html',
+  styleUrls: ['./orderdetail.component.scss']
 })
-export class OrdersComponent implements OnInit {
+export class OrderdetailComponent implements OnInit {
   showConfirm = false;
+  deletedId = 0;
   branchdata = [];
   orderTypeData = [];
   supplier = [];
@@ -32,7 +32,7 @@ export class OrdersComponent implements OnInit {
   taxDetailData = [];
   order = {
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
-    biltynumber: '',
+    biltynumber: null,
     biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
     totalamount: 0,
     grnremarks: '',
@@ -46,8 +46,7 @@ export class OrdersComponent implements OnInit {
     shipmentlocation: '',
     orderid: 0,
     delete: 0,
-    ledgeraddressid:null,
-    print:false,
+    ledgeraddressid: null,
     // branch: {
     //   name: '',
     //   id: ''
@@ -58,7 +57,7 @@ export class OrdersComponent implements OnInit {
     },
     ledger: {
       name: '',
-      id: 0
+      id: ''
     },
     purchaseledger: {
       name: '',
@@ -77,7 +76,7 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: 0,
+      qty: '',
       discountledger: { name: '', id: '0' },
       warehouse: { name: '', id: '' },
       taxDetails: [],
@@ -85,15 +84,9 @@ export class OrdersComponent implements OnInit {
       lineamount: 0,
       discountate: 0,
       rate: 0,
-      amount: 0,
-      defaultcheck:true
+      amount: 0
     }]
   };
-
-
-  showDateModal = false;
-  f2Date = 'startDate';
-  activedateid = '';
 
   suggestions = {
     purchaseLedgers: [],
@@ -104,12 +97,11 @@ export class OrdersComponent implements OnInit {
     discountLedgers: [],
     warehouses: [],
     invoiceTypes: [],
-    list: [],
-    invoiceList: []
+    list: []
   };
   suggestionIndex = -1;
 
-  activeId = 'ordertype';
+  activeId = '';
   lastActiveId = '';
 
   autoSuggestion = {
@@ -120,52 +112,155 @@ export class OrdersComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
-    private route: ActivatedRoute,
     public user: UserService,
-    public router: Router,
-    private printService: PrintService,
+    private activeModal: NgbActiveModal,
     public modalService: NgbModal,
-    public accountService: AccountService) {
-    // this.getBranchList();
-    this.route.params.subscribe(params => {
-      console.log('Params1: ', params);
-      if (params.id) {
-        this.order.ordertype.id = params.id;
-        this.order.ordertype.name = params.name;
-      }
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-      let suggestionname = params.name;
-      if (suggestionname == 'Debit Note') {
-        this.getInvoiceList(-2);
-        suggestionname = 'Purchase Invoice';
-      }
-      if (suggestionname == 'Credit Note') {
-        this.getInvoiceList(-4);
-        suggestionname = 'Sales Invoice';
-      }
-      this.getStockItems(suggestionname);
-    });
-    this.common.refresh = () => {
-      this.getInvoiceTypes();
-      this.getPurchaseLedgers();
-      this.getSupplierLedgers();
-      this.getStockItems('sales');
-      this.getStockItems('purchase');
-      this.getWarehouses();
-    };
-
-    this.common.refresh();
-
+    private printService: PrintService,
+    public pdfService: PdfService) {
+    this.getBranchList();
+    this.getInvoiceTypes();
+    this.getPurchaseLedgers();
+    this.getSupplierLedgers();
+    this.getStockItems('sales');
+    this.getStockItems('purchase');
+    this.getWarehouses();
     this.setFoucus('ordertype');
-    this.common.currentPage = this.order.ordertype.name;
-    
+    this.getInvoiceDetail();
+    // this.common.currentPage = 'Invoice';
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
+    // console.log("open data ",this.invoiceDetail[]);
+
   }
 
   ngOnInit() {
   }
 
 
+  getInvoiceDetail() {
+    let params = {
+      invoiceId: this.common.params.invoiceid
+    };
+    console.log('vcid', this.common.params);
 
+    this.api.post('Company/getInvoiceDetail', params)
+      .subscribe(res => {
+        // this.common.loading--;
+        console.log('Res:', res['data']);
+        this.invoiceDetail = res['data']['invoice'];
+        this.taxDetailData = res['data']['taxdetail'];
+        console.log('Invoice detail', this.invoiceDetail[0]['y_biltynumber']);
+        console.log('Tax Detail', this.taxDetailData);
+        this.deletedId = this.common.params.delete;
+        this.order.orderid = this.common.params.invoiceid;
+        this.order.biltynumber = this.invoiceDetail[0].y_biltynumber;
+        this.order.date = this.common.dateFormatternew(this.invoiceDetail[0].y_orderdate.split(' ')[0]);
+        this.order.biltydate = this.common.dateFormatternew(this.invoiceDetail[0].y_biltydatestamp.split(' ')[0]);
+        this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
+        this.order.billingaddress = this.invoiceDetail[0].y_vendorbillingaddress;
+        this.order.ordertype.id = this.invoiceDetail[0].y_ordertype_id;
+        this.order.ordertype.name = this.invoiceDetail[0].ordertype_name;
+        this.order.custcode = this.invoiceDetail[0].y_cust_code;
+        this.order.vendorbidref = this.invoiceDetail[0].y_vendorbidref;
+        this.order.qutationrefrence = this.invoiceDetail[0].y_vendorquotationref;
+        this.order.paymentterms = this.invoiceDetail[0].y_paymentterms;
+        this.order.deliveryterms = this.invoiceDetail[0].y_deliveryterms;
+        this.order.orderremarks = this.invoiceDetail[0].y_order_remarks;
+        this.order.purchaseledger.name = this.invoiceDetail[0].purchaseledger_name;
+        this.order.purchaseledger.id = this.invoiceDetail[0].y_purchaseledgerid;
+        this.order.ledger.id = this.invoiceDetail[0].y_vendorledgerid;
+        this.order.ledger.name = this.invoiceDetail[0].vendorledger_name;
+        this.order.shipmentlocation = this.invoiceDetail[0].y_shipmentlocation;
+        this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
+        this.order.delete = 0;
+        this.order.ledgeraddressid = this.invoiceDetail[0].y_ledger_address_id;
+
+        this.invoiceDetail.map((invoiceDetail, index) => {
+          if (!this.order.amountDetails[index]) {
+            this.addAmountDetails();
+          }
+          this.order.amountDetails[index].id = invoiceDetail.y_dtl_id;
+          this.order.amountDetails[index].stockitem.id = invoiceDetail.y_dtl_stockitemid;
+          this.order.amountDetails[index].stockitem.name = invoiceDetail.stockitem_name;
+          this.order.amountDetails[index].stockunit.id = invoiceDetail.y_dtl_stockunitid;
+          this.order.amountDetails[index].stockunit.name = invoiceDetail.stockunit_name;
+          this.order.amountDetails[index].warehouse.id = invoiceDetail.y_dtl_warehouse_id;
+          this.order.amountDetails[index].warehouse.name = invoiceDetail.warehouse_name;
+          this.order.amountDetails[index].qty = invoiceDetail.y_dtl_qty;
+          this.order.amountDetails[index].rate = invoiceDetail.y_dtl_rate;
+          this.order.amountDetails[index].lineamount = invoiceDetail.y_dtl_lineamount;
+          this.order.amountDetails[index].remarks = invoiceDetail.y_dtl_remarks;
+          this.order.amountDetails[index].amount = parseFloat(invoiceDetail.y_dtl_amount);
+          this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
+
+        });
+
+        this.taxDetailData.map((taxdetail, taxindex) => {
+          this.order.amountDetails.map(amountDetails => {
+            if (amountDetails.id == taxdetail.y_invoicedetails_id) {
+              let data = {
+                taxledger: {
+                  name: taxdetail.y_ledger_name,
+                  id: taxdetail.y_ledger_id,
+                },
+                taxrate: taxdetail.y_rate,
+                taxamount: taxdetail.y_amount,
+                totalamount: 0
+              };
+
+              amountDetails.taxDetails.push(data);
+            }
+          });
+        });
+
+        this.order.amountDetails.map(amountDetails => {
+          let total = 0;
+          amountDetails.taxDetails.map(taxDetails => {
+            total += parseInt(taxDetails.taxamount);
+          });
+
+          amountDetails.taxDetails.map(taxDetails => {
+            taxDetails.totalamount = total;
+          });
+
+        });
+
+        // amountDetails: [{
+        //   transactionType: 'debit',
+        //   ledger: '',
+        //   taxledger: '',
+        //   stockitem: {
+        //     name: '',
+        //     id: ''
+        //   },
+        //   stockunit: {
+        //     name: '',
+        //     id: ''
+        //   },
+        //   qty: '',
+        //   discountledger: { name: '', id: '0' },
+        //   warehouse: { name: '', id: '' },
+        //   taxDetails: [],
+        //   remarks: '',
+        //   lineamount: 0,
+        //   discountate: 0,
+        //   rate: 0
+        // }]
+
+
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+
+  modelCondition() {
+    // this.showConfirm = false;
+    this.activeModal.close({});
+    event.preventDefault();
+    return;
+  }
   setInvoice() {
     return {
       date: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -183,19 +278,18 @@ export class OrdersComponent implements OnInit {
       shipmentlocation: '',
       orderid: 0,
       delete: 0,
-    ledgeraddressid:null,
-    print:false,
+      ledgeraddressid: null,
       // branch: {
       //   name: '',
       //   id: ''
       // },
       ordertype: {
-        name: this.order.ordertype.name,
-        id:this.order.ordertype.id
+        name: '',
+        id: 0
       },
       ledger: {
         name: '',
-        id: 0
+        id: ''
       },
       purchaseledger: {
         name: '',
@@ -214,7 +308,7 @@ export class OrdersComponent implements OnInit {
           name: '',
           id: ''
         },
-        qty: 0,
+        qty: '',
         discountledger: { name: '', id: '' },
         warehouse: { name: '', id: '' },
         taxDetails: [],
@@ -223,7 +317,7 @@ export class OrdersComponent implements OnInit {
         discountate: 0,
         rate: 0,
         amount: 0,
-        defaultcheck:true
+
       }]
     };
   }
@@ -240,7 +334,7 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: 0,
+      qty: '',
       discountledger: { name: '', id: '' },
       warehouse: { name: '', id: '' },
       taxDetails: [],
@@ -248,8 +342,7 @@ export class OrdersComponent implements OnInit {
       lineamount: 0,
       discountate: 0,
       rate: 0,
-      amount: 0,
-      defaultcheck:false
+      amount: 0
 
     });
   }
@@ -295,9 +388,9 @@ export class OrdersComponent implements OnInit {
     this.api.get('Suggestion/GetStockItem?search=123&invoicetype=' + type)
       .subscribe(res => {
         this.common.loading--;
-        console.log('----------------------kkk:', res['data']);
-        this.suggestions.stockItems = res['data'];
-        this.setAutoSuggestion();
+        console.log('Res:', res['data']);
+        if (type == 'sales') { this.suggestions.salesstockItems = res['data']; }
+        if (type == 'purchase') { this.suggestions.purchasestockItems = res['data']; }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -325,17 +418,17 @@ export class OrdersComponent implements OnInit {
     if (response) {
       //console.log('Order new:', this.order);
       // return;
+      this.addOrder(this.order);
+    }
+    // this.activeModal.close({ response: response, Voucher: this.order });
+  }
 
-      if (this.accountService.selected.financialYear.isfrozen == true) {
-        this.common.showError('This financial year is freezed. Please select currect financial year');
-        return;
-      } else {
-        let voucherDate = this.common.dateFormatter(this.common.convertDate(this.order.date), 'y', false);
-        if (voucherDate < this.accountService.selected.financialYear.startdate || voucherDate > this.accountService.selected.financialYear.enddate) {
-          this.common.showError('Please Select Correct Financial Year');
-          return;
-        }
-      }
+  restore(response) {
+    // console.log('Order:', this.order);
+    if (response) {
+      //console.log('Order new:', this.order);
+      // return;
+      this.order.delete = 0;
       this.addOrder(this.order);
     }
     // this.activeModal.close({ response: response, Voucher: this.order });
@@ -350,20 +443,20 @@ export class OrdersComponent implements OnInit {
   }
 
   TaxDetails(i) {
-    this.common.params={
-      taxDetail : this.order.amountDetails[i].taxDetails,
-     amount : this.order.amountDetails[i].amount
-    }
-   console.log('param common',this.common.params);
-
+    this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 1);
+    this.common.params = {
+      taxDetail: JSON.parse(JSON.stringify(this.order.amountDetails[i].taxDetails)),
+      amount: this.order.amountDetails[i].amount
+    };
+    console.log('????????',this.common.params);
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
+      console.log('tax Detail Data new : ', data,'addidas',this.order.amountDetails[i].taxDetails);
       if (data.response) {
-        console.log('????????',data.taxDetails);
+        console.log('{{----}}',data);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
         this.order.amountDetails[i].lineamount = 0;
-        this.order.amountDetails[i].lineamount =  this.order.amountDetails[i].amount+data.taxDetails[0].totalamount;
+        this.order.amountDetails[i].lineamount = this.order.amountDetails[i].amount + data.taxDetails[0].totalamount;//this.order.amountDetails[i].amount+data.taxDetails[0].totalamount
         this.setFoucus('plustransparent');
         // this.addLedger(data.ledger);
       }
@@ -379,12 +472,12 @@ export class OrdersComponent implements OnInit {
   onSelectedaddress(selectedData, type, display) {
     this.order[type].name = selectedData[display];
     this.order[type].id = selectedData.id;
-  //  this.order.billingaddress = selectedData.address;
+    this.order.billingaddress = selectedData.address;
     console.log('order User: ', this.order);
   }
 
   addOrder(order) {
-    console.log('new order', order);
+    console.log('new order', order.orderid);
     // const params = {};
     const params = {
       billingaddress: order.billingaddress,
@@ -408,8 +501,10 @@ export class OrdersComponent implements OnInit {
       // approved: order.Approved,
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
-      ledgeraddressid:order.ledgeraddressid,
-      x_id: 0
+      x_id: order.orderid,
+      delete: order.delete,
+      ledgeraddressid: order.ledgeraddressid,
+
     };
 
     console.log('params11: ', params);
@@ -420,8 +515,7 @@ export class OrdersComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.GetLedger();
-        this.printFunction();
-      // this.order = this.setInvoice();
+        this.order = this.setInvoice();
         this.setFoucus('ordertype');
         this.common.showToast('Invoice Are Saved');
         return;
@@ -447,61 +541,17 @@ export class OrdersComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
-    //console.log('-------------:', document.getElementById(this.activeId)['value']);
     console.log('Active event', event);
     this.setAutoSuggestion();
-
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('date') || this.activeId.includes('biltydate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
-      this.showDateModal = false;
-      console.log('Last Ac: ', this.lastActiveId);
-      this.handleOrderDateOnEnter(this.activeId);
-      this.setFoucus(this.lastActiveId);
-
-      return;
-    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
-      return;
-    }
-
-
 
     // console.log('Active Id', this.activeId);
     if ((event.altKey && key === 'c') && ((this.activeId.includes('purchaseledger')) || (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')))) {
       // console.log('alt + C pressed');
       this.openledger();
-      return;
     }
     if ((event.altKey && key === 'c') && (this.activeId.includes('stockitem'))) {
       // console.log('alt + C pressed');
       this.openStockItemModal();
-      return;
-    }
-    if ((event.altKey && key === 'c') && (this.activeId.includes('warehouse'))) {
-      // console.log('alt + C pressed');
-      this.openwareHouseModal();
-      return;
-    }
-    if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
-      let index = parseInt(this.activeId.split('-')[1]);
-      console.log('available item', (this.order.amountDetails[index].qty));
-      setTimeout(() => {
-        if ((this.totalitem) < (document.getElementById(this.activeId)['value'])) {
-          alert('Quantity is lower then available quantity');
-          this.order.amountDetails[index].qty = 0;
-        }
-      }, 50);
-      // if ((this.totalitem) < parseInt(this.order.amountDetails[index].qty)) {
-      //   console.log('Quantity is lower then available quantity');
-      //   // this.order.amountDetails[index].qty = 0;
-      // }
     }
     if (key == 'enter') {
       if (this.activeId.includes('branch')) {
@@ -518,24 +568,14 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('date')) {
-        if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
-          this.setFoucus('qty' + '-' + 0);
-        }
-        else {
-          this.setFoucus('purchaseledger');
-        }
+        this.setFoucus('purchaseledger');
       } else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
-        if (this.order.ordertype.id == -8) {
-          this.setFoucus('warehouse' + '-' + 0);
-        }
-        else {
-          this.setFoucus('ledger');
-        }
+        this.setFoucus('ledger');
       } else if (this.activeId.includes('discountledger')) {
         console.log('0000000000000000000000000000000');
         if (this.suggestions.list.length) {
@@ -573,11 +613,8 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('orderremarks')) {
         //let index = activeId.split('-')[1];
         // console.log('stockitem'+'-'+index);
-        this.setFoucus('warehouse' + '-' + 0);
+        this.setFoucus('stockitem' + '-' + 0);
       } else if (this.activeId.includes('stockitem')) {
-        // if (this.order.ordertype.name.toLowerCase().includes('purchase')) { this.suggestions.stockItems = this.suggestions.purchasestockItems; }
-        // if (this.order.ordertype.name.toLowerCase().includes('sales')) { this.suggestions.stockItems = this.suggestions.salesstockItems; }
-
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
@@ -587,37 +624,24 @@ export class OrdersComponent implements OnInit {
         this.setFoucus('qty' + '-' + index);
       } else if (this.activeId.includes('qty')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        if (this.order.ordertype.id == -8) {
-          this.setFoucus('plustransparent');
-        }
-        else {
-          this.setFoucus('rate' + '-' + index);
-        }
+        this.setFoucus('rate' + '-' + index);
       } else if (this.activeId.includes('rate')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
-          this.setFoucus('submit');
-        }
-        else {
-          this.setFoucus('remarks' + '-' + index);
-        }
+        this.setFoucus('warehouse' + '-' + index);
       } else if (this.activeId.includes('discountate')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('warehouse' + '-' + index);
       } else if (this.activeId.includes('warehouse')) {
-        console.log("hello", this.activeId);
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('stockitem' + '-' + index);
+        this.setFoucus('remarks' + '-' + index);
       } else if (this.activeId.includes('remarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxDetail' + '-' + index);
-      } else if (this.activeId.includes('invocelist')) {
-        this.setFoucus('custcode');
       }
     } else if (key.includes('arrow')) {
       //  this.allowBackspace = false;
@@ -626,35 +650,7 @@ export class OrdersComponent implements OnInit {
         event.preventDefault();
       }
     }
-
-
   }
-
-  handleOrderDateOnEnter(iddate) {
-    let dateArray = [];
-    let separator = '-';
-
-    //console.log('starting date 122 :', this.activedateid);
-    let datestring = (this.activedateid == 'date') ? 'date' : 'biltydate';
-    if (this.order[datestring].includes('-')) {
-      dateArray = this.order[datestring].split('-');
-    } else if (this.order[datestring].includes('/')) {
-      dateArray = this.order[datestring].split('/');
-      separator = '/';
-    } else {
-      this.common.showError('Invalid Date Format!');
-      return;
-    }
-    let date = dateArray[0];
-    date = date.length == 1 ? '0' + date : date;
-    let month = dateArray[1];
-    month = month.length == 1 ? '0' + month : month;
-    let year = dateArray[2];
-    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-    console.log('Date: ', date + separator + month + separator + year);
-    this.order[datestring] = date + separator + month + separator + year;
-  }
-
 
   setFoucus(id, isSetLastActive = true) {
     console.log('Id: ', id);
@@ -750,144 +746,6 @@ export class OrdersComponent implements OnInit {
 
   }
 
-
-  getInvoiceList(orderid) {
-    let params = {
-      orderid: orderid
-    };
-    this.common.loading++;
-    this.api.post('Suggestion/GetInvoiceList', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
-        this.suggestions.invoiceList = res['data'];
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-
-  }
-
-
-  getInvoiceDetail(invoiceid) {
-    let params = {
-      invoiceId: invoiceid
-    };
-    this.common.loading++;
-    this.api.post('Company/getInvoiceDetail', params)
-      .subscribe(res => {
-        // this.common.loading--;
-        console.log('Res:', res['data']);
-        this.invoiceDetail = res['data']['invoice'];
-        this.taxDetailData = res['data']['taxdetail'];
-        console.log('Invoice detail', this.invoiceDetail[0]['y_biltynumber']);
-        console.log('Tax Detail', this.taxDetailData);
-        //  this.deletedId = this.common.params.delete;
-        // this.order.orderid = this.common.params.invoiceid;
-        this.order.biltynumber = this.invoiceDetail[0].y_biltynumber;
-        // this.order.date = this.common.dateFormatternew(this.invoiceDetail[0].y_orderdate.split(' ')[0]);
-        this.order.biltydate = this.common.dateFormatternew(this.invoiceDetail[0].y_biltydatestamp.split(' ')[0]);
-        this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
-        this.order.billingaddress = this.invoiceDetail[0].y_vendorbillingaddress;
-        // this.order.ordertype.id = this.invoiceDetail[0].y_ordertype_id;
-        // this.order.ordertype.name = this.invoiceDetail[0].ordertype_name;
-        this.order.custcode = this.invoiceDetail[0].y_cust_code;
-        this.order.vendorbidref = this.invoiceDetail[0].y_vendorbidref;
-        this.order.qutationrefrence = this.invoiceDetail[0].y_cust_code;
-        this.order.paymentterms = this.invoiceDetail[0].y_paymentterms;
-        this.order.deliveryterms = this.invoiceDetail[0].y_deliveryterms;
-        this.order.orderremarks = this.invoiceDetail[0].y_order_remarks;
-        this.order.purchaseledger.name = this.invoiceDetail[0].purchaseledger_name;
-        this.order.purchaseledger.id = this.invoiceDetail[0].y_purchaseledgerid;
-        this.order.ledger.id = this.invoiceDetail[0].y_vendorledgerid;
-        this.order.ledger.name = this.invoiceDetail[0].vendorledger_name;
-        this.order.shipmentlocation = this.invoiceDetail[0].y_shipmentlocation;
-        this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
-        this.order.delete = 0;
-
-        this.invoiceDetail.map((invoiceDetail, index) => {
-          if (!this.order.amountDetails[index]) {
-            this.addAmountDetails();
-          }
-          //  this.order.amountDetails[index].id = invoiceDetail.y_dtl_id;
-          this.order.amountDetails[index].stockitem.id = invoiceDetail.y_dtl_stockitemid;
-          this.order.amountDetails[index].stockitem.name = invoiceDetail.stockitem_name;
-          this.order.amountDetails[index].stockunit.id = invoiceDetail.y_dtl_stockunitid;
-          this.order.amountDetails[index].stockunit.name = invoiceDetail.stockunit_name;
-          this.order.amountDetails[index].warehouse.id = invoiceDetail.y_dtl_warehouse_id;
-          this.order.amountDetails[index].warehouse.name = invoiceDetail.warehouse_name;
-          this.order.amountDetails[index].qty = invoiceDetail.y_dtl_qty;
-          this.order.amountDetails[index].rate = invoiceDetail.y_dtl_rate;
-          this.order.amountDetails[index].lineamount = invoiceDetail.y_dtl_lineamount;
-          this.order.amountDetails[index].remarks = invoiceDetail.y_invoice_remarks;
-          this.order.amountDetails[index].amount = invoiceDetail.y_dtl_amount;
-          this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
-
-        });
-
-        this.taxDetailData.map((taxdetail, taxindex) => {
-          this.order.amountDetails.map(amountDetails => {
-            if (amountDetails.id == taxdetail.y_invoicedetails_id) {
-              let data = {
-                taxledger: {
-                  name: taxdetail.y_ledger_name,
-                  id: taxdetail.y_ledger_id,
-                },
-                taxrate: taxdetail.y_rate,
-                taxamount: taxdetail.y_amount,
-                totalamount: 0
-              };
-
-              amountDetails.taxDetails.push(data);
-            }
-          });
-        });
-
-        this.order.amountDetails.map(amountDetails => {
-          let total = 0;
-          amountDetails.taxDetails.map(taxDetails => {
-            total += parseInt(taxDetails.taxamount);
-          });
-
-          amountDetails.taxDetails.map(taxDetails => {
-            taxDetails.totalamount = total;
-          });
-
-        });
-
-        // amountDetails: [{
-        //   transactionType: 'debit',
-        //   ledger: '',
-        //   taxledger: '',
-        //   stockitem: {
-        //     name: '',
-        //     id: ''
-        //   },
-        //   stockunit: {
-        //     name: '',
-        //     id: ''
-        //   },
-        //   qty: '',
-        //   discountledger: { name: '', id: '0' },
-        //   warehouse: { name: '', id: '' },
-        //   taxDetails: [],
-        //   remarks: '',
-        //   lineamount: 0,
-        //   discountate: 0,
-        //   rate: 0
-        // }]
-
-
-        this.common.loading--;
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-
-  }
-
   selectLedger(ledger) {
     //  console.log('Last Active ID:', this.lastActiveId);
     /*  if (!index && this.lastActiveId.includes('ledger')) {
@@ -962,11 +820,6 @@ export class OrdersComponent implements OnInit {
         suggestions = this.suggestions.warehouses.filter(warehouse => warehouse.name.replace(/\./g, "").toLowerCase().includes(search));
         suggestions.splice(10, suggestions.length - 1)
       }
-    } else if (this.activeId.includes('invocelist')) {
-      if (element['value']) {
-        suggestions = this.suggestions.warehouses.filter(warehouse => warehouse.name.replace(/\./g, "").toLowerCase().includes(search));
-        suggestions.splice(10, suggestions.length - 1)
-      }
     }
     // purchaseledger stockitem-
     this.suggestions.list = suggestions;
@@ -979,21 +832,10 @@ export class OrdersComponent implements OnInit {
     if (this.activeId == 'ordertype') {
       this.order.ordertype.name = suggestion.name;
       this.order.ordertype.id = suggestion.id;
-      let suggestionname = suggestion.name;
-      if (suggestionname == 'Debit Note') {
-        this.getInvoiceList(-2);
-        suggestionname = 'Purchase Invoice';
-      }
-      if (suggestionname == 'Credit Note') {
-        this.getInvoiceList(-4);
-        suggestionname = 'Sales Invoice';
-      }
-      this.getStockItems(suggestionname);
     } else if (this.activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-     // this.order.billingaddress = suggestion.address;
-     //getAddressByLedgerId(suggestion.id);
+      this.order.billingaddress = suggestion.address;
     } else if (this.activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
@@ -1011,14 +853,13 @@ export class OrdersComponent implements OnInit {
       const index = parseInt(this.activeId.split('-')[1]);
       this.order.amountDetails[index].warehouse.name = suggestion.name;
       this.order.amountDetails[index].warehouse.id = suggestion.id;
-    } else if (this.activeId.includes('invocelist')) {
-      this.getInvoiceDetail(suggestion.id);
     }
 
   }
 
   openledger(ledger?) {
     console.log('ledger123', ledger);
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 1);
     if (ledger) this.common.params = ledger;
     const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
@@ -1039,9 +880,10 @@ export class OrdersComponent implements OnInit {
       code: ledger.code,
       foid: ledger.user.id,
       per_rate: ledger.perrate,
-      primarygroupid: ledger.undergroup.primarygroup_id,
-      account_id: ledger.undergroup.id,
+      primarygroupid: ledger.account.primarygroup_id,
+      account_id: ledger.account.id,
       accDetails: ledger.accDetails,
+      x_id: 0,
       branchname: ledger.branchname,
       branchcode: ledger.branchcode,
       accnumber: ledger.accnumber,
@@ -1051,11 +893,9 @@ export class OrdersComponent implements OnInit {
       approved: ledger.approved,
       deleteview: ledger.deleteview,
       delete: ledger.delete,
-      x_id: ledger.id ? ledger.id : 0,
-      bankname:ledger.bankname,
       costcenter: ledger.costcenter,
-      taxtype:ledger.taxtype,
-      taxsubtype:ledger.taxsubtype
+      taxtype: ledger.taxtype,
+      taxsubtype: ledger.taxsubtype
     };
 
     console.log('params11: ', params);
@@ -1065,14 +905,7 @@ export class OrdersComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-
         this.getPurchaseLedgers();
-        this.getSupplierLedgers();
-        if (res['data'][0].y_errormsg) {
-          this.common.showToast(res['data'][0].y_errormsg);
-        } else {
-          this.common.showToast('Ledger Has been saved!');
-        }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -1108,7 +941,7 @@ export class OrdersComponent implements OnInit {
     console.log(stockItem);
     // const params ='';
     const params = {
-      foid: 123,
+      //foid: stockItem.user.id,
       name: stockItem.name,
       code: stockItem.code,
       stocksubtypeid: stockItem.stockSubType.id,
@@ -1118,14 +951,15 @@ export class OrdersComponent implements OnInit {
       maxlimit: stockItem.maxlimit,
       isactive: stockItem.isactive,
       inventary: stockItem.inventary,
-      stockunit: stockItem.unit.id, gst:stockItem.gst,
-      details:stockItem.hsndetail,
-      hsnno:stockItem.hsnno,
-      isnon:stockItem.isnon,
-      cess:stockItem.cess,
-     igst:stockItem.igst,
-     taxability:stockItem.taxability,
-     calculationtype:stockItem.calculationtype
+      stockunit: stockItem.unit.id,
+      gst: stockItem.gst,
+      details: stockItem.hsndetail,
+      hsnno: stockItem.hsnno,
+      isnon: stockItem.isnon,
+      cess: stockItem.cess,
+      igst: stockItem.igst,
+      taxability: stockItem.taxability,
+      calculationtype: stockItem.calculationtype
 
     };
 
@@ -1136,9 +970,8 @@ export class OrdersComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        this.getStockItems(this.order.ordertype.name);
-        //   this.getStockItems('purchase');
-        this.common.showToast("Stock item Saved");
+        this.getStockItems('sales');
+        this.getStockItems('purchase');
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -1148,18 +981,13 @@ export class OrdersComponent implements OnInit {
   }
 
   setAutoSuggestion() {
-    console.log('-----------------------:', this.suggestions.stockItems, 'ww:', this.suggestions.warehouses);
     let activeId = document.activeElement.id;
-    console.log('Last Active Id:', activeId)
     if (activeId == 'ordertype') this.autoSuggestion.data = this.suggestions.invoiceTypes;
     else if (activeId == 'purchaseledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
     else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
     else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId.includes('warehouse')) this.autoSuggestion.data = this.suggestions.warehouses;
-    else if (activeId.includes('invocelist')) this.autoSuggestion.data = this.suggestions.invoiceList;
-
-
     else {
       this.autoSuggestion.data = [];
       this.autoSuggestion.display = '';
@@ -1167,7 +995,7 @@ export class OrdersComponent implements OnInit {
       return;
     }
 
-    if (activeId.includes('invocelist')) { this.autoSuggestion.display = 'cust_code'; } else { this.autoSuggestion.display = 'name'; }
+    this.autoSuggestion.display = 'name';
     this.autoSuggestion.targetId = activeId;
     console.log('Auto Suggestion: ', this.autoSuggestion);
   }
@@ -1177,33 +1005,22 @@ export class OrdersComponent implements OnInit {
     if (activeId == 'ordertype') {
       this.order.ordertype.name = suggestion.name;
       this.order.ordertype.id = suggestion.id;
-      let suggestionname = suggestion.name;
-      if (suggestionname == 'Debit Note') {
-        this.getInvoiceList(-2);
-        suggestionname = 'Purchase Invoice';
-      }
-      if (suggestionname == 'Credit Note') {
-        this.getInvoiceList(-4);
-        suggestionname = 'Sales Invoice';
-      }
-      this.getStockItems(suggestionname);
     } else if (activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      this.order.billingaddress = suggestion.address;
+      // this.order.billingaddress = suggestion.address;
       this.getAddressByLedgerId(suggestion.id);
     } else if (activeId == 'purchaseledger') {
-      console.log('>>>>>>>>>',suggestion);
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
-     // this.getAddressByLedgerId(suggestion.id);
+
     } else if (activeId.includes('stockitem')) {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].stockitem.name = suggestion.name;
       this.order.amountDetails[index].stockitem.id = suggestion.id;
       this.order.amountDetails[index].stockunit.name = suggestion.stockname;
       this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
-      if (this.order.ordertype.name.toLowerCase().includes('sales')) this.getStockAvailability(suggestion.id);
+
 
     } else if (activeId.includes('discountledger')) {
       const index = parseInt(activeId.split('-')[1]);
@@ -1213,15 +1030,36 @@ export class OrdersComponent implements OnInit {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].warehouse.name = suggestion.name;
       this.order.amountDetails[index].warehouse.id = suggestion.id;
-      //  this.getStockAvailability(suggestion.id);
-    }
-    else if (activeId.includes('invocelist')) {
-      this.getInvoiceDetail(suggestion.id);
+      this.getStockAvailability(suggestion.id);
     }
   }
 
   findStockitem() {
     return this.totalitem;
+  }
+
+  delete(tblid) {
+    let params = {
+      id: tblid
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete Ledger ',
+        description: `<b>&nbsp;` + 'Are you sure want to delete ? ' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        this.common.loading++;
+        if (data.response) {
+          console.log("data", data);
+          this.order.delete = 1;
+          this.addOrder(this.order);
+          this.activeModal.close({ response: true, ledger: this.order });
+          this.common.loading--;
+        }
+      });
+    }
   }
 
   getStockAvailability(stockid) {
@@ -1246,47 +1084,41 @@ export class OrdersComponent implements OnInit {
   }
 
 
-  openwareHouseModal() {
-    this.common.params = null;
-    const activeModal = this.modalService.open(WareHouseModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-    activeModal.result.then(data => {
-      if (data.response) {
-        this.addWareHouse(data.wareHouse);
-        return;
-      }
-    });
-  }
-  addWareHouse(wareHouse) {
-    console.log('wareHouse', wareHouse);
-    const params = {
-      name: wareHouse.name,
-      foid: 123,
-      parentid: wareHouse.account.id,
-      primarygroupid: wareHouse.account.primarygroup_id,
-      x_id: 0
+  permantdelete(tblid) {
+    let params = {
+      id: tblid,
+      tblidname: 'id',
+      tblname: 'invoice'
     };
-    console.log('params11: ', params);
-    this.common.loading++;
-    this.api.post('Company/InsertWarehouse', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('res: ', res);
-        let result = res['data'][0].save_warehouse;
-        if (result == '') {
-          this.common.showToast("Add Successfull  ");
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete City ',
+        description: `<b>&nbsp;` + 'Are you sure want to delete permanently ?' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Stock/deletetable', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              //this.getStockItems();
+              this.activeModal.close({ response: true, ledger: this.order });
+              this.common.showToast(" This Value Has been Deleted!");
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError('This Value has been used another entry!');
+            });
         }
-        else {
-          this.common.showToast(result);
-        }
-        this.getWarehouses();
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
       });
+    }
   }
 
-  getAddressByLedgerId(id){
+  getAddressByLedgerId(id) {
     let params = {
       ledgerid: id
     };
@@ -1295,17 +1127,16 @@ export class OrdersComponent implements OnInit {
       .subscribe(res => {
         // this.common.loading--;
         console.log('Res ledger<<<<<<<<<<<<:', res['data']);
-        if(res['data'].length>1){
+        if (res['data'].length > 1) {
           this.showAddpopup(res['data']);
 
-        }else{
-          this.order.billingaddress=res['data'][0]['address'];
-        this.order.ledgeraddressid=res['data'][0]['id'];
-
+        } else {
+          this.order.billingaddress = res['data'][0]['address'];
+          this.order.ledgeraddressid = res['data'][0]['id'];
         }
-       // this.totalitem = res['data'][0].get_stockitemavailableqty;
+        // this.totalitem = res['data'][0].get_stockitemavailableqty;
         //  console.log('totalitem : -',totalitem);
-     //   return this.totalitem;
+        //   return this.totalitem;
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -1313,16 +1144,18 @@ export class OrdersComponent implements OnInit {
       });
   }
 
-  showAddpopup(address){
-    console.log('data salutaion :: ??',address);
-    this.common.params={
-      addressdata:address
+  showAddpopup(address) {
+    console.log('data salutaion :: ??', address);
+    this.common.params = {
+      addressdata: address
     };
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 1);
     const activeModal = this.modalService.open(LedgeraddressComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       if (data.response) {
-        console.log('data order responce',data);
-        this.order.billingaddress=data.adddata;
+        console.log('data order responce', data);
+        this.order.billingaddress = data.adddata;
+        this.order.ledgeraddressid = data.addressid;
         return;
       }
     });
@@ -1511,6 +1344,6 @@ let invoiceJson={};
 
     localStorage.setItem('InvoiceJSO', JSON.stringify(invoiceJson));
     this.printService.printInvoice(invoiceJson, 1);
-    this.order = this.setInvoice();
+
   }
 }
