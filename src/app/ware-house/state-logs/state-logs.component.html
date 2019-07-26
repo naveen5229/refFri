@@ -1,38 +1,38 @@
 <nb-card>
-  <nb-card-header>State Logs</nb-card-header>
-<nb-card-body>
-  <div class="container">
-  <div class="row">
-      <div classs="col-3">
-          <select placeholder="Name" class='name' [(ngModel)]="wareHouseId" >
+    <nb-card-header>State Logs</nb-card-header>
+    <nb-card-body>
+        <div class="container">
+            <div class="row">
+                <div classs="col-3">
+                    <select placeholder="Name" class='name' [(ngModel)]="wareHouseId">
             <option *ngFor="let element of dataWareHouse" [value]="element.id">{{element.name}}
             </option>
           </select>
-  </div>
-  <div class="col-3">
-      <select placeholder="Name" class=name [(ngModel)]="stateId">
+                </div>
+                <div class="col-3">
+                    <select placeholder="Name" class=name [(ngModel)]="stateId">
           <option *ngFor="let stateList of dataState" [value]="stateList.id">{{stateList.description}}
 
           </option>
         </select>
-      </div>
-      <div class="col-2" style="margin-left: -91px; ">
-          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
-          </uj-date-time-picker>
+                </div>
+                <div class="col-2" style="margin-left: -91px; ">
+                    <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
+                    </uj-date-time-picker>
+                </div>
+                <div class="col-2">
+                    <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false>
+                    </uj-date-time-picker>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-primary" id="button" (click)="getState()" style="border-radius:2px;padding: 6px 17px;">Submit</button>
+                </div>
+            </div>
         </div>
-        <div class="col-2">
-          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false >
-          </uj-date-time-picker>
+        <div>
+            <smart-table *ngIf="stateData && stateData.length" [data]="table.data" [settings]="table.settings" id="wareHouseInventory">
+            </smart-table>
         </div>
-  <div class="col-2">
-      <button class="btn btn-primary" id="button" (click)="getState()" style="border-radius:2px;padding: 6px 17px;">Submit</button>
-    </div>
-  </div>
-</div>
-  <div>
-      <smart-table *ngIf="stateData && stateData.length" [data]="table.data" [settings]="table.settings" id="wareHouseInventory">
-      </smart-table> 
-    </div>
 
-</nb-card-body>
+    </nb-card-body>
 </nb-card>

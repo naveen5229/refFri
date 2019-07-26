@@ -140,6 +140,15 @@ export class WarehouseInventoryComponent implements OnInit {
     // }
     let startDate = this.startDate != null ? this.common.dateFormatter1(this.startDate) : null;
     let endDate = this.endDate != null ? this.common.dateFormatter1(this.endDate) : null;
+    if(this.request == 1){
+      if(startDate == null){
+        return this.common.showError("Start Date is missing")
+      }
+      else if( endDate == null){
+        return this.common.showError("End Date is missing")
+
+      }
+    }
     const params =
     {
       startDate: startDate,

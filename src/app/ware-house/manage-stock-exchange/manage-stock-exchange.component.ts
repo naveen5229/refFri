@@ -15,6 +15,8 @@ export class ManageStockExchangeComponent implements OnInit {
   Test = null;
   dataItems = []
   itemId = null;
+  itemName = null;
+
   quantityId = null;
   unitTypeId = null;
   unitList = [];
@@ -22,7 +24,9 @@ export class ManageStockExchangeComponent implements OnInit {
   remark = '';
   itemsId = null;
   wareHouseId=20;
-
+  sitesDatalist = [];
+  siteName = null;
+  siteId = null;
   dataReceive=[]
 
   selectOption = "In";
@@ -63,6 +67,7 @@ export class ManageStockExchangeComponent implements OnInit {
     // this.getUnitList();
     this.getItems();
     // this.getStateData();
+  //  this.getAllFoSites()
     this.getWareData();
     // console.log("para", this.common.params)
     // this.quantityId = this.common.params.quantity
@@ -124,17 +129,39 @@ export class ManageStockExchangeComponent implements OnInit {
     )
   }
 
+  // getItems() {
+  //   this.api.get("WareHouse/getWhStockItem").subscribe(
+  //     res => {
+  //       this.dataItems = res['data']
+  //       console.log("autosugg1", this.dataItems[0].id);
+  //       this.itemId= this.dataItems[0].id
+
+  //     }
+  //   )
+  // }
+
   getItems() {
-    this.api.get("WareHouse/getWhStockItem").subscribe(
-      res => {
-        this.dataItems = res['data']
-        console.log("autosugg1", this.dataItems[0].id);
-        this.itemId= this.dataItems[0].id
-
-      }
-    )
+    this.common.loading++;
+    this.api.get('WareHouse/getWhStockItem')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("items",res);
+        this.sitesDatalist = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
+  
+  changeRefernceType(type) {
+    console.log("Type Id", type);
 
+    this.itemId = this.sitesDatalist.find((element) => {
+      console.log(element.name == type);
+      return element.item_name == type;
+    }).id;
+
+  }
 //   getUnitList() {
 //     let params = {
 //       search: ''

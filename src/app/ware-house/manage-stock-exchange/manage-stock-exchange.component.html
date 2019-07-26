@@ -30,11 +30,23 @@
                     </div>
                 </div>
                 <div class="col-2">
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Item Id</label>
                         <select placeholder="Name" class='form-control' [(ngModel)]="itemsId">
                     <option *ngFor="let element of dataItems" [value]="element.id">{{element.item_name}}</option>
                   </select>
+                    </div>
+                </div> -->
+                    <div class="form-group">
+                        <label>Item Id</label>
+                        <input class="form-control" placeholder="Site Name" (change)="changeRefernceType(itemName);" type="text" list="siteDatalist" name="sitedatalist" id="sitedataList" [(ngModel)]="itemName">
+                        <datalist id="siteDatalist">
+                <option *ngFor="let site of sitesDatalist;" [value]="site.item_name">{{site.item_name}}--{{site.id}}
+                </option>
+              </datalist>
+                        <!-- <drop-down-list formControlName="type" [options]="sitesDatalist">
+      
+              </drop-down-list> -->
                     </div>
                 </div>
                 <div class="col-2" *ngIf="selectOption=='Out'; else state2 ">
@@ -102,22 +114,22 @@
       <label>User Details*:</label>
     </div> -->
                 </div>
-                <div class="row align-items-end">
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label>User Detail</label>
-                            <textarea class="form-control" rows="3" cols="70" [(ngModel)]="userInput" placeholder="User Details"></textarea>
-                        </div>
+            </div>
+            <div class="row align-items-end mb-3">
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>User Detail</label>
+                        <textarea class="form-control" rows="3" cols="70" [(ngModel)]="userInput" placeholder="User Details"></textarea>
                     </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label>Remark</label>
-                            <textarea class="form-control" rows="3" cols="70" [(ngModel)]="remark" placeholder="Remark"></textarea>
-                        </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Remark</label>
+                        <textarea class="form-control" rows="3" cols="70" [(ngModel)]="remark" placeholder="Remark"></textarea>
                     </div>
-                    <div class="col-8 text-right">
-                        <button class="btn btn-primary text-capitalize" id="button" (click)="saveStock()" style="border-radius:2px; padding: 5px 15px; margin-right:5px;font-weight:bold">Submit</button>
-                    </div>
+                </div>
+                <div class="col-8 text-right">
+                    <button class="btn btn-primary text-capitalize" id="button" (click)="saveStock()" style="border-radius:2px; padding: 5px 15px; margin-right:5px;font-weight:bold">Submit</button>
                 </div>
             </div>
         </div>
