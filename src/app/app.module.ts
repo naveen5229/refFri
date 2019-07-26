@@ -206,6 +206,7 @@ import { GenericModelComponent } from './modals/generic-model/generic-model.comp
 import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
 import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
 import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
+import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
 
 
 
@@ -384,9 +385,11 @@ import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.c
     GetUserBankInfoComponent,
     UploadDocsComponent,
     OrderdetailComponent,
+    LRRateCalculatorComponent,
 
   ],
   entryComponents: [
+    LRRateCalculatorComponent,
     LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,

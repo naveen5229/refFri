@@ -3,6 +3,7 @@ import { ConfirmComponent } from '../../confirm/confirm.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
+import { LRRateCalculatorComponent } from '../lrrate-calculator/lrrate-calculator.component';
 
 @Component({
   selector: 'lr-rate',
@@ -13,7 +14,6 @@ export class LrRateComponent implements OnInit {
   freightRateparams = [];
   calculatedRate = null;
   rateDiv = true;
-  rateamt = false;
   type = null;
   combineJson = [];
   generalModal = true;
@@ -358,48 +358,18 @@ export class LrRateComponent implements OnInit {
     this.filters[0].shortage = null;
   }
 
-  saveCalculatedRate() {
-    console.log("hello");
-    const params = {
-      refId: this.lrId,
-      refTypeId: 11,
-      isExpense: '' + this.type
-    };
-    ++this.common.loading;
-    console.log("params", params);
-    this.api.post('LorryReceiptsOperation/saveCalculatedRate', params)
-      .subscribe(res => {
-        --this.common.loading;
-        console.log('Api Response:', res['data'][0]);
-        if (res['data'][0].r_id > 0) {
-          this.common.showToast("Sucessfully saved");
-        }
-        else {
-          this.common.showError(res['data'][0].r_msg);
-        }
-      },
-        err => console.error(' Api Error:', err));
-  }
 
 
   calculateRate() {
-    const params = {
+    const refData = {
       refId: this.lrId,
       refTypeId: 11,
       isExpense: '' + this.type
     };
-    ++this.common.loading;
-    console.log("params", params);
-    this.api.post('FrieghtRate/getFrieghtRate', params)
-      .subscribe(res => {
-        --this.common.loading;
-
-        console.log('Api Response:', res);
-        this.calculatedRate = res['data'][0];
-
-      },
-        err => console.error(' Api Error:', err));
-
+    this.common.params = { refData: refData }
+    const activeModal = this.modalService.open(LRRateCalculatorComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    });
   }
-
 }
