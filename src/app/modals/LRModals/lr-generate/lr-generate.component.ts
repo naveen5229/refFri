@@ -69,6 +69,7 @@ export class LrGenerateComponent implements OnInit {
   particulars = [
     {
       material: null,
+      material_id: null,
       articles: null,
       weight: null,
       weight_unit: null,
@@ -157,7 +158,7 @@ export class LrGenerateComponent implements OnInit {
     this.lr.lrNumberText = lrDetails.lrprefix;
   }
   addConsignee() {
-    console.log("open material modal")
+    console.log("open consignee modal")
     const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Data:', data);
@@ -165,6 +166,14 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
+  addTransportAgent() {
+    console.log("open T a. modal")
+    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+
+    });
+  }
   addDriver() {
     this.common.params = { vehicleId: this.vehicleId, vehicleRegNo: this.vehicleRegNo };
     const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -243,6 +252,7 @@ export class LrGenerateComponent implements OnInit {
   addMore() {
     this.particulars.push({
       material: null,
+      material_id: null,
       articles: null,
       weight: null,
       weight_unit: null,
@@ -268,6 +278,12 @@ export class LrGenerateComponent implements OnInit {
     this.taName = taDetail.name;
     this.taId = taDetail.id;
   }
+  setMaterialDetail(material, i) {
+    console.log("material", material)
+    this.particulars[i].material = material.name;
+    this.particulars[i].material_id = material.id;
+  }
+
   material(i) {
     console.log('material-' + i);
     this.particulars[i].material = document.getElementById('material-' + i)['value'];
@@ -392,6 +408,13 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
+  addMaterial() {
+    console.log('add material');
+    // const activeModal = this.modalService.open(LRViewComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    // activeModal.result.then(data => {
+    //   console.log('Date:', data);
+    // });
+  }
 
   getDate() {
 
