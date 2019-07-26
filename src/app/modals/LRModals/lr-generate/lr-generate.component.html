@@ -305,7 +305,7 @@
                 <td>
                   <div class="col-sm-5" style="padding:0px">
                     <input class="form-control" type="text" list="unitTitles" name="companies-type"
-                      [(ngModel)]="particular.weight_unit_name"
+                      [(ngModel)]="particular.weight_unit_name" placeholder="Unit"
                       (change)="getWeightUnitId(particular.weight_unit_name , i)">
                     <datalist id="unitTitles">
                       <option *ngFor="let unitField of unitFields ;" [value]="unitField.name"></option>
@@ -329,7 +329,7 @@
               <tr *ngFor=" let customjsonfield of particular.customjsonfields; let j = index; ">
                 <td>
                   <input class="form-control" type="text" list="otherTitles" name="companies-type"
-                    [(ngModel)]="customjsonfield.field1">
+                    [(ngModel)]="customjsonfield.field1" placeholder="Select Field">
                   <datalist id="otherTitles">
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
@@ -345,7 +345,7 @@
                 </td>
                 <td>
                   <input class="form-control" type="text" list="otherTitles" name="companies-type"
-                    [(ngModel)]="customjsonfield.field2">
+                    [(ngModel)]="customjsonfield.field2" placeholder="Select Field">
                   <datalist id="otherTitles">
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
@@ -361,7 +361,7 @@
                 </td>
                 <td>
                   <input class="form-control" type="text" list="otherTitles" name="companies-type"
-                    [(ngModel)]="customjsonfield.field3">
+                    [(ngModel)]="customjsonfield.field3" placeholder="Select Field">
                   <datalist id="otherTitles">
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
@@ -377,7 +377,7 @@
                 </td>
                 <td>
                   <input class="form-control" type="text" list="otherTitles" name="companies-type"
-                    [(ngModel)]="customjsonfield.field4">
+                    [(ngModel)]="customjsonfield.field4" placeholder="Select Field">
                   <datalist id="otherTitles">
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
@@ -394,8 +394,8 @@
 
                 <td>
 
-                  <i class="fa fa-plus add" (click)="addField(i)" *ngIf="j == particular.customjsonfields.length-1"></i>
-                  <i class="fa fa-trash remove" (click)="particular.customjsonfields.splice(i,1)" *ngIf="j !== 0"></i>
+                  <i class="fa fa-plus " (click)="addField(i)" *ngIf="j == particular.customjsonfields.length-1"></i>
+                  <i class="fa fa-trash " (click)="particular.customjsonfields.splice(i,1)" *ngIf="j !== 0"></i>
 
                 </td>
               </tr>

@@ -203,6 +203,7 @@ import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/ed
 import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
 import { GenericModelComponent } from './modals/generic-model/generic-model.component';
+import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
 
 
 
@@ -378,9 +379,11 @@ import { GenericModelComponent } from './modals/generic-model/generic-model.comp
     EditViaRoutesPointsComponent,
     LrRateComponent,
     LedgeraddressComponent,
+    LRRateCalculatorComponent,
 
   ],
   entryComponents: [
+    LRRateCalculatorComponent,
     LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
