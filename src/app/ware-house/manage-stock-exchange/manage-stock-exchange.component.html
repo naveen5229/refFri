@@ -41,15 +41,11 @@
                 </div> -->
                     <div class="form-group">
                         <label>Item Id</label>
-                        <input class="form-control" placeholder="Site Name" (change)="changeRefernceType(itemName);" type="text" list="siteDatalist" name="sitedatalist" id="sitedataList" [(ngModel)]="itemName">
-                        <datalist id="siteDatalist">
-                <option *ngFor="let site of sitesDatalist;" [value]="site.item_name">{{site.item_name}}
-                </option>
-              </datalist>
-                        <!-- <drop-down-list formControlName="type" [options]="sitesDatalist">
+                        <auto-suggestion [data]="sitesDatalist" display="item_name" (onSelected)="changeRefernceType($event)" inputId="itemId"></auto-suggestion>
+                    </div>
+                    <!-- <drop-down-list formControlName="type" [options]="sitesDatalist">
       
               </drop-down-list> -->
-                    </div>
                 </div>
                 <div class="col-2" *ngIf="selectOption=='Out'; else state2 ">
                     <div class="form-group">
@@ -84,6 +80,12 @@
         </option>
       </select>
     </div> -->
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Remaining Quantity</label>
+                        <input type="number" class="form-control" [(ngModel)]="remainingQuantityId" placeholder=" Remaining Quantity">
+                    </div>
+                </div>
 
                 <div class="col-2">
                     <div class="form-group">
@@ -92,18 +94,13 @@
                     </div>
                 </div>
 
-                <div class="col-4">
-                    <div class="form-group">
-                        <label>Date And Time</label>
-                        <uj-date-time-picker (onChanged)="Date=$event" [dateTimeValue]="Date">
-                        </uj-date-time-picker>
-                    </div>
-                    <!-- <div class="col-3">
+
+                <!-- <div class="col-3">
       <uj-date-time-picker (onChanged)=   [dateTimeValue]= [style="width:215px">
       </uj-date-time-picker>
     </div> -->
-                    <!-- </div> -->
-                    <!-- <div class="row" style="margin-bottom:10px">
+                <!-- </div> -->
+                <!-- <div class="row" style="margin-bottom:10px">
     <div class="col-3">
       <label>Remark:</label>
     </div>
@@ -112,27 +109,33 @@
     </div>
   </div>
   <div class="row"> -->
-                    <!-- <div class="col-2">
+                <!-- <div class="col-2">
       <label>User Details*:</label>
     </div> -->
+            </div>
+        </div>
+        <div class="row align-items-end mb-3">
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Date And Time</label>
+                    <uj-date-time-picker (onChanged)="Date=$event" [dateTimeValue]="Date">
+                    </uj-date-time-picker>
                 </div>
             </div>
-            <div class="row align-items-end mb-3">
-                <div class="col-2">
-                    <div class="form-group">
-                        <label>User Detail</label>
-                        <textarea class="form-control" rows="3" cols="70" [(ngModel)]="userInput" placeholder="User Details"></textarea>
-                    </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label>User Detail</label>
+                    <textarea class="form-control" rows="3" cols="70" [(ngModel)]="userInput" placeholder="User Details"></textarea>
                 </div>
-                <div class="col-2">
-                    <div class="form-group">
-                        <label>Remark</label>
-                        <textarea class="form-control" rows="3" cols="70" [(ngModel)]="remark" placeholder="Remark"></textarea>
-                    </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Remark</label>
+                    <textarea class="form-control" rows="3" cols="70" [(ngModel)]="remark" placeholder="Remark"></textarea>
                 </div>
-                <div class="col-8 text-right">
-                    <button class="btn btn-primary text-capitalize" id="button" (click)="saveStock()" style="border-radius:2px; padding: 5px 15px; margin-right:5px;font-weight:bold">Submit</button>
-                </div>
+            </div>
+            <div class="col-4 text-right">
+                <button class="btn btn-primary text-capitalize" id="button" (click)="getAdvice()" style="border-radius:2px; padding: 5px 15px; margin-right:5px;font-weight:bold">Submit</button>
             </div>
         </div>
 

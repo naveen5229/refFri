@@ -3,6 +3,8 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { PARAMETERS } from '@angular/core/src/util/decorators';
+import { identifierModuleUrl } from '@angular/compiler';
 
 @Component({
   selector: 'manage-stock-exchange',
@@ -42,7 +44,7 @@ export class ManageStockExchangeComponent implements OnInit {
     }
 
   };
-
+  remainingQuantityId=null
   headings = [];
   valobj = {};
   stateType = [{
@@ -53,7 +55,7 @@ export class ManageStockExchangeComponent implements OnInit {
     id: null,
     name: null
   }];
-  userInput = '';
+  userInput = null;
   StateId = null;
   boolean = 0;
   stateFind = null;
@@ -65,7 +67,7 @@ export class ManageStockExchangeComponent implements OnInit {
     ,
     public activeModal: NgbActiveModal) {
     // this.getUnitList();
-    this.getItems();
+    // this.getItems();
     this.getStateData();
   //  this.getAllFoSites()
     this.getWareData();
@@ -124,6 +126,8 @@ export class ManageStockExchangeComponent implements OnInit {
       res => {
         this.dataReceive = res['data']
         console.log("autosugg", this.dataReceive);
+        this.wareHouseId
+       this.getItems();
 
       }
     )
@@ -141,8 +145,10 @@ export class ManageStockExchangeComponent implements OnInit {
   // }
 
   getItems() {
+    const params=`whId=${this.wareHouseId}`
+    console.log("id",params)
     this.common.loading++;
-    this.api.get('WareHouse/getWhStockItem')
+    this.api.get('WareHouse/getWhStockItem?' + params)
       .subscribe(res => {
         this.common.loading--;
         console.log("items",res);
@@ -154,14 +160,18 @@ export class ManageStockExchangeComponent implements OnInit {
   }
   
   changeRefernceType(type) {
-    console.log("Type Id", type);
-
     this.itemId = this.sitesDatalist.find((element) => {
       console.log(element.name == type);
-      // return element.item_name == type;
+     
+      return element.id == type.id;
     }).id;
-   this.getStateData()
-
+    this.remainingQuantityId = this.sitesDatalist.find((element) => {
+      console.log(element.name == type);
+     
+      return element.rem_qty == type.rem_qty;
+    }).rem_qty;
+    console.log("pa",this.remainingQuantityId)
+    this.getStateData()
   }
 //   getUnitList() {
 //     let params = {
@@ -204,55 +214,82 @@ export class ManageStockExchangeComponent implements OnInit {
 
 
 
-
-//   getAdvice() {
-//     console.log(this.selectOption);
-//     if(!this.StateId){
-//       this.common.showError("State Type Missing");
-//       return;
-//     }
-//     if (this.selectOption == 'Out') {
-//       console.log("stateFind", this.selectOption);
-//       if (this.quantityId === this.stateFind) {
-//         this.common.params = {
-//           title: 'Closing Stock',
-//           description: 'Are you sure you want close this stock?'
-//         };
-//         console.log("Inside confirm model")
-//         const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
-//         activeModal.result.then(data => {
-//           if (data.response) {
-//             console.log('res', data.response);
-//             this.boolean = 1;
-//             this.saveStock();
-//           }
-//         });
-        
-//       }
-//       else if (this.quantityId > this.stateFind) {
-//         console.log("out1")
-//         return this.common.showError("Quantity should be less  than  and equal  your stock ");
-//       }
-//       else if(this.quantityId < this.stateFind){
-//       this.saveStock();
-//       }
-//       // else if(this.quantityId<0)
-//       // {
-//       //   return this.common.showError("Quantity should not be nagative ");
-
-//       // }
+  getAdvice() {
+    console.log(this.selectOption);
+    console.log(this.remainingQuantityId);
+    if(!this.StateId){
+      this.common.showError("State Type Missing");
+      return;
+    }
+   else if(this.quantityId < 0){
+      return this.common.showError("Quantity should not  be in nagative ");
   
-//     } 
-//     else if( this.selectOption == 'In'){
-//       this.saveStock();
-//     //  if(this.quantityId<0)
-//     // {
-//     //   return this.common.showError("Quantity should not be nagative ");
+     }
+     else if(this.userInput == null){
+      return this.common.showError("User Detail is missing");
 
-//     // }
+     }
+   else  if (this.selectOption == 'Out') {
+      console.log("stateFind", this.selectOption);
+      if(this.quantityId== 0)
+      {
+        return this.common.showError("You have no items in stock ");
 
-//   }
-// }
+      }
+  
+    else if (this.quantityId == this.remainingQuantityId) {
+        this.common.params = {
+          title: 'Closing Stock',
+          description: 'Are you sure you want close this stock?',
+          btn2:"No",
+          btn1:'Yes'
+        };
+        console.log("Inside confirm model")
+        const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
+        activeModal.result.then(data => {
+          console.log('res', data);
+          if (data.response) {
+            this.boolean = 1;
+            this.saveStock();
+          }
+          else if(data.apiHit==0){
+            this.boolean = 0;
+            this.saveStock();
+          }
+      
+        });
+        
+      }
+      else if (this.quantityId > this.remainingQuantityId) {
+        console.log("out1")
+        return this.common.showError("Quantity should be less  than  and equal  your stock ");
+      }
+      else if(this.quantityId < this.remainingQuantityId){
+      this.saveStock();
+      }
+
+   
+     
+
+     
+  
+    } 
+    else if( this.selectOption == 'In'){
+      this.saveStock();
+    //  if(this.quantityId<0)
+    // {
+    //   return this.common.showError("Quantity should not be nagative ");
+
+    }
+  
+
+  
+ 
+
+    
+    
+    
+  }
   
 saveStock(){
   let TDate = this.common.dateFormatter(this.Date);
@@ -266,10 +303,7 @@ const params = {
   remarks:this.remark
 
 }
-if(this.quantityId < 0){
-  return this.common.showError("Quantity should not  be in nagative ");
 
- }
 console.log("result", params)
 this.common.loading++;
 this.api.post('WareHouse/saveWhStockItemState', params)

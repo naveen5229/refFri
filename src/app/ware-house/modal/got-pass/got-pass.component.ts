@@ -242,10 +242,10 @@ export class GotPassComponent implements OnInit {
     isClose: this.boolean
 
   }
-//  if(this.quantityId < 0){
-//     return this.common.showError("Quantity should not  be in nagative ");
+ if( this.userInput== null){
+    return this.common.showError("Detail is required ");
 
-//    }
+   }
 
   console.log("result", params)
   this.common.loading++;
