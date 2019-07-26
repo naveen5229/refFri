@@ -260,7 +260,8 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
   selectLocation(place) {
     console.log("palce", place);
-    this.placementSite = null;
+    this.placementSite = place.id;
+    this.vehicleTrip.siteId = null;
     this.vehicleTrip.endLat = place.lat;
     this.vehicleTrip.endLng = place.long;
     this.vehicleTrip.endName = place.location || place.name;
@@ -284,21 +285,24 @@ export class VehicleTripUpdateComponent implements OnInit {
       if (this.keepGoing && this.searchString.length) {
         this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
-          console.log('response----', res.location);
-          this.keepGoing = true;
-          if (res.location.lat) {
-            this.vehicleTrip.endName = res.location.name;
-
-            (<HTMLInputElement>document.getElementById('endname')).value = this.vehicleTrip.endName;
-            this.vehicleTrip.endLat = res.location.lat;
-            this.vehicleTrip.endLng = res.location.lng;
-            this.placementSite = null;
+          if (res != null) {
+            console.log('response----', res, res.location, res.id);
             this.keepGoing = true;
+            if (res.location.lat) {
+              this.vehicleTrip.endName = res.location.name;
+
+              (<HTMLInputElement>document.getElementById('endname')).value = this.vehicleTrip.endName;
+              this.vehicleTrip.endLat = res.location.lat;
+              this.vehicleTrip.endLng = res.location.lng;
+              this.placementSite = null;
+              this.keepGoing = true;
+            }
           }
         })
+
       }
     }, 1000);
 

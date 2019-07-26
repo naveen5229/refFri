@@ -191,7 +191,7 @@ export class OrderComponent implements OnInit {
           this.order.amountDetails[index].qty = invoiceDetail.y_dtl_qty;
           this.order.amountDetails[index].rate = invoiceDetail.y_dtl_rate;
           this.order.amountDetails[index].lineamount = invoiceDetail.y_dtl_lineamount;
-          this.order.amountDetails[index].remarks = invoiceDetail.y_invoice_remarks;
+          this.order.amountDetails[index].remarks = invoiceDetail.y_dtl_remarks;
           this.order.amountDetails[index].amount = parseFloat(invoiceDetail.y_dtl_amount);
           this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
@@ -448,14 +448,15 @@ export class OrderComponent implements OnInit {
   TaxDetails(i) {
     this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 1);
     this.common.params = {
-      taxDetail: this.order.amountDetails[i].taxDetails,
+      taxDetail: JSON.parse(JSON.stringify(this.order.amountDetails[i].taxDetails)),
       amount: this.order.amountDetails[i].amount
     };
+    console.log('????????',this.common.params);
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
     activeModal.result.then(data => {
-      console.log('tax Detail Data new : ', data);
+      console.log('tax Detail Data new : ', data,'addidas',this.order.amountDetails[i].taxDetails);
       if (data.response) {
-        console.log(data.taxDetails);
+        console.log('{{----}}',data);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
         this.order.amountDetails[i].lineamount = 0;
         this.order.amountDetails[i].lineamount = this.order.amountDetails[i].amount + data.taxDetails[0].totalamount;//this.order.amountDetails[i].amount+data.taxDetails[0].totalamount

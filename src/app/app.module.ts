@@ -205,6 +205,8 @@ import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeradd
 import { GenericModelComponent } from './modals/generic-model/generic-model.component';
 import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
 import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
+import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
+
 
 
 @NgModule({
@@ -381,6 +383,8 @@ import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component'
     LedgeraddressComponent,
     GetUserBankInfoComponent,
     UploadDocsComponent,
+    OrderdetailComponent,
+
   ],
   entryComponents: [
     LrRateComponent,
@@ -552,6 +556,7 @@ import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component'
     LedgeraddressComponent,
     GetUserBankInfoComponent,
     UploadDocsComponent,
+    OrderdetailComponent,
 
   ],
   imports: [
