@@ -15,7 +15,8 @@
                             <label>Material<span class="text-red">*</span></label>
                         </div>
                         <div class="col-2">
-                            <auto-suggestion class="w-100" (onSelected)="lr.material_id=($event.id)" id="GetMaterialTypes" name="GetMaterialTypes" url="Suggestion/GetMaterialTypes" display="name" placeholder="Enter value" style="width:75%; display: inline-block">
+                            <auto-suggestion class="w-100" (onSelected)="lr.material_id=($event.id)" (focusout)="select('GetMaterialTypes')" inputId="GetMaterialTypes" name="GetMaterialTypes" url="Suggestion/GetMaterialTypes" display="name" placeholder="Enter value" style="width:75%; display: inline-block"
+                                [preSelected]="{name:material}">
                             </auto-suggestion>
                             <div *ngIf="lr.material_id==null && isFormSubmit" class="err">
                                 <span>

@@ -19,7 +19,7 @@ export class CompanyAssociationComponent implements OnInit {
   branchs=[];
   cmpAlias=null;
   branchId=null;
-  update=false;
+  Update=false;
   name=null;
   userCmpnyId=this.common.params.cmpId;
   assocId=null;
@@ -87,15 +87,19 @@ export class CompanyAssociationComponent implements OnInit {
     this.api.post('ManageParty/addCompanyAssoc', params)
       .subscribe(res => {
       --this.common.loading; 
-      if(res['success']){
-        this.update=true;
-        this.activeModal.close({ response: this.update });
-      }    
-      },
-        err => {
-          --this.common.loading;
-          console.error(' Api Error:', err)
-        });
+            console.log("Testing")
+            if (res['data'][0].y_id > 0) {
+              this.common.showToast(res['data'][0].y_msg);
+              this.Update = true;
+              this.activeModal.close({ response: this.Update });
+            } else {
+              this.common.showError(res['data'][0].y_msg)
+            }
+          },
+            err => {
+              --this.common.loading;
+              console.error(' Api Error:', err)
+            });
   }
 
 }

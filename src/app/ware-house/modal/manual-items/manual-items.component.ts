@@ -15,6 +15,7 @@ export class ManualItemsComponent implements OnInit {
   isFormSubmit = false;
   startDate=new Date();
   Today=new Date();
+  material=null;
   selectLr=[{
     material_id:null,
     unitype_id:null,
@@ -69,6 +70,12 @@ export class ManualItemsComponent implements OnInit {
       qty:null,
       remarks:null
     });
+  }
+  select(GetMaterialTypes){
+    console.log("8888888");
+    if(this.selectLr['material_id']==null){
+      document.getElementById(GetMaterialTypes)['value'] = ''
+    }
   }
 
   saveLr(){

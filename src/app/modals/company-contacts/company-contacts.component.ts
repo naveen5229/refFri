@@ -25,7 +25,7 @@ export class CompanyContactsComponent implements OnInit {
   userCmpnyId=this.common.params.cmpId;
   assCmpnyId=null;
   contactId=null;
-  update=false;
+  Update=false;
   constructor(public api:ApiService,
     public activeModal:NgbActiveModal,
     public common:CommonService) {
@@ -76,11 +76,15 @@ export class CompanyContactsComponent implements OnInit {
     console.log("params", params);
     this.api.post('ManageParty/saveCompContacts', params)
       .subscribe(res => {
-      --this.common.loading; 
-      if(res['success']){
-        this.update=true;
-        this.activeModal.close({ response: this.update });
-      }    
+        --this.common.loading; 
+        console.log("Testing")
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
+          this.Update = true;
+          this.activeModal.close({ response: this.Update });
+        } else {
+          this.common.showError(res['data'][0].y_msg)
+        }
       },
         err => {
           --this.common.loading;

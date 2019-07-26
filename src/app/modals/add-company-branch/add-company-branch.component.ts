@@ -144,6 +144,7 @@ export class AddCompanyBranchComponent implements OnInit {
         this.api.post('ManageParty/saveCompanyBranch', params)
           .subscribe(res => {
             --this.common.loading;
+            console.log("Testing")
             if (res['data'][0].y_id > 0) {
               this.common.showToast(res['data'][0].y_msg);
               this.Update = true;
