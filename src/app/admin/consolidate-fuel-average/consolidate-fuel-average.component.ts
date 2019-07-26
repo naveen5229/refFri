@@ -34,10 +34,19 @@ export class ConsolidateFuelAverageComponent implements OnInit {
     this.startTime = new Date(today.getFullYear(), today.getMonth(), 1);
     //this.startTime = new Date(today.setDate(today.getDate() - day + 1));
     this.getConsolidateFuelAvg();
+    this.common.refresh = this.refresh.bind(this);
+    
+
   }
 
   ngOnInit() {
   }
+
+  
+  refresh() {
+    console.log('Refresh');
+    this.getConsolidateFuelAvg();
+    }
   getConsolidateFuelAvg() {
     console.log('startTime', this.startTime);
     this.consolFuelAvg = [];

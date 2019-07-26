@@ -37,11 +37,17 @@ export class FrieghtRateInputComponent implements OnInit {
     public common: CommonService,
     public api: ApiService) {
     this.getFrieghtRate();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
+  refresh() {
+
+    this.getFrieghtRate();
+  }
   getFrieghtRate() {
 
     let startDate = this.common.dateFormatter(this.startDate);

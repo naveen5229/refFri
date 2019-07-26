@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
+import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
 @Component({
   selector: 'ledgerview',
   templateUrl: './ledgerview.component.html',
@@ -216,7 +217,7 @@ export class LedgerviewComponent implements OnInit {
     console.log('Active event', event);
     if (key == 'enter' && !this.activeId && this.ledgerData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.ledgerData[this.selectedRow].y_ledger_id,'');
+      this.getBookDetail(this.ledgerData[this.selectedRow].y_ledger_id,'','');
       return;
     }
     if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
@@ -309,8 +310,23 @@ export class LedgerviewComponent implements OnInit {
     }, 100);
   }
 
-  getBookDetail(voucherId,vouhercode) {
-    console.log('vouher id', voucherId);
+  getBookDetail(voucherId,vouhercode,ytype) {
+    console.log('vouher id', voucherId,'ytype',ytype);
+    if((ytype.toLowerCase().includes('purchase')) || (ytype.toLowerCase().includes('sales'))){
+      this.common.params = {
+        invoiceid: voucherId,
+        delete: 0
+      };
+      const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          console.log('open succesfull');
+  
+          // this.addLedger(data.ledger);
+        }
+      });
+    }else{
     this.common.params={
 
       vchid :voucherId,
@@ -329,5 +345,6 @@ export class LedgerviewComponent implements OnInit {
         //  this.addStockSubType(data.stockSubType)
       }
     });
+  }
   }
 }

@@ -2,18 +2,17 @@
     <nb-card-header class="fuel-indent">
         <span>
             <h5>Fuel Indent</h5>
-
         </span>
     </nb-card-header>
     <nb-card-body>
         <div class="fuel-indent">
             <div class="row mb-3">
-                <div class="col-1">
-
+                <div class="col-1 pr-0">
                     <label>Start Date</label>
                 </div>
                 <div class="col-2">
-                    <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate" [isTime]=false>
+                    <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate"
+                        [isTime]=false>
                     </uj-date-time-picker>
                 </div>
                 <div class="col-1">
@@ -26,21 +25,21 @@
                 <div class="col-2">
                     <select class="form-control" name="dropDown" id="dropDown" [(ngModel)]="vehicleType">
                         <option *ngFor="let status of dropDown1" [value]="status.id">
-                          {{status.name}}
+                            {{status.name}}
                         </option>
-                      </select>
+                    </select>
                 </div>
                 <div class="col-2">
                     <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="vehicleStatus">
                         <option *ngFor="let status of dropDown2" [value]="status.id">
-                          {{status.name}}
+                            {{status.name}}
                         </option>
-                      </select>
+                    </select>
                 </div>
                 <div class="col-1 pr-0 pl-0">
                     <button type="button" class="btn btn-primary w-100" (click)="getFuelIndent()">submit</button>
                 </div>
-                <div class="col-1 pr-0">
+                <div class="col-1">
                     <button type="button" class="btn btn-primary w-100" (click)="addFuelIndent('Add')">Add</button>
                 </div>
 

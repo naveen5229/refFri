@@ -25,11 +25,18 @@ export class FoFsMappingComponent implements OnInit {
     private datePipe: DatePipe
   ) {
     this.getFoFsMapping();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
+  
+  refresh() {
+    console.log('Refresh');
+    this.getFoFsMapping(); 
+   }
   getFoFsMapping() {
     this.common.loading++;
     this.api.get('Fuel/getFoFsMapping')
