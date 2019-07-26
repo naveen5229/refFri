@@ -57,15 +57,15 @@ export class LorryRecciptsComponent implements OnInit {
 
   }
 
-  refresh() {
-    this.getLorryReceipts();
-  }
 
 
   ngOnInit() {
   }
 
+  refresh() {
 
+    this.getLorryReceipts();
+  }
   getLorryReceipts() {
 
     if (this.tempendTime < this.tempstartTime) {

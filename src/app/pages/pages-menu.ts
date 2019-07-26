@@ -9,7 +9,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Dashboard - Trips',
-        icon: 'nb-home',
+        icon: 'fa fa-home',
         link: '/pages/dashboard',
         home: true,
       },
@@ -92,19 +92,19 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Tickets',
-        icon: 'nb-notifications',
+        icon: 'fas fa-ticket-alt',
         link: '/pages/tickets',
         home: true,
       },
       {
         title: 'Card Mapping',
-        icon: 'nb-notifications',
+        icon: 'fas fa-map-marked-alt',
         link: '/pages/card-mapping',
         home: true,
       },
       {
         title: 'Tickets All',
-        icon: 'nb-title',
+        icon: 'fas fa-ticket-alt',
         link: '/pages/tickets-all',
         home: true,
       },
@@ -126,41 +126,47 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-distance-with-odometer',
         home: true,
       },
+      {
+        title: 'Site',
+        icon: 'fas fa-map-marked-alt',
+        link: '/pages/sites',
+        home: true,
+      },
     ]
   },
   {
     title: 'Receipt & Invoice',
-    icon: 'nb-list',
+    icon: 'fa fa-list',
     children: [
       {
         title: 'Freight Rate Input',
-        icon: 'nb-list',
+        icon: 'fas fa-list',
         link: '/pages/frieght-rate-input',
       },
       {
         title: 'LR-Invoice Columns',
-        icon: 'nb-list',
+        icon: 'fas fa-file-invoice',
         link: '/pages/lr-invoice-columns',
       },
 
       {
         title: 'Freight Invoice',
-        icon: 'nb-list',
+        icon: 'fas fa-file-invoice-dollar',
         link: '/pages/freight-invoices',
       },
       {
         title: 'Transfer',
-        icon: 'nb-list',
+        icon: 'fas fa-dolly-flatbed',
         link: '/pages/transfers',
       },
       {
         title: 'Freight Expenses/Revenue',
-        icon: 'nb-list',
+        icon: 'fas fa-search-dollar',
         link: '/pages/freight-expenses',
       },
       {
         title: 'Lorry Receipts',
-        icon: 'nb-list',
+        icon: 'fas fa-receipt',
         link: '/pages/lorry-receipts',
       },
 
@@ -242,6 +248,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicles',
         home: true,
       },
+      
     ]
   },
 
@@ -384,7 +391,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Accounts',
-    icon: 'fa fa-money',
+    icon: 'fas fa-money-bill-alt',
     link: '/accounts/dashboard'
   },
   {
@@ -394,7 +401,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Ware-House',
-    icon: 'fas fa-tools',
+    icon: 'fas fa-warehouse',
     link: '/ware-house/ware-house-receipts'
   },
 

@@ -49,9 +49,16 @@ export class LorryReceiptDetailsComponent implements OnInit {
     this.fromDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 6)));
     console.log('dates start and end', this.endDate, this.fromDate);
     this.getPendingLr();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
+
   ngOnInit() {
+  }
+  refresh() {
+    console.log('Refresh');
+    this.getPendingLr();
   }
 
   setModalData() {
