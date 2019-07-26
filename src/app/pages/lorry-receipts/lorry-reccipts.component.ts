@@ -32,6 +32,8 @@ export class LorryRecciptsComponent implements OnInit {
   lrType = "2";
   lrCategory = -1;
   vehicleType = -1;
+  tempstartTime = null;
+  tempendTime = null;
   // showMsg = false;
   constructor(
     public api: ApiService,
@@ -44,9 +46,12 @@ export class LorryRecciptsComponent implements OnInit {
 
     let today;
     today = new Date();
+    this.tempendTime = today;
+    this.tempstartTime = new Date(today.setDate(today.getDate() - 15));
+    today = new Date();
     this.endDate = this.common.dateFormatter(today);
     this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
-    console.log('dates ', this.endDate, this.startDate)
+    console.log('dates ', this.endDate, this.startDate);
     this.getLorryReceipts();
     this.common.refresh = this.refresh.bind(this);
 
@@ -62,7 +67,11 @@ export class LorryRecciptsComponent implements OnInit {
 
 
   getLorryReceipts() {
-    console.log('viewtype:', this.viewType);
+
+    if (this.tempendTime < this.tempstartTime) {
+      this.common.showError("End Date Should be greater than Start Date");
+      return 0;
+    }
     var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
     let params = {
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
@@ -217,12 +226,13 @@ export class LorryRecciptsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         if (type == 'start') {
+          this.tempstartTime = data.date;
           this.startDate = '';
           return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
           console.log('fromDate', this.startDate);
         }
         else {
-
+          this.tempendTime = data.date;
           this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
           // return this.endDate = date.setDate( date.getDate() + 1 )
           console.log('endDate', this.endDate);
