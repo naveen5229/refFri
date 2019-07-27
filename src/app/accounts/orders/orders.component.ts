@@ -329,7 +329,10 @@ export class OrdersComponent implements OnInit {
       if (this.accountService.selected.financialYear.isfrozen == true) {
         this.common.showError('This financial year is freezed. Please select currect financial year');
         return;
-      } else {
+      }else if (this.order.amountDetails[1].amount == 0) {
+        this.common.showError('Please fill correct amount');
+        return;
+      }else {
         let voucherDate = this.common.dateFormatter(this.common.convertDate(this.order.date), 'y', false);
         if (voucherDate < this.accountService.selected.financialYear.startdate || voucherDate > this.accountService.selected.financialYear.enddate) {
           this.common.showError('Please Select Correct Financial Year');
@@ -350,6 +353,12 @@ export class OrdersComponent implements OnInit {
   }
 
   TaxDetails(i) {
+    if(this.order.amountDetails[i].amount==0){
+      console.log('test hello again',this.order.amountDetails[i].amount,i);
+      this.common.showError('Please fill correct amount');      
+      this.setFoucus('rate'+i);
+      
+      }else{
     this.common.params={
       taxDetail : this.order.amountDetails[i].taxDetails,
      amount : this.order.amountDetails[i].amount
@@ -369,6 +378,7 @@ export class OrdersComponent implements OnInit {
       }
     });
   }
+}
 
   onSelected(selectedData, type, display) {
     this.order[type].name = selectedData[display];
@@ -595,7 +605,12 @@ export class OrdersComponent implements OnInit {
         }
       } else if (this.activeId.includes('rate')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
+        if(this.order.amountDetails[index].amount==0){
+          console.log('test hello',this.order.amountDetails[index].amount,index);
+          this.common.showError('Please fill correct amount');      
+          this.setFoucus('rate'+index);
+          }
+      else if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
           this.setFoucus('submit');
         }
         else {

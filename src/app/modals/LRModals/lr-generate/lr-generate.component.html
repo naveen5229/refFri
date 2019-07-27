@@ -88,8 +88,13 @@
               <td><label>T.A. Name</label></td>
 
               <td>
-                <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent" display="name"
-                  placeholder=" Search Transport Agent Name" [preSelected]="{name:taName,id:taId}"></auto-suggestion>
+                <span>
+                  <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent" display="name"
+                    placeholder=" Search Transport Agent Name" [preSelected]="{name:taName,id:taId}" style="width:100%;"
+                    class="col-md-9 auto-suggest">
+                  </auto-suggestion>
+                  <i class="fa fa-plus add col-md-3" (click)="addTransportAgent()"></i>
+                </span>
               </td>
             </tr>
             <tr>
@@ -277,7 +282,8 @@
           </tbody>
         </table>
         <div class="material_details">
-          <h5>Material Details <i class="fa fa-list add" (click)="addFoField()"></i></h5>
+          <h5>Material Details <i class="fa fa-list add" (click)="addFoField()"></i> &nbsp;&nbsp; <i
+              class="fa fa-plus add" (click)="addMaterial()"></i></h5>
           <table class="table table-bordered">
             <tbody *ngFor="let particular of particulars; let i = index;">
               <tr>
@@ -285,7 +291,7 @@
                   <label> Material </label>
                 </td>
                 <td>
-                  <auto-suggestion (onSelected)="particular.material=$event.name" url="Suggestion/GetMaterialTypes"
+                  <auto-suggestion (onSelected)="setMaterialDetail($event,i)" url="Suggestion/GetMaterialTypes"
                     display="name" placeholder="Material Name" [preSelected]="{name:particular.material}"
                     [inputId]="'material-' + i">
                   </auto-suggestion>
@@ -296,7 +302,7 @@
                   <label>No. of Articles </label>
                 </td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="particular.articles" (focus)="material(i)">
+                  <input type="text" class="form-control" [(ngModel)]="particular.articles">
                 </td>
                 <td>
                   <label style="width:50%">

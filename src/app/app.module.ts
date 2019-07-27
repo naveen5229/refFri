@@ -203,9 +203,15 @@ import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/ed
 import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
 import { GenericModelComponent } from './modals/generic-model/generic-model.component';
+import { AddReceiptsComponent } from './modals/add-receipts/add-receipts.component';
 import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
 import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
 import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
+import { AddCompanyBranchComponent } from './modals/add-company-branch/add-company-branch.component';
+import { CompanyAssociationComponent } from './modals/company-association/company-association.component';
+import { CompanyEstablishmentComponent } from './modals/company-establishment/company-establishment.component';
+import { CompanyContactsComponent } from './modals/company-contacts/company-contacts.component';
+import { AddMaterialComponent } from './modals/LRModals/add-material/add-material.component';
 import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
 
 
@@ -382,9 +388,15 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     EditViaRoutesPointsComponent,
     LrRateComponent,
     LedgeraddressComponent,
+    AddReceiptsComponent,
     GetUserBankInfoComponent,
     UploadDocsComponent,
     OrderdetailComponent,
+    AddCompanyBranchComponent,
+    CompanyAssociationComponent,
+    CompanyEstablishmentComponent,
+    CompanyContactsComponent,
+    AddMaterialComponent,
     LRRateCalculatorComponent,
 
   ],
@@ -557,9 +569,15 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     EditViaRoutesPointsComponent,
     TripSettlementComponent,
     LedgeraddressComponent,
+    AddReceiptsComponent,
     GetUserBankInfoComponent,
     UploadDocsComponent,
     OrderdetailComponent,
+    AddCompanyBranchComponent,
+    CompanyAssociationComponent,
+    CompanyEstablishmentComponent,
+    CompanyContactsComponent,
+    AddMaterialComponent,
 
   ],
   imports: [
