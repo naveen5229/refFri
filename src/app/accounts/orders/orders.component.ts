@@ -21,6 +21,7 @@ import { PrintService } from '../../services/print/print.service';
 })
 export class OrdersComponent implements OnInit {
   showConfirm = false;
+  suggestionname='';
   branchdata = [];
   orderTypeData = [];
   supplier = [];
@@ -137,30 +138,31 @@ export class OrdersComponent implements OnInit {
       let suggestionname = params.name;
       if (suggestionname == 'Debit Note') {
         this.getInvoiceList(-2);
-        suggestionname = 'purchase';
+        this.suggestionname = 'purchase';
       }
       if (suggestionname == 'Credit Note') {
         this.getInvoiceList(-4);
-        suggestionname = 'sales';
+        this.suggestionname = 'sales';
       }
       if (suggestionname == 'Purchase Assets Invoice') {
        // this.getInvoiceList(-4);
-        suggestionname = 'inventary';
+       this.suggestionname = 'inventary';
       }
       if (suggestionname == 'Purchase Invoice') {
         // this.getInvoiceList(-4);
-         suggestionname = 'purchase';
+        this.suggestionname = 'purchase';
        }
        if (suggestionname == 'Sales Invoice') {
         // this.getInvoiceList(-4);
-         suggestionname = 'sales';
+        this.suggestionname = 'sales';
        }
-      this.getStockItems(suggestionname);
+      this.getStockItems(this.suggestionname);
     });
     this.common.refresh = () => {
       this.getInvoiceTypes();
       this.getPurchaseLedgers();
       this.getSupplierLedgers();
+      this.getStockItems(this.suggestionname);
       // this.getStockItems('sales');
       // this.getStockItems('purchase');
       // this.getStockItems('inventary');
