@@ -19,6 +19,7 @@ export class ReceiveItemsComponent implements OnInit {
   startDate = new Date();
   selectedLr = [];
   selectedAll: false;
+  Today=new Date();
 
   constructor(public activeModal: NgbActiveModal,
     public api: ApiService,
@@ -38,17 +39,11 @@ export class ReceiveItemsComponent implements OnInit {
     const params = "manifestId=" + this.common.params.manifestId;
     this.api.get('WareHouse/getLrWrtManifest?' + params)
       .subscribe(res => {
-        // this.data = res['data'] || [];
         this.lrList = [];
         this.lrList = res['data'];
         this.lrList.map((list, index) => {
           list['item_name'] = this.common.params.item_name + "-" + (list['consignee_id']!=null?list['consignee_id']:'');
-          // list['item']=this.common.params.item_name
         });
-        //  this.lrList.push({
-        //    itemname:this.common.params.item_name
-        //  })
-        // this.table = this.setTable();
         console.log("datA", this.lrList);
       }, err => {
         console.log(err);
@@ -66,29 +61,9 @@ export class ReceiveItemsComponent implements OnInit {
         this.lrList[i].selected = false;
       }
     }
-
     console.log('select All', this.selectAll);
   }
 
-  // selectedLrList(event, list) {
-  //   if (event.target.checked) {
-  //     console.log("list", list);
-  //     this.selectedLr.push({
-  //       material_id: list.materialid,
-  //       unitype_id: list.unittype,
-  //       company_id: list.consignee_id,
-  //       ref_type: 11,
-  //       ref_id: list.lrid,
-  //       qty: list.qty,
-  //       item_name:list.item_name.split("-")[0]
-
-  //     });
-  //     console.log("selected", this.selectedLr);
-  //   }
-  //   else {
-  //     this.selectedLr.splice(list, 1);
-  //   }
-  // }
 
   saveLr() {
     let params = {
@@ -111,24 +86,29 @@ export class ReceiveItemsComponent implements OnInit {
         };
       })),
     }
-    console.log('LRLIST: ', params);
-   console.log('LR List:', this.lrList);
-    this.common.loading++;
-    console.log("params", params);
-    this.api.post('WareHouse/saveWhDetails', params)
-      .subscribe(res => {
-        if (res['data'][0].y_id > 0) {
-          this.common.loading--;
-          this.common.showToast(res['data'][0].y_msg);
-          this.result = res['data'];
-          this.activeModal.close({ response: this.result });
-         // this.activeModal.close();
-        }
-        else {
-          this.common.loading--;
-          this.common.showError(res['data'][0].y_msg)
-        }
-      }, err => {
-      });
+    if(params.whDetails.length==2){
+      this.common.showToast("Please Select At Least One Row");
+    }else{
+      console.log('LRLIST: ', params.whDetails.length);
+      console.log('LR List:', this.lrList);
+       this.common.loading++;
+       console.log("params", params);
+       this.api.post('WareHouse/saveWhDetails', params)
+         .subscribe(res => {
+           if (res['data'][0].y_id > 0) {
+             this.common.loading--;
+             this.common.showToast(res['data'][0].y_msg);
+             this.result = res['data'];
+             this.activeModal.close({ response: this.result });
+           }
+           else {
+             this.common.loading--;
+             this.common.showError(res['data'][0].y_msg)
+           }
+         }, err => {
+         });
+
+    }
+   
   }
 }

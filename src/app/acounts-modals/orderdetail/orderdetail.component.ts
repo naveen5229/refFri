@@ -124,10 +124,10 @@ export class OrderdetailComponent implements OnInit {
     this.getStockItems('sales');
     this.getStockItems('purchase');
     this.getWarehouses();
-    this.setFoucus('ordertype');
+   // this.setFoucus('ordertype');
     this.getInvoiceDetail();
     // this.common.currentPage = 'Invoice';
-    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.common.params.indexlg);
     // console.log("open data ",this.invoiceDetail[]);
 
   }
@@ -443,7 +443,7 @@ export class OrderdetailComponent implements OnInit {
   }
 
   TaxDetails(i) {
-    this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 1);
+   // this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 1);
     this.common.params = {
       taxDetail: JSON.parse(JSON.stringify(this.order.amountDetails[i].taxDetails)),
       amount: this.order.amountDetails[i].amount
@@ -859,7 +859,7 @@ export class OrderdetailComponent implements OnInit {
 
   openledger(ledger?) {
     console.log('ledger123', ledger);
-    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 1);
+  //  this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 1);
     if (ledger) this.common.params = ledger;
     const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
@@ -1149,7 +1149,7 @@ export class OrderdetailComponent implements OnInit {
     this.common.params = {
       addressdata: address
     };
-    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 1);
+   // this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 1);
     const activeModal = this.modalService.open(LedgeraddressComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       if (data.response) {
@@ -1215,7 +1215,6 @@ let invoiceJson={};
      
       details: [
      
-        { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
         { name: 'Invoice No', value: voucherdataprint.custcode },
         { name: 'Invoice Date', value: voucherdataprint.date },
         { name: 'Purchase Ledger', value: voucherdataprint.purchaseledger.name },
@@ -1264,7 +1263,6 @@ let invoiceJson={};
     
      details: [
     
-       { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
        { name: 'Invoice No', value: voucherdataprint.custcode },
        { name: 'Invoice Date', value: voucherdataprint.date },
        { name: 'Purchase Ledger', value: voucherdataprint.purchaseledger.name },
@@ -1300,7 +1298,6 @@ let invoiceJson={};
     
      details: [
     
-       { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
        { name: 'Invoice No', value: voucherdataprint.custcode },
        { name: 'Invoice Date', value: voucherdataprint.date },
        { name: 'Sales Ledger', value: voucherdataprint.purchaseledger.name },

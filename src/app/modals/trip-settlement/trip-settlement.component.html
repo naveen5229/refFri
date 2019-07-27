@@ -41,7 +41,7 @@
         </div>
         <div class="row" style="border-top:1px solid black">
 
-          <div class="col-8">
+          <div [class]="headings[4] && headings[4].length>0?'col-8':'col-12'">
             <div class="row ">
               <div class="label-div"><label>{{label[1]}}</label><i class="fa fa-plus add"
                   (click)="openTransferModal()"></i></div>
@@ -93,8 +93,8 @@
 
 
           </div>
-          <div class="col-4" style="border-left:1px solid black">
-            <div class="row" *ngIf="headings[4] && headings[4].length>0">
+          <div class="col-4" style="border-left:1px solid black" *ngIf="headings[4] && headings[4].length>0">
+            <div class="row">
               <div class="recomnded-div label-div"><label>Recommended </label></div>
               <label>{{label[4]}}</label>
               <div style="width: 100%">
