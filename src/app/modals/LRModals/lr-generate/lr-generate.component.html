@@ -122,14 +122,32 @@
             <tr>
               <td><label>Source City<span class="red-star">*</span></label></td>
               <td>
-                <input placeholder="Search Source City" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control"
-                  autocomplete="off">
+                <span>
+                  <auto-suggestion (onChange)="onChangeAuto($event,'source')"
+                    (onSelected)="selectLocation($event,'source')" (noDataFound)="takeAction($event)"
+                    [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="startname"
+                    placeholder="Source Location" [value]="lr.sourceCity" class="col-md-9 auto-suggest"
+                    [preSelected]='{location:lr.sourceCity}'>
+                  </auto-suggestion>
+                  <i class="fa fa-plus add col-md-3" (click)="searchString='----'; takeAction(null);"></i>
+                </span>
+
+                <!-- <input placeholder="Search Source City" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control"
+                  autocomplete="off"> -->
               </td>
               <!-- <td> <input type="text" [(ngModel)]=lr.sourceCity class="form-control" autocomplete="off"></td> -->
               <td><label>Destination City<span class="red-star">*</span> </label></td>
               <td>
-                <input placeholder="Search Destination City" id="destinationCity" [(ngModel)]="lr.destinationCity"
-                  class="form-control">
+                <span>
+                  <auto-suggestion (onChange)="onChangeAuto($event,'end')" (onSelected)="selectLocation($event,'end')"
+                    (noDataFound)="takeAction($event)" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
+                    display="location" inputId="endname" class="col-md-9 auto-suggest" placeholder="Source Location"
+                    [value]="lr.destinationCity" [preSelected]='{location:lr.destinationCity}'>
+                  </auto-suggestion>
+                  <i class="fa fa-plus add col-md-3" (click)="searchString='----'; takeAction(null);"></i>
+                </span>
+                <!-- <input placeholder="Search Destination City" id="destinationCity" [(ngModel)]="lr.destinationCity"
+                  class="form-control"> -->
 
                 <!-- <input class="form-control" id="destinationCity " name="destinationCity" [(ngModel)]="lr.destinationCity "></td> -->
                 <!-- <td><input type="text" [(ngModel)]=lr.destinationCity class="form-control" autocomplete="off"> </td> -->
