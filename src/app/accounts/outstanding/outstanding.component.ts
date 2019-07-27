@@ -45,6 +45,7 @@ export class OutstandingComponent implements OnInit {
   lastActiveId = '';
   headingName = '';
   selectedRow = -1;
+  viewType = 'sub';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -57,6 +58,8 @@ export class OutstandingComponent implements OnInit {
     this.common.currentPage = 'Outstanding Report';
     this.headingName = this.user._customer.name + '( ' + this.accountService.selected.branch.name + ' ) From :' + this.outStanding.startDate + ' To ' + this.outStanding.endDate;
   }
+
+  activeGroup = [];
 
   ngOnInit() {
   }
@@ -131,12 +134,12 @@ export class OutstandingComponent implements OnInit {
     });
   }
 
-  openVoucherDetail(voucherId,vouhercode) {
+  openVoucherDetail(voucherId, vouhercode) {
     console.log('vouher id', voucherId);
-    this.common.params={
+    this.common.params = {
 
-      vchid :voucherId,
-      vchcode:vouhercode
+      vchid: voucherId,
+      vchcode: vouhercode
     }
     const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
@@ -153,22 +156,22 @@ export class OutstandingComponent implements OnInit {
     });
   }
   openinvoicemodel(voucherId) {
-      this.common.params = {
-        invoiceid: voucherId,
-        delete: 0,
-        indexlg:0
-      };
-      const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-      activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
-          console.log('open succesfull');
-  
-          // this.addLedger(data.ledger);
-        }
-      });
-    }
-  pdfFunction(){
+    this.common.params = {
+      invoiceid: voucherId,
+      delete: 0,
+      indexlg: 0
+    };
+    const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        console.log('open succesfull');
+
+        // this.addLedger(data.ledger);
+      }
+    });
+  }
+  pdfFunction() {
     let params = {
       search: 'test'
     };
@@ -178,15 +181,15 @@ export class OutstandingComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res11:', res['data']);
-       // this.Vouchers = res['data'];
-       let address= (res['data'][0]) ? res['data'][0].addressline +'\n' : '';
-       let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
-    let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
-    let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
-   
-       let cityaddress =address+ remainingstring1 + remainingstring3;
-       let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Out Standing From :'+this.outStanding.startDate+' To :'+this.outStanding.endDate);
+        // this.Vouchers = res['data'];
+        let address = (res['data'][0]) ? res['data'][0].addressline + '\n' : '';
+        let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1 + remainingstring3;
+        let foname = (res['data'][0]) ? res['data'][0].foname : '';
+        this.common.getPDFFromTableIdnew('table', foname, cityaddress, '', '', 'Out Standing From :' + this.outStanding.startDate + ' To :' + this.outStanding.endDate);
 
       }, err => {
         this.common.loading--;
@@ -194,7 +197,7 @@ export class OutstandingComponent implements OnInit {
         this.common.showError();
       });
   }
-  csvFunction(){
+  csvFunction() {
     let params = {
       search: 'test'
     };
@@ -204,16 +207,16 @@ export class OutstandingComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res11:', res['data']);
-       // this.Vouchers = res['data'];
-       let address= (res['data'][0]) ? res['data'][0].addressline +'\n' : '';
-       let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
-    let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
-    let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
-   
-       let cityaddress =address+ remainingstring1;
-       let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getCSVFromTableIdNew('table',foname,cityaddress,'','',remainingstring3);
-      // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
+        // this.Vouchers = res['data'];
+        let address = (res['data'][0]) ? res['data'][0].addressline + '\n' : '';
+        let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1;
+        let foname = (res['data'][0]) ? res['data'][0].foname : '';
+        this.common.getCSVFromTableIdNew('table', foname, cityaddress, '', '', remainingstring3);
+        // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
 
       }, err => {
         this.common.loading--;
@@ -258,6 +261,7 @@ export class OutstandingComponent implements OnInit {
         this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
       });
     });
+    this.showAllGroups();
   }
 
   keyHandler(event) {
@@ -348,5 +352,18 @@ export class OutstandingComponent implements OnInit {
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
+  }
+
+  handleGroupView(index) {
+    if (this.activeGroup.indexOf(index) !== -1) {
+      this.activeGroup.splice(this.activeGroup.indexOf(index), 1);
+      return;
+    }
+    this.activeGroup.push(index);
+  }
+
+  showAllGroups(){
+    this.activeGroup = this.voucherEntries.map((voucherEntry, index) => { return index; });
+
   }
 }
