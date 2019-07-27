@@ -28,6 +28,10 @@ export class LrInvoiceColumnsComponent implements OnInit {
 
   ngOnInit() {
   }
+  closeModal() {
+    this.activeModal.close();
+  }
+
 
   getPartyDetail(party) {
     console.log("party", party);
