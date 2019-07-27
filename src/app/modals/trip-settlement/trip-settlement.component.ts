@@ -149,10 +149,14 @@ export class TripSettlementComponent implements OnInit {
   }
   openFuelIndentModal() {
     console.log("openFuelIndentModal");
-
+    let refData = {
+      refType: this.refType,
+      refId: this.refId
+    };
     this.common.params = {
       title: 'Add Fuel Indent',
-      flag: 'Add'
+      flag: 'Add',
+      refData: refData
     };
 
     const activeModal = this.modalService.open(AddFuelIndentComponent, { size: "lg", container: "nb-layout" });
