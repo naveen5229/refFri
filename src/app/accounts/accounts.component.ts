@@ -56,6 +56,7 @@ export class AccountsComponent {
           }
         });
       }, err => {
+        this.getFinancial();
         console.log('Error: ', err);
       });
   }
