@@ -21,8 +21,8 @@ export class AddFuelFullRuleComponent implements OnInit {
     ruleType: '0',
     ref_id: '',
     rowid: '',
-    angleFrom: '',
-    angleTo: '',
+    angleFrom: '0',
+    angleTo: '360',
     isNegative: false
   };
 
@@ -47,8 +47,8 @@ export class AddFuelFullRuleComponent implements OnInit {
       }
       this.Rules.ref_id = this.common.params.rule.ref_id || 'null';
       // this.Rules.pumpStationId = this.common.params.rule.pump_station_area_id || 'null';
-      this.Rules.angleFrom = this.common.params.rule.angle_from || 'N.A';
-      this.Rules.angleTo = this.common.params.rule.angle_to || 'N.A';
+      this.Rules.angleFrom = this.common.params.rule.angle_from || '0';
+      this.Rules.angleTo = this.common.params.rule.angle_to || '360';
 
     }
   }
@@ -79,6 +79,11 @@ export class AddFuelFullRuleComponent implements OnInit {
   }
 
   saveRule() {
+
+    if (parseInt(this.Rules.angleFrom) < 0 || parseInt(this.Rules.angleTo) < 0 || parseInt(this.Rules.angleTo) > 360) {
+      this.common.showToast('Invalid Anlge !!');
+      return;
+    }
     let val
     if (this.Rules.isNegative) {
       val = 1;
@@ -125,6 +130,21 @@ export class AddFuelFullRuleComponent implements OnInit {
         })
 
     }
+  }
+
+  resetAngleVal() {
+    if (this.status == 0) {
+
+      if (this.Rules.ruleType == "2") {
+        this.Rules.angleFrom = '';
+        this.Rules.angleTo = '';
+      } else {
+        this.Rules.angleFrom = '0';
+        this.Rules.angleTo = '360';
+      }
+
+    }
+
   }
 
 

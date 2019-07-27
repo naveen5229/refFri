@@ -55,11 +55,7 @@ export class AddPumpComponent implements OnInit {
         this.location = place;
         this.getmapData(lat, lng);
       });
-
     }, 2000)
-
-
-
   }
 
   ngOnInit() {
@@ -71,7 +67,6 @@ export class AddPumpComponent implements OnInit {
     this.mapService.mapIntialize("map");
     setTimeout(() => {
       this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
-        this.mapService.clearAll(true, true, { marker: true, polygons: false, polypath: false });
         this.mapService.zoomAt({ lat: lat, lng: lng });
         this.getmapData(lat, lng);
       });
@@ -130,6 +125,7 @@ export class AddPumpComponent implements OnInit {
         console.log("result");
         console.log(res['data']);
         this.marker = res['data'];
+        this.mapService.clearAll();
         this.mapService.createMarkers(this.marker);
         console.log("marker", this.marker);
         let markerIndex = 0
@@ -172,16 +168,14 @@ export class AddPumpComponent implements OnInit {
     this.infoWindow.opened = false;
     this.infoWindow.setContent(`
     <p>Site Id :${event.id}</p>
-    <p>Pump Name :${event.name}</p>
-    
-    `);
+    <p>Pump Name :${event.name}</p>`);
 
 
     // this.infoWindow.setContent("Flicker Test");
     this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long));
     this.infoWindow.open(this.mapService.map);
-
   }
+
   async unsetEventInfo() {
     let diff = new Date().getTime() - this.insideInfo;
     if (diff > 200) {
@@ -196,8 +190,7 @@ export class AddPumpComponent implements OnInit {
     this.fuel_company = parseInt(id);
   }
 
-  submitPumpData() {
-
+  submitPumpData(){
     if (this.pumpname == null) {
       this.para1 = this.latlong[0].lat;
       this.para2 = this.latlong[0].long;
@@ -209,7 +202,6 @@ export class AddPumpComponent implements OnInit {
       this.para1 = null;
       this.para2 = null;
     }
-
     let params = {
       petrolPumplocation: this.location,
       petrolPumpName: this.name,
@@ -218,9 +210,6 @@ export class AddPumpComponent implements OnInit {
       long: this.para2,
       fuelCompany: this.fuel_company
     };
-
-
-
     console.log("params", params);
     this.common.loading++;
     this.api.post('FuelDetails/addPetrolPump', params)
@@ -258,13 +247,13 @@ export class AddPumpComponent implements OnInit {
       'lng1': boundBox.lng1,
       'lat2': boundBox.lat2,
       'lng2': boundBox.lng2,
-      'typeId': this.typeId
+      'typeId': 101
     };
     this.api.post("VehicleStatusChange/getSiteAndSubSite", bounds)
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', res['data']);
-        this.mapService.clearAll();
+        // this.mapService.clearAll();
         this.mapService.createMarkers(data, false, true, ["id", "name"]);
       }, err => {
         console.error(err);

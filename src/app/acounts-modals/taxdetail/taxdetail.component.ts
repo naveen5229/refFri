@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
+import { LedgerComponent} from '../ledger/ledger.component';
 
 @Component({
   selector: 'taxdetail',
@@ -11,6 +12,7 @@ import { UserService } from '../../@core/data/users.service';
 })
 export class TaxdetailComponent implements OnInit {
   showConfirm = false;
+  amount=0;
   taxdetails = [{
     taxledger: {
       name: '',
@@ -29,13 +31,18 @@ export class TaxdetailComponent implements OnInit {
 
   constructor(public api: ApiService,
     private activeModal: NgbActiveModal,
-    public common: CommonService) {
+    public common: CommonService,
+    public modalService: NgbModal) {
     this.setFoucus('taxledger-0');
     this.getPurchaseLedgers();
-    if(this.common.params && this.common.params.length){
-      this.taxdetails = this.common.params;
+    console.log('tax detail ',this.common.params,this.common.params.taxDetail.length);
+    this.amount = this.common.params.amount;
+    if(this.common.params && this.common.params.taxDetail.length){
+      this.taxdetails = this.common.params.taxDetail;
       this.common.params = null;
     }
+
+
   }
 
   allowBackspace = true;
@@ -45,8 +52,23 @@ export class TaxdetailComponent implements OnInit {
   }
 
   dismiss(response) {
-    console.log(this.taxdetails);
+    console.log('response>>>>>>>>>',response,this.taxdetails);
+    if(response){
     this.activeModal.close({ response: response, taxDetails: this.taxdetails });
+    }else{
+    console.log('response//////////',this.taxdetails);
+    this.taxdetails=[ {taxledger: {
+      name: '',
+      id: '',
+    },
+    taxrate: '',
+    taxamount: 0,
+    totalamount:0
+    }];
+    console.log('response//////////return',this.taxdetails);
+
+    this.activeModal.close({ response: response, taxDetails: this.taxdetails });
+    }
     // return this.taxdetails;
     // console.log(this.taxdetails);
 
@@ -101,7 +123,12 @@ export class TaxdetailComponent implements OnInit {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
+    if ((event.altKey && key === 'c') && (activeId.includes('taxledger'))) {
+      // console.log('alt + C pressed');
+      this.openledger();
+    }
     if (activeId.includes('taxledger')) {
+    
       this.autoSuggestion.targetId = activeId;
       console.log('-=-----------------------------');
     }
@@ -172,7 +199,63 @@ export class TaxdetailComponent implements OnInit {
     }, 100);
   }
 
-  
+  openledger(ledger?) {
+    console.log('ledger123', ledger);
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',2);
+    
+    if (ledger) this.common.params = ledger;
+    const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        // console.log('ledger data',data.ledger);
+        this.addLedger(data.ledger);
+      }
+    });
+  }
+
+  addLedger(ledger) {
+    console.log('ledgerdata', ledger);
+    // const params ='';
+    const params = {
+      name: ledger.name,
+      alias_name: ledger.aliasname,
+      code: ledger.code,
+      foid: ledger.user.id,
+      per_rate: ledger.perrate,
+      primarygroupid: ledger.account.primarygroup_id,
+      account_id: ledger.account.id,
+      accDetails: ledger.accDetails,
+      x_id: 0,
+      branchname: ledger.branchname,
+      branchcode: ledger.branchcode,
+      accnumber: ledger.accnumber,
+      creditdays: ledger.creditdays,
+      openingbalance: ledger.openingbalance,
+      isdr: ledger.openingisdr,
+      approved: ledger.approved,
+      deleteview: ledger.deleteview,
+      delete: ledger.delete,
+      costcenter: ledger.costcenter,
+      taxtype:ledger.taxtype,
+      taxsubtype:ledger.taxsubtype
+    };
+
+    console.log('params11: ', params);
+    this.common.loading++;
+
+    this.api.post('Accounts/InsertLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.getPurchaseLedgers();
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
   modelCondition(){
     this.showConfirm = false;
     event.preventDefault();

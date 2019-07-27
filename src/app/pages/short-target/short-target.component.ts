@@ -31,11 +31,17 @@ export class ShortTargetComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal) {
     this.getOnwardKmpd();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
+  refresh() {
+
+    this.getOnwardKmpd();
+  }
   getOnwardKmpd() {
 
     this.shortTarget = [];

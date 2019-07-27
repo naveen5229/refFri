@@ -152,6 +152,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.createMarkers(res['data']);
       }, err => {
         this.common.loading--;
+        this.common.showError(err);
         console.log(err);
       });
   }
@@ -263,6 +264,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
       }, err => {
         this.common.loading--;
+        this.common.showError(err);
         console.log(err);
       })
   }
@@ -303,6 +305,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       }, err => {
         this.common.loading--;
         console.log(err);
+        this.common.showError(err);
       });
   }
 
@@ -476,6 +479,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       }, err => {
         this.common.loading--;
         console.log(err);
+        this.common.showError();
       });
     this.activeModal.close();
   }
@@ -626,6 +630,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.common.loading--;
       }, err => {
         this.common.loading--;
+        this.common.showError(err);
         console.log(err);
       });
   }
@@ -695,6 +700,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
             }
           }, err => {
             this.common.loading--;
+            this.common.showError(err);
             console.log(err);
           });
       }
@@ -764,6 +770,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       }, err => {
         this.common.loading--;
         console.log(err);
+        this.common.showError(err);
       });
   }
   setSiteHalt(vehicleEvent, convertSiteHaltFlag) {

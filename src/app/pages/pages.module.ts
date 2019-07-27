@@ -71,6 +71,8 @@ import { SiteInOutComponent } from './site-in-out/site-in-out.component';
 import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.component';
 import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
+import { SitesComponent } from './sites/sites.component';
+import { ManagePartyComponent } from './manage-party/manage-party.component';
 
 
 const PAGES_COMPONENTS = [
@@ -143,6 +145,8 @@ const PAGES_COMPONENTS = [
     FreightInvoicesComponent,
     CardMappingComponent,
     TransfersComponent,
+    SitesComponent,
+    ManagePartyComponent,
     // CustomDatePipe
   ],
   exports: [

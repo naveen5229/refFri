@@ -6,108 +6,141 @@
   </button>
 </div>
 <div class="modal-body" style="min-height: 250px; ">
-  <div class="row">
-    <div class="col-6">
-      <div class="form-group">
-        <label class="fill-elt">Date:</label>
-        <input name="date" id="date" [value]="filldate | date: 'dd MMM yyyy'" autocomplete="off"
-          class="form-control fill-elt" (click)="getDate()" />
+  <form #fillingForm="ngForm" name="filling-form" id="filling-form" (submit)="fillingForm.valid && submitFillingData()">
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label class="fill-elt">Date
+            <span class="requiredfield">*</span>
+          </label>
+          <input name="date" id="date" [(ngModel)]="filldate" autocomplete="off" class="form-control fill-elt"
+            (click)="getDate()" #dateField="ngModel" required>
+          <div *ngIf="isFormSubmit && dateField.errors" class="invalid-feedback">
+            <span [hidden]="!dateField.errors.required">Date Required</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label class="fill-elt">Litres
+            <span class="requiredfield">*</span>
+
+          </label>
+          <input name="litres" id="litres" [(ngModel)]="litres" class="fill-elt form-control" (blur)="updateAmount()"
+            #liter="ngModel" required />
+          <div *ngIf="isFormSubmit && liter.errors" class="invalid-feedback">
+            <span [hidden]="!liter.errors.required">Liters Value Required</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label class="fill-elt">Regno
+            <span class="requiredfield">*</span>
+
+          </label>
+          <auto-suggestion (onSelected)="getVehData($event)" url="Suggestion/getFoVehicleList" display="regno"
+            placeholder="Enter Vehicle Number" [preSelected]="{regno: regno}" class="fstn-name w-100"
+            (unSelected)="resetvehicle()" inputId="vehicleno" id="autosuggestion" style="width:60%;">
+          </auto-suggestion>
+
+          <div *ngIf="isFormSubmit && vehicleId == null" class="invalid-feedback">
+            <div>Regno is Required</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label class="fill-elt">Rate
+            <span class="requiredfield">*</span>
+          </label>
+          <input class="fill-elt form-control" name="rate" id="rate" [(ngModel)]="rate" #rates="ngModel" required
+            (blur)="updateAmount()" />
+          <div *ngIf="isFormSubmit && rates.errors" class="invalid-feedback">
+            <span [hidden]="!rates.errors.required">Rate Value Required</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="fill-elt">Is Pump Available(Credit)?</label>
+          <input class="fill-elt chkbx" type="checkbox" name="isPump" id="isPump" [value]="isPump" [(ngModel)]="isPump"
+            checked />
+        </div>
+      </div>
+      <div class="col-6" *ngIf="!isPump" style="margin-top:5px">
+        <select [(ngModel)]="pumpPayType" class="form-control" (change)="pumpPayStatus()"
+          style=" border: 2px solid darkcyan; font-size: 13px; " name="payType">
+          <option value="-11">Paid By Card</option>
+          <option value="-21">Paid By Cash</option>
+        </select>
+      </div>
+      <div class="col-6">
+        <div class="form-group" *ngIf="isPump">
+          <label class="fill-elt">Pump:</label>
+          <auto-suggestion (onSelected)="getPumpData($event)" url="Suggestion/GetFuelStation" display="name"
+            placeholder="Enter Pump Name" [preSelected]="{name: pump}" class="fstn-name" style="width:60%;">
+          </auto-suggestion>
+        </div>
+
       </div>
     </div>
-    <div class="col-6">
-      <div class="form-group">
-        <label class="fill-elt">Litres:</label>
-        <input name="litres" id="litres" [(ngModel)]="litres" class="fill-elt form-control" (blur)="updateAmount()" />
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label class="fill-elt">Amount:</label>
+          <input class="fill-elt form-control" name="amount" id="amount" [(ngModel)]="amount"
+            style="background-color: #cecece;" readonly />
+        </div>
       </div>
-    </div>
-    <div class="col-6">
-      <div class="form-group">
-        <label class="fill-elt">Regno:</label>
-        <auto-suggestion (onSelected)="getVehData($event)" url="Suggestion/GetVehicleList" display="regno"
-          placeholder="Enter Vehicle Number" [preSelected]="{regno: regno}" class="fstn-name w-100" style="width:60%;">
-        </auto-suggestion>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="form-group">
-        <label class="fill-elt">Rate:</label>
-        <input class="fill-elt form-control" name="rate" id="rate" [(ngModel)]="rate" (blur)="updateAmount()" />
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <label class="fill-elt">Is Pump Available?</label>
-        <input class="fill-elt chkbx" type="checkbox" name="isPump" id="isPump" [value]="isPump" [(ngModel)]="isPump"
-          checked />
-      </div>
-    </div>
-    <div class="col-6" *ngIf="!isPump" style="margin-top:5px">
-      <select [(ngModel)]="pumpPayType" class="form-control" (change)="pumpPayStatus()"
-        style=" border: 2px solid darkcyan; font-size: 13px; ">
-        <option value="-11">Paid By Card</option>
-        <option value="-21">Paid By Cash</option>
-      </select>
-    </div>
-    <div class="col-6">
-      <div class="form-group" *ngIf="isPump">
-        <label class="fill-elt">Pump:</label>
-        <auto-suggestion (onSelected)="getPumpData($event)" url="Suggestion/GetFuelStation" display="name"
-          placeholder="Enter Pump Name" [preSelected]="{name: pump}" class="fstn-name" style="width:60%;">
-        </auto-suggestion>
+      <div class="col-6" *ngIf="pumpPayType=='-11' && !isPump">
+        <div class="form-group">
+          <label class="fill-elt">Cash To Driver</label>
+          <input class="fill-elt form-control" name="cash" id="cash" [(ngModel)]="driverCash" />
+        </div>
       </div>
 
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-6">
-      <div class="form-group">
-        <label class="fill-elt">Amount:</label>
-        <input class="fill-elt form-control" name="amount" id="amount" [(ngModel)]="amount"
-          style="background-color: #cecece;" readonly />
-      </div>
-    </div>
-    <div class="col-6" *ngIf="pumpPayType=='-11' && !isPump">
-      <div class="form-group">
-        <label class="fill-elt">Cash To Driver</label>
-        <input class="fill-elt form-control" name="cash" id="cash" [(ngModel)]="driverCash" />
-      </div>
-    </div>
 
-  </div>
-  <div class="row">
-    <div class="col-6">
-      <div class="form-group">
-        <label class="fill-elt">Is Fuel Tank Full?</label>
-        <input *ngIf="isfull" class="fill-elt chkbx" type="checkbox" name="isFull" id="isFull" [value]="isfull"
-          [(ngModel)]="isfull" checked />
-        <input *ngIf="!isfull" class="fill-elt chkbx" type="checkbox" name="isFull" id="isFull" [value]="isfull"
-          [(ngModel)]="isfull" />
-      </div>
-    </div>
 
-    <div class="col-6" *ngIf="isPump">
-      <div class="form-group">
-        <div class="blue add-pp-lnk" (click)="showAddPump()">
-          Add Pump
-          <i class="fas fa-gas-pump"></i>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label class="fill-elt">Is Fuel Tank Full?</label>
+          <input *ngIf="isfull" class="fill-elt chkbx" type="checkbox" name="isFull" id="isFull" [value]="isfull"
+            [(ngModel)]="isfull" checked />
+          <input *ngIf="!isfull" class="fill-elt chkbx" type="checkbox" name="isFull" id="isFull" [value]="isfull"
+            [(ngModel)]="isfull" />
+        </div>
+      </div>
+
+      <div class="col-6" *ngIf="isPump">
+        <div class="form-group">
+          <div class="blue add-pp-lnk" (click)="showAddPump()">
+            Add Pump
+            <i class="fas fa-gas-pump"></i>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-3">
-      <label>
-        Odometer:
-      </label>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Odometer:</label>
+          <input class="fill-elt form-control" name="odometer" id="odometer" [(ngModel)]="odoVal" />
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="fill-elt">Ref No:</label>
+          <input class="fill-elt form-control" name="refno" id="refno" [(ngModel)]="refNo" />
+        </div>
+      </div>
     </div>
-    <div class="col-sm-2"></div>
-    <div class="col-sm-6">
-      <input class="fill-elt form-control" name="odometer" id="odometer" [(ngModel)]="odoVal" />
-    </div>
-  </div>
-
+  </form>
 </div>
 
 <div class="modal-footer">
-  <button class="btn btn-primary" (click)="submitFillingData()" style="cursor: pointer;">Submit</button>
+  <button class="btn btn-primary" form="filling-form" style="cursor: pointer;"
+    (click)="isFormSubmit=true">Submit</button>
 </div>

@@ -35,7 +35,7 @@ export class TripSettlementComponent implements OnInit {
     console.log("data:row", this.common.params.row);
     this.refId = this.common.params.refData.refId;
     this.refType = this.common.params.refData.refType;
-    this.common.handleModalSize('class', 'modal-lg', '1500');
+    this.common.handleModalSize('class', 'modal-lg', '1500', 'px', 0);
     this.printInvoice();
   }
 
@@ -141,9 +141,10 @@ export class TripSettlementComponent implements OnInit {
     };
     this.common.params = { refData: refData };
     console.log("openTransferModal");
-    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.handleModalSize('class', 'modal-lg', '900', 'px', 1);
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
+      this.printInvoice();
     });
   }
   openFuelIndentModal() {
@@ -154,11 +155,10 @@ export class TripSettlementComponent implements OnInit {
       flag: 'Add'
     };
 
-    const activeModal = this.modalService.open(AddFuelIndentComponent, {
-      size: "lg",
-      container: "nb-layout"
-    })
-
+    const activeModal = this.modalService.open(AddFuelIndentComponent, { size: "lg", container: "nb-layout" });
+    activeModal.result.then(data => {
+      this.printInvoice();
+    });
 
   }
   openAdviceModal() {
@@ -168,9 +168,10 @@ export class TripSettlementComponent implements OnInit {
     };
     this.common.params = { refData: refData };
     console.log("openAdviceModal");
-    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.handleModalSize('class', 'modal-lg', '900', 'px', 1);
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
+      this.printInvoice();
     });
   }
 }

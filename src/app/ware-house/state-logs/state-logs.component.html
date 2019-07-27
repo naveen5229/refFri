@@ -1,0 +1,42 @@
+<nb-card>
+  <nb-card-header>
+    <h5>State Logs</h5>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-2">
+          <select placeholder="Name" class="name form-control" [(ngModel)]="wareHouseId">
+            <option *ngFor="let element of dataWareHouse" [value]="element.id">{{element.name}}
+            </option>
+          </select>
+        </div>
+        <div class="col-2">
+          <select placeholder="Name" class="name form-control" [(ngModel)]="stateId">
+            <option *ngFor="let stateList of dataState" [value]="stateList.id">{{stateList.description}}
+
+            </option>
+          </select>
+        </div>
+        <div class="col-2">
+          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
+          </uj-date-time-picker>
+        </div>
+        <div class="col-2">
+          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false>
+          </uj-date-time-picker>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" id="button"
+            (click)="getState()">Submit</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <smart-table *ngIf="stateData && stateData.length" [data]="table.data" [settings]="table.settings"
+        id="wareHouseInventory">
+      </smart-table>
+    </div>
+
+  </nb-card-body>
+</nb-card>

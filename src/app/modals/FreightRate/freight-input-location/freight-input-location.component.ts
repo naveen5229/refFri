@@ -6,6 +6,7 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
 import { ConfirmComponent } from '../../confirm/confirm.component';
+import { FreightInputWithoutLocationComponent } from '../freight-input-without-location/freight-input-without-location.component';
 
 @Component({
   selector: 'freight-input-location',
@@ -57,7 +58,7 @@ export class FreightInputLocationComponent implements OnInit {
     public activeModal: NgbActiveModal,
   ) {
     this.frpId = this.common.params.id ? this.common.params.id : null;
-    this.common.handleModalSize('class', 'modal-lg', '1300');
+    this.common.handleModalSize('class', 'modal-lg', '1300', 'px', 0);
     this.getRoutes()
     this.getFrieghtRateDetails();
     this.addMore();
@@ -134,7 +135,7 @@ export class FreightInputLocationComponent implements OnInit {
       if (this.keepGoing && this.sourceString.length) {
         this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
           console.log('response----', res.location);
@@ -161,7 +162,7 @@ export class FreightInputLocationComponent implements OnInit {
       if (this.keepGoing && this.destinationString.length) {
         this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
           console.log('response----', res.location);
@@ -281,7 +282,7 @@ export class FreightInputLocationComponent implements OnInit {
 
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black' };
 
       }
       this.valobj['action'] = { class: '', icons: this.freightDelete(doc) };
@@ -303,6 +304,10 @@ export class FreightInputLocationComponent implements OnInit {
       {
         class: "fas fa-trash-alt",
         action: this.deleteRow.bind(this, row),
+      },
+      {
+        class: "fa fa-eye",
+        action: this.openWithoutLocationModal.bind(this, row),
       }
     )
     return icons;
@@ -352,5 +357,22 @@ export class FreightInputLocationComponent implements OnInit {
       this.frieghtDatas[index].dest_lat = null;
       this.frieghtDatas[index].dest_long = null;
     }
+  }
+
+  openWithoutLocationModal(row) {
+    this.common.handleModalSize('class', 'modal-lg', '1500', 'px', 1);
+
+    console.log("without location", row);
+    let data = {
+      frpId: row._frp_id,
+      locId: row._id
+    }
+    this.common.params = { data: data };
+    const activeModal = this.modalService.open(FreightInputWithoutLocationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data && data.response) {
+        console.log("data", data);
+      }
+    });
   }
 }

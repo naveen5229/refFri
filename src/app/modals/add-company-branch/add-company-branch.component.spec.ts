@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdviceViewComponent } from './advice-view.component';
+import { AddCompanyBranchComponent } from './add-company-branch.component';
 
-describe('AdviceViewComponent', () => {
-  let component: AdviceViewComponent;
-  let fixture: ComponentFixture<AdviceViewComponent>;
+describe('AddCompanyBranchComponent', () => {
+  let component: AddCompanyBranchComponent;
+  let fixture: ComponentFixture<AddCompanyBranchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdviceViewComponent ]
+      declarations: [ AddCompanyBranchComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdviceViewComponent);
+    fixture = TestBed.createComponent(AddCompanyBranchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

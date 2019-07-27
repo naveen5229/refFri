@@ -1,0 +1,65 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title"> Receive Items</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <!-- <div class="row mt-2">
+        <div class="col-3">
+            <label>Item name</label>
+        </div>
+        <div class="col-4">
+            <input type="text" class="form-control" [(ngModel)]="itmeName">
+        </div>
+    </div> -->
+    <div class="mt-2">
+        <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="lrmanifest">
+        </smart-table>
+    </div>
+    <div>
+        <table frame="box" style="width:100%">
+            <thead>
+                <tr>
+                    <th><b><input type="checkbox" name="vlist" [(ngModel)]="selectedAll" (ngModelChange)="selectAll()"></b></th>
+                    <th><b>Receipt_no</b></th>
+                    <th><b>Source</b></th>
+                    <th><b>Destination</b></th>
+                    <th><b>Item Name</b></th>
+                    <th><b>Quantity</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let list of lrList;let i=index;">
+                    <td><input type="checkbox" [name]="'list-' + i" [(ngModel)]="list.selected"> </td>
+                    <td>{{list.receipt_no}}</td>
+                    <td>{{list.source }}</td>
+                    <td>{{list.destination}}</td>
+                    <td><input type="text" class="form-control" [(ngModel)]="list.item_name"></td>
+                    <td><input type="number" class="form-control" [(ngModel)]="list.qty"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row mt-2">
+        <div class="col-3">
+            <label>Date</label>
+        </div>
+        <div class="col-4">
+            <uj-date-time-picker (onChanged)="startDate = $event" [maxd]="Today" [dateTimeValue]="startDate">
+            </uj-date-time-picker>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-3">
+            <label>Remark</label>
+        </div>
+        <div class="col-4">
+            <textarea name="comment" class="form-control" form="usrform" [(ngModel)]="remarks"></textarea>
+        </div>
+    </div>
+
+    <div class="mt-2">
+        <button type="button" class="btn btn-primary" (click)="saveLr()">save</button>
+    </div>
+</div>

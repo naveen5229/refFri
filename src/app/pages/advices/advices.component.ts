@@ -6,8 +6,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { SaveAdvicesComponent } from '../../modals/save-advices/save-advices.component';
 import { ClearAdvicesComponent } from '../../modals/clear-advices/clear-advices.component';
-import { AdviceViewComponent } from '../../modals/advice-view/advice-view.component';
 import { UserService } from '../../services/user.service';
+import { GenericModelComponent } from '../../modals/generic-model/generic-model.component';
 @Component({
   selector: 'advices',
   templateUrl: './advices.component.html',
@@ -154,7 +154,7 @@ export class AdvicesComponent implements OnInit {
 
 
   saveAdvices() {
-   
+    this.common.params = { refData: null };
     this.common.handleModalSize('class', 'modal-lg', '1100');
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -170,9 +170,23 @@ export class AdvicesComponent implements OnInit {
     });
   }
   adviceView(row) {
+    let dataparams = {
+      view: {
+        api: 'Drivers/getAdvicesSingleVehicle',
+        param: {
+          vId: row._vid,
+          test1: 1,
+          test2: 'Hello'
+        },
+      },
+      delete: {
+        api: 'Drivers/deleteAdvice',
+        param: { id: "_id" }
+      }
+    }
     this.common.handleModalSize('class', 'modal-lg', '1100');
-    this.common.params = { advice: row };
-    const activeModal = this.modalService.open(AdviceViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    this.common.params = { data: dataparams };
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
 }

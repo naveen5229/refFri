@@ -439,7 +439,7 @@ export class TripVoucherExpenseComponent implements OnInit {
     let tripEditData = this.TripEditData;
     let tripPendingDataSelected = this.pendingDataEditTme;
     let VoucherData=this.VoucherEditTime;
-       
+       console.log('type id',tripVoucher.y_vouchertype_id);
    
 
     if(tripVoucher.y_vouchertype_id==-151){
@@ -451,9 +451,9 @@ export class TripVoucherExpenseComponent implements OnInit {
          console.log('Data: ', data);
         if (data.response) {
           //this.addLedger(data.ledger);
+        this.getTripExpences();
         }
         this.selectedVehicle.id =0
-        this.getTripExpences();
       });
     }else{
       let tripExpDriver=this.tripExpDriver;

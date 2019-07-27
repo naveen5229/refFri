@@ -37,11 +37,17 @@ export class FrieghtRateInputComponent implements OnInit {
     public common: CommonService,
     public api: ApiService) {
     this.getFrieghtRate();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
+  refresh() {
+
+    this.getFrieghtRate();
+  }
   getFrieghtRate() {
 
     let startDate = this.common.dateFormatter(this.startDate);
@@ -60,6 +66,15 @@ export class FrieghtRateInputComponent implements OnInit {
 
         if (!res['data']) return;
         this.data = res['data'];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
         let first_rec = this.data[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
@@ -140,8 +155,12 @@ export class FrieghtRateInputComponent implements OnInit {
   }
 
   openWithoutLocationModal(row) {
-    let id = row._id;
-    this.common.params = { id };
+    console.log("row", row);
+    let data = {
+      frpId: row._id,
+      locId: false
+    }
+    this.common.params = { data: data };
     console.log("without location");
     const activeModal = this.modalService.open(FreightInputWithoutLocationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -152,9 +171,11 @@ export class FrieghtRateInputComponent implements OnInit {
     });
   }
   openWithLocationModal(row) {
+    console.log("row", row);
+
     let id = row._id;
+    console.log("with location", id);
     this.common.params = { id };
-    console.log("with location");
     const activeModal = this.modalService.open(FreightInputLocationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data && data.response) {
@@ -176,7 +197,7 @@ export class FrieghtRateInputComponent implements OnInit {
 
   }
 
-  freightRateCalculation(){
+  freightRateCalculation() {
     const activeModal = this.modalService.open(FreightRateCalculationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 }

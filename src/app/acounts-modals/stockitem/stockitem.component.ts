@@ -35,7 +35,15 @@ export class StockitemComponent implements OnInit {
     user: {
       name: '',
       id: ''
-    }
+    },
+    isnon:true,
+    hsnno:0,
+    hsndetail:'',
+    gst:false,
+    cess:0,
+    igst:0,
+    taxability:'',
+    calculationtype:''
 
   };
   activeId='stockType';
@@ -86,7 +94,15 @@ export class StockitemComponent implements OnInit {
         isactive: common.params.is_active,
         sales: common.params.for_sales,
         purchase: common.params.for_purchase,
-        inventary: common.params.for_inventory
+        inventary: common.params.for_inventory,
+        isnon:common.params.gst_is_non,
+        hsnno:common.params.gst_hsn_sac_no,
+        hsndetail:common.params.gst_hsn_sac_desc,
+        gst:common.params.gst_is_applicable,
+        cess:common.params.gst_cess_per,
+        igst:common.params.gst_igst_per,
+        taxability:common.params.gst_taxability,
+        calculationtype:common.params.gst_calculation_type
       }
 
       console.log('Stock: ', this.stockItem);
@@ -125,10 +141,38 @@ export class StockitemComponent implements OnInit {
     state: [],
     salutiondata: [],
     city: [],
-    list: []
+    list: [],
+    gstcalcution:[
+      {
+        name:'On Value',
+        id:'value'
+      },
+      {
+        name:'On Time Rate',
+        id:'rate'
+      }
+    ],
+    taxability:[
+      {
+        name:'Unknown',
+        id:'Unknown'
+      },
+      {
+        name:'Exempt',
+        id:'Exempt'
+      },
+      {
+        name:'Nil Rated',
+        id:'rated'
+      },
+      {
+        name:'Taxable',
+        id:'Taxable'
+      }
+    ]
   };
   generateIDs() {
-    let IDs = ['stockType'];
+    let IDs = ['stockType','taxability','calculationtype'];
    
     return IDs;
   }
@@ -205,20 +249,7 @@ export class StockitemComponent implements OnInit {
     this.stockItem[type].id = selectedData.id;
     this.getStockSubType(selectedData.id);
   }
-  onSelect(suggestion, activeId) {
-    console.log('Suggestion: ', suggestion);
-    if (activeId == 'stockType') {
-      this.stockItem.stockType.name = suggestion.name;
-      this.stockItem.stockType.id = suggestion.id;
-      this.getStockSubType(suggestion.id);   
-    } else  if (activeId == 'stockSubType') {
-      this.stockItem.stockSubType.name = suggestion.name;
-      this.stockItem.stockSubType.id = suggestion.id;
-    } else  if (activeId == 'unit') {
-      this.stockItem.unit.name = suggestion.name;
-      this.stockItem.unit.id = suggestion.id;
-    } 
-  }
+ 
 
 
   dismiss(response) {
@@ -302,9 +333,35 @@ export class StockitemComponent implements OnInit {
         this.setFoucus('purchase');
       } else if (activeId == 'purchase' || activeId == 'notpurchase') {
         this.setFoucus('inventary');
-      } else if (activeId == 'inventary' || activeId == 'notinventary') {
+      }  else if (activeId == 'igst'  ) {
+        this.setFoucus('cess');
+      } else if (activeId == 'isnon' || activeId == 'notisnon') {
+        this.setFoucus('calculationtype');
+     //  this.showConfirm = true;
+     }
+      else if (activeId == 'inventary' || activeId == 'notinventary') {
+         this.setFoucus('gst');
+      //  this.showConfirm = true;
+      }else if (activeId == 'gst' || activeId == 'notgst') {
+        this.setFoucus('hsndetail');
+     //  this.showConfirm = true;
+     } else if (activeId == 'hsndetail') {
+        this.setFoucus('hsnno');
+       // this.showConfirm = true;
+      }else if (activeId == 'hsnno') {
+        this.setFoucus('notisnon');
+       // this.showConfirm = true;
+      }else if (activeId == 'cess') {
         // this.setFoucus('stock-name');
         this.showConfirm = true;
+      }else if (activeId.includes('calculationtype')) {
+        
+        console.log('test??????');
+        this.setFoucus('taxability');
+      }else if (activeId.includes('taxability')) {
+        
+        console.log('test??????');        
+        this.setFoucus('igst');
       }
     } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
@@ -319,6 +376,14 @@ export class StockitemComponent implements OnInit {
       if (activeId == 'name') this.setFoucus('unit');
       if (activeId == 'unit') this.setFoucus('stockSubType');
       if (activeId == 'stockSubType') this.setFoucus('stockType');
+      if (activeId == 'cess') this.setFoucus('igst');
+      if (activeId == 'igst') this.setFoucus('taxability');
+      if (activeId == 'taxability') this.setFoucus('calculationtype');
+      if (activeId == 'calculationtype') this.setFoucus('notisnon');
+      if (activeId == 'notisnon' || 'isnon') this.setFoucus('hsnno');
+      if (activeId == 'hsnno') this.setFoucus('hsndetail');
+      if (activeId == 'hsndetail') this.setFoucus('gst');
+      if (activeId == 'gst') this.setFoucus('inventary');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
     } else if (key != 'backspace') {
@@ -329,7 +394,28 @@ export class StockitemComponent implements OnInit {
 
   }
 
-
+  onSelect(suggestion, activeId) {
+    console.log('Suggestion:>>>>>>>>>> ', suggestion,activeId);
+    if (activeId == 'stockType') {
+      this.stockItem.stockType.name = suggestion.name;
+      this.stockItem.stockType.id = suggestion.id;
+      this.getStockSubType(suggestion.id);   
+    } else  if (activeId == 'stockSubType') {
+      this.stockItem.stockSubType.name = suggestion.name;
+      this.stockItem.stockSubType.id = suggestion.id;
+    } else  if (activeId == 'unit') {
+      this.stockItem.unit.name = suggestion.name;
+      this.stockItem.unit.id = suggestion.id;
+    } else  if (activeId == 'calculationtype') {
+      console.log('suggestion with id calculate',suggestion);
+      this.stockItem.calculationtype = suggestion.name;
+      this.setFoucus('taxability');
+    } else  if (activeId == 'taxability') {
+      console.log('suggestion with id taxability',suggestion);
+      this.stockItem.taxability = suggestion.name;
+      this.setFoucus('igst');
+    } 
+  }
 
 
   setFoucus(id, isSetLastActive = true) {
@@ -345,7 +431,8 @@ export class StockitemComponent implements OnInit {
   }
   
   selectSuggestion(suggestion, id?) {
-    console.log('Suggestion: activeId : ', this.activeId);
+
+    console.log('Suggestion: activeId +++: ', this.activeId,suggestion);
     if (this.activeId == 'stockType') {
       this.stockItem.stockType.name = suggestion.name;
       this.stockItem.stockType.id = suggestion.id;
@@ -353,8 +440,14 @@ export class StockitemComponent implements OnInit {
     } else  if (this.activeId == 'stockSubType') {
       this.stockItem.stockSubType.name = suggestion.name;
       this.stockItem.stockSubType.id = suggestion.id;
+    } else  if (this.activeId == 'calculationtype') {
+      console.log('suggestion with id calculate',suggestion);
+      this.stockItem.calculationtype = suggestion.name;
+    } else  if (this.activeId == 'taxability') {
+      console.log('suggestion with id taxability',suggestion);
+      this.stockItem.taxability = suggestion.name;
     } 
-
+    
   }
 
   setAutoSuggestion() {
@@ -368,8 +461,14 @@ export class StockitemComponent implements OnInit {
     } else if (activeId == 'unit') { 
       // console.log('hello',activeId);
       this.autoSuggestion.data = this.unitData; 
+    }else if (activeId == 'calculationtype') { 
+      // console.log('hello',activeId);
+      this.autoSuggestion.data = this.suggestions.gstcalcution; 
+    }else if (activeId == 'taxability') { 
+      // console.log('hello',activeId);
+      this.autoSuggestion.data = this.suggestions.taxability; 
     }
-
+    
 
     
     // else if (activeId.includes('salutation-')) this.autoSuggestion.data = this.suggestions.salutiondata;
@@ -384,7 +483,7 @@ export class StockitemComponent implements OnInit {
 
     this.autoSuggestion.display = 'name';
     this.autoSuggestion.targetId = activeId;
-    console.log('Auto Suggestion: ', this.autoSuggestion);
+   // console.log('Auto Suggestion: ', this.autoSuggestion);
   }
 
 

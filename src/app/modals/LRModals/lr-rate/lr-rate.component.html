@@ -1,56 +1,179 @@
 <div class="modal-header">
-  <h5>LR Rate Input</h5>
+  <h5>LR Rate Input ({{title}})</h5>
+  <button class="btn btn-class" (click)="changeModalData();">{{btnTitle}}</button>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
+  <div *ngIf="generalModal">
+    <div class="row">
+      <div class="col-sm-7"><label> Fixed (<i class="fas fa-rupee-sign"></i>) </label></div>
+      <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.fixed></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-7"><label> Rate(/Tn) </label></div>
+      <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.weight></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-7"><label>MG-Weight(In Tons)</label></div>
+      <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.mgWeight></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-7"><label>Rate/Qty</label> </div>
+      <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.qty></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-7"><label>MG-Qty</label></div>
+      <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.mgQty></div>
+    </div>
+    <div class="row" *ngFor="let filter of filters; let i= index">
+      <div class="col-sm-7"><label>Allowed Shortage</label><br>
+        <span>
+          <label><input type="radio" [name]="'as_'+i" [id]="'as_'+i" value="shortage" [(ngModel)]="filter.param"
+              (click)="allowedShortageReset(i)"> <b>Shortage Value</b></label>
+          &nbsp;&nbsp;
+          <label><input type="radio" [name]="'as_'+i" [id]="'as_'+i" value="shortagePer" [(ngModel)]="filter.param"
+              (click)="allowedShortageReset(i)" checked></label>
+          <b>Shortage(%)</b>
+        </span>
+      </div>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" [(ngModel)]="filter.minRange">
+      </div>
+    </div>
+    <div class="row" *ngFor="let filter of filters; let i= index">
+      <div class="col-sm-7"><label>Penalty Shortage(/Kg)</label>
+        <!-- <span>
+            <label><input type="radio" name="postAllowed" value=0 [(ngModel)]="postAllowed"
+                (click)="postAllowedReset()">
+              <b> Value</b></label>&nbsp;&nbsp;
+            <label><input type="radio" name="postAllowed" value=1 [(ngModel)]="postAllowed" (click)="postAllowedReset()"
+                checked> <b>percentage(%)</b></label>
+          </span> -->
+      </div>
+      <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=filter.shortage></div>
+      <!-- <td *ngIf="postAllowed==1"><input type="text" class="form-control" [(ngModel)]=filter.shortagePer></td> -->
+    </div>
 
-  <div class="table-conan general-coef">
-    <h6>General Multiplier</h6>
-    <table *ngFor="let gen of general">
-      <tr>
-        <td>Mg-Weight </td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.mgWeight></td>
-        <td>Mg-Qty</td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.mgQty></td>
-        <td>Fixed(<i class="fas fa-rupee-sign"></i>)</td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.fixed></td>
-        <td>Distance(/KM) </td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.distance></td>
-        <td>Weight(/Tn) </td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.weight></td>
-        <td>Shortage(/Tn)</td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.shortage></td>
-        <td>Shortage %</td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.shortagePer></td>
 
 
-      </tr>
-      <tr>
-        <td>Detention (/Hr) </td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.detenation></td>
-        <td>Delay (/Hr)</td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.delay></td>
-        <td>Wt-Dist (/Tn-Hr) </td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.weightDistance></td>
-        <td>Loading (/Tn) </td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.loading></td>
-        <td>Unloading × </td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.unloading></td>
-        <td>Qty</td>
-        <td><input type="text" class="form-control" [(ngModel)]=gen.qty></td>
-      </tr>
-    </table>
+  </div>
+  <div *ngIf="!generalModal">
+    <div class="table-conan general-coef">
+      <h6>General Multiplier</h6>
+      <table>
+        <tr>
+          <td>Fixed(<i class="fas fa-rupee-sign"></i>)</td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.fixed></td>
+          <td>Distance(/KM) </td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.distance></td>
+          <td>Weight(/Tn) </td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.weight></td>
+          <td>MG-Weight(/Tn) </td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.mgWeight></td>
+          <td>Shortage(/Kg)</td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.shortage></td>
+          <td>Shortage %</td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.shortagePer></td>
+          <td>Detention (/Day) </td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.detenation></td>
+
+        </tr>
+        <tr>
+          <td>Delay (/Day)</td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.delay></td>
+          <td>Wt-Dist (/Tn-Km) </td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.weightDistance></td>
+          <td>Loading (/Tn) </td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.loading></td>
+          <td>Unloading (/Tn) </td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.unloading></td>
+          <td>Qty </td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.qty></td>
+          <td>MG-Qty</td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.mgQty></td>
+        </tr>
+      </table>
+    </div>
+    <div class="table-conan filter-coff">
+      <h6>Slab based Multiplier</h6>
+      <table>
+        <tbody *ngFor="let filter of filters; let i= index">
+          <tr>
+            <td>Param</td>
+            <td><select [(ngModel)]=filter.param style="width: 100%;">
+                <option *ngFor="let freightRateparam of freightRateparams" [value]="freightRateparam.r_value">
+                  {{freightRateparam.r_name}}</option>
+
+
+              </select>
+            </td>
+            <td>Name</td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.paramValue></td>
+            <td>Min Range</td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.minRange></td>
+            <td>Max Range</td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.maxRange></td>
+
+          <tr>
+            <td>Fixed(Rs)</td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.fixed></td>
+            <td>Distance(/KM)</td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.distance></td>
+            <td>Weight(/Tn)</td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.weight></td>
+            <td>MG-Weight (/Tn) </td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.mgWeight></td>
+            <td>Shortage(/Kg) </td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.shortage></td>
+            <td>Shortage %</td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.shortagePer></td>
+            <td>Detention (/Day)</td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.detenation></td>
+          </tr>
+          <tr>
+            <td>Delay (/Day)</td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.delay></td>
+            <td>Wt-Dist (/Tn-Km) </td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.weightDistance></td>
+            <td>Loading (/Tn) </td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.loading></td>
+            <td>Unloading (/Tn) </td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.unloading></td>
+            <td>Qty </td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.qty></td>
+            <td>MG-Qty</td>
+            <td><input type="text" class="form-control" [(ngModel)]=filter.mgQty></td>
+            <td *ngIf="i == filters.length-1"><button class="btn btn-primary" (click)="addMore()"><i
+                  class="fa fa-plus add">
+                </i></button></td>
+            <td *ngIf="i != 0"> <button class="btn btn-danger" (click)="filters.splice(i,1)"><i
+                  class="fa fa-trash remove"></i></button></td>
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+
   </div>
 
 
   <div class="text-right mt-3 mb-3">
     <button class="btn btn-primary submit" (click)="saveLrRateInput()">Submit</button>
   </div>
-  <h4 *ngIf="data && data.length">
+  <div class="row">
+    <div class="col-sm-5">
+      <button (click)='calculateRate()' class="btn btn-class1">Calculate Rate</button>
+    </div>
+
+  </div>
+
+  <h6 *ngIf="data && data.length && !generalModal">
     Lr Rates
-  </h4>
-  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="ratesTable">
+  </h6>
+  <smart-table *ngIf="data && data.length && !generalModal" [data]="table.data" [settings]="table.settings"
+    id="ratesTable">
   </smart-table>
 </div>

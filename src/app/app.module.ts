@@ -188,7 +188,6 @@ import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-rev
 import { SaveAdvicesComponent } from './modals/save-advices/save-advices.component';
 import { EntityFlagsComponent } from './modals/entity-flags/entity-flags.component';
 import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.component';
-import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
 import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { LrPodDetailsComponent } from './modals/lr-pod-details/lr-pod-details.component';
@@ -202,6 +201,19 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
 import { TripSettlementComponent } from './modals/trip-settlement/trip-settlement.component';
 import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/edit-via-routes-points.component';
 import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
+import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
+import { GenericModelComponent } from './modals/generic-model/generic-model.component';
+import { AddReceiptsComponent } from './modals/add-receipts/add-receipts.component';
+import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
+import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
+import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
+import { AddCompanyBranchComponent } from './modals/add-company-branch/add-company-branch.component';
+import { CompanyAssociationComponent } from './modals/company-association/company-association.component';
+import { CompanyEstablishmentComponent } from './modals/company-establishment/company-establishment.component';
+import { CompanyContactsComponent } from './modals/company-contacts/company-contacts.component';
+import { AddMaterialComponent } from './modals/LRModals/add-material/add-material.component';
+import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
+
 
 
 @NgModule({
@@ -361,7 +373,7 @@ import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
     SaveAdvicesComponent,
     EntityFlagsComponent,
     ClearAdvicesComponent,
-    AdviceViewComponent,
+    GenericModelComponent,
     TransferReceiptsComponent,
     AddFreightExpensesComponent,
     LrPodDetailsComponent,
@@ -375,8 +387,21 @@ import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
     LrRateComponent,
+    LedgeraddressComponent,
+    AddReceiptsComponent,
+    GetUserBankInfoComponent,
+    UploadDocsComponent,
+    OrderdetailComponent,
+    AddCompanyBranchComponent,
+    CompanyAssociationComponent,
+    CompanyEstablishmentComponent,
+    CompanyContactsComponent,
+    AddMaterialComponent,
+    LRRateCalculatorComponent,
+
   ],
   entryComponents: [
+    LRRateCalculatorComponent,
     LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
@@ -531,7 +556,7 @@ import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
     SaveAdvicesComponent,
     EntityFlagsComponent,
     ClearAdvicesComponent,
-    AdviceViewComponent,
+    GenericModelComponent,
     TransferReceiptsComponent,
     LrPodDetailsComponent,
     FreightRateCalculationComponent,
@@ -543,6 +568,17 @@ import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
     TripSettlementComponent,
+    LedgeraddressComponent,
+    AddReceiptsComponent,
+    GetUserBankInfoComponent,
+    UploadDocsComponent,
+    OrderdetailComponent,
+    AddCompanyBranchComponent,
+    CompanyAssociationComponent,
+    CompanyEstablishmentComponent,
+    CompanyContactsComponent,
+    AddMaterialComponent,
+
   ],
   imports: [
     BrowserModule,
