@@ -48,12 +48,12 @@ export class LrAssignComponent implements OnInit {
     private modalService: NgbModal) {
 
     console.log("Data:::", this.common.params.row);
+    this.common.handleModalSize('class', 'modal-lg', '800', 'px', 1);
     this.branchId = this.common.params.row._branch_id ? this.common.params.row._branch_id : null;
     this.partyId = this.common.params.row._party_id ? this.common.params.row._party_id : null;
     this.invoiceId = this.common.params.row._id ? this.common.params.row._id : null;
     this.getlrUnmapped();
     this.viewlrData();
-
   }
 
   ngOnInit() {

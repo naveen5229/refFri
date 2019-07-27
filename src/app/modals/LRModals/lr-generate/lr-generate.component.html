@@ -12,9 +12,9 @@
           <tr>
             <td><label>
                 LR Type
-                <select [(ngModel)]="lr.lrType">
+                <select [(ngModel)]="lr.lrType" (change)="changeLrTypeData()">
                   <option value="1">Own</option>
-                  <option value="2">Market</option>
+                  <option value="3">Market</option>
                 </select>
               </label></td>
             <td>
@@ -85,10 +85,10 @@
 
                 </div>
               </td>
-              <td><label>T.A. Name</label></td>
+              <td><label *ngIf="lr.lrType!=1">T.A. Name</label></td>
 
               <td>
-                <span>
+                <span *ngIf="lr.lrType!=1">
                   <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent" display="name"
                     placeholder=" Search Transport Agent Name" [preSelected]="{name:taName,id:taId}" style="width:100%;"
                     class="col-md-9 auto-suggest">
@@ -153,7 +153,7 @@
                 <!-- <td><input type="text" [(ngModel)]=lr.destinationCity class="form-control" autocomplete="off"> </td> -->
             </tr>
             <tr>
-              <td><label>Consignor Name<span class="red-star">*</span> </label></td>
+              <td><label>Consignor Name<span class="red-star" *ngIf="lr.lrType==1">*</span> </label></td>
               <td> <span>
                   <auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies"
                     display="name" placeholder="Search Consignor Name" style="width:100%;" class="col-md-9 auto-suggest"
@@ -168,7 +168,7 @@
 
             </tr>
             <tr>
-              <td><label>Consignee Name<span class="red-star">*</span></label></td>
+              <td><label>Consignee Name<span class="red-star" *ngIf="lr.lrType==1">*</span></label></td>
               <td> <span>
                   <auto-suggestion (onSelected)="getConsigneeDetail($event)" url="Suggestion/GetCompanies"
                     display="name" placeholder="Search Consignee Name" style="width:100%;" class="col-md-9 auto-suggest"
@@ -228,8 +228,8 @@
             </tr>
             <tr>
 
-              <td><label>Invoice To</label></td>
-              <td><select [(ngModel)]="lr.invoiceTo" class="form-conrol">
+              <td><label *ngIf="lr.lrType==1">Invoice To</label></td>
+              <td><select [(ngModel)]="lr.invoiceTo" class="form-conrol" *ngIf="lr.lrType==1">
                   <option value="1">Consignee</option>
                   <option value="2">Consignor</option>
                   <option value="9">Others</option>

@@ -11,6 +11,8 @@ import { LRViewComponent } from '../lrview/lrview.component';
 import { isArray } from 'util';
 import { AddFieldComponent } from '../add-field/add-field.component';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
+import { AddMaterialComponent } from '../add-material/add-material.component';
+import { AddTransportAgentComponent } from '../add-transport-agent/add-transport-agent.component';
 
 @Component({
   selector: 'lr-generate',
@@ -174,9 +176,27 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
+  changeLrTypeData() {
+    if (this.lr.lrType == 1) {
+      this.taId = null;
+      this.taName = null;
+    }
+    else if (this.lr.lrType == 3) {
+      this.lr.invoicePayer = null;
+      this.lr.invoiceTo = -1;
+      this.lr.invoicePayerId = null;
+      this.lr.consigneeName = null;
+      this.lr.consigneeAddress = null;
+      this.lr.consigneeId = null;
+      this.lr.consignorAddress = null;
+      this.lr.consignorName = null;
+      this.lr.consignorId = null;
+    }
+  }
+
   addTransportAgent() {
     console.log("open T a. modal")
-    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    const activeModal = this.modalService.open(AddTransportAgentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Data:', data);
 
@@ -310,7 +330,7 @@ export class LrGenerateComponent implements OnInit {
       return 0;
     }
 
-    if ((!this.lr.sourceId) || (!this.lr.destinationId)) {
+    if ((!this.lr.sourceLat) || (!this.lr.destinationLat)) {
       this.common.showError("Source and Destination Location selection are required");
     } else {
       ++this.common.loading;
@@ -419,10 +439,10 @@ export class LrGenerateComponent implements OnInit {
 
   addMaterial() {
     console.log('add material');
-    // const activeModal = this.modalService.open(LRViewComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    // activeModal.result.then(data => {
-    //   console.log('Date:', data);
-    // });
+    const activeModal = this.modalService.open(AddMaterialComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    });
   }
 
   getDate() {
