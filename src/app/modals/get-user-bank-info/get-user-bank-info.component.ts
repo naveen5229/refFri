@@ -34,6 +34,7 @@ table = {
 };
 headings = [];
 valobj = {};
+fuelInfo=null;
 fuelData=null;
   constructor(
     public activeModal: NgbActiveModal,
@@ -80,34 +81,69 @@ fuelData=null;
       });
   }
   saveUserDetails(){
-    let params = {
-      foid : this.foid,
-      username: this.userName,
-      bankid: this.bankId,
-      password: this.password,
-      username2 : this.userName2
-    };
-    console.log("params->",params);
-    this.common.loading++;
-    this.api.post('FoBankTransactions/saveUserBankCrediantials', params)
-    .subscribe(res => {
-      this.common.loading--;
-      this.bankInfo = res['data'];
-      console.log("bank info-->",this.bankInfo);
-      if (this.bankInfo[0]['y_id'] > 0){
-        this.common.showToast("Crediantial Has Inserted")
-        this.viewFoDetails();
-        this.resetDetails();
-
-      }
-      else{
-        this.common.showToast("Error")
-      }
-      
-    }, err => {
-      this.common.loading--;
-      console.log(err);
-    });
+    console.log("response type----->",this.type)
+    if(this.type == 'bank'){
+      let params = {
+        foid : this.foid,
+        username: this.userName,
+        typeid: this.bankId,
+        password: this.password,
+        username2 : this.userName2,
+        type : 'bank'
+      };
+      console.log("params->",params);
+      this.common.loading++;
+      this.api.post('FoBankTransactions/saveUserCrediantials', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.bankInfo = res['data'];
+        console.log("bank info-->",this.bankInfo);
+        if (this.bankInfo[0]['y_id'] > 0){
+          this.common.showToast(this.bankInfo[0]['y_msg'])
+          this.viewFoDetails();
+          this.resetDetails();
+  
+        }
+        else{
+          this.common.showError(this.bankInfo[0]['y_msg'])
+        }
+        
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    }
+    if (this.type == 'fuel'){
+      let params = {
+        foid : this.foid,
+        username: this.userName,
+        typeid: this.fuelId,
+        password: this.password,
+        username2 : this.userName2,
+        type : 'fuel'
+      };
+      console.log("params->",params);
+      this.common.loading++;
+      this.api.post('FoBankTransactions/saveUserCrediantials', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.fuelInfo = res['data'];
+        console.log("fuel info-->",this.fuelInfo);
+        if (this.fuelInfo[0]['y_id'] > 0){
+          this.common.showToast(this.fuelInfo[0]['y_msg'])
+          this.viewFoDetails();
+          this.resetDetails();
+  
+        }
+        else{
+          this.common.showError(this.fuelInfo[0]['y_msg'])
+        }
+        
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    }
 
   }
   showPassword(type){
@@ -189,6 +225,8 @@ fuelData=null;
     this.password = null;
     this.userName = null;
     this.bankId = -1;
+    this.type = null;
+    this.selected = null;
   }
   deleteRow(doc){
     let params = {
@@ -196,7 +234,7 @@ fuelData=null;
     }
     console.log("params->",params);
     this.common.loading++;
-    this.api.post('FoBankTransactions/deleteFoBankInfo', params)
+    this.api.post('FoBankTransactions/deleteFoInfo', params)
     .subscribe(res => {
       this.common.loading--;
       this.data = res['data'];
