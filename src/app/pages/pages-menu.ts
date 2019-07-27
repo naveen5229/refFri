@@ -133,6 +133,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: 'Manage Party',
+        icon: 'nb-notifications',
+        link: '/pages/manage-fo-party',
+        home:true,
+      },
+      {
         title: 'Site',
         icon: 'fas fa-map-marked-alt',
         link: '/pages/sites',

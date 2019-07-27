@@ -294,7 +294,7 @@ export class VehicleTripUpdateComponent implements OnInit {
               (<HTMLInputElement>document.getElementById('endname')).value = this.vehicleTrip.endName;
               this.vehicleTrip.endLat = res.location.lat;
               this.vehicleTrip.endLng = res.location.lng;
-              this.placementSite = null;
+              this.placementSite = res.id;
               this.keepGoing = true;
             }
           }
