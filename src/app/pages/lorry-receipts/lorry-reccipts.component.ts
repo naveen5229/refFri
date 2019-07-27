@@ -137,6 +137,19 @@ export class LorryRecciptsComponent implements OnInit {
 
   }
 
+  RefData()
+  {
+    let refdata = [{
+      refid: "",
+      reftype: "",
+      doctype:""
+    }
+    ];
+    
+    this.common.params = {refdata: refdata, title: 'docImage' };
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
+  }
+
 
   printLr(receipt) {
     console.log("receipts", receipt);
