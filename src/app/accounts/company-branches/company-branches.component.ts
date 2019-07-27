@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BranchComponent } from '../../acounts-modals/branch/branch.component';
 import { UserService } from '../../@core/data/users.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { AccountService } from '../../services/account.service';
 @Component({
   selector: 'company-branches',
   templateUrl: './company-branches.component.html',
@@ -15,6 +16,7 @@ export class CompanyBranchesComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public accountService: AccountService,
     public modalService: NgbModal) {
     this.GetBranchData();
     this.common.currentPage = 'Company Branches';
@@ -120,6 +122,7 @@ export class CompanyBranchesComponent implements OnInit {
         if (result == '') {
           this.common.showToast(" Add Successfully");
           this.GetBranchData();
+          this.getBranches();
         }
         else {
           this.common.showToast(result);
@@ -132,7 +135,15 @@ export class CompanyBranchesComponent implements OnInit {
       });
 
   }
-
+  getBranches() {
+    this.api.post('Suggestion/GetBranchList', { search: 123 })
+      .subscribe(res => {
+        console.log('Branches :', res['data']);
+        this.accountService.branches = res['data'];
+      }, err => {
+        console.log('Error: ', err);
+      });
+  }
   updatebranch(branch, rowid) {
     console.log('branch:', branch);
     const params = {
@@ -174,6 +185,7 @@ export class CompanyBranchesComponent implements OnInit {
         let result = res['data'][0].save_companybranch;
         if (result == '') {
           this.common.showToast(" Update Successfully");
+          this.getBranches();
         }
         else {
           this.common.showToast(result);
@@ -210,6 +222,7 @@ export class CompanyBranchesComponent implements OnInit {
               console.log('res: ', res);
               this.GetBranchData();
               this.common.showToast(" This Value Has been Deleted!");
+              this.getBranches();
             }, err => {
               this.common.loading--;
               console.log('Error: ', err);

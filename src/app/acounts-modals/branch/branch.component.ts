@@ -40,8 +40,8 @@ export class BranchComponent implements OnInit {
       id:0,
       name:'Not Applicable'
     },
-    latitude: 0,
-    longitude: 0,
+    latitude: 'null',
+    longitude: 'null',
     precode: '',
     lrcodewidth: 5,
     lrcodelastid: 0
@@ -85,8 +85,8 @@ export class BranchComponent implements OnInit {
           id: (this.common.params.site_id) ? this.common.params.site_id : 0,
           name: (this.common.params.sitename) ? this.common.params.sitename : ''
         },
-        latitude: (this.common.params.lat) ? this.common.params.lat : '',
-        longitude: (this.common.params.long) ? this.common.params.long : '',
+        latitude: (this.common.params.lat == null) ? 'null': this.common.params.lat,
+        longitude: (this.common.params.long ==null) ? 'null' : this.common.params.long,
         precode: (this.common.params.lr_pre_code) ? this.common.params.lr_pre_code : '',
         lrcodewidth: this.common.params.lr_code_width,
         lrcodelastid: this.common.params.lr_code_lastid

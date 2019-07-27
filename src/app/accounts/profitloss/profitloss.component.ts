@@ -60,6 +60,7 @@ export class ProfitlossComponent implements OnInit {
     this.getBranchList();
     this.setFoucus('startdate');
     this.common.currentPage = 'Profit & Loss A/C';
+   // this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 0);
 
   }
 

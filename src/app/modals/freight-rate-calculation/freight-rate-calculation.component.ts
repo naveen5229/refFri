@@ -15,7 +15,7 @@ export class FreightRateCalculationComponent implements OnInit {
 
   keepGoing = true;
   searchString = '';
-  destinationString='';
+  destinationString = '';
   companyId = null;
   origin = null;
   siteId = null;
@@ -89,14 +89,14 @@ export class FreightRateCalculationComponent implements OnInit {
 
   selectLocation(location, suggestionId) {
     this.origin = location.split(',')[0];
-    setTimeout(() => document.getElementById(suggestionId)['value'] = this.origin,0);
+    setTimeout(() => document.getElementById(suggestionId)['value'] = this.origin, 0);
     console.log(document.getElementById(suggestionId));
     console.log("origin", this.origin);
   }
 
-  selectDestination(location,suggestionId){
-    this.destination=location.split(',')[0];
-    setTimeout(() => document.getElementById(suggestionId)['value'] = this.destination,0);
+  selectDestination(location, suggestionId) {
+    this.destination = location.split(',')[0];
+    setTimeout(() => document.getElementById(suggestionId)['value'] = this.destination, 0);
     console.log(document.getElementById(suggestionId));
 
   }
@@ -252,25 +252,25 @@ export class FreightRateCalculationComponent implements OnInit {
     this.activeModal.close();
   }
 
-  onChangeAuto(search,type) {
-    if(type=='source'){
+  onChangeAuto(search, type) {
+    if (type == 'source') {
       this.searchString = search;
       console.log('..........', search);
     }
-    else{
-       this.destinationString = search;
+    else {
+      this.destinationString = search;
     }
-   
+
   }
 
-  
+
 
   takeAction(res) {
     setTimeout(() => {
       console.log('here reaches');
       if (this.keepGoing && this.searchString.length) {
         this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
-        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
           console.log('response----', res.location);
@@ -290,7 +290,7 @@ export class FreightRateCalculationComponent implements OnInit {
       console.log('here reaches');
       if (this.keepGoing && this.destinationString.length) {
         this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
-        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
           console.log('response----', res.location);

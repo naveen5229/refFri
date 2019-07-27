@@ -207,6 +207,13 @@ import { AddReceiptsComponent } from './modals/add-receipts/add-receipts.compone
 import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
 import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
 import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
+import { AddCompanyBranchComponent } from './modals/add-company-branch/add-company-branch.component';
+import { CompanyAssociationComponent } from './modals/company-association/company-association.component';
+import { CompanyEstablishmentComponent } from './modals/company-establishment/company-establishment.component';
+import { CompanyContactsComponent } from './modals/company-contacts/company-contacts.component';
+import { AddMaterialComponent } from './modals/LRModals/add-material/add-material.component';
+import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
+
 
 
 @NgModule({
@@ -385,8 +392,16 @@ import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.c
     GetUserBankInfoComponent,
     UploadDocsComponent,
     OrderdetailComponent,
+    AddCompanyBranchComponent,
+    CompanyAssociationComponent,
+    CompanyEstablishmentComponent,
+    CompanyContactsComponent,
+    AddMaterialComponent,
+    LRRateCalculatorComponent,
+
   ],
   entryComponents: [
+    LRRateCalculatorComponent,
     LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
@@ -557,8 +572,13 @@ import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.c
     AddReceiptsComponent,
     GetUserBankInfoComponent,
     UploadDocsComponent,
-
     OrderdetailComponent,
+    AddCompanyBranchComponent,
+    CompanyAssociationComponent,
+    CompanyEstablishmentComponent,
+    CompanyContactsComponent,
+    AddMaterialComponent,
+
   ],
   imports: [
     BrowserModule,
