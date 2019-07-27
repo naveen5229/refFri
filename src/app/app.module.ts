@@ -207,6 +207,8 @@ import { AddReceiptsComponent } from './modals/add-receipts/add-receipts.compone
 import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
 import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
 import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
+import { AddTransportAgentComponent } from './modals/LRModals/add-transport-agent/add-transport-agent.component';
+
 
 
 @NgModule({
@@ -385,6 +387,7 @@ import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.c
     GetUserBankInfoComponent,
     UploadDocsComponent,
     OrderdetailComponent,
+    AddTransportAgentComponent,
   ],
   entryComponents: [
     LrRateComponent,
@@ -559,6 +562,7 @@ import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.c
     UploadDocsComponent,
 
     OrderdetailComponent,
+    AddTransportAgentComponent,
   ],
   imports: [
     BrowserModule,
