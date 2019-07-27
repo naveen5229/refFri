@@ -213,6 +213,8 @@ import { CompanyEstablishmentComponent } from './modals/company-establishment/co
 import { CompanyContactsComponent } from './modals/company-contacts/company-contacts.component';
 import { AddMaterialComponent } from './modals/LRModals/add-material/add-material.component';
 import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
+import { LrInvoiceColumnsComponent } from './pages/lr-invoice-columns/lr-invoice-columns.component';
+import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfesto/generate-lr-mainfesto.component';
 
 
 
@@ -398,6 +400,8 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     CompanyContactsComponent,
     AddMaterialComponent,
     LRRateCalculatorComponent,
+    LrInvoiceColumnsComponent,
+    GenerateLrMainfestoComponent,
 
   ],
   entryComponents: [
@@ -578,7 +582,8 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
     AddMaterialComponent,
-
+    LrInvoiceColumnsComponent,
+    GenerateLrMainfestoComponent,
   ],
   imports: [
     BrowserModule,
