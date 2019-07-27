@@ -24,6 +24,7 @@
       <thead class="thead">
         <th>Heads Name</th>
         <th>Amount</th>
+        <th>Manual Amount</th>
         <th>Action</th>
       </thead>
       <tbody>
@@ -36,17 +37,13 @@
               <option *ngFor="let freightHead of freightHeads ;" [value]="freightHead.r_name">
               </option>
             </datalist>
-            <!-- <auto-suggestion (onSelected)="customjsonfield.field1 = $event.name;" display="name" [data]="fofields"
-                    [preSelected]="{name:customjsonfield.field1}" placeholder="Name"></auto-suggestion> -->
-            <!-- <select [(ngModel)]="customjsonfield.field1">
-                    <option value="">Select</option>
-                    <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
-                  </select> -->
           </td>
           <td>
             <input type="number" class="form-control" [(ngModel)]="revenueDetail.value">
           </td>
-
+          <td>
+            <input type="number" class="form-control" [(ngModel)]="revenueDetail.manualValue">
+          </td>
           <td>
 
             <button class="btn btn-primary" (click)="addField(j)" *ngIf="j == revenueDetails.length-1"><i
