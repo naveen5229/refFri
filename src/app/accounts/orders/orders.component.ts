@@ -137,20 +137,33 @@ export class OrdersComponent implements OnInit {
       let suggestionname = params.name;
       if (suggestionname == 'Debit Note') {
         this.getInvoiceList(-2);
-        suggestionname = 'Purchase Invoice';
+        suggestionname = 'purchase';
       }
       if (suggestionname == 'Credit Note') {
         this.getInvoiceList(-4);
-        suggestionname = 'Sales Invoice';
+        suggestionname = 'sales';
       }
+      if (suggestionname == 'Purchase Assets Invoice') {
+       // this.getInvoiceList(-4);
+        suggestionname = 'inventary';
+      }
+      if (suggestionname == 'Purchase Invoice') {
+        // this.getInvoiceList(-4);
+         suggestionname = 'purchase';
+       }
+       if (suggestionname == 'Sales Invoice') {
+        // this.getInvoiceList(-4);
+         suggestionname = 'sales';
+       }
       this.getStockItems(suggestionname);
     });
     this.common.refresh = () => {
       this.getInvoiceTypes();
       this.getPurchaseLedgers();
       this.getSupplierLedgers();
-      this.getStockItems('sales');
-      this.getStockItems('purchase');
+      // this.getStockItems('sales');
+      // this.getStockItems('purchase');
+      // this.getStockItems('inventary');
       this.getWarehouses();
     };
 
