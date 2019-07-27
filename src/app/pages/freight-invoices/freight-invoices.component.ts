@@ -137,8 +137,8 @@ export class FreightInvoicesComponent implements OnInit {
         action: this.deleteRow.bind(this, row),
       },
       {
-        class:"fas fa-print",
-        action:this.printInvoice.bind(this,row),
+        class: "fas fa-print",
+        action: this.printInvoice.bind(this, row),
       }
     )
     return icons;
@@ -164,7 +164,7 @@ export class FreightInvoicesComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--;
               this.common.showToast(res['msg']);
-                this.viewFreightInvoice();
+              this.viewFreightInvoice();
 
             }, err => {
               this.common.loading--;
@@ -177,7 +177,7 @@ export class FreightInvoicesComponent implements OnInit {
 
 
   lrAssign(row) {
-    this.common.handleModalSize('class', 'modal-lg', '800');
+    this.common.handleModalSize('class', 'modal-lg', '1300');
     this.common.params = { row: row };
     const activeModal = this.modalService.open(LrAssignComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
     activeModal.result.then(data => {
@@ -200,7 +200,7 @@ export class FreightInvoicesComponent implements OnInit {
 
   printInvoice(invoice) {
     console.log("invoice", invoice);
-    this.common.params = { invoiceId:invoice._id }
+    this.common.params = { invoiceId: invoice._id }
     const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
