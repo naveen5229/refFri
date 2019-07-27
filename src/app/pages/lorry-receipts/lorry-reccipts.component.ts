@@ -15,6 +15,7 @@ import { TripSettlementComponent } from '../../modals/trip-settlement/trip-settl
 import { AddFreightExpensesComponent } from '../../modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-details.component';
+import { AddReceiptsComponent}from '../../modals/add-receipts/add-receipts.component'
 
 @Component({
   selector: 'lorry-reccipts',
@@ -145,6 +146,14 @@ export class LorryRecciptsComponent implements OnInit {
 
     });
   }
+
+
+  addReceipts() {
+    const activeModal = this.modalService.open(AddReceiptsComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    }).catch(err =>console.log('Error:', err));
+  }
+
 
   setTable() {
     let headings = {

@@ -15,6 +15,10 @@ export class DateTimePickerComponent implements OnInit {
   @Input() isStart: boolean;
   @Input() isDate: boolean;
   @Input() isForm: boolean;
+  @Input() maxd: Date;
+  @Input() mind: Date;
+  @Input() maxt: Date;
+  @Input() mint: Date;
   @Input() dateTimeValue: Date;
 
 
@@ -31,7 +35,7 @@ export class DateTimePickerComponent implements OnInit {
 
   ngAfterViewInit() {
     if (!this.isTime && this.dateTimeValue) {
-       if (this.isStart)
+      if (this.isStart)
         this.onChanged.emit(new Date(this.dateTimeValue.setHours(0, 0, 0, 0)));
       else
         this.onChanged.emit(new Date(this.dateTimeValue.setHours(23, 59, 59, 0)));
