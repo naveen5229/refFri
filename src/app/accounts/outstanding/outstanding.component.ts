@@ -7,6 +7,8 @@ import * as _ from 'lodash';
 import { CsvService } from '../../services/csv/csv.service';
 import { AccountService } from '../../services/account.service';
 import { UserService } from '../../services/user.service';
+import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
+import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
 
 
 @Component({
@@ -128,6 +130,44 @@ export class OutstandingComponent implements OnInit {
       console.log(this.outStanding[date]);
     });
   }
+
+  openVoucherDetail(voucherId,vouhercode) {
+    console.log('vouher id', voucherId);
+    this.common.params={
+
+      vchid :voucherId,
+      vchcode:vouhercode
+    }
+    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        return;
+        //   if (stocksubType) {
+
+        //     this.updateStockSubType(stocksubType.id, data.stockSubType);
+        //     return;
+        //   }
+        //  this.addStockSubType(data.stockSubType)
+      }
+    });
+  }
+  openinvoicemodel(voucherId) {
+      this.common.params = {
+        invoiceid: voucherId,
+        delete: 0,
+        indexlg:0
+      };
+      const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          console.log('open succesfull');
+  
+          // this.addLedger(data.ledger);
+        }
+      });
+    }
   pdfFunction(){
     let params = {
       search: 'test'
