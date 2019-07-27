@@ -88,8 +88,13 @@
               <td><label>T.A. Name</label></td>
 
               <td>
-                <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent" display="name"
-                  placeholder=" Search Transport Agent Name" [preSelected]="{name:taName,id:taId}"></auto-suggestion>
+                <span>
+                  <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent" display="name"
+                    placeholder=" Search Transport Agent Name" [preSelected]="{name:taName,id:taId}" style="width:100%;"
+                    class="col-md-9 auto-suggest">
+                  </auto-suggestion>
+                  <i class="fa fa-plus add col-md-3" (click)="addTransportAgent()"></i>
+                </span>
               </td>
             </tr>
             <tr>
@@ -277,7 +282,8 @@
           </tbody>
         </table>
         <div class="material_details">
-          <h5>Material Details <i class="fa fa-list add" (click)="addFoField()"></i></h5>
+          <h5>Material Details <i class="fa fa-list add" (click)="addFoField()"></i> &nbsp;&nbsp; <i
+              class="fa fa-plus add" (click)="addMaterial()"></i></h5>
           <table class="table table-bordered">
             <tbody *ngFor="let particular of particulars; let i = index;">
               <tr>
@@ -285,7 +291,7 @@
                   <label> Material </label>
                 </td>
                 <td>
-                  <auto-suggestion (onSelected)="particular.material=$event.name" url="Suggestion/GetMaterialTypes"
+                  <auto-suggestion (onSelected)="setMaterialDetail($event,i)" url="Suggestion/GetMaterialTypes"
                     display="name" placeholder="Material Name" [preSelected]="{name:particular.material}"
                     [inputId]="'material-' + i">
                   </auto-suggestion>
@@ -296,7 +302,7 @@
                   <label>No. of Articles </label>
                 </td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="particular.articles" (focus)="material(i)">
+                  <input type="text" class="form-control" [(ngModel)]="particular.articles">
                 </td>
                 <td>
                   <label style="width:50%">
@@ -305,7 +311,7 @@
                 <td>
                   <div class="col-sm-5" style="padding:0px">
                     <input class="form-control" type="text" list="unitTitles" name="companies-type"
-                      [(ngModel)]="particular.weight_unit_name"
+                      [(ngModel)]="particular.weight_unit_name" placeholder="Unit"
                       (change)="getWeightUnitId(particular.weight_unit_name , i)">
                     <datalist id="unitTitles">
                       <option *ngFor="let unitField of unitFields ;" [value]="unitField.name"></option>
@@ -329,7 +335,7 @@
               <tr *ngFor=" let customjsonfield of particular.customjsonfields; let j = index; ">
                 <td>
                   <input class="form-control" type="text" list="otherTitles" name="companies-type"
-                    [(ngModel)]="customjsonfield.field1">
+                    [(ngModel)]="customjsonfield.field1" placeholder="Select Field">
                   <datalist id="otherTitles">
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
@@ -345,7 +351,7 @@
                 </td>
                 <td>
                   <input class="form-control" type="text" list="otherTitles" name="companies-type"
-                    [(ngModel)]="customjsonfield.field2">
+                    [(ngModel)]="customjsonfield.field2" placeholder="Select Field">
                   <datalist id="otherTitles">
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
@@ -361,7 +367,7 @@
                 </td>
                 <td>
                   <input class="form-control" type="text" list="otherTitles" name="companies-type"
-                    [(ngModel)]="customjsonfield.field3">
+                    [(ngModel)]="customjsonfield.field3" placeholder="Select Field">
                   <datalist id="otherTitles">
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
@@ -377,7 +383,7 @@
                 </td>
                 <td>
                   <input class="form-control" type="text" list="otherTitles" name="companies-type"
-                    [(ngModel)]="customjsonfield.field4">
+                    [(ngModel)]="customjsonfield.field4" placeholder="Select Field">
                   <datalist id="otherTitles">
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
@@ -394,8 +400,8 @@
 
                 <td>
 
-                  <i class="fa fa-plus add" (click)="addField(i)" *ngIf="j == particular.customjsonfields.length-1"></i>
-                  <i class="fa fa-trash remove" (click)="particular.customjsonfields.splice(i,1)" *ngIf="j !== 0"></i>
+                  <i class="fa fa-plus " (click)="addField(i)" *ngIf="j == particular.customjsonfields.length-1"></i>
+                  <i class="fa fa-trash " (click)="particular.customjsonfields.splice(i,1)" *ngIf="j !== 0"></i>
 
                 </td>
               </tr>

@@ -15,6 +15,7 @@ import { TripSettlementComponent } from '../../modals/trip-settlement/trip-settl
 import { AddFreightExpensesComponent } from '../../modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-details.component';
+import { AddReceiptsComponent}from '../../modals/add-receipts/add-receipts.component'
 
 @Component({
   selector: 'lorry-reccipts',
@@ -32,6 +33,8 @@ export class LorryRecciptsComponent implements OnInit {
   lrType = "2";
   lrCategory = -1;
   vehicleType = -1;
+  tempstartTime = null;
+  tempendTime = null;
   // showMsg = false;
   constructor(
     public api: ApiService,
@@ -44,9 +47,12 @@ export class LorryRecciptsComponent implements OnInit {
 
     let today;
     today = new Date();
+    this.tempendTime = today;
+    this.tempstartTime = new Date(today.setDate(today.getDate() - 15));
+    today = new Date();
     this.endDate = this.common.dateFormatter(today);
     this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
-    console.log('dates ', this.endDate, this.startDate)
+    console.log('dates ', this.endDate, this.startDate);
     this.getLorryReceipts();
     this.common.refresh = this.refresh.bind(this);
 
@@ -62,7 +68,11 @@ export class LorryRecciptsComponent implements OnInit {
     this.getLorryReceipts();
   }
   getLorryReceipts() {
-    console.log('viewtype:', this.viewType);
+
+    if (this.tempendTime < this.tempstartTime) {
+      this.common.showError("End Date Should be greater than Start Date");
+      return 0;
+    }
     var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
     let params = {
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
@@ -137,6 +147,14 @@ export class LorryRecciptsComponent implements OnInit {
     });
   }
 
+
+  addReceipts() {
+    const activeModal = this.modalService.open(AddReceiptsComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    }).catch(err =>console.log('Error:', err));
+  }
+
+
   setTable() {
     let headings = {
       LRId: { title: 'LR Id', placeholder: 'LR Id' },
@@ -144,7 +162,7 @@ export class LorryRecciptsComponent implements OnInit {
       LRNo: { title: 'LR No', placeholder: 'LR No' },
       LRDate: { title: 'LR Date', placeholder: 'LR Date' },
       Consigner: { title: 'Consigner', placeholder: 'Consigner' },
-      consignee: { title: 'consignee', placeholder: 'consignee' },
+      Consignee: { title: 'Consignee', placeholder: 'Consignee' },
       Source: { title: 'Source', placeholder: 'Source' },
       Destination: { title: 'Destination', placeholder: 'Destination' },
       AddTime: { title: 'AddTime', placeholder: 'AddTime' },
@@ -180,9 +198,9 @@ export class LorryRecciptsComponent implements OnInit {
         LRId: { value: R.lr_id },
         VehiceNo: { value: R.regno },
         LRNo: { value: R.lr_no },
-        LRDate: { value: this.datePipe.transform(R.lr_date, 'dd MMM HH:mm ') },
+        LRDate: { value: this.datePipe.transform(R.lr_date, 'dd MMM YYYY HH:mm ') },
         Consigner: { value: R.lr_consigner_name },
-        consignee: { value: R.lr_consignee_name },
+        Consignee: { value: R.lr_consignee_name },
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
@@ -217,12 +235,13 @@ export class LorryRecciptsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         if (type == 'start') {
+          this.tempstartTime = data.date;
           this.startDate = '';
           return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
           console.log('fromDate', this.startDate);
         }
         else {
-
+          this.tempendTime = data.date;
           this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
           // return this.endDate = date.setDate( date.getDate() + 1 )
           console.log('endDate', this.endDate);
@@ -325,9 +344,12 @@ export class LorryRecciptsComponent implements OnInit {
   }
   openPodDeatilsModal(receipt) {
     console.log("val", receipt);
-
-    this.common.params = receipt._podid;
-    const activeModel = this.modalService.open(LrPodDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
+    if (!receipt._podid) {
+      this.common.showError("Pod is not available yet");
+    } else {
+      this.common.params = receipt._podid;
+      const activeModel = this.modalService.open(LrPodDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
+    }
   }
 }
 

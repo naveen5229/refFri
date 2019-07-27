@@ -160,27 +160,16 @@
   </div>
 
 
-  <div class="text-right mt-3 mb-3" *ngIf="rateDiv">
+  <div class="text-right mt-3 mb-3">
     <button class="btn btn-primary submit" (click)="saveLrRateInput()">Submit</button>
   </div>
   <div class="row">
-    <div class="col-sm-5" *ngIf="rateDiv">
-      <button (click)='calculateRate();rateamt=true' class="btn btn-class1">Calculate Rate</button>
+    <div class="col-sm-5">
+      <button (click)='calculateRate()' class="btn btn-class1">Calculate Rate</button>
     </div>
 
   </div>
-  <div class="row" *ngIf="rateamt">
-    <table style="width:500px">
-      <tr>
-        <td><label>Total Amount : </label></td>
-        <td><label>{{calculatedRate.total_amount}}</label></td>
-        <td>
-          <button (click)='saveCalculatedRate()' class="  btn btn-primary">Save freight</button>
-        </td>
-      </tr>
-    </table>
 
-  </div>
   <h6 *ngIf="data && data.length && !generalModal">
     Lr Rates
   </h6>

@@ -126,6 +126,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-distance-with-odometer',
         home: true,
       },
+      {
+        title: 'Manage Party',
+        icon: 'nb-notifications',
+        link: '/pages/manage-party',
+        home:true,
+      },
+      {
+        title: 'Site',
+        icon: 'fas fa-map-marked-alt',
+        link: '/pages/sites',
+        home: true,
+      },
     ]
   },
   {
@@ -242,12 +254,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicles',
         home: true,
       },
-      {
-        title: 'Site',
-        icon: 'fas fa-truck',
-        link: '/pages/sites',
-        home: true,
-      },
+      
     ]
   },
 
