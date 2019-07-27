@@ -29,12 +29,13 @@ const PAGES_COMPONENTS = [
     StateLogsComponent,
     ReceiveItemsComponent,
     CheckDetailComponent,
-    GotPassComponent
+    GotPassComponent,
   ],
   entryComponents:[
     ReceiveItemsComponent,
     ManualItemsComponent,
-    GotPassComponent
+    GotPassComponent,
+
   ],
   
   imports: [

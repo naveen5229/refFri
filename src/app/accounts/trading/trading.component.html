@@ -153,7 +153,7 @@
             <div *ngFor="let balanceSheet of subGroup.balanceSheets; let j = index"
             (click)="$event.stopPropagation(); selectedRow =  'B' + i + k + j" class="tb-mini row m-0 pl-0 pr-0"
             [hidden]="active.asset.subGroup.indexOf('subGroup' + i + k) == -1"
-            (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name) : ' ' "
+            (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name,balanceSheet.y_type_id) : ' ' "
               [ngClass]="{'highlight' : selectedRow == 'B' + i + k + j }" style="background: #dadfe6;">
               <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
               <div style="text-align: left;" class="col-4 text-right">

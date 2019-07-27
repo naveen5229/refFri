@@ -40,7 +40,6 @@ export class VehicleTripUpdateComponent implements OnInit {
   placementSite = null;
   placementSuggestion = [];
   ref_page = null;
-  cLT = 'city';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -78,9 +77,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip', false), 1000);
 
   }
-  changeLocationType(clt) {
-    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip', clt), 1000);
-  }
+
   openReminderModal() {
     this.common.params.returnData = true;
     this.common.params.title = "Target Time";
@@ -255,7 +252,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.vehicleTrip.endName = placementSuggestion.y_loc_name;
     this.vehicleTrip.endLat = placementSuggestion.y_lat;
     this.vehicleTrip.endLng = placementSuggestion.y_long;
-    this.placementSite = null;
+    this.placementSite = placementSuggestion.y_site_id;
 
   }
   selectLocation(place) {
