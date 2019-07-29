@@ -72,6 +72,7 @@ import { NearbyPodsComponent } from '../admin/nearby-pods/nearby-pods.component'
 import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { SitesComponent } from './sites/sites.component';
+import { FinanceRecoveryComponent } from './finance-recovery/finance-recovery.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -178,6 +179,12 @@ const routes: Routes = [{
 
     path: 'placements',
     component: PlacementsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+
+    path: 'finance-recovery',
+    component: FinanceRecoveryComponent,
     canActivate: [AuthGuard],
   },
   {

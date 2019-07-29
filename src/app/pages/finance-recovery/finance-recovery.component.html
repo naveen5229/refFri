@@ -1,0 +1,9 @@
+<nb-card>
+    <nb-card-header>
+        <h5>Finance Recovery</h5>
+    </nb-card-header>
+    <nb-card-body>
+        <smart-table *ngIf="financeData && financeData.length" [data]="table.data" [settings]="table.setting" id="financeData">
+        </smart-table>
+    </nb-card-body>
+</nb-card>

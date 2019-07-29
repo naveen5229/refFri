@@ -77,6 +77,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-odoMeter'
       },
       {
+        title: 'Finance Recovery',
+        icon: 'fas fa-tachometer-alt',
+        link: '/pages/finance-recovery'
+      },
+
+      {
         title: 'Routes',
         icon: 'fa fa-pencil-square-o',
         link: '/pages/via-routes',

@@ -207,6 +207,7 @@ import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-b
 import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
 import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
 import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
+import { FoUserStateComponent } from './modals/fo-user-state/fo-user-state.component';
 
 
 
@@ -386,6 +387,7 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     UploadDocsComponent,
     OrderdetailComponent,
     LRRateCalculatorComponent,
+    FoUserStateComponent,
 
   ],
   entryComponents: [

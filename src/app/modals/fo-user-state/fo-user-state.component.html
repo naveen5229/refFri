@@ -1,0 +1,10 @@
+<div class="modal-header">
+    <h5>Fo User State</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <smart-table *ngIf="foData && foData.length" [data]="table.data" [settings]="table.setting" id="financeData"></smart-table>
+    </smart-table>
+</div>
