@@ -23,9 +23,11 @@
         <table style="width:100%;">
           <tr>
             <td style="width:40%; vertical-align: top;">
-              <h2 *ngIf="invoiceDetails && invoiceDetails.branch_name">{{invoiceDetails.branch_name}}</h2>
+              <!-- {{invoiceDetails.branch_name}} -->
+              <h2 *ngIf="invoiceDetails && invoiceDetails.branch_name">{{invoiceDetails.fo_name}}</h2>
               <Address id="branch_address" [innerHtml]="invoiceDetails.branch_address"
                 *ngIf="invoiceDetails && invoiceDetails.branch_address"></Address>
+
             </td>
             <td style="width:60%; vertical-align: top;">
               <table class="table table-bordered" style="border-collapse: collapse" border="1" bordercolor="grey">
@@ -39,6 +41,7 @@
 
                 </tbody>
               </table>
+              <label *ngIf="invoiceDetails && invoiceDetails.party_name">To :{{invoiceDetails.party_name}}</label>
             </td>
           </tr>
         </table>
@@ -52,7 +55,34 @@
             </tr>
           </tbody>
         </table>
+        <div class="row">
+          <div class="col-md-9">
+            <span *ngIf="amountData && amountData.amount_words"> <b>Amount In Words : </b> &nbsp;&nbsp;
+              {{amountData.amount_words}} </span>
+          </div>
+          <div class="col-md-3">
+            <table class="table table-bordered table-hover" style="width: 100%">
+              <tr *ngIf="amountData && amountData.sgst">
+                <td><b> {{amountData.sgst_name }} : </b>&nbsp;&nbsp; {{amountData.sgst_value }}</td>
+              </tr>
+              <tr *ngIf="amountData && amountData.cgst_value">
+                <td><b> {{amountData.cgst_name}} : </b>&nbsp;&nbsp; {{amountData.cgst_value}} </td>
+              </tr>
 
+              <tr *ngIf="amountData && amountData.total_amount">
+                <td><b> TOTAL: </b>&nbsp;&nbsp; {{amountData.total_amount}} </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <table class="table table-bordered table-hover" style="width: 100%"
+          *ngIf="invoiceDetails && invoiceDetails.lr_remarks">
+          <tr>
+            <td>
+              <b> Remarks: </b> {{invoiceDetails.lr_remarks}}
+            </td>
+          </tr>
+        </table>
         <table class="table table-bordered table-hover" style="width: 100%">
           <tr>
             <td style="vertical-align: top; width: 75%;" *ngIf="invoiceDetails && invoiceDetails.lr_terms">
