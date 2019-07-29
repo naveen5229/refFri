@@ -83,7 +83,8 @@ export class LorryRecciptsComponent implements OnInit {
       lrCategory: this.lrCategory,
       vehicleType: this.vehicleType
     };
-
+    this.table = null;
+    this.receipts = [];
     ++this.common.loading;
     this.api.post('FoDetails/getLorryStatus', params)
       .subscribe(res => {
