@@ -140,3 +140,10 @@
 :host ::ng-deep .fa-print:hover span{
     display: block;
 }
+
+nb-card-header button{
+    padding: 5px;
+    border-radius: 3px;
+    text-transform: capitalize;
+    width: 100%;
+}

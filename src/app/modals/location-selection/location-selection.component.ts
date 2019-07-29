@@ -143,10 +143,11 @@ export class LocationSelectionComponent implements OnInit {
     this.location.dislng = place.geometry.viewport.getNorthEast().lng() - place.geometry.viewport.getSouthWest().lng();
     if (this.location.state && this.location.district && this.location.name) {
       this.name = this.location.name + "," + this.location.district + "," + this.location.state;
-      this.setMap(this.location.lat, this.location.lng);
     } else {
       this.common.showError("Location Invalid");
     }
+    if (this.location.lat && this.location.lng)
+      this.setMap(this.location.lat, this.location.lng);
   }
 
   updateLocationByTyping(autocomplete) {
@@ -199,11 +200,12 @@ export class LocationSelectionComponent implements OnInit {
           console.log(res);
           this.common.loading--;
           this.data = res['data'];
-          if (this.data[0]['r_id'] < 1) {
-            this.common.showToast(res['data'][0]['r_msg']);
+          if (this.data[0]['r_id'] < 0) {
+            this.common.showError(res['data'][0]['r_msg']);
           }
-          if (this.data[0]['r_id'] > 1) {
-            this.r_id = this.data[0].r_id;
+          else {
+            this.common.showToast("Success");
+            this.r_id = this.data[0].r_locid;
             this.activeModal.close({ location: this.location, id: this.r_id });
           }
         }, err => {

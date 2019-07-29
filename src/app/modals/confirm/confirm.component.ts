@@ -31,9 +31,8 @@ export class ConfirmComponent implements OnInit {
   ngOnInit() {
   }
   
-  closeModal(response) {
-    this.activeModal.close({ response: response });
+  closeModal(response,apiHit) {
+    this.activeModal.close({ response: response,apiHit:apiHit });
   }
-
 
 }
