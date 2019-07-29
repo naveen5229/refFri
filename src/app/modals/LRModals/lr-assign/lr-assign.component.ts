@@ -29,19 +29,11 @@ export class LrAssignComponent implements OnInit {
   headings = [];
   valobj = {};
 
-  data1 = [];
-  table1 = {
-    data1: {
-      headings: {},
-      columns: []
-    },
-    settings1: {
-      hideHeader: true
-    }
-  };
+
   headings1 = [];
   valobj1 = {};
-
+  data1 = [];
+  columnsValue = [];
   constructor(public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
@@ -79,32 +71,17 @@ export class LrAssignComponent implements OnInit {
     console.log("params", params);
     this.api.post('FrieghtRate/getlrUnmapped', params)
       .subscribe(res => {
+        console.log("resss", res);
         this.common.loading--;
-        this.data1 = [];
-        this.table1 = {
-          data1: {
-            headings: {},
-            columns: []
-          },
-          settings1: {
-            hideHeader: true
-          }
-        };
         this.headings1 = [];
         this.valobj1 = {};
-
-        if (!res['data']) return;
+        this.data1 = [];
+        this.columnsValue = [];
         this.data1 = res['data'];
-        let first_rec = this.data1[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings1.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table1.data1.headings[key] = headerObj;
-          }
+        if (this.data1) {
+          console.log("data", this.data);
+          this.getTableColumnName();
         }
-
-        this.table1.data1.columns = this.getTableColumns1();
 
 
 
@@ -116,34 +93,39 @@ export class LrAssignComponent implements OnInit {
   }
 
 
-  getTableColumns1() {
+  getTableColumnName() {
+    console.log
+    this.headings = [];
+    this.valobj = {};
+    let first_rec = this.data1[0];
+    for (var key in first_rec) {
+      if (key.charAt(0) != "_") {
+        this.headings1.push(key);
+      }
+    }
 
-    let columns = [];
-    console.log("Data=", this.data1);
+    console.log("headings", this.headings1);
+    this.getTableColumn();
+  }
+
+  getTableColumn() {
     this.data1.map(doc => {
       this.valobj1 = {};
 
       for (let i = 0; i < this.headings1.length; i++) {
-        console.log("doc index value:", doc[this.headings1[i]], this.headings1[i]);
-        if (this.headings1[i] == 'Action') {
-          this.valobj1[this.headings1[i]] = { value: '<div><input type="text"></div>', isHTML: true, class: 'black', action: '' };
-        }
-        else {
-          this.valobj1[this.headings1[i]] = { value: doc[this.headings1[i]], class: 'black', action: '' };
-        }
+        this.valobj1[this.headings1[i]] = doc[this.headings1[i]];
       }
-      columns.push(this.valobj1);
-
+      this.columnsValue.push(this.valobj1);
     });
-
-    return columns;
+    console.log("this.columnsValue", this.columnsValue);
   }
 
-  onChange(email: string, isChecked: boolean) {
+  onChange(id: string, isChecked: boolean) {
+    console.log()
     if (isChecked) {
-      this.selectedType.push(email);
+      this.selectedType.push(id);
     } else {
-      let index = this.selectedType.indexOf(email);
+      let index = this.selectedType.indexOf(id);
       this.selectedType.splice(index, 1);
     }
     console.log(this.selectedType);

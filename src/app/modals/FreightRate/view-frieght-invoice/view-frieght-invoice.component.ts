@@ -18,6 +18,8 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
   headings = [];
   valobj = {};
   columnsValue = [];
+  amountData = null;
+  amountDataKeys = [];
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -50,6 +52,11 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
         --this.common.loading;
         this.data = [];
         this.invoiceDetails = res['data'].invoicedetails[0];
+        this.amountData = res['data'].taxdetails[0];
+        // { "cgst": 60, "sgst": 60, "total": 120, "igst": 12, "amount_words": "one thousand two hundred" };
+        // this.amountData.map(ad => {
+        //   this.amountDataKeys.push(Object.keys(ad));
+        // })
         console.log("this.invoiceDetails", this.invoiceDetails);
         this.data = res['data'].result;
         if (this.data) {
@@ -63,7 +70,6 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
   }
 
   getTableColumnName() {
-
     this.headings = [];
     this.valobj = {};
     let first_rec = this.data[0];
@@ -95,20 +101,6 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     this.renderer.setElementClass(document.body, 'test', true);
     window.print();
     this.renderer.setElementClass(document.body, 'test', false);
-  }
-
-  findCustomFields(customFields) {
-    console.log("customFields", customFields)
-    if (!customFields) return [];
-    //customFields = JSON.parse(customFields);
-    let formattedFields = [];
-    let keys = Object.keys(customFields);
-    keys.map(key => {
-      formattedFields.push({ name: key, value: customFields[key] });
-    });
-
-    console.log('Formatted :', formattedFields);
-    return formattedFields;
   }
 
 
