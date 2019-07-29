@@ -15,11 +15,17 @@ export class AddFuelIndentComponent implements OnInit {
   isFormSubmit = false;
   Form: FormGroup;
   reg = null;
-  Type: number = 1;
-  vid = null;
   isFlag: boolean = true;
-  regno = null;
   rowid = null;
+  refData = {
+    id: null,
+    type: 1,
+    name: null,
+    vehasstype: 1,
+    regno: null,
+    vid: null,
+    typeName: null
+  };
   fuelStations = [];
   value = null;
   source = '';
@@ -31,10 +37,7 @@ export class AddFuelIndentComponent implements OnInit {
   ltr = null;
   fsid = null;
   status = null;
-  refid = null;
-  refname = null;
   remark = null;
-  source_dest = '';
   sourceId = null;
 
   title = '';
@@ -66,7 +69,7 @@ export class AddFuelIndentComponent implements OnInit {
   ];
 
   dropDownSubType = {
-    1: [{ name: 'LR', id: 11 }, { name: 'Manifest', id: 12 }, { name: 'States', id: 13 }],
+    1: [{ name: 'LR', id: 11 }, { name: 'Manifest', id: 12 }, { name: 'States', id: 13 }, { name: 'Trip', id: 14 }],
     2: [{ name: 'LR', id: 11 }, { name: 'Manifest', id: 12 }],
     3: [{ name: 'LR', id: 11 }, { name: 'Manifest', id: 12 }]
 
@@ -80,20 +83,18 @@ export class AddFuelIndentComponent implements OnInit {
     public common: CommonService) {
     this.getFuelStationList();
     this.common.handleModalSize('class', 'modal-lg', '900', 'px', 1);
-    console.log("Title", this.common.params.flag);
-    console.log("doc", this.common.params.doc);
+    console.log("Title", this.common.params);
     if (this.common.params.doc) {
       this.fuelId = this.common.params.doc._fsid;
       console.log("fsname", this.fuelId);
-      this.regno = this.common.params.doc.regno ? this.common.params.doc.regno : null;
+      this.refData.regno = this.common.params.doc.regno ? this.common.params.doc.regno : null;
       this.getFuelIndent();
-      this.vid = this.common.params.doc._vid ? this.common.params.doc._vid : null;
+      this.refData.vid = this.common.params.doc._vid ? this.common.params.doc._vid : null;
       this.remark = this.common.params.doc.Remarks ? this.common.params.doc.Remarks : '--'
       this.vehicle.subType = this.common.params.doc._ref_type;
       this.vehicle.type = this.common.params.doc._vehasstype;
       this.sourceId = this.common.params.doc._ref_id;
-      this.source_dest = this.common.params.doc['Ref Details'];
-      console.log("goutam", this.source_dest)
+      this.refData.name = this.common.params.doc['Ref Details'];
       if (this.common.params.doc.Fuel) {
         this.amount = this.common.params.doc.Fuel;
         this.indentType = 1;
@@ -106,27 +107,42 @@ export class AddFuelIndentComponent implements OnInit {
       this.fsid = this.common.params.doc._fsid ? this.common.params.doc._fsid : null;
       if (this.common.params.doc._ref_id !== null) {
         this.value = 1;
-        this.Type = this.common.params.doc._ref_type;
-        this.selectedlist(this.Type);
-        this.refid = this.common.params.doc._ref_id ? this.common.params.doc._ref_id : null;
+        this.refData.type = this.common.params.doc._ref_type;
+        this.selectedlist(this.refData.type);
+        this.refData.id = this.common.params.doc._ref_id ? this.common.params.doc._ref_id : null;
       }
       this.rowid = this.common.params.doc._id;
       this.issueDate = new Date(this.common.dateFormatter(this.common.params.doc._issue_date));
       this.expiryTime = new Date(this.common.dateFormatter(this.common.params.doc._expiry_date));
     }
-
+    if (this.common.params && this.common.params.refData) {
+      this.refData.type = this.common.params.refData.refType;
+      this.refData.id = this.common.params.refData.refId;
+      this.getReferenceData();
+      this.getFuelIndent();
+    }
   }
 
   ngOnInit() {
-    this.Form = this.formBuilder.group({
-      amount: ['', Validators.required],
-      autosuggestion: ['', Validators.required],
-      autosuggestion1: ['', Validators.required],
-      dropDown: ['',],
-      source_dest: ['',],
-      select1: ['',],
-      dropDownsubtype: ['',],
-    });
+    if (!this.refData.id)
+      this.Form = this.formBuilder.group({
+        amount: ['', Validators.required],
+        autosuggestion: ['', Validators.required],
+        autosuggestion1: ['', Validators.required],
+        dropDown: ['',],
+        source_dest: ['',],
+        select1: ['',],
+        dropDownsubtype: ['',],
+      });
+    else
+      this.Form = this.formBuilder.group({
+        amount: ['', Validators.required],
+        autosuggestion1: ['', Validators.required],
+        dropDown: ['',],
+        source_dest: ['',],
+        select1: ['',],
+        dropDownsubtype: ['',],
+      });
   }
 
   get f() {
@@ -139,23 +155,18 @@ export class AddFuelIndentComponent implements OnInit {
   }
 
   changeVehicleType(type) {
-    this.Type = type.target.value;
-    console.log("type", this.Type);
-    console.log("id", this.vid, this.regno);
-    this.selectedlist(this.Type);
+    this.refData.type = type.target.value;
+    this.selectedlist(this.refData.type);
 
   }
-  // resetData() {
-  //   document.getElementById('brand')['value'] = '';
-  // }
 
   selectedlist(Type) {
     if (Type == 11) {
       this.isFlag = true;
       this.value = 1;
       const params = {
-        vid: this.vid,
-        regno: this.regno,
+        vid: this.refData.vid,
+        regno: this.refData.regno,
       };
       console.log("Lr", params);
       this.api.post('Suggestion/getLorryReceipts', params)
@@ -169,14 +180,13 @@ export class AddFuelIndentComponent implements OnInit {
       this.value = 1;
       this.isFlag = true;
       const params = {
-        vid: this.vid,
-        regno: this.regno,
+        vid: this.refData.vid,
+        regno: this.refData.regno,
       };
       console.log("manifest", params);
       this.api.post('Suggestion/getLorryManifest', params)
         .subscribe(res => {
           this.brands = res['data'];
-          console.log('res', this.brands)
         },
           err => console.error('Activity Api Error:', err));
     }
@@ -184,9 +194,8 @@ export class AddFuelIndentComponent implements OnInit {
       this.value = 1;
       this.isFlag = true;
       const params = {
-        vid: this.vid,
+        vid: this.refData.vid,
       };
-      console.log("states", params);
       this.api.post('Suggestion/getVehicleStates', params)
         .subscribe(res => {
           this.brands = res['data'];
@@ -206,28 +215,26 @@ export class AddFuelIndentComponent implements OnInit {
       this.amt = null;
       this.ltr = this.amount;
       if (this.vehicle.type == 3) {
-        this.vid = null;
+        this.refData.vid = null;
       }
       if (this.indentType == 0) {
         this.amt = this.amount;
         this.ltr = null;
-
       }
       else {
         this.amt = null;
         this.ltr = this.amount;
       }
       if (this.common.params.flag == 'Update') {
-        console.log("Update")
         const params = {
           rowid: this.rowid,
-          vid: this.vid,
-          regno: this.regno,
-          ref_name: this.source_dest,
+          vid: this.refData.vid,
+          regno: this.refData.regno,
+          ref_name: this.refData.name,
           remarks: this.remark,
-          vehasstype: this.vehicle.type,
-          reftype: this.Type,
-          refid: this.refid,
+          vehasstype: this.refData.vehasstype,
+          reftype: this.refData.type,
+          refid: this.refData.id,
           amt: this.amt,
           ltr: this.ltr,
           issueDate: this.common.dateFormatter(this.issueDate),
@@ -256,13 +263,13 @@ export class AddFuelIndentComponent implements OnInit {
       else {
         const params = {
           rowid: null,
-          vid: this.vid,
-          regno: this.regno,
-          ref_name: this.source_dest,
+          vid: this.refData.vid,
+          regno: this.refData.regno,
+          ref_name: this.refData.name,
           remarks: this.remark,
-          vehasstype: this.vehicle.type,
-          reftype: this.Type,
-          refid: this.refid,
+          vehasstype: this.refData.vehasstype,
+          reftype: this.refData.type,
+          refid: this.refData.id,
           amt: this.amt,
           ltr: this.ltr,
           issueDate: this.common.dateFormatter(this.issueDate),
@@ -297,46 +304,36 @@ export class AddFuelIndentComponent implements OnInit {
 
   getRefDetails(details) {
     console.log("refname", details);
-    // this.source = details['source_dest'];
-    console.log("souce dest", this.source_dest)
-    this.refid = details.target.value;
+    this.refData.id = details.target.value;
     this.isFlag = false;
-    console.log("refid", this.refid);
-    // return this.refid;
   }
 
   handleVehicleTypeChange() {
     this.vehicle.subType = "-1";
-    console.log('subtype', this.vehicle.subType);
     if (this.vehicle.type == 2 || this.vehicle.type == 3) {
-      this.vid = null;
-      this.regno = null;
+      this.refData.vid = null;
+      this.refData.regno = null;
       this.value = null;
     }
-    console.log('___vid:', this.vid);
   }
 
   getVehicleList(vehlist) {
-    console.log('vehlist', vehlist);
-    this.vid = vehlist.id;
-    this.regno = vehlist.regno;
+    this.refData.vid = vehlist.id;
+    this.refData.regno = vehlist.regno;
     this.value = null;
     this.vehicle.subType = '-1';
-    console.log('regno', this.regno, this.vid);
     this.getFuelIndent();
-    return this.vid;
+    return this.refData.vid;
   }
 
   getFuelStation(stationList) {
     this.fsid = stationList.target.value;
-    console.log("fsid", this.fsid, stationList);
   }
 
   getFuelStationList() {
     this.api.get("Suggestion/getFuelStaionWrtFo").subscribe(
       res => {
         this.fuelStations = res['data'];
-        console.log("datA", res);
       },
       err => {
         console.log(err);
@@ -345,7 +342,7 @@ export class AddFuelIndentComponent implements OnInit {
   }
 
   getFuelIndent() {
-    const params = "startdate=" + this.common.dateFormatter1(new Date(new Date().setDate(new Date(new Date).getDate() - 7))) + "&enddate=" + this.common.dateFormatter1(new Date) + "&addedBy=" + null + "&status=" + -2 + "&regno=" + this.regno;
+    const params = "startdate=" + this.common.dateFormatter1(new Date(new Date().setDate(new Date(new Date).getDate() - 7))) + "&enddate=" + this.common.dateFormatter1(new Date) + "&addedBy=" + null + "&status=" + -2 + "&regno=" + this.refData.regno;
     console.log("params", params);
     console.log("params", params);
     ++this.common.loading;
@@ -401,6 +398,23 @@ export class AddFuelIndentComponent implements OnInit {
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1)
+  }
+  getReferenceData() {
+    const params = "id=" + this.refData.id +
+      "&type=" + this.refData.type;
+    this.api.get('Vehicles/getRefrenceDetails?' + params)
+      .subscribe(res => {
+        console.log(res['data']);
+        let resultData = res['data'][0];
+        this.refData.vid = resultData.vid;
+        this.refData.regno = resultData.regno;
+        this.refData.name = resultData.ref_name;
+        this.refData.vehasstype = resultData.vehasstype
+        this.refData.typeName = this.dropDownSubType['1'].find(element => { return element.id == 14; }).name;
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
 

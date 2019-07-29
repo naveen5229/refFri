@@ -50,63 +50,18 @@
           <div *ngIf="f.mobileno2.errors.minlength ">mobile Number minlength 10</div>
           <div *ngIf="f.mobileno2.errors.maxlength ">mobile Number maxlength 10</div>
         </div>
-      </div>
+      </div> 
       <div class="col-3">
-        <label>Lisence Number</label>
-      </div>
-      <div class="col-3">
-        <input type="text" class="form-control" id="lisence-number" autocomplete="off" formControlName="lisenceno"
-          placeholder="Lisence No.">
-      </div>
+          <label>Date of Joining</label>
+        </div>
+        <div class="col-3">
+          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
+            placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="dateofJoin">
+        </div>
     </div>
 
-
-    <div class="row margin-top-15">
-      <div class="col-3">
-        <label>Lisence photo</label>
-      </div>
-      <div class="col-3">
-        <input type="file" class="file-control" id="lisence-photo" formControlName="lisencephoto"
-          (change)="handleFileSelection($event,1) ">
-      </div>
-
-      <div class="col-3">
-
-
-        <label>Aadhar Number</label>
-      </div>
-      <div class="col-3">
-        <input type="text" class="form-control" id="Aadhar-number" autocomplete="off" formControlName="aadharno"
-          placeholder="Aadhar_No.">
-      </div>
-    </div>
-
-
-    <div class="row margin-top-15">
-      <div class="col-3">
-
-
-        <label>Aadhar photo</label>
-      </div>
-      <div class="col-3">
-        <input type="file" class="file-control" id="aadhar-photo" formControlName="aadharphoto"
-          (change)="handleFileSelection($event,2)">
-      </div>
-
-
-      <div class="col-3">
-
-
-        <label>Date of Joining</label>
-      </div>
-      <div class="col-3">
-        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
-          placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="dateofJoin">
-      </div>
-    </div>
-
-
-    <div class="row margin-top-15">
+    <div class="row margin-top-15"> 
+     
       <div class="col-3">
         <label>Salary</label>
       </div>
@@ -114,24 +69,15 @@
         <input type="text" class="form-control" id="Salary" autocomplete="off" formControlName="Salary"
           placeholder="Salary">
       </div>
-
-
       <div class="col-3">
-        <label>Upload photo</label>
-      </div>
-      <div class="col-3">
-        <input type="file" class="file-control" id="upload-photo" formControlName="uploadPhoto"
-          (change)="handleFileSelection($event,3)">
-      </div>
+          <label>Gauranter</label>
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" id="Gauranter" autocomplete="off" formControlName="guranter"
+            placeholder="guranter">
+        </div>
     </div>
-    <div class="row margin-top-15">
-      <div class="col-3">
-        <label>Gauranter</label>
-      </div>
-      <div class="col-3">
-        <input type="text" class="form-control" id="Gauranter" autocomplete="off" formControlName="guranter"
-          placeholder="guranter">
-      </div>
+    <div class="row margin-top-15">   
       <div class="col-3">
         <label>Guranter Mobile No.</label>
       </div>

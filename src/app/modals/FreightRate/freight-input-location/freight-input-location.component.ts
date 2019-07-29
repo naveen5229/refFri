@@ -135,7 +135,7 @@ export class FreightInputLocationComponent implements OnInit {
       if (this.keepGoing && this.sourceString.length) {
         this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
           console.log('response----', res.location);
@@ -162,7 +162,7 @@ export class FreightInputLocationComponent implements OnInit {
       if (this.keepGoing && this.destinationString.length) {
         this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
           console.log('response----', res.location);

@@ -14,6 +14,7 @@ import { VehiclesViewComponent } from '../vehicles-view/vehicles-view.component'
 import { TicketSubscribeComponent } from '../ticket-subscribe/ticket-subscribe.component';
 import { GpsEnabledDisabledComponent } from '../../modals/gps-enabled-disabled/gps-enabled-disabled.component';
 import { TypeMasterComponent } from '../../modals/type-master/type-master.component';
+import { GetUserBankInfoComponent } from '../../modals/get-user-bank-info/get-user-bank-info.component';
 @Component({
   selector: 'add-customer',
   templateUrl: './add-customer.component.html',
@@ -68,6 +69,9 @@ export class AddCustomerComponent implements OnInit {
   typeMaster(){
     const activeModal = this.modalService.open(    TypeMasterComponent,  { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
+  }
+  getUserBank(){
+    const activeModal = this.modalService.open(GetUserBankInfoComponent,  { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
   // selectLocation(location) {
   //   this.location = {

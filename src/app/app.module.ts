@@ -203,7 +203,20 @@ import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/ed
 import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
 import { GenericModelComponent } from './modals/generic-model/generic-model.component';
+import { AddReceiptsComponent } from './modals/add-receipts/add-receipts.component';
+import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
+import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
 import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
+import { AddTransportAgentComponent } from './modals/LRModals/add-transport-agent/add-transport-agent.component';
+import { AddCompanyBranchComponent } from './modals/add-company-branch/add-company-branch.component';
+import { CompanyAssociationComponent } from './modals/company-association/company-association.component';
+import { CompanyEstablishmentComponent } from './modals/company-establishment/company-establishment.component';
+import { CompanyContactsComponent } from './modals/company-contacts/company-contacts.component';
+import { AddMaterialComponent } from './modals/LRModals/add-material/add-material.component';
+import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
+import { LrInvoiceColumnsComponent } from './pages/lr-invoice-columns/lr-invoice-columns.component';
+import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfesto/generate-lr-mainfesto.component';
+
 
 
 @NgModule({
@@ -378,9 +391,23 @@ import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.c
     EditViaRoutesPointsComponent,
     LrRateComponent,
     LedgeraddressComponent,
+    AddReceiptsComponent,
+    GetUserBankInfoComponent,
+    UploadDocsComponent,
     OrderdetailComponent,
+    AddTransportAgentComponent,
+    AddCompanyBranchComponent,
+    CompanyAssociationComponent,
+    CompanyEstablishmentComponent,
+    CompanyContactsComponent,
+    AddMaterialComponent,
+    LRRateCalculatorComponent,
+    LrInvoiceColumnsComponent,
+    GenerateLrMainfestoComponent,
+
   ],
   entryComponents: [
+    LRRateCalculatorComponent,
     LrRateComponent,
     ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
@@ -548,7 +575,18 @@ import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.c
     EditViaRoutesPointsComponent,
     TripSettlementComponent,
     LedgeraddressComponent,
-    OrderdetailComponent
+    AddReceiptsComponent,
+    GetUserBankInfoComponent,
+    UploadDocsComponent,
+    OrderdetailComponent,
+    AddTransportAgentComponent,
+    AddCompanyBranchComponent,
+    CompanyAssociationComponent,
+    CompanyEstablishmentComponent,
+    CompanyContactsComponent,
+    AddMaterialComponent,
+    LrInvoiceColumnsComponent,
+    GenerateLrMainfestoComponent,
   ],
   imports: [
     BrowserModule,

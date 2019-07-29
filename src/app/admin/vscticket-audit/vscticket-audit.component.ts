@@ -27,11 +27,17 @@ export class VSCTicketAuditComponent implements OnInit {
     public api: ApiService,
     private modalService: NgbModal) {
     this.getAduserIds();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
+  refresh() {
+    console.log('Refresh');
+    this.getAduserIds();
+  }
   searchVehicle(vehicle) {
     this.vehicleId = vehicle.id;
   }
