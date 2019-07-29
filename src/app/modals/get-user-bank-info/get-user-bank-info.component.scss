@@ -2,3 +2,10 @@
 .eye{
     font-size: 32px;
 }
+
+.table{
+    margin-top: 22px;
+}
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+}
