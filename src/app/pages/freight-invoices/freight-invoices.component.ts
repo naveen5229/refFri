@@ -178,7 +178,7 @@ export class FreightInvoicesComponent implements OnInit {
 
 
   lrAssign(row) {
-    this.common.handleModalSize('class', 'modal-lg', '800');
+    this.common.handleModalSize('class', 'modal-lg', '1300');
     this.common.params = { row: row };
     const activeModal = this.modalService.open(LrAssignComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
     activeModal.result.then(data => {
