@@ -18,18 +18,31 @@
     </div>
   </div>
   <div class="row align-items-center mb-3">
-    <div class="col-1 pr-0 text-left">
-      <label>Bank</label>
+    <div class="col-1 pr-0">
+      <label class="mr-2">Bank</label>
+      <input type="radio" name="bank" value="bank" [(ngModel)]="type" (click)="setRadio(0)">
+    </div>
+    <div class="col-1 pr-0">
+      <label class="mr-2">Fuel</label>
+      <input type="radio" name="fuel" value="fuel" [(ngModel)]="type" (click)="setRadio(1)">
     </div>
     <div class="col-2">
-      <select class="form-control" [(ngModel)]="bankId">
-        <option value="-1">Select Bank Type</option>
-        <option *ngFor="let data of bankData" [value]="data.id">
-          {{data.description}}
-        </option>
-      </select>
+        <select *ngIf="selected==0" class="form-control" [(ngModel)]="bankId">
+            <option value="-1">Select  Bank Type</option>
+            <option *ngFor="let data of bankData" [value]="data.id">
+              {{data.description}}
+            </option>
+          </select>
+          <select *ngIf="selected==1" class="form-control" [(ngModel)]="fuelId">
+            <option value="-1">Select Fuel Type</option>
+            <option *ngFor="let data of fuelData" [value]="data.id">
+              {{data.description}}
+            </option>
+          </select>
     </div>
-  </div>
+   </div>
+   
+   
   <div class="row align-items-center">
     <div class="col-1 text-left">
       <label>User Name</label>
@@ -60,7 +73,7 @@
         Details</button>
     </div>
   </div>
-  <div>
+  <div class="table">
     <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"></smart-table>
   </div>
 </div>

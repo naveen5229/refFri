@@ -55,11 +55,7 @@ export class AddPumpComponent implements OnInit {
         this.location = place;
         this.getmapData(lat, lng);
       });
-
     }, 2000)
-
-
-
   }
 
   ngOnInit() {
@@ -178,8 +174,8 @@ export class AddPumpComponent implements OnInit {
     // this.infoWindow.setContent("Flicker Test");
     this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long));
     this.infoWindow.open(this.mapService.map);
-
   }
+
   async unsetEventInfo() {
     let diff = new Date().getTime() - this.insideInfo;
     if (diff > 200) {
@@ -195,7 +191,6 @@ export class AddPumpComponent implements OnInit {
   }
 
   submitPumpData(){
-
     if (this.pumpname == null) {
       this.para1 = this.latlong[0].lat;
       this.para2 = this.latlong[0].long;

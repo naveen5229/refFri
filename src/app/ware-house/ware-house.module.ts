@@ -36,7 +36,8 @@ const PAGES_COMPONENTS = [
   entryComponents:[
     ReceiveItemsComponent,
     ManualItemsComponent,
-    GotPassComponent
+    GotPassComponent,
+
   ],
   
   imports: [

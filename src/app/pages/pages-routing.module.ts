@@ -72,6 +72,9 @@ import { NearbyPodsComponent } from '../admin/nearby-pods/nearby-pods.component'
 import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { SitesComponent } from './sites/sites.component';
+import { ManagePartyComponent } from './manage-party/manage-party.component';
+import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.component';
+
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -280,11 +283,11 @@ const routes: Routes = [{
     component: RemainingFuelComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'lr-invoice-columns',
-    component: LrInvoiceColumnsComponent,
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'lr-invoice-columns',
+  //   component: LrInvoiceColumnsComponent,
+  //   canActivate: [AuthGuard],
+  // },
   {
     path: 'consolidate-fuel-average',
     component: ConsolidateFuelAverageComponent,
@@ -333,11 +336,11 @@ const routes: Routes = [{
     component: GenerateLrNoVehiclesComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'generate-lr-mainfesto',
-    component: GenerateLrMainfestoComponent,
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'generate-lr-mainfesto',
+  //   component: GenerateLrMainfestoComponent,
+  //   canActivate: [AuthGuard],
+  // },
   {
     path: 'view-manifesto',
     component: ViewManifestoComponent,
@@ -452,7 +455,17 @@ const routes: Routes = [{
     path: 'sites',
     component: SitesComponent,
     canActivate: [AuthGuard]
+  }, 
+  {
+    path: 'manage-party',
+    component: ManagePartyComponent,
+    canActivate: [AuthGuard]
   },
+  {   
+    path: 'manage-fo-party',
+    component: ManageFoPartyComponent,
+    canActivate: [AuthGuard]
+  }
   ],
 }];
 

@@ -29,18 +29,31 @@ export class LrAssignComponent implements OnInit {
   headings = [];
   valobj = {};
 
+  data1 = [];
+  table1 = {
+    data1: {
+      headings: {},
+      columns: []
+    },
+    settings1: {
+      hideHeader: true
+    }
+  };
+  headings1 = [];
+  valobj1 = {};
+
   constructor(public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal) {
 
     console.log("Data:::", this.common.params.row);
+    this.common.handleModalSize('class', 'modal-lg', '800', 'px', 1);
     this.branchId = this.common.params.row._branch_id ? this.common.params.row._branch_id : null;
     this.partyId = this.common.params.row._party_id ? this.common.params.row._party_id : null;
     this.invoiceId = this.common.params.row._id ? this.common.params.row._id : null;
     this.getlrUnmapped();
     this.viewlrData();
-
   }
 
   ngOnInit() {
@@ -67,13 +80,63 @@ export class LrAssignComponent implements OnInit {
     this.api.post('FrieghtRate/getlrUnmapped', params)
       .subscribe(res => {
         this.common.loading--;
-        this.dataList = res['data'];
+        this.data1 = [];
+        this.table1 = {
+          data1: {
+            headings: {},
+            columns: []
+          },
+          settings1: {
+            hideHeader: true
+          }
+        };
+        this.headings1 = [];
+        this.valobj1 = {};
+
+        if (!res['data']) return;
+        this.data1 = res['data'];
+        let first_rec = this.data1[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings1.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table1.data1.headings[key] = headerObj;
+          }
+        }
+
+        this.table1.data1.columns = this.getTableColumns1();
+
+
 
       }, err => {
         this.common.loading--;
 
         console.log('Err:', err);
       });
+  }
+
+
+  getTableColumns1() {
+
+    let columns = [];
+    console.log("Data=", this.data1);
+    this.data1.map(doc => {
+      this.valobj1 = {};
+
+      for (let i = 0; i < this.headings1.length; i++) {
+        console.log("doc index value:", doc[this.headings1[i]], this.headings1[i]);
+        if (this.headings1[i] == 'Action') {
+          this.valobj1[this.headings1[i]] = { value: '<div><input type="text"></div>', isHTML: true, class: 'black', action: '' };
+        }
+        else {
+          this.valobj1[this.headings1[i]] = { value: doc[this.headings1[i]], class: 'black', action: '' };
+        }
+      }
+      columns.push(this.valobj1);
+
+    });
+
+    return columns;
   }
 
   onChange(email: string, isChecked: boolean) {
@@ -200,6 +263,8 @@ export class LrAssignComponent implements OnInit {
     return columns;
   }
 
+
+
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
@@ -222,7 +287,7 @@ export class LrAssignComponent implements OnInit {
     let params = {
       invoiceId: this.invoiceId,
       lrIds: null,
-      lrId: row._id,
+      lrId: row._lrid,
     }
     console.log("params", params);
     this.api.post('FrieghtRate/assignGroups', params)

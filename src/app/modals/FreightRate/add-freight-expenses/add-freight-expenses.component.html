@@ -19,15 +19,12 @@
       {{expense.refTypeName}}
     </div>
   </div>
-
-
-
-
   <div class="expense-table">
     <table class="table table-bordered">
       <thead class="thead">
         <th>Heads Name</th>
         <th>Amount</th>
+        <th>Manual Amount</th>
         <th>Action</th>
       </thead>
       <tbody>
@@ -40,24 +37,18 @@
               <option *ngFor="let freightHead of freightHeads ;" [value]="freightHead.r_name">
               </option>
             </datalist>
-            <!-- <auto-suggestion (onSelected)="customjsonfield.field1 = $event.name;" display="name" [data]="fofields"
-                  [preSelected]="{name:customjsonfield.field1}" placeholder="Name"></auto-suggestion> -->
-            <!-- <select [(ngModel)]="customjsonfield.field1">
-                  <option value="">Select</option>
-                  <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
-                </select> -->
           </td>
           <td>
             <input type="number" class="form-control" [(ngModel)]="expenseDetail.value">
           </td>
-
           <td>
-
+            <input type="number" class="form-control" [(ngModel)]="expenseDetail.manualValue">
+          </td>
+          <td>
             <button class="btn btn-primary" (click)="addField(j)" *ngIf="j == expenseDetails.length-1"><i
                 class="fa fa-plus add"></i></button>
             <button class="btn btn-danger" (click)="expenseDetails.splice(j,1)" *ngIf="j !== 0"><i
                 class="fa fa-trash remove"></i></button>
-
           </td>
         </tr>
 
