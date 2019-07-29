@@ -15,7 +15,7 @@ import { TripSettlementComponent } from '../../modals/trip-settlement/trip-settl
 import { AddFreightExpensesComponent } from '../../modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-details.component';
-import { AddReceiptsComponent}from '../../modals/add-receipts/add-receipts.component'
+import { AddReceiptsComponent } from '../../modals/add-receipts/add-receipts.component'
 import { AddTransportAgentComponent } from '../../modals/LRModals/add-transport-agent/add-transport-agent.component'
 
 @Component({
@@ -48,12 +48,12 @@ export class LorryRecciptsComponent implements OnInit {
 
     let today;
     today = new Date();
-    this.tempendTime = today;
+    this.tempendTime = new Date();
     this.tempstartTime = new Date(today.setDate(today.getDate() - 15));
     today = new Date();
     this.endDate = this.common.dateFormatter(today);
     this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
-    console.log('dates ', this.endDate, this.startDate);
+    console.log('dates ', this.tempendTime, this.tempstartTime);
     this.getLorryReceipts();
     this.common.refresh = this.refresh.bind(this);
 
@@ -69,7 +69,7 @@ export class LorryRecciptsComponent implements OnInit {
     this.getLorryReceipts();
   }
   getLorryReceipts() {
-
+    console.log("--this.tempendTime---", this.tempendTime, "this.tempstartTime---", this.tempstartTime)
     if (this.tempendTime < this.tempstartTime) {
       this.common.showError("End Date Should be greater than Start Date");
       return 0;
@@ -91,7 +91,7 @@ export class LorryRecciptsComponent implements OnInit {
         console.log('Res000000:', res);
         if (res['data']) {
           this.receipts = res['data'];
-          // console.log("Receipt",this.receipts);
+          console.log("Receipt", this.receipts);
           this.table = this.setTable();
         }
         else {
@@ -137,16 +137,15 @@ export class LorryRecciptsComponent implements OnInit {
 
   }
 
-  RefData()
-  {
+  RefData() {
     let refdata = [{
       refid: "",
       reftype: "",
-      doctype:""
+      doctype: ""
     }
     ];
-    
-    this.common.params = {refdata: refdata, title: 'docImage' };
+
+    this.common.params = { refdata: refdata, title: 'docImage' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
   }
 
@@ -165,13 +164,13 @@ export class LorryRecciptsComponent implements OnInit {
   addReceipts() {
     const activeModal = this.modalService.open(AddReceiptsComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-    }).catch(err =>console.log('Error:', err));
+    }).catch(err => console.log('Error:', err));
   }
 
-  addTransportAgent(){
-  const activeModal = this.modalService.open(AddTransportAgentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  addTransportAgent() {
+    const activeModal = this.modalService.open(AddTransportAgentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-    }).catch(err =>console.log('Error:', err));
+    }).catch(err => console.log('Error:', err));
   }
 
 
@@ -219,8 +218,8 @@ export class LorryRecciptsComponent implements OnInit {
         VehiceNo: { value: R.regno },
         LRNo: { value: R.lr_no },
         LRDate: { value: R.lr_date },
-        Consigner: { value: (R.lr_consigner_name).substring(0, 20) },
-        Consignee: { value: (R.lr_consignee_name).substring(0, 20) },
+        Consigner: { value: R.lr_consigner_name },
+        Consignee: { value: R.lr_consignee_name },
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
@@ -258,13 +257,13 @@ export class LorryRecciptsComponent implements OnInit {
           this.tempstartTime = data.date;
           this.startDate = '';
           return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
-          console.log('fromDate', this.startDate);
+          console.log('tempstartTime', this.tempstartTime);
         }
         else {
           this.tempendTime = data.date;
           this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
           // return this.endDate = date.setDate( date.getDate() + 1 )
-          console.log('endDate', this.endDate);
+          console.log('tempendTime', this.tempendTime);
         }
 
       }
