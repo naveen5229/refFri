@@ -15,7 +15,6 @@ import { CheckDetailComponent } from './modal/check-detail/check-detail.componen
 import { GotPassComponent } from './modal/got-pass/got-pass.component';
 import { ManageStockExchangeComponent } from './manage-stock-exchange/manage-stock-exchange.component';
 
-
 const PAGES_COMPONENTS = [
   WareHouseComponent,
 ];
