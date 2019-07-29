@@ -134,6 +134,11 @@ export class FreightInvoicesComponent implements OnInit {
       },
 
       {
+        class:"far fa-pen",
+        action:this.invoice.bind(this,'Edit',row),
+      },
+
+      {
         class: "fas fa-trash-alt",
         action: this.deleteRow.bind(this, row),
       },
@@ -191,7 +196,13 @@ export class FreightInvoicesComponent implements OnInit {
 
 
 
-  invoice() {
+  invoice(title,row) {
+    console.log("title:",title);
+    console.log("Display:",row);
+    
+    this.common.params={title:title,freightInvoice: row };
+    
+    console.log("alert:",this.common.params);
     const activeModal = this.modalService.open(FreightInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
