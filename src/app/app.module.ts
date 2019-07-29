@@ -207,12 +207,15 @@ import { AddReceiptsComponent } from './modals/add-receipts/add-receipts.compone
 import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
 import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
 import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
+import { AddTransportAgentComponent } from './modals/LRModals/add-transport-agent/add-transport-agent.component';
 import { AddCompanyBranchComponent } from './modals/add-company-branch/add-company-branch.component';
 import { CompanyAssociationComponent } from './modals/company-association/company-association.component';
 import { CompanyEstablishmentComponent } from './modals/company-establishment/company-establishment.component';
 import { CompanyContactsComponent } from './modals/company-contacts/company-contacts.component';
 import { AddMaterialComponent } from './modals/LRModals/add-material/add-material.component';
 import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
+import { LrInvoiceColumnsComponent } from './pages/lr-invoice-columns/lr-invoice-columns.component';
+import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfesto/generate-lr-mainfesto.component';
 
 
 
@@ -392,12 +395,15 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     GetUserBankInfoComponent,
     UploadDocsComponent,
     OrderdetailComponent,
+    AddTransportAgentComponent,
     AddCompanyBranchComponent,
     CompanyAssociationComponent,
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
     AddMaterialComponent,
     LRRateCalculatorComponent,
+    LrInvoiceColumnsComponent,
+    GenerateLrMainfestoComponent,
 
   ],
   entryComponents: [
@@ -573,12 +579,14 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     GetUserBankInfoComponent,
     UploadDocsComponent,
     OrderdetailComponent,
+    AddTransportAgentComponent,
     AddCompanyBranchComponent,
     CompanyAssociationComponent,
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
     AddMaterialComponent,
-
+    LrInvoiceColumnsComponent,
+    GenerateLrMainfestoComponent,
   ],
   imports: [
     BrowserModule,

@@ -16,6 +16,7 @@ import { AddFreightExpensesComponent } from '../../modals/FreightRate/add-freigh
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-details.component';
 import { AddReceiptsComponent}from '../../modals/add-receipts/add-receipts.component'
+import { AddTransportAgentComponent } from '../../modals/LRModals/add-transport-agent/add-transport-agent.component'
 
 @Component({
   selector: 'lorry-reccipts',
@@ -136,6 +137,19 @@ export class LorryRecciptsComponent implements OnInit {
 
   }
 
+  RefData()
+  {
+    let refdata = [{
+      refid: "",
+      reftype: "",
+      doctype:""
+    }
+    ];
+    
+    this.common.params = {refdata: refdata, title: 'docImage' };
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
+  }
+
 
   printLr(receipt) {
     console.log("receipts", receipt);
@@ -150,6 +164,12 @@ export class LorryRecciptsComponent implements OnInit {
 
   addReceipts() {
     const activeModal = this.modalService.open(AddReceiptsComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    }).catch(err =>console.log('Error:', err));
+  }
+
+  addTransportAgent(){
+  const activeModal = this.modalService.open(AddTransportAgentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
     }).catch(err =>console.log('Error:', err));
   }
@@ -198,9 +218,9 @@ export class LorryRecciptsComponent implements OnInit {
         LRId: { value: R.lr_id },
         VehiceNo: { value: R.regno },
         LRNo: { value: R.lr_no },
-        LRDate: { value: this.datePipe.transform(R.lr_date, 'dd MMM YYYY HH:mm ') },
-        Consigner: { value: R.lr_consigner_name },
-        Consignee: { value: R.lr_consignee_name },
+        LRDate: { value: R.lr_date },
+        Consigner: { value: (R.lr_consigner_name).substring(0, 20) },
+        Consignee: { value: (R.lr_consignee_name).substring(0, 20) },
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
@@ -212,10 +232,10 @@ export class LorryRecciptsComponent implements OnInit {
         LRImage: R.lr_image ? { value: `<span>view</span>`, isHTML: true, action: this.getImage.bind(this, R) } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
         Action: {
           value: '', isHTML: true, action: null, icons: [{
-            class: 'fa fa-print icon green', action: this.printLr.bind(this, R)
+            class: 'fa fa-print icon', action: this.printLr.bind(this, R)
           },
           { class: 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) },
-          { class: 'fa fa-trash icon red', action: this.deleteLr.bind(this, R) },
+          { class: 'fa fa-trash icon', action: this.deleteLr.bind(this, R) },
           // { class: 'fa fa-inr  icon', action: this.lrRates.bind(this, R,0) },
           { class: 'fa fa-handshake-o  icon', action: this.tripSettlement.bind(this, R) },
           ]//`<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R),
