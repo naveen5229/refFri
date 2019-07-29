@@ -8,7 +8,7 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./manage-fo-party.component.scss']
 })
 export class ManageFoPartyComponent implements OnInit {
-
+  assType=null;
   associationType=[];
 
   constructor(public api:ApiService) {

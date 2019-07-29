@@ -20,7 +20,6 @@ import { AddTransportAgentComponent } from '../add-transport-agent/add-transport
   styleUrls: ['./lr-generate.component.scss']
 })
 export class LrGenerateComponent implements OnInit {
-
   keepGoing = true;
   sourceString = '';
   destinationString = '';
@@ -688,7 +687,7 @@ export class LrGenerateComponent implements OnInit {
     console.log("this.particulars[index].weight_unit ", this.particulars[index].weight_unit)
   }
 
-  takeActionSource(res, index) {
+  takeActionSource(res) {
     setTimeout(() => {
       console.log("Here", this.keepGoing, this.sourceString.length, this.sourceString);
 
@@ -736,7 +735,7 @@ export class LrGenerateComponent implements OnInit {
     }
   }
 
-  takeActionDestination(res, index) {
+  takeActionDestination(res) {
     setTimeout(() => {
       console.log("Here", this.keepGoing, this.destinationString.length, this.destinationString);
 
