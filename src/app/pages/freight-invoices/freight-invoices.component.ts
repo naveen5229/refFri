@@ -132,9 +132,8 @@ export class FreightInvoicesComponent implements OnInit {
         class: "far fa-eye",
         action: this.lrAssign.bind(this, row),
       },
-
       {
-        class:"far fa-pen",
+        class:"fas fa-edit",
         action:this.invoice.bind(this,'Edit',row),
       },
 
