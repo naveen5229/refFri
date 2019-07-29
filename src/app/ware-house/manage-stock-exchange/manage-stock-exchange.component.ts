@@ -160,6 +160,7 @@ export class ManageStockExchangeComponent implements OnInit {
   }
   
   changeRefernceType(type) {
+    console.log('Type: ', type);
     this.itemId = this.sitesDatalist.find((element) => {
       console.log(element.name == type);
      
@@ -321,6 +322,13 @@ this.api.post('WareHouse/saveWhStockItemState', params)
 
       this.common.showToast("Sucessfully insert");
     this.getStateData();
+    this.getItems()
+    this.StateId=null;
+    this.itemId=null;
+    this.quantityId=null;
+    this.userInput=null;
+    this.remark=null;
+    this.remainingQuantityId=this.quantityId
 
       this.activeModal.close({ data: true });
     }
