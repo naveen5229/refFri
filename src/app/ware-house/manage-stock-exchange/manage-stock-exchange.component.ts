@@ -166,12 +166,13 @@ export class ManageStockExchangeComponent implements OnInit {
      
       return element.id == type.id;
     }).id;
-    this.remainingQuantityId = this.sitesDatalist.find((element) => {
+    this.quantityId = this.sitesDatalist.find((element) => {
       console.log(element.name == type);
      
       return element.rem_qty == type.rem_qty;
     }).rem_qty;
-    console.log("pa",this.remainingQuantityId)
+    console.log("pa",this.quantityId)
+    this.remainingQuantityId=this.quantityId
     this.getStateData()
   }
 //   getUnitList() {
