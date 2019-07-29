@@ -89,7 +89,7 @@
           <td> <span>{{i + 1}}</span></td>
           <td *ngFor="let col of headings; " class="text-center">
             <span *ngIf="col==['Manual Amount']">
-              <input type="number" name="manualValues" class="form-control" [value]="row[col]">
+              <input type="number" name="manualValues" class="form-control" [value]="row[col]" [(ngModel)]="row[col]">
               <i class="fa fa-edit" (click)="editExpenses(row)">
               </i>
             </span>
