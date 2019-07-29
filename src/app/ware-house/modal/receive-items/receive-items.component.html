@@ -36,7 +36,7 @@
                     <td>{{list.source }}</td>
                     <td>{{list.destination}}</td>
                     <td><input type="text" class="form-control" [(ngModel)]="list.item_name"></td>
-                    <td><input type="text" class="form-control" [(ngModel)]="list.qty"></td>
+                    <td><input type="number" class="form-control" [(ngModel)]="list.qty"></td>
                 </tr>
             </tbody>
         </table>
@@ -46,7 +46,7 @@
             <label>Date</label>
         </div>
         <div class="col-4">
-            <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+            <uj-date-time-picker (onChanged)="startDate = $event" [maxd]="Today" [dateTimeValue]="startDate">
             </uj-date-time-picker>
         </div>
     </div>

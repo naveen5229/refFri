@@ -127,6 +127,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: 'Manage Party',
+        icon: 'nb-notifications',
+        link: '/pages/manage-party',
+        home: true,
+      },
+      {
+        title: 'Manage Party',
+        icon: 'nb-notifications',
+        link: '/pages/manage-fo-party',
+        home:true,
+      },
+      {
         title: 'Site',
         icon: 'fas fa-map-marked-alt',
         link: '/pages/sites',
@@ -143,11 +155,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-list',
         link: '/pages/frieght-rate-input',
       },
-      {
-        title: 'LR-Invoice Columns',
-        icon: 'fas fa-file-invoice',
-        link: '/pages/lr-invoice-columns',
-      },
+      // {
+      //   title: 'LR-Invoice Columns',
+      //   icon: 'fas fa-file-invoice',
+      //   link: '/pages/lr-invoice-columns',
+      // },
 
       {
         title: 'Freight Invoice',
@@ -170,11 +182,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/lorry-receipts',
       },
 
-      {
-        title: 'Generate LR Manifest',
-        icon: 'fas fa-receipt',
-        link: '/pages/generate-lr-mainfesto',
-      },
+      // {
+      //   title: 'Generate LR Manifest',
+      //   icon: 'fas fa-receipt',
+      //   link: '/pages/generate-lr-mainfesto',
+      // },
       {
         title: 'View LR Manifest',
         icon: 'far fa-clone',
@@ -248,7 +260,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicles',
         home: true,
       },
-      
+
     ]
   },
 

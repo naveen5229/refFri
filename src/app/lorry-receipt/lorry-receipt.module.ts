@@ -27,9 +27,9 @@ const PAGES_COMPONENTS = [
     DashboardModule,
     DirectiveModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule 
+    OwlNativeDateTimeModule
   ],
-  exports:[
+  exports: [
     GenerateLRComponent
   ],
   providers: [DatePipe],
@@ -37,7 +37,7 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     GenerateLRComponent,
     GenerateLrNoVehiclesComponent,
-    GenerateLrMainfestoComponent,
+    // GenerateLrMainfestoComponent,
     ViewManifestoComponent,
     LrPodReceiptsComponent
   ],

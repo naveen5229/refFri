@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
+import { AddConsigneeComponent } from '../../../modals/LRModals/add-consignee/add-consignee.component';
+import { AddMaterialComponent } from '../../../modals/LRModals/add-material/add-material.component';
 
 @Component({
   selector: 'manual-items',
@@ -11,7 +13,10 @@ import { CommonService } from '../../../services/common.service';
 export class ManualItemsComponent implements OnInit {
   unitList=[];
   wareHouseId=null;
+  isFormSubmit = false;
   startDate=new Date();
+  Today=new Date();
+  material=null;
   selectLr=[{
     material_id:null,
     unitype_id:null,
@@ -26,13 +31,17 @@ export class ManualItemsComponent implements OnInit {
  
   constructor(public activeModal:NgbActiveModal,
     public api:ApiService,
+    public modalService:NgbModal,
     public common:CommonService) { 
        this.common.handleModalSize('class', 'modal-lg', '1200');
       this.getUnitList();
   }
 
   ngOnInit() {
+   
   }
+
+
 
   closeModal() {
     this.activeModal.close();
@@ -64,6 +73,20 @@ export class ManualItemsComponent implements OnInit {
     });
   }
 
+  setMaterialValue(GetMaterialTypes){
+    console.log("8888888");
+    if(this.selectLr['material_id']==null){
+      document.getElementById(GetMaterialTypes)['value'] = ''
+    }
+  }
+
+  setParty(company){
+    if(this.selectLr['company_id']==null){
+      document.getElementById(company)['value'] = ''
+    }
+
+  }
+
   saveLr(){
     let params = {
       whId:this.common.params.warehouseId,
@@ -82,10 +105,21 @@ export class ManualItemsComponent implements OnInit {
         else {
           this.common.loading--;
           this.common.showError(res['data'][0].y_msg)
-        }
-       
+        }  
   
       }, err => {
       });
+  }
+
+  addCompany(){
+    this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: "drag-box" })
+  }
+
+  addmaterial(){
+    const activeModal = this.modalService.open(AddMaterialComponent, {
+      size: "sm",
+      container: "nb-layout"
+    });
+    
   }
 }

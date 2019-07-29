@@ -82,7 +82,9 @@ export class LedgerviewComponent implements OnInit {
       }
       this.getLedgerView();
     }
-    this.common.handleModalSize('class', 'modal-lg', '1250');
+    this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 0);
+  
+
     //  this.getVoucherTypeList();
 
     this.setFoucus('voucherType');
@@ -288,10 +290,11 @@ export class LedgerviewComponent implements OnInit {
 
   getBookDetail(voucherId,vouhercode,ytype) {
     console.log('vouher id', voucherId,'ytype',ytype);
-    if((ytype.toLowerCase().includes('purchase')) || (ytype.toLowerCase().includes('sales'))){
+    if((ytype.toLowerCase().includes('purchase')) || (ytype.toLowerCase().includes('sales')) || (ytype.toLowerCase().includes('debit')) || (ytype.toLowerCase().includes('credit'))){
       this.common.params = {
         invoiceid: voucherId,
-        delete: 0
+        delete: 0,
+      indexlg:1
       };
       const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {

@@ -588,7 +588,9 @@ export class LedgerComponent implements OnInit {
       //event.preventDefault();
     }
   }
-
+   capitalizeFirstLetter(str) {
+    this.Accounts.name= str.charAt(0).toUpperCase() + str.slice(1);
+  }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
