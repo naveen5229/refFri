@@ -22,11 +22,16 @@ export class RemainingFuelComponent implements OnInit {
     public api: ApiService,
     private modalService: NgbModal) {
     this.getRemainingFuel();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
-
+  refresh() {
+    console.log('Refresh');
+    this.getRemainingFuel();
+  }
   getRemainingFuel() {
     let params = {};
     this.common.api.post('Fuel/getRemaningFuels', params)

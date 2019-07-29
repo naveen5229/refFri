@@ -37,11 +37,16 @@ export class UserCallSummaryComponent implements OnInit {
     console.log(this.fromDate);
     console.log(this.endDate);
     this.getCallSummary();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
+  refresh() {
 
+    this.getCallSummary();
+  }
 
   getDate(date) {
     this.common.params = { ref_page: 'user-call-summary' };

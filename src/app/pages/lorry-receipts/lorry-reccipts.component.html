@@ -1,36 +1,43 @@
 <nb-card style="border:0px;">
   <nb-card-header>
-    <div class="col-sm-10">
-      <h5>Lorry Receipts</h5>
-    </div>
-    <div class="col-sm-2" style="text-align: right">
-      <button (click)="openGenerateLr(false)" class="btn btn-primary">LR Generate</button>
+    <div class="row">
+      <div class="col-sm-10">
+        <h5>Lorry Receipts</h5>
+      </div>
+      <div class="col-sm-2 text-right">
+        <button (click)="openGenerateLr(false)" class="btn btn-primary">LR Generate</button>
+      </div>
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div class="row" style="margin-top:10px; margin-bottom:10px;">
-      <div class="col-sm-1">
+    <div class="row row align-items-end mb-3">
+      <div class="col-1">
+        <label>Gen. By</label>
         <select class="form-control" name="viewType" [(ngModel)]="viewType">
           <option value="allLR">All</option>
-          <option value="myLr">My</option>
+          <option value="myLr">Self</option>
         </select>
       </div>
-      <div class="col-sm-1">
+      <div class="col-2">
+        <label>LR Category</label>
         <select [(ngModel)]="lrCategory" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="0">FTL</option>
           <option value="1">LTL</option>
-          <option value="-1">Any</option>
+          <option value="-1">All</option>
         </select>
       </div>
       <div class="col-sm-2">
+        <label>From :</label>
         <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
           placeholder="Start Date" (click)="getDate('start')">
       </div>
       <div class="col-sm-2">
+        <label>To :</label>
         <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
           placeholder="End Date" (click)="getDate('end')">
       </div>
       <div class="col-sm-2">
+        <label>LR Status</label>
         <select [(ngModel)]="lrType" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="0">Pending</option>
           <option value="1">Complete</option>
@@ -40,6 +47,7 @@
       </div>
 
       <div class="col-sm-2">
+        <label>Vehicle Type</label>
         <select [(ngModel)]="vehicleType" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="-1">All</option>
           <option value="1">Own</option>
@@ -47,8 +55,8 @@
           <option value="3">Market</option>
         </select>
       </div>
-      <div class="col-sm-2">
-        <button class="btn btn-primary m-0" (click)="getLorryReceipts()">submit</button>
+      <div class="col-sm-1">
+        <button class="btn btn-primary m-0 p-0 w-100 text-capitalize" (click)="getLorryReceipts()">submit</button>
       </div>
 
     </div>
@@ -62,7 +70,11 @@
     </div>
     <div class="col-sm-4" style="text-align: right">
       <!-- <button (click)="printInvoice(false)" class="btn btn-primary">Print Invoice</button> -->
+      <!-- <button (click)="addTransportAgent()" class="btn btn-primary">Add Transport Agent</button>
+      <button (click)="RefData()" class="btn btn-primary">Reference Data</button> -->
     </div>
+
+    
   </nb-card-body>
 </nb-card>
 <router-outlet></router-outlet>

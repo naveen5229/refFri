@@ -4,6 +4,7 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { AccountService } from '../../../services/account.service';
 import { AddConsigneeComponent } from '../../LRModals/add-consignee/add-consignee.component';
+import { LrAssignComponent } from '../../LRModals/lr-assign/lr-assign.component';
 
 @Component({
   selector: 'freight-invoice',
@@ -79,6 +80,7 @@ export class FreightInvoiceComponent implements OnInit {
         if (res['data'][0].y_id > 0) {
           this.common.showToast(res['data'][0].y_msg);
           this.activeModal.close({ data: true });
+          this.lrAssign(res['data'][0].y_id);
         }
         else {
           this.common.showError(res['data'][0].y_msg);
@@ -92,6 +94,20 @@ export class FreightInvoiceComponent implements OnInit {
 
   }
 
+  lrAssign(id) {
+    let row = {
+      _branch_id: this.accountService.selected.branch.id,
+      _party_id: this.freightInvoice.companyId,
+      _id: ''
+    }
+    this.common.handleModalSize('class', 'modal-lg', '800');
+    this.common.params = { row: row };
+    const activeModal = this.modalService.open(LrAssignComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
+    });
+  }
 
 
 }

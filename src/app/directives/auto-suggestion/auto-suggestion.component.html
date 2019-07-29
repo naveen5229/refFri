@@ -7,19 +7,33 @@
                 <span>{{generateString(selectedSuggestion)}}</span>
                 <i class="fa fa-close" (click)="selectedSuggestions.splice(i,1)"></i>
             </p>
-            <input type="text" autocomplete="off" [formControlName]="controlName || 'search'" name="suggestion-input"
-                class="form-control search-input" (input)="getSuggestions()" [ngClass]="className || 'custom-input-1'"
-                [(ngModel)]="searchText" [placeholder]="placeholder || 'Enter search text'"
-                [id]="inputId || 'suggestion'" [name]="name || 'suggestion'" required autocomplete="off"
-                (ngModelChange)="handleUnselected()">
+            <span>
+                <input type="text" autocomplete="off" [formControlName]="controlName || 'search'"
+                    name="suggestion-input" class="form-control search-input" (input)="getSuggestions()"
+                    [ngClass]="className || 'custom-input-1'" [(ngModel)]="searchText"
+                    [placeholder]="placeholder || 'Enter search text'" [id]="inputId || 'suggestion'"
+                    [name]="name || 'suggestion'" required autocomplete="off" (ngModelChange)="handleUnselected()">
+
+                <i class="fas fa-sort-down" style="cursor: pointer" (click)="showAllSuggestion()"></i>
+            </span>
+
         </div>
     </div>
-    <div class="suggestions" *ngIf="showSuggestions && suggestions.length && searchText">
+    <div class="suggestions" *ngIf="showSuggestions && suggestions.length">
         <p *ngFor="let suggestion of suggestions; let i = index;" class="suggestion"
-            [ngClass]="activeSuggestion == i ? 'active-suggestion' : ''" (click)="selectSuggestion(suggestion)">
+            [ngClass]="activeSuggestion == i ? 'active-suggestion' : classFinder(suggestion)"
+            (click)="selectSuggestion(suggestion)">
             {{generateString(suggestion)}}
         </p>
     </div>
+
+    <!-- <div class="suggetion-all" *ngIf="!showSuggestions && suggestions.length ">
+        <p *ngFor="let suggestion of suggestions; let i = index;" class="suggestion"
+            [ngClass]="activeSuggestion == i ? 'active-suggestion' : classFinder(suggestion)"
+            (click)="selectSuggestion(suggestion)">
+            {{generateString(suggestion)}}
+        </p>
+    </div> -->
 
     <!-- <div *ngIf="parentForm && f.controlName.errors" class="invalid-feedback">
         <div *ngIf="f.controlName.errors.required"> Name is required</div>

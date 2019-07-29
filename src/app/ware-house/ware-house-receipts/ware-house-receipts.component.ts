@@ -65,59 +65,78 @@ export class WareHouseReceiptsComponent implements OnInit {
     }
   
     getdata(){
-      if(this.wareHouseId!=null){
-        let startDate = this.common.dateFormatter(this.startDate);
-        let endDate = this.common.dateFormatter(this.endDate);
-        const params={
-          startDate:startDate,
-          endDate:endDate,
-          whId:this.wareHouseId
-        }
-        console.log("ap");
-        this.common.loading++;
-        this.api.post("WareHouse/getManifestPendingList" ,params).subscribe(
-          res => {
-            this.common.loading--;
-           this.data = [];
-           this.table = {
-              data: {
-                headings: {},
-                columns: []
-              },
-              settings: {
-                hideHeader: true
-          
-              }
-          
-            };
-           
-           this.headings = [];
-            this.valobj = {};
-            this.data = res['data'];
-            console.log("result", res);
-            let first_rec = this.data[0];
-            for (var key in first_rec) {
-              if (key.charAt(0) != "_") {
-                this.headings.push(key);
-                let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-                this.table.data.headings[key] = headerObj;
-              }
-            }
-            this.table.data.columns = this.getTableColumns();
+      if(this.startDate<this.endDate){
+        if(this.wareHouseId!=null){
+          let startDate = this.common.dateFormatter(this.startDate);
+          let endDate = this.common.dateFormatter(this.endDate);
+          const params={
+            startDate:startDate,
+            endDate:endDate,
+            whId:this.wareHouseId
           }
-        );
+          console.log("ap");
+          this.common.loading++;
+          this.api.post("WareHouse/getManifestPendingList" ,params).subscribe(
+            res => {
+              this.common.loading--;
+              if(res['data']==null){
+                this.data = [];
+                this.table = {
+                   data: {
+                     headings: {},
+                     columns: []
+                   },
+                   settings: {
+                     hideHeader: true
+                   }    
+                 };    
+                this.headings = [];
+                 this.valobj = {};
+                this.common.showToast("No data Found")
+              }else{
+                this.data = [];
+                this.table = {
+                   data: {
+                     headings: {},
+                     columns: []
+                   },
+                   settings: {
+                     hideHeader: true
+                   }    
+                 };    
+                this.headings = [];
+                 this.valobj = {};
+                 this.data = res['data'];
+                 console.log("result", res);
+                 let first_rec = this.data[0];
+                 for (var key in first_rec) {
+                   if (key.charAt(0) != "_") {
+                     this.headings.push(key);
+                     let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+                     this.table.data.headings[key] = headerObj;
+                   }
+                 }
+                 this.table.data.columns = this.getTableColumns();
+              }     
+            }
+          );
+        }else{
+          this.common.showToast("Please Select WareHouse");
+        }
       }else{
-        this.common.showToast("Please Select WareHouse");
+        this.common.showToast("Start Date should be less then EndDate")
       }
+      
     
     }
   
     showAction(doc) {
+      console.log("doc",doc);
       if(this.wareHouseId!=null){
         this.common.params = {
           warehouseId : this.wareHouseId,
           manifestId:doc._manifest_id,
-          item_name:doc['Ch Num']
+          item_name:doc['Challan No']
         };
         console.log("id",this.common.params);
         const activeModal = this.modalService.open(ReceiveItemsComponent, {
@@ -132,10 +151,7 @@ export class WareHouseReceiptsComponent implements OnInit {
        
       }else{
         this.common.showToast("please select WareHouse")
-      }
-
-     
-     
+      }    
     }
 
     getWareData(){
