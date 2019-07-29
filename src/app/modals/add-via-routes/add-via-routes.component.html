@@ -7,7 +7,7 @@
 <div class="modal-body">
   <div class="row">
     <div class="col-5">
-      <div class="row">
+      <div class="row mb-3">
         <div class="col-6">
           <label>Route Name</label>
         </div>
@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div *ngIf="selectOption=='site'; else map">
+      <div class="mb-3" *ngIf="selectOption=='site'; else map">
         <div class="row">
           <div class="col-3">
             <label>Start Loc</label>
@@ -53,7 +53,7 @@
               placeholder="Start Loc" (focus)=" isstart = true;" minlength="5" maxlength="100">
           </div>
         </div>
-        <div class="row">
+        <div class="row mb-3">
           <div class="col-6">
             <label>Lat,Long</label>
           </div>
@@ -63,7 +63,7 @@
           </div>
         </div>
       </ng-template>
-      <div *ngIf=" selectOption2=='site2' ; else map2">
+      <div class="mb-3" *ngIf=" selectOption2=='site2' ; else map2">
         <div class="row">
           <div class="col-3">
             <label>End Loc</label>
@@ -114,7 +114,7 @@
 
 
 
-      <div class="row">
+      <div class="row mb-3">
         <div class="col-6">
           <label>KMS</label>
 
@@ -144,7 +144,7 @@
     </div>
 
     <div class="col-7" style="position:relative;">
-      <div class="row">
+      <div class="row mb-3">
         <div class="col-4">
 
           <input name="location" id="moveLoc" [(ngModel)]="location" [value]="location" class="fill-elt form-control" />
@@ -158,13 +158,16 @@
 
 
   </div>
-  <div class="modal-footer">
-    <div class="row">
-      <div class="col">
-        <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
-      </div>
-      <div class="col">
-        <button class="btn btn-primary" (click)="add()" style="cursor:pointer;">Submit</button>
-      </div>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger pt-2 pb-2 rounded-sm text-capitalize" (click)="closeModal()"
+        style="cursor:pointer;">Cancel</button>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" (click)="add()"
+        style="cursor:pointer;">Submit</button>
     </div>
   </div>
+</div>

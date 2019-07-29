@@ -17,10 +17,17 @@ issues=[];
     public modalService:NgbModal
 
   ) { 
+
     this.getIssueAlerts();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    console.log('Refresh');
+    this.getIssueAlerts();
   }
 
   getIssueAlerts() {

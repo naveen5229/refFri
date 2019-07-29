@@ -20,13 +20,18 @@ export class ExpensesComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+      this.common.refresh = this.refresh.bind(this);
+
 
   }
 
   ngOnInit() {
     this.getExpenditure();
   }
+  refresh() {
 
+    this.getExpenditure();
+  }
   getExpenditure() {
     ++this.common.loading;
     this.api.post('FoDetails/getExpenditureSheet', { type: this.viewType })

@@ -4,7 +4,6 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
-import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 import { ProfitlossComponent } from '../profitloss/profitloss.component';
 import * as _ from 'lodash';
 import { CostCenterViewComponent } from '../../acounts-modals/cost-center-view/cost-center-view.component';

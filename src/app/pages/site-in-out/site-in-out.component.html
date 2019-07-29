@@ -1,20 +1,14 @@
-<nb-card style="border:0px;">
+<nb-card style="border:0px; height: 100%;">
   <nb-card-header>
     <h5>Site In And Out</h5>
   </nb-card-header>
   <nb-card-body>
     <div class="row align-items-center">
       <div class="col-2">
-        <input class="form-control" (change)="changeRefernceType(siteName);" placeholder="Site Name" type="text"
-          list="siteDatalist" name="sitedatalist" id="sitedataList" [(ngModel)]="siteName">
-        <datalist id="siteDatalist">
-          <option *ngFor="let site of sitesDatalist;" [value]="site.name">{{site.name}}--{{site.id}}
-          </option>
-        </datalist>
-        <!-- <drop-down-list formControlName="type" [options]="sitesDatalist">
-
-        </drop-down-list> -->
+        <auto-suggestion [data]="sitesDatalist" display="name" (onSelected)="changeRefernceType($event)"
+          [bGConditions]="bGConditions" inputId="siteId"></auto-suggestion>
       </div>
+
       <div class="col-1 pr-0">
         <label>Start Date</label>
       </div>
@@ -42,7 +36,7 @@
         </span>
       </div>
     </div>
-    <div>
+    <div class="mt-2">
       <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="siteInAndOut">
       </smart-table>
     </div>

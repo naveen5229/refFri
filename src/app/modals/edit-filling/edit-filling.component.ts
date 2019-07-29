@@ -160,10 +160,10 @@ export class EditFillingComponent implements OnInit {
           if (res["success"]) {
             this.common.showToast(res['msg']);
             // this.common.showToast("Details Updated Successfully");
-
             this.filldate = '';
             this.activeModal.close();
-          } else {
+          }
+          else {
             this.common.showError(res['msg']);
           }
 

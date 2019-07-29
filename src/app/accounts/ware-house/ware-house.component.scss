@@ -63,7 +63,7 @@ table{
             display: table;
             table-layout: fixed;
             width: 100%;
-            th:nth-child(1){
+            td:nth-child(1){
                 width: 50px;
             }
             td:nth-child(2){
@@ -106,6 +106,4 @@ i{
 }
 .delete{
     color: #D61414 !important;
-    padding: 2%;
-    margin: 40%;
 }

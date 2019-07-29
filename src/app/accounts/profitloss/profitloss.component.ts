@@ -60,6 +60,7 @@ export class ProfitlossComponent implements OnInit {
     this.getBranchList();
     this.setFoucus('startdate');
     this.common.currentPage = 'Profit & Loss A/C';
+   // this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 0);
 
   }
 
@@ -292,13 +293,13 @@ export class ProfitlossComponent implements OnInit {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
   }
-  openLedgerViewModel(ledgerId, ledgerName) {
+  openLedgerViewModel(ledgerId, ledgerName,typeid) {
     console.log('ledger id 00000', ledgerId);
     this.common.params = {
       startdate: this.plData.startdate,
       enddate: this.plData.enddate,
       ledger: ledgerId,
-      vouchertype: 0,
+      vouchertype: (typeid==null) ? 0: typeid,
       ledgername: ledgerName
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });

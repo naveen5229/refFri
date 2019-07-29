@@ -23,16 +23,21 @@ export class AddFreightExpensesComponent implements OnInit {
   freightHeads = [];
   expenseDetails = [{
     frHead: null,
-    value: null
+    frHeadId: null,
+    value: null,
+    manualValue: null,
   },
   {
     frHead: null,
     frHeadId: null,
-    value: null
+    value: null,
+    manualValue: null,
   }, {
     frHead: null,
-    value: null
-  }]
+    frHeadId: null,
+    value: null,
+    manualValue: null,
+  }];
   title = "Add Freight Expenses";
   result = [];
   refernceData = [];
@@ -110,7 +115,9 @@ export class AddFreightExpensesComponent implements OnInit {
     this.expenseDetails.push(
       {
         frHead: null,
+        frHeadId: null,
         value: null,
+        manualValue: null,
       }
     )
   }
@@ -127,7 +134,6 @@ export class AddFreightExpensesComponent implements OnInit {
 
   saveDetails() {
     ++this.common.loading;
-
     let params = {
       vehicleId: this.expense.vehicleId,
       vehicleNo: this.expense.vehicleRegNo,

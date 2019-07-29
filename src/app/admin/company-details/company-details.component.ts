@@ -17,10 +17,19 @@ export class CompanyDetailsComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal) {
     this.getCompanies();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
+
+  
+  refresh() {
+    console.log('Refresh');
+    this.getCompanies(); 
+   }
+
   getCompanies() {
     ++this.common.loading;
     this.api.get('company/getCompanies')
