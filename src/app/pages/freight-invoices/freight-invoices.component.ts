@@ -9,6 +9,7 @@ import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight
 import { FreightInvoiceComponent } from '../../modals/FreightRate/freight-invoice/freight-invoice.component';
 import { LrAssignComponent } from '../../modals/LRModals/lr-assign/lr-assign.component';
 import { ViewFrieghtInvoiceComponent } from '../../modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
+import { LrInvoiceColumnsComponent } from '../lr-invoice-columns/lr-invoice-columns.component';
 
 @Component({
   selector: 'freight-invoices',
@@ -202,6 +203,14 @@ export class FreightInvoicesComponent implements OnInit {
     console.log("invoice", invoice);
     this.common.params = { invoiceId: invoice._id }
     const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
+    });
+  }
+
+  lrInvoice() {
+    const activeModal = this.modalService.open(LrInvoiceColumnsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
 

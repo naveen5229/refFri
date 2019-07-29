@@ -68,9 +68,29 @@ nb-card-body {
   border: transparent;
 }
 :host ::ng-deep.icon {
-  color: #0e0e3a;
-  font-size: 18px;
-  margin-left :10px; 
+  width: 20px;
+  text-align: center;
+  background-color: #ccc;
+  border-radius: 3px;
+  height: 20px;
+  line-height: 22px;
+  margin: 3px;
+}
+:host ::ng-deep .fa-print{
+  background-color: #4fb92b;
+  color: #fff;
+}
+:host ::ng-deep .fa-pencil-square-o{
+  background-color: #04a9f5;
+  color: #fff;
+}
+:host ::ng-deep .fa-trash{
+  background-color: #f00;
+  color: #fff;
+}
+:host ::ng-deep .fa-handshake-o{
+  background-color: #1dddc6;
+  color: #fff;
 }
 :host ::ng-deep.image {
   color: #0e0e3a;

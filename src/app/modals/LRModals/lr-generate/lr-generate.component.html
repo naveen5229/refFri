@@ -124,12 +124,12 @@
               <td>
                 <span>
                   <auto-suggestion (onChange)="onChangeAuto($event,'source')"
-                    (onSelected)="selectLocation($event,'source')" (noDataFound)="takeAction($event)"
+                    (onSelected)="selectLocation($event,'source')" (noDataFound)="takeActionSource($event)"
                     [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="startname"
                     placeholder="Source Location" [value]="lr.sourceCity" class="col-md-9 auto-suggest"
                     [preSelected]='{location:lr.sourceCity}'>
                   </auto-suggestion>
-                  <i class="fa fa-plus add col-md-3" (click)="searchString='----'; takeAction(null);"></i>
+                  <i class="fa fa-plus add col-md-3" (click)="sourceString='----'; takeActionSource(null);"></i>
                 </span>
 
                 <!-- <input placeholder="Search Source City" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control"
@@ -140,11 +140,11 @@
               <td>
                 <span>
                   <auto-suggestion (onChange)="onChangeAuto($event,'end')" (onSelected)="selectLocation($event,'end')"
-                    (noDataFound)="takeAction($event)" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
+                    (noDataFound)="takeActionDestination($event)" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
                     display="location" inputId="endname" class="col-md-9 auto-suggest" placeholder="Source Location"
                     [value]="lr.destinationCity" [preSelected]='{location:lr.destinationCity}'>
                   </auto-suggestion>
-                  <i class="fa fa-plus add col-md-3" (click)="searchString='----'; takeAction(null);"></i>
+                  <i class="fa fa-plus add col-md-3" (click)="destinationString='----'; takeActionDestination(null);"></i>
                 </span>
                 <!-- <input placeholder="Search Destination City" id="destinationCity" [(ngModel)]="lr.destinationCity"
                   class="form-control"> -->

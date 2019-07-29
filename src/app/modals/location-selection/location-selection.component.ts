@@ -143,10 +143,11 @@ export class LocationSelectionComponent implements OnInit {
     this.location.dislng = place.geometry.viewport.getNorthEast().lng() - place.geometry.viewport.getSouthWest().lng();
     if (this.location.state && this.location.district && this.location.name) {
       this.name = this.location.name + "," + this.location.district + "," + this.location.state;
-      this.setMap(this.location.lat, this.location.lng);
     } else {
       this.common.showError("Location Invalid");
     }
+    if (this.location.lat && this.location.lng)
+      this.setMap(this.location.lat, this.location.lng);
   }
 
   updateLocationByTyping(autocomplete) {

@@ -283,11 +283,11 @@ const routes: Routes = [{
     component: RemainingFuelComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'lr-invoice-columns',
-    component: LrInvoiceColumnsComponent,
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'lr-invoice-columns',
+  //   component: LrInvoiceColumnsComponent,
+  //   canActivate: [AuthGuard],
+  // },
   {
     path: 'consolidate-fuel-average',
     component: ConsolidateFuelAverageComponent,
@@ -336,11 +336,11 @@ const routes: Routes = [{
     component: GenerateLrNoVehiclesComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'generate-lr-mainfesto',
-    component: GenerateLrMainfestoComponent,
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'generate-lr-mainfesto',
+  //   component: GenerateLrMainfestoComponent,
+  //   canActivate: [AuthGuard],
+  // },
   {
     path: 'view-manifesto',
     component: ViewManifestoComponent,
@@ -455,7 +455,8 @@ const routes: Routes = [{
     path: 'sites',
     component: SitesComponent,
     canActivate: [AuthGuard]
-  },{   
+  }, 
+  {
     path: 'manage-party',
     component: ManagePartyComponent,
     canActivate: [AuthGuard]
