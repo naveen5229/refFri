@@ -109,7 +109,7 @@
 </div>
 
 <!-- Pagination -->
-<div class="pagination" *ngIf="pages.count > 1">
+<div class="pagination" *ngIf="settings.showPagination || pages.count > 1">
   <!-- Page Count -->
   <div class="pagination_links">
     <button (click)="handlePagination(pages.active - 1)" [disabled]="pages.active == 1">Pre</button>
