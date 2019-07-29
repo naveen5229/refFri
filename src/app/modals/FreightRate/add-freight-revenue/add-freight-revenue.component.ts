@@ -24,16 +24,21 @@ export class AddFreightRevenueComponent implements OnInit {
   freightHeads = [];
   revenueDetails = [{
     frHead: null,
-    value: null
+    frHeadId: null,
+    value: null,
+    manualValue: null,
   },
   {
     frHead: null,
     frHeadId: null,
-    value: null
+    value: null,
+    manualValue: null,
   }, {
     frHead: null,
-    value: null
-  }]
+    frHeadId: null,
+    value: null,
+    manualValue: null,
+  }];
   title = "Save Revenue";
   result = [];
   refernceData = [];
@@ -119,6 +124,8 @@ export class AddFreightRevenueComponent implements OnInit {
       {
         frHead: null,
         value: null,
+        frHeadId: null,
+        manualValue: null,
       }
     )
   }
