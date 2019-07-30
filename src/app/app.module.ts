@@ -217,6 +217,7 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
 import { LrInvoiceColumnsComponent } from './pages/lr-invoice-columns/lr-invoice-columns.component';
 import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfesto/generate-lr-mainfesto.component';
 import { TripdetailComponent } from './acounts-modals/tripdetail/tripdetail.component';
+import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
 
 
 
@@ -406,9 +407,11 @@ import { TripdetailComponent } from './acounts-modals/tripdetail/tripdetail.comp
     LrInvoiceColumnsComponent,
     GenerateLrMainfestoComponent,
     TripdetailComponent,
+    FreightInvoiceRateComponent,
 
   ],
   entryComponents: [
+    FreightInvoiceRateComponent,
     LRRateCalculatorComponent,
     LrRateComponent,
     ViewFrieghtInvoiceComponent,
