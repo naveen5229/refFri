@@ -217,6 +217,8 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
 import { FoUserStateComponent } from './modals/fo-user-state/fo-user-state.component';
 import { LrInvoiceColumnsComponent } from './pages/lr-invoice-columns/lr-invoice-columns.component';
 import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfesto/generate-lr-mainfesto.component';
+import { FeedbackModalComponent } from './modals/feedback-modal/feedback-modal.component';
+import { ShowMobileComponent } from './modals/show-mobile/show-mobile.component';
 
 
 
@@ -406,6 +408,8 @@ import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfe
     FoUserStateComponent,
     LrInvoiceColumnsComponent,
     GenerateLrMainfestoComponent,
+    FeedbackModalComponent,
+    ShowMobileComponent,
 
   ],
   entryComponents: [
@@ -589,6 +593,10 @@ import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfe
     AddMaterialComponent,
     LrInvoiceColumnsComponent,
     GenerateLrMainfestoComponent,
+    FoUserStateComponent,
+    FeedbackModalComponent,
+    ShowMobileComponent,
+
   ],
   imports: [
     BrowserModule,

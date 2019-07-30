@@ -76,11 +76,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-tachometer-alt',
         link: '/pages/vehicle-odoMeter'
       },
-      {
-        title: 'Finance Recovery',
-        icon: 'fas fa-tachometer-alt',
-        link: '/pages/finance-recovery'
-      },
+     
 
       {
         title: 'Routes',
@@ -107,6 +103,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-map-marked-alt',
         link: '/pages/card-mapping',
         home: true,
+      },
+      {
+        title: 'Finance Recovery',
+        icon: 'fas fa-tachometer-alt',
+        link: '/pages/finance-recovery'
       },
       {
         title: 'Tickets All',

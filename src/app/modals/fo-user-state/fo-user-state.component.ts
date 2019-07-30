@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ApiService } from 'src/app/services/api.service';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ApiService } from '../../services/api.service';
+import { CommonService } from '../../services/common.service';
+import { FeedbackModalComponent } from '../feedback-modal/feedback-modal.component';
 
 @Component({
   selector: 'fo-user-state',
@@ -25,7 +27,11 @@ export class FoUserStateComponent implements OnInit {
   valobj = {};
   foData=[];
   constructor( public activeModal:NgbActiveModal,
-    public api:ApiService) { }
+    public api:ApiService,
+    public common:CommonService,
+    public modalService:NgbModal) {
+      this.getFoData();
+     }
 
   ngOnInit() {
   }
@@ -39,7 +45,14 @@ export class FoUserStateComponent implements OnInit {
     this.foData.map(foDocs =>{
       this.valobj={};
       for (let i = 0; i < this.headings.length; i++) {
-        this.valobj[this.headings[i]] = { value: foDocs[this.headings[i]], class: 'black', action: '' };
+        // if(foDocs._is_company==true){
+        // if (this.headings[i] == 'feedback') {
+        //   this.valobj['feedback'] = { class: "fa fa-comments-o", action: this.showAction.bind(this )}
+        // }
+        // }
+      {
+          this.valobj[this.headings[i]] = { value: foDocs[this.headings[i]], class: 'blue', action: '' };
+        }
       }
 
       columns.push(this.valobj);
@@ -47,12 +60,35 @@ export class FoUserStateComponent implements OnInit {
     return columns;
   }
     
-      
+ getFeedback(){
+  this.common.params.ledgerId;
+   const activeModal = this.modalService.open(FeedbackModalComponent, {size: "md",container: "nb-layout" });
+    activeModal.result.then(data=> {
+      console.log('res', data);
+     
+        this.getFoData();
+    });
 
+    }
     
-  getFinanceData(){
+  getFoData(){
+    
+    this.foData=[];
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    this.headings = [];
+    this.valobj = {};
+  
     console.log("ap")
-    this.api.get("wareHouse/getAllStatesWrtItem?").subscribe(
+    const params=`ledgerId=${this.common.params.ledgerId}`
+    this.api.get("CommunicationLog/getCommLogs?"+ params).subscribe(
       res => {
         this.foData = [];
         this.foData = res['data'];
@@ -65,6 +101,7 @@ export class FoUserStateComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
+        
         this.table.data.columns = this.getTableColumns();
       }
     );

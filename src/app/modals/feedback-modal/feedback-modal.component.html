@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <h5>Communication Logs State</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="row mb-3">
+        <div class="col-3">
+            <label>Contact :</label>
+        </div>
+        <div class="col-9">
+            <auto-suggestion (onSelected)="selectFoCompany($event)" url="Suggestion/getCmpContactsWrtFo" [display]="['name','id']" seperator="-" placeholder="Search By Id. And Name">
+            </auto-suggestion>
+        </div>
+
+    </div>
+
+    <!-- <div class="row mb-3">
+        <div class="col-3">
+            <label>Select Priority</label>
+        </div>
+        <div class="col-9">
+            <div class="form-group">
+                <select [(ngModel)]="request" class="form-control w-100">
+          <option value="1">Good</option>
+          <option value="2">Medium</option>
+          <option value="3">Bad</option>
+        </select>
+            </div>
+        </div>
+    </div> -->
+    <div class="row mb-3">
+        <div class="col-3">
+            <label>Remainder Time*:</label>
+        </div>
+        <div class="col-9">
+            <uj-date-time-picker (onChanged)="Date=$event" [dateTimeValue]="Date">
+            </uj-date-time-picker>
+            <!-- <input type="text" id="targetTime" class="form-control" name="targetTime" [(ngModel)]="time.targetTime" placeholder="Exit Time" autocomplete="off" (click)="openReminderModal()"> -->
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-3">
+            <label>Company Remark:</label>
+        </div>
+        <div class="col-9">
+            <textarea rows="4" cols="55" class="form-control" [(ngModel)]="userRemark"></textarea>
+
+        </div>
+
+    </div>
+
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize text-rigth" id="button" (click)="getData()">Submit</button>
+</div>
