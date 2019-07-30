@@ -216,6 +216,7 @@ import { AddMaterialComponent } from './modals/LRModals/add-material/add-materia
 import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
 import { LrInvoiceColumnsComponent } from './pages/lr-invoice-columns/lr-invoice-columns.component';
 import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfesto/generate-lr-mainfesto.component';
+import { TripdetailComponent } from './acounts-modals/tripdetail/tripdetail.component';
 
 
 
@@ -404,6 +405,7 @@ import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfe
     LRRateCalculatorComponent,
     LrInvoiceColumnsComponent,
     GenerateLrMainfestoComponent,
+    TripdetailComponent,
 
   ],
   entryComponents: [
@@ -587,6 +589,7 @@ import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfe
     AddMaterialComponent,
     LrInvoiceColumnsComponent,
     GenerateLrMainfestoComponent,
+    TripdetailComponent,
   ],
   imports: [
     BrowserModule,
