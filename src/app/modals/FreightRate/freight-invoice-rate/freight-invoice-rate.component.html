@@ -1,0 +1,44 @@
+<nb-card>
+  <nb-card-body class="m-0 p-0">
+    <div style=" background-color:#ffffff;width:100%">
+      <div class="modal-header doNotPrint">
+        <div class="row w-100">
+          <div class="col-sm-6">
+            <h5 class="modal-title" id="modal-basic-title">Freight Invoice Rate</h5>
+          </div>
+
+          <div class="col-sm-6 text-right">
+            <span (click)="onPrint()" class="doNotPrint print-icon"><i class="fa fa-print"></i></span>
+            <span (click)="common.downloadPdf('print-section')" class="pdf-icon" style="margin-left:20px"><i
+                class="fa fa-file-pdf"></i></span>
+
+          </div>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="print-section">
+        <table class="table table-bordered table-hover" style="width: 100%">
+          <thead class="thead">
+            <th *ngFor="let heading of headings"><span *ngIf="heading.split('_')[0] != 'head'">{{heading}}</span>
+              <span *ngIf="heading.split('_')[0] == 'head'">{{heading.split('_')[1]}}</span></th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let invoiceRate of invoiceRates; let i= index">
+              <td *ngFor="let heading of headings;let j = index"><span>
+                  <label *ngIf="heading.split('_')[0] != 'head'">{{invoiceRate[heading]}}</label>
+                  <label *ngIf="heading.split('_')[0] == 'head' && invoiceRate[heading]"
+                    style="width:30%">{{invoiceRate[heading].autoAmount}}</label>
+                  <input type='text' class="form-contol" [(ngModel)]="invoiceRate[heading].manualAmount"
+                    *ngIf="heading.split('_')[0]=='head' && invoiceRate[heading]" style="width:70%">
+                </span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <button (click)="saveRate();">Change & Save</button>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
