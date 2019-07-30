@@ -38,7 +38,7 @@ export class LRRateCalculatorComponent implements OnInit {
       this.expenseType = this.common.params.refData.isExpense;
       this.getLrRate();
     }
-    this.common.handleModalSize('class', 'modal-lg', '1500', 'px', 1);
+    this.common.handleModalSize('class', 'modal-lg', '1300', 'px', 1);
   }
 
 
