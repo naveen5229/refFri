@@ -202,7 +202,7 @@ import { TripSettlementComponent } from './modals/trip-settlement/trip-settlemen
 import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/edit-via-routes-points.component';
 import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
-import { GenericModelComponent } from './modals/generic-model/generic-model.component';
+import { GenericModelComponent } from './modals/generic-modals/generic-model/generic-model.component';
 import { AddReceiptsComponent } from './modals/add-receipts/add-receipts.component';
 import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
 import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
@@ -218,7 +218,7 @@ import { FoUserStateComponent } from './modals/fo-user-state/fo-user-state.compo
 import { LrInvoiceColumnsComponent } from './pages/lr-invoice-columns/lr-invoice-columns.component';
 import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfesto/generate-lr-mainfesto.component';
 import { FeedbackModalComponent } from './modals/feedback-modal/feedback-modal.component';
-import { ShowMobileComponent } from './modals/show-mobile/show-mobile.component';
+import { GenericInputTypeComponent } from './modals/generic-modals/generic-input-type/generic-input-type.component';
 
 
 
@@ -409,7 +409,7 @@ import { ShowMobileComponent } from './modals/show-mobile/show-mobile.component'
     LrInvoiceColumnsComponent,
     GenerateLrMainfestoComponent,
     FeedbackModalComponent,
-    ShowMobileComponent,
+    GenericInputTypeComponent,
 
   ],
   entryComponents: [
@@ -595,7 +595,8 @@ import { ShowMobileComponent } from './modals/show-mobile/show-mobile.component'
     GenerateLrMainfestoComponent,
     FoUserStateComponent,
     FeedbackModalComponent,
-    ShowMobileComponent,
+    GenericInputTypeComponent,
+
 
   ],
   imports: [

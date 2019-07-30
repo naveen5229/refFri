@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShowMobileComponent } from './show-mobile.component';
+import { GenericInputTypeComponent } from './generic-input-type.component';
 
-describe('ShowMobileComponent', () => {
-  let component: ShowMobileComponent;
-  let fixture: ComponentFixture<ShowMobileComponent>;
+describe('GenericInputTypeComponent', () => {
+  let component: GenericInputTypeComponent;
+  let fixture: ComponentFixture<GenericInputTypeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShowMobileComponent ]
+      declarations: [ GenericInputTypeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShowMobileComponent);
+    fixture = TestBed.createComponent(GenericInputTypeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../../services/api.service';
+import { CommonService } from '../../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CommonService } from '../../services/common.service';
-import { ApiService } from '../../services/api.service';
-
 
 @Component({
-  selector: 'show-mobile',
-  templateUrl: './show-mobile.component.html',
-  styleUrls: ['./show-mobile.component.scss']
+  selector: 'generic-input-type',
+  templateUrl: './generic-input-type.component.html',
+  styleUrls: ['./generic-input-type.component.scss']
 })
-export class ShowMobileComponent implements OnInit {
-
+export class GenericInputTypeComponent implements OnInit {
+title='';
   mobile = null;
   constructor(
     public common: CommonService,
@@ -45,7 +44,6 @@ export class ShowMobileComponent implements OnInit {
         this.common.showError();
        } );
   }
+
+  
     }
-
-
-

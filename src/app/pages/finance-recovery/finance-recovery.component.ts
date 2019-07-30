@@ -3,8 +3,8 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FoUserStateComponent } from '../../modals/fo-user-state/fo-user-state.component';
 import { CommonService } from '../../services/common.service';
-import { ShowMobileComponent } from '../../modals/show-mobile/show-mobile.component';
 import { ViewListComponent } from '@progress/kendo-angular-dateinputs';
+import { GenericInputTypeComponent } from '../../modals/generic-modals/generic-input-type/generic-input-type.component';
 
 @Component({
   selector: 'finance-recovery',
@@ -85,7 +85,7 @@ this.common.refresh = this.refresh.bind(this);
     //   });
   
     console.log("mobile no", this.common.params);
-  this.modalService.open(ShowMobileComponent, { size: "sm", container: "nb-layout"
+  this.modalService.open(GenericInputTypeComponent, { size: "sm", container: "nb-layout"
     });
   
   }
