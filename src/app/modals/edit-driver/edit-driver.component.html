@@ -30,7 +30,7 @@
       <div class="col-3">
         <input type="text" class="form-control" id="mobile-number" placeholder="Mobile NO." autocomplete="off"
           formControlName="mobileno" minlength="10" maxlength="10"
-          [ngClass]="{ 'is-invalid': submitted && f.mobileno.errors }" readonly>
+          [ngClass]="{ 'is-invalid': submitted && f.mobileno.errors }">
         <div *ngIf="submitted && f.mobileno.errors" class="invalid-feedback">
           <div *ngIf="f.mobileno.errors.required">mobileNumber is not editable</div>
           <div *ngIf="f.mobileno.errors.minlength ">mobile Number minlength 10</div>
