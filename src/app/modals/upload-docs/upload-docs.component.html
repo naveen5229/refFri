@@ -10,7 +10,7 @@
       <label>Doctype*</label>
     </div>
     <div class="col-3">
-      <select class="form-control" (change)="getDocChange($event)" [(ngModel)]="docId">
+      <select class="form-control" (change)="getDocChange()" [(ngModel)]="docId">
         <option *ngFor="let status of driverDoc" [value]="status.id">
           {{status.name}}
 
