@@ -5,7 +5,6 @@
   </button>
 </div>
 <div class="modal-body">
-
   <div class="row mb-3">
     <div class="col-5">
       <div class="row">
@@ -17,7 +16,6 @@
             <option value="">Select Branch</option>
             <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
           </select>
-
         </div>
       </div>
     </div>
@@ -27,24 +25,23 @@
           <span><b>Party</b></span>
         </div>
         <div class="col-9">
-          <auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies" display="name"
+          <auto-suggestion *ngIf="showhide.show; else other_content" (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies" display="name"
             placeholder="Search Consignor Name" style="width:100%;" class="auto-suggest"
             [preSelected]="{name:freightInvoice.companyName}">
           </auto-suggestion>
         </div>
-
-
+        <ng-template #other_content>
+            <label style="background-color: #e8edef;padding-top:5px;padding-bottom:5px;padding-left:15px;width:100%;border-radius:3px;">{{freightInvoice.companyName}}</label> 
+          </ng-template>
       </div>
     </div>
   </div>
-
   <div class="row mb-3">
     <div class="col-5">
       <div class="row">
         <div class="col-3">
           <span><b> Time</b></span>
         </div>
-
         <div class="col-9 pl-3 pr-2">
           <uj-date-time-picker (onChanged)="freightInvoice.date = $event" [dateTimeValue]="freightInvoice.date"
             [isTime]="false">
@@ -64,23 +61,21 @@
       </div>
     </div>
   </div>
-
-
 <div class="row">
-  <div class="col-6">
-    <div class="row">
-      <div class="col-3">
-        <label>Is Same State</label>
+  <div class="col-5">
+    <div class="row align-items-center">
+      <div class="col-3 pr-0">
+          <span><b>Intra State</b></span>
       </div>
-      <div class="col-9">
-          <input type="checkbox" unchecked   [(ngModel)]='state' (change)="check(state)">
+      <div class="col-7">
+          <input class="m-0" type="checkbox" [(ngModel)]='state' (change)="check(state)">
       </div>
     </div>
   </div>
-  <div class="col-6">
+  <div class="col-7">
     <div class="row">
         <div class="col-3">
-            <label>Gst Rate</label>
+            <span><b>Gst Rate</b></span>
           </div>
           <div class="col-9">
               <select  [(ngModel)]="freightInvoice.gst" name="gst">
@@ -91,12 +86,10 @@
     </div>
   </div>
 </div>
-
-
   <div class="row">
     <div class="col-6">
       <div class="row">
-        <div class="col-3">
+        <div class="col-3" style="padding-top:20px">
           <span><b>Remark</b></span>
         </div>
         <div class="col-7 pl-0">
@@ -106,12 +99,7 @@
       </div>
     </div>
   </div>
-
-  
 </div>
-
-
-
 <div class="modal-footer">
   <button class="btn btn-primary" id="save" (click)="saveInvoice()">Save & Select LR</button>
 </div>
