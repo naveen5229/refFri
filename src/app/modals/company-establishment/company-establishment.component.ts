@@ -67,7 +67,8 @@ export class CompanyEstablishmentComponent implements OnInit {
   }
 
   getCompanyBranchs() {
-    this.api.get('Suggestion/getSelfBranch')
+    let params="assocCmpId="+this.common.params.cmpId+"&userCmpId="+this.common.params.userCmpId;
+    this.api.get('Suggestion/getSelfBranch?'+params)
       .subscribe(res => {
         this.branchs=res['data'];
       }, err => {
@@ -84,35 +85,45 @@ export class CompanyEstablishmentComponent implements OnInit {
   }
 
   addCompanyEstablishment(){
-    const params={
-      branchId:this.branchId,
-      locId:this.locId,
-      remark:this.remark,
-      name:this.name,
-      stateId:this.stateId,
-      pinCode:this.pincode,
-      estbType:this.establishmentType,
-      address:this.address,
-      estbId:this.estbId,
+    if(this.name==null){
+      this.common.showToast("Please add Establishmentname")
     }
-    ++this.common.loading;
-    console.log("params", params);
-    this.api.post('ManageParty/saveCmpEstablishment', params)
-      .subscribe(res => {
-        --this.common.loading; 
-        console.log("Testing")
-        if (res['data'][0].y_id > 0) {
-          this.common.showToast(res['data'][0].y_msg);
-          this.Update = true;
-          this.activeModal.close({ response: this.Update });
-        } else {
-          this.common.showError(res['data'][0].y_msg)
-        }
-      },
-        err => {
-          --this.common.loading;
-          console.error(' Api Error:', err)
-        });
+    else if(this.locId==null){
+      this.common.showToast("please add city")
+    }
+    else{
+      const params={
+        branchId:this.branchId,
+        locId:this.locId,
+        remark:this.remark,
+        name:this.name,
+        stateId:this.stateId,
+        pinCode:this.pincode,
+        estbType:this.establishmentType,
+        address:this.address,
+        estbId:this.estbId,
+      }
+      ++this.common.loading;
+      console.log("params", params);
+      this.api.post('ManageParty/saveCmpEstablishment', params)
+        .subscribe(res => {
+          --this.common.loading; 
+          console.log("Testing")
+          if (res['data'][0].y_id > 0) {
+            this.common.showToast(res['data'][0].y_msg);
+            this.branchId = res['data'][0].y_id;
+            this.activeModal.close({ response: this.branchId });
+          } else {
+            this.common.showError(res['data'][0].y_msg)
+          }
+        },
+          err => {
+            --this.common.loading;
+            console.error(' Api Error:', err)
+          });
+
+    }
+   
   }
 
 }

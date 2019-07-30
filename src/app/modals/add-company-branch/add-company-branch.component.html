@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
     <div class="add-company-branch">
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-4">
             </div>
             <div class="col-2">
@@ -15,19 +15,19 @@
             <div class="col-2">
                 <input type="radio" name="self" [(ngModel)]="companyStatus" (change)="companyName=null" value="Other">Other
             </div>
-        </div>
-        <div class="row  mt-2">
+        </div> -->
+        <!-- <div class="row  mt-2">
             <div class="col-4">
                 <label>Company:</label>
             </div>
-            <div *ngIf="companyStatus == 'self'" class="col-8">
+            <div class="col-8">
                 <input type="text" class="form-control" [(ngModel)]="companyName" placeholder="Enter Company name" readonly>
-            </div>
-            <div *ngIf="companyStatus == 'Other'" class="col-8">
+            </div> -->
+        <!-- <div *ngIf= class="col-8">
                 <auto-suggestion (onSelected)="companyId=($event.id)" id="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:60%;" [preSelected]="{name:companyName}">
                 </auto-suggestion>
-            </div>
-        </div>
+            </div> -->
+        <!-- </div> -->
         <div class="row mt-2">
             <div class="col-4">
                 <label>Branch Name:</label>

@@ -22,7 +22,7 @@ export class CompanyContactsComponent implements OnInit {
   MobileNo=null;
   email=null;
   remark=null;
-  userCmpnyId=this.common.params.cmpId;
+  userCmpnyId=this.common.params.userCmpId;
   assCmpnyId=null;
   contactId=null;
   companyName=null;
@@ -30,6 +30,9 @@ export class CompanyContactsComponent implements OnInit {
   constructor(public api:ApiService,
     public activeModal:NgbActiveModal,
     public common:CommonService) {
+       this.companyName = this.common.params.cmpName;
+       this.assCmpnyId=this.common.params.cmpId;
+       console.log("companyName",this.companyName );
       console.log("param",this.common.params.contactDetail);
       if(this.common.params.contactDetail){
         this.branchId=this.common.params.contactDetail._branchid;
@@ -54,7 +57,8 @@ export class CompanyContactsComponent implements OnInit {
   }
 
   getCompanyBranchs() {
-    this.api.get('Suggestion/getSelfBranch')
+    let params="assocCmpId="+this.assCmpnyId+"&userCmpId="+this.userCmpnyId;
+    this.api.get('Suggestion/getSelfBranch?'+params)
       .subscribe(res => {
         this.branchs=res['data'];
       }, err => {
@@ -75,39 +79,46 @@ export class CompanyContactsComponent implements OnInit {
   }
 
   addCompanyContacts(){
-    const params={
-      branchId:this.branchId,
-      remark:this.remark,
-      name:this.name,
-      estbId:this.establishmentType,
-      deptName:this.deptName,
-      designation:this.designation,
-      phoneNo:this.phoneNo,
-      mobNo:this.MobileNo,
-      email:this.email,
-      assCmpnyId:this.assCmpnyId,
-      userCmpnyId:this.userCmpnyId,
-      contactId:this.contactId
+    if(this.name==null){
+      this.common.showToast("please add contact name");
+    }else if(this.phoneNo==null || this.MobileNo){
+      this.common.showToast("please add Phone no/MObile No")
     }
-    ++this.common.loading;
-    console.log("params", params);
-    this.api.post('ManageParty/saveCompContacts', params)
-      .subscribe(res => {
-        --this.common.loading; 
-        console.log("Testing")
-        if (res['data'][0].y_id > 0) {
-          this.common.showToast(res['data'][0].y_msg);
-          this.Update = true;
-          this.activeModal.close({ response: this.Update });
-        } else {
-          this.common.showError(res['data'][0].y_msg)
-        }
-      },
-        err => {
-          --this.common.loading;
-          console.error(' Api Error:', err)
-        });
-
+    else{
+      const params={
+        branchId:this.branchId,
+        remark:this.remark,
+        name:this.name,
+        estbId:this.establishmentType,
+        deptName:this.deptName,
+        designation:this.designation,
+        phoneNo:this.phoneNo,
+        mobNo:this.MobileNo,
+        email:this.email,
+        assCmpnyId:this.assCmpnyId,
+        userCmpnyId:this.userCmpnyId,
+        contactId:this.contactId
+      }
+      ++this.common.loading;
+      console.log("params", params);
+      this.api.post('ManageParty/saveCompContacts', params)
+        .subscribe(res => {
+          --this.common.loading; 
+          console.log("Testing")
+          if (res['data'][0].y_id > 0) {
+            this.common.showToast(res['data'][0].y_msg);
+            this.Update = true;
+            this.activeModal.close({ response: this.Update });
+          } else {
+            this.common.showError(res['data'][0].y_msg)
+          }
+        },
+          err => {
+            --this.common.loading;
+            console.error(' Api Error:', err)
+          });  
+    }
+   
   }
 
 }

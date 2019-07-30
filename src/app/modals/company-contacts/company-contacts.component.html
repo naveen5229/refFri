@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-    <div class="company-establish">
+    <div class="company-contacts">
         <div class="row mt-2">
             <div class="col-4">
                 <label>Name:</label>
@@ -14,16 +14,39 @@
                 <input type="text" class="form-control" placeholder="Enter name" [(ngModel)]="name">
             </div>
         </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Mobile No:</label>
+            </div>
+            <div class="col-8">
+                <input type="number" class="form-control" placeholder="Enter Mobile NO" [(ngModel)]="MobileNo">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Department Name:</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" placeholder="Enter Department" [(ngModel)]="deptName">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Designation</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" placeholder="Enter Designation" [(ngModel)]="designation">
+            </div>
+        </div>
 
-        <div class="row  mt-2">
+        <!-- <div class="row  mt-2">
             <div class="col-4">
                 <label>Company:</label>
             </div>
             <div class="col-8">
-                <auto-suggestion (onSelected)="assCmpnyId=($event.id)" id="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:60%;" [preSelected]="{name:companyName}">
-                </auto-suggestion>
+                <input type="text" class="form-control" [(ngModel)]="companyName" placeholder="Enter Company name" readonly>
             </div>
-        </div>
+        </div> -->
 
         <div class="row mt-2">
             <div class="col-4">
@@ -52,22 +75,7 @@
         </div>
 
 
-        <div class="row mt-2">
-            <div class="col-4">
-                <label>Department Name:</label>
-            </div>
-            <div class="col-8">
-                <input type="text" class="form-control" placeholder="Enter Department" [(ngModel)]="deptName">
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-4">
-                <label>Designation</label>
-            </div>
-            <div class="col-8">
-                <input type="text" class="form-control" placeholder="Enter Designation" [(ngModel)]="designation">
-            </div>
-        </div>
+
         <div class="row mt-2">
             <div class="col-4">
                 <label>Phone No:</label>
@@ -77,14 +85,7 @@
             </div>
         </div>
 
-        <div class="row mt-2">
-            <div class="col-4">
-                <label>Mobile No:</label>
-            </div>
-            <div class="col-8">
-                <input type="number" class="form-control" placeholder="Enter Mobile NO" [(ngModel)]="MobileNo">
-            </div>
-        </div>
+
         <div class="row mt-2">
             <div class="col-4">
                 <label>Email:</label>
