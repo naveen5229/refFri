@@ -85,7 +85,9 @@ export class LRRateCalculatorComponent implements OnInit {
   }
 
   formatTitle(title) {
-    return title.charAt(0).toUpperCase() + title.slice(1)
+    let tempTitle = title.split('y_')[1];
+    console.log("temp title:", tempTitle);
+    return tempTitle.charAt(0).toUpperCase() + tempTitle.slice(1)
   }
 
   getTableColumns() {
