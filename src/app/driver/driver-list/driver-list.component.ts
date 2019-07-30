@@ -54,6 +54,7 @@ export class DriverListComponent implements OnInit {
 
 
   getdriverLists() {
+    this.driverLists = [];
     this.common.loading++;
     let response;
     this.api.get('Drivers/index')

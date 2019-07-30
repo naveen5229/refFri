@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PendingLicenceComponent } from './pending-licence.component';
+import { FoFuelAvgModelComponent } from './fo-fuel-avg-model.component';
 
-describe('PendingLicenceComponent', () => {
-  let component: PendingLicenceComponent;
-  let fixture: ComponentFixture<PendingLicenceComponent>;
+describe('FoFuelAvgModelComponent', () => {
+  let component: FoFuelAvgModelComponent;
+  let fixture: ComponentFixture<FoFuelAvgModelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PendingLicenceComponent ]
+      declarations: [ FoFuelAvgModelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PendingLicenceComponent);
+    fixture = TestBed.createComponent(FoFuelAvgModelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
