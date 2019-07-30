@@ -17,101 +17,53 @@
         </option>
       </select>
     </div>
+    <div class="col-3">
 
 
-  </div>
-
-  <div *ngIf="docId==3">
-
-    <div class="row" style="margin-bottom:15px">
-      <div class="col-3">
-
-
-        <label>Image 1*</label>
-      </div>
-      <div class="col-3">
-        <input type="file" class="form-control" id="licence-photo" (change)="handleFileSelection($event,1) ">
-      </div>
-      <div class="col-3">
-
-
-        <label>Licence Number*</label>
-      </div>
-      <div class="col-3">
-        <input type="text" class="form-control" autocomplete="off" [(ngModel)]="docNo" placeholder="ID Proof Number">
-      </div>
+      <label>Doc Number*</label>
     </div>
-  </div>
-
-  <div *ngIf="docId==1">
-
-    <div class="row" style="margin-bottom:15px">
-      <div class="col-3">
-
-
-        <label>Image 1*</label>
-
-      </div>
-      <div class="col-3">
-        <input type="file" class="form-control" id="aadhar-photo" (change)="handleFileSelection($event,1)">
-      </div>
-      <div class="col-3">
-
-        <label>Aadhar Number</label>
-      </div>
-      <div class="col-3">
-        <input type="text" class="form-control" autocomplete="off" [(ngModel)]="docNo" placeholder="Aadhar Number">
-      </div>
-
+    <div class="col-3">
+      <input type="text" class="form-control" autocomplete="off" inputID="docDetails" [(ngModel)]="docNo"
+        placeholder="ID Proof Number">
     </div>
+
   </div>
-  <div *ngIf="docId==2">
-    <div class="row" style="margin-bottom:15px">
-      <div class="col-3">
 
 
-        <label>Pan Card</label>
-      </div>
-      <div class="col-3">
-        <input type="file" class="form-control" id="licence-photo" (change)="handleFileSelection($event,1) ">
-      </div>
+
+  <div class="row" style="margin-bottom:15px">
+    <div class="col-3">
 
 
-      <div class="col-3">
-
-
-        <label>Pan Number</label>
-      </div>
-      <div class="col-3">
-        <input type="text" class="form-control" autocomplete="off" [(ngModel)]="docNo" placeholder="ID Proof Number">
-      </div>
-
+      <label>Image 1*</label>
     </div>
-  </div>
-
-
-  <div class="row" style="margin-bottom: 10px">
+    <div class="col-3">
+      <input type="file" class="form-control" id="imageData1" (change)="handleFileSelection($event,1) ">
+    </div>
     <div class="col-3">
 
       <label>Image 2</label>
     </div>
     <div class="col-3">
-      <input type="file" class="form-control" id="photo" (change)="handleFileSelection($event,2) ">
+      <input type="file" class="form-control" id="imageData2" (change)="handleFileSelection($event,2) ">
     </div>
+  </div>
+  <div class="row">
     <div class="col-3">
       <label>Remark</label>
     </div>
     <div class="col-3">
-      <input type="text" class="form-control" autocomplete="off" [(ngModel)]="remark" placeholder="Remark">
+      <input type="text" class="form-control" autocomplete="off" inputID="docDetails" [(ngModel)]="remark"
+        placeholder="Remark">
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-md-12 text-right mb-3">
+    <div class="col-3">
       <button type="submit" id="submit" class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize"
         (click)="proveUpload()">Save</button>
     </div>
   </div>
+
+
   <div class="document-dash-contnet">
     <div class="row">
       <div class="col-12">

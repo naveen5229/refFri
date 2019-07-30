@@ -61,8 +61,8 @@ export class UploadDocsComponent implements OnInit {
 
     }
     if (this.common.params.row || this.common.params.col) {
-      console.log("colvalue:", this.common.params.col);
-      console.log('row', this.common.params.row);
+      // console.log("colvalue:", this.common.params.col);
+      //console.log('row', this.common.params.row);
       let feild = this.common.params.col;
       let doctype = feild.split("_");
       this.docId = doctype[0];
@@ -71,11 +71,9 @@ export class UploadDocsComponent implements OnInit {
 
 
     }
-    //let feild = this.docId.split(",");
-    // this.id = feild[0];
-    // this.docName = feild[1];
 
-    console.log('', this.docId);
+
+    //console.log('', this.docId);
   }
 
   ngOnInit() {
@@ -102,6 +100,9 @@ export class UploadDocsComponent implements OnInit {
   }
 
   proveUpload() {
+    console.log(this.driver.docImage);
+    console.log(this.photo);
+
     let params = {
       driverId: this.driverId,
       docTypeId: this.docId,
@@ -129,6 +130,8 @@ export class UploadDocsComponent implements OnInit {
         if (res['code'] == 1) {
 
           this.getdocumentsSummary();
+          this.getDocChange();
+          this.remark = null;
         }
         else {
           this.common.showError(res['msg']);
@@ -139,8 +142,14 @@ export class UploadDocsComponent implements OnInit {
         console.log(err);
       });
   }
-  getDocChange(det) {
+  getDocChange() {
+    this.driver.docImage = null;
+    this.remark = null;
+    document.getElementById('imageData1')['value'] = '';
+    document.getElementById('imageData2')['value'] = '';
 
+    this.docNo = null;
+    this.photo = null;
   }
   getList(event) {
     console.log('eventID', event.id);
@@ -167,17 +176,17 @@ export class UploadDocsComponent implements OnInit {
           return false;
         }
 
-        console.log('Base 64: ', res);
         if (index == 1) {
           this.driver.docImage = res;
+          console.log('Base 64 index 1: ', this.driver.docImage);
         }
 
-        if (index == 2) {
+        else if (index == 2) {
+
           this.photo = res;
+          console.log('Base 64 index 2: ', this.photo);
         }
-        // this.driver.lisencephoto = { 'image'+ index: res };
 
-        // console.log('photos', this.driver.lisencephoto);
       }, err => {
         this.common.loading--;
         console.error('Base Err: ', err);
@@ -242,7 +251,7 @@ export class UploadDocsComponent implements OnInit {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
 
-        this.valobj['View Image'] = { class: '', icons: [{ class: 'fa fa-file', action: this.view.bind(this, doc._image) }] };
+        this.valobj['View Image'] = { class: '', icons: [{ class: 'fa fa-file', action: this.view.bind(this, doc) }] };
 
       }
       columns.push(this.valobj);
@@ -273,11 +282,14 @@ export class UploadDocsComponent implements OnInit {
       });
   }
   view(url) {
-    let images = [{
-      name: "Lr",
-      image: url
-    }];
-    this.common.params = { images, title: 'Lr Image' };
+    let refdata = [{
+      refid: this.driverId,
+      reftype: '52',
+      doctype: url._doc_type_id
+    }
+    ];
+
+    this.common.params = { refdata: refdata, title: 'docImage' };
     const activeModal2 = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
 
   }

@@ -32,7 +32,8 @@
                   </span>
 
                   <span *ngIf="col !='driver_name' && col !='driver_name' && getDocumentType(row[col])==0">
-                    <i class="fa fa-times-circle icon-red-cross" (click)="uploadDoc(row,col)" title="No Record"></i>
+                    <i class="fa fa-times-circle icon-red-cross" (click)="uploadDoc(row,col,row[col])"
+                      title="No Record"></i>
                   </span>
                 </td>
               </tr>
