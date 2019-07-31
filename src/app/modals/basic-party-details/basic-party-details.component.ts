@@ -47,7 +47,6 @@ export class BasicPartyDetailsComponent implements OnInit {
   companyExist = [];
 
   data = [];
-  //  cmpAssoc = [];
   cmpEstablishment = [];
   companyContacts = [];
   table3 = {
@@ -68,15 +67,6 @@ export class BasicPartyDetailsComponent implements OnInit {
       hideHeader: true
     }
   };
-  // table1 = {
-  //   cmpAssoc: {
-  //     headings: {},
-  //     columns: []
-  //   },
-  //   settings: {
-  //     hideHeader: true
-  //   }
-  // };
   table = {
     data: {
       headings: {},
@@ -113,7 +103,6 @@ export class BasicPartyDetailsComponent implements OnInit {
       this.cmpName = this.common.params.cmpAssocDetail['Company Name'];
       this.userCmpnyId = this.common.params.cmpAssocDetail._usercmpyid;
       this.getCompanyBranches();
-      // this.getCompanyAssoc();
       this.getCompanyEstablishment();
       this.getCompanyContacts();
       this.getAssociationType();
@@ -127,17 +116,14 @@ export class BasicPartyDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.Form = this.formBuilder.group({
-      company: [''],
+      company: ['',[Validators.required]],
       cmpAlias: [''],
       gstNo: [''],
       assType: ['', [Validators.required]],
       branchId: [''],
       website: [''],
       remark: [''],
-      // assType: ['',[Validators.required]],
-      // panNo: ['', [Validators.required, Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$")]],
       panNo:[''],
-      //  mobileNo: ['', [Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
     });
   }
 
@@ -162,29 +148,17 @@ export class BasicPartyDetailsComponent implements OnInit {
       });
   }
 
-  // getSelfBranch() {
-  //   let params = "assocCmpId=" + this.partyId + "&userCmpId=" + this.userCmpnyId;
-  //   this.api.get('Suggestion/getSelfBranch?' + params)
-  //     .subscribe(res => {
-  //       this.branchs = res['data'];
-  //     }, err => {
-  //     });
-  // }
-
   getSelfBranch() {
-
     this.api.post('Suggestion/GetBranchList',{})
       .subscribe(res => {
         this.branchs = res['data'];
       },
         err => {
         });
-
   }
 
   refresh() {
     this.getCompanyBranches();
-    // this.getCompanyAssoc();
     this.getCompanyEstablishment();
     this.getCompanyContacts();
   }
@@ -292,79 +266,6 @@ export class BasicPartyDetailsComponent implements OnInit {
     });
   }
 
-  // getCompanyAssoc() {
-  //   this.common.loading++;
-  //   this.api.get('ManageParty/getCompanyAssoc')
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       this.cmpAssoc = [];
-  //       this.table1 = {
-  //         cmpAssoc: {
-  //           headings: {},
-  //           columns: []
-  //         },
-  //         settings: {
-  //           hideHeader: true
-  //         }
-  //       };
-  //       this.headings = [];
-  //       this.valobj = {};
-  //       if (!res['data']) return;
-  //       this.cmpAssoc = res['data'];
-  //       let first_rec = this.cmpAssoc[0];
-  //       for (var key in first_rec) {
-  //         if (key.charAt(0) != "_") {
-  //           this.headings.push(key);
-  //           let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-  //           this.table1.cmpAssoc.headings[key] = headerObj;
-  //         }
-  //       }
-  //       this.table1.cmpAssoc.columns = this.getTableColumns1();
-  //       console.log('Api Response:', res);
-  //     },
-  //       err => {
-  //         this.common.loading--;
-  //         console.error('Api Error:', err);
-  //       });
-
-  // }
-
-
-  // getTableColumns1() {
-  //   let columns = [];
-  //   console.log("Data=", this.data);
-  //   this.cmpAssoc.map(companyAssoc => {
-  //     this.valobj = {};
-  //     for (let i = 0; i < this.headings.length; i++) {
-  //       console.log("Type", this.headings[i]);
-  //       console.log("doc index value:", companyAssoc[this.headings[i]]);
-  //       if (this.headings[i] == "Action") {
-  //         this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.addCompanyAssosiation.bind(this, companyAssoc) }] };
-  //       }
-  //       else {
-  //         this.valobj[this.headings[i]] = { value: companyAssoc[this.headings[i]], class: 'black', action: '' };
-  //       }
-  //     }
-  //     columns.push(this.valobj);
-  //   });
-  //   return columns;
-  // }
-
-  // addCompanyAssosiation(companyAssoc?) {
-  //   this.common.params = companyAssoc ? { companyAssoc } : {
-  //     cmpId: this.companyId,
-  //     cmpName: this.companyName,
-  //   };
-  //   const activeModal = this.modalService.open(CompanyAssociationComponent, {
-  //     size: "lg",
-  //     container: "nb-layout"
-  //   });
-  //   activeModal.result.then(data => {
-  //     if (data.response) {
-  //       this.getCompanyAssoc();
-  //     }
-  //   });
-  // }
 
   getCompanyEstablishment(branchId?) {
     let params = "assocCmpId=" + this.partyId + "&userCmpId=" + this.userCmpnyId;
@@ -401,7 +302,6 @@ export class BasicPartyDetailsComponent implements OnInit {
           this.common.loading--;
           console.error('Api Error:', err);
         });
-
   }
 
 
@@ -426,7 +326,6 @@ export class BasicPartyDetailsComponent implements OnInit {
 
 
   addCompanyEstablishment(cmpEstablish?) {
-
     this.common.params =  {
       // cmpId: this.common.params.cmpId,
       // cmpName: this.common.params.cmpName,
@@ -521,7 +420,6 @@ export class BasicPartyDetailsComponent implements OnInit {
         this.getCompanyContacts();
       }
     });
-
   }
 
   saveBasicDetails() {
@@ -539,13 +437,11 @@ export class BasicPartyDetailsComponent implements OnInit {
       }if(this.gstNo!='' && !reggst.test(this.gstNo)){
         this.common.showError('Invalid gstno Number');
         return;
-      }if(this.panNo=='' || this.gstNo!=''){      
+      }if(this.panNo=='' && this.gstNo!=''){      
         this.panNo=this.gstNo.slice(2,11);
         console.log('pan from gst:',this.panNo);
       }
     }   
-    
-    
       let params = {
         branchId: this.branchId,
         website: this.website,
@@ -585,11 +481,7 @@ export class BasicPartyDetailsComponent implements OnInit {
           err => {
             --this.common.loading;
             console.error(' Api Error:', err)
-          });
-    
-         
-    
-        
+          });     
 
   }
 
