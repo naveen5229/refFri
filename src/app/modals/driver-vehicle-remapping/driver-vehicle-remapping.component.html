@@ -25,7 +25,7 @@
       </div>
       <div class="col-3">
         <auto-suggestion (onSelected)="getvehicleData($event, 'primary')" [preSelected]="maping.primary"
-          url="Drivers/getFoDrivers" display="empname" placeholder="Enter Driver Name" inputId="firstDriver">
+          [data]="driverList" display="empname" placeholder="Enter Driver Name" inputId="firstDriver">
         </auto-suggestion>
 
       </div>
