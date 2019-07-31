@@ -254,60 +254,86 @@ export class AddViaRoutesComponent implements OnInit {
     }
   }
 
-  takeActionOnStart(res) {
+  takeActionOnStart(res, type) {
     setTimeout(() => {
       console.log("Here", this.keepGoingForStart, this.startSearch.length, this.startSearch);
+      if (type == 'start') {
 
-      if (this.keepGoingForStart && this.startSearch.length) {
-        this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-        this.keepGoingForStart = false;
-        activeModal.result.then(res => {
-          if (res != null) {
-            this.keepGoingForStart = true;
-            if (res.location.lat) {
-              this.routeData.placeName = res.location.name;
+        if (this.keepGoingForStart && this.startSearch.length) {
+          this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-              (<HTMLInputElement>document.getElementById('startName')).value = this.routeData.placeName;
-              this.routeData.startlat = res.location.lat;
-              this.routeData.startlong = res.location.lng;
-              this.routeData.startSiteId = res.id;
+          const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+          this.keepGoingForStart = false;
+          activeModal.result.then(res => {
+            if (res != null) {
               this.keepGoingForStart = true;
+              if (res.location.lat) {
+                this.routeData.placeName = res.location.name;
+
+                (<HTMLInputElement>document.getElementById('startName')).value = this.routeData.placeName;
+                this.routeData.startlat = res.location.lat;
+                this.routeData.startlong = res.location.lng;
+                this.routeData.startSiteId = res.id;
+              }
             }
-          }
-          this.keepGoingForStart = true;
+            this.keepGoingForStart = true;
 
-        });
+          });
 
+        }
+      }
+      else {
+        if (this.keepGoingForEnd && this.endSearch.length) {
+          this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+          const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+          this.keepGoingForEnd = false;
+          activeModal.result.then(res => {
+            if (res != null) {
+              this.keepGoingForEnd = true;
+              if (res.location.lat) {
+                this.routeData.placeName2 = res.location.name;
+
+                (<HTMLInputElement>document.getElementById('endName')).value = this.routeData.placeName2;
+                this.routeData.endlat1 = res.location.lat;
+                this.routeData.endlong2 = res.location.lng;
+                this.routeData.endSiteId = res.id;
+              }
+            }
+            this.keepGoingForEnd = true;
+
+          });
+
+        }
       }
 
     }, 1000);
 
   }
-  takeActionOnEnd(res) {
-    if (this.keepGoingForEnd && this.endSearch.length) {
-      this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+  // takeActionOnEnd(res) {
+  //   if (this.keepGoingForEnd && this.endSearch.length) {
+  //     this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-      const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-      this.keepGoingForEnd = false;
-      activeModal.result.then(res => {
-        if (res != null) {
-          this.keepGoingForEnd = true;
-          if (res.location.lat) {
-            this.routeData.placeName2 = res.location.name;
+  //     const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  //     this.keepGoingForEnd = false;
+  //     activeModal.result.then(res => {
+  //       if (res != null) {
+  //         this.keepGoingForEnd = true;
+  //         if (res.location.lat) {
+  //           this.routeData.placeName2 = res.location.name;
 
-            (<HTMLInputElement>document.getElementById('endName')).value = this.routeData.placeName2;
-            this.routeData.endlat1 = res.location.lat;
-            this.routeData.endlong2 = res.location.lng;
-            this.routeData.endSiteId = res.id;
-            this.keepGoingForEnd = true;
-          }
-        }
-        this.keepGoingForEnd = true;
+  //           (<HTMLInputElement>document.getElementById('endName')).value = this.routeData.placeName2;
+  //           this.routeData.endlat1 = res.location.lat;
+  //           this.routeData.endlong2 = res.location.lng;
+  //           this.routeData.endSiteId = res.id;
+  //           this.keepGoingForEnd = true;
+  //         }
+  //       }
+  //       this.keepGoingForEnd = true;
 
-      });
+  //     });
 
-    }
-  }
+  //   }
+  // }
 }
