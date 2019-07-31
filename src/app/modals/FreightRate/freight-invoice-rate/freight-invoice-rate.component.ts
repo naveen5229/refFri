@@ -6,7 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'freight-invoice-rate',
   templateUrl: './freight-invoice-rate.component.html',
-  styleUrls: ['./freight-invoice-rate.component.scss']
+  styleUrls: ['./freight-invoice-rate.component.scss', '../../../pages/pages.component.css']
 })
 export class FreightInvoiceRateComponent implements OnInit {
   invoiceId = null;
@@ -16,6 +16,7 @@ export class FreightInvoiceRateComponent implements OnInit {
   valobj = {};
   columnsValue = [];
   invoiceRates = [];
+  totalManualAmount = 0;
 
   constructor(
     public common: CommonService,
@@ -24,7 +25,7 @@ export class FreightInvoiceRateComponent implements OnInit {
   ) {
     this.invoiceId = this.common.params.invoice.id;
     this.invoiceType = this.common.params.invoice.type;
-    this.common.handleModalSize('class', 'modal-lg', '1200', 'px', 1);
+    this.common.handleModalSize('class', 'modal-lg', '1500', 'px', 1);
     this.getFreightInvoiceRate();
   }
 
@@ -51,6 +52,7 @@ export class FreightInvoiceRateComponent implements OnInit {
         if (this.data) {
           console.log("data", this.data);
           this.invoiceRates = this.formattInvoiceRate();
+          this.calculateTotalAmount();
           this.getTableColumnName();
         }
       }, err => {
@@ -75,19 +77,23 @@ export class FreightInvoiceRateComponent implements OnInit {
 
 
   saveRate() {
-    console.log("data", this.invoiceRates);
-    let jsonArray = this.invoiceRates.map(invoiceRate => {
-      let json = {};
-      for (let key in invoiceRate) {
-        if (key.includes('_')) {
-          let heads = invoiceRate[key].split('_');
-          json[key] = { headId: heads[0], autoAmount: heads[1], manualAmount: heads[2] };
-        }
-      }
-      return json;
-    });
+    console.log("data===", this.invoiceRates);
+    ++this.common.loading;
+    let params = {
+      invoiceId: this.invoiceId,
+      invoiceType: this.invoiceType,
+      data: JSON.stringify(this.invoiceRates)
+    }
+    console.log("params", params);
+    this.api.post('FrieghtRate/saveFreightInvoiceRates', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log("----", res);
 
-    console.log('JSON:', jsonArray);
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
+      });
 
   }
 
@@ -110,5 +116,21 @@ export class FreightInvoiceRateComponent implements OnInit {
 
     console.log('JSON:', jsonArray);
     return jsonArray;
+  }
+
+  calculateTotalAmount() {
+    this.invoiceRates.map(invoiceRate => {
+      let json = {};
+      for (let key in invoiceRate) {
+        if (key.includes('head_')) {
+
+          console.log('===:', key, key['manualAmount']);
+          if (key['manualAmount']) {
+            this.totalManualAmount = this.totalManualAmount + parseFloat(key['manualAmount']);
+            console.log("this.totalManualAmount", this.totalManualAmount);
+          }
+        }
+      }
+    });
   }
 }

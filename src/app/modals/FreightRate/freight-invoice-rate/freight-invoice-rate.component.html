@@ -29,15 +29,20 @@
               <td *ngFor="let heading of headings;let j = index"><span>
                   <label *ngIf="heading.split('_')[0] != 'head'">{{invoiceRate[heading]}}</label>
                   <label *ngIf="heading.split('_')[0] == 'head' && invoiceRate[heading]"
-                    style="width:30%">{{invoiceRate[heading].autoAmount}}</label>
-                  <input type='text' class="form-contol" [(ngModel)]="invoiceRate[heading].manualAmount"
-                    *ngIf="heading.split('_')[0]=='head' && invoiceRate[heading]" style="width:70%">
+                    style="width:40%">{{invoiceRate[heading].autoAmount}}</label>
+                  <input type='text'
+                    [class]="invoiceRate[heading].autoAmount != invoiceRate[heading].manualAmount?'form-contol border-red':'form-contol'"
+                    [(ngModel)]="invoiceRate[heading].manualAmount"
+                    *ngIf="heading.split('_')[0]=='head' && invoiceRate[heading]" style="width:60%"
+                    (change)="calculateTotalAmount()">
                 </span></td>
             </tr>
           </tbody>
         </table>
 
+        Total Manual Amount : {{totalManualAmount}}
         <button (click)="saveRate();">Change & Save</button>
+
       </div>
     </div>
   </nb-card-body>

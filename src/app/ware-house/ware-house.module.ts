@@ -13,7 +13,7 @@ import { StateLogsComponent } from './state-logs/state-logs.component';
 import { ReceiveItemsComponent } from './modal/receive-items/receive-items.component';
 import { CheckDetailComponent } from './modal/check-detail/check-detail.component';
 import { GotPassComponent } from './modal/got-pass/got-pass.component';
-
+import { ManageStockExchangeComponent } from './manage-stock-exchange/manage-stock-exchange.component';
 
 const PAGES_COMPONENTS = [
   WareHouseComponent,
@@ -30,6 +30,7 @@ const PAGES_COMPONENTS = [
     ReceiveItemsComponent,
     CheckDetailComponent,
     GotPassComponent,
+    ManageStockExchangeComponent
   ],
   entryComponents:[
     ReceiveItemsComponent,

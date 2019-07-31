@@ -342,7 +342,8 @@ export class AddFuelIndentComponent implements OnInit {
   }
 
   getFuelIndent() {
-    const params = "startdate=" + this.common.dateFormatter1(new Date(new Date().setDate(new Date(new Date).getDate() - 7))) + "&enddate=" + this.common.dateFormatter1(new Date) + "&addedBy=" + null + "&status=" + -2 + "&regno=" + this.refData.regno;
+    const params = "startdate=" + this.common.dateFormatter1(new Date(new Date().setDate(new Date(new Date).getDate() - 7))) + "&enddate=" + this.common.dateFormatter1(new Date) + "&addedBy=" + null +
+      "&status=" + -2 + "&regno=" + this.refData.regno + "&refType=" + this.refData.type + "&refId=" + this.refData.id;
     console.log("params", params);
     console.log("params", params);
     ++this.common.loading;
