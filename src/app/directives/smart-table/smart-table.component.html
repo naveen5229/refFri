@@ -73,9 +73,15 @@
           </div>
           <!-- Show HTML END -->
 
+          <!-- Checkbox -->
+          <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading] && column[heading].isCheckbox">
+            <input type="checkbox" (change)="handleCheckboxChange($event, column[heading].action)">
+          </div>
+          <!-- CheckBox END -->
+
           <!-- Show Text -->
           <div [ngClass]="column[heading].action ? 'zoom' : ''"
-            *ngIf="column[heading] && !column[heading].isHTML && !column[heading].icons">
+            *ngIf="column[heading] && !column[heading].isHTML && !column[heading].icons && !column[heading].isCheckbox">
             <!--  -->
             <span *ngIf="edit.row !== i || !headings[heading].editable">{{column[heading].value}}</span>
             <input class="form-control" *ngIf="edit.row === i && headings[heading].editable" type="text"
@@ -109,7 +115,7 @@
 </div>
 
 <!-- Pagination -->
-<div class="pagination" *ngIf="pages.count > 1">
+<div class="pagination" *ngIf="settings.pagination || pages.count > 1">
   <!-- Page Count -->
   <div class="pagination_links">
     <button (click)="handlePagination(pages.active - 1)" [disabled]="pages.active == 1">Pre</button>

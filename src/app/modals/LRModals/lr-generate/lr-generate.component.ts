@@ -322,10 +322,10 @@ export class LrGenerateComponent implements OnInit {
     today = new Date();
     futureDay = new Date(today.setDate(today.getDate() + 30));
     today = new Date();
-    pastDay = new Date(today.setDate(today.getDate() - 30));
+    pastDay = new Date('2019-03-31');
     console.log("futureDay", futureDay, "pastDay", pastDay);
     if ((this.lr.date > futureDay) || (this.lr.date < pastDay)) {
-      alert("Date should not be before 30 days and after 30 days ");
+      alert("Date should not be before 01 April 2019 days and after 30 days ");
       return 0;
     }
 

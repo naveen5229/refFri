@@ -1,15 +1,15 @@
 import { Component, OnInit, Renderer } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FreightInvoiceRateComponent } from '../freight-invoice-rate/freight-invoice-rate.component';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'view-frieght-invoice',
-  templateUrl: './view-frieght-invoice.component.html',
-  styleUrls: ['./view-frieght-invoice.component.scss', '../../../pages/pages.component.css']
+  selector: 'supporting-doc',
+  templateUrl: './supporting-doc.component.html',
+  styleUrls: ['./supporting-doc.component.scss']
 })
-export class ViewFrieghtInvoiceComponent implements OnInit {
+export class SupportingDocComponent implements OnInit {
+
   invoiceId = null;
   invoiceDetails = null;
   particulars = null;
@@ -19,19 +19,16 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
   headings = [];
   valobj = {};
   columnsValue = [];
-  amountData = null;
-  amountDataKeys = [];
+
   constructor(
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
-    public renderer: Renderer,
-    public modalService: NgbModal
-  ) {
-
+    public renderer: Renderer
+  ) { 
     this.invoiceId = this.common.params.invoiceId;
     this.common.handleModalSize('class', 'modal-lg', '1200');
-    this.printInvoice();
+    this.supportDoc();
   }
 
   ngOnInit() {
@@ -42,7 +39,8 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     this.renderer.setElementClass(document.body, 'test', false);
   }
 
-  printInvoice() {
+  supportDoc()
+  {
     ++this.common.loading;
     let params = {
       invoiceId: this.invoiceId,
@@ -54,11 +52,6 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
         --this.common.loading;
         this.data = [];
         this.invoiceDetails = res['data'].invoicedetails[0];
-        this.amountData = res['data'].taxdetails[0];
-        // { "cgst": 60, "sgst": 60, "total": 120, "igst": 12, "amount_words": "one thousand two hundred" };
-        // this.amountData.map(ad => {
-        //   this.amountDataKeys.push(Object.keys(ad));
-        // })
         console.log("this.invoiceDetails", this.invoiceDetails);
         this.data = res['data'].result;
         if (this.data) {
@@ -80,7 +73,6 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
         this.headings.push(key);
       }
     }
-
     console.log("headings", this.headings);
     this.getTableColumns();
   }
@@ -94,27 +86,6 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
       }
       this.columnsValue.push(this.valobj);
     });
-
     console.log("this.columnsValue", this.columnsValue);
-  }
-
-
-  onPrint() {
-    this.renderer.setElementClass(document.body, 'test', true);
-    window.print();
-    this.renderer.setElementClass(document.body, 'test', false);
-  }
-
-  openFreightRateModal() {
-    let invoice = {
-      id: this.invoiceId,
-      type: 1
-    }
-    this.common.params = { invoice: invoice }
-    const activeModal = this.modalService.open(FreightInvoiceRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-
-    });
   }
 }
