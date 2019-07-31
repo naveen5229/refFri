@@ -304,12 +304,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/fuel-indent',
         home: true,
       },
-      {
-        title: 'Fo Fuel Avg Model',
-        icon: 'fas fa-gas-pump',
-        link: '/pages/fo-fuel-avg-model',
-        home: true,
-      },
+
     ]
   },
   {
