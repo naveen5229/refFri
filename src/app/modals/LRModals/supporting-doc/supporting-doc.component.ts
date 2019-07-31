@@ -88,4 +88,10 @@ export class SupportingDocComponent implements OnInit {
     });
     console.log("this.columnsValue", this.columnsValue);
   }
+
+  onPrint() {
+    this.renderer.setElementClass(document.body, 'test', true);
+    window.print();
+    this.renderer.setElementClass(document.body, 'test', false);
+  }
 }
