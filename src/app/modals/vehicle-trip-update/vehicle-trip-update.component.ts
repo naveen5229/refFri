@@ -267,6 +267,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.searchString = search;
     console.log('..........', search);
   }
+
   selectSite(site) {
     console.log("site=", site);
     this.vehicleTrip.endLat = null;
