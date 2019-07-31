@@ -1,12 +1,13 @@
 import { Component, OnInit, Renderer } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FreightInvoiceRateComponent } from '../freight-invoice-rate/freight-invoice-rate.component';
 
 @Component({
   selector: 'view-frieght-invoice',
   templateUrl: './view-frieght-invoice.component.html',
-  styleUrls: ['./view-frieght-invoice.component.scss']
+  styleUrls: ['./view-frieght-invoice.component.scss', '../../../pages/pages.component.css']
 })
 export class ViewFrieghtInvoiceComponent implements OnInit {
   invoiceId = null;
@@ -24,7 +25,8 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
-    public renderer: Renderer
+    public renderer: Renderer,
+    public modalService: NgbModal
   ) {
 
     this.invoiceId = this.common.params.invoiceId;
@@ -103,6 +105,16 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     this.renderer.setElementClass(document.body, 'test', false);
   }
 
+  openFreightRateModal() {
+    let invoice = {
+      id: this.invoiceId,
+      type: 1
+    }
+    this.common.params = { invoice: invoice }
+    const activeModal = this.modalService.open(FreightInvoiceRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
 
-
+    });
+  }
 }
