@@ -55,6 +55,7 @@ export class PrintService {
    */
   printInvoice(json: any, format: number = 1) {
     this['invoiceFormat' + format](this.createPrintWrapper(), json);
+    console.log('json Format data', json);
     this.print();
   }
 
@@ -123,6 +124,61 @@ export class PrintService {
       pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
       pageIndex++;
     }
+  }
+
+  invoiceFormat2(ppContainer: HTMLElement, json: any) {
+    const DPI = this.getDPI();
+    const pageSize = PAGE_SIZE[this.detectBrowser()];
+    let pageIndex = 1;
+    let previousPage = null;
+    json.table.forEach((rowdata, index) => {
+      let rowIndex = 0;
+      // while (rowIndex < rowdata.rows.length) {
+      let pageContainer = this.createPageHtml();
+      ppContainer.appendChild(pageContainer);
+      let page = pageContainer.children[0];
+      let pageInsider = page.children[0];
+      if (pageIndex == 1) {
+        pageInsider.appendChild(this.createHeaderHtml(json.headers));
+        pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
+      }
+
+      let tableContainer = this.createTableHtml();
+      pageInsider.appendChild(tableContainer);
+      let table = tableContainer.children[0];
+      if (rowIndex == 0) {
+        console.log('wdfs', rowdata.headings);
+        table.appendChild(this.createTheadHtml(rowdata.headings));
+      }
+
+      let tbody = this.createTbodyHtml()
+      table.appendChild(tbody);
+      let isNewPage = false;
+      for (let i = rowIndex; i < rowdata.rows.length; i++) {
+        let row = this.createTrHtml(rowdata.rows[i]);
+        tbody.appendChild(row);
+        let mm = (pageInsider['offsetHeight'] + row.offsetHeight * 25.4) / DPI;
+        if (mm > pageSize && i != rowdata.rows.length - 1) {
+          rowIndex = i + 1;
+          isNewPage = true;
+          break;
+        }
+        rowIndex++;
+      }
+      if (isNewPage || (rowIndex == rowdata.rows.length && index == json.table.length - 1)) {
+        if (rowIndex == rowdata.rows.length && index == json.table.length - 1) {
+          pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
+          pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+        }
+        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+        pageIndex++;
+        previousPage = null;
+      } else {
+        previousPage = page;
+      }
+      // }
+
+    });
   }
 
   /**
