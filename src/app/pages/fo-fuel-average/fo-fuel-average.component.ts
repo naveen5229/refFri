@@ -50,7 +50,7 @@ export class FoFuelAverageComponent implements OnInit {
     this.getFuelAvg();
   }
 
-  addFuelAvg(row,load,unLoad,vehicle) {
+  addFuelAvg() {
     this.common.params={row:null,
     load:null,
   unload:null,
