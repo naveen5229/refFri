@@ -219,6 +219,7 @@ import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfe
 import { TripdetailComponent } from './acounts-modals/tripdetail/tripdetail.component';
 import { SupportingDocComponent } from './modals/LRModals/supporting-doc/supporting-doc.component';
 import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
+import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-view-summary.component';
 
 
 
@@ -410,6 +411,7 @@ import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoic
     TripdetailComponent,
     SupportingDocComponent,
     FreightInvoiceRateComponent,
+    FoWebViewSummaryComponent,
 
   ],
   entryComponents: [
@@ -596,6 +598,7 @@ import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoic
     GenerateLrMainfestoComponent,
     TripdetailComponent,
     SupportingDocComponent,
+    FoWebViewSummaryComponent
   ],
   imports: [
     BrowserModule,

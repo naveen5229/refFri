@@ -4,7 +4,7 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row">
-      <div class="col-3">
+      <div class="col-2">
         <label>Start Date</label>
       </div>
       <div class="col-3">
@@ -12,7 +12,7 @@
         </uj-date-time-picker>
       </div>
 
-      <div class="col-3">
+      <div class="col-2">
         <label>End Date</label>
       </div>
       <div class="col-3">
@@ -20,11 +20,12 @@
           [isTime]=false>
         </uj-date-time-picker>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-3">
+      <div class="col-2">
         <button class="btn btn-primary" (click)="getFoWebView()">GET VIEW</button>
       </div>
     </div>
+    <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="doubleToll">
+    </smart-table>
+    <br>
 
   </nb-card-body>
