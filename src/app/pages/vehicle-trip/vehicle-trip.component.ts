@@ -61,12 +61,17 @@ export class VehicleTripComponent implements OnInit {
     console.log('start and enddate', this.startDate, this.endDate);
 
     this.getVehicleTrips();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
+  refresh() {
 
+    this.getVehicleTrips();
+  }
   getVehicleTrips() {
     this.vehicleTrips = [];
     this.table = {

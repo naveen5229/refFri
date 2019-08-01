@@ -331,6 +331,8 @@ export class BalancesheetComponent implements OnInit {
 
   generateCsvData() {
     let liabilitiesJson = [];
+    liabilitiesJson.push(Object.assign({liability:" Liability",liabilityAmount:'Amount'}));
+
     this.liabilities.forEach(liability => {
       liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
       liability.subGroups.forEach(subGroup => {
@@ -342,6 +344,7 @@ export class BalancesheetComponent implements OnInit {
     });
 
     let assetsJson = [];
+    assetsJson.push(Object.assign({asset:"Asset",assetAmount:'Amount'}));
     this.assets.forEach(asset => {
       assetsJson.push({ asset: '(MG)'+asset.name, assetAmount: asset.amount });
       asset.subGroups.forEach(subGroup => {
@@ -352,6 +355,7 @@ export class BalancesheetComponent implements OnInit {
       });
     });
     let mergedArray = [];
+
     for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
       if (liabilitiesJson[i] && assetsJson[i] && i < liabilitiesJson.length - 1 && i < assetsJson.length - 1) {
         mergedArray.push(Object.assign({}, liabilitiesJson[i], assetsJson[i]));

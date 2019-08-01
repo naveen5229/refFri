@@ -36,12 +36,18 @@ export class CardMappingComponent implements OnInit {
     public api:ApiService,
     public modalService:NgbModal) { 
     this.getData()
+    this.common.refresh = this.refresh.bind(this);
+
 
   }
 
   ngOnInit() {
   }
   
+  refresh() {
+
+    this.getData();
+  }
 
   addDriverCard(){
     let effDate = this.common.dateFormatter(this.date);

@@ -1,21 +1,43 @@
-@media print{
-    .doNotPrint{display:none !important;}
+@media print {
+  .doNotPrint {
+    display: none !important;
   }
-  print-section{
-    z-index: 999;
-  }
-.btn.doNotPrint{
+}
+
+print-section {
+  z-index: 999;
+}
+
+.btn.doNotPrint {
   padding: 5px 10px;
   text-transform: capitalize;
   border-radius: 5px;
   border: none;
   cursor: pointer !important;
 }
-.pdf-icon{
+
+.pdf-icon {
   font-size: 30px;
   color: #9F0001;
 }
-.print-icon{
+
+.print-icon {
   font-size: 30px;
   color: rgb(136, 160, 196);
+}
+
+.jr-layout {
+  background: transparent;
+  border: navajowhite;
+  color: transparent;
+  box-shadow: none;
+}
+
+.jr-layout option {
+  background: teal;
+  color: #fff;
+}
+
+.jr-layout .active {
+  background: #000;
 }

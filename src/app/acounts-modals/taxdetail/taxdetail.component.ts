@@ -52,8 +52,23 @@ export class TaxdetailComponent implements OnInit {
   }
 
   dismiss(response) {
-    console.log(this.taxdetails);
+    console.log('response>>>>>>>>>',response,this.taxdetails);
+    if(response){
     this.activeModal.close({ response: response, taxDetails: this.taxdetails });
+    }else{
+    console.log('response//////////',this.taxdetails);
+    this.taxdetails=[ {taxledger: {
+      name: '',
+      id: '',
+    },
+    taxrate: '',
+    taxamount: 0,
+    totalamount:0
+    }];
+    console.log('response//////////return',this.taxdetails);
+
+    this.activeModal.close({ response: response, taxDetails: this.taxdetails });
+    }
     // return this.taxdetails;
     // console.log(this.taxdetails);
 

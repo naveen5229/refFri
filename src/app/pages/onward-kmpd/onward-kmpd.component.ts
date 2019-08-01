@@ -41,9 +41,16 @@ export class onwardKmpdComponent implements OnInit {
     this.endDate = this.common.dateFormatter(today.setDate(today.getDate() - 1));
     console.log('default date', this.startDate, this.endDate);
     this.getonwardKmpd();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh() {
+
+    this.getonwardKmpd();
   }
 
   getonwardKmpd() {

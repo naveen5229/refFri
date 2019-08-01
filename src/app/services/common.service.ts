@@ -80,6 +80,7 @@ export class CommonService {
     let message = msg || 'Something went wrong! try again.';
     message += err ? ' Error Code: ' + err.status : '';
     this.showToast(message, "danger");
+    //alert(message);
   }
 
   ucWords(str) {
@@ -106,6 +107,7 @@ export class CommonService {
       preventDuplicates: false
     };
 
+    //alert(body);
     this.toastrService.show(body, title || "Alert", config);
   }
 
@@ -202,7 +204,7 @@ export class CommonService {
   dateFormatter1(date) {
     let d = new Date(date);
     let year = d.getFullYear();
-    let month = d.getMonth() <= 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+    let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
 
     console.log(year + "-" + month + "-" + dat);
@@ -888,7 +890,7 @@ export class CommonService {
         let hdglen = center_heading.length / 2;
         doc.setFontSize(14);
         doc.setFont("times", "text-center");
-        doc.text(center_heading, x - hdglen - 40, y);
+        doc.text(center_heading, x - hdglen - 70, y);
       }
       doc.text(time, 30, 60);
       y = 15;
@@ -1164,113 +1166,113 @@ export class CommonService {
   }
 
   getMultipleCSVFromTableIdNew(tblArray, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
-   let tblEltId ='';
+    let tblEltId = '';
     tblArray.forEach(tblid => {
-      tblEltId=tblid;
- 
-    let tblelt = document.getElementById(tblEltId);
-    if (tblelt.nodeName != "TABLE") {
-      tblelt = document.querySelector("#" + tblEltId + " table");
-    }
+      tblEltId = tblid;
 
-    let organization = { "elogist Solutions": "elogist Solutions" };
-    let blankline = { "": "" };
+      let tblelt = document.getElementById(tblEltId);
+      if (tblelt.nodeName != "TABLE") {
+        tblelt = document.querySelector("#" + tblEltId + " table");
+      }
 
-    let leftData = { '': '', left_heading };
-    let centerData = { '': '', center_heading };
-    let doctime = { time };
-    let last = { '': '', lastheading };
+      let organization = { "elogist Solutions": "elogist Solutions" };
+      let blankline = { "": "" };
 
-    let info = [];
-    let hdgs = {};
-    let arr_hdgs = [];
-    // info.push(organization);
-    //info.push(blankline);
-    info.push(leftData);
-    info.push(centerData);
-    info.push(last);
-    let hdgCols = tblelt.querySelectorAll('th');
-    if (hdgCols.length >= 1) {
-      for (let i = 0; i < hdgCols.length; i++) {
-        let isBreak = false;
-        for (const donotInclude in doNotIncludes) {
-          if (doNotIncludes.hasOwnProperty(donotInclude)) {
-            const thisNotInclude = doNotIncludes[donotInclude];
-            if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
-              isBreak = true;
-              break;
+      let leftData = { '': '', left_heading };
+      let centerData = { '': '', center_heading };
+      let doctime = { time };
+      let last = { '': '', lastheading };
+
+      let info = [];
+      let hdgs = {};
+      let arr_hdgs = [];
+      // info.push(organization);
+      //info.push(blankline);
+      info.push(leftData);
+      info.push(centerData);
+      info.push(last);
+      let hdgCols = tblelt.querySelectorAll('th');
+      if (hdgCols.length >= 1) {
+        for (let i = 0; i < hdgCols.length; i++) {
+          let isBreak = false;
+          for (const donotInclude in doNotIncludes) {
+            if (doNotIncludes.hasOwnProperty(donotInclude)) {
+              const thisNotInclude = doNotIncludes[donotInclude];
+              if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+                isBreak = true;
+                break;
+              }
             }
           }
-        }
-        if (isBreak)
-          continue;
-
-
-        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
-          continue;
-        if (hdgCols[i].classList.contains('del'))
-          continue;
-        let elthtml = hdgCols[i].innerHTML;
-        if (elthtml.indexOf('<input') > -1) {
-          let eltinput = hdgCols[i].querySelector("input");
-          let attrval = eltinput.getAttribute("placeholder");
-          hdgs[attrval] = attrval;
-          arr_hdgs.push(attrval);
-        } else if (elthtml.indexOf('<img') > -1) {
-          let eltinput = hdgCols[i].querySelector("img");
-          let attrval = eltinput.getAttribute("title");
-          hdgs[attrval] = attrval;
-          arr_hdgs.push(attrval);
-        } else if (elthtml.indexOf('href') > -1) {
-          let strval = hdgCols[i].innerHTML;
-          hdgs[strval] = strval;
-          arr_hdgs.push(strval);
-        } else {
-          let plainText = elthtml.replace(/<[^>]*>/g, '');
-          hdgs[plainText] = plainText;
-          arr_hdgs.push(plainText);
-        }
-      }
-    }
-    info.push(hdgs);
-
-    let tblrows = tblelt.querySelectorAll('tbody tr');
-    if (tblrows.length >= 1) {
-      for (let i = 0; i < tblrows.length; i++) {
-        if (tblrows[i].classList.contains('cls-hide'))
-          continue;
-        let rowCols = tblrows[i].querySelectorAll('td');
-        let rowdata = [];
-        for (let j = 0; j < rowCols.length; j++) {
-          if (rowCols[j].classList.contains('del'))
+          if (isBreak)
             continue;
-          let colhtml = rowCols[j].innerHTML;
-          if (colhtml.indexOf('input') > -1) {
-            let eltinput = rowCols[j].querySelector("input");
-            let attrval = eltinput.getAttribute('placeholder');
-            rowdata[arr_hdgs[j]] = attrval;
-          } else if (colhtml.indexOf('img') > -1) {
-            let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput && eltinput.getAttribute('title');
-            rowdata[arr_hdgs[j]] = attrval;
-          } else if (colhtml.indexOf('href') > -1) {
-            let strval = rowCols[j].innerHTML;
-            rowdata[arr_hdgs[j]] = strval;
-          } else if (colhtml.indexOf('</i>') > -1) {
-            let pattern = /<i.* title="([^"]+)/g;
-            let match = pattern.exec(colhtml);
-            if (match != null && match.length)
-              rowdata[arr_hdgs[j]] = match[1];
+
+
+          if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+            continue;
+          if (hdgCols[i].classList.contains('del'))
+            continue;
+          let elthtml = hdgCols[i].innerHTML;
+          if (elthtml.indexOf('<input') > -1) {
+            let eltinput = hdgCols[i].querySelector("input");
+            let attrval = eltinput.getAttribute("placeholder");
+            hdgs[attrval] = attrval;
+            arr_hdgs.push(attrval);
+          } else if (elthtml.indexOf('<img') > -1) {
+            let eltinput = hdgCols[i].querySelector("img");
+            let attrval = eltinput.getAttribute("title");
+            hdgs[attrval] = attrval;
+            arr_hdgs.push(attrval);
+          } else if (elthtml.indexOf('href') > -1) {
+            let strval = hdgCols[i].innerHTML;
+            hdgs[strval] = strval;
+            arr_hdgs.push(strval);
           } else {
-            let plainText = colhtml.replace(/<[^>]*>/g, '');
-            rowdata[arr_hdgs[j]] = plainText;
+            let plainText = elthtml.replace(/<[^>]*>/g, '');
+            hdgs[plainText] = plainText;
+            arr_hdgs.push(plainText);
           }
         }
-        info.push(rowdata);
       }
-    }
-    new Angular5Csv(info, "report.csv");
-  });
+      info.push(hdgs);
+
+      let tblrows = tblelt.querySelectorAll('tbody tr');
+      if (tblrows.length >= 1) {
+        for (let i = 0; i < tblrows.length; i++) {
+          if (tblrows[i].classList.contains('cls-hide'))
+            continue;
+          let rowCols = tblrows[i].querySelectorAll('td');
+          let rowdata = [];
+          for (let j = 0; j < rowCols.length; j++) {
+            if (rowCols[j].classList.contains('del'))
+              continue;
+            let colhtml = rowCols[j].innerHTML;
+            if (colhtml.indexOf('input') > -1) {
+              let eltinput = rowCols[j].querySelector("input");
+              let attrval = eltinput.getAttribute('placeholder');
+              rowdata[arr_hdgs[j]] = attrval;
+            } else if (colhtml.indexOf('img') > -1) {
+              let eltinput = rowCols[j].querySelector("img");
+              let attrval = eltinput && eltinput.getAttribute('title');
+              rowdata[arr_hdgs[j]] = attrval;
+            } else if (colhtml.indexOf('href') > -1) {
+              let strval = rowCols[j].innerHTML;
+              rowdata[arr_hdgs[j]] = strval;
+            } else if (colhtml.indexOf('</i>') > -1) {
+              let pattern = /<i.* title="([^"]+)/g;
+              let match = pattern.exec(colhtml);
+              if (match != null && match.length)
+                rowdata[arr_hdgs[j]] = match[1];
+            } else {
+              let plainText = colhtml.replace(/<[^>]*>/g, '');
+              rowdata[arr_hdgs[j]] = plainText;
+            }
+          }
+          info.push(rowdata);
+        }
+      }
+      new Angular5Csv(info, "report.csv");
+    });
   }
   formatTitle(strval) {
     let pos = strval.indexOf('_');
@@ -1591,5 +1593,80 @@ export class CommonService {
     let result = await this.api.post('Voucher/GetCompanyHeadingData', { search: '1' }).toPromise();
     this.loading--;
     return result['data'][0];
+  }
+
+
+  number2text(value) {
+    var fraction = Math.round(this.frac(value) * 100);
+    var f_text = "";
+
+    if (fraction > 0) {
+      f_text = "AND " + this.convert_number(fraction) + " PAISE";
+    }
+
+    return this.convert_number(value) + " RUPEE " + f_text + " ONLY";
+  }
+
+  frac(f) {
+    return f % 1;
+  }
+
+  convert_number(number) {
+    if ((number < 0) || (number > 999999999)) {
+      return "NUMBER OUT OF RANGE!";
+    }
+    var Gn = Math.floor(number / 10000000);  /* Crore */
+    number -= Gn * 10000000;
+    var kn = Math.floor(number / 100000);     /* lakhs */
+    number -= kn * 100000;
+    var Hn = Math.floor(number / 1000);      /* thousand */
+    number -= Hn * 1000;
+    var Dn = Math.floor(number / 100);       /* Tens (deca) */
+    number = number % 100;               /* Ones */
+    var tn = Math.floor(number / 10);
+    var one = Math.floor(number % 10);
+    var res = "";
+
+    if (Gn > 0) {
+      res += (this.convert_number(Gn) + " CRORE");
+    }
+    if (kn > 0) {
+      res += (((res == "") ? "" : " ") +
+        this.convert_number(kn) + " LAKH");
+    }
+    if (Hn > 0) {
+      res += (((res == "") ? "" : " ") +
+        this.convert_number(Hn) + " THOUSAND");
+    }
+
+    if (Dn) {
+      res += (((res == "") ? "" : " ") +
+        this.convert_number(Dn) + " HUNDRED");
+    }
+
+
+    var ones = Array("", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN", "NINETEEN");
+    var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY", "SEVENTY", "EIGHTY", "NINETY");
+
+    if (tn > 0 || one > 0) {
+      if (!(res == "")) {
+        res += " AND ";
+      }
+      if (tn < 2) {
+        res += ones[tn * 10 + one];
+      }
+      else {
+
+        res += tens[tn];
+        if (one > 0) {
+          res += ("-" + ones[one]);
+        }
+      }
+    }
+
+    if (res == "") {
+      res = "zero";
+    }
+    return res;
   }
 }

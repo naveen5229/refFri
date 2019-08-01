@@ -66,12 +66,15 @@ import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-inp
 import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
 import { AdvicesComponent } from './advices/advices.component';
 import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
-import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
+// import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
 import { SiteInOutComponent } from './site-in-out/site-in-out.component';
 import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.component';
 import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { SitesComponent } from './sites/sites.component';
+import { ManagePartyComponent } from './manage-party/manage-party.component';
+import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.component';
+
 
 
 const PAGES_COMPONENTS = [
@@ -139,12 +142,15 @@ const PAGES_COMPONENTS = [
     FuelIndentComponent,
     AdvicesComponent,
     FreightExpensesComponent,
-    LrInvoiceColumnsComponent,
+    // LrInvoiceColumnsComponent,
     SiteInOutComponent,
     FreightInvoicesComponent,
     CardMappingComponent,
     TransfersComponent,
     SitesComponent,
+    ManagePartyComponent,
+    ManageFoPartyComponent,
+
     // CustomDatePipe
   ],
   exports: [

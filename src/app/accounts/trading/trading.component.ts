@@ -258,6 +258,8 @@ export class TradingComponent implements OnInit {
   }
   generateCsvData() {
     let liabilitiesJson = [];
+    liabilitiesJson.push(Object.assign({liability:"Particulars",liabilityAmount:'Amount'}));
+
     this.liabilities.forEach(liability => {
       liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
       liability.subGroups.forEach(subGroup => {
@@ -269,6 +271,7 @@ export class TradingComponent implements OnInit {
     });
 
     let assetsJson = [];
+    assetsJson.push(Object.assign({asset:"Particulars",assetAmount:'Amount'}));
     this.assets.forEach(asset => {
       assetsJson.push({ asset: '(MG)'+asset.name, assetAmount: asset.amount });
       asset.subGroups.forEach(subGroup => {
@@ -329,13 +332,13 @@ export class TradingComponent implements OnInit {
     }, 100);
   }
 
-  openLedgerViewModel(ledgerId, ledgerName) {
+  openLedgerViewModel(ledgerId, ledgerName,typeid) {
     console.log('ledger id 00000', ledgerId);
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,
       ledger: ledgerId,
-      vouchertype: 0,
+      vouchertype: (typeid==null)? 0 : typeid,
       ledgername: ledgerName
 
     };

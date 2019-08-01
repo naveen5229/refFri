@@ -102,7 +102,8 @@ export class SmartTableComponent implements OnInit {
       date: 0
     };
 
-    const numberPattern = new RegExp(/^([0-9])*(\.)([0-9])*$/);
+    const numberPattern = new RegExp(/^[+-]?\d+(\.\d+)?$/);
+    // const numberPattern = new RegExp(/^([0-9])*(\.)([0-9])*$/);
     const datePattern = new RegExp(/([0-2][0-9]|(3)[0-1])( |\/|-|)([a-zA-Z]{3})( |\/|-|)(([0-1][0-9])|([2][0-3]){2})(:)([0-5][0-9])$/);
     const timePattern = new RegExp(/^([0-9])*(\:)([0-9])*$/);
     this.columns.forEach(column => {
@@ -117,8 +118,8 @@ export class SmartTableComponent implements OnInit {
     console.info('Sort Counts:', counts);
     this.columns.sort((a, b) => {
       if (counts.time > counts.number) {
-        let firstValue = parseFloat(a[key].value.replace(':', '.'));
-        let secondValue = parseFloat(b[key].value.replace(':', '.'));
+        let firstValue = a[key].value ? parseFloat(a[key].value.replace(':', '.')) : 0;
+        let secondValue = b[key].value ? parseFloat(b[key].value.replace(':', '.')) : 0;
         return firstValue - secondValue;
       } else if (!counts.number) {
         let firstValue = a[key].value ? a[key].value.toLowerCase() : '';
@@ -193,6 +194,7 @@ export class SmartTableComponent implements OnInit {
    * @param rowIndex Clicked row index
    */
   handleColumnClick(column: any, heading: string, rowIndex: number) {
+    if (column[heading].isCheckbox) return;
     if (column[heading].action) column[heading].action();
     else if (this.settings.editable) {
       this.edit.row = rowIndex;
@@ -217,6 +219,16 @@ export class SmartTableComponent implements OnInit {
   saveEdit(editedColumn: any) {
     this.settings.editableAction({ current: editedColumn, old: this.edit.column });
     this.resetColumn(editedColumn);
+  }
+
+  /**
+   * Hanle row selection
+   * @param event - Checkbox change event
+   * @param action - Action to perform on checkbox click
+   */
+  handleCheckboxChange(event, action) {
+    action(event.target.checked);
+    event.stopPropagation();
   }
 
 }

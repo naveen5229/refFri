@@ -32,9 +32,15 @@ export class PlacementDelayFaultsComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal) {
     this.getDelayFaults();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+  refresh() {
+
+    this.getDelayFaults();
   }
 
   getDelayFaults() {

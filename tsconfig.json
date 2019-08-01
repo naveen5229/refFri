@@ -15,6 +15,14 @@
       "es2017",
       "dom"
     ],
-    "plugins": []
+    "plugins": [],
+    "paths": {
+      "auto-suggestion-in-side": [
+        "dist/auto-suggestion-in-side"
+      ],
+      "auto-suggestion-in-side/*": [
+        "dist/auto-suggestion-in-side/*"
+      ]
+    }
   }
 }
