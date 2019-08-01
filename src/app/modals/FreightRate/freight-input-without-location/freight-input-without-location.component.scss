@@ -121,3 +121,17 @@ h4{
 :host ::ng-deep .fa-trash-alt:hover span{
     display: block;
 }
+.smart-table-view{
+    overflow: auto;
+}
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+    max-height: 73vh;
+    table{
+        tr{
+            th{
+                width: 120px;
+            }
+        }
+    }
+}

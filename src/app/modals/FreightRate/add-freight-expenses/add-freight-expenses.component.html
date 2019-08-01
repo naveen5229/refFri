@@ -22,10 +22,12 @@
   <div class="expense-table">
     <table class="table table-bordered">
       <thead class="thead">
-        <th>Heads Name</th>
-        <th>Amount</th>
-        <th>Manual Amount</th>
-        <th>Action</th>
+        <tr>
+          <th>Heads Name</th>
+          <!-- <th>Amount</th> -->
+          <th>Manual Amount</th>
+          <th>Action</th>
+        </tr>
       </thead>
       <tbody>
 
@@ -38,9 +40,9 @@
               </option>
             </datalist>
           </td>
-          <td>
+          <!-- <td>
             <input type="number" class="form-control" [(ngModel)]="expenseDetail.value">
-          </td>
+          </td> -->
           <td>
             <input type="number" class="form-control" [(ngModel)]="expenseDetail.manualValue">
           </td>
@@ -70,8 +72,39 @@
         (click)="saveDetails();">{{expense.id?'Edit':'Add'}}</button>
     </div>
   </div>
-  <div *ngIf="data && data.length" class="mt-3">
+  <!-- <div *ngIf="data && data.length" class="mt-3">
     <smart-table [data]="table.data" [settings]="table.settings"></smart-table>
+  </div> -->
+
+  <div class="view-table">
+    <table class="table table-bordered">
+      <thead class="thead">
+        <tr>
+          <th>SN</th>
+          <th *ngFor="let col of headings" class="text-center">{{formatTitle(col)}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of data; let i=index;">
+          <td> <span>{{i + 1}}</span></td>
+          <td *ngFor="let col of headings; " class="text-center">
+            <span *ngIf="col==['Manual Amount']">
+              <input type="number" name="manualValues" class="form-control" [value]="row[col]" [(ngModel)]="row[col]">
+              <i class="fa fa-edit" (click)="editExpenses(row)">
+              </i>
+            </span>
+            <span *ngIf="col!=['Manual Amount'] && col!='Action' ">
+              {{row[col]}}
+            </span>
+            <span *ngIf="col!=['Manual Amount'] && col=='Action'">
+              <i class="fa fa-trash" (click)="DeleteExpense(row)">
+              </i>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
 
 </div>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PendingLicenceComponent } from './pending-licence.component';
+import { SupportingDocComponent } from './supporting-doc.component';
 
-describe('PendingLicenceComponent', () => {
-  let component: PendingLicenceComponent;
-  let fixture: ComponentFixture<PendingLicenceComponent>;
+describe('SupportingDocComponent', () => {
+  let component: SupportingDocComponent;
+  let fixture: ComponentFixture<SupportingDocComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PendingLicenceComponent ]
+      declarations: [ SupportingDocComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PendingLicenceComponent);
+    fixture = TestBed.createComponent(SupportingDocComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

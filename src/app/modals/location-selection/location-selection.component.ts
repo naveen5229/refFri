@@ -200,11 +200,12 @@ export class LocationSelectionComponent implements OnInit {
           console.log(res);
           this.common.loading--;
           this.data = res['data'];
-          if (this.data[0]['r_id'] < 1) {
-            this.common.showToast(res['data'][0]['r_msg']);
+          if (this.data[0]['r_id'] < 0) {
+            this.common.showError(res['data'][0]['r_msg']);
           }
-          if (this.data[0]['r_id'] > 1) {
-            this.r_id = this.data[0].r_id;
+          else {
+            this.common.showToast("Success");
+            this.r_id = this.data[0].r_locid;
             this.activeModal.close({ location: this.location, id: this.r_id });
           }
         }, err => {
