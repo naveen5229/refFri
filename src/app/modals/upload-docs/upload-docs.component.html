@@ -1,0 +1,74 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Upload Docs</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row" style="margin-bottom:15px">
+    <div class="col-3">
+      <label>Doctype*</label>
+    </div>
+    <div class="col-3">
+      <select class="form-control" (change)="getDocChange()" [(ngModel)]="docId">
+        <option *ngFor="let status of driverDoc" [value]="status.id">
+          {{status.name}}
+
+        </option>
+      </select>
+    </div>
+    <div class="col-3">
+
+
+      <label>Doc Number*</label>
+    </div>
+    <div class="col-3">
+      <input type="text" class="form-control" autocomplete="off" inputID="docDetails" [(ngModel)]="docNo"
+        placeholder="ID Proof Number">
+    </div>
+
+  </div>
+
+
+
+  <div class="row" style="margin-bottom:15px">
+    <div class="col-3">
+
+
+      <label>Image 1*</label>
+    </div>
+    <div class="col-3">
+      <input type="file" class="form-control" id="imageData1" (change)="handleFileSelection($event,1) ">
+    </div>
+    <div class="col-3">
+
+      <label>Image 2</label>
+    </div>
+    <div class="col-3">
+      <input type="file" class="form-control" id="imageData2" (change)="handleFileSelection($event,2) ">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3">
+      <label>Remark</label>
+    </div>
+    <div class="col-3">
+      <input type="text" class="form-control" autocomplete="off" inputID="docDetails" [(ngModel)]="remark"
+        placeholder="Remark">
+    </div>
+
+    <div class="col-3">
+      <button type="submit" id="submit" class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize"
+        (click)="proveUpload()">Save</button>
+    </div>
+  </div>
+
+
+  <div class="document-dash-contnet">
+    <div class="row">
+      <div class="col-12">
+        <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      </div>
+    </div>
+  </div>
+</div>

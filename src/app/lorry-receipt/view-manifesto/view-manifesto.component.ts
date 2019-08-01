@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { PrintManifestComponent } from '../../modals/print-manifest/print-manifest.component';
+import { GenerateLrMainfestoComponent } from '../generate-lr-mainfesto/generate-lr-mainfesto.component';
 
 @Component({
   selector: 'view-manifesto',
@@ -85,11 +86,14 @@ export class ViewManifestoComponent implements OnInit {
     this.api.get('LorryReceiptsOperation/getLrManifest?' + params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('res: ', res['data'])
         this.manifestData = res['data'];
-        console.log('manifestData', this.manifestData);
+        console.log("retrun Data length is zero", this.manifestData);
+        if (this.manifestData == null) {
+          return;
+
+        }
+
         let first_rec = this.manifestData[0];
-        console.log("first_Rec", first_rec);
 
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
@@ -150,6 +154,12 @@ export class ViewManifestoComponent implements OnInit {
     })
   }
 
+
+  genrateLrManifest() {
+    const activeModal = this.modalService.open(GenerateLrMainfestoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
+    activeModal.result.then(data => {
+    })
+  }
 }
 
 

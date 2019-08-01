@@ -24,6 +24,7 @@ import { PrintService } from '../../services/print/print.service';
 })
 export class VoucherComponent implements OnInit {
   Vouchers = [];
+  vouchername='Edit Voucher';
   voucherId = '';
   voucherName = '';
   voucher = null;
@@ -119,7 +120,14 @@ export class VoucherComponent implements OnInit {
   voucherEditDetail() {
     let params = {
       vchId: this.common.params.voucherId
+      
     };
+    setTimeout(() => {
+      if(this.common.params.addvoucherid=1) {
+        this.vouchername='Add Voucher';
+      this.voucher.xId=0;
+      }
+    }, 3000);
     console.log('vcid', this.common.params);
     this.deleteId = this.common.params.delete;
     this.api.post('Voucher/getVoucherDetail', params)

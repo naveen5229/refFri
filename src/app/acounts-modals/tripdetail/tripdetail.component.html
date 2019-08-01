@@ -1,0 +1,293 @@
+<nb-card>
+  <nb-card-body style="padding:0px;" (keydown)="keyHandler($event)">
+    <div class="modal-header">
+      <h5> Trip Detail</h5>
+      <button type="button" class="close" aria-label="Close" (click)=dismiss(false)>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- <div class="row">
+        <div class="col-4">
+          <auto-suggestion (onSelected)="setDriverName($event)" url="Suggestion/getElogistDriverList" display="empname"
+            placeholder="Driver Name" [preSelected]="null"></auto-suggestion>
+        </div>
+        <div class="col-1 pl-0">
+          <button class="btn btn-dark add_driver_name">
+            <i class="fa fa-plus add" (click)="addDriver()"></i>
+          </button>
+        </div>
+      </div> -->
+      <div class="row">
+        <!-- <div class="col-6">
+          <select name="credit-ledger" class="form-control" [(ngModel)]="creditLedger">
+            <option *ngFor="let ledger of ledgers" [value]="ledger.id">{{ledger.name}}</option>
+          </select>
+        </div> -->
+        <div class="col-8">
+          <div class="row">
+            <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Ref</label>
+              <input autocomplete="off" type="text" id="custcode" class="form-control" name="custcode"
+                [(ngModel)]="custcode" readonly>
+            </div>
+            <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Date</label>
+              <input autocomplete="off" type="text" id="date" class="form-control" name="date" [(ngModel)]="date" readonly>
+              <!-- <uj-date-time-picker (onChanged)="date = $event" [dateTimeValue]="date">
+                </uj-date-time-picker> -->
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Ledger</label>
+              <input autocomplete="off" type="text" id="creditLedger" class="form-control" name="creditLedger"
+                [(ngModel)]="creditLedger.name" readonly>
+            </div>
+            <!-- <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Fuel Ledger</label>
+              <input autocomplete="off" type="text" id="debitLedger" class="form-control" name="debitLedger"
+                [(ngModel)]="debitLedger">
+            </div> -->
+
+            <!-- <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Party Ledger</label>
+              <input autocomplete="off" type="text" id="creditLedger" class="form-control" name="creditLedger"
+                [(ngModel)]="creditLedger.name">
+            </div>
+            <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Fuel Ledger</label>
+              <input autocomplete="off" type="text" id="debitLedger" class="form-control" name="debitLedger"
+                [(ngModel)]="debitLedger.name">
+            </div> -->
+
+            <!-- <div class="col-3 pl-0 mt-6 ">
+              <button class="btn btn-dark" (click)="addTrip()">Add New Trip </button>
+            </div> -->
+          </div>
+        </div>
+        <div class="auto-sugg col-4">
+          <!-- <div class="form-group">
+            <auto-suggetion-in-side [data]="ledgers" targetId="creditLedger" display="name"
+              (select)="onSelected($event, 'creditLedger', 'name')"></auto-suggetion-in-side>
+          </div> -->
+
+          <!-- <div class="form-group" *ngIf="this.activeId.includes('creditLedger')">
+            <auto-suggetion-in-side [data]="ledgers" targetId="creditLedger" name="creditLedger" display="y_ledger_name"
+              (select)="onSelected($event, 'creditLedger', 'y_ledger_name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="this.activeId.includes('debitLedger')">
+            <auto-suggetion-in-side [data]="debitLedgerdata" targetId="debitLedger" name="debitLedger"
+              display="y_ledger_name" (select)="onDebitSelected($event, 'debitLedger', 'y_ledger_name')">
+            </auto-suggetion-in-side>
+          </div> -->
+        </div>
+      </div>
+      <div class="table_box mt-3">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>SN</th>
+              <th><input type="checkbox" name="checkall" id="checkall" value="1" [(ngModel)]="checkall"
+                  (ngModelChange)="checkedAll()" readonly></th>
+              <th>Start Location</th>
+              <th>End Location</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Trip Empty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let trip of trips;let i=index;">
+              <td>{{i+1}}</td>
+              <td>
+                <input type="checkbox" [name]="'trip-' + i" [id]="'trip-' + i" [(ngModel)]="trip.isChecked"
+                  (ngModelChange)="checkedAllSelected()"
+                  [disabled]="(trip.voucher_id && (VoucherId !=trip.voucher_id))" disabled readonly>
+              </td>
+              <td>{{trip.start_name}}</td>
+              <td>{{trip.end_name || '--'}}</td>
+              <td>{{trip.start_time | date : 'dd MMM'}}</td>
+              <td>{{trip.end_time | date : 'dd MMM' || '--'}}</td>
+              <td *ngIf="trip.is_empty==true">{{'Yes'}}</td>
+              <td *ngIf="trip.is_empty==false">{{'No'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <div *ngIf="(vouchertype != -151)" class="text-left">
+        <button class="btn btn-dark mr-1" (click)="addFuelFilling()">Add New Fuel </button>
+        <button class="btn btn-dark" (click)="getFuelFillings()">Show Fuel Entries</button>
+      </div> -->
+      <div *ngIf="(vouchertype != -151)" class="table_box_two mt-3">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>SN</th>
+              <th> </th>
+              <th>Station name</th>
+              <th>Quantity</th>
+              <th>Rate</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fuelFiling of fuelFilings;let i=index;">
+              <td>{{i+1}}</td>
+              <td>
+                <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked" readonly>
+              </td>
+              <td>{{fuelFiling.name}}</td>
+              <td>{{fuelFiling.litres}}</td>
+              <td>{{fuelFiling.rate}}</td>
+              <td>{{fuelFiling.amount}}</td>
+              <td>{{fuelFiling.date | date : 'dd MMM'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <div>
+        <button class="btn btn-dark" (click)="getHeads()">Show Head</button>
+      </div> -->
+      <div class="table_box_three mt-3">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>SN</th>
+              <th>Head</th>
+              <th>Total</th>
+              <th [hidden]="(vouchertype == -151)" *ngFor="let trip of checkedTrips;">{{trip.start_name}} - {{trip.end_name}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tripHead of tripHeads;let i = index;">
+              <td>{{i+1}}</td>
+              <td>{{tripHead.name}}</td>
+              <td>
+                <input type="number" [name]="tripHead.name" [(ngModel)]="tripHead.total" (input)="calculateTripAllTotal(i)" readonly>
+              </td>
+              <td  [hidden]="(vouchertype == -151)" *ngFor="let trip of tripHead.trips; let j = index;">
+                <input type="number" [name]="'trip-amount-' + tripHead.name + j" [(ngModel)]="trip.amount"
+                  (input)="calculateTripHeadTotal(i)" readonly>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="clearfix row">
+          <!-- <div class="total_box">
+            Total
+          </div>
+          <div class="total_input">
+            <input type="number" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal" disabled>
+          </div> -->
+          <div class="form-group col-2 mt-4">
+            <label class="tjr-label">Total</label>
+            <input type="number" class="form-control" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal" disabled readonly>
+          </div>
+
+          <div class="form-group col-4 mt-4">
+              <label class="tjr-label">Remarks</label>
+            <textarea class="form-control ref-input total_textarea" id="narration" name="narration" [(ngModel)]="narration" readonly>
+            </textarea>
+          </div>
+
+        </div>
+
+        <div class="row">
+        <div class="col-8 pl-0">
+            <table class="table table-bordered invoice_tabel table-four">
+              <thead style="background: #263238; color:#fff;">
+                <tr>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Remarks</th>
+                  <th>Ledger</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Details of accDetails; let i = index;">
+                  
+                  <td>
+                    <input type="text" class="form-control" autocomplete="off" [name]="'date-' + i"
+                      placeholder="Please Enter Date" [(ngModel)]="Details.detaildate" [id]="'detaildate-' + i" readonly>
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" autocomplete="off" [name]="'detailamount-' + i"
+                      [id]="'mobileno-' + i" [(ngModel)]="Details.detailamount" placeholder="Please Enter Amount" (input)="driverSum()" readonly>
+                  </td>
+                  <td>
+                    <input type="email" class="form-control" autocomplete="off" [name]="'detailramarks-' + i" [id]="'detailramarks-' + i"
+                      [(ngModel)]="Details.detailramarks" placeholder="Please Enter Remarks" readonly>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" autocomplete="off" placeholder="Please Select Ledger"
+                      [name]="'detailLedger-' + i" [id]="'detailLedger-' + i" ng-maxlength="10" [(ngModel)]="Details.detailLedger.name" 
+                      (input)="targetId = 'detailLedger-' + i" (keydown)="targetId = 'detailLedger-' + i" readonly>
+                  </td>
+                  
+                  <!-- <td *ngIf="i == 0">
+                    <button (click)="addDetails()" class="plustransparent btn btn-plus btn-dark"><i class="fa fa-plus"></i></button>
+                  </td>
+                  <td *ngIf="i !== 0">
+                    <button (click)="accDetails.splice(i,1)" class="btn btn-danger">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="number" class="form-control" name="driverTotal" [(ngModel)]="driverTotal" disabled></td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- <div class="col-4 pl-0">
+              <auto-suggetion-in-side [data]="diverledgers" [targetId]="targetId" name="detailLedger"
+              display="y_ledger_name" (select)="onDebitSelectednew($event, 'detailLedger', 'y_ledger_name',targetId)">
+            </auto-suggetion-in-side>
+          </div> -->
+          </div>
+      </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <!-- <button *ngIf="typeFlag==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
+        <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="approveVoucher()">Approve</button>
+        <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
+        <button *ngIf="permanentDeleteId !=0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="permanentDeleteConfirm()"> PermanentDelete</button>
+        <button *ngIf="permanentDeleteId !=0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="restore()"> Restore</button>
+      <button *ngIf="permanentDeleteId==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="callSaveVoucher()">Submit</button> -->
+      <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="dismiss(false)">Close</button>
+    </div>
+    <!-- <div>
+      <table class="table table-bordered">
+        <thead>
+          <th>SN</th>
+          <th>Start Location</th>
+          <th>End Location</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Name</th>
+          <th>Amount</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let voucherDetail of voucherDetails;let i=index;">
+            <td>{{i+1}}</td>
+            <td>{{voucherDetail.start_name}}</td>
+            <td>{{voucherDetail.end_name || '--'}}</td>
+            <td>{{voucherDetail.start_time | date : 'dd MMM'}}</td>
+            <td>{{voucherDetail.end_time | date : 'dd MMM'}}</td>
+            <td>{{voucherDetail.name}}</td>
+            <td>{{voucherDetail.amount}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+  </nb-card-body>
+</nb-card>

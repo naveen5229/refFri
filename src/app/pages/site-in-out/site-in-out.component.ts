@@ -27,45 +27,75 @@ export class SiteInOutComponent implements OnInit {
   };
   endDate = new Date();
   startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 7));
+  isFlag = 1;
+
+  bGConditions = [
+    { key: 'is_flag', value: 1, class: 'normal' },
+    { key: 'is_flag', value: 2, class: 'abnormal' }
+  ];
+
   constructor(
-    public apiService :ApiService,
-    public common : CommonService,
+    public apiService: ApiService,
+    public common: CommonService,
     public DateService: DateService,
     public user: UserService
   ) {
     this.getAllFoSites();
-   }
+    this.common.refresh = this.refresh.bind(this);
+
+  }
   ngOnInit() {
   }
-  getAllFoSites(){
+  refresh() {
+    this.getAllFoSites();
+  }
+  getAllFoSites() {
     this.common.loading++;
     this.apiService.get('Site/getAllFoSites')
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
         this.sitesDatalist = res['data'];
-             }, err => {
+      }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  getReport(){
-    let params ={
-  
-      startDate : this.common.dateFormatter(this.startDate),
+  getReport() {
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    this.data = [];
+
+    let url = null;
+    if (this.isFlag == 2) {
+      url = "Site/getLocalSiteInOutHistory";
+    }
+    else {
+      url = "Site/getSiteInAndOut"
+    }
+
+    let params = {
+
+      startDate: this.common.dateFormatter(this.startDate),
       endDate: this.common.dateFormatter(this.endDate),
-      siteId : this.siteId
+      siteId: this.siteId
     }
     console.log(params);
     this.common.loading++;
-    this.data = [];
-    this.apiService.post('Site/getSiteInAndOut',params)
-    .subscribe(res => {
-      this.common.loading--;
-      console.log(res);
-      this.data = res['data'];
-      let first_rec = this.data[0];
+    this.apiService.post(url, params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res);
+        this.data = res['data'];
+        let first_rec = this.data[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
@@ -75,10 +105,10 @@ export class SiteInOutComponent implements OnInit {
         }
         this.table.data.columns = this.getTableColumns();
 
-    }, err => {
-      this.common.loading--;
-      console.log(err);
-    });
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
   getTableColumns() {
 
@@ -86,11 +116,9 @@ export class SiteInOutComponent implements OnInit {
     console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
-
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
       }
       columns.push(this.valobj);
 
@@ -109,14 +137,14 @@ export class SiteInOutComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Site In And Out";
-        let lower_left_heading = "Site Name : "+ this.siteName;
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading ,["Action"], '', lower_left_heading);
+        let lower_left_heading = "Site Name : " + this.siteName;
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '', lower_left_heading);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-  
+
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
@@ -132,20 +160,25 @@ export class SiteInOutComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = "Customer Name::" + fodata['name'];
         let center_heading = "Report Name::" + "Site In And Out";
-        let lower_left_heading =  "Site Name ::" + this.siteName;
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '',lower_left_heading);
+        let lower_left_heading = "Site Name ::" + this.siteName;
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '', lower_left_heading);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-    }
+  }
   changeRefernceType(type) {
-    console.log("Type Id", type);
-
     this.siteId = this.sitesDatalist.find((element) => {
       console.log(element.name == type);
-      return element.name == type;
+      if (element.is_flag == 2) {
+        this.isFlag = 2;
+      }
+      else {
+        this.isFlag = 1;
+      }
+      return element.id == type.id;
     }).id;
+
   }
 
 }

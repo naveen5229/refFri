@@ -1,0 +1,89 @@
+<div class="model-drag" cdkDrag>
+  <div class="model-handler" cdkDragHandle>
+    <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+      <path
+        d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+      </path>
+      <path d="M0 0h24v24H0z" fill="none"></path>
+    </svg>
+  </div>
+
+  <div class="modal-header" style="margin-top:5px">
+    <h5 class="modal-title" id="modal-basic-title">Add Transport Agent</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="container">
+      <div class="col-sm-12">
+        <div class="col-sm-6">
+          <label>Name</label>
+        </div>
+        <div class="col-sm-6">
+          <input type="text" class="wdth" [(ngModel)]="Transport.name" autocomplete="off" minlength="3" maxlength="64"
+            placeholder="Name" required />
+        </div>
+
+
+        <div class="col-sm-6">
+          <label>PAN Number</label>
+        </div>
+        <div class="col-sm-6">
+          <input type="text" class="mrgn wdth" [(ngModel)]="Transport.panNumber" autocomplete="off" minlength="3"
+            maxlength="64" placeholder="PAN Number" required />
+        </div>
+
+
+
+        <div class="col-sm-6">
+          <label>GST Number</label>
+        </div>
+        <div class="col-sm-6">
+          <input type="text" class="mrgn wdth" [(ngModel)]="Transport.gstNumber" autocomplete="off" minlength="3"
+            maxlength="64" placeholder="GST Number" required />
+        </div>
+
+
+
+        <div class="col-sm-6">
+          <label>City</label>
+        </div>
+        <div class="col-sm-6 ">
+          <div class="row mt-2 align-items-center">
+            <div class="col-9">
+                <auto-suggestion (onChange)="onChangeAuto1($event)"
+                (onSelected)="selectLocation($event)" (noDataFound)="takeActionSource($event)"
+                [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="startname1"
+                placeholder="Location" [value]="Transport.city" class="mrgn"
+                [preSelected]='{location:Transport.city}'>
+              </auto-suggestion>
+            </div>
+            <div class="col-3 pl-0">
+                <i class="fa fa-plus add" (click)="CityString='----'; takeActionSource(null);"></i>
+            </div>
+          </div>
+          <!-- <input type="text" class="mrgn wdth" [(ngModel)]="Transport.city" autocomplete="off" minlength="3"
+            maxlength="64" placeholder="City" required /> -->
+        </div>
+
+
+
+        <div class="col-sm-6">
+          <label>Address</label>
+        </div>
+        <div class="col-sm-6">
+          <textarea class="mrgn wdth" [(ngModel)]="Transport.address" autocomplete="off" minlength="3" maxlength="64"
+            placeholder="Address" required></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="saveTransportAgent()">Save</button>
+    <!-- <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form" (click)="addNewdriver()">ADD</button> -->
+  </div>
+</div>

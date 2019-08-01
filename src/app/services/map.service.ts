@@ -52,6 +52,7 @@ export class MapService {
 
   updateLocation(elementId, autocomplete, setLocation?) {
     let placeFull = autocomplete.getPlace();
+    console.log('placeFullNAme', placeFull);
     let lat = placeFull.geometry.location.lat();
     let lng = placeFull.geometry.location.lng();
     let place = placeFull.formatted_address.split(',')[0];
@@ -71,6 +72,15 @@ export class MapService {
     } else if (zoomValue > 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
 
+    }
+  }
+
+  setMultiBounds(bounds,isReset=false){
+    if(isReset)
+      this.resetBounds();
+    for (let index = 0; index < bounds.length; index++) {
+      const thisPoint = bounds[index];
+      this.setBounds(this.createLatLng(thisPoint.lat,thisPoint.lng));
     }
   }
 
@@ -412,14 +422,14 @@ export class MapService {
     }
   }
 
-  createPolygonPath(polygonOptions?,drawVertix?) {
+  createPolygonPath(polygonOptions?, drawVertix?) {
     google.maps.event.addListener(this.map, 'click', (event) => {
       if (this.isDrawAllow) {
-        this.createPolyPathManual(event.latLng, polygonOptions,drawVertix);
+        this.createPolyPathManual(event.latLng, polygonOptions, drawVertix);
       }
     });
   }
-  createPolyPathManual(latLng, polygonOptions?,drawVertix?) {
+  createPolyPathManual(latLng, polygonOptions?, drawVertix?) {
     console.log("In Here");
     if (!this.polygonPath) {
       const defaultPolygonOptions = {
@@ -439,7 +449,7 @@ export class MapService {
     drawVertix && this.polygonPathVertices.push(this.createSingleMarker(latLng));
     return this.polygonPath;
   }
-  createPolyPathDetached(latLng, polygonOptions?,drawVertix?) {
+  createPolyPathDetached(latLng, polygonOptions?, drawVertix?) {
     console.log("In Here");
     if (!this.poly) {
       const defaultPolygonOptions = {
@@ -466,7 +476,7 @@ export class MapService {
 
 
 
-  createPolyPathsManual(latLngsAll, afterClick?,drawVertix?) {
+  createPolyPathsManual(latLngsAll, afterClick?, drawVertix?) {
     latLngsAll.forEach((latLngAll) => {
       console.log("hereout");
       this.poly = null;

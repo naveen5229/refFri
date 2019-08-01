@@ -6,6 +6,8 @@ import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
+
 
 @Component({
   selector: 'ledgerview',
@@ -16,6 +18,7 @@ export class LedgerviewComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
   ledgername = '';
+  vouchertype=0;
   ledger = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -59,6 +62,7 @@ export class LedgerviewComponent implements OnInit {
       console.log("After the modal Open:", this.common.params);
 
       this.ledgername = this.common.params.ledgername;
+      this.vouchertype = this.common.params.vouchertype;
       this.ledger = {
         endDate: this.common.params.enddate,
         startDate: this.common.params.startdate,
@@ -78,7 +82,9 @@ export class LedgerviewComponent implements OnInit {
       }
       this.getLedgerView();
     }
-    this.common.handleModalSize('class', 'modal-lg', '1250');
+    this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 0);
+  
+
     //  this.getVoucherTypeList();
 
     this.setFoucus('voucherType');
@@ -149,7 +155,7 @@ export class LedgerviewComponent implements OnInit {
       startdate: this.ledger.startDate,
       enddate: this.ledger.endDate,
       ledger: this.ledger.ledger.id,
-      vouchertype: 0,
+      vouchertype: this.vouchertype,
     };
 
     this.common.loading++;
@@ -188,7 +194,7 @@ export class LedgerviewComponent implements OnInit {
     console.log('Active event', event);
     if (key == 'enter' && !this.activeId && this.ledgerData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.ledgerData[this.selectedRow].y_ledger_id,'');
+      this.getBookDetail(this.ledgerData[this.selectedRow].y_ledger_id,'','');
       return;
     }
     if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
@@ -282,9 +288,26 @@ export class LedgerviewComponent implements OnInit {
   }
 
 
-  getBookDetail(voucherId,code) {
+  getBookDetail(voucherId,vouhercode,ytype) {
+    console.log('vouher id', voucherId,'ytype',ytype);
+    if((ytype.toLowerCase().includes('purchase')) || (ytype.toLowerCase().includes('sales')) || (ytype.toLowerCase().includes('debit')) || (ytype.toLowerCase().includes('credit'))){
+      this.common.params = {
+        invoiceid: voucherId,
+        delete: 0,
+      indexlg:1
+      };
+      const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          console.log('open succesfull');
+  
+          // this.addLedger(data.ledger);
+        }
+      });
+    }else{
     console.log('vouher id', voucherId);
-    this.common.params = { vchid: voucherId,vchcode:code};
+    this.common.params = { vchid: voucherId,vchcode:vouhercode};
 
     const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
@@ -300,6 +323,7 @@ export class LedgerviewComponent implements OnInit {
       }
     });
   }
+}
   modelCondition() {
     // this.showConfirm = false;
     this.activeModal.close({ response: true });

@@ -33,7 +33,7 @@
       </tbody>
     </table>
   </div>
-  <div class="tabel_two">
+  <div class="tabel_two" *ngIf="placements && placements.length>0">
     <table class="table table-bordered table-hover">
       <thead class="thead">
         <tr>
@@ -96,7 +96,6 @@
 
     <div class="row" style="margin-top:5px" *ngIf="vehicleTrip.locationType!='site'">
       <div class="col-md-4">
-        <label>Enter City</label>
       </div>
       <div class="col-md-8" *ngIf="placementSuggestion.length>0">
         <span *ngFor="let placementSuggestion of placementSuggestion; let i = index">
@@ -106,8 +105,10 @@
           </button>
         </span>
       </div>
-      <div class="col-md-4" *ngIf="placementSuggestion.length>0"></div>
-      <div class="col-md-4">
+      <div class="col-md-4" *ngIf="placementSuggestion.length>0">
+        <label>Enter City</label>
+      </div>
+      <div class="col-md-6">
         <auto-suggestion (onChange)="onChangeAuto($event)" (onSelected)="selectLocation($event)"
           (noDataFound)="takeAction($event)" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
           display="location" inputId="endname" placeholder="Location" [value]="vehicleTrip.endName"
@@ -120,19 +121,12 @@
         <input id="vehicleTrip_end_long" name="endLong" class="form-control" style="text-align: left"
           placeholder="End lng" type="hidden" readonly [(ngModel)]="vehicleTrip.endLng">
       </div>
-      <!-- <div class="">
-        <label class="btn btn-primary info_btn" (click)="locationSelection()"><i class="fa fa-info"></i></label>
-      </div> -->
-      <div class="col-md-3">
-        <label>
-          <input type="radio" [(ngModel)]="cLT" (change)="changeLocationType(false)" value="city"
-            name="changeLocationType"> City
-        </label>
-        <label class="radio2">
-          <input type="radio" [(ngModel)]="cLT" (change)="changeLocationType(true)" value="locality"
-            name="changeLocationType"> Local
-        </label>
+
+      <div class="col-md-2">
+        <label class="btn btn-primary info_btn" (click)="searchString='----'; takeAction(null);"><i
+            class="fa fa-plus"></i></label>
       </div>
+
     </div>
 
     <div class="row" style="margin-top:5px">

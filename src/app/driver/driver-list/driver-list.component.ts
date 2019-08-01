@@ -9,6 +9,7 @@ import { ImportDocumentComponent } from '../../documents/documentation-modals/im
 import { EditDriverComponent } from '../../modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { UploadDocsComponent } from '../../modals/upload-docs/upload-docs.component';
 @Component({
   selector: 'driver-list',
   templateUrl: './driver-list.component.html',
@@ -16,6 +17,9 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 })
 export class DriverListComponent implements OnInit {
   driverLists = [];
+  data = [];
+  table = null;
+
 
   constructor(public api: ApiService,
     public router: Router,
@@ -35,17 +39,42 @@ export class DriverListComponent implements OnInit {
     const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       if (data.response) {
+        // console.log('hrithik');
+
+
         this.getdriverLists();
+
+        // this.getdriverLists();
+
       }
     })
-    // activeModal.result.then(data => {
-    // if (data.response) {
-    // this.getdriverLists();
-    // }
-    // });
-
   }
 
+
+
+
+  getdriverLists() {
+    this.driverLists = [];
+    this.common.loading++;
+    let response;
+    this.api.get('Drivers/index')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.driverLists = res['data'];
+        if (this.driverLists == null) {
+          this.driverLists = [];
+          this.table = null;
+        }
+        this.table = this.setTable();
+
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    return response;
+
+  }
   updateDriverInfo(driver) {
     this.common.params = { driver };
     // const activeModal =
@@ -58,48 +87,63 @@ export class DriverListComponent implements OnInit {
     });
   }
 
-
-  getdriverLists() {
-    this.common.loading++;
-    let response;
-    this.api.get('Drivers/index')
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
-        this.driverLists = res['data'];
-
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-    return response;
-
-  }
-
-
   importDriverCsv() {
     this.common.params = { title: 'Bulk Import Driver', };
     const activeModal = this.modalService.open(ImportDocumentComponent, { container: 'nb-layout', backdrop: 'static' });
   }
-  fetchLisense(res) {
-    console.log('photo', res.licence_photo);
-    let images = [{
-      name: "image",
-      image: res.licence_photo
-    }]
-    this.common.params = { images, title: 'Image' };
-    this.common.handleModalSize('class', 'modal-lg', '1024');
-    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+  setTable() {
+    let headings = {
+      empname: { title: 'Driver', placeholder: 'Driver' },
+      mobileno: { title: 'Mobile No', placeholder: 'Mobile No' },
+      mobileno2: { title: 'Mobile No 2', placeholder: 'Mobile No 2' },
+      action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
+
+    };
+    return {
+      driverLists: {
+        headings: headings,
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true,
+        tableHeight: "auto"
+      }
+    }
+  }
+  getTableColumns() {
+    let columns = [];
+    this.driverLists.map(req => {
+      let column = {
+        empname: { value: req.empname },
+        mobileno: { value: req.mobileno },
+        mobileno2: { value: req.mobileno2 == null ? "-" : req.mobileno2 },
+        action: {
+          value: '', isHTML: false, action: null, icons: [
+
+            { class: 'fa fa-file', action: this.updateDriver.bind(this, req) },
+            { class: 'fa fa-tasks', action: this.updateDriverInfo.bind(this, req) }
+          ]
+        },
+        rowActions: {
+          click: 'selectRow'
+        }
+
+
+      };
+      columns.push(column);
+    });
+    return columns;
+  }
+
+
+
+
+  updateDriver(driver) {
+    this.common.params = { driver };
+    const activeModal = this.modalService.open(UploadDocsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
 
   }
-  fetchAadhar(res) {
-    console.log('aadhar', res.aadhar_photo);
-    let images = [{
-      name: "image",
-      image: res.aadhar_photo
-    }]
-    this.common.params = { images, title: 'Image' };
-    this.common.handleModalSize('class', 'modal-lg', '1024');
-    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
+
 }

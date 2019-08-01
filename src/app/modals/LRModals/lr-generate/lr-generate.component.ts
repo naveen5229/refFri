@@ -10,6 +10,9 @@ import { DatePickerComponent } from '../../date-picker/date-picker.component';
 import { LRViewComponent } from '../lrview/lrview.component';
 import { isArray } from 'util';
 import { AddFieldComponent } from '../add-field/add-field.component';
+import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
+import { AddMaterialComponent } from '../add-material/add-material.component';
+import { AddTransportAgentComponent } from '../add-transport-agent/add-transport-agent.component';
 
 @Component({
   selector: 'lr-generate',
@@ -17,6 +20,10 @@ import { AddFieldComponent } from '../add-field/add-field.component';
   styleUrls: ['./lr-generate.component.scss']
 })
 export class LrGenerateComponent implements OnInit {
+  keepGoing = true;
+  sourceString = '';
+  destinationString = '';
+
   images = [];
   unitFields = []
   branches = null;
@@ -46,9 +53,11 @@ export class LrGenerateComponent implements OnInit {
     lrNumber: null,
     lrNumberText: '',
     sourceCity: null,
+    sourceId: null,
     sourceLat: null,
     sourceLng: null,
     destinationCity: null,
+    destinationId: null,
     destinationLat: null,
     destinationLng: null,
     remark: null,
@@ -69,6 +78,7 @@ export class LrGenerateComponent implements OnInit {
   particulars = [
     {
       material: null,
+      material_id: null,
       articles: null,
       weight: null,
       weight_unit: null,
@@ -157,7 +167,7 @@ export class LrGenerateComponent implements OnInit {
     this.lr.lrNumberText = lrDetails.lrprefix;
   }
   addConsignee() {
-    console.log("open material modal")
+    console.log("open consignee modal")
     const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Data:', data);
@@ -165,6 +175,32 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
+  changeLrTypeData() {
+    if (this.lr.lrType == 1) {
+      this.taId = null;
+      this.taName = null;
+    }
+    else if (this.lr.lrType == 3) {
+      this.lr.invoicePayer = null;
+      this.lr.invoiceTo = -1;
+      this.lr.invoicePayerId = null;
+      this.lr.consigneeName = null;
+      this.lr.consigneeAddress = null;
+      this.lr.consigneeId = null;
+      this.lr.consignorAddress = null;
+      this.lr.consignorName = null;
+      this.lr.consignorId = null;
+    }
+  }
+
+  addTransportAgent() {
+    console.log("open T a. modal")
+    const activeModal = this.modalService.open(AddTransportAgentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+
+    });
+  }
   addDriver() {
     this.common.params = { vehicleId: this.vehicleId, vehicleRegNo: this.vehicleRegNo };
     const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -243,6 +279,7 @@ export class LrGenerateComponent implements OnInit {
   addMore() {
     this.particulars.push({
       material: null,
+      material_id: null,
       articles: null,
       weight: null,
       weight_unit: null,
@@ -268,6 +305,12 @@ export class LrGenerateComponent implements OnInit {
     this.taName = taDetail.name;
     this.taId = taDetail.id;
   }
+  setMaterialDetail(material, i) {
+    console.log("material", material)
+    this.particulars[i].material = material.name;
+    this.particulars[i].material_id = material.id;
+  }
+
   material(i) {
     console.log('material-' + i);
     this.particulars[i].material = document.getElementById('material-' + i)['value'];
@@ -279,10 +322,10 @@ export class LrGenerateComponent implements OnInit {
     today = new Date();
     futureDay = new Date(today.setDate(today.getDate() + 30));
     today = new Date();
-    pastDay = new Date(today.setDate(today.getDate() - 30));
+    pastDay = new Date('2019-03-31');
     console.log("futureDay", futureDay, "pastDay", pastDay);
     if ((this.lr.date > futureDay) || (this.lr.date < pastDay)) {
-      alert("Date should not be before 30 days and after 30 days ");
+      alert("Date should not be before 01 April 2019 days and after 30 days ");
       return 0;
     }
 
@@ -332,6 +375,7 @@ export class LrGenerateComponent implements OnInit {
         lrDate: lrDate,
         driverId: this.driver.id,
         source: this.lr.sourceCity,
+        sourceId: this.lr.sourceId,
         destination: this.lr.destinationCity,
         consignorId: this.lr.consignorId,
         consigneeId: this.lr.consigneeId,
@@ -392,6 +436,13 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
+  addMaterial() {
+    console.log('add material');
+    const activeModal = this.modalService.open(AddMaterialComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    });
+  }
 
   getDate() {
 
@@ -421,7 +472,7 @@ export class LrGenerateComponent implements OnInit {
   }
 
   calculateReminingAmount() {
-    this.lr.remainingAmount = this.lr.payableAmount - this.lr.advanceAmount;
+    this.lr.remainingAmount = parseFloat((this.lr.payableAmount - this.lr.advanceAmount).toFixed(2));
     console.log("this.lr.remainingAmount", this.lr.remainingAmount);
   }
   closeModal() {
@@ -504,9 +555,11 @@ export class LrGenerateComponent implements OnInit {
     this.lr.lrNumberText = lrDetails.lr_prefix;
     this.lr.lrNumber = lrDetails.lr_num;
     this.lr.sourceCity = lrDetails.source;
+    this.lr.sourceId = lrDetails.source_id;
     this.lr.sourceLat = lrDetails.source_lat;
     this.lr.sourceLng = lrDetails.source_long;
     this.lr.destinationCity = lrDetails.destination;
+    this.lr.destinationId = lrDetails.destination_id;
     this.lr.destinationLat = lrDetails.destination_lat;
     this.lr.destinationLng = lrDetails.destination_long;
     this.lr.remark = lrDetails.remark;
@@ -632,5 +685,91 @@ export class LrGenerateComponent implements OnInit {
       return element.name == type;
     }).id;
     console.log("this.particulars[index].weight_unit ", this.particulars[index].weight_unit)
+  }
+
+  takeActionSource(res) {
+    setTimeout(() => {
+      console.log("Here", this.keepGoing, this.sourceString.length, this.sourceString);
+
+      if (this.keepGoing && this.sourceString.length) {
+        this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        this.keepGoing = false;
+        activeModal.result.then(res => {
+          console.log('response----', res.location);
+          this.keepGoing = true;
+          if (res.location.lat) {
+            this.lr.sourceCity = res.location.name;
+
+            (<HTMLInputElement>document.getElementById('startname')).value = this.lr.sourceCity;
+            this.lr.sourceLat = res.location.lat;
+            this.lr.sourceLng = res.location.lng;
+            this.lr.sourceId = res.id;
+            this.keepGoing = true;
+          }
+        })
+      }
+    }, 1000);
+
+  }
+
+  selectLocation(place, type) {
+    if (type == 'source') {
+      console.log("palce", place);
+      this.lr.sourceLat = place.lat;
+      this.lr.sourceLng = place.long;
+      this.lr.sourceId = place.id;
+      this.lr.sourceCity = place.location || place.name;
+      this.lr.sourceCity = this.lr.sourceCity.split(",")[0];
+      (<HTMLInputElement>document.getElementById('startname')).value = this.lr.sourceCity;
+    }
+    else {
+      console.log("palce", place);
+      this.lr.destinationLat = place.lat;
+      this.lr.destinationLng = place.long;
+      this.lr.destinationId = place.id;
+      this.lr.destinationCity = place.location || place.name;
+      this.lr.destinationCity = this.lr.destinationCity.split(",")[0];
+      (<HTMLInputElement>document.getElementById('endname')).value = this.lr.destinationCity;
+    }
+  }
+
+  takeActionDestination(res) {
+    setTimeout(() => {
+      console.log("Here", this.keepGoing, this.destinationString.length, this.destinationString);
+
+      if (this.keepGoing && this.destinationString.length) {
+        this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        this.keepGoing = false;
+        activeModal.result.then(res => {
+          console.log('response----', res.location);
+          this.keepGoing = true;
+          if (res.location.lat) {
+            this.lr.destinationCity = res.location.name;
+
+            (<HTMLInputElement>document.getElementById('endname')).value = this.lr.destinationCity;
+            this.lr.destinationLat = res.location.lat;
+            this.lr.destinationLng = res.location.lng;
+            this.lr.destinationId = res.id;
+            this.keepGoing = true;
+          }
+        })
+      }
+    }, 1000);
+
+  }
+
+  onChangeAuto(search, type) {
+    if (type == 'source') {
+
+      this.sourceString = search;
+      console.log('..........', search);
+    }
+    else {
+      this.destinationString = search;
+    }
   }
 }

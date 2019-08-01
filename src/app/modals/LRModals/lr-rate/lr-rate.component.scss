@@ -126,6 +126,22 @@ h4{
     color: black;
     background: #8e6f6f;
 }
+.btn-class1{
+    margin-left: 0px;
+    color: black;
+    background: #d3d1d1;
+}
 .row{
     margin-bottom:10px;
+}
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+    max-height: 400px;
+    table{
+        tr{
+            th{
+                width: 100px;
+            }
+        }
+    }
 }

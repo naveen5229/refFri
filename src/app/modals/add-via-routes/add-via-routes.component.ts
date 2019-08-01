@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
 import { ApiService } from '../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { DateService } from '../../services/date.service';
+import { LocationSelectionComponent } from '../location-selection/location-selection.component';
 
 @Component({
   selector: 'add-via-routes',
@@ -22,8 +23,7 @@ export class AddViaRoutesComponent implements OnInit {
     startlong: null,
     endlat1: null,
     endlong2: null,
-    latlong: null,
-    latlong2: null,
+
 
     lat: null,
     long: null,
@@ -40,7 +40,12 @@ export class AddViaRoutesComponent implements OnInit {
   mark = [];
   ismap = false;
   ismap2 = false;
-  isstart = false;
+  startSearch = '';
+  endSearch = '';
+
+  keepGoingForStart = true;
+  keepGoingForEnd = true;
+
   routeTypes = [{
     name: 'Loaded',
     id: '0'
@@ -56,7 +61,8 @@ export class AddViaRoutesComponent implements OnInit {
     private api: ApiService,
     private activeModal: NgbActiveModal,
     private common: CommonService,
-    public dateService: DateService) {
+    public dateService: DateService,
+    private modalService: NgbModal) {
     // this.foId = this.common.params.foData;
     // console.log("FOData:", this.foId);
     this.common.handleModalSize('class', 'modal-lg', '1250');
@@ -66,7 +72,6 @@ export class AddViaRoutesComponent implements OnInit {
         console.log('Lat: ', lat);
         console.log('Lng: ', lng);
         console.log('Place: ', place);
-        console.log("position", this.routeData.latlong);
         this.location = place;
       });
       this.mapService.zoomAt({ lat: 26.9100, lng: 75.7900 }, 12);
@@ -87,51 +92,51 @@ export class AddViaRoutesComponent implements OnInit {
         this.mapService.zoomAt({ lat: lat, lng: lng }, 12);
       });
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
-        if (this.ismap && this.isstart) {
-          this.createnewMarker(evt.latLng.lat(), evt.latLng.lng(), 0);
-        }
+        // if (this.ismap && this.isstart) {
+        //   this.createnewMarker(evt.latLng.lat(), evt.latLng.lng(), 0);
+        // }
 
-        if (this.ismap2 && !this.isstart) {
-          this.createnewMarker(evt.latLng.lat(), evt.latLng.lng(), 1);
-        }
+        // if (this.ismap2 && !this.isstart) {
+        //   this.createnewMarker(evt.latLng.lat(), evt.latLng.lng(), 1);
+        // }
       });
 
     }, 1000);
   }
 
-  createnewMarker(lat, long, index) {
-    let latlong;
-    let color = "FF0000";
-    if (index == 0) {
-      color = "00FF00";
-      this.routeData.startlat = lat;
-      this.routeData.startlong = long;
-      lat = (Math.round((lat) * 100) / 100).toFixed(4);
-      long = (Math.round((long) * 100) / 100).toFixed(4);
-      this.routeData.latlong = lat + "," + long;
+  // createnewMarker(lat, long, index) {
+  //   let latlong;
+  //   let color = "FF0000";
+  //   if (index == 0) {
+  //     color = "00FF00";
+  //     this.routeData.startlat = lat;
+  //     this.routeData.startlong = long;
+  //     lat = (Math.round((lat) * 100) / 100).toFixed(4);
+  //     long = (Math.round((long) * 100) / 100).toFixed(4);
+  //     this.routeData.latlong = lat + "," + long;
 
-    } else {
-      this.routeData.endlat1 = lat;
-      this.routeData.endlong2 = long;
-      lat = (Math.round((lat) * 100) / 100).toFixed(4);
-      long = (Math.round((long) * 100) / 100).toFixed(4);
-      this.routeData.latlong2 = lat + "," + long;
+  //   } else {
+  //     this.routeData.endlat1 = lat;
+  //     this.routeData.endlong2 = long;
+  //     lat = (Math.round((lat) * 100) / 100).toFixed(4);
+  //     long = (Math.round((long) * 100) / 100).toFixed(4);
+  //     this.routeData.latlong2 = lat + "," + long;
 
-    }
+  //   }
 
-    latlong = [{
-      lat: lat,
-      long: long,
-      color: color,
-      subType: 'marker'
-    }];
-    if (this.mark[index]) {
-      this.mark[index].setMap(null);
-    }
-    this.mark[index] = this.mapService.createMarkers(latlong, false, false)[0];
-    if (this.mark[0] && this.mark[1])
-      this.mapService.resetBounds();
-  }
+  //   latlong = [{
+  //     lat: lat,
+  //     long: long,
+  //     color: color,
+  //     subType: 'marker'
+  //   }];
+  //   if (this.mark[index]) {
+  //     this.mark[index].setMap(null);
+  //   }
+  //   this.mark[index] = this.mapService.createMarkers(latlong, false, false)[0];
+  //   if (this.mark[0] && this.mark[1])
+  //     this.mapService.resetBounds();
+  // }
 
   add() {
     const params = {
@@ -184,15 +189,36 @@ export class AddViaRoutesComponent implements OnInit {
     this.routeData.startlat = site.lat;
     this.routeData.startlong = site.long;
     this.routeData.placeName = site.name;
-    this.createnewMarker(site.lat, site.long, 0);
   }
   selectSite2(site) {
     this.routeData.endSiteId = site.id;
     this.routeData.endlat1 = site.lat;
     this.routeData.endlong2 = site.long;
     this.routeData.placeName2 = site.name;
-    this.createnewMarker(site.lat, site.long, 1);
   }
+
+  selectStartByMap(map) {
+    console.log("Map", map);
+
+    this.routeData.startSiteId = map.id;
+    this.routeData.startlat = map.lat;
+    this.routeData.startlong = map.long;
+    this.routeData.placeName = map.location.split(",")[0] || map.name;
+  }
+
+  selectEndByMap(map) {
+    this.routeData.endSiteId = map.id;
+    this.routeData.endlat1 = map.lat;
+    this.routeData.endlong2 = map.long;
+    this.routeData.placeName2 = map.location.split(",")[0] || map.name;
+  }
+  onChangeMapData(search) {
+    this.startSearch = search;
+    this.endSearch = search;
+    console.log('..........', search);
+
+  }
+
 
   report(type) {
     if (type == "site") {
@@ -227,4 +253,87 @@ export class AddViaRoutesComponent implements OnInit {
       this.mark[1] && this.mark[1].setMap(null);
     }
   }
+
+  takeActionOnStart(res, type) {
+    setTimeout(() => {
+      console.log("Here", this.keepGoingForStart, this.startSearch.length, this.startSearch);
+      if (type == 'start') {
+
+
+        if (this.keepGoingForStart && this.startSearch.length) {
+          this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+          const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+          this.keepGoingForStart = false;
+          activeModal.result.then(res => {
+            if (res != null) {
+              this.keepGoingForStart = true;
+              if (res.location.lat) {
+                this.routeData.placeName = res.location.name;
+
+                (<HTMLInputElement>document.getElementById('startName')).value = this.routeData.placeName;
+                this.routeData.startlat = res.location.lat;
+                this.routeData.startlong = res.location.lng;
+                this.routeData.startSiteId = res.id;
+              }
+            }
+            this.keepGoingForStart = true;
+
+          });
+
+        }
+      }
+      else {
+        if (this.keepGoingForEnd && this.endSearch.length) {
+          this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+          const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+          this.keepGoingForEnd = false;
+          activeModal.result.then(res => {
+            if (res != null) {
+              this.keepGoingForEnd = true;
+              if (res.location.lat) {
+                this.routeData.placeName2 = res.location.name;
+
+                (<HTMLInputElement>document.getElementById('endName')).value = this.routeData.placeName2;
+                this.routeData.endlat1 = res.location.lat;
+                this.routeData.endlong2 = res.location.lng;
+                this.routeData.endSiteId = res.id;
+              }
+            }
+            this.keepGoingForEnd = true;
+
+          });
+
+        }
+      }
+
+    }, 1000);
+
+  }
+  // takeActionOnEnd(res) {
+  //   if (this.keepGoingForEnd && this.endSearch.length) {
+  //     this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+  //     const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  //     this.keepGoingForEnd = false;
+  //     activeModal.result.then(res => {
+  //       if (res != null) {
+  //         this.keepGoingForEnd = true;
+  //         if (res.location.lat) {
+  //           this.routeData.placeName2 = res.location.name;
+
+  //           (<HTMLInputElement>document.getElementById('endName')).value = this.routeData.placeName2;
+  //           this.routeData.endlat1 = res.location.lat;
+  //           this.routeData.endlong2 = res.location.lng;
+  //           this.routeData.endSiteId = res.id;
+  //           this.keepGoingForEnd = true;
+  //         }
+  //       }
+  //       this.keepGoingForEnd = true;
+
+  //     });
+
+  //   }
+  // }
 }

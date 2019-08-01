@@ -30,6 +30,8 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() apiHitLimit: Number;
   @Input() isNoDataFoundEmit: boolean;
   @Input() isMultiSelect: boolean;
+  @Input() bGConditions: any[] = [];
+
   counter = 0;
   searchText = '';
   showSuggestions = false;
@@ -39,6 +41,9 @@ export class AutoSuggestionComponent implements OnInit {
   searchForm = null;
   activeSuggestion = -1;
   selectedSuggestions = [];
+  isAllData = false;
+  suggestionApiHitTimer: any = null;
+
 
   constructor(public api: ApiService,
     private cdr: ChangeDetectorRef,
@@ -53,16 +58,11 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // console.log('URL:', this.url);
-    // console.log('URL:', this.display);
     if (this.preSelected) this.handlePreSelection();
 
-    // console.log('Is Array:', Array.isArray(this.display));
     if (Array.isArray(this.display)) {
       this.displayType = 'array';
     }
-    // console.log('Data:', this.data);
-    // console.log('Parent Form: ', this.parentForm);
     if (this.parentForm) {
       this.searchForm = this.parentForm;
     }
@@ -71,10 +71,9 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    //console.log("--------------------+++++++++", changes);
     if (changes.preSelected) {
       this.preSelected = changes.preSelected.currentValue;
-      this.handlePreSelection();
+      this.preSelected && this.handlePreSelection();
     }
 
   }
@@ -91,11 +90,9 @@ export class AutoSuggestionComponent implements OnInit {
         index++;
       }
     }
-    //console.log("--------------------+++++++++", this.searchText);
   }
 
   getSuggestions() {
-    console.log("apiHitLimit", this.apiHitLimit, this.searchText.length);
     this.onChange.emit(this.searchText);
     this.apiHitLimit = this.apiHitLimit ? this.apiHitLimit : 3;
 
@@ -106,16 +103,19 @@ export class AutoSuggestionComponent implements OnInit {
       return;
     }
     if (this.searchText.length < this.apiHitLimit) return;
+
+    clearTimeout(this.suggestionApiHitTimer);
+    this.suggestionApiHitTimer = setTimeout(this.getSuggestionsFromApi.bind(this), 400);
+  }
+
+  getSuggestionsFromApi() {
     let params = '?';
-    console.log(this.url, typeof this.url);
     if (this.url.includes('?')) {
       params = '&'
     }
     params += 'search=' + this.searchText;
-    console.log('Params: ', params);
     this.api.get(this.url + params)
       .subscribe(res => {
-        console.log(res);
         this.suggestions = res['data'];
         if (this.isNoDataFoundEmit && !this.suggestions.length) this.noDataFound.emit({ search: this.searchText });
       }, err => {
@@ -125,21 +125,14 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   selectSuggestion(suggestion) {
-    console.log('_____hey i m inside select suggestion', suggestion);
-    // this.searchText = suggestion[this.display];
     if (this.isMultiSelect) {
-      console.log('_____hey i m inside select suggestion');
       this.selectedSuggestions.push(suggestion);
       this.onSelected.emit(this.selectedSuggestions);
       this.searchText = '';
     } else {
-      console.log('_____hey i m inside select suggestion');
       this.selectedSuggestion = suggestion;
       this.onSelected.emit(suggestion);
       this.searchText = this.generateString(suggestion);
-      setTimeout(() => {
-        console.log(this.selectedSuggestion);
-      })
     }
 
     this.showSuggestions = false;
@@ -163,7 +156,6 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   handleKeyDown(event) {
-    // console.log('Event:', event);
     const key = event.key.toLowerCase();
     if (!this.showSuggestions) return;
     if (key == 'arrowdown') {
@@ -189,13 +181,27 @@ export class AutoSuggestionComponent implements OnInit {
     setTimeout(() => {
       let isSelected = false;
       this.suggestions.map(suggestion => {
-        if (this.searchText === this.generateString(suggestion) && JSON.stringify(this.selectedSuggestion) == JSON.stringify(suggestion)) {
+        if (this.searchText === this.generateString(suggestion) && this.generateString(this.selectedSuggestion) == this.generateString(suggestion)) {
           isSelected = true;
         }
       });
       if (!isSelected) this.unSelected.emit(null);
     }, 100);
+  }
 
+  classFinder(suggestion) {
+    let className = '';
+    this.bGConditions.forEach(condition => {
+      if (suggestion[condition.key] == condition.value) {
+        className = condition.class;
+      }
+    });
+    return className;
+  }
+
+  showAllSuggestion() {
+    this.showSuggestions = true;
+    this.suggestions = this.data;
   }
 
 

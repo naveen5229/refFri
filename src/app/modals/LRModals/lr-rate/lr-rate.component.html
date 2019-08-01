@@ -8,6 +8,10 @@
 <div class="modal-body">
   <div *ngIf="generalModal">
     <div class="row">
+      <div class="col-sm-7"><label> Fixed (<i class="fas fa-rupee-sign"></i>) </label></div>
+      <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.fixed></div>
+    </div>
+    <div class="row">
       <div class="col-sm-7"><label> Rate(/Tn) </label></div>
       <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.weight></div>
     </div>
@@ -64,7 +68,7 @@
           <td><input type="text" class="form-control" [(ngModel)]=general.fixed></td>
           <td>Distance(/KM) </td>
           <td><input type="text" class="form-control" [(ngModel)]=general.distance></td>
-          <td>Weight(/Tn) </td>
+          <td>Rate(/Tn) </td>
           <td><input type="text" class="form-control" [(ngModel)]=general.weight></td>
           <td>MG-Weight(/Tn) </td>
           <td><input type="text" class="form-control" [(ngModel)]=general.mgWeight></td>
@@ -85,7 +89,7 @@
           <td><input type="text" class="form-control" [(ngModel)]=general.loading></td>
           <td>Unloading (/Tn) </td>
           <td><input type="text" class="form-control" [(ngModel)]=general.unloading></td>
-          <td>Qty </td>
+          <td>Rate(/Qty) </td>
           <td><input type="text" class="form-control" [(ngModel)]=general.qty></td>
           <td>MG-Qty</td>
           <td><input type="text" class="form-control" [(ngModel)]=general.mgQty></td>
@@ -117,7 +121,7 @@
             <td><input type="text" class="form-control" [(ngModel)]=filter.fixed></td>
             <td>Distance(/KM)</td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.distance></td>
-            <td>Weight(/Tn)</td>
+            <td>Rate(/Tn)</td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.weight></td>
             <td>MG-Weight (/Tn) </td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.mgWeight></td>
@@ -137,7 +141,7 @@
             <td><input type="text" class="form-control" [(ngModel)]=filter.loading></td>
             <td>Unloading (/Tn) </td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.unloading></td>
-            <td>Qty </td>
+            <td>Rate(/Qty) </td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.qty></td>
             <td>MG-Qty</td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.mgQty></td>
@@ -157,11 +161,19 @@
 
 
   <div class="text-right mt-3 mb-3">
-    <button class="btn btn-primary submit" (click)="saveLrRateInput()">Submit</button>
+    <button class="btn btn-primary submit" (click)="saveLrRateInput()">Submit</button>&nbsp;&nbsp;
+    <button class="btn btn-danger" (click)="deleteRate()" *ngIf="generalModal && id">Delete</button>
   </div>
-  <h4 *ngIf="data && data.length && !generalModal">
+  <div class="row">
+    <div class="col-sm-5">
+      <button (click)='calculateRate()' class="btn btn-class1">Calculate Rate</button>
+    </div>
+
+  </div>
+
+  <h6 *ngIf="data && data.length && !generalModal">
     Lr Rates
-  </h4>
+  </h6>
   <smart-table *ngIf="data && data.length && !generalModal" [data]="table.data" [settings]="table.settings"
     id="ratesTable">
   </smart-table>

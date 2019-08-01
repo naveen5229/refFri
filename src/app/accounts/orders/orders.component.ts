@@ -12,6 +12,7 @@ import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.com
 import { WareHouseModalComponent } from '../../acounts-modals/ware-house-modal/ware-house-modal.component';
 import { AccountService } from '../../services/account.service';
 import {LedgeraddressComponent} from '../../acounts-modals/ledgeraddress/ledgeraddress.component';
+import { PrintService } from '../../services/print/print.service';
 
 @Component({
   selector: 'orders',
@@ -20,6 +21,7 @@ import {LedgeraddressComponent} from '../../acounts-modals/ledgeraddress/ledgera
 })
 export class OrdersComponent implements OnInit {
   showConfirm = false;
+  suggestionname='';
   branchdata = [];
   orderTypeData = [];
   supplier = [];
@@ -46,6 +48,7 @@ export class OrdersComponent implements OnInit {
     orderid: 0,
     delete: 0,
     ledgeraddressid:null,
+    print:false,
     // branch: {
     //   name: '',
     //   id: ''
@@ -121,6 +124,7 @@ export class OrdersComponent implements OnInit {
     private route: ActivatedRoute,
     public user: UserService,
     public router: Router,
+    private printService: PrintService,
     public modalService: NgbModal,
     public accountService: AccountService) {
     // this.getBranchList();
@@ -134,20 +138,34 @@ export class OrdersComponent implements OnInit {
       let suggestionname = params.name;
       if (suggestionname == 'Debit Note') {
         this.getInvoiceList(-2);
-        suggestionname = 'Purchase Invoice';
+        this.suggestionname = 'purchase';
       }
       if (suggestionname == 'Credit Note') {
         this.getInvoiceList(-4);
-        suggestionname = 'Sales Invoice';
+        this.suggestionname = 'sales';
       }
-      this.getStockItems(suggestionname);
+      if (suggestionname == 'Purchase Assets Invoice') {
+       // this.getInvoiceList(-4);
+       this.suggestionname = 'inventary';
+      }
+      if (suggestionname == 'Purchase Invoice') {
+        // this.getInvoiceList(-4);
+        this.suggestionname = 'purchase';
+       }
+       if (suggestionname == 'Sales Invoice') {
+        // this.getInvoiceList(-4);
+        this.suggestionname = 'sales';
+       }
+      this.getStockItems(this.suggestionname);
     });
     this.common.refresh = () => {
       this.getInvoiceTypes();
       this.getPurchaseLedgers();
       this.getSupplierLedgers();
-      this.getStockItems('sales');
-      this.getStockItems('purchase');
+      this.getStockItems(this.suggestionname);
+      // this.getStockItems('sales');
+      // this.getStockItems('purchase');
+      // this.getStockItems('inventary');
       this.getWarehouses();
     };
 
@@ -181,14 +199,14 @@ export class OrdersComponent implements OnInit {
       orderid: 0,
       delete: 0,
     ledgeraddressid:null,
-
+    print:false,
       // branch: {
       //   name: '',
       //   id: ''
       // },
       ordertype: {
-        name: '',
-        id: 0
+        name: this.order.ordertype.name,
+        id:this.order.ordertype.id
       },
       ledger: {
         name: '',
@@ -326,7 +344,10 @@ export class OrdersComponent implements OnInit {
       if (this.accountService.selected.financialYear.isfrozen == true) {
         this.common.showError('This financial year is freezed. Please select currect financial year');
         return;
-      } else {
+      }else if (this.order.amountDetails[1].amount == 0) {
+        this.common.showError('Please fill correct amount');
+        return;
+      }else {
         let voucherDate = this.common.dateFormatter(this.common.convertDate(this.order.date), 'y', false);
         if (voucherDate < this.accountService.selected.financialYear.startdate || voucherDate > this.accountService.selected.financialYear.enddate) {
           this.common.showError('Please Select Correct Financial Year');
@@ -347,17 +368,23 @@ export class OrdersComponent implements OnInit {
   }
 
   TaxDetails(i) {
+    if(this.order.amountDetails[i].amount==0){
+      console.log('test hello again',this.order.amountDetails[i].amount,i);
+      this.common.showError('Please fill correct amount');      
+      this.setFoucus('rate'+i);
+      
+      }else{
     this.common.params={
       taxDetail : this.order.amountDetails[i].taxDetails,
      amount : this.order.amountDetails[i].amount
     }
-   
+   console.log('param common',this.common.params);
 
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
-        console.log(data.taxDetails);
+        console.log('????????',data.taxDetails);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
         this.order.amountDetails[i].lineamount = 0;
         this.order.amountDetails[i].lineamount =  this.order.amountDetails[i].amount+data.taxDetails[0].totalamount;
@@ -366,6 +393,7 @@ export class OrdersComponent implements OnInit {
       }
     });
   }
+}
 
   onSelected(selectedData, type, display) {
     this.order[type].name = selectedData[display];
@@ -417,7 +445,8 @@ export class OrdersComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.GetLedger();
-        this.order = this.setInvoice();
+        this.printFunction();
+      // this.order = this.setInvoice();
         this.setFoucus('ordertype');
         this.common.showToast('Invoice Are Saved');
         return;
@@ -591,7 +620,12 @@ export class OrdersComponent implements OnInit {
         }
       } else if (this.activeId.includes('rate')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
+        if(this.order.amountDetails[index].amount==0){
+          console.log('test hello',this.order.amountDetails[index].amount,index);
+          this.common.showError('Please fill correct amount');      
+          this.setFoucus('rate'+index);
+          }
+      else if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
           this.setFoucus('submit');
         }
         else {
@@ -1324,5 +1358,189 @@ export class OrdersComponent implements OnInit {
     });
   }
 
- 
+  printFunction() {
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data'], 'this.order', this.order);
+        // this.Vouchers = res['data'];
+        this.print(this.order, res['data']);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  print(voucherdataprint, companydata) {
+
+    let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
+    let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
+    let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
+
+    let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
+    let rows = [];
+
+    voucherdataprint.amountDetails.map((invoiceDetail, index) => {
+      rows.push([
+        { txt: invoiceDetail.warehouse.name || '' },
+        { txt: invoiceDetail.stockitem.name || '' },
+        { txt: invoiceDetail.stockunit.name || '' },
+        { txt: invoiceDetail.qty || '' },
+        { txt: invoiceDetail.rate || '' },
+        { txt: invoiceDetail.amount || '' },
+        { txt: invoiceDetail.lineamount || '' },
+        { txt: invoiceDetail.remarks || '' }
+      ]);
+      // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
+
+    });
+let invoiceJson={};
+    if(voucherdataprint.ordertype.name.toLowerCase().includes('purchase') || voucherdataprint.ordertype.name.toLowerCase().includes('debit note')){
+     invoiceJson = {
+      headers: [
+        { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+        { txt: companydata[0].addressline },
+        { txt: cityaddress },
+        { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
+      ],
+     
+      details: [
+     
+        { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
+        { name: 'Invoice No', value: voucherdataprint.custcode },
+        { name: 'Invoice Date', value: voucherdataprint.date },
+        { name: 'Purchase Ledger', value: voucherdataprint.purchaseledger.name },
+        { name: 'Supplier Ledger', value: voucherdataprint.ledger.name },
+        { name: 'Supplier Ref. No', value: voucherdataprint.vendorbidref },
+        { name: 'P.O.No.', value: voucherdataprint.qutationrefrence },
+        { name: 'Shipment Location', value: voucherdataprint.shipmentlocation },
+        { name: 'Payment Terms', value: voucherdataprint.paymentterms },
+        { name: 'Bilty Number', value: voucherdataprint.biltynumber },
+        { name: 'Bilty Date', value: voucherdataprint.biltydate },
+        { name: 'Dilivery Terms', value: voucherdataprint.deliveryterms },
+        { name: 'Billing Address', value: voucherdataprint.billingaddress },
+        { name: 'Invoice Remarks', value: voucherdataprint.orderremarks }
+      ],
+      table: {
+        headings: [
+          { txt: 'Ware House' },
+          { txt: 'Stock Item' },
+          { txt: 'Stock Unit' },
+          { txt: 'Quantity' },
+          { txt: 'Rate' },
+          { txt: 'Amount' },
+          { txt: 'Line Amount' },
+          { txt: 'Remarks' }
+        ],
+        rows: rows
+      },
+      signatures: ['Accountant', 'Approved By'],
+      footer: {
+        left: { name: 'Powered By', value: 'Elogist Solutions' },
+        center: { name: 'Printed Date', value: '06-July-2019' },
+        right: { name: 'Page No', value: 1 },
+      }
+
+
+    };
+  }
+  if(voucherdataprint.ordertype.name.toLowerCase().includes('wastage')){
+    invoiceJson = {
+     headers: [
+       { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+       { txt: companydata[0].addressline },
+       { txt: cityaddress },
+       { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
+     ],
+    
+     details: [
+    
+       { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
+       { name: 'Invoice No', value: voucherdataprint.custcode },
+       { name: 'Invoice Date', value: voucherdataprint.date },
+       { name: 'Purchase Ledger', value: voucherdataprint.purchaseledger.name },
+     ],
+     table: {
+       headings: [
+         { txt: 'Ware House' },
+         { txt: 'Stock Item' },
+         { txt: 'Stock Unit' },
+         { txt: 'Quantity' }
+     
+       ],
+       rows: rows
+     },
+     signatures: ['Accountant', 'Approved By'],
+     footer: {
+       left: { name: 'Powered By', value: 'Elogist Solutions' },
+       center: { name: 'Printed Date', value: '06-July-2019' },
+       right: { name: 'Page No', value: 1 },
+     }
+
+
+   };
+ }
+  if(voucherdataprint.ordertype.name.toLowerCase().includes('sales') || voucherdataprint.ordertype.name.toLowerCase().includes('credit note')){
+    invoiceJson = {
+     headers: [
+       { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+       { txt: companydata[0].addressline },
+       { txt: cityaddress },
+       { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
+     ],
+    
+     details: [
+    
+       { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
+       { name: 'Invoice No', value: voucherdataprint.custcode },
+       { name: 'Invoice Date', value: voucherdataprint.date },
+       { name: 'Sales Ledger', value: voucherdataprint.purchaseledger.name },
+       { name: 'Party Name', value: voucherdataprint.ledger.name },
+       { name: 'Order No', value: voucherdataprint.vendorbidref },
+       { name: 'Other Reference', value: voucherdataprint.qutationrefrence },
+       { name: 'Shipment Location', value: voucherdataprint.shipmentlocation },
+       { name: 'Payment Terms', value: voucherdataprint.paymentterms },
+       { name: 'Eway Bill Number', value: voucherdataprint.biltynumber },
+       { name: 'Eway Bill Date', value: voucherdataprint.biltydate },
+       { name: 'Dilivery Terms', value: voucherdataprint.deliveryterms },
+       { name: 'Billing Address', value: voucherdataprint.billingaddress },
+       { name: 'Consignee Address', value: voucherdataprint.grnremarks },
+       { name: 'Invoice Remarks', value: voucherdataprint.orderremarks }
+     ],
+     table: {
+       headings: [
+         { txt: 'Ware House' },
+         { txt: 'Stock Item' },
+         { txt: 'Stock Unit' },
+         { txt: 'Quantity' },
+         { txt: 'Rate' },
+         { txt: 'Amount' },
+         { txt: 'Line Amount' },
+         { txt: 'Remarks' }
+       ],
+       rows: rows
+     },
+     signatures: ['Accountant', 'Approved By'],
+     footer: {
+       left: { name: 'Powered By', value: 'Elogist Solutions' },
+       center: { name: 'Printed Date', value: '06-July-2019' },
+       right: { name: 'Page No', value: 1 },
+     }
+
+
+   };
+ }
+
+    console.log('JSON', invoiceJson);
+
+    localStorage.setItem('InvoiceJSO', JSON.stringify(invoiceJson));
+    this.printService.printInvoice(invoiceJson, 1);
+    this.order = this.setInvoice();
+  }
 }
