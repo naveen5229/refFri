@@ -75,6 +75,15 @@ export class MapService {
     }
   }
 
+  setMultiBounds(bounds,isReset=false){
+    if(isReset)
+      this.resetBounds();
+    for (let index = 0; index < bounds.length; index++) {
+      const thisPoint = bounds[index];
+      this.setBounds(this.createLatLng(thisPoint.lat,thisPoint.lng));
+    }
+  }
+
   createSingleMarker(latLng) {
     var icon = {
       path: google.maps.SymbolPath.CIRCLE,

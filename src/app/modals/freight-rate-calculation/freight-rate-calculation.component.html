@@ -12,7 +12,8 @@
                 <label>Company</label>
             </div>
             <div class="col-9">
-                <auto-suggestion (onSelected)="companyId=($event.id)" id="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:60%;">
+                <auto-suggestion (onSelected)="companyId=($event.id)" id="company" url="Suggestion/GetCompanies"
+                    display="name" placeholder="Enter Company name" style="width:60%;">
                 </auto-suggestion>
             </div>
         </div>
@@ -22,7 +23,8 @@
                 <label>Site</label>
             </div>
             <div class="col-9">
-                <auto-suggestion (onSelected)="siteId=($event.id)" url="Site/getSitesFromRedis" display="name" placeholder="Enter site name" style="width:60%;">
+                <auto-suggestion (onSelected)="siteId=($event.id)" url="Site/getSitesFromRedis" display="name"
+                    placeholder="Enter site name" style="width:60%;">
                 </auto-suggestion>
 
             </div>
@@ -48,7 +50,9 @@
                 <label>Origin</label>
             </div>
             <div class="col-4">
-                <auto-suggestion (onSelected)="selectLocation($event.location, 'endname')" inputId="endname" (noDataFound)="takeAction($event.location)" (onChange)="onChangeAuto($event,'source')" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location"
+                <auto-suggestion (onSelected)="selectLocation($event.location, 'endname')" inputId="endname"
+                    (noDataFound)="takeAction($event.location)" (onChange)="onChangeAuto($event,'source')"
+                    [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location"
                     placeholder="Enter origin name" style="width:60%;">
                 </auto-suggestion>
             </div>
@@ -56,7 +60,9 @@
                 <label>Destination</label>
             </div>
             <div class="col-3">
-                <auto-suggestion (onSelected)="selectDestination($event.location,'destination')" inputId="destination" url="Location/getPlaceFromRedis" (noDataFound)="takeAction1($event.location)" display="location" placeholder="Enter Destination" (onChange)="onChangeAuto($event,'destination')"
+                <auto-suggestion (onSelected)="selectDestination($event.location,'destination')" inputId="destination"
+                    url="Location/getPlaceFromRedis" (noDataFound)="takeAction1($event.location)" display="location"
+                    placeholder="Enter Destination" (onChange)="onChangeAuto($event,'destination')"
                     [isNoDataFoundEmit]="true" style="width:60%;">
                 </auto-suggestion>
             </div>
@@ -79,11 +85,11 @@
         <div class="row mt-2">
             <div class="col-3">
                 <span>
-                    <form >
+                    <form>
                         <input type="radio" name="id" [value]=0 [(ngModel)]="radioValue"> <b>Shortage Value</b>
-                            <input type="radio" name="id"  [value]=1 [(ngModel)]="radioValue" checked> <b>Shortage(%)</b>
-                     </form>
-                 </span>
+                        <input type="radio" name="id" [value]=1 [(ngModel)]="radioValue" checked> <b>Shortage(%)</b>
+                    </form>
+                </span>
             </div>
             <div class="col-4">
                 <input type="text" class="form-control" [(ngModel)]="value">
@@ -96,104 +102,110 @@
             </div>
         </div>
     </div>
-</div>
-<div class="material_details">
-    <h5 class="ml-1">Material Details</h5>
-    <table class="table table-bordered">
-        <tbody *ngFor="let Detail of materialDetails; let i = index;">
-            <tr>
-                <td>
-                    <label> Material </label>
-                </td>
-                <td>
-                    <auto-suggestion (onSelected)="Detail.materialId=($event.id);Detail.material=($event.name)" id="material" url="Suggestion/GetMaterialTypes" display="name" placeholder="Enter value" style="width:60%;">
-                    </auto-suggestion>
+    <div class="material_details">
+        <h5 class="ml-1">Material Details</h5>
+        <table class="table table-bordered">
+            <tbody *ngFor="let Detail of materialDetails; let i = index;">
+                <tr>
+                    <td>
+                        <label> Material </label>
+                    </td>
+                    <td>
+                        <auto-suggestion (onSelected)="Detail.materialId=($event.id);Detail.material=($event.name)"
+                            id="material" url="Suggestion/GetMaterialTypes" display="name" placeholder="Enter value"
+                            style="width:60%;">
+                        </auto-suggestion>
 
-                </td>
-                <td>
-                    <label>Number Of Articles </label>
-                </td>
-                <td>
-                    <input type="text" class="form-control" [(ngModel)]="Detail.articles">
-                </td>
-                <td>
-                    <label>Weight</label>
-                </td>
-                <td>
-                    <div class="col-sm-5" style="padding:0px">
-                        <select class="form-control" [(ngModel)]="Detail.weight_unit">
-                          <option value="kg">Kg</option>
-                          <option value="ton">Ton</option>
-                          <option value="lt">Ltr</option>
-                          <option value="gal">Gallan</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-7" style="padding:0px">
-                        <input type="number" class="form-control" [(ngModel)]="Detail.weight">
-                    </div>
-                </td>
-                <td>
-                    <label>Material Value</label>
-                </td>
-                <td>
-                    <input type="text" class="form-control" [(ngModel)]="Detail.material_value">
-                </td>
-                <td>
-                    <i class="fa fa-trash remove" (click)="materialDetails.splice(i,1)" *ngIf="i !== 0"></i>
-                    <i class="fa fa-plus add" (click)="addMore()" *ngIf="i == materialDetails.length-1"></i>
-                </td>
-            </tr>
-            <tr *ngFor="let customjsonfield of Detail.customjsonfields; let j = index; ">
-                <td>
-                    <select class="form-control" placeholder="select fields" [(ngModel)]="customjsonfield.field1">
-                          <option *ngFor="let field of fofields" [value]="field.name">{{field.name}}
-                          </option>
-                     </select>
-                </td>
-                <td>
-                    <input type="text" class="form-control" [(ngModel)]="customjsonfield.value1">
-                </td>
-                <td>
-                    <select class="form-control" placeholder="select fields" [(ngModel)]="customjsonfield.field2">
-                           <option *ngFor="let field of fofields" [value]="field.name">{{field.name}}
-                            </option>
-                        </select>
-                </td>
-                <td>
-                    <input type="text" class="form-control" [(ngModel)]="customjsonfield.value2">
-                </td>
-
-                <td>
-                    <select class="form-control" placeholder="select fields" [(ngModel)]="customjsonfield.field3">
-                           <option *ngFor="let field of fofields" [value]="field.name">{{field.name}}
-                            </option>
-                        </select>
-                </td>
-                <td>
-                    <input type="text" class="form-control" [(ngModel)]="customjsonfield.value3">
-                </td>
-                <td>
-                    <select class="form-control" placeholder="select fields" [(ngModel)]="customjsonfield.field4">
-                               <option *ngFor="let field of fofields" [value]="field.name">{{field.name}}
-                                </option>
+                    </td>
+                    <td>
+                        <label>Number Of Articles </label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" [(ngModel)]="Detail.articles">
+                    </td>
+                    <td>
+                        <label>Weight</label>
+                    </td>
+                    <td>
+                        <div class="col-sm-5" style="padding:0px">
+                            <select class="form-control" [(ngModel)]="Detail.weight_unit">
+                                <option value="kg">Kg</option>
+                                <option value="ton">Ton</option>
+                                <option value="lt">Ltr</option>
+                                <option value="gal">Gallan</option>
                             </select>
-                </td>
-                <td>
-                    <input type="text" class="form-control" [(ngModel)]="customjsonfield.value4">
-                </td>
-                <td>
-                    <i class="fa fa-plus add" (click)="addField(i)" *ngIf="j == Detail.customjsonfields.length-1"></i>
-                    <i class="fa fa-trash remove" (click)="Detail.customjsonfields.splice(i,1)" *ngIf="j !== 0"></i>
-                </td>
-            </tr>
-        </tbody>
+                        </div>
+                        <div class="col-sm-7" style="padding:0px">
+                            <input type="number" class="form-control" [(ngModel)]="Detail.weight">
+                        </div>
+                    </td>
+                    <td>
+                        <label>Material Value</label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" [(ngModel)]="Detail.material_value">
+                    </td>
+                    <td>
+                        <i class="fa fa-trash remove" (click)="materialDetails.splice(i,1)" *ngIf="i !== 0"></i>
+                        <i class="fa fa-plus add" (click)="addMore()" *ngIf="i == materialDetails.length-1"></i>
+                    </td>
+                </tr>
+                <tr *ngFor="let customjsonfield of Detail.customjsonfields; let j = index; ">
+                    <td>
+                        <select class="form-control" placeholder="select fields" [(ngModel)]="customjsonfield.field1">
+                            <option *ngFor="let field of fofields" [value]="field.name">{{field.name}}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" [(ngModel)]="customjsonfield.value1">
+                    </td>
+                    <td>
+                        <select class="form-control" placeholder="select fields" [(ngModel)]="customjsonfield.field2">
+                            <option *ngFor="let field of fofields" [value]="field.name">{{field.name}}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" [(ngModel)]="customjsonfield.value2">
+                    </td>
 
-    </table>
-    <div class="text-right mr-1">
-        <button type="submit" class="btn btn-primary margin" (click)="getFrieghtRate()">submit</button>
+                    <td>
+                        <select class="form-control" placeholder="select fields" [(ngModel)]="customjsonfield.field3">
+                            <option *ngFor="let field of fofields" [value]="field.name">{{field.name}}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" [(ngModel)]="customjsonfield.value3">
+                    </td>
+                    <td>
+                        <select class="form-control" placeholder="select fields" [(ngModel)]="customjsonfield.field4">
+                            <option *ngFor="let field of fofields" [value]="field.name">{{field.name}}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" [(ngModel)]="customjsonfield.value4">
+                    </td>
+                    <td>
+                        <i class="fa fa-plus add" (click)="addField(i)"
+                            *ngIf="j == Detail.customjsonfields.length-1"></i>
+                        <i class="fa fa-trash remove" (click)="Detail.customjsonfields.splice(i,1)" *ngIf="j !== 0"></i>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        <div class="text-right mr-1">
+            <button type="submit" class="btn btn-primary margin" (click)="getFrieghtRate()">submit</button>
+        </div>
     </div>
 </div>
+
 <div class="modal-footer mt-2">
-    <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="cardMapping">
-    </smart-table>
+    <div class="view-table">
+        <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="cardMapping">
+        </smart-table>
+    </div>
 </div>

@@ -3,6 +3,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { LocationSelectionComponent } from '../location-selection/location-selection.component';
 
 @Component({
   selector: 'via-route-points',
@@ -42,6 +43,8 @@ export class ViaRoutePointsComponent implements OnInit {
   mark = null;
   viaMark = [];
   order = null;
+  searchString = '';
+  keepGoing = true;
   constructor(private activeModal: NgbActiveModal,
     public mapService: MapService,
     public common: CommonService,
@@ -52,14 +55,14 @@ export class ViaRoutePointsComponent implements OnInit {
     this.firstCoordinates = [{
       lat: this.doc._start_lat,
       lng: this.doc._start_long,
-      title:this.doc.start_name,
+      title: this.doc.start_name,
       color: '00FF00',
       subType: 'marker'
     },
     {
       lat: this.doc._end_lat,
       lng: this.doc._end_long,
-      title:this.doc.end_name,
+      title: this.doc.end_name,
       color: 'FF0000',
       subType: 'marker'
     }];
@@ -91,10 +94,7 @@ export class ViaRoutePointsComponent implements OnInit {
     setTimeout(() => {
       this.mapService.createMarkers(this.firstCoordinates);
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
-        if (this.selected == 1) {
-          this.createMarkers(evt.latLng.lat(), evt.latLng.lng(), 'map');
-          this.latilong = evt.latLng.lat().toFixed(5) + ',' + evt.latLng.lng().toFixed(5);
-        }
+
 
       });
     }, 1000);
@@ -115,6 +115,7 @@ export class ViaRoutePointsComponent implements OnInit {
     }
     this.mark = this.mapService.createMarkers(this.latlong, false, false);
   }
+
   setRadio(type) {
     if (type == 1) {
       this.selected = 1;
@@ -126,10 +127,59 @@ export class ViaRoutePointsComponent implements OnInit {
       this.reset();
     }
   }
+
+  selectLocation(place) {
+    console.log("palce", place);
+    this.siteId = place.id;
+    this.routeData.lat = place.lat;
+    this.routeData.long = place.long;
+    this.siteNamee = place.location || place.name;
+    this.createMarkers(this.routeData.lat, this.routeData.long, 'map');
+
+  }
+  onChangeAuto(search) {
+    this.searchString = search;
+    console.log('..........', search);
+  }
+
+  takeAction(res) {
+    setTimeout(() => {
+      console.log("Here", this.keepGoing, this.searchString.length, this.searchString);
+
+      if (this.keepGoing && this.searchString.length) {
+        this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        this.keepGoing = false;
+        activeModal.result.then(res => {
+          if (res != null) {
+            console.log('response----', res, res.location, res.id);
+            this.keepGoing = true;
+            if (res.location.lat) {
+              this.siteNamee = res.location.name;
+
+              (<HTMLInputElement>document.getElementById('mapValue')).value = this.siteNamee;
+              this.lat = res.location.lat;
+              this.long = res.location.lng;
+              this.siteId = res.id;
+              this.keepGoing = true;
+              this.createMarkers(this.lat, this.long, 'map');
+
+            }
+          }
+        })
+
+      }
+    }, 1000);
+
+  }
+
   reset() {
     this.latlong = null;
     this.siteId = null;
     this.siteLoc = null;
+    this.lat = null;
+    this.long = null;
     this.routeData.siteId = null;
     this.routeData.lat = null;
     this.routeData.long = null;
@@ -159,7 +209,7 @@ export class ViaRoutePointsComponent implements OnInit {
           rowCoordinates.push({
             lat: this.tableData[i]._lat,
             lng: this.tableData[i]._long,
-            title:this.tableData[i].name,
+            title: this.tableData[i].name,
           });
         }
         let polypath = [];
@@ -220,14 +270,10 @@ export class ViaRoutePointsComponent implements OnInit {
     this.routeData.long = site.long;
     this.routeData.siteName = site.name;
     this.createMarkers(this.routeData.lat, this.routeData.long, 'site');
+
   }
   sendRoute() {
-    if (this.selected == 1) {
-      this.siteNamee = this.mapName,
-        this.lat = this.latlong && this.latlong[0].lat,
-        this.long = this.latlong && this.latlong[0].long,
-        this.siteId = null
-    }
+
     if (this.selected == 0) {
       this.siteNamee = this.routeData.siteName,
         this.lat = this.routeData.lat,
@@ -244,7 +290,7 @@ export class ViaRoutePointsComponent implements OnInit {
       siteId: this.siteId,
       name: this.siteNamee,
       viaOrder: this.order,
-      rowId : this.rowId
+      rowId: this.rowId
     };
     if (this.siteNamee == null || this.siteNamee.length > 100) {
       this.common.showToast("Please Enter Location");
@@ -252,7 +298,7 @@ export class ViaRoutePointsComponent implements OnInit {
     }
 
     else {
-      console.log("sendroute params-->",params);
+      console.log("sendroute params-->", params);
       this.common.loading++;
       this.api.post('ViaRoutes/insertvia', params)
         .subscribe(res => {
@@ -269,6 +315,8 @@ export class ViaRoutePointsComponent implements OnInit {
           }
           else {
             this.common.showToast("Success");
+            this.reset()
+            this.cancelEdit();
             console.log("SiteLatLong-->", this.routeData.lat, this.routeData.long);
 
           }
@@ -303,14 +351,14 @@ export class ViaRoutePointsComponent implements OnInit {
       })
 
   }
-  editRow(i){
+  editRow(i) {
     this.editId = -1;
-    if(this.tableData[i]._site_id != null){
+    if (this.tableData[i]._site_id > 0) {
       this.locType = "site";
       // this.siteName = this.tableData[i].name;
-      if(this.selected==0)
-        document.getElementsByName("suggestion")[0]['value']='';
-      this.siteLoc = {name : this.tableData[i]._name, sd_loc_name:this.tableData[i]._sd_loc_name };
+      if (this.selected == 0)
+        document.getElementsByName("suggestion")[0]['value'] = '';
+      this.siteLoc = { name: this.tableData[i]._name, sd_loc_name: this.tableData[i]._sd_loc_name };
       this.selected = 0;
       this.kms = this.tableData[i].kms;
       this.order = this.tableData[i].via_order;
@@ -319,50 +367,53 @@ export class ViaRoutePointsComponent implements OnInit {
       this.routeData.lat = this.tableData[i]._lat;
       this.routeData.long = this.tableData[i]._long;
       this.routeData.siteName = this.tableData[i]._name;
-      console.log("route data--->",this.routeData);
-      this.rowId =  this.tableData[i]._id;
-      console.log("SiteName-->",this.siteName);
-      console.log("KMS-->",this.kms);
+      console.log("route data--->", this.routeData);
+      this.rowId = this.tableData[i]._id;
+      console.log("SiteName-->", this.siteName);
+      console.log("KMS-->", this.kms);
     }
-    else{
+    else {
       this.locType = "map";
-      this.selected = 1;  
+      this.selected = 1;
       // this.mapName = this.tableData[i].name;
       this.kms = this.tableData[i].kms;
       this.order = this.tableData[i].via_order;
       this.latilong = this.tableData[i]._lat + ',' + this.tableData[i]._long;
       this.mapName = this.tableData[i]._name;
       // document.getElementById("map")['value'] = this.tableData[i]._name;
-      this.routeData.siteId = this.tableData[i]._site_id;
-      this.routeData.lat = this.tableData[i]._lat;
-      this.routeData.long = this.tableData[i]._long;
-      this.routeData.siteName = this.tableData[i]._name;
-      console.log("route data--->",this.routeData);
-      this.rowId =  this.tableData[i]._id;
-      console.log("MapName-->",this.mapName);
-      console.log("KMS-->",this.kms);
+      this.siteId = this.tableData[i]._site_id;
+      this.lat = this.tableData[i]._lat;
+      this.long = this.tableData[i]._long;
+      this.siteNamee = this.tableData[i]._name;
+      this.rowId = this.tableData[i]._id;
+      console.log("MapName-->", this.mapName);
+      console.log("KMS-->", this.kms);
     }
-    
+
   }
-  editTableRow(){
-    
+  editTableRow() {
+
   }
-  cancelEdit(){   
+  cancelEdit() {
     this.editId = null;
     this.kms = null;
-    this.order=null;
+    this.order = null;
     this.mapName = null;
     this.siteName = null;
     this.rowId = null;
     this.siteLoc = null;
     this.latilong = null;
-    if(this.selected==0)
+    this.lat = null;
+    this.long = null;
+    this.siteId = null;
+    this.siteNamee = null;
+    if (this.selected == 0)
       document.getElementById("site")['value'] = '';
     else
       this.selected = 0;
     this.reset();
     this.locType = "site";
-    
-    
+
+
   }
 }
