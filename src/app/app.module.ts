@@ -214,6 +214,7 @@ import { CompanyContactsComponent } from './modals/company-contacts/company-cont
 import { AddMaterialComponent } from './modals/LRModals/add-material/add-material.component';
 import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
 import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-party-details.component';
+import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
 
 
 
@@ -400,6 +401,7 @@ import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-p
     AddMaterialComponent,
     LRRateCalculatorComponent,
     BasicPartyDetailsComponent,
+    BankAccountsComponent,
 
   ],
   entryComponents: [
@@ -580,7 +582,8 @@ import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-p
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
     AddMaterialComponent,
-    BasicPartyDetailsComponent
+    BasicPartyDetailsComponent,
+    BankAccountsComponent
 
   ],
   imports: [

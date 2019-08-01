@@ -17,6 +17,7 @@ export class ManageFoPartyComponent implements OnInit {
   companyId=null;
   companyName=null;
   assType=null;
+  companyExist=false;
  data=[];
   table = {
     data: {
@@ -48,8 +49,7 @@ export class ManageFoPartyComponent implements OnInit {
   }
 
   getAssociationType() {
-    const params="id="+63;
-    this.api.get('Suggestion/getTypeMasterList?'+params)
+    this.api.get('Suggestion/getAssocTypeWrtFo')
       .subscribe(res => {
         this.associationType=res['data'];
       }, err => {
@@ -61,9 +61,11 @@ export class ManageFoPartyComponent implements OnInit {
       .subscribe(res => {
         
         if(res['data']==null ){
+          this.companyExist=false;
           console.log("ABCD",res['data']);
-          this.common.showToast("please add company");
+          this.common.showError("please add company");
         }else{
+          this.companyExist=true;
           this.companyId = res['data'][0].company_id;
          this.companyName = res['data'][0].Company;
         }
@@ -80,6 +82,23 @@ export class ManageFoPartyComponent implements OnInit {
     this.api.get('ManageParty/getCmpAssocWrtType?' + params)
       .subscribe(res => {
         this.common.loading--;
+        if(res['data']==null){
+          this.data = [];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
+          this.common.showError("Data Not found");
+          return
+
+        }else{
         this.data = [];
         this.table = {
           data: {
@@ -104,6 +123,9 @@ export class ManageFoPartyComponent implements OnInit {
         }
         this.table.data.columns = this.getTableColumns();
         console.log('Api Response:', res);
+
+        }
+        
       },
         err => {
           this.common.loading--;
@@ -147,6 +169,12 @@ export class ManageFoPartyComponent implements OnInit {
       size: "lg",
       container: "nb-layout"
     });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getCmpAssocWrtType();
+      }
+    });
+  
   }
 
 }

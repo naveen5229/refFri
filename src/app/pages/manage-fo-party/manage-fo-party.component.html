@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card *ngIf="companyExist">
     <nb-card-header>
         <h5>Manage Party</h5>
     </nb-card-header>
@@ -10,8 +10,8 @@
                 </div>
                 <div class="col-3">
                     <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="assType">
-                       <option *ngFor="let type of associationType" [value]="type.id">
-                          {{type.description}}
+                       <option *ngFor="let type of associationType" [value]="type.y_id">
+                          {{type.y_groupname}}
                        </option>
                    </select>
                 </div>

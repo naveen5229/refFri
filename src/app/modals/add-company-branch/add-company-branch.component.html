@@ -6,31 +6,9 @@
 </div>
 <div class="modal-body">
     <div class="add-company-branch">
-        <!-- <div class="row">
-            <div class="col-4">
-            </div>
-            <div class="col-2">
-                <input type="radio" name="self" [(ngModel)]="companyStatus" (change)="chooseCompany($event)" value="self" checked>Self
-            </div>
-            <div class="col-2">
-                <input type="radio" name="self" [(ngModel)]="companyStatus" (change)="companyName=null" value="Other">Other
-            </div>
-        </div> -->
-        <!-- <div class="row  mt-2">
-            <div class="col-4">
-                <label>Company:</label>
-            </div>
-            <div class="col-8">
-                <input type="text" class="form-control" [(ngModel)]="companyName" placeholder="Enter Company name" readonly>
-            </div> -->
-        <!-- <div *ngIf= class="col-8">
-                <auto-suggestion (onSelected)="companyId=($event.id)" id="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:60%;" [preSelected]="{name:companyName}">
-                </auto-suggestion>
-            </div> -->
-        <!-- </div> -->
         <div class="row mt-2">
             <div class="col-4">
-                <label>Branch Name:</label>
+                <label>Branch Name:<span class="text-red">*</span></label>
             </div>
             <div class="col-8">
                 <input type="text" class="form-control" placeholder="Enter branch name" [(ngModel)]="branchName">
@@ -56,7 +34,7 @@
         </div>
         <div class="row mt-2">
             <div class="col-4">
-                <label>city</label>
+                <label>city:<span class="text-red">*</span></label>
             </div>
             <div class="col-8">
                 <auto-suggestion (onSelected)="locId=($event.id)" url="Location/getPlaceFromRedis" display="location" placeholder="Enter city name" style="width:60%;" [preSelected]="{location:location}"></auto-suggestion>
@@ -67,12 +45,12 @@
                 <label>Pincode:</label>
             </div>
             <div class="col-8">
-                <input type="text" class="form-control" placeholder="Enter pincode" [(ngModel)]="pinCode">
+                <input type="number" class="form-control" placeholder="Enter pincode" [(ngModel)]="pinCode">
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-4">
-                <label>GST NO:</label>
+                <label>GST NO:<span class="text-red">*</span></label>
             </div>
             <div class="col-8">
                 <input type="text" class="form-control" placeholder="Enter GST No" [(ngModel)]="gstIn">

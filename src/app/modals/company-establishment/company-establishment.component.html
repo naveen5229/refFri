@@ -8,7 +8,7 @@
     <div class="company-establish">
         <div class="row mt-2">
             <div class="col-4">
-                <label>Name:</label>
+                <label>Name:<span class="text-red">*</span></label>
             </div>
             <div class="col-8">
                 <input type="text" class="form-control" placeholder="Enter name" [(ngModel)]="name">
@@ -50,7 +50,7 @@
         </div>
         <div class="row mt-2">
             <div class="col-4">
-                <label>City</label>
+                <label>City<span class="text-red">*</span></label>
             </div>
             <div class="col-8">
                 <auto-suggestion (onSelected)="locId=($event.id)" url="Location/getPlaceFromRedis" display="location" placeholder="Enter city name" style="width:60%;" [preSelected]="{location:location}"></auto-suggestion>
