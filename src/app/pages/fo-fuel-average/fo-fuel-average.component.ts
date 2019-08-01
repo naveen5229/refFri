@@ -56,7 +56,7 @@ export class FoFuelAverageComponent implements OnInit {
   unload:null,
 vehicle:null};
 
-    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, {  container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
         this.getFuelAvg();
       
@@ -132,7 +132,7 @@ vehicle:null};
   updateFuel(row,load,unLoad,vehicle,name,brand) {
     this.common.params={row,load,unLoad,vehicle,name,brand};
     
-    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, {  container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
         this.getFuelAvg();
 

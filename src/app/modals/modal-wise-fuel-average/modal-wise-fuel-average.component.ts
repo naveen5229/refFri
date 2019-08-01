@@ -19,7 +19,10 @@ export class ModalWiseFuelAverageComponent implements OnInit {
   constructor(public common:CommonService,
     public api:ApiService,
     public activeModal:NgbActiveModal) { 
+      this.common.handleModalSize('class', 'modal-lg', '500', 'px', 1);
+
     this.getVehicle();
+
     console.log("this",this.common.params)
     this.rowId = this.common.params.row
     this.load =  this.common.params.load
