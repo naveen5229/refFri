@@ -110,7 +110,7 @@ vehicle:null};
         console.log("doc index value:", fuelAvgDoc[this.headings[i]]);
         if(this.headings[i] == 'Action')
         {
-          this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateFuel.bind(this,fuelAvgDoc._id,fuelAvgDoc.LoadAvg,fuelAvgDoc.UnloadAvg,fuelAvgDoc._vm_id,fuelAvgDoc.VehicleModel) }, {  class: "fas fa-trash-alt", action: this.deleteFuel.bind(this,fuelAvgDoc._id) }] }
+          this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateFuel.bind(this,fuelAvgDoc._id,fuelAvgDoc.LoadAvg,fuelAvgDoc.UnloadAvg,fuelAvgDoc._vm_id,fuelAvgDoc.VehicleModel,fuelAvgDoc.Brand )}, {  class: "fas fa-trash-alt", action: this.deleteFuel.bind(this,fuelAvgDoc._id) }] }
 
         }
         else
@@ -129,8 +129,8 @@ vehicle:null};
   }
 
 
-  updateFuel(row,load,unLoad,vehicle,name) {
-    this.common.params={row,load,unLoad,vehicle,name};
+  updateFuel(row,load,unLoad,vehicle,name,brand) {
+    this.common.params={row,load,unLoad,vehicle,name,brand};
     
     const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
