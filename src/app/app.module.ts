@@ -219,6 +219,7 @@ import { LrInvoiceColumnsComponent } from './pages/lr-invoice-columns/lr-invoice
 import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfesto/generate-lr-mainfesto.component';
 import { FeedbackModalComponent } from './modals/feedback-modal/feedback-modal.component';
 import { GenericInputTypeComponent } from './modals/generic-modals/generic-input-type/generic-input-type.component';
+import { ModalWiseFuelAverageComponent } from './modals/modal-wise-fuel-average/modal-wise-fuel-average.component';
 
 
 
@@ -410,6 +411,7 @@ import { GenericInputTypeComponent } from './modals/generic-modals/generic-input
     GenerateLrMainfestoComponent,
     FeedbackModalComponent,
     GenericInputTypeComponent,
+    ModalWiseFuelAverageComponent,
 
   ],
   entryComponents: [
@@ -596,6 +598,8 @@ import { GenericInputTypeComponent } from './modals/generic-modals/generic-input
     FoUserStateComponent,
     FeedbackModalComponent,
     GenericInputTypeComponent,
+    ModalWiseFuelAverageComponent,
+
 
 
   ],

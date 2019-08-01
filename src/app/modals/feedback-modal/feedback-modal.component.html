@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-    <div class="row mb-3">
+    <div class="row mb-3" *ngIf="showContact">
         <div class="col-3">
             <label>Contact :</label>
         </div>
@@ -32,7 +32,7 @@
     </div> -->
     <div class="row mb-3">
         <div class="col-3">
-            <label>Remainder Time*:</label>
+            <label>Reminder Time*:</label>
         </div>
         <div class="col-9">
             <uj-date-time-picker (onChanged)="Date=$event" [dateTimeValue]="Date">
@@ -42,7 +42,7 @@
     </div>
     <div class="row mb-3">
         <div class="col-3">
-            <label>Company Remark:</label>
+            <label> Feedback Remark:</label>
         </div>
         <div class="col-9">
             <textarea rows="4" cols="55" class="form-control" [(ngModel)]="userRemark"></textarea>

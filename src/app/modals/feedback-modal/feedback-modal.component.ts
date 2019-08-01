@@ -13,6 +13,7 @@ export class FeedbackModalComponent implements OnInit {
   time = {
   targetTime:null
   }
+  showContact=false
   foid=null
   feedback=[];
   request=2;
@@ -24,15 +25,18 @@ export class FeedbackModalComponent implements OnInit {
     public modalService:NgbModal,
     public common:CommonService,
     public api:ApiService) {
-      this.ledgerId= this.common.params.ledgerId;
-      console.log("id",this.ledgerId)
+      this.ledgerId= this.common.params.leadgerId1;
+      console.log("paera", this.common.params.leadgerId1)
+      if(this.common.params.company != false){
+        this.showContact=true
+      }
      }
 
   ngOnInit() {
   }
 
   closeModal(data){
-    this.activeModal.close();
+    this.activeModal.close({id:this.ledgerId});
 
   }
   
@@ -59,13 +63,14 @@ export class FeedbackModalComponent implements OnInit {
  
   getData(){
   let TDate = this.common.dateFormatter(this.Date);
+  console.log("paera1", this.common.params.leadgerId1)
 
-  if(this.foid == null){
-   return this.common.showError("Company Id is Missing")
-}
+//   if(this.foid == null){
+//    return this.common.showError("Company Id is Missing")
+// }
   const params = {
-    ledgerId:this.ledgerId,
-   priority:this.request,
+    ledgerId:this.common.params.leadgerId1,
+   priority:1,
     remTime:TDate,   
     cmpContactId:this.foid,
     remark:this.userRemark
@@ -80,7 +85,7 @@ export class FeedbackModalComponent implements OnInit {
       
       if(res['msg'] == "success"){
         this.common.showToast("Successful Insert");
-           this.activeModal.close({data:true});
+           this.activeModal.close({data:true,id:this.ledgerId});
       }
 
     }, err => {

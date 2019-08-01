@@ -19,112 +19,140 @@ export class FinanceRecoveryComponent implements OnInit {
     },
     settings: {
       hideHeader: true
-
     }
-
   };
- data=[]
-  headings = [];
-  valobj = {};
-  financeData=[];
-  constructor(public api:ApiService,
-    public activeModal:NgbActiveModal,
-    public modalService:NgbModal,
-    public common:CommonService
-    ) {
-this.getFinanceData(); 
-this.common.refresh = this.refresh.bind(this);
-}
+  recoveries = [];
+  constructor(public api: ApiService,
+    public activeModal: NgbActiveModal,
+    public modalService: NgbModal,
+    public common: CommonService) {
+    this.getRecoveries();
+    this.common.refresh = this.refresh.bind(this);
+  }
 
   ngOnInit() {
   }
 
   refresh() {
-    this.getFinanceData(); 
+    this.getRecoveries();
   }
 
-  getTableColumns(){
-    let columns=[];
-    this.financeData.map(financeDocs =>{
-      this.valobj={};
-      for (let i = 0; i < this.headings.length; i++) {
-        if (this.headings[i] == 'Action') {
-          this.valobj['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this,financeDocs._ledid) }
+  getRecoveries() {
+    const params = `branchId=${0}&accGroupId=${0}&ledgerId=${0}`;
+    this.common.loading++;
+    this.api.get("FinanceRecovery/getOutstandingCredit?" + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("Res:", res);
+        this.recoveries = res['data'] || [];
+        this.setTable();
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+        console.log('Error:', err);
+      });
+  }
 
-        } 
-        else  if (this.headings[i] == "View Contacts") {
-          this.valobj[this.headings[i]] = { value: 'show',  class: "blue", action: this.showMobile.bind(this) }
+  setTable() {
+    this.table.data = {
+      headings: this.generateHeadings(),
+      columns: this.genearateColumns()
+    }
+  }
+
+  generateHeadings() {
+    let headings = {};
+    for (let key in this.recoveries[0]) {
+      if (key.charAt(0) != "_") {
+        headings[key] = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+      }
+    }
+    return headings;
+  }
+
+  genearateColumns() {
+    let columns = [];
+    this.recoveries.map(recovery => {
+      let column = {};
+      for (let key in this.generateHeadings()) {
+        if (key == 'Action') {
+          column['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this, recovery._ledid) }
+        } else if (key == "View Contacts") {
+          column[key] = { value: 'show', class: (recovery._cc == "Black") ? "black" : (recovery._cc == "Red" ? "red" : ""), action: this.showMobile.bind(this) }
+        } else if (key == "ledgername") {
+          let icons = [
+            { class: 'fa fa-bell', action: this.showRadio.bind(this) },
+            { txt: recovery[key] ,action: this.showRadio.bind(this)}
+          ];
+          if (recovery._reminderflag != 1) icons.splice(0, 1);
+
+          column[key] = {
+            class: (recovery._cc == "Black") ? "black" : (recovery._cc == "Red" ? "red" : ""),
+            icons
           }
-        
-        else {
-          this.valobj[this.headings[i]] = { value: financeDocs[this.headings[i]], class: 'blue', action: '' };
+        } else {
+          column[key] = { value: recovery[key], class: (recovery._cc == "Black") ? "black" : (recovery._cc == "Red" ? "red" : ""), action: '' };
         }
       }
-
-      columns.push(this.valobj);
+      columns.push(column);
     });
     return columns;
   }
-    
-      
-  showMobile(){
-    // this.common.params = mobileno;
-    // this.common.loading++;
-    // this.api.get('FinanceRecovery/getCompanyContacts')
-    //   .subscribe(res => {
-    //     this.common.loading--;
-    //     this.data=[]
-    //     this.common.params=res['data']
-    //     if (res['msg'] == "Success") {
-    //       this.common.showToast("Successfully Update")
-    //     }
-    //     console.log('Res:', res['data']);
-    //   }, err => {
-    //     this.common.loading--;
-    //     console.log(err);
-    //   });
-  
-    console.log("mobile no", this.common.params);
-  this.modalService.open(GenericInputTypeComponent, { size: "sm", container: "nb-layout"
-    });
-  
-  }
-    
-  getFinanceData(){
-    console.log("ap")
-    const params=`branchId=${0}&accGroupId=${0}&ledgerId=${0}`
-    
-    this.api.get("FinanceRecovery/getOutstandingCredit?"+ params).subscribe(
-      res => {
-        this.financeData = [];
-        this.financeData = res['data'];
-        console.log("result", res);
-        let first_rec = this.financeData[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
-          }
-        }
-        // let action = { title:this.formatTitle('Action'), placeholder:this.formatTitle('Action'),hideHeader:true}
-        // this.table.data.headings['action'] = action;
 
-        this.table.data.columns = this.getTableColumns();
-      }
-    );
+  showRadio() {
+    let data = {
+      title: 'Customer Response',
+      type: 'radio',
+      apiData: null,
+      radio1: 'Not Picking The Phone',
+      radio2: 'Switch Off',
+      radio3: 'Highly Nagative Response',
+      btn1: 'Cancel',
+      btn2: 'Submit'
+    }
+    this.common.params = { data: data };
+    this.modalService.open(GenericInputTypeComponent, { container: "nb-layout", size: 'sm', backdrop: 'static' });
   }
+
+  showMobile() {
+    let data = {
+      title: 'User mobile',
+      type: 'text',
+      apiData: null,
+
+    };
+    this.api.get('FinanceRecovery/getCompanyContacts').subscribe(res => {
+      console.log('res', res['data']);
+      data.apiData = res['data'][0].MobileNo;
+      console.log('data api', data.apiData);
+      this.common.params = { data: data };
+      this.modalService.open(GenericInputTypeComponent, { container: "nb-layout", size: 'sm', backdrop: 'static' });
+
+    }, err => {
+      this.common.loading--;
+      this.common.showError();
+    });
+  }
+
+
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
-  
- showAction(_ledid)
- { this.common.params={
-  ledgerId:_ledid
- }
- console.log("params",this.common.params)
-  this.modalService.open(FoUserStateComponent, {size: "md",container: "nb-layout" }); 
- }
 
+  showAction(_ledid) {
+    this.common.params = {
+      ledgerId: _ledid
+    }
+    console.log("params", this.common.params)
+    const activeModal = this.modalService.open(FoUserStateComponent, { size: "md", container: "nb-layout" });
+    activeModal.result.then(data => {
+      console.log('res', data);
+
+      this.getRecoveries();
+    });
+
+  }
 }
+
+

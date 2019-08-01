@@ -3,7 +3,7 @@
         <h5>Finance Recovery</h5>
     </nb-card-header>
     <nb-card-body>
-        <smart-table *ngIf="financeData && financeData.length" [data]="table.data" [settings]="table.settings" id="financeRecovery">
+        <smart-table *ngIf="recoveries.length" [data]="table.data" [settings]="table.settings" id="financeRecovery">
         </smart-table>
     </nb-card-body>
 </nb-card>

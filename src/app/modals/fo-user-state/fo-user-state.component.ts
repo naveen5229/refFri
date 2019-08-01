@@ -26,10 +26,14 @@ export class FoUserStateComponent implements OnInit {
   headings = [];
   valobj = {};
   foData=[];
+  company=null
+  ledgerId=null
+
   constructor( public activeModal:NgbActiveModal,
     public api:ApiService,
     public common:CommonService,
     public modalService:NgbModal) {
+      this.ledgerId=this.common.params.ledgerId;
       this.getFoData();
      }
 
@@ -51,7 +55,7 @@ export class FoUserStateComponent implements OnInit {
         // }
         // }
       {
-          this.valobj[this.headings[i]] = { value: foDocs[this.headings[i]], class: 'blue', action: '' };
+          this.valobj[this.headings[i]] = { value: foDocs[this.headings[i]], class: 'blue', action:'' };
         }
       }
 
@@ -61,7 +65,12 @@ export class FoUserStateComponent implements OnInit {
   }
     
  getFeedback(){
-  this.common.params.ledgerId;
+  console.log("id1",this.ledgerId)
+  this.common.params={
+    leadgerId1:this.ledgerId,
+    company:this.company
+    
+  }
    const activeModal = this.modalService.open(FeedbackModalComponent, {size: "md",container: "nb-layout" });
     activeModal.result.then(data=> {
       console.log('res', data);
@@ -86,13 +95,14 @@ export class FoUserStateComponent implements OnInit {
     this.headings = [];
     this.valobj = {};
   
-    console.log("ap")
-    const params=`ledgerId=${this.common.params.ledgerId}`
+    const params='ledgerId='+this.ledgerId;
     this.api.get("CommunicationLog/getCommLogs?"+ params).subscribe(
       res => {
         this.foData = [];
         this.foData = res['data'];
         console.log("result", res);
+        this.company=this.foData[0]._is_company
+        console.log("is",this.company)
         let first_rec = this.foData[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
