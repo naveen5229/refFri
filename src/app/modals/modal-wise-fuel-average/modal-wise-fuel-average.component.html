@@ -19,21 +19,22 @@
     <div class=" row mb-3 ">
         <div class="col-3 ">
             <label>Load Mileage</label>
-            <div class="col-9 ">
-                <input type="number " placeholder="Load Average " class="form-control " [(ngModel)]="load">
-            </div>
-
         </div>
-        <div class="row mb-3 ">
-            <div class="col-3 ">
-                <label>UnLoad Mileage:</label>
-            </div>
-            <div class="col-9 ">
-                <input type="number " placeholder="UnLoad Average " class="form-control " [(ngModel)]="unLoad">
-            </div>
-
+        <div class="col-9 ">
+            <input type="number " placeholder="Load Average " class="form-control " [(ngModel)]="load">
         </div>
+
     </div>
-    <div class="modal-footer ">
-        <button class="btn btn-primary text-capitalize " id="button " (click)="addFuelModal() " style="border-radius:2px; padding: 5px 15px; margin-right:5px;font-weight:bold ">Add</button>
+    <div class="row mb-3 ">
+        <div class="col-3 ">
+            <label>UnLoad Mileage:</label>
+        </div>
+        <div class="col-9 ">
+            <input type="number " placeholder="UnLoad Average " class="form-control " [(ngModel)]="unLoad">
+        </div>
+
     </div>
+</div>
+<div class="modal-footer ">
+    <button class="btn btn-primary text-capitalize " id="button " (click)="addFuelModal() " style="border-radius:2px; padding: 5px 15px; margin-right:5px;font-weight:bold ">Add</button>
+</div>
