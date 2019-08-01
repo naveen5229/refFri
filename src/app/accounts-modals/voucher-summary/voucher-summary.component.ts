@@ -123,6 +123,11 @@ export class VoucherSummaryComponent implements OnInit {
           (trip.id == tripedit.id) ? trip.isChecked = true : '';
         })
       });
+
+      this.trips.sort((a) => {
+        if (a.isChecked == true) return -1;
+        else return 1;
+      });
       // this.getFuelFillings(this.tripVoucher.startdate, this.tripVoucher.enddate);
       this.getFuelFillingsEditTime(
         this.tripVoucher.startdate,
@@ -694,11 +699,18 @@ export class VoucherSummaryComponent implements OnInit {
   calculateTripHeadTotal(index) {
     console.log('Index: ', index)
     this.tripHeads[index].total = 0;
+   let flag=0; 
+   let totalflag=0;
     this.tripHeads[index].trips.map(trip => {
       this.tripHeads[index].total += parseFloat(trip.amount);
+      totalflag++;
+      if(trip.amount !=0){
+          flag++;
+      }
     });
+    
     let total = 0;
-    this.tripHeads.map(trip => {
+    this.tripHeads.map(trip => {  
       total += parseFloat(trip.total);
     });
     this.alltotal = total;
