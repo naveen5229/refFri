@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <h5>{{title}}</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modle-main">
+
+</div>
+<div class="moble-no" *ngIf="type=='text'">
+    <div class="modal-body">
+        <div class="Mobile-no">
+            <h5>Mobile No : {{data}}</h5>
+        </div>
+    </div>
+</div>
+<div class="moble-radio" *ngIf="type == 'radio'">
+    <div class="modal-body">
+
+        <div class="radio" [(ngModel)]="priority" id="userResponse" (change)="setValue($event)">
+            <p>
+                <input type="radio" name="radio" value="1"> <span>{{radio1}}</span>
+            </p>
+            <p>
+                <input type="radio" name="radio" value="1"><span>{{radio2}}</span>
+            </p>
+            <p>
+                <input type="radio" name="radio" value="2"> <span>{{radio3}}</span>
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-12 text-right">
+                <button class="btn btn-danger mr-3 pt-2 pb-2 rounded-sm text-capitalize" id="button" (click)="cancelRequest()">{{btn1}}</button>
+                <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" id="button" (click)="getAdvice()">{{btn2}}</button>
+            </div>
+        </div>
+
+    </div>
+</div>
