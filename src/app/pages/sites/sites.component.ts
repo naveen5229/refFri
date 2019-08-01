@@ -67,6 +67,7 @@ export class SitesComponent implements OnInit {
 
   }];
   typeID = null;
+
   constructor(public common: CommonService,
     public api: ApiService,
     public mapService: MapService,
@@ -259,25 +260,39 @@ export class SitesComponent implements OnInit {
 
 
   showdata(datas) {
+    let latitude = [];
+    let longitude = [];
     this.mapService.resetPolygons();
     this.path = datas.latlongs;
 
     console.info("Path:", this.path);
-    let data = datas.latlongs;
-    let lat = data[0].lat;
-    let long = data[0].lng;
-    console.log("test", lat, long);
-    this.mapService.zoomAt({ lat: lat, lng: long }, 12);
-    console.log("Latelong:", data);
-    for (let index = 0; index < data.length; index++) {
-      const thisData = data[index];
-      data[index] = { lat: thisData.lat, lng: thisData.lng };
+    let latlong = datas.latlongs;
+    let lat = latlong[0].lat;
+    let long = latlong[0].lng;
+    for (let i = 0; i < latlong.length; i++) {
+      latitude.push(latlong[i].lat);
+      longitude.push(latlong[i].lng);
+    }
+    let latAverage = this.getAverage(latitude);
+    let longAverage = this.getAverage(longitude);
+    let AerageData = { lat: latAverage, lng: longAverage };
+    this.mapService.zoomAt({ lat: AerageData.lat, lng: AerageData.lng }, 11);
+
+
+
+
+    for (let index = 0; index < latlong.length; index++) {
+      const thisData = latlong[index];
+      latlong[index] = { lat: thisData.lat, lng: thisData.lng };
 
     }
 
+    //
+
+    console.log('latlongs::::', latlong);
     let latLngsMulti = [
       {
-        data: data,
+        data: latlong,
         isMain: true,
         isSec: false,
         show: datas.name
@@ -291,7 +306,17 @@ export class SitesComponent implements OnInit {
     this.mapService.resetPolygons();
     this.mapService.createPolygons(latLngsMulti);
   }
+  getAverage(array) {
+    let sum = 0;
+    let length = array.length;
+    for (let i = 0; i < length; i++) {
 
+      sum = sum + array[i];
+    }
+    let average = sum / length;
+    console.log('getAverage', average);
+    return average;
+  }
   setTable() {
     let headings = {
       name: { title: 'Site Name', placeholder: 'Site Name' },
@@ -317,8 +342,8 @@ export class SitesComponent implements OnInit {
     this.Sites.map(res => {
       let column = {
         name: { value: res.name, action: this.showdata.bind(this, res) },
-        loc_name: { value: res.loc_name },
-        Type: { value: res.Type },
+        loc_name: { value: res.loc_name, action: this.showdata.bind(this, res) },
+        Type: { value: res.Type, action: this.showdata.bind(this, res) },
         Delete: { value: '<i class="fa fa-trash text-danger"></i>', isHTML: true, action: this.deleteRecord.bind(this, res), class: 'icon text-center del' },
         rowActions: {
           click: 'selectRow'

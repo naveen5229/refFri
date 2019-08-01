@@ -1,3 +1,52 @@
-:host ::ng-deep .tableFixHead{
+:host ::ng-deep .tableFixHead {
     height: auto !important
- }
+}
+
+.in-out-radio {
+    .checkpointer {
+        position: relative;
+        padding-left: 32px;
+        i {
+            font-style: normal;
+            margin-top: 3px;
+            display: inline-block;
+            font-size: 16px;
+        }
+        input {
+            position: absolute;
+            left: 0;
+            top: 0px;
+            z-index: 1;
+            width: 24px;
+            margin: 0px;
+            height: 24px !important;
+            opacity: 0;
+        }
+        span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+            border-radius: 50%;
+        }
+        input:checked~span {
+            background-color: #26a69a;
+        }
+        span:after {
+            content: "";
+            position: absolute;
+            display: none;
+            top: 9px;
+            left: 9px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+        input:checked~span:after {
+            display: block;
+        }
+    }
+}

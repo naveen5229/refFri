@@ -12,7 +12,7 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./manage-fo-party.component.scss']
 })
 export class ManageFoPartyComponent implements OnInit {
-
+  assType=null;
   associationType=[];
   companyId=null;
   companyName=null;

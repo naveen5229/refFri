@@ -21,6 +21,7 @@ export class LrRateComponent implements OnInit {
   btnTitle = "Advance Form";
   isAdvanced = false;
   postAllowed = null;
+  id = null;
   general = {
     param: null,
     minRange: null,
@@ -256,6 +257,14 @@ export class LrRateComponent implements OnInit {
     )
     return icons;
   }
+  deleteRate() {
+    let deletableData = {
+      _lrid: this.lrId,
+      _rateid: this.id
+    }
+    this.deleteRow(deletableData);
+  }
+
   deleteRow(row) {
     let params = {
       id: row._rateid,
@@ -331,6 +340,7 @@ export class LrRateComponent implements OnInit {
   setValue(data) {
     console.log("isAdvanced", this.isAdvanced);
     if (!this.isAdvanced) {
+      this.id = data[0]['id'];
       this.general.weight = data[0]['wt_coeff'];
       this.general.fixed = data[0]['fixed_amt'];
       this.general.mgWeight = data[0]['mg_weight'];
@@ -348,6 +358,7 @@ export class LrRateComponent implements OnInit {
 
   resetValue() {
     console.log("reset feunction");
+    this.id = null;
     this.general.weight = null;
     this.general.fixed = null;
     this.general.mgWeight = null;

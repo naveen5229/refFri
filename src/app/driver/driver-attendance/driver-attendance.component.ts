@@ -54,7 +54,7 @@ export class DriverAttendanceComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal,
   ) {
-
+    this.common.refresh = this.refresh.bind(this);
     // let today;
     // today = new Date();
     // this.dates.end = (this.common.dateFormatter(today)).split(' ')[0];
@@ -64,7 +64,9 @@ export class DriverAttendanceComponent implements OnInit {
   ngOnInit() {
   }
 
-
+  refresh() {
+    this.getAttendace();
+  }
   // getDate(flag) {
 
   //   this.common.params = { ref_page: 'lrDetails' };
