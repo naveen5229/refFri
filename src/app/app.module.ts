@@ -413,6 +413,7 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
     FreightInvoiceRateComponent,
     BasicPartyDetailsComponent,
     BankAccountsComponent,
+    LrInvoiceColumnsComponent
 
   ],
   entryComponents:[
