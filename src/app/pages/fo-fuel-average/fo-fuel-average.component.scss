@@ -34,13 +34,13 @@ nb-card-header {
     background-color: white !important;
 }
 
-:host ::ng-deep .edit-btn {
+:host ::ng-deep .fa-edit {
     font-size: 12px;
     margin-right: 10px;
     background-color: #3c6ac7;
     color: #fff;
     border-color: #73a1ff;
-    padding: 8px 10px;
+    padding: 8px;
     border-radius: 3px;
 }
 
@@ -48,13 +48,13 @@ nb-card-header {
     background-color: #0054ff;
 }
 
-:host ::ng-deep .remove {
+:host ::ng-deep .fa-trash-alt {
     font-size: 12px;
     margin-right: 10px;
     background-color: #fd397a;
     color: #fff;
     border-color: #fd397a;
-    padding: 8px 10px;
+    padding: 8px;
     border-radius: 3px;
 }
 

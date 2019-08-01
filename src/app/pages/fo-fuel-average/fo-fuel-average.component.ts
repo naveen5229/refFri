@@ -15,6 +15,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 export class FoFuelAverageComponent implements OnInit {
   fuelData= []
   fuelAvg = [];
+  vehicleId =null
   table = {
     data: {
       headings: {},
@@ -44,11 +45,17 @@ export class FoFuelAverageComponent implements OnInit {
 
   ngOnInit() {
   }
+
   refresh() {
     this.getFuelAvg();
   }
 
-  addFuelAvg() {
+  addFuelAvg(row,load,unLoad,vehicle) {
+    this.common.params={row:null,
+    load:null,
+  unload:null,
+vehicle:null};
+
     const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
         this.getFuelAvg();
@@ -79,6 +86,8 @@ export class FoFuelAverageComponent implements OnInit {
           this.fuelAvg = [];
           this.fuelAvg = res['data'];
           console.log("result", res);
+          console.log("idd",this.fuelAvg[0]._id);
+          
           let first_rec = this.fuelAvg[0];
           for (var key in first_rec) {
             if (key.charAt(0) != "_") {
@@ -101,7 +110,7 @@ export class FoFuelAverageComponent implements OnInit {
         console.log("doc index value:", fuelAvgDoc[this.headings[i]]);
         if(this.headings[i] == 'Action')
         {
-          this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateFuel.bind(this,fuelAvgDoc._id) }, {  class: "fas fa-trash-alt", action: this.deleteFuel.bind(this,fuelAvgDoc._id) }] }
+          this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateFuel.bind(this,fuelAvgDoc._id,fuelAvgDoc.LoadAvg,fuelAvgDoc.UnloadAvg,fuelAvgDoc._vm_id,fuelAvgDoc.VehicleModel) }, {  class: "fas fa-trash-alt", action: this.deleteFuel.bind(this,fuelAvgDoc._id) }] }
 
         }
         else
@@ -120,9 +129,10 @@ export class FoFuelAverageComponent implements OnInit {
   }
 
 
-  updateFuel(financ) {
+  updateFuel(row,load,unLoad,vehicle,name) {
+    this.common.params={row,load,unLoad,vehicle,name};
     
-    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
         this.getFuelAvg();
 
@@ -143,7 +153,7 @@ export class FoFuelAverageComponent implements OnInit {
     if (row) {
       this.common.params = {
         title: 'Delete  ',
-        description: `<b>&nbsp;` + 'Are you Sure You Want  To Delete This Record' + `<b>`,
+        description: `<b>&nbsp;` + 'Are you Sure You Want  To Delete This Record?' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {

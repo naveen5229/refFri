@@ -11,10 +11,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class GenericInputTypeComponent implements OnInit {
   priority=1
   title = '';
-  type: 'txt' | 'radio';
+  type: 'text' | 'radio';
   data = null;
   radio1='';
-  radio2=''
+  radio2='' 
   radio3=''
   btn1=''
   btn2=''

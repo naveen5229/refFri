@@ -78,7 +78,7 @@ export class FinanceRecoveryComponent implements OnInit {
         if (key == 'Action') {
           column['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this, recovery._ledid) }
         } else if (key == "View Contacts") {
-          column[key] = { value: 'show', class: (recovery._cc == "Black") ? "black" : (recovery._cc == "Red" ? "red" : ""), action: this.showMobile.bind(this) }
+          column[key] = { value: 'show', class: (recovery._cc == "Black") ? "black" : (recovery._cc == "Red" )? "red" :( recovery._cc == "Blue") ? "blue" : (recovery._cc == "Green" ) ? "green" :(recovery._cc == "Light Green") ? "lightGreen" : (recovery._cc == "Purple") ? "purple" :(recovery._cc == "Yellow" ? "yellow" :""), action: this.showMobile.bind(this) }
         } else if (key == "ledgername") {
           let icons = [
             { class: 'fa fa-bell', action: this.showRadio.bind(this) },
@@ -87,11 +87,11 @@ export class FinanceRecoveryComponent implements OnInit {
           if (recovery._reminderflag != 1) icons.splice(0, 1);
 
           column[key] = {
-            class: (recovery._cc == "Black") ? "black" : (recovery._cc == "Red" ? "red" : ""),
+            class: (recovery._cc == "Black") ? "black" : (recovery._cc == "Red" )? "red" :( recovery._cc == "Blue") ? "blue" : (recovery._cc == "Green" ) ? "green" :(recovery._cc == "Light Green") ? "lightGreen" : (recovery._cc == "Purple") ? "purple" :(recovery._cc == "Yellow" ? "yellow" :""),
             icons
           }
         } else {
-          column[key] = { value: recovery[key], class: (recovery._cc == "Black") ? "black" : (recovery._cc == "Red" ? "red" : ""), action: '' };
+          column[key] = { value: recovery[key], class: (recovery._cc == "Black") ? "black" : (recovery._cc == "Red" )? "red" :( recovery._cc == "Blue") ? "blue" : (recovery._cc == "Green" ) ? "green" :(recovery._cc == "Light Green") ? "lightGreen" : (recovery._cc == "Purple") ? "purple" :(recovery._cc == "Yellow" ? "yellow" :""), action: '' };
         }
       }
       columns.push(column);

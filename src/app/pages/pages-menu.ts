@@ -294,7 +294,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'Fuel Average',
+        title: ' Model Fuel Average',
         icon: 'fas fa-history',
         link: '/pages/fo-fuel-average',
         home: true,
@@ -405,6 +405,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ]
   },
   {
+    title: 'Finance',
+    icon: 'fas fa-money-bill-alt',
+    children: [{
+      title: 'Finance Recovery ',
+      icon: 'fas fa-star',
+      link: '/pages/finance-recovery',
+      home: true,
+    },]
+  },
+  {
     title: 'Tyre',
     icon: 'fa fa-cog',
     link: '/tyres/inventory'
@@ -429,6 +439,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-warehouse',
     link: '/ware-house/ware-house-receipts'
   },
+
 
 
 ];

@@ -13,16 +13,26 @@ export class ModalWiseFuelAverageComponent implements OnInit {
   itemId=null;
   load=null;
   unLoad=null;
+  rowId=null;
+  vehicleName=null
   constructor(public common:CommonService,
     public api:ApiService,
     public activeModal:NgbActiveModal) { 
     this.getVehicle();
+    console.log("this",this.common.params)
+    this.rowId = this.common.params.row
+    this.load =  this.common.params.load
+    this.unLoad =  this.common.params.unLoad
+    this.vehicleName = this.common.params.name
+    this.itemId = this.common.params.vehicle
+
+
   }
 
   ngOnInit() {
   }
   
-closeModal(){
+closeModal(data){
   this.activeModal.close();
 }
   
@@ -34,6 +44,7 @@ closeModal(){
         this.common.loading--;
         console.log("items",res);
         this.vehicleList = res['data'];
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -56,6 +67,7 @@ const params = {
   vehModel: this.itemId,
   loadAvg: this.load,
   unloadAvg: this.unLoad,
+  rowId:this.rowId
 
 }
 this.common.loading++;
