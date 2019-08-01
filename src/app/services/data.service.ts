@@ -280,6 +280,12 @@ export class DataService {
             link: '/admin/company-details',
             home: true,
           },
+          {
+            title: 'web activity summary',
+            icon: 'far fa-list-all',
+            link: '/admin/web-activity-summary',
+            home: true,
+          },
           // {
           //   title: 'Vehicles',
           //   icon: 'fas fa-info-circle',

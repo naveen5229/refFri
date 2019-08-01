@@ -1,0 +1,30 @@
+<nb-card>
+  <nb-card-header>
+    <h2>Web Activity Summary</h2>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-3">
+        <label>Start Date</label>
+      </div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate" [isTime]=false>
+        </uj-date-time-picker>
+      </div>
+
+      <div class="col-3">
+        <label>End Date</label>
+      </div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="endDate=$event" class="" [dateTimeValue]="endDate" [isStart]=false
+          [isTime]=false>
+        </uj-date-time-picker>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <button class="btn btn-primary" (click)="getFoWebView()">GET VIEW</button>
+      </div>
+    </div>
+
+  </nb-card-body>
