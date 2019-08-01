@@ -110,7 +110,7 @@ vehicle:null};
         console.log("doc index value:", fuelAvgDoc[this.headings[i]]);
         if(this.headings[i] == 'Action')
         {
-          this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateFuel.bind(this,fuelAvgDoc._id,fuelAvgDoc.LoadAvg,fuelAvgDoc.UnloadAvg,fuelAvgDoc._vm_id,fuelAvgDoc.VehicleModel,fuelAvgDoc.Brand )}, {  class: "fas fa-trash-alt", action: this.deleteFuel.bind(this,fuelAvgDoc._id) }] }
+          this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateFuel.bind(this,fuelAvgDoc._id,fuelAvgDoc.LoadMileage,fuelAvgDoc.UnloadMileage,fuelAvgDoc._vm_id,fuelAvgDoc.VehicleModel,fuelAvgDoc.Brand )}, {  class: "fas fa-trash-alt", action: this.deleteFuel.bind(this,fuelAvgDoc._id) }] }
 
         }
         else

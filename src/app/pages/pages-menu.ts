@@ -294,7 +294,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: ' Model Fuel Average',
+        title: ' Model Fuel Mileage',
         icon: 'fas fa-history',
         link: '/pages/fo-fuel-average',
         home: true,
