@@ -136,7 +136,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Manage Party',
         icon: 'nb-notifications',
         link: '/pages/manage-fo-party',
-        home:true,
+        home: true,
       },
       {
         title: 'Site',
@@ -304,6 +304,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/fuel-indent',
         home: true,
       },
+
     ]
   },
   {
@@ -368,20 +369,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       link: '/pages/driver-document',
       home: true,
     },
-    {
 
-      title: 'Licence Upload',
-      icon: 'fas fa-address-card',
-      link: '/pages/licence-upload',
-      home: true,
-    },
-    {
-
-      title: 'Pending Licence',
-      icon: 'fas fa-align-justify',
-      link: '/pages/pending-licence',
-      home: true,
-    },
     {
       title: 'Advices',
       icon: 'fas fa-question',

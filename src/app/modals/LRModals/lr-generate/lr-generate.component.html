@@ -140,11 +140,13 @@
               <td>
                 <span>
                   <auto-suggestion (onChange)="onChangeAuto($event,'end')" (onSelected)="selectLocation($event,'end')"
-                    (noDataFound)="takeActionDestination($event)" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
-                    display="location" inputId="endname" class="col-md-9 auto-suggest" placeholder="Source Location"
-                    [value]="lr.destinationCity" [preSelected]='{location:lr.destinationCity}'>
+                    (noDataFound)="takeActionDestination($event)" [isNoDataFoundEmit]="true"
+                    url="Location/getPlaceFromRedis" display="location" inputId="endname" class="col-md-9 auto-suggest"
+                    placeholder="Source Location" [value]="lr.destinationCity"
+                    [preSelected]='{location:lr.destinationCity}'>
                   </auto-suggestion>
-                  <i class="fa fa-plus add col-md-3" (click)="destinationString='----'; takeActionDestination(null);"></i>
+                  <i class="fa fa-plus add col-md-3"
+                    (click)="destinationString='----'; takeActionDestination(null);"></i>
                 </span>
                 <!-- <input placeholder="Search Destination City" id="destinationCity" [(ngModel)]="lr.destinationCity"
                   class="form-control"> -->
@@ -418,7 +420,8 @@
 
                 <td>
 
-                  <i class="fa fa-plus " (click)="addField(i)" *ngIf="j == particular.customjsonfields.length-1"></i>
+                  <i class="fa fa-plus " (click)="addField(i)"
+                    *ngIf="j == particular.customjsonfields.length-1"></i>&nbsp; &nbsp;
                   <i class="fa fa-trash " (click)="particular.customjsonfields.splice(i,1)" *ngIf="j !== 0"></i>
 
                 </td>

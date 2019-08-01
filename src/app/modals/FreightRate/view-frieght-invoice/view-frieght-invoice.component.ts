@@ -1,12 +1,13 @@
 import { Component, OnInit, Renderer } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FreightInvoiceRateComponent } from '../freight-invoice-rate/freight-invoice-rate.component';
 
 @Component({
   selector: 'view-frieght-invoice',
   templateUrl: './view-frieght-invoice.component.html',
-  styleUrls: ['./view-frieght-invoice.component.scss']
+  styleUrls: ['./view-frieght-invoice.component.scss', '../../../pages/pages.component.css']
 })
 export class ViewFrieghtInvoiceComponent implements OnInit {
   invoiceId = null;
@@ -18,11 +19,14 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
   headings = [];
   valobj = {};
   columnsValue = [];
+  amountData = null;
+  amountDataKeys = [];
   constructor(
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
-    public renderer: Renderer
+    public renderer: Renderer,
+    public modalService: NgbModal
   ) {
 
     this.invoiceId = this.common.params.invoiceId;
@@ -50,6 +54,11 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
         --this.common.loading;
         this.data = [];
         this.invoiceDetails = res['data'].invoicedetails[0];
+        this.amountData = res['data'].taxdetails[0];
+        // { "cgst": 60, "sgst": 60, "total": 120, "igst": 12, "amount_words": "one thousand two hundred" };
+        // this.amountData.map(ad => {
+        //   this.amountDataKeys.push(Object.keys(ad));
+        // })
         console.log("this.invoiceDetails", this.invoiceDetails);
         this.data = res['data'].result;
         if (this.data) {
@@ -63,7 +72,6 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
   }
 
   getTableColumnName() {
-
     this.headings = [];
     this.valobj = {};
     let first_rec = this.data[0];
@@ -97,20 +105,16 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     this.renderer.setElementClass(document.body, 'test', false);
   }
 
-  findCustomFields(customFields) {
-    console.log("customFields", customFields)
-    if (!customFields) return [];
-    //customFields = JSON.parse(customFields);
-    let formattedFields = [];
-    let keys = Object.keys(customFields);
-    keys.map(key => {
-      formattedFields.push({ name: key, value: customFields[key] });
+  openFreightRateModal() {
+    let invoice = {
+      id: this.invoiceId,
+      type: 1
+    }
+    this.common.params = { invoice: invoice }
+    const activeModal = this.modalService.open(FreightInvoiceRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
     });
-
-    console.log('Formatted :', formattedFields);
-    return formattedFields;
   }
-
-
-
 }

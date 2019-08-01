@@ -3,6 +3,8 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { UserService } from '../../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
+
 
 @Component({
   selector: 'add-transport-agent',
@@ -16,8 +18,13 @@ export class AddTransportAgentComponent implements OnInit {
     panNumber:null,
     gstNumber:null,
     city:null,
-    address:null
+    address:null,
+    sourceLat:null,
+    sourceLng:null,
+    sourceId:null
   }
+  keepGoing = true;
+  CityString = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -55,7 +62,7 @@ export class AddTransportAgentComponent implements OnInit {
       name: this.Transport.name,
       gstin:this.Transport.gstNumber,
       pan:this.Transport.panNumber,
-      location:this.Transport.city,
+      location:this.Transport.sourceId,
       address:this.Transport.address
     };
     console.log("Name:",this.Transport.name);
@@ -77,6 +84,49 @@ export class AddTransportAgentComponent implements OnInit {
         console.log(err);
       });
   }
+
+
+  selectLocation(place1) {
+ 
+      this.Transport.sourceLat = place1.lat;
+      this.Transport.sourceLng = place1.long;
+      this.Transport.sourceId = place1.id;
+      this.Transport.city = place1.location || place1.name;
+      this.Transport.city = this.Transport.city.split(",")[0];
+      (<HTMLInputElement>document.getElementById('startname1')).value = this.Transport.city;
+    
+  }
+
+  takeActionSource(res) {
+    setTimeout(() => {
+      console.log("Here", this.keepGoing, this.CityString.length, this.CityString);
+
+      if (this.keepGoing && this.CityString.length) {
+        this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        this.keepGoing = false;
+        activeModal.result.then(res => {
+          console.log('response----', res.location);
+          this.keepGoing = true;
+          if (res.location.lat) {
+            this.Transport.city = res.location.name;
+
+            (<HTMLInputElement>document.getElementById('startname1')).value = this.Transport.city;
+            this.Transport.sourceLat = res.location.lat;
+            this.Transport.sourceLng = res.location.lng;
+            this.Transport.sourceId = res.id;
+            this.keepGoing = true;
+          }
+        })
+      }
+    }, 1000);
+
+  }
+
+  onChangeAuto1(search) {
+      this.CityString = search;
+      }
 
   closeModal()
   {

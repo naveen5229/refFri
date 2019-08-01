@@ -38,7 +38,7 @@ export class LRRateCalculatorComponent implements OnInit {
       this.expenseType = this.common.params.refData.isExpense;
       this.getLrRate();
     }
-    this.common.handleModalSize('class', 'modal-lg', '1500', 'px', 1);
+    this.common.handleModalSize('class', 'modal-lg', '1300', 'px', 1);
   }
 
 
@@ -85,7 +85,9 @@ export class LRRateCalculatorComponent implements OnInit {
   }
 
   formatTitle(title) {
-    return title.charAt(0).toUpperCase() + title.slice(1)
+    let tempTitle = title.split('y_')[1];
+    console.log("temp title:", tempTitle);
+    return tempTitle.charAt(0).toUpperCase() + tempTitle.slice(1)
   }
 
   getTableColumns() {
