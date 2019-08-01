@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManagePartyComponent } from './manage-party.component';
+import { BasicPartyDetailsComponent } from './basic-party-details.component';
 
-describe('ManagePartyComponent', () => {
-  let component: ManagePartyComponent;
-  let fixture: ComponentFixture<ManagePartyComponent>;
+describe('BasicPartyDetailsComponent', () => {
+  let component: BasicPartyDetailsComponent;
+  let fixture: ComponentFixture<BasicPartyDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ManagePartyComponent ]
+      declarations: [ BasicPartyDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ManagePartyComponent);
+    fixture = TestBed.createComponent(BasicPartyDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -219,6 +219,8 @@ import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfe
 import { TripdetailComponent } from './acounts-modals/tripdetail/tripdetail.component';
 import { SupportingDocComponent } from './modals/LRModals/supporting-doc/supporting-doc.component';
 import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
+import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-party-details.component';
+import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
 
 
 
@@ -405,14 +407,16 @@ import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoic
     CompanyContactsComponent,
     AddMaterialComponent,
     LRRateCalculatorComponent,
-    LrInvoiceColumnsComponent,
     GenerateLrMainfestoComponent,
     TripdetailComponent,
     SupportingDocComponent,
     FreightInvoiceRateComponent,
+    BasicPartyDetailsComponent,
+    BankAccountsComponent,
+    LrInvoiceColumnsComponent
 
   ],
-  entryComponents: [
+  entryComponents:[
     FreightInvoiceRateComponent,
     LRRateCalculatorComponent,
     LrRateComponent,
@@ -463,9 +467,7 @@ import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoic
     ErrorReportComponent,
     ReportIssueComponent,
     DocumentReportComponent,
-    ErrorReportComponent,
     AddEscalationIssueComponent,
-    DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
     DocumentIssuesComponent,
@@ -483,11 +485,7 @@ import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoic
     AddFuelFillingComponent,
     AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
-    AddConsigneeComponent,
-    AddTripComponent,
-    AddFuelFillingComponent,
     VechileTrailsComponent,
-    AddTripComponent,
     EditDriverComponent,
     VoucherdetailComponent,
     VehiclesOnMapComponent,
@@ -537,7 +535,6 @@ import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoic
     VouchercostcenterComponent,
     AddFuelFullRuleComponent,
     ErrorCoomonVehiclesComponent,
-    VouchercostcenterComponent,
     CostCenterViewComponent,
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
@@ -580,7 +577,6 @@ import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoic
     TypeMasterComponent,
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
-    TripSettlementComponent,
     LedgeraddressComponent,
     AddReceiptsComponent,
     GetUserBankInfoComponent,
@@ -592,10 +588,14 @@ import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoic
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
     AddMaterialComponent,
+    BasicPartyDetailsComponent,
+    BankAccountsComponent,
     LrInvoiceColumnsComponent,
     GenerateLrMainfestoComponent,
     TripdetailComponent,
     SupportingDocComponent,
+    
+
   ],
   imports: [
     BrowserModule,

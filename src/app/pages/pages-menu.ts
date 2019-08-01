@@ -126,12 +126,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-distance-with-odometer',
         home: true,
       },
-      {
-        title: 'Manage Party',
-        icon: 'nb-notifications',
-        link: '/pages/manage-party',
-        home: true,
-      },
+    
       {
         title: 'Manage Party',
         icon: 'nb-notifications',
