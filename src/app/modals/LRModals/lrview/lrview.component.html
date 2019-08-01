@@ -69,6 +69,10 @@
                 {{lrDetails.consignee}}
                 <address>{{lrDetails.consignee_address}}</address>
               </td>
+              <td *ngIf="lrDetails.travelagent">
+                <b>Transport Agent : </b><br>
+                {{lrDetails.travelagent}}
+              </td>
             </tr>
             <tr *ngIf="lrDetails.invoiceto_name">
               <td colspan="3">
