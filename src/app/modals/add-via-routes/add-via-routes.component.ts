@@ -91,52 +91,12 @@ export class AddViaRoutesComponent implements OnInit {
         this.mapService.clearAll();
         this.mapService.zoomAt({ lat: lat, lng: lng }, 12);
       });
-      this.mapService.addListerner(this.mapService.map, 'click', evt => {
-        // if (this.ismap && this.isstart) {
-        //   this.createnewMarker(evt.latLng.lat(), evt.latLng.lng(), 0);
-        // }
 
-        // if (this.ismap2 && !this.isstart) {
-        //   this.createnewMarker(evt.latLng.lat(), evt.latLng.lng(), 1);
-        // }
-      });
 
     }, 1000);
   }
 
-  // createnewMarker(lat, long, index) {
-  //   let latlong;
-  //   let color = "FF0000";
-  //   if (index == 0) {
-  //     color = "00FF00";
-  //     this.routeData.startlat = lat;
-  //     this.routeData.startlong = long;
-  //     lat = (Math.round((lat) * 100) / 100).toFixed(4);
-  //     long = (Math.round((long) * 100) / 100).toFixed(4);
-  //     this.routeData.latlong = lat + "," + long;
 
-  //   } else {
-  //     this.routeData.endlat1 = lat;
-  //     this.routeData.endlong2 = long;
-  //     lat = (Math.round((lat) * 100) / 100).toFixed(4);
-  //     long = (Math.round((long) * 100) / 100).toFixed(4);
-  //     this.routeData.latlong2 = lat + "," + long;
-
-  //   }
-
-  //   latlong = [{
-  //     lat: lat,
-  //     long: long,
-  //     color: color,
-  //     subType: 'marker'
-  //   }];
-  //   if (this.mark[index]) {
-  //     this.mark[index].setMap(null);
-  //   }
-  //   this.mark[index] = this.mapService.createMarkers(latlong, false, false)[0];
-  //   if (this.mark[0] && this.mark[1])
-  //     this.mapService.resetBounds();
-  // }
 
   add() {
     const params = {
@@ -311,29 +271,5 @@ export class AddViaRoutesComponent implements OnInit {
     }, 1000);
 
   }
-  // takeActionOnEnd(res) {
-  //   if (this.keepGoingForEnd && this.endSearch.length) {
-  //     this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-  //     const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  //     this.keepGoingForEnd = false;
-  //     activeModal.result.then(res => {
-  //       if (res != null) {
-  //         this.keepGoingForEnd = true;
-  //         if (res.location.lat) {
-  //           this.routeData.placeName2 = res.location.name;
-
-  //           (<HTMLInputElement>document.getElementById('endName')).value = this.routeData.placeName2;
-  //           this.routeData.endlat1 = res.location.lat;
-  //           this.routeData.endlong2 = res.location.lng;
-  //           this.routeData.endSiteId = res.id;
-  //           this.keepGoingForEnd = true;
-  //         }
-  //       }
-  //       this.keepGoingForEnd = true;
-
-  //     });
-
-  //   }
-  // }
 }
