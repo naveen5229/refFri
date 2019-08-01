@@ -52,6 +52,14 @@
               <input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="order" min="1"
                 max="900" />
             </td>
+            <td>
+              <label>Type</label>
+              <select [(ngModel)]="type" class="form-control" name="type">
+                <option value="0">Regular</option>
+                <option value="1">Loading/Unloading</option>
+
+              </select>
+            </td>
           </tr>
 
 
@@ -79,6 +87,7 @@
             <th>Name</th>
             <th>Order</th>
             <th>Kms</th>
+            <th>Type</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -88,6 +97,7 @@
             <td style="width:40px;">{{data.name}}</td>
             <td><input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="data.via_order">
             <td>{{data.kms}}</td>
+            <td>{{data.Type}}</td>
             <td><i class="fas fa-times text-red" (click)="clickDelete(data.name , i)"></i>
               <i class="fas fa-edit edit" (click)="editRow(i)"></i></td>
           </tr>
