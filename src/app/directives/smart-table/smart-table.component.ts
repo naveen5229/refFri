@@ -195,6 +195,7 @@ export class SmartTableComponent implements OnInit {
    * @param rowIndex Clicked row index
    */
   handleColumnClick(column: any, heading: string, rowIndex: number) {
+    if (column[heading].isCheckbox) return;
     if (column[heading].action) column[heading].action();
     else if (this.settings.editable) {
       this.edit.row = rowIndex;
@@ -219,6 +220,16 @@ export class SmartTableComponent implements OnInit {
   saveEdit(editedColumn: any) {
     this.settings.editableAction({ current: editedColumn, old: this.edit.column });
     this.resetColumn(editedColumn);
+  }
+
+  /**
+   * Hanle row selection
+   * @param event - Checkbox change event
+   * @param action - Action to perform on checkbox click
+   */
+  handleCheckboxChange(event, action) {
+    action(event.target.checked);
+    event.stopPropagation();
   }
 
 }

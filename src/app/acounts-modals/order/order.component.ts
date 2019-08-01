@@ -452,10 +452,11 @@ export class OrderComponent implements OnInit {
       this.setFoucus('rate'+i);
       
       }else{
-    this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 1);
+   // this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 1);
     this.common.params = {
       taxDetail: JSON.parse(JSON.stringify(this.order.amountDetails[i].taxDetails)),
-      amount: this.order.amountDetails[i].amount
+      amount: this.order.amountDetails[i].amount,
+      sizelandex:1
     };
     console.log('????????',this.common.params);
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
@@ -1181,7 +1182,7 @@ export class OrderComponent implements OnInit {
     this.api.post('Voucher/GetCompanyHeadingData', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res11:', res['data'], 'this.order', this.order);
+        console.log('Res11:', this.order);
         // this.Vouchers = res['data'];
         this.print(this.order, res['data']);
 
@@ -1207,14 +1208,23 @@ let invoiceJson={};
         rows.push([
           { txt: index+1 },
           { txt: invoiceDetail.warehouse.name || '' },
-          { txt: invoiceDetail.stockitem.name || '' },
-          { txt: invoiceDetail.stockunit.name || '' },
+          { txt: invoiceDetail.stockitem.name +'('+invoiceDetail.stockunit.name+')' || '' },
           { txt: invoiceDetail.qty || '' },
           { txt: invoiceDetail.rate || '' },
           { txt: invoiceDetail.amount || '' },
           { txt: invoiceDetail.lineamount || '' },
           { txt: invoiceDetail.remarks || '' }
         ]);
+        console.log('invoiceDetail.taxDetails',invoiceDetail.taxDetails);
+        invoiceDetail.taxDetails.map((taxDetail, index) => {
+          rows.push([
+            { txt: taxDetail.taxledger.name  || '' ,'colspan':2,align:'right'},
+            { txt: taxDetail.taxamount || '','colspan':3 ,align:'right'},
+            { txt:  '' },
+            { txt:  '' }
+          ]);
+      });
+      //  if(invoiceDetail.y_dtl_id)
         // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
   
       });
@@ -1246,8 +1256,7 @@ let invoiceJson={};
         headings: [
           { txt: 'S.No' },
           { txt: 'Ware House' },
-          { txt: 'Stock Item' },
-          { txt: 'Stock Unit' },
+          { txt: 'Item' },
           { txt: 'Quantity' },
           { txt: 'Rate' },
           { txt: 'Amount' },
@@ -1273,8 +1282,7 @@ let invoiceJson={};
       rows.push([
         { txt: index+1 },
         { txt: invoiceDetail.warehouse.name || '' },
-        { txt: invoiceDetail.stockitem.name || '' },
-        { txt: invoiceDetail.stockunit.name || '' },
+        { txt: invoiceDetail.stockitem.name +'('+ invoiceDetail.stockunit.name + ')' || '' },
         { txt: invoiceDetail.qty || '' },
        
       ]);
@@ -1299,9 +1307,8 @@ let invoiceJson={};
        headings: [
         { txt: 'S.No' },
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
-         { txt: 'Quantity' }
+         { txt: 'Item' },
+         { txt: 'Qty' }
      
        ],
        rows: rows
@@ -1323,8 +1330,7 @@ let invoiceJson={};
       rows.push([
         { txt: index+1 },
         { txt: invoiceDetail.warehouse.name || '' },
-        { txt: invoiceDetail.stockitem.name || '' },
-        { txt: invoiceDetail.stockunit.name || '' },
+        { txt: invoiceDetail.stockitem.name+'('+invoiceDetail.stockunit.name +')' || '' },
         { txt: invoiceDetail.qty || '' },
         { txt: invoiceDetail.rate || '' },
         { txt: invoiceDetail.amount || '' },
@@ -1363,9 +1369,8 @@ let invoiceJson={};
        headings: [
         { txt: 'S.No' },
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
-         { txt: 'Quantity' },
+         { txt: 'Item' },
+         { txt: 'Qty' },
          { txt: 'Rate' },
          { txt: 'Amount' },
          { txt: 'Line Amount' },

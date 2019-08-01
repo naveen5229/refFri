@@ -73,9 +73,9 @@ import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { SitesComponent } from './sites/sites.component';
 import { FinanceRecoveryComponent } from './finance-recovery/finance-recovery.component';
-import { ManagePartyComponent } from './manage-party/manage-party.component';
 import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.component';
 import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.component';
+
 
 
 const PAGES_COMPONENTS = [
@@ -150,9 +150,10 @@ const PAGES_COMPONENTS = [
     TransfersComponent,
     SitesComponent,
     FinanceRecoveryComponent,
-    ManagePartyComponent,
+    ManageFoPartyComponent,
     ManageFoPartyComponent,
     FoFuelAverageComponent,
+
     // CustomDatePipe
   ],
   exports: [

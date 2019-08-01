@@ -220,6 +220,11 @@ import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfe
 import { FeedbackModalComponent } from './modals/feedback-modal/feedback-modal.component';
 import { GenericInputTypeComponent } from './modals/generic-modals/generic-input-type/generic-input-type.component';
 import { ModalWiseFuelAverageComponent } from './modals/modal-wise-fuel-average/modal-wise-fuel-average.component';
+import { TripdetailComponent } from './acounts-modals/tripdetail/tripdetail.component';
+import { SupportingDocComponent } from './modals/LRModals/supporting-doc/supporting-doc.component';
+import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
+import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-party-details.component';
+import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
 
 
 
@@ -412,9 +417,17 @@ import { ModalWiseFuelAverageComponent } from './modals/modal-wise-fuel-average/
     FeedbackModalComponent,
     GenericInputTypeComponent,
     ModalWiseFuelAverageComponent,
+    GenerateLrMainfestoComponent,
+    TripdetailComponent,
+    SupportingDocComponent,
+    FreightInvoiceRateComponent,
+    BasicPartyDetailsComponent,
+    BankAccountsComponent,
+    LrInvoiceColumnsComponent
 
   ],
-  entryComponents: [
+  entryComponents:[
+    FreightInvoiceRateComponent,
     LRRateCalculatorComponent,
     LrRateComponent,
     ViewFrieghtInvoiceComponent,
@@ -464,9 +477,7 @@ import { ModalWiseFuelAverageComponent } from './modals/modal-wise-fuel-average/
     ErrorReportComponent,
     ReportIssueComponent,
     DocumentReportComponent,
-    ErrorReportComponent,
     AddEscalationIssueComponent,
-    DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
     DocumentIssuesComponent,
@@ -484,11 +495,7 @@ import { ModalWiseFuelAverageComponent } from './modals/modal-wise-fuel-average/
     AddFuelFillingComponent,
     AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
-    AddConsigneeComponent,
-    AddTripComponent,
-    AddFuelFillingComponent,
     VechileTrailsComponent,
-    AddTripComponent,
     EditDriverComponent,
     VoucherdetailComponent,
     VehiclesOnMapComponent,
@@ -538,7 +545,6 @@ import { ModalWiseFuelAverageComponent } from './modals/modal-wise-fuel-average/
     VouchercostcenterComponent,
     AddFuelFullRuleComponent,
     ErrorCoomonVehiclesComponent,
-    VouchercostcenterComponent,
     CostCenterViewComponent,
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
@@ -581,7 +587,6 @@ import { ModalWiseFuelAverageComponent } from './modals/modal-wise-fuel-average/
     TypeMasterComponent,
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
-    TripSettlementComponent,
     LedgeraddressComponent,
     AddReceiptsComponent,
     GetUserBankInfoComponent,
@@ -593,14 +598,17 @@ import { ModalWiseFuelAverageComponent } from './modals/modal-wise-fuel-average/
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
     AddMaterialComponent,
+    BasicPartyDetailsComponent,
+    BankAccountsComponent,
     LrInvoiceColumnsComponent,
     GenerateLrMainfestoComponent,
     FoUserStateComponent,
     FeedbackModalComponent,
     GenericInputTypeComponent,
     ModalWiseFuelAverageComponent,
-
-
+    TripdetailComponent,
+    SupportingDocComponent,
+    
 
   ],
   imports: [

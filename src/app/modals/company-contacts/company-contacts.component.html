@@ -5,53 +5,23 @@
   </button>
 </div>
 <div class="modal-body">
-    <div class="company-establish">
+    <div class="company-contacts">
         <div class="row mt-2">
             <div class="col-4">
-                <label>Name:</label>
+                <label>Name:<span class="text-red">*</span></label>
             </div>
             <div class="col-8">
                 <input type="text" class="form-control" placeholder="Enter name" [(ngModel)]="name">
             </div>
         </div>
-
-        <div class="row  mt-2">
-            <div class="col-4">
-                <label>Company:</label>
-            </div>
-            <div class="col-8">
-                <auto-suggestion (onSelected)="assCmpnyId=($event.id)" id="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:60%;" [preSelected]="{name:companyName}">
-                </auto-suggestion>
-            </div>
-        </div>
-
         <div class="row mt-2">
             <div class="col-4">
-                <label>Branch Name:</label>
+                <label>Mobile No:<span class="text-red">*</span></label>
             </div>
             <div class="col-8">
-                <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="branchId">
-                      <option *ngFor="let branch of branchs" [value]="branch.id">
-                        {{branch.name}}
-                     </option>
-                  </select>
+                <input type="number" class="form-control" placeholder="Enter Mobile NO" [(ngModel)]="MobileNo">
             </div>
         </div>
-
-        <div class="row mt-2">
-            <div class="col-4">
-                <label>Establishment Type:</label>
-            </div>
-            <div class="col-8">
-                <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="establishmentType">
-                          <option *ngFor="let type of companyEstablishmentType" [value]="type.id">
-                            {{type.description}}
-                         </option>
-                      </select>
-            </div>
-        </div>
-
-
         <div class="row mt-2">
             <div class="col-4">
                 <label>Department Name:</label>
@@ -70,19 +40,34 @@
         </div>
         <div class="row mt-2">
             <div class="col-4">
+                <label>Branch Name:</label>
+            </div>
+            <div class="col-8">
+                <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="branchId">
+                      <option *ngFor="let branch of branchs" [value]="branch.id">
+                        {{branch.name}}
+                     </option>
+                  </select>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Establishment Type:</label>
+            </div>
+            <div class="col-8">
+                <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="establishmentType">
+                          <option *ngFor="let type of companyEstablishmentType" [value]="type.id">
+                            {{type.description}}
+                         </option>
+                      </select>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
                 <label>Phone No:</label>
             </div>
             <div class="col-8">
                 <input type="number" class="form-control" placeholder="Enter phone No" [(ngModel)]="phoneNo">
-            </div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-4">
-                <label>Mobile No:</label>
-            </div>
-            <div class="col-8">
-                <input type="number" class="form-control" placeholder="Enter Mobile NO" [(ngModel)]="MobileNo">
             </div>
         </div>
         <div class="row mt-2">

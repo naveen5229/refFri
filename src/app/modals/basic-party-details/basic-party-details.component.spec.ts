@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PendingLicenceComponent } from './pending-licence.component';
+import { BasicPartyDetailsComponent } from './basic-party-details.component';
 
-describe('PendingLicenceComponent', () => {
-  let component: PendingLicenceComponent;
-  let fixture: ComponentFixture<PendingLicenceComponent>;
+describe('BasicPartyDetailsComponent', () => {
+  let component: BasicPartyDetailsComponent;
+  let fixture: ComponentFixture<BasicPartyDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PendingLicenceComponent ]
+      declarations: [ BasicPartyDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PendingLicenceComponent);
+    fixture = TestBed.createComponent(BasicPartyDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

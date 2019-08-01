@@ -335,6 +335,13 @@ export class DaybooksComponent implements OnInit {
       this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
       return;
     }
+    if ((event.ctrlKey && key === 'd') && (!this.activeId && this.DayData.length && this.selectedRow != -1)) {
+       console.log('ctrl + d pressed');
+      //this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid,1);   
+      ((this.DayData[this.selectedRow].y_type.toLowerCase().includes('voucher'))  ? (this.DayData[this.selectedRow].y_type.toLowerCase().includes('consignment')) ? '' : this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid,1) : '')
+      event.preventDefault();  
+      return;
+    }
     if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
@@ -394,12 +401,13 @@ export class DaybooksComponent implements OnInit {
   }
 
 
-  openVoucherEdit(voucherId) {
-    console.log('ledger123', voucherId);
+  openVoucherEdit(voucherId,voucheradd) {
+    console.log('ledger123', voucheradd);
     if (voucherId) {
       this.common.params = {
         voucherId: voucherId,
-        delete: this.deletedId
+        delete: this.deletedId,
+        addvoucherid:voucheradd
       };
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {

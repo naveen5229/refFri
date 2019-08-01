@@ -31,34 +31,22 @@
       <div class="row mt-1">
         <!-- <smart-table *ngIf="data1 && data1.length" [data]="table1.data1" [settings]="table1.settings1" id="unmappedlr">
         </smart-table> -->
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover" style="width: 100%"
+          *ngIf="columnsValue && columnsValue.length>=0">
           <thead class="thead">
-            <th>#</th>
-            <th>Action</th>
-            <th>LR No.</th>
-            <th>Origin</th>
-            <th>Destination</th>
-            <th>LR Date</th>
-            <th>Consigner</th>
-            <th>Consignee</th>
-            <th>Freight</th>
+            <th *ngFor="let heading of headings1">{{heading}}</th>
           </thead>
           <tbody>
-            <tr *ngFor="let data of data1;let i=index">
-              <td>{{i}}</td>
-              <td> <input class="form-check-input" (change)="onChange(data._lrid, $event.target.checked)"
-                  name="{{ data.Name }}" type="checkbox" id="{{data.Name}}" *ngIf="data._lrid>0"></td>
-              <td>{{data['LR Num']}}</td>
-              <td>{{data['Origin']}}</td>
-              <td>{{data['Destination']}}</td>
-              <td>{{data['LR Date']}}</td>
-              <td>{{data['Consignor']}}</td>
-              <td>{{data['Consignee']}}</td>
-              <td>{{data['Freight']}}</td>
+            <tr *ngFor="let value of columnsValue;let i= index">
+              <td *ngFor="let heading of headings1">
+                <label *ngIf="heading != 'Action'">{{value[heading]}}</label>
+                <input class="form-check-input" (change)="onChange(data1[i]['_lrid'], $event.target.checked)"
+                  type="checkbox" *ngIf="data1[i]['_lrid']>0 && heading == 'Action'">
+              </td>
             </tr>
           </tbody>
         </table>
-        <div class="no-data alert alert-danger" role="alert" *ngIf="data1.length==0">
+        <div class="no-data alert alert-danger" role="alert" *ngIf="columnsValue && columnsValue.length==0">
           No Data available !
         </div>
       </div>
