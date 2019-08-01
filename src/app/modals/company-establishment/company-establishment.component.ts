@@ -90,6 +90,8 @@ export class CompanyEstablishmentComponent implements OnInit {
     }
     else if (this.locId == null) {
       this.common.showError("please add city")
+    }else if(this.branchId==null){
+      this.common.showError("please add Branch");
     }
     else {
       const params = {
