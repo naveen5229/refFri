@@ -128,7 +128,6 @@ this.api.post('Fuel/addModelWiseFuelAvgWrtFo ',params)
     if (res['msg'] == 'Success') {
 
       this.common.showToast("Sucessfully insert");
-
       this.activeModal.close({ data: true });
     }
     else {
