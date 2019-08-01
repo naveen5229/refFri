@@ -163,6 +163,8 @@ export class ViaRoutePointsComponent implements OnInit {
               this.long = res.location.lng;
               this.siteId = res.id;
               this.keepGoing = true;
+              this.createMarkers(this.lat, this.long, 'map');
+
             }
           }
         })
