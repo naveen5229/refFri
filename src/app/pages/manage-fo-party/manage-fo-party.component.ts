@@ -16,7 +16,6 @@ export class ManageFoPartyComponent implements OnInit {
   associationType=[];
   companyId=null;
   companyName=null;
-  assType=null;
   companyExist=false;
  data=[];
   table = {

@@ -412,12 +412,10 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
     SupportingDocComponent,
     FreightInvoiceRateComponent,
     BasicPartyDetailsComponent,
-<<<<<<< HEAD
     BankAccountsComponent,
 
-=======
->>>>>>> 3a9529a8bbca696144cee2a1f7e01772e6cc86bc
   ],
+  entryComponents:[
     FreightInvoiceRateComponent,
     LRRateCalculatorComponent,
     LrRateComponent,
@@ -468,9 +466,7 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
     ErrorReportComponent,
     ReportIssueComponent,
     DocumentReportComponent,
-    ErrorReportComponent,
     AddEscalationIssueComponent,
-    DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
     DocumentIssuesComponent,
@@ -488,11 +484,7 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
     AddFuelFillingComponent,
     AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
-    AddConsigneeComponent,
-    AddTripComponent,
-    AddFuelFillingComponent,
     VechileTrailsComponent,
-    AddTripComponent,
     EditDriverComponent,
     VoucherdetailComponent,
     VehiclesOnMapComponent,
@@ -542,7 +534,6 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
     VouchercostcenterComponent,
     AddFuelFullRuleComponent,
     ErrorCoomonVehiclesComponent,
-    VouchercostcenterComponent,
     CostCenterViewComponent,
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
@@ -585,7 +576,6 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
     TypeMasterComponent,
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
-    TripSettlementComponent,
     LedgeraddressComponent,
     AddReceiptsComponent,
     GetUserBankInfoComponent,
@@ -597,16 +587,13 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
     AddMaterialComponent,
-<<<<<<< HEAD
     BasicPartyDetailsComponent,
-    BankAccountsComponent
-=======
+    BankAccountsComponent,
     LrInvoiceColumnsComponent,
     GenerateLrMainfestoComponent,
     TripdetailComponent,
     SupportingDocComponent,
-    BasicPartyDetailsComponent
->>>>>>> 3a9529a8bbca696144cee2a1f7e01772e6cc86bc
+    
 
   ],
   imports: [

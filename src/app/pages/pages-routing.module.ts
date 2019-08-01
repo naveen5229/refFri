@@ -443,14 +443,6 @@ const routes: Routes = [{
     path: 'sites',
     component: SitesComponent,
     canActivate: [AuthGuard]
-<<<<<<< HEAD
-=======
-  },
-  {
-    path: 'manage-party',
-    component: ManagePartyComponent,
-    canActivate: [AuthGuard]
->>>>>>> 3a9529a8bbca696144cee2a1f7e01772e6cc86bc
   },
   {
     path: 'manage-fo-party',
