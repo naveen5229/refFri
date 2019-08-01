@@ -3,7 +3,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { MapService } from '../../services/map.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../services/account.service';
 
 @Component({
@@ -86,7 +86,10 @@ export class GenerateLrMainfestoComponent implements OnInit {
     public api: ApiService,
     public mapService: MapService,
     public accountService: AccountService,
+    public activeModal: NgbActiveModal
   ) {
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+
     let date = new Date();
     date.setDate(date.getDate());
     this.mainfesto.date = date;
@@ -95,11 +98,14 @@ export class GenerateLrMainfestoComponent implements OnInit {
     // this.mainfesto.date = this.common.dateFormatter1(new Date(this.mainfesto.date));
     // this.mainfesto.ewayExpDate = this.common.dateFormatter1(new Date(this.mainfesto.ewayExpDate));
     this.getPendingLtlLr();
-    // this.api.getBranches();
 
   }
 
   ngOnInit() {
+  }
+
+  closeModal() {
+    this.activeModal.close();
   }
 
   ngAfterViewInit(): void {
@@ -114,6 +120,7 @@ export class GenerateLrMainfestoComponent implements OnInit {
       this.mainfesto.destinationLng = long;
     });
   }
+
   getDate(type) {
     this.common.params = { ref_page: 'generate-lr-mainfesto' };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -125,8 +132,8 @@ export class GenerateLrMainfestoComponent implements OnInit {
       }
     });
   }
+
   getvehicleData(vehicle) {
-    console.log('Vehicle Data: ', vehicle);
     this.mainfesto.vehicleId = vehicle.id;
     this.mainfesto.vehicleRegNo = vehicle.regno;
     this.getOwnersInfo();
@@ -189,6 +196,7 @@ export class GenerateLrMainfestoComponent implements OnInit {
         this.mainfesto.date = year + '-' + month + '-' + date;
     }
   }
+
   resetData(event) {
     console.log(event);
     this.mainfesto.vehicleId = null;

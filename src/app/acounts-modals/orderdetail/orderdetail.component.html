@@ -11,7 +11,7 @@
       </div>
       <div class="modal-body row m-0 p-0 mb-4">
         <div class="col-12">
-          <div class="row">
+          <!-- <div class="row">
   
             <div class="col-4">
               <div class="form-group">
@@ -21,7 +21,7 @@
   
               </div>
             </div>
-          </div>
+          </div> -->
   
           <!-- Purchase Start -->
           <div
@@ -341,9 +341,9 @@
               <input type="text" [id]="'stockitem-' + i" autocomplete="off" class="form-control ref-input"
                 name="'stockitem-' + i" [(ngModel)]="amountDetail.stockitem.name" placeholder="Please Select Stock Item"
                 readonly required>
-              <span
+              <!-- <span
                 *ngIf="((order.ordertype.name.toLowerCase().includes('sales')) && (order.amountDetails[i].warehouse.id)) ">(<i>Available
-                  Stock Qty is </i>{{ this.totalitem }})</span>
+                  Stock Qty is </i>{{ this.totalitem }})</span> -->
               <!-- <auto-suggestion
                     (onSelected)="amountDetail.stockitem = $event.id;amountDetail.stockunit.id = $event.stockunit_id; amountDetail.stockunit.name = $event.stockname"
                     url="Suggestion/GetStockItem" display="name" [inputId]="'stockitem-' + i" placeholder="Enter Stock Item"
@@ -418,11 +418,11 @@
   
       <div class="modal-footer">
         <div class="row">
-          <!-- <div class="col">
+          <div class="col">
               <button class="btn btn-primary ml-2" type="button" (click)="printFunction()" id="printfunction"
               style="cursor: pointer;">Print</button>
           </div>
-          <div class="col" *ngIf="(this.common.params && (this.deletedId == 0))">
+          <!-- <div class="col" *ngIf="(this.common.params && (this.deletedId == 0))">
             <button class="btn btn-danger" type="button" outline (click)="delete(order.orderid)" id="delete"
               style="cursor: pointer;">Delete</button>
           </div>

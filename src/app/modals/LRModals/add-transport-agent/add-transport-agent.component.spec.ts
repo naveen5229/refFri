@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LicenceUploadComponent } from './licence-upload.component';
+import { AddTransportAgentComponent } from './add-transport-agent.component';
 
-describe('LicenceUploadComponent', () => {
-  let component: LicenceUploadComponent;
-  let fixture: ComponentFixture<LicenceUploadComponent>;
+describe('AddTransportAgentComponent', () => {
+  let component: AddTransportAgentComponent;
+  let fixture: ComponentFixture<AddTransportAgentComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LicenceUploadComponent ]
+      declarations: [ AddTransportAgentComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LicenceUploadComponent);
+    fixture = TestBed.createComponent(AddTransportAgentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

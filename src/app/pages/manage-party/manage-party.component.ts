@@ -181,7 +181,7 @@ export class ManagePartyComponent implements OnInit {
     }
     console.log("id", this.common.params);
     const activeModal = this.modalService.open(AddCompanyBranchComponent, {
-      size: "md",
+      size: "lg",
       container: "nb-layout"
     });
     activeModal.result.then(data => {
@@ -201,7 +201,7 @@ export class ManagePartyComponent implements OnInit {
     };
 
     const activeModal = this.modalService.open(AddCompanyBranchComponent, {
-      size: "md",
+      size: "lg",
       container: "nb-layout"
     });
     activeModal.result.then(data => {
@@ -275,7 +275,7 @@ export class ManagePartyComponent implements OnInit {
       cmpName: this.companyName,
     };
     const activeModal = this.modalService.open(CompanyAssociationComponent, {
-      size: "md",
+      size: "lg",
       container: "nb-layout"
     });
     activeModal.result.then(data => {
@@ -347,7 +347,7 @@ export class ManagePartyComponent implements OnInit {
 
     this.common.params = cmpEstablish ? { cmpEstablish } :'';
     const activeModal = this.modalService.open(CompanyEstablishmentComponent, {
-      size: "md",
+      size: "lg",
       container: "nb-layout"
     });
     activeModal.result.then(data => {
@@ -420,7 +420,7 @@ export class ManagePartyComponent implements OnInit {
       cmpName: this.companyName,
     };
     const activeModal = this.modalService.open(CompanyContactsComponent, {
-      size: "md",
+      size: "lg",
       container: "nb-layout"
     });
     activeModal.result.then(data => {

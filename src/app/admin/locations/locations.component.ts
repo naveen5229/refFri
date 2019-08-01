@@ -28,6 +28,8 @@ export class LocationsComponent implements OnInit {
   }
   saveLocation() {
     this.data = [];
+    this.table = null;
+
     let params = "search=" + this.location;
     this.common.loading++;
     this.api.get('Suggestion/getLocations?' + params)
@@ -98,11 +100,12 @@ export class LocationsComponent implements OnInit {
     this.common.params = { title: 'Location Selection' };
     const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      if (data.response) {
-        this.saveLocation();
-      }
+      // if (data.response) {
+      this.saveLocation();
+      // }
     })
   }
+
   Maplocation(latlng) {
     let location = {
       lng: latlng.longitude,
@@ -113,41 +116,92 @@ export class LocationsComponent implements OnInit {
     this.common.params = { location, title };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
   }
+
   deleteLocation(LocDetails) {
-
-
     let params = {
       locationId: LocDetails._id
     }
-    this.common.loading++;
-    this.api.post('sitesOperation/deleteLocationDetails', params)
-      .subscribe(res => {
-        this.common.loading--;
-
-        if (res['code'] == 1) {
-          this.openConrirmationAlert(res);
-          // this.saveLocation();
-        }
-
-      }, err => {
-        this.common.loading--;
-        this.common.showError();
-      });
-  }
-  openConrirmationAlert(data) {
-
-    if (data.code == 1) {
-      //console.log('code', data.code);
+    if (LocDetails._id) {
       this.common.params = {
-        title: data.msg,
-        description: " Do you want to continue ?"
+        title: 'Delete Location ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
       }
-      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          this.saveLocation();
+          this.common.loading++;
+          this.api.post('sitesOperation/deleteLocationDetails', params)
+            .subscribe(res => {
+              console.log("data", res);
+              this.common.loading--;
+              if (res['data'][0].r_id > 0) {
+                this.common.showToast('Success');
+                this.saveLocation();
+              }
+              else {
+                this.common.showToast(res['data'].r_msg);
+              }
+
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
         }
       });
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //   let params = {
+  //     locationId: LocDetails._id
+  //   }
+  //   this.common.loading++;
+  //   this.api.post('sitesOperation/deleteLocationDetails', params)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+
+  //       if (res['code'] == 1) {
+  //         this.openConrirmationAlert(res);
+  //       }
+
+  //     }, err => {
+  //       this.common.loading--;
+  //       this.common.showError();
+  //     });
+  // }
+  // openConrirmationAlert(data) {
+
+  //   if (data.code == 1) {
+  //     this.common.params = {
+  //       title: data.msg,
+  //       description: " Do you want to continue ?"
+  //     }
+  //     const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //     activeModal.result.then(data => {
+  //       if (data.response) {
+  //         this.saveLocation();
+  //       }
+  //     });
+  //   }
+  // }
 }

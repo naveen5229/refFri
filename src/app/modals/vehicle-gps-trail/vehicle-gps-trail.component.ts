@@ -7,7 +7,7 @@ import { DatePickerComponent } from '../date-picker/date-picker.component';
 @Component({
   selector: 'vehicle-gps-trail',
   templateUrl: './vehicle-gps-trail.component.html',
-  styleUrls: ['./vehicle-gps-trail.component.scss','../../pages/pages.component.css']
+  styleUrls: ['./vehicle-gps-trail.component.scss', '../../pages/pages.component.css']
 })
 export class VehicleGpsTrailComponent implements OnInit {
   startDate = null;
@@ -32,13 +32,13 @@ export class VehicleGpsTrailComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-      console.log("common params", this.common.params);
+    console.log("common params", this.common.params);
     this.startDate = this.common.params.vehicleData.startDate;
     this.endDate = this.common.params.vehicleData.endDate;
     this.vId = this.common.params.vehicleData.vehicleId;
     this.vehicleNo = this.common.params.vehicleData.vehicleRegNo;
     this.result(1);
-     }
+  }
 
   ngOnInit() {
   }
@@ -72,8 +72,14 @@ export class VehicleGpsTrailComponent implements OnInit {
 
 
   result(button) {
+
     this.startDate = this.common.dateFormatter(this.startDate);
     this.endDate = this.common.dateFormatter(this.endDate);
+    if (this.startDate > this.endDate) {
+      this.common.showError("Entered Valid  Date");
+      return;
+    }
+
     let selectapi = '';
     let params = {
       vehicleId: this.vId,
