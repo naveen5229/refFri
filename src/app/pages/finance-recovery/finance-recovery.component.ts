@@ -145,7 +145,7 @@ export class FinanceRecoveryComponent implements OnInit {
       ledgerId: _ledid
     }
     console.log("params", this.common.params)
-    const activeModal = this.modalService.open(FoUserStateComponent, { size: "md", container: "nb-layout" });
+    const activeModal = this.modalService.open(FoUserStateComponent, { size: "lg", container: "nb-layout" });
     activeModal.result.then(data => {
       console.log('res', data);
 

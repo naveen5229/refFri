@@ -71,7 +71,7 @@ export class FoUserStateComponent implements OnInit {
     company:this.company
     
   }
-   const activeModal = this.modalService.open(FeedbackModalComponent, {size: "md",container: "nb-layout" });
+   const activeModal = this.modalService.open(FeedbackModalComponent, {size: "lg",container: "nb-layout" });
     activeModal.result.then(data=> {
       console.log('res', data);
      
