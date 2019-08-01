@@ -80,7 +80,7 @@ addFuelModal() {
   {
     return this.common.showError("Load  should not be negative")
   }
-  else if(this.load >= 20)
+  else if(this.load >= 21)
   {
     return this.common.showError("Load  should  be less than  equal to 20")
   }
@@ -88,7 +88,7 @@ addFuelModal() {
   {
     return this.common.showError("UnLoad  should not be negative")
   }
- else  if(this.unLoad >= 20)
+ else  if(this.unLoad >= 21)
   {
     return this.common.showError("UnLoad  should  be less than  equal to 20")
   }
@@ -101,6 +101,15 @@ const params = {
   rowId:this.rowId
 
 }
+if(params.loadAvg == "")
+{
+  return this.common.showError("Load is missing")
+}
+else if(params.unloadAvg == "")
+{
+  return this.common.showError("UnLoad is missing")
+}
+
 this.common.loading++;
 this.api.post('Fuel/addModelWiseFuelAvgWrtFo ',params)
   .subscribe(res => {
