@@ -7,12 +7,12 @@
               <h5 class="modal-title" id="modal-basic-title">Supporting Document</h5>
             </div>
   
-            <!-- <div class="col-sm-6 text-right">
+            <div class="col-sm-6 text-right">
               <span (click)="onPrint()" class="doNotPrint print-icon"><i class="fa fa-print"></i></span>
               <span (click)="common.downloadPdf('print-section')" class="pdf-icon" style="margin-left:20px"><i
                   class="fa fa-file-pdf"></i></span>
   
-            </div> -->
+            </div>
           </div>
           <button type="button" class="close" aria-label="Close" (click)="closeModal()">
             <span aria-hidden="true">&times;</span>
@@ -42,15 +42,18 @@
               </td>
             </tr>
           </table>
-          <table class="table table-bordered table-hover" style="width: 100%">
-            <thead class="thead">
-              <th *ngFor="let heading of headings">{{heading}}</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let value of columnsValue">
-                <td *ngFor="let heading of headings">{{value[heading]}}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="veiw-table">
+            <table class="table table-bordered table-hover" style="width: 100%">
+              <thead class="thead">
+                <th *ngFor="let heading of headings">{{heading}}</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let value of columnsValue">
+                  <td *ngFor="let heading of headings">{{value[heading]}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
       </div>

@@ -376,7 +376,8 @@ export class OrdersComponent implements OnInit {
       }else{
     this.common.params={
       taxDetail : this.order.amountDetails[i].taxDetails,
-     amount : this.order.amountDetails[i].amount
+     amount : this.order.amountDetails[i].amount,
+     sizeIndex:1
     }
    console.log('param common',this.common.params);
 
@@ -1389,14 +1390,22 @@ export class OrdersComponent implements OnInit {
     voucherdataprint.amountDetails.map((invoiceDetail, index) => {
       rows.push([
         { txt: invoiceDetail.warehouse.name || '' },
-        { txt: invoiceDetail.stockitem.name || '' },
-        { txt: invoiceDetail.stockunit.name || '' },
+        { txt: invoiceDetail.stockitem.name +'('+invoiceDetail.stockunit.name +')'|| '' },
         { txt: invoiceDetail.qty || '' },
         { txt: invoiceDetail.rate || '' },
         { txt: invoiceDetail.amount || '' },
         { txt: invoiceDetail.lineamount || '' },
         { txt: invoiceDetail.remarks || '' }
       ]);
+      console.log('invoiceDetail.taxDetails',invoiceDetail.taxDetails);
+      invoiceDetail.taxDetails.map((taxDetail, index) => {
+        rows.push([
+          { txt: taxDetail.taxledger.name  || '' ,'colspan':2,align:'right'},
+          { txt: taxDetail.taxamount || '','colspan':3,align:'right' },
+          { txt:  '' },
+          { txt:  '' }
+        ]);
+    });
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
     });
@@ -1430,9 +1439,8 @@ let invoiceJson={};
       table: {
         headings: [
           { txt: 'Ware House' },
-          { txt: 'Stock Item' },
-          { txt: 'Stock Unit' },
-          { txt: 'Quantity' },
+          { txt: 'Item' },
+          { txt: 'Qty' },
           { txt: 'Rate' },
           { txt: 'Amount' },
           { txt: 'Line Amount' },
@@ -1469,9 +1477,8 @@ let invoiceJson={};
      table: {
        headings: [
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
-         { txt: 'Quantity' }
+         { txt: 'Item' },
+         { txt: 'Qty' }
      
        ],
        rows: rows
@@ -1516,9 +1523,8 @@ let invoiceJson={};
      table: {
        headings: [
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
-         { txt: 'Quantity' },
+         { txt: 'Item' },
+         { txt: 'Qty' },
          { txt: 'Rate' },
          { txt: 'Amount' },
          { txt: 'Line Amount' },
