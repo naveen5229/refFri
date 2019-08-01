@@ -76,6 +76,7 @@ import { ManagePartyComponent } from './manage-party/manage-party.component';
 import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.component';
 
 
+
 const PAGES_COMPONENTS = [
   PagesComponent
 ];
@@ -149,6 +150,7 @@ const PAGES_COMPONENTS = [
     SitesComponent,
     ManagePartyComponent,
     ManageFoPartyComponent,
+
     // CustomDatePipe
   ],
   exports: [

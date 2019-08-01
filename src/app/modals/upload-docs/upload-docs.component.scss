@@ -1,0 +1,17 @@
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+    table{
+        tr{
+            td{
+                div{
+                    i.fa-file{
+                        color: #1062ff;
+                    }
+                    i.fa-trash{
+                        color: #ff8196;
+                    }
+                }
+            }
+        }
+    }
+}

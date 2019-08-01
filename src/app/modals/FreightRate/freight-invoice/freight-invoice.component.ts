@@ -12,7 +12,11 @@ import { LrAssignComponent } from '../../LRModals/lr-assign/lr-assign.component'
   styleUrls: ['./freight-invoice.component.scss', '../../../pages/pages.component.css']
 })
 export class FreightInvoiceComponent implements OnInit {
-  state="notsame";
+  showhide={
+    show:true
+  }
+  
+  state=false;
   freightInvoice = {
     branchId: null,
     branchName:null,
@@ -41,6 +45,7 @@ export class FreightInvoiceComponent implements OnInit {
     
     if(this.common.params.title=='Edit')
     {
+      this.showhide.show=false;
       console.log("branchId:",this.common.params.freightInvoice._branch_id);
       this.freightInvoice.branchId=this.common.params.freightInvoice._branch_id;
       this.freightInvoice.branchName=this.common.params.freightInvoice['Branch Name'];
@@ -51,7 +56,7 @@ export class FreightInvoiceComponent implements OnInit {
       this.freightInvoice.remark=this.common.params.freightInvoice._remarks;
       this.freightInvoice.id=this.common.params.freightInvoice._id;
       this.freightInvoice.gst=this.common.params.freightInvoice._gst;
-      this.state=this.common.params.freightInvoice._is_samestate;
+      this.state=this.common.params.freightInvoice._is_samestate=="same"?true:false;
     }
   }
 
@@ -92,7 +97,7 @@ export class FreightInvoiceComponent implements OnInit {
       invoiceDate: this.common.dateFormatter(this.freightInvoice.date).split(' ')[0],
       remarks: this.freightInvoice.remark,
       id:this.freightInvoice.id,
-      isSameState:this.state,
+      isSameState:this.state?"same":"notsame",
       gst:this.freightInvoice.gst
     };
     this.api.post("FrieghtRate/saveInvoices", params)
@@ -133,11 +138,11 @@ export class FreightInvoiceComponent implements OnInit {
   check(type){
     console.log("type",type);
     if(type==true){
-      this.state='same';
+      this.state=true;
       return;
     }
     else{
-      this.state='notsame';
+      this.state=false;
 
     }
   }

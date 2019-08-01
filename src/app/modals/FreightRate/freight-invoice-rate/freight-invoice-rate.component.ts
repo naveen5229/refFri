@@ -88,10 +88,17 @@ export class FreightInvoiceRateComponent implements OnInit {
     this.api.post('FrieghtRate/saveFreightInvoiceRates', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log("----", res);
-
+        console.log("----", res['data']);
+        if (res['data'][0].r_id > 0) {
+          console.log('Successfully Added');
+          this.common.showToast('Successfully Added');
+        } else {
+          console.log(res['data'][0].r_msg)
+          this.common.showError(res['data'][0].r_msg);
+        }
       }, err => {
         --this.common.loading;
+        this.common.showError(err);
         console.log('Err:', err);
       });
 
@@ -119,18 +126,22 @@ export class FreightInvoiceRateComponent implements OnInit {
   }
 
   calculateTotalAmount() {
+    this.totalManualAmount = 0;
     this.invoiceRates.map(invoiceRate => {
       let json = {};
       for (let key in invoiceRate) {
+        console.log("====", key);
         if (key.includes('head_')) {
-
-          console.log('===:', key, key['manualAmount']);
-          if (key['manualAmount']) {
-            this.totalManualAmount = this.totalManualAmount + parseFloat(key['manualAmount']);
+          if (invoiceRate[key] && invoiceRate[key]['manualAmount']) {
+            this.totalManualAmount = this.totalManualAmount + parseFloat(invoiceRate[key]['manualAmount']);
             console.log("this.totalManualAmount", this.totalManualAmount);
           }
         }
       }
     });
+  }
+
+  onPrint(){
+    
   }
 }
