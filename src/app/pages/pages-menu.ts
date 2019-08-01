@@ -104,11 +104,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/card-mapping',
         home: true,
       },
-      {
-        title: 'Finance Recovery',
-        icon: 'fas fa-tachometer-alt',
-        link: '/pages/finance-recovery'
-      },
+      // {
+      //   title: 'Finance Recovery',
+      //   icon: 'fas fa-tachometer-alt',
+      //   link: '/pages/finance-recovery'
+      // },
       {
         title: 'Tickets All',
         icon: 'fas fa-ticket-alt',
