@@ -19,3 +19,45 @@
   font-size: 30px;
   color: rgb(136, 160, 196);
 }
+.lr-print-recipt{
+  .recipt-header{
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    .site-logo{
+      p{
+        font-size: 25px;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      span{
+        background-color: #ff3a3a;
+        padding: 7px;
+        border-radius: 15px;
+        color: #fff;
+        display: inline-block;
+      }
+    }
+    .address{
+      margin-bottom: 5px;
+      label{
+        float: left;
+        margin-right: 10px;
+        width: 94px;
+        text-align: right;
+      }
+    }
+  }
+  .recipt-body{
+    padding: 15px;
+    .code-box{
+      .code-numbox{
+        width: 50%;
+        float: left;
+      }
+      .bilty-chalan-no{
+        float: right;
+        width: 50%;
+      }
+    }
+  }
+}
