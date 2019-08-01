@@ -126,19 +126,82 @@ export class PrintService {
     }
   }
 
-  invoiceFormat2(ppContainer: HTMLElement, json: any) {
-    const DPI = this.getDPI();
-    const pageSize = PAGE_SIZE[this.detectBrowser()];
-    let pageIndex = 1;
-    let previousPage = null;
-    json.table.forEach((rowdata, index) => {
-      let rowIndex = 0;
-      // while (rowIndex < rowdata.rows.length) {
-      let pageContainer = this.createPageHtml();
-      ppContainer.appendChild(pageContainer);
+  // invoiceFormat2(ppContainer: HTMLElement, json: any) {
+  //   const DPI = this.getDPI();
+  //   const pageSize = PAGE_SIZE[this.detectBrowser()];
+  //   let pageIndex = 1;
+  //   let previousPage = null;
+  //   json.table.forEach((rowdata, index) => {
+  //     let rowIndex = 0;
+  //     // while (rowIndex < rowdata.rows.length) {
+  //     let pageContainer = this.createPageHtml();
+  //     ppContainer.appendChild(pageContainer);
+  //     let page = pageContainer.children[0];
+  //     let pageInsider = page.children[0];
+  //     if (pageIndex == 1) {
+  //       pageInsider.appendChild(this.createHeaderHtml(json.headers));
+  //       pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
+  //     }
+
+  //     let tableContainer = this.createTableHtml();
+  //     pageInsider.appendChild(tableContainer);
+  //     let table = tableContainer.children[0];
+  //     if (rowIndex == 0) {
+  //       console.log('wdfs', rowdata.headings);
+  //       table.appendChild(this.createTheadHtml(rowdata.headings));
+  //     }
+
+  //     let tbody = this.createTbodyHtml()
+  //     table.appendChild(tbody);
+  //     let isNewPage = false;
+  //     for (let i = rowIndex; i < rowdata.rows.length; i++) {
+  //       let row = this.createTrHtml(rowdata.rows[i]);
+  //       tbody.appendChild(row);
+  //       let mm = (pageInsider['offsetHeight'] + row.offsetHeight * 25.4) / DPI;
+  //       if (mm > pageSize && i != rowdata.rows.length - 1) {
+  //         rowIndex = i + 1;
+  //         isNewPage = true;
+  //         break;
+  //       }
+  //       rowIndex++;
+  //     }
+  //     if (isNewPage || (rowIndex == rowdata.rows.length && index == json.table.length - 1)) {
+  //       if (rowIndex == rowdata.rows.length && index == json.table.length - 1) {
+  //         pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
+  //         pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+  //       }
+  //       pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+  //       pageIndex++;
+  //       previousPage = null;
+  //     } else {
+  //       previousPage = page;
+  //     }
+  //     // }
+
+  //   });
+  // }
+  /**
+  * Invoice Format 1 : This is one format of invoice if you want to create like this, you can use it.
+  * @param ppContainer - All printing pages container
+  * @param json - JSON data in format 1
+  */
+ invoiceFormat2(ppContainer: HTMLElement, json: any) {
+  const DPI = this.getDPI();
+  const pageSize = PAGE_SIZE[this.detectBrowser()];
+  let pageIndex = 1;
+  let previousPageContainer = null;
+  json.tables.map((tableJSON, tableIndex) => {
+    let rowIndex = 0;
+   // while (rowIndex < tableJSON.rows.length) {
+      let pageContainer = previousPageContainer;
+      if (!pageContainer) {
+        pageContainer = this.createPageHtml();
+        ppContainer.appendChild(pageContainer);
+      }
+
       let page = pageContainer.children[0];
       let pageInsider = page.children[0];
-      if (pageIndex == 1) {
+      if (tableIndex === 0 && rowIndex === 0) {
         pageInsider.appendChild(this.createHeaderHtml(json.headers));
         pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
       }
@@ -147,39 +210,39 @@ export class PrintService {
       pageInsider.appendChild(tableContainer);
       let table = tableContainer.children[0];
       if (rowIndex == 0) {
-        console.log('wdfs', rowdata.headings);
-        table.appendChild(this.createTheadHtml(rowdata.headings));
+        table.appendChild(this.createTheadHtml(tableJSON.headings));
       }
 
       let tbody = this.createTbodyHtml()
       table.appendChild(tbody);
-      let isNewPage = false;
-      for (let i = rowIndex; i < rowdata.rows.length; i++) {
-        let row = this.createTrHtml(rowdata.rows[i]);
+      let newPageFlag = false;
+      for (let i = rowIndex; i < tableJSON.rows.length; i++) {
+        let row = this.createTrHtml(tableJSON.rows[i]);
         tbody.appendChild(row);
-        let mm = (pageInsider['offsetHeight'] + row.offsetHeight * 25.4) / DPI;
-        if (mm > pageSize && i != rowdata.rows.length - 1) {
+        let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
+        console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+        if (mm > pageSize && i != tableJSON.rows.length - 1) {
           rowIndex = i + 1;
-          isNewPage = true;
+          newPageFlag = true;
           break;
         }
         rowIndex++;
       }
-      if (isNewPage || (rowIndex == rowdata.rows.length && index == json.table.length - 1)) {
-        if (rowIndex == rowdata.rows.length && index == json.table.length - 1) {
-          pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
-          pageContainer.appendChild(this.createSignatureHtml(json.signatures));
-        }
-        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
-        pageIndex++;
-        previousPage = null;
-      } else {
-        previousPage = page;
+      if (rowIndex == tableJSON.rows.length && tableIndex == json.tables.length - 1) {
+           pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
+        pageContainer.appendChild(this.createSignatureHtml(json.signatures));
       }
-      // }
 
-    });
-  }
+      pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+      if (!newPageFlag) {
+        previousPageContainer = pageContainer;
+      } else {
+        pageIndex++;
+        previousPageContainer = null;
+      }
+   // }
+  });
+}
 
   /**
    * Create printing page

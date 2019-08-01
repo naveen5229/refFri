@@ -859,7 +859,7 @@ this.vouchertype=this.common.params.VoucherData[0]['y_vouchertype_id'];
     let rows3 = [];
     let rows4 = [];
 
-    trip.map((tripDetail, index) => {
+    this.tripsEditData.map((tripDetail, index) => {
       rows1.push([
         { txt: index+1},
         { txt: tripDetail.start_name || '' },
@@ -870,6 +870,7 @@ this.vouchertype=this.common.params.VoucherData[0]['y_vouchertype_id'];
       ]);
     });
 
+    if(this.vouchertype == -150){
     this.fuelFilings.map((fuelfill, index) => {
       rows2.push([
         { txt: index+1},
@@ -880,6 +881,7 @@ this.vouchertype=this.common.params.VoucherData[0]['y_vouchertype_id'];
         { txt: fuelfill.date || '' },
       ]);
     });
+  }
 
     this.tripHeads.map((tripHead, index) => {
       rows3.push([
@@ -902,7 +904,10 @@ this.vouchertype=this.common.params.VoucherData[0]['y_vouchertype_id'];
       ]);
     });
 let invoiceJson={};
-     invoiceJson = {
+     
+  
+   if(this.vouchertype == -151){
+    invoiceJson = {
       headers: [
         { txt: companydata[0].foname, size: '22px', weight: 'bold' },
         { txt: companydata[0].addressline },
@@ -916,7 +921,67 @@ let invoiceJson={};
         { name: 'Date', value: this.date },
         { name: 'Ledger', value: this.creditLedger.name }       
       ],
-      table: [{
+      tables: [{
+        headings: [
+          { txt: 'S.No' },
+          { txt: 'Start Location' },
+          { txt: 'End Location' },
+          { txt: 'Start Date' },
+          { txt: 'End Date' },
+          { txt: 'Trip Empty' },
+        ],
+        rows: rows1
+      },
+      
+      {
+        headings: [
+          { txt: 'S.No' },
+          { txt: 'Head' },
+          { txt: 'Total' },
+         ...this.checkedTrips.map((checkname)=>{
+          return {txt: checkname.start_name +'-'+ checkname.end_name}
+         })
+        ],
+        rows: rows3
+      },
+      {
+        headings: [
+          { txt: 'Date' },
+          { txt: 'Amount' },
+          { txt: 'Remarks' },
+          { txt: 'Ledger' }
+        ],
+        rows: rows4
+      }],
+      signatures: ['Accountant', 'Approved By'],
+      footer: {
+        left: { name: 'Powered By', value: 'Elogist Solutions' },
+        center: { name: 'Printed Date', value: '06-July-2019' },
+        right: { name: 'Page No', value: 1 },
+      },
+      footertotal:[
+        {   name:'total',value:this.alltotal},
+         {  name:'Remarks',value:this.narration},
+      ]
+
+
+    };
+   }else{
+    invoiceJson = {
+      headers: [
+        { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+        { txt: companydata[0].addressline },
+        { txt: cityaddress },
+        { txt: 'Trip Detail', size: '20px', weight: 600, align: 'left' }
+      ],
+     
+      details: [
+     
+        { name: 'Ref No', value: this.custcode },
+        { name: 'Date', value: this.date },
+        { name: 'Ledger', value: this.creditLedger.name }       
+      ],
+      tables: [{
         headings: [
           { txt: 'S.No' },
           { txt: 'Start Location' },
@@ -971,7 +1036,7 @@ let invoiceJson={};
 
 
     };
-  
+   }
  
   
 
