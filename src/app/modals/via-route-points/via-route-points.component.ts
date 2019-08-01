@@ -94,10 +94,7 @@ export class ViaRoutePointsComponent implements OnInit {
     setTimeout(() => {
       this.mapService.createMarkers(this.firstCoordinates);
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
-        if (this.selected == 1) {
-          this.createMarkers(evt.latLng.lat(), evt.latLng.lng(), 'map');
-          this.latilong = evt.latLng.lat().toFixed(5) + ',' + evt.latLng.lng().toFixed(5);
-        }
+
 
       });
     }, 1000);
@@ -137,6 +134,8 @@ export class ViaRoutePointsComponent implements OnInit {
     this.routeData.lat = place.lat;
     this.routeData.long = place.long;
     this.siteNamee = place.location || place.name;
+    this.createMarkers(this.routeData.lat, this.routeData.long, 'map');
+
   }
   onChangeAuto(search) {
     this.searchString = search;
@@ -164,6 +163,8 @@ export class ViaRoutePointsComponent implements OnInit {
               this.long = res.location.lng;
               this.siteId = res.id;
               this.keepGoing = true;
+              this.createMarkers(this.lat, this.long, 'map');
+
             }
           }
         })
@@ -269,6 +270,7 @@ export class ViaRoutePointsComponent implements OnInit {
     this.routeData.long = site.long;
     this.routeData.siteName = site.name;
     this.createMarkers(this.routeData.lat, this.routeData.long, 'site');
+
   }
   sendRoute() {
 
@@ -314,6 +316,7 @@ export class ViaRoutePointsComponent implements OnInit {
           else {
             this.common.showToast("Success");
             this.reset()
+            this.cancelEdit();
             console.log("SiteLatLong-->", this.routeData.lat, this.routeData.long);
 
           }
