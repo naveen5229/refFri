@@ -15,6 +15,7 @@ export class ModalWiseFuelAverageComponent implements OnInit {
   unLoad=null;
   rowId=null;
   vehicleName=null
+  loadData=[]
   constructor(public common:CommonService,
     public api:ApiService,
     public activeModal:NgbActiveModal) { 
@@ -63,6 +64,36 @@ closeModal(data){
 
 
 addFuelModal() {
+  if(this.itemId == null){
+    return this.common.showError("Company Id is missing")
+
+  }
+  else if(this.load == null)
+  {
+    return this.common.showError("Load is missing")
+  }
+  else  if(this.unLoad == null)
+  {
+    return this.common.showError("UnLoad is missing")
+  }
+  else if(this.load < 0 )
+  {
+    return this.common.showError("Load  should not be negative")
+  }
+  else if(this.load >= 20)
+  {
+    return this.common.showError("Load  should  be less than  equal to 20")
+  }
+  else  if(this.unLoad < 0)
+  {
+    return this.common.showError("UnLoad  should not be negative")
+  }
+ else  if(this.unLoad >= 20)
+  {
+    return this.common.showError("UnLoad  should  be less than  equal to 20")
+  }
+ 
+ 
 const params = {
   vehModel: this.itemId,
   loadAvg: this.load,
@@ -74,7 +105,7 @@ this.common.loading++;
 this.api.post('Fuel/addModelWiseFuelAvgWrtFo ',params)
   .subscribe(res => {
     this.common.loading--;
-    this.load = res['data'];
+    this.loadData = res['data'];
     console.log('type', this.load);
   
     if (res['msg'] == 'Success') {

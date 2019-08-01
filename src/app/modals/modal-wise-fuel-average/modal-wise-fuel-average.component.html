@@ -9,7 +9,7 @@
 <div class="modal-body">
     <div class="row">
         <div class="col-3">
-            <label>Vehicle Modal:</label>
+            <label>Vehicle Model:</label>
         </div>
         <div class="col-9">
             <auto-suggestion [data]="vehicleList" display="name" (onSelected)="changeRefernceType($event)" inputId="itemId" [preSelected]="{name:vehicleName }"></auto-suggestion>
@@ -21,7 +21,7 @@
             <label>Load Average:</label>
         </div>
         <div class="col-9 ">
-            <input type="number " placeholder="Load Average " class="form-control " [(ngModel)]="load ">
+            <input type="number " placeholder="Load Average " class="form-control " [(ngModel)]="load">
         </div>
 
     </div>
@@ -30,7 +30,7 @@
             <label>UnLoad Average:</label>
         </div>
         <div class="col-9 ">
-            <input type="number " placeholder="UnLoad Average " class="form-control " [(ngModel)]="unLoad ">
+            <input type="number " placeholder="UnLoad Average " class="form-control " [(ngModel)]="unLoad">
         </div>
 
     </div>
