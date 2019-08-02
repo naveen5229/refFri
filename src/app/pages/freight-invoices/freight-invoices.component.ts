@@ -10,6 +10,7 @@ import { FreightInvoiceComponent } from '../../modals/FreightRate/freight-invoic
 import { LrAssignComponent } from '../../modals/LRModals/lr-assign/lr-assign.component';
 import { ViewFrieghtInvoiceComponent } from '../../modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
 import { LrInvoiceColumnsComponent } from '../lr-invoice-columns/lr-invoice-columns.component';
+import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.component';
 
 @Component({
   selector: 'freight-invoices',
@@ -133,8 +134,8 @@ export class FreightInvoicesComponent implements OnInit {
         action: this.lrAssign.bind(this, row),
       },
       {
-        class:"fas fa-edit",
-        action:this.invoice.bind(this,'Edit',row),
+        class: "fas fa-edit",
+        action: this.invoice.bind(this, 'Edit', row),
       },
 
       {
@@ -195,13 +196,13 @@ export class FreightInvoicesComponent implements OnInit {
 
 
 
-  invoice(title,row) {
-    console.log("title:",title);
-    console.log("Display:",row);
-    
-    this.common.params={title:title,freightInvoice: row };
-    
-    console.log("alert:",this.common.params);
+  invoice(title, row) {
+    console.log("title:", title);
+    console.log("Display:", row);
+
+    this.common.params = { title: title, freightInvoice: row };
+
+    console.log("alert:", this.common.params);
     const activeModal = this.modalService.open(FreightInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
@@ -228,4 +229,12 @@ export class FreightInvoicesComponent implements OnInit {
   }
 
 
+  addFoField() {
+    const activeModal = this.modalService.open(AddFieldComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+
+
+    });
+  }
 }

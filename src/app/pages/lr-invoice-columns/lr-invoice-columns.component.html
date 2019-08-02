@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">LR-Invoice Columns</h5>
+  <h5 class="modal-title" id="modal-basic-title">Assign Columns</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -18,6 +18,14 @@
           </select>
 
         </td>
+
+        <td> <label>Report Type</label></td>
+        <td>
+          <select [(ngModel)]="reportType" class="form-control" (change)="getFieldName()">
+            <option value='LR'>LR</option>
+            <option value='POD'>POD</option>
+          </select>
+        </td>
         <td>
           <label>Party</label>
         </td>
@@ -29,13 +37,6 @@
             </auto-suggestion><i class="fa fa-plus  add col-md-3" (click)="addParty()"></i>
           </span>
         </td>
-        <td> <label>Type</label></td>
-        <td>
-          <select class="form-control" [(ngModel)]="docType">
-            <option value="1">Invoice</option>
-            <option value="2">Supporting-Docx</option>
-          </select>
-        </td>
         <td><button class="btn btn-primary" (click)="getLrInvoiceColumns()">Show Coulmns</button></td>
       </tr>
     </table>
@@ -45,12 +46,15 @@
           <th></th>
           <th>Column Title</th>
           <th>Column Order</th>
+          <th>Is Requried ?</th>
         </thead>
         <tbody>
           <tr *ngFor="let column of LrInvoiceColumns;let i=index">
             <td><input type="checkbox" [(ngModel)]=column.r_selected class="form control"></td>
             <td><input type="text" [(ngModel)]=column.r_coltitle class="form control"></td>
             <td><input type="text" [(ngModel)]=column.r_colorder class="form control"></td>
+            <td><input type="checkbox" [(ngModel)]=column.r_required class="form control"></td>
+
           </tr>
         </tbody>
         <button class="btn btn-primary" (click)="saveLrInvoiceColumns();">Save</button>
@@ -58,65 +62,3 @@
     </div>
   </div>
 </div>
-
-
-<!-- <nb-card style="border:0px;">
-  <nb-card-header>
-    <h5>LR-Invoice Columns</h5>
-  </nb-card-header>
-  <nb-card-body>
-    <div class="clearfix">
-      <table style="width: 100%">
-        <tr>
-          <td>
-            <label>Branch</label>
-          </td>
-          <td>
-            <select class="form-control" [(ngModel)]="accountService.selected.branch" (change)="getBranchDetails();">
-              <option value="">Select Branch</option>
-              <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}</option>
-            </select>
-
-          </td>
-          <td>
-            <label>Party</label>
-          </td>
-          <td>
-            <span>
-              <auto-suggestion (onSelected)="getPartyDetail($event)" url="Suggestion/GetCompanies" display="name"
-                placeholder="Search Party Name" style="width:100%;" class="col-md-9 auto-suggest"
-                [preSelected]="{name:party.name}" (change)="resetData($event)">
-              </auto-suggestion><i class="fa fa-plus  add col-md-3" (click)="addParty()"></i>
-            </span>
-          </td>
-          <td> <label>Type</label></td>
-          <td>
-            <select class="form-control" [(ngModel)]="docType">
-              <option value="1">Invoice</option>
-              <option value="2">Supporting-Docx</option>
-            </select>
-          </td>
-          <td><button class="btn btn-primary" (click)="getLrInvoiceColumns()">Show Coulmns</button></td>
-        </tr>
-      </table>
-      <div *ngIf="LrInvoiceColumns.length>0">
-        <table class="table table-bordered">
-          <thead class="thead">
-            <th></th>
-            <th>Column Title</th>
-            <th>Column Order</th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let column of LrInvoiceColumns;let i=index">
-              <td><input type="checkbox" [(ngModel)]=column.r_selected class="form control"></td>
-              <td><input type="text" [(ngModel)]=column.r_coltitle class="form control"></td>
-              <td><input type="text" [(ngModel)]=column.r_colorder class="form control"></td>
-            </tr>
-          </tbody>
-          <button class="btn btn-primary" (click)="saveLrInvoiceColumns();">Save</button>
-        </table>
-      </div>
-    </div>
-  </nb-card-body>
-</nb-card> -->
-<!-- <router-outlet></router-outlet> -->

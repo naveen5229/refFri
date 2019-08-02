@@ -362,14 +362,16 @@ export class LorryRecciptsComponent implements OnInit {
     })
 
   }
-  openPodDeatilsModal(receipt) {
-    console.log("val", receipt);
-    if (!receipt._podid) {
-      this.common.showError("Pod is not available yet");
-    } else {
-      this.common.params = receipt._podid;
-      const activeModel = this.modalService.open(LrPodDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
+  openPodDeatilsModal(lr) {
+    console.log("====lr=====", lr);
+    let podDetails = {
+      podId: lr._podid,
+      lrId: lr.lr_id
     }
+    console.log("====podDetails=====", podDetails);
+
+    this.common.params = { podDetails: podDetails };
+    const activeModel = this.modalService.open(LrPodDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
   }
 }
 
