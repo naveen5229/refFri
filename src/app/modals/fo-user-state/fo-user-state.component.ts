@@ -35,6 +35,8 @@ export class FoUserStateComponent implements OnInit {
     public modalService:NgbModal) {
       this.ledgerId=this.common.params.ledgerId;
       this.getFoData();
+      this.common.handleModalSize('class', 'modal-lg', '500', 'px', 1);
+
      }
 
   ngOnInit() {
@@ -71,7 +73,7 @@ export class FoUserStateComponent implements OnInit {
     company:this.company
     
   }
-   const activeModal = this.modalService.open(FeedbackModalComponent, {size: "lg",container: "nb-layout" });
+  const activeModal = this.modalService.open(FeedbackModalComponent, {container: "nb-layout" });
     activeModal.result.then(data=> {
       console.log('res', data);
      
