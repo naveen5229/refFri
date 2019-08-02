@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManagePartyComponent } from './manage-party.component';
+import { FinanceRecoveryComponent } from './finance-recovery.component';
 
-describe('ManagePartyComponent', () => {
-  let component: ManagePartyComponent;
-  let fixture: ComponentFixture<ManagePartyComponent>;
+describe('FinanceRecoveryComponent', () => {
+  let component: FinanceRecoveryComponent;
+  let fixture: ComponentFixture<FinanceRecoveryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ManagePartyComponent ]
+      declarations: [ FinanceRecoveryComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ManagePartyComponent);
+    fixture = TestBed.createComponent(FinanceRecoveryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

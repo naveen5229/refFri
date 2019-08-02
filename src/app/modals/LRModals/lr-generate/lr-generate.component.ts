@@ -182,7 +182,7 @@ export class LrGenerateComponent implements OnInit {
     }
     else if (this.lr.lrType == 3) {
       this.lr.invoicePayer = null;
-      this.lr.invoiceTo = -1;
+      this.lr.invoiceTo = 3;
       this.lr.invoicePayerId = null;
       this.lr.consigneeName = null;
       this.lr.consigneeAddress = null;

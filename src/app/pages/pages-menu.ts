@@ -76,6 +76,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-tachometer-alt',
         link: '/pages/vehicle-odoMeter'
       },
+     
+
       {
         title: 'Routes',
         icon: 'fa fa-pencil-square-o',
@@ -102,6 +104,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/card-mapping',
         home: true,
       },
+      // {
+      //   title: 'Finance Recovery',
+      //   icon: 'fas fa-tachometer-alt',
+      //   link: '/pages/finance-recovery'
+      // },
       {
         title: 'Tickets All',
         icon: 'fas fa-ticket-alt',
@@ -128,13 +135,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Manage Party',
-        icon: 'nb-notifications',
-        link: '/pages/manage-party',
-        home: true,
-      },
-      {
-        title: 'Manage Party',
-        icon: 'nb-notifications',
+        icon: 'far fa-building',
         link: '/pages/manage-fo-party',
         home: true,
       },
@@ -287,6 +288,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: ' Model Fuel Mileage',
+        icon: 'fas fa-history',
+        link: '/pages/fo-fuel-average',
+        home: true,
+      },
+      {
         title: 'Consolidate Fuel Average',
         icon: 'fa fa-signal',
         link: '/pages/consolidate-fuel-average',
@@ -380,6 +387,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ]
   },
   {
+    title: 'Finance',
+    icon: 'fas fa-money-bill-alt',
+    children: [{
+      title: 'Finance Recovery ',
+      icon: 'fas fa-star',
+      link: '/pages/finance-recovery',
+      home: true,
+    },]
+  },
+  {
     title: 'Tyre',
     icon: 'fa fa-cog',
     link: '/tyres/inventory'
@@ -404,6 +421,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-warehouse',
     link: '/ware-house/ware-house-receipts'
   },
+
 
 
 ];
