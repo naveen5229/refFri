@@ -152,7 +152,9 @@ export class LedgerComponent implements OnInit {
         });
       });
     }
-if(this.common.params.sizeledger) this.sizeledger=this.common.params.sizeledger;
+if(this.common.params && this.common.params.sizeledger) { 
+  this.sizeledger=this.common.params.sizeledger;
+}
 console.log('sixe ledger',this.sizeledger);
     this.common.handleModalSize('class', 'modal-lg', '1250','px',this.sizeledger);
     this.GetSalution();

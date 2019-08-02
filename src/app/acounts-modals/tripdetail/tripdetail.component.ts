@@ -1026,7 +1026,7 @@ let invoiceJson={};
       signatures: ['Accountant', 'Approved By'],
       footer: {
         left: { name: 'Powered By', value: 'Elogist Solutions' },
-        center: { name: 'Printed Date', value: '06-July-2019' },
+        center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(),'ddMMYYYY').split(' ')[0] },
         right: { name: 'Page No', value: 1 },
       },
       footertotal:[
