@@ -111,7 +111,7 @@ export class FinanceRecoveryComponent implements OnInit {
       btn2: 'Submit'
     }
     this.common.params = { data: data };
-    this.modalService.open(GenericInputTypeComponent, { container: "nb-layout", size: 'lg', backdrop: 'static' });
+    this.modalService.open(GenericInputTypeComponent, { container: "nb-layout", size: 'sm', backdrop: 'static' });
   }
 
   showMobile() {
