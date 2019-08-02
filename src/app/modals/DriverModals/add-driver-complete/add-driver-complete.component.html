@@ -84,8 +84,12 @@
       </div>
       <div class="col-3">
         <input type="text" class="form-control" autocomplete="off" minlength="10" maxlength="10" id="guranter-no."
-          placeholder="Guranter mobile No." formControlName="guranterno">
-
+          placeholder="Guranter mobile No." formControlName="guranterno"
+          [ngClass]="{ 'is-invalid': submitted && f.guranterno.errors }">
+        <div *ngIf="submitted && f.guranterno.errors" class="invalid-feedback">
+          <div *ngIf="f.guranterno.errors.minlength ">mobile Number minlength 10</div>
+          <div *ngIf="f.guranterno.errors.maxlength ">mobile Number maxlength 10</div>
+        </div>
 
       </div>
     </div>
