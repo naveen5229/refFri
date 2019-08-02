@@ -1,0 +1,40 @@
+<div class="modal-header">
+    <h5>Fuel Mileage</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-3">
+            <label>Vehicle Model:</label>
+        </div>
+        <div class="col-9">
+            <auto-suggestion [data]="vehicleList" display="name" (onSelected)="changeRefernceType($event)" inputId="itemId" [preSelected]="{name:vehicleName }"></auto-suggestion>
+        </div>
+
+    </div>
+    <div class=" row mb-3 ">
+        <div class="col-3 ">
+            <label>Load Mileage</label>
+        </div>
+        <div class="col-9 ">
+            <input type="number " placeholder="Load Average " class="form-control " [(ngModel)]="load">
+        </div>
+
+    </div>
+    <div class="row mb-3 ">
+        <div class="col-3 ">
+            <label>UnLoad Mileage:</label>
+        </div>
+        <div class="col-9 ">
+            <input type="number " placeholder="UnLoad Average " class="form-control " [(ngModel)]="unLoad">
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer ">
+    <button class="btn btn-primary text-capitalize " id="button " (click)="addFuelModal() " style="border-radius:2px; padding: 5px 15px; margin-right:5px;font-weight:bold ">Add</button>
+</div>

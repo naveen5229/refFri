@@ -1,0 +1,64 @@
+.alert-danger {
+    color: #721c24 !important;
+    background-color: #f8d7da !important;
+    border-color: #f5c6cb !important;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 12px !important;
+    font-size: 18px !important;
+}
+
+nb-card-header {
+    padding: 10px 15px;
+    background-color: #F5F5F5;
+}
+
+.edit {
+    color: #263238 !important;
+    font-size: 16px;
+}
+
+.delete {
+    color: #D61414 !important;
+    font-size: 14px;
+}
+
+:host ::ng-deep .tableFixHead {
+    height: auto !important;
+    max-height: calc(100vh - 186px);
+}
+
+:host ::ng-deep .tag .no-search span {
+    color: black;
+    background-color: white !important;
+}
+
+:host ::ng-deep .fa-edit {
+    font-size: 12px;
+    margin-right: 10px;
+    background-color: #3c6ac7;
+    color: #fff;
+    border-color: #73a1ff;
+    padding: 8px;
+    border-radius: 3px;
+}
+
+:host ::ng-deep .edit-btn:hover {
+    background-color: #0054ff;
+}
+
+:host ::ng-deep .fa-trash-alt {
+    font-size: 12px;
+    margin-right: 10px;
+    background-color: #fd397a;
+    color: #fff;
+    border-color: #fd397a;
+    padding: 8px;
+    border-radius: 3px;
+}
+
+:host ::ng-deep .remove:hover {
+    background-color: #fd1361;
+    border-color: #fc0758;
+}

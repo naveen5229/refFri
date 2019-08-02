@@ -8,28 +8,43 @@
     <div class="row">
         <div class="col-6">
             <div class="table-conan filter-coff">
+                <!-- <table>
+                            <tr *ngFor="let dd of dropDown; let i = index; ">
+                                <td *ngIf="dropDown[i].order % 2 !=0 && i % 2 == 0">{{dropDown[i].order}}
+                                    =={{dropDown[i].order%2}}==
+                                    {{i}}
+                                </td>
+                                <td *ngIf="dropDown[i].order % 2 == 0 && i%2 == 0">
+                                    {{dropDown[i+1].order}}=={{dropDown[i+1].order%2}}=={{j}}
+                                </td>
+                            </tr>
+                        </table> -->
                 <table>
                     <tbody>
                         <tr *ngFor="let detail of Details; let i= index">
                             <td>
-                                <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="detail.detail_type">
-                                     <option *ngFor="let status of dropDown" [value]="status.id">
-                                           {{status.name}}
-                                      </option>
-                                  </select>
+                                <select class="form-control" name="dropdown" id="dropdown"
+                                    [(ngModel)]="detail.detail_type">
+                                    <option *ngFor="let status of dropDown" [value]="status.id">
+                                        {{status.name}}
+                                    </option>
+                                </select>
                             </td>
-                            <td *ngIf="detail.detail_type==1 || detail.detail_type==2 || detail.detail_type==5"> <input type="number" class="form-control" [(ngModel)]="detail.param_value"></td>
+                            <td *ngIf="detail.detail_type==1 || detail.detail_type==2 || detail.detail_type==5"> <input
+                                    type="number" class="form-control" [(ngModel)]="detail.param_value"></td>
                             <td *ngIf="detail.detail_type==3 || detail.detail_type==4">
-                                <uj-date-time-picker (onChanged)="detail.param_date=$event" [dateTimeValue]="detail.param_date" [isTime]="false">
+                                <uj-date-time-picker (onChanged)="detail.param_date=$event"
+                                    [dateTimeValue]="detail.param_date" [isTime]="false">
                                 </uj-date-time-picker>
                             </td>
-                            <td><textarea name="comment" class="form-control" form="usrform" [(ngModel)]="detail.param_remarks"></textarea></td>
+                            <td><textarea name="comment" class="form-control" form="usrform"
+                                    [(ngModel)]="detail.param_remarks"></textarea></td>
                             <td>
-                                <span *ngIf="i == Details.length-1"><button class="btn btn-primary" (click)="addMore()"><i
-                            class="fa fa-plus add">
-                        </i></button></span>
+                                <span *ngIf="i == Details.length-1"><button class="btn btn-primary"
+                                        (click)="addMore()"><i class="fa fa-plus add">
+                                        </i></button></span>
                                 <span *ngIf="i != 0"><button class="btn btn-danger" (click)="Details.splice(i,1)"><i
-                            class="fa fa-trash remove"></i></button></span>
+                                            class="fa fa-trash remove"></i></button></span>
                             </td>
                             <!-- <td> <input type="text" class="form-control" [(ngModel)]="detail.remark"></td> -->
                         </tr>
@@ -40,7 +55,8 @@
                 <button type="button" class="btn btn-primary" (click)="saveLrPodDetail()">Submit</button>
             </div>
             <div class="mt-2">
-                <smart-table *ngIf=" data && data.length" [data]="table.data" [settings]="table.settings" id="cardMapping">
+                <smart-table *ngIf=" data && data.length" [data]="table.data" [settings]="table.settings"
+                    id="cardMapping">
                 </smart-table>
             </div>
         </div>
