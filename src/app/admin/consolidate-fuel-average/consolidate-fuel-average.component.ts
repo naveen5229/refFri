@@ -78,9 +78,10 @@ export class ConsolidateFuelAverageComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res', res['data']);
-        this.consolFuelAvg = res['data'];
-        if (this.consolFuelAvg == null || res['data'] == null) {
+        this.consolFuelAvg = res['data'] || [];
+        if (this.consolFuelAvg.length == 0 || res['data'] == null) {
           this.consolFuelAvg = [];
+          console.log('empty Data');
           this.common.showToast("Record Not Found !!");
           this.resetDisplayTable();
         }
