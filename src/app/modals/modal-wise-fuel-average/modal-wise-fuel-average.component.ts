@@ -37,7 +37,7 @@ export class ModalWiseFuelAverageComponent implements OnInit {
   }
   
 closeModal(data){
-  this.activeModal.close();
+  this.activeModal.close(data);
 }
   
   getVehicle() {

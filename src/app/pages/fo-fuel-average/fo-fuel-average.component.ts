@@ -84,7 +84,7 @@ vehicle:null};
       .subscribe(res => {
         this.common.loading--;
           this.fuelAvg = [];
-          this.fuelAvg = res['data'];
+          this.fuelAvg = res['data'] || [];
           console.log("result", res);
           console.log("idd",this.fuelAvg[0]._id);
           
@@ -132,7 +132,7 @@ vehicle:null};
   updateFuel(row,load,unLoad,vehicle,name,brand) {
     this.common.params={row,load,unLoad,vehicle,name,brand};
     
-    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, {  container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, {  container: 'nb-layout' });
     activeModal.result.then(data => {
         this.getFuelAvg();
 
