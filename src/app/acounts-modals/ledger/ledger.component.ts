@@ -147,7 +147,7 @@ export class LedgerComponent implements OnInit {
             name: detail.province_name,
             id: detail.province_id
           },
-      defaultcheck:detail.y_dtl_is_default
+      defaultcheck:"'"+detail.y_dtl_is_default+"'"
 
         });
       });
