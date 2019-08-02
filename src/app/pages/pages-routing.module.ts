@@ -70,8 +70,9 @@ import { NearbyPodsComponent } from '../admin/nearby-pods/nearby-pods.component'
 import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { SitesComponent } from './sites/sites.component';
-import { ManagePartyComponent } from './manage-party/manage-party.component';
+import { FinanceRecoveryComponent } from './finance-recovery/finance-recovery.component';
 import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.component';
+import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.component';
 
 
 const routes: Routes = [{
@@ -180,6 +181,17 @@ const routes: Routes = [{
 
     path: 'placements',
     component: PlacementsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+
+    path: 'finance-recovery',
+    component: FinanceRecoveryComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'fo-fuel-average',
+    component: FoFuelAverageComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -443,11 +455,6 @@ const routes: Routes = [{
   {
     path: 'sites',
     component: SitesComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'manage-party',
-    component: ManagePartyComponent,
     canActivate: [AuthGuard]
   },
   {

@@ -129,15 +129,15 @@ export class FoFreightRatesComponent implements OnInit {
       // filterParams: JSON.stringify(this.filters)
     }
     console.log("params", params);
-    if (params.companyId == null ) {
+    if (params.companyId == null) {
       this.common.showError("Company name is required");
       return;
     }
-    else if(params.date == ''){
+    else if (params.date == '') {
       this.common.showError("W.E.F date  is required");
       return;
     }
-    ++this.common.loading;
+
     this.api.post('FrieghtRate/saveFrieghtRate', params)
       .subscribe(res => {
         --this.common.loading;
@@ -152,6 +152,7 @@ export class FoFreightRatesComponent implements OnInit {
           this.activeModal.close({ data: true });
         }
       }, err => {
+        --this.common.loading;
         this.common.showError(err);
         console.log('Error: ', err);
       });
