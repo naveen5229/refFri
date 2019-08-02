@@ -848,7 +848,7 @@ export class VoucherSummaryComponent implements OnInit {
       return total + amount;
     }, 0);
 
-    console.log('Amount:', amount);
+   // console.log('Amount:', amount);
     if (document.activeElement.id == id) {
       return false;
     } else if (amount == 0) {
