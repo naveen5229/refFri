@@ -165,7 +165,7 @@
               <td>{{i+1}}</td>
               <td>{{tripHead.name}}</td>
               <td>
-                <input type="number" [name]="tripHead.name" [id]="headname+'-'+i" [(ngModel)]="tripHead.total" (input)="calculateTripAllTotal(i)">
+                <input type="number" [name]="tripHead.name" [readonly]="isItReadOnly(tripHead, headname+'-'+i)" [id]="headname+'-'+i" [(ngModel)]="tripHead.total" (input)="calculateTripAllTotal(i)">
               </td>
               <td *ngFor="let trip of tripHead.trips; let j = index;">
                 <input type="number" [name]="'trip-amount-' + tripHead.name + j" [(ngModel)]="trip.amount"
