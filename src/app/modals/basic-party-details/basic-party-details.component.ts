@@ -37,7 +37,7 @@ export class BasicPartyDetailsComponent implements OnInit {
   partyId = null;
   partyName = null;
   value = false;
-  modalClose=false;
+  modalClose = false;
   activeTab = 'Company Branches';
 
 
@@ -51,7 +51,7 @@ export class BasicPartyDetailsComponent implements OnInit {
   data = [];
   cmpEstablishment = [];
   companyContacts = [];
-  companyBanks=[];
+  companyBanks = [];
   table4 = {
     companyBanks: {
       headings: {},
@@ -103,7 +103,7 @@ export class BasicPartyDetailsComponent implements OnInit {
       this.value = true;
       this.cmpAlias = this.common.params.cmpAssocDetail['Company Alias'];
       this.panNo = this.common.params.cmpAssocDetail.Pan;
-      this.gstNo = this.common.params.cmpAssocDetail.Gst;
+      this.gstNo = this.common.params.cmpAssocDetail.Gst ? this.common.params.cmpAssocDetail.Gst : '';
       this.branchId = this.common.params.cmpAssocDetail._branchid;
       this.assType = this.common.params.cmpAssocDetail._asstype;
       this.remark = this.common.params.cmpAssocDetail.Remark;
@@ -475,7 +475,7 @@ export class BasicPartyDetailsComponent implements OnInit {
 
   getTableColumns4() {
     let columns = [];
-   // console.log("Data=", this.data);
+    // console.log("Data=", this.data);
     this.companyBanks.map(bankDetails => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {

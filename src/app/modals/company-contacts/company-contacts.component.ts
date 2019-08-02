@@ -25,6 +25,7 @@ export class CompanyContactsComponent implements OnInit {
   userCmpnyId = this.common.params.userCmpId;
   assCmpnyId = null;
   contactId = null;
+  establishment=null;
   companyName = null;
   Update = false;
   constructor(public api: ApiService,
@@ -47,6 +48,7 @@ export class CompanyContactsComponent implements OnInit {
       this.designation = this.common.params.contactDetail.Designation;
       this.deptName = this.common.params.contactDetail['Dept Name'];
       this.contactId = this.common.params.contactDetail._id;
+      this.establishment=this.common.params.contactDetail['Estab Name']
     }
     this.getCompanyBranchs();
     this.getCompanyEstablishmentType();
@@ -65,24 +67,37 @@ export class CompanyContactsComponent implements OnInit {
   }
 
   getCompanyEstablishmentType() {
-    const params = "id=" + 64;
-    this.api.get('Suggestion/getTypeMasterList?' + params)
+    let params = "partyId=" + this.assCmpnyId + "&userCmpId=" + this.userCmpnyId;
+    this.api.get('Suggestion/getPartyEstablishment?' + params)
       .subscribe(res => {
         this.companyEstablishmentType = res['data'];
       }, err => {
+        console.error(' Api Error:', err);
       });
   }
+
+  changeEstablishmentType(estType) {
+    this.establishmentType = this.companyEstablishmentType.find((element) => {
+      console.log(element.name == estType);
+      return element.id == estType.id;
+    }).id;
+  }
+
+
 
   closeModal() {
     this.activeModal.close();
   }
 
   addCompanyContacts() {
+    console.log("mobile no",this.MobileNo.length);
     if (this.name == null) {
       this.common.showError("please add contact name");
     } else if (this.phoneNo == null && this.MobileNo==null) {
       this.common.showError("please add Phone no/MObile No")
-    }
+    }else if(this.MobileNo!=null && this.MobileNo.length!=10){
+      this.common.showError("Invalid Mobile No")
+    } 
     else {
       const params = {
         branchId: this.branchId,

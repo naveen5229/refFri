@@ -225,6 +225,7 @@ import { SupportingDocComponent } from './modals/LRModals/supporting-doc/support
 import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
 import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-party-details.component';
 import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
+import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-view-summary.component';
 
 
 
@@ -423,7 +424,8 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
     FreightInvoiceRateComponent,
     BasicPartyDetailsComponent,
     BankAccountsComponent,
-    LrInvoiceColumnsComponent
+    LrInvoiceColumnsComponent,
+    FoWebViewSummaryComponent,
 
   ],
   entryComponents:[
@@ -610,6 +612,7 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
     SupportingDocComponent,
     
 
+    FoWebViewSummaryComponent
   ],
   imports: [
     BrowserModule,

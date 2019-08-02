@@ -45,6 +45,7 @@ export class ViaRoutePointsComponent implements OnInit {
   order = null;
   searchString = '';
   keepGoing = true;
+  type = "0";
   constructor(private activeModal: NgbActiveModal,
     public mapService: MapService,
     public common: CommonService,
@@ -183,6 +184,7 @@ export class ViaRoutePointsComponent implements OnInit {
     this.routeData.siteId = null;
     this.routeData.lat = null;
     this.routeData.long = null;
+    this.type = "0";
     console.log("Value are Null", this.latlong);
   }
   clickDelete(name, i) {
@@ -290,7 +292,8 @@ export class ViaRoutePointsComponent implements OnInit {
       siteId: this.siteId,
       name: this.siteNamee,
       viaOrder: this.order,
-      rowId: this.rowId
+      rowId: this.rowId,
+      type: this.type,
     };
     if (this.siteNamee == null || this.siteNamee.length > 100) {
       this.common.showToast("Please Enter Location");
@@ -367,6 +370,7 @@ export class ViaRoutePointsComponent implements OnInit {
       this.routeData.lat = this.tableData[i]._lat;
       this.routeData.long = this.tableData[i]._long;
       this.routeData.siteName = this.tableData[i]._name;
+      this.type = this.tableData[i]._type + "";
       console.log("route data--->", this.routeData);
       this.rowId = this.tableData[i]._id;
       console.log("SiteName-->", this.siteName);
@@ -386,6 +390,8 @@ export class ViaRoutePointsComponent implements OnInit {
       this.long = this.tableData[i]._long;
       this.siteNamee = this.tableData[i]._name;
       this.rowId = this.tableData[i]._id;
+      this.type = this.tableData[i]._type + "";
+
       console.log("MapName-->", this.mapName);
       console.log("KMS-->", this.kms);
     }
