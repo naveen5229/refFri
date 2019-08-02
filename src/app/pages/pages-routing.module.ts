@@ -52,8 +52,6 @@ import { DriverListComponent } from '../driver/driver-list/driver-list.component
 import { VehicleDriverMappingComponent } from '../driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 import { DriverAttendanceComponent } from '../driver/driver-attendance/driver-attendance.component';
 import { DriverDocumentComponent } from '../driver/driver-document/driver-document.component';
-import { LicenceUploadComponent } from '../driver/licence-upload/licence-upload.component';
-import { PendingLicenceComponent } from '../driver/pending-licence/pending-licence.component';
 import { LrPodReceiptsComponent } from '../lorry-receipt/lr-pod-receipts/lr-pod-receipts.component';
 import { VehiclesComponent } from '../admin/vehicles/vehicles.component';
 import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.component';
@@ -72,7 +70,10 @@ import { NearbyPodsComponent } from '../admin/nearby-pods/nearby-pods.component'
 import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { SitesComponent } from './sites/sites.component';
-import { ManagePartyComponent } from './manage-party/manage-party.component';
+import { FinanceRecoveryComponent } from './finance-recovery/finance-recovery.component';
+import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.component';
+import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.component';
+
 
 const routes: Routes = [{
   path: '',
@@ -184,6 +185,17 @@ const routes: Routes = [{
   },
   {
 
+    path: 'finance-recovery',
+    component: FinanceRecoveryComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'fo-fuel-average',
+    component: FoFuelAverageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+
     path: 'call-logs',
     component: CallLogsComponent,
     canActivate: [AuthGuard],
@@ -282,11 +294,11 @@ const routes: Routes = [{
     component: RemainingFuelComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'lr-invoice-columns',
-    component: LrInvoiceColumnsComponent,
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'lr-invoice-columns',
+  //   component: LrInvoiceColumnsComponent,
+  //   canActivate: [AuthGuard],
+  // },
   {
     path: 'consolidate-fuel-average',
     component: ConsolidateFuelAverageComponent,
@@ -335,11 +347,11 @@ const routes: Routes = [{
     component: GenerateLrNoVehiclesComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'generate-lr-mainfesto',
-    component: GenerateLrMainfestoComponent,
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'generate-lr-mainfesto',
+  //   component: GenerateLrMainfestoComponent,
+  //   canActivate: [AuthGuard],
+  // },
   {
     path: 'view-manifesto',
     component: ViewManifestoComponent,
@@ -367,18 +379,8 @@ const routes: Routes = [{
     canActivate: [AuthGuard]
 
   },
-  {
-    path: 'licence-upload',
-    component: LicenceUploadComponent,
-    canActivate: [AuthGuard]
 
-  },
-  {
-    path: 'pending-licence',
-    component: PendingLicenceComponent,
-    canActivate: [AuthGuard]
 
-  },
   {
     path: 'lr-pod-receipts',
     component: LrPodReceiptsComponent,
@@ -454,11 +456,13 @@ const routes: Routes = [{
     path: 'sites',
     component: SitesComponent,
     canActivate: [AuthGuard]
-  },{    
-    path: 'manage-party',
-    component: ManagePartyComponent,
+  },
+  {
+    path: 'manage-fo-party',
+    component: ManageFoPartyComponent,
     canActivate: [AuthGuard]
   },
+
   ],
 }];
 

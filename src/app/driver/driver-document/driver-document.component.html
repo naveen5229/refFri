@@ -15,27 +15,25 @@
 
           <tbody class="">
             <ng-container *ngIf="total_recs">
-              <tr *ngFor="let row of data.result; let i=index;">
+              <tr *ngFor="let row of data; let i=index;">
 
                 <td style='width: 40px;'> <span>{{i + 1}}</span></td>
 
                 <td *ngFor="let col of columns; " class="text-center">
-                  <span *ngIf="col== 'regno'">
-                    {{row[col]}}
+
+                  <!-- *ngIf="row[col]!=null &&  && col !='driver_name'" -->
+                  <span *ngIf="col !='driver_name' && getDocumentType(row[col])>0">
+                    <i class="fa fa-check icon-green" (click)="fetchDocumentData(row, col, row[col])"
+                      title="upload"></i>
                   </span>
 
-                  <span *ngIf="row[col]!=null && col !='regno' && col !='driver_name'">
-                    <i class="fa fa-check icon-green" (click)="fetchDocumentData(row, col, row[col])" title="OK"></i>
-                  </span>
-                  <span *ngIf="row[col]==null && col =='driver_name'">
-                    <i class="fa fa-minus" title="Unassigned"></i>
-                  </span>
                   <span *ngIf="row[col]!=null && col =='driver_name'">
                     {{formatTitle(row[col])}}
                   </span>
 
-                  <span *ngIf="row[col] == null && col !='driver_name'">
-                    <i class="fa fa-times-circle icon-red-cross" title="No Record"></i>
+                  <span *ngIf="col !='driver_name' && col !='driver_name' && getDocumentType(row[col])==0">
+                    <i class="fa fa-times-circle icon-red-cross" (click)="uploadDoc(row,col,row[col])"
+                      title="No Record"></i>
                   </span>
                 </td>
               </tr>

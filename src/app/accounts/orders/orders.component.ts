@@ -21,6 +21,7 @@ import { PrintService } from '../../services/print/print.service';
 })
 export class OrdersComponent implements OnInit {
   showConfirm = false;
+  suggestionname='';
   branchdata = [];
   orderTypeData = [];
   supplier = [];
@@ -137,20 +138,34 @@ export class OrdersComponent implements OnInit {
       let suggestionname = params.name;
       if (suggestionname == 'Debit Note') {
         this.getInvoiceList(-2);
-        suggestionname = 'Purchase Invoice';
+        this.suggestionname = 'purchase';
       }
       if (suggestionname == 'Credit Note') {
         this.getInvoiceList(-4);
-        suggestionname = 'Sales Invoice';
+        this.suggestionname = 'sales';
       }
-      this.getStockItems(suggestionname);
+      if (suggestionname == 'Purchase Assets Invoice') {
+       // this.getInvoiceList(-4);
+       this.suggestionname = 'inventary';
+      }
+      if (suggestionname == 'Purchase Invoice') {
+        // this.getInvoiceList(-4);
+        this.suggestionname = 'purchase';
+       }
+       if (suggestionname == 'Sales Invoice') {
+        // this.getInvoiceList(-4);
+        this.suggestionname = 'sales';
+       }
+      this.getStockItems(this.suggestionname);
     });
     this.common.refresh = () => {
       this.getInvoiceTypes();
       this.getPurchaseLedgers();
       this.getSupplierLedgers();
-      this.getStockItems('sales');
-      this.getStockItems('purchase');
+      this.getStockItems(this.suggestionname);
+      // this.getStockItems('sales');
+      // this.getStockItems('purchase');
+      // this.getStockItems('inventary');
       this.getWarehouses();
     };
 
@@ -361,7 +376,8 @@ export class OrdersComponent implements OnInit {
       }else{
     this.common.params={
       taxDetail : this.order.amountDetails[i].taxDetails,
-     amount : this.order.amountDetails[i].amount
+     amount : this.order.amountDetails[i].amount,
+     sizeIndex:1
     }
    console.log('param common',this.common.params);
 
@@ -1374,14 +1390,22 @@ export class OrdersComponent implements OnInit {
     voucherdataprint.amountDetails.map((invoiceDetail, index) => {
       rows.push([
         { txt: invoiceDetail.warehouse.name || '' },
-        { txt: invoiceDetail.stockitem.name || '' },
-        { txt: invoiceDetail.stockunit.name || '' },
+        { txt: invoiceDetail.stockitem.name +'('+invoiceDetail.stockunit.name +')'|| '' },
         { txt: invoiceDetail.qty || '' },
         { txt: invoiceDetail.rate || '' },
         { txt: invoiceDetail.amount || '' },
         { txt: invoiceDetail.lineamount || '' },
         { txt: invoiceDetail.remarks || '' }
       ]);
+      console.log('invoiceDetail.taxDetails',invoiceDetail.taxDetails);
+      invoiceDetail.taxDetails.map((taxDetail, index) => {
+        rows.push([
+          { txt: taxDetail.taxledger.name  || '' ,'colspan':2,align:'right'},
+          { txt: taxDetail.taxamount || '','colspan':3,align:'right' },
+          { txt:  '' },
+          { txt:  '' }
+        ]);
+    });
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
     });
@@ -1415,9 +1439,8 @@ let invoiceJson={};
       table: {
         headings: [
           { txt: 'Ware House' },
-          { txt: 'Stock Item' },
-          { txt: 'Stock Unit' },
-          { txt: 'Quantity' },
+          { txt: 'Item' },
+          { txt: 'Qty' },
           { txt: 'Rate' },
           { txt: 'Amount' },
           { txt: 'Line Amount' },
@@ -1454,9 +1477,8 @@ let invoiceJson={};
      table: {
        headings: [
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
-         { txt: 'Quantity' }
+         { txt: 'Item' },
+         { txt: 'Qty' }
      
        ],
        rows: rows
@@ -1501,9 +1523,8 @@ let invoiceJson={};
      table: {
        headings: [
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
-         { txt: 'Quantity' },
+         { txt: 'Item' },
+         { txt: 'Qty' },
          { txt: 'Rate' },
          { txt: 'Amount' },
          { txt: 'Line Amount' },

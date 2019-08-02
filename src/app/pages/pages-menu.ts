@@ -76,6 +76,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-tachometer-alt',
         link: '/pages/vehicle-odoMeter'
       },
+     
+
       {
         title: 'Routes',
         icon: 'fa fa-pencil-square-o',
@@ -102,6 +104,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/card-mapping',
         home: true,
       },
+      // {
+      //   title: 'Finance Recovery',
+      //   icon: 'fas fa-tachometer-alt',
+      //   link: '/pages/finance-recovery'
+      // },
       {
         title: 'Tickets All',
         icon: 'fas fa-ticket-alt',
@@ -128,9 +135,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Manage Party',
-        icon: 'nb-notifications',
-        link: '/pages/manage-party',
-        home:true,
+        icon: 'far fa-building',
+        link: '/pages/manage-fo-party',
+        home: true,
       },
       {
         title: 'Site',
@@ -149,11 +156,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-list',
         link: '/pages/frieght-rate-input',
       },
-      {
-        title: 'LR-Invoice Columns',
-        icon: 'fas fa-file-invoice',
-        link: '/pages/lr-invoice-columns',
-      },
+      // {
+      //   title: 'LR-Invoice Columns',
+      //   icon: 'fas fa-file-invoice',
+      //   link: '/pages/lr-invoice-columns',
+      // },
 
       {
         title: 'Freight Invoice',
@@ -176,11 +183,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/lorry-receipts',
       },
 
-      {
-        title: 'Generate LR Manifest',
-        icon: 'fas fa-receipt',
-        link: '/pages/generate-lr-mainfesto',
-      },
+      // {
+      //   title: 'Generate LR Manifest',
+      //   icon: 'fas fa-receipt',
+      //   link: '/pages/generate-lr-mainfesto',
+      // },
       {
         title: 'View LR Manifest',
         icon: 'far fa-clone',
@@ -254,7 +261,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicles',
         home: true,
       },
-      
+
     ]
   },
 
@@ -281,6 +288,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: ' Model Fuel Mileage',
+        icon: 'fas fa-history',
+        link: '/pages/fo-fuel-average',
+        home: true,
+      },
+      {
         title: 'Consolidate Fuel Average',
         icon: 'fa fa-signal',
         link: '/pages/consolidate-fuel-average',
@@ -298,6 +311,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/fuel-indent',
         home: true,
       },
+
     ]
   },
   {
@@ -362,20 +376,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       link: '/pages/driver-document',
       home: true,
     },
-    {
 
-      title: 'Licence Upload',
-      icon: 'fas fa-address-card',
-      link: '/pages/licence-upload',
-      home: true,
-    },
-    {
-
-      title: 'Pending Licence',
-      icon: 'fas fa-align-justify',
-      link: '/pages/pending-licence',
-      home: true,
-    },
     {
       title: 'Advices',
       icon: 'fas fa-question',
@@ -384,6 +385,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
 
     ]
+  },
+  {
+    title: 'Finance',
+    icon: 'fas fa-money-bill-alt',
+    children: [{
+      title: 'Finance Recovery ',
+      icon: 'fas fa-star',
+      link: '/pages/finance-recovery',
+      home: true,
+    },]
   },
   {
     title: 'Tyre',
@@ -410,6 +421,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-warehouse',
     link: '/ware-house/ware-house-receipts'
   },
+
 
 
 ];

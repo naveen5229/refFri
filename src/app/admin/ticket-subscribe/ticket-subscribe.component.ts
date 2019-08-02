@@ -43,7 +43,10 @@ export class TicketSubscribeComponent implements OnInit {
   }
 
   subscribe() {
-
+    if (!this.ticketSubscribe.refId) {
+      this.common.showToast('Fo/Group Is Missing');
+      return;
+    }
 
     let params = {
       ref_type: parseInt(this.ticketSubscribe.refType),

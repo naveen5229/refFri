@@ -202,17 +202,30 @@ import { TripSettlementComponent } from './modals/trip-settlement/trip-settlemen
 import { EditViaRoutesPointsComponent } from './modals/edit-via-routes-points/edit-via-routes-points.component';
 import { LrRateComponent } from './modals/LRModals/lr-rate/lr-rate.component';
 import { LedgeraddressComponent } from './acounts-modals/ledgeraddress/ledgeraddress.component';
-import { GenericModelComponent } from './modals/generic-model/generic-model.component';
+import { GenericModelComponent } from './modals/generic-modals/generic-model/generic-model.component';
 import { AddReceiptsComponent } from './modals/add-receipts/add-receipts.component';
 import { GetUserBankInfoComponent } from './modals/get-user-bank-info/get-user-bank-info.component';
 import { UploadDocsComponent } from './modals/upload-docs/upload-docs.component';
 import { OrderdetailComponent } from './acounts-modals/orderdetail/orderdetail.component';
+import { AddTransportAgentComponent } from './modals/LRModals/add-transport-agent/add-transport-agent.component';
 import { AddCompanyBranchComponent } from './modals/add-company-branch/add-company-branch.component';
 import { CompanyAssociationComponent } from './modals/company-association/company-association.component';
 import { CompanyEstablishmentComponent } from './modals/company-establishment/company-establishment.component';
 import { CompanyContactsComponent } from './modals/company-contacts/company-contacts.component';
 import { AddMaterialComponent } from './modals/LRModals/add-material/add-material.component';
 import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/lrrate-calculator.component';
+import { FoUserStateComponent } from './modals/fo-user-state/fo-user-state.component';
+import { LrInvoiceColumnsComponent } from './pages/lr-invoice-columns/lr-invoice-columns.component';
+import { GenerateLrMainfestoComponent } from './lorry-receipt/generate-lr-mainfesto/generate-lr-mainfesto.component';
+import { FeedbackModalComponent } from './modals/feedback-modal/feedback-modal.component';
+import { GenericInputTypeComponent } from './modals/generic-modals/generic-input-type/generic-input-type.component';
+import { ModalWiseFuelAverageComponent } from './modals/modal-wise-fuel-average/modal-wise-fuel-average.component';
+import { TripdetailComponent } from './acounts-modals/tripdetail/tripdetail.component';
+import { SupportingDocComponent } from './modals/LRModals/supporting-doc/supporting-doc.component';
+import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
+import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-party-details.component';
+import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
+import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-view-summary.component';
 
 
 
@@ -392,15 +405,31 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     GetUserBankInfoComponent,
     UploadDocsComponent,
     OrderdetailComponent,
+    AddTransportAgentComponent,
     AddCompanyBranchComponent,
     CompanyAssociationComponent,
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
     AddMaterialComponent,
     LRRateCalculatorComponent,
+    FoUserStateComponent,
+    LrInvoiceColumnsComponent,
+    GenerateLrMainfestoComponent,
+    FeedbackModalComponent,
+    GenericInputTypeComponent,
+    ModalWiseFuelAverageComponent,
+    GenerateLrMainfestoComponent,
+    TripdetailComponent,
+    SupportingDocComponent,
+    FreightInvoiceRateComponent,
+    BasicPartyDetailsComponent,
+    BankAccountsComponent,
+    LrInvoiceColumnsComponent,
+    FoWebViewSummaryComponent,
 
   ],
-  entryComponents: [
+  entryComponents:[
+    FreightInvoiceRateComponent,
     LRRateCalculatorComponent,
     LrRateComponent,
     ViewFrieghtInvoiceComponent,
@@ -450,9 +479,7 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     ErrorReportComponent,
     ReportIssueComponent,
     DocumentReportComponent,
-    ErrorReportComponent,
     AddEscalationIssueComponent,
-    DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
     DocumentIssuesComponent,
@@ -470,11 +497,7 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     AddFuelFillingComponent,
     AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
-    AddConsigneeComponent,
-    AddTripComponent,
-    AddFuelFillingComponent,
     VechileTrailsComponent,
-    AddTripComponent,
     EditDriverComponent,
     VoucherdetailComponent,
     VehiclesOnMapComponent,
@@ -524,7 +547,6 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     VouchercostcenterComponent,
     AddFuelFullRuleComponent,
     ErrorCoomonVehiclesComponent,
-    VouchercostcenterComponent,
     CostCenterViewComponent,
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
@@ -567,18 +589,30 @@ import { LRRateCalculatorComponent } from './modals/LRModals/lrrate-calculator/l
     TypeMasterComponent,
     TripSettlementComponent,
     EditViaRoutesPointsComponent,
-    TripSettlementComponent,
     LedgeraddressComponent,
     AddReceiptsComponent,
     GetUserBankInfoComponent,
     UploadDocsComponent,
     OrderdetailComponent,
+    AddTransportAgentComponent,
     AddCompanyBranchComponent,
     CompanyAssociationComponent,
     CompanyEstablishmentComponent,
     CompanyContactsComponent,
     AddMaterialComponent,
+    BasicPartyDetailsComponent,
+    BankAccountsComponent,
+    LrInvoiceColumnsComponent,
+    GenerateLrMainfestoComponent,
+    FoUserStateComponent,
+    FeedbackModalComponent,
+    GenericInputTypeComponent,
+    ModalWiseFuelAverageComponent,
+    TripdetailComponent,
+    SupportingDocComponent,
+    
 
+    FoWebViewSummaryComponent
   ],
   imports: [
     BrowserModule,

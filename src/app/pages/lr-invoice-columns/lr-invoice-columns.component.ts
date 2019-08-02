@@ -24,10 +24,17 @@ export class LrInvoiceColumnsComponent implements OnInit {
     public api: ApiService,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
-  ) { }
+  ) {
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+
+  }
 
   ngOnInit() {
   }
+  closeModal() {
+    this.activeModal.close();
+  }
+
 
   getPartyDetail(party) {
     console.log("party", party);

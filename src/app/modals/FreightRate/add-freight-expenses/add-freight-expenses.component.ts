@@ -23,29 +23,28 @@ export class AddFreightExpensesComponent implements OnInit {
   freightHeads = [];
   expenseDetails = [{
     frHead: null,
-    value: null
+    frHeadId: null,
+    value: null,
+    manualValue: null,
   },
   {
     frHead: null,
     frHeadId: null,
-    value: null
+    value: null,
+    manualValue: null,
   }, {
     frHead: null,
-    value: null
-  }]
+    frHeadId: null,
+    value: null,
+    manualValue: null,
+  }];
   title = "Add Freight Expenses";
   result = [];
   refernceData = [];
   data = [];
-  table = {
-    data: {
-      headings: {},
-      columns: []
-    },
-    settings: {
-      hideHeader: true
-    }
-  };
+  manualAmount = null;
+
+
   headings = [];
   valobj = {};
 
@@ -110,7 +109,9 @@ export class AddFreightExpensesComponent implements OnInit {
     this.expenseDetails.push(
       {
         frHead: null,
+        frHeadId: null,
         value: null,
+        manualValue: null,
       }
     )
   }
@@ -127,7 +128,6 @@ export class AddFreightExpensesComponent implements OnInit {
 
   saveDetails() {
     ++this.common.loading;
-
     let params = {
       vehicleId: this.expense.vehicleId,
       vehicleNo: this.expense.vehicleRegNo,
@@ -171,30 +171,20 @@ export class AddFreightExpensesComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         this.data = res['data'];
-        this.table = {
-          data: {
-            headings: {},
-            columns: []
-          },
-          settings: {
-            hideHeader: true
-          }
-        };
+        console.log("api data:", this.data);
         this.headings = [];
         this.valobj = {};
         if (!this.data || !this.data.length) {
-          //document.getElementById('mdl-body').innerHTML = 'No record exists';
           return;
         }
-        let first_rec = this.data[0];
-        for (var key in first_rec) {
+
+
+        // let first_rec = this.data[0];
+        for (var key in this.data[0]) {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
           }
         }
-        this.table.data.columns = this.getTableColumns();
 
       }, err => {
         console.error(err);
@@ -202,27 +192,12 @@ export class AddFreightExpensesComponent implements OnInit {
       });
 
   }
+
+
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
-  getTableColumns() {
-    let columns = [];
-    console.log("Data=", this.data);
-    this.data.map(doc => {
-      this.valobj = {};
-      for (let i = 0; i < this.headings.length; i++) {
-        if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash', action: this.DeleteExpense.bind(this, doc) }] };
-        }
-        else {
 
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-        }
-      }
-      columns.push(this.valobj);
-    });
-    return columns;
-  }
   DeleteExpense(del) {
     let params = {
       expId: del._exp_id,
@@ -238,6 +213,46 @@ export class AddFreightExpensesComponent implements OnInit {
         this.common.showError(err);
         console.log('Error: ', err);
       });
+  }
+
+  editExpenses(row) {
+    let expDetails = [{
+      frHead: row['Ledger Type'],
+      frHeadId: row._ledger_id,
+      value: row.Amount,
+      manualValue: row['Manual Amount'],
+    }];
+
+    let params = {
+      vehicleId: this.expense.vehicleId,
+      vehicleNo: this.expense.vehicleRegNo,
+      vehicleType: this.expense.vehicleType,
+      referId: this.expense.refId,
+      referType: this.expense.refernceType,
+      remarks: this.expense.remarks,
+      podId: null,
+      expenseDetails: JSON.stringify(expDetails),
+    }
+    console.log("params", params);
+
+    ++this.common.loading;
+    this.api.post('FrieghtRate/saveFrieghtExpenses', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('response :', res);
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast("Freight added Successfully");
+          this.getExpenses();
+        } else {
+          this.common.showError(res['data'][0].y_msg);
+        }
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+
+
   }
 }
 

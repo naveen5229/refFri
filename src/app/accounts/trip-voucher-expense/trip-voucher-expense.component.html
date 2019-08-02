@@ -70,7 +70,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;" (dblclick)="getVoucherSummary(tripVoucher)">
+          <tr *ngFor="let tripVoucher of showtripvoucher;let i = index;" (click)="selectedRow = i"
+          (dblclick)="getVoucherSummary(tripVoucher)" [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{i+1}}</td>
             <td>{{tripVoucher.y_date}}</td>
             <td>{{tripVoucher.y_vehicle_name}}</td>

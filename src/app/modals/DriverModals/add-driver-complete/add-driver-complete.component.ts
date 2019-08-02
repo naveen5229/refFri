@@ -20,17 +20,17 @@ export class AddDriverCompleteComponent implements OnInit {
     name: null,
     mobileno: null,
     mobileno2: null,
-    photo: null,
+
     lisenceNumber: null,
-    lisencePhoto: null,
+
     adharNumber: null,
-    adharPhoto: null,
+
     salary: null,
     guranter: null,
     guranterMobileNo: null,
     doj: this.common.dateFormatter1(new Date()),
   };
-
+  addDriverRes = [];
   constructor(public common: CommonService,
     public modalService: NgbModal,
     private formbuilder: FormBuilder,
@@ -48,10 +48,7 @@ export class AddDriverCompleteComponent implements OnInit {
       mobileno2: ['', [Validators.minLength(10), Validators.maxLength(10)]],
       guranterno: [''],
       lisenceno: [''],
-      uploadPhoto: [''],
-      lisencephoto: [''],
       aadharno: [''],
-      aadharphoto: [''],
       Salary: [''],
       guranter: [''],
       dateofJoin: ['']
@@ -61,6 +58,7 @@ export class AddDriverCompleteComponent implements OnInit {
     this.driverForm.controls = null;
 
     this.activeModal.close({ response: true });
+
   }
   get f() { return this.driverForm.controls; }
 
@@ -78,66 +76,36 @@ export class AddDriverCompleteComponent implements OnInit {
       name: this.driverForm.controls.name.value,
       mobileNo: this.driverForm.controls.mobileno.value,
       mobileNo2: this.driverForm.controls.mobileno2.value,
-      // photo: this.driver.photo,
-      // lisenceNo: this.driverForm.controls.lisenceno.value,
-      // licencePhoto: this.driver.lisencePhoto,
-      // aadharNo: this.driverForm.controls.aadharno.value,
-      // aadharPhoto: this.driver.adharPhoto,
       guarantorName: this.driverForm.controls.guranter.value,
       guarantorMobile: this.driverForm.controls.guranterno.value,
       doj: this.driver.doj,
+      salary: this.driverForm.controls.Salary.value,
     };
     this.common.loading++;
     this.api.post('/Drivers/add', params)
       .subscribe(res => {
         this.common.loading--;
+        this.addDriverRes = res['data']
         console.log('Res:', res['data']);
-        this.common.showToast(res['msg']);
-        if(res['msg'] == "Success")
-        this.closeModal();
-        const activeModal = this.modalService.open(UploadDocsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+        if (this.addDriverRes[0]) {
+
+          //  const activeModal = this.modalService.open(UploadDocsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+          this.common.params = { driverId: this.addDriverRes };
+          const activeModal = this.modalService.open(UploadDocsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+          this.closeModal();
+
+        } else {
+          this.common.showError(res['data'].y_msg);
+        }
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  handleFileSelection(event, index) {
-    this.common.loading++;
-    this.common.getBase64(event.target.files[0])
-      .then(res => {
-        this.common.loading--;
-        let file = event.target.files[0];
-        console.log("Type", file.type);
-        if (file.type == "image/jpeg" || file.type == "image/jpg" ||
-          file.type == "image/png" || file.type == "application/pdf" ||
-          file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-          file.type == "application/vnd.ms-excel" || file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-          this.common.showToast("SuccessFull File Selected");
-        }
-        else {
-          this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
-          return false;
-        }
 
-        console.log('Base 64: ', res);
-        if (index == 1) {
-          this.driver.lisencePhoto = res;
-        }
-        if (index == 2) {
-          this.driver.adharPhoto = res;
-        }
-        if (index == 3) {
-
-          this.driver.photo = res;
-        }
-        // this.driver.lisencephoto = { 'image'+ index: res };
-
-        // console.log('photos', this.driver.lisencephoto);
-      }, err => {
-        this.common.loading--;
-        console.error('Base Err: ', err);
-      })
-  }
 
 }

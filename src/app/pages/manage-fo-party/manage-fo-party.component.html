@@ -1,0 +1,32 @@
+<nb-card *ngIf="companyExist">
+    <nb-card-header>
+        <h5>Manage Party</h5>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="company-association">
+            <div class="row ">
+                <div class="col-2">
+                    <label>Association Type</label>
+                </div>
+                <div class="col-3">
+                    <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="assType">
+                       <option *ngFor="let type of associationType" [value]="type.y_id">
+                          {{type.y_groupname}}
+                       </option>
+                   </select>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-primary" (click)="getCmpAssocWrtType()">Submit</button>
+                </div>
+                <div class="col-5 text-right">
+                    <button type="button" class="btn btn-primary" (click)="addNewParty()">ADD NEW PARTY</button>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="companyBranch">
+                </smart-table>
+            </div>
+        </div>
+
+    </nb-card-body>
+</nb-card>

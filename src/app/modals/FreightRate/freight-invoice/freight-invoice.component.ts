@@ -4,6 +4,7 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { AccountService } from '../../../services/account.service';
 import { AddConsigneeComponent } from '../../LRModals/add-consignee/add-consignee.component';
+import { LrAssignComponent } from '../../LRModals/lr-assign/lr-assign.component';
 
 @Component({
   selector: 'freight-invoice',
@@ -11,8 +12,14 @@ import { AddConsigneeComponent } from '../../LRModals/add-consignee/add-consigne
   styleUrls: ['./freight-invoice.component.scss', '../../../pages/pages.component.css']
 })
 export class FreightInvoiceComponent implements OnInit {
+  showhide = {
+    show: true
+  }
+
+  state = false;
   freightInvoice = {
     branchId: null,
+    branchName: null,
     company: null,
     invoiceNo: null,
     date: new Date(),
@@ -20,8 +27,8 @@ export class FreightInvoiceComponent implements OnInit {
     companyName: null,
     companyId: null,
     remark: null,
-
-
+    id: null,
+    gst: '5',
   };
 
 
@@ -34,7 +41,22 @@ export class FreightInvoiceComponent implements OnInit {
       this.getBranchDetails();
     }
     this.common.handleModalSize('class', 'modal-lg', '800');
+    console.log("Branches", this.accountService.branches);
 
+    if (this.common.params.title == 'Edit') {
+      this.showhide.show = false;
+      console.log("branchId:", this.common.params.freightInvoice._branch_id);
+      this.freightInvoice.branchId = this.common.params.freightInvoice._branch_id;
+      this.freightInvoice.branchName = this.common.params.freightInvoice['Branch Name'];
+      this.freightInvoice.companyId = this.common.params.freightInvoice._party_id;
+      this.freightInvoice.companyName = this.common.params.freightInvoice['Party Name'];
+      this.freightInvoice.invoiceNo = this.common.params.freightInvoice['Invoice No'];
+      this.freightInvoice.date = new Date(this.common.params.freightInvoice._inv_date);
+      this.freightInvoice.remark = this.common.params.freightInvoice._remarks;
+      this.freightInvoice.id = this.common.params.freightInvoice._id ? this.common.params.freightInvoice._id : null;
+      this.freightInvoice.gst = this.common.params.freightInvoice._gst;
+      this.state = this.common.params.freightInvoice._is_samestate == "same" ? true : false;
+    }
   }
 
   ngOnInit() {
@@ -64,14 +86,18 @@ export class FreightInvoiceComponent implements OnInit {
   }
 
   saveInvoice() {
-    ++this.common.loading;
+
     let params = {
-      branchId: this.accountService.selected.branch.id,
+      branchId: this.freightInvoice.branchId,
       partyId: this.freightInvoice.companyId,
       invoiceNo: this.freightInvoice.invoiceNo,
       invoiceDate: this.common.dateFormatter(this.freightInvoice.date).split(' ')[0],
       remarks: this.freightInvoice.remark,
+      id: this.freightInvoice.id ? this.freightInvoice.id : null,
+      isSameState: this.state ? "same" : "notsame",
+      gst: this.freightInvoice.gst
     };
+    ++this.common.loading;
     this.api.post("FrieghtRate/saveInvoices", params)
       .subscribe(res => {
         --this.common.loading;
@@ -79,6 +105,7 @@ export class FreightInvoiceComponent implements OnInit {
         if (res['data'][0].y_id > 0) {
           this.common.showToast(res['data'][0].y_msg);
           this.activeModal.close({ data: true });
+          this.lrAssign(res['data'][0].y_id);
         }
         else {
           this.common.showError(res['data'][0].y_msg);
@@ -92,6 +119,31 @@ export class FreightInvoiceComponent implements OnInit {
 
   }
 
+  lrAssign(id) {
+    let row = {
+      _branch_id: this.freightInvoice.branchId,
+      _party_id: this.freightInvoice.companyId,
+      _id: ''
+    }
+    this.common.handleModalSize('class', 'modal-lg', '800');
+    this.common.params = { row: row };
+    const activeModal = this.modalService.open(LrAssignComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
+    });
+  }
+  check(type) {
+    console.log("type", type);
+    if (type == true) {
+      this.state = true;
+      return;
+    }
+    else {
+      this.state = false;
+
+    }
+  }
 
 
 }

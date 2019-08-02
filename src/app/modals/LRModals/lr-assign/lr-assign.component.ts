@@ -29,18 +29,23 @@ export class LrAssignComponent implements OnInit {
   headings = [];
   valobj = {};
 
+
+  headings1 = [];
+  valobj1 = {};
+  data1 = [];
+  columnsValue = [];
   constructor(public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal) {
 
     console.log("Data:::", this.common.params.row);
+    this.common.handleModalSize('class', 'modal-lg', '800', 'px', 1);
     this.branchId = this.common.params.row._branch_id ? this.common.params.row._branch_id : null;
     this.partyId = this.common.params.row._party_id ? this.common.params.row._party_id : null;
     this.invoiceId = this.common.params.row._id ? this.common.params.row._id : null;
     this.getlrUnmapped();
     this.viewlrData();
-
   }
 
   ngOnInit() {
@@ -66,8 +71,19 @@ export class LrAssignComponent implements OnInit {
     console.log("params", params);
     this.api.post('FrieghtRate/getlrUnmapped', params)
       .subscribe(res => {
+        console.log("resss", res);
         this.common.loading--;
-        this.dataList = res['data'];
+        this.headings1 = [];
+        this.valobj1 = {};
+        this.data1 = [];
+        this.columnsValue = [];
+        this.data1 = res['data'];
+        if (this.data1) {
+          console.log("data", this.data);
+          this.getTableColumnName();
+        }
+
+
 
       }, err => {
         this.common.loading--;
@@ -76,11 +92,40 @@ export class LrAssignComponent implements OnInit {
       });
   }
 
-  onChange(email: string, isChecked: boolean) {
+
+  getTableColumnName() {
+    console.log
+    this.headings = [];
+    this.valobj = {};
+    let first_rec = this.data1[0];
+    for (var key in first_rec) {
+      if (key.charAt(0) != "_") {
+        this.headings1.push(key);
+      }
+    }
+
+    console.log("headings", this.headings1);
+    this.getTableColumn();
+  }
+
+  getTableColumn() {
+    this.data1.map(doc => {
+      this.valobj1 = {};
+
+      for (let i = 0; i < this.headings1.length; i++) {
+        this.valobj1[this.headings1[i]] = doc[this.headings1[i]];
+      }
+      this.columnsValue.push(this.valobj1);
+    });
+    console.log("this.columnsValue", this.columnsValue);
+  }
+
+  onChange(id: string, isChecked: boolean) {
+    console.log()
     if (isChecked) {
-      this.selectedType.push(email);
+      this.selectedType.push(id);
     } else {
-      let index = this.selectedType.indexOf(email);
+      let index = this.selectedType.indexOf(id);
       this.selectedType.splice(index, 1);
     }
     console.log(this.selectedType);
@@ -200,6 +245,8 @@ export class LrAssignComponent implements OnInit {
     return columns;
   }
 
+
+
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
@@ -222,7 +269,7 @@ export class LrAssignComponent implements OnInit {
     let params = {
       invoiceId: this.invoiceId,
       lrIds: null,
-      lrId: row._id,
+      lrId: row._lrid,
     }
     console.log("params", params);
     this.api.post('FrieghtRate/assignGroups', params)
