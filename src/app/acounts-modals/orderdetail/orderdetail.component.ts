@@ -1207,7 +1207,6 @@ export class OrderdetailComponent implements OnInit {
           { txt: taxDetail.taxledger.name  || '' ,'colspan':3,align:'right',font:6},
           { txt: taxDetail.taxamount || '','colspan':3,align:'right',font:6 },
           { txt:  '' },
-          { txt:  '' }
         ]);
     });
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
