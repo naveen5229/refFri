@@ -132,8 +132,16 @@
               <option [value]="true">True</option>
             </select></td>
                 <td>
-                    <auto-suggestion (onSelected)="selectCompany($event)" url="Suggestion/GetCompanies" [preSelected]="companyName ? {name:companyName, id: is_company} : ''" [display]="['name','id']" seperator="-" placeholder="Search By  Company Name">
-                    </auto-suggestion>
+                    <div class="row">
+                        <div class="col-10 w-100">
+                            <auto-suggestion (onSelected)="selectCompany($event)" url="Suggestion/GetCompanies" [preSelected]="companyName ? {name:companyName, id: is_company} : ''" [display]="['name','id']" seperator="-" placeholder="Search By  Company Name">
+                            </auto-suggestion>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" style="margin-left:-23px" ;class="btn btn-primary" (click)="addCompany()"><i class="fa fa-plus add"> </i></button>
+
+                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
