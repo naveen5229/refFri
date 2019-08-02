@@ -46,7 +46,7 @@ export class AddDriverCompleteComponent implements OnInit {
       name: ['', [Validators.required]],
       mobileno: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       mobileno2: ['', [Validators.minLength(10), Validators.maxLength(10)]],
-      guranterno: [''],
+      guranterno: ['', [Validators.minLength(10), Validators.maxLength(10)]],
       lisenceno: [''],
       aadharno: [''],
       Salary: [''],
