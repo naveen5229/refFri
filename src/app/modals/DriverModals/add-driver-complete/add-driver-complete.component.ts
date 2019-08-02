@@ -43,7 +43,7 @@ export class AddDriverCompleteComponent implements OnInit {
 
   ngOnInit() {
     this.driverForm = this.formbuilder.group({
-      name: [''],
+      name: ['', [Validators.required]],
       mobileno: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       mobileno2: ['', [Validators.minLength(10), Validators.maxLength(10)]],
       guranterno: [''],
