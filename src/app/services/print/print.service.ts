@@ -126,60 +126,6 @@ export class PrintService {
     }
   }
 
-  // invoiceFormat2(ppContainer: HTMLElement, json: any) {
-  //   const DPI = this.getDPI();
-  //   const pageSize = PAGE_SIZE[this.detectBrowser()];
-  //   let pageIndex = 1;
-  //   let previousPage = null;
-  //   json.table.forEach((rowdata, index) => {
-  //     let rowIndex = 0;
-  //     // while (rowIndex < rowdata.rows.length) {
-  //     let pageContainer = this.createPageHtml();
-  //     ppContainer.appendChild(pageContainer);
-  //     let page = pageContainer.children[0];
-  //     let pageInsider = page.children[0];
-  //     if (pageIndex == 1) {
-  //       pageInsider.appendChild(this.createHeaderHtml(json.headers));
-  //       pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
-  //     }
-
-  //     let tableContainer = this.createTableHtml();
-  //     pageInsider.appendChild(tableContainer);
-  //     let table = tableContainer.children[0];
-  //     if (rowIndex == 0) {
-  //       console.log('wdfs', rowdata.headings);
-  //       table.appendChild(this.createTheadHtml(rowdata.headings));
-  //     }
-
-  //     let tbody = this.createTbodyHtml()
-  //     table.appendChild(tbody);
-  //     let isNewPage = false;
-  //     for (let i = rowIndex; i < rowdata.rows.length; i++) {
-  //       let row = this.createTrHtml(rowdata.rows[i]);
-  //       tbody.appendChild(row);
-  //       let mm = (pageInsider['offsetHeight'] + row.offsetHeight * 25.4) / DPI;
-  //       if (mm > pageSize && i != rowdata.rows.length - 1) {
-  //         rowIndex = i + 1;
-  //         isNewPage = true;
-  //         break;
-  //       }
-  //       rowIndex++;
-  //     }
-  //     if (isNewPage || (rowIndex == rowdata.rows.length && index == json.table.length - 1)) {
-  //       if (rowIndex == rowdata.rows.length && index == json.table.length - 1) {
-  //         pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
-  //         pageContainer.appendChild(this.createSignatureHtml(json.signatures));
-  //       }
-  //       pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
-  //       pageIndex++;
-  //       previousPage = null;
-  //     } else {
-  //       previousPage = page;
-  //     }
-  //     // }
-
-  //   });
-  // }
   /**
   * Invoice Format 1 : This is one format of invoice if you want to create like this, you can use it.
   * @param ppContainer - All printing pages container
@@ -206,9 +152,9 @@ export class PrintService {
         pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
       }
 
-      let tableContainer = this.createTableHtml();
+      let tableContainer = this.createTableHtml(tableJSON.name);
       pageInsider.appendChild(tableContainer);
-      let table = tableContainer.children[0];
+      let table = tableContainer.children[1];
       if (rowIndex == 0) {
         table.appendChild(this.createTheadHtml(tableJSON.headings));
       }
@@ -287,10 +233,15 @@ export class PrintService {
   /**
    * Create table tag
    */
-  createTableHtml() {
+  createTableHtml(tableName?) {
     let tableContainer = document.createElement('div');
+
     tableContainer.className = 'pp-v1-container';
-    tableContainer.innerHTML = ` <table class="table table-bordered"></table>`;
+    tableContainer.innerHTML = '';
+    if (tableName) {
+      tableContainer.innerHTML = `<h5>${tableName}</h5>`;
+    }
+    tableContainer.innerHTML += `<table class="table table-bordered"></table>`;
     return tableContainer;
   }
 

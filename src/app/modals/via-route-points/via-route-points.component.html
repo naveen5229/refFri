@@ -11,7 +11,7 @@
       <table frame="box" class="infotable">
         <tbody>
           <tr>
-            <td colspan="2" class="checkbox-points p-0">
+            <td class="checkbox-points p-0" style="width: 110px;">
               <span>Site</span> <input value="site" [(ngModel)]="locType" type="radio" id="typeSite"
                 (click)="setRadio(0)" checked="checked" name="radio"> &nbsp;
               <span>Map</span> <input value="map" [(ngModel)]="locType" type="radio" id="fromMap" (click)="setRadio(1)"
@@ -52,6 +52,14 @@
               <input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="order" min="1"
                 max="900" />
             </td>
+            <td>
+              <label>Type</label>
+              <select [(ngModel)]="type" class="form-control" name="type">
+                <option value="0">Regular</option>
+                <option value="1">Loading/Unloading</option>
+
+              </select>
+            </td>
           </tr>
 
 
@@ -72,13 +80,14 @@
         </div>
       </table>
 
-      <table class="tbl table table-bordered table-hover">
-        <thead class="thead" *ngIf="tableData && tableData.length">
+      <table class="tbl table table-bordered table-hover" *ngIf="tableData && tableData.length">
+        <thead class="thead">
           <tr>
             <th style="width:40px;">S.No</th>
             <th>Name</th>
             <th>Order</th>
             <th>Kms</th>
+            <th>Type</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -88,12 +97,13 @@
             <td style="width:40px;">{{data.name}}</td>
             <td><input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="data.via_order">
             <td>{{data.kms}}</td>
+            <td>{{data.Type}}</td>
             <td><i class="fas fa-times text-red" (click)="clickDelete(data.name , i)"></i>
               <i class="fas fa-edit edit" (click)="editRow(i)"></i></td>
           </tr>
           <tr>
-            <button class="btn btn-primary add-route  pt-1" (click)="updateOrder(tableData)"
-              style="margin-top:3px;">Update Order</button>
+            <button *ngIf="tableData && tableData.length" class="btn btn-primary add-route  pt-1"
+              (click)="updateOrder(tableData)" style="margin-top:3px;">Update Order</button>
           </tr>
         </tbody>
 

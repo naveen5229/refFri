@@ -72,7 +72,9 @@ import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.co
 import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { SitesComponent } from './sites/sites.component';
+import { FinanceRecoveryComponent } from './finance-recovery/finance-recovery.component';
 import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.component';
+import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.component';
 
 
 
@@ -147,7 +149,10 @@ const PAGES_COMPONENTS = [
     CardMappingComponent,
     TransfersComponent,
     SitesComponent,
+    FinanceRecoveryComponent,
     ManageFoPartyComponent,
+    ManageFoPartyComponent,
+    FoFuelAverageComponent,
 
     // CustomDatePipe
   ],

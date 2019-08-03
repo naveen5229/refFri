@@ -7,6 +7,10 @@ nb-card-header{
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
+:host ::ng-deep .lightcoral{
+    color: #721c24 !important;
+    background: lightcoral !important;
+}
 
 .alert-danger{
     color: #721c24 !important;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,HostListener } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +24,7 @@ export class TripVoucherExpenseComponent implements OnInit {
   fuelFilings = [];
   tripHeads = [];
   tripVouchers = [];
+  showtripvoucher=[];
   selectedVehicle = {
     id: 0
   };
@@ -35,6 +36,12 @@ export class TripVoucherExpenseComponent implements OnInit {
   routId=0;
   tripExpDriver=[];
   vchdt=1;
+  selectedRow = -1;
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event) {
+    this.keyHandler(event);
+  }
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -74,7 +81,7 @@ export class TripVoucherExpenseComponent implements OnInit {
   }
 
   getPendingTripsEditTime(voucherid) {
-    this.getTripExpences();
+  //  this.getTripExpences();
     if (this.selectedVehicle.id == 0) {
       this.common.showToast('please enter registration number !!')
     } else {
@@ -194,7 +201,12 @@ export class TripVoucherExpenseComponent implements OnInit {
       /***************************** Handle Row Enter ******************* */
      this.selectedVehicle.id=0;
     }
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && !activeId && this.showtripvoucher.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.showtripvoucher.length - 1) this.selectedRow++;
 
+    }
   }
   checkedAllSelected() {
     this.checkedTrips = [];
@@ -324,7 +336,7 @@ export class TripVoucherExpenseComponent implements OnInit {
     this.common.loading++;
     this.api.post('TripExpenseVoucher/getTripExpenseVouchers', params)
       .subscribe(res => {
-        console.log('trip expence 222', res);
+        console.log('trip expence 11', res);
         this.common.loading--;
         this.tripVouchers = res['data'];
       }, err => {
@@ -372,7 +384,7 @@ export class TripVoucherExpenseComponent implements OnInit {
     this.common.loading++;
     this.api.post('VehicleTrips/getTripExpenceFilterVoucher', params)
       .subscribe(res => {
-        console.log('trip expence', res);
+        console.log('trip expence 22', res);
         this.common.loading--;
         this.tripVouchers = res['data'];
       }, err => {
@@ -393,9 +405,10 @@ export class TripVoucherExpenseComponent implements OnInit {
     this.common.loading++;
     this.api.post('VehicleTrips/getTripExpenceFilterVoucher', params)
       .subscribe(res => {
-        console.log('trip expence', res);
+        console.log('trip expence 33', res);
         this.common.loading--;
-        this.tripVouchers = res['data'];
+       this.showtripvoucher= this.tripVouchers = res['data'];
+       this.selectedRow = 0;
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -403,7 +416,7 @@ export class TripVoucherExpenseComponent implements OnInit {
       });
   }
 
-  getVoucherSummary(tripVoucher) {
+  getVoucherSummary(tripVoucher) { 
     console.log('trdhh-----', tripVoucher);
     this.selectedVehicle.id=tripVoucher.y_vehicle_id;
     this.getPendingOnEditTrips();
@@ -434,6 +447,7 @@ export class TripVoucherExpenseComponent implements OnInit {
         this.common.showError();
       });
   }
+
   showVoucherSummary(tripDetails, tripVoucher) {
     let vehId = this.selectedVehicle.id;
     let tripEditData = this.TripEditData;

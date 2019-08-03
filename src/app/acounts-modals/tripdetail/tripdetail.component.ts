@@ -930,7 +930,8 @@ let invoiceJson={};
           { txt: 'End Date' },
           { txt: 'Trip Empty' },
         ],
-        rows: rows1
+        rows: rows1,
+        name:'Trips Detail'
       },
       
       {
@@ -942,7 +943,8 @@ let invoiceJson={};
           return {txt: checkname.start_name +'-'+ checkname.end_name}
          })
         ],
-        rows: rows3
+        rows: rows3,
+        name:'Trips Expence Detail'
       },
       {
         headings: [
@@ -951,7 +953,8 @@ let invoiceJson={};
           { txt: 'Remarks' },
           { txt: 'Ledger' }
         ],
-        rows: rows4
+        rows: rows4,
+        name:'Advance'
       }],
       signatures: ['Accountant', 'Approved By'],
       footer: {
@@ -990,7 +993,9 @@ let invoiceJson={};
           { txt: 'End Date' },
           { txt: 'Trip Empty' },
         ],
-        rows: rows1
+        rows: rows1,
+        name:'Trip Details'
+
       },
       {
         headings: [
@@ -1001,7 +1006,8 @@ let invoiceJson={};
           { txt: 'Amount' },
           { txt: 'Date' },
         ],
-        rows: rows2
+        rows: rows2,
+        name:'Trip Fuel Fillings'
       },
       {
         headings: [
@@ -1012,7 +1018,9 @@ let invoiceJson={};
           return {txt: checkname.start_name +'-'+ checkname.end_name}
          })
         ],
-        rows: rows3
+        rows: rows3,
+        name:'Trips Expence Detail'
+
       },
       {
         headings: [
@@ -1021,12 +1029,13 @@ let invoiceJson={};
           { txt: 'Remarks' },
           { txt: 'Ledger' }
         ],
-        rows: rows4
+        rows: rows4,
+        name:'Advance'
       }],
       signatures: ['Accountant', 'Approved By'],
       footer: {
         left: { name: 'Powered By', value: 'Elogist Solutions' },
-        center: { name: 'Printed Date', value: '06-July-2019' },
+        center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(),'ddMMYYYY').split(' ')[0] },
         right: { name: 'Page No', value: 1 },
       },
       footertotal:[

@@ -133,6 +133,10 @@ export class VoucherSummaryShortComponent implements OnInit {
           (trip.id == tripedit.id) ? trip.isChecked = true : '';
         })
       });
+      this.trips.sort((a) => {
+        if (a.isChecked == true) return -1;
+        else return 1;
+      });
       // this.getFuelFillings(this.tripVoucher.startdate, this.tripVoucher.enddate);
       // this.getFuelFillingsEditTime(
       //   this.tripVoucher.startdate,
