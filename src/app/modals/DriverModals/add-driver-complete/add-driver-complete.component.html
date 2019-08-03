@@ -14,13 +14,13 @@
       </div>
       <div class="col-3">
         <input type="text" class="form-control" id="driver-name" autocomplete="off" formControlName="name"
-          maxlength="64" placeholder="Driver Name">
-        <!-- <div *ngIf="submitted && f.name.errors" class="invalid-feedback"> -->
-        <!-- //<div *ngIf="f.name.errors.required">Driver Name is required</div> -->
+          maxlength="64" placeholder="Driver Name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" required>
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Driver Name is required</div>
 
 
 
-
+        </div>
       </div>
 
       <div class="col-3">
@@ -38,6 +38,7 @@
 
       </div>
     </div>
+
     <div class="row margin-top-15">
       <div class="col-3">
         <label>Contact Number 2</label>
@@ -50,18 +51,18 @@
           <div *ngIf="f.mobileno2.errors.minlength ">mobile Number minlength 10</div>
           <div *ngIf="f.mobileno2.errors.maxlength ">mobile Number maxlength 10</div>
         </div>
-      </div> 
+      </div>
       <div class="col-3">
-          <label>Date of Joining</label>
-        </div>
-        <div class="col-3">
-          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
-            placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="dateofJoin">
-        </div>
+        <label>Date of Joining</label>
+      </div>
+      <div class="col-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
+          placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="dateofJoin">
+      </div>
     </div>
 
-    <div class="row margin-top-15"> 
-     
+    <div class="row margin-top-15">
+
       <div class="col-3">
         <label>Salary</label>
       </div>
@@ -70,21 +71,25 @@
           placeholder="Salary">
       </div>
       <div class="col-3">
-          <label>Gauranter</label>
-        </div>
-        <div class="col-3">
-          <input type="text" class="form-control" id="Gauranter" autocomplete="off" formControlName="guranter"
-            placeholder="guranter">
-        </div>
+        <label>Gauranter</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="Gauranter" autocomplete="off" formControlName="guranter"
+          placeholder="guranter">
+      </div>
     </div>
-    <div class="row margin-top-15">   
+    <div class="row margin-top-15">
       <div class="col-3">
         <label>Guranter Mobile No.</label>
       </div>
       <div class="col-3">
         <input type="text" class="form-control" autocomplete="off" minlength="10" maxlength="10" id="guranter-no."
-          placeholder="Guranter mobile No." formControlName="guranterno">
-
+          placeholder="Guranter mobile No." formControlName="guranterno"
+          [ngClass]="{ 'is-invalid': submitted && f.guranterno.errors }">
+        <div *ngIf="submitted && f.guranterno.errors" class="invalid-feedback">
+          <div *ngIf="f.guranterno.errors.minlength ">mobile Number minlength 10</div>
+          <div *ngIf="f.guranterno.errors.maxlength ">mobile Number maxlength 10</div>
+        </div>
 
       </div>
     </div>
@@ -94,7 +99,7 @@
     <div class="col-md-12 text-center margin-top-15">
       <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form"
         (click)="submitted=true">ADD</button>
-      <!--(click)="submitted=true">ADD</button>-->
+
     </div>
 
   </form>

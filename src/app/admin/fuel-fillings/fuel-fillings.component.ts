@@ -126,10 +126,12 @@ export class FuelFillingsComponent implements OnInit {
       pp: null,
       fuel_station_id: null,
       vehicle_id: null,
-      id: null
+      id: null,
+      ref_type: null,
+      ref_id: null,
     };
     this.common.params = { rowfilling, title: 'Add Fuel Filling' };
-    const activeModal = this.modalService.open(EditFillingComponent, { container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         window.location.reload();

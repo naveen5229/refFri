@@ -416,7 +416,7 @@ export class TripVoucherExpenseComponent implements OnInit {
       });
   }
 
-  getVoucherSummary(tripVoucher) {
+  getVoucherSummary(tripVoucher) { 
     console.log('trdhh-----', tripVoucher);
     this.selectedVehicle.id=tripVoucher.y_vehicle_id;
     this.getPendingOnEditTrips();
@@ -447,6 +447,7 @@ export class TripVoucherExpenseComponent implements OnInit {
         this.common.showError();
       });
   }
+
   showVoucherSummary(tripDetails, tripVoucher) {
     let vehId = this.selectedVehicle.id;
     let tripEditData = this.TripEditData;
