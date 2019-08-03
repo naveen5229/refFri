@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <div class="col-6">
+        <div [class]=" images.length ?'col-6':'col-12'" style="padding-left:30px">
             <div class="table-conan filter-coff">
                 <table>
                     <tr *ngFor="let dd of oddArray ; let i = index; ">
@@ -14,14 +14,30 @@
                         <td *ngIf="oddArray[i]"><span *ngIf="oddArray[i].r_coltitle">
                                 <label>{{oddArray[i].r_coltitle}}<span style="color: red"
                                         *ngIf="oddArray[i].r_required">*</span></label>
-                                <input type="text" class="form-control" [(ngModel)]=oddArray[i].r_value>
+                                <input type="text" class="form-control" [(ngModel)]=oddArray[i].r_value
+                                    *ngIf="oddArray[i].r_coltype != 3">
+                                <uj-date-time-picker (onChanged)="oddArray[i].r_value = $event"
+                                    [dateTimeValue]="oddArray[i].r_value" *ngIf="oddArray[i].r_coltype ==3"
+                                    [isTime]="false">
+                                </uj-date-time-picker>
                             </span>
                         </td>
                         <td *ngIf="evenArray[i]"><span *ngIf="evenArray[i].r_coltitle">
                                 <label>{{evenArray[i].r_coltitle}} <span style="color: red"
-                                        *ngIf="oddArray[i].r_required">*</span></label>
-                                <input type="text" class="form-control" [(ngModel)]=evenArray[i].r_value>
+                                        *ngIf="evenArray[i].r_required">*</span></label>
+                                <input type="text" class="form-control" [(ngModel)]=evenArray[i].r_value
+                                    *ngIf="evenArray[i].r_coltype != 3">
+                                <uj-date-time-picker (onChanged)="evenArray[i].r_value = $event"
+                                    [dateTimeValue]="evenArray[i].r_value" *ngIf="evenArray[i].r_coltype ==3"
+                                    [isTime]="false">
+                                </uj-date-time-picker>
                             </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align: center">
+                            <button type="button" class="btn btn-primary" (click)="saveLrPodDetail()">Submit</button>
                         </td>
                     </tr>
                 </table>
@@ -29,9 +45,9 @@
                     <tbody>
                         <tr *ngFor="let detail of Details; let i= index">
                             <td>
-                                <select class="form-control" name="dropdown" id="dropdown"
+                                <select class="form-control" name="podField" id="podField"
                                     [(ngModel)]="detail.detail_type">
-                                    <option *ngFor="let status of dropDown" [value]="status.id">
+                                    <option *ngFor="let status of podField" [value]="status.id">
                                         {{status.name}}
                                     </option>
                                 </select>
@@ -56,20 +72,19 @@
                     </tbody>
                 </table> -->
             </div>
-            <div class="text-right mt-2">
-                <button type="button" class="btn btn-primary" (click)="saveLrPodDetail()">Submit</button>
-            </div>
+
             <!-- <div class="mt-2">
                 <smart-table *ngIf=" data && data.length" [data]="table.data" [settings]="table.settings"
                     id="cardMapping">
                 </smart-table>
             </div> -->
         </div>
-        <!-- <div class="col-6">
+        <div class="col-6" *ngIf="images.length">
             <div class="container">
-                <app-image-viewer [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
-                </app-image-viewer>
+                <app-image-viewer [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true"
+                    *ngIf="images.length"></app-image-viewer>
+
             </div>
-        </div> -->
+        </div>
     </div>
 </div>

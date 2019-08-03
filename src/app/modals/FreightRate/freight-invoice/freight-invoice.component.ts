@@ -12,10 +12,10 @@ import { LrAssignComponent } from '../../LRModals/lr-assign/lr-assign.component'
   styleUrls: ['./freight-invoice.component.scss', '../../../pages/pages.component.css']
 })
 export class FreightInvoiceComponent implements OnInit {
-  state="notsame";
+  state = "notsame";
   freightInvoice = {
     branchId: null,
-    branchName:null,
+    branchName: null,
     company: null,
     invoiceNo: null,
     date: new Date(),
@@ -23,8 +23,8 @@ export class FreightInvoiceComponent implements OnInit {
     companyName: null,
     companyId: null,
     remark: null,
-    id:null,
-    gst:'5',
+    id: null,
+    gst: '5',
   };
 
 
@@ -37,21 +37,20 @@ export class FreightInvoiceComponent implements OnInit {
       this.getBranchDetails();
     }
     this.common.handleModalSize('class', 'modal-lg', '800');
-    console.log("Branches",this.accountService.branches);
-    
-    if(this.common.params.title=='Edit')
-    {
-      console.log("branchId:",this.common.params.freightInvoice._branch_id);
-      this.freightInvoice.branchId=this.common.params.freightInvoice._branch_id;
-      this.freightInvoice.branchName=this.common.params.freightInvoice['Branch Name'];
-      this.freightInvoice.companyId=this.common.params.freightInvoice._party_id;
-      this.freightInvoice.companyName=this.common.params.freightInvoice['Party Name'];
-      this.freightInvoice.invoiceNo=this.common.params.freightInvoice['Invoice No'];
-      this.freightInvoice.date= new Date(this.common.params.freightInvoice._inv_date);
-      this.freightInvoice.remark=this.common.params.freightInvoice._remarks;
-      this.freightInvoice.id=this.common.params.freightInvoice._id;
-      this.freightInvoice.gst=this.common.params.freightInvoice._gst;
-      this.state=this.common.params.freightInvoice._is_samestate;
+    console.log("Branches", this.accountService.branches);
+
+    if (this.common.params.title == 'Edit') {
+      console.log("branchId:", this.common.params.freightInvoice._branch_id);
+      this.freightInvoice.branchId = this.common.params.freightInvoice._branch_id;
+      this.freightInvoice.branchName = this.common.params.freightInvoice['Branch Name'];
+      this.freightInvoice.companyId = this.common.params.freightInvoice._party_id;
+      this.freightInvoice.companyName = this.common.params.freightInvoice['Party Name'];
+      this.freightInvoice.invoiceNo = this.common.params.freightInvoice['Invoice No'];
+      this.freightInvoice.date = new Date(this.common.params.freightInvoice._inv_date);
+      this.freightInvoice.remark = this.common.params.freightInvoice._remarks;
+      this.freightInvoice.id = this.common.params.freightInvoice._id;
+      this.freightInvoice.gst = this.common.params.freightInvoice._gst;
+      this.state = this.common.params.freightInvoice._is_samestate;
     }
   }
 
@@ -84,16 +83,15 @@ export class FreightInvoiceComponent implements OnInit {
   saveInvoice() {
     ++this.common.loading;
 
-    console.log("Edit:",this.common.params.freightInvoice._id);
     let params = {
       branchId: this.freightInvoice.branchId,
       partyId: this.freightInvoice.companyId,
       invoiceNo: this.freightInvoice.invoiceNo,
       invoiceDate: this.common.dateFormatter(this.freightInvoice.date).split(' ')[0],
       remarks: this.freightInvoice.remark,
-      id:this.freightInvoice.id,
-      isSameState:this.state,
-      gst:this.freightInvoice.gst
+      id: this.freightInvoice.id,
+      isSameState: this.state,
+      gst: this.freightInvoice.gst
     };
     this.api.post("FrieghtRate/saveInvoices", params)
       .subscribe(res => {
@@ -120,8 +118,10 @@ export class FreightInvoiceComponent implements OnInit {
     let row = {
       _branch_id: this.freightInvoice.branchId,
       _party_id: this.freightInvoice.companyId,
-      _id: ''
+      _id: id
     }
+    console.log('Date:', row);
+
     this.common.handleModalSize('class', 'modal-lg', '800');
     this.common.params = { row: row };
     const activeModal = this.modalService.open(LrAssignComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
@@ -130,14 +130,14 @@ export class FreightInvoiceComponent implements OnInit {
 
     });
   }
-  check(type){
-    console.log("type",type);
-    if(type==true){
-      this.state='same';
+  check(type) {
+    console.log("type", type);
+    if (type == true) {
+      this.state = 'same';
       return;
     }
-    else{
-      this.state='notsame';
+    else {
+      this.state = 'notsame';
 
     }
   }

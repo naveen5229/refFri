@@ -11,7 +11,7 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 })
 export class LrPodDetailsComponent implements OnInit {
 
-  dropDown = [];
+  podField = [];
 
   evenArray = [];
   oddArray = [];
@@ -49,19 +49,8 @@ export class LrPodDetailsComponent implements OnInit {
     console.log("id", this.common.params);
     this.podId = this.common.params.podDetails.podId;
     this.lrId = this.common.params.podDetails.lrId;
-    this.common.handleModalSize('class', 'modal-lg', '1000');
+    this.common.handleModalSize('class', 'modal-lg', '500');
     this.getLrPodDetail();
-
-    //  this.title = this.common.params.title;
-    // this.common.params.images.map(image => {
-    //   if (image.name) {
-    //     if (image.image)
-    //       this.images.push(image.image);
-    //   } else {
-    //     this.images.push(image);
-    //   }
-    // });
-    // this.activeImage = this.images[0];
   }
 
   ngOnInit() {
@@ -71,54 +60,29 @@ export class LrPodDetailsComponent implements OnInit {
     this.activeModal.close();
   }
 
-  addMore() {
-    this.Details.push({
-      detail_type: 1,
-      param_value: null,
-      param_date: new Date(),
-      param_remarks: null,
-    });
-  }
 
   saveLrPodDetail() {
+    this.Details = this.evenArray.concat(this.oddArray);
     const params = {
       lrPodDetails: JSON.stringify(this.Details),
       podId: this.podId,
+      lrId: this.lrId
     }
     console.log("para", params)
     this.common.loading++;
     this.api.post('LorryReceiptsOperation/saveLrPodDetails', params)
       .subscribe(res => {
         this.common.loading--;
-        this.data = [];
-        this.table = {
-          data: {
-            headings: {},
-            columns: []
-          },
-          settings: {
-            hideHeader: true
-          }
-        };
-        this.Details = [];
-        this.addMore();
-        this.headings = [];
-        this.valobj = {};
-        if (!res['data']) return;
-        this.data = res['data'];
-        let first_rec = this.data[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
-          }
+        console.log("--res", res['data'][0].r_id)
+        if (res['data'][0].r_id > 0) {
+          this.common.showToast("Successfully Eenterd");
+        } else {
+          this.common.showError(res['data'][0].r_msg);
         }
-        this.table.data.columns = this.getTableColumns();
-        console.log('Api Response:', res);
       },
         err => {
           this.common.loading--;
+          this.common.showError(err);
           console.error('Api Error:', err);
         });
     // }
@@ -132,10 +96,16 @@ export class LrPodDetailsComponent implements OnInit {
     this.api.get('LorryReceiptsOperation/lrPodEditDetails?' + params)
       .subscribe(res => {
         this.common.loading--;
-        this.dropDown = res['data'];
-        console.log("resss", this.dropDown);
-      this.formatArray();
-
+        console.log("resss", res);
+        if (res['data']) {
+          this.podField = res['data'].result;
+          this.images = res['data'].images ? res['data'].images : []; //['http:\/\/edocs.elogist.in\/docs\/201907\/LrPod\/4559-93-pod1-1563360365.jpeg',];
+          this.formatArray();
+        }
+        if (this.images.length > 0) {
+          this.activeImage = this.images[0];
+          this.common.handleModalSize('class', 'modal-lg', '1000');
+        }
       },
         err => {
           this.common.loading--;
@@ -144,63 +114,14 @@ export class LrPodDetailsComponent implements OnInit {
     // }
   }
 
-  formatTitle(title) {
-    return title.charAt(0).toUpperCase() + title.slice(1)
-  }
-
-  getTableColumns() {
-    let columns = [];
-    console.log("Data=", this.data);
-    this.data.map(doc => {
-      this.valobj = {};
-      for (let i = 0; i < this.headings.length; i++) {
-        console.log("Type", this.headings[i]);
-        console.log("doc index value:", doc[this.headings[i]]);
-        if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash', action: this.deleteLr.bind(this, doc) }] };
-        }
-        else {
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-        }
-
-
-      }
-      columns.push(this.valobj);
-    });
-    return columns;
-  }
-
-  deleteLr(doc) {
-    console.log("values", doc);
-    const params = {
-      rowId: doc._id,
-    }
-    if (doc._id) {
-      this.common.params = {
-        title: 'Delete  ',
-        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
-      }
-      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-      activeModal.result.then(data => {
-        if (data.response) {
-          this.common.loading++;
-          console.log("par", params);
-          this.api.post('LorryReceiptsOperation/deleteLrPodDetail', params)
-            .subscribe(res => {
-              console.log('Api Response:', res)
-              this.common.showToast(res['msg']);
-              this.getLrPodDetail();
-              this.common.loading--;
-            },
-              err => console.error(' Api Error:', err));
-        }
-      });
-    }
-  }
   formatArray() {
     this.evenArray = [];
     this.oddArray = [];
-    this.dropDown.map(dd => {
+    this.podField.map(dd => {
+      if (dd.r_coltype == 3) {
+        dd.r_value = dd.r_value ? new Date(dd.r_value) : new Date();
+        console.log("date==", dd.r_value);
+      }
       if (dd.r_colorder % 2 == 0) {
         this.evenArray.push(dd);
       } else {

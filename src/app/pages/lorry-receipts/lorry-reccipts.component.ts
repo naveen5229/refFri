@@ -348,6 +348,7 @@ export class LorryRecciptsComponent implements OnInit {
     const activeModal = this.modalService.open(AddFreightExpensesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data:', data);
+      this.getLorryReceipts();
     });
   }
   openRevenueModal(lr) {
@@ -359,6 +360,7 @@ export class LorryRecciptsComponent implements OnInit {
     this.common.params = { revenueData: revenue };
     const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
+      this.getLorryReceipts();
     })
 
   }
@@ -372,6 +374,9 @@ export class LorryRecciptsComponent implements OnInit {
 
     this.common.params = { podDetails: podDetails };
     const activeModel = this.modalService.open(LrPodDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
+    activeModel.result.then(data => {
+      this.getLorryReceipts();
+    })
   }
 }
 
