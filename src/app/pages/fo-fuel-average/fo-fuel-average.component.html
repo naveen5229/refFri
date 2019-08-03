@@ -9,12 +9,20 @@
             </div>
         </div>
     </nb-card-header>
-    <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
+    <nb-card-body>
+        <div class="no-data alert alert-danger" role="alert" *ngIf=" fuelAvg.length==0">
+            No Data Available On That Time Period !
+        </div>
+
         <div>
+            <smart-table *ngIf=" fuelAvg.length>0" [data]="table.data" [settings]="table.settings"></smart-table>
+        </div>
+        <!-- <div>
+
             <smart-table *ngIf="fuelAvg && fuelAvg.length" [data]="table.data" [settings]="table.settings"></smart-table>
             <div class="no-data alert alert-danger" role="alert" *ngIf="fuelAvg.length==0">
                 No Data available !
             </div>
-        </div>
+        </div> -->
     </nb-card-body>
 </nb-card>

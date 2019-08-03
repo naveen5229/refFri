@@ -106,7 +106,7 @@ export class FinanceRecoveryComponent implements OnInit {
       apiData: null,
       radio1: 'Not Picking The Phone',
       radio2: 'Switch Off',
-      radio3: 'Highly Nagative Response',
+      radio3: 'Highly Negative Response',
       btn1: 'Cancel',
       btn2: 'Submit'
     }
@@ -145,7 +145,7 @@ export class FinanceRecoveryComponent implements OnInit {
       ledgerId: _ledid
     }
     console.log("params", this.common.params)
-    const activeModal = this.modalService.open(FoUserStateComponent, { size: "lg", container: "nb-layout" });
+    const activeModal = this.modalService.open(FoUserStateComponent, {  container: "nb-layout" });
     activeModal.result.then(data => {
       console.log('res', data);
 
