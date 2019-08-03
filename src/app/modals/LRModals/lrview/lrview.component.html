@@ -349,6 +349,141 @@
             </div>
           </div>
         </ng-container>
+        <ng-container *ngSwitchCase="3">
+          <div class="modal-body p-0" id="print-section">
+            <div class="recipt-three-section">
+              <div class="recipt-three-header">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="gst-no">
+                      <p>GSTIN : 08ANJP3025f15</p>
+                    </div>
+                    <div class="nikita-logo text-center">
+                      <h2><span>NIKITA</span> CARGO MOVERS</h2>
+                      <p class="teg-line">FLEET OWNER, TRANSPORT CONTRACTOR & COMMISION AGENT</p>
+                      <p class="speciallist">speciallist : 20, 30, 34 ft Container For All Over India</p>
+                      <p class="address">Khandal Chamber, Near Apno Rajasthan Hotel, Todi Mod, Sikar Road, Jaipur,
+                        Rajasthan-302013</p>
+                      <p class="other-info">Email : jaipur@nikitacargo.com, Website : www.nikitacargo.com</p>
+                    </div>
+                    <div class="mob-no">
+                      <p>
+                        <span class="pull-left text-right pr-1">Mob.:</span>
+                        <span class="pull-right">
+                          9829474407<br>
+                          9649874407<br>
+                          9829099082
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="recipt-three-body">
+                <div class="row">
+                  <div class="col-8">
+                    <div class="clearfix">
+                      <div class="consigor-box">
+                        <p class="red-title">CONSIGOR COPY</p>
+                        <div class="consigor-inner clearfix">
+                          <div class="left">
+                            <label></label>
+                            <label></label>
+                          </div>
+                          <div class="right">
+                            <p>The Consignor has statd that <br> he has not insured the consigment</p>
+                            <p>OR</p>
+                            <p>he has installed that consigment</p>
+                            <p class="compnay">Company <span></span></p>
+                            <p class="policy">Policy No<span></span>Date <span></span></p>
+                            <p class="amount">Amount<span></span>Risk<span></span></p>
+                          </div>
+                        </div>
+                        <p class="pin-code">JAIPUR - 302013</p>
+                      </div>
+                      <div class="truck-detail">
+                        <p class="truck-no"><label>Truck No.</label><span>{{lrDetails.regno}}</span></p>
+                        <p class="at-rick">At Owner's Rick</p>
+                        <p class="get-pay-box">GSTPAYBLE BY CONSIGNOR/CONSINEE</p>
+                        <p class="e-bill"><label>E-Way Bill NO.</label><span></span></p>
+                      </div>
+                    </div>
+                    <div class="feal-form clearfix pt-3">
+                      <p class="name">Consigor's Name & Address M/s <span>{{lrDetails.consignor}}</span></p>
+                      <p class="blank"><span>{{lrDetails.consigner_address}}</span></p>
+                      <p class="gistin"><span></span>GSTIN<span></span></p>
+                      <p class="bank-name">Consignee's Bank's Name & Address M/s <span>{{lrDetails.consignee}}</span>
+                      </p>
+                      <p class="blank"><span>{{lrDetails.consignee_address}}</span></p>
+                      <p><span></span></p>
+                      <p class="gistin"><span></span>GSTIN<span></span></p>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="lr-no">
+                      <label>L.R. No.</label>
+                      <p>Date <span>{{lrDetails.lr_date | date : 'dd MMM yyyy'}}</span></p>
+                    </div>
+                    <div class="form-box">
+                      <label>From</label>
+                      <span>{{lrDetails.source}}</span>
+                    </div>
+                    <div class="to-box">
+                      <label>To.</label>
+                      <span>{{lrDetails.destination}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="recipt-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Packages</th>
+                        <th>Description (said to contation)</th>
+                        <th>Weight</th>
+                        <th>Rate</th>
+                        <th>Freight</th>
+                        <th>PAID</th>
+                        <th>ToPay</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td><b>Note:</b> 1. We are not tacking tax credit of</td>
+                        <td rowspan="2" class="text-right">TOTAL</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td colspan="3">PARTY INVOICE NO.</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="recipt-three-footer mt-5">
+                  <div class="row">
+                    <div class="col-6">
+                      <p class="value-rs">Value Rs. . . . . . . . . . . . . . . . . . . . . . . . .</p>
+                    </div>
+                    <div class="col-6">
+                      <p class="signatcher text-right"><b>For Nikita Cargo Movers</b></p>
+                    </div>
+                  </div>
+                  <p class="note-red text-center m-0">Re-boking is not our responsibility, Goods Receipt at Owner's Risk
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </ng-container>
 
       </ng-container>
 
