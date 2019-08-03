@@ -26,6 +26,7 @@ export class GenericInputTypeComponent implements OnInit {
   ) {
     console.log("modal Data", this.common.params.data);
 
+
     if (this.common.params.data) {
       this.data = this.common.params.data.apiData;
       this.title = this.common.params.data.title;

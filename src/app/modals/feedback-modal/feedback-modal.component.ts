@@ -25,6 +25,8 @@ export class FeedbackModalComponent implements OnInit {
     public modalService:NgbModal,
     public common:CommonService,
     public api:ApiService) {
+      this.common.handleModalSize('class', 'modal-lg', '500', 'px', 2);
+
       this.ledgerId= this.common.params.leadgerId1;
       console.log("paera", this.common.params.leadgerId1)
       if(this.common.params.company != false){
