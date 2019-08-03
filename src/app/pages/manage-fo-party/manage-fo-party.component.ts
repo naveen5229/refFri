@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BasicPartyDetailsComponent } from '../../modals/basic-party-details/basic-party-details.component';
 import { CommonService } from '../../services/common.service';
+import { PartyLedgerMappingComponent } from '../../modals/party-ledger-mapping/party-ledger-mapping.component';
 
 
 
@@ -184,6 +185,14 @@ export class ManageFoPartyComponent implements OnInit {
       if (data.response) {
         this.getCmpAssocWrtType();
       }
+    });
+
+  }
+
+  partyMapping(){
+    const activeModal = this.modalService.open(PartyLedgerMappingComponent, {
+      size: "lg",
+      container: "nb-layout"
     });
 
   }

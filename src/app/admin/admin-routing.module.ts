@@ -348,8 +348,7 @@ const routes: Routes = [{
             path: 'locations',
             component: LocationsComponent,
             canActivate: [RouteGuard]
-        }
-
+        },
 
 
     ],

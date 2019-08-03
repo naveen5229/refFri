@@ -157,6 +157,7 @@ const PAGES_COMPONENTS = [
     // ViaRoutesComponent,
     BufferPolylineComponent,
     LocationsComponent,
+    
     // NearbyPodsComponent
   ],
   exports: [

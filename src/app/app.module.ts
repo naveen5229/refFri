@@ -221,6 +221,7 @@ import { SupportingDocComponent } from './modals/LRModals/supporting-doc/support
 import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
 import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-party-details.component';
 import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
+import { PartyLedgerMappingComponent } from './modals/party-ledger-mapping/party-ledger-mapping.component';
 
 
 
@@ -413,7 +414,8 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
     FreightInvoiceRateComponent,
     BasicPartyDetailsComponent,
     BankAccountsComponent,
-    LrInvoiceColumnsComponent
+    LrInvoiceColumnsComponent,
+    PartyLedgerMappingComponent
 
   ],
   entryComponents:[
@@ -594,7 +596,7 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
     GenerateLrMainfestoComponent,
     TripdetailComponent,
     SupportingDocComponent,
-    
+    PartyLedgerMappingComponent,
 
   ],
   imports: [
