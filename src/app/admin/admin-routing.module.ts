@@ -60,6 +60,7 @@ import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.compo
 import { PodDashboardComponent } from './pod-dashboard/pod-dashboard.component';
 import { NearbyPodsComponent } from './nearby-pods/nearby-pods.component';
 import { LocationsComponent } from './locations/locations.component';
+import { WebActivitySummaryComponent } from './web-activity-summary/web-activity-summary.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -349,6 +350,12 @@ const routes: Routes = [{
             component: LocationsComponent,
             canActivate: [RouteGuard]
         },
+        {
+            path: 'web-activity-summary',
+            component: WebActivitySummaryComponent,
+            canActivate: [RouteGuard]
+        },
+
 
 
     ],

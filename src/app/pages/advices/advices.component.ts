@@ -7,7 +7,7 @@ import { ApiService } from '../../services/api.service';
 import { SaveAdvicesComponent } from '../../modals/save-advices/save-advices.component';
 import { ClearAdvicesComponent } from '../../modals/clear-advices/clear-advices.component';
 import { UserService } from '../../services/user.service';
-import { GenericModelComponent } from '../../modals/generic-model/generic-model.component';
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 @Component({
   selector: 'advices',
   templateUrl: './advices.component.html',

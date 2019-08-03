@@ -88,6 +88,7 @@ export class UserService {
       { id: 57, route: '/admin/fo-fs-mapping' },
       { id: 57, route: '/admin/nearby-pods' },
       { id: 57, route: '/admin/locations' },
+      { id: 57, route: '/admin/web-activity-summary' },
     ]
   }
 

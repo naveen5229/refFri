@@ -1204,10 +1204,9 @@ export class OrderdetailComponent implements OnInit {
       console.log('invoiceDetail.taxDetails',invoiceDetail.taxDetails);
       invoiceDetail.taxDetails.map((taxDetail, index) => {
         rows.push([
-          { txt: taxDetail.taxledger.name  || '' ,'colspan':2,align:'right'},
-          { txt: taxDetail.taxamount || '','colspan':3,align:'right' },
+          { txt: taxDetail.taxledger.name  || '' ,'colspan':3,align:'right',font:6},
+          { txt: taxDetail.taxamount || '','colspan':3,align:'right',font:6 },
           { txt:  '' },
-          { txt:  '' }
         ]);
     });
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
@@ -1254,7 +1253,7 @@ let invoiceJson={};
       signatures: ['Accountant', 'Approved By'],
       footer: {
         left: { name: 'Powered By', value: 'Elogist Solutions' },
-        center: { name: 'Printed Date', value: '06-July-2019' },
+        center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(),'ddMMYYYY').split(' ')[0] },
         right: { name: 'Page No', value: 1 },
       }
 
@@ -1288,7 +1287,7 @@ let invoiceJson={};
      signatures: ['Accountant', 'Approved By'],
      footer: {
        left: { name: 'Powered By', value: 'Elogist Solutions' },
-       center: { name: 'Printed Date', value: '06-July-2019' },
+       center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(),'ddMMYYYY').split(' ')[0] },
        right: { name: 'Page No', value: 1 },
      }
 
@@ -1336,7 +1335,7 @@ let invoiceJson={};
      signatures: ['Accountant', 'Approved By'],
      footer: {
        left: { name: 'Powered By', value: 'Elogist Solutions' },
-       center: { name: 'Printed Date', value: '06-July-2019' },
+       center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(),'ddMMYYYY').split(' ')[0] },
        right: { name: 'Page No', value: 1 },
      }
 
