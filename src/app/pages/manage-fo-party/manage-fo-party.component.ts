@@ -32,6 +32,16 @@ export class ManageFoPartyComponent implements OnInit {
   headings = [];
   valobj = {};
 
+  associate={
+    selected:null,
+    types:[],
+  }
+
+  company={
+    details:null,
+    associate:[]
+  }
+
   constructor(public api: ApiService,
     public modalService: NgbModal,
     public common: CommonService) {
@@ -48,10 +58,13 @@ export class ManageFoPartyComponent implements OnInit {
   }
 
   getAssociationType() {
+    this.common.loading++;
     this.api.get('Suggestion/getAssocTypeWrtFo')
       .subscribe(res => {
+        this.common.loading--;
         this.associationType = res['data'];
       }, err => {
+        this.common.loading--;
       });
   }
 
@@ -71,7 +84,7 @@ export class ManageFoPartyComponent implements OnInit {
     this.api.get('ManageParty/checkCompany')
       .subscribe(res => {
 
-        if (res['data'] == null) {
+        if (!res['data'] || !res['data'].length) {
           this.companyExist = false;
           console.log("ABCD", res['data']);
           this.common.showError("please add company");

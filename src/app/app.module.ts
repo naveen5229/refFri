@@ -227,6 +227,7 @@ import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-p
 import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
 import { PartyLedgerMappingComponent } from './modals/party-ledger-mapping/party-ledger-mapping.component';
 import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-view-summary.component';
+import { BulkCompanyAssociationComponent } from './modals/bulk-company-association/bulk-company-association.component';
 
 
 
@@ -428,6 +429,7 @@ import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-v
     LrInvoiceColumnsComponent,
     PartyLedgerMappingComponent,
     FoWebViewSummaryComponent,
+    BulkCompanyAssociationComponent,
 
   ],
   entryComponents:[
@@ -613,7 +615,8 @@ import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-v
     TripdetailComponent,
     SupportingDocComponent,
     PartyLedgerMappingComponent,
-    FoWebViewSummaryComponent
+    FoWebViewSummaryComponent,
+    BulkCompanyAssociationComponent
   ],
   imports: [
     BrowserModule,

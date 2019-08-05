@@ -11,11 +11,19 @@
                 <label>Party Name:</label>
             </div>
             <div class="col-3">
-                <auto-suggestion [data]="Party" display="name" (onSelected)="changePartyType($event)" inputId="Party"></auto-suggestion>
+                <auto-suggestion [data]="party.list" display="name" (onSelected)="party.selected = $event"></auto-suggestion>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-primary" (click)="getPartyLedgerMapping()">Submit</button>
+                <button type="button" class="btn btn-primary" (click)="getPartyLedgers()">Submit</button>
             </div>
+        </div>
+        <div class="row mt-2">
+            <smart-table *ngIf="party.names &&  party.names.length" [data]="tables.party.data" [settings]="tables.party.settings" id="partyNames">
+            </smart-table>
+        </div>
+        <div class="row">
+            <smart-table *ngIf="ledgers && ledgers.length" [data]="tables.ledger.data" [settings]="tables.ledger.settings" id="ledgerNames">
+            </smart-table>
         </div>
     </div>
 </div>
