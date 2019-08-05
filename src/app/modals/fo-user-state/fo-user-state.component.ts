@@ -22,7 +22,6 @@ export class FoUserStateComponent implements OnInit {
     }
 
   };
-
   headings = [];
   valobj = {};
   foData=[];
@@ -56,9 +55,9 @@ export class FoUserStateComponent implements OnInit {
         //   this.valobj['feedback'] = { class: "fa fa-comments-o", action: this.showAction.bind(this )}
         // }
         // }
-      {
+      
           this.valobj[this.headings[i]] = { value: foDocs[this.headings[i]], class: 'blue', action:'' };
-        }
+        
       }
 
       columns.push(this.valobj);
@@ -70,20 +69,16 @@ export class FoUserStateComponent implements OnInit {
   console.log("id1",this.ledgerId)
   this.common.params={
     leadgerId1:this.ledgerId,
-    company:this.company
-    
+    company:this.company  
   }
   const activeModal = this.modalService.open(FeedbackModalComponent, {container: "nb-layout" });
     activeModal.result.then(data=> {
       console.log('res', data);
-     
-        this.getFoData();
+           this.getFoData();
     });
-
     }
     
-  getFoData(){
-    
+  getFoData(){  
     this.foData=[];
     this.table = {
       data: {
@@ -112,8 +107,7 @@ export class FoUserStateComponent implements OnInit {
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
           }
-        }
-        
+        }     
         this.table.data.columns = this.getTableColumns();
       }
     );
