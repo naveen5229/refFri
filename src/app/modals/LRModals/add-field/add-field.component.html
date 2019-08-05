@@ -8,10 +8,38 @@
   <div class="row mb-3">
     <div class="col-5">
       <div class="row">
+        <div class="col-5">
+          <label> Report Type </label>
+        </div>
+        <div class="col-7">
+          <select [(ngModel)]="reportType" class="form-control" (change)="getFieldName()">
+            <option value='LR'>LR</option>
+            <option value='POD'>POD</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-5" *ngIf="reportType=='LR'">
+      <div class="row">
         <div class="col-4">
-          <label> Field Name </label>
+          <label>Block Type</label>
         </div>
         <div class="col-8">
+          <select class="form-control" [(ngModel)]="blockType">
+            <option value='1'>General Detail</option>
+            <option value='2'>Material</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-5">
+      <div class="row">
+        <div class="col-5">
+          <label> Field Name </label>
+        </div>
+        <div class="col-7">
           <input type="text" name="name" id="name" [(ngModel)]="name" class="form-control" maxlength="25">
         </div>
       </div>

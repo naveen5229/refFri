@@ -44,7 +44,7 @@ export class EditDriverComponent implements OnInit {
       name: [this.common.params.driver.empname],
       mobileno: [this.common.params.driver.mobileno, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       mobileno2: [this.common.params.driver.mobileno2, [Validators.minLength(10), Validators.maxLength(10)]],
-      guranterno: [this.common.params.driver.guarantor_mobileno],
+      guranterno: [this.common.params.driver.guarantor_mobileno, [Validators.minLength(10), Validators.maxLength(10)]],
       Salary: [this.common.params.driver.salary],
       guranter: [this.common.params.driver.guarantor_name],
       date: ['']
@@ -54,13 +54,7 @@ export class EditDriverComponent implements OnInit {
 
 
   }
-  getDate() {
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.driver.date = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.driver.date);
-    });
-  }
+
   get f() { return this.driverForm.controls; }
 
   closeModal() {
@@ -69,21 +63,20 @@ export class EditDriverComponent implements OnInit {
 
   }
   Updatedriver() {
-
-
-
     let response;
-    //this.submitted = true;
+    console.log('yash');
     let params = {
       name: this.driverForm.controls.name.value,
       doj: this.driver.date,
       mobileNo: this.driverForm.controls.mobileno.value,
+      mobileNo2: this.driverForm.controls.mobileno2.value,
       salary: this.driverForm.controls.Salary.value,
       guarantorName: this.driverForm.controls.guranter.value,
-      guarantorMobile: this.driverForm.controls.guranterno.value,
+      guarantorMobile: this.driverForm.controls.guranterno.value
     };
+    console.log('hrithik');
     this.common.loading++;
-    this.apiservice.post('/Drivers/edit', params)
+    this.apiservice.post('Drivers/edit', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);

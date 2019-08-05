@@ -7,7 +7,7 @@
 <div class="modal-body">
   <div class="row" style="margin-bottom:15px">
     <div class="col-3">
-      <label>Doctype*</label>
+      <label>Doctype<span style="color:red">*</span></label>
     </div>
     <div class="col-3">
       <select class="form-control" (change)="getDocChange()" [(ngModel)]="docId">
@@ -20,7 +20,7 @@
     <div class="col-3">
 
 
-      <label>Doc Number*</label>
+      <label>Doc Number<span style="color:red">*</span></label>
     </div>
     <div class="col-3">
       <input type="text" class="form-control" autocomplete="off" inputID="docDetails" [(ngModel)]="docNo"
@@ -35,7 +35,7 @@
     <div class="col-3">
 
 
-      <label>Image 1*</label>
+      <label>Image 1<span style="color:red">*</span></label>
     </div>
     <div class="col-3">
       <input type="file" class="form-control" id="imageData1" (change)="handleFileSelection($event,1) ">

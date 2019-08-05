@@ -56,6 +56,7 @@ export class AddViaRoutesComponent implements OnInit {
   }
   ];
   routeId = '0';
+  latlong = [];
 
   constructor(private mapService: MapService,
     private api: ApiService,
@@ -95,8 +96,41 @@ export class AddViaRoutesComponent implements OnInit {
 
     }, 1000);
   }
+  createMarkers(lat, long, index) {
 
+    console.log("latlong", lat, long);
+    this.latlong = [{
+      lat: lat,
+      long: long,
+      color: index == 0 ? '0000FF' : 'FF0000',
+      subType: 'marker'
+    }];
+    if (this.mark[index] != null) {
+      this.mark[index].setMap(null);
 
+    }
+    this.mark[index] = this.mapService.createMarkers(this.latlong, false, false)[0];
+    this.resetBounds();
+  }
+
+  resetBounds() {
+    let bounds = [];
+    if (this.mark[0])
+      bounds.push({
+        lat: this.mark[0].position.lat(),
+        lng: this.mark[0].position.lng()
+      });
+
+    if (this.mark[1])
+      bounds.push({
+        lat: this.mark[1].position.lat(),
+        lng: this.mark[1].position.lng()
+      });
+    this.mapService.setMultiBounds(bounds, true);
+    if (bounds.length == 1) {
+      this.mapService.zoomMap(13);
+    }
+  }
 
   add() {
     const params = {
@@ -149,12 +183,16 @@ export class AddViaRoutesComponent implements OnInit {
     this.routeData.startlat = site.lat;
     this.routeData.startlong = site.long;
     this.routeData.placeName = site.name;
+    this.createMarkers(this.routeData.startlat, this.routeData.startlong, 0);
+
   }
   selectSite2(site) {
     this.routeData.endSiteId = site.id;
     this.routeData.endlat1 = site.lat;
     this.routeData.endlong2 = site.long;
     this.routeData.placeName2 = site.name;
+    this.createMarkers(this.routeData.endlat1, this.routeData.endlong2, 1);
+
   }
 
   selectStartByMap(map) {
@@ -164,6 +202,8 @@ export class AddViaRoutesComponent implements OnInit {
     this.routeData.startlat = map.lat;
     this.routeData.startlong = map.long;
     this.routeData.placeName = map.location.split(",")[0] || map.name;
+    this.createMarkers(this.routeData.startlat, this.routeData.startlong, 0);
+
   }
 
   selectEndByMap(map) {
@@ -171,6 +211,8 @@ export class AddViaRoutesComponent implements OnInit {
     this.routeData.endlat1 = map.lat;
     this.routeData.endlong2 = map.long;
     this.routeData.placeName2 = map.location.split(",")[0] || map.name;
+    this.createMarkers(this.routeData.endlat1, this.routeData.endlong2, 1);
+
   }
   onChangeMapData(search) {
     this.startSearch = search;
@@ -186,15 +228,19 @@ export class AddViaRoutesComponent implements OnInit {
       this.routeData.lat = null;
       this.routeData.long = null;
       this.ismap = false;
-      this.mark[0] && this.mark[0].setMap(null);
+
     }
+
     else if (type == "map") {
       this.routeData.startSiteId = null;
       this.routeData.startlat = null;
       this.routeData.startlong = null;
       this.ismap = true;
-      this.mark[0] && this.mark[0].setMap(null);
+
     }
+    this.mark[0] && this.mark[0].setMap(null);
+    this.mark[0] = null;
+    this.resetBounds();
   }
 
   report2(type) {
@@ -203,7 +249,7 @@ export class AddViaRoutesComponent implements OnInit {
       this.routeData.lat1 = null;
       this.routeData.long1 = null;
       this.ismap2 = false;
-      this.mark[1] && this.mark[1].setMap(null);
+
     }
     else if (type == "map2") {
       this.routeData.endSiteId = null;
@@ -212,9 +258,13 @@ export class AddViaRoutesComponent implements OnInit {
       this.ismap2 = true;
       this.mark[1] && this.mark[1].setMap(null);
     }
+    this.mark[1] && this.mark[1].setMap(null);
+    this.mark[1] = null;
+    this.resetBounds();
+
   }
 
-  takeActionOnStart(res, type) {
+  takeAction(res, type) {
     setTimeout(() => {
       console.log("Here", this.keepGoingForStart, this.startSearch.length, this.startSearch);
       if (type == 'start') {
@@ -235,6 +285,8 @@ export class AddViaRoutesComponent implements OnInit {
                 this.routeData.startlat = res.location.lat;
                 this.routeData.startlong = res.location.lng;
                 this.routeData.startSiteId = res.id;
+                this.createMarkers(this.routeData.startlat, this.routeData.startlong, 0);
+
               }
             }
             this.keepGoingForStart = true;
@@ -259,6 +311,8 @@ export class AddViaRoutesComponent implements OnInit {
                 this.routeData.endlat1 = res.location.lat;
                 this.routeData.endlong2 = res.location.lng;
                 this.routeData.endSiteId = res.id;
+
+                this.createMarkers(this.routeData.endlat1, this.routeData.endlong2, 1);
               }
             }
             this.keepGoingForEnd = true;
