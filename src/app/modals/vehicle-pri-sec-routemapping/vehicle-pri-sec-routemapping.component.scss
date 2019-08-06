@@ -1,0 +1,27 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+:host ::ng-deep .tableFixHead {
+    height: auto !important
+}
+
+:host ::ng-deep .footer-data {
+    height: auto !important
+}
+
+th {
+    background-color: #737373;
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    color: #fff;
+}
+
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    color: #000;
+}

@@ -226,6 +226,8 @@ import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoic
 import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-party-details.component';
 import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
 import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-view-summary.component';
+import { StrictMappingComponent } from './modals/strict-mapping/strict-mapping.component';
+import { VehiclePriSecRoutemappingComponent } from './modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 
 
 
@@ -426,6 +428,8 @@ import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-v
     BankAccountsComponent,
     LrInvoiceColumnsComponent,
     FoWebViewSummaryComponent,
+    StrictMappingComponent,
+    VehiclePriSecRoutemappingComponent,
 
   ],
   entryComponents:[
@@ -610,9 +614,9 @@ import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-v
     ModalWiseFuelAverageComponent,
     TripdetailComponent,
     SupportingDocComponent,
-    
-
-    FoWebViewSummaryComponent
+    FoWebViewSummaryComponent,
+    StrictMappingComponent,
+    VehiclePriSecRoutemappingComponent
   ],
   imports: [
     BrowserModule,
