@@ -78,7 +78,6 @@ export class ApiService {
       }
     };
 
-
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
   }
   getEncrypt(subURL: string, params?: any) {
