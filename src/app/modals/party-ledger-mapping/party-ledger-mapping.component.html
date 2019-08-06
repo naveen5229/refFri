@@ -16,6 +16,9 @@
             <div class="col-2">
                 <button type="button" class="btn btn-primary" (click)="getPartyLedgers()">Submit</button>
             </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-primary" (click)="addLedger()">Add Leedger</button>
+            </div>
         </div>
         <div class="row mt-2">
             <smart-table *ngIf="party.names &&  party.names.length" [data]="tables.party.data" [settings]="tables.party.settings" id="partyNames">

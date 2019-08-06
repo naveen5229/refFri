@@ -2,3 +2,7 @@
     height: auto !important;
     max-height: 60vh;
 }
+
+:host ::ng-deep.text-colour {
+    color: blue
+}

@@ -525,8 +525,8 @@ export class BasicPartyDetailsComponent implements OnInit {
         if (data.response) {
           this.saveBasicDetails();
         }
-    
       });
+     
   }
 
   saveBasicDetails() {

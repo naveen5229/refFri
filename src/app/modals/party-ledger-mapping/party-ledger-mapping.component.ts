@@ -35,6 +35,10 @@ export class PartyLedgerMappingComponent implements OnInit {
       }
     }
   };
+  partyId=null;
+  partyName=null;
+  partyUserGroupId=null;
+  aliasName=null;
 
   constructor(public activeModel: NgbActiveModal,
     public api: ApiService,
@@ -67,7 +71,14 @@ export class PartyLedgerMappingComponent implements OnInit {
         console.log('Res:', res);
         this.common.loading--;
         if (!res['data']) return;
+        this.clearAllTableData();
         this.party.names = res['data']['Party'];
+        console.log("party data1",this.party.names);
+        this.partyId=res['data']['Party'][0]._id;
+        this.partyName=res['data']['Party'][0].PartyName;
+        this.aliasName=res['data']['Party'][0]['Alias Name'];
+        this.partyUserGroupId=res['data']['Party'][0]._user_group_id;
+        console.log("party data1",this.partyId);
         this.ledgers = res['data']['Ledger'];
         this.setTable('party');
         this.setTable('ledger');
@@ -105,11 +116,80 @@ export class PartyLedgerMappingComponent implements OnInit {
     list.map(item => {
       let column = {};
       for (let key in this.generateHeadings(type)) {
-        column[key] = { value: item[key], class: 'black', action: '' };
+        if(key=="Action"){
+          column[key] = { value: "MAP", class:'text-colour', action: this.partyMapping.bind(this,item) };
+        }else{
+          column[key] = { value: item[key], class: 'black', action: '' };
+        }    
       }
       columns.push(column);
     });
     return columns;
+  }
+
+  partyMapping(item){
+    this.common.loading++;
+    console.log("ledger item",item);
+    let params={
+      rowId:this.partyId,
+      ledgerId:item._ledid,
+    }
+    console.log("mapping param",params)
+    this.api.post('ManageParty/partyLedgerMapping', params)
+    .subscribe(res => {
+      this.common.loading--;
+      if(res['success']){
+        this.common.showToast(res['msg']);
+      }
+    },
+      err => {
+        this.common.loading--;
+        console.error(' Api Error:', err)
+      });
+
+  }
+
+  clearAllTableData(){
+    this.tables = {
+      party: {
+        data: {
+          headings: {},
+          columns: []
+        },
+        settings: {
+          hideHeader: true
+        }
+      },
+      ledger: {
+        data: {
+          headings: {},
+          columns: []
+        },
+        settings: {
+          hideHeader: true
+        }
+      }
+    };
+  }
+
+  addLedger(){
+    this.common.loading++;
+    let params={
+      userGroupId:this.partyUserGroupId,
+      partyName:this.partyName,
+      aliasName:this.aliasName,
+    }
+    this.api.post('ManageParty/addPartyLedger', params)
+    .subscribe(res => {
+      this.common.loading--;
+      this.getPartyLedgers();
+    },
+      err => {
+        this.common.loading--;
+        console.error(' Api Error:', err);
+        this.common.showError();
+      });
+
   }
 
   closeModal() {

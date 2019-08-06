@@ -32,15 +32,6 @@ export class ManageFoPartyComponent implements OnInit {
   headings = [];
   valobj = {};
 
-  associate={
-    selected:null,
-    types:[],
-  }
-
-  company={
-    details:null,
-    associate:[]
-  }
 
   constructor(public api: ApiService,
     public modalService: NgbModal,
