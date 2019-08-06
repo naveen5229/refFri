@@ -18,6 +18,8 @@ export class FuelMasterComponent implements OnInit {
   foFsMapping = [];
   fsid = null;
   foid = null;
+  activeTab = 'Fuel Rule';
+
 
   constructor(public api: ApiService,
     public common: CommonService,
