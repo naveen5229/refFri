@@ -227,6 +227,7 @@ import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-p
 import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
 import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-view-summary.component';
 import { AssignUserTemplateComponent } from './modals/assign-user-template/assign-user-template.component';
+import { SaveUserTemplateComponent } from './modals/save-user-template/save-user-template.component';
 
 
 
@@ -428,6 +429,7 @@ import { AssignUserTemplateComponent } from './modals/assign-user-template/assig
     LrInvoiceColumnsComponent,
     FoWebViewSummaryComponent,
     AssignUserTemplateComponent,
+    SaveUserTemplateComponent,
 
   ],
   entryComponents: [
@@ -613,7 +615,9 @@ import { AssignUserTemplateComponent } from './modals/assign-user-template/assig
     TripdetailComponent,
     SupportingDocComponent,
     FoWebViewSummaryComponent,
-    AssignUserTemplateComponent
+    AssignUserTemplateComponent,
+    
+    SaveUserTemplateComponent
   ],
   imports: [
     BrowserModule,
