@@ -10,6 +10,9 @@
                     width: 190px;
                     span {
                         display: inline-block;
+                        label input {
+                            width: auto;
+                        }
                         button {
                             border-radius: 3px;
                             padding: 3px 7px;
@@ -20,6 +23,10 @@
             }
         }
     }
+}
+
+input{
+    width: 125%;
 }
 
 .submit {

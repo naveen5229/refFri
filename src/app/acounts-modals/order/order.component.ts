@@ -1337,6 +1337,14 @@ let invoiceJson={};
         { txt: invoiceDetail.lineamount || '' },
         { txt: invoiceDetail.remarks || '' }
       ]);
+      invoiceDetail.taxDetails.map((taxDetail, index) => {
+        rows.push([
+          { txt: taxDetail.taxledger.name  || '' ,'colspan':3,align:'right'},
+          { txt: taxDetail.taxamount || '','colspan':3 ,align:'right'},
+          { txt:  '' },
+          { txt:  '' }
+        ]);
+    });
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
     });

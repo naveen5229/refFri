@@ -11,6 +11,7 @@ import { LrAssignComponent } from '../../modals/LRModals/lr-assign/lr-assign.com
 import { ViewFrieghtInvoiceComponent } from '../../modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
 import { LrInvoiceColumnsComponent } from '../lr-invoice-columns/lr-invoice-columns.component';
 import {SupportingDocComponent} from '../../modals/LRModals/supporting-doc/supporting-doc.component';
+import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.component';
 
 @Component({
   selector: 'freight-invoices',
@@ -235,6 +236,14 @@ export class FreightInvoicesComponent implements OnInit {
     const activeModal = this.modalService.open(LrInvoiceColumnsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
+    });
+  }
+
+  addFoField() {
+    const activeModal = this.modalService.open(AddFieldComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+
 
     });
   }
