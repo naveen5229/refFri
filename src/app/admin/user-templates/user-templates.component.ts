@@ -133,9 +133,7 @@ export class UserTemplatesComponent implements OnInit {
     this.common.params={title:title,userTemplate: row };
     const activeModal = this.modalService.open(SaveUserTemplateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
-      if (data.response) {
         this.getUserViews();
-      }
     });
   }
 }

@@ -11,6 +11,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class SaveUserTemplateComponent implements OnInit {
 
+  showhide = {
+    show: true
+  }
   template={
     type:null,
     templateName:null,
@@ -25,6 +28,7 @@ export class SaveUserTemplateComponent implements OnInit {
 
   ) { 
     if (this.common.params.title == 'Edit') {
+      this.showhide.show=false;
       this.common.loading++;
       this.api.get('userTemplate/view?id='+this.common.params.userTemplate._id)
       .subscribe(res => {
