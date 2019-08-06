@@ -25,6 +25,7 @@ export class VoucherSummaryComponent implements OnInit {
   narration = '';
   tripVoucher;
   typeFlag = 2;
+  selectedRow = -1;
   trips;
   ledgers = [];
   debitLedgerdata = [];
@@ -263,6 +264,13 @@ export class VoucherSummaryComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
+   
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.trips.length) {
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.trips.length - 1) this.selectedRow++;
+    //  event.preventDefault();
+      event.stopPropagation();
+    }
   }
 
   onSelected(selectedData, type, display) {
@@ -836,6 +844,7 @@ export class VoucherSummaryComponent implements OnInit {
         (trip.id == tripedit.id) ? trip.isChecked = true : '';
       })
     });
+    this.selectedRow = 0;
   }
 
   isItReadOnly(tripHead, id) {
