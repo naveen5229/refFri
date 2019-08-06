@@ -10,9 +10,10 @@ import { AccountService } from '../../services/account.service';
   styleUrls: ['./assign-user-template.component.scss']
 })
 export class AssignUserTemplateComponent implements OnInit {
+  alltemplateList = [];
   templateList = [];
   branchId = null;
-  templateType = null;
+  templateType = 'LR';
   templateId = null;
   title = '';
   showTable = false;
@@ -54,6 +55,7 @@ export class AssignUserTemplateComponent implements OnInit {
         console.log(err);
       });
   }
+
   assignTemplate(isAssign = "true") {
     let params = {
       templateId: this.templateId,
@@ -68,12 +70,10 @@ export class AssignUserTemplateComponent implements OnInit {
         console.log('res:', res);
         if (res['data'][0].y_id <= 0) {
           this.common.showError(res['data'][0].y_msg);
-
         }
         else {
-
           this.common.showToast(res['data'][0].y_msg);
-          this.getUserViews();
+          this.getUserViews(true);
         }
 
       }, err => {
@@ -87,6 +87,9 @@ export class AssignUserTemplateComponent implements OnInit {
     this.templateId = template._id;
     this.getUserViews(true);
   }
+  selectTemplateType() {
+    this.filterTemplate();
+  }
 
   getUserViews(isBranch = false) {
     let params = "id=" + (this.templateId ? this.templateId : "") + "&isBranch=" + (isBranch ? "true" : "false");
@@ -95,19 +98,28 @@ export class AssignUserTemplateComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res:', res);
-        if (this.templateId) {
-          console.log("templateID:", this.templateId);
-
+        if (isBranch) {
           this.views = res['data'] || [];
           this.views.length ? this.setTable() : this.resetTable();
         }
-        this.templateList = res['data'];
+        else {
+          this.alltemplateList = res['data'];
+          this.filterTemplate();
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
+  filterTemplate() {
+
+    this.templateList = this.alltemplateList.filter(element => {
+      return element._ref_type == this.templateType;
+    });
+    console.log("template list:", this.templateList);
+
+  }
   resetTable() {
     this.table.data = {
       headings: {},
@@ -132,8 +144,6 @@ export class AssignUserTemplateComponent implements OnInit {
     }
     return headings;
   }
-
-
 
   getTableColumns() {
     let columns = [];
@@ -166,6 +176,7 @@ export class AssignUserTemplateComponent implements OnInit {
     ];
     return icons;
   }
+
   formatTitle(strval) {
     let pos = strval.indexOf('_');
     if (pos > 0) {
@@ -174,9 +185,6 @@ export class AssignUserTemplateComponent implements OnInit {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
-
-
-
 
   unassignTemplate(view) {
     let params = {
@@ -194,16 +202,12 @@ export class AssignUserTemplateComponent implements OnInit {
         }
         else {
           this.common.showToast(res['data'][0].y_msg);
-          this.getUserViews();
+          this.getUserViews(true);
         }
-
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-
-
-
 
 }

@@ -7,6 +7,18 @@
 <div class="modal-body">
   <div class="row mb-2">
     <div class="col-6">
+      <label>Type</label>
+    </div>
+    <div class="col-6">
+      <select class="form-control" name="templateType" [(ngModel)]="templateType" (change)="selectTemplateType()">
+        <option value="LR">Lr</option>
+        <option value="INV">Invoice</option>
+
+      </select>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-6">
       <label>Template</label>
     </div>
     <div class="col-6">
@@ -25,21 +37,13 @@
       </select>
     </div>
   </div>
-  <div class="row mb-2">
-    <div class="col-6">
-      <label>Type</label>
-    </div>
-    <div class="col-6">
-      <select class="form-control" name="templateType" [(ngModel)]="templateType">
-        <option value="LR">Lr</option>
-        <option value="INV">Invoice</option>
 
-      </select>
-    </div>
-  </div>
   <div class="row">
-    <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" (click)="assignTemplate()"
-      style="cursor:pointer;">Assign</button>
+    <div class="col-12 text-right">
+      <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" (click)="assignTemplate()"
+        style="cursor:pointer;">Assign</button>
+    </div>
+
   </div>
   <div class="mt-2">
 
