@@ -67,6 +67,7 @@ import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.compo
 import { ChartModule } from 'angular2-chartjs';
 import { LocationsComponent } from './locations/locations.component';
 import { WebActivitySummaryComponent } from './web-activity-summary/web-activity-summary.component';
+import { UserTemplatesComponent } from './user-templates/user-templates.component';
 // import { NearbyPodsComponent } from './nearby-pods/nearby-pods.component';
 
 const PAGES_COMPONENTS = [
@@ -160,6 +161,7 @@ const PAGES_COMPONENTS = [
     BufferPolylineComponent,
     LocationsComponent,
     WebActivitySummaryComponent,
+    UserTemplatesComponent,
     // NearbyPodsComponent
   ],
   exports: [
