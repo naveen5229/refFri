@@ -286,9 +286,10 @@ export class DataService {
             link: '/admin/web-activity-summary',
             home: true,
           },
+
           {
             title: 'User Template',
-            icon: 'fas fa-user',
+            icon: 'far fa-user',
             link: '/admin/user-templates',
             home: true,
           },

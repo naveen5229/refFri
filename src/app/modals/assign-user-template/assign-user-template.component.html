@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Assign User Template</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row mb-2">
+    <div class="col-6">
+      <label>Type</label>
+    </div>
+    <div class="col-6">
+      <select class="form-control" name="templateType" [(ngModel)]="templateType" (change)="selectTemplateType()">
+        <option value="LR">Lr</option>
+        <option value="INV">Invoice</option>
+
+      </select>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-6">
+      <label>Template</label>
+    </div>
+    <div class="col-6">
+      <auto-suggestion [data]="templateList" display="Name" (onSelected)="changeTemplateType($event)"
+        inputId="templateId"></auto-suggestion>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-6">
+      <label>Branch</label>
+    </div>
+    <div class="col-6">
+      <select name="branch" class="form-control" [(ngModel)]="branchId" (change)="getBranchDetails();">
+        <option value="">Select Branch</option>
+        <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-right">
+      <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" (click)="assignTemplate()"
+        style="cursor:pointer;">Assign</button>
+    </div>
+
+  </div>
+  <div class="mt-2">
+
+    <smart-table *ngIf="views.length" [data]="table.data" [settings]="table.settings"></smart-table>
+  </div>
+
+</div>
