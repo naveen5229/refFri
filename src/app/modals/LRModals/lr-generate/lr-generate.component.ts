@@ -121,6 +121,7 @@ export class LrGenerateComponent implements OnInit {
     let date = new Date();
     date.setDate(date.getDate());
     this.lr.date = date;
+    console.log("date", this.lr.date);
     this.getAllFieldName();
     this.getUnit();
     console.log("this.common.params.LrData", this.common.params.LrData);
@@ -182,7 +183,7 @@ export class LrGenerateComponent implements OnInit {
     }
     else if (this.lr.lrType == 3) {
       this.lr.invoicePayer = null;
-      this.lr.invoiceTo = -1;
+      this.lr.invoiceTo = 3;
       this.lr.invoicePayerId = null;
       this.lr.consigneeName = null;
       this.lr.consigneeAddress = null;
@@ -322,10 +323,10 @@ export class LrGenerateComponent implements OnInit {
     today = new Date();
     futureDay = new Date(today.setDate(today.getDate() + 30));
     today = new Date();
-    pastDay = new Date(today.setDate(today.getDate() - 30));
+    pastDay = new Date('2019-03-31');
     console.log("futureDay", futureDay, "pastDay", pastDay);
     if ((this.lr.date > futureDay) || (this.lr.date < pastDay)) {
-      alert("Date should not be before 30 days and after 30 days ");
+      alert("Date should not be before 01 April 2019 days and after 30 days ");
       return 0;
     }
 
@@ -697,9 +698,9 @@ export class LrGenerateComponent implements OnInit {
         const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
-          console.log('response----', res.location);
           this.keepGoing = true;
-          if (res.location.lat) {
+          if (res && res.location.lat) {
+            console.log('response----', res.location);
             this.lr.sourceCity = res.location.name;
 
             (<HTMLInputElement>document.getElementById('startname')).value = this.lr.sourceCity;
@@ -745,9 +746,9 @@ export class LrGenerateComponent implements OnInit {
         const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
-          console.log('response----', res.location);
           this.keepGoing = true;
-          if (res.location.lat) {
+          if (res && res.location.lat) {
+            console.log('response----', res.location);
             this.lr.destinationCity = res.location.name;
 
             (<HTMLInputElement>document.getElementById('endname')).value = this.lr.destinationCity;

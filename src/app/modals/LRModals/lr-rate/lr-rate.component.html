@@ -27,6 +27,10 @@
       <div class="col-sm-7"><label>MG-Qty</label></div>
       <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.mgQty></div>
     </div>
+    <div class="row">
+      <div class="col-sm-7"><label>Brokerage</label></div>
+      <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.brokerage></div>
+    </div>
     <div class="row" *ngFor="let filter of filters; let i= index">
       <div class="col-sm-7"><label>Allowed Shortage</label><br>
         <span>
@@ -68,7 +72,7 @@
           <td><input type="text" class="form-control" [(ngModel)]=general.fixed></td>
           <td>Distance(/KM) </td>
           <td><input type="text" class="form-control" [(ngModel)]=general.distance></td>
-          <td>Weight(/Tn) </td>
+          <td>Rate(/Tn) </td>
           <td><input type="text" class="form-control" [(ngModel)]=general.weight></td>
           <td>MG-Weight(/Tn) </td>
           <td><input type="text" class="form-control" [(ngModel)]=general.mgWeight></td>
@@ -89,10 +93,12 @@
           <td><input type="text" class="form-control" [(ngModel)]=general.loading></td>
           <td>Unloading (/Tn) </td>
           <td><input type="text" class="form-control" [(ngModel)]=general.unloading></td>
-          <td>Qty </td>
+          <td>Rate(/Qty) </td>
           <td><input type="text" class="form-control" [(ngModel)]=general.qty></td>
           <td>MG-Qty</td>
           <td><input type="text" class="form-control" [(ngModel)]=general.mgQty></td>
+          <td>Brokerage</td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.brokerage></td>
         </tr>
       </table>
     </div>
@@ -121,7 +127,7 @@
             <td><input type="text" class="form-control" [(ngModel)]=filter.fixed></td>
             <td>Distance(/KM)</td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.distance></td>
-            <td>Weight(/Tn)</td>
+            <td>Rate(/Tn)</td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.weight></td>
             <td>MG-Weight (/Tn) </td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.mgWeight></td>
@@ -141,7 +147,7 @@
             <td><input type="text" class="form-control" [(ngModel)]=filter.loading></td>
             <td>Unloading (/Tn) </td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.unloading></td>
-            <td>Qty </td>
+            <td>Rate(/Qty) </td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.qty></td>
             <td>MG-Qty</td>
             <td><input type="text" class="form-control" [(ngModel)]=filter.mgQty></td>
@@ -161,7 +167,8 @@
 
 
   <div class="text-right mt-3 mb-3">
-    <button class="btn btn-primary submit" (click)="saveLrRateInput()">Submit</button>
+    <button class="btn btn-primary submit" (click)="saveLrRateInput()">Submit</button>&nbsp;&nbsp;
+    <button class="btn btn-danger" (click)="deleteRate()" *ngIf="generalModal && id">Delete</button>
   </div>
   <div class="row">
     <div class="col-sm-5">

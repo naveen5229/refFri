@@ -186,15 +186,7 @@ export class AddFreightRevenueComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         this.data = res['data'];
-        this.table = {
-          data: {
-            headings: {},
-            columns: []
-          },
-          settings: {
-            hideHeader: true
-          }
-        };
+
         this.headings = [];
         this.valobj = {};
         if (!this.data || !this.data.length) {
@@ -205,11 +197,8 @@ export class AddFreightRevenueComponent implements OnInit {
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
           }
         }
-        this.table.data.columns = this.getTableColumns();
 
       }, err => {
         console.error(err);
@@ -220,25 +209,25 @@ export class AddFreightRevenueComponent implements OnInit {
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
-  getTableColumns() {
-    let columns = [];
-    console.log("Data=", this.data);
-    this.data.map(doc => {
-      this.valobj = {};
-      for (let i = 0; i < this.headings.length; i++) {
-        if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash', action: this.DeleteExpense.bind(this, doc) }] };
-        }
-        else {
+  // getTableColumns() {
+  //   let columns = [];
+  //   console.log("Data=", this.data);
+  //   this.data.map(doc => {
+  //     this.valobj = {};
+  //     for (let i = 0; i < this.headings.length; i++) {
+  //       if (this.headings[i] == "Action") {
+  //         this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash', action: this.DeleteExpense.bind(this, doc) }] };
+  //       }
+  //       else {
 
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-        }
-      }
-      columns.push(this.valobj);
-    });
-    return columns;
-  }
-  DeleteExpense(del) {
+  //         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+  //       }
+  //     }
+  //     columns.push(this.valobj);
+  //   });
+  //   return columns;
+  // }
+  DeleteRevenue(del) {
     let params = {
       revId: del._rev_id,
       ledgerId: del._ledger_id
@@ -254,5 +243,48 @@ export class AddFreightRevenueComponent implements OnInit {
         console.log('Error: ', err);
       });
   }
+
+  editRevenue(row) {
+
+
+    let expDetails = [{
+      frHead: row['Ledger Type'],
+      frHeadId: row._ledger_id,
+      value: row.Amount,
+      manualValue: row['Manual Amount'],
+    }];
+
+    let params = {
+      vehicleId: this.revenue.vehicleId,
+      vehicleNo: this.revenue.vehicleRegNo,
+      vehicleType: this.revenue.vehicleType,
+      referId: this.revenue.refId,
+      referType: this.revenue.refernceType,
+      remarks: this.revenue.remarks,
+      podId: null,
+      expenseDetails: JSON.stringify(expDetails),
+    }
+    console.log("params", params);
+
+    ++this.common.loading;
+    this.api.post('FrieghtRate/saveFrieghtRevenue', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('response :', res);
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast("Freight added Successfully");
+          this.getRevenue();
+        } else {
+          this.common.showError(res['data'][0].y_msg);
+        }
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+
+
+  }
+
 
 }

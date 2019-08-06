@@ -13,12 +13,13 @@ import { LedgerComponent} from '../ledger/ledger.component';
 export class TaxdetailComponent implements OnInit {
   showConfirm = false;
   amount=0;
+  sizeIndex=0;
   taxdetails = [{
     taxledger: {
       name: '',
       id: '',
     },
-    taxrate: '',
+    taxrate: 0,
     taxamount: 0,
     totalamount:0
 
@@ -37,11 +38,15 @@ export class TaxdetailComponent implements OnInit {
     this.getPurchaseLedgers();
     console.log('tax detail ',this.common.params,this.common.params.taxDetail.length);
     this.amount = this.common.params.amount;
+    if(this.common.params.sizelandex) {
+      this.sizeIndex = this.common.params.sizelandex;
+    }
     if(this.common.params && this.common.params.taxDetail.length){
       this.taxdetails = this.common.params.taxDetail;
       this.common.params = null;
     }
-
+console.log('size index',this.sizeIndex);
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',this.sizeIndex);
 
   }
 
@@ -61,7 +66,7 @@ export class TaxdetailComponent implements OnInit {
       name: '',
       id: '',
     },
-    taxrate: '',
+    taxrate: 0,
     taxamount: 0,
     totalamount:0
     }];
@@ -79,7 +84,7 @@ export class TaxdetailComponent implements OnInit {
       search: 123
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedger', params)
+    this.api.post('Suggestion/GetLedgerWithRate', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -98,6 +103,7 @@ export class TaxdetailComponent implements OnInit {
   onSelected(selectedData, type, display, index) {
     this.taxdetails[index][type].name = selectedData[display];
     this.taxdetails[index][type].id = selectedData.id;
+    this.taxdetails[index][type].taxrate = selectedData.per_rate;
     console.log('tax detail User: ', selectedData, type, display, index);
   }
 
@@ -107,7 +113,7 @@ export class TaxdetailComponent implements OnInit {
         name: '',
         id: '',
       },
-      taxrate: '',
+      taxrate: 0,
       taxamount: 0,
       totalamount:0
     });
@@ -199,11 +205,20 @@ export class TaxdetailComponent implements OnInit {
     }, 100);
   }
 
-  openledger(ledger?) {
-    console.log('ledger123', ledger);
-    this.common.handleModalSize('class', 'modal-lg', '1250','px',2);
+  openledger(ledgers?) {
+    console.log('ledger123', ledgers);
+   // this.common.handleModalSize('class', 'modal-lg', '1250','px',2);
     
-    if (ledger) this.common.params = ledger;
+    if (ledgers) {
+      this.common.params ={
+      ledger:ledgers,
+      sizeledger:this.sizeIndex+1
+    } ;
+  }else {
+    this.common.params ={
+      sizeledger:this.sizeIndex+1
+    };
+  }
     const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
@@ -268,6 +283,7 @@ export class TaxdetailComponent implements OnInit {
 
     this.taxdetails[index].taxledger.name = suggestion.name;
     this.taxdetails[index].taxledger.id = suggestion.id;
+    this.taxdetails[index].taxrate = suggestion.per_rate;
 
     this.autoSuggestion.display = 'name';
     this.autoSuggestion.targetId = activeId;
@@ -276,9 +292,9 @@ export class TaxdetailComponent implements OnInit {
   calculateTotal() {
     let total = 0;
     this.taxdetails.map(taxdetail => {
-      // console.log('Amount: ',  amountDetail.amo  unt[type]);
+       console.log('taxdetail Amount: ',  taxdetail);
       total += taxdetail.taxamount;
-      this.taxdetails[0].totalamount=total;
+      this.taxdetails[0].totalamount=  total;
     });
     return total;
   }

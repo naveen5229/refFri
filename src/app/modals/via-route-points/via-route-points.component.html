@@ -11,7 +11,7 @@
       <table frame="box" class="infotable">
         <tbody>
           <tr>
-            <td colspan="2" class="checkbox-points p-0">
+            <td class="checkbox-points p-0" style="width: 110px;">
               <span>Site</span> <input value="site" [(ngModel)]="locType" type="radio" id="typeSite"
                 (click)="setRadio(0)" checked="checked" name="radio"> &nbsp;
               <span>Map</span> <input value="map" [(ngModel)]="locType" type="radio" id="fromMap" (click)="setRadio(1)"
@@ -19,12 +19,28 @@
             </td>
             <td colspan="1">
               <label>Location</label> <br>
-                <auto-suggestion *ngIf="this.selected == 0 " (onSelected)="selectSite($event)"
+              <auto-suggestion *ngIf="selected == 0 " (onSelected)="selectSite($event)"
                 url="Suggestion/getSites?typeId=1" seperator="-" [display]="['name','sd_loc_name']"
-                placeholder="Search Site" inputId="site" [preSelected]="siteLoc" >
+                placeholder="Search Site" inputId="site" [preSelected]="siteLoc">
               </auto-suggestion>
-              <input class="form-control" *ngIf="this.selected == 1 " type="text" [(ngModel)]="mapName"
-                placeholder="Enter Location" name="mapName" minlength="1" maxlength="100" id="map" />
+              <div class="row">
+                <div class="col-8 pr-0">
+                  <auto-suggestion *ngIf="selected == 1 " (onChange)="onChangeAuto($event)"
+                    (onSelected)="selectLocation($event)" (noDataFound)="takeAction($event)" [isNoDataFoundEmit]="true"
+                    url="Location/getPlaceFromRedis" display="location" inputId="mapValue" placeholder="Location"
+                    [value]="siteNamee" [preSelected]='{location:siteNamee}'>
+                  </auto-suggestion>
+                </div>
+                <div class="col-4">
+                  <button *ngIf="selected == 1 "
+                    class="btn btn-primary info_btn p-0 rounded-sm pt-2 pb-2 pr-2 pl-2 w-100"
+                    (click)="searchString='----'; takeAction(null);"><i class="fa fa-plus"></i></button>
+                </div>
+              </div>
+
+
+              <!-- <input class="form-control" *ngIf="this.selected == 1 " type="text" [(ngModel)]="mapName"
+                placeholder="Enter Location" name="mapName" minlength="1" maxlength="100" id="map" /> -->
             </td>
             <td colspan="2">
               <label>Kilometres</label><br>
@@ -35,6 +51,14 @@
               <label>Order</label><br>
               <input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="order" min="1"
                 max="900" />
+            </td>
+            <td>
+              <label>Type</label>
+              <select [(ngModel)]="type" class="form-control" name="type">
+                <option value="0">Regular</option>
+                <option value="1">Loading/Unloading</option>
+
+              </select>
             </td>
           </tr>
 
@@ -48,21 +72,22 @@
           <div class="col-3 text-right">
             <button type="button" class="btn btn-primary add-route  pt-1" (click)="sendRoute()"
               style="margin-top:10px;">{{this.editId == -1?'EDIT':'ADD'}}</button>
-            <button *ngIf="this.editId == -1" type="button" class="btn btn-primary add-route  pt-1" (click)="cancelEdit()"
-              style="margin-top:10px;">CANCEL EDIT</button>
+            <button *ngIf="this.editId == -1" type="button" class="btn btn-primary add-route  pt-1"
+              (click)="cancelEdit()" style="margin-top:10px;">CANCEL EDIT</button>
 
           </div>
 
         </div>
       </table>
 
-      <table class="tbl table table-bordered table-hover">
-        <thead class="thead" *ngIf="tableData && tableData.length">
+      <table class="tbl table table-bordered table-hover" *ngIf="tableData && tableData.length">
+        <thead class="thead">
           <tr>
             <th style="width:40px;">S.No</th>
             <th>Name</th>
             <th>Order</th>
             <th>Kms</th>
+            <th>Type</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -72,12 +97,13 @@
             <td style="width:40px;">{{data.name}}</td>
             <td><input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="data.via_order">
             <td>{{data.kms}}</td>
+            <td>{{data.Type}}</td>
             <td><i class="fas fa-times text-red" (click)="clickDelete(data.name , i)"></i>
-                <i class="fas fa-edit edit" (click)="editRow(i)"></i></td>
+              <i class="fas fa-edit edit" (click)="editRow(i)"></i></td>
           </tr>
           <tr>
-            <button class="btn btn-primary add-route  pt-1" (click)="updateOrder(tableData)"
-              style="margin-top:3px;">Update Order</button>
+            <button *ngIf="tableData && tableData.length" class="btn btn-primary add-route  pt-1"
+              (click)="updateOrder(tableData)" style="margin-top:3px;">Update Order</button>
           </tr>
         </tbody>
 

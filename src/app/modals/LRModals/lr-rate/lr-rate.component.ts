@@ -21,6 +21,7 @@ export class LrRateComponent implements OnInit {
   btnTitle = "Advance Form";
   isAdvanced = false;
   postAllowed = null;
+  id = null;
   general = {
     param: null,
     minRange: null,
@@ -38,6 +39,7 @@ export class LrRateComponent implements OnInit {
     unloading: null,
     qty: null,
     mgQty: null,
+    brokerage: null
   };
   filters = [{
     param: null,
@@ -56,7 +58,7 @@ export class LrRateComponent implements OnInit {
     loading: null,
     unloading: null,
     qty: null,
-    mgQty: null
+    mgQty: null,
 
   }];
 
@@ -125,7 +127,7 @@ export class LrRateComponent implements OnInit {
       loading: null,
       unloading: null,
       qty: null,
-      mgQty: null
+      mgQty: null,
     });
   }
 
@@ -256,6 +258,14 @@ export class LrRateComponent implements OnInit {
     )
     return icons;
   }
+  deleteRate() {
+    let deletableData = {
+      _lrid: this.lrId,
+      _rateid: this.id
+    }
+    this.deleteRow(deletableData);
+  }
+
   deleteRow(row) {
     let params = {
       id: row._rateid,
@@ -331,11 +341,13 @@ export class LrRateComponent implements OnInit {
   setValue(data) {
     console.log("isAdvanced", this.isAdvanced);
     if (!this.isAdvanced) {
+      this.id = data[0]['id'];
       this.general.weight = data[0]['wt_coeff'];
       this.general.fixed = data[0]['fixed_amt'];
       this.general.mgWeight = data[0]['mg_weight'];
       this.general.qty = data[0]['qty_coeff'];
       this.general.mgQty = data[0]['mg_qty'];
+      this.general.brokerage = data[0]['brokerage'];
       this.rateDiv = this.data[0]['_allowedit'];
       this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
       this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
@@ -348,11 +360,13 @@ export class LrRateComponent implements OnInit {
 
   resetValue() {
     console.log("reset feunction");
+    this.id = null;
     this.general.weight = null;
     this.general.fixed = null;
     this.general.mgWeight = null;
     this.general.qty = null;
     this.general.mgQty = null;
+    this.general.brokerage = null;
     this.filters[0].param = null;
     this.filters[0].minRange = null;
     this.filters[0].shortage = null;

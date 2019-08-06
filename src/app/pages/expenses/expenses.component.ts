@@ -7,8 +7,8 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 @Component({
   selector: 'expenses',
   templateUrl: './expenses.component.html',
-  styleUrls: ['./expenses.component.scss','../pages.component.css']
-  
+  styleUrls: ['./expenses.component.scss', '../pages.component.css']
+
 })
 export class ExpensesComponent implements OnInit {
   expenses = [];
@@ -20,7 +20,7 @@ export class ExpensesComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-      this.common.refresh = this.refresh.bind(this);
+    this.common.refresh = this.refresh.bind(this);
 
 
   }
@@ -49,15 +49,15 @@ export class ExpensesComponent implements OnInit {
     console.log(expense);
     let images = [{
       name: "Sheet-1",
-      image: expense.exp_sheet1
+      image: expense.exp_sheets[0]
     },
-    {
-      name: "Sheet-2",
-      image: expense.exp_sheet2
-    }
+      // {
+      //   name: "Sheet-2",
+      //   image: expense.exp_sheet2[0]
+      // }
     ];
     console.log("images:", images);
-    this.common.params = { images, title: 'LR Details' };
+    this.common.params = { images: images, title: 'LR Details' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
 
 

@@ -1,0 +1,22 @@
+.radio {
+    padding: 0px;
+    margin: 0px;
+    p:last-child {
+        margin: 0px;
+    }
+    p {
+        input {
+            vertical-align: middle;
+            width: 18px;
+            height: 18px !important;
+            position: inherit;
+            margin: 0px;
+        }
+        span {
+            vertical-align: middle;
+            display: inline-block;
+            font-size: 15px;
+            margin-left: 8px;
+        }
+    }
+}
