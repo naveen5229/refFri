@@ -294,6 +294,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: ' Fuel Master',
+        icon: 'fas fa-history',
+        link: '/pages/fuel-master',
+        home: true,
+      },
+      {
         title: 'Consolidate Fuel Average',
         icon: 'fa fa-signal',
         link: '/pages/consolidate-fuel-average',

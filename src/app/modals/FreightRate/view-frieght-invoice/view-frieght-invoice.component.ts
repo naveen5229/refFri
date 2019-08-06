@@ -55,10 +55,6 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
         this.data = [];
         this.invoiceDetails = res['data'].invoicedetails[0];
         this.amountData = res['data'].taxdetails[0];
-        // { "cgst": 60, "sgst": 60, "total": 120, "igst": 12, "amount_words": "one thousand two hundred" };
-        // this.amountData.map(ad => {
-        //   this.amountDataKeys.push(Object.keys(ad));
-        // })
         console.log("this.invoiceDetails", this.invoiceDetails);
         this.data = res['data'].result;
         if (this.data) {

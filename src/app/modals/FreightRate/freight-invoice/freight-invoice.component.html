@@ -12,7 +12,8 @@
           <span><b>Branch</b></span>
         </div>
         <div class="col-9">
-          <select name="branch" class="form-control" [(ngModel)]="freightInvoice.branchId" (change)="getBranchDetails();">
+          <select name="branch" class="form-control" [(ngModel)]="freightInvoice.branchId"
+            (change)="getBranchDetails();">
             <option value="">Select Branch</option>
             <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
           </select>
@@ -61,31 +62,36 @@
       </div>
     </div>
   </div>
-<div class="row">
-  <div class="col-5">
-    <div class="row align-items-center">
-      <div class="col-3 pr-0">
-          <span><b>Intra State</b></span>
-      </div>
-      <div class="col-7">
-          <input class="m-0" type="checkbox" [(ngModel)]='state' (change)="check(state)">
-      </div>
-    </div>
-  </div>
-  <div class="col-7">
-    <div class="row">
+
+
+  <div class="row">
+    <div class="col-6">
+      <div class="row">
         <div class="col-3">
-            <span><b>Gst Rate</b></span>
-          </div>
-          <div class="col-9">
-              <select  [(ngModel)]="freightInvoice.gst" name="gst">
-                  <option value="5" selected>5%</option>
-                  <option value="12">12%</option>
-                </select>
-          </div>
+          <label>Intra State</label>
+        </div>
+        <div class="col-9">
+          <input type="checkbox" unchecked [(ngModel)]='state' (change)="check(state)">
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row">
+        <div class="col-3">
+          <label>Gst Rate</label>
+        </div>
+        <div class="col-9">
+          <select [(ngModel)]="freightInvoice.gst" name="gst">
+            <option value="5" selected>5%</option>
+            <option value="12">12%</option>
+            <option value="0">N.A.</option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+
+
   <div class="row">
     <div class="col-6">
       <div class="row">
@@ -99,7 +105,9 @@
       </div>
     </div>
   </div>
+
+
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" id="save" (click)="saveInvoice()">Save & Select LR</button>
+  <button class="btn btn-primary" id="save" (click)="saveInvoice()">{{btnTxt}}</button>
 </div>

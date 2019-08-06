@@ -91,7 +91,7 @@ export class AddFuelFullRuleComponent implements OnInit {
       val = 0;
     }
     let params = {
-      foid: this.Rules.foid,
+      foid: null,
       ruleType: this.Rules.ruleType,
       angleFrom: parseInt(this.Rules.angleFrom),
       angleTo: parseInt(this.Rules.angleTo),
