@@ -78,11 +78,11 @@ export class FinanceRecoveryComponent implements OnInit {
         if (key == 'Action') {
           column['Action'] = { class: "fas fa-eye", action: this.showAction.bind(this, recovery._ledid) }
         } else if (key == "View Contacts") {
-          column[key] = { value: 'show', class: (recovery._cc == "Black") ? "black" : (recovery._cc == "Red" )? "red" :( recovery._cc == "Blue") ? "blue" : (recovery._cc == "Green" ) ? "green" :(recovery._cc == "Light Green") ? "lightGreen" : (recovery._cc == "Purple") ? "purple" :(recovery._cc == "Yellow" ? "yellow" :""), action: this.showMobile.bind(this) }
+          column[key] = { value: 'show', class: (recovery._cc == "Black") ? "black" : (recovery._cc == "Red" )? "red" :( recovery._cc == "Blue") ? "blue" : (recovery._cc == "Green" ) ? "green" :(recovery._cc == "Light Green") ? "lightGreen" : (recovery._cc == "Purple") ? "purple" :(recovery._cc == "Yellow" ? "yellow" :""), action: this.customerMobileNo.bind(this) }
         } else if (key == "ledgername") {
           let icons = [
-            { class: 'fa fa-bell', action: this.showRadio.bind(this) },
-            { txt: recovery[key] ,action: this.showRadio.bind(this)}
+            { class: 'fa fa-bell', action: this.customerResponse.bind(this) },
+            { txt: recovery[key] ,action: this.customerResponse.bind(this)}
           ];
           if (recovery._reminderflag != 1) icons.splice(0, 1);
 
@@ -99,7 +99,7 @@ export class FinanceRecoveryComponent implements OnInit {
     return columns;
   }
 
-  showRadio() {
+  customerResponse() {
     let data = {
       title: 'Customer Response',
       type: 'radio',
@@ -114,7 +114,7 @@ export class FinanceRecoveryComponent implements OnInit {
     this.modalService.open(GenericInputTypeComponent, { container: "nb-layout", size: 'sm', backdrop: 'static' });
   }
 
-  showMobile() {
+  customerMobileNo() {
     let data = {
       title: 'User mobile',
       type: 'text',
