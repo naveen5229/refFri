@@ -93,14 +93,12 @@ const PAGES_COMPONENTS = [
   PumpStationAreaComponent,
   TollTransactionSummaryComponent,
   FoFsMappingComponent,
-  //  ConsolidateFuelAverageComponent,
   FuelAverageIssuesComponent,
   FuelAnalysisComponent,
   TripAnalysisComponent,
   VscDiagnosisComponent,
   LocationsComponent,
   WebActivitySummaryComponent
-  // PodDashboardComponent
 
 
 
@@ -147,22 +145,17 @@ const PAGES_COMPONENTS = [
     PendingVehicleComponent,
     HaltDensityComponent,
     PalacementSiteRuleComponent,
-    //  ConsolidateFuelAverageComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
-    // VehiclesComponent,
     LrDiagnosticsComponent,
     TripAnalysisComponent,
     FuelAnalysisComponent,
     VscDiagnosisComponent,
     BufferPolylineComponent,
-    // PodDashboardComponent,
-    // ViaRoutesComponent,
     BufferPolylineComponent,
     LocationsComponent,
     WebActivitySummaryComponent,
     UserTemplatesComponent,
-    // NearbyPodsComponent
   ],
   exports: [
     // VehiclesComponent,

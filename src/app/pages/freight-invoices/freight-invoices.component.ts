@@ -247,9 +247,5 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
-  assign() {
-    const activeModal = this.modalService.open(AssignUserTemplateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
-    activeModal.result.then(data => {
-    });
-  }
+
 }

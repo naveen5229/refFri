@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SaveUserTemplateComponent } from '../../modals/save-user-template/save-user-template.component';
+import { AssignUserTemplateComponent } from '../../modals/assign-user-template/assign-user-template.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'user-templates',
@@ -51,7 +53,7 @@ export class UserTemplatesComponent implements OnInit {
       });
   }
 
-  resetTable(){
+  resetTable() {
     this.table.data = {
       headings: {},
       columns: []
@@ -111,17 +113,20 @@ export class UserTemplatesComponent implements OnInit {
   actionIcons(view) {
     let icons = [
       {
-        class:"far fa-edit",
-        action: this.addAndEdit.bind(this,'Edit', view)
+        class: "far fa-edit",
+        action: this.addAndEdit.bind(this, 'Edit', view)
       },
       {
         class: "far fa-eye",
       },
       {
         class: "fas fa-trash-alt",
+        action: this.deleteUserTemplate.bind(this, view)
+
       },
       {
         class: "fas fa-user",
+        action: this.assign.bind(this, 'Edit', view)
       },
     ];
     return icons;
@@ -129,11 +134,50 @@ export class UserTemplatesComponent implements OnInit {
 
 
 
-  addAndEdit(title,row) {
-    this.common.params={title:title,userTemplate: row };
+  addAndEdit(title, row) {
+    this.common.params = { title: title, userTemplate: row };
     const activeModal = this.modalService.open(SaveUserTemplateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
-        this.getUserViews();
+      this.getUserViews();
+    });
+  }
+
+  deleteUserTemplate(row) {
+    console.log("row:", row);
+    let params = {
+      rowId: row._id,
+
+
+    }
+    if (row._id) {
+      this.common.params = {
+        title: 'Delete  ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          this.api.post('FrieghtRate/deleteInvoices', params)
+            .subscribe(res => {
+              this.common.loading--;
+              this.common.showToast(res['msg']);
+              this.getUserViews();
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
+  }
+
+  assign(title, view) {
+    this.common.params = { title: title, preAssignUserTemplate: view };
+    const activeModal = this.modalService.open(AssignUserTemplateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
+    activeModal.result.then(data => {
+      this.getUserViews();
     });
   }
 }
