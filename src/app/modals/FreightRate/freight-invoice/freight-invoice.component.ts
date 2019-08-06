@@ -27,7 +27,7 @@ export class FreightInvoiceComponent implements OnInit {
     gst: '5',
   };
 
-
+  btnTxt = "Save & Select LR"
   constructor(public modalService: NgbModal,
     public common: CommonService,
     public activeModal: NgbActiveModal,
@@ -41,6 +41,7 @@ export class FreightInvoiceComponent implements OnInit {
 
     if (this.common.params.title == 'Edit') {
       console.log("branchId:", this.common.params.freightInvoice._branch_id);
+      this.btnTxt = "Update Invoice"
       this.freightInvoice.branchId = this.common.params.freightInvoice._branch_id;
       this.freightInvoice.branchName = this.common.params.freightInvoice['Branch Name'];
       this.freightInvoice.companyId = this.common.params.freightInvoice._party_id;
@@ -99,8 +100,10 @@ export class FreightInvoiceComponent implements OnInit {
         console.log(res['data'][0].result);
         if (res['data'][0].y_id > 0) {
           this.common.showToast(res['data'][0].y_msg);
+          if (this.btnTxt != 'Update Invoice') {
+            this.lrAssign(res['data'][0].y_id);
+          }
           this.activeModal.close({ data: true });
-          this.lrAssign(res['data'][0].y_id);
         }
         else {
           this.common.showError(res['data'][0].y_msg);
