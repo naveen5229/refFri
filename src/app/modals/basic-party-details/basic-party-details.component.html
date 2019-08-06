@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
     <div class="Basic-details">
-        <form [formGroup]="Form" name="Basic-details" id="Basic-details" (submit)="Form.valid && saveBasicDetails()">
+        <form [formGroup]="Form" name="Basic-details" id="Basic-details" (submit)="Form.valid && saveDetails()">
             <div class="row">
                 <div class="col-6">
                     <div class="row  mt-2">
@@ -28,7 +28,7 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-4">
-                            <label>Pan:<span class="text-red">*</span></label>
+                            <label>Pan:</label>
                         </div>
                         <div class="col-md-8">
                             <input id="panNo" name="panNo" formControlName="panNo" type="text" placeholder="PAN No" [(ngModel)]="panNo" autocomplete="off" class="form-control" (keyup)="checkFormat()">
@@ -37,7 +37,7 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-4">
-                            <label>GST NO:<span class="text-red">*</span></label>
+                            <label>GST NO:</label>
                         </div>
                         <div class="col-8">
                             <input id="gstNo" name="gstNo" formControlName="gstNo" type="text" placeholder="GST No" [(ngModel)]="gstNo" autocomplete="off" class="form-control">

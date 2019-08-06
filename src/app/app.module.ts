@@ -225,7 +225,9 @@ import { SupportingDocComponent } from './modals/LRModals/supporting-doc/support
 import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
 import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-party-details.component';
 import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
+import { PartyLedgerMappingComponent } from './modals/party-ledger-mapping/party-ledger-mapping.component';
 import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-view-summary.component';
+import { BulkCompanyAssociationComponent } from './modals/bulk-company-association/bulk-company-association.component';
 
 
 
@@ -425,7 +427,9 @@ import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-v
     BasicPartyDetailsComponent,
     BankAccountsComponent,
     LrInvoiceColumnsComponent,
+    PartyLedgerMappingComponent,
     FoWebViewSummaryComponent,
+    BulkCompanyAssociationComponent,
 
   ],
   entryComponents:[
@@ -610,9 +614,9 @@ import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-v
     ModalWiseFuelAverageComponent,
     TripdetailComponent,
     SupportingDocComponent,
-    
-
-    FoWebViewSummaryComponent
+    PartyLedgerMappingComponent,
+    FoWebViewSummaryComponent,
+    BulkCompanyAssociationComponent
   ],
   imports: [
     BrowserModule,
