@@ -47,7 +47,7 @@ export class VoucherComponent implements OnInit {
   allowBackspace = true;
   showDateModal = false;
   date = this.common.dateFormatternew(new Date());
-
+voucherTypeCastId=0;
   activeLedgerIndex = -1;
 
   constructor(public api: ApiService,
@@ -71,7 +71,9 @@ export class VoucherComponent implements OnInit {
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
-
+    if(this.common.params.voucherTypeId){
+    this.voucherTypeCastId=this.common.params.voucherTypeId;
+    }
     this.getLedgers('debit');
     this.getLedgers('credit');
     this.voucher = this.setVoucher();
@@ -735,7 +737,7 @@ export class VoucherComponent implements OnInit {
 
   getLedgers(transactionType, name?) {
     this.showSuggestions = true;
-    let url = 'Suggestion/GetLedger?transactionType=' + transactionType + '&voucherId=' + this.voucherId + '&search=' + name;
+    let url = 'Suggestion/GetLedger?transactionType=' + transactionType + '&voucherId=' + this.voucherTypeCastId + '&search=' + name;
     console.log('URL: ', url);
     this.api.get(url)
       .subscribe(res => {

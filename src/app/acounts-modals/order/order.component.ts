@@ -205,8 +205,8 @@ export class OrderComponent implements OnInit {
                   name: taxdetail.y_ledger_name,
                   id: taxdetail.y_ledger_id,
                 },
-                taxrate: taxdetail.y_rate,
-                taxamount: taxdetail.y_amount,
+                taxrate: parseFloat(taxdetail.y_rate),
+                taxamount: parseFloat(taxdetail.y_amount),
                 totalamount: 0
               };
 
@@ -452,10 +452,11 @@ export class OrderComponent implements OnInit {
       this.setFoucus('rate'+i);
       
       }else{
-    this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 1);
+   // this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 1);
     this.common.params = {
       taxDetail: JSON.parse(JSON.stringify(this.order.amountDetails[i].taxDetails)),
-      amount: this.order.amountDetails[i].amount
+      amount: this.order.amountDetails[i].amount,
+      sizelandex:1
     };
     console.log('????????',this.common.params);
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
@@ -1181,7 +1182,7 @@ export class OrderComponent implements OnInit {
     this.api.post('Voucher/GetCompanyHeadingData', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res11:', res['data'], 'this.order', this.order);
+        console.log('Res11:', this.order);
         // this.Vouchers = res['data'];
         this.print(this.order, res['data']);
 
@@ -1202,22 +1203,51 @@ export class OrderComponent implements OnInit {
 let invoiceJson={};
     if(voucherdataprint.ordertype.name.toLowerCase().includes('purchase') || voucherdataprint.ordertype.name.toLowerCase().includes('debit note')){
       let rows = [];
-
+      let totalqty=0;
+      let totalamount=0;
+      let lasttotaltax=0;
+      let lineamounttotal=0;
       voucherdataprint.amountDetails.map((invoiceDetail, index) => {
+        console.log('invoice tax detail data =========',invoiceDetail);
+        let taxRowData='';
+        let taxTotal=0;
+        totalqty+= parseFloat(invoiceDetail.qty);
+        totalamount+= parseFloat(invoiceDetail.amount);
+        lineamounttotal+= parseFloat(invoiceDetail.lineamount);
+
+        invoiceDetail.taxDetails.map((taxDetail, index) => {
+          taxRowData +=  taxDetail.taxledger.name +' : '+taxDetail.taxamount+',';
+          taxTotal += parseFloat(taxDetail.taxamount); 
+        });
+        let lasttaxrowdata= taxRowData.substring(0, taxRowData.length - 1);
+        lasttotaltax+=taxTotal;
+
         rows.push([
           { txt: index+1 },
-          { txt: invoiceDetail.warehouse.name || '' },
-          { txt: invoiceDetail.stockitem.name || '' },
-          { txt: invoiceDetail.stockunit.name || '' },
+          { txt: (index==0)?invoiceDetail.warehouse.name: (voucherdataprint.amountDetails[index-1].warehouse.id  == invoiceDetail.warehouse.id)? '':invoiceDetail.warehouse.name || '' },
+          { txt: invoiceDetail.stockitem.name +'('+invoiceDetail.stockunit.name +')'+'</br>'+lasttaxrowdata || '' },
           { txt: invoiceDetail.qty || '' },
           { txt: invoiceDetail.rate || '' },
           { txt: invoiceDetail.amount || '' },
+        { txt: taxTotal || 0 },
           { txt: invoiceDetail.lineamount || '' },
           { txt: invoiceDetail.remarks || '' }
         ]);
-        // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
-  
+        console.log('invoiceDetail.taxDetails',invoiceDetail.taxDetails);
+      
+    
       });
+      rows.push([
+        { txt: '' },
+        { txt: '' },
+        { txt: 'Total' },
+        { txt: totalqty || '' },
+        { txt: '-' },
+        { txt: totalamount || '' },
+        { txt: lasttotaltax || 0 },
+        { txt: lineamounttotal || '' },
+        { txt: '' }
+      ]);
      invoiceJson = {
       headers: [
         { txt: companydata[0].foname, size: '22px', weight: 'bold' },
@@ -1246,12 +1276,12 @@ let invoiceJson={};
         headings: [
           { txt: 'S.No' },
           { txt: 'Ware House' },
-          { txt: 'Stock Item' },
-          { txt: 'Stock Unit' },
+          { txt: 'Item' },
           { txt: 'Quantity' },
           { txt: 'Rate' },
           { txt: 'Amount' },
-          { txt: 'Line Amount' },
+          { txt: 'Tax Amount' },
+          { txt: 'Total Amount' },
           { txt: 'Remarks' }
         ],
         rows: rows
@@ -1273,8 +1303,7 @@ let invoiceJson={};
       rows.push([
         { txt: index+1 },
         { txt: invoiceDetail.warehouse.name || '' },
-        { txt: invoiceDetail.stockitem.name || '' },
-        { txt: invoiceDetail.stockunit.name || '' },
+        { txt: invoiceDetail.stockitem.name +'('+ invoiceDetail.stockunit.name + ')' || '' },
         { txt: invoiceDetail.qty || '' },
        
       ]);
@@ -1299,9 +1328,8 @@ let invoiceJson={};
        headings: [
         { txt: 'S.No' },
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
-         { txt: 'Quantity' }
+         { txt: 'Item' },
+         { txt: 'Qty' }
      
        ],
        rows: rows
@@ -1323,14 +1351,21 @@ let invoiceJson={};
       rows.push([
         { txt: index+1 },
         { txt: invoiceDetail.warehouse.name || '' },
-        { txt: invoiceDetail.stockitem.name || '' },
-        { txt: invoiceDetail.stockunit.name || '' },
+        { txt: invoiceDetail.stockitem.name+'('+invoiceDetail.stockunit.name +')' || '' },
         { txt: invoiceDetail.qty || '' },
         { txt: invoiceDetail.rate || '' },
         { txt: invoiceDetail.amount || '' },
         { txt: invoiceDetail.lineamount || '' },
         { txt: invoiceDetail.remarks || '' }
       ]);
+      invoiceDetail.taxDetails.map((taxDetail, index) => {
+        rows.push([
+          { txt: taxDetail.taxledger.name  || '' ,'colspan':3,align:'right'},
+          { txt: taxDetail.taxamount || '','colspan':3 ,align:'right'},
+          { txt:  '' },
+          { txt:  '' }
+        ]);
+    });
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
     });
@@ -1363,12 +1398,12 @@ let invoiceJson={};
        headings: [
         { txt: 'S.No' },
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
-         { txt: 'Quantity' },
+         { txt: 'Item' },
+         { txt: 'Qty' },
          { txt: 'Rate' },
          { txt: 'Amount' },
-         { txt: 'Line Amount' },
+         { txt: 'Tax Amount' },
+         { txt: 'Total Amount' },
          { txt: 'Remarks' }
        ],
        rows: rows

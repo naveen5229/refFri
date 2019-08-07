@@ -16,7 +16,8 @@ export class LrInvoiceColumnsComponent implements OnInit {
     id: null,
     address: null
   }
-  docType = 1;
+  types = [];
+  reportType = 'LR';
   LrInvoiceColumns = [];
   constructor(
     public common: CommonService,
@@ -24,8 +25,9 @@ export class LrInvoiceColumnsComponent implements OnInit {
     public api: ApiService,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
-  ) { 
+  ) {
     this.common.handleModalSize('class', 'modal-lg', '1100');
+    //this.getTypes();
 
   }
 
@@ -65,14 +67,18 @@ export class LrInvoiceColumnsComponent implements OnInit {
     this.common.loading++;
     let params = {
       branchId: this.accountService.selected.branch.id,
-      type: this.docType,
+      reportType: this.reportType,
       partyId: this.party.id,
     }
     this.api.post('LorryReceiptsOperation/getLrInvoiceFields', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("getLrInvoiceColumns", res['data']);
-        this.LrInvoiceColumns = res['data'];
+        if (res['data']) {
+          this.LrInvoiceColumns = res['data'];
+        } else {
+          this.LrInvoiceColumns = [];
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -88,7 +94,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
     this.common.loading++;
     let params = {
       branchId: this.accountService.selected.branch.id,
-      type: this.docType,
+      reportType: this.reportType,
       partyId: this.party.id,
       lrInvoiceColumns: JSON.stringify(this.LrInvoiceColumns),
     }
@@ -105,6 +111,18 @@ export class LrInvoiceColumnsComponent implements OnInit {
         }
       }, err => {
         this.common.loading--;
+        console.log(err);
+      });
+  }
+  getTypes() {
+    ++this.common.loading;
+    this.api.get('Suggestion/getTypeMaster?typeId=66')
+      .subscribe(res => {
+        console.log("branchdetails", res['data']);
+        --this.common.loading;
+        this.types = res['data'];
+      }, err => {
+        --this.common.loading;
         console.log(err);
       });
   }

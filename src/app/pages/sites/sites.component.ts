@@ -109,7 +109,7 @@ export class SitesComponent implements OnInit {
 
     setTimeout(() => {
       if (this.common.params != null) {
-        console.log("default Data:", this.common.params);
+
         let latitude = this.common.params.vehicle.latitude;
         let longitude = this.common.params.vehicle.longitude;
         let marker = [{
@@ -196,12 +196,12 @@ export class SitesComponent implements OnInit {
             this.site.name = "Add";
             this.Location = null;
             this.typeID = null;
-            //this.site.cancel="Clear";
+
             this.site.sitename = '';
             this.companySites();
           }
-          else {
-            console.log()
+          if (res['code'] < 0) {
+
             this.common.showError(res['msg']);
             this.companySites();
           }
@@ -260,24 +260,15 @@ export class SitesComponent implements OnInit {
 
 
   showdata(datas) {
-    let latitude = [];
-    let longitude = [];
+
     this.mapService.resetPolygons();
     this.path = datas.latlongs;
 
-    console.info("Path:", this.path);
-    let latlong = datas.latlongs;
-    let lat = latlong[0].lat;
-    let long = latlong[0].lng;
-    for (let i = 0; i < latlong.length; i++) {
-      latitude.push(latlong[i].lat);
-      longitude.push(latlong[i].lng);
-    }
-    let latAverage = this.getAverage(latitude);
-    let longAverage = this.getAverage(longitude);
-    let AerageData = { lat: latAverage, lng: longAverage };
-    this.mapService.zoomAt({ lat: AerageData.lat, lng: AerageData.lng }, 11);
 
+    let latlong = datas.latlongs;
+
+
+    this.mapService.setMultiBounds(latlong, true);
 
 
 
@@ -287,9 +278,9 @@ export class SitesComponent implements OnInit {
 
     }
 
-    //
 
-    console.log('latlongs::::', latlong);
+
+
     let latLngsMulti = [
       {
         data: latlong,
@@ -306,17 +297,7 @@ export class SitesComponent implements OnInit {
     this.mapService.resetPolygons();
     this.mapService.createPolygons(latLngsMulti);
   }
-  getAverage(array) {
-    let sum = 0;
-    let length = array.length;
-    for (let i = 0; i < length; i++) {
 
-      sum = sum + array[i];
-    }
-    let average = sum / length;
-    console.log('getAverage', average);
-    return average;
-  }
   setTable() {
     let headings = {
       name: { title: 'Site Name', placeholder: 'Site Name' },

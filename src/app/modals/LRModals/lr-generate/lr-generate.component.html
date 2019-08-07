@@ -85,15 +85,16 @@
 
                 </div>
               </td>
-              <td><label *ngIf="lr.lrType!=1">T.A. Name</label></td>
+              <td><label *ngIf="lr.lrType!=1">T.A. Name <span class="red-star" *ngIf="lr.lrType==1">*</span> </label>
+              </td>
 
               <td>
                 <span *ngIf="lr.lrType!=1">
-                  <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent" display="name"
+                  <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetCompanies" display="name"
                     placeholder=" Search Transport Agent Name" [preSelected]="{name:taName,id:taId}" style="width:100%;"
                     class="col-md-9 auto-suggest">
                   </auto-suggestion>
-                  <i class="fa fa-plus add col-md-3" (click)="addTransportAgent()"></i>
+                  <i class="fa fa-plus add col-md-3" (click)="addConsignee()"></i>
                 </span>
               </td>
             </tr>
@@ -234,6 +235,7 @@
               <td><select [(ngModel)]="lr.invoiceTo" class="form-conrol" *ngIf="lr.lrType==1">
                   <option value="1">Consignee</option>
                   <option value="2">Consignor</option>
+                  <option value="3">Transport Agent</option>
                   <option value="9">Others</option>
                   <option value="-1">N.A.</option>
 

@@ -25,7 +25,7 @@ export class AddVehicleComponent implements OnInit {
     this.Foid = user.id;
   }
   importDriverCsv() {
-    const activeModal = this.modalService.open(ImportBulkVehiclesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ImportBulkVehiclesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
   closeModal() {
     this.activeModal.close();

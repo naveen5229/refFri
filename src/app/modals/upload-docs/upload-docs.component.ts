@@ -128,7 +128,7 @@ export class UploadDocsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         if (res['code'] == 1) {
-
+          this.common.showToast(res['msg']);
           this.getdocumentsSummary();
           this.getDocChange();
           this.remark = null;
