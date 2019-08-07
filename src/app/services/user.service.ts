@@ -86,10 +86,17 @@ export class UserService {
       { id: 55, route: '/admin/buffer-polyline' },
       { id: 56, route: '/admin/pod-dashboard' },
       { id: 57, route: '/admin/fo-fs-mapping' },
+<<<<<<< HEAD
       { id: 57, route: '/admin/nearby-pods' },
       { id: 57, route: '/admin/locations' },
       { id: 57, route: '/admin/web-activity-summary' },
       { id: 57, route: '/admin/vouchers-summary' },
+=======
+      { id: 58, route: '/admin/nearby-pods' },
+      { id: 59, route: '/admin/locations' },
+      { id: 60, route: '/admin/web-activity-summary' },
+      { id: 61, route: '/admin/user-templates' },
+>>>>>>> ba52d7d341b05e65b4ebac711b9c2a2861ab1679
     ]
   }
 

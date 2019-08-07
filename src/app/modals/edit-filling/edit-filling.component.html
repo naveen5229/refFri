@@ -7,6 +7,87 @@
 </div>
 <div class="modal-body" style="min-height: 250px; ">
   <form #fillingForm="ngForm" name="filling-form" id="filling-form" (submit)="fillingForm.valid && submitFillingData()">
+
+    <div class="row mb-3" *ngIf="edit==0; else preselectedValue">
+      <div class="col-5">
+        <div class="row">
+          <div class="col-6 pr-0">
+            <label class="fill-elt">Regno
+              <span class="requiredfield">*</span>
+
+            </label>
+            <!-- <span><b>Regno</b></span>
+            <span class="requiredfield">*</span> -->
+          </div>
+          <div class="col-6 pl-0">
+            <auto-suggestion (onSelected)="getVehData($event)" url="Suggestion/getFoVehicleList" display="regno"
+              placeholder="Enter Vehicle Number" [preSelected]="{regno: regno}" class="fstn-name w-100"
+              (change)="resetvehicle()" inputId="vehicleno" id="autosuggestion" style="width:60%;">
+            </auto-suggestion>
+            <div *ngIf="isFormSubmit && vehicleId == null" class="invalid-feedback">
+              <div>Regno is Required</div>
+              <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+                  placeholder=" " (change)="resetvehicle()" inputId="vehicleno"
+                  [preSelected]="{regno:transferReceipt.vehicleRegNo}">
+                </auto-suggestion> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-7">
+        <div class="row">
+          <div class="col-3 pr-0 mt-2">
+            <span><b>Reference Type</b></span>
+          </div>
+          <div class="col-4">
+            <select class="form-control" (change)="refernceTypes();resetRefernceType(false);" name="reftype"
+              [(ngModel)]="refernceType">
+              <option *ngFor="let reftype of referenceType" [value]="reftype.id">
+                {{reftype.name}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-5">
+            <input class="form-control" type="text" list="refType" (change)="changeRefernceType(refTypeName)"
+              id="referncetype" name="reference-type" [(ngModel)]="refTypeName">
+            <datalist id="refType">
+              <option *ngFor="let type of refernceData" [value]="type.source_dest">
+                {{type.source_dest}}
+              </option>
+            </datalist>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #preselectedValue>
+      <div class="row mb-3">
+        <div class="col-5">
+          <div class="row">
+            <div class="col-6 pr-0">
+              <span><b>Regno </b></span>
+            </div>
+            <div class="col-6 pl-0">
+              <span>{{regno}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="row">
+
+            <div class="col-2 pr-0">
+              <label>{{referenceName}}</label>
+            </div>
+            <div class="col-10">
+              <span>{{refTypeName}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
     <div class="row">
       <div class="col-6">
         <div class="form-group">
@@ -35,18 +116,8 @@
       </div>
       <div class="col-6">
         <div class="form-group">
-          <label class="fill-elt">Regno
-            <span class="requiredfield">*</span>
-
-          </label>
-          <auto-suggestion (onSelected)="getVehData($event)" url="Suggestion/getFoVehicleList" display="regno"
-            placeholder="Enter Vehicle Number" [preSelected]="{regno: regno}" class="fstn-name w-100"
-            (unSelected)="resetvehicle()" inputId="vehicleno" id="autosuggestion" style="width:60%;">
-          </auto-suggestion>
-
-          <div *ngIf="isFormSubmit && vehicleId == null" class="invalid-feedback">
-            <div>Regno is Required</div>
-          </div>
+          <label class="fill-elt">Ref No:</label>
+          <input class="fill-elt form-control" name="refno" id="refno" [(ngModel)]="refNo" />
         </div>
       </div>
       <div class="col-6">
@@ -130,12 +201,7 @@
           <input class="fill-elt form-control" name="odometer" id="odometer" [(ngModel)]="odoVal" />
         </div>
       </div>
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label class="fill-elt">Ref No:</label>
-          <input class="fill-elt form-control" name="refno" id="refno" [(ngModel)]="refNo" />
-        </div>
-      </div>
+
     </div>
   </form>
 </div>

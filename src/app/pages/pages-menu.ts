@@ -76,7 +76,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-tachometer-alt',
         link: '/pages/vehicle-odoMeter'
       },
-     
+
 
       {
         title: 'Routes',
@@ -144,6 +144,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-map-marked-alt',
         link: '/pages/sites',
         home: true,
+      },
+      {
+        title: 'Web Activity Summary',
+        icon: 'far fa-user',
+        link: '/pages/web-acttivity-summary'
       },
     ]
   },
@@ -291,6 +296,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: ' Model Fuel Mileage',
         icon: 'fas fa-history',
         link: '/pages/fo-fuel-average',
+        home: true,
+      },
+      {
+        title: ' Fuel Master',
+        icon: 'fas fa-history',
+        link: '/pages/fuel-master',
         home: true,
       },
       {

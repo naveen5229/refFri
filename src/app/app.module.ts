@@ -228,6 +228,8 @@ import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.comp
 import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-view-summary.component';
 import { VoucherTypeGetComponent } from './modals/voucher-type-get/voucher-type-get.component';
 import { VoucherTypeMapComponent } from './modals/voucher-type-map/voucher-type-map.component';
+import { AssignUserTemplateComponent } from './modals/assign-user-template/assign-user-template.component';
+import { SaveUserTemplateComponent } from './modals/save-user-template/save-user-template.component';
 
 
 
@@ -430,6 +432,8 @@ import { VoucherTypeMapComponent } from './modals/voucher-type-map/voucher-type-
     FoWebViewSummaryComponent,
     VoucherTypeGetComponent,
     VoucherTypeMapComponent,
+    AssignUserTemplateComponent,
+    SaveUserTemplateComponent,
 
   ],
   entryComponents: [
@@ -614,11 +618,11 @@ import { VoucherTypeMapComponent } from './modals/voucher-type-map/voucher-type-
     ModalWiseFuelAverageComponent,
     TripdetailComponent,
     SupportingDocComponent,
-
-
-    FoWebViewSummaryComponent,
     VoucherTypeGetComponent,
-    VoucherTypeMapComponent
+    VoucherTypeMapComponent,
+    FoWebViewSummaryComponent,
+    AssignUserTemplateComponent,
+    SaveUserTemplateComponent
   ],
   imports: [
     BrowserModule,

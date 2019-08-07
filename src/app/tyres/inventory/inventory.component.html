@@ -1,9 +1,10 @@
 <nb-card style="border: 0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-3">
         <h5>Tyre Inventory</h5>
       </div>
+
       <div class="col-sm-2">
         <select class="form-control" name="typelist" [(ngModel)]="typeListId" (change)="typeList()">
           <option value="-1">All</option>
@@ -21,7 +22,7 @@
           </div>
           <div class="col-6">
             <div>
-              <button (click)="importCsv()" class="btn btn-primary m-0 w-100 pl-0 pr-0">Import CSV Inventory</button>
+              <!-- <button (click)="importCsv()" class="btn btn-primary m-0 w-100 pl-0 pr-0">Import CSV Inventory</button> -->
             </div>
           </div>
         </div>
@@ -109,13 +110,20 @@
 
 
     <div class="row-width clearfix">
-      <div class="text-left">
+      <div>
         <button class="btn btn-primary" type="button" outline (click)="testFilledData()" id="saveDetails"
           style="cursor: pointer;">Save</button>
-      </div>
 
+        <span style="float: right">
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF('tyreinventory')" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCsv('tyreinventory')"
+            style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
     </div>
     <div>
+
       <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="tyreinventory">
       </smart-table>
 

@@ -62,6 +62,7 @@ import { NearbyPodsComponent } from './nearby-pods/nearby-pods.component';
 import { LocationsComponent } from './locations/locations.component';
 import { WebActivitySummaryComponent } from './web-activity-summary/web-activity-summary.component';
 import { VouchersSummaryComponent } from './vouchers-summary/vouchers-summary.component';
+import { UserTemplatesComponent } from './user-templates/user-templates.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -359,6 +360,13 @@ const routes: Routes = [{
         {
             path: 'vouchers-summary',
             component: VouchersSummaryComponent,
+            canActivate: [RouteGuard]
+
+        },
+
+        {
+            path: 'user-templates',
+            component: UserTemplatesComponent,
             canActivate: [RouteGuard]
         }
 
