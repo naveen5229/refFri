@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <div [class]=" images.length ?'col-6':'col-12'" style="padding-left:30px">
+        <div [class]=" images.length ?'col-6':'col-12'" style="padding-left:18px">
             <div class="table-conan filter-coff">
                 <table>
                     <tr *ngFor="let dd of oddArray ; let i = index; ">
@@ -14,7 +14,7 @@
                         <td *ngIf="oddArray[i]"><span *ngIf="oddArray[i].r_coltitle">
                                 <label>{{oddArray[i].r_coltitle}}<span style="color: red"
                                         *ngIf="oddArray[i].r_required">*</span></label>
-                                <input type="text" class="form-control" [(ngModel)]=oddArray[i].r_value
+                                <input type="text" class="form-control" style="width: auto;" [(ngModel)]=oddArray[i].r_value
                                     *ngIf="oddArray[i].r_coltype != 3">
                                 <uj-date-time-picker (onChanged)="oddArray[i].r_value = $event"
                                     [dateTimeValue]="oddArray[i].r_value" *ngIf="oddArray[i].r_coltype ==3"
@@ -25,7 +25,7 @@
                         <td *ngIf="evenArray[i]"><span *ngIf="evenArray[i].r_coltitle">
                                 <label>{{evenArray[i].r_coltitle}} <span style="color: red"
                                         *ngIf="evenArray[i].r_required">*</span></label>
-                                <input type="text" class="form-control" [(ngModel)]=evenArray[i].r_value
+                                <input type="text" class="form-control" style="width: auto;"  [(ngModel)]=evenArray[i].r_value
                                     *ngIf="evenArray[i].r_coltype != 3">
                                 <uj-date-time-picker (onChanged)="evenArray[i].r_value = $event"
                                     [dateTimeValue]="evenArray[i].r_value" *ngIf="evenArray[i].r_coltype ==3"

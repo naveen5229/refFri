@@ -93,7 +93,6 @@ export class LedgersComponent implements OnInit {
       let params = {
         id: ledger.id,
         foid: ledger.foid,
-
       }
       this.common.loading++;
       this.api.post('Accounts/EditLedgerdata', params)
@@ -103,7 +102,8 @@ export class LedgersComponent implements OnInit {
           data = res['data'];
           this.common.params = {
             ledgerdata: res['data'],
-            deleted: this.deletedId
+            deleted: this.deletedId,
+        sizeledger:0
           }
           // this.common.params = { data, title: 'Edit Ledgers Data' };
           const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });

@@ -47,10 +47,11 @@ export class OutstandingComponent implements OnInit {
   headingName = '';
   selectedRow = -1;
   viewType = 'sub';
-  TripEditData=[];
-  VoucherEditTime=[];
-  pendingDataEditTme=[];
-  tripExpDriver=[];
+  TripEditData = [];
+  VoucherEditTime = [];
+  pendingDataEditTme = [];
+  tripExpDriver = [];
+  tripExpenseVoucherTrips = [];
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -367,7 +368,7 @@ export class OutstandingComponent implements OnInit {
     this.activeGroup.push(index);
   }
 
-  showAllGroups(){
+  showAllGroups() {
     this.activeGroup = this.voucherEntries.map((voucherEntry, index) => { return index; });
 
   }
@@ -390,122 +391,133 @@ export class OutstandingComponent implements OnInit {
         this.common.showError();
       });
   }
+
   getPendingOnEditTrips(vehicleid) {
-    //this.getTripExpences();
-
-    const params = {
-      vehId: vehicleid
-    };
-    this.common.loading++;
-    this.api.post('VehicleTrips/getPendingVehicleTrips', params)
-      // this.api.post('VehicleTrips/getTripExpenceVouher', params)
-      .subscribe(res => {
-        console.log(res);
-        this.common.loading--;
-        this.TripEditData = res['data'];
-        // this.showTripSummary(res['data']);
-        //this.flag=false;
-        // this.trips = res['data'];
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError();
-      });
+    return new Promise((resolve, reject) => {
+      const params = {
+        vehId: vehicleid
+      };
+      this.common.loading++;
+      this.api.post('VehicleTrips/getPendingVehicleTrips', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.TripEditData = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
+    })
   }
+
   getVocherEditTime(VoucherID) {
-
-    const params = {
-      vchId: VoucherID
-    };
-    this.common.loading++;
-    this.api.post('Voucher/getVoucherDetail', params)
-      // this.api.post('VehicleTrips/getTripExpenceVouher', params)
-      .subscribe(res => {
-        console.log(res);
-        this.common.loading--;
-        // this.showTripSummary(res['data']);
-        //this.flag=false;
-        this.VoucherEditTime = res['data'];
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError();
-      });
-
+    return new Promise((resolve, reject) => {
+      const params = {
+        vchId: VoucherID
+      };
+      this.common.loading++;
+      this.api.post('Voucher/getVoucherDetail', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.VoucherEditTime = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject(err);
+        });
+    })
   }
+
   getPendingTripsEditTime(voucherid, vhicleId) {
-    //  this.getTripExpences();
-
-    const params = {
-      vehId: vhicleId,
-      vchrid: voucherid
-    };
-    this.common.loading++;
-    this.api.post('VehicleTrips/getPendingVehicleTripsEdit', params)
-      // this.api.post('VehicleTrips/getTripExpenceVouher', params)
-      .subscribe(res => {
-        console.log(res);
-        this.common.loading--;
-        this.pendingDataEditTme = res['data'];
-        // this.showTripSummary(res['data']);
-        //this.flag=false;
-        // this.trips = res['data'];
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError();
-      });
-
+    return new Promise((resolve, reject) => {
+      const params = {
+        vehId: vhicleId,
+        vchrid: voucherid
+      };
+      this.common.loading++;
+      this.api.post('VehicleTrips/getPendingVehicleTripsEdit', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.pendingDataEditTme = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
+    });
   }
+
   getTripsExpDriver(tripvoucherid) {
-
-    const params = {
-      tripVchrId: tripvoucherid
-    };
-    this.common.loading++;
-    this.api.post('TripExpenseVoucher/getTripsExpDriver', params)
-      // this.api.post('VehicleTrips/getTripExpenceVouher', params)
-      .subscribe(res => {
-        console.log(res);
-        this.common.loading--;
-        this.tripExpDriver = res['data'];
-
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError();
-      });
-
+    return new Promise((resolve, reject) => {
+      const params = {
+        tripVchrId: tripvoucherid
+      };
+      this.common.loading++;
+      this.api.post('TripExpenseVoucher/getTripsExpDriver', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.tripExpDriver = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject(err);
+        });
+    })
   }
+
   getVoucherSummary(tripVoucher, voucherData) {
-    console.log('trdhh-----', tripVoucher);
-    this.getPendingOnEditTrips(tripVoucher.y_vehicle_id);
-    this.getVocherEditTime(tripVoucher.y_voucher_id);
-    // this.getPendingTripsEditTime(tripVoucher.y_id);
-    this.getPendingTripsEditTime(tripVoucher.y_id, tripVoucher.y_vehicle_id);
-
+    let promises = [];
+    promises.push(this.getPendingOnEditTrips(tripVoucher.y_vehicle_id));
+    promises.push(this.getVocherEditTime(tripVoucher.y_voucher_id));
+    promises.push(this.getPendingTripsEditTime(tripVoucher.y_id, tripVoucher.y_vehicle_id));
     if (voucherData.y_vouchertype_id == -151) {
-      this.getTripsExpDriver(tripVoucher.y_id);
+      promises.push(this.getTripsExpDriver(tripVoucher.y_id));
     }
-    const params = {
-      voucherId: tripVoucher.y_voucher_id,
-      // startDate: tripVoucher.startdate,
-      // endDate: tripVoucher.enddate
-      voucherDetail: tripVoucher
-    };
-    this.common.loading++;
-    // this.api.post('TripExpenseVoucher/getTripExpenseVoucherTrips', params)
-    this.api.post('TripExpenseVoucher/getTripExpenseVoucherTripsData', params)
-      .subscribe(res => {
-        console.log(res);
-        this.common.loading--;
-        this.showVoucherSummary(res['data'], tripVoucher, voucherData);
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError();
-      });
+    promises.push(this.getTripExpenseVoucherTripsData(tripVoucher));
+
+    Promise.all(promises).then(result => {
+      this.showVoucherSummary(this.tripExpenseVoucherTrips, tripVoucher, voucherData);
+    }).catch(err => {
+      console.log('Error:', err);
+      this.common.showError('There is some technical error occured. Please Try Again!');
+    });
+
   }
+
+  getTripExpenseVoucherTripsData(tripVoucher) {
+    return new Promise((resolve, reject) => {
+      const params = {
+        voucherId: tripVoucher.y_voucher_id,
+        voucherDetail: tripVoucher
+      };
+      this.common.loading++;
+      this.api.post('TripExpenseVoucher/getTripExpenseVoucherTripsData', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.tripExpenseVoucherTrips = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
+    });
+  }
+
   showVoucherSummary(tripDetails, tripVoucher, voucherData) {
     let vehId = tripVoucher.y_vehicle_id;
     let tripEditData = this.TripEditData;
@@ -532,7 +544,7 @@ export class OutstandingComponent implements OnInit {
     //     // this.selectedVehicle.id =0
     //   });
     // } else
-     {
+    {
       let tripExpDriver = this.tripExpDriver;
       this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected, VoucherData, tripExpDriver, typeFlag, permanentDelete };
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
@@ -541,7 +553,7 @@ export class OutstandingComponent implements OnInit {
         // console.log('Data: ', data);
         if (data.response) {
           //this.addLedger(data.ledger);
-         // this.getDayBook();
+          // this.getDayBook();
         }
       });
     }

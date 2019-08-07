@@ -1,69 +1,100 @@
-nb-card-header{
-    border-bottom: 1px solid #ccc;
-}
-.icon-green {
-    color: green; font-size: 24px; cursor:pointer;
-}
-.icon-red-cross {
-    color: red; font-size: 24px; cursor:pointer;
-}
-table{
-    thead{
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-        background-color: #263238;
-        color: #fff;
-    }
-    tr{
-        th{
-            padding: 5px 8px;
-            font-weight: normal;
-            width: 160px;
-        }
-        th:nth-child(1){
-            width: 30px;
-        }
-        th:last-child{
-            width: auto;
-        }
-        td{
-            padding: 5px 8px !important;
-            font-size: 12px;
-            position: relative;
-        }
-    }
-    tbody{
-        overflow-y: auto;
-        display: block;
-        width: 100%;
-        table-layout: fixed;
-        overflow: auto;
-        max-height: calc(100vh - 220px);
+:host ::ng-deep .tableFixHead{
+    table{
         tr{
-            display: table;
-            table-layout: fixed;
-            width: 100%;
-            td:nth-child(1){
-                width: 30px;
-            }
-            td{
-                width: 160px;
-                button{
-                    font-size: 12px;
-                    text-transform: capitalize;
+            td:last-child{
+                i{
+                    margin-right: 10px;
+                    font-size: 14px;
+                }
+                .fa-file {
+                    color: #04a9f5;
+                    span{
+                        position: absolute;
+                        display: none;
+                        padding: 10px 32px;
+                        font-size: 11px;
+                        font-weight: normal;
+                        left: -26px;
+                        top: -28px;
+                        -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                        box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                        font-family: Roboto;
+                        z-index:9999;
+                    }
+                    span::before{
+                        content: 'Edit Doc';
+                        display: block;
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        background-color: #04A9F5;
+                        border-radius: 3px;
+                        padding: 5px 10px;
+                        color:#fff;
+                        width: 100%;
+                    }
+                    span::after{
+                        content: '';
+                        width: 0;
+                        height: 0;
+                        border-left: 5px solid transparent;
+                        border-right: 5px solid transparent;
+                        border-top: 5px solid #04A9F5;
+                        position: absolute;
+                        bottom: -5px;
+                        left: 50%;
+                        -webkit-transform: translate(-50%);
+                        transform: translate(-50%);
+                    }
+                }
+                .fa-file:hover span{
+                    display: block;
                 }
             }
-            td:last-child{
-                width: auto;
-                word-break:break-all;
-            }
-        }
-        tr:nth-child(odd){
-            background-color: #fff;
-        }
-        tr:nth-child(even){
-            background-color: #e4e4e4;
+            .fa-tasks {
+                    color: red;
+                    span{
+                        position: absolute;
+                        display: none;
+                        padding: 10px 20px;
+                        font-size: 11px;
+                        font-weight: normal;
+                        left: -12px;
+                        top: -28px;
+                        -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                        box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                        font-family: Roboto;
+                        z-index:9999;
+                    }
+                    span::before{
+                        content: 'Edit';
+                        display: block;
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        background-color: red;
+                        border-radius: 3px;
+                        padding: 5px 10px;
+                        color:#fff;
+                        width: 100%;
+                    }
+                    span::after{
+                        content: '';
+                        width: 0;
+                        height: 0;
+                        border-left: 5px solid transparent;
+                        border-right: 5px solid transparent;
+                        border-top: 5px solid red;
+                        position: absolute;
+                        bottom: -5px;
+                        left: 50%;
+                        -webkit-transform: translate(-50%);
+                        transform: translate(-50%);
+                    }
+                }
+                .fa-tasks:hover span{
+                    display: block;
+                }
         }
     }
-} 
+}

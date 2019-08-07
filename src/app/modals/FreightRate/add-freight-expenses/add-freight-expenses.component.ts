@@ -170,7 +170,7 @@ export class AddFreightExpensesComponent implements OnInit {
     this.api.post('FrieghtRate/getFrieghtExpenses', params)
       .subscribe(res => {
         --this.common.loading;
-        this.data = res['data'];
+        this.data = res['data']['result'];
         console.log("api data:", this.data);
         this.headings = [];
         this.valobj = {};

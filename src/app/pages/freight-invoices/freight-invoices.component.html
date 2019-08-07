@@ -20,13 +20,7 @@
         <button class="btn btn-primary m-0" (click)="invoice('Add',null)">Add</button>
       </div>
 
-      <div class="col-md-2">
-        <button (click)="addFoField()" class="btn btn-primary">Add-Columns</button>
-      </div>
 
-      <div class="col-md-2">
-        <button (click)="lrInvoice()" class="btn btn-primary">Assign-Columns</button>
-      </div>
     </div>
     <div>
       <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithLocation">

@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { UnmappedLrComponent } from '../../modals/LRModals/unmapped-lr/unmapped-lr.component';
 import { MappedLrComponent } from '../../modals/LRModals/mapped-lr/mapped-lr.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.component';
+import { LrInvoiceColumnsComponent } from '../../pages/lr-invoice-columns/lr-invoice-columns.component';
 @Component({
   selector: 'lr-diagnostics',
   templateUrl: './lr-diagnostics.component.html',
@@ -97,5 +99,22 @@ export class LrDiagnosticsComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       })
+  }
+
+  addFoField() {
+    const activeModal = this.modalService.open(AddFieldComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+
+
+    });
+  }
+
+
+  lrInvoice() {
+    const activeModal = this.modalService.open(LrInvoiceColumnsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    });
   }
 }

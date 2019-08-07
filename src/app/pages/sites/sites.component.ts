@@ -67,6 +67,7 @@ export class SitesComponent implements OnInit {
 
   }];
   typeID = null;
+
   constructor(public common: CommonService,
     public api: ApiService,
     public mapService: MapService,
@@ -108,7 +109,7 @@ export class SitesComponent implements OnInit {
 
     setTimeout(() => {
       if (this.common.params != null) {
-        console.log("default Data:", this.common.params);
+
         let latitude = this.common.params.vehicle.latitude;
         let longitude = this.common.params.vehicle.longitude;
         let marker = [{
@@ -195,12 +196,12 @@ export class SitesComponent implements OnInit {
             this.site.name = "Add";
             this.Location = null;
             this.typeID = null;
-            //this.site.cancel="Clear";
+
             this.site.sitename = '';
             this.companySites();
           }
-          else {
-            console.log()
+          if (res['code'] < 0) {
+
             this.common.showError(res['msg']);
             this.companySites();
           }
@@ -259,25 +260,30 @@ export class SitesComponent implements OnInit {
 
 
   showdata(datas) {
+
     this.mapService.resetPolygons();
     this.path = datas.latlongs;
 
-    console.info("Path:", this.path);
-    let data = datas.latlongs;
-    let lat = data[0].lat;
-    let long = data[0].lng;
-    console.log("test", lat, long);
-    this.mapService.zoomAt({ lat: lat, lng: long }, 12);
-    console.log("Latelong:", data);
-    for (let index = 0; index < data.length; index++) {
-      const thisData = data[index];
-      data[index] = { lat: thisData.lat, lng: thisData.lng };
+
+    let latlong = datas.latlongs;
+
+
+    this.mapService.setMultiBounds(latlong, true);
+
+
+
+    for (let index = 0; index < latlong.length; index++) {
+      const thisData = latlong[index];
+      latlong[index] = { lat: thisData.lat, lng: thisData.lng };
 
     }
 
+
+
+
     let latLngsMulti = [
       {
-        data: data,
+        data: latlong,
         isMain: true,
         isSec: false,
         show: datas.name
@@ -317,8 +323,8 @@ export class SitesComponent implements OnInit {
     this.Sites.map(res => {
       let column = {
         name: { value: res.name, action: this.showdata.bind(this, res) },
-        loc_name: { value: res.loc_name },
-        Type: { value: res.Type },
+        loc_name: { value: res.loc_name, action: this.showdata.bind(this, res) },
+        Type: { value: res.Type, action: this.showdata.bind(this, res) },
         Delete: { value: '<i class="fa fa-trash text-danger"></i>', isHTML: true, action: this.deleteRecord.bind(this, res), class: 'icon text-center del' },
         rowActions: {
           click: 'selectRow'

@@ -280,12 +280,19 @@ export class DataService {
             link: '/admin/company-details',
             home: true,
           },
-          // {
-          //   title: 'Vehicles',
-          //   icon: 'fas fa-info-circle',
-          //   link: '/admin/vehicles',
-          //   home: true,
-          // },
+          {
+            title: 'Web Activity Summary',
+            icon: 'far fa-user',
+            link: '/admin/web-activity-summary',
+            home: true,
+          },
+
+          {
+            title: 'User Template',
+            icon: 'far fa-user',
+            link: '/admin/user-templates',
+            home: true,
+          },
         ]
       },
 
@@ -365,6 +372,12 @@ export class DataService {
             icon: 'fa fa-signal',
             link: '/admin/fo-fs-mapping',
             home: true,
+          },
+          {
+            title:'Fuel Mileage With ODO',
+            icon:'fas fa-gas-pump',
+            link:'/admin/fuel-mileage-with-odo',
+            home:true
           },
         ]
       },
