@@ -6,9 +6,7 @@
 </div>
 <div class="modal-body">
   <div class="row">
-
-    <div [ngClass]="{'col-6:images,'col-12:!images}">
-
+    <div [ngClass]="{'col-6 ':images, 'col-12':!images}">
       <div class="row mb-2">
         <div class="col-3">
           <label>Registration Number</label>
@@ -112,7 +110,7 @@
       </div>
     </div>
     <div class="col-6">
-      <app-image-viewer *ngIf="images" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
+      <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
       </app-image-viewer>
 
     </div>
