@@ -67,6 +67,7 @@ import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.compo
 import { ChartModule } from 'angular2-chartjs';
 import { LocationsComponent } from './locations/locations.component';
 import { WebActivitySummaryComponent } from './web-activity-summary/web-activity-summary.component';
+import { VouchersSummaryComponent } from './vouchers-summary/vouchers-summary.component';
 // import { NearbyPodsComponent } from './nearby-pods/nearby-pods.component';
 
 const PAGES_COMPONENTS = [
@@ -98,8 +99,8 @@ const PAGES_COMPONENTS = [
   TripAnalysisComponent,
   VscDiagnosisComponent,
   LocationsComponent,
-  WebActivitySummaryComponent
-  // PodDashboardComponent
+  WebActivitySummaryComponent,
+  VouchersSummaryComponent
 
 
 
@@ -160,6 +161,7 @@ const PAGES_COMPONENTS = [
     BufferPolylineComponent,
     LocationsComponent,
     WebActivitySummaryComponent,
+    VouchersSummaryComponent,
     // NearbyPodsComponent
   ],
   exports: [

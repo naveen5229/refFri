@@ -89,6 +89,7 @@ export class UserService {
       { id: 57, route: '/admin/nearby-pods' },
       { id: 57, route: '/admin/locations' },
       { id: 57, route: '/admin/web-activity-summary' },
+      { id: 57, route: '/admin/vouchers-summary' },
     ]
   }
 

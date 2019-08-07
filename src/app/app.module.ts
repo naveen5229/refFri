@@ -226,6 +226,8 @@ import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoic
 import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-party-details.component';
 import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
 import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-view-summary.component';
+import { VoucherTypeGetComponent } from './modals/voucher-type-get/voucher-type-get.component';
+import { VoucherTypeMapComponent } from './modals/voucher-type-map/voucher-type-map.component';
 
 
 
@@ -426,9 +428,11 @@ import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-v
     BankAccountsComponent,
     LrInvoiceColumnsComponent,
     FoWebViewSummaryComponent,
+    VoucherTypeGetComponent,
+    VoucherTypeMapComponent,
 
   ],
-  entryComponents:[
+  entryComponents: [
     FreightInvoiceRateComponent,
     LRRateCalculatorComponent,
     LrRateComponent,
@@ -610,9 +614,11 @@ import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-v
     ModalWiseFuelAverageComponent,
     TripdetailComponent,
     SupportingDocComponent,
-    
 
-    FoWebViewSummaryComponent
+
+    FoWebViewSummaryComponent,
+    VoucherTypeGetComponent,
+    VoucherTypeMapComponent
   ],
   imports: [
     BrowserModule,

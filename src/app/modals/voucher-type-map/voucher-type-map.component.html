@@ -1,0 +1,51 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Voucher Type Map</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-4">
+      <label>Voucher Type</label>
+    </div>
+    <div class="col-4">
+      {{voucherType}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <label>RefType</label>
+    </div>
+    <div class="col-4">
+      <select class="form-control" (change)="getSelection()" [(ngModel)]="refId">
+        <option *ngFor="let status of refDetails" [value]="status.id">
+          {{status.name}}
+
+        </option>
+      </select>
+    </div>
+    <div class="col-4" *ngIf="refId==11">
+      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="changeRefernceType($event)"
+        inputId="itemId">
+      </auto-suggestion>
+    </div>
+    <div class="col-4" *ngIf="refId==12">
+      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="changeRefernceType($event)"
+        inputId="itemId">
+      </auto-suggestion>
+    </div>
+    <div class="col-4" *ngIf="refId==14">
+      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="changeRefernceType($event)"
+        inputId="itemId">
+      </auto-suggestion>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-primary" (click)="UploadVoucher()">MAP</button>
+    </div>
+  </div>
+</div>

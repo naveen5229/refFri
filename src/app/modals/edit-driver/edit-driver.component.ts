@@ -63,8 +63,7 @@ export class EditDriverComponent implements OnInit {
 
   }
   Updatedriver() {
-    let response;
-    console.log('yash');
+
     let params = {
       name: this.driverForm.controls.name.value,
       doj: this.driver.date,
@@ -74,7 +73,6 @@ export class EditDriverComponent implements OnInit {
       guarantorName: this.driverForm.controls.guranter.value,
       guarantorMobile: this.driverForm.controls.guranterno.value
     };
-    console.log('hrithik');
     this.common.loading++;
     this.apiservice.post('Drivers/edit', params)
       .subscribe(res => {
