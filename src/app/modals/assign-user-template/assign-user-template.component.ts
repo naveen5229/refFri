@@ -10,9 +10,8 @@ import { AccountService } from '../../services/account.service';
   styleUrls: ['./assign-user-template.component.scss']
 })
 export class AssignUserTemplateComponent implements OnInit {
-  
-  showdata={
-    show:true
+  showdata = {
+    show: true
   }
   alltemplateList = [];
   templateList = [];
@@ -39,19 +38,18 @@ export class AssignUserTemplateComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     public accountService: AccountService) {
-      this.getBranches();
-    if(this.accountService.selected.branch.id) {
+    this.getBranches();
+    if (this.accountService.selected.branch.id) {
       this.getBranchDetails();
     }
-    if(this.common.params.title=="Edit")
-    {
-      this.showdata.show=false;
+    if (this.common.params.title == "Edit") {
+      this.showdata.show = false;
       this.templateType = this.common.params.preAssignUserTemplate.refType;
       this.templateTypeShow = this.common.params.preAssignUserTemplate.type;
       this.templateName = this.common.params.preAssignUserTemplate.name;
       this.templateId = this.common.params.preAssignUserTemplate.id;
       this.getUserViews(true);
-    }else{
+    } else {
       this.getUserViews();
     }
   }
