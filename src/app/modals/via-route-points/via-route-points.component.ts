@@ -12,8 +12,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
   styleUrls: ['./via-route-points.component.scss']
 })
 export class ViaRoutePointsComponent implements OnInit {
-  selecteded = [{ name: 'Jay', id: 1 }, { name: 'Rana', id: 2 }, { name: 'Ji', id: 3 }];
-  unselected = [{ name: 'Kalplesh', id: 4 }, { name: 'Kuldeep', id: 5 }, { name: 'Sachin', id: 6 }];
+ 
   latlong = [{ lat: null, long: null, color: null, subType: null }];
   locType = "site";
   siteLoc = null;
