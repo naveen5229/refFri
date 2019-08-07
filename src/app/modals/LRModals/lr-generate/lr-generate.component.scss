@@ -48,18 +48,18 @@ table.gerrate_tabel{
                 border-radius: 3px;
             }
         }
-        td:nth-child(1){
-            width: 15%;
-        }
-        td:nth-child(2){
-            width: 35%;
-        }
-        td:nth-child(3){
-            width: 15%;
-        }
-        td:nth-child(4){
-            width: 35%;
-        }
+        // td:nth-child(1){
+        //     width: 15%;
+        // }
+        // td:nth-child(2){
+        //     width: 35%;
+        // }
+        // td:nth-child(3){
+        //     width: 15%;
+        // }
+        // td:nth-child(4){
+        //     width: 35%;
+        // }
     }
 }
 .material_details h5{
@@ -173,4 +173,31 @@ table{
 }
 .red-star{
     color:red;
+}
+.gr-lr-form{
+    tr{
+        td{
+            width: 50%;
+            label{
+                width: 30%;
+                text-align: left;
+            }
+            auto-suggestion{
+                width: 70% !important;
+                max-width: 70%;
+                float: right;
+            }
+            uj-date-time-picker{
+                display: inline-block;
+                width: 70%;
+                max-width: 70%;
+                padding: 0px;
+                float: right;            
+            }
+            input[type=text]{
+                width: 70%;
+                float: right;
+            }
+        }
+    }
 }
