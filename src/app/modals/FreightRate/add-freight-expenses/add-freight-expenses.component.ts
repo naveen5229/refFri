@@ -47,6 +47,7 @@ export class AddFreightExpensesComponent implements OnInit {
 
   headings = [];
   valobj = {};
+  images = [];
 
   constructor(public modalService: NgbModal,
     public common: CommonService,
@@ -54,8 +55,8 @@ export class AddFreightExpensesComponent implements OnInit {
     public api: ApiService,
   ) {
     this.getFreightHeads();
+    this.common.handleModalSize("class", "modal-lg", "1500");
 
-    console.log("this.common.params.expenseData", this.common.params.expenseData);
     if (this.common.params.expenseData) {
       this.expense.id = this.common.params.expenseData._id;
       this.expense.refId = this.common.params.expenseData._ref_id;
@@ -170,7 +171,9 @@ export class AddFreightExpensesComponent implements OnInit {
     this.api.post('FrieghtRate/getFrieghtExpenses', params)
       .subscribe(res => {
         --this.common.loading;
-        this.data = res['data'];
+        this.data = res['data']['result'];
+        this.images = res['data']['images'];
+
         console.log("api data:", this.data);
         this.headings = [];
         this.valobj = {};

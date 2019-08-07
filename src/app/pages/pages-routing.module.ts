@@ -73,6 +73,8 @@ import { SitesComponent } from './sites/sites.component';
 import { FinanceRecoveryComponent } from './finance-recovery/finance-recovery.component';
 import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.component';
 import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.component';
+import { FuelMasterComponent } from './fuel-master/fuel-master.component';
+import { WebActivitySummaryComponent } from '../admin/web-activity-summary/web-activity-summary.component';
 
 
 const routes: Routes = [{
@@ -192,6 +194,11 @@ const routes: Routes = [{
   {
     path: 'fo-fuel-average',
     component: FoFuelAverageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'fuel-master',
+    component: FuelMasterComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -462,6 +469,11 @@ const routes: Routes = [{
     component: ManageFoPartyComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'web-acttivity-summary',
+    component: WebActivitySummaryComponent,
+    canActivate: [AuthGuard]
+  }
 
   ],
 }];

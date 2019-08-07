@@ -24,6 +24,7 @@ import { PodDashboardComponent } from './admin/pod-dashboard/pod-dashboard.compo
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
 import { ChartModule } from 'angular2-chartjs';
 import { NearbyPodsComponent } from './admin/nearby-pods/nearby-pods.component';
+import { WebActivitySummaryComponent } from './admin/web-activity-summary/web-activity-summary.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -40,7 +41,8 @@ const PAGES_COMPONENTS = [
     VehiclesComponent,
     ViaRoutesComponent,
     PodDashboardComponent,
-    NearbyPodsComponent
+    NearbyPodsComponent,
+    WebActivitySummaryComponent
 
 ];
 

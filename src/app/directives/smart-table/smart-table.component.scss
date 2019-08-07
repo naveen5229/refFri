@@ -215,3 +215,24 @@ tbody tr:nth-child(even) {
     border-radius: 2px;
     margin-left: 10px;
 }
+
+th {
+    .sort-container {
+        width: 15px;
+        display: none
+    }
+
+    .filter-input-container {
+        width: auto;
+    }
+}
+
+th:hover {
+    .sort-container {
+        display: inline-block;
+    }
+
+    .filter-input-container {
+        width: calc(100% - 17px);
+    }
+}

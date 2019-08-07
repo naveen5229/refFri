@@ -19,7 +19,7 @@
     </div>
     <div style="margin-top: 15px">
       <smart-table *ngIf="consolFuelAvg.length" [data]="table.data" [settings]="table.settings"></smart-table>
-      <div class="no-data alert alert-danger" role="alert" *ngIf="consolFuelAvg==null">
+      <div class="no-data alert alert-danger" role="alert" *ngIf="consolFuelAvg.length==0">
         No Data available !
       </div>
     </div>

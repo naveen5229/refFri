@@ -25,6 +25,7 @@ export class FeedbackModalComponent implements OnInit {
     public modalService:NgbModal,
     public common:CommonService,
     public api:ApiService) {
+      this.common.handleModalSize('class', 'modal-lg', '500', 'px', 2);
       this.ledgerId= this.common.params.leadgerId1;
       console.log("paera", this.common.params.leadgerId1)
       if(this.common.params.company != false){
@@ -37,44 +38,22 @@ export class FeedbackModalComponent implements OnInit {
 
   closeModal(data){
     this.activeModal.close({id:this.ledgerId});
-
   }
   
   selectFoCompany(event) {
     this.foid = event.id;
     console.log("id", this.foid);
-
-
   }
 
-  // openReminderModal() {
-  //   this.common.params.title = "Target Time";
-  //   this.common.params.returnData = true;
-
-  //   const activeModal = this.modalService.open(ReminderComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-  //   activeModal.result.then(data => {
-  //     console.log("data", data);
-  //     this.time.targetTime = data.date;
-  //     this.time.targetTime = this.common.dateFormatter(new Date(this.time.targetTime));
-  //     console.log('Date:', this.time.targetTime);
-
-  //   });
-  // }
- 
   getData(){
   let TDate = this.common.dateFormatter(this.Date);
-  console.log("paera1", this.common.params.leadgerId1)
-
-//   if(this.foid == null){
-//    return this.common.showError("Company Id is Missing")
-// }
+  console.log("param", this.common.params.leadgerId1)
   const params = {
     ledgerId:this.common.params.leadgerId1,
    priority:1,
     remTime:TDate,   
     cmpContactId:this.foid,
     remark:this.userRemark
-
   }
   this.common.loading++;
   this.api.post('CommunicationLog/saveCommunicationLog', params)

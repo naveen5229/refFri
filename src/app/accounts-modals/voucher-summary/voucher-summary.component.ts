@@ -18,12 +18,14 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 })
 export class VoucherSummaryComponent implements OnInit {
   permanentDeleteId = 0;
+  isReadonly = false;
   alltotal = 0;
-  approve=0;
+  approve = 0;
   targetId = '';
   narration = '';
   tripVoucher;
-  typeFlag=2;
+  typeFlag = 2;
+  selectedRow = -1;
   trips;
   ledgers = [];
   debitLedgerdata = [];
@@ -76,8 +78,8 @@ export class VoucherSummaryComponent implements OnInit {
       this.trips = this.common.params.tripDetails;
     }
 
-    this.permanentDeleteId=(this.common.params.permanentDelete) ? this.common.params.permanentDelete:0;
-   if(this.common.params.typeFlag) { this.typeFlag=this.common.params.typeFlag; }
+    this.permanentDeleteId = (this.common.params.permanentDelete) ? this.common.params.permanentDelete : 0;
+    if (this.common.params.typeFlag) { this.typeFlag = this.common.params.typeFlag; }
     this.VehicleId = this.common.params.vehId;
     console.log('tripsEditData', this.tripsEditData);
     console.log('trips data', this.trips);
@@ -99,7 +101,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.date = this.common.dateFormatternew(this.tripVoucher.y_date, "DDMMYYYY", false, '-');
       this.alltotal = this.tripVoucher.y_amount;
       this.custcode = this.tripVoucher.y_code;
-      this.approve =this.common.params.Approved;
+      this.approve = this.common.params.Approved;
       if (this.common.params.tripExpDriver.length > 0) {
         console.log('fill Array', this.common.params.tripExpDriver);
         this.accDetails = [];
@@ -174,7 +176,7 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.showError();
       });
   }
-  permanentDeleteConfirm()  {
+  permanentDeleteConfirm() {
     let params = {
       id: 1
     };
@@ -189,12 +191,12 @@ export class VoucherSummaryComponent implements OnInit {
         //  this.common.loading++;
         if (data.response) {
           console.log("data", data);
-         // this.voucher.delete = 1;
+          // this.voucher.delete = 1;
           // this.addOrder(this.order);
           //this.dismiss(true);
-          
+
           this.permanentDelete();
-          
+
           // this.activeModal.close({ response: true, ledger: this.voucher });
           // this.common.loading--;
         }
@@ -262,6 +264,13 @@ export class VoucherSummaryComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
+   
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.trips.length) {
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.trips.length - 1) this.selectedRow++;
+    //  event.preventDefault();
+      event.stopPropagation();
+    }
   }
 
   onSelected(selectedData, type, display) {
@@ -271,16 +280,16 @@ export class VoucherSummaryComponent implements OnInit {
     console.log('Accounts User: ', this.creditLedger);
   }
 
-  approveVoucher(){
-    this.approveDelete(0,'true');
+  approveVoucher() {
+    this.approveDelete(0, 'true');
   }
-  restore(){
-    this.approveDelete(1,'false');
+  restore() {
+    this.approveDelete(1, 'false');
   }
-  approveDelete(type,typeans){
+  approveDelete(type, typeans) {
     let params = {
       id: this.VoucherId,
-      flagname: (type==1) ? 'deleted':'forapproved',
+      flagname: (type == 1) ? 'deleted' : 'forapproved',
       flagvalue: typeans
     };
     this.common.loading++;
@@ -290,12 +299,12 @@ export class VoucherSummaryComponent implements OnInit {
         console.log('res: ', res);
         //this.getStockItems();
         this.activeModal.close({ response: true });
-        if(type==1 && typeans=='true'){
-        this.common.showToast(" This Value Has been Deleted!");
-        }else  if(type==1 && typeans=='false'){
-        this.common.showToast(" This Value Has been Restored!");
+        if (type == 1 && typeans == 'true') {
+          this.common.showToast(" This Value Has been Deleted!");
+        } else if (type == 1 && typeans == 'false') {
+          this.common.showToast(" This Value Has been Restored!");
         } else {
-        this.common.showToast(" This Value Has been Approved!");
+          this.common.showToast(" This Value Has been Approved!");
         }
       }, err => {
         this.common.loading--;
@@ -319,12 +328,12 @@ export class VoucherSummaryComponent implements OnInit {
         //  this.common.loading++;
         if (data.response) {
           console.log("data", data);
-         // this.voucher.delete = 1;
+          // this.voucher.delete = 1;
           // this.addOrder(this.order);
           //this.dismiss(true);
-          
-          this.approveDelete(1,'true');
-          
+
+          this.approveDelete(1, 'true');
+
           // this.activeModal.close({ response: true, ledger: this.voucher });
           // this.common.loading--;
         }
@@ -699,18 +708,22 @@ export class VoucherSummaryComponent implements OnInit {
   calculateTripHeadTotal(index) {
     console.log('Index: ', index)
     this.tripHeads[index].total = 0;
-   let flag=0; 
-   let totalflag=0;
+    let flag = 0;
+    let totalflag = 0;
     this.tripHeads[index].trips.map(trip => {
       this.tripHeads[index].total += parseFloat(trip.amount);
       totalflag++;
-      if(trip.amount !=0){
-          flag++;
+      if (trip.amount != 0) {
+        flag++;
       }
     });
-    
+
+    if (totalflag == flag) {
+      // this.isReadonly+'-'+index = 'true'
+    }
+
     let total = 0;
-    this.tripHeads.map(trip => {  
+    this.tripHeads.map(trip => {
       total += parseFloat(trip.total);
     });
     this.alltotal = total;
@@ -831,6 +844,26 @@ export class VoucherSummaryComponent implements OnInit {
         (trip.id == tripedit.id) ? trip.isChecked = true : '';
       })
     });
+    this.selectedRow = 0;
+  }
+
+  isItReadOnly(tripHead, id) {
+    let amount = tripHead.trips.reduce((total, trip) => {
+      //console.log('TYPE:', typeof trip.amount);
+      let amount = trip.amount;
+      if (typeof amount == 'string') {
+        amount = parseFloat(amount);
+      }
+      return total + amount;
+    }, 0);
+
+   // console.log('Amount:', amount);
+    if (document.activeElement.id == id) {
+      return false;
+    } else if (amount == 0) {
+      return false;
+    }
+    return true;
   }
 
 }
