@@ -54,6 +54,7 @@ export class AddFreightRevenueComponent implements OnInit {
   };
   headings = [];
   valobj = {};
+  images = [];
 
 
   constructor(public modalService: NgbModal,
@@ -61,9 +62,8 @@ export class AddFreightRevenueComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService,
     private formBuilder: FormBuilder) {
-
+    this.common.handleModalSize("class", "modal-lg", "1500");
     this.getFreightHeads();
-
     console.log("this.common.params.revenue", this.common.params.revenueData);
     if (this.common.params.revenueData) {
       this.revenue.id = this.common.params.revenueData._id;
@@ -186,7 +186,7 @@ export class AddFreightRevenueComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         this.data = res['data']['result'];
-
+        this.images = res['data']['images'];
         this.headings = [];
         this.valobj = {};
         if (!this.data || !this.data.length) {

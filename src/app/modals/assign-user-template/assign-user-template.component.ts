@@ -103,6 +103,7 @@ export class AssignUserTemplateComponent implements OnInit {
     this.getUserViews(true);
   }
   selectTemplateType() {
+    document.getElementById('templateId')['value'] = '';
     this.filterTemplate();
   }
 
