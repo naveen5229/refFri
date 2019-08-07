@@ -620,7 +620,7 @@ import { SaveUserTemplateComponent } from './modals/save-user-template/save-user
     SupportingDocComponent,
     PartyLedgerMappingComponent,
     FoWebViewSummaryComponent,
-    BulkCompanyAssociationComponent
+    BulkCompanyAssociationComponent,
     AssignUserTemplateComponent,
     SaveUserTemplateComponent,
   ],
