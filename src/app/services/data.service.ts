@@ -281,7 +281,7 @@ export class DataService {
             home: true,
           },
           {
-            title: 'web activity summary',
+            title: 'Web Activity Summary',
             icon: 'far fa-user',
             link: '/admin/web-activity-summary',
             home: true,

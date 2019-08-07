@@ -8,6 +8,7 @@ import { DataService } from '../services/data.service';
 import { UserService } from '../services/user.service';
 import { CommonService } from '../services/common.service';
 import { Router } from '@angular/router';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'ngx-pages',
@@ -21,7 +22,12 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent {
   menu = this.common.menuGenerator('admin');
-  constructor(public common: CommonService, public user: UserService, public router: Router) {
+  constructor(public common: CommonService,
+    public user: UserService,
+    public router: Router,
+    public accountService: AccountService) {
+
+
     if (this.user._loggedInBy == 'customer') {
       this.router.navigate(['/pages']);
       return;
