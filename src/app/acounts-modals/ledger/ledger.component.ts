@@ -21,6 +21,7 @@ export class LedgerComponent implements OnInit {
   currentPage = 'Add Ledger';
   state = [];
   activeId = "user";
+  sizeledger=0;
   Accounts = {
     name: '',
     aliasname: '',
@@ -146,13 +147,16 @@ export class LedgerComponent implements OnInit {
             name: detail.province_name,
             id: detail.province_id
           },
-      defaultcheck:detail.y_dtl_is_default
+      defaultcheck:"'"+detail.y_dtl_is_default+"'"
 
         });
       });
     }
-
-    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
+if(this.common.params && this.common.params.sizeledger) { 
+  this.sizeledger=this.common.params.sizeledger;
+}
+console.log('sixe ledger',this.sizeledger);
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',this.sizeledger);
     this.GetSalution();
     // this.getUserData();
     this.getUnderGroup();

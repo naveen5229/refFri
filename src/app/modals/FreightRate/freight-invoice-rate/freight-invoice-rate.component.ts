@@ -140,4 +140,8 @@ export class FreightInvoiceRateComponent implements OnInit {
       }
     });
   }
+
+  onPrint(){
+    
+  }
 }

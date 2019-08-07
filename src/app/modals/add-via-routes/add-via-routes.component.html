@@ -49,19 +49,24 @@
             <input type="radio" value="map" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">Map
           </div>
           <div class="col-6">
-            <input type="text" name="name" class="form-control" [(ngModel)]="routeData.placeName "
-              placeholder="Start Loc" (focus)=" isstart = true;" minlength="5" maxlength="100">
+            <div class="row">
+              <div class="col-9 pr-0">
+                <auto-suggestion (onChange)="onChangeMapData($event)" (onSelected)="selectStartByMap($event)"
+                  (noDataFound)="takeAction($event,'start')" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
+                  display="location" inputId="startName" placeholder="Location" [value]="routeData.placeName ">
+                </auto-suggestion>
+              </div>
+              <div class="col-3">
+                <button class="btn btn-primary info_btn p-0 rounded-sm pt-2 pb-2 pr-2 pl-2 w-100"
+                  (click)="startSearch='----'; takeAction(null,'start');"><i class="fa fa-plus"></i></button>
+              </div>
+            </div>
+
+
+
           </div>
         </div>
-        <div class="row mb-3">
-          <div class="col-6">
-            <label>Lat,Long</label>
-          </div>
-          <div class="col-6">
-            <input type="text" class="form-control" placeholder="lat,long" readonly disabled
-              [(ngModel)]="this.routeData.latlong">
-          </div>
-        </div>
+
       </ng-template>
       <div class="mb-3" *ngIf=" selectOption2=='site2' ; else map2">
         <div class="row">
@@ -95,20 +100,23 @@
               (change)="report2(selectOption2)">Map
           </div>
           <div class="col-6">
-            <input type="text" name="name" class="form-control" (focus)=" isstart = false;"
-              [(ngModel)]="routeData.placeName2" placeholder="End Loc" minlength="5" maxlength="100">
+            <div class="row">
+              <div class="col-9 pr-0">
+                <auto-suggestion (onChange)="onChangeMapData($event)" (onSelected)="selectEndByMap($event)"
+                  (noDataFound)="takeAction($event,'end')" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
+                  display="location" inputId="endName" placeholder="Location" [value]="routeData.placeName2 ">
+                </auto-suggestion>
+              </div>
+              <div class="col-3">
+                <button class="btn btn-primary info_btn p-0 rounded-sm pt-2 pb-2 pr-2 pl-2 w-100"
+                  (click)="endSearch='----'; takeAction(null,'end');"><i class="fa fa-plus"></i></button>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-6">
-            <label>Lat,Long</label>
-          </div>
-          <div class="col-6">
-            <input type="text" class="form-control" placeholder="long" readonly disabled
-              [(ngModel)]="this.routeData.latlong2">
-          </div>
-        </div>
+
 
       </ng-template>
 

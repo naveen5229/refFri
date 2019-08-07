@@ -12,52 +12,6 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div class="container">
-      <table class="table table-bordered table-hover table-scroll">
-        <thead class="thead">
-          <tr>
-            <th>#</th>
-            <th>Driver Name</th>
-            <th>Mobile_Number</th>
-            <th>Mobile_Number 2</th>
-            <th>License</th>
-            <th>Aadhar</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let driver of driverLists; let i = index">
-            <th scope="row">{{i+1}}</th>
-            <td>{{driver.empname}}</td>
-            <td>{{driver.mobileno}}</td>
-            <td>{{driver.mobileno2}}</td>
-            <td> <span *ngIf="driver.licence_photo">
-                <i class="fa fa-check icon-green" (click)="fetchLisense(driver)" title="OK"></i>
-              </span>
-              <span *ngIf="driver.licence_photo==null">
-                <i class="fa fa-times-circle icon-red-cross" title="No Record"></i>
-              </span></td>
-            <td>
-              <span *ngIf="driver.aadhar_photo">
-                <i class="fa fa-check icon-green" (click)="fetchAadhar(driver)" title="OK"></i>
-              </span>
-              <span *ngIf="driver.aadhar_photo==null">
-                <i class="fa fa-times-circle icon-red-cross" title="No Record"></i>
-              </span>
-            </td>
-            <td><button class="btn btn-primary" (click)="updateDriverInfo(driver)" id="submit">Update</button></td>
-            <td><button class="btn btn-primary" (click)="updateDriver()" id="submit">Update Docs</button></td>
-
-
-          </tr>
-        </tbody>
-
-      </table>
-
-    </div>
+    <smart-table *ngIf="driverLists.length" [data]="table.driverLists" [settings]="table.settings"></smart-table>
   </nb-card-body>
-  <nb-card-footer>
-      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="userDetail">
-        </smart-table>
-  </nb-card-footer>
 </nb-card>

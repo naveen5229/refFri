@@ -32,30 +32,61 @@ export class EditFillingComponent implements OnInit {
   driverCash = 0;
   odoVal = 0;
   refNo = null;
+  refernceType = '0';
+  refTypeName = null;
+  refId = null;
+  referenceName = null;
+  referenceType = [{
+    name: 'Select Type',
+    id: '0'
 
-
+  },
+  {
+    name: 'Lr',
+    id: '11'
+  },
+  {
+    name: 'Manifest',
+    id: '12'
+  },
+  {
+    name: 'state',
+    id: '13'
+  },
+  {
+    name: 'Trip',
+    id: '14'
+  }];
+  refernceData = [];
+  edit = 0;
 
   constructor(private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
-
     private activeModal: NgbActiveModal) {
-    this.common.handleModalSize('class', 'modal-lg', '800');
+    this.common.handleModalSize('class', 'modal-lg', '700');
 
     this.title = this.common.params.title;
     console.log("params", this.common.params);
     let rec = this.common.params.rowfilling;
+
+    this.refernceType = rec.ref_type;
+    this.refId = rec.ref_id;
+    if (this.refId != null) {
+      this.edit = 1;
+    }
+    this.getReferenceData();
+    this.getRefernceType(this.refernceType);
+
     this.filldate = rec.fdate;
     this.litres = rec.litres;
     this.isfull = rec.is_full;
-    this.regno = rec.regno;
     this.rate = rec.rate;
     this.amount = rec.amount;
     this.pump = rec.pp;
     this.pump_id = rec.fuel_station_id;
-    this.vehicleId = rec.vehicle_id;
     this.filling_id = rec.id;
     this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
     this.odoVal = rec.odometer ? rec.odometer : 0;
@@ -63,6 +94,85 @@ export class EditFillingComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  getRefernceType(typeId) {
+    this.referenceType.map(element => {
+      if (element.id == typeId) {
+        return this.referenceName = element.name;
+      }
+    });
+    this.refernceTypes();
+  }
+
+  getReferenceData() {
+    const params = "id=" + this.refId +
+      "&type=" + this.refernceType;
+    this.api.get('Vehicles/getRefrenceDetails?' + params)
+      .subscribe(res => {
+        console.log(res['data']);
+        let resultData = res['data'][0];
+        this.vehicleId = resultData.vid;
+        this.regno = resultData.regno;
+        this.refTypeName = resultData.ref_name;
+        // this.id = resultData.vehasstype
+        this.refernceTypes();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+
+
+  refernceTypes() {
+    let type = this.refernceType + "";
+    let url = null;
+    let params = {
+      vid: this.vehicleId,
+      regno: this.regno
+    };
+
+    switch (type) {
+      case '11':
+        url = "Suggestion/getLorryReceipts";
+        break;
+      case '12':
+        url = "Suggestion/getLorryManifest";
+        break;
+      case '13':
+        url = "Suggestion/getVehicleStates";
+        break;
+      case '14':
+        url = "Suggestion/getVehicleTrips";
+        break;
+      default:
+        url = null;
+        return;
+
+    }
+    console.log("params", params);
+    this.api.post(url, params)
+      .subscribe(res => {
+        this.refernceData = res['data'];
+      }, err => {
+        this.common.loading--;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+  resetRefernceType(isReset = true) {
+    document.getElementById('referncetype')['value'] = '';
+    if (isReset)
+      this.refernceType = null;
+    this.refernceData = [];
+  }
+  changeRefernceType(type) {
+    console.log("Type Id", type);
+    this.refId = this.refernceData.find((element) => {
+      console.log(element.source_dest == type);
+      return element.source_dest == type;
+    }).id;
   }
 
 
@@ -88,8 +198,8 @@ export class EditFillingComponent implements OnInit {
   }
 
   resetvehicle() {
-    console.log('________________________________________');
-    // document.getElementById('vehicleno')['value'] = '';
+    document.getElementById('vehicleno')['value'] = '';
+    this.resetRefernceType();
     this.vehicleId = null;
     this.regno = null;
   }
@@ -107,11 +217,11 @@ export class EditFillingComponent implements OnInit {
     this.amount = Math.round(calcamt);
   }
 
-  getVehData(veh) {
-    console.log("sel:", veh);
-    this.vehicleId = veh.id;
-    this.regno = veh.regno;
-    console.log("regno:", this.regno);
+  getVehData(vehicle) {
+    this.vehicleId = vehicle.id;
+    this.regno = vehicle.regno;
+    document.getElementById('vehicleno')['value'] = '';
+    this.resetRefernceType();
   }
 
   submitFillingData() {
@@ -140,7 +250,10 @@ export class EditFillingComponent implements OnInit {
         petrolPumpId: this.pump_id,
         driver_cash: this.driverCash,
         odometer_val: this.odoVal,
-        refNum: this.refNo
+        refNum: this.refNo,
+        refType: this.refernceType,
+        refId: this.refId,
+
       };
       console.log("rowdata", this.common.params.rowfilling);
       console.log("newparams", params);
