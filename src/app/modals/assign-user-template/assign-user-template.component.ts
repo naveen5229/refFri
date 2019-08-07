@@ -10,10 +10,16 @@ import { AccountService } from '../../services/account.service';
   styleUrls: ['./assign-user-template.component.scss']
 })
 export class AssignUserTemplateComponent implements OnInit {
+  
+  showdata={
+    show:true
+  }
   alltemplateList = [];
   templateList = [];
   branchId = null;
   templateType = 'LR';
+  templateTypeShow = null;
+  templateName = 'N.A';
   templateId = null;
   title = '';
   showTable = false;
@@ -33,10 +39,21 @@ export class AssignUserTemplateComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     public accountService: AccountService) {
-    if (this.accountService.selected.branch.id) {
+      this.getBranches();
+    if(this.accountService.selected.branch.id) {
       this.getBranchDetails();
     }
-    this.getUserViews();
+    if(this.common.params.title=="Edit")
+    {
+      this.showdata.show=false;
+      this.templateType = this.common.params.preAssignUserTemplate.refType;
+      this.templateTypeShow = this.common.params.preAssignUserTemplate.type;
+      this.templateName = this.common.params.preAssignUserTemplate.name;
+      this.templateId = this.common.params.preAssignUserTemplate.id;
+      this.getUserViews(true);
+    }else{
+      this.getUserViews();
+    }
   }
 
   ngOnInit() {
@@ -207,6 +224,16 @@ export class AssignUserTemplateComponent implements OnInit {
       }, err => {
         this.common.loading--;
         console.log(err);
+      });
+  }
+
+  getBranches() {
+    this.api.post('Suggestion/GetBranchList', { search: 123 })
+      .subscribe(res => {
+        console.log('Branches :', res['data']);
+        this.accountService.branches = res['data'];
+      }, err => {
+        console.log('Error: ', err);
       });
   }
 

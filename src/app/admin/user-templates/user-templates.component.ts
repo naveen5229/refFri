@@ -158,7 +158,7 @@ export class UserTemplatesComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.common.loading++;
-          this.api.post('FrieghtRate/deleteInvoices', params)
+          this.api.post('UserTemplate/delete', params)
             .subscribe(res => {
               this.common.loading--;
               this.common.showToast(res['msg']);
@@ -174,7 +174,18 @@ export class UserTemplatesComponent implements OnInit {
   }
 
   assign(title, view) {
-    this.common.params = { title: title, preAssignUserTemplate: view };
+    console.log("view",view);
+    let preAssignUserTemplate;
+    if(view)
+    preAssignUserTemplate={
+      type:view.Type,
+      refType:view._ref_type,
+      name:view.Name,
+      id:view._id,
+    }
+    else
+      preAssignUserTemplate={};
+    this.common.params = { title: title, preAssignUserTemplate };
     const activeModal = this.modalService.open(AssignUserTemplateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
     activeModal.result.then(data => {
       this.getUserViews();
