@@ -221,7 +221,7 @@ export class AddFoComponent implements OnInit {
       });
   }
 
-  selectCompany(event) {
+  selectCompany(event?) {
     console.log("event", event)
     this.companyId = event.id
     console.log("event1", event.id)
