@@ -75,7 +75,7 @@ export class SaveUserTemplateComponent implements OnInit {
   }
   closeModal()
   {
-    this.activeModal.dismiss({ex: 'Modal has been closed'});
+    this.activeModal.close({ex: 'Modal has been closed'});
   }
 
   reset()
