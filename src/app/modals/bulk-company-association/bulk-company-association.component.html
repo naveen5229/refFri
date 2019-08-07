@@ -1,0 +1,57 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Bulk comapny Association</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="bulk-company">
+        <div class="row">
+            <div class="col-2">
+                <label>Association Type:</label>
+            </div>
+            <div class="col-4">
+                <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="assType">
+                       <option *ngFor="let type of companyAssociationType" [value]="type.y_id">
+                         {{type.y_groupname}}
+                      </option>
+                  </select>
+            </div>
+            <div class="col-2">
+                <label>Branch Name:</label>
+            </div>
+            <div class="col-4">
+                <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="branchId">
+                      <option *ngFor="let branch of companyBranches" [value]="branch.id">
+                       {{branch.name}}
+                       </option>
+                     </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mt-2">
+                <div class="row">
+                    <div class="col-3"><label>CSV File </label></div>
+                    <div class="col-9">
+                        <div class="upload-btn-wrapper">
+                            <input type="file" name="Csv" (change)="handleFileSelection($event)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 offset-md-08">
+                <label style="text-decoration: underline;color: blue; cursor: pointer;" (click)="sampleCsv()">Sample Csv
+                Download </label>
+                <i class="icon ion-md-cloud-download" style="cursor:pointer" (click)="sampleCsv()"></i>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col text-right">
+                <button class="btn btn-primary" type="button" outline (click)="saveBulkCompany()">submit</button>
+            </div>
+        </div>
+    </div>

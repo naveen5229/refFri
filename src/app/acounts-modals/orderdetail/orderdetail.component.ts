@@ -1190,25 +1190,47 @@ export class OrderdetailComponent implements OnInit {
 
     let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
     let rows = [];
+    let totalqty=0;
+    let totalamount=0;
+    let lasttotaltax=0;
+    let lineamounttotal=0;
 
     voucherdataprint.amountDetails.map((invoiceDetail, index) => {
+      let taxRowData='';
+      let taxTotal=0;
+      totalqty+= parseFloat(invoiceDetail.qty);
+      totalamount+= parseFloat(invoiceDetail.amount);
+      lineamounttotal+= parseFloat(invoiceDetail.lineamount);
+
+      invoiceDetail.taxDetails.map((taxDetail, index) => {
+        taxRowData +=  taxDetail.taxledger.name +' : '+taxDetail.taxamount+',';
+        taxTotal += parseFloat(taxDetail.taxamount); 
+      });
+      let lasttaxrowdata= taxRowData.substring(0, taxRowData.length - 1);
+      lasttotaltax+=taxTotal;
+
       rows.push([
-        { txt: invoiceDetail.warehouse.name || '' },
-        { txt: invoiceDetail.stockitem.name +'( '+invoiceDetail.stockunit.name+' )' || '' },
+        { txt:  (index==0)?invoiceDetail.warehouse.name: (voucherdataprint.amountDetails[index-1].warehouse.id  == invoiceDetail.warehouse.id)? '':invoiceDetail.warehouse.name || '' },
+        { txt: invoiceDetail.stockitem.name +'('+invoiceDetail.stockunit.name +')'+'</br>'+lasttaxrowdata || '' },
         { txt: invoiceDetail.qty || '' },
         { txt: invoiceDetail.rate || '' },
         { txt: invoiceDetail.amount || '' },
+        { txt: taxTotal || 0 },
         { txt: invoiceDetail.lineamount || '' },
         { txt: invoiceDetail.remarks || '' }
       ]);
+      rows.push([
+        { txt: '' },
+        { txt: 'Total' },
+        { txt: totalqty || '' },
+        { txt: '-' },
+        { txt: totalamount || '' },
+        { txt: lasttotaltax || 0 },
+        { txt: lineamounttotal || '' },
+        { txt: '' }
+      ]);
       console.log('invoiceDetail.taxDetails',invoiceDetail.taxDetails);
-      invoiceDetail.taxDetails.map((taxDetail, index) => {
-        rows.push([
-          { txt: taxDetail.taxledger.name  || '' ,'colspan':3,align:'right',font:6},
-          { txt: taxDetail.taxamount || '','colspan':3,align:'right',font:6 },
-          { txt:  '' },
-        ]);
-    });
+     
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
     });
@@ -1245,7 +1267,8 @@ let invoiceJson={};
           { txt: 'Qty' },
           { txt: 'Rate' },
           { txt: 'Amount' },
-          { txt: 'Line Amount' },
+          { txt: 'Tax Amount' },
+          { txt: 'Total Amount' },
           { txt: 'Remarks' }
         ],
         rows: rows
@@ -1327,7 +1350,8 @@ let invoiceJson={};
          { txt: 'Quantity' },
          { txt: 'Rate' },
          { txt: 'Amount' },
-         { txt: 'Line Amount' },
+         { txt: 'Tax Amount' },
+         { txt: 'Total Amount' },
          { txt: 'Remarks' }
        ],
        rows: rows

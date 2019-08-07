@@ -185,7 +185,7 @@ export class AddFreightRevenueComponent implements OnInit {
     this.api.post('FrieghtRate/getFrieghtRevenue', params)
       .subscribe(res => {
         --this.common.loading;
-        this.data = res['data'];
+        this.data = res['data']['result'];
 
         this.headings = [];
         this.valobj = {};

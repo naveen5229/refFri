@@ -121,6 +121,7 @@ export class LrGenerateComponent implements OnInit {
     let date = new Date();
     date.setDate(date.getDate());
     this.lr.date = date;
+    console.log("date", this.lr.date);
     this.getAllFieldName();
     this.getUnit();
     console.log("this.common.params.LrData", this.common.params.LrData);
@@ -163,8 +164,10 @@ export class LrGenerateComponent implements OnInit {
   }
 
   setBranchDetails(lrDetails) {
-    this.lr.lrNumber = lrDetails.lrnum;
-    this.lr.lrNumberText = lrDetails.lrprefix;
+    if (!this.lr.id) {
+      this.lr.lrNumber = lrDetails.lrnum;
+      this.lr.lrNumberText = lrDetails.lrprefix;
+    }
   }
   addConsignee() {
     console.log("open consignee modal")
@@ -697,9 +700,9 @@ export class LrGenerateComponent implements OnInit {
         const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
-          console.log('response----', res.location);
           this.keepGoing = true;
-          if (res.location.lat) {
+          if (res && res.location.lat) {
+            console.log('response----', res.location);
             this.lr.sourceCity = res.location.name;
 
             (<HTMLInputElement>document.getElementById('startname')).value = this.lr.sourceCity;
@@ -745,9 +748,9 @@ export class LrGenerateComponent implements OnInit {
         const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
-          console.log('response----', res.location);
           this.keepGoing = true;
-          if (res.location.lat) {
+          if (res && res.location.lat) {
+            console.log('response----', res.location);
             this.lr.destinationCity = res.location.name;
 
             (<HTMLInputElement>document.getElementById('endname')).value = this.lr.destinationCity;

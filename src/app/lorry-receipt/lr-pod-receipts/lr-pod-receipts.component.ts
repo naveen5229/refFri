@@ -22,7 +22,7 @@ export class LrPodReceiptsComponent implements OnInit {
     { name: 'Complete', id: 1 },
   ];
 
-  vehicleStatus=0;
+  vehicleStatus = 0;
   data = [];
   table = {
     data: {
@@ -54,10 +54,10 @@ export class LrPodReceiptsComponent implements OnInit {
   }
 
   getLorryPodReceipts() {
-    console.log("status",this.vehicleStatus);
+    console.log("status", this.vehicleStatus);
     var enddate = new Date(this.common.dateFormatter(this.endDate).split(' ')[0]);
     let params = "startDate=" + this.common.dateFormatter(this.startDate).split(' ')[0] +
-      "&endDate=" + this.common.dateFormatter(enddate.setDate(enddate.getDate() + 1)).split(' ')[0]+"&status="+this.vehicleStatus;
+      "&endDate=" + this.common.dateFormatter(enddate.setDate(enddate.getDate() + 1)).split(' ')[0] + "&status=" + this.vehicleStatus;
 
     ++this.common.loading;
     this.api.get('LorryReceiptsOperation/getLRPodReceipts?' + params)
@@ -105,7 +105,7 @@ export class LrPodReceiptsComponent implements OnInit {
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: "",action:null ,icons: [{ class: 'fa fa-edit', action: this.getImage.bind(this, doc, 'site') },{ class: 'fa fa-trash', action:this.deleteLr.bind(this,doc) }]  };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.openPodDeatilsModal.bind(this, doc) }, { class: 'fa fa-trash', action: this.deleteLr.bind(this, doc) }] };
         }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
@@ -121,29 +121,21 @@ export class LrPodReceiptsComponent implements OnInit {
     const params = {
       rowid: doc._id,
     }
-  
+
   }
 
-  
 
-  getImage(receipt) {
-    console.log("val",receipt);
-    let images = [{
-      name: "POD-1",
-      image: receipt._img1
-    },
-    {
-      name: "POD-2",
-      image: receipt._img2
-    },
-    ];
-    console.log("images:", images);
-    this.common.params = { 
-      images,
-      receipt:receipt._id,
-     };
-   // const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass:'imageviewcomp' });
-    //this.common.params=receipt._id;
-    const activeModel= this.modalService.open(LrPodDetailsComponent,{ size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
+  openPodDeatilsModal(pod) {
+    console.log("====podr=====", pod);
+    let podDetails = {
+      podId: pod._id,
+      lrId: pod._lrid
+    }
+    console.log("====podDetails=====", podDetails);
+
+    this.common.params = { podDetails: podDetails };
+    const activeModel = this.modalService.open(LrPodDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
+    activeModel.result.then(data => {
+    })
   }
 }

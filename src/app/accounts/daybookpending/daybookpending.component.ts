@@ -338,13 +338,14 @@ export class DaybookpendingComponent implements OnInit {
   }
 
 
-  openVoucherEdit(voucherId) {
+  openVoucherEdit(voucherId,vchTypeId) {
     console.log('ledger123', voucherId);
     if (voucherId) {
       this.common.params = {
         voucherId: voucherId,
        // delete: this.deletedId
-        delete: 2
+        delete: 2,
+        voucherTypeId:vchTypeId
       };
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
