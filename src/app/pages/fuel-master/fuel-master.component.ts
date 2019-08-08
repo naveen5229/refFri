@@ -120,8 +120,8 @@ export class FuelMasterComponent implements OnInit {
         AngleTo: { value: norm.angle_to },
         action: {
           value: '', isHTML: false, action: null, icons: [
-            { class: 'fa fa-pencil-square-o  edit-btn', action: this.updateRule.bind(this, norm) },
-            { class: " fa fa-trash remove", action: this.deleteRule.bind(this, norm) }
+            { class: 'far fa-edit', action: this.updateRule.bind(this, norm) },
+            { class: " fa fa-trash-alt", action: this.deleteRule.bind(this, norm) }
           ]
         },
         rowActions: {
@@ -137,7 +137,7 @@ export class FuelMasterComponent implements OnInit {
   updateRule(rule) {
 
     console.log("rule", rule);
-    this.common.params = { title: 'Edit fuel Rule', rule };
+    this.common.params = { title: 'Edit Fuel Rule', rule };
     const activeModal = this.modalService.open(AddFuelFullRuleComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -246,7 +246,7 @@ export class FuelMasterComponent implements OnInit {
         action: {
           value: '', isHTML: false, action: null, icons: [
 
-            { class: " fa fa-trash remove", action: this.deleteMapping.bind(this, mapped) }
+            { class: " fa fa-trash-alt", action: this.deleteMapping.bind(this, mapped) }
           ]
         },
         rowActions: {
