@@ -153,8 +153,6 @@ export class ViaRoutesComponent implements OnInit {
   }
   remove(row) {
     console.log("row", row);
-
-
     let params = {
       id: row._id,
       foid: row._foid,
@@ -183,14 +181,14 @@ export class ViaRoutesComponent implements OnInit {
       });
     }
   }
-  openViaRoutePoints(doc) {
-    this.common.params = { doc: doc };
+  openViaRoutePoints(route) {
+    this.common.params = { route: route };
     console.log("params-->", this.common.params)
     const activeModal = this.modalService.open(ViaRoutePointsComponent, { size: 'lg', container: 'nb-layout', windowClass: "mycustomModalClass" });
-    activeModal.result.then(data =>
-      console.log("data", data)
-      // this.reloadData()
-    );
+    activeModal.result.then(data => {
+      console.log("data", data);
+      this.viewTable();
+    });
   }
 
   openrouteExpenses(doc) {

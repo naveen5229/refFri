@@ -39,19 +39,18 @@
               </div>
 
 
-              <!-- <input class="form-control" *ngIf="this.selected == 1 " type="text" [(ngModel)]="mapName"
-                placeholder="Enter Location" name="mapName" minlength="1" maxlength="100" id="map" /> -->
+
             </td>
             <td colspan="2">
               <label>Kilometres</label><br>
               <input type="number" class="form-control" name="number2" placeholder="KMS" [(ngModel)]="kms" min="1"
                 max="10000" />
             </td>
-            <td colspan="2">
+            <!-- <td colspan="2">
               <label>Order</label><br>
               <input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="order" min="1"
                 max="900" />
-            </td>
+            </td> -->
             <td>
               <label>Type</label>
               <select [(ngModel)]="type" class="form-control" name="type">
@@ -126,7 +125,7 @@
             <div class="col-th col-1"></div>
             <div class="col-th col-1">S.No</div>
             <div class="col-th col-3">Name</div>
-            <div class="col-th col-1">Order</div>
+            <!-- <div class="col-th col-1">Order</div> -->
             <div class="col-th col-2">Kms</div>
             <div class="col-th col-2">Type</div>
             <div class="col-th col-2">Action</div>
@@ -166,8 +165,7 @@
 
     </div>
     <div class="col-6 pl-0">
-      <input name="location" id="loc" [(ngModel)]="loc" [value]="loc" type="text" style="width: 25%;"
-        placeholder="Enter Location" class="form-control">
+
       <div id="map" style="width: 100%; height:68vh">
       </div>
     </div>
