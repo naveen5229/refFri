@@ -227,7 +227,6 @@ import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-p
 import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
 import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-view-summary.component';
 import { VoucherTypeGetComponent } from './modals/voucher-type-get/voucher-type-get.component';
-import { VoucherTypeMapComponent } from './modals/voucher-type-map/voucher-type-map.component';
 import { AssignUserTemplateComponent } from './modals/assign-user-template/assign-user-template.component';
 import { SaveUserTemplateComponent } from './modals/save-user-template/save-user-template.component';
 
@@ -431,7 +430,7 @@ import { SaveUserTemplateComponent } from './modals/save-user-template/save-user
     LrInvoiceColumnsComponent,
     FoWebViewSummaryComponent,
     VoucherTypeGetComponent,
-    VoucherTypeMapComponent,
+
     AssignUserTemplateComponent,
     SaveUserTemplateComponent,
 
@@ -619,7 +618,7 @@ import { SaveUserTemplateComponent } from './modals/save-user-template/save-user
     TripdetailComponent,
     SupportingDocComponent,
     VoucherTypeGetComponent,
-    VoucherTypeMapComponent,
+  
     FoWebViewSummaryComponent,
     AssignUserTemplateComponent,
     SaveUserTemplateComponent

@@ -4,10 +4,10 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
-  <div class="col-sm-6">
+<div class="modal-body" *ngIf="!modaltype">
+  <div class="col-sm-6" *ngIf="images && images.length">
     <div class="container">
-      <app-image-viewer [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
+      <app-image-viewer [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true" *ngIf="images.length">
       </app-image-viewer>
     </div>
   </div>
@@ -36,15 +36,71 @@
     <div class="col-4">
 
       <auto-suggestion [data]="voucherList" display="name" (onSelected)="changeRefernceType($event)"
-        [preSelected]="voucherType" inputId="itemId">
+        [preSelected]="{name:voucherType}" inputId="itemId">
       </auto-suggestion>
     </div>
   </div>
 </div>
-<div class="modal-footer">
+<div class="modal-footer" *ngIf="!modaltype">
   <div class="row">
     <div class="col">
       <button class="btn btn-primary" (click)="UpdateVoucher()">UPDATE</button>
+    </div>
+  </div>
+</div>
+<div class="modal-body" *ngIf="modaltype">
+  <div class="col-sm-6" *ngIf="images && images.length">
+    <div class="container">
+      <app-image-viewer [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true" *ngIf="images.length">
+      </app-image-viewer>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom: 15px">
+    <div class="col-4">
+      <label>Reg No</label>
+    </div>
+    <div class="col-4">
+      <label>{{vehRegistrationNo}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <label>Voucher Type</label>
+    </div>
+    <div class="col-4">
+      {{voucherType}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <label>RefType</label>
+    </div>
+    <div class="col-4">
+      <select class="form-control" (change)="getSelection()" [(ngModel)]="refId">
+        <option *ngFor="let status of refDetails" [value]="status.id">
+          {{status.name}}
+
+        </option>
+      </select>
+    </div>
+    <div class="col-4" *ngIf="refId==11">
+      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="changeRefernce($event)" inputId="itemId">
+      </auto-suggestion>
+    </div>
+    <div class="col-4" *ngIf="refId==12">
+      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="changeRefernce($event)" inputId="itemId">
+      </auto-suggestion>
+    </div>
+    <div class="col-4" *ngIf="refId==14">
+      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="changeRefernce($event)" inputId="itemId">
+      </auto-suggestion>
+    </div>
+  </div>
+</div>
+<div class="modal-footer" *ngIf="modaltype">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-primary" (click)="UploadVoucher()">MAP</button>
     </div>
   </div>
 </div>

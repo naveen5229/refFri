@@ -11,7 +11,6 @@ import { ApiService } from '../../../services/api.service';
 export class AddFreightExpensesComponent implements OnInit {
   endDate = new Date();
   expense = {
-    id: null,
     vehicleType: 1,
     vehicleId: null,
     vehicleRegNo: null,
@@ -54,14 +53,13 @@ export class AddFreightExpensesComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService,
   ) {
-    this.getFreightHeads();
     this.common.handleModalSize("class", "modal-lg", "1500");
+    this.getFreightHeads();
 
     if (this.common.params.expenseData) {
-      this.expense.id = this.common.params.expenseData._id;
       this.expense.refId = this.common.params.expenseData._ref_id;
       this.expense.refernceType = this.common.params.expenseData._ref_type;
-      this.expense.remarks = this.common.params.expenseData._exp_remarks;
+      this.expense.remarks = this.common.params.expenseData._exp_remarks ? this.common.params.expenseData._exp_remarks : null;
       this.getExpenseDetails();
     }
     this.getExpenses();
@@ -173,8 +171,9 @@ export class AddFreightExpensesComponent implements OnInit {
         --this.common.loading;
         this.data = res['data']['result'];
         this.images = res['data']['images'];
+        console.log(".........", res['data']['images']);
 
-        console.log("api data:", this.data);
+        console.log("api images:", this.images);
         this.headings = [];
         this.valobj = {};
         if (!this.data || !this.data.length) {
