@@ -68,7 +68,7 @@ closeModal(data){
 
 addFuelModal() {
   if(this.itemId == null){
-    return this.common.showError("Company Id is missing")
+    return this.common.showError("Vehicle Company Id is missing")
 
   }
   else if(this.load == null)
