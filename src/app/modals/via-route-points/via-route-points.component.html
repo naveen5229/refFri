@@ -132,19 +132,19 @@
                   </svg>
                 </div>
               </div>
-              <div class="col-td col-1">{{i+1}}</div>
+              <div class="col-td col-1">{{data._no}}</div>
               <div class="col-td col-3">{{data.name}}</div>
               <!-- <div class="col-td col-1">{{data.via_order}}</div> -->
               <div class="col-td col-2">{{data.kms}}</div>
               <div class="col-td col-2">{{data.Type}}</div>
               <div class="col-td col-2">
-                <i class="fas fa-times text-red" (click)="clickDelete(data.name , i)"></i>
+                <i class="fas fa-trash text-red mr-20" (click)="clickDelete(data.name , i)"></i>
                 <i class="fas fa-edit edit" (click)="editRow(i)"></i>
               </div>
             </div>
           </div>
         </div>
-        <div>
+        <div class="text-right">
           <button *ngIf="tableData && tableData.length" class="btn btn-primary add-route  pt-1" (click)="updateOrder()"
             style="margin-top:3px;">Update Order</button>
         </div>

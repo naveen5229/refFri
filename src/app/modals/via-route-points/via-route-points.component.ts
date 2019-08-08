@@ -200,7 +200,7 @@ export class ViaRoutePointsComponent implements OnInit {
 
     for (let i = 0; i < this.tableData.length; i++) {
       this.tableData[i].color = (i == 0) ? "00FF00" : (i == this.tableData.length - 1 ? "FF0000" : null);
-      this.tableData[i].subType = (i == 0 || i == this.tableData.length - 1) ? "marker" : null;
+      this.tableData[i].subType = (this.tableData[i]._type == 1 || i == 0 || i == this.tableData.length - 1) ? "marker" : null;
       this.mapService.createPolyPathManual(this.mapService.createLatLng(this.tableData[i].lat, this.tableData[i].long), polygonOption);
     }
 
