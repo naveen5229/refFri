@@ -37,42 +37,30 @@
                     (click)="searchString='----'; takeAction(null);"><i class="fa fa-plus"></i></button>
                 </div>
               </div>
-
-
-
             </td>
             <td colspan="2">
               <label>Kilometres</label><br>
               <input type="number" class="form-control" name="number2" placeholder="KMS" [(ngModel)]="kms" min="1"
                 max="10000" />
             </td>
-            <!-- <td colspan="2">
-              <label>Order</label><br>
-              <input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="order" min="1"
-                max="900" />
-            </td> -->
             <td>
               <label>Type</label>
               <select [(ngModel)]="type" class="form-control" name="type">
                 <option value="0">Regular</option>
                 <option value="1">Loading/Unloading</option>
-
               </select>
             </td>
           </tr>
 
-
         </tbody>
         <div class="row">
           <div class="col-4"></div>
-
-          <div class="col-6 text-right">
-            <button type="button" class="btn btn-primary add-route  pt-1" (click)="sendRoute()"
+          <div class="col-8 text-right">
+            <button type="button" class="btn btn-primary add-route  mr-2" (click)="sendRoute()"
               style="margin-top:10px;">{{this.editId == -1?'EDIT':'ADD'}}</button>
 
-            <button *ngIf="this.editId == -1" type="button" class="btn btn-primary add-route  pt-1"
+            <button *ngIf="this.editId == -1" type="button" class="btn btn-primary add-route ml-2"
               (click)="cancelEdit()" style="margin-top:10px;">CANCEL</button>
-
           </div>
 
         </div>
@@ -146,7 +134,7 @@
               </div>
               <div class="col-td col-1">{{i+1}}</div>
               <div class="col-td col-3">{{data.name}}</div>
-              <div class="col-td col-1">{{data.via_order}}</div>
+              <!-- <div class="col-td col-1">{{data.via_order}}</div> -->
               <div class="col-td col-2">{{data.kms}}</div>
               <div class="col-td col-2">{{data.Type}}</div>
               <div class="col-td col-2">
@@ -157,8 +145,8 @@
           </div>
         </div>
         <div>
-          <button *ngIf="tableData && tableData.length" class="btn btn-primary add-route  pt-1"
-            (click)="updateOrder(tableData)" style="margin-top:3px;">Update Order</button>
+          <button *ngIf="tableData && tableData.length" class="btn btn-primary add-route  pt-1" (click)="updateOrder()"
+            style="margin-top:3px;">Update Order</button>
         </div>
 
       </div>

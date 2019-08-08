@@ -33,7 +33,6 @@ export class ViaRoutePointsComponent implements OnInit {
   selected = 0;
   siteId;
   routeId = null;
-  firstCoordinates;
   routeData = {
     siteId: null,
     lat: null,
@@ -52,20 +51,7 @@ export class ViaRoutePointsComponent implements OnInit {
     public modalService: NgbModal) {
     this.route = this.common.params.route;
     this.routeId = this.route._id;
-    this.firstCoordinates = [{
-      lat: this.route._start_lat,
-      lng: this.route._start_long,
-      title: this.route.start_name,
-      color: '00FF00',
-      subType: 'marker'
-    },
-    {
-      lat: this.route._end_lat,
-      lng: this.route._end_long,
-      title: this.route.end_name,
-      color: 'FF0000',
-      subType: 'marker'
-    }];
+
     this.viewTable();
     console.log("RouteID-->", this.routeId);
     setTimeout(() => {
@@ -91,17 +77,12 @@ export class ViaRoutePointsComponent implements OnInit {
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
 
     setTimeout(() => {
-      this.mapService.createMarkers(this.firstCoordinates);
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
-
-
       });
     }, 1000);
-
-
   }
-  createMarkers(lat, long, type) {
 
+  createMarkers(lat, long, type) {
     console.log("latlong", lat, long);
     this.latlong = [{
       lat: lat,
@@ -136,6 +117,7 @@ export class ViaRoutePointsComponent implements OnInit {
     this.createMarkers(this.routeData.lat, this.routeData.long, 'map');
 
   }
+
   onChangeAuto(search) {
     this.searchString = search;
     console.log('..........', search);
@@ -192,49 +174,37 @@ export class ViaRoutePointsComponent implements OnInit {
   }
   viewTable() {
     this.common.loading++;
-    let rowCoordinates = [];
     this.api.get('ViaRoutes/viewvia?routeId=' + this.routeId)
       .subscribe(res => {
         this.common.loading--;
         console.log('res', res['data']);
         let data = res['data'];
         this.tableData = data;
-        this.mapService.resetPolyPath();
-        this.viaMark.forEach(mark => {
-          mark.setMap(null);
-        });
-        this.viaMark = [];
+        this.createrouteMarker();
 
-        for (let i = 0; i < this.tableData.length; i++) {
-          rowCoordinates.push({
-            lat: this.tableData[i]._lat,
-            lng: this.tableData[i]._long,
-            title: this.tableData[i].name,
-          });
-        }
-        let polypath = [];
-        if (this.tableData.length)
-          this.viaMark = this.mapService.createMarkers(rowCoordinates);
-        polypath.push({ lat: this.route._start_lat, lng: this.route._start_long });
-        for (let i = 0; i < this.tableData.length; i++) {
-          rowCoordinates.push({
-            lat: this.tableData[i]._lat,
-            lng: this.tableData[i]._long,
-          });
-          polypath.push({ lat: this.tableData[i]._lat, lng: this.tableData[i]._long });
-        }
-        polypath.push({ lat: this.route._end_lat, lng: this.route._end_long });
-        console.log("Polypath--->", polypath);
-        let polygonOption = {
-          strokeWeight: 1,
-        };
-        for (let i = 0; i < polypath.length; i++) {
-          this.mapService.createPolyPathManual(this.mapService.createLatLng(polypath[i].lat, polypath[i].lng), polygonOption);
-        }
       }, err => {
         this.common.loading--;
         this.common.showError();
       })
+  }
+  createrouteMarker() {
+    this.mapService.clearAll();
+    this.viaMark.forEach(mark => {
+      mark.setMap(null);
+    });
+
+    this.viaMark = [];
+    let polygonOption = {
+      strokeWeight: 1,
+    };
+
+    for (let i = 0; i < this.tableData.length; i++) {
+      this.tableData[i].color = (i == 0) ? "00FF00" : (i == this.tableData.length - 1 ? "FF0000" : null);
+      this.tableData[i].subType = (i == 0 || i == this.tableData.length - 1) ? "marker" : null;
+      this.mapService.createPolyPathManual(this.mapService.createLatLng(this.tableData[i].lat, this.tableData[i].long), polygonOption);
+    }
+
+    this.viaMark = this.mapService.createMarkers(this.tableData);
   }
 
   deleteRoutes(i) {
@@ -326,9 +296,9 @@ export class ViaRoutePointsComponent implements OnInit {
     }
   }
 
-  updateOrder(data) {
+  updateOrder() {
     let params = {
-      data: JSON.stringify(data),
+      data: JSON.stringify(this.tableData),
     }
     console.log(params);
     this.common.loading++;
@@ -424,5 +394,6 @@ export class ViaRoutePointsComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
     }
+    this.createrouteMarker();
   }
 }
