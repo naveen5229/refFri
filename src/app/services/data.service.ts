@@ -282,16 +282,17 @@ export class DataService {
           },
           {
             title: 'web activity summary',
-            icon: 'far fa-list-all',
+            icon: 'far fa-user',
             link: '/admin/web-activity-summary',
             home: true,
           },
-          // {
-          //   title: 'Vehicles',
-          //   icon: 'fas fa-info-circle',
-          //   link: '/admin/vehicles',
-          //   home: true,
-          // },
+
+          {
+            title: 'User Template',
+            icon: 'far fa-user',
+            link: '/admin/user-templates',
+            home: true,
+          },
         ]
       },
 
