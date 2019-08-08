@@ -5,9 +5,11 @@
     <nb-card-body>
         <div class="tabs_style_main">
             <ul class="tabs_style text-left">
-                <li [ngClass]="activeTab==' Credit Fuel Station'?'active':''" (click)="activeTab='Fuel Station'">Credit Fuel Station</li>
-                <li [ngClass]="activeTab=='Fuel Rule'?'active':''" (click)="activeTab='Fuel Rule'">IsFuelRule</li>
-                <li [ngClass]="activeTab=='Model Fuel Mileage'?'active':''" (click)="activeTab='Fuel Mileage'">Fuel Mileage </li>
+                <li [ngClass]="activeTab=='Credit Fuel Station'?'active':''" (click)="activeTab='Credit Fuel Station'">Credit Fuel Station</li>
+
+                <li [ngClass]="activeTab=='Fuel Rule'?'active':''" (click)="activeTab='Fuel Rule'">IsFull Ruel</li>
+
+                <li [ngClass]="activeTab=='Model Fuel Mileage'?'active':''" (click)="activeTab='Model Fuel Mileage'">Model Fuel Mileage </li>
             </ul>
         </div>
         <div class="fuel-master">
@@ -23,7 +25,7 @@
                 </div>
             </div>
 
-            <div *ngIf="activeTab=='Fuel Station'">
+            <div *ngIf="activeTab=='Credit Fuel Station'">
                 <div class="row">
                     <div class="col-3">
                         <auto-suggestion (onSelected)="getFs($event)" url="Suggestion/GetFuelStation" display="name" placeholder="Search Fuel Station" [preSelected]="null">
@@ -41,10 +43,11 @@
             </div>
             <div *ngIf="activeTab=='Model Fuel Mileage'">
                 <div class="row">
-                    <div class="col-6 text-right">
+                    <div class="col-12 text-right">
                         <button type="submit" class="btn btn-primary m-0" name="add" (click)="addFuelAvg()" style="border-radius:3px">Add Model Fuel Mileage</button>
                     </div>
                 </div>
+                <br>
                 <div class="no-data alert alert-danger" role="alert" *ngIf=" fuelAvg.length==0">
                     No Data Available On That Time Period !
                 </div>
