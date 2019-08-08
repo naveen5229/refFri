@@ -162,7 +162,7 @@ export class ManageFoPartyComponent implements OnInit {
         console.log("Type", this.headings[i]);
         console.log("doc index value:", cmpAssocDetail[this.headings[i]]);
         if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.addNewParty.bind(this, cmpAssocDetail) }] };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.addNewParty.bind(this, cmpAssocDetail) },{ class: 'fa fa-edit', action: this.partyMapping.bind(this, cmpAssocDetail) }] };
         }
         else {
           this.valobj[this.headings[i]] = { value: cmpAssocDetail[this.headings[i]], class: 'black', action: '' };
@@ -193,7 +193,11 @@ export class ManageFoPartyComponent implements OnInit {
 
   }
 
-  partyMapping(){
+  partyMapping(cmpAssocDetail){
+    this.common.params = {
+      partyId: cmpAssocDetail._id,
+      userGroupId: this.assType,
+    };
     const activeModal = this.modalService.open(PartyLedgerMappingComponent, {
       size: "lg",
       container: "nb-layout"
