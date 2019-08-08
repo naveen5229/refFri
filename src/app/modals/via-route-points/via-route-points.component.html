@@ -80,10 +80,11 @@
         </div>
       </table>
 
-      <table class="tbl table table-bordered table-hover" *ngIf="tableData && tableData.length">
+      <!-- <table class="tbl table table-bordered table-hover" *ngIf="tableData && tableData.length">
         <thead class="thead">
           <tr>
-            <th style="width:40px;">S.No</th>
+            <th>&nbsp;</th>
+            <th>S.No</th>
             <th>Name</th>
             <th>Order</th>
             <th>Kms</th>
@@ -91,10 +92,20 @@
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let data of tableData; let i = index;">
-            <td style="width:40px;">{{i+1}}</td>
-            <td style="width:40px;">{{data.name}}</td>
+        <tbody cdkDropList [cdkDropListData]="tableData" (cdkDropListDropped)="drop($event)">
+          <tr *ngFor="let data of tableData; let i = index;" cdkDrag>
+            <td style="position: relative;">
+              <div class="drag-handle" cdkDragHandle>
+                <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+                  </path>
+                  <path d="M0 0h24v24H0z" fill="none"></path>
+                </svg>
+              </div>
+            </td>
+            <td>{{i+1}}</td>
+            <td>{{data.name}}</td>
             <td><input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="data.via_order">
             <td>{{data.kms}}</td>
             <td>{{data.Type}}</td>
@@ -107,7 +118,48 @@
           </tr>
         </tbody>
 
-      </table>
+      </table> -->
+
+      <div class="container">
+      
+        <div class="row-head">
+          <div class="row m-0">
+            <div class="col-th col-1"></div>
+            <div class="col-th col-1">S.No</div>
+            <div class="col-th col-3">Name</div>
+            <div class="col-th col-1">Order</div>
+            <div class="col-th col-2">Kms</div>
+            <div class="col-th col-2">Type</div>
+            <div class="col-th col-2">Action</div>
+          </div>
+        </div>
+        <div clss="drag-container">
+          <div cdkDropList [cdkDropListData]="tableData" (cdkDropListDropped)="drop($event)" class="drag-list">
+            <div class="row drag-box m-0" *ngFor="let data of tableData; let i = index;" cdkDrag>
+              <div class="col-td col-1" style="position: relative;">
+                <div class="drag-handle" cdkDragHandle>
+                  <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+                    </path>
+                    <path d="M0 0h24v24H0z" fill="none"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="col-td col-1">{{i+1}}</div>
+              <div class="col-td col-3">{{data.name}}</div>
+              <div class="col-td col-1">{{data.via_order}}</div>
+              <div class="col-td col-2">{{data.kms}}</div>
+              <div class="col-td col-2">{{data.Type}}</div>
+              <div class="col-td col-2">
+                <i class="fas fa-times text-red" (click)="clickDelete(data.name , i)"></i>
+                <i class="fas fa-edit edit" (click)="editRow(i)"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
 
     </div>
     <div class="col-6 pl-0">

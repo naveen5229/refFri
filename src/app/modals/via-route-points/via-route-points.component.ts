@@ -4,6 +4,7 @@ import { MapService } from '../../services/map.service';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { LocationSelectionComponent } from '../location-selection/location-selection.component';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'via-route-points',
@@ -11,6 +12,7 @@ import { LocationSelectionComponent } from '../location-selection/location-selec
   styleUrls: ['./via-route-points.component.scss']
 })
 export class ViaRoutePointsComponent implements OnInit {
+ 
   latlong = [{ lat: null, long: null, color: null, subType: null }];
   locType = "site";
   siteLoc = null;
@@ -421,5 +423,16 @@ export class ViaRoutePointsComponent implements OnInit {
     this.locType = "site";
 
 
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
   }
 }
