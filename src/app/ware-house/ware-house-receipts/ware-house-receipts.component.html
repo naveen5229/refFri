@@ -6,15 +6,15 @@
         <div class="clearfix">
 
             <div class="row" style="margin-top:10px">
-                <div class="col-3">
+                <div class="col-2">
                     <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
                     </uj-date-time-picker>
                 </div>
-                <div class="col-3">
+                <div class="col-2">
                     <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false>
                     </uj-date-time-picker>
                 </div>
-                <div classs="col-2">
+                <div classs="col-4">
                     <select placeholder="Name" class="form-control" [(ngModel)]="wareHouseId">
                         <option *ngFor="let element of dataReceive" [value]="element.id">{{element.name}}
                         </option>
@@ -22,12 +22,10 @@
                 </div>
 
                 <div class="col-2">
-                    <button class="btn btn-primary w-100 pt-2 pb-2 rounded-sm text-capitalize" id="button"
-                        (click)="getdata()">Submit</button>
+                    <button class="btn btn-primary w-100 pt-2 pb-2 rounded-sm text-capitalize" id="button" (click)="getdata()">Submit</button>
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-primary w-100 pt-2 pb-2 rounded-sm text-capitalize" id="button"
-                        (click)="Manual()">Manual</button>
+                    <button class="btn btn-primary w-100 pt-2 pb-2 rounded-sm text-capitalize" id="button" (click)="Manual()">Manual</button>
                 </div>
             </div>
             <div class="mt-2">
