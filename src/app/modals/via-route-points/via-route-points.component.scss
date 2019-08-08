@@ -188,3 +188,6 @@ table {
 .drag-box .col-td :last-child {
   border-right: 0px;
 }
+:host ::ng-deep .container{
+padding: 0px !important;
+}
