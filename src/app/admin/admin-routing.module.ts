@@ -61,6 +61,9 @@ import { PodDashboardComponent } from './pod-dashboard/pod-dashboard.component';
 import { NearbyPodsComponent } from './nearby-pods/nearby-pods.component';
 import { LocationsComponent } from './locations/locations.component';
 import { WebActivitySummaryComponent } from './web-activity-summary/web-activity-summary.component';
+import { VouchersSummaryComponent } from './vouchers-summary/vouchers-summary.component';
+import { UserTemplatesComponent } from './user-templates/user-templates.component';
+import { FuelMileageWithOdoComponent } from '../pages/fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -354,7 +357,25 @@ const routes: Routes = [{
             path: 'web-activity-summary',
             component: WebActivitySummaryComponent,
             canActivate: [RouteGuard]
-        }
+        },
+        {
+            path: 'vouchers-summary',
+            component: VouchersSummaryComponent,
+            canActivate: [RouteGuard]
+
+        },
+        {
+
+            path: 'fuel-mileage-with-odo',
+            component: FuelMileageWithOdoComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'user-templates',
+            component: UserTemplatesComponent,
+            canActivate: [RouteGuard]
+        },
+
 
 
 

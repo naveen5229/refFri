@@ -14,9 +14,9 @@ export class ApiService {
   // URL: string = 'http://elogist.in/testservices/'; // prod Server
   URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://localhost/transtruck/booster_webservices/';
-  // URL: string = 'http://192.168.0.179/booster_webservices/'; // Sachin
+  // URL: string = 'http://192.168.0.113/booster_webservices/'; // Sachin
   // URL: string = 'http://192.168.1.124/booster_webservices/'; // Umang
-  //  URL: string = 'http://localhost/booster_webservices/'; // sachin
+    //  URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
   // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
@@ -77,7 +77,6 @@ export class ApiService {
         subURL += '?branch=' + this.accountService.selected.branch.id;
       }
     };
-
 
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
   }
