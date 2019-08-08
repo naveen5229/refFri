@@ -58,10 +58,10 @@ export class AddFreightExpensesComponent implements OnInit {
     this.common.handleModalSize("class", "modal-lg", "1500");
 
     if (this.common.params.expenseData) {
-      this.expense.id = this.common.params.expenseData._id;
-      this.expense.refId = this.common.params.expenseData._ref_id;
-      this.expense.refernceType = this.common.params.expenseData._ref_type;
-      this.expense.remarks = this.common.params.expenseData._exp_remarks;
+      this.expense.id = this.common.params.expenseData.id;
+      this.expense.refId = this.common.params.expenseData.refId;
+      this.expense.refernceType = this.common.params.expenseData.refernceType;
+      this.expense.remarks = this.common.params.expenseData.remarks;
       this.getExpenseDetails();
     }
     this.getExpenses();
