@@ -121,7 +121,7 @@
       </table> -->
 
       <div class="container">
-      
+
         <div class="row-head">
           <div class="row m-0">
             <div class="col-th col-1"></div>
@@ -157,6 +157,10 @@
               </div>
             </div>
           </div>
+        </div>
+        <div>
+          <button *ngIf="tableData && tableData.length" class="btn btn-primary add-route  pt-1"
+            (click)="updateOrder(tableData)" style="margin-top:3px;">Update Order</button>
         </div>
 
       </div>
