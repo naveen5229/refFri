@@ -11,18 +11,22 @@ import { AddFreightRevenueComponent } from '../FreightRate/add-freight-revenue/a
   styleUrls: ['./voucher-type-get.component.scss']
 })
 export class VoucherTypeGetComponent implements OnInit {
-  FoName = null;
-  RegList = [];
-  vehRegistrationNo = null;
+  voucher = {
+    FoName: null,
+    vehRegistrationNo: null,
+    voucherID: null,
+    rowId: null,
+    voucherType: null,
+    vehId: null,
+    docId: null
+  }
   voucherList = [];
-  voucherID = null;
-  rowId = null;
-  voucherType = null;
   title = '';
   images = [];
+  RegList = [];
   activeImage = '';
-  vehId = null;
-  docId = null;
+
+
   refDetails = [{
     name: 'LR',
     id: '11'
@@ -47,79 +51,50 @@ export class VoucherTypeGetComponent implements OnInit {
     private modalService: NgbModal, ) {
     this.common.handleModalSize("class", "modal-lg", "1100", "px", 0);
 
-    if (this.common.params.VoucherDetails) {
-      this.FoName = this.common.params.VoucherDetails['Fo Name'];
-      this.vehRegistrationNo = this.common.params.VoucherDetails.Regno;
-      this.rowId = this.common.params.VoucherDetails._id;
-      this.voucherType = this.common.params.VoucherDetails.Type;
-      this.voucherID = this.common.params.VoucherDetails._type_id;
-      this.vehId = this.common.params.VoucherDetails._vehicle_id;
-      this.docId = this.common.params.VoucherDetails._doc_id;
-      console.log('regno', this.vehRegistrationNo);
+    if (this.common.params.voucher) {
+      this.voucher.FoName = this.common.params.voucher['Fo Name'];
+      this.voucher.vehRegistrationNo = this.common.params.voucher.Regno;
+      this.voucher.rowId = this.common.params.voucher._id;
+      this.voucher.voucherType = this.common.params.voucher.Type;
+      this.voucher.voucherID = this.common.params.voucher._type_id;
+      this.voucher.vehId = this.common.params.voucher._vehicle_id;
+      this.voucher.docId = this.common.params.voucher._doc_id;
+
     }
+
     this.getdocImages();
-    if (this.common.params.state == 1) {
+    if (this.common.params.modalType == 1) {
       this.modaltype = 1;
     }
-    if (this.common.params.state == 2) {
+    if (this.common.params.modalType == 2) {
       this.modaltype = null;
     }
+
     this.getItems();
   }
 
   ngOnInit() {
   }
 
-  getvehicleData(Regno) {
-    this.vehRegistrationNo = Regno.regno;
-    this.vehId = Regno.id;
-
-  }
   closeModal() {
     this.activeModal.close({ response: true });
   }
+
   getItems() {
-    const params = {
-
-    }
-
     this.common.loading++;
-    this.api.post('Suggestion/getExpensesVoucherTypeList', params)
+    this.api.post('Suggestion/getExpensesVoucherTypeList', {})
       .subscribe(res => {
         this.common.loading--;
         console.log("items", res);
-        this.voucherList = res['data'];
+        this.voucherList = res['data'] || [];
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-  changeRefernceType(voucherList) {
-    this.voucherID = voucherList.id;
 
-  }
-  UpdateVoucher() {
-    const params = {
-      rowId: this.rowId,
-      typeId: this.voucherID,
-      vehicleId: this.vehId
-    }
-
-    this.common.loading++;
-    this.api.post('UploadedVouchers/updateVoucherDetails', params)
-      .subscribe(res => {
-        this.common.loading--;
-        if (res['code'] == '1') {
-          this.common.showToast(res['msg']);
-          this.closeModal();
-        }
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
   getdocImages() {
-    const params = "docId=" + this.docId;
+    const params = "docId=" + this.voucher.docId;
     this.common.loading++;
     this.api.get('UploadedVouchers/getImageWrtDocId?' + params)
       .subscribe(res => {
@@ -131,112 +106,96 @@ export class VoucherTypeGetComponent implements OnInit {
       });
   }
 
-  changeRefernce(event) {
+  selectedVehicle(Regno) {
+    this.voucher.vehRegistrationNo = Regno.regno;
+    this.voucher.vehId = Regno.id;
+  }
+
+  changeRefernceType(voucherList) {
+    this.voucher.voucherID = voucherList.id;
+  }
+
+  UpdateVoucher() {
+    const params = {
+      rowId: this.voucher.rowId,
+      typeId: this.voucher.voucherID,
+      vehicleId: this.voucher.vehId
+    }
+    this.common.loading++;
+    this.api.post('UploadedVouchers/updateVoucherDetails', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.common.showToast(res['msg']);
+        if (res['code'] == '1') {
+          this.closeModal();
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  onSelectedRefernce(event) {
     this.referenceId = event.id;
   }
-  getSelection() {
-    console.log(this.refId);
+
+  getReferenceTypeSelection() {
     this.selectedlist(this.refId);
   }
+
   selectedlist(refId) {
+    const urls = {
+      11: 'getLorryReceipts',
+      12: 'getLorryManifest',
+      14: 'getVehicleTrips'
+    };
 
-    if (refId == 11) {
-      console.log('refid', this.refId);
-      const params = {
-        vid: this.vehId,
-        regno: this.vehRegistrationNo,
-      };
-      console.log("Lr", params);
-      this.api.post('Suggestion/getLorryReceipts', params)
-        .subscribe(res => {
-          this.refdata = res['data'];
-          console.log('Activity Api Response:', res)
-        },
-          err => console.error('Activity Api Error:', err));
-    }
-    if (refId == 12) {
+    let params = { vid: this.voucher.vehId };
+    if (refId != 14) params['regno'] = this.voucher.vehRegistrationNo;
 
-      const params = {
-        vid: this.vehId,
-        regno: this.vehRegistrationNo,
-      };
-      console.log("manifest", params);
-      this.api.post('Suggestion/getLorryManifest', params)
-        .subscribe(res => {
-          this.refdata = res['data'];
-        },
-          err => console.error('Activity Api Error:', err));
-    }
-    if (refId == 14) {
-
-      const params = {
-        vid: this.vehId,
-
-      };
-      console.log("manifest", params);
-      this.api.post('Suggestion/getVehicleTrips', params)
-        .subscribe(res => {
-          this.refdata = res['data'];
-        },
-          err => console.error('Activity Api Error:', err));
-    }
+    console.log('Params', params);
+    this.api.post('Suggestion/' + urls[refId], params)
+      .subscribe(res => {
+        this.refdata = res['data'];
+        console.log('Activity Api Response:', res)
+      },
+        err => console.error('Activity Api Error:', err));
   }
-  UploadVoucher() {
+
+  uploadVoucher() {
     const params = {
-      vehId: this.vehId,
-      regNo: this.vehRegistrationNo,
+      vehId: this.voucher.vehId,
+      regNo: this.voucher.vehRegistrationNo,
       refType: this.refId,
       refId: this.referenceId,
-      docId: this.docId,
-      voucherType: this.voucherID,
-      rowId: this.rowId
+      docId: this.voucher.docId,
+      voucherType: this.voucher.voucherID,
+      rowId: this.voucher.rowId
     }
-    let expenseData = {
-      _ref_id: this.referenceId,
-      _ref_type: this.refId,
-      _remark: 'Mapped',
-      index: 1,
+
+    let expenseparam = {
+      id: null,
+      refId: this.referenceId,
+      refernceType: this.refId,
+      remarks: null,
     }
+
 
     this.common.loading++;
     this.api.post('UploadedVouchers/docMappingWrtVoucherType', params)
       .subscribe(res => {
         this.common.loading--;
-        if (res['code'] == '1' && this.voucherID == '-152') {
+        if (res['code'] == '1' && this.voucher.voucherID == '-152') {
           this.common.showToast(res['msg']);
-          const params = "docId=" + this.docId;
-
-          this.common.loading++;
-          this.api.get('UploadedVouchers/getImageWrtDocId?' + params)
-            .subscribe(res => {
-              this.common.loading--;
-              this.common.params = { expenseData: expenseData };
-
-              this.common.handleModalSize("class", "modal-lg", "1500", "px", 1);
-
-              const activeModal = this.modalService.open(AddFreightExpensesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
-            }, err => {
-              this.common.loading--;
-              console.log(err);
-            });
-
+          this.common.params = { expenseData: expenseparam };
+          this.common.handleModalSize("class", "modal-lg", "1500", "px", 1);
+          this.modalService.open(AddFreightExpensesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         }
-        else if (res['code'] == '1' && this.voucherID == '-153') {
+        else if (res['code'] == '1' && this.voucher.voucherID == '-153') {
           this.common.showToast(res['msg']);
-          const params = "docId=" + this.docId;
-
-          this.common.loading++;
-          this.api.get('UploadedVouchers/getImageWrtDocId?' + params)
-            .subscribe(res => {
-              this.common.loading--;
-              this.common.params = { images: res['data'] };
-              const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
-
-            }, err => {
-              this.common.loading--;
-              console.log(err);
-            });
+          const params = "docId=" + this.voucher.docId;
+          this.common.params = { revenueData: expenseparam };
+          const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         }
         else {
           this.common.showError(res['msg']);

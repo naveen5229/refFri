@@ -16,7 +16,7 @@
       <label>Fo Name</label>
     </div>
     <div class="col-4">
-      <label>{{FoName}}</label>
+      <label>{{voucher.FoName}}</label>
     </div>
   </div>
   <div class="row" style="margin-bottom: 15px">
@@ -24,8 +24,8 @@
       <label>Vehicles</label>
     </div>
     <div class="col-4">
-      <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList"
-        [preSelected]="{regno:vehRegistrationNo}" display="regno" placeholder="Enter Reg Number">
+      <auto-suggestion (onSelected)="selectedVehicle($event)" url="Suggestion/getVehicleList"
+        [preSelected]="{regno:voucher.vehRegistrationNo}" display="regno" placeholder="Enter Reg Number">
       </auto-suggestion>
     </div>
   </div>
@@ -36,7 +36,7 @@
     <div class="col-4">
 
       <auto-suggestion [data]="voucherList" display="name" (onSelected)="changeRefernceType($event)"
-        [preSelected]="{name:voucherType}" inputId="itemId">
+        [preSelected]="{name:voucher.voucherType}" inputId="itemId">
       </auto-suggestion>
     </div>
   </div>
@@ -60,39 +60,47 @@
       <label>Reg No</label>
     </div>
     <div class="col-4">
-      <label>{{vehRegistrationNo}}</label>
+      <label>{{voucher.vehRegistrationNo}}</label>
     </div>
   </div>
-  <div class="row">
+  <div class="row" style="margin-bottom: 15px">
     <div class="col-4">
       <label>Voucher Type</label>
     </div>
     <div class="col-4">
-      {{voucherType}}
+      {{voucher.voucherType}}
     </div>
   </div>
-  <div class="row">
+  <div class="row" style="margin-bottom: 15px">
     <div class="col-4">
       <label>RefType</label>
     </div>
     <div class="col-4">
-      <select class="form-control" (change)="getSelection()" [(ngModel)]="refId">
+      <select class="form-control" (change)="getReferenceTypeSelection()" [(ngModel)]="refId">
         <option *ngFor="let status of refDetails" [value]="status.id">
           {{status.name}}
 
         </option>
       </select>
     </div>
-    <div class="col-4" *ngIf="refId==11">
-      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="changeRefernce($event)" inputId="itemId">
+  </div>
+  <div class="row" style="margin-bottom: 15px">
+    <div class="col-4">
+      <label>Ref Name</label>
+    </div>
+    <div class="col-6 auto" *ngIf="refId==11">
+      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="onSelectedRefernce($event)"
+        inputId="itemId">
       </auto-suggestion>
     </div>
-    <div class="col-4" *ngIf="refId==12">
-      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="changeRefernce($event)" inputId="itemId">
+    <div class="col-6 auto" *ngIf="refId==12">
+      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="onSelectedRefernce($event)"
+        inputId="itemId">
       </auto-suggestion>
     </div>
-    <div class="col-4" *ngIf="refId==14">
-      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="changeRefernce($event)" inputId="itemId">
+    <div class="col-6 auto" *ngIf="refId==14">
+      <auto-suggestion [data]="refdata" display="source_dest" (onSelected)="onSelectedRefernce($event)"
+        inputId="itemId">
       </auto-suggestion>
     </div>
   </div>
@@ -100,7 +108,7 @@
 <div class="modal-footer" *ngIf="modaltype">
   <div class="row">
     <div class="col">
-      <button class="btn btn-primary" (click)="UploadVoucher()">MAP</button>
+      <button class="btn btn-primary" (click)="uploadVoucher()">MAP</button>
     </div>
   </div>
 </div>
