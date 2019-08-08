@@ -127,24 +127,25 @@ export class LorryRecciptsComponent implements OnInit {
 
   getPodImage(receipt) {
     console.log("val", receipt);
-    let images = [{
-      name: "POD-1",
-      image: receipt.podimage
+    let refdata = {
+      refid: "",
+      reftype: "",
+      doctype: "",
+      docId: receipt.pod_docid
     }
-    ];
-    console.log("images:", images);
-    this.common.params = { images, title: 'POD Image' };
+    this.common.params = { refdata: refdata, title: 'docImage' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
 
   }
 
   RefData() {
-    let refdata = [{
+    let refdata = {
       refid: "",
       reftype: "",
-      doctype: ""
+      doctype: "",
+      docId: ""
     }
-    ];
+      ;
 
     this.common.params = { refdata: refdata, title: 'docImage' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });

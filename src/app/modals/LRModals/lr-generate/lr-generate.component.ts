@@ -1,3 +1,4 @@
+//  Author : Prashant Sharma
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
@@ -28,18 +29,21 @@ export class LrGenerateComponent implements OnInit {
   keepGoing = true;
   btnTxt = "SAVE";
   img_flag = false;
+  lrDetails = {
+    id: null
+  }
   lrGeneralField = [
-    { r_title: 'vehicle No', r_colorder: 1, r_coltype: 1, r_value: null, r_id: null, r_name: 'vehicle_no', r_required: null },
-    { r_title: 'Lr No', r_colorder: 2, r_coltype: 1, r_value: null, r_required: null, r_id: null, r_name: 'lr_no' },
-    { r_title: 'Date', r_colorder: 3, r_coltype: 1, r_value: null, r_required: null, r_id: null, r_name: 'date' },
-    { r_title: null, r_colorder: 4, r_coltype: 1, r_value: null, r_id: null, r_name: null },
-    { r_title: 'Consignor Name', r_colorder: 5, r_coltype: 1, r_value: null, r_id: null, r_name: 'company' },
-    { r_title: 'Consignor Address', r_colorder: 6, r_coltype: 1, r_value: null, r_id: null, r_name: 'address' },
-    { r_title: 'Consignee Name', r_colorder: 7, r_coltype: 1, r_value: null, r_id: null, r_name: 'company' },
-    { r_title: 'Consignee Address', r_colorder: 8, r_coltype: 1, r_value: null, r_id: null, r_name: 'address' },
-    { r_title: 'Source City', r_colorder: 9, r_coltype: 1, r_value: null, r_id: null, r_name: 'location' },
-    { r_title: 'Destination City', r_colorder: 10, r_coltype: 1, r_value: null, r_id: null, r_name: 'location' },
-    { r_title: 'Tax Paid By', r_colorder: 11, r_coltype: 1, r_value: null, r_id: null, r_name: 'tax_paid_by' }
+    { r_coltitle: 'vehicle No', r_colorder: 1, r_coltype: 1, r_value: null, r_detailsid: null, r_name: 'vehicle_no', r_required: null },
+    { r_coltitle: 'Lr No', r_colorder: 2, r_coltype: 1, r_value: null, r_required: null, r_detailsid: null, r_name: 'lr_no' },
+    { r_coltitle: 'Date', r_colorder: 3, r_coltype: 1, r_value: null, r_required: null, r_detailsid: null, r_name: 'date' },
+    { r_coltitle: null, r_colorder: 4, r_coltype: 1, r_value: null, r_detailsid: null, r_name: null },
+    { r_coltitle: 'Consignor Name', r_colorder: 5, r_coltype: 1, r_value: null, r_detailsid: null, r_name: 'company' },
+    { r_coltitle: 'Consignor Address', r_colorder: 6, r_coltype: 1, r_value: null, r_detailsid: null, r_name: 'address' },
+    { r_coltitle: 'Consignee Name', r_colorder: 7, r_coltype: 1, r_value: 'mahesh', r_detailsid: null, r_name: 'company' },
+    { r_coltitle: 'Consignee Address', r_colorder: 8, r_coltype: 1, r_value: null, r_detailsid: null, r_name: 'address' },
+    { r_coltitle: 'Source City', r_colorder: 9, r_coltype: 1, r_value: null, r_detailsid: null, r_name: 'location' },
+    { r_coltitle: 'Destination City', r_colorder: 10, r_coltype: 1, r_value: null, r_detailsid: null, r_name: 'location' },
+    { r_coltitle: 'Tax Paid By', r_colorder: 11, r_coltype: 1, r_value: null, r_detailsid: null, r_name: 'tax_paid_by' }
   ];
 
   evenArray = [];
@@ -61,9 +65,8 @@ export class LrGenerateComponent implements OnInit {
     }
     this.formatArray();
 
-    if (this.accountService.selected.branch.id) {
-      this.getBranchDetails();
-    }
+    this.getLrFields();
+
   }
 
   ngOnInit() {
@@ -72,12 +75,19 @@ export class LrGenerateComponent implements OnInit {
 
   }
 
-  getBranchDetails() {
+  getLrFields() {
     if (this.accountService.selected.branch.id) {
-      this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
+      let params = "branchId=" + this.accountService.selected.branch.id +
+        "&lrId=" + this.lrDetails.id;
+      this.api.get('LorryReceiptsOperation/getLrFields?' + params)
         .subscribe(res => {
-          console.log("branchdetails", res['data']);
-          this.setBranchDetails(res['data'][0]);
+          console.log("res", res['data'], res['data'].result);
+
+          if (res['data'] && res['data'].result) {
+            this.lrGeneralField = res['data'].result
+            console.log("this.lrGeneralField", this.lrGeneralField);
+            this.formatArray();
+          }
         }, err => {
           this.common.loading--;
           console.log(err);
@@ -263,7 +273,7 @@ export class LrGenerateComponent implements OnInit {
             if (res && res.location.lat) {
               console.log('response----', res.location);
               this.oddArray[i].r_value = res.location.name;
-              this.oddArray[i].r_id = res.id;
+              this.oddArray[i].r_detailsid = res.id;
               this.keepGoing = true;
             }
           })
@@ -281,7 +291,7 @@ export class LrGenerateComponent implements OnInit {
             if (res && res.location.lat) {
               console.log('response----', res.location);
               this.evenArray[i].r_value = res.location.name;
-              this.evenArray[i].r_id = res.id;
+              this.evenArray[i].r_detailsid = res.id;
               this.keepGoing = true;
             }
           })

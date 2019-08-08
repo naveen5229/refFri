@@ -37,7 +37,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     mgQty: null,
   };
   filters = [{
-    param: null,
+    param: 0,
     paramValue: null,
     minRange: null,
     maxRange: null,
@@ -98,7 +98,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
 
   addMore() {
     this.filters.push({
-      param: null,
+      param: 0,
       paramValue: null,
       minRange: null,
       maxRange: null,

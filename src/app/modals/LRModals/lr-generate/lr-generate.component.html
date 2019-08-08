@@ -1,3 +1,4 @@
+<!-- Author : Prashant Sharma -->
 <div class="modal-header">
   <h5>Generate LR</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
@@ -38,8 +39,7 @@
             </td>
             <td *ngIf="!lr.id || !accountService.selected.branch.id">
               <label>Branch
-                <select class="form-control" [(ngModel)]="accountService.selected.branch"
-                  (change)="getBranchDetails();">
+                <select class="form-control" [(ngModel)]="accountService.selected.branch" (change)="getLrFields();">
                   <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}</option>
                 </select>
               </label>
@@ -48,35 +48,34 @@
         </table>
         <table class="table table-bordered gerrate_tabel gr-lr-form" style="width:100%">
           <tr *ngFor="let dd of oddArray ; let i = index; ">
-            <td *ngIf="oddArray[i] && oddArray[i].r_title">
+            <td *ngIf="oddArray[i] && oddArray[i].r_coltitle">
+              <label>{{oddArray[i].r_coltitle}}<span style="color: red" *ngIf="oddArray[i].r_required">*</span></label>
               <span>
-                <label>{{oddArray[i].r_title}}<span style="color: red" *ngIf="oddArray[i].r_required">*</span></label>
-
                 <auto-suggestion *ngIf="oddArray[i].r_name == 'vehicle_no'"
-                  (onSelected)="oddArray[i].r_value = $event.name;oddArray[i].r_id = $event.id"
+                  (onSelected)="oddArray[i].r_value = $event.name;oddArray[i].r_detailsid = $event.id"
                   url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number"
-                  (change)="resetData($event)" inputId="vehicleno" [preSelected]="null">
+                  (change)="resetData($event)" inputId="vehicleno" [preSelected]="{regno : oddArray[i].r_value }">
                 </auto-suggestion>
 
                 <auto-suggestion *ngIf="oddArray[i].r_name == 'company'"
-                  (onSelected)="oddArray[i].r_value = $event.name;oddArray[i].r_id = $event.id"
-                  url="Suggestion/GetCompanies" display="name" placeholder=" Search Name" [preSelected]="null"
-                  class="auto-suggest">
+                  (onSelected)="oddArray[i].r_value = $event.name;oddArray[i].r_detailsid = $event.id"
+                  url="Suggestion/GetCompanies" display="name" placeholder=" Search Name"
+                  [preSelected]="{name:oddArray[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="oddArray[i].r_name == 'company'" class="fa fa-plus add" (click)="addCompany()"></i>
 
                 <auto-suggestion *ngIf="oddArray[i].r_name == 'driver_name'"
-                  (onSelected)="oddArray[i].r_value = $event.name;oddArray[i].r_id = $event.id" url="Booster/getDrivers"
-                  display="mobileno" placeholder="Select Driver" class="auto-suggest d-block" [preSelected]="null"
-                  placeholder="Search Driver">
+                  (onSelected)="oddArray[i].r_value = $event.name;oddArray[i].r_detailsid = $event.id"
+                  url="Booster/getDrivers" display="mobileno" placeholder="Select Driver" class="auto-suggest d-block"
+                  [preSelected]="{mobileno:oddArray[i].r_value}" placeholder="Search Driver">
                 </auto-suggestion>
                 <i class="fa fa-plus add " *ngIf="oddArray[i].r_name == 'driver_name'" (click)="addDriver()"></i>
 
                 <auto-suggestion *ngIf="oddArray[i].r_name == 'location'" (onChange)="oddArray[i].r_value = $event.name"
-                  (onSelected)="oddArray[i].r_name = $event.location;oddArray[i].r_id = $event.id"
+                  (onSelected)="oddArray[i].r_name = $event.location;oddArray[i].r_detailsid = $event.id"
                   (noDataFound)="takeActionSource('oddArray',$event,i)" [isNoDataFoundEmit]="true"
                   url="Location/getPlaceFromRedis" display="location" inputId="startname" placeholder="Search Location"
-                  [value]="oddArray[i].r_value" class="auto-suggest" [preSelected]='null'>
+                  [value]="oddArray[i].r_value" class="auto-suggest" [preSelected]='{location : oddArray[i].r_value }'>
                 </auto-suggestion>
                 <i class="fa fa-plus add " *ngIf="oddArray[i].r_name == 'location'"
                   (click)="sourceString='----'; takeActionSource('oddArray',null,i);"></i>
@@ -112,36 +111,37 @@
                 </span>
               </span>
             </td>
-            <td *ngIf="evenArray[i] && evenArray[i].r_title">
+            <td *ngIf="evenArray[i] && evenArray[i].r_coltitle">
+              <label>{{evenArray[i].r_coltitle}}<span style="color: red"
+                  *ngIf="evenArray[i].r_required">*</span></label>
               <span>
-                <label>{{evenArray[i].r_title}}<span style="color: red" *ngIf="evenArray[i].r_required">*</span></label>
-
                 <auto-suggestion *ngIf="evenArray[i].r_name == 'vehicle_no'"
-                  (onSelected)="evenArray[i].r_value = $event.name;evenArray[i].r_id = $event.id"
+                  (onSelected)="evenArray[i].r_value = $event.name;evenArray[i].r_detailsid = $event.id"
                   url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number"
-                  (change)="resetData($event)" inputId="vehicleno" [preSelected]="null">
+                  (change)="resetData($event)" inputId="vehicleno" [preSelected]="{regno : evenArray[i].r_value }">
                 </auto-suggestion>
 
                 <auto-suggestion *ngIf="evenArray[i].r_name == 'company'"
-                  (onSelected)="evenArray[i].r_value = $event.name;evenArray[i].r_id = $event.id"
-                  url="Suggestion/GetCompanies" display="name" placeholder=" Search Name" [preSelected]="null"
-                  class="auto-suggest">
+                  (onSelected)="evenArray[i].r_value = $event.name;evenArray[i].r_detailsid = $event.id"
+                  url="Suggestion/GetCompanies" display="name" placeholder=" Search Name"
+                  [preSelected]="{name : evenArray[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="evenArray[i].r_name == 'company'" class="fa fa-plus add" (click)="addCompany()"></i>
 
                 <auto-suggestion *ngIf="evenArray[i].r_name == 'driver_name'"
-                  (onSelected)="evenArray[i].r_value = $event.name;evenArray[i].r_id = $event.id"
+                  (onSelected)="evenArray[i].r_value = $event.name;evenArray[i].r_detailsid = $event.id"
                   url="Booster/getDrivers" display="mobileno" placeholder="Select Driver" class="auto-suggest"
-                  [preSelected]="null" placeholder="Search Driver">
+                  [preSelected]="{mobileno : evenArray[i].r_value}" placeholder="Search Driver">
                 </auto-suggestion>
                 <i class="fa fa-plus add " *ngIf="evenArray[i].r_name == 'driver_name'" (click)="addDriver()"></i>
 
                 <auto-suggestion *ngIf="evenArray[i].r_name == 'location'"
                   (onChange)="evenArray[i].r_value = $event.name"
-                  (onSelected)="evenArray[i].r_name = $event.location;evenArray[i].r_id = $event.id"
+                  (onSelected)="evenArray[i].r_name = $event.location;evenArray[i].r_detailsid = $event.id"
                   (noDataFound)="takeActionSource('evenArray',$event,i)" [isNoDataFoundEmit]="true"
                   url="Location/getPlaceFromRedis" display="location" inputId="startname" placeholder="Search Location"
-                  [value]="evenArray[i].r_value" class="auto-suggest" [preSelected]='null'>
+                  [value]="evenArray[i].r_value" class="auto-suggest"
+                  [preSelected]='{location : evenArray[i].r_value }'>
                 </auto-suggestion>
                 <i class="fa fa-plus add " *ngIf="evenArray[i].r_name == 'location'"
                   (click)="sourceString='----'; takeActionSource('evenArray',null,i);"></i>
@@ -193,29 +193,11 @@
             </tbody>
 
           </table>
-          <!-- <input type="date"> -->
           <div><button class="btn btn-primary" (click)=saveDetails()>{{btnTxt}}</button></div>
         </div>
 
-
-
       </div>
       <div class="col-md-5" *ngIf="img_flag">
-        <div class="clearfix mb-3">
-          <div class="col-sm-4">
-            <button class="btn btn-primary btn-loadLr" type="button" (click)="loadImage('LR')">Lorry Receipt</button>
-          </div>
-          <div class="col-sm-3">
-            <button class="btn btn-primary btn-loadInvoice" type="button"
-              (click)="loadImage('Invoice')">Invoice</button>
-          </div>
-          <div class="col-sm-3" style="margin-bottom: 15px">
-            <button class="btn btn-primary btn-loadOther" type="button" (click)="loadImage('Other')">Others</button>
-          </div>
-          <!-- <div class="col-sm-3 fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"
-        (click)="removeLrDetails()">
-      </div> -->
-        </div>
         <div>
           <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
           </app-image-viewer>
