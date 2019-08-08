@@ -66,14 +66,13 @@
         </tbody>
         <div class="row">
           <div class="col-4"></div>
-          <div class="col-5 pt-2">
-            <label class="pt-1" *ngIf="this.selected == 1">{{latilong}}</label>
-          </div>
-          <div class="col-3 text-right">
+
+          <div class="col-6 text-right">
             <button type="button" class="btn btn-primary add-route  pt-1" (click)="sendRoute()"
               style="margin-top:10px;">{{this.editId == -1?'EDIT':'ADD'}}</button>
+
             <button *ngIf="this.editId == -1" type="button" class="btn btn-primary add-route  pt-1"
-              (click)="cancelEdit()" style="margin-top:10px;">CANCEL EDIT</button>
+              (click)="cancelEdit()" style="margin-top:10px;">CANCEL</button>
 
           </div>
 

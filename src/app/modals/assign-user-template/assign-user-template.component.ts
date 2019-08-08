@@ -40,7 +40,7 @@ export class AssignUserTemplateComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public accountService: AccountService) {
     if (this.accountService.selected.branch.id) {
-      this.branchId = this.accountService.selected.branch.id;
+      // this.branchId = this.accountService.selected.branch.id;
       // this.getBranchDetails();
     }
     if (this.common.params.title == "Edit") {

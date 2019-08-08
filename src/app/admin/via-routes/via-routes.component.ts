@@ -49,14 +49,8 @@ export class ViaRoutesComponent implements OnInit {
   }
 
   addViaRoutes() {
-    // if (!this.foData) {
-    //   this.common.showError("Please select FoUser");
-    //   return false;
-    // }
-    // this.common.params = { foData: this.foData };
-    this.common.handleModalSize('class', 'modal-lg', '1250');
 
-    const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.viewTable();
