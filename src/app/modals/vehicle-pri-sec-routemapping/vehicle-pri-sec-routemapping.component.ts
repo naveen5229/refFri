@@ -61,6 +61,7 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
     this.api.get('Suggestion/getRoutesWrtFo')
       .subscribe(res => {
         this.common.loading--;
+        console.log('getRoutesWrtFo:', res);
         this.routesDetails = res['data'];
       }, err => {
         this.common.loading--;
@@ -152,7 +153,6 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
     this.routes.map(stateDoc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", stateDoc[this.headings[i]]);
         if (this.headings[i] == 'Action') {
           this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateRoute.bind(this, stateDoc._id, stateDoc._routeid, stateDoc.regno, stateDoc.AssocType, stateDoc.Name,stateDoc._vid) }, { class: "fas fa-trash-alt", action: this.deleteRoute.bind(this, stateDoc._id) }] }
 
