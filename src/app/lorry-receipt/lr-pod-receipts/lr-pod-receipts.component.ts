@@ -146,14 +146,18 @@ export class LrPodReceiptsComponent implements OnInit {
 
   getPodImage(receipt) {
     console.log("val", receipt);
-    let refdata = {
-      refid: "",
-      reftype: "",
-      doctype: "",
-      docId: receipt._docid
+    if (receipt._docid) {
+      let refdata = {
+        refid: "",
+        reftype: "",
+        doctype: "",
+        docid: receipt._docid
+      }
+      this.common.params = { refdata: refdata, title: 'docImage' };
+      const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
     }
-    this.common.params = { refdata: refdata, title: 'docImage' };
-    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
-
+    else {
+      this.common.showError("There is No image");
+    }
   }
 }
