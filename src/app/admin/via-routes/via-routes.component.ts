@@ -10,6 +10,8 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { RoutesExpensesComponent } from '../../modals/routes-expenses/routes-expenses.component';
 import { RoutesAdvancesComponent } from '../../modals/routes-advances/routes-advances.component';
 import { RoutesTrafficKpisComponent } from '../../modals/routes-traffic-kpis/routes-traffic-kpis.component';
+import { StrictMappingComponent } from '../../modals/strict-mapping/strict-mapping.component';
+import { VehiclePriSecRoutemappingComponent } from '../../modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 
 @Component({
   selector: 'via-routes',
@@ -47,7 +49,10 @@ export class ViaRoutesComponent implements OnInit {
     console.log("user", user);
     this.foData = user.id;
   }
+  strictRoutes(){
+    this.modalService.open(StrictMappingComponent, { size: 'lg', container: 'nb-layout', });
 
+  }
   addViaRoutes() {
     // if (!this.foData) {
     //   this.common.showError("Please select FoUser");
@@ -62,6 +67,11 @@ export class ViaRoutesComponent implements OnInit {
         this.viewTable();
       }
     });
+
+  }
+
+  addPriSecRoute(){
+    const activeModal = this.modalService.open(VehiclePriSecRoutemappingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
 
@@ -86,7 +96,8 @@ export class ViaRoutesComponent implements OnInit {
     this.api.get('ViaRoutes/view')
       .subscribe(res => {
         this.common.loading--;
-        this.viaRoutes = res['data'];
+        this.viaRoutes = res['data'] || [];
+        if (!this.viaRoutes.length) return;
         let first_rec = this.viaRoutes[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
@@ -232,5 +243,11 @@ export class ViaRoutesComponent implements OnInit {
     }
     );
   }
+   // activeModal.result.then(data => {
+
+  //   console.log("data", data);
+  //   this.viewTable();
+  // );
+  // }
 
 }

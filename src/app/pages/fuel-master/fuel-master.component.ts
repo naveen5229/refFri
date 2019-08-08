@@ -4,6 +4,8 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddFuelFullRuleComponent } from '../../modals/add-fuel-full-rule/add-fuel-full-rule.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { ModalWiseFuelAverageComponent } from '../../modals/modal-wise-fuel-average/modal-wise-fuel-average.component';
 
 @Component({
   selector: 'fuel-master',
@@ -11,7 +13,21 @@ import { AddFuelFullRuleComponent } from '../../modals/add-fuel-full-rule/add-fu
   styleUrls: ['./fuel-master.component.scss']
 })
 export class FuelMasterComponent implements OnInit {
+  fuelAvg = [];
+  fuelTable = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
 
+    }
+
+  };
+
+  fuelHeadings = [];
+  fuelValobj = {};
   table = null;
   fuelNorms = [];
   table1 = null;
@@ -19,7 +35,9 @@ export class FuelMasterComponent implements OnInit {
   fsid = null;
   foid = null;
   activeTab = 'Fuel Rule';
-
+  fuelData= []
+  vehicleId =null;
+  
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -28,6 +46,8 @@ export class FuelMasterComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
     this.getFuelNorms();
     this.getFoFsMapping();
+    this.getFuelAvg();
+
 
 
   }
@@ -51,7 +71,7 @@ export class FuelMasterComponent implements OnInit {
   getFuelNorms() {
     this.fuelNorms = [];
     this.common.loading++;
-    this.api.get('Fuel/getFuelFullNorms')
+    this.api.get(' ')
       .subscribe(res => {
         this.common.loading--;
         console.log('res', res['data']);
@@ -254,6 +274,127 @@ export class FuelMasterComponent implements OnInit {
       })
 
   }
+  addFuelAvg() {
+    this.common.params={row:null,
+    load:null,
+  unload:null,
+vehicle:null};
 
+    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, {  container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+        this.getFuelAvg();
+      
+    });
+  }
+
+  getFuelAvg() {
+    this.fuelAvg = [];
+    this.fuelTable = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+  
+      }
+  
+    };
+  
+    this.fuelHeadings = [];
+    this.fuelValobj = {};
+    this.common.loading++;
+    this.api.get('Fuel/getModelWiseFuelAvgWrtFo')
+      .subscribe(res => {
+        this.common.loading--;
+          this.fuelAvg = [];
+          this.fuelAvg = res['data'] || [];
+          console.log("result", res);
+          console.log("idd",this.fuelAvg[0]._id);
+          
+          let first_rec = this.fuelAvg[0];
+          for (var key in first_rec) {
+            if (key.charAt(0) != "_") {
+              this.fuelHeadings.push(key);
+              let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+              this.fuelTable.data.headings[key] = headerObj;
+            }
+          }
+          this.fuelTable.data.columns = this.getTableFuelColumns();
+        }
+      );
+    }
+
+  getTableFuelColumns() {
+    let columns = [];
+    console.log("Data=", this.fuelAvg);
+    this.fuelAvg.map(fuelAvgDoc => {
+      this.fuelValobj = {};
+      for (let i = 0; i < this.fuelHeadings.length; i++) {
+        console.log("doc index value:", fuelAvgDoc[this.fuelHeadings[i]]);
+        if(this.fuelHeadings[i] == 'Action')
+        {
+          this.fuelValobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateFuel.bind(this,fuelAvgDoc._id,fuelAvgDoc.LoadMileage,fuelAvgDoc.UnloadMileage,fuelAvgDoc._vm_id,fuelAvgDoc.VehicleModel,fuelAvgDoc.Brand )}, {  class: "fas fa-trash-alt", action: this.deleteFuel.bind(this,fuelAvgDoc._id) }] }
+
+        }
+        else
+        this.fuelValobj[this.fuelHeadings[i]] = { value: fuelAvgDoc[this.fuelHeadings[i]], class: 'black', action: '' };
+      }
+
+      columns.push(this.fuelValobj);
+    });
+    return columns;
+  }
+
+    
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1)
+  }
+
+
+  updateFuel(row,load,unLoad,vehicle,name,brand) {
+    this.common.params={row,load,unLoad,vehicle,name,brand};
+    
+    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, {  container: 'nb-layout' });
+    activeModal.result.then(data => {
+        this.getFuelAvg();
+
+
+      
+    });
+
+  }
+
+  
+  deleteFuel(row) {
+    console.log("id",row)
+    const params = {
+      rowId: row,
+    }
+    console.log("id2",params)
+
+    if (row) {
+      this.common.params = {
+        title: 'Delete  ',
+        description: `<b>&nbsp;` + 'Are you Sure You Want  To Delete This Record?' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          console.log("par", params);
+          this.api.post('Fuel/deleteModelWiseFuelAvgWrtFo', params)
+            .subscribe(res => {
+              console.log('Api Response:', res)
+              this.common.showToast(res['msg']);
+              this.getFuelAvg();
+              this.common.loading--;
+            },
+              err => console.error(' Api Error:', err));
+        }
+      });
+    }
+  }
 
 }

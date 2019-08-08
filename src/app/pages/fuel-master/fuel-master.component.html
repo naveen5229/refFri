@@ -5,8 +5,9 @@
     <nb-card-body>
         <div class="tabs_style_main">
             <ul class="tabs_style text-left">
-                <li [ngClass]="activeTab=='Fuel Rule'?'active':''" (click)="activeTab='Fuel Rule'">Fuel Rule</li>
-                <li [ngClass]="activeTab=='Fuel Station'?'active':''" (click)="activeTab='Fuel Station'">Fuel Station</li>
+                <li [ngClass]="activeTab==' Credit Fuel Station'?'active':''" (click)="activeTab='Fuel Station'">Credit Fuel Station</li>
+                <li [ngClass]="activeTab=='Fuel Rule'?'active':''" (click)="activeTab='Fuel Rule'">IsFuelRule</li>
+                <li [ngClass]="activeTab=='Model Fuel Mileage'?'active':''" (click)="activeTab='Fuel Mileage'">Fuel Mileage </li>
             </ul>
         </div>
         <div class="fuel-master">
@@ -36,6 +37,19 @@
                     <div class="no-data alert alert-danger" role="alert" *ngIf="foFsMapping.length==0">
                         No Data available !
                     </div>
+                </div>
+            </div>
+            <div *ngIf="activeTab=='Model Fuel Mileage'">
+                <div class="row">
+                    <div class="col-6 text-right">
+                        <button type="submit" class="btn btn-primary m-0" name="add" (click)="addFuelAvg()" style="border-radius:3px">Add Model Fuel Mileage</button>
+                    </div>
+                </div>
+                <div class="no-data alert alert-danger" role="alert" *ngIf=" fuelAvg.length==0">
+                    No Data Available On That Time Period !
+                </div>
+                <div>
+                    <smart-table *ngIf=" fuelAvg.length>0" [data]="fuelTable.data" [settings]="fuelTable.settings"></smart-table>
                 </div>
             </div>
         </div>
