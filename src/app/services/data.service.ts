@@ -211,6 +211,12 @@ export class DataService {
             link: '/admin/vehiclewise-tolltransaction',
             home: true,
           },
+          {
+            title: 'Vouchers Summary',
+            icon: 'far fa-list-all',
+            link: '/admin/vouchers-summary',
+            home: true,
+          },
 
 
         ]
