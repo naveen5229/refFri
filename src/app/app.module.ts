@@ -225,8 +225,10 @@ import { SupportingDocComponent } from './modals/LRModals/supporting-doc/support
 import { FreightInvoiceRateComponent } from './modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
 import { BasicPartyDetailsComponent } from './modals/basic-party-details/basic-party-details.component';
 import { BankAccountsComponent } from './modals/bank-accounts/bank-accounts.component';
+import { PartyLedgerMappingComponent } from './modals/party-ledger-mapping/party-ledger-mapping.component';
 import { FoWebViewSummaryComponent } from './modals/fo-web-view-summary/fo-web-view-summary.component';
 import { VoucherTypeGetComponent } from './modals/voucher-type-get/voucher-type-get.component';
+import { BulkCompanyAssociationComponent } from './modals/bulk-company-association/bulk-company-association.component';
 import { AssignUserTemplateComponent } from './modals/assign-user-template/assign-user-template.component';
 import { SaveUserTemplateComponent } from './modals/save-user-template/save-user-template.component';
 
@@ -428,9 +430,10 @@ import { SaveUserTemplateComponent } from './modals/save-user-template/save-user
     BasicPartyDetailsComponent,
     BankAccountsComponent,
     LrInvoiceColumnsComponent,
+    PartyLedgerMappingComponent,
     FoWebViewSummaryComponent,
     VoucherTypeGetComponent,
-
+    BulkCompanyAssociationComponent,
     AssignUserTemplateComponent,
     SaveUserTemplateComponent,
 
@@ -618,10 +621,11 @@ import { SaveUserTemplateComponent } from './modals/save-user-template/save-user
     TripdetailComponent,
     SupportingDocComponent,
     VoucherTypeGetComponent,
-  
+    PartyLedgerMappingComponent,
     FoWebViewSummaryComponent,
+    BulkCompanyAssociationComponent,
     AssignUserTemplateComponent,
-    SaveUserTemplateComponent
+    SaveUserTemplateComponent,
   ],
   imports: [
     BrowserModule,

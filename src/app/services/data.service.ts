@@ -379,6 +379,12 @@ export class DataService {
             link: '/admin/fo-fs-mapping',
             home: true,
           },
+          {
+            title:'Fuel Mileage With ODO',
+            icon:'fas fa-gas-pump',
+            link:'/admin/fuel-mileage-with-odo',
+            home:true
+          },
         ]
       },
       {

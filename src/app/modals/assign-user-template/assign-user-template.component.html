@@ -40,17 +40,18 @@
       <label>Branch</label>
     </div>
     <div class="col-6">
-      <select name="branch" class="form-control" [(ngModel)]="branchId" (change)="getBranchDetails();">
+      <select name="branch" class="form-control" [(ngModel)]="accountService.selected.branch"
+        (change)="getBranchDetails();">
         <option value="">Select Branch</option>
-        <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
+        <option *ngFor="let branch of accountService.branches" [ngValue]="branch.id">{{branch.name}}</option>
       </select>
     </div>
   </div>
 
   <div class="row">
     <div class="col-12 text-right">
-      <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" (click)="assignTemplate()"
-        style="cursor:pointer;">Assign</button>
+      <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" (click)="assignTemplate()" style="cursor:poi
+        nter;">Assign</button>
     </div>
 
   </div>

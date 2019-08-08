@@ -11,6 +11,7 @@ import { ApiService } from '../../../services/api.service';
 export class AddFreightExpensesComponent implements OnInit {
   endDate = new Date();
   expense = {
+    id: null,
     vehicleType: 1,
     vehicleId: null,
     vehicleRegNo: null,
@@ -57,9 +58,10 @@ export class AddFreightExpensesComponent implements OnInit {
     this.getFreightHeads();
 
     if (this.common.params.expenseData) {
-      this.expense.refId = this.common.params.expenseData._ref_id;
-      this.expense.refernceType = this.common.params.expenseData._ref_type;
-      this.expense.remarks = this.common.params.expenseData._exp_remarks ? this.common.params.expenseData._exp_remarks : null;
+      this.expense.id = this.common.params.expenseData.id;
+      this.expense.refId = this.common.params.expenseData.refId;
+      this.expense.refernceType = this.common.params.expenseData.refernceType;
+      this.expense.remarks = this.common.params.expenseData.remarks;
       this.getExpenseDetails();
     }
     this.getExpenses();

@@ -322,6 +322,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/fuel-indent',
         home: true,
       },
+      {
+        title:'Fuel Mileage With ODO',
+        icon:'fas fa-gas-pump',
+        link:'/pages/fuel-mileage-with-odo',
+        home:true
+      }
 
     ]
   },
