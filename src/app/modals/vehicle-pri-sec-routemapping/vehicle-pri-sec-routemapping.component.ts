@@ -33,7 +33,8 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
   routeId = null;
   name =''
   regno = null;
-  rowId=null
+  rowId=null;
+  isPrimaryCheck=1;
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal,
@@ -114,7 +115,9 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
       vehicleId: this.vehid,
       assocType: this.assocType,
       routeId: this.routeId,
-      rowId: this.rowId
+      rowId: this.rowId,
+      isPrimaryCheck:this.isPrimaryCheck
+
 
     };
 
@@ -124,7 +127,7 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
     this.api.post('ViaRoutes/vehicleRouteMapping', params)
       .subscribe(res => {
         this.insertData = res['data'] || [];
-        if (res['data'][0].y_id > 0) {
+        if (res['data'][0].y_id >= 0) {
           this.common.showToast(res['data'][0].y_msg);
           this.routeId = '';
           this.assocType = 3;
@@ -136,7 +139,30 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
           this.getVehicleRoute();
           this.common.loading--;
           
-        } else {
+        }
+        else if (res['data'][0].y_id == -2) {
+          this.common.showToast(res['data'][0].y_msg);
+          this.common.params = {
+            title: 'Closing Stock',
+            description: 'Are you sure you want close this stock?',
+            btn2:"No",
+            btn1:'Yes'
+          };
+          console.log("Inside confirm model")
+          const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
+          activeModal.result.then(data => {
+            console.log('res', data);
+            if (data.response) {
+              this.getVehicleRoute();
+              this.isPrimaryCheck=0;
+            }
+            else if(data.apiHit==0){
+              this.isPrimaryCheck = 1;
+            }
+      
+          });
+          
+        }  else {
           this.common.loading--;
           this.common.showError(res['data'][0].y_msg)
         }
@@ -150,16 +176,16 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
   getTableColumns() {
     let columns = [];
     console.log("Data=", this.routes);
-    this.routes.map(stateDoc => {
+    this.routes.map(routeDoc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
         if (this.headings[i] == 'Action') {
-          this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateRoute.bind(this, stateDoc._id, stateDoc._routeid, stateDoc.regno, stateDoc.AssocType, stateDoc.Name,stateDoc._vid) }, { class: "fas fa-trash-alt", action: this.deleteRoute.bind(this, stateDoc._id) }] }
+          this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateRoute.bind(this, routeDoc._id, routeDoc._routeid, routeDoc.regno, routeDoc.AssocType, routeDoc.Name,routeDoc._vid) }, { class: "fas fa-trash-alt", action: this.deleteRoute.bind(this, routeDoc._id) }] }
 
         }
         else {
 
-          this.valobj[this.headings[i]] = { value: stateDoc[this.headings[i]], class: 'black', action: '' };
+          this.valobj[this.headings[i]] = { value: routeDoc[this.headings[i]], class: 'black', action: '' };
         }
       }
 

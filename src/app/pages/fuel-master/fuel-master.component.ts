@@ -36,6 +36,8 @@ export class FuelMasterComponent implements OnInit {
   foid = null;
   fuelData= []
   vehicleId =null;
+  activeTab = 'Credit Fuel Station';
+
   
 
   constructor(public api: ApiService,
@@ -55,6 +57,8 @@ export class FuelMasterComponent implements OnInit {
   }
   refresh() {
     this.getFuelNorms();
+    this.getFoFsMapping();
+    this.getFuelAvg();
   }
 
   addFuelRule() {
@@ -70,7 +74,7 @@ export class FuelMasterComponent implements OnInit {
   getFuelNorms() {
     this.fuelNorms = [];
     this.common.loading++;
-    this.api.get(' ')
+    this.api.get('Fuel/getFuelFullNorms')
       .subscribe(res => {
         this.common.loading--;
         console.log('res', res['data']);
@@ -82,7 +86,7 @@ export class FuelMasterComponent implements OnInit {
       })
 
   }
-
+  
   setTable() {
     let headings = {
       FoName: { title: 'Fo Name', placeholder: 'Fo Name' },
@@ -104,6 +108,7 @@ export class FuelMasterComponent implements OnInit {
       }
     }
   }
+
   getTableColumns() {
     let columns = [];
     this.fuelNorms.map(norm => {
@@ -279,7 +284,7 @@ export class FuelMasterComponent implements OnInit {
   unload:null,
 vehicle:null};
 
-    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, {  container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, {container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
         this.getFuelAvg();
       
@@ -309,7 +314,7 @@ vehicle:null};
           this.fuelAvg = [];
           this.fuelAvg = res['data'] || [];
           console.log("result", res);
-          console.log("idd",this.fuelAvg[0]._id);
+          // console.log("idd",this.fuelAvg[0]._id);
           
           let first_rec = this.fuelAvg[0];
           for (var key in first_rec) {

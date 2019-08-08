@@ -5,13 +5,13 @@
     <nb-card-body>
         <div class="tabs_style_main">
             <ul class="tabs_style text-left">
-                <li [ngClass]="activeTab==' Credit Fuel Station'?'active':''" (click)="activeTab='Fuel Station'">Credit Fuel Station</li>
+                <li [ngClass]="activeTab=='Credit Fuel Station'?'active':''" (click)="activeTab='Credit Fuel Station'">Credit Fuel Station</li>
                 <li [ngClass]="activeTab=='Fuel Rule'?'active':''" (click)="activeTab='Fuel Rule'">IsFuelRule</li>
-                <li [ngClass]="activeTab=='Model Fuel Mileage'?'active':''" (click)="activeTab='Fuel Mileage'">Fuel Mileage </li>
+                <li [ngClass]="activeTab=='Model Fuel Mileage'?'active':''" (click)="activeTab='Model Fuel Mileage'">Fuel Mileage </li>
             </ul>
         </div>
         <div class="fuel-master">
-            <div *ngIf="activeTab=='Fuel Rule'">
+            <div *ngIf="activeTab=='Credit Fuel Station'">
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary m-0" name="add" (click)="addFuelRule()">Add Rule</button>
                 </div>
@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <div *ngIf="activeTab=='Fuel Station'">
+            <div *ngIf="activeTab=='Fuel Rule'">
                 <div class="row">
                     <div class="col-3">
                         <auto-suggestion (onSelected)="getFs($event)" url="Suggestion/GetFuelStation" display="name" placeholder="Search Fuel Station" [preSelected]="null">
