@@ -16,22 +16,43 @@ export class ImageViewComponent implements OnInit {
   images = [];
   refdata=[];
   activeImage = '';
+  params="";
   
 
     constructor(public api: ApiService,
     public common: CommonService,
     private activeModal: NgbActiveModal) {
+        
+    let ref=this.common.params.refdata;
+    if(this.common.params.refdata && this.common.params.refdata.refid)
+    {
+     this.params="refType="+ref.reftype+"&refId="+ref.refid+"&docTypeId="+ref.doctype;
+     this.viewImage();
+    }
+    else if(this.common.params.refdata && this.common.params.refdata.docid)
+    {
+      this.params="docId="+this.common.params.refdata.docid;
+      this.viewImage();
+    }
+    else{
+      this.common.params.images.map(image => {
+        if (image.name) {
+          if (image.image)
+            this.images.push(image.image);
+        } else {
+          this.images.push(image);
+        }
+      });
+      this.title = this.common.params.title;
+      this.activeImage = this.images[0];
+    }
+    
+  }
 
-if(this.common.params.refdata && this.common.params.refdata[0].refid)
-{
-this.common.params.refdata.map(ref=>{
- 
-    console.log(ref.refid);
-    console.log(ref.reftype);
-    console.log(ref.doctype);
+  viewImage()
+  {
     this.common.loading++;
-    // this.api.get('Documents/getRepositoryImages', params)
-    this.api.get('Documents/getRepositoryImages?refType=' + ref.reftype + '&refId=' +ref.refid+'&docTypeId='+ref.doctype)
+    this.api.get('Documents/getRepositoryImages?'+this.params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res['data']);
@@ -46,21 +67,7 @@ this.common.params.refdata.map(ref=>{
         this.common.loading--;
         console.log(err);
       });
-    });
   }
-  else{
-    this.common.params.images.map(image => {
-      if (image.name) {
-        if (image.image)
-          this.images.push(image.image);
-      } else {
-        this.images.push(image);
-      }
-    });
-    this.title = this.common.params.title;
-    this.activeImage = this.images[0];
-  }
-}
 
 ngOnInit() {
 }
