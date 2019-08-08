@@ -90,6 +90,7 @@ export class UserService {
       { id: 59, route: '/admin/locations' },
       { id: 60, route: '/admin/web-activity-summary' },
       { id: 61, route: '/admin/user-templates' },
+      {id:62,route:'/admin/fuel-mileage-with-odo'},
     ]
   }
 

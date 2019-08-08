@@ -164,8 +164,10 @@ export class LrGenerateComponent implements OnInit {
   }
 
   setBranchDetails(lrDetails) {
-    this.lr.lrNumber = lrDetails.lrnum;
-    this.lr.lrNumberText = lrDetails.lrprefix;
+    if (!this.lr.id) {
+      this.lr.lrNumber = lrDetails.lrnum;
+      this.lr.lrNumberText = lrDetails.lrprefix;
+    }
   }
   addConsignee() {
     console.log("open consignee modal")

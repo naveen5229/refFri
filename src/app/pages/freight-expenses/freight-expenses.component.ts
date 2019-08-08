@@ -217,8 +217,16 @@ export class FreightExpensesComponent implements OnInit {
   }
 
   openExpenseModal(expense) {
+
+
+    let expenseData = {
+      id: expense._id,
+      refId: expense._ref_id,
+      refernceType: expense._ref_type,
+      remarks: expense._exp_remarks,
+    }
     console.log("expense", expense);
-    this.common.params = { expenseData: expense };
+    this.common.params = { expenseData };
     const activeModal = this.modalService.open(AddFreightExpensesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data:', data);
@@ -227,7 +235,13 @@ export class FreightExpensesComponent implements OnInit {
     });
   }
   openRevenueModal(revenue) {
-    this.common.params = { revenueData: revenue };
+    let revenueData = {
+      id: revenue._id,
+      refId: revenue._ref_id,
+      refernceType: revenue._ref_type,
+      remarks: revenue._exp_remarks,
+    }
+    this.common.params = { revenueData };
     const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.getExpenses();

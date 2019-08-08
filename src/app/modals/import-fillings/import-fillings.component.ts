@@ -99,7 +99,7 @@ export class ImportFillingsComponent implements OnInit {
         let errorData = res['data']['f'];
         console.log("error: ", errorData);
         alert(res["msg"]);
-        this.common.params = { apiData: params, successData, errorData, title: 'Fuel csv Verification' };
+        this.common.params = { apiData: params, successData, errorData, title: 'Fuel csv Verification', isUpdate:true };
         const activeModal = this.modalService.open(CsvErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
       }, err => {
