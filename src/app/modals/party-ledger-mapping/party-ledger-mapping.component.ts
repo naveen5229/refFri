@@ -154,7 +154,6 @@ export class PartyLedgerMappingComponent implements OnInit {
           this.common.loading--;
           console.error(' Api Error:', err)
         });
-
   }
 
   clearAllTableData() {
