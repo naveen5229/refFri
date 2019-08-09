@@ -3,11 +3,17 @@
     <div style="background-color:#ffffff;width:100%">
       <div class="modal-header doNotPrint" *ngIf="lrDetails">
         <div class="row w-100">
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <h5 class="modal-title" id="modal-basic-title">LR View</h5>
           </div>
+          <div class="col-4">
+            <select class="form-control jr-layout" name="layout" [(ngModel)]="layout">
+              <option *ngFor="let lyt of layouts" [value]="lyt" [ngClass]="lyt == layout ? 'active' : ''">Layout {{lyt}}
+              </option>
+            </select>
+          </div>
 
-          <div class="col-sm-6 text-right">
+          <div class="col-sm-4 text-right">
             <span (click)="onPrint()" class="doNotPrint print-icon"><i class="fa fa-print"></i></span>
             <span (click)="common.downloadPdf('print-section', (layout != 1 ? true : false))" class="pdf-icon"
               style="margin-left:20px"><i class="fa fa-file-pdf"></i></span>
@@ -478,7 +484,7 @@
 
         </ng-container>
       </ng-container>
-      <div class="modal-body" id="print-section" *ngIf="lrDetails">
+      <!-- <div class="modal-body" id="print-section" *ngIf="lrDetails">
         <table style="width:100%;">
           <tr>
             <td style="width:40%; vertical-align: top;">
@@ -645,7 +651,7 @@
           </tr>
         </table>
 
-      </div>
+      </div> -->
     </div>
-    </nb-card-body>
-    </nb-card>
+  </nb-card-body>
+</nb-card>
