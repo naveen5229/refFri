@@ -146,8 +146,6 @@ export class UserTemplatesComponent implements OnInit {
     console.log("row:", row);
     let params = {
       rowId: row._id,
-
-
     }
     if (row._id) {
       this.common.params = {
@@ -174,17 +172,17 @@ export class UserTemplatesComponent implements OnInit {
   }
 
   assign(title, view) {
-    console.log("view",view);
+    console.log("view", view);
     let preAssignUserTemplate;
-    if(view)
-    preAssignUserTemplate={
-      type:view.Type,
-      refType:view._ref_type,
-      name:view.Name,
-      id:view._id,
-    }
+    if (view)
+      preAssignUserTemplate = {
+        type: view.Type,
+        refType: view._ref_type,
+        name: view.Name,
+        id: view._id,
+      }
     else
-      preAssignUserTemplate={};
+      preAssignUserTemplate = {};
     this.common.params = { title: title, preAssignUserTemplate };
     const activeModal = this.modalService.open(AssignUserTemplateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
     activeModal.result.then(data => {

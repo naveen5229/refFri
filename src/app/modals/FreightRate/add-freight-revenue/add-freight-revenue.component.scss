@@ -76,13 +76,13 @@ table{
             width: auto;
         }
         th{
-            width: 210px;
+            width: 150px;
         }
         td{
-            width: 210px;
+            width: 150px;
             span{
                 input{
-                    width: 150px;
+                    width: 100px;
                     display: inline-block;
                     margin-right: 10px;
                 }
@@ -94,13 +94,13 @@ table{
     table{
         tr{
             th{
-                width: 300px;
+                width: 200px;
             }
             th:last-child{
                 width: auto;
             }
             td{
-                width: 300px;
+                width: 200px;
             }
             td:last-child{
                 width: auto;
