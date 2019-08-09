@@ -64,6 +64,7 @@ import { WebActivitySummaryComponent } from './web-activity-summary/web-activity
 import { VouchersSummaryComponent } from './vouchers-summary/vouchers-summary.component';
 import { UserTemplatesComponent } from './user-templates/user-templates.component';
 import { FuelMileageWithOdoComponent } from '../pages/fuel-mileage-with-odo/fuel-mileage-with-odo.component';
+import { BatteryModalsComponent } from '../battery/battery-modals/battery-modals.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -375,6 +376,14 @@ const routes: Routes = [{
             component: UserTemplatesComponent,
             canActivate: [RouteGuard]
         },
+
+        {
+            path: 'battery-modals',
+            component: BatteryModalsComponent,
+            canActivate: [RouteGuard]
+
+        },
+
 
 
 
