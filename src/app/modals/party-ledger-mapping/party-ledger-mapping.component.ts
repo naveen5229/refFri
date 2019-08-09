@@ -39,6 +39,7 @@ export class PartyLedgerMappingComponent implements OnInit {
   aliasName = null;
   constructor(public activeModel: NgbActiveModal,
     public api: ApiService,
+    public activeModal: NgbActiveModal,
     public common: CommonService) {
     //this.getPartyList();
     this.getPartyLedgers();
@@ -144,9 +145,9 @@ export class PartyLedgerMappingComponent implements OnInit {
         this.common.loading--;
         if (res['data'][0].y_id > 0) {
           this.common.showToast(res['data'][0].y_msg);
+         this.activeModal.close({ response: res['data'][0].y_msg  });
         } else {
           this.common.showError(res['data'][0].y_msg);
-
         }
       },
         err => {
