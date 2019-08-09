@@ -141,10 +141,12 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
           
         }
         else if (res['data'][0].y_id == -2) {
-          this.common.showToast(res['data'][0].y_msg);
+          this.common.loading--;
+
+          // this.common.showToast(res['data'][0].y_msg);
           this.common.params = {
             title: 'Closing Stock',
-            description: 'Are you sure you want close this stock?',
+            description: 'Are you sure you want one more primary mapping?',
             btn2:"No",
             btn1:'Yes'
           };
@@ -163,7 +165,6 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
           });
           
         }  else {
-          this.common.loading--;
           this.common.showError(res['data'][0].y_msg)
         }
       }, err => {

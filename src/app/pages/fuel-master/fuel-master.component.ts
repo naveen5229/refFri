@@ -34,7 +34,6 @@ export class FuelMasterComponent implements OnInit {
   foFsMapping = [];
   fsid = null;
   foid = null;
-  activeTab = 'Fuel Rule';
   fuelData= []
   vehicleId =null;
   activeTab = 'Credit Fuel Station';

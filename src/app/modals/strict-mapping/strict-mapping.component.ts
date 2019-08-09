@@ -18,6 +18,16 @@ export class StrictMappingComponent implements OnInit {
   routeId = null;
   name = ''
   rId = null
+  rout = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal) {
@@ -49,22 +59,24 @@ export class StrictMappingComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+    // this.routeId== this.routesDetails[0].id
+    // this.changeRefernceType(type,route,vehicleId)
   }
 
-  changeRefernceType(type, route) {
-  
+  changeRefernceType(route, vehicleId, type) {
+
 
     console.log('Type: ', type);
     console.log('vehicleId', route);
-  
+
 
     this.routeId = this.routesDetails.find((element) => {
       console.log(element.name == type);
       return element.id == type.id;
     }).id;
     this.vehid = route.vehicle_id;
-    this.rId  = route._id
-        console.log("vid",this.vehid);
+    this.rId = route._id
+    console.log("vid", this.vehid);
     if (route.name) {
       console.log('________________You can hit updatye API');
       this.updateRoute();
@@ -80,16 +92,75 @@ export class StrictMappingComponent implements OnInit {
     this.api.get('ViaRoutes/getStrictRouteMappingList')
       .subscribe(res => {
         this.common.loading--;
-        this.routes = res['data'];
+        this.routes = res['data'] || [];
         this.vehid = this.routes[0].vehicle_id;
-        console.log("row",this.rId);
-        
+        console.log("row", this.rId);
+        this.setTable();
+
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
 
   }
+
+
+
+  // getVehicleRoute() {
+  //   this.common.loading++;
+  //   this.api.get('ViaRoutes/getStrictRouteMappingList')
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log("Res:", res);
+  //       this.routes = res['data'] || [];
+  //       this.setTable();
+  //     }, err => {
+  //       this.common.loading--;
+  //       this.common.showError();
+  //       console.log('Error:', err);
+  //     });
+  // }
+
+  setTable() {
+    this.table.data = {
+      headings: this.generateHeadings(),
+      columns: this.genearateColumns()
+    }
+  }
+
+  generateHeadings() {
+    let headings = {};
+    for (let key in this.routes[0]) {
+      if (key.charAt(0) != "_") {
+        headings[key] = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+      }
+    }
+    return headings;
+  }
+
+  genearateColumns() {
+    let columns = [];
+    this.routes.map(route=> {
+      let column = {};
+      for (let key in this.generateHeadings()) {
+        if (key == name) {
+          console.log("name");
+
+          column['name'] = { isAutoSuggestion: true, display:['name','id'], 
+          preSelected: route.name ? {name:route.name,id:route._routeid}:'', 
+          seperator: '-', url: 'Suggestion/getRoutesWrtFo', onSelected: this.changeRefernceType.bind(this, route,this.vehid), 
+          placeholder: 'Search Route', inputId: "routeId" }
+        }
+        else {
+          column[key] = { value: route[key], class: 'black', action: '' }
+        }
+      }
+      columns.push(column);
+    });
+    return columns;
+  }
+
 
   updateRoute() {
     this.getVehicleRoute()
@@ -123,10 +194,13 @@ export class StrictMappingComponent implements OnInit {
   }
 
 
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1)
+  }
 
 
   insertRoute() {
-   this.getVehicleRoute()
+    this.getVehicleRoute()
     console.log("insert")
 
     let params = {
@@ -160,6 +234,6 @@ export class StrictMappingComponent implements OnInit {
 
 
 
-  
+
 
 }
