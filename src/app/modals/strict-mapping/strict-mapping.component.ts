@@ -31,96 +31,66 @@ export class StrictMappingComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal) {
-    this.getVehicleRoute();
-    this.getRoute()
+    Promise.all([this.getVehicleRoute(), this.getRoute()]).then(() => this.setTable());
   }
 
   ngOnInit() {
   }
 
-  closeModal() {
-    this.activeModal.close();
-  }
-
-  searchVehicle(event) {
-    this.vehid = event.id;
-    console.log("event", event);
-    this.getVehicleRoute()
+  getVehicleRoute() {
+    return new Promise((resolve, reject) => {
+      this.common.loading++;
+      this.api.get('ViaRoutes/getStrictRouteMappingList')
+        .subscribe(res => {
+          this.common.loading--;
+          this.routes = res['data'] || [];
+          // this.vehid = this.routes[0].vehicle_id;
+          resolve();
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+          this.common.showError();
+          reject();
+        });
+    })
   }
 
   getRoute() {
-    this.common.loading++;
-    this.api.get('Suggestion/getRoutesWrtFo')
-      .subscribe(res => {
-        this.common.loading--;
-        this.routesDetails = res['data'];
-        //this.name=this.routesDetails[0].name
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-    // this.routeId== this.routesDetails[0].id
-    // this.changeRefernceType(type,route,vehicleId)
+    return new Promise((resolve, reject) => {
+      this.common.loading++;
+      this.api.get('Suggestion/getRoutesWrtFo')
+        .subscribe(res => {
+          this.common.loading--;
+          this.routesDetails = res['data'];
+          resolve();
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+          this.common.showError();
+          reject();
+        });
+    })
   }
 
+
   changeRefernceType(route, vehicleId, type) {
-
-
     console.log('Type: ', type);
     console.log('vehicleId', route);
-
-
-    this.routeId = this.routesDetails.find((element) => {
-      console.log(element.name == type);
-      return element.id == type.id;
-    }).id;
+    // this.routeId = this.routesDetails.find((element) => {
+    //   console.log(element.name == type);
+    //   return element.id == type.id;
+    // }).id;
     this.vehid = route.vehicle_id;
     this.rId = route._id
+    this.routeId = type.id
+
     console.log("vid", this.vehid);
     if (route.name) {
-      console.log('________________You can hit updatye API');
       this.updateRoute();
     } else {
-      console.log('______________________You can hit insert API');
       this.insertRoute();
     }
   }
-
-
-  getVehicleRoute() {
-    this.common.loading++;
-    this.api.get('ViaRoutes/getStrictRouteMappingList')
-      .subscribe(res => {
-        this.common.loading--;
-        this.routes = res['data'] || [];
-        this.vehid = this.routes[0].vehicle_id;
-        console.log("row", this.rId);
-        this.setTable();
-
-
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-
-  }
-
-
-
-  // getVehicleRoute() {
-  //   this.common.loading++;
-  //   this.api.get('ViaRoutes/getStrictRouteMappingList')
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       console.log("Res:", res);
-  //       this.routes = res['data'] || [];
-  //       this.setTable();
-  //     }, err => {
-  //       this.common.loading--;
-  //       this.common.showError();
-  //       console.log('Error:', err);
-  //     });
-  // }
 
   setTable() {
     this.table.data = {
@@ -141,16 +111,18 @@ export class StrictMappingComponent implements OnInit {
 
   genearateColumns() {
     let columns = [];
-    this.routes.map(route=> {
+    this.routes.map(route => {
       let column = {};
       for (let key in this.generateHeadings()) {
-        if (key == name) {
-          console.log("name");
+        if (key == 'name') {
 
-          column['name'] = { isAutoSuggestion: true, display:['name','id'], 
-          preSelected: route.name ? {name:route.name,id:route._routeid}:'', 
-          seperator: '-', url: 'Suggestion/getRoutesWrtFo', onSelected: this.changeRefernceType.bind(this, route,this.vehid), 
-          placeholder: 'Search Route', inputId: "routeId" }
+          column['name'] = {
+            isAutoSuggestion: true,
+            preSelected: route.name ? { name: route.name, id: route._routeid } : '',
+            seperator: '-', data: this.routesDetails, display: ['name', 'id'],
+            onSelected: this.changeRefernceType.bind(this, route, route.vehicle_id),
+            placeholder: 'Search Route', inputId: "routeId"
+          }
         }
         else {
           column[key] = { value: route[key], class: 'black', action: '' }
@@ -233,7 +205,9 @@ export class StrictMappingComponent implements OnInit {
 
 
 
-
+  closeModal() {
+    this.activeModal.close();
+  }
 
 
 }
