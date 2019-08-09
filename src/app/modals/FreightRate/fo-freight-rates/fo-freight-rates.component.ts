@@ -118,7 +118,6 @@ export class FoFreightRatesComponent implements OnInit {
     this.activeModal.close({ data: false });
   }
   saveFrightRates() {
-    ++this.common.loading;
     let params = {
       companyId: this.frieghtRate.companyId,
       siteId: this.frieghtRate.siteId,
@@ -137,7 +136,7 @@ export class FoFreightRatesComponent implements OnInit {
       this.common.showError("W.E.F date  is required");
       return;
     }
-
+    ++this.common.loading;
     this.api.post('FrieghtRate/saveFrieghtRate', params)
       .subscribe(res => {
         --this.common.loading;
@@ -146,9 +145,7 @@ export class FoFreightRatesComponent implements OnInit {
 
 
         if (res['data'][0].y_id > 0) {
-
           alert("Sucessfully insert");
-
           this.activeModal.close({ data: true });
         }
       }, err => {

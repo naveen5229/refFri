@@ -54,8 +54,8 @@ export class AddFreightExpensesComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService,
   ) {
-    this.getFreightHeads();
     this.common.handleModalSize("class", "modal-lg", "1500");
+    this.getFreightHeads();
 
     if (this.common.params.expenseData) {
       this.expense.id = this.common.params.expenseData.id;
@@ -173,8 +173,9 @@ export class AddFreightExpensesComponent implements OnInit {
         --this.common.loading;
         this.data = res['data']['result'];
         this.images = res['data']['images'];
+        console.log(".........", res['data']['images']);
 
-        console.log("api data:", this.data);
+        console.log("api images:", this.images);
         this.headings = [];
         this.valobj = {};
         if (!this.data || !this.data.length) {

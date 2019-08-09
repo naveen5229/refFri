@@ -41,7 +41,7 @@ export class AssignUserTemplateComponent implements OnInit {
     public accountService: AccountService) {
     if (this.accountService.selected.branch.id) {
       // this.branchId = this.accountService.selected.branch.id;
-      // this.getBranchDetails();
+      this.getBranchDetails();
     }
     if (this.common.params.title == "Edit") {
       this.showdata.show = false;
@@ -62,15 +62,15 @@ export class AssignUserTemplateComponent implements OnInit {
     this.activeModal.close();
   }
 
-  // getBranchDetails() {
-  //   this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
-  //     .subscribe(res => {
-  //       console.log("branchdetails", res['data'][0]);
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
+  getBranchDetails() {
+    this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
+      .subscribe(res => {
+        console.log("branchdetails", res['data'][0]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 
   assignTemplate(isAssign = "true") {
     let params = {

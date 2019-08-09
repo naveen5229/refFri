@@ -6,6 +6,8 @@ import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
+import * as _ from 'lodash';
+
 @Component({
   selector: 'ledgerview',
   templateUrl: './ledgerview.component.html',
@@ -14,7 +16,7 @@ import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdeta
 export class LedgerviewComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
-
+  ledgerViewData=[];
   ledger = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -189,6 +191,7 @@ export class LedgerviewComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.ledgerData = res['data'];
+        this.generalizeData();
         if (this.ledgerData.length) {
           document.activeElement['blur']();
           this.selectedRow = 0;
@@ -349,5 +352,44 @@ export class LedgerviewComponent implements OnInit {
       }
     });
   }
+  }
+
+  
+  generalizeData() {
+    let ledgerLastData=[];
+this.ledgerData.map((data,index) => {
+  let ledgerDataWithMonth=[];
+  ledgerDataWithMonth['datemonth'] = this.common.changeMonthformat(data.y_date, 'MMMM');
+  ledgerDataWithMonth['y_date'] = data.y_date;
+  ledgerDataWithMonth['y_code'] = data.y_code;
+  ledgerDataWithMonth['y_cust_code'] = data.y_cust_code;
+  ledgerDataWithMonth['y_type'] = data.y_type;
+  ledgerDataWithMonth['y_ledger'] = data.y_ledger;
+  ledgerDataWithMonth['y_dramunt'] = data.y_dramunt;
+  ledgerDataWithMonth['y_cramunt'] = data.y_cramunt;
+  ledgerLastData.push(ledgerDataWithMonth);
+    });
+
+//console.log('+++++++++',ledgerLastData);
+
+    this.ledgerViewData = [];
+    let allGroups = _.groupBy(ledgerLastData, 'datemonth');
+    let allKeys = Object.keys(allGroups);
+    allKeys.map((key, index) => {
+      this.ledgerViewData[index] = {
+        name: key,
+        amount: {
+          debit: 0,
+          credit: 0
+        },
+        vouchers: allGroups[key]
+      };
+      allGroups[key].map(data => {
+        this.ledgerViewData[index].amount.debit += parseFloat(data.y_dramunt);
+        this.ledgerViewData[index].amount.credit += parseFloat(data.y_cramunt);
+      });
+    });
+    console.log('------',this.ledgerViewData);
+    // this.showAllGroups();
   }
 }
