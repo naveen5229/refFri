@@ -745,8 +745,10 @@ export class LorryReceiptDetailsComponent implements OnInit {
   }
 
   openGenerateLr(data) {
-    console.log("data00000", data);
-    this.common.params = { LrData: data }
+    let lrData = {
+      lrId: data.id
+    }
+    this.common.params = { lrData: lrData }
     const activeModal = this.modalService.open(LrGenerateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data:', data);

@@ -101,3 +101,9 @@ table{
     background-color: #efefef;
     border-radius: 3px;
 }
+.selected {
+    background-color: #576c77
+}
+table tr.highlight {
+    background-color: #FFEE75 !important;
+}

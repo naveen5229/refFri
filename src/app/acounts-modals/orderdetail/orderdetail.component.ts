@@ -117,6 +117,8 @@ export class OrderdetailComponent implements OnInit {
     public modalService: NgbModal,
     private printService: PrintService,
     public pdfService: PdfService) {
+    console.log('index lg',this.common.params);
+
     this.getBranchList();
     this.getInvoiceTypes();
     this.getPurchaseLedgers();
@@ -1188,18 +1190,47 @@ export class OrderdetailComponent implements OnInit {
 
     let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
     let rows = [];
+    let totalqty=0;
+    let totalamount=0;
+    let lasttotaltax=0;
+    let lineamounttotal=0;
 
     voucherdataprint.amountDetails.map((invoiceDetail, index) => {
+      let taxRowData='';
+      let taxTotal=0;
+      totalqty+= parseFloat(invoiceDetail.qty);
+      totalamount+= parseFloat(invoiceDetail.amount);
+      lineamounttotal+= parseFloat(invoiceDetail.lineamount);
+
+      invoiceDetail.taxDetails.map((taxDetail, index) => {
+        taxRowData +=  taxDetail.taxledger.name +' : '+taxDetail.taxamount+',';
+        taxTotal += parseFloat(taxDetail.taxamount); 
+      });
+      let lasttaxrowdata= taxRowData.substring(0, taxRowData.length - 1);
+      lasttotaltax+=taxTotal;
+
       rows.push([
-        { txt: invoiceDetail.warehouse.name || '' },
-        { txt: invoiceDetail.stockitem.name || '' },
-        { txt: invoiceDetail.stockunit.name || '' },
+        { txt:  (index==0)?invoiceDetail.warehouse.name: (voucherdataprint.amountDetails[index-1].warehouse.id  == invoiceDetail.warehouse.id)? '':invoiceDetail.warehouse.name || '' },
+        { txt: invoiceDetail.stockitem.name +'('+invoiceDetail.stockunit.name +')'+'</br>'+lasttaxrowdata || '' },
         { txt: invoiceDetail.qty || '' },
         { txt: invoiceDetail.rate || '' },
         { txt: invoiceDetail.amount || '' },
+        { txt: taxTotal || 0 },
         { txt: invoiceDetail.lineamount || '' },
         { txt: invoiceDetail.remarks || '' }
       ]);
+      rows.push([
+        { txt: '' },
+        { txt: 'Total' },
+        { txt: totalqty || '' },
+        { txt: '-' },
+        { txt: totalamount || '' },
+        { txt: lasttotaltax || 0 },
+        { txt: lineamounttotal || '' },
+        { txt: '' }
+      ]);
+      console.log('invoiceDetail.taxDetails',invoiceDetail.taxDetails);
+     
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
     });
@@ -1232,12 +1263,12 @@ let invoiceJson={};
       table: {
         headings: [
           { txt: 'Ware House' },
-          { txt: 'Stock Item' },
-          { txt: 'Stock Unit' },
-          { txt: 'Quantity' },
+          { txt: 'Item' },
+          { txt: 'Qty' },
           { txt: 'Rate' },
           { txt: 'Amount' },
-          { txt: 'Line Amount' },
+          { txt: 'Tax Amount' },
+          { txt: 'Total Amount' },
           { txt: 'Remarks' }
         ],
         rows: rows
@@ -1245,7 +1276,7 @@ let invoiceJson={};
       signatures: ['Accountant', 'Approved By'],
       footer: {
         left: { name: 'Powered By', value: 'Elogist Solutions' },
-        center: { name: 'Printed Date', value: '06-July-2019' },
+        center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(),'ddMMYYYY').split(' ')[0] },
         right: { name: 'Page No', value: 1 },
       }
 
@@ -1270,8 +1301,7 @@ let invoiceJson={};
      table: {
        headings: [
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
+         { txt: 'Item' },
          { txt: 'Quantity' }
      
        ],
@@ -1280,7 +1310,7 @@ let invoiceJson={};
      signatures: ['Accountant', 'Approved By'],
      footer: {
        left: { name: 'Powered By', value: 'Elogist Solutions' },
-       center: { name: 'Printed Date', value: '06-July-2019' },
+       center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(),'ddMMYYYY').split(' ')[0] },
        right: { name: 'Page No', value: 1 },
      }
 
@@ -1316,12 +1346,12 @@ let invoiceJson={};
      table: {
        headings: [
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
+         { txt: 'Item' },
          { txt: 'Quantity' },
          { txt: 'Rate' },
          { txt: 'Amount' },
-         { txt: 'Line Amount' },
+         { txt: 'Tax Amount' },
+         { txt: 'Total Amount' },
          { txt: 'Remarks' }
        ],
        rows: rows
@@ -1329,7 +1359,7 @@ let invoiceJson={};
      signatures: ['Accountant', 'Approved By'],
      footer: {
        left: { name: 'Powered By', value: 'Elogist Solutions' },
-       center: { name: 'Printed Date', value: '06-July-2019' },
+       center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(),'ddMMYYYY').split(' ')[0] },
        right: { name: 'Page No', value: 1 },
      }
 

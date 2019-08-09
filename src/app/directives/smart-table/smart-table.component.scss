@@ -107,6 +107,7 @@ table.fixed {
     line-height: 24px;
     font-weight: 600;
     background-color: white;
+    color: black;
 }
 
 // Table Header
@@ -214,4 +215,25 @@ tbody tr:nth-child(even) {
     color: #fff;
     border-radius: 2px;
     margin-left: 10px;
+}
+
+th {
+    .sort-container {
+        width: 15px;
+        display: none
+    }
+
+    .filter-input-container {
+        width: auto;
+    }
+}
+
+th:hover {
+    .sort-container {
+        display: inline-block;
+    }
+
+    .filter-input-container {
+        width: calc(100% - 17px);
+    }
 }

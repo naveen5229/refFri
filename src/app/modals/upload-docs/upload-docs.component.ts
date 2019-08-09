@@ -128,7 +128,7 @@ export class UploadDocsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         if (res['code'] == 1) {
-
+          this.common.showToast(res['msg']);
           this.getdocumentsSummary();
           this.getDocChange();
           this.remark = null;
@@ -282,12 +282,13 @@ export class UploadDocsComponent implements OnInit {
       });
   }
   view(url) {
-    let refdata = [{
+    let refdata = {
       refid: this.driverId,
       reftype: '52',
-      doctype: url._doc_type_id
+      doctype: url._doc_type_id,
+      docid : ''
     }
-    ];
+    ;
 
     this.common.params = { refdata: refdata, title: 'docImage' };
     const activeModal2 = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });

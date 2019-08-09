@@ -109,9 +109,9 @@ export class TransferReceiptsComponent implements OnInit {
   }
 
   resetvehicle() {
-    document.getElementById('vehicleno')['value'] = '';
     this.transferReceipt.vehicleId = null;
     this.transferReceipt.vehicleRegNo = null;
+    document.getElementById('vehicleno')['value'] = '';
     this.resetRefernceType();
   }
 

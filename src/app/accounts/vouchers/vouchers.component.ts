@@ -457,6 +457,9 @@ export class VouchersComponent implements OnInit {
           this.dismiss(true);
         }
       }
+      if (key == 'n') {
+        this.modelCondition();
+      }
       return;
     }
 
