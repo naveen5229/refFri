@@ -97,9 +97,10 @@ export class HeaderComponent implements OnInit {
   }
 
   refresh() {
-    // window.location.reload();
-    // this.router.navigateByUrl('/pages/dashboard', { skipLocationChange: true }).then(() =>
-    //   this.router.navigate(["ConciseComponent"]));
+    if (!this.common.refresh) {
+      this.router.navigateByUrl('/pages/dashboard');
+      return;
+    }
     this.common.refresh();
   }
 

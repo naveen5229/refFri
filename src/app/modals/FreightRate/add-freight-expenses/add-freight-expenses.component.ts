@@ -47,20 +47,21 @@ export class AddFreightExpensesComponent implements OnInit {
 
   headings = [];
   valobj = {};
+  images = [];
 
   constructor(public modalService: NgbModal,
     public common: CommonService,
     public activeModal: NgbActiveModal,
     public api: ApiService,
   ) {
+    this.common.handleModalSize("class", "modal-lg", "1500");
     this.getFreightHeads();
 
-    console.log("this.common.params.expenseData", this.common.params.expenseData);
     if (this.common.params.expenseData) {
-      this.expense.id = this.common.params.expenseData._id;
-      this.expense.refId = this.common.params.expenseData._ref_id;
-      this.expense.refernceType = this.common.params.expenseData._ref_type;
-      this.expense.remarks = this.common.params.expenseData._exp_remarks;
+      this.expense.id = this.common.params.expenseData.id;
+      this.expense.refId = this.common.params.expenseData.refId;
+      this.expense.refernceType = this.common.params.expenseData.refernceType;
+      this.expense.remarks = this.common.params.expenseData.remarks;
       this.getExpenseDetails();
     }
     this.getExpenses();
@@ -171,7 +172,10 @@ export class AddFreightExpensesComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         this.data = res['data']['result'];
-        console.log("api data:", this.data);
+        this.images = res['data']['images'];
+        console.log(".........", res['data']['images']);
+
+        console.log("api images:", this.images);
         this.headings = [];
         this.valobj = {};
         if (!this.data || !this.data.length) {
