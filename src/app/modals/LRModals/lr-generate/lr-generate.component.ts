@@ -776,3 +776,7 @@ export class LrGenerateComponent implements OnInit {
     }
   }
 }
+
+
+
+
