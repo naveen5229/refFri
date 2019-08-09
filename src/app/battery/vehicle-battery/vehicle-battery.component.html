@@ -61,7 +61,7 @@
               <div class="col-sm-4" *ngIf="vehicleBatt.refmode==703">
                 <auto-suggestion (onSelected)="getWarehouseData($event,i)"
                   url="Suggestion/getFoVehList?vehicleType={{vehicleBatt.refmode}}" display="regno"
-                  placeholder="Enter WareHouse Number" style="width:60%;"></auto-suggestion>
+                  placeholder="Enter WareHouse" style="width:60%;"></auto-suggestion>
               </div>
               <div class="col-sm-4">
                 <auto-suggestion (onSelected)="getBatteryDetails($event,i)" url="Battery/getBatteryNumbersAccordingFO"
@@ -76,9 +76,6 @@
               autocomplete="off" (click)="getDate(i)" placeholder="Select Date"
               [value]="vehicleBatt.date | date: 'dd MMM yyyy'" name="date" readonly>
           </td>
-          <!-- <td>
-            <input type="text" class="form-control" [(ngModel)]="vehicleTyre.kms" placeholder="KMs">
-          </td>-->
           <td>
             <input type="text" class="form-control" [(ngModel)]="vehicleBatt.details" placeholder="Details">
 

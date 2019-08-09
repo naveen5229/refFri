@@ -82,7 +82,7 @@ export class VehicleBatteryComponent implements OnInit {
 
   addMore() {
     this.vehicleBattery.push({
-      refmode: null,
+      refmode: "701",
       refid: null,
       batteryId: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
