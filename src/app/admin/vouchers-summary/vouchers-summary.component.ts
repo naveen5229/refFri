@@ -90,14 +90,16 @@ export class VouchersSummaryComponent implements OnInit {
   getIcons(voucher) {
     console.log("vouchar", voucher);
 
-    let icons = [{
-      class: 'fa fa-user',
-      action: this.voucherTypeGet.bind(this, voucher)
-    },
-    ];
+    let icons = [];
     if (voucher._vehicle_id) {
       icons.push({
         class: 'fas fa-user-shield',
+        action: this.voucherTypeGet.bind(this, voucher)
+      });
+    }
+    else {
+      icons.push({
+        class: 'fa fa-user',
         action: this.voucherTypeGet.bind(this, voucher)
       });
     }
