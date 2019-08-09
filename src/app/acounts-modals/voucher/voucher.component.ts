@@ -24,7 +24,7 @@ import { PrintService } from '../../services/print/print.service';
 })
 export class VoucherComponent implements OnInit {
   Vouchers = [];
-  vouchername='Edit Voucher';
+  vouchername = 'Edit Voucher';
   voucherId = '';
   voucherName = '';
   voucher = null;
@@ -47,7 +47,7 @@ export class VoucherComponent implements OnInit {
   allowBackspace = true;
   showDateModal = false;
   date = this.common.dateFormatternew(new Date());
-voucherTypeCastId=0;
+  voucherTypeCastId = 0;
   activeLedgerIndex = -1;
 
   constructor(public api: ApiService,
@@ -61,7 +61,7 @@ voucherTypeCastId=0;
     private activeModal: NgbActiveModal,
     public pdfService: PdfService) {
     this.voucher = this.setVoucher();
-
+    
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
       if (params.id) {
@@ -71,8 +71,8 @@ voucherTypeCastId=0;
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
-    if(this.common.params.voucherTypeId){
-    this.voucherTypeCastId=this.common.params.voucherTypeId;
+    if (this.common.params.voucherTypeId) {
+      this.voucherTypeCastId = this.common.params.voucherTypeId;
     }
     this.getLedgers('debit');
     this.getLedgers('credit');
@@ -114,7 +114,8 @@ voucherTypeCastId=0;
       },
       Y_code: '',
       xId: 0,
-      delete: 0
+      delete: 0,
+      mannual:this.accountService.selected.branch.is_inv_manualapprove
     };
   }
 
@@ -122,12 +123,12 @@ voucherTypeCastId=0;
   voucherEditDetail() {
     let params = {
       vchId: this.common.params.voucherId
-      
+
     };
     setTimeout(() => {
-      if(this.common.params.addvoucherid=1) {
-        this.vouchername='Add Voucher';
-      this.voucher.xId=0;
+      if (this.common.params.addvoucherid = 1) {
+        this.vouchername = 'Add Voucher';
+        this.voucher.xId = 0;
       }
     }, 3000);
     console.log('vcid', this.common.params);
@@ -148,7 +149,8 @@ voucherTypeCastId=0;
             debit: 0,
             credit: 0
           },
-          y_code: res['data'][0].y_code
+          y_code: res['data'][0].y_code,
+          mannual: (res['data'][0].y_for_approved)?false:true
         }
 
         res['data'].map(voucher => {
@@ -266,7 +268,7 @@ voucherTypeCastId=0;
       return;
     } else if (response == false) {
       // this.activeModal.close();
-      console.log('false condition true',response)
+      console.log('false condition true', response)
       this.activeModal.close({ data: false });
     }
     else {
@@ -289,7 +291,8 @@ voucherTypeCastId=0;
       vouchertypeid: this.voucher.vouchertypeid,
       y_code: this.voucher.y_code,
       xid: this.voucher.xId,
-      delete: this.voucher.delete
+      delete: this.voucher.delete,
+      ismannual:this.voucher.mannual
     };
 
     console.log('params 1 : ', params);
@@ -939,8 +942,8 @@ voucherTypeCastId=0;
       delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
       costcenter: ledger.costcenter,
-      taxtype:ledger.taxtype,
-      taxsubtype:ledger.taxsubtype
+      taxtype: ledger.taxtype,
+      taxsubtype: ledger.taxsubtype
     };
 
     console.log('params11: ', params);
