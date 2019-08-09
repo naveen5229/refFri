@@ -187,3 +187,150 @@ input[type="text"] {
 :host ::ng-deep .i-green {
   color: green; font-size: 18px;
 }
+
+
+:host ::ng-deep .fa-image {
+  span{
+      position: absolute;
+      display: none;
+      padding: 10px 26px;
+      font-weight: normal;
+      font-size: 11px;
+      left: -12px;
+      top: -28px;
+      -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+      box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+      font-family: Roboto;
+      z-index:9999;
+  }
+  span::before{
+      content: 'Image';
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background-color: #008000;
+      border-radius: 3px;
+      padding: 5px 10px;
+      color:#fff;
+      width: 100%;
+  }
+  span::after{
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid #008000;
+      position: absolute;
+      bottom: -5px;
+      right: 24px;
+  }
+}
+:host ::ng-deep .fa-image:hover span{
+  display: block;
+}
+:host ::ng-deep .fa-check {
+  span{
+      position: absolute;
+      display: none;
+      padding: 10px 28px;
+      font-weight: normal;
+      font-size: 11px;
+      left: -18px;
+      top: -28px;
+      -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+      box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+      font-family: Roboto;
+      z-index:9999;
+  }
+  span::before{
+      content: 'Details';
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background-color: #008000;
+      border-radius: 3px;
+      padding: 5px 10px;
+      color:#fff;
+      width: 100%;
+  }
+  span::after{
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid #008000;
+      position: absolute;
+      bottom: -5px;
+      right: 24px;
+  }
+}
+:host ::ng-deep .fa-check:hover span{
+  display: block;
+}
+
+:host ::ng-deep .fa-list {
+  span{
+      position: absolute;
+      display: none;
+      padding: 10px 30px;
+      font-weight: normal;
+      font-size: 11px;
+      left: -22px;
+      top: -28px;
+      -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+      box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+      font-family: Roboto;
+      z-index:9999;
+  }
+  span::before{
+      content: 'Receipt';
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background-color: #008000;
+      border-radius: 3px;
+      padding: 5px 10px;
+      color:#fff;
+      width: 100%;
+  }
+  span::after{
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid #008000;
+      position: absolute;
+      bottom: -5px;
+      right: 24px;
+  }
+}
+:host ::ng-deep .fa-list:hover span{
+  display: block;
+}
+:host ::ng-deep .fa-image.i-red-cross,
+:host ::ng-deep .fa-check.i-red-cross,
+:host ::ng-deep .fa-list.i-red-cross {
+  span::before{
+    background-color: #ff0000;
+  }
+  span::after{
+    border-top: 5px solid #ff0000;
+  }
+}
+
+:host ::ng-deep .fa-image.i-green,
+:host ::ng-deep .fa-check.i-green,
+:host ::ng-deep .fa-list.i-green {
+  span::before{
+    background-color: #008000;
+  }
+  span::after{
+    border-top: 5px solid #008000;
+  }
+}
