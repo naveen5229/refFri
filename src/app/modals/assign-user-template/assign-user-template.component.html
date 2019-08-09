@@ -9,27 +9,30 @@
     <div class="col-6">
       <label>Type</label>
     </div>
-    <div class="col-6" *ngIf="showdata.show;  else content">
-      <select class="form-control" name="templateType" [(ngModel)]="templateType" (change)="selectTemplateType()">
+    <div class="col-6">
+      <select class="form-control" *ngIf="showdata.show;  else content" name="templateType" [(ngModel)]="templateType"
+        (change)="selectTemplateType()">
         <option value="LR">Lr</option>
         <option value="INV">Invoice</option>
 
       </select>
     </div>
     <ng-template #content>
-      <label>{{templateTypeShow}}</label>
+      <label
+        style="background-color: #e8edef;padding-top:5px;padding-bottom:5px;padding-left:15px;width:100%;border-radius:3px;">{{templateTypeShow}}</label>
     </ng-template>
   </div>
   <div class="row mb-2">
     <div class="col-6">
       <label>Template</label>
     </div>
-    <div class="col-6" *ngIf="showdata.show;  else content1">
-      <auto-suggestion [data]="templateList" display="Name" (onSelected)="changeTemplateType($event)"
-        inputId="templateId"></auto-suggestion>
+    <div class="col-6">
+      <auto-suggestion *ngIf="showdata.show;  else content1" [data]="templateList" display="Name"
+        (onSelected)="changeTemplateType($event)" inputId="templateId"></auto-suggestion>
     </div>
     <ng-template #content1>
-      <label>{{templateName}}</label>
+      <label
+        style="background-color: #e8edef;padding-top:5px;padding-bottom:5px;padding-left:15px;width:100%;border-radius:3px;">{{templateName}}</label>
     </ng-template>
   </div>
   <div class="row mb-2">
@@ -46,8 +49,8 @@
 
   <div class="row">
     <div class="col-12 text-right">
-      <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" (click)="assignTemplate()"
-        style="cursor:pointer;">Assign</button>
+      <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" (click)="assignTemplate()" style="cursor:poi
+        nter;">Assign</button>
     </div>
 
   </div>

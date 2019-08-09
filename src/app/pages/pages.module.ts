@@ -75,6 +75,7 @@ import { SitesComponent } from './sites/sites.component';
 import { FinanceRecoveryComponent } from './finance-recovery/finance-recovery.component';
 import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.component';
 import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.component';
+import { FuelMileageWithOdoComponent } from './fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { FuelMasterComponent } from './fuel-master/fuel-master.component';
 
 
@@ -160,6 +161,8 @@ const PAGES_COMPONENTS = [
   ],
   exports: [
     FuelAverageAnalysisComponent,
+    FuelMileageWithOdoComponent,
+
 
   ],
 })

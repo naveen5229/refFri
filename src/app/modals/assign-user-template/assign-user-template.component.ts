@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../services/account.service';
+import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
   selector: 'assign-user-template',
@@ -10,9 +11,8 @@ import { AccountService } from '../../services/account.service';
   styleUrls: ['./assign-user-template.component.scss']
 })
 export class AssignUserTemplateComponent implements OnInit {
-  
-  showdata={
-    show:true
+  showdata = {
+    show: true
   }
   alltemplateList = [];
   templateList = [];
@@ -39,19 +39,18 @@ export class AssignUserTemplateComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     public accountService: AccountService) {
-      this.getBranches();
-    if(this.accountService.selected.branch.id) {
+    if (this.accountService.selected.branch.id) {
+      // this.branchId = this.accountService.selected.branch.id;
       this.getBranchDetails();
     }
-    if(this.common.params.title=="Edit")
-    {
-      this.showdata.show=false;
+    if (this.common.params.title == "Edit") {
+      this.showdata.show = false;
       this.templateType = this.common.params.preAssignUserTemplate.refType;
       this.templateTypeShow = this.common.params.preAssignUserTemplate.type;
       this.templateName = this.common.params.preAssignUserTemplate.name;
       this.templateId = this.common.params.preAssignUserTemplate.id;
       this.getUserViews(true);
-    }else{
+    } else {
       this.getUserViews();
     }
   }
@@ -105,6 +104,7 @@ export class AssignUserTemplateComponent implements OnInit {
     this.getUserViews(true);
   }
   selectTemplateType() {
+    document.getElementById('templateId')['value'] = '';
     this.filterTemplate();
   }
 
@@ -210,31 +210,35 @@ export class AssignUserTemplateComponent implements OnInit {
       type: view._ref_type,
       isAssign: "false",
     }
-    this.common.loading++;
-    this.api.post('UserTemplate/assign', params)
-      .subscribe(res => {
-        this.common.loading--;
-        if (res['data'][0].y_id <= 0) {
-          this.common.showError(res['data'][0].y_msg);
+    if (view._id) {
+      this.common.params = {
+        title: 'Unassign Template  ',
+        description: `<b>&nbsp;` + 'Are Sure To Unassign This Record ?' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          this.api.post('UserTemplate/assign', params)
+            .subscribe(res => {
+              this.common.loading--;
+              if (res['data'][0].y_id <= 0) {
+                this.common.showError(res['data'][0].y_msg);
+              }
+              else {
+                this.common.showToast(res['data'][0].y_msg);
+                this.getUserViews(true);
+              }
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
         }
-        else {
-          this.common.showToast(res['data'][0].y_msg);
-          this.getUserViews(true);
-        }
-      }, err => {
-        this.common.loading--;
-        console.log(err);
       });
+    }
   }
 
-  getBranches() {
-    this.api.post('Suggestion/GetBranchList', { search: 123 })
-      .subscribe(res => {
-        console.log('Branches :', res['data']);
-        this.accountService.branches = res['data'];
-      }, err => {
-        console.log('Error: ', err);
-      });
-  }
+
 
 }
