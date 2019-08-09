@@ -54,14 +54,8 @@ export class ViaRoutesComponent implements OnInit {
 
   }
   addViaRoutes() {
-    // if (!this.foData) {
-    //   this.common.showError("Please select FoUser");
-    //   return false;
-    // }
-    // this.common.params = { foData: this.foData };
-    this.common.handleModalSize('class', 'modal-lg', '1250');
 
-    const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.viewTable();
@@ -170,8 +164,6 @@ export class ViaRoutesComponent implements OnInit {
   }
   remove(row) {
     console.log("row", row);
-
-
     let params = {
       id: row._id,
       foid: row._foid,
@@ -200,14 +192,14 @@ export class ViaRoutesComponent implements OnInit {
       });
     }
   }
-  openViaRoutePoints(doc) {
-    this.common.params = { doc: doc };
+  openViaRoutePoints(route) {
+    this.common.params = { route: route };
     console.log("params-->", this.common.params)
     const activeModal = this.modalService.open(ViaRoutePointsComponent, { size: 'lg', container: 'nb-layout', windowClass: "mycustomModalClass" });
-    activeModal.result.then(data =>
-      console.log("data", data)
-      // this.reloadData()
-    );
+    activeModal.result.then(data => {
+      console.log("data", data);
+      this.viewTable();
+    });
   }
 
   openrouteExpenses(doc) {

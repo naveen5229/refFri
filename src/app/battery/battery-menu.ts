@@ -14,7 +14,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Battery Modals',
+        title: 'Battery Models',
         icon: 'fa fa-text-width',
         link: '/battery/battery-modals',
         home: true,

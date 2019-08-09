@@ -178,10 +178,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'GST Reports',
                 link: '/accounts/gstreport'
             },
-            // {
-            //     title:'Tally Export',
-            //     link:'/accounts/tallyexport'
-            // }
+            {
+                title:'Tally Export',
+                link:'/accounts/tallyexport'
+            }
 
         ],
     },
