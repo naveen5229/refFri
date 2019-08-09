@@ -1,0 +1,28 @@
+.strict-maping {
+    max-height: 535px;
+    overflow: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    background-color: #737373;
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    color: #fff;
+}
+
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    color: #000;
+}
+
+:host ::ng-deep .tagsinput {
+    border: 0px !important;
+}

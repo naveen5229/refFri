@@ -210,7 +210,7 @@ export class SmartTableComponent implements OnInit {
    * @param rowIndex Clicked row index
    */
   handleColumnClick(column: any, heading: string, rowIndex: number) {
-    if (column[heading].isCheckbox) return;
+    if (column[heading].isCheckbox || column[heading].isAutoSuggestion) return;
     if (column[heading].action) column[heading].action();
     else if (this.settings.editable) {
       this.edit.row = rowIndex;
@@ -245,6 +245,15 @@ export class SmartTableComponent implements OnInit {
   handleCheckboxChange(event, action) {
     action(event.target.checked);
     event.stopPropagation();
+  }
+
+  isEventBinding(column, property, event) {
+    column[property] && column[property](event);
+  }
+
+  isPropertyBinding(column, property, byDefault = '') {
+    if (column[property]) return column[property];
+    return byDefault;
   }
 
 }

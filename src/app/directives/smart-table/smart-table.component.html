@@ -60,6 +60,19 @@
                 <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading] ? column[heading].class : ''" (click)="handleColumnClick(column, heading, i)" (dblclick)="handleColDoubleClick(column, heading)" (mouseover)="handleMouseHover(column, heading)"
                     (mouseout)="handleMouseOut(column, heading)" [ngStyle]="{cursor: (column[heading] && column[heading].action) ? 'pointer' : ''}">
 
+                    <!-- Auto Suggestion -->
+                    <div *ngIf="column[heading] && column[heading].isAutoSuggestion">
+                        <auto-suggestion (onSelected)="isEventBinding(column[heading], 'onSelected', $event)" (unSelected)="isEventBinding(column[heading], 'unSelected', $event)" (noDataFound)="isEventBinding(column[heading], 'noDataFound', $event)" (onChange)="isEventBinding(column[heading], 'onChange', $event)"
+                            [url]="isPropertyBinding(column[heading], 'url')" [display]="isPropertyBinding(column[heading], 'display')" [className]="isPropertyBinding(column[heading], 'suggestionClass')" [placeholder]="isPropertyBinding(column[heading], 'placeholder')"
+                            [preSelected]="isPropertyBinding(column[heading], 'preSelected')" [seperator]="isPropertyBinding(column[heading], 'seperator')" [data]="isPropertyBinding(column[heading], 'data')" [inputId]="isPropertyBinding(column[heading], 'inputId')"
+                            [name]="isPropertyBinding(column[heading], 'name')" [parentForm]="isPropertyBinding(column[heading], 'parentForm')" [controlName]="isPropertyBinding(column[heading], 'controlName')" [apiHitLimit]="isPropertyBinding(column[heading], 'apiHitLimit')"
+                            [isNoDataFoundEmit]="isPropertyBinding(column[heading], 'isNoDataFoundEmit')" [isMultiSelect]="isPropertyBinding(column[heading], 'isMultiSelect')" [bGConditions]="isPropertyBinding(column[heading], 'bGConditions', [])">
+                        </auto-suggestion>
+                    </div>
+                    <!-- Auto Suggestion END -->
+
+
+
                     <!-- Show HTML -->
                     <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading] && column[heading].isHTML" [innerHTML]="column[heading].value">
                     </div>
@@ -72,7 +85,7 @@
                     <!-- CheckBox END -->
 
                     <!-- Show Text -->
-                    <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading] && !column[heading].isHTML && !column[heading].icons && !column[heading].isCheckbox">
+                    <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading] && !column[heading].isHTML && !column[heading].icons && !column[heading].isCheckbox && !column[heading].isAutoSuggestion">
                         <!--  -->
                         <span *ngIf="edit.row !== i || !headings[heading].editable">{{column[heading].value}}</span>
                         <input class="form-control" *ngIf="edit.row === i && headings[heading].editable" type="text" [name]="column[heading] + i" [(ngModel)]="column[heading].value">

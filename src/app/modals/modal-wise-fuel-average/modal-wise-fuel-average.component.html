@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h5>Fuel Mileage</h5>
+    <h5> Model Fuel Mileage</h5>
     <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -14,7 +14,6 @@
         <div class="col-9">
             <auto-suggestion [data]="vehicleList" display="name" (onSelected)="changeRefernceType($event)" inputId="itemId" [preSelected]="{name:vehicleName }"></auto-suggestion>
         </div>
-
     </div>
     <div class=" row mb-3 ">
         <div class="col-3 ">

@@ -446,7 +446,7 @@ export class OrdersComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.GetLedger();
-        this.printFunction();
+        if(order.print)this.printFunction();
       // this.order = this.setInvoice();
         this.setFoucus('ordertype');
         this.common.showToast('Invoice Are Saved');
@@ -1386,29 +1386,49 @@ export class OrdersComponent implements OnInit {
 
     let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
     let rows = [];
-
+    let totalqty=0;
+    let totalamount=0;
+    let lasttotaltax=0;
+    let lineamounttotal=0;
     voucherdataprint.amountDetails.map((invoiceDetail, index) => {
+      let taxRowData='';
+      let taxTotal=0;
+      totalqty+=invoiceDetail.qty;
+      totalamount+=invoiceDetail.amount;
+      lineamounttotal+=invoiceDetail.lineamount;
+
+            invoiceDetail.taxDetails.map((taxDetail, index) => {
+              taxRowData +=  taxDetail.taxledger.name +' : '+taxDetail.taxamount+',';
+              taxTotal += taxDetail.taxamount; 
+            });
+            let lasttaxrowdata= taxRowData.substring(0, taxRowData.length - 1);
+            lasttotaltax+=taxTotal;
+
       rows.push([
-        { txt: invoiceDetail.warehouse.name || '' },
-        { txt: invoiceDetail.stockitem.name +'('+invoiceDetail.stockunit.name +')'|| '' },
+        { txt: (index==0)?invoiceDetail.warehouse.name: (voucherdataprint.amountDetails[index-1].warehouse.id  == invoiceDetail.warehouse.id)? '':invoiceDetail.warehouse.name  || '' },
+        { txt: invoiceDetail.stockitem.name +'('+invoiceDetail.stockunit.name +')'+'</br>'+lasttaxrowdata || '' },
         { txt: invoiceDetail.qty || '' },
         { txt: invoiceDetail.rate || '' },
         { txt: invoiceDetail.amount || '' },
+        { txt: taxTotal || 0 },
         { txt: invoiceDetail.lineamount || '' },
         { txt: invoiceDetail.remarks || '' }
       ]);
       console.log('invoiceDetail.taxDetails',invoiceDetail.taxDetails);
-      invoiceDetail.taxDetails.map((taxDetail, index) => {
-        rows.push([
-          { txt: taxDetail.taxledger.name  || '' ,'colspan':2,align:'right'},
-          { txt: taxDetail.taxamount || '','colspan':3,align:'right' },
-          { txt:  '' },
-          { txt:  '' }
-        ]);
-    });
+     
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
     });
+    rows.push([
+      { txt: '' },
+      { txt: 'Total' },
+      { txt: totalqty || '' },
+      { txt: '-' },
+      { txt: totalamount || '' },
+      { txt: lasttotaltax || 0 },
+      { txt: lineamounttotal || '' },
+      { txt: '' }
+    ]);
 let invoiceJson={};
     if(voucherdataprint.ordertype.name.toLowerCase().includes('purchase') || voucherdataprint.ordertype.name.toLowerCase().includes('debit note')){
      invoiceJson = {
@@ -1443,7 +1463,8 @@ let invoiceJson={};
           { txt: 'Qty' },
           { txt: 'Rate' },
           { txt: 'Amount' },
-          { txt: 'Line Amount' },
+          { txt: 'Tax Amount' },
+          { txt: 'Total Amount' },
           { txt: 'Remarks' }
         ],
         rows: rows
@@ -1527,7 +1548,8 @@ let invoiceJson={};
          { txt: 'Qty' },
          { txt: 'Rate' },
          { txt: 'Amount' },
-         { txt: 'Line Amount' },
+         { txt: 'Tax Amount' },
+         { txt: 'Total Amount' },
          { txt: 'Remarks' }
        ],
        rows: rows

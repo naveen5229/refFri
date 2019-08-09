@@ -25,6 +25,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
 import { ChartModule } from 'angular2-chartjs';
 import { NearbyPodsComponent } from './admin/nearby-pods/nearby-pods.component';
 import { FuelMileageWithOdoComponent } from './pages/fuel-mileage-with-odo/fuel-mileage-with-odo.component';
+import { WebActivitySummaryComponent } from './admin/web-activity-summary/web-activity-summary.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -42,7 +43,8 @@ const PAGES_COMPONENTS = [
     ViaRoutesComponent,
     PodDashboardComponent,
     NearbyPodsComponent,
-    FuelMileageWithOdoComponent
+    FuelMileageWithOdoComponent,
+    WebActivitySummaryComponent,
 
 ];
 

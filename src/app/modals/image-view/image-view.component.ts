@@ -9,32 +9,31 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./image-view.component.scss']
 })
 export class ImageViewComponent implements OnInit {
-  refId=null;
-  refType=null;
-  docType=null;
+  refId = null;
+  refType = null;
+  docType = null;
   title = '';
   images = [];
-  refdata=[];
+  refdata = [];
   activeImage = '';
-  params="";
-  
+  params = "";
 
-    constructor(public api: ApiService,
+
+  constructor(public api: ApiService,
     public common: CommonService,
     private activeModal: NgbActiveModal) {
-        
-    let ref=this.common.params.refdata;
-    if(this.common.params.refdata && this.common.params.refdata.refid)
-    {
-     this.params="refType="+ref.reftype+"&refId="+ref.refid+"&docTypeId="+ref.doctype;
-     this.viewImage();
-    }
-    else if(this.common.params.refdata && this.common.params.refdata.docid)
-    {
-      this.params="docId="+this.common.params.refdata.docid;
+
+    let ref = this.common.params.refdata;
+
+    if (this.common.params.refdata && this.common.params.refdata.refid) {
+      this.params = "refType=" + ref.reftype + "&refId=" + ref.refid + "&docTypeId=" + ref.doctype;
       this.viewImage();
     }
-    else{
+    else if (this.common.params.refdata && this.common.params.refdata.docid) {
+      this.params = "docId=" + this.common.params.refdata.docid;
+      this.viewImage();
+    }
+    else {
       this.common.params.images.map(image => {
         if (image.name) {
           if (image.image)
@@ -46,22 +45,20 @@ export class ImageViewComponent implements OnInit {
       this.title = this.common.params.title;
       this.activeImage = this.images[0];
     }
-    
+
   }
 
-  viewImage()
-  {
+  viewImage() {
     this.common.loading++;
-    this.api.get('Documents/getRepositoryImages?'+this.params)
+    this.api.get('Documents/getRepositoryImages?' + this.params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res['data']);
-        if(res['data'])
-        {
-        res['data'].map(img=>
-          this.images.push(img.url)
-        )
-        this.activeImage=this.images[0];
+        if (res['data']) {
+          res['data'].map(img =>
+            this.images.push(img.url)
+          )
+          this.activeImage = this.images[0];
         }
       }, err => {
         this.common.loading--;
@@ -69,16 +66,16 @@ export class ImageViewComponent implements OnInit {
       });
   }
 
-ngOnInit() {
+  ngOnInit() {
+  }
+
+  closeModal() {
+    this.activeModal.close();
+  }
+
 }
 
-closeModal() {
-  this.activeModal.close();
-}
-
-}
 
 
 
 
-  
