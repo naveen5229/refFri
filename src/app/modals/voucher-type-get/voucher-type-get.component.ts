@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddFreightExpensesComponent } from '../FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { AddFreightRevenueComponent } from '../FreightRate/add-freight-revenue/add-freight-revenue.component';
+import { BeehiveComponent } from '../../admin/beehive/beehive.component';
 @Component({
   selector: 'voucher-type-get',
   templateUrl: './voucher-type-get.component.html',
@@ -199,6 +200,13 @@ export class VoucherTypeGetComponent implements OnInit {
       refId: this.referenceId,
       refernceType: this.refId,
       remarks: null,
+    }
+    if (this.voucher.voucherID == -7) {
+      this.common.params = { reference: "modal" };
+
+      const activeModal = this.modalService.open(BeehiveComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      return;
+
     }
     console.log("params", params);
     this.common.loading++;
