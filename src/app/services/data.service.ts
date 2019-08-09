@@ -213,7 +213,7 @@ export class DataService {
           },
           {
             title: 'Vouchers Summary',
-            icon: 'far fa-list-all',
+            icon: 'far fa-list-alt',
             link: '/admin/vouchers-summary',
             home: true,
           },
