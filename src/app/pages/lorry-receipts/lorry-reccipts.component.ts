@@ -241,10 +241,10 @@ export class LorryRecciptsComponent implements OnInit {
 
             }, {
 
-              class: R.poddetails ? 'fa fa-check i-green mr-1' : 'fa fa-check i-red-cross mr-1', action: R.poddetails ? this.openPodDeatilsModal.bind(this, R) : null
+              class: R.poddetails ? 'fa fa-list  i-green mr-1' : 'fa fa-list i-red-cross mr-1', action: this.openPodDeatilsModal.bind(this, R)
             },
             {
-              class: R.podreceived ? 'fa fa-list i-green' : 'fa fa-list i-red-cross', action: null,
+              class: R.podreceived ? 'fa fa-check  i-green' : 'fa fa-check   i-red-cross', action: null,
 
             }
           ]

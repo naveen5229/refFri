@@ -245,7 +245,7 @@ input[type="text"] {
       z-index:9999;
   }
   span::before{
-      content: 'Details';
+      content: 'Receipt';
       display: block;
       position: absolute;
       top: 0px;
@@ -287,7 +287,7 @@ input[type="text"] {
       z-index:9999;
   }
   span::before{
-      content: 'Receipt';
+      content: 'Details';
       display: block;
       position: absolute;
       top: 0px;
