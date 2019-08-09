@@ -111,7 +111,7 @@ export class VehicleBatteryComponent implements OnInit {
             //this.getMappedTyres();
           } else {
             console.log("fail");
-            this.common.showToast(res['data'][0].r_msg);
+            this.common.showError(res['data'][0].r_msg);
           }
         }, err => {
           this.common.loading--;
