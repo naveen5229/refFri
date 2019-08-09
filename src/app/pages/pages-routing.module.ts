@@ -70,8 +70,12 @@ import { NearbyPodsComponent } from '../admin/nearby-pods/nearby-pods.component'
 import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { SitesComponent } from './sites/sites.component';
-import { ManagePartyComponent } from './manage-party/manage-party.component';
+import { FinanceRecoveryComponent } from './finance-recovery/finance-recovery.component';
 import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.component';
+import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.component';
+import { FuelMileageWithOdoComponent } from './fuel-mileage-with-odo/fuel-mileage-with-odo.component';
+import { FuelMasterComponent } from './fuel-master/fuel-master.component';
+import { WebActivitySummaryComponent } from '../admin/web-activity-summary/web-activity-summary.component';
 
 
 const routes: Routes = [{
@@ -180,6 +184,22 @@ const routes: Routes = [{
 
     path: 'placements',
     component: PlacementsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+
+    path: 'finance-recovery',
+    component: FinanceRecoveryComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'fo-fuel-average',
+    component: FoFuelAverageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'fuel-master',
+    component: FuelMasterComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -446,13 +466,18 @@ const routes: Routes = [{
     canActivate: [AuthGuard]
   },
   {
-    path: 'manage-party',
-    component: ManagePartyComponent,
+    path: 'manage-fo-party',
+    component: ManageFoPartyComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'manage-fo-party',
-    component: ManageFoPartyComponent,
+    path:'fuel-mileage-with-odo',
+    component:FuelMileageWithOdoComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path: 'web-acttivity-summary',
+    component: WebActivitySummaryComponent,
     canActivate: [AuthGuard]
   },
 

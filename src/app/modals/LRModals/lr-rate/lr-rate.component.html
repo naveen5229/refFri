@@ -27,6 +27,10 @@
       <div class="col-sm-7"><label>MG-Qty</label></div>
       <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.mgQty></div>
     </div>
+    <div class="row">
+      <div class="col-sm-7"><label>Brokerage</label></div>
+      <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.brokerage></div>
+    </div>
     <div class="row" *ngFor="let filter of filters; let i= index">
       <div class="col-sm-7"><label>Allowed Shortage</label><br>
         <span>
@@ -93,6 +97,8 @@
           <td><input type="text" class="form-control" [(ngModel)]=general.qty></td>
           <td>MG-Qty</td>
           <td><input type="text" class="form-control" [(ngModel)]=general.mgQty></td>
+          <td>Brokerage</td>
+          <td><input type="text" class="form-control" [(ngModel)]=general.brokerage></td>
         </tr>
       </table>
     </div>

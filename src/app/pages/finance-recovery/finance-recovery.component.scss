@@ -1,0 +1,66 @@
+                                        :host ::ng-deep .tableFixHead {
+                                           table {
+                                               tr {
+                                                   td:nth-child(2),
+                                                   td:nth-child(5) {
+                                                       &.blue {
+                                                           color: blue;
+                                                           font-weight: 700;
+                                                       }
+                                                   }
+                                                   td:nth-child(2),
+                                                   td:nth-child(5),
+                                                   td:nth-child(3),
+                                                   td:nth-child(4),
+                                                   td:nth-child(6) {
+                                                       &.black {
+                                                           color: white;
+                                                           background-color: black;
+                                                       }
+                                                       &.red {
+                                                           color: white;
+                                                           background-color: red;
+                                                       }
+                                                       &.pink {
+                                                           color: white;
+                                                           background-color: pink;
+                                                       }
+                                                       &.green {
+                                                           color: white;
+                                                           background-color: green;
+                                                       }
+                                                       &.lightGreen {
+                                                           color: white;
+                                                           background-color: lightgreen;
+                                                       }
+                                                       &.blue {
+                                                           color: white;
+                                                           background-color: blue;
+                                                       }
+                                                       &.purple {
+                                                           color: white;
+                                                           background-color: purple;
+                                                       }
+                                                       &.yellow {
+                                                           color: white;
+                                                           background-color: yellow;
+                                                       }
+                                                   }
+                                                   td {
+                                                       &.fa-check {
+                                                           font-family: "FontAwesome";
+                                                       }
+                                                   }
+                                                   .fa-bell {
+                                                       .zoom {
+                                                           display: inline-block;
+                                                           margin-left: 10px;
+                                                           font-weight: bold;
+                                                           padding: 5px 0px;
+                                                           font-size: 14px;
+                                                           font-family: 'Poppins', sans-serif !important;
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }

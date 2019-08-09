@@ -63,10 +63,11 @@ import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.componen
 import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 import { ViaRoutesComponent } from './via-routes/via-routes.component';
 import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
-// import { PodDashboardComponent } from './pod-dashboard/pod-dashboard.component';
 import { ChartModule } from 'angular2-chartjs';
 import { LocationsComponent } from './locations/locations.component';
-// import { NearbyPodsComponent } from './nearby-pods/nearby-pods.component';
+import { VouchersSummaryComponent } from './vouchers-summary/vouchers-summary.component';
+import { UserTemplatesComponent } from './user-templates/user-templates.component';
+import { WebActivitySummaryComponent } from './web-activity-summary/web-activity-summary.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -91,13 +92,12 @@ const PAGES_COMPONENTS = [
   PumpStationAreaComponent,
   TollTransactionSummaryComponent,
   FoFsMappingComponent,
-  //  ConsolidateFuelAverageComponent,
   FuelAverageIssuesComponent,
   FuelAnalysisComponent,
   TripAnalysisComponent,
   VscDiagnosisComponent,
-  LocationsComponent
-  // PodDashboardComponent
+  LocationsComponent,
+  VouchersSummaryComponent
 
 
 
@@ -144,20 +144,17 @@ const PAGES_COMPONENTS = [
     PendingVehicleComponent,
     HaltDensityComponent,
     PalacementSiteRuleComponent,
-    //  ConsolidateFuelAverageComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
-    // VehiclesComponent,
     LrDiagnosticsComponent,
     TripAnalysisComponent,
     FuelAnalysisComponent,
     VscDiagnosisComponent,
     BufferPolylineComponent,
-    // PodDashboardComponent,
-    // ViaRoutesComponent,
     BufferPolylineComponent,
     LocationsComponent,
-    // NearbyPodsComponent
+    VouchersSummaryComponent,
+    UserTemplatesComponent,
   ],
   exports: [
     // VehiclesComponent,

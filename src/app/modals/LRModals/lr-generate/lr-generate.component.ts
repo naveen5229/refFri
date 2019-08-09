@@ -121,11 +121,12 @@ export class LrGenerateComponent implements OnInit {
     let date = new Date();
     date.setDate(date.getDate());
     this.lr.date = date;
+    console.log("date", this.lr.date);
     this.getAllFieldName();
     this.getUnit();
-    console.log("this.common.params.LrData", this.common.params.LrData);
-    if (this.common.params.LrData) {
-      this.lr.id = this.common.params.LrData.lr_id ? this.common.params.LrData.lr_id : this.common.params.LrData.id;
+    console.log("this.common.params.LrData", this.common.params.lrData);
+    if (this.common.params.lrData) {
+      this.lr.id = this.common.params.lrData.lrId ? this.common.params.lrData.lrId : null;
       this.getLrDetails();
       this.btntxt = 'UPDATE'
     }
@@ -182,7 +183,7 @@ export class LrGenerateComponent implements OnInit {
     }
     else if (this.lr.lrType == 3) {
       this.lr.invoicePayer = null;
-      this.lr.invoiceTo = -1;
+      this.lr.invoiceTo = 3;
       this.lr.invoicePayerId = null;
       this.lr.consigneeName = null;
       this.lr.consigneeAddress = null;
@@ -697,9 +698,9 @@ export class LrGenerateComponent implements OnInit {
         const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
-          console.log('response----', res.location);
           this.keepGoing = true;
-          if (res.location.lat) {
+          if (res && res.location.lat) {
+            console.log('response----', res.location);
             this.lr.sourceCity = res.location.name;
 
             (<HTMLInputElement>document.getElementById('startname')).value = this.lr.sourceCity;
@@ -745,9 +746,9 @@ export class LrGenerateComponent implements OnInit {
         const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
-          console.log('response----', res.location);
           this.keepGoing = true;
-          if (res.location.lat) {
+          if (res && res.location.lat) {
+            console.log('response----', res.location);
             this.lr.destinationCity = res.location.name;
 
             (<HTMLInputElement>document.getElementById('endname')).value = this.lr.destinationCity;

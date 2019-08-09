@@ -64,7 +64,7 @@
         <label>Secondary Driver</label>
       </div>
       <div class="col-3">
-        <auto-suggestion (onSelected)="getvehicleData($event, 'secondary')" url="Drivers/getFoDrivers" display="empname"
+        <auto-suggestion (onSelected)="getvehicleData($event, 'secondary')" [data]="driverList" display="empname"
           placeholder="Enter Driver Name" inputId="secDriver" [preSelected]="maping.secondary" style="width:60%;">
         </auto-suggestion>
 

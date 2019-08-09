@@ -39,6 +39,7 @@ export class LrRateComponent implements OnInit {
     unloading: null,
     qty: null,
     mgQty: null,
+    brokerage: null
   };
   filters = [{
     param: null,
@@ -57,7 +58,7 @@ export class LrRateComponent implements OnInit {
     loading: null,
     unloading: null,
     qty: null,
-    mgQty: null
+    mgQty: null,
 
   }];
 
@@ -126,7 +127,7 @@ export class LrRateComponent implements OnInit {
       loading: null,
       unloading: null,
       qty: null,
-      mgQty: null
+      mgQty: null,
     });
   }
 
@@ -346,6 +347,7 @@ export class LrRateComponent implements OnInit {
       this.general.mgWeight = data[0]['mg_weight'];
       this.general.qty = data[0]['qty_coeff'];
       this.general.mgQty = data[0]['mg_qty'];
+      this.general.brokerage = data[0]['brokerage'];
       this.rateDiv = this.data[0]['_allowedit'];
       this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
       this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
@@ -364,6 +366,7 @@ export class LrRateComponent implements OnInit {
     this.general.mgWeight = null;
     this.general.qty = null;
     this.general.mgQty = null;
+    this.general.brokerage = null;
     this.filters[0].param = null;
     this.filters[0].minRange = null;
     this.filters[0].shortage = null;

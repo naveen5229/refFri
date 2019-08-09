@@ -309,5 +309,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/locations',
         home: true,
     },
+    {
+        title: 'web activity summary',
+        icon: 'far fa-list-all',
+        link: '/admin/web-activity-summary',
+        home: true,
+    },
+    {
+        title: 'Vouchers Summary',
+        icon: 'far fa-list-all',
+        link: '/admin/vouchers-summary',
+        home: true,
+    },
 
 ];

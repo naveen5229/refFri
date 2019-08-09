@@ -247,7 +247,10 @@ export class CommonService {
     let minutes = time % 60;
     return hours + ":" + minutes;
   }
-
+  changeMonthformat(date,type) {
+    let d = new Date(date);
+    return this.datePipe.transform(date,type);
+  }
   timeFormatter(date) {
     let d = new Date(date);
     let hours = d.getHours() < 9 ? "0" + d.getHours() : d.getHours();

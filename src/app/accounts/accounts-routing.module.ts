@@ -38,6 +38,7 @@ import { MappedFuelVoucherComponent } from './mapped-fuel-voucher/mapped-fuel-vo
 import { VehicleLedgersComponent } from './vehicle-ledgers/vehicle-ledgers.component';
 import {  DaybookpendingComponent } from './daybookpending/daybookpending.component';
 import {  GstreportComponent } from './gstreport/gstreport.component';
+import { TallyexportComponent } from './tallyexport/tallyexport.component';
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -205,6 +206,10 @@ const routes: Routes = [{
         {
             path:'gstreport',
             component: GstreportComponent
+        },
+        {
+            path:'tallyexport',
+            component:TallyexportComponent
         }
     ],
 

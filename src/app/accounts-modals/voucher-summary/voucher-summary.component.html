@@ -98,7 +98,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let trip of trips;let i=index;">
+            <tr *ngFor="let trip of trips; let i = index;" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i}">
               <td>{{i+1}}</td>
               <td>
                 <input type="checkbox" [name]="'trip-' + i" [id]="'trip-' + i" [(ngModel)]="trip.isChecked"
@@ -133,10 +133,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let fuelFiling of fuelFilings;let i=index;">
-              <td>{{i+1}}</td>
+            <tr *ngFor="let fuelFiling of fuelFilings;let l=index;" (click)="selectedRow = l" [ngClass]="{'highlight' : selectedRow == l}">
+              <td>{{l+1}}</td>
               <td>
-                <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked">
+                <input type="checkbox" [name]="'fuelFiling-' + l" [(ngModel)]="fuelFiling.isChecked">
               </td>
               <td>{{fuelFiling.name}}</td>
               <td>{{fuelFiling.litres}}</td>
@@ -165,7 +165,7 @@
               <td>{{i+1}}</td>
               <td>{{tripHead.name}}</td>
               <td>
-                <input type="number" [name]="tripHead.name" [(ngModel)]="tripHead.total" (input)="calculateTripAllTotal(i)">
+                <input type="number" [name]="tripHead.name" [disabled]="isItReadOnly(tripHead, headname+'-'+i)" [id]="headname+'-'+i" [(ngModel)]="tripHead.total" (input)="calculateTripAllTotal(i)">
               </td>
               <td *ngFor="let trip of tripHead.trips; let j = index;">
                 <input type="number" [name]="'trip-amount-' + tripHead.name + j" [(ngModel)]="trip.amount"
