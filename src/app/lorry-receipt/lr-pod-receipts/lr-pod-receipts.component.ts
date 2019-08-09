@@ -105,7 +105,12 @@ export class LrPodReceiptsComponent implements OnInit {
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.openPodDeatilsModal.bind(this, doc) }, { class: 'fa fa-trash', action: this.deleteLr.bind(this, doc) }] };
+          this.valobj[this.headings[i]] = {
+            value: "", action: null,
+            icons: [{ class: 'fa fa-edit', action: this.openPodDeatilsModal.bind(this, doc) },
+            { class: 'fa fa-trash', action: this.deleteLr.bind(this, doc) },
+            { class: 'fa fa-eye', action: this.getPodImage.bind(this, doc) }]
+          };
         }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
@@ -137,5 +142,22 @@ export class LrPodReceiptsComponent implements OnInit {
     const activeModel = this.modalService.open(LrPodDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
     activeModel.result.then(data => {
     })
+  }
+
+  getPodImage(receipt) {
+    console.log("val", receipt);
+    if (receipt._docid) {
+      let refdata = {
+        refid: "",
+        reftype: "",
+        doctype: "",
+        docid: receipt._docid
+      }
+      this.common.params = { refdata: refdata, title: 'docImage' };
+      const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
+    }
+    else {
+      this.common.showError("There is No image");
+    }
   }
 }
