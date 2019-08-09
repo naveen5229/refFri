@@ -81,7 +81,6 @@ export class ConsolidateFuelAverageComponent implements OnInit {
         this.consolFuelAvg = res['data'] || [];
         if (this.consolFuelAvg.length == 0 || res['data'] == null) {
           this.consolFuelAvg = [];
-          console.log('empty Data');
           this.common.showToast("Record Not Found !!");
           this.resetDisplayTable();
         }
@@ -130,13 +129,12 @@ export class ConsolidateFuelAverageComponent implements OnInit {
     let columns = [];
 
     for (let i = 0; i < this.consolFuelAvg.length; i++) {
-      let probaleVal = this.consolFuelAvg[i]['_is_probable_issue'];
+      let probableVal = this.consolFuelAvg[i]['_is_probable_issue'];
 
       let valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        console.log('probableVal', probaleVal);
         let val = this.consolFuelAvg[i][this.headings[j]];
-        valobj[this.headings[j]] = { value: val, class: probaleVal ? 'lightcoral' : 'black', action: '' };
+        valobj[this.headings[j]] = { value: val, class: probableVal ? 'lightcoral' : 'black', action: '' };
       }
       columns.push(valobj);
     }
