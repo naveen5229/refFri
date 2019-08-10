@@ -193,10 +193,8 @@ export class LorryRecciptsComponent implements OnInit {
       // PodDetails: { title: 'PodDetails', placeholder: 'PodDetails' },
       // PodReceived: { title: 'PodReceived', placeholder: 'PodReceived' },
       LRImage: { title: 'LRImage', placeholder: 'LRImage' },
-      details: { title: 'Details', placeholder: 'Details' },
-
+      details: { title: 'POD', placeholder: 'POD' },
       Action: { title: 'Action', placeholder: 'Action' },
-
     };
 
     // if (this.user._loggedInBy == 'admin') {
@@ -238,9 +236,7 @@ export class LorryRecciptsComponent implements OnInit {
           value: '', action: null, isHTML: true, icons: [
             {
               class: R.pod_docid ? 'far fa-image i-green mr-1' : 'far fa-image i-red-cross mr-1', action: R.pod_docid ? this.getPodImage.bind(this, R) : null
-
             }, {
-
               class: R.poddetails ? 'fa fa-list  i-green mr-1' : 'fa fa-list i-red-cross mr-1', action: this.openPodDeatilsModal.bind(this, R)
             },
             {

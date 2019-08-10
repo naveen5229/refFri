@@ -45,7 +45,7 @@ export class BeehiveComponent implements OnInit {
     public activeModal: NgbActiveModal,
   ) {
     this.componentType;
-    if (this.common.params.reference) {
+    if (this.common.params && this.common.params.reference) {
       this.componentType = this.common.params.reference
     }
     else {
