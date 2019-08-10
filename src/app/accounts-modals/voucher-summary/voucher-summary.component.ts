@@ -27,6 +27,7 @@ export class VoucherSummaryComponent implements OnInit {
   typeFlag = 2;
   selectedRow = -1;
   trips;
+  vehclename='';
   ledgers = [];
   debitLedgerdata = [];
   checkedTrips = [];
@@ -81,6 +82,7 @@ export class VoucherSummaryComponent implements OnInit {
     this.permanentDeleteId = (this.common.params.permanentDelete) ? this.common.params.permanentDelete : 0;
     if (this.common.params.typeFlag) { this.typeFlag = this.common.params.typeFlag; }
     this.VehicleId = this.common.params.vehId;
+   this.vehclename =this.common.params.vehname
     console.log('tripsEditData', this.tripsEditData);
     console.log('trips data', this.trips);
     console.log(this.common.params.vehId);
@@ -771,7 +773,10 @@ export class VoucherSummaryComponent implements OnInit {
 
   addTrip() {
     let vehId = this.VehicleId;
-    this.common.params = { vehId };
+    let vehclename = this.vehclename;
+   
+    console.log('vech id first',vehId);
+    this.common.params = { vehId , vehclename};
     const activeModal = this.modalService.open(AddTripComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data5555555: ', data);

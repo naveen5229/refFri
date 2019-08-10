@@ -56,8 +56,7 @@ export class CustomerSelectionComponent implements OnInit {
     localStorage.setItem('CUSTOMER_DETAILS', JSON.stringify(this.user._customer));
     this.api.getBranches();
     this.dismiss();
-    //this.common.refresh();
-    this.common.params.refreshPage();
+    this.common.refresh();
     // if (window.location.href.endsWith('admin')||window.location.href.endsWith('pages')) {
     //   window.location.reload();
     // }

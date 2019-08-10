@@ -233,6 +233,7 @@ import { AssignUserTemplateComponent } from './modals/assign-user-template/assig
 import { SaveUserTemplateComponent } from './modals/save-user-template/save-user-template.component';
 import { StrictMappingComponent } from './modals/strict-mapping/strict-mapping.component';
 import { VehiclePriSecRoutemappingComponent } from './modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
+import { TyreHistoryComponent } from './modals/Tyres/tyre-history/tyre-history.component';
 
 
 
@@ -440,6 +441,7 @@ import { VehiclePriSecRoutemappingComponent } from './modals/vehicle-pri-sec-rou
     SaveUserTemplateComponent,
     StrictMappingComponent,
     VehiclePriSecRoutemappingComponent,
+    TyreHistoryComponent,
 
   ],
   entryComponents: [
@@ -631,7 +633,8 @@ import { VehiclePriSecRoutemappingComponent } from './modals/vehicle-pri-sec-rou
     AssignUserTemplateComponent,
     SaveUserTemplateComponent,
     StrictMappingComponent,
-    VehiclePriSecRoutemappingComponent
+    VehiclePriSecRoutemappingComponent,
+    TyreHistoryComponent
   ],
   imports: [
     BrowserModule,
