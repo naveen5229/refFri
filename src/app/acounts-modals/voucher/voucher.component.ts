@@ -39,7 +39,7 @@ export class VoucherComponent implements OnInit {
   balances = {};
   showConfirm = false;
   showConfirmCostCenter = false;
-
+  mannual  =false;
 
   showSuggestions = false;
   // ledgers = [];
@@ -61,6 +61,7 @@ export class VoucherComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public pdfService: PdfService) {
     this.voucher = this.setVoucher();
+  this.mannual  =this.accountService.selected.branch.is_inv_manualapprove;
     
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
@@ -126,8 +127,9 @@ export class VoucherComponent implements OnInit {
 
     };
     setTimeout(() => {
-      if (this.common.params.addvoucherid = 1) {
-        this.vouchername = 'Add Voucher';
+      if (this.common.params.addvoucherid == 6) {
+        console.log('this.common.poarams',this.common.params);
+        this.vouchername = 'Add Duplicate Voucher';
         this.voucher.xId = 0;
       }
     }, 3000);
@@ -137,7 +139,7 @@ export class VoucherComponent implements OnInit {
       .subscribe(res => {
 
         console.log('Voucher Edit Details:', res);
-        this.voucherId = res['data'][0].y_vouchertype_id;
+        this.voucherId = res['data'][0].y_vouchertype_id ||0;
         this.voucher = {
           code: res['data'][0].y_cust_code,
           date: this.common.dateFormatternew(res['data'][0].y_date, 'ddMMYYYY', false, '-'),
@@ -996,8 +998,34 @@ export class VoucherComponent implements OnInit {
   restore() {
     this.deleteFunction(1, 'false');
   }
-  approve(ID) {
-    this.deleteFunction(0, 'true');
+  approve(id) {
+    this.approveFunction(0, 'true',id);
+  }
+  approveFunction(type, typeans,xid) {
+    let params = {
+      id: xid,
+      flagname: (type == 1) ? 'deleted' : 'forapproved',
+      flagvalue: typeans
+    };
+    this.common.loading++;
+    this.api.post('Voucher/deleteAppeooved', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        //this.getStockItems();
+        this.activeModal.close({ response: true, ledger: this.voucher });
+        if (type == 1 && typeans == 'true') {
+          this.common.showToast(" This Value Has been Deleted!");
+        } else if (type == 1 && typeans == 'false') {
+          this.common.showToast(" This Value Has been Restored!");
+        } else {
+          this.common.showToast(" This Value Has been Approved!");
+        }
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError('This Value has been used another entry!');
+      });
   }
   deleteFunction(type, typeans) {
     let params = {

@@ -25,6 +25,7 @@
             <th>Tollfree Number</th>
             <th>Addressline</th>
             <th>Remarks</th>
+            <th>Approve Mannual</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -49,6 +50,8 @@
             <td>{{branchdata.tollfreenumber}}</td>
             <td>{{branchdata.addressline}}</td>
             <td>{{branchdata.remarks}}</td>
+            <td *ngIf="branchdata.is_inv_manualapprove">Yes</td>
+            <td *ngIf="!branchdata.is_inv_manualapprove">No</td>
             <td class="del">
               <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(branchdata.id)"><i
                   class="fa fa-trash"></i></a>

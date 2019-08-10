@@ -75,6 +75,7 @@ export class VouchersComponent implements OnInit {
     setTimeout(() => {
       console.log('financial year', this.accountService.selected.branch.is_constcenterallow);
         }, 4000);
+        this.voucher.ismanual= this.accountService.selected.branch.is_inv_manualapprove;
   
   }
 
