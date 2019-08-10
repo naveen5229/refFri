@@ -3,6 +3,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
   selector: 'add-freight-revenue',
@@ -286,19 +287,32 @@ export class AddFreightRevenueComponent implements OnInit {
   deleteAllRevenue() {
     let params = {
       refId: this.revenue.refId,
-      refType: this.revenue.refernceType
-
+      refType: this.revenue.refernceType,
+      revId: null,
+      ledgerId: null,
     };
-    ++this.common.loading;
-    this.api.post('FrieghtRate/deleteRevenue', params)
-      .subscribe(res => {
-        --this.common.loading;
-        this.getRevenue();
-      }, err => {
-        this.common.loading--;
-        this.common.showError(err);
-        console.log('Error: ', err);
+    if (this.revenue.refId) {
+      this.common.params = {
+        title: 'Delete Revenue ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('FrieghtRate/deleteRevenue', params)
+            .subscribe(res => {
+              this.common.loading--;
+              this.common.showToast(res['data']);
+              this.getRevenue();
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
       });
+    }
   }
 
 

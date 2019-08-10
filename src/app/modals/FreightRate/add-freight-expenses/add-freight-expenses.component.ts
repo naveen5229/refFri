@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
+import { ConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
   selector: 'add-freight-expenses',
@@ -264,19 +265,34 @@ export class AddFreightExpensesComponent implements OnInit {
   deleteAllExpenses() {
     let params = {
       refId: this.expense.refId,
-      refType: this.expense.refernceType
+      refType: this.expense.refernceType,
+      expId: null,
+      ledgerId: null,
     }
-    console.log("params:", params);
-    ++this.common.loading;
-    this.api.post('FrieghtRate/deleteExpenses', params)
-      .subscribe(res => {
-        --this.common.loading;
-        this.getExpenses();
-      }, err => {
-        this.common.loading--;
-        this.common.showError(err);
-        console.log('Error: ', err);
+    if (this.expense.refId) {
+      this.common.params = {
+        title: 'Delete Expenses ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('FrieghtRate/deleteExpenses', params)
+            .subscribe(res => {
+              this.common.loading--;
+              this.common.showToast(res['data']);
+
+              this.getExpenses();
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
       });
+    }
   }
 }
 
