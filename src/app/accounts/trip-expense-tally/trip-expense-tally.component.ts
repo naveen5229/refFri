@@ -78,7 +78,7 @@ export class TripExpenseTallyComponent implements OnInit {
     }
     this.api.post("Voucher/getTripTally", params).subscribe(
       res => {
-        this.tripExpense = res['data'];
+        this.tripExpense = res['data'] || [];
         console.log("result", res);
         let first_rec = this.tripExpense[0];
         for (var key in first_rec) {

@@ -6,7 +6,7 @@
     <nb-card-body>
         <div class="row">
             <div class="col-2">
-                <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getFoVehicleList" display="regno" placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
+                <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getFoVehicleList" display="regno" placeholder="Search by vehicle number and regno " [preSelected]="null"></auto-suggestion>
             </div>
             <div class="col-2">
                 <select [(ngModel)]="request" class="form-control">
