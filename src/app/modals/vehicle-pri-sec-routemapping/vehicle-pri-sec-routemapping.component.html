@@ -38,7 +38,7 @@
 <div class="modal-footer ">
     <div class="footer-data ">
         <div class="no-data alert alert-danger " role="alert " *ngIf="routes.length==0 ">
-            No Data Available On That Time Period !
+            No Data Available !
         </div>
         <div>
             <smart-table *ngIf="routes.length>0" [data]="table.data" [settings]="table.settings"></smart-table>
