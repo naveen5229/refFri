@@ -235,7 +235,7 @@ export class TripVoucherExpenseComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         this.common.loading--;
-        this.fuelFilings = res['data'];
+        this.fuelFilings = res['data'] || [];
         // this.getHeads();
       }, err => {
         console.log(err);

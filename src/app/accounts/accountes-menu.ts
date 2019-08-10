@@ -135,6 +135,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/cashbook'
             },
             {
+                title: 'Trip Expense Tally',
+                link: '/accounts/trip-expense-tally'
+            },
+            {
                 title: 'Ledger View',
                 link: '/accounts/ledgerview'
             },
@@ -178,10 +182,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'GST Reports',
                 link: '/accounts/gstreport'
             },
-            // {
-            //     title:'Tally Export',
-            //     link:'/accounts/tallyexport'
-            // }
+            {
+                title:'Tally Export',
+                link:'/accounts/tallyexport'
+            }
 
         ],
     },

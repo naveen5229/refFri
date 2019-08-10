@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddFreightExpensesComponent } from '../FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { AddFreightRevenueComponent } from '../FreightRate/add-freight-revenue/add-freight-revenue.component';
+import { BeehiveComponent } from '../../admin/beehive/beehive.component';
 @Component({
   selector: 'voucher-type-get',
   templateUrl: './voucher-type-get.component.html',
@@ -18,7 +19,8 @@ export class VoucherTypeGetComponent implements OnInit {
     rowId: null,
     voucherType: null,
     vehId: null,
-    docId: null
+    docId: null,
+    vehicleTypes: 0,
   }
   voucherList = [];
   title = '';
@@ -38,7 +40,16 @@ export class VoucherTypeGetComponent implements OnInit {
   {
     name: 'Manifest',
     id: '12'
-  }]
+  }];
+
+  vehicleType = [{
+    id: '0',
+    name: 'Own'
+  },
+  {
+    id: '1',
+    name: 'Market'
+  }];
   refId = null;
   refdata = [];
   referenceId = null;
@@ -50,6 +61,7 @@ export class VoucherTypeGetComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private modalService: NgbModal, ) {
     this.common.handleModalSize("class", "modal-lg", "1100", "px", 0);
+    console.log("voucher Value:", this.common.params.voucher);
 
     if (this.common.params.voucher) {
       this.voucher.FoName = this.common.params.voucher['Fo Name'];
@@ -78,6 +90,13 @@ export class VoucherTypeGetComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close({ response: true });
+  }
+  handleVehicleTypeChange() {
+    console.log("vehicle type", this.voucher.vehicleTypes);
+
+    this.voucher.vehRegistrationNo = null;
+    this.voucher.vehId = null;
+    document.getElementById('vehicleId')['value'] = '';
   }
 
   getItems() {
@@ -116,11 +135,14 @@ export class VoucherTypeGetComponent implements OnInit {
   }
 
   UpdateVoucher() {
-    const params = {
+    let params = {
       rowId: this.voucher.rowId,
       typeId: this.voucher.voucherID,
-      vehicleId: this.voucher.vehId
+      vehicleId: this.voucher.vehId,
+      regNo: this.voucher.vehRegistrationNo,
     }
+    console.log("params", params);
+
     this.common.loading++;
     this.api.post('UploadedVouchers/updateVoucherDetails', params)
       .subscribe(res => {
@@ -163,7 +185,7 @@ export class VoucherTypeGetComponent implements OnInit {
   }
 
   uploadVoucher() {
-    const params = {
+    let params = {
       vehId: this.voucher.vehId,
       regNo: this.voucher.vehRegistrationNo,
       refType: this.refId,
@@ -179,8 +201,14 @@ export class VoucherTypeGetComponent implements OnInit {
       refernceType: this.refId,
       remarks: null,
     }
+    if (this.voucher.voucherID == -7) {
+      this.common.params = { reference: "modal" };
 
+      const activeModal = this.modalService.open(BeehiveComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      return;
 
+    }
+    console.log("params", params);
     this.common.loading++;
     this.api.post('UploadedVouchers/docMappingWrtVoucherType', params)
       .subscribe(res => {

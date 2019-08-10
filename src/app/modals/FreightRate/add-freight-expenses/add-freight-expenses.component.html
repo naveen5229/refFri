@@ -17,8 +17,14 @@
         <div class="col-3">
           <label>Reference type</label>
         </div>
-        <div class="col-4">
+        <div class="col-3">
           {{expense.refTypeName}}
+        </div>
+        <div class="col-1">
+          <span>
+            <i class="fa fa-trash" (click)="deleteAllExpenses()">
+            </i>
+          </span>
         </div>
       </div>
       <div class="expense-table">
@@ -108,15 +114,8 @@
         </table>
       </div>
     </div>
-    <!-- <div class="col-6" *ngIf="images && images.length">
-      <div class="container">
-        <app-image-viewer [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true" *ngIf="images.length">
-        </app-image-viewer>
 
-      </div>
-    </div> -->
     <div class="col-6" *ngIf="images && images.length">
-      <!-- <label *ngFor="let image of images">{{image}}</label> -->
       <app-image-viewer [images]="images" [idContainer]="'expence-images'" [loadOnInit]="true" *ngIf="images.length">
       </app-image-viewer>
     </div>

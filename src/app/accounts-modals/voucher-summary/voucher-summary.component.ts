@@ -412,7 +412,7 @@ export class VoucherSummaryComponent implements OnInit {
       .subscribe(res => {
         console.log('fuelFiling Edit data', res);
         this.common.loading--;
-        this.fuelFilings = res['data'];
+        this.fuelFilings = res['data'] || [];
         this.fuelFilings.map(fuelFiling => {
           selectedData.map(tripedit => {
             (fuelFiling.id == tripedit.id) ? fuelFiling.isChecked = true : '';

@@ -51,7 +51,6 @@ export class BatteryInventoryComponent implements OnInit {
   modelSuggestion = false;
   models = [];
   sizeSuggestion = [];
-  searchedTyreDetails = [];
   userType = null;
   constructor(private modalService: NgbModal,
     public common: CommonService,

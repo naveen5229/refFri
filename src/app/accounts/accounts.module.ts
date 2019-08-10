@@ -41,6 +41,7 @@ import { VehicleLedgersComponent } from './vehicle-ledgers/vehicle-ledgers.compo
 import { DaybookpendingComponent } from './daybookpending/daybookpending.component';
 import { GstreportComponent } from './gstreport/gstreport.component';
 import { TallyexportComponent } from './tallyexport/tallyexport.component';
+import { TripExpenseTallyComponent } from './trip-expense-tally/trip-expense-tally.component';
 const PAGES_COMPONENTS = [
   AccountsComponent,
 ];
@@ -90,7 +91,8 @@ const PAGES_COMPONENTS = [
     VehicleLedgersComponent,
     DaybookpendingComponent,
     GstreportComponent,
-    TallyexportComponent
+    TallyexportComponent,
+    TripExpenseTallyComponent
     //StockSubtypeComponent
   ],
 })
