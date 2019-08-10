@@ -65,9 +65,15 @@ export class BatteryInventoryComponent implements OnInit {
     this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 7)));
     console.log('dates ', this.endDate, this.startDate)
     this.getBatteries();
+    this.common.refresh = this.refresh.bind(this);
+  
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getBatteries();
   }
 
   searchModels(searchModelString, index) {

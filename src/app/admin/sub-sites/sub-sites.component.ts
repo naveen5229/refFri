@@ -15,9 +15,15 @@ export class SubSitesComponent implements OnInit {
    public common : CommonService,
     public api : ApiService,
     public mapService : MapService
-  ) { }
+  ) {
+    this.common.refresh = this.refresh.bind(this);
+   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('refresh');
   }
 
   getSubSites(){

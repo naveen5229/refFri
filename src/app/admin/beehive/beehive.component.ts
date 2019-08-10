@@ -52,6 +52,7 @@ export class BeehiveComponent implements OnInit {
       this.componentType = 'page';
     }
     this.LatLong = this.common.params;
+    this.common.refresh = this.refresh.bind(this);
     // console.log(this.pass1);
     // console.log(this.pass);
     // console.log("private-->",this.forgePrivateKey);
@@ -60,6 +61,11 @@ export class BeehiveComponent implements OnInit {
     // console.log("public ssh-->",this.sshPublicKey);
 
 
+  }
+
+  refresh(){
+    console.log('Refresh');
+    this.LatLong = this.common.params;
   }
   ngOnInit() {
 
