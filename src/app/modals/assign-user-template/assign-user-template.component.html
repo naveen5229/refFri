@@ -1,3 +1,5 @@
+<!-- Author By: Lalit Singh -->
+
 <div class="modal-header">
   <h5 class="modal-title" id="modal-basic-title">Assign User Template</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
@@ -40,10 +42,9 @@
       <label>Branch</label>
     </div>
     <div class="col-6">
-      <select name="branch" class="form-control" [(ngModel)]="accountService.selected.branch"
-        (change)="getBranchDetails();">
+      <select name="branch" class="form-control" [(ngModel)]="branchId" (change)="getBranchDetails();">
         <option value="">Select Branch</option>
-        <option *ngFor="let branch of accountService.branches" [ngValue]="branch.id">{{branch.name}}</option>
+        <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
       </select>
     </div>
   </div>

@@ -30,13 +30,11 @@ table tr.highlight {
 }
 span{
     display: block;
-    border: 1px solid #ccc;
+    border: 1px solid #000;
     padding: 8px;
-    height: 35px;;
+    min-height: 54px;;
 }
-.pl-6{
-    padding-left: 150px;
-}
+
 
 .tjr-input {
     border: 1px solid #263238;
@@ -187,3 +185,6 @@ input[type=radio]{
     font-size: 30px;
     color: #217346;
 }
+.branchName input{
+    height: 54px !important;
+} 
