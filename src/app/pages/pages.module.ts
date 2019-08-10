@@ -155,7 +155,6 @@ const PAGES_COMPONENTS = [
     FinanceRecoveryComponent,
     ManageFoPartyComponent,
     ManageFoPartyComponent,
-    FoFuelAverageComponent,
     FuelMasterComponent,
 
     // CustomDatePipe
