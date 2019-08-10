@@ -135,6 +135,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/cashbook'
             },
             {
+                title: 'Trip Expense Tally',
+                link: '/accounts/trip-expense-tally'
+            },
+            {
                 title: 'Ledger View',
                 link: '/accounts/ledgerview'
             },
