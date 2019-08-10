@@ -88,15 +88,28 @@ export class VouchersSummaryComponent implements OnInit {
   }
 
   getIcons(voucher) {
-    let icons = [{
-      class: 'fa fa-user',
-      action: this.voucherTypeGet.bind(this, voucher)
-    }]
+    console.log("vouchar", voucher);
+
+    let icons = [];
+    if (voucher._vehicle_id) {
+      icons.push({
+        class: 'fas fa-user-shield',
+        action: this.voucherTypeGet.bind(this, voucher)
+      });
+    }
+    else {
+      icons.push({
+        class: 'fa fa-user',
+        action: this.voucherTypeGet.bind(this, voucher)
+      });
+    }
+
+
     if (voucher._ref_id && voucher._ref_type) {
       icons.push({
         class: 'fa fa-list',
         action: this.openFreightExpense.bind(this, voucher)
-      })
+      });
     }
     return icons;
   }

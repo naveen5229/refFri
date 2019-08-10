@@ -92,6 +92,8 @@ export class UserService {
       { id: 61, route: '/admin/user-templates' },
       { id: 62, route: '/admin/vouchers-summary' },
       { id: 63, route: '/admin/fuel-mileage-with-odo' },
+      { id: 64, route: '/admin/beehive' },
+      { id: 65, route: '/admin/battery-modals' },
     ]
   }
 

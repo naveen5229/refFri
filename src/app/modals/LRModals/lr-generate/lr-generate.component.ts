@@ -124,9 +124,9 @@ export class LrGenerateComponent implements OnInit {
     console.log("date", this.lr.date);
     this.getAllFieldName();
     this.getUnit();
-    console.log("this.common.params.LrData", this.common.params.LrData);
-    if (this.common.params.LrData) {
-      this.lr.id = this.common.params.LrData.lr_id ? this.common.params.LrData.lr_id : this.common.params.LrData.id;
+    console.log("this.common.params.LrData", this.common.params.lrData);
+    if (this.common.params.lrData) {
+      this.lr.id = this.common.params.lrData.lrId ? this.common.params.lrData.lrId : null;
       this.getLrDetails();
       this.btntxt = 'UPDATE'
     }
@@ -164,10 +164,8 @@ export class LrGenerateComponent implements OnInit {
   }
 
   setBranchDetails(lrDetails) {
-    if (!this.lr.id) {
-      this.lr.lrNumber = lrDetails.lrnum;
-      this.lr.lrNumberText = lrDetails.lrprefix;
-    }
+    this.lr.lrNumber = lrDetails.lrnum;
+    this.lr.lrNumberText = lrDetails.lrprefix;
   }
   addConsignee() {
     console.log("open consignee modal")
@@ -776,7 +774,3 @@ export class LrGenerateComponent implements OnInit {
     }
   }
 }
-
-
-
-
