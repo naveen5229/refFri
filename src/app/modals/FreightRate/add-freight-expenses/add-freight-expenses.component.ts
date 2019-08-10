@@ -54,7 +54,6 @@ export class AddFreightExpensesComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService,
   ) {
-    this.common.handleModalSize("class", "modal-lg", "1500");
     this.getFreightHeads();
 
     if (this.common.params.expenseData) {
@@ -173,7 +172,9 @@ export class AddFreightExpensesComponent implements OnInit {
         --this.common.loading;
         this.data = res['data']['result'];
         this.images = res['data']['images'];
-        console.log(".........", res['data']['images']);
+        // if(this.images)
+        //     this.common.handleModalSize("class", "modal-lg", "1500");
+
 
         console.log("api images:", this.images);
         this.headings = [];
@@ -207,6 +208,7 @@ export class AddFreightExpensesComponent implements OnInit {
       expId: del._exp_id,
       ledgerId: del._ledger_id
     }
+    console.log("params:", params);
     ++this.common.loading;
     this.api.post('FrieghtRate/deleteExpenses', params)
       .subscribe(res => {
@@ -257,6 +259,24 @@ export class AddFreightExpensesComponent implements OnInit {
       });
 
 
+  }
+
+  deleteAllExpenses() {
+    let params = {
+      refId: this.expense.refId,
+      refType: this.expense.refernceType
+    }
+    console.log("params:", params);
+    ++this.common.loading;
+    this.api.post('FrieghtRate/deleteExpenses', params)
+      .subscribe(res => {
+        --this.common.loading;
+        this.getExpenses();
+      }, err => {
+        this.common.loading--;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
   }
 }
 

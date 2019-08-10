@@ -18,11 +18,17 @@
         <div class="col-3">
           <label>Reference type</label>
         </div>
-        <div class="col-4">
+        <div class="col-3">
           {{revenue.refTypeName}}
         </div>
+        <div class="col-1">
+          <span>
+            <i class="fa fa-trash" (click)="deleteAllRevenue()">
+            </i>
+          </span>
+        </div>
       </div>
-      <div class="expense-table">
+      <div class="revenue-table">
         <table class="table table-bordered">
           <thead class="thead">
             <tr>
@@ -110,8 +116,8 @@
         </table>
       </div>
     </div>
-    <div class="col-6">
-      <app-image-viewer *ngIf="images" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
+    <div class="col-6" *ngIf="images && images.length">
+      <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'revenue-image'" [loadOnInit]="true">
       </app-image-viewer>
 
     </div>
