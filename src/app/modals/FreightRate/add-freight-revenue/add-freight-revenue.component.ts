@@ -62,7 +62,6 @@ export class AddFreightRevenueComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService,
     private formBuilder: FormBuilder) {
-    this.common.handleModalSize("class", "modal-lg", "1500");
     this.getFreightHeads();
     console.log("this.common.params.revenue", this.common.params.revenueData);
     if (this.common.params.revenueData) {
@@ -283,6 +282,23 @@ export class AddFreightRevenueComponent implements OnInit {
       });
 
 
+  }
+  deleteAllRevenue() {
+    let params = {
+      refId: this.revenue.refId,
+      refType: this.revenue.refernceType
+
+    };
+    ++this.common.loading;
+    this.api.post('FrieghtRate/deleteRevenue', params)
+      .subscribe(res => {
+        --this.common.loading;
+        this.getRevenue();
+      }, err => {
+        this.common.loading--;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
   }
 
 

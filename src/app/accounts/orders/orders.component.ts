@@ -31,6 +31,7 @@ export class OrdersComponent implements OnInit {
   totalitem = 0;
   invoiceDetail = [];
   taxDetailData = [];
+  mannual=false;
   order = {
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: '',
@@ -65,6 +66,7 @@ export class OrdersComponent implements OnInit {
       name: '',
       id: ''
     },
+    ismanual:this.mannual,
     amountDetails: [{
       id: -1,
       transactionType: 'debit',
@@ -167,6 +169,8 @@ export class OrdersComponent implements OnInit {
       // this.getStockItems('purchase');
       // this.getStockItems('inventary');
       this.getWarehouses();
+      this.mannual= this.accountService.selected.branch.is_inv_manualapprove;
+      this.order.ismanual=this.mannual;
     };
 
     this.common.refresh();
@@ -199,6 +203,7 @@ export class OrdersComponent implements OnInit {
       orderid: 0,
       delete: 0,
     ledgeraddressid:null,
+    ismanual:this.mannual,
     print:false,
       // branch: {
       //   name: '',
@@ -344,7 +349,7 @@ export class OrdersComponent implements OnInit {
       if (this.accountService.selected.financialYear.isfrozen == true) {
         this.common.showError('This financial year is freezed. Please select currect financial year');
         return;
-      }else if (this.order.amountDetails[1].amount == 0) {
+      }else if (this.order.amountDetails[0].amount == 0) {
         this.common.showError('Please fill correct amount');
         return;
       }else {
@@ -435,7 +440,8 @@ export class OrdersComponent implements OnInit {
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
       ledgeraddressid:order.ledgeraddressid,
-      x_id: 0
+      x_id: 0,
+      ismannual:order.ismanual
     };
 
     console.log('params11: ', params);
@@ -447,7 +453,7 @@ export class OrdersComponent implements OnInit {
         console.log('res: ', res);
         //this.GetLedger();
         if(order.print)this.printFunction();
-      // this.order = this.setInvoice();
+       this.order = this.setInvoice();
         this.setFoucus('ordertype');
         this.common.showToast('Invoice Are Saved');
         return;
