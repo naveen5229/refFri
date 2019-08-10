@@ -82,6 +82,7 @@ import { FuelMasterComponent } from './fuel-master/fuel-master.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent
+
 ];
 
 @NgModule({
@@ -162,6 +163,7 @@ const PAGES_COMPONENTS = [
   exports: [
     FuelAverageAnalysisComponent,
     FuelMileageWithOdoComponent,
+    FoFuelAverageComponent,
 
 
   ],

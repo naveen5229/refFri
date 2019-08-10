@@ -28,10 +28,13 @@ export class StrictMappingComponent implements OnInit {
       hideHeader: true
     }
   };
+  isPrimaryCheck=1;
+
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal) {
     Promise.all([this.getVehicleRoute(), this.getRoute()]).then(() => this.setTable());
+    this.common.handleModalSize('class','modal-lg','1050')
   }
 
   ngOnInit() {
@@ -141,7 +144,9 @@ export class StrictMappingComponent implements OnInit {
       vehicleId: this.vehid,
       assocType: 1,
       routeId: this.routeId,
-      rowId: this.rId
+      rowId: this.rId,
+      isPrimaryCheck:this.isPrimaryCheck
+
 
     };
 
@@ -179,7 +184,8 @@ export class StrictMappingComponent implements OnInit {
       vehicleId: this.vehid,
       assocType: 1,
       routeId: this.routeId,
-      rowId: null
+      rowId: null,
+      isPrimaryCheck:this.isPrimaryCheck
 
     };
 
