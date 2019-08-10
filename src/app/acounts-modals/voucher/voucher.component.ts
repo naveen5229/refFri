@@ -24,7 +24,7 @@ import { PrintService } from '../../services/print/print.service';
 })
 export class VoucherComponent implements OnInit {
   Vouchers = [];
-  vouchername='Edit Voucher';
+  vouchername = 'Edit Voucher';
   voucherId = '';
   voucherName = '';
   voucher = null;
@@ -39,7 +39,7 @@ export class VoucherComponent implements OnInit {
   balances = {};
   showConfirm = false;
   showConfirmCostCenter = false;
-
+  mannual  =false;
 
   showSuggestions = false;
   // ledgers = [];
@@ -47,7 +47,7 @@ export class VoucherComponent implements OnInit {
   allowBackspace = true;
   showDateModal = false;
   date = this.common.dateFormatternew(new Date());
-voucherTypeCastId=0;
+  voucherTypeCastId = 0;
   activeLedgerIndex = -1;
 
   constructor(public api: ApiService,
@@ -61,7 +61,8 @@ voucherTypeCastId=0;
     private activeModal: NgbActiveModal,
     public pdfService: PdfService) {
     this.voucher = this.setVoucher();
-
+  this.mannual  =this.accountService.selected.branch.is_inv_manualapprove;
+    
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
       if (params.id) {
@@ -71,8 +72,8 @@ voucherTypeCastId=0;
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
-    if(this.common.params.voucherTypeId){
-    this.voucherTypeCastId=this.common.params.voucherTypeId;
+    if (this.common.params.voucherTypeId) {
+      this.voucherTypeCastId = this.common.params.voucherTypeId;
     }
     this.getLedgers('debit');
     this.getLedgers('credit');
@@ -114,7 +115,8 @@ voucherTypeCastId=0;
       },
       Y_code: '',
       xId: 0,
-      delete: 0
+      delete: 0,
+      mannual:this.accountService.selected.branch.is_inv_manualapprove
     };
   }
 
@@ -122,12 +124,13 @@ voucherTypeCastId=0;
   voucherEditDetail() {
     let params = {
       vchId: this.common.params.voucherId
-      
+
     };
     setTimeout(() => {
-      if(this.common.params.addvoucherid=1) {
-        this.vouchername='Add Voucher';
-      this.voucher.xId=0;
+      if (this.common.params.addvoucherid == 6) {
+        console.log('this.common.poarams',this.common.params);
+        this.vouchername = 'Add Duplicate Voucher';
+        this.voucher.xId = 0;
       }
     }, 3000);
     console.log('vcid', this.common.params);
@@ -136,7 +139,7 @@ voucherTypeCastId=0;
       .subscribe(res => {
 
         console.log('Voucher Edit Details:', res);
-        this.voucherId = res['data'][0].y_vouchertype_id;
+        this.voucherId = res['data'][0].y_vouchertype_id ||0;
         this.voucher = {
           code: res['data'][0].y_cust_code,
           date: this.common.dateFormatternew(res['data'][0].y_date, 'ddMMYYYY', false, '-'),
@@ -148,7 +151,8 @@ voucherTypeCastId=0;
             debit: 0,
             credit: 0
           },
-          y_code: res['data'][0].y_code
+          y_code: res['data'][0].y_code,
+          mannual: (res['data'][0].y_for_approved)?false:true
         }
 
         res['data'].map(voucher => {
@@ -266,7 +270,7 @@ voucherTypeCastId=0;
       return;
     } else if (response == false) {
       // this.activeModal.close();
-      console.log('false condition true',response)
+      console.log('false condition true', response)
       this.activeModal.close({ data: false });
     }
     else {
@@ -289,7 +293,8 @@ voucherTypeCastId=0;
       vouchertypeid: this.voucher.vouchertypeid,
       y_code: this.voucher.y_code,
       xid: this.voucher.xId,
-      delete: this.voucher.delete
+      delete: this.voucher.delete,
+      ismannual:this.voucher.mannual
     };
 
     console.log('params 1 : ', params);
@@ -939,8 +944,8 @@ voucherTypeCastId=0;
       delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
       costcenter: ledger.costcenter,
-      taxtype:ledger.taxtype,
-      taxsubtype:ledger.taxsubtype
+      taxtype: ledger.taxtype,
+      taxsubtype: ledger.taxsubtype
     };
 
     console.log('params11: ', params);
@@ -993,8 +998,34 @@ voucherTypeCastId=0;
   restore() {
     this.deleteFunction(1, 'false');
   }
-  approve(ID) {
-    this.deleteFunction(0, 'true');
+  approve(id) {
+    this.approveFunction(0, 'true',id);
+  }
+  approveFunction(type, typeans,xid) {
+    let params = {
+      id: xid,
+      flagname: (type == 1) ? 'deleted' : 'forapproved',
+      flagvalue: typeans
+    };
+    this.common.loading++;
+    this.api.post('Voucher/deleteAppeooved', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        //this.getStockItems();
+        this.activeModal.close({ response: true, ledger: this.voucher });
+        if (type == 1 && typeans == 'true') {
+          this.common.showToast(" This Value Has been Deleted!");
+        } else if (type == 1 && typeans == 'false') {
+          this.common.showToast(" This Value Has been Restored!");
+        } else {
+          this.common.showToast(" This Value Has been Approved!");
+        }
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError('This Value has been used another entry!');
+      });
   }
   deleteFunction(type, typeans) {
     let params = {

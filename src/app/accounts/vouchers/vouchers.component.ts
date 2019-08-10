@@ -47,6 +47,7 @@ export class VouchersComponent implements OnInit {
 
   activeLedgerIndex = -1;
   modal = null;
+  mannual=false;
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -70,10 +71,12 @@ export class VouchersComponent implements OnInit {
     this.getLedgers('credit');
     this.voucher = this.setVoucher();
     this.common.currentPage = this.voucherName;
-
+    this.mannual= this.accountService.selected.branch.is_inv_manualapprove;
     setTimeout(() => {
       console.log('financial year', this.accountService.selected.branch.is_constcenterallow);
-    }, 10000);
+        }, 4000);
+        this.voucher.ismanual= this.accountService.selected.branch.is_inv_manualapprove;
+  
   }
 
   ngOnInit() {
@@ -82,6 +85,8 @@ export class VouchersComponent implements OnInit {
   refresh() {
     this.getLedgers('debit');
     this.getLedgers('credit');
+  this.mannual= this.accountService.selected.branch.is_inv_manualapprove;
+  this.voucher.ismanual=this.mannual;
   }
 
   setVoucher() {
@@ -109,7 +114,8 @@ export class VouchersComponent implements OnInit {
       total: {
         debit: 0,
         credit: 0
-      }
+      },
+      ismanual:this.mannual
     };
   }
 
@@ -215,6 +221,7 @@ export class VouchersComponent implements OnInit {
       amountDetails: this.voucher.amountDetails,
       vouchertypeid: this.voucherId,
       y_code: '',
+      ismannual:this.voucher.ismanual,
       xid: 0
     };
 

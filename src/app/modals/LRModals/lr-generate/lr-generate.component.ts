@@ -536,7 +536,8 @@ export class LrGenerateComponent implements OnInit {
       id: lrDetails.branch_id,
       name: lrDetails.branch_name,
       lr_number: null,
-      is_constcenterallow: false
+      is_constcenterallow: false,
+      is_inv_manualapprove:lrDetails.is_inv_manualapprove
     }
     console.log("branchDetails", branchDetails);
 
