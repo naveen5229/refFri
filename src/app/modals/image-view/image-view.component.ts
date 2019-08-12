@@ -22,7 +22,8 @@ export class ImageViewComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     private activeModal: NgbActiveModal) {
-
+      
+     
     let ref = this.common.params.refdata;
 
     if (this.common.params.refdata && this.common.params.refdata.refid) {
