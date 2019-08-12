@@ -1,28 +1,76 @@
-<div>
-  Count = <input type="text" name="lname" placeholder="Enter Size" [(ngModel)]="count"> <br>
-  Current=  <input type="text" name="1stLatLong" placeholder=" 1stLatLong" [(ngModel)]="current"  id ="1stLatLong"> <br>
-  <!-- 2ndLatLong= <input type="text" name="2ndLatLong" placeholder=" 2ndLatLong" id ="2ndLatLong" [(ngModel)]="second"> <br> -->
-  <!-- <button class="btn btn-primary" type="button" (click)=" getMapping()"> -->
-    <!-- SUBMIT</button> -->
-    Data To Encrypt : <input type="text" name="lname" placeholder="Enter Data" [(ngModel)]="data">
-    
-    <!-- Data To Decrypt : <input type="text" name="lname" placeholder="Enter data" [(ngModel)]="decrypt"> -->
-    <div class="clearfix">
-      <button class="btn  btn-primary" (click)="checkEncrypt()">POST</button>
-      <button class="btn  btn-primary" (click)="getSubSites()">GET</button>
-      <button class="btn  btn-primary" (click)="checkEncrypt1()">POSTENCRYPT</button>
-      <button class="btn  btn-primary" (click)="getSubSites1()">GETENCRYPT</button>
+<nb-card *ngIf="componentType=='page'; else model">
+  <nb-card-header>
+    <div class="col-sm-4">
+      <h2>Beehive</h2>
     </div>
-</div>
-<div style="position:relative;">
-  <div class="zoom_btn_box">
-    <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
-    <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
-    <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
-    <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
-    <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
+    <div class="col-sm-8 text-right">
+    </div>
+
+  </nb-card-header>
+  <nb-card-body>
+    <div>
+      Count = <input type="text" name="lname" placeholder="Enter Size" [(ngModel)]="count"> <br>
+      Current= <input type="text" name="1stLatLong" placeholder=" 1stLatLong" [(ngModel)]="current" id="1stLatLong">
+      <br>
+
+      Data To Encrypt : <input type="text" name="lname" placeholder="Enter Data" [(ngModel)]="data">
+      <div class="clearfix">
+        <button class="btn  btn-primary" (click)="checkEncrypt()">POST</button>
+        <button class="btn  btn-primary" (click)="getSubSites()">GET</button>
+        <button class="btn  btn-primary" (click)="checkEncrypt1()">POSTENCRYPT</button>
+        <button class="btn  btn-primary" (click)="getSubSites1()">GETENCRYPT</button>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <div class="zoom_btn_box">
+        <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
+      </div>
+    </div>
+    <div class="map" id="map"></div>
+  </nb-card-body>
+</nb-card>
+
+
+
+
+
+<ng-template #model>
+  <div class="modal-header">
+    <h5>Freight Rate Input</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-</div>
+  <div class="modal-body">
+    <div>
+      Count = <input type="text" name="lname" placeholder="Enter Size" [(ngModel)]="count"> <br>
+      Current= <input type="text" name="1stLatLong" placeholder=" 1stLatLong" [(ngModel)]="current" id="1stLatLong">
+      <br>
+      <!-- 2ndLatLong= <input type="text" name="2ndLatLong" placeholder=" 2ndLatLong" id ="2ndLatLong" [(ngModel)]="second"> <br> -->
+      <!-- <button class="btn btn-primary" type="button" (click)=" getMapping()"> -->
+      <!-- SUBMIT</button> -->
+      Data To Encrypt : <input type="text" name="lname" placeholder="Enter Data" [(ngModel)]="data">
+      <!-- Data To Decrypt : <input type="text" name="lname" placeholder="Enter data" [(ngModel)]="decrypt"> -->
+      <div class="clearfix">
+        <button class="btn  btn-primary" (click)="checkEncrypt()">POST</button>
+        <button class="btn  btn-primary" (click)="getSubSites()">GET</button>
+        <button class="btn  btn-primary" (click)="checkEncrypt1()">POSTENCRYPT</button>
+        <button class="btn  btn-primary" (click)="getSubSites1()">GETENCRYPT</button>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <div class="zoom_btn_box">
+        <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
+      </div>
+    </div>
 
-
-<div class="map" id="map"></div>
+  </div>
+</ng-template>

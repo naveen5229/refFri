@@ -31,14 +31,14 @@
     </div>
     <div class="row ">
         <div class="col-12 text-right mt-3 ">
-            <button type="button " class="btn btn-primary " style="border-radius:3px " (click)="insertRoute() ">Save</button>
+            <button type="button " class="btn btn-primary " style="border-radius:3px " (click)="insertRoute()">Save</button>
         </div>
     </div>
 </div>
 <div class="modal-footer ">
     <div class="footer-data ">
         <div class="no-data alert alert-danger " role="alert " *ngIf="routes.length==0 ">
-            No Data Available On That Time Period !
+            No Data Available !
         </div>
         <div>
             <smart-table *ngIf="routes.length>0" [data]="table.data" [settings]="table.settings"></smart-table>

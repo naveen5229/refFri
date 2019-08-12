@@ -20,11 +20,16 @@ export class VehiclesViewComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     public activeModal: NgbActiveModal) {
+      this.common.refresh = this.refresh.bind(this);
 
 
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('refresh');
   }
 
 

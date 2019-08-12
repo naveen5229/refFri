@@ -1,3 +1,6 @@
+label.radio-btn + label.radio-btn {
+    margin-left: 10px
+}
 .radio-btn input{
     margin: 0px;
     vertical-align: middle;
@@ -45,18 +48,18 @@ table.gerrate_tabel{
                 border-radius: 3px;
             }
         }
-        // td:nth-child(1){
-        //     width: 15%;
-        // }
-        // td:nth-child(2){
-        //     width: 35%;
-        // }
-        // td:nth-child(3){
-        //     width: 15%;
-        // }
-        // td:nth-child(4){
-        //     width: 35%;
-        // }
+        td:nth-child(1){
+            width: 15%;
+        }
+        td:nth-child(2){
+            width: 35%;
+        }
+        td:nth-child(3){
+            width: 15%;
+        }
+        td:nth-child(4){
+            width: 35%;
+        }
     }
 }
 .material_details h5{
@@ -170,45 +173,4 @@ table{
 }
 .red-star{
     color:red;
-}
-.gr-lr-form{
-    tr{
-        td{
-            width: 50%;
-            label{
-                width: 35%;
-                text-align: left;
-            }
-            span{
-                float: right;
-                width: 65%;
-            }
-            auto-suggestion{
-                max-width: 87%;
-                float: left;
-                margin: 0px;
-            }
-            uj-date-time-picker{
-                display: inline-block;
-                width: 100%;
-                max-width: 100%;
-                padding: 0px;
-                // float: right;            
-            }
-            input[type=text]{
-                width: 100%;
-                float: right;
-            }
-        }
-        td:last-child{
-            span{
-                span{
-                    width: 100%;
-                    label{
-                        margin-right:10px ;
-                    }
-                }
-            }
-        }
-    }
 }

@@ -134,6 +134,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Cash Book',
                 link: '/accounts/cashbook'
             },
+            
             {
                 title: 'Ledger View',
                 link: '/accounts/ledgerview'
@@ -185,6 +186,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
         ],
     },
+    {
+        title: 'Admin Report',
+        icon: 'fas fa-file-invoice',
+        children: [
+
+    {
+        title: 'Trip Expense Tally',
+        link: '/accounts/trip-expense-tally'
+    },
+],
+},
     {
         title: 'Invoice',
         icon: 'fas fa-file-invoice',
