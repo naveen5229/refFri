@@ -31,12 +31,17 @@ export class CardBalanceComponent implements OnInit {
     public api: ApiService,
     public modalService: NgbModal,
     public user: UserService) {
+     this.common.refresh = this.refresh.bind(this);
     this.getCardBalance()
     //  let today = new Date();
     //  this.dates.start = today.setDate(today.getDate() - 1);
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getCardBalance();
   }
   getDate(date) {
     this.common.params = { ref_page: "card usage" };

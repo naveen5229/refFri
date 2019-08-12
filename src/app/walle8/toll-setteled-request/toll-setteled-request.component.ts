@@ -26,9 +26,15 @@ export class TollSetteledRequestComponent implements OnInit {
     let today = new Date();
     this.dates.start = this.common.dateFormatter1(today.setDate(today.getDate() - 1));
     this.gettollSetteledReq();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.gettollSetteledReq();
   }
   getDate(date) {
     this.common.params = { ref_page: "card usage" };

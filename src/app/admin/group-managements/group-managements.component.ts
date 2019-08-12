@@ -38,9 +38,15 @@ export class GroupManagementsComponent implements OnInit {
 
   constructor(private modalService: NgbModal, public api: ApiService,
     public common: CommonService,
-    public user: UserService) { }
+    public user: UserService) {
+      this.common.refresh = this.refresh.bind(this);
+     }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log("refresh");
   }
 
   searchUserId(groupUser) {

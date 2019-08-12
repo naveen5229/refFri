@@ -361,6 +361,11 @@ export class DataService {
             link: '/admin/fuel-rules',
             home: true,
           },
+          {  title: 'Fo Fuel Milage',
+          icon: 'fa fa-signal',
+          link: '/admin/fo-fuel-average',
+          home: true, },
+
           {
             title: 'Pump Station Area',
             icon: 'fa fa-signal',
