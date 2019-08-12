@@ -111,9 +111,15 @@ export class TollAnalaticsComponent implements OnInit {
     this.dates.start = start;
     this.dates.end = end;
     this.getTollAnalatics();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getTollAnalatics();
   }
 
   getDate(date) {

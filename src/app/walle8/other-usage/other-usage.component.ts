@@ -29,9 +29,15 @@ export class OtherUsageComponent implements OnInit {
     this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
 
     this.getOtherUsageDetail();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getOtherUsageDetail();
   }
   getOtherUsageDetail() {
     // this.userId=this.user

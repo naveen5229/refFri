@@ -21,10 +21,15 @@ export class LocationsComponent implements OnInit {
     private commonService: CommonService,
     public api: ApiService,
     private modalService: NgbModal) {
+      this.common.refresh = this.refresh.bind(this);
 
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log("refresh");
   }
   saveLocation() {
     this.data = [];

@@ -38,8 +38,8 @@ export class FuelEntriesComponent implements OnInit {
     this.api.post('FuelDetails/getFillingsBwTime', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
-        this.fuelDetails = res['data'];
+       // console.log(res);
+        this.fuelDetails = res['data'] || [];
         this.fuelDetails.forEach((element) => {
           if (element.is_last_filling) {
             this.bgc.push(true);

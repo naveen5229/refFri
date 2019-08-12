@@ -69,6 +69,7 @@ export class TallyexportComponent implements OnInit {
     console.log('selected data',selectedData);
     this.branchType.name = selectedData[display];
     this.branchType.id = selectedData.id;
+    this.setFoucus('startDate');
     // console.log('order User: ', this.DayBook);
   }
 
