@@ -95,8 +95,8 @@ export class LrGenerateComponent implements OnInit {
           }
           this.particulars = res['data'].details;
           this.setlrParticulars(this.particulars);
-          console.log(this.particulars, this.particulars[0].fixed);
-          console.log("this.lrGeneralField", this.lrGeneralField, "head data", headData);
+          // console.log(this.particulars, this.particulars[0].fixed);
+          // console.log("this.lrGeneralField", this.lrGeneralField, "head data", headData);
           this.formatGeneralDetails();
         }
       }, err => {
@@ -118,6 +118,11 @@ export class LrGenerateComponent implements OnInit {
     if (this.lr.image) {
       this.images[0] = this.lr.image;
       this.img_flag = true;
+    }
+    if (this.img_flag) {
+      this.common.handleModalSize('class', 'modal-lg', '1600');
+    } else {
+      this.common.handleModalSize('class', 'modal-lg', '1000');
     }
     this.lr.date = headData.lr_date ? new Date(headData.lr_date) : new Date();
     this.vehicleData.regno = headData.regno;
@@ -231,7 +236,7 @@ export class LrGenerateComponent implements OnInit {
           lrField.r_value = '';
         }
         if (lrField.r_colname == 'invoiceto_name') {
-          lrField.r_valueid = 3;
+          lrField.r_valueid2 = 3;
           lrField.r_value = 'Transport Agent';
         }
       });
@@ -241,10 +246,21 @@ export class LrGenerateComponent implements OnInit {
   getCompanyData(field, company) {
     console.log("field", field, "data", company);
     if (field == 'consignee_name') {
-      (<HTMLInputElement>document.getElementById('consignee_address')).value = company.address;
-    } else if (field == 'consignor_name') {
-      (<HTMLInputElement>document.getElementById('consigner_address')).value = company.address;
+      this.lrGeneralField.map(lrField => {
+        if (lrField.r_colname == 'consignee_address') {
+          lrField.r_value = company.address;
+        }
+      })
     }
+    else if (field == 'consignor_name') {
+      this.lrGeneralField.map(lrField => {
+        if (lrField.r_colname == 'consigner_address') {
+          lrField.r_value = company.address;
+        }
+      })
+    }
+
+
   }
 
   takeActionSource(type, res, i) {
@@ -416,6 +432,7 @@ export class LrGenerateComponent implements OnInit {
       console.log('Date:', data);
     });
   }
+
 
   getDate() {
 

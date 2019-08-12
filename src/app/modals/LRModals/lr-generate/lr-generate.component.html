@@ -308,9 +308,9 @@
                 </select>
 
                 <!-- Invoice To DropDown -->
-                <select [(ngModel)]="generalDetailColumn2[i].r_valueid" class="form-conrol"
+                <select [(ngModel)]="generalDetailColumn2[i].r_valueid2" class="form-conrol"
                   *ngIf="generalDetailColumn2[i].r_colname=='invoiceto_name'"
-                  (change)="generalDetailColumn2[i].r_value=''">
+                  (change)="generalDetailColumn2[i].r_value='';generalDetailColumn2[i].r_valueid=''">
                   <option value="1">Consignee</option>
                   <option value="2">Consignor</option>
                   <option value="3">Transport Agent</option>
@@ -319,10 +319,10 @@
                 </select>
 
                 <auto-suggestion
-                  (onSelected)=" generalDetailColumn2[i].r_valueid==$event.id;generalDetailColumn2[i].r_value==$event.name"
+                  (onSelected)=" generalDetailColumn2[i].r_valueid=$event.id;generalDetailColumn2[i].r_value=$event.name"
                   url="Suggestion/GetCompanies" display="name" placeholder="Invoice Payer Name" style="width:100%;"
                   class="auto-suggest" [preSelected]="{name:generalDetailColumn2[i].r_value}"
-                  *ngIf="generalDetailColumn2[i].r_colname=='invoiceto_name' && generalDetailColumn2[i].r_valueid==9">
+                  *ngIf="generalDetailColumn2[i].r_colname=='invoiceto_name' && generalDetailColumn2[i].r_valueid2==9">
                 </auto-suggestion>
 
                 <!-- Simple text Box -->
@@ -340,7 +340,7 @@
         </table>
 
         <!-- material Details -->
-        <div class="material_details">
+        <div class="material_details" *ngIf="particulars && particulars.length>0">
           <h5>Material Details
             <!-- <i class="fa fa-list add" (click)="addFoField()"></i> &nbsp;&nbsp; -->
             <i class="fa fa-plus add" (click)="addMaterial()"></i></h5>
@@ -350,7 +350,7 @@
                 <td *ngFor="let fix of particular.fixed; let j = index;">
                   <label>{{fix.r_coltitle}}<span style="color: red" *ngIf="fix.r_required">*</span></label>
                   <span>
-                    <auto-suggestion (onSelected)="fix.r_value=$event.name;fix.r_valueid=event.id"
+                    <auto-suggestion (onSelected)="fix.r_value=$event.name;fix.r_valueid=$event.id"
                       url="Suggestion/GetMaterialTypes" display="name" placeholder="Material Name"
                       [preSelected]="{name:fix.r_value}" [inputId]="'material-' + i"
                       *ngIf="fix.r_colname == 'material_name'">
@@ -373,8 +373,9 @@
                 </td>
               </tr>
           </table>
-          <div><button class="btn btn-primary" (click)=saveDetails()>{{btnTxt}}</button></div>
         </div>
+        <div><button class="btn btn-primary" (click)=saveDetails()>{{btnTxt}}</button></div>
+
       </div>
 
       <!-- image module -->
