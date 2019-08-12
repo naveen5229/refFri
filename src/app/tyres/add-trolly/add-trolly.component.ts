@@ -24,10 +24,15 @@ export class AddTrollyComponent implements OnInit {
     public common: CommonService,
     public api: ApiService
   ) { 
+    this.common.refresh = this.refresh.bind(this);
     this.getTrollys();
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getTrollys();
   }
   searchUser() {
     console.log("test");

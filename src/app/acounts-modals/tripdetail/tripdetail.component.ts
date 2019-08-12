@@ -425,7 +425,7 @@ this.vouchertype=this.common.params.VoucherData[0]['y_vouchertype_id'];
       .subscribe(res => {
         console.log(res);
         this.common.loading--;
-        this.fuelFilings = res['data'];
+        this.fuelFilings = res['data'] || [];
         this.fuelFilings.map(fuelFiling => fuelFiling.isChecked = true);
       }, err => {
         console.log(err);

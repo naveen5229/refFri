@@ -28,9 +28,15 @@ export class FinancialMainSummaryComponent implements OnInit {
   ) {
     this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
     this.getfinancialMainSummary();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getfinancialMainSummary();
   }
   getDate(date) {
     this.common.params = { ref_page: "card usage" };

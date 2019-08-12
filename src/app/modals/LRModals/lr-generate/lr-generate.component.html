@@ -80,7 +80,7 @@
                     <uj-date-time-picker (onChanged)="lr.date = $event" [dateTimeValue]="lr.date">
                     </uj-date-time-picker>
                     <!-- <input type="text" class="form-control" autocomplete="off" [(ngModel)]="lr.date" name="date"
-                    (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY"> -->
+                  (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY"> -->
                   </div>
 
                 </div>
@@ -102,8 +102,8 @@
               <td><label>Driver Mob No. </label></td>
               <td>
                 <!-- <ng-template *ngIf="flag==true; then showText; else showSuggestion" ></ng-template>
-                  <ng-template #showText><input type="text" class="form-control" style="width:200px" [(ngModel)]="mobileno" placeholder="" autocomplete="off" readonly></ng-template>
-                  <ng-template #showSuggestion> -->
+                <ng-template #showText><input type="text" class="form-control" style="width:200px" [(ngModel)]="mobileno" placeholder="" autocomplete="off" readonly></ng-template>
+                <ng-template #showSuggestion> -->
                 <span>
                   <auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
                     placeholder="Select Driver" style="width:100%;" class="col-md-9 auto-suggest d-block"
@@ -134,7 +134,7 @@
                 </span>
 
                 <!-- <input placeholder="Search Source City" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control"
-                    autocomplete="off"> -->
+                  autocomplete="off"> -->
               </td>
               <!-- <td> <input type="text" [(ngModel)]=lr.sourceCity class="form-control" autocomplete="off"></td> -->
               <td><label>Destination City<span class="red-star">*</span> </label></td>
@@ -150,7 +150,7 @@
                     (click)="destinationString='----'; takeActionDestination(null);"></i>
                 </span>
                 <!-- <input placeholder="Search Destination City" id="destinationCity" [(ngModel)]="lr.destinationCity"
-                    class="form-control"> -->
+                  class="form-control"> -->
 
                 <!-- <input class="form-control" id="destinationCity " name="destinationCity" [(ngModel)]="lr.destinationCity "></td> -->
                 <!-- <td><input type="text" [(ngModel)]=lr.destinationCity class="form-control" autocomplete="off"> </td> -->
@@ -362,11 +362,11 @@
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
                   <!-- <auto-suggestion (onSelected)="customjsonfield.field1 = $event.name;" display="name" [data]="fofields"
-                      [preSelected]="{name:customjsonfield.field1}" placeholder="Name"></auto-suggestion> -->
+                    [preSelected]="{name:customjsonfield.field1}" placeholder="Name"></auto-suggestion> -->
                   <!-- <select [(ngModel)]="customjsonfield.field1">
-                      <option value="">Select</option>
-                      <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
-                    </select> -->
+                    <option value="">Select</option>
+                    <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
+                  </select> -->
                 </td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="customjsonfield.value1">
@@ -378,11 +378,11 @@
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
                   <!-- <auto-suggestion (onSelected)="customjsonfield.field2 = $event.name;" display="name" [data]="fofields"
-                      [preSelected]="{name:customjsonfield.field2}" placeholder="Name"></auto-suggestion> -->
+                    [preSelected]="{name:customjsonfield.field2}" placeholder="Name"></auto-suggestion> -->
                   <!-- <select [(ngModel)]="customjsonfield.field2">
-                      <option value="">Select</option>
-                      <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
-                    </select> -->
+                    <option value="">Select</option>
+                    <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
+                  </select> -->
                 </td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="customjsonfield.value2">
@@ -394,11 +394,11 @@
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
                   <!-- <auto-suggestion (onSelected)="customjsonfield.field3 = $event.name;" display="name" [data]="fofields"
-                      [preSelected]="{name:customjsonfield.field3}" placeholder="Name"></auto-suggestion> -->
+                    [preSelected]="{name:customjsonfield.field3}" placeholder="Name"></auto-suggestion> -->
                   <!-- <select [(ngModel)]="customjsonfield.field3">
-                      <option value="">Select</option>
-                      <option *ngFor="let fofield of fofields ; " [value]="fofield.name">{{fofield.name}}</option>
-                    </select> -->
+                    <option value="">Select</option>
+                    <option *ngFor="let fofield of fofields ; " [value]="fofield.name">{{fofield.name}}</option>
+                  </select> -->
                 </td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="customjsonfield.value3">
@@ -410,11 +410,11 @@
                     <option *ngFor="let fofield of fofields ;" [value]="fofield.name"></option>
                   </datalist>
                   <!-- <auto-suggestion (onSelected)="customjsonfield.field4 = $event.name;" display="name" [data]="fofields"
-                      [preSelected]="{name:customjsonfield.field4}" placeholder="Name"></auto-suggestion> -->
+                    [preSelected]="{name:customjsonfield.field4}" placeholder="Name"></auto-suggestion> -->
                   <!-- <select [(ngModel)]="customjsonfield.field4">
-                      <option value="">Select</option>
-                      <option *ngFor="let fofield of fofields ; " [value]=fofield.name>{{fofield.name}}</option>
-                    </select> -->
+                    <option value="">Select</option>
+                    <option *ngFor="let fofield of fofields ; " [value]=fofield.name>{{fofield.name}}</option>
+                  </select> -->
                 </td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="customjsonfield.value4">
@@ -454,8 +454,8 @@
             <button class="btn btn-primary btn-loadOther" type="button" (click)="loadImage('Other')">Others</button>
           </div>
           <!-- <div class="col-sm-3 fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"
-          (click)="removeLrDetails()">
-        </div> -->
+        (click)="removeLrDetails()">
+      </div> -->
         </div>
         <div>
           <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
