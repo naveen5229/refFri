@@ -1515,9 +1515,9 @@ CompareDate(freezedate) {
   let fristyear = firstarr[0];
   let firstmonth = firstarr[1];
   let firstdate = firstarr[2];
-  let endyear = secondarr[2];
-  let endmonth = secondarr[1];
-  let enddate = secondarr[0];
+  let endyear = parseInt(secondarr[2]);
+  let endmonth = parseInt(secondarr[1]);
+  let enddate = parseInt(secondarr[0]);
 
   console.log('First Date:', fristyear, firstmonth, firstdate);
   console.log('Second Date:', endyear, endmonth, enddate);
