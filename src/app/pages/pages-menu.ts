@@ -300,7 +300,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       // },
       {
         title: ' Fuel Master',
-        icon: 'fas fa-history',
+        icon: 'fa fa-sellsy',
         link: '/pages/fuel-master',
         home: true,
       },
