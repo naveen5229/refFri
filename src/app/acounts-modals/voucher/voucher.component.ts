@@ -40,7 +40,7 @@ export class VoucherComponent implements OnInit {
   showConfirm = false;
   showConfirmCostCenter = false;
   mannual  =false;
-
+  freezedate='';
   showSuggestions = false;
   // ledgers = [];
   lastActiveId = '';
@@ -81,6 +81,7 @@ export class VoucherComponent implements OnInit {
     this.common.currentPage = this.voucherName;
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.voucherEditDetail();
+    this.getFreeze();
   }
 
   ngOnInit() {
@@ -250,7 +251,7 @@ export class VoucherComponent implements OnInit {
 
 
 
-  dismiss(response) {
+  async dismiss(response) {
     console.log('Voucher:', this.voucher, 'test response', response);
     if (response && this.voucher.total.debit !== this.voucher.total.credit) {
       this.common.showError('Credit And Debit Amount Should be Same');
@@ -264,7 +265,23 @@ export class VoucherComponent implements OnInit {
     console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch.id != 0);
     if (response && this.accountService.selected.branch.id != 0) {
       // this.accountService.selected.branch
-      this.addVoucher();
+    
+ 
+       
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          if (rescompare == 0) {
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('voucher-date');
+            }, 150);
+          } else {
+            this.addVoucher();
+          }
+        }
+      
+
+
       this.showConfirm = false;
       event.preventDefault();
       return;
@@ -531,7 +548,7 @@ export class VoucherComponent implements OnInit {
 
 
 
-  keyHandler(event) {
+  async keyHandler(event) {
     const key = event.key.toLowerCase();
     // console.log(event);
     const activeId = document.activeElement.id;
@@ -618,8 +635,25 @@ export class VoucherComponent implements OnInit {
         this.activeLedgerIndex = -1;
         return;
       } else if (activeId == 'voucher-date') {
-        this.handleVoucherDateOnEnter();
-        this.setFoucus('transaction-type-0');
+ 
+        if (this.freezedate) {
+
+
+
+          let rescompare = this.CompareDate(this.freezedate);
+          if (rescompare == 1) {
+            // console.log('hello brother');
+            this.handleVoucherDateOnEnter();
+            this.setFoucus('transaction-type-0');
+          }
+          else {
+            this.common.showError('Please Enter Date After '+this.freezedate);           
+            setTimeout(() => {
+              this.setFoucus('voucher-date');
+            }, 150);
+          }
+        }
+
       } else {
         let index = this.getElementsIDs().indexOf(document.activeElement.id);
         this.setFoucus(this.getElementsIDs()[index + 1]);
@@ -659,6 +693,27 @@ export class VoucherComponent implements OnInit {
     this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
     this.showConfirmCostCenter = false;
     event.preventDefault();
+  }
+  getFreeze() {
+    return new Promise((resolve, reject) => {
+      let params = {
+        departmentId: 0
+      };
+
+      this.common.loading++;
+      this.api.post('Voucher/getFreeze', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('freeze Res11:', res['data']);
+          this.freezedate =res['data'][0]['getfreezedate'];
+          resolve(res['data']);
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+          reject([]);
+        });
+    });
   }
   handleAmountEnter(index) {
     index = parseInt(index);
@@ -966,7 +1021,33 @@ export class VoucherComponent implements OnInit {
 
   }
 
+  CompareDate(freezedate) {
+    //            new Date(Year, Month, Date, Hr, Min, Sec);  
 
+    // console.log('freeze data', freezedata);
+    let firstarr = freezedate.split('-');
+    // console.log('first arr ', firstarr[0]);
+    let secondarr = this.voucher.date.split('-'); // freezedata[0]['getfreezedate'].split('-');
+    //  console.log('first arr ', secondarr[2]);
+
+    let fristyear = firstarr[0];
+    let firstmonth = firstarr[1];
+    let firstdate = firstarr[2];
+    let endyear = secondarr[2];
+    let endmonth = secondarr[1];
+    let enddate = secondarr[0];
+
+    console.log('First Date:', fristyear, firstmonth, firstdate);
+    console.log('Second Date:', endyear, endmonth, enddate);
+    var dateOne = new Date(fristyear, firstmonth, firstdate);
+    var dateTwo = new Date(endyear, endmonth, enddate);
+    //Note: 04 is month i.e. May  
+    if (dateOne > dateTwo) {
+      return 0;
+    } else {
+      return 1;
+    }
+  }
 
   delete(tblid) {
     let params = {
