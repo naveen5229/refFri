@@ -32,6 +32,7 @@ export class OrdersComponent implements OnInit {
   invoiceDetail = [];
   taxDetailData = [];
   mannual=false;
+  freezedate='';
   order = {
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: '',
@@ -177,7 +178,7 @@ export class OrdersComponent implements OnInit {
 
     this.setFoucus('ordertype');
     this.common.currentPage = this.order.ordertype.name;
-    
+    this.getFreeze();
   }
 
   ngOnInit() {
@@ -359,7 +360,19 @@ export class OrdersComponent implements OnInit {
           return;
         }
       }
+      if (this.freezedate) {
+        let rescompare = this.CompareDate(this.freezedate);
+        console.log('heddlo',rescompare);
+        if (rescompare == 0) {
+          console.log('hello');
+          this.common.showError('Please Enter Date After '+this.freezedate);
+          setTimeout(() => {
+            this.setFoucus('date');
+          }, 150);
+        } else {
       this.addOrder(this.order);
+        }
+      }
     }
     // this.activeModal.close({ response: response, Voucher: this.order });
   }
@@ -550,13 +563,26 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('date')) {
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          console.log('heddlo',rescompare);
+          if (rescompare == 0) {
+            console.log('hello');
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('date');
+            }, 150);
+          } else {
+           
+        
         if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
           this.setFoucus('qty' + '-' + 0);
         }
         else {
           this.setFoucus('purchaseledger');
         }
-      } else if (this.activeId.includes('purchaseledger')) {
+      }
+    } } else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
@@ -1577,4 +1603,50 @@ let invoiceJson={};
     this.printService.printInvoice(invoiceJson, 1);
     this.order = this.setInvoice();
   }
+
+  getFreeze() {
+   
+    let params = {
+      departmentId: 0
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/getFreeze', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('freeze Res11:', res['data']);
+        this.freezedate = res['data'][0]['getfreezedate'];
+       // resolve(res['data']);
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      
+      });
+}
+CompareDate(freezedate) {
+  let firstarr = freezedate.split('-');
+   console.log('first date ', firstarr);
+  let secondarr = this.order.date.split('-'); 
+  console.log('second arr ', secondarr[2]);
+
+  let fristyear = firstarr[0];
+  let firstmonth = firstarr[1];
+  let firstdate = firstarr[2];
+  let endyear = secondarr[2];
+  let endmonth = secondarr[1];
+  let enddate = secondarr[0];
+
+  console.log('First Date:', fristyear, firstmonth, firstdate);
+  console.log('Second Date:', endyear, endmonth, enddate);
+  var dateOne = new Date(fristyear, firstmonth, firstdate);
+ // var dateTwo = new Date(endyear, endmonth, enddate);
+  var dateTwo = new Date(endyear, endmonth, enddate);
+  
+  if (dateOne > dateTwo) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
 }

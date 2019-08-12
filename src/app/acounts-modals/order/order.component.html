@@ -425,37 +425,40 @@
 
 
     <div class="modal-footer">
-      <div class="row w-50">
-        <div class="col-6">
+      <div class="row w-100">
+        <div class="col-7">
             <button class="btn btn-primary mr-2" type="button" (click)="printFunction()" id="printfunction"
             style="cursor: pointer;">Print</button>
-          <span *ngIf="order.mannual"> <input type="checkbox" name="mannual" id="mannual" [(ngModel)]="order.mannual">Is Mannual Approval</span>
+          <!-- <span *ngIf="order.mannual"> <input type="checkbox" name="mannual" id="mannual" [(ngModel)]="order.mannual">Is Mannual Approval</span> -->
         </div>
-        <div class="col-2" *ngIf="(this.common.params && (this.deletedId == 0))">
+        <div class="col-1" *ngIf="(this.common.params && (this.deletedId == 0))">
           <button class="btn btn-danger" type="button" outline (click)="delete(order.orderid)" id="delete"
             style="cursor: pointer;">Delete</button>
         </div>
-        
-        <div class="col-3" *ngIf="(this.common.params && (this.deletedId == 1))">
+        <div class="col-1" *ngIf="(this.approve == 4)">
+          <button class="btn btn-primary" type="button" outline (click)="approvefunction(order.orderid)" id="permanentdelete"
+            style="cursor: pointer;">Approve</button>
+        </div>
+        <div class="col-2" *ngIf="(this.common.params && (this.deletedId == 1))">
           <button class="btn btn-danger" type="button" outline (click)="permantdelete(order.orderid)" id="delete"
             style="cursor: pointer;">Permanent Delete</button>
         </div>
 
-        <div class="col-2 text-right" *ngIf="(this.deletedId == 0)">
+        <div class="col-1 text-right" *ngIf="(this.deletedId == 0)">
           <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
             style="cursor: pointer;">Submit
           </button>
         </div>
-        <div class="col-2 text-right" *ngIf="(this.deletedId == 1)">
+        <div class="col-1 text-right" *ngIf="(this.deletedId == 1)">
           <button class="btn btn-primary" type="button" outline (click)="restore(true)" id="submit"
             style="cursor: pointer;">Restore
           </button>
         </div>
-        <div class="col-2">
+        <div class="col-1">
           <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel"
             style="cursor: pointer;">Cancel</button>
         </div>
-      </div>
+      </div>  
     </div>
   </nb-card-body>
 </nb-card>
