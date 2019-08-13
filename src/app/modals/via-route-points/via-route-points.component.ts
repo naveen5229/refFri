@@ -14,7 +14,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 export class ViaRoutePointsComponent implements OnInit {
 
   latlong = [{ lat: null, long: null, color: null, subType: null }];
-  locType = "site";
+  locType = "map";
   siteLoc = null;
   editId = null;
   siteName = null;
