@@ -195,7 +195,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       // },
       {
         title: 'View LR Manifest',
-        icon: 'fab fa-buffer',
+        icon: 'far fa-file',
         link: '/pages/view-manifesto',
       },
       {
