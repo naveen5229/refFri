@@ -292,15 +292,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/remaining-fuel',
         home: true,
       },
-      {
-        title: ' Model Fuel Mileage',
-        icon: 'fas fa-history',
-        link: '/pages/fo-fuel-average',
-        home: true,
-      },
+      // {
+      //   title: ' Model Fuel Mileage',
+      //   icon: 'fas fa-history',
+      //   link: '/pages/fo-fuel-average',
+      //   home: true,
+      // },
       {
         title: ' Fuel Master',
-        icon: 'fas fa-history',
+        icon: 'fa fa-sellsy',
         link: '/pages/fuel-master',
         home: true,
       },

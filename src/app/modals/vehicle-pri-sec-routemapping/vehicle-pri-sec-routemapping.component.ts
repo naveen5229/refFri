@@ -35,6 +35,7 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
   regno = null;
   rowId=null;
   isPrimaryCheck=1;
+  insertData1=[]
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal,
@@ -72,12 +73,16 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
 
   changeRefernceType(type) {
     console.log('routes123: ', type);
-    // this.routeId=type.id
-    this.routeId = this.routesDetails.find((element) => {
-      console.log(element.name == type);
-      return element.id == type.id;
-    }).id;
+    this.routeId=type.id
+    console.log('routes123:---------------- ', this.routeId);
+
+    // this.routeId = this.routesDetails.find((element) => {
+    //   console.log(element.name == type);
+    //   return element.id == type.id;
+    // }).id;
   }
+
+ 
 
   getVehicleRoute() {
     this.routes = [];
@@ -111,23 +116,30 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
   }
 
   insertRoute() {
-    let params = {
+    // if(this.assocType = 2){
+    //   if(!this.rowId){
+    //     this.isPrimaryCheck=0
+    //   }
+    // }
+    const params = {
       vehicleId: this.vehid,
       assocType: this.assocType,
       routeId: this.routeId,
       rowId: this.rowId,
       isPrimaryCheck:this.isPrimaryCheck
-
-
     };
-
+ 
 
     console.log("params", params)
     this.common.loading++;
     this.api.post('ViaRoutes/vehicleRouteMapping', params)
       .subscribe(res => {
+
         this.insertData = res['data'] || [];
-        if (res['data'][0].y_id >= 0) {
+        // return this.common.showToast(res['data'][0].y_id )
+        this.common.loading--;
+
+        if (res['data'][0].y_id > 0) {
           this.common.showToast(res['data'][0].y_msg);
           this.routeId = '';
           this.assocType = 3;
@@ -137,33 +149,18 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
           this.routesDetails=null ;
 
           this.getVehicleRoute();
-          this.common.loading--;
           
         }
-        else if (res['data'][0].y_id == -2) {
-          this.common.showToast(res['data'][0].y_msg);
-          this.common.params = {
-            title: 'Closing Stock',
-            description: 'Are you sure you want close this stock?',
-            btn2:"No",
-            btn1:'Yes'
-          };
-          console.log("Inside confirm model")
-          const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
-          activeModal.result.then(data => {
-            console.log('res', data);
-            if (data.response) {
-              this.getVehicleRoute();
-              this.isPrimaryCheck=0;
-            }
-            else if(data.apiHit==0){
-              this.isPrimaryCheck = 1;
-            }
-      
-          });
-          
-        }  else {
-          this.common.loading--;
+        else  if(params.rowId == null){
+          if (res['data'][0].y_id == -2) {
+
+          this.primaryCheck();
+    
+          // this.common.showToast(res['data'][0].y_msg);
+         
+        }
+      }
+        else {
           this.common.showError(res['data'][0].y_msg)
         }
       }, err => {
@@ -172,6 +169,47 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
       });
   }
 
+  primaryCheck(){
+    this.common.params = {
+   title: 'Add More Primary Mapping',
+   description: 'Are you sure you want one more primary mapping?',
+   btn2:"No",
+   btn1:'Yes'
+ };
+ console.log("Inside confirm model")
+ const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
+ activeModal.result.then(data => {
+   console.log('res', data);
+   if (data.response) {        
+     this.isPrimaryCheck=0;
+     const params = {
+      vehicleId: this.vehid,
+      assocType: this.assocType,
+      routeId: this.routeId,
+      rowId: this.rowId,
+      isPrimaryCheck:this.isPrimaryCheck
+    };
+ 
+
+    console.log("params", params)
+    this.common.loading++;
+    this.api.post('ViaRoutes/vehicleRouteMapping', params).subscribe(res => {
+        this.common.loading--;
+        this.getVehicleRoute();
+
+        this.insertData1 = res['data'] || [];
+
+     
+   })}
+   else if(data.apiHit==0){
+     this.isPrimaryCheck = 1;
+     this.insertRoute();
+     this.getVehicleRoute();
+   }
+
+ });
+ 
+}
 
   getTableColumns() {
     let columns = [];
@@ -205,6 +243,7 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
     else {
       assocType = 2
     }
+   
     console.log("assoc type:", assocType);
     this.routeId = route
     this.assocType = assocType;

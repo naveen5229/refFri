@@ -32,10 +32,15 @@ export class UserTemplatesComponent implements OnInit {
     public api: ApiService,
     private modalService: NgbModal) {
     this.getUserViews();
+    this.common.refresh = this.refresh.bind(this);
 
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getUserViews();
   }
 
 
