@@ -62,6 +62,7 @@ valobj = {};
              {start_time:startDate,
               end_time:endDate
   }
+  
     console.log(params);
    
     this.common.loading++;
