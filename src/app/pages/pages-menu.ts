@@ -327,6 +327,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon:'fas fa-gas-pump',
         link:'/pages/fuel-mileage-with-odo',
         home:true
+      },
+      {
+        title:'Fuel Consumption',
+        icon:'fas fa-gas-pump',
+        link:'/pages/fuel-consumption',
+        home:true
       }
 
     ]
