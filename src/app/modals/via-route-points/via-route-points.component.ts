@@ -14,7 +14,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 export class ViaRoutePointsComponent implements OnInit {
 
   latlong = [{ lat: null, long: null, color: null, subType: null }];
-  locType = "site";
+  locType = "map";
   siteLoc = null;
   editId = null;
   siteName = null;
@@ -44,12 +44,15 @@ export class ViaRoutePointsComponent implements OnInit {
   searchString = '';
   keepGoing = true;
   type = "0";
+  routeName = null;
+
   constructor(private activeModal: NgbActiveModal,
     public mapService: MapService,
     public common: CommonService,
     public api: ApiService,
     public modalService: NgbModal) {
     this.route = this.common.params.route;
+    this.routeName = this.common.params.route.name;
     this.routeId = this.route._id;
 
     this.viewTable();
