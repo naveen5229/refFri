@@ -63,12 +63,21 @@ export class LrPodDetailsComponent implements OnInit {
 
   saveLrPodDetail() {
     this.Details = this.evenArray.concat(this.oddArray);
+    let details = this.Details.map(detail => {
+      let copyDetails = Object.assign({}, detail);
+      if (detail['r_coltype'] == 3 && detail['r_value']) {
+        copyDetails['r_value'] = this.common.dateFormatter1(detail['r_value']);
+      }
+      return copyDetails;
+    });
+
     const params = {
-      lrPodDetails: JSON.stringify(this.Details),
+      lrPodDetails: JSON.stringify(details),
       podId: this.podId,
       lrId: this.lrId
     }
-    console.log("para", params)
+    console.log("para......", params);
+
     this.common.loading++;
     this.api.post('LorryReceiptsOperation/saveLrPodDetails', params)
       .subscribe(res => {

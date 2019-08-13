@@ -4,6 +4,8 @@ import { MENU_ITEMS } from './pages-menu';
 import { NbMenuService } from '@nebular/theme';
 import { ApiService } from '../services/api.service';
 import { AccountService } from '../services/account.service';
+import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-pages',
@@ -23,12 +25,19 @@ export class PagesComponent {
 
   constructor(public menuService: NbMenuService,
     public api: ApiService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    public user: UserService,
+    public router: Router,
+
   ) {
     console.log('Menu:', this.menuService);
     if (!this.accountService.branches.length) {
       this.getBranches();
       this.getFinancial();
+    }
+    if (this.user._loggedInBy == 'admin' && !this.user._customer.id) {
+      alert("Select Fo Admin First");
+      this.router.navigate(['/admin']);
     }
   }
   getBranches() {

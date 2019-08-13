@@ -361,6 +361,7 @@
                 </td>
                 <td>
                   <i class="fa fa-trash remove" (click)="particulars.splice(i,1)" *ngIf="i !== 0"></i>
+                  <i class="fa fa-plus add" (click)="addParticluar(particular)" *ngIf="i == particulars.length-1"></i>
                 </td>
               </tr>
               <tr *ngFor="let dynamic of particular.dynamics;">
@@ -376,7 +377,6 @@
         <div><button class="btn btn-primary" (click)=saveDetails()>{{btnTxt}}</button></div>
 
       </div>
-
 
       <!-- image module -->
       <div class="col-md-5" *ngIf="img_flag">
