@@ -65,7 +65,7 @@ export class LrGenerateComponent implements OnInit {
     }
     if (this.common.params.lrData) {
       this.lrDetails.id = this.common.params.lrData.lrId ? this.common.params.lrData.lrId : 'null';
-      this.btnTxt = 'UPDATE'
+      this.btnTxt = 'SAVE'
     }
     if (this.lrDetails.id || this.accountService.selected.branch.id) {
       this.getLrFields();
@@ -314,6 +314,9 @@ export class LrGenerateComponent implements OnInit {
           const customIndex = Math.floor(index / 4);
           if (!customjfields[customIndex]) {
             customjfields[customIndex] = [];
+          }
+          if (customjfield.r_coltype == 3) {
+            customjfield.r_value = customjfield.r_value ? new Date(customjfield.r_value) : new Date();
           }
           customjfields[customIndex].push(customjfield);
         });
