@@ -43,6 +43,8 @@ export class LRViewComponent implements OnInit {
     this.api.post('LorryReceiptsOperation/lrDetails', params)
       .subscribe(res => {
         --this.common.loading;
+        console.log("Res", res['data']);
+
         this.lrDetails = JSON.parse(res['data']).result[0];
         this.particulars = JSON.parse(res['data']).details;
 
