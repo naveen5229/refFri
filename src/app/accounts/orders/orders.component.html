@@ -434,7 +434,10 @@
       <div class="row w-100">
         <div class="col-11">
             <input type="checkbox" name="print" id="print" [(ngModel)]="order.print">Print After Save
-        </div>
+            <span *ngIf="mannual">
+            <input type="checkbox" name="mannual" id="mannual"  [(ngModel)]="order.ismanual"> Is Mannual Approval
+          </span>
+          </div>
         <!-- <div class="col">
           <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
             style="cursor: pointer;">Cancel</button>

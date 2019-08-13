@@ -24,9 +24,15 @@ export class PumpStationAreaComponent implements OnInit {
 
   constructor(public mapService: MapService,
     private apiService: ApiService,
-    private commonService: CommonService) { }
+    private commonService: CommonService) {
+      this.commonService.refresh = this.refresh.bind(this);
+     }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('Refresh');
   }
 
   ngAfterViewInit() {

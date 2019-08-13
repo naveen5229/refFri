@@ -145,25 +145,42 @@
           </div>
 
           <div class="row">
-            <div class="col-4">
+            <div class="col-3">
               <div class="form-group">
                 <label>Site</label>
                 <input autocomplete="off" type="text" id="site" class="form-control tjr-input" name="site"
                   [(ngModel)]="Branches.site.name" placeholder="Site">
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <div class="form-group">
                 <label>Lattitude</label>
                 <input autocomplete="off" type="text" id="latitude" class="form-control tjr-input" name="latitude"
                   [(ngModel)]="Branches.latitude">
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <div class="form-group">
                 <label>Longitude</label>
                 <input autocomplete="off" type="text" class="form-control" name="longitude" id="longitude"
                   [(ngModel)]="Branches.longitude" placeholder="Longitude">
+              </div>
+            </div>
+            <div class="col-3 radiostockitem">
+              <div class="form-group">
+                <label>Is Manual Approval</label>
+                  <div class="row iaactive">
+                    <div class="col-6 pr-0">
+                      <label> Yes</label>
+                      <input type="radio" class="form-control" name="mannual" id="mannualtrue"
+                        [(ngModel)]="Branches.mannual" [value]="true">
+                    </div>
+                    <div class="col-6 pl-0">
+                      <label>No</label>
+                      <input type="radio" class="form-control" name="mannual" id="mannual" [(ngModel)]="Branches.mannual"
+                        [value]="false">
+                    </div>
+                  </div>
               </div>
             </div>
           </div>

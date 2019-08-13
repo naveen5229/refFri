@@ -44,7 +44,8 @@ export class BranchComponent implements OnInit {
     longitude: 'null',
     precode: '',
     lrcodewidth: 5,
-    lrcodelastid: 0
+    lrcodelastid: 0,
+    mannual:false
   };
   siteData = [];
   allowBackspace = true;
@@ -89,7 +90,9 @@ export class BranchComponent implements OnInit {
         longitude: (this.common.params.long ==null) ? 'null' : this.common.params.long,
         precode: (this.common.params.lr_pre_code) ? this.common.params.lr_pre_code : '',
         lrcodewidth: this.common.params.lr_code_width,
-        lrcodelastid: this.common.params.lr_code_lastid
+        lrcodelastid: this.common.params.lr_code_lastid,
+        mannual: this.common.params.is_inv_manualapprove,
+
       }
 
       //  console.log('Accounts: ', this.Accounts);
@@ -219,6 +222,8 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('latitude')) {
         this.setFoucus('longitude');
       } else if (activeId.includes('longitude')) {
+        this.setFoucus('mannual');
+      }else if (activeId.includes('mannual')) {
         this.setFoucus('lr-terms');
       } else if (activeId.includes('addressline')) {
         this.setFoucus('remarks');
@@ -275,8 +280,10 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('lr-footer')) {
         this.setFoucus('lr-terms');
       } else if (activeId.includes('lr-terms')) {
+        this.setFoucus('mannual');
+      } else if (activeId.includes('mannual')) {
         this.setFoucus('longitude');
-      } else if (activeId.includes('remarks')) {
+      }  else if (activeId.includes('remarks')) {
         this.setFoucus('addressline');
       }
 

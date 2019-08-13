@@ -39,9 +39,15 @@ export class CardUsageComponent implements OnInit {
     this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
     this.getcardUsage();
     this.calculateTotal();
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getcardUsage();
+    this.calculateTotal();
   }
   ngAfterViewInit() {
 
