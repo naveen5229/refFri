@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 import { UserService } from '../../@core/data/users.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
@@ -15,10 +15,15 @@ export class StockitemsComponent implements OnInit {
   StockItems = [];
   selectedRow = -1;
   activeId = '';
-  constructor(public api: ApiService,
+  pageName="";
+  constructor(private activeModal: NgbActiveModal,
+    public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+      if(this.common.params && this.common.params.pageName){
+          this.pageName=this.common.params.pageName;
+      }
     this.getStockItems();
     this.common.currentPage = 'Stock Item';
     this.common.refresh = this.refresh.bind(this);
@@ -180,7 +185,11 @@ export class StockitemsComponent implements OnInit {
     }
   }
 
-
+  modelCondition() {
+    this.activeModal.close({ });
+    event.preventDefault();
+    return;
+  }
   delete(tblid) {
     let params = {
       id: tblid,

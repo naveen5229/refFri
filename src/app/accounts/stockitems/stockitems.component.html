@@ -1,38 +1,52 @@
 <nb-card style="margin: 0px; border:0px;">
-    <!-- <nb-card-header>
+  <!-- <nb-card-header>
         <h4>Stock Item</h4>
       </nb-card-header> -->
   <nb-card-body>
-<button class="btn mb-4 add-button" (click)="openStockItemModal()"><i class="fa fa-plus"></i></button>
-<div class="main">
-<table class="table table-bordered ">
-  <thead style="background-color: #263238; color:#fff;">
-    <tr>
-        <th>#</th>
-        <th>Stock Type</th>
-        <th>Stock Sub Type</th>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Action</th>
-      </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let stockItem of StockItems; let i = index;" (click)="selectedRow = i"
-    (dblclick)="openStockItemModal(stockItem)" (enter)="openStockItemModal(stockItem)"
-    [ngClass]="{'highlight' : selectedRow == i}">
-        <td>{{i + 1}}</td>
-        <td>{{stockItem.stocktype_name}}</td>
-        <td>{{stockItem.stoctsubtypename}}</td>
-        <td>{{stockItem.name}}</td>
-        <td>{{stockItem.entry_dt | date : 'dd-MMM-yy'}}</td>
-        <td class="del">
-          <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i
-              class="fa fa-trash"></i></a>
-        </td>
-      </tr>
-  </tbody>
-  
-</table>
-</div>
-</nb-card-body>
+    <div class="modal-header" *ngIf="pageName">
+      <h5>Stock Items</h5>
+      <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <button class="btn mb-4 add-button" (click)="openStockItemModal()"><i class="fa fa-plus"></i></button>
+    <div class="main">
+      <table class="table table-bordered ">
+        <thead style="background-color: #263238; color:#fff;">
+          <tr>
+            <th>#</th>
+            <th>Stock Type</th>
+            <th>Stock Sub Type</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stockItem of StockItems; let i = index;" (click)="selectedRow = i"
+            (dblclick)="openStockItemModal(stockItem)" (enter)="openStockItemModal(stockItem)"
+            [ngClass]="{'highlight' : selectedRow == i}">
+            <td>{{i + 1}}</td>
+            <td>{{stockItem.stocktype_name}}</td>
+            <td>{{stockItem.stoctsubtypename}}</td>
+            <td>{{stockItem.name}}</td>
+            <td>{{stockItem.entry_dt | date : 'dd-MMM-yy'}}</td>
+            <td class="del">
+              <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i
+                  class="fa fa-trash"></i></a>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+    <div class="modal-footer" *ngIf="pageName">
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel"
+            style="cursor: pointer;">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
 </nb-card>
