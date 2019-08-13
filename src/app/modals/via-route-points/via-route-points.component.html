@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h5 class="modal-title" id="modal-basic-title">Via Route Points</h5>
-  <label>
+  <label style="padding-left: 28px; padding-top:4px">
     Route Name:
 
     <i class="fas fa-route"></i>
@@ -19,26 +19,26 @@
           <tr>
             <td class="checkbox-points p-0" style="width: 110px;">
               <span>Site</span> <input value="site" [(ngModel)]="locType" type="radio" id="typeSite"
-                (click)="setRadio(0)" checked="checked" name="radio"> &nbsp;
-              <span>Map</span> <input value="map" [(ngModel)]="locType" type="radio" id="fromMap" (click)="setRadio(1)"
-                name="radio">
+                (click)="setRadio('site')" checked="checked" name="radio"> &nbsp;
+              <span>Map</span> <input value="map" [(ngModel)]="locType" type="radio" id="fromMap"
+                (click)="setRadio('map')" name="radio">
             </td>
             <td colspan="1">
               <label>Location</label> <br>
-              <auto-suggestion *ngIf="selected == 0 " (onSelected)="selectSite($event)"
+              <auto-suggestion *ngIf="locType == 'site' " (onSelected)="selectSite($event)"
                 url="Suggestion/getSites?typeId=1" seperator="-" [display]="['name','sd_loc_name']"
                 placeholder="Search Site" inputId="site" [preSelected]="siteLoc">
               </auto-suggestion>
               <div class="row">
                 <div class="col-8 pr-0">
-                  <auto-suggestion *ngIf="selected == 1 " (onChange)="onChangeAuto($event)"
+                  <auto-suggestion *ngIf="locType == 'map' " (onChange)="onChangeAuto($event)"
                     (onSelected)="selectLocation($event)" (noDataFound)="takeAction($event)" [isNoDataFoundEmit]="true"
                     url="Location/getPlaceFromRedis" display="location" inputId="mapValue" placeholder="Location"
                     [value]="siteNamee" [preSelected]='{location:siteNamee}'>
                   </auto-suggestion>
                 </div>
                 <div class="col-4">
-                  <button *ngIf="selected == 1 "
+                  <button *ngIf="locType == 'map'"
                     class="btn btn-primary info_btn p-0 rounded-sm pt-2 pb-2 pr-2 pl-2 w-100"
                     (click)="searchString='----'; takeAction(null);"><i class="fa fa-plus"></i></button>
                 </div>
