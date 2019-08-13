@@ -185,7 +185,6 @@ export class ViaRoutePointsComponent implements OnInit {
         console.log('res', res['data']);
         let data = res['data'];
         this.tableData = data;
-        this.calculateKms();
         this.createrouteMarker();
 
       }, err => {
@@ -309,6 +308,7 @@ export class ViaRoutePointsComponent implements OnInit {
   }
 
   updateOrder() {
+    this.calculateKms();
     let params = {
       data: JSON.stringify(this.tableData),
     }
