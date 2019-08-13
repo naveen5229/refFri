@@ -201,7 +201,7 @@ export class LrGenerateComponent implements OnInit {
       });
     } else if (arr) {
       arr.r_value = '';
-      arr.r_value = driver.mobileno;
+      arr.r_value = driver.mobileno;;
       arr.r_valueid = driver.id ? driver.id : driver.driver_id;
     }
     this.driverData.id = driver.id ? driver.id : driver.driver_id;

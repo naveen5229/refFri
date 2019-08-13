@@ -204,5 +204,10 @@ export class AutoSuggestionComponent implements OnInit {
     this.suggestions = this.data;
   }
 
+  clearData() {
+    console.log("cleardata");
+    this.showSuggestions = false;
+    this.suggestions = [];
+  }
 
 }
