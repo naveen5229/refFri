@@ -168,20 +168,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/outstanding'
             },
             {
-                title: 'Voucher Audit',
-                link: '/accounts/voucheredited'
-            },
-            {
                 title: 'Mapped Fuel Voucher',
                 link: '/accounts/mapped-fuel-voucher'
-            },
-            {
-                title: 'GST Reports',
-                link: '/accounts/gstreport'
-            },
-            {
-                title:'Tally Export',
-                link:'/accounts/tallyexport'
             }
 
         ],
@@ -195,6 +183,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Trip Expense Tally',
         link: '/accounts/trip-expense-tally'
     },
+    {
+        title: 'Account Statics',
+        link: '/accounts/statics'
+    },
+    {
+        title: 'GST Reports',
+        link: '/accounts/gstreport'
+    },
+    {
+        title:'Tally Export',
+        link:'/accounts/tallyexport'
+    },
+    {
+        title: 'Voucher Audit',
+        link: '/accounts/voucheredited'
+    }
 ],
 },
     {

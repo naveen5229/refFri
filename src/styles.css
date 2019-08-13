@@ -713,3 +713,14 @@ nb-card-header {
     width: 50%;
     left: 0px;
 }
+.ledger-modal .add-button{
+    position: absolute !important;
+    right: 30px !important;
+    bottom: 50px !important;
+}
+
+
+.ledger-modal nb-card-body{
+    padding: 0;
+    position: relative;
+}
