@@ -5,6 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { LocationSelectionComponent } from '../location-selection/location-selection.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'via-route-points',
@@ -25,6 +26,7 @@ export class ViaRoutePointsComponent implements OnInit {
   latilong = null;
   editRowId = null;
   tableData = [];
+  viaroutesData = [];
   lat = null;
   mapName = null;
   kms = null;
@@ -183,6 +185,7 @@ export class ViaRoutePointsComponent implements OnInit {
         console.log('res', res['data']);
         let data = res['data'];
         this.tableData = data;
+        this.calculateKms();
         this.createrouteMarker();
 
       }, err => {
@@ -401,5 +404,36 @@ export class ViaRoutePointsComponent implements OnInit {
         event.currentIndex);
     }
     this.createrouteMarker();
+  }
+
+  calculateKms() {
+    let previous = {
+      lat: null,
+      long: null,
+    };
+    let total = null;
+    let kms = null;
+    console.log("length:", this.tableData.length);
+
+    for (let i = 0; i < this.tableData.length; i++) {
+      let data = this.tableData[i];
+      if (i == 0) {
+        previous.lat = data.lat;
+        previous.long = data.long;
+        this.tableData[i].kms = 0;
+        continue;
+      }
+      console.log("Data:", data);
+      kms = this.mapService.distanceBtTwoPoint(previous.lat, previous.long, this.tableData[i].lat, this.tableData[i].long);
+      total += kms;
+      this.tableData[i].kms = parseInt(total.toFixed(0));
+      console.log("kms", kms);
+      console.log("total", total);
+      previous.lat = this.tableData[i].lat;
+      previous.long = this.tableData[i].long;
+
+    }
+
+    return this.tableData;
   }
 }
