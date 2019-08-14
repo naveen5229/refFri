@@ -28,9 +28,15 @@ export class TollUsageComponent implements OnInit {
     let today = new Date();
     this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 1)));
     this.gettollUsage();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.gettollUsage();
   }
   getDate(date) {
     this.common.params = { ref_page: "toll Usage" };

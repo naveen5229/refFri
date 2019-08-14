@@ -135,13 +135,15 @@ export class DaybookpendingComponent implements OnInit {
     //  this.common.params = invoiceid;
     this.common.params = {
       invoiceid: invoiceid,
-      delete: this.deletedId
+      delete: this.deletedId,
+      approveid:4
     };
     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
         console.log('open succesfull');
+        this.getDayBook();
 
         // this.addLedger(data.ledger);
       }
@@ -354,6 +356,7 @@ export class DaybookpendingComponent implements OnInit {
         if (!data) {
           this.getDayBook();
         }
+        this.getDayBook();
         // this.common.showToast('Voucher updated');
 
       });

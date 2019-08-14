@@ -341,8 +341,7 @@ nb-card {
 }
 
 .admin-popup .modal-dialog {
-    top: 40%;
-    transform: translate(0%, -50%) !important;
+    top: 25%;
 }
 
 /* .print-lr {
@@ -712,4 +711,15 @@ nb-card-header {
 .doc-image{
     width: 50%;
     left: 0px;
+}
+.ledger-modal .add-button{
+    position: absolute !important;
+    right: 30px !important;
+    bottom: 50px !important;
+}
+
+
+.ledger-modal nb-card-body{
+    padding: 0;
+    position: relative;
 }

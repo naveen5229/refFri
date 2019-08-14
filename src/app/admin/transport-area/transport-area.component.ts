@@ -21,9 +21,15 @@ export class TransportAreaComponent implements OnInit {
   locLatLng = {lat:0,lng:0};
   constructor(public mapService: MapService,
     private apiService: ApiService,
-    private commonService: CommonService) { }
+    private commonService: CommonService) { 
+      this.commonService.refresh = this.refresh.bind(this);
+    }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('Refresh');
   }
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");

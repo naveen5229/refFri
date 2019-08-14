@@ -33,6 +33,9 @@ export class OrderComponent implements OnInit {
   totalitem = 0;
   invoiceDetail = [];
   taxDetailData = [];
+  mannual=false;
+  approve=0;
+  freezedate='';  
   order = {
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: null,
@@ -50,6 +53,7 @@ export class OrderComponent implements OnInit {
     orderid: 0,
     delete: 0,
     ledgeraddressid: null,
+    mannual :false,
     // branch: {
     //   name: '',
     //   id: ''
@@ -132,17 +136,48 @@ export class OrderComponent implements OnInit {
     // this.common.currentPage = 'Invoice';
     this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
     // console.log("open data ",this.invoiceDetail[]);
-
+    this.getFreeze();
   }
 
   ngOnInit() {
   }
 
+  approvefunction(id) {
+    this.approveCallFunction(0, 'true',id);
+  }
+  approveCallFunction(type, typeans,xid) {
+    let params = {
+      id: xid,
+      flagname: (type == 1) ? 'deleted' : 'forapproved',
+      flagvalue: typeans
+    };
+    this.common.loading++;
+    this.api.post('Voucher/invoiceApprooved', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        //this.getStockItems();
+        this.activeModal.close({ response: true, ledger: this.order });
+        if (type == 1 && typeans == 'true') {
+          this.common.showToast(" This Value Has been Deleted!");
+        } else if (type == 1 && typeans == 'false') {
+          this.common.showToast(" This Value Has been Restored!");
+        } else {
+          this.common.showToast(" This Value Has been Approved!");
+        }
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError('This Value has been used another entry!');
+      });
+  }
 
   getInvoiceDetail() {
     let params = {
       invoiceId: this.common.params.invoiceid
     };
+
+    this.approve= this.common.params.approveid;
     console.log('vcid', this.common.params);
 
     this.api.post('Company/getInvoiceDetail', params)
@@ -176,6 +211,7 @@ export class OrderComponent implements OnInit {
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
         this.order.delete = 0;
         this.order.ledgeraddressid = this.invoiceDetail[0].y_ledger_address_id;
+        this.order.mannual = (this.invoiceDetail[0].y_for_approved)?false:true;
 
         this.invoiceDetail.map((invoiceDetail, index) => {
           if (!this.order.amountDetails[index]) {
@@ -282,6 +318,7 @@ export class OrderComponent implements OnInit {
       orderid: 0,
       delete: 0,
       ledgeraddressid: null,
+      mannual:false,
       // branch: {
       //   name: '',
       //   id: ''
@@ -421,7 +458,19 @@ export class OrderComponent implements OnInit {
     if (response) {
       //console.log('Order new:', this.order);
       // return;
+      if (this.freezedate) {
+        let rescompare = this.CompareDate(this.freezedate);
+        console.log('heddlo',rescompare);
+        if (rescompare == 0) {
+          console.log('hello');
+          this.common.showError('Please Enter Date After '+this.freezedate);
+          setTimeout(() => {
+            this.setFoucus('date');
+          }, 150);
+        } else {
       this.addOrder(this.order);
+        }
+      }
     }
     // this.activeModal.close({ response: response, Voucher: this.order });
   }
@@ -515,7 +564,7 @@ export class OrderComponent implements OnInit {
       x_id: order.orderid,
       delete: order.delete,
       ledgeraddressid: order.ledgeraddressid,
-
+      ismannual :order.mannual
     };
 
     console.log('params11: ', params);
@@ -580,7 +629,19 @@ export class OrderComponent implements OnInit {
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('date')) {
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          console.log('heddlo',rescompare);
+          if (rescompare == 0) {
+            console.log('hello');
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('date');
+            }, 150);
+          } else {
         this.setFoucus('purchaseledger');
+          }
+        }
       } else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
@@ -1425,4 +1486,49 @@ let invoiceJson={};
     this.printService.printInvoice(invoiceJson, 1);
 
   }
+  getFreeze() {
+   
+    let params = {
+      departmentId: 0
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/getFreeze', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('freeze Res11:', res['data']);
+        this.freezedate = res['data'][0]['getfreezedate'];
+       // resolve(res['data']);
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      
+      });
+}
+CompareDate(freezedate) {
+  let firstarr = freezedate.split('-');
+   console.log('first date ', firstarr);
+  let secondarr = this.order.date.split('-'); 
+  console.log('second arr ', secondarr[2]);
+
+  let fristyear = firstarr[0];
+  let firstmonth = firstarr[1];
+  let firstdate = firstarr[2];
+  let endyear = parseInt(secondarr[2]);
+  let endmonth = parseInt(secondarr[1]);
+  let enddate = parseInt(secondarr[0]);
+
+  console.log('First Date:', fristyear, firstmonth, firstdate);
+  console.log('Second Date:', endyear, endmonth, enddate);
+  var dateOne = new Date(fristyear, firstmonth, firstdate);
+ // var dateTwo = new Date(endyear, endmonth, enddate);
+  var dateTwo = new Date(endyear, endmonth, enddate);
+  
+  if (dateOne > dateTwo) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
 }

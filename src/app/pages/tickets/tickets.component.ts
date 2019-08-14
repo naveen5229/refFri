@@ -34,6 +34,7 @@ export class TicketsComponent implements OnInit {
     this.getClaimTickets();
 
     this.countDownFlag = true;
+    this.common.refresh = this.refresh.bind(this);
     setTimeout(this.countDown.bind(this), 30000);
   }
 

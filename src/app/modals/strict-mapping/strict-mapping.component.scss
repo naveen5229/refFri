@@ -26,3 +26,22 @@ td {
 :host ::ng-deep .tagsinput {
     border: 0px !important;
 }
+
+:host ::ng-deep .tableFixHead {
+    table {
+        tr {
+            th {
+                text-align: center;
+                input {
+                    text-align: center;
+                }
+            }
+            th:nth-child(4) {
+                width: 180px;
+            }
+            input {
+                background-color: transparent !important;
+            }
+        }
+    }
+}
