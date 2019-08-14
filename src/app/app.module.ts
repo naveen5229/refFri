@@ -235,6 +235,7 @@ import { StrictMappingComponent } from './modals/strict-mapping/strict-mapping.c
 import { VehiclePriSecRoutemappingComponent } from './modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 import { TyreHistoryComponent } from './modals/Tyres/tyre-history/tyre-history.component';
 import { TemplatePreviewComponent } from './modals/template-preview/template-preview.component';
+import { RouteTimeTableComponent } from './modals/route-time-table/route-time-table.component';
 
 
 
@@ -444,6 +445,7 @@ import { TemplatePreviewComponent } from './modals/template-preview/template-pre
     VehiclePriSecRoutemappingComponent,
     TyreHistoryComponent,
     TemplatePreviewComponent,
+    RouteTimeTableComponent,
 
   ],
   entryComponents: [
@@ -637,7 +639,8 @@ import { TemplatePreviewComponent } from './modals/template-preview/template-pre
     StrictMappingComponent,
     VehiclePriSecRoutemappingComponent,
     TyreHistoryComponent,
-    TemplatePreviewComponent
+    TemplatePreviewComponent,
+    RouteTimeTableComponent
   ],
   imports: [
     BrowserModule,

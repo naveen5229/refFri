@@ -565,6 +565,8 @@ export class MapService {
         avoidHighways: false,
         avoidTolls: false,
       }, (response, status) => {
+        console.log("response:", response);
+
         if (status != google.maps.DistanceMatrixStatus.OK) {
           reject(-1)
         } else {
