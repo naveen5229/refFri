@@ -76,6 +76,7 @@ import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.compon
 import { FuelMileageWithOdoComponent } from './fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { FuelMasterComponent } from './fuel-master/fuel-master.component';
 import { WebActivitySummaryComponent } from '../admin/web-activity-summary/web-activity-summary.component';
+import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.component';
 
 
 const routes: Routes = [{
@@ -478,6 +479,11 @@ const routes: Routes = [{
   {
     path: 'web-acttivity-summary',
     component: WebActivitySummaryComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'fuel-consumption',
+    component: FuelConsumptionComponent,
     canActivate: [AuthGuard]
   },
 

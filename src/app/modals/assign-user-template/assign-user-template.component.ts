@@ -75,7 +75,7 @@ export class AssignUserTemplateComponent implements OnInit {
   assignTemplate(isAssign = "true") {
     let params = {
       templateId: this.templateId,
-      branchId: this.branchId,
+      branchId: this.accountService.selected.branch.id,
       type: this.templateType,
       isAssign: isAssign,
     }

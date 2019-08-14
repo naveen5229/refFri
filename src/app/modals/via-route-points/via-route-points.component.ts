@@ -5,6 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { LocationSelectionComponent } from '../location-selection/location-selection.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'via-route-points',
@@ -14,7 +15,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 export class ViaRoutePointsComponent implements OnInit {
 
   latlong = [{ lat: null, long: null, color: null, subType: null }];
-  locType = "site";
+  locType = "map";
   siteLoc = null;
   editId = null;
   siteName = null;
@@ -25,12 +26,13 @@ export class ViaRoutePointsComponent implements OnInit {
   latilong = null;
   editRowId = null;
   tableData = [];
+  viaroutesData = [];
   lat = null;
   mapName = null;
   kms = null;
   long = null;
   route;
-  selected = 0;
+  // selected = 0;
   siteId;
   routeId = null;
   routeData = {
@@ -44,12 +46,15 @@ export class ViaRoutePointsComponent implements OnInit {
   searchString = '';
   keepGoing = true;
   type = "0";
+  routeName = null;
+
   constructor(private activeModal: NgbActiveModal,
     public mapService: MapService,
     public common: CommonService,
     public api: ApiService,
     public modalService: NgbModal) {
     this.route = this.common.params.route;
+    this.routeName = this.common.params.route.name;
     this.routeId = this.route._id;
 
     this.viewTable();
@@ -97,12 +102,12 @@ export class ViaRoutePointsComponent implements OnInit {
   }
 
   setRadio(type) {
-    if (type == 1) {
-      this.selected = 1;
+    if (type == 'map') {
+      this.locType = type;
       this.reset();
     }
     else {
-      this.selected = 0;
+      this.locType = 'site';
       this.mark[0].setMap(null);
       this.reset();
     }
@@ -195,7 +200,13 @@ export class ViaRoutePointsComponent implements OnInit {
 
     this.viaMark = [];
     let polygonOption = {
+      strokeColor: '#000000',
       strokeWeight: 1,
+      icons: [{
+        icon: this.mapService.lineSymbol,
+        offset: '0',
+        repeat: '50px'
+      }]
     };
 
     for (let i = 0; i < this.tableData.length; i++) {
@@ -244,7 +255,7 @@ export class ViaRoutePointsComponent implements OnInit {
   }
   sendRoute() {
 
-    if (this.selected == 0) {
+    if (this.locType == 'site') {
       this.siteNamee = this.routeData.siteName,
         this.lat = this.routeData.lat,
         this.long = this.routeData.long,
@@ -274,7 +285,7 @@ export class ViaRoutePointsComponent implements OnInit {
           this.common.loading--;
           console.log('res', res['data']);
           this.mark && this.mark[0].setMap(null);
-          this.locType = "site";
+          this.locType = "map";
           this.viewTable();
           this.mapName = null;
           this.kms = null;
@@ -297,6 +308,7 @@ export class ViaRoutePointsComponent implements OnInit {
   }
 
   updateOrder() {
+    this.calculateKms();
     let params = {
       data: JSON.stringify(this.tableData),
     }
@@ -324,10 +336,11 @@ export class ViaRoutePointsComponent implements OnInit {
     if (this.tableData[i]._site_id > 0) {
       this.locType = "site";
       // this.siteName = this.tableData[i].name;
-      if (this.selected == 0)
+      if (this.locType == 'site')
         document.getElementsByName("suggestion")[0]['value'] = '';
       this.siteLoc = { name: this.tableData[i]._name, sd_loc_name: this.tableData[i]._sd_loc_name };
-      this.selected = 0;
+      this.locType = "site";
+
       this.kms = this.tableData[i].kms;
       // document.getElementById("site")['value'] = this.tableData[i]._name;
       this.routeData.siteId = this.tableData[i]._site_id;
@@ -337,12 +350,10 @@ export class ViaRoutePointsComponent implements OnInit {
       this.type = this.tableData[i]._type + "";
       console.log("route data--->", this.routeData);
       this.rowId = this.tableData[i]._id;
-      console.log("SiteName-->", this.siteName);
-      console.log("KMS-->", this.kms);
+
     }
     else {
       this.locType = "map";
-      this.selected = 1;
       // this.mapName = this.tableData[i].name;
       this.kms = this.tableData[i].kms;
       this.latilong = this.tableData[i]._lat + ',' + this.tableData[i]._long;
@@ -355,8 +366,7 @@ export class ViaRoutePointsComponent implements OnInit {
       this.rowId = this.tableData[i]._id;
       this.type = this.tableData[i]._type + "";
 
-      console.log("MapName-->", this.mapName);
-      console.log("KMS-->", this.kms);
+
     }
 
   }
@@ -375,12 +385,11 @@ export class ViaRoutePointsComponent implements OnInit {
     this.long = null;
     this.siteId = null;
     this.siteNamee = null;
-    if (this.selected == 0)
+    if (this.locType == 'site')
       document.getElementById("site")['value'] = '';
     else
-      this.selected = 0;
-    this.reset();
-    this.locType = "site";
+      this.reset();
+    this.locType = "map";
 
 
   }
@@ -395,5 +404,36 @@ export class ViaRoutePointsComponent implements OnInit {
         event.currentIndex);
     }
     this.createrouteMarker();
+  }
+
+  calculateKms() {
+    let previous = {
+      lat: null,
+      long: null,
+    };
+    let total = null;
+    let kms = null;
+    console.log("length:", this.tableData.length);
+
+    for (let i = 0; i < this.tableData.length; i++) {
+      let data = this.tableData[i];
+      if (i == 0) {
+        previous.lat = data.lat;
+        previous.long = data.long;
+        this.tableData[i].kms = 0;
+        continue;
+      }
+      console.log("Data:", data);
+      kms = this.mapService.distanceBtTwoPoint(previous.lat, previous.long, this.tableData[i].lat, this.tableData[i].long);
+      total += kms;
+      this.tableData[i].kms = parseInt(total.toFixed(0));
+      console.log("kms", kms);
+      console.log("total", total);
+      previous.lat = this.tableData[i].lat;
+      previous.long = this.tableData[i].long;
+
+    }
+
+    return this.tableData;
   }
 }

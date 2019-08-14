@@ -4,6 +4,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ErrorCoomonVehiclesComponent } from '../../modals/error-coomon-vehicles/error-coomon-vehicles.component';
+import { CsvErrorReportComponent } from '../csv-error-report/csv-error-report.component';
 @Component({
   selector: 'import-bulk-vehicles',
   templateUrl: './import-bulk-vehicles.component.html',
@@ -76,27 +77,34 @@ export class ImportBulkVehiclesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("upload result", res);
-        let output = res['success'];
-        let errorData = res['data'];
-        if (output == false) {
-          this.common.params = { errorData, ErrorCoomonVehiclesComponent, title: 'Vehicle Verification' };
-          const activeModal = this.modalService.open(ErrorCoomonVehiclesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-        }
+        let successData =  res['data']['success'];
+        let errorData =res['data']['fail'];
+        alert(res["msg"]);
+        this.common.params = { apiData: params,successData, errorData, title: 'Bulk Vehicle csv Verification',isUpdate:false };
+        const activeModal = this.modalService.open(CsvErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+        // if (output == false) {
+        //   this.common.params = { errorData, ErrorCoomonVehiclesComponent, title: 'Vehicle Verification' };
+        //   const activeModal = this.modalService.open(ErrorCoomonVehiclesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        // }
 
-        else {
+        // else {
 
-          this.activeModal.close();
-        }
+        //   this.activeModal.close();
+        // }
 
         // this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
         // const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
 
         // this.closeModal(true);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+      // }, err => {
+      //   this.common.loading--;
+      //   console.log(err);
+      // });
   }
 
 }
