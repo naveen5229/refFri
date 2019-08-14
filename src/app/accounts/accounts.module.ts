@@ -42,6 +42,7 @@ import { DaybookpendingComponent } from './daybookpending/daybookpending.compone
 import { GstreportComponent } from './gstreport/gstreport.component';
 import { TallyexportComponent } from './tallyexport/tallyexport.component';
 import { TripExpenseTallyComponent } from './trip-expense-tally/trip-expense-tally.component';
+import { StaticsComponent } from './statics/statics.component';
 const PAGES_COMPONENTS = [
   AccountsComponent,
 ];
@@ -92,8 +93,13 @@ const PAGES_COMPONENTS = [
     DaybookpendingComponent,
     GstreportComponent,
     TallyexportComponent,
-    TripExpenseTallyComponent
-    //StockSubtypeComponent
+    TripExpenseTallyComponent,
+    StaticsComponent
   ],
+  entryComponents:[
+    StockitemsComponent,
+    StockSubtypesComponent,
+    LedgersComponent
+  ]
 })
 export class AccountsModule { }
