@@ -236,6 +236,7 @@ import { VehiclePriSecRoutemappingComponent } from './modals/vehicle-pri-sec-rou
 import { TyreHistoryComponent } from './modals/Tyres/tyre-history/tyre-history.component';
 import { TemplatePreviewComponent } from './modals/template-preview/template-preview.component';
 import { RouteTimeTableComponent } from './modals/route-time-table/route-time-table.component';
+import { RouteTimeTableDetailsComponent } from './modals/route-time-table-details/route-time-table-details.component';
 
 
 
@@ -446,6 +447,7 @@ import { RouteTimeTableComponent } from './modals/route-time-table/route-time-ta
     TyreHistoryComponent,
     TemplatePreviewComponent,
     RouteTimeTableComponent,
+    RouteTimeTableDetailsComponent,
 
   ],
   entryComponents: [
@@ -640,7 +642,8 @@ import { RouteTimeTableComponent } from './modals/route-time-table/route-time-ta
     VehiclePriSecRoutemappingComponent,
     TyreHistoryComponent,
     TemplatePreviewComponent,
-    RouteTimeTableComponent
+    RouteTimeTableComponent,
+    RouteTimeTableDetailsComponent
   ],
   imports: [
     BrowserModule,

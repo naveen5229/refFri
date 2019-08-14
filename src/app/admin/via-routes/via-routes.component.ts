@@ -13,6 +13,7 @@ import { RoutesTrafficKpisComponent } from '../../modals/routes-traffic-kpis/rou
 import { StrictMappingComponent } from '../../modals/strict-mapping/strict-mapping.component';
 import { VehiclePriSecRoutemappingComponent } from '../../modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 import { RouteTimeTableComponent } from '../../modals/route-time-table/route-time-table.component';
+import { RouteTimeTableDetailsComponent } from '../../modals/route-time-table-details/route-time-table-details.component';
 
 @Component({
   selector: 'via-routes',
@@ -244,6 +245,10 @@ export class ViaRoutesComponent implements OnInit {
   // }
   addRouteTime() {
     const activeModal = this.modalService.open(RouteTimeTableComponent, { size: 'lg', container: 'nb-layout', });
+
+  }
+  addRouteTimeDetails() {
+    const activeModal = this.modalService.open(RouteTimeTableDetailsComponent, { size: 'lg', container: 'nb-layout', });
 
   }
 

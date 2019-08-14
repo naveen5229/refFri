@@ -1,0 +1,55 @@
+<!-- Author By: Lalit Singh -->
+<div class="modal-header">
+  <h5>Route Time Table Details</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()"> <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-1 mt-1">
+      <label>Routes:</label>
+    </div>
+    <div class="col-3">
+      <auto-suggestion [data]="routesDetails" [display]="['name','id']"
+        [preSelected]="name ? {name:name,id:routeId}: {name: '',id:''}" seperator="-"
+        (onSelected)="changeRouteType($event)" inputId="routeId"></auto-suggestion>
+    </div>
+    <div class="col-3 mt-1" *ngIf="routeId">
+      <label>Route Time</label>
+    </div>
+    <div class="col-2" *ngIf="routeId">
+      <auto-suggestion></auto-suggestion>
+    </div>
+  </div>
+
+  <div class="main mt-2">
+    <table class="table table-bordered">
+      <thead style="background-color: #263238; color:#fff;">
+        <tr>
+
+
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Kms</th>
+          <th>Type</th>
+          <th>Action</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of routesData; let i = index;">
+          <!-- <td>{{i + 1}}</td>
+                <td>{{ data.groupname}}</td>
+                <td>{{data.name}}</td>
+                <td>{{data.alias_name}}</td>
+                <td *ngIf="deletedId !=2 ">{{data.is_constcenterallow}}</td>
+                <td *ngIf="deletedId ==2 "> <input type="text" [value]='data.is_constcenterallow'
+                    [(ngModel)]="data.is_constcenterallow" (change)="updateLedgerCostCenter($event,data.id)" /></td>
+                <td>{{data.entry_dt | date : 'dd-MMM-yy'}}</td> -->
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+
+</div>

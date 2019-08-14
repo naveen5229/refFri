@@ -13,6 +13,7 @@ export class RouteTimeTableComponent implements OnInit {
   routesDetails = [];
   routeId = null;
   startTime = new Date();
+  assocType = null;
 
   routeTimeTable = [];
   table = {
@@ -62,10 +63,15 @@ export class RouteTimeTableComponent implements OnInit {
 
   addrouteTime() {
     let params = {
+      routeId: this.routeId,
+      startTime: this.common.timeFormatter(this.startTime),
+      assType: this.assocType,
 
     }
+    console.log("Params:", params);
+
     this.common.loading++;
-    this.api.post('UserTemplate/assign', params)
+    this.api.post('ViaRoutes/saveTimeTable', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res:', res);
