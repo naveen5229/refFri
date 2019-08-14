@@ -24,8 +24,11 @@
         <label>Primary Driver Name</label>
       </div>
       <div class="col-3">
-        <auto-suggestion (onSelected)="getvehicleData($event, 'primary')" [preSelected]="maping.primary"
-          [data]="driverList" display="empname" placeholder="Enter Driver Name" inputId="firstDriver">
+
+        <auto-suggestion (onSelected)="getvehicleData($event, 'primary')"
+          [preSelected]="{empname:maping.primary?maping.primary:'',mobileno:maping.pdriverMobile?maping.pdriverMobile:''}"
+          [data]="driverList" [display]="['empname','mobileno']" seperator="-" placeholder="Enter Driver Name"
+          inputId="firstDriver">
         </auto-suggestion>
 
       </div>
@@ -35,14 +38,7 @@
       <div class="col-3">
         <input type="text" class="form-control" name="drivername" id="drivername" placeholder="Driver Mobile No"
           readonly [(ngModel)]="maping.pdriverMobile">
-        <!-- <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
-            formControlName="pdriverMobile" minlength="10" required maxlength="10"
-            [ngClass]="{ 'is-invalid': submitted && f.pdriverMobile.errors }" required>
-          <div *ngIf="submitted &&  f.pdriverMobile.errors" class="invalid-feedback">
-            <div *ngIf="f.pdriverMobile.errors.required">mobileNumber is required</div>
-            <div *ngIf="f.pdriverMobile.errors.minlength">mobile Number minlength 10</div>
-            <div *ngIf="f.pdriverMobile.errors.maxlength">mobile Number maxlength 10</div>
-          </div> -->
+
       </div>
 
 
@@ -64,8 +60,10 @@
         <label>Secondary Driver</label>
       </div>
       <div class="col-3">
-        <auto-suggestion (onSelected)="getvehicleData($event, 'secondary')" [data]="driverList" display="empname"
-          placeholder="Enter Driver Name" inputId="secDriver" [preSelected]="maping.secondary" style="width:60%;">
+        <auto-suggestion (onSelected)="getvehicleData($event, 'secondary')" [data]="driverList"
+          [display]="['empname','mobileno']" placeholder="Enter Driver Name" inputId="secDriver" seperator="-"
+          [preSelected]="{empname:maping.secondary?maping.secondary:'', mobileno:maping.SdriverMobile?maping.SdriverMobile:''}"
+          style="width:60%;">
         </auto-suggestion>
 
 
