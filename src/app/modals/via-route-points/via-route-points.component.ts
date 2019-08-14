@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
 import { CommonService } from '../../services/common.service';
@@ -52,6 +52,8 @@ export class ViaRoutePointsComponent implements OnInit {
     public mapService: MapService,
     public common: CommonService,
     public api: ApiService,
+    private zone: NgZone,
+    private cdr: ChangeDetectorRef,
     public modalService: NgbModal) {
     this.route = this.common.params.route;
     this.routeName = this.common.params.route.name;
@@ -307,8 +309,8 @@ export class ViaRoutePointsComponent implements OnInit {
     }
   }
 
-  updateOrder() {
-    this.calculateKms();
+  async updateOrder() {
+    await this.calculateKms();
     let params = {
       data: JSON.stringify(this.tableData),
     }
@@ -406,34 +408,31 @@ export class ViaRoutePointsComponent implements OnInit {
     this.createrouteMarker();
   }
 
-  calculateKms() {
+  async calculateKms() {
     let previous = {
       lat: null,
       long: null,
     };
     let total = null;
     let kms = null;
-    console.log("length:", this.tableData.length);
 
     for (let i = 0; i < this.tableData.length; i++) {
       let data = this.tableData[i];
+      console.log("i", i);
+
       if (i == 0) {
-        previous.lat = data.lat;
-        previous.long = data.long;
+        previous = data;
         this.tableData[i].kms = 0;
         continue;
       }
-      console.log("Data:", data);
-      kms = this.mapService.distanceBtTwoPoint(previous.lat, previous.long, this.tableData[i].lat, this.tableData[i].long);
-      total += kms;
-      this.tableData[i].kms = parseInt(total.toFixed(0));
-      console.log("kms", kms);
-      console.log("total", total);
+      kms = await this.mapService.distanceBtTwoPoint(previous.lat, previous.long, this.tableData[i].lat, this.tableData[i].long);
+      total += (kms / 1000);
       previous.lat = this.tableData[i].lat;
       previous.long = this.tableData[i].long;
+      this.zone.run(() => {
+        this.tableData[i].kms = parseInt(total.toFixed(0));
+      });
 
     }
-
-    return this.tableData;
   }
 }
