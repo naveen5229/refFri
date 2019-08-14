@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <h5>Strict Mapping</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()"> <span
+            aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <!-- <div class="strict-maping">
+        <table frame="box" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Regno</th>
+                    <th>Name Routes</th>
+                    <th>Kms</th>
+                    <th>Type</th>
+                    <th>Start Loc</th>
+                    <th>End Loc</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let route of routes;let i=index;">
+                    <td>{{route.regno}}</td>
+                    <td> -->
+    <!-- <auto-suggestion [data]="sitesDatalist" display="item_name" (onSelected)="changeRefernceType($event)" inputId="itemId"></auto-suggestion> -->
+
+    <!-- <auto-suggestion [data]="routesDetails" [display]="['name','id']" [preSelected]="route.name ? {name:route.name,id:route._routeid}:''" seperator=" - " (onSelected)="changeRefernceType($event,route,vehicleId) " inputId="routeId "></auto-suggestion>
+                    </td>
+                    <td>{{route.kms}}</td>
+                    <td>{{route.type}}</td>
+                    <td>{{route.startloc}}</td>
+                    <td>{{route.endloc}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div> -->
+    <smart-table *ngIf="routes && routes.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <div class="no-data alert alert-danger" role="alert" *ngIf="routes.length==0">
+        No Data available !
+    </div>
+</div>

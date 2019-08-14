@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
+import { ConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
   selector: 'add-freight-expenses',
@@ -47,6 +48,7 @@ export class AddFreightExpensesComponent implements OnInit {
 
   headings = [];
   valobj = {};
+  images = [];
 
   constructor(public modalService: NgbModal,
     public common: CommonService,
@@ -55,12 +57,11 @@ export class AddFreightExpensesComponent implements OnInit {
   ) {
     this.getFreightHeads();
 
-    console.log("this.common.params.expenseData", this.common.params.expenseData);
     if (this.common.params.expenseData) {
-      this.expense.id = this.common.params.expenseData._id;
-      this.expense.refId = this.common.params.expenseData._ref_id;
-      this.expense.refernceType = this.common.params.expenseData._ref_type;
-      this.expense.remarks = this.common.params.expenseData._exp_remarks;
+      this.expense.id = this.common.params.expenseData.id;
+      this.expense.refId = this.common.params.expenseData.refId;
+      this.expense.refernceType = this.common.params.expenseData.refernceType;
+      this.expense.remarks = this.common.params.expenseData.remarks;
       this.getExpenseDetails();
     }
     this.getExpenses();
@@ -171,7 +172,12 @@ export class AddFreightExpensesComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         this.data = res['data']['result'];
-        console.log("api data:", this.data);
+        this.images = res['data']['images'];
+        // if(this.images)
+        //     this.common.handleModalSize("class", "modal-lg", "1500");
+
+
+        console.log("api images:", this.images);
         this.headings = [];
         this.valobj = {};
         if (!this.data || !this.data.length) {
@@ -203,6 +209,7 @@ export class AddFreightExpensesComponent implements OnInit {
       expId: del._exp_id,
       ledgerId: del._ledger_id
     }
+    console.log("params:", params);
     ++this.common.loading;
     this.api.post('FrieghtRate/deleteExpenses', params)
       .subscribe(res => {
@@ -253,6 +260,39 @@ export class AddFreightExpensesComponent implements OnInit {
       });
 
 
+  }
+
+  deleteAllExpenses() {
+    let params = {
+      refId: this.expense.refId,
+      refType: this.expense.refernceType,
+      expId: null,
+      ledgerId: null,
+    }
+    if (this.expense.refId) {
+      this.common.params = {
+        title: 'Delete Expenses ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('FrieghtRate/deleteExpenses', params)
+            .subscribe(res => {
+              this.common.loading--;
+              this.common.showToast(res['data']);
+
+              this.getExpenses();
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
   }
 }
 

@@ -3,6 +3,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
   selector: 'add-freight-revenue',
@@ -54,6 +55,7 @@ export class AddFreightRevenueComponent implements OnInit {
   };
   headings = [];
   valobj = {};
+  images = [];
 
 
   constructor(public modalService: NgbModal,
@@ -61,16 +63,13 @@ export class AddFreightRevenueComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService,
     private formBuilder: FormBuilder) {
-
     this.getFreightHeads();
-
     console.log("this.common.params.revenue", this.common.params.revenueData);
     if (this.common.params.revenueData) {
-      this.revenue.id = this.common.params.revenueData._id;
-      this.revenue.refId = this.common.params.revenueData._ref_id;
-      this.revenue.refernceType = this.common.params.revenueData._ref_type;
-
-      this.revenue.remarks = this.common.params.revenueData._rev_remarks;
+      this.revenue.id = this.common.params.revenueData.id;
+      this.revenue.refId = this.common.params.revenueData.refId;
+      this.revenue.refernceType = this.common.params.revenueData.refernceType;
+      this.revenue.remarks = this.common.params.revenueData.remarks;
       this.getRevenueDetails();
     }
     this.getRevenue();
@@ -186,7 +185,7 @@ export class AddFreightRevenueComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         this.data = res['data']['result'];
-
+        this.images = res['data']['images'];
         this.headings = [];
         this.valobj = {};
         if (!this.data || !this.data.length) {
@@ -284,6 +283,36 @@ export class AddFreightRevenueComponent implements OnInit {
       });
 
 
+  }
+  deleteAllRevenue() {
+    let params = {
+      refId: this.revenue.refId,
+      refType: this.revenue.refernceType,
+      revId: null,
+      ledgerId: null,
+    };
+    if (this.revenue.refId) {
+      this.common.params = {
+        title: 'Delete Revenue ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('FrieghtRate/deleteRevenue', params)
+            .subscribe(res => {
+              this.common.loading--;
+              this.common.showToast(res['data']);
+              this.getRevenue();
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
   }
 
 

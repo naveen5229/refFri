@@ -36,7 +36,6 @@ export class AdminComponent {
     }
     if (!this.accountService.branches.length) {
       this.getBranches();
-      this.getFinancial();
     }
   }
   getBranches() {
@@ -49,18 +48,5 @@ export class AdminComponent {
       });
   }
 
-  getFinancial() {
-    this.api.post('Suggestion/GetFinancialYear', { search: 123 })
-      .subscribe(res => {
-        console.log('financial :', res['data']);
-        this.accountService.financialYears = res['data'];
-        this.accountService.financialYears.map(financialYear => {
-          if (financialYear.name.split('-')[0] == (new Date()).getFullYear()) {
-            this.accountService.selected.financialYear = financialYear;
-          }
-        });
-      }, err => {
-        console.log('Error: ', err);
-      });
-  }
+
 }

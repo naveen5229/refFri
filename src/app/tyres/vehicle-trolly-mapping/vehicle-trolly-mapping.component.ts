@@ -22,9 +22,15 @@ export class VehicleTrollyMappingComponent implements OnInit {
     public common: CommonService,
     public api: ApiService) {
     this.getCurrentTrolleyDetails();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getCurrentTrolleyDetails();
   }
 
   getCurrentTrolleyDetails() {

@@ -68,7 +68,7 @@ export class LrGenerateComponent implements OnInit {
       this.btnTxt = 'SAVE'
     }
     if (this.lrDetails.id || this.accountService.selected.branch.id) {
-      this.getLrFields();
+      this.getLrFields(true);
     }
     this.formatGeneralDetails();
   }
@@ -78,7 +78,7 @@ export class LrGenerateComponent implements OnInit {
   ngAfterViewInit(): void {
   }
 
-  getLrFields() {
+  getLrFields(isSetBranchId?) {
     let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
     let params = "branchId=" + this.accountService.selected.branch.id +
       "&lrId=" + this.lrDetails.id;
@@ -86,12 +86,15 @@ export class LrGenerateComponent implements OnInit {
     this.api.get('LorryReceiptsOperation/getLrFields?' + params)
       .subscribe(res => {
         this.common.loading--;
+        console.log("LoryReceipts:", res['data']['headings'][0].branch_id);
         console.log("res", res['data'], res);
         if (res['data'] && res['data'].result) {
+
+
           this.lrGeneralField = res['data'].result;
           let headData = res['data'].headings;
           if (headData.length > 0) {
-            this.setLrHeadData(headData[0]);
+            this.setLrHeadData(headData[0], isSetBranchId);
           }
           this.particulars = res['data'].details;
           this.setlrParticulars(this.particulars);
@@ -106,12 +109,14 @@ export class LrGenerateComponent implements OnInit {
 
   }
 
-  setLrHeadData(headData) {
+  setLrHeadData(headData, isSetBranchId?) {
+    console.log("head_BranchId", headData.branch_id)
+    isSetBranchId && (this.accountService.selected.branch.id = headData.branch_id);
     this.lr.lrType = headData.lr_asstype;
     this.lr.lrCategory = headData.is_ltl;
     this.lr.id = headData.lr_id;
     this.lr.vehicleType = headData.veh_asstype;
-    this.accountService.selected.branch.id = headData.branch_id;
+    //this.accountService.selected.branch.id = headData.branch_id;
     this.lr.num = headData.lr_num;
     this.lr.prefix = headData.lr_prefix;
     this.lr.image = headData.lr_image;

@@ -1,0 +1,50 @@
+<nb-card style="border: 0px; height: 100%;">
+    <nb-card-header>
+        <h5>Trip Expense Tally</h5>
+
+    </nb-card-header>
+    <nb-card-body>
+        <div class="row">
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Vehicle</label>
+                    <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getFoVehicleList" display="regno" placeholder="Search by vehicle number and regno " [preSelected]="null"></auto-suggestion>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Different Only</label>
+                    <select [(ngModel)]="request" class="form-control">
+              <option value="False">No</option>
+              <option value="True">Yes</option>
+            </select>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
+                    </uj-date-time-picker>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label>End Date</label>
+                    <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false>
+                    </uj-date-time-picker>
+                </div>
+            </div>
+            <div class="col-2 mt-4">
+                <button class="btn btn-primary" id="button" (click)="getTripExpenseTally()" style="border-radius:2px;padding: 6px 17px;">Submit</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="no-data alert alert-danger" role="alert" *ngIf="tripExpense.length==0">
+                No Data Available On That Time Period !
+            </div>
+
+            <div>
+                <smart-table *ngIf="tripExpense.length>0" [data]="table.data" [settings]="table.settings"></smart-table>
+            </div>
+        </div>
+    </nb-card-body>

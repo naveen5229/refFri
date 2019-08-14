@@ -40,6 +40,7 @@ export class AssignUserTemplateComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public accountService: AccountService) {
     if (this.accountService.selected.branch.id) {
+      // this.branchId = this.accountService.selected.branch.id;
       this.getBranchDetails();
     }
     if (this.common.params.title == "Edit") {
@@ -74,7 +75,7 @@ export class AssignUserTemplateComponent implements OnInit {
   assignTemplate(isAssign = "true") {
     let params = {
       templateId: this.templateId,
-      branchId: this.branchId,
+      branchId: this.accountService.selected.branch.id,
       type: this.templateType,
       isAssign: isAssign,
     }
@@ -103,6 +104,7 @@ export class AssignUserTemplateComponent implements OnInit {
     this.getUserViews(true);
   }
   selectTemplateType() {
+    document.getElementById('templateId')['value'] = '';
     this.filterTemplate();
   }
 

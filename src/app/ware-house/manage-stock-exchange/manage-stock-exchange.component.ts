@@ -116,9 +116,15 @@ export class ManageStockExchangeComponent implements OnInit {
       name: 'Increase In Count',
       id: -6
     }];
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getStateData();
+      this.getWareData();
   }
 
   getWareData(){

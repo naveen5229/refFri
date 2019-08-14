@@ -43,8 +43,8 @@
             </td>
             <td>
               <label>Branch
-                <select class="form-control" [(ngModel)]="accountService.selected.branch" (change)="getLrFields();">
-                  <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}</option>
+                <select class="form-control" [(ngModel)]="accountService.selected.branch.id" (change)="getLrFields();">
+                  <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
                 </select>
               </label>
             </td>
