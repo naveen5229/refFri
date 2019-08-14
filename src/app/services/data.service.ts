@@ -361,8 +361,8 @@ export class DataService {
             link: '/admin/fuel-rules',
             home: true,
           },
-          {  title: 'Fo Fuel Milage',
-          icon: 'fa fa-signal',
+          {  title: 'Fo Model Fuel Milage',
+          icon: 'fa fa-safari',
           link: '/admin/fo-fuel-average',
           home: true, },
 

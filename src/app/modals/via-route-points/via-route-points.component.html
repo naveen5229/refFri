@@ -1,5 +1,11 @@
 <div class="modal-header">
   <h5 class="modal-title" id="modal-basic-title">Via Route Points</h5>
+  <label style="padding-left: 28px; padding-top:4px">
+    Route Name:
+
+    <i class="fas fa-route"></i>
+    {{routeName}}
+  </label>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -13,26 +19,26 @@
           <tr>
             <td class="checkbox-points p-0" style="width: 110px;">
               <span>Site</span> <input value="site" [(ngModel)]="locType" type="radio" id="typeSite"
-                (click)="setRadio(0)" checked="checked" name="radio"> &nbsp;
-              <span>Map</span> <input value="map" [(ngModel)]="locType" type="radio" id="fromMap" (click)="setRadio(1)"
-                name="radio">
+                (click)="setRadio('site')" checked="checked" name="radio"> &nbsp;
+              <span>Map</span> <input value="map" [(ngModel)]="locType" type="radio" id="fromMap"
+                (click)="setRadio('map')" name="radio">
             </td>
             <td colspan="1">
               <label>Location</label> <br>
-              <auto-suggestion *ngIf="selected == 0 " (onSelected)="selectSite($event)"
+              <auto-suggestion *ngIf="locType == 'site' " (onSelected)="selectSite($event)"
                 url="Suggestion/getSites?typeId=1" seperator="-" [display]="['name','sd_loc_name']"
                 placeholder="Search Site" inputId="site" [preSelected]="siteLoc">
               </auto-suggestion>
               <div class="row">
                 <div class="col-8 pr-0">
-                  <auto-suggestion *ngIf="selected == 1 " (onChange)="onChangeAuto($event)"
+                  <auto-suggestion *ngIf="locType == 'map' " (onChange)="onChangeAuto($event)"
                     (onSelected)="selectLocation($event)" (noDataFound)="takeAction($event)" [isNoDataFoundEmit]="true"
                     url="Location/getPlaceFromRedis" display="location" inputId="mapValue" placeholder="Location"
                     [value]="siteNamee" [preSelected]='{location:siteNamee}'>
                   </auto-suggestion>
                 </div>
                 <div class="col-4">
-                  <button *ngIf="selected == 1 "
+                  <button *ngIf="locType == 'map'"
                     class="btn btn-primary info_btn p-0 rounded-sm pt-2 pb-2 pr-2 pl-2 w-100"
                     (click)="searchString='----'; takeAction(null);"><i class="fa fa-plus"></i></button>
                 </div>
@@ -66,45 +72,6 @@
         </div>
       </table>
 
-      <!-- <table class="tbl table table-bordered table-hover" *ngIf="tableData && tableData.length">
-        <thead class="thead">
-          <tr>
-            <th>&nbsp;</th>
-            <th>S.No</th>
-            <th>Name</th>
-            <th>Order</th>
-            <th>Kms</th>
-            <th>Type</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody cdkDropList [cdkDropListData]="tableData" (cdkDropListDropped)="drop($event)">
-          <tr *ngFor="let data of tableData; let i = index;" cdkDrag>
-            <td style="position: relative;">
-              <div class="drag-handle" cdkDragHandle>
-                <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
-                  </path>
-                  <path d="M0 0h24v24H0z" fill="none"></path>
-                </svg>
-              </div>
-            </td>
-            <td>{{i+1}}</td>
-            <td>{{data.name}}</td>
-            <td><input type="number" class="form-control" name="order" placeholder="Order" [(ngModel)]="data.via_order">
-            <td>{{data.kms}}</td>
-            <td>{{data.Type}}</td>
-            <td><i class="fas fa-times text-red" (click)="clickDelete(data.name , i)"></i>
-              <i class="fas fa-edit edit" (click)="editRow(i)"></i></td>
-          </tr>
-          <tr>
-            <button *ngIf="tableData && tableData.length" class="btn btn-primary add-route  pt-1"
-              (click)="updateOrder(tableData)" style="margin-top:3px;">Update Order</button>
-          </tr>
-        </tbody>
-
-      </table> -->
 
       <div class="container">
 

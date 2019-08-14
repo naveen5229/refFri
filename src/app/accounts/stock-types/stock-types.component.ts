@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockTypeComponent } from '../../acounts-modals/stock-type/stock-type.component';
 import { UserService } from '../../@core/data/users.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
@@ -16,10 +16,15 @@ export class StockTypesComponent implements OnInit {
   stockTypes = [];
   selectedRow = -1;
   activeId = '';
-  constructor(public api: ApiService,
+  pageName="";
+  constructor(private activeModal: NgbActiveModal,
+    public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+      if(this.common.params && this.common.params.pageName){
+        this.pageName=this.common.params.pageName;
+    }
     this.getStockTypes();
     this.common.currentPage = 'Stock Types';
     this.common.refresh = this.refresh.bind(this);
@@ -180,5 +185,9 @@ export class StockTypesComponent implements OnInit {
       });
     }
   }
-
+  modelCondition() {
+    this.activeModal.close({ });
+    event.preventDefault();
+    return;
+  }
 }
