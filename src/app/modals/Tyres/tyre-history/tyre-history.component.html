@@ -9,7 +9,7 @@
     <div *ngIf="tyreHistory && tyreHistory.length" class="mt-3">
         <smart-table [data]="table.data" [settings]="table.settings"></smart-table>
     </div>
-    <div class="alert alert-danger text-center mt-3" *ngIf="!tyreHistory">
+    <div class="alert alert-danger text-center mt-3" *ngIf="tyreHistory==null">
         <h4 class="no-record">No Record Found</h4>
     </div>
 </div>

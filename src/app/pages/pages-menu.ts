@@ -218,6 +218,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-bar-chart',
         link: '/pages/nearby-pods',
       },
+      {
+        title: 'Dispatch orders',
+        icon: 'fa fa-book',
+        link: '/pages/dispatch-orders',
+      },
     ]
   },
   {

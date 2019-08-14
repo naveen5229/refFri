@@ -14,6 +14,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: ' Vehicle Tyre Summary',
+        icon: 'fa fa-text-width',
+        link: '/tyres/tyre-summary',
+        home: true,
+    },
+    {
         title: 'Vehicle Tyres',
         icon: 'fa fa-pencil-square-o',
         link: '/tyres/vehicle-tyres',
@@ -49,10 +55,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/tyres/tyre-modals',
         home: true,
     },
-    {
-        title: 'Tyre Summary',
-        icon: 'fa fa-text-width',
-        link: '/tyres/tyre-summary',
-        home: true,
-    },
+   
 ];
