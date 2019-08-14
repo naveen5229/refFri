@@ -75,12 +75,12 @@ export class MapService {
     }
   }
 
-  setMultiBounds(bounds,isReset=false){
-    if(isReset)
+  setMultiBounds(bounds, isReset = false) {
+    if (isReset)
       this.resetBounds();
     for (let index = 0; index < bounds.length; index++) {
       const thisPoint = bounds[index];
-      this.setBounds(this.createLatLng(thisPoint.lat,thisPoint.lng));
+      this.setBounds(this.createLatLng(thisPoint.lat, thisPoint.lng));
     }
   }
 
@@ -242,7 +242,7 @@ export class MapService {
         };
       } else {
         if (subType == 'marker')
-          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + index + "|" + pinColor + "|000000";
+          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + (index + 1) + "|" + pinColor + "|000000";
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
@@ -552,4 +552,13 @@ export class MapService {
       });
     }
   }
+  distanceBtTwoPoint(lat1, long1, lat2, long2) {
+
+
+    var distance = (google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(lat1, long1), new google.maps.LatLng(lat2, long2)) / 1000);
+
+    return distance;
+  }
+
+
 }
