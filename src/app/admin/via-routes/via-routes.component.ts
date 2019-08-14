@@ -247,9 +247,5 @@ export class ViaRoutesComponent implements OnInit {
     const activeModal = this.modalService.open(RouteTimeTableComponent, { size: 'lg', container: 'nb-layout', });
 
   }
-  addRouteTimeDetails() {
-    const activeModal = this.modalService.open(RouteTimeTableDetailsComponent, { size: 'lg', container: 'nb-layout', });
-
-  }
 
 }

@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
+import { RouteTimeTableDetailsComponent } from '../route-time-table-details/route-time-table-details.component';
 
 @Component({
   selector: 'route-time-table',
@@ -53,11 +54,9 @@ export class RouteTimeTableComponent implements OnInit {
 
   changeRouteType(type) {
     this.routeId = type.id
-
-    // this.routeId = this.routesDetails.find((element) => {
-    //   console.log(element.name == type);
-    //   return element.id == type.id;
-    // }).id;
+    if (this.routeId) {
+      this.getRouteTimeTableViews();
+    }
   }
 
 
@@ -88,16 +87,14 @@ export class RouteTimeTableComponent implements OnInit {
         console.log(err);
       });
   }
-
-
-
   getRouteTimeTableViews() {
     this.common.loading++;
-    this.api.get('userTemplate/view?')
+    this.api.get('ViaRoutes/getTimeTable?routeId=' + this.routeId)
       .subscribe(res => {
         this.common.loading--;
         console.log('res:', res);
 
+        this.routeTimeTable = res['data'];
         this.routeTimeTable.length ? this.setTable() : this.resetTable();
 
       }, err => {
@@ -154,11 +151,11 @@ export class RouteTimeTableComponent implements OnInit {
     return columns;
   }
 
-  actionIcons(view) {
+  actionIcons(route) {
     let icons = [
       {
-        class: "icon fas fa-user-alt-slash",
-        // action: this.unassignTemplate.bind(this, view)
+        class: "icon fas fa-edit",
+        action: this.editRoutes.bind(this, route)
       },
     ];
     return icons;
@@ -171,6 +168,14 @@ export class RouteTimeTableComponent implements OnInit {
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
+  }
+
+  editRoutes(route) {
+
+    console.log("route:", route);
+    this.common.params = { route: route };
+    const activeModal = this.modalService.open(RouteTimeTableDetailsComponent, { size: 'lg', container: 'nb-layout', });
+
   }
 
 
