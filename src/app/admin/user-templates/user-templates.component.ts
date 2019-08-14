@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SaveUserTemplateComponent } from '../../modals/save-user-template/save-user-template.component';
 import { AssignUserTemplateComponent } from '../../modals/assign-user-template/assign-user-template.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 
 @Component({
   selector: 'user-templates',
@@ -32,10 +33,15 @@ export class UserTemplatesComponent implements OnInit {
     public api: ApiService,
     private modalService: NgbModal) {
     this.getUserViews();
+    this.common.refresh = this.refresh.bind(this);
 
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getUserViews();
   }
 
 
@@ -118,6 +124,7 @@ export class UserTemplatesComponent implements OnInit {
       },
       {
         class: "far fa-eye",
+        action:this.templatePreview.bind(this,'Preview',view)
       },
       {
         class: "fas fa-trash-alt",
@@ -139,6 +146,15 @@ export class UserTemplatesComponent implements OnInit {
     const activeModal = this.modalService.open(SaveUserTemplateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       this.getUserViews();
+    });
+  }
+
+  templatePreview(title,row)
+  {
+    this.common.params={title:title,userPreview:row};
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+    this.getUserViews();
     });
   }
 

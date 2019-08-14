@@ -82,10 +82,11 @@ export class DaybookComponent implements OnInit {
         },
         vouchertype: {
           name: 'All',
-          id: 0
+          id: this.common.params.vouchertype
         },
         issumrise: 'true'
       }
+      this.deletedId =this.common.params.deleteId;
       this.getDayBook();
     }
     this.common.handleModalSize('class', 'modal-lg', '1250');
@@ -181,7 +182,9 @@ export class DaybookComponent implements OnInit {
       ledger: this.DayBook.ledger.id,
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
-      delete: this.deletedId
+     
+      delete: this.deletedId,
+      forapproved: (this.deletedId == 1) ? -1 : 1
     };
 
     this.common.loading++;

@@ -87,6 +87,9 @@ export class AutoSuggestionComponent implements OnInit {
       let index = 0;
       for (const dis of this.display) {
         this.searchText += (index != 0 ? (" " + this.seperator + " ") : " ") + this.preSelected[dis];
+        if (!this.searchText.replace(/[-]/g, '').trim()) {
+          this.searchText = '';
+        }
         index++;
       }
     }
@@ -98,7 +101,13 @@ export class AutoSuggestionComponent implements OnInit {
 
     this.showSuggestions = true;
     if (this.data) {
-      this.suggestions = this.data.filter(data => data[this.display].toLowerCase().includes(this.searchText.toLowerCase()));
+      this.suggestions = this.data.filter(suggestion => {
+        if (this.displayType === 'string') {
+          return (suggestion[this.display] || '').toLowerCase().includes(this.searchText.toLowerCase())
+        } else {
+          return this.generateString(suggestion).toLowerCase().includes(this.searchText.toLowerCase());
+        }
+      });
       this.suggestions.splice(10, this.suggestions.length - 1);
       return;
     }

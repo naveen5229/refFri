@@ -247,7 +247,10 @@ export class CommonService {
     let minutes = time % 60;
     return hours + ":" + minutes;
   }
-
+  changeMonthformat(date,type) {
+    let d = new Date(date);
+    return this.datePipe.transform(date,type);
+  }
   timeFormatter(date) {
     let d = new Date(date);
     let hours = d.getHours() < 9 ? "0" + d.getHours() : d.getHours();
@@ -937,18 +940,20 @@ export class CommonService {
     doc.save("report.pdf");
   }
 
-  downloadPdf(divId) {
+  downloadPdf(divId, isLandscape?) {
     var data = document.getElementById(divId);
     // console.log("data",data);
     html2canvas(data).then(canvas => {
       // Few necessary setting options  
-      var imgWidth = 208;
-      var pageHeight = 295;
-      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var imgWidth = isLandscape ? 295 : 208;
+      var pageHeight = isLandscape ? 208 : 295;
+      let imgHeight = isLandscape ? 208 : 295;
+      // var imgHeight = canvas.height * imgWidth / canvas.width;
+      console.log('height:', imgHeight);
       var heightLeft = imgHeight;
 
       const contentDataURL = canvas.toDataURL('image/png')
-      let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF  
+      let pdf = new jsPDF(isLandscape ? 'l' : 'p', 'mm', 'a4'); // A4 size page of PDF  
       var position = 0;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
       pdf.save('MYPdf.pdf'); // Generated PDF   

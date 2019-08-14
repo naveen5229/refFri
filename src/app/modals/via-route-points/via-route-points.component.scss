@@ -1,79 +1,185 @@
 input {
-    border: #000;
-    padding: 10px;
-    font-size: 1.2em;
-    width: 100%;
-  }
-  input::placeholder {
-    color: rgb(0, 0, 0);
-  }
-  table {
-    border: 2px solid rgb(13, 37, 250);
-  }
-.thead{
-    background-color: #262626;
-    color: white;
+  border: #000;
+  padding: 10px;
+  font-size: 1.2em;
+  width: 100%;
 }
-.placehol{
-  width: 10%;
 
+input::placeholder {
+  color: rgb(0, 0, 0);
 }
-.tbl{
-    overflow: auto;
-    display: block;
+
+table {
+  border: 2px solid rgb(13, 37, 250);
 }
-.infotable{
+
+.thead {
+  background-color: #262626;
+  color: white;
+}
+
+.placehol {
+  width: 10%;
+}
+
+.tbl {
+  overflow: auto;
+  display: block;
+}
+
+.infotable {
   padding: 8px;
   display: block;
 }
-.infotable tr td{
+
+.infotable tr td {
   padding: 8px;
 }
-table{
-  tr{
-      td{
-          input, select{
-              padding: 4px 5px;
-              width: 100%;
-              height: auto;
-              margin: 0px;
-              max-width: 100%;
-              font-size: 12px;
-          }
-          button{
-              padding: 0px 10px;
-              margin: 0px;
-              text-transform: capitalize;
-              width: auto;
-          }
+
+table {
+  tr {
+    td {
+      input,
+      select {
+        padding: 4px 5px;
+        width: 100%;
+        height: auto;
+        margin: 0px;
+        max-width: 100%;
+        font-size: 12px;
       }
-      td:nth-child(1){
-          // width: 200px !important;
-          max-width: inherit !important;
+
+      button {
+        padding: 0px 10px;
+        margin: 0px;
+        text-transform: capitalize;
+        width: auto;
       }
-      td:nth-child(2){
-          width: 200px !important;
-          max-width: inherit !important;
-      }
-      td:nth-child(3){
-          width: 150px !important;
-          max-width: inherit !important;
-      }
+    }
+
+    td:nth-child(1) {
+      // width: 200px !important;
+      max-width: inherit !important;
+    }
+
+    td:nth-child(2) {
+      width: 200px !important;
+      max-width: inherit !important;
+    }
+
+    td:nth-child(3) {
+      width: 150px !important;
+      max-width: inherit !important;
+    }
   }
 }
 
-.checkbox-points input{
+.checkbox-points input {
   width: auto !important;
   margin-left: 5px !important;
   vertical-align: middle;
 }
-.add-route{
+
+.add-route {
   border-radius: 3px;
 }
-.text-red{
+
+.text-red {
   color: red !important;
+  cursor: pointer;
 }
 
-.edit{
-  padding-left: 5px
+.edit {
+  padding-left: 5px;
+  cursor: pointer;
+}
+
+.drag-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 25px 25px 0;
+  display: inline-block;
+  vertical-align: top;
+  z-index: 99999999;
+}
+
+.drag-list {
+  border: solid 1px #ccc;
+  min-height: 60px;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  display: block;
+  z-index: 99999999;
+}
+
+.drag-box {
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: white;
+  font-size: 14px;
+  z-index: 99999999;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  z-index: 100000 !important;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+  z-index: 99999999;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  z-index: 9999;
+}
+
+.drag-box:last-child {
+  border: none;
+}
+
+.drag-list.cdk-drop-list-dragging .drag-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  z-index: 9999;
+}
+
+.drag-handle {
+  // position: absolute;
+  // top: 10px;
+  // right: 10px;
+  // color: #ccc;
+  cursor: move;
+  width: 16px;
+  height: 16px;
+  z-index: 9999;
+}
+
+.row-head {
+  background-color: #000;
+  color: #fff;
+}
+
+.row-head .col-th {
+  padding: 12px;
+  text-align: center;
+}
+
+.drag-box .col-td {
+  padding: 10px 5px;
+}
+
+.drag-box .col-td :last-child {
+  border-right: 0px;
+}
+:host ::ng-deep .container {
+  padding: 0px !important;
 }
