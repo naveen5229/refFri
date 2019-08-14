@@ -107,7 +107,9 @@ export class CompanyBranchesComponent implements OnInit {
       longitude:branch.longitude,
       precode:branch.precode,
       lrcodewidth:branch.lrcodewidth,
-      lrcodelastid:branch.lrcodelastid
+      lrcodelastid:branch.lrcodelastid,
+      mannual:`'`+branch.mannual+`'`
+      
     };
 
     console.log("finalbranch :", params)
@@ -174,7 +176,8 @@ export class CompanyBranchesComponent implements OnInit {
       longitude:branch.longitude,
       precode:branch.precode,
       lrcodewidth:branch.lrcodewidth,
-      lrcodelastid:branch.lrcodelastid
+      lrcodelastid:branch.lrcodelastid,
+      mannual: `'`+branch.mannual+`'`
     };
     console.log("finalbranch :", params)
     this.common.loading++;

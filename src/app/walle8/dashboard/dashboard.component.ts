@@ -28,9 +28,16 @@ export class DashboardComponent implements OnInit {
   ) {
     this.getdiscount();
     this.getTotal();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getdiscount();
+    this.getTotal();
   }
   getdiscount() {
     console.log('Mobileno:', this.user._details);

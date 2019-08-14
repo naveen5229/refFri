@@ -32,9 +32,14 @@ export class StateLogsComponent implements OnInit {
     public common:CommonService) {
     this.getWareData();
     this.getData();
+    this.common.refresh = this.refresh.bind(this);
    }
 
   ngOnInit() {
+  }
+  refresh(){
+    this.getWareData();
+    this.getData();
   }
 
   getWareData(){

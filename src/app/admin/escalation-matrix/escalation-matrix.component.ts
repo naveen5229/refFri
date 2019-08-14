@@ -17,9 +17,15 @@ export class EscalationMatrixComponent implements OnInit {
 
   constructor(public api: ApiService, public common: CommonService,
               public user: UserService,
-               public modalService: NgbModal) { }
+               public modalService: NgbModal) {
+                this.common.refresh = this.refresh.bind(this);
+                }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('Refresh');
   }
   getMatrix(user) {
     this.escalationMatrix = user;

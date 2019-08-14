@@ -52,7 +52,7 @@ export class TallyexportComponent implements OnInit {
     setTimeout(() => {
     this.branchData=this.accountService.branches;
     console.log('branchesw',this.branchData);
-    this.setFoucus('branchType');
+    this.setFoucus('startDate');
     }, 3000);
   }
 
