@@ -76,6 +76,7 @@ import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.compon
 import { FuelMileageWithOdoComponent } from './fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { FuelMasterComponent } from './fuel-master/fuel-master.component';
 import { WebActivitySummaryComponent } from '../admin/web-activity-summary/web-activity-summary.component';
+import { DispatchOrdersComponent } from '../lorry-receipt/dispatch-orders/dispatch-orders.component';
 
 
 const routes: Routes = [{
@@ -480,6 +481,11 @@ const routes: Routes = [{
     component: WebActivitySummaryComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'dispatch-orders',
+    component: DispatchOrdersComponent,
+    canActivate: [AuthGuard]
+  }
 
   ],
 }];
