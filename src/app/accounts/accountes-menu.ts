@@ -207,15 +207,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
         children: [
             {
                 title: 'Purchase Invoice',
-                link: '/accounts/orders/-2/Purchase Invoice'
+                link: '/accounts/orders/-102/Purchase Invoice'
             },
             {
                 title: 'Sales Invoice',
-                link: '/accounts/orders/-4/Sales Invoice'
+                link: '/accounts/orders/-104/Sales Invoice'
             },
             {
                 title: 'Purchase Assets Invoice',
-                link: '/accounts/orders/-5/Purchase Assets Invoice'
+                link: '/accounts/orders/-105/Purchase Assets Invoice'
             },
             {
                 title: 'Debit Note',
@@ -223,11 +223,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
             },
             {
                 title: 'Credit Note',
-                link: '/accounts/orders/-6/Credit Note'
+                link: '/accounts/orders/-106/Credit Note'
             },
             {
                 title: 'Wastage',
-                link: '/accounts/orders/-8/Wastage'
+                link: '/accounts/orders/-108/Wastage'
             },
         ],
     },
