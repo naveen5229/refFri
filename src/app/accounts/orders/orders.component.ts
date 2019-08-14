@@ -575,7 +575,7 @@ export class OrdersComponent implements OnInit {
           } else {
            
         
-        if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
+        if (this.order.ordertype.id == -107 || this.order.ordertype.id == -106) {
           this.setFoucus('qty' + '-' + 0);
         }
         else {
@@ -588,7 +588,7 @@ export class OrdersComponent implements OnInit {
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
-        if (this.order.ordertype.id == -8) {
+        if (this.order.ordertype.id == -108) {
           this.setFoucus('warehouse' + '-' + 0);
         }
         else {
@@ -645,7 +645,7 @@ export class OrdersComponent implements OnInit {
         this.setFoucus('qty' + '-' + index);
       } else if (this.activeId.includes('qty')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        if (this.order.ordertype.id == -8) {
+        if (this.order.ordertype.id == -108) {
           this.setFoucus('plustransparent');
         }
         else {
@@ -658,7 +658,7 @@ export class OrdersComponent implements OnInit {
           this.common.showError('Please fill correct amount');      
           this.setFoucus('rate'+index);
           }
-      else if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
+      else if (this.order.ordertype.id == -107 || this.order.ordertype.id == -106) {
           this.setFoucus('submit');
         }
         else {
