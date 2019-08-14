@@ -12,7 +12,8 @@
                             <label class="mt-2">From Date :</label>
                         </div>
                         <div class="col-8 pl-0">
-                            <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate" [isTime]="false">
+                            <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"
+                                [isTime]="false">
                             </uj-date-time-picker>
                         </div>
                     </div>
@@ -23,7 +24,8 @@
                             <label class="mt-2">To Date :</label>
                         </div>
                         <div class="col-9 pl-0">
-                            <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate" [isTime]="false">
+                            <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate"
+                                [isTime]="false">
                             </uj-date-time-picker>
                         </div>
                     </div>
@@ -35,7 +37,7 @@
 
                 </div>
                 <div class="col-1">
-                    <button type="button" class="btn btn-primary" (click)="search()">Add</button>
+                    <button type="button" class="btn btn-primary" (click)="openDispatchOrder(false)">Add</button>
                 </div>
             </div>
             <!-- <div>
