@@ -32,6 +32,7 @@ export class AddDispatchOrderComponent implements OnInit {
   ) {
     this.common.handleModalSize('class', 'modal-lg', '1000');
 
+    console.log("dispatchOrderData", this.common.params.dispatchOrderData);
     if (this.common.params.dispatchOrderData) {
       this.disOrder.id = this.common.params.dispatchOrderData.id ? this.common.params.dispatchOrderData.id : 'null';
     }
@@ -47,7 +48,7 @@ export class AddDispatchOrderComponent implements OnInit {
   getDispatchOrderFields(isSetBranchId?) {
     let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
     let params = "branchId=" + this.accountService.selected.branch.id +
-      "&dispatchOrderId=" + null;
+      "&dispatchOrderId=" + this.disOrder.id;
     this.common.loading++;
     this.api.get('LorryReceiptsOperation/getDispatchOrderFields?' + params)
       .subscribe(res => {
@@ -85,18 +86,16 @@ export class AddDispatchOrderComponent implements OnInit {
   getDriverInfo(driver, arr?: any) {
     if (arr && arr === true) {
       this.dispatchOrderField.map(dof => {
-        if (dof.r_colname == 'driver_mobile') {
+        if (dof.r_colname == 'driver_name') {
           dof.r_value = '';
-          dof.r_value = driver.mobileno;
-          dof.r_valueid = driver.id ? driver.id : driver.driver_id;
+          dof.r_value = driver.empname;
         }
       });
     } else if (arr) {
       arr.r_value = '';
-      arr.r_value = driver.mobileno;;
-      arr.r_valueid = driver.id ? driver.id : driver.driver_id;
+      arr.r_value = driver.empname;
     }
-    (<HTMLInputElement>document.getElementById('driver_name')).value = driver.empname;
+    // (<HTMLInputElement>document.getElementById('driver_name')).value = driver.empname;
     (<HTMLInputElement>document.getElementById('driver_mobile')).value = driver.mobileno;
   }
 
@@ -145,12 +144,12 @@ export class AddDispatchOrderComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log('response :', res);
-        if (res['data'][0].rtn_id > 0) {
+        if (res['data'][0].r_id > 0) {
           this.common.showToast("Successfully Added");
           this.closeModal();
-          //this.lrView(res['data'][0].rtn_id);
+
         } else {
-          this.common.showError(res['data'][0].rtn_msg);
+          this.common.showError(res['data'][0].r_msg);
         }
       }, err => {
         --this.common.loading;
