@@ -25,7 +25,23 @@
     font-size: 30px;
     color: rgb(136, 160, 196);
   }
-  .lr-print-recipt{
+  
+  .jr-layout {
+    background: transparent;
+    border: navajowhite;
+    color: transparent;
+    box-shadow: none;
+  }
+  
+  .jr-layout option {
+    background: teal;
+    color: #fff;
+  }
+  
+  .jr-layout .active {
+    background: #000;
+  }
+  :host ::ng-deep .lr-print-recipt{
     .recipt-header{
       padding: 15px;
       border-bottom: 1px solid #ccc;
@@ -43,8 +59,12 @@
           display: inline-block;
         }
       }
-      .address{
-        margin-bottom: 5px;
+      .address-main{
+        p{
+          margin-bottom: 5px;
+          clear: both;
+          overflow: hidden;
+        }
         label{
           float: left;
           margin-right: 10px;
@@ -117,6 +137,7 @@
         border: 1px solid #000;
         overflow: auto;
         table{
+          width: 100%;
           thead{
             border-bottom:1px solid #000;
             tr{
@@ -167,7 +188,7 @@
           padding: 5px 10px;
           span{
             width: 50%;
-            display: inline-block;
+            float: left;
           }
         }
         .ulp{
@@ -229,7 +250,7 @@
       }
     }
   }
-  .recipt-three-section{
+  :host ::ng-deep .recipt-three-section{
     .recipt-three-header{
       padding: 15px;
       .gst-no{
@@ -468,20 +489,3 @@
       }
     }
   }
-  
-  .jr-layout {
-    background: transparent;
-    border: navajowhite;
-    color: transparent;
-    box-shadow: none;
-  }
-  
-  .jr-layout option {
-    background: teal;
-    color: #fff;
-  }
-  
-  .jr-layout .active {
-    background: #000;
-  }
-  
