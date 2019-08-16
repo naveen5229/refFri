@@ -37,10 +37,15 @@ export class TyreHealthCheckUpComponent implements OnInit {
     public common: CommonService,
     public api: ApiService
   ) {
+    this.common.refresh = this.refresh.bind(this);
     this.getAdmin();
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getAdmin();
   }
 
   getAdmin() {

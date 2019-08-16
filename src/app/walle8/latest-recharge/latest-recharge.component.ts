@@ -32,9 +32,15 @@ export class LatestRechargeComponent implements OnInit {
     this.dates.end = this.common.dateFormatter1(new Date());
     //this.getPaymentMade();
     this.getLatestRecharge();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getLatestRecharge();
   }
   getDate(date) {
     this.common.params = { ref_page: "card usage" };

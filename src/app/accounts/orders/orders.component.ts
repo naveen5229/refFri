@@ -31,6 +31,8 @@ export class OrdersComponent implements OnInit {
   totalitem = 0;
   invoiceDetail = [];
   taxDetailData = [];
+  mannual=false;
+  freezedate='';
   order = {
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: '',
@@ -65,6 +67,7 @@ export class OrdersComponent implements OnInit {
       name: '',
       id: ''
     },
+    ismanual:this.mannual,
     amountDetails: [{
       id: -1,
       transactionType: 'debit',
@@ -167,13 +170,15 @@ export class OrdersComponent implements OnInit {
       // this.getStockItems('purchase');
       // this.getStockItems('inventary');
       this.getWarehouses();
+      this.mannual= this.accountService.selected.branch.is_inv_manualapprove;
+      this.order.ismanual=this.mannual;
     };
 
     this.common.refresh();
 
     this.setFoucus('ordertype');
     this.common.currentPage = this.order.ordertype.name;
-    
+    this.getFreeze();
   }
 
   ngOnInit() {
@@ -199,6 +204,7 @@ export class OrdersComponent implements OnInit {
       orderid: 0,
       delete: 0,
     ledgeraddressid:null,
+    ismanual:this.mannual,
     print:false,
       // branch: {
       //   name: '',
@@ -344,7 +350,7 @@ export class OrdersComponent implements OnInit {
       if (this.accountService.selected.financialYear.isfrozen == true) {
         this.common.showError('This financial year is freezed. Please select currect financial year');
         return;
-      }else if (this.order.amountDetails[1].amount == 0) {
+      }else if (this.order.amountDetails[0].amount == 0) {
         this.common.showError('Please fill correct amount');
         return;
       }else {
@@ -354,7 +360,19 @@ export class OrdersComponent implements OnInit {
           return;
         }
       }
+      if (this.freezedate) {
+        let rescompare = this.CompareDate(this.freezedate);
+        console.log('heddlo',rescompare);
+        if (rescompare == 0) {
+          console.log('hello');
+          this.common.showError('Please Enter Date After '+this.freezedate);
+          setTimeout(() => {
+            this.setFoucus('date');
+          }, 150);
+        } else {
       this.addOrder(this.order);
+        }
+      }
     }
     // this.activeModal.close({ response: response, Voucher: this.order });
   }
@@ -435,7 +453,8 @@ export class OrdersComponent implements OnInit {
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
       ledgeraddressid:order.ledgeraddressid,
-      x_id: 0
+      x_id: 0,
+      ismannual:order.ismanual
     };
 
     console.log('params11: ', params);
@@ -447,7 +466,7 @@ export class OrdersComponent implements OnInit {
         console.log('res: ', res);
         //this.GetLedger();
         if(order.print)this.printFunction();
-      // this.order = this.setInvoice();
+       this.order = this.setInvoice();
         this.setFoucus('ordertype');
         this.common.showToast('Invoice Are Saved');
         return;
@@ -544,19 +563,32 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('date')) {
-        if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          console.log('heddlo',rescompare);
+          if (rescompare == 0) {
+            console.log('hello');
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('date');
+            }, 150);
+          } else {
+           
+        
+        if (this.order.ordertype.id == -107 || this.order.ordertype.id == -106) {
           this.setFoucus('qty' + '-' + 0);
         }
         else {
           this.setFoucus('purchaseledger');
         }
-      } else if (this.activeId.includes('purchaseledger')) {
+      }
+    } } else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
-        if (this.order.ordertype.id == -8) {
+        if (this.order.ordertype.id == -108) {
           this.setFoucus('warehouse' + '-' + 0);
         }
         else {
@@ -613,7 +645,7 @@ export class OrdersComponent implements OnInit {
         this.setFoucus('qty' + '-' + index);
       } else if (this.activeId.includes('qty')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        if (this.order.ordertype.id == -8) {
+        if (this.order.ordertype.id == -108) {
           this.setFoucus('plustransparent');
         }
         else {
@@ -626,7 +658,7 @@ export class OrdersComponent implements OnInit {
           this.common.showError('Please fill correct amount');      
           this.setFoucus('rate'+index);
           }
-      else if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
+      else if (this.order.ordertype.id == -107 || this.order.ordertype.id == -106) {
           this.setFoucus('submit');
         }
         else {
@@ -1571,4 +1603,50 @@ let invoiceJson={};
     this.printService.printInvoice(invoiceJson, 1);
     this.order = this.setInvoice();
   }
+
+  getFreeze() {
+   
+    let params = {
+      departmentId: 0
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/getFreeze', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('freeze Res11:', res['data']);
+        this.freezedate = res['data'][0]['getfreezedate'];
+       // resolve(res['data']);
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      
+      });
+}
+CompareDate(freezedate) {
+  let firstarr = freezedate.split('-');
+   console.log('first date ', firstarr);
+  let secondarr = this.order.date.split('-'); 
+  console.log('second arr ', secondarr[2]);
+
+  let fristyear = firstarr[0];
+  let firstmonth = firstarr[1];
+  let firstdate = firstarr[2];
+  let endyear = parseInt(secondarr[2]);
+  let endmonth = parseInt(secondarr[1]);
+  let enddate = parseInt(secondarr[0]);
+
+  console.log('First Date:', fristyear, firstmonth, firstdate);
+  console.log('Second Date:', endyear, endmonth, enddate);
+  var dateOne = new Date(fristyear, firstmonth, firstdate);
+ // var dateTwo = new Date(endyear, endmonth, enddate);
+  var dateTwo = new Date(endyear, endmonth, enddate);
+  
+  if (dateOne > dateTwo) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
 }

@@ -100,8 +100,6 @@ const PAGES_COMPONENTS = [
   LocationsComponent,
   VouchersSummaryComponent
 
-
-
 ];
 @NgModule({
   imports: [

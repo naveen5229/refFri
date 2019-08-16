@@ -25,9 +25,14 @@ export class TripAnalysisComponent implements OnInit {
     public modalService: NgbModal) {
     this.endDate = this.common.dateFormatter(new Date()).split(' ')[0];
     this.startDate = this.common.dateFormatter(new Date().setDate(new Date().getDate() - 15)).split(' ')[0];
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('Refresh');
   }
 
   getDate(type) {

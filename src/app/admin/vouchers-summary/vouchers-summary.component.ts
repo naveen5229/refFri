@@ -27,9 +27,13 @@ export class VouchersSummaryComponent implements OnInit {
     public api: ApiService,
     private modalService: NgbModal) {
     this.getVouchersSummary();
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+  refresh(){
+    this.getVouchersSummary();
   }
 
   getVouchersSummary() {

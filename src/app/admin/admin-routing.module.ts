@@ -65,6 +65,7 @@ import { VouchersSummaryComponent } from './vouchers-summary/vouchers-summary.co
 import { UserTemplatesComponent } from './user-templates/user-templates.component';
 import { FuelMileageWithOdoComponent } from '../pages/fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { BatteryModalsComponent } from '../battery/battery-modals/battery-modals.component';
+import { FoFuelAverageComponent } from '../pages/fo-fuel-average/fo-fuel-average.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -376,6 +377,11 @@ const routes: Routes = [{
             component: UserTemplatesComponent,
             canActivate: [RouteGuard]
         },
+        {
+            path: 'fo-fuel-average',
+            component:FoFuelAverageComponent,
+            canActivate: [RouteGuard]
+        },
 
         {
             path: 'battery-modals',
@@ -383,9 +389,6 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
 
         },
-
-
-
 
 
     ],

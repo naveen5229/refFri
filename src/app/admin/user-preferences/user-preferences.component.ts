@@ -28,11 +28,17 @@ export class UserPreferencesComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     private formBuilder: FormBuilder) {
+      this.common.refresh=this.refresh.bind(this);
+      
  
   }
 
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log("Refresh");
   }
 
 

@@ -86,7 +86,7 @@ export class FreightInvoiceComponent implements OnInit {
     this.freightInvoice.companyName = consignor.name;
     this.freightInvoice.companyId = consignor.id;
   }
-
+  // Edit Invoice  Author by Hemant Singh Sisodia 
   saveInvoice() {
 
     let params = {
