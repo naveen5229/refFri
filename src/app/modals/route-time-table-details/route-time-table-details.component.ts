@@ -102,18 +102,53 @@ export class RouteTimeTableDetailsComponent implements OnInit {
         this.common.loading--;
         console.log('getRoutesWrtFo:', res);
         this.routesData = res['data'];
+        this.routesData.map(route => {
+          route.day = route.day || 1;
+          route.Arrival_Time = route.Arrival_Time || '12:00:00';
+        });
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
   setTime(time) {
-    return new Date('1000-10-10 ' + time);
+    return new Date('2001-10-10 ' + time);
   }
   setTimeReverse(time) {
     return this.common.timeFormatter(time);
   }
 
+  handleArrivalTimeSelection(time, route, index) {
+    route.Arrival_Time = this.common.timeFormatter(time);
+    this.arrivalTimeChecker();
+  }
 
+  arrivalTimeChecker() {
+    this.routesData.map((route, index) => {
+      if (index) {
+        let previousRoute = this.routesData[index - 1];
+        if (previousRoute.day > route.day) {
+          route.errorMsg = 'Previous arrival day is higher than me.';
+        } else if (previousRoute.day == route.day && previousRoute.Arrival_Time >= route.Arrival_Time) {
+          route.errorMsg = 'Previous arrival time is higher or equal to me.';
+        } else {
+          route.errorMsg = '';
+        }
+      }
+    });
+  }
+
+  setArrivalTime() {
+    let isError = false;
+    this.routesData.map(route => {
+      if (route.errorMsg) isError = true;
+    });
+    if (isError) {
+      this.common.showError('Please enter valid values:)');
+      return;
+    }
+
+    console.log('You can hit api:)))))');
+  }
 
 }
