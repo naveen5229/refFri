@@ -17,10 +17,10 @@ export class DriverVehicleRemappingComponent implements OnInit {
   driverList = [];
   maping = {
     regno: '',
-    primary: null,
-    pdriverMobile: null,
-    secondary: null,
-    SdriverMobile: null,
+    primary: '',
+    pdriverMobile: '',
+    secondary: '',
+    SdriverMobile: '',
     pdStatus: '901',
     sdStatus: '902',
     driverId1: null,
@@ -38,35 +38,26 @@ export class DriverVehicleRemappingComponent implements OnInit {
     // public user: UserService,
   ) {
     this.maping.refId = this.common.params.driver.v_id;
-    //console.log('vehicle', this.maping.refId);
     this.maping.regno = this.common.params.driver.regno;
-    //console.log('info', this.common.params.driver);
     this.md = this.common.params.driver.md_id;
     this.sd = this.common.params.driver.sd_id;
-    if (this.common.params.driver) {
-      this.maping.primary = { empname: this.common.params.driver.md_name };
 
+    if (this.common.params.driver) {
+      this.maping.primary = this.common.params.driver.md_name;
       this.maping.pdriverMobile = this.common.params.driver.md_no;
       this.maping.driverId1 = this.common.params.driver.md_id;
-      //  console.log('id', this.maping.driverId1);
-
-      this.maping.secondary = { empname: this.common.params.driver.sd_name };
-
+      this.maping.secondary = this.common.params.driver.sd_name;
       this.maping.SdriverMobile = this.common.params.driver.sd_no;
       this.maping.driverId2 = this.common.params.driver.sd_id;
-      // console.log('id1', this.maping.driverId2);
-      // console.log('mob2', this.common.params.driver.sd_no);
     }
-    // console.log('Params: ', this.common.params);
+
     this.getdriverStatus();
     this.getdriverList();
-    // if(this.common.params.driver){
-
-    // }
+    console.log('primarydriver:', this.maping.primary, 'mobileno:', this.maping.pdriverMobile);
   }
 
   ngOnInit() {
-
+    console.log('primarydriver:', this.maping.primary, 'mobileno:', this.maping.pdriverMobile);
 
   }
 
@@ -75,7 +66,7 @@ export class DriverVehicleRemappingComponent implements OnInit {
   getvehicleData(Fodriver, driverType) {
 
     if (driverType == 'primary') {
-      this.maping.primary = { empname: Fodriver.empname };
+      this.maping.primary = Fodriver.empname;
       this.maping.pdriverMobile = Fodriver.mobileno;
       this.maping.driverId1 = Fodriver.id;
       // this.common.params=Fodriver;

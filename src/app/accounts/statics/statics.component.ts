@@ -355,26 +355,27 @@ export class StaticsComponent implements OnInit {
     });
 
     let assetsJson = [];
-    assetsJson.push(Object.assign({ asset: "Master Name", assetAmount: 'System',pending:'User Defined' }));
+    assetsJson.push(Object.assign({ asset: "Master Name", assetAmount: 'System',assetPending:'User Defined' }));
     this.assets.forEach(asset => {
-      assetsJson.push({ asset: asset.name, assetAmount:  '',pending:'' });
+      assetsJson.push({ asset: asset.name, assetAmount:  '',assetPending:'' });
       asset.balanceSheets.forEach(subGroup => {
-        assetsJson.push({ asset: subGroup.y_name, assetAmount: subGroup.y_total_approved ,pending:subGroup.y_total_pending });
+        assetsJson.push({ asset: subGroup.y_name, assetAmount: subGroup.y_total_approved ,assetPending:subGroup.y_total_pending });
        
       });
     });
     let mergedArray = [];
 
-    for (let i = 0; i <= liabilitiesJson.length || i <= assetsJson.length; i++) {
-      if (liabilitiesJson[i] && assetsJson[i] && i < liabilitiesJson.length - 1 && i < assetsJson.length - 1) {
+    for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
+      if (liabilitiesJson[i] && assetsJson[i] && i <= liabilitiesJson.length - 1 && i <= assetsJson.length - 1) {
         mergedArray.push(Object.assign({}, liabilitiesJson[i], assetsJson[i]));
-      } else if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
-        mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '',pending:'' }));
-      } else if (assetsJson[i] && i < assetsJson.length - 1) {
+      } else if (liabilitiesJson[i] && i <= liabilitiesJson.length - 1) {
+        mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '',assetPending:'' }));
+      } else if (assetsJson[i] && i <= assetsJson.length - 1) {
         mergedArray.push(Object.assign({}, { liability: '', liabilityAmount: '',pending:'' }, assetsJson[i]));
       }
     }
-    mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
+    
+    mergedArray.push(Object.assign({}, { liability: 'Total', liabilityAmount:this.liabilities[this.liabilities.length-1]['approve'] ,pending: this.liabilities[this.liabilities.length-1]['pending']  }, { asset: 'Total', assetAmount: this.assets[this.assets.length-1]['approve'],assetPending:this.assets[this.assets.length-1]['pending'] }))
 
     this.csvService.jsonToExcel(mergedArray);
     console.log('Merged:', mergedArray);
