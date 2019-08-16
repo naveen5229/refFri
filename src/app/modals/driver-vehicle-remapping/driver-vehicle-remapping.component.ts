@@ -14,7 +14,7 @@ export class DriverVehicleRemappingComponent implements OnInit {
   // submitted = false;
   //driverRemapForm: FormGroup;
   driverStatus = [];
-
+  driverList = [];
   maping = {
     regno: '',
     primary: null,
@@ -59,6 +59,7 @@ export class DriverVehicleRemappingComponent implements OnInit {
     }
     // console.log('Params: ', this.common.params);
     this.getdriverStatus();
+    this.getdriverList();
     // if(this.common.params.driver){
 
     // }
@@ -104,6 +105,22 @@ export class DriverVehicleRemappingComponent implements OnInit {
         this.common.loading--;
 
         this.driverStatus = res['data'];
+        console.log("Driver Status:", this.driverStatus);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    return response;
+
+  }
+  getdriverList() {
+    this.common.loading++;
+    let response;
+    this.api.get('Drivers/getFoDrivers')
+      .subscribe(res => {
+        this.common.loading--;
+
+        this.driverList = res['data'];
         console.log("Driver Status:", this.driverStatus);
       }, err => {
         this.common.loading--;

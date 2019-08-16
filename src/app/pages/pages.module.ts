@@ -72,12 +72,18 @@ import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.co
 import { CardMappingComponent } from './card-mapping/card-mapping.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { SitesComponent } from './sites/sites.component';
-import { ManagePartyComponent } from './manage-party/manage-party.component';
+import { FinanceRecoveryComponent } from './finance-recovery/finance-recovery.component';
 import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.component';
+import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.component';
+import { FuelMileageWithOdoComponent } from './fuel-mileage-with-odo/fuel-mileage-with-odo.component';
+import { FuelMasterComponent } from './fuel-master/fuel-master.component';
+import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.component';
+
 
 
 const PAGES_COMPONENTS = [
   PagesComponent
+
 ];
 
 @NgModule({
@@ -147,12 +153,19 @@ const PAGES_COMPONENTS = [
     CardMappingComponent,
     TransfersComponent,
     SitesComponent,
-    ManagePartyComponent,
+    FinanceRecoveryComponent,
     ManageFoPartyComponent,
+    ManageFoPartyComponent,
+    FuelMasterComponent,
+    FuelConsumptionComponent,
+
     // CustomDatePipe
   ],
   exports: [
     FuelAverageAnalysisComponent,
+    FuelMileageWithOdoComponent,
+    FoFuelAverageComponent,
+
 
   ],
 })

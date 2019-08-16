@@ -211,6 +211,12 @@ export class DataService {
             link: '/admin/vehiclewise-tolltransaction',
             home: true,
           },
+          {
+            title: 'Vouchers Summary',
+            icon: 'far fa-list-alt',
+            link: '/admin/vouchers-summary',
+            home: true,
+          },
 
 
         ]
@@ -280,12 +286,19 @@ export class DataService {
             link: '/admin/company-details',
             home: true,
           },
-          // {
-          //   title: 'Vehicles',
-          //   icon: 'fas fa-info-circle',
-          //   link: '/admin/vehicles',
-          //   home: true,
-          // },
+          {
+            title: 'Web Activity Summary',
+            icon: 'far fa-user',
+            link: '/admin/web-activity-summary',
+            home: true,
+          },
+
+          {
+            title: 'User Template',
+            icon: 'far fa-user',
+            link: '/admin/user-templates',
+            home: true,
+          },
         ]
       },
 
@@ -348,6 +361,11 @@ export class DataService {
             link: '/admin/fuel-rules',
             home: true,
           },
+          {  title: 'Fo Model Fuel Milage',
+          icon: 'fa fa-safari',
+          link: '/admin/fo-fuel-average',
+          home: true, },
+
           {
             title: 'Pump Station Area',
             icon: 'fa fa-signal',
@@ -365,6 +383,12 @@ export class DataService {
             icon: 'fa fa-signal',
             link: '/admin/fo-fs-mapping',
             home: true,
+          },
+          {
+            title: 'Fuel Mileage With ODO',
+            icon: 'fas fa-gas-pump',
+            link: '/admin/fuel-mileage-with-odo',
+            home: true
           },
         ]
       },
@@ -391,10 +415,23 @@ export class DataService {
         ]
       },
       {
+        title: 'Battery',
+        icon: 'fas fa-car-battery',
+        children: [
+          {
+            title: 'Battery Models',
+            icon: 'fa fa-text-width',
+            link: '/admin/battery-modals',
+            home: true,
+          },
+        ]
+      },
+
+      {
         title: 'Routes',
         icon: 'fa fa-pencil-square-o',
         link: '/admin/via-routes',
-      }
+      },
 
     ];
   }

@@ -1,3 +1,5 @@
+<!--  Author by Hemant Singh Sisodia -->
+
 <div class="model-drag" cdkDrag>
   <div class="model-handler" cdkDragHandle>
     <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
@@ -50,9 +52,22 @@
         <div class="col-sm-6">
           <label>City</label>
         </div>
-        <div class="col-sm-6">
-          <input type="text" class="mrgn wdth" [(ngModel)]="Transport.city" autocomplete="off" minlength="3"
-            maxlength="64" placeholder="City" required />
+        <div class="col-sm-6 ">
+          <div class="row mt-2 align-items-center">
+            <div class="col-9">
+                <auto-suggestion (onChange)="onChangeAuto1($event)"
+                (onSelected)="selectLocation($event)" (noDataFound)="takeActionSource($event)"
+                [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="startname1"
+                placeholder="Location" [value]="Transport.city" class="mrgn"
+                [preSelected]='{location:Transport.city}'>
+              </auto-suggestion>
+            </div>
+            <div class="col-3 pl-0">
+                <i class="fa fa-plus add" (click)="CityString='----'; takeActionSource(null);"></i>
+            </div>
+          </div>
+          <!-- <input type="text" class="mrgn wdth" [(ngModel)]="Transport.city" autocomplete="off" minlength="3"
+            maxlength="64" placeholder="City" required /> -->
         </div>
 
 

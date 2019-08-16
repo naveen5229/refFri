@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDocumentComponent } from '../../documents/documentation-modals/add-document/add-document.component';
 import { DOCUMENT } from '@angular/platform-browser';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
+import { AddConsigneeComponent } from '../LRModals/add-consignee/add-consignee.component';
 @Component({
   selector: 'add-fo',
   templateUrl: './add-fo.component.html',
@@ -55,7 +56,7 @@ export class AddFoComponent implements OnInit {
   constructor(public common: CommonService,
     public activeModal: NgbActiveModal,
     public api: ApiService,
-    public modalService: NgbActiveModal
+    public modalService: NgbModal
 
   ) {
     // this.company.pan = this.common.params.company.pan;
@@ -75,6 +76,11 @@ export class AddFoComponent implements OnInit {
       this.button_name = "Show Login Form!";
   }
 
+
+  addCompany(){
+    this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: "drag-box" })
+
+  }
 
   handleFileSelection(event, index) {
     this.common.loading++;
@@ -215,7 +221,7 @@ export class AddFoComponent implements OnInit {
       });
   }
 
-  selectCompany(event) {
+  selectCompany(event?) {
     console.log("event", event)
     this.companyId = event.id
     console.log("event1", event.id)

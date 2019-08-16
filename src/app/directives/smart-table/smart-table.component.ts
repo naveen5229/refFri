@@ -16,6 +16,7 @@ export class SmartTableComponent implements OnInit {
   columns = [];
   sortType = '';
   activeRow = -1;
+  activeRows = [];
   customPagevalue = true;
   search = {
     key: '',
@@ -43,11 +44,11 @@ export class SmartTableComponent implements OnInit {
   ngOnChanges(changes) {
     console.log('Changes: ', changes);
     this.data = changes.data.currentValue;
-    this.settings = changes.settings.currentValue;
+    if (changes.settings)
+      this.settings = changes.settings.currentValue;
     console.log('Data', this.data);
     this.setData();
     this.activeRow = -1;
-
   }
 
   ngAfterViewInit() {
@@ -55,7 +56,6 @@ export class SmartTableComponent implements OnInit {
   }
 
   setData() {
-
     this.headings = this.data.headings;
     this.handlePagination(this.pages.active);
     // this.columns = this.data.columns
@@ -70,6 +70,7 @@ export class SmartTableComponent implements OnInit {
     if (this.data.columns.length % this.pages.limit) {
       this.pages.count++;
     }
+    this.columns.map((column, index) => column._smartId = index);
   }
 
   filterData(key) {
@@ -139,8 +140,23 @@ export class SmartTableComponent implements OnInit {
   }
 
   handleRowClick(column, index) {
-    if (column.rowActions.click == 'selectRow') this.activeRow = index;
-    else column.rowActions.click();
+    if (column.rowActions.click == 'selectRow') this.activeRow = column._smartId;
+    else if (column.rowActions.click == 'selectMultiRow') {
+      if (this.activeRows.indexOf(column._smartId) === -1) {
+        this.activeRows.push(column._smartId);
+      } else {
+        this.activeRows.splice(this.activeRows.indexOf(column._smartId), 1);
+      }
+    } else column.rowActions.click();
+  }
+
+  isItActive(column) {
+    if (column.rowActions)
+      if (column.rowActions.click == 'selectRow' && column._smartId === this.activeRow)
+        return true;
+      else if (column.rowActions.click == 'selectMultiRow' && this.activeRows.indexOf(column._smartId) !== -1)
+        return true;
+    return false;
   }
 
 
@@ -194,6 +210,7 @@ export class SmartTableComponent implements OnInit {
    * @param rowIndex Clicked row index
    */
   handleColumnClick(column: any, heading: string, rowIndex: number) {
+    if (column[heading].isCheckbox || column[heading].isAutoSuggestion) return;
     if (column[heading].action) column[heading].action();
     else if (this.settings.editable) {
       this.edit.row = rowIndex;
@@ -218,6 +235,25 @@ export class SmartTableComponent implements OnInit {
   saveEdit(editedColumn: any) {
     this.settings.editableAction({ current: editedColumn, old: this.edit.column });
     this.resetColumn(editedColumn);
+  }
+
+  /**
+   * Hanle row selection
+   * @param event - Checkbox change event
+   * @param action - Action to perform on checkbox click
+   */
+  handleCheckboxChange(event, action) {
+    action(event.target.checked);
+    event.stopPropagation();
+  }
+
+  isEventBinding(column, property, event) {
+    column[property] && column[property](event);
+  }
+
+  isPropertyBinding(column, property, byDefault = '') {
+    if (column[property]) return column[property];
+    return byDefault;
   }
 
 }

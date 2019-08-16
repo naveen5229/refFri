@@ -10,6 +10,9 @@ import { FreightInvoiceComponent } from '../../modals/FreightRate/freight-invoic
 import { LrAssignComponent } from '../../modals/LRModals/lr-assign/lr-assign.component';
 import { ViewFrieghtInvoiceComponent } from '../../modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
 import { LrInvoiceColumnsComponent } from '../lr-invoice-columns/lr-invoice-columns.component';
+import { SupportingDocComponent } from '../../modals/LRModals/supporting-doc/supporting-doc.component';
+import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.component';
+import { AssignUserTemplateComponent } from '../../modals/assign-user-template/assign-user-template.component';
 
 @Component({
   selector: 'freight-invoices',
@@ -132,6 +135,10 @@ export class FreightInvoicesComponent implements OnInit {
         class: "far fa-eye",
         action: this.lrAssign.bind(this, row),
       },
+      {
+        class: "far fa-edit",
+        action: this.invoice.bind(this, 'Edit', row),
+      },
 
       {
         class: "fas fa-trash-alt",
@@ -140,6 +147,10 @@ export class FreightInvoicesComponent implements OnInit {
       {
         class: "fas fa-print",
         action: this.printInvoice.bind(this, row),
+      },
+      {
+        class: "far fa-file",
+        action: this.supportDoc.bind(this, row),
       }
     )
     return icons;
@@ -191,7 +202,11 @@ export class FreightInvoicesComponent implements OnInit {
 
 
 
-  invoice() {
+  invoice(title, row) {
+    console.log("title:", title);
+    console.log("Display:", row);
+    this.common.params = { title: title, freightInvoice: row };
+    console.log("alert:", this.common.params);
     const activeModal = this.modalService.open(FreightInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
@@ -209,11 +224,26 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
+  supportDoc(row) {
+    this.common.params = { invoiceId: row._id }
+    const activeModal = this.modalService.open(SupportingDocComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
+    });
+  }
+
   lrInvoice() {
     const activeModal = this.modalService.open(LrInvoiceColumnsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
+    });
+  }
 
+  addFoField() {
+    const activeModal = this.modalService.open(AddFieldComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
     });
   }
 

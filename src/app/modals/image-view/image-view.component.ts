@@ -9,69 +9,74 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./image-view.component.scss']
 })
 export class ImageViewComponent implements OnInit {
-  refId=null;
-  refType=null;
-  docType=null;
+  refId = null;
+  refType = null;
+  docType = null;
   title = '';
   images = [];
-  refdata=[];
+  refdata = [];
   activeImage = '';
-  
+  params = "";
 
-    constructor(public api: ApiService,
+
+  constructor(public api: ApiService,
     public common: CommonService,
     private activeModal: NgbActiveModal) {
+      
+     
+    let ref = this.common.params.refdata;
 
-if(this.common.params.refdata && this.common.params.refdata[0].refid)
-{
-this.common.params.refdata.map(ref=>{
- 
-    console.log(ref.refid);
-    console.log(ref.reftype);
-    console.log(ref.doctype);
+    if (this.common.params.refdata && this.common.params.refdata.refid) {
+      this.params = "refType=" + ref.reftype + "&refId=" + ref.refid + "&docTypeId=" + ref.doctype;
+      this.viewImage();
+    }
+    else if (this.common.params.refdata && this.common.params.refdata.docid) {
+      this.params = "docId=" + this.common.params.refdata.docid;
+      this.viewImage();
+    }
+    else {
+      this.common.params.images.map(image => {
+        if (image.name) {
+          if (image.image)
+            this.images.push(image.image);
+        } else {
+          this.images.push(image);
+        }
+      });
+      this.title = this.common.params.title;
+      this.activeImage = this.images[0];
+    }
+
+  }
+
+  viewImage() {
     this.common.loading++;
-    // this.api.get('Documents/getRepositoryImages', params)
-    this.api.get('Documents/getRepositoryImages?refType=' + ref.reftype + '&refId=' +ref.refid+'&docTypeId='+ref.doctype)
+    this.api.get('Documents/getRepositoryImages?' + this.params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res['data']);
-        if(res['data'])
-        {
-        res['data'].map(img=>
-          this.images.push(img.url)
-        )
-        this.activeImage=this.images[0];
+        if (res['data']) {
+          res['data'].map(img =>
+            this.images.push(img.url)
+          )
+          this.activeImage = this.images[0];
         }
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-    });
   }
-  else{
-    this.common.params.images.map(image => {
-      if (image.name) {
-        if (image.image)
-          this.images.push(image.image);
-      } else {
-        this.images.push(image);
-      }
-    });
-    this.title = this.common.params.title;
-    this.activeImage = this.images[0];
+
+  ngOnInit() {
   }
-}
 
-ngOnInit() {
-}
-
-closeModal() {
-  this.activeModal.close();
-}
+  closeModal() {
+    this.activeModal.close();
+  }
 
 }
 
 
 
 
-  
+

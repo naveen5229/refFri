@@ -167,6 +167,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/admin/fuel-average-issues',
                 home: true,
             },
+            // {
+            //     title: 'Model Fuel Milage',
+            //     icon: 'fa fa-signal',
+            //     link: '/admin/fo-fuel-average',
+            //     home: true,
+            // },
             {
                 title: 'Consolidate Fuel Average',
                 icon: 'fa fa-signal',
@@ -185,6 +191,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/admin/pump-station-area',
                 home: true,
             },
+         
             {
                 title: 'Fo Fs Mapping',
                 icon: 'fa fa-signal',
@@ -307,6 +314,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'locations',
         icon: 'fa fa-map',
         link: '/admin/locations',
+        home: true,
+    },
+    {
+        title: 'web activity summary',
+        icon: 'far fa-list-all',
+        link: '/admin/web-activity-summary',
+        home: true,
+    },
+    {
+        title: 'Vouchers Summary',
+        icon: 'far fa-list-all',
+        link: '/admin/vouchers-summary',
         home: true,
     },
 

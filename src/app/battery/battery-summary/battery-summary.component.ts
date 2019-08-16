@@ -57,8 +57,6 @@ export class BatterySummaryComponent implements OnInit {
     this.api.get('Battery/getBatterySummary')
       .subscribe(res => {
         this.common.loading--;
-        // JSON.parse(res['data'][0].fn_getvehicletyredetails);
-        // this.data = res['data'][0].fn_battery_summary;
         this.data = JSON.parse(res['data']);
 
 

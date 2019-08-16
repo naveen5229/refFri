@@ -10,6 +10,10 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { RoutesExpensesComponent } from '../../modals/routes-expenses/routes-expenses.component';
 import { RoutesAdvancesComponent } from '../../modals/routes-advances/routes-advances.component';
 import { RoutesTrafficKpisComponent } from '../../modals/routes-traffic-kpis/routes-traffic-kpis.component';
+import { StrictMappingComponent } from '../../modals/strict-mapping/strict-mapping.component';
+import { VehiclePriSecRoutemappingComponent } from '../../modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
+import { RouteTimeTableComponent } from '../../modals/route-time-table/route-time-table.component';
+import { RouteTimeTableDetailsComponent } from '../../modals/route-time-table-details/route-time-table-details.component';
 
 @Component({
   selector: 'via-routes',
@@ -47,14 +51,11 @@ export class ViaRoutesComponent implements OnInit {
     console.log("user", user);
     this.foData = user.id;
   }
+  strictRoutes() {
+    this.modalService.open(StrictMappingComponent, { size: 'lg', container: 'nb-layout', });
 
+  }
   addViaRoutes() {
-    // if (!this.foData) {
-    //   this.common.showError("Please select FoUser");
-    //   return false;
-    // }
-    // this.common.params = { foData: this.foData };
-    this.common.handleModalSize('class', 'modal-lg', '1250');
 
     const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -62,6 +63,11 @@ export class ViaRoutesComponent implements OnInit {
         this.viewTable();
       }
     });
+
+  }
+
+  addPriSecRoute() {
+    const activeModal = this.modalService.open(VehiclePriSecRoutemappingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
 
@@ -86,7 +92,8 @@ export class ViaRoutesComponent implements OnInit {
     this.api.get('ViaRoutes/view')
       .subscribe(res => {
         this.common.loading--;
-        this.viaRoutes = res['data'];
+        this.viaRoutes = res['data'] || [];
+        if (!this.viaRoutes.length) return;
         let first_rec = this.viaRoutes[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
@@ -159,8 +166,6 @@ export class ViaRoutesComponent implements OnInit {
   }
   remove(row) {
     console.log("row", row);
-
-
     let params = {
       id: row._id,
       foid: row._foid,
@@ -189,14 +194,14 @@ export class ViaRoutesComponent implements OnInit {
       });
     }
   }
-  openViaRoutePoints(doc) {
-    this.common.params = { doc: doc };
+  openViaRoutePoints(route) {
+    this.common.params = { route: route };
     console.log("params-->", this.common.params)
     const activeModal = this.modalService.open(ViaRoutePointsComponent, { size: 'lg', container: 'nb-layout', windowClass: "mycustomModalClass" });
-    activeModal.result.then(data =>
-      console.log("data", data)
-      // this.reloadData()
-    );
+    activeModal.result.then(data => {
+      console.log("data", data);
+      this.viewTable();
+    });
   }
 
   openrouteExpenses(doc) {
@@ -231,6 +236,16 @@ export class ViaRoutesComponent implements OnInit {
       this.viewTable();
     }
     );
+  }
+  // activeModal.result.then(data => {
+
+  //   console.log("data", data);
+  //   this.viewTable();
+  // );
+  // }
+  addRouteTime() {
+    const activeModal = this.modalService.open(RouteTimeTableComponent, { size: 'lg', container: 'nb-layout', });
+
   }
 
 }

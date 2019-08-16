@@ -42,6 +42,8 @@ export class AutoSuggestionComponent implements OnInit {
   activeSuggestion = -1;
   selectedSuggestions = [];
   isAllData = false;
+  suggestionApiHitTimer: any = null;
+
 
   constructor(public api: ApiService,
     private cdr: ChangeDetectorRef,
@@ -56,16 +58,11 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // console.log('URL:', this.url);
-    console.log('URL:', this.preSelected);
     if (this.preSelected) this.handlePreSelection();
 
-    // console.log('Is Array:', Array.isArray(this.display));
     if (Array.isArray(this.display)) {
       this.displayType = 'array';
     }
-    // console.log('Data:', this.data);
-    // console.log('Parent Form: ', this.parentForm);
     if (this.parentForm) {
       this.searchForm = this.parentForm;
     }
@@ -74,7 +71,6 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    console.log("--------------------+++++++++", changes);
     if (changes.preSelected) {
       this.preSelected = changes.preSelected.currentValue;
       this.preSelected && this.handlePreSelection();
@@ -83,7 +79,6 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   handlePreSelection() {
-    console.log('Inside::::::---');
     this.selectedSuggestion = this.preSelected;
     this.searchText = '';
     if (typeof (this.display) != 'object')
@@ -92,34 +87,44 @@ export class AutoSuggestionComponent implements OnInit {
       let index = 0;
       for (const dis of this.display) {
         this.searchText += (index != 0 ? (" " + this.seperator + " ") : " ") + this.preSelected[dis];
+        if (!this.searchText.replace(/[-]/g, '').trim()) {
+          this.searchText = '';
+        }
         index++;
       }
     }
-    //console.log("--------------------+++++++++", this.searchText);
   }
 
   getSuggestions() {
-    console.log("apiHitLimit", this.apiHitLimit, this.searchText.length);
     this.onChange.emit(this.searchText);
     this.apiHitLimit = this.apiHitLimit ? this.apiHitLimit : 3;
 
     this.showSuggestions = true;
     if (this.data) {
-      this.suggestions = this.data.filter(data => data[this.display].toLowerCase().includes(this.searchText.toLowerCase()));
+      this.suggestions = this.data.filter(suggestion => {
+        if (this.displayType === 'string') {
+          return (suggestion[this.display] || '').toLowerCase().includes(this.searchText.toLowerCase())
+        } else {
+          return this.generateString(suggestion).toLowerCase().includes(this.searchText.toLowerCase());
+        }
+      });
       this.suggestions.splice(10, this.suggestions.length - 1);
       return;
     }
     if (this.searchText.length < this.apiHitLimit) return;
+
+    clearTimeout(this.suggestionApiHitTimer);
+    this.suggestionApiHitTimer = setTimeout(this.getSuggestionsFromApi.bind(this), 400);
+  }
+
+  getSuggestionsFromApi() {
     let params = '?';
-    console.log(this.url, typeof this.url);
     if (this.url.includes('?')) {
       params = '&'
     }
     params += 'search=' + this.searchText;
-    console.log('Params: ', params);
     this.api.get(this.url + params)
       .subscribe(res => {
-        console.log(res);
         this.suggestions = res['data'];
         if (this.isNoDataFoundEmit && !this.suggestions.length) this.noDataFound.emit({ search: this.searchText });
       }, err => {
@@ -129,21 +134,14 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   selectSuggestion(suggestion) {
-    console.log('_____hey i m inside select suggestion', suggestion);
-    // this.searchText = suggestion[this.display];
     if (this.isMultiSelect) {
-      console.log('_____hey i m inside select suggestion');
       this.selectedSuggestions.push(suggestion);
       this.onSelected.emit(this.selectedSuggestions);
       this.searchText = '';
     } else {
-      console.log('_____hey i m inside select suggestion');
       this.selectedSuggestion = suggestion;
       this.onSelected.emit(suggestion);
       this.searchText = this.generateString(suggestion);
-      setTimeout(() => {
-        console.log(this.selectedSuggestion);
-      })
     }
 
     this.showSuggestions = false;
@@ -167,7 +165,6 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   handleKeyDown(event) {
-    // console.log('Event:', event);
     const key = event.key.toLowerCase();
     if (!this.showSuggestions) return;
     if (key == 'arrowdown') {
@@ -216,5 +213,10 @@ export class AutoSuggestionComponent implements OnInit {
     this.suggestions = this.data;
   }
 
+  clearData() {
+    console.log("cleardata");
+    this.showSuggestions = false;
+    this.suggestions = [];
+  }
 
 }

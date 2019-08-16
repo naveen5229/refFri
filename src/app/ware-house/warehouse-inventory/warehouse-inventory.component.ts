@@ -22,8 +22,9 @@ export class WarehouseInventoryComponent implements OnInit {
   };
   request = 0;
   dataInventory = null;
-  endDate=new Date();
-  startDate =new Date(new Date().setDate(new Date(this.endDate).getDate() - 1));;  
+  startDate = null;
+
+  endDate = null;
   headings = [];
   valobj = {};
   data = [];
@@ -31,12 +32,17 @@ export class WarehouseInventoryComponent implements OnInit {
   constructor(public common: CommonService,
     public modalService: NgbModal,
     private api: ApiService) {
-    //this.getdata();
+    // this.getdata();
     this.getWareData();
+    this.common.refresh = this.refresh.bind(this);
 
   }
   stateDetail = [];
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getWareData();
   }
 
   getWareData() {
@@ -50,47 +56,6 @@ export class WarehouseInventoryComponent implements OnInit {
   }
 
 
-
-  // nearByPods() {
-  //   this.table = {
-  //     data: {
-  //       headings: {},
-  //       columns: []
-  //     },
-  //     settings: {
-  //       hideHeader: true
-  //     }
-  //   };
-
-  //   this.headings = [];
-  //   this.valobj = {};
-
-
-  //   this.common.loading++;
-  //   this.api.get('LorryReceiptsOperation/getNearByPods')
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       this.data = res['data'];
-  //       if (this.data == null) {
-  //         this.data = [];
-  //         this.table = null;
-  //       }
-  //       let first_rec = this.data[0];
-  //       for (var key in first_rec) {
-  //         if (key.charAt(0) != "_") {
-  //           this.headings.push(key);
-  //           let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-  //           this.table.data.headings[key] = headerObj;
-  //         }
-  //       }
-  //       // this.showdoughnut();
-  //       this.table.data.columns = this.getTableColumns();
-
-  //     }, err => {
-  //       this.common.loading--;
-  //       this.common.showError();
-  //     });
-  // }
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1)
@@ -133,12 +98,28 @@ export class WarehouseInventoryComponent implements OnInit {
     };
     this.headings = [];
     this.valobj = {};
-    // if (this.startDate == null) {
-    //   this.startDate = null;
-    //   this.endDate = null;
-    // }
+
+    if (this.startDate > this.endDate) {
+      return this.common.showError("Start Date should not be Greater than End Date")
+    }
+
+
     let startDate = this.startDate != null ? this.common.dateFormatter1(this.startDate) : null;
-    let endDate = this.endDate != null ? this.common.dateFormatter1(this.endDate) : null;
+  
+
+    let endDate = this.endDate != null ? this.common.dateFormatter1(this.endDate.setDate(this.endDate.getDate() + 1)) : null;
+    console.log("end date:", endDate);
+
+
+    if (this.request == 1) {
+      if (startDate == null) {
+        return this.common.showError("Start Date is missing")
+      }
+      else if (endDate == null) {
+        return this.common.showError("End Date is missing")
+
+      }
+    }
     const params =
     {
       startDate: startDate,
@@ -157,6 +138,9 @@ export class WarehouseInventoryComponent implements OnInit {
         this.data = [];
         this.data = res['data'];
         console.log("result", res);
+        if (this.data == null) {
+          this.common.showToast("No record found")
+        }
         let first_rec = this.data[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {

@@ -24,6 +24,7 @@ import { PrintService } from '../../services/print/print.service';
 })
 export class VoucherComponent implements OnInit {
   Vouchers = [];
+  vouchername = 'Edit Voucher';
   voucherId = '';
   voucherName = '';
   voucher = null;
@@ -38,15 +39,15 @@ export class VoucherComponent implements OnInit {
   balances = {};
   showConfirm = false;
   showConfirmCostCenter = false;
-
-
+  mannual  =false;
+  freezedate='';
   showSuggestions = false;
   // ledgers = [];
   lastActiveId = '';
   allowBackspace = true;
   showDateModal = false;
   date = this.common.dateFormatternew(new Date());
-
+  voucherTypeCastId = 0;
   activeLedgerIndex = -1;
 
   constructor(public api: ApiService,
@@ -60,7 +61,8 @@ export class VoucherComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public pdfService: PdfService) {
     this.voucher = this.setVoucher();
-
+  this.mannual  =this.accountService.selected.branch.is_inv_manualapprove;
+    
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
       if (params.id) {
@@ -70,13 +72,16 @@ export class VoucherComponent implements OnInit {
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
-
+    if (this.common.params.voucherTypeId) {
+      this.voucherTypeCastId = this.common.params.voucherTypeId;
+    }
     this.getLedgers('debit');
     this.getLedgers('credit');
     this.voucher = this.setVoucher();
     this.common.currentPage = this.voucherName;
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.voucherEditDetail();
+    this.getFreeze();
   }
 
   ngOnInit() {
@@ -111,7 +116,8 @@ export class VoucherComponent implements OnInit {
       },
       Y_code: '',
       xId: 0,
-      delete: 0
+      delete: 0,
+      mannual:this.accountService.selected.branch.is_inv_manualapprove
     };
   }
 
@@ -119,14 +125,22 @@ export class VoucherComponent implements OnInit {
   voucherEditDetail() {
     let params = {
       vchId: this.common.params.voucherId
+
     };
+    setTimeout(() => {
+      if (this.common.params.addvoucherid == 6) {
+        console.log('this.common.poarams',this.common.params);
+        this.vouchername = 'Add Duplicate Voucher';
+        this.voucher.xId = 0;
+      }
+    }, 3000);
     console.log('vcid', this.common.params);
     this.deleteId = this.common.params.delete;
     this.api.post('Voucher/getVoucherDetail', params)
       .subscribe(res => {
 
         console.log('Voucher Edit Details:', res);
-        this.voucherId = res['data'][0].y_vouchertype_id;
+        this.voucherId = res['data'][0].y_vouchertype_id ||0;
         this.voucher = {
           code: res['data'][0].y_cust_code,
           date: this.common.dateFormatternew(res['data'][0].y_date, 'ddMMYYYY', false, '-'),
@@ -138,7 +152,8 @@ export class VoucherComponent implements OnInit {
             debit: 0,
             credit: 0
           },
-          y_code: res['data'][0].y_code
+          y_code: res['data'][0].y_code,
+          mannual: (res['data'][0].y_for_approved)?false:true
         }
 
         res['data'].map(voucher => {
@@ -236,7 +251,7 @@ export class VoucherComponent implements OnInit {
 
 
 
-  dismiss(response) {
+  async dismiss(response) {
     console.log('Voucher:', this.voucher, 'test response', response);
     if (response && this.voucher.total.debit !== this.voucher.total.credit) {
       this.common.showError('Credit And Debit Amount Should be Same');
@@ -250,13 +265,29 @@ export class VoucherComponent implements OnInit {
     console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch.id != 0);
     if (response && this.accountService.selected.branch.id != 0) {
       // this.accountService.selected.branch
-      this.addVoucher();
+    
+ 
+       
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          if (rescompare == 0) {
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('voucher-date');
+            }, 150);
+          } else {
+            this.addVoucher();
+          }
+        }
+      
+
+
       this.showConfirm = false;
       event.preventDefault();
       return;
     } else if (response == false) {
       // this.activeModal.close();
-      console.log('false condition true',response)
+      console.log('false condition true', response)
       this.activeModal.close({ data: false });
     }
     else {
@@ -279,7 +310,8 @@ export class VoucherComponent implements OnInit {
       vouchertypeid: this.voucher.vouchertypeid,
       y_code: this.voucher.y_code,
       xid: this.voucher.xId,
-      delete: this.voucher.delete
+      delete: this.voucher.delete,
+      ismannual:this.voucher.mannual
     };
 
     console.log('params 1 : ', params);
@@ -516,7 +548,7 @@ export class VoucherComponent implements OnInit {
 
 
 
-  keyHandler(event) {
+  async keyHandler(event) {
     const key = event.key.toLowerCase();
     // console.log(event);
     const activeId = document.activeElement.id;
@@ -603,8 +635,25 @@ export class VoucherComponent implements OnInit {
         this.activeLedgerIndex = -1;
         return;
       } else if (activeId == 'voucher-date') {
-        this.handleVoucherDateOnEnter();
-        this.setFoucus('transaction-type-0');
+ 
+        if (this.freezedate) {
+
+
+
+          let rescompare = this.CompareDate(this.freezedate);
+          if (rescompare == 1) {
+            // console.log('hello brother');
+            this.handleVoucherDateOnEnter();
+            this.setFoucus('transaction-type-0');
+          }
+          else {
+            this.common.showError('Please Enter Date After '+this.freezedate);           
+            setTimeout(() => {
+              this.setFoucus('voucher-date');
+            }, 150);
+          }
+        }
+
       } else {
         let index = this.getElementsIDs().indexOf(document.activeElement.id);
         this.setFoucus(this.getElementsIDs()[index + 1]);
@@ -644,6 +693,27 @@ export class VoucherComponent implements OnInit {
     this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
     this.showConfirmCostCenter = false;
     event.preventDefault();
+  }
+  getFreeze() {
+    return new Promise((resolve, reject) => {
+      let params = {
+        departmentId: 0
+      };
+
+      this.common.loading++;
+      this.api.post('Voucher/getFreeze', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('freeze Res11:', res['data']);
+          this.freezedate =res['data'][0]['getfreezedate'];
+          resolve(res['data']);
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+          reject([]);
+        });
+    });
   }
   handleAmountEnter(index) {
     index = parseInt(index);
@@ -727,7 +797,7 @@ export class VoucherComponent implements OnInit {
 
   getLedgers(transactionType, name?) {
     this.showSuggestions = true;
-    let url = 'Suggestion/GetLedger?transactionType=' + transactionType + '&voucherId=' + this.voucherId + '&search=' + name;
+    let url = 'Suggestion/GetLedger?transactionType=' + transactionType + '&voucherId=' + this.voucherTypeCastId + '&search=' + name;
     console.log('URL: ', url);
     this.api.get(url)
       .subscribe(res => {
@@ -929,8 +999,8 @@ export class VoucherComponent implements OnInit {
       delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
       costcenter: ledger.costcenter,
-      taxtype:ledger.taxtype,
-      taxsubtype:ledger.taxsubtype
+      taxtype: ledger.taxtype,
+      taxsubtype: ledger.taxsubtype
     };
 
     console.log('params11: ', params);
@@ -951,7 +1021,33 @@ export class VoucherComponent implements OnInit {
 
   }
 
+  CompareDate(freezedate) {
+    //            new Date(Year, Month, Date, Hr, Min, Sec);  
 
+    // console.log('freeze data', freezedata);
+    let firstarr = freezedate.split('-');
+    // console.log('first arr ', firstarr[0]);
+    let secondarr = this.voucher.date.split('-'); // freezedata[0]['getfreezedate'].split('-');
+    //  console.log('first arr ', secondarr[2]);
+
+    let fristyear = firstarr[0];
+    let firstmonth = firstarr[1];
+    let firstdate = firstarr[2];
+    let endyear = secondarr[2];
+    let endmonth = secondarr[1];
+    let enddate = secondarr[0];
+
+    console.log('First Date:', fristyear, firstmonth, firstdate);
+    console.log('Second Date:', endyear, endmonth, enddate);
+    var dateOne = new Date(fristyear, firstmonth, firstdate);
+    var dateTwo = new Date(endyear, endmonth, enddate);
+    //Note: 04 is month i.e. May  
+    if (dateOne > dateTwo) {
+      return 0;
+    } else {
+      return 1;
+    }
+  }
 
   delete(tblid) {
     let params = {
@@ -983,8 +1079,34 @@ export class VoucherComponent implements OnInit {
   restore() {
     this.deleteFunction(1, 'false');
   }
-  approve(ID) {
-    this.deleteFunction(0, 'true');
+  approve(id) {
+    this.approveFunction(0, 'true',id);
+  }
+  approveFunction(type, typeans,xid) {
+    let params = {
+      id: xid,
+      flagname: (type == 1) ? 'deleted' : 'forapproved',
+      flagvalue: typeans
+    };
+    this.common.loading++;
+    this.api.post('Voucher/deleteAppeooved', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        //this.getStockItems();
+        this.activeModal.close({ response: true, ledger: this.voucher });
+        if (type == 1 && typeans == 'true') {
+          this.common.showToast(" This Value Has been Deleted!");
+        } else if (type == 1 && typeans == 'false') {
+          this.common.showToast(" This Value Has been Restored!");
+        } else {
+          this.common.showToast(" This Value Has been Approved!");
+        }
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError('This Value has been used another entry!');
+      });
   }
   deleteFunction(type, typeans) {
     let params = {

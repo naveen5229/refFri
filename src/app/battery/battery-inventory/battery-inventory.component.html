@@ -29,7 +29,7 @@
             <th>Battery Model</th>
             <th>Battery No</th>
             <th>Warrenty Month </th>
-            <th>Purchase_Date</th>
+            <th>Purchase Date</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -40,11 +40,6 @@
               <auto-suggestion (onSelected)="selectModel($event,i)" url="Suggestion/getBatteryNamesWithBrands?typeId=-2"
                 display="modelname" placeholder="Model No" [inputId]="'modelNo_' + i"></auto-suggestion>
             </td>
-            <!-- <td width="15%">
-                <auto-suggestion (onSelected)="getTyreSize($event,i)" url="Suggestion/getTyreSize" display="size"
-                  placeholder="Size" [inputId]="'size-' + i"></auto-suggestion>
-
-              </td> -->
             <td width="15%"><input id="battNo" name="battNo" type="text" placeholder="Enter battery number"
                 autocomplete="off" class="form-control" [(ngModel)]="inventory.batteryNo" (focus)="size(i)">
             </td>

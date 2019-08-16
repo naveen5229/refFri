@@ -31,6 +31,8 @@ export class OrdersComponent implements OnInit {
   totalitem = 0;
   invoiceDetail = [];
   taxDetailData = [];
+  mannual=false;
+  freezedate='';
   order = {
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: '',
@@ -65,6 +67,7 @@ export class OrdersComponent implements OnInit {
       name: '',
       id: ''
     },
+    ismanual:this.mannual,
     amountDetails: [{
       id: -1,
       transactionType: 'debit',
@@ -167,13 +170,15 @@ export class OrdersComponent implements OnInit {
       // this.getStockItems('purchase');
       // this.getStockItems('inventary');
       this.getWarehouses();
+      this.mannual= this.accountService.selected.branch.is_inv_manualapprove;
+      this.order.ismanual=this.mannual;
     };
 
     this.common.refresh();
 
     this.setFoucus('ordertype');
     this.common.currentPage = this.order.ordertype.name;
-    
+    this.getFreeze();
   }
 
   ngOnInit() {
@@ -199,6 +204,7 @@ export class OrdersComponent implements OnInit {
       orderid: 0,
       delete: 0,
     ledgeraddressid:null,
+    ismanual:this.mannual,
     print:false,
       // branch: {
       //   name: '',
@@ -344,7 +350,7 @@ export class OrdersComponent implements OnInit {
       if (this.accountService.selected.financialYear.isfrozen == true) {
         this.common.showError('This financial year is freezed. Please select currect financial year');
         return;
-      }else if (this.order.amountDetails[1].amount == 0) {
+      }else if (this.order.amountDetails[0].amount == 0) {
         this.common.showError('Please fill correct amount');
         return;
       }else {
@@ -354,7 +360,19 @@ export class OrdersComponent implements OnInit {
           return;
         }
       }
+      if (this.freezedate) {
+        let rescompare = this.CompareDate(this.freezedate);
+        console.log('heddlo',rescompare);
+        if (rescompare == 0) {
+          console.log('hello');
+          this.common.showError('Please Enter Date After '+this.freezedate);
+          setTimeout(() => {
+            this.setFoucus('date');
+          }, 150);
+        } else {
       this.addOrder(this.order);
+        }
+      }
     }
     // this.activeModal.close({ response: response, Voucher: this.order });
   }
@@ -376,7 +394,8 @@ export class OrdersComponent implements OnInit {
       }else{
     this.common.params={
       taxDetail : this.order.amountDetails[i].taxDetails,
-     amount : this.order.amountDetails[i].amount
+     amount : this.order.amountDetails[i].amount,
+     sizeIndex:1
     }
    console.log('param common',this.common.params);
 
@@ -434,7 +453,8 @@ export class OrdersComponent implements OnInit {
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
       ledgeraddressid:order.ledgeraddressid,
-      x_id: 0
+      x_id: 0,
+      ismannual:order.ismanual
     };
 
     console.log('params11: ', params);
@@ -445,8 +465,8 @@ export class OrdersComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.GetLedger();
-        this.printFunction();
-      // this.order = this.setInvoice();
+        if(order.print)this.printFunction();
+       this.order = this.setInvoice();
         this.setFoucus('ordertype');
         this.common.showToast('Invoice Are Saved');
         return;
@@ -543,13 +563,26 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('date')) {
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          console.log('heddlo',rescompare);
+          if (rescompare == 0) {
+            console.log('hello');
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('date');
+            }, 150);
+          } else {
+           
+        
         if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
           this.setFoucus('qty' + '-' + 0);
         }
         else {
           this.setFoucus('purchaseledger');
         }
-      } else if (this.activeId.includes('purchaseledger')) {
+      }
+    } } else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
@@ -1385,21 +1418,49 @@ export class OrdersComponent implements OnInit {
 
     let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
     let rows = [];
-
+    let totalqty=0;
+    let totalamount=0;
+    let lasttotaltax=0;
+    let lineamounttotal=0;
     voucherdataprint.amountDetails.map((invoiceDetail, index) => {
+      let taxRowData='';
+      let taxTotal=0;
+      totalqty+=invoiceDetail.qty;
+      totalamount+=invoiceDetail.amount;
+      lineamounttotal+=invoiceDetail.lineamount;
+
+            invoiceDetail.taxDetails.map((taxDetail, index) => {
+              taxRowData +=  taxDetail.taxledger.name +' : '+taxDetail.taxamount+',';
+              taxTotal += taxDetail.taxamount; 
+            });
+            let lasttaxrowdata= taxRowData.substring(0, taxRowData.length - 1);
+            lasttotaltax+=taxTotal;
+
       rows.push([
-        { txt: invoiceDetail.warehouse.name || '' },
-        { txt: invoiceDetail.stockitem.name || '' },
-        { txt: invoiceDetail.stockunit.name || '' },
+        { txt: (index==0)?invoiceDetail.warehouse.name: (voucherdataprint.amountDetails[index-1].warehouse.id  == invoiceDetail.warehouse.id)? '':invoiceDetail.warehouse.name  || '' },
+        { txt: invoiceDetail.stockitem.name +'('+invoiceDetail.stockunit.name +')'+'</br>'+lasttaxrowdata || '' },
         { txt: invoiceDetail.qty || '' },
         { txt: invoiceDetail.rate || '' },
         { txt: invoiceDetail.amount || '' },
+        { txt: taxTotal || 0 },
         { txt: invoiceDetail.lineamount || '' },
         { txt: invoiceDetail.remarks || '' }
       ]);
+      console.log('invoiceDetail.taxDetails',invoiceDetail.taxDetails);
+     
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
     });
+    rows.push([
+      { txt: '' },
+      { txt: 'Total' },
+      { txt: totalqty || '' },
+      { txt: '-' },
+      { txt: totalamount || '' },
+      { txt: lasttotaltax || 0 },
+      { txt: lineamounttotal || '' },
+      { txt: '' }
+    ]);
 let invoiceJson={};
     if(voucherdataprint.ordertype.name.toLowerCase().includes('purchase') || voucherdataprint.ordertype.name.toLowerCase().includes('debit note')){
      invoiceJson = {
@@ -1430,12 +1491,12 @@ let invoiceJson={};
       table: {
         headings: [
           { txt: 'Ware House' },
-          { txt: 'Stock Item' },
-          { txt: 'Stock Unit' },
-          { txt: 'Quantity' },
+          { txt: 'Item' },
+          { txt: 'Qty' },
           { txt: 'Rate' },
           { txt: 'Amount' },
-          { txt: 'Line Amount' },
+          { txt: 'Tax Amount' },
+          { txt: 'Total Amount' },
           { txt: 'Remarks' }
         ],
         rows: rows
@@ -1469,9 +1530,8 @@ let invoiceJson={};
      table: {
        headings: [
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
-         { txt: 'Quantity' }
+         { txt: 'Item' },
+         { txt: 'Qty' }
      
        ],
        rows: rows
@@ -1516,12 +1576,12 @@ let invoiceJson={};
      table: {
        headings: [
          { txt: 'Ware House' },
-         { txt: 'Stock Item' },
-         { txt: 'Stock Unit' },
-         { txt: 'Quantity' },
+         { txt: 'Item' },
+         { txt: 'Qty' },
          { txt: 'Rate' },
          { txt: 'Amount' },
-         { txt: 'Line Amount' },
+         { txt: 'Tax Amount' },
+         { txt: 'Total Amount' },
          { txt: 'Remarks' }
        ],
        rows: rows
@@ -1543,4 +1603,50 @@ let invoiceJson={};
     this.printService.printInvoice(invoiceJson, 1);
     this.order = this.setInvoice();
   }
+
+  getFreeze() {
+   
+    let params = {
+      departmentId: 0
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/getFreeze', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('freeze Res11:', res['data']);
+        this.freezedate = res['data'][0]['getfreezedate'];
+       // resolve(res['data']);
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      
+      });
+}
+CompareDate(freezedate) {
+  let firstarr = freezedate.split('-');
+   console.log('first date ', firstarr);
+  let secondarr = this.order.date.split('-'); 
+  console.log('second arr ', secondarr[2]);
+
+  let fristyear = firstarr[0];
+  let firstmonth = firstarr[1];
+  let firstdate = firstarr[2];
+  let endyear = parseInt(secondarr[2]);
+  let endmonth = parseInt(secondarr[1]);
+  let enddate = parseInt(secondarr[0]);
+
+  console.log('First Date:', fristyear, firstmonth, firstdate);
+  console.log('Second Date:', endyear, endmonth, enddate);
+  var dateOne = new Date(fristyear, firstmonth, firstdate);
+ // var dateTwo = new Date(endyear, endmonth, enddate);
+  var dateTwo = new Date(endyear, endmonth, enddate);
+  
+  if (dateOne > dateTwo) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
 }

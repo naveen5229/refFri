@@ -32,11 +32,11 @@ export class FoFsMappingComponent implements OnInit {
   ngOnInit() {
   }
 
-  
+
   refresh() {
     console.log('Refresh');
-    this.getFoFsMapping(); 
-   }
+    this.getFoFsMapping();
+  }
   getFoFsMapping() {
     this.common.loading++;
     this.api.get('Fuel/getFoFsMapping')
@@ -52,6 +52,13 @@ export class FoFsMappingComponent implements OnInit {
   }
 
   addFoFsMapping() {
+    if (!this.foid) {
+      this.common.showToast('Fo Is Missing');
+      return;
+    } else if (!this.fsid) {
+      this.common.showToast('Fuel Station Is Missing');
+      return;
+    }
     let params = {
       foid: this.foid,
       fsid: this.fsid

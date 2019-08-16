@@ -32,9 +32,14 @@ export class StateLogsComponent implements OnInit {
     public common:CommonService) {
     this.getWareData();
     this.getData();
+    this.common.refresh = this.refresh.bind(this);
    }
 
   ngOnInit() {
+  }
+  refresh(){
+    this.getWareData();
+    this.getData();
   }
 
   getWareData(){
@@ -63,16 +68,27 @@ export class StateLogsComponent implements OnInit {
   getState(){
     let startDate = this.startDate != null ? this.common.dateFormatter1(this.startDate) : null;
     let endDate = this.endDate != null ? this.common.dateFormatter1(this.endDate) : null;
+    if (startDate == null)
+    {
+       return this.common.showError("Start Date is Missing");
+      
+    }
+    else if(endDate == null){
+     return this.common.showError("End Date is Missing");
+
+    }
     const params=`whId=${this.wareHouseId}&stateId=${this.stateId}&startDate=${startDate}&endDate=${endDate}`
     console.log(params);
+   
     this.common.loading++;
     this.api.get("WareHouse/getStateLogsWrtWh?" + params).subscribe(
       res => {
         this.stateData = [];
         this.common.loading--;
-
         this.stateData = res['data'];
+     
         console.log("result", res);
+
         let first_rec = this.stateData[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
@@ -82,11 +98,7 @@ export class StateLogsComponent implements OnInit {
           }
         }
         this.table.data.columns = this.getTableColumns();
-      }, err => {
-        this.common.showError();
-        // console.log('Error: ', err);
-    
-      });
+      },);
 
   }
     

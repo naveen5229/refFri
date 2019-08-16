@@ -1,3 +1,6 @@
+<!-- Author By: Lalit Singh -->
+
+
 <div class="modal-header">
   <h5 class="modal-title" id="modal-basic-title">Add Route</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
@@ -5,169 +8,48 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="row">
+  <div class="row mb-2">
     <div class="col-5">
-      <div class="row mb-3">
-        <div class="col-6">
-          <label>Route Name</label>
-        </div>
-
-        <div class="col-6">
-          <input type="text" name="routeName" class="form-control" id="routeName" [(ngModel)]="routeData.routeName"
-            placeholder="Route Name.." minlength="5" maxlength="100">
-
-        </div>
-      </div>
-
-      <div class="mb-3" *ngIf="selectOption=='site'; else map">
-        <div class="row">
-          <div class="col-3">
-            <label>Start Loc</label>
-          </div>
-          <div class="radio-type col-3">
-            <input type="radio" value="site" name="radio" [(ngModel)]="selectOption"
-              (change)="report(selectOption)">Site
-            <input type="radio" value="map" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">Map
-          </div>
-          <div class="col-6">
-            <auto-suggestion (onSelected)="selectSite($event)" url="Suggestion/getSites?typeId=1" seperator="-"
-              [display]="['name','sd_loc_name']" placeholder="Start Loc" [preSelected]="null">
-            </auto-suggestion>
-          </div>
-        </div>
-      </div>
-
-
-      <ng-template #map>
-        <div class="row mt-2">
-          <div class="col-3">
-            <label>Start Loc</label>
-          </div>
-          <div class="radio-type col-3">
-            <input type="radio" value="site" name="radio" [(ngModel)]="selectOption"
-              (change)="report(selectOption)">Site
-            <input type="radio" value="map" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">Map
-          </div>
-          <div class="col-6">
-            <input type="text" name="name" class="form-control" [(ngModel)]="routeData.placeName "
-              placeholder="Start Loc" (focus)=" isstart = true;" minlength="5" maxlength="100">
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-6">
-            <label>Lat,Long</label>
-          </div>
-          <div class="col-6">
-            <input type="text" class="form-control" placeholder="lat,long" readonly disabled
-              [(ngModel)]="this.routeData.latlong">
-          </div>
-        </div>
-      </ng-template>
-      <div class="mb-3" *ngIf=" selectOption2=='site2' ; else map2">
-        <div class="row">
-          <div class="col-3">
-            <label>End Loc</label>
-          </div>
-          <div class="radio-type col-3">
-            <input type="radio" value="site2" name="radio2" [(ngModel)]="selectOption2"
-              (change)="report2(selectOption2)">Site
-            <input type="radio" value="map2" name="radio2" [(ngModel)]="selectOption2"
-              (change)="report2(selectOption2)">Map
-          </div>
-          <div class="col-6">
-            <auto-suggestion (onSelected)="selectSite2($event)" url="Suggestion/getSites?typeId=1" seperator="-"
-              [display]="['name','sd_loc_name']" placeholder="End Loc" [preSelected]="null">
-            </auto-suggestion>
-          </div>
-        </div>
-      </div>
-
-
-      <ng-template #map2>
-        <div class="row mt-2">
-          <div class="col-3">
-            <label>End Loc</label>
-          </div>
-          <div class="radio-type col-3">
-            <input type="radio" value="site2" name="radio2" [(ngModel)]="selectOption2"
-              (change)="report2(selectOption2)">Site
-            <input type="radio" value="map2" name="radio2" [(ngModel)]="selectOption2"
-              (change)="report2(selectOption2)">Map
-          </div>
-          <div class="col-6">
-            <input type="text" name="name" class="form-control" (focus)=" isstart = false;"
-              [(ngModel)]="routeData.placeName2" placeholder="End Loc" minlength="5" maxlength="100">
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-6">
-            <label>Lat,Long</label>
-          </div>
-          <div class="col-6">
-            <input type="text" class="form-control" placeholder="long" readonly disabled
-              [(ngModel)]="this.routeData.latlong2">
-          </div>
-        </div>
-
-      </ng-template>
-
-
-
-      <div class="row mb-3">
-        <div class="col-6">
-          <label>KMS</label>
-
-        </div>
-        <div class="col-6">
-          <input type="text" name="kms" id="kms" class="form-control" placeholder="KMS" minlength="1" maxlength="5"
-            [(ngModel)]="routeData.kms">
-        </div>
-      </div>
-
-
-      <div class="row">
-        <div class="col-6">
-          <label>Route Type</label>
-
-        </div>
-        <div class="col-6">
-          <select class="form-control" [(ngModel)]="routeId">
-            <option *ngFor="let route of routeTypes" [value]="route.id">
-              {{route.name}}
-
-            </option>
-          </select>
-        </div>
-      </div>
-
+      <label>Route Name</label>
     </div>
-
-    <div class="col-7" style="position:relative;">
-      <div class="row mb-3">
-        <div class="col-4">
-
-          <input name="location" id="moveLoc" [(ngModel)]="location" [value]="location" class="fill-elt form-control" />
-        </div>
-      </div>
-
-
-
-      <div class="map" id="map"></div>
-    </div>
-
-
-  </div>
-</div>
-<div class="modal-footer">
-  <div class="row">
-    <div class="col">
-      <button class="btn btn-danger pt-2 pb-2 rounded-sm text-capitalize" (click)="closeModal()"
-        style="cursor:pointer;">Cancel</button>
-    </div>
-    <div class="col">
-      <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" (click)="add()"
-        style="cursor:pointer;">Submit</button>
+    <div class="col-7">
+      <input type="text" name="routeName" class="form-control" id="routeName" [(ngModel)]="routeData.routeName"
+        placeholder="Route Name.." minlength="5" maxlength="100">
     </div>
   </div>
-</div>
+  <div class="row mb-2">
+    <div class="col-5">
+      <label>KMS</label>
+
+    </div>
+    <div class="col-7">
+      <input type="text" name="kms" id="kms" class="form-control" placeholder="KMS" minlength="1" maxlength="5"
+        [(ngModel)]="routeData.kms">
+    </div>
+  </div>
+
+
+  <div class="row mb-2">
+    <div class="col-5">
+      <label>Route Type</label>
+    </div>
+    <div class="col-7">
+      <select class="form-control" [(ngModel)]="routeId">
+        <option *ngFor="let route of routeTypes" [value]="route.id">
+          {{route.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-danger pt-2 pb-2 rounded-sm text-capitalize" (click)="closeModal()"
+          style="cursor:pointer;">Cancel</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary pt-2 pb-2 rounded-sm text-capitalize" (click)="add()"
+          style="cursor:pointer;">Submit</button>
+      </div>
+    </div>
+  </div>

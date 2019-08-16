@@ -75,6 +75,15 @@ export class MapService {
     }
   }
 
+  setMultiBounds(bounds, isReset = false) {
+    if (isReset)
+      this.resetBounds();
+    for (let index = 0; index < bounds.length; index++) {
+      const thisPoint = bounds[index];
+      this.setBounds(this.createLatLng(thisPoint.lat, thisPoint.lng));
+    }
+  }
+
   createSingleMarker(latLng) {
     var icon = {
       path: google.maps.SymbolPath.CIRCLE,
@@ -233,7 +242,7 @@ export class MapService {
         };
       } else {
         if (subType == 'marker')
-          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + index + "|" + pinColor + "|000000";
+          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + (index + 1) + "|" + pinColor + "|000000";
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
@@ -543,4 +552,29 @@ export class MapService {
       });
     }
   }
+
+  distanceBtTwoPoint(startLat, startLong, endLat, endLong) {
+    return new Promise((resolve, reject) => {
+      let origin = new google.maps.LatLng(startLat, startLong);
+      let destination = new google.maps.LatLng(endLat, endLong);
+      let service = new google.maps.DistanceMatrixService();
+      service.getDistanceMatrix({
+        origins: [origin],
+        destinations: [destination],
+        travelMode: 'DRIVING',
+        avoidHighways: false,
+        avoidTolls: false,
+      }, (response, status) => {
+        console.log("response:", response);
+
+        if (status != google.maps.DistanceMatrixStatus.OK) {
+          reject(-1)
+        } else {
+          resolve(response.rows[0].elements[0].distance.value);
+        }
+      });
+    });
+  }
+
+
 }

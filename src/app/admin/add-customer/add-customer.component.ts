@@ -15,6 +15,7 @@ import { TicketSubscribeComponent } from '../ticket-subscribe/ticket-subscribe.c
 import { GpsEnabledDisabledComponent } from '../../modals/gps-enabled-disabled/gps-enabled-disabled.component';
 import { TypeMasterComponent } from '../../modals/type-master/type-master.component';
 import { GetUserBankInfoComponent } from '../../modals/get-user-bank-info/get-user-bank-info.component';
+import { BulkCompanyAssociationComponent } from '../../modals/bulk-company-association/bulk-company-association.component';
 @Component({
   selector: 'add-customer',
   templateUrl: './add-customer.component.html',
@@ -34,7 +35,12 @@ export class AddCustomerComponent implements OnInit {
     public common: CommonService,
     public api: ApiService,
   ) {
+    this.common.refresh = this.refresh.bind(this);
 
+
+  }
+  refresh(){
+    console.log('Refresh');
   }
 
   ngOnInit() {
@@ -126,6 +132,11 @@ export class AddCustomerComponent implements OnInit {
         this.common.showError();
 
       });
+
+  }
+
+  bulkCompanyAssociation(){
+    const activeModal = this.modalService.open(BulkCompanyAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
 }

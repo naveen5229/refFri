@@ -14,7 +14,7 @@
         <td><input type="text" class="form-control" [(ngModel)]=general.fixed></td>
         <td>Distance(/KM) </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.distance></td>
-        <td>Weight(/Tn) </td>
+        <td>Rate(/Tn) </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.weight></td>
         <td>MG-Weight(/Tn) </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.mgWeight></td>
@@ -41,7 +41,7 @@
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelBaseRate></td>
         <td>Fuel Variation × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelVariation></td>
-        <td>Qty </td>
+        <td>Rate(/Qty) </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.qty></td>
         <td>MG-Qty</td>
         <td><input type="text" class="form-control" [(ngModel)]=general.mgQty></td>
@@ -53,8 +53,9 @@
     <table>
       <tbody *ngFor="let filter of filters; let i= index">
         <tr>
-          <td>Param</td>
-          <td><select [(ngModel)]=filter.param style="width: 100%;">
+          <!-- <td>Param</td> -->
+          <td colspan="2"><select [(ngModel)]=filter.param style="width: 100%;">
+              <option value="0">Select Params</option>
               <option *ngFor="let freightRateparam of freightRateparams" [value]="freightRateparam.r_value">
                 {{freightRateparam.r_name}}</option>
 
@@ -73,7 +74,7 @@
           <td><input type="text" class="form-control" [(ngModel)]=filter.fixed></td>
           <td>Distance(/KM)</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.distance></td>
-          <td>Weight(/Tn)</td>
+          <td>Rate(/Tn)</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.weight></td>
           <td>MG-Weight(/Tn) </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.mgWeight></td>
@@ -101,7 +102,7 @@
 
           <td>Fuel Variation × </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.fuelVariation></td>
-          <td>Qty </td>
+          <td>Rate(/Qty) </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.qty></td>
           <td>MG-Qty</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.mgQty></td>
@@ -124,6 +125,10 @@
   <h4 *ngIf="data && data.length">
     Freight Rates
   </h4>
-  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithOutLocation">
-  </smart-table>
+  <div class="smart-table-view">
+    <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"
+      id="freightwithOutLocation">
+    </smart-table>
+  </div>
+
 </div>

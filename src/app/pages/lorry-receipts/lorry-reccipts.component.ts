@@ -15,7 +15,7 @@ import { TripSettlementComponent } from '../../modals/trip-settlement/trip-settl
 import { AddFreightExpensesComponent } from '../../modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-details.component';
-import { AddReceiptsComponent}from '../../modals/add-receipts/add-receipts.component'
+import { AddReceiptsComponent } from '../../modals/add-receipts/add-receipts.component'
 import { AddTransportAgentComponent } from '../../modals/LRModals/add-transport-agent/add-transport-agent.component'
 
 @Component({
@@ -48,12 +48,12 @@ export class LorryRecciptsComponent implements OnInit {
 
     let today;
     today = new Date();
-    this.tempendTime = today;
+    this.tempendTime = new Date();
     this.tempstartTime = new Date(today.setDate(today.getDate() - 15));
     today = new Date();
     this.endDate = this.common.dateFormatter(today);
     this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
-    console.log('dates ', this.endDate, this.startDate);
+    console.log('dates ', this.tempendTime, this.tempstartTime);
     this.getLorryReceipts();
     this.common.refresh = this.refresh.bind(this);
 
@@ -69,7 +69,7 @@ export class LorryRecciptsComponent implements OnInit {
     this.getLorryReceipts();
   }
   getLorryReceipts() {
-
+    console.log("--this.tempendTime---", this.tempendTime, "this.tempstartTime---", this.tempstartTime)
     if (this.tempendTime < this.tempstartTime) {
       this.common.showError("End Date Should be greater than Start Date");
       return 0;
@@ -83,7 +83,8 @@ export class LorryRecciptsComponent implements OnInit {
       lrCategory: this.lrCategory,
       vehicleType: this.vehicleType
     };
-
+    this.table = null;
+    this.receipts = [];
     ++this.common.loading;
     this.api.post('FoDetails/getLorryStatus', params)
       .subscribe(res => {
@@ -91,7 +92,7 @@ export class LorryRecciptsComponent implements OnInit {
         console.log('Res000000:', res);
         if (res['data']) {
           this.receipts = res['data'];
-          // console.log("Receipt",this.receipts);
+          console.log("Receipt", this.receipts);
           this.table = this.setTable();
         }
         else {
@@ -125,28 +126,28 @@ export class LorryRecciptsComponent implements OnInit {
   }
 
   getPodImage(receipt) {
-    console.log("val", receipt);
-    let images = [{
-      name: "POD-1",
-      image: receipt.podimage
+    console.log("val===", receipt);
+    let refdata = {
+      refid: "",
+      reftype: "",
+      doctype: "",
+      docid: receipt.pod_docid
     }
-    ];
-    console.log("images:", images);
-    this.common.params = { images, title: 'POD Image' };
+    this.common.params = { refdata: refdata, title: 'docImage' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
 
   }
 
-  RefData()
-  {
-    let refdata = [{
+  RefData() {
+    let refdata = {
       refid: "",
       reftype: "",
-      doctype:""
+      doctype: "",
+      docid: ""
     }
-    ];
-    
-    this.common.params = {refdata: refdata, title: 'docImage' };
+      ;
+
+    this.common.params = { refdata: refdata, title: 'docImage' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
   }
 
@@ -165,13 +166,13 @@ export class LorryRecciptsComponent implements OnInit {
   addReceipts() {
     const activeModal = this.modalService.open(AddReceiptsComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-    }).catch(err =>console.log('Error:', err));
+    }).catch(err => console.log('Error:', err));
   }
 
-  addTransportAgent(){
-  const activeModal = this.modalService.open(AddTransportAgentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  addTransportAgent() {
+    const activeModal = this.modalService.open(AddTransportAgentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-    }).catch(err =>console.log('Error:', err));
+    }).catch(err => console.log('Error:', err));
   }
 
 
@@ -188,12 +189,9 @@ export class LorryRecciptsComponent implements OnInit {
       AddTime: { title: 'AddTime', placeholder: 'AddTime' },
       Revenue: { title: 'Revenue', placeholder: 'Revenue' },
       Expense: { title: 'Expense', placeholder: 'Expense' },
-      PodImage: { title: 'PodImage', placeholder: 'PodImage' },
-      PodDetails: { title: 'PodDetails', placeholder: 'PodDetails' },
-      PodReceived: { title: 'PodReceived', placeholder: 'PodReceived' },
       LRImage: { title: 'LRImage', placeholder: 'LRImage' },
+      details: { title: 'POD', placeholder: 'POD' },
       Action: { title: 'Action', placeholder: 'Action' },
-
     };
 
     // if (this.user._loggedInBy == 'admin') {
@@ -219,17 +217,33 @@ export class LorryRecciptsComponent implements OnInit {
         VehiceNo: { value: R.regno },
         LRNo: { value: R.lr_no },
         LRDate: { value: R.lr_date },
-        Consigner: { value: (R.lr_consigner_name).substring(0, 20) },
-        Consignee: { value: (R.lr_consignee_name).substring(0, 20) },
+        Consigner: { value: R.lr_consigner_name },
+        Consignee: { value: R.lr_consignee_name },
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
         Revenue: R.revenue_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.lrRates.bind(this, R, 0) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.lrRates.bind(this, R, 0) }] },
         Expense: R.expense_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.lrRates.bind(this, R, 1) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.lrRates.bind(this, R, 1) }] },
-        PodImage: R.podimage ? { value: `<span>view</span>`, isHTML: true, action: this.getPodImage.bind(this, R) } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
-        PodDetails: R.poddetails ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.openPodDeatilsModal.bind(this, R) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.openPodDeatilsModal.bind(this, R) }] },
-        PodReceived: R.podreceived ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-check i-green' }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
-        LRImage: R.lr_image ? { value: `<span>view</span>`, isHTML: true, action: this.getImage.bind(this, R) } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
+        // PodImage: R.pod_docid ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getPodImage.bind(this, R) }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
+        // PodDetails: R.poddetails ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.openPodDeatilsModal.bind(this, R) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.openPodDeatilsModal.bind(this, R) }] },
+        // PodReceived: R.podreceived ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-check i-green' }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
+        LRImage: R.lr_image ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getImage.bind(this, R) }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
+
+        details: {
+          value: '', action: null, isHTML: true, icons: [
+            {
+              class: R.pod_docid ? 'far fa-image i-green mr-1' : 'far fa-image i-red-cross mr-1', action: R.pod_docid ? this.getPodImage.bind(this, R) : null
+            }, {
+              class: R.poddetails ? 'fa fa-list  i-green mr-1' : 'fa fa-list i-red-cross mr-1', action: this.openPodDeatilsModal.bind(this, R)
+            },
+            {
+              class: R.podreceived ? 'fa fa-check  i-green' : 'fa fa-check   i-red-cross', action: null,
+
+            }
+          ]
+        },
+
+
         Action: {
           value: '', isHTML: true, action: null, icons: [{
             class: 'fa fa-print icon', action: this.printLr.bind(this, R)
@@ -258,13 +272,13 @@ export class LorryRecciptsComponent implements OnInit {
           this.tempstartTime = data.date;
           this.startDate = '';
           return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
-          console.log('fromDate', this.startDate);
+          console.log('tempstartTime', this.tempstartTime);
         }
         else {
           this.tempendTime = data.date;
           this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
           // return this.endDate = date.setDate( date.getDate() + 1 )
-          console.log('endDate', this.endDate);
+          console.log('tempendTime', this.tempendTime);
         }
 
       }
@@ -305,9 +319,11 @@ export class LorryRecciptsComponent implements OnInit {
     });
   }
 
-  openGenerateLr(Lr) {
-    console.log("Lr", Lr);
-    this.common.params = { LrData: Lr }
+  openGenerateLr(lr) {
+    let lrData = {
+      lrId: lr.lr_id
+    }
+    this.common.params = { lrData: lrData }
     const activeModal = this.modalService.open(LrGenerateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data:', data);
@@ -348,6 +364,7 @@ export class LorryRecciptsComponent implements OnInit {
     const activeModal = this.modalService.open(AddFreightExpensesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data:', data);
+      this.getLorryReceipts();
     });
   }
   openRevenueModal(lr) {
@@ -359,17 +376,23 @@ export class LorryRecciptsComponent implements OnInit {
     this.common.params = { revenueData: revenue };
     const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
+      this.getLorryReceipts();
     })
 
   }
-  openPodDeatilsModal(receipt) {
-    console.log("val", receipt);
-    if (!receipt._podid) {
-      this.common.showError("Pod is not available yet");
-    } else {
-      this.common.params = receipt._podid;
-      const activeModel = this.modalService.open(LrPodDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
+  openPodDeatilsModal(lr) {
+    console.log("====lr=====", lr);
+    let podDetails = {
+      podId: lr._podid,
+      lrId: lr.lr_id
     }
+    console.log("====podDetails=====", podDetails);
+
+    this.common.params = { podDetails: podDetails };
+    const activeModel = this.modalService.open(LrPodDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
+    activeModel.result.then(data => {
+      this.getLorryReceipts();
+    })
   }
 }
 

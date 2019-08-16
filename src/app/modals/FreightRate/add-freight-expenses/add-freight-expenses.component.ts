@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
+import { ConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
   selector: 'add-freight-expenses',
@@ -42,17 +43,12 @@ export class AddFreightExpensesComponent implements OnInit {
   result = [];
   refernceData = [];
   data = [];
-  table = {
-    data: {
-      headings: {},
-      columns: []
-    },
-    settings: {
-      hideHeader: true
-    }
-  };
+  manualAmount = null;
+
+
   headings = [];
   valobj = {};
+  images = [];
 
   constructor(public modalService: NgbModal,
     public common: CommonService,
@@ -61,12 +57,11 @@ export class AddFreightExpensesComponent implements OnInit {
   ) {
     this.getFreightHeads();
 
-    console.log("this.common.params.expenseData", this.common.params.expenseData);
     if (this.common.params.expenseData) {
-      this.expense.id = this.common.params.expenseData._id;
-      this.expense.refId = this.common.params.expenseData._ref_id;
-      this.expense.refernceType = this.common.params.expenseData._ref_type;
-      this.expense.remarks = this.common.params.expenseData._exp_remarks;
+      this.expense.id = this.common.params.expenseData.id;
+      this.expense.refId = this.common.params.expenseData.refId;
+      this.expense.refernceType = this.common.params.expenseData.refernceType;
+      this.expense.remarks = this.common.params.expenseData.remarks;
       this.getExpenseDetails();
     }
     this.getExpenses();
@@ -176,31 +171,26 @@ export class AddFreightExpensesComponent implements OnInit {
     this.api.post('FrieghtRate/getFrieghtExpenses', params)
       .subscribe(res => {
         --this.common.loading;
-        this.data = res['data'];
-        this.table = {
-          data: {
-            headings: {},
-            columns: []
-          },
-          settings: {
-            hideHeader: true
-          }
-        };
+        this.data = res['data']['result'];
+        this.images = res['data']['images'];
+        // if(this.images)
+        //     this.common.handleModalSize("class", "modal-lg", "1500");
+
+
+        console.log("api images:", this.images);
         this.headings = [];
         this.valobj = {};
         if (!this.data || !this.data.length) {
-          //document.getElementById('mdl-body').innerHTML = 'No record exists';
           return;
         }
-        let first_rec = this.data[0];
-        for (var key in first_rec) {
+
+
+        // let first_rec = this.data[0];
+        for (var key in this.data[0]) {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
           }
         }
-        this.table.data.columns = this.getTableColumns();
 
       }, err => {
         console.error(err);
@@ -208,32 +198,18 @@ export class AddFreightExpensesComponent implements OnInit {
       });
 
   }
+
+
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
-  getTableColumns() {
-    let columns = [];
-    console.log("Data=", this.data);
-    this.data.map(doc => {
-      this.valobj = {};
-      for (let i = 0; i < this.headings.length; i++) {
-        if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash', action: this.DeleteExpense.bind(this, doc) }] };
-        }
-        else {
 
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-        }
-      }
-      columns.push(this.valobj);
-    });
-    return columns;
-  }
   DeleteExpense(del) {
     let params = {
       expId: del._exp_id,
       ledgerId: del._ledger_id
     }
+    console.log("params:", params);
     ++this.common.loading;
     this.api.post('FrieghtRate/deleteExpenses', params)
       .subscribe(res => {
@@ -244,6 +220,79 @@ export class AddFreightExpensesComponent implements OnInit {
         this.common.showError(err);
         console.log('Error: ', err);
       });
+  }
+
+  editExpenses(row) {
+    let expDetails = [{
+      frHead: row['Ledger Type'],
+      frHeadId: row._ledger_id,
+      value: row.Amount,
+      manualValue: row['Manual Amount'],
+    }];
+
+    let params = {
+      vehicleId: this.expense.vehicleId,
+      vehicleNo: this.expense.vehicleRegNo,
+      vehicleType: this.expense.vehicleType,
+      referId: this.expense.refId,
+      referType: this.expense.refernceType,
+      remarks: this.expense.remarks,
+      podId: null,
+      expenseDetails: JSON.stringify(expDetails),
+    }
+    console.log("params", params);
+
+    ++this.common.loading;
+    this.api.post('FrieghtRate/saveFrieghtExpenses', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('response :', res);
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast("Freight added Successfully");
+          this.getExpenses();
+        } else {
+          this.common.showError(res['data'][0].y_msg);
+        }
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+
+
+  }
+
+  deleteAllExpenses() {
+    let params = {
+      refId: this.expense.refId,
+      refType: this.expense.refernceType,
+      expId: null,
+      ledgerId: null,
+    }
+    if (this.expense.refId) {
+      this.common.params = {
+        title: 'Delete Expenses ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('FrieghtRate/deleteExpenses', params)
+            .subscribe(res => {
+              this.common.loading--;
+              this.common.showToast(res['data']);
+
+              this.getExpenses();
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
   }
 }
 

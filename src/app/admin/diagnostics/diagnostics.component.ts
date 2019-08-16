@@ -42,10 +42,15 @@ export class DiagnosticsComponent implements OnInit {
     public api: ApiService) {
     // this.getvehicleData(this.diagnostics.vechileno);
     // this.getDistance();
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
 
+  }
+
+  refresh(){
+    console.log('Refresh');
   }
 
   getDate(time) {

@@ -12,6 +12,8 @@ import { ConfirmComponent } from '../../confirm/confirm.component';
   styleUrls: ['./add-field.component.scss', '../../../pages/pages.component.css']
 })
 export class AddFieldComponent implements OnInit {
+  reportType = 'LR';
+  blockType = 1;
   types = [{
     id: null,
     name: null,
@@ -44,6 +46,10 @@ export class AddFieldComponent implements OnInit {
     {
       id: 2,
       name: 'Number'
+    },
+    {
+      id: 3,
+      name: 'Date'
     }];
     this.getFieldName();
   }
@@ -60,6 +66,8 @@ export class AddFieldComponent implements OnInit {
     let params = {
       name: this.name,
       type: this.typeId,
+      reportType: this.reportType,
+      blockType: this.blockType
     }
     console.log("params", params);
     this.common.loading++;
@@ -67,18 +75,24 @@ export class AddFieldComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
-        this.common.showToast(res['data'][0].r_msg);
-        this.getFieldName();
+        if (res['data'][0].r_id > 0) {
+          this.common.showToast("Successfully added");
+          this.getFieldName();
+        }
+        else {
+          this.common.showError(res['data'][0].r_msg);
+        }
 
       }, err => {
         this.common.loading--;
+        this.common.showError(err);
         console.log('Err:', err);
       });
   }
 
   getFieldName() {
     this.common.loading++;
-    this.api.get('Suggestion/lrFoFields?sugId=0')
+    this.api.get('Suggestion/lrFoFields?sugId=0&reportType=' + this.reportType)
       .subscribe(res => {
         this.common.loading--;
         this.data = [];
@@ -149,6 +163,7 @@ export class AddFieldComponent implements OnInit {
   deleteRow(row) {
     let params = {
       id: row._id,
+      reportType: this.reportType,
     }
     if (row._id) {
       this.common.params = {
