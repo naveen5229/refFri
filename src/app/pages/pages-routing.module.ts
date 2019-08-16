@@ -78,6 +78,7 @@ import { FuelMasterComponent } from './fuel-master/fuel-master.component';
 import { WebActivitySummaryComponent } from '../admin/web-activity-summary/web-activity-summary.component';
 import { DispatchOrdersComponent } from '../lorry-receipt/dispatch-orders/dispatch-orders.component';
 import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.component';
+import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
 
 
 const routes: Routes = [{
@@ -491,6 +492,11 @@ const routes: Routes = [{
     component: FuelConsumptionComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'trip-pnl',
+    component: TripPnlComponent,
+    canActivate: [AuthGuard]
+  }
   ],
 }];
 

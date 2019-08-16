@@ -83,6 +83,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-pencil-square-o',
         link: '/pages/via-routes',
       },
+      {
+        title: 'Trip PNL',
+        icon: 'fa fa-pencil-square-o',
+        link: '/pages/trip-pnl',
+      }
 
     ]
   },
