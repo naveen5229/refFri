@@ -333,16 +333,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title:'Fuel Mileage With ODO',
-        icon:'fas fa-gas-pump',
-        link:'/pages/fuel-mileage-with-odo',
-        home:true
+        title: 'Fuel Mileage With ODO',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-mileage-with-odo',
+        home: true
       },
       {
-        title:'Fuel Consumption',
-        icon:'fas fa-gas-pump',
-        link:'/pages/fuel-consumption',
-        home:true
+        title: 'Fuel Pump Summary',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-consumption',
+        home: true
       },
 
     ]
