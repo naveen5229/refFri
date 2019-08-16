@@ -76,6 +76,29 @@ export class AddDispatchOrderComponent implements OnInit {
     this.accountService.selected.branch.id = headData.branch_id;
   }
 
+  getVehicleInfo(vehicle) {
+    console.log("vehicle", vehicle);
+    this.vehicleData.regno = vehicle.regno;
+    this.vehicleData.id = vehicle.id;
+  }
+
+  getDriverInfo(driver, arr?: any) {
+    if (arr && arr === true) {
+      this.dispatchOrderField.map(dof => {
+        if (dof.r_colname == 'driver_mobile') {
+          dof.r_value = '';
+          dof.r_value = driver.mobileno;
+          dof.r_valueid = driver.id ? driver.id : driver.driver_id;
+        }
+      });
+    } else if (arr) {
+      arr.r_value = '';
+      arr.r_value = driver.mobileno;;
+      arr.r_valueid = driver.id ? driver.id : driver.driver_id;
+    }
+    (<HTMLInputElement>document.getElementById('driver_name')).value = driver.empname;
+    (<HTMLInputElement>document.getElementById('driver_mobile')).value = driver.mobileno;
+  }
 
   resetVehicle() {
     this.vehicleData.id = null;
@@ -104,4 +127,35 @@ export class AddDispatchOrderComponent implements OnInit {
     console.log("generalDetailColumn1", this.generalDetailColumn1);
   }
 
+  saveDetails() {
+
+    ++this.common.loading;
+    let params = {
+      dispatchOrderId: this.disOrder.id,
+      branchId: this.accountService.selected.branch.id,
+      vehicleId: this.vehicleData.id,
+      vehicleRegNo: document.getElementById('vehicleno')['value'],
+      date: this.common.dateFormatter(this.disOrder.date),
+      dispatchOrderDetails: JSON.stringify(this.dispatchOrderField),
+    }
+    console.log("params", params);
+
+
+    this.api.post('LorryReceiptsOperation/saveDispatchOrders', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('response :', res);
+        if (res['data'][0].rtn_id > 0) {
+          this.common.showToast("Successfully Added");
+          this.closeModal();
+          //this.lrView(res['data'][0].rtn_id);
+        } else {
+          this.common.showError(res['data'][0].rtn_msg);
+        }
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
 }
