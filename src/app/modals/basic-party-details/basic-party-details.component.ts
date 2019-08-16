@@ -533,7 +533,7 @@ export class BasicPartyDetailsComponent implements OnInit {
     console.log("save Basic Details");
     console.log('gst and pan', this.gstNo, this.panNo);
     var regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
-    var reggst = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/;
+    var reggst = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9a-zA-Z]){1}?$/;
     
       if (this.panNo != '' && !regpan.test(this.panNo)) {
         this.common.showError('Invalid Pan Number');
@@ -571,10 +571,10 @@ export class BasicPartyDetailsComponent implements OnInit {
           this.branchId = null;
           this.website = null;
           this.remark = null;
-          this.panNo = null;
-          this.gstNo = null;
+          this.panNo = '';
+          this.gstNo = '';
           this.cmpAlias = null;
-          this.assType = null;
+          this.assType = '';
           this.cmpName = null;
           this.common.showToast(res['data'][0].y_msg);
         } else {
