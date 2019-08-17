@@ -4,7 +4,6 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { RouteTimeTableDetailsComponent } from '../route-time-table-details/route-time-table-details.component';
-import { NullTemplateVisitor } from '@angular/compiler';
 import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
@@ -167,7 +166,7 @@ export class RouteTimeTableComponent implements OnInit {
         action: this.editRoutes.bind(this, route)
       },
       {
-        class: "fas fa-trash-alt",
+        class: "fas fa-trash-alt ml-3",
         action: this.deleteRouteTime.bind(this, route)
       },
     ];
@@ -192,13 +191,12 @@ export class RouteTimeTableComponent implements OnInit {
   }
 
   deleteRouteTime(route) {
-    console.log("route:", route);
-    return;
     let params = {
-      id: route._id,
+      routeId: route._route_id,
+      timeTableId: route._rtt_id,
 
     }
-    if (route._id) {
+    if (route._route_id) {
       this.common.params = {
         title: 'Delete Route Time',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
@@ -208,15 +206,15 @@ export class RouteTimeTableComponent implements OnInit {
         if (data.response) {
           console.log("data", data);
           this.common.loading++;
-          this.api.post('Vehicles/deleteOdometerEntry', params)
+          this.api.post('ViaRoutes/deleteTimeTable', params)
             .subscribe(res => {
               this.common.loading--;
-              if (res['data'].r_id > 0) {
+              if (res['data'][0].y_id > 0) {
                 this.common.showToast('Success');
-
+                this.getRouteTimeTableViews();
               }
               else {
-                this.common.showToast(res['data'].r_msg);
+                this.common.showToast(res['data'][0].y_msg);
               }
 
             }, err => {
