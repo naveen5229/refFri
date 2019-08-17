@@ -159,7 +159,7 @@ export class VehicleTripUpdateComponent implements OnInit {
       }
 
       console.log("params", params);
-
+      return;
       ++this.common.loading;
       this.api.post('TripsOperation/vehicleTripReplacement', params)
         .subscribe(res => {
@@ -263,7 +263,13 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.vehicleTrip.endLng = place.long;
     this.vehicleTrip.endName = place.location || place.name;
   }
+
   onChangeAuto(search) {
+    this.placementSite = null;
+    this.vehicleTrip.siteId = null;
+    this.vehicleTrip.endLat = null;
+    this.vehicleTrip.endLng = null;
+    this.vehicleTrip.endName = null;
     this.searchString = search;
     console.log('..........', search);
   }

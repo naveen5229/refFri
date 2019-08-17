@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 @Component({
   selector: 'route-time-table-details',
@@ -147,8 +148,24 @@ export class RouteTimeTableDetailsComponent implements OnInit {
       this.common.showError('Please enter valid values:)');
       return;
     }
+    const params = {
+      data: JSON.stringify(this.routesData),
+      routeId: this.routeId,
+      routeTimeTableId: this.routeTime
+    }
+    this.common.loading++;
+    this.api.post('ViaRoutes/SaveTimeTableDetails', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('getRoutesWrtFo:', res);
 
+
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
     console.log('You can hit api:)))))');
   }
+
 
 }
