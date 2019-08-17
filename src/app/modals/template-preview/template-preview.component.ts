@@ -24,7 +24,8 @@ export class TemplatePreviewComponent implements OnInit {
 
   ) {
     if (this.common.params && this.common.params.previewData) {
-      this
+      console.log("params:", this.common.params);
+
       this.template.preview = this.common.params.previewData.previewId ? this.common.params.previewData.previewId : '';
       this.template.lrId = this.common.params.previewData.lrId ? this.common.params.previewData.lrId : '';
       this.title = this.common.params.previewData.title ? this.common.params.previewData.title : 'Preview';

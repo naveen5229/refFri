@@ -161,7 +161,7 @@ export class LorryRecciptsComponent implements OnInit {
     }
     this.common.params = { previewData };
     console.log("receipts", receipt);
-    this.common.params = { lrId: receipt.lr_id }
+
     // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
 

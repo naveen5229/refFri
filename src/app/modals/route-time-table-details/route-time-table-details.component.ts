@@ -102,8 +102,8 @@ export class RouteTimeTableDetailsComponent implements OnInit {
         this.common.loading--;
         this.routesData = res['data'].map(route => {
           route.Arrival_Day = route.Arrival_Day || 1;
-          route.Arrival_Time = new Date(this.common.dateFormatter(new Date(), 'YYYYMMDD', false) + ' ' + (route.Arrival_Time || '12:00:00'));
-          route.Halt_Time = new Date(this.common.dateFormatter(new Date(), 'YYYYMMDD', false) + ' ' + (route.Halt_Time || '12:00:00'));
+          route.Arrival_Time = new Date(this.common.dateFormatter(new Date(), 'YYYYMMDD', false) + ' ' + (route.Arrival_Time || '00:00:00'));
+          route.Halt_Time = new Date(this.common.dateFormatter(new Date(), 'YYYYMMDD', false) + ' ' + (route.Halt_Time || '00:00:00'));
 
           return route;
         });
