@@ -10,7 +10,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class LRViewComponent implements OnInit {
   layout = 1;
-  layouts = [1, 2, 3];
+  layouts = [1, 2, 3, 4];
   lrId = null;
   lrDetails = null;
   particulars = null
