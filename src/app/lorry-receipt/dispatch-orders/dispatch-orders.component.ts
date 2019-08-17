@@ -104,6 +104,7 @@ export class DispatchOrdersComponent implements OnInit {
         if (this.col1[event.currentIndex] == null) {
           this.col1[event.currentIndex] = this.todo[event.previousIndex];
           this.todo.splice(event.previousIndex, 1);
+          console.log("col1",this.col1);
         }
       }
     }
@@ -119,14 +120,14 @@ export class DispatchOrdersComponent implements OnInit {
       if (event.previousContainer.id == "col1") {
         if (this.col1[event.previousIndex] != null)
           this.todo.push(this.col1[event.previousIndex]);
-        this.col1[event.previousIndex] = '';
+        this.col1[event.previousIndex] = null;
       }
     }
     if (event.container.id == "unassign") {
       if (event.previousContainer.id == "col2") {
         if (this.col2[event.previousIndex] != null)
           this.todo.push(this.col1[event.previousIndex]);
-        this.col2[event.previousIndex] = '';
+        this.col2[event.previousIndex] = null;
       }
     }
 

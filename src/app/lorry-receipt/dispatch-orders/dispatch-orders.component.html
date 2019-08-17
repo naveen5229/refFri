@@ -8,7 +8,10 @@
                 <div class="example-container">
                     <h2>Unassign</h2>
                     <div id="unassign" cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo" [cdkDropListConnectedTo]="[doneList,colList]" class="example-list" (cdkDropListDropped)="drop($event)">
-                        <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item.name}}</div>
+                        <div class="example-box" *ngFor="let item of todo" cdkDrag>
+                            <div> {{item.name}}</div>
+                            <div><input type="checkbox" [ngModel]="item.isRequired"> is required</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -16,7 +19,10 @@
                 <div class="example-container">
                     <h2>Col-1</h2>
                     <div id="col1" cdkDropList #doneList="cdkDropList" [cdkDropListData]="col1" [cdkDropListConnectedTo]="[todoList, colList]" class="example-list" (cdkDropListDropped)="drop($event)">
-                        <div class="example-box" *ngFor="let item of col1" cdkDrag>{{item==null?item:item.name}}</div>
+                        <div class="example-box" *ngFor="let item of col1" cdkDrag>
+                            <div>{{item==null?item:item.name}}</div>
+                            <div *ngIf="item"><input type="checkbox" [ngModel]="item.isRequired"> is required</div>
+                        </div>
                     </div>
                 </div>
 
@@ -25,7 +31,10 @@
                 <div class="example-container">
                     <h2>Col-2</h2>
                     <div id="col2" cdkDropList #colList="cdkDropList" [cdkDropListData]="col2" [cdkDropListConnectedTo]="[todoList, doneList]" class="example-list" (cdkDropListDropped)="drop($event)">
-                        <div class="example-box" *ngFor="let item of col2" cdkDrag>{{item==null?item:item.name}}</div>
+                        <div class="example-box" *ngFor="let item of col2" cdkDrag>
+                            <div>{{item==null?item:item.name}}</div>
+                            <div *ngIf="item"><input type="checkbox" [ngModel]="item.isRequired"> is required</div>
+                        </div>
                     </div>
                 </div>
 
