@@ -57,7 +57,7 @@ export class ViaRoutesComponent implements OnInit {
   }
   addViaRoutes() {
 
-    const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.viewTable();
@@ -144,6 +144,10 @@ export class ViaRoutesComponent implements OnInit {
         if (this.headings[i] == "advances") {
 
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openrouteAdvance.bind(this, doc) };
+        }
+        if (this.headings[i] == "time_table") {
+
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.addRouteTimeTable.bind(this, doc) };
         }
         this.valobj['action'] = { class: '', icons: this.actionIcons(doc) };
       }
@@ -243,9 +247,15 @@ export class ViaRoutesComponent implements OnInit {
   //   this.viewTable();
   // );
   // }
-  addRouteTime() {
-    const activeModal = this.modalService.open(RouteTimeTableComponent, { size: 'lg', container: 'nb-layout', });
+  addRouteTimeTable(route) {
+    let routeData = {
+      routeId: route._id,
+      routeName: route.name,
+    }
+    this.common.params = { routeData };
+    const activeModal = this.modalService.open(RouteTimeTableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
+
 
 }

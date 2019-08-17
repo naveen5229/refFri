@@ -40,7 +40,7 @@ export class UserTemplatesComponent implements OnInit {
   ngOnInit() {
   }
 
-  refresh(){
+  refresh() {
     this.getUserViews();
   }
 
@@ -124,7 +124,7 @@ export class UserTemplatesComponent implements OnInit {
       },
       {
         class: "far fa-eye",
-        action:this.templatePreview.bind(this,'Preview',view)
+        action: this.templatePreview.bind(this, 'Preview', view)
       },
       {
         class: "fas fa-trash-alt",
@@ -149,12 +149,16 @@ export class UserTemplatesComponent implements OnInit {
     });
   }
 
-  templatePreview(title,row)
-  {
-    this.common.params={title:title,userPreview:row};
+  templatePreview(title, row) {
+    let previewData = {
+      title: title,
+      previewId: row._id,
+      lrId: row._lrId,
+    }
+    this.common.params = { previewData };
     const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
-    this.getUserViews();
+      this.getUserViews();
     });
   }
 

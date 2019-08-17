@@ -17,6 +17,7 @@ import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight
 import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-details.component';
 import { AddReceiptsComponent } from '../../modals/add-receipts/add-receipts.component'
 import { AddTransportAgentComponent } from '../../modals/LRModals/add-transport-agent/add-transport-agent.component'
+import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 
 @Component({
   selector: 'lorry-reccipts',
@@ -153,12 +154,19 @@ export class LorryRecciptsComponent implements OnInit {
 
 
   printLr(receipt) {
+    let previewData = {
+      title: 'Print Lr',
+      previewId: null,
+      lrId: receipt.lr_id,
+    }
+    this.common.params = { previewData };
     console.log("receipts", receipt);
     this.common.params = { lrId: receipt.lr_id }
-    const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+
     activeModal.result.then(data => {
       console.log('Date:', data);
-
     });
   }
 
