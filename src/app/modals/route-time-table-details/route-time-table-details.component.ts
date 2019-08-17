@@ -102,10 +102,10 @@ export class RouteTimeTableDetailsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('getRoutesWrtFo:', res);
-        this.routesData = res['data'];
-        this.routesData.map(route => {
+        this.routesData = res['data'].map(route => {
           route.day = route.day || 1;
-          route.Arrival_Time = route.Arrival_Time || '12:00:00';
+          route.Arrival_Time = new Date(this.common.dateFormatter(new Date(), 'YYYYMMDD', false) + ' ' + (route.Arrival_Time || '12:00:00'));
+          return route;
         });
       }, err => {
         this.common.loading--;
@@ -120,7 +120,7 @@ export class RouteTimeTableDetailsComponent implements OnInit {
   }
 
   handleArrivalTimeSelection(time, route, index) {
-    route.Arrival_Time = this.common.timeFormatter(time);
+    route.Arrival_Time = time;
     this.arrivalTimeChecker();
   }
 
@@ -130,7 +130,7 @@ export class RouteTimeTableDetailsComponent implements OnInit {
         let previousRoute = this.routesData[index - 1];
         if (previousRoute.day > route.day) {
           route.errorMsg = 'Previous arrival day is higher than me.';
-        } else if (previousRoute.day == route.day && previousRoute.Arrival_Time >= route.Arrival_Time) {
+        } else if (previousRoute.day == route.day && this.common.timeFormatter(previousRoute.Arrival_Time) >= this.common.timeFormatter(route.Arrival_Time)) {
           route.errorMsg = 'Previous arrival time is higher or equal to me.';
         } else {
           route.errorMsg = '';

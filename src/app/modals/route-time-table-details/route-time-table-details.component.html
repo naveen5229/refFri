@@ -48,7 +48,7 @@
             <input type="number" class="day" [(ngModel)]="data.day" min="1" max="100"
               (ngModelChange)="arrivalTimeChecker()">
             <uj-date-time-picker class="day-time" [isDate]="false"
-              (onChanged)="handleArrivalTimeSelection($event, data, i)" [dateTimeValue]="setTime(data.Arrival_Time)">
+              (onChanged)="handleArrivalTimeSelection($event, data, i)" [dateTimeValue]="data.Arrival_Time">
             </uj-date-time-picker>
             <span *ngIf="data.errorMsg" class="error">{{data.errorMsg}}</span>
           </td>
