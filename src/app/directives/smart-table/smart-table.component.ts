@@ -107,6 +107,7 @@ export class SmartTableComponent implements OnInit {
     // const numberPattern = new RegExp(/^([0-9])*(\.)([0-9])*$/);
     const datePattern = new RegExp(/([0-2][0-9]|(3)[0-1])( |\/|-|)([a-zA-Z]{3})( |\/|-|)(([0-1][0-9])|([2][0-3]){2})(:)([0-5][0-9])$/);
     const timePattern = new RegExp(/^([0-9])*(\:)([0-9])*$/);
+
     this.columns.forEach(column => {
       let value = column[key].value
       if (datePattern.test(value)) counts.date++
@@ -116,9 +117,14 @@ export class SmartTableComponent implements OnInit {
       else counts.object++;
     });
 
+
     console.info('Sort Counts:', counts);
     this.columns.sort((a, b) => {
-      if (counts.time > counts.number) {
+      if (this.headings[key].type === 'date') {
+        let firstDate = a[key].value ? this.common.dateFormatter(a[key].value) : 0;
+        let secondDate = b[key].value ? this.common.dateFormatter(b[key].value) : 0;
+        return firstDate - secondDate;
+      } else if (counts.time > counts.number) {
         let firstValue = a[key].value ? parseFloat(a[key].value.replace(':', '.')) : 0;
         let secondValue = b[key].value ? parseFloat(b[key].value.replace(':', '.')) : 0;
         return firstValue - secondValue;

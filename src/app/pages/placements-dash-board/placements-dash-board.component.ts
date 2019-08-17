@@ -159,6 +159,8 @@ export class PlacementsDashBoardComponent implements OnInit {
         if (key.charAt(0) != "_") {
           this.headings.push(key);
           let headerObj = { title: key, placeholder: this.formatTitle(key) };
+          if (key == 'Trip Start')
+            headerObj['type'] = 'date';
           this.table1.data.headings[key] = headerObj;
         }
 
