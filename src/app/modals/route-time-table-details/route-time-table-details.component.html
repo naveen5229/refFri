@@ -45,7 +45,7 @@
           <td>{{data.kms}}</td>
           <td>{{data.Type}}</td>
           <td>
-            <input type="number" class="day" [(ngModel)]="data.day" min="1" max="100"
+            <input type="number" class="day" [(ngModel)]="data.Arrival_Day" min="1" max="100"
               (ngModelChange)="arrivalTimeChecker()">
             <uj-date-time-picker class="day-time" [isDate]="false"
               (onChanged)="handleArrivalTimeSelection($event, data, i)" [dateTimeValue]="data.Arrival_Time">
@@ -53,8 +53,8 @@
             <span *ngIf="data.errorMsg" class="error">{{data.errorMsg}}</span>
           </td>
           <td>
-            <uj-date-time-picker [isDate]="false" (onChanged)="data.Halt_Time = setTimeReverse($event)"
-              [dateTimeValue]="setTime(data.Halt_Time)">
+            <uj-date-time-picker [isDate]="false" (onChanged)="handleHaltTimeSelection($event,data)"
+              [dateTimeValue]="data.Halt_Time">
             </uj-date-time-picker>
           </td>
           <td></td>
