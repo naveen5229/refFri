@@ -5,6 +5,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { RouteTimeTableDetailsComponent } from '../route-time-table-details/route-time-table-details.component';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { VehicleTimeTableAssociationComponent } from '../vehicle-time-table-association/vehicle-time-table-association.component';
 
 @Component({
   selector: 'route-time-table',
@@ -166,6 +167,10 @@ export class RouteTimeTableComponent implements OnInit {
         action: this.editRoutes.bind(this, route)
       },
       {
+        class: "fas fa-truck-moving ml-3",
+        action: this.addvehicleAssociation.bind(this, route)
+      },
+      {
         class: "fas fa-trash-alt ml-3",
         action: this.deleteRouteTime.bind(this, route)
       },
@@ -183,11 +188,22 @@ export class RouteTimeTableComponent implements OnInit {
   }
 
   editRoutes(route) {
-
     console.log("route:", route);
     this.common.params = { route: route };
     const activeModal = this.modalService.open(RouteTimeTableDetailsComponent, { size: 'lg', container: 'nb-layout', });
+  }
 
+  addvehicleAssociation(route) {
+    let vehicleRouteData = {
+      routeId: route._route_id,
+      routeName: route._route_name,
+      routeTimeName: route._rtt_name,
+      routeTime: route._rtt_id,
+      assType: route._ass_type,
+    }
+    console.log("vehicleRouteData:", vehicleRouteData);
+    this.common.params = { vehicleRouteData };
+    const activeModal = this.modalService.open(VehicleTimeTableAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
   deleteRouteTime(route) {

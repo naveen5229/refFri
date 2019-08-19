@@ -237,6 +237,7 @@ import { TyreHistoryComponent } from './modals/Tyres/tyre-history/tyre-history.c
 import { TemplatePreviewComponent } from './modals/template-preview/template-preview.component';
 import { RouteTimeTableComponent } from './modals/route-time-table/route-time-table.component';
 import { RouteTimeTableDetailsComponent } from './modals/route-time-table-details/route-time-table-details.component';
+import { VehicleTimeTableAssociationComponent } from './modals/vehicle-time-table-association/vehicle-time-table-association.component';
 
 
 
@@ -448,6 +449,7 @@ import { RouteTimeTableDetailsComponent } from './modals/route-time-table-detail
     TemplatePreviewComponent,
     RouteTimeTableComponent,
     RouteTimeTableDetailsComponent,
+    VehicleTimeTableAssociationComponent,
 
   ],
   entryComponents: [
@@ -643,7 +645,8 @@ import { RouteTimeTableDetailsComponent } from './modals/route-time-table-detail
     TyreHistoryComponent,
     TemplatePreviewComponent,
     RouteTimeTableComponent,
-    RouteTimeTableDetailsComponent
+    RouteTimeTableDetailsComponent,
+    VehicleTimeTableAssociationComponent
   ],
   imports: [
     BrowserModule,
