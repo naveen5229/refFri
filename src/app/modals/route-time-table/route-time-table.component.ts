@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { RouteTimeTableDetailsComponent } from '../route-time-table-details/route-time-table-details.component';
+import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
   selector: 'route-time-table',
@@ -13,6 +14,7 @@ import { RouteTimeTableDetailsComponent } from '../route-time-table-details/rout
 export class RouteTimeTableComponent implements OnInit {
   routesDetails = [];
   routeId = null;
+  routeName = null;
   startTime = new Date();
   assocType = null;
 
@@ -30,6 +32,13 @@ export class RouteTimeTableComponent implements OnInit {
     public common: CommonService,
     public activeModal: NgbActiveModal,
     public modalService: NgbModal) {
+    if (this.common.params && this.common.params.routeData) {
+      this.routeId = this.common.params.routeData.routeId;
+      this.routeName = this.common.params.routeData.routeName;
+    }
+    if (this.routeId) {
+      this.getRouteTimeTableViews();
+    }
     this.getRoutes();
   }
 
@@ -63,7 +72,7 @@ export class RouteTimeTableComponent implements OnInit {
   addrouteTime() {
     let params = {
       routeId: this.routeId,
-      startTime: this.common.timeFormatter(this.startTime),
+      startTime: this.startTime ? this.common.timeFormatter(this.startTime) : null,
       assType: this.assocType,
 
     }
@@ -87,13 +96,12 @@ export class RouteTimeTableComponent implements OnInit {
         console.log(err);
       });
   }
+
   getRouteTimeTableViews() {
     this.common.loading++;
     this.api.get('ViaRoutes/getTimeTable?routeId=' + this.routeId)
       .subscribe(res => {
         this.common.loading--;
-        console.log('res:', res);
-
         this.routeTimeTable = res['data'];
         this.routeTimeTable.length ? this.setTable() : this.resetTable();
 
@@ -157,6 +165,10 @@ export class RouteTimeTableComponent implements OnInit {
         class: "icon fas fa-edit",
         action: this.editRoutes.bind(this, route)
       },
+      {
+        class: "fas fa-trash-alt ml-3",
+        action: this.deleteRouteTime.bind(this, route)
+      },
     ];
     return icons;
   }
@@ -176,6 +188,42 @@ export class RouteTimeTableComponent implements OnInit {
     this.common.params = { route: route };
     const activeModal = this.modalService.open(RouteTimeTableDetailsComponent, { size: 'lg', container: 'nb-layout', });
 
+  }
+
+  deleteRouteTime(route) {
+    let params = {
+      routeId: route._route_id,
+      timeTableId: route._rtt_id,
+
+    }
+    if (route._route_id) {
+      this.common.params = {
+        title: 'Delete Route Time',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('ViaRoutes/deleteTimeTable', params)
+            .subscribe(res => {
+              this.common.loading--;
+              if (res['data'][0].y_id > 0) {
+                this.common.showToast('Success');
+                this.getRouteTimeTableViews();
+              }
+              else {
+                this.common.showToast(res['data'][0].y_msg);
+              }
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
   }
 
 

@@ -19,6 +19,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
   types = [];
   reportType = 'LR';
   LrInvoiceColumns = [];
+  isGlobal = false;
   constructor(
     public common: CommonService,
     public accountService: AccountService,
@@ -69,6 +70,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
       branchId: this.accountService.selected.branch.id,
       reportType: this.reportType,
       partyId: this.party.id,
+      isGlobal: this.isGlobal
     }
     this.api.post('LorryReceiptsOperation/getLrInvoiceFields', params)
       .subscribe(res => {
@@ -97,6 +99,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
       reportType: this.reportType,
       partyId: this.party.id,
       lrInvoiceColumns: JSON.stringify(this.LrInvoiceColumns),
+      isGlobal: this.isGlobal
     }
     console.log("Params", params)
     this.api.post('LorryReceiptsOperation/saveLrInvoiceFields', params)

@@ -84,7 +84,6 @@ export class RouteTimeTableDetailsComponent implements OnInit {
   getrouteTime() {
     this.common.loading++;
     this.api.get('ViaRoutes/getTimeTable?routeId=' + this.routeId + '&isSug=true')
-
       .subscribe(res => {
         this.common.loading--;
         console.log('getRoutesWrtFo:', res);
@@ -97,40 +96,39 @@ export class RouteTimeTableDetailsComponent implements OnInit {
 
   getrouteTimeDetails() {
     this.common.loading++;
-    this.api.get('ViaRoutes/viewvia?routeId=' + this.routeId + '&routeTimeTableId' + this.routeTime)
+    this.api.get('ViaRoutes/viewvia?routeId=' + this.routeId + '&routeTimeTableId=' + this.routeTime)
 
       .subscribe(res => {
         this.common.loading--;
-        console.log('getRoutesWrtFo:', res);
-        this.routesData = res['data'];
-        this.routesData.map(route => {
-          route.day = route.day || 1;
-          route.Arrival_Time = route.Arrival_Time || '12:00:00';
+        this.routesData = res['data'].map(route => {
+          route.Arrival_Day = route.Arrival_Day || 1;
+          route.Arrival_Time = new Date(this.common.dateFormatter(new Date(), 'YYYYMMDD', false) + ' ' + (route.Arrival_Time || '00:00:00'));
+          route.Halt_Time = new Date(this.common.dateFormatter(new Date(), 'YYYYMMDD', false) + ' ' + (route.Halt_Time || '00:00:00'));
+
+          return route;
         });
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-  setTime(time) {
-    return new Date('2001-10-10 ' + time);
-  }
-  setTimeReverse(time) {
-    return this.common.timeFormatter(time);
-  }
+
 
   handleArrivalTimeSelection(time, route, index) {
-    route.Arrival_Time = this.common.timeFormatter(time);
+    route.Arrival_Time = time;
     this.arrivalTimeChecker();
+  }
+  handleHaltTimeSelection(time, route) {
+    route.Halt_Time = time;
   }
 
   arrivalTimeChecker() {
     this.routesData.map((route, index) => {
       if (index) {
         let previousRoute = this.routesData[index - 1];
-        if (previousRoute.day > route.day) {
-          route.errorMsg = 'Previous arrival day is higher than me.';
-        } else if (previousRoute.day == route.day && previousRoute.Arrival_Time >= route.Arrival_Time) {
+        if (previousRoute.Arrival_Day > route.Arrival_Day) {
+          route.errorMsg = 'Previous arrival Arrival_Day is higher than me.';
+        } else if (previousRoute.Arrival_Day == route.Arrival_Day && this.common.timeFormatter(previousRoute.Arrival_Time) >= this.common.timeFormatter(route.Arrival_Time)) {
           route.errorMsg = 'Previous arrival time is higher or equal to me.';
         } else {
           route.errorMsg = '';
@@ -142,6 +140,8 @@ export class RouteTimeTableDetailsComponent implements OnInit {
   setArrivalTime() {
     let isError = false;
     this.routesData.map(route => {
+      route.Arr_Time = this.common.timeFormatter(route.Arrival_Time);
+      route.Hlt_Time = this.common.timeFormatter(route.Halt_Time);
       if (route.errorMsg) isError = true;
     });
     if (isError) {
@@ -157,14 +157,23 @@ export class RouteTimeTableDetailsComponent implements OnInit {
     this.api.post('ViaRoutes/SaveTimeTableDetails', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('getRoutesWrtFo:', res);
+        console.log("res", res);
+
+        let id = res['data'][0].y_id;
+        if (id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg);
+
+        }
+
 
 
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-    console.log('You can hit api:)))))');
   }
 
 

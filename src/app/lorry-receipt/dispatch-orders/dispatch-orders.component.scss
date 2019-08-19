@@ -1,0 +1,90 @@
+:host ::ng-deep td i.fa-edit {
+    color: blue;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+    margin-right: 5px;
+}
+
+ :host ::ng-deep td i.fa-edit:hover span {
+    display: block;
+}
+
+ :host ::ng-deep td i.fa-edit span {
+    position: absolute;
+    display: none;
+    padding: 11px 57px;
+    left: -44px;
+    top: -28px;
+    font-family: Roboto;
+    z-index: 999;
+}
+
+ :host ::ng-deep td i.fa-edit span::before {
+    content: 'Edit';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #04A9F5;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+
+ :host ::ng-deep td i.fa-edit span::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #04A9F5;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+ :host ::ng-deep td i.fa-trash-alt {
+    color: red;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+}
+
+ :host ::ng-deep td i.fa-trash-alt:hover span {
+    display: block;
+}
+
+ :host ::ng-deep td i.fa-trash-alt span {
+    position: absolute;
+    display: none;
+    padding: 11px 70px;
+    left: -59px;
+    top: -28px;
+    font-family: Roboto;
+    z-index: 999;
+}
+
+ :host ::ng-deep td i.fa-trash-alt span::before {
+    content: 'Delete';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #82c91e;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+
+ :host ::ng-deep td i.fa-trash-alt span::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #82c91e;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+}
