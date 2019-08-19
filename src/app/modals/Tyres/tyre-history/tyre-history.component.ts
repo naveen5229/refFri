@@ -35,12 +35,12 @@ export class TyreHistoryComponent implements OnInit {
     this.api.get('Tyres/getSingleTyreHistory?' + params)
       .subscribe(res => {
         console.log('Res:', res);
+        this.tyreHistory=res['data'];
         this.common.loading--;
         if (!res['data']){
           return;
         } 
         this.clearAllTableData();
-        this.tyreHistory=res['data'];
         console.log("History",this.tyreHistory);
         this.setTable();
       },

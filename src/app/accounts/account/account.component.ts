@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountsComponent } from '../../acounts-modals/accounts/accounts.component';
 import { UserService } from '../../@core/data/users.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
@@ -13,11 +13,17 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 export class AccountComponent implements OnInit {
   title = '';
   Accounts = [];
-  constructor(public api: ApiService,
+  pageName="";
+  staticCondition=0;
+  constructor(private activeModal: NgbActiveModal,
+    public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-
+      if(this.common.params && this.common.params.pageName){
+        this.pageName=this.common.params.pageName;
+        this.staticCondition=1;
+    }
     this.GetAccount();
     this.common.currentPage = 'Account';
     this.common.refresh = this.refresh.bind(this);
@@ -33,7 +39,8 @@ export class AccountComponent implements OnInit {
 
   GetAccount() {
     let params = {
-      foid: 123
+      foid: 123,
+      staticCondition:this.staticCondition
     };
 
     this.common.loading++;
@@ -169,4 +176,9 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  modelCondition() {
+    this.activeModal.close({ });
+    event.preventDefault();
+    return;
+  }
 }

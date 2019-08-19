@@ -77,6 +77,8 @@ import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.compon
 import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.component';
 import { FuelMileageWithOdoComponent } from './fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { FuelMasterComponent } from './fuel-master/fuel-master.component';
+import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.component';
+import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
 
 
 
@@ -156,6 +158,8 @@ const PAGES_COMPONENTS = [
     ManageFoPartyComponent,
     ManageFoPartyComponent,
     FuelMasterComponent,
+    FuelConsumptionComponent,
+    TripPnlComponent,
 
     // CustomDatePipe
   ],

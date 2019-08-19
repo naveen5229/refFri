@@ -552,4 +552,29 @@ export class MapService {
       });
     }
   }
+
+  distanceBtTwoPoint(startLat, startLong, endLat, endLong) {
+    return new Promise((resolve, reject) => {
+      let origin = new google.maps.LatLng(startLat, startLong);
+      let destination = new google.maps.LatLng(endLat, endLong);
+      let service = new google.maps.DistanceMatrixService();
+      service.getDistanceMatrix({
+        origins: [origin],
+        destinations: [destination],
+        travelMode: 'DRIVING',
+        avoidHighways: false,
+        avoidTolls: false,
+      }, (response, status) => {
+        console.log("response:", response);
+
+        if (status != google.maps.DistanceMatrixStatus.OK) {
+          reject(-1)
+        } else {
+          resolve(response.rows[0].elements[0].distance.value);
+        }
+      });
+    });
+  }
+
+
 }

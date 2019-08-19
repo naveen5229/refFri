@@ -65,7 +65,7 @@ export class LrGenerateComponent implements OnInit {
     }
     if (this.common.params.lrData) {
       this.lrDetails.id = this.common.params.lrData.lrId ? this.common.params.lrData.lrId : 'null';
-      this.btnTxt = 'UPDATE'
+      this.btnTxt = 'SAVE'
     }
     if (this.lrDetails.id || this.accountService.selected.branch.id) {
       this.getLrFields(true);
@@ -206,7 +206,7 @@ export class LrGenerateComponent implements OnInit {
       });
     } else if (arr) {
       arr.r_value = '';
-      arr.r_value = driver.mobileno;
+      arr.r_value = driver.mobileno;;
       arr.r_valueid = driver.id ? driver.id : driver.driver_id;
     }
     this.driverData.id = driver.id ? driver.id : driver.driver_id;
@@ -319,6 +319,9 @@ export class LrGenerateComponent implements OnInit {
           const customIndex = Math.floor(index / 4);
           if (!customjfields[customIndex]) {
             customjfields[customIndex] = [];
+          }
+          if (customjfield.r_coltype == 3) {
+            customjfield.r_value = customjfield.r_value ? new Date(customjfield.r_value) : new Date();
           }
           customjfields[customIndex].push(customjfield);
         });
@@ -437,65 +440,5 @@ export class LrGenerateComponent implements OnInit {
       console.log('Date:', data);
     });
   }
-
-
-  getDate() {
-
-  }
-
-
-
-  calculateTotalAmount() {
-
-  }
-
-  calculateTareWeight() {
-
-  }
-
-  calculateReminingAmount() {
-
-  }
-
-
-  loadImage(flag) {
-
-  }
-
-  getLrDetails() {
-
-  }
-
-
-  addField(index) {
-
-  }
-  addFoField() {
-
-  }
-
-  getAllFieldName() {
-
-
-  }
-
-  getUnit() {
-
-  }
-
-  getWeightUnitId(type, index) {
-
-  }
-
-
-
-  onChangeAuto(search, type) {
-
-  }
-
-
-
-
-
 
 }
