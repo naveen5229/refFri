@@ -16,13 +16,12 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
   routeName = null;
   routeTimeName = null;
   assocTypeId = '0';
-
   assoctionType = [
     {
       id: null,
       name: null,
-    }
-  ];
+    }];
+  vehicleId = null;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -100,6 +99,14 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
     this.routeTime = time.id;
   }
 
+  getVehicle(vehicle) {
+    console.log("vehicle", vehicle);
+
+    this.vehicleId = vehicle.id;
+
+
+  }
+
   getrouteTime() {
     this.common.loading++;
     this.api.get('ViaRoutes/getTimeTable?routeId=' + this.routeId + '&isSug=true')
@@ -114,7 +121,23 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
   }
 
   addVehicleTimeTable() {
+    let params = {
+      routeId: this.routeId,
+      routeTime: this.routeTime,
+      assType: this.assocTypeId,
+      vehicleId: this.vehicleId
 
+
+    }
+    this.common.loading++;
+    this.api.post('ViaRoutes/getTimeTable', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('result:', res);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
 
