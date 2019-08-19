@@ -1,0 +1,10 @@
+.day{
+    display: inline-block;
+    width: 40px;
+    padding: 4px !important;
+}
+.day-time{
+    display: inline-block;
+    width: calc(100% - 42px);
+    vertical-align: middle;
+}

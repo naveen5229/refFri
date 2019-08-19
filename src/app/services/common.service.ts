@@ -247,15 +247,15 @@ export class CommonService {
     let minutes = time % 60;
     return hours + ":" + minutes;
   }
-  changeMonthformat(date,type) {
+  changeMonthformat(date, type) {
     let d = new Date(date);
-    return this.datePipe.transform(date,type);
+    return this.datePipe.transform(date, type);
   }
   timeFormatter(date) {
     let d = new Date(date);
-    let hours = d.getHours() < 9 ? "0" + d.getHours() : d.getHours();
-    let minutes = d.getMinutes() < 9 ? "0" + d.getMinutes() : d.getMinutes();
-    let seconds = d.getSeconds() < 9 ? "0" + d.getSeconds() : d.getSeconds();
+    let hours = d.getHours() <= 9 ? "0" + d.getHours() : d.getHours();
+    let minutes = d.getMinutes() <= 9 ? "0" + d.getMinutes() : d.getMinutes();
+    let seconds = d.getSeconds() <= 9 ? "0" + d.getSeconds() : d.getSeconds();
 
     return hours + ":" + minutes + ":" + seconds;
   }
