@@ -258,7 +258,6 @@ export class EditFillingComponent implements OnInit {
       };
       console.log("rowdata", this.common.params.rowfilling);
       console.log("newparams", params);
-      return;
       let apiurl = '';
       if (this.filling_id) {
         apiurl = 'FuelDetails/updateFuelDetails';
