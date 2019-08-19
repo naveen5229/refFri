@@ -40,5 +40,8 @@
         (click)="addVehicleTimeTable()">Add</button>
     </div>
   </div>
-
+  <div class="mt-2">
+    <smart-table *ngIf="vehicleTimeTable && vehicleTimeTable.length" [data]="table.data" [settings]="table.settings">
+    </smart-table>
+  </div>
 </div>
