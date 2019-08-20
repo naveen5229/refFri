@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { AddDispatchOrderComponent } from '../../modals/LRModals/add-dispatch-order/add-dispatch-order.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 
 @Component({
   selector: 'dispatch-orders',
@@ -80,7 +81,7 @@ export class DispatchOrdersComponent implements OnInit {
       let column = {};
       for (let key in this.generateHeadings(headings)) {
         if (key == "Action") {
-          column[key] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.openDispatchOrder.bind(this, item) }, { class: 'fas fa-trash-alt', action: this.deleteDispatchOrder.bind(this, item) }] };
+          column[key] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.openDispatchOrder.bind(this, item) }, { class: 'fas fa-trash-alt', action: this.deleteDispatchOrder.bind(this, item) }, { class: 'fa fa-print', action: this.printDispatchOrder.bind(this, item) }] };
         } else {
           column[key] = { value: item[key], class: 'black', action: '' };
         }
@@ -147,6 +148,26 @@ export class DispatchOrdersComponent implements OnInit {
     activeModal.result.then(data => {
       console.log('Data:', data);
       this.getDispatchOrders();
+    });
+  }
+
+  printDispatchOrder(dispatchOrder) {
+    let previewData = null;
+    if (dispatchOrder) {
+      previewData = {
+        title: 'Print Dispatch Order',
+        previewId: null,
+        refId: dispatchOrder._dispatchid,
+        refType: 'DSPOD_PRT'
+      }
+    } else {
+      previewData = false;
+    }
+    console.log(dispatchOrder, previewData);
+    this.common.params = { previewData: previewData }
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
     });
   }
 }
