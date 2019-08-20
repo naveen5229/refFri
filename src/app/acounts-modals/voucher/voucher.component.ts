@@ -35,6 +35,7 @@ export class VoucherComponent implements OnInit {
     debit: [],
     suggestions: []
   };
+  sizeIndex=0;
   currentbalance = 0;
   balances = {};
   showConfirm = false;
@@ -63,6 +64,7 @@ export class VoucherComponent implements OnInit {
     this.voucher = this.setVoucher();
   this.mannual  =this.accountService.selected.branch.is_inv_manualapprove;
     
+
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
       if (params.id) {
@@ -72,6 +74,10 @@ export class VoucherComponent implements OnInit {
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
+    if (this.common.params.sizeIndex) {
+      this.sizeIndex = this.common.params.sizeIndex;
+    }
+    
     if (this.common.params.voucherTypeId) {
       this.voucherTypeCastId = this.common.params.voucherTypeId;
     }
@@ -79,7 +85,7 @@ export class VoucherComponent implements OnInit {
     this.getLedgers('credit');
     this.voucher = this.setVoucher();
     this.common.currentPage = this.voucherName;
-    this.common.handleModalSize('class', 'modal-lg', '1250');
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',this.sizeIndex);
     this.voucherEditDetail();
     this.getFreeze();
   }
