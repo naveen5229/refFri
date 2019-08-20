@@ -12,7 +12,8 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class TemplatePreviewComponent implements OnInit {
   template = {
     preview: null,
-    lrId: null,
+    refId: null,
+    refType: null,
   };
   title = '';
   constructor(public api: ApiService,
@@ -27,7 +28,8 @@ export class TemplatePreviewComponent implements OnInit {
       console.log("params:", this.common.params);
 
       this.template.preview = this.common.params.previewData.previewId ? this.common.params.previewData.previewId : '';
-      this.template.lrId = this.common.params.previewData.lrId ? this.common.params.previewData.lrId : '';
+      this.template.refId = this.common.params.previewData.refId ? this.common.params.previewData.refId : '';
+      this.template.refType = this.common.params.previewData.refType ? this.common.params.previewData.refType : '';
       this.title = this.common.params.previewData.title ? this.common.params.previewData.title : 'Preview';
     }
     this.preview();
@@ -38,7 +40,7 @@ export class TemplatePreviewComponent implements OnInit {
 
   preview() {
     this.common.loading++;
-    this.api.get('userTemplate/preview?tId=' + this.template.preview + '&lrId=' + this.template.lrId)
+    this.api.get('userTemplate/preview?tId=' + this.template.preview + '&refid=' + this.template.refId + '&ref_type=' + this.template.refType)
       .subscribe(res => {
         --this.common.loading;
         console.log("preview : ", res['data']);
