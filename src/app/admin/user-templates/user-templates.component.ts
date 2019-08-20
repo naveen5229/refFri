@@ -154,6 +154,7 @@ export class UserTemplatesComponent implements OnInit {
       title: title,
       previewId: row._id,
       lrId: row._lrId,
+      refType: "LR_PRT"
     }
     this.common.params = { previewData };
     const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
