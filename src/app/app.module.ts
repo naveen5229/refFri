@@ -236,6 +236,9 @@ import { VehiclePriSecRoutemappingComponent } from './modals/vehicle-pri-sec-rou
 import { TyreHistoryComponent } from './modals/Tyres/tyre-history/tyre-history.component';
 import { TemplatePreviewComponent } from './modals/template-preview/template-preview.component';
 import { AddDispatchOrderComponent } from './modals/LRModals/add-dispatch-order/add-dispatch-order.component';
+import { RouteTimeTableComponent } from './modals/route-time-table/route-time-table.component';
+import { RouteTimeTableDetailsComponent } from './modals/route-time-table-details/route-time-table-details.component';
+import { VehicleTimeTableAssociationComponent } from './modals/vehicle-time-table-association/vehicle-time-table-association.component';
 
 
 
@@ -445,7 +448,11 @@ import { AddDispatchOrderComponent } from './modals/LRModals/add-dispatch-order/
     VehiclePriSecRoutemappingComponent,
     TyreHistoryComponent,
     TemplatePreviewComponent,
-    AddDispatchOrderComponent
+    AddDispatchOrderComponent,
+    RouteTimeTableComponent,
+    RouteTimeTableDetailsComponent,
+    VehicleTimeTableAssociationComponent,
+
   ],
   entryComponents: [
     AddDispatchOrderComponent,
@@ -639,7 +646,10 @@ import { AddDispatchOrderComponent } from './modals/LRModals/add-dispatch-order/
     StrictMappingComponent,
     VehiclePriSecRoutemappingComponent,
     TyreHistoryComponent,
-    TemplatePreviewComponent
+    TemplatePreviewComponent,
+    RouteTimeTableComponent,
+    RouteTimeTableDetailsComponent,
+    VehicleTimeTableAssociationComponent
   ],
   imports: [
     BrowserModule,

@@ -2,3 +2,6 @@
     color: blue;
     font-weight: 700;
 }
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+  }
