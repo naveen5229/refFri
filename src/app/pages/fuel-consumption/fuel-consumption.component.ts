@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'fuel-consumption',
@@ -8,6 +9,9 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./fuel-consumption.component.scss']
 })
 export class FuelConsumptionComponent implements OnInit {
+  totalFillCount:Number=0;
+  totalFuel:Number=0;
+  totelFuelCost:Number=0;
   startDate = null;
   endDate = null;
   fuelConsumption=[];
@@ -70,7 +74,9 @@ valobj = {};
       res => {
         this.common.loading--;
         this.fuelConsumption = res['data'];
-     
+        this.totalFillCount=0;
+        this.totalFuel=0;
+        this.totelFuelCost=0;
         console.log("result", res);
 
         let first_rec = this.fuelConsumption[0];
@@ -94,10 +100,34 @@ valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+        if(this.headings[i]=="Filling Count"){
+          this.totalFillCount=this.totalFillCount+doc[this.headings[i]];
+        }
+        if(this.headings[i]=="Total Fuel (Litres)"){
+          this.totalFuel=this.totalFuel+doc[this.headings[i]];
+        }
+        if(this.headings[i]=="Total Fuel Cost"){
+          this.totelFuelCost=this.totelFuelCost+doc[this.headings[i]];
+        }
       }
-
       columns.push(this.valobj);
     });
+    this.valobj={};
+    for(let i=0;i<this.headings.length;i++){
+      if(this.headings[i]=="Pump Name"){
+        this.valobj[this.headings[i]] = { value: "Total", class: 'text-colour', action: '' };
+      }
+      if(this.headings[i]=="Filling Count"){
+        this.valobj[this.headings[i]] = { value: this.totalFillCount, class: 'text-colour', action: '' };
+      }
+      if(this.headings[i]=="Total Fuel (Litres)"){
+        this.valobj[this.headings[i]] = { value: this.totalFuel, class: 'text-colour', action: '' };
+      }
+      if(this.headings[i]=="Total Fuel Cost"){
+        this.valobj[this.headings[i]] = { value: this.totelFuelCost, class: 'text-colour', action: '' };
+      }
+    }
+     columns.push(this.valobj);
     return columns;
   }
 
