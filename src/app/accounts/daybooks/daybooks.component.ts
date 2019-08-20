@@ -332,6 +332,19 @@ export class DaybooksComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event, this.activeId);
+    //   if (this.activeId.includes('startdate') || this.activeId.includes('enddate')) {
+
+    //     const charCode = (event.which) ? event.which : event.keyCode;
+    //     console.log('charcode 0000',charCode);
+    //     if (charCode == 8 ||charCode == 37 || charCode == 38 || charCode == 16  || (charCode > 48 && charCode < 57) || charCode == 13) {
+    //       console.log('true part execute');
+    //       return false;
+    //     //return true;
+    //     }else{
+    //       console.log('else part execute');
+    //       return true;
+    //     }
+    // }
     if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
       this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
@@ -340,7 +353,7 @@ export class DaybooksComponent implements OnInit {
     if ((event.ctrlKey && key === 'd') && (!this.activeId && this.DayData.length && this.selectedRow != -1)) {
       console.log('ctrl + d pressed');
       //this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid,1);   
-      ((this.DayData[this.selectedRow].y_type.toLowerCase().includes('voucher')) ? (this.DayData[this.selectedRow].y_type.toLowerCase().includes('consignment')) ? '' : this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid, 4,this.DayData[this.selectedRow].y_vouchertype_id) : '')
+      ((this.DayData[this.selectedRow].y_type.toLowerCase().includes('voucher')) ? (this.DayData[this.selectedRow].y_type.toLowerCase().includes('consignment')) ? '' : this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid, 4, this.DayData[this.selectedRow].y_vouchertype_id) : '')
       event.preventDefault();
       return;
     }
@@ -375,6 +388,7 @@ export class DaybooksComponent implements OnInit {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
         this.DayBook.startdate = this.common.handleDateOnEnterNew(this.DayBook.startdate);
+        this.checkDate(this.DayBook.startdate);
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
         this.DayBook.enddate = this.common.handleDateOnEnterNew(this.DayBook.enddate);
@@ -402,15 +416,18 @@ export class DaybooksComponent implements OnInit {
     }
   }
 
-
-  openVoucherEdit(voucherId, voucheradd,vchtypeid) {
+  checkDate(date) {
+    // const dateSendingToServer = new DatePipe('en-US').transform(date, 'dd-MM-yyyy')
+    // console.log(dateSendingToServer);
+  }
+  openVoucherEdit(voucherId, voucheradd, vchtypeid) {
     console.log('ledger123', voucheradd);
     if (voucherId) {
       this.common.params = {
         voucherId: voucherId,
         delete: this.deletedId,
         addvoucherid: voucheradd,
-        voucherTypeId:vchtypeid
+        voucherTypeId: vchtypeid,
       };
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
@@ -429,6 +446,7 @@ export class DaybooksComponent implements OnInit {
     setTimeout(() => {
       let element = document.getElementById(id);
       console.log('Element: ', element);
+      //element.target.select();    
       element.focus();
       // this.moveCursor(element, 0, element['value'].length);
       // if (isSetLastActive) this.lastActiveId = id;

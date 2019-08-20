@@ -51,6 +51,7 @@ export class OrdersComponent implements OnInit {
     delete: 0,
     ledgeraddressid:null,
     print:false,
+    branchid:0,
     // branch: {
     //   name: '',
     //   id: ''
@@ -203,6 +204,7 @@ export class OrdersComponent implements OnInit {
       shipmentlocation: '',
       orderid: 0,
       delete: 0,
+      branchid:0,
     ledgeraddressid:null,
     ismanual:this.mannual,
     print:false,
@@ -346,7 +348,10 @@ export class OrdersComponent implements OnInit {
     if (response) {
       //console.log('Order new:', this.order);
       // return;
-
+      if (this.accountService.selected.branch.id == 0) {
+        this.common.showError('Please select Branch');
+        return;
+      }
       if (this.accountService.selected.financialYear.isfrozen == true) {
         this.common.showError('This financial year is freezed. Please select currect financial year');
         return;
@@ -454,7 +459,8 @@ export class OrdersComponent implements OnInit {
       amountDetails: order.amountDetails,
       ledgeraddressid:order.ledgeraddressid,
       x_id: 0,
-      ismannual:order.ismanual
+      ismannual:order.ismanual,
+      branchid :order.branchid
     };
 
     console.log('params11: ', params);
@@ -642,6 +648,8 @@ export class OrdersComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
+        //this.order[index].qty= null;
+
         this.setFoucus('qty' + '-' + index);
       } else if (this.activeId.includes('qty')) {
         let index = parseInt(this.activeId.split('-')[1]);
@@ -779,10 +787,11 @@ export class OrdersComponent implements OnInit {
 
   getPurchaseLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: ((this.order.ordertype.id=-104) || (this.order.ordertype.id=-106 )) ? 'sales':'purchase'
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedger', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -797,10 +806,13 @@ export class OrdersComponent implements OnInit {
 
   getSupplierLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: 'other'
+
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedgerAddress', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
+    //this.api.post('Suggestion/GetAllLedgerAddress', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
