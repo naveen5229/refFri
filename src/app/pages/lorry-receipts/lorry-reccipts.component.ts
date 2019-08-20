@@ -157,13 +157,14 @@ export class LorryRecciptsComponent implements OnInit {
     let previewData = {
       title: 'Print Lr',
       previewId: null,
-      lrId: receipt.lr_id,
+      refId: receipt.lr_id,
+      refType: "LR_PRT"
     }
     this.common.params = { previewData };
     console.log("receipts", receipt);
 
     // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
 
     activeModal.result.then(data => {
       console.log('Date:', data);
