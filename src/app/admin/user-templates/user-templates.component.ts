@@ -157,7 +157,7 @@ export class UserTemplatesComponent implements OnInit {
       refType: "LR_PRT"
     }
     this.common.params = { previewData };
-    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
     activeModal.result.then(data => {
       this.getUserViews();
     });
