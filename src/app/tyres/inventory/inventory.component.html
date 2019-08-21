@@ -39,6 +39,7 @@
                         <th>Size</th>
                         <th>Tyre No </th>
                         <th>Purchase_Date</th>
+                        <th>Purchase_Amount</th>
                         <!-- <th>Is_Health Details</th>
             <th>NSD-1</th>
             <th>NSD-2</th>
@@ -50,7 +51,7 @@
                 <tbody>
                     <tr *ngFor="let inventory of inventories; let i = index;">
                         <td>{{i+1}}</td>
-                        <td width="35%">
+                        <td width="20%">
                             <auto-suggestion (onSelected)="selectModel($event,i)" url="Suggestion/getTyreNamesWithBrands" display="modelname" placeholder="Model No" [inputId]="'modelNo_' + i"></auto-suggestion>
 
                             <!-- <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No"
@@ -77,6 +78,8 @@
                             <!-- <input [(ngModel)]="inventory.date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
                 class="form-control" autocomplete="off" name="date" style="width : 175px" >
               <owl-date-time #date></owl-date-time> -->
+                        </td>
+                        <td width="20%"><input id="Tyreamount" name="Tyreamount" type="number" placeholder="Enter Tyre amount" autocomplete="off" class="form-control" [(ngModel)]="inventory.cost" (focus)="size(i)">
                         </td>
                         <!-- <td><input id="is_health" name="is_health" type="checkbox" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.is_health" (change)="valueReset(i)">
@@ -118,8 +121,8 @@
         </div>
         <div>
 
-            <smart-table [data]="tables.tyreSummary.data" [settings]="tables.tyreSummary.settings" id="tyresummary">
-            </smart-table>
+            <!-- <smart-table [data]="tables.tyreSummary.data" [settings]="tables.tyreSummary.settings" id="tyresummary">
+            </smart-table> -->
 
             <smart-table [data]="tables.tyrePendingCount.data" [settings]="tables.tyrePendingCount.settings" id="tyrependingcount">
             </smart-table>
