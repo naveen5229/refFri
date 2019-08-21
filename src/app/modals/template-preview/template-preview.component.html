@@ -1,16 +1,14 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <h5 class="modal-title" id="modal-basic-title" style="text-align:right;width:100%;">{{title}}</h5>
 
   <div class="col-md-6 text-right">
-    <span (click)="onPrint()" class="doNotPrint print-icon"><i class="fa fa-print"></i></span>
-    <span (click)="common.downloadPdf('print-section')" class="pdf-icon" style="margin-left:20px"><i
+    <span (click)="onPrint('print-section')" class="doNotPrint print-icon"><i class="fa fa-print"></i></span>
+    <span (click)="common.downloadPdf('print-section')" class="pdf-icon doNotPrint" style="margin-left:20px"><i
         class="fa fa-file-pdf"></i></span>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <button type="button" class="close doNotPrint" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-
-
 </div>
 
 <div class="modal-body" id="print-section" [innerHTML]="template.preview">

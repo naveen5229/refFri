@@ -24,6 +24,7 @@ export class TemplatePreviewComponent implements OnInit {
     public renderer: Renderer,
 
   ) {
+    this.common.handleModalSize('class', 'modal-lg', '1600');
     if (this.common.params && this.common.params.previewData) {
       console.log("params:", this.common.params);
 
