@@ -12,7 +12,12 @@ import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.com
 })
 export class RouteDashboardComponent implements OnInit {
   routeData = [];
-  table = null;
+  table = {
+    data: {
+      headings: {},
+      columns: [],
+    }
+  };
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal) {
