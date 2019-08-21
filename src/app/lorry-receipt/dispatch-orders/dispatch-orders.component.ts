@@ -3,7 +3,6 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { AddDispatchOrderComponent } from '../../modals/LRModals/add-dispatch-order/add-dispatch-order.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 
@@ -27,9 +26,6 @@ export class DispatchOrdersComponent implements OnInit {
     }
   }
 
- 
-
-
   constructor(public common: CommonService,
     private modalService: NgbModal,
     public api: ApiService) {
@@ -39,46 +35,6 @@ export class DispatchOrdersComponent implements OnInit {
   ngOnInit() {
   }
 
-  
-
-  openDispatchOrder(dispatchOrder) {
-    let dispatchOrderData = null;
-    if (dispatchOrder) {
-      dispatchOrderData = {
-        id: dispatchOrder._dispatchid
-      }
-    } else {
-      dispatchOrderData = false;
-    }
-    console.log(dispatchOrder, dispatchOrderData);
-
-    this.common.params = { dispatchOrderData: dispatchOrderData }
-    const activeModal = this.modalService.open(AddDispatchOrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      console.log('Data:', data);
-      this.getDispatchOrders();
-    });
-  }
-
-  printDispatchOrder(dispatchOrder) {
-    let previewData = null;
-    if (dispatchOrder) {
-      previewData = {
-        title: 'Print Dispatch Order',
-        previewId: null,
-        refId: dispatchOrder._dispatchid,
-        refType: 'DSPOD_PRT'
-      }
-    } else {
-      previewData = false;
-    }
-    console.log(dispatchOrder, previewData);
-    this.common.params = { previewData: previewData }
-    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      console.log('Data:', data);
-    });
-  }
   getDispatchOrders() {
     let params = {
       startDate: this.common.dateFormatter(this.startDate),
@@ -125,7 +81,7 @@ export class DispatchOrdersComponent implements OnInit {
       let column = {};
       for (let key in this.generateHeadings(headings)) {
         if (key == "Action") {
-          column[key] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: '' }, { class: 'fas fa-trash-alt', action: this.deleteDispatchOrder.bind(this) }] };
+          column[key] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.openDispatchOrder.bind(this, item) }, { class: 'fas fa-trash-alt', action: this.deleteDispatchOrder.bind(this, item) }, { class: 'fa fa-print', action: this.printDispatchOrder.bind(this, item) }] };
         } else {
           column[key] = { value: item[key], class: 'black', action: '' };
         }
@@ -135,7 +91,7 @@ export class DispatchOrdersComponent implements OnInit {
     return columns;
   }
 
-  deleteDispatchOrder() {
+  deleteDispatchOrder(dispatchOrder) {
     this.common.params = {
       title: 'Delete  ',
       description: `<b>` + 'Are you Sure To Delete This Record' + `<b>`,
@@ -143,9 +99,26 @@ export class DispatchOrdersComponent implements OnInit {
     const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       if (data.response) {
+        this.common.loading++;
+        this.api.post('LorryReceiptsOperation/deleteDispatchOrders', { dispatchOrderId: dispatchOrder._dispatchid, vehicleId: dispatchOrder._vid })
+          .subscribe(res => {
+            this.common.loading--;
+            console.log("response:", res);
+            if (res['data'][0].r_id > 0) {
+              this.common.showToast("Sucessfully Deleted", 10000);
+              this.getDispatchOrders();
+            }
+          }, err => {
+            this.common.loading--;
+            console.log(err);
+          });
       }
     });
   }
+
+
+
+
 
   clearAllTableData() {
     this.table = {
@@ -157,5 +130,44 @@ export class DispatchOrdersComponent implements OnInit {
         hideHeader: true
       }
     }
+  }
+
+  openDispatchOrder(dispatchOrder) {
+    let dispatchOrderData = null;
+    if (dispatchOrder) {
+      dispatchOrderData = {
+        id: dispatchOrder._dispatchid
+      }
+    } else {
+      dispatchOrderData = false;
+    }
+    console.log(dispatchOrder, dispatchOrderData);
+
+    this.common.params = { dispatchOrderData: dispatchOrderData }
+    const activeModal = this.modalService.open(AddDispatchOrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+      this.getDispatchOrders();
+    });
+  }
+
+  printDispatchOrder(dispatchOrder) {
+    let previewData = null;
+    if (dispatchOrder) {
+      previewData = {
+        title: 'Print Dispatch Order',
+        previewId: null,
+        refId: dispatchOrder._dispatchid,
+        refType: 'DSPOD_PRT'
+      }
+    } else {
+      previewData = false;
+    }
+    console.log(dispatchOrder, previewData);
+    this.common.params = { previewData: previewData }
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+    });
   }
 }
