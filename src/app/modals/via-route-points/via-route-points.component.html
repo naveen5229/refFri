@@ -58,8 +58,11 @@
             </td>
             <td colspan="2">
               <label>Radius</label><br>
-              <input type="number" class="form-control" name="radius" placeholder="Radius" [(ngModel)]="radius" min="1"
-                max="10000" />
+              <input type="number" class="form-control" name="radius" placeholder="Radius" (change)="setRadius()"
+                [(ngModel)]="radius" min="1" max="10000" />
+            </td>
+            <td>
+              <span>Meter</span>
             </td>
           </tr>
 
@@ -85,10 +88,10 @@
             <div class="col-th col-1"></div>
             <div class="col-th col-1">S.No</div>
             <div class="col-th col-3">Name</div>
-            <!-- <div class="col-th col-1">Order</div> -->
-            <div class="col-th col-2">Kms</div>
+            <div class="col-th col-1">Kms</div>
+            <div class="col-th col-1">Radius</div>
             <div class="col-th col-2">Type</div>
-            <div class="col-th col-3">Action</div>
+            <div class="col-th col-2">Action</div>
           </div>
         </div>
         <div clss="drag-container">
@@ -106,8 +109,8 @@
               </div>
               <div class="col-td col-1">{{data._no}}</div>
               <div class="col-td col-3">{{data.name}}</div>
-              <!-- <div class="col-td col-1">{{data.via_order}}</div> -->
-              <div class="col-td col-2">{{data.kms}}</div>
+              <div class="col-td col-1">{{data.kms}}</div>
+              <div class="col-td col-1">{{data.radius}}</div>
               <div class="col-td col-2">{{data.Type}}</div>
               <div class="col-td col-2">
                 <i class="fas fa-trash text-red mr-2" (click)="clickDelete(data.name , i)"></i>
