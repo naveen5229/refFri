@@ -61,6 +61,10 @@ export class RouteDashboardComponent implements OnInit {
       lastTime: { title: 'Last Exit Time', placeholder: 'Last Exit Time' },
       currentLocation: { title: 'Current Location', placeholder: 'Current Location' },
       nextLocation: { title: 'Next Location', placeholder: 'Next Location' },
+      distanceRemaining: { title: 'distance Remaining ', placeholder: 'distance Remaining' },
+      etoa: { title: 'ETOA ', placeholder: 'ETOA' },
+      startDelay: { title: 'Start  delay ', placeholder: 'Start  delay' },
+      totalDelay: { title: 'Total  delay ', placeholder: 'Toatl  delay' },
       action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'del' },
 
     };
@@ -82,14 +86,18 @@ export class RouteDashboardComponent implements OnInit {
     this.routeData.map(route => {
       let column = {
         regno: { value: route.v_regno ? route.v_regno : '-', },
-        lastSeenTime: { value: route.v_latch_time ? this.common.dateFormatter(route.v_latch_time) : '-', action: this.viewlocation.bind(this, route) },
+        lastSeenTime: { value: route.v_time ? this.common.changeDateformat(route.v_time) : '-', action: this.viewlocation.bind(this, route) },
         routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
         startLocation: { value: route.f_name ? route.f_name : '-', action: this.viewlocation.bind(this, route) },
-        startTime: { value: route.f_end_time ? this.common.dateFormatter(route.f_end_time) : '-', action: this.viewlocation.bind(this, route) },
+        startTime: { value: route.f_end_time ? this.common.changeDateformat2(route.f_end_time) : '-', action: this.viewlocation.bind(this, route) },
         endLocation: { value: route.l_name ? route.l_name : '-', action: this.viewlocation.bind(this, route) },
-        lastTime: { value: route.l_end_time ? this.common.dateFormatter(route.l_end_time) : '-', action: this.viewlocation.bind(this, route) },
+        lastTime: { value: route.l_end_time ? this.common.changeDateformat2(route.l_end_time) : '-', action: this.viewlocation.bind(this, route) },
         currentLocation: { value: route.c_name ? route.c_name : '-', action: this.viewlocation.bind(this, route) },
         nextLocation: { value: route.n_name ? route.n_name : '-', action: this.viewlocation.bind(this, route) },
+        distanceRemaining: { value: route.n_dist_rem ? route.n_dist_rem : '-' },
+        etoa: { value: route.etoa_next ? this.common.changeDateformat2(route.l_end_time) : '-', },
+        startDelay: { value: route.start_delay ? route.start_delay : '-' },
+        totalDelay: { value: route.total_delay ? route.total_delay : '-' },
         action: {
           value: "",
           isHTML: false,
@@ -120,16 +128,19 @@ export class RouteDashboardComponent implements OnInit {
   }
 
   openRouteMapper(route) {
-    let today, startday, fromDate;
+    let today, startday, fromDate, endday, toDate;
     today = new Date();
-    startday = route.x_showstarttime ? this.common.dateFormatter(route.x_showstarttime) : new Date(today.setDate(today.getDate() - 2));
+    startday = route.f_end_time ? this.common.dateFormatter(route.f_end_time) : new Date(today.setDate(today.getDate() - 2));
+    endday = route.l_end_time ? this.common.dateFormatter(route.l_end_time) : new Date();
+
     fromDate = this.common.dateFormatter(startday);
+    toDate = this.common.dateFormatter(endday);
     let fromTime = this.common.dateFormatter(fromDate);
-    let toTime = this.common.dateFormatter(new Date());
+    let toTime = this.common.dateFormatter(toDate);
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     this.common.params = {
-      vehicleId: route.x_vehicle_id,
-      vehicleRegNo: route.x_showveh,
+      vehicleId: route.v_id,
+      vehicleRegNo: route.v_regno,
       fromTime: fromTime,
       toTime: toTime
     };
@@ -143,8 +154,8 @@ export class RouteDashboardComponent implements OnInit {
 
   viewlocation(route) {
     const location = {
-      lat: route.v_latch_lat,
-      lng: route.v_latch_long,
+      lat: route.v_lat ? route.v_lat : 0,
+      lng: route.v_long ? route.v_long : 0,
       name: "",
       time: ""
     };
