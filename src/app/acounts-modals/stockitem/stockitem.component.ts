@@ -66,11 +66,13 @@ export class StockitemComponent implements OnInit {
   stockTypeName = '';
   stockSubType = [];
   unitData =[];
+  sizeIndex=0;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
       console.log("open data model data:",this.common.params);
     if (this.common.params) {
+      this.sizeIndex =this.common.params.sizeIndex;
       this.stockItem = {
         name: this.common.params.name,
         unit: {
@@ -89,7 +91,7 @@ export class StockitemComponent implements OnInit {
           name: '',
           id: ''
         },
-        maxlimit: common.params.max_limit,
+        maxlimit: this.common.params.max_limit,
         minlimit: common.params.min_limit,
         isactive: common.params.is_active,
         sales: common.params.for_sales,
@@ -112,7 +114,7 @@ export class StockitemComponent implements OnInit {
     this.setFoucus('stockType');
     this.setAutoSuggestion();
     this.getUnit();
-    this.common.handleModalSize('class', 'modal-lg', '1050');
+    this.common.handleModalSize('class', 'modal-lg', '1150','px',this.sizeIndex)
   }
 
 
