@@ -786,9 +786,10 @@ export class OrdersComponent implements OnInit {
 
 
   getPurchaseLedgers() {
+    console.log('purchase=====',this.order.ordertype.id);
     let params = {
       search: 123,
-      invoicetype: ((this.order.ordertype.id=-104) || (this.order.ordertype.id=-106 )) ? 'sales':'purchase'
+      invoicetype: ((this.order.ordertype.id==-104) || (this.order.ordertype.id==-106 )) ? 'sales':'purchase'
     };
     this.common.loading++;
     this.api.post('Suggestion/GetAllLedgerForInvoice', params)
@@ -805,6 +806,8 @@ export class OrdersComponent implements OnInit {
   }
 
   getSupplierLedgers() {
+    console.log('other============',this.order.ordertype.id);
+
     let params = {
       search: 123,
       invoicetype: 'other'
