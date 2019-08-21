@@ -3,52 +3,7 @@
         <h5>Dispatch Orders</h5>
     </nb-card-header>
     <nb-card-body>
-        <div class="row">
-            <div class="col-4">
-                <div class="example-container">
-                    <h2>Unassign</h2>
-                    <div id="unassign" cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo" [cdkDropListConnectedTo]="[doneList,colList]" class="example-list" (cdkDropListDropped)="drop($event)">
-                        <div class="example-box" *ngFor="let item of todo" cdkDrag>
-                            <div> {{item.name}}</div>
-                            <div><input type="checkbox" [ngModel]="item.isRequired"> is required</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div Class="col-4">
-                <div class="example-container">
-                    <h2>Col-1</h2>
-                    <div id="col1" cdkDropList #doneList="cdkDropList" [cdkDropListData]="col1" [cdkDropListConnectedTo]="[todoList, colList]" class="example-list" (cdkDropListDropped)="drop($event)">
-                        <div class="example-box" *ngFor="let item of col1" cdkDrag>
-                            <div>{{item==null?item:item.name}}</div>
-                            <div *ngIf="item"><input type="checkbox" [ngModel]="item.isRequired"> is required</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div Class="col-4">
-                <div class="example-container">
-                    <h2>Col-2</h2>
-                    <div id="col2" cdkDropList #colList="cdkDropList" [cdkDropListData]="col2" [cdkDropListConnectedTo]="[todoList, doneList]" class="example-list" (cdkDropListDropped)="drop($event)">
-                        <div class="example-box" *ngFor="let item of col2" cdkDrag>
-                            <div>{{item==null?item:item.name}}</div>
-                            <div *ngIf="item"><input type="checkbox" [ngModel]="item.isRequired"> is required</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-
-
-
-
-
-
-
-        <!-- <div class="dispatch-orders">
+        <div class="dispatch-orders">
             <div class="row">
                 <div class="col-4">
                     <div class="row">
@@ -88,6 +43,6 @@
             <div class="alert alert-danger text-center mt-3" *ngIf="dispatchOrders==null">
                 <h4 class="no-record">No Record Found</h4>
             </div>
-        </div> -->
+        </div>
     </nb-card-body>
 </nb-card>
