@@ -489,3 +489,37 @@
       }
     }
   }
+
+  .layout-4 {
+    .l4-details {
+      margin: 0px;
+      border: 1px solid gray;
+      margin-top: 10px;
+      border-radius: 10px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      .l4-blank {
+        border-bottom: 1px solid #000;
+        display: block;
+      }
+      .l4-note {
+        min-height: 150px;
+        border: 1px solid #e2e2e2;
+      }
+      .l4-row {
+        margin-top: 10px;
+      }
+      .l4-owner {
+        text-align: right;
+        position: absolute;
+        right: 16px;
+        bottom: -8px;
+      }
+    }
+  }
+
+  
+  
+  
+  
+  
