@@ -12,6 +12,8 @@ import { RoutesAdvancesComponent } from '../../modals/routes-advances/routes-adv
 import { RoutesTrafficKpisComponent } from '../../modals/routes-traffic-kpis/routes-traffic-kpis.component';
 import { StrictMappingComponent } from '../../modals/strict-mapping/strict-mapping.component';
 import { VehiclePriSecRoutemappingComponent } from '../../modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
+import { RouteTimeTableComponent } from '../../modals/route-time-table/route-time-table.component';
+import { RouteTimeTableDetailsComponent } from '../../modals/route-time-table-details/route-time-table-details.component';
 
 @Component({
   selector: 'via-routes',
@@ -49,13 +51,13 @@ export class ViaRoutesComponent implements OnInit {
     console.log("user", user);
     this.foData = user.id;
   }
-  strictRoutes(){
+  strictRoutes() {
     this.modalService.open(StrictMappingComponent, { size: 'lg', container: 'nb-layout', });
 
   }
   addViaRoutes() {
 
-    const activeModal = this.modalService.open(AddViaRoutesComponent, { size:'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.viewTable();
@@ -64,7 +66,7 @@ export class ViaRoutesComponent implements OnInit {
 
   }
 
-  addPriSecRoute(){
+  addPriSecRoute() {
     const activeModal = this.modalService.open(VehiclePriSecRoutemappingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
@@ -142,6 +144,10 @@ export class ViaRoutesComponent implements OnInit {
         if (this.headings[i] == "advances") {
 
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openrouteAdvance.bind(this, doc) };
+        }
+        if (this.headings[i] == "time_table") {
+
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.addRouteTimeTable.bind(this, doc) };
         }
         this.valobj['action'] = { class: '', icons: this.actionIcons(doc) };
       }
@@ -235,11 +241,21 @@ export class ViaRoutesComponent implements OnInit {
     }
     );
   }
-   // activeModal.result.then(data => {
+  // activeModal.result.then(data => {
 
   //   console.log("data", data);
   //   this.viewTable();
   // );
   // }
+  addRouteTimeTable(route) {
+    let routeData = {
+      routeId: route._id,
+      routeName: route.name,
+    }
+    this.common.params = { routeData };
+    const activeModal = this.modalService.open(RouteTimeTableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+  }
+
 
 }

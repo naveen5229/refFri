@@ -18,6 +18,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 })
 export class VoucherSummaryComponent implements OnInit {
   permanentDeleteId = 0;
+  sizeIndex=0;
   isReadonly = false;
   alltotal = 0;
   approve = 0;
@@ -27,6 +28,7 @@ export class VoucherSummaryComponent implements OnInit {
   typeFlag = 2;
   selectedRow = -1;
   trips;
+  vehclename='';
   ledgers = [];
   debitLedgerdata = [];
   checkedTrips = [];
@@ -77,10 +79,13 @@ export class VoucherSummaryComponent implements OnInit {
       console.log('add again', this.VoucherId);
       this.trips = this.common.params.tripDetails;
     }
-
+    if(this.common.params.sizeIndex) {
+      this.sizeIndex=this.common.params.sizeIndex;
+    }
     this.permanentDeleteId = (this.common.params.permanentDelete) ? this.common.params.permanentDelete : 0;
     if (this.common.params.typeFlag) { this.typeFlag = this.common.params.typeFlag; }
     this.VehicleId = this.common.params.vehId;
+   this.vehclename =this.common.params.vehname
     console.log('tripsEditData', this.tripsEditData);
     console.log('trips data', this.trips);
     console.log(this.common.params.vehId);
@@ -141,7 +146,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.VoucherData = this.common.params.VoucherData;
     }
 
-    this.common.handleModalSize('class', 'modal-lg', '1150');
+    this.common.handleModalSize('class', 'modal-lg', '1150','px',this.sizeIndex);
     this.getcreditLedgers('credit');
     this.getDriveLedgers('credit');
 
@@ -771,7 +776,10 @@ export class VoucherSummaryComponent implements OnInit {
 
   addTrip() {
     let vehId = this.VehicleId;
-    this.common.params = { vehId };
+    let vehclename = this.vehclename;
+   
+    console.log('vech id first',vehId);
+    this.common.params = { vehId , vehclename};
     const activeModal = this.modalService.open(AddTripComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data5555555: ', data);

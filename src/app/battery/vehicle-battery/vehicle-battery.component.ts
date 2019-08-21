@@ -49,9 +49,15 @@ export class VehicleBatteryComponent implements OnInit {
     private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService
-  ) { }
+  ) {
+    this.common.refresh = this.refresh.bind(this);
+   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('refresh');
   }
 
   getDate(index) {
@@ -82,7 +88,7 @@ export class VehicleBatteryComponent implements OnInit {
 
   addMore() {
     this.vehicleBattery.push({
-      refmode: null,
+      refmode: "701",
       refid: null,
       batteryId: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],

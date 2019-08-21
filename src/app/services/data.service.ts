@@ -213,7 +213,7 @@ export class DataService {
           },
           {
             title: 'Vouchers Summary',
-            icon: 'far fa-list-all',
+            icon: 'far fa-list-alt',
             link: '/admin/vouchers-summary',
             home: true,
           },
@@ -385,10 +385,10 @@ export class DataService {
             home: true,
           },
           {
-            title:'Fuel Mileage With ODO',
-            icon:'fas fa-gas-pump',
-            link:'/admin/fuel-mileage-with-odo',
-            home:true
+            title: 'Fuel Mileage With ODO',
+            icon: 'fas fa-gas-pump',
+            link: '/admin/fuel-mileage-with-odo',
+            home: true
           },
         ]
       },
@@ -415,10 +415,23 @@ export class DataService {
         ]
       },
       {
+        title: 'Battery',
+        icon: 'fas fa-car-battery',
+        children: [
+          {
+            title: 'Battery Models',
+            icon: 'fa fa-text-width',
+            link: '/admin/battery-modals',
+            home: true,
+          },
+        ]
+      },
+
+      {
         title: 'Routes',
         icon: 'fa fa-pencil-square-o',
         link: '/admin/via-routes',
-      }
+      },
 
     ];
   }

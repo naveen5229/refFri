@@ -29,10 +29,15 @@ export class PaymentsMadeComponent implements OnInit {
     this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
     this.dates.end = this.common.dateFormatter1(new Date());
     this.getPaymentMade();
+    this.common.refresh = this.refresh.bind(this);
     //this.getPaymentMade();
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getPaymentMade();
   }
   getDate(date) {
     this.common.params = { ref_page: "card usage" };

@@ -302,7 +302,7 @@
                 name="first-mobile" placeholder="Mobile">
             </div>
           </div>
-
+                  
           <div class="row" style="margin-top:10px; margin-left: 10px">
             <div class="col-6">
               <Button class="btn btn-primary" type="button" (click)="insertAgentInfo('first')">Submit</Button>
@@ -392,7 +392,6 @@
       </div>
 
       <div class="row">
-
         <div class="col-3" *ngIf="modal.second.data.showMain">
           <input type="text" class="form-control" [(ngModel)]="modal.second.data.LrData.receipt_no" name="second-RNo."
             placeholder="Receipt No." autocomplete="off">

@@ -68,6 +68,7 @@ import { LocationsComponent } from './locations/locations.component';
 import { VouchersSummaryComponent } from './vouchers-summary/vouchers-summary.component';
 import { UserTemplatesComponent } from './user-templates/user-templates.component';
 import { WebActivitySummaryComponent } from './web-activity-summary/web-activity-summary.component';
+import { BatteryModule } from '../battery/battery.module';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -113,7 +114,8 @@ const PAGES_COMPONENTS = [
     DriverModule,
     ImageViewerModule,
     SharedModule,
-    ChartModule
+    ChartModule,
+    BatteryModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,

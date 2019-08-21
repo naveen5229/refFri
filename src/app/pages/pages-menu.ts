@@ -15,7 +15,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Vehicle Trip',
-        icon: 'fa fa-truck',
+        icon: 'fas fa-exchange-alt',
         link: '/pages/vehicle-trip',
       },
       {
@@ -83,6 +83,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-pencil-square-o',
         link: '/pages/via-routes',
       },
+      {
+        title: 'Route-Dashboard',
+        icon: 'fas fa-map-marked',
+        link: '/pages/route-dashboard'
+      },
+      {
+        title: 'Trip P&L',
+        icon: 'fa fa-pencil-square-o',
+        link: '/pages/trip-pnl',
+      }
 
     ]
   },
@@ -100,7 +110,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Card Mapping',
-        icon: 'fas fa-map-marked-alt',
+        icon: 'fas fa-clone',
         link: '/pages/card-mapping',
         home: true,
       },
@@ -123,7 +133,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'User Activity Statistics',
-        icon: 'fas fa-chart-pie',
+        icon: 'fas fa-signal',
         link: '/pages/user-activity-status',
         home: true,
       },
@@ -141,7 +151,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Site',
-        icon: 'fas fa-map-marked-alt',
+        icon: 'fas fa-map-marker-alt',
         link: '/pages/sites',
         home: true,
       },
@@ -158,7 +168,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Freight Rate Input',
-        icon: 'fas fa-list',
+        icon: 'fas fa-calculator',
         link: '/pages/frieght-rate-input',
       },
       // {
@@ -195,7 +205,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       // },
       {
         title: 'View LR Manifest',
-        icon: 'far fa-clone',
+        icon: 'far fa-file',
         link: '/pages/view-manifesto',
       },
       {
@@ -217,6 +227,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Nearby Pods',
         icon: 'fa fa-bar-chart',
         link: '/pages/nearby-pods',
+      },
+      {
+        title: 'Dispatch orders',
+        icon: 'fa fa-book',
+        link: '/pages/dispatch-orders',
       },
     ]
   },
@@ -288,7 +303,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Remaining Fuel',
-        icon: 'fas fa-history',
+        icon: 'fas fa-oil-can',
         link: '/pages/remaining-fuel',
         home: true,
       },
@@ -300,7 +315,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       // },
       {
         title: ' Fuel Master',
-        icon: 'fa fa-sellsy',
+        icon: 'fas fa-sliders-h',
         link: '/pages/fuel-master',
         home: true,
       },
@@ -323,17 +338,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title:'Fuel Mileage With ODO',
-        icon:'fas fa-gas-pump',
-        link:'/pages/fuel-mileage-with-odo',
-        home:true
+        title: 'Fuel Mileage With ODO',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-mileage-with-odo',
+        home: true
       },
       {
-        title:'Fuel Consumption',
-        icon:'fas fa-gas-pump',
-        link:'/pages/fuel-consumption',
-        home:true
-      }
+        title: 'Fuel Pump Summary',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-consumption',
+        home: true
+      },
 
     ]
   },
@@ -431,7 +446,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Accounts',
-    icon: 'fas fa-money-bill-alt',
+    icon: 'fas fa-coins',
     link: '/accounts/dashboard'
   },
   {
@@ -441,7 +456,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Ware-House',
-    icon: 'fas fa-warehouse',
+    icon: 'fas fa-landmark',
     link: '/ware-house/ware-house-receipts'
   },
 
