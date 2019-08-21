@@ -52,6 +52,9 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
       this.getrouteTime();
 
     }
+    if (this.routeTime) {
+      this.getVehicleRouteTimeTable();
+    }
     this.getRoutes();
     this.assoctionType = [
       {
@@ -134,18 +137,22 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
 
   addVehicleTimeTable() {
     let params = {
-      routeId: this.routeId,
-      routeTime: this.routeTime,
+      routeTimeTableId: this.routeTime,
       assType: this.assocTypeId,
-      vehicleId: this.vehicleId
-
-
+      vId: this.vehicleId
     }
     this.common.loading++;
-    this.api.post('ViaRoutes/getTimeTable', params)
+    this.api.post('ViaRoutes/saveVehTimeTableAssoc', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('result:', res);
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast('Success');
+          this.getVehicleRouteTimeTable();
+        }
+        else {
+          this.common.showToast(res['data'][0].y_msg);
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -156,7 +163,7 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
 
   getVehicleRouteTimeTable() {
     this.common.loading++;
-    this.api.get('ViaRoutes/getTimeTable?routeId=' + this.routeId)
+    this.api.get('ViaRoutes/getVehTimeTableAssoc?routeTimeTableId=' + this.routeTime)
       .subscribe(res => {
         this.common.loading--;
         this.vehicleTimeTable = res['data'];
@@ -241,11 +248,11 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
 
   deleteRouteTime(route) {
     let params = {
-      routeId: route._route_id,
-      timeTableId: route._rtt_id,
+      vId: route._vehicle_id,
+      routeTimeTableId: route._rtt_id,
 
     }
-    if (route._route_id) {
+    if (route._rtt_id) {
       this.common.params = {
         title: 'Delete Vehicle Route Time',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
@@ -255,7 +262,7 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
         if (data.response) {
           console.log("data", data);
           this.common.loading++;
-          this.api.post('ViaRoutes/deleteTimeTable', params)
+          this.api.post('ViaRoutes/deleteVehTimeTableAssoc', params)
             .subscribe(res => {
               this.common.loading--;
               if (res['data'][0].y_id > 0) {
