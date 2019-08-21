@@ -293,7 +293,7 @@ console.log('size index',this.sizeIndex);
     let total = 0;
     this.taxdetails.map(taxdetail => {
        console.log('taxdetail Amount: ',  taxdetail);
-      total += parseFloat(taxdetail.taxamount);
+      total += taxdetail.taxamount;
       this.taxdetails[0].totalamount=  total;
     });
     return total;
