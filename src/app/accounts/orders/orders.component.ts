@@ -82,14 +82,14 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: 0,
+      qty: null,
       discountledger: { name: '', id: '0' },
       warehouse: { name: '', id: '' },
       taxDetails: [],
       remarks: '',
       lineamount: 0,
       discountate: 0,
-      rate: 0,
+      rate: null,
       amount: 0,
       defaultcheck:true
     }]
@@ -237,14 +237,14 @@ export class OrdersComponent implements OnInit {
           name: '',
           id: ''
         },
-        qty: 0,
+        qty: null,
         discountledger: { name: '', id: '' },
         warehouse: { name: '', id: '' },
         taxDetails: [],
         remarks: '',
         lineamount: 0,
         discountate: 0,
-        rate: 0,
+        rate: null,
         amount: 0,
         defaultcheck:true
       }]
@@ -263,14 +263,14 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: 0,
+      qty: null,
       discountledger: { name: '', id: '' },
       warehouse: { name: '', id: '' },
       taxDetails: [],
       remarks: '',
       lineamount: 0,
       discountate: 0,
-      rate: 0,
+      rate: null,
       amount: 0,
       defaultcheck:false
 
