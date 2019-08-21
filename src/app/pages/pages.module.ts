@@ -79,6 +79,7 @@ import { FuelMileageWithOdoComponent } from './fuel-mileage-with-odo/fuel-mileag
 import { FuelMasterComponent } from './fuel-master/fuel-master.component';
 import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.component';
 import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
+import { RouteDashboardComponent } from './route-dashboard/route-dashboard.component';
 
 
 
@@ -160,8 +161,8 @@ const PAGES_COMPONENTS = [
     FuelMasterComponent,
     FuelConsumptionComponent,
     TripPnlComponent,
+    RouteDashboardComponent,
 
-    // CustomDatePipe
   ],
   exports: [
     FuelAverageAnalysisComponent,

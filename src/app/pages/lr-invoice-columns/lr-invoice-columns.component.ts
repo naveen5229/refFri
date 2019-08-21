@@ -229,3 +229,4 @@ export class LrInvoiceColumnsComponent implements OnInit {
     return [...selected, ...this.unassign];
   }
 }
+
