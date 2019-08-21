@@ -159,7 +159,7 @@ export class VehicleTripUpdateComponent implements OnInit {
       }
 
       console.log("params", params);
-      return;
+
       ++this.common.loading;
       this.api.post('TripsOperation/vehicleTripReplacement', params)
         .subscribe(res => {

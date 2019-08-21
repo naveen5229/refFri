@@ -54,6 +54,7 @@ export class OrderComponent implements OnInit {
     delete: 0,
     ledgeraddressid: null,
     mannual :false,
+    branchid:0,
     // branch: {
     //   name: '',
     //   id: ''
@@ -212,6 +213,7 @@ export class OrderComponent implements OnInit {
         this.order.delete = 0;
         this.order.ledgeraddressid = this.invoiceDetail[0].y_ledger_address_id;
         this.order.mannual = (this.invoiceDetail[0].y_for_approved)?false:true;
+        this.order.branchid = this.invoiceDetail[0].y_fobranch_id;
 
         this.invoiceDetail.map((invoiceDetail, index) => {
           if (!this.order.amountDetails[index]) {
@@ -319,6 +321,7 @@ export class OrderComponent implements OnInit {
       delete: 0,
       ledgeraddressid: null,
       mannual:false,
+      branchid:0,
       // branch: {
       //   name: '',
       //   id: ''
@@ -564,7 +567,8 @@ export class OrderComponent implements OnInit {
       x_id: order.orderid,
       delete: order.delete,
       ledgeraddressid: order.ledgeraddressid,
-      ismannual :order.mannual
+      ismannual :order.mannual,
+      branchid :order.branchid
     };
 
     console.log('params11: ', params);
