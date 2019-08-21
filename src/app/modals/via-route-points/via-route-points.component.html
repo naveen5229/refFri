@@ -56,6 +56,11 @@
                 <option value="1">Loading/Unloading</option>
               </select>
             </td>
+            <td colspan="2">
+              <label>Radius</label><br>
+              <input type="number" class="form-control" name="radius" placeholder="Radius" [(ngModel)]="radius" min="1"
+                max="10000" />
+            </td>
           </tr>
 
         </tbody>

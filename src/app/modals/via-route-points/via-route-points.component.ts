@@ -31,8 +31,7 @@ export class ViaRoutePointsComponent implements OnInit {
   mapName = null;
   kms = null;
   long = null;
-  route;
-  // selected = 0;
+  radius = null;
   siteId;
   routeId = null;
   routeData = {
@@ -55,9 +54,8 @@ export class ViaRoutePointsComponent implements OnInit {
     private zone: NgZone,
     private cdr: ChangeDetectorRef,
     public modalService: NgbModal) {
-    this.route = this.common.params.route;
     this.routeName = this.common.params.route.name;
-    this.routeId = this.route._id;
+    this.routeId = this.common.params.route._id;
 
     this.viewTable();
     console.log("RouteID-->", this.routeId);
@@ -172,6 +170,7 @@ export class ViaRoutePointsComponent implements OnInit {
     this.routeData.lat = null;
     this.routeData.long = null;
     this.type = "0";
+    this.radius = null;
     console.log("Value are Null", this.latlong);
   }
   clickDelete(name, i) {
@@ -187,7 +186,9 @@ export class ViaRoutePointsComponent implements OnInit {
         console.log('res', res['data']);
         let data = res['data'];
         this.tableData = data;
-        this.createrouteMarker();
+        if (this.tableData && this.tableData.length) {
+          this.createrouteMarker();
+        }
 
       }, err => {
         this.common.loading--;
@@ -273,6 +274,7 @@ export class ViaRoutePointsComponent implements OnInit {
       name: this.siteNamee,
       rowId: this.rowId,
       type: this.type,
+      radius: this.radius,
     };
     if (this.siteNamee == null || this.siteNamee.length > 100) {
       this.common.showToast("Please Enter Location");

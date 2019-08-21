@@ -3,6 +3,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 
 @Component({
   selector: 'route-dashboard',
@@ -16,9 +17,15 @@ export class RouteDashboardComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal) {
     this.getFoWiseRouteData();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh() {
+    this.getFoWiseRouteData();
   }
   getFoWiseRouteData() {
     this.common.loading++;
@@ -26,6 +33,7 @@ export class RouteDashboardComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("api data", res);
+        if (!res['data']) return;
         this.routeData = res['data'];
         this.routeData.length ? this.table = this.setTable() : this.resetTable();
 
@@ -53,6 +61,8 @@ export class RouteDashboardComponent implements OnInit {
       lastTime: { title: 'Last Exit Time', placeholder: 'Last Exit Time' },
       currentLocation: { title: 'Current Location', placeholder: 'Current Location' },
       nextLocation: { title: 'Next Location', placeholder: 'Next Location' },
+      action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'del' },
+
     };
 
     return {
@@ -80,7 +90,12 @@ export class RouteDashboardComponent implements OnInit {
         lastTime: { value: route.l_end_time ? this.common.dateFormatter(route.l_end_time) : '-', action: this.viewlocation.bind(this, route) },
         currentLocation: { value: route.c_name ? route.c_name : '-', action: this.viewlocation.bind(this, route) },
         nextLocation: { value: route.n_name ? route.n_name : '-', action: this.viewlocation.bind(this, route) },
-        // rowActions: { class: 'del', activeModal: this.viewlocation.bind(this, route), action: this.viewlocation.bind(this, route) }
+        action: {
+          value: "",
+          isHTML: false,
+          action: null,
+          icons: this.actionIcons(route)
+        },
 
         rowActions: {
           click: "selectRow",
@@ -90,6 +105,40 @@ export class RouteDashboardComponent implements OnInit {
     });
 
     return columns;
+  }
+
+
+
+  actionIcons(route) {
+    let icons = [
+      {
+        class: " icon fa fa-route",
+        action: this.openRouteMapper.bind(this, route),
+      },
+    ]
+    return icons;
+  }
+
+  openRouteMapper(route) {
+    let today, startday, fromDate;
+    today = new Date();
+    startday = route.x_showstarttime ? this.common.dateFormatter(route.x_showstarttime) : new Date(today.setDate(today.getDate() - 2));
+    fromDate = this.common.dateFormatter(startday);
+    let fromTime = this.common.dateFormatter(fromDate);
+    let toTime = this.common.dateFormatter(new Date());
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    this.common.params = {
+      vehicleId: route.x_vehicle_id,
+      vehicleRegNo: route.x_showveh,
+      fromTime: fromTime,
+      toTime: toTime
+    };
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout",
+      windowClass: "myCustomModalClass"
+    });
+
   }
 
   viewlocation(route) {
