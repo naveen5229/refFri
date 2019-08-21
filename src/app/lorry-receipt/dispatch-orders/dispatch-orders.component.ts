@@ -155,7 +155,7 @@ export class DispatchOrdersComponent implements OnInit {
     let previewData = null;
     if (dispatchOrder) {
       previewData = {
-        title: 'Print Dispatch Order',
+        title: 'Dispatch Order',
         previewId: null,
         refId: dispatchOrder._dispatchid,
         refType: 'DSPOD_PRT'
