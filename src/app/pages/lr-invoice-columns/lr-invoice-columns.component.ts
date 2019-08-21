@@ -26,6 +26,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
     left: [],
     right: []
   }
+  isGlobal = false;
 
   constructor(
     public common: CommonService,
@@ -77,6 +78,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
       branchId: this.accountService.selected.branch.id,
       reportType: this.reportType,
       partyId: this.party.id,
+      isGlobal: this.isGlobal
     }
     this.api.post('LorryReceiptsOperation/getLrInvoiceFields', params)
       .subscribe(res => {
@@ -167,6 +169,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
       reportType: this.reportType,
       partyId: this.party.id,
       lrInvoiceColumns: JSON.stringify(this.assignOrder()),
+      isGlobal: this.isGlobal
     }
     console.log("Params", params)
     this.common.loading++;
