@@ -62,8 +62,8 @@
               [ngClass]="{'highlight' : selectedRow == 'a' + i + k }" style="background: #dadfe6;">
               <div class="tb-mini row m-0 pl-0 pr-0">
                 <div class="col-6">{{subGroup.y_name}}</div>
-                <div class="col-3 text-right" [ngClass]="{'handHighLight' : subGroup.y_total_approved !=0 }" (dblclick)="(subGroup.y_total_approved !=0) ? opendaybookmodel(subGroup.y_id,0) :''">{{subGroup.y_total_approved}}</div>
-                <div class="col-3 text-right" [ngClass]="{'handHighLight' : subGroup.y_total_pending !=0 }" (dblclick)="(subGroup.y_total_pending !=0) ? opendaybookmodel(subGroup.y_id,1) :''">{{subGroup.y_total_pending}}</div>
+                <div class="col-3 text-right" [ngClass]="{'handHighLight' : subGroup.y_total_approved !=0 }" (click)="(subGroup.y_total_approved !=0) ? opendaybookmodel(subGroup.y_id,0) :''">{{subGroup.y_total_approved}}</div>
+                <div class="col-3 text-right" [ngClass]="{'handHighLight' : subGroup.y_total_pending !=0 }" (click)="(subGroup.y_total_pending !=0) ? opendaybookmodel(subGroup.y_id,1) :''">{{subGroup.y_total_pending}}</div>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@
               <div class="tb-mini row m-0 pl-0 pr-0">
                 <div class="col-6">{{subGroup.y_name}}</div>
                 <div class="col-3 text-right">{{subGroup.y_total_approved}}</div>
-                <div class="col-3 text-right"  [ngClass]="{'handHighLight' : subGroup.y_total_pending !=0 }" (dblclick)="(subGroup.y_total_pending !=0) ? openPageModel(subGroup.y_name) : ''">{{subGroup.y_total_pending}}</div>
+                <div class="col-3 text-right"  [ngClass]="{'handHighLight' : subGroup.y_total_pending !=0 }" (click)="(subGroup.y_total_pending !=0) ? openPageModel(subGroup.y_name) : ''">{{subGroup.y_total_pending}}</div>
               </div>
             </div>
           </div>

@@ -155,7 +155,7 @@ export class LorryRecciptsComponent implements OnInit {
 
   printLr(receipt) {
     let previewData = {
-      title: 'Print Lr',
+      title: 'Print LR',
       previewId: null,
       refId: receipt.lr_id,
       refType: "LR_PRT"
