@@ -95,7 +95,7 @@ export class RouteDashboardComponent implements OnInit {
         currentLocation: { value: route.c_name ? route.c_name : '-', action: this.viewlocation.bind(this, route) },
         nextLocation: { value: route.n_name ? route.n_name : '-', action: this.viewlocation.bind(this, route) },
         distanceRemaining: { value: route.n_dist_rem ? route.n_dist_rem : '-' },
-        etoa: { value: route.etoa_next ? this.common.changeDateformat2(route.l_end_time) : '-', },
+        etoa: { value: route.etoa_next ? this.common.changeDateformat2(route.etoa_next) : '-', },
         startDelay: { value: route.start_delay ? route.start_delay : '-' },
         totalDelay: { value: route.total_delay ? route.total_delay : '-' },
         action: {
