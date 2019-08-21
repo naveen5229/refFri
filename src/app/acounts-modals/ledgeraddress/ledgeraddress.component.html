@@ -29,7 +29,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let Details of accDetails; let i = index;" (click)="selectedRow = i; address = Details.address"  [ngClass]="{'highlight' : selectedRow == i}">
-              <td><input type="radio" name="address" [value]="Details.address+'@'+Details.id"  [(ngModel)]="address"></td>
+              <td><input type="radio" name="address"  [id]="'address-'+i" [value]="Details.address+'@'+Details.id" [checked]="(Details.is_default)"></td>
               <td>{{Details.salutionname}}</td>
               <td>{{Details.name}}</td>
               <td>{{Details.mobileno}}</td>
