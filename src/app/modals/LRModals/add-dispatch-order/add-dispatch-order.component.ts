@@ -3,6 +3,8 @@ import { CommonService } from '../../../services/common.service';
 import { AccountService } from '../../../services/account.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { dateFieldName } from '@telerik/kendo-intl';
+import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
 
 @Component({
   selector: 'add-dispatch-order',
@@ -23,6 +25,8 @@ export class AddDispatchOrderComponent implements OnInit {
     id: null
   };
   btnTxt = 'SAVE';
+  keepGoing = true;
+
   constructor(
     public common: CommonService,
     public accountService: AccountService,
@@ -73,10 +77,51 @@ export class AddDispatchOrderComponent implements OnInit {
     this.vehicleData.id = headData.vehicle_id;
     this.vehicleData.regno = headData.regno;
     this.disOrder.id = headData.dispatch_id;
-    this.disOrder.date = headData.dispatch_date;
+    this.disOrder.date = headData.dispatch_date ? new Date(headData.dispatch_date) : null;
     this.accountService.selected.branch.id = headData.branch_id;
   }
 
+  takeActionSource(type, res, i) {
+    console.log("here", type, res, i, "this.generalDetailColumn1", this.generalDetailColumn1, "this.generalDetailColumn2", this.generalDetailColumn2);
+    setTimeout(() => {
+      if (type == 'generalDetailColumn1') {
+        this.generalDetailColumn1[i].r_value = this.generalDetailColumn1[i].r_value ? this.generalDetailColumn1[i].r_value : '-------';
+        if (this.keepGoing && this.generalDetailColumn1[i].r_value.length) {
+          this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+          const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+          this.keepGoing = false;
+          activeModal.result.then(res => {
+            this.keepGoing = true;
+            if (res && res.location.lat) {
+              console.log('response----', res.location);
+              this.generalDetailColumn1[i].r_value = res.location.name;
+              this.generalDetailColumn1[i].r_valueid = res.id;
+              this.keepGoing = true;
+            }
+          })
+        }
+      }
+      else if (type == 'generalDetailColumn2') {
+        this.generalDetailColumn2[i].r_value = this.generalDetailColumn2[i].r_value ? this.generalDetailColumn2[i].r_value : '-------';
+        if (this.keepGoing && this.generalDetailColumn2[i].r_value.length) {
+          this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+          const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+          this.keepGoing = false;
+          activeModal.result.then(res => {
+            this.keepGoing = true;
+            if (res && res.location.lat) {
+              console.log('response----', res.location);
+              this.generalDetailColumn2[i].r_value = res.location.name;
+              this.generalDetailColumn2[i].r_valueid = res.id;
+              this.keepGoing = true;
+            }
+          })
+        }
+      }
+    }, 1000);
+
+  }
   getVehicleInfo(vehicle) {
     console.log("vehicle", vehicle);
     this.vehicleData.regno = vehicle.regno;
