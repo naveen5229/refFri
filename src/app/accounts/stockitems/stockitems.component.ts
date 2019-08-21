@@ -16,6 +16,7 @@ export class StockitemsComponent implements OnInit {
   selectedRow = -1;
   activeId = '';
   pageName="";
+  sizeIndex=0;
   constructor(private activeModal: NgbActiveModal,
     public api: ApiService,
     public common: CommonService,
@@ -27,7 +28,9 @@ export class StockitemsComponent implements OnInit {
     this.getStockItems();
     this.common.currentPage = 'Stock Item';
     this.common.refresh = this.refresh.bind(this);
-
+    if(this.common.params && this.common.params.pageName){
+    this.common.handleModalSize('class', 'modal-lg', '1150','px',this.sizeIndex);     
+     }
   }
 
   ngOnInit() {
@@ -45,7 +48,7 @@ export class StockitemsComponent implements OnInit {
     this.api.post('Stock/GetStockItem', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log('Res new:', res['data']);
         this.StockItems = res['data'];
 
       }, err => {
@@ -59,6 +62,9 @@ export class StockitemsComponent implements OnInit {
   openStockItemModal(stockitem?) {
     console.log('stockitem close time', stockitem);
     if (stockitem) {
+      if(this.pageName){
+        stockitem.sizeIndex=1;     
+         }
       this.common.params = stockitem;
       const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
@@ -112,7 +118,10 @@ export class StockitemsComponent implements OnInit {
       });
     }
     else {
-      this.common.params = null;
+      if(this.pageName){
+        this.sizeIndex=1;     
+         }
+      this.common.params =  {sizeIndex:this.sizeIndex};
       const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
