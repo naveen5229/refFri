@@ -84,7 +84,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/via-routes',
       },
       {
-        title: 'Trip PNL',
+        title: 'Route-Dashboard',
+        icon: 'fas fa-map-marked',
+        link: '/pages/route-dashboard'
+      },
+      {
+        title: 'Trip P&L',
         icon: 'fa fa-pencil-square-o',
         link: '/pages/trip-pnl',
       }
@@ -333,16 +338,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title:'Fuel Mileage With ODO',
-        icon:'fas fa-gas-pump',
-        link:'/pages/fuel-mileage-with-odo',
-        home:true
+        title: 'Fuel Mileage With ODO',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-mileage-with-odo',
+        home: true
       },
       {
-        title:'Fuel Consumption',
-        icon:'fas fa-gas-pump',
-        link:'/pages/fuel-consumption',
-        home:true
+        title: 'Fuel Pump Summary',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-consumption',
+        home: true
       },
 
     ]

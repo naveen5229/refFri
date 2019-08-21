@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { AddDispatchOrderComponent } from '../../modals/LRModals/add-dispatch-order/add-dispatch-order.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
-import { eventNames } from 'cluster';
+import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 
 @Component({
   selector: 'dispatch-orders',
@@ -29,14 +30,13 @@ export class DispatchOrdersComponent implements OnInit {
 
 
   constructor(public common: CommonService,
-    public api: ApiService,
-    private modalService: NgbModal, ) {
-
+    private modalService: NgbModal,
+    public api: ApiService) {
+    this.getDispatchOrders();
   }
 
   ngOnInit() {
   }
-
 
   getDispatchOrders() {
     let params = {

@@ -60,6 +60,8 @@ export class EditFillingComponent implements OnInit {
   refernceData = [];
   edit = 0;
 
+  showDate = '';
+
   constructor(private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
@@ -80,6 +82,7 @@ export class EditFillingComponent implements OnInit {
     this.getReferenceData();
     this.getRefernceType(this.refernceType);
 
+    this.showDate = rec.fdate;
     this.filldate = rec.fdate;
     this.litres = rec.litres;
     this.isfull = rec.is_full;
@@ -188,12 +191,8 @@ export class EditFillingComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         this.filldate = this.common.dateFormatter1(data.date).split(' ')[0];
-        console.log("data date:");
-        console.log(data.date);
-        this.filldate = this.common.changeDateformat1(this.filldate);
-
+        this.showDate = this.common.changeDateformat1(this.filldate);
       }
-
     });
   }
 
@@ -225,7 +224,6 @@ export class EditFillingComponent implements OnInit {
   }
 
   submitFillingData() {
-    console.log('fill date', this.filldate);
     if (this.filldate == null || this.filldate == '') {
       this.common.showError('Fill Date To Continue');
       return;
@@ -233,8 +231,11 @@ export class EditFillingComponent implements OnInit {
       if (this.isfull == false) {
         this.isfull = null;
       }
-      let fmtdate = this.common.dateFormatter1(this.filldate).split(' ')[0];
-      console.log("date::", fmtdate);
+      console.log('fill date', this.filldate);
+      // let fmtdate = this.common.dateFormatter1(this.filldate);
+      // console.log("testing", fmtdate.indexOf(fmtdate, 0));
+
+      // console.log("check date::", fmtdate);
       let params = {
         vehId: this.vehicleId,
         siteId: this.pump_id,
@@ -242,7 +243,7 @@ export class EditFillingComponent implements OnInit {
         rate: this.rate,
         amount: this.amount,
         fuelDetailsId: this.filling_id,
-        date: fmtdate,
+        date: this.filldate,
         petrolPumplocation: '',
         petrolPumpName: this.pump,
         isFull: this.isfull,

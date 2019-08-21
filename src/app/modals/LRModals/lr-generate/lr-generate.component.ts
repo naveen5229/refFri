@@ -89,8 +89,6 @@ export class LrGenerateComponent implements OnInit {
         console.log("LoryReceipts:", res['data']['headings'][0].branch_id);
         console.log("res", res['data'], res);
         if (res['data'] && res['data'].result) {
-
-
           this.lrGeneralField = res['data'].result;
           let headData = res['data'].headings;
           if (headData.length > 0) {
@@ -440,65 +438,5 @@ export class LrGenerateComponent implements OnInit {
       console.log('Date:', data);
     });
   }
-
-
-  getDate() {
-
-  }
-
-
-
-  calculateTotalAmount() {
-
-  }
-
-  calculateTareWeight() {
-
-  }
-
-  calculateReminingAmount() {
-
-  }
-
-
-  loadImage(flag) {
-
-  }
-
-  getLrDetails() {
-
-  }
-
-
-  addField(index) {
-
-  }
-  addFoField() {
-
-  }
-
-  getAllFieldName() {
-
-
-  }
-
-  getUnit() {
-
-  }
-
-  getWeightUnitId(type, index) {
-
-  }
-
-
-
-  onChangeAuto(search, type) {
-
-  }
-
-
-
-
-
 
 }

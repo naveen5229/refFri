@@ -16,7 +16,7 @@
         (change)="selectTemplateType()">
         <option value="LR">Lr</option>
         <option value="INV">Invoice</option>
-
+        <option value='DSPOD_PRT'>Print Distpatch Order</option>
       </select>
     </div>
     <ng-template #content>
@@ -42,7 +42,7 @@
       <label>Branch</label>
     </div>
     <div class="col-6">
-      <select name="branch" class="form-control"  [(ngModel)]="accountService.selected.branch">
+      <select name="branch" class="form-control" [(ngModel)]="accountService.selected.branch">
         <option value="">Select Branch</option>
         <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}</option>
       </select>
@@ -58,7 +58,7 @@
   </div>
   <div class="mt-2">
 
-    <smart-table *ngIf="views.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <smart-table *ngIf="views && views.length" [data]="table.data" [settings]="table.settings"></smart-table>
   </div>
 
 </div>
