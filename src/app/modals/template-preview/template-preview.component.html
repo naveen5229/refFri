@@ -3,7 +3,7 @@
 
   <div class="col-md-6 text-right">
     <span (click)="onPrint('print-section')" class="doNotPrint print-icon"><i class="fa fa-print"></i></span>
-    <span (click)="common.downloadPdf('print-section')" class="pdf-icon doNotPrint" style="margin-left:20px"><i
+    <span (click)="common.downloadPdf('print-section',true)" class="pdf-icon doNotPrint" style="margin-left:20px"><i
         class="fa fa-file-pdf"></i></span>
     <button type="button" class="close doNotPrint" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
