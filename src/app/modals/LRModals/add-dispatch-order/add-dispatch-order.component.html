@@ -82,11 +82,28 @@
                 <input type="text" class="form-control" [(ngModel)]=generalDetailColumn1[i].r_value
                   *ngIf="generalDetailColumn1[i].r_colname == 'driver_mobile'" id='driver_mobile' readonly>
 
+                <!-- Location Suggestion -->
+                <!-- (onChange)="generalDetailColumn1[i].r_value = $event.location;generalDetailColumn1[i].r_valueid = $event.id" -->
+
+                <auto-suggestion
+                  *ngIf="generalDetailColumn1[i].r_colname == 'source_name' ||generalDetailColumn1[i].r_colname == 'destination_name'"
+                  (onChange)="generalDetailColumn1[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn1[i].r_value = $event.location;generalDetailColumn1[i].r_valueid = $event.id"
+                  (noDataFound)="takeActionSource('generalDetailColumn1',$event,i)" [isNoDataFoundEmit]="true"
+                  url="Location/getPlaceFromRedis" display="location" inputId="startname" placeholder="Search Location"
+                  [value]="generalDetailColumn1[i].r_value" class="auto-suggest"
+                  [preSelected]='{location : generalDetailColumn1[i].r_value }'>
+                </auto-suggestion>
+                <i class="fa fa-plus add "
+                  *ngIf="generalDetailColumn1[i].r_colname == 'source_name' ||generalDetailColumn1[i].r_colname == 'destination_name'"
+                  (click)="sourceString='----'; takeActionSource('generalDetailColumn1',null,i);"></i>
+
                 <!-- Simple text Box -->
-                <input type="text" class="form-control" [(ngModel)]=generalDetailColumn1[i].r_value *ngIf="generalDetailColumn1[i].r_colname != 'regno' && generalDetailColumn1[i].r_colname != 'lr_date' 
+                <input type="text" class="form-control" [(ngModel)]=generalDetailColumn1[i].r_value
+                  *ngIf="generalDetailColumn1[i].r_colname != 'regno' && generalDetailColumn1[i].r_colname != 'lr_date' 
                   && generalDetailColumn1[i].r_colname != 'driver_mobile'  && generalDetailColumn1[i].r_colname != 'driver_name' 
                   && generalDetailColumn1[i].r_colname != 'party_name' && generalDetailColumn1[i].r_colname != 'material_name'
-                  " [id]='generalDetailColumn1[i].r_colname'>
+                  && generalDetailColumn1[i].r_colname != 'source' && generalDetailColumn1[i].r_colname != 'destination'" [id]='generalDetailColumn1[i].r_colname'>
 
                 <!-- material detail -->
                 <auto-suggestion (onChange)="generalDetailColumn1[i].r_valueid = ''"
@@ -132,11 +149,28 @@
                 <input type="text" class="form-control" [(ngModel)]=generalDetailColumn2[i].r_value
                   *ngIf="generalDetailColumn2[i].r_colname == 'driver_mobile'" id='driver_mobile' readonly>
 
+                <!-- Location Suggestion -->
+                <!--  (onChange)="generalDetailColumn2[i].r_value = $event.location;generalDetailColumn2[i].r_valueid = $event.id" -->
+                <auto-suggestion
+                  *ngIf="generalDetailColumn2[i].r_colname == 'source_name' ||generalDetailColumn2[i].r_colname == 'destination_name'"
+                  (onChange)="generalDetailColumn2[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn2[i].r_value = $event.location;generalDetailColumn2[i].r_valueid = $event.id"
+                  (noDataFound)="takeActionSource('generalDetailColumn2',$event,i)" [isNoDataFoundEmit]="true"
+                  url="Location/getPlaceFromRedis" display="location" inputId="startname" placeholder="Search Location"
+                  [value]="generalDetailColumn2[i].r_value" class="auto-suggest"
+                  [preSelected]='{location : generalDetailColumn2[i].r_value }'>
+                </auto-suggestion>
+                <i class="fa fa-plus add "
+                  *ngIf="generalDetailColumn2[i].r_colname == 'source_name' ||generalDetailColumn2[i].r_colname == 'destination_name'"
+                  (click)="sourceString='----'; takeActionSource('generalDetailColumn2',null,i);"></i>
+
+
                 <!-- Simple text Box -->
                 <input type="text" class="form-control" [(ngModel)]=generalDetailColumn2[i].r_value
                   *ngIf="generalDetailColumn2[i].r_colname != 'regno' && generalDetailColumn2[i].r_colname != 'lr_date'
                   && generalDetailColumn2[i].r_colname != 'driver_mobile'  && generalDetailColumn2[i].r_colname != 'driver_name'
-                  && generalDetailColumn2[i].r_colname != 'party_name' && generalDetailColumn2[i].r_colname != 'material_name'" [id]='generalDetailColumn2[i].r_colname'>
+                  && generalDetailColumn2[i].r_colname != 'party_name' && generalDetailColumn2[i].r_colname != 'material_name'
+                  && generalDetailColumn2[i].r_colname != 'source_name' && generalDetailColumn2[i].r_colname != 'destination_name'" [id]='generalDetailColumn2[i].r_colname'>
 
                 <!-- material detail -->
                 <auto-suggestion (onChange)="generalDetailColumn2[i].r_valueid = ''"

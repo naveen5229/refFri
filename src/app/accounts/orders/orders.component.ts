@@ -82,14 +82,14 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: 0,
+      qty: null,
       discountledger: { name: '', id: '0' },
       warehouse: { name: '', id: '' },
       taxDetails: [],
       remarks: '',
       lineamount: 0,
       discountate: 0,
-      rate: 0,
+      rate: null,
       amount: 0,
       defaultcheck:true
     }]
@@ -237,14 +237,14 @@ export class OrdersComponent implements OnInit {
           name: '',
           id: ''
         },
-        qty: 0,
+        qty: null,
         discountledger: { name: '', id: '' },
         warehouse: { name: '', id: '' },
         taxDetails: [],
         remarks: '',
         lineamount: 0,
         discountate: 0,
-        rate: 0,
+        rate: null,
         amount: 0,
         defaultcheck:true
       }]
@@ -263,14 +263,14 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: 0,
+      qty: null,
       discountledger: { name: '', id: '' },
       warehouse: { name: '', id: '' },
       taxDetails: [],
       remarks: '',
       lineamount: 0,
       discountate: 0,
-      rate: 0,
+      rate: null,
       amount: 0,
       defaultcheck:false
 
@@ -786,9 +786,10 @@ export class OrdersComponent implements OnInit {
 
 
   getPurchaseLedgers() {
+    console.log('purchase=====',this.order.ordertype.id);
     let params = {
       search: 123,
-      invoicetype: ((this.order.ordertype.id=-104) || (this.order.ordertype.id=-106 )) ? 'sales':'purchase'
+      invoicetype: ((this.order.ordertype.id==-104) || (this.order.ordertype.id==-106 )) ? 'sales':'purchase'
     };
     this.common.loading++;
     this.api.post('Suggestion/GetAllLedgerForInvoice', params)
@@ -805,6 +806,8 @@ export class OrdersComponent implements OnInit {
   }
 
   getSupplierLedgers() {
+    console.log('other============',this.order.ordertype.id);
+
     let params = {
       search: 123,
       invoicetype: 'other'
@@ -1265,13 +1268,18 @@ export class OrdersComponent implements OnInit {
     } else if (activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      this.order.billingaddress = suggestion.address;
+      if(suggestion.address_count >1){
       this.getAddressByLedgerId(suggestion.id);
+      }else{
+      this.order.billingaddress = suggestion.address;
+      }
     } else if (activeId == 'purchaseledger') {
       console.log('>>>>>>>>>',suggestion);
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
      // this.getAddressByLedgerId(suggestion.id);
+     console.log('>>>>>>>>><<<<<<<<<',this.order.purchaseledger.id);
+
     } else if (activeId.includes('stockitem')) {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].stockitem.name = suggestion.name;
