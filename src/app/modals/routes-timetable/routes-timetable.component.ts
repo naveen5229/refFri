@@ -9,10 +9,15 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class RoutesTimetableComponent implements OnInit {
   routesDetails = [];
+  vehId = null;
+  routeId = null;
+  routeTTId = null;
+
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal,
     public modalService: NgbModal) {
+
     this.getRoutes();
   }
 
