@@ -43,8 +43,8 @@ export class TripPnlComponent implements OnInit {
       this.common.showError("StartDate Should Be Less Then EndDate")
     }else{
       let params = {
-        startDate: this.startDate,
-        endDate: this.endDate
+        startDate: this.common.dateFormatter(this.startDate) ,
+        endDate: this.common.dateFormatter(this.endDate)
       }
       this.common.loading++;
       this.api.post('TripsOperation/getPnlSummary', params)
