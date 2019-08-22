@@ -474,9 +474,9 @@ const routes: Routes = [{
     canActivate: [AuthGuard]
   },
   {
-    path:'fuel-mileage-with-odo',
-    component:FuelMileageWithOdoComponent,
-    canActivate:[AuthGuard]
+    path: 'fuel-mileage-with-odo',
+    component: FuelMileageWithOdoComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'web-acttivity-summary',
@@ -487,7 +487,7 @@ const routes: Routes = [{
     path: 'dispatch-orders',
     component: DispatchOrdersComponent,
     canActivate: [AuthGuard]
-  },{
+  }, {
     path: 'fuel-consumption',
     component: FuelConsumptionComponent,
     canActivate: [AuthGuard]
@@ -496,7 +496,8 @@ const routes: Routes = [{
     path: 'trip-pnl',
     component: TripPnlComponent,
     canActivate: [AuthGuard]
-  }
+  },
+
   ],
 }];
 

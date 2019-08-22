@@ -82,6 +82,7 @@ import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
 
 
 
+
 const PAGES_COMPONENTS = [
   PagesComponent
 
@@ -160,6 +161,7 @@ const PAGES_COMPONENTS = [
     FuelMasterComponent,
     FuelConsumptionComponent,
     TripPnlComponent,
+
 
     // CustomDatePipe
   ],

@@ -238,6 +238,7 @@ import { TemplatePreviewComponent } from './modals/template-preview/template-pre
 import { AddDispatchOrderComponent } from './modals/LRModals/add-dispatch-order/add-dispatch-order.component';
 import { RouteTimeTableComponent } from './modals/route-time-table/route-time-table.component';
 import { RouteTimeTableDetailsComponent } from './modals/route-time-table-details/route-time-table-details.component';
+import { RoutesTimetableComponent } from './modals/routes-timetable/routes-timetable.component';
 
 
 
@@ -450,6 +451,7 @@ import { RouteTimeTableDetailsComponent } from './modals/route-time-table-detail
     AddDispatchOrderComponent,
     RouteTimeTableComponent,
     RouteTimeTableDetailsComponent,
+    RoutesTimetableComponent,
 
   ],
   entryComponents: [
@@ -646,7 +648,8 @@ import { RouteTimeTableDetailsComponent } from './modals/route-time-table-detail
     TyreHistoryComponent,
     TemplatePreviewComponent,
     RouteTimeTableComponent,
-    RouteTimeTableDetailsComponent
+    RouteTimeTableDetailsComponent,
+    RoutesTimetableComponent
   ],
   imports: [
     BrowserModule,

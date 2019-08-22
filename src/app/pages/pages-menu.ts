@@ -87,7 +87,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Trip PNL',
         icon: 'fa fa-pencil-square-o',
         link: '/pages/trip-pnl',
-      }
+      },
+
 
     ]
   },
