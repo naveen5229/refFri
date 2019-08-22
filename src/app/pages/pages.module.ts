@@ -83,6 +83,7 @@ import { RouteDashboardComponent } from './route-dashboard/route-dashboard.compo
 
 
 
+
 const PAGES_COMPONENTS = [
   PagesComponent
 
@@ -162,7 +163,6 @@ const PAGES_COMPONENTS = [
     FuelConsumptionComponent,
     TripPnlComponent,
     RouteDashboardComponent,
-
   ],
   exports: [
     FuelAverageAnalysisComponent,

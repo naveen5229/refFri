@@ -14,7 +14,7 @@ import { StrictMappingComponent } from '../../modals/strict-mapping/strict-mappi
 import { VehiclePriSecRoutemappingComponent } from '../../modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 import { RouteTimeTableComponent } from '../../modals/route-time-table/route-time-table.component';
 import { RouteTimeTableDetailsComponent } from '../../modals/route-time-table-details/route-time-table-details.component';
-
+import { RoutesTimetableComponent } from '../../modals/routes-timetable/routes-timetable.component';
 @Component({
   selector: 'via-routes',
   templateUrl: './via-routes.component.html',
@@ -230,4 +230,9 @@ export class ViaRoutesComponent implements OnInit {
     this.common.params = { routeData };
     const activeModal = this.modalService.open(RouteTimeTableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
+  getRouteTimeTable() {
+    const activeModal = this.modalService.open(RoutesTimetableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+
 }
