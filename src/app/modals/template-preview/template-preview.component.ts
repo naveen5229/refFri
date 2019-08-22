@@ -24,6 +24,7 @@ export class TemplatePreviewComponent implements OnInit {
     public renderer: Renderer,
 
   ) {
+    this.common.handleModalSize('class', 'modal-lg', '1600');
     if (this.common.params && this.common.params.previewData) {
       console.log("params:", this.common.params);
 
@@ -52,7 +53,7 @@ export class TemplatePreviewComponent implements OnInit {
   closeModal() {
     this.activeModal.close({ ex: 'Modal has been closed' });
   }
-  onPrint() {
+  onPrint(id) {
     this.renderer.setElementClass(document.body, 'test', true);
     window.print();
     this.renderer.setElementClass(document.body, 'test', false);

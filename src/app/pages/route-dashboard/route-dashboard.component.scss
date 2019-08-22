@@ -1,5 +1,50 @@
 :host ::ng-deep.black {
   color: black;
   background: cornsilk;
-  // display: none;
+}
+
+.icon.fa-route {
+  color: #ff8091;
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 44px;
+    font-size: 11px;
+    left: -34px;
+    font-weight: normal;
+    top: -28px;
+    top: -28px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Route Mapper";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #ff8091;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #ff8091;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    -webkit-transform: translate(-50%);
+    transform: translate(-50%);
+  }
+}
+.icon.fa-route:hover span {
+  display: block;
 }
