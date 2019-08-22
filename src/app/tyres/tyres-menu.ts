@@ -55,5 +55,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/tyres/tyre-modals',
         home: true,
     },
+    {
+        title: 'Tyre Summary',
+        icon: 'fa fa-text-width',
+        link: '/tyres/tyre-summary-details',
+        home: true,
+    },
    
 ];
