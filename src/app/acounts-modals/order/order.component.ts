@@ -789,10 +789,11 @@ export class OrderComponent implements OnInit {
 
   getPurchaseLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: ((this.order.ordertype.id==-104) || (this.order.ordertype.id==-106 )) ? 'sales':'purchase'
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedger', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -807,10 +808,11 @@ export class OrderComponent implements OnInit {
 
   getSupplierLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: 'other'
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedgerAddress', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -1085,8 +1087,11 @@ export class OrderComponent implements OnInit {
     } else if (activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      // this.order.billingaddress = suggestion.address;
-      this.getAddressByLedgerId(suggestion.id);
+      if(suggestion.address_count >1){
+        this.getAddressByLedgerId(suggestion.id);
+        }else{
+        this.order.billingaddress = suggestion.address;
+        }
     } else if (activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
@@ -1426,7 +1431,7 @@ let invoiceJson={};
       invoiceDetail.taxDetails.map((taxDetail, index) => {
         rows.push([
           { txt: taxDetail.taxledger.name  || '' ,'colspan':3,align:'right'},
-          { txt: taxDetail.taxamount || '','colspan':3 ,align:'right'},
+          { txt: parseFloat(taxDetail.taxamount) || '','colspan':3 ,align:'right'},
           { txt:  '' },
           { txt:  '' }
         ]);
