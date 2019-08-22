@@ -159,7 +159,13 @@ console.log('size index',this.sizeIndex);
         let index = activeId.split('-')[1];
         if (activeId.includes('taxledger')) this.setFoucus('taxrate-' + index);
         if (activeId.includes('taxrate')) this.setFoucus('taxamount-' + index);
-        if (activeId.includes('taxamount')) this.showConfirm = true;
+        if (activeId.includes('taxamount')){
+         console.log('total length of text detail',this.taxdetails.length,'actv id',activeId);
+        //  if((count(this.taxdetails)) == (index+1)){
+        //   this.showConfirm = true;
+        //  }
+        }
+        
 
       }
 
