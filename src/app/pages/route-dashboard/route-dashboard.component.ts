@@ -16,6 +16,9 @@ export class RouteDashboardComponent implements OnInit {
     data: {
       headings: {},
       columns: [],
+    },
+    settings:{
+      hideHeader:true
     }
   };
   constructor(public api: ApiService,
