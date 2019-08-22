@@ -332,6 +332,7 @@ export class DaybooksComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event, this.activeId);
+
     //   if (this.activeId.includes('startdate') || this.activeId.includes('enddate')) {
 
     //     const charCode = (event.which) ? event.which : event.keyCode;
@@ -394,8 +395,7 @@ export class DaybooksComponent implements OnInit {
         this.DayBook.enddate = this.common.handleDateOnEnterNew(this.DayBook.enddate);
         this.setFoucus('submit');
       }
-    }
-    else if (key == 'backspace' && this.allowBackspace) {
+    } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', this.activeId);
       if (this.activeId == 'enddate') this.setFoucus('startdate');
@@ -403,6 +403,13 @@ export class DaybooksComponent implements OnInit {
       if (this.activeId == 'ledger') this.setFoucus('vouchertype');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
+    } else if ((this.activeId == 'startdate' || this.activeId == 'enddate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
