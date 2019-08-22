@@ -130,8 +130,12 @@ export class RouteDashboardComponent implements OnInit {
   actionIcons(route) {
     let icons = [
       {
-        class: " icon fa fa-route",
+        class: " fa fa-route mr-2",
         action: this.openRouteMapper.bind(this, route),
+      },
+      {
+        class:"fas fa-truck-moving",
+        action: this.viewRouteTimeTable.bind(this, route),
       },
     ]
     return icons;
@@ -170,6 +174,18 @@ export class RouteDashboardComponent implements OnInit {
       time: ""
     };
     this.common.params = { location, title: "Vehicle Location" };
+    const activeModal = this.modalService.open(LocationMarkerComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });
+  }
+
+  viewRouteTimeTable(route){
+
+   let routeTime = {
+      lat: route.v_lat ? route.v_lat : 0,
+      lng: route.v_long ? route.v_long : 0,
+      name: "",
+      time: ""
+    };
+    this.common.params = { location};
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });
   }
 }
