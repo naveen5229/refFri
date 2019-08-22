@@ -1324,11 +1324,10 @@ export class CommonService {
     else if (year % 4 != 0 && (month == '02')) {
       date = 28;
     } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
-
     // console.log('Date: ', year + separator + month + separator + date);
     return date + separator + month + separator + year;
   }
-
+ 
   continuoueScroll() {
     document.getElementsByClassName(
       'scrollable-container'

@@ -79,6 +79,7 @@ import { WebActivitySummaryComponent } from '../admin/web-activity-summary/web-a
 import { DispatchOrdersComponent } from '../lorry-receipt/dispatch-orders/dispatch-orders.component';
 import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.component';
 import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
+import { RouteDashboardComponent } from './route-dashboard/route-dashboard.component';
 
 
 const routes: Routes = [{
@@ -497,7 +498,11 @@ const routes: Routes = [{
     component: TripPnlComponent,
     canActivate: [AuthGuard]
   },
-
+  {
+    path: 'route-dashboard',
+    component: RouteDashboardComponent,
+    canActivate: [AuthGuard]
+  },
   ],
 }];
 

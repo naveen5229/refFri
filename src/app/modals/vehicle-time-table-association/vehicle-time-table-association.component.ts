@@ -2,24 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
-import { RouteTimeTableDetailsComponent } from '../route-time-table-details/route-time-table-details.component';
 import { ConfirmComponent } from '../confirm/confirm.component';
-import { VehicleTimeTableAssociationComponent } from '../vehicle-time-table-association/vehicle-time-table-association.component';
 
 @Component({
-  selector: 'route-time-table',
-  templateUrl: './route-time-table.component.html',
-  styleUrls: ['./route-time-table.component.scss']
+  selector: 'vehicle-time-table-association',
+  templateUrl: './vehicle-time-table-association.component.html',
+  styleUrls: ['./vehicle-time-table-association.component.scss']
 })
-export class RouteTimeTableComponent implements OnInit {
+export class VehicleTimeTableAssociationComponent implements OnInit {
   routesDetails = [];
   routeId = null;
+  routeTimes = [];
+  routeTime = null;
   routeName = null;
-  startTime = new Date();
-  assocType = null;
-
-  routeTimeTable = [];
+  routeTimeName = null;
+  assocTypeId = '0';
+  assoctionType = [
+    {
+      id: null,
+      name: null,
+    }];
+  vehicleId = null;
   table = {
     data: {
       headings: {},
@@ -29,22 +32,56 @@ export class RouteTimeTableComponent implements OnInit {
       hideHeader: true
     }
   };
+
+  vehicleTimeTable = [];
+
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal,
     public modalService: NgbModal) {
-    if (this.common.params && this.common.params.routeData) {
-      this.routeId = this.common.params.routeData.routeId;
-      this.routeName = this.common.params.routeData.routeName;
+
+    this.common.handleModalSize('class', 'modal-lg', '1000', 'px', 1);
+    if (this.common.params && this.common.params.vehicleRouteData) {
+      this.routeId = this.common.params.vehicleRouteData.routeId;
+      this.routeName = this.common.params.vehicleRouteData.routeName;
+      this.routeTimeName = this.common.params.vehicleRouteData.routeTimeName;
+      this.routeTime = this.common.params.vehicleRouteData.routeTime;
+      this.assocTypeId = this.common.params.vehicleRouteData.assType ? this.common.params.vehicleRouteData.assType : '0';
     }
     if (this.routeId) {
-      this.getRouteTimeTableViews();
+      this.getrouteTime();
+
+    }
+    if (this.routeTime) {
+      this.getVehicleRouteTimeTable();
     }
     this.getRoutes();
+    this.assoctionType = [
+      {
+        id: '0',
+        name: '--Select Association Type--'
+      },
+      {
+        id: '1',
+        name: 'Strict'
+      },
+      {
+        id: '2',
+        name: 'Primary'
+      },
+      {
+        id: '3',
+        name: 'Secondary'
+      },
+
+    ];
+
   }
+
 
   ngOnInit() {
   }
+
   closeModal() {
     this.activeModal.close();
   }
@@ -54,7 +91,7 @@ export class RouteTimeTableComponent implements OnInit {
     this.api.get('Suggestion/getRoutesWrtFo')
       .subscribe(res => {
         this.common.loading--;
-        console.log('getRoutesWrtFo:', res);
+        console.log('Route:', res);
         this.routesDetails = res['data'];
       }, err => {
         this.common.loading--;
@@ -63,48 +100,74 @@ export class RouteTimeTableComponent implements OnInit {
   }
 
   changeRouteType(type) {
-    this.routeId = type.id
+    this.routeId = type.id;
     if (this.routeId) {
-      this.getRouteTimeTableViews();
+      this.getrouteTime();
     }
+    // this.routeId = this.routesDetails.find((element) => {
+    //   console.log(element.name == type);
+    //   return element.id == type.id;
+    // }).id;
   }
 
+  changeRouteTime(time) {
+    this.routeTime = time.id;
+  }
 
-  addrouteTime() {
-    let params = {
-      routeId: this.routeId,
-      startTime: this.startTime ? this.common.timeFormatter(this.startTime) : null,
-      assType: this.assocType,
+  getVehicle(vehicle) {
+    console.log("vehicle", vehicle);
 
-    }
-    console.log("Params:", params);
+    this.vehicleId = vehicle.id;
 
+
+  }
+
+  getrouteTime() {
     this.common.loading++;
-    this.api.post('ViaRoutes/saveTimeTable', params)
+    this.api.get('ViaRoutes/getTimeTable?routeId=' + this.routeId + '&isSug=true')
       .subscribe(res => {
         this.common.loading--;
-        console.log('res:', res);
-        if (res['data'][0].y_id <= 0) {
-          this.common.showError(res['data'][0].y_msg);
-        }
-        else {
-          this.common.showToast(res['data'][0].y_msg);
-          this.getRouteTimeTableViews();
-        }
-
+        console.log('route Time:', res);
+        this.routeTimes = res['data'];
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  getRouteTimeTableViews() {
+  addVehicleTimeTable() {
+    let params = {
+      routeTimeTableId: this.routeTime,
+      assType: this.assocTypeId,
+      vId: this.vehicleId
+    }
     this.common.loading++;
-    this.api.get('ViaRoutes/getTimeTable?routeId=' + this.routeId)
+    this.api.post('ViaRoutes/saveVehTimeTableAssoc', params)
       .subscribe(res => {
         this.common.loading--;
-        this.routeTimeTable = res['data'];
-        this.routeTimeTable.length ? this.setTable() : this.resetTable();
+        console.log('result:', res);
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast('Success');
+          this.getVehicleRouteTimeTable();
+        }
+        else {
+          this.common.showToast(res['data'][0].y_msg);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+
+
+  getVehicleRouteTimeTable() {
+    this.common.loading++;
+    this.api.get('ViaRoutes/getVehTimeTableAssoc?routeTimeTableId=' + this.routeTime)
+      .subscribe(res => {
+        this.common.loading--;
+        this.vehicleTimeTable = res['data'];
+        this.vehicleTimeTable.length ? this.setTable() : this.resetTable();
 
       }, err => {
         this.common.loading--;
@@ -130,7 +193,7 @@ export class RouteTimeTableComponent implements OnInit {
 
   generateHeadings() {
     let headings = {};
-    for (var key in this.routeTimeTable[0]) {
+    for (var key in this.vehicleTimeTable[0]) {
       if (key.charAt(0) != "_") {
         headings[key] = { title: key, placeholder: this.formatTitle(key) };
       }
@@ -140,7 +203,7 @@ export class RouteTimeTableComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    this.routeTimeTable.map(route => {
+    this.vehicleTimeTable.map(route => {
       let column = {};
       for (let key in this.generateHeadings()) {
         if (key == 'Action') {
@@ -163,15 +226,7 @@ export class RouteTimeTableComponent implements OnInit {
   actionIcons(route) {
     let icons = [
       {
-        class: "icon fas fa-edit",
-        action: this.editRoutes.bind(this, route)
-      },
-      {
-        class: "fas fa-truck-moving ml-3",
-        action: this.addvehicleAssociation.bind(this, route)
-      },
-      {
-        class: "fas fa-trash-alt ml-3",
+        class: "fas fa-trash-alt",
         action: this.deleteRouteTime.bind(this, route)
       },
     ];
@@ -187,34 +242,19 @@ export class RouteTimeTableComponent implements OnInit {
     }
   }
 
-  editRoutes(route) {
-    console.log("route:", route);
-    this.common.params = { route: route };
-    const activeModal = this.modalService.open(RouteTimeTableDetailsComponent, { size: 'lg', container: 'nb-layout', });
-  }
 
-  addvehicleAssociation(route) {
-    let vehicleRouteData = {
-      routeId: route._route_id,
-      routeName: route._route_name,
-      routeTimeName: route._rtt_name,
-      routeTime: route._rtt_id,
-      assType: route._ass_type,
-    }
-    console.log("vehicleRouteData:", vehicleRouteData);
-    this.common.params = { vehicleRouteData };
-    const activeModal = this.modalService.open(VehicleTimeTableAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
+
+
 
   deleteRouteTime(route) {
     let params = {
-      routeId: route._route_id,
-      timeTableId: route._rtt_id,
+      vId: route._vehicle_id,
+      routeTimeTableId: route._rtt_id,
 
     }
-    if (route._route_id) {
+    if (route._rtt_id) {
       this.common.params = {
-        title: 'Delete Route Time',
+        title: 'Delete Vehicle Route Time',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
@@ -222,12 +262,12 @@ export class RouteTimeTableComponent implements OnInit {
         if (data.response) {
           console.log("data", data);
           this.common.loading++;
-          this.api.post('ViaRoutes/deleteTimeTable', params)
+          this.api.post('ViaRoutes/deleteVehTimeTableAssoc', params)
             .subscribe(res => {
               this.common.loading--;
               if (res['data'][0].y_id > 0) {
                 this.common.showToast('Success');
-                this.getRouteTimeTableViews();
+                this.getVehicleRouteTimeTable();
               }
               else {
                 this.common.showToast(res['data'][0].y_msg);
@@ -241,6 +281,7 @@ export class RouteTimeTableComponent implements OnInit {
       });
     }
   }
+
 
 
 }

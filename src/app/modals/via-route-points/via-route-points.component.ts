@@ -31,8 +31,7 @@ export class ViaRoutePointsComponent implements OnInit {
   mapName = null;
   kms = null;
   long = null;
-  route;
-  // selected = 0;
+  radius = null;
   siteId;
   routeId = null;
   routeData = {
@@ -47,6 +46,7 @@ export class ViaRoutePointsComponent implements OnInit {
   keepGoing = true;
   type = "0";
   routeName = null;
+  circle = null;
 
   constructor(private activeModal: NgbActiveModal,
     public mapService: MapService,
@@ -55,9 +55,8 @@ export class ViaRoutePointsComponent implements OnInit {
     private zone: NgZone,
     private cdr: ChangeDetectorRef,
     public modalService: NgbModal) {
-    this.route = this.common.params.route;
     this.routeName = this.common.params.route.name;
-    this.routeId = this.route._id;
+    this.routeId = this.common.params.route._id;
 
     this.viewTable();
     console.log("RouteID-->", this.routeId);
@@ -122,6 +121,19 @@ export class ViaRoutePointsComponent implements OnInit {
     this.routeData.long = place.long;
     this.siteNamee = place.location || place.name;
     this.createMarkers(this.routeData.lat, this.routeData.long, 'map');
+    this.mapService.zoomAt(this.mapService.createLatLng(this.routeData.lat, this.routeData.long), 13)
+
+  }
+  setRadius() {
+    if (this.circle) {
+      this.circle.setMap(null);
+      this.circle = null;
+    }
+    console.log("test", this.mapService.createLatLng(this.routeData.lat, this.routeData.long), this.radius);
+    this.mapService.zoomAt(this.mapService.createLatLng(this.routeData.lat, this.routeData.long), 13)
+
+    this.circle = this.mapService.createCirclesOnPostion(this.mapService.createLatLng(this.routeData.lat, this.routeData.long), this.radius);
+
 
   }
 
@@ -172,7 +184,8 @@ export class ViaRoutePointsComponent implements OnInit {
     this.routeData.lat = null;
     this.routeData.long = null;
     this.type = "0";
-    console.log("Value are Null", this.latlong);
+    this.radius = null;
+    this.circle = null;
   }
   clickDelete(name, i) {
     if (confirm("Are you sure to delete ->" + name)) {
@@ -187,7 +200,9 @@ export class ViaRoutePointsComponent implements OnInit {
         console.log('res', res['data']);
         let data = res['data'];
         this.tableData = data;
-        this.createrouteMarker();
+        if (this.tableData && this.tableData.length) {
+          this.createrouteMarker();
+        }
 
       }, err => {
         this.common.loading--;
@@ -253,6 +268,8 @@ export class ViaRoutePointsComponent implements OnInit {
     this.routeData.long = site.long;
     this.routeData.siteName = site.name;
     this.createMarkers(this.routeData.lat, this.routeData.long, 'site');
+    this.mapService.zoomAt(this.mapService.createLatLng(this.routeData.lat, this.routeData.long), 13)
+
 
   }
   sendRoute() {
@@ -273,6 +290,7 @@ export class ViaRoutePointsComponent implements OnInit {
       name: this.siteNamee,
       rowId: this.rowId,
       type: this.type,
+      radius: this.radius,
     };
     if (this.siteNamee == null || this.siteNamee.length > 100) {
       this.common.showToast("Please Enter Location");
@@ -334,6 +352,8 @@ export class ViaRoutePointsComponent implements OnInit {
 
   }
   editRow(i) {
+    console.log("table", this.tableData[i]);
+
     this.editId = -1;
     if (this.tableData[i]._site_id > 0) {
       this.locType = "site";
@@ -344,37 +364,34 @@ export class ViaRoutePointsComponent implements OnInit {
       this.locType = "site";
 
       this.kms = this.tableData[i].kms;
-      // document.getElementById("site")['value'] = this.tableData[i]._name;
       this.routeData.siteId = this.tableData[i]._site_id;
-      this.routeData.lat = this.tableData[i]._lat;
-      this.routeData.long = this.tableData[i]._long;
+      this.routeData.lat = this.tableData[i].lat;
+      this.routeData.long = this.tableData[i].long;
       this.routeData.siteName = this.tableData[i]._name;
       this.type = this.tableData[i]._type + "";
       console.log("route data--->", this.routeData);
       this.rowId = this.tableData[i]._id;
+      this.radius = this.tableData[i].radius;
 
     }
     else {
       this.locType = "map";
-      // this.mapName = this.tableData[i].name;
       this.kms = this.tableData[i].kms;
-      this.latilong = this.tableData[i]._lat + ',' + this.tableData[i]._long;
+      this.latilong = this.tableData[i].lat + ',' + this.tableData[i].long;
       this.mapName = this.tableData[i]._name;
-      // document.getElementById("map")['value'] = this.tableData[i]._name;
       this.siteId = this.tableData[i]._site_id;
-      this.lat = this.tableData[i]._lat;
-      this.long = this.tableData[i]._long;
+      this.routeData.lat = this.tableData[i].lat;
+      this.routeData.long = this.tableData[i].long;
       this.siteNamee = this.tableData[i]._name;
       this.rowId = this.tableData[i]._id;
       this.type = this.tableData[i]._type + "";
-
+      this.radius = this.tableData[i].radius;
 
     }
+    this.setRadius();
 
   }
-  editTableRow() {
 
-  }
   cancelEdit() {
     this.editId = null;
     this.kms = null;
