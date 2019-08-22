@@ -371,7 +371,7 @@
           <td>
             <input type="number" class=" ref-input" autocomplete="off" name="account-qty" [id]="'qty-' + i"
               (input)="amountDetail.lineamount = amountDetail.amount = amountDetail.qty * amountDetail.rate;"
-              [(ngModel)]="amountDetail.qty" placeholder="Please Enter Quantity">
+            [(ngModel)]="amountDetail.qty"   placeholder="Please Enter Quantity">
 
             <!-- {{findStockitem(order.amountDetails[i].stockitem.id)}} -->
           </td>

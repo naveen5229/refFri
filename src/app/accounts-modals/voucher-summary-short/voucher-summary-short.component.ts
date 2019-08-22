@@ -17,6 +17,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 })
 export class VoucherSummaryShortComponent implements OnInit {
   permanentDeleteId = 0;  
+  sizeIndex=0;
   alltotal = 0;
   narration = '';
   tripVoucher;
@@ -80,6 +81,9 @@ export class VoucherSummaryShortComponent implements OnInit {
     if (this.VoucherId == 0) {
       console.log('add again', this.VoucherId);
       this.trips = this.common.params.tripDetails;
+    }
+    if(this.common.params.sizeIndex) {
+      this.sizeIndex=this.common.params.sizeIndex;
     }
     if(this.common.params.typeFlag) { this.typeFlag=this.common.params.typeFlag; }
     this.permanentDeleteId=(this.common.params.permanentDelete) ? this.common.params.permanentDelete:0;
@@ -148,7 +152,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       this.VoucherData = this.common.params.VoucherData;
     }
 
-    this.common.handleModalSize('class', 'modal-lg', '1150');
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeIndex);
     this.getcreditLedgers('credit');
     this.getDriveLedgers('credit');
   }
