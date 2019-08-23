@@ -638,7 +638,7 @@ export class VoucherSummaryShortComponent implements OnInit {
     };
 
     console.log('params 1 : ', voucherDetailArray);
-    this.common.loading++;
+    //this.common.loading++;
     this.updateVoucherTrip(voucherDetailArray, this.tripexpvoucherid);
 
     // this.api.post('Voucher/InsertVoucher', params)
