@@ -726,6 +726,13 @@ export class OrderComponent implements OnInit {
         this.handleArrowUpDown(key);
         event.preventDefault();
       }
+    }else if ((this.activeId == 'date' || this.activeId == 'biltydate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     }
   }
 
