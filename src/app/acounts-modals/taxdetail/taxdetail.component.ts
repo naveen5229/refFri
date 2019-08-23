@@ -161,9 +161,12 @@ console.log('size index',this.sizeIndex);
         if (activeId.includes('taxrate')) this.setFoucus('taxamount-' + index);
         if (activeId.includes('taxamount')){
          console.log('total length of text detail',this.taxdetails.length,'actv id',activeId);
-        //  if((count(this.taxdetails)) == (index+1)){
-        //   this.showConfirm = true;
-        //  }
+         let totallenth =this.taxdetails.length;
+         if(totallenth == ( parseInt(index)+1)){
+          this.showConfirm = true;
+         }else{
+          this.setFoucus('taxledger-' + (parseInt(index)+1));
+         }
         }
         
 
@@ -298,7 +301,7 @@ console.log('size index',this.sizeIndex);
   calculateTotal() {
     let total = 0;
     this.taxdetails.map(taxdetail => {
-       console.log('taxdetail Amount: ',  taxdetail);
+       //console.log('taxdetail Amount: ',  taxdetail);
       total += taxdetail.taxamount;
       this.taxdetails[0].totalamount=  total;
     });
