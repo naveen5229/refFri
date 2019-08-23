@@ -31,8 +31,8 @@
 
     <div class="search mt-2">
       <label> Select Employee Name</label>
-      <auto-suggestion (onSelected)="getUserPages($event)" url="UserRoles/getActiveAdminUsers" display="employeename"
-        placeholder="Employee" [preSelected]="null"></auto-suggestion>
+      <auto-suggestion (onSelected)="getUserPages($event)" [data]="getUsersList" display="employeename"
+        placeholder="Employee" [preSelected]="null" inputId="employeename"></auto-suggestion>
     </div>
     <div class="container">
       <div *ngFor="let section of sections; let j = index;">
