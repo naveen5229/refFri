@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+import { RoutesTimetableComponent } from '../../modals/routes-timetable/routes-timetable.component';
 
 @Component({
   selector: 'route-dashboard',
@@ -16,6 +17,9 @@ export class RouteDashboardComponent implements OnInit {
     data: {
       headings: {},
       columns: [],
+    },
+    settings:{
+      hideHeader:true
     }
   };
   constructor(public api: ApiService,
@@ -65,11 +69,12 @@ export class RouteDashboardComponent implements OnInit {
       endLocation: { title: 'Last Location', placeholder: 'Last Location' },
       lastTime: { title: 'Last Exit Time', placeholder: 'Last Exit Time' },
       currentLocation: { title: 'Current Location', placeholder: 'Current Location' },
+      currentLocationTime: { title: 'CL Time', placeholder: 'CL Time' },
       nextLocation: { title: 'Next Location', placeholder: 'Next Location' },
-      distanceRemaining: { title: 'distance Remaining ', placeholder: 'distance Remaining' },
+      distanceRemaining: { title: 'Distance Remaining ', placeholder: 'Distance Remaining' },
       etoa: { title: 'ETOA ', placeholder: 'ETOA' },
       startDelay: { title: 'Start  delay ', placeholder: 'Start  delay' },
-      totalDelay: { title: 'Total  delay ', placeholder: 'Toatl  delay' },
+      totalDelay: { title: 'Total  delay ', placeholder: 'Total  delay' },
       action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'del' },
 
     };
@@ -98,6 +103,7 @@ export class RouteDashboardComponent implements OnInit {
         endLocation: { value: route.l_name ? route.l_name : '-', action: this.viewlocation.bind(this, route) },
         lastTime: { value: route.l_end_time ? this.common.changeDateformat2(route.l_end_time) : '-', action: this.viewlocation.bind(this, route) },
         currentLocation: { value: route.c_name ? route.c_name : '-', action: this.viewlocation.bind(this, route) },
+      currentLocationTime: { value:route.c_start_time ? this.common.changeDateformat2(route.c_start_time):'-'},
         nextLocation: { value: route.n_name ? route.n_name : '-', action: this.viewlocation.bind(this, route) },
         distanceRemaining: { value: route.n_dist_rem ? route.n_dist_rem : '-' },
         etoa: { value: route.etoa_next ? this.common.changeDateformat2(route.etoa_next) : '-', },
@@ -125,8 +131,12 @@ export class RouteDashboardComponent implements OnInit {
   actionIcons(route) {
     let icons = [
       {
-        class: " icon fa fa-route",
+        class: " fa fa-route mr-2",
         action: this.openRouteMapper.bind(this, route),
+      },
+      {
+        class:"fas fa-truck-moving",
+        action: this.viewRouteTimeTable.bind(this, route),
       },
     ]
     return icons;
@@ -166,5 +176,16 @@ export class RouteDashboardComponent implements OnInit {
     };
     this.common.params = { location, title: "Vehicle Location" };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });
+  }
+
+  viewRouteTimeTable(route){
+
+   let routeTime = {
+      vehicleId:route.v_id,
+      routeId:route.route_id,
+      routeTimeId:route.tt_id
+    };
+    this.common.params = { routeTime};
+    const activeModal = this.modalService.open(RoutesTimetableComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });
   }
 }

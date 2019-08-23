@@ -52,7 +52,6 @@ export class VehicleOdometerComponent implements OnInit {
   }
 
   changeState() {
-    console.log("state:", this.State);
     if (this.State == '0') {
       this.data = [];
       this.table = {
@@ -80,12 +79,9 @@ export class VehicleOdometerComponent implements OnInit {
     };
     this.headings = [];
     this.valobj = {};
-
-
     const params = "isSummary=" + this.State +
       "&startTime=" + this.common.dateFormatter(this.startTime) +
       "&endTime=" + this.common.dateFormatter(this.endTime);
-    console.log("param:", params);
     this.common.loading++;
     this.api.get('Vehicles/showManualKmData?' + params)
       .subscribe(res => {
@@ -129,7 +125,6 @@ export class VehicleOdometerComponent implements OnInit {
     const params = "vehicleId=" + this.vehicleId + "&isSummary=" + this.State +
       "&startTime=" + this.common.dateFormatter(this.startTime) +
       "&endTime=" + this.common.dateFormatter(this.endTime);
-    console.log("param:", params);
     this.common.loading++;
     this.api.get('Vehicles/showManualKmData?' + params)
       .subscribe(res => {
@@ -160,31 +155,21 @@ export class VehicleOdometerComponent implements OnInit {
   }
 
   getTableColumns() {
-
     let columns = [];
-    console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
-
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
       }
       this.valobj['action'] = { class: '', icons: this.actionIcons(doc) };
-
       columns.push(this.valobj);
-
     });
-
     return columns;
   }
 
 
   actionIcons(details) {
-    console.log("detatis Page:", details);
     let icons = [];
-
     if (details._id) {
       icons.push(
         {
@@ -209,11 +194,10 @@ export class VehicleOdometerComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
-  openOdoMeter(row) {
-    let vehicleId = row._vid;
-    let regno = row.Vehicle;
+  openOdoMeter(odo) {
+    let vehicleId = odo._vid;
+    let regno = odo.Vehicle;
     this.common.params = { vehicleId, regno };
-    console.log('Param', this.common.params);
     const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.changeState();
@@ -222,15 +206,12 @@ export class VehicleOdometerComponent implements OnInit {
   }
 
 
-  remove(row) {
-    console.log("row", row);
-
-
+  remove(odo) {
     let params = {
-      id: row._id,
-      vehicleId: row._vid,
+      id: odo._id,
+      vehicleId: odo._vid,
     }
-    if (row._id) {
+    if (odo._id) {
       this.common.params = {
         title: 'Delete Route ',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
@@ -238,7 +219,6 @@ export class VehicleOdometerComponent implements OnInit {
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          console.log("data", data);
           this.common.loading++;
           this.api.post('Vehicles/deleteOdometerEntry', params)
             .subscribe(res => {
@@ -268,10 +248,8 @@ export class VehicleOdometerComponent implements OnInit {
 
 
   getvehicleData(vehicle) {
-    console.log("Data::", vehicle);
     this.vehicleId = vehicle.id;
     this.vehicleRegno = vehicle.regno;
-    console.log('Vehicle Data: ', this.vehicleId);
   }
 
   refreshAuto() {
@@ -281,14 +259,10 @@ export class VehicleOdometerComponent implements OnInit {
       this.vehicleId = null;
     }
   }
+
   resetData(event) {
     this.vehicleId = null;
     console.log(event);
   }
-
-
-
-
-
 
 }
