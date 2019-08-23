@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   template: `
     <ngx-sample-layout>
     
-       <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
+       <nb-menu [items]="user._menu.pages" autoCollapse="true"></nb-menu>
      
       <router-outlet></router-outlet>
     </ngx-sample-layout>
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 })
 export class PagesComponent {
 
-  menu = MENU_ITEMS;
+  // menu = MENU_ITEMS;
 
   constructor(public menuService: NbMenuService,
     public api: ApiService,
@@ -30,7 +30,6 @@ export class PagesComponent {
     public router: Router,
 
   ) {
-    console.log('Menu:', this.menuService);
     if (!this.accountService.branches.length) {
       this.getBranches();
       this.getFinancial();

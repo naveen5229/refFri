@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-
+import { MENU_ITEMS } from '../pages/pages-menu';
 
 @Injectable({
   providedIn: 'root'
@@ -101,7 +101,6 @@ export class UserService {
     //   { id: 64, route: '/admin/beehive' },
     //   { id: 65, route: '/admin/battery-modals' },
     //   { id: 66, route: '/admin/fo-fuel-average' },
-
     // ]
   }
 
@@ -133,6 +132,35 @@ export class UserService {
       });
 
     console.log('Menu::::', this._menu.admin);
+
+    this._menu.pages = MENU_ITEMS
+      .map((menuItem) => {
+        if (menuItem.children) {
+          menuItem.children = menuItem.children.filter(childItem => {
+            if (this._pages.find(page => {
+              if (childItem.link == page.route) return true;
+              return false;
+            }))
+              return true;
+            return false;
+          });
+        }
+        return menuItem;
+      })
+      .filter(menuItem => {
+        if (menuItem.link) {
+          if (this._pages.find(page => {
+            if (menuItem.link == page.route) return true;
+            return false;
+          }))
+            return true;
+          return false;
+        } else if (!menuItem.children.length) return false;
+        return true;
+      });
+
+    console.log('Menu Pages::::', this._menu.pages);
+
   }
 
 }

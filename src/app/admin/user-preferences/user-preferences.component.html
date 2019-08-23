@@ -36,8 +36,10 @@
     </div>
     <div class="container">
       <div *ngFor="let section of sections; let j = index;">
-        <div><input type="checkbox" [name]="'section-' + j" [(ngModel)]="section.isSelected"
-            (change)="checkOrUnCheckAll(j)"> {{section.title | uppercase}}</div>
+        <div class="section-div">
+          <input type="checkbox" [ngClass]="section.isSelected? 'section-box' : ''" [name]="'section-' + j"
+            [(ngModel)]="section.isSelected" (change)="checkOrUnCheckAll(j)"> {{section.title}}
+        </div>
         <div class="row">
           <div class="col-3" *ngFor="let page of pagesGroups[section.title]; let i = index;">
             <input type="checkbox" [name]="section + '-page-' + i" [id]="section + '-page-' + i"
