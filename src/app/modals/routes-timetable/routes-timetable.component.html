@@ -22,9 +22,9 @@
       <tr *ngFor="let data of routesDetails; let i = index;">
         <td>({{data.loc_name}}) {{data.name}}</td>
         <td style="color:#000000">(Day {{data.Day}})
-          {{ data.scheduled_arrival_time}}</td>
-        <td style="color:darkgreen">{{data.actualTime}}</td>
-        <td style="color: deepskyblue">{{data.departureTime}}</td>
+          {{common.changeDateformat(data.scheduled_arrival_time)}}</td>
+        <td style="color:darkgreen">{{common.changeDateformat(data.actualTime)}}</td>
+        <td style="color: deepskyblue">{{common.changeDateformat(data.departureTime)}}</td>
         <td *ngIf="data.delayTime" style="color:darkred">{{data.delayTime}}</td>
         <td *ngIf="!data.delayTime" class="blink">No Delay</td>
         <td style="color: red">{{data.scheduled_halt_time}}</td>
