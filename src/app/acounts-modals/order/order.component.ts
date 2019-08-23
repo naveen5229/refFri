@@ -27,6 +27,7 @@ export class OrderComponent implements OnInit {
   branchdata = [];
   orderTypeData = [];
   supplier = [];
+  sizeIndex=0;
   ledgers = { all: [], suggestions: [] };
   showSuggestions = false;
   activeLedgerIndex = -1;
@@ -135,7 +136,10 @@ export class OrderComponent implements OnInit {
     this.setFoucus('ordertype');
     this.getInvoiceDetail();
     // this.common.currentPage = 'Invoice';
-    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
+    if(this.common.params.sizeIndex){
+      this.sizeIndex=this.common.params.sizeIndex;
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeIndex);
     // console.log("open data ",this.invoiceDetail[]);
     this.getFreeze();
   }

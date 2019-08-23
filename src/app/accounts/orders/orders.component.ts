@@ -579,14 +579,7 @@ export class OrdersComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-           
-        
-        if (this.order.ordertype.id == -107 || this.order.ordertype.id == -106) {
-          this.setFoucus('qty' + '-' + 0);
-        }
-        else {
           this.setFoucus('purchaseledger');
-        }
       }
     } } else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
@@ -666,9 +659,7 @@ export class OrdersComponent implements OnInit {
           this.common.showError('Please fill correct amount');      
           this.setFoucus('rate'+index);
           }
-      else if (this.order.ordertype.id == -107 || this.order.ordertype.id == -106) {
-          this.setFoucus('submit');
-        }
+     
         else {
           this.setFoucus('remarks' + '-' + index);
         }
