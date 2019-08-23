@@ -230,9 +230,7 @@ export class ViaRoutesComponent implements OnInit {
     this.common.params = { routeData };
     const activeModal = this.modalService.open(RouteTimeTableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
-  getRouteTimeTable() {
-    const activeModal = this.modalService.open(RoutesTimetableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
+ 
 
 
 }

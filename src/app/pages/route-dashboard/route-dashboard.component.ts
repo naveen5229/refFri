@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+import { RoutesTimetableComponent } from '../../modals/routes-timetable/routes-timetable.component';
 
 @Component({
   selector: 'route-dashboard',
@@ -180,12 +181,11 @@ export class RouteDashboardComponent implements OnInit {
   viewRouteTimeTable(route){
 
    let routeTime = {
-      lat: route.v_lat ? route.v_lat : 0,
-      lng: route.v_long ? route.v_long : 0,
-      name: "",
-      time: ""
+      vehicleId:route.v_id,
+      routeId:route.route_id,
+      routeTimeId:route.tt_id
     };
-    this.common.params = { location};
-    const activeModal = this.modalService.open(LocationMarkerComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });
+    this.common.params = { routeTime};
+    const activeModal = this.modalService.open(RoutesTimetableComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });
   }
 }
