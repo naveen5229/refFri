@@ -4,9 +4,35 @@
   </nb-card-header>
 
   <nb-card-body style="min-height: 360px;">
-    <div class="search">
+    <div class="row">
+      <div class="col-3">
+        <label>Title</label>
+        <input type="text" class="form-control" id="title" name="title" [(ngModel)]="newPage.title">
+
+      </div>
+      <div class="col-3">
+        <label>Url</label>
+        <input type="text" class="form-control" id="url" name="url" [(ngModel)]="newPage.url">
+
+      </div>
+      <div class="col-3">
+        <label>Type</label>
+        <select [(ngModel)]="newPage.type" class="form-control">
+          <option value="Dashboard">Dashboard</option>
+          <option value="App">App</option>
+
+        </select>
+      </div>
+      <div class="col-3 mt-4">
+        <button type="submit" class="btn btn-primary m-0" name="add" (click)="createNewPage()">Add New Page</button>
+      </div>
+
+    </div>
+
+    <div class="search mt-2">
+      <label> Select Employee Name</label>
       <auto-suggestion (onSelected)="getUserPages($event)" url="UserRoles/getActiveAdminUsers" display="employeename"
-        placeholder="Search" [preSelected]="null"></auto-suggestion>
+        placeholder="Employee" [preSelected]="null"></auto-suggestion>
     </div>
     <div class="container">
       <div *ngFor="let section of sections; let j = index;">
@@ -19,56 +45,10 @@
           </div>
         </div>
       </div>
-      <p>
+      <p *ngIf="selectedUser.details">
         <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
       </p>
     </div>
 
   </nb-card-body>
 </nb-card>
-
-
-
-
-
-<!-- 
-
-<h4>Admin</h4>
-<hr>
-<div class="form-group admin">
-  
-    <label class="checkbox-inline">
-        <input type="checkbox" name="lrView" > LR View
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="statusChange" > vehicle status Change
-    </label>
-     
-    <label class="checkbox-inline">
-        <input type="checkbox" name="lrView" > issue Alert
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="statusChange" > Escalation Matrix
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="lrGenerate" > Lr Generate
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="groupManagement" > Group Management
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="ticket" >ticket Properties
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="lorryReceipt" >lorry-Receipt Details
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="diagnostics" > diagnostics
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="siteDetails" > Site Details
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="pending" > Pending Documents
-    </label>
-</div> -->

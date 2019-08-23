@@ -3,7 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { CommonService } from '../..//services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { DomSanitizer } from "@angular/platform-browser";
 @Component({
   selector: 'template-preview',
   templateUrl: './template-preview.component.html',
@@ -12,7 +12,8 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class TemplatePreviewComponent implements OnInit {
   template = {
     preview: null,
-    lrId: null,
+    refId: null,
+    refType: null,
   };
   title = '';
   constructor(public api: ApiService,
@@ -21,13 +22,15 @@ export class TemplatePreviewComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
     public renderer: Renderer,
-
+    private sanitizer: DomSanitizer
   ) {
+    this.common.handleModalSize('class', 'modal-lg', '1600');
     if (this.common.params && this.common.params.previewData) {
       console.log("params:", this.common.params);
 
       this.template.preview = this.common.params.previewData.previewId ? this.common.params.previewData.previewId : '';
-      this.template.lrId = this.common.params.previewData.lrId ? this.common.params.previewData.lrId : '';
+      this.template.refId = this.common.params.previewData.refId ? this.common.params.previewData.refId : '';
+      this.template.refType = this.common.params.previewData.refType ? this.common.params.previewData.refType : '';
       this.title = this.common.params.previewData.title ? this.common.params.previewData.title : 'Preview';
     }
     this.preview();
@@ -38,11 +41,11 @@ export class TemplatePreviewComponent implements OnInit {
 
   preview() {
     this.common.loading++;
-    this.api.get('userTemplate/preview?tId=' + this.template.preview + '&lrId=' + this.template.lrId)
+    this.api.get('userTemplate/preview?tId=' + this.template.preview + '&refid=' + this.template.refId + '&ref_type=' + this.template.refType)
       .subscribe(res => {
         --this.common.loading;
         console.log("preview : ", res['data']);
-        this.template.preview = res['data'];
+        this.template.preview = this.sanitizer.bypassSecurityTrustHtml(res['data']);
         //console.log("preview : ",this.template.preview)
       })
   }
@@ -50,7 +53,7 @@ export class TemplatePreviewComponent implements OnInit {
   closeModal() {
     this.activeModal.close({ ex: 'Modal has been closed' });
   }
-  onPrint() {
+  onPrint(id) {
     this.renderer.setElementClass(document.body, 'test', true);
     window.print();
     this.renderer.setElementClass(document.body, 'test', false);

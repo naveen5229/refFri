@@ -205,7 +205,7 @@ export class OrderdetailComponent implements OnInit {
                   id: taxdetail.y_ledger_id,
                 },
                 taxrate: taxdetail.y_rate,
-                taxamount: taxdetail.y_amount,
+                taxamount: parseFloat(taxdetail.y_amount),
                 totalamount: 0
               };
 

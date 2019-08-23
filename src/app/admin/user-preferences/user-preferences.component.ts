@@ -11,9 +11,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class UserPreferencesComponent implements OnInit {
 
-  form: FormGroup;
-
-
   data = [];
   selectedUser = {
     details: null,
@@ -23,21 +20,27 @@ export class UserPreferencesComponent implements OnInit {
   sections = [];
   pagesGroups = {};
 
+  newPage = {
+    title: null,
+    url: null,
+    type: 'Dashboard',
+  }
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal,
     private formBuilder: FormBuilder) {
-      this.common.refresh=this.refresh.bind(this);
-      
- 
+    this.common.refresh = this.refresh.bind(this);
+
+
   }
 
 
   ngOnInit() {
   }
 
-  refresh(){
+  refresh() {
     console.log("Refresh");
   }
 
@@ -84,7 +87,7 @@ export class UserPreferencesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res);
-        
+
         this.data = res['data'];
         console.log("Res Data:", this.data)
 
@@ -133,16 +136,35 @@ export class UserPreferencesComponent implements OnInit {
     this.sections.map(section => {
       console.log('Pages: ', this.pagesGroups[section.title]);
       this.pagesGroups[section.title].map(page => {
-        if (page.isSelected) {       
-          data.push({ id: page.id, status:1 });
-        } 
-        else{
-          data.push({id:page.id, status:0});
+        if (page.isSelected) {
+          data.push({ id: page.id, status: 1 });
+        }
+        else {
+          data.push({ id: page.id, status: 0 });
         }
       })
-    
+
     });
     return data;
+  }
+
+  createNewPage() {
+    let params = {
+      title: this.newPage.title,
+      route: this.newPage.url,
+      type: this.newPage.type
+
+    };
+    this.common.loading++;
+    this.api.post('UserRoles/insertNewPageDetails', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res: ', res);
+        this.common.showToast(res['msg'])
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+      })
   }
 
 }

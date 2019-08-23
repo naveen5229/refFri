@@ -94,7 +94,7 @@
           <label class="fill-elt">Date
             <span class="requiredfield">*</span>
           </label>
-          <input name="date" id="date" [(ngModel)]="filldate" autocomplete="off" class="form-control fill-elt"
+          <input name="date" id="fuelDate" [(ngModel)]="showDate" autocomplete="off" class="form-control fill-elt"
             (click)="getDate()" #dateField="ngModel" required>
           <div *ngIf="isFormSubmit && dateField.errors" class="invalid-feedback">
             <span [hidden]="!dateField.errors.required">Date Required</span>
