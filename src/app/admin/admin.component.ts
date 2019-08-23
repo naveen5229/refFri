@@ -16,13 +16,12 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./admin.scss'],
   template: `
     <ngx-sample-layout class="admin">
-      <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
+      <nb-menu [items]="user._menu.admin" autoCollapse="true"></nb-menu>
       <router-outlet class="admin-dot"></router-outlet>
     </ngx-sample-layout>
   `,
 })
 export class AdminComponent {
-  menu = this.common.menuGenerator('admin');
   constructor(public common: CommonService,
     public user: UserService,
     public api: ApiService,
