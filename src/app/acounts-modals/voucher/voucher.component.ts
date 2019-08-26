@@ -1133,7 +1133,7 @@ export class VoucherComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.getStockItems();
-        this.activeModal.close({ response: true, ledger: this.voucher });
+        this.activeModal.close({ response: true, delete:'true' });
         if (type == 1 && typeans == 'true') {
           this.common.showToast(" This Value Has been Deleted!");
         } else if (type == 1 && typeans == 'false') {
@@ -1169,7 +1169,7 @@ export class VoucherComponent implements OnInit {
               this.common.loading--;
               console.log('res: ', res);
               //this.getStockItems();
-              this.activeModal.close({ response: true, ledger: this.voucher });
+              this.activeModal.close({ response: true, delete: 'true' });
               this.common.showToast(" This Value Has been Deleted!");
             }, err => {
               this.common.loading--;
