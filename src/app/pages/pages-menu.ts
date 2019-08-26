@@ -160,6 +160,11 @@ export const PAGES_MENU_ITEMS: NbMenuItem[] = [
         icon: 'far fa-user',
         link: '/pages/web-acttivity-summary'
       },
+      {
+        title: 'Fo User Role',
+        icon: 'fas fa-user-cog',
+        link: '/pages/fo-user-role',
+      },
     ]
   },
   {

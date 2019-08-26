@@ -13,18 +13,13 @@ export class RouteGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('---------------------Route Guards------------------------');
-    console.log('Next', next);
-    console.log('State', state);
-    console.log('-----------------------Route Guards----------------------');
+    // console.log('---------------------Route Guards------------------------');
+    // console.log('Next', next);
+    // console.log('State', state);
+    // console.log('-----------------------Route Guards----------------------');
 
     return this.checkRouteAccessPermission(state.url);
-    // if (!this.user._token) {
-    //   this.router.navigate(['/auth/login']);
-    //   return false;
-    // } else {
-    //   return true;
-    // }
+
   }
 
   checkRouteAccessPermission(route) {

@@ -61,13 +61,15 @@ export class AppComponent implements OnInit {
         this.common.loading--;
         this.user._pages = res['data'].filter(page => { return page.userid; });
         localStorage.setItem('DOST_USER_PAGES', JSON.stringify(this.user._pages));
-        console.log('USER PAGES:', this.user._pages.route);
+        console.log('USER PAGES:', this.user._pages);
         // let type=this.user._pages[0].route
         this.user.filterMenu("pages", "pages");
         this.user.filterMenu("admin", "admin");
         this.user.filterMenu("tyres", "tyres");
         this.user.filterMenu("battery", "battery");
-        this.user.filterMenu("maintenance", "maintenance");
+        this.user.filterMenu("vehicleMaintenance", "vehicleMaintenance");
+        this.user.filterMenu("wareHouse", "wareHouse");
+
 
 
 

@@ -62,7 +62,6 @@ export class UserPreferencesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.getUsersList = res['data'];
-        console.log("api Data:", this.data)
 
       }, err => {
         this.common.loading--;
@@ -73,7 +72,6 @@ export class UserPreferencesComponent implements OnInit {
 
 
   getUserPages(user) {
-    console.log("user Data:", user);
 
     // this.selectedUser.details = user;
     // console.log('User: ', user);

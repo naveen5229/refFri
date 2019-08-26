@@ -5,6 +5,7 @@ import { ADMIN_MENU_ITEMS } from '../admin/admin-menu';
 import { TYRES_MENU_ITEMS } from '../tyres/tyres-menu';
 import { BATTERY_MENU_ITEMS } from '../battery/battery-menu';
 import { MAINTENANCE_MENU_ITEMS } from '../vehicle-maintenance/vehicle-maintenance-menu';
+import { WAREHOUSE_MENU_ITEMS } from '../ware-house/ware-house-menu';
 
 
 @Injectable({
@@ -26,7 +27,8 @@ export class UserService {
     pages: [],
     tyres: [],
     battery: [],
-    maintenance: [],
+    vehicleMaintenance: [],
+    wareHouse: [],
   };
 
   menuCollection = {
@@ -34,7 +36,8 @@ export class UserService {
     pages: PAGES_MENU_ITEMS,
     tyres: TYRES_MENU_ITEMS,
     battery: BATTERY_MENU_ITEMS,
-    maintenance: MAINTENANCE_MENU_ITEMS
+    vehicleMaintenance: MAINTENANCE_MENU_ITEMS,
+    wareHouse: WAREHOUSE_MENU_ITEMS
   }
 
   constructor() {
@@ -54,7 +57,6 @@ export class UserService {
   }
 
   filterMenu(type?, collection?) {
-    console.log("type", type, "Collection Type", collection);
 
     this._menu[type] = this.menuCollection[collection]
       .map((menuItem) => {

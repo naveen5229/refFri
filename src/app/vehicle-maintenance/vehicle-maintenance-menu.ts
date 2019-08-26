@@ -4,7 +4,7 @@ export const MAINTENANCE_MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Home Dashboard',
         icon: 'fa fa-home',
-        link: '/pages/dashbord',
+        link: '/pages/dashboard',
         home: true,
     },
     {
@@ -25,18 +25,7 @@ export const MAINTENANCE_MENU_ITEMS: NbMenuItem[] = [
         link: '/vehicle-maintenance/maintenance-summary',
         home: true,
     },
-    // {
-    //     title: 'Model Service',
-    //     icon: 'fa fa-home',
-    //     link: '/vehicle-maintenance/view-modal-service',
-    //     home: true,
-    // },
-    // {
-    //     title: 'Model Sub Service',
-    //     icon: 'fa fa-home',
-    //     link: '/vehicle-maintenance/view-sub-modal-service',
-    //     home: true,
-    // },
+
 ];
 
 // export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [
