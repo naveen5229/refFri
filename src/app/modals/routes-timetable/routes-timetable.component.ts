@@ -17,13 +17,13 @@ export class RoutesTimetableComponent implements OnInit {
     public common: CommonService,
     public activeModal: NgbActiveModal,
     public modalService: NgbModal) {
-      console.log("test",this.common.params.routeTime.routeId);
-      
-      if(this.common.params && this.common.params.routeTime){
-        this.vehId=this.common.params.routeTime.vehicleId;
-        this.routeId=this.common.params.routeTime.routeId;
-        this.routeTTId=this.common.params.routeTime.routeTimeId;
-      }
+    console.log("test", this.common.params.routeTime.routeId);
+
+    if (this.common.params && this.common.params.routeTime) {
+      this.vehId = this.common.params.routeTime.vehicleId;
+      this.routeId = this.common.params.routeTime.routeId;
+      this.routeTTId = this.common.params.routeTime.routeTimeId;
+    }
 
     this.getRoutes();
   }
@@ -36,7 +36,7 @@ export class RoutesTimetableComponent implements OnInit {
       routeId: this.routeId,
       routeTtId: this.routeTTId,
     }
-    
+
     this.common.loading++;
     this.api.post('ViaRoutes/getVehicleTimeTable', params)
       .subscribe(res => {
