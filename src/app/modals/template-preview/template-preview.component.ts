@@ -44,7 +44,7 @@ export class TemplatePreviewComponent implements OnInit {
     this.api.get('userTemplate/preview?tId=' + this.template.preview + '&refid=' + this.template.refId + '&ref_type=' + this.template.refType)
       .subscribe(res => {
         --this.common.loading;
-        console.log("preview : ", res['data']);
+        // console.log("preview : ", res['data']);
         this.template.preview = this.sanitizer.bypassSecurityTrustHtml(res['data']);
         //console.log("preview : ",this.template.preview)
       })
@@ -53,12 +53,42 @@ export class TemplatePreviewComponent implements OnInit {
   closeModal() {
     this.activeModal.close({ ex: 'Modal has been closed' });
   }
+
+
   onPrint(id) {
     this.renderer.setElementClass(document.body, 'test', true);
     window.print();
     this.renderer.setElementClass(document.body, 'test', false);
-
   }
+
+  printHandler() {
+    this.renderer.setElementClass(document.body, 'test', true);
+    let css = '@page { size: landscape !important; }';
+    let head = document.head || document.getElementsByTagName('head')[0];
+    let style = document.createElement('style');
+
+    style.type = 'text/css';
+    style.media = 'print';
+
+    if (style['styleSheet']) {
+      style['styleSheet'].cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }
+
+    head.appendChild(style);
+
+    window.print();
+    let printWindowListener = setInterval(() => {
+      if (document.readyState == "complete") {
+        clearInterval(printWindowListener);
+        head.removeChild(style);
+        this.renderer.setElementClass(document.body, 'test', false);
+      }
+    }, 1000);
+  }
+
+
 
 
 
