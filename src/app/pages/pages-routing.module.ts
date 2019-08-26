@@ -502,7 +502,7 @@ const routes: Routes = [{
     path: 'route-dashboard',
     component: RouteDashboardComponent,
     canActivate: [AuthGuard]
-  }
+  },
   ],
 }];
 

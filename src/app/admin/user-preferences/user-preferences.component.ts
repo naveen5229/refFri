@@ -20,6 +20,12 @@ export class UserPreferencesComponent implements OnInit {
   sections = [];
   pagesGroups = {};
 
+  newPage = {
+    title: null,
+    url: null,
+    type: 'Dashboard',
+  }
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -140,6 +146,25 @@ export class UserPreferencesComponent implements OnInit {
 
     });
     return data;
+  }
+
+  createNewPage() {
+    let params = {
+      title: this.newPage.title,
+      route: this.newPage.url,
+      type: this.newPage.type
+
+    };
+    this.common.loading++;
+    this.api.post('UserRoles/insertNewPageDetails', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res: ', res);
+        this.common.showToast(res['msg'])
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+      })
   }
 
 }
