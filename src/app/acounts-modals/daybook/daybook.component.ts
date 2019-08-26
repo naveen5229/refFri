@@ -354,13 +354,15 @@ export class DaybookComponent implements OnInit {
   }
 
 
-  openVoucherEdit(voucherId) {
+  openVoucherEdit(voucherId, voucheradd, vchtypeid) {
     console.log('ledger123', voucherId);
     if (voucherId) {
       this.common.params = {
         voucherId: voucherId,
         delete: this.deletedId,
-        sizeIndex:1        
+        sizeIndex:1,
+        addvoucherid: voucheradd,
+        voucherTypeId: vchtypeid,
       };
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
