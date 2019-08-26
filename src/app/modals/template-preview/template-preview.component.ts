@@ -3,7 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { CommonService } from '../..//services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { DomSanitizer } from "@angular/platform-browser";
 @Component({
   selector: 'template-preview',
   templateUrl: './template-preview.component.html',
@@ -22,7 +22,7 @@ export class TemplatePreviewComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
     public renderer: Renderer,
-
+    private sanitizer: DomSanitizer
   ) {
     this.common.handleModalSize('class', 'modal-lg', '1600');
     if (this.common.params && this.common.params.previewData) {
@@ -45,7 +45,7 @@ export class TemplatePreviewComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log("preview : ", res['data']);
-        this.template.preview = res['data'];
+        this.template.preview = this.sanitizer.bypassSecurityTrustHtml(res['data']);
         //console.log("preview : ",this.template.preview)
       })
   }

@@ -2,7 +2,6 @@
   <h5 class="modal-title" id="modal-basic-title">Via Route Points</h5>
   <label style="padding-left: 28px; padding-top:4px">
     Route Name:
-
     <i class="fas fa-route"></i>
     {{routeName}}
   </label>
@@ -65,8 +64,8 @@
               <span>Meter</span>
             </td>
           </tr>
-
         </tbody>
+
         <div class="row">
           <div class="col-4"></div>
           <div class="col-8 text-right">
@@ -76,13 +75,10 @@
             <button *ngIf="this.editId == -1" type="button" class="btn btn-primary add-route ml-2"
               (click)="cancelEdit()" style="margin-top:10px;">CANCEL</button>
           </div>
-
         </div>
       </table>
 
-
       <div class="container">
-
         <div class="row-head">
           <div class="row m-0">
             <div class="col-th col-1"></div>
@@ -123,14 +119,13 @@
           <button *ngIf="tableData && tableData.length" class="btn btn-primary add-route  pt-1" (click)="updateOrder()"
             style="margin-top:3px;">Update Order</button>
         </div>
-
       </div>
-
     </div>
-    <div class="col-6 pl-0">
 
+    <div class="col-6 pl-0">
       <div id="map" style="width: 100%; height:68vh">
       </div>
     </div>
+
   </div>
 </div>

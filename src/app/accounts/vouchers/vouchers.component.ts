@@ -641,6 +641,13 @@ export class VouchersComponent implements OnInit {
       // console.log(index);
       // let transactionType = document.getElementById('trasactionn-type-' + index)['value'];
       let transactionType = this.voucher.amountDetails[index].transactionType;
+    } else  if ((activeId == 'voucher-date') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     }
   }
   vouchercostcenter() {
