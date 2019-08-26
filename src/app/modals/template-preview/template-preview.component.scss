@@ -3,6 +3,9 @@
       display: none !important;
     }
   }
+
+  @media print{@page {size: A4 landscape!important;}}
+  @media print{@page{font-size:8px}}
   
   print-section {
     z-index: 999;
