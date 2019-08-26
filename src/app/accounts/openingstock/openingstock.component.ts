@@ -69,6 +69,13 @@ export class OpeningstockComponent implements OnInit {
         this.setFoucus('submit');
       }
 
+    } else if ((this.activeId == 'date') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     }
     else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.openingStocks.length) {
       /************************ Handle Table Rows Selection ********************** */

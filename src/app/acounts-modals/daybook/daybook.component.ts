@@ -152,7 +152,8 @@ export class DaybookComponent implements OnInit {
     //  this.common.params = invoiceid;
     this.common.params = {
       invoiceid: invoiceid,
-      delete: this.deletedId
+      delete: this.deletedId,
+      sizeIndex:1
     };
     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

@@ -82,14 +82,14 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: 0,
+      qty: null,
       discountledger: { name: '', id: '0' },
       warehouse: { name: '', id: '' },
       taxDetails: [],
       remarks: '',
       lineamount: 0,
       discountate: 0,
-      rate: 0,
+      rate: null,
       amount: 0,
       defaultcheck:true
     }]
@@ -237,14 +237,14 @@ export class OrdersComponent implements OnInit {
           name: '',
           id: ''
         },
-        qty: 0,
+        qty: null,
         discountledger: { name: '', id: '' },
         warehouse: { name: '', id: '' },
         taxDetails: [],
         remarks: '',
         lineamount: 0,
         discountate: 0,
-        rate: 0,
+        rate: null,
         amount: 0,
         defaultcheck:true
       }]
@@ -263,14 +263,14 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: 0,
+      qty: null,
       discountledger: { name: '', id: '' },
       warehouse: { name: '', id: '' },
       taxDetails: [],
       remarks: '',
       lineamount: 0,
       discountate: 0,
-      rate: 0,
+      rate: null,
       amount: 0,
       defaultcheck:false
 
@@ -579,14 +579,7 @@ export class OrdersComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-           
-        
-        if (this.order.ordertype.id == -107 || this.order.ordertype.id == -106) {
-          this.setFoucus('qty' + '-' + 0);
-        }
-        else {
           this.setFoucus('purchaseledger');
-        }
       }
     } } else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
@@ -666,9 +659,7 @@ export class OrdersComponent implements OnInit {
           this.common.showError('Please fill correct amount');      
           this.setFoucus('rate'+index);
           }
-      else if (this.order.ordertype.id == -107 || this.order.ordertype.id == -106) {
-          this.setFoucus('submit');
-        }
+     
         else {
           this.setFoucus('remarks' + '-' + index);
         }
@@ -695,6 +686,13 @@ export class OrdersComponent implements OnInit {
       if (key.includes('arrowup') || key.includes('arrowdown')) {
         this.handleArrowUpDown(key);
         event.preventDefault();
+      }
+    }else if ((this.activeId == 'date' || this.activeId == 'biltydate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
       }
     }
 
@@ -1268,13 +1266,18 @@ export class OrdersComponent implements OnInit {
     } else if (activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      this.order.billingaddress = suggestion.address;
+      if(suggestion.address_count >1){
       this.getAddressByLedgerId(suggestion.id);
+      }else{
+      this.order.billingaddress = suggestion.address;
+      }
     } else if (activeId == 'purchaseledger') {
       console.log('>>>>>>>>>',suggestion);
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
      // this.getAddressByLedgerId(suggestion.id);
+     console.log('>>>>>>>>><<<<<<<<<',this.order.purchaseledger.id);
+
     } else if (activeId.includes('stockitem')) {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].stockitem.name = suggestion.name;

@@ -27,6 +27,7 @@ export class OrderComponent implements OnInit {
   branchdata = [];
   orderTypeData = [];
   supplier = [];
+  sizeIndex=0;
   ledgers = { all: [], suggestions: [] };
   showSuggestions = false;
   activeLedgerIndex = -1;
@@ -135,7 +136,10 @@ export class OrderComponent implements OnInit {
     this.setFoucus('ordertype');
     this.getInvoiceDetail();
     // this.common.currentPage = 'Invoice';
-    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
+    if(this.common.params.sizeIndex){
+      this.sizeIndex=this.common.params.sizeIndex;
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeIndex);
     // console.log("open data ",this.invoiceDetail[]);
     this.getFreeze();
   }
@@ -726,6 +730,13 @@ export class OrderComponent implements OnInit {
         this.handleArrowUpDown(key);
         event.preventDefault();
       }
+    }else if ((this.activeId == 'date' || this.activeId == 'biltydate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     }
   }
 
@@ -789,10 +800,11 @@ export class OrderComponent implements OnInit {
 
   getPurchaseLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: ((this.order.ordertype.id==-104) || (this.order.ordertype.id==-106 )) ? 'sales':'purchase'
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedger', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -807,10 +819,11 @@ export class OrderComponent implements OnInit {
 
   getSupplierLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: 'other'
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedgerAddress', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -1085,8 +1098,11 @@ export class OrderComponent implements OnInit {
     } else if (activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      // this.order.billingaddress = suggestion.address;
-      this.getAddressByLedgerId(suggestion.id);
+      if(suggestion.address_count >1){
+        this.getAddressByLedgerId(suggestion.id);
+        }else{
+        this.order.billingaddress = suggestion.address;
+        }
     } else if (activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
@@ -1426,7 +1442,7 @@ let invoiceJson={};
       invoiceDetail.taxDetails.map((taxDetail, index) => {
         rows.push([
           { txt: taxDetail.taxledger.name  || '' ,'colspan':3,align:'right'},
-          { txt: taxDetail.taxamount || '','colspan':3 ,align:'right'},
+          { txt: parseFloat(taxDetail.taxamount) || '','colspan':3 ,align:'right'},
           { txt:  '' },
           { txt:  '' }
         ]);

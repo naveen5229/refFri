@@ -124,6 +124,14 @@ export class MappedFuelVoucherComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
+     if ((this.activeId == 'startdate' || this.activeId == 'enddate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
+    }
     if ((key.includes('arrowup') || key.includes('arrowdown')) && this.voucherDetails.length) {
      
       /************************ Handle Table Rows Selection ********************** */
