@@ -8,42 +8,53 @@ import { AddVehicleMaintenanceComponent } from './add-vehicle-maintenance/add-ve
 // import { MaintenanaceDashboardComponent } from './maintenanace-dashboard/maintenanace-dashboard.component';
 import { MaintenanceSummaryComponent } from './maintenance-summary/maintenance-summary.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { RouteGuard } from '../guards/route.guard';
 
 const routes: Routes = [
-    
+
     {
-    path: '',
-    component: VehicleMaintenanceComponent,
-    children: [
-        {
-            path:'home',
-            component: DashboardComponent
-        },
-        {
-            path: 'add-vehicle-maintenance',
-            component: AddVehicleMaintenanceComponent,
-        },
-        // {
-        //     path: 'maintenanace-dashboard',
-        //     component: MaintenanaceDashboardComponent,
-        // },
-        {
-            path: 'maintenance-summary',
-            component: MaintenanceSummaryComponent,
-        },
-        {
-            path: 'view-modal-service',
-            component: ViewModalServiceComponent,
-        },
-        {
-            path: 'view-sub-modal-service',
-            component: ViewSubModalServiceComponent,
-        },
+        path: '',
+        component: VehicleMaintenanceComponent,
+        children: [
+            {
+                path: 'home',
+                component: DashboardComponent,
+                canActivate: [AuthGuard, RouteGuard]
+            },
+            {
+                path: 'add-vehicle-maintenance',
+                component: AddVehicleMaintenanceComponent,
+                canActivate: [AuthGuard, RouteGuard]
+
+            },
+            // {
+            //     path: 'maintenanace-dashboard',
+            //     component: MaintenanaceDashboardComponent,
+            // },
+            {
+                path: 'maintenance-summary',
+                component: MaintenanceSummaryComponent,
+                canActivate: [AuthGuard, RouteGuard]
+
+            },
+            {
+                path: 'view-modal-service',
+                component: ViewModalServiceComponent,
+                canActivate: [AuthGuard, RouteGuard]
+
+            },
+            {
+                path: 'view-sub-modal-service',
+                component: ViewSubModalServiceComponent,
+                canActivate: [AuthGuard, RouteGuard]
+
+            },
 
 
 
-    ],
-}];
+        ],
+    }];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

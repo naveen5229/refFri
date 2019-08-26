@@ -1,6 +1,6 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const PAGES_MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Trip',
     icon: 'fas fa-route',

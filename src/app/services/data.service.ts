@@ -12,12 +12,12 @@ export class DataService {
   public costRoutes = [];
 
   _menu = {
-    admin: this.setAdminpages()
+    admin: this.setAdminPages(),
   };
 
   constructor() { }
 
-  setAdminpages() {
+  setAdminPages() {
     return [
       {
         title: 'Dashboard',
@@ -361,10 +361,12 @@ export class DataService {
             link: '/admin/fuel-rules',
             home: true,
           },
-          {  title: 'Fo Model Fuel Milage',
-          icon: 'fa fa-safari',
-          link: '/admin/fo-fuel-average',
-          home: true, },
+          {
+            title: 'Fo Model Fuel Milage',
+            icon: 'fa fa-safari',
+            link: '/admin/fo-fuel-average',
+            home: true,
+          },
 
           {
             title: 'Pump Station Area',
@@ -435,4 +437,5 @@ export class DataService {
 
     ];
   }
+
 }

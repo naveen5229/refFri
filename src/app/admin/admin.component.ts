@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouteGuard } from '../guards/route.guard';
-
-import { MENU_ITEMS } from './admin-menu';
+import { ADMIN_MENU_ITEMS } from './admin-menu';
 import { from } from 'rxjs';
 import { routes } from '@nebular/auth';
 import { DataService } from '../services/data.service';

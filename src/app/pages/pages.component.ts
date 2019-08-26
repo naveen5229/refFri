@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-
-import { MENU_ITEMS } from './pages-menu';
+import { PAGES_MENU_ITEMS } from './pages-menu';
 import { NbMenuService } from '@nebular/theme';
 import { ApiService } from '../services/api.service';
 import { AccountService } from '../services/account.service';
