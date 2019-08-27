@@ -39,7 +39,11 @@ export class FuelfilingComponent implements OnInit {
     public accountService: AccountService,
     public modalService: NgbModal) {
     //  this.common.currentPage = 'Fuel Fillings';
-    this.getFuelFillings();
+   // this.getFuelFillings();
+
+    if(this.common.params.fuelData){
+      this.fuelFilings   =this.common.params.fuelData;
+    }
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.getcreditLedgers('credit');
     this.getdebitLedgers('debit');
