@@ -131,6 +131,8 @@ export class FreightInvoicesComponent implements OnInit {
 
     let icons = [];
 
+    
+
     icons.push(
       {
         class: "far fa-eye",
@@ -144,20 +146,26 @@ export class FreightInvoicesComponent implements OnInit {
       {
         class: "fas fa-trash-alt",
         action: this.deleteRow.bind(this, row),
-      },
-      {
-        class: "fas fa-print",
-        action: this.printInvoice.bind(this, row),
-      },
-      {
-        class: "far fa-file",
-        action: this.supportDoc.bind(this, row),
-      },
-      {
-        class: "fa fa-inr",
-        action: this.openFreightRateModal.bind(this, row),
       }
+      
     )
+    // if lr count is greater than zero
+    if(row._lrcount>0){
+      icons.push(
+        {
+          class: "fas fa-print",
+          action: this.printInvoice.bind(this, row),
+        },
+        {
+          class: "far fa-file",
+          action: this.supportDoc.bind(this, row),
+        },
+        {
+          class: "fa fa-inr",
+          action: this.openFreightRateModal.bind(this, row),
+        }
+      )
+    }
     return icons;
   }
   deleteRow(row) {
