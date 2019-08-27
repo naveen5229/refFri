@@ -9,6 +9,7 @@ import { ApiService } from '../../../services/api.service';
   styleUrls: ['./transfer-receipts.component.scss', '../../../pages/pages.component.css']
 })
 export class TransferReceiptsComponent implements OnInit {
+
   transferReceipt = {
     vehicleId: null,
     vehicleRegNo: null,
@@ -48,7 +49,10 @@ export class TransferReceiptsComponent implements OnInit {
   {
     name: 'Trip',
     id: '14'
-  }]
+  }];
+  creditId=null;
+  debitId=null;
+  
 
 
   constructor(public modalService: NgbModal,
@@ -57,6 +61,7 @@ export class TransferReceiptsComponent implements OnInit {
     public api: ApiService) {
     this.getPaymentMode();
     this.getTypeList();
+   
     if (this.common.params && this.common.params.refData) {
       this.edit = 1;
       this.transferReceipt.refernceType = this.common.params.refData.refType;
@@ -107,6 +112,8 @@ export class TransferReceiptsComponent implements OnInit {
     this.transferReceipt.vehicleRegNo = vehicle.regno;
     this.transferReceipt.refernceType = '0';
   }
+
+  
 
   resetvehicle() {
     this.transferReceipt.vehicleId = null;
@@ -218,7 +225,9 @@ export class TransferReceiptsComponent implements OnInit {
       rec_value: null,
       is_transfer: this.transferReceipt.selectOption,
       pay_mode: this.transferReceipt.modeId,
-      remarks: this.transferReceipt.remark
+      remarks: this.transferReceipt.remark,
+      creditLId:this.creditId,
+      debitLId:this.debitId
     };
     this.api.post("LorryReceiptsOperation/saveTransfers", params)
       .subscribe(res => {

@@ -82,8 +82,10 @@
                     (mouseout)="mapService.toggleBounceMF(i,2)"
                     [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.rc :'#fff'}">
                     <!-- <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.halt_reason}}</td> -->
-                    <td (click)="openSmartTool(i,vehicleEvent);">{{getPlace[i]}}</td>
-                    <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc_name}}</td>
+                    <td (click)="openSmartTool(i,vehicleEvent);" >
+                      <label *ngIf="vehicleEvent.event_type=='state'" [ngClass]="{'star' : vehicleEvent.event_type=='halt'}">*</label>
+                      {{getPlace[i]}}</td>
+                    <td (click)="openSmartTool(i,vehicleEvent);" >{{vehicleEvent.loc_name}}</td>
                     <td (click)="openSmartTool(i,vehicleEvent);">
                       {{commonService.changeDateformat2(vehicleEvent.start_time)}}
                     </td>

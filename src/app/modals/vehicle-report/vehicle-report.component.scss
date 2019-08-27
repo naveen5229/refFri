@@ -114,3 +114,6 @@ smart-table .tableFixHead{
     float: left;
     padding: 8px 15px;
 }
+:host ::ng-deep .fa-star{
+    color: red !important ;
+   }
