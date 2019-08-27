@@ -125,7 +125,7 @@ export class TyreSummaryComponent implements OnInit {
       refMode: vehicleDetail._refmode
     };
     this.common.params = { vehicle: vehicle, ref_page: 'tyre-summary' };
-    console.log("vehicle", vehicle);
+    console.log("vehicle", this.common.params);
     const activeModal = this.modalService.open(VehicleTyreSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
 

@@ -239,6 +239,7 @@ import { AddDispatchOrderComponent } from './modals/LRModals/add-dispatch-order/
 import { RouteTimeTableComponent } from './modals/route-time-table/route-time-table.component';
 import { RouteTimeTableDetailsComponent } from './modals/route-time-table-details/route-time-table-details.component';
 import { VehicleTimeTableAssociationComponent } from './modals/vehicle-time-table-association/vehicle-time-table-association.component';
+import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledger-mapping/driver-ledger-mapping.component';
 
 
 
@@ -452,6 +453,7 @@ import { VehicleTimeTableAssociationComponent } from './modals/vehicle-time-tabl
     RouteTimeTableComponent,
     RouteTimeTableDetailsComponent,
     VehicleTimeTableAssociationComponent,
+    DriverLedgerMappingComponent,
 
   ],
   entryComponents: [
@@ -649,7 +651,8 @@ import { VehicleTimeTableAssociationComponent } from './modals/vehicle-time-tabl
     TemplatePreviewComponent,
     RouteTimeTableComponent,
     RouteTimeTableDetailsComponent,
-    VehicleTimeTableAssociationComponent
+    VehicleTimeTableAssociationComponent,
+    DriverLedgerMappingComponent,
   ],
   imports: [
     BrowserModule,

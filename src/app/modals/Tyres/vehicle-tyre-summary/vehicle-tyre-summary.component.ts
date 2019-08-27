@@ -38,7 +38,8 @@ export class VehicleTyreSummaryComponent implements OnInit {
     private modalService: NgbModal) {
     this.vehicleId = this.common.params.vehicle.id;
     this.refMode = this.common.params.vehicle.refMode;
-    this.vehicleRegNo = this.common.params.vehicleRegNo;
+    this.vehicleRegNo = this.common.params.vehicle.regno;
+    console.log("regno",this.vehicleRegNo);
     this.common.refresh = this.refresh.bind(this);
     this.refresh();
   }
