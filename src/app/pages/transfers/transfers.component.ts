@@ -97,7 +97,6 @@ export class TransfersComponent implements OnInit {
             isHTML: false,
             icons: [
               { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc) },
-              {class:'fas fa-edit',action:this.editTransfer.bind(this,doc)}
             ]
           };
         }
@@ -163,17 +162,6 @@ export class TransfersComponent implements OnInit {
       });
     }
   }
-  editTransfer(transfer){
-    console.log("transfer", transfer);
-    let refData = {
-      refId: transfer._ref_id,
-      refType: transfer._ref_type,
-    }
-    this.common.params = { refData: refData };
-    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.viewTransfer();
-    })
-  }
+
 
 }
