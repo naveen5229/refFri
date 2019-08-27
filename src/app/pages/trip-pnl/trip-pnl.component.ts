@@ -9,8 +9,8 @@ import { ApiService } from '../../services/api.service';
 })
 export class TripPnlComponent implements OnInit {
 
-  startDate = null;
-  endDate = null;
+  endDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 10));
   TripPNLData=[];
   table = {
     data: {
