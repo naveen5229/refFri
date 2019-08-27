@@ -366,6 +366,13 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
       if (this.activeId == 'ledger') this.setFoucus('voucherType');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
+    }else if ((this.activeId == 'startDate' || this.activeId == 'endDate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }

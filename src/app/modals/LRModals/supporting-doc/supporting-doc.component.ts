@@ -13,7 +13,7 @@ export class SupportingDocComponent implements OnInit {
   invoiceId = null;
   invoiceDetails = null;
   particulars = null;
-  type = 1;
+  type = 2;
 
   data = [];
   headings = [];

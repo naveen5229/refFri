@@ -25,7 +25,7 @@ export class FreightInvoiceRateComponent implements OnInit {
   ) {
     this.invoiceId = this.common.params.invoice.id;
     this.invoiceType = this.common.params.invoice.type;
-    this.common.handleModalSize('class', 'modal-lg', '1500', 'px', 1);
+    this.common.handleModalSize('class', 'modal-lg', '1500');
     this.getFreightInvoiceRate();
   }
 

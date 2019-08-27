@@ -27,6 +27,7 @@ export class OrderComponent implements OnInit {
   branchdata = [];
   orderTypeData = [];
   supplier = [];
+  sizeIndex=0;
   ledgers = { all: [], suggestions: [] };
   showSuggestions = false;
   activeLedgerIndex = -1;
@@ -135,7 +136,10 @@ export class OrderComponent implements OnInit {
     this.setFoucus('ordertype');
     this.getInvoiceDetail();
     // this.common.currentPage = 'Invoice';
-    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
+    if(this.common.params.sizeIndex){
+      this.sizeIndex=this.common.params.sizeIndex;
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeIndex);
     // console.log("open data ",this.invoiceDetail[]);
     this.getFreeze();
   }
@@ -158,7 +162,7 @@ export class OrderComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.getStockItems();
-        this.activeModal.close({ response: true, ledger: this.order });
+        this.activeModal.close({ response: true });
         if (type == 1 && typeans == 'true') {
           this.common.showToast(" This Value Has been Deleted!");
         } else if (type == 1 && typeans == 'false') {
@@ -581,8 +585,9 @@ export class OrderComponent implements OnInit {
         //this.GetLedger();
         this.order = this.setInvoice();
         this.setFoucus('ordertype');
+
         this.common.showToast('Invoice Are Saved');
-        this.activeModal.close({});
+        this.activeModal.close({responce:'true', delete: 'true'});
        // return;
 
       }, err => {
@@ -725,6 +730,13 @@ export class OrderComponent implements OnInit {
       if (key.includes('arrowup') || key.includes('arrowdown')) {
         this.handleArrowUpDown(key);
         event.preventDefault();
+      }
+    }else if ((this.activeId == 'date' || this.activeId == 'biltydate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
       }
     }
   }
@@ -1137,7 +1149,7 @@ export class OrderComponent implements OnInit {
           console.log("data", data);
           this.order.delete = 1;
           this.addOrder(this.order);
-          this.activeModal.close({ response: true, ledger: this.order });
+          this.activeModal.close({ response: true,  delete: 'true' });
           this.common.loading--;
         }
       });
@@ -1188,7 +1200,7 @@ export class OrderComponent implements OnInit {
               this.common.loading--;
               console.log('res: ', res);
               //this.getStockItems();
-              this.activeModal.close({ response: true, ledger: this.order });
+              this.activeModal.close({ response: true, delete: 'true' });
               this.common.showToast(" This Value Has been Deleted!");
             }, err => {
               this.common.loading--;
