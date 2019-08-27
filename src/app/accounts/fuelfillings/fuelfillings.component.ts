@@ -161,8 +161,8 @@ export class FuelfillingsComponent implements OnInit {
 
       const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
+         console.log('Data return: ', data);
+        if (data.success) {
           this.getFuelVoucher();
         }
       });

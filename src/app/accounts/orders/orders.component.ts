@@ -544,13 +544,13 @@ export class OrdersComponent implements OnInit {
     }
     if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
       let index = parseInt(this.activeId.split('-')[1]);
-      console.log('available item', (this.order.amountDetails[index].qty));
       setTimeout(() => {
+      console.log('available item', (this.order.amountDetails[index].qty,'second response',(document.getElementById(this.activeId)['value'])));
         if ((this.totalitem) < (document.getElementById(this.activeId)['value'])) {
           alert('Quantity is lower then available quantity');
           this.order.amountDetails[index].qty = 0;
         }
-      }, 50);
+      }, 100);
       // if ((this.totalitem) < parseInt(this.order.amountDetails[index].qty)) {
       //   console.log('Quantity is lower then available quantity');
       //   // this.order.amountDetails[index].qty = 0;
@@ -1286,7 +1286,9 @@ export class OrdersComponent implements OnInit {
       this.order.amountDetails[index].stockitem.id = suggestion.id;
       this.order.amountDetails[index].stockunit.name = suggestion.stockname;
       this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
-      if (this.order.ordertype.name.toLowerCase().includes('sales')) this.getStockAvailability(suggestion.id);
+      if (this.order.ordertype.name.toLowerCase().includes('sales')) {
+        this.getStockAvailability(suggestion.id);
+      }
 
     } else if (activeId.includes('discountledger')) {
       const index = parseInt(activeId.split('-')[1]);
@@ -1312,10 +1314,10 @@ export class OrdersComponent implements OnInit {
     let params = {
       stockid: stockid
     };
-    // this.common.loading++;
+     this.common.loading++;
     this.api.post('Suggestion/GetStockItemAvailableQty', params)
       .subscribe(res => {
-        // this.common.loading--;
+         this.common.loading--;
         console.log('Res:', res['data'][0].get_stockitemavailableqty);
         this.totalitem = res['data'][0].get_stockitemavailableqty;
         //  console.log('totalitem : -',totalitem);
