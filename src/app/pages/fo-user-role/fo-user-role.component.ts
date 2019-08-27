@@ -23,9 +23,11 @@ export class FoUserRoleComponent implements OnInit {
   }
   refresh() {
     this.getAllUserList();
+    document.getElementById('name')['value'] = '';
   }
-  getAllUserList() {
 
+
+  getAllUserList() {
     this.common.loading++;
     this.api.get('Suggestion/getAllFoAdminUsersWrtFo?')
       .subscribe(res => {

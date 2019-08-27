@@ -12,7 +12,7 @@
     <div class="search mt-2">
       <label> Select Employee Name</label>
       <auto-suggestion (onSelected)="getUserDetails($event)" [data]="getUsersList" display="name" placeholder="Employee"
-        [preSelected]="null" inputId="name" (unSelected)="UnCheck"></auto-suggestion>
+        [preSelected]="null" inputId="name"></auto-suggestion>
     </div>
 
   </nb-card-body>
