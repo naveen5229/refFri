@@ -231,9 +231,10 @@ export class FuelfilingComponent implements OnInit {
       remarks: this.narration,
       date: this.date,
       amountDetails: amountDetails,
-      vouchertypeid: -10,
+      vouchertypeid: -171,
       y_code: '',
-      xid: 0
+      xid: 0,
+      delete: 0,
     };
 
     console.log('params 1 : ', params);
