@@ -162,7 +162,7 @@ export class OrderComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.getStockItems();
-        this.activeModal.close({ response: true, ledger: this.order });
+        this.activeModal.close({ response: true });
         if (type == 1 && typeans == 'true') {
           this.common.showToast(" This Value Has been Deleted!");
         } else if (type == 1 && typeans == 'false') {
@@ -585,8 +585,9 @@ export class OrderComponent implements OnInit {
         //this.GetLedger();
         this.order = this.setInvoice();
         this.setFoucus('ordertype');
+
         this.common.showToast('Invoice Are Saved');
-        this.activeModal.close({});
+        this.activeModal.close({responce:'true', delete: 'true'});
        // return;
 
       }, err => {
@@ -1148,7 +1149,7 @@ export class OrderComponent implements OnInit {
           console.log("data", data);
           this.order.delete = 1;
           this.addOrder(this.order);
-          this.activeModal.close({ response: true, ledger: this.order });
+          this.activeModal.close({ response: true,  delete: 'true' });
           this.common.loading--;
         }
       });
@@ -1199,7 +1200,7 @@ export class OrderComponent implements OnInit {
               this.common.loading--;
               console.log('res: ', res);
               //this.getStockItems();
-              this.activeModal.close({ response: true, ledger: this.order });
+              this.activeModal.close({ response: true, delete: 'true' });
               this.common.showToast(" This Value Has been Deleted!");
             }, err => {
               this.common.loading--;

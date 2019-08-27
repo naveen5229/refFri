@@ -360,10 +360,10 @@ export class DaybookpendingComponent implements OnInit {
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
-        if (!data) {
+        if (data.delete) {
           this.getDayBook();
         }
-        this.getDayBook();
+      //  this.getDayBook();
         // this.common.showToast('Voucher updated');
 
       });

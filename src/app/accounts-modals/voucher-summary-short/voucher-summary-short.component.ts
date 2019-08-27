@@ -205,7 +205,7 @@ export class VoucherSummaryShortComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.getStockItems();
-        this.activeModal.close({ response: true });
+        this.activeModal.close({ response: true,delete:'true' });
         if(type==1 && typeans=='true'){
         this.common.showToast(" This Value Has been Deleted!");
         }else  if(type==1 && typeans=='false'){
@@ -395,7 +395,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         this.common.loading--;
-        this.activeModal.close({ response: true });
+        this.activeModal.close({ response: true,delete:'true' });
       }, err => {
         console.log(err);
         this.common.loading--;
