@@ -125,7 +125,9 @@ export class FuelfilingComponent implements OnInit {
       .subscribe(res => {
         console.log('fuel data', res);
         this.common.loading--;
+        if(res['data']){
         this.fuelFilings = res['data'];
+        }
         // this.getHeads();
       }, err => {
         console.log(err);
@@ -224,7 +226,7 @@ export class FuelfilingComponent implements OnInit {
     });
 
     //const params ='';
-    const params = {
+    const fuelEntryData = {
       foid: 123,
       // vouchertypeid: voucher.voucher.id,
       customercode: this.custcode,
@@ -237,43 +239,44 @@ export class FuelfilingComponent implements OnInit {
       delete: 0,
     };
 
-    console.log('params 1 : ', params);
+    console.log('params 1 : ', fuelEntryData);
     this.common.loading++;
+    this.updatefuelfiling(fuelEntryData);
 
-    this.api.post('Voucher/InsertVoucher', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('return vouher id: ', res['data']);
-        if (res['success']) {
+    // this.api.post('Voucher/InsertVoucher', params)
+    //   .subscribe(res => {
+    //     this.common.loading--;
+    //     console.log('return vouher id: ', res['data']);
+    //     if (res['success']) {
 
-          if (res['data'][0].save_voucher_v1) {
+    //       if (res['data'][0].save_voucher_v1) {
 
-            //  this.voucher = this.setVoucher();
-            //  this.getVouchers();
-            this.common.showToast('Your Code :' + res['data'].code);
-            //   this.setFoucus('ref-code');
+    //         //  this.voucher = this.setVoucher();
+    //         //  this.getVouchers();
+    //         this.common.showToast('Your Code :' + res['data'].code);
+    //         //   this.setFoucus('ref-code');
 
-            this.updatefuelfiling(res['data'][0].save_voucher_v1);
+    //         this.updatefuelfiling(res['data'][0].save_voucher_v1);
 
-          } else {
-            let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
-            this.common.showError(message);
-          }
-        }
+    //       } else {
+    //         let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
+    //         this.common.showError(message);
+    //       }
+    //     }
 
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
+    //   }, err => {
+    //     this.common.loading--;
+    //     console.log('Error: ', err);
+    //     this.common.showError();
+    //   });
   }
 
-  updatefuelfiling(vcid) {
+  updatefuelfiling(vchData) {
 
     console.log('total ids', this.storeids);
 
     const params = {
-      vchId: vcid,
+      voucherData: vchData,
       fuelids: this.storeids,
       fuestation: this.fuelstationid
     };
