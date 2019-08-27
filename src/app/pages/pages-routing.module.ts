@@ -508,7 +508,7 @@ const routes: Routes = [{
     path: 'trends-fo',
     component:TrendsFoComponent,
     canActivate: [AuthGuard]
-  }
+  },
   ],
 }];
 

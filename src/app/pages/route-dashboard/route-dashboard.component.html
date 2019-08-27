@@ -5,8 +5,7 @@
     <h5>Route Dashboard</h5>
   </nb-card-header>
   <nb-card-body>
-    <smart-table *ngIf="routeData && routeData.length" [data]="table.data" [settings]="table.settings"
-      id="routeDashbord">
+    <smart-table [data]="table.data" [settings]="table.settings" id="routeDashbord">
     </smart-table>
   </nb-card-body>
 </nb-card>

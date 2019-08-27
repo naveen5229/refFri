@@ -219,7 +219,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
             },
             {
                 title: 'Debit Note',
-                link: '/accounts/orders/-7/Debit Note'
+                link: '/accounts/orders/-107/Debit Note'
             },
             {
                 title: 'Credit Note',

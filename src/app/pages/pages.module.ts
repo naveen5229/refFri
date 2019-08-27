@@ -84,6 +84,7 @@ import { TrendsFoComponent } from './trends-fo/trends-fo.component';
 
 
 
+
 const PAGES_COMPONENTS = [
   PagesComponent
 

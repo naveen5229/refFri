@@ -3,7 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { CommonService } from '../..//services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { DomSanitizer } from "@angular/platform-browser";
 @Component({
   selector: 'template-preview',
   templateUrl: './template-preview.component.html',
@@ -22,7 +22,7 @@ export class TemplatePreviewComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
     public renderer: Renderer,
-
+    private sanitizer: DomSanitizer
   ) {
     this.common.handleModalSize('class', 'modal-lg', '1600');
     if (this.common.params && this.common.params.previewData) {
@@ -44,8 +44,8 @@ export class TemplatePreviewComponent implements OnInit {
     this.api.get('userTemplate/preview?tId=' + this.template.preview + '&refid=' + this.template.refId + '&ref_type=' + this.template.refType)
       .subscribe(res => {
         --this.common.loading;
-        console.log("preview : ", res['data']);
-        this.template.preview = res['data'];
+        // console.log("preview : ", res['data']);
+        this.template.preview = this.sanitizer.bypassSecurityTrustHtml(res['data']);
         //console.log("preview : ",this.template.preview)
       })
   }
@@ -53,12 +53,42 @@ export class TemplatePreviewComponent implements OnInit {
   closeModal() {
     this.activeModal.close({ ex: 'Modal has been closed' });
   }
+
+
   onPrint(id) {
     this.renderer.setElementClass(document.body, 'test', true);
     window.print();
     this.renderer.setElementClass(document.body, 'test', false);
-
   }
+
+  printHandler() {
+    this.renderer.setElementClass(document.body, 'test', true);
+    let css = '@page { size: landscape !important; }';
+    let head = document.head || document.getElementsByTagName('head')[0];
+    let style = document.createElement('style');
+
+    style.type = 'text/css';
+    style.media = 'print';
+
+    if (style['styleSheet']) {
+      style['styleSheet'].cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }
+
+    head.appendChild(style);
+
+    window.print();
+    let printWindowListener = setInterval(() => {
+      if (document.readyState == "complete") {
+        clearInterval(printWindowListener);
+        head.removeChild(style);
+        this.renderer.setElementClass(document.body, 'test', false);
+      }
+    }, 1000);
+  }
+
+
 
 
 
