@@ -13,6 +13,7 @@ import { LrInvoiceColumnsComponent } from '../lr-invoice-columns/lr-invoice-colu
 import { SupportingDocComponent } from '../../modals/LRModals/supporting-doc/supporting-doc.component';
 import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.component';
 import { AssignUserTemplateComponent } from '../../modals/assign-user-template/assign-user-template.component';
+import { FreightInvoiceRateComponent } from '../../modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
 
 @Component({
   selector: 'freight-invoices',
@@ -151,6 +152,10 @@ export class FreightInvoicesComponent implements OnInit {
       {
         class: "far fa-file",
         action: this.supportDoc.bind(this, row),
+      },
+      {
+        class: "fa fa-inr",
+        action: this.openFreightRateModal.bind(this, row),
       }
     )
     return icons;
@@ -247,5 +252,17 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
+  openFreightRateModal(inv) {
+    let invoice = {
+      id: inv._id,
+      type: 1
+    }
+    this.common.params = { invoice: invoice }
+    const activeModal = this.modalService.open(FreightInvoiceRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
+    });
+  }
 
 }
