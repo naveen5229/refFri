@@ -253,7 +253,7 @@ export class FuelfilingComponent implements OnInit {
     };
 
     console.log('params 1 : ', fuelEntryData);
-    this.common.loading++;
+   // this.common.loading++;
     this.updatefuelfiling(fuelEntryData);
 
     // this.api.post('Voucher/InsertVoucher', params)
