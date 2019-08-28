@@ -194,10 +194,10 @@ export class OpeningstockComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.GetLedger();
-        this.openingStocks = JSON.parse(res['data'][0]['get_rpt_openingstock']);
+        this.openingStocks = res['data'];
         // this.setFoucus('ordertype');
         // this.common.showToast('Invoice Are Saved');
-        return;
+       // return;
 
       }, err => {
         this.common.loading--;
