@@ -220,7 +220,7 @@ export class VoucherSummaryComponent implements OnInit {
         console.log(res);
         this.common.showToast(" This Value Has been Deleted!");
         this.common.loading--;
-        this.activeModal.close({ response: true });
+        this.activeModal.close({ response: true ,delete:'true'});
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -303,7 +303,7 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.getStockItems();
-        this.activeModal.close({ response: true });
+        this.activeModal.close({ response: true ,delete:'true'});
         if (type == 1 && typeans == 'true') {
           this.common.showToast(" This Value Has been Deleted!");
         } else if (type == 1 && typeans == 'false') {
@@ -624,7 +624,7 @@ export class VoucherSummaryComponent implements OnInit {
       }
     });
 
-    const params = {
+    const voucherDetailArray = {
       foid: 123,
       customercode: this.custcode,
       remarks: this.narration,
@@ -635,45 +635,46 @@ export class VoucherSummaryComponent implements OnInit {
       xid: this.VoucherId
     };
 
-    console.log('params 1 : ', params);
-    this.common.loading++;
+    console.log('params 1 : ', voucherDetailArray);
+   // this.common.loading++;
+    this.updateVoucherTrip(voucherDetailArray, this.tripexpvoucherid);
 
-    this.api.post('Voucher/InsertVoucher', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('return vouher id: ', res['data']);
-        if (res['success']) {
-          if (res['data'][0].save_voucher_v1) {
-            this.updateVoucherTrip(res['data'][0].save_voucher_v1, this.tripexpvoucherid);
-            this.common.showToast('Your Code :' + res['data'].code);
-          } else {
-            let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
-            this.common.showError(message);
-          }
-        }
+    // this.api.post('Voucher/InsertVoucher', params)
+    //   .subscribe(res => {
+    //     this.common.loading--;
+    //     console.log('return vouher id: ', res['data']);
+    //     if (res['success']) {
+    //       if (res['data'][0].save_voucher_v1) {
+    //         this.updateVoucherTrip(res['data'][0].save_voucher_v1, this.tripexpvoucherid);
+    //         this.common.showToast('Your Code :' + res['data'].code);
+    //       } else {
+    //         let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
+    //         this.common.showError(message);
+    //       }
+    //     }
 
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
+    //   }, err => {
+    //     this.common.loading--;
+    //     console.log('Error: ', err);
+    //     this.common.showError();
+    //   });
   }
 
-  updateVoucherTrip(voucherid, tripexpvoucherid) {
+  updateVoucherTrip(voucherDetailArray, tripexpvoucherid) {
     let tripidarray = [];
     this.checkedTrips.map(tripHead => {
       tripidarray.push(tripHead.id);
     });
     console.log('trip id array ', this.fuelFilings);
     const params = {
-      vchrid: voucherid,
       tripArrayId: tripidarray,
       vehid: this.VehicleId,
       voucher_details: this.tripHeads,
       storeid: this.storeids,
       tripExpVoucherId: tripexpvoucherid,
       fuelFilings: this.fuelFilings,
-      accDetail: this.accDetails
+      accDetail: this.accDetails,
+      voucherArray:voucherDetailArray
 
     };
 
@@ -683,8 +684,10 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.loading--;
         console.log('return vouher id: ', res['data']);
         if (res['data']) {
-          if (!res['data'][0]['update_tripexpvoucher']) {
-            this.activeModal.close({ status: true });
+          if (res['data'][0]['save_tripexp_voucher_v1']) {
+            this.common.showToast(res['data']['code']);
+            this.dismiss(true);
+           // this.activeModal.close({ status: true });
           } else {
             let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
             this.common.showError(message);

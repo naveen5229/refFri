@@ -72,6 +72,11 @@ export const PAGES_MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/trends'
       },
       {
+        title: 'Trends Fo',
+        icon: 'fa fa-line-chart',
+        link: '/pages/trends-fo'
+      },
+      {
         title: 'Vehicle OdoMeter',
         icon: 'fas fa-tachometer-alt',
         link: '/pages/vehicle-odoMeter'
@@ -92,7 +97,8 @@ export const PAGES_MENU_ITEMS: NbMenuItem[] = [
         title: 'Trip P&L',
         icon: 'fa fa-pencil-square-o',
         link: '/pages/trip-pnl',
-      }
+      },
+
 
     ]
   },

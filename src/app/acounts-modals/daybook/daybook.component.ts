@@ -152,12 +152,13 @@ export class DaybookComponent implements OnInit {
     //  this.common.params = invoiceid;
     this.common.params = {
       invoiceid: invoiceid,
-      delete: this.deletedId
+      delete: this.deletedId,
+      sizeIndex:1
     };
     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
-      if (data.response) {
+      if (data.delete) {
         console.log('open succesfull');
 
         // this.addLedger(data.ledger);
@@ -353,18 +354,24 @@ export class DaybookComponent implements OnInit {
   }
 
 
-  openVoucherEdit(voucherId) {
+  openVoucherEdit(voucherId, voucheradd, vchtypeid) {
     console.log('ledger123', voucherId);
     if (voucherId) {
       this.common.params = {
         voucherId: voucherId,
         delete: this.deletedId,
-        sizeIndex:1        
+        sizeIndex:1,
+        addvoucherid: voucheradd,
+        voucherTypeId: vchtypeid,
       };
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
-       // this.getDayBook();
+        if(data.delete)
+        {
+          this.getDayBook();
+        }
+       
         //this.common.showToast('Voucher updated');
 
       });
@@ -559,7 +566,7 @@ export class DaybookComponent implements OnInit {
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
       const activeModal = this.modalService.open(VoucherSummaryShortComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        if (data.response) {
+        if (data.delete) {
           this.getDayBook();
         }
       });
@@ -569,7 +576,7 @@ export class DaybookComponent implements OnInit {
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
       const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        if (data.response) {
+        if (data.delete) {
           this.getDayBook();
         }
       });

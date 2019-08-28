@@ -97,11 +97,11 @@
                             [cdkDropListConnectedTo]="[unAssignList, assignRight]" class="drag-list"
                             (cdkDropListDropped)="drop($event)">
                             <div class="drag-box" style="min-height:60px" *ngFor="let item of assign.left" cdkDrag>
-                                <div *ngIf="item==null?item.r_coltitle:item.r_coltitle"><input type="text"
-                                        [(ngModel)]=item.r_coltitle class="form control">
-                                    <div>{{item==null?item:item.r_blockname}}</div>
+                                <div *ngIf="item"><input type="text" [(ngModel)]="item.r_coltitle" class="form control">
+                                    <div>{{item.r_blockname}}</div>
                                 </div>
-                                <div *ngIf="item"><input type="checkbox" [(ngModel)]="item.r_required"> is required
+                                <div *ngIf="item">
+                                    <input type="checkbox" [(ngModel)]="item.r_required"> is required
                                 </div>
                             </div>
                         </div>
@@ -114,12 +114,11 @@
                             [cdkDropListConnectedTo]="[unAssignList, assignLeft]" class="drag-list"
                             (cdkDropListDropped)="drop($event)">
                             <div class="drag-box" style="min-height:60px" *ngFor="let item of assign.right" cdkDrag>
-                                <!-- <div><input type="text" [(ngModel)]=item.r_coltitle class="form control"></div> -->
-                                <div *ngIf="item==null?item:item.r_coltitle"><input type="text"
-                                        [(ngModel)]=item.r_coltitle class="form control">
-                                    <div>{{item==null?item:item.r_blockname}}</div>
+                                <div *ngIf="item"><input type="text" [(ngModel)]="item.r_coltitle" class="form control">
+                                    <div>{{item.r_blockname}}</div>
                                 </div>
-                                <div *ngIf="item"><input type="checkbox" [(ngModel)]="item.r_required"> is required
+                                <div *ngIf="item">
+                                    <input type="checkbox" [(ngModel)]="item.r_required"> is required
                                 </div>
                             </div>
                         </div>

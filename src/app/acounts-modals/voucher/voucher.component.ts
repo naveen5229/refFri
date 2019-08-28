@@ -691,6 +691,13 @@ export class VoucherComponent implements OnInit {
       // console.log(index);
       // let transactionType = document.getElementById('trasactionn-type-' + index)['value'];
       let transactionType = this.voucher.amountDetails[index].transactionType;
+    }else  if ((activeId == 'voucher-date') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     }
   }
   vouchercostcenter() {
@@ -1126,7 +1133,7 @@ export class VoucherComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.getStockItems();
-        this.activeModal.close({ response: true, ledger: this.voucher });
+        this.activeModal.close({ response: true, delete:'true' });
         if (type == 1 && typeans == 'true') {
           this.common.showToast(" This Value Has been Deleted!");
         } else if (type == 1 && typeans == 'false') {
@@ -1162,7 +1169,7 @@ export class VoucherComponent implements OnInit {
               this.common.loading--;
               console.log('res: ', res);
               //this.getStockItems();
-              this.activeModal.close({ response: true, ledger: this.voucher });
+              this.activeModal.close({ response: true, delete: 'true' });
               this.common.showToast(" This Value Has been Deleted!");
             }, err => {
               this.common.loading--;

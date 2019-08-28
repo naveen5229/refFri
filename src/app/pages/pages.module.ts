@@ -81,6 +81,8 @@ import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.co
 import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
 import { RouteDashboardComponent } from './route-dashboard/route-dashboard.component';
 import { FoUserRoleComponent } from './fo-user-role/fo-user-role.component';
+import { TrendsFoComponent } from './trends-fo/trends-fo.component';
+
 
 
 
@@ -164,6 +166,7 @@ const PAGES_COMPONENTS = [
     TripPnlComponent,
     RouteDashboardComponent,
     FoUserRoleComponent,
+    TrendsFoComponent,
 
   ],
   exports: [
