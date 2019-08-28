@@ -22,7 +22,7 @@
                 <div class="col-3 pr-0 mt-2">
                     <span><b>Reference Type</b></span>
                 </div>
-                <div class="col-4">
+                <div class="col-3 ml-3">
 
 
                     <select class="form-control" (change)="refernceTypes();resetRefernceType(false);" name="reftype" [(ngModel)]="transferReceipt.refernceType">
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="col-5">
-                    <input class="form-control" type="text" list="refType" (change)="changeRefernceType(transferReceipt.refTypeName)" id="referncetype" name="reference-type" [(ngModel)]="transferReceipt.refTypeName">
+                    <input class="form-control" type="text" list="refType" (change)="changeRefernceType(transferReceipt.refTypeName);showdata()" id="referncetype" name="reference-type" [(ngModel)]="transferReceipt.refTypeName">
                     <datalist id="refType">
             <option *ngFor="let type of refernceData" [value]="type.source_dest">
               {{type.source_dest}}
@@ -108,7 +108,7 @@
                     <span><b>Credit Ledger</b><b style="color:red;">*</b></span>
                 </div>
                 <div class="col-6 pl-0">
-                    <auto-suggestion url="Suggestion/GetPurchaseLedger?groupIds=-42,-43" (onSelected)="creditId=$event.id" display="name" placeholder="" inputId="creditledger">
+                    <auto-suggestion url="Suggestion/GetPurchaseLedger" (onSelected)="creditId=$event.id" display="name" placeholder="" inputId="creditledger">
                     </auto-suggestion>
                 </div>
             </div>
@@ -184,8 +184,16 @@
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-12 text-right" style="padding-right:61px;">
+            <button class="btn btn-primary" id="save" (click)="saveTransfer()">Save</button>
+        </div>
+    </div>
 </div>
-<div class="modal-footer">
-    <button class="btn btn-primary" id="save" (click)="saveTransfer()">Save</button>
+<div class="modal-footer text-center">
+    <smart-table *ngIf="transferReceipt.refId && transferReceipt.refernceType" [data]="table.data" [settings]="table.settings" id="freightwithLocation">
+    </smart-table>
+    <!-- <div class="no-data alert alert-danger" role="alert" *ngIf="data.length==0">
+        No Data available !
+      </div> -->
 </div>

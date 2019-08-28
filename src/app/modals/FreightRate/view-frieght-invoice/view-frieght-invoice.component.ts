@@ -101,16 +101,5 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     this.renderer.setElementClass(document.body, 'test', false);
   }
 
-  openFreightRateModal() {
-    let invoice = {
-      id: this.invoiceId,
-      type: 1
-    }
-    this.common.params = { invoice: invoice }
-    const activeModal = this.modalService.open(FreightInvoiceRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-
-    });
-  }
+ 
 }
