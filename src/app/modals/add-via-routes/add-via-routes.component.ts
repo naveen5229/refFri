@@ -16,6 +16,7 @@ export class AddViaRoutesComponent implements OnInit {
   routeData = {
     routeName: null,
     kms: null,
+    id:null
   };
   routeTypes = [{
     name: 'Loaded',
@@ -27,21 +28,33 @@ export class AddViaRoutesComponent implements OnInit {
   }
   ];
   routeId = '0';
+  
 
   constructor(private api: ApiService,
     private activeModal: NgbActiveModal,
     private common: CommonService,
     public dateService: DateService,
     private modalService: NgbModal) {
+      if(this.common.params && this.common.params.editRoute){
+        console.log("route:",this.common.params.editRoute);
+        this.routeData.routeName=this.common.params.editRoute.routeName;
+        this.routeData.id=this.common.params.editRoute.id ;
+        this.routeId=this.common.params.editRoute.routeType ;
+        this.routeData.kms=this.common.params.editRoute.kms;
+      }
   }
 
   ngOnInit() {
   }
   ngAfterViewInit() {
   }
+  ngOnDestroy(){
+    this.common.params=null;
+  }
 
   add() {
     const params = {
+      rowId:this.routeData.id ? this.routeData.id :null,
       name: this.routeData.routeName,
       kms: this.routeData.kms,
       routeType: this.routeId
@@ -54,6 +67,7 @@ export class AddViaRoutesComponent implements OnInit {
         console.log("test", res['data'][0].y_msg);
         if (res['data'][0].y_id <= 0) {
           this.common.showError(res['data'][0].y_msg);
+          
           return;
         }
         else {
@@ -67,7 +81,7 @@ export class AddViaRoutesComponent implements OnInit {
   }
 
   closeModal() {
-    this.activeModal.close();
+    this.activeModal.close({response:false});
   }
 
 }
