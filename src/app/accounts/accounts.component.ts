@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { MENU_ITEMS } from './accountes-menu';
+import { ACCOUNTS_MENU_ITEMS } from './accountes-menu';
 import { ApiService } from '../services/api.service';
 import { AccountService } from '../services/account.service';
 import { UserService } from '../services/user.service';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   selector: 'ngx-pages',
   template: `
     <ngx-sample-layout>
-      <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
+      <nb-menu [items]="user._menu.account" autoCollapse="true"></nb-menu>
       <router-outlet></router-outlet>
     </ngx-sample-layout>
   `,
@@ -20,7 +20,6 @@ import { Router } from '@angular/router';
 })
 export class AccountsComponent {
 
-  menu = MENU_ITEMS;
 
   constructor(public api: ApiService,
     public router: Router,
@@ -40,7 +39,7 @@ export class AccountsComponent {
       .subscribe(res => {
         console.log('Branches :', res['data']);
         this.accountService.branches = res['data'];
-        this.accountService.selected.branch.id=0;
+        this.accountService.selected.branch.id = 0;
       }, err => {
         console.log('Error: ', err);
       });

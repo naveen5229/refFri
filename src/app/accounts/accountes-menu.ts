@@ -1,7 +1,7 @@
 import { NbMenuItem } from '@nebular/theme';
 import { VoucherComponent } from '../acounts-modals/voucher/voucher.component';
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const ACCOUNTS_MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Home Dashboard',
         icon: 'fa fa-home',
@@ -134,7 +134,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Cash Book',
                 link: '/accounts/cashbook'
             },
-            
+
             {
                 title: 'Ledger View',
                 link: '/accounts/ledgerview'
@@ -179,28 +179,28 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-file-invoice',
         children: [
 
-    {
-        title: 'Trip Expense Tally',
-        link: '/accounts/trip-expense-tally'
+            {
+                title: 'Trip Expense Tally',
+                link: '/accounts/trip-expense-tally'
+            },
+            {
+                title: 'Account Statics',
+                link: '/accounts/statics'
+            },
+            {
+                title: 'GST Reports',
+                link: '/accounts/gstreport'
+            },
+            {
+                title: 'Tally Export',
+                link: '/accounts/tallyexport'
+            },
+            {
+                title: 'Voucher Audit',
+                link: '/accounts/voucheredited'
+            }
+        ],
     },
-    {
-        title: 'Account Statics',
-        link: '/accounts/statics'
-    },
-    {
-        title: 'GST Reports',
-        link: '/accounts/gstreport'
-    },
-    {
-        title:'Tally Export',
-        link:'/accounts/tallyexport'
-    },
-    {
-        title: 'Voucher Audit',
-        link: '/accounts/voucheredited'
-    }
-],
-},
     {
         title: 'Invoice',
         icon: 'fas fa-file-invoice',

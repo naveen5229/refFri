@@ -73,7 +73,7 @@ export class UserPreferencesComponent implements OnInit {
 
   getUserPages(user) {
 
-    // this.selectedUser.details = user;
+    this.selectedUser.details = user;
     // console.log('User: ', user);
     const params = {
       userId: user.id

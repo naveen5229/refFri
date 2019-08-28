@@ -6,6 +6,7 @@ import { TYRES_MENU_ITEMS } from '../tyres/tyres-menu';
 import { BATTERY_MENU_ITEMS } from '../battery/battery-menu';
 import { MAINTENANCE_MENU_ITEMS } from '../vehicle-maintenance/vehicle-maintenance-menu';
 import { WAREHOUSE_MENU_ITEMS } from '../ware-house/ware-house-menu';
+import { ACCOUNTS_MENU_ITEMS } from '../accounts/accountes-menu';
 
 
 @Injectable({
@@ -29,6 +30,7 @@ export class UserService {
     battery: [],
     vehicleMaintenance: [],
     wareHouse: [],
+    account: [],
   };
 
   menuCollection = {
@@ -37,7 +39,8 @@ export class UserService {
     tyres: TYRES_MENU_ITEMS,
     battery: BATTERY_MENU_ITEMS,
     vehicleMaintenance: MAINTENANCE_MENU_ITEMS,
-    wareHouse: WAREHOUSE_MENU_ITEMS
+    wareHouse: WAREHOUSE_MENU_ITEMS,
+    account: ACCOUNTS_MENU_ITEMS
   }
 
   constructor() {
