@@ -69,7 +69,7 @@ URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
       if (subURL.includes('?')) {
         subURL += '&foAdminId=' + this.user._customer.id + '&multipleAccounts='+this.user._details.multipleAccounts;
       } else {
-        subURL += '?foAdminId=' + this.user._customer.id + 'multipleAccounts='+this.user._details.multipleAccounts;
+        subURL += '?foAdminId=' + this.user._customer.id + '&multipleAccounts='+this.user._details.multipleAccounts;
       }
     }
 
@@ -120,9 +120,9 @@ URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   get3(subURL: string, params?: any) {
     if (this.user._customer.id) {
       if (subURL.includes('?')) {
-        subURL += '&foAdminId=' + this.user._customer.id + 'multipleAccounts='+this.user._details.multipleAccounts;
+        subURL += '&foAdminId=' + this.user._customer.id + '&multipleAccounts='+this.user._details.multipleAccounts;
       } else {
-        subURL += '?foAdminId=' + this.user._customer.id + 'multipleAccounts='+this.user._details.multipleAccounts;
+        subURL += '?foAdminId=' + this.user._customer.id + '&multipleAccounts='+this.user._details.multipleAccounts;
       
       }
     }
