@@ -20,6 +20,8 @@ export class UserPreferencesComponent implements OnInit {
   pagesGroups = {};
 
   newPage = {
+    module: null,
+    group: null,
     title: null,
     url: null,
     type: 'Dashboard',
@@ -169,6 +171,8 @@ export class UserPreferencesComponent implements OnInit {
 
   createNewPage() {
     let params = {
+      moduleName: this.newPage.module,
+      groupName: this.newPage.group,
       title: this.newPage.title,
       route: this.newPage.url,
       type: this.newPage.type,
