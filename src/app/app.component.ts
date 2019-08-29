@@ -52,8 +52,11 @@ export class AppComponent implements OnInit {
   }
 
   getUserPagesList() {
+    let userTypeId = this.user._loggedInBy == 'admin' ? 1 : 3;
+    console.log('userType Name', userTypeId);
     const params = {
       userId: this.user._details.id,
+      userType: userTypeId
     };
     this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)

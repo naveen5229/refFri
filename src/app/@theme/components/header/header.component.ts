@@ -79,6 +79,7 @@ export class HeaderComponent implements OnInit {
       this.user._token = '';
       this.user._details = null;
       this.user._loggedInBy = '';
+      this.user._pages = null;
       localStorage.clear();
       this.router.navigate(['/auth/login']);
     }

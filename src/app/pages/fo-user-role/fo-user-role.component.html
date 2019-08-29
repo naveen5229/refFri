@@ -15,5 +15,23 @@
         [preSelected]="null" inputId="name"></auto-suggestion>
     </div>
 
+    <div class="container mt-2">
+      <div *ngFor="let section of sections; let j = index;">
+        <div class="section-div">
+          <input type="checkbox" [ngClass]="section.isSelected? 'section-box' : ''" [name]="'section-' + j"
+            [(ngModel)]="section.isSelected" (change)="checkOrUnCheckAll(j)"> {{section.title}}
+        </div>
+        <div class="row">
+          <div class="col-3" *ngFor="let page of pagesGroups[section.title]; let i = index;">
+            <input type="checkbox" [name]="section + '-page-' + i" [id]="section + '-page-' + i"
+              [(ngModel)]="page.isSelected"> {{page.title}}
+          </div>
+        </div>
+      </div>
+      <p *ngIf="selectedUser.details">
+        <button class="btn btn-secondary" (click)="saveUserRole()">Save</button>
+      </p>
+    </div>
+
   </nb-card-body>
 </nb-card>

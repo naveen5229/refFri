@@ -23,6 +23,7 @@ export class UserPreferencesComponent implements OnInit {
     title: null,
     url: null,
     type: 'Dashboard',
+    addType: 1,
   };
   getUsersList = [];
 
@@ -69,14 +70,11 @@ export class UserPreferencesComponent implements OnInit {
       })
   }
 
-
-
   getUserPages(user) {
-
     this.selectedUser.details = user;
-    // console.log('User: ', user);
     const params = {
-      userId: user.id
+      userId: user.id,
+      userType: 1
     };
     this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
@@ -84,7 +82,6 @@ export class UserPreferencesComponent implements OnInit {
         this.common.loading--;
         this.data = res['data'];
         console.log("Res Data:", this.data)
-
         this.selectedUser.oldPreferences = res['data'];
         this.findSections();
         // this.checkSelectedPages(res['data']);
@@ -114,7 +111,7 @@ export class UserPreferencesComponent implements OnInit {
 
     });
     console.log("Get All Pages Access:", this.pagesGroups);
-    console.log('All Sections: ', this.sections);
+
   }
 
   checkSelectedPages(pages) {
@@ -133,7 +130,11 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   updatePreferences() {
-    const params = { pages: this.findSelectedPages(), userId: this.selectedUser.details.id };
+    const params = {
+      pages: this.findSelectedPages(),
+      userId: this.selectedUser.details.id,
+      userType: 1,
+    };
     console.log("Param:", params);
     this.common.loading++;
     this.api.post('UserRoles/setPagesWrtUser', params)
@@ -170,14 +171,14 @@ export class UserPreferencesComponent implements OnInit {
     let params = {
       title: this.newPage.title,
       route: this.newPage.url,
-      type: this.newPage.type
-
+      type: this.newPage.type,
+      add_type: this.newPage.addType
     };
+
     this.common.loading++;
     this.api.post('UserRoles/insertNewPageDetails', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res: ', res);
         this.common.showToast(res['msg'])
       }, err => {
         this.common.loading--;
