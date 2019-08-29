@@ -25,7 +25,7 @@ export class LrGenerateComponent implements OnInit {
     lrType: 1,
     vehicleType: 1,
     lrCategory: 1,
-    num: null,
+    serial: null,
     prefix: null,
     image: null,
     date: new Date(),
@@ -115,7 +115,7 @@ export class LrGenerateComponent implements OnInit {
     this.lr.id = headData.lr_id;
     this.lr.vehicleType = headData.veh_asstype;
     //this.accountService.selected.branch.id = headData.branch_id;
-    this.lr.num = headData.lr_num;
+    this.lr.serial = headData.lr_serial;
     this.lr.prefix = headData.lr_prefix;
     this.lr.image = headData.lr_image;
     if (this.lr.image) {
@@ -381,7 +381,7 @@ export class LrGenerateComponent implements OnInit {
       branchId: this.accountService.selected.branch.id,
       vehicleId: this.vehicleData.id,
       vehicleRegNo: document.getElementById('vehicleno')['value'],
-      lrNo: this.lr.num,
+      lrNo: this.lr.serial,
       lrNoText: this.lr.prefix,
       lrDate: this.common.dateFormatter(this.lr.date),
       generalDetails: JSON.stringify(this.lrGeneralField),
