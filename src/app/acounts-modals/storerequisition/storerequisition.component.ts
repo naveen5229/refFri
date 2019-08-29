@@ -94,8 +94,7 @@ export class StorerequisitionComponent implements OnInit {
     public user: UserService,
     private activeModal: NgbActiveModal,
     public modalService: NgbModal) {
-
-    this.storeRequestStockId = this.common.params.storeRequestId;
+console.log('store request ',this.common.params);
     this.storeRequestStockId = this.common.params.storeRequestId;
     this.storeQuestion.requesttype.id = this.common.params.storeRequestId;
     this.pendingid = this.common.params.pendingid;
@@ -111,6 +110,7 @@ export class StorerequisitionComponent implements OnInit {
     if (this.common.params.stockQuestionId) {
       this.getStockRequestionForIssue(this.common.params.stockQuestionId, this.common.params.stockQuestionBranchid, this.common.params.storeRequestId);
     }
+    this.setFoucus('code');
   }
 
   ngOnInit() {
@@ -290,7 +290,7 @@ export class StorerequisitionComponent implements OnInit {
   }
 
   modelCondition() {
-    this.activeModal.close({});
+    this.activeModal.close({response:false});
     event.preventDefault();
     return;
   }
@@ -445,7 +445,7 @@ export class StorerequisitionComponent implements OnInit {
     if (response) {
       this.addStoreRequestion(this.storeQuestion);
     }
-    this.activeModal.close({ response: response, Voucher: this.storeQuestion });
+    this.activeModal.close({ response: true, Voucher: this.storeQuestion });
   }
 
 
@@ -657,5 +657,34 @@ export class StorerequisitionComponent implements OnInit {
         this.common.showError();
       });
 
+  }
+
+
+  approveDeleteFunction(type, typeans,xid) {
+    console.log('type',type,'typeans',typeans,'xid',xid);
+    let params = {
+      id: xid,
+      flagname: (type == 1) ? 'deleted' : 'forapproved',
+      flagvalue: typeans
+    };
+    this.common.loading++;
+    this.api.post('Company/storeRequstionDeleteApprooved', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        //this.getStockItems();
+        this.activeModal.close({ response: true });
+        if (type == 1 && typeans == 'true') {
+          this.common.showToast(" This Value Has been Deleted!");
+        } else if (type == 1 && typeans == 'false') {
+          this.common.showToast(" This Value Has been Restored!");
+        } else {
+          this.common.showToast(" This Value Has been Approved!");
+        }
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError('This Value has been used another entry!');
+      });
   }
 }

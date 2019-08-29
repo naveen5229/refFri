@@ -106,6 +106,7 @@ export class DaybookpendingComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.vouchertypedata = res['data'];
+        this.vouchertypedata.push({id:-1001,name:'Stock Received'},{id:-1002,name:'Stock Transfer'},{id:-1003,name:'Stock Issue'},{id:-1004,name:'Stock Transfer Received'});
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
