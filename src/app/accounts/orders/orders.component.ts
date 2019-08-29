@@ -28,7 +28,7 @@ export class OrdersComponent implements OnInit {
   ledgers = { all: [], suggestions: [] };
   showSuggestions = false;
   activeLedgerIndex = -1;
-  totalitem = 0;
+  totalitem = null;
   invoiceDetail = [];
   taxDetailData = [];
   mannual=false;
@@ -497,6 +497,26 @@ export class OrdersComponent implements OnInit {
     return total;
   }
 
+  getStockAvailability(stockid) {
+    let totalitem = 0;
+    let params = {
+      stockid: stockid
+    };
+     this.common.loading++;
+    this.api.post('Suggestion/GetStockItemAvailableQty', params)
+      .subscribe(res => {
+         this.common.loading--;
+        console.log('Res:', res['data'][0].get_stockitemavailableqty);
+        this.totalitem = res['data'][0].get_stockitemavailableqty;
+        //  console.log('totalitem : -',totalitem);
+        return this.totalitem;
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
@@ -544,13 +564,13 @@ export class OrdersComponent implements OnInit {
     }
     if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
       let index = parseInt(this.activeId.split('-')[1]);
-      console.log('available item', (this.order.amountDetails[index].qty));
       setTimeout(() => {
-        if ((this.totalitem) < (document.getElementById(this.activeId)['value'])) {
+      console.log('available item', this.order.amountDetails[index].qty,'second response',this.totalitem);
+        if ((parseInt(this.totalitem)) < (parseInt(this.order.amountDetails[index].qty))) {
           alert('Quantity is lower then available quantity');
           this.order.amountDetails[index].qty = 0;
         }
-      }, 50);
+      }, 300);
       // if ((this.totalitem) < parseInt(this.order.amountDetails[index].qty)) {
       //   console.log('Quantity is lower then available quantity');
       //   // this.order.amountDetails[index].qty = 0;
@@ -1286,7 +1306,9 @@ export class OrdersComponent implements OnInit {
       this.order.amountDetails[index].stockitem.id = suggestion.id;
       this.order.amountDetails[index].stockunit.name = suggestion.stockname;
       this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
-      if (this.order.ordertype.name.toLowerCase().includes('sales')) this.getStockAvailability(suggestion.id);
+      if (this.order.ordertype.name.toLowerCase().includes('sales')) {
+        this.getStockAvailability(suggestion.id);
+      }
 
     } else if (activeId.includes('discountledger')) {
       const index = parseInt(activeId.split('-')[1]);
@@ -1307,26 +1329,6 @@ export class OrdersComponent implements OnInit {
     return this.totalitem;
   }
 
-  getStockAvailability(stockid) {
-    let totalitem = 0;
-    let params = {
-      stockid: stockid
-    };
-    // this.common.loading++;
-    this.api.post('Suggestion/GetStockItemAvailableQty', params)
-      .subscribe(res => {
-        // this.common.loading--;
-        console.log('Res:', res['data'][0].get_stockitemavailableqty);
-        this.totalitem = res['data'][0].get_stockitemavailableqty;
-        //  console.log('totalitem : -',totalitem);
-        return this.totalitem;
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-
-  }
 
 
   openwareHouseModal() {

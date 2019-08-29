@@ -1,0 +1,22 @@
+<!-- Author:Goutam -->
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Driver Ledger Mapping</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="Driver-mapping">
+        <div class="row">
+            <button type="button" class="btn btn-primary" style="margin-left: 654px" (click)="addLedger()">Add Ledger</button>
+        </div>
+        <div class="row mt-2">
+            <smart-table *ngIf="driver.names &&  driver.names.length" [data]="tables.driver.data" [settings]="tables.driver.settings" id="driver">
+            </smart-table>
+        </div>
+        <div class="row">
+            <smart-table *ngIf="ledgers && ledgers.length" [data]="tables.ledger.data" [settings]="tables.ledger.settings" id="ledger">
+            </smart-table>
+        </div>
+    </div>
+</div>

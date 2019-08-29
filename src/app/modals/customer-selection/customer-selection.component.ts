@@ -27,6 +27,9 @@ export class CustomerSelectionComponent implements OnInit {
     private route: ActivatedRoute,
 
   ) {
+    if(this.user._loggedInBy == 'customer'){
+      this.searchUser();
+    }
     this.common.handleModalSize('class', 'modal-lg', '480');
 
   }
@@ -53,6 +56,7 @@ export class CustomerSelectionComponent implements OnInit {
     this.showSuggestions = false;
     this.user._customer.name = this.searchString;
     this.user._customer.id = user.foaid;
+    console.log("user====",this.user._customer.name);
     localStorage.setItem('CUSTOMER_DETAILS', JSON.stringify(this.user._customer));
     this.api.getBranches();
     this.dismiss();
