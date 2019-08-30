@@ -122,7 +122,7 @@ export class UserPreferencesComponent implements OnInit {
       module.groups = Object.keys(pageGroup).map(key => {
         return {
           name: key,
-          pages: pageGroup[key].map(page => { page.isSelected = false; return page; }),
+          pages: pageGroup[key].map(page => { page.isSelected = page.userid ? true : false; return page; }),
           isSelected: false,
         }
       });
@@ -131,37 +131,37 @@ export class UserPreferencesComponent implements OnInit {
   }
 
 
-  findSections() {
-    this.sections = [];
-    this.pagesGroups = {};
-    this.data.map(data => {
-      let section = { title: data.group_name, isSelected: false };
-      if (!this.sections.filter(s => s.title == section.title).length) {
-        this.sections.push(section);
-      }
-      if (!this.pagesGroups[section.title]) {
-        this.pagesGroups[section.title] = [];
-      }
-      this.pagesGroups[section.title].push({
-        id: data.id,
-        title: data.title,
-        route: data.route,
-        isSelected: data.userid ? true : false
-      });
+  // findSections() {
+  //   this.sections = [];
+  //   this.pagesGroups = {};
+  //   this.data.map(data => {
+  //     let section = { title: data.group_name, isSelected: false };
+  //     if (!this.sections.filter(s => s.title == section.title).length) {
+  //       this.sections.push(section);
+  //     }
+  //     if (!this.pagesGroups[section.title]) {
+  //       this.pagesGroups[section.title] = [];
+  //     }
+  //     this.pagesGroups[section.title].push({
+  //       id: data.id,
+  //       title: data.title,
+  //       route: data.route,
+  //       isSelected: data.userid ? true : false
+  //     });
 
-    });
-    console.log("Get All Pages Access:", this.pagesGroups);
+  //   });
+  //   console.log("Get All Pages Access:", this.pagesGroups);
 
-  }
+  // }
 
-  checkSelectedPages(pages) {
-    this.sections.map(section => {
-      this.pagesGroups[section.title].map(page => {
-        console.log('________page:::::,', page);
-        // page.isSelected = this.findSelectedOrNot(page.id, pages);
-      });
-    });
-  }
+  // checkSelectedPages(pages) {
+  //   this.sections.map(section => {
+  //     this.pagesGroups[section.title].map(page => {
+  //       console.log('________page:::::,', page);
+  //       // page.isSelected = this.findSelectedOrNot(page.id, pages);
+  //     });
+  //   });
+  // }
 
   findSelectedOrNot(id, pages) {
     let status = false;
@@ -191,16 +191,17 @@ export class UserPreferencesComponent implements OnInit {
 
   findSelectedPages() {
     let data = [];
-    console.log('Sections: ', this.sections);
-    this.sections.map(section => {
-      console.log('Pages: ', this.pagesGroups[section.title]);
-      this.pagesGroups[section.title].map(page => {
-        if (page.isSelected) {
-          data.push({ id: page.id, status: 1 });
-        }
-        else {
-          data.push({ id: page.id, status: 0 });
-        }
+    console.log('formattedData: ', this.formattedData);
+    this.formattedData.map(module => {
+      module.groups.map(group => {
+        group.pages.map(page => {
+          if (page.isSelected) {
+            data.push({ id: page.id, status: 1 });
+          }
+          else {
+            data.push({ id: page.id, status: 0 });
+          }
+        })
       })
 
     });
