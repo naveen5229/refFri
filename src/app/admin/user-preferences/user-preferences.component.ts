@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as _ from 'lodash';
 @Component({
   selector: 'user-preferences',
   templateUrl: './user-preferences.component.html',
@@ -15,10 +16,11 @@ export class UserPreferencesComponent implements OnInit {
     details: null,
     oldPreferences: []
   };
-
+  formattedData = [];
+  pageGroup = [];
   sections = [];
   pagesGroups = {};
-
+  pageGroupKeys = [];
   newPage = {
     module: null,
     group: null,
@@ -54,8 +56,19 @@ export class UserPreferencesComponent implements OnInit {
     document.getElementById('employeename')['value'] = '';
   }
 
-  checkOrUnCheckAll(index) {
-    this.pagesGroups[this.sections[index].title].map(page => page.isSelected = this.sections[index].isSelected);
+  checkOrUnCheckAll(details, type) {
+    if (type === 'group') {
+      console.log('details.isSelected:', details.isSelected);
+      details.pages.map(page => {
+        console.log('details.isSelected:', details.isSelected);
+        page.isSelected = details.isSelected
+      });
+    } else if (type === 'module') {
+      details.groups.map(group => {
+        group.isSelected = details.isSelected;
+        group.pages.map(page => page.isSelected = details.isSelected);
+      });
+    }
   }
 
   getAllUserList() {
@@ -85,7 +98,8 @@ export class UserPreferencesComponent implements OnInit {
         this.data = res['data'];
         console.log("Res Data:", this.data)
         this.selectedUser.oldPreferences = res['data'];
-        this.findSections();
+        this.managedata();
+        // this.findSections();
         // this.checkSelectedPages(res['data']);
       }, err => {
         this.common.loading--;
@@ -93,11 +107,35 @@ export class UserPreferencesComponent implements OnInit {
       })
   }
 
+  managedata() {
+    let firstGroup = _.groupBy(this.data, 'module');
+    console.log(firstGroup);
+    this.formattedData = Object.keys(firstGroup).map(key => {
+      return {
+        name: key,
+        groups: firstGroup[key],
+        isSelected: false
+      }
+    });
+    this.formattedData.map(module => {
+      let pageGroup = _.groupBy(module.groups, 'group_name');
+      module.groups = Object.keys(pageGroup).map(key => {
+        return {
+          name: key,
+          pages: pageGroup[key].map(page => { page.isSelected = false; return page; }),
+          isSelected: false,
+        }
+      });
+    });
+    console.log(this.formattedData);
+  }
+
+
   findSections() {
     this.sections = [];
     this.pagesGroups = {};
     this.data.map(data => {
-      let section = { title: data.route.split('/')[1], isSelected: false };
+      let section = { title: data.group_name, isSelected: false };
       if (!this.sections.filter(s => s.title == section.title).length) {
         this.sections.push(section);
       }

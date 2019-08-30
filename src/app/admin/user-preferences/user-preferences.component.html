@@ -50,8 +50,13 @@
       <auto-suggestion (onSelected)="getUserPages($event)" [data]="getUsersList" display="employeename"
         placeholder="Employee" [preSelected]="null" inputId="employeename"></auto-suggestion>
     </div>
-
-    <div class="container">
+    <!-- <div *ngFor="let data of formattedData; let i=index;">
+      <div class="section-div">
+        <input type="checkbox" [ngClass]="formattedData.isSelected? 'section-box' : ''" [name]="'section-' + j"
+          [(ngModel)]="formattedData.isSelected" (change)="checkOrUnCheckAll(j)"> {{data.name}}
+      </div>
+    </div> -->
+    <!-- <div class="container">
       <div *ngFor="let section of sections; let j = index;">
         <div class="section-div">
           <input type="checkbox" [ngClass]="section.isSelected? 'section-box' : ''" [name]="'section-' + j"
@@ -64,6 +69,30 @@
           </div>
         </div>
       </div>
+
+      <p *ngIf="selectedUser.details">
+        <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
+      </p>
+    </div> -->
+
+    <div class="container">
+      <div *ngFor="let module of formattedData; let i = index;">
+        <div class="module-container">
+          <input type="checkbox" [ngClass]="module.isSelected? 'section-box' : ''" [name]="'section-' + i"
+            [(ngModel)]="module.isSelected" (change)="checkOrUnCheckAll(module, 'module')"> <span
+            class="module-name">{{module.name}}</span>
+        </div>
+        <div class="group-container" *ngFor="let group of module.groups; let j = index">
+          <input type="checkbox" [ngClass]="group.isSelected? 'section-box' : ''" [name]="'group-' + j"
+            [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')"> {{group.name}}
+
+          <div class="page-container" *ngFor="let page of group.pages; let k = index">
+            <input type="checkbox" [ngClass]="page.isSelected? 'section-box' : ''" [name]="'page-' + k"
+              [(ngModel)]="page.isSelected"> {{page.title}}
+          </div>
+        </div>
+      </div>
+
       <p *ngIf="selectedUser.details">
         <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
       </p>
