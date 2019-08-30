@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { AccountService } from '../../services/account.service';
+
 
 
 @Component({
@@ -19,12 +21,14 @@ export class StorerequisitionComponent implements OnInit {
   storeRequestStockId = 0;
   pendingid = 0;
   totalitem = 0;
+  mannual=false;
+  approveId=0;
   storeQuestion = {
     requestdate: this.common.dateFormatternew(new Date()).split(' ')[0],
     issuedate: null,
     code: '',
     custcode: '',
-    approved: 1,
+    approved: this.mannual,
     deltereview: 0,
     delete: 0,
     id: 0,
@@ -93,7 +97,8 @@ export class StorerequisitionComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private activeModal: NgbActiveModal,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    public accountService: AccountService) {
 console.log('store request ',this.common.params);
     this.storeRequestStockId = this.common.params.storeRequestId;
     this.storeQuestion.requesttype.id = this.common.params.storeRequestId;
@@ -107,6 +112,11 @@ console.log('store request ',this.common.params);
     this.getStockItems();
     this.getWarehouses();
     this.storeRequestionType();
+    
+    if (this.common.params.approveId && (this.common.params.approveId==1)) {
+      this.approveId=this.common.params.approveId;
+    }
+    this.mannual= this.accountService.selected.branch.is_inv_manualapprove;
     if (this.common.params.stockQuestionId) {
       this.getStockRequestionForIssue(this.common.params.stockQuestionId, this.common.params.stockQuestionBranchid, this.common.params.storeRequestId);
     }
@@ -166,7 +176,7 @@ console.log('store request ',this.common.params);
           issuedate: (this.storeRequestStockId == -3) ? this.common.dateFormatternew(new Date()).split(' ')[0] : this.common.dateFormatternew(this.StockQuestiondata[0].y_issue_date),
           code: this.StockQuestiondata[0].y_code,
           custcode: this.StockQuestiondata[0].y_cust_code,
-          approved: (this.StockQuestiondata[0].y_for_approved == false ? 0 : 1),
+          approved:(this.StockQuestiondata[0].y_for_approved)? false : this.StockQuestiondata[0].y_for_approved,
           deltereview: (this.StockQuestiondata[0].y_del_review == false ? 0 : 1),
           delete: (this.StockQuestiondata[0].y_deleted == false ? 0 : 1),
           id: this.StockQuestiondata[0].y_id,
@@ -183,6 +193,9 @@ console.log('store request ',this.common.params);
             id: this.StockQuestiondata[0].y_to_fobranch_id
           },
           details: []
+        }
+        if(this.approveId==0){
+        this.mannual=(this.StockQuestiondata[0].y_for_approved)? false : this.StockQuestiondata[0].y_for_approved;
         }
         this.StockQuestiondata.map((stoQuestionDetail, index) => {
           if (!this.storeQuestion.details[index]) {
