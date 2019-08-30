@@ -78,16 +78,16 @@
     <div class="container">
       <div *ngFor="let module of formattedData; let i = index;">
         <div class="module-container">
-          <input type="checkbox" [ngClass]="module.isSelected? 'section-box' : ''" [name]="'section-' + i"
+          <input type="checkbox" [ngClass]="module.isSelected? 'module-box' : ''" [name]="'section-' + i"
             [(ngModel)]="module.isSelected" (change)="checkOrUnCheckAll(module, 'module')"> <span
             class="module-name">{{module.name}}</span>
         </div>
         <div class="group-container" *ngFor="let group of module.groups; let j = index">
-          <input type="checkbox" [ngClass]="group.isSelected? 'section-box' : ''" [name]="'group-' + j"
+          <input type="checkbox" [ngClass]="group.isSelected? 'group-box' : ''" [name]="'group-' + j"
             [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')"> {{group.name}}
 
           <div class="page-container" *ngFor="let page of group.pages; let k = index">
-            <input type="checkbox" [ngClass]="page.isSelected? 'section-box' : ''" [name]="'page-' + k"
+            <input type="checkbox" [ngClass]="page.isSelected? 'page-box' : ''" [name]="'page-' + k"
               [(ngModel)]="page.isSelected"> {{page.title}}
           </div>
         </div>
