@@ -64,6 +64,7 @@ export class DriverListComponent implements OnInit {
         console.log('Res:', res['data']);
         this.driverLists = res['data'];
         if (this.driverLists == null) {
+          return ;
           this.driverLists = [];
           this.table = null;
         }
