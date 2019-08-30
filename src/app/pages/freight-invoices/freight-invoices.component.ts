@@ -157,11 +157,24 @@ export class FreightInvoicesComponent implements OnInit {
   }
 
   invoiceIcon(row,InvNumber){
+    let invAmt = 0;
+    let showFlag = false;
+    if(InvNumber == 1 && row._amount >0 ){
+      invAmt = row._amount1;
+      showFlag = true;
+    }else if(InvNumber == 2 && row._amount1 >0){
+      invAmt = row._amount2;
+      showFlag = true;
+    }
+    else if(InvNumber == 3 && row._amount2 >0  ){
+      invAmt = row._amount3;
+      showFlag = true;
+    }
     let invoiceIcons = [];
-    if(row._lrcount>0){
+    if(row._lrcount>0 && showFlag){
       invoiceIcons.push(
         {
-          txt:'Inv-Amt : ' +100,
+          txt:invAmt,
         },
         {
           class: "fas fa-print",
@@ -239,9 +252,12 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
-  printInvoice(invoice,invNo) {
-    console.log("invoice", invoice);
-    this.common.params = { invoiceId: invoice._id}
+  printInvoice(inv,invNo) {
+    let invoice = {
+      id: inv._id,
+      type: invNo
+    }
+    this.common.params = { invoice: invoice }
     const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
@@ -249,8 +265,12 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
-  supportDoc(row,invNo) {
-    this.common.params = { invoiceId: row._id}
+  supportDoc(inv,invNo) {
+    let invoice = {
+      id: inv._id,
+      type: invNo
+    }
+    this.common.params = { invoice: invoice }
     const activeModal = this.modalService.open(SupportingDocComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
@@ -281,7 +301,7 @@ export class FreightInvoicesComponent implements OnInit {
     const activeModal = this.modalService.open(FreightInvoiceRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
-
+      this.viewFreightInvoice();
     });
   }
 
