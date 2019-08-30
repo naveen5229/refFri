@@ -65,11 +65,12 @@ export class ApiService {
   }
 
   get(subURL: string, params?: any) {
+    let mulAcc = this.user._details.multipleAccounts ? this.user._details.multipleAccounts : 0;
     if (this.user._customer.id) {
       if (subURL.includes('?')) {
-        subURL += '&foAdminId=' + this.user._customer.id + '&multipleAccounts=' + this.user._details.multipleAccounts;
+        subURL += '&foAdminId=' + this.user._customer.id + '&multipleAccounts=' + mulAcc;
       } else {
-        subURL += '?foAdminId=' + this.user._customer.id + '&multipleAccounts=' + this.user._details.multipleAccounts;
+        subURL += '?foAdminId=' + this.user._customer.id + '&multipleAccounts=' + mulAcc;
       }
     }
 
@@ -118,12 +119,12 @@ export class ApiService {
   }
 
   get3(subURL: string, params?: any) {
+    let mulAcc = this.user._details.multipleAccounts ? this.user._details.multipleAccounts : 0;
     if (this.user._customer.id) {
       if (subURL.includes('?')) {
-        subURL += '&foAdminId=' + this.user._customer.id + '&multipleAccounts=' + this.user._details.multipleAccounts;
+        subURL += '&foAdminId=' + this.user._customer.id + '&multipleAccounts=' + mulAcc;
       } else {
-        subURL += '?foAdminId=' + this.user._customer.id + '&multipleAccounts=' + this.user._details.multipleAccounts;
-
+        subURL += '?foAdminId=' + this.user._customer.id + '&multipleAccounts=' + mulAcc;
       }
     }
 
