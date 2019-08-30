@@ -159,7 +159,7 @@ console.log('store request ',this.common.params);
     this.api.post('Company/GetStoreReQuestionForissue', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log('Res123:', res['data']);
         this.StockQuestiondata = res['data'];
         this.storeQuestion = {
           requestdate: this.common.dateFormatternew(this.StockQuestiondata[0].y_req_date),
