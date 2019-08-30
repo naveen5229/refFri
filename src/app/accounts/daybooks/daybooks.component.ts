@@ -12,6 +12,7 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
 import { promise } from 'selenium-webdriver';
+import { StorerequisitionComponent } from '../../acounts-modals/storerequisition/storerequisition.component';
 
 @Component({
   selector: 'daybooks',
@@ -105,14 +106,31 @@ export class DaybooksComponent implements OnInit {
     this.api.post('Suggestion/GetVouchertypeList', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log('Res======:', res['data']);
         this.vouchertypedata = res['data'];
+        this.vouchertypedata.push({id:-1001,name:'Stock Received'},{id:-1002,name:'Stock Transfer'},{id:-1003,name:'Stock Issue'},{id:-1004,name:'Stock Transfer Received'});
+        console.log('res type list',this.vouchertypedata);
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
 
+  }
+  openStoreQuestionEdit(editData){
+    this.common.params = {
+      storeRequestId: (editData.y_vouchertype_id==-2) ? -3 : editData.y_vouchertype_id,
+      stockQuestionId: editData.y_voucherid,
+      stockQuestionBranchid: editData.y_fobranchid,
+      pendingid: (editData.y_vouchertype_id==-2) ? 0 : 1
+    };
+    const activeModal = this.modalService.open(StorerequisitionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      console.log('responce data return',data);
+      if(data.response){
+     // this.getStoreQuestion();
+      }
+    });
   }
   getBranchList() {
     let params = {

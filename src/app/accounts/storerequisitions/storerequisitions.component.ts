@@ -78,9 +78,13 @@ export class StorerequisitionsComponent implements OnInit {
       stockQuestionBranchid: stockQuestionBranch,
       pendingid: this.pending
     };
+    console.log('store rwequestion params',this.common.params);
     const activeModal = this.modalService.open(StorerequisitionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
+      console.log('responce data return',data);
+      if(data.response){
       this.getStoreQuestion();
+      }
     });
 
   }

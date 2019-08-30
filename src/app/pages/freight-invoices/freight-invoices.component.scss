@@ -1,10 +1,11 @@
 :host ::ng-deep .tableFixHead{
     table{
         tr{
-            td:last-child{
+            td{
                 i{
-                    width: 30px;
+                    width: 18px;
                     text-align: center;
+                    margin:4px;
                     &.fa-eye {
                         color: red;
                         font-size: 18px;

@@ -63,18 +63,18 @@
                 <auto-suggestion (onSelected)="getVehicleInfo($event)" url="Vehicles/getVehicleListForFoid"
                   display="regno" placeholder="Enter Vehicle Number" (change)="resetData($event)" inputId="vehicleno"
                   [preSelected]="{regno : vehicleData.regno }" style="width
-                  :100%" *ngIf='lr.vehicleType == 1'>
+                  :100%" *ngIf='lr.vehicleType == 1' inputId = 'vehicleno'>
                 </auto-suggestion>
                 <input type="text" [(ngModel)]=vehicleData.regno class="form-control" placeholder="Vehicle"
-                  *ngIf='lr.vehicleType !=1'>
+                  *ngIf='lr.vehicleType !=1' id="vehicleno">
 
               </span>
             </td>
             <td>
               <label>Lr No<span style="color: red">*</span></label>
               <span>
-                <input type="text" [(ngModel)]=lr.num class="form-control" placeholder="Number" style="width:60%">
-                <input type="text" [(ngModel)]=lr.prefix class="form-control" placeholder="Prefix" style="width:40%">
+                <input type="text" [(ngModel)]=lr.prefix class="form-control" placeholder="Prefix" style="width:40%;float:left">
+                <input type="text" [(ngModel)]=lr.serial class="form-control" placeholder="Number" style="width:60%;float:left">
 
               </span>
             </td>
