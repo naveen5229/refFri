@@ -193,6 +193,7 @@ export class AddFreightExpensesComponent implements OnInit {
         }
 
       }, err => {
+        --this.common.loading;
         console.error(err);
         this.common.showError();
       });
