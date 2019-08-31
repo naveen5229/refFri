@@ -15,8 +15,10 @@
   border: 1px solid green;
   cursor: pointer;
 }
-.module-box.input {
+input.module-box {
   cursor: pointer;
+  width: 16px;
+  height: 16px !important;
 }
 .group-box {
   min-height: 25px;
@@ -24,8 +26,10 @@
   border: 1px solid green;
   cursor: pointer;
 }
-.group-box.input {
+input.group-box {
   cursor: pointer;
+  width: 16px;
+  height: 16px !important;
 }
 
 .module-box input[type="checkbox"]:checked {
@@ -54,9 +58,7 @@
   color: darkblue;
   margin-left: 25px;
 }
-.page-box input {
-  width: 25px;
-  min-height: 25px !important;
-
-  height: 26px !important;
+input.page-box {
+  width: 16px;
+  height: 16px !important;
 }
