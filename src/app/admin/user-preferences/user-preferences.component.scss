@@ -13,6 +13,7 @@
   min-height: 25px;
   width: 25px;
   border: 1px solid green;
+  cursor: pointer;
 }
 .module-box.input {
   cursor: pointer;
@@ -21,6 +22,7 @@
   min-height: 25px;
   width: 25px;
   border: 1px solid green;
+  cursor: pointer;
 }
 .group-box.input {
   cursor: pointer;
@@ -39,10 +41,11 @@
   font-size: 22px;
 }
 .group-container {
-  background: aqua;
+  background: #feffff;
   font-weight: 500;
   padding: 5px 30px;
   font-size: 18px;
+  color: initial;
 }
 .page-container {
   display: inline-block;
@@ -50,4 +53,10 @@
   display: inline-block;
   color: darkblue;
   margin-left: 25px;
+}
+.page-box input {
+  width: 25px;
+  min-height: 25px !important;
+
+  height: 26px !important;
 }

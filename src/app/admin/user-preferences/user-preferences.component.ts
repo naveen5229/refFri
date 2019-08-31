@@ -18,7 +18,6 @@ export class UserPreferencesComponent implements OnInit {
   };
   formattedData = [];
   pageGroup = [];
-  sections = [];
   pagesGroups = {};
   pageGroupKeys = [];
   newPage = {
@@ -50,10 +49,28 @@ export class UserPreferencesComponent implements OnInit {
       details: null,
       oldPreferences: []
     };
-
-    this.sections = [];
     this.pagesGroups = {};
     document.getElementById('employeename')['value'] = '';
+  }
+
+  createNewPage() {
+    let params = {
+      moduleName: this.newPage.module,
+      groupName: this.newPage.group,
+      title: this.newPage.title,
+      route: this.newPage.url,
+      type: this.newPage.type,
+      add_type: this.newPage.addType
+    };
+    this.common.loading++;
+    this.api.post('UserRoles/insertNewPageDetails', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.common.showToast(res['msg'])
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+      })
   }
 
   checkOrUnCheckAll(details, type) {
@@ -131,44 +148,6 @@ export class UserPreferencesComponent implements OnInit {
   }
 
 
-  // findSections() {
-  //   this.sections = [];
-  //   this.pagesGroups = {};
-  //   this.data.map(data => {
-  //     let section = { title: data.group_name, isSelected: false };
-  //     if (!this.sections.filter(s => s.title == section.title).length) {
-  //       this.sections.push(section);
-  //     }
-  //     if (!this.pagesGroups[section.title]) {
-  //       this.pagesGroups[section.title] = [];
-  //     }
-  //     this.pagesGroups[section.title].push({
-  //       id: data.id,
-  //       title: data.title,
-  //       route: data.route,
-  //       isSelected: data.userid ? true : false
-  //     });
-
-  //   });
-  //   console.log("Get All Pages Access:", this.pagesGroups);
-
-  // }
-
-  // checkSelectedPages(pages) {
-  //   this.sections.map(section => {
-  //     this.pagesGroups[section.title].map(page => {
-  //       console.log('________page:::::,', page);
-  //       // page.isSelected = this.findSelectedOrNot(page.id, pages);
-  //     });
-  //   });
-  // }
-
-  findSelectedOrNot(id, pages) {
-    let status = false;
-    pages.map(page => (page.id == id) && (status = page.userid ? true : false));
-    return status;
-  }
-
   updatePreferences() {
     const params = {
       pages: this.findSelectedPages(),
@@ -208,25 +187,6 @@ export class UserPreferencesComponent implements OnInit {
     return data;
   }
 
-  createNewPage() {
-    let params = {
-      moduleName: this.newPage.module,
-      groupName: this.newPage.group,
-      title: this.newPage.title,
-      route: this.newPage.url,
-      type: this.newPage.type,
-      add_type: this.newPage.addType
-    };
 
-    this.common.loading++;
-    this.api.post('UserRoles/insertNewPageDetails', params)
-      .subscribe(res => {
-        this.common.loading--;
-        this.common.showToast(res['msg'])
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-      })
-  }
 
 }

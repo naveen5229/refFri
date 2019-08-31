@@ -3,7 +3,7 @@
     User Role
   </nb-card-header>
 
-  <nb-card-body style="min-height: 360px;">
+  <nb-card-body style="min-height: 580px;">
     <div class="row">
       <div class="col-2">
         <label>Module</label>
@@ -50,30 +50,7 @@
       <auto-suggestion (onSelected)="getUserPages($event)" [data]="getUsersList" display="employeename"
         placeholder="Employee" [preSelected]="null" inputId="employeename"></auto-suggestion>
     </div>
-    <!-- <div *ngFor="let data of formattedData; let i=index;">
-      <div class="section-div">
-        <input type="checkbox" [ngClass]="formattedData.isSelected? 'section-box' : ''" [name]="'section-' + j"
-          [(ngModel)]="formattedData.isSelected" (change)="checkOrUnCheckAll(j)"> {{data.name}}
-      </div>
-    </div> -->
-    <!-- <div class="container">
-      <div *ngFor="let section of sections; let j = index;">
-        <div class="section-div">
-          <input type="checkbox" [ngClass]="section.isSelected? 'section-box' : ''" [name]="'section-' + j"
-            [(ngModel)]="section.isSelected" (change)="checkOrUnCheckAll(j)"> {{section.title}}
-        </div>
-        <div class="row">
-          <div class="col-3" *ngFor="let page of pagesGroups[section.title]; let i = index;">
-            <input type="checkbox" [name]="section + '-page-' + i" [id]="section + '-page-' + i"
-              [(ngModel)]="page.isSelected"> {{page.title}}
-          </div>
-        </div>
-      </div>
 
-      <p *ngIf="selectedUser.details">
-        <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
-      </p>
-    </div> -->
 
     <div class="container">
       <div *ngFor="let module of formattedData; let i = index;">
@@ -87,8 +64,7 @@
             [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')"> {{group.name}}
 
           <div class="page-container" *ngFor="let page of group.pages; let k = index">
-            <input type="checkbox" [ngClass]="page.isSelected? 'page-box' : ''" [name]="'page-' + k"
-              [(ngModel)]="page.isSelected"> {{page.title}}
+            <input type="checkbox" class="page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected"> {{page.title}}
           </div>
         </div>
       </div>
