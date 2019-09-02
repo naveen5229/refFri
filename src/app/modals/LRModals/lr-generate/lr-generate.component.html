@@ -13,6 +13,14 @@
         <!-- common Data -->
         <table class="table table-bordered gerrate_tabel">
           <tr>
+              <td>
+                  <label>Branch
+                    <select class="form-control" [(ngModel)]="accountService.selected.branch.id" (change)="getLrFields();">
+                      <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
+                    </select>
+                  </label>
+                  <!-- <label *ngIf='lr.id'>Branch : {{accountService.selected.branch.name}} </label> -->
+                </td>
             <td>
               <label>
                 LR Type
@@ -41,14 +49,7 @@
                 </select>
               </label>
             </td>
-            <td>
-              <label>Branch
-                <select class="form-control" [(ngModel)]="accountService.selected.branch.id" (change)="getLrFields();">
-                  <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
-                </select>
-              </label>
-              <!-- <label *ngIf='lr.id'>Branch : {{accountService.selected.branch.name}} </label> -->
-            </td>
+           
           </tr>
         </table>
 
@@ -61,7 +62,7 @@
               <label>Vehicle<span style="color: red">*</span></label>
               <span>
                 <auto-suggestion (onSelected)="getVehicleInfo($event)" url="Vehicles/getVehicleListForFoid"
-                  display="regno" placeholder="Enter Vehicle Number" (change)="resetData($event)" inputId="vehicleno"
+                  display="regno" placeholder="Enter Vehicle Number" (onChange)="resetData($event)" inputId="vehicleno"
                   [preSelected]="{regno : vehicleData.regno }" style="width
                   :100%" *ngIf='lr.vehicleType == 1' inputId = 'vehicleno'>
                 </auto-suggestion>
@@ -107,7 +108,7 @@
                   (onChange)="generalDetailColumn1[i].r_valueid = ''"
                   (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id"
                   url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number"
-                  (change)="resetData($event)" inputId="vehicleno"
+                  inputId="vehicleno"
                   [preSelected]="{regno : generalDetailColumn1[i].r_value }">
                 </auto-suggestion>
 
