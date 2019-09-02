@@ -148,8 +148,7 @@ export class FreightInvoicesComponent implements OnInit {
       {
         class: "fas fa-trash-alt",
         action: this.deleteRow.bind(this, row),
-      }
-      
+      },
     )
     // if lr count is greater than zero
    
@@ -171,7 +170,7 @@ export class FreightInvoicesComponent implements OnInit {
       showFlag = true;
     }
     let invoiceIcons = [];
-    if(row._lrcount>0 && showFlag){
+    if(row._lrcount>0 && showFlag && InvNumber==1){
       invoiceIcons.push(
         {
           txt:invAmt,
@@ -183,6 +182,17 @@ export class FreightInvoicesComponent implements OnInit {
         {
           class: "far fa-file",
           action: this.supportDoc.bind(this, row,InvNumber),
+        },
+        {
+          class: "fa fa-inr",
+          action: this.openFreightRateModal.bind(this, row,InvNumber),
+        }
+      )
+    }
+    if(row._lrcount>0 && showFlag && InvNumber>1){
+      invoiceIcons.push(
+        {
+          txt:invAmt,
         },
         {
           class: "fa fa-inr",

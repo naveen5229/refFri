@@ -17,16 +17,19 @@ export class FreightInvoiceRateComponent implements OnInit {
   columnsValue = [];
   invoiceRates = [];
   totalManualAmount = 0;
-
+  invoiceNo = null;
+  invoices = [];
+  invoiceDate = new Date();
   constructor(
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
   ) {
-    this.invoiceId = this.common.params.invoice.id;
+    this.invoiceId = this.invoiceType? this.common.params.invoice.id:null;
     this.invoiceType = this.common.params.invoice.type;
     this.common.handleModalSize('class', 'modal-lg', '1500');
     this.getFreightInvoiceRate();
+    this.getFollowupInvoices();
   }
 
   ngOnInit() {
@@ -82,6 +85,8 @@ export class FreightInvoiceRateComponent implements OnInit {
     let params = {
       invoiceId: this.invoiceId,
       invoiceType: this.invoiceType,
+      invoiceNumber:this.invoiceNo,
+      invoiceDate: this.common.dateFormatter(this.invoiceDate).split(' ')[0],
       data: JSON.stringify(this.invoiceRates)
     }
     console.log("params", params);
@@ -141,7 +146,112 @@ export class FreightInvoiceRateComponent implements OnInit {
     });
   }
 
-  onPrint(){
-    
+  //  invoices------
+  valobj2 = {};
+  table2 = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  showTable = false;
+
+  getFollowupInvoices() {
+    let params = {
+      invoiceId: this.invoiceId,
+      invoiceType: this.invoiceType,
+    }
+    console.log("params", params);
+    this.api.post('FrieghtRate/getFollowupInvoices', params)
+      .subscribe(res => {
+        this.common.loading--;
+
+        console.log("result", res['data']);
+        this.invoices = res['data'];
+        this.smartTableWithHeadings();
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+  smartTableWithHeadings() {
+    this.table2 = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    if (this.invoices != null) {
+      console.log('onwardDelayData', this.invoices);
+      let first_rec = this.invoices[0];
+      console.log("first_Rec", first_rec);
+
+      for (var key in first_rec) {
+        if (key.charAt(0) != "_") {
+          this.headings.push(key);
+          let headerObj = { title: key, placeholder: this.formatTitle(key) };
+          this.table2.data.headings[key] = headerObj;
+        }
+
+      }
+
+      this.table2.data.columns = this.getTableColumns2();
+      console.log("table:2");
+      console.log(this.table2);
+      this.showTable = true;
+    } else {
+      this.common.showToast('No Record Found !!');
+    }
+
+
+  }
+
+  formatTitle(strval) {
+    let pos = strval.indexOf('_');
+    if (pos > 0) {
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
+    } else {
+      return strval.charAt(0).toUpperCase() + strval.substr(1);
+    }
+  }
+
+
+  getTableColumns2() {
+    let columns = [];
+    for (var i = 0; i < this.invoices.length; i++) {
+      this.valobj2 = {};
+
+      for (let j = 0; j < this.headings.length; j++) {
+        console.log("header", this.headings[j])
+        if (this.headings[j] == "Act") {
+          this.valobj2[this.headings[j]] = {
+            value: '', isHTML: true, action: null, icons: [
+              { class: 'icon fa fa-question-circle', action: '' },
+              { class: 'icon fa fa-pencil-square-o', action: '' }]
+          };
+
+        }
+        else {
+          this.valobj2[this.headings[j]] = { value: this.invoices[i][this.headings[j]], class: 'black', action: '' };
+        }
+      }
+      this.valobj2['style'] = { background: this.invoices[i]._rowcolor };
+      columns.push(this.valobj2);
+    }
+
+    console.log('Columns:', columns);
+    return columns;
+  }
+
+  onPrint() {
+
   }
 }
