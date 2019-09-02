@@ -1,14 +1,3 @@
-.admin {
-  margin: 2%;
-}
-.search {
-  width: 180px;
-  margin-left: 20px;
-}
-.container {
-  color: black;
-}
-
 .module-box {
   min-height: 25px;
   width: 25px;
@@ -37,12 +26,27 @@ input.group-box {
 }
 
 /***************** New CSS ************/
+.row.col-2 {
+  margin: 2px;
+}
+.search {
+  width: 180px;
+  margin-left: 20px;
+}
+.container {
+  color: black;
+}
+
 .module-container {
   background: #f2f2f2;
   padding: 5px 16px;
   font-weight: bold;
   text-transform: capitalize;
   font-size: 22px;
+  margin-top: 10px;
+}
+.module-name {
+  color: #01203c;
 }
 .group-container {
   background: #feffff;
@@ -52,11 +56,11 @@ input.group-box {
   color: initial;
 }
 .page-container {
-  display: inline-block;
   font-size: 14px !important;
-  display: inline-block;
   color: darkblue;
   margin-left: 25px;
+  padding: 0px;
+  display: inline-block;
 }
 input.page-box {
   width: 16px;

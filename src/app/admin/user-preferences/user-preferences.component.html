@@ -18,12 +18,12 @@
         <input type="text" class="form-control" id="title" name="title" [(ngModel)]="newPage.title">
       </div>
 
-      <div class="col-2">
+      <div class="col-3">
         <label>Url</label>
         <input type="text" class="form-control" id="url" name="url" [(ngModel)]="newPage.url">
       </div>
 
-      <div class="col-2">
+      <div class="col-1">
         <label>Type</label>
         <select [(ngModel)]="newPage.type" class="form-control">
           <option value="Dashboard">Dashboard</option>
@@ -57,14 +57,15 @@
         <div class="module-container">
           <input type="checkbox" [ngClass]="module.isSelected? 'module-box' : ''" [name]="'section-' + i"
             [(ngModel)]="module.isSelected" (change)="checkOrUnCheckAll(module, 'module')"> <span
-            class="module-name">{{module.name}}</span>
+            class="module-name">{{module.name | uppercase }}</span>
         </div>
         <div class="group-container" *ngFor="let group of module.groups; let j = index">
-          <input type="checkbox" [ngClass]="group.isSelected? 'group-box' : ''" [name]="'group-' + j"
-            [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')"> {{group.name}}
-
-          <div class="page-container" *ngFor="let page of group.pages; let k = index">
-            <input type="checkbox" class="page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected"> {{page.title}}
+          <div><input type="checkbox" [ngClass]="group.isSelected? 'group-box' : ''" [name]="'group-' + j"
+              [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')"> {{group.name}}
+          </div>
+          <div class="col-2 page-container" *ngFor="let page of group.pages; let k = index">
+            <input type="checkbox" class=" page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected">
+            {{page.title}}
           </div>
         </div>
       </div>
