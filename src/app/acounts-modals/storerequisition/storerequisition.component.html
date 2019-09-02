@@ -199,6 +199,14 @@
 
     <div class="modal-footer">
       <div class="row">
+          <div class="col" *ngIf="(approveId == 1)">
+              <button class="btn btn-primary mr-2" type="button" outline (click)="approveDeleteFunction(0, 'true',storeQuestion.id)" id="permanentdelete"
+                style="cursor: pointer;">Approve</button>
+            </div>
+          <span *ngIf="mannual && (approveId == 0)">
+              <input type="checkbox" name="mannual" id="mannual"  [(ngModel)]="storeQuestion.approved"> Is Mannual Approval
+            </span>
+            
           <div class="col" *ngIf="(storeQuestion.id !=0)">
               <button class="btn btn-danger" type="button" outline (click)="approveDeleteFunction(1, 'true',storeQuestion.id)" id="cancel"
                 style="cursor: pointer;">Delete</button>

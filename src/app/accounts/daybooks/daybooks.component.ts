@@ -122,7 +122,7 @@ export class DaybooksComponent implements OnInit {
       storeRequestId: (editData.y_vouchertype_id==-2) ? -3 : editData.y_vouchertype_id,
       stockQuestionId: editData.y_voucherid,
       stockQuestionBranchid: editData.y_fobranchid,
-      pendingid: (editData.y_vouchertype_id==-2) ? 0 : 1
+      pendingid: (editData.y_vouchertype_id==-2) ? 0 : 1,
     };
     const activeModal = this.modalService.open(StorerequisitionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
