@@ -33,7 +33,7 @@ export class AddCompanyBranchComponent implements OnInit {
     public common: CommonService,
     public api: ApiService) {
     this.getState();
-    console.log("ADDD",this.common.params)
+    console.log("ADDD", this.common.params)
     this.companyName = this.common.params.cmpName;
     if (this.common.params.doc) {
       this.address = this.common.params.doc.Address;
@@ -71,132 +71,132 @@ export class AddCompanyBranchComponent implements OnInit {
   }
 
   addCompany() {
-    var reggst = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/;
-   if(this.branchName==null){
-     this.common.showError("Please Add Branch Name");
-     return
-   }else if(this.locId==null){
-     this.common.showError("Please Add City Name");
-     return;
-   }else if (this.gstIn != '' && !reggst.test(this.gstIn)) {
-    this.common.showError('Invalid gstno Number');
-    return;
-  }else if(this.gstIn =='' &&  this.pinCode==null){
-    this.common.showError("please enter Gstno/Pincode");
-  }else{
-    const params = {
-      address: this.address,
-      remark: this.remark,
-      pinCode: this.pinCode,
-      stateId: this.stateId,
-      locId: this.locId,
-      gstIn: this.gstIn,
-      branchName: this.branchName,
-      assCmpnyId: this.assCmpnyId,
-      userCmpnyId: this.userCmpnyId,
-      branchId: this.branchId,
-    };
-    ++this.common.loading;
-    console.log("params", params);
-    this.api.post('ManageParty/saveCompanyBranch', params)
-      .subscribe(res => {
-        --this.common.loading;
-        if (res['data'][0].y_id > 0) {
-          this.common.showToast(res['data'][0].y_msg);
-          this.Update = true;
-          this.activeModal.close({ response: this.Update });
-        }
-        else {
-          this.common.showError(res['data'][0].y_msg)
-        }
-      },
-        err => {
+    var reggst = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9a-zA-Z]){1}?$/;
+    if (this.branchName == null) {
+      this.common.showError("Please Add Branch Name");
+      return
+    } else if (this.locId == null) {
+      this.common.showError("Please Add City Name");
+      return;
+    } else if (this.gstIn != '' && !reggst.test(this.gstIn)) {
+      this.common.showError('Invalid gstno Number');
+      return;
+    } else if (this.gstIn == '' && this.pinCode == null) {
+      this.common.showError("please enter Gstno/Pincode");
+    } else {
+      const params = {
+        address: this.address,
+        remark: this.remark,
+        pinCode: this.pinCode,
+        stateId: this.stateId,
+        locId: this.locId,
+        gstIn: this.gstIn,
+        branchName: this.branchName,
+        assCmpnyId: this.assCmpnyId,
+        userCmpnyId: this.userCmpnyId,
+        branchId: this.branchId,
+      };
+      ++this.common.loading;
+      console.log("params", params);
+      this.api.post('ManageParty/saveCompanyBranch', params)
+        .subscribe(res => {
           --this.common.loading;
-          console.error(' Api Error:', err)
-        });   
+          if (res['data'][0].y_id > 0) {
+            this.common.showToast(res['data'][0].y_msg);
+            this.Update = true;
+            this.activeModal.close({ response: this.Update });
+          }
+          else {
+            this.common.showError(res['data'][0].y_msg)
+          }
+        },
+          err => {
+            --this.common.loading;
+            console.error(' Api Error:', err)
+          });
+    }
+    //   if(this.branchName!=null){
+    //     if(this.locId!=null){
+    //       if (this.common.params.flag == 'Update') {
+    //         if (this.gstIn != null || this.pinCode != null) {
+    //           const params = {
+    //             address: this.address,
+    //             remark: this.remark,
+    //             pinCode: this.pinCode,
+    //             stateId: this.stateId,
+    //             locId: this.locId,
+    //             gstIn: this.gstIn,
+    //             branchName: this.branchName,
+    //             assCmpnyId: this.assCmpnyId,
+    //             userCmpnyId: this.userCmpnyId,
+    //             branchId: this.branchId,
+    //           };
+    //           ++this.common.loading;
+    //           console.log("params", params);
+    //           this.api.post('ManageParty/saveCompanyBranch', params)
+    //             .subscribe(res => {
+    //               --this.common.loading;
+    //               if (res['data'][0].y_id > 0) {
+    //                 this.common.showToast(res['data'][0].y_msg);
+    //                 this.Update = true;
+    //                 this.activeModal.close({ response: this.Update });
+    //               }
+    //               else {
+    //                 this.common.showError(res['data'][0].y_msg)
+    //               }
+    //             },
+    //               err => {
+    //                 --this.common.loading;
+    //                 console.error(' Api Error:', err)
+    //               });
+    //         } else {
+    //           this.common.showError("please enter Gstno/Pincode");
+    //         }
+
+    //       } else {
+    //         if (this.gstIn != null || this.pinCode != null) {
+    //           const params = {
+    //             address: this.address,
+    //             remark: this.remark,
+    //             pinCode: this.pinCode,
+    //             stateId: this.stateId,
+    //             locId: this.locId,
+    //             gstIn: this.gstIn,
+    //             branchName: this.branchName,
+    //             assCmpnyId: this.common.params.cmpId,
+    //             userCmpnyId: this.common.params.userCmpId,
+    //             branchId: this.branchId,
+    //           };
+    //           ++this.common.loading;
+    //           console.log("params", params);
+    //           this.api.post('ManageParty/saveCompanyBranch', params)
+    //             .subscribe(res => {
+    //               --this.common.loading;
+    //               console.log("Testing")
+    //               if (res['data'][0].y_id > 0) {
+    //                 this.common.showToast(res['data'][0].y_msg);
+    //                 this.Update = true;
+    //                 this.activeModal.close({ response: this.Update });
+    //               } else {
+    //                 this.common.showError(res['data'][0].y_msg)
+    //               }
+    //             },
+    //               err => {
+    //                 --this.common.loading;
+    //                 console.error(' Api Error:', err)
+    //               });
+    //         } else {
+    //           this.common.showError("please enter Gstno/Pincode");
+    //         }
+    //       }   
+    //     }else{
+    //       this.common.showError("please add city")
+    //     }
+
+    //   }else{
+    //     this.common.showError("please add branch Name")
+    //   }
+    // }
   }
-  //   if(this.branchName!=null){
-  //     if(this.locId!=null){
-  //       if (this.common.params.flag == 'Update') {
-  //         if (this.gstIn != null || this.pinCode != null) {
-  //           const params = {
-  //             address: this.address,
-  //             remark: this.remark,
-  //             pinCode: this.pinCode,
-  //             stateId: this.stateId,
-  //             locId: this.locId,
-  //             gstIn: this.gstIn,
-  //             branchName: this.branchName,
-  //             assCmpnyId: this.assCmpnyId,
-  //             userCmpnyId: this.userCmpnyId,
-  //             branchId: this.branchId,
-  //           };
-  //           ++this.common.loading;
-  //           console.log("params", params);
-  //           this.api.post('ManageParty/saveCompanyBranch', params)
-  //             .subscribe(res => {
-  //               --this.common.loading;
-  //               if (res['data'][0].y_id > 0) {
-  //                 this.common.showToast(res['data'][0].y_msg);
-  //                 this.Update = true;
-  //                 this.activeModal.close({ response: this.Update });
-  //               }
-  //               else {
-  //                 this.common.showError(res['data'][0].y_msg)
-  //               }
-  //             },
-  //               err => {
-  //                 --this.common.loading;
-  //                 console.error(' Api Error:', err)
-  //               });
-  //         } else {
-  //           this.common.showError("please enter Gstno/Pincode");
-  //         }
-    
-  //       } else {
-  //         if (this.gstIn != null || this.pinCode != null) {
-  //           const params = {
-  //             address: this.address,
-  //             remark: this.remark,
-  //             pinCode: this.pinCode,
-  //             stateId: this.stateId,
-  //             locId: this.locId,
-  //             gstIn: this.gstIn,
-  //             branchName: this.branchName,
-  //             assCmpnyId: this.common.params.cmpId,
-  //             userCmpnyId: this.common.params.userCmpId,
-  //             branchId: this.branchId,
-  //           };
-  //           ++this.common.loading;
-  //           console.log("params", params);
-  //           this.api.post('ManageParty/saveCompanyBranch', params)
-  //             .subscribe(res => {
-  //               --this.common.loading;
-  //               console.log("Testing")
-  //               if (res['data'][0].y_id > 0) {
-  //                 this.common.showToast(res['data'][0].y_msg);
-  //                 this.Update = true;
-  //                 this.activeModal.close({ response: this.Update });
-  //               } else {
-  //                 this.common.showError(res['data'][0].y_msg)
-  //               }
-  //             },
-  //               err => {
-  //                 --this.common.loading;
-  //                 console.error(' Api Error:', err)
-  //               });
-  //         } else {
-  //           this.common.showError("please enter Gstno/Pincode");
-  //         }
-  //       }   
-  //     }else{
-  //       this.common.showError("please add city")
-  //     }
-     
-  //   }else{
-  //     this.common.showError("please add branch Name")
-  //   }
-  // }
-}
- 
+
 }
