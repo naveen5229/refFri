@@ -131,7 +131,6 @@ export class LoginComponent implements OnInit {
 
           console.log('Login Type: ', this.user._loggedInBy);
           localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
-          this.getUserPagesList();
           if (this.user._loggedInBy == 'admin') {
             this.router.navigate(['/admin']);
           } else if (this.user._loggedInBy == 'partner') {
@@ -141,6 +140,7 @@ export class LoginComponent implements OnInit {
             this.activity.activityHandler("login");
             this.router.navigate(['/pages']);
           }
+          this.getUserPagesList();
         }
       }, err => {
         --this.common.loading;

@@ -1,5 +1,33 @@
-.admin {
-  margin: 2%;
+.module-box {
+  min-height: 25px;
+  width: 25px;
+  border: 1px solid green;
+  cursor: pointer;
+}
+input.module-box {
+  cursor: pointer;
+  width: 16px;
+  height: 16px !important;
+}
+.group-box {
+  min-height: 25px;
+  width: 25px;
+  border: 1px solid green;
+  cursor: pointer;
+}
+input.group-box {
+  cursor: pointer;
+  width: 16px;
+  height: 16px !important;
+}
+
+.module-box input[type="checkbox"]:checked {
+  color: green;
+}
+
+/***************** New CSS ************/
+.row.col-2 {
+  margin: 2px;
 }
 .search {
   width: 180px;
@@ -8,23 +36,33 @@
 .container {
   color: black;
 }
-.section-div {
-  font-size: 22px;
-  text-transform: capitalize;
-  top: 0;
-  left: 0;
-  color: black;
-  margin-top: 5px;
-}
-.section-box {
-  min-height: 25px;
-  width: 25px;
-  border: 1px solid green;
-}
-.section-box.input {
-  cursor: pointer;
-}
 
-.section-box input[type="checkbox"]:checked {
-  color: green;
+.module-container {
+  background: #f2f2f2;
+  padding: 5px 16px;
+  font-weight: bold;
+  text-transform: capitalize;
+  font-size: 22px;
+  margin-top: 10px;
+}
+.module-name {
+  color: #01203c;
+}
+.group-container {
+  background: #feffff;
+  font-weight: 500;
+  padding: 5px 30px;
+  font-size: 18px;
+  color: initial;
+}
+.page-container {
+  font-size: 14px !important;
+  color: darkblue;
+  margin-left: 25px;
+  padding: 0px;
+  display: inline-block;
+}
+input.page-box {
+  width: 16px;
+  height: 16px !important;
 }

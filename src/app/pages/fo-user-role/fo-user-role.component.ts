@@ -2,22 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'fo-user-role',
   templateUrl: './fo-user-role.component.html',
-  styleUrls: ['./fo-user-role.component.scss']
+  styleUrls: ['./fo-user-role.component.scss', '../pages.component.css']
 })
 export class FoUserRoleComponent implements OnInit {
   getUsersList = [];
   getAllPagesList = [];
+  formattedData = [];
   selectedUser = {
     details: null,
     oldPreferences: []
   };
 
-  sections = [];
-  pagesGroups = {};
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -60,41 +60,53 @@ export class FoUserRoleComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.getAllPagesList = res['data'];
+        this.managedata();
         console.log("Res Data:", this.getAllPagesList)
         this.selectedUser.oldPreferences = res['data'];
-        this.findSections();
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
       })
   }
 
-  findSections() {
-    this.sections = [];
-    this.pagesGroups = {};
-    this.getAllPagesList.map(data => {
-      let section = { title: data.route.split('/')[1], isSelected: false };
-      if (!this.sections.filter(s => s.title == section.title).length) {
-        this.sections.push(section);
-      }
-      if (!this.pagesGroups[section.title]) {
-        this.pagesGroups[section.title] = [];
-      }
-      this.pagesGroups[section.title].push({
-        id: data.id,
-        title: data.title,
-        route: data.route,
-        isSelected: data.userid ? true : false
-      });
 
+  managedata() {
+    let firstGroup = _.groupBy(this.getAllPagesList, 'module');
+    console.log(firstGroup);
+    this.formattedData = Object.keys(firstGroup).map(key => {
+      return {
+        name: key,
+        groups: firstGroup[key],
+        isSelected: false
+      }
     });
-    console.log("Get All Pages Access:", this.pagesGroups);
-
+    this.formattedData.map(module => {
+      let pageGroup = _.groupBy(module.groups, 'group_name');
+      module.groups = Object.keys(pageGroup).map(key => {
+        return {
+          name: key,
+          pages: pageGroup[key].map(page => { page.isSelected = page.userid ? true : false; return page; }),
+          isSelected: false,
+        }
+      });
+    });
+    console.log(this.formattedData);
   }
-  checkOrUnCheckAll(index) {
-    this.pagesGroups[this.sections[index].title].map(page => page.isSelected = this.sections[index].isSelected);
-  }
 
+  checkOrUnCheckAll(details, type) {
+    if (type === 'group') {
+      console.log('details.isSelected:', details.isSelected);
+      details.pages.map(page => {
+        console.log('details.isSelected:', details.isSelected);
+        page.isSelected = details.isSelected
+      });
+    } else if (type === 'module') {
+      details.groups.map(group => {
+        group.isSelected = details.isSelected;
+        group.pages.map(page => page.isSelected = details.isSelected);
+      });
+    }
+  }
 
 
   saveUserRole() {
@@ -118,21 +130,23 @@ export class FoUserRoleComponent implements OnInit {
 
   findSelectedPages() {
     let data = [];
-    console.log('Sections: ', this.sections);
-    this.sections.map(section => {
-      console.log('Pages: ', this.pagesGroups[section.title]);
-      this.pagesGroups[section.title].map(page => {
-        if (page.isSelected) {
-          data.push({ id: page.id, status: 1 });
-        }
-        else {
-          data.push({ id: page.id, status: 0 });
-        }
+    console.log('formattedData: ', this.formattedData);
+    this.formattedData.map(module => {
+      module.groups.map(group => {
+        group.pages.map(page => {
+          if (page.isSelected) {
+            data.push({ id: page.id, status: 1 });
+          }
+          else {
+            data.push({ id: page.id, status: 0 });
+          }
+        })
       })
 
     });
     return data;
   }
+
 
 
 }
