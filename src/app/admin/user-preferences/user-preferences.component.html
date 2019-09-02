@@ -70,9 +70,9 @@
         </div>
       </div>
 
-      <p *ngIf="selectedUser.details">
+      <div class="row text-right" *ngIf="selectedUser.details">
         <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
-      </p>
+      </div>
     </div>
 
   </nb-card-body>
