@@ -943,7 +943,9 @@ export class CommonService {
   downloadPdf(divId, isLandscape?) {
     var data = document.getElementById(divId);
     // console.log("data",data);
-    html2canvas(data).then(canvas => {
+    html2canvas(data, {
+      userCROS: true,
+    }).then(canvas => {
       // Few necessary setting options  
       var imgWidth = isLandscape ? 295 : 208;
       var pageHeight = isLandscape ? 208 : 295;
