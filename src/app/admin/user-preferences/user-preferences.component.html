@@ -18,7 +18,7 @@
         <input type="text" class="form-control" id="title" name="title" [(ngModel)]="newPage.title">
       </div>
 
-      <div class="col-3">
+      <div class="col-2">
         <label>Url</label>
         <input type="text" class="form-control" id="url" name="url" [(ngModel)]="newPage.url">
       </div>
@@ -55,13 +55,14 @@
     <div class="container">
       <div *ngFor="let module of formattedData; let i = index;">
         <div class="module-container">
-          <input type="checkbox" [ngClass]="module.isSelected? 'module-box' : ''" [name]="'section-' + i"
+          <input type="checkbox" [ngClass]="module.isSelected? 'module-box' : 'module-box'" [name]="'section-' + i"
             [(ngModel)]="module.isSelected" (change)="checkOrUnCheckAll(module, 'module')"> <span
             class="module-name">{{module.name | uppercase }}</span>
         </div>
         <div class="group-container" *ngFor="let group of module.groups; let j = index">
-          <div><input type="checkbox" [ngClass]="group.isSelected? 'group-box' : ''" [name]="'group-' + j"
-              [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')"> {{group.name}}
+          <div class="group-head"><input type="checkbox" [ngClass]="group.isSelected? 'group-box' : 'group-box'"
+              [name]="'group-' + j" [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')">
+            {{group.name}}
           </div>
           <div class="col-2 page-container" *ngFor="let page of group.pages; let k = index">
             <input type="checkbox" class=" page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected">

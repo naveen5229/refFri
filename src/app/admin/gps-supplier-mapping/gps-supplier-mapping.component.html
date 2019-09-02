@@ -1,34 +1,35 @@
 <nb-card>
   <nb-card-header>
-    GPS Suppliers
+    Fo GPS Mapping
   </nb-card-header>
-   <nb-card-body>
-     <div class="model-body" style="margin-left:20px; margin-right:20px; margin-top:20px; text-align: center">
-       <div class="row">
-         <div class="col-sm-6">
-            <auto-suggestion (onSelected)="getFoList($event)" url="suggestion/getFoUsersList" display="name"
+  <nb-card-body>
+    <div class="model-body" style="margin-left:20px; margin-right:20px; margin-top:20px; text-align: center">
+      <div class="row">
+        <div class="col-sm-6">
+          <auto-suggestion (onSelected)="getFoList($event)" url="suggestion/getFoUsersList" display="name"
             placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
-         </div>
-         <div class="col-sm-6">
-            <auto-suggestion (onSelected)="getSupplierList($event)" url="suggestion/getFoUsersList" display="name"
+        </div>
+        <div class="col-sm-6">
+          <auto-suggestion (onSelected)="getSupplierList($event)" url="suggestion/getFoUsersList" display="name"
             placeholder="Search Supplier" [preSelected]="null"></auto-suggestion>
-         </div>
-         </div>
+        </div>
+      </div>
       <div class="row" style="margin-top:40px">
         <div class="col-sm-3">
-            <input type="text" class="form-control" [(ngModel)]="supplierData.param1" name="input1" placeholder="Input 1">
+          <input type="text" class="form-control" [(ngModel)]="supplierData.param1" name="input1" placeholder="Input 1">
         </div>
         <div class="col-sm-3">
-            <input type="text" class="form-control" [(ngModel)]="supplierData.param2" name="input2" placeholder="Input 2">
+          <input type="text" class="form-control" [(ngModel)]="supplierData.param2" name="input2" placeholder="Input 2">
         </div>
         <div class="col-sm-3">
-            <input type="text" class="form-control" [(ngModel)]="supplierData.param3" name="input3" placeholder="Input 3">
+          <input type="text" class="form-control" [(ngModel)]="supplierData.param3" name="input3" placeholder="Input 3">
         </div>
         <div class="col-sm-3">
-            <input type="text" class="form-control" [(ngModel)]="supplierData.param4" name="input4" placeholder="Input 4">
+          <input type="text" class="form-control" [(ngModel)]="supplierData.param4" name="input4" placeholder="Input 4">
         </div>
-      </div> 
-      <Button class="btn btn-primary" type="button" (click)="insertSupplierDetails()" style="margin-top:40px">Submit</Button>
       </div>
-   </nb-card-body>
+      <Button class="btn btn-primary" type="button" (click)="insertSupplierDetails()"
+        style="margin-top:40px">Submit</Button>
+    </div>
+  </nb-card-body>
 </nb-card>

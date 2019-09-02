@@ -209,11 +209,7 @@ export const PAGES_MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/lorry-receipts',
       },
 
-      // {
-      //   title: 'Generate LR Manifest',
-      //   icon: 'fas fa-receipt',
-      //   link: '/pages/generate-lr-mainfesto',
-      // },
+
       {
         title: 'View LR Manifest',
         icon: 'far fa-file',
@@ -318,12 +314,7 @@ export const PAGES_MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/remaining-fuel',
         home: true,
       },
-      // {
-      //   title: ' Model Fuel Mileage',
-      //   icon: 'fas fa-history',
-      //   link: '/pages/fo-fuel-average',
-      //   home: true,
-      // },
+
       {
         title: ' Fuel Master',
         icon: 'fas fa-sliders-h',

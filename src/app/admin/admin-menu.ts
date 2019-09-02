@@ -130,7 +130,7 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
       home: true,
       children: [
         {
-          title: 'Driver',
+          title: 'Driver List',
           icon: 'fa fa-male',
           link: '/admin/driver-list',
           home: true,
@@ -216,7 +216,7 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
 
         {
           title: 'LR Diagnostics',
-          icon: 'fa fa-diagnostics',
+          icon: 'fas fa-diagnostics',
           link: '/admin/lr-diagnostics',
         },
         {
@@ -309,13 +309,13 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
       children: [
         {
           title: 'Fuel Fillings',
-          icon: 'fas fa-gas-pump',
+        icon: 'fas fa-gas-pump',
           link: '/admin/fuel-fillings',
           home: true,
         },
         {
           title: 'Fuel Mileage',
-          icon: 'fa fa-signal',
+        icon: 'fas fa-tachometer-alt',
           link: '/admin/fuel-average-analysis',
           home: true,
         },
@@ -333,7 +333,7 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         },
         {
           title: 'Remaining Fuel',
-          icon: 'fa fa-signal',
+        icon: 'fas fa-oil-can',
           link: '/admin/remaining-fuel',
           home: true,
         },
@@ -345,20 +345,20 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         },
         {
           title: 'Fo Model Fuel Milage',
-          icon: 'fa fa-safari',
+        icon: 'fas fa-gas-pump',
           link: '/admin/fo-fuel-average',
           home: true,
         },
 
         {
           title: 'Pump Station Area',
-          icon: 'fa fa-signal',
+        icon: 'fas fa-gas-pump',
           link: '/admin/pump-station-area',
           home: true,
         },
         {
           title: 'Fuel Average Issues',
-          icon: 'fa fa-signal',
+        icon: 'fas fa-tachometer-alt',
           link: '/admin/fuel-average-issues',
           home: true,
         },
