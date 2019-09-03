@@ -439,7 +439,7 @@ export const PAGES_MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Tyre',
     icon: 'fa fa-cog',
-    link: '/tyres/inventory'
+    link: '/tyres/tyre-summary'
   },
   {
     title: 'Battery',
