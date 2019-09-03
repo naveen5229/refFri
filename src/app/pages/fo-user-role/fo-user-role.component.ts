@@ -3,6 +3,8 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import * as _ from 'lodash';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'fo-user-role',
@@ -21,7 +23,9 @@ export class FoUserRoleComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
+    public modalService: NgbModal,
     public user: UserService) {
+    this.common.isComponentActive = false;
     this.common.refresh = this.refresh.bind(this);
     this.getAllUserList();
   }
@@ -29,10 +33,30 @@ export class FoUserRoleComponent implements OnInit {
   ngOnInit() {
   }
   refresh() {
+    this.common.isComponentActive = false;
     this.getAllUserList();
     document.getElementById('name')['value'] = '';
   }
-
+  //Confirmation that before Leave the PAge
+  canDeactivate() {
+    console.log("activity Start", this.common.isComponentActive);
+    if (this.common.isComponentActive) {
+      this.common.params = {
+        title: 'Confirmation ',
+        description: `<b>&nbsp;` + 'Are Sure To Leave This Page' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.isComponentActive = false;
+          console.log('no, you wont navigate anywhere');
+        }
+      });
+      return false;
+    }
+    console.log('you are going away, goodby');
+    return true;
+  }
 
   getAllUserList() {
     this.common.loading++;
@@ -94,6 +118,7 @@ export class FoUserRoleComponent implements OnInit {
   }
 
   checkOrUnCheckAll(details, type) {
+    this.common.isComponentActive = true;
     if (type === 'group') {
       console.log('details.isSelected:', details.isSelected);
       details.pages.map(page => {
@@ -122,6 +147,8 @@ export class FoUserRoleComponent implements OnInit {
         this.common.loading--;
         console.log('Res: ', res);
         this.common.showToast(res['msg']);
+        this.refresh();
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);

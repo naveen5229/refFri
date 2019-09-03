@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { RouteGuard } from '../guards/route.guard';
+import { RouteGuard, DeactivateGuardService } from '../guards/route.guard';
 import { AuthGuard } from '../guards/auth.guard';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -509,7 +509,8 @@ const routes: Routes = [{
   {
     path: 'fo-user-role',
     component: FoUserRoleComponent,
-    canActivate: [AuthGuard, RouteGuard]
+    canActivate: [AuthGuard, RouteGuard],
+    canDeactivate: [DeactivateGuardService]
   },
   {
     path: 'trends-fo',

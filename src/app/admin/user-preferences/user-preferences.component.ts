@@ -32,26 +32,7 @@ export class UserPreferencesComponent implements OnInit {
   };
   getUsersList = [];
 
-  //some behaviour that change the loading value
-  canDeactivate() {
-    console.log("activity Start", this.common.isComponentActive);
-    if (this.common.isComponentActive) {
-      this.common.params = {
-        title: 'Confirmation ',
-        description: `<b>&nbsp;` + 'Are Sure To Leave This Page' + `<b>`,
-      }
-      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-      activeModal.result.then(data => {
-        if (data.response) {
-          this.common.isComponentActive = false;
-          console.log('no, you wont navigate anywhere');
-        }
-      });
-      return false;
-    }
-    console.log('you are going away, goodby');
-    return true;
-  }
+
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -69,6 +50,27 @@ export class UserPreferencesComponent implements OnInit {
   ngOnInit() {
   }
 
+  //Confirmation that before Leave the PAge
+  canDeactivate() {
+    console.log("activity Start", this.common.isComponentActive);
+    if (this.common.isComponentActive) {
+      this.common.params = {
+        title: 'Confirmation ',
+        description: `<b>&nbsp;` + 'Are Sure To Leave This Page With Save' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.isComponentActive = false;
+          console.log('no, you wont navigate anywhere');
+        }
+      });
+      return false;
+    }
+    console.log('you are going away, goodby');
+    return true;
+  }
+
   refresh() {
     this.data = [];
     this.selectedUser = {
@@ -77,6 +79,8 @@ export class UserPreferencesComponent implements OnInit {
     };
     this.pagesGroups = {};
     document.getElementById('employeename')['value'] = '';
+    this.common.isComponentActive = false;
+
   }
 
 
@@ -105,9 +109,6 @@ export class UserPreferencesComponent implements OnInit {
     if (type === 'group') {
       details.pages.map(page => {
         page.isSelected = details.isSelected
-
-
-
       });
     } else if (type === 'module') {
       details.groups.map(group => {
@@ -190,7 +191,8 @@ export class UserPreferencesComponent implements OnInit {
         this.common.loading--;
         console.log('Res: ', res);
         this.common.showToast(res['msg']);
-        // this.refresh();
+        this.refresh();
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
