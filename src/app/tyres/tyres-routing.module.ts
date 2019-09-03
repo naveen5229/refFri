@@ -24,19 +24,10 @@ const routes: Routes = [{
             component: DashboardComponent,
             canActivate: [AuthGuard, RouteGuard]
         },
-<<<<<<< HEAD
-        {
-            path: 'inventory',
-            component: InventoryComponent,
-            canActivate: [AuthGuard, RouteGuard]
-
-        },
-=======
         // {
         //     path: 'inventory',
         //     component: InventoryComponent,
         // },
->>>>>>> 26e53b43544782ae2a27cd0069abafe841fde527
         {
             path: 'inputs',
             component: InputsComponent,
