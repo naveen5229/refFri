@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { AccountService } from '../../services/account.service';
+
 
 
 @Component({
@@ -19,12 +21,14 @@ export class StorerequisitionComponent implements OnInit {
   storeRequestStockId = 0;
   pendingid = 0;
   totalitem = 0;
+  mannual=false;
+  approveId=0;
   storeQuestion = {
     requestdate: this.common.dateFormatternew(new Date()).split(' ')[0],
     issuedate: null,
     code: '',
     custcode: '',
-    approved: 1,
+    approved: this.mannual,
     deltereview: 0,
     delete: 0,
     id: 0,
@@ -93,9 +97,9 @@ export class StorerequisitionComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private activeModal: NgbActiveModal,
-    public modalService: NgbModal) {
-
-    this.storeRequestStockId = this.common.params.storeRequestId;
+    public modalService: NgbModal,
+    public accountService: AccountService) {
+console.log('store request ',this.common.params);
     this.storeRequestStockId = this.common.params.storeRequestId;
     this.storeQuestion.requesttype.id = this.common.params.storeRequestId;
     this.pendingid = this.common.params.pendingid;
@@ -108,9 +112,15 @@ export class StorerequisitionComponent implements OnInit {
     this.getStockItems();
     this.getWarehouses();
     this.storeRequestionType();
+    
+    if (this.common.params.approveId && (this.common.params.approveId==1)) {
+      this.approveId=this.common.params.approveId;
+    }
+    this.mannual= this.accountService.selected.branch.is_inv_manualapprove;
     if (this.common.params.stockQuestionId) {
       this.getStockRequestionForIssue(this.common.params.stockQuestionId, this.common.params.stockQuestionBranchid, this.common.params.storeRequestId);
     }
+    this.setFoucus('code');
   }
 
   ngOnInit() {
@@ -159,14 +169,14 @@ export class StorerequisitionComponent implements OnInit {
     this.api.post('Company/GetStoreReQuestionForissue', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log('Res123:', res['data']);
         this.StockQuestiondata = res['data'];
         this.storeQuestion = {
           requestdate: this.common.dateFormatternew(this.StockQuestiondata[0].y_req_date),
           issuedate: (this.storeRequestStockId == -3) ? this.common.dateFormatternew(new Date()).split(' ')[0] : this.common.dateFormatternew(this.StockQuestiondata[0].y_issue_date),
           code: this.StockQuestiondata[0].y_code,
           custcode: this.StockQuestiondata[0].y_cust_code,
-          approved: (this.StockQuestiondata[0].y_for_approved == false ? 0 : 1),
+          approved:(this.StockQuestiondata[0].y_for_approved)? false : this.StockQuestiondata[0].y_for_approved,
           deltereview: (this.StockQuestiondata[0].y_del_review == false ? 0 : 1),
           delete: (this.StockQuestiondata[0].y_deleted == false ? 0 : 1),
           id: this.StockQuestiondata[0].y_id,
@@ -183,6 +193,9 @@ export class StorerequisitionComponent implements OnInit {
             id: this.StockQuestiondata[0].y_to_fobranch_id
           },
           details: []
+        }
+        if(this.approveId==0){
+        this.mannual=(this.StockQuestiondata[0].y_for_approved)? false : this.StockQuestiondata[0].y_for_approved;
         }
         this.StockQuestiondata.map((stoQuestionDetail, index) => {
           if (!this.storeQuestion.details[index]) {
@@ -290,7 +303,7 @@ export class StorerequisitionComponent implements OnInit {
   }
 
   modelCondition() {
-    this.activeModal.close({});
+    this.activeModal.close({response:false});
     event.preventDefault();
     return;
   }
@@ -445,7 +458,7 @@ export class StorerequisitionComponent implements OnInit {
     if (response) {
       this.addStoreRequestion(this.storeQuestion);
     }
-    this.activeModal.close({ response: response, Voucher: this.storeQuestion });
+    this.activeModal.close({ response: true, Voucher: this.storeQuestion });
   }
 
 
@@ -657,5 +670,34 @@ export class StorerequisitionComponent implements OnInit {
         this.common.showError();
       });
 
+  }
+
+
+  approveDeleteFunction(type, typeans,xid) {
+    console.log('type',type,'typeans',typeans,'xid',xid);
+    let params = {
+      id: xid,
+      flagname: (type == 1) ? 'deleted' : 'forapproved',
+      flagvalue: typeans
+    };
+    this.common.loading++;
+    this.api.post('Company/storeRequstionDeleteApprooved', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        //this.getStockItems();
+        this.activeModal.close({ response: true });
+        if (type == 1 && typeans == 'true') {
+          this.common.showToast(" This Value Has been Deleted!");
+        } else if (type == 1 && typeans == 'false') {
+          this.common.showToast(" This Value Has been Restored!");
+        } else {
+          this.common.showToast(" This Value Has been Approved!");
+        }
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError('This Value has been used another entry!');
+      });
   }
 }

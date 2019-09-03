@@ -121,8 +121,11 @@ export class DaybookComponent implements OnInit {
     this.api.post('Suggestion/GetVouchertypeList', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log('Res-----______:', res['data']);
+      
         this.vouchertypedata = res['data'];
+        this.vouchertypedata.push({id:-1001,name:'Stock Received'},{id:-1002,name:'Stock Transfer'},{id:-1003,name:'Stock Issue'},{id:-1004,name:'Stock Transfer Received'});
+        console.log('res type list',this.vouchertypedata);
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -377,8 +380,48 @@ export class DaybookComponent implements OnInit {
       });
     }
   }
+  // getDataFuelFillings() {
+  //   console.log('params model', this.common.params);
+  //   let fuelstatinid = (this.selectedVehicle) ? this.selectedVehicle.id : 0;
+  //   const params = {
+  //     vehId: (this.selectedVehicle) ? this.selectedVehicle.id : 0,
+  //     lastFilling: this.DayBook.startdate,
+  //     currentFilling:this.DayBook.enddate,
+  //     fuelstationid: (this.selectedFuelFilling) ? this.selectedFuelFilling.id : 0
+  //   };
+  //   this.common.loading++;
+  //   this.api.post('Fuel/getFeulfillings', params)
+  //     .subscribe(res => {
+  //       console.log('fuel data', res['data']);
+  //       this.common.loading--;
+  //       if(res['data'].length){
+  //       return res['data'];
+  //       }else {
+  //         this.common.showError('please Select Correct date or vehicle');
+  //       }
+  //       // this.getHeads();
+  //     }, err => {
+  //       console.log(err);
+  //       this.common.loading--;
+  //       this.common.showError();
+  //     });
+  // }
+  openFuelVoucherEdit(fueldata){
+console.log('fuel data 111',fueldata);
+      // this.common.params = {
+      //   vehId: this.selectedVehicle.id,
+      //   lastFilling: this.startdate,
+      //   currentFilling: this.enddate,
+      //   fuelstationid: this.selectedFuelFilling,
+      //   fuelData:this.getDataFuelFillings()
+      // };
 
-
+      // const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      // activeModal.result.then(data => {
+      //    console.log('Data return: ', data);
+        
+      // });  
+  }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);

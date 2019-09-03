@@ -21,6 +21,7 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
   columnsValue = [];
   amountData = null;
   amountDataKeys = [];
+  invoiceType = null;
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -29,7 +30,8 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     public modalService: NgbModal
   ) {
 
-    this.invoiceId = this.common.params.invoiceId;
+    this.invoiceId = this.common.params.invoice.id;
+    this.invoiceType = this.common.params.invoice.type;
     this.common.handleModalSize('class', 'modal-lg', '1200');
     this.printInvoice();
   }
@@ -46,7 +48,8 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     ++this.common.loading;
     let params = {
       invoiceId: this.invoiceId,
-      type: this.type
+      printType: this.type,
+      invoiceType:this.invoiceType
     }
     console.log("params", params);
     this.api.post('FrieghtRate/getFrieghtInvoiceData', params)

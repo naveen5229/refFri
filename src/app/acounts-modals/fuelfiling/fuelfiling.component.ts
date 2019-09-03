@@ -29,7 +29,7 @@ export class FuelfilingComponent implements OnInit {
   storeids = [];
   date = this.common.dateFormatternew(new Date()).split(' ')[0];
   custcode = '';
-  total = 0;
+  total = null;
   narration = '';
   checkall = false;
   activeId = 'creditLedger';
@@ -147,15 +147,15 @@ export class FuelfilingComponent implements OnInit {
     if (this.checkall) {
       this.fuelFilings.map(trip => trip.isChecked = true);
       this.fuelFilings.map(trip =>
-        temp += parseFloat(trip.amount));
+        temp += parseFloat(trip.y_amount));
       this.total = temp;
       this.fuelFilings.map(trip =>
-        this.storeids.push(trip.id));
+        this.storeids.push(trip.y_id));
 
 
     } else {
       this.fuelFilings.map(trip => trip.isChecked = false);
-      this.total = 0;
+      this.total = null;
       this.storeids = [];
     }
     // for (var i = 0; i < this.trips.length; i++) {
@@ -163,7 +163,16 @@ export class FuelfilingComponent implements OnInit {
     // }
   }
   changeTotal(checkvalue, id) {
-    this.total += parseFloat(checkvalue);
+    // this.fuelFilings.map(trip => trip.isChecked = true);
+    console.log('check value',checkvalue,'this.total',this.total,'tesd',this.fuelFilings);
+    let temp1=null;
+    this.fuelFilings.map(trip =>{
+      if(trip.isChecked){
+      temp1 += parseFloat(trip.y_amount);
+    }
+  });
+
+    this.total = parseFloat(temp1);
     this.storeids.push(id);
 
   }
@@ -244,7 +253,7 @@ export class FuelfilingComponent implements OnInit {
     };
 
     console.log('params 1 : ', fuelEntryData);
-    this.common.loading++;
+   // this.common.loading++;
     this.updatefuelfiling(fuelEntryData);
 
     // this.api.post('Voucher/InsertVoucher', params)

@@ -18,6 +18,7 @@ export class HttpResponseHandlerService implements HttpInterceptor {
         /****************** FOR LOGOUT **************** */
         if (response['body'] && response['body']['code']) {
           const code = response['body']['code'];
+          const success=response['body']['success'];
           const codes = [101];
         
           if (codes.indexOf(code) !== -1) {
@@ -26,6 +27,11 @@ export class HttpResponseHandlerService implements HttpInterceptor {
               this.common.showError(response['body']['msg']);
             }, 1000);
             this.router.navigate(['/auth/login']);
+          }
+          if (!success) {
+            setTimeout(() => {
+              this.common.showError(response['body']['msg']);
+            }, 500);
           }
         }
         if (response['body'] && response['body']['encData']){

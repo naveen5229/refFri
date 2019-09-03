@@ -72,8 +72,11 @@ export class AddFreightExpensesComponent implements OnInit {
   getExpenseDetails() {
     const params = "id=" + this.expense.refId +
       "&type=" + this.expense.refernceType;
+    this.common.loading++;
+
     this.api.get('Vehicles/getRefrenceDetails?' + params)
       .subscribe(res => {
+        this.common.loading--;
         console.log(res['data']);
         let resultData = res['data'][0];
         this.expense.vehicleId = resultData.vid;
@@ -118,8 +121,10 @@ export class AddFreightExpensesComponent implements OnInit {
   }
 
   getFreightHeads() {
+    this.common.loading++;
     this.api.get('FrieghtRate/getFreightHeads?type=exp')
       .subscribe(res => {
+        this.common.loading--;
         this.freightHeads = res['data'];
       }, err => {
         this.common.loading--;
@@ -167,10 +172,10 @@ export class AddFreightExpensesComponent implements OnInit {
 
     };
     console.log('params', params);
-    ++this.common.loading;
+    this.common.loading++;
     this.api.post('FrieghtRate/getFrieghtExpenses', params)
       .subscribe(res => {
-        --this.common.loading;
+        this.common.loading--;
         this.data = res['data']['result'];
         this.images = res['data']['images'];
         // if(this.images)
@@ -193,6 +198,7 @@ export class AddFreightExpensesComponent implements OnInit {
         }
 
       }, err => {
+        this.common.loading--;
         console.error(err);
         this.common.showError();
       });

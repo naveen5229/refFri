@@ -40,7 +40,7 @@ export class FreightInvoiceRateComponent implements OnInit {
     ++this.common.loading;
     let params = {
       invoiceId: this.invoiceId,
-      invoiceType: this.invoiceType
+      invoiceType: this.invoiceType,
     }
     console.log("params", params);
     this.api.post('FrieghtRate/getFreightInvoiceRates', params)

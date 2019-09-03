@@ -28,12 +28,16 @@ export class DriverListComponent implements OnInit {
     public common: CommonService,
     public user: UserService) {
     this.getdriverLists();
+    this.common.refresh = this.refresh.bind(this);
 
   }
 
   ngOnInit() {
   }
+  refresh() {
+    this.getdriverLists();
 
+  }
   addDriver() {
     // this.router.navigate(['/driver/add-driver']);
     // const activeModal =
@@ -64,6 +68,7 @@ export class DriverListComponent implements OnInit {
         console.log('Res:', res['data']);
         this.driverLists = res['data'];
         if (this.driverLists == null) {
+          return;
           this.driverLists = [];
           this.table = null;
         }
@@ -138,9 +143,9 @@ export class DriverListComponent implements OnInit {
     return columns;
   }
 
-  driverLedgerMapping(driverdata){
-    this.common.params={
-      driverId:driverdata.id,
+  driverLedgerMapping(driverdata) {
+    this.common.params = {
+      driverId: driverdata.id,
     }
     const activeModal = this.modalService.open(DriverLedgerMappingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 

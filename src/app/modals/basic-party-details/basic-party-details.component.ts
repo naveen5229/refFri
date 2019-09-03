@@ -41,9 +41,10 @@ export class BasicPartyDetailsComponent implements OnInit {
   partyName = null;
   value = false;
   modalClose = false;
-  partyCode=null;
-  userCode=null;
+  partyCode = null;
+  userCode = null;
   activeTab = 'Company Branches';
+  gstPanCheck = false;
 
   dropDown = [
     { name: 'Self', id: 1 },
@@ -141,8 +142,8 @@ export class BasicPartyDetailsComponent implements OnInit {
       website: [''],
       remark: [''],
       panNo: [''],
-      userSupplier:[''],
-      partySupplier:[''],
+      userSupplier: [''],
+      partySupplier: [''],
     });
   }
 
@@ -515,28 +516,30 @@ export class BasicPartyDetailsComponent implements OnInit {
     });
   }
 
-  saveDetails(){
-      this.common.params = {
-        title: 'PAN/GST CONFIRMATION',
-        description: 'Do you Still Continue Either PAN OR GST ?',
-        btn2:"No",
-        btn1:'Yes'
-      };
-      console.log("Inside confirm model")
-      const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
-      activeModal.result.then(data => {
-        console.log('res', data);
-        if (data.response) {
-          this.saveBasicDetails();
-        }
-      });     
+  saveDetails() {
+    this.common.params = {
+      title: 'PAN/GST CONFIRMATION',
+      description: 'Do you Still Continue Either PAN OR GST ?',
+      btn2: "No",
+      btn1: 'Yes'
+    };
+    console.log("Inside confirm model")
+    const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
+    activeModal.result.then(data => {
+      console.log('res', data);
+      if (data.response) {
+        this.gstPanCheck = true;
+        this.saveBasicDetails();
+      }
+    });
   }
 
   saveBasicDetails() {
     console.log("save Basic Details");
     console.log('gst and pan', this.gstNo, this.panNo);
     var regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
-    var reggst = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9a-zA-Z]){1}?$/; 
+    var reggst = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9a-zA-Z]){1}?$/;
+    if (!this.gstPanCheck) {
       if (this.panNo != '' && !regpan.test(this.panNo)) {
         this.common.showError('Invalid Pan Number');
         return;
@@ -547,6 +550,8 @@ export class BasicPartyDetailsComponent implements OnInit {
         this.panNo = this.gstNo.slice(2, 11);
         console.log('pan from gst:', this.panNo);
       }
+    }
+
     let params = {
       branchId: this.branchId,
       website: this.website,
@@ -559,8 +564,8 @@ export class BasicPartyDetailsComponent implements OnInit {
       assCmpnyId: this.assCmpnyId,
       userCmpnyId: this.userCmpnyId,
       assocId: this.assocId,
-      userSuppCode:this.userCode,
-      partySuppCode:this.partyCode,   
+      userSuppCode: this.userCode,
+      partySuppCode: this.partyCode,
     }
     ++this.common.loading;
     console.log("params", params);
@@ -578,17 +583,17 @@ export class BasicPartyDetailsComponent implements OnInit {
           this.panNo = '';
           this.gstNo = '';
           this.cmpAlias = null;
-         // this.assType = '';
+          // this.assType = '';
           this.cmpName = null;
-          this.userCode=null;
-          this.partyCode=null;
+          this.userCode = null;
+          this.partyCode = null;
           this.common.params = {
             partyId: res['data'][0].y_ass_id,
             userGroupId: this.assType,
           };
           this.modalService.open(PartyLedgerMappingComponent, { size: "lg", container: "nb-layout" });
           this.common.showToast(res['data'][0].y_msg);
-          
+
         } else {
           this.common.showError(res['data'][0].y_msg)
         }

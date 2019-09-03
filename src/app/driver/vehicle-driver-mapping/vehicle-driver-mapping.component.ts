@@ -24,6 +24,12 @@ export class VehicleDriverMappingComponent implements OnInit {
     public api: ApiService,
     private modalService: NgbModal,
   ) {
+    this.common.refresh = this.refresh.bind(this);
+
+    this.getdriverMapping();
+
+  }
+  refresh() {
     this.getdriverMapping();
 
   }
