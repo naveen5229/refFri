@@ -21,10 +21,10 @@ const routes: Routes = [{
             path: 'dashboard',
             component: DashboardComponent,
         },
-        {
-            path: 'inventory',
-            component: InventoryComponent,
-        },
+        // {
+        //     path: 'inventory',
+        //     component: InventoryComponent,
+        // },
         {
             path: 'inputs',
             component: InputsComponent,
