@@ -5,6 +5,8 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
+import { RouteGuard } from '../../guards/route.guard';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 @Component({
   selector: 'user-preferences',
   templateUrl: './user-preferences.component.html',
@@ -30,14 +32,38 @@ export class UserPreferencesComponent implements OnInit {
   };
   getUsersList = [];
 
+  //some behaviour that change the loading value
+  canDeactivate() {
+    console.log("activity Start", this.common.isComponentActive);
+    if (this.common.isComponentActive) {
+      this.common.params = {
+        title: 'Confirmation ',
+        description: `<b>&nbsp;` + 'Are Sure To Leave This Page' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.isComponentActive = false;
+          console.log('no, you wont navigate anywhere');
+        }
+      });
+      return false;
+    }
+    console.log('you are going away, goodby');
+    return true;
+  }
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal,
-    private formBuilder: FormBuilder) {
+    public route: RouteGuard) {
+    this.common.isComponentActive = false;
     this.common.refresh = this.refresh.bind(this);
     this.getAllUserList();
   }
+
+
 
 
   ngOnInit() {
@@ -52,6 +78,7 @@ export class UserPreferencesComponent implements OnInit {
     this.pagesGroups = {};
     document.getElementById('employeename')['value'] = '';
   }
+
 
   createNewPage() {
     let params = {
@@ -74,11 +101,13 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   checkOrUnCheckAll(details, type) {
+    this.common.isComponentActive = true;
     if (type === 'group') {
-      console.log('details.isSelected:', details.isSelected);
       details.pages.map(page => {
-        console.log('details.isSelected:', details.isSelected);
         page.isSelected = details.isSelected
+
+
+
       });
     } else if (type === 'module') {
       details.groups.map(group => {

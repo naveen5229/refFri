@@ -15,7 +15,7 @@ import { TransportAreaComponent } from './transport-area/transport-area.componen
 import { SiteDetailsComponent } from './site-details/site-details.component';
 import { PendingDocumentsComponent } from '../documents/pending-documents/pending-documents.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
-import { RouteGuard } from '../guards/route.guard';
+import { RouteGuard, DeactivateGuardService } from '../guards/route.guard';
 import { VSCTicketAuditComponent } from './vscticket-audit/vscticket-audit.component';
 import { AlertRelatedIssueComponent } from './alert-related-issue/alert-related-issue.component';
 import { from } from 'rxjs';
@@ -146,12 +146,13 @@ const routes: Routes = [{
         {
             path: 'pending-documents',
             component: PendingDocumentsComponent,
-            canActivate: [RouteGuard]
+            canActivate: [RouteGuard],
         },
         {
             path: 'user-preferences',
             component: UserPreferencesComponent,
-            canActivate: [RouteGuard]
+            canActivate: [RouteGuard],
+            canDeactivate: [DeactivateGuardService]
         },
         {
             path: 'alert-related-issue',
@@ -379,7 +380,7 @@ const routes: Routes = [{
         },
         {
             path: 'fo-fuel-average',
-            component:FoFuelAverageComponent,
+            component: FoFuelAverageComponent,
             canActivate: [RouteGuard]
         },
 
