@@ -18,11 +18,16 @@ export class DriverDocumentComponent implements OnInit {
   constructor(public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
 
     this.getDocumentData();
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.getDocumentData();
+
   }
 
   getDocumentData() {
