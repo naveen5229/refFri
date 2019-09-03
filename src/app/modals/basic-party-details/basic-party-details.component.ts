@@ -119,6 +119,8 @@ export class BasicPartyDetailsComponent implements OnInit {
       this.partyName = this.common.params.cmpAssocDetail['Company Name'];
       this.cmpName = this.common.params.cmpAssocDetail['Company Name'];
       this.userCmpnyId = this.common.params.cmpAssocDetail._usercmpyid;
+      this.userCode = this.common.params.cmpAssocDetail._usersuppcode ? this.common.params.cmpAssocDetail._usersuppcode : null;
+      this.partyCode = this.common.params.cmpAssocDetail._partysuppcode ? this.common.params.cmpAssocDetail._partysuppcode : null;
       this.getCompanyBranches();
       this.getCompanyEstablishment();
       this.getCompanyContacts();
