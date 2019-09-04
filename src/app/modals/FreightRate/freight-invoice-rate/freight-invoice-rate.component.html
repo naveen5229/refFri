@@ -66,11 +66,11 @@
           <!-- <label style="background: #e4d3d3; padding: 9px;">Total Manual Amount : {{totalManualAmount}}</label> -->
           <button (click)="saveRate(); " class="btn btn-primary">Change & Save</button>
         </div>
-        <div *ngIf="invoiceType>1">
+        <!-- <div *ngIf="invoiceType>1" style="margin-top: 20px">
             <smart-table *ngIf="invoices && invoices.length" [data]="table2.data" [settings]="table2.settings"
               id="tblsuggestions2">
             </smart-table>
-          </div>
+          </div> -->
       </div>
     </div>
   </nb-card-body>
