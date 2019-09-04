@@ -46,6 +46,8 @@ export class VoucherSummaryShortComponent implements OnInit {
   tripsEditData = [];
   storeids = [];
   VoucherData = [];
+  transferData=[];
+  transferHeading=[];
   date = this.common.dateFormatternew(new Date()).split(' ')[0];
   custcode = '';
   checkall = false;
@@ -845,5 +847,35 @@ export class VoucherSummaryShortComponent implements OnInit {
       })
     });
   }
-
+  showTransfer(){
+    let tripidarray = [];
+    this.checkedTrips.map(tripHead => {
+      tripidarray.push(tripHead.id);
+    });
+    const params = {
+      tripIdArray: tripidarray
+    };
+    this.common.loading++;
+    this.api.post('VehicleTrips/tripTransfer', params)
+      // this.api.post('VehicleTrips/getTripExpenceVouher', params)
+      .subscribe(res => {
+      
+        this.common.loading--;
+        if(res['data']){
+        this.transferData = res['data'];
+        let first_rec = this.transferData[0];
+        for (var key in first_rec) {
+          //console.log('kys',first_rec[key]);
+            this.transferHeading.push(key);    
+        }
+      } else {
+        this.transferData =[];
+      }
+        //this.refreshAddTrip();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
 }

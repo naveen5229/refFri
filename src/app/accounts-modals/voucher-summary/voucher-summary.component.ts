@@ -9,6 +9,7 @@ import { AddDriverComponent } from '../../driver/add-driver/add-driver.component
 import { AccountService } from '../../services/account.service';
 import { DateService } from '../../services/date.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 
 
 @Component({
@@ -59,6 +60,8 @@ export class VoucherSummaryComponent implements OnInit {
   driverTotal = 0;
   netTotal = 0;
   diverledgers = [];
+  transferData=[];
+  transferHeading=[];
   accDetails = [{
     detaildate: this.common.dateFormatternew(new Date()).split(' ')[0],
     detailamount: 0,
@@ -875,6 +878,49 @@ export class VoucherSummaryComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  addTransfer() {
+    // console.log("invoice", invoice);
+    // this.common.params = { invoiceId:invoice._id }
+    this.common.params = { refData: null };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      //this.viewTransfer();
+    });
+  }
+
+  showTransfer(){
+    let tripidarray = [];
+    this.checkedTrips.map(tripHead => {
+      tripidarray.push(tripHead.id);
+    });
+    const params = {
+      tripIdArray: tripidarray
+    };
+    this.common.loading++;
+    this.api.post('VehicleTrips/tripTransfer', params)
+      // this.api.post('VehicleTrips/getTripExpenceVouher', params)
+      .subscribe(res => {
+      
+        this.common.loading--;
+        if(res['data']){
+        this.transferData = res['data'];
+        let first_rec = this.transferData[0];
+        for (var key in first_rec) {
+          //console.log('kys',first_rec[key]);
+            this.transferHeading.push(key);    
+        }
+      }else {
+        this.transferData =[];
+      }
+        //this.refreshAddTrip();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
   }
 
 }
