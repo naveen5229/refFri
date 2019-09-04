@@ -34,13 +34,11 @@ export class VehiclesViewComponent implements OnInit {
 
 
   getFoList(details) {
-
     this.foid = details.id;
     this.getVehiclesView();
   }
 
   getVehiclesView() {
-
     let params = 'foid=' + this.foid;
     console.log('params', params);
     this.common.loading++;
@@ -68,8 +66,6 @@ export class VehiclesViewComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       });
-
-
   }
 
   changeNcvValue(vid, index) {
@@ -93,6 +89,7 @@ export class VehiclesViewComponent implements OnInit {
         this.common.showError();
       })
   }
+
   closeModal() {
     this.activeModal.close();
   }

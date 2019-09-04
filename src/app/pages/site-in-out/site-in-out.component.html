@@ -1,44 +1,42 @@
 <nb-card style="border:0px; height: 100%;">
-  <nb-card-header>
-    <h5>Site In And Out</h5>
-  </nb-card-header>
-  <nb-card-body>
-    <div class="row align-items-center">
-      <div class="col-2">
-        <auto-suggestion [data]="sitesDatalist" display="name" (onSelected)="changeRefernceType($event)"
-          [bGConditions]="bGConditions" inputId="siteId"></auto-suggestion>
-      </div>
+    <nb-card-header>
+        <h5>Site In And Out</h5>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="row align-items-center">
+            <div class="col-2">
+                <auto-suggestion [data]="sitesDatalist" display="name" (onSelected)="changeRefernceType($event)" [bGConditions]="bGConditions" inputId="siteId"></auto-suggestion>
+            </div>
 
-      <div class="col-1 pr-0">
-        <label>Start Date</label>
-      </div>
-      <div class="col-3">
-        <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate">
-        </uj-date-time-picker>
-      </div>
+            <div class="col-1 pr-0">
+                <label>Start Date</label>
+            </div>
+            <div class="col-3">
+                <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate">
+                </uj-date-time-picker>
+            </div>
 
-      <div class="col-1">
-        <label>End Date</label>
-      </div>
-      <div class="col-3">
-        <uj-date-time-picker (onChanged)="endDate=$event" class="" [dateTimeValue]="endDate">
-        </uj-date-time-picker>
-      </div>
-      <div class="col-1 p-0">
-        <button class="btn btn-primary" (click)="getReport()">Get Report</button>
-      </div>
-      <div class="col-1 text-right">
-        <span class="doc-icons">
+            <div class="col-1">
+                <label>End Date</label>
+            </div>
+            <div class="col-3">
+                <uj-date-time-picker (onChanged)="endDate=$event" class="" [dateTimeValue]="endDate" [isStart]="false">
+                </uj-date-time-picker>
+            </div>
+            <div class="col-1 p-0">
+                <button class="btn btn-primary" (click)="getReport()">Get Report</button>
+            </div>
+            <div class="col-1 text-right">
+                <span class="doc-icons">
           <span class="pdf-icon" title="PDF Export" (click)="printPDF('siteInAndOut')" style="cursor: pointer;"><i
               class="fa fa-file-pdf"></i></span>
-          <span class="exel-icon" title="CSV Export" (click)="printCsv('siteInAndOut')"
-            style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
-        </span>
-      </div>
-    </div>
-    <div class="mt-2">
-      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="siteInAndOut">
-      </smart-table>
-    </div>
-  </nb-card-body>
+                <span class="exel-icon" title="CSV Export" (click)="printCsv('siteInAndOut')" style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+                </span>
+            </div>
+        </div>
+        <div class="mt-2">
+            <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="siteInAndOut">
+            </smart-table>
+        </div>
+    </nb-card-body>
 </nb-card>

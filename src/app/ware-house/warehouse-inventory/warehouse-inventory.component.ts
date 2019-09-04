@@ -22,9 +22,8 @@ export class WarehouseInventoryComponent implements OnInit {
   };
   request = 0;
   dataInventory = null;
-  startDate = null;
-
-  endDate = null;
+  endDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 10));
   headings = [];
   valobj = {};
   data = [];
@@ -104,10 +103,10 @@ export class WarehouseInventoryComponent implements OnInit {
     }
 
 
-    let startDate = this.startDate != null ? this.common.dateFormatter1(this.startDate) : null;
+    let startDate = this.startDate != null ? this.common.dateFormatter(this.startDate) : null;
   
 
-    let endDate = this.endDate != null ? this.common.dateFormatter1(this.endDate.setDate(this.endDate.getDate() + 1)) : null;
+    let endDate = this.endDate != null ? this.common.dateFormatter(this.endDate.setDate(this.endDate.getDate() + 1)) : null;
     console.log("end date:", endDate);
 
 

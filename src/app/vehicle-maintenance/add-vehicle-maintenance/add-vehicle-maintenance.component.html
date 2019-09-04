@@ -1,44 +1,41 @@
 <nb-card style=" margin:0px; padding-top: 0px; border: 0px; height: 100%;">
-  <nb-card-body style="padding-bottom: 0px;">
-    <div class="container">
-      <div class="row">
-        <form class="w-100">
-          <div class="row">
-            <div class="col-md-2 pr-0">
-              <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
-                display="regno" placeholder="Enter Vehicle Number" style="width:60%;" (change)="resetData($event)">
-              </auto-suggestion>
-            </div>
-            <div class="col-md-2 pr-0">
-              <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
-              </uj-date-time-picker>
-            </div>
-            <div class="col-md-2 pr-0">
-              <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
-                [dateTimeValue]="endTime">
-              </uj-date-time-picker>
-            </div>
-            <div class="col-md-1 offset-md-08">
-              <button type="submit" class="btn btn-primary m-0" (click)="vehicleMaintenanceData()">
+    <nb-card-body style="padding-bottom: 0px;">
+        <div class="container">
+            <div class="row">
+                <form class="w-100">
+                    <div class="row">
+                        <div class="col-md-2 pr-0">
+                            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number" style="width:60%;" (change)="resetData($event)">
+                            </auto-suggestion>
+                        </div>
+                        <div class="col-md-2 pr-0">
+                            <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+                            </uj-date-time-picker>
+                        </div>
+                        <div class="col-md-2 pr-0">
+                            <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event" [isStart]="false" [dateTimeValue]="endTime">
+                            </uj-date-time-picker>
+                        </div>
+                        <div class="col-md-1 offset-md-08">
+                            <button type="submit" class="btn btn-primary m-0" (click)="vehicleMaintenanceData()">
                 View
               </button>
-            </div>
+                        </div>
 
-            <div class="col-md-2 offset-md-08">
-              <button type="submit" class="btn btn-primary m-0" (click)="addMaintenance()">
+                        <div class="col-md-2 offset-md-08">
+                            <button type="submit" class="btn btn-primary m-0" (click)="addMaintenance()">
                 Add Maintenance
               </button>
-            </div>
-            <div class="col-md-2 offset-md-08">
-              <button type="submit" class="btn btn-primary" (click)="addAdvanceMaintenance()">
+                        </div>
+                        <div class="col-md-2 offset-md-08">
+                            <button type="submit" class="btn btn-primary" (click)="addAdvanceMaintenance()">
                 Advance Maintenance
               </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <smart-table class="maintenance-details" *ngIf="data && data.length>0" [data]="table.data"
-      [settings]="table.settings" id="maintenance"></smart-table>
-  </nb-card-body>
+        </div>
+        <smart-table class="maintenance-details" *ngIf="data && data.length>0" [data]="table.data" [settings]="table.settings" id="maintenance"></smart-table>
+    </nb-card-body>
 </nb-card>
