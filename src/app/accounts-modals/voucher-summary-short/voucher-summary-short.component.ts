@@ -8,6 +8,7 @@ import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-
 import { AddDriverComponent } from '../../driver/add-driver/add-driver.component';
 import { AccountService } from '../../services/account.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 
 
 @Component({
@@ -16,13 +17,13 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
   styleUrls: ['./voucher-summary-short.component.scss']
 })
 export class VoucherSummaryShortComponent implements OnInit {
-  permanentDeleteId = 0;  
-  sizeIndex=0;
+  permanentDeleteId = 0;
+  sizeIndex = 0;
   alltotal = 0;
   narration = '';
   tripVoucher;
-  approve=0;
-  typeFlag=2;
+  approve = 0;
+  typeFlag = 2;
   trips;
   ledgers = [];
   diverledgers = [];
@@ -46,8 +47,8 @@ export class VoucherSummaryShortComponent implements OnInit {
   tripsEditData = [];
   storeids = [];
   VoucherData = [];
-  transferData=[];
-  transferHeading=[];
+  transferData = [];
+  transferHeading = [];
   date = this.common.dateFormatternew(new Date()).split(' ')[0];
   custcode = '';
   checkall = false;
@@ -84,11 +85,11 @@ export class VoucherSummaryShortComponent implements OnInit {
       console.log('add again', this.VoucherId);
       this.trips = this.common.params.tripDetails;
     }
-    if(this.common.params.sizeIndex) {
-      this.sizeIndex=this.common.params.sizeIndex;
+    if (this.common.params.sizeIndex) {
+      this.sizeIndex = this.common.params.sizeIndex;
     }
-    if(this.common.params.typeFlag) { this.typeFlag=this.common.params.typeFlag; }
-    this.permanentDeleteId=(this.common.params.permanentDelete) ? this.common.params.permanentDelete:0;
+    if (this.common.params.typeFlag) { this.typeFlag = this.common.params.typeFlag; }
+    this.permanentDeleteId = (this.common.params.permanentDelete) ? this.common.params.permanentDelete : 0;
 
     this.VehicleId = this.common.params.vehId;
     // console.log('tripsEditData', this.tripsEditData);
@@ -111,7 +112,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       this.date = this.common.dateFormatternew(this.tripVoucher.y_date, "DDMMYYYY", false, '-');
       this.alltotal = this.tripVoucher.y_amount;
       this.custcode = this.tripVoucher.y_code;
-      this.approve =this.common.params.Approved;
+      this.approve = this.common.params.Approved;
 
 
       if (this.common.params.tripExpDriver.length > 0) {
@@ -189,16 +190,16 @@ export class VoucherSummaryShortComponent implements OnInit {
       });
   }
 
-  approveVoucher(){
-    this.approveDelete(0,'true');
+  approveVoucher() {
+    this.approveDelete(0, 'true');
   }
-  restore(){
-    this.approveDelete(1,'false');
+  restore() {
+    this.approveDelete(1, 'false');
   }
-  approveDelete(type,typeans){
+  approveDelete(type, typeans) {
     let params = {
       id: this.VoucherId,
-      flagname: (type==1) ? 'deleted':'forapproved',
+      flagname: (type == 1) ? 'deleted' : 'forapproved',
       flagvalue: typeans
     };
     this.common.loading++;
@@ -207,13 +208,13 @@ export class VoucherSummaryShortComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.getStockItems();
-        this.activeModal.close({ response: true,delete:'true' });
-        if(type==1 && typeans=='true'){
-        this.common.showToast(" This Value Has been Deleted!");
-        }else  if(type==1 && typeans=='false'){
-        this.common.showToast(" This Value Has been Restored!");
+        this.activeModal.close({ response: true, delete: 'true' });
+        if (type == 1 && typeans == 'true') {
+          this.common.showToast(" This Value Has been Deleted!");
+        } else if (type == 1 && typeans == 'false') {
+          this.common.showToast(" This Value Has been Restored!");
         } else {
-        this.common.showToast(" This Value Has been Approved!");
+          this.common.showToast(" This Value Has been Approved!");
         }
       }, err => {
         this.common.loading--;
@@ -222,7 +223,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       });
   }
 
-  permanentDeleteConfirm()  {
+  permanentDeleteConfirm() {
     let params = {
       id: 1
     };
@@ -237,12 +238,12 @@ export class VoucherSummaryShortComponent implements OnInit {
         //  this.common.loading++;
         if (data.response) {
           console.log("data", data);
-         // this.voucher.delete = 1;
+          // this.voucher.delete = 1;
           // this.addOrder(this.order);
           //this.dismiss(true);
-          
+
           this.permanentDelete();
-          
+
           // this.activeModal.close({ response: true, ledger: this.voucher });
           // this.common.loading--;
         }
@@ -265,12 +266,12 @@ export class VoucherSummaryShortComponent implements OnInit {
         //  this.common.loading++;
         if (data.response) {
           console.log("data", data);
-         // this.voucher.delete = 1;
+          // this.voucher.delete = 1;
           // this.addOrder(this.order);
           //this.dismiss(true);
-          
-          this.approveDelete(1,'true');
-          
+
+          this.approveDelete(1, 'true');
+
           // this.activeModal.close({ response: true, ledger: this.voucher });
           // this.common.loading--;
         }
@@ -397,7 +398,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         this.common.loading--;
-        this.activeModal.close({ response: true,delete:'true' });
+        this.activeModal.close({ response: true, delete: 'true' });
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -679,7 +680,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       // fuelFilings: this.fuelFilings
       fuelFilings: '',
       accDetail: this.accDetails,
-      voucherArray:voucherDetailArray
+      voucherArray: voucherDetailArray
     };
 
     this.common.loading++;
@@ -690,7 +691,7 @@ export class VoucherSummaryShortComponent implements OnInit {
         if (res['success']) {
           if (res['data']) {
             this.dismiss(true);
-         //   this.activeModal.close({ status: status });
+            //   this.activeModal.close({ status: status });
           } else {
             let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
             this.common.showError(message);
@@ -847,7 +848,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       })
     });
   }
-  showTransfer(){
+  showTransfer() {
     let tripidarray = [];
     this.checkedTrips.map(tripHead => {
       tripidarray.push(tripHead.id);
@@ -859,23 +860,33 @@ export class VoucherSummaryShortComponent implements OnInit {
     this.api.post('VehicleTrips/tripTransfer', params)
       // this.api.post('VehicleTrips/getTripExpenceVouher', params)
       .subscribe(res => {
-      
+
         this.common.loading--;
-        if(res['data']){
-        this.transferData = res['data'];
-        let first_rec = this.transferData[0];
-        for (var key in first_rec) {
-          //console.log('kys',first_rec[key]);
-            this.transferHeading.push(key);    
+        if (res['data']) {
+          this.transferData = res['data'];
+          let first_rec = this.transferData[0];
+          for (var key in first_rec) {
+            //console.log('kys',first_rec[key]);
+            this.transferHeading.push(key);
+          }
+        } else {
+          this.transferData = [];
         }
-      } else {
-        this.transferData =[];
-      }
         //this.refreshAddTrip();
       }, err => {
         console.log(err);
         this.common.loading--;
         this.common.showError();
       });
+  }
+  addTransfer() {
+    // console.log("invoice", invoice);
+    // this.common.params = { invoiceId:invoice._id }
+    this.common.params = { refData: null };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      //this.viewTransfer();
+    });
   }
 }
