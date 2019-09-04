@@ -17,6 +17,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
 import { VehicleTyresComponent } from './vehicle-tyres/vehicle-tyres.component';
 import { TyreSummaryComponent } from './tyre-summary/tyre-summary.component';
+import { TyreSummaryDetailsComponent } from './tyre-summary-details/tyre-summary-details.component';
 
 const PAGES_COMPONENTS = [
   TyresComponent,
@@ -41,7 +42,11 @@ const PAGES_COMPONENTS = [
     VehicleTrollyMappingComponent,
     TyreModalsComponent,
     VehicleTyresComponent,
-    TyreSummaryComponent
+    TyreSummaryComponent,
+    TyreSummaryDetailsComponent
   ],
+  entryComponents: [
+    InventoryComponent,
+  ]
 })
 export class TyresModule { }

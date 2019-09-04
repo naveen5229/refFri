@@ -22,11 +22,16 @@ export class TyreModalsComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal
   ) {
+    this.common.refresh = this.refresh.bind(this);
     this.getModals();
     //this.getStockItems()
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getModals();
   }
 
   getModals() {

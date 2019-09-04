@@ -28,9 +28,15 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     public modalService: NgbModal, ) {
     this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
     this.getaddTimeFinancialTollReport();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getaddTimeFinancialTollReport();
   }
   getDate(date) {
     this.common.params = { ref_page: "card usage" };

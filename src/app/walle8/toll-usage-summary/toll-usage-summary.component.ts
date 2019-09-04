@@ -31,9 +31,15 @@ export class TollUsageSummaryComponent implements OnInit {
     // console.log('dates', this.dates.start);
     //this.getDate(0);
     this.gettollUsageSummary();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.gettollUsageSummary();
   }
 
   getDate(date) {

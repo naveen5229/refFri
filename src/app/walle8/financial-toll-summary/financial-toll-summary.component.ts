@@ -34,9 +34,15 @@ export class FinancialTollSummaryComponent implements OnInit {
     let today = new Date();
     this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
     this.getfinancialTollReport();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getfinancialTollReport();
   }
   getDate(date) {
     this.common.params = { ref_page: "card usage" };

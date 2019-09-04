@@ -1,0 +1,23 @@
+<nb-card>
+    <nb-card-header>
+        <h5>Fuel Consumption</h5>
+    </nb-card-header>
+    <nb-card-body>
+
+        <div class="row">
+            <div class="col-4 ">
+                <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
+                </uj-date-time-picker>
+            </div>
+            <div class="col-4">
+                <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false>
+                </uj-date-time-picker>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-primary pb-1 pt-1" style="border-radius:3px; text-align:center" (click)="getFuelConsumption()">Submit</button> </div>
+        </div>
+    </nb-card-body>
+    <div>
+        <smart-table *ngIf="fuelConsumption && fuelConsumption.length" [data]="table.data" [settings]="table.settings" id="fuelConsumption">
+        </smart-table>
+    </div>

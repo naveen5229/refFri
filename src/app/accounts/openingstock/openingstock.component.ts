@@ -69,6 +69,13 @@ export class OpeningstockComponent implements OnInit {
         this.setFoucus('submit');
       }
 
+    } else if ((this.activeId == 'date') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     }
     else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.openingStocks.length) {
       /************************ Handle Table Rows Selection ********************** */
@@ -187,10 +194,10 @@ export class OpeningstockComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.GetLedger();
-        this.openingStocks = JSON.parse(res['data'][0]['get_rpt_openingstock']);
+        this.openingStocks = res['data'];
         // this.setFoucus('ordertype');
         // this.common.showToast('Invoice Are Saved');
-        return;
+       // return;
 
       }, err => {
         this.common.loading--;

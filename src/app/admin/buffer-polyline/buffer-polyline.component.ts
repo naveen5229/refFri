@@ -43,6 +43,7 @@ export class BufferPolylineComponent implements OnInit {
     this.getRemainingTable();
   }
   refresh() {
+    console.log('Refresh');
     this.getRemainingTable();
   }
 

@@ -30,9 +30,13 @@ export class HaltDensityComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private commonService: CommonService) {
+      this.commonService.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+  refresh(){
+    console.log("refresh");
   }
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");

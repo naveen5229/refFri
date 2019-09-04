@@ -28,6 +28,7 @@ export class VehicleTyreSummaryComponent implements OnInit {
   };
   headings = [];
   valobj = {};
+  tyreHistory=0;
 
   constructor(private datePipe: DatePipe,
     public api: ApiService,
@@ -37,7 +38,8 @@ export class VehicleTyreSummaryComponent implements OnInit {
     private modalService: NgbModal) {
     this.vehicleId = this.common.params.vehicle.id;
     this.refMode = this.common.params.vehicle.refMode;
-    this.vehicleRegNo = this.common.params.vehicleRegNo;
+    this.vehicleRegNo = this.common.params.vehicle.regno;
+    console.log("regno",this.vehicleRegNo);
     this.common.refresh = this.refresh.bind(this);
     this.refresh();
   }
@@ -67,7 +69,7 @@ export class VehicleTyreSummaryComponent implements OnInit {
   getTyreSummary() {
     this.common.loading++;
     let params = 'vehicleId=' + this.vehicleId +
-      '&refMode=' + this.refMode;
+      '&refMode=' + this.refMode+'&isHistory='+this.tyreHistory;
     console.log("params ", params);
     this.api.get('Tyres/getVehicleTyreDetails?' + params)
       .subscribe(res => {
@@ -121,5 +123,9 @@ export class VehicleTyreSummaryComponent implements OnInit {
   }
   closeModal() {
     this.activeModal.close();
+  }
+  viewTyreHistory(){
+    this.tyreHistory=1;
+    this.refresh();
   }
 }

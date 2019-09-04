@@ -49,9 +49,15 @@ export class VehicleBatteryComponent implements OnInit {
     private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService
-  ) { }
+  ) {
+    this.common.refresh = this.refresh.bind(this);
+   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('refresh');
   }
 
   getDate(index) {

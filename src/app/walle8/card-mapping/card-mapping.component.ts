@@ -19,9 +19,14 @@ export class CardMappingComponent implements OnInit {
     public user: UserService) {
     // this.mobileno=this.user._details.mobile;
     this.getDetail();
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getDetail();
   }
   getDetail() {
     // console.log("api hit");

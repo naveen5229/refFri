@@ -13,12 +13,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/battery/battery-inventory',
         home: true,
     },
-    {
-        title: 'Battery Models',
-        icon: 'fa fa-text-width',
-        link: '/battery/battery-modals',
-        home: true,
-    },
+    // {
+    //     title: 'Battery Models',
+    //     icon: 'fa fa-text-width',
+    //     link: '/battery/battery-modals',
+    //     home: true,
+    // },
     {
         title: 'Vehicle Battery',
         icon: 'fa fa-text-width',

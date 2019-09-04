@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <h5>Vehicle Running Status</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+<div class="modal-body">
+  <table class="table">
+    <thead style="background:  lightgray;">
+      <tr>
+        <th>Name(Location)</th>
+        <th>Scheduled Arival</th>
+        <th>Actual Arival</th>
+        <th>Departure</th>
+        <th>Delay</th>
+        <th>Allowed Halt</th>
+        <th>Actual Halt</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of routesDetails; let i = index;">
+        <td>({{data.loc_name}}) {{data.name}}</td>
+        <td style="color:#000000">(Day {{data.day}})
+          {{data.scheduled_arrival_time}}</td>
+        <td style="color:darkgreen">{{data.actual_arrival_time?data.actual_arrival_time:null}}</td>
+        <td style="color: deepskyblue">{{data.departure_time?data.departure_time:null}}</td>
+        <td style="color:darkred">{{data.delay?data.delay:null}}</td>
+        <td style="color: red">{{data.scheduled_halt_time}}</td>
+        <td style="color:red">{{data.actual_halt_time}}</td>
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>

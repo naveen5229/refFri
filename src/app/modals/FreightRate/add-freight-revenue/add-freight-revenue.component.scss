@@ -1,110 +1,114 @@
-table{
-    thead{
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-        background-color: #263238;
-        color: #fff;
+table {
+  thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    background-color: #263238;
+    color: #fff;
+  }
+  tr {
+    th {
+      padding: 5px 10px;
+      font-weight: normal;
     }
-    tr{
-        th{
-            padding: 5px 10px;
-            font-weight: normal;
-        }
-        td{
-            padding: 5px 10px !important;
-            font-size: 12px;
-            button{
-                padding: 5px 8px;
-                font-size: 13px;
-                border-radius: 3px;
-                margin-right: 5px;
-            }
-        }
-    }
-    tbody{
-        overflow-y: auto;
-        display: block;
-        width: 100%;
-        table-layout: fixed;
-        overflow: auto;
-        max-height: calc(100vh - 348px);
-        tr{
-            display: table;
-            table-layout: fixed;
-            width: 100%;
-            td:last-child{
-                width: auto;
-            }
-        }
-        tr:nth-child(odd){
-            background-color: #fff;
-        }
-        tr:nth-child(even){
-            background-color: #e4e4e4;
-        }
-    }
-} 
-.modal-footer{
-    button{
+    td {
+      padding: 5px 10px !important;
+      font-size: 12px;
+      button {
+        padding: 5px 8px;
+        font-size: 13px;
         border-radius: 3px;
-        text-transform: capitalize;
-        padding: 6px 15px;
+        margin-right: 5px;
+      }
     }
+  }
+  tbody {
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    table-layout: fixed;
+    overflow: auto;
+    max-height: calc(100vh - 348px);
+    tr {
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+      td:last-child {
+        width: auto;
+      }
+    }
+    tr:nth-child(odd) {
+      background-color: #fff;
+    }
+    tr:nth-child(even) {
+      background-color: #e4e4e4;
+    }
+  }
 }
-:host ::ng-deep .tableFixHead{
-    height: auto !important;
-    max-height: calc(100vh - 450px);
-}
-.btn-primary{
-    padding: 5px 15px;
+.modal-footer {
+  button {
     border-radius: 3px;
     text-transform: capitalize;
+    padding: 6px 15px;
+  }
 }
-.view-table table{
-    tr{
-        th:first-child{
-            width: 50px;
-        }
-        td:first-child{
-            width: 50px;
-        }
-        th:last-child{
-            width: auto;
-        }
-        td:last-child{
-            width: auto;
-        }
-        th{
-            width: 150px;
-        }
-        td{
-            width: 150px;
-            span{
-                input{
-                    width: 100px;
-                    display: inline-block;
-                    margin-right: 10px;
-                }
-            }
-        }   
-    }
+:host ::ng-deep .tableFixHead {
+  height: auto !important;
+  max-height: calc(100vh - 450px);
 }
-.expense-table{
-    table{
-        tr{
-            th{
-                width: 200px;
-            }
-            th:last-child{
-                width: auto;
-            }
-            td{
-                width: 200px;
-            }
-            td:last-child{
-                width: auto;
-            }
-        }
+.btn-primary {
+  padding: 5px 15px;
+  border-radius: 3px;
+  text-transform: capitalize;
+}
+.view-table table {
+  tr {
+    th:first-child {
+      width: 50px;
     }
+    td:first-child {
+      width: 50px;
+    }
+    th:last-child {
+      width: auto;
+    }
+    td:last-child {
+      width: auto;
+    }
+    th {
+      width: 150px;
+    }
+    td {
+      width: 150px;
+      span {
+        input {
+          width: 100px;
+          display: inline-block;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}
+.revenue-table {
+  table {
+    tr {
+      th {
+        width: 200px;
+      }
+      th:last-child {
+        width: auto;
+      }
+      td {
+        width: 200px;
+      }
+      td:last-child {
+        width: auto;
+      }
+    }
+  }
+}
+:host ::ng-deep .fa-trash {
+  color: red;
+  cursor: pointer;
 }

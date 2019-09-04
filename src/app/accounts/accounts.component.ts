@@ -40,6 +40,7 @@ export class AccountsComponent {
       .subscribe(res => {
         console.log('Branches :', res['data']);
         this.accountService.branches = res['data'];
+        this.accountService.selected.branch.id=0;
       }, err => {
         console.log('Error: ', err);
       });

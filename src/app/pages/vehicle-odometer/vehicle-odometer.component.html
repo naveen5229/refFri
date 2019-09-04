@@ -11,16 +11,9 @@
           <option value="0">Details</option>
         </select>
       </div>
-      <!-- <div class="col-02">
-        <span class="pdf-icon" title="PDF Export" (click)="printPDF('odoMeter')" style="cursor: pointer;"><i
-            class="fa fa-file-pdf"></i></span>
-        <span class="exel-icon" title="CSV Export" (click)="printCsv('odoMeter')"
-          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
-      </div> -->
     </div>
-
-
   </nb-card-header>
+
   <nb-card-body>
     <div class="row mb-3" *ngIf="State=='0'">
       <div class="col-md-2 pr-0">
@@ -43,8 +36,6 @@
         </button>
       </div>
     </div>
-
-
 
     <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="odoMeter">
     </smart-table>

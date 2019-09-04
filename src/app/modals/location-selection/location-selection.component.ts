@@ -98,7 +98,7 @@ export class LocationSelectionComponent implements OnInit {
   autoSuggestion() {
     var source = document.getElementById('location');
     var options = {
-      componentRestrictions: { country: 'in' },
+      componentRestrictions: { country: ['in', 'bd', 'np'] },
       language: 'en',
       types: ['(regions)'],
     };

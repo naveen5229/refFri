@@ -76,6 +76,11 @@ import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.compon
 import { FuelMileageWithOdoComponent } from './fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { FuelMasterComponent } from './fuel-master/fuel-master.component';
 import { WebActivitySummaryComponent } from '../admin/web-activity-summary/web-activity-summary.component';
+import { DispatchOrdersComponent } from '../lorry-receipt/dispatch-orders/dispatch-orders.component';
+import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.component';
+import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
+import { RouteDashboardComponent } from './route-dashboard/route-dashboard.component';
+import { TrendsFoComponent } from './trends-fo/trends-fo.component';
 
 
 const routes: Routes = [{
@@ -471,16 +476,39 @@ const routes: Routes = [{
     canActivate: [AuthGuard]
   },
   {
-    path:'fuel-mileage-with-odo',
-    component:FuelMileageWithOdoComponent,
-    canActivate:[AuthGuard]
+    path: 'fuel-mileage-with-odo',
+    component: FuelMileageWithOdoComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'web-acttivity-summary',
     component: WebActivitySummaryComponent,
     canActivate: [AuthGuard]
   },
-
+  {
+    path: 'dispatch-orders',
+    component: DispatchOrdersComponent,
+    canActivate: [AuthGuard]
+  }, {
+    path: 'fuel-consumption',
+    component: FuelConsumptionComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'trip-pnl',
+    component: TripPnlComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'route-dashboard',
+    component: RouteDashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'trends-fo',
+    component:TrendsFoComponent,
+    canActivate: [AuthGuard]
+  },
   ],
 }];
 

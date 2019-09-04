@@ -9,14 +9,15 @@
                 }
                 .fa-user {
                     color: #04a9f5;
+                    cursor: pointer;
                     span{
                         position: absolute;
                         display: none;
-                        padding: 10px 32px;
+                        padding: 10px 45px;
                         font-size: 11px;
                         font-weight: normal;
-                        left: -26px;
-                        top: -28px;
+                        left: -40px;
+                        top: -25px;
                         -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                         box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                         font-family: Roboto;
@@ -51,9 +52,57 @@
                 .fa-user:hover span{
                     display: block;
                 }
+                .fa-user-shield {
+                    color: black;
+                    cursor: pointer;
+
+                    span{
+                        position: absolute;
+                        display: none;
+                        padding: 10px 45px;
+                        font-size: 11px;
+                        font-weight: normal;
+                        left: -40px;
+                        top: -25px;
+                        -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                        box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                        font-family: Roboto;
+                        z-index:9999;
+                    }
+                    span::before{
+                        content: 'voucher';
+                        display: block;
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        background-color: black;
+                        border-radius: 3px;
+                        padding: 5px 10px;
+                        color:#fff;
+                        width: 100%;
+                    }
+                    span::after{
+                        content: '';
+                        width: 0;
+                        height: 0;
+                        border-left: 5px solid transparent;
+                        border-right: 5px solid transparent;
+                        border-top: 5px solid black;
+                        position: absolute;
+                        bottom: -5px;
+                        left: 50%;
+                        -webkit-transform: translate(-50%);
+                        transform: translate(-50%);
+                    }
+                }
+                .fa-user-shield:hover span{
+                    display: block;
+                }
             }
             .fa-list {
                     color: red;
+                    cursor: pointer;
+
                     span{
                         position: absolute;
                         display: none;

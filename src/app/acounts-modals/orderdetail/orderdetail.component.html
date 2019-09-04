@@ -52,7 +52,7 @@
                 </div>
               </div>
             </div>
-            <div class="row" *ngIf="(order.ordertype.id != -8)">
+            <div class="row" *ngIf="(order.ordertype.id != -108)">
               <div class="col">
                 <div class="form-group">
                   <label class="ref-label">Supplier Ledger</label>
@@ -91,7 +91,7 @@
               </div>
             </div>
   
-            <div class="row" *ngIf="(order.ordertype.id != -8)">
+            <div class="row" *ngIf="(order.ordertype.id != -108)">
               <div class="col">
                 <div class="form-group">
                   <label class="ref-label">Payment Terms</label>
@@ -129,7 +129,7 @@
                 </div>
               </div>
             </div>
-            <div class="row" *ngIf="(order.ordertype.id != -8)">
+            <div class="row" *ngIf="(order.ordertype.id != -108)">
               <div class="col">
                 <div class="form-group">
                     <label class="ref-label">Billing Address</label>
@@ -315,15 +315,15 @@
             <th>Stock Item</th>
             <th>Unit</th>
             <th>Qty</th>
-            <th *ngIf="(order.ordertype.id != -8)">Rate</th>
-            <th *ngIf="(order.ordertype.id != -8)">Amount</th>
+            <th *ngIf="(order.ordertype.id != -108)">Rate</th>
+            <th *ngIf="(order.ordertype.id != -108)">Amount</th>
             <!-- <th>Dis Ledger</th>
             <th>Dis Amount</th> -->
-            <th *ngIf="(order.ordertype.id != -8)">Line Amount</th>
+            <th *ngIf="(order.ordertype.id != -108)">Line Amount</th>
   
-            <th *ngIf="(order.ordertype.id != -8)">remarks</th>
-            <!-- <th *ngIf="(order.ordertype.id != -8)"></th>
-            <th></th> -->
+            <th *ngIf="(order.ordertype.id != -108)">remarks</th>
+            <!-- <th *ngIf="(order.ordertype.id != -8)"></th>-->
+            <th></th>
           </tr>
         </thead>
   
@@ -363,12 +363,12 @@
   
               <!-- {{findStockitem(order.amountDetails[i].stockitem.id)}} -->
             </td>
-            <td *ngIf="(order.ordertype.id != -8)">
+            <td *ngIf="(order.ordertype.id != -108)">
               <input type="number" class="form-control ref-input" autocomplete="off" name="account-rate"
                 [id]="'rate-' + i" [(ngModel)]="amountDetail.rate" placeholder="Please Enter Rate"
                 (input)="amountDetail.lineamount = amountDetail.amount = amountDetail.qty * amountDetail.rate;" readonly>
             </td>
-            <td *ngIf="(order.ordertype.id != -8)">
+            <td *ngIf="(order.ordertype.id != -108)">
               <input type="number" class="form-control ref-input" autocomplete="off" name="account-amount"
                 [(ngModel)]="amountDetail.amount" readonly style="background-color: #eeeeee;">
             </td>
@@ -381,21 +381,21 @@
             <!-- <td> <input type="number" class="form-control" autocomplete="off" name="account-discountate"
                 [(ngModel)]="amountDetail.discountate" [id]="'discountate-' + i"
                 (input)="amountDetail.lineamount = amountDetail.amount - amountDetail.discountate;" [value]="0"></td> -->
-            <td *ngIf="(order.ordertype.id != -8)">
+            <td *ngIf="(order.ordertype.id != -108)">
               <input type="number" class="form-control" autocomplete="off" name="account-lineamount"
                 [(ngModel)]="amountDetail.lineamount" readonly style="background-color: #eeeeee;">
             </td>
   
   
-            <td *ngIf="(order.ordertype.id != -8)">
+            <td *ngIf="(order.ordertype.id != -108)">
               <input type="text" class="form-control ref-input" autocomplete="off" name="account-remarks"
               readonly [id]="'remarks-' + i"
                 [(ngModel)]="amountDetail.remarks" placeholder="Please Enter Remarks">
             </td>
-            <!-- <td *ngIf="(order.ordertype.id != -8)">
+            <td *ngIf="(order.ordertype.id != -8)">
               <button (click)="TaxDetails(i)" [id]="'taxDetail-'+i" class="btn btn-taxdet">Tax</button>
             </td>
-            <td *ngIf="i == 0 && (order.ordertype.id != -6 || order.ordertype.id !=-7 || order.ordertype.id != -8)">
+           <!--  <td *ngIf="i == 0 && (order.ordertype.id != -6 || order.ordertype.id !=-7 || order.ordertype.id != -8)">
               <button class="plustransparent btn btn-plus" id="plustransparent" (click)="addAmountDetails()"><i
                   class="fa fa-plus"></i></button></td>
             <td *ngIf="i !== 0">

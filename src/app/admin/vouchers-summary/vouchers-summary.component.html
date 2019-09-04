@@ -3,6 +3,36 @@
     <h2>Vouchers Summary</h2>
   </nb-card-header>
   <nb-card-body>
+    <div class="row">
+      <div class="col-2">
+        <label>Start Date</label>
+      </div>
+      <div class="col-2">
+        <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate" [isTime]=false>
+        </uj-date-time-picker>
+      </div>
+
+      <div class="col-2">
+        <label>End Date</label>
+      </div>
+      <div class="col-2">
+        <uj-date-time-picker (onChanged)="endDate=$event" class="" [dateTimeValue]="endDate" [isStart]=false
+          [isTime]=false>
+        </uj-date-time-picker>
+      </div>
+      <div class="col-2">
+        <select class="form-control" [(ngModel)]="voucherID">
+          <option *ngFor="let status of voucher" [value]="status.id">
+            {{status.name}}
+
+          </option>
+        </select>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary" (click)="getVouchersSummary()">Submit</button>
+      </div>
+    </div>
+
     <smart-table [data]="table.data" [settings]="table.settings"></smart-table>
 
   </nb-card-body>

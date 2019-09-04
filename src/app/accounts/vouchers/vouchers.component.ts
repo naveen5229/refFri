@@ -43,10 +43,12 @@ export class VouchersComponent implements OnInit {
   lastActiveId = '';
   allowBackspace = true;
   showDateModal = false;
+  freezedate='';
   date = this.common.dateFormatternew(new Date());
 
   activeLedgerIndex = -1;
   modal = null;
+  mannual = false;
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -70,10 +72,13 @@ export class VouchersComponent implements OnInit {
     this.getLedgers('credit');
     this.voucher = this.setVoucher();
     this.common.currentPage = this.voucherName;
-
+    this.mannual = this.accountService.selected.branch.is_inv_manualapprove;
     setTimeout(() => {
       console.log('financial year', this.accountService.selected.branch.is_constcenterallow);
-    }, 10000);
+    }, 4000);
+    this.voucher.ismanual = this.accountService.selected.branch.is_inv_manualapprove;
+    this.getFreeze();
+
   }
 
   ngOnInit() {
@@ -82,6 +87,8 @@ export class VouchersComponent implements OnInit {
   refresh() {
     this.getLedgers('debit');
     this.getLedgers('credit');
+    this.mannual = this.accountService.selected.branch.is_inv_manualapprove;
+    this.voucher.ismanual = this.mannual;
   }
 
   setVoucher() {
@@ -109,7 +116,8 @@ export class VouchersComponent implements OnInit {
       total: {
         debit: 0,
         credit: 0
-      }
+      },
+      ismanual: this.mannual
     };
   }
 
@@ -131,6 +139,27 @@ export class VouchersComponent implements OnInit {
         this.common.showError();
       });
 
+  }
+
+  getFreeze() {
+   
+      let params = {
+        departmentId: 0
+      };
+
+      this.common.loading++;
+      this.api.post('Voucher/getFreeze', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('freeze Res11:', res['data']);
+          this.freezedate = res['data'][0]['getfreezedate'];
+         // resolve(res['data']);
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        
+        });
   }
 
   openVoucherModal(voucher?) {
@@ -157,7 +186,7 @@ export class VouchersComponent implements OnInit {
     return;
   }
 
-  dismiss(response) {
+  async dismiss(response) {
     console.log('DD: ', this.common.dateFormatter(this.common.convertDate(this.voucher.date), 'y', false));
     console.log('DD: ', this.accountService.selected.financialYear.startdate);
     console.log('DD: ', this.accountService.selected.financialYear.enddate);
@@ -192,7 +221,23 @@ export class VouchersComponent implements OnInit {
     console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch.id != 0);
     if (this.accountService.selected.branch.id != 0) {
       // this.accountService.selected.branch
-      this.addVoucher();
+      
+  
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          console.log('heddlo',rescompare);
+          if (rescompare == 0) {
+            console.log('hello');
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('voucher-date');
+            }, 150);
+          } else {
+            console.log('hello testx');
+            this.addVoucher();
+          }
+        }
+      
       this.showConfirm = false;
       event.preventDefault();
       return;
@@ -215,6 +260,7 @@ export class VouchersComponent implements OnInit {
       amountDetails: this.voucher.amountDetails,
       vouchertypeid: this.voucherId,
       y_code: '',
+      ismannual: this.voucher.ismanual,
       xid: 0
     };
 
@@ -426,7 +472,7 @@ export class VouchersComponent implements OnInit {
 
 
 
-  keyHandler(event) {
+  async keyHandler(event) {
 
     if (this.modal) return;
     const key = event.key.toLowerCase();
@@ -478,7 +524,7 @@ export class VouchersComponent implements OnInit {
           return
         }
       } else if (key == 'n') {
-          this.modelCondition();
+        this.modelCondition();
       }
       return;
     }
@@ -544,9 +590,27 @@ export class VouchersComponent implements OnInit {
         this.activeLedgerIndex = -1;
 
       } else if (activeId == 'voucher-date') {
-        this.handleVoucherDateOnEnter();
-        this.setFoucus('transaction-type-0');
+       
+        if (this.freezedate) {
+
+
+
+          let rescompare = this.CompareDate(this.freezedate);
+          if (rescompare == 1) {
+            // console.log('hello brother');
+            this.handleVoucherDateOnEnter();
+            this.setFoucus('transaction-type-0');
+          }
+          else {
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('voucher-date');
+            }, 150);
+          }
+        }
+
       } else {
+        console.log('json hello0');
         let index = this.getElementsIDs().indexOf(document.activeElement.id);
         this.setFoucus(this.getElementsIDs()[index + 1]);
         if (this.getElementsIDs()[index + 1] == 'voucher-date') this.moveCursor(document.getElementById('voucher-date'));
@@ -577,17 +641,50 @@ export class VouchersComponent implements OnInit {
       // console.log(index);
       // let transactionType = document.getElementById('trasactionn-type-' + index)['value'];
       let transactionType = this.voucher.amountDetails[index].transactionType;
+    } else  if ((activeId == 'voucher-date') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     }
   }
   vouchercostcenter() {
-    console.log('____',document.activeElement.id);
-    console.log('___-___',this.lastActiveId);
+    console.log('____', document.activeElement.id);
+    console.log('___-___', this.lastActiveId);
     let index = this.lastActiveId.split('-')[1];
-   // console.log('fdsfedsfdsfdsf', index,document.activeElement.id.split('-')[1]);
+    // console.log('fdsfedsfdsfdsf', index,document.activeElement.id.split('-')[1]);
     this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
     this.showConfirmCostCenter = false;
     event.preventDefault();
   }
+
+  CompareDate(freezedate) {
+    let firstarr = freezedate.split('-');
+     console.log('first date ', freezedate);
+    let secondarr = this.voucher.date.split('-'); 
+    //  console.log('first arr ', secondarr[2]);
+
+    let fristyear = firstarr[0];
+    let firstmonth = firstarr[1];
+    let firstdate = firstarr[2];
+    let endyear = secondarr[2];
+    let endmonth = secondarr[1];
+    let enddate = secondarr[0];
+
+    console.log('First Date:', fristyear, firstmonth, firstdate);
+    console.log('Second Date:', endyear, endmonth, enddate);
+    var dateOne = new Date(fristyear, firstmonth, firstdate);
+    var dateTwo = new Date(endyear, endmonth, enddate);
+    //Note: 04 is month i.e. May  
+    if (dateOne > dateTwo) {
+      return 0;
+    } else {
+      return 1;
+    }
+  }
+
   handleAmountEnter(index) {
     index = parseInt(index);
     if (this.voucher.total.debit == this.voucher.total.credit && index == this.voucher.amountDetails.length - 1) {
@@ -866,8 +963,8 @@ export class VouchersComponent implements OnInit {
       x_id: ledger.id ? ledger.id : 0,
       bankname: ledger.bankname,
       costcenter: ledger.costcenter,
-      taxtype:ledger.taxtype,
-      taxsubtype:ledger.taxsubtype
+      taxtype: ledger.taxtype,
+      taxsubtype: ledger.taxsubtype
     };
 
     console.log('params11: ', params);

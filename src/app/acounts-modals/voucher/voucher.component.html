@@ -128,6 +128,7 @@
       <div class="row align-items-baseline">
         <input type="checkbox" name="print" id="print" [(ngModel)]="voucher.print"> <span class="ml-2">Print After
           Save</span>
+         <!-- <span *ngIf="voucher.mannual"> <input type="checkbox" name="mannual" id="mannual" [(ngModel)]="voucher.mannual">Is Mannual Approval</span> -->
         <button class="btn btn-primary ml-2" type="button" (click)="printFunction()" id="printfunction"
           style="cursor: pointer;">Print</button>
         <div class="col" *ngIf="(this.deleteId == 0  || this.deleteId == 2)">

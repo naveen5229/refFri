@@ -52,7 +52,7 @@ export class TallyexportComponent implements OnInit {
     setTimeout(() => {
     this.branchData=this.accountService.branches;
     console.log('branchesw',this.branchData);
-    this.setFoucus('branchType');
+    this.setFoucus('startDate');
     }, 3000);
   }
 
@@ -69,6 +69,7 @@ export class TallyexportComponent implements OnInit {
     console.log('selected data',selectedData);
     this.branchType.name = selectedData[display];
     this.branchType.id = selectedData.id;
+    this.setFoucus('startDate');
     // console.log('order User: ', this.DayBook);
   }
 

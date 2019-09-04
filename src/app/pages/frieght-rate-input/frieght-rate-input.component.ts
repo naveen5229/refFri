@@ -49,8 +49,10 @@ export class FrieghtRateInputComponent implements OnInit {
     this.getFrieghtRate();
   }
   getFrieghtRate() {
-
-    let startDate = this.common.dateFormatter(this.startDate);
+    if(this.startDate>this.endDate){
+      this.common.showError("StartDate Should be less then Enddate");
+    }else{
+      let startDate = this.common.dateFormatter(this.startDate);
     let endDate = this.common.dateFormatter(this.endDate);
     let params = {
       startDate: startDate,
@@ -96,7 +98,7 @@ export class FrieghtRateInputComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       })
-
+    }
   }
 
   getTableColumns() {

@@ -10,7 +10,7 @@ export class UserService {
   _details = null;
   _customer = {
     name: '',
-    id: ''
+    id: '',
   };
 
   _loggedInBy = '';
@@ -23,7 +23,7 @@ export class UserService {
     this._details = JSON.parse(localStorage.getItem('USER_DETAILS')) || null;
 
     this._loggedInBy = localStorage.getItem('LOGGED_IN_BY') || '';
-    this._customer = JSON.parse(localStorage.getItem('CUSTOMER_DETAILS')) || { name: '', id: '' };
+    this._customer = JSON.parse(localStorage.getItem('CUSTOMER_DETAILS')) || { name: '', id: ''};
 
 
 
@@ -92,6 +92,10 @@ export class UserService {
       { id: 61, route: '/admin/user-templates' },
       { id: 62, route: '/admin/vouchers-summary' },
       { id: 63, route: '/admin/fuel-mileage-with-odo' },
+      { id: 64, route: '/admin/beehive' },
+      { id: 65, route: '/admin/battery-modals' },
+      { id: 66, route: '/admin/fo-fuel-average' },
+
     ]
   }
 

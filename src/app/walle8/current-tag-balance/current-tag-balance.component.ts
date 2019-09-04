@@ -17,9 +17,15 @@ export class CurrentTagBalanceComponent implements OnInit {
     public user: UserService,
   ) {
     this.getDetail();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getDetail();
   }
   getDetail() {
     //  console.log("api hit");

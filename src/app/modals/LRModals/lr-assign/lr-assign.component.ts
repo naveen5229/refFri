@@ -63,7 +63,7 @@ export class LrAssignComponent implements OnInit {
     this.common.loading++;
     let params = {
       startTime: this.common.dateFormatter(this.startTime).split(' ')[0],
-      endTime: this.common.dateFormatter(this.endTime).split(' ')[0],
+      endTime: this.common.dateFormatter(this.endTime).split(' ')[0] + " 23:59:00",
       partyId: this.partyId,
       branchId: this.branchId,
       invoiceId: null,
@@ -177,7 +177,7 @@ export class LrAssignComponent implements OnInit {
     this.common.loading++;
     let params = {
       startTime: this.common.dateFormatter(this.startTime).split(' ')[0],
-      endTime: this.common.dateFormatter(this.endTime).split(' ')[0],
+      endTime: this.common.dateFormatter(this.endTime).split(' ')[0] + " 23:59:00",
       partyId: this.partyId,
       branchId: this.branchId,
       invoiceId: this.invoiceId,

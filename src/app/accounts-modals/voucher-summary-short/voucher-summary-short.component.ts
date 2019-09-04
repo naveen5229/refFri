@@ -17,6 +17,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 })
 export class VoucherSummaryShortComponent implements OnInit {
   permanentDeleteId = 0;  
+  sizeIndex=0;
   alltotal = 0;
   narration = '';
   tripVoucher;
@@ -80,6 +81,9 @@ export class VoucherSummaryShortComponent implements OnInit {
     if (this.VoucherId == 0) {
       console.log('add again', this.VoucherId);
       this.trips = this.common.params.tripDetails;
+    }
+    if(this.common.params.sizeIndex) {
+      this.sizeIndex=this.common.params.sizeIndex;
     }
     if(this.common.params.typeFlag) { this.typeFlag=this.common.params.typeFlag; }
     this.permanentDeleteId=(this.common.params.permanentDelete) ? this.common.params.permanentDelete:0;
@@ -148,7 +152,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       this.VoucherData = this.common.params.VoucherData;
     }
 
-    this.common.handleModalSize('class', 'modal-lg', '1150');
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeIndex);
     this.getcreditLedgers('credit');
     this.getDriveLedgers('credit');
   }
@@ -201,7 +205,7 @@ export class VoucherSummaryShortComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.getStockItems();
-        this.activeModal.close({ response: true });
+        this.activeModal.close({ response: true,delete:'true' });
         if(type==1 && typeans=='true'){
         this.common.showToast(" This Value Has been Deleted!");
         }else  if(type==1 && typeans=='false'){
@@ -391,7 +395,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         this.common.loading--;
-        this.activeModal.close({ response: true });
+        this.activeModal.close({ response: true,delete:'true' });
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -622,7 +626,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       }
     });
 
-    const params = {
+    const voucherDetailArray = {
       foid: 123,
       customercode: this.custcode,
       remarks: this.narration,
@@ -633,38 +637,38 @@ export class VoucherSummaryShortComponent implements OnInit {
       xid: this.VoucherId
     };
 
-    console.log('params 1 : ', params);
-    this.common.loading++;
+    console.log('params 1 : ', voucherDetailArray);
+    //this.common.loading++;
+    this.updateVoucherTrip(voucherDetailArray, this.tripexpvoucherid);
 
-    this.api.post('Voucher/InsertVoucher', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('return vouher id: ', res['data']);
-        if (res['success']) {
-          if (res['data'][0].save_voucher_v1) {
-            this.updateVoucherTrip(res['data'][0].save_voucher_v1, this.tripexpvoucherid);
-            this.common.showToast('Your Code :' + res['data'].code);
-          } else {
-            let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
-            this.common.showError(message);
-          }
-        }
+    // this.api.post('Voucher/InsertVoucher', params)
+    //   .subscribe(res => {
+    //     this.common.loading--;
+    //     console.log('return vouher id: ', res['data']);
+    //     if (res['success']) {
+    //       if (res['data'][0].save_voucher_v1) {
+    //         this.updateVoucherTrip(res['data'][0].save_voucher_v1, this.tripexpvoucherid);
+    //         this.common.showToast('Your Code :' + res['data'].code);
+    //       } else {
+    //         let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
+    //         this.common.showError(message);
+    //       }
+    //     }
 
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
+    //   }, err => {
+    //     this.common.loading--;
+    //     console.log('Error: ', err);
+    //     this.common.showError();
+    //   });
   }
 
-  updateVoucherTrip(voucherid, tripexpvoucherid) {
+  updateVoucherTrip(voucherDetailArray, tripexpvoucherid) {
     let tripidarray = [];
     this.checkedTrips.map(tripHead => {
       tripidarray.push(tripHead.id);
     });
     console.log('trip id array ', this.fuelFilings);
     const params = {
-      vchrid: voucherid,
       tripArrayId: tripidarray,
       vehid: this.VehicleId,
       voucher_details: this.tripHeads,
@@ -672,7 +676,8 @@ export class VoucherSummaryShortComponent implements OnInit {
       tripExpVoucherId: tripexpvoucherid,
       // fuelFilings: this.fuelFilings
       fuelFilings: '',
-      accDetail: this.accDetails
+      accDetail: this.accDetails,
+      voucherArray:voucherDetailArray
     };
 
     this.common.loading++;
@@ -682,7 +687,8 @@ export class VoucherSummaryShortComponent implements OnInit {
         console.log('return vouher id: ', res['data']);
         if (res['success']) {
           if (res['data']) {
-            this.activeModal.close({ status: status });
+            this.dismiss(true);
+         //   this.activeModal.close({ status: status });
           } else {
             let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
             this.common.showError(message);

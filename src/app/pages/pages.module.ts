@@ -77,11 +77,17 @@ import { ManageFoPartyComponent } from './manage-fo-party/manage-fo-party.compon
 import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.component';
 import { FuelMileageWithOdoComponent } from './fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { FuelMasterComponent } from './fuel-master/fuel-master.component';
+import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.component';
+import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
+import { RouteDashboardComponent } from './route-dashboard/route-dashboard.component';
+import { TrendsFoComponent } from './trends-fo/trends-fo.component';
+
 
 
 
 const PAGES_COMPONENTS = [
   PagesComponent
+
 ];
 
 @NgModule({
@@ -154,14 +160,17 @@ const PAGES_COMPONENTS = [
     FinanceRecoveryComponent,
     ManageFoPartyComponent,
     ManageFoPartyComponent,
-    FoFuelAverageComponent,
     FuelMasterComponent,
+    FuelConsumptionComponent,
+    TripPnlComponent,
+    RouteDashboardComponent,
+    TrendsFoComponent,
 
-    // CustomDatePipe
   ],
   exports: [
     FuelAverageAnalysisComponent,
     FuelMileageWithOdoComponent,
+    FoFuelAverageComponent,
 
 
   ],

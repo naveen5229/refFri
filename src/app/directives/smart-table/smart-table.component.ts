@@ -16,6 +16,7 @@ export class SmartTableComponent implements OnInit {
   columns = [];
   sortType = '';
   activeRow = -1;
+  activeRows = [];
   customPagevalue = true;
   search = {
     key: '',
@@ -48,7 +49,6 @@ export class SmartTableComponent implements OnInit {
     console.log('Data', this.data);
     this.setData();
     this.activeRow = -1;
-
   }
 
   ngAfterViewInit() {
@@ -56,7 +56,6 @@ export class SmartTableComponent implements OnInit {
   }
 
   setData() {
-
     this.headings = this.data.headings;
     this.handlePagination(this.pages.active);
     // this.columns = this.data.columns
@@ -71,6 +70,7 @@ export class SmartTableComponent implements OnInit {
     if (this.data.columns.length % this.pages.limit) {
       this.pages.count++;
     }
+    this.columns.map((column, index) => column._smartId = index);
   }
 
   filterData(key) {
@@ -140,8 +140,23 @@ export class SmartTableComponent implements OnInit {
   }
 
   handleRowClick(column, index) {
-    if (column.rowActions.click == 'selectRow') this.activeRow = index;
-    else column.rowActions.click();
+    if (column.rowActions.click == 'selectRow') this.activeRow = column._smartId;
+    else if (column.rowActions.click == 'selectMultiRow') {
+      if (this.activeRows.indexOf(column._smartId) === -1) {
+        this.activeRows.push(column._smartId);
+      } else {
+        this.activeRows.splice(this.activeRows.indexOf(column._smartId), 1);
+      }
+    } else column.rowActions.click();
+  }
+
+  isItActive(column) {
+    if (column.rowActions)
+      if (column.rowActions.click == 'selectRow' && column._smartId === this.activeRow)
+        return true;
+      else if (column.rowActions.click == 'selectMultiRow' && this.activeRows.indexOf(column._smartId) !== -1)
+        return true;
+    return false;
   }
 
 

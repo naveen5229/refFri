@@ -3,6 +3,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
   selector: 'add-freight-revenue',
@@ -62,7 +63,6 @@ export class AddFreightRevenueComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService,
     private formBuilder: FormBuilder) {
-    this.common.handleModalSize("class", "modal-lg", "1500");
     this.getFreightHeads();
     console.log("this.common.params.revenue", this.common.params.revenueData);
     if (this.common.params.revenueData) {
@@ -200,6 +200,7 @@ export class AddFreightRevenueComponent implements OnInit {
         }
 
       }, err => {
+        --this.common.loading;
         console.error(err);
         this.common.showError();
       });
@@ -283,6 +284,36 @@ export class AddFreightRevenueComponent implements OnInit {
       });
 
 
+  }
+  deleteAllRevenue() {
+    let params = {
+      refId: this.revenue.refId,
+      refType: this.revenue.refernceType,
+      revId: null,
+      ledgerId: null,
+    };
+    if (this.revenue.refId) {
+      this.common.params = {
+        title: 'Delete Revenue ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('FrieghtRate/deleteRevenue', params)
+            .subscribe(res => {
+              this.common.loading--;
+              this.common.showToast(res['data']);
+              this.getRevenue();
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
   }
 
 

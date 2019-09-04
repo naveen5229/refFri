@@ -18,6 +18,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 })
 export class VoucherSummaryComponent implements OnInit {
   permanentDeleteId = 0;
+  sizeIndex=0;
   isReadonly = false;
   alltotal = 0;
   approve = 0;
@@ -27,6 +28,7 @@ export class VoucherSummaryComponent implements OnInit {
   typeFlag = 2;
   selectedRow = -1;
   trips;
+  vehclename='';
   ledgers = [];
   debitLedgerdata = [];
   checkedTrips = [];
@@ -77,10 +79,13 @@ export class VoucherSummaryComponent implements OnInit {
       console.log('add again', this.VoucherId);
       this.trips = this.common.params.tripDetails;
     }
-
+    if(this.common.params.sizeIndex) {
+      this.sizeIndex=this.common.params.sizeIndex;
+    }
     this.permanentDeleteId = (this.common.params.permanentDelete) ? this.common.params.permanentDelete : 0;
     if (this.common.params.typeFlag) { this.typeFlag = this.common.params.typeFlag; }
     this.VehicleId = this.common.params.vehId;
+   this.vehclename =this.common.params.vehname
     console.log('tripsEditData', this.tripsEditData);
     console.log('trips data', this.trips);
     console.log(this.common.params.vehId);
@@ -141,7 +146,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.VoucherData = this.common.params.VoucherData;
     }
 
-    this.common.handleModalSize('class', 'modal-lg', '1150');
+    this.common.handleModalSize('class', 'modal-lg', '1150','px',this.sizeIndex);
     this.getcreditLedgers('credit');
     this.getDriveLedgers('credit');
 
@@ -215,7 +220,7 @@ export class VoucherSummaryComponent implements OnInit {
         console.log(res);
         this.common.showToast(" This Value Has been Deleted!");
         this.common.loading--;
-        this.activeModal.close({ response: true });
+        this.activeModal.close({ response: true ,delete:'true'});
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -298,7 +303,7 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.getStockItems();
-        this.activeModal.close({ response: true });
+        this.activeModal.close({ response: true ,delete:'true'});
         if (type == 1 && typeans == 'true') {
           this.common.showToast(" This Value Has been Deleted!");
         } else if (type == 1 && typeans == 'false') {
@@ -410,7 +415,7 @@ export class VoucherSummaryComponent implements OnInit {
       .subscribe(res => {
         console.log('fuelFiling Edit data', res);
         this.common.loading--;
-        this.fuelFilings = res['data'];
+        this.fuelFilings = res['data'] || [];
         this.fuelFilings.map(fuelFiling => {
           selectedData.map(tripedit => {
             (fuelFiling.id == tripedit.id) ? fuelFiling.isChecked = true : '';
@@ -619,7 +624,7 @@ export class VoucherSummaryComponent implements OnInit {
       }
     });
 
-    const params = {
+    const voucherDetailArray = {
       foid: 123,
       customercode: this.custcode,
       remarks: this.narration,
@@ -630,45 +635,46 @@ export class VoucherSummaryComponent implements OnInit {
       xid: this.VoucherId
     };
 
-    console.log('params 1 : ', params);
-    this.common.loading++;
+    console.log('params 1 : ', voucherDetailArray);
+   // this.common.loading++;
+    this.updateVoucherTrip(voucherDetailArray, this.tripexpvoucherid);
 
-    this.api.post('Voucher/InsertVoucher', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('return vouher id: ', res['data']);
-        if (res['success']) {
-          if (res['data'][0].save_voucher_v1) {
-            this.updateVoucherTrip(res['data'][0].save_voucher_v1, this.tripexpvoucherid);
-            this.common.showToast('Your Code :' + res['data'].code);
-          } else {
-            let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
-            this.common.showError(message);
-          }
-        }
+    // this.api.post('Voucher/InsertVoucher', params)
+    //   .subscribe(res => {
+    //     this.common.loading--;
+    //     console.log('return vouher id: ', res['data']);
+    //     if (res['success']) {
+    //       if (res['data'][0].save_voucher_v1) {
+    //         this.updateVoucherTrip(res['data'][0].save_voucher_v1, this.tripexpvoucherid);
+    //         this.common.showToast('Your Code :' + res['data'].code);
+    //       } else {
+    //         let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
+    //         this.common.showError(message);
+    //       }
+    //     }
 
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
+    //   }, err => {
+    //     this.common.loading--;
+    //     console.log('Error: ', err);
+    //     this.common.showError();
+    //   });
   }
 
-  updateVoucherTrip(voucherid, tripexpvoucherid) {
+  updateVoucherTrip(voucherDetailArray, tripexpvoucherid) {
     let tripidarray = [];
     this.checkedTrips.map(tripHead => {
       tripidarray.push(tripHead.id);
     });
     console.log('trip id array ', this.fuelFilings);
     const params = {
-      vchrid: voucherid,
       tripArrayId: tripidarray,
       vehid: this.VehicleId,
       voucher_details: this.tripHeads,
       storeid: this.storeids,
       tripExpVoucherId: tripexpvoucherid,
       fuelFilings: this.fuelFilings,
-      accDetail: this.accDetails
+      accDetail: this.accDetails,
+      voucherArray:voucherDetailArray
 
     };
 
@@ -678,8 +684,10 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.loading--;
         console.log('return vouher id: ', res['data']);
         if (res['data']) {
-          if (!res['data'][0]['update_tripexpvoucher']) {
-            this.activeModal.close({ status: true });
+          if (res['data'][0]['save_tripexp_voucher_v1']) {
+            this.common.showToast(res['data']['code']);
+            this.dismiss(true);
+           // this.activeModal.close({ status: true });
           } else {
             let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
             this.common.showError(message);
@@ -771,7 +779,10 @@ export class VoucherSummaryComponent implements OnInit {
 
   addTrip() {
     let vehId = this.VehicleId;
-    this.common.params = { vehId };
+    let vehclename = this.vehclename;
+   
+    console.log('vech id first',vehId);
+    this.common.params = { vehId , vehclename};
     const activeModal = this.modalService.open(AddTripComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data5555555: ', data);

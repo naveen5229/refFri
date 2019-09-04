@@ -34,6 +34,7 @@ export class VehicleGpsTrailComponent implements OnInit {
     public user: UserService,
     public datepipe: DatePipe,
     public modalService: NgbModal) {
+      this.common.refresh = this.refresh.bind(this);
     // let today;
     // today = new Date();
     // this.endDate = this.common.dateFormatter(today);
@@ -42,6 +43,10 @@ export class VehicleGpsTrailComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('refresh');
   }
 
   searchVehicle(vehicleList) {

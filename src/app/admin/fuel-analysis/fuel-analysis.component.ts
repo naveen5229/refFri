@@ -31,9 +31,15 @@ export class FuelAnalysisComponent implements OnInit {
     // this.xdate = this.common.dateFormatter(new Date());
     // this.ydate = this.common.dateFormatter(new Date());
     //this.populateFilling();
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('Refresh');
+    
   }
 
   populateFilling() {

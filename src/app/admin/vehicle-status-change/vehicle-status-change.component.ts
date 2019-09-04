@@ -29,7 +29,7 @@ export class VehicleStatusChangeComponent implements OnInit {
    {
 
     this.getVehicleStatusAlerts(this.viewType);
-    // this.common.refresh = this.refresh.bind(this);
+     this.common.refresh = this.refresh.bind(this);
 
 
   }
@@ -37,10 +37,10 @@ export class VehicleStatusChangeComponent implements OnInit {
   ngOnInit() {
   }
 
-  // refresh() {
-  //   console.log('Refresh');
-  //   this.getVscEntry();
-  // }
+  refresh() {
+    console.log('Refresh');
+    this.getVehicleStatusAlerts(this.viewType);
+  }
 
   getVehicleStatusAlerts(viewType) {
     this.viewType = viewType;

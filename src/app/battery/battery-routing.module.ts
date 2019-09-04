@@ -16,10 +16,10 @@ const routes: Routes = [{
             path: 'battery-inventory',
             component: BatteryInventoryComponent,
         },
-        {
-            path: 'battery-modals',
-            component: BatteryModalsComponent,
-        },
+        // {
+        //     path: 'battery-modals',
+        //     component: BatteryModalsComponent,
+        // },
         {
             path: 'vehicle-battery',
             component: VehicleBatteryComponent,

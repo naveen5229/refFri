@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OnwardKmpdComponent } from './onward-kmpd.component';
+import { onwardKmpdComponent } from './onward-kmpd.component';
 
 describe('OnwardKmpdComponent', () => {
-  let component: OnwardKmpdComponent;
-  let fixture: ComponentFixture<OnwardKmpdComponent>;
+  let component: onwardKmpdComponent;
+  let fixture: ComponentFixture<onwardKmpdComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OnwardKmpdComponent ]
+      declarations: [onwardKmpdComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OnwardKmpdComponent);
+    fixture = TestBed.createComponent(onwardKmpdComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -32,6 +32,7 @@ export class TicketsAllComponent implements OnInit {
     private modalService: NgbModal) {
     this.getAllOpenTickets();
     this.getAllClaimTickets();
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {

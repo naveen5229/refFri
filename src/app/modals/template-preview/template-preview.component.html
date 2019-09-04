@@ -1,0 +1,109 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title" style="text-align:right;width:100%;">{{title}}</h5>
+
+    <div class="col-md-6 text-right">
+        <span (click)="printHandler()" class="doNotPrint print-icon"><i class="fa fa-print"></i></span>
+        <span (click)="common.downloadPdf('print-section',true)" class="pdf-icon doNotPrint" style="margin-left:20px"><i
+        class="fa fa-file-pdf"></i></span>
+        <button type="button" class="close doNotPrint" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+</div>
+
+<div class="modal-body" id="print-section" [innerHTML]="template.preview">
+</div>
+
+
+
+<!-- <div class="modal-body">
+  <div class="modal-body p-0" id="print-section">
+    <div class="lr-print-recipt">
+      <div class="recipt-header">
+        <div class="row">
+          <div class="col-5">
+            <div class="site-logo">
+              @FO_NAME@
+            </div>
+          </div>
+          <div class="col-7">
+            @BRANCH_ADDRESS@
+          </div>
+        </div>
+      </div>
+      <div class="recipt-body">
+        <div class="co">
+          <div class="row">
+            <div class="col-5 offset-7 clearfix">
+              <div class="code-numbox">
+                <p>CODE NO.</p>
+                <span>@RECEIPT_NO@</span>
+              </div>
+              <div class="bilty-chalan-no">
+                <b>Mob. <span>@BRANCH_MOBILE@</span></b>
+                <div class="chalan-no-box">
+                  <p>Bilty Chalan No.</p>
+                  <span>@CHALLAN_NO@</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-8">
+            <div class="lr-customer-detail">
+              <p><label>Consignor:</label> <span>@CONSIGNOR_NAME@</span></p>
+              <p><label>A/C:</label> <span>@CONSIGNOR_ACCOUNT@</span></p>
+              <p><label>Address:</label> <span>@CONSIGNOR_ADDRESS@</span></p>
+              <p><label>Delivery Address:</label> <span>@DESTINATION@</span></p>
+  
+            </div>
+            <div class="lr-recipt-bil">
+              @LR_DETAILS@
+            </div>
+            <div class="lr-description">
+              <p class="m-0">@LR_TERMS@</p>
+            </div>
+            <div class="lr-other-info">
+              <div class="row">
+                <div class="col-10">
+                  <p class="advance">
+                    <span>Diesel : </span>
+                    <span> Advance : </span>
+                  </p>
+                </div>
+                <div class="col-2">
+                  <p class="ulp">ULP</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="invoice-detail">
+              <p><label>Date :</label><span>@LR_DATE@</span></p>
+              <p><label>Invoice No :</label><span>@INVOICE_NUMBER@</span></p>
+              <p><label>D.C. No. :</label><span>@DC_NUMBER@</span></p>
+              <p><label>Driver Name :</label><span>@DRIVER_NAME@</span></p>
+              <p><label>Licence No. :</label><span>@DRIVER_LICENCE@</span></p>
+            </div>
+            <div class="transporter-name">
+              <div class="transporter-name-heading">
+                <p>Transporter Name :</p>
+              </div>
+              <div class="transporter-name-body">
+                <p>@TRANSPORTER_NAME@</p>
+                <div>@TRANSPORTER_DETAILS@</div>
+              </div>
+            </div>
+            <div class="signature">
+              <p>Reveiver Signature &amp; Stamp</p>
+            </div>
+            <div class="signature_name">
+              <p>For, @FO_NAME@</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

@@ -30,9 +30,15 @@ export class DoubleTollReportComponent implements OnInit {
     this.dates.start = start;
     // end = this.common.dateFormatter1(new Date(today.getDate()));
     this.getdoubleTollReport();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getdoubleTollReport();
   }
 
   getDate(date) {

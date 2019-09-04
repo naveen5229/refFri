@@ -170,7 +170,7 @@ export class VehicleReportComponent implements OnInit {
     this.report.map(R => {
 
       let column = {
-        Start: { value: this.datePipe.transform(R.start_time, 'dd MMM HH:mm ') },
+        Start: { value:R.event_type=='state' ? "* "+ this.datePipe.transform(R.start_time, 'dd MMM HH:mm '):this.datePipe.transform(R.start_time, 'dd MMM HH:mm ')},
         End: { value: this.datePipe.transform(R.end_time, 'dd MMM HH:mm') },
         Place: { value: this.getPlaceName(R), class: R.halt_type_id == 11 ? 'green' : R.halt_type_id == 21 ? 'red' : 'default' },
         Location: { value: R.loc_name },

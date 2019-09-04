@@ -55,6 +55,16 @@ nb-card-header {
 :host ::ng-deep .tableFixHead {
     height: auto !important;
     max-height: calc(100vh - 186px);
+    table {
+        tr {
+            th {
+                text-align: center;
+            }
+            th:nth-child(4) {
+                width: 180px;
+            }
+        }
+    }
 }
 
 :host ::ng-deep .tag .no-search span {

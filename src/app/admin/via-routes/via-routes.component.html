@@ -1,25 +1,27 @@
 <nb-card style="border: 0px;">
     <nb-card-header>
         <div class="row">
-            <div class="col-3">
+            <div class="col-4">
                 <h5>Routes </h5>
             </div>
             <div class="col-2">
-                <button type="submit" class="btn btn-primary m-0" name="add" (click)="strictRoutes()">Strict Mapping</button>
+                <button type="submit" class="btn btn-primary m-0" name="strict" (click)="strictRoutes()">Strict
+                    Mapping</button>
             </div>
             <div class="col-3">
-                <button type="submit" class="btn btn-primary m-0" name="add" (click)="addPriSecRoute()">Vehicle Routes Mapping</button>
+                <button type="submit" class="btn btn-primary m-0" name="Vehicle" (click)="addPriSecRoute()">Vehicle
+                    Routes Mapping</button>
             </div>
-            <div class="col-2">
-                <button type="submit" class="btn btn-primary m-0" name="add" (click)="addViaRoutes()">Add Routes</button>
+            <div class="col-3">
+                <button type="submit" class="btn btn-primary m-0" name="add" (click)="addViaRoutes()">Add
+                    Routes</button>
             </div>
         </div>
+       
     </nb-card-header>
 
     <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
-
-
-        <smart-table *ngIf="viaRoutes && viaRoutes.length" [data]="table.data" [settings]="table.settings"></smart-table>
-
+        <smart-table *ngIf="viaRoutes && viaRoutes.length" [data]="table.data" [settings]="table.settings">
+        </smart-table>
     </nb-card-body>
 </nb-card>

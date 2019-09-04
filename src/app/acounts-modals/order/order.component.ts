@@ -27,12 +27,16 @@ export class OrderComponent implements OnInit {
   branchdata = [];
   orderTypeData = [];
   supplier = [];
+  sizeIndex=0;
   ledgers = { all: [], suggestions: [] };
   showSuggestions = false;
   activeLedgerIndex = -1;
-  totalitem = 0;
+  totalitem = null;
   invoiceDetail = [];
   taxDetailData = [];
+  mannual=false;
+  approve=0;
+  freezedate='';  
   order = {
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: null,
@@ -50,6 +54,8 @@ export class OrderComponent implements OnInit {
     orderid: 0,
     delete: 0,
     ledgeraddressid: null,
+    mannual :false,
+    branchid:0,
     // branch: {
     //   name: '',
     //   id: ''
@@ -130,19 +136,53 @@ export class OrderComponent implements OnInit {
     this.setFoucus('ordertype');
     this.getInvoiceDetail();
     // this.common.currentPage = 'Invoice';
-    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
+    if(this.common.params.sizeIndex){
+      this.sizeIndex=this.common.params.sizeIndex;
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeIndex);
     // console.log("open data ",this.invoiceDetail[]);
-
+    this.getFreeze();
   }
 
   ngOnInit() {
   }
 
+  approvefunction(id) {
+    this.approveCallFunction(0, 'true',id);
+  }
+  approveCallFunction(type, typeans,xid) {
+    let params = {
+      id: xid,
+      flagname: (type == 1) ? 'deleted' : 'forapproved',
+      flagvalue: typeans
+    };
+    this.common.loading++;
+    this.api.post('Voucher/invoiceApprooved', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        //this.getStockItems();
+        this.activeModal.close({ response: true });
+        if (type == 1 && typeans == 'true') {
+          this.common.showToast(" This Value Has been Deleted!");
+        } else if (type == 1 && typeans == 'false') {
+          this.common.showToast(" This Value Has been Restored!");
+        } else {
+          this.common.showToast(" This Value Has been Approved!");
+        }
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError('This Value has been used another entry!');
+      });
+  }
 
   getInvoiceDetail() {
     let params = {
       invoiceId: this.common.params.invoiceid
     };
+
+    this.approve= this.common.params.approveid;
     console.log('vcid', this.common.params);
 
     this.api.post('Company/getInvoiceDetail', params)
@@ -176,6 +216,8 @@ export class OrderComponent implements OnInit {
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
         this.order.delete = 0;
         this.order.ledgeraddressid = this.invoiceDetail[0].y_ledger_address_id;
+        this.order.mannual = (this.invoiceDetail[0].y_for_approved)?false:true;
+        this.order.branchid = this.invoiceDetail[0].y_fobranch_id;
 
         this.invoiceDetail.map((invoiceDetail, index) => {
           if (!this.order.amountDetails[index]) {
@@ -282,6 +324,8 @@ export class OrderComponent implements OnInit {
       orderid: 0,
       delete: 0,
       ledgeraddressid: null,
+      mannual:false,
+      branchid:0,
       // branch: {
       //   name: '',
       //   id: ''
@@ -421,7 +465,19 @@ export class OrderComponent implements OnInit {
     if (response) {
       //console.log('Order new:', this.order);
       // return;
+      if (this.freezedate) {
+        let rescompare = this.CompareDate(this.freezedate);
+        console.log('heddlo',rescompare);
+        if (rescompare == 0) {
+          console.log('hello');
+          this.common.showError('Please Enter Date After '+this.freezedate);
+          setTimeout(() => {
+            this.setFoucus('date');
+          }, 150);
+        } else {
       this.addOrder(this.order);
+        }
+      }
     }
     // this.activeModal.close({ response: response, Voucher: this.order });
   }
@@ -515,7 +571,8 @@ export class OrderComponent implements OnInit {
       x_id: order.orderid,
       delete: order.delete,
       ledgeraddressid: order.ledgeraddressid,
-
+      ismannual :order.mannual,
+      branchid :order.branchid
     };
 
     console.log('params11: ', params);
@@ -528,8 +585,9 @@ export class OrderComponent implements OnInit {
         //this.GetLedger();
         this.order = this.setInvoice();
         this.setFoucus('ordertype');
+
         this.common.showToast('Invoice Are Saved');
-        this.activeModal.close({});
+        this.activeModal.close({responce:'true', delete: 'true'});
        // return;
 
       }, err => {
@@ -549,6 +607,27 @@ export class OrderComponent implements OnInit {
     });
     return total;
   }
+  
+  getStockAvailability(stockid) {
+    let totalitem = 0;
+    let params = {
+      stockid: stockid
+    };
+     this.common.loading++;
+    this.api.post('Suggestion/GetStockItemAvailableQty', params)
+      .subscribe(res => {
+         this.common.loading--;
+        console.log('Res:', res['data'][0].get_stockitemavailableqty);
+        this.totalitem = res['data'][0].get_stockitemavailableqty;
+        //  console.log('totalitem : -',totalitem);
+        return this.totalitem;
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
 
   keyHandler(event) {
     const key = event.key.toLowerCase();
@@ -565,6 +644,20 @@ export class OrderComponent implements OnInit {
       // console.log('alt + C pressed');
       this.openStockItemModal();
     }
+    if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
+      let index = parseInt(this.activeId.split('-')[1]);
+      setTimeout(() => {
+      console.log('available item', this.order.amountDetails[index].qty,'second response',this.totalitem);
+        if ((parseInt(this.totalitem)) < (parseInt(this.order.amountDetails[index].qty))) {
+          alert('Quantity is lower then available quantity');
+          this.order.amountDetails[index].qty = null;
+        }
+      }, 300);
+      // if ((this.totalitem) < parseInt(this.order.amountDetails[index].qty)) {
+      //   console.log('Quantity is lower then available quantity');
+      //   // this.order.amountDetails[index].qty = 0;
+      // }
+    }
     if (key == 'enter') {
       if (this.activeId.includes('branch')) {
         this.setFoucus('ordertype');
@@ -580,7 +673,19 @@ export class OrderComponent implements OnInit {
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('date')) {
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          console.log('heddlo',rescompare);
+          if (rescompare == 0) {
+            console.log('hello');
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('date');
+            }, 150);
+          } else {
         this.setFoucus('purchaseledger');
+          }
+        }
       } else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
@@ -661,6 +766,13 @@ export class OrderComponent implements OnInit {
         this.handleArrowUpDown(key);
         event.preventDefault();
       }
+    }else if ((this.activeId == 'date' || this.activeId == 'biltydate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     }
   }
 
@@ -724,10 +836,11 @@ export class OrderComponent implements OnInit {
 
   getPurchaseLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: ((this.order.ordertype.id==-104) || (this.order.ordertype.id==-106 )) ? 'sales':'purchase'
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedger', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -742,10 +855,11 @@ export class OrderComponent implements OnInit {
 
   getSupplierLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: 'other'
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedgerAddress', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -1020,8 +1134,11 @@ export class OrderComponent implements OnInit {
     } else if (activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      // this.order.billingaddress = suggestion.address;
-      this.getAddressByLedgerId(suggestion.id);
+      if(suggestion.address_count >1){
+        this.getAddressByLedgerId(suggestion.id);
+        }else{
+        this.order.billingaddress = suggestion.address;
+        }
     } else if (activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
@@ -1067,33 +1184,13 @@ export class OrderComponent implements OnInit {
           console.log("data", data);
           this.order.delete = 1;
           this.addOrder(this.order);
-          this.activeModal.close({ response: true, ledger: this.order });
+          this.activeModal.close({ response: true,  delete: 'true' });
           this.common.loading--;
         }
       });
     }
   }
 
-  getStockAvailability(stockid) {
-    let totalitem = 0;
-    let params = {
-      stockid: stockid
-    };
-    // this.common.loading++;
-    this.api.post('Suggestion/GetStockItemAvailableQty', params)
-      .subscribe(res => {
-        // this.common.loading--;
-        console.log('Res:', res['data'][0].get_stockitemavailableqty);
-        this.totalitem = res['data'][0].get_stockitemavailableqty;
-        //  console.log('totalitem : -',totalitem);
-        return this.totalitem;
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-
-  }
 
 
   permantdelete(tblid) {
@@ -1118,7 +1215,7 @@ export class OrderComponent implements OnInit {
               this.common.loading--;
               console.log('res: ', res);
               //this.getStockItems();
-              this.activeModal.close({ response: true, ledger: this.order });
+              this.activeModal.close({ response: true, delete: 'true' });
               this.common.showToast(" This Value Has been Deleted!");
             }, err => {
               this.common.loading--;
@@ -1361,7 +1458,7 @@ let invoiceJson={};
       invoiceDetail.taxDetails.map((taxDetail, index) => {
         rows.push([
           { txt: taxDetail.taxledger.name  || '' ,'colspan':3,align:'right'},
-          { txt: taxDetail.taxamount || '','colspan':3 ,align:'right'},
+          { txt: parseFloat(taxDetail.taxamount) || '','colspan':3 ,align:'right'},
           { txt:  '' },
           { txt:  '' }
         ]);
@@ -1425,4 +1522,49 @@ let invoiceJson={};
     this.printService.printInvoice(invoiceJson, 1);
 
   }
+  getFreeze() {
+   
+    let params = {
+      departmentId: 0
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/getFreeze', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('freeze Res11:', res['data']);
+        this.freezedate = res['data'][0]['getfreezedate'];
+       // resolve(res['data']);
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      
+      });
+}
+CompareDate(freezedate) {
+  let firstarr = freezedate.split('-');
+   console.log('first date ', firstarr);
+  let secondarr = this.order.date.split('-'); 
+  console.log('second arr ', secondarr[2]);
+
+  let fristyear = firstarr[0];
+  let firstmonth = firstarr[1];
+  let firstdate = firstarr[2];
+  let endyear = parseInt(secondarr[2]);
+  let endmonth = parseInt(secondarr[1]);
+  let enddate = parseInt(secondarr[0]);
+
+  console.log('First Date:', fristyear, firstmonth, firstdate);
+  console.log('Second Date:', endyear, endmonth, enddate);
+  var dateOne = new Date(fristyear, firstmonth, firstdate);
+ // var dateTwo = new Date(endyear, endmonth, enddate);
+  var dateTwo = new Date(endyear, endmonth, enddate);
+  
+  if (dateOne > dateTwo) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
 }

@@ -52,7 +52,7 @@ nb-card-body {
 :host ::ng-deep.red {
   background: red;
   color: #fff;
-  margin-left:5px;
+  margin-left: 5px;
 }
 :host ::ng-deep.pink {
   background: pink;
@@ -76,19 +76,16 @@ nb-card-body {
   line-height: 22px;
   margin: 3px;
 }
-:host ::ng-deep .fa-print{
-  background-color: #4fb92b;
-  color: #fff;
-}
-:host ::ng-deep .fa-pencil-square-o{
-  background-color: #04a9f5;
-  color: #fff;
-}
-:host ::ng-deep .fa-trash{
-  background-color: #f00;
-  color: #fff;
-}
-:host ::ng-deep .fa-handshake-o{
+
+// :host ::ng-deep .fa-pencil-square-o{
+//   background-color: #04a9f5;
+//   color: #fff;
+// }
+// :host ::ng-deep .fa-trash{
+//   background-color: #f00;
+//   color: #fff;
+// }
+:host ::ng-deep .fa-handshake-o {
   background-color: #1dddc6;
   color: #fff;
 }
@@ -172,18 +169,347 @@ input[type="text"] {
   max-height: calc(100vh - 202px);
   height: auto !important;
 }
-:host ::ng-deep td .zoom{
-    background: linear-gradient(-135deg,#1de9b6 0,#1dc4e9 100%);
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 3px;
-    color: #fff;
+:host ::ng-deep td .zoom {
+  background: linear-gradient(-135deg, #1de9b6 0, #1dc4e9 100%);
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 3px;
+  color: #fff;
 }
 
 :host ::ng-deep .i-red-cross {
-  color: red; font-size: 18px;
+  color: red;
+  font-size: 18px;
 }
 
 :host ::ng-deep .i-green {
-  color: green; font-size: 18px;
+  color: green;
+  font-size: 18px;
+}
+
+:host ::ng-deep .fa-image {
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 26px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -12px;
+    top: -28px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Image";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #008000;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #008000;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-image:hover span {
+  display: block;
+}
+:host ::ng-deep .fa-check {
+  span {
+    position: absolute;
+    display: none;
+    font-weight: normal;
+    top: -28px;
+    padding: 10px 32px;
+    font-weight: 400;
+    font-size: 11px;
+    left: -27px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Receipt";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #008000;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #008000;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-check:hover span {
+  display: block;
+}
+
+:host ::ng-deep .fa-list {
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 30px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -22px;
+    top: -28px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Details";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #008000;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #008000;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-list:hover span {
+  display: block;
+}
+:host ::ng-deep .fa-image.i-red-cross,
+:host ::ng-deep .fa-check.i-red-cross,
+:host ::ng-deep .fa-list.i-red-cross {
+  span::before {
+    background-color: #ff0000;
+  }
+  span::after {
+    border-top: 5px solid #ff0000;
+  }
+}
+
+:host ::ng-deep .fa-image.i-green,
+:host ::ng-deep .fa-check.i-green,
+:host ::ng-deep .fa-list.i-green {
+  span::before {
+    background-color: #008000;
+  }
+  span::after {
+    border-top: 5px solid #008000;
+  }
+}
+
+:host ::ng-deep .fa-print {
+  background-color: #008000;
+  color: #fff;
+  span {
+    position: absolute;
+    display: none;
+    padding: 12px 30px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -18px;
+    top: -33px;
+    line-height: 14px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Print";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #008000;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #008000;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-print:hover span {
+  display: block;
+}
+
+:host ::ng-deep .fa-pencil-square-o {
+  background-color: #04a9f5;
+  color: #fff;
+  span {
+    position: absolute;
+    display: none;
+    padding: 12px 46px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -50px;
+    top: -34px;
+    line-height: 15px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "LR Generate";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #04a9f5;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #04a9f5;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-pencil-square-o:hover span {
+  display: block;
+}
+
+:host ::ng-deep .fa-trash {
+  background-color: #f00;
+  color: #fff;
+  span {
+    position: absolute;
+    display: none;
+    padding: 12px 33px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -24px;
+    top: -33px;
+    line-height: 14px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Delete LR";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #f00;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #f00;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-trash:hover span {
+  display: block;
+}
+
+:host ::ng-deep .fa-handshake-o {
+  background-color: #1dddc6;
+  color: #fff;
+  span {
+    position: absolute;
+    display: none;
+    padding: 12px 50px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -59px;
+    top: -35px;
+    line-height: 14px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "TripSettlement";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #1dddc6;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #1dddc6;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-handshake-o:hover span {
+  display: block;
 }

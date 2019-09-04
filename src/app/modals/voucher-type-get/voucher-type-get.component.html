@@ -21,13 +21,32 @@
   </div>
   <div class="row" style="margin-bottom: 15px">
     <div class="col-4">
-      <label>Vehicles</label>
+      <label>Vehicles Type</label>
     </div>
     <div class="col-4">
+      <select class="form-control" name="dropDown" id="dropDown" [(ngModel)]="voucher.vehicleTypes"
+        (change)="handleVehicleTypeChange()">
+        <option *ngFor="let type of vehicleType" [value]="type.id">
+          {{type.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom: 15px">
+    <div class="col-4">
+      <label>Vehicles</label>
+    </div>
+    <div class="col-4" *ngIf="voucher.vehicleTypes==0; else marketType">
       <auto-suggestion (onSelected)="selectedVehicle($event)" url="Suggestion/getVehicleList"
-        [preSelected]="{regno:voucher.vehRegistrationNo}" display="regno" placeholder="Enter Reg Number">
+        [preSelected]="{regno:voucher.vehRegistrationNo}" inputId="vehicleId" display="regno"
+        placeholder="Enter Reg Number">
       </auto-suggestion>
     </div>
+    <ng-template #marketType>
+      <div class="col-4">
+        <input type="text" class="form-control" placeholder="Enter Regno" [(ngModel)]="voucher.vehRegistrationNo">
+      </div>
+    </ng-template>
   </div>
   <div class="row" style="margin-bottom: 15px">
     <div class="col-4">
@@ -71,7 +90,7 @@
       {{voucher.voucherType}}
     </div>
   </div>
-  <div class="row" style="margin-bottom: 15px">
+  <div class="row" style="margin-bottom: 15px" *ngIf="voucher.voucherID!=-7">
     <div class="col-4">
       <label>RefType</label>
     </div>
@@ -84,7 +103,7 @@
       </select>
     </div>
   </div>
-  <div class="row" style="margin-bottom: 15px">
+  <div class="row" style="margin-bottom: 15px" *ngIf="voucher.voucherID!=-7 && refId">
     <div class="col-4">
       <label>Ref Name</label>
     </div>

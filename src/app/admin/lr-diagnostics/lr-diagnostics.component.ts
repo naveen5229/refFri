@@ -28,9 +28,14 @@ export class LrDiagnosticsComponent implements OnInit {
     public user: UserService) {
     let today = new Date();
     this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 4)));
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log("refresh");
   }
 
   getDate(date) {

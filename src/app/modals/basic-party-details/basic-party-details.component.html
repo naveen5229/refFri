@@ -44,6 +44,14 @@
                             <label class="ex-pen">Eg: 11AAAAA1111Z1A1</label>
                         </div>
                     </div>
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            <label>User Supplier Code:</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="userSupplier" name="user" formControlName="userSupplier" [(ngModel)]="userCode" type="text" placeholder="Enter User Supplier Code" autocomplete="off" class="form-control">
+                        </div>
+                    </div>
                 </div>
                 <div class="col-6">
                     <div class="row mt-2">
@@ -88,6 +96,14 @@
                         </div>
                         <div class="col-8">
                             <textarea name="comment" class="form-control" formControlName="remark" form="usrform" [(ngModel)]="remark"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            <label>Party Supplier Code:</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="partySupplier" name="party" formControlName="partySupplier" [(ngModel)]="partyCode" type="text" placeholder="Enter Party Supplier Code" autocomplete="off" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -169,5 +185,4 @@
             </div>
         </div>
     </div>
-
 </div>

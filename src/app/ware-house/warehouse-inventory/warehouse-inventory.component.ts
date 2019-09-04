@@ -34,10 +34,15 @@ export class WarehouseInventoryComponent implements OnInit {
     private api: ApiService) {
     // this.getdata();
     this.getWareData();
+    this.common.refresh = this.refresh.bind(this);
 
   }
   stateDetail = [];
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getWareData();
   }
 
   getWareData() {

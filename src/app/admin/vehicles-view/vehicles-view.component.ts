@@ -20,11 +20,16 @@ export class VehiclesViewComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     public activeModal: NgbActiveModal) {
+      this.common.refresh = this.refresh.bind(this);
 
 
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('refresh');
   }
 
 
@@ -45,10 +50,17 @@ export class VehiclesViewComponent implements OnInit {
         console.log('res: ' + res['data']);
         this.vehicleViewDetails = res['data'];
         this.vehicleViewDetails.forEach((element) => {
-          if (element.is_ncv == "0") {
+          if (element.is_ncv == "0" ) {
             this.is_ncv.push(0);
-          } else {
+          } 
+         else if (element.is_ncv == "1" ) {
             this.is_ncv.push(1);
+          }
+          else if (element.is_ncv == "2" ) {
+            this.is_ncv.push(2);
+          }
+          else  {
+            this.is_ncv.push(0);
           }
           this.showtable = true;
         });

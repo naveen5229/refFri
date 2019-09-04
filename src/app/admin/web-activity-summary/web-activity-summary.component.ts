@@ -18,9 +18,14 @@ export class WebActivitySummaryComponent implements OnInit {
     public common: CommonService,
     private commonService: CommonService,
     public api: ApiService,
-    public modalService: NgbModal) { }
+    public modalService: NgbModal) { 
+      this.common.refresh = this.refresh.bind(this);
+    }
 
   ngOnInit() {
+  }
+  refresh(){
+    console.log('refresh');
   }
   getFoWebView() {
     let params = "startDate=" + this.common.dateFormatter1(this.startDate) + "&endDate=" + this.common.dateFormatter1(this.endDate);

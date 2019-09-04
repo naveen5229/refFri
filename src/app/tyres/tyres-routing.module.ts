@@ -11,6 +11,7 @@ import { VehicleTrollyMappingComponent } from './vehicle-trolly-mapping/vehicle-
 import { TyreModalsComponent } from './tyre-modals/tyre-modals.component';
 import { VehicleTyresComponent } from './vehicle-tyres/vehicle-tyres.component';
 import { TyreSummaryComponent } from './tyre-summary/tyre-summary.component';
+import { TyreSummaryDetailsComponent } from './tyre-summary-details/tyre-summary-details.component';
 
 const routes: Routes = [{
     path: '',
@@ -20,10 +21,10 @@ const routes: Routes = [{
             path: 'dashboard',
             component: DashboardComponent,
         },
-        {
-            path: 'inventory',
-            component: InventoryComponent,
-        },
+        // {
+        //     path: 'inventory',
+        //     component: InventoryComponent,
+        // },
         {
             path: 'inputs',
             component: InputsComponent,
@@ -51,6 +52,10 @@ const routes: Routes = [{
         {
             path: 'tyre-summary',
             component: TyreSummaryComponent,
+        },
+        {
+            path: 'tyre-summary-details',
+            component: TyreSummaryDetailsComponent,
         },
 
     ],

@@ -351,7 +351,7 @@ export class LrRateComponent implements OnInit {
       this.rateDiv = this.data[0]['_allowedit'];
       this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
       this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
-      this.filters[0].shortage = data[1] && data[1]['short_coeff'] ? data[1]['short_coeff'] : data[1]['short_coeff'];
+      this.filters[0].shortage = data[1] && data[1]['short_coeff'] ? data[1]['short_coeff'] : '';
     }
     else {
       this.resetValue();

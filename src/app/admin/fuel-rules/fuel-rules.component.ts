@@ -27,6 +27,7 @@ export class FuelRulesComponent implements OnInit {
   ngOnInit() {
   }
   refresh() {
+    console.log("Refresh");
     this.getFuelNorms();
   }
 

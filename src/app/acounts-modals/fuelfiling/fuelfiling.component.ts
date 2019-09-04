@@ -29,7 +29,7 @@ export class FuelfilingComponent implements OnInit {
   storeids = [];
   date = this.common.dateFormatternew(new Date()).split(' ')[0];
   custcode = '';
-  total = 0;
+  total = null;
   narration = '';
   checkall = false;
   activeId = 'creditLedger';
@@ -39,7 +39,11 @@ export class FuelfilingComponent implements OnInit {
     public accountService: AccountService,
     public modalService: NgbModal) {
     //  this.common.currentPage = 'Fuel Fillings';
-    this.getFuelFillings();
+   // this.getFuelFillings();
+
+    if(this.common.params.fuelData){
+      this.fuelFilings   =this.common.params.fuelData;
+    }
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.getcreditLedgers('credit');
     this.getdebitLedgers('debit');
@@ -125,7 +129,9 @@ export class FuelfilingComponent implements OnInit {
       .subscribe(res => {
         console.log('fuel data', res);
         this.common.loading--;
+        if(res['data']){
         this.fuelFilings = res['data'];
+        }
         // this.getHeads();
       }, err => {
         console.log(err);
@@ -141,15 +147,15 @@ export class FuelfilingComponent implements OnInit {
     if (this.checkall) {
       this.fuelFilings.map(trip => trip.isChecked = true);
       this.fuelFilings.map(trip =>
-        temp += parseFloat(trip.amount));
+        temp += parseFloat(trip.y_amount));
       this.total = temp;
       this.fuelFilings.map(trip =>
-        this.storeids.push(trip.id));
+        this.storeids.push(trip.y_id));
 
 
     } else {
       this.fuelFilings.map(trip => trip.isChecked = false);
-      this.total = 0;
+      this.total = null;
       this.storeids = [];
     }
     // for (var i = 0; i < this.trips.length; i++) {
@@ -157,7 +163,16 @@ export class FuelfilingComponent implements OnInit {
     // }
   }
   changeTotal(checkvalue, id) {
-    this.total += parseFloat(checkvalue);
+    // this.fuelFilings.map(trip => trip.isChecked = true);
+    console.log('check value',checkvalue,'this.total',this.total,'tesd',this.fuelFilings);
+    let temp1=null;
+    this.fuelFilings.map(trip =>{
+      if(trip.isChecked){
+      temp1 += parseFloat(trip.y_amount);
+    }
+  });
+
+    this.total = parseFloat(temp1);
     this.storeids.push(id);
 
   }
@@ -224,55 +239,57 @@ export class FuelfilingComponent implements OnInit {
     });
 
     //const params ='';
-    const params = {
+    const fuelEntryData = {
       foid: 123,
       // vouchertypeid: voucher.voucher.id,
       customercode: this.custcode,
       remarks: this.narration,
       date: this.date,
       amountDetails: amountDetails,
-      vouchertypeid: -10,
+      vouchertypeid: -171,
       y_code: '',
-      xid: 0
+      xid: 0,
+      delete: 0,
     };
 
-    console.log('params 1 : ', params);
-    this.common.loading++;
+    console.log('params 1 : ', fuelEntryData);
+   // this.common.loading++;
+    this.updatefuelfiling(fuelEntryData);
 
-    this.api.post('Voucher/InsertVoucher', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('return vouher id: ', res['data']);
-        if (res['success']) {
+    // this.api.post('Voucher/InsertVoucher', params)
+    //   .subscribe(res => {
+    //     this.common.loading--;
+    //     console.log('return vouher id: ', res['data']);
+    //     if (res['success']) {
 
-          if (res['data'][0].save_voucher_v1) {
+    //       if (res['data'][0].save_voucher_v1) {
 
-            //  this.voucher = this.setVoucher();
-            //  this.getVouchers();
-            this.common.showToast('Your Code :' + res['data'].code);
-            //   this.setFoucus('ref-code');
+    //         //  this.voucher = this.setVoucher();
+    //         //  this.getVouchers();
+    //         this.common.showToast('Your Code :' + res['data'].code);
+    //         //   this.setFoucus('ref-code');
 
-            this.updatefuelfiling(res['data'][0].save_voucher_v1);
+    //         this.updatefuelfiling(res['data'][0].save_voucher_v1);
 
-          } else {
-            let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
-            this.common.showError(message);
-          }
-        }
+    //       } else {
+    //         let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
+    //         this.common.showError(message);
+    //       }
+    //     }
 
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
+    //   }, err => {
+    //     this.common.loading--;
+    //     console.log('Error: ', err);
+    //     this.common.showError();
+    //   });
   }
 
-  updatefuelfiling(vcid) {
+  updatefuelfiling(vchData) {
 
     console.log('total ids', this.storeids);
 
     const params = {
-      vchId: vcid,
+      voucherData: vchData,
       fuelids: this.storeids,
       fuestation: this.fuelstationid
     };

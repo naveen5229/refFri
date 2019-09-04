@@ -63,13 +63,11 @@ export class NearbyPodsComponent implements OnInit {
     console.log('branchId', this.BranchID);
     console.log('rangeId:', this.RangeId);
     this.common.refresh = this.refresh.bind(this);
-
-
   }
 
   ngOnInit() {
-
   }
+  
   refresh() {
     console.log('Refresh');
     this.getBranchList();
@@ -140,7 +138,7 @@ export class NearbyPodsComponent implements OnInit {
         if (this.headings[i] == "Action") {
 
           // this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-task', action: this.view.bind(this, doc.url) }, { class: 'fa fa-task', action: this.view.bind(this, doc.url) }] };
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-user', action: this.change.bind(this, doc) }, { class: 'fa fa-map-marker', action: this.view.bind(this, doc) }, { class: 'fa fa-picture-o', action: this.LRimage.bind(this, doc._img_url2) }, { class: 'fa fa-image', action: this.podimage.bind(this, doc._img_url) }] };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-user', action: this.change.bind(this, doc) }, { class: 'fa fa-map-marker', action: this.view.bind(this, doc) }, { class: 'fa fa-picture-o', action: this.LRimage.bind(this, doc._img_url2) }, { class: 'fa fa-image', action: this.getPodImage.bind(this, doc._doc_id) }] };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -149,6 +147,7 @@ export class NearbyPodsComponent implements OnInit {
     });
     return columns;
   }
+  
   getBranchList() {
     let params = {
 
@@ -195,13 +194,27 @@ export class NearbyPodsComponent implements OnInit {
 
 
   }
-  podimage(url) {
-    let images = [{
-      name: "Lr",
-      image: url
-    }];
-    this.common.params = { images, title: 'Lr Image' };
-    const activeModal2 = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
 
+  // podimage(url) {
+  //   let images = [{
+  //     name: "Lr",
+  //     image: url
+  //   }];
+  //   this.common.params = { images, title: 'Lr Image' };
+  //   const activeModal2 = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
+
+  // }
+
+  getPodImage(receipt) {
+    console.log("val===", receipt);
+    let refdata = {
+      refid: "",
+      reftype: "",
+      doctype: "",
+      docid: receipt
+    }
+    console.log("receipts",refdata);
+    this.common.params = { refdata: refdata, title: 'docImage' };
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
   }
 }

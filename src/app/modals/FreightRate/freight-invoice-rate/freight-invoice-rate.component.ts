@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ViewFrieghtInvoiceComponent } from '../view-frieght-invoice/view-frieght-invoice.component';
+import { SupportingDocComponent } from '../../LRModals/supporting-doc/supporting-doc.component';
 
 @Component({
   selector: 'freight-invoice-rate',
@@ -17,15 +19,20 @@ export class FreightInvoiceRateComponent implements OnInit {
   columnsValue = [];
   invoiceRates = [];
   totalManualAmount = 0;
-
+  invoiceNo = null;
+  invoices = [];
+  invoiceDate = new Date();
+  typeId = null;
   constructor(
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
+    private modalService: NgbModal
   ) {
-    this.invoiceId = this.common.params.invoice.id;
+    this.invoiceId = this.invoiceType? this.common.params.invoice.id:null;
     this.invoiceType = this.common.params.invoice.type;
-    this.common.handleModalSize('class', 'modal-lg', '1500', 'px', 1);
+    this.typeId = this.common.params.invoice.typeId;
+    this.common.handleModalSize('class', 'modal-lg', '1500');
     this.getFreightInvoiceRate();
   }
 
@@ -40,7 +47,8 @@ export class FreightInvoiceRateComponent implements OnInit {
     ++this.common.loading;
     let params = {
       invoiceId: this.invoiceId,
-      invoiceType: this.invoiceType
+      invoiceType: this.invoiceType,
+      typeId:this.invoiceType>0?this.typeId:'null'
     }
     console.log("params", params);
     this.api.post('FrieghtRate/getFreightInvoiceRates', params)
@@ -51,6 +59,9 @@ export class FreightInvoiceRateComponent implements OnInit {
         this.data = res['data'];
         if (this.data) {
           console.log("data", this.data);
+          this.typeId= this.data[0]._typeid ;
+          this.invoiceDate = new Date(this.data[0]._invdate);
+          this.invoiceNo = this.data[0]._invno;
           this.invoiceRates = this.formattInvoiceRate();
           this.calculateTotalAmount();
           this.getTableColumnName();
@@ -82,6 +93,9 @@ export class FreightInvoiceRateComponent implements OnInit {
     let params = {
       invoiceId: this.invoiceId,
       invoiceType: this.invoiceType,
+      invoiceNumber:this.invoiceNo,
+      typeId:this.invoiceType>0?this.typeId:'null',
+      invoiceDate: this.common.dateFormatter(this.invoiceDate).split(' ')[0],
       data: JSON.stringify(this.invoiceRates)
     }
     console.log("params", params);
@@ -141,7 +155,6 @@ export class FreightInvoiceRateComponent implements OnInit {
     });
   }
 
-  onPrint(){
-    
-  }
+
+ 
 }

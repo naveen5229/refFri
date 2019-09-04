@@ -1,0 +1,47 @@
+<nb-card style="border: 0px; height: 100%;">
+    <nb-card-header class="dispatch-orders">
+        <h5>Dispatch Orders</h5>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="dispatch-orders">
+            <div class="row">
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="mt-2">From Date :</label>
+                        </div>
+                        <div class="col-8 pl-0">
+                            <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate" [isTime]="false">
+                            </uj-date-time-picker>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-3 pr-0">
+                            <label class="mt-2">To Date :</label>
+                        </div>
+                        <div class="col-9 pl-0">
+                            <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate" [isTime]="false" [isStart]="false">
+                            </uj-date-time-picker>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1 pr-0">
+                    <button type="button" class="btn btn-primary" (click)="getDispatchOrders()">Search</button>
+                </div>
+                <div class="col-2">
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-primary" (click)="openDispatchOrder(false)">Add</button>
+                </div>
+            </div>
+            <div class="mt-2">
+                <smart-table *ngIf="dispatchOrders && dispatchOrders.length" [data]="table.data" [settings]="table.settings"></smart-table>
+            </div>
+            <div class="alert alert-danger text-center mt-3" *ngIf="dispatchOrders==null">
+                <h4 class="no-record">No Record Found</h4>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

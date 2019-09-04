@@ -38,10 +38,18 @@ export class TollDiscountComponent implements OnInit {
     // this.calculateTotal();
     this.getdiscountDetails(0);
     this.gettollDiscount();
+    this.common.refresh = this.refresh.bind(this);
+
     //this.calculateTotal();
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    this.getdetails();
+    this.getdiscountDetails(0);
+    this.gettollDiscount();
   }
   getDate(date) {
     this.common.params = { ref_page: "card usage" };

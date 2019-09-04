@@ -13,6 +13,8 @@ import { GenerateLrNoVehiclesComponent } from './generate-lr-no-vehicles/generat
 import { GenerateLrMainfestoComponent } from './generate-lr-mainfesto/generate-lr-mainfesto.component';
 import { ViewManifestoComponent } from './view-manifesto/view-manifesto.component';
 import { LrPodReceiptsComponent } from './lr-pod-receipts/lr-pod-receipts.component';
+import { DispatchOrdersComponent } from './dispatch-orders/dispatch-orders.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 const PAGES_COMPONENTS = [
@@ -27,7 +29,8 @@ const PAGES_COMPONENTS = [
     DashboardModule,
     DirectiveModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    DragDropModule
   ],
   exports: [
     GenerateLRComponent
@@ -39,7 +42,8 @@ const PAGES_COMPONENTS = [
     GenerateLrNoVehiclesComponent,
     // GenerateLrMainfestoComponent,
     ViewManifestoComponent,
-    LrPodReceiptsComponent
+    LrPodReceiptsComponent,
+    DispatchOrdersComponent
   ],
 
 })

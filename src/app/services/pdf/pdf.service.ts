@@ -483,7 +483,7 @@ export class PdfService {
             </div> 
           </div>
         </div>`;
-   
+
     return mainElement;
   }
 
@@ -588,11 +588,8 @@ export class PdfService {
   }
 
   tableWithImages(id, tableIds, data, left_heading, center_heading) {
-
-    // this.common.loading++;
     let promises = [];
     let list = data;
-    console.log("list", data);
     const status = [];
     list.map(list => {
       status.push(list.name);
@@ -600,13 +597,10 @@ export class PdfService {
     );
 
     console.log(status);
-    //ids.map(id => {
     let element = document.getElementById(id);
     promises.push(html2canvas(element, { scale: 2 }));
-    //});
 
     Promise.all(promises).then(result => {
-      console.log('Result:', result);
       let pdf = new jsPDF('p', 'px', 'a4'); // A4 size page of PDF
       let eltimg = document.createElement("img");
       eltimg.src = "assets/images/elogist.png";
@@ -618,7 +612,6 @@ export class PdfService {
         pdf = this.addImageToPdf(canvas, pdf, index, 450, 600);
         if (index < result.length - 1) pdf.addPage()
       });
-      // pdf.save('report.pdf'); // Generated PDF
 
       pdf.addPage();
       /**************** LOGO Creation *************** */
@@ -627,14 +620,11 @@ export class PdfService {
       let maxHeadingLength = 0;
       let pageOrientation = "Portrait";
 
-      // const status = ["onward", "issue", "available", "loading", "unloading"];
-
       pdf.setFontSize(14);
       pdf.setFont("times", "bold", "text-center");
       pdf.text(left_heading, 200, 60);
 
 
-      console.log("testing2", left_heading, center_heading);
       pdf.setFontSize(14);
       pdf.setFont("times", "bold", "text-center");
       pdf.text(center_heading, 200, 45);
@@ -643,18 +633,11 @@ export class PdfService {
         let tablesRows = [];
         tablesHeadings = this.newfindTableHeadings(tableId);
         tablesRows = this.findTableRows(tableId);
-        console.log('...........................', tablesHeadings, tablesRows);
-        console.log('...........................', status[index], status, index);
         pdf.text(status[index], 25, 65);
-
-
-        console.log("123456", left_heading, center_heading);
         pdf = this.newaddTableInDoc(pdf, tablesHeadings, tablesRows);
-        // pdf = this.printPDF
         pdf.addPage();
       });
-      // this.common.loading--;
-      pdf.save("table-with-images.pdf");
+      pdf.save("report.pdf");
     });
   }
 
@@ -752,7 +735,7 @@ export class PdfService {
     let details = await this.common.getFoDetails();
 
     const pdfElement = document.getElementById(elementId);
-      // <img src="assets/images/elogist.png" alt="elogist" style="width: 85px;">
+    // <img src="assets/images/elogist.png" alt="elogist" style="width: 85px;">
     let headerHtml = `<div class="container">
     <div class="row">
       

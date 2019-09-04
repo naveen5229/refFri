@@ -21,9 +21,15 @@ export class GpsSupplierMappingComponent implements OnInit {
 
   constructor(public common: CommonService,
     public api: ApiService,public user: UserService,
-    public modalService: NgbModal) { }
+    public modalService: NgbModal) {
+      this.common.refresh = this.refresh.bind(this);
+     }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log("Refresh");
   }
 
   insertSupplierDetails(){

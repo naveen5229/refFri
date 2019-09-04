@@ -3,6 +3,13 @@
     <h4>Stock Types</h4>
   </nb-card-header> -->
   <nb-card-body>
+      <div class="modal-header" *ngIf="pageName">
+          <h5>Stock Sub Types</h5>
+            <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
     <button class="btn mb-4 add-button" (click)="openStockSubTypeModal()"><i class="fa fa-plus"></i></button>
     <div class="main">
       <table class="table table-bordered stocksubtype_tabel">
@@ -33,5 +40,13 @@
         </tbody>
       </table>
     </div>
+    <div class="modal-footer" *ngIf="pageName">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel"
+                  style="cursor: pointer;">Cancel</button>
+              </div>
+            </div>
+          </div>
   </nb-card-body>
 </nb-card>

@@ -1,88 +1,87 @@
-<nb-card style="border: 0px;">
-  <nb-card-header>
-    <div class="row">
-      <div class="col-sm-3">
-        <h5>Tyre Inventory</h5>
-      </div>
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Tyre Inventory</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 
-      <div class="col-sm-2">
-        <select class="form-control" name="typelist" [(ngModel)]="typeListId" (change)="typeList()">
-          <option value="-1">All</option>
-          <option value="1">Mapped</option>
-          <option value="0">UnMapped</option>
 
-        </select>
-      </div>
-      <div class="col-sm-4 text-right">
-        <div class="row" *ngIf="userType=='admin'">
-          <div class="col-6 pl-0">
-            <div class="upload-btn-wrapper">
-              <input type="file" name="csv" (change)="handleFileSelection($event)">
+
+<!-- <nb-card-header>
+        <div class="row">
+            <div class="col-sm-3">
+                <h5></h5>
             </div>
-          </div>
-          <div class="col-6">
-            <div>
-              <!-- <button (click)="importCsv()" class="btn btn-primary m-0 w-100 pl-0 pr-0">Import CSV Inventory</button> -->
+
+            <div class="col-sm-2">
+                <select class="form-control" name="typelist" [(ngModel)]="typeListId" (change)="typeList()">
+                    <option value="-1">All</option>
+                    <option value="1">Mapped</option>
+                    <option value="0">UnMapped</option>
+                </select>
             </div>
-          </div>
+            <div class="col-sm-4 text-right">
+                <div class="row" *ngIf="userType=='admin'">
+                    <div class="col-6 pl-0">
+                        <div class="upload-btn-wrapper">
+                            <input type="file" name="csv" (change)="handleFileSelection($event)">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div>
+                            <button (click)="importCsv()" class="btn btn-primary m-0 w-100 pl-0 pr-0">Import CSV Inventory</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </nb-card-header>
-  <nb-card-body>
-    <div>
-      <table class="table table-bordered table-hover" *ngIf="inventories">
-        <thead class="thead">
-          <tr style="text-align:center">
-            <th># </th>
-            <th>Tyre Model</th>
-            <th>Size</th>
-            <th>Tyre No </th>
-            <th>Purchase_Date</th>
-            <!-- <th>Is_Health Details</th>
-            <th>NSD-1</th>
-            <th>NSD-2</th>
-            <th>NSD-3</th>
-            <th>PSI</th> -->
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let inventory of inventories; let i = index;">
-            <td>{{i+1}}</td>
-            <td width="35%">
-              <auto-suggestion (onSelected)="selectModel($event,i)" url="Suggestion/getTyreNamesWithBrands"
-                display="modelname" placeholder="Model No" [inputId]="'modelNo_' + i"></auto-suggestion>
+       
 
-              <!-- <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No"
-                (input)="searchModels(inventory.searchModelString, i)" autocomplete="off" class="form-control"
-                [(ngModel)]="inventory.searchModelString">
-              <div *ngIf="activeRow == i">
-                <ul *ngIf="(modelSuggestion) && (models.length >  0)">
-                  <li *ngFor="let model of models;" (click)="selectModel(model,i)">
-                    {{ model.name}} : {{model.brand}}
-                  </li>
-                </ul>
-              </div> -->
-            </td>
-            <td width="15%">
-              <auto-suggestion (onSelected)="getTyreSize($event,i)" url="Suggestion/getTyreSize" display="size"
-                placeholder="Size" [inputId]="'size-' + i"></auto-suggestion>
+    </nb-card-header> -->
+<div class="model-body">
 
-              <!-- <input id="Tyresize" name="Tyresize" type="text" placeholder="Size" autocomplete="off"
-                class="form-control" [(ngModel)]="inventory.tyreSize" style="width : 175px"> -->
-            </td>
-            <td width="20%"><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number"
-                autocomplete="off" class="form-control" [(ngModel)]="inventory.tyreNo" (focus)="size(i)">
-            </td>
-            <td width="20%">
-              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate(i)"
-                placeholder="Select Date" [value]="inventory.date1 | date: 'dd MMM yyyy'" name="date" readonly>
-              <!-- <input [(ngModel)]="inventory.date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
-                class="form-control" autocomplete="off" name="date" style="width : 175px" >
-              <owl-date-time #date></owl-date-time> -->
-            </td>
-            <!-- <td><input id="is_health" name="is_health" type="checkbox" autocomplete="off" class="form-control"
+    <div class="min-height:220px;">
+        <table class="table table-bordered table-hover" *ngIf="inventories">
+            <thead class="thead">
+                <tr style="text-align:center">
+                    <th># </th>
+                    <th>Tyre Model</th>
+                    <th>Size</th>
+                    <th>Tyre No </th>
+                    <th>Purchase_Date</th>
+                    <th>Purchase_Amount</th>
+
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let inventory of inventories; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td width="20%">
+                        <auto-suggestion (onSelected)="selectModel($event,i)" url="Suggestion/getTyreNamesWithBrands"
+                            display="modelname" placeholder="Model No" [inputId]="'modelNo_' + i"></auto-suggestion>
+
+                    </td>
+                    <td width="15%">
+                        <auto-suggestion (onSelected)="getTyreSize($event,i)" url="Suggestion/getTyreSize"
+                            display="size" placeholder="Size" [inputId]="'size-' + i"></auto-suggestion>
+
+
+                    </td>
+                    <td width="20%"><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number"
+                            autocomplete="off" class="form-control" [(ngModel)]="inventory.tyreNo" (focus)="size(i)">
+                    </td>
+                    <td width="20%">
+                        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off"
+                            (click)="getDate(i)" placeholder="Select Date"
+                            [value]="inventory.date1 | date: 'dd MMM yyyy'" name="date" readonly>
+
+                    </td>
+                    <td width="20%"><input id="Tyreamount" name="Tyreamount" type="number"
+                            placeholder="Enter Tyre amount" autocomplete="off" class="form-control"
+                            [(ngModel)]="inventory.cost" (focus)="size(i)">
+                    </td>
+                    <!-- <td><input id="is_health" name="is_health" type="checkbox" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.is_health" (change)="valueReset(i)">
             </td>
             <td><input id="nsd1" name="nsd1" type="text" placeholder="nsd1" autocomplete="off"
@@ -97,40 +96,29 @@
             <td><input id="psi" name="psi" type="text" placeholder="psi" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.psi" [readOnly]="!inventory.is_health">
             </td> -->
-            <td *ngIf="i == 0">
-              <button class="btn btn-primary add" (click)="addMore()"><i class="fa fa-plus"></i></button></td>
-            <td *ngIf="i !== 0">
-              <button class="btn btn-danger remove" (click)="inventories.splice(i,1)"><i
-                  class="fa fa-trash"></i></button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                    <td *ngIf="i == 0">
+                        <button class="btn btn-primary add" (click)="addMore()"><i class="fa fa-plus"></i></button>
+                    </td>
+                    <td *ngIf="i !== 0">
+                        <button class="btn btn-danger remove" (click)="inventories.splice(i,1)"><i
+                                class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 
     <div class="row-width clearfix">
-      <div>
-        <button class="btn btn-primary" type="button" outline (click)="testFilledData()" id="saveDetails"
-          style="cursor: pointer;">Save</button>
+        <div class="text-right">
+            <button class="btn btn-primary" type="button" outline (click)="testFilledData()" id="saveDetails"
+                style="cursor: pointer;">Save</button>
 
-        <span style="float: right">
-          <span class="pdf-icon" title="PDF Export" (click)="printPDF('tyreinventory')" style="cursor: pointer;"><i
-              class="fa fa-file-pdf"></i></span>
-          <span class="exel-icon" title="CSV Export" (click)="printCsv('tyreinventory')"
-            style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
-        </span>
-      </div>
+
+        </div>
     </div>
-    <div>
-
-      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="tyreinventory">
-      </smart-table>
-
-      <div class="no-data alert alert-danger" role="alert" *ngIf="data.length==0">
-        No Data available !
-      </div>
-    </div>
-
-  </nb-card-body>
-</nb-card>
+    <!-- <div>
+            <smart-table [data]="tables.tyrePendingCount.data" [settings]="tables.tyrePendingCount.settings" id="tyrependingcount">
+            </smart-table>
+        </div> -->
+</div>

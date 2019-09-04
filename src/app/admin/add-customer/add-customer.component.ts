@@ -35,7 +35,12 @@ export class AddCustomerComponent implements OnInit {
     public common: CommonService,
     public api: ApiService,
   ) {
+    this.common.refresh = this.refresh.bind(this);
 
+
+  }
+  refresh(){
+    console.log('Refresh');
   }
 
   ngOnInit() {

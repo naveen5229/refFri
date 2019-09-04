@@ -103,7 +103,7 @@ export class AutoSuggestionComponent implements OnInit {
     if (this.data) {
       this.suggestions = this.data.filter(suggestion => {
         if (this.displayType === 'string') {
-          return suggestion[this.display].toLowerCase().includes(this.searchText.toLowerCase())
+          return (suggestion[this.display] || '').toLowerCase().includes(this.searchText.toLowerCase())
         } else {
           return this.generateString(suggestion).toLowerCase().includes(this.searchText.toLowerCase());
         }
@@ -213,5 +213,10 @@ export class AutoSuggestionComponent implements OnInit {
     this.suggestions = this.data;
   }
 
+  clearData() {
+    console.log("cleardata");
+    this.showSuggestions = false;
+    this.suggestions = [];
+  }
 
 }

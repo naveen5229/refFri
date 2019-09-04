@@ -22,16 +22,24 @@ export class VehicleDistanceComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+      this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+
+  refresh(){
+    console.log('refresh');
   }
   getFoList(user) {
     console.log("user", user);
     this.data.foid = user.id;
   }
   getDistance() {
-    console.log('Start Date: ', this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-"));
+    if(this.data.startDate>this.data.endDate){
+      this.common.showError("StartDate Should be less then Enddate");
+    }else{
+      console.log('Start Date: ', this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-"));
     console.log('End Date: ', this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-"));
 
     console.log("Data:", this.data);
@@ -51,6 +59,8 @@ export class VehicleDistanceComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
+    }
+    
   }
 
   setTable() {

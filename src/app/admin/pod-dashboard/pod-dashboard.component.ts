@@ -136,6 +136,7 @@ export class PodDashboardComponent implements OnInit {
     let columns = [];
 
     this.pendingPODs.map(pendingPOD => {
+      console.log("pendingpod",pendingPOD);
       let column = {};
       for (let key in this.getHeadings()) {
         if (key == 'Action') {
@@ -144,7 +145,7 @@ export class PodDashboardComponent implements OnInit {
             action: null,
             icons: [
               { class: 'fa fa-user', action: this.changeState.bind(this, pendingPOD) },
-              { class: 'fa fa-tasks', action: this.viewPODImages.bind(this, pendingPOD._img_url) },
+              { class: 'fa fa-tasks', action: this.getPodImage.bind(this, pendingPOD._doc_id) },
               { class: 'fa fa-picture-o', action: this.viewLRImages.bind(this, pendingPOD._img_url2) }]
           };
         } else {
@@ -168,13 +169,26 @@ export class PodDashboardComponent implements OnInit {
     });
   }
 
-  viewPODImages(url) {
-    let images = url.split(',').map(image => {
-      return { name: 'POD', image }
-    });
+  // viewPODImages(url) {
+  //   let images = url.split(',').map(image => {
+  //     return { name: 'POD', image }
+  //   });
 
-    this.common.params = { images, title: 'POD Image' };
-    this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
+  //   this.common.params = { images, title: 'POD Image' };
+  //   this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
+  // }
+
+  getPodImage(receipt) {
+    console.log("val===", receipt);
+    let refdata = {
+      refid: "",
+      reftype: "",
+      doctype: "",
+      docid: receipt
+    }
+    console.log("receipts",refdata);
+    this.common.params = { refdata: refdata, title: 'docImage' };
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
   }
 
   viewLRImages(url) {

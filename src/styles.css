@@ -1,12 +1,24 @@
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     font-family: 'Open Sans', sans-serif !important;
 }
 
-p, a, label, input, select, textarea, .nb-theme-corporate nb-layout .layout {
+p,
+a,
+label,
+input,
+select,
+textarea,
+.nb-theme-corporate nb-layout .layout {
     font-family: 'Poppins', sans-serif !important;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
     padding: 6px !important;
     font-size: 12px !important;
     line-height: 16px !important;
@@ -39,12 +51,14 @@ input::placeholder {
     width: auto !important;
 }
 
+
 /* width */
 
 ::-webkit-scrollbar {
     width: 12px !important;
     background-color: #C1C1C1 !important;
 }
+
 
 /* Track */
 
@@ -55,6 +69,7 @@ input::placeholder {
     background-color: #000;
 }
 
+
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
@@ -63,6 +78,7 @@ input::placeholder {
     background-color: #C1C1C1 !important;
     background-image: -webkit-linear-gradient(linear, 40% 0%, 75% 84%, from(#4d9c41), to(#19911d), color-stop(0.6, #54de5d)) !important;
 }
+
 
 /* Handle on hover */
 
@@ -125,6 +141,7 @@ select.form-control {
     font-size: 14px !important;
 }
 
+
 /*=====Header Css=====*/
 
 .control-icon.nb-notifications::before {
@@ -162,7 +179,8 @@ nb-menu .menu-items>.menu-item {
     font-weight: normal !important;
 }
 
-nb-menu .menu-item a:hover, nb-menu .menu-item a.active {
+nb-menu .menu-item a:hover,
+nb-menu .menu-item a.active {
     background-color: #26a69a !important;
     color: #fff !important;
 }
@@ -195,7 +213,36 @@ nb-menu .menu-item>.menu-items>.menu-item a {
     padding-left: 20px !important;
 }
 
-.fas.fa-file-invoice:before, .fas.fa-weight-hanging::before, .fas.fa-file-invoice-dollar:before, .fas.fa-ticket-alt:before, .fas.fa-money-check-alt:before, .fas.fa-clipboard-check::before, .fas.fa-receipt::before, .fas.fa-coins::before, .fas.fa-user-cog::before, .fas.fa-gas-pump::before, .fas.fa-warehouse::before, .fas.fa-traffic-light::before, .fas.fa-city::before, .fas.fa-route::before, .fas.fa-file-signature::before, .fas.fa-sync-alt::before, .fas.fa-map-marked-alt::before, .fas.fa-comment-dots::before, .fas.fa-address-card::before, .fas.fa-file-alt::before, .fas.fa-map-marked-alt::before, .fas.fa-map-pin::before, .fas.fa-info-circle::before, .fas.fa-tools::before, .fas.fa-badge-check::before, .fas.fa-map-marked::before, .fas.fa-truck-pickup::before, .fas.fa-tachometer-alt::before, .fas.fa-chess-king::before, .fas.fa-car-battery::before {
+.fas.fa-file-invoice:before,
+.fas.fa-weight-hanging::before,
+.fas.fa-file-invoice-dollar:before,
+.fas.fa-ticket-alt:before,
+.fas.fa-money-check-alt:before,
+.fas.fa-clipboard-check::before,
+.fas.fa-receipt::before,
+.fas.fa-coins::before,
+.fas.fa-user-cog::before,
+.fas.fa-gas-pump::before,
+.fas.fa-warehouse::before,
+.fas.fa-traffic-light::before,
+.fas.fa-city::before,
+.fas.fa-route::before,
+.fas.fa-file-signature::before,
+.fas.fa-sync-alt::before,
+.fas.fa-map-marked-alt::before,
+.fas.fa-comment-dots::before,
+.fas.fa-address-card::before,
+.fas.fa-file-alt::before,
+.fas.fa-map-marked-alt::before,
+.fas.fa-map-pin::before,
+.fas.fa-info-circle::before,
+.fas.fa-tools::before,
+.fas.fa-badge-check::before,
+.fas.fa-map-marked::before,
+.fas.fa-truck-pickup::before,
+.fas.fa-tachometer-alt::before,
+.fas.fa-chess-king::before,
+.fas.fa-car-battery::before {
     font-family: inherit;
 }
 
@@ -243,7 +290,8 @@ nb-menu .menu-item>.menu-items>.menu-item a {
     font-size: 12px !important;
 }
 
-fuelfillings auto-suggestion .form-control, trip-voucher-expense auto-suggestion .form-control {
+fuelfillings auto-suggestion .form-control,
+trip-voucher-expense auto-suggestion .form-control {
     border: 1px solid #263238 !important;
     border-radius: 0px 2px 2px 2px !important;
     padding: 3px 5px !important;
@@ -322,7 +370,8 @@ nb-card {
 }
 
 @media screen and (min-device-width: 768px) and (max-device-width: 1824px) and (orientation: landscape) {
-    .stop-scroll, .myCustomModalClass {
+    .stop-scroll,
+    .myCustomModalClass {
         overflow: inherit !important;
     }
 }
@@ -341,9 +390,9 @@ nb-card {
 }
 
 .admin-popup .modal-dialog {
-    top: 40%;
-    transform: translate(0%, -50%) !important;
+    top: 25%;
 }
+
 
 /* .print-lr {
   background-color: #fff;
@@ -498,7 +547,13 @@ nb-card {
     margin-top: 6px;
 }
 
-.voucher-pdf table, .voucher-pdf .table-bordered>tbody>tr>td, .voucher-pdf .table-bordered>tbody>tr>th, .voucher-pdf .table-bordered>tfoot>tr>td, .voucher-pdf .table-bordered>tfoot>tr>th, .voucher-pdf .table-bordered>thead>tr>td, .voucher-pdf .table-bordered>thead>tr>th {
+.voucher-pdf table,
+.voucher-pdf .table-bordered>tbody>tr>td,
+.voucher-pdf .table-bordered>tbody>tr>th,
+.voucher-pdf .table-bordered>tfoot>tr>td,
+.voucher-pdf .table-bordered>tfoot>tr>th,
+.voucher-pdf .table-bordered>thead>tr>td,
+.voucher-pdf .table-bordered>thead>tr>th {
     border-color: #444;
 }
 
@@ -550,7 +605,8 @@ ngb-modal-window {
     left: inherit;
 }
 
-.changeVehicle .modal-dialog, .lrModal .modal-dialog {
+.changeVehicle .modal-dialog,
+.lrModal .modal-dialog {
     margin-top: 0px;
 }
 
@@ -580,7 +636,8 @@ ngb-modal-window {
     width: 100%;
 }
 
-.print-lr-manifest .modal-lg table tr td, .print-lr-manifest .modal-lg table tr th {
+.print-lr-manifest .modal-lg table tr td,
+.print-lr-manifest .modal-lg table tr th {
     font-size: 18px;
 }
 
@@ -601,9 +658,15 @@ ngb-modal-window {
     font-size: 18px;
 }
 
-.print-lr-manifest .modal-lg .table-bordered>tbody>tr>td, .print-lr-manifest .modal-lg .table-bordered>tbody>tr>th, .print-lr-manifest .modal-lg .table-bordered>tfoot>tr>td, .print-lr-manifest .modal-lg .table-bordered>tfoot>tr>th, .print-lr-manifest .modal-lg .table-bordered>thead>tr>td, .print-lr-manifest .modal-lg .table-bordered>thead>tr>th {
+.print-lr-manifest .modal-lg .table-bordered>tbody>tr>td,
+.print-lr-manifest .modal-lg .table-bordered>tbody>tr>th,
+.print-lr-manifest .modal-lg .table-bordered>tfoot>tr>td,
+.print-lr-manifest .modal-lg .table-bordered>tfoot>tr>th,
+.print-lr-manifest .modal-lg .table-bordered>thead>tr>td,
+.print-lr-manifest .modal-lg .table-bordered>thead>tr>th {
     border: 2px solid #000;
 }
+
 
 /* .month-date nb-calendar-day-picker{
     display: none;
@@ -671,7 +734,8 @@ nb-card-header {
     .nb-theme-corporate nb-sidebar.expanded {
         position: inherit !important;
     }
-    table thead, table tbody {
+    table thead,
+    table tbody {
         display: table-row-group !important;
     }
     table tr {
@@ -704,12 +768,55 @@ nb-card-header {
 .imageviewcomp .image-gallery-2 {
     height: 570px;
 }
-.voucher-details{
+
+.voucher-details {
     left: inherit;
     right: 0px;
     width: 50%;
 }
-.doc-image{
+
+.doc-image {
     width: 50%;
     left: 0px;
 }
+
+.ledger-modal .add-button {
+    position: absolute !important;
+    right: 30px !important;
+    bottom: 50px !important;
+}
+
+.ledger-modal nb-card-body {
+    padding: 0;
+    position: relative;
+}
+
+
+/* @media print{@page {size: A4 landscape;}} */
+
+
+/* @media print {
+    body {
+    width: 297mm;
+    height:auto;
+    position:absolute;
+    top:0px;
+    bottom:0px;
+    margin: auto;
+    margin-top: 0px !important;
+    border: 1px solid red;
+   }
+ } */
+
+
+/* @media print {
+    .doNotPrint {
+        display: none !important;
+    }
+    @page landscape-page {
+        size: A4 landscape;
+    }
+    .printheightwidth {
+        page: landscape-page;
+    }
+} */

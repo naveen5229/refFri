@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-subtype.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { from } from 'rxjs';
@@ -15,9 +15,14 @@ export class StockSubtypesComponent implements OnInit {
   selectedName = '';
   selectedRow = -1;
   activeId = '';
-  constructor(public api: ApiService,
+  pageName="";
+  constructor(private activeModal: NgbActiveModal,
+    public api: ApiService,
     public modalService: NgbModal,
     public common: CommonService) {
+      if(this.common.params && this.common.params.pageName){
+        this.pageName=this.common.params.pageName;
+    }
     this.getStockSubTypes();
     this.common.currentPage = 'Stock Sub Types';
     this.common.refresh = this.refresh.bind(this);
@@ -177,5 +182,10 @@ export class StockSubtypesComponent implements OnInit {
         }
       });
     }
+  }
+  modelCondition() {
+    this.activeModal.close({ });
+    event.preventDefault();
+    return;
   }
 }

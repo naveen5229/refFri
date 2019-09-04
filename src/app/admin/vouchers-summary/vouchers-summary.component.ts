@@ -22,19 +22,40 @@ export class VouchersSummaryComponent implements OnInit {
     }
   };
   voucherSummaries = [];
-
+  startDate = new Date();
+  endDate = new Date();
+  voucher = [{
+    name: 'pending',
+    id: '1'
+  },
+  {
+    name: 'voucherPending',
+    id: '2'
+  },
+  {
+    name: 'completed',
+    id: '3'
+  }]
+  voucherID = 1;
   constructor(public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal) {
     this.getVouchersSummary();
+    this.endDate = new Date();
+    this.startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 30));
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
+  refresh() {
+    this.getVouchersSummary();
+  }
 
   getVouchersSummary() {
+    const params = "startDate=" + this.common.dateFormatter1(this.startDate) + "&endDate=" + this.common.dateFormatter1(this.endDate) + "&statusType=" + this.voucherID;
     this.common.loading++;
-    this.api.get('UploadedVouchers/getUploadedVoucherSummary')
+    this.api.get('UploadedVouchers/getUploadedVoucherSummary?' + params)
       .subscribe(res => {
         this.common.loading--;
         this.voucherSummaries = res['data'] || [];
@@ -88,15 +109,28 @@ export class VouchersSummaryComponent implements OnInit {
   }
 
   getIcons(voucher) {
-    let icons = [{
-      class: 'fa fa-user',
-      action: this.voucherTypeGet.bind(this, voucher)
-    }]
+    console.log("vouchar", voucher);
+
+    let icons = [];
+    if (voucher._vehicle_id) {
+      icons.push({
+        class: 'fas fa-user-shield',
+        action: this.voucherTypeGet.bind(this, voucher)
+      });
+    }
+    else {
+      icons.push({
+        class: 'fa fa-user',
+        action: this.voucherTypeGet.bind(this, voucher)
+      });
+    }
+
+
     if (voucher._ref_id && voucher._ref_type) {
       icons.push({
         class: 'fa fa-list',
         action: this.openFreightExpense.bind(this, voucher)
-      })
+      });
     }
     return icons;
   }

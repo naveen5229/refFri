@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-subtype.component';
 import { UserService } from '../../services/user.service';
+import { TyreHistoryComponent } from '../../modals/Tyres/tyre-history/tyre-history.component';
 
 @Component({
   selector: 'inventory',
@@ -20,6 +21,7 @@ export class InventoryComponent implements OnInit {
     modelBrand: null,
     tyreNo: null,
     date1: this.common.dateFormatter(new Date()),
+    cost: null,
     searchModelString: null,
     is_health: false,
     nsd1: null,
@@ -34,6 +36,7 @@ export class InventoryComponent implements OnInit {
     modelBrand: null,
     tyreNo: null,
     date1: this.common.dateFormatter(new Date()),
+    cost: null,
     searchModelString: null,
     is_health: false,
     nsd1: null,
@@ -48,6 +51,7 @@ export class InventoryComponent implements OnInit {
     modelBrand: null,
     tyreNo: null,
     date1: this.common.dateFormatter(new Date()),
+    cost: null,
     searchModelString: null,
     is_health: false,
     nsd1: null,
@@ -65,30 +69,68 @@ export class InventoryComponent implements OnInit {
   userType = null;
   typeListId = -1;
 
-  data = [];
-  table = {
-    data: {
-      headings: {},
-      columns: []
+  // data = [];
+  // table = {
+  //   data: {
+  //     headings: {},
+  //     columns: []
+  //   },
+  //   settings: {
+  //     hideHeader: true
+  //   }
+  // };
+  tyre = {
+    tyreSummary: [],
+    tyrePendingCount: [],
+  }
+  tables = {
+    tyreSummary: {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
     },
-    settings: {
-      hideHeader: true
+    tyrePendingCount: {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
     }
   };
-  headings = [];
-  valobj = {};
+  // headings = [];
+  // valobj = {};
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
-    public user: UserService
+    public user: UserService,
+    public activeModal: NgbActiveModal,
   ) {
+    this.common.handleModalSize('class', 'modal-lg', '1100', 'px');
+
     console.log("user", user._loggedInBy);
     this.userType = this.common.user._loggedInBy;
     this.searchData();
     this.getviewData();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  closeModal() {
+    this.activeModal.close({ respose: false });
+  }
+
+  refresh() {
+    this.searchData();
+    this.getviewData();
   }
 
   searchModels(searchModelString, index) {
@@ -179,6 +221,7 @@ export class InventoryComponent implements OnInit {
         console.log("return id ", res['data'][0].rtn_id);
         if (res['data'][0].rtn_id > 0) {
           this.common.showToast("sucess");
+          this.activeModal.close({ respose: res['data'] });
         } else {
           this.common.showError(res['data'][0].rtn_msg);
         }
@@ -212,6 +255,7 @@ export class InventoryComponent implements OnInit {
       modelBrand: null,
       tyreNo: null,
       date1: this.common.dateFormatter(new Date()),
+      cost: null,
       searchModelString: null, is_health: false,
       nsd1: null,
       nsd2: null,
@@ -281,111 +325,105 @@ export class InventoryComponent implements OnInit {
     console.info("Data", this.typeListId);
     this.getviewData();
   }
-  getviewData() {
-    let params = {
-      // startTime: this.common.dateFormatter(this.startTime),
-      // endTime: this.common.dateFormatter(this.endTime)
-    }
-    console.log("params", params);
-    ++this.common.loading;
 
+  getviewData() {
+    this.common.loading++;
     this.api.get('tyres/getTyreInventry?mapped=' + this.typeListId)
       .subscribe(res => {
-        --this.common.loading;
-        this.data = [];
-        this.table = {
-          data: {
-            headings: {},
-            columns: []
-          },
-          settings: {
-            hideHeader: true
-          }
-        };
-        this.headings = [];
-        this.valobj = {};
-
-        if (!res['data']) return;
-        this.data = res['data'];
-        let first_rec = this.data[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
-          }
+        console.log('Res:', res);
+        this.common.loading--;
+        if (!res['data']) {
+          return;
         }
-
-
-        this.table.data.columns = this.getTableColumns();
-      }, err => {
-        --this.common.loading;
-        this.common.showError(err);
-        console.log('Error: ', err);
-      });
+        this.clearAllTableData();
+        this.tyre.tyreSummary = res['data']['Summary'];
+        console.log("tyres", this.tyre.tyreSummary);
+        this.tyre.tyrePendingCount = res['data']['Result']
+        this.setTable('tyreSummary');
+        this.setTable('tyrePendingCount');
+      },
+        err => {
+          this.common.loading--;
+          this.common.showError(err);
+        });
   }
-  getTableColumns() {
 
-    let columns = [];
-    console.log("Data=", this.data);
-    this.data.map(doc => {
-      this.valobj = {};
+  setTable(type: 'tyreSummary' | 'tyrePendingCount') {
+    this.tables[type].data = {
+      headings: this.generateHeadings(type == 'tyreSummary' ? this.tyre.tyreSummary[0] : this.tyre.tyrePendingCount[0]),
+      columns: this.getColumns(type == 'tyreSummary' ? this.tyre.tyreSummary : this.tyre.tyrePendingCount, type == 'tyreSummary' ? this.tyre.tyreSummary[0] : this.tyre.tyrePendingCount[0])
+    };
+  }
 
-      for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
+  generateHeadings(keyObject) {
+    let headings = {};
+    for (var key in keyObject) {
+      if (key.charAt(0) != "_") {
+        headings[key] = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
       }
-      columns.push(this.valobj);
+    }
+    return headings;
+  }
 
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1)
+  }
+
+  getColumns(list, type) {
+    let columns = [];
+    list.map(item => {
+      let column = {};
+      for (let key in this.generateHeadings(type)) {
+        if (key == "Tyre Num") {
+          column[key] = { value: item[key], class: 'text-blue', action: this.tyreHistory.bind(this, item._bid) };
+        } else {
+          column[key] = { value: item[key], class: 'black', action: '' };
+        }
+      }
+      columns.push(column);
     });
-
     return columns;
   }
 
-  formatTitle(title) {
-    return title.charAt(0).toUpperCase() + title.slice(1);
+  clearAllTableData() {
+    this.tables = {
+      tyreSummary: {
+        data: {
+          headings: {},
+          columns: []
+        },
+        settings: {
+          hideHeader: true
+        }
+      },
+      tyrePendingCount: {
+        data: {
+          headings: {},
+          columns: []
+        },
+        settings: {
+          hideHeader: true
+        }
+      }
+    };
+
+  }
+
+
+  tyreHistory(tyreId) {
+    this.common.params = {
+      tyreId: tyreId,
+    }
+    console.log("tyre History", tyreId);
+    const activeModal = this.modalService.open(TyreHistoryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+
+    // });
   }
 
 
 
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Tyre Inventory";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
-
-  printCsv(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = "Customer Name::" + fodata['name'];
-        let center_heading = "Report Name::" + "Tyre Inventory";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-
-
-  }
 
 
 }

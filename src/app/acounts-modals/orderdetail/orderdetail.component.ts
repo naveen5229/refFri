@@ -205,7 +205,7 @@ export class OrderdetailComponent implements OnInit {
                   id: taxdetail.y_ledger_id,
                 },
                 taxrate: taxdetail.y_rate,
-                taxamount: taxdetail.y_amount,
+                taxamount: parseFloat(taxdetail.y_amount),
                 totalamount: 0
               };
 
@@ -546,7 +546,7 @@ export class OrderdetailComponent implements OnInit {
     console.log('Active event', event);
     this.setAutoSuggestion();
 
-    // console.log('Active Id', this.activeId);
+    console.log('Active Id', this.activeId);
     if ((event.altKey && key === 'c') && ((this.activeId.includes('purchaseledger')) || (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')))) {
       // console.log('alt + C pressed');
       this.openledger();
@@ -571,7 +571,14 @@ export class OrderdetailComponent implements OnInit {
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('date')) {
         this.setFoucus('purchaseledger');
-      } else if (this.activeId.includes('purchaseledger')) {
+      }  else if (this.activeId.includes('ledger')) {
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
+        this.setFoucus('vendorbidref');
+      }else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
@@ -587,13 +594,6 @@ export class OrderdetailComponent implements OnInit {
         }
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('discountate' + '-' + index);
-      } else if (this.activeId.includes('ledger')) {
-        if (this.suggestions.list.length) {
-          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
-          this.suggestions.list = [];
-          this.suggestionIndex = -1;
-        }
-        this.setFoucus('vendorbidref');
       } else if (this.activeId.includes('vendorbidref')) {
         this.setFoucus('qutationrefrence');
       } else if (this.activeId.includes('qutationrefrence')) {
@@ -714,10 +714,11 @@ export class OrderdetailComponent implements OnInit {
 
   getPurchaseLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: ((this.order.ordertype.id==-104) || (this.order.ordertype.id==-106 )) ? 'sales':'purchase'
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedger', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -732,10 +733,11 @@ export class OrderdetailComponent implements OnInit {
 
   getSupplierLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: 'other'
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedgerAddress', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -790,7 +792,7 @@ export class OrderdetailComponent implements OnInit {
   getSuggestions() {
     const element = document.getElementById(this.activeId);
     const search = element ? element['value'] ? element['value'].toLowerCase() : '' : '';
-    // console.log('Search: ', search, this.activeId);
+     console.log('Search id ======: ', search, this.activeId);
     let suggestions = [];
     if (this.activeId == 'ordertype') {
       if (element['value']) {
@@ -837,7 +839,12 @@ export class OrderdetailComponent implements OnInit {
     } else if (this.activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      this.order.billingaddress = suggestion.address;
+      if(suggestion.address_count >1){
+        this.getAddressByLedgerId(suggestion.id);
+        }else{
+        this.order.billingaddress = suggestion.address;
+        }
+
     } else if (this.activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
@@ -1120,7 +1127,7 @@ export class OrderdetailComponent implements OnInit {
     }
   }
 
-  getAddressByLedgerId(id) {
+  getAddressByLedgerId(id){
     let params = {
       ledgerid: id
     };
@@ -1129,16 +1136,17 @@ export class OrderdetailComponent implements OnInit {
       .subscribe(res => {
         // this.common.loading--;
         console.log('Res ledger<<<<<<<<<<<<:', res['data']);
-        if (res['data'].length > 1) {
+        if(res['data'].length>1){
           this.showAddpopup(res['data']);
 
-        } else {
-          this.order.billingaddress = res['data'][0]['address'];
-          this.order.ledgeraddressid = res['data'][0]['id'];
+        }else{
+          this.order.billingaddress=res['data'][0]['address'];
+        this.order.ledgeraddressid=res['data'][0]['id'];
+
         }
-        // this.totalitem = res['data'][0].get_stockitemavailableqty;
+       // this.totalitem = res['data'][0].get_stockitemavailableqty;
         //  console.log('totalitem : -',totalitem);
-        //   return this.totalitem;
+     //   return this.totalitem;
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);

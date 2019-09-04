@@ -46,6 +46,7 @@ export class AddTripComponent implements OnInit {
     this.VehicleId = this.common.params.vehId;
     this.prevehicleId = this.VehicleId;
     this.getRoutes();
+    console.log('veh id',this.common.params);
   }
 
 

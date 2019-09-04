@@ -134,6 +134,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Cash Book',
                 link: '/accounts/cashbook'
             },
+            
             {
                 title: 'Ledger View',
                 link: '/accounts/ledgerview'
@@ -167,51 +168,70 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/outstanding'
             },
             {
-                title: 'Voucher Audit',
-                link: '/accounts/voucheredited'
-            },
-            {
                 title: 'Mapped Fuel Voucher',
                 link: '/accounts/mapped-fuel-voucher'
-            },
-            {
-                title: 'GST Reports',
-                link: '/accounts/gstreport'
-            },
-            // {
-            //     title:'Tally Export',
-            //     link:'/accounts/tallyexport'
-            // }
+            }
 
         ],
     },
+    {
+        title: 'Admin Report',
+        icon: 'fas fa-file-invoice',
+        children: [
+
+    {
+        title: 'Trip Expense Tally',
+        link: '/accounts/trip-expense-tally'
+    },
+    {
+        title: 'Account Statics',
+        link: '/accounts/statics'
+    },
+    {
+        title: 'GST Reports',
+        link: '/accounts/gstreport'
+    },
+    {
+        title:'Tally Export',
+        link:'/accounts/tallyexport'
+    },
+    {
+        title: 'Voucher Audit',
+        link: '/accounts/voucheredited'
+    },
+    {
+        title: 'Ledger Approve',
+        link: '/accounts/ledgerapprove'
+    }
+],
+},
     {
         title: 'Invoice',
         icon: 'fas fa-file-invoice',
         children: [
             {
                 title: 'Purchase Invoice',
-                link: '/accounts/orders/-2/Purchase Invoice'
+                link: '/accounts/orders/-102/Purchase Invoice'
             },
             {
                 title: 'Sales Invoice',
-                link: '/accounts/orders/-4/Sales Invoice'
+                link: '/accounts/orders/-104/Sales Invoice'
             },
             {
                 title: 'Purchase Assets Invoice',
-                link: '/accounts/orders/-5/Purchase Assets Invoice'
+                link: '/accounts/orders/-105/Purchase Assets Invoice'
             },
             {
                 title: 'Debit Note',
-                link: '/accounts/orders/-7/Debit Note'
+                link: '/accounts/orders/-107/Debit Note'
             },
             {
                 title: 'Credit Note',
-                link: '/accounts/orders/-6/Credit Note'
+                link: '/accounts/orders/-106/Credit Note'
             },
             {
                 title: 'Wastage',
-                link: '/accounts/orders/-8/Wastage'
+                link: '/accounts/orders/-108/Wastage'
             },
         ],
     },

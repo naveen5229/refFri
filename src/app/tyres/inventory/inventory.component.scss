@@ -1,23 +1,32 @@
-table tr td button{
+table tr td button {
     padding: 0px;
     width: 32px;
     height: 32px;
     line-height: 32px;
     margin: 0px;
-     cursor: pointer !important;
+    cursor: pointer !important;
 }
-.btn-primary{
+
+.btn-primary {
     text-transform: capitalize;
 }
-nb-card-header{
+
+nb-card-header {
     padding: 10px 15px;
     border: 1px solid #efefef;
 }
-.tabset{
+
+:host ::ng-deep .tableFixHead {
+    height: auto !important;
+    max-height: 60vh;
+}
+
+.tabset {
     padding: 0px !important;
     margin-bottom: 20px!important;
 }
-.alert-danger{
+
+.alert-danger {
     color: #721c24 !important;
     background-color: #f8d7da !important;
     border-color: #f5c6cb !important;
@@ -27,70 +36,64 @@ nb-card-header{
     padding: 12px !important;
     font-size: 18px !important;
 }
-table{
-    thead{
+
+table {
+    thead {
         display: table;
         width: 100%;
         table-layout: fixed;
         background-color: #263238;
         color: #fff;
     }
-    tr{
-        th{
+    tr {
+        th {
             padding: 5px 8px;
             font-weight: normal;
-            width: 250px;
+            width: 203px;
         }
-        th:nth-child(1){
+        th:nth-child(1) {
             width: 30px;
         }
-        th:last-child{
+        th:last-child {
             width: auto;
         }
-        td{
+        td {
             padding: 5px 8px !important;
             font-size: 12px;
             position: relative;
         }
     }
-    tbody{
+    tbody {
         overflow-y: auto;
         display: block;
         width: 100%;
         table-layout: fixed;
         overflow: auto;
         max-height: calc(100vh - 235px);
-        tr{
+        tr {
             display: table;
             table-layout: fixed;
-            width: 100%;
-            td:nth-child(1){
+            td:nth-child(1) {
                 width: 30px;
             }
-            td{
+            td {
                 width: 250px;
             }
-            td:last-child{
+            td:last-child {
                 width: auto;
-                word-break:break-all;
+                word-break: break-all;
             }
         }
-        tr:nth-child(odd){
+        tr:nth-child(odd) {
             background-color: #fff;
         }
-        tr:nth-child(even){
+        tr:nth-child(even) {
             background-color: #e4e4e4;
         }
     }
-} 
-
-
-
-.pdf-icon{
-    font-size: 30px;
-    color: #9F0001;
 }
-.exel-icon{
-    font-size: 30px;
-    color: #217346;
+
+
+:host ::ng-deep.text-blue {
+    color: blue;
 }
