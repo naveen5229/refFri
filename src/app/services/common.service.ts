@@ -65,7 +65,7 @@ export class CommonService {
   };
 
   currentPage = "";
-
+  isComponentActive = false;
   constructor(
     public router: Router,
     private toastrService: NbToastrService,
