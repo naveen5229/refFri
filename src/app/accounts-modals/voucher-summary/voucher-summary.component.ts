@@ -891,7 +891,7 @@ export class VoucherSummaryComponent implements OnInit {
     });
   }
 
-  showTransfer() {
+  showTransfer(){
     let tripidarray = [];
     this.checkedTrips.map(tripHead => {
       tripidarray.push(tripHead.id);
@@ -903,18 +903,18 @@ export class VoucherSummaryComponent implements OnInit {
     this.api.post('VehicleTrips/tripTransfer', params)
       // this.api.post('VehicleTrips/getTripExpenceVouher', params)
       .subscribe(res => {
-
+        this.transferData =[];
+          this.transferHeading=[];
         this.common.loading--;
-        if (res['data']) {
-          this.transferData = res['data'];
-          let first_rec = this.transferData[0];
-          for (var key in first_rec) {
-            //console.log('kys',first_rec[key]);
+        if(res['data']){        this.transferData = res['data'];
+        let first_rec = this.transferData[0];
+        for (var key in first_rec) {
+          //console.log('kys',first_rec[key]);
             this.transferHeading.push(key);
-          }
-        } else {
-          this.transferData = [];
         }
+      }else {
+        this.transferData =[];
+      }
         //this.refreshAddTrip();
       }, err => {
         console.log(err);
@@ -922,5 +922,8 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.showError();
       });
   }
+ 
+ 
+ 
 
 }
