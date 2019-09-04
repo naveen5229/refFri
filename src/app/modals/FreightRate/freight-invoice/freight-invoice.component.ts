@@ -29,6 +29,8 @@ export class FreightInvoiceComponent implements OnInit {
     remark: null,
     id: null,
     gst: '5',
+    type:null,
+    parentId:null
   };
 
   btnTxt = "Save & Select LR"
@@ -97,7 +99,9 @@ export class FreightInvoiceComponent implements OnInit {
       remarks: this.freightInvoice.remark,
       id: this.freightInvoice.id ? this.freightInvoice.id : null,
       isSameState: this.state ? "same" : "notsame",
-      gst: this.freightInvoice.gst
+      gst: this.freightInvoice.gst,
+      type:this.freightInvoice.type,
+      parentId:this.freightInvoice.parentId
     };
     ++this.common.loading;
     this.api.post("FrieghtRate/saveInvoices", params)
