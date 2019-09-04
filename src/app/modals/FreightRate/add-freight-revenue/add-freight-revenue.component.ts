@@ -200,6 +200,7 @@ export class AddFreightRevenueComponent implements OnInit {
         }
 
       }, err => {
+        --this.common.loading;
         console.error(err);
         this.common.showError();
       });

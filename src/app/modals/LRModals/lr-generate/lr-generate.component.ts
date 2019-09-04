@@ -172,6 +172,7 @@ export class LrGenerateComponent implements OnInit {
     console.log("vehicle", vehicle);
     this.vehicleData.regno = vehicle.regno;
     this.vehicleData.id = vehicle.id;
+    console.log("vehicleId 1", this.vehicleData.id);
     this.getDriverData(this.vehicleData.id);
   }
 
@@ -179,6 +180,7 @@ export class LrGenerateComponent implements OnInit {
     let params = {
       vid: vehicleId
     };
+    console.log("vehicleId 2", this.vehicleData.id);
     this.common.loading++;
     this.api.post('Drivers/getDriverInfo', params)
       .subscribe(res => {
@@ -354,6 +356,8 @@ export class LrGenerateComponent implements OnInit {
   }
 
   saveDetails() {
+    console.log("vehicleId 3", this.vehicleData.id);
+    // return;
     this.lrGeneralField = this.generalDetailColumn2.concat(this.generalDetailColumn1);
     console.log("lr details", JSON.stringify(this.lrGeneralField));
     let materialDetails = JSON.parse(JSON.stringify(this.particulars));
@@ -414,6 +418,7 @@ export class LrGenerateComponent implements OnInit {
   }
 
   resetData() {
+    console.log("vehicleId 4", this.vehicleData.id);
     this.vehicleData.id = null;
   }
 

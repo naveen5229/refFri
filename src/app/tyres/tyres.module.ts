@@ -45,5 +45,8 @@ const PAGES_COMPONENTS = [
     TyreSummaryComponent,
     TyreSummaryDetailsComponent
   ],
+  entryComponents: [
+    InventoryComponent,
+  ]
 })
 export class TyresModule { }
