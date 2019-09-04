@@ -44,11 +44,15 @@
         <button type="submit" class="btn btn-primary m-0" name="add" (click)="createNewPage()">Add New Page</button>
       </div>
     </div>
-
-    <div class="search mt-2">
-      <label> Select Employee Name</label>
-      <auto-suggestion (onSelected)="getUserPages($event)" [data]="getUsersList" display="employeename"
-        placeholder="Employee" [preSelected]="null" inputId="employeename"></auto-suggestion>
+    <div class="row">
+      <div class="search mt-2">
+        <label> Select Employee Name</label>
+        <auto-suggestion (onSelected)="getUserPages($event)" [data]="getUsersList" display="employeename"
+          placeholder="Employee" [preSelected]="null" inputId="employeename"></auto-suggestion>
+        <div class="col text-right" *ngIf="selectedUser.details">
+          <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
+        </div>
+      </div>
     </div>
 
 
@@ -72,9 +76,7 @@
         </div>
       </div>
 
-      <div class="row text-right" *ngIf="selectedUser.details">
-        <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
-      </div>
+
     </div>
 
   </nb-card-body>
