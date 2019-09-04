@@ -392,7 +392,6 @@ export class MapService {
   }
   resetPolyPaths() {
     if (this.polygonPaths.length > 0) {
-      console.log("Here2");
       this.polygonPaths.forEach(path => {
         path.setMap(null);
       });
@@ -430,7 +429,6 @@ export class MapService {
     });
   }
   createPolyPathManual(latLng, polygonOptions?, drawVertix?) {
-    console.log("In Here");
     if (!this.polygonPath) {
       const defaultPolygonOptions = {
         strokeColor: '#000000',
@@ -450,7 +448,6 @@ export class MapService {
     return this.polygonPath;
   }
   createPolyPathDetached(latLng, polygonOptions?, drawVertix?) {
-    console.log("In Here");
     if (!this.poly) {
       const defaultPolygonOptions = {
         strokeColor: '#FF0000',

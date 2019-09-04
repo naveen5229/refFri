@@ -101,6 +101,33 @@ export class FuelfillingsComponent implements OnInit {
 
   }
 
+  getDataFuelFillings() {
+    console.log('params model', this.common.params);
+    let fuelstatinid = (this.selectedVehicle) ? this.selectedVehicle.id : 0;
+    const params = {
+      vehId: (this.selectedVehicle) ? this.selectedVehicle.id : 0,
+      lastFilling: this.startdate,
+      currentFilling:this.enddate,
+      fuelstationid: (this.selectedFuelFilling) ? this.selectedFuelFilling.id : 0
+    };
+    this.common.loading++;
+    this.api.post('Fuel/getFeulfillings', params)
+      .subscribe(res => {
+        console.log('fuel data', res['data']);
+        this.common.loading--;
+        if(res['data'].length){
+        this.fuelFilings = res['data'];
+        this.getFuelFillings( res['data']);
+        }else {
+          this.common.showError('please Select Correct date or vehicle');
+        }
+        // this.getHeads();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
   showTripSummary(tripDetails) {
     let vehId = this.selectedVehicle.id;
     this.common.params = { vehId, tripDetails };
@@ -121,20 +148,21 @@ export class FuelfillingsComponent implements OnInit {
     }
   }
 
-  getFuelFillings() {
+  getFuelFillings(fuelData) {
     if (this.accountService.selected.branch.id) {
       console.log('Branch ID :', this.accountService.selected.branch.id);
       this.common.params = {
         vehId: this.selectedVehicle.id,
         lastFilling: this.startdate,
         currentFilling: this.enddate,
-        fuelstationid: this.selectedFuelFilling
+        fuelstationid: this.selectedFuelFilling,
+        fuelData:fuelData
       };
 
       const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
+         console.log('Data return: ', data);
+        if (data.success) {
           this.getFuelVoucher();
         }
       });

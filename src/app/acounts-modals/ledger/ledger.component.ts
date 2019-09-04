@@ -5,6 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountsComponent } from '../accounts/accounts.component';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'ledger',
@@ -22,6 +23,7 @@ export class LedgerComponent implements OnInit {
   state = [];
   activeId = "user";
   sizeledger=0;
+  mannual=false;
   Accounts = {
     name: '',
     aliasname: '',
@@ -44,7 +46,7 @@ export class LedgerComponent implements OnInit {
     isbank: 0,
     openingisdr: 1,
     openingbalance: 0,
-    approved: 1,
+    approved: this.mannual,
     deleteview: 0,
     delete: 0,
     bankname: '',
@@ -84,7 +86,8 @@ export class LedgerComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public modalService: NgbModal,
-    public api: ApiService) {
+    public api: ApiService,
+    public accountService: AccountService) {
     console.log('Params requst: ', this.common.params);
     if (this.common.params && this.common.params.ledgerdata) {
       this.currentPage = "Edit Ledger";
@@ -114,7 +117,7 @@ export class LedgerComponent implements OnInit {
         isbank: (this.common.params.ledgerdata[0].branch_code) ? 1 : 0,
         openingisdr: (this.common.params.ledgerdata[0].opening_bal_isdr == true) ? 1 : 0,
         openingbalance: this.common.params.ledgerdata[0].opening_balance,
-        approved: (this.common.params.ledgerdata[0].y_for_approved == true) ? 1 : 0,
+        approved: (this.common.params.ledgerdata[0].y_for_approved) ? false : true,
         deleteview: (this.common.params.ledgerdata[0].y_del_review == true) ? 1 : 0,
         costcenter: (this.common.params.ledgerdata[0].is_constcenterallow == true) ? 1 : 0,
         delete: 0,
@@ -162,6 +165,9 @@ console.log('sixe ledger',this.sizeledger);
     this.getUnderGroup();
     this.GetState();
     this.setFoucus('name');
+
+    this.mannual = this.accountService.selected.branch.is_inv_manualapprove;
+    console.log('mannual',this.mannual);
   }
 
   handleArrowUpDown(key) {
@@ -693,15 +699,42 @@ console.log('sixe ledger',this.sizeledger);
         this.common.loading++;
         if (data.response) {
           console.log("data", data);
-          this.Accounts.delete = 1;
-          this.activeModal.close({ response: true, ledger: this.Accounts });
+              this.approveDeleteFunction(1,'true',tblid);
           this.common.loading--;
 
         }
       });
     }
   }
-
+  approveDeleteFunction(type, typeans,xid) {
+    console.log('type',type,'typeans',typeans,'xid',xid);
+    let params = {
+      id: xid,
+      flagname: (type == 1) ? 'deleted' : 'forapproved',
+      flagvalue: typeans
+    };
+    this.common.loading++;
+    this.api.post('Company/ledgerDeleteApprooved', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        //this.getStockItems();
+        this.activeModal.close({ response: true });
+        if (type == 1 && typeans == 'true') {
+          this.common.showToast(" This Value Has been Deleted!");
+        } else if (type == 1 && typeans == 'false') {
+          this.common.showToast(" This Value Has been Restored!");
+        } else {
+          this.common.showToast(" This Value Has been Approved!");
+        }
+       // this.GetLedger();
+       this.modelCondition();
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError('This Value has been used another entry!');
+      });
+  }
   permantdelete(tblid) {
     let params = {
       id: tblid,

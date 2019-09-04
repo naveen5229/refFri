@@ -41,6 +41,8 @@ import {  GstreportComponent } from './gstreport/gstreport.component';
 import { TallyexportComponent } from './tallyexport/tallyexport.component';
 import { TripExpenseTallyComponent } from './trip-expense-tally/trip-expense-tally.component';
 import { StaticsComponent } from './statics/statics.component';
+import { LedgerapproveComponent } from './ledgerapprove/ledgerapprove.component';
+
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -220,6 +222,10 @@ const routes: Routes = [{
         {
             path:'statics',
             component:StaticsComponent
+        },
+        {
+            path:'ledgerapprove',
+            component:LedgerapproveComponent
         }
     ],
 

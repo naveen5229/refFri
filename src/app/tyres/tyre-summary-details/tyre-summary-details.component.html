@@ -1,0 +1,73 @@
+<nb-card style="border: 0px; height: 100%;">
+    <nb-card-header class="dispatch-orders">
+        <div class="row">
+            <div class="col-4">
+                <h5>Tyre Summary</h5>
+            </div>
+            <div class="col-4">
+                <span style="float: right">
+                    <span class="pdf-icon" title="PDF Export" (click)="printPDF('tyrependingcount')"
+                        style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+                    <span class="exel-icon ml-3" title="CSV Export" (click)="printCsv('tyrependingcount')"
+                        style="cursor: pointer;"><i class="fas fa-file-excel"></i></span>
+                </span>
+            </div>
+            <div class="col-4 text-right">
+                <button type="button" class="btn btn-primary" (click)="addInventory()">Add Inventory</button>
+            </div>
+        </div>
+
+    </nb-card-header>
+    <nb-card-body>
+        <div class="tyre-summary">
+            <div class="row">
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="mt-2">From Date :</label>
+                        </div>
+                        <div class="col-8 pl-0">
+                            <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"
+                                [isTime]="false">
+                            </uj-date-time-picker>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-3 pr-0">
+                            <label class="mt-2">To Date :</label>
+                        </div>
+                        <div class="col-9 pl-0">
+                            <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate" [isTime]="false"
+                                [isStart]="false">
+                            </uj-date-time-picker>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 pr-0">
+                    <select class="form-control" name="typelist" [(ngModel)]="typeListId">
+                        <option value="-1">All</option>
+                        <option value="1">Mapped</option>
+                        <option value="0">UnMapped</option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-primary" (click)="getTyreSummary()">Submit</button>
+                </div>
+            </div>
+            <div>
+                <smart-table *ngIf="tyre.tyreSummary && tyre.tyreSummary.length" [data]="tables.tyreSummary.data"
+                    [settings]="tables.tyreSummary.settings" id="tyresummary">
+                </smart-table>
+                <smart-table *ngIf="tyre.tyrePendingCount && tyre.tyrePendingCount.length"
+                    [data]="tables.tyrePendingCount.data" [settings]="tables.tyrePendingCount.settings"
+                    id="tyrependingcount">
+                </smart-table>
+            </div>
+            <!-- <div class="alert alert-danger text-center mt-3" *ngIf="dispatchOrders==null">
+                <h4 class="no-record">No Record Found</h4>
+            </div> -->
+        </div>
+    </nb-card-body>
+</nb-card>

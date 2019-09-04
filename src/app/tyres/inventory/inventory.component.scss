@@ -49,7 +49,7 @@ table {
         th {
             padding: 5px 8px;
             font-weight: normal;
-            width: 250px;
+            width: 203px;
         }
         th:nth-child(1) {
             width: 30px;
@@ -73,7 +73,6 @@ table {
         tr {
             display: table;
             table-layout: fixed;
-            width: 100%;
             td:nth-child(1) {
                 width: 30px;
             }
@@ -94,15 +93,6 @@ table {
     }
 }
 
-.pdf-icon {
-    font-size: 30px;
-    color: #9F0001;
-}
-
-.exel-icon {
-    font-size: 30px;
-    color: #217346;
-}
 
 :host ::ng-deep.text-blue {
     color: blue;

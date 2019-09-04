@@ -13,20 +13,22 @@ export class SupportingDocComponent implements OnInit {
   invoiceId = null;
   invoiceDetails = null;
   particulars = null;
-  type = 1;
-
+  type = 2;
+  typeId = null;
   data = [];
   headings = [];
   valobj = {};
   columnsValue = [];
-
+  invoiceType = null;
   constructor(
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
     public renderer: Renderer
   ) { 
-    this.invoiceId = this.common.params.invoiceId;
+    this.invoiceId = this.common.params.invoice.id;
+    this.invoiceType = this.common.params.invoice.type;
+    this.typeId = this.common.params.invoice.typeId?this.common.params.invoice.typeId:'null';
     this.common.handleModalSize('class', 'modal-lg', '1200');
     this.supportDoc();
   }
@@ -44,7 +46,9 @@ export class SupportingDocComponent implements OnInit {
     ++this.common.loading;
     let params = {
       invoiceId: this.invoiceId,
-      type: this.type
+      typeId:this.typeId,
+      printType: this.type,
+      invoiceType:this.invoiceType
     }
     console.log("params", params);
     this.api.post('FrieghtRate/getFrieghtInvoiceData', params)

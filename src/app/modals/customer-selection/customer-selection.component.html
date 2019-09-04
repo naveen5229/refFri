@@ -6,7 +6,16 @@
 </div>
 <div class="modal-body">
   <form>
-    <div class="form-group">
+    <div class="form-group" *ngIf="this.user._loggedInBy == 'customer'">
+      <input type="text" class="form-control" placeholder="search customer"  name="searchString" [(ngModel)]="searchString"  autocomplete="off">
+      <ul class="auto_listing" *ngIf=" (showSuggestions)&&(suggestions.length >  0)">
+        <li *ngFor="let suggestion of suggestions;" (click)="selectUser(suggestion)">
+          {{ suggestion.foaname}} - {{suggestion.foaid}} - {{suggestion.foname}} - {{suggestion.foid}} -
+          {{suggestion.fomobileno}}
+        </li>
+      </ul>
+    </div>
+    <div class="form-group" *ngIf="this.user._loggedInBy !== 'customer'">
       <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString" [(ngModel)]="searchString"  autocomplete="off">
       <ul class="auto_listing" *ngIf=" (showSuggestions)&&(suggestions.length >  0)">
         <li *ngFor="let suggestion of suggestions;" (click)="selectUser(suggestion)">

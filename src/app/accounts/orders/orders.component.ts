@@ -28,7 +28,7 @@ export class OrdersComponent implements OnInit {
   ledgers = { all: [], suggestions: [] };
   showSuggestions = false;
   activeLedgerIndex = -1;
-  totalitem = 0;
+  totalitem = null;
   invoiceDetail = [];
   taxDetailData = [];
   mannual=false;
@@ -37,7 +37,7 @@ export class OrdersComponent implements OnInit {
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: '',
     biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
-    totalamount: 0,
+    totalamount: null,
     grnremarks: '',
     billingaddress: '',
     custcode: '',
@@ -82,15 +82,15 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: 0,
+      qty: null,
       discountledger: { name: '', id: '0' },
       warehouse: { name: '', id: '' },
       taxDetails: [],
       remarks: '',
-      lineamount: 0,
+      lineamount: null,
       discountate: 0,
-      rate: 0,
-      amount: 0,
+      rate: null,
+      amount: null,
       defaultcheck:true
     }]
   };
@@ -177,7 +177,7 @@ export class OrdersComponent implements OnInit {
 
     this.common.refresh();
 
-    this.setFoucus('ordertype');
+    this.setFoucus('custcode');
     this.common.currentPage = this.order.ordertype.name;
     this.getFreeze();
   }
@@ -192,7 +192,7 @@ export class OrdersComponent implements OnInit {
       date: this.common.dateFormatternew(new Date()).split(' ')[0],
       biltynumber: '',
       biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
-      totalamount: 0,
+      totalamount: null,
       grnremarks: '',
       billingaddress: '',
       custcode: '',
@@ -237,15 +237,15 @@ export class OrdersComponent implements OnInit {
           name: '',
           id: ''
         },
-        qty: 0,
+        qty: null,
         discountledger: { name: '', id: '' },
         warehouse: { name: '', id: '' },
         taxDetails: [],
         remarks: '',
-        lineamount: 0,
+        lineamount: null,
         discountate: 0,
-        rate: 0,
-        amount: 0,
+        rate: null,
+        amount: null,
         defaultcheck:true
       }]
     };
@@ -263,15 +263,15 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: 0,
+      qty: null,
       discountledger: { name: '', id: '' },
       warehouse: { name: '', id: '' },
       taxDetails: [],
       remarks: '',
-      lineamount: 0,
+      lineamount: null,
       discountate: 0,
-      rate: 0,
-      amount: 0,
+      rate: null,
+      amount: null,
       defaultcheck:false
 
     });
@@ -410,8 +410,10 @@ export class OrdersComponent implements OnInit {
       if (data.response) {
         console.log('????????',data.taxDetails);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
-        this.order.amountDetails[i].lineamount = 0;
-        this.order.amountDetails[i].lineamount =  this.order.amountDetails[i].amount+data.taxDetails[0].totalamount;
+        this.order.amountDetails[i].lineamount = null;
+        console.log('###',this.order.amountDetails[i].amount);
+        this.order.amountDetails[i].lineamount = ( parseFloat(this.order.amountDetails[i].amount) + parseFloat(data.taxDetails[0].totalamount)).toFixed(2);
+        console.log('###---',this.order.amountDetails[i].lineamount,'-----||',data.taxDetails[0].totalamount);
         this.setFoucus('plustransparent');
         // this.addLedger(data.ledger);
       }
@@ -487,14 +489,34 @@ export class OrdersComponent implements OnInit {
   }
 
   calculateTotal() {
-    let total = 0;
+    let total = null;
     this.order.amountDetails.map(amountDetail => {
       // console.log('Amount: ',  amountDetail.amo  unt[type]);
-      total += amountDetail.lineamount;
+      total += parseFloat(amountDetail.lineamount);
     });
     return total;
   }
 
+  getStockAvailability(stockid) {
+    let totalitem = 0;
+    let params = {
+      stockid: stockid
+    };
+     this.common.loading++;
+    this.api.post('Suggestion/GetStockItemAvailableQty', params)
+      .subscribe(res => {
+         this.common.loading--;
+        console.log('Res:', res['data'][0].get_stockitemavailableqty);
+        this.totalitem = res['data'][0].get_stockitemavailableqty;
+        //  console.log('totalitem : -',totalitem);
+        return this.totalitem;
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
@@ -542,13 +564,13 @@ export class OrdersComponent implements OnInit {
     }
     if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
       let index = parseInt(this.activeId.split('-')[1]);
-      console.log('available item', (this.order.amountDetails[index].qty));
       setTimeout(() => {
-        if ((this.totalitem) < (document.getElementById(this.activeId)['value'])) {
+      console.log('available item', this.order.amountDetails[index].qty,'second response',this.totalitem);
+        if ((parseInt(this.totalitem)) < (parseInt(this.order.amountDetails[index].qty))) {
           alert('Quantity is lower then available quantity');
           this.order.amountDetails[index].qty = 0;
         }
-      }, 50);
+      }, 300);
       // if ((this.totalitem) < parseInt(this.order.amountDetails[index].qty)) {
       //   console.log('Quantity is lower then available quantity');
       //   // this.order.amountDetails[index].qty = 0;
@@ -579,14 +601,7 @@ export class OrdersComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-           
-        
-        if (this.order.ordertype.id == -107 || this.order.ordertype.id == -106) {
-          this.setFoucus('qty' + '-' + 0);
-        }
-        else {
           this.setFoucus('purchaseledger');
-        }
       }
     } } else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
@@ -666,9 +681,7 @@ export class OrdersComponent implements OnInit {
           this.common.showError('Please fill correct amount');      
           this.setFoucus('rate'+index);
           }
-      else if (this.order.ordertype.id == -107 || this.order.ordertype.id == -106) {
-          this.setFoucus('submit');
-        }
+     
         else {
           this.setFoucus('remarks' + '-' + index);
         }
@@ -695,6 +708,13 @@ export class OrdersComponent implements OnInit {
       if (key.includes('arrowup') || key.includes('arrowdown')) {
         this.handleArrowUpDown(key);
         event.preventDefault();
+      }
+    }else if ((this.activeId == 'date' || this.activeId == 'biltydate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
       }
     }
 
@@ -786,9 +806,10 @@ export class OrdersComponent implements OnInit {
 
 
   getPurchaseLedgers() {
+    console.log('purchase=====',this.order.ordertype.id);
     let params = {
       search: 123,
-      invoicetype: ((this.order.ordertype.id=-104) || (this.order.ordertype.id=-106 )) ? 'sales':'purchase'
+      invoicetype: ((this.order.ordertype.id==-104) || (this.order.ordertype.id==-106 )) ? 'sales':'purchase'
     };
     this.common.loading++;
     this.api.post('Suggestion/GetAllLedgerForInvoice', params)
@@ -805,6 +826,8 @@ export class OrdersComponent implements OnInit {
   }
 
   getSupplierLedgers() {
+    console.log('other============',this.order.ordertype.id);
+
     let params = {
       search: 123,
       invoicetype: 'other'
@@ -897,7 +920,7 @@ export class OrdersComponent implements OnInit {
           this.order.amountDetails[index].lineamount = invoiceDetail.y_dtl_lineamount;
           this.order.amountDetails[index].remarks = invoiceDetail.y_invoice_remarks;
           this.order.amountDetails[index].amount = invoiceDetail.y_dtl_amount;
-          this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
+          this.order.totalamount += parseFloat(invoiceDetail.y_dtl_lineamount);
 
         });
 
@@ -911,7 +934,7 @@ export class OrdersComponent implements OnInit {
                 },
                 taxrate: taxdetail.y_rate,
                 taxamount: taxdetail.y_amount,
-                totalamount: 0
+                totalamount: null
               };
 
               amountDetails.taxDetails.push(data);
@@ -1265,20 +1288,27 @@ export class OrdersComponent implements OnInit {
     } else if (activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      this.order.billingaddress = suggestion.address;
+      if(suggestion.address_count >1){
       this.getAddressByLedgerId(suggestion.id);
+      }else{
+      this.order.billingaddress = suggestion.address;
+      }
     } else if (activeId == 'purchaseledger') {
       console.log('>>>>>>>>>',suggestion);
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
      // this.getAddressByLedgerId(suggestion.id);
+     console.log('>>>>>>>>><<<<<<<<<',this.order.purchaseledger.id);
+
     } else if (activeId.includes('stockitem')) {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].stockitem.name = suggestion.name;
       this.order.amountDetails[index].stockitem.id = suggestion.id;
       this.order.amountDetails[index].stockunit.name = suggestion.stockname;
       this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
-      if (this.order.ordertype.name.toLowerCase().includes('sales')) this.getStockAvailability(suggestion.id);
+      if (this.order.ordertype.name.toLowerCase().includes('sales')) {
+        this.getStockAvailability(suggestion.id);
+      }
 
     } else if (activeId.includes('discountledger')) {
       const index = parseInt(activeId.split('-')[1]);
@@ -1299,26 +1329,6 @@ export class OrdersComponent implements OnInit {
     return this.totalitem;
   }
 
-  getStockAvailability(stockid) {
-    let totalitem = 0;
-    let params = {
-      stockid: stockid
-    };
-    // this.common.loading++;
-    this.api.post('Suggestion/GetStockItemAvailableQty', params)
-      .subscribe(res => {
-        // this.common.loading--;
-        console.log('Res:', res['data'][0].get_stockitemavailableqty);
-        this.totalitem = res['data'][0].get_stockitemavailableqty;
-        //  console.log('totalitem : -',totalitem);
-        return this.totalitem;
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-
-  }
 
 
   openwareHouseModal() {
@@ -1431,7 +1441,7 @@ export class OrdersComponent implements OnInit {
     let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
     let rows = [];
     let totalqty=0;
-    let totalamount=0;
+    let totalamount=null;
     let lasttotaltax=0;
     let lineamounttotal=0;
     voucherdataprint.amountDetails.map((invoiceDetail, index) => {
@@ -1453,9 +1463,9 @@ export class OrdersComponent implements OnInit {
         { txt: invoiceDetail.stockitem.name +'('+invoiceDetail.stockunit.name +')'+'</br>'+lasttaxrowdata || '' },
         { txt: invoiceDetail.qty || '' },
         { txt: invoiceDetail.rate || '' },
-        { txt: invoiceDetail.amount || '' },
+        { txt: invoiceDetail.amount || 0 },
         { txt: taxTotal || 0 },
-        { txt: invoiceDetail.lineamount || '' },
+        { txt: invoiceDetail.lineamount || null },
         { txt: invoiceDetail.remarks || '' }
       ]);
       console.log('invoiceDetail.taxDetails',invoiceDetail.taxDetails);
@@ -1468,9 +1478,9 @@ export class OrdersComponent implements OnInit {
       { txt: 'Total' },
       { txt: totalqty || '' },
       { txt: '-' },
-      { txt: totalamount || '' },
+      { txt: totalamount || null },
       { txt: lasttotaltax || 0 },
-      { txt: lineamounttotal || '' },
+      { txt: lineamounttotal || 0 },
       { txt: '' }
     ]);
 let invoiceJson={};

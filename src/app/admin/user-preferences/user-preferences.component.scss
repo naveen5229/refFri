@@ -1,9 +1,31 @@
-.admin{
-    margin: 2%;
+.admin {
+  margin: 2%;
 }
-.search{
-    width: 150px;
-    margin-left: 20px;
-    
+.search {
+  width: 180px;
+  margin-left: 20px;
+}
+.container {
+  color: black;
+}
+.section-div {
+  font-size: 22px;
+  text-transform: capitalize;
+  top: 0;
+  left: 0;
+  color: black;
+  margin-top: 5px;
+}
+.section-box {
+  min-height: 25px;
+  width: 25px;
+  border: 1px solid green;
+}
+.section-box.input {
+  cursor: pointer;
+}
 
+.section-box input[type="checkbox"]:checked {
+  color: green;
 }
+

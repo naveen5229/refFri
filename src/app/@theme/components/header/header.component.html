@@ -15,8 +15,14 @@
       {{this.user._customer.name}}
     </h4>
   </div>
+
   <div class="user-det_name">
-    <h4 *ngIf="this.user._loggedInBy == 'customer' && this.router.url.indexOf('/admin/')== -1">
+      <h4 *ngIf="this.user._loggedInBy == 'customer' && this.user._customer.name && this.user._details.multipleAccounts>0 ">
+         {{this.user._customer.name}} </h4>
+    </div>
+
+  <div class="user-det_name">
+    <h4 *ngIf="this.user._loggedInBy == 'customer' && this.router.url.indexOf('/admin/')== -1 && !this.user._customer.name">
       {{this.user._details.name}}</h4>
   </div>
 </div>
@@ -42,7 +48,7 @@
 </div>
 
 <div class="header_mini_menu">
-  <div class="add_customer" *ngIf="this.user._loggedInBy !== 'customer'">
+  <div class="add_customer" *ngIf="this.user._loggedInBy !== 'customer'||(this.user._loggedInBy === 'customer' && this.user._details.multipleAccounts>0)">
     <button class="form-control" (click)="openChangeModal()"><img src="assets/images/add-contact.png"></button>
   </div>
   <div class="current-page" *ngIf="common.currentPage">

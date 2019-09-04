@@ -80,6 +80,7 @@ import { DispatchOrdersComponent } from '../lorry-receipt/dispatch-orders/dispat
 import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.component';
 import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
 import { RouteDashboardComponent } from './route-dashboard/route-dashboard.component';
+import { TrendsFoComponent } from './trends-fo/trends-fo.component';
 
 
 const routes: Routes = [{
@@ -502,7 +503,12 @@ const routes: Routes = [{
     path: 'route-dashboard',
     component: RouteDashboardComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'trends-fo',
+    component:TrendsFoComponent,
+    canActivate: [AuthGuard]
+  },
   ],
 }];
 

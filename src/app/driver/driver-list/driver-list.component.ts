@@ -10,6 +10,7 @@ import { EditDriverComponent } from '../../modals/edit-driver/edit-driver.compon
 import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { UploadDocsComponent } from '../../modals/upload-docs/upload-docs.component';
+import { DriverLedgerMappingComponent } from '../../modals/DriverModals/driver-ledger-mapping/driver-ledger-mapping.component';
 @Component({
   selector: 'driver-list',
   templateUrl: './driver-list.component.html',
@@ -27,12 +28,16 @@ export class DriverListComponent implements OnInit {
     public common: CommonService,
     public user: UserService) {
     this.getdriverLists();
+    this.common.refresh = this.refresh.bind(this);
 
   }
 
   ngOnInit() {
   }
+  refresh() {
+    this.getdriverLists();
 
+  }
   addDriver() {
     // this.router.navigate(['/driver/add-driver']);
     // const activeModal =
@@ -63,6 +68,7 @@ export class DriverListComponent implements OnInit {
         console.log('Res:', res['data']);
         this.driverLists = res['data'];
         if (this.driverLists == null) {
+          return;
           this.driverLists = [];
           this.table = null;
         }
@@ -122,7 +128,8 @@ export class DriverListComponent implements OnInit {
           value: '', isHTML: false, action: null, icons: [
 
             { class: 'fa fa-file', action: this.updateDriver.bind(this, req) },
-            { class: 'fa fa-tasks', action: this.updateDriverInfo.bind(this, req) }
+            { class: 'fa fa-tasks', action: this.updateDriverInfo.bind(this, req) },
+            { class: 'fab fa-reddit', action: this.driverLedgerMapping.bind(this, req) }
           ]
         },
         rowActions: {
@@ -134,6 +141,14 @@ export class DriverListComponent implements OnInit {
       columns.push(column);
     });
     return columns;
+  }
+
+  driverLedgerMapping(driverdata) {
+    this.common.params = {
+      driverId: driverdata.id,
+    }
+    const activeModal = this.modalService.open(DriverLedgerMappingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
   }
 
 

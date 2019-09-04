@@ -7,12 +7,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/dashboard',
         home: true,
     },
-    {
-        title: 'Inventory',
-        icon: 'fa fa-recycle',
-        link: '/tyres/inventory',
-        home: true,
-    },
+    // {
+    //     title: 'Inventory',
+    //     icon: 'fa fa-recycle',
+    //     link: '/tyres/inventory',
+    //     home: true,
+    // },
     {
         title: ' Vehicle Tyre Summary',
         icon: 'fa fa-text-width',
@@ -55,5 +55,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/tyres/tyre-modals',
         home: true,
     },
-   
+    {
+        title: 'Tyre Summary',
+        icon: 'fa fa-text-width',
+        link: '/tyres/tyre-summary-details',
+        home: true,
+    },
+
 ];
