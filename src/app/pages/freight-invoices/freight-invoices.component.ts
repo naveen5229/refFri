@@ -146,18 +146,18 @@ export class FreightInvoicesComponent implements OnInit {
         action: this.invoice.bind(this, 'Edit', row),
       },
 
-      // {
-      //   class: "fas fa-trash-alt",
-      //   action: this.deleteRow.bind(this, row),
-      // },
+      {
+        class: "fas fa-trash-alt",
+        action: this.deleteRow.bind(this, row),
+      },
       
     )}
     else if(row._invtype>=1){
-      // actionIcons.push(
-      //   {
-      //   class: "fas fa-trash-alt",
-      //   action: this.deleteRow.bind(this, row),
-      // })
+      actionIcons.push(
+        {
+        class: "fas fa-trash-alt",
+        action: this.deleteRow.bind(this, row),
+      })
     }
     // if lr count is greater than zero
    

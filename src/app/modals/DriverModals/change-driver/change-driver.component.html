@@ -23,6 +23,14 @@
       <input [(ngModel)]="driver.name" class="form-control" type="text" placeholder="Driver Name">
     </div>
   </div>
+  <div class="row" style="margin-top:10px">
+    <div class="col-sm-5">
+      <label>Licence No.</label>
+    </div>
+    <div class="col-sm-7">
+      <input [(ngModel)]="driver.licence" class="form-control" type="text" placeholder="Driver Licence">
+    </div>
+  </div>
 </div>
 <div class="modal-footer">
   <button class="btn btn-primary" type="button" outline (click)="changDriver()" id="changDriver"
