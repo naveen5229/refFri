@@ -66,7 +66,8 @@ export class LrAssignComponent implements OnInit {
       endTime: this.common.dateFormatter(this.endTime).split(' ')[0] + " 23:59:00",
       partyId: this.partyId,
       branchId: this.branchId,
-      invoiceId: null,
+      invoiceId: this.invoiceId,
+      mapped:0
     }
     console.log("params", params);
     this.api.post('FrieghtRate/getlrUnmapped', params)
@@ -121,7 +122,7 @@ export class LrAssignComponent implements OnInit {
   }
 
   onChange(id: string, isChecked: boolean) {
-    console.log()
+    console.log("id",id);
     if (isChecked) {
       this.selectedType.push(id);
     } else {
@@ -165,6 +166,7 @@ export class LrAssignComponent implements OnInit {
         if (res['success']) {
           this.common.showToast(res['msg']);
           this.refresh();
+          this.selectedType = [];
         }
       }, err => {
         this.common.loading--;
@@ -181,6 +183,7 @@ export class LrAssignComponent implements OnInit {
       partyId: this.partyId,
       branchId: this.branchId,
       invoiceId: this.invoiceId,
+      mapped:1
     }
     console.log("params", params);
     this.api.post('FrieghtRate/getlrUnmapped', params)
