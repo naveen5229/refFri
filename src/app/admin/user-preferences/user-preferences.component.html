@@ -49,9 +49,9 @@
         <label> Select Employee Name</label>
         <auto-suggestion (onSelected)="getUserPages($event)" [data]="getUsersList" display="employeename"
           placeholder="Employee" [preSelected]="null" inputId="employeename"></auto-suggestion>
-        <div class="col text-right" *ngIf="selectedUser.details">
-          <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
-        </div>
+      </div>
+      <div class="col text-right mt-4" *ngIf="selectedUser.details">
+        <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
       </div>
     </div>
 

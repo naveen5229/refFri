@@ -56,7 +56,7 @@ export class UserPreferencesComponent implements OnInit {
     if (this.common.isComponentActive) {
       this.common.params = {
         title: 'Confirmation ',
-        description: `<b>&nbsp;` + 'Are Sure To Leave This Page With Save' + `<b>`,
+        description: `<b>&nbsp;` + 'Are Sure To Leave This Page WithOut Save' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {

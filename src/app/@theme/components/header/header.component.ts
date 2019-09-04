@@ -81,6 +81,7 @@ export class HeaderComponent implements OnInit {
       this.user._loggedInBy = '';
       this.user._pages = null;
       localStorage.clear();
+      localStorage.removeItem('DOST_USER_PAGES');
       this.router.navigate(['/auth/login']);
     }
   }
