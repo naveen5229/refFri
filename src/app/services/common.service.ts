@@ -943,7 +943,9 @@ export class CommonService {
   downloadPdf(divId, isLandscape?) {
     var data = document.getElementById(divId);
     // console.log("data",data);
-    html2canvas(data).then(canvas => {
+    html2canvas(data, {
+      userCROS: true,
+    }).then(canvas => {
       // Few necessary setting options  
       var imgWidth = isLandscape ? 295 : 208;
       var pageHeight = isLandscape ? 208 : 295;
@@ -971,17 +973,17 @@ export class CommonService {
 
     let leftData = { left_heading };
     let centerData = { center_heading };
-    let lowerLeft = { lower_left_heading };
+    let lowerLeft = lower_left_heading ? { lower_left_heading } : {};
     let doctime = { time };
 
-    let info = [];
+    let info = []; lower_left_heading
     let hdgs = {};
     let arr_hdgs = [];
     info.push(organization);
     info.push(blankline);
     info.push(leftData);
-    info.push(lowerLeft);
     info.push(centerData, doctime);
+    info.push(lowerLeft);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
@@ -1327,7 +1329,7 @@ export class CommonService {
     // console.log('Date: ', year + separator + month + separator + date);
     return date + separator + month + separator + year;
   }
- 
+
   continuoueScroll() {
     document.getElementsByClassName(
       'scrollable-container'

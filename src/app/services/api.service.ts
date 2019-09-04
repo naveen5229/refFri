@@ -12,11 +12,11 @@ import { encode } from 'punycode';
 export class ApiService {
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
   // URL: string = 'http://elogist.in/testservices/'; // prod Server
-// URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
-   URL: string = 'http://localhost/booster_webservices/';
+  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  //  URL: string = 'http://localhost/booster_webservices/';
   // URL: string = 'http://192.168.0.111/booster_webservices/'; // Sachin
   // URL: string = 'http://192.168.0.127/booster_webservices/'; // Umang
-      // URL: string = 'http://localhost/booster_webservices/'; // sachin
+  //  URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
   // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
@@ -32,9 +32,9 @@ export class ApiService {
   post(subURL: string, body: any, options?) {
     if (this.user._customer.id) {
       body['foAdminId'] = this.user._customer.id;
-      body['multipleAccounts'] = this.user._details.multipleAccounts ? this.user._details.multipleAccounts :0;
+      body['multipleAccounts'] = this.user._details.multipleAccounts ? this.user._details.multipleAccounts : 0;
       // console.log(body['foAdminId']);
-       console.log("foAdminId", body);
+      console.log("foAdminId", body);
     }
 
     if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch.id;
@@ -45,7 +45,7 @@ export class ApiService {
   postEncrypt(subURL: string, body: any, options?) {
     if (this.user._customer.id) {
       body['foAdminId'] = this.user._customer.id;
-      body['multipleAccounts'] = this.user._details.multipleAccounts ? this.user._details.multipleAccounts :0;
+      body['multipleAccounts'] = this.user._details.multipleAccounts ? this.user._details.multipleAccounts : 0;
 
       body = JSON.stringify(body);
       body = btoa(body);
@@ -65,12 +65,12 @@ export class ApiService {
   }
 
   get(subURL: string, params?: any) {
-    let mulAcc=this.user._details.multipleAccounts?this.user._details.multipleAccounts:0;
+    let mulAcc = this.user._details.multipleAccounts ? this.user._details.multipleAccounts : 0;
     if (this.user._customer.id) {
       if (subURL.includes('?')) {
-        subURL += '&foAdminId=' + this.user._customer.id + '&multipleAccounts='+mulAcc;
+        subURL += '&foAdminId=' + this.user._customer.id + '&multipleAccounts=' + mulAcc;
       } else {
-        subURL += '?foAdminId=' + this.user._customer.id + '&multipleAccounts='+mulAcc;
+        subURL += '?foAdminId=' + this.user._customer.id + '&multipleAccounts=' + mulAcc;
       }
     }
 
@@ -119,12 +119,12 @@ export class ApiService {
   }
 
   get3(subURL: string, params?: any) {
-    let mulAcc=this.user._details.multipleAccounts?this.user._details.multipleAccounts:0;
+    let mulAcc = this.user._details.multipleAccounts ? this.user._details.multipleAccounts : 0;
     if (this.user._customer.id) {
       if (subURL.includes('?')) {
-        subURL += '&foAdminId=' + this.user._customer.id + '&multipleAccounts='+mulAcc;
+        subURL += '&foAdminId=' + this.user._customer.id + '&multipleAccounts=' + mulAcc;
       } else {
-        subURL += '?foAdminId=' + this.user._customer.id + '&multipleAccounts='+mulAcc;
+        subURL += '?foAdminId=' + this.user._customer.id + '&multipleAccounts=' + mulAcc;
       }
     }
 

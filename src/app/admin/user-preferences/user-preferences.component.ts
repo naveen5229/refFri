@@ -10,7 +10,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./user-preferences.component.scss', '../../pages/pages.component.css']
 })
 export class UserPreferencesComponent implements OnInit {
-
   data = [];
   selectedUser = {
     details: null,
@@ -21,10 +20,14 @@ export class UserPreferencesComponent implements OnInit {
   pagesGroups = {};
 
   newPage = {
+    module: null,
+    group: null,
     title: null,
     url: null,
     type: 'Dashboard',
-  }
+    addType: 1,
+  };
+  getUsersList = [];
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -32,8 +35,7 @@ export class UserPreferencesComponent implements OnInit {
     public modalService: NgbModal,
     private formBuilder: FormBuilder) {
     this.common.refresh = this.refresh.bind(this);
-
-
+    this.getAllUserList();
   }
 
 
@@ -41,9 +43,55 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   refresh() {
-    console.log("Refresh");
+    this.data = [];
+    this.selectedUser = {
+      details: null,
+      oldPreferences: []
+    };
+
+    this.sections = [];
+    this.pagesGroups = {};
+    document.getElementById('employeename')['value'] = '';
   }
 
+  checkOrUnCheckAll(index) {
+    this.pagesGroups[this.sections[index].title].map(page => page.isSelected = this.sections[index].isSelected);
+  }
+
+  getAllUserList() {
+
+    this.common.loading++;
+    this.api.get('UserRoles/getActiveAdminUsers?')
+      .subscribe(res => {
+        this.common.loading--;
+        this.getUsersList = res['data'];
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+      })
+  }
+
+  getUserPages(user) {
+    this.selectedUser.details = user;
+    const params = {
+      userId: user.id,
+      userType: 1
+    };
+    this.common.loading++;
+    this.api.post('UserRoles/getAllPages', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.data = res['data'];
+        console.log("Res Data:", this.data)
+        this.selectedUser.oldPreferences = res['data'];
+        this.findSections();
+        // this.checkSelectedPages(res['data']);
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+      })
+  }
 
   findSections() {
     this.sections = [];
@@ -56,55 +104,23 @@ export class UserPreferencesComponent implements OnInit {
       if (!this.pagesGroups[section.title]) {
         this.pagesGroups[section.title] = [];
       }
-
       this.pagesGroups[section.title].push({
         id: data.id,
         title: data.title,
         route: data.route,
-        isSelected: data.userid
+        isSelected: data.userid ? true : false
       });
+
     });
+    console.log("Get All Pages Access:", this.pagesGroups);
 
-    console.log('All Sections: ', this.sections, this.pagesGroups);
-  }
-
-
-
-  checkOrUnCheckAll(index) {
-    this.pagesGroups[this.sections[index].title].map(page => page.isSelected = this.sections[index].isSelected);
-  }
-
-
-
-  getUserPages(user) {
-    this.selectedUser.details = user;
-    console.log('User: ', user);
-    const params = {
-      userId: user.id
-    };
-    this.common.loading++;
-    this.api.post('UserRoles/getAllPages', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res: ', res);
-
-        this.data = res['data'];
-        console.log("Res Data:", this.data)
-
-        this.selectedUser.oldPreferences = res['data'];
-        this.checkSelectedPages(res['data']);
-        this.findSections();
-
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-      })
   }
 
   checkSelectedPages(pages) {
     this.sections.map(section => {
       this.pagesGroups[section.title].map(page => {
-        page.isSelected = this.findSelectedOrNot(page.id, pages);
+        console.log('________page:::::,', page);
+        // page.isSelected = this.findSelectedOrNot(page.id, pages);
       });
     });
   }
@@ -116,14 +132,19 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   updatePreferences() {
-    const params = { pages: this.findSelectedPages(), userId: this.selectedUser.details.id };
+    const params = {
+      pages: this.findSelectedPages(),
+      userId: this.selectedUser.details.id,
+      userType: 1,
+    };
     console.log("Param:", params);
     this.common.loading++;
     this.api.post('UserRoles/setPagesWrtUser', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res);
-        alert(res['msg']);
+        this.common.showToast(res['msg']);
+        // this.refresh();
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -150,16 +171,18 @@ export class UserPreferencesComponent implements OnInit {
 
   createNewPage() {
     let params = {
+      moduleName: this.newPage.module,
+      groupName: this.newPage.group,
       title: this.newPage.title,
       route: this.newPage.url,
-      type: this.newPage.type
-
+      type: this.newPage.type,
+      add_type: this.newPage.addType
     };
+
     this.common.loading++;
     this.api.post('UserRoles/insertNewPageDetails', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res: ', res);
         this.common.showToast(res['msg'])
       }, err => {
         this.common.loading--;

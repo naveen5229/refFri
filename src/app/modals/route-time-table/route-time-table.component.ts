@@ -18,6 +18,8 @@ export class RouteTimeTableComponent implements OnInit {
   routeName = null;
   startTime = new Date();
   assocType = null;
+  edit = 0;
+  rowId = null;
 
   routeTimeTable = [];
   table = {
@@ -45,6 +47,11 @@ export class RouteTimeTableComponent implements OnInit {
 
   ngOnInit() {
   }
+  ngOnDestroy() {
+    this.common.params = null;
+    console.log("destroy");
+
+  }
   closeModal() {
     this.activeModal.close();
   }
@@ -68,17 +75,20 @@ export class RouteTimeTableComponent implements OnInit {
       this.getRouteTimeTableViews();
     }
   }
-
+  reset() {
+    this.rowId = null;
+    this.startTime = null;
+    this.assocType = null;
+  }
 
   addrouteTime() {
     let params = {
+      rowId: this.rowId ? this.rowId : null,
       routeId: this.routeId,
       startTime: this.startTime ? this.common.timeFormatter(this.startTime) : null,
       assType: this.assocType,
-
     }
     console.log("Params:", params);
-
     this.common.loading++;
     this.api.post('ViaRoutes/saveTimeTable', params)
       .subscribe(res => {
@@ -163,6 +173,10 @@ export class RouteTimeTableComponent implements OnInit {
   actionIcons(route) {
     let icons = [
       {
+        class: "fas fa-pencil-alt",
+        action: this.editTimeTable.bind(this, route)
+      },
+      {
         class: "icon fas fa-edit",
         action: this.editRoutes.bind(this, route)
       },
@@ -174,6 +188,7 @@ export class RouteTimeTableComponent implements OnInit {
         class: "fas fa-trash-alt ml-3",
         action: this.deleteRouteTime.bind(this, route)
       },
+
     ];
     return icons;
   }
@@ -185,6 +200,15 @@ export class RouteTimeTableComponent implements OnInit {
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
+  }
+  editTimeTable(route) {
+    this.edit = 1;
+    this.routeId = route._route_id;
+    this.routeName = route._route_name;
+    this.startTime = route._start_time ? new Date(route._start_time) : null;
+    console.log("start Time", this.startTime);
+    this.assocType = route._ass_type;
+    this.rowId = route._rtt_id;
   }
 
   editRoutes(route) {

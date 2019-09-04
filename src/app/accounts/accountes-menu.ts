@@ -198,6 +198,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Voucher Audit',
         link: '/accounts/voucheredited'
+    },
+    {
+        title: 'Ledger Approve',
+        link: '/accounts/ledgerapprove'
     }
 ],
 },
