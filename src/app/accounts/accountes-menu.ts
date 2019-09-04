@@ -202,6 +202,19 @@ export const ACCOUNTS_MENU_ITEMS: NbMenuItem[] = [
         ],
     },
     {
+<<<<<<< HEAD
+=======
+        title: 'Voucher Audit',
+        link: '/accounts/voucheredited'
+    },
+    {
+        title: 'Ledger Approve',
+        link: '/accounts/ledgerapprove'
+    }
+],
+},
+    {
+>>>>>>> ea8d890f63b1d494f453058e1f98d787042a5283
         title: 'Invoice',
         icon: 'fas fa-file-invoice',
         children: [

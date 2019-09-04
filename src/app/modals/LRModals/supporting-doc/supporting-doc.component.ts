@@ -14,7 +14,7 @@ export class SupportingDocComponent implements OnInit {
   invoiceDetails = null;
   particulars = null;
   type = 2;
-
+  typeId = null;
   data = [];
   headings = [];
   valobj = {};
@@ -28,6 +28,7 @@ export class SupportingDocComponent implements OnInit {
   ) { 
     this.invoiceId = this.common.params.invoice.id;
     this.invoiceType = this.common.params.invoice.type;
+    this.typeId = this.common.params.invoice.typeId?this.common.params.invoice.typeId:'null';
     this.common.handleModalSize('class', 'modal-lg', '1200');
     this.supportDoc();
   }
@@ -45,6 +46,7 @@ export class SupportingDocComponent implements OnInit {
     ++this.common.loading;
     let params = {
       invoiceId: this.invoiceId,
+      typeId:this.typeId,
       printType: this.type,
       invoiceType:this.invoiceType
     }
