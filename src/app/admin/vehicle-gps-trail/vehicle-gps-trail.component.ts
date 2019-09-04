@@ -13,8 +13,8 @@ import { DatePipe, NumberFormatStyle } from '@angular/common';
 })
 export class VehicleGpsTrailComponent implements OnInit {
 
-  startDate = '';
-  endDate = '';
+  endDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 10));
   vId = '';
   gpsTrail = [];
   table = {

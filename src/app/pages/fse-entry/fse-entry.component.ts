@@ -8,8 +8,8 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./fse-entry.component.scss']
 })
 export class FSEEntryComponent implements OnInit {
-  startDate=null;
-  endDate=null;
+  endDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 10));;
   table=null;
   data=[];
   vehid=null;
@@ -78,7 +78,7 @@ export class FSEEntryComponent implements OnInit {
 
   submit(){
     let params
-    params = "start_time=" + this.common.dateFormatter1(this.startDate) + "&end_time=" + this.common.dateFormatter1(this.endDate) + "&vehicle_id=" +this.vehid;
+    params = "start_time=" + this.common.dateFormatter(this.startDate) + "&end_time=" + this.common.dateFormatter(this.endDate) + "&vehicle_id=" +this.vehid;
       console.log("param",params)
       this.common.loading++;
       this.api.get("Fuel/getAllFuelStationEntryWrtVeh?"+params).subscribe(
