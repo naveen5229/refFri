@@ -8,6 +8,7 @@ import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-
 import { AddDriverComponent } from '../../driver/add-driver/add-driver.component';
 import { AccountService } from '../../services/account.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 
 
 @Component({
@@ -877,5 +878,15 @@ export class VoucherSummaryShortComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       });
+  }
+  addTransfer() {
+    // console.log("invoice", invoice);
+    // this.common.params = { invoiceId:invoice._id }
+    this.common.params = { refData: null };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      //this.viewTransfer();
+    });
   }
 }
