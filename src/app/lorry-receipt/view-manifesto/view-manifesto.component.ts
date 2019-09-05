@@ -121,36 +121,14 @@ export class ViewManifestoComponent implements OnInit {
 
         this.valobj[this.headings[j]] = { value: this.manifestData[i][this.headings[j]], class: (this.manifestData[i][this.headings[j]] > 0) ? 'blue' : 'black', action: '' };
         this.valobj['action'] = {
-          value: `<span>view</span>`, isHTML: true, class: 'zoom', action: this.openViewManifestModal.bind(this, this.manifestData[i]),
-
+          value: `<span>view</span>`, isHTML: true, class: 'zoom', action: this.openViewManifestModal.bind(this, this.manifestData[i])
         }
-        this.valobj['action'] = {
-          value: `<span>delete</span>`, isHTML: true, class: 'zoom', action: this.editMainfest.bind(this, this.manifestData[i])
-        }
-        this.valobj['action'] = { class: '', icons: this.actionIcons(this.manifestData[i]) };
-
       }
       columns.push(this.valobj);
     }
     return columns;
   }
 
-
-  actionIcons(details) {
-    let icons = [];
-    icons.push(
-      {
-        class: "far fa-file-image",
-        action: this.openViewManifestModal.bind(this, details),
-      },
-      {
-        class: "fas fa-pencil-alt",
-        action: this.genrateLrManifest.bind(this, details),
-      }
-    )
-
-    return icons;
-  }
 
 
 
@@ -180,17 +158,6 @@ export class ViewManifestoComponent implements OnInit {
   genrateLrManifest() {
     const activeModal = this.modalService.open(GenerateLrMainfestoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
-      this.getLrManifest();
-    })
-  }
-  editMainfest(edit) {
-    console.log("test", edit);
-    const activeModal = this.modalService.open(GenerateLrMainfestoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
-    activeModal.result.then(data => {
-      this.getLrManifest();
     })
   }
 }
-
-
-

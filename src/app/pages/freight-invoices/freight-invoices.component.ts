@@ -150,20 +150,20 @@ export class FreightInvoicesComponent implements OnInit {
         action: this.deleteRow.bind(this, row),
       }
     );
-      if(row._lrcount > 0){
-        actionIcons.push({
+    if (row._lrcount > 0) {
+      actionIcons.push({
         class: "fas fa-print",
         action: this.printInvoice.bind(this, row, row._invtype),
       },
-      {
-        class: "far fa-file",
-        action: this.supportDoc.bind(this, row, row._invtype),
+        {
+          class: "far fa-file",
+          action: this.supportDoc.bind(this, row, row._invtype),
 
-      },
-      {
-        class: "fa fa-inr",
-        action: this.openFreightRateModal.bind(this, row, 1),
-      }
+        },
+        {
+          class: "fa fa-inr",
+          action: this.openFreightRateModal.bind(this, row, 1),
+        }
       )
     }
 
@@ -179,14 +179,14 @@ export class FreightInvoicesComponent implements OnInit {
       invoiceIcons.push(
         {
           class: "fa fa-plus",
-          action: this.invoice.bind(this,'add', row, 2),
+          action: this.invoice.bind(this, 'add', row, 2),
         },
         {
           class: "fa fa-plus",
-          action: this.invoice.bind(this,'add', row, 3),
+          action: this.invoice.bind(this, 'add', row, 3),
         }
       )
-    } 
+    }
 
     return invoiceIcons;
   }
@@ -239,10 +239,10 @@ export class FreightInvoicesComponent implements OnInit {
 
 
 
-  invoice(title, row,type) {
+  invoice(title, row, type?) {
     console.log("title:", title);
     console.log("Display:", row);
-    this.common.params = { title: title, freightInvoice: row,type:type };
+    this.common.params = { title: title, freightInvoice: row, type: type };
     console.log("alert:", this.common.params);
     const activeModal = this.modalService.open(FreightInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
