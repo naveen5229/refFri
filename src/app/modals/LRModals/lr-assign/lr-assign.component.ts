@@ -16,6 +16,7 @@ export class LrAssignComponent implements OnInit {
   dataList = [];
   selectedType = [];
   invoiceId = null;
+  invoiceType = null;
   data = [];
   table = {
     data: {
@@ -44,6 +45,7 @@ export class LrAssignComponent implements OnInit {
     this.branchId = this.common.params.row._branch_id ? this.common.params.row._branch_id : null;
     this.partyId = this.common.params.row._party_id ? this.common.params.row._party_id : null;
     this.invoiceId = this.common.params.row._id ? this.common.params.row._id : null;
+    this.invoiceType = this.common.params.row._invtype?this.common.params.row._invtype:null;
     this.getlrUnmapped();
     this.viewlrData();
   }
