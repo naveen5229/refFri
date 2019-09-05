@@ -10,7 +10,7 @@ import { AccountService } from '../../services/account.service';
 import { DateService } from '../../services/date.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
-
+import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-filling.component'
 
 @Component({
   selector: 'voucher-summary',
@@ -797,15 +797,38 @@ export class VoucherSummaryComponent implements OnInit {
   }
 
   addFuelFilling() {
-    let vehId = this.VehicleId;
-    this.common.params = { vehId };
-    const activeModal = this.modalService.open(AddFuelFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    let rowfilling = {
+      fdate: null,
+      litres: null,
+      is_full: null,
+      regno: null,
+      rate: null,
+      amount: null,
+      pp: null,
+      fuel_station_id: null,
+      vehicle_id: null,
+      id: null,
+      ref_type: null,
+      ref_id: null,
+    };
+    this.common.params = { rowfilling, title: 'Add Fuel Filling' };
+    const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
       if (data.response) {
-        //this.addLedger(data.ledger);
+       // window.location.reload();
       }
+    this.common.handleModalSize('class', 'modal-lg', '1150','px',this.sizeIndex);
+
     });
+    // let vehId = this.VehicleId;
+    // this.common.params = { vehId };
+    // const activeModal = this.modalService.open(AddFuelFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+    //   // console.log('Data: ', data);
+    //   if (data.response) {
+    //     //this.addLedger(data.ledger);
+    //   }
+    // });
   }
 
   setDriverName(driverList) {
