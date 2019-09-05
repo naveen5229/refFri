@@ -220,7 +220,7 @@ export class AutoSuggestionComponent implements OnInit {
   }
   hideSuggestions() {
     setTimeout(() =>
-      this.showSuggestions = false, 150);
+      this.showSuggestions = false, 300);
   }
 
 }
