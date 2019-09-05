@@ -43,6 +43,7 @@ import { GstreportComponent } from './gstreport/gstreport.component';
 import { TallyexportComponent } from './tallyexport/tallyexport.component';
 import { TripExpenseTallyComponent } from './trip-expense-tally/trip-expense-tally.component';
 import { StaticsComponent } from './statics/statics.component';
+import { LedgerapproveComponent } from './ledgerapprove/ledgerapprove.component';
 const PAGES_COMPONENTS = [
   AccountsComponent,
 ];
@@ -94,7 +95,8 @@ const PAGES_COMPONENTS = [
     GstreportComponent,
     TallyexportComponent,
     TripExpenseTallyComponent,
-    StaticsComponent
+    StaticsComponent,
+    LedgerapproveComponent
   ],
   entryComponents:[
     StockitemsComponent,

@@ -1,56 +1,54 @@
 <div [ngStyle]="{background :isLite?'#22b108':'#46a79a'}" class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
-  <h5 class="lite" *ngIf="isLite">(LITE MODE >10 Days)</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+    <h5 class="lite" *ngIf="isLite">(LITE MODE >10 Days)</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
 
 </div>
 <div class="modal-body">
-  <div class="row">
-    <div class="col-6">
-      <table class="table table-bordered table-hover">
-        <tbody>
-          <tr>
-            <td colspan="3">
-              <auto-suggestion (onSelected)="vehicleSelected = $event.id" url="Vehicles/getVehicleListForFoid"
-                display="regno" placeholder="Enter Vehicle Number" [preSelected]="{regno:vehicleRegNo}"
-                style="width:60%;"></auto-suggestion>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="row mr-0">
-                <div class="col-sm-12 pr-0">
-                  <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+    <div class="row">
+        <div class="col-6">
+            <table class="table table-bordered table-hover">
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            <auto-suggestion (onSelected)="vehicleSelected = $event.id" url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number" [preSelected]="{regno:vehicleRegNo}" style="width:60%;"></auto-suggestion>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="row mr-0">
+                                <div class="col-sm-12 pr-0">
+                                    <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
 
-                  </uj-date-time-picker>
-                  <!-- <input type="text" class="form-control" [ngModel]="startDate | customDate : 'dd-MM-yyyy'"
+                                    </uj-date-time-picker>
+                                    <!-- <input type="text" class="form-control" [ngModel]="startDate | customDate : 'dd-MM-yyyy'"
                     (ngModelChange)="startDate = dateService.handleCustomDate($event)" maxlength="10" name="start"
                     placeholder="Start Date" (dblclick)="getDate('start')"> -->
-                </div>
-                <!-- <div class="col-sm-6 pl-1">
+                                </div>
+                                <!-- <div class="col-sm-6 pl-1">
                   <input type="time" class="form-control" name="startTimePeriod" placeholder="HH:mm"
                     [(ngModel)]="startTimePeriod">
                 </div> -->
-              </div>
-            </td>
-            <td>
-              <div class="row mr-0">
-                <div class="col-sm-12 pr-0">
-                  <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate">
-                  </uj-date-time-picker>
-                  <!-- <input type="text" class="form-control" [ngModel]="startDate | customDate : 'dd-MM-yyyy'"
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row mr-0">
+                                <div class="col-sm-12 pr-0">
+                                    <uj-date-time-picker (onChanged)="endDate = $event" [isStart]="false" [dateTimeValue]="endDate">
+                                    </uj-date-time-picker>
+                                    <!-- <input type="text" class="form-control" [ngModel]="startDate | customDate : 'dd-MM-yyyy'"
                         (ngModelChange)="startDate = dateService.handleCustomDate($event)" maxlength="10" name="start"
                         placeholder="Start Date" (dblclick)="getDate('start')"> -->
-                </div>
-                <!-- <div class="col-sm-6 pl-1">
+                                </div>
+                                <!-- <div class="col-sm-6 pl-1">
                       <input type="time" class="form-control" name="startTimePeriod" placeholder="HH:mm"
                         [(ngModel)]="startTimePeriod">
                     </div> -->
-              </div>
-            </td>
-            <!-- <td>
+                            </div>
+                        </td>
+                        <!-- <td>
               <input [(ngModel)]="startDate" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate "
                 placeholder="Start Time" class="form-control" autocomplete="off" name="s-date">
               <owl-date-time #sDate></owl-date-time>
@@ -60,93 +58,88 @@
                 class="form-control" autocomplete="off" name="e-date">
               <owl-date-time #eDate></owl-date-time>
             </td> -->
-            <td class="go_btn">
-              <button (click)="getHaltTrails()" class="btn btn-primary form-control">Go</button>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="3">
-              <table class="tbl table table-bordered table-hover">
-                <thead class="thead">
-                  <!-- <th style="width:40px;">Reason</th> -->
-                  <!-- <th>Place</th> -->
-                  <th style="width:40px;">Place</th>
-                  <th>Location</th>
-                  <th>Start</th>
-                  <th>End</th>
-                  <th>Duration</th>
-                  <th>ODO(Km,cum Km)</th>
-                </thead>
-                <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
-                  <tr cdkDrag [id]="'vehicleEvent-row-'+i" (mouseover)="mapService.toggleBounceMF(i)"
-                    (mouseout)="mapService.toggleBounceMF(i,2)"
-                    [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.rc :'#fff'}">
-                    <!-- <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.halt_reason}}</td> -->
-                    <td (click)="openSmartTool(i,vehicleEvent);" >
-                      <label *ngIf="vehicleEvent.event_type=='state'" [ngClass]="{'star' : vehicleEvent.event_type=='halt'}">*</label>
-                      {{getPlace[i]}}</td>
-                    <td (click)="openSmartTool(i,vehicleEvent);" >{{vehicleEvent.loc_name}}</td>
-                    <td (click)="openSmartTool(i,vehicleEvent);">
-                      {{commonService.changeDateformat2(vehicleEvent.start_time)}}
-                    </td>
-                    <td (click)="openSmartTool(i,vehicleEvent);">
-                      {{commonService.changeDateformat2(vehicleEvent.end_time)}}</td>
-                    <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.duration}}</td>
-                    <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.odo +'('+vehicleEvent.grand+')'}}</td>
-                  </tr>
-                  <tr *ngIf="vehicleEvent.isOpen">
-                    <td colspan="9">
-                      <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
+                        <td class="go_btn">
+                            <button (click)="getHaltTrails()" class="btn btn-primary form-control">Go</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <table class="tbl table table-bordered table-hover">
+                                <thead class="thead">
+                                    <!-- <th style="width:40px;">Reason</th> -->
+                                    <!-- <th>Place</th> -->
+                                    <th style="width:40px;">Place</th>
+                                    <th>Location</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                    <th>Duration</th>
+                                    <th>ODO(Km,cum Km)</th>
+                                </thead>
+                                <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
+                                    <tr cdkDrag [id]="'vehicleEvent-row-'+i" (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)" [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.rc :'#fff'}">
+                                        <!-- <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.halt_reason}}</td> -->
+                                        <td (click)="openSmartTool(i,vehicleEvent);">
+                                            <label *ngIf="vehicleEvent.event_type=='state'" [ngClass]="{'star' : vehicleEvent.event_type=='halt'}">*</label> {{getPlace[i]}}
+                                        </td>
+                                        <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc_name}}</td>
+                                        <td (click)="openSmartTool(i,vehicleEvent);">
+                                            {{commonService.changeDateformat2(vehicleEvent.start_time)}}
+                                        </td>
+                                        <td (click)="openSmartTool(i,vehicleEvent);">
+                                            {{commonService.changeDateformat2(vehicleEvent.end_time)}}</td>
+                                        <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.duration}}</td>
+                                        <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.odo +'('+vehicleEvent.grand+')'}}</td>
+                                    </tr>
+                                    <tr *ngIf="vehicleEvent.isOpen">
+                                        <td colspan="9">
+                                            <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
                           <span class="zoom-btn" (click)="setZoom(10,vehicleEvent)">1</span>
-                          <span class="zoom-btn" (click)="setZoom(12,vehicleEvent)">2</span>
-                          <span class="zoom-btn" (click)="setZoom(14,vehicleEvent)">3</span>
-                          <span class="zoom-btn" (click)="setZoom(16,vehicleEvent)">4</span>
-                          <span class="zoom-btn" (click)="setZoom(18,vehicleEvent)">5</span>
+                                                <span class="zoom-btn" (click)="setZoom(12,vehicleEvent)">2</span>
+                                                <span class="zoom-btn" (click)="setZoom(14,vehicleEvent)">3</span>
+                                                <span class="zoom-btn" (click)="setZoom(16,vehicleEvent)">4</span>
+                                                <span class="zoom-btn" (click)="setZoom(18,vehicleEvent)">5</span>
 
-                        </span></div>
-                    </td>
-                  </tr>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+
+                    </tr>
                 </tbody>
-              </table>
-            </td>
-          </tr>
-          <tr>
-
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-6 pl-0">
-      <div id="map" style="width: 100%; height:68vh">
-      </div>
-      <div class="slide-bar">
-        <div class="row player_inner">
-          <div class="col-1 p-0">
-            <button (click)="isPlay=!isPlay;runLineSymbol()">
+            </table>
+        </div>
+        <div class="col-6 pl-0">
+            <div id="map" style="width: 100%; height:68vh">
+            </div>
+            <div class="slide-bar">
+                <div class="row player_inner">
+                    <div class="col-1 p-0">
+                        <button (click)="isPlay=!isPlay;runLineSymbol()">
               <i *ngIf="isPlay" class="fa fa-pause"></i>
               <i *ngIf="!isPlay" class="fa fa-play"></i>
             </button>
-            <span class="road"><i class="fa fa-road"></i></span>
-            <span class="clock"><i class="fa fa-clock"></i></span>
-          </div>
-          <div class="col-11 pr-0 tooltip">
-            <input (input)="setSliderPoint()" type="range" min="1" max="100" name="slider-name"
-              [(ngModel)]="timelineValue" class="slider" id="myRange">
-            <div class="tooltiptext"
-              [ngStyle]="{left: 'calc( ' + slideToolTipLeft + 'px - ' + (45 + 0.10 * timelineValue) + 'px)'}">
-              <input type="range" min="7" max="13" [(ngModel)]="zoomLevel" (input)="zoomOnArrow()" name="zoomSlider">
+                        <span class="road"><i class="fa fa-road"></i></span>
+                        <span class="clock"><i class="fa fa-clock"></i></span>
+                    </div>
+                    <div class="col-11 pr-0 tooltip">
+                        <input (input)="setSliderPoint()" type="range" min="1" max="100" name="slider-name" [(ngModel)]="timelineValue" class="slider" id="myRange">
+                        <div class="tooltiptext" [ngStyle]="{left: 'calc( ' + slideToolTipLeft + 'px - ' + (45 + 0.10 * timelineValue) + 'px)'}">
+                            <input type="range" min="7" max="13" [(ngModel)]="zoomLevel" (input)="zoomOnArrow()" name="zoomSlider">
+                        </div>
+                        <div class="time-line-event">
+                            <div class="time-line-scale"></div>
+                            <div *ngFor="let event of vehicleEvents; let i = index;" class="time-line-circle" [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'%'} " (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="time-line-event">
-              <div class="time-line-scale"></div>
-              <div *ngFor="let event of vehicleEvents; let i = index;" class="time-line-circle"
-                [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'%'} "
-                (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo()">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
+        </div>
     </div>
-  </div>
 </div>

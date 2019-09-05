@@ -12,8 +12,7 @@
                     <label>Vehicle Type:</label>
                 </div>
                 <div class="col-3">
-                    <select class="form-control" name="dropDown" formControlName="dropDown" id="dropDown"
-                        [(ngModel)]="vehicle.type" (change)="handleVehicleTypeChange()">
+                    <select class="form-control" name="dropDown" formControlName="dropDown" id="dropDown" [(ngModel)]="vehicle.type" (change)="handleVehicleTypeChange()">
                         <option *ngFor="let status of dropDown;let i = index" [value]="status.id">
                             {{status.name}}
                         </option>
@@ -23,9 +22,7 @@
                     <label>Ref. Type:</label>
                 </div>
                 <div class="col-2">
-                    <select class="form-control" name="dropDownsubtype" id="dropDownsubtype"
-                        formControlName="dropDownsubtype" [(ngModel)]="vehicle.subType"
-                        (change)="changeVehicleType($event);">
+                    <select class="form-control" name="dropDownsubtype" id="dropDownsubtype" formControlName="dropDownsubtype" [(ngModel)]="vehicle.subType" (change)="changeVehicleType($event);">
                         <option value="-1">select type</option>
                         <option *ngFor="let status of dropDownSubType[vehicle.type];let i = index" [value]="status.id">
                             {{status.name}}
@@ -34,8 +31,7 @@
                 </div>
                 <div class="col-3">
                     <!-- <input type="text" placeholder="Search" class="form-control" formControlName="source_dest" name="source" id="brand" [(ngModel)]="source_dest"> -->
-                    <select class="form-control" name="dropDown" id="dropDown" formControlName="source_dest"
-                        [(ngModel)]="sourceId" (click)="getRefDetails($event)">
+                    <select class="form-control" name="dropDown" id="dropDown" formControlName="source_dest" [(ngModel)]="sourceId" (click)="getRefDetails($event)">
                         <option *ngFor="let status of brands;let i = index" [value]="status.id">
                             {{status.source_dest}}
                         </option>
@@ -53,18 +49,14 @@
                     <label class="mt-2">Vehicle:</label>
                 </div>
                 <div *ngIf="vehicle.type==1" class="col-10">
-                    <auto-suggestion (onSelected)="getVehicleList($event)" id="autosuggestion"
-                        controlName="autosuggestion" [parentForm]="Form"
-                        [ngClass]="{ 'is-invalid': isFormSubmit && f.autosuggestion.errors }" name="autosuggestion"
-                        url="Suggestion/getFoVehicleList" display="regno" placeholder="Vehicle Number"
-                        [preSelected]="{regno:regno}"></auto-suggestion>
+                    <auto-suggestion (onSelected)="getVehicleList($event)" id="autosuggestion" controlName="autosuggestion" [parentForm]="Form" [ngClass]="{ 'is-invalid': isFormSubmit && f.autosuggestion.errors }" name="autosuggestion" url="Suggestion/getFoVehicleList" display="regno"
+                        placeholder="Vehicle Number" [preSelected]="{regno:regno}"></auto-suggestion>
                     <div *ngIf="isFormSubmit && f.autosuggestion.errors" class="error">
                         <div *ngIf="f.autosuggestion.errors.required">value is Require</div>
                     </div>
                 </div>
                 <div *ngIf="vehicle.type==3||vehicle.type==2" class="col-10">
-                    <input type="text" class="form-control" formControlName="autosuggestion" [(ngModel)]="regno"
-                        [ngClass]="{ 'is-invalid': isFormSubmit && f.autosuggestion.errors }" autocomplete="off">
+                    <input type="text" class="form-control" formControlName="autosuggestion" [(ngModel)]="regno" [ngClass]="{ 'is-invalid': isFormSubmit && f.autosuggestion.errors }" autocomplete="off">
                     <div *ngIf="isFormSubmit && f.autosuggestion.errors" class="error">
                         <div *ngIf="f.autosuggestion.errors.required">value is Require</div>
                     </div>
@@ -80,8 +72,7 @@
                 <div class="col-10">
                     <!-- <auto-suggestion (onSelected)="getFuelStation($event)" id="autosuggestion1" controlName="autosuggestion1" [parentForm]="Form" [ngClass]="{ 'is-invalid': isFormSubmit && f.autosuggestion1.errors }" url="Suggestion/getFuelStationName" display="name" placeholder="fuel Station"
                         [preSelected]="{name:name}"></auto-suggestion> -->
-                    <select class="form-control" name="dropdown" id="dropdown" formControlName="autosuggestion1"
-                        [(ngModel)]="fuelId" (change)="getFuelStation($event)">
+                    <select class="form-control" name="dropdown" id="dropdown" formControlName="autosuggestion1" [(ngModel)]="fuelId" (change)="getFuelStation($event)">
                         <option *ngFor="let status of fuelStations" [value]="status.id">
                             {{status.name}}
                         </option>
@@ -101,9 +92,7 @@
                     </form>
                 </div>
                 <div class="col-10">
-                    <input type="text" id="amount" formControlName="amount"
-                        [ngClass]="{ 'is-invalid': isFormSubmit && f.amount.errors }" name="amount" class="form-control"
-                        autocomplete="off" placeholder="enter value" [(ngModel)]="amount">
+                    <input type="text" id="amount" formControlName="amount" [ngClass]="{ 'is-invalid': isFormSubmit && f.amount.errors }" name="amount" class="form-control" autocomplete="off" placeholder="enter value" [(ngModel)]="amount">
                     <div *ngIf="isFormSubmit && f.amount.errors" class="invalid-feedback">
                         <div *ngIf="f.amount.errors.required">value is Require</div>
                     </div>
@@ -127,8 +116,7 @@
             </div>
             <div class="col-10">
                 <!-- <input type="text" id="expiryTime" class="form-control" name="expiryTime" placeholder="expiry Time" [(ngModel)]="expiryTime" autocomplete="off" (click)="openReminderModal()"> -->
-                <uj-date-time-picker (onChanged)="expiryTime=$event" class="" [dateTimeValue]="expiryTime"
-                    [isTime]=false>
+                <uj-date-time-picker (onChanged)="expiryTime=$event" class="" [dateTimeValue]="expiryTime" [isTime]=false [isStart]="false">
                 </uj-date-time-picker>
             </div>
         </div>
@@ -142,8 +130,7 @@
             </div>
         </div>
         <div class="mt-2 offset-2">
-            <button type="submit" class="btn btn-primary" form="foUser-form"
-                (click)="isFormSubmit=true">{{common.params.flag}}</button>
+            <button type="submit" class="btn btn-primary" form="foUser-form" (click)="isFormSubmit=true">{{common.params.flag}}</button>
         </div>
     </div>
     <div class="modal-footer mt-2">

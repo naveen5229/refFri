@@ -23,8 +23,8 @@ export class TripExpenseTallyComponent implements OnInit {
   };
   headings = [];
   valobj = {};
-  startDate = null;
-  endDate = null;
+  endDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 10));
   request=0
 
   constructor(public api:ApiService,
@@ -59,8 +59,8 @@ export class TripExpenseTallyComponent implements OnInit {
     if (this.startDate > this.endDate) {
       return this.common.showError("Start Date should not be Greater than End Date")
     }
-    let startDate = this.startDate != null ? this.common.dateFormatter1(this.startDate) : null;
-    let endDate = this.endDate != null ? this.common.dateFormatter1(this.endDate) : null;
+    let startDate = this.startDate != null ? this.common.dateFormatter(this.startDate) : null;
+    let endDate = this.endDate != null ? this.common.dateFormatter(this.endDate) : null;
     if (startDate == null)
     {
        return this.common.showError("Start Date is Missing");

@@ -1,0 +1,56 @@
+<nb-card style="margin: 0px; border:0px;">
+  <!-- <nb-card-header>
+    <h4>Account</h4>
+  </nb-card-header> -->
+  <nb-card-body>
+      <div class="modal-header" *ngIf="pageName">
+          <h5>Ledgers</h5>
+            <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+    <!-- <button *ngIf="this.deletedId== 0" class="btn mb-4 add-button" (click)="openModal()"><i
+        class="fa fa-plus"></i></button> -->
+    <div class="main">
+      <table class="table table-bordered">
+        <thead style="background-color: #263238; color:#fff;">
+          <tr>
+            <th>#</th>
+            <th>Under Group</th>
+            <th>Name</th>
+            <th>Alias Name</th>
+            <th>Cost Center Allow</th>
+            <th>Date</th>
+            <th>Approve</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of Ledgers; let i = index;" (click)="selectedRow = i"
+            [ngClass]="{'highlight' : selectedRow == i}">
+            <td>{{i + 1}}</td>
+            <td>{{ data.groupname}}</td>
+            <td>{{data.name}}</td>
+            <td>{{data.alias_name}}</td>
+            <td *ngIf="deletedId !=2 ">{{data.is_constcenterallow}}</td>
+            <td *ngIf="deletedId ==2 "> <input type="checkbox" [value]='data.is_constcenterallow'
+                [(ngModel)]="data.is_constcenterallow" (change)="updateLedgerCostCenter($event,data.id)" /></td>
+            <td>{{data.entry_dt | date : 'dd-MMM-yy'}}</td>
+            <td><button class="btn btn-primary" outline (click)="approveDeleteFunction(0, 'true',data.id)" id="approve"
+              style="cursor: pointer;">Approve</button></td>
+            <!-- <td><span class="fa fa-pencil-square-o" (click)="openModal(data)"></span></td> -->
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+    <div class="modal-footer" *ngIf="pageName">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel"
+                  style="cursor: pointer;">Cancel</button>
+              </div>
+            </div>
+          </div>
+  </nb-card-body>
+</nb-card>
