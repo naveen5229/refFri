@@ -113,16 +113,25 @@
                   inputId="vehicleno" [preSelected]="{regno : generalDetailColumn1[i].r_value }">
                 </auto-suggestion>
 
-                <!-- Company suggestion -->
-                <auto-suggestion
-                  *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name' || generalDetailColumn1[i].r_colname =='consignor_name'"
+                <!-- Consignee suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name'"
                   (onChange)="generalDetailColumn1[i].r_valueid = ''"
                   (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn1[i].r_colname,$event)"
                   url="Suggestion/GetCompanies" display="name" placeholder=" Search Name"
                   [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
-                <i *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name' || generalDetailColumn1[i].r_colname =='consignor_name'"
-                  class="fa fa-plus add" (click)="addCompany()"></i>
+                <i *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name'" class="fa fa-plus add"
+                  (click)="addCompany()"></i>
+
+                <!-- consignor suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'consignor_name'"
+                  (onChange)="generalDetailColumn1[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn1[i].r_colname,$event)"
+                  url="Suggestion/GetCompanies2?type=FRCUST" display="name" placeholder=" Search Name"
+                  [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
+                </auto-suggestion>
+                <i *ngIf="generalDetailColumn1[i].r_colname == 'consignor_name' && foCmpnyId>0" class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
 
                 <!-- transporter suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname =='transporter_name'"
@@ -214,7 +223,7 @@
                 </select>
 
                 <!-- Invoice To DropDown -->
-                <select [(ngModel)]="generalDetailColumn1[i].r_valueid" class="form-conrol"
+                <select [(ngModel)]="generalDetailColumn1[i].r_valueid2" class="form-conrol"
                   *ngIf="generalDetailColumn1[i].r_colname=='invoiceto_name'"
                   (change)="generalDetailColumn1[i].r_value=''">
                   <option value="1">Consignee</option>
@@ -228,7 +237,7 @@
                   (onSelected)=" generalDetailColumn1[i].r_valueid==$event.id;generalDetailColumn1[i].r_value==$event.name"
                   url="Suggestion/GetCompanies2?type=FRCUST" display="name" placeholder="Invoice Payer Name"
                   style="width:100%;" class="auto-suggest" [preSelected]="{name:generalDetailColumn1[i].r_value}"
-                  *ngIf="generalDetailColumn1[i].r_colname=='invoiceto_name' && generalDetailColumn1[i].r_valueid==9">
+                  *ngIf="generalDetailColumn1[i].r_colname=='invoiceto_name' && generalDetailColumn1[i].r_valueid2==9">
                 </auto-suggestion>
 
                 <input type="text" class="form-control" [(ngModel)]=generalDetailColumn1[i].r_value
@@ -264,15 +273,26 @@
                   [preSelected]="{regno : generalDetailColumn2[i].r_value }">
                 </auto-suggestion>
 
-                <!-- Company suggestion -->
+                <!-- Consignee suggestion -->
                 <auto-suggestion (onChange)="generalDetailColumn2[i].r_valueid = ''"
-                  *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name'||generalDetailColumn2[i].r_colname =='consignor_name'"
+                  *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name'"
                   (onSelected)="generalDetailColumn2[i].r_value = $event.name;generalDetailColumn2[i].r_valueid = $event.id;getCompanyData(generalDetailColumn2[i].r_colname,$event)"
                   url="Suggestion/GetCompanies" display="name" placeholder=" Search Name"
                   [preSelected]="{name : generalDetailColumn2[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
-                <i *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name' ||generalDetailColumn2[i].r_colname =='consignor_name'"
-                  class="fa fa-plus add" (click)="addCompany()"></i>
+                <i *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name'" class="fa fa-plus add"
+                  (click)="addCompany()"></i>
+
+
+                <!-- consignor suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname == 'consignor_name'"
+                  (onChange)="generalDetailColumn1[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn1[i].r_colname,$event)"
+                  url="Suggestion/GetCompanies2?type=FRCUST" display="name" placeholder=" Search Name"
+                  [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
+                </auto-suggestion>
+                <i *ngIf="generalDetailColumn2[i].r_colname == 'consignor_name' && foCmpnyId>0" class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
 
 
                 <!-- transporter suggestion -->
@@ -365,7 +385,7 @@
                 </select>
 
                 <!-- Invoice To DropDown -->
-                <select [(ngModel)]="generalDetailColumn2[i].r_valueid" class="form-conrol"
+                <select [(ngModel)]="generalDetailColumn2[i].r_valueid2" class="form-conrol"
                   *ngIf="generalDetailColumn2[i].r_colname=='invoiceto_name'"
                   (onChange)="generalDetailColumn2[i].r_value='';generalDetailColumn2[i].r_valueid=''">
                   <option value="1">Consignee</option>
@@ -379,7 +399,7 @@
                   (onSelected)=" generalDetailColumn2[i].r_valueid=$event.id;generalDetailColumn2[i].r_value=$event.name"
                   url="Suggestion/GetCompanies2?type=FRCUST" display="name" placeholder="Invoice Payer Name"
                   style="width:100%;" class="auto-suggest" [preSelected]="{name:generalDetailColumn2[i].r_value}"
-                  *ngIf="generalDetailColumn2[i].r_colname=='invoiceto_name' && generalDetailColumn2[i].r_valueid==9">
+                  *ngIf="generalDetailColumn2[i].r_colname=='invoiceto_name' && generalDetailColumn2[i].r_valueid2==9">
                 </auto-suggestion>
 
                 <input type="text" class="form-control" [(ngModel)]=generalDetailColumn2[i].r_value
