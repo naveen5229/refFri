@@ -1,0 +1,9 @@
+th{background-color: black;color:white;}
+tr:hover {
+    background: #26A69A;
+    color:whitesmoke;
+}
+:host ::ng-deep .tableFixHead {
+    height: auto !important;
+    //max-height: 60vh;
+  }
