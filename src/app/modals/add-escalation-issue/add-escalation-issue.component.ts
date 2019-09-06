@@ -3,6 +3,8 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { ConstraintsComponent } from '../constraints/constraints.component';
+import { constants } from 'os';
 @Component({
   selector: 'add-escalation-issue',
   templateUrl: './add-escalation-issue.component.html',
@@ -123,7 +125,11 @@ export class AddEscalationIssueComponent implements OnInit {
       {
         class: "fa fa-trash",
         action: this.removeField.bind(this, details)
-      }
+      },
+        {
+          class: "fas fa-bug",
+          action: this.addIssueConstraints.bind(this, details)
+        }
     )
     return icons;
   }
@@ -202,5 +208,19 @@ export class AddEscalationIssueComponent implements OnInit {
         }
       });
     }
+  }
+
+  addIssueConstraints(constraint)
+  {
+  console.log("constaints",constraint);
+    
+   let constants={
+    foId:this.escalationType.id,
+    issueType:this.escalationType.issueType,
+    id:constraint._row_id
+    }
+    const activeModal= this.modalService.open(ConstraintsComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
+     activeModal.result.then(data =>{
+     });
   }
 }

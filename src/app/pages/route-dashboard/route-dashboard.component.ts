@@ -75,6 +75,7 @@ export class RouteDashboardComponent implements OnInit {
       etoa: { title: 'ETOA ', placeholder: 'ETOA' },
       startDelay: { title: 'Start  delay ', placeholder: 'Start  delay' },
       totalDelay: { title: 'Total  delay ', placeholder: 'Total  delay' },
+      lastHrKms: { title: 'Last Hr KMS', placeholder: 'Last Hr KMS' },
       action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'del' },
 
     };
@@ -109,6 +110,7 @@ export class RouteDashboardComponent implements OnInit {
         etoa: { value: route.etoa_next ? this.common.changeDateformat2(route.etoa_next) : '-', },
         startDelay: { value: route.start_delay ? route.start_delay : '-' },
         totalDelay: { value: route.total_delay ? route.total_delay : '-' },
+        lastHrKms:{value:route.last_hour_kms ? route.last_hour_kms:'-'},
         action: {
           value: "",
           isHTML: false,
