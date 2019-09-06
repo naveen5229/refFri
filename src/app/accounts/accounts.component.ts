@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   selector: 'ngx-pages',
   template: `
     <ngx-sample-layout>
-      <nb-menu [items]="user._menu.account" autoCollapse="true"></nb-menu>
+      <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
       <router-outlet></router-outlet>
     </ngx-sample-layout>
   `,
@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
   }
 })
 export class AccountsComponent {
+  menu = ACCOUNTS_MENU_ITEMS;
 
 
   constructor(public api: ApiService,

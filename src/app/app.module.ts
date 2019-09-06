@@ -242,6 +242,7 @@ import { RoutesTimetableComponent } from './modals/routes-timetable/routes-timet
 import { VehicleTimeTableAssociationComponent } from './modals/vehicle-time-table-association/vehicle-time-table-association.component';
 import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledger-mapping/driver-ledger-mapping.component';
 import { DeactivateGuardService } from './guards/route.guard';
+import { ConstraintsComponent } from './modals/constraints/constraints.component';
 
 
 
@@ -457,6 +458,7 @@ import { DeactivateGuardService } from './guards/route.guard';
     RoutesTimetableComponent,
     VehicleTimeTableAssociationComponent,
     DriverLedgerMappingComponent,
+    ConstraintsComponent,
 
   ],
   entryComponents: [
@@ -656,7 +658,8 @@ import { DeactivateGuardService } from './guards/route.guard';
     RouteTimeTableDetailsComponent,
     DriverLedgerMappingComponent,
     RoutesTimetableComponent,
-    VehicleTimeTableAssociationComponent
+    VehicleTimeTableAssociationComponent,
+    ConstraintsComponent
   ],
   imports: [
     BrowserModule,

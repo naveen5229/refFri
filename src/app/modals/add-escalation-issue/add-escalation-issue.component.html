@@ -1,81 +1,87 @@
 <div style="margin-top: 20px; margin-left: 20px; margin-right: 20px; margin-bottom: 20px">
-<div class="model-header">
-  <h4 class="model-title" id="model-basic-title">Escalation Matrix</h4>
-  <button type="button" class="close" style="margin-top : -40px"  aria-label="Close" (click)=dismiss(false)>
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div> 
-<div style="margin-block-start: 20px"> 
-<div class="model-body">
-    <div class="row">
-      <div class="col">
-        <div class="from-group">
-        <label>Id</label>
-        <input type="text" class="form-control" name="issue-id" readonly [(ngModel)]="escalationType.id">
+  <div class="model-header">
+    <h4 class="model-title" id="model-basic-title">Escalation Matrix</h4>
+    <button type="button" class="close" style="margin-top : -40px" aria-label="Close" (click)=dismiss(false)>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div style="margin-block-start: 20px">
+    <div class="model-body">
+      <div class="row">
+        <div class="col">
+          <div class="from-group">
+            <label>Id</label>
+            <input type="text" class="form-control" name="issue-id" readonly [(ngModel)]="escalationType.id">
+          </div>
         </div>
-      </div>
-      <div class="col">
+        <div class="col">
           <div class="from-group">
-          <label>Issue Type</label>
-          <input type="text" class="form-control" name="issue-type" readonly [(ngModel)]="escalationType.issueType">
+            <label>Issue Type</label>
+            <input type="text" class="form-control" name="issue-type" readonly [(ngModel)]="escalationType.issueType">
           </div>
-      </div>
-      <div class="col">
+        </div>
+        <div class="col">
           <div class="from-group">
-          <label>User Id</label>
-          <auto-suggestion (onSelected)="getUser($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}" display="employeename"
-           placeholder="Search Name" [preSelected]="null"></auto-suggestion>
+            <label>User Id</label>
+            <auto-suggestion (onSelected)="getUser($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}"
+              display="employeename" placeholder="Search Name" [preSelected]="null"></auto-suggestion>
           </div>
-      </div>
-      <div class="col">
+        </div>
+        <div class="col">
           <div class="from-group">
-          <label>Senior Id</label>
-          <auto-suggestion (onSelected)="getSenior($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}" display="employeename"
-           placeholder="Search Name" [preSelected]="null"></auto-suggestion>
+            <label>Senior Id</label>
+            <auto-suggestion (onSelected)="getSenior($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}"
+              display="employeename" placeholder="Search Name" [preSelected]="null"></auto-suggestion>
           </div>
-      </div>
-      <div class="col">
+        </div>
+        <div class="col">
           <div class="from-group">
-          <label>User Level</label>
-          <select [(ngModel)] = "userLevel" class="form-control">
+            <label>User Level</label>
+            <select [(ngModel)]="userLevel" class="form-control">
               <option value="one">1</option>
               <option value="two">2</option>
               <option value="three">3</option>
               <option value="four">4</option>
             </select>
           </div>
-    </div>
-   </div>
-</div> 
-</div>  
-
-<div class="modal-footer">
-    <div class="row">
-        <div class="col text-right">
-        <button class="btn btn-primary" type="button" outline (click)="addIssue()" id="add" style="cursor: pointer;">Add</button>
+        </div>
       </div>
     </div>
-</div>
-<table class="table table-bordered">
-  <tr>
-  <th>S.No</th>
-  <th>Id</th>
-  <th>User Name</th>
-  <th>Senior User Name</th>
-  <th>User Level</th>
-  <th>Action</th>
-  </tr>
-  <tr *ngFor="let details of issueDetails; let i=index;" >
-    <td>{{i+1}}</td>
-    <td>{{details.id}}</td>
-    <td>{{details.user_name}}</td>
-    <td>{{details.senior_user_name}}</td>
-    <td>{{details.user_level}}</td>
-    <td><button type="button" class="remove" aria-label="Delete" (click)= "removeField(details)">
-        <span aria-hidden="true">&times;</span>
-      </button></td>
-  </tr>
-  
+  </div>
+
+  <div class="modal-footer">
+    <div class="row">
+      <div class="col text-right">
+        <button class="btn btn-primary" type="button" outline (click)="addIssue()" id="add"
+          style="cursor: pointer;">Add</button>
+        <button type="button" class="addConstraints" aria-label="addConstraints" (click)="addConstraints()">
+          addConstraints
+        </button>
+      </div>
+    </div>
+  </div>
+  <table class="table table-bordered">
+    <tr>
+      <th>S.No</th>
+      <th>Id</th>
+      <th>User Name</th>
+      <th>Senior User Name</th>
+      <th>User Level</th>
+      <th>Action</th>
+    </tr>
+    <tr *ngFor="let details of issueDetails; let i=index;">
+      <td>{{i+1}}</td>
+      <td>{{details.id}}</td>
+      <td>{{details.user_name}}</td>
+      <td>{{details.senior_user_name}}</td>
+      <td>{{details.user_level}}</td>
+      <td><button type="button" class="remove" aria-label="Delete" (click)="removeField(details)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </td>
+    </tr>
+
   </table>
+
 </div>
-  

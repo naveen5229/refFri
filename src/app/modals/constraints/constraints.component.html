@@ -1,0 +1,108 @@
+<!-- Author By: Lalit Singh -->
+<div class="modal-header">
+  <h5>Issue Constraints</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-3">
+      <div class="row">
+        <div class="col-12">
+          <label>Consignee</label>
+          <div *ngFor=" let consignee of constraintsType.consignees; let i = index; ">
+            <auto-suggestion (onSelected)="selectSuggestion($event, i, 'consignees')" url="Suggestion/GetCompanies"
+              display="name" placeholder="Search Name" class="auto-suggest" [name]="'consignee-' + i"
+              [preSelected]="consignee">
+            </auto-suggestion>
+            <i class="fa fa-plus add" (click)="addField('consignees',i)"
+              *ngIf="i == constraintsType.consignees.length-1"></i>
+            <i class="fa fa-trash remove" (click)="deleteField('consignees',i)" *ngIf="i !== 0"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-3">
+      <div class="row">
+        <div class="col-12">
+          <label>Transporter</label>
+          <div *ngFor=" let transport of constraintsType.transporter; let i = index; ">
+            <auto-suggestion (onSelected)="selectSuggestion($event,i,'transporter')" url="Suggestion/GetCompanies"
+              display="name" placeholder=" Search Name" class="auto-suggest" [name]="'transport'- + i"
+              [preSelected]="transport">
+            </auto-suggestion>
+
+            <i class="fa fa-plus add" (click)="addField('transporter',i)"
+              *ngIf="i == constraintsType.transporter.length-1"></i>
+            <i class="fa fa-trash remove" (click)="deleteField('transporter',i)" *ngIf="i !== 0"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-3">
+      <div class="row">
+        <div class="col-12">
+          <label>Vehicle </label>
+          <div *ngFor=" let vehicle of constraintsType.vehicles; let i = index; ">
+            <auto-suggestion (onSelected)="selectSuggestion($event,i,'vehicles')" url="Vehicles/getVehicleListForFoid"
+              display="regno" placeholder=" Search Regno" class="auto-suggest" [name]="'vehicle'- + i"
+              [preSelected]="vehicle" (onChange)="resetData($event,i,'vehicles')">
+            </auto-suggestion>
+            <i class="fa fa-plus add" (click)="addField('vehicles',i)"
+              *ngIf="i == constraintsType.vehicles.length-1"></i>
+            <i class="fa fa-trash remove" (click)="deleteField('vehicles',i)" *ngIf="i !== 0"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-3">
+      <div class="row">
+        <div class="col-12">
+          <label>Destinations</label>
+          <div *ngFor="let destination of constraintsType.destinations; let i = index; ">
+            <span>Site</span>
+            <input value="site" [(ngModel)]="destination.type" type="radio" checked="checked" [name]="'radio-'+i">
+            &nbsp;
+            <span>Map</span>
+            <input value="map" [(ngModel)]="destination.type" type="radio" [name]="'radio-'+i">
+
+            <auto-suggestion *ngIf="destination.type == 'site'"
+              (onSelected)="selectSuggestion($event,i,'destinations','site')" url="Suggestion/getSites?typeId=1"
+              seperator="-" [display]="['name','siteName']" placeholder="Search Site" inputId="'site-'+i"
+              [preSelected]="destination">
+            </auto-suggestion>
+
+            <auto-suggestion *ngIf="destination.type == 'map'" (onChange)="onChangeAuto($event,i)"
+              (onSelected)="selectSuggestion($event,i,'destinations','map')" (noDataFound)="takeAction($event,i)"
+              [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="mapValue"
+              placeholder="Location" [preSelected]="destination">
+            </auto-suggestion>
+
+            <i class="fa fa-plus add" (click)="addField('destinations',i)"
+              *ngIf="i == constraintsType.destinations.length-1"></i>
+            <i class="fa fa-trash remove" (click)="deleteField('destinations',i)" *ngIf="i !== 0"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+
+
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col text-right">
+      <button class="btn btn-primary" type="button" outline (click)="constraintsSave()" id="save"
+        style="cursor: pointer;">Save</button>
+    </div>
+  </div>
+</div>
