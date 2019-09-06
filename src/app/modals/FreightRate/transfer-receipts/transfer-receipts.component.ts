@@ -79,6 +79,7 @@ export class TransferReceiptsComponent implements OnInit {
       this.edit = 1;
       this.transferReceipt.refernceType = this.common.params.refData.refType;
       this.transferReceipt.refId = this.common.params.refData.refId;
+      this.transferReceipt.selectOption= this.common.params.refData.selectOption?this.common.params.refData.selectOption:'transfer'
       this.getReferenceData();
       this.getRefernceType(this.transferReceipt.refernceType);
       this.showdata();

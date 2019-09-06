@@ -89,9 +89,9 @@
 
                 <div class="radio-type col-8" style="padding-left: 37px;">
                     <input type="radio" value="transfer" name="radio" [(ngModel)]="transferReceipt.selectOption"
-                        (change)="report(transferReceipt.selectOption)">Transfer
+                        (change)="report(transferReceipt.selectOption)" [disabled] = "common.params.refData.selectOption && common.params.refData.selectOption=='receipt'?true:false" >Transfer
                     <input type="radio" value="receipt" name="radio" [(ngModel)]="transferReceipt.selectOption"
-                        (change)="report(transferReceipt.selectOption)">Receipt
+                        (change)="report(transferReceipt.selectOption)" [disabled] = "common.params.refData.selectOption && common.params.refData.selectOption=='transfer'?true:false" >Receipt
                 </div>
             </div>
         </div>

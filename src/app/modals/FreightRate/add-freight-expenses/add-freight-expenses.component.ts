@@ -305,7 +305,8 @@ export class AddFreightExpensesComponent implements OnInit {
   openTransferModal(){
     let refdata = {
       refId: this.expense.refId,
-      refType: this.expense.refernceType
+      refType: this.expense.refernceType,
+      selectOption:'transfer'
     }
     this.common.params = { refData: refdata };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
