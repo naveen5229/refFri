@@ -111,7 +111,11 @@ export class FuelFillingsComponent implements OnInit {
     this.common.params = { rowfilling, title: 'Edit Fuel Filling' };
     const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-
+      if (data.response) {
+        this.getFillingData();
+       // window.location.reload();
+        
+      }
     });
   }
 
@@ -134,7 +138,9 @@ export class FuelFillingsComponent implements OnInit {
     const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        window.location.reload();
+        this.getFillingData();
+       // window.location.reload();
+        
       }
     });
   }

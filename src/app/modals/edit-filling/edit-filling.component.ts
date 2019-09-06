@@ -25,7 +25,7 @@ export class EditFillingComponent implements OnInit {
   amount = 0.0;
   pump = '';
   pump_id = 0;
-  vehicleId = 0;
+  vehicleId = null;
   filling_id = 0;
   isPump = true;
   pumpPayType = '-21';
@@ -36,6 +36,7 @@ export class EditFillingComponent implements OnInit {
   refTypeName = null;
   refId = null;
   referenceName = null;
+  date = null;
   referenceType = [{
     name: 'Select Type',
     id: '0'
@@ -79,11 +80,11 @@ export class EditFillingComponent implements OnInit {
     if (this.refId != null) {
       this.edit = 1;
     }
-    this.getReferenceData();
-    this.getRefernceType(this.refernceType);
+    // this.getReferenceData();
+    // this.getRefernceType(this.refernceType);
 
-    this.showDate = rec.fdate;
-    this.filldate = rec.fdate;
+    // this.showDate = rec.fdate;
+    // this.filldate = rec.fdate;
     this.litres = rec.litres;
     this.isfull = rec.is_full;
     this.rate = rec.rate;
@@ -93,6 +94,12 @@ export class EditFillingComponent implements OnInit {
     this.filling_id = rec.id;
     this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
     this.odoVal = rec.odometer ? rec.odometer : 0;
+    if (this.common.params.title == 'Edit Fuel Filling') {
+      this.date = new Date(rec.fdate);
+      this.vehicleId = this.common.params.rowfilling.vehicle_id;
+      this.regno=this.common.params.rowfilling.regno;
+      console.log("vid123", this.vehicleId);
+    }
   }
 
   ngOnInit() {
@@ -164,6 +171,7 @@ export class EditFillingComponent implements OnInit {
         console.log('Error: ', err);
       });
   }
+
   resetRefernceType(isReset = true) {
     document.getElementById('referncetype')['value'] = '';
     if (isReset)
@@ -185,16 +193,16 @@ export class EditFillingComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  getDate() {
-    this.common.params = { ref_page: 'fuelFilling' };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        this.filldate = this.common.dateFormatter1(data.date).split(' ')[0];
-        this.showDate = this.common.changeDateformat1(this.filldate);
-      }
-    });
-  }
+  // getDate() {
+  //   this.common.params = { ref_page: 'fuelFilling' };
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     if (data.date) {
+  //       this.filldate = this.common.dateFormatter1(data.date).split(' ')[0];
+  //       this.showDate = this.common.changeDateformat1(this.filldate);
+  //     }
+  //   });
+  // }
 
   resetvehicle() {
     document.getElementById('vehicleno')['value'] = '';
@@ -224,14 +232,14 @@ export class EditFillingComponent implements OnInit {
   }
 
   submitFillingData() {
-    if (this.filldate == null || this.filldate == '') {
-      this.common.showError('Fill Date To Continue');
+    if (this.date == null) {
+      this.common.showError("Fill Date To Continue");
       return;
     } else {
       if (this.isfull == false) {
         this.isfull = null;
       }
-      console.log('fill date', this.filldate);
+      // console.log('fill date', this.filldate);
       // let fmtdate = this.common.dateFormatter1(this.filldate);
       // console.log("testing", fmtdate.indexOf(fmtdate, 0));
 
@@ -243,7 +251,7 @@ export class EditFillingComponent implements OnInit {
         rate: this.rate,
         amount: this.amount,
         fuelDetailsId: this.filling_id,
-        date: this.filldate,
+        date: this.common.dateFormatter(this.date),
         petrolPumplocation: '',
         petrolPumpName: this.pump,
         isFull: this.isfull,
@@ -275,7 +283,8 @@ export class EditFillingComponent implements OnInit {
             this.common.showToast(res['msg']);
             // this.common.showToast("Details Updated Successfully");
             this.filldate = '';
-            this.activeModal.close();
+            console.log("inside console");
+            this.activeModal.close({ response: res["success"] });
           }
           else {
             this.common.showError(res['msg']);
