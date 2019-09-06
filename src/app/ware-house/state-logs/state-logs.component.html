@@ -5,23 +5,23 @@
             <div class="row">
                 <div classs="col-3">
                     <select placeholder="Name" class='name' [(ngModel)]="wareHouseId">
-            <option *ngFor="let element of dataWareHouse" [value]="element.id">{{element.name}}
-            </option>
-          </select>
+                        <option *ngFor="let element of dataWareHouse" [value]="element.id">{{element.name}}
+                        </option>
+                    </select>
                 </div>
                 <div class="col-3">
                     <select placeholder="Name" class=name [(ngModel)]="stateId">
-          <option *ngFor="let stateList of dataState" [value]="stateList.id">{{stateList.description}}
+                        <option *ngFor="let stateList of dataState" [value]="stateList.id">{{stateList.description}}
 
-          </option>
-        </select>
+                        </option>
+                    </select>
                 </div>
                 <div class="col-2" style="margin-left: -91px; ">
                     <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
                     </uj-date-time-picker>
                 </div>
                 <div class="col-2">
-                    <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false>
+                    <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false [isStart]="false">
                     </uj-date-time-picker>
                 </div>
                 <div class="col-2">

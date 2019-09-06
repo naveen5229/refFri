@@ -3,7 +3,7 @@
     User Role
   </nb-card-header>
 
-  <nb-card-body style="min-height: 360px;">
+  <nb-card-body style="min-height: 580px;">
     <div class="row">
       <div class="col-2">
         <label>Module</label>
@@ -23,7 +23,7 @@
         <input type="text" class="form-control" id="url" name="url" [(ngModel)]="newPage.url">
       </div>
 
-      <div class="col-2">
+      <div class="col-1-5">
         <label>Type</label>
         <select [(ngModel)]="newPage.type" class="form-control">
           <option value="Dashboard">Dashboard</option>
@@ -31,7 +31,7 @@
         </select>
       </div>
 
-      <div class="col-1">
+      <div class="col-1-5">
         <label>Add Type</label>
         <select [(ngModel)]="newPage.addType" class="form-control">
           <option value="1">Admin</option>
@@ -44,29 +44,39 @@
         <button type="submit" class="btn btn-primary m-0" name="add" (click)="createNewPage()">Add New Page</button>
       </div>
     </div>
-
-    <div class="search mt-2">
-      <label> Select Employee Name</label>
-      <auto-suggestion (onSelected)="getUserPages($event)" [data]="getUsersList" display="employeename"
-        placeholder="Employee" [preSelected]="null" inputId="employeename"></auto-suggestion>
+    <div class="row">
+      <div class="search mt-2">
+        <label> Select Employee Name</label>
+        <auto-suggestion (onSelected)="getUserPages($event)" [data]="getUsersList" display="employeename"
+          placeholder="Employee" [preSelected]="null" inputId="employeename"></auto-suggestion>
+      </div>
+      <div class="col text-right mt-4" *ngIf="selectedUser.details">
+        <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
+      </div>
     </div>
 
+
     <div class="container">
-      <div *ngFor="let section of sections; let j = index;">
-        <div class="section-div">
-          <input type="checkbox" [ngClass]="section.isSelected? 'section-box' : ''" [name]="'section-' + j"
-            [(ngModel)]="section.isSelected" (change)="checkOrUnCheckAll(j)"> {{section.title}}
+      <div *ngFor="let module of formattedData; let i = index;">
+        <div class="module-container">
+          <input type="checkbox" [ngClass]="module.isSelected? 'module-box' : 'module-box'" [name]="'section-' + i"
+            [(ngModel)]="module.isSelected" (change)="checkOrUnCheckAll(module, 'module')"> <span
+            class="module-name">{{module.name | uppercase }}</span>
         </div>
-        <div class="row">
-          <div class="col-3" *ngFor="let page of pagesGroups[section.title]; let i = index;">
-            <input type="checkbox" [name]="section + '-page-' + i" [id]="section + '-page-' + i"
-              [(ngModel)]="page.isSelected"> {{page.title}}
+        <div class="group-container" *ngFor="let group of module.groups; let j = index">
+          <div class="group-head"><input type="checkbox" [ngClass]="group.isSelected? 'group-box' : 'group-box'"
+              [name]="'group-' + j" [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')">
+            {{group.name}}
+          </div>
+          <div class="col-2 page-container" *ngFor="let page of group.pages; let k = index">
+            <input type="checkbox" class=" page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected"
+              (click)="checkOrUnCheckAll(page,'page')">
+            {{page.title}}
           </div>
         </div>
       </div>
-      <p *ngIf="selectedUser.details">
-        <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
-      </p>
+
+
     </div>
 
   </nb-card-body>

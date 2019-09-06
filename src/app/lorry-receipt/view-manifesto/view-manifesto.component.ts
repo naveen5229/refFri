@@ -158,10 +158,6 @@ export class ViewManifestoComponent implements OnInit {
   genrateLrManifest() {
     const activeModal = this.modalService.open(GenerateLrMainfestoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
-      this.getLrManifest();
     })
   }
 }
-
-
-
