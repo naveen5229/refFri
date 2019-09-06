@@ -28,6 +28,7 @@ export class OrderComponent implements OnInit {
   orderTypeData = [];
   supplier = [];
   sizeIndex=0;
+  allowBackspace = true;
   ledgers = { all: [], suggestions: [] };
   showSuggestions = false;
   activeLedgerIndex = -1;
@@ -659,6 +660,7 @@ export class OrderComponent implements OnInit {
       // }
     }
     if (key == 'enter') {
+      this.allowBackspace = true;
       if (this.activeId.includes('branch')) {
         this.setFoucus('ordertype');
       } else if (this.activeId.includes('ordertype')) {
@@ -760,8 +762,55 @@ export class OrderComponent implements OnInit {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxDetail' + '-' + index);
       }
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'date') this.setFoucus('custcode');
+      if (this.activeId == 'purchaseledger') this.setFoucus('date');
+      if (this.activeId == 'ledger') this.setFoucus('purchaseledger');
+      if (this.activeId == 'vendorbidref') this.setFoucus('ledger');
+      if (this.activeId == 'qutationrefrence') this.setFoucus('vendorbidref');
+      if (this.activeId == 'shipmentlocation') this.setFoucus('qutationrefrence');
+      if (this.activeId == 'paymentterms') this.setFoucus('shipmentlocation');
+      if (this.activeId == 'biltynumber') this.setFoucus('paymentterms');
+      if (this.activeId == 'biltydate') this.setFoucus('biltynumber');
+      if (this.activeId == 'deliveryterms') this.setFoucus('biltydate');
+      if (this.activeId == 'billingaddress') this.setFoucus('deliveryterms');
+      if (this.activeId == 'grnremarks') this.setFoucus('billingaddress');
+      if (this.activeId.includes('orderremarks') && ((this.order.ordertype.name.toLowerCase().includes('sales')) || (this.order.ordertype.name.toLowerCase().includes('credit')))) {
+        this.setFoucus('grnremarks');
+      }
+      if (this.activeId.includes('orderremarks') && ((this.order.ordertype.name.toLowerCase().includes('purchase')) || (this.order.ordertype.name.toLowerCase().includes('debit')))) {
+        this.setFoucus('billingaddress');
+      }
+      if (this.activeId.includes('remarks')){
+        let index = this.activeId.split('-')[1];
+        this.setFoucus('rate-'+index);
+      } 
+      if (this.activeId.includes('rate')){
+        let index = this.activeId.split('-')[1];
+        this.setFoucus('qty-'+index);
+      } 
+      if (this.activeId.includes('qty')){
+        let index = this.activeId.split('-')[1];
+        this.setFoucus('stockitem-'+index);
+      } 
+      if (this.activeId.includes('stockitem')){
+        let index = this.activeId.split('-')[1];
+        this.setFoucus('warehouse-'+index);
+      } 
+      if (this.activeId.includes('warehouse')){
+        let index = this.activeId.split('-')[1];
+        if(parseInt(index)==0){
+          this.setFoucus('orderremarks');
+        }else{
+          this.setFoucus('remarks-'+(parseInt(index)-1));
+        }
+      } 
+
     } else if (key.includes('arrow')) {
-      //  this.allowBackspace = false;
+        this.allowBackspace = false;
       if (key.includes('arrowup') || key.includes('arrowdown')) {
         this.handleArrowUpDown(key);
         event.preventDefault();
@@ -773,6 +822,9 @@ export class OrderComponent implements OnInit {
         event.preventDefault();
         return;
       }
+    }
+    else if (key != 'backspace') {
+      this.allowBackspace = false;
     }
   }
 
