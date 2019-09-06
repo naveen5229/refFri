@@ -148,7 +148,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/trading'
             },
             {
-                title: 'Profit & Loass A/C',
+                title: 'Profit & Loss A/C',
                 link: '/accounts/profitloss'
             },
             {
@@ -198,6 +198,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Voucher Audit',
         link: '/accounts/voucheredited'
+    },
+    {
+        title: 'Ledger Approve',
+        link: '/accounts/ledgerapprove'
     }
 ],
 },

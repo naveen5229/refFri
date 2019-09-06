@@ -74,13 +74,14 @@ export class TransferReceiptsComponent implements OnInit {
     public api: ApiService) {
     this.getPaymentMode();
     this.getTypeList();
-   
+   console.log("this.common.params.refData",this.common.params.refData);
     if (this.common.params && this.common.params.refData) {
       this.edit = 1;
       this.transferReceipt.refernceType = this.common.params.refData.refType;
       this.transferReceipt.refId = this.common.params.refData.refId;
       this.getReferenceData();
       this.getRefernceType(this.transferReceipt.refernceType);
+      this.showdata();
     }
 
   }

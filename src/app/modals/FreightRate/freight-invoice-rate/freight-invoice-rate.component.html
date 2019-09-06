@@ -19,14 +19,17 @@
         </button>
       </div>
       <div class="modal-body" id="print-section">
-        <table class="table table-bordered table-hover" style="width: 100%">
+        <table class="table table-bordered table-hover" style="width: 100%" *ngIf="headings && headings.length>0" >
           <thead class="thead">
+            
             <th *ngFor="let heading of headings"><span *ngIf="heading.split('_')[0] != 'head'">{{heading}}</span>
               <span *ngIf="heading.split('_')[0] == 'head'">{{heading.split('_')[1]}}</span></th>
           </thead>
           <tbody>
             <tr *ngFor="let invoiceRate of invoiceRates; let i= index">
               <td *ngFor="let heading of headings;let j = index"><span>
+                <!-- *ngIf="invoiceRate[heading]=='#'" -->
+               
                   <label *ngIf="heading.split('_')[0] != 'head'">{{invoiceRate[heading]}}</label>
                   <label *ngIf="heading.split('_')[0] == 'head' && invoiceRate[heading]"
                     style="width:35%; font-weight: 400; font-size: 10px;">{{invoiceRate[heading].autoAmount}}</label>
@@ -43,6 +46,11 @@
           <!-- <label style="background: #e4d3d3; padding: 9px;">Total Manual Amount : {{totalManualAmount}}</label> -->
           <button (click)="saveRate(); " class="btn btn-primary">Change & Save</button>
         </div>
+        <!-- <div *ngIf="invoiceType>1" style="margin-top: 20px">
+            <smart-table *ngIf="invoices && invoices.length" [data]="table2.data" [settings]="table2.settings"
+              id="tblsuggestions2">
+            </smart-table>
+          </div> -->
       </div>
     </div>
   </nb-card-body>

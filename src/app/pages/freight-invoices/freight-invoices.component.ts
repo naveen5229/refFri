@@ -116,9 +116,9 @@ export class FreightInvoicesComponent implements OnInit {
 
       }
       //-----invoice------
-      this.valobj['invoice1'] = { class: '', icons: this.invoiceIcon(doc,1) };
-      this.valobj['invoice2'] = { class: '', icons: this.invoiceIcon(doc,2) };
-      this.valobj['invoice3'] = { class: '', icons: this.invoiceIcon(doc,3) };
+      this.valobj['Follow Up'] = { class: '', icons: this.invoiceIcon(doc) };
+      // this.valobj['invoice2'] = { class: '', icons: this.invoiceIcon(doc,2) };
+      // this.valobj['invoice3'] = { class: '', icons: this.invoiceIcon(doc,3) };
 
       //----Action-------
       this.valobj['Action'] = { class: '', icons: this.actionIcon(doc) };
@@ -149,47 +149,45 @@ export class FreightInvoicesComponent implements OnInit {
         class: "fas fa-trash-alt",
         action: this.deleteRow.bind(this, row),
       }
-      
-    )
-    // if lr count is greater than zero
-   
-    return actionIcons;
-  }
-
-  invoiceIcon(row,InvNumber){
-    let invAmt = 0;
-    let showFlag = false;
-    if(InvNumber == 1 && row._amount >0 ){
-      invAmt = row._amount1;
-      showFlag = true;
-    }else if(InvNumber == 2 && row._amount1 >0){
-      invAmt = row._amount2;
-      showFlag = true;
-    }
-    else if(InvNumber == 3 && row._amount2 >0  ){
-      invAmt = row._amount3;
-      showFlag = true;
-    }
-    let invoiceIcons = [];
-    if(row._lrcount>0 && showFlag){
-      invoiceIcons.push(
-        {
-          txt:invAmt,
-        },
-        {
-          class: "fas fa-print",
-          action: this.printInvoice.bind(this, row,InvNumber),
-        },
+    );
+    if (row._lrcount > 0) {
+      actionIcons.push({
+        class: "fas fa-print",
+        action: this.printInvoice.bind(this, row, row._invtype),
+      },
         {
           class: "far fa-file",
-          action: this.supportDoc.bind(this, row,InvNumber),
+          action: this.supportDoc.bind(this, row, row._invtype),
+
         },
         {
           class: "fa fa-inr",
-          action: this.openFreightRateModal.bind(this, row,InvNumber),
+          action: this.openFreightRateModal.bind(this, row, 1),
         }
       )
     }
+
+    // if lr count is greater than zero
+
+    return actionIcons;
+  }
+
+  invoiceIcon(row) {
+    let invAmt = 0;
+    let invoiceIcons = [];
+    if (row._invtype == 1 && row._lrcount > 0) {
+      invoiceIcons.push(
+        {
+          class: "fa fa-plus",
+          action: this.invoice.bind(this, 'add', row, 2),
+        },
+        {
+          class: "fa fa-plus",
+          action: this.invoice.bind(this, 'add', row, 3),
+        }
+      )
+    }
+
     return invoiceIcons;
   }
 
@@ -197,9 +195,6 @@ export class FreightInvoicesComponent implements OnInit {
     console.log("row:", row);
     let params = {
       id: row._id,
-      partyId: row._party_id,
-      branchId: row._branch_id
-
     }
     if (row._id) {
       this.common.params = {
@@ -213,9 +208,13 @@ export class FreightInvoicesComponent implements OnInit {
           this.api.post('FrieghtRate/deleteInvoices', params)
             .subscribe(res => {
               this.common.loading--;
-              this.common.showToast(res['msg']);
-              this.viewFreightInvoice();
-
+              if (res['data'][0]['r_id']) {
+                this.common.showToast("Deleted successfully");
+                this.viewFreightInvoice();
+              }
+              else {
+                this.common.showError(res['data'][0]['r_msg']);
+              }
             }, err => {
               this.common.loading--;
               console.log('Error: ', err);
@@ -240,10 +239,10 @@ export class FreightInvoicesComponent implements OnInit {
 
 
 
-  invoice(title, row) {
+  invoice(title, row, type?) {
     console.log("title:", title);
     console.log("Display:", row);
-    this.common.params = { title: title, freightInvoice: row };
+    this.common.params = { title: title, freightInvoice: row, type: type };
     console.log("alert:", this.common.params);
     const activeModal = this.modalService.open(FreightInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
@@ -252,10 +251,9 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
-  printInvoice(inv,invNo) {
+  printInvoice(inv, invNo) {
     let invoice = {
       id: inv._id,
-      type: invNo
     }
     this.common.params = { invoice: invoice }
     const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
@@ -265,10 +263,11 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
-  supportDoc(inv,invNo) {
+  supportDoc(inv, invNo) {
     let invoice = {
       id: inv._id,
-      type: invNo
+      type: invNo,
+      typeId: inv._invtype_id
     }
     this.common.params = { invoice: invoice }
     const activeModal = this.modalService.open(SupportingDocComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
@@ -292,10 +291,10 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
-  openFreightRateModal(inv,invNo) {
+  openFreightRateModal(inv, invNo) {
     let invoice = {
       id: inv._id,
-      type: invNo
+      parentId: inv._parentid
     }
     this.common.params = { invoice: invoice }
     const activeModal = this.modalService.open(FreightInvoiceRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
