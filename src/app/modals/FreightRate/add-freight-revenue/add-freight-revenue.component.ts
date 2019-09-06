@@ -321,7 +321,8 @@ export class AddFreightRevenueComponent implements OnInit {
   openTransferModal(){
     let refdata = {
       refId: this.revenue.refId,
-      refType: this.revenue.refernceType
+      refType: this.revenue.refernceType,
+      selectOption:'receipt'
     }
     this.common.params = { refData: refdata };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
