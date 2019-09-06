@@ -7,24 +7,24 @@
         <div class="row mt-3 align-items-center">
             <div class="col-2">
                 <select placeholder="Name" class="name form-control" [(ngModel)]="wareHouseId">
-          <option *ngFor="let element of dataInventory" [value]="element.id">{{element.name}}
+                    <option *ngFor="let element of dataInventory" [value]="element.id">{{element.name}}
 
-          </option>
-        </select>
+                    </option>
+                </select>
             </div>
             <div class="col-2">
                 <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
                 </uj-date-time-picker>
             </div>
             <div class="col-2">
-                <uj-date-time-picker [isStart]="false" (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false>
+                <uj-date-time-picker [isStart]="false" (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false [isStart]="false">
                 </uj-date-time-picker>
             </div>
             <div class="col-2">
                 <select [(ngModel)]="request" class="form-control">
-          <option value="0">Pending</option>
-          <option value="1">Completed</option>
-        </select>
+                    <option value="0">Pending</option>
+                    <option value="1">Completed</option>
+                </select>
             </div>
 
             <div class="col-2">

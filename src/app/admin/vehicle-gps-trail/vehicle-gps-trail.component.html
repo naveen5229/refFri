@@ -1,44 +1,43 @@
 <nb-card style=" margin:0px; padding-top: 0px; border: 0px;">
-  <nb-card-header>
-    <h5>Vehicle Gps Trail</h5>
-  </nb-card-header>
-  <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
-    <div class="gps-tril-form">
-      <div class="row">
-        <div class="col-md-2 pr-0">
-          <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
-            placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
-        </div>
-        <div class="col-md-4 pr-0">
-          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
-          </uj-date-time-picker>
-          <!-- <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Start Time" class="form-control"
+    <nb-card-header>
+        <h5>Vehicle Gps Trail</h5>
+    </nb-card-header>
+    <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
+        <div class="gps-tril-form">
+            <div class="row">
+                <div class="col-md-2 pr-0">
+                    <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno" placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+                </div>
+                <div class="col-md-4 pr-0">
+                    <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+                    </uj-date-time-picker>
+                    <!-- <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Start Time" class="form-control"
                 autocomplete="off" name="date">
               <owl-date-time #date></owl-date-time> -->
-        </div>
-        <div class="col-md-4 pr-0">
-          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate">
-          </uj-date-time-picker>
-          <!-- <input [(ngModel)]="endDate" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="End Time" class="form-control"
+                </div>
+                <div class="col-md-4 pr-0">
+                    <uj-date-time-picker (onChanged)="endDate = $event" [isStart]="false" [dateTimeValue]="endDate">
+                    </uj-date-time-picker>
+                    <!-- <input [(ngModel)]="endDate" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="End Time" class="form-control"
                 autocomplete="off" name="date1">
               <owl-date-time #date1></owl-date-time> -->
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-md-2 offset-md-08">
-          <button type="submit" class="btn btn-primary" (click)="result(1)">VehicleGpsTrail</button>
-        </div>
-        <div class="col-md-2 offset-md-08">
-          <button type="submit" class="btn btn-primary" (click)="result(2)">VehicleTrail</button>
-        </div>
-        <div class="col-md-2 offset-md-08">
-          <button type="submit" class="btn btn-primary" (click)="result(3)">VehicleHalts</button>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-2 offset-md-08">
+                    <button type="submit" class="btn btn-primary" (click)="result(1)">VehicleGpsTrail</button>
+                </div>
+                <div class="col-md-2 offset-md-08">
+                    <button type="submit" class="btn btn-primary" (click)="result(2)">VehicleTrail</button>
+                </div>
+                <div class="col-md-2 offset-md-08">
+                    <button type="submit" class="btn btn-primary" (click)="result(3)">VehicleHalts</button>
+                </div>
+
+            </div>
         </div>
 
-      </div>
-    </div>
+        <smart-table *ngIf="gpsTrail &&gpsTrail.length" [data]="table.data" [settings]="table.settings"></smart-table>
 
-    <smart-table *ngIf="gpsTrail &&gpsTrail.length" [data]="table.data" [settings]="table.settings"></smart-table>
-
-  </nb-card-body>
+    </nb-card-body>
 </nb-card>

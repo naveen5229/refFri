@@ -19,34 +19,14 @@
         </button>
       </div>
       <div class="modal-body" id="print-section">
-          <div class="row" *ngIf="invoiceType>1" style = "margin-bottom: 20px">
-              <div class="col-1">
-                <b>Invoice No</b>
-              </div>
-              <div class="col-2">
-                <input type="text" id="invoiceno" placeholder="Invoice No." name="invoiceno" class="form-control"
-                  [(ngModel)]="invoiceNo" >
-              </div>
-              <div class="col-1">
-                  <span><b> Time</b></span>
-                </div>
-                <div class="col-2 pl-3 pr-2">
-                  <uj-date-time-picker (onChanged)="invoiceDate = $event" [dateTimeValue]="invoiceDate"
-                    [isTime]="false">
-                  </uj-date-time-picker>
-                </div>
-            </div>
         <table class="table table-bordered table-hover" style="width: 100%" *ngIf="headings && headings.length>0" >
           <thead class="thead">
-            <th *ngIf="invoiceType>1">#</th>
+            
             <th *ngFor="let heading of headings"><span *ngIf="heading.split('_')[0] != 'head'">{{heading}}</span>
               <span *ngIf="heading.split('_')[0] == 'head'">{{heading.split('_')[1]}}</span></th>
           </thead>
           <tbody>
             <tr *ngFor="let invoiceRate of invoiceRates; let i= index">
-              <td *ngIf="invoiceType>1">   <input type='checkbox'
-                [(ngModel)]="invoiceRate._assigned"
-              ></td>
               <td *ngFor="let heading of headings;let j = index"><span>
                 <!-- *ngIf="invoiceRate[heading]=='#'" -->
                

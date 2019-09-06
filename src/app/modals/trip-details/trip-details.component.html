@@ -1,37 +1,37 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Trips</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <h5 class="modal-title" id="modal-basic-title">Trips</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 
 </div>
 <div class="modal-body">
-  <div class="row" style="margin-bottom:10px">
-    <div class="col-sm-1 pr-0">
-      <label>{{vehicleRegNo}}</label>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-sm-1 pr-0">
+            <label>{{vehicleRegNo}}</label>
+        </div>
+
+        <div class="col-3">
+
+            <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+            </uj-date-time-picker>
+
+        </div>
+
+
+        <div class="col-3">
+            <uj-date-time-picker (onChanged)="endDate = $event" [isStart]="false" [dateTimeValue]="endDate">
+            </uj-date-time-picker>
+        </div>
+
+
+        <div class="col-sm-1">
+            <button (click)="getTripDetails()" class="btn btn-primary form-control" style="margin:0px;border:0px;">OK</button>
+        </div>
     </div>
 
-    <div class="col-3">
-
-      <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
-      </uj-date-time-picker>
-
-    </div>
-
-
-    <div class="col-3">
-      <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate">
-      </uj-date-time-picker>
-    </div>
-
-
-    <div class="col-sm-1">
-      <button (click)="getTripDetails()" class="btn btn-primary form-control" style="margin:0px;border:0px;">OK</button>
-    </div>
-  </div>
-
-  <div class="row">
-    <!-- <div class="col-12" style="height: 72vh; margin-top: 10px;">
+    <div class="row">
+        <!-- <div class="col-12" style="height: 72vh; margin-top: 10px;">
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -44,7 +44,7 @@
         </thead>
         <tbody>
            *ngFor="let trip of trips;let i = index;" -->
-    <!-- <tr *ngFor="let trip of trips;let i = index;">
+        <!-- <tr *ngFor="let trip of trips;let i = index;">
             <td>{{trip.start_name}}</td>
             <td>{{trip.end_name}}</td>
             <td>{{trip.start_time}}</td>
@@ -57,8 +57,8 @@
 
         </tbody>
       </table> -->
-    <!-- </div>  -->
-    <smart-table *ngIf="trips.length" [data]="table.data" [settings]="table.settings"></smart-table>
-    <br>
-  </div>
+        <!-- </div>  -->
+        <smart-table *ngIf="trips.length" [data]="table.data" [settings]="table.settings"></smart-table>
+        <br>
+    </div>
 </div>
