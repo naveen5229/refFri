@@ -12,8 +12,8 @@ export class FuelConsumptionComponent implements OnInit {
   totalFillCount:Number=0;
   totalFuel:Number=0;
   totelFuelCost:Number=0;
-  startDate = null;
-  endDate = null;
+  endDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 10));
   fuelConsumption=[];
   table = {
     data: {
@@ -48,8 +48,8 @@ valobj = {};
     this.valobj = {};
 
   
-    let startDate = this.startDate != null ? this.common.dateFormatter1(this.startDate) : null;
-    let endDate = this.endDate != null ? this.common.dateFormatter1(this.endDate) : null;
+    let startDate = this.startDate != null ? this.common.dateFormatter(this.startDate) : null;
+    let endDate = this.endDate != null ? this.common.dateFormatter(this.endDate) : null;
     if (startDate == null)
     {
        return this.common.showError("Start Date is Missing");

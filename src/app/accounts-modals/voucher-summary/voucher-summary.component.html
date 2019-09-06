@@ -186,15 +186,22 @@
             <input type="number" class="form-control" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal" disabled readonly>
           </div>
 
-          <div class="form-group col-4 mt-4">
+          <div class="form-group col-3 mt-4">
               <label class="tjr-label">Remarks</label>
             <textarea class="form-control ref-input total_textarea" id="narration" name="narration" [(ngModel)]="narration">
             </textarea>
           </div>
-
+        </div>
+        <div class="row">
+          <div class="form-group col-2 mt-4">
+            <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="addTransfer()">Add Transfer</button>
+          </div>
+          <div class="form-group col-2 mt-4">
+            <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="showTransfer()">Show Transfers</button>
+          </div>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
         <div class="col-8 pl-0">
             <table class="table table-bordered invoice_tabel table-four">
               <thead style="background: #263238; color:#fff;">
@@ -252,8 +259,33 @@
               display="y_ledger_name" (select)="onDebitSelectednew($event, 'detailLedger', 'y_ledger_name',targetId)">
             </auto-suggetion-in-side>
           </div>
-          </div>
+          </div> -->
+      <div class="row" *ngIf="transferData">
+        <table class="table table-bordered" id="table">
+
+          <thead style="background-color:#263238; color:#fff;">
+           <tr>
+              <th>Advise Type</th>
+              <th>User Value</th>
+              <th>Credit To</th>
+              <th>Debit To</th>
+              <th>Remarks</th>
+              <th>Time</th>
+              <th>Entry By</th>
+              
+            </tr>
+          </thead>             
+              <tr *ngFor="let item of transferData; let i = index;">
+              
+                <td *ngFor="let itemheading of transferHeading">
+                    {{item[itemheading]}}                 
+               </td>
+            
+          </tr>
+        </table>
       </div>
+      
+        </div>
     </div>
 
 

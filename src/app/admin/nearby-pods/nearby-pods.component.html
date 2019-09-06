@@ -1,55 +1,55 @@
 <nb-card>
-  <nb-card-body>
-    <div class="row mb-3">
-      <div class="col-5">
-        <div class="row align-items-center">
-          <div class="col-2">
-            <label>Start Date</label>
-          </div>
-          <div class="col-4">
-            <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate" [isTime]=false>
-            </uj-date-time-picker>
-          </div>
+    <nb-card-body>
+        <div class="row mb-3">
+            <div class="col-5">
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <label>Start Date</label>
+                    </div>
+                    <div class="col-4">
+                        <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate" [isTime]=false>
+                        </uj-date-time-picker>
+                    </div>
 
-          <div class="col-2">
-            <label>End Date</label>
-          </div>
-          <div class="col-4">
-            <uj-date-time-picker (onChanged)="endDate=$event" class="" [dateTimeValue]="endDate" [isTime]=false>
-            </uj-date-time-picker>
-          </div>
-        </div>
-      </div>
-      <div class="col-5">
-        <div class="row align-items-center">
-          <div class="col-2">
-            <label>Branch</label>
-          </div>
-          <div class="col-4">
-            <select class="form-control" (change)="getBranch()" [(ngModel)]="BranchID">
+                    <div class="col-2">
+                        <label>End Date</label>
+                    </div>
+                    <div class="col-4">
+                        <uj-date-time-picker (onChanged)="endDate=$event" class="" [dateTimeValue]="endDate" [isTime]=false [isStart]="false">
+                        </uj-date-time-picker>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <label>Branch</label>
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control" (change)="getBranch()" [(ngModel)]="BranchID">
               <option *ngFor="let branchlist of branch" [value]="branchlist.id">
                 {{branchlist.name}}
               </option>
             </select>
-          </div>
-          <div class="col-2">
-            <label>Range</label>
-          </div>
-          <div class="col-4">
-            <select class="form-control" (change)="getRange()" [(ngModel)]="RangeId">
+                    </div>
+                    <div class="col-2">
+                        <label>Range</label>
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control" (change)="getRange()" [(ngModel)]="RangeId">
               <option *ngFor="let status of range" [value]="status.id">
                 {{status.name}}
               </option>
             </select>
-          </div>
+                    </div>
 
+                </div>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-primary add" (click)="nearByPods()">submit</button>
+            </div>
         </div>
-      </div>
-      <div class="col-2">
-        <button class="btn btn-primary add" (click)="nearByPods()">submit</button>
-      </div>
-    </div>
-    <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+        <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"></smart-table>
 
-  </nb-card-body>
+    </nb-card-body>
 </nb-card>

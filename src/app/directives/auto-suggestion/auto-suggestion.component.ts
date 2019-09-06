@@ -218,5 +218,9 @@ export class AutoSuggestionComponent implements OnInit {
     this.showSuggestions = false;
     this.suggestions = [];
   }
+  hideSuggestions() {
+    setTimeout(() =>
+      this.showSuggestions = false, 300);
+  }
 
 }
