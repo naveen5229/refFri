@@ -72,6 +72,12 @@
               <tr *ngIf="amountData && amountData.total_amount">
                 <td><b> TOTAL: </b>&nbsp;&nbsp; {{amountData.total_amount}} </td>
               </tr>
+              <tr *ngIf="amountData && amountData.advance_amount">
+                  <td><b>Advance Amount: </b>&nbsp;&nbsp; {{amountData.advance_amount}} </td>
+                </tr>
+                <tr *ngIf="amountData && amountData.net_amount">
+                    <td><b> Net Amount: </b>&nbsp;&nbsp; {{amountData.net_amount}} </td>
+                  </tr>
             </table>
           </div>
         </div>
