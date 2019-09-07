@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
     public user: UserService,
     public activity: ActivityService,
     public api: ApiService) {
-    window.location.reload();
 
   }
 
@@ -40,6 +39,7 @@ export class LoginComponent implements OnInit {
         this.user._loggedInBy = params.type.toLowerCase();
       } else if (params.type) {
         this.router.navigate(['/auth/login']);
+
         return;
       } else {
         this.user._loggedInBy = 'customer';
@@ -86,6 +86,7 @@ export class LoginComponent implements OnInit {
       type: "login",
       mobileno: this.userDetails.mobile
     };
+    console.log('Params:', params);
     ++this.common.loading;
 
     this.api.post('Login/login', params)
@@ -133,15 +134,7 @@ export class LoginComponent implements OnInit {
 
           console.log('Login Type: ', this.user._loggedInBy);
           localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
-          if (this.user._loggedInBy == 'admin') {
-            this.router.navigate(['/admin']);
-          } else if (this.user._loggedInBy == 'partner') {
-            this.router.navigate(['/partner']);
-          } else {
-            this.activity.heartbeat();
-            this.activity.activityHandler("login");
-            this.router.navigate(['/pages']);
-          }
+
           this.getUserPagesList();
         }
       }, err => {
@@ -159,6 +152,8 @@ export class LoginComponent implements OnInit {
 
 
   getUserPagesList() {
+
+    this.user._pages = null;
     let userTypeId = this.user._loggedInBy == 'admin' ? 1 : 3;
     const params = {
       userId: this.user._details.id,
@@ -168,6 +163,7 @@ export class LoginComponent implements OnInit {
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         this.common.loading--;
+        console.log('_Res:', res);
         this.user._pages = res['data'].filter(page => { return page.userid; });
         localStorage.setItem('DOST_USER_PAGES', JSON.stringify(this.user._pages));
         this.user.filterMenu("pages", "pages");
@@ -177,11 +173,22 @@ export class LoginComponent implements OnInit {
         this.user.filterMenu("vehicleMaintenance", "vehicleMaintenance");
         this.user.filterMenu("wareHouse", "wareHouse");
         this.user.filterMenu("account", "account");
-
+        console.log('this.user:', this.user);
+        if (this.user._loggedInBy == 'admin') {
+          this.router.navigate(['/admin']);
+        } else if (this.user._loggedInBy == 'partner') {
+          this.router.navigate(['/partner']);
+        } else {
+          this.activity.heartbeat();
+          this.activity.activityHandler("login");
+          this.router.navigate(['/pages']);
+        }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
       })
+
   }
+
 
 }

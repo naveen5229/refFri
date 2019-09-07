@@ -34,7 +34,7 @@ export class UserService {
   };
 
   menuCollection = {
-    admin: ADMIN_MENU_ITEMS,
+    admin: this.dataService.setAdminPages(),
     pages: PAGES_MENU_ITEMS,
     tyres: TYRES_MENU_ITEMS,
     battery: BATTERY_MENU_ITEMS,
@@ -43,7 +43,7 @@ export class UserService {
     account: ACCOUNTS_MENU_ITEMS
   }
 
-  constructor() {
+  constructor(public dataService: DataService) {
 
     console.log('Details: ', localStorage.getItem('USER_DETAILS'));
 
@@ -51,7 +51,7 @@ export class UserService {
     this._details = JSON.parse(localStorage.getItem('USER_DETAILS')) || null;
 
     this._loggedInBy = localStorage.getItem('LOGGED_IN_BY') || '';
-    this._customer = JSON.parse(localStorage.getItem('CUSTOMER_DETAILS')) || { name: '', id: ''};
+    this._customer = JSON.parse(localStorage.getItem('CUSTOMER_DETAILS')) || { name: '', id: '' };
 
     if (!this._pages)
       this._pages = JSON.parse(localStorage.getItem("DOST_USER_PAGES"));
@@ -60,7 +60,13 @@ export class UserService {
   }
 
   filterMenu(type?, collection?) {
+    console.log("type:", type);
+    console.log("collection:", collection);
 
+    console.log("his.menuCollection:", this.menuCollection);
+    console.log("his.menuCollection:", this.menuCollection[collection]);
+
+    console.log('this.menuCollection[collection]:', JSON.stringify(this.menuCollection[collection]));
     this._menu[type] = this.menuCollection[collection]
       .map((menuItem) => {
         if (menuItem.children) {
@@ -87,6 +93,7 @@ export class UserService {
         return true;
       });
 
+    console.log('this._menu[type]: ', JSON.stringify(this._menu[type]));
   }
 
 }

@@ -36,6 +36,7 @@ export class FoUserRoleComponent implements OnInit {
     this.common.isComponentActive = false;
     this.getAllUserList();
     document.getElementById('name')['value'] = '';
+    this.formattedData = [];
   }
   //Confirmation that before Leave the PAge
   canDeactivate() {
