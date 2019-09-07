@@ -34,7 +34,7 @@ export class UserService {
   };
 
   menuCollection = {
-    admin: this.dataService.setAdminPages(),
+    admin: [],
     pages: PAGES_MENU_ITEMS,
     tyres: TYRES_MENU_ITEMS,
     battery: BATTERY_MENU_ITEMS,
@@ -62,7 +62,7 @@ export class UserService {
   filterMenu(type?, collection?) {
     console.log("type:", type);
     console.log("collection:", collection);
-
+    if (collection === 'admin') this.menuCollection[collection] = this.dataService.setAdminPages();
     console.log("his.menuCollection:", this.menuCollection);
     console.log("his.menuCollection:", this.menuCollection[collection]);
 
