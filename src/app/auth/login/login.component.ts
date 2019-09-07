@@ -30,6 +30,8 @@ export class LoginComponent implements OnInit {
     public user: UserService,
     public activity: ActivityService,
     public api: ApiService) {
+    window.location.reload();
+
   }
 
   ngOnInit() {

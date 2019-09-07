@@ -83,6 +83,7 @@ export class HeaderComponent implements OnInit {
       localStorage.clear();
       localStorage.removeItem('DOST_USER_PAGES');
       this.router.navigate(['/auth/login']);
+
     }
   }
 
