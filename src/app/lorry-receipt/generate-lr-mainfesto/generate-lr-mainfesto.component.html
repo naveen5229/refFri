@@ -5,6 +5,17 @@
   </button>
 </div>
 <div class="modal-body">
+  <div class="row" style="margin-bottom: 30px">
+    <div class="col-sm-2">
+      Branch
+    </div>
+    <div class="col-sm-2">
+      <select class="form-control" [(ngModel)]="accountService.selected.branch.id"
+        style=" border: 2px solid darkcyan; font-size: 13px" (change)="getPendingLtlLr();">
+        <option *ngFor=" let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
+      </select>
+    </div>
+  </div>
   <table class="table table-bordered gerrate_tabel">
     <tbody>
       <tr>
@@ -34,7 +45,8 @@
         <td><label>Vehicle No*</label></td>
         <td>
           <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-            placeholder="Enter Vehicle Number" style="width:60%;" (change)="resetData($event)" inputId="vehicleno">
+            placeholder="Enter Vehicle Number" [preSelected]="{regno : mainfesto.vehicleRegNo}" style="width:60%;"
+            (change)="resetData($event)" inputId="vehicleno">
           </auto-suggestion>
         </td>
         <td><label>Seal No</label></td>
@@ -102,12 +114,26 @@
       <tr>
         <td><label>Source City*</label></td>
         <td>
-          <input placeholder="sourceCity" id="sourceCity" [(ngModel)]="mainfesto.sourceCity" class="form-control">
+          <!-- <input placeholder="sourceCity" id="sourceCity" [(ngModel)]="mainfesto.sourceCity" class="form-control"> -->
+          <auto-suggestion (onChange)="mainfesto.sourceId=''"
+            (onSelected)="mainfesto.sourceCity = $event.location;mainfesto.sourceId = $event.id"
+            (noDataFound)="takeActionSource('souce')" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
+            display="location" inputId="sourcename" placeholder="Search Location" [value]="mainfesto.sourceCity"
+            class="auto-suggest" [preSelected]='{location : mainfesto.sourceCity }'>
+          </auto-suggestion>
+          <i class="fa fa-plus add " (click)="sourceString='----'; takeActionSource('source');"></i>
         </td>
         <td><label>Destination City* </label></td>
         <td>
-          <input placeholder="destinationCity" id="destinationCity" [(ngModel)]="mainfesto.destinationCity"
-            class="form-control">
+          <!-- <input placeholder="destinationCity" id="destinationCity" [(ngModel)]="mainfesto.destinationCity"
+            class="form-control"> -->
+          <auto-suggestion (onChange)="mainfesto.destinationId=''"
+            (onSelected)="mainfesto.destinationCity = $event.location;mainfesto.destinationId = $event.id"
+            (noDataFound)="takeActionSource('destination')" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
+            display="location" inputId="destname" placeholder="Search Location" [value]="mainfesto.destinationCity"
+            class="auto-suggest" [preSelected]='{location : mainfesto.destinationCity }'>
+          </auto-suggestion>
+          <i class="fa fa-plus add " (click)="destination='----'; takeActionSource('destination');"></i>
       </tr>
 
       <tr>
@@ -122,8 +148,9 @@
       </tr>
     </tbody>
   </table>
+
   <div class="material_details">
-    <h5>Pending Lr</h5>
+    <h5>Assign Lr</h5>
     <table class="table table-bordered">
       <thead class="thead">
         <th>#</th>
@@ -138,7 +165,7 @@
       <tbody *ngFor="let lrDetail of lrDetails; let i = index;">
         <tr>
           <td>
-            <input type="checkbox" [(ngModel)]="lrDetail.assignLr" (change)="assignedLrs(lrDetail.assignLr);">
+            <input type="checkbox" [(ngModel)]="lrDetail.r_assigned" (change)="assignedLrs(lrDetail.r_assigned);">
           </td>
           <td>{{lrDetail.r_lrnum}}</td>
           <td>{{lrDetail.r_consignor}}</td>
@@ -208,10 +235,10 @@
     <!-- <input type="date"> -->
     <div><button class="btn btn-primary" (click)="assignMainFesto()">Assign</button></div>
   </div>
-</div>
 
 
-<!-- <nb-card style="border: 0px;">
+
+  <!-- <nb-card style="border: 0px;">
   <nb-card-header>
     <h5>Generate LR ManiFest</h5>
   </nb-card-header>

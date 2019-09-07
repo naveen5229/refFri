@@ -5,6 +5,7 @@ import { MapService } from '../../services/map.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../services/account.service';
+import { LocationSelectionComponent } from '../../modals/location-selection/location-selection.component';
 
 @Component({
   selector: 'generate-lr-mainfesto',
@@ -29,11 +30,9 @@ export class GenerateLrMainfestoComponent implements OnInit {
     brokerName: null,
     remarks: null,
     sourceCity: null,
-    sourceLat: null,
-    sourceLng: null,
+    sourceId: null,
     destinationCity: null,
-    destinationLat: null,
-    destinationLng: null,
+    destinationId: null,
     remark: null,
     date: null,
     totalAmount: null,
@@ -79,6 +78,8 @@ export class GenerateLrMainfestoComponent implements OnInit {
       name: "B.C."
     }
   ]
+  assignedLr = [];
+  manifestId = null;
   // vehicleRegNo= document.getElementById('vehicleno')['value'];
   constructor(
     private modalService: NgbModal,
@@ -89,6 +90,12 @@ export class GenerateLrMainfestoComponent implements OnInit {
     public activeModal: NgbActiveModal
   ) {
     this.common.handleModalSize('class', 'modal-lg', '1100');
+    if (this.common.params.manifestId != undefined) {
+      console.log('menifestId=', this.common.params.manifestId);
+      this.manifestId = this.common.params.manifestId;
+      console.log('m+', this.manifestId);
+      this.getManifestDetails();
+    }
 
     let date = new Date();
     date.setDate(date.getDate());
@@ -109,16 +116,6 @@ export class GenerateLrMainfestoComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.mapService.autoSuggestion("sourceCity", (place, lat, long) => {
-      this.mainfesto.sourceCity = place;
-      this.mainfesto.sourceLat = lat;
-      this.mainfesto.sourceLng = long;
-    });
-    this.mapService.autoSuggestion("destinationCity", (place, lat, long) => {
-      this.mainfesto.destinationCity = place;
-      this.mainfesto.destinationLat = lat;
-      this.mainfesto.destinationLng = long;
-    });
   }
 
   getDate(type) {
@@ -136,6 +133,7 @@ export class GenerateLrMainfestoComponent implements OnInit {
   getvehicleData(vehicle) {
     this.mainfesto.vehicleId = vehicle.id;
     this.mainfesto.vehicleRegNo = vehicle.regno;
+    return this.mainfesto.vehicleId;
     this.getOwnersInfo();
   }
 
@@ -167,8 +165,9 @@ export class GenerateLrMainfestoComponent implements OnInit {
     console.log(lrAssign);
   }
   getPendingLtlLr() {
+    const params = "manifestId=" + this.manifestId + "&branchId=" + this.accountService.selected.branch.id;
     this.common.loading++;
-    this.api.get('LorryReceiptsOperation/pendingLTLLr')
+    this.api.get('LorryReceiptsOperation/pendingLTLLr?' + params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res', res['data']);
@@ -205,8 +204,10 @@ export class GenerateLrMainfestoComponent implements OnInit {
 
   assignMainFesto() {
 
+    this.mainfesto.selectedLr = '';
+
     this.lrDetails.forEach(lrDetail => {
-      if (lrDetail.assignLr) {
+      if (lrDetail.r_assigned) {
         this.mainfesto.selectedLr = this.mainfesto.selectedLr.concat(lrDetail.r_id) + ',';
       }
       else {
@@ -235,11 +236,9 @@ export class GenerateLrMainfestoComponent implements OnInit {
       sealNo: this.mainfesto.sealNo,
       challanDate: mainfestoDate,
       source: this.mainfesto.sourceCity,
-      sourceLat: this.mainfesto.sourceLat,
-      sourceLng: this.mainfesto.sourceLng,
+      sourceId: this.mainfesto.sourceId,
+      destinationId: this.mainfesto.destinationId,
       destination: this.mainfesto.destinationCity,
-      destinationLat: this.mainfesto.destinationLat,
-      destinationLng: this.mainfesto.destinationLng,
       ownerName: this.mainfesto.ownerName,
       ownerMobile: this.mainfesto.ownerMobile,
       lrIds: this.mainfesto.selectedLr,
@@ -255,6 +254,7 @@ export class GenerateLrMainfestoComponent implements OnInit {
       advanceAmount: this.mainfesto.advanceAmount,
       otherAmount: this.mainfesto.otherAmount,
       balanceAmount: this.mainfesto.balanceAmount,
+      manifestId: this.manifestId ? this.manifestId : null,
       otherDetails: JSON.stringify(this.otherDetails)
     }
     console.log("params", this.mainfesto)
@@ -279,5 +279,102 @@ export class GenerateLrMainfestoComponent implements OnInit {
       value: null
     })
   }
+
+  takeActionSource(locFlag) {
+    setTimeout(() => {
+      console.log("takeActionSourc call::::::::::")
+      this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+      const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(res => {
+        if (res && res.location.lat) {
+          console.log('response----', res.location);
+          if (locFlag == 'source') {
+            this.mainfesto.sourceCity = res.location.name;
+            this.mainfesto.sourceId = res.id;
+            console.log('source:::', this.mainfesto.sourceCity, this.mainfesto.sourceId);
+          } else {
+            this.mainfesto.destinationCity = res.location.name;
+            this.mainfesto.destinationId = res.id;
+            console.log('destination:::', this.mainfesto.destinationCity, this.mainfesto.destinationId);
+          }
+
+        }
+      })
+
+
+    }, 1000);
+
+  }
+
+  getManifestDetails() {
+    console.log('::::::', this.manifestId);
+    const params = "manifestId=" + this.manifestId;
+    this.common.loading++;
+    this.api.get('LorryReceiptsOperation/lrManifestEditDetails?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res::::::', res);
+        console.log('res::::::', res['data']);
+        // this.assignedLr = res['data'].lr || [];
+        this.setManifestValues(res['data']);
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+
+  setManifestValues(manifestDetails) {
+
+    console.log('menifest', manifestDetails);
+    this.mainfesto.driverMobile = manifestDetails[0].driver_mobile;
+    this.mainfesto.balanceAmount = manifestDetails[0].bal_amount;
+    this.mainfesto.advanceAmount = manifestDetails[0].adv_amount;
+    this.mainfesto.otherAmount = manifestDetails[0].others_amount;
+    this.mainfesto.challanNo = manifestDetails[0].ch_num;
+    this.mainfesto.brokerName = manifestDetails[0].broker_name;
+    this.mainfesto.destinationCity = manifestDetails[0].destination;
+    this.mainfesto.sourceCity = manifestDetails[0].source;
+    this.mainfesto.sourceId = manifestDetails[0].source_siteid;
+    this.mainfesto.destinationId = manifestDetails[0].dest_siteid;
+    this.mainfesto.ownerMobile = manifestDetails[0].owner_mobile;
+    this.mainfesto.ownerName = manifestDetails[0].owner_name;
+    this.mainfesto.ownerGst = manifestDetails[0].owner_gst;
+    this.mainfesto.ownerPan = manifestDetails[0].owner_pan;
+    this.mainfesto.vehicleRegNo = manifestDetails[0].regno;
+    this.mainfesto.vehicleId = manifestDetails[0].vid;
+    this.mainfesto.remarks = manifestDetails[0].remarks;
+    this.mainfesto.sealNo = manifestDetails[0].seal_num;
+    this.mainfesto.ewayNo = manifestDetails[0].eway_num;
+    this.mainfesto.ewayExpDate = new Date(manifestDetails[0].eway_date);
+    this.mainfesto.driverName = manifestDetails[0].driver_name;
+    this.mainfesto.date = new Date(manifestDetails[0].ch_date);
+    if (manifestDetails[0].otherdetails != null) {
+      let tempDetails;
+      // tempDetails = manifestDetails.otherdetails;
+      tempDetails = manifestDetails[0].otherdetails.replace(/'/g, '"');
+      //tempDetails = JSON.stringify(tempDetails);
+      this.otherDetails = JSON.parse(tempDetails);
+      console.log('edit values;;;;;', this.mainfesto);
+      console.log('other vlaues;;;;;', this.otherDetails, this.otherDetails.length);
+    }
+  }
+
+  deleteLrManifest(manifestLr) {
+    let params = {
+      lrid: manifestLr._lrid,
+      manifestId: this.manifestId
+    }
+    this.common.loading++;
+    this.api.post('deleteLrFromManifest', params)
+      .subscribe(res => {
+        this.common.loading--;
+        if (res['success'])
+          this.common.showToast(res['msg']);
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+
 
 }
