@@ -1,4 +1,6 @@
-button { 
+ 
+ 
+ button { 
     padding: 7px 10px !important;
     background-color: #263238;
     border-radius: 5px !important;
@@ -25,7 +27,7 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 170px;
+            width: 140px;
         }
         th:nth-child(1){
             width: 35px;
@@ -39,14 +41,14 @@ table{
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 170px;
+            width: 140px;
             button{
-                padding: 0 !important;
+                //padding: 5 !important;
                 font-size: 11px;
-                border-radius: 0px !important;
+                //border-radius: 0px !important;
                 margin: 0px;
-                background-color: transparent;
-                color: #263238;
+                //background-color: transparent;
+                color: whitesmoke;
                 outline: none;
                 box-shadow: none;
             }
