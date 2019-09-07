@@ -8,6 +8,15 @@ import { MAINTENANCE_MENU_ITEMS } from '../vehicle-maintenance/vehicle-maintenan
 import { WAREHOUSE_MENU_ITEMS } from '../ware-house/ware-house-menu';
 import { ACCOUNTS_MENU_ITEMS } from '../accounts/accountes-menu';
 
+const COLLECTION = {
+  admin: ADMIN_MENU_ITEMS,
+  pages: PAGES_MENU_ITEMS,
+  tyres: TYRES_MENU_ITEMS,
+  battery: BATTERY_MENU_ITEMS,
+  vehicleMaintenance: MAINTENANCE_MENU_ITEMS,
+  wareHouse: WAREHOUSE_MENU_ITEMS,
+  account: ACCOUNTS_MENU_ITEMS
+};
 
 @Injectable({
   providedIn: 'root'
@@ -33,15 +42,7 @@ export class UserService {
     account: [],
   };
 
-  menuCollection = {
-    admin: [],
-    pages: PAGES_MENU_ITEMS,
-    tyres: TYRES_MENU_ITEMS,
-    battery: BATTERY_MENU_ITEMS,
-    vehicleMaintenance: MAINTENANCE_MENU_ITEMS,
-    wareHouse: WAREHOUSE_MENU_ITEMS,
-    account: ACCOUNTS_MENU_ITEMS
-  }
+
 
   constructor(public dataService: DataService) {
 
@@ -60,14 +61,7 @@ export class UserService {
   }
 
   filterMenu(type?, collection?) {
-    console.log("type:", type);
-    console.log("collection:", collection);
-    if (collection === 'admin') this.menuCollection[collection] = this.dataService.setAdminPages();
-    console.log("his.menuCollection:", this.menuCollection);
-    console.log("his.menuCollection:", this.menuCollection[collection]);
-
-    console.log('this.menuCollection[collection]:', JSON.stringify(this.menuCollection[collection]));
-    this._menu[type] = this.menuCollection[collection]
+    this._menu[type] = JSON.parse(COLLECTION[collection])
       .map((menuItem) => {
         if (menuItem.children) {
           menuItem.children = menuItem.children.filter(childItem => {

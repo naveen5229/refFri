@@ -1,6 +1,6 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const PAGES_MENU_ITEMS: NbMenuItem[] = [
+export const PAGES_MENU_ITEMS = JSON.stringify([
   {
     title: 'Trip',
     icon: 'fas fa-route',
@@ -465,4 +465,4 @@ export const PAGES_MENU_ITEMS: NbMenuItem[] = [
 
 
 
-];
+]);

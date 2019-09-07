@@ -1,5 +1,4 @@
 import { NbMenuItem } from '@nebular/theme';
-import { VoucherComponent } from '../acounts-modals/voucher/voucher.component';
 
 export const ACCOUNTS_MENU_ITEMS: NbMenuItem[] = [
     {

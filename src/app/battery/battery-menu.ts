@@ -1,6 +1,6 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const BATTERY_MENU_ITEMS: NbMenuItem[] = [
+export const BATTERY_MENU_ITEMS = JSON.stringify([
     {
         title: 'Home Dashboard',
         icon: 'fa fa-home',
@@ -32,4 +32,4 @@ export const BATTERY_MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
 
-];
+]);

@@ -1,6 +1,6 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const MAINTENANCE_MENU_ITEMS: NbMenuItem[] = [
+export const MAINTENANCE_MENU_ITEMS = JSON.stringify([
     {
         title: 'Home Dashboard',
         icon: 'fa fa-home',
@@ -26,7 +26,7 @@ export const MAINTENANCE_MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
 
-];
+]);
 
 // export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [
 
