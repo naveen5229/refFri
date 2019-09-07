@@ -110,10 +110,10 @@ export class TransfersComponent implements OnInit {
         else if(this.headings[i]=="Credit To"){
           console.log("test",this.headings[i]);
           
-          this.valobj[this.headings[i]]={value:doc[this.headings[i]],class:"blue",action:this.openViewTransfer.bind(this,doc._cr_ledgerid)}
+          this.valobj[this.headings[i]]={value:doc[this.headings[i]],class:"blue",action:this.openViewTransfer.bind(this,doc._cr_ledgerid,doc[this.headings[i]],"Credit To")}
         }
         else if(this.headings[i]=="Debit To"){
-          this.valobj[this.headings[i]]={value:doc[this.headings[i]],class:"blue",action:this.openViewTransfer.bind(this,doc._dr_ledgerid)}
+          this.valobj[this.headings[i]]={value:doc[this.headings[i]],class:"blue",action:this.openViewTransfer.bind(this,doc._dr_ledgerid,doc[this.headings[i]],"Debit To")}
           
         }
         else {
@@ -146,10 +146,12 @@ export class TransfersComponent implements OnInit {
     });
   }
 
-  openViewTransfer(id)
+  openViewTransfer(id,title,ledgerType)
   {
     console.log("Id",id);
-    this.common.params = { ledgerId: id };
+    console.log("Title:",title);
+    console.log("ledgerType:",ledgerType);
+    this.common.params = { ledgerId: id,title:title,ledgerType:ledgerType};
     const activeModal = this.modalService.open(ViewTransferComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
