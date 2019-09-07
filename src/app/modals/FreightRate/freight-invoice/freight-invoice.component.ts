@@ -60,6 +60,20 @@ export class FreightInvoiceComponent implements OnInit {
       this.freightInvoice.id = this.common.params.freightInvoice._id ? this.common.params.freightInvoice._id : null;
       this.freightInvoice.gst = this.common.params.freightInvoice._gst;
       this.state = this.common.params.freightInvoice._is_samestate == "same" ? true : false;
+      this.freightInvoice.parentId = this.common.params.freightInvoice['_parentid'];
+      this.freightInvoice.type = this.common.params.freightInvoice['_invtype'];
+    }
+    else if(this.common.params.type && this.common.params.type>1&&  this.common.params.title == 'add'){
+      this.freightInvoice.branchId = this.common.params.freightInvoice._branch_id;
+      this.freightInvoice.branchName = this.common.params.freightInvoice['Branch Name'];
+      this.freightInvoice.companyId = this.common.params.freightInvoice._party_id;
+      this.freightInvoice.companyName = this.common.params.freightInvoice['Party Name'];
+      this.freightInvoice.date = new Date(this.common.params.freightInvoice._inv_date);
+      this.freightInvoice.remark = this.common.params.freightInvoice._remarks;
+      this.freightInvoice.gst = this.common.params.freightInvoice._gst;
+      this.state = this.common.params.freightInvoice._is_samestate == "same" ? true : false;
+      this.freightInvoice.parentId = this.common.params.freightInvoice['_id'];
+      this.freightInvoice.type = this.common.params.type;
     }
   }
 

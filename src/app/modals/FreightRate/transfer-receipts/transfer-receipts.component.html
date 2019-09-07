@@ -89,9 +89,9 @@
 
                 <div class="radio-type col-8" style="padding-left: 37px;">
                     <input type="radio" value="transfer" name="radio" [(ngModel)]="transferReceipt.selectOption"
-                        (change)="report(transferReceipt.selectOption)">Transfer
+                        (change)="report(transferReceipt.selectOption)" [disabled]="refData?.selectOption && refData.selectOption=='receipt'?true:false" >Transfer
                     <input type="radio" value="receipt" name="radio" [(ngModel)]="transferReceipt.selectOption"
-                        (change)="report(transferReceipt.selectOption)">Receipt
+                        (change)="report(transferReceipt.selectOption)" [disabled]="refData?.selectOption && refData.selectOption=='transfer'?true:false" >Receipt
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
                     <span><b>Receiver(Dr)</b><b style="color:red;">*</b></span>
                 </div>
                 <div class="col-7">
-                    <auto-suggestion url="Suggestion/GetPurchaseLedger?groupIds=-42,-43"
+                    <auto-suggestion url="Suggestion/GetPurchaseLedger?groupIds=-42,-43,-39"
                         (onSelected)="debitId=$event.id" display="name" placeholder="" inputId="debitledger">
                     </auto-suggestion>
                 </div>
