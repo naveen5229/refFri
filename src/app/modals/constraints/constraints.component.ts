@@ -21,6 +21,7 @@ export class ConstraintsComponent implements OnInit {
   keepGoing = true;
   foId = null;
   issueType = null;
+  getContraintsData = [];
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -29,7 +30,8 @@ export class ConstraintsComponent implements OnInit {
     private activeModal: NgbActiveModal) {
     this.foId = this.common.params.foId;
     this.issueType = this.common.params.issueType;
-    this.common.handleModalSize('class', 'modal-lg', '1300', 'px', 1);
+    this.common.handleModalSize('class', 'modal-lg', '1100', 'px');
+    this.getContraintsIssueData();
   }
 
   ngOnInit() {
@@ -37,6 +39,42 @@ export class ConstraintsComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
+  }
+
+  getContraintsIssueData() {
+    const params = {
+      foid: 1215,
+      issue_type_id: 301,
+      id: 186
+    }
+
+    console.log("params", params);
+    this.common.loading++;
+    this.api.post('FoTicketEscalation/getUsers', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.getContraintsData = res['data'][0].constraints;
+
+        console.log("....", this.getContraintsData);
+        let result = Object.values(this.getContraintsData);
+        console.log("keys", result);
+        result.map(key => {
+          if (key.value != null) {
+            console.log("test");
+            this.constraintsType = res['data'][0].constraints;
+            console.log("for View", this.constraintsType);
+          }
+
+        });
+
+
+
+
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
   }
 
   addField(type, index) {
@@ -55,13 +93,12 @@ export class ConstraintsComponent implements OnInit {
   }
 
   resetData(data, index, type) {
-    this.constraintsType[type][index] = null;
-    console.log(data);
+    this.constraintsType[type][index].id = null;
+    console.log("", this.constraintsType[type].id = null);
   }
   selectSuggestion(details, index, type, locationType?) {
-    console.log('Details:', details);
-    console.log('Index:', index);
-    console.log('Type:', type);
+    console.log("details", details);
+
     switch (type) {
       case 'consignees':
         this.constraintsType[type][index] = { id: details.id, name: details.name };
@@ -128,7 +165,6 @@ export class ConstraintsComponent implements OnInit {
     }
 
     console.log("params", params);
-    return;
     this.common.loading++;
     this.api.post('FoTicketEscalation/insertTicketEscalation', params)
       .subscribe(res => {

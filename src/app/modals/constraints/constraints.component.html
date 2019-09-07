@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-12">
           <label>Consignee</label>
-          <div *ngFor=" let consignee of constraintsType.consignees; let i = index; ">
+          <div *ngFor=" let consignee of constraintsType.consignees; let i = index; " class="mt-2">
             <auto-suggestion (onSelected)="selectSuggestion($event, i, 'consignees')" url="Suggestion/GetCompanies"
               display="name" placeholder="Search Name" class="auto-suggest" [name]="'consignee-' + i"
               [preSelected]="consignee">
@@ -28,7 +28,7 @@
       <div class="row">
         <div class="col-12">
           <label>Transporter</label>
-          <div *ngFor=" let transport of constraintsType.transporter; let i = index; ">
+          <div *ngFor=" let transport of constraintsType.transporter; let i = index; " class="mt-2">
             <auto-suggestion (onSelected)="selectSuggestion($event,i,'transporter')" url="Suggestion/GetCompanies"
               display="name" placeholder=" Search Name" class="auto-suggest" [name]="'transport'- + i"
               [preSelected]="transport">
@@ -46,7 +46,7 @@
       <div class="row">
         <div class="col-12">
           <label>Vehicle </label>
-          <div *ngFor=" let vehicle of constraintsType.vehicles; let i = index; ">
+          <div *ngFor=" let vehicle of constraintsType.vehicles; let i = index; " class="mt-2">
             <auto-suggestion (onSelected)="selectSuggestion($event,i,'vehicles')" url="Vehicles/getVehicleListForFoid"
               display="regno" placeholder=" Search Regno" class="auto-suggest" [name]="'vehicle'- + i"
               [preSelected]="vehicle" (onChange)="resetData($event,i,'vehicles')">
@@ -63,7 +63,7 @@
       <div class="row">
         <div class="col-12">
           <label>Destinations</label>
-          <div *ngFor="let destination of constraintsType.destinations; let i = index; ">
+          <div *ngFor="let destination of constraintsType.destinations; let i = index; " class="mt-2">
             <span>Site</span>
             <input value="site" [(ngModel)]="destination.type" type="radio" checked="checked" [name]="'radio-'+i">
             &nbsp;
@@ -90,11 +90,7 @@
       </div>
     </div>
 
-
   </div>
-
-
-
 
 
 </div>
