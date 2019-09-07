@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UpdateTicketPropertiesComponent } from '../../modals/update-ticket-properties/update-ticket-properties.component'
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 
 @Component({
@@ -103,6 +104,10 @@ export class TicketPropertiesComponent implements OnInit {
         class: "fa fa-edit",
         action: this.openUpdatePropertiesModel.bind(this, details)
 
+      },
+      {
+        class:'fa fa-trash',
+        action:this.deleteProperties.bind(this,details)
       }
     )
     console.log("details-------:", details)
@@ -120,6 +125,42 @@ export class TicketPropertiesComponent implements OnInit {
     activeModel.result.then(data => {
       this.getFoProperties();
     });
+  }
+
+  
+  deleteProperties(properties) {
+    console.log("result:",properties);
+    let params = {
+      foid: properties._foid,
+      id:properties._row_id
+    };
+    if (properties._row_id) {
+      this.common.params = {
+        title: 'Delete Matrix ',
+        description: `<b>&nbsp;` + 'Are You Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          this.api.post('FoTicketProperties/deleteFoProperties ', params)
+            .subscribe(res => {
+              this.common.loading--
+              console.log('removeField', res);
+              
+              if (res['code'] == "1") {
+                console.log("test");
+                this.common.showToast([res][0]['msg']);
+              }
+    this.getFoProperties();
+
+            }, err => {
+              this.common.loading--;
+              this.common.showError();
+            })
+        }
+      });
+    }
   }
 
 }

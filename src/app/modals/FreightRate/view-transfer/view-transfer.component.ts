@@ -1,23 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
-import { CommonService } from '../../services/common.service';
-import { DatePipe } from '@angular/common';
-import { UserService } from '../../services/user.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
-import { ConfirmComponent } from '../../modals/confirm/confirm.component';
-import { ViewTransferComponent } from '../../modals/FreightRate/view-transfer/view-transfer.component';
+import { Component, OnInit, Renderer } from '@angular/core';
+import { CommonService } from '../../../services/common.service';
+import { ApiService } from '../../../services/api.service';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
-  selector: 'transfers',
-  templateUrl: './transfers.component.html',
-  styleUrls: ['./transfers.component.scss', '../pages.component.css']
+  selector: 'view-transfer',
+  templateUrl: './view-transfer.component.html',
+  styleUrls: ['./view-transfer.component.scss']
 })
-export class TransfersComponent implements OnInit {
-  startTime = new Date(new Date().setDate(new Date().getDate() - 7));;
+export class ViewTransferComponent implements OnInit {
+
+  startTime = new Date(new Date().setDate(new Date().getDate() - 30));;
   endTime = new Date();
   transferType=-1;
   ledgerId='';
+
   data = [];
   table = {
     data: {
@@ -30,29 +28,25 @@ export class TransfersComponent implements OnInit {
   };
   headings = [];
   valobj = {};
-  constructor(public api: ApiService,
+
+
+  constructor(
     public common: CommonService,
-    private datePipe: DatePipe,
-    public user: UserService,
-    private modalService: NgbModal) {
-    //this.viewTransfer();
-    this.common.refresh = this.refresh.bind(this);
+    public api: ApiService,
+    public activeModal: NgbActiveModal,
+    public renderer: Renderer,
+    public modalService: NgbModal
+  ) 
+  { 
+    this.ledgerId=this.common.params.ledgerId;
+    this.viewTransfer();
   }
 
   ngOnInit() {
   }
 
-
-  refresh() {
-    this.viewTransfer();
-  }
-
-  ledger(ledgerData)
+  viewTransfer()
   {
-    this.ledgerId=ledgerData.id;
-  }
-
-  viewTransfer() {
     const params = "startTime=" + this.common.dateFormatter(this.startTime) +
       "&endTime=" + this.common.dateFormatter(this.endTime)+"&ledgerId="+this.ledgerId+"&transferType="+this.transferType;
     ++this.common.loading;
@@ -107,15 +101,6 @@ export class TransfersComponent implements OnInit {
             ]
           };
         }
-        else if(this.headings[i]=="Credit To"){
-          console.log("test",this.headings[i]);
-          
-          this.valobj[this.headings[i]]={value:doc[this.headings[i]],class:"blue",action:this.openViewTransfer.bind(this,doc._cr_ledgerid)}
-        }
-        else if(this.headings[i]=="Debit To"){
-          this.valobj[this.headings[i]]={value:doc[this.headings[i]],class:"blue",action:this.openViewTransfer.bind(this,doc._dr_ledgerid)}
-          
-        }
         else {
 
           console.log("doc index value:", doc[this.headings[i]]);
@@ -133,31 +118,6 @@ export class TransfersComponent implements OnInit {
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
-
-
-  addTransfer() {
-    // console.log("invoice", invoice);
-    // this.common.params = { invoiceId:invoice._id }
-    this.common.params = { refData: null };
-    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-      this.viewTransfer();
-    });
-  }
-
-  openViewTransfer(id)
-  {
-    console.log("Id",id);
-    this.common.params = { ledgerId: id };
-    const activeModal = this.modalService.open(ViewTransferComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-      //this.viewTransfer();
-    });
-  }
-
-
 
 
   deleteTransfer(row) {
@@ -194,5 +154,7 @@ export class TransfersComponent implements OnInit {
     }
   }
 
-
+  closeModal() {
+    this.activeModal.close();
+  }
 }
