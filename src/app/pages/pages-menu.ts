@@ -171,6 +171,12 @@ export const PAGES_MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-user-cog',
         link: '/pages/fo-user-role',
       },
+      {
+        title: 'Vehicles',
+        icon: 'fas fa-info-circle',
+        link: '/pages/vehicles',
+        home: true,
+      },
     ]
   },
   {
@@ -282,12 +288,7 @@ export const PAGES_MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-performance',
         home: true,
       },
-      {
-        title: 'Vehicles',
-        icon: 'fas fa-info-circle',
-        link: '/pages/vehicles',
-        home: true,
-      },
+
 
     ]
   },

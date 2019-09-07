@@ -14,6 +14,7 @@ import { AddFieldComponent } from '../add-field/add-field.component';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
 import { AddMaterialComponent } from '../add-material/add-material.component';
 import { AddTransportAgentComponent } from '../add-transport-agent/add-transport-agent.component';
+import { BasicPartyDetailsComponent } from '../../../modals/basic-party-details/basic-party-details.component';
 
 @Component({
   selector: 'lr-generate',
@@ -49,6 +50,7 @@ export class LrGenerateComponent implements OnInit {
   lrGeneralField = [];
   generalDetailColumn2 = [];
   generalDetailColumn1 = [];
+  foCmpnyId = 0;
 
   particulars = [];
   constructor(
@@ -91,6 +93,8 @@ export class LrGenerateComponent implements OnInit {
         if (res['data'] && res['data'].result) {
           this.lrGeneralField = res['data'].result;
           let headData = res['data'].headings;
+          this.foCmpnyId = res['data']['headings'][0].fo_companyid;
+          console.log('focompnyid:::::::::', this.foCmpnyId);
           if (headData.length > 0) {
             this.setLrHeadData(headData[0], isSetBranchId);
           }
@@ -153,6 +157,17 @@ export class LrGenerateComponent implements OnInit {
   addCompany() {
     console.log("open consignee modal")
     const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+    });
+  }
+
+  addAssociation() {
+    console.log("open Association modal")
+    this.common.params = {
+      cmpId: this.foCmpnyId,
+    };
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Data:', data);
     });

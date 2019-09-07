@@ -148,7 +148,7 @@ export const ACCOUNTS_MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/trading'
             },
             {
-                title: 'Profit & Loass A/C',
+                title: 'Profit & Loss A/C',
                 link: '/accounts/profitloss'
             },
             {

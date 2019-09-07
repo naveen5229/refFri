@@ -21,6 +21,7 @@ export class ConstraintsComponent implements OnInit {
   keepGoing = true;
   foId = null;
   issueType = null;
+  id = null;
   getContraintsData = [];
 
   constructor(public api: ApiService,
@@ -28,9 +29,17 @@ export class ConstraintsComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.foId = this.common.params.foId;
-    this.issueType = this.common.params.issueType;
-    this.common.handleModalSize('class', 'modal-lg', '1100', 'px');
+    console.log("params:", this.common.params);
+
+    if (this.common.params && this.common.params.constraints) {
+
+      this.foId = this.common.params.constraints.foId;
+      this.issueType = this.common.params.constraints.issueType;
+      this.id = this.common.params.constraints.id;
+
+
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1100', 'px', 1);
     this.getContraintsIssueData();
   }
 
@@ -43,9 +52,9 @@ export class ConstraintsComponent implements OnInit {
 
   getContraintsIssueData() {
     const params = {
-      foid: 1215,
-      issue_type_id: 301,
-      id: 186
+      foid: this.foId,
+      issue_type_id: this.issueType,
+      id: this.id
     }
 
     console.log("params", params);
@@ -53,22 +62,7 @@ export class ConstraintsComponent implements OnInit {
     this.api.post('FoTicketEscalation/getUsers', params)
       .subscribe(res => {
         this.common.loading--;
-        this.getContraintsData = res['data'][0].constraints;
-
-        console.log("....", this.getContraintsData);
-        let result = Object.values(this.getContraintsData);
-        console.log("keys", result);
-        result.map(key => {
-          if (key.value != null) {
-            console.log("test");
-            this.constraintsType = res['data'][0].constraints;
-            console.log("for View", this.constraintsType);
-          }
-
-        });
-
-
-
+        this.constraintsType = res['data'][0].constraints;
 
       }, err => {
         this.common.loading--;
@@ -161,7 +155,7 @@ export class ConstraintsComponent implements OnInit {
       constraints: JSON.stringify(issues),
       foid: this.foId,
       issue_type_id: this.issueType,
-      id: 11
+      id: this.id
     }
 
     console.log("params", params);

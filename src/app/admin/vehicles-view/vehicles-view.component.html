@@ -1,34 +1,32 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title"> Update Vehicles Category</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <h5 class="modal-title" id="modal-basic-title"> Update Vehicles Category</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <div>
-    <auto-suggestion (onSelected)="getFoList($event)" url="suggestion/getFoUsersList" display="name"
-      placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
-  </div>
-  <table *ngIf="showtable" class="table table-bordered mt-3">
-    <thead class="thead" style="background-color: cadetblue; color: white">
-      <tr>
-        <th>Id</th>
-        <th>Vehicle RegNo.</th>
-        <th>Category</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of vehicleViewDetails; let i=index;">
-        <td>{{i+1}}</td>
-        <td>{{data.regno}}</td>
-        <!-- <td>{{data.is_ncv}}</td> -->
-        <td><select [(ngModel)]="is_ncv[i]" class="form-control" (change)="changeNcvValue(data.id,i)"
-            style=" border: 2px solid darkcyan; font-size: 15px">
+    <div>
+        <auto-suggestion (onSelected)="getFoList($event)" url="suggestion/getFoUsersList" display="name" placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
+    </div>
+    <table *ngIf="showtable" class="table table-bordered mt-3">
+        <thead class="thead" style="background-color: cadetblue; color: white">
+            <tr>
+                <th>Id</th>
+                <th>Vehicle RegNo.</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of vehicleViewDetails; let i=index;">
+                <td>{{i+1}}</td>
+                <td>{{data.regno}}</td>
+                <!-- <td>{{data.is_ncv}}</td> -->
+                <td><select [(ngModel)]="is_ncv[i]" class="form-control" (change)="changeNcvValue(data.id,i)" style=" border: 2px solid darkcyan; font-size: 15px">
             <option value="0">Long haul </option>
             <option value="1">Short haul with GPS</option>
             <option value="2">Short haul without GPS</option>
 
           </select></td>
-    </tbody>
-  </table>
+        </tbody>
+    </table>
 </div>

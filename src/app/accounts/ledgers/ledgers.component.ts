@@ -55,7 +55,7 @@ export class LedgersComponent implements OnInit {
       foid: 123,
       deleted: this.deletedId
     };
-
+console.log('deleted ledger and simple',params);
     this.common.loading++;
     this.api.post('Accounts/GetLedgerdata', params)
       .subscribe(res => {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmComponent } from '../confirm/confirm.component';
 import { ConstraintsComponent } from '../constraints/constraints.component';
 @Component({
   selector: 'add-escalation-issue',
@@ -9,8 +10,23 @@ import { ConstraintsComponent } from '../constraints/constraints.component';
   styleUrls: ['./add-escalation-issue.component.scss']
 })
 export class AddEscalationIssueComponent implements OnInit {
-
+  startTime = new Date(new Date().setDate(new Date().getDate() - 7));;
+  endTime = new Date();
   issueDetails = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  headings = [];
+  valobj = {};
+
+
+
   issueFieldValues = [];
   userLevel = "one";
   level = 1;
@@ -29,8 +45,8 @@ export class AddEscalationIssueComponent implements OnInit {
 
 
   constructor(private activeModal: NgbActiveModal,
-    public modalService: NgbModal,
     public common: CommonService,
+    public modalService: NgbModal,
     public api: ApiService) {
     if (this.common.params) {
       this.escalationType = {
@@ -39,6 +55,7 @@ export class AddEscalationIssueComponent implements OnInit {
       };
     }
     this.getAddIssueTable();
+    this.common.handleModalSize('class', 'modal-lg', '1100', 'px');
   }
 
   ngOnInit() {
@@ -57,20 +74,69 @@ export class AddEscalationIssueComponent implements OnInit {
   }
   getAddIssueTable() {
     let params = {
-      foid: this.common.params.foid,
-      issue_type_id: this.common.params.issueType
+      foid: this.escalationType.id,
+      issue_type_id: this.escalationType.issueType
     };
     this.common.loading++;
     this.api.post('FoTicketEscalation/getUsers', params)
       .subscribe(res => {
         this.common.loading--
         console.log('res: ', res['data']);
-        this.issueDetails = res['data'];
+        this.issueDetails = res['data'] || [];
+        console.log("result", res);
+        let first_rec = this.issueDetails[0];
+        let headings = {};
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            headings[key] = headerObj;
+          }
+        }
+        this.table.data = {
+          headings: headings,
+          columns: this.getTableColumns()
+        };
       }, err => {
         this.common.loading--;
         this.common.showError();
       })
   }
+
+
+  getTableColumns() {
+    let columns = [];
+    console.log("Data=", this.issueDetails);
+    this.issueDetails.map(matrix => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
+      }
+      this.valobj['Action'] = { class: '', icons: this.actionIcons(matrix) };
+      columns.push(this.valobj);
+    });
+    return columns;
+  }
+
+  actionIcons(details) {
+    let icons = [];
+    icons.push(
+      {
+        class: "fa fa-trash",
+        action: this.removeField.bind(this, details)
+      },
+      {
+        class: "fa fa-filter ml-2",
+        action: this.addIssueConstraints.bind(this, details)
+      }
+    )
+    return icons;
+  }
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1)
+  }
+
   addIssue() {
     if (this.userLevel == "one") {
       this.level = 1;
@@ -86,8 +152,9 @@ export class AddEscalationIssueComponent implements OnInit {
       issue_type_id: this.common.params.issueType,
       user_id: this.addIssueField.userId,
       senior_user_id: this.addIssueField.SeniorId,
-      user_level: this.level
-
+      user_level: this.level,
+      from_time: this.common.dateFormatter1(this.startTime),
+      to_time: this.common.dateFormatter1(this.endTime),
     };
     console.log('params to insert', params);
     this.common.loading++;
@@ -95,39 +162,64 @@ export class AddEscalationIssueComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--
         this.issueFieldValues = res['success'];
+
         console.log('addIssue', res['success']);
+        this.common.showToast(res['data'][0]['y_msg']);
         this.getAddIssueTable();
       }, err => {
         this.common.loading--;
         this.common.showError();
       })
   }
-  removeField(result?) {
+
+
+  removeField(result) {
+    console.log("result:", result);
     let params = {
-      fId: result.id
+      fId: result._row_id
 
     };
-    console.log('removeld', result.id)
-    this.common.loading++;
-    this.api.post('FoTicketEscalation/deleteUser ', params)
-      .subscribe(res => {
-        this.common.loading--
-        console.log('removeField', res);
-        if (res['code'] == "1") {
-          this.getAddIssueTable();
+
+    if (result._row_id) {
+      this.common.params = {
+        title: 'Delete Matrix ',
+        description: `<b>&nbsp;` + 'Are You Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log('removeld', result.id)
+          this.common.loading++;
+          this.api.post('FoTicketEscalation/deleteUser ', params)
+            .subscribe(res => {
+              this.common.loading--
+              console.log('removeField', res);
+
+              if (res['code'] == "1") {
+                console.log("test");
+                this.common.showToast([res][0]['msg']);
+                this.getAddIssueTable();
+              }
+            }, err => {
+              this.common.loading--;
+              this.common.showError();
+            })
         }
-      }, err => {
-        this.common.loading--;
-        this.common.showError();
-      })
+      });
+    }
   }
-  addConstraints() {
-    this.common.params = { foId: 1215, issueType: 10001 };
-    const activeModal = this.modalService.open(ConstraintsComponent, { size: 'lg', container: 'nb-layout', });
+
+  addIssueConstraints(constraint) {
+    console.log("constaints", constraint);
+
+    let constraints = {
+      foId: constraint._foid,
+      issueType: constraint._issue_type_id,
+      id: constraint._row_id
+    };
+    this.common.params = { constraints: constraints };
+    const activeModal = this.modalService.open(ConstraintsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      console.log("Test");
     });
   }
-
-
 }

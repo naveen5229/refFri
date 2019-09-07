@@ -63,10 +63,10 @@ export class TransferReceiptsComponent implements OnInit {
     name: 'Trip',
     id: '14'
   }];
-  creditId=null;
-  debitId=null;
-  
+  creditId = null;
+  debitId = null;
 
+  refData = null;
 
   constructor(public modalService: NgbModal,
     public common: CommonService,
@@ -74,13 +74,16 @@ export class TransferReceiptsComponent implements OnInit {
     public api: ApiService) {
     this.getPaymentMode();
     this.getTypeList();
-   
+    console.log("this.common.params.refData", this.common.params.refData);
     if (this.common.params && this.common.params.refData) {
+      this.refData = this.common.params.refData;
       this.edit = 1;
       this.transferReceipt.refernceType = this.common.params.refData.refType;
       this.transferReceipt.refId = this.common.params.refData.refId;
+      this.transferReceipt.selectOption = this.common.params.refData.selectOption ? this.common.params.refData.selectOption : 'transfer';
       this.getReferenceData();
       this.getRefernceType(this.transferReceipt.refernceType);
+      this.showdata();
     }
 
   }
@@ -126,115 +129,114 @@ export class TransferReceiptsComponent implements OnInit {
     this.transferReceipt.refernceType = '0';
   }
 
-  showdata()
-  {
+  showdata() {
     const params = "refId=" + this.transferReceipt.refId +
-    "&refType=" + this.transferReceipt.refernceType;
-  ++this.common.loading;
+      "&refType=" + this.transferReceipt.refernceType;
+    ++this.common.loading;
 
-  this.api.get('FrieghtRate/getTransfers?' + params)
-    .subscribe(res => {
-      --this.common.loading;
+    this.api.get('FrieghtRate/getTransfers?' + params)
+      .subscribe(res => {
+        --this.common.loading;
 
-      this.data = [];
-      this.table = {
-        data: {
-          headings: {},
-          columns: []
-        },
-        settings: {
-          hideHeader: true
-        }
-      };
-      this.headings = [];
-      this.valobj = {};
-
-      if (!res['data']) return;
-      this.data = res['data'];
-      let first_rec = this.data[0];
-      for (var key in first_rec) {
-        if (key.charAt(0) != "_") {
-          this.headings.push(key);
-          let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-          this.table.data.headings[key] = headerObj;
-        }
-      }
-      this.table.data.columns = this.getTableColumns();
-    }, err => {
-      --this.common.loading;
-      this.common.showError(err);
-      console.log('Error: ', err);
-    });
-}
-
-
-getTableColumns() {
-  let columns = [];
-  console.log("Data=", this.data);
-  this.data.map(doc => {
-    this.valobj = {};
-    for (let i = 0; i < this.headings.length; i++) {
-      if (this.headings[i] == "Action") {
-        this.valobj[this.headings[i]] = {
-          value: "",
-          action: null,
-          isHTML: false,
-          icons: [
-            { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc) },
-          ]
+        this.data = [];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
         };
-      }
-      else {
+        this.headings = [];
+        this.valobj = {};
 
-        console.log("doc index value:", doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-      }
-
-    }
-    columns.push(this.valobj);
-
-  });
-
-  return columns;
-}
-
-formatTitle(title) {
-  return title.charAt(0).toUpperCase() + title.slice(1);
-}
-
-deleteTransfer(row) {
-  console.log("row", row);
-  let params = {
-    id: row._id,
+        if (!res['data']) return;
+        this.data = res['data'];
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+        this.table.data.columns = this.getTableColumns();
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
   }
-  if (row._id) {
-    this.common.params = {
-      title: 'Delete Route ',
-      description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
-    }
-    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-    activeModal.result.then(data => {
-      if (data.response) {
-        console.log("data", data);
-        this.common.loading++;
-        this.api.post('FrieghtRate/deleteTransfers', params)
-          .subscribe(res => {
-            this.common.loading--;
-            if (res['data'][0].y_id > 0) {
-              this.common.showToast('Success');
-              this.showdata();
-            }
-            else {
-              this.common.showToast(res['data'][0].y_msg);
-            }
-          }, err => {
-            this.common.loading--;
-            console.log('Error: ', err);
-          });
+
+
+  getTableColumns() {
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        if (this.headings[i] == "Action") {
+          this.valobj[this.headings[i]] = {
+            value: "",
+            action: null,
+            isHTML: false,
+            icons: [
+              { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc) },
+            ]
+          };
+        }
+        else {
+
+          console.log("doc index value:", doc[this.headings[i]]);
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+        }
+
       }
+      columns.push(this.valobj);
+
     });
+
+    return columns;
   }
-}
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
+  deleteTransfer(row) {
+    console.log("row", row);
+    let params = {
+      id: row._id,
+    }
+    if (row._id) {
+      this.common.params = {
+        title: 'Delete Transfer ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+        const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+        activeModal.result.then(data => {
+          if (data.response) {
+            console.log("data", data);
+            this.common.loading++;
+            this.api.post('FrieghtRate/deleteTransfers', params)
+              .subscribe(res => {
+                this.common.loading--;
+                if (res['data'][0].y_id > 0) {
+                  this.common.showToast('Success');
+                  this.showdata();
+                }
+                else {
+                  this.common.showToast(res['data'][0].y_msg);
+                }
+              }, err => {
+                this.common.loading--;
+                console.log('Error: ', err);
+              });
+          }
+        });
+    }
+  }
 
   resetvehicle() {
     this.transferReceipt.vehicleId = null;
@@ -347,8 +349,8 @@ deleteTransfer(row) {
       is_transfer: this.transferReceipt.selectOption,
       pay_mode: this.transferReceipt.modeId,
       remarks: this.transferReceipt.remark,
-      creditLId:this.creditId,
-      debitLId:this.debitId
+      creditLId: this.creditId,
+      debitLId: this.debitId
     };
     this.api.post("LorryReceiptsOperation/saveTransfers", params)
       .subscribe(res => {
