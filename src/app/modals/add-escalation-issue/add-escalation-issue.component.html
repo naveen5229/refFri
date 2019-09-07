@@ -1,12 +1,11 @@
-<div style="margin-top: 20px; margin-left: 20px; margin-right: 20px; margin-bottom: 20px">
-<div class="model-header">
-  <h4 class="model-title" id="model-basic-title">Escalation Matrix</h4>
-  <button type="button" class="close" style="margin-top : -40px"  aria-label="Close" (click)=dismiss(false)>
+<div class="modal-header">
+  <h5>Escalation Matrix</h5>
+  <button type="button" class="close"   aria-label="Close" (click)=dismiss(false)>
     <span aria-hidden="true">&times;</span>
   </button>
 </div> 
-<div style="margin-block-start: 20px"> 
-<div class="model-body">
+
+<div class="modal-body">
     <div class="row">
       <div class="col">
         <div class="from-group">
@@ -45,37 +44,66 @@
             </select>
           </div>
     </div>
-   </div>
-</div> 
-</div>  
 
-<div class="modal-footer">
+    <div class="col">
+      <div class="from-group">
+      <label>From Time</label>
+      <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+      </uj-date-time-picker>
+      </div>
+</div>
+
+<div class="col">
+  <div class="from-group">
+  <label>To Time</label>
+  <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event" [dateTimeValue]="endTime">
+  </uj-date-time-picker>
+  </div>
+  </div>
+  <!-- <div class="row" style="margin-top:5px;margin-bottom:5px;">
+    
+</div> -->
+
+
+</div>
+</div> 
+  
+
+<div class="modal-footer" style="margin-top:10px;">
     <div class="row">
         <div class="col text-right">
-        <button class="btn btn-primary" type="button" outline (click)="addIssue()" id="add" style="cursor: pointer;">Add</button>
-      </div>
+  <button class="btn btn-primary" type="button" outline (click)="addIssue()" id="add" style="cursor: pointer;">Add</button>
+</div>
     </div>
 </div>
-<table class="table table-bordered">
-  <tr>
-  <th>S.No</th>
-  <th>Id</th>
-  <th>User Name</th>
-  <th>Senior User Name</th>
-  <th>User Level</th>
-  <th>Action</th>
-  </tr>
-  <tr *ngFor="let details of issueDetails; let i=index;" >
-    <td>{{i+1}}</td>
-    <td>{{details.id}}</td>
-    <td>{{details.user_name}}</td>
-    <td>{{details.senior_user_name}}</td>
-    <td>{{details.user_level}}</td>
-    <td><button type="button" class="remove" aria-label="Delete" (click)= "removeField(details)">
-        <span aria-hidden="true">&times;</span>
-      </button></td>
-  </tr>
-  
-  </table>
-</div>
+<div class="row"><div class="col-12" style="padding-left:30px;padding-right:30px;">
+  <!-- <table class="table table-bordered">
+    <tr>
+    <th>S.No</th>
+    <th>Id</th>
+    <th>User Name</th>
+    <th>Senior User Name</th>
+    <th>User Level</th>
+    <th>Action</th>
+    </tr>
+    <tr *ngFor="let details of issueDetails; let i=index;">
+      <td>{{i+1}}</td>
+      <td>{{details.id}}</td>
+      <td>{{details.user_name}}</td>
+      <td>{{details.senior_user_name}}</td>
+      <td>{{details.user_level}}</td>
+       <td><button type="button" class="remove" aria-label="Close" (click)= "removeField(details)">
+          <span aria-hidden="true">&times;</span>
+        </button></td> 
+
+        <td>
+            <div (click)="removeField(details)">
+                <i class="fa fa-trash"></i>
+         </div>
+    </tr>
+    
+    </table> -->
+    <smart-table *ngIf="issueDetails && issueDetails.length" [data]="table.data" [settings]="table.settings"></smart-table>
+</div></div>
+
   
