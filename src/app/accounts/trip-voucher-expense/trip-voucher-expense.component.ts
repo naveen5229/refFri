@@ -415,7 +415,8 @@ export class TripVoucherExpenseComponent implements OnInit {
       vehId: (this.selectedVehicle.id) ? this.selectedVehicle.id : 0,
       startdate: this.startdate,
       enddate: this.enddate,
-      isdate: this.vchdt
+      isdate: this.vchdt,
+      routid:this.routId
     };
     this.common.loading++;
     this.api.post('VehicleTrips/getTripExpenceFilterVoucher', params)
