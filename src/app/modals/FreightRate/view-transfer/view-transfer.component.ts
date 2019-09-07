@@ -15,6 +15,7 @@ export class ViewTransferComponent implements OnInit {
   endTime = new Date();
   transferType=-1;
   ledgerId='';
+  ledgerType='';
 
   data = [];
   table = {
@@ -39,6 +40,8 @@ export class ViewTransferComponent implements OnInit {
   ) 
   { 
     this.ledgerId=this.common.params.ledgerId;
+    this.ledgerType="Ledger:"+this.common.params.title;
+    console.log("ledgerType:",this.ledgerType);
     this.viewTransfer();
   }
 
@@ -91,22 +94,11 @@ export class ViewTransferComponent implements OnInit {
     this.data.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = {
-            value: "",
-            action: null,
-            isHTML: false,
-            icons: [
-              { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc) },
-            ]
-          };
-        }
-        else {
+        
 
           console.log("doc index value:", doc[this.headings[i]]);
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-        }
-
+        
       }
       columns.push(this.valobj);
 
@@ -120,39 +112,39 @@ export class ViewTransferComponent implements OnInit {
   }
 
 
-  deleteTransfer(row) {
-    console.log("row", row);
-    let params = {
-      id: row._id,
-    }
-    if (row._id) {
-      this.common.params = {
-        title: 'Delete Route ',
-        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
-      }
-      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-      activeModal.result.then(data => {
-        if (data.response) {
-          console.log("data", data);
-          this.common.loading++;
-          this.api.post('FrieghtRate/deleteTransfers', params)
-            .subscribe(res => {
-              this.common.loading--;
-              if (res['data'][0].y_id > 0) {
-                this.common.showToast('Success');
-                this.viewTransfer();
-              }
-              else {
-                this.common.showToast(res['data'][0].y_msg);
-              }
-            }, err => {
-              this.common.loading--;
-              console.log('Error: ', err);
-            });
-        }
-      });
-    }
-  }
+  // deleteTransfer(row) {
+  //   console.log("row", row);
+  //   let params = {
+  //     id: row._id,
+  //   }
+  //   if (row._id) {
+  //     this.common.params = {
+  //       title: 'Delete Route ',
+  //       description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+  //     }
+  //     const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+  //     activeModal.result.then(data => {
+  //       if (data.response) {
+  //         console.log("data", data);
+  //         this.common.loading++;
+  //         this.api.post('FrieghtRate/deleteTransfers', params)
+  //           .subscribe(res => {
+  //             this.common.loading--;
+  //             if (res['data'][0].y_id > 0) {
+  //               this.common.showToast('Success');
+  //               this.viewTransfer();
+  //             }
+  //             else {
+  //               this.common.showToast(res['data'][0].y_msg);
+  //             }
+  //           }, err => {
+  //             this.common.loading--;
+  //             console.log('Error: ', err);
+  //           });
+  //       }
+  //     });
+  //   }
+  // }
 
   closeModal() {
     this.activeModal.close();
