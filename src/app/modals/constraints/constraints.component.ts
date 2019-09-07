@@ -29,15 +29,17 @@ export class ConstraintsComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     private activeModal: NgbActiveModal) {
+      console.log("params:",this.common.params);
 
-      if(this.common.params && this.common.params.constants){
+      if(this.common.params && this.common.params.constraints){
+        
         this.foId = this.common.params.constraints.foId;
         this.issueType = this.common.params.constraints.issueType;
         this.id = this.common.params.constraints.id;
 
 
       }
-    this.common.handleModalSize('class', 'modal-lg', '1100', 'px');
+    this.common.handleModalSize('class', 'modal-lg', '1100', 'px',1);
     this.getContraintsIssueData();
   }
 
@@ -60,23 +62,7 @@ export class ConstraintsComponent implements OnInit {
     this.api.post('FoTicketEscalation/getUsers', params)
       .subscribe(res => {
         this.common.loading--;
-        this.getContraintsData = res['data'][0].constraints;
-
-        console.log("....", this.getContraintsData);
-        let result = Object.values(this.getContraintsData);
-        console.log("keys", result);
-        result.map(key => {
-
-          if (key.value != null) {
-            console.log("test");
-            this.constraintsType = res['data'][0].constraints;
-            console.log("for View", this.constraintsType);
-          }
-
-        });
-
-
-
+        this.constraintsType = res['data'][0].constraints;
 
       }, err => {
         this.common.loading--;

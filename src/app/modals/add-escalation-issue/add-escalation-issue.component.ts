@@ -127,7 +127,7 @@ export class AddEscalationIssueComponent implements OnInit {
         action: this.removeField.bind(this, details)
       },
         {
-          class: "fas fa-bug",
+          class: "fa fa-filter ml-2",
           action: this.addIssueConstraints.bind(this, details)
         }
     )
@@ -214,11 +214,12 @@ export class AddEscalationIssueComponent implements OnInit {
   {
   console.log("constaints",constraint);
     
-   let constants={
-    foId:this.escalationType.id,
-    issueType:this.escalationType.issueType,
+   let constraints={
+    foId:constraint._foid,
+    issueType:constraint._issue_type_id,
     id:constraint._row_id
-    }
+    };
+    this.common.params={constraints:constraints};
     const activeModal= this.modalService.open(ConstraintsComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
      activeModal.result.then(data =>{
      });

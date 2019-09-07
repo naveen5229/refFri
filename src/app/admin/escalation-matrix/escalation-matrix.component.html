@@ -8,9 +8,13 @@
   <nb-card-body>
 
 <div class="modal-body">
+  <div class="search mt-2">
     <auto-suggestion (onSelected)="getMatrix($event)" url="suggestion/getFoUsersList" display="name"
     placeholder="Search" [preSelected]="null"></auto-suggestion>
+
+  </div>
 </div>    
+
 
 <!-- <table class="table table-bordered">
 <tr>
