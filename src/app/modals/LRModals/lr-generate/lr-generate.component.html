@@ -120,7 +120,7 @@
                   url="Suggestion/GetCompanies2?type=CNEE" display="name" placeholder=" Search Name"
                   [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
-                <i *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name'" class="fa fa-plus add"
+                <i *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
                   (click)="addAssociation()"></i>
 
                 <!-- consignor suggestion -->
@@ -280,7 +280,7 @@
                   url="Suggestion/GetCompanies2?type=CNEE" display="name" placeholder=" Search Name"
                   [preSelected]="{name : generalDetailColumn2[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
-                <i *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name'" class="fa fa-plus add"
+                <i *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
                   (click)="addAssociation()"></i>
 
 
