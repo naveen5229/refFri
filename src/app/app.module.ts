@@ -242,6 +242,7 @@ import { RoutesTimetableComponent } from './modals/routes-timetable/routes-timet
 import { VehicleTimeTableAssociationComponent } from './modals/vehicle-time-table-association/vehicle-time-table-association.component';
 import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledger-mapping/driver-ledger-mapping.component';
 import { ConstraintsComponent } from './modals/constraints/constraints.component';
+import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-transfer.component';
 
 
 
@@ -458,6 +459,7 @@ import { ConstraintsComponent } from './modals/constraints/constraints.component
     VehicleTimeTableAssociationComponent,
     DriverLedgerMappingComponent,
     ConstraintsComponent,
+    ViewTransferComponent,
 
   ],
   entryComponents: [
@@ -658,7 +660,8 @@ import { ConstraintsComponent } from './modals/constraints/constraints.component
     DriverLedgerMappingComponent,
     RoutesTimetableComponent,
     VehicleTimeTableAssociationComponent,
-    ConstraintsComponent
+    ConstraintsComponent,
+    ViewTransferComponent
   ],
   imports: [
     BrowserModule,

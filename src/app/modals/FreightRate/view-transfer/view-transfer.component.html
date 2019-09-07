@@ -1,0 +1,45 @@
+
+<div class="modal-header">
+    <h5>View Transfer</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+ <div class="row">
+   <div class="col-3">
+      <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+        </uj-date-time-picker>
+   </div>
+   <div class="col-3">
+      <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
+      [dateTimeValue]="endTime">
+    </uj-date-time-picker>
+   </div>
+   <div class="col-3">
+      <label>Type</label>
+      <div style="display:inline-block">
+      <select class="form-control" [(ngModel)]="transferType" style="width:120px;margin-left:8px;">
+          <option [value]="1">Transfer</option>
+          <option [value]="0">Receipt</option>
+          <option [value]="-1">All</option>
+        </select>
+      </div>
+   </div>
+
+   <div class="col-2">
+      <button class="btn btn-primary" (click)="viewTransfer()">Search</button>
+   </div>
+ </div> 
+  </div>
+  
+  <div>
+  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithLocation">
+    </smart-table>
+    <div class="no-data alert alert-danger" role="alert" *ngIf="data.length==0">
+        No Data available !
+      </div>
+    </div>
+
+  <!-- <div class="modal-footer">
+  </div> -->
