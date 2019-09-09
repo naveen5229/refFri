@@ -10,7 +10,7 @@ import { AccountService } from '../../services/account.service';
 import { DateService } from '../../services/date.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
-import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-filling.component'
+import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-filling.component';
 
 @Component({
   selector: 'voucher-summary',

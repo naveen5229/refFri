@@ -8,8 +8,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   selector: 'auto-suggestion',
   templateUrl: './auto-suggestion.component.html',
   styleUrls: ['./auto-suggestion.component.scss'],
-  host:{
-    '(document:click)':'hideSuggestions($event)'
+  host: {
+    '(document:click)': 'hideSuggestions($event)'
   }
 })
 export class AutoSuggestionComponent implements OnInit {
@@ -211,7 +211,8 @@ export class AutoSuggestionComponent implements OnInit {
     return className;
   }
 
-  showAllSuggestion() {
+  showAllSuggestion(event) {
+    event.stopPropagation();
     this.showSuggestions = true;
     this.suggestions = this.data;
   }
