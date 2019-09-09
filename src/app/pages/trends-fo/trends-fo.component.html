@@ -18,7 +18,7 @@
                     </select>
                 </div>
                 <div class="col-sm-3" *ngIf="(period=='2') && trendType!='31'">
-                    <select [(ngModel)]="weekMonthNumber" class="form-control" (change)="getweeklyMothlyTrend()" style=" border: 1px solid #324148; font-size: 10px">
+                    <select [(ngModel)]="weekMonthNumber" class="form-control" (change)="getweeklyMothlyTrend();getTrendsVehicle();getTrendsSite()" style=" border: 1px solid #324148; font-size: 10px">
                         <option value="4">4</option>
                         <option value="5">5</option>
                         <option value="6">6</option>
@@ -35,7 +35,7 @@
                     </select>
                 </div>
                 <div class="col-sm-3" *ngIf="(period=='3') && trendType!='31'">
-                    <select [(ngModel)]="weekMonthNumber" class="form-control" (change)="getweeklyMothlyTrend()" style=" border: 1px solid #324148; font-size: 10px">
+                    <select [(ngModel)]="weekMonthNumber" class="form-control" (change)="getweeklyMothlyTrend();getTrendsVehicle();getTrendsSite()" style=" border: 1px solid #324148; font-size: 10px">
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
