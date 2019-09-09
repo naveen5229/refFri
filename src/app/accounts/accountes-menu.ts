@@ -1,18 +1,12 @@
 import { NbMenuItem } from '@nebular/theme';
-import { VoucherComponent } from '../acounts-modals/voucher/voucher.component';
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     {
         title: 'Home Dashboard',
         icon: 'fa fa-home',
         link: '/pages/dashboard',
         home: true,
     },
-    // {
-    //     title: 'Invoice',
-    //     icon: 'fas fa-file-invoice',
-    //     link: '/accounts/orders'
-    // },
     {
         title: 'Accounts Master',
         icon: 'fas fa-user-circle',
@@ -134,7 +128,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Cash Book',
                 link: '/accounts/cashbook'
             },
-            
+
             {
                 title: 'Ledger View',
                 link: '/accounts/ledgerview'
@@ -179,32 +173,36 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-file-invoice',
         children: [
 
-    {
-        title: 'Trip Expense Tally',
-        link: '/accounts/trip-expense-tally'
+            {
+                title: 'Trip Expense Tally',
+                link: '/accounts/trip-expense-tally'
+            },
+            {
+                title: 'Account Statics',
+                link: '/accounts/statics'
+            },
+            {
+                title: 'GST Reports',
+                link: '/accounts/gstreport'
+            },
+            {
+                title: 'Tally Export',
+                link: '/accounts/tallyexport'
+            },
+            {
+                title: 'Voucher Audit',
+                link: '/accounts/voucheredited'
+            },
+            {
+                title: 'Voucher Audit',
+                link: '/accounts/voucheredited'
+            },
+            {
+                title: 'Ledger Approve',
+                link: '/accounts/ledgerapprove'
+            },
+        ],
     },
-    {
-        title: 'Account Statics',
-        link: '/accounts/statics'
-    },
-    {
-        title: 'GST Reports',
-        link: '/accounts/gstreport'
-    },
-    {
-        title:'Tally Export',
-        link:'/accounts/tallyexport'
-    },
-    {
-        title: 'Voucher Audit',
-        link: '/accounts/voucheredited'
-    },
-    {
-        title: 'Ledger Approve',
-        link: '/accounts/ledgerapprove'
-    }
-],
-},
     {
         title: 'Invoice',
         icon: 'fas fa-file-invoice',
@@ -256,48 +254,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
         ],
     },
-
-    // {
-    //     title: 'Stock Types',
-    //     icon: 'fas fa-weight-hanging',
-    //     link: '/accounts/stock-types'
-    // },
-    // {
-    //     title: 'Stock Sub Types',
-    //     icon: 'fas fa-weight-hanging',
-    //     link: '/accounts/stock-subtypes'
-    // }
-    // ,
-    // {
-    //     title: 'Stock Item',
-    //     icon: 'fa fa-list',
-    //     link: '/accounts/stockitem'
-    // },
-
-
-
-    // {
-    //     title: 'Account Group',
-    //     icon: 'fa fa-university',
-    //     link: '/accounts/account'
-    // },
-    // {
-    //     title: 'Cost Category',
-    //     icon: 'fa fa-university',
-    //     link: '/accounts/costcenter'
-    // },
-    // {
-    //     title: 'Ledger',
-    //     icon: 'fas fa-file-invoice-dollar',
-    //     link: '/accounts/ledgers/0'
-    // },
-
-
-
-
-
-
-
     {
         title: 'Store Requisition',
         icon: 'fas fa-building',
@@ -320,9 +276,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
         ],
     },
-
-
-
     {
         title: 'Accounts Bin',
         icon: 'fas fa-trash',
@@ -337,7 +290,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
             }
         ]
     },
-
     {
         title: 'Advance Voucher',
         icon: 'fas fa-building',
@@ -357,18 +309,4 @@ export const MENU_ITEMS: NbMenuItem[] = [
             },
         ]
     },
-    // {
-    //     title: 'Trip Voucher Expense',
-    //     icon: 'fas fa-money-check-alt',
-    //     link: '/accounts/trip-voucher-expense'
-    // },
-    // {
-    //     title: 'Fuel Fillings',
-    //     icon: 'fas fa-money-check-alt',
-    //     link: '/accounts/fuelfillings'
-    // },
-
-
-
-
-];
+]);

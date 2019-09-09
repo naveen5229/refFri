@@ -12,6 +12,8 @@ import { TyreModalsComponent } from './tyre-modals/tyre-modals.component';
 import { VehicleTyresComponent } from './vehicle-tyres/vehicle-tyres.component';
 import { TyreSummaryComponent } from './tyre-summary/tyre-summary.component';
 import { TyreSummaryDetailsComponent } from './tyre-summary-details/tyre-summary-details.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { RouteGuard } from '../guards/route.guard';
 
 const routes: Routes = [{
     path: '',
@@ -20,6 +22,7 @@ const routes: Routes = [{
         {
             path: 'dashboard',
             component: DashboardComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         // {
         //     path: 'inventory',
@@ -28,34 +31,50 @@ const routes: Routes = [{
         {
             path: 'inputs',
             component: InputsComponent,
+            canActivate: [AuthGuard, RouteGuard]
+
         },
         {
             path: 'tyre-health-check-up',
             component: TyreHealthCheckUpComponent,
+            canActivate: [AuthGuard, RouteGuard]
+
         },
         {
             path: 'add-trolly',
             component: AddTrollyComponent,
+            canActivate: [AuthGuard, RouteGuard]
+
         },
         {
             path: 'vehicle-trolly-mapping',
             component: VehicleTrollyMappingComponent,
+            canActivate: [AuthGuard, RouteGuard]
+
         },
         {
             path: 'tyre-modals',
             component: TyreModalsComponent,
+            canActivate: [AuthGuard, RouteGuard]
+
         },
         {
             path: 'vehicle-tyres',
             component: VehicleTyresComponent,
+            canActivate: [AuthGuard, RouteGuard]
+
         },
         {
             path: 'tyre-summary',
             component: TyreSummaryComponent,
+            canActivate: [AuthGuard, RouteGuard]
+
         },
         {
             path: 'tyre-summary-details',
             component: TyreSummaryDetailsComponent,
+            canActivate: [AuthGuard, RouteGuard]
+
         },
 
     ],

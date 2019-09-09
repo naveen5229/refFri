@@ -12,12 +12,12 @@ export class DataService {
   public costRoutes = [];
 
   _menu = {
-    admin: this.setAdminpages()
+    admin: this.setAdminPages(),
   };
 
   constructor() { }
 
-  setAdminpages() {
+  setAdminPages() {
     return [
       {
         title: 'Dashboard',
@@ -148,7 +148,7 @@ export class DataService {
         home: true,
         children: [
           {
-            title: 'Driver',
+            title: 'Driver List',
             icon: 'fa fa-male',
             link: '/admin/driver-list',
             home: true,
@@ -230,7 +230,7 @@ export class DataService {
 
           {
             title: 'LR Diagnostics',
-            icon: 'fa fa-diagnostics',
+            icon: 'fas fa-diagnostics',
             link: '/admin/lr-diagnostics',
           },
           {
@@ -334,7 +334,7 @@ export class DataService {
           },
           {
             title: 'Fuel Mileage',
-            icon: 'fa fa-signal',
+            icon: 'fas fa-tachometer-alt',
             link: '/admin/fuel-average-analysis',
             home: true,
           },
@@ -352,7 +352,7 @@ export class DataService {
           },
           {
             title: 'Remaining Fuel',
-            icon: 'fa fa-signal',
+            icon: 'fas fa-oil-can',
             link: '/admin/remaining-fuel',
             home: true,
           },
@@ -362,20 +362,22 @@ export class DataService {
             link: '/admin/fuel-rules',
             home: true,
           },
-          {  title: 'Fo Model Fuel Milage',
-          icon: 'fa fa-safari',
-          link: '/admin/fo-fuel-average',
-          home: true, },
+          {
+            title: 'Fo Model Fuel Milage',
+            icon: 'fas fa-gas-pump',
+            link: '/admin/fo-fuel-average',
+            home: true,
+          },
 
           {
             title: 'Pump Station Area',
-            icon: 'fa fa-signal',
+            icon: 'fas fa-gas-pump',
             link: '/admin/pump-station-area',
             home: true,
           },
           {
             title: 'Fuel Average Issues',
-            icon: 'fa fa-signal',
+            icon: 'fas fa-tachometer-alt',
             link: '/admin/fuel-average-issues',
             home: true,
           },
@@ -436,4 +438,5 @@ export class DataService {
 
     ];
   }
+
 }
