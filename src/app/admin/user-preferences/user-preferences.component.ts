@@ -110,6 +110,8 @@ export class UserPreferencesComponent implements OnInit {
 
   checkOrUnCheckAll(details, type) {
     this.common.isComponentActive = true;
+    console.log("details:", details, "type", type);
+
     if (type === 'group') {
       details.pages.map(page => {
         page.isSelected = details.isSelected
@@ -165,7 +167,6 @@ export class UserPreferencesComponent implements OnInit {
 
   managedata() {
     let firstGroup = _.groupBy(this.data, 'module');
-    console.log(firstGroup);
     this.formattedData = Object.keys(firstGroup).map(key => {
       return {
         name: key,
@@ -174,14 +175,26 @@ export class UserPreferencesComponent implements OnInit {
       }
     });
     this.formattedData.map(module => {
+      let isMasterAllSelected = true;
       let pageGroup = _.groupBy(module.groups, 'group_name');
       module.groups = Object.keys(pageGroup).map(key => {
+        let isAllSelected = true;
+        let pages = pageGroup[key].map(page => {
+          page.isSelected = page.userid ? true : false;
+          if (isAllSelected)
+            isAllSelected = page.isSelected;
+          return page;
+        });
+        if (isMasterAllSelected) {
+          isMasterAllSelected = isAllSelected;
+        }
         return {
           name: key,
-          pages: pageGroup[key].map(page => { page.isSelected = page.userid ? true : false; return page; }),
-          isSelected: false,
+          pages: pages,
+          isSelected: isAllSelected,
         }
       });
+      module.isSelected = isMasterAllSelected;
     });
     this.formattedData = _.sortBy(this.formattedData, ['name'], ['asc']).map(module => {
       module.groups = _.sortBy(module.groups, ['name'], ['asc']).map(groups => {
