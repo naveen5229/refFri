@@ -56,7 +56,6 @@ export class TrendsComponent implements OnInit {
     elements: {},
     lables: [],
     yAxes: [],
-    y2Axes:[],
     ticks: {},
     min: '',
     max: '',
@@ -160,22 +159,7 @@ export class TrendsComponent implements OnInit {
             max: 500,
             stepSize: 100
           }
-        }],
-        y2Axes:[{
-          title: "Linear Scale",
-          lineColor: "#7F6084",
-          titleFontColor: "#7F6084",
-          labelFontColor: "#7F6084"
-        },
-        {
-          title: "Logarithmic Scale",
-          logarithmic: true,
-          interval: 1,
-          lineColor: "#86B402",
-          titleFontColor: "#86B402",
-          labelFontColor: "#86B402"
-        }],
-    
+        }]
 
       };
     } else {
