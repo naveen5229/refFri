@@ -231,8 +231,8 @@ export class LorryRecciptsComponent implements OnInit {
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
-        Revenue: R.revenue_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.lrRates.bind(this, R, 0) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.lrRates.bind(this, R, 0) }] },
-        Expense: R.expense_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.lrRates.bind(this, R, 1) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.lrRates.bind(this, R, 1) }] },
+        Revenue: R.revenue_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-green', action: this.lrRates.bind(this, R, 0) },{ class: 'fa fa-check i-green ml-2', action: this.openRevenueModal.bind(this, R, 0) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 0) },{ class: 'fa fa-times-circle i-red-cross ml-2', action: this.openRevenueModal.bind(this, R, 0) }] },
+        Expense: R.expense_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-green', action: this.lrRates.bind(this, R, 1) },{ class: 'fa fa-check i-green ml-2', action: this.openExpenseModal.bind(this, R, 0) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 0) },{ class: 'fa fa-times-circle i-red-cross ml-2', action: this.openExpenseModal.bind(this, R, 1) }] },
         // PodImage: R.pod_docid ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getPodImage.bind(this, R) }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
         // PodDetails: R.poddetails ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.openPodDeatilsModal.bind(this, R) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.openPodDeatilsModal.bind(this, R) }] },
         // PodReceived: R.podreceived ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-check i-green' }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
@@ -365,8 +365,8 @@ export class LorryRecciptsComponent implements OnInit {
 
   openExpenseModal(lr) {
     let expense = {
-      _ref_type: 11,
-      _ref_id: lr.lr_id
+      refernceType: 11,
+      refId: lr.lr_id
     }
     console.log("openExpenseModal ", expense);
     this.common.params = { expenseData: expense };
@@ -378,8 +378,8 @@ export class LorryRecciptsComponent implements OnInit {
   }
   openRevenueModal(lr) {
     let revenue = {
-      _ref_type: 11,
-      _ref_id: lr.lr_id
+      refernceType: 11,
+      refId: lr.lr_id
     }
     console.log("openExpenseModal ", revenue);
     this.common.params = { revenueData: revenue };

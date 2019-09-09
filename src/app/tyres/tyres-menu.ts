@@ -1,6 +1,6 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const TYRES_MENU_ITEMS = JSON.stringify([
     {
         title: 'Home Dashboard',
         icon: 'fa fa-home',
@@ -62,4 +62,4 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
 
-];
+]);

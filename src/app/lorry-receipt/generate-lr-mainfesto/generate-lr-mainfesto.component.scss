@@ -2,3 +2,18 @@ nb-card-header{
     border-bottom: 1px solid #e0e0e0;
     padding: 10px 15px;
 }
+.auto-suggest{
+    margin-left: -15px;
+    max-width: 50px;
+
+}
+.add{
+    font-size: 14px;
+    color: #fff;
+    background: linear-gradient(-135deg, #1de9b6 0, #1dc4e9 100%);
+    width: 28px;
+    float: right;
+    padding: 8px 0px;
+    text-align: center;
+    border-radius: 3px;
+}

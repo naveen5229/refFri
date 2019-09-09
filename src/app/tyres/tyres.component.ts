@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { MENU_ITEMS } from './tyres-menu';
+import { TYRES_MENU_ITEMS } from './tyres-menu';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
@@ -8,14 +8,14 @@ import { Router } from '@angular/router';
   selector: 'ngx-pages',
   template: `
     <ngx-sample-layout>
-      <nb-menu [items]="menu"></nb-menu>
+      <nb-menu [items]="user._menu.tyres"></nb-menu>
       <router-outlet></router-outlet>
     </ngx-sample-layout>
   `,
 })
 export class TyresComponent {
 
-  menu = MENU_ITEMS;
+  // menu = MENU_ITEMS;
   constructor(public user: UserService, public router: Router) {
     // if (this.user._loggedInBy == 'customer') {
     //   this.router.navigate(['/pages']);

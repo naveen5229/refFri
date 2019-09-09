@@ -4,7 +4,6 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { ConstraintsComponent } from '../constraints/constraints.component';
-import { constants } from 'os';
 @Component({
   selector: 'add-escalation-issue',
   templateUrl: './add-escalation-issue.component.html',
@@ -126,10 +125,10 @@ export class AddEscalationIssueComponent implements OnInit {
         class: "fa fa-trash",
         action: this.removeField.bind(this, details)
       },
-        {
-          class: "fa fa-filter ml-2",
-          action: this.addIssueConstraints.bind(this, details)
-        }
+      {
+        class: "fa fa-filter ml-2",
+        action: this.addIssueConstraints.bind(this, details)
+      }
     )
     return icons;
   }
@@ -175,7 +174,7 @@ export class AddEscalationIssueComponent implements OnInit {
 
 
   removeField(result) {
-    console.log("result:",result);
+    console.log("result:", result);
     let params = {
       fId: result._row_id
 
@@ -195,7 +194,7 @@ export class AddEscalationIssueComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--
               console.log('removeField', res);
-              
+
               if (res['code'] == "1") {
                 console.log("test");
                 this.common.showToast([res][0]['msg']);
@@ -210,18 +209,17 @@ export class AddEscalationIssueComponent implements OnInit {
     }
   }
 
-  addIssueConstraints(constraint)
-  {
-  console.log("constaints",constraint);
-    
-   let constraints={
-    foId:constraint._foid,
-    issueType:constraint._issue_type_id,
-    id:constraint._row_id
+  addIssueConstraints(constraint) {
+    console.log("constaints", constraint);
+
+    let constraints = {
+      foId: constraint._foid,
+      issueType: constraint._issue_type_id,
+      id: constraint._row_id
     };
-    this.common.params={constraints:constraints};
-    const activeModal= this.modalService.open(ConstraintsComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
-     activeModal.result.then(data =>{
-     });
+    this.common.params = { constraints: constraints };
+    const activeModal = this.modalService.open(ConstraintsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    });
   }
 }

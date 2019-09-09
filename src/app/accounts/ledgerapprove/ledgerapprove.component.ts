@@ -228,6 +228,7 @@ export class LedgerapproveComponent implements OnInit {
           this.common.showToast(" This Value Has been Restored!");
         } else {
           this.common.showToast(" This Value Has been Approved!");
+          this.GetLedger(4);
         }
       //  this.GetLedger();
       }, err => {
