@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
   }
 })
 export class AccountsComponent {
-  menu = ACCOUNTS_MENU_ITEMS;
+  menu = JSON.parse(ACCOUNTS_MENU_ITEMS);
 
 
   constructor(public api: ApiService,
