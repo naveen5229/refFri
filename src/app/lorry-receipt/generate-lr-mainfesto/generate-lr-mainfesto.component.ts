@@ -80,6 +80,8 @@ export class GenerateLrMainfestoComponent implements OnInit {
   ]
   assignedLr = [];
   manifestId = null;
+  sourceString = "";
+  destination = "";
   // vehicleRegNo= document.getElementById('vehicleno')['value'];
   constructor(
     private modalService: NgbModal,
