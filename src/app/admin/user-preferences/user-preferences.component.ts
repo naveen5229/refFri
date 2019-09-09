@@ -85,7 +85,6 @@ export class UserPreferencesComponent implements OnInit {
     document.getElementById('employeename')['value'] = '';
     this.common.isComponentActive = false;
     this.formattedData = [];
-
   }
 
 
@@ -149,7 +148,11 @@ export class UserPreferencesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
-        console.log("Res Data:", this.data)
+        this.data.map(id => {
+
+        });
+        if (res['data'])
+          console.log("Res Data:", this.data)
         this.selectedUser.oldPreferences = res['data'];
         this.managedata();
         // this.findSections();
@@ -180,19 +183,15 @@ export class UserPreferencesComponent implements OnInit {
         }
       });
     });
-
-    this.formattedData = _.sortBy(this.formattedData, ['name'], ['asc']);
-    this.formattedData.map(module => {
-      module.groups = _.sortBy(module.groups, ['name'], ['asc']);
-
-    });
-    this.formattedData.map(module => {
-      module.groups.map(pages => {
-        pages.pages = _.sortBy(pages.pages, ['title'], ['asc']);
-        console.log("Page :", pages.pages);
+    this.formattedData = _.sortBy(this.formattedData, ['name'], ['asc']).map(module => {
+      module.groups = _.sortBy(module.groups, ['name'], ['asc']).map(groups => {
+        groups.pages = _.sortBy(groups.pages, ['title'], ['asc']);
+        return groups;
       });
-
+      return module;
     });
+    console.log("After Formatted", this.formattedData);
+
   }
 
 
