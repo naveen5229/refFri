@@ -110,8 +110,6 @@ export class UserPreferencesComponent implements OnInit {
 
   checkOrUnCheckAll(details, type) {
     this.common.isComponentActive = true;
-    console.log("details:", details, "type", type);
-
     if (type === 'group') {
       details.pages.map(page => {
         page.isSelected = details.isSelected
