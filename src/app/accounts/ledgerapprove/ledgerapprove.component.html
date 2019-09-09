@@ -3,14 +3,16 @@
     <h4>Account</h4>
   </nb-card-header> -->
   <nb-card-body>
-      <div class="modal-header" *ngIf="pageName">
+    <div class="modal-header" *ngIf="pageName">
           <h5>Ledgers</h5>
             <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-    <!-- <button *ngIf="this.deletedId== 0" class="btn mb-4 add-button" (click)="openModal()"><i
-        class="fa fa-plus"></i></button> -->
+          <div class="row" style="margin-top: 40px;">
+          <div class="col-2"><button class="btn mb-4" (click)="GetLedger(4)">Pending For Approval</button></div>
+          <div class="col-2"><button class="btn mb-4" (click)="GetLedger(6)">Deleted Review</button></div>
+        </div>
     <div class="main">
       <table class="table table-bordered">
         <thead style="background-color: #263238; color:#fff;">

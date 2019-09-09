@@ -80,6 +80,8 @@ export class GenerateLrMainfestoComponent implements OnInit {
   ]
   assignedLr = [];
   manifestId = null;
+  sourceString = "";
+  destination = "";
   // vehicleRegNo= document.getElementById('vehicleno')['value'];
   constructor(
     private modalService: NgbModal,
@@ -263,7 +265,8 @@ export class GenerateLrMainfestoComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         if (res['data'][0].r_id > 0) {
-          this.common.showToast("LR Generated Successfully");
+          this.common.showToast("Manifest Generated Successfully");
+          this.closeModal();
         } else {
           this.common.showError(res['data'][0].r_msg);
         }

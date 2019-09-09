@@ -120,8 +120,8 @@
                   url="Suggestion/GetCompanies2?type=CNEE" display="name" placeholder=" Search Name"
                   [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
-                <i *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name'" class="fa fa-plus add"
-                  (click)="addCompany()"></i>
+                <i *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
 
                 <!-- consignor suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'consignor_name'"
@@ -156,9 +156,9 @@
                 <!-- Driver Name suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'driver_mobile'"
                   (onChange)="generalDetailColumn1[i].r_valueid = ''"
-                  (onSelected)="getDriverInfo($event, generalDetailColumn1[i]);generalDetailColumn1[i].r_valueid = $event.id"
-                  url="Booster/getDrivers" display=mobileno placeholder="Select Driver" class="auto-suggest d-block"
-                  [preSelected]="generalDetailColumn1[i].r_value ? {mobileno: generalDetailColumn1[i].r_value , empname:''} : {mobileno: '', empname:''}"
+                  (onSelected)="getDriverInfo($event, generalDetailColumn1[i]);generalDetailColumn1[i].r_valueid = $event.id;generalDetailColumn1[i].r_value = $event.mobileno"
+                  url="Booster/getDrivers" display="display" placeholder="Select Driver" class="auto-suggest d-block"[value]="generalDetailColumn1[i].r_value"
+                  [preSelected]="generalDetailColumn1[i].r_value ? {display: generalDetailColumn1[i].r_value , empname:''} : {display: '', empname:''}"
                   placeholder="Search Driver">
                 </auto-suggestion>
                 <!-- <input type="text" *ngIf="generalDetailColumn1[i].r_colname == 'driver_mobile'" [(ngModel)]="generalDetailColumn1[i].r_valueid"
@@ -189,12 +189,12 @@
                 </uj-date-time-picker>
 
                 <!-- Tax Paid By -->
-                <span *ngIf="generalDetailColumn1[i].r_colname=='taxpaid_by_name'">
+                <span *ngIf="generalDetailColumn1[i].r_colname=='taxpaid_by_name'" style="margin:0px">
                   <label class="radio-btn">
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
                       [(ngModel)]="generalDetailColumn1[i].r_value" value="1">Consignor
                   </label>
-                  <label class="radio-btn">
+                  <label class="radio-btn ml-4">
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
                       [(ngModel)]="generalDetailColumn1[i].r_value" value="2">Consignee
                   </label>
@@ -202,7 +202,7 @@
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
                       [(ngModel)]="generalDetailColumn1[i].r_value" value="3">GTA
                   </label>
-                  <label class="radio-btn">
+                  <label class="radio-btn ml-4">
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
                       [(ngModel)]="generalDetailColumn1[i].r_value" value="4">Exempt
 
@@ -280,8 +280,8 @@
                   url="Suggestion/GetCompanies2?type=CNEE" display="name" placeholder=" Search Name"
                   [preSelected]="{name : generalDetailColumn2[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
-                <i *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name'" class="fa fa-plus add"
-                  (click)="addCompany()"></i>
+                <i *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
 
 
                 <!-- consignor suggestion -->
@@ -319,9 +319,9 @@
                 <!-- Driver Name suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname == 'driver_mobile'"
                   (onChange)="generalDetailColumn2[i].r_valueid = ''"
-                  (onSelected)="getDriverInfo($event, generalDetailColumn2[i]);generalDetailColumn2[i].r_valueid = $event.id"
-                  url="Booster/getDrivers" display=mobileno placeholder="Select Driver" class="auto-suggest"
-                  [preSelected]="generalDetailColumn2[i].r_value ? {mobileno: generalDetailColumn2[i].r_value,empname : ''} : {mobileno: '', empname:''}"
+                  (onSelected)="getDriverInfo($event, generalDetailColumn2[i]);generalDetailColumn2[i].r_valueid = $event.id;generalDetailColumn2[i].r_value = $event.mobileno"
+                  url="Booster/getDrivers" display="display" placeholder="Select Driver" class="auto-suggest" [value]="generalDetailColumn1[i].r_value"
+                  [preSelected]="generalDetailColumn2[i].r_value ? {display: generalDetailColumn2[i].r_value,empname : ''} : {display: '', empname:''}"
                   placeholder="Search Driver">
                 </auto-suggestion>
                 <!-- <input type="text" *ngIf="generalDetailColumn2[i].r_colname == 'driver_mobile'"
@@ -351,12 +351,12 @@
                 </uj-date-time-picker>
 
                 <!-- Tax Paid By -->
-                <span *ngIf="generalDetailColumn2[i].r_colname=='taxpaid_by_name'">
+                <span *ngIf="generalDetailColumn2[i].r_colname=='taxpaid_by_name'" style="margin: 0px">
                   <label class="radio-btn">
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
                       [(ngModel)]="generalDetailColumn2[i].r_valueid" value="1">Consignor
                   </label>
-                  <label class="radio-btn">
+                  <label class="radio-btn ml-4">
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
                       [(ngModel)]="generalDetailColumn2[i].r_valueid" value="2">Consignee
                   </label>
@@ -364,7 +364,7 @@
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
                       [(ngModel)]="generalDetailColumn2[i].r_valueid" value="3">GTA
                   </label>
-                  <label class="radio-btn">
+                  <label class="radio-btn ml-4">
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
                       [(ngModel)]="generalDetailColumn2[i].r_valueid" value="4">Exempt
 

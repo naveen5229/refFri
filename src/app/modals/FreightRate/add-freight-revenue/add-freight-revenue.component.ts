@@ -68,10 +68,10 @@ export class AddFreightRevenueComponent implements OnInit {
     this.getFreightHeads();
     console.log("this.common.params.revenue", this.common.params.revenueData);
     if (this.common.params.revenueData) {
-      this.revenue.id = this.common.params.revenueData.id;
+      this.revenue.id = this.common.params.revenueData.id?this.common.params.revenueData.id:null;
       this.revenue.refId = this.common.params.revenueData.refId;
       this.revenue.refernceType = this.common.params.revenueData.refernceType;
-      this.revenue.remarks = this.common.params.revenueData.remarks;
+      this.revenue.remarks = this.common.params.revenueData.remarks?this.common.params.revenueData.remarks:null;
       this.getRevenueDetails();
     }
     this.getRevenue();
@@ -321,7 +321,8 @@ export class AddFreightRevenueComponent implements OnInit {
   openTransferModal(){
     let refdata = {
       refId: this.revenue.refId,
-      refType: this.revenue.refernceType
+      refType: this.revenue.refernceType,
+      selectOption:'receipt'
     }
     this.common.params = { refData: refdata };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });

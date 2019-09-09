@@ -31,17 +31,18 @@ export class LedgerapproveComponent implements OnInit {
       console.log('Params1: ', params);
       if (params.id) {
         this.deletedId = parseInt(params.id);
-        this.GetLedger();
+        this.GetLedger(4);
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
     if(this.common.params && this.common.params.pageName){
       this.pageName=this.common.params.pageName;
       this.deletedId = 0;
-        this.GetLedger();
+        this.GetLedger(4);
         this.sizeledger=1;
   }
-    this.common.currentPage =  'Ledger Approve';
+  this.GetLedger(4);
+    this.common.currentPage =  'Ledger Pending For Approval';
     this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
 
   }
@@ -49,13 +50,15 @@ export class LedgerapproveComponent implements OnInit {
   ngOnInit() {
   }
   refresh() {
-    this.GetLedger();
+    console.log('ledger approve test');
+    this.GetLedger(4);
   }
-  GetLedger() {
+  GetLedger(id) {
     let params = {
       foid: 123,
-      deleted: 4
+      deleted: id
     };
+    console.log('approve ledger',params);
 
     this.common.loading++;
     this.api.post('Accounts/GetLedgerdata', params)
@@ -180,7 +183,7 @@ export class LedgerapproveComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        this.GetLedger();
+       // this.GetLedger();
         if (res['data'][0].y_errormsg) {
           this.common.showToast(res['data'][0].y_errormsg);
         } else {
@@ -225,8 +228,9 @@ export class LedgerapproveComponent implements OnInit {
           this.common.showToast(" This Value Has been Restored!");
         } else {
           this.common.showToast(" This Value Has been Approved!");
+          this.GetLedger(4);
         }
-        this.GetLedger();
+      //  this.GetLedger();
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);

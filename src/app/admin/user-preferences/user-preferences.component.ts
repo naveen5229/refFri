@@ -80,6 +80,7 @@ export class UserPreferencesComponent implements OnInit {
     this.pagesGroups = {};
     document.getElementById('employeename')['value'] = '';
     this.common.isComponentActive = false;
+    this.formattedData = [];
 
   }
 
