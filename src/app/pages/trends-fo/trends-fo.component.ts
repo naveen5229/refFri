@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { DatePipe } from '@angular/common';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'trends-fo',
@@ -27,13 +28,19 @@ export class TrendsFoComponent implements OnInit {
   };
   bgColor = '#00695C';
   yScale = '';
-  xScale='';
+  xScale = '';
   dateDay = [];
+  trendsVehicleData = [];
+  onward = [];
+  trendsVehicleSiteData = [];
 
   constructor(public common: CommonService,
     public api: ApiService,
     public datepipe: DatePipe, ) {
     this.foTrendsData();
+    this.getTrendsVehicle()
+    this.getTrendsSite();
+
   }
 
   ngOnInit() {
@@ -44,21 +51,21 @@ export class TrendsFoComponent implements OnInit {
     this.dateDay = [];
     let params;
     if (this.period == '1') {
-      this.xScale='Days'
+      this.xScale = 'Days'
       params = {
         startDate: this.common.dateFormatter(this.startDate),
         endDate: this.common.dateFormatter(this.endDate),
         purpose: this.period,
         value: this.weekMonthNumber,
       }
-    } else if(this.period=='2') {
-      this.xScale='Weeks'
+    } else if (this.period == '2') {
+      this.xScale = 'Weeks'
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
       }
-    }else {
-      this.xScale='Months'
+    } else {
+      this.xScale = 'Months'
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
@@ -156,5 +163,84 @@ export class TrendsFoComponent implements OnInit {
         display: false
       },
     };
+  }
+
+  getTrendsVehicle() {
+    this.trendsVehicleData=[];
+    this.dateDay = [];
+    let params;
+    if (this.period == '1') {
+      this.xScale='Days'
+      params = {
+        startDate: this.common.dateFormatter(this.startDate),
+        endDate: this.common.dateFormatter(this.endDate),
+        purpose: this.period,
+        value: this.weekMonthNumber,
+      }
+    } else if(this.period=='2') {
+      this.xScale='Weeks'
+      params = {
+        purpose: this.period,
+        value: this.weekMonthNumber,
+      }
+    }else {
+      this.xScale='Months'
+      params = {
+        purpose: this.period,
+        value: this.weekMonthNumber,
+      }
+
+    }
+    console.log('params: ', params);
+    this.common.loading++;
+
+    this.api.post("Trends/getTrendsWrtVehicles",params).subscribe(res => {
+      this.common.loading--;
+      this.trendsVehicleData = res['data'] || [];
+    },
+      err => {
+        this.common.showError();
+        console.log('Error: ', err);
+      });
+  }
+
+  getTrendsSite() {
+    this.Details = [];
+    this.dateDay = [];
+    this.trendsVehicleSiteData = []
+    let params;
+    if (this.period == '1') {
+      this.xScale = 'Days'
+      params = {
+        startDate: this.common.dateFormatter(this.startDate),
+        endDate: this.common.dateFormatter(this.endDate),
+        purpose: this.period,
+        value: this.weekMonthNumber,
+      }
+    } else if (this.period == '2') {
+      this.xScale = 'Weeks'
+      params = {
+        purpose: this.period,
+        value: this.weekMonthNumber,
+      }
+    } else {
+      this.xScale = 'Months'
+      params = {
+        purpose: this.period,
+        value: this.weekMonthNumber,
+      }
+
+    }
+    console.log('params: ', params);
+    this.common.loading++;
+
+    this.api.post("Trends/getTrendsWrtSite", params).subscribe(res => {
+      this.common.loading--;
+      this.trendsVehicleSiteData = res['data'] || [];
+    },
+      err => {
+        this.common.showError();
+        console.log('Error: ', err);
+      });
   }
 }
