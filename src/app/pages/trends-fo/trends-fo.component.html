@@ -142,7 +142,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let trendsVehicleSite of trendsVehicleSiteData; let i=index;">
-                                <td *ngIf="trendType==11 || trendType==21">{{trendsVehicleSite.sitename}}</td>
+                                <td *ngIf="trendType==11 || trendType==21" style="color:#00695C;" (click)="locationOnMap(trendsVehicleSite)">{{trendsVehicleSite.sitename}}</td>
                                 <td *ngIf="trendType==11">{{trendsVehicleSite.loading_hrs}}</td>
                                 <td *ngIf="trendType==21">{{trendsVehicleSite.unloading_hrs}}</td>
                                 <td *ngIf="trendType==11">{{trendsVehicleSite.ldng_count}}</td>

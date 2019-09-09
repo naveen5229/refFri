@@ -3,6 +3,8 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
+import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'trends-fo',
@@ -33,10 +35,11 @@ export class TrendsFoComponent implements OnInit {
   trendsVehicleData = [];
   onward = [];
   trendsVehicleSiteData = [];
-
+  siteUnloading=[];
   constructor(public common: CommonService,
     public api: ApiService,
-    public datepipe: DatePipe, ) {
+    public datepipe: DatePipe,
+    public modalService:NgbModal) {
     this.foTrendsData();
     this.getTrendsVehicle()
     this.getTrendsSite();
@@ -162,6 +165,11 @@ export class TrendsFoComponent implements OnInit {
       legend: {
         display: false
       },
+      elements: {
+        line: {
+            tension: 0 // disables bezier curves
+        }
+    }
     };
   }
 
@@ -237,10 +245,30 @@ export class TrendsFoComponent implements OnInit {
     this.api.post("Trends/getTrendsWrtSite", params).subscribe(res => {
       this.common.loading--;
       this.trendsVehicleSiteData = res['data'] || [];
-    },
+      this.siteUnloading = [];
+      _.sortBy(this.trendsVehicleSiteData, ['unloading_hrs']).reverse().map(keyData => {
+        console.log('keydata', keyData);
+        this.siteUnloading.push(keyData);
+    });},
       err => {
         this.common.showError();
         console.log('Error: ', err);
       });
+  }
+
+  locationOnMap(latlng) {
+    if (!latlng.lat) {
+      this.common.showToast('Vehicle location not available!');
+      return;
+    }
+    const location = {
+      lat: latlng.lat,
+      lng: latlng.long,
+      name: '',
+      time: ''
+    };
+    console.log('Location: ', location);
+    this.common.params = { location, title: 'Location' };
+    const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
   }
 }
