@@ -87,7 +87,6 @@ export class UserService {
         return true;
       });
 
-    console.log('this._menu[type]: ', JSON.stringify(this._menu[type]));
   }
 
 }

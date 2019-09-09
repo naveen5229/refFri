@@ -163,7 +163,6 @@ export class LoginComponent implements OnInit {
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('_Res:', res);
         this.user._pages = res['data'].filter(page => { return page.userid; });
         localStorage.setItem('DOST_USER_PAGES', JSON.stringify(this.user._pages));
         this.user.filterMenu("pages", "pages");
