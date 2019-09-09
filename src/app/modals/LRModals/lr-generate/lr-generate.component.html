@@ -156,9 +156,9 @@
                 <!-- Driver Name suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'driver_mobile'"
                   (onChange)="generalDetailColumn1[i].r_valueid = ''"
-                  (onSelected)="getDriverInfo($event, generalDetailColumn1[i]);generalDetailColumn1[i].r_valueid = $event.id;generalDetailColumn1[i].r_value = $event.empname"
-                  url="Booster/getDrivers" display="mobileno" placeholder="Select Driver" class="auto-suggest d-block"[value]="generalDetailColumn1[i].r_value"
-                  [preSelected]="generalDetailColumn1[i].r_value ? {mobileno: generalDetailColumn1[i].r_value , empname:''} : {mobileno: '', empname:''}"
+                  (onSelected)="getDriverInfo($event, generalDetailColumn1[i]);generalDetailColumn1[i].r_valueid = $event.id;generalDetailColumn1[i].r_value = $event.mobileno"
+                  url="Booster/getDrivers" display="display" placeholder="Select Driver" class="auto-suggest d-block"[value]="generalDetailColumn1[i].r_value"
+                  [preSelected]="generalDetailColumn1[i].r_value ? {display: generalDetailColumn1[i].r_value , empname:''} : {display: '', empname:''}"
                   placeholder="Search Driver">
                 </auto-suggestion>
                 <!-- <input type="text" *ngIf="generalDetailColumn1[i].r_colname == 'driver_mobile'" [(ngModel)]="generalDetailColumn1[i].r_valueid"
@@ -319,9 +319,9 @@
                 <!-- Driver Name suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname == 'driver_mobile'"
                   (onChange)="generalDetailColumn2[i].r_valueid = ''"
-                  (onSelected)="getDriverInfo($event, generalDetailColumn2[i]);generalDetailColumn2[i].r_valueid = $event.id;generalDetailColumn2[i].r_value = $event.empname"
-                  url="Booster/getDrivers" display="mobileno" placeholder="Select Driver" class="auto-suggest" [value]="generalDetailColumn1[i].r_value"
-                  [preSelected]="generalDetailColumn2[i].r_value ? {mobileno: generalDetailColumn2[i].r_value,empname : ''} : {mobileno: '', empname:''}"
+                  (onSelected)="getDriverInfo($event, generalDetailColumn2[i]);generalDetailColumn2[i].r_valueid = $event.id;generalDetailColumn2[i].r_value = $event.mobileno"
+                  url="Booster/getDrivers" display="display" placeholder="Select Driver" class="auto-suggest" [value]="generalDetailColumn1[i].r_value"
+                  [preSelected]="generalDetailColumn2[i].r_value ? {display: generalDetailColumn2[i].r_value,empname : ''} : {display: '', empname:''}"
                   placeholder="Search Driver">
                 </auto-suggestion>
                 <!-- <input type="text" *ngIf="generalDetailColumn2[i].r_colname == 'driver_mobile'"
