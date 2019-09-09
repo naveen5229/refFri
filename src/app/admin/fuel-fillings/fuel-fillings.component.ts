@@ -113,8 +113,8 @@ export class FuelFillingsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.response) {
         this.getFillingData();
-       // window.location.reload();
-        
+        // window.location.reload();
+
       }
     });
   }
@@ -139,8 +139,8 @@ export class FuelFillingsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.response) {
         this.getFillingData();
-       // window.location.reload();
-        
+        // window.location.reload();
+
       }
     });
   }
