@@ -153,11 +153,7 @@ export class DataService {
             link: '/admin/driver-list',
             home: true,
           },
-          {
-            title: 'Ticket Properties',
-            icon: 'fas fa-ticket-alt',
-            link: '/admin/ticket-properties',
-          },
+        
           {
             title: 'Vehicle Categories',
             icon: 'fa fa-chart-bar',
@@ -268,6 +264,11 @@ export class DataService {
             title: 'Group Managements',
             icon: 'fa fa-users',
             link: '/admin/group-managements',
+          },
+          {
+            title: 'Ticket Properties',
+            icon: 'fas fa-ticket-alt',
+            link: '/admin/ticket-properties',
           },
           {
             title: 'Escalation Matrix',
