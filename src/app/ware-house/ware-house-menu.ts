@@ -1,6 +1,6 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
+export const WAREHOUSE_MENU_ITEMS = JSON.stringify([
     {
         title: 'Home Dashboard',
         icon: 'fas fa-clipboard-check',
@@ -32,7 +32,7 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
     },
 
 
-];
+]);
 
 
 

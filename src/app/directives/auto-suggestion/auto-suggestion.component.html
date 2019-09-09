@@ -1,5 +1,4 @@
-<div class="suggestion-container" [formGroup]="parentForm || searchForm" (keydown)="handleKeyDown($event)"
-    (focusout)="hideSuggestions()">
+<div class="suggestion-container" [formGroup]="parentForm || searchForm" (keydown)="handleKeyDown($event)">
 
     <div class="tagsinput_main">
         <div class="tagsinput">
@@ -16,7 +15,7 @@
                     [name]="name || 'suggestion'" required (ngModelChange)="handleUnselected()">
 
                 <i class="fas fa-sort-down" *ngIf="data && data.length" style="cursor: pointer"
-                    (click)="showAllSuggestion()"></i>
+                    (click)="showAllSuggestion($event)"></i>
             </span>
 
         </div>

@@ -6,7 +6,7 @@
         <auto-suggestion (onSelected)="getSuggestions($event)" url="suggestion/getFoUsersList" display="name"
         placeholder="Search" [preSelected]="null"></auto-suggestion>
     </div>
-    <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; color: cadetblue">
+    <!-- <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; color: cadetblue">
         <tr>
         <th>Issue Id</th>  
         <th>Issue Name</th>
@@ -36,5 +36,6 @@
            <ng-template #showAdd><button class="btn" (click)="openUpdatePropertiesModel(properties,'add')">Add</button></ng-template>
           </td>
         </tr>
-        </table>
+        </table> -->
+        <smart-table *ngIf="ticketProperties && ticketProperties.length" [data]="table.data" [settings]="table.settings"></smart-table>
   </div>

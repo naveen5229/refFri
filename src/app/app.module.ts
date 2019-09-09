@@ -241,6 +241,9 @@ import { RouteTimeTableDetailsComponent } from './modals/route-time-table-detail
 import { RoutesTimetableComponent } from './modals/routes-timetable/routes-timetable.component';
 import { VehicleTimeTableAssociationComponent } from './modals/vehicle-time-table-association/vehicle-time-table-association.component';
 import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledger-mapping/driver-ledger-mapping.component';
+import { DeactivateGuardService } from './guards/route.guard';
+import { ConstraintsComponent } from './modals/constraints/constraints.component';
+import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-transfer.component';
 
 
 
@@ -456,6 +459,8 @@ import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledge
     RoutesTimetableComponent,
     VehicleTimeTableAssociationComponent,
     DriverLedgerMappingComponent,
+    ConstraintsComponent,
+    ViewTransferComponent,
 
   ],
   entryComponents: [
@@ -655,7 +660,9 @@ import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledge
     RouteTimeTableDetailsComponent,
     DriverLedgerMappingComponent,
     RoutesTimetableComponent,
-    VehicleTimeTableAssociationComponent
+    VehicleTimeTableAssociationComponent,
+    ConstraintsComponent,
+    ViewTransferComponent
   ],
   imports: [
     BrowserModule,
@@ -687,6 +694,7 @@ import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledge
 
   bootstrap: [AppComponent],
   providers: [
+    DeactivateGuardService,
     NgbActiveModal,
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },

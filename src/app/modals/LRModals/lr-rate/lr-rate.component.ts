@@ -20,6 +20,7 @@ export class LrRateComponent implements OnInit {
   generalModal = true;
   title = "General";
   btnTitle = "Advance Form";
+  advaceTxt = "Advance Received From Party"
   isAdvanced = false;
   postAllowed = null;
   id = null;
@@ -88,6 +89,7 @@ export class LrRateComponent implements OnInit {
     console.log("this.common.params.LrData", this.common.params.rate);
     this.lrId = this.common.params.rate.lrId ? this.common.params.rate.lrId : null;
     this.type = this.common.params.rate.rateType ? this.common.params.rate.rateType : null;
+    this.advaceTxt = this.common.params.rate.rateType ?"Advance Given To MVS":"Advance Received From Party"
     this.generalModal = this.common.params.rate.generalModal ? this.common.params.rate.generalModal : false;
     this.title = this.common.params.rate.generalModal ? "General" : "Advance";
     this.btnTitle = this.common.params.rate.generalModal ? "Advance Form" : "General Form";
@@ -393,7 +395,8 @@ export class LrRateComponent implements OnInit {
   openTransferModal(){
     let refdata = {
       refId : this.lrId,
-      refType : 11
+      refType : 11,
+      selectOption:this.type?'transfer':'receipt'
     }
     this.common.params = { refData: refdata };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });

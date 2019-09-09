@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 import { RouteGuard } from '../../guards/route.guard';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { group } from '@angular/animations';
 @Component({
   selector: 'user-preferences',
   templateUrl: './user-preferences.component.html',
@@ -49,6 +50,9 @@ export class UserPreferencesComponent implements OnInit {
 
   ngOnInit() {
   }
+  ngDestroy() {
+
+  }
 
   //Confirmation that before Leave the PAge
   canDeactivate() {
@@ -80,6 +84,7 @@ export class UserPreferencesComponent implements OnInit {
     this.pagesGroups = {};
     document.getElementById('employeename')['value'] = '';
     this.common.isComponentActive = false;
+    this.formattedData = [];
 
   }
 
@@ -133,6 +138,7 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   getUserPages(user) {
+    this.formattedData = [];
     this.selectedUser.details = user;
     const params = {
       userId: user.id,
@@ -174,7 +180,19 @@ export class UserPreferencesComponent implements OnInit {
         }
       });
     });
-    console.log(this.formattedData);
+
+    this.formattedData = _.sortBy(this.formattedData, ['name'], ['asc']);
+    this.formattedData.map(module => {
+      module.groups = _.sortBy(module.groups, ['name'], ['asc']);
+
+    });
+    this.formattedData.map(module => {
+      module.groups.map(pages => {
+        pages.pages = _.sortBy(pages.pages, ['title'], ['asc']);
+        console.log("Page :", pages.pages);
+      });
+
+    });
   }
 
 
