@@ -7,6 +7,8 @@ import { WareHouseReceiptsComponent } from './ware-house-receipts/ware-house-rec
 import { WarehouseInventoryComponent } from './warehouse-inventory/warehouse-inventory.component';
 import { StateLogsComponent } from './state-logs/state-logs.component';
 import { ManageStockExchangeComponent } from './manage-stock-exchange/manage-stock-exchange.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { RouteGuard } from '../guards/route.guard';
 
 
 const routes: Routes = [
@@ -15,28 +17,35 @@ const routes: Routes = [
         component: WareHouseComponent,
         children: [
 
-         
-
             {
-                path:'ware-house-dashbord',
-                component:WareHouseDashbordComponent
+                path: 'ware-house-dashbord',
+                component: WareHouseDashbordComponent,
+                canActivate: [AuthGuard, RouteGuard]
             },
             {
-                path:'ware-house-receipts',
-                component:WareHouseReceiptsComponent
+                path: 'ware-house-receipts',
+                component: WareHouseReceiptsComponent,
+                canActivate: [AuthGuard, RouteGuard]
+
             },
             {
                 path: 'warehouse-inventory',
-                component: WarehouseInventoryComponent
+                component: WarehouseInventoryComponent,
+                canActivate: [AuthGuard, RouteGuard]
+
             },
             {
                 path: 'state-logs',
-                component: StateLogsComponent
+                component: StateLogsComponent,
+                canActivate: [AuthGuard, RouteGuard]
+
             }
             ,
             {
                 path: 'manage-stock-exchange',
-                component: ManageStockExchangeComponent
+                component: ManageStockExchangeComponent,
+                canActivate: [AuthGuard, RouteGuard]
+
             }
 
 

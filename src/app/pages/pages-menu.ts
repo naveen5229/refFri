@@ -1,6 +1,6 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const PAGES_MENU_ITEMS = JSON.stringify([
   {
     title: 'Trip',
     icon: 'fas fa-route',
@@ -167,6 +167,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/web-acttivity-summary'
       },
       {
+        title: 'Fo User Role',
+        icon: 'fas fa-user-cog',
+        link: '/pages/fo-user-role',
+      },
+      {
         title: 'Vehicles',
         icon: 'fas fa-info-circle',
         link: '/pages/vehicles',
@@ -210,11 +215,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/lorry-receipts',
       },
 
-      // {
-      //   title: 'Generate LR Manifest',
-      //   icon: 'fas fa-receipt',
-      //   link: '/pages/generate-lr-mainfesto',
-      // },
+
       {
         title: 'View LR Manifest',
         icon: 'far fa-file',
@@ -314,12 +315,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/remaining-fuel',
         home: true,
       },
-      // {
-      //   title: ' Model Fuel Mileage',
-      //   icon: 'fas fa-history',
-      //   link: '/pages/fo-fuel-average',
-      //   home: true,
-      // },
+
       {
         title: ' Fuel Master',
         icon: 'fas fa-sliders-h',
@@ -469,4 +465,4 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
 
 
-];
+]);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,HostListener} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,6 +8,7 @@ import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.
 import { AccountService } from '../../services/account.service';
 import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-filling.component';
 import { log } from 'util';
+import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-filling.component';
 
 
 @Component({
@@ -30,6 +31,10 @@ export class FuelfillingsComponent implements OnInit {
   flag = false;
   enddate = this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
   startdate = this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event) {
+    this.keyHandler(event);
+  }
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -102,7 +107,10 @@ export class FuelfillingsComponent implements OnInit {
   }
 
   getDataFuelFillings() {
+    if (this.accountService.selected.branch.id) {
     console.log('params model', this.common.params);
+    if(this.selectedVehicle && (this.selectedVehicle.id !=0)){
+      if(this.selectedFuelFilling && (this.selectedFuelFilling.id !=0)){
     let fuelstatinid = (this.selectedVehicle) ? this.selectedVehicle.id : 0;
     const params = {
       vehId: (this.selectedVehicle) ? this.selectedVehicle.id : 0,
@@ -119,7 +127,7 @@ export class FuelfillingsComponent implements OnInit {
         this.fuelFilings = res['data'];
         this.getFuelFillings( res['data']);
         }else {
-          this.common.showError('please Select Correct date or vehicle');
+          this.common.showError('please Select Correct date');
         }
         // this.getHeads();
       }, err => {
@@ -127,6 +135,16 @@ export class FuelfillingsComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       });
+    }
+    else{
+      this.common.showError('Please Select Fuel Station');
+    }
+  }else{
+      this.common.showError('Please Select Vehicle');
+      }
+    }else{
+      this.common.showError('Please Select branch');
+    }
   }
   showTripSummary(tripDetails) {
     let vehId = this.selectedVehicle.id;
@@ -168,8 +186,7 @@ export class FuelfillingsComponent implements OnInit {
       });
     }
     else {
-      console.log("Select Branch");
-      alert('Please Select Branch');
+      this.common.showError('Please Select Branch');
     }
   }
   // getFuelFillings() {
@@ -209,15 +226,38 @@ export class FuelfillingsComponent implements OnInit {
 
 
   addFuel() {
-    let vehId = this.selectedVehicle.id;
-    this.common.params = { vehId };
-    const activeModal = this.modalService.open(AddFuelFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    let rowfilling = {
+      fdate: null,
+      litres: null,
+      is_full: null,
+      regno: null,
+      rate: null,
+      amount: null,
+      pp: null,
+      fuel_station_id: null,
+      vehicle_id: null,
+      id: null,
+      ref_type: null,
+      ref_id: null,
+    };
+    this.common.params = { rowfilling, title: 'Add Fuel Filling' };
+    const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
       if (data.response) {
-        //this.addLedger(data.ledger);
+       // window.location.reload();
       }
+    //this.common.handleModalSize('class', 'modal-lg', '1150');
+
     });
+    // let vehId = this.selectedVehicle.id;
+    // this.common.params = { vehId };
+    // const activeModal = this.modalService.open(AddFuelFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+    //   // console.log('Data: ', data);
+    //   if (data.response) {
+    //     //this.addLedger(data.ledger);
+    //   }
+    // });
   }
 
 
@@ -385,5 +425,10 @@ export class FuelfillingsComponent implements OnInit {
         })
   }
 
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+   let activeId = document.activeElement.id;
+    console.log('Active event 1111', event, activeId);
 
+  }
 }
