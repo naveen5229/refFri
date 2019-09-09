@@ -81,7 +81,7 @@ export class FuelFillingsComponent implements OnInit {
   getFillingData() {
     const params = {
       startTime: this.dates.start,
-      endTime: this.dates.end,
+      endTime: this.dates.end + ' ' + '23:59:59',
     }
 
     this.common.loading++;
