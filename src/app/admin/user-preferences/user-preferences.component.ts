@@ -193,7 +193,6 @@ export class UserPreferencesComponent implements OnInit {
       });
 
     });
-    console.log("After formated data", this.formattedData);
   }
 
 

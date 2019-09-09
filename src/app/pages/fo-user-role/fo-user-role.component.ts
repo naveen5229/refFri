@@ -115,7 +115,18 @@ export class FoUserRoleComponent implements OnInit {
         }
       });
     });
-    console.log(this.formattedData);
+    this.formattedData = _.sortBy(this.formattedData, ['name'], ['asc']);
+    this.formattedData.map(module => {
+      module.groups = _.sortBy(module.groups, ['name'], ['asc']);
+
+    });
+    this.formattedData.map(module => {
+      module.groups.map(pages => {
+        pages.pages = _.sortBy(pages.pages, ['title'], ['asc']);
+        console.log("Page :", pages.pages);
+      });
+
+    });
   }
 
   checkOrUnCheckAll(details, type) {
