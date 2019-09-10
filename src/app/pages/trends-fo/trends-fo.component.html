@@ -77,64 +77,31 @@
                     <label class="xScale ">{{xScale}}</label>
                 </div>
             </div>
-            <div class="row " style="margin-top: 10px" *ngIf="trendType==11 || trendType==21">
-                <div class="col-sm-6 pr-0 ">
+
+            <div class="row " style="margin-top: 10px" *ngIf="trendType==0">
+                <div class="col-12">
                     <table class="table table-border ">
-                        <thead class="thead ">
+                        <thead class="thead">
                             <tr>
-                                <th *ngIf="trendType==11 || trendType==21">Regno</th>
-                                <th *ngIf="trendType==11 ">Loading Hours(Hr)</th>
-                                <th *ngIf="trendType==21 ">Unloading Hours(Hr) </th>
-                                <th *ngIf="trendType==11 ">Loading Count </th>
-                                <th *ngIf="trendType==21 ">UnLoading Count</th>
-                                <!-- <th *ngIf="trendType==0 ">Onward</th>
-                                <th *ngIf="trendType==0 ">Halt Count</th>
-                                <th *ngIf="trendType==0 ">Total Halt(Hr)</th> -->
-
-
+                                <th style="width:270px">Regno</th>
+                                <th style="width:270px">Onward</th>
+                                <th style="width:270px">Halt Count</th>
+                                <th>Total Halt(Hr)</th>
                             </tr>
                         </thead>
-                        <!-- <tbody *ngIf="trendType==11 "> -->
                         <tbody>
-                            <ng-container *ngFor="let trendsVehicle of trendsVehicleData; let i=index; ">
-                                <!-- <tr *ngIf="trendType==11 "> -->
-                                <tr>
-                                    <td *ngIf="trendType==11 || trendType==21 ">{{trendsVehicle.vehicle_id }}</td>
+                            <tr *ngFor="let trendsVehicle of trendsVehicleData; let i=index; ">
+                                <td>{{trendsVehicle.vehicle_id }}</td>
+                                <td>{{trendsVehicle.onward | number : '1.2-2' }}</td>
+                                <td>{{trendsVehicle.hlt_count }}</td>
+                                <td>{{trendsVehicle.total_halt | number : '1.2-2' }}</td>
 
-                                    <td *ngIf="trendType==11 ">{{trendsVehicle.loading_hrs | number : '1.2-2' }}</td>
-                                    <td *ngIf="trendType==21 ">{{trendsVehicle.unloading_hrs | number : '1.2-2' }}</td>
-                                    <td *ngIf="trendType==11 ">{{trendsVehicle.ldng_count }}</td>
-                                    <td *ngIf="trendType==21 ">{{trendsVehicle.unldng_count }}</td>
-                                    <!-- <td *ngIf="trendType==0 ">{{trendsVehicle.onward | number : '1.2-2' }}</td>
-                                    <td *ngIf="trendType==0 ">{{trendsVehicle.hlt_count }}</td>
-                                    <td *ngIf="trendType==0 ">{{trendsVehicle.total_halt | number : '1.2-2' }}</td> -->
-                                </tr>
-                            </ng-container>
+                            </tr>
                         </tbody>
-                        <!-- <tbody *ngIf="trendType==21 ">
-                            <ng-container *ngFor="let trendsVehicle of trendsVehicleData; let i=index; ">
-                                <tr *ngIf="trendType==21 && data.unldng_count!=0 ">
-
-                                    <td>{{trendsVehicle.unloading_hrs}}</td>
-                                    <td>{{trendsVehicle.unldng_count }}</td>
-                                </tr>
-                            </ng-container> -->
-                        <!-- </tbody> -->
-                        <!-- <tbody *ngIf="trendType==0 ">
-                            <ng-container *ngFor="let trendsVehicle of onward; let i=index; ">
-                                <tr *ngIf="trendType==0 && data.unldng_count!=0 ">
-
-                                    <th>Vehicle_id</th>
-                                    <td>{{trendsVehicle.onward}}</td>
-                                    <td>{{trendsVehicle.hlt_count }}</td>
-                                    <td>{{trendsVehicle.total_halt }}</td>
-                                </tr>
-                            </ng-container>
-                        </tbody> -->
-
-
                     </table>
                 </div>
+            </div>
+            <div class="row " style="margin-top: 10px" *ngIf="trendType==11 || trendType==21">
                 <div class="col-sm-6" style="overflow:auto;">
                     <table class="table table-border ">
                         <thead class="thead ">
@@ -159,29 +126,32 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="row " style="margin-top: 10px" *ngIf="trendType==0">
-                <div class="col-12">
+                <div class="col-sm-6 pr-0 ">
                     <table class="table table-border ">
-                        <thead class="thead">
+                        <thead class="thead ">
                             <tr>
-                                <th style="width:270px">Regno</th>
-                                <th style="width:270px">Onward</th>
-                                <th style="width:270px">Halt Count</th>
-                                <th>Total Halt(Hr)</th>
+                                <th *ngIf="trendType==11 || trendType==21">Regno</th>
+                                <th *ngIf="trendType==11 ">Loading Hours(Hr)</th>
+                                <th *ngIf="trendType==21 ">Unloading Hours(Hr) </th>
+                                <th *ngIf="trendType==11 ">Loading Count </th>
+                                <th *ngIf="trendType==21 ">UnLoading Count</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let trendsVehicle of trendsVehicleData; let i=index; ">
-                                <td>{{trendsVehicle.vehicle_id }}</td>
-                                <td>{{trendsVehicle.onward | number : '1.2-2' }}</td>
-                                <td>{{trendsVehicle.hlt_count }}</td>
-                                <td>{{trendsVehicle.total_halt | number : '1.2-2' }}</td>
+                            <ng-container *ngFor="let trendsVehicle of trendsVehicleData; let i=index; ">
+                                <tr>
+                                    <td *ngIf="trendType==11 || trendType==21 ">{{trendsVehicle.vehicle_id }}</td>
 
-                            </tr>
+                                    <td *ngIf="trendType==11 ">{{trendsVehicle.loading_hrs | number : '1.2-2' }}</td>
+                                    <td *ngIf="trendType==21 ">{{trendsVehicle.unloading_hrs | number : '1.2-2' }}</td>
+                                    <td *ngIf="trendType==11 ">{{trendsVehicle.ldng_count }}</td>
+                                    <td *ngIf="trendType==21 ">{{trendsVehicle.unldng_count }}</td>
+                                </tr>
+                            </ng-container>
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
     </nb-card-body>

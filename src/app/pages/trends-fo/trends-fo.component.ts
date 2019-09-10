@@ -189,13 +189,13 @@ export class TrendsFoComponent implements OnInit {
         value: this.weekMonthNumber,
       }
     } else if (this.period == '2') {
-      this.xScale = 'Weeks'
+      this.xScale = 'Weeks of'
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
       }
     } else {
-      this.xScale = 'Months'
+      this.xScale = 'Months of'
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
@@ -305,13 +305,13 @@ export class TrendsFoComponent implements OnInit {
         value: this.weekMonthNumber,
       }
     } else if (this.period == '2') {
-      this.xScale = 'Weeks'
+      this.xScale = 'Weeks of'
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
       }
     } else {
-      this.xScale = 'Months'
+      this.xScale = 'Months of '
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
