@@ -244,6 +244,7 @@ import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledge
 import { DeactivateGuardService } from './guards/route.guard';
 import { ConstraintsComponent } from './modals/constraints/constraints.component';
 import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-transfer.component';
+import { TemplateDevviewComponent } from './modals/template-devview/template-devview.component';
 
 
 
@@ -461,6 +462,7 @@ import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-t
     DriverLedgerMappingComponent,
     ConstraintsComponent,
     ViewTransferComponent,
+    TemplateDevviewComponent,
 
   ],
   entryComponents: [
@@ -662,7 +664,8 @@ import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-t
     RoutesTimetableComponent,
     VehicleTimeTableAssociationComponent,
     ConstraintsComponent,
-    ViewTransferComponent
+    ViewTransferComponent,
+    TemplateDevviewComponent
   ],
   imports: [
     BrowserModule,

@@ -174,9 +174,9 @@ export class TrendsFoComponent implements OnInit {
         ]
       };
     }
-    console.log("dataset",this.chartObject.data);
+    console.log("dataset", this.chartObject.data);
   }
-  
+
   foTrendsData() {
     this.Details = [];
     this.dateDay = [];
