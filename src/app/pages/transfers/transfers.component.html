@@ -1,6 +1,7 @@
 <nb-card style="border:0px;">
   <nb-card-header>
     <h5>Transfer</h5>
+    
   </nb-card-header>
   <nb-card-body>
     <div class="row" style="margin-top:10px; margin-bottom:10px;">
@@ -13,12 +14,32 @@
           [dateTimeValue]="endTime">
         </uj-date-time-picker>
       </div>
-      <div class="col-md-2">
-        <button class="btn btn-primary m-0" (click)="viewTransfer()">Search</button>
-      </div>
 
-      <div class="col-md-2">
-        <button class="btn btn-primary m-0" (click)="addTransfer()">Add</button>
+      
+        <div class="col-3">
+        <label>Ledger</label>
+          <div class="search" style="display:inline-block;">
+            <auto-suggestion (onSelected)="ledger($event)" url="Suggestion/GetPurchaseLedger" display="name"
+            placeholder="Search" [preSelected]="null"></auto-suggestion>
+          </div>
+        </div>  
+
+        <div class="col-2">
+          <label>Type</label>
+          <div style="display:inline-block;">
+        <select class="form-control" [(ngModel)]="transferType">
+                <option [value]="1">Transfer</option>
+                <option [value]="0">Receipt</option>
+                <option [value]="-1">All</option>
+              </select>
+            </div>
+        </div>
+
+      <div class="col-md-3">
+          <button class="btn btn-primary" (click)="viewTransfer()">Search</button>
+        <button class="btn btn-primary" (click)="addTransfer()">Add</button>
+        <!-- <button class="btn btn-primary" (click)="openViewTransfer()">View Transfer</button> -->
+
       </div>
 
     </div>

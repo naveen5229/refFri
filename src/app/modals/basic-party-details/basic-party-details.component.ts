@@ -519,21 +519,25 @@ export class BasicPartyDetailsComponent implements OnInit {
   }
 
   saveDetails() {
-    this.common.params = {
-      title: 'PAN/GST CONFIRMATION',
-      description: 'Do you Still Continue Either PAN OR GST ?',
-      btn2: "No",
-      btn1: 'Yes'
-    };
-    console.log("Inside confirm model")
-    const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
-    activeModal.result.then(data => {
-      console.log('res', data);
-      if (data.response) {
-        this.gstPanCheck = true;
-        this.saveBasicDetails();
-      }
-    });
+    if (this.panNo == '' && this.gstNo == '') {
+      this.common.params = {
+        title: 'PAN/GST CONFIRMATION',
+        description: 'Do you Still Continue Either PAN OR GST ?',
+        btn2: "No",
+        btn1: 'Yes'
+      };
+      console.log("Inside confirm model")
+      const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
+      activeModal.result.then(data => {
+        console.log('res', data);
+        if (data.response) {
+          this.gstPanCheck = true;
+          this.saveBasicDetails();
+        }
+      });
+    } else {
+      this.saveBasicDetails();
+    }
   }
 
   saveBasicDetails() {
