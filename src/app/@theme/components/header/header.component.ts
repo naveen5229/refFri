@@ -79,7 +79,7 @@ export class HeaderComponent implements OnInit {
         .subscribe(res => {
           --this.common.loading;
           this.common.showToast(res['msg']);
-          console.log("logout", resizeBy);
+          console.log("logout", res);
         }, err => {
           --this.common.loading;
           this.common.showError();

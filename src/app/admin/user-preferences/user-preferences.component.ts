@@ -194,6 +194,7 @@ export class UserPreferencesComponent implements OnInit {
       });
       module.isSelected = isMasterAllSelected;
     });
+
     this.formattedData = _.sortBy(this.formattedData, ['name'], ['asc']).map(module => {
       module.groups = _.sortBy(module.groups, ['name'], ['asc']).map(groups => {
         groups.pages = _.sortBy(groups.pages, ['title'], ['asc']);

@@ -94,7 +94,6 @@ export class FoUserRoleComponent implements OnInit {
       })
   }
 
-
   managedata() {
     let firstGroup = _.groupBy(this.getAllPagesList, 'module');
     console.log(firstGroup);
@@ -105,17 +104,29 @@ export class FoUserRoleComponent implements OnInit {
         isSelected: false
       }
     });
+
     this.formattedData.map(module => {
+      let isMasterAllSelected = true;
       let pageGroup = _.groupBy(module.groups, 'group_name');
       module.groups = Object.keys(pageGroup).map(key => {
+        let isAllSelected = true;
+        let pages = pageGroup[key].map(page => {
+          page.isSelected = page.userid ? true : false;
+          if (isAllSelected)
+            isAllSelected = page.isSelected;
+          return page;
+        });
+        if (isMasterAllSelected) {
+          isMasterAllSelected = isAllSelected;
+        }
         return {
           name: key,
-          pages: pageGroup[key].map(page => { page.isSelected = page.userid ? true : false; return page; }),
-          isSelected: false,
+          pages: pages,
+          isSelected: isAllSelected,
         }
       });
+      module.isSelected = isMasterAllSelected;
     });
-
 
     this.formattedData = _.sortBy(this.formattedData, ['name'], ['asc']).map(module => {
       module.groups = _.sortBy(module.groups, ['name'], ['asc']).map(groups => {
