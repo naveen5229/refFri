@@ -68,6 +68,7 @@ export class TrendsFoComponent implements OnInit {
       }
     },
   };
+  count= null;
   chartObject1 = {
     type: 'line',
     data: {
@@ -207,7 +208,11 @@ export class TrendsFoComponent implements OnInit {
     this.api.post('Trends/getTrendsWrtFo', params)
       .subscribe(res => {
         this.common.loading--;
-        this.Details = res['data'];
+        this.Details = res['data'].result ;
+        this.count = res['data'].veh_count ;
+
+        
+        console.log("detail-----------------------------------", this.Details)
         this.Details.forEach((element) => {
           this.dateDay.push(this.datepipe.transform(element.date_day, 'dd-MMM'));
         });
@@ -224,6 +229,8 @@ export class TrendsFoComponent implements OnInit {
   getweeklyMothlyTrend() {
     this.dateDay = [];
     this.Details = [];
+    this.count=[];
+    this.count=null;
     let params = {
       purpose: this.period,
       value: this.weekMonthNumber
@@ -233,8 +240,9 @@ export class TrendsFoComponent implements OnInit {
     this.api.post('Trends/getTrendsWrtFo', params)
       .subscribe(res => {
         this.common.loading--;
-        this.Details = res['data'];
-        console.log("detail", this.Details)
+        this.Details = res['data'].result 
+        this.count= res['data'].veh_count ;
+        console.log("detail-----------------------------------", this.Details)
         this.Details.forEach((element) => {
           this.dateDay.push(this.datepipe.transform(element.date_day, 'dd-MMM'));
         });
@@ -252,7 +260,7 @@ export class TrendsFoComponent implements OnInit {
     } else {
       this.showPeriod = true;
     }
-    console.log("detail", this.Details)
+    console.log("detail-----------------------------------", this.Details)
 
     this.Hours = [];
     this.halt = [];
@@ -275,7 +283,7 @@ export class TrendsFoComponent implements OnInit {
 
 
       } else if (this.trendType == "0") {
-        this.Hours.push(element.onward)
+        this.Hours.push(element.onward / this.count)
         this.halt.push();
 
         console.log("elementttt", element.onward)
