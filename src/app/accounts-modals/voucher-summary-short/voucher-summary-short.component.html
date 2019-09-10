@@ -255,6 +255,7 @@
 
 
     <div class="modal-footer">
+        <button *ngIf="VoucherId !=0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="printTripDetail()">Print</button>
         <button *ngIf="typeFlag==1 && permanentDeleteId ==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
       
         <button *ngIf="approve==1 && permanentDeleteId ==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="approveVoucher()">Approve</button>
