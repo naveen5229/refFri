@@ -1,0 +1,46 @@
+<!-- Author By Lalit Singh -->
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-9">
+        <h5>Fo User Role</h5>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body style="min-height: 580px;">
+    <div class="row">
+      <div class="search mt-2">
+        <label> Select Employee Name</label>
+        <auto-suggestion (onSelected)="getUserDetails($event)" [data]="getUsersList" display="name" placeholder="Employee"
+          [preSelected]="null" inputId="name"></auto-suggestion>
+      </div>
+      <div class="col text-right mt-4" *ngIf="selectedUser.details">
+          <button class="btn btn-secondary" (click)="saveUserRole()">Save</button>
+      </div>
+
+    </div>
+
+    <div class="container">
+      <div *ngFor="let module of formattedData; let i = index;">
+        <div class="module-container">
+          <input type="checkbox" [ngClass]="module.isSelected? 'module-box' : 'module-box'" [name]="'section-' + i"
+            [(ngModel)]="module.isSelected" (change)="checkOrUnCheckAll(module, 'module')"> <span
+            class="module-name">{{module.name | uppercase }}</span>
+        </div>
+        <div class="group-container" *ngFor="let group of module.groups; let j = index">
+          <div class="group-head"><input type="checkbox" [ngClass]="group.isSelected? 'group-box' : 'group-box'"
+              [name]="'group-' + j" [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')">
+            {{group.name}}
+          </div>
+          <div class="col-2 page-container" *ngFor="let page of group.pages; let k = index">
+            <input type="checkbox" class=" page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected">
+            {{page.title}}
+          </div>
+        </div>
+      </div>
+
+    
+    </div>
+  </nb-card-body>
+</nb-card>

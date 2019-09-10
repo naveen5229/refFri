@@ -63,20 +63,20 @@
           <div class="col-md-3">
             <table class="table table-bordered table-hover" style="width: 100%">
               <tr *ngIf="amountData && amountData.sgst_value">
-                <td><b> {{amountData.sgst_name }} : </b>&nbsp;&nbsp; {{amountData.sgst_value }}</td>
+                <td><b> {{amountData.sgst_name }} : </b></td> <td>{{amountData.sgst_value }}</td>
               </tr>
               <tr *ngIf="amountData && amountData.cgst_value">
-                <td><b> {{amountData.cgst_name}} : </b>&nbsp;&nbsp; {{amountData.cgst_value}} </td>
+                <td><b> {{amountData.cgst_name}} : </b></td> <td> {{amountData.cgst_value}} </td>
               </tr>
 
               <tr *ngIf="amountData && amountData.total_amount">
-                <td><b> TOTAL: </b>&nbsp;&nbsp; {{amountData.total_amount}} </td>
+                <td><b> TOTAL: </b></td> <td> {{amountData.total_amount}} </td>
               </tr>
               <tr *ngIf="amountData && amountData.advance_amount">
-                  <td><b>Advance Amount: </b>&nbsp;&nbsp; {{amountData.advance_amount}} </td>
+                  <td><b>Advance Amount: </b></td> <td> {{amountData.advance_amount}} </td>
                 </tr>
                 <tr *ngIf="amountData && amountData.net_amount">
-                    <td><b> Net Amount: </b>&nbsp;&nbsp; {{amountData.net_amount}} </td>
+                    <td><b> Net Amount: </b></td> <td> {{amountData.net_amount}} </td>
                   </tr>
             </table>
           </div>

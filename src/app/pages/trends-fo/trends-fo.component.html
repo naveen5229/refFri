@@ -12,7 +12,8 @@
                     </select>
                 </div>
                 <div class="col-sm-3" *ngIf="showPeriod">
-                    <select [(ngModel)]="period" class="form-control" (change)="foTrendsData()"
+                    <select [(ngModel)]="period" class="form-control"
+                        (change)="foTrendsData();getTrendsVehicle();getTrendsSite()"
                         style=" border: 1px solid #324148; font-size: 10px">
                         <option value="1">Day</option>
                         <option value="2">Week</option>
@@ -20,7 +21,8 @@
                     </select>
                 </div>
                 <div class="col-sm-3" *ngIf="(period=='2') && trendType!='31'">
-                    <select [(ngModel)]="weekMonthNumber" class="form-control" (change)="getweeklyMothlyTrend()"
+                    <select [(ngModel)]="weekMonthNumber" class="form-control"
+                        (change)="getweeklyMothlyTrend();getTrendsVehicle();getTrendsSite()"
                         style=" border: 1px solid #324148; font-size: 10px">
                         <option value="4">4</option>
                         <option value="5">5</option>
@@ -38,7 +40,8 @@
                     </select>
                 </div>
                 <div class="col-sm-3" *ngIf="(period=='3') && trendType!='31'">
-                    <select [(ngModel)]="weekMonthNumber" class="form-control" (change)="getweeklyMothlyTrend()"
+                    <select [(ngModel)]="weekMonthNumber" class="form-control"
+                        (change)="getweeklyMothlyTrend();getTrendsVehicle();getTrendsSite()"
                         style=" border: 1px solid #324148; font-size: 10px">
                         <option value="3">3</option>
                         <option value="4">4</option>
@@ -76,7 +79,89 @@
                     <label class="xScale">{{xScale}}</label>
                 </div>
             </div>
+            <div class="row" style="margin-top: 10px">
+                <div class="col-sm-6 pr-0">
+                    <table class="table table-border">
+                        <thead class="thead">
+                            <tr>
+                                <th *ngIf="trendType=='11' || trendType=='21'">Vehicle id</th>
+                                <th *ngIf="trendType=='11'">Loading Hours</th>
+                                <th *ngIf="trendType=='21'">Unloading Hours </th>
+                                <th *ngIf="trendType=='11'">Loading Count </th>
+                                <th *ngIf="trendType=='21'">UnLoading Count</th>
+                                <th *ngIf="trendType=='0'">Onward</th>
+                                <th *ngIf="trendType== '0'">Halt Count</th>
+                                <th *ngIf="trendType=='0'">Total Halt</th>
 
+
+                            </tr>
+                        </thead>
+                        <!-- <tbody *ngIf="trendType==11"> -->
+                        <tbody>
+                            <ng-container *ngFor="let trendsVehicle of trendsVehicleData; let i=index;">
+                                <!-- <tr *ngIf="trendType==11"> -->
+                                <tr>
+                                    <td *ngIf="trendType=='11' || trendType=='21'">{{trendsVehicle.vehicle_id }}</td>
+
+                                    <td *ngIf="trendType=='11'">{{trendsVehicle.loading_hrs}}</td>
+                                    <td *ngIf="trendType=='21'">{{trendsVehicle.unloading_hrs}}</td>
+                                    <td *ngIf="trendType=='11'">{{trendsVehicle.ldng_count}}</td>
+                                    <td *ngIf="trendType=='21'">{{trendsVehicle.unldng_count }}</td>
+                                    <td *ngIf="trendType=='0'">{{trendsVehicle.onward}}</td>
+                                    <td *ngIf="trendType=='0'">{{trendsVehicle.hlt_count }}</td>
+                                    <td *ngIf="trendType=='0'">{{trendsVehicle.total_halt }}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                        <!-- <tbody *ngIf="trendType==21">
+                            <ng-container *ngFor="let trendsVehicle of trendsVehicleData; let i=index;">
+                                <tr *ngIf="trendType==21 && data.unldng_count!= 0">
+
+                                    <td>{{trendsVehicle.unloading_hrs}}</td>
+                                    <td>{{trendsVehicle.unldng_count }}</td>
+                                </tr>
+                            </ng-container> -->
+                        <!-- </tbody> -->
+                        <!-- <tbody *ngIf="trendType==0">
+                            <ng-container *ngFor="let trendsVehicle of onward; let i=index;">
+                                <tr *ngIf="trendType==0 && data.unldng_count!= 0">
+
+                                    <th>Vehicle_id</th>
+                                    <td>{{trendsVehicle.onward}}</td>
+                                    <td>{{trendsVehicle.hlt_count }}</td>
+                                    <td>{{trendsVehicle.total_halt }}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody> -->
+
+
+                    </table>
+                </div>
+                <div class="col-sm-6 pr-0">
+                    <table class="table table-border">
+                        <thead class="thead">
+                            <tr>
+                                <th *ngIf="trendType=='11' || trendType=='21'">Site Name</th>
+                                <th *ngIf="trendType=='11'">Loading Hours</th>
+                                <th *ngIf="trendType=='21'">Unloading Hours</th>
+                                <th *ngIf="trendType=='11'">Loading Count </th>
+                                <th *ngIf="trendType=='21'">UnLoading Count</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let trendsVehicleSite of trendsVehicleSiteData; let i=index;">
+                                <td *ngIf="trendType=='11' || trendType=='21'">{{trendsVehicleSite.sitename}}</td>
+                                <td *ngIf="trendType=='11'">{{trendsVehicleSite.loading_hrs}}</td>
+                                <td *ngIf="trendType=='21'">{{trendsVehicleSite.unloading_hrs}}</td>
+                                <td *ngIf="trendType=='11'">{{trendsVehicleSite.ldng_count}}</td>
+                                <td *ngIf="trendType=='21'">{{trendsVehicleSite.unldng_count }}</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </nb-card-body>
 </nb-card>

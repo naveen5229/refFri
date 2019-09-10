@@ -19,6 +19,7 @@ import "jspdf-autotable";
 import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import * as moment_ from "moment";
 import { elementAt } from "rxjs/operators";
+import { RouteGuard } from "../guards/route.guard";
 const moment = moment_;
 @Injectable({
   providedIn: "root"
@@ -73,7 +74,7 @@ export class CommonService {
     public api: ApiService,
     public dataService: DataService,
     public user: UserService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) { }
 
   showError(msg?, err?) {
@@ -1675,4 +1676,6 @@ export class CommonService {
     }
     return res;
   }
+
+
 }

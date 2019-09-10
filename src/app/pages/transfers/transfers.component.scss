@@ -41,3 +41,11 @@
 :host ::ng-deep .fa-trash:hover span{
     display: block;
 }
+.search {
+    width: auto;
+    //margin-left: 20px;
+  }
+:host ::ng-deep .blue{
+    color: blue;
+    text-decoration: underline;
+}

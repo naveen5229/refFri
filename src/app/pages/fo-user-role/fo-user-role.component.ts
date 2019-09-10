@@ -1,66 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
-import { RouteGuard } from '../../guards/route.guard';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
-import { group } from '@angular/animations';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
-  selector: 'user-preferences',
-  templateUrl: './user-preferences.component.html',
-  styleUrls: ['./user-preferences.component.scss', '../../pages/pages.component.css']
+  selector: 'fo-user-role',
+  templateUrl: './fo-user-role.component.html',
+  styleUrls: ['./fo-user-role.component.scss', '../pages.component.css']
 })
-export class UserPreferencesComponent implements OnInit {
-  data = [];
+export class FoUserRoleComponent implements OnInit {
+  getUsersList = [];
+  getAllPagesList = [];
+  formattedData = [];
   selectedUser = {
     details: null,
     oldPreferences: []
   };
-  formattedData = [];
-  pageGroup = [];
-  pagesGroups = {};
-  pageGroupKeys = [];
-  newPage = {
-    module: null,
-    group: null,
-    title: null,
-    url: null,
-    type: 'Dashboard',
-    addType: 1,
-  };
-  getUsersList = [];
-
 
 
   constructor(public api: ApiService,
     public common: CommonService,
-    public user: UserService,
     public modalService: NgbModal,
-    public route: RouteGuard) {
+    public user: UserService) {
     this.common.isComponentActive = false;
     this.common.refresh = this.refresh.bind(this);
     this.getAllUserList();
   }
 
-
-
-
   ngOnInit() {
   }
-  ngDestroy() {
-
+  refresh() {
+    this.common.isComponentActive = false;
+    this.getAllUserList();
+    document.getElementById('name')['value'] = '';
+    this.formattedData = [];
   }
-
   //Confirmation that before Leave the PAge
   canDeactivate() {
     console.log("activity Start", this.common.isComponentActive);
     if (this.common.isComponentActive) {
       this.common.params = {
         title: 'Confirmation ',
-        description: `<b>&nbsp;` + 'Are Sure To Leave This Page WithOut Save' + `<b>`,
+        description: `<b>&nbsp;` + 'Are Sure To Leave This Page' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
@@ -75,60 +59,13 @@ export class UserPreferencesComponent implements OnInit {
     return true;
   }
 
-  refresh() {
-    this.data = [];
-    this.selectedUser = {
-      details: null,
-      oldPreferences: []
-    };
-    this.pagesGroups = {};
-    document.getElementById('employeename')['value'] = '';
-    this.common.isComponentActive = false;
-    this.formattedData = [];
-  }
-
-
-  createNewPage() {
-    let params = {
-      moduleName: this.newPage.module,
-      groupName: this.newPage.group,
-      title: this.newPage.title,
-      route: this.newPage.url,
-      type: this.newPage.type,
-      add_type: this.newPage.addType
-    };
-    this.common.loading++;
-    this.api.post('UserRoles/insertNewPageDetails', params)
-      .subscribe(res => {
-        this.common.loading--;
-        this.common.showToast(res['msg'])
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-      })
-  }
-
-  checkOrUnCheckAll(details, type) {
-    this.common.isComponentActive = true;
-    if (type === 'group') {
-      details.pages.map(page => {
-        page.isSelected = details.isSelected
-      });
-    } else if (type === 'module') {
-      details.groups.map(group => {
-        group.isSelected = details.isSelected;
-        group.pages.map(page => page.isSelected = details.isSelected);
-      });
-    }
-  }
-
   getAllUserList() {
-
     this.common.loading++;
-    this.api.get('UserRoles/getActiveAdminUsers?')
+    this.api.get('Suggestion/getAllFoAdminUsersWrtFo?')
       .subscribe(res => {
         this.common.loading--;
         this.getUsersList = res['data'];
+        console.log("api Data:", this.getUsersList);
 
       }, err => {
         this.common.loading--;
@@ -136,27 +73,21 @@ export class UserPreferencesComponent implements OnInit {
       })
   }
 
-  getUserPages(user) {
-    this.formattedData = [];
+
+  getUserDetails(user) {
     this.selectedUser.details = user;
     const params = {
       userId: user.id,
-      userType: 1
+      userType: 3
     };
     this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         this.common.loading--;
-        this.data = res['data'];
-        this.data.map(id => {
-
-        });
-        if (res['data'])
-          console.log("Res Data:", this.data)
-        this.selectedUser.oldPreferences = res['data'];
+        this.getAllPagesList = res['data'];
         this.managedata();
-        // this.findSections();
-        // this.checkSelectedPages(res['data']);
+        console.log("Res Data:", this.getAllPagesList)
+        this.selectedUser.oldPreferences = res['data'];
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -164,7 +95,8 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   managedata() {
-    let firstGroup = _.groupBy(this.data, 'module');
+    let firstGroup = _.groupBy(this.getAllPagesList, 'module');
+    console.log(firstGroup);
     this.formattedData = Object.keys(firstGroup).map(key => {
       return {
         name: key,
@@ -172,6 +104,7 @@ export class UserPreferencesComponent implements OnInit {
         isSelected: false
       }
     });
+
     this.formattedData.map(module => {
       let isMasterAllSelected = true;
       let pageGroup = _.groupBy(module.groups, 'group_name');
@@ -202,16 +135,30 @@ export class UserPreferencesComponent implements OnInit {
       });
       return module;
     });
-    console.log("After Formatted", this.formattedData);
+  }
 
+  checkOrUnCheckAll(details, type) {
+    this.common.isComponentActive = true;
+    if (type === 'group') {
+      console.log('details.isSelected:', details.isSelected);
+      details.pages.map(page => {
+        console.log('details.isSelected:', details.isSelected);
+        page.isSelected = details.isSelected
+      });
+    } else if (type === 'module') {
+      details.groups.map(group => {
+        group.isSelected = details.isSelected;
+        group.pages.map(page => page.isSelected = details.isSelected);
+      });
+    }
   }
 
 
-  updatePreferences() {
+  saveUserRole() {
     const params = {
       pages: this.findSelectedPages(),
       userId: this.selectedUser.details.id,
-      userType: 1,
+      userType: 3,
     };
     console.log("Param:", params);
     this.common.loading++;
