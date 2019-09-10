@@ -18,6 +18,8 @@ import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-fill
   styleUrls: ['./voucher-summary.component.scss']
 })
 export class VoucherSummaryComponent implements OnInit {
+  firstdate='';
+  enddate='';
   permanentDeleteId = 0;
   sizeIndex = 0;
   isReadonly = false;
@@ -85,6 +87,11 @@ export class VoucherSummaryComponent implements OnInit {
     if (this.common.params.sizeIndex) {
       this.sizeIndex = this.common.params.sizeIndex;
     }
+    if (this.common.params.endDate) {
+      this.firstdate=this.common.params.firstDate;
+      this.enddate=this.common.params.endDate;
+    }
+    
     this.permanentDeleteId = (this.common.params.permanentDelete) ? this.common.params.permanentDelete : 0;
     if (this.common.params.typeFlag) { this.typeFlag = this.common.params.typeFlag; }
     this.VehicleId = this.common.params.vehId;
@@ -147,6 +154,8 @@ export class VoucherSummaryComponent implements OnInit {
       this.getVoucherDetails(this.tripVoucher.y_id);
       this.tripexpvoucherid = this.tripVoucher.y_id;
       this.VoucherData = this.common.params.VoucherData;
+
+      this.showTransfer();
     }
 
     this.common.handleModalSize('class', 'modal-lg', '1150', 'px', this.sizeIndex);
@@ -433,10 +442,11 @@ export class VoucherSummaryComponent implements OnInit {
 
   getFuelFillings(lastFilling?, currentFilling?) {
     console.log(this.findFirstSelectInfo(), this.findLastSelectInfo());
+  
     const params = {
       vehId: this.VehicleId,
-      lastFilling: lastFilling || this.findFirstSelectInfo(),
-      currentFilling: currentFilling || this.findLastSelectInfo()
+      lastFilling: this.firstdate  || this.findFirstSelectInfo(),
+      currentFilling: this.enddate || this.findLastSelectInfo()
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
