@@ -14,3 +14,58 @@
 //       visibility: hidden;
 //     }
 //   }
+// .vl {
+//     border-left: 6px solid green;
+//     height: 500px;
+// }
+// table {
+//     border-collapse: collapse;
+//     width: 100%;
+// }
+// th {
+//     background-color: #737373;
+//     border: 1px solid #dddddd;
+//     text-align: left;
+//     padding: 8px;
+//     color: #fff;
+// }
+// td {
+//     border: 1px solid #dddddd;
+//     text-align: left;
+//     padding: 8px;
+//     color: #000;
+// }
+.vl {
+    border-left: 6px solid green;
+    height: 500px;
+}
+
+.box {
+    background-color: li;
+    width: 2px;
+    border: 15px solid green;
+    margin: 10pxpx;
+    height: 89px;
+}
+
+// td {
+//     border-right: solid 1px #f00;
+//     border-left: solid 1px #f00;
+// }
+table {
+    border-collapse: collapse;
+}
+
+tr {
+    border: none;
+}
+
+td {
+    border-right: solid 1px #f00;
+    border-left: solid 1px #f00;
+    padding-bottom: 10px;
+}
+
+th {
+    width: 220px;
+}

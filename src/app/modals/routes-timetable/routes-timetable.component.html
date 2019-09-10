@@ -1,13 +1,119 @@
 <div class="modal-header">
-  <h5>Vehicle Running Status</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <h5>Vehicle Running Status</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
 
 <div class="modal-body">
-  <table class="table">
+    <!-- <table frame="box" style="width:100%">
+        <thead>
+            <tr>
+                <th><b><input type="checkbox" name="vlist" [(ngModel)]="selectedAll" (ngModelChange)="selectAll()"></b></th>
+                <th><b>Receipt_no</b></th>
+                <th><b>Source</b></th>
+                <th><b>Destination</b></th>
+                <th><b>Item Name</b></th>
+                <th><b>Quantity</b></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let list of lrList;let i=index;">
+                <td><input type="checkbox" [name]="'list-' + i" [(ngModel)]="list.selected"> </td>
+                <td>{{list.receipt_no}}</td>
+                <td>{{list.source }}</td>
+                <td>{{list.destination}}</td>
+                <td><input type="text" class="form-control" [(ngModel)]="list.item_name"></td>
+                <td><input type="number" class="form-control" [(ngModel)]="list.qty"></td>
+            </tr>
+        </tbody>
+    </table> -->
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name(Location)</th>
+                <th>Arival</th>
+                <th>Departure</th>
+                <th>Halt</th>
+                <hr style="height:2px;width:100%;color:black;">
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of routesDetails; let i = index;">
+                <td></td>
+                <td class="mt-2">({{data.loc_name}})<br>{{data.name}}</td>
+                <td class="mt-2">(Day {{data.day}}){{data.scheduled_arrival_time}}<br> {{data.actual_arrival_time?data.actual_arrival_time:null}}
+                </td>
+                <td class="mt-2">{{data.departure_time?data.departure_time:null}}<br> {{data.delay?data.delay:null}}
+                </td>
+                <td class="mt-2">{{data.scheduled_halt_time}}<br>{{data.actual_halt_time}}</td>
+                <td></td>
+            </tr>
+            <!-- <tr>
+                <td>c</td>
+                <td>d</td>
+            </tr> -->
+
+        </tbody>
+
+    </table>
+    <!-- <div class="row">
+        <div class="col-1">
+
+        </div>
+        <div class="col-2">
+            <label>Name(Location)</label>
+        </div>
+        <div class="col-3">
+            <label>Arival</label>
+        </div>
+        <div class="col-3">
+            <label>Departure</label>
+        </div>
+        <div class="col-3">
+            <label>Halt</label>
+        </div>
+        <hr style="height:2px;width:100%;color:black;">
+    </div>
+
+    <div *ngFor="let data of routesDetails; let i = index;">
+        <div class="row">
+            <div class="col-1 fa fa-circle">
+                <div class="box"></div>
+            </div>
+
+            <div style="height:2px;width:100%;color:black;" class="col-2 td mt-1">
+                <div>({{data.loc_name}})</div>
+                <div> {{data.name}}</div>
+            </div>
+            <div style="height:2px;width:100%;color:black;" class="col-3 td mt-1">
+                <div>(Day {{data.day}}){{data.scheduled_arrival_time}}</div>
+                <div style="color:red">{{data.actual_arrival_time?data.actual_arrival_time:null}}</div>
+            </div>
+            <div style="height:2px;width:100%;color:black;" class="col-3 td mt-1 ">
+                <div>{{data.departure_time?data.departure_time:null}}</div>
+                <div style="color: red">{{data.delay?data.delay:null}}</div>
+            </div>
+
+            <div style="height:2px;width:100%;color:black;" class="col-3 td mt-1">
+                <div>{{data.scheduled_halt_time}}</div>
+                <div style="color: red">{{data.actual_halt_time}}</div>
+            </div>
+        </div>
+        <hr style="height:2px;width:100%;color:black;"> -->
+
+    <!-- <div >({{data.loc_name}}) {{data.name}}</td>
+        <td style="color:#000000">(Day {{data.day}}) {{data.scheduled_arrival_time}}
+        </td>
+        <td style="color:darkgreen">{{data.actual_arrival_time?data.actual_arrival_time:null}}</td>
+        <td style="color: deepskyblue"></td>
+        <td style="color:darkred">{{data.delay?data.delay:null}}</td>
+        <td style="color: red">{{data.scheduled_halt_time}}</td>
+        <td style="color:red">{{data.actual_halt_time}}</td> -->
+    <!-- </div> -->
+    <!-- <table class="table">
     <thead style="background:  lightgray;">
       <tr>
         <th>Name(Location)</th>
@@ -32,6 +138,6 @@
       </tr>
     </tbody>
 
-  </table>
+  </table> -->
 
 </div>
