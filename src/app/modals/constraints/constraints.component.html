@@ -65,7 +65,8 @@
           <label>Destinations</label>
           <div *ngFor="let destination of constraintsType.destinations; let i = index; " class="mt-2">
             <span>Site</span>
-            <input value="site" [(ngModel)]="destination.type" type="radio" checked="checked" class="m-2" [name]="'radio-'+i">
+            <input value="site" [(ngModel)]="destination.type" type="radio" checked="checked" class="m-2"
+              [name]="'radio-'+i">
             &nbsp;
             <span>Map</span>
             <input value="map" [(ngModel)]="destination.type" type="radio" [name]="'radio-'+i" class="m-2">

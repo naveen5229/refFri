@@ -59,10 +59,10 @@ export class AddFreightExpensesComponent implements OnInit {
     this.getFreightHeads();
 
     if (this.common.params.expenseData) {
-      this.expense.id = this.common.params.expenseData.id;
+      this.expense.id = this.common.params.expenseData.id?this.common.params.expenseData.id:null;
       this.expense.refId = this.common.params.expenseData.refId;
       this.expense.refernceType = this.common.params.expenseData.refernceType;
-      this.expense.remarks = this.common.params.expenseData.remarks;
+      this.expense.remarks = this.common.params.expenseData.remarks?this.common.params.expenseData.remarks:null;
       this.getExpenseDetails();
     }
     this.getExpenses();

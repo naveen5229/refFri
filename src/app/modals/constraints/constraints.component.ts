@@ -21,7 +21,7 @@ export class ConstraintsComponent implements OnInit {
   keepGoing = true;
   foId = null;
   issueType = null;
-  id=null;
+  id = null;
   getContraintsData = [];
 
   constructor(public api: ApiService,
@@ -29,17 +29,17 @@ export class ConstraintsComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-      console.log("params:",this.common.params);
+    console.log("params:", this.common.params);
 
-      if(this.common.params && this.common.params.constraints){
-        
-        this.foId = this.common.params.constraints.foId;
-        this.issueType = this.common.params.constraints.issueType;
-        this.id = this.common.params.constraints.id;
+    if (this.common.params && this.common.params.constraints) {
+
+      this.foId = this.common.params.constraints.foId;
+      this.issueType = this.common.params.constraints.issueType;
+      this.id = this.common.params.constraints.id;
 
 
-      }
-    this.common.handleModalSize('class', 'modal-lg', '1100', 'px',1);
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1100', 'px', 1);
     this.getContraintsIssueData();
   }
 

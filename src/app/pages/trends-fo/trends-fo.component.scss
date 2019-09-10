@@ -11,3 +11,51 @@
     margin-left: 487px;
     font-size: 16px;
 }
+
+table {
+    thead {
+        background-color: #324148;
+        color: #fff;
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        color: #fff;
+        th:nth-child(1) {
+            width: 157px;
+        }
+        th {
+            width: 228px;
+        }
+        th:last-child {
+            width: auto;
+        }
+    }
+    tbody {
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 405px);
+        tr {
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1) {
+                width: 157px;
+            }
+            td {
+                width: 228px;
+            }
+            th:last-child {
+                width: auto;
+            }
+        }
+        tr:nth-child(odd) {
+            background-color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #E4E4E4;
+        }
+    }
+}
