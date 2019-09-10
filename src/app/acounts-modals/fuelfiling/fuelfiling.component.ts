@@ -42,6 +42,8 @@ export class FuelfilingComponent implements OnInit {
 
     if(this.common.params.fuelData){
       this.fuelFilings   =this.common.params.fuelData;
+    this.fuelstationid = this.common.params.fuelstationid;
+
     }
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.getcreditLedgers('credit');
@@ -116,7 +118,7 @@ export class FuelfilingComponent implements OnInit {
 
   getFuelFillings() {
     console.log('params model', this.common.params);
-    this.fuelstationid = this.common.params.fuelstationid.id;
+    this.fuelstationid = this.common.params.fuelstationid;
     const params = {
       vehId: this.common.params.vehId,
       lastFilling: this.common.params.lastFilling,
