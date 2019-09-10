@@ -154,6 +154,8 @@ export class VoucherSummaryComponent implements OnInit {
       this.getVoucherDetails(this.tripVoucher.y_id);
       this.tripexpvoucherid = this.tripVoucher.y_id;
       this.VoucherData = this.common.params.VoucherData;
+
+      this.showTransfer();
     }
 
     this.common.handleModalSize('class', 'modal-lg', '1150', 'px', this.sizeIndex);
