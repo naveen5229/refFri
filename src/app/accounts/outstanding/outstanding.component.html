@@ -114,7 +114,7 @@
               <td style="text-align:right;"><b>{{ voucherEntry.amount.credit | number : '1.2-2' }}</b></td>
             </tr>
             <tr *ngFor="let voucher of voucherEntry.vouchers let j = index" (click)="selectedRow =  '' + i + j"
-              (dblclick)="(voucher.y_type.toLowerCase().includes('voucher'))  ? (voucher.y_type.toLowerCase().includes('consignment')) ? openConsignmentVoucherEdit(voucher) :openVoucherDetail(voucher.y_voucherid,voucher.y_code) : openinvoicemodel(voucher.y_voucherid)"
+              (dblclick)="(voucher.y_type.toLowerCase().includes('voucher'))  ? (voucher.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(voucher) :openVoucherDetail(voucher.y_voucherid,voucher.y_code) : openinvoicemodel(voucher.y_voucherid)"
               [hidden]="activeGroup.indexOf(i) === -1" [ngClass]="{'highlight' : selectedRow == '' + i + j }">
               <td>{{ voucher.y_code }}</td>
               <td>{{ voucher.y_cust_code }}</td>

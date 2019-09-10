@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../services/account.service';
@@ -43,6 +42,8 @@ export class FuelfilingComponent implements OnInit {
 
     if(this.common.params.fuelData){
       this.fuelFilings   =this.common.params.fuelData;
+    this.fuelstationid = this.common.params.fuelstationid;
+
     }
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.getcreditLedgers('credit');
@@ -117,7 +118,7 @@ export class FuelfilingComponent implements OnInit {
 
   getFuelFillings() {
     console.log('params model', this.common.params);
-    this.fuelstationid = this.common.params.fuelstationid.id;
+    this.fuelstationid = this.common.params.fuelstationid;
     const params = {
       vehId: this.common.params.vehId,
       lastFilling: this.common.params.lastFilling,
@@ -130,7 +131,21 @@ export class FuelfilingComponent implements OnInit {
         console.log('fuel data', res);
         this.common.loading--;
         if(res['data']){
-        this.fuelFilings = res['data'];
+          setTimeout(() => {
+            this.fuelFilings = res['data'];
+            this.fuelFilings.map(fuelFiling => {
+              if(fuelFiling.y_voucher_id){
+              fuelFiling.isChecked = true
+              }else{
+              fuelFiling.isChecked = false
+                
+              }
+            }
+              );
+          console.log('fuel filling data',this.fuelFilings);
+
+          }, 250);
+       
         }
         // this.getHeads();
       }, err => {

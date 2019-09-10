@@ -27,7 +27,9 @@ export class SaveUserTemplateComponent implements OnInit {
     private modalService: NgbModal
 
   ) { 
+    this.common.handleModalSize('class', 'modal-lg', '1100', 'px');
     if (this.common.params.title == 'Edit') {
+      this.common.params.title="Update";
       this.showhide.show=false;
       this.common.loading++;
       this.api.get('userTemplate/view?id='+this.common.params.userTemplate._id)
