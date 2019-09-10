@@ -26,9 +26,9 @@ export class FuelIndentComponent implements OnInit {
 
   headings = [];
   valobj = {};
-  vehicleType=0;
-  vehicleStatus=0;
-  regno=null;
+  vehicleType = 0;
+  vehicleStatus = 0;
+  regno = null;
 
   dropDown1 = [
     { name: 'Self', id: 0 },
@@ -42,16 +42,16 @@ export class FuelIndentComponent implements OnInit {
     { name: 'All', id: -2 },
 
   ];
-  
-  endDate=new Date();
-  startDate=new Date(new Date().setDate(new Date(this.endDate).getDate()-7));
+
+  endDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 7));
   constructor(public api: ApiService,
     private modalService: NgbModal,
     public common: CommonService) {
-      this.getFuelIndent();
-      this.common.refresh = this.refresh.bind(this);
+    this.getFuelIndent();
+    this.common.refresh = this.refresh.bind(this);
 
-   
+
   }
 
   ngOnInit() {
@@ -61,9 +61,9 @@ export class FuelIndentComponent implements OnInit {
     this.getFuelIndent();
   }
 
- getFuelIndent() {
-    const params="startdate="+this.common.dateFormatter1(this.startDate)+"&enddate="+this.common.dateFormatter1(this.endDate)+"&addedBy="+this.vehicleType+"&status="+this.vehicleStatus+"&regno="+this.regno;
-       console.log("params", params);
+  getFuelIndent() {
+    const params = "startdate=" + this.common.dateFormatter1(this.startDate) + "&enddate=" + this.common.dateFormatter1(this.endDate) + "&addedBy=" + this.vehicleType + "&status=" + this.vehicleStatus + "&regno=" + this.regno;
+    console.log("params", params);
     console.log("params", params);
     ++this.common.loading;
     this.api.get('Fuel/getPendingFuelIndentWrtFo?' + params)
@@ -107,9 +107,9 @@ export class FuelIndentComponent implements OnInit {
       for (let i = 0; i < this.headings.length; i++) {
         console.log("Type", this.headings[i]);
         console.log("doc index value:", doc[this.headings[i]]);
-         if (this.headings[i] == "Action") {
+        if (this.headings[i] == "Action") {
           console.log("Test");
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.editFuelIndent.bind(this,doc,'Update') },{ class: 'fa fa-trash', action:this.deleteFuelIndent.bind(this,doc) },] };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.editFuelIndent.bind(this, doc, 'Update') }, { class: 'fa fa-trash', action: this.deleteFuelIndent.bind(this, doc) },] };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -123,13 +123,13 @@ export class FuelIndentComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
 
-  editFuelIndent(doc,update) {
-   this.common.params={
-        title:'Edit Fuel Indent',
-        doc:doc,
-        flag:update
+  editFuelIndent(doc, update) {
+    this.common.params = {
+      title: 'Edit Fuel Indent',
+      doc: doc,
+      flag: update
     };
-    
+
     const activeModal = this.modalService.open(AddFuelIndentComponent, {
       size: "lg",
       container: "nb-layout"
@@ -141,7 +141,7 @@ export class FuelIndentComponent implements OnInit {
     });
   }
 
-  
+
 
   deleteFuelIndent(doc) {
     console.log("values", doc);
@@ -172,11 +172,11 @@ export class FuelIndentComponent implements OnInit {
   }
 
   addFuelIndent(add) {
-       this.common.params={
-        title:'Add Fuel Indent',
-        flag:add
+    this.common.params = {
+      title: 'Add Fuel Indent',
+      flag: 'add',
     };
-   
+
     const activeModal = this.modalService.open(AddFuelIndentComponent, {
       size: "lg",
       container: "nb-layout"
