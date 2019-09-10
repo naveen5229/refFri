@@ -163,8 +163,10 @@ export class TripVoucherExpenseComponent implements OnInit {
   showTripSummary(tripDetails) {
     let vehId = this.selectedVehicle.id;
    let vehname= this.selectedVehicle.regno;
+   let firstDate = this.startdate;
+   let endDate = this.enddate;
     
-    this.common.params = { vehId, tripDetails,vehname };
+    this.common.params = { vehId, tripDetails,vehname,firstDate,endDate };
 
     if (this.routId == 1) {
       const activeModal = this.modalService.open(VoucherSummaryShortComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });

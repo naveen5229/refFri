@@ -2,7 +2,6 @@ import { Component, OnInit ,HostListener} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { AccountService } from '../../services/account.service';
@@ -60,28 +59,7 @@ export class FuelfillingsComponent implements OnInit {
     // this.getTripSummary();
 
   }
-  getPendingTrips() {
-    if (this.flag == false) {
-      this.common.showToast('please enter registration number !!')
-    } else {
-      const params = {
-        vehId: this.selectedVehicle.id
-      };
-      this.common.loading++;
-      this.api.post('VehicleTrips/getPendingVehicleTrips', params)
-        .subscribe(res => {
-          console.log(res);
-          this.common.loading--;
-          this.showTripSummary(res['data']);
-          //this.flag=false;
-          //this.trips = res['data'];
-        }, err => {
-          console.log(err);
-          this.common.loading--;
-          this.common.showError();
-        });
-    }
-  }
+
   getFuelVoucher() {
 
     const params = {
@@ -146,17 +124,7 @@ export class FuelfillingsComponent implements OnInit {
       this.common.showError('Please Select branch');
     }
   }
-  showTripSummary(tripDetails) {
-    let vehId = this.selectedVehicle.id;
-    this.common.params = { vehId, tripDetails };
-    const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        //this.addLedger(data.ledger);
-      }
-    });
-  }
+  
 
   checkedAllSelected() {
     this.checkedTrips = [];
@@ -353,36 +321,8 @@ export class FuelfillingsComponent implements OnInit {
         this.common.showError();
       });
   }
-  getVoucherSummary(tripVoucher) {
-    console.log(tripVoucher);
-    const params = {
-      voucherId: tripVoucher.id,
-      startDate: tripVoucher.startdate,
-      endDate: tripVoucher.enddate
-    };
-    this.common.loading++;
-    this.api.post('TripExpenseVoucher/getTripExpenseVoucherTrips', params)
-      .subscribe(res => {
-        console.log(res);
-        this.common.loading--;
-        this.showVoucherSummary(res['data'], tripVoucher);
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError();
-      });
-  }
-  showVoucherSummary(tripDetails, tripVoucher) {
-    let vehId = this.selectedVehicle.id;
-    this.common.params = { vehId, tripDetails, tripVoucher };
-    const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        //this.addLedger(data.ledger);
-      }
-    });
-  }
+ 
+ 
 
 
   openVoucherEdit(voucherdata) {
