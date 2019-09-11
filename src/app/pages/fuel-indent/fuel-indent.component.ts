@@ -109,7 +109,7 @@ export class FuelIndentComponent implements OnInit {
         console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
           console.log("Test");
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.editFuelIndent.bind(this, doc, 'Update') }, { class: 'fa fa-trash', action: this.deleteFuelIndent.bind(this, doc) },] };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.editFuelIndent.bind(this, doc) }, { class: 'fa fa-trash', action: this.deleteFuelIndent.bind(this, doc) },] };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -123,17 +123,19 @@ export class FuelIndentComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
 
-  editFuelIndent(doc, update) {
+  editFuelIndent(editFuelData) {
+    console.log("Edit fuel Data", editFuelData);
+    let refData = {
+      refType: editFuelData._ref_type,
+      refId: editFuelData._ref_id,
+    };
     this.common.params = {
       title: 'Edit Fuel Indent',
-      doc: doc,
-      flag: update
+      editFuelData: editFuelData,
+      button: 'update',
+      refData: refData
     };
-
-    const activeModal = this.modalService.open(AddFuelIndentComponent, {
-      size: "lg",
-      container: "nb-layout"
-    })
+    const activeModal = this.modalService.open(AddFuelIndentComponent, { size: "lg", container: "nb-layout", backdrop: 'static' })
     activeModal.result.then(data => {
       if (data.response) {
         this.getFuelIndent();
@@ -171,16 +173,12 @@ export class FuelIndentComponent implements OnInit {
     }
   }
 
-  addFuelIndent(add) {
+  addFuelIndent() {
     this.common.params = {
       title: 'Add Fuel Indent',
-      flag: 'add',
+      button: 'add',
     };
-
-    const activeModal = this.modalService.open(AddFuelIndentComponent, {
-      size: "lg",
-      container: "nb-layout"
-    })
+    const activeModal = this.modalService.open(AddFuelIndentComponent, { size: "lg", container: "nb-layout", backdrop: 'static' })
     activeModal.result.then(data => {
       if (data.response) {
         this.getFuelIndent();

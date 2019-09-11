@@ -29,18 +29,28 @@ export class AddFuelIndentComponent implements OnInit {
   };
 
   fuelIndentData = {
+    rowId: null,
     vehicleType: null,
     vehicleId: null,
     regno: null,
     vehicleRefType: null,
     amount: null,
+    fuelId: null,
     issueDate: new Date(),
     expiryDate: new Date(new Date().setDate(new Date().getDate() + 3)),
     remark: null,
+    refType: null,
+    refTypeSourceId: null,
+    refName: null,
   };
-  refType = null;
   refTypeResults = [];
   indentType = '1';
+  fuelStations = [];
+  refData = {
+    type: null,
+    id: null,
+
+  }
 
   constructor(public activeModel: NgbActiveModal,
     public api: ApiService,
@@ -48,11 +58,32 @@ export class AddFuelIndentComponent implements OnInit {
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     public common: CommonService) {
+    this.getFuelStationList();
     this.common.handleModalSize('class', 'modal-lg', '900', 'px', 1);
     if (this.common.params && this.common.params.title) {
       this.title = this.common.params.title;
-      this.button = this.common.params.flag;
+      this.button = this.common.params.button;
+    }
+    if (this.common.params && this.common.params.editFuelData) {
+      this.fuelIndentData.rowId = this.common.params.editFuelData._id;
+      this.fuelIndentData.issueDate = new Date(this.common.dateFormatter(this.common.params.editFuelData._issue_date));
+      this.fuelIndentData.expiryDate = new Date(this.common.dateFormatter(this.common.params.editFuelData._expiry_date));
+      this.fuelIndentData.fuelId = this.common.params.editFuelData._fsid;
+      this.fuelIndentData.regno = this.common.params.editFuelData.regno;
+      this.fuelIndentData.vehicleId = this.common.params.editFuelData._vid;
+      this.fuelIndentData.vehicleType = this.common.params.editFuelData._vehasstype;
+      this.fuelIndentData.remark = this.common.params.editFuelData.Remarks;
+      this.fuelIndentData.amount = this.common.params.editFuelData.Amount ? this.common.params.editFuelData.Amount : this.common.params.editFuelData.Fuel;
+      this.indentType = this.common.params.editFuelData.Amount ? '0' : '1';
+      this.fuelIndentData.refTypeSourceId = this.common.params.editFuelData._ref_id;
+      this.fuelIndentData.refType = this.common.params.editFuelData._ref_type;
 
+    }
+    if (this.common.params && this.common.params.refData) {
+      this.refData.type = this.common.params.refData.refType;
+      this.refData.id = this.common.params.refData.refId;
+      this.getReferenceData();
+      // this.getFuelIndent();
     }
   }
 
@@ -63,8 +94,12 @@ export class AddFuelIndentComponent implements OnInit {
       refType: ['',],
       refTypeSource: [''],
       indentTypeValue: ['', Validators.required],
+      fuelStation: ['', Validators.required],
 
     });
+  }
+  ngOnDestroy() {
+    this.common.params = null;
   }
   get f() {
     return this.fuelIndent.controls;
@@ -72,7 +107,7 @@ export class AddFuelIndentComponent implements OnInit {
 
 
   closeModal() {
-    this.activeModal.close();
+    this.activeModal.close(false);
   }
   selectVehicle(vehicle) {
     this.fuelIndentData.vehicleId = vehicle.id;
@@ -84,8 +119,8 @@ export class AddFuelIndentComponent implements OnInit {
     this.fuelIndentData.regno = null;
   }
   selectRefType(type) {
-    this.refType = type.target.value;
-    this.selectedlist(this.refType);
+    this.fuelIndentData.refType = type.target.value;
+    this.selectedlist(this.fuelIndentData.refType);
   }
 
   selectedlist(type) {
@@ -119,4 +154,80 @@ export class AddFuelIndentComponent implements OnInit {
       });
 
   }
+  selectRefTypeSource(source) {
+    this.fuelIndentData.refTypeSourceId = source.target.value;
+  }
+
+  getFuelStationList() {
+    this.api.get("Suggestion/getFuelStaionWrtFo").subscribe(
+      res => {
+        this.fuelStations = res['data'];
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  saveFuelIndent() {
+    console.log("hi  bro i am calling funcction");
+
+
+    if (this.fuelIndentData.issueDate == null && this.fuelIndentData.expiryDate == null) {
+      this.common.showToast("please enter Date");
+    }
+    const params = {
+      rowid: this.fuelIndentData.rowId ? this.fuelIndentData.rowId : null,
+      vid: this.fuelIndentData.vehicleId,
+      vehasstype: this.fuelIndentData.vehicleType,
+      regno: this.fuelIndentData.regno,
+      ref_name: null,
+      reftype: this.fuelIndentData.refType,
+      refid: this.fuelIndentData.refTypeSourceId,
+      amt: this.indentType == '0' ? this.fuelIndentData.amount : null,
+      remarks: this.fuelIndentData.remark,
+      ltr: this.indentType == '1' ? this.fuelIndentData.amount : null,
+      issueDate: this.common.dateFormatter(this.fuelIndentData.issueDate),
+      expDate: this.common.dateFormatter(this.fuelIndentData.expiryDate),
+      fsid: this.fuelIndentData.fuelId
+    };
+    let result: any;
+    this.common.loading++;
+    this.api.post('Fuel/addFuelIndent', params)
+      .subscribe(res => {
+        this.common.loading--;
+
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
+          result = res['data'];
+          this.activeModal.close({ response: result });
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg)
+        }
+      },
+        err => console.error('Api Error:', err));
+    console.log("parameter", params);
+  }
+
+  getReferenceData() {
+    const params = "id=" + this.refData.id +
+      "&type=" + this.refData.type;
+    this.api.get('Vehicles/getRefrenceDetails?' + params)
+      .subscribe(res => {
+        console.log("using refID:", res['data']);
+        let resultData = res['data'][0];
+        this.fuelIndentData.vehicleId = resultData.vid;
+        // this.fuelIndentData.regno = resultData.regno;
+        this.fuelIndentData.refName = resultData.ref_name;
+        this.fuelIndentData.vehicleType = resultData.vehasstype
+        this.fuelIndentData.refType = this.dropDownRefTypes['1'].find(element => { return element.id == 14; }).name;
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
 }
+
+

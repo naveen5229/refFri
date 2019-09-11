@@ -132,7 +132,7 @@
         <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="fuelIndent">
         </smart-table>
     </div> -->
-
+<!-- Author By Lalit Singh -->
 <div class="modal-header">
     <h5>{{title}}</h5>
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
@@ -143,8 +143,8 @@
     <div class="fuel-indent mt-2">
         <form [formGroup]="fuelIndent" name="fuelIndent-form" id="fuelIndent-form"
             (submit)="fuelIndent.valid && saveFuelIndent()">
-            <div class="row">
-                <div class="col-2">
+            <div class="row" *ngIf="!refData.id ">
+                <div class="col-3">
                     <label>Vehicle Type:</label>
                 </div>
                 <div class="col-3">
@@ -177,13 +177,13 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-2">
+            <div class="row mt-2" *ngIf="!refData.id ">
+                <div class="col-3">
                     <label>Ref. Type:</label>
                 </div>
                 <div class="col-3">
                     <select class="form-control" name="refType" id="refType" formControlName="refType"
-                        [(ngModel)]="fuelIndentData.vehicleRefType" (change)="selectRefType($event);">
+                        [(ngModel)]="fuelIndentData.refType" (change)="selectRefType($event);">
                         <option value="-1">select type</option>
                         <option *ngFor="let ref of dropDownRefTypes[fuelIndentData.vehicleType];let i = index"
                             [value]="ref.id">
@@ -191,9 +191,9 @@
                         </option>
                     </select>
                 </div>
-                <div class="col-3">
-                    <select class="form-control" name="refTypeSource" id="refTypeSource"
-                        formControlName="refTypeSource">
+                <div class="col-3 offset-2">
+                    <select class="form-control" name="refTypeSource" id="refTypeSource" formControlName="refTypeSource"
+                        (change)="selectRefTypeSource($event);">
                         <option *ngFor="let status of refTypeResults;let i = index" [value]="status.id">
                             {{status.source_dest}}
                         </option>
@@ -201,15 +201,22 @@
                 </div>
             </div>
 
+            <div class="row" *ngIf="refData.id ">
+                <div class="col-2"><label>Regno</label></div>
+                <div class="col-3">{{fuelIndentData.regno}}</div>
+                <div class="col-3"><label>{{fuelIndentData.refType}}</label></div>
+                <div class="col-4">{{fuelIndentData.refName}}</div>
+            </div>
+
             <div class="row mt-2">
-                <div class="col-6">
+                <div class="col-3">
                     <form>
-                        <input type="radio" name="amountValue" [value]=0 [(ngModel)]="indentType"> <b>Amount</b>
-                        <input type="radio" name="ltr" [value]=1 [(ngModel)]="indentType" class="ml-2" checked>
+                        <input type="radio" name="radio" value='0' [(ngModel)]="indentType"> <b>Amount</b>
+                        <input type="radio" name="radio" value='1' [(ngModel)]="indentType" class="ml-2">
                         <b>liter</b>
                     </form>
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <input type="text" id="indentTypeValue" formControlName="indentTypeValue"
                         [ngClass]="{ 'is-invalid': isFormSubmit && f.indentTypeValue.errors }" name="indentTypeValue"
                         class="form-control" autocomplete="off" placeholder="Enter value"
@@ -218,16 +225,33 @@
                         <div *ngIf="f.indentTypeValue.errors.required">value is Require</div>
                     </div>
                 </div>
+
+                <div class="col-2">
+                    <label>Fuel Station:</label>
+                </div>
+                <div class="col-3">
+
+                    <select class="form-control" name="fuelStation" id="fuelStation" formControlName="fuelStation"
+                        [(ngModel)]="fuelIndentData.fuelId">
+                        <option *ngFor="let fuel of fuelStations" [value]="fuel.id">
+                            {{fuel.name}}
+                        </option>
+                    </select>
+                    <div *ngIf="isFormSubmit && f.fuelStation.errors" class="error">
+                        <div *ngIf="f.fuelStation.errors.required">Fuel is Require</div>
+
+                    </div>
+                </div>
             </div>
         </form>
 
         <div class="row mt-2">
-            <div class="col-2">
+            <div class="col-3">
                 <label>Issue Date</label>
             </div>
             <div class="col-3">
-                <uj-date-time-picker (onChanged)="fuelIndentData.issueDate=$event" class="" [dateTimeValue]="issueDate"
-                    [isTime]=false>
+                <uj-date-time-picker (onChanged)="fuelIndentData.issueDate=$event" class=""
+                    [dateTimeValue]="fuelIndentData.issueDate" [isTime]=false>
                 </uj-date-time-picker>
             </div>
             <div class="col-2">
@@ -235,19 +259,21 @@
             </div>
             <div class="col-3">
                 <uj-date-time-picker (onChanged)="fuelIndentData.expiryDate=$event" class=""
-                    [dateTimeValue]="expiryDate" [isTime]=false [isStart]="false">
+                    [dateTimeValue]="fuelIndentData.expiryDate" [isTime]=false [isStart]="false">
                 </uj-date-time-picker>
             </div>
         </div>
         <div class="row mt-2">
-            <div class="col-2">
+            <div class="col-3">
                 <label>Remark:</label>
             </div>
-            <div class="col-10">
-                <textarea name="comment" class="form-control" [(ngModel)]="fuelIndentData.remark"></textarea>
+            <div class="col-4">
+                <textarea name="comment" class="form-control" rows="5" cols="5"
+                    [(ngModel)]="fuelIndentData.remark"></textarea>
             </div>
         </div>
     </div>
+
     <div class="row text-right">
         <div class="col text-right">
             <button type="submit" class="btn btn-primary" form="fuelIndent-form"
