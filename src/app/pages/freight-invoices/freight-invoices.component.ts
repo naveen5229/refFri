@@ -14,6 +14,7 @@ import { SupportingDocComponent } from '../../modals/LRModals/supporting-doc/sup
 import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.component';
 import { AssignUserTemplateComponent } from '../../modals/assign-user-template/assign-user-template.component';
 import { FreightInvoiceRateComponent } from '../../modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
+import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 
 @Component({
   selector: 'freight-invoices',
@@ -301,6 +302,18 @@ export class FreightInvoicesComponent implements OnInit {
     activeModal.result.then(data => {
       console.log('Date:', data);
       this.viewFreightInvoice();
+    });
+  }
+
+  printMVSInvoice(inv) {
+    let invoice = {
+      id: 1,
+    }
+    this.common.params = { invoice: invoice }
+    const activeModal = this.modalService.open(ViewMVSFreightStatementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
     });
   }
 

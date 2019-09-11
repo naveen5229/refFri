@@ -244,6 +244,7 @@ import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledge
 import { DeactivateGuardService } from './guards/route.guard';
 import { ConstraintsComponent } from './modals/constraints/constraints.component';
 import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-transfer.component';
+import { ViewMVSFreightStatementComponent } from './modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 
 
 
@@ -461,10 +462,12 @@ import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-t
     DriverLedgerMappingComponent,
     ConstraintsComponent,
     ViewTransferComponent,
+    ViewMVSFreightStatementComponent,
 
   ],
   entryComponents: [
     AddDispatchOrderComponent,
+    ViewMVSFreightStatementComponent,
     FreightInvoiceRateComponent,
     LRRateCalculatorComponent,
     LrRateComponent,
