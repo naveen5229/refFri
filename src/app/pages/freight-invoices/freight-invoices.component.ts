@@ -305,16 +305,7 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
-  printMVSInvoice(inv) {
-    let invoice = {
-      id: 1,
-    }
-    this.common.params = { invoice: invoice }
-    const activeModal = this.modalService.open(ViewMVSFreightStatementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-
-    });
+  
   }
 
-}
+

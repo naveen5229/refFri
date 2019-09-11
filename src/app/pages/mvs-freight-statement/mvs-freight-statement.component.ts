@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { MvsLrAssignComponent } from '../../modals/FreightRate/mvs-lr-assign/mvs-lr-assign.component';
 import { MarketVehFreightStatementComponent } from '../../modals/FreightRate/market-veh-freight-statement/market-veh-freight-statement.component';
+import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 
 
 
@@ -138,7 +139,7 @@ export class MvsFreightStatementComponent implements OnInit {
     if (row._lrcount > 0) {
       actionIcons.push({
         class: "fas fa-print",
-        action: this.printInvoice.bind(this, row),
+        action: this.printMVSInvoice.bind(this, row),
       }
 
       )
@@ -147,10 +148,7 @@ export class MvsFreightStatementComponent implements OnInit {
     return actionIcons;
   }
 
-  printInvoice(inv, invNo) {
-  }
-
-
+ 
   lrAssign(row) {
     this.common.handleModalSize('class', 'modal-lg', '1300');
     this.common.params = { row: row };
@@ -214,5 +212,15 @@ export class MvsFreightStatementComponent implements OnInit {
       });
     }
   }
+  printMVSInvoice(inv) {
+    let invoice = {
+      id: inv._id,
+    }
+    this.common.params = { invoice: invoice }
+    const activeModal = this.modalService.open(ViewMVSFreightStatementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
 
+    });
+  }
 }
