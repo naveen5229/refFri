@@ -245,6 +245,8 @@ import { DeactivateGuardService } from './guards/route.guard';
 import { ConstraintsComponent } from './modals/constraints/constraints.component';
 import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-transfer.component';
 import { TemplateDevviewComponent } from './modals/template-devview/template-devview.component';
+import { MarketVehFreightStatementComponent } from './modals/FreightRate/market-veh-freight-statement/market-veh-freight-statement.component';
+import { MvsLrAssignComponent } from './modals/FreightRate/mvs-lr-assign/mvs-lr-assign.component';
 
 
 
@@ -463,6 +465,8 @@ import { TemplateDevviewComponent } from './modals/template-devview/template-dev
     ConstraintsComponent,
     ViewTransferComponent,
     TemplateDevviewComponent,
+    MarketVehFreightStatementComponent,
+    MvsLrAssignComponent,
 
   ],
   entryComponents: [
@@ -665,7 +669,9 @@ import { TemplateDevviewComponent } from './modals/template-devview/template-dev
     VehicleTimeTableAssociationComponent,
     ConstraintsComponent,
     ViewTransferComponent,
-    TemplateDevviewComponent
+    TemplateDevviewComponent,
+    MarketVehFreightStatementComponent,
+    MvsLrAssignComponent,
   ],
   imports: [
     BrowserModule,
