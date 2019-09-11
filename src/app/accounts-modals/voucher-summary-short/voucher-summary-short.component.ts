@@ -937,6 +937,8 @@ export class VoucherSummaryShortComponent implements OnInit {
         { txt: tripDetail.start_time || '' },
         { txt: tripDetail.end_time || '' },
         { txt: (tripDetail.is_empty)? 'Yes':'No' || '' },
+        { txt: tripDetail.lr_no || '' },
+
       ]);
     });
 
@@ -1012,6 +1014,7 @@ let invoiceJson={};
           { txt: 'Start Date' },
           { txt: 'End Date' },
           { txt: 'Trip Empty' },
+          { txt: 'LR No' },
         ],
         rows: rows1,
         name:'Trips Detail'
@@ -1078,6 +1081,7 @@ let invoiceJson={};
           { txt: 'Start Date' },
           { txt: 'End Date' },
           { txt: 'Trip Empty' },
+          { txt: 'LR No.' },
         ],
         rows: rows1,
         name:'Trip Details'
