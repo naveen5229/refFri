@@ -1,6 +1,6 @@
 <nb-card style="border:0px;">
   <nb-card-header>
-    <h5>Freight invoices</h5>
+    <h5>MVS Freight Statement</h5>
   </nb-card-header>
   <nb-card-body>
     <div class="row" style="margin-top:10px; margin-bottom:10px;">
@@ -14,16 +14,16 @@
         </uj-date-time-picker>
       </div>
       <div class="col-md-2 ">
-        <button type="submit" class="btn btn-primary m-0" (click)="viewFreightInvoice()">Search</button>
+        <button type="submit" class="btn btn-primary m-0" (click)="viewMvcFreightStaement()">Search</button>
       </div>
       <div class="col-md-2">
-        <button class="btn btn-primary m-0" (click)="invoice('Add',null)">Add</button>
+        <button class="btn btn-primary m-0" (click)="openMvcFreightModal('Add',null)">Add</button>
       </div>
-    
+
 
     </div>
     <div>
-      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithLocation">
+      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="mvsStatement">
       </smart-table>
 
       <div class="no-data alert alert-danger" role="alert" *ngIf="data.length==0">
