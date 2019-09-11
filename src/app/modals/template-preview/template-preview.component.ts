@@ -11,6 +11,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class TemplatePreviewComponent implements OnInit {
   template = {
+    PreviewId:null,
     preview: null,
     refId: null,
     refType: null,
@@ -26,9 +27,10 @@ export class TemplatePreviewComponent implements OnInit {
   ) {
     this.common.handleModalSize('class', 'modal-lg', '1600');
     if (this.common.params && this.common.params.previewData) {
+      //this.common.refresh = this.refresh.bind(this);
       console.log("params:", this.common.params);
 
-      this.template.preview = this.common.params.previewData.previewId ? this.common.params.previewData.previewId : '';
+      this.template.PreviewId = this.common.params.previewData.previewId ? this.common.params.previewData.previewId : '';
       this.template.refId = this.common.params.previewData.refId ? this.common.params.previewData.refId : '';
       this.template.refType = this.common.params.previewData.refType ? this.common.params.previewData.refType : '';
       this.title = this.common.params.previewData.title ? this.common.params.previewData.title : 'Preview';
@@ -39,9 +41,13 @@ export class TemplatePreviewComponent implements OnInit {
   ngOnInit() {
   }
 
+  refresh() {
+    this.preview();
+  }
+
   preview() {
     this.common.loading++;
-    this.api.get('userTemplate/preview?tId=' + this.template.preview + '&refid=' + this.template.refId + '&ref_type=' + this.template.refType)
+    this.api.get('userTemplate/preview?tId=' + this.template.PreviewId + '&refid=' + this.template.refId + '&ref_type=' + this.template.refType)
       .subscribe(res => {
         --this.common.loading;
         // console.log("preview : ", res['data']);

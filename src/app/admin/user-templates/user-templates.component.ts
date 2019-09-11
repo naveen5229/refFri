@@ -8,6 +8,7 @@ import { AssignUserTemplateComponent } from '../../modals/assign-user-template/a
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 import { UserService } from '../../services/user.service';
+import { TemplateDevviewComponent } from '../../modals/template-devview/template-devview.component';
 
 @Component({
   selector: 'user-templates',
@@ -121,6 +122,10 @@ export class UserTemplatesComponent implements OnInit {
   actionIcons(view) {
     let icons = [
       {
+        class: "far fa-eye devtemp",
+        action: this.templateDevView.bind(this, 'Template Development View', view)
+      },
+      {
         class: "far fa-edit",
         action: this.addAndEdit.bind(this, 'Edit', view)
       },
@@ -128,7 +133,6 @@ export class UserTemplatesComponent implements OnInit {
         class: "far fa-eye",
         action: this.templatePreview.bind(this, 'Preview', view)
       },
-     
       {
         class: "fas fa-user",
         action: this.assign.bind(this, 'Edit', view)
@@ -168,6 +172,16 @@ export class UserTemplatesComponent implements OnInit {
       this.getUserViews();
     });
   }
+
+  templateDevView(title, row) {
+    this.common.params = { title: title, userTemplate: row };
+    const activeModal = this.modalService.open(TemplateDevviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
+    activeModal.result.then(data => {
+      this.getUserViews();
+    });
+  }
+
+
 
   deleteUserTemplate(row) {
     console.log("row:", row);
