@@ -3,7 +3,7 @@
   background: cornsilk;
 }
 
-:host ::ng-deep .fa fa-route {
+:host ::ng-deep .fa-route {
   color: black;
   font-size: 14px;
   cursor: pointer;
@@ -47,12 +47,12 @@
     transform: translate(-50%);
   }
 }
-  :host ::ng-deep .fa fa-route:hover span {
+  :host ::ng-deep .fa-route:hover span {
     display: block;
   }
 
 
-  :host ::ng-deep .fas fa-truck-moving{
+  :host ::ng-deep .fa-truck-moving{
   color: #ff8091;
   font-size: 14px;
   cursor: pointer;
@@ -97,6 +97,53 @@
   }
 }
 
-:host ::ng-deep .fas fa-truck-moving:hover span {
+:host ::ng-deep .fa-truck-moving:hover span {
   display: block;
 }
+:host ::ng-deep .fa-pencil-square-o {
+  color: yellow;
+  font-size: 14px;
+  cursor: pointer;
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 44px;
+    font-size: 11px;
+    left: -34px;
+    font-weight: normal;
+    top: -28px;
+    top: -28px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Short Target";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: yellow;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid yellow;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    -webkit-transform: translate(-50%);
+    transform: translate(-50%);
+  }
+}
+  :host ::ng-deep .fa-pencil-square-o:hover span {
+    display: block;
+  }
