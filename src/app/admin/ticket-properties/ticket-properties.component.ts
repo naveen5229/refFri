@@ -106,7 +106,7 @@ export class TicketPropertiesComponent implements OnInit {
 
       },
       {
-        class:'fa fa-trash',
+        class:'fa fa-trash ml-2',
         action:this.deleteProperties.bind(this,details)
       }
     )

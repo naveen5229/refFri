@@ -1,10 +1,11 @@
 :host ::ng-deep .tableFixHead{
     table{
         tr{
-            td:last-child{
+            td{
                 i{
-                    width: 30px;
+                    width: 18px;
                     text-align: center;
+                    margin:4px;
                     &.fa-eye {
                         color: red;
                         font-size: 18px;
@@ -12,10 +13,10 @@
                         span{
                             position: absolute;
                             display: none;
-                            padding: 10px 34px;
-                            font-weight: 400;
+                            padding: 10px 22px;
+                            font-weight: normal;
                             font-size: 11px;
-                            left: -32px;
+                            left: -8px;
                             top: -28px;
                             -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                             box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
@@ -23,7 +24,7 @@
                             z-index:9999;
                         }
                         span::before{
-                            content: 'Preview';
+                            content: 'View';
                             display: block;
                             position: absolute;
                             top: 0px;
@@ -138,8 +139,52 @@
                             display: block;
                         }
                     }
+                    &.fa-inr {
+                        color: #ea3fff;
+                        font-size: 18px;
+                        cursor: pointer;
+                        span{
+                            position: absolute;
+                            display: none;
+                            padding: 10px 26px;
+                            font-weight: normal;
+                            font-size: 11px;
+                            left: -14px;
+                            top: -28px;
+                            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                            font-family: Roboto;
+                            z-index:9999;
+                        }
+                        span::before{
+                            content: 'Rate';
+                            display: block;
+                            position: absolute;
+                            top: 0px;
+                            left: 0px;
+                            background-color: #ea3fff;
+                            border-radius: 3px;
+                            padding: 5px 10px;
+                            color:#fff;
+                            width: 100%;
+                        }
+                        span::after{
+                            content: '';
+                            width: 0;
+                            height: 0;
+                            border-left: 5px solid transparent;
+                            border-right: 5px solid transparent;
+                            border-top: 5px solid#ea3fff;
+                            position: absolute;
+                            bottom: -5px;
+                            right: 18px;
+                        }
+                        &:hover span{
+                            display: block;
+                        }
+                    }
                     &.fa-edit {
-                        color: #773fff;
+                        color: #000000;
                         font-size: 18px;
                         cursor: pointer;
                         
@@ -162,7 +207,7 @@
                             position: absolute;
                             top: 0px;
                             left: 0px;
-                            background-color: #773fff;
+                            background-color: #000000;
                             border-radius: 3px;
                             padding: 5px 10px;
                             color:#fff;
@@ -174,7 +219,7 @@
                             height: 0;
                             border-left: 5px solid transparent;
                             border-right: 5px solid transparent;
-                            border-top: 5px solid #773fff;
+                            border-top: 5px solid #000000;
                             position: absolute;
                             bottom: -5px;
                             right: 14px;
@@ -183,64 +228,8 @@
                             display: block;
                         } 
                     }
-
-
-                    &.devtemp {
-                        color: #773fff;
-                        font-size: 18px;
-                        cursor: pointer;
-                        
-                        span{
-                            position: absolute;
-                            display: none;
-                            padding: 10px 22px;
-                            font-weight: normal;
-                            font-size: 11px;
-                            left: -14px;
-                            top: -28px;
-                            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-                            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-                            font-family: Roboto;
-                            z-index:9999;
-                        }
-                        span::before{
-                            content: 'Dev';
-                            display: block;
-                            position: absolute;
-                            top: 0px;
-                            left: 0px;
-                            background-color: #773fff;
-                            border-radius: 3px;
-                            padding: 5px 10px;
-                            color:#fff;
-                            width: 100%;
-                        }
-                        span::after{
-                            content: '';
-                            width: 0;
-                            height: 0;
-                            border-left: 5px solid transparent;
-                            border-right: 5px solid transparent;
-                            border-top: 5px solid #773fff;
-                            position: absolute;
-                            bottom: -5px;
-                            right: 14px;
-                        }
-                        &:hover span{
-                            display: block;
-                        } 
-                    }
-
-
-
-
-
-
-
-
-
-                    &.fa-user {
-                        color: darkgreen;
+                    &.fa-file {
+                        color: #000000;
                         font-size: 18px;
                         cursor: pointer;
                         
@@ -258,12 +247,12 @@
                             z-index:9999;
                         }
                         span::before{
-                            content: 'Assign';
+                            content: 'Support Doc';
                             display: block;
                             position: absolute;
                             top: 0px;
                             left: 0px;
-                            background-color: darkgreen;
+                            background-color: #000000;
                             border-radius: 3px;
                             padding: 5px 10px;
                             color:#fff;
@@ -275,10 +264,10 @@
                             height: 0;
                             border-left: 5px solid transparent;
                             border-right: 5px solid transparent;
-                            border-top: 5px solid darkgreen;
+                            border-top: 5px solid #000000;
                             position: absolute;
                             bottom: -5px;
-                            right: 14px;
+                            right: 24px;
                         }
                         &:hover span{
                             display: block;
@@ -291,16 +280,16 @@
 }
 
 
-// :host ::ng-deep .devtemp{background-color:blue;}
 
 
 
-// nb-card-header button{
-//     padding: 5px;
-//     border-radius: 3px;
-//     text-transform: capitalize;
-//     width: 100%;
-// }
+
+nb-card-header button{
+    padding: 5px;
+    border-radius: 3px;
+    text-transform: capitalize;
+    width: 100%;
+}
 
 
 
