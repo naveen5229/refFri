@@ -5,7 +5,6 @@ import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'trends-fo',
@@ -13,7 +12,6 @@ import * as Highcharts from 'highcharts';
   styleUrls: ['./trends-fo.component.scss']
 })
 export class TrendsFoComponent implements OnInit {
-  highcharts = Highcharts;
   trendType = '11';
   period = "1";
   weekMonthNumber = "4";
