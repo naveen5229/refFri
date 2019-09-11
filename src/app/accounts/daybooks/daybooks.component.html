@@ -94,7 +94,7 @@
         [ngClass]="{'highlight' : selectedRow == i}"> -->
 
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
-        (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? (dataItem.y_type.toLowerCase().includes('consignment')) ? openConsignmentVoucherEdit(dataItem) :openVoucherEdit(dataItem.y_voucherid,0,dataItem.y_vouchertype_id) : (dataItem.y_type.toLowerCase().includes('stock')) ? openStoreQuestionEdit(dataItem) :openinvoicemodel(dataItem.y_voucherid)"
+        (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? (dataItem.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(dataItem) :openVoucherEdit(dataItem.y_voucherid,0,dataItem.y_vouchertype_id) : (dataItem.y_type.toLowerCase().includes('stock')) ? openStoreQuestionEdit(dataItem) :openinvoicemodel(dataItem.y_voucherid)"
         (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{ i+1 }}</td>
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>

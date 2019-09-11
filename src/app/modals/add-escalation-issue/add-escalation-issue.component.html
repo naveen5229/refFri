@@ -7,32 +7,35 @@
 
 <div class="modal-body">
   <div class="row">
-    <div class="col">
+    <div class="col-4">
       <div class="from-group">
         <label>Id</label>
         <input type="text" class="form-control" name="issue-id" readonly [(ngModel)]="escalationType.id">
       </div>
-      <div class="col">
+    </div>
+      <div class="col-4">
         <div class="from-group">
           <label>Issue Type</label>
           <input type="text" class="form-control" name="issue-type" readonly [(ngModel)]="escalationType.issueType">
         </div>
       </div>
-      <div class="col">
+      <div class="col-4">
         <div class="from-group">
           <label>User Id</label>
           <auto-suggestion (onSelected)="getUser($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}"
             display="employeename" placeholder="Search Name" [preSelected]="null"></auto-suggestion>
         </div>
       </div>
-      <div class="col">
+    </div>
+      <div class="row">
+        <div class="col-4">
         <div class="from-group">
           <label>Senior Id</label>
           <auto-suggestion (onSelected)="getSenior($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}"
             display="employeename" placeholder="Search Name" [preSelected]="null"></auto-suggestion>
         </div>
       </div>
-      <div class="col">
+      <div class="col-4">
         <div class="from-group">
           <label>User Level</label>
           <select [(ngModel)]="userLevel" class="form-control">
@@ -43,17 +46,16 @@
           </select>
         </div>
       </div>
+      <div class="col-4">
+          <div class="from-group">
+            <label>From Time</label>
+            <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+            </uj-date-time-picker>
+          </div>
+        </div>
     </div>
-
-    <div class="col">
-      <div class="from-group">
-        <label>From Time</label>
-        <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
-        </uj-date-time-picker>
-      </div>
-    </div>
-
-    <div class="col">
+    <div class="row">
+    <div class="col-4">
       <div class="from-group">
         <label>To Time</label>
         <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
@@ -61,51 +63,24 @@
         </uj-date-time-picker>
       </div>
     </div>
-    <!-- <div class="row" style="margin-top:5px;margin-bottom:5px;">
-    
-</div> -->
-
-
-  </div>
+    <div class="col-4" style="margin-top:13px;">
+        <button class="btn btn-primary" type="button" outline (click)="addIssue()" id="add"
+        style="cursor: pointer;">Add</button>
+    </div> 
+   </div>
 </div>
 
 
 <div class="modal-footer" style="margin-top:10px;">
   <div class="row">
     <div class="col text-right">
-      <button class="btn btn-primary" type="button" outline (click)="addIssue()" id="add"
-        style="cursor: pointer;">Add</button>
+      <!-- <button class="btn btn-primary" type="button" outline (click)="addIssue()" id="add"
+        style="cursor: pointer;">Add</button> -->
     </div>
   </div>
 </div>
 <div class="row">
   <div class="col-12" style="padding-left:30px;padding-right:30px;">
-    <!-- <table class="table table-bordered">
-    <tr>
-    <th>S.No</th>
-    <th>Id</th>
-    <th>User Name</th>
-    <th>Senior User Name</th>
-    <th>User Level</th>
-    <th>Action</th>
-    </tr>
-    <tr *ngFor="let details of issueDetails; let i=index;">
-      <td>{{i+1}}</td>
-      <td>{{details.id}}</td>
-      <td>{{details.user_name}}</td>
-      <td>{{details.senior_user_name}}</td>
-      <td>{{details.user_level}}</td>
-       <td><button type="button" class="remove" aria-label="Close" (click)= "removeField(details)">
-          <span aria-hidden="true">&times;</span>
-        </button></td> 
-
-        <td>
-            <div (click)="removeField(details)">
-                <i class="fa fa-trash"></i>
-         </div>
-    </tr>
-    
-    </table> -->
     <smart-table *ngIf="issueDetails && issueDetails.length" [data]="table.data" [settings]="table.settings">
     </smart-table>
   </div>
