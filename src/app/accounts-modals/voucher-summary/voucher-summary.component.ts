@@ -1024,6 +1024,7 @@ export class VoucherSummaryComponent implements OnInit {
     let rows2 = [];
     let rows3 = [];
     let rows4 = [];
+    let rows5 = [];
 
     this.tripsEditData.map((tripDetail, index) => {
       rows1.push([
@@ -1093,6 +1094,19 @@ export class VoucherSummaryComponent implements OnInit {
       ]);
 
     });
+    
+    this.tripFreghtDetails.map((tripHead, index) => {
+      rows5.push([
+        { txt: index + 1 },
+        { txt: tripHead.receipt_no || '' },
+        { txt: tripHead.auto_amount || '' },
+        { txt: tripHead.remarks || '' }
+       
+
+
+      ]);
+
+    });
     console.log('rows4',rows4);
     let invoiceJson = {};
 
@@ -1150,7 +1164,17 @@ export class VoucherSummaryComponent implements OnInit {
           ],
           rows: rows4,
           name: 'Advance'
-        }],
+        },
+        {
+          headings: [
+            { txt: 'Reciept No' },
+            { txt: 'Revenue' },
+            { txt: 'Remarks' }
+          ],
+          rows: rows5,
+          name: 'Revenue'
+        }
+      ],
         signatures: ['Accountant', 'Approved By'],
         footer: {
           left: { name: 'Powered By', value: 'Elogist Solutions' },
@@ -1230,6 +1254,15 @@ export class VoucherSummaryComponent implements OnInit {
           ],
           rows: rows4,
           name: 'Advance'
+        },
+        {
+          headings: [
+            { txt: 'Reciept No' },
+            { txt: 'Revenue' },
+            { txt: 'Remarks' }
+          ],
+          rows: rows5,
+          name: 'Revenue'
         }],
         signatures: ['Accountant', 'Approved By'],
         footer: {
