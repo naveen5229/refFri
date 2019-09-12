@@ -1114,7 +1114,7 @@ export class VoucherSummaryComponent implements OnInit {
         { txt: index + 1 },
         { txt: tripHead.receipt_no || '' },
         { txt: tripHead.auto_amount || '' },
-        { txt: tripHead.remarks || '' }
+        { txt: this.totalRevinue - (this.alltotal + this.totalFuel) || '' }
 
 
 
@@ -1125,6 +1125,7 @@ export class VoucherSummaryComponent implements OnInit {
     rows6.push([
       { txt: this.totalRevinue || '' },
       { txt: this.totalFuel || '' },
+      { txt: this.alltotal || '' },
       { txt: this.alltotal || '' },
 
 
@@ -1315,7 +1316,6 @@ export class VoucherSummaryComponent implements OnInit {
         footertotal: [
           { name: 'Net Pay to Driver : ', value: this.alltotal -(this.totalAdvance) , size: '20px', weight: 600},
           { name: ' ', value: ' ' },
-          { name: 'Total Revenue : ', value: this.totalRevinue - (this.alltotal + this.totalFuel), size: '20px', weight: 600 },
           { name: 'Remarks : ', value: this.narration },
         ]
 
