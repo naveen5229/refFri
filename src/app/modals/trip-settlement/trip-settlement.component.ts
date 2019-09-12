@@ -156,7 +156,8 @@ export class TripSettlementComponent implements OnInit {
     this.common.params = {
       title: 'Add Fuel Indent',
       button: 'update',
-      refData: refData
+      refData: refData,
+      index: 1,
     };
 
     const activeModal = this.modalService.open(AddFuelIndentComponent, { size: "lg", container: "nb-layout" });

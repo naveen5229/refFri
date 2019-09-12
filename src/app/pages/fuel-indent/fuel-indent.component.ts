@@ -133,6 +133,7 @@ export class FuelIndentComponent implements OnInit {
       title: 'Edit Fuel Indent',
       editFuelData: editFuelData,
       button: 'update',
+      index: 0,
       refData: refData
     };
     const activeModal = this.modalService.open(AddFuelIndentComponent, { size: "lg", container: "nb-layout", backdrop: 'static' })
@@ -177,6 +178,8 @@ export class FuelIndentComponent implements OnInit {
     this.common.params = {
       title: 'Add Fuel Indent',
       button: 'add',
+      index: 0,
+
     };
     const activeModal = this.modalService.open(AddFuelIndentComponent, { size: "lg", container: "nb-layout", backdrop: 'static' })
     activeModal.result.then(data => {

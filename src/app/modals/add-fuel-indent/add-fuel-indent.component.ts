@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { ReminderComponent } from '../reminder/reminder.component';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -25,7 +24,6 @@ export class AddFuelIndentComponent implements OnInit {
     1: [{ name: 'LR', id: 11 }, { name: 'Manifest', id: 12 }, { name: 'States', id: 13 }, { name: 'Trip', id: 14 }],
     2: [{ name: 'LR', id: 11 }, { name: 'Manifest', id: 12 }],
     3: [{ name: 'LR', id: 11 }, { name: 'Manifest', id: 12 }]
-
   };
 
   fuelIndentData = {
@@ -50,6 +48,7 @@ export class AddFuelIndentComponent implements OnInit {
     id: null,
   };
   edit = false;
+  index = 0;
   fuelData = [];
   table = {
     data: {
@@ -59,7 +58,6 @@ export class AddFuelIndentComponent implements OnInit {
     settings: {
       hideHeader: true,
       tableHeight: "58vh",
-
     }
   };
   constructor(public activeModel: NgbActiveModal,
@@ -69,7 +67,8 @@ export class AddFuelIndentComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public common: CommonService) {
     this.getFuelStationList();
-    this.common.handleModalSize('class', 'modal-lg', '900', 'px', 1);
+    this.index = this.common.params.index;
+    this.common.handleModalSize('class', 'modal-lg', '900', 'px', this.index);
     if (this.common.params && this.common.params.title) {
       this.title = this.common.params.title;
       this.button = this.common.params.button;
@@ -89,8 +88,8 @@ export class AddFuelIndentComponent implements OnInit {
       this.fuelIndentData.refTypeSourceId = this.common.params.editFuelData._ref_id;
       this.fuelIndentData.refType = this.common.params.editFuelData._ref_type;
       this.fuelIndentData.refName = this.common.params.editFuelData._ref_name;
-
     }
+
     if (this.common.params && this.common.params.refData) {
       this.edit = true;
       this.refData.type = this.common.params.refData.refType;
@@ -126,20 +125,22 @@ export class AddFuelIndentComponent implements OnInit {
     return this.fuelIndent.controls;
   }
 
-
   closeModal() {
     this.activeModal.close(false);
   }
+
   selectVehicle(vehicle) {
     this.fuelIndentData.vehicleId = vehicle.id;
     this.fuelIndentData.regno = vehicle.regno;
     this.fuelIndentData.refType = "-1";
   }
+
   handleVehicleTypeChange() {
     this.fuelIndentData.refType = "-1";
     this.fuelIndentData.vehicleId = null;
     this.fuelIndentData.regno = null;
   }
+
   selectRefType(type) {
     this.fuelIndentData.refType = type.target.value;
     this.selectedlist(this.fuelIndentData.refType);
@@ -169,7 +170,6 @@ export class AddFuelIndentComponent implements OnInit {
         url = null;
         return;
     }
-    console.log("params:", params, "url:", url);
     this.api.post(url, params)
       .subscribe(res => {
         this.refTypeResults = res['data'];
@@ -180,7 +180,6 @@ export class AddFuelIndentComponent implements OnInit {
       }, err => {
         console.log(err);
       });
-
   }
 
   selectRefTypeSource(source) {
@@ -201,9 +200,8 @@ export class AddFuelIndentComponent implements OnInit {
   saveFuelIndent() {
     console.log("hi  bro i am calling funcction");
     if (this.fuelIndentData.issueDate == null && this.fuelIndentData.expiryDate == null) {
-      this.common.showToast("please enter Date");
+      this.common.showToast("Select Date");
     }
-
     const params = {
       rowid: this.fuelIndentData.rowId ? this.fuelIndentData.rowId : null,
       vid: this.fuelIndentData.vehicleId,
@@ -220,13 +218,11 @@ export class AddFuelIndentComponent implements OnInit {
       fsid: this.fuelIndentData.fuelId,
     };
 
-    console.log("params before hit", params)
     let result: any;
     this.common.loading++;
     this.api.post('Fuel/addFuelIndent', params)
       .subscribe(res => {
         this.common.loading--;
-
         if (res['data'][0].y_id > 0) {
           this.common.showToast(res['data'][0].y_msg);
           result = res['data'];
@@ -237,7 +233,6 @@ export class AddFuelIndentComponent implements OnInit {
         }
       },
         err => console.error('Api Error:', err));
-    console.log("parameter", params);
   }
 
   getReferenceData() {
@@ -265,7 +260,6 @@ export class AddFuelIndentComponent implements OnInit {
       + "&enddate=" + this.common.dateFormatter1(new Date) + "&addedBy=" + null +
       "&status=" + -2 + "&regno=" + this.fuelIndentData.regno
       + "&refType=" + this.refData.type + "&refId=" + this.refData.id;
-    console.log("params", params);
     ++this.common.loading;
     this.api.get('Fuel/getPendingFuelIndentWrtFo?' + params)
       .subscribe(res => {
@@ -309,7 +303,6 @@ export class AddFuelIndentComponent implements OnInit {
     return headings;
   }
 
-
   getTableColumns() {
     let columns = [];
     this.fuelData.map(fuel => {
@@ -328,7 +321,6 @@ export class AddFuelIndentComponent implements OnInit {
       }
       columns.push(column);
     })
-
     return columns;
   }
 
@@ -340,7 +332,6 @@ export class AddFuelIndentComponent implements OnInit {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
-
 
 }
 
