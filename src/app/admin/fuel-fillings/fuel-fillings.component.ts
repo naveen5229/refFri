@@ -81,7 +81,7 @@ export class FuelFillingsComponent implements OnInit {
   getFillingData() {
     const params = {
       startTime: this.dates.start,
-      endTime: this.dates.end,
+      endTime: this.dates.end + ' ' + '23:59:59',
     }
 
     this.common.loading++;
@@ -92,7 +92,7 @@ export class FuelFillingsComponent implements OnInit {
     this.api.post('FuelDetails/getFuelFillingEntries', params)
       .subscribe(res => {
         this.common.loading--;
-        this.fillingData = res['data'];
+        this.fillingData = res['data'] || [];
         console.info("filling Data", this.fillingData);
 
         console.log(this.table.data.headings);
@@ -113,8 +113,8 @@ export class FuelFillingsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.response) {
         this.getFillingData();
-       // window.location.reload();
-        
+        // window.location.reload();
+
       }
     });
   }
@@ -139,8 +139,8 @@ export class FuelFillingsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.response) {
         this.getFillingData();
-       // window.location.reload();
-        
+        // window.location.reload();
+
       }
     });
   }

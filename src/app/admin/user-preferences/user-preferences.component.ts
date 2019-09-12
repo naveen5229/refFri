@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 import { RouteGuard } from '../../guards/route.guard';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { group } from '@angular/animations';
 @Component({
   selector: 'user-preferences',
   templateUrl: './user-preferences.component.html',
@@ -49,6 +50,9 @@ export class UserPreferencesComponent implements OnInit {
 
   ngOnInit() {
   }
+  ngDestroy() {
+
+  }
 
   //Confirmation that before Leave the PAge
   canDeactivate() {
@@ -81,7 +85,6 @@ export class UserPreferencesComponent implements OnInit {
     document.getElementById('employeename')['value'] = '';
     this.common.isComponentActive = false;
     this.formattedData = [];
-
   }
 
 
@@ -134,6 +137,7 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   getUserPages(user) {
+    this.formattedData = [];
     this.selectedUser.details = user;
     const params = {
       userId: user.id,
@@ -144,7 +148,11 @@ export class UserPreferencesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
-        console.log("Res Data:", this.data)
+        this.data.map(id => {
+
+        });
+        if (res['data'])
+          console.log("Res Data:", this.data)
         this.selectedUser.oldPreferences = res['data'];
         this.managedata();
         // this.findSections();
@@ -157,7 +165,6 @@ export class UserPreferencesComponent implements OnInit {
 
   managedata() {
     let firstGroup = _.groupBy(this.data, 'module');
-    console.log(firstGroup);
     this.formattedData = Object.keys(firstGroup).map(key => {
       return {
         name: key,
@@ -166,16 +173,37 @@ export class UserPreferencesComponent implements OnInit {
       }
     });
     this.formattedData.map(module => {
+      let isMasterAllSelected = true;
       let pageGroup = _.groupBy(module.groups, 'group_name');
       module.groups = Object.keys(pageGroup).map(key => {
+        let isAllSelected = true;
+        let pages = pageGroup[key].map(page => {
+          page.isSelected = page.userid ? true : false;
+          if (isAllSelected)
+            isAllSelected = page.isSelected;
+          return page;
+        });
+        if (isMasterAllSelected) {
+          isMasterAllSelected = isAllSelected;
+        }
         return {
           name: key,
-          pages: pageGroup[key].map(page => { page.isSelected = page.userid ? true : false; return page; }),
-          isSelected: false,
+          pages: pages,
+          isSelected: isAllSelected,
         }
       });
+      module.isSelected = isMasterAllSelected;
     });
-    console.log(this.formattedData);
+
+    this.formattedData = _.sortBy(this.formattedData, ['name'], ['asc']).map(module => {
+      module.groups = _.sortBy(module.groups, ['name'], ['asc']).map(groups => {
+        groups.pages = _.sortBy(groups.pages, ['title'], ['asc']);
+        return groups;
+      });
+      return module;
+    });
+    console.log("After Formatted", this.formattedData);
+
   }
 
 
