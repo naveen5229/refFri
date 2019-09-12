@@ -9,7 +9,7 @@
     <label>Company Name* </label>
 
     <div class="d-flex">
-      <auto-suggestion (onSelected)="getCompanyDetail($event)" url="Suggestion/GetCompanies" display="name"
+      <auto-suggestion (onSelected)="getCompanyDetail($event)" url="Suggestion/GetCompanies2?type=FRCUST" display="name"
         [parentName]="Form" placeholder="" class="col-11 auto-suggest pl-0 pr-2"
         [ngClass]="{ 'is-invalid': isFormSubmit && fo.companyautoSuggestion.errors }"> </auto-suggestion>
 

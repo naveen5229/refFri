@@ -7,7 +7,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'mvs-lr-assign',
   templateUrl: './mvs-lr-assign.component.html',
-  styleUrls: ['./mvs-lr-assign.component.scss']
+  styleUrls: ['./mvs-lr-assign.component.scss','../../../pages/pages.component.css']
 })
 export class MvsLrAssignComponent implements OnInit {
 
