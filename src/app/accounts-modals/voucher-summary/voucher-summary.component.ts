@@ -1042,13 +1042,13 @@ export class VoucherSummaryComponent implements OnInit {
           { txt: (tripDetail.is_empty) ? 'Yes' : 'No' || '' },
           { txt: tripDetail.lr_no || '' },
           { txt: tripDetail.revenue || '' },
-          { txt: tripDetail.totalAdvance || '' },
+          { txt: tripDetail.advance || '' },
         ]);
         if(tripDetail.revenue){
         this.totalRevinue += parseFloat(tripDetail.revenue);
         }
-        if(tripDetail.totalAdvance){
-        this.totalAdvance += parseFloat(tripDetail.totalAdvance);
+        if(tripDetail.advance){
+        this.totalAdvance += parseFloat(tripDetail.advance);
         }
       }
     });
@@ -1061,7 +1061,7 @@ export class VoucherSummaryComponent implements OnInit {
           { txt: fuelfill.litres || '' },
           { txt: fuelfill.rate || '', align: 'left' },
           { txt: fuelfill.amount || '', align: 'left' },
-          { txt: fuelfill.date || '' },
+          { txt: fuelfill.entry_time || '' },
         ]);
         this.totalFuel += parseFloat(fuelfill.amount);
       });
