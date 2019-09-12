@@ -1035,7 +1035,7 @@ export class VoucherSummaryComponent implements OnInit {
       if (tripDetail.isChecked) {
         rows1.push([
           { txt: index + 1 },
-          { txt: tripDetail.start_name + '-' + tripDetail.end_name || '' },
+          { txt: tripDetail.start_name + ' -> ' + tripDetail.end_name || '' },
           { txt: tripDetail.start_time || '' },
           { txt: tripDetail.end_time || '' },
           { txt: (tripDetail.is_empty) ? 'Yes' : 'No' || '' },
@@ -1215,10 +1215,10 @@ export class VoucherSummaryComponent implements OnInit {
 
         details: [
 
-          { name: 'Veh No', value: this.vehclename },
-          { name: 'Ref No', value: this.custcode },
-          { name: 'Date', value: this.date },
-          { name: 'Ledger', value: this.creditLedger.name }
+          { name: 'Vehicle  No : ', value: this.vehclename },
+          { name: 'Ref No : ', value: this.custcode },
+          { name: 'Date : ', value: this.date },
+          { name: 'Ledger : ', value: this.creditLedger.name }
         ],
         tables: [{
           headings: [
@@ -1292,9 +1292,9 @@ export class VoucherSummaryComponent implements OnInit {
           right: { name: 'Page No', value: 1 },
         },
         footertotal: [
-          { name: 'Net Pay to Driver', value: this.alltotal -(this.totalRevinue+ this.totalAdvance) },
+          { name: 'Net Pay to Driver : ', value: this.alltotal -(this.totalAdvance) , size: '20px', weight: 600},
           { name: ' ', value: ' ' },
-          { name: 'Total Revenue : ', value: this.totalRevinue - (this.alltotal + this.totalFuel) },
+          { name: 'Total Revenue : ', value: this.totalRevinue - (this.alltotal + this.totalFuel), size: '20px', weight: 600 },
           { name: 'Remarks : ', value: this.narration },
         ]
 
