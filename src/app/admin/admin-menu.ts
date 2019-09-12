@@ -135,11 +135,7 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         link: '/admin/driver-list',
         home: true,
       },
-      {
-        title: 'Ticket Properties',
-        icon: 'fas fa-ticket-alt',
-        link: '/admin/ticket-properties',
-      },
+
       {
         title: 'Vehicle Categories',
         icon: 'fa fa-chart-bar',
@@ -250,6 +246,11 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         title: 'Group Managements',
         icon: 'fa fa-users',
         link: '/admin/group-managements',
+      },
+      {
+        title: 'Ticket Properties',
+        icon: 'fas fa-ticket-alt',
+        link: '/admin/ticket-properties',
       },
       {
         title: 'Escalation Matrix',

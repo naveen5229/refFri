@@ -270,6 +270,7 @@ export class PrintService {
   createTrHtml(row: any[]) {
     let tr = document.createElement('tr');
     tr.innerHTML = row.map(col => {
+      console.log('{{{', col);
       return `<td colspan="${col.colspan || 1}" style="text-align: ${col.align || 'left'}">${
         (typeof col.txt === 'string' || typeof col.txt === 'number') ? col.txt : `<strong>${col.txt.name}</strong>: <span>${col.txt.value}</span>`
         }</td>`
@@ -359,7 +360,7 @@ export class PrintService {
 
     broswers.opera = (!!window['opr'] && !!window['opr'].addons) || !!window['opera'] || navigator.userAgent.indexOf(' OPR/') >= 0;
     broswers.firefox = typeof window['InstallTrigger'] !== 'undefined';
-    broswers.safari = /constructor/i.test(window['HTMLElement']) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari']);
+    // broswers.safari = /constructor/i.test((function HTMLElementConstructor() {}).toString());
     broswers.ie = /*@cc_on!@*/false || !!document['documentMode'];
     broswers.edge = !broswers.ie && !!window['StyleMedia'];
     broswers.chrome = !!window['chrome'] && (!!window['chrome'].webstore || !!window['chrome'].runtime);
