@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as Highcharts from 'highcharts';
+import { ViewListComponent } from '../../modals/view-list/view-list.component';
 
 @Component({
   selector: 'trends-fo',
@@ -13,6 +14,7 @@ import * as Highcharts from 'highcharts';
   styleUrls: ['./trends-fo.component.scss']
 })
 export class TrendsFoComponent implements OnInit {
+  scale=''
   highcharts = Highcharts;
   trendType = '11';
   period = "1";
@@ -68,6 +70,7 @@ export class TrendsFoComponent implements OnInit {
       }
     },
   };
+  loadingSite=[]
   count= null;
   chartObject1 = {
     type: 'line',
@@ -124,59 +127,7 @@ export class TrendsFoComponent implements OnInit {
 
   ngOnInit() {
   }
-  setDataset(scale) {
-    if (scale == 'dual') {
-      this.chartObject.data = {
-        labels: this.dateDay,
-        datasets: [
-          {
-            type: 'line',
-            label: 'Average Count',
-            borderColor: 'blue',
-            backgroundColor: 'blue',
-            fill: false,
-            data: this.Hours,
-            pointHoverRadius: 8,
-            pointHoverBackgroundColor: '#FFEB3B',
-            yAxisID: 'y-axis-1',
-            yAxisName: 'Count',
-          },
-          {
-            type: 'bar',
-            label: 'Count',
-            borderColor: 'pink',
-            backgroundColor: 'pink',
-            pointHoverRadius: 8,
-            pointHoverBackgroundColor: '#FFEB3B',
-            fill: false,
-            data: this.halt,
-            yAxisID: 'y-axis-2'
-          }
-        ]
-      };
-    }
-    else {
-      this.chartObject1.data = {
-        labels: this.dateDay,
-        datasets: [
-          {
-            type: 'line',
-            label: 'Onward Hours',
-            borderColor: 'blue',
-            backgroundColor: 'blue',
-            fill: false,
-            data: this.Hours,
-            pointHoverRadius: 8,
-            pointHoverBackgroundColor: '#FFEB3B',
-            yAxisID: 'y-axis-1',
-            yAxisName: 'Count',
-          }
-        ]
-      };
-    }
-    console.log("dataset", this.chartObject.data);
-  }
-
+ 
   foTrendsData() {
     this.Details = [];
     this.dateDay = [];
@@ -264,7 +215,9 @@ export class TrendsFoComponent implements OnInit {
 
     this.Hours = [];
     this.halt = [];
-    let scale = this.trendType == '0' ? '' : 'dual';
+    
+    this.scale = this.trendType == '0' ||  this.trendType == '31' ? '':'dual';  
+console.log("sclllllllllllll",this.scale)
     this.Details.forEach((element) => {
       if (this.trendType == "11") {
         this.Hours.push(element.loading_hrs / element.loading_count);
@@ -292,11 +245,24 @@ export class TrendsFoComponent implements OnInit {
         this.bgColor = '#4CAF50';
         this.yScale = 'OnWard';
       }
+      else if (this.trendType == "31") {
+        this.Hours.push(element.Onward_kmpd / this.count)
+        this.halt.push();
+        console.log("elementttttttttttttttttttttttttt",this.Details)
+
+        console.log("elementttttttttttttttttttttttttt", element.Onward_kmpd)
+        console.log("elementttt1111111111111111", this.Hours)
+
+        this.bgColor = '#4CAF50';
+        this.yScale = 'OnWard';
+      }
     });
-    this.showChart(scale);
+    this.showChart(this.scale);
   }
 
   showChart(scale) {
+    console.log("scaaaaaaaaaaaaaall",scale)
+
     this.setDataset(scale);
   }
 
@@ -372,6 +338,7 @@ export class TrendsFoComponent implements OnInit {
     this.api.post("Trends/getTrendsWrtSite", params).subscribe(res => {
       this.common.loading--;
       this.trendsVehicleSiteData = res['data'] || [];
+      this.loadingSite= res['data'].lodingArray
       this.siteUnloading = [];
       _.sortBy(this.trendsVehicleSiteData, ['unloading_hrs']).reverse().map(keyData => {
         console.log('keydata', keyData);
@@ -399,4 +366,93 @@ export class TrendsFoComponent implements OnInit {
     this.common.params = { location, title: 'Location' };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
   }
+
+  getPendingStatus(dataTrend){
+    let datas = [];
+    let data=[];
+    let result=[];
+    if (this.trendType == '11') {
+
+    datas=dataTrend.lodingArray;
+    Object.keys(datas).map(key=>{
+      let temp=[];
+      console.log("key",key);
+      temp.push(key,datas[key]);
+       result.push(temp);
+    });
+  }
+  else if (this.trendType == '21') {
+    console.log("result",result);
+    datas=dataTrend.unloadingArray;
+    Object.keys(datas).map(key=>{
+      let temp=[];
+      console.log("key",key);
+      temp.push(key,datas[key]);
+       result.push(temp);
+    });
+  }
+    data=result;
+
+console.log(data);
+   this.common.params = { title: 'SiteWise Vehicle List:',  headings: ["Vehicle_RegNo.", "Count Event"], data };
+   this.modalService.open(ViewListComponent, { size: 'sm', container: 'nb-layout' });
+  
+ }
+  setDataset(scale) {
+    console.log("scaaaaaaaaaaaaaaeeeeeeeeeell",scale)
+
+    if (scale === 'dual') {
+      console.log("if")
+      this.chartObject.data = {
+        labels: this.dateDay,
+        datasets: [
+          {
+            type: 'line',
+            label: 'Average Count',
+            borderColor: 'blue',
+            backgroundColor: 'blue',
+            fill: false,
+            data: this.Hours,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#FFEB3B',
+            yAxisID: 'y-axis-1',
+            yAxisName: 'Count',
+          },
+          {
+            type: 'bar',
+            label: 'Count',
+            borderColor: 'pink',
+            backgroundColor: 'pink',
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#FFEB3B',
+            fill: false,
+            data: this.halt,
+            yAxisID: 'y-axis-2'
+          }
+        ]
+      };
+    }
+    else {
+      console.log("else")
+      this.chartObject1.data = {
+        labels: this.dateDay,
+        datasets: [
+          {
+            type: 'line',
+            label: 'Onward',
+            borderColor: 'blue',
+            backgroundColor: 'blue',
+            fill: false,
+            data: this.Hours,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#FFEB3B',
+            yAxisID: 'y-axis-1',
+            yAxisName: 'Count',
+          }
+        ]
+      };
+    }
+    console.log("dataset", this.chartObject1.data);
+  }
+
 }
