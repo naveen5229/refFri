@@ -131,6 +131,7 @@ export class TrendsFoComponent implements OnInit {
   foTrendsData() {
     this.Details = [];
     this.dateDay = [];
+    this.count=null;
     let params;
     if (this.period == '1') {
       this.xScale = 'Days'
@@ -180,7 +181,6 @@ export class TrendsFoComponent implements OnInit {
   getweeklyMothlyTrend() {
     this.dateDay = [];
     this.Details = [];
-    this.count=[];
     this.count=null;
     let params = {
       purpose: this.period,
@@ -221,7 +221,7 @@ console.log("sclllllllllllll",this.scale)
     this.Details.forEach((element) => {
       if (this.trendType == "11") {
         this.Hours.push(element.loading_hrs / element.loading_count);
-        this.halt.push(element.loading_hrs)
+        this.halt.push(element.loading_count)
         this.bgColor = '#00695C';
         this.yScale = 'Loading Hours';
         this.yScale1 = 'Loading Count'
@@ -229,7 +229,7 @@ console.log("sclllllllllllll",this.scale)
 
       } else if (this.trendType == "21") {
         this.Hours.push(element.unloading_hrs / element.unloading_count);
-        this.halt.push(element.unloading_hrs)
+        this.halt.push(element.unloading_count)
         this.bgColor = '#E91E63';
         this.yScale = 'UnLoading Hours';
         this.yScale1 = 'UnLoading Count'
@@ -243,7 +243,7 @@ console.log("sclllllllllllll",this.scale)
         console.log("elementttt", this.Hours)
 
         this.bgColor = '#4CAF50';
-        this.yScale = 'OnWard';
+        this.yScale = 'OnWard Average';
       }
       else if (this.trendType == "31") {
         this.Hours.push(element.Onward_kmpd / this.count)
@@ -297,6 +297,7 @@ console.log("sclllllllllllll",this.scale)
 
     this.api.post("Trends/getTrendsWrtVehicles", params).subscribe(res => {
       this.common.loading--;
+
       this.trendsVehicleData = res['data'] || [];
     },
       err => {
@@ -344,7 +345,8 @@ console.log("sclllllllllllll",this.scale)
         console.log('keydata', keyData);
         this.siteUnloading.push(keyData);
       });
-    },
+    
+  },
       err => {
         this.common.showError();
         console.log('Error: ', err);

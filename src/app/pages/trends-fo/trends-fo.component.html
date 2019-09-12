@@ -58,21 +58,22 @@
             </div>
             <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
             <div class="row">
-                <!-- <div class="col-sm-1 pr-0 text-right" style="padding-top:50px">
-                    <label style="margin-top:20px;">Vehicle Count:{{count}}</label>
-                </div> -->
-
-                <div class="col-sm-1 pr-0 text-right" style="padding-top:50px">
+                <div class="col  text-right" style="padding-top:2px">
+                    <label>Vehicle Count:{{count}}</label>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -63px;">
+                <div class="col-sm-1 pr-0 text-right" style="padding-top:30px ">
                     <label style="font-size:16px;writing-mode: tb-rl;
-                    text-orientation: initial;margin-top: 24px;    transform: rotate(179deg);">{{yScale}}</label>
+                    text-orientation: initial;margin-top:40px;transform: rotate(179deg);">{{yScale}}</label>
                 </div>
 
                 <div class="col-sm-10" *ngIf="dateDay.length">
                     <chart *ngIf="trendType!='0' && trendType!='31'" [type]="chartObject.type" [data]="chartObject.data" style="margin-right:5px;height:250px" [options]="chartObject.options"></chart>
                     <chart *ngIf="trendType=='0' || trendType=='31'" [type]="chartObject1.type" [data]="chartObject1.data" style="margin-right:5px;height:250px" [options]="chartObject1.options"></chart>
                 </div>
-                <div class=" col-sm-1 pr-0 text-left" style="padding-top:50px" *ngIf="trendType=='11' || trendType=='21'">
-                    <label style="font-size:16px;writing-mode: tb-rl; text-orientation: initial;margin-top: 24px; transform: rotate(179deg);">{{yScale1}}</label>
+                <div class=" col-sm-1 pr-0 text-left" style="padding-top:30px" *ngIf="trendType=='11' || trendType=='21'">
+                    <label style="font-size:16px;writing-mode: tb-rl; text-orientation: initial;margin-top:40px; transform: rotate(179deg);">{{yScale1}}</label>
                 </div>
             </div>
             <div class="row ">
@@ -87,8 +88,8 @@
                         <thead class="thead">
                             <tr>
                                 <th style="width:270px">Regno</th>
-                                <th style="width:270px">Onward</th>
-                                <th style="width:270px">Halt Count</th>
+                                <th style="width:230px">Onward</th>
+                                <th style="width:230px">Halt Count</th>
                                 <th>Total Halt(Hr)</th>
                             </tr>
                         </thead>
@@ -118,14 +119,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let trendsVehicleSite of trendsVehicleSiteData; let i=index; ">
-                                <td style="color:#00695C; " (click)="locationOnMap(trendsVehicleSite) ">{{trendsVehicleSite.sitename}}</td>
-                                <td *ngIf="trendType=='11' ">{{trendsVehicleSite.loading_hrs | number : '1.2-2' }}</td>
-                                <td *ngIf="trendType=='21'">{{trendsVehicleSite.unloading_hrs | number : '1.2-2' }}</td>
-                                <td style="color:#00695C;" *ngIf="trendType=='11'" (click)="trendsVehicleSite.ldng_count>0? getPendingStatus(trendsVehicleSite):''">{{trendsVehicleSite.ldng_count }}</td>
-                                <td style="color:#E91E63;" *ngIf="trendType=='21'" (click)="trendsVehicleSite.unldng_count >0 ?getPendingStatus(trendsVehicleSite):''">{{trendsVehicleSite.unldng_count}}</td>
+                            <ng-container *ngFor="let trendsVehicleSite of trendsVehicleSiteData; let i=index;">
 
-                            </tr>
+                                <tr *ngIf="((trendType=='11' && trendsVehicleSite.ldng_count!=0  && trendsVehicleSite.loading_hrs!=0) || (trendType=='21'&& trendsVehicleSite.unloading_hrs!=0 && trendsVehicleSite.unldng_count!=0))">
+                                    <td style="color:#00695C; " (click)="locationOnMap(trendsVehicleSite) ">{{trendsVehicleSite.sitename}}</td>
+                                    <td *ngIf="trendType=='11' ">{{trendsVehicleSite.loading_hrs | number : '1.2-2' }}</td>
+                                    <td *ngIf="trendType=='21'">{{trendsVehicleSite.unloading_hrs | number : '1.2-2' }}</td>
+                                    <td style="color:#00695C;" *ngIf="trendType=='11'" (click)="trendsVehicleSite.ldng_count>0? getPendingStatus(trendsVehicleSite):''">{{trendsVehicleSite.ldng_count }}</td>
+                                    <td style="color:#E91E63;" *ngIf="trendType=='21'" (click)="trendsVehicleSite.unldng_count >0 ?getPendingStatus(trendsVehicleSite):''">{{trendsVehicleSite.unldng_count}}</td>
+
+                                </tr>
+                            </ng-container>
+
                         </tbody>
                     </table>
                 </div>
@@ -142,7 +147,7 @@
                         </thead>
                         <tbody>
                             <ng-container *ngFor="let trendsVehicle of trendsVehicleData; let i=index; ">
-                                <tr>
+                                <tr *ngIf="((trendType=='11' && trendsVehicle.ldng_count!=0 ) || (trendType=='21'&& trendsVehicle.unldng_count!=0))">
                                     <td *ngIf="trendType=='11' || trendType=='21' ">{{trendsVehicle.vehicle_id }}</td>
 
                                     <td *ngIf="trendType=='11' ">{{trendsVehicle.loading_hrs | number : '1.2-2' }}</td>
