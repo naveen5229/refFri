@@ -101,7 +101,7 @@
   display: block;
 }
 :host ::ng-deep .fa-pencil-square-o {
-  color: yellow;
+  color: #0bf714;
   font-size: 14px;
   cursor: pointer;
   span {
@@ -124,10 +124,10 @@
     position: absolute;
     top: 0px;
     left: 0px;
-    background-color: yellow;
+    background-color: #0bf714;
     border-radius: 3px;
     padding: 5px 10px;
-    color: #fff;
+    color: black;
     width: 100%;
   }
   span::after {
@@ -136,7 +136,7 @@
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid yellow;
+    border-top: 5px solid #0bf714;
     position: absolute;
     bottom: -5px;
     left: 50%;
