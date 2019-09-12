@@ -155,7 +155,7 @@ export class TripSettlementComponent implements OnInit {
     };
     this.common.params = {
       title: 'Add Fuel Indent',
-      flag: 'Add',
+      button: 'update',
       refData: refData
     };
 
