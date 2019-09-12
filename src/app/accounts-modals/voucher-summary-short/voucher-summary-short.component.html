@@ -252,7 +252,29 @@
 
         </div>
       </div>
+      <div class="row">
+       
+        <div class="form-group col-2 mt-4">
+          <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="getTripFreght()">Show Revenues</button>
+        </div>
+      </div>
+      <div class="table_box mt-3" *ngIf="tripFreghtDetails">
+        <table class="table table-bordered" id="table">
 
+          <thead style="background-color:#263238; color:#fff;">
+           <tr>
+              <th>Receipt No</th>
+              <th>Revenue</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>             
+              <tr *ngFor="let item of tripFreghtDetails; let i = index;">
+                <td>{{item.receipt_no}}</td>
+                <td>{{item.auto_amount}}</td>
+                <td>{{item.remarks}}</td>
+          </tr>
+        </table>
+      </div>
      
     </div>
 
