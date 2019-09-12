@@ -24,7 +24,8 @@
           <tr>
             <td style="width:40%; vertical-align: top;">
               <!-- {{invoiceDetails.branch_name}} -->
-              <h2 *ngIf="invoiceDetails && invoiceDetails.branch_name">{{invoiceDetails.fo_name}}</h2>
+              <h2 *ngIf="invoiceDetails && invoiceDetails.branch_name">{{invoiceDetails.branch_name}}</h2>
+              <br><label *ngIf="invoiceDetails && invoiceDetails.fo_name">{{invoiceDetails.fo_name}}</label><br>
               <Address id="branch_address" [innerHtml]="invoiceDetails.branch_address"
                 *ngIf="invoiceDetails && invoiceDetails.branch_address"></Address>
 
@@ -57,28 +58,31 @@
         </table>
         <div class="row">
           <div class="col-md-9">
-            <span *ngIf="amountData && amountData.amount_words"> <b>Amount In Words : </b> &nbsp;&nbsp;
-              {{amountData.amount_words}} </span>
+            <span *ngIf="invoiceDetails && invoiceDetails.amount_words"> <b>Amount In Words : </b> &nbsp;&nbsp;
+              {{invoiceDetails.amount_words}} </span>
           </div>
           <div class="col-md-3">
-            <table class="table table-bordered table-hover" style="width: 100%">
-              <tr *ngIf="amountData && amountData.sgst_value">
-                <td><b> {{amountData.sgst_name }} : </b></td> <td>{{amountData.sgst_value }}</td>
+            <table>
+              <tr *ngIf="invoiceDetails && invoiceDetails.total_amount">
+              <td >
+                <b>G. TOTAL: </b>
+              </td>
+              <td>  {{invoiceDetails.total_amount}} </td>
+            </tr>
+            <tr *ngIf="invoiceDetails && invoiceDetails.advance_amount">
+                <td >
+                  <b>Advance Amount </b>
+                </td>
+                <td>  {{invoiceDetails.advance_amount}} </td>
               </tr>
-              <tr *ngIf="amountData && amountData.cgst_value">
-                <td><b> {{amountData.cgst_name}} : </b></td> <td> {{amountData.cgst_value}} </td>
-              </tr>
-
-              <tr *ngIf="amountData && amountData.total_amount">
-                <td><b> TOTAL: </b></td> <td> {{amountData.total_amount}} </td>
-              </tr>
-              <tr *ngIf="amountData && amountData.advance_amount">
-                  <td><b>Advance Amount: </b></td> <td> {{amountData.advance_amount}} </td>
+              <tr *ngIf="invoiceDetails && invoiceDetails.net_amount">
+                  <td >
+                    <b>Net Amount </b>
+                  </td>
+                  <td>  {{invoiceDetails.net_amount}} </td>
                 </tr>
-                <tr *ngIf="amountData && amountData.net_amount">
-                    <td><b> Net Amount: </b></td> <td> {{amountData.net_amount}} </td>
-                  </tr>
             </table>
+  
           </div>
         </div>
         <table class="table table-bordered table-hover" style="width: 100%"
@@ -96,8 +100,8 @@
               {{invoiceDetails.lr_terms}}
             </td>
             <td style="vertical-align: top; width: 25%;">
-              <div style="height:100px"><b>Logistic Sign</b></div>
-              <div><b>Receiver Sign</b></div>
+              <!-- <div style="height:100px"><b>Logistic Sign</b></div>
+              <div><b>Receiver Sign</b></div> -->
             </td>
           </tr>
         </table>
