@@ -1030,6 +1030,7 @@ export class VoucherSummaryComponent implements OnInit {
     let rows3 = [];
     let rows4 = [];
     let rows5 = [];
+    let rows6 =[];
     console.log('trip check data', this.trips);
     this.trips.map((tripDetail, index) => {
       if (tripDetail.isChecked) {
@@ -1120,6 +1121,16 @@ export class VoucherSummaryComponent implements OnInit {
       ]);
 
     });
+
+    rows6.push([
+      { txt: this.totalRevinue || '' },
+      { txt: this.totalFuel || '' },
+      { txt: this.alltotal || '' },
+      { txt: this.totalRevinue - (this.alltotal + this.totalFuel) || '' },
+
+
+
+    ]);
     console.log('rows4', rows4);
     let invoiceJson = {};
 
@@ -1284,6 +1295,17 @@ export class VoucherSummaryComponent implements OnInit {
           //   rows: rows5,
           //   name: 'Revenue'
           // }
+
+           {
+            headings: [
+              { txt: 'Revenue' },
+              { txt: 'Fuel' },
+              { txt: 'Expence' },
+              { txt: 'Net Revenue' },
+            ],
+            rows: rows6,
+            name: 'Revenue'
+          }
         ],
         signatures: ['Accountant', 'Approved By'],
         footer: {
