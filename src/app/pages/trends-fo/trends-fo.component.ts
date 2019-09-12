@@ -3,6 +3,8 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
+import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'trends-fo',
@@ -12,31 +14,105 @@ import * as _ from 'lodash';
 export class TrendsFoComponent implements OnInit {
   trendType = '11';
   period = "1";
-  weekMonthNumber = "2";
+  weekMonthNumber = "4";
   showPeriod = true;
   Details = [];
+  halt = [];
   Hours = [];
   endDate = new Date();
   startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 6));
   chartObject = {
-    type: '',
-    data: {},
-    options: {},
-    elements: {},
-    lables: [],
-    yAxes: [],
+    type: 'bar',
+    data: {
+
+      labels: [],
+      datasets: []
+    },
+    yaxisname: "Average Count",
+
+    options: {
+      responsive: true,
+      hoverMode: 'index',
+      stacked: false,
+      maintainAspectRatio: false,
+      title: {
+        display: true,
+
+      },
+      elements: {
+        line: {
+          tension: 0 // disables bezier curves
+        }
+      },
+      scales: {
+        yAxes: [{
+          type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+          display: true,
+          position: 'left',
+          id: 'y-axis-1',
+        },
+        {
+          type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+          display: true,
+
+          position: 'right',
+          id: 'y-axis-2',
+
+          // grid line settings
+          gridLines: {
+            drawOnChartArea: false, // only want the grid lines for one axis to show up
+          },
+        }]
+      }
+    },
+  };
+  chartObject1 = {
+    type: 'line',
+    data: {
+
+      labels: [],
+      datasets: []
+    },
+    yaxisname: "Average Count",
+
+    options: {
+      responsive: true,
+      hoverMode: 'index',
+      stacked: false,
+      maintainAspectRatio: false,
+      title: {
+        display: true,
+
+      },
+      elements: {
+        line: {
+          tension: 0 // disables bezier curves
+        }
+      },
+      scales: {
+        yAxes: [{
+          type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+          display: true,
+          position: 'left',
+          id: 'y-axis-1',
+        }]
+      }
+    },
   };
   bgColor = '#00695C';
   yScale = '';
+  yScale1 = '';
+
   xScale = '';
   dateDay = [];
   trendsVehicleData = [];
   onward = [];
   trendsVehicleSiteData = [];
-
+  siteUnloading = [];
   constructor(public common: CommonService,
     public api: ApiService,
-    public datepipe: DatePipe, ) {
+    public datepipe: DatePipe,
+    public modalService: NgbModal) {
     this.foTrendsData();
     this.getTrendsVehicle()
     this.getTrendsSite();
@@ -44,6 +120,58 @@ export class TrendsFoComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+  setDataset(scale) {
+    if (scale == 'dual') {
+      this.chartObject.data = {
+        labels: this.dateDay,
+        datasets: [
+          {
+            type: 'line',
+            label: 'Average Count',
+            borderColor: 'blue',
+            backgroundColor: 'blue',
+            fill: false,
+            data: this.Hours,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#FFEB3B',
+            yAxisID: 'y-axis-1',
+            yAxisName: 'Count',
+          },
+          {
+            type: 'bar',
+            label: 'Count',
+            borderColor: 'pink',
+            backgroundColor: 'pink',
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#FFEB3B',
+            fill: false,
+            data: this.halt,
+            yAxisID: 'y-axis-2'
+          }
+        ]
+      };
+    }
+    else {
+      this.chartObject1.data = {
+        labels: this.dateDay,
+        datasets: [
+          {
+            type: 'line',
+            label: 'Onward Hours',
+            borderColor: 'blue',
+            backgroundColor: 'blue',
+            fill: false,
+            data: this.Hours,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#FFEB3B',
+            yAxisID: 'y-axis-1',
+            yAxisName: 'Count',
+          }
+        ]
+      };
+    }
+    console.log("dataset", this.chartObject.data);
   }
 
   foTrendsData() {
@@ -59,13 +187,13 @@ export class TrendsFoComponent implements OnInit {
         value: this.weekMonthNumber,
       }
     } else if (this.period == '2') {
-      this.xScale = 'Weeks'
+      this.xScale = 'Weeks of'
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
       }
     } else {
-      this.xScale = 'Months'
+      this.xScale = 'Months of'
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
@@ -82,6 +210,7 @@ export class TrendsFoComponent implements OnInit {
           this.dateDay.push(this.datepipe.transform(element.date_day, 'dd-MMM'));
         });
         this.getCategoryDayMonthWeekWise();
+
       });
     err => {
       this.common.loading--;
@@ -103,6 +232,7 @@ export class TrendsFoComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.Details = res['data'];
+        console.log("detail", this.Details)
         this.Details.forEach((element) => {
           this.dateDay.push(this.datepipe.transform(element.date_day, 'dd-MMM'));
         });
@@ -120,71 +250,66 @@ export class TrendsFoComponent implements OnInit {
     } else {
       this.showPeriod = true;
     }
+    console.log("detail", this.Details)
+
     this.Hours = [];
+    this.halt = [];
+    let scale = this.trendType == '0' ? '' : 'dual';
     this.Details.forEach((element) => {
       if (this.trendType == "11") {
-        this.Hours.push(element.loading_hrs);
+        this.Hours.push(element.loading_hrs / element.loading_count);
+        this.halt.push(element.loading_hrs)
         this.bgColor = '#00695C';
         this.yScale = 'Loading Hours';
+        this.yScale1 = 'Loading Count'
         console.log('Hours: ', this.Hours);
 
       } else if (this.trendType == "21") {
-        this.Hours.push(element.unloading_hrs);
+        this.Hours.push(element.unloading_hrs / element.unloading_count);
+        this.halt.push(element.unloading_hrs)
         this.bgColor = '#E91E63';
         this.yScale = 'UnLoading Hours';
+        this.yScale1 = 'UnLoading Count'
+
 
       } else if (this.trendType == "0") {
         this.Hours.push(element.onward)
+        this.halt.push();
+
+        console.log("elementttt", element.onward)
+        console.log("elementttt", this.Hours)
+
         this.bgColor = '#4CAF50';
-        this.yScale = 'OnWard Hours';
+        this.yScale = 'OnWard';
       }
     });
-    this.showChart();
+    this.showChart(scale);
   }
 
-  showChart() {
-    this.chartObject.type = 'line';
-    this.chartObject.data = {
-      labels: this.dateDay,
-      datasets: [
-        {
-          data: this.Hours,
-          borderColor: this.bgColor,
-          fill: false,
-          pointHoverRadius: 8,
-          pointHoverBackgroundColor: '#FFEB3B'
-        }
-      ]
-    };
-    this.chartObject.options = {
-      responsive: true,
-      maintainAspectRatio: false,
-      legend: {
-        display: false
-      },
-    };
+  showChart(scale) {
+    this.setDataset(scale);
   }
 
   getTrendsVehicle() {
-    this.trendsVehicleData=[];
+    this.trendsVehicleData = [];
     this.dateDay = [];
     let params;
     if (this.period == '1') {
-      this.xScale='Days'
+      this.xScale = 'Days'
       params = {
         startDate: this.common.dateFormatter(this.startDate),
         endDate: this.common.dateFormatter(this.endDate),
         purpose: this.period,
         value: this.weekMonthNumber,
       }
-    } else if(this.period=='2') {
-      this.xScale='Weeks'
+    } else if (this.period == '2') {
+      this.xScale = 'Weeks of'
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
       }
-    }else {
-      this.xScale='Months'
+    } else {
+      this.xScale = 'Months of '
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
@@ -194,7 +319,7 @@ export class TrendsFoComponent implements OnInit {
     console.log('params: ', params);
     this.common.loading++;
 
-    this.api.post("Trends/getTrendsWrtVehicles",params).subscribe(res => {
+    this.api.post("Trends/getTrendsWrtVehicles", params).subscribe(res => {
       this.common.loading--;
       this.trendsVehicleData = res['data'] || [];
     },
@@ -237,10 +362,31 @@ export class TrendsFoComponent implements OnInit {
     this.api.post("Trends/getTrendsWrtSite", params).subscribe(res => {
       this.common.loading--;
       this.trendsVehicleSiteData = res['data'] || [];
+      this.siteUnloading = [];
+      _.sortBy(this.trendsVehicleSiteData, ['unloading_hrs']).reverse().map(keyData => {
+        console.log('keydata', keyData);
+        this.siteUnloading.push(keyData);
+      });
     },
       err => {
         this.common.showError();
         console.log('Error: ', err);
       });
+  }
+
+  locationOnMap(latlng) {
+    if (!latlng.lat) {
+      this.common.showToast('Vehicle location not available!');
+      return;
+    }
+    const location = {
+      lat: latlng.lat,
+      lng: latlng.long,
+      name: '',
+      time: ''
+    };
+    console.log('Location: ', location);
+    this.common.params = { location, title: 'Location' };
+    const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
   }
 }

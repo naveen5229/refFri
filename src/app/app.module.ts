@@ -244,6 +244,10 @@ import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledge
 import { DeactivateGuardService } from './guards/route.guard';
 import { ConstraintsComponent } from './modals/constraints/constraints.component';
 import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-transfer.component';
+import { ViewMVSFreightStatementComponent } from './modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
+import { TemplateDevviewComponent } from './modals/template-devview/template-devview.component';
+import { MarketVehFreightStatementComponent } from './modals/FreightRate/market-veh-freight-statement/market-veh-freight-statement.component';
+import { MvsLrAssignComponent } from './modals/FreightRate/mvs-lr-assign/mvs-lr-assign.component';
 
 
 
@@ -461,10 +465,15 @@ import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-t
     DriverLedgerMappingComponent,
     ConstraintsComponent,
     ViewTransferComponent,
+    ViewMVSFreightStatementComponent,
+    TemplateDevviewComponent,
+    MarketVehFreightStatementComponent,
+    MvsLrAssignComponent,
 
   ],
   entryComponents: [
     AddDispatchOrderComponent,
+    ViewMVSFreightStatementComponent,
     FreightInvoiceRateComponent,
     LRRateCalculatorComponent,
     LrRateComponent,
@@ -662,7 +671,10 @@ import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-t
     RoutesTimetableComponent,
     VehicleTimeTableAssociationComponent,
     ConstraintsComponent,
-    ViewTransferComponent
+    ViewTransferComponent,
+    TemplateDevviewComponent,
+    MarketVehFreightStatementComponent,
+    MvsLrAssignComponent,
   ],
   imports: [
     BrowserModule,
