@@ -38,6 +38,7 @@ export class VoucherSummaryShortComponent implements OnInit {
   FinanceVoucherId;
   DriverId;
   DriverName;
+  tripFreghtDetails=[];
   creditLedger = {
     name: '',
     id: 0
@@ -1147,5 +1148,31 @@ let invoiceJson={};
     localStorage.setItem('InvoiceJSO', JSON.stringify(invoiceJson));
     this.printService.printInvoice(invoiceJson, 2);
 
+  }
+  getTripFreght() {
+    // console.log('voucher id last ', voucherId)
+    // const params = {
+    //   voucherId: voucherId,
+    // };
+
+    let tripidarray = [];
+    this.checkedTrips.map(tripHead => {
+      tripidarray.push(tripHead.id);
+    });
+    const params = {
+      voucherId: tripidarray
+    };
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/getTripFreghtDetails', params)
+      .subscribe(res => {
+        console.log('trip freght exp', res);
+        this.common.loading--;
+        this.tripFreghtDetails = res['data'];
+        // this.getHeads();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
   }
 }
