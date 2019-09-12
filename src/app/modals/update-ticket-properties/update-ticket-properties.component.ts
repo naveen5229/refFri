@@ -71,11 +71,6 @@ export class UpdateTicketPropertiesComponent implements OnInit {
     this.activeModal.close({ status: status });
   }
 
-  
-
-
-  
-
   updateProperties()
   {
     let params = {
