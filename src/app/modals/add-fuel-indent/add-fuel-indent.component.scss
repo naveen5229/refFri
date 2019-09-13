@@ -1,3 +1,10 @@
-:host ::ng-deep .tableFixHead{
-    height: auto !important;
- }
+:host ::ng-deep .tableFixHead {
+  height: 58vh !important;
+}
+b {
+  font-size: 17px;
+}
+label {
+  font-weight: 900;
+  font-size: 16px;
+}

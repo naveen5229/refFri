@@ -27,7 +27,6 @@ export class AdminComponent {
     public router: Router,
     public accountService: AccountService) {
 
-
     if (this.user._loggedInBy == 'customer') {
       this.router.navigate(['/pages']);
       return;
@@ -36,6 +35,8 @@ export class AdminComponent {
       this.getBranches();
     }
   }
+
+
   getBranches() {
     this.api.post('Suggestion/GetBranchList', { search: 123 })
       .subscribe(res => {
