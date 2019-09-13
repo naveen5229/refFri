@@ -522,6 +522,7 @@ const routes: Routes = [{
   {
     path: 'mvs-freight-statement',
     component: MvsFreightStatementComponent,
+    // component: MvsFreightStatementComponent,
     canActivate: [AuthGuard, RouteGuard]
   },
 
