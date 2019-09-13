@@ -517,6 +517,13 @@ const routes: Routes = [{
     component: TrendsFoComponent,
     canActivate: [AuthGuard, RouteGuard]
   },
+  {
+    path: 'mvs-freight-statement',
+    component: MvsFreightStatementComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+
+
   ],
 }];
 
