@@ -61,11 +61,154 @@ tr {
 }
 
 td {
-    border-right: solid 1px #f00;
-    border-left: solid 1px #f00;
-    padding-bottom: 10px;
+    border-right: solid 1px black;
+    //border-left: solid 1px black;
+    border-spacing: 15px;
+    padding-bottom: 40px;
 }
 
 th {
     width: 220px;
 }
+
+thead {
+    border-bottom: 1px solid #000;
+}
+
+.check {
+    padding: 63px;
+}
+
+.borderclass {
+    border: none;
+}
+
+
+/****************************** THE JAI RANA STYLE ********************/
+
+.routes {
+    height: 60px;
+    // border-bottom: 1px solid #c2c2c2;
+    text-align: center;
+}
+
+.route-container {
+    position: relative;
+}
+
+.route-line {
+    height: 30px;
+    // width: 15px;
+    position: absolute;
+    top: 30px;
+    border: 4.5px solid black;
+    margin-left: 3px;
+}
+
+.routes:nth-child(2) .route-line:first-child {
+    display: none;
+}
+
+.routes:last-child .route-line:last-child {
+    display: none;
+}
+
+.route-circle {
+    width: 15px;
+    height: 15px;
+    background: #000;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 999;
+    top: 22.5px;
+}
+
+.completed {
+    border-color: black
+}
+
+.delayed {
+    border-color: black;
+}
+
+.running {
+    border-color: black;
+}
+
+.upcoming {
+    border: none;
+    border-style: dashed;
+    border-width: 1.5px;
+    border-color: black;
+    margin-left: 6px;
+}
+
+.routes .col-1,
+.routes .col-2,
+.routes .col-3 {
+    border-right: 1px solid #c2c2c2;
+}
+
+.routes .col-2,
+.routes .col-3 {
+    border-bottom: 1px solid #c2c2c2;
+    padding: 8px;
+}
+
+.route-headings .col-1 {
+    border-right: 1px solid #26a69a;
+}
+
+.route-headings .col-2,
+.route-headings .col-3 {
+    text-align: center;
+    padding: 6px;
+    background: #26a69a;
+    color: #fff;
+    border-right: 1px solid #fff;
+}
+
+.route-headings .col-3:last-child {
+    border-right: none;
+}
+
+.route-circle-red {
+    width: 15px;
+    height: 15px;
+    background: red;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 999;
+    top: 22.5px;
+}
+
+.route-circle-green {
+    width: 15px;
+    height: 15px;
+    background: green;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 999;
+    top: 22.5px;
+}
+
+.route-circle-blue {
+    width: 15px;
+    height: 15px;
+    background: blue;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 999;
+    top: 22.5px;
+}
+
+.route-truck img {
+    width: 20px;
+    position: absolute;
+    left: 12.5px;
+    z-index: 99999;
+    top: -10px;
+}
+
+
+/******************************* END TJR STYLE ****************************/
