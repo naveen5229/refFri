@@ -6,7 +6,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'view-mvsfreight-statement',
   templateUrl: './view-mvsfreight-statement.component.html',
-  styleUrls: ['./view-mvsfreight-statement.component.scss']
+  styleUrls: ['./view-mvsfreight-statement.component.scss','../../../pages/pages.component.css']
 })
 export class ViewMVSFreightStatementComponent implements OnInit {
   invoiceId = null;
@@ -28,8 +28,8 @@ export class ViewMVSFreightStatementComponent implements OnInit {
   ) {
 
     this.invoiceId = this.common.params.invoice.id;
-    this.common.handleModalSize('class', 'modal-lg', '1200');
-   // this.printInvoice();
+    this.common.handleModalSize('class', 'modal-lg', '1600');
+   this.printInvoice();
   }
 
   ngOnInit() {
@@ -40,30 +40,31 @@ export class ViewMVSFreightStatementComponent implements OnInit {
     this.renderer.setElementClass(document.body, 'test', false);
   }
 
-  // printInvoice() {
-  //   ++this.common.loading;
-  //   let params = {
-  //     invoiceId: this.invoiceId,
-  //     printType: this.type,
-  //   }
-  //   console.log("params", params);
-  //   this.api.post('FrieghtRate/getMVSFrieghtStatement', params)
-  //     .subscribe(res => {
-  //       --this.common.loading;
-  //       this.data = [];
-  //       this.invoiceDetails = res['data'].invoicedetails[0];
-  //       this.amountData = res['data'].taxdetails[0];
-  //       console.log("this.invoiceDetails", this.invoiceDetails);
-  //       this.data = res['data'].result;
-  //       if (this.data) {
-  //         console.log("data", this.data);
-  //         this.getTableColumnName();
-  //       }
-  //     }, err => {
-  //       --this.common.loading;
-  //       console.log('Err:', err);
-  //     });
-  // }
+  printInvoice() {
+    ++this.common.loading;
+    let params = {
+      invoiceId: this.invoiceId,
+      printType: this.type,
+    }
+    console.log("params", params);
+    this.api.post('FrieghtRate/getMVSFrieghtStatement', params)
+      .subscribe(res => {
+        --this.common.loading;
+        this.data = [];
+        this.invoiceDetails = res['data'].invoicedetails[0];
+        this.amountData = res['data'].amtdetails;
+        // console.log("this.invoiceDetails", this.invoiceDetails);
+        this.data = res['data'].result;
+        if (this.data) {
+          console.log("data", this.data);
+          this.getTableColumnName();
+        }
+        console.log("--res--",res);
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
+      });
+  }
 
   getTableColumnName() {
     this.headings = [];
