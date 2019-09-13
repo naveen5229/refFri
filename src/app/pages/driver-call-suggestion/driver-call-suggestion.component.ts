@@ -53,7 +53,7 @@ export class DriverCallSuggestionComponent implements OnInit {
   ngOnInit() {
   }
 
-  refresh() {
+ refresh() {
 
     this.getReport();
   }
@@ -410,8 +410,6 @@ export class DriverCallSuggestionComponent implements OnInit {
           this.showTable = true;
         } else {
           this.common.showToast('No Record Found !!');
-          this.delayFaults = [];
-          return;
         }
 
 
@@ -497,7 +495,6 @@ export class DriverCallSuggestionComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.shortTarget = res['data'];
-
         //this.shortTarget = res['data'];
         if (this.shortTarget != null) {
           console.log('shortTarget', this.shortTarget);
@@ -519,8 +516,6 @@ export class DriverCallSuggestionComponent implements OnInit {
           this.showTable = true;
         } else {
           this.common.showToast('No Record Found !!');
-          this.shortTarget = [];
-          return;
         }
 
 
@@ -637,8 +632,6 @@ export class DriverCallSuggestionComponent implements OnInit {
           this.showTable = true;
         } else {
           this.common.showToast('No Record Found !!');
-          this.longLoading = [];
-          return;
         }
 
 

@@ -92,7 +92,7 @@ export class FuelFillingsComponent implements OnInit {
     this.api.post('FuelDetails/getFuelFillingEntries', params)
       .subscribe(res => {
         this.common.loading--;
-        this.fillingData = res['data'] || [];
+        this.fillingData = res['data'];
         console.info("filling Data", this.fillingData);
 
         console.log(this.table.data.headings);

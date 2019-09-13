@@ -14,7 +14,6 @@ import { SupportingDocComponent } from '../../modals/LRModals/supporting-doc/sup
 import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.component';
 import { AssignUserTemplateComponent } from '../../modals/assign-user-template/assign-user-template.component';
 import { FreightInvoiceRateComponent } from '../../modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
-import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 
 @Component({
   selector: 'freight-invoices',
@@ -305,7 +304,4 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
-  
-  }
-
-
+}

@@ -83,8 +83,6 @@ import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
 import { RouteDashboardComponent } from './route-dashboard/route-dashboard.component';
 import { FoUserRoleComponent } from './fo-user-role/fo-user-role.component';
 import { TrendsFoComponent } from './trends-fo/trends-fo.component';
-import { MvsFreightStatementComponent } from './mvs-freight-statement/mvs-freight-statement.component';
-
 
 
 const routes: Routes = [{
@@ -519,13 +517,6 @@ const routes: Routes = [{
     component: TrendsFoComponent,
     canActivate: [AuthGuard, RouteGuard]
   },
-  {
-    path: 'mvs-freight-statement',
-    component: MvsFreightStatementComponent,
-    canActivate: [AuthGuard, RouteGuard]
-  },
-
-
   ],
 }];
 

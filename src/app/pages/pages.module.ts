@@ -82,8 +82,6 @@ import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
 import { RouteDashboardComponent } from './route-dashboard/route-dashboard.component';
 import { FoUserRoleComponent } from './fo-user-role/fo-user-role.component';
 import { TrendsFoComponent } from './trends-fo/trends-fo.component';
-import { MvsFreightStatementComponent } from './mvs-freight-statement/mvs-freight-statement.component';
-
 
 
 
@@ -169,9 +167,6 @@ const PAGES_COMPONENTS = [
     RouteDashboardComponent,
     FoUserRoleComponent,
     TrendsFoComponent,
-    MvsFreightStatementComponent
-
-
 
   ],
   exports: [
