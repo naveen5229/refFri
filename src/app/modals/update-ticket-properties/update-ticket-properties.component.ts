@@ -26,7 +26,8 @@ export class UpdateTicketPropertiesComponent implements OnInit {
     is_escalate: true,
     is_deliverytime: true,
     is_urgent: true,
-    benchMark:null
+    benchMark:null,
+    benchMark2:null
     // foid:''
   };
 
@@ -51,7 +52,9 @@ export class UpdateTicketPropertiesComponent implements OnInit {
         this.ticketProperties.compl_rem_time = this.properties['Comp Rem Time'];
         this.ticketProperties.compl_esc_time = this.properties['Com Esc Time'];
         this.ticketProperties.issue_name = this.properties['Issue Name'];
-        this.ticketProperties.benchMark=this.properties['Bechmark'];
+        this.ticketProperties.benchMark=this.properties['Benchmark'];
+        this.ticketProperties.benchMark2=this.properties['Benchmark2'];
+        console.log("BenchMark2:",this.properties["Benchmark2"]);
         this.id=this.properties['_row_id'];
         
       }
@@ -68,11 +71,6 @@ export class UpdateTicketPropertiesComponent implements OnInit {
     this.activeModal.close({ status: status });
   }
 
-  
-
-
-  
-
   updateProperties()
   {
     let params = {
@@ -85,6 +83,7 @@ export class UpdateTicketPropertiesComponent implements OnInit {
       is_deliverytime: this.ticketProperties.is_deliverytime,
       is_urgent: this.ticketProperties.is_urgent,
       benchmark:this.ticketProperties.benchMark,
+      benchmark2:this.ticketProperties.benchMark2,
       id:this.id,
       foid: this.foid
     };

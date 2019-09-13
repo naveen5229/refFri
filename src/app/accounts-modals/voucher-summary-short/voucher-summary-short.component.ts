@@ -9,6 +9,7 @@ import { AddDriverComponent } from '../../driver/add-driver/add-driver.component
 import { AccountService } from '../../services/account.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
+import { PrintService } from '../../services/print/print.service';
 
 
 @Component({
@@ -33,9 +34,11 @@ export class VoucherSummaryShortComponent implements OnInit {
   tripHeads = [];
   VehicleId;
   VoucherId = 0;
+  vouchertype=-151;
   FinanceVoucherId;
   DriverId;
   DriverName;
+  tripFreghtDetails=[];
   creditLedger = {
     name: '',
     id: 0
@@ -79,6 +82,7 @@ export class VoucherSummaryShortComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal,
     public accountService: AccountService,
+    private printService: PrintService,
     private activeModal: NgbActiveModal) {
     console.log('________________PARAMS___________', Object.assign({}, this.common.params));
     if (this.VoucherId == 0) {
@@ -892,5 +896,283 @@ export class VoucherSummaryShortComponent implements OnInit {
       console.log('Date:', data);
       //this.viewTransfer();
     });
+  }
+
+  printTripDetail(){
+    console.log('print functionality');
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data'], 'this.order');
+        // this.Vouchers = res['data'];
+        this.print(this.trips,res['data']);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  print(trip, companydata) {
+
+    let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
+    let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
+    let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
+
+    let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
+    let rows1 = [];
+    let rows2 = [];
+    let rows3 = [];
+    let rows4 = [];
+
+    this.tripsEditData.map((tripDetail, index) => {
+      rows1.push([
+        { txt: index+1},
+        { txt: tripDetail.start_name || '' },
+        { txt: tripDetail.end_name || '' },
+        { txt: tripDetail.start_time || '' },
+        { txt: tripDetail.end_time || '' },
+        { txt: (tripDetail.is_empty)? 'Yes':'No' || '' },
+        { txt: tripDetail.lr_no || '' },
+
+      ]);
+    });
+
+    if(this.vouchertype == -150){
+    this.fuelFilings.map((fuelfill, index) => {
+      rows2.push([
+        { txt: index+1},
+        { txt: fuelfill.name || '' },
+        { txt: fuelfill.litres || '' },
+        { txt: fuelfill.rate || '', align: 'left' },
+        { txt: fuelfill.amount || '', align: 'left' },
+        { txt: fuelfill.date || '' },
+      ]);
+    });
+  }
+  if(this.vouchertype == -150){
+    this.tripHeads.map((tripHead, index) => {
+      rows3.push([
+        { txt: index+1},
+        { txt: tripHead.name || '' },
+        { txt: tripHead.total || '' },
+        ...tripHead.trips.map((trip, index) => {
+          return { txt: trip.amount || '' }
+        })
+        
+      
+      ]);
+    });
+  }else{
+    this.tripHeads.map((tripHead, index) => {
+      rows3.push([
+        { txt: index+1},
+        { txt: tripHead.name || '' },
+        { txt: tripHead.total || '' },
+      
+      
+      ]);
+    });
+  }
+
+    this.transferData.map((detail, index) => {
+    
+      rows4.push([
+        this.transferHeading.map((headingname)=>{
+        { txt: detail.headingname || ''}
+      })
+      ]);
+   
+    });
+let invoiceJson={};
+     
+  
+   if(this.vouchertype == -151){
+    invoiceJson = {
+      headers: [
+        { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+        { txt: companydata[0].addressline },
+        { txt: cityaddress },
+        { txt: 'Trip Detail', size: '20px', weight: 600, align: 'left' }
+      ],
+     
+      details: [
+     
+        { name: 'Ref No', value: this.custcode },
+        { name: 'Date', value: this.date },
+        { name: 'Ledger', value: this.creditLedger.name }       
+      ],
+      tables: [{
+        headings: [
+          { txt: 'S.No' },
+          { txt: 'Start Location' },
+          { txt: 'End Location' },
+          { txt: 'Start Date' },
+          { txt: 'End Date' },
+          { txt: 'Trip Empty' },
+          { txt: 'LR No' },
+        ],
+        rows: rows1,
+        name:'Trips Detail'
+      },
+      
+      {
+        headings: [
+          { txt: 'S.No' },
+          { txt: 'Head' },
+          { txt: 'Total' },
+        
+        ],
+        rows: rows3,
+        name:'Trips Expence Detail'
+      },
+
+
+      {
+        headings: [
+          { txt: 'Advise Type' },
+          { txt: 'User Value' },
+          { txt: 'Credit To' },
+          { txt: 'Debit To' },
+          {txt: 'Remarks'},
+          {txt: 'Time'},
+          {txt: 'Entry By'}
+        ],
+        rows: rows4,
+        name:'Advance'
+      }],
+      signatures: ['Accountant', 'Approved By'],
+      footer: {
+        left: { name: 'Powered By', value: 'Elogist Solutions' },
+        center: { name: 'Printed Date', value: '06-July-2019' },
+        right: { name: 'Page No', value: 1 },
+      },
+      footertotal:[
+        {   name:'total',value:this.alltotal},
+         {  name:'Remarks',value:this.narration},
+      ]
+
+
+    };
+   }else{
+    invoiceJson = {
+      headers: [
+        { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+        { txt: companydata[0].addressline },
+        { txt: cityaddress },
+        { txt: 'Trip Detail', size: '20px', weight: 600, align: 'left' }
+      ],
+     
+      details: [
+     
+        { name: 'Ref No', value: this.custcode },
+        { name: 'Date', value: this.date },
+        { name: 'Ledger', value: this.creditLedger.name }       
+      ],
+      tables: [{
+        headings: [
+          { txt: 'S.No' },
+          { txt: 'Start Location' },
+          { txt: 'End Location' },
+          { txt: 'Start Date' },
+          { txt: 'End Date' },
+          { txt: 'Trip Empty' },
+          { txt: 'LR No.' },
+        ],
+        rows: rows1,
+        name:'Trip Details'
+
+      },
+      {
+        headings: [
+          { txt: 'S.No' },
+          { txt: 'Station Name' },
+          { txt: 'Quantity' },
+          { txt: 'Rate' },
+          { txt: 'Amount' },
+          { txt: 'Date' },
+        ],
+        rows: rows2,
+        name:'Trip Fuel Fillings'
+      },
+      {
+        headings: [
+          { txt: 'S.No' },
+          { txt: 'Head' },
+          { txt: 'Total' },
+         ...this.checkedTrips.map((checkname)=>{
+          return {txt: checkname.start_name +'-'+ checkname.end_name}
+         })
+        ],
+        rows: rows3,
+        name:'Trips Expence Detail'
+
+      },
+      {
+        headings: [
+          { txt: 'Advise Type' },
+          { txt: 'User Value' },
+          { txt: 'Credit To' },
+          { txt: 'Debit To' },
+          {txt: 'Remarks'},
+          {txt: 'Time'},
+          {txt: 'Entry By'}
+        ],
+        rows: rows4,
+        name:'Advance'
+      }],
+      signatures: ['Accountant', 'Approved By'],
+      footer: {
+        left: { name: 'Powered By', value: 'Elogist Solutions' },
+        center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(),'ddMMYYYY').split(' ')[0] },
+        right: { name: 'Page No', value: 1 },
+      },
+      footertotal:[
+        {   name:'total',value:this.alltotal},
+         {  name:'Remarks',value:this.narration},
+      ]
+
+
+    };
+   }
+ 
+  
+
+    console.log('JSON', invoiceJson);
+
+    localStorage.setItem('InvoiceJSO', JSON.stringify(invoiceJson));
+    this.printService.printInvoice(invoiceJson, 2);
+
+  }
+  getTripFreght() {
+    // console.log('voucher id last ', voucherId)
+    // const params = {
+    //   voucherId: voucherId,
+    // };
+
+    let tripidarray = [];
+    this.checkedTrips.map(tripHead => {
+      tripidarray.push(tripHead.id);
+    });
+    const params = {
+      voucherId: tripidarray
+    };
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/getTripFreghtDetails', params)
+      .subscribe(res => {
+        console.log('trip freght exp', res);
+        this.common.loading--;
+        this.tripFreghtDetails = res['data'];
+        // this.getHeads();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
   }
 }
