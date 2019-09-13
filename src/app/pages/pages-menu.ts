@@ -199,10 +199,16 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fas fa-file-invoice-dollar',
         link: '/pages/freight-invoices',
       },
+
       {
         title: 'Transfer',
         icon: 'fas fa-dolly-flatbed',
         link: '/pages/transfers',
+      },
+      {
+        title: 'MVS Freight Statement',
+        icon: 'fas fa-dolly-flatbed',
+        link: '/pages/mvs-freight-statement',
       },
       {
         title: 'Freight Expenses/Revenue',

@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">LR Assign</h5>
+  <h5 class="modal-title" id="modal-basic-title">MVS LR Assign</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -41,7 +41,7 @@
               <td *ngFor="let heading of headings1">
                 <label *ngIf="heading != 'Action'">{{value[heading]}}</label>
                 <input class="form-check-input" (change)="onChange(data1[i]['_lrid'], $event.target.checked)"
-                  type="checkbox" *ngIf="heading == 'Action'">
+                  type="checkbox" *ngIf="data1[i]['_lrid']>0 && heading == 'Action'">
               </td>
             </tr>
           </tbody>

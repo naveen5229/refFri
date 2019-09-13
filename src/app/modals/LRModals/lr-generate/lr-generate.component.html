@@ -101,7 +101,7 @@
             <td *ngIf=" generalDetailColumn1[i] && generalDetailColumn1[i].r_coltitle">
 
               <!-- field Title -->
-              <label>{{generalDetailColumn1[i].r_coltitle}}<span style="color: red"
+              <label *ngIf="generalDetailColumn1[i].r_colname !='supplier_name' || (generalDetailColumn1[i].r_colname =='supplier_name' && lr.vehicleType !=1) ">{{generalDetailColumn1[i].r_coltitle}}<span style="color: red"
                   *ngIf="generalDetailColumn1[i].r_required">*</span></label>
               <span>
 
@@ -145,13 +145,13 @@
 
 
                 <!-- suplier suggestion -->
-                <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname =='supplier_name'"
+                <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname =='supplier_name' && lr.vehicleType !=1"
                   (onChange)="generalDetailColumn1[i].r_valueid = ''"
                   (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn1[i].r_colname,$event)"
                   url="Suggestion/GetCompanies2?type=MVS" display="name" placeholder=" Search Name"
                   [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
-                <i *ngIf="generalDetailColumn1[i].r_colname =='supplier_name' && foCmpnyId>0" class="fa fa-plus add"
+                <i *ngIf="generalDetailColumn1[i].r_colname =='supplier_name' && foCmpnyId>0 && lr.vehicleType !=1" class="fa fa-plus add"
                   (click)="addAssociation()"></i>
                 <!-- Driver Name suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'driver_mobile'"
@@ -189,7 +189,7 @@
                 </uj-date-time-picker>
 
                 <!-- Tax Paid By -->
-                <span *ngIf="generalDetailColumn1[i].r_colname=='taxpaid_by_name'" style="margin:0px">
+                <div *ngIf="generalDetailColumn1[i].r_colname=='taxpaid_by_name'" style="margin:0px">
                   <label class="radio-btn">
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
                       [(ngModel)]="generalDetailColumn1[i].r_value" value="1">Consignor
@@ -211,7 +211,7 @@
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
                       [(ngModel)]="generalDetailColumn1[i].r_value" value="-1">N.A.
                   </label>
-                </span>
+                </div>
 
                 <!-- Pay Type Dropdown -->
                 <select [(ngModel)]="generalDetailColumn1[i].r_valueid" class="form-conrol"
@@ -307,13 +307,13 @@
 
 
                 <!-- suplier suggestion -->
-                <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname =='supplier_name'"
+                <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname =='supplier_name' && lr.vehicleType !=1"
                   (onChange)="generalDetailColumn2[i].r_valueid = ''"
                   (onSelected)="generalDetailColumn2[i].r_value = $event.name;generalDetailColumn2[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn2[i].r_colname,$event)"
                   url="Suggestion/GetCompanies2?type=MVS" display="name" placeholder=" Search Name"
                   [preSelected]="{name:generalDetailColumn2[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
-                <i *ngIf="generalDetailColumn2[i].r_colname =='supplier_name' && foCmpnyId>0 " class="fa fa-plus add"
+                <i *ngIf="generalDetailColumn2[i].r_colname =='supplier_name' && foCmpnyId>0 && lr.vehicleType !=1 " class="fa fa-plus add"
                   (click)="addAssociation()"></i>
 
                 <!-- Driver Name suggestion -->
