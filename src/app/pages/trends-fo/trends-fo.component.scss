@@ -39,13 +39,13 @@ table {
         table-layout: fixed;
         color: #fff;
         th:nth-child(1) {
-            width: 177px;
+            width: auto;
         }
         th:nth-child(2) {
-            width: 167px;
+            width: auto;
         }
         th {
-            width: 157px;
+            width: auto;
         }
         th:last-child {
             width: auto;
@@ -63,13 +63,13 @@ table {
             table-layout: fixed;
             width: 100%;
             td:nth-child(1) {
-                width: 177px;
+                width: auto;
             }
             th:nth-child(2) {
-                width: 167px;
+                width: auto;
             }
             td {
-                width: 157px;
+                width: auto;
             }
             th:last-child {
                 width: auto;

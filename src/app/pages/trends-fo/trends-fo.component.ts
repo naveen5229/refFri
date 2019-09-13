@@ -5,7 +5,6 @@ import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as Highcharts from 'highcharts';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
 
 @Component({
@@ -14,8 +13,7 @@ import { ViewListComponent } from '../../modals/view-list/view-list.component';
   styleUrls: ['./trends-fo.component.scss']
 })
 export class TrendsFoComponent implements OnInit {
-  scale=''
-  highcharts = Highcharts;
+  scale = ''
   trendType = '11';
   period = "1";
   weekMonthNumber = "4";
@@ -27,6 +25,7 @@ export class TrendsFoComponent implements OnInit {
   startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 6));
   chartObject = {
     type: 'bar',
+
     data: {
 
       labels: [],
@@ -43,6 +42,13 @@ export class TrendsFoComponent implements OnInit {
         display: true,
 
       },
+      display: true,
+
+      legend: {
+        position: 'bottom',
+        display: true,
+      },
+
       elements: {
         line: {
           tension: 0 // disables bezier curves
@@ -50,12 +56,24 @@ export class TrendsFoComponent implements OnInit {
       },
       scales: {
         yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: ' ',
+            fontSize: 17
+
+          },
           type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
           display: true,
           position: 'left',
           id: 'y-axis-1',
         },
         {
+          scaleLabel: {
+            display: true,
+            labelString: '',
+            fontSize: 17
+
+          },
           type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
           display: true,
 
@@ -67,11 +85,19 @@ export class TrendsFoComponent implements OnInit {
             drawOnChartArea: false, // only want the grid lines for one axis to show up
           },
         }]
+        , xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: '',
+            fontSize: 17
+
+          },
+        }],
       }
     },
   };
-  loadingSite=[]
-  count= null;
+  loadingSite = []
+  count = null;
   chartObject1 = {
     type: 'line',
     data: {
@@ -85,6 +111,8 @@ export class TrendsFoComponent implements OnInit {
       responsive: true,
       hoverMode: 'index',
       stacked: false,
+      legend: { position: 'bottom' },
+
       maintainAspectRatio: false,
       title: {
         display: true,
@@ -95,13 +123,29 @@ export class TrendsFoComponent implements OnInit {
           tension: 0 // disables bezier curves
         }
       },
+
       scales: {
+
         yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: '',
+            fontSize: 17
+
+          },
           type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
           display: true,
           position: 'left',
           id: 'y-axis-1',
-        }]
+        }],
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: '',
+            fontSize: 17
+
+          },
+        }],
       }
     },
   };
@@ -109,12 +153,14 @@ export class TrendsFoComponent implements OnInit {
   yScale = '';
   yScale1 = '';
 
-  xScale = '';
+  //xScale = '';
   dateDay = [];
   trendsVehicleData = [];
   onward = [];
   trendsVehicleSiteData = [];
   siteUnloading = [];
+  graphString0 = 'Loading Hours';
+  graphString1 = 'Loading Count';
   constructor(public common: CommonService,
     public api: ApiService,
     public datepipe: DatePipe,
@@ -127,28 +173,34 @@ export class TrendsFoComponent implements OnInit {
 
   ngOnInit() {
   }
- 
+
   foTrendsData() {
     this.Details = [];
     this.dateDay = [];
-    this.count=null;
+    this.count = null;
     let params;
     if (this.period == '1') {
-      this.xScale = 'Days'
+      // this.xScale = 'Days'
+      this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Days of';
+
       params = {
-        startDate: this.common.dateFormatter(this.startDate),
-        endDate: this.common.dateFormatter(this.endDate),
+        startDate: this.common.dateFormatter1(this.startDate),
+        endDate: this.common.dateFormatter1(this.endDate),
         purpose: this.period,
         value: this.weekMonthNumber,
       }
     } else if (this.period == '2') {
-      this.xScale = 'Weeks of'
+      //this.xScale = 'Weeks of'
+      this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Weeks of';
+
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
       }
     } else {
-      this.xScale = 'Months of'
+      //this.xScale = 'Months of'
+      this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Month of';
+
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
@@ -160,28 +212,26 @@ export class TrendsFoComponent implements OnInit {
     this.api.post('Trends/getTrendsWrtFo', params)
       .subscribe(res => {
         this.common.loading--;
-        this.Details = res['data'].result ;
-        this.count = res['data'].veh_count ;
-
-        
+        this.Details = res['data'].result || [];
+        this.count = res['data'].veh_count;
         console.log("detail-----------------------------------", this.Details)
         this.Details.forEach((element) => {
           this.dateDay.push(this.datepipe.transform(element.date_day, 'dd-MMM'));
         });
         this.getCategoryDayMonthWeekWise();
 
-      });
-    err => {
-      this.common.loading--;
-      this.common.showError();
-    }
+      },
+        err => {
+          this.common.loading--;
+          this.common.showError();
+        });
   }
 
 
   getweeklyMothlyTrend() {
     this.dateDay = [];
     this.Details = [];
-    this.count=null;
+    this.count = null;
     let params = {
       purpose: this.period,
       value: this.weekMonthNumber
@@ -191,79 +241,66 @@ export class TrendsFoComponent implements OnInit {
     this.api.post('Trends/getTrendsWrtFo', params)
       .subscribe(res => {
         this.common.loading--;
-        this.Details = res['data'].result 
-        this.count= res['data'].veh_count ;
+        this.Details = res['data'].result || []
+        this.count = res['data'].veh_count;
         console.log("detail-----------------------------------", this.Details)
         this.Details.forEach((element) => {
           this.dateDay.push(this.datepipe.transform(element.date_day, 'dd-MMM'));
         });
         this.getCategoryDayMonthWeekWise();
-      });
-    err => {
-      this.common.loading--;
-      this.common.showError();
-    }
+      },
+        err => {
+          this.common.loading--;
+          this.common.showError();
+        });
   }
 
-  getCategoryDayMonthWeekWise() {
-    if (this.trendType == '31') {
-      this.showPeriod = false;
-    } else {
-      this.showPeriod = true;
+  getCategoryDayMonthWeekWise(type?) {
+    this.chartObject.data = null;
+    this.chartObject1.data = null;
+
+    this.chartObject.options.scales.yAxes[0].scaleLabel.labelString = '';
+    this.chartObject.options.scales.yAxes[1].scaleLabel.labelString = '';
+    this.chartObject1.options.scales.yAxes[0].scaleLabel.labelString = '';
+    if (type) {
+      this.trendType = type;
     }
-    console.log("detail-----------------------------------", this.Details)
 
     this.Hours = [];
     this.halt = [];
-    
-    this.scale = this.trendType == '0' ||  this.trendType == '31' ? '':'dual';  
-console.log("sclllllllllllll",this.scale)
+    this.scale = this.trendType == '0' || this.trendType == '31' ? '' : 'dual';
     this.Details.forEach((element) => {
       if (this.trendType == "11") {
+        this.chartObject.options.scales.yAxes[0].scaleLabel.labelString = 'Loading Hours';
+        this.chartObject.options.scales.yAxes[1].scaleLabel.labelString = 'Loading Count';
         this.Hours.push(element.loading_hrs / element.loading_count);
-        this.halt.push(element.loading_count)
+        this.halt.push(element.loading_count).toFixed(2);
         this.bgColor = '#00695C';
-        this.yScale = 'Loading Hours';
-        this.yScale1 = 'Loading Count'
-        console.log('Hours: ', this.Hours);
-
       } else if (this.trendType == "21") {
+        this.chartObject.options.scales.yAxes[0].scaleLabel.labelString = 'Unloading Hours';
+        this.chartObject.options.scales.yAxes[1].scaleLabel.labelString = 'Unloading Count';
         this.Hours.push(element.unloading_hrs / element.unloading_count);
-        this.halt.push(element.unloading_count)
+        this.halt.push(element.unloading_count);
         this.bgColor = '#E91E63';
-        this.yScale = 'UnLoading Hours';
-        this.yScale1 = 'UnLoading Count'
-
 
       } else if (this.trendType == "0") {
-        this.Hours.push(element.onward / this.count)
-        this.halt.push();
+        this.chartObject1.options.scales.yAxes[0].scaleLabel.labelString = 'Onward Percentage';
 
-        console.log("elementttt", element.onward)
-        console.log("elementttt", this.Hours)
-
+        let hrs = typeof element.onward == 'number' ? element.onward : parseInt(element.onward);
+        this.Hours.push(hrs);
         this.bgColor = '#4CAF50';
-        this.yScale = 'OnWard Average';
       }
       else if (this.trendType == "31") {
-        this.Hours.push(element.Onward_kmpd / this.count)
-        this.halt.push();
-        console.log("elementttttttttttttttttttttttttt",this.Details)
-
-        console.log("elementttttttttttttttttttttttttt", element.Onward_kmpd)
-        console.log("elementttt1111111111111111", this.Hours)
-
+        this.chartObject1.options.scales.yAxes[0].scaleLabel.labelString = 'Onward',
+          this.Hours.push(element.Onward_kmpd / this.count)
         this.bgColor = '#4CAF50';
-        this.yScale = 'OnWard';
       }
     });
-    this.showChart(this.scale);
-  }
-
-  showChart(scale) {
-    console.log("scaaaaaaaaaaaaaall",scale)
-
-    this.setDataset(scale);
+    setTimeout(() => {
+      console.log(JSON.stringify(this.chartObject1.data));
+      console.log('__________TT__________');
+      this.setDataset(this.scale);
+    }, 1000);
   }
 
   getTrendsVehicle() {
@@ -271,21 +308,24 @@ console.log("sclllllllllllll",this.scale)
     this.dateDay = [];
     let params;
     if (this.period == '1') {
-      this.xScale = 'Days'
+      this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Days of';
+
       params = {
-        startDate: this.common.dateFormatter(this.startDate),
-        endDate: this.common.dateFormatter(this.endDate),
+        startDate: this.common.dateFormatter1(this.startDate),
+        endDate: this.common.dateFormatter1(this.endDate),
         purpose: this.period,
         value: this.weekMonthNumber,
       }
     } else if (this.period == '2') {
-      this.xScale = 'Weeks of'
+      this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Weeks of';
+
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
       }
     } else {
-      this.xScale = 'Months of '
+      this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Month  of';
+
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
@@ -299,6 +339,12 @@ console.log("sclllllllllllll",this.scale)
       this.common.loading--;
 
       this.trendsVehicleData = res['data'] || [];
+      this.trendsVehicleData.map(data => {
+        console.log("dataaaaaaaaaaaaaaaaaa", data)
+        data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
+        data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
+
+      });
     },
       err => {
         this.common.showError();
@@ -312,21 +358,27 @@ console.log("sclllllllllllll",this.scale)
     this.trendsVehicleSiteData = []
     let params;
     if (this.period == '1') {
-      this.xScale = 'Days'
+      //this.xScale = 'Days of'
+      this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Days of';
+
       params = {
-        startDate: this.common.dateFormatter(this.startDate),
-        endDate: this.common.dateFormatter(this.endDate),
+        startDate: this.common.dateFormatter1(this.startDate),
+        endDate: this.common.dateFormatter1(this.endDate),
         purpose: this.period,
         value: this.weekMonthNumber,
       }
     } else if (this.period == '2') {
-      this.xScale = 'Weeks'
+      // this.xScale = 'Weeks of'
+      this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Weeks of';
+
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
       }
     } else {
-      this.xScale = 'Months'
+      // this.xScale = 'Months of'
+      this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Month  of';
+
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
@@ -339,14 +391,20 @@ console.log("sclllllllllllll",this.scale)
     this.api.post("Trends/getTrendsWrtSite", params).subscribe(res => {
       this.common.loading--;
       this.trendsVehicleSiteData = res['data'] || [];
-      this.loadingSite= res['data'].lodingArray
+      this.trendsVehicleSiteData.map(data => {
+        console.log("dataaaaaaaaaaaaaaaaaa", data)
+        data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
+        data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
+
+      });
+      this.loadingSite = res['data'].lodingArray
       this.siteUnloading = [];
       _.sortBy(this.trendsVehicleSiteData, ['unloading_hrs']).reverse().map(keyData => {
         console.log('keydata', keyData);
         this.siteUnloading.push(keyData);
       });
-    
-  },
+
+    },
       err => {
         this.common.showError();
         console.log('Error: ', err);
@@ -369,40 +427,40 @@ console.log("sclllllllllllll",this.scale)
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
   }
 
-  getPendingStatus(dataTrend){
+  getPendingStatus(dataTrend) {
     let datas = [];
-    let data=[];
-    let result=[];
+    let data = [];
+    let result = [];
     if (this.trendType == '11') {
 
-    datas=dataTrend.lodingArray;
-    Object.keys(datas).map(key=>{
-      let temp=[];
-      console.log("key",key);
-      temp.push(key,datas[key]);
-       result.push(temp);
-    });
-  }
-  else if (this.trendType == '21') {
-    console.log("result",result);
-    datas=dataTrend.unloadingArray;
-    Object.keys(datas).map(key=>{
-      let temp=[];
-      console.log("key",key);
-      temp.push(key,datas[key]);
-       result.push(temp);
-    });
-  }
-    data=result;
+      datas = dataTrend.lodingArray;
+      Object.keys(datas).map(key => {
+        let temp = [];
+        console.log("key", key);
+        temp.push(key, datas[key]);
+        result.push(temp);
+      });
+    }
+    else if (this.trendType == '21') {
+      console.log("result", result);
+      datas = dataTrend.unloadingArray;
+      Object.keys(datas).map(key => {
+        let temp = [];
+        console.log("key", key);
+        temp.push(key, datas[key]);
+        result.push(temp);
+      });
+    }
+    data = result;
 
-console.log(data);
-   this.common.params = { title: 'SiteWise Vehicle List:',  headings: ["Vehicle_RegNo.", "Count Event"], data };
-   this.modalService.open(ViewListComponent, { size: 'sm', container: 'nb-layout' });
-  
- }
+    console.log(data);
+    this.common.params = { title: 'SiteWise Vehicle List:', headings: ["Vehicle_RegNo.", "Count Event"], data };
+    this.modalService.open(ViewListComponent, { size: 'sm', container: 'nb-layout' });
+
+  }
+
   setDataset(scale) {
-    console.log("scaaaaaaaaaaaaaaeeeeeeeeeell",scale)
-
+    console.log('_________________________', this.Hours);
     if (scale === 'dual') {
       console.log("if")
       this.chartObject.data = {
@@ -411,10 +469,10 @@ console.log(data);
           {
             type: 'line',
             label: 'Average Count',
-            borderColor: 'blue',
-            backgroundColor: 'blue',
+            borderColor: '#0a7070',
+            backgroundColor: '#0a7070',
             fill: false,
-            data: this.Hours,
+            data: this.Hours.map(hrs => { return hrs.toFixed(2) }),
             pointHoverRadius: 8,
             pointHoverBackgroundColor: '#FFEB3B',
             yAxisID: 'y-axis-1',
@@ -423,8 +481,8 @@ console.log(data);
           {
             type: 'bar',
             label: 'Count',
-            borderColor: 'pink',
-            backgroundColor: 'pink',
+            borderColor: '#c7eded',
+            backgroundColor: '#c7eded',
             pointHoverRadius: 8,
             pointHoverBackgroundColor: '#FFEB3B',
             fill: false,
@@ -433,9 +491,7 @@ console.log(data);
           }
         ]
       };
-    }
-    else {
-      console.log("else")
+    } else {
       this.chartObject1.data = {
         labels: this.dateDay,
         datasets: [
@@ -445,7 +501,7 @@ console.log(data);
             borderColor: 'blue',
             backgroundColor: 'blue',
             fill: false,
-            data: this.Hours,
+            data: this.Hours.map(hrs => { return hrs.toFixed(2) }),
             pointHoverRadius: 8,
             pointHoverBackgroundColor: '#FFEB3B',
             yAxisID: 'y-axis-1',
@@ -453,8 +509,9 @@ console.log(data);
           }
         ]
       };
+      console.log("dataset", this.chartObject1.data);
+      console.log("dataset", this.chartObject1.data.datasets);
     }
-    console.log("dataset", this.chartObject1.data);
   }
 
 }

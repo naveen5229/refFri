@@ -3,7 +3,7 @@
         <div class="model-body">
             <div class="row">
                 <div class="col-sm-3">
-                    <select [(ngModel)]="trendType" class="form-control" (change)="getCategoryDayMonthWeekWise()" style=" border: 1px solid #324148; font-size: 10px">
+                    <select [(ngModel)]="trendType" class="form-control" (change)="getCategoryDayMonthWeekWise(trendType)" style=" border: 1px solid #324148; font-size: 10px">
                         <option value="11">Loading</option>
                         <option value="21">Unloading</option>
                         <option value="0">Onward</option>
@@ -57,23 +57,24 @@
                 </div>
             </div>
             <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
-            <div class="row">
-                <div class="col  text-right" style="padding-top:2px">
-                    <label>Vehicle Count:{{count}}</label>
-                </div>
-            </div>
-            <div class="row" style="margin-top: -63px;">
-                <div class="col-sm-1 pr-0 text-right" style="padding-top:30px ">
+
+            <div class="row" style="margin-top: -23px;">
+                <!-- <div class="col-sm-1 pr-0 text-right" style="padding-top:30px ">
                     <label style="font-size:16px;writing-mode: tb-rl;
                     text-orientation: initial;margin-top:40px;transform: rotate(179deg);">{{yScale}}</label>
-                </div>
+                </div> -->
 
-                <div class="col-sm-10" *ngIf="dateDay.length">
+                <div class="col-sm-12" *ngIf="dateDay.length>0">
                     <chart *ngIf="trendType!='0' && trendType!='31'" [type]="chartObject.type" [data]="chartObject.data" style="margin-right:5px;height:250px" [options]="chartObject.options"></chart>
-                    <chart *ngIf="trendType=='0' || trendType=='31'" [type]="chartObject1.type" [data]="chartObject1.data" style="margin-right:5px;height:250px" [options]="chartObject1.options"></chart>
+                    <chart *ngIf="this.chartObject1.data.datasets && trendType=='0' || trendType=='31'" [type]="chartObject1.type" [data]="chartObject1.data" style="margin-right:5px;height:250px" [options]="chartObject1.options"></chart>
                 </div>
-                <div class=" col-sm-1 pr-0 text-left" style="padding-top:30px" *ngIf="trendType=='11' || trendType=='21'">
+                <!-- <div class=" col-sm-1 pr-0 text-left" style="padding-top:30px" *ngIf="trendType=='11' || trendType=='21'">
                     <label style="font-size:16px;writing-mode: tb-rl; text-orientation: initial;margin-top:40px; transform: rotate(179deg);">{{yScale1}}</label>
+                </div> -->
+            </div>
+            <div class="row" style="margin-top: -18px;">
+                <div class="col  text-right">
+                    <label>Vehicle Count:{{count}}</label>
                 </div>
             </div>
             <div class="row ">
@@ -87,9 +88,9 @@
                     <table class="table table-border ">
                         <thead class="thead">
                             <tr>
-                                <th style="width:270px">Regno</th>
-                                <th style="width:230px">Onward</th>
-                                <th style="width:230px">Halt Count</th>
+                                <th>Regno</th>
+                                <th>Onward</th>
+                                <th>Halt Count</th>
                                 <th>Total Halt(Hr)</th>
                             </tr>
                         </thead>
@@ -111,8 +112,8 @@
                         <thead class="thead ">
                             <tr>
                                 <th>Site Name</th>
-                                <th *ngIf="trendType=='11' ">Loading Hours(Hr)</th>
-                                <th *ngIf="trendType=='21'">Unloading Hours(Hr)</th>
+                                <th *ngIf="trendType=='11' ">Average loading Hours(Hr)</th>
+                                <th *ngIf="trendType=='21'">Average Unloading Hours(Hr)</th>
                                 <th *ngIf="trendType=='11' ">Loading Count </th>
                                 <th *ngIf="trendType=='21'">UnLoading Count</th>
 
@@ -139,8 +140,8 @@
                         <thead class="thead ">
                             <tr>
                                 <th *ngIf="trendType=='11'|| trendType=='21'">Regno</th>
-                                <th *ngIf="trendType=='11'">Loading Hours(Hr)</th>
-                                <th *ngIf="trendType=='21' ">Unloading Hours(Hr) </th>
+                                <th *ngIf="trendType=='11'">Average Loading Hours(Hr)</th>
+                                <th *ngIf="trendType=='21' ">Average Unloading Hours(Hr) </th>
                                 <th *ngIf="trendType=='11'">Loading Count </th>
                                 <th *ngIf="trendType=='21' ">UnLoading Count</th>
                             </tr>
