@@ -198,7 +198,6 @@ export class AddFuelIndentComponent implements OnInit {
   }
 
   saveFuelIndent() {
-    console.log("hi  bro i am calling funcction");
     if (this.fuelIndentData.issueDate == null && this.fuelIndentData.expiryDate == null) {
       this.common.showToast("Select Date");
     }
