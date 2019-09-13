@@ -30,6 +30,7 @@ export class RoutesTimetableComponent implements OnInit {
 
   ngOnInit() {
   }
+
   getRoutes() {
     let params = {
       vehicleId: this.vehId,
@@ -43,11 +44,45 @@ export class RoutesTimetableComponent implements OnInit {
         this.common.loading--;
         console.log('getRoutesWrtFo:', res);
         this.routesDetails = res['data'];
+        this.statusFinder();
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
+
+  statusFinder() {
+    this.routesDetails.map((route, index) => {
+      if(route.delay){
+        if(route.delay.toString()>"00:00"){
+          route['status']='0';
+        }
+        else if(route.delay.toString()=="00:00"){
+          route['status']='1';
+        }       
+      }else{
+        route['status']='2'
+      }  
+      if(index==0){
+        route['status']='1';
+      }
+     
+      
+      // if (index == 0) {
+      //   route.class = 'completed';
+        
+      // } else if (index == 1) {
+      //   route.class = 'delayed';
+        
+      // } else if (index == 2) {
+      //   route.class = 'running';
+      // } else {
+      //   route.class = "upcoming";
+      // }
+    });
+    console.log("class",this.routesDetails);
+  }
+
   closeModal() {
     this.activeModal.close();
   }
