@@ -522,21 +522,21 @@ export class TrendsFoComponent implements OnInit {
         ]
       };
     } else {
-      let getMinY1 = Infinity;
-      let getMaxY1 = 0;
-      let pad = 10;
-      let steps = 5;
-      this.Hours.forEach(element => {
-        getMinY1 = Math.min(element, getMinY1);
-        getMaxY1 = Math.max(element, getMaxY1);
-      });
-      getMinY1 = getMinY1 - pad <= 0 ? 0 : getMinY1 - pad;
-      getMaxY1 += pad;
-      this.chartObject1.options.scales.yAxes[0]['ticks'] = {
-        min: getMinY1,
-        max: getMaxY1,
-        stepSize: (getMaxY1 - getMinY1) / steps,
-      };
+      // let getMinY1 = Infinity;
+      // let getMaxY1 = 0;
+      // let pad = 10;
+      // let steps = 5;
+      // this.Hours.forEach(element => {
+      //   getMinY1 = Math.min(element, getMinY1);
+      //   getMaxY1 = Math.max(element, getMaxY1);
+      // });
+      // getMinY1 = getMinY1 - pad <= 0 ? 0 : getMinY1 - pad;
+      // getMaxY1 += pad;
+      // this.chartObject1.options.scales.yAxes[0]['ticks'] = {
+      //   min: getMinY1,
+      //   max: getMaxY1,
+      //   stepSize: (getMaxY1 - getMinY1) / steps,
+      // };
       this.chartObject1.data = {
         labels: this.dateDay,
         datasets: [
