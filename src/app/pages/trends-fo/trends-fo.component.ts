@@ -22,26 +22,8 @@ export class TrendsFoComponent implements OnInit {
 
   endDate = new Date();
   startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 6));
-  // chartObject = {
-  //   type: 'bar',
-  //   data: {
-  //     labels: [],
-  //     datasets: []
-  //   },
-  //   yaxisname: "Average Count",
-  //   options: this.setChartOptions(true),
-  // };
   loadingSite = []
   vehicleCount = 0;
-  // chartObject1 = {
-  //   type: 'line',
-  //   data: {
-  //     labels: [],
-  //     datasets: []
-  //   },
-  //   yaxisname: "Average Count",
-  //   options: this.setChartOptions(false),
-  // };
 
   yScale = '';
   yScale1 = '';
@@ -132,21 +114,9 @@ export class TrendsFoComponent implements OnInit {
       31: ['Onward', ''],
     };
 
-    let bgColors = {
-      0: '#4CAF50',
-      11: '#00695C',
-      21: '#E91E63',
-      31: '#4CAF50'
-    };
-
     let yAxesLabel0 = yAxesLabels[this.trendType][0];
     let yAxesLabel1 = yAxesLabels[this.trendType][1];
     let xAxesLabel = this.xAxesLabels[this.period];
-
-
-    // this.chartObject.options.scales.yAxes[0].scaleLabel.labelString = yAxesLabels[this.trendType][0];
-    // this.chartObject.options.scales.yAxes[1].scaleLabel.labelString = yAxesLabels[this.trendType][1];
-    // this.chartObject1.options.scales.yAxes[0].scaleLabel.labelString = yAxesLabels[this.trendType][0];
 
     this.trends.forEach((trend) => {
       if (this.trendType == "11" || this.trendType == "21") {
@@ -159,14 +129,11 @@ export class TrendsFoComponent implements OnInit {
         this.chart.data.line.push(trend.Onward_kmpd / this.vehicleCount)
       }
     });
-    this.chart.type = '';
-    setTimeout(() => {
-      this.setDataset((this.trendType == '11' || this.trendType == '21') ? true : false, yAxesLabel0, xAxesLabel, yAxesLabel1);
-    }, 1000);
+
+    this.setDataset((this.trendType == '11' || this.trendType == '21') ? true : false, yAxesLabel0, xAxesLabel, yAxesLabel1);
   }
 
   setDataset(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?) {
-    console.log('Chart Data:', this.chart);
     let data = {
       labels: this.dateDay,
       datasets: []
@@ -183,37 +150,32 @@ export class TrendsFoComponent implements OnInit {
       pointHoverBackgroundColor: '#FFEB3B',
       yAxisID: 'y-axis-1',
       yAxisName: 'Count',
-    })
+    });
 
-    // if (isDualChart) {
-    //   data.datasets.push({
-    //     type: 'bar',
-    //     label: 'Count',
-    //     borderColor: '#c7eded',
-    //     backgroundColor: '#c7eded',
-    //     pointHoverRadius: 8,
-    //     pointHoverBackgroundColor: '#FFEB3B',
-    //     fill: false,
-    //     data: this.chart.data.bar,
-    //     yAxisID: 'y-axis-2'
-    //   })
-    // };
-
-    // if (isDualChart) this.chartObject.data = data;
-    // else this.chartObject1.data = data;
+    if (isDualChart) {
+      data.datasets.push({
+        type: 'bar',
+        label: 'Count',
+        borderColor: '#c7eded',
+        backgroundColor: '#c7eded',
+        pointHoverRadius: 8,
+        pointHoverBackgroundColor: '#FFEB3B',
+        fill: false,
+        data: this.chart.data.bar,
+        yAxisID: 'y-axis-2'
+      })
+    };
 
     this.chart = {
       data: {
         line: [],
         bar: []
       },
-      type: isDualChart ? 'line' : 'line',
+      type: isDualChart ? 'bar' : 'line',
       dataSet: data,
       yaxisname: "Average Count",
       options: this.setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1)
-    }
-    console.log('______________----:', this.chart);
-
+    };
   }
 
   setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?) {
@@ -221,14 +183,10 @@ export class TrendsFoComponent implements OnInit {
       responsive: true,
       hoverMode: 'index',
       stacked: false,
-      // legend: isDualChart ? {
-      //   position: 'bottom',
-      //   display: true,
-      // } : { position: 'bottom' },
-      legend: {
+      legend: isDualChart ? {
         position: 'bottom',
         display: true,
-      },
+      } : { position: 'bottom' },
       maintainAspectRatio: false,
       title: {
         display: true,
@@ -264,52 +222,24 @@ export class TrendsFoComponent implements OnInit {
 
     });
 
-    // if (isDualChart) {
-    //   options.scales.yAxes.push({
-    //     scaleLabel: {
-    //       display: true,
-    //       labelString: yAxesLabel1,
-    //       fontSize: 17
-    //     },
-    //     type: 'linear',
-    //     display: true,
-    //     position: 'right',
-    //     id: 'y-axis-2',
-    //     gridLines: {
-    //       drawOnChartArea: false,
-    //     },
-    //   });
-    // }
+    if (isDualChart) {
+      options.scales.yAxes.push({
+        scaleLabel: {
+          display: true,
+          labelString: yAxesLabel1,
+          fontSize: 17
+        },
+        type: 'linear',
+        display: true,
+        position: 'right',
+        id: 'y-axis-2',
+        gridLines: {
+          drawOnChartArea: false,
+        },
+      });
+    };
     return options;
 
-  }
-
-
-  getweeklyMothlyTrend() {
-    this.dateDay = [];
-    this.trends = [];
-    this.vehicleCount = null;
-    let params = {
-      purpose: this.period,
-      value: this.weekMonthNumber
-    };
-    console.log('params: ', params);
-    this.common.loading++;
-    this.api.post('Trends/getTrendsWrtFo', params)
-      .subscribe(res => {
-        this.common.loading--;
-        this.trends = res['data'].result || []
-        this.vehicleCount = res['data'].veh_count;
-        console.log("detail-----------------------------------", this.trends)
-        this.trends.forEach((trend) => {
-          this.dateDay.push(this.datepipe.transform(trend.date_day, 'dd-MMM'));
-        });
-        this.getCategoryDayMonthWeekWise();
-      },
-        err => {
-          this.common.loading--;
-          this.common.showError();
-        });
   }
 
   getTrendsVehicle() {
@@ -317,8 +247,6 @@ export class TrendsFoComponent implements OnInit {
     this.dateDay = [];
     let params;
     if (this.period == '1') {
-      // this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Days of';
-
       params = {
         startDate: this.common.dateFormatter1(this.startDate),
         endDate: this.common.dateFormatter1(this.endDate),
@@ -326,15 +254,11 @@ export class TrendsFoComponent implements OnInit {
         value: this.weekMonthNumber,
       }
     } else if (this.period == '2') {
-      // this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Weeks of';
-
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
       }
     } else {
-      // this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Month  of';
-
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
@@ -414,6 +338,33 @@ export class TrendsFoComponent implements OnInit {
       this.common.showError();
       console.log('Error: ', err);
     });
+  }
+
+  getweeklyMothlyTrend() {
+    this.dateDay = [];
+    this.trends = [];
+    this.vehicleCount = null;
+    let params = {
+      purpose: this.period,
+      value: this.weekMonthNumber
+    };
+    console.log('params: ', params);
+    this.common.loading++;
+    this.api.post('Trends/getTrendsWrtFo', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.trends = res['data'].result || []
+        this.vehicleCount = res['data'].veh_count;
+        console.log("detail-----------------------------------", this.trends)
+        this.trends.forEach((trend) => {
+          this.dateDay.push(this.datepipe.transform(trend.date_day, 'dd-MMM'));
+        });
+        this.getCategoryDayMonthWeekWise();
+      },
+        err => {
+          this.common.loading--;
+          this.common.showError();
+        });
   }
 
   locationOnMap(latlng) {
