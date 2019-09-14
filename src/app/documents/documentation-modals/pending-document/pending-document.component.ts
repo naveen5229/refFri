@@ -50,7 +50,7 @@ export class PendingDocumentComponent implements OnInit {
     wef_date: null,
     img_url2: null,
     img_url3: null,
-    verify : null,
+    verify: null,
   };
 
 
@@ -64,8 +64,6 @@ export class PendingDocumentComponent implements OnInit {
     this.btn1 = this.common.params.btn1 || 'Update';
     this.btn2 = this.common.params.btn2 || 'Discard Image';
 
-    console.log("user identifation: ", this.user._customer);
-
     if (!this.common.params.canUpdate) {
       this.canUpdate = 0;
       this.canreadonly = true;
@@ -73,7 +71,6 @@ export class PendingDocumentComponent implements OnInit {
 
 
     this.document = this.common.params.rowData;
-    console.log("pending data:", this.common.params.rowData);
     if (this.document.issue_date)
       this.document.issue_date = this.common.dateFormatter(this.document.issue_date, 'ddMMMYYYY').split(' ')[0];
     if (this.document.wef_date)
@@ -81,14 +78,9 @@ export class PendingDocumentComponent implements OnInit {
     if (this.document.expiry_date)
       this.document.expiry_date = this.common.dateFormatter(this.document.expiry_date, 'ddMMMYYYY').split(' ')[0];
 
-    console.log("doc params rcvd");
-    console.log(this.document);
-    console.log("typid:" + this.document.document_type_id);
     this.vehicleId = this.document.vehicle_id;
-    console.log("vehicleid:" + this.vehicleId + "=>" + this.document.vehicle_id);
     this.agentId = this.document.agent_id;
     this.getDocumentsData();
-    // this.getDocumentPending();
 
     this.imgs = [];
     if (this.document.img_url != "undefined" && this.document.img_url) {
@@ -101,10 +93,9 @@ export class PendingDocumentComponent implements OnInit {
       this.imgs.push(this.document.img_url3);
     }
     this.images = this.imgs;
-    console.log("images:");
-    console.log(this.imgs);
 
   }
+
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
@@ -118,11 +109,9 @@ export class PendingDocumentComponent implements OnInit {
       x_document_id: this.document.id,
     }
     this.common.loading++;
-    let response;
     this.api.post('Vehicles/getPendingDocDetail', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log("pending detalis:", res);
         this.document.img_url = res["data"][0].img_url;
         this.document.img_url2 = res["data"][0].img_url2;
         this.document.img_url3 = res["data"][0].img_url3;
@@ -136,7 +125,6 @@ export class PendingDocumentComponent implements OnInit {
         if (this.document.img_url3 != "undefined" && this.document.img_url3) {
           this.images.push(this.document.img_url3);
         }
-        // console.log("msg:",res["data"][0].errormsg,);   
         if (res["msg"] != "success") {
           alert(res["msg"]);
           this.closeModal(true);
@@ -153,19 +141,13 @@ export class PendingDocumentComponent implements OnInit {
 
   getDocumentsData() {
     this.common.loading++;
-    let response;
     this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
       .subscribe(res => {
         this.common.loading--;
-        console.log("data", res);
         this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
-        // console.log("doctypes:");
-        // console.log(res['data'].document_types_info);
-
         this.document.document_type = this.findDocumentType(this.document.document_type_id);
-        console.log("doctype:" + this.document.document_type);
-        console.log("img_url:" + this.document.img_url);
+
         if (this.document.img_url) {
           if ((this.document.img_url.indexOf('.pdf') > -1) || (this.document.img_url.indexOf('.doc') > -1) || (this.document.img_url.indexOf('.docx') > -1) || (this.document.img_url.indexOf('.xls') > -1) || (this.document.img_url.indexOf('.xlsx') > -1) || (this.document.img_url.indexOf('.csv') > -1)) {
             this.doc_not_img = 1;
@@ -189,15 +171,11 @@ export class PendingDocumentComponent implements OnInit {
           this.common.params = { title: "Doc Image", images: this.images };
         }
 
-        // console.log("doc_not_img:" + this.doc_not_img);
-        console.log("in typid:" + this.document.document_type_id);
         for (var i = 0; i < this.docTypes.length; i++) {
           if (this.docTypes[i].id == this.document.document_type_id) {
             this.document.document_type = this.docTypes[i].document_type;
-            console.log("dt=" + this.document.document_type);
           }
         }
-        console.log("agentid:" + this.agentId);
         this.markAgentSelected(this.agentId);
 
       }, err => {
@@ -207,9 +185,6 @@ export class PendingDocumentComponent implements OnInit {
   }
   markAgentSelected(option_val) {
     var elt = document.getElementById('doc_agent') as HTMLSelectElement;
-
-    console.log("option:" + option_val);
-
   }
 
   validateRegno() {
@@ -232,7 +207,7 @@ export class PendingDocumentComponent implements OnInit {
       if (this.document.expiry_date.indexOf('/') == -1)
         this.document.expiry_date = this.updateDateFormat(this.document.expiry_date);
       if (this.document.issue_date && this.document.expiry_date)
-      
+
         issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
     }
 
@@ -281,7 +256,6 @@ export class PendingDocumentComponent implements OnInit {
     this.api.post('Vehicles/updateVehicleDocumentByCustomer', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log("api result", res);
         alert(res['msg']);
         this.closeModal(true);
       }, err => {
@@ -309,13 +283,6 @@ export class PendingDocumentComponent implements OnInit {
         x_advreview: status
       };
 
-      // if(params.x_advreview==0){
-      //   if (!document.vehicle_id ) {
-      //     this.common.showError("Please enter Vehicle No.");
-      //     return false;
-      //   }
-      // }
-      
       if (!this.document.document_type_id) {
         this.common.showError("Please enter Document Type");
         return false;
@@ -391,13 +358,10 @@ export class PendingDocumentComponent implements OnInit {
 
       this.common.loading++;
       let response;
-      // console.log("param :",params);
-      // return;
 
       this.api.post('Vehicles/updateVehicleDocumentByAdmin', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log("api result", res);
           let result = (res['msg']);
           if (result == "success") {
             alert("Success");
@@ -406,8 +370,6 @@ export class PendingDocumentComponent implements OnInit {
           else {
             alert(result);
           }
-      
-
 
         }, err => {
           this.common.loading--;
@@ -418,20 +380,18 @@ export class PendingDocumentComponent implements OnInit {
 
     }
   }
+
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
         this.document[date] = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        console.log('Date:', this.document[date]);
       }
     });
   }
 
   setDate(date) {
-    console.log("fetch Date", date);
     this.document[date] = this.common.dateFormatter(this.document.issue_date, 'ddMMYYYY').split(' ')[0];
-    console.log('Date:', this.document[date]);
   }
 
   checkExpiryDateValidityByValue(flddate, expdate) {
@@ -439,7 +399,6 @@ export class PendingDocumentComponent implements OnInit {
     let strdt2 = expdate.split("/").reverse().join("-");
     flddate = this.common.dateFormatter(strdt1).split(' ')[0];
     expdate = this.common.dateFormatter(strdt2).split(' ')[0];
-    console.log("comparing " + flddate + "-" + expdate);
     let d1 = new Date(flddate);
     let d2 = new Date(expdate);
     if (isNaN(d1.getTime()) || isNaN(d2.getTime())) {
@@ -458,22 +417,14 @@ export class PendingDocumentComponent implements OnInit {
     const activeModal = this.modalService.open(AddAgentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(agtdata => {
       if (agtdata.response) {
-        console.log("agtdata:");
-        console.log(agtdata.response);
         this.common.loading++;
         this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
           .subscribe(res => {
             this.common.loading--;
-            console.log("data", res);
             this.agents = res['data'].document_agents_info;
-            console.log("agents:");
-            console.log(this.agents);
             if (this.agents.length) {
-              console.log("list");
-              console.log(this.agents);
               this.document.agent_id = this.agents[this.agents.length - 1].id;
               this.document.agent = this.agents[this.agents.length - 1].name;
-              console.log(this.document.agent_id + "->" + this.document.agent + " added");
             }
 
           }, err => {
@@ -486,36 +437,24 @@ export class PendingDocumentComponent implements OnInit {
   }
 
   findDocumentType(id) {
-    console.log(this.docTypes);
-    console.log("idpassed:" + id);
+
     for (var i = 0; i < this.docTypes.length; i++) {
-      console.log("val:" + this.docTypes[i]);
       if (this.docTypes[i].id == id) {
         return this.docTypes[i].document_type;
       }
     }
 
   }
-  
+
   selectDocType(docType) {
     this.document.document_type_id = docType.id;
-    console.log('Doc id: ', docType.id);
-    console.log("doc var", this.document.document_type_id);
   }
 
 
   getvehicleData(vehicle) {
-    console.log('Vehicle Data: ', vehicle);
     this.document.vehicle_id = vehicle.id;
   }
 
-  // isValidVehicle(event) {
-  //   let selected_regno = event.target.value;
-  //   if (selected_regno == "") {
-  //     this.document.regno = "";
-  //     this.document.vehicle_id = "";
-  //   }
-  // }
 
   isValidDocument(event) {
     let selected_doctype = event.target.value;
@@ -541,13 +480,11 @@ export class PendingDocumentComponent implements OnInit {
       const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         if (data.response) {
-          console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id,x_deldoc :0 })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 0 })
             .subscribe(res => {
               this.common.loading--;
-              console.log("data", res);
               this.closeModal(true);
               this.common.showToast("Success Delete");
             }, err => {
@@ -559,7 +496,7 @@ export class PendingDocumentComponent implements OnInit {
       })
     }
   }
- 
+
 
 
 }

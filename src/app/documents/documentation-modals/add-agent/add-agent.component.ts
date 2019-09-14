@@ -35,16 +35,14 @@ export class AddAgentComponent implements OnInit {
   ngOnInit() {
     this.agentForm = this.formBuilder.group({
       name: ['', Validators.required],
-      mobileNo: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(10)]],
-      location:[''],
-      email:['',]
+      mobileNo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      location: [''],
+      email: ['',]
     });
     console.log('Agent Form: ', this.agentForm);
   }
   // convenience getter for easy access to form fields
   get f() { return this.agentForm.controls; }
-
- 
 
   closeModal(response) {
     this.activeModal.close({ response: response });
@@ -57,12 +55,11 @@ export class AddAgentComponent implements OnInit {
       x_location: this.agentForm.controls.location.value,
       x_email: this.agentForm.controls.email.value
     };
-    
+
     this.common.loading++;
     this.api.post('Vehicles/addAgent', params)
       .subscribe(res => {
         this.common.loading--;
-        console.info("api result: ", res);
         this.closeModal(true);
       }, err => {
         this.common.loading--;

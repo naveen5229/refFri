@@ -14,8 +14,8 @@ export class DropDownListComponent implements OnInit {
   btn2 = '';
   reasonName = '';
   rules = [];
-
   data = [];
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -34,7 +34,6 @@ export class DropDownListComponent implements OnInit {
         name: "Intra State Trip Only"
       }
     ];
-    console.log("data:", this.common.params.ignoreData);
     this.data = this.common.params.ignoreData;
   }
 
