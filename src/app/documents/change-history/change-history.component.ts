@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 @Component({
   selector: 'change-history',
@@ -77,6 +76,10 @@ export class ChangeHistoryComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
+        if (this.data == null) {
+          this.data = [];
+          return;
+        }
         let first_rec = this.data[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
@@ -100,11 +103,9 @@ export class ChangeHistoryComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
 

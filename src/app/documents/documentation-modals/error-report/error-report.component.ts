@@ -33,7 +33,6 @@ export class ErrorReportComponent implements OnInit {
     this.btn = this.common.params.btn || 'Close';
     this.errors = this.common.params.errorData;
     this.reason = this.common.params.Reason;
-    console.log("error data", this.errors);
     this.columnSperate();
 
   }
@@ -51,10 +50,9 @@ export class ErrorReportComponent implements OnInit {
         if (key.charAt(0) != "_")
           this.columns.push(key);
       }
-      console.log("columns");
-      console.log(this.columns);
     }
   }
+
   formatTitle(strval) {
     let pos = strval.indexOf('_');
     if (pos > 0) {

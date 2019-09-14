@@ -40,10 +40,8 @@ export class EmpDashboardComponent implements OnInit {
     private activeModal: NgbActiveModal) {
     this.title = this.common.params.title;
     let nDay = new Date();
-    console.log("nday:", nDay);
     this.startDay = this.common.dateFormatter(nDay);
     this.currentDay = this.startDay
-    console.log('currentDay:', this.currentDay, this.startDay);
     this.getEmpDashboard();
   }
 
@@ -65,11 +63,8 @@ export class EmpDashboardComponent implements OnInit {
         console.log(data.date);
         if (date == 'stdate') {
           this.startDay = this.common.dateFormatter(data.date);
-          console.log('stDate:', this.startDay);
-
         } else {
           this.currentDay = this.common.dateFormatter(data.date);
-          console.log('cuDate:', this.currentDay);
         }
       }
     });
@@ -83,6 +78,7 @@ export class EmpDashboardComponent implements OnInit {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
+
   getEmpDashboard() {
     let startDay = new Date(this.startDay);
     let x_start_date = this.common.dateFormatter(new Date(startDay)).split(' ')[0]
@@ -103,20 +99,13 @@ export class EmpDashboardComponent implements OnInit {
           }
         };
         this.data = res['data'];
-        console.log("data:");
-        console.log(this.data);
-
         let first_rec = this.data['summary'][0];
         for (var key in first_rec) {
-
           this.headings.push(key);
           let headerObj = { title: key, placeholder: this.formatTitle(key) };
           this.table.data.headings[key] = headerObj;
-
         }
         this.table.data.columns = this.getTableColumns();
-        console.log("table:");
-        console.log(this.table);
       }, err => {
 
         this.common.loading--;
@@ -131,11 +120,9 @@ export class EmpDashboardComponent implements OnInit {
       for (let j = 0; j < this.headings.length; j++) {
         j
         if ((this.headings[j] == "wrong") && (this.analyticsType == "Halt Wise")) {
-          console.log(this.headings[j], this.analyticsType);
           this.valobj[this.headings[j]] = { value: this.data['summary'][i][this.headings[j]], class: 'black', action: this.getData.bind(this, this.data['summary'][i]) };
         } else {
           this.valobj[this.headings[j]] = { value: this.data['summary'][i][this.headings[j]], class: 'black', action: '' };
-
         }
       }
       columns.push(this.valobj);
@@ -156,7 +143,6 @@ export class EmpDashboardComponent implements OnInit {
       aduserId: details.aduserid,
       haltTypeId: details.halt_type_id
     };
-    console.log('params: ', params);
     this.common.loading++;
     this.api.post('admin/getWrongData', params)
       .subscribe(res => {
@@ -178,14 +164,12 @@ export class EmpDashboardComponent implements OnInit {
       'Site Name': []
     };
     wrongEntries.map((wrongEntry, index) => {
-      data.push([index, wrongEntry.id, wrongEntry.fo_name, wrongEntry.site_name, wrongEntry.halt_type,wrongEntry.wrong_by,wrongEntry.corrected_by, wrongEntry.cleartime]);
+      data.push([index, wrongEntry.id, wrongEntry.fo_name, wrongEntry.site_name, wrongEntry.halt_type, wrongEntry.wrong_by, wrongEntry.corrected_by, wrongEntry.cleartime]);
       actionParams['Site Name'].push(wrongEntry);
     });
-    console.log(data);
     let actions = {
       'Site Name': this.openLocationModal.bind(this)
     };
-
     this.common.params = { title: 'Wrong Entries:', actions, actionParams, headings: ["#", "Halt Id", "Fo Name", "Site Name", "Halt Type", "Wrong BY", "Correct By", "Clear Time"], data };
     this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout' });
   }
@@ -201,7 +185,6 @@ export class EmpDashboardComponent implements OnInit {
       name: "",
       time: ""
     };
-    console.log("Location: ", location);
     this.common.params = { location, title: "Vehicle Location" };
     const activeModal = this.modalService.open(LocationMarkerComponent, {
       size: "lg",
