@@ -65,8 +65,10 @@
                 </div> -->
 
                 <div class="col-sm-12" *ngIf="dateDay.length>0">
-                    <chart *ngIf="trendType!='0' && trendType!='31'" [type]="chartObject.type" [data]="chartObject.data" style="margin-right:5px;height:250px" [options]="chartObject.options"></chart>
-                    <chart *ngIf="this.chartObject1.data.datasets && trendType=='0' || trendType=='31'" [type]="chartObject1.type" [data]="chartObject1.data" style="margin-right:5px;height:250px" [options]="chartObject1.options"></chart>
+                    <chart *ngIf="chartObject.data && trendType!='0' && trendType!='31'" [type]="chartObject.type" [data]="chartObject.data" style="margin-right:5px;height:250px" [options]="chartObject.options"></chart>
+                    <!-- <chart *ngIf="this.chartObject1.data.datasets && trendType=='0' || trendType=='31'" [type]="chartObject1.type" [data]="chartObject1.data" style="margin-right:5px;height:250px" [options]="chartObject1.options"></chart> -->
+                    <chart *ngIf="trendType=='0' || trendType=='31'" [type]="chartObject1.type" [data]="chartObject1.data" style="margin-right:5px;height:250px" [options]="chartObject1.options"></chart>
+
                 </div>
                 <!-- <div class=" col-sm-1 pr-0 text-left" style="padding-top:30px" *ngIf="trendType=='11' || trendType=='21'">
                     <label style="font-size:16px;writing-mode: tb-rl; text-orientation: initial;margin-top:40px; transform: rotate(179deg);">{{yScale1}}</label>

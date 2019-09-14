@@ -257,7 +257,7 @@ export class TrendsFoComponent implements OnInit {
 
   getCategoryDayMonthWeekWise(type?) {
     this.chartObject.data = null;
-    this.chartObject1.data = null;
+    //this.chartObject1.data = null;
 
     this.chartObject.options.scales.yAxes[0].scaleLabel.labelString = '';
     this.chartObject.options.scales.yAxes[1].scaleLabel.labelString = '';
@@ -297,10 +297,10 @@ export class TrendsFoComponent implements OnInit {
       }
     });
     setTimeout(() => {
-      console.log(JSON.stringify(this.chartObject1.data));
+      // console.log(JSON.stringify(this.chartObject1.data));
       console.log('__________TT__________');
       this.setDataset(this.scale);
-    }, 1000);
+    }, 100);
   }
 
   getTrendsVehicle() {
