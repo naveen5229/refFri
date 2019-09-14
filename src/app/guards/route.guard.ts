@@ -16,25 +16,12 @@ export class RouteGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    // console.log('---------------------Route Guards------------------------');
-    // console.log('Next', next);
-    // console.log('State', state);
-    // console.log('-----------------------Route Guards----------------------');
-
     return this.checkRouteAccessPermission(state.url);
   }
 
 
 
   checkRouteAccessPermission(route) {
-    // if (this.common.isComponentActive) {
-    //   console.log("Allow");
-
-    // }
-    // else {
-    //   console.log("Exit From Page");
-
-    // }
     let status = false;
     this.user._pages.map(page => (page.route == route) && (status = true));
     return status;
