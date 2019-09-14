@@ -463,6 +463,36 @@ export class TrendsFoComponent implements OnInit {
     console.log('_________________________', this.Hours);
     if (scale === 'dual') {
       console.log("if")
+      let getMinY1 = Infinity;
+      let getMaxY1 = 0;
+      let pad = 10;
+      let steps = 5;
+      this.Hours.forEach(element => {
+        getMinY1 = Math.min(element, getMinY1);
+        getMaxY1 = Math.max(element, getMaxY1);
+      });
+      getMinY1 = getMinY1 - pad <= 0 ? 0 : getMinY1 - pad;
+      getMaxY1 += pad;
+      this.chartObject.options.scales.yAxes[0]['ticks'] = {
+        min: getMinY1,
+        max: getMaxY1,
+        stepSize: (getMaxY1 - getMinY1) / steps,
+      };
+      let getMinY2 = Infinity;
+      let getMaxY2 = 0;
+      let pad2 = 20;
+      let steps2 = 5;
+      this.halt.forEach(element => {
+        getMinY2 = Math.min(element, getMinY2);
+        getMaxY2 = Math.max(element, getMaxY2);
+      });
+      getMinY2 = getMinY2 - pad2 <= 0 ? 0 : getMinY2 - pad2;
+      getMaxY2 += pad2;
+      this.chartObject.options.scales.yAxes[1]['ticks'] = {
+        min: getMinY2,
+        max: getMaxY2,
+        stepSize: (getMaxY2 - getMinY2) / steps2,
+      };
       this.chartObject.data = {
         labels: this.dateDay,
         datasets: [
@@ -492,6 +522,21 @@ export class TrendsFoComponent implements OnInit {
         ]
       };
     } else {
+      let getMinY1 = Infinity;
+      let getMaxY1 = 0;
+      let pad = 10;
+      let steps = 5;
+      this.Hours.forEach(element => {
+        getMinY1 = Math.min(element, getMinY1);
+        getMaxY1 = Math.max(element, getMaxY1);
+      });
+      getMinY1 = getMinY1 - pad <= 0 ? 0 : getMinY1 - pad;
+      getMaxY1 += pad;
+      this.chartObject1.options.scales.yAxes[0]['ticks'] = {
+        min: getMinY1,
+        max: getMaxY1,
+        stepSize: (getMaxY1 - getMinY1) / steps,
+      };
       this.chartObject1.data = {
         labels: this.dateDay,
         datasets: [
