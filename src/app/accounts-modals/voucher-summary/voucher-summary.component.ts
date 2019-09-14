@@ -1316,8 +1316,9 @@ if(this.tripFreghtDetails){
         },
         footertotal: [
           { name: 'Net Pay to Driver : ', value: this.alltotal -(this.totalAdvance) , size: '20px', weight: 600},
-          { name: ' ', value: '/n ' },
-         
+          { name: ' ', value: ' ' },
+          { name: ' ', value: ' ' },
+          { name: ' ', value: ' ' },
           { name: 'Remarks : ', value: this.narration },
         ]
 
