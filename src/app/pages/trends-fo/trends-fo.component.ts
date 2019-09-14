@@ -256,7 +256,6 @@ export class TrendsFoComponent implements OnInit {
       id: 'y-axis-1',
 
     });
-
     if (isDualChart) {
       options.scales.yAxes.push({
         ticks : tick2,
