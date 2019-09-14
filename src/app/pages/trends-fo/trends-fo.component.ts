@@ -14,7 +14,7 @@ import { ViewListComponent } from '../../modals/view-list/view-list.component';
 })
 export class TrendsFoComponent implements OnInit {
   scale = ''
-  trendType = '0';
+  trendType = '11';
   period = "1";
   weekMonthNumber = "4";
   showPeriod = true;
@@ -134,6 +134,25 @@ export class TrendsFoComponent implements OnInit {
   }
 
   setDataset(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?) {
+      let tick1,tick2;
+      let getMinY1 = Infinity;
+      let getMaxY1 = 0;
+      let pad = 10;
+      let steps = 5;
+      this.chart.data.line.forEach(element => {
+        getMinY1 = Math.min(element, getMinY1);
+        getMaxY1 = Math.max(element, getMaxY1);
+      });
+      
+      getMinY1 = getMinY1 - pad <= 0 ? 0 : getMinY1 - pad;
+      getMaxY1 += pad;
+      
+      tick1 = {
+        min: getMinY1,
+        max: getMaxY1,
+        stepSize: (getMaxY1 - getMinY1) / steps,
+      };
+
     let data = {
       labels: this.dateDay,
       datasets: []
@@ -163,7 +182,22 @@ export class TrendsFoComponent implements OnInit {
         fill: false,
         data: this.chart.data.bar,
         yAxisID: 'y-axis-2'
-      })
+      });
+      let getMinY2 = Infinity;
+      let getMaxY2 = 0;
+      let pad2 = 20;
+      let steps2 = 5;
+      this.chart.data.bar.forEach(element => {
+        getMinY2 = Math.min(element, getMinY2);
+        getMaxY2 = Math.max(element, getMaxY2);
+      });
+      getMinY2 = getMinY2 - pad2 <= 0 ? 0 : getMinY2 - pad2;
+      getMaxY2 += pad2;
+      tick2 = {
+        min: getMinY2,
+        max: getMaxY2,
+        stepSize: (getMaxY2 - getMinY2) / steps2,
+      };
     };
 
     this.chart = {
@@ -174,11 +208,11 @@ export class TrendsFoComponent implements OnInit {
       type: isDualChart ? 'bar' : 'line',
       dataSet: data,
       yaxisname: "Average Count",
-      options: this.setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1)
+      options: this.setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1,tick1,tick2)
     };
   }
 
-  setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?) {
+  setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?,tick1?,tick2?) {
     let options = {
       responsive: true,
       hoverMode: 'index',
@@ -210,6 +244,7 @@ export class TrendsFoComponent implements OnInit {
     }
 
     options.scales.yAxes.push({
+      ticks : tick1,
       scaleLabel: {
         display: true,
         labelString: yAxesLabel0,
@@ -224,6 +259,7 @@ export class TrendsFoComponent implements OnInit {
 
     if (isDualChart) {
       options.scales.yAxes.push({
+        ticks : tick2,
         scaleLabel: {
           display: true,
           labelString: yAxesLabel1,
@@ -408,15 +444,9 @@ export class TrendsFoComponent implements OnInit {
       });
     }
     data = result;
-
     console.log(data);
     this.common.params = { title: 'SiteWise Vehicle List:', headings: ["Vehicle_RegNo.", "Count Event"], data };
     this.modalService.open(ViewListComponent, { size: 'sm', container: 'nb-layout' });
 
   }
-
-
-
-
-
 }
