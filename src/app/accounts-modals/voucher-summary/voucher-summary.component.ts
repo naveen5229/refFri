@@ -11,6 +11,7 @@ import { DateService } from '../../services/date.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-filling.component';
+import { PrintService } from '../../services/print/print.service';
 
 @Component({
   selector: 'voucher-summary',
@@ -18,8 +19,8 @@ import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-fill
   styleUrls: ['./voucher-summary.component.scss']
 })
 export class VoucherSummaryComponent implements OnInit {
-  firstdate='';
-  enddate='';
+  firstdate = '';
+  enddate = '';
   permanentDeleteId = 0;
   sizeIndex = 0;
   isReadonly = false;
@@ -29,8 +30,12 @@ export class VoucherSummaryComponent implements OnInit {
   narration = '';
   tripVoucher;
   typeFlag = 2;
+  totalRevinue=0;
+  totalAdvance=0;
+  totalFuel=0;
   selectedRow = -1;
   trips;
+  vouchertype = -150;
   vehclename = '';
   ledgers = [];
   debitLedgerdata = [];
@@ -42,6 +47,8 @@ export class VoucherSummaryComponent implements OnInit {
   FinanceVoucherId;
   DriverId;
   DriverName;
+  totalTrip = [];
+  tripFreghtDetails = [];
   creditLedger = {
     name: '',
     id: 0
@@ -78,6 +85,7 @@ export class VoucherSummaryComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal,
     public accountService: AccountService,
+    private printService: PrintService,
     private activeModal: NgbActiveModal) {
     console.log('________________PARAMS___________', this.common.params);
     if (this.VoucherId == 0) {
@@ -88,10 +96,10 @@ export class VoucherSummaryComponent implements OnInit {
       this.sizeIndex = this.common.params.sizeIndex;
     }
     if (this.common.params.endDate) {
-      this.firstdate=this.common.params.firstDate;
-      this.enddate=this.common.params.endDate;
+      this.firstdate = this.common.params.firstDate;
+      this.enddate = this.common.params.endDate;
     }
-    
+
     this.permanentDeleteId = (this.common.params.permanentDelete) ? this.common.params.permanentDelete : 0;
     if (this.common.params.typeFlag) { this.typeFlag = this.common.params.typeFlag; }
     this.VehicleId = this.common.params.vehId;
@@ -103,6 +111,7 @@ export class VoucherSummaryComponent implements OnInit {
     console.log('tripPendingDataSelected', this.common.params.tripPendingDataSelected);
 
     if (this.common.params.tripVoucher) {
+      this.vehclename = this.common.params.tripVoucher.y_vehicle_name
       this.tripsEditData = this.common.params.tripDetails;
       this.tripVoucher = this.common.params.tripVoucher;
       this.trips = this.common.params.tripEditData;
@@ -114,7 +123,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.creditLedger.name = this.tripVoucher.y_ledger_name;
       this.narration = this.tripVoucher.y_naration;
       this.date = this.common.dateFormatternew(this.tripVoucher.y_date, "DDMMYYYY", false, '-');
-      this.alltotal = this.tripVoucher.y_amount;
+      this.alltotal = parseFloat(this.tripVoucher.y_amount);
       this.custcode = this.tripVoucher.y_code;
       this.approve = this.common.params.Approved;
       if (this.common.params.tripExpDriver.length > 0) {
@@ -152,6 +161,7 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.params.tripPendingDataSelected
       );
       this.getVoucherDetails(this.tripVoucher.y_id);
+      this.getTripFreght();
       this.tripexpvoucherid = this.tripVoucher.y_id;
       this.VoucherData = this.common.params.VoucherData;
 
@@ -442,11 +452,11 @@ export class VoucherSummaryComponent implements OnInit {
 
   getFuelFillings(lastFilling?, currentFilling?) {
     console.log(this.findFirstSelectInfo(), this.findLastSelectInfo());
-  
+
     const params = {
       vehId: this.VehicleId,
-      lastFilling: this.firstdate  || this.findFirstSelectInfo(),
-      currentFilling: this.enddate || this.findLastSelectInfo()
+      lastFilling: lastFilling || this.findFirstSelectInfo(),
+      currentFilling: currentFilling || this.findLastSelectInfo()
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -475,6 +485,34 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.loading--;
         this.voucherDetails = res['data'];
         this.getHeads();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+
+  getTripFreght() {
+    // console.log('voucher id last ', voucherId)
+    // const params = {
+    //   voucherId: voucherId,
+    // };
+
+    let tripidarray = [];
+    this.checkedTrips.map(tripHead => {
+      tripidarray.push(tripHead.id);
+    });
+    const params = {
+      voucherId: tripidarray
+    };
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/getTripFreghtDetails', params)
+      .subscribe(res => {
+        console.log('trip freght exp', res);
+        this.common.loading--;
+        this.tripFreghtDetails = res['data'];
+        // this.getHeads();
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -528,7 +566,8 @@ export class VoucherSummaryComponent implements OnInit {
             start_time: trip.start_time,
             end_time: trip.end_time,
             start_name: trip.start_name,
-            end_name: trip.end_name
+            end_name: trip.end_name,
+            lr_no: trip.lr_no
           });
         }
       });
@@ -562,6 +601,8 @@ export class VoucherSummaryComponent implements OnInit {
       });
       tripHead.fuelFilings = fuelFilings;
     });
+
+    console.log('trip head last show data', this.tripHeads);
   }
 
   hanldeExpenseVoucher() {
@@ -747,7 +788,7 @@ export class VoucherSummaryComponent implements OnInit {
     this.tripHeads.map(trip => {
       total += parseFloat(trip.total);
     });
-    this.alltotal = total;
+    this.alltotal =  total;
     console.log('VoucherData: ', this.VoucherData);
   }
 
@@ -825,9 +866,9 @@ export class VoucherSummaryComponent implements OnInit {
     const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-       // window.location.reload();
+        // window.location.reload();
       }
-    this.common.handleModalSize('class', 'modal-lg', '1150','px',this.sizeIndex);
+      this.common.handleModalSize('class', 'modal-lg', '1150', 'px', this.sizeIndex);
 
     });
     // let vehId = this.VehicleId;
@@ -924,7 +965,7 @@ export class VoucherSummaryComponent implements OnInit {
     });
   }
 
-  showTransfer(){
+  showTransfer() {
     let tripidarray = [];
     this.checkedTrips.map(tripHead => {
       tripidarray.push(tripHead.id);
@@ -936,18 +977,19 @@ export class VoucherSummaryComponent implements OnInit {
     this.api.post('VehicleTrips/tripTransfer', params)
       // this.api.post('VehicleTrips/getTripExpenceVouher', params)
       .subscribe(res => {
-        this.transferData =[];
-          this.transferHeading=[];
+        this.transferData = [];
+        this.transferHeading = [];
         this.common.loading--;
-        if(res['data']){        this.transferData = res['data'];
-        let first_rec = this.transferData[0];
-        for (var key in first_rec) {
-          //console.log('kys',first_rec[key]);
+        if (res['data']) {
+          this.transferData = res['data'];
+          let first_rec = this.transferData[0];
+          for (var key in first_rec) {
+            //console.log('kys',first_rec[key]);
             this.transferHeading.push(key);
+          }
+        } else {
+          this.transferData = [];
         }
-      }else {
-        this.transferData =[];
-      }
         //this.refreshAddTrip();
       }, err => {
         console.log(err);
@@ -955,8 +997,343 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.showError();
       });
   }
- 
- 
- 
+
+  printTripDetail() {
+    console.log('print functionality');
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data'], 'this.order');
+        // this.Vouchers = res['data'];
+        this.print(this.trips, res['data']);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  print(trip, companydata) {
+
+    let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
+    let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
+    let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
+
+    let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
+    let rows1 = [];
+    let rows2 = [];
+    let rows3 = [];
+    let rows4 = [];
+    let rows5 = [];
+    let rows6 =[];
+    console.log('trip check data', this.trips);
+    this.trips.map((tripDetail, index) => {
+      if (tripDetail.isChecked) {
+        rows1.push([
+          { txt: index + 1 },
+          { txt: tripDetail.start_name + ' -> ' + tripDetail.end_name || '' },
+          { txt: tripDetail.start_time || '' },
+          { txt: tripDetail.end_time || '' },
+          { txt: (tripDetail.is_empty) ? 'Yes' : 'No' || '' },
+          { txt: tripDetail.lr_no || '' },
+          { txt: tripDetail.revenue || '' },
+          { txt: tripDetail.advance || '' },
+        ]);
+        if(tripDetail.revenue){
+        this.totalRevinue += parseFloat(tripDetail.revenue);
+        }
+        if(tripDetail.advance){
+        this.totalAdvance += parseFloat(tripDetail.advance);
+        }
+      }
+    });
+
+    if (this.vouchertype == -150) {
+      this.fuelFilings.map((fuelfill, index) => {
+        rows2.push([
+          { txt: index + 1 },
+          { txt: fuelfill.name || '' },
+          { txt: fuelfill.litres || '' },
+          { txt: fuelfill.rate || '', align: 'left' },
+          { txt: fuelfill.amount || '', align: 'left' },
+          { txt: fuelfill.entry_time || '' },
+        ]);
+        this.totalFuel += parseFloat(fuelfill.amount);
+      });
+    }
+
+    this.tripHeads.map((tripHead, index) => {
+      rows3.push([
+        { txt: index + 1 },
+        { txt: tripHead.name || '' },
+        ...tripHead.trips.map((trip, indexSecond) => {
+          if (trip.amount > 0) {
+            if (this.totalTrip[indexSecond]) {
+              this.totalTrip[indexSecond] = parseFloat(this.totalTrip[indexSecond]) + parseFloat(trip.amount);
+            } else {
+              this.totalTrip[indexSecond] = parseFloat(trip.amount);
+            }
+          }
+          return { txt: trip.amount || '' }
+
+        })
+
+
+      ]);
+
+    });
+    console.log('test total', this.totalTrip);
+    rows3.push([
+      { txt: ' ' },
+      { txt: 'Total - ' + this.alltotal },
+      ...this.totalTrip.map((tTotal) => {
+        return { txt: tTotal || '' }
+      })
+    ]);
+    console.log('rows 3', rows3);
+
+
+    // this.transferData.map((detail, index) => {
+    //     console.log('first data',detail);
+    //   rows4.push([
+    //     ...this.transferHeading.map((headingname) => {
+    //     console.log('second data',headingname);
+    //      return { txt: detail[headingname] || '' }
+    //     })
+    //   ]);
+
+    // });
+if(this.tripFreghtDetails){
+    this.tripFreghtDetails.map((tripHead, index) => {
+      rows5.push([
+        { txt: index + 1 },
+        { txt: tripHead.receipt_no || '' },
+        { txt: tripHead.auto_amount || '' },
+        { txt: this.totalRevinue - (this.alltotal + this.totalFuel) || '' }
+
+
+
+      ]);
+
+    });
+  }
+
+    rows6.push([
+      { txt: this.totalRevinue || '' },
+      { txt: this.totalFuel || '' },
+      { txt: this.alltotal || '' },
+      { txt: this.totalRevinue - (this.alltotal + this.totalFuel) || '' },
+
+
+
+    ]);
+    console.log('rows4', rows4);
+    let invoiceJson = {};
+
+
+    if (this.vouchertype == -151) {
+      invoiceJson = {
+        headers: [
+          { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+          { txt: companydata[0].addressline },
+          { txt: cityaddress },
+          { txt: 'Trip Detail', size: '20px', weight: 600, align: 'left' }
+        ],
+
+        details: [
+          { name: 'Veh No', value: this.vehclename },
+          { name: 'Ref No', value: this.custcode },
+          { name: 'Date', value: this.date },
+          { name: 'Ledger', value: this.creditLedger.name }
+        ],
+        tables: [{
+          headings: [
+            { txt: 'S.No' },
+            { txt: 'Trip' },
+            { txt: 'Start Date' },
+            { txt: 'End Date' },
+            { txt: 'Trip Empty' },
+            { txt: 'LR No.' },
+            { txt: 'Revenue Amount' },
+            { txt: 'Advance' },
+          ],
+          rows: rows1,
+          name: 'Trips Detail'
+        },
+
+        {
+          headings: [
+            { txt: 'S.No' },
+            { txt: 'Head' },
+            ...this.trips.filter(checkname => {
+              console.log('__________________________________________:', checkname);
+              if (checkname.isChecked) return true; return false
+            }).map((checkname, index) => {
+              return { txt: (checkname.lr_no != null && checkname.lr_no)? ('LR No :' + checkname.lr_no) : 'S.No' + index + 1 }
+            })
+          ],
+          rows: rows3,
+          name: 'Trips Expence Detail'
+        },
+          // {
+          //   headings: [
+          //     { txt: 'Advise Type' },
+          //     { txt: 'User Value' },
+          //     { txt: 'Credit To' },
+          //     { txt: 'Debit To' },
+          //     { txt: 'Remarks' },
+          //     { txt: 'Time' },
+          //     { txt: 'Entry By' }
+          //   ],
+          //   rows: rows4,
+          //   name: 'Advance'
+          // },
+          // {
+          //   headings: [
+          //     { txt: 'Reciept No' },
+          //     { txt: 'Revenue' },
+          //     { txt: 'Remarks' }
+          //   ],
+          //   rows: rows5,
+          //   name: 'Revenue'
+          // }
+        ],
+        signatures: ['Accountant', 'Approved By'],
+        footer: {
+          left: { name: 'Powered By', value: 'Elogist Solutions' },
+          center: { name: 'Printed Date', value: '06-July-2019' },
+          right: { name: 'Page No', value: 1 },
+        },
+        footertotal: [
+          { name: 'total', value: this.alltotal },
+          { name: 'Remarks', value: this.narration },
+        ]
+
+
+      };
+    } else {
+      invoiceJson = {
+        headers: [
+          { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+          { txt: companydata[0].addressline },
+          { txt: cityaddress },
+          { txt: 'Trip Detail', size: '20px', weight: 600, align: 'left' }
+        ],
+
+        details: [
+
+          { name: 'Vehicle  No : ', value: this.vehclename },
+          { name: 'Ref No : ', value: this.custcode },
+          { name: 'Date : ', value: this.date },
+          { name: 'Ledger : ', value: this.creditLedger.name }
+        ],
+        tables: [{
+          headings: [
+            { txt: 'S.No' },
+            { txt: 'Trip' },
+            { txt: 'Start Date' },
+            { txt: 'End Date' },
+            { txt: 'Trip Empty' },
+            { txt: 'LR No' },
+            { txt: 'Revenue Amount' },
+            { txt: 'Advance' },
+          ],
+          rows: rows1,
+          name: 'Trip Details'
+
+        },
+        {
+          headings: [
+            { txt: 'S.No' },
+            { txt: 'Station Name' },
+            { txt: 'Quantity' },
+            { txt: 'Rate' },
+            { txt: 'Amount' },
+            { txt: 'Date' },
+          ],
+          rows: rows2,
+          name: 'Trip Fuel Fillings'
+        },
+        {
+          headings: [
+            { txt: 'S.No' },
+            { txt: 'Head' },
+            ...this.trips.filter(checkname => {
+              console.log('__________________________________________:', checkname);
+              if (checkname.isChecked) return true; return false
+            }).map((checkname, index) => {
+              return { txt: (checkname.lr_no != null && checkname.lr_no)? ('LR No : ' + checkname.lr_no) : 'S.No : ' + (index + 1) }
+            })
+          ],
+          rows: rows3,
+          name: 'Trips Expence Detail'
+
+        },
+          // {
+          //   headings: [
+          //     { txt: 'Advise Type' },
+          //     { txt: 'User Value' },
+          //     { txt: 'Credit To' },
+          //     { txt: 'Debit To' },
+          //     { txt: 'Remarks' },
+          //     { txt: 'Time' },
+          //     { txt: 'Entry By' }
+          //   ],
+          //   rows: rows4,
+          //   name: 'Advance'
+          // },
+          // {
+          //   headings: [
+          //     { txt: 'Reciept No' },
+          //     { txt: 'Revenue' },
+          //     { txt: 'Remarks' }
+          //   ],
+          //   rows: rows5,
+          //   name: 'Revenue'
+          // }
+
+           {
+            headings: [
+              { txt: 'Revenue' },
+              { txt: 'Fuel' },
+              { txt: 'Expence' },
+              { txt: 'Net Revenue' },
+            ],
+            rows: rows6,
+            name: 'Revenue'
+          }
+        ],
+        signatures: ['Accountant', 'Approved By'],
+        footer: {
+          left: { name: 'Powered By', value: 'Elogist Solutions' },
+          center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(), 'ddMMYYYY').split(' ')[0] },
+          right: { name: 'Page No', value: 1 },
+        },
+        footertotal: [
+          { name: 'Net Pay to Driver : ', value: this.alltotal -(this.totalAdvance) , size: '20px', weight: 600},
+          { name: ' ', value: ' ' },
+          { name: ' ', value: ' ' },
+          { name: ' ', value: ' ' },
+          { name: 'Remarks : ', value: this.narration },
+        ]
+
+
+      };
+    }
+
+
+
+    console.log('JSON', invoiceJson);
+
+    localStorage.setItem('InvoiceJSO', JSON.stringify(invoiceJson));
+    this.printService.printInvoice(invoiceJson, 2);
+
+  }
+
 
 }

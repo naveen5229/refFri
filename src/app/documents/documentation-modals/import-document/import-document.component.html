@@ -7,33 +7,13 @@
 <div class="modal-body">
   <div class="container">
     <form enctype="multipart/form-data" #myForm="ngForm" name="uploadcsvForm" id="document-form" name="document-form">
-      <!-- <div class="row">
-        <div class="col-md-6">
-          <label>Type</label>
-        </div>
-        <div class="col-md-6">
-          <input type="text" class="form-control document_type" [(ngModel)]="document.type.id" list="document_type_id"
-          id="docid" name="docid">
-        <datalist id="document_type_id">       
-          <option *ngFor="let docType of docTypes;" id="id" name="id" [hidden]="docType.id" class="form-control" >{{docType.document_type}}
-            <input type="hidden" [value]="docType.id" id="id" name="id">
-          </option>
-        </datalist>
-          <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)"
-            url="Vehicles/getAllDocumentTypes" display="document_type" placeholder="Enter doctype" [data]="docTypes"
-            [preSelected]="null" class="documentType"></auto-suggestion>
-          <div class="suggestions ng-star-inserted">
-          </div>
-        </div>
-      </div> -->
       <div class="row">
         <div class="col-md-6">
           <label>Fo User</label>
         </div>
         <div class="col-md-6">
-          <auto-suggestion  (onSelected)="selectFoUser($event)"
-            url="Suggestion/getFoUsersList" display="name" placeholder="Fo User" 
-            [preSelected]="null" ></auto-suggestion>
+          <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
+            placeholder="Fo User" [preSelected]="null"></auto-suggestion>
           <div class="suggestions ng-star-inserted">
           </div>
         </div>
@@ -47,7 +27,6 @@
           <div class="upload-btn-wrapper">
             <input type="file" name="vehicleDocCsv" [(ngModel)]="upload.csv" (change)="handleFileSelection($event)"
               style="margin:4%;">
-
           </div>
         </div>
       </div>
@@ -69,10 +48,7 @@
       <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel"
         style="cursor: pointer;">{{btn2}}</button>
     </div>
-    <!-- <div class="col text-right">
-      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="checkCsv('validate')"
-        id="submit" style="cursor: pointer;">{{btn3}}</button>
-    </div> -->
+
     <div class="col text-right">
       <button class="btn btn-primary" form="document-form" type="submit" outline (click)="uploadCsv()" id="submit"
         style="cursor: pointer;">{{btn1}}</button>

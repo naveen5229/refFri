@@ -1,0 +1,100 @@
+<div class="modal-header">
+  <h5>Mvs Freight Statement</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row mb-3">
+    <div class="col-5">
+      <div class="row">
+        <div class="col-3">
+          <span><b>Branch</b></span>
+        </div>
+        <div class="col-9">
+          <select name="branch" class="form-control" [(ngModel)]="mvsFreight.branchId">
+            <option value="">Select Branch</option>
+            <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="row">
+        <div class="col-3">
+          <span><b>Party</b></span>
+        </div>
+        <div class="col-9">
+          <auto-suggestion *ngIf="showhide.show; else other_content" (onSelected)="getConsignorDetail($event)"
+            url="Suggestion/GetCompanies2?type=All" display="name" placeholder="Search Consignor Name"
+            style="width:100%;" class="auto-suggest" [preSelected]="{name:mvsFreight.companyName}">
+          </auto-suggestion>
+        </div>
+        <ng-template #other_content>
+          <label
+            style="background-color: #e8edef;padding-top:5px;padding-bottom:5px;padding-left:15px;width:100%;border-radius:3px;">{{mvsFreight.companyName}}</label>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-5">
+      <div class="row">
+        <div class="col-3">
+          <span><b> Time</b></span>
+        </div>
+        <div class="col-9 pl-3 pr-2">
+          <uj-date-time-picker (onChanged)="mvsFreight.date = $event" [dateTimeValue]="mvsFreight.date"
+            [isTime]="false">
+          </uj-date-time-picker>
+        </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="row">
+        <div class="col-3">
+          <span><b>Ref. No</b></span>
+        </div>
+        <div class="col-9">
+          <input type="text" id="invoiceno" placeholder="Invoice No." name="invoiceno" class="form-control"
+            [(ngModel)]="mvsFreight.invoiceNo">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="row">
+    <div class="col-5">
+      <div class="row">
+        <div class="col-6">
+          <label>Intra State</label>
+        </div>
+        <div class="col-6">
+          <input type="checkbox" unchecked [(ngModel)]='state' (change)="check(state)">
+        </div>
+      </div>
+    </div>
+
+  </div> -->
+
+  <div class="row">
+    <div class="col-6">
+      <div class="row">
+        <div class="col-3" style="padding-top:20px">
+          <span><b>Remark</b></span>
+        </div>
+        <div class="col-7 pl-0">
+          <textarea rows="5" name="remark" id="remark" row="5" rows="3" class="form-control"
+            [(ngModel)]="mvsFreight.remark"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" id="save" (click)="saveInvoice()">{{btnTxt}}</button>
+</div>

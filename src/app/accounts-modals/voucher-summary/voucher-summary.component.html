@@ -95,6 +95,7 @@
               <th>Start Date</th>
               <th>End Date</th>
               <th>Trip Empty</th>
+              <th>LR No.</th>
             </tr>
           </thead>
           <tbody>
@@ -111,6 +112,7 @@
               <td>{{trip.end_time | date : 'dd MMM' || '--'}}</td>
               <td *ngIf="trip.is_empty==true">{{'Yes'}}</td>
               <td *ngIf="trip.is_empty==false">{{'No'}}</td>
+              <td>{{trip.lr_no}}</td>
             </tr>
           </tbody>
         </table>
@@ -142,7 +144,7 @@
               <td>{{fuelFiling.litres}}</td>
               <td>{{fuelFiling.rate}}</td>
               <td>{{fuelFiling.amount}}</td>
-              <td>{{fuelFiling.date | date : 'dd MMM'}}</td>
+              <td>{{fuelFiling.entry_time | date : 'dd MMM'}}</td>
             </tr>
           </tbody>
         </table>
@@ -284,12 +286,37 @@
           </tr>
         </table>
       </div>
+      <div class="row">
+       
+        <div class="form-group col-2 mt-4">
+          <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="getTripFreght()">Show Revenues</button>
+        </div>
+      </div>
+      <div class="row" *ngIf="tripFreghtDetails">
+        <table class="table table-bordered" id="table">
+
+          <thead style="background-color:#263238; color:#fff;">
+           <tr>
+              <th>Receipt No</th>
+              <th>Revenue</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>             
+              <tr *ngFor="let item of tripFreghtDetails; let i = index;">
+                <td>{{item.receipt_no}}</td>
+                <td>{{item.auto_amount}}</td>
+                <td>{{item.remarks}}</td>
+          </tr>
+        </table>
+      </div>
       
         </div>
     </div>
 
 
     <div class="modal-footer">
+       
+        <button *ngIf="VoucherId !=0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="printTripDetail()">Print</button>
         <button *ngIf="typeFlag==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
         <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="approveVoucher()">Approve</button>
         <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
