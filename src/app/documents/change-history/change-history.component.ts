@@ -4,7 +4,6 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
-import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 @Component({
   selector: 'change-history',
   templateUrl: './change-history.component.html',
@@ -16,7 +15,6 @@ export class ChangeHistoryComponent implements OnInit {
   documentTypeId = null;
   docTypes = [];
   data = [];
-
   table = {
     data: {
       headings: {},
@@ -33,8 +31,7 @@ export class ChangeHistoryComponent implements OnInit {
     private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
-    public user: UserService,
-    private modalService: NgbModal) {
+    public user: UserService) {
 
     this.common.refresh = this.refresh.bind(this);
   }
@@ -47,20 +44,15 @@ export class ChangeHistoryComponent implements OnInit {
   }
 
   getvehicleData(vehicle) {
-    console.log('Vehicle Data: ', vehicle);
     this.selectedVehicle = vehicle.id;
     this.getDocumentsData();
-
   }
-
 
   getDocumentsData() {
     let response;
     this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.selectedVehicle })
       .subscribe(res => {
-
         this.docTypes = res['data'].document_types_info;
-        console.log("data type ", this.docTypes);
       }, err => {
         console.log(err);
       });
@@ -68,10 +60,9 @@ export class ChangeHistoryComponent implements OnInit {
   }
 
   selectDocType(docType) {
-    console.log("api result", docType);
     this.documentTypeId = docType.id
-    console.log("doc var", this.documentTypeId);
   }
+
   searchHistory() {
     if (!this.selectedVehicle || !this.documentTypeId) {
       alert("Select All Require Field")
@@ -82,7 +73,7 @@ export class ChangeHistoryComponent implements OnInit {
       x_document_type_id: this.documentTypeId
     };
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentChangeHistory', { x_vehicle_id: this.selectedVehicle, x_document_type_id: this.documentTypeId })
+    this.api.post('Vehicles/getDocumentChangeHistory', params)
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
@@ -112,9 +103,9 @@ export class ChangeHistoryComponent implements OnInit {
     console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
-      for(let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:",doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action : ''};        
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("doc index value:", doc[this.headings[i]]);
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
 
       // let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
