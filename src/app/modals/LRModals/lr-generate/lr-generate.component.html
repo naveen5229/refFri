@@ -117,7 +117,7 @@
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name'"
                   (onChange)="generalDetailColumn1[i].r_valueid = ''"
                   (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn1[i].r_colname,$event)"
-                  url="Suggestion/GetCompanies2?type=CNEE" display="name" placeholder=" Search Name"
+                  url="Suggestion/GetCompanies2?type=CNEE&lrType={{lr.lrType}}" display="name" placeholder=" Search Name"
                   [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
@@ -277,7 +277,7 @@
                 <auto-suggestion (onChange)="generalDetailColumn2[i].r_valueid = ''"
                   *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name'"
                   (onSelected)="generalDetailColumn2[i].r_value = $event.name;generalDetailColumn2[i].r_valueid = $event.id;getCompanyData(generalDetailColumn2[i].r_colname,$event)"
-                  url="Suggestion/GetCompanies2?type=CNEE" display="name" placeholder=" Search Name"
+                  url="Suggestion/GetCompanies2?type=CNEE&lrType={{lr.lrType}}" display="name" placeholder=" Search Name"
                   [preSelected]="{name : generalDetailColumn2[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
