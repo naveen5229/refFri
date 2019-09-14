@@ -94,7 +94,8 @@
             </td>
             <td style="vertical-align: bottom; width: 25%; height:100px">
                 <div style="text-align: left;width: 70%"><b>Receiver Sign</b></div>
-              <div  style="text-align:right" ><b>For {{invoiceDetails.branch_name}}</b></div>
+              
+              <div  style="text-align:right" ><b *ngIf="invoiceDetails && invoiceDetails.branch_name">For {{invoiceDetails.branch_name}}</b></div>
             </td>
           </tr>
         </table>
