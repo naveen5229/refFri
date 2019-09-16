@@ -257,7 +257,9 @@ export class TrendsFoComponent implements OnInit {
         scaleLabel: {
           display: true,
           labelString: yAxesLabel1,
-          fontSize: 17
+          fontSize: 17,
+          labelAngle: 170,
+
         },
         type: 'linear',
         display: true,
