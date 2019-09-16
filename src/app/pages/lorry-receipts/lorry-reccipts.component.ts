@@ -17,6 +17,7 @@ import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight
 import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-details.component';
 import { AddReceiptsComponent } from '../../modals/add-receipts/add-receipts.component'
 import { AddTransportAgentComponent } from '../../modals/LRModals/add-transport-agent/add-transport-agent.component'
+import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 
 @Component({
   selector: 'lorry-reccipts',
@@ -153,12 +154,20 @@ export class LorryRecciptsComponent implements OnInit {
 
 
   printLr(receipt) {
+    let previewData = {
+      title: 'Lorry Receipt',
+      previewId: null,
+      refId: receipt.lr_id,
+      refType: "LR_PRT"
+    }
+    this.common.params = { previewData };
     console.log("receipts", receipt);
-    this.common.params = { lrId: receipt.lr_id }
-    const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+
+    // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
+
     activeModal.result.then(data => {
       console.log('Date:', data);
-
     });
   }
 
@@ -184,6 +193,7 @@ export class LorryRecciptsComponent implements OnInit {
       LRDate: { title: 'LR Date', placeholder: 'LR Date' },
       Consigner: { title: 'Consigner', placeholder: 'Consigner' },
       Consignee: { title: 'Consignee', placeholder: 'Consignee' },
+      TA: { title: 'TA', placeholder: 'TA' },
       Source: { title: 'Source', placeholder: 'Source' },
       Destination: { title: 'Destination', placeholder: 'Destination' },
       AddTime: { title: 'AddTime', placeholder: 'AddTime' },
@@ -219,11 +229,12 @@ export class LorryRecciptsComponent implements OnInit {
         LRDate: { value: R.lr_date },
         Consigner: { value: R.lr_consigner_name },
         Consignee: { value: R.lr_consignee_name },
+        TA: { value: R.lr_ta_name },
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
-        Revenue: R.revenue_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.lrRates.bind(this, R, 0) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.lrRates.bind(this, R, 0) }] },
-        Expense: R.expense_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.lrRates.bind(this, R, 1) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.lrRates.bind(this, R, 1) }] },
+        Revenue: R.revenue_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-green', action: this.lrRates.bind(this, R, 0) },{ class: 'fa fa-check i-green ml-2', action: this.openRevenueModal.bind(this, R, 0) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 0) },{ class: 'fa fa-times-circle i-red-cross ml-2', action: this.openRevenueModal.bind(this, R, 0) }] },
+        Expense: R.expense_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-green', action: this.lrRates.bind(this, R, 1) },{ class: 'fa fa-check i-green ml-2', action: this.openExpenseModal.bind(this, R, 1) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 1) },{ class: 'fa fa-times-circle i-red-cross ml-2', action: this.openExpenseModal.bind(this, R, 1) }] },
         // PodImage: R.pod_docid ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getPodImage.bind(this, R) }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
         // PodDetails: R.poddetails ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.openPodDeatilsModal.bind(this, R) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.openPodDeatilsModal.bind(this, R) }] },
         // PodReceived: R.podreceived ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-check i-green' }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
@@ -356,8 +367,8 @@ export class LorryRecciptsComponent implements OnInit {
 
   openExpenseModal(lr) {
     let expense = {
-      _ref_type: 11,
-      _ref_id: lr.lr_id
+      refernceType: 11,
+      refId: lr.lr_id
     }
     console.log("openExpenseModal ", expense);
     this.common.params = { expenseData: expense };
@@ -369,8 +380,8 @@ export class LorryRecciptsComponent implements OnInit {
   }
   openRevenueModal(lr) {
     let revenue = {
-      _ref_type: 11,
-      _ref_id: lr.lr_id
+      refernceType: 11,
+      refId: lr.lr_id
     }
     console.log("openExpenseModal ", revenue);
     this.common.params = { revenueData: revenue };

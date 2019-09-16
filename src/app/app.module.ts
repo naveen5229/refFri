@@ -235,6 +235,19 @@ import { StrictMappingComponent } from './modals/strict-mapping/strict-mapping.c
 import { VehiclePriSecRoutemappingComponent } from './modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 import { TyreHistoryComponent } from './modals/Tyres/tyre-history/tyre-history.component';
 import { TemplatePreviewComponent } from './modals/template-preview/template-preview.component';
+import { AddDispatchOrderComponent } from './modals/LRModals/add-dispatch-order/add-dispatch-order.component';
+import { RouteTimeTableComponent } from './modals/route-time-table/route-time-table.component';
+import { RouteTimeTableDetailsComponent } from './modals/route-time-table-details/route-time-table-details.component';
+import { RoutesTimetableComponent } from './modals/routes-timetable/routes-timetable.component';
+import { VehicleTimeTableAssociationComponent } from './modals/vehicle-time-table-association/vehicle-time-table-association.component';
+import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledger-mapping/driver-ledger-mapping.component';
+import { DeactivateGuardService } from './guards/route.guard';
+import { ConstraintsComponent } from './modals/constraints/constraints.component';
+import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-transfer.component';
+import { ViewMVSFreightStatementComponent } from './modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
+import { TemplateDevviewComponent } from './modals/template-devview/template-devview.component';
+import { MarketVehFreightStatementComponent } from './modals/FreightRate/market-veh-freight-statement/market-veh-freight-statement.component';
+import { MvsLrAssignComponent } from './modals/FreightRate/mvs-lr-assign/mvs-lr-assign.component';
 
 
 
@@ -444,9 +457,23 @@ import { TemplatePreviewComponent } from './modals/template-preview/template-pre
     VehiclePriSecRoutemappingComponent,
     TyreHistoryComponent,
     TemplatePreviewComponent,
+    AddDispatchOrderComponent,
+    RouteTimeTableComponent,
+    RouteTimeTableDetailsComponent,
+    RoutesTimetableComponent,
+    VehicleTimeTableAssociationComponent,
+    DriverLedgerMappingComponent,
+    ConstraintsComponent,
+    ViewTransferComponent,
+    ViewMVSFreightStatementComponent,
+    TemplateDevviewComponent,
+    MarketVehFreightStatementComponent,
+    MvsLrAssignComponent,
 
   ],
   entryComponents: [
+    AddDispatchOrderComponent,
+    ViewMVSFreightStatementComponent,
     FreightInvoiceRateComponent,
     LRRateCalculatorComponent,
     LrRateComponent,
@@ -637,7 +664,17 @@ import { TemplatePreviewComponent } from './modals/template-preview/template-pre
     StrictMappingComponent,
     VehiclePriSecRoutemappingComponent,
     TyreHistoryComponent,
-    TemplatePreviewComponent
+    TemplatePreviewComponent,
+    RouteTimeTableComponent,
+    RouteTimeTableDetailsComponent,
+    DriverLedgerMappingComponent,
+    RoutesTimetableComponent,
+    VehicleTimeTableAssociationComponent,
+    ConstraintsComponent,
+    ViewTransferComponent,
+    TemplateDevviewComponent,
+    MarketVehFreightStatementComponent,
+    MvsLrAssignComponent,
   ],
   imports: [
     BrowserModule,
@@ -669,6 +706,7 @@ import { TemplatePreviewComponent } from './modals/template-preview/template-pre
 
   bootstrap: [AppComponent],
   providers: [
+    DeactivateGuardService,
     NgbActiveModal,
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },

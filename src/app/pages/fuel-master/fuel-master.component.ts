@@ -48,13 +48,11 @@ export class FuelMasterComponent implements OnInit {
     this.getFuelNorms();
     this.getFoFsMapping();
     this.getFuelAvg();
-
-
-
   }
 
   ngOnInit() {
   }
+
   refresh() {
     this.getFuelNorms();
     this.getFoFsMapping();
@@ -84,7 +82,6 @@ export class FuelMasterComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       })
-
   }
   
   setTable() {
@@ -135,8 +132,6 @@ export class FuelMasterComponent implements OnInit {
   }
 
   updateRule(rule) {
-
-    console.log("rule", rule);
     this.common.params = { title: 'Edit Fuel Rule', rule };
     const activeModal = this.modalService.open(AddFuelFullRuleComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -144,15 +139,12 @@ export class FuelMasterComponent implements OnInit {
         this.getFuelNorms();
       }
     });
-
   }
 
   deleteRule(rule) {
     if (window.confirm("Are You Want Delete Record")) {
       const params = {
-        rowid: rule.id,
-
-      }
+        rowid: rule.id, }
       console.log('params', params);
       this.common.loading++;
       this.api.post('Fuel/deleteRule', params)
@@ -163,14 +155,13 @@ export class FuelMasterComponent implements OnInit {
           console.log(output);
           this.common.showToast(res['msg']);
           this.getFuelNorms();
-
-        }, err => {
-
-          this.common.loading--;
+       }, err => {
+        this.common.loading--;
           console.log(err);
         });
     }
   }
+
   getFoFsMapping() {
     this.common.loading++;
     this.api.get('Fuel/getFoFsMapping')
@@ -231,7 +222,6 @@ export class FuelMasterComponent implements OnInit {
       settings: {
         hideHeader: true,
         tableHeight: "72vh"
-
       }
     }
   }
@@ -260,7 +250,6 @@ export class FuelMasterComponent implements OnInit {
   }
 
   deleteMapping(details) {
-
     let params = {
       rowid: details.id
     };
@@ -276,18 +265,16 @@ export class FuelMasterComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       })
+}
 
-  }
   addFuelAvg() {
     this.common.params={row:null,
     load:null,
   unload:null,
 vehicle:null};
-
     const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, {container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-        this.getFuelAvg();
-      
+        this.getFuelAvg();  
     });
   }
 
@@ -299,13 +286,10 @@ vehicle:null};
         columns: []
       },
       settings: {
-        hideHeader: true
-  
-      }
-  
+        hideHeader: true 
+      }  
     };
-  
-    this.fuelHeadings = [];
+     this.fuelHeadings = [];
     this.fuelValobj = {};
     this.common.loading++;
     this.api.get('Fuel/getModelWiseFuelAvgWrtFo')
@@ -350,22 +334,16 @@ vehicle:null};
     return columns;
   }
 
-    
-
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
-
 
   updateFuel(row,load,unLoad,vehicle,name,brand) {
     this.common.params={row,load,unLoad,vehicle,name,brand};
     
     const activeModal = this.modalService.open(ModalWiseFuelAverageComponent, {  container: 'nb-layout' });
     activeModal.result.then(data => {
-        this.getFuelAvg();
-
-
-      
+        this.getFuelAvg();    
     });
 
   }
@@ -377,8 +355,7 @@ vehicle:null};
       rowId: row,
     }
     console.log("id2",params)
-
-    if (row) {
+  if (row) {
       this.common.params = {
         title: 'Delete  ',
         description: `<b>&nbsp;` + 'Are you Sure You Want  To Delete This Record?' + `<b>`,

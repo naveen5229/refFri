@@ -103,7 +103,7 @@
               <td>{{i+1}}</td>
               <td>
                 <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked"
-                  (ngModelChange)="changeTotal(fuelFiling.amount,fuelFiling.id)">
+                (ngModelChange)="changeTotal(fuelFiling.y_amount,fuelFiling.y_id)">
               </td>
               <td>{{fuelFiling.y_name}}</td>
               <td>{{fuelFiling.y_litres}}</td>

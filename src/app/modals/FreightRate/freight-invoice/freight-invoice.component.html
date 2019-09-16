@@ -12,8 +12,7 @@
           <span><b>Branch</b></span>
         </div>
         <div class="col-9">
-          <select name="branch" class="form-control" [(ngModel)]="freightInvoice.branchId"
-            (change)="getBranchDetails();">
+          <select name="branch" class="form-control" [(ngModel)]="freightInvoice.branchId">
             <option value="">Select Branch</option>
             <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
           </select>
@@ -26,14 +25,15 @@
           <span><b>Party</b></span>
         </div>
         <div class="col-9">
-          <auto-suggestion *ngIf="showhide.show; else other_content" (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies" display="name"
-            placeholder="Search Consignor Name" style="width:100%;" class="auto-suggest"
-            [preSelected]="{name:freightInvoice.companyName}">
+          <auto-suggestion *ngIf="showhide.show; else other_content" (onSelected)="getConsignorDetail($event)"
+            url="Suggestion/GetCompanies2?type=FCTA" display="name" placeholder="Search Consignor Name" style="width:100%;"
+            class="auto-suggest" [preSelected]="{name:freightInvoice.companyName}">
           </auto-suggestion>
         </div>
         <ng-template #other_content>
-            <label style="background-color: #e8edef;padding-top:5px;padding-bottom:5px;padding-left:15px;width:100%;border-radius:3px;">{{freightInvoice.companyName}}</label> 
-          </ng-template>
+          <label
+            style="background-color: #e8edef;padding-top:5px;padding-bottom:5px;padding-left:15px;width:100%;border-radius:3px;">{{freightInvoice.companyName}}</label>
+        </ng-template>
       </div>
     </div>
   </div>
@@ -65,22 +65,22 @@
 
 
   <div class="row">
-    <div class="col-6">
+    <div class="col-5">
       <div class="row">
-        <div class="col-3">
+        <div class="col-6">
           <label>Intra State</label>
         </div>
-        <div class="col-9">
+        <div class="col-6">
           <input type="checkbox" unchecked [(ngModel)]='state' (change)="check(state)">
         </div>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-7">
       <div class="row">
-        <div class="col-3">
+        <div class="col-4">
           <label>Gst Rate</label>
         </div>
-        <div class="col-9">
+        <div class="col-6">
           <select [(ngModel)]="freightInvoice.gst" name="gst">
             <option value="5" selected>5%</option>
             <option value="12">12%</option>

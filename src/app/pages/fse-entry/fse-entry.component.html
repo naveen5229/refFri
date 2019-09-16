@@ -14,9 +14,7 @@
                                     <label>Vehicle id:</label>
                                 </div>
                                 <div class="col-8">
-                                    <auto-suggestion (onSelected)="searchVehicle($event)"
-                                        url="Suggestion/getFoVehicleList" display="regno" placeholder="Vehicle Number"
-                                        [preSelected]="null"></auto-suggestion>
+                                    <auto-suggestion (onSelected)="searchVehicle($event)" url="Suggestion/getFoVehicleList" display="regno" placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
                                 </div>
                             </div>
                         </div>
@@ -26,8 +24,7 @@
                                     <label>From Date :</label>
                                 </div>
                                 <div class="col-8 pl-0">
-                                    <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"
-                                        [isTime]="false">
+                                    <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate" [isTime]="false">
                                     </uj-date-time-picker>
                                 </div>
                             </div>
@@ -38,8 +35,7 @@
                                     <label>To Date :</label>
                                 </div>
                                 <div class="col-9">
-                                    <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate"
-                                        [isTime]="false">
+                                    <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate" [isTime]="false" [isStart]="false">
                                     </uj-date-time-picker>
                                 </div>
                             </div>

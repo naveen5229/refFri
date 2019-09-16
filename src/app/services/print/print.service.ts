@@ -223,10 +223,11 @@ export class PrintService {
     detailsContainer.innerHTML = `
       <div class="row">
       ${details.map(detail => {
-      return `<div class="col-6"><strong>${detail.name}</strong><span>: </span><span>${detail.value}</span></div>`;
+      return `<div class="col-6" style="margin-top: 8px"><strong>${detail.name}</strong><span>${detail.value}</span></div>`;
     }).join('')}
       </div>
     `;
+    console.log('_________________________________________:', detailsContainer.innerHTML);
     return detailsContainer;
   }
 
@@ -251,6 +252,7 @@ export class PrintService {
    */
   createTheadHtml(headings: any[]) {
     let tHead = document.createElement('thead');
+    console.log('headings:__________________', headings);
     tHead.innerHTML = headings.map(heading => { return `<th>${heading.txt}</th>`; }).join('');
     return tHead;
   }
@@ -270,6 +272,7 @@ export class PrintService {
   createTrHtml(row: any[]) {
     let tr = document.createElement('tr');
     tr.innerHTML = row.map(col => {
+      console.log('{{{', col);
       return `<td colspan="${col.colspan || 1}" style="text-align: ${col.align || 'left'}">${
         (typeof col.txt === 'string' || typeof col.txt === 'number') ? col.txt : `<strong>${col.txt.name}</strong>: <span>${col.txt.value}</span>`
         }</td>`
@@ -359,7 +362,7 @@ export class PrintService {
 
     broswers.opera = (!!window['opr'] && !!window['opr'].addons) || !!window['opera'] || navigator.userAgent.indexOf(' OPR/') >= 0;
     broswers.firefox = typeof window['InstallTrigger'] !== 'undefined';
-    broswers.safari = /constructor/i.test(window['HTMLElement']) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari']);
+    // broswers.safari = /constructor/i.test((function HTMLElementConstructor() {}).toString());
     broswers.ie = /*@cc_on!@*/false || !!document['documentMode'];
     broswers.edge = !broswers.ie && !!window['StyleMedia'];
     broswers.chrome = !!window['chrome'] && (!!window['chrome'].webstore || !!window['chrome'].runtime);

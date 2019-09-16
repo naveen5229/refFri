@@ -15,3 +15,18 @@ nb-card-header button{
     text-transform: capitalize;
     width: 100%;
 }
+
+:host ::ng-deep td i.fa-print span {
+    position: absolute;
+    display: none;
+    padding: 11px 57px;
+    left: -44px;
+    top: -28px;
+    font-family: Roboto;
+    z-index: 999;
+  }
+.fa-print:before {
+    content: "\f02f";
+    padding: 10px;
+}
+

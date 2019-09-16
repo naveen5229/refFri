@@ -1,152 +1,152 @@
+<!-- Author By Lalit Singh -->
 <div class="modal-header">
-    <h5>{{common.params.title}}</h5>
-    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <h5>{{title}}</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<div class="modal-body">
+<div class="modal-body" style="max-height: 500px;">
     <div class="fuel-indent mt-2">
-        <form [formGroup]="Form" name="foUser-form" id="foUser-form" (submit)="Form.valid && submit()">
-            <div class="row" *ngIf="!refData.id">
-                <div class="col-2">
+        <form [formGroup]="fuelIndent" name="fuelIndent-form" id="fuelIndent-form"
+            (submit)="fuelIndent.valid && saveFuelIndent()">
+            <div class="row" *ngIf="!edit">
+                <div class="col-3">
                     <label>Vehicle Type:</label>
                 </div>
                 <div class="col-3">
-                    <select class="form-control" name="dropDown" formControlName="dropDown" id="dropDown"
-                        [(ngModel)]="vehicle.type" (change)="handleVehicleTypeChange()">
-                        <option *ngFor="let status of dropDown;let i = index" [value]="status.id">
-                            {{status.name}}
+                    <select class="form-control" name="vehicleType" formControlName="vehicleType" id="vehicleType"
+                        [(ngModel)]="fuelIndentData.vehicleType" (change)="handleVehicleTypeChange()">
+                        <option *ngFor="let vehicle of vehicleTypes;let i = index" [value]="vehicle.id">
+                            {{vehicle.name}}
                         </option>
                     </select>
                 </div>
                 <div class="col-2">
+                    <label>Regno:</label>
+                </div>
+                <div class="col-3" *ngIf="fuelIndentData.vehicleType==1">
+                    <auto-suggestion (onSelected)="selectVehicle($event)" id="regno" controlName="regno"
+                        [parentForm]="fuelIndent" [ngClass]="{ 'is-invalid': isFormSubmit && f.regno.errors }"
+                        name="regno" url="Suggestion/getFoVehicleList" display="regno" placeholder="Vehicle Number"
+                        [preSelected]="{regno:fuelIndentData.regno}"></auto-suggestion>
+                    <div *ngIf="isFormSubmit && f.regno.errors" class="error">
+                        <div *ngIf="f.regno.errors.required">Regno is Require</div>
+                    </div>
+                </div>
+                <div *ngIf="fuelIndentData.vehicleType!=1" class="col-3">
+                    <input type="text" class="form-control" formControlName="regno" [(ngModel)]="fuelIndentData.regno"
+                        [ngClass]="{ 'is-invalid': isFormSubmit && f.regno.errors }" autocomplete="off">
+                    <div *ngIf="isFormSubmit && f.regno.errors" class="error">
+                        <div *ngIf="f.regno.errors.required">value is Require</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2" *ngIf="!edit">
+                <div class="col-3">
                     <label>Ref. Type:</label>
                 </div>
-                <div class="col-2">
-                    <select class="form-control" name="dropDownsubtype" id="dropDownsubtype"
-                        formControlName="dropDownsubtype" [(ngModel)]="vehicle.subType"
-                        (change)="changeVehicleType($event);">
+                <div class="col-3">
+                    <select class="form-control" name="refType" id="refType" formControlName="refType"
+                        [(ngModel)]="fuelIndentData.refType" (change)="selectRefType($event);">
                         <option value="-1">select type</option>
-                        <option *ngFor="let status of dropDownSubType[vehicle.type];let i = index" [value]="status.id">
-                            {{status.name}}
+                        <option *ngFor="let ref of dropDownRefTypes[fuelIndentData.vehicleType];let i = index"
+                            [value]="ref.id">
+                            {{ref.name}}
                         </option>
                     </select>
                 </div>
-                <div class="col-3">
-                    <!-- <input type="text" placeholder="Search" class="form-control" formControlName="source_dest" name="source" id="brand" [(ngModel)]="source_dest"> -->
-                    <select class="form-control" name="dropDown" id="dropDown" formControlName="source_dest"
-                        [(ngModel)]="sourceId" (click)="getRefDetails($event)">
-                        <option *ngFor="let status of brands;let i = index" [value]="status.id">
+                <div class="col-3 offset-2">
+                    <select class="form-control" name="refTypeSource" id="refTypeSource" formControlName="refTypeSource"
+                        (change)="selectRefTypeSource($event);">
+                        <option *ngFor="let status of refTypeResults;let i = index" [value]="status.id">
                             {{status.source_dest}}
                         </option>
                     </select>
                 </div>
             </div>
-            <div class="row" *ngIf="refData.id">
-                <div class="col-2"><label>Regno</label></div>
-                <div class="col-3">{{refData.regno}}</div>
-                <div class="col-2"><label>{{refData.typeName}}</label></div>
-                <div class="col-5">{{refData.name}}</div>
-            </div>
-            <div class="row mt-2" *ngIf="!refData.id">
-                <div class="col-2">
-                    <label class="mt-2">Vehicle:</label>
-                </div>
-                <div *ngIf="vehicle.type==1" class="col-10">
-                    <auto-suggestion (onSelected)="getVehicleList($event)" id="autosuggestion"
-                        controlName="autosuggestion" [parentForm]="Form"
-                        [ngClass]="{ 'is-invalid': isFormSubmit && f.autosuggestion.errors }" name="autosuggestion"
-                        url="Suggestion/getFoVehicleList" display="regno" placeholder="Vehicle Number"
-                        [preSelected]="{regno:regno}"></auto-suggestion>
-                    <div *ngIf="isFormSubmit && f.autosuggestion.errors" class="error">
-                        <div *ngIf="f.autosuggestion.errors.required">value is Require</div>
-                    </div>
-                </div>
-                <div *ngIf="vehicle.type==3||vehicle.type==2" class="col-10">
-                    <input type="text" class="form-control" formControlName="autosuggestion" [(ngModel)]="regno"
-                        [ngClass]="{ 'is-invalid': isFormSubmit && f.autosuggestion.errors }" autocomplete="off">
-                    <div *ngIf="isFormSubmit && f.autosuggestion.errors" class="error">
-                        <div *ngIf="f.autosuggestion.errors.required">value is Require</div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-2" *ngIf="!refData.id">
 
+            <div class="row" *ngIf="edit">
+                <div class="col-3"><label>Regno</label></div>
+                <div class="col-3">{{fuelIndentData.regno}}</div>
+                <!-- <div class="col-3"><label>{{fuelIndentData.refType}}</label></div> -->
+                <div class="col-4">{{fuelIndentData.refName}}</div>
             </div>
-            <div class="row mt-2">
-                <div class="col-2">
-                    <label>Fuel Station:</label>
-                </div>
-                <div class="col-10">
-                    <!-- <auto-suggestion (onSelected)="getFuelStation($event)" id="autosuggestion1" controlName="autosuggestion1" [parentForm]="Form" [ngClass]="{ 'is-invalid': isFormSubmit && f.autosuggestion1.errors }" url="Suggestion/getFuelStationName" display="name" placeholder="fuel Station"
-                        [preSelected]="{name:name}"></auto-suggestion> -->
-                    <select class="form-control" name="dropdown" id="dropdown" formControlName="autosuggestion1"
-                        [(ngModel)]="fuelId" (change)="getFuelStation($event)">
-                        <option *ngFor="let status of fuelStations" [value]="status.id">
-                            {{status.name}}
-                        </option>
-                    </select>
-                    <div *ngIf="isFormSubmit && f.autosuggestion1.errors" class="error">
-                        <div *ngIf="f.autosuggestion1.errors.required">value is Require</div>
 
-                    </div>
-                </div>
-            </div>
             <div class="row mt-2">
-                <div class="col-2">
+                <div class="col-3">
                     <form>
-                        <input type="radio" name="amount" [value]=0 [(ngModel)]="indentType"> <b>Amount</b>
-                        <input type="radio" name="ltr" [value]=1 [(ngModel)]="indentType" class="ml-2" checked>
+                        <input type="radio" name="radio" value='0' [(ngModel)]="indentType" class="radioType">
+                        <b>Amount</b>
+                        <input type="radio" name="radio" value='1' [(ngModel)]="indentType" class="radioType ml-2">
                         <b>liter</b>
                     </form>
                 </div>
-                <div class="col-10">
-                    <input type="text" id="amount" formControlName="amount"
-                        [ngClass]="{ 'is-invalid': isFormSubmit && f.amount.errors }" name="amount" class="form-control"
-                        autocomplete="off" placeholder="enter value" [(ngModel)]="amount">
-                    <div *ngIf="isFormSubmit && f.amount.errors" class="invalid-feedback">
-                        <div *ngIf="f.amount.errors.required">value is Require</div>
+                <div class="col-3">
+                    <input type="text" id="indentTypeValue" formControlName="indentTypeValue"
+                        [ngClass]="{ 'is-invalid': isFormSubmit && f.indentTypeValue.errors }" name="indentTypeValue"
+                        class="form-control" autocomplete="off" placeholder="Enter value"
+                        [(ngModel)]="fuelIndentData.amount">
+                    <div *ngIf="isFormSubmit && f.indentTypeValue.errors" class="invalid-feedback">
+                        <div *ngIf="f.indentTypeValue.errors.required">Value is require</div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <label>Fuel Station:</label>
+                </div>
+                <div class="col-3">
+                    <select class="form-control" name="fuelStation" id="fuelStation" formControlName="fuelStation"
+                        [(ngModel)]="fuelIndentData.fuelId">
+                        <option *ngFor="let fuel of fuelStations" [value]="fuel.id">
+                            {{fuel.name}}
+                        </option>
+                    </select>
+                    <div *ngIf="isFormSubmit && f.fuelStation.errors" class="error">
+                        <div *ngIf="f.fuelStation.errors.required">FuelStation is require</div>
                     </div>
                 </div>
             </div>
         </form>
 
         <div class="row mt-2">
-            <div class="col-2">
+            <div class="col-3">
                 <label>Issue Date</label>
             </div>
-            <div class="col-10">
-                <!-- <input type="date" class="form-control" placeholder="enter value" [(ngModel)]="issueDate"> -->
-                <uj-date-time-picker (onChanged)="issueDate=$event" class="" [dateTimeValue]="issueDate" [isTime]=false>
+            <div class="col-3">
+                <uj-date-time-picker (onChanged)="fuelIndentData.issueDate=$event" class=""
+                    [dateTimeValue]="fuelIndentData.issueDate" [isTime]=false>
+                </uj-date-time-picker>
+            </div>
+            <div class="col-2">
+                <label>Expiry Date:</label>
+            </div>
+            <div class="col-3">
+                <uj-date-time-picker (onChanged)="fuelIndentData.expiryDate=$event" class=""
+                    [dateTimeValue]="fuelIndentData.expiryDate" [isTime]=false [isStart]="false">
                 </uj-date-time-picker>
             </div>
         </div>
+
         <div class="row mt-2">
-            <div class="col-2">
-                <label>expiry Date:</label>
-            </div>
-            <div class="col-10">
-                <!-- <input type="text" id="expiryTime" class="form-control" name="expiryTime" placeholder="expiry Time" [(ngModel)]="expiryTime" autocomplete="off" (click)="openReminderModal()"> -->
-                <uj-date-time-picker (onChanged)="expiryTime=$event" class="" [dateTimeValue]="expiryTime"
-                    [isTime]=false>
-                </uj-date-time-picker>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-2">
+            <div class="col-3">
                 <label>Remark:</label>
             </div>
-            <div class="col-10">
-                <!-- <input type="text" id="expiryTime" class="form-control" name="expiryTime" placeholder="expiry Time" [(ngModel)]="expiryTime" autocomplete="off" (click)="openReminderModal()"> -->
-                <textarea name="comment" form="usrform" class="form-control" [(ngModel)]="remark"></textarea>
+            <div class="col-4">
+                <textarea name="comment" class="form-control" rows="5" cols="5"
+                    [(ngModel)]="fuelIndentData.remark"></textarea>
             </div>
         </div>
-        <div class="mt-2 offset-2">
-            <button type="submit" class="btn btn-primary" form="foUser-form"
-                (click)="isFormSubmit=true">{{common.params.flag}}</button>
+    </div>
+
+    <div class="row text-right">
+        <div class="col text-right">
+            <button type="submit" class="btn btn-primary" form="fuelIndent-form"
+                (click)="isFormSubmit=true">{{button}}</button>
         </div>
     </div>
     <div class="modal-footer mt-2">
-        <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="fuelIndent">
+        <smart-table *ngIf="fuelData && fuelData.length" [data]="table.data" [settings]="table.settings"
+            id="fuelIndent">
         </smart-table>
     </div>
+</div>

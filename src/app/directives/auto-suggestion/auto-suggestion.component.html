@@ -12,11 +12,10 @@
                     name="suggestion-input" class="form-control search-input" (input)="getSuggestions()"
                     [ngClass]="className || 'custom-input-1'" [(ngModel)]="searchText"
                     [placeholder]="placeholder || 'Enter search text'" [id]="inputId || 'suggestion'"
-                    [name]="name || 'suggestion'" required autocomplete="no-auto-suggestion"
-                    (ngModelChange)="handleUnselected()">
+                    [name]="name || 'suggestion'" required (ngModelChange)="handleUnselected()">
 
                 <i class="fas fa-sort-down" *ngIf="data && data.length" style="cursor: pointer"
-                    (click)="showAllSuggestion()"></i>
+                    (click)="showAllSuggestion($event)"></i>
             </span>
 
         </div>

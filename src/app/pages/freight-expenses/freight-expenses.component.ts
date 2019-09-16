@@ -249,7 +249,7 @@ export class FreightExpensesComponent implements OnInit {
 
   }
   openTransferReceipt(transfer) {
-    console.log("advice", transfer);
+    console.log("transfer", transfer);
     let refData = {
       refId: transfer._ref_id,
       refType: transfer._ref_type,

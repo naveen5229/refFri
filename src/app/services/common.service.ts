@@ -19,6 +19,7 @@ import "jspdf-autotable";
 import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import * as moment_ from "moment";
 import { elementAt } from "rxjs/operators";
+import { RouteGuard } from "../guards/route.guard";
 const moment = moment_;
 @Injectable({
   providedIn: "root"
@@ -65,7 +66,7 @@ export class CommonService {
   };
 
   currentPage = "";
-
+  isComponentActive = false;
   constructor(
     public router: Router,
     private toastrService: NbToastrService,
@@ -73,7 +74,7 @@ export class CommonService {
     public api: ApiService,
     public dataService: DataService,
     public user: UserService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) { }
 
   showError(msg?, err?) {
@@ -247,15 +248,15 @@ export class CommonService {
     let minutes = time % 60;
     return hours + ":" + minutes;
   }
-  changeMonthformat(date,type) {
+  changeMonthformat(date, type) {
     let d = new Date(date);
-    return this.datePipe.transform(date,type);
+    return this.datePipe.transform(date, type);
   }
   timeFormatter(date) {
     let d = new Date(date);
-    let hours = d.getHours() < 9 ? "0" + d.getHours() : d.getHours();
-    let minutes = d.getMinutes() < 9 ? "0" + d.getMinutes() : d.getMinutes();
-    let seconds = d.getSeconds() < 9 ? "0" + d.getSeconds() : d.getSeconds();
+    let hours = d.getHours() <= 9 ? "0" + d.getHours() : d.getHours();
+    let minutes = d.getMinutes() <= 9 ? "0" + d.getMinutes() : d.getMinutes();
+    let seconds = d.getSeconds() <= 9 ? "0" + d.getSeconds() : d.getSeconds();
 
     return hours + ":" + minutes + ":" + seconds;
   }
@@ -943,7 +944,9 @@ export class CommonService {
   downloadPdf(divId, isLandscape?) {
     var data = document.getElementById(divId);
     // console.log("data",data);
-    html2canvas(data).then(canvas => {
+    html2canvas(data, {
+      useCORS: true,
+    }).then(canvas => {
       // Few necessary setting options  
       var imgWidth = isLandscape ? 295 : 208;
       var pageHeight = isLandscape ? 208 : 295;
@@ -971,17 +974,17 @@ export class CommonService {
 
     let leftData = { left_heading };
     let centerData = { center_heading };
-    let lowerLeft = { lower_left_heading };
+    let lowerLeft = lower_left_heading ? { lower_left_heading } : {};
     let doctime = { time };
 
-    let info = [];
+    let info = []; lower_left_heading
     let hdgs = {};
     let arr_hdgs = [];
     info.push(organization);
     info.push(blankline);
     info.push(leftData);
-    info.push(lowerLeft);
     info.push(centerData, doctime);
+    info.push(lowerLeft);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
@@ -1324,7 +1327,6 @@ export class CommonService {
     else if (year % 4 != 0 && (month == '02')) {
       date = 28;
     } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
-
     // console.log('Date: ', year + separator + month + separator + date);
     return date + separator + month + separator + year;
   }
@@ -1674,4 +1676,6 @@ export class CommonService {
     }
     return res;
   }
+
+
 }

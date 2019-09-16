@@ -20,8 +20,8 @@ export class TaxdetailComponent implements OnInit {
       id: '',
     },
     taxrate: 0,
-    taxamount: 0,
-    totalamount:0
+    taxamount: null,
+    totalamount:null
 
   }];
   autoSuggestion = {
@@ -67,8 +67,8 @@ console.log('size index',this.sizeIndex);
       id: '',
     },
     taxrate: 0,
-    taxamount: 0,
-    totalamount:0
+    taxamount: null,
+    totalamount:null
     }];
     console.log('response//////////return',this.taxdetails);
 
@@ -114,8 +114,8 @@ console.log('size index',this.sizeIndex);
         id: '',
       },
       taxrate: 0,
-      taxamount: 0,
-      totalamount:0
+      taxamount: null,
+      totalamount:null
     });
 
     const activeId = document.activeElement.id;
@@ -159,7 +159,16 @@ console.log('size index',this.sizeIndex);
         let index = activeId.split('-')[1];
         if (activeId.includes('taxledger')) this.setFoucus('taxrate-' + index);
         if (activeId.includes('taxrate')) this.setFoucus('taxamount-' + index);
-        if (activeId.includes('taxamount')) this.showConfirm = true;
+        if (activeId.includes('taxamount')){
+         console.log('total length of text detail',this.taxdetails.length,'actv id',activeId);
+         let totallenth =this.taxdetails.length;
+         if(totallenth == ( parseInt(index)+1)){
+          this.showConfirm = true;
+         }else{
+          this.setFoucus('taxledger-' + (parseInt(index)+1));
+         }
+        }
+        
 
       }
 
@@ -290,10 +299,10 @@ console.log('size index',this.sizeIndex);
   }
 
   calculateTotal() {
-    let total = 0;
+    let total = null;
     this.taxdetails.map(taxdetail => {
-       console.log('taxdetail Amount: ',  taxdetail);
-      total += taxdetail.taxamount;
+       //console.log('taxdetail Amount: ',  taxdetail);
+      total += parseFloat(taxdetail.taxamount);
       this.taxdetails[0].totalamount=  total;
     });
     return total;

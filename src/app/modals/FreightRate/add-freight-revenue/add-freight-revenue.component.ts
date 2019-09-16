@@ -4,6 +4,7 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ConfirmComponent } from '../../confirm/confirm.component';
+import { TransferReceiptsComponent } from '../transfer-receipts/transfer-receipts.component';
 
 @Component({
   selector: 'add-freight-revenue',
@@ -22,6 +23,7 @@ export class AddFreightRevenueComponent implements OnInit {
     refTypeName: null,
     remarks: ''
   }
+  advanceAmount=0;
   freightHeads = [];
   revenueDetails = [{
     frHead: null,
@@ -66,10 +68,10 @@ export class AddFreightRevenueComponent implements OnInit {
     this.getFreightHeads();
     console.log("this.common.params.revenue", this.common.params.revenueData);
     if (this.common.params.revenueData) {
-      this.revenue.id = this.common.params.revenueData.id;
+      this.revenue.id = this.common.params.revenueData.id?this.common.params.revenueData.id:null;
       this.revenue.refId = this.common.params.revenueData.refId;
       this.revenue.refernceType = this.common.params.revenueData.refernceType;
-      this.revenue.remarks = this.common.params.revenueData.remarks;
+      this.revenue.remarks = this.common.params.revenueData.remarks?this.common.params.revenueData.remarks:null;
       this.getRevenueDetails();
     }
     this.getRevenue();
@@ -87,6 +89,8 @@ export class AddFreightRevenueComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+
+      this.lrGetAdvanceAmount()
   }
 
 
@@ -200,6 +204,7 @@ export class AddFreightRevenueComponent implements OnInit {
         }
 
       }, err => {
+        --this.common.loading;
         console.error(err);
         this.common.showError();
       });
@@ -244,8 +249,6 @@ export class AddFreightRevenueComponent implements OnInit {
   }
 
   editRevenue(row) {
-
-
     let expDetails = [{
       frHead: row['Ledger Type'],
       frHeadId: row._ledger_id,
@@ -315,5 +318,31 @@ export class AddFreightRevenueComponent implements OnInit {
     }
   }
 
+  openTransferModal(){
+    let refdata = {
+      refId: this.revenue.refId,
+      refType: this.revenue.refernceType,
+      selectOption:'receipt'
+    }
+    this.common.params = { refData: refdata };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      this.lrGetAdvanceAmount();
+    });
+  }
 
+  lrGetAdvanceAmount() {
+    let params={
+      lrId:this.revenue.refId,
+      isExpense:'0'
+    }
+    this.api.post('lorryReceiptsOperation/lrGetAdvanceAmount',params)
+      .subscribe(res => {
+        console.log('advanceAmount', res['data']);
+        this.advanceAmount = res['data'][0].r_amount;
+      }, err => {
+        console.log(err);
+      });
+  }
 }

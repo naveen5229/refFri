@@ -1,0 +1,53 @@
+<div class="modal-header">
+    <h5>Vehicle Running Status</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+<div class="modal-body">
+    <div class="row route-headings">
+        <div class="col-1"></div>
+        <div class="col-2">
+            <strong>Location</strong>
+        </div>
+        <div class="col-3">
+            <strong>Arival</strong>
+        </div>
+        <div class="col-3">
+            <strong>Departure</strong>
+        </div>
+        <div class="col-3">
+            <strong>Halt</strong>
+        </div>
+    </div>
+
+    <div class="row routes" *ngFor="let data of routesDetails; let i = index;">
+        <div class="col-1 route-container">
+            <div class="route-truck" *ngIf="data.status == '2' && (routesDetails[i - 1].status == 0 || routesDetails[i - 1].status == 1)">
+                <img src="assets/icons/truck.svg" alt="truck">
+            </div>
+            <div class="route-line" [ngClass]="{'running' : data.status == '0' , 'running' : data.status == '1','upcoming' : data.status == '2' }" style="top: 0"></div>
+            <div class="route-circle" [ngClass]="{'route-circle-red' : data.status == '0', 'route-circle-green' : data.status == '1','route-circle-blue': data.status == '2' }"></div>
+            <div class="route-line" [ngClass]="{'running': data.status == '0' , 'running':data.status == '1','upcoming': data.status == '2' }"></div>
+        </div>
+        <div class="col-2">
+            <div>({{data.loc_name}})</div>
+            <div> {{data.name}}</div>
+        </div>
+        <div class="col-3">
+            <div>(Day {{data.day}}){{data.scheduled_arrival_time}}</div>
+            <div style="color:red">{{data.actual_arrival_time?data.actual_arrival_time:null}}</div>
+        </div>
+        <div class="col-3">
+            <div>{{data.departure_time?data.departure_time:null}}</div>
+            <div style="color: red">{{data.delay?data.delay:null}}</div>
+        </div>
+
+        <div class="col-3">
+            <div>{{data.scheduled_halt_time}}</div>
+            <div style="color: red">{{data.actual_halt_time}}</div>
+        </div>
+    </div>
+</div>

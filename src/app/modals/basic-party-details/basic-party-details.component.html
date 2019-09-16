@@ -1,173 +1,222 @@
-<div class="modal-header">
-    <h5>Basic Party Details</h5>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
-    <div class="Basic-details">
-        <form [formGroup]="Form" name="Basic-details" id="Basic-details" (submit)="Form.valid && saveDetails()">
-            <div class="row">
-                <div class="col-6">
-                    <div class="row  mt-2">
-                        <div class="col-4">
-                            <label>Name of Party:<span class="text-red">*</span></label>
+<div class="model-drag" cdkDrag>
+    <div class="model-handler" cdkDragHandle>
+        <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+            <path
+                d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+            </path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+        </svg>
+    </div>
+    <div class="modal-header">
+        <h5>Basic Party Details</h5>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="Basic-details">
+            <form [formGroup]="Form" name="Basic-details" id="Basic-details" (submit)="Form.valid && saveDetails()">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row  mt-2">
+                            <div class="col-4">
+                                <label>Name of Party:<span class="text-red">*</span></label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" class="form-control" formControlName="company"
+                                    [ngClass]="{ 'is-invalid': isFormSubmit && f.company }" [(ngModel)]="cmpName"
+                                    autocomplete="off">
+                            </div>
                         </div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" formControlName="company" [ngClass]="{ 'is-invalid': isFormSubmit && f.company }" [(ngModel)]="cmpName" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-4">
-                            <label>Alias:</label>
-                        </div>
-                        <div class="col-8">
-                            <input type="text" id="cmpAlias" class="form-control" formControlName="cmpAlias" [(ngModel)]="cmpAlias" name="cmpAlias" autocomplete="off">
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label>Alias:</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" id="cmpAlias" class="form-control" formControlName="cmpAlias"
+                                    [(ngModel)]="cmpAlias" name="cmpAlias" autocomplete="off">
 
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label>Pan:</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="panNo" name="panNo" formControlName="panNo" type="text" placeholder="PAN No"
+                                    [(ngModel)]="panNo" autocomplete="off" class="form-control" (keyup)="checkFormat()">
+                                <label class="ex-pen">Eg: AELPU5278H</label>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label>GST NO:</label>
+                            </div>
+                            <div class="col-8">
+                                <input id="gstNo" name="gstNo" formControlName="gstNo" type="text" placeholder="GST No"
+                                    [(ngModel)]="gstNo" autocomplete="off" class="form-control">
+                                <label class="ex-pen">Eg: 11AAAAA1111Z1A1</label>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label>User Supplier Code:</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="userSupplier" name="user" formControlName="userSupplier"
+                                    [(ngModel)]="userCode" type="text" placeholder="Enter User Supplier Code"
+                                    autocomplete="off" class="form-control">
+                            </div>
                         </div>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-4">
-                            <label>Pan:</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input id="panNo" name="panNo" formControlName="panNo" type="text" placeholder="PAN No" [(ngModel)]="panNo" autocomplete="off" class="form-control" (keyup)="checkFormat()">
-                            <label class="ex-pen">Eg: AELPU5278H</label>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-4">
-                            <label>GST NO:</label>
-                        </div>
-                        <div class="col-8">
-                            <input id="gstNo" name="gstNo" formControlName="gstNo" type="text" placeholder="GST No" [(ngModel)]="gstNo" autocomplete="off" class="form-control">
-                            <label class="ex-pen">Eg: 11AAAAA1111Z1A1</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="row mt-2">
-                        <div class="col-4">
-                            <label>Association Type<span class="text-red">*</span></label>
-                        </div>
-                        <div class="col-8">
-                            <select class="form-control" name="dropdown" id="dropdown" formControlName="assType" [ngClass]="{ 'is-invalid': isFormSubmit && f.assType }" [(ngModel)]="assType">
-                               <option *ngFor="let type of associationType" [value]="type.y_id">
-                                 {{type.y_groupname}}
-                              </option>
-                          </select>
-                            <!-- <div *ngIf="isFormSubmit && f.assType.errors" class="error">
+                    <div class="col-6">
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label>Association Type<span class="text-red">*</span></label>
+                            </div>
+                            <div class="col-8">
+                                <select class="form-control" name="dropdown" id="dropdown" formControlName="assType"
+                                    [ngClass]="{ 'is-invalid': isFormSubmit && f.assType }" [(ngModel)]="assType">
+                                    <option *ngFor="let type of associationType" [value]="type.y_id">
+                                        {{type.y_groupname}}
+                                    </option>
+                                </select>
+                                <!-- <div *ngIf="isFormSubmit && f.assType.errors" class="error">
                                 <div *ngIf="f.assType.errors.required">Association Type is Require</div>
                             </div> -->
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-4">
-                            <label>Branch Name:</label>
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label>Branch Name:</label>
+                            </div>
+                            <div class="col-8">
+                                <select class="form-control" name="dropdown" id="dropdown" formControlName="branchId"
+                                    [(ngModel)]="branchId">
+                                    <option *ngFor="let branch of branchs" [value]="branch.id">
+                                        {{branch.name}}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-8">
-                            <select class="form-control" name="dropdown" id="dropdown" formControlName="branchId" [(ngModel)]="branchId">
-                              <option *ngFor="let branch of branchs" [value]="branch.id">
-                               {{branch.name}}
-                               </option>
-                             </select>
-                        </div>
-                    </div>
 
-                    <div class="row mt-2">
-                        <div class="col-4">
-                            <label>Website:</label>
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label>Website:</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" class="form-control" formControlName="website" [(ngModel)]="website">
+                            </div>
                         </div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" formControlName="website" [(ngModel)]="website">
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label>Remark</label>
+                            </div>
+                            <div class="col-8">
+                                <textarea name="comment" class="form-control" formControlName="remark" form="usrform"
+                                    [(ngModel)]="remark"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-4">
-                            <label>Remark</label>
-                        </div>
-                        <div class="col-8">
-                            <textarea name="comment" class="form-control" formControlName="remark" form="usrform" [(ngModel)]="remark"></textarea>
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label>Party Supplier Code:</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="partySupplier" name="party" formControlName="partySupplier"
+                                    [(ngModel)]="partyCode" type="text" placeholder="Enter Party Supplier Code"
+                                    autocomplete="off" class="form-control">
+                            </div>
                         </div>
                     </div>
                 </div>
+            </form>
+            <div>
+                <button class="btn btn-primary" form="Basic-details" (click)="isFormSubmit=true">SAVE</button>
             </div>
-        </form>
-        <div>
-            <button class="btn btn-primary" form="Basic-details" (click)="isFormSubmit=true">SAVE</button>
         </div>
     </div>
-</div>
-<div class="modal-footer">
-    <div *ngIf="value" class="w-100">
-        <div class="">
-            <div class="tabs_style_main">
-                <ul class="tabs_style text-left">
-                    <li [ngClass]="activeTab=='Company Branches'?'active':''" (click)="activeTab='Company Branches'">Offices</li>
-                    <li [ngClass]="activeTab=='Company Establishment'?'active':''" (click)="activeTab='Company Establishment'">Establishment</li>
-                    <li [ngClass]="activeTab=='Company contacts'?'active':''" (click)="activeTab='Company contacts'">Contacts</li>
-                    <li [ngClass]="activeTab=='Company Bank'?'active':''" (click)="activeTab='Company Bank'">Banking</li>
-                </ul>
+    <div class="modal-footer">
+        <div *ngIf="value" class="w-100">
+            <div class="">
+                <div class="tabs_style_main">
+                    <ul class="tabs_style text-left">
+                        <li [ngClass]="activeTab=='Company Branches'?'active':''"
+                            (click)="activeTab='Company Branches'">Offices</li>
+                        <li [ngClass]="activeTab=='Company Establishment'?'active':''"
+                            (click)="activeTab='Company Establishment'">Establishment</li>
+                        <li [ngClass]="activeTab=='Company contacts'?'active':''"
+                            (click)="activeTab='Company contacts'">Contacts</li>
+                        <li [ngClass]="activeTab=='Company Bank'?'active':''" (click)="activeTab='Company Bank'">Banking
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="">
-            <div class="manage-Party">
-                <div *ngIf="activeTab=='Company Branches'">
-                    <div class="">
-                        <div class="text-right">
-                            <button type="button" class="btn btn-primary p-2 rounded-sm" (click)="addCompany('ADD')">Add company Branch</button>
+            <div class="">
+                <div class="manage-Party">
+                    <div *ngIf="activeTab=='Company Branches'">
+                        <div class="">
+                            <div class="text-right">
+                                <button type="button" class="btn btn-primary p-2 rounded-sm"
+                                    (click)="addCompany('ADD')">Add company Branch</button>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="">
+                                <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"
+                                    id="companyBranch">
+                                </smart-table>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-2">
-                        <div class="">
-                            <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="companyBranch">
+
+                    <div *ngIf="activeTab=='Company Establishment'">
+                        <div class="row">
+                            <div class="col-3">
+                            </div>
+                            <div class="col-9 text-right">
+                                <button type="button" class="btn btn-primary p-2 rounded-sm"
+                                    (click)="addCompanyEstablishment()">Add company Establishment</button>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <smart-table *ngIf="cmpEstablishment &&  cmpEstablishment.length"
+                                [data]="table2.cmpEstablishment" [settings]="table2.settings" id="companyestablish">
+                            </smart-table>
+                        </div>
+                    </div>
+
+                    <div *ngIf="activeTab=='Company contacts'">
+                        <div class="row">
+                            <div class="col-3">
+                            </div>
+                            <div class="col-9 text-right">
+                                <button type="button" class="btn btn-primary p-2 rounded-sm"
+                                    (click)="addCompanyContacts()">Add company contacts</button>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <smart-table *ngIf="companyContacts &&  companyContacts.length"
+                                [data]="table3.companyContacts" [settings]="table3.settings" id="companycontacts">
+                            </smart-table>
+                        </div>
+                    </div>
+                    <div *ngIf="activeTab=='Company Bank'">
+                        <div class="row">
+                            <div class="col-3">
+                            </div>
+                            <div class="col-9 text-right">
+                                <button type="button" class="btn btn-primary p-2 rounded-sm"
+                                    (click)="addCompanyBank()">Add company Bank</button>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <smart-table *ngIf="companyBanks &&  companyBanks.length" [data]="table4.companyBanks"
+                                [settings]="table4.settings" id="companybanks">
                             </smart-table>
                         </div>
                     </div>
                 </div>
-
-                <div *ngIf="activeTab=='Company Establishment'">
-                    <div class="row">
-                        <div class="col-3">
-                        </div>
-                        <div class="col-9 text-right">
-                            <button type="button" class="btn btn-primary p-2 rounded-sm" (click)="addCompanyEstablishment()">Add company Establishment</button>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <smart-table *ngIf="cmpEstablishment &&  cmpEstablishment.length" [data]="table2.cmpEstablishment" [settings]="table2.settings" id="companyestablish">
-                        </smart-table>
-                    </div>
-                </div>
-
-                <div *ngIf="activeTab=='Company contacts'">
-                    <div class="row">
-                        <div class="col-3">
-                        </div>
-                        <div class="col-9 text-right">
-                            <button type="button" class="btn btn-primary p-2 rounded-sm" (click)="addCompanyContacts()">Add company contacts</button>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <smart-table *ngIf="companyContacts &&  companyContacts.length" [data]="table3.companyContacts" [settings]="table3.settings" id="companycontacts">
-                        </smart-table>
-                    </div>
-                </div>
-                <div *ngIf="activeTab=='Company Bank'">
-                    <div class="row">
-                        <div class="col-3">
-                        </div>
-                        <div class="col-9 text-right">
-                            <button type="button" class="btn btn-primary p-2 rounded-sm" (click)="addCompanyBank()">Add company Bank</button>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <smart-table *ngIf="companyBanks &&  companyBanks.length" [data]="table4.companyBanks" [settings]="table4.settings" id="companybanks">
-                        </smart-table>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-
 </div>

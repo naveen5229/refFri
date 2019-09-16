@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ViewFrieghtInvoiceComponent } from '../view-frieght-invoice/view-frieght-invoice.component';
+import { SupportingDocComponent } from '../../LRModals/supporting-doc/supporting-doc.component';
 
 @Component({
   selector: 'freight-invoice-rate',
@@ -10,22 +12,20 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class FreightInvoiceRateComponent implements OnInit {
   invoiceId = null;
-  invoiceType = 1;
   data = [];
   headings = [];
   valobj = {};
   columnsValue = [];
   invoiceRates = [];
   totalManualAmount = 0;
-
   constructor(
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
+    private modalService: NgbModal
   ) {
-    this.invoiceId = this.common.params.invoice.id;
-    this.invoiceType = this.common.params.invoice.type;
-    this.common.handleModalSize('class', 'modal-lg', '1500', 'px', 1);
+    this.invoiceId = this.common.params.invoice.id? this.common.params.invoice.id:null;
+    this.common.handleModalSize('class', 'modal-lg', '1500');
     this.getFreightInvoiceRate();
   }
 
@@ -40,7 +40,6 @@ export class FreightInvoiceRateComponent implements OnInit {
     ++this.common.loading;
     let params = {
       invoiceId: this.invoiceId,
-      invoiceType: this.invoiceType
     }
     console.log("params", params);
     this.api.post('FrieghtRate/getFreightInvoiceRates', params)
@@ -81,7 +80,6 @@ export class FreightInvoiceRateComponent implements OnInit {
     ++this.common.loading;
     let params = {
       invoiceId: this.invoiceId,
-      invoiceType: this.invoiceType,
       data: JSON.stringify(this.invoiceRates)
     }
     console.log("params", params);
@@ -141,7 +139,6 @@ export class FreightInvoiceRateComponent implements OnInit {
     });
   }
 
-  onPrint(){
-    
-  }
+
+ 
 }

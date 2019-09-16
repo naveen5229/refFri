@@ -9,12 +9,14 @@ import { CompanyContactsComponent } from '../../modals/company-contacts/company-
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BankAccountsComponent } from '../bank-accounts/bank-accounts.component';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { PartyLedgerMappingComponent } from '../party-ledger-mapping/party-ledger-mapping.component';
 
 @Component({
   selector: 'basic-party-details',
   templateUrl: './basic-party-details.component.html',
   styleUrls: ['./basic-party-details.component.scss']
 })
+
 export class BasicPartyDetailsComponent implements OnInit {
 
   isFormSubmit = false;
@@ -39,8 +41,10 @@ export class BasicPartyDetailsComponent implements OnInit {
   partyName = null;
   value = false;
   modalClose = false;
+  partyCode = null;
+  userCode = null;
   activeTab = 'Company Branches';
-
+  gstPanCheck = false;
 
   dropDown = [
     { name: 'Self', id: 1 },
@@ -115,6 +119,8 @@ export class BasicPartyDetailsComponent implements OnInit {
       this.partyName = this.common.params.cmpAssocDetail['Company Name'];
       this.cmpName = this.common.params.cmpAssocDetail['Company Name'];
       this.userCmpnyId = this.common.params.cmpAssocDetail._usercmpyid;
+      this.userCode = this.common.params.cmpAssocDetail._usersuppcode ? this.common.params.cmpAssocDetail._usersuppcode : null;
+      this.partyCode = this.common.params.cmpAssocDetail._partysuppcode ? this.common.params.cmpAssocDetail._partysuppcode : null;
       this.getCompanyBranches();
       this.getCompanyEstablishment();
       this.getCompanyContacts();
@@ -138,6 +144,8 @@ export class BasicPartyDetailsComponent implements OnInit {
       website: [''],
       remark: [''],
       panNo: [''],
+      userSupplier: [''],
+      partySupplier: [''],
     });
   }
 
@@ -394,7 +402,6 @@ export class BasicPartyDetailsComponent implements OnInit {
           this.common.loading--;
           console.error('Api Error:', err);
         });
-
   }
 
 
@@ -511,30 +518,34 @@ export class BasicPartyDetailsComponent implements OnInit {
     });
   }
 
-  saveDetails(){
+  saveDetails() {
+    if (this.panNo == '' && this.gstNo == '') {
       this.common.params = {
         title: 'PAN/GST CONFIRMATION',
         description: 'Do you Still Continue Either PAN OR GST ?',
-        btn2:"No",
-        btn1:'Yes'
+        btn2: "No",
+        btn1: 'Yes'
       };
       console.log("Inside confirm model")
       const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
       activeModal.result.then(data => {
         console.log('res', data);
         if (data.response) {
+          this.gstPanCheck = true;
           this.saveBasicDetails();
         }
       });
-     
+    } else {
+      this.saveBasicDetails();
+    }
   }
 
   saveBasicDetails() {
     console.log("save Basic Details");
     console.log('gst and pan', this.gstNo, this.panNo);
     var regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
-    var reggst = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/;
-    
+    var reggst = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9a-zA-Z]){1}?$/;
+    if (!this.gstPanCheck) {
       if (this.panNo != '' && !regpan.test(this.panNo)) {
         this.common.showError('Invalid Pan Number');
         return;
@@ -545,6 +556,8 @@ export class BasicPartyDetailsComponent implements OnInit {
         this.panNo = this.gstNo.slice(2, 11);
         console.log('pan from gst:', this.panNo);
       }
+    }
+
     let params = {
       branchId: this.branchId,
       website: this.website,
@@ -556,7 +569,9 @@ export class BasicPartyDetailsComponent implements OnInit {
       cmpName: this.cmpName,
       assCmpnyId: this.assCmpnyId,
       userCmpnyId: this.userCmpnyId,
-      assocId: this.assocId
+      assocId: this.assocId,
+      userSuppCode: this.userCode,
+      partySuppCode: this.partyCode,
     }
     ++this.common.loading;
     console.log("params", params);
@@ -571,12 +586,20 @@ export class BasicPartyDetailsComponent implements OnInit {
           this.branchId = null;
           this.website = null;
           this.remark = null;
-          this.panNo = null;
-          this.gstNo = null;
+          this.panNo = '';
+          this.gstNo = '';
           this.cmpAlias = null;
-          this.assType = null;
+          // this.assType = '';
           this.cmpName = null;
+          this.userCode = null;
+          this.partyCode = null;
+          this.common.params = {
+            partyId: res['data'][0].y_ass_id,
+            userGroupId: this.assType,
+          };
+          this.modalService.open(PartyLedgerMappingComponent, { size: "lg", container: "nb-layout" });
           this.common.showToast(res['data'][0].y_msg);
+
         } else {
           this.common.showError(res['data'][0].y_msg)
         }
@@ -585,7 +608,6 @@ export class BasicPartyDetailsComponent implements OnInit {
           --this.common.loading;
           console.error(' Api Error:', err)
         });
-
   }
 
 

@@ -34,38 +34,32 @@
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>S.No</th>
-          <th>Stock Item</th>
-          <th>Unit</th>
-          <th>sales return</th>
-          <th>Purchase return</th>
-          <th>wastage Qty</th>
-          <th>store Received qty</th>
-          <th>store Issue qty</th>
-          <th>Avg Purchase Rate</th>
-          <th>Avg Sales Rate</th>
-          <th>Total Purchase Qty</th>
-          <th>Total Sales Qty</th>
-          <th>Stock Qty</th>
-          <th>Stock Balance</th>
+          <th>Item</th>
+          <th>Purchase </th>
+          <th>Sales</th>
+          <th>Credit Note</th>
+          <th>Debit Note</th>
+          <th>Wastage</th>
+          <th>Store Recived </th>
+          <th>Store Issue</th>
+          <th>Opening Qty</th>
+          <th>Opening Balance</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let openingStock of openingStocks;  let i = index;" (click)="selectedRow = i"
           [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{ i+1 }}</td>
-        <td>{{openingStock['Stock Item']}}</td>
-          <td>{{openingStock['Unit']}}</td>
-          <td>{{openingStock['sr_total_qty  ']}}</td>
-          <td>{{openingStock['pr_total_qty ']}}</td>
-          <td>{{openingStock['wastage_total_qty ']}}</td>
-          <td>{{openingStock['storeRec_total_qty']}}</td>
-          <td>{{openingStock['storeIssue_total_qty']}}</td>
-          <td>{{openingStock['Avg Purchase Rate']}}</td>
-          <td>{{openingStock['Avg Sales Rate']}}</td>
-          <td>{{openingStock['Total Purchase Qty']}}</td>
-          <td>{{openingStock['Total Sales Qty']}}</td>
-          <td>{{openingStock['Stock Qty']}}</td>
-          <td>{{openingStock['Stock Balance']}}</td>
+        <td>{{openingStock.stockitem_name}}</td>
+          <td>{{openingStock.pi_total_qty}}</td>
+          <td>{{openingStock.si_total_qty}}</td>
+          <td>{{openingStock.sr_total_qty}}</td>
+          <td>{{openingStock.pr_total_qty}}</td>
+          <td>{{openingStock.wastage_total_qt}}</td>
+          <td>{{openingStock.storeRec_total_qty}}</td>
+          <td>{{openingStock.storeIssue_total_qty}}</td>
+          <td>{{openingStock.stock_qty}}</td>
+          <td>{{openingStock.stock_amt}}</td>
         </tr>
       </tbody>
     </table>

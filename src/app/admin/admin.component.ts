@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouteGuard } from '../guards/route.guard';
-
-import { MENU_ITEMS } from './admin-menu';
+import { ADMIN_MENU_ITEMS } from './admin-menu';
 import { from } from 'rxjs';
 import { routes } from '@nebular/auth';
 import { DataService } from '../services/data.service';
@@ -16,19 +15,17 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./admin.scss'],
   template: `
     <ngx-sample-layout class="admin">
-      <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
+      <nb-menu *ngIf="user._menu.admin.length" [items]="user._menu.admin" autoCollapse="true"></nb-menu>
       <router-outlet class="admin-dot"></router-outlet>
     </ngx-sample-layout>
   `,
 })
 export class AdminComponent {
-  menu = this.common.menuGenerator('admin');
   constructor(public common: CommonService,
     public user: UserService,
     public api: ApiService,
     public router: Router,
     public accountService: AccountService) {
-
 
     if (this.user._loggedInBy == 'customer') {
       this.router.navigate(['/pages']);
@@ -38,6 +35,8 @@ export class AdminComponent {
       this.getBranches();
     }
   }
+
+
   getBranches() {
     this.api.post('Suggestion/GetBranchList', { search: 123 })
       .subscribe(res => {

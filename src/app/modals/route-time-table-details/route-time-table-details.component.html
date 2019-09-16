@@ -1,0 +1,70 @@
+<!-- Author By: Lalit Singh -->
+<div class="modal-header">
+  <h5>Route Time Table Details</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()"> <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-1 mt-1">
+      <label>Routes:</label>
+    </div>
+    <div class="col-3">
+      <auto-suggestion [data]="routesDetails" [display]="['name','id']"
+        [preSelected]="routeName ? {name:routeName,id:routeId}: {name: '',id:''}" seperator="-"
+        (onSelected)="changeRouteType($event)" inputId="routeId"></auto-suggestion>
+    </div>
+    <div class="col-3 mt-1" *ngIf="routeId">
+      <label>Route Time Table</label>
+    </div>
+    <div class="col-3" *ngIf="routeId">
+      <auto-suggestion [data]="routeTimes" [display]="['name','id']"
+        [preSelected]="routeTimeName ? {name:routeTimeName,id:routeTime}: {name: '',id:''}" seperator="-"
+        (onSelected)="changeRouteTime($event)" inputId="routeTime"></auto-suggestion>
+    </div>
+  </div>
+
+  <div class="main mt-2">
+    <table class="table table-bordered">
+      <thead style="background-color: #263238; color:#fff;">
+        <tr>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Kms</th>
+          <th>Type</th>
+          <th>Arrival Time</th>
+          <th>Halt Time</th>
+          <th>Action</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of routesData; let i = index;">
+          <td>{{data._no}}</td>
+          <td>{{ data.name}}</td>
+          <td>{{data.kms}}</td>
+          <td>{{data.Type}}</td>
+          <td>
+            <input type="number" class="day" [(ngModel)]="data.Arrival_Day" min="1" max="100"
+              (ngModelChange)="arrivalTimeChecker()" *ngIf="i!=0">
+            <uj-date-time-picker class="day-time" [isDate]="false" *ngIf="i!=0"
+              (onChanged)="handleArrivalTimeSelection($event, data, i)" [dateTimeValue]="data.Arrival_Time">
+            </uj-date-time-picker>
+            <span *ngIf="data.errorMsg" class="error">{{data.errorMsg}}</span>
+          </td>
+          <td>
+            <uj-date-time-picker [isDate]="false" (onChanged)="handleHaltTimeSelection($event,data)"
+              [dateTimeValue]="data.Halt_Time">
+            </uj-date-time-picker>
+          </td>
+          <td></td>
+        </tr>
+      </tbody>
+
+    </table>
+    <div class="text-center">
+      <button class="btn btn-primary" (click)="setArrivalTime()">SUBMIT</button>
+    </div>
+  </div>
+
+</div>

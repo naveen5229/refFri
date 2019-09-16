@@ -1,14 +1,14 @@
-:host ::ng-deep .tableFixHead{
-    table{
-        tr{
-            td:last-child{
-                i{
+:host ::ng-deep .tableFixHead {
+    table {
+        tr {
+            td:last-child {
+                i {
                     margin-right: 10px;
                     font-size: 14px;
                 }
                 .fa-file {
                     color: #04a9f5;
-                    span{
+                    span {
                         position: absolute;
                         display: none;
                         padding: 10px 32px;
@@ -19,9 +19,9 @@
                         -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                         box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                         font-family: Roboto;
-                        z-index:9999;
+                        z-index: 9999;
                     }
-                    span::before{
+                    span::before {
                         content: 'Edit Doc';
                         display: block;
                         position: absolute;
@@ -30,10 +30,10 @@
                         background-color: #04A9F5;
                         border-radius: 3px;
                         padding: 5px 10px;
-                        color:#fff;
+                        color: #fff;
                         width: 100%;
                     }
-                    span::after{
+                    span::after {
                         content: '';
                         width: 0;
                         height: 0;
@@ -47,54 +47,98 @@
                         transform: translate(-50%);
                     }
                 }
-                .fa-file:hover span{
+                .fa-file:hover span {
                     display: block;
                 }
             }
             .fa-tasks {
-                    color: red;
-                    span{
-                        position: absolute;
-                        display: none;
-                        padding: 10px 20px;
-                        font-size: 11px;
-                        font-weight: normal;
-                        left: -12px;
-                        top: -28px;
-                        -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-                        box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-                        font-family: Roboto;
-                        z-index:9999;
-                    }
-                    span::before{
-                        content: 'Edit';
-                        display: block;
-                        position: absolute;
-                        top: 0px;
-                        left: 0px;
-                        background-color: red;
-                        border-radius: 3px;
-                        padding: 5px 10px;
-                        color:#fff;
-                        width: 100%;
-                    }
-                    span::after{
-                        content: '';
-                        width: 0;
-                        height: 0;
-                        border-left: 5px solid transparent;
-                        border-right: 5px solid transparent;
-                        border-top: 5px solid red;
-                        position: absolute;
-                        bottom: -5px;
-                        left: 50%;
-                        -webkit-transform: translate(-50%);
-                        transform: translate(-50%);
-                    }
+                color: red;
+                span {
+                    position: absolute;
+                    display: none;
+                    padding: 10px 20px;
+                    font-size: 11px;
+                    font-weight: normal;
+                    left: -12px;
+                    top: -28px;
+                    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                    font-family: Roboto;
+                    z-index: 9999;
                 }
-                .fa-tasks:hover span{
+                span::before {
+                    content: 'Edit';
                     display: block;
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    background-color: red;
+                    border-radius: 3px;
+                    padding: 5px 10px;
+                    color: #fff;
+                    width: 100%;
                 }
+                span::after {
+                    content: '';
+                    width: 0;
+                    height: 0;
+                    border-left: 5px solid transparent;
+                    border-right: 5px solid transparent;
+                    border-top: 5px solid red;
+                    position: absolute;
+                    bottom: -5px;
+                    left: 50%;
+                    -webkit-transform: translate(-50%);
+                    transform: translate(-50%);
+                }
+            }
+            .fa-tasks:hover span {
+                display: block;
+            }
+        }
+        .fa-reddit {
+            color: red;
+            span {
+                position: absolute;
+                display: none;
+                padding: 10px 67px;
+                font-size: 11px;
+                font-weight: normal;
+                left: -58px;
+                top: -28px;
+                -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                font-family: Roboto;
+                z-index: 9999;
+            }
+            span::before {
+                content: 'Driver Ledger Mapping';
+                display: block;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                background-color: red;
+                border-radius: 3px;
+                padding: 5px 10px;
+                color: #fff;
+                width: 100%;
+            }
+            span::after {
+                content: '';
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid red;
+                position: absolute;
+                bottom: -5px;
+                left: 50%;
+                -webkit-transform: translate(-50%);
+                transform: translate(-50%);
+            }
+        }
+        .fa-reddit:hover span {
+            display: block;
         }
     }
 }

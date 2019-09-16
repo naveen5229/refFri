@@ -68,7 +68,16 @@
         </table>
       </div>
       <div class="row mb-3 align-items-baseline">
-        <div class="col-1 mr-3 pr-0">
+        <div class="col-1">
+          <b>Advance Received From Party </b>
+        </div>
+        <div class="col-2" style="text-align: right">
+          <label> {{advanceAmount}} </label>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-plus add" (click)='openTransferModal()'></i>
+        </div>
+        <div class="col-2">
           <span><b>Remarks</b></span>
         </div>
 
@@ -76,7 +85,7 @@
           <textarea [(ngModel)]="revenue.remarks" class="form-control"></textarea>
         </div>
 
-        <div class="col-2 pl-0">
+        <div class="col-1 pl-0">
           <button class="btn btn-primary" form="expense-Form" id=""
             (click)="saveDetails();">{{revenue.id?'Edit':'Add'}}</button>
         </div>

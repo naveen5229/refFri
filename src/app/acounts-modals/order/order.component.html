@@ -48,7 +48,6 @@
                 <label class="ref-label">Purchase Ledger</label>
                 <input autocomplete="off" type="text" class="form-control  ref-input" id="purchaseledger"
                   name="purchaseledger" [(ngModel)]="order.purchaseledger.name"
-                  [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)"
                   (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </div>
             </div>
@@ -58,8 +57,7 @@
               <div class="form-group">
                 <label class="ref-label">Supplier Ledger</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" id="ledger" name="ledger"
-                  [(ngModel)]="order.ledger.name" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)"
-                  require>
+                  [(ngModel)]="order.ledger.name" require>
                 <!-- <auto-suggestion (onSelected)="onSelectedaddress($event, 'ledger', 'name')"
                   url="Suggestion/GetPurchaseLedger" display="name" placeholder="Enter Ledger" inputId="ledger"
                   [data]="supplier" [preSelected]="null"></auto-suggestion> -->
@@ -69,16 +67,13 @@
               <div class="form-group">
                 <label class="ref-label">Supplier Ref.No</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" name="account-vendorbidref"
-                  id="vendorbidref" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)"
-                  [(ngModel)]="order.vendorbidref" placeholder="Vender Bid Reference">
+                  id="vendorbidref"  [(ngModel)]="order.vendorbidref" placeholder="Vender Bid Reference">
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">P.O.No.</label>
-                <input autocomplete="off" type="text" class="form-control ref-input" name="account-qutationrefrence"
-                  id="qutationrefrence" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)"
-                  [(ngModel)]="order.qutationrefrence" placeholder="Quatation Reference">
+                <input autocomplete="off" type="text" class="form-control ref-input" name="account-qutationrefrence" id="qutationrefrence" [(ngModel)]="order.qutationrefrence" placeholder="Quatation Reference">
               </div>
             </div>
 
@@ -86,9 +81,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Shipment Location</label>
-                <input autocomplete="off" type="text" class="form-control ref-input" name="account-shipmentlocation"
-                  id="shipmentlocation" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)"
-                  [(ngModel)]="order.shipmentlocation" placeholder="Shipment Location">
+                <input autocomplete="off" type="text" class="form-control ref-input" name="account-shipmentlocation"  id="shipmentlocation"  [(ngModel)]="order.shipmentlocation" placeholder="Shipment Location">
               </div>
             </div>
           </div>
@@ -98,16 +91,14 @@
               <div class="form-group">
                 <label class="ref-label">Payment Terms</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" name="account-paymentterms"
-                  id="paymentterms" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)"
-                  [(ngModel)]="order.paymentterms" placeholder="Payment Terms">
+                  id="paymentterms"  [(ngModel)]="order.paymentterms" placeholder="Payment Terms">
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Bilty Number</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" name="account-biltynumber"
-                  id="biltynumber" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)"
-                  [(ngModel)]="order.biltynumber" placeholder="Bilty Number">
+                  id="biltynumber" [(ngModel)]="order.biltynumber" placeholder="Bilty Number">
               </div>
             </div>
             <div class="col">
@@ -115,8 +106,7 @@
                 <label class="ref-label">Bilty Date</label>
 
                 <input autocomplete="off" type="text" style="cursor: pointer;" class="form-control ref-input"
-                  autocomplete="off" id="biltydate" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)"
-                  name="account-biltydate" [(ngModel)]="order.biltydate" maxlength="10"
+                  autocomplete="off" id="biltydate"  name="account-biltydate" [(ngModel)]="order.biltydate" maxlength="10"
                   (click)="lastActiveId = 'account-biltydate'; allowBackspace = false;"
                   (input)="allowBackspace = false;">
 
@@ -126,17 +116,15 @@
               <div class="form-group">
                 <label class="ref-label">Dilivery Terms</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" name="account-deliveryterms"
-                  id="deliveryterms" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)"
-                  [(ngModel)]="order.deliveryterms" placeholder="Delivery Terms">
+                  id="deliveryterms"[(ngModel)]="order.deliveryterms" placeholder="Delivery Terms">
               </div>
             </div>
           </div>
           <div class="row" *ngIf="(order.ordertype.id != -108)">
             <div class="col">
               <div class="form-group">
-                  <label class="ref-label">Billing Address</label>
-                <textarea class="form-control ref-input" name="account-billingaddress" id="billingaddress"
-                  [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)" [(ngModel)]="order.billingaddress"
+                  <label class="ref-label">Vender Billing Address</label>
+                <textarea class="form-control ref-input" name="account-billingaddress" id="billingaddress"  [(ngModel)]="order.billingaddress"
                   placeholder="Vender Billing Address"></textarea>
               </div>
             </div>
@@ -146,8 +134,7 @@
             <div class="col">
               <div class="form-group">
                   <label class="ref-label">Invoice Remarks</label>
-                <textarea class="form-control ref-input" name="account-orderremarks" id="orderremarks"
-                  [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)" [(ngModel)]="order.orderremarks"
+                <textarea class="form-control ref-input" name="account-orderremarks" id="orderremarks" [(ngModel)]="order.orderremarks"
                   placeholder="Invoice Remarks"></textarea>
               </div>
             </div>
@@ -183,7 +170,7 @@
                   placeholder="Enter Sales Ledger" [preSelected]="null">
                 </auto-suggestion> -->
                 <input autocomplete="off" type="text" class="form-control ref-input" id="purchaseledger"
-                  name="purchaseledger" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )"
+                  name="purchaseledger" [readonly]="(order.ordertype.id ==-107 )"
                   [(ngModel)]="order.purchaseledger.name"
                   (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </div>
@@ -196,7 +183,7 @@
                 <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger"
                   display="name" inputId="ledger" placeholder="Party Name" [preSelected]="null"></auto-suggestion> -->
                 <input autocomplete="off" type="text" class="form-control ref-input" id="ledger" name="ledger"
-                  [(ngModel)]="order.ledger.name" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )"
+                  [(ngModel)]="order.ledger.name" [readonly]="(order.ordertype.id ==-107 )"
                   require>
 
               </div>
@@ -205,7 +192,7 @@
               <div class="form-group">
                 <label class="ref-label">Order No</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" id="vendorbidref"
-                  name="account-vendorbidref" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )"
+                  name="account-vendorbidref" [readonly]="(order.ordertype.id ==-107 )"
                   [(ngModel)]="order.vendorbidref" placeholder="Order No">
               </div>
             </div>
@@ -213,7 +200,7 @@
               <div class="form-group">
                 <label class="ref-label">Other Reference</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" id="qutationrefrence"
-                  name="account-qutationrefrence" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )"
+                  name="account-qutationrefrence" [readonly]="(order.ordertype.id ==-107 )"
                   [(ngModel)]="order.qutationrefrence" placeholder="Other Reference">
               </div>
             </div>
@@ -223,7 +210,7 @@
               <div class="form-group">
                 <label class="ref-label">Shipment Location</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" id="shipmentlocation"
-                  name="account-shipmentlocation" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )"
+                  name="account-shipmentlocation" [readonly]="(order.ordertype.id ==-107 )"
                   [(ngModel)]="order.shipmentlocation" placeholder="Shipment Location">
               </div>
             </div>
@@ -234,7 +221,7 @@
               <div class="form-group">
                 <label class="ref-label">Payment Terms</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" id="paymentterms"
-                  name="account-paymentterms" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )"
+                  name="account-paymentterms" [readonly]="(order.ordertype.id ==-107 )"
                   [(ngModel)]="order.paymentterms" placeholder="Payment Terms">
               </div>
             </div>
@@ -242,7 +229,7 @@
               <div class="form-group">
                 <label class="ref-label">Eway Bill Number</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" id="biltynumber"
-                  name="account-biltynumber" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )"
+                  name="account-biltynumber" [readonly]="(order.ordertype.id ==-107 )"
                   [(ngModel)]="order.biltynumber" placeholder="Eway Bill Number">
               </div>
             </div>
@@ -250,7 +237,7 @@
               <div class="form-group">
                 <label class="ref-label">Eway Bill Date</label>
                 <input autocomplete="off" type="text" style="cursor: pointer;" class="form-control ref-input"
-                  autocomplete="off" id="biltydate" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )"
+                  autocomplete="off" id="biltydate" [readonly]="(order.ordertype.id ==-107 )"
                   name="account-biltydate" [(ngModel)]="order.biltydate" maxlength="10"
                   (click)="lastActiveId = 'account-biltydate'; allowBackspace = false;"
                   (input)="allowBackspace = false;">
@@ -261,7 +248,7 @@
               <div class="form-group">
                 <label class="ref-label">Delivery Terms</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" id="deliveryterms"
-                  name="account-deliveryterms" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )"
+                  name="account-deliveryterms" [readonly]="(order.ordertype.id ==-107 )"
                   [(ngModel)]="order.deliveryterms" placeholder="Delivery Terms">
               </div>
             </div>
@@ -270,9 +257,9 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
-                  <label class="ref-label">Billing Address</label>
+                  <label class="ref-label">Party Billing Address</label>
                 <textarea class="form-control ref-input" name="account-billingaddress" id="billingaddress"
-                  [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )" [(ngModel)]="order.billingaddress"
+                  [readonly]="(order.ordertype.id ==-107 )" [(ngModel)]="order.billingaddress"
                   placeholder="Party Billing Address"></textarea>
               </div>
             </div>
@@ -280,7 +267,7 @@
               <div class="form-group">
                   <label class="ref-label">Consignee Address</label>
                 <textarea class="form-control ref-input" name="account-grnremarks" id="grnremarks"
-                  [(ngModel)]="order.grnremarks" [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )"
+                  [(ngModel)]="order.grnremarks" [readonly]="(order.ordertype.id ==-107 )"
                   placeholder="Consignee Address"></textarea>
               </div>
             </div>
@@ -290,7 +277,7 @@
               <div class="form-group">
                   <label class="ref-label">Invoice Remarks</label>
                 <textarea class="form-control ref-input" name="account-orderremarks" id="orderremarks"
-                  [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107 )" [(ngModel)]="order.orderremarks"
+                  [readonly]="(order.ordertype.id ==-107 )" [(ngModel)]="order.orderremarks"
                   placeholder="Invoice Remarks"></textarea>
               </div>
             </div>
@@ -340,7 +327,7 @@
           <td>
             <input type="text" [id]="'warehouse-' + i" autocomplete="off" class="form-control ref-input"
               [name]="'warehouse-' + i" [(ngModel)]="amountDetail.warehouse.name" placeholder="Please Select Warehouse"
-              [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)">
+              [readonly]="(order.ordertype.id ==-107)">
             <!-- <auto-suggestion (onSelected)="amountDetail.warehouse = $event.id" url="Suggestion/GetWareHouse"
                       display="name" placeholder="Enter Warehouse" [preSelected]="null" [inputId]="'warehouse-' + i">
                     </auto-suggestion> -->
@@ -348,7 +335,7 @@
           <td>
             <input type="text" [id]="'stockitem-' + i" autocomplete="off" class="form-control ref-input"
               name="'stockitem-' + i" [(ngModel)]="amountDetail.stockitem.name" placeholder="Please Select Stock Item"
-              [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)" required>
+              [readonly]="(order.ordertype.id ==-107)" required>
             <span
               *ngIf="((order.ordertype.name.toLowerCase().includes('sales')) && (order.amountDetails[i].warehouse.id)) ">(<i>Available
                 Stock Qty is </i>{{ this.totalitem }})</span>
@@ -397,13 +384,13 @@
 
           <td *ngIf="(order.ordertype.id != -108)">
             <input type="text" class="form-control ref-input" autocomplete="off" name="account-remarks"
-              [readonly]="(order.ordertype.id == -106 || order.ordertype.id ==-107)" [id]="'remarks-' + i"
+              [readonly]="(order.ordertype.id ==-107)" [id]="'remarks-' + i"
               [(ngModel)]="amountDetail.remarks" placeholder="Please Enter Remarks">
           </td>
           <td *ngIf="(order.ordertype.id != -108)">
             <button (click)="TaxDetails(i)" [id]="'taxDetail-'+i" class="btn btn-taxdet">Tax</button>
           </td>
-          <td *ngIf="i == 0 && (order.ordertype.id != -106 || order.ordertype.id !=-107 || order.ordertype.id != -108)">
+          <td *ngIf="i == 0 && (order.ordertype.id !=-107 || order.ordertype.id != -108)">
             <button class="plustransparent btn btn-plus" id="plustransparent" (click)="addAmountDetails()"><i
                 class="fa fa-plus"></i></button></td>
           <td *ngIf="i !== 0">

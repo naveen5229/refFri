@@ -1,0 +1,85 @@
+.btn-primary {
+    padding: 6px 15px;
+    border-radius: 5px;
+    border: 0px;
+    text-transform: capitalize;
+    cursor: pointer !important;
+    width: 100%;
+}
+
+.vertical {
+    writing-mode: tb-rl;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    white-space: nowrap;
+    display: block;
+    bottom: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.chartjs-render-monitor {
+    max-height: 350px;
+}
+
+.xScale {
+    margin-left: 487px;
+    font-size: 16px;
+}
+
+table {
+    thead {
+        background-color: #324148;
+        color: #fff;
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        color: #fff;
+        th:nth-child(1) {
+            width: auto;
+        }
+        th:nth-child(2) {
+            width: auto;
+        }
+        th {
+            width: auto;
+        }
+        th:last-child {
+            width: auto;
+        }
+    }
+    tbody {
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 462px);
+        tr {
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1) {
+                width: auto;
+            }
+            th:nth-child(2) {
+                width: auto;
+            }
+            td {
+                width: auto;
+            }
+            th:last-child {
+                width: auto;
+            }
+        }
+        tr:nth-child(odd) {
+            background-color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #E4E4E4;
+        }
+    }
+}

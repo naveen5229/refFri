@@ -4,6 +4,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { LRRateCalculatorComponent } from '../lrrate-calculator/lrrate-calculator.component';
+import { TransferReceiptsComponent } from '../../FreightRate/transfer-receipts/transfer-receipts.component';
 
 @Component({
   selector: 'lr-rate',
@@ -19,9 +20,11 @@ export class LrRateComponent implements OnInit {
   generalModal = true;
   title = "General";
   btnTitle = "Advance Form";
+  advaceTxt = "Advance Received From Party"
   isAdvanced = false;
   postAllowed = null;
   id = null;
+  advanceAmount=0;
   general = {
     param: null,
     minRange: null,
@@ -86,12 +89,14 @@ export class LrRateComponent implements OnInit {
     console.log("this.common.params.LrData", this.common.params.rate);
     this.lrId = this.common.params.rate.lrId ? this.common.params.rate.lrId : null;
     this.type = this.common.params.rate.rateType ? this.common.params.rate.rateType : null;
+    this.advaceTxt = this.common.params.rate.rateType ?"Advance Given To MVS":"Advance Received From Party"
     this.generalModal = this.common.params.rate.generalModal ? this.common.params.rate.generalModal : false;
     this.title = this.common.params.rate.generalModal ? "General" : "Advance";
     this.btnTitle = this.common.params.rate.generalModal ? "Advance Form" : "General Form";
     this.isAdvanced = this.common.params.rate.generalModal ? false : true;
     this.getLrRateDetails();
     this.getLRtRateparams();
+    this.lrGetAdvanceAmount();
 
     if (this.generalModal) {
       this.common.handleModalSize('class', 'modal-lg', '500');
@@ -351,7 +356,7 @@ export class LrRateComponent implements OnInit {
       this.rateDiv = this.data[0]['_allowedit'];
       this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
       this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
-      this.filters[0].shortage = data[1] && data[1]['short_coeff'] ? data[1]['short_coeff'] : data[1]['short_coeff'];
+      this.filters[0].shortage = data[1] && data[1]['short_coeff'] ? data[1]['short_coeff'] : '';
     }
     else {
       this.resetValue();
@@ -385,5 +390,33 @@ export class LrRateComponent implements OnInit {
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
+  }
+
+  openTransferModal(){
+    let refdata = {
+      refId : this.lrId,
+      refType : 11,
+      selectOption:this.type?'transfer':'receipt'
+    }
+    this.common.params = { refData: refdata };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      this.lrGetAdvanceAmount();
+    });
+  }
+
+  lrGetAdvanceAmount() {
+    let params={
+      lrId:this.lrId,
+      isExpense:this.type
+    }
+    this.api.post('lorryReceiptsOperation/lrGetAdvanceAmount',params)
+      .subscribe(res => {
+        console.log('advanceAmount', res['data']);
+        this.advanceAmount = res['data'][0].r_amount;
+      }, err => {
+        console.log(err);
+      });
   }
 }

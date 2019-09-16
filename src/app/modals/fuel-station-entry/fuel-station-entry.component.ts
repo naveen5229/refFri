@@ -40,14 +40,17 @@ export class FuelStationEntryComponent implements OnInit {
   }
 
   getFuelEntry() {
+
     let params = {
       vid: this.vid,
       date: this.dateTime
 
     };
+    this.common.loading++;
     console.log('params', params);
     this.common.api.post('Fuel/getFuelStationEntry', params)
       .subscribe(res => {
+        this.common.loading--;
         if (res['data'].length) {
           this.fuelEntry = res['data'];
           this.showTable = true;
@@ -57,6 +60,7 @@ export class FuelStationEntryComponent implements OnInit {
         console.log('res', res['data']);
         this.table = this.setTable();
       }, err => {
+        this.common.loading--;
         this.common.showError();
       })
   }

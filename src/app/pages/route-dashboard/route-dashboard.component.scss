@@ -1,0 +1,150 @@
+:host ::ng-deep.black {
+  color: black;
+  background: cornsilk;
+}
+
+:host ::ng-deep .fa-route {
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 50px;
+font-size: 11px;
+left: -36px;
+  
+    font-weight: normal;
+    top: -28px;
+    top: -28px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Route Mapper";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: black;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    -webkit-transform: translate(-50%);
+    transform: translate(-50%);
+  }
+}
+  :host ::ng-deep .fa-route:hover span {
+    display: block;
+  }
+
+
+  :host ::ng-deep .fa-truck-moving{
+  color: #ff8091;
+  font-size: 14px;
+  cursor: pointer;
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 44px;
+    font-size: 11px;
+    left: -34px;
+    font-weight: normal;
+    top: -28px;
+    top: -28px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Route Time";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #ff8091;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #ff8091;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    -webkit-transform: translate(-50%);
+    transform: translate(-50%);
+  }
+}
+
+:host ::ng-deep .fa-truck-moving:hover span {
+  display: block;
+}
+:host ::ng-deep .fa-pencil-square-o {
+  color: #0bf714;
+  font-size: 14px;
+  cursor: pointer;
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 44px;
+    font-size: 11px;
+    left: -34px;
+    font-weight: normal;
+    top: -28px;
+    top: -28px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Short Target";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #0bf714;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: black;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #0bf714;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    -webkit-transform: translate(-50%);
+    transform: translate(-50%);
+  }
+}
+  :host ::ng-deep .fa-pencil-square-o:hover span {
+    display: block;
+  }

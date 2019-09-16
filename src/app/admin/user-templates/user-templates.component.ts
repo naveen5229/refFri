@@ -7,6 +7,8 @@ import { SaveUserTemplateComponent } from '../../modals/save-user-template/save-
 import { AssignUserTemplateComponent } from '../../modals/assign-user-template/assign-user-template.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
+import { UserService } from '../../services/user.service';
+import { TemplateDevviewComponent } from '../../modals/template-devview/template-devview.component';
 
 @Component({
   selector: 'user-templates',
@@ -31,6 +33,7 @@ export class UserTemplatesComponent implements OnInit {
     public common: CommonService,
     private commonService: CommonService,
     public api: ApiService,
+    public user:UserService,
     private modalService: NgbModal) {
     this.getUserViews();
     this.common.refresh = this.refresh.bind(this);
@@ -40,7 +43,7 @@ export class UserTemplatesComponent implements OnInit {
   ngOnInit() {
   }
 
-  refresh(){
+  refresh() {
     this.getUserViews();
   }
 
@@ -119,23 +122,30 @@ export class UserTemplatesComponent implements OnInit {
   actionIcons(view) {
     let icons = [
       {
+        class: "far fa-eye devtemp",
+        action: this.templateDevView.bind(this, 'Template Development View', view)
+      },
+      {
         class: "far fa-edit",
         action: this.addAndEdit.bind(this, 'Edit', view)
       },
       {
         class: "far fa-eye",
-        action:this.templatePreview.bind(this,'Preview',view)
-      },
-      {
-        class: "fas fa-trash-alt",
-        action: this.deleteUserTemplate.bind(this, view)
-
+        action: this.templatePreview.bind(this, 'Preview', view)
       },
       {
         class: "fas fa-user",
         action: this.assign.bind(this, 'Edit', view)
       },
     ];
+    if(this.user._details._id==57){
+      icons.push(
+      {
+        class: "fas fa-trash-alt",
+        action: this.deleteUserTemplate.bind(this, view)
+      },
+      )
+    }
     return icons;
   }
 
@@ -149,14 +159,29 @@ export class UserTemplatesComponent implements OnInit {
     });
   }
 
-  templatePreview(title,row)
-  {
-    this.common.params={title:title,userPreview:row};
-    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+  templatePreview(title, row) {
+    let previewData = {
+      title: title,
+      previewId: row._id,
+      refId: row._lrId,
+      refType: row._ref_type
+    }
+    this.common.params = { previewData };
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
     activeModal.result.then(data => {
-    this.getUserViews();
+      this.getUserViews();
     });
   }
+
+  templateDevView(title, row) {
+    this.common.params = { title: title, userTemplate: row };
+    const activeModal = this.modalService.open(TemplateDevviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
+    activeModal.result.then(data => {
+      this.getUserViews();
+    });
+  }
+
+
 
   deleteUserTemplate(row) {
     console.log("row:", row);

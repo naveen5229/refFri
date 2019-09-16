@@ -1,0 +1,54 @@
+<!-- Author By: Lalit Singh -->
+<div class="modal-header">
+  <h5>Route Time Table</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()"> <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+
+    <div class="col-1 mt-1">
+      <label>Routes:</label>
+    </div>
+    <div class="col-3">
+      <auto-suggestion [data]="routesDetails" [display]="['name','id']"
+        [preSelected]="routeName ? {name:routeName,id:routeId}: {name: '',id:''}" seperator="-"
+        (onSelected)="changeRouteType($event)" inputId="routeId"></auto-suggestion>
+    </div>
+    <div class="col-2 mt-1">
+      <label>Start Time</label>
+    </div>
+    <div class="col-2">
+      <uj-date-time-picker [isDate]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+      </uj-date-time-picker>
+
+    </div>
+    <div class="col-2 mt-1 pr-0 pl-0 ">
+      <label>Association Type:</label>
+    </div>
+    <div class="col-2 ">
+      <select [(ngModel)]="assocType" class="form-control">
+        <option class="form-control" value="1">Strict</option>
+        <option class="form-control" value="2">Primary</option>
+        <option class="form-control" value="3">Secondary</option>
+      </select>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-12 text-right mt-3 ">
+      <button type="button " class="btn btn-primary " style="border-radius:3px " (click)="addrouteTime()">
+        {{this.rowId ?'EDIT':'ADD'}}
+      </button>
+      <button *ngIf="rowId" type="button " class="btn btn-primary ml-3" style="border-radius:3px "
+        (click)="reset()">Cancel
+
+      </button>
+    </div>
+  </div>
+  <div class="mt-2">
+
+    <smart-table *ngIf="routeTimeTable && routeTimeTable.length" [data]="table.data" [settings]="table.settings">
+    </smart-table>
+  </div>
+
+</div>

@@ -95,6 +95,7 @@
               <th>Start Date</th>
               <th>End Date</th>
               <th>Trip Empty</th>
+              <th>LR No.</th>
             </tr>
           </thead>
           <tbody>
@@ -111,6 +112,7 @@
               <td>{{trip.end_time | date : 'dd MMM' || '--'}}</td>
               <td *ngIf="trip.is_empty==true">{{'Yes'}}</td>
               <td *ngIf="trip.is_empty==false">{{'No'}}</td>
+              <td>{{trip.lr_no}}</td>
             </tr>
           </tbody>
         </table>
@@ -142,7 +144,7 @@
               <td>{{fuelFiling.litres}}</td>
               <td>{{fuelFiling.rate}}</td>
               <td>{{fuelFiling.amount}}</td>
-              <td>{{fuelFiling.date | date : 'dd MMM'}}</td>
+              <td>{{fuelFiling.entry_time | date : 'dd MMM'}}</td>
             </tr>
           </tbody>
         </table>
@@ -186,15 +188,22 @@
             <input type="number" class="form-control" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal" disabled readonly>
           </div>
 
-          <div class="form-group col-4 mt-4">
+          <div class="form-group col-3 mt-4">
               <label class="tjr-label">Remarks</label>
             <textarea class="form-control ref-input total_textarea" id="narration" name="narration" [(ngModel)]="narration">
             </textarea>
           </div>
-
+        </div>
+        <div class="row">
+          <div class="form-group col-2 mt-4">
+            <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="addTransfer()">Add Transfer</button>
+          </div>
+          <div class="form-group col-2 mt-4">
+            <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="showTransfer()">Show Transfers</button>
+          </div>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
         <div class="col-8 pl-0">
             <table class="table table-bordered invoice_tabel table-four">
               <thead style="background: #263238; color:#fff;">
@@ -252,12 +261,62 @@
               display="y_ledger_name" (select)="onDebitSelectednew($event, 'detailLedger', 'y_ledger_name',targetId)">
             </auto-suggetion-in-side>
           </div>
-          </div>
+          </div> -->
+      <div class="row" *ngIf="transferData">
+        <table class="table table-bordered" id="table">
+
+          <thead style="background-color:#263238; color:#fff;">
+           <tr>
+              <th>Advise Type</th>
+              <th>User Value</th>
+              <th>Credit To</th>
+              <th>Debit To</th>
+              <th>Remarks</th>
+              <th>Time</th>
+              <th>Entry By</th>
+              
+            </tr>
+          </thead>             
+              <tr *ngFor="let item of transferData; let i = index;">
+              
+                <td *ngFor="let itemheading of transferHeading">
+                    {{item[itemheading]}}                 
+               </td>
+            
+          </tr>
+        </table>
       </div>
+      <div class="row">
+       
+        <div class="form-group col-2 mt-4">
+          <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="getTripFreght()">Show Revenues</button>
+        </div>
+      </div>
+      <div class="row" *ngIf="tripFreghtDetails">
+        <table class="table table-bordered" id="table">
+
+          <thead style="background-color:#263238; color:#fff;">
+           <tr>
+              <th>Receipt No</th>
+              <th>Revenue</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>             
+              <tr *ngFor="let item of tripFreghtDetails; let i = index;">
+                <td>{{item.receipt_no}}</td>
+                <td>{{item.auto_amount}}</td>
+                <td>{{item.remarks}}</td>
+          </tr>
+        </table>
+      </div>
+      
+        </div>
     </div>
 
 
     <div class="modal-footer">
+       
+        <button *ngIf="VoucherId !=0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="printTripDetail()">Print</button>
         <button *ngIf="typeFlag==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
         <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="approveVoucher()">Approve</button>
         <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>

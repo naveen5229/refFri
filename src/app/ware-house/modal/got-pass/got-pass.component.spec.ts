@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SitesComponent } from './sites.component';
+import { GotPassComponent } from './got-pass.component';
 
-describe('SitesComponent', () => {
-  let component: SitesComponent;
-  let fixture: ComponentFixture<SitesComponent>;
+describe('GotPassComponent', () => {
+  let component: GotPassComponent;
+  let fixture: ComponentFixture<GotPassComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SitesComponent ]
+      declarations: [GotPassComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SitesComponent);
+    fixture = TestBed.createComponent(GotPassComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,74 +1,83 @@
 <nb-card>
   <nb-card-header>
-    User Prefernces
+    User Role
   </nb-card-header>
 
-  <nb-card-body style="min-height: 360px;">
-    <div class="search">
-      <auto-suggestion (onSelected)="getUserPages($event)" url="UserRoles/getActiveAdminUsers" display="employeename"
-        placeholder="Search" [preSelected]="null"></auto-suggestion>
+  <nb-card-body style="min-height: 580px;">
+    <div class="row">
+      <div class="col-2">
+        <label>Module</label>
+        <input type="text" class="form-control" id="module" name="module" [(ngModel)]="newPage.module">
+      </div>
+      <div class="col-2">
+        <label>Group</label>
+        <input type="text" class="form-control" id="group" name="group" [(ngModel)]="newPage.group">
+      </div>
+      <div class="col-2">
+        <label>Page Name</label>
+        <input type="text" class="form-control" id="title" name="title" [(ngModel)]="newPage.title">
+      </div>
+
+      <div class="col-2">
+        <label>Url</label>
+        <input type="text" class="form-control" id="url" name="url" [(ngModel)]="newPage.url">
+      </div>
+
+      <div class="col-1-5">
+        <label>Type</label>
+        <select [(ngModel)]="newPage.type" class="form-control">
+          <option value="Dashboard">Dashboard</option>
+          <option value="App">App</option>
+        </select>
+      </div>
+
+      <div class="col-1-5">
+        <label>Add Type</label>
+        <select [(ngModel)]="newPage.addType" class="form-control">
+          <option value="1">Admin</option>
+          <option value="2">FoAdmin</option>
+          <option value="-1">Both</option>
+        </select>
+      </div>
+
+      <div class="col-1 mt-4">
+        <button type="submit" class="btn btn-primary m-0" name="add" (click)="createNewPage()">Add New Page</button>
+      </div>
     </div>
+    <div class="row">
+      <div class="search mt-2">
+        <label> Select Employee Name</label>
+        <auto-suggestion (onSelected)="getUserPages($event)" [data]="getUsersList" display="employeename"
+          placeholder="Employee" [preSelected]="null" inputId="employeename"></auto-suggestion>
+      </div>
+      <div class="col text-right mt-4" *ngIf="selectedUser.details">
+        <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
+      </div>
+    </div>
+
+
     <div class="container">
-      <div *ngFor="let section of sections; let j = index;">
-        <div><input type="checkbox" [name]="'section-' + j" [(ngModel)]="section.isSelected"
-            (change)="checkOrUnCheckAll(j)"> {{section.title | uppercase}}</div>
-        <div class="row">
-          <div class="col-3" *ngFor="let page of pagesGroups[section.title]; let i = index;">
-            <input type="checkbox" [name]="section + '-page-' + i" [id]="section + '-page-' + i"
-              [(ngModel)]="page.isSelected"> {{page.title}}
+      <div *ngFor="let module of formattedData; let i = index;">
+        <div class="module-container">
+          <input type="checkbox" [ngClass]="module.isSelected? 'module-box' : 'module-box'" [name]="'section-' + i"
+            [(ngModel)]="module.isSelected" (change)="checkOrUnCheckAll(module, 'module')"> <span
+            class="module-name">{{module.name | uppercase }}</span>
+        </div>
+        <div class="group-container" *ngFor="let group of module.groups; let j = index">
+          <div class="group-head"><input type="checkbox" [ngClass]="group.isSelected? 'group-box' : 'group-box'"
+              [name]="'group-' + j" [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')">
+            {{group.name}}
+          </div>
+          <div class="col-2 page-container" *ngFor="let page of group.pages; let k = index">
+            <input type="checkbox" class=" page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected"
+              (click)="checkOrUnCheckAll(page,'page')">
+            {{page.title}}
           </div>
         </div>
       </div>
-      <p>
-        <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
-      </p>
+
+
     </div>
 
   </nb-card-body>
 </nb-card>
-
-
-
-
-
-<!-- 
-
-<h4>Admin</h4>
-<hr>
-<div class="form-group admin">
-  
-    <label class="checkbox-inline">
-        <input type="checkbox" name="lrView" > LR View
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="statusChange" > vehicle status Change
-    </label>
-     
-    <label class="checkbox-inline">
-        <input type="checkbox" name="lrView" > issue Alert
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="statusChange" > Escalation Matrix
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="lrGenerate" > Lr Generate
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="groupManagement" > Group Management
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="ticket" >ticket Properties
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="lorryReceipt" >lorry-Receipt Details
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="diagnostics" > diagnostics
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="siteDetails" > Site Details
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" name="pending" > Pending Documents
-    </label>
-</div> -->

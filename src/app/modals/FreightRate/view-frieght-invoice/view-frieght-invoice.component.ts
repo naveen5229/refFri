@@ -14,7 +14,6 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
   invoiceDetails = null;
   particulars = null;
   type = 1;
-
   data = [];
   headings = [];
   valobj = {};
@@ -29,8 +28,8 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     public modalService: NgbModal
   ) {
 
-    this.invoiceId = this.common.params.invoiceId;
-    this.common.handleModalSize('class', 'modal-lg', '1200');
+    this.invoiceId = this.common.params.invoice.id;
+    this.common.handleModalSize('class', 'modal-lg', '1600');
     this.printInvoice();
   }
 
@@ -46,7 +45,7 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     ++this.common.loading;
     let params = {
       invoiceId: this.invoiceId,
-      type: this.type
+      printType: this.type,
     }
     console.log("params", params);
     this.api.post('FrieghtRate/getFrieghtInvoiceData', params)
@@ -101,16 +100,5 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     this.renderer.setElementClass(document.body, 'test', false);
   }
 
-  openFreightRateModal() {
-    let invoice = {
-      id: this.invoiceId,
-      type: 1
-    }
-    this.common.params = { invoice: invoice }
-    const activeModal = this.modalService.open(FreightInvoiceRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-
-    });
-  }
+ 
 }

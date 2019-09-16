@@ -3,6 +3,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { ConfirmComponent } from '../../confirm/confirm.component';
+import { TransferReceiptsComponent } from '../transfer-receipts/transfer-receipts.component';
 
 @Component({
   selector: 'add-freight-expenses',
@@ -44,7 +45,7 @@ export class AddFreightExpensesComponent implements OnInit {
   refernceData = [];
   data = [];
   manualAmount = null;
-
+  advanceAmount = 0;
 
   headings = [];
   valobj = {};
@@ -58,10 +59,10 @@ export class AddFreightExpensesComponent implements OnInit {
     this.getFreightHeads();
 
     if (this.common.params.expenseData) {
-      this.expense.id = this.common.params.expenseData.id;
+      this.expense.id = this.common.params.expenseData.id?this.common.params.expenseData.id:null;
       this.expense.refId = this.common.params.expenseData.refId;
       this.expense.refernceType = this.common.params.expenseData.refernceType;
-      this.expense.remarks = this.common.params.expenseData.remarks;
+      this.expense.remarks = this.common.params.expenseData.remarks?this.common.params.expenseData.remarks:null;
       this.getExpenseDetails();
     }
     this.getExpenses();
@@ -72,8 +73,11 @@ export class AddFreightExpensesComponent implements OnInit {
   getExpenseDetails() {
     const params = "id=" + this.expense.refId +
       "&type=" + this.expense.refernceType;
+    this.common.loading++;
+
     this.api.get('Vehicles/getRefrenceDetails?' + params)
       .subscribe(res => {
+        this.common.loading--;
         console.log(res['data']);
         let resultData = res['data'][0];
         this.expense.vehicleId = resultData.vid;
@@ -118,8 +122,10 @@ export class AddFreightExpensesComponent implements OnInit {
   }
 
   getFreightHeads() {
+    this.common.loading++;
     this.api.get('FrieghtRate/getFreightHeads?type=exp')
       .subscribe(res => {
+        this.common.loading--;
         this.freightHeads = res['data'];
       }, err => {
         this.common.loading--;
@@ -167,10 +173,10 @@ export class AddFreightExpensesComponent implements OnInit {
 
     };
     console.log('params', params);
-    ++this.common.loading;
+    this.common.loading++;
     this.api.post('FrieghtRate/getFrieghtExpenses', params)
       .subscribe(res => {
-        --this.common.loading;
+        this.common.loading--;
         this.data = res['data']['result'];
         this.images = res['data']['images'];
         // if(this.images)
@@ -193,6 +199,7 @@ export class AddFreightExpensesComponent implements OnInit {
         }
 
       }, err => {
+        this.common.loading--;
         console.error(err);
         this.common.showError();
       });
@@ -293,6 +300,34 @@ export class AddFreightExpensesComponent implements OnInit {
         }
       });
     }
+  }
+
+  openTransferModal(){
+    let refdata = {
+      refId: this.expense.refId,
+      refType: this.expense.refernceType,
+      selectOption:'transfer'
+    }
+    this.common.params = { refData: refdata };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      this.lrGetAdvanceAmount();  
+    });
+  }
+
+  lrGetAdvanceAmount() {
+    let params={
+      lrId:this.expense.refId,
+      isExpense:'0'
+    }
+    this.api.post('lorryReceiptsOperation/lrGetAdvanceAmount',params)
+      .subscribe(res => {
+        console.log('advanceAmount', res['data']);
+        this.advanceAmount = res['data'][0].r_amount;
+      }, err => {
+        console.log(err);
+      });
   }
 }
 

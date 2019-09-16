@@ -1,66 +1,139 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Assign Columns</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-    <span aria-hidden="true">&times;</span>
-  </button>
+    <h5 class="modal-title" id="modal-basic-title">Assign Columns</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 <div class="modal-body">
-  <div class="clearfix">
-    <table style="width: 100%">
-      <tr>
-        <td>
-          <label>Branch</label>
-        </td>
-        <td>
-          <select class="form-control" [(ngModel)]="accountService.selected.branch" (change)="getBranchDetails();">
-            <option value="">Select Branch</option>
-            <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}</option>
-          </select>
-
-        </td>
-
-        <td> <label>Report Type</label></td>
-        <td>
-          <select [(ngModel)]="reportType" class="form-control">
-            <option value='LR'>LR</option>
-            <option value='POD'>POD</option>
-            <option value='FRINV'>Freight Invoice Print</option>
-            <option value='FRSUP'>Frieght Invoice Support</option>
-          </select>
-        </td>
-        <td>
-          <label>Party</label>
-        </td>
-        <td>
-          <span>
-            <auto-suggestion (onSelected)="getPartyDetail($event)" url="Suggestion/GetCompanies" display="name"
-              placeholder="Search Party Name" style="width:100%;" class="col-md-9 auto-suggest"
-              [preSelected]="{name:party.name}" (change)="resetData($event)">
-            </auto-suggestion><i class="fa fa-plus  add col-md-3" (click)="addParty()"></i>
-          </span>
-        </td>
-        <td><button class="btn btn-primary" (click)="getLrInvoiceColumns()">Show Coulmns</button></td>
-      </tr>
-    </table>
-    <div *ngIf="LrInvoiceColumns.length>0">
-      <table class="table table-bordered">
-        <thead class="thead">
-          <th></th>
-          <th>Column Title</th>
-          <th>Column Order</th>
-          <th>Is Requried ?</th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let column of LrInvoiceColumns;let i=index">
-            <td><input type="checkbox" [(ngModel)]=column.r_selected class="form control"></td>
-            <td><input type="text" [(ngModel)]=column.r_coltitle class="form control" readonly></td>
-            <td><input type="text" [(ngModel)]=column.r_colorder class="form control"></td>
-            <td><input type="checkbox" [(ngModel)]=column.r_required class="form control"></td>
-
-          </tr>
-        </tbody>
-        <button class="btn btn-primary" (click)="saveLrInvoiceColumns();">Save</button>
-      </table>
+    <div class="clearfix">
+        <table style="width: 100%">
+            <tr>
+                <td colspan="7">
+                    <label>
+                        <input type="checkbox" [(ngModel)]="isGlobal">
+                        Do you want to set Globally ?
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label *ngIf="!isGlobal">Branch</label>
+                </td>
+                <td>
+                    <select class="form-control" [(ngModel)]="accountService.selected.branch"
+                        (change)="getBranchDetails();" *ngIf="!isGlobal">
+                        <option value="">Select Branch</option>
+                        <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}
+                        </option>
+                    </select>
+                </td>
+                <td> <label>Report Type</label></td>
+                <td>
+                    <select [(ngModel)]="reportType" class="form-control">
+                        <option value='LR'>LR</option>
+                        <option value='POD'>POD</option>
+                        <option value='FRINV'>Freight Invoice Print</option>
+                        <option value='FRINV2'>Freight Invoice Print 2</option>
+                        <option value='FRINV3'>Freight Invoice Print 3</option>
+                        <option value='FRSUP'>Freight Invoice Support </option>
+                        <option value='FRSUP2'>Freight Invoice Support 2</option>
+                        <option value='FRSUP3'>Freight Invoice Support 3</option>
+                        <option value='MVSFRSTMT'>MVS FR Statements</option>
+                        <option value='DSPOD'>Distpatch Order</option>
+                        <option value='LR_PRT'>Print LR</option>
+                        <option value='DSPOD_PRT'>Print Distpatch Order</option>
+                    </select>
+                </td>
+                <td>
+                    <label *ngIf="!isGlobal">Party</label>
+                </td>
+                <td>
+                    <span *ngIf="!isGlobal">
+                        <auto-suggestion (onSelected)="getPartyDetail($event)" url="Suggestion/GetCompanies"
+                            display="name" placeholder="Search Party Name" style="width:100%;"
+                            class="col-md-9 auto-suggest" [preSelected]="{name:party.name}"
+                            (change)="resetData($event)">
+                        </auto-suggestion><i class="fa fa-plus  add col-md-3" (click)="addParty()"></i>
+                    </span>
+                </td>
+                <td><button class="btn btn-primary" (click)="getLrInvoiceColumns()">Show Coulmns</button></td>
+            </tr>
+        </table>
+        <div *ngIf="LrInvoiceColumns.length>0">
+            <!-- <table class="table table-bordered">
+                <thead class="thead">
+                    <th>#</th>
+                    <th>Column Title</th>
+                    <th>Block Name</th>
+                    <th>Column Order</th>
+                    <th>Is Requried ?</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let column of LrInvoiceColumns;let i=index">
+                        <td><input type="checkbox" [(ngModel)]=column.r_selected class="form control"></td>
+                        <td><input type="text" [(ngModel)]=column.r_coltitle class="form control"></td>
+                        <td>{{column.r_blockname}}</td>
+                        <td><input type="text" [(ngModel)]=column.r_colorder class="form control"></td>
+                        <td><input type="checkbox" [(ngModel)]=column.r_required class="form control"></td>
+                    </tr>
+                </tbody>
+            </table> -->
+            <div class="row mt-2">
+                <div class="col-4">
+                    <div class="drag-container">
+                        <h2 style="text-align: center;font-size: 19px;">Unassigned</h2>
+                        <div id="unassign" cdkDropList #unAssignList="cdkDropList" [cdkDropListData]="unassign"
+                            [cdkDropListConnectedTo]="[assignLeft,assignRight]" class="drag-list"
+                            (cdkDropListDropped)="drop($event)">
+                            <div class="drag-box " style="background: #D3D3D3;min-height:60px"
+                                *ngFor="let item of unassign" cdkDrag>
+                                <div><input type="text" [(ngModel)]=item.r_coltitle class="form control">
+                                    <div>{{item.r_blockname}}</div>
+                                </div>
+                                <div><input type="checkbox" [(ngModel)]="item.r_required"> is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div Class="col-4">
+                    <div class="drag-container">
+                        <h2 style="text-align: center;font-size: 19px;">Left</h2>
+                        <div id="assign-left" cdkDropList #assignLeft="cdkDropList" [cdkDropListData]="assign.left"
+                            [cdkDropListConnectedTo]="[unAssignList, assignRight]" class="drag-list"
+                            (cdkDropListDropped)="drop($event)">
+                            <div class="drag-box" style="min-height:60px" *ngFor="let item of assign.left" cdkDrag>
+                                <div *ngIf="item"><input type="text" [(ngModel)]="item.r_coltitle" class="form control">
+                                    <div>{{item.r_blockname}}</div>
+                                </div>
+                                <div *ngIf="item">
+                                    <input type="checkbox" [(ngModel)]="item.r_required"> is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div Class="col-4">
+                    <div class="drag-container">
+                        <h2 style="text-align: center;font-size: 19px;">Right</h2>
+                        <div id="assign-right" cdkDropList #assignRight="cdkDropList" [cdkDropListData]="assign.right"
+                            [cdkDropListConnectedTo]="[unAssignList, assignLeft]" class="drag-list"
+                            (cdkDropListDropped)="drop($event)">
+                            <div class="drag-box" style="min-height:60px" *ngFor="let item of assign.right" cdkDrag>
+                                <div *ngIf="item"><input type="text" [(ngModel)]="item.r_coltitle" class="form control">
+                                    <div>{{item.r_blockname}}</div>
+                                </div>
+                                <div *ngIf="item">
+                                    <input type="checkbox" [(ngModel)]="item.r_required"> is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
+
+<div *ngIf="LrInvoiceColumns.length>0" class="modal-footer">
+    <button class="btn btn-primary" (click)="saveLrInvoiceColumns();">Save</button>
 </div>

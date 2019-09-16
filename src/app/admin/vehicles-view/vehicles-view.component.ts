@@ -34,13 +34,11 @@ export class VehiclesViewComponent implements OnInit {
 
 
   getFoList(details) {
-
     this.foid = details.id;
     this.getVehiclesView();
   }
 
   getVehiclesView() {
-
     let params = 'foid=' + this.foid;
     console.log('params', params);
     this.common.loading++;
@@ -50,10 +48,17 @@ export class VehiclesViewComponent implements OnInit {
         console.log('res: ' + res['data']);
         this.vehicleViewDetails = res['data'];
         this.vehicleViewDetails.forEach((element) => {
-          if (element.is_ncv == "0") {
+          if (element.is_ncv == "0" ) {
             this.is_ncv.push(0);
-          } else {
+          } 
+         else if (element.is_ncv == "1" ) {
             this.is_ncv.push(1);
+          }
+          else if (element.is_ncv == "2" ) {
+            this.is_ncv.push(2);
+          }
+          else  {
+            this.is_ncv.push(0);
           }
           this.showtable = true;
         });
@@ -61,8 +66,6 @@ export class VehiclesViewComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       });
-
-
   }
 
   changeNcvValue(vid, index) {
@@ -86,6 +89,7 @@ export class VehiclesViewComponent implements OnInit {
         this.common.showError();
       })
   }
+
   closeModal() {
     this.activeModal.close();
   }
