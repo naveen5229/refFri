@@ -11,14 +11,16 @@
                     <label>Start Date</label>
                 </div>
                 <div class="col-2">
-                    <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate" [isTime]=false>
+                    <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate"
+                        [isTime]=false>
                     </uj-date-time-picker>
                 </div>
                 <div class="col-1">
                     <label>End Date</label>
                 </div>
                 <div class="col-2">
-                    <uj-date-time-picker (onChanged)="endDate=$event" class="" [dateTimeValue]="endDate" [isTime]=false [isStart]="false">
+                    <uj-date-time-picker (onChanged)="endDate=$event" class="" [dateTimeValue]="endDate" [isTime]=false
+                        [isStart]="false">
                     </uj-date-time-picker>
                 </div>
                 <div class="col-2">
@@ -39,7 +41,7 @@
                     <button type="button" class="btn btn-primary w-100" (click)="getFuelIndent()">submit</button>
                 </div>
                 <div class="col-1">
-                    <button type="button" class="btn btn-primary w-100" (click)="addFuelIndent('Add')">Add</button>
+                    <button type="button" class="btn btn-primary w-100" (click)="addFuelIndent()">Add</button>
                 </div>
 
             </div>

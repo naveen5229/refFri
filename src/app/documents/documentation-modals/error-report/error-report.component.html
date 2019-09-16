@@ -7,30 +7,22 @@
 <div class="table">
   <table class="table table-bordered table-hover">
     <thead class="thead">
-
       <tr>
         <th>SrNo</th>
         <th *ngFor="let col of columns" class="text-center">
           {{formatTitle(col)}}
         </th>
-
       </tr>
     </thead>
 
     <tbody class="">
       <tr *ngFor="let row of errors; let i=index;">
-
         <td style='width: 40px;'> <span>{{i + 1}}</span></td>
-
         <td *ngFor="let col of columns; " class="text-center">
-
           {{row[col]}}
-
         </td>
       </tr>
-
     </tbody>
-
   </table>
 </div>
 <div class="modal-footer">

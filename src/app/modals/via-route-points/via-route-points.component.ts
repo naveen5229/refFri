@@ -231,7 +231,6 @@ export class ViaRoutePointsComponent implements OnInit {
     this.api.post('ViaRoutes/deletevia', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('res', res['data']);
         this.viewTable();
         if (res['success']) {
           this.common.showToast("Success");

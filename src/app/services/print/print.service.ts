@@ -223,10 +223,11 @@ export class PrintService {
     detailsContainer.innerHTML = `
       <div class="row">
       ${details.map(detail => {
-      return `<div class="col-6"><strong>${detail.name}</strong><span>: </span><span>${detail.value}</span></div>`;
+      return `<div class="col-6" style="margin-top: 8px"><strong>${detail.name}</strong><span>${detail.value}</span></div>`;
     }).join('')}
       </div>
     `;
+    console.log('_________________________________________:', detailsContainer.innerHTML);
     return detailsContainer;
   }
 
@@ -251,6 +252,7 @@ export class PrintService {
    */
   createTheadHtml(headings: any[]) {
     let tHead = document.createElement('thead');
+    console.log('headings:__________________', headings);
     tHead.innerHTML = headings.map(heading => { return `<th>${heading.txt}</th>`; }).join('');
     return tHead;
   }

@@ -30,6 +30,9 @@ export class VoucherSummaryComponent implements OnInit {
   narration = '';
   tripVoucher;
   typeFlag = 2;
+  totalRevinue=0;
+  totalAdvance=0;
+  totalFuel=0;
   selectedRow = -1;
   trips;
   vouchertype = -150;
@@ -108,6 +111,7 @@ export class VoucherSummaryComponent implements OnInit {
     console.log('tripPendingDataSelected', this.common.params.tripPendingDataSelected);
 
     if (this.common.params.tripVoucher) {
+      this.vehclename = this.common.params.tripVoucher.y_vehicle_name
       this.tripsEditData = this.common.params.tripDetails;
       this.tripVoucher = this.common.params.tripVoucher;
       this.trips = this.common.params.tripEditData;
@@ -119,7 +123,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.creditLedger.name = this.tripVoucher.y_ledger_name;
       this.narration = this.tripVoucher.y_naration;
       this.date = this.common.dateFormatternew(this.tripVoucher.y_date, "DDMMYYYY", false, '-');
-      this.alltotal = this.tripVoucher.y_amount;
+      this.alltotal = parseFloat(this.tripVoucher.y_amount);
       this.custcode = this.tripVoucher.y_code;
       this.approve = this.common.params.Approved;
       if (this.common.params.tripExpDriver.length > 0) {
@@ -488,7 +492,7 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
 
-  
+
   getTripFreght() {
     // console.log('voucher id last ', voucherId)
     // const params = {
@@ -562,7 +566,8 @@ export class VoucherSummaryComponent implements OnInit {
             start_time: trip.start_time,
             end_time: trip.end_time,
             start_name: trip.start_name,
-            end_name: trip.end_name
+            end_name: trip.end_name,
+            lr_no: trip.lr_no
           });
         }
       });
@@ -783,7 +788,7 @@ export class VoucherSummaryComponent implements OnInit {
     this.tripHeads.map(trip => {
       total += parseFloat(trip.total);
     });
-    this.alltotal = total;
+    this.alltotal =  total;
     console.log('VoucherData: ', this.VoucherData);
   }
 
@@ -1025,17 +1030,27 @@ export class VoucherSummaryComponent implements OnInit {
     let rows3 = [];
     let rows4 = [];
     let rows5 = [];
-
-    this.tripsEditData.map((tripDetail, index) => {
-      rows1.push([
-        { txt: index + 1 },
-        { txt: tripDetail.start_name || '' },
-        { txt: tripDetail.end_name || '' },
-        { txt: tripDetail.start_time || '' },
-        { txt: tripDetail.end_time || '' },
-        { txt: (tripDetail.is_empty) ? 'Yes' : 'No' || '' },
-        { txt: tripDetail.lr_no || '' },
-      ]);
+    let rows6 =[];
+    console.log('trip check data', this.trips);
+    this.trips.map((tripDetail, index) => {
+      if (tripDetail.isChecked) {
+        rows1.push([
+          { txt: index + 1 },
+          { txt: tripDetail.start_name + ' -> ' + tripDetail.end_name || '' },
+          { txt: tripDetail.start_time || '' },
+          { txt: tripDetail.end_time || '' },
+          { txt: (tripDetail.is_empty) ? 'Yes' : 'No' || '' },
+          { txt: tripDetail.lr_no || '' },
+          { txt: tripDetail.revenue || '' },
+          { txt: tripDetail.advance || '' },
+        ]);
+        if(tripDetail.revenue){
+        this.totalRevinue += parseFloat(tripDetail.revenue);
+        }
+        if(tripDetail.advance){
+        this.totalAdvance += parseFloat(tripDetail.advance);
+        }
+      }
     });
 
     if (this.vouchertype == -150) {
@@ -1046,8 +1061,9 @@ export class VoucherSummaryComponent implements OnInit {
           { txt: fuelfill.litres || '' },
           { txt: fuelfill.rate || '', align: 'left' },
           { txt: fuelfill.amount || '', align: 'left' },
-          { txt: fuelfill.date || '' },
+          { txt: fuelfill.entry_time || '' },
         ]);
+        this.totalFuel += parseFloat(fuelfill.amount);
       });
     }
 
@@ -1055,7 +1071,6 @@ export class VoucherSummaryComponent implements OnInit {
       rows3.push([
         { txt: index + 1 },
         { txt: tripHead.name || '' },
-        { txt: tripHead.total || '' },
         ...tripHead.trips.map((trip, indexSecond) => {
           if (trip.amount > 0) {
             if (this.totalTrip[indexSecond]) {
@@ -1075,8 +1090,7 @@ export class VoucherSummaryComponent implements OnInit {
     console.log('test total', this.totalTrip);
     rows3.push([
       { txt: ' ' },
-      { txt: ' ' },
-      { txt: ' ' },
+      { txt: 'Total - ' + this.alltotal },
       ...this.totalTrip.map((tTotal) => {
         return { txt: tTotal || '' }
       })
@@ -1084,30 +1098,41 @@ export class VoucherSummaryComponent implements OnInit {
     console.log('rows 3', rows3);
 
 
-    this.transferData.map((detail, index) => {
-        console.log('first data',detail);
-      rows4.push([
-        ...this.transferHeading.map((headingname) => {
-        console.log('second data',headingname);
-         return { txt: detail[headingname] || '' }
-        })
-      ]);
+    // this.transferData.map((detail, index) => {
+    //     console.log('first data',detail);
+    //   rows4.push([
+    //     ...this.transferHeading.map((headingname) => {
+    //     console.log('second data',headingname);
+    //      return { txt: detail[headingname] || '' }
+    //     })
+    //   ]);
 
-    });
-    
+    // });
+if(this.tripFreghtDetails){
     this.tripFreghtDetails.map((tripHead, index) => {
       rows5.push([
         { txt: index + 1 },
         { txt: tripHead.receipt_no || '' },
         { txt: tripHead.auto_amount || '' },
-        { txt: tripHead.remarks || '' }
-       
+        { txt: this.totalRevinue - (this.alltotal + this.totalFuel) || '' }
+
 
 
       ]);
 
     });
-    console.log('rows4',rows4);
+  }
+
+    rows6.push([
+      { txt: this.totalRevinue || '' },
+      { txt: this.totalFuel || '' },
+      { txt: this.alltotal || '' },
+      { txt: this.totalRevinue - (this.alltotal + this.totalFuel) || '' },
+
+
+
+    ]);
+    console.log('rows4', rows4);
     let invoiceJson = {};
 
 
@@ -1121,7 +1146,7 @@ export class VoucherSummaryComponent implements OnInit {
         ],
 
         details: [
-
+          { name: 'Veh No', value: this.vehclename },
           { name: 'Ref No', value: this.custcode },
           { name: 'Date', value: this.date },
           { name: 'Ledger', value: this.creditLedger.name }
@@ -1129,12 +1154,13 @@ export class VoucherSummaryComponent implements OnInit {
         tables: [{
           headings: [
             { txt: 'S.No' },
-            { txt: 'Start Location' },
-            { txt: 'End Location' },
+            { txt: 'Trip' },
             { txt: 'Start Date' },
             { txt: 'End Date' },
             { txt: 'Trip Empty' },
             { txt: 'LR No.' },
+            { txt: 'Revenue Amount' },
+            { txt: 'Advance' },
           ],
           rows: rows1,
           name: 'Trips Detail'
@@ -1144,37 +1170,39 @@ export class VoucherSummaryComponent implements OnInit {
           headings: [
             { txt: 'S.No' },
             { txt: 'Head' },
-            { txt: 'Total' },
-            ...this.checkedTrips.map((checkname) => {
-              return { txt: checkname.start_name + '-' + checkname.end_name }
+            ...this.trips.filter(checkname => {
+              console.log('__________________________________________:', checkname);
+              if (checkname.isChecked) return true; return false
+            }).map((checkname, index) => {
+              return { txt: (checkname.lr_no != null && checkname.lr_no)? ('LR No :' + checkname.lr_no) : 'S.No' + index + 1 }
             })
           ],
           rows: rows3,
           name: 'Trips Expence Detail'
         },
-        {
-          headings: [
-            { txt: 'Advise Type' },
-            { txt: 'User Value' },
-            { txt: 'Credit To' },
-            { txt: 'Debit To' },
-            { txt: 'Remarks' },
-            { txt: 'Time' },
-            { txt: 'Entry By' }
-          ],
-          rows: rows4,
-          name: 'Advance'
-        },
-        {
-          headings: [
-            { txt: 'Reciept No' },
-            { txt: 'Revenue' },
-            { txt: 'Remarks' }
-          ],
-          rows: rows5,
-          name: 'Revenue'
-        }
-      ],
+          // {
+          //   headings: [
+          //     { txt: 'Advise Type' },
+          //     { txt: 'User Value' },
+          //     { txt: 'Credit To' },
+          //     { txt: 'Debit To' },
+          //     { txt: 'Remarks' },
+          //     { txt: 'Time' },
+          //     { txt: 'Entry By' }
+          //   ],
+          //   rows: rows4,
+          //   name: 'Advance'
+          // },
+          // {
+          //   headings: [
+          //     { txt: 'Reciept No' },
+          //     { txt: 'Revenue' },
+          //     { txt: 'Remarks' }
+          //   ],
+          //   rows: rows5,
+          //   name: 'Revenue'
+          // }
+        ],
         signatures: ['Accountant', 'Approved By'],
         footer: {
           left: { name: 'Powered By', value: 'Elogist Solutions' },
@@ -1199,19 +1227,21 @@ export class VoucherSummaryComponent implements OnInit {
 
         details: [
 
-          { name: 'Ref No', value: this.custcode },
-          { name: 'Date', value: this.date },
-          { name: 'Ledger', value: this.creditLedger.name }
+          { name: 'Vehicle  No : ', value: this.vehclename },
+          { name: 'Ref No : ', value: this.custcode },
+          { name: 'Date : ', value: this.date },
+          { name: 'Ledger : ', value: this.creditLedger.name }
         ],
         tables: [{
           headings: [
             { txt: 'S.No' },
-            { txt: 'Start Location' },
-            { txt: 'End Location' },
+            { txt: 'Trip' },
             { txt: 'Start Date' },
             { txt: 'End Date' },
             { txt: 'Trip Empty' },
             { txt: 'LR No' },
+            { txt: 'Revenue Amount' },
+            { txt: 'Advance' },
           ],
           rows: rows1,
           name: 'Trip Details'
@@ -1233,37 +1263,51 @@ export class VoucherSummaryComponent implements OnInit {
           headings: [
             { txt: 'S.No' },
             { txt: 'Head' },
-            { txt: 'Total' },
-            ...this.checkedTrips.map((checkname) => {
-              return { txt: checkname.start_name + '-' + checkname.end_name }
+            ...this.trips.filter(checkname => {
+              console.log('__________________________________________:', checkname);
+              if (checkname.isChecked) return true; return false
+            }).map((checkname, index) => {
+              return { txt: (checkname.lr_no != null && checkname.lr_no)? ('LR No : ' + checkname.lr_no) : 'S.No : ' + (index + 1) }
             })
           ],
           rows: rows3,
           name: 'Trips Expence Detail'
 
         },
-        {
-          headings: [
-            { txt: 'Advise Type' },
-            { txt: 'User Value' },
-            { txt: 'Credit To' },
-            { txt: 'Debit To' },
-            { txt: 'Remarks' },
-            { txt: 'Time' },
-            { txt: 'Entry By' }
-          ],
-          rows: rows4,
-          name: 'Advance'
-        },
-        {
-          headings: [
-            { txt: 'Reciept No' },
-            { txt: 'Revenue' },
-            { txt: 'Remarks' }
-          ],
-          rows: rows5,
-          name: 'Revenue'
-        }],
+          // {
+          //   headings: [
+          //     { txt: 'Advise Type' },
+          //     { txt: 'User Value' },
+          //     { txt: 'Credit To' },
+          //     { txt: 'Debit To' },
+          //     { txt: 'Remarks' },
+          //     { txt: 'Time' },
+          //     { txt: 'Entry By' }
+          //   ],
+          //   rows: rows4,
+          //   name: 'Advance'
+          // },
+          // {
+          //   headings: [
+          //     { txt: 'Reciept No' },
+          //     { txt: 'Revenue' },
+          //     { txt: 'Remarks' }
+          //   ],
+          //   rows: rows5,
+          //   name: 'Revenue'
+          // }
+
+           {
+            headings: [
+              { txt: 'Revenue' },
+              { txt: 'Fuel' },
+              { txt: 'Expence' },
+              { txt: 'Net Revenue' },
+            ],
+            rows: rows6,
+            name: 'Revenue'
+          }
+        ],
         signatures: ['Accountant', 'Approved By'],
         footer: {
           left: { name: 'Powered By', value: 'Elogist Solutions' },
@@ -1271,8 +1315,11 @@ export class VoucherSummaryComponent implements OnInit {
           right: { name: 'Page No', value: 1 },
         },
         footertotal: [
-          { name: 'total', value: this.alltotal },
-          { name: 'Remarks', value: this.narration },
+          { name: 'Net Pay to Driver : ', value: this.alltotal -(this.totalAdvance) , size: '20px', weight: 600},
+          { name: ' ', value: ' ' },
+          { name: ' ', value: ' ' },
+          { name: ' ', value: ' ' },
+          { name: 'Remarks : ', value: this.narration },
         ]
 
 
