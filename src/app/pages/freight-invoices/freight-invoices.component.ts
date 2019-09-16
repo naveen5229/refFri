@@ -241,10 +241,16 @@ export class FreightInvoicesComponent implements OnInit {
 
 
   invoice(title, row, type?) {
-    console.log("title:", title);
-    console.log("Display:", row);
-    this.common.params = { title: title, freightInvoice: row, type: type };
-    console.log("alert:", this.common.params);
+
+   let invoiceDetail={
+      id:row._id
+    }
+    
+    this.common.params={invoiceDetail:invoiceDetail};
+    // console.log("title:", title);
+    // console.log("Display:", row);
+    // this.common.params = { title: title, freightInvoice: row, type: type };
+    // console.log("alert:", this.common.params);
     const activeModal = this.modalService.open(FreightInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
