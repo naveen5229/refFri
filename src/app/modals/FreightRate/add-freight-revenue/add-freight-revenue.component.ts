@@ -308,6 +308,9 @@ export class AddFreightRevenueComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--;
               this.common.showToast(res['data']);
+              if(res['data']){
+                this.activeModal.close();
+              }
               this.getRevenue();
             }, err => {
               this.common.loading--;
