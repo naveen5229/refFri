@@ -667,4 +667,8 @@ export class DaybookpendingComponent implements OnInit {
       }
     });
   }
+
+  openFuelEdit(vchData){
+    console.log('vch data new ##',vchData);
+  }
 }
