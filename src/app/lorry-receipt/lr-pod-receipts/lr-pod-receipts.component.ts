@@ -108,8 +108,8 @@ export class LrPodReceiptsComponent implements OnInit {
           this.valobj[this.headings[i]] = {
             value: "", action: null,
             icons: [{ class: 'fa fa-edit', action: this.openPodDeatilsModal.bind(this, doc) },
-            { class: 'fa fa-trash', action: this.deleteLr.bind(this, doc) },
-            { class: 'fa fa-eye', action: this.getPodImage.bind(this, doc) }]
+            { class: 'fa fa-eye', action: this.getPodImage.bind(this, doc) },
+            { class: 'fa fa-trash', action: this.deleteLr.bind(this, doc) }]
           };
         }
         else {
