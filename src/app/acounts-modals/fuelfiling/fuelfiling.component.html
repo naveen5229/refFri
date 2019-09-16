@@ -99,15 +99,17 @@
 
           </thead>
           <tbody>
-            <tr *ngFor="let fuelFiling of fuelFilings;let i=index;" >
+            <tr *ngFor="let fuelFiling of fuelFilings;let i=index;">
               <td>{{i+1}}</td>
               <td *ngIf="voucherId !=0">
                 <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked"
-                (ngModelChange)="changeTotal(fuelFiling.y_amount,fuelFiling.y_id)" [disabled]="((fuelFiling.y_voucher_id) && (voucherId !=fuelFiling.y_voucher_id))">
+                  (ngModelChange)="changeTotal(fuelFiling.y_amount,fuelFiling.y_id)"
+                  [disabled]="((fuelFiling.y_voucher_id) && (voucherId !=fuelFiling.y_voucher_id))">
               </td>
               <td *ngIf="voucherId ==0">
                 <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked"
-                (ngModelChange)="changeTotal(fuelFiling.y_amount,fuelFiling.y_id)" [disabled]="(fuelFiling.y_voucher_id)">
+                  (ngModelChange)="changeTotal(fuelFiling.y_amount,fuelFiling.y_id)"
+                  [disabled]="(fuelFiling.y_voucher_id)">
               </td>
               <td>{{fuelFiling.y_name}}</td>
               <td>{{fuelFiling.y_litres}}</td>
@@ -126,16 +128,18 @@
               </textarea>
         </div>
         <div class="amount_box">
-            <input type="text" class="form-control" name="total" [(ngModel)]="total" id="total" readonly disabled>
-          </div>
+          <input type="text" class="form-control" name="total" [(ngModel)]="total" id="total" readonly disabled>
+        </div>
       </div>
       <div class="row">
-          <div class="col-8"></div>
-          <div class="col-2">
-        <button *ngIf="VoucherId !=0" class="btn btn-dark" type="button" outline (click)="printTripDetail()">Print</button>
-          </div><div class="col-2"> <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+        <div class="col-8"></div>
+        <div class="col-2">
+          <button *ngIf="voucherId !=0" class="btn btn-dark" type="button" outline
+            (click)="printTripDetail()">Print</button>
+        </div>
+        <div class="col-2"> <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
             style="cursor: pointer;">Submit</button></div>
-        
+
       </div>
     </div>
 
