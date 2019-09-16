@@ -303,8 +303,12 @@ export class TrendsFoComponent implements OnInit {
       this.trendsVehicleData.map(data => {
         data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
         data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
+        if(data.total_halt!=0 || data.hlt_count!=0){
         data.total_halt=(data.total_halt)/(data.hlt_count)
-      });
+       } 
+      else{
+        data.total_halt=0;
+        data.hlt_count=0      }});
     }, err => {
       this.common.loading--;
       this.common.showError();
