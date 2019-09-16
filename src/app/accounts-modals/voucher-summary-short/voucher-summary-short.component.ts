@@ -35,6 +35,9 @@ export class VoucherSummaryShortComponent implements OnInit {
   VehicleId;
   VoucherId = 0;
   vouchertype=-151;
+  vehclename = '';
+  totalRevinue=0;
+  totalAdvance=0;
   FinanceVoucherId;
   DriverId;
   DriverName;
@@ -103,6 +106,7 @@ export class VoucherSummaryShortComponent implements OnInit {
     // console.log('tripPendingDataSelected', this.common.params.tripPendingDataSelected);
 
     if (this.common.params.tripVoucher) {
+      this.vehclename = this.common.params.tripVoucher.y_vehicle_name
       this.tripsEditData = this.common.params.tripDetails;
       this.tripVoucher = this.common.params.tripVoucher;
       this.trips = this.common.params.tripEditData;
@@ -929,18 +933,28 @@ export class VoucherSummaryShortComponent implements OnInit {
     let rows2 = [];
     let rows3 = [];
     let rows4 = [];
+    let rows6 = [];
 
-    this.tripsEditData.map((tripDetail, index) => {
+    this.trips.map((tripDetail, index) => {
+      if (tripDetail.isChecked) {
       rows1.push([
         { txt: index+1},
-        { txt: tripDetail.start_name || '' },
-        { txt: tripDetail.end_name || '' },
+        { txt: tripDetail.start_name + ' -> ' + tripDetail.end_name || '' },
         { txt: tripDetail.start_time || '' },
         { txt: tripDetail.end_time || '' },
         { txt: (tripDetail.is_empty)? 'Yes':'No' || '' },
         { txt: tripDetail.lr_no || '' },
+        { txt: tripDetail.revenue || '' },
+        { txt: tripDetail.advance || '' },
 
       ]);
+      if(tripDetail.revenue){
+        this.totalRevinue += parseFloat(tripDetail.revenue);
+        }
+        if(tripDetail.advance){
+        this.totalAdvance += parseFloat(tripDetail.advance);
+        }
+    }
     });
 
     if(this.vouchertype == -150){
@@ -979,7 +993,11 @@ export class VoucherSummaryShortComponent implements OnInit {
       ]);
     });
   }
-
+  rows3.push([
+    { txt: ' ' },
+    { txt: 'Total : ', align: 'left' },
+    { txt:  this.alltotal },
+  ]);
     this.transferData.map((detail, index) => {
     
       rows4.push([
@@ -989,6 +1007,14 @@ export class VoucherSummaryShortComponent implements OnInit {
       ]);
    
     });
+    rows6.push([
+      { txt: this.totalRevinue || '' },
+      { txt: this.alltotal || '' },
+      { txt: this.totalRevinue - (this.alltotal) || '' },
+
+
+
+    ]);
 let invoiceJson={};
      
   
@@ -1002,20 +1028,21 @@ let invoiceJson={};
       ],
      
       details: [
-     
-        { name: 'Ref No', value: this.custcode },
-        { name: 'Date', value: this.date },
-        { name: 'Ledger', value: this.creditLedger.name }       
+        { name: 'Veh No : ', value: this.vehclename },     
+        { name: 'Ref No : ', value: this.custcode },
+        { name: 'Date : ', value: this.date },
+        { name: 'Ledger : ', value: this.creditLedger.name }       
       ],
       tables: [{
         headings: [
           { txt: 'S.No' },
-          { txt: 'Start Location' },
-          { txt: 'End Location' },
+          { txt: 'Trip' },
           { txt: 'Start Date' },
           { txt: 'End Date' },
           { txt: 'Trip Empty' },
           { txt: 'LR No' },
+          { txt: 'Revenue Amount' },
+            { txt: 'Advance' },
         ],
         rows: rows1,
         name:'Trips Detail'
@@ -1033,28 +1060,40 @@ let invoiceJson={};
       },
 
 
+      // {
+      //   headings: [
+      //     { txt: 'Advise Type' },
+      //     { txt: 'User Value' },
+      //     { txt: 'Credit To' },
+      //     { txt: 'Debit To' },
+      //     {txt: 'Remarks'},
+      //     {txt: 'Time'},
+      //     {txt: 'Entry By'}
+      //   ],
+      //   rows: rows4,
+      //   name:'Advance'
+      // },
       {
         headings: [
-          { txt: 'Advise Type' },
-          { txt: 'User Value' },
-          { txt: 'Credit To' },
-          { txt: 'Debit To' },
-          {txt: 'Remarks'},
-          {txt: 'Time'},
-          {txt: 'Entry By'}
+          { txt: 'Revenue' },
+          { txt: 'Expence' },
+          { txt: 'Net Revenue' },
         ],
-        rows: rows4,
-        name:'Advance'
+        rows: rows6,
+        name: 'Revenue'
       }],
       signatures: ['Accountant', 'Approved By'],
       footer: {
         left: { name: 'Powered By', value: 'Elogist Solutions' },
-        center: { name: 'Printed Date', value: '06-July-2019' },
+        center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(), 'ddMMYYYY').split(' ')[0] },
         right: { name: 'Page No', value: 1 },
       },
       footertotal:[
-        {   name:'total',value:this.alltotal},
-         {  name:'Remarks',value:this.narration},
+         { name: 'Net Pay to Driver : ', value: this.alltotal -(this.totalAdvance) , size: '20px', weight: 600},
+          { name: ' ', value: ' ' },
+          { name: ' ', value: ' ' },
+          { name: ' ', value: ' ' },
+          { name: 'Remarks : ', value: this.narration },
       ]
 
 
@@ -1065,7 +1104,7 @@ let invoiceJson={};
         { txt: companydata[0].foname, size: '22px', weight: 'bold' },
         { txt: companydata[0].addressline },
         { txt: cityaddress },
-        { txt: 'Trip Detail', size: '20px', weight: 600, align: 'left' }
+        { txt: 'Trip(Short) Detail', size: '20px', weight: 600, align: 'left' }
       ],
      
       details: [

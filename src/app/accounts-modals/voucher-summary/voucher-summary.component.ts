@@ -1108,7 +1108,7 @@ export class VoucherSummaryComponent implements OnInit {
     //   ]);
 
     // });
-
+if(this.tripFreghtDetails){
     this.tripFreghtDetails.map((tripHead, index) => {
       rows5.push([
         { txt: index + 1 },
@@ -1121,6 +1121,7 @@ export class VoucherSummaryComponent implements OnInit {
       ]);
 
     });
+  }
 
     rows6.push([
       { txt: this.totalRevinue || '' },
@@ -1173,7 +1174,7 @@ export class VoucherSummaryComponent implements OnInit {
               console.log('__________________________________________:', checkname);
               if (checkname.isChecked) return true; return false
             }).map((checkname, index) => {
-              return { txt: 'LR No :' + checkname.lr_no || 'S.No' + index + 1 }
+              return { txt: (checkname.lr_no != null && checkname.lr_no)? ('LR No :' + checkname.lr_no) : 'S.No' + index + 1 }
             })
           ],
           rows: rows3,
@@ -1266,7 +1267,7 @@ export class VoucherSummaryComponent implements OnInit {
               console.log('__________________________________________:', checkname);
               if (checkname.isChecked) return true; return false
             }).map((checkname, index) => {
-              return { txt: 'LR No :' + checkname.lr_no || 'S.No' + index + 1 }
+              return { txt: (checkname.lr_no != null && checkname.lr_no)? ('LR No : ' + checkname.lr_no) : 'S.No : ' + (index + 1) }
             })
           ],
           rows: rows3,
@@ -1315,6 +1316,8 @@ export class VoucherSummaryComponent implements OnInit {
         },
         footertotal: [
           { name: 'Net Pay to Driver : ', value: this.alltotal -(this.totalAdvance) , size: '20px', weight: 600},
+          { name: ' ', value: ' ' },
+          { name: ' ', value: ' ' },
           { name: ' ', value: ' ' },
           { name: 'Remarks : ', value: this.narration },
         ]

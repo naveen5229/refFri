@@ -946,6 +946,7 @@ export class CommonService {
     // console.log("data",data);
     html2canvas(data, {
       useCORS: true,
+      scale: 3
     }).then(canvas => {
       // Few necessary setting options  
       var imgWidth = isLandscape ? 295 : 208;

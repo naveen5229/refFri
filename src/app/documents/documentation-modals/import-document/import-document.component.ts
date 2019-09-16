@@ -27,8 +27,6 @@ export class ImportDocumentComponent implements OnInit {
   };
   vehicleId = '';
   foUser = '';
-  // data = [];
-  // docTypes = [];
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -53,30 +51,9 @@ export class ImportDocumentComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  // getDocumentsData() {
-  //   this.common.loading++;
-  //   let response;
-  //   this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       console.log("data", res);
-  //       this.docTypes = res['data'].document_types_info;
-  //       console.log("new doc type", this.docTypes);
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  //   return response;
-  // }
 
-  // selectDocType(documentType) {
-  //   this.docType = documentType;
-  //   console.log("Document type", this.docType.id);
-  // }
   selectFoUser(user) {
     this.foUser = user.id;
-    console.log("foid ", this.foUser);
-
   }
 
   uploadCsv() {
@@ -87,14 +64,11 @@ export class ImportDocumentComponent implements OnInit {
     if (!params.driverCsv && !params.foid) {
       return this.common.showError("Select  Option");
     }
-    console.log("Data :", params);
     this.common.loading++;
     this.api.post('Drivers/ImportDriversCsv', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log("upload result", res);
         let errorData = res['data']['f'];
-        console.log("error: ", errorData);
         alert(res["msg"]);
 
         if (errorData.length) {
@@ -109,41 +83,13 @@ export class ImportDocumentComponent implements OnInit {
       });
   }
 
-  // checkCsv(validate = null) {
-  //   const params = {
-  //     driverCsv: this.csv,
-  //     validate: validate,
-
-  //   };
-  //   if (!params.driverCsv) {
-  //     return this.common.showError("Select  Option");
-  //   }
-  //   console.log("Data :", params);
-  //   this.common.loading++;
-  //   this.api.post('Drivers/ImportDriversCsv', params)
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       console.log("upload result", res);
-  //       let errorData = res['data'];
-  //       this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
-  //       const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
-
 
   handleFileSelection(event) {
     this.common.loading++;
     this.common.getBase64(event.target.files[0])
       .then(res => {
         this.common.loading--;
-
-
         let file = event.target.files[0];
-        console.log("Type", file.type);
         if (file.type == "application/vnd.ms-excel") {
         }
         else {
@@ -152,7 +98,6 @@ export class ImportDocumentComponent implements OnInit {
         }
 
         res = res.toString().replace('vnd.ms-excel', 'csv');
-        console.log('Base 64: ', res);
         this.csv = res;
       }, err => {
         this.common.loading--;
