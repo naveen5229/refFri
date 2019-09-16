@@ -24,11 +24,6 @@ export class TrendsFoComponent implements OnInit {
   startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 6));
   loadingSite = []
   vehicleCount = 0;
-
-  yScale = '';
-  yScale1 = '';
-
-  //xScale = '';
   dateDay = [];
   trendsVehicleData = [];
   onward = [];
@@ -80,12 +75,10 @@ export class TrendsFoComponent implements OnInit {
       purpose: this.period,
       value: this.weekMonthNumber,
     };
-    console.log('params: ', params);
 
     this.common.loading++;
     this.api.post('Trends/getTrendsWrtFo', params)
       .subscribe(res => {
-        console.log('Api Res:', res);
         this.common.loading--;
         this.trends = res['data'].result || [];
         this.vehicleCount = res['data'].veh_count;
@@ -120,10 +113,10 @@ export class TrendsFoComponent implements OnInit {
 
     this.trends.forEach((trend) => {
       if (this.trendType == "11" || this.trendType == "21") {
-        this.chart.data.line.push(trend.loading_hrs / trend.loading_count);
-        this.chart.data.bar.push(trend.loading_count).toFixed(2);
+        this.chart.data.line.push(this.trendType == "11" ? (trend.loading_hrs / trend.loading_count) : (trend.unloading_hrs / trend.unloading_count));
+        this.chart.data.bar.push(this.trendType == "11" ? trend.loading_count : trend.unloading_count);
       } else if (this.trendType == "0") {
-        let hrs = typeof trend.onward == 'number' ? trend.onward : parseInt(trend.onward);
+        let hrs = typeof trend.onward == 'number' ? trend.onward : parseFloat(trend.onward);
         this.chart.data.line.push(hrs);
       } else if (this.trendType == "31") {
         this.chart.data.line.push(trend.Onward_kmpd / this.vehicleCount)
@@ -132,26 +125,29 @@ export class TrendsFoComponent implements OnInit {
 
     this.setDataset((this.trendType == '11' || this.trendType == '21') ? true : false, yAxesLabel0, xAxesLabel, yAxesLabel1);
   }
-
-  setDataset(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?) {
-    let tick1, tick2;
-    let getMinY1 = Infinity;
-    let getMaxY1 = 0;
-    let pad = 10;
-    let steps = 5;
-    this.chart.data.line.forEach(element => {
-      getMinY1 = Math.min(element, getMinY1);
-      getMaxY1 = Math.max(element, getMaxY1);
+  getTick(data,steps,padPer = 0.1){
+    let getMinY = Infinity;
+    let getMaxY = 0;
+    let stepSize;
+    let pad;
+    data.forEach(element => {
+      getMinY = Math.min(element, getMinY);
+      getMaxY = Math.max(element, getMaxY);
     });
 
-    getMinY1 = getMinY1 - pad <= 0 ? 0 : getMinY1 - pad;
-    getMaxY1 += pad;
+    pad = (getMaxY - getMinY) * 0.1;
+    getMinY = getMinY - pad <= 0 ? 0 : getMinY - pad;
+    getMaxY += pad;
+    
+    stepSize = (getMaxY - getMinY) / steps;
 
-    tick1 = {
-      min: getMinY1,
-      max: getMaxY1,
-      stepSize: (getMaxY1 - getMinY1) / steps,
+    return {
+      suggestedMin: getMinY,
+      suggestedMax: (stepSize * steps) + getMinY ,
+      stepSize : stepSize,
     };
+  }
+  setDataset(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?) {
 
     let data = {
       labels: this.dateDay,
@@ -183,21 +179,6 @@ export class TrendsFoComponent implements OnInit {
         data: this.chart.data.bar,
         yAxisID: 'y-axis-2'
       });
-      let getMinY2 = Infinity;
-      let getMaxY2 = 0;
-      let pad2 = 20;
-      let steps2 = 5;
-      this.chart.data.bar.forEach(element => {
-        getMinY2 = Math.min(element, getMinY2);
-        getMaxY2 = Math.max(element, getMaxY2);
-      });
-      getMinY2 = getMinY2 - pad2 <= 0 ? 0 : getMinY2 - pad2;
-      getMaxY2 += pad2;
-      tick2 = {
-        min: getMinY2,
-        max: getMaxY2,
-        stepSize: (getMaxY2 - getMinY2) / steps2,
-      };
     };
 
     this.chart = {
@@ -208,11 +189,12 @@ export class TrendsFoComponent implements OnInit {
       type: isDualChart ? 'bar' : 'line',
       dataSet: data,
       yaxisname: "Average Count",
-      options: this.setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1, tick1, tick2)
+      options: this.setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1)
     };
+
   }
 
-  setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?, tick1?, tick2?) {
+  setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?) {
     let options = {
       responsive: true,
       hoverMode: 'index',
@@ -244,7 +226,7 @@ export class TrendsFoComponent implements OnInit {
     }
 
     options.scales.yAxes.push({
-      ticks: tick1,
+      ticks: this.getTick(this.chart.data.line,5),
       scaleLabel: {
         display: true,
         labelString: yAxesLabel0,
@@ -258,7 +240,7 @@ export class TrendsFoComponent implements OnInit {
     });
     if (isDualChart) {
       options.scales.yAxes.push({
-        ticks: tick2,
+        ticks: this.getTick(this.chart.data.bar,5),
         scaleLabel: {
           display: true,
           labelString: yAxesLabel1,
@@ -300,8 +282,7 @@ export class TrendsFoComponent implements OnInit {
       }
 
     }
-    console.log('params: ', params);
-    this.common.loading++;
+        this.common.loading++;
 
     this.api.post("Trends/getTrendsWrtVehicles", params).subscribe(res => {
       this.common.loading--;
@@ -323,8 +304,6 @@ export class TrendsFoComponent implements OnInit {
     this.trendsVehicleSiteData = []
     let params;
     if (this.period == '1') {
-      //this.xScale = 'Days of'
-      // this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Days of';
 
       params = {
         startDate: this.common.dateFormatter1(this.startDate),
@@ -333,31 +312,25 @@ export class TrendsFoComponent implements OnInit {
         value: this.weekMonthNumber,
       }
     } else if (this.period == '2') {
-      // this.xScale = 'Weeks of'
-      // this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Weeks of';
+   
 
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
       }
     } else {
-      // this.xScale = 'Months of'
-      // this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = 'Month  of';
-
       params = {
         purpose: this.period,
         value: this.weekMonthNumber,
       }
 
     }
-    console.log('params: ', params);
     this.common.loading++;
 
     this.api.post("Trends/getTrendsWrtSite", params).subscribe(res => {
       this.common.loading--;
       this.trendsVehicleSiteData = res['data'] || [];
       this.trendsVehicleSiteData.map(data => {
-        // console.log("dataaaaaaaaaaaaaaaaaa", data)
         data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
         data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
 
@@ -382,14 +355,12 @@ export class TrendsFoComponent implements OnInit {
       purpose: this.period,
       value: this.weekMonthNumber
     };
-    console.log('params: ', params);
     this.common.loading++;
     this.api.post('Trends/getTrendsWrtFo', params)
       .subscribe(res => {
         this.common.loading--;
         this.trends = res['data'].result || []
         this.vehicleCount = res['data'].veh_count;
-        console.log("detail-----------------------------------", this.trends)
         this.trends.forEach((trend) => {
           this.dateDay.push(this.datepipe.transform(trend.date_day, 'dd-MMM'));
         });
@@ -412,7 +383,6 @@ export class TrendsFoComponent implements OnInit {
       name: '',
       time: ''
     };
-    console.log('Location: ', location);
     this.common.params = { location, title: 'Location' };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
   }
@@ -426,23 +396,19 @@ export class TrendsFoComponent implements OnInit {
       datas = dataTrend.lodingArray;
       Object.keys(datas).map(key => {
         let temp = [];
-        console.log("key", key);
         temp.push(key, datas[key]);
         result.push(temp);
       });
     }
     else if (this.trendType == '21') {
-      console.log("result", result);
       datas = dataTrend.unloadingArray;
       Object.keys(datas).map(key => {
         let temp = [];
-        console.log("key", key);
         temp.push(key, datas[key]);
         result.push(temp);
       });
     }
     data = result;
-    console.log(data);
     this.common.params = { title: 'SiteWise Vehicle List:', headings: ["Vehicle_RegNo.", "Count Event"], data };
     this.modalService.open(ViewListComponent, { size: 'sm', container: 'nb-layout' });
 
