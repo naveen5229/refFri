@@ -27,6 +27,7 @@ export class FuelfillingsComponent implements OnInit {
   selectedVehicle;
   selectedFuelFilling;
   vehicles = [];
+  VoucherEditTime=[];
   flag = false;
   enddate = this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
   startdate = this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
@@ -99,7 +100,7 @@ export class FuelfillingsComponent implements OnInit {
     this.common.loading++;
     this.api.post('Fuel/getFeulfillings', params)
       .subscribe(res => {
-        console.log('fuel data', res['data']);
+       // console.log('fuel data', res['data']);
         this.common.loading--;
         if(res['data'].length){
         this.fuelFilings = res['data'];
@@ -326,14 +327,41 @@ export class FuelfillingsComponent implements OnInit {
 
 
   openVoucherEdit(voucherdata) {
+    let promises = [];
     console.log('testing issue solved');
+    promises.push(this.getVocherEditTime(voucherdata['y_voucher_id']));
+    promises.push(this.getDataFuelFillingsEdit(voucherdata['y_vehicle_id'],voucherdata['y_fuel_station_id'],voucherdata['y_voucher_id']));
+
+    Promise.all(promises).then(result => {
     this.common.params = {
-      voucherdata: voucherdata,
-      vehId: voucherdata.y_vehicle_id,
+      vehId: voucherdata['y_vehicle_id'],
       lastFilling: this.startdate,
       currentFilling: this.enddate,
-      fuelstationid: voucherdata.y_fuel_station_id
+      fuelstationid: voucherdata['y_fuel_station_id'],
+      fuelData:this.fuelFilings,
+      voucherId:voucherdata['y_voucher_id'],
+      voucherData:this.VoucherEditTime,
+      vehname:this.trips[0].y_vehicle_name
     };
+
+    const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data return: ', data);
+      if (data.success) {
+        this.getFuelVoucher();
+      }
+    });
+  }).catch(err => {
+    console.log(err);
+    this.common.showError('There is some technical error occured. Please Try Again!');
+  })
+    // this.common.params = {
+    //   voucherdata: voucherdata,
+    //   vehId: voucherdata.y_vehicle_id,
+    //   lastFilling: this.startdate,
+    //   currentFilling: this.enddate,
+    //   fuelstationid: voucherdata.y_fuel_station_id
+    // };
 
     // const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     // activeModal.result.then(data => {
@@ -370,5 +398,57 @@ export class FuelfillingsComponent implements OnInit {
    let activeId = document.activeElement.id;
     console.log('Active event 1111', event, activeId);
 
+  }
+  getVocherEditTime(VoucherID) {
+    return new Promise((resolve, reject) => {
+      const params = {
+        vchId: VoucherID
+      };
+      this.common.loading++;
+      this.api.post('Voucher/getVoucherDetail', params)
+        .subscribe(res => {
+          console.log('edit time voucher detail',res);
+          this.common.loading--;
+          this.VoucherEditTime = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
+    });
+
+  }
+
+  getDataFuelFillingsEdit(vehcleID,fuelStationId,vchrID) {
+    return new Promise((resolve, reject) => {
+    const params = {
+      vehId: vehcleID,
+      lastFilling: this.startdate,
+      currentFilling:this.enddate,
+      fuelstationid: fuelStationId,
+      voucherId:vchrID
+    };
+    this.common.loading++;
+    this.api.post('Fuel/getFeulfillings', params)
+      .subscribe(res => {
+      //  console.log('fuel data', res['data']);
+        this.common.loading--;
+        if(res['data'].length){
+        this.fuelFilings = res['data'];
+        resolve();
+        }else {
+          this.common.showError('please Select Correct date');
+        }
+        // this.getHeads();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+        reject();
+      });
+    })
+   
   }
 }
