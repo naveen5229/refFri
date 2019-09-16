@@ -25,7 +25,7 @@
             <td colspan="1">
               <label>Location</label> <br>
               <auto-suggestion *ngIf="locType == 'site' " (onSelected)="selectSite($event)"
-                url="Suggestion/getSites?typeId=1" seperator="-" [display]="['name','sd_loc_name']"
+                url="Suggestion/getSites?typeId=1&isFoid=true" seperator="-" [display]="['name','sd_loc_name']"
                 placeholder="Search Site" inputId="site" [preSelected]="siteLoc">
               </auto-suggestion>
               <div class="row">
