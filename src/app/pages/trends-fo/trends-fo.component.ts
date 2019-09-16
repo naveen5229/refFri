@@ -85,7 +85,7 @@ export class TrendsFoComponent implements OnInit {
     this.common.loading++;
     this.api.post('Trends/getTrendsWrtFo', params)
       .subscribe(res => {
-        console.log('Res:', res);
+        console.log('Api Res:', res);
         this.common.loading--;
         this.trends = res['data'].result || [];
         this.vehicleCount = res['data'].veh_count;
@@ -134,24 +134,24 @@ export class TrendsFoComponent implements OnInit {
   }
 
   setDataset(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?) {
-      let tick1,tick2;
-      let getMinY1 = Infinity;
-      let getMaxY1 = 0;
-      let pad = 10;
-      let steps = 5;
-      this.chart.data.line.forEach(element => {
-        getMinY1 = Math.min(element, getMinY1);
-        getMaxY1 = Math.max(element, getMaxY1);
-      });
-      
-      getMinY1 = getMinY1 - pad <= 0 ? 0 : getMinY1 - pad;
-      getMaxY1 += pad;
-      
-      tick1 = {
-        min: getMinY1,
-        max: getMaxY1,
-        stepSize: (getMaxY1 - getMinY1) / steps,
-      };
+    let tick1, tick2;
+    let getMinY1 = Infinity;
+    let getMaxY1 = 0;
+    let pad = 10;
+    let steps = 5;
+    this.chart.data.line.forEach(element => {
+      getMinY1 = Math.min(element, getMinY1);
+      getMaxY1 = Math.max(element, getMaxY1);
+    });
+
+    getMinY1 = getMinY1 - pad <= 0 ? 0 : getMinY1 - pad;
+    getMaxY1 += pad;
+
+    tick1 = {
+      min: getMinY1,
+      max: getMaxY1,
+      stepSize: (getMaxY1 - getMinY1) / steps,
+    };
 
     let data = {
       labels: this.dateDay,
@@ -208,11 +208,11 @@ export class TrendsFoComponent implements OnInit {
       type: isDualChart ? 'bar' : 'line',
       dataSet: data,
       yaxisname: "Average Count",
-      options: this.setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1,tick1,tick2)
+      options: this.setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1, tick1, tick2)
     };
   }
 
-  setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?,tick1?,tick2?) {
+  setChartOptions(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?, tick1?, tick2?) {
     let options = {
       responsive: true,
       hoverMode: 'index',
@@ -244,7 +244,7 @@ export class TrendsFoComponent implements OnInit {
     }
 
     options.scales.yAxes.push({
-      ticks : tick1,
+      ticks: tick1,
       scaleLabel: {
         display: true,
         labelString: yAxesLabel0,
@@ -258,7 +258,7 @@ export class TrendsFoComponent implements OnInit {
     });
     if (isDualChart) {
       options.scales.yAxes.push({
-        ticks : tick2,
+        ticks: tick2,
         scaleLabel: {
           display: true,
           labelString: yAxesLabel1,
@@ -307,11 +307,11 @@ export class TrendsFoComponent implements OnInit {
       this.common.loading--;
       this.trendsVehicleData = res['data'] || [];
       this.trendsVehicleData.map(data => {
-        console.log("dataaaaaaaaaaaaaaaaaa", data)
         data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
         data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
       });
     }, err => {
+      this.common.loading--;
       this.common.showError();
       console.log('Error: ', err);
     });
@@ -357,7 +357,7 @@ export class TrendsFoComponent implements OnInit {
       this.common.loading--;
       this.trendsVehicleSiteData = res['data'] || [];
       this.trendsVehicleSiteData.map(data => {
-        console.log("dataaaaaaaaaaaaaaaaaa", data)
+        // console.log("dataaaaaaaaaaaaaaaaaa", data)
         data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
         data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
 
@@ -365,7 +365,6 @@ export class TrendsFoComponent implements OnInit {
       this.loadingSite = res['data'].lodingArray
       this.siteUnloading = [];
       _.sortBy(this.trendsVehicleSiteData, ['unloading_hrs']).reverse().map(keyData => {
-        console.log('keydata', keyData);
         this.siteUnloading.push(keyData);
       });
 
