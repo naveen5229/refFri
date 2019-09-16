@@ -39,7 +39,7 @@ export class ViaRoutePointsComponent implements OnInit {
     long: null,
     siteName: null
   };
-  mark = null;
+  markers = [];
   viaMark = [];
   searchString = '';
   keepGoing = true;
@@ -93,10 +93,10 @@ export class ViaRoutePointsComponent implements OnInit {
       color: '0000FF',
       subType: 'marker'
     }];
-    if (this.mark != null) {
-      this.mark[0].setMap(null);
+    if (this.markers != null) {
+      this.markers[0].setMap(null);
     }
-    this.mark = this.mapService.createMarkers(this.latlong, false, false);
+    this.markers = this.mapService.createMarkers(this.latlong, false, false);
   }
 
   setRadio(type) {
@@ -106,7 +106,7 @@ export class ViaRoutePointsComponent implements OnInit {
     }
     else {
       this.locType = 'site';
-      this.mark[0].setMap(null);
+      this.markers.length && this.markers[0].setMap(null);
       this.reset();
     }
   }
@@ -231,7 +231,6 @@ export class ViaRoutePointsComponent implements OnInit {
     this.api.post('ViaRoutes/deletevia', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('res', res['data']);
         this.viewTable();
         if (res['success']) {
           this.common.showToast("Success");
@@ -285,7 +284,7 @@ export class ViaRoutePointsComponent implements OnInit {
         .subscribe(res => {
           this.common.loading--;
           console.log('res', res['data']);
-          this.mark && this.mark[0].setMap(null);
+          this.markers && this.markers[0].setMap(null);
           this.locType = "map";
           this.viewTable();
           this.mapName = null;

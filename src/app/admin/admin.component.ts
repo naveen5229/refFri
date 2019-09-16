@@ -15,7 +15,7 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./admin.scss'],
   template: `
     <ngx-sample-layout class="admin">
-      <nb-menu *ngIf="user._menu.admin.length" [items]="user._menu.admin" autoCollapse="true"></nb-menu>
+      <nb-menu *ngIf="user._menu.admin.length" [items]="user._menu.admin" autoCollapse="false"></nb-menu>
       <router-outlet class="admin-dot"></router-outlet>
     </ngx-sample-layout>
   `,
@@ -27,7 +27,6 @@ export class AdminComponent {
     public router: Router,
     public accountService: AccountService) {
 
-
     if (this.user._loggedInBy == 'customer') {
       this.router.navigate(['/pages']);
       return;
@@ -36,6 +35,8 @@ export class AdminComponent {
       this.getBranches();
     }
   }
+
+
   getBranches() {
     this.api.post('Suggestion/GetBranchList', { search: 123 })
       .subscribe(res => {

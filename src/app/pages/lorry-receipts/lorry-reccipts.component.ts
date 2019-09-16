@@ -37,6 +37,8 @@ export class LorryRecciptsComponent implements OnInit {
   vehicleType = -1;
   tempstartTime = null;
   tempendTime = null;
+  vehicleId = null;
+  regno = null;
   // showMsg = false;
   constructor(
     public api: ApiService,
@@ -69,6 +71,17 @@ export class LorryRecciptsComponent implements OnInit {
 
     this.getLorryReceipts();
   }
+  selectvehicleType(type) {
+    this.vehicleType = type.target.value;
+    this.vehicleId = null;
+    this.regno = null;
+  }
+
+  selectVehicle(vehicle) {
+    this.vehicleId = vehicle.id;
+    this.regno = vehicle.regno;
+  }
+
   getLorryReceipts() {
     console.log("--this.tempendTime---", this.tempendTime, "this.tempstartTime---", this.tempstartTime)
     if (this.tempendTime < this.tempstartTime) {
@@ -82,8 +95,11 @@ export class LorryRecciptsComponent implements OnInit {
       type: this.viewType,
       status: this.lrType,
       lrCategory: this.lrCategory,
-      vehicleType: this.vehicleType
+      vehicleType: this.vehicleType,
+      vehicleId: this.vehicleId,
+      vehicleRegNo: this.regno,
     };
+    console.log("api params Data:", params);
     this.table = null;
     this.receipts = [];
     ++this.common.loading;
@@ -193,6 +209,7 @@ export class LorryRecciptsComponent implements OnInit {
       LRDate: { title: 'LR Date', placeholder: 'LR Date' },
       Consigner: { title: 'Consigner', placeholder: 'Consigner' },
       Consignee: { title: 'Consignee', placeholder: 'Consignee' },
+      TA: { title: 'TA', placeholder: 'TA' },
       Source: { title: 'Source', placeholder: 'Source' },
       Destination: { title: 'Destination', placeholder: 'Destination' },
       AddTime: { title: 'AddTime', placeholder: 'AddTime' },
@@ -228,11 +245,12 @@ export class LorryRecciptsComponent implements OnInit {
         LRDate: { value: R.lr_date },
         Consigner: { value: R.lr_consigner_name },
         Consignee: { value: R.lr_consignee_name },
+        TA: { value: R.lr_ta_name },
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
-        Revenue: R.revenue_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-green', action: this.lrRates.bind(this, R, 0) },{ class: 'fa fa-check i-green ml-2', action: this.openRevenueModal.bind(this, R, 0) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 0) },{ class: 'fa fa-times-circle i-red-cross ml-2', action: this.openRevenueModal.bind(this, R, 0) }] },
-        Expense: R.expense_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-green', action: this.lrRates.bind(this, R, 1) },{ class: 'fa fa-check i-green ml-2', action: this.openExpenseModal.bind(this, R, 1) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 1) },{ class: 'fa fa-times-circle i-red-cross ml-2', action: this.openExpenseModal.bind(this, R, 1) }] },
+        Revenue: R.revenue_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-green', action: this.lrRates.bind(this, R, 0) }, { class: 'fa fa-check i-green ml-2', action: this.openRevenueModal.bind(this, R, 0) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 0) }, { class: 'fa fa-times-circle i-red-cross ml-2', action: this.openRevenueModal.bind(this, R, 0) }] },
+        Expense: R.expense_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-green', action: this.lrRates.bind(this, R, 1) }, { class: 'fa fa-check i-green ml-2', action: this.openExpenseModal.bind(this, R, 1) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 1) }, { class: 'fa fa-times-circle i-red-cross ml-2', action: this.openExpenseModal.bind(this, R, 1) }] },
         // PodImage: R.pod_docid ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getPodImage.bind(this, R) }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
         // PodDetails: R.poddetails ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.openPodDeatilsModal.bind(this, R) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.openPodDeatilsModal.bind(this, R) }] },
         // PodReceived: R.podreceived ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-check i-green' }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },

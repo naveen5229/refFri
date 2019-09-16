@@ -29,7 +29,6 @@ export class DocumentsSummaryComponent implements OnInit {
 
     this.common.refresh = this.refresh.bind(this);
     this.getDocumentMatrixData();
-    // this.common.currentPage = 'Vehicle Documents Dashboard';
   }
 
   ngOnInit() {
@@ -37,7 +36,6 @@ export class DocumentsSummaryComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    // window.location.reload();
     this.getDocumentMatrixData();
   }
 
@@ -47,11 +45,9 @@ export class DocumentsSummaryComponent implements OnInit {
     let user_id = this.user._details.id;
     if (this.user._loggedInBy == 'admin')
       user_id = this.user._customer.id;
-    //let user_mode = this.user._loggedInBy == 'admin' ? 1 : this.user._loggedInBy == 'partner' ? 2 : 3;
     this.api.post('Vehicles/getDocumentMatrixDataWeb', { x_user_id: user_id })
       .subscribe(res => {
         this.common.loading--;
-        console.log("data", res);
         this.data = res['data'];
         this.total_recs = this.data.result.length;
         if (this.data.result.length) {
@@ -59,8 +55,7 @@ export class DocumentsSummaryComponent implements OnInit {
             if (key.charAt(0) != "_")
               this.columns.push(key);
           }
-          console.log("columns");
-          console.log(this.columns);
+
         }
       }, err => {
         this.common.loading--;
@@ -88,7 +83,6 @@ export class DocumentsSummaryComponent implements OnInit {
   resetRowsVisibility() {
     let tblelt = document.getElementById('tbldocs');
     var rows = tblelt.querySelectorAll('tr');
-    console.log("rows=" + rows.length);
     if (rows.length > 1) {
       for (var i = 1; i < rows.length; i++) {
         rows[i].classList.remove('cls-hide');
@@ -116,14 +110,11 @@ export class DocumentsSummaryComponent implements OnInit {
   }
 
   filterRows(status) {
-    console.log("checking for status:" + status);
     this.resetRowsVisibility();
     let tblelt = document.getElementById('tbldocs');
     var rows = tblelt.querySelectorAll('tr');
-    console.log("rows=" + rows.length);
     if (rows.length > 1) {
-      //console.log("rowscoll::");
-      //console.log(rows);
+
       for (var i = 1; i < rows.length; i++) {
         let classlst = rows[i].classList;
         if (classlst.length) {
@@ -134,11 +125,9 @@ export class DocumentsSummaryComponent implements OnInit {
             for (var j = 0; j < classlst.length; j++) {
               if (classlst[j].indexOf('--') > -1) {
                 let arrclass = classlst[j].split('--');
-                console.log(arrclass);
-                console.log("indexval=" + arrclass.indexOf(status));
+
                 if (arrclass.indexOf("" + status) == -1) {
-                  console.log("row hidden:");
-                  console.log(rows[i]);
+
                   rows[i].classList.add('cls-hide');
                   flag = 1;
                   continue;
@@ -180,23 +169,17 @@ export class DocumentsSummaryComponent implements OnInit {
   }
 
   fetchDocumentData(row, col, colval) {
-    console.log("colval:");
-    console.log(colval);
+
     if (colval) {
       let arrval = colval.split('_');
       let docid = arrval[1];
       let regno = row['vehicle'];
-      console.log("docid:" + docid);
       this.common.loading++;
       this.api.post('Vehicles/getPendingDocDetailsById', { x_document_id: docid })
         .subscribe(res => {
           this.common.loading--;
-          console.log("data", res);
           this.docdata = res['data'];
 
-          // let newdate = "";
-          // if (this.docdata[0].expiry_date != 'undefined' && this.docdata[0].expiry_date != null)
-          //   newdate = this.common.changeDateformat1(this.docdata[0].expiry_date).split(' ')[0];
           let documentData = [{
             regNumber: this.docdata[0].regno,
             id: this.docdata[0].id,
@@ -220,8 +203,6 @@ export class DocumentsSummaryComponent implements OnInit {
           this.common.handleModalSize('class', 'modal-lg', '1200');
           const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
           activeModal.result.then(mdldata => {
-            console.log("response:", mdldata);
-            // this.getDocumentMatrixData();
           });
         }, err => {
           this.common.loading--;
@@ -253,9 +234,6 @@ export class DocumentsSummaryComponent implements OnInit {
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
   noRecordDocumentData(norecordData, col, colval) {
-    console.log("row:", norecordData);
-    console.log("col:", col);
-    console.log("colval:", colval.split("_")[2]);
     colval = colval.split("_")[2];
     this.common.params = { norecordData, col, colval };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
