@@ -56,7 +56,7 @@
           <option value="3">Market</option>
         </select>
       </div>
-      <div class="col-sm-1-5 ml-2" *ngIf="vehicleType==1; else regnoType">
+      <div class="col-sm-1-5 ml-2" *ngIf="vehicleType==1">
         <label>Regno</label>
         <auto-suggestion (onSelected)="selectVehicle($event)" inputId="regno" name="vehicle"
           url="Suggestion/getFoVehicleList" display="regno" placeholder="Vehicle Number">
