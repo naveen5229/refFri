@@ -40,7 +40,6 @@ export class FrieghtRateInputComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
     this.startDate
     console.log("current Year", this.startDate);
-
   }
 
   ngOnInit() {

@@ -4,7 +4,6 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentReportComponent } from '../documentation-modals/document-report/document-report.component';
-import { EmpDashboardComponent } from '../documentation-modals/emp-dashboard/emp-dashboard.component';
 @Component({
   selector: 'document-dashboard',
   templateUrl: './dashboard.component.html',
@@ -39,8 +38,6 @@ export class DocumentDashboardComponent implements OnInit {
     private modalService: NgbModal) {
     this.getDocumentData();
     this.common.refresh = this.refresh.bind(this);
-    console.log("foid:", this.user._customer.id);
-    // this.common.currentPage = 'Vehicle Documents Summary';
   }
 
   ngOnInit() {
@@ -56,9 +53,7 @@ export class DocumentDashboardComponent implements OnInit {
   }
 
   refresh() {
-    console.log('Refresh');
     this.getDocumentData();
-    // window.location.reload();
   }
 
   getDocumentData() {
@@ -70,7 +65,6 @@ export class DocumentDashboardComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.documentData = res['data'];
-        console.info("dashbord Data", this.documentData);
         let first_rec = this.documentData[0];
         this.table.data.headings = {};
         for (var key in first_rec) {
@@ -80,10 +74,6 @@ export class DocumentDashboardComponent implements OnInit {
             this.table.data.headings[key] = hdgobj;
           }
         }
-        console.log("hdgs:");
-        console.log(this.headings);
-        console.log(this.table.data.headings);
-
         this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
@@ -123,7 +113,6 @@ export class DocumentDashboardComponent implements OnInit {
         docobj.document_type_id = doc['_doctypeid'];
         valobj[this.headings[i]] = { value: val, class: (val > 0) ? 'blue' : 'black', action: val > 0 ? this.openData.bind(this, docobj, status) : '' };
 
-
       }
 
       columns.push(valobj);
@@ -146,7 +135,6 @@ export class DocumentDashboardComponent implements OnInit {
 
   openData(docReoprt, status) {
     this.common.params = { docReoprt, status, title: 'Document Report' };
-    //const activeModal = this.modalService.open(EmpDashboardComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {

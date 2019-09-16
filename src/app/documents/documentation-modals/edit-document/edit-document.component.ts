@@ -12,7 +12,6 @@ import { DatePickerComponent } from '../../../modals/date-picker/date-picker.com
   styleUrls: ['./edit-document.component.scss', '../../../pages/pages.component.css']
 })
 export class EditDocumentComponent implements OnInit {
-
   title = '';
   btn1 = '';
   btn2 = '';
@@ -60,9 +59,7 @@ export class EditDocumentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.vehicleId = this.common.params.vehicleId;
     this.document = this.common.params.documentData;
-    // console.log("document data:", this.document);
     this.document.docId = this.document[0].id;
-    // console.log("doc Id:", this.document.docId);
     this.document.regNumber = this.document[0].regNumber;
     this.document.documentId = this.document[0].documentId;
     this.document.documentType = this.document[0].documentType;
@@ -107,15 +104,11 @@ export class EditDocumentComponent implements OnInit {
   }
   getDocumentsData() {
     this.common.loading++;
-    let response;
     this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
       .subscribe(res => {
         this.common.loading--;
-        // console.log("data", res);
         this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
-        console.log("img_url:" + this.document.docUpload);
-        console.log("img_url:" + this.document.docUpload2);
         if (this.document.docUpload) {
           if ((this.document.docUpload.indexOf('.pdf') > -1) || (this.document.docUpload.indexOf('.doc') > -1) || (this.document.docUpload.indexOf('.docx') > -1) || (this.document.docUpload.indexOf('.xls') > -1) || (this.document.docUpload.indexOf('.xlsx') > -1) || (this.document.docUpload.indexOf('.csv') > -1)) {
             this.doc_not_img = 1;
@@ -131,8 +124,6 @@ export class EditDocumentComponent implements OnInit {
           this.images.push({ name: "doc-img", image: this.document.docUpload2 });
           this.common.params = { title: "Doc Image", images: this.images };
         }
-
-
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -154,12 +145,12 @@ export class EditDocumentComponent implements OnInit {
       this.common.showError("Please check the Expiry Date validity");
     }
   }
+
   checkExpiryDateValidityByValue(flddate, expdate) {
     let strdt1 = flddate.split("/").reverse().join("-");
     let strdt2 = expdate.split("/").reverse().join("-");
     flddate = this.common.dateFormatter(strdt1).split(' ')[0];
     expdate = this.common.dateFormatter(strdt2).split(' ')[0];
-    console.log("comparing " + flddate + "-" + expdate);
     let d1 = new Date(flddate);
     let d2 = new Date(expdate);
     if (isNaN(d1.getTime()) || isNaN(d2.getTime())) {
@@ -185,9 +176,6 @@ export class EditDocumentComponent implements OnInit {
       x_expiry_date: this.document.expiryDate,
       x_document_agent_id: this.document.agentId,
       x_document_number: this.document.documentNumber,
-      // x_base64img: this.document.newDocUpload,
-      // x_base64img2: this.document.newDocUpload,
-      // x_base64img3 : this.document.newDocUpload,
       x_rto: this.document.rto,
       x_remarks: this.document.remark,
       x_amount: this.document.amount,
@@ -253,12 +241,9 @@ export class EditDocumentComponent implements OnInit {
     }
 
     this.common.loading++;
-    let response;
-    console.log("params", params);
     this.api.post('Vehicles/updateVehicleDocumentByCustomer', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log("api result", res);
         let result = (res['msg']);
         if (result == "success") {
           alert(res['msg']);
@@ -279,7 +264,6 @@ export class EditDocumentComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         this.document[date] = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        console.log('Edit Date:', this.document[date]);
         return this.document[date];
       }
     });
@@ -304,12 +288,9 @@ export class EditDocumentComponent implements OnInit {
 
   findDocumentType(id) {
     let documentType = '';
-    console.log("id:", id);
-    console.log("docTypes:", this.docTypes);
     this.docTypes.map(docType => {
       if (docType.id == id) {
         documentType = docType.document_type
-        console.log("document Type", documentType);
       }
     });
     return documentType;
@@ -317,13 +298,11 @@ export class EditDocumentComponent implements OnInit {
 
   selectDocType(docType) {
     this.document.documentId = docType.id
-    console.log("doc var", this.document.documentId);
     return this.document.documentId;
   }
+
   checkType(event) {
     let id = event.target.value;
-    console.log("doc id", id);
-
   }
 
   handleFileSelection(event) {
@@ -332,7 +311,6 @@ export class EditDocumentComponent implements OnInit {
       .then(res => {
         this.common.loading--;
         let file = event.target.files[0];
-        console.log("Type", file.type);
         if (file.type == "image/jpeg" || file.type == "image/jpg" ||
           file.type == "image/png" || file.type == "application/pdf" ||
           file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
@@ -343,8 +321,6 @@ export class EditDocumentComponent implements OnInit {
           alert("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
           return false;
         }
-        console.log('Base 64: ', res);
-        // this.document.newDocUpload = res;
       }, err => {
         this.common.loading--;
         console.error('Base Err: ', err);

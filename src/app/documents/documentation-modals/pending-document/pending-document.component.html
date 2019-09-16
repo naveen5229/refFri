@@ -18,30 +18,26 @@
               <div class="col-sm-8 " *ngIf="!canUpdate">
                 <label style="font-size:16px;">{{document.id}}</label>
                 <span *ngIf="document.verify == true" style="margin-left:20%;">
-                 <label style="font-size:16px; "> Verified </label>
+                  <label style="font-size:16px; "> Verified </label>
                 </span>
-               
+
               </div>
               <div class="col-sm-8 " *ngIf="canUpdate">
                 <label style="font-size:16px;">{{document.id}}</label>
               </div>
-              <!-- <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
-            class="col-sm-8 form-control frm-fld mgn-vert" style="width:60%; margin-left:2%;" [value]="document.id" readonly />-->
+
             </div>
             <div class="row form-field clear">
               <label for="veh_no" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
               <div *ngIf="!canUpdate" class="col-sm-8">
                 <label style="font-size:16px;">{{document.regno}}</label>
-                
+
               </div>
 
               <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <input *ngIf="canUpdate" id="document_id" name="document_id" type="text" class="form-control "
                   [(ngModel)]="document.newRegno" (blur)="validateRegno()" />
 
-                <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
-              placeholder="Enter Vehicle Number" [preSelected]="null" style="width:60%;"
-              (keyup)="isValidVehicle($event)"></auto-suggestion> -->
               </div>
             </div>
             <div class="row form-field clear">
@@ -146,20 +142,6 @@
 
             <div class="row" style="margin-top:20px">
 
-              <!-- <div class="col-sm-3" *ngIf="canUpdate === 1 && this.user._loggedInBy== 'admin'">
-            <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
-              id="submit" style="cursor: pointer;">{{btn1}}</button>
-          </div>
-
-          <div class="col-sm-3" style="margin-left: 20%;" *ngIf=" canUpdate === 1 && this.user._loggedInBy== 'admin'">
-              <button class="btn btn-default" type="button"  (click)="updateDocument(1)" id="advance"
-              style="cursor: pointer;">Advance Review</button> 
-          </div> -->
-              <!-- <div class="col-sm-3" *ngIf="this.user._loggedInBy== 'admin'">
-                <button class="btn btn-danger" type="button" outline (click)="deleteImage(document.id)" id="cancel"
-                  style="cursor: pointer;">{{btn2}}</button>
-              </div> -->
-
               <div class="col-sm-3" *ngIf="canUpdate === 0 " style="margin-left: 60%;">
                 <button class="btn btn-primary" type="submit" (click)="customerByUpdate()" id="submit"
                   style="cursor: pointer;">{{btn1}}</button>
@@ -181,4 +163,3 @@
     </div>
   </nb-card-body>
 </nb-card>
-
