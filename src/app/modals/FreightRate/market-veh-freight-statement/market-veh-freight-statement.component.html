@@ -79,12 +79,26 @@
   </div> -->
 
   <div class="row">
-    <div class="col-6">
+    <div class="col-5">
       <div class="row">
-        <div class="col-3" style="padding-top:20px">
+          <div class="col-3" style="padding-top:10px">
+          <span><b>TDS</b></span>
+          </div>
+          <div class="col-9 pl-3">
+            <select [(ngModel)]="mvsFreight.tds" style="width:100%;">
+              <option value="-1">N.A.</option>
+              <option value="1">1%</option>
+              <option value="2">2%</option>
+            </select>
+          </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="row">
+        <div class="col-3" style="padding-top:10px">
           <span><b>Remark</b></span>
         </div>
-        <div class="col-7 pl-0">
+        <div class="col-9 pl-3">
           <textarea rows="5" name="remark" id="remark" row="5" rows="3" class="form-control"
             [(ngModel)]="mvsFreight.remark"></textarea>
         </div>
