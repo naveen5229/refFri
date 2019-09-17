@@ -3,9 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-import { PendingDocumentComponent } from '../../documents/documentation-modals/pending-document/pending-document.component';
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 import { from } from 'rxjs';
 import { AddAgentComponent } from '../documentation-modals/add-agent/add-agent.component';
@@ -57,20 +55,17 @@ export class PendingDocumentsComponent implements OnInit {
     this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
     this.listtype;
-    //this.common.currentPage = 'Pending Vehicle Documents';
   }
 
   ngOnInit() {
   }
 
   refresh() {
-    console.log('Refresh');
     this.columns = [];
     this.columns2 = [];
     this.getPendingDetailsDocuments();
     this.getAllTypesOfDocuments();
     this.getUserWorkList();
-    // window.location.reload();
   }
 
   getPendingDetailsDocuments() {
@@ -79,15 +74,16 @@ export class PendingDocumentsComponent implements OnInit {
       this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1, x_advreview: 1 })
         .subscribe(res => {
           this.common.loading--;
-          console.log("data", res);
-          this.data = res['data'];
+          if (this.data == null) {
+            this.data = [];
+            return;
+          }
           if (this.data.length) {
             for (var key in this.data[0]) {
               if (key.charAt(0) != "_")
                 this.columns.push(key);
             }
-            console.log("columns");
-            console.log(this.columns);
+
           }
         }, err => {
           this.common.loading--;
@@ -98,15 +94,13 @@ export class PendingDocumentsComponent implements OnInit {
       this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1 })
         .subscribe(res => {
           this.common.loading--;
-          console.log("data", res);
           this.data = res['data'];
           if (this.data.length) {
             for (var key in this.data[0]) {
               if (key.charAt(0) != "_")
                 this.columns.push(key);
             }
-            console.log("columns");
-            console.log(this.columns);
+
           }
         }, err => {
           this.common.loading--;
@@ -116,29 +110,23 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   getAllTypesOfDocuments() {
-    // this.common.loading++;
     this.api.get('Vehicles/getAllDocumentTypesList')
       .subscribe(res => {
-        console.log("All Type Docs: ", res);
         this.documentTypes = res['data'];
       }, err => {
-        // this.common.loading--;
         console.log(err);
       });
   }
 
   showDetails(row) {
-    // _docid
     let rowData = {
       id: row._docid,
       vehicle_id: row.vehicle_id,
     };
-    console.log("Model Doc Id:", rowData.id);
     this.modalOpenHandling({ rowData, title: 'Update Document', canUpdate: 1 });
   }
 
   modalOpenHandling(params) {
-    console.log('Handler Start: ', this.modal.active);
     if (!this.modal.active) {
       this.modal.first.class = 'custom-active-modal';
       this.modal.first.show = true;
@@ -161,7 +149,6 @@ export class PendingDocumentsComponent implements OnInit {
       this.handleNextImageClick('first');
       this.modal.active = 'second';
     }
-    console.log('Handler End: ', this.modal.active);
 
   }
 
@@ -199,7 +186,6 @@ export class PendingDocumentsComponent implements OnInit {
     this.modal[modal].data.images = this.modal[modal].data.imgs;
 
     this.getDocumentPending(modal);
-    // this.getDocumentsData(modal);
     this.modal[modal].data.docTypes = this.documentTypes;
   }
 
@@ -209,10 +195,8 @@ export class PendingDocumentsComponent implements OnInit {
       x_document_id: this.modal[modal].data.document.id,
       x_advreview: this.listtype
     }
-    console.log('Params: ', params);
     this.api.post('Vehicles/getPendingDocDetail', params)
       .subscribe(res => {
-        console.log("pending detalis:", res);
         this.modal[modal].data.document.id = res['data'][0].document_id;
         this.modal[modal].data.document.newRegno = res['data'][0].regno;
         this.modal[modal].data.document.img_url = res["data"][0].img_url;
@@ -236,7 +220,6 @@ export class PendingDocumentsComponent implements OnInit {
         if (res["msg"] != "success") {
           alert(res["msg"]);
           this.closeModal(true, modal);
-          console.log("sucess......");
         }
 
       }, err => {
@@ -259,13 +242,11 @@ export class PendingDocumentsComponent implements OnInit {
       const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         if (data.response) {
-          console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
           this.api.post('Vehicles/deleteDocumentById', { x_document_id: row._docid, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 1 })
             .subscribe(res => {
               this.common.loading--;
-              console.log("data", res);
               this.columns = [];
               this.getPendingDetailsDocuments();
               this.common.showToast("Success Delete");
@@ -281,14 +262,11 @@ export class PendingDocumentsComponent implements OnInit {
 
 
   selectList(id) {
-    console.log("list value:", id);
     this.listtype = parseInt(id);
-
     this.common.loading++;
     this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1, x_advreview: parseInt(id) })
       .subscribe(res => {
         this.common.loading--;
-        console.log("data", res);
         this.data = res['data'];
         this.columns = [];
         if (this.data.length) {
@@ -296,8 +274,6 @@ export class PendingDocumentsComponent implements OnInit {
             if (key.charAt(0) != "_")
               this.columns.push(key);
           }
-          console.log("columns");
-          console.log(this.columns);
         }
       }, err => {
         this.common.loading--;
@@ -330,14 +306,6 @@ export class PendingDocumentsComponent implements OnInit {
   markAgentSelected(option_val, modal) {
     var elt = document.getElementById('doc_agent-' + modal) as HTMLSelectElement;
 
-    console.log("option:" + option_val);
-    /*for(var i=0; i < elt.options.length; i++) {
-      console.log("i=" + i + ", val:" + elt.options[i].value);
-      if(elt.options[i].value == option_val) {
-        elt.selectedIndex = i;
-        break;
-      }
-    }*/
   }
 
   checkDatePattern(strdate) {
@@ -377,14 +345,11 @@ export class PendingDocumentsComponent implements OnInit {
       x_rto: document.rto,
       x_amount: document.amount,
     }
-
-
     this.common.loading++;
     let response;
     this.api.post('Vehicles/updateVehicleDocumentByCustomer', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log("api result", res);
         alert(res['msg']);
         this.closeModal(true, modal);
       }, err => {
@@ -396,12 +361,10 @@ export class PendingDocumentsComponent implements OnInit {
 
   updateDocument(modal, status?, confirm?) {
     if (this.modal.first.nextCount < this.modal.first.data.images.length - 1) {
-      console.log('------------------Not Clicked-------------------');
       this.common.showError('Please Review All Images');
       return;
     }
 
-    console.log('Test');
     if (this.user._loggedInBy == 'admin' && this.modal[modal].data.canUpdate == 1) {
       let document = this.modal[modal].data.document;
       const params = {
@@ -419,13 +382,6 @@ export class PendingDocumentsComponent implements OnInit {
         x_isconfirmed: confirm || 0
 
       };
-      console.log("Id is", params);
-      // if(params.x_advreview==0){
-      //   if (!document.vehicle_id ) {
-      //     this.common.showError("Please enter Vehicle No.");
-      //     return false;
-      //   }
-      // }
 
       if (params.x_advreview == 0) {
         if (!document.document_type_id) {
@@ -507,7 +463,6 @@ export class PendingDocumentsComponent implements OnInit {
       this.api.post('Vehicles/updateVehicleDocumentByAdmin', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log("api result", res);
           let result = (res['msg']);
           if (result == "success") {
             alert("Success");
@@ -521,7 +476,6 @@ export class PendingDocumentsComponent implements OnInit {
           if (res['code'] == -2) {
             this.openConrirmationAlert(res, params.x_advreview);
 
-            console.log("res Data", res['code']);
           }
         }, err => {
           this.common.loading--;
@@ -532,8 +486,7 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   openConrirmationAlert(data, review) {
-    console.log("Data ", data);
-    console.log("params :", review);
+
     this.common.params = {
       title: 'Confirmation ',
       description: data['msg'],
@@ -542,11 +495,7 @@ export class PendingDocumentsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.response) {
         let confirm = 1;
-        console.log("modal active:", this.modal.active);
-
         this.updateDocument(this.modal.active, review, confirm);
-
-        //  console.log("cofirm data response:",data.response);
       }
     });
   }
@@ -558,15 +507,12 @@ export class PendingDocumentsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         this.modal[modal].data.document[date] = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        console.log('Date:', this.modal[modal].data.document[date]);
       }
     });
   }
 
   setDate(date, modal) {
-    console.log("fetch Date", date);
     this.modal[modal].data.document[date] = this.common.dateFormatter(this.modal[modal].data.document.issue_date, 'ddMMYYYY').split(' ')[0];
-    console.log('Date:', this.modal[modal].data.document[date]);
   }
 
   checkExpiryDateValidityByValue(flddate, expdate, modal) {
@@ -574,7 +520,6 @@ export class PendingDocumentsComponent implements OnInit {
     let strdt2 = expdate.split("/").reverse().join("-");
     flddate = this.common.dateFormatter(strdt1).split(' ')[0];
     expdate = this.common.dateFormatter(strdt2).split(' ')[0];
-    console.log("comparing " + flddate + "-" + expdate);
     let d1 = new Date(flddate);
     let d2 = new Date(expdate);
     if (isNaN(d1.getTime()) || isNaN(d2.getTime())) {
@@ -593,13 +538,10 @@ export class PendingDocumentsComponent implements OnInit {
     const activeModal = this.modalService.open(AddAgentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(agtdata => {
       if (agtdata.response) {
-        console.log("agtdata:");
-        console.log(agtdata.response);
         this.common.loading++;
         this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.modal[modal].data.vehicleId })
           .subscribe(res => {
             this.common.loading--;
-            console.log("data", res);
             this.modal.first.data.agents = res['data'].document_agents_info;
             this.modal.second.data.agents = res['data'].document_agents_info;
             if (this.modal[modal].data.agents.length) {
@@ -618,18 +560,14 @@ export class PendingDocumentsComponent implements OnInit {
 
   findDocumentType(id, modal) {
     for (var i = 0; i < this.modal[modal].data.docTypes.length; i++) {
-      console.log("val:" + this.modal[modal].data.docTypes[i]);
       if (this.modal[modal].data.docTypes[i].id == id) {
         return this.modal[modal].data.docTypes[i].document_type;
       }
     }
-
   }
 
   selectDocType(docType, modal) {
     this.modal[modal].data.document.document_type_id = docType.id;
-    console.log('Doc id: ', docType.id);
-    console.log("doc var", this.modal[modal].data.document.document_type_id);
   }
 
 
@@ -653,17 +591,14 @@ export class PendingDocumentsComponent implements OnInit {
     let ret = confirm("Are you sure you want to delete this Document?");
     if (ret) {
       this.common.params = { RemarkModalComponent, title: 'Delete Document' };
-
       const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         if (data.response) {
-          console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
           this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 0 })
             .subscribe(res => {
               this.common.loading--;
-              console.log("data", res);
               this.closeModal(true, modal);
               this.common.showToast("Success Delete");
             }, err => {
@@ -727,7 +662,6 @@ export class PendingDocumentsComponent implements OnInit {
     let month = dateValue[2] + dateValue[3];
     let year = dateValue.substring(4, 8);
     this.modal[modal].data.document[dateType] = date + '/' + month + '/' + year;
-    console.log('Date: ', this.modal[modal].data.document[dateType]);
   }
 
 
@@ -736,15 +670,12 @@ export class PendingDocumentsComponent implements OnInit {
     this.api.get('Vehicles/getDocumentsUserWorkSummary')
       .subscribe(res => {
         this.common.loading--;
-        console.log("data", res);
         this.userdata = res['data'];
         if (this.userdata.length) {
           for (var key in this.userdata[0]) {
             if (key.charAt(0) != "_")
               this.columns2.push(key);
           }
-          console.log("columns");
-          console.log(this.columns2);
         }
       }, err => {
         this.common.loading--;
@@ -758,25 +689,18 @@ export class PendingDocumentsComponent implements OnInit {
     const activeModal = this.modalService.open(DocumentHistoryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        //this.getHistoryData();
-        //window.location.reload();
       }
     });
   }
 
   handleNextImageClick(modal) {
     setTimeout(() => {
-      console.log('ModalElement', modal);
       let modalElement = document.getElementsByClassName(modal == 'first' ? 'custom-modal-1' : 'custom-modal-2')[0];
-      console.log('ModalElement:', modalElement);
       if (modalElement) {
         let nextElement = modalElement.getElementsByClassName('next')[0];
-        console.log('Next', nextElement);
         if (nextElement) {
           nextElement['onclick'] = () => {
-            console.log('NEXT:::::=>', this.modal[modal].nextCount);
             this.modal[modal].nextCount++;
-            console.log('NEXT:::::=>', this.modal[modal].nextCount);
           }
         }
       }

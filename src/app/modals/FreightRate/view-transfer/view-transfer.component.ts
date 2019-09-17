@@ -42,6 +42,7 @@ export class ViewTransferComponent implements OnInit {
     this.ledgerId=this.common.params.ledgerId;
     this.ledgerType="Ledger:"+this.common.params.title;
     console.log("ledgerType:",this.ledgerType);
+    this.common.handleModalSize('class', 'modal-lg', '1400');
     this.viewTransfer();
   }
 
@@ -51,10 +52,10 @@ export class ViewTransferComponent implements OnInit {
   viewTransfer()
   {
     const params = "startTime=" + this.common.dateFormatter(this.startTime) +
-      "&endTime=" + this.common.dateFormatter(this.endTime)+"&ledgerId="+this.ledgerId+"&transferType="+this.transferType;
+      "&endTime=" + this.common.dateFormatter(this.endTime)+"&ledgerId="+this.ledgerId;
     ++this.common.loading;
 
-    this.api.get('FrieghtRate/getTransfers?' + params)
+    this.api.get('FrieghtRate/getLedgerTransfers?' + params)
       .subscribe(res => {
         --this.common.loading;
 

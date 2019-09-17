@@ -95,9 +95,11 @@ export class EditFillingComponent implements OnInit {
     this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
     this.odoVal = rec.odometer ? rec.odometer : 0;
     if (this.common.params.title == 'Edit Fuel Filling') {
-      this.date = new Date(rec.fdate);
+      let dateArr = rec.fdate.split('-');
+      dateArr[2] = '20' + dateArr[2];
+      this.date = new Date(dateArr.join('/'))
       this.vehicleId = this.common.params.rowfilling.vehicle_id;
-      this.regno=this.common.params.rowfilling.regno;
+      this.regno = this.common.params.rowfilling.regno;
       console.log("vid123", this.vehicleId);
     }
   }

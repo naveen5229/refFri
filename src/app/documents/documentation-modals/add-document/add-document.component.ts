@@ -82,7 +82,6 @@ export class AddDocumentComponent implements OnInit {
     if (this.common.params.norecordData) {
       this.ignore = 1;
       this.regno = this.common.params.norecordData.vehicle;
-      // this.vehicleid = this.common.params.norecordData._vid;
       this.vehicleId = this.common.params.norecordData._vid;
       this.docType = this.common.params.col;
       this.docTypeid = this.common.params.colval;
@@ -94,11 +93,14 @@ export class AddDocumentComponent implements OnInit {
       this.document.dates.wef = this.common.dateFormatter(this.document.dates.wef, 'ddMMYYYY').split(' ')[0];
     if (this.document.dates.expiry)
       this.document.dates.expiry = this.common.dateFormatter(this.document.dates.expiry, 'ddMMYYYY').split(' ')[0];
-
     this.getDocumentsData();
   }
 
   ngOnInit() {
+  }
+
+  closeModal(response) {
+    this.activeModal.close({ response: response });
   }
 
   getDocumentsData() {
@@ -107,9 +109,7 @@ export class AddDocumentComponent implements OnInit {
     this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
       .subscribe(res => {
         this.common.loading--;
-        // console.log("data", res);
         this.vehicle = res['data'].vehicle_info[0];
-        // this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
       }, err => {
         this.common.loading--;
@@ -122,9 +122,7 @@ export class AddDocumentComponent implements OnInit {
     this.common.loading++;
     this.common.getBase64(event.target.files[0])
       .then(res => {
-        //this.common.loading--;
         let file = event.target.files[0];
-        console.log("Type", file.type);
         if (file.type == "image/jpeg" || file.type == "image/jpg" ||
           file.type == "image/png" || file.type == "application/pdf" ||
           file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
@@ -136,7 +134,6 @@ export class AddDocumentComponent implements OnInit {
           return false;
         }
 
-        //console.log('Base 64: ', res);
         this.document['image' + index] = res;
         this.compressImage(res, index);
         this.common.loading--;
@@ -172,16 +169,12 @@ export class AddDocumentComponent implements OnInit {
       //Getting base64 string; 
       //this.images[index].base64 = canvas.toDataURL('image/jpeg').split(",")[1];      
       this.document['image' + index] = canvas.toDataURL('image/jpeg');
-      console.log('Image Compressed !');
-      console.log(this.document['image' + index]);
     }
     image.src = base64Image;
   }
 
 
-  closeModal(response) {
-    this.activeModal.close({ response: response });
-  }
+
 
   checkExpiryDateValidity() {
     let issuedt_valid = 1;
@@ -204,7 +197,6 @@ export class AddDocumentComponent implements OnInit {
     let strdt2 = expdate.split("/").reverse().join("-");
     flddate = this.common.dateFormatter(strdt1).split(' ')[0];
     expdate = this.common.dateFormatter(strdt2).split(' ')[0];
-    console.log("comparing " + flddate + "-" + expdate);
     let d1 = new Date(flddate);
     let d2 = new Date(expdate);
     if (isNaN(d1.getTime()) || isNaN(d2.getTime())) {
@@ -219,7 +211,6 @@ export class AddDocumentComponent implements OnInit {
   }
 
   addDocument() {
-
     if (this.docId) {
       const params = {
         x_entryby: this.user._details.id,
@@ -232,18 +223,13 @@ export class AddDocumentComponent implements OnInit {
         x_base64img3: this.document.image3,
       };
 
-      // if (!this.document.type.id) {
-      //   return this.common.showError("Select Document Type");
-      // }
       if (!this.document.image1 && !this.document.image2 && !this.document.image3) {
         return this.common.showError("Select Document Image/File");
       }
-      console.log('Params: ', params);
       this.common.loading++;
       this.api.post('Vehicles/addVehicleDocumentWeb', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log("api result", res);
           let result = res["msg"];
           if (result == "success") {
             this.common.showToast("Success");
@@ -265,9 +251,6 @@ export class AddDocumentComponent implements OnInit {
         x_vehicle_id: this.vehicle.id,
         x_document_type_id: this.document.type.id,
         x_document_type: this.findDocumentType(this.document.type.id),
-        // x_issue_date: this.document.dates.issue,
-        // x_wef_date: this.document.dates.wef,
-        // x_expiry_date: this.document.dates.expiry,
         x_base64img: this.document.image1,
         x_base64img2: this.document.image2,
         x_base64img3: this.document.image3,
@@ -275,12 +258,10 @@ export class AddDocumentComponent implements OnInit {
       if (!this.document.image1 && !this.document.image2 && !this.document.image3) {
         return this.common.showError("Select Document Image/File");
       }
-      console.log('Params: ', params);
       this.common.loading++;
       this.api.post('Vehicles/addVehicleDocumentWeb', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log("api result", res);
           let result = res["msg"];
           if (result == "success") {
             this.common.showToast("Success");
@@ -288,7 +269,6 @@ export class AddDocumentComponent implements OnInit {
           }
           else {
             alert(result);
-
           }
 
         }, err => {
@@ -304,19 +284,15 @@ export class AddDocumentComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         this.document.dates[date] = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        console.log('Date:', this.document.dates[date]);
       }
     });
   }
+
   findDocumentType(id) {
     let documentType = '';
-    console.log("id:", id);
-    console.log("docTypes:", this.docTypes);
     this.docTypes.map(docType => {
-      // console.log("doc Type: ",docType);
       if (docType.id == id) {
         documentType = docType.document_type
-        console.log("document Type", documentType);
       }
     });
     return documentType;
@@ -335,7 +311,6 @@ export class AddDocumentComponent implements OnInit {
 
   selectDocType(docType) {
     this.document.type.id = docType.id
-    console.log("doc var", this.document.type.id);
   }
 
   checkDateFormat(dateType) {
@@ -378,12 +353,10 @@ export class AddDocumentComponent implements OnInit {
       x_document_type_id: record.x_document_type_id,
 
     };
-    console.log("Params:", params);
     this.common.loading++;
     this.api.post('vehicles/saveIgnoreVehicleDocument', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('res: ', res);
         if (res['success']) {
           this.common.showToast(res['msg']);
           this.closeModal(true);

@@ -17,8 +17,11 @@ export class LocationMarkerComponent implements OnInit {
     lat: 26.9124336,
     lng: 75.78727090000007,
     name: '',
-    time: ''
+    time: '',
   };
+  fence=null;
+  polygon = null;
+  bounds = new google.maps.LatLngBounds();
   marker: any;
   infoWindows = [];
 
@@ -36,8 +39,19 @@ export class LocationMarkerComponent implements OnInit {
   ngAfterViewInit() {
     console.log('ionViewDidLoad MarkerLocationPage');
     this.location = this.common.params['location'];
+    this.fence = this.common.params['fence'];
     this.loadMap(this.location.lat, this.location.lng);
   }
+
+  setBounds(latLng, reset = false) {
+    this.bounds = this.bounds || this.map.getBounds();
+    this.bounds.extend(latLng);
+    this.map.fitBounds(this.bounds);
+  }
+
+  createLatLng(lat, lng) {
+    return new google.maps.LatLng(lat, lng);
+  } 
 
   loadMap(lat = 26.9124336, lng = 75.78727090000007) {
     let mapOptions = {
@@ -49,8 +63,28 @@ export class LocationMarkerComponent implements OnInit {
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.createMarker(lat, lng);
+    if(this.fence){
+      this.createPolyGon();
+    }
   }
 
+  createPolyGon(){
+      const defaultOptions = {
+        paths: this.fence,
+        strokeColor: '#228B22',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        clickable: false,
+        fillColor: '#ADFF2F',
+        fillOpacity: 0.35
+      };
+      this.polygon = new google.maps.Polygon(defaultOptions);
+      this.polygon.setMap(this.map);
+      this.fence.forEach(element => {
+      this.setBounds(this.createLatLng(element.lat,element.lng));
+        
+      });
+  }
 
   createMarker(lat = 26.9124336, lng = 75.78727090000007) {
 

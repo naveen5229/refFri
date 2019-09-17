@@ -691,5 +691,7 @@ export class DaybooksComponent implements OnInit {
         });
     })
   }
-
+  openFuelEdit(vchData){
+    console.log('vch data new ##',vchData);
+  }
 }

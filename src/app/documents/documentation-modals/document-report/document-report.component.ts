@@ -20,11 +20,9 @@ import { DatePipe } from '@angular/common';
 
 
 export class DocumentReportComponent implements OnInit {
-  // table = null;
   title = '';
   data = [];
   fodata = [];
-  // reportResult = [];
   reportData = {
     id: null,
     status: '',
@@ -52,11 +50,7 @@ export class DocumentReportComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1200');
     this.title = this.common.params.title;
     this.reportData.status = this.common.params.status;
-    console.info("report data", this.reportData);
-    console.log("user::");
-    console.log(this.user);
     this.getReport();
-    // /this.getTableColumns();
 
   }
 
@@ -164,37 +158,25 @@ export class DocumentReportComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    console.log("Data=", this.data);
     this.data.map(doc => {
-      console.log("Doc Data:", doc);
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
         this.valobj['image'] = { value: `${doc._imgurl1 ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc._imgurl1 ? this.imageView.bind(this, doc) : this.add.bind(this, doc), class: 'image text-center del' }
-
-
       }
-
-
       columns.push(this.valobj);
     });
     return columns;
   }
 
 
-
-
   add(row) {
-    console.log("row Data:", row);
     this.common.params = { row, title: 'Upload Image' };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.closeModal(true);
         this.getReport();
-
       }
     });
   }
@@ -210,21 +192,20 @@ export class DocumentReportComponent implements OnInit {
     if (this.user._loggedInBy == "customer")
       userid = this.user._details.id;
     this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id, x_user_id: userid })
-      // this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id })
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
+        if (this.data == null) {
+          this.data = [];
+          return;
+        }
         let first_rec = this.data[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
-
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
-
           }
-
-
         }
         let image = { title: this.formatTitle('Image'), placeholder: this.formatTitle('Image') };
         this.table.data.headings['image'] = image;
@@ -241,7 +222,6 @@ export class DocumentReportComponent implements OnInit {
 
 
   imageView(doc) {
-    console.log("image data", doc);
     let images = [{
       name: "image",
       image: doc._imgurl1
@@ -255,7 +235,6 @@ export class DocumentReportComponent implements OnInit {
       image: doc._imgurl3
     }
     ];
-    console.log("images:", images);
     if (this.checkForPdf(images[0].image)) {
       window.open(images[0].image);
       return;
@@ -269,52 +248,4 @@ export class DocumentReportComponent implements OnInit {
     return split[split.length - 1] == 'pdf' ? true : false;
   }
 
-
-  // editData(doc) {
-  //   let documentData = [{
-  //     regNumber: doc.regno,
-  //     id: doc.id,
-  //     docId: doc.document_id,
-  //     vehicleId: doc.vehicle_id,
-  //     documentType: doc.document_type,
-  //     documentId: doc.document_type_id,
-  //     issueDate: doc.issue_date,
-  //     wefDate: doc.wef_date,
-  //     expiryDate: doc.expiry_date,
-  //     agentId: doc.document_agent_id,
-  //     agentName: doc.agent,
-  //     documentNumber: doc.document_number,
-  //     docUpload: doc.img_url,
-  //     remark: doc.remarks,
-  //     rto: doc.rto,
-  //     amount: doc.amount,
-  //   }];
-  //   this.selectedVehicle = documentData[0].vehicleId;
-  //   console.log("Doc id:", documentData[0].id);
-  //   setTimeout(() => {
-  //     console.log('Test');
-  //     this.common.handleModalSize('class', 'modal-lg', '1200', 'px', 1);
-  //   }, 200);
-  //   this.common.params = { documentData, title: 'Update Document', vehicleId: documentData[0].vehicleId };
-  //   const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  //   activeModal.result.then(data => {
-  //     if (data.response) {
-  //       this.closeModal(true);
-  //       this.documentUpdate();
-  //       // this.getReport();
-  //     }
-  //   });
-  // }
-
-  // documentUpdate() {
-  //   this.common.loading++;
-  //   this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       this.reportResult = res['data'];
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
 }

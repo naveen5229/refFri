@@ -21,8 +21,7 @@
                             <div class="col-sm-8 " *ngIf="modal.second.data.canUpdate">
                                 <label style="font-size:16px;">{{modal.second.data.document.id}}</label>
                             </div>
-                            <!-- <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
-                        class="col-sm-8 form-control frm-fld mgn-vert" style="width:60%; margin-left:2%;" [value]="document.id" readonly />-->
+
                         </div>
                         <div class="row form-field clear">
                             <label for="veh_no-second" class="col-sm-4 mgn-vert">Vehicle No.<span
@@ -36,9 +35,6 @@
                                     name="document_id-second" type="text" class="form-control "
                                     [(ngModel)]="modal.second.data.document.newRegno" />
 
-                                <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
-                          placeholder="Enter Vehicle Number" [preSelected]="null" style="width:60%;"
-                          (keyup)="isValidVehicle($event)"></auto-suggestion> -->
                             </div>
                         </div>
                         <div class="row form-field clear">
@@ -56,22 +52,7 @@
                                 </auto-suggestion>
                             </div>
                         </div>
-                        <!-- 
-                        <div class="form-field clear">
-                            <label for="issue_date-second" class="col-sm-4 mgn-vert">Issue Date:</label>
-                            <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8 ">
-                                <label style="font-size:16px;">
-                                    {{getDateInDisplayFormat(modal.second.data.document.issue_date)| date:'dd-MM-yyyy'}}</label>
-                            </div>
-                            <input #issue_date_second *ngIf="modal.second.data.canUpdate" id="issue_date-second"
-                                name="issue_date-second" type="text" class="col-sm-6 form-control frm-fld mgn-vert"
-                                [(ngModel)]="modal.second.data.document.issue_date"
-                                [value]="modal.second.data.document.issue_date"
-                                (blur)="checkExpiryDateValidity('second')" placeholder="DD/MM/YYYY" />
-                            <span *ngIf="modal.second.data.canUpdate" class="col-sm-1"
-                                style='cursor:pointer; font-size: 28px;' (click)="getDate('issue_date', 'second')"><i
-                                    class="icon fa fa-calendar"></i></span>
-                        </div> -->
+
                         <div class="row form-field clear">
                             <label for="wef_date-second" class="col-sm-4 mgn-vert">W.e.f Date</label>
                             <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8">
@@ -102,8 +83,7 @@
                                     [(ngModel)]="modal.second.data.document.expiry_date"
                                     [value]="modal.second.data.document.expiry_date"
                                     (blur)="checkExpiryDateValidity('second')" placeholder="DD/MM/YYYY" />
-                                <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
-                                <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
+
                                 <span *ngIf="modal.second.data.canUpdate" class="col-sm-3"
                                     style='cursor:pointer; font-size: 28px;'
                                     (click)="getDate('expiry_date', 'second')"><i
@@ -185,8 +165,8 @@
 
 
                     <div class="col-sm-8">
-                        <div *ngIf="modal.second.data.document.rcImage" class="rc-image"><a target='_blank' href="{{modal.second.data.document.rcImage}}"
-                                title="View Document">RC Image</a>
+                        <div *ngIf="modal.second.data.document.rcImage" class="rc-image"><a target='_blank'
+                                href="{{modal.second.data.document.rcImage}}" title="View Document">RC Image</a>
                         </div>
 
                         <app-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"

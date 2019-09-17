@@ -39,13 +39,13 @@ table {
         table-layout: fixed;
         color: #fff;
         th:nth-child(1) {
-            width: 157px;
+            width: auto;
         }
         th:nth-child(2) {
-            width: 157px;
+            width: auto;
         }
         th {
-            width: 157px;
+            width: auto;
         }
         th:last-child {
             width: auto;
@@ -57,19 +57,19 @@ table {
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 405px);
+        max-height: calc(100vh - 462px);
         tr {
             display: table;
             table-layout: fixed;
             width: 100%;
             td:nth-child(1) {
-                width: 157px;
+                width: auto;
             }
             th:nth-child(2) {
-                width: 157px;
+                width: auto;
             }
             td {
-                width: 157px;
+                width: auto;
             }
             th:last-child {
                 width: auto;

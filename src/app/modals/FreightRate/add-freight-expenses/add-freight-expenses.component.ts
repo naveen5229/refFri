@@ -290,8 +290,10 @@ export class AddFreightExpensesComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--;
               this.common.showToast(res['data']);
-
-              this.getExpenses();
+              if(res['data']){
+                this.activeModal.close();
+              }
+              //this.getExpenses();
 
             }, err => {
               this.common.loading--;
