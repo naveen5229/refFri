@@ -94,6 +94,7 @@
               <th>End Date</th>
               <th>Trip Empty</th>
               <th>LR No</th>
+              <th>Add Transfer</th>
             </tr>
           </thead>
           <tbody>
@@ -111,7 +112,7 @@
               <td *ngIf="trip.is_empty==true">{{'Yes'}}</td>
               <td *ngIf="trip.is_empty==false">{{'No'}}</td>
               <td>{{trip.lr_no}}</td>
-
+              <td> <button class="btn btn-primary" (click)="addTransfer(trip.id)">Add Transfer</button></td>
             </tr>
           </tbody>
         </table>
@@ -152,9 +153,7 @@
         <button class="btn btn-dark" (click)="getHeads()">Show Head</button>
       </div >
       <div class="row">
-        <div class="form-group col-2 mt-4">
-          <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="addTransfer()">Add Transfer</button>
-        </div>
+        
         <div class="form-group col-2 mt-4">
           <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="showTransfer()">Show Transfers</button>
         </div>
