@@ -24,23 +24,24 @@
           <tr>
             <td style="width:40%; vertical-align: top;">
               <!-- {{invoiceDetails.branch_name}} -->
-              <h2 *ngIf="invoiceDetails && invoiceDetails.branch_name">{{invoiceDetails.fo_name}}</h2>
+              <h2 *ngIf="invoiceDetails && invoiceDetails.branch_name">{{invoiceDetails.branch_name}}</h2>
               <Address id="branch_address" [innerHtml]="invoiceDetails.branch_address"
                 *ngIf="invoiceDetails && invoiceDetails.branch_address"></Address>
             </td>
-            <td style="width:60%; vertical-align: top;">
-              <table class="table table-bordered" style="border-collapse: collapse" border="1" bordercolor="grey">
-                <tbody>
-                  <tr>
-                    <td *ngIf="invoiceDetails && invoiceDetails.inv_no"><b>InVoice NO. : </b> {{invoiceDetails.inv_no}}
-                    </td>
-                    <td *ngIf="invoiceDetails && invoiceDetails.inv_date"><b>Date : </b> {{invoiceDetails.inv_date}}
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-              <label *ngIf="invoiceDetails && invoiceDetails.party_name">To :{{invoiceDetails.party_name}}</label>
+            <td style="width:30%; vertical-align: top;"></td>
+            <td style="width:30%; vertical-align: top;">
+                <table class="table table-bordered">
+                    <tbody>
+                      <tr *ngIf="invoiceDetails && invoiceDetails.inv_no"><td><b>INVOICE NO. : </b></td><td> {{invoiceDetails.inv_no}}</td></tr>
+                      <tr *ngIf="invoiceDetails && invoiceDetails.party_name"><td style ="vertical-align: top"><b>To : </b></td><td><b>{{invoiceDetails.party_name}}</b><br>
+                        <Address id="party_address"
+                        *ngIf="invoiceDetails && invoiceDetails.party_address"> {{invoiceDetails.party_address}}</Address>
+                      </td></tr>
+                      <tr *ngIf="invoiceDetails && invoiceDetails.party_pan"><td><b>PAN : </b></td><td> {{invoiceDetails.party_pan}}</td></tr>
+                      <tr *ngIf="invoiceDetails && invoiceDetails.party_gst"><td><b>GST : </b></td><td> {{invoiceDetails.party_gst}}</td></tr>
+                      <tr *ngIf="invoiceDetails && invoiceDetails.inv_date"><td><b>Date : </b></td><td>{{invoiceDetails.inv_date}}</td></tr>
+                    </tbody>
+                  </table>
             </td>
           </tr>
         </table>
@@ -63,7 +64,7 @@
             <table class="table table-bordered table-hover" style="width: 100%">
             
               <tr *ngIf="amountData && amountData.total_amount">
-                <td><b> TOTAL: </b></td> <td> {{amountData.total_amount}} </td>
+                <td><b> Total: </b></td> <td> {{amountData.total_amount}} </td>
               </tr>
               <tr *ngIf="amountData && amountData.sgst_value">
                   <td><b> {{amountData.sgst_name }} : </b></td> <td>{{amountData.sgst_value }}</td>

@@ -927,7 +927,7 @@ export class CommonService {
       rowPageBreak: 'avoid',
       headStyles: {
         fillColor: [98, 98, 98],
-        fontSize: 10,
+        fontSize: 11,
         halign: 'center',
         valign: 'middle'
 
