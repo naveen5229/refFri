@@ -32,13 +32,13 @@
             <td style="width:30%; vertical-align: top;">
                 <table class="table table-bordered">
                     <tbody>
+                      <tr *ngIf="invoiceDetails && invoiceDetails.inv_no"><td><b>INVOICE NO. : </b></td><td> {{invoiceDetails.inv_no}}</td></tr>
                       <tr *ngIf="invoiceDetails && invoiceDetails.party_name"><td style ="vertical-align: top"><b>To : </b></td><td><b>{{invoiceDetails.party_name}}</b><br>
                         <Address id="party_address"
                         *ngIf="invoiceDetails && invoiceDetails.party_address"> {{invoiceDetails.party_address}}</Address>
                       </td></tr>
                       <tr *ngIf="invoiceDetails && invoiceDetails.party_pan"><td><b>PAN : </b></td><td> {{invoiceDetails.party_pan}}</td></tr>
                       <tr *ngIf="invoiceDetails && invoiceDetails.party_gst"><td><b>GST : </b></td><td> {{invoiceDetails.party_gst}}</td></tr>
-                      <tr *ngIf="invoiceDetails && invoiceDetails.inv_no"><td><b>INVOICE NO. : </b></td><td> {{invoiceDetails.inv_no}}</td></tr>
                       <tr *ngIf="invoiceDetails && invoiceDetails.inv_date"><td><b>Date : </b></td><td>{{invoiceDetails.inv_date}}</td></tr>
                     </tbody>
                   </table>
