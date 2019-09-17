@@ -209,7 +209,7 @@
                   </label>
                   <label class="radio-btn">
                     <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
-                      [(ngModel)]="generalDetailColumn1[i].r_value" value="-1">N.A.
+                      [(ngModel)]="generalDetailColumn1[i].r_valueid" value="-1">N.A.
                   </label>
                 </div>
 
@@ -289,7 +289,7 @@
                   (onChange)="generalDetailColumn2[i].r_valueid = ''"
                   (onSelected)="generalDetailColumn2[i].r_value = $event.name;generalDetailColumn2[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn2[i].r_colname,$event)"
                   url="Suggestion/GetCompanies2?type=FRCUST" display="name" placeholder=" Search Name"
-                  [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
+                  [preSelected]="{name:generalDetailColumn2[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn2[i].r_colname == 'consignor_name' && foCmpnyId>0" class="fa fa-plus add"
                   (click)="addAssociation()"></i>
