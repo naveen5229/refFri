@@ -223,6 +223,10 @@ export class ConciseComponent implements OnInit {
             mouseout: this.mapService.toggleBounceMF.bind(this.mapService, i, 2)
           }
         },
+        vehicleType: {
+          value: kpi.x_vehicle_type,
+          action: "",
+        },
         status: {
           value: kpi.showprim_status,
           action: this.showDetails.bind(this, kpi),
@@ -537,6 +541,7 @@ export class ConciseComponent implements OnInit {
       data: {
         headings: {
           vechile: { title: "Vehicle Number", placeholder: "Vehicle No" },
+          vehicleType: { title: "Vehicle Type", placeholder: "Veh Type" },
           status: { title: "Status", placeholder: "Status" },
           location: { title: "Location", placeholder: "Location" },
           hrs: { title: "Hrs", placeholder: "Hrs " },
