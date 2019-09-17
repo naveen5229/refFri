@@ -927,7 +927,7 @@ export class CommonService {
       rowPageBreak: 'avoid',
       headStyles: {
         fillColor: [98, 98, 98],
-        fontSize: 10,
+        fontSize: 11,
         halign: 'center',
         valign: 'middle'
 
@@ -946,6 +946,7 @@ export class CommonService {
     // console.log("data",data);
     html2canvas(data, {
       useCORS: true,
+      scale: 3
     }).then(canvas => {
       // Few necessary setting options  
       var imgWidth = isLandscape ? 295 : 208;

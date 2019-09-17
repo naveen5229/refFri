@@ -18,7 +18,7 @@
           <option value="myLr">Self</option>
         </select>
       </div>
-      <div class="col-2">
+      <div class="col-sm-1-5">
         <label>LR Category</label>
         <select [(ngModel)]="lrCategory" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="0">FTL</option>
@@ -36,7 +36,7 @@
         <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
           placeholder="End Date" (click)="getDate('end')">
       </div>
-      <div class="col-sm-2">
+      <div class="col-sm-1-5">
         <label>LR Status</label>
         <select [(ngModel)]="lrType" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="0">Pending</option>
@@ -46,15 +46,28 @@
         </select>
       </div>
 
-      <div class="col-sm-2">
+      <div class="col-sm-1-5 ml-2">
         <label>Vehicle Type</label>
-        <select [(ngModel)]="vehicleType" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
+        <select (change)="selectvehicleType($event)" class="form-control"
+          style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="-1">All</option>
           <option value="1">Own</option>
           <option value="2">Group</option>
           <option value="3">Market</option>
         </select>
       </div>
+      <div class="col-sm-1-5 ml-2" *ngIf="vehicleType==1">
+        <label>Regno</label>
+        <auto-suggestion (onSelected)="selectVehicle($event)" inputId="regno" name="vehicle"
+          url="Suggestion/getFoVehicleList" display="regno" placeholder="Vehicle Number">
+        </auto-suggestion>
+      </div>
+      <div class="col-sm-1-5 ml-2" *ngIf="vehicleType==-1 || vehicleType>=2">
+        <label>Regno</label>
+        <input type="text" class="form-control" [(ngModel)]="regno" autocomplete="off" name="regno">
+      </div>
+
+
       <div class="col-sm-1">
         <button class="btn btn-primary m-0 p-0 w-100 text-capitalize" (click)="getLorryReceipts()">submit</button>
       </div>
@@ -74,7 +87,7 @@
       <button (click)="RefData()" class="btn btn-primary">Reference Data</button> -->
     </div>
 
-    
+
   </nb-card-body>
 </nb-card>
 <router-outlet></router-outlet>

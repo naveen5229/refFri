@@ -940,8 +940,8 @@ export class VoucherSummaryShortComponent implements OnInit {
       rows1.push([
         { txt: index+1},
         { txt: tripDetail.start_name + ' -> ' + tripDetail.end_name || '' },
-        { txt: tripDetail.start_time || '' },
-        { txt: tripDetail.end_time || '' },
+        { txt: this.common.changeDateformat(tripDetail.start_time) || '' },
+        { txt: this.common.changeDateformat(tripDetail.end_time) || '' },
         { txt: (tripDetail.is_empty)? 'Yes':'No' || '' },
         { txt: tripDetail.lr_no || '' },
         { txt: tripDetail.revenue || '' },
