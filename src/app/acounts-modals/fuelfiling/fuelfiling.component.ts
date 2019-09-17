@@ -394,7 +394,7 @@ export class FuelfilingComponent implements OnInit {
           { txt: (tripDetail.y_litres)  || '' },
           { txt: tripDetail.y_rate || '' },
           { txt: tripDetail.y_amount || '' },
-          { txt: tripDetail.y_entry_time || '' },
+          { txt: this.common.dateFormatternew(tripDetail.y_entry_time)  || '' },
         ]);
        
       }
