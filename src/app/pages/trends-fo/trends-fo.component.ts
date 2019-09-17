@@ -69,8 +69,9 @@ export class TrendsFoComponent implements OnInit {
 
   initialize() {
     this.getTrends();
-    this.getTrendsVehicle()
-    this.getTrendsSite();
+    this.getTrendsVehicleSite();
+    //this.getTrendsVehicle()
+    // this.getTrendsSite();
   }
 
   getTrends() {
@@ -270,12 +271,14 @@ export class TrendsFoComponent implements OnInit {
       });
     };
     return options;
-
   }
 
-  getTrendsVehicle() {
+  getTrendsVehicleSite(){
     this.trendsVehicleData = [];
+    this.trendsVehicleSiteData = [];
+    this.trends = [];
     this.dateDay = [];
+
     let params;
     if (this.period == '1') {
       params = {
@@ -298,9 +301,24 @@ export class TrendsFoComponent implements OnInit {
     }
     this.common.loading++;
 
-    this.api.post("Trends/getTrendsWrtVehicles", params).subscribe(res => {
+    this.api.post("Trends/getTrendsWrtVehiclesAndSites", params).subscribe(res => {
       this.common.loading--;
-      this.trendsVehicleData = res['data'] || [];
+      this.trendsVehicleData = res['data']['vehData'] || [];
+      console.log("--------------------",this.trendsVehicleData)
+      this.trendsVehicleSiteData=res['data']['siteData'] || []
+      this.loadingSite=res['data']['siteData'].lodingArray
+      this.getTrendsVehicle();
+      this.getTrendsSite();
+    },
+   err => {
+    this.common.loading--;
+    this.common.showError();
+    console.log('Error: ', err);
+  
+});
+  }
+
+  getTrendsVehicle() {
       this.trendsVehicleData.map(data => {
         data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
         data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
@@ -312,69 +330,24 @@ export class TrendsFoComponent implements OnInit {
           data.hlt_count = 0
         }
       });
-    }, err => {
-      this.common.loading--;
-      this.common.showError();
-      console.log('Error: ', err);
-    });
-  }
-
-  getTrendsSite() {
-    this.trends = [];
-    this.dateDay = [];
-    this.trendsVehicleSiteData = []
-    let params;
-    if (this.period == '1') {
-
-      params = {
-        startDate: this.common.dateFormatter1(this.startDate),
-        endDate: this.common.dateFormatter1(this.endDate),
-        purpose: this.period,
-        value: this.weekMonthNumber,
-      }
-    } else if (this.period == '2') {
-
-
-      params = {
-        purpose: this.period,
-        value: this.weekMonthNumber,
-      }
-    } else {
-      params = {
-        purpose: this.period,
-        value: this.weekMonthNumber,
-      }
-
-    }
-    this.common.loading++;
-
-    this.api.post("Trends/getTrendsWrtSite", params).subscribe(res => {
-      this.common.loading--;
-      this.trendsVehicleSiteData = res['data'] || [];
-      this.trendsVehicleSiteData.map(data => {
-        data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
-        data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
-
-      });
-      this.loadingSite = res['data'].lodingArray
-      this.siteUnloading = [];
-      // this.latLngSite=res['data'].map(lat=>{
-      //   console.log("latttt",lat)
-      //   lat.latLngs
-
+      // let key = this.trendType == "11" ? "ldng_count" : (this.trendType == "21" ? "unldng_count" : "hlt_count");
+      // this.trendsVehicleData.sort((e1,e2)=>{
+      //   return e2[key] - e2[key];
       // })
-
-      // this.latLngSite=res['data']['latLngs'];
-      console.log("laaaaaaaaaaaaaaaaaa", this.latLngSite)
-      _.sortBy(this.trendsVehicleSiteData, ['unloading_hrs']).reverse().map(keyData => {
-        this.siteUnloading.push(keyData);
-      });
-
-    }, err => {
-      this.common.showError();
-      console.log('Error: ', err);
-    });
+      // console.log("keeeeeeeeeeeeeeeeeeyyyyyyyyyyyy",key)
+ 
   }
+
+   getTrendsSite() {
+    this.trendsVehicleSiteData.map(data => {
+      data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
+      data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
+    });
+    this.siteUnloading = [];
+    _.sortBy(this.trendsVehicleSiteData, ['unloading_hrs']).reverse().map(keyData => {
+      this.siteUnloading.push(keyData);
+    });
+   }
 
   getweeklyMothlyTrend() {
     this.dateDay = [];
