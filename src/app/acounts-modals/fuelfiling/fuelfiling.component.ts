@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../services/account.service';
+import { PrintService } from '../../services/print/print.service';
 
 
 @Component({
@@ -32,17 +33,37 @@ export class FuelfilingComponent implements OnInit {
   narration = '';
   checkall = false;
   activeId = 'creditLedger';
+  voucherId = 0;
   constructor(private activeModal: NgbActiveModal,
     public api: ApiService,
     public common: CommonService,
     public accountService: AccountService,
+    private printService: PrintService,
     public modalService: NgbModal) {
     //  this.common.currentPage = 'Fuel Fillings';
-   // this.getFuelFillings();
+    // this.getFuelFillings();
+    console.log('fuel edit data*******', this.common.params);
+    if (this.common.params.fuelData) {
+      this.fuelFilings = this.common.params.fuelData;
+      this.fuelstationid = this.common.params.fuelstationid;
+      if (this.common.params.voucherId) {
+        this.voucherId = this.common.params.voucherId;
+        this.custcode = this.common.params.voucherData[0]['y_cust_code'];
+        this.date = this.common.dateFormatternew(this.common.params.voucherData[0]['y_date']);
+        this.creditLedger.name = this.common.params.voucherData[0]['y_ledgername'];
+        this.creditLedger.id = this.common.params.voucherData[0]['y_dlt_ledger_id'];
+        this.debitLedger.name = this.common.params.voucherData[1]['y_ledgername'];
+        this.debitLedger.id = this.common.params.voucherData[1]['y_dlt_ledger_id'];
+        this.narration = this.common.params.voucherData[0]['y_dlt_short_remark'];
+        this.total = this.common.params.voucherData[0]['y_amount'];
 
-    if(this.common.params.fuelData){
-      this.fuelFilings   =this.common.params.fuelData;
-    this.fuelstationid = this.common.params.fuelstationid;
+        this.fuelFilings.map((trips,index)=>{
+          if(this.voucherId == trips.y_voucher_id)
+        this.fuelFilings[index]['isChecked'] = true;
+        });
+          console.log('fuel fillings correcct',this.fuelFilings);
+      }
+
 
     }
     this.common.handleModalSize('class', 'modal-lg', '1250');
@@ -128,24 +149,25 @@ export class FuelfilingComponent implements OnInit {
     this.common.loading++;
     this.api.post('Fuel/getFeulfillings', params)
       .subscribe(res => {
-        console.log('fuel data', res);
+        console.log('fuel data 123', res);
         this.common.loading--;
-        if(res['data']){
+        if (res['data']) {
           setTimeout(() => {
             this.fuelFilings = res['data'];
             this.fuelFilings.map(fuelFiling => {
-              if(fuelFiling.y_voucher_id){
-              fuelFiling.isChecked = true
-              }else{
-              fuelFiling.isChecked = false
-                
+              if (this.voucherId != 0) {
+                if (fuelFiling.y_voucher_id) {
+                  fuelFiling.isChecked = true
+                } else {
+                  fuelFiling.isChecked = false
+                }
               }
             }
-              );
-          console.log('fuel filling data',this.fuelFilings);
+            );
+            console.log('fuel filling data', this.fuelFilings);
 
           }, 250);
-       
+
         }
         // this.getHeads();
       }, err => {
@@ -156,7 +178,6 @@ export class FuelfilingComponent implements OnInit {
   }
 
   checkedAll() {
-    console.log('true value', this.checkall);
     let selectedAll = '';
     let temp = 0;
     if (this.checkall) {
@@ -176,19 +197,23 @@ export class FuelfilingComponent implements OnInit {
     // for (var i = 0; i < this.trips.length; i++) {
     //   this.trips[i].selected = true;
     // }
+    console.log('true value', this.checkall);
+
   }
   changeTotal(checkvalue, id) {
     // this.fuelFilings.map(trip => trip.isChecked = true);
-    console.log('check value',checkvalue,'this.total',this.total,'tesd',this.fuelFilings);
-    let temp1=null;
-    this.fuelFilings.map(trip =>{
-      if(trip.isChecked){
-      temp1 += parseFloat(trip.y_amount);
-    }
-  });
+    console.log('check value', checkvalue, 'this.total', this.total, 'tesd', this.fuelFilings);
+    let temp1 = null;
+    this.storeids = [];
+    this.fuelFilings.map(trip => {
+      if (trip.isChecked) {
+        temp1 += parseFloat(trip.y_amount);
+        this.total = parseFloat(temp1);
+        this.storeids.push(trip.y_id);
+      }
+    });
+    console.log('last value check', this.storeids, 'total value', this.total);
 
-    this.total = parseFloat(temp1);
-    this.storeids.push(id);
 
   }
   keyHandler(event) {
@@ -263,12 +288,12 @@ export class FuelfilingComponent implements OnInit {
       amountDetails: amountDetails,
       vouchertypeid: -171,
       y_code: '',
-      xid: 0,
+      xid: this.voucherId,
       delete: 0,
     };
 
     console.log('params 1 : ', fuelEntryData);
-   // this.common.loading++;
+    // this.common.loading++;
     this.updatefuelfiling(fuelEntryData);
 
     // this.api.post('Voucher/InsertVoucher', params)
@@ -330,5 +355,108 @@ export class FuelfilingComponent implements OnInit {
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
+  }
+
+  printTripDetail() {
+    console.log('print functionality');
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data'], 'this.order');
+        // this.Vouchers = res['data'];
+        this.print(this.fuelFilings, res['data']);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  print(trip, companydata) {
+
+    let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
+    let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
+    let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
+
+    let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
+    let rows1 = [];
+    
+    trip.map((tripDetail, index) => {
+      if (tripDetail.isChecked) {
+        rows1.push([
+          { txt: index + 1 },
+          { txt: tripDetail.y_name || '' },
+          { txt: (tripDetail.y_litres)  || '' },
+          { txt: tripDetail.y_rate || '' },
+          { txt: tripDetail.y_amount || '' },
+          { txt: this.common.dateFormatternew(tripDetail.y_entry_time)  || '' },
+        ]);
+       
+      }
+    });
+    let invoiceJson = {};
+   {
+      invoiceJson = {
+        headers: [
+          { txt: companydata[0].foname, size: '22px', weight: 'bold' },
+          { txt: companydata[0].addressline },
+          { txt: cityaddress },
+          { txt: 'Fuel Detail', size: '20px', weight: 600, align: 'left' }
+        ],
+
+        details: [
+
+          { name: 'Vehicle  No : ', value: this.common.params.vehname },
+          { name: 'Ref No : ', value: this.custcode },
+          { name: 'Date : ', value: this.date },
+          { name: 'Ledger : ', value: this.creditLedger.name }
+        ],
+        tables: [{
+          headings: [
+            { txt: 'S.No' },
+            { txt: 'Station Name' },
+            { txt: 'Quantity' },
+            { txt: 'Rate' },
+            { txt: 'Amount' },
+            { txt: 'Date' },
+           
+          ],
+          rows: rows1,
+          name: 'Trip Details'
+
+        },
+       
+         
+
+          
+        ],
+        signatures: ['Accountant', 'Approved By'],
+        footer: {
+          left: { name: 'Powered By', value: 'Elogist Solutions' },
+          center: { name: 'Printed Date', value: this.common.dateFormatternew(new Date(), 'ddMMYYYY').split(' ')[0] },
+          right: { name: 'Page No', value: 1 },
+        },
+        footertotal: [
+          { name: 'Net Amount : ', value: this.total  , size: '20px', weight: 600},
+          { name: ' ', value: ''},
+          { name: 'Remarks : ', value: this.narration },
+        ]
+
+
+      };
+    }
+
+
+
+    console.log('JSON', invoiceJson);
+
+    localStorage.setItem('InvoiceJSO', JSON.stringify(invoiceJson));
+    this.printService.printInvoice(invoiceJson, 2);
+
   }
 }

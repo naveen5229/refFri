@@ -28,6 +28,7 @@ export class MarketVehFreightStatementComponent implements OnInit {
     companyName: null,
     companyId: null,
     remark: null,
+    tds:-1,
     id: null,
   };
   btnTxt = "Save & Select LR";
@@ -54,6 +55,7 @@ export class MarketVehFreightStatementComponent implements OnInit {
       this.mvsFreight.invoiceNo = this.common.params.freightInvoice['Invoice No'];
       this.mvsFreight.date = new Date(this.common.params.freightInvoice._inv_date);
       this.mvsFreight.remark = this.common.params.freightInvoice._remarks;
+      this.mvsFreight.tds=this.common.params.freightInvoice._tds;
       this.mvsFreight.id = this.common.params.freightInvoice._id ? this.common.params.freightInvoice._id : null;
     }
   }
@@ -95,6 +97,7 @@ export class MarketVehFreightStatementComponent implements OnInit {
       invoiceDate: this.common.dateFormatter(this.mvsFreight.date).split(' ')[0],
       id: this.mvsFreight.id ? this.mvsFreight.id : null,
       remarks: this.mvsFreight.remark,
+      tds:this.mvsFreight.tds
     };
     ++this.common.loading;
     this.api.post("FrieghtRate/saveMVSFreightInvoices", params)
