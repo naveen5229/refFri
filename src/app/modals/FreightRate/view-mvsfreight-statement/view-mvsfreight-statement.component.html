@@ -35,7 +35,7 @@
               <table>
                 <tbody>
                   <tr *ngIf="invoiceDetails && invoiceDetails.party_name"><td><b>To : </b></td><td>{{invoiceDetails.party_name}}</td></tr>
-                  <tr *ngIf="invoiceDetails && invoiceDetails.inv_no"><td><b>INVOICE NO. : </b></td><td> {{invoiceDetails.inv_no}}</td></tr>
+                  <tr *ngIf="invoiceDetails && invoiceDetails.inv_no"><td><b>REF NO. : </b></td><td> {{invoiceDetails.inv_no}}</td></tr>
                   <tr *ngIf="invoiceDetails && invoiceDetails.inv_date"><td><b>Date : </b></td><td>{{invoiceDetails.inv_date}}</td></tr>
                 </tbody>
               </table>
@@ -66,18 +66,19 @@
               </td>
               <td>  {{invoiceDetails.total_amount}} </td>
             </tr>
-            <tr *ngIf="invoiceDetails && invoiceDetails.advance_amount">
-                <td >
-                  <b>Total Advance </b>
-                </td>
-                <td>  {{invoiceDetails.advance_amount}} </td>
-              </tr>
+         
               <tr *ngIf="invoiceDetails && invoiceDetails._tax && invoiceDetails._tax_amount">
                   <td >
-                    <b>TDS @ {{invoiceDetails._tax}} </b>
+                    <b>TDS @ {{invoiceDetails._tax}}% </b>
                   </td>
                   <td>  {{invoiceDetails._tax_amount}} </td>
                 </tr>
+                <tr *ngIf="invoiceDetails && invoiceDetails.advance_amount">
+                    <td >
+                      <b>Total Advance </b>
+                    </td>
+                    <td>  {{invoiceDetails.advance_amount}} </td>
+                  </tr>
               <tr *ngIf="invoiceDetails && invoiceDetails.net_amount">
                   <td >
                     <b>Net Amount </b>

@@ -93,7 +93,7 @@ export class ViaRoutePointsComponent implements OnInit {
       color: '0000FF',
       subType: 'marker'
     }];
-    if (this.markers != null) {
+    if (this.markers.length) {
       this.markers[0].setMap(null);
     }
     this.markers = this.mapService.createMarkers(this.latlong, false, false);
@@ -284,7 +284,7 @@ export class ViaRoutePointsComponent implements OnInit {
         .subscribe(res => {
           this.common.loading--;
           console.log('res', res['data']);
-          this.markers && this.markers[0].setMap(null);
+          this.markers.length && this.markers[0].setMap(null);
           this.locType = "map";
           this.viewTable();
           this.mapName = null;

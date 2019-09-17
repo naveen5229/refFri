@@ -52,7 +52,7 @@ export class ViewTransferComponent implements OnInit {
   viewTransfer()
   {
     const params = "startTime=" + this.common.dateFormatter(this.startTime) +
-      "&endTime=" + this.common.dateFormatter(this.endTime)+"&ledgerId="+this.ledgerId+"&transferType="+this.transferType;
+      "&endTime=" + this.common.dateFormatter(this.endTime)+"&ledgerId="+this.ledgerId;
     ++this.common.loading;
 
     this.api.get('FrieghtRate/getLedgerTransfers?' + params)

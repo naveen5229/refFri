@@ -6,6 +6,8 @@ import * as _ from 'lodash';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
+import { LoginComponent } from '../login/login.component';
+import { MapService } from '../../services/map.service';
 
 @Component({
   selector: 'trends-fo',
@@ -31,7 +33,7 @@ export class TrendsFoComponent implements OnInit {
   siteUnloading = [];
   graphString0 = 'Loading Hours';
   graphString1 = 'Loading Count';
-
+  latLngSite=[];
   xAxesLabels = {
     1: 'Days of',
     2: 'Weeks of',
@@ -55,7 +57,9 @@ export class TrendsFoComponent implements OnInit {
   constructor(public common: CommonService,
     public api: ApiService,
     public datepipe: DatePipe,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    public mapService: MapService,
+    ) {
     this.initialize();
   }
 
@@ -102,12 +106,15 @@ export class TrendsFoComponent implements OnInit {
 
     let yAxesLabels = {
       0: ['Onward Percentage', ''],
-      11: ['Loading Hours', 'Loading Count'],
-      21: ['Unloading Hours', 'Unloading Count'],
-      31: ['Onward', ''],
+      11: ['Avg Loading Hours', 'Loading Count'],
+      21: ['Avg Unloading Hours', 'Unloading Count'],
+      31: ['Avg Onward Km', ''],
     };
 
     let yAxesLabel0 = yAxesLabels[this.trendType][0];
+     let yAxeslegent= yAxesLabels[this.trendType][0]
+    let yAxeslegent1= yAxesLabels[this.trendType][1]
+
     let yAxesLabel1 = yAxesLabels[this.trendType][1];
     let xAxesLabel = this.xAxesLabels[this.period];
 
@@ -123,23 +130,25 @@ export class TrendsFoComponent implements OnInit {
       }
     });
 
-    this.setDataset((this.trendType == '11' || this.trendType == '21') ? true : false, yAxesLabel0, xAxesLabel, yAxesLabel1);
+    this.setDataset((this.trendType == '11' || this.trendType == '21') ? true : false, yAxesLabel0 , xAxesLabel, yAxesLabel1,yAxeslegent,yAxeslegent1);
   }
-  getTick(data,steps,padPer = 0.1){
+  getTick(data,steps,padPerX = 0.1,padPerY = 0.1){
     let getMinY = Infinity;
     let getMaxY = 0;
     let stepSize;
-    let pad;
+    let padX,padY;
     data.forEach(element => {
       getMinY = Math.min(element, getMinY);
       getMaxY = Math.max(element, getMaxY);
     });
 
-    pad = (getMaxY - getMinY) * 0.1;
-    getMinY = getMinY - pad <= 0 ? 0 : getMinY - pad;
-    getMaxY += pad;
+    padX = (getMaxY - getMinY) * padPerX;
+    padY = (getMaxY - getMinY) * padPerY;
+
+    getMinY = getMinY - padY <= 0 ? 0 : getMinY - padY;
+    getMaxY += padX;
     
-    stepSize = (getMaxY - getMinY) / steps;
+    stepSize = Math.round((getMaxY - getMinY) / steps);
 
     return {
       suggestedMin: getMinY,
@@ -147,7 +156,7 @@ export class TrendsFoComponent implements OnInit {
       stepSize : stepSize,
     };
   }
-  setDataset(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?) {
+  setDataset(isDualChart, yAxesLabel0, xAxesLabel, yAxesLabel1?,yAxeslegent?,yAxeslegent1?) {
 
     let data = {
       labels: this.dateDay,
@@ -156,7 +165,7 @@ export class TrendsFoComponent implements OnInit {
 
     data.datasets.push({
       type: 'line',
-      label: isDualChart ? 'Average Count' : 'Onward',
+      label: isDualChart ?  yAxeslegent : '',
       borderColor: isDualChart ? '#0a7070' : 'blue',
       backgroundColor: isDualChart ? '#0a7070' : 'blue',
       fill: false,
@@ -170,7 +179,7 @@ export class TrendsFoComponent implements OnInit {
     if (isDualChart) {
       data.datasets.push({
         type: 'bar',
-        label: 'Count',
+        label: yAxeslegent1,
         borderColor: '#c7eded',
         backgroundColor: '#c7eded',
         pointHoverRadius: 8,
@@ -199,10 +208,14 @@ export class TrendsFoComponent implements OnInit {
       responsive: true,
       hoverMode: 'index',
       stacked: false,
-      legend: isDualChart ? {
+      legend: {
         position: 'bottom',
-        display: true,
-      } : { position: 'bottom' },
+        display: this.trendType=="31"||this.trendType=="0"?false:true
+      },
+      tooltips:{
+        mode:'index',
+        intersect:'true'
+      },
       maintainAspectRatio: false,
       title: {
         display: true,
@@ -244,7 +257,9 @@ export class TrendsFoComponent implements OnInit {
         scaleLabel: {
           display: true,
           labelString: yAxesLabel1,
-          fontSize: 17
+          fontSize: 17,
+          labelAngle: 170,
+
         },
         type: 'linear',
         display: true,
@@ -290,7 +305,12 @@ export class TrendsFoComponent implements OnInit {
       this.trendsVehicleData.map(data => {
         data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
         data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
-      });
+        if(data.total_halt!=0 || data.hlt_count!=0){
+        data.total_halt=(data.total_halt)/(data.hlt_count)
+       } 
+      else{
+        data.total_halt=0;
+        data.hlt_count=0      }});
     }, err => {
       this.common.loading--;
       this.common.showError();
@@ -337,6 +357,14 @@ export class TrendsFoComponent implements OnInit {
       });
       this.loadingSite = res['data'].lodingArray
       this.siteUnloading = [];
+      // this.latLngSite=res['data'].map(lat=>{
+      //   console.log("latttt",lat)
+      //   lat.latLngs
+
+      // })
+    
+      // this.latLngSite=res['data']['latLngs'];
+       console.log("laaaaaaaaaaaaaaaaaa",this.latLngSite)
       _.sortBy(this.trendsVehicleSiteData, ['unloading_hrs']).reverse().map(keyData => {
         this.siteUnloading.push(keyData);
       });
@@ -373,17 +401,20 @@ export class TrendsFoComponent implements OnInit {
   }
 
   locationOnMap(latlng) {
+
+    console.log("laaaaaaaaasdf",latlng)
     if (!latlng.lat) {
       this.common.showToast('Vehicle location not available!');
       return;
     }
+
     const location = {
       lat: latlng.lat,
       lng: latlng.long,
       name: '',
-      time: ''
+      time: '',
     };
-    this.common.params = { location, title: 'Location' };
+    this.common.params = { location, title: 'Location' ,fence: latlng.latLngs};
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
   }
 
@@ -411,6 +442,5 @@ export class TrendsFoComponent implements OnInit {
     data = result;
     this.common.params = { title: 'SiteWise Vehicle List:', headings: ["Vehicle_RegNo.", "Count Event"], data };
     this.modalService.open(ViewListComponent, { size: 'sm', container: 'nb-layout' });
-
   }
 }
