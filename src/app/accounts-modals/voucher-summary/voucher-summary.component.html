@@ -96,6 +96,7 @@
               <th>End Date</th>
               <th>Trip Empty</th>
               <th>LR No.</th>
+              <th>Add Transfer</th>
             </tr>
           </thead>
           <tbody>
@@ -108,11 +109,12 @@
               </td>
               <td>{{trip.start_name}}</td>
               <td>{{trip.end_name || '--'}}</td>
-              <td>{{trip.start_time | date : 'dd MMM'}}</td>
-              <td>{{trip.end_time | date : 'dd MMM' || '--'}}</td>
+              <td>{{trip.start_time | date : 'dd MMM yyyy HH:MM'}}</td>
+              <td>{{trip.end_time | date : 'dd MMM yyyy HH:MM' || '--'}}</td>
               <td *ngIf="trip.is_empty==true">{{'Yes'}}</td>
               <td *ngIf="trip.is_empty==false">{{'No'}}</td>
               <td>{{trip.lr_no}}</td>
+              <td> <button class="btn btn-primary" (click)="addTransfer(trip.id)">Add Transfer</button></td>
             </tr>
           </tbody>
         </table>
@@ -137,8 +139,11 @@
           <tbody>
             <tr *ngFor="let fuelFiling of fuelFilings;let l=index;" (click)="selectedRow = l" [ngClass]="{'highlight' : selectedRow == l}">
               <td>{{l+1}}</td>
-              <td>
-                <input type="checkbox" [name]="'fuelFiling-' + l" [(ngModel)]="fuelFiling.isChecked">
+              <td *ngIf="VoucherId==0">
+                <input type="checkbox" [name]="'fuelFiling-' + l" [(ngModel)]="fuelFiling.isChecked"  [disabled]="(fuelFiling.tripexp_voucherid)">
+              </td>
+              <td *ngIf="VoucherId != 0">
+                <input type="checkbox" [name]="'fuelFiling-' + l" [(ngModel)]="fuelFiling.isChecked"  [disabled]="(fuelFiling.tripexp_voucherid && (fuelFiling.tripexp_voucherid != VoucherId))">
               </td>
               <td>{{fuelFiling.name}}</td>
               <td>{{fuelFiling.litres}}</td>
@@ -195,9 +200,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="form-group col-2 mt-4">
-            <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="addTransfer()">Add Transfer</button>
-          </div>
+          
           <div class="form-group col-2 mt-4">
             <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="showTransfer()">Show Transfers</button>
           </div>

@@ -1,9 +1,15 @@
 <div class="modal-header">
-  <h5>View Transfer</h5>
-
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <div class="col-md-6"><h5>View Transfer</h5></div>
+  
+  
+      <div class="col-md-6 text-right">
+      <span (click)="printHandler()" class="print-icon"><i class="fa fa-print"></i></span>
+      <span class="pdf-icon" title="PDF Export" (click)="printPDF('viewTransferPdf')" style="cursor: pointer;"><i
+        class="fa fa-file-pdf"></i></span>
+      <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+      </button>
+</div>
 </div>
 <div class="modal-body">
   <div class="row">
@@ -36,7 +42,7 @@
 </div>
 
 <div>
-  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithLocation">
+  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="viewTransferPdf">
   </smart-table>
   <div class="no-data alert alert-danger" role="alert" *ngIf="data.length==0">
     No Data available !
