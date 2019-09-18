@@ -28,7 +28,7 @@
 
         <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
            (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? 
-           (dataItem.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(dataItem) : (dataItem.y_type.toLowerCase().includes('fuel')) ? openFuelVoucherEdit(dataItem) : openVoucherEdit(dataItem.y_voucherid,0,dataItem.y_vouchertype_id) : openinvoicemodel(dataItem.y_voucherid)" (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
+           (dataItem.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(dataItem) : (dataItem.y_type.toLowerCase().includes('fuel')) ? openFuelEdit(dataItem) : openVoucherEdit(dataItem.y_voucherid,0,dataItem.y_vouchertype_id) : openinvoicemodel(dataItem.y_voucherid)" (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
           <td>{{ i+1}}</td>
           <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
           <td>{{dataItem.y_particulars}}</td>
