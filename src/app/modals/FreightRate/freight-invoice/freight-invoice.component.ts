@@ -68,11 +68,12 @@ export class FreightInvoiceComponent implements OnInit {
           this.freightInvoice.parentId = res['data'][0].parent_id;
           this.freightInvoice.type = res['data'][0].inv_type;
           this.freightInvoice.partyAddress=res['data'][0].party_address;
-          this.btnTxt="Update";
+          this.btnTxt="Update Invoice";
         }
       }, err => {
         this.common.loading--;
         console.log(err);
+        
       });
     }
     // if (this.common.params.title == 'Edit') {
