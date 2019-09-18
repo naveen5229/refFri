@@ -109,8 +109,8 @@
               </td>
               <td>{{trip.start_name}}</td>
               <td>{{trip.end_name || '--'}}</td>
-              <td>{{trip.start_time | date : 'dd MMM'}}</td>
-              <td>{{trip.end_time | date : 'dd MMM' || '--'}}</td>
+              <td>{{trip.start_time | date : 'dd MMM yyyy HH:MM'}}</td>
+              <td>{{trip.end_time | date : 'dd MMM yyyy HH:MM' || '--'}}</td>
               <td *ngIf="trip.is_empty==true">{{'Yes'}}</td>
               <td *ngIf="trip.is_empty==false">{{'No'}}</td>
               <td>{{trip.lr_no}}</td>
