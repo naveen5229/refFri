@@ -16,6 +16,7 @@ export class MarketVehFreightStatementComponent implements OnInit {
   showhide = {
     show: true
   }
+  MVSparams=null;
 
   state = false;
   mvsFreight = {
@@ -43,27 +44,46 @@ export class MarketVehFreightStatementComponent implements OnInit {
     }
     this.common.handleModalSize('class', 'modal-lg', '800');
     console.log("Branches", this.accountService.branches);
-    if (this.common.params.title == 'Edit') {
+    //let params=this.common.params;
+    this.MVSparams=this.common.params;
+    console.log("TestingValue:",this.common.params);
+    if(this.MVSparams && this.MVSparams.mvsFreightId)
+    {
+      this.btnTxt="Update Invoice";
+      this.getMvsFreightData();
       this.showhide.show = false;
-
-      console.log("branchId:", this.common.params.freightInvoice._branch_id);
-      this.btnTxt = "Update Invoice"
-      this.mvsFreight.branchId = this.common.params.freightInvoice._branch_id;
-      this.mvsFreight.branchName = this.common.params.freightInvoice['Branch Name'];
-      this.mvsFreight.companyId = this.common.params.freightInvoice._party_id;
-      this.mvsFreight.companyName = this.common.params.freightInvoice['Party Name'];
-      this.mvsFreight.invoiceNo = this.common.params.freightInvoice['Invoice No'];
-      this.mvsFreight.date = new Date(this.common.params.freightInvoice._inv_date);
-      this.mvsFreight.remark = this.common.params.freightInvoice._remarks;
-      this.mvsFreight.tds=this.common.params.freightInvoice._tds;
-      this.mvsFreight.id = this.common.params.freightInvoice._id ? this.common.params.freightInvoice._id : null;
     }
   }
 
   ngOnInit() {
   }
 
+  getMvsFreightData()
+  {
+    ++this.common.loading;
+    this.api.get('FrieghtRate/getMVSFrieghtInvoiceDataforEdit?invoiceId='+ this.MVSparams.mvsFreightId)
+      .subscribe(res => {
+        --this.common.loading;
+        if(res['data'])
+        {
+          this.mvsFreight.branchId = res['data'][0].branch_id;
+          this.mvsFreight.branchName = res['data'][0].branch_name;
+          this.mvsFreight.companyId = res['data'][0].party_id;
+          this.mvsFreight.companyName = res['data'][0].party_name;
+          this.mvsFreight.invoiceNo = res['data'][0].inv_no;
+          this.mvsFreight.date = new Date(res['data'][0].inv_date);
+          this.mvsFreight.remark = res['data'][0].remarks;
+          this.mvsFreight.tds=res['data'][0].tax;
+          this.mvsFreight.id = res['data'][0].id;
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
   getBranchDetails() {
+    
     this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
       .subscribe(res => {
         console.log("branchdetails", res['data'][0]);
