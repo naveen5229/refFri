@@ -3,6 +3,7 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../confirm/confirm.component';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'view-transfer',
@@ -36,12 +37,14 @@ export class ViewTransferComponent implements OnInit {
     public api: ApiService,
     public activeModal: NgbActiveModal,
     public renderer: Renderer,
-    public modalService: NgbModal
+    public modalService: NgbModal,
+    public user:UserService,
   ) 
   { 
     this.ledgerId=this.common.params.ledgerId;
     this.ledgerType="Ledger:"+this.common.params.title;
     console.log("ledgerType:",this.ledgerType);
+    this.common.handleModalSize('class', 'modal-lg', '1400');
     this.viewTransfer();
   }
 
@@ -51,10 +54,10 @@ export class ViewTransferComponent implements OnInit {
   viewTransfer()
   {
     const params = "startTime=" + this.common.dateFormatter(this.startTime) +
-      "&endTime=" + this.common.dateFormatter(this.endTime)+"&ledgerId="+this.ledgerId+"&transferType="+this.transferType;
+      "&endTime=" + this.common.dateFormatter(this.endTime)+"&ledgerId="+this.ledgerId;
     ++this.common.loading;
 
-    this.api.get('FrieghtRate/getTransfers?' + params)
+    this.api.get('FrieghtRate/getLedgerTransfers?' + params)
       .subscribe(res => {
         --this.common.loading;
 
@@ -148,5 +151,50 @@ export class ViewTransferComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
+  }
+
+  
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("Api data",res['data']);
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "View Transfer";
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  printHandler() {
+    this.renderer.setElementClass(document.body, 'test', true);
+    let css = '@page { size: landscape !important; }';
+    let head = document.head || document.getElementsByTagName('head')[0];
+    let style = document.createElement('style');
+
+    style.type = 'text/css';
+    style.media = 'print';
+
+    if (style['styleSheet']) {
+      style['styleSheet'].cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }
+    head.appendChild(style);
+    window.print();
+    let printWindowListener = setInterval(() => {
+      if (document.readyState == "complete") {
+        clearInterval(printWindowListener);
+        head.removeChild(style);
+        this.renderer.setElementClass(document.body, 'test', false);
+      }
+    }, 1000);
   }
 }
