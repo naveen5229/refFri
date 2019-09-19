@@ -107,7 +107,7 @@ export class BasicPartyDetailsComponent implements OnInit {
     if (this.common.params.cmpAssocDetail) {
       this.value = true;
       this.cmpAlias = this.common.params.cmpAssocDetail['Company Alias'];
-      this.panNo = this.common.params.cmpAssocDetail.Pan;
+      this.panNo = this.common.params.cmpAssocDetail.Pan ? this.common.params.cmpAssocDetail.Pan :'';
       this.gstNo = this.common.params.cmpAssocDetail.Gst ? this.common.params.cmpAssocDetail.Gst : '';
       this.branchId = this.common.params.cmpAssocDetail._branchid;
       this.assType = this.common.params.cmpAssocDetail._asstype;

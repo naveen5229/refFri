@@ -37,12 +37,12 @@
             <div> {{data.name}}</div>
         </div>
         <div class="col-3">
-            <div>(Day {{data.day}}){{data.scheduled_arrival_time}}</div>
+            <div>{{data.scheduled_arrival_time}}</div>
             <div [ngClass]="{'text-red': data.status == '0' , 'text-green':data.status == '1','text-blue': data.status == '2' }">{{data.actual_arrival_time?data.actual_arrival_time:null}}</div>
         </div>
         <div class="col-3">
-            <div>{{data.departure_time?data.departure_time:null}}</div>
-            <div [ngClass]="{'text-red': data.status == '0' , 'text-green':data.status == '1','text-blue': data.status == '2' }">{{data.delay?data.delay:null}}</div>
+            <div>{{data.scheduled_departure_time}}</div>
+            <div [ngClass]="{'text-red': data.status == '0' , 'text-green':data.status == '1','text-blue': data.status == '2' }">{{data.departure_time?data.departure_time:null}}</div>
         </div>
 
         <div class="col-3">
