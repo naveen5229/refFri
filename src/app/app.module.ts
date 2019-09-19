@@ -248,6 +248,7 @@ import { ViewMVSFreightStatementComponent } from './modals/FreightRate/view-mvsf
 import { TemplateDevviewComponent } from './modals/template-devview/template-devview.component';
 import { MarketVehFreightStatementComponent } from './modals/FreightRate/market-veh-freight-statement/market-veh-freight-statement.component';
 import { MvsLrAssignComponent } from './modals/FreightRate/mvs-lr-assign/mvs-lr-assign.component';
+import { GenericSuggestionComponent } from './modals/generic-modals/generic-suggestion/generic-suggestion.component';
 
 
 
@@ -469,6 +470,7 @@ import { MvsLrAssignComponent } from './modals/FreightRate/mvs-lr-assign/mvs-lr-
     TemplateDevviewComponent,
     MarketVehFreightStatementComponent,
     MvsLrAssignComponent,
+    GenericSuggestionComponent,
 
   ],
   entryComponents: [
@@ -675,6 +677,7 @@ import { MvsLrAssignComponent } from './modals/FreightRate/mvs-lr-assign/mvs-lr-
     TemplateDevviewComponent,
     MarketVehFreightStatementComponent,
     MvsLrAssignComponent,
+    GenericSuggestionComponent
   ],
   imports: [
     BrowserModule,
