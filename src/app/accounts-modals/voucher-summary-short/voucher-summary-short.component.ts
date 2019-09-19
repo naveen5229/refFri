@@ -875,8 +875,8 @@ export class VoucherSummaryShortComponent implements OnInit {
     this.checkedTrips.map(tripHead => {
       tripidarray.push(tripHead.id);
     });
-    if(tripidarray.length){
-      this.common.showError('Plese Select Trip');
+    if(tripidarray.length==0){
+      this.common.showError('Please Select Trip');
       return false;
     }
     const params = {

@@ -131,14 +131,14 @@ export class PrintService {
   * @param ppContainer - All printing pages container
   * @param json - JSON data in format 1
   */
- invoiceFormat2(ppContainer: HTMLElement, json: any) {
-  const DPI = this.getDPI();
-  const pageSize = PAGE_SIZE[this.detectBrowser()];
-  let pageIndex = 1;
-  let previousPageContainer = null;
-  json.tables.map((tableJSON, tableIndex) => {
-    let rowIndex = 0;
-   // while (rowIndex < tableJSON.rows.length) {
+  invoiceFormat2(ppContainer: HTMLElement, json: any) {
+    const DPI = this.getDPI();
+    const pageSize = PAGE_SIZE[this.detectBrowser()];
+    let pageIndex = 1;
+    let previousPageContainer = null;
+    json.tables.map((tableJSON, tableIndex) => {
+      let rowIndex = 0;
+      // while (rowIndex < tableJSON.rows.length) {
       let pageContainer = previousPageContainer;
       if (!pageContainer) {
         pageContainer = this.createPageHtml();
@@ -175,7 +175,7 @@ export class PrintService {
         rowIndex++;
       }
       if (rowIndex == tableJSON.rows.length && tableIndex == json.tables.length - 1) {
-           pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
+        pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
         pageContainer.appendChild(this.createSignatureHtml(json.signatures));
       }
 
@@ -186,9 +186,76 @@ export class PrintService {
         pageIndex++;
         previousPageContainer = null;
       }
-   // }
-  });
-}
+      // }
+    });
+  }
+
+
+  /**
+   * Invoice Format 2 : This is one format of invoice if you want to create like this, you can use it.
+   * @param ppContainer - All printing pages container
+   * @param json - JSON data in format 1
+   */
+  generalPrint(json: any) {
+    let ppContainer = this.createPrintWrapper();
+    const DPI = this.getDPI();
+    const pageSize = PAGE_SIZE[this.detectBrowser()];
+    let pageIndex = 1;
+    let previousPageContainer = null;
+    json.tables.map((tableJSON, tableIndex) => {
+      let rowIndex = 0;
+      while (rowIndex < tableJSON.rows.length) {
+        let pageContainer = previousPageContainer;
+        if (!pageContainer) {
+          pageContainer = this.createPageHtml();
+          ppContainer.appendChild(pageContainer);
+        }
+
+        let page = pageContainer.children[0];
+        let pageInsider = page.children[0];
+        if (tableIndex === 0 && rowIndex === 0) {
+          pageInsider.appendChild(this.createHeaderHtml(json.headers));
+          pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
+        }
+
+        let tableContainer = this.createTableHtml(tableJSON.name);
+        pageInsider.appendChild(tableContainer);
+        let table = tableContainer.children[tableJSON.name ? 1 : 0];
+        // if (rowIndex == 0) {
+        table.appendChild(this.createTheadHtml(tableJSON.headings));
+        // }
+
+        let tbody = this.createTbodyHtml()
+        table.appendChild(tbody);
+        let newPageFlag = false;
+        for (let i = rowIndex; i < tableJSON.rows.length; i++) {
+          let row = this.createTrHtml(tableJSON.rows[i]);
+          tbody.appendChild(row);
+          let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
+          console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+          if (mm > pageSize && i != tableJSON.rows.length - 1) {
+            rowIndex = i + 1;
+            newPageFlag = true;
+            break;
+          }
+          rowIndex++;
+        }
+        if (rowIndex == tableJSON.rows.length && tableIndex == json.tables.length - 1) {
+          pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
+          pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+        }
+
+        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+        if (!newPageFlag) {
+          previousPageContainer = pageContainer;
+        } else {
+          pageIndex++;
+          previousPageContainer = null;
+        }
+      }
+    });
+    this.print();
+  }
 
   /**
    * Create printing page

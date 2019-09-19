@@ -34,6 +34,7 @@ export class FuelfilingComponent implements OnInit {
   checkall = false;
   activeId = 'creditLedger';
   voucherId = 0;
+  sizeIndex=0;
   constructor(private activeModal: NgbActiveModal,
     public api: ApiService,
     public common: CommonService,
@@ -56,7 +57,7 @@ export class FuelfilingComponent implements OnInit {
         this.debitLedger.id = this.common.params.voucherData[1]['y_dlt_ledger_id'];
         this.narration = this.common.params.voucherData[0]['y_dlt_short_remark'];
         this.total = this.common.params.voucherData[0]['y_amount'];
-
+        this.sizeIndex=(this.common.params.sizeIndex)?this.common.params.sizeIndex:0;
         this.fuelFilings.map((trips,index)=>{
           if(this.voucherId == trips.y_voucher_id)
         this.fuelFilings[index]['isChecked'] = true;
@@ -66,7 +67,7 @@ export class FuelfilingComponent implements OnInit {
 
 
     }
-    this.common.handleModalSize('class', 'modal-lg', '1250');
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',this.sizeIndex);
     this.getcreditLedgers('credit');
     this.getdebitLedgers('debit');
     this.setFoucus('custcode');
