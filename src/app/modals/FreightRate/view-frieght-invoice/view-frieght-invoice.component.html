@@ -40,6 +40,7 @@
                       <tr *ngIf="invoiceDetails && invoiceDetails.party_pan"><td><b>PAN : </b></td><td> {{invoiceDetails.party_pan}}</td></tr>
                       <tr *ngIf="invoiceDetails && invoiceDetails.party_gst"><td><b>GST : </b></td><td> {{invoiceDetails.party_gst}}</td></tr>
                       <tr *ngIf="invoiceDetails && invoiceDetails.inv_date"><td><b>Date : </b></td><td>{{invoiceDetails.inv_date}}</td></tr>
+                      <tr *ngIf="invoiceDetails && invoiceDetails.vendor_code"><td><b>Vendor Code : </b></td><td>{{invoiceDetails.vendor_code}}</td></tr>
                     </tbody>
                   </table>
             </td>
