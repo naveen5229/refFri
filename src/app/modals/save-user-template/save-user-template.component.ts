@@ -130,10 +130,10 @@ export class SaveUserTemplateComponent implements OnInit {
     let genericData = {
       title: 'Suggestion',
       api: 'UserTemplate/getVariables',
+      id: index,
       param: {
         refType: 'LR_PRT'
       },
-      type: "get",
     }
     this.common.params = { genericData };
     const activeModal = this.modalService.open(GenericSuggestionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr', });
