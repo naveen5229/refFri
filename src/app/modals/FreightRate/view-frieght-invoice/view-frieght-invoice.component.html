@@ -40,6 +40,7 @@
                       <tr *ngIf="invoiceDetails && invoiceDetails.party_pan"><td><b>PAN : </b></td><td> {{invoiceDetails.party_pan}}</td></tr>
                       <tr *ngIf="invoiceDetails && invoiceDetails.party_gst"><td><b>GST : </b></td><td> {{invoiceDetails.party_gst}}</td></tr>
                       <tr *ngIf="invoiceDetails && invoiceDetails.inv_date"><td><b>Date : </b></td><td>{{invoiceDetails.inv_date}}</td></tr>
+                      <tr *ngIf="invoiceDetails && invoiceDetails.vendor_code"><td><b>Vendor Code : </b></td><td>{{invoiceDetails.vendor_code}}</td></tr>
                     </tbody>
                   </table>
             </td>
@@ -90,11 +91,13 @@
             </td>
           </tr>
         </table>
-        <table class="table table-bordered table-hover" style="width: 100%">we 
+        <table class="table table-bordered table-hover" style="width: 100%">
           <tr>
             <td style="vertical-align: top; width: 75%;" *ngIf="invoiceDetails && invoiceDetails.lr_terms">
               <b> Terms & Conditions : </b> <br>
-              {{invoiceDetails.lr_terms}}
+              <!-- {{invoiceDetails.lr_terms}} -->
+              <div id="lr_terms" [innerHtml]="invoiceDetails.lr_terms"
+                *ngIf="invoiceDetails && invoiceDetails.lr_terms"></div>
             </td>
             <td style="vertical-align: top; width: 25%;">
               <div style="height:100px"><b>Logistic Sign</b></div>

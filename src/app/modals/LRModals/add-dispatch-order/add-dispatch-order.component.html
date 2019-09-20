@@ -44,7 +44,16 @@
                 </uj-date-time-picker>
               </span>
             </td>
-            <td></td>
+            <td>
+              <label>serial No<span style="color: red">*</span></label>
+              <span>
+                <input type="text" [(ngModel)]=disOrder.prefix class="form-control" placeholder="Prefix"
+                  style="width:40%;float:left">
+                <input type="text" [(ngModel)]=disOrder.serial class="form-control" placeholder="Number"
+                  style="width:60%;float:left">
+
+              </span>
+            </td>
           </tr>
 
           <!-- ordered Data -->

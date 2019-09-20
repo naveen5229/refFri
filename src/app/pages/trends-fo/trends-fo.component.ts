@@ -273,7 +273,7 @@ export class TrendsFoComponent implements OnInit {
     return options;
   }
 
-  getTrendsVehicleSite(){
+  getTrendsVehicleSite() {
     this.trendsVehicleData = [];
     this.trendsVehicleSiteData = [];
     this.trends = [];
@@ -304,41 +304,41 @@ export class TrendsFoComponent implements OnInit {
     this.api.post("Trends/getTrendsWrtVehiclesAndSites", params).subscribe(res => {
       this.common.loading--;
       this.trendsVehicleData = res['data']['vehData'] || [];
-      console.log("--------------------",this.trendsVehicleData)
-      this.trendsVehicleSiteData=res['data']['siteData'] || []
-      this.loadingSite=res['data']['siteData'].lodingArray
+      console.log("--------------------", this.trendsVehicleData)
+      this.trendsVehicleSiteData = res['data']['siteData'] || []
+      this.loadingSite = res['data']['siteData'].lodingArray
       this.getTrendsVehicle();
       this.getTrendsSite();
     },
-   err => {
-    this.common.loading--;
-    this.common.showError();
-    console.log('Error: ', err);
-  
-});
+      err => {
+        this.common.loading--;
+        this.common.showError();
+        console.log('Error: ', err);
+
+      });
   }
 
   getTrendsVehicle() {
-      this.trendsVehicleData.map(data => {
-        data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
-        data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
-        if (data.total_halt != 0 || data.hlt_count != 0) {
-          data.total_halt = (data.total_halt) / (data.hlt_count)
-        }
-        else {
-          data.total_halt = 0;
-          data.hlt_count = 0
-        }
-      });
-      // let key = this.trendType == "11" ? "ldng_count" : (this.trendType == "21" ? "unldng_count" : "hlt_count");
-      // this.trendsVehicleData.sort((e1,e2)=>{
-      //   return e2[key] - e2[key];
-      // })
-      // console.log("keeeeeeeeeeeeeeeeeeyyyyyyyyyyyy",key)
- 
+    this.trendsVehicleData.map(data => {
+      data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
+      data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
+      if (data.total_halt != 0 || data.hlt_count != 0) {
+        data.total_halt = (data.total_halt) / (data.hlt_count)
+      }
+      else {
+        data.total_halt = 0;
+        data.hlt_count = 0
+      }
+    });
+    // let key = this.trendType == "11" ? "ldng_count" : (this.trendType == "21" ? "unldng_count" : "hlt_count");
+    // this.trendsVehicleData.sort((e1,e2)=>{
+    //   return e2[key] - e2[key];
+    // })
+    // console.log("keeeeeeeeeeeeeeeeeeyyyyyyyyyyyy",key)
+
   }
 
-   getTrendsSite() {
+  getTrendsSite() {
     this.trendsVehicleSiteData.map(data => {
       data.loading_hrs = (data.loading_hrs) / (data.ldng_count);
       data.unloading_hrs = (data.unloading_hrs) / (data.unldng_count)
@@ -347,7 +347,7 @@ export class TrendsFoComponent implements OnInit {
     _.sortBy(this.trendsVehicleSiteData, ['unloading_hrs']).reverse().map(keyData => {
       this.siteUnloading.push(keyData);
     });
-   }
+  }
 
   getweeklyMothlyTrend() {
     this.dateDay = [];
@@ -401,7 +401,7 @@ export class TrendsFoComponent implements OnInit {
       datas = dataTrend.lodingArray;
       Object.keys(datas).map(key => {
         let temp = [];
-        temp.push(key, datas[key]);
+        temp.push(key, datas[key].count, (datas[key].avgHours / datas[key].count).toFixed(2));
         result.push(temp);
       });
     }
@@ -409,12 +409,12 @@ export class TrendsFoComponent implements OnInit {
       datas = dataTrend.unloadingArray;
       Object.keys(datas).map(key => {
         let temp = [];
-        temp.push(key, datas[key]);
+        temp.push(key, datas[key].count, (datas[key].avgHours / datas[key].count).toFixed(2));
         result.push(temp);
       });
     }
     data = result;
-    this.common.params = { title: 'SiteWise Vehicle List:', headings: ["Vehicle_RegNo.", "Count Event"], data };
+    this.common.params = { title: 'SiteWise Vehicle List:', headings: ["RegNo.", "Count Event", "Avg Hrs."], data };
     this.modalService.open(ViewListComponent, { size: 'sm', container: 'nb-layout' });
   }
 }

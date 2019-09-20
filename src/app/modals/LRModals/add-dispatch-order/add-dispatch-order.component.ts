@@ -18,7 +18,9 @@ export class AddDispatchOrderComponent implements OnInit {
   generalDetailColumn1 = [];
   disOrder = {
     date: new Date(),
-    id: null
+    id: null,
+    prefix:null,
+    serial:null
   };
   vehicleData = {
     regno: null,
@@ -61,7 +63,7 @@ export class AddDispatchOrderComponent implements OnInit {
           this.dispatchOrderField = res['data'].result[0];
           let headData = res['data'].headings;
           if (headData.length > 0) {
-            this.setLrHeadData(headData[0]);
+            this.setLrHeadData(headData[0], isSetBranchId);
           }
           this.formatGeneralDetails();
         }
@@ -73,12 +75,16 @@ export class AddDispatchOrderComponent implements OnInit {
 
   }
 
-  setLrHeadData(headData) {
+  setLrHeadData(headData,isSetBranchId?)
+   {
     this.vehicleData.id = headData.vehicle_id;
     this.vehicleData.regno = headData.regno;
     this.disOrder.id = headData.dispatch_id;
     this.disOrder.date = headData.dispatch_date ? new Date(headData.dispatch_date) : null;
-    this.accountService.selected.branch.id = headData.branch_id;
+    isSetBranchId && (this.accountService.selected.branch.id = headData.branch_id);
+    // this.accountService.selected.branch.id = headData.branch_id;
+    this.disOrder.prefix = headData.x_prefix;
+    this.disOrder.serial = headData.x_autonum;
   }
 
   takeActionSource(type, res, i) {
@@ -178,6 +184,8 @@ export class AddDispatchOrderComponent implements OnInit {
       dispatchOrderId: this.disOrder.id,
       branchId: this.accountService.selected.branch.id,
       vehicleId: this.vehicleData.id,
+      dispatchOrderPrefix:this.disOrder.prefix,
+      dispatchOrderSerial:this.disOrder.serial,
       vehicleRegNo: document.getElementById('vehicleno')['value'],
       date: this.common.dateFormatter(this.disOrder.date),
       dispatchOrderDetails: JSON.stringify(this.dispatchOrderField),
