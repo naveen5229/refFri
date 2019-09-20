@@ -5,6 +5,8 @@ import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { dateFieldName } from '@telerik/kendo-intl';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
+import { ChangeDriverComponent } from '../../DriverModals/change-driver/change-driver.component';
+import { BasicPartyDetailsComponent } from '../../basic-party-details/basic-party-details.component';
 
 @Component({
   selector: 'add-dispatch-order',
@@ -12,7 +14,7 @@ import { LocationSelectionComponent } from '../../location-selection/location-se
   styleUrls: ['./add-dispatch-order.component.scss']
 })
 export class AddDispatchOrderComponent implements OnInit {
-
+  vehicleType=1;
   dispatchOrderField = [];
   generalDetailColumn2 = [];
   generalDetailColumn1 = [];
@@ -154,6 +156,11 @@ export class AddDispatchOrderComponent implements OnInit {
     this.vehicleData.id = null;
   }
 
+  resetVehicleData() {
+    this.vehicleData.id = null;
+    this.vehicleData.regno = null;
+  }
+
   closeModal() {
     this.activeModal.close(true);
   }
@@ -210,4 +217,25 @@ export class AddDispatchOrderComponent implements OnInit {
         console.log('Error: ', err);
       });
   }
+  addDriver() {
+    this.common.params = { vehicleId: null, vehicleRegNo: null };
+    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data);
+      if (data.data) {
+      }
+    });
+  }
+
+  addAssociation() {
+    console.log("open Association modal")
+    this.common.params = {
+      cmpId: 1,
+    };
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+    });
+  }
+
 }
