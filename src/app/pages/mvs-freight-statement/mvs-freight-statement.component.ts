@@ -168,10 +168,11 @@ export class MvsFreightStatementComponent implements OnInit {
   }
 
   openMvcFreightModal(title, row, type?) {
-    console.log("title:", title);
-    console.log("Display:", row);
-    this.common.params = { title: title, freightInvoice: row, type: type };
-    console.log("alert:", this.common.params);
+    console.log("row:",row);
+   let mvsFreight={
+      id:row?row._id:false
+    }
+    this.common.params={mvsFreightId:mvsFreight.id};
     const activeModal = this.modalService.open(MarketVehFreightStatementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       // console.log('Date:', data);

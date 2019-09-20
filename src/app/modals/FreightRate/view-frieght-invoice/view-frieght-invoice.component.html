@@ -19,7 +19,7 @@
         </button>
       </div>
 
-      <div class="modal-body" id="print-section">
+      <div class="modal-body" id="printSection">
         <table style="width:100%;">
           <tr>
             <td style="width:40%; vertical-align: top;">
@@ -40,6 +40,7 @@
                       <tr *ngIf="invoiceDetails && invoiceDetails.party_pan"><td><b>PAN : </b></td><td> {{invoiceDetails.party_pan}}</td></tr>
                       <tr *ngIf="invoiceDetails && invoiceDetails.party_gst"><td><b>GST : </b></td><td> {{invoiceDetails.party_gst}}</td></tr>
                       <tr *ngIf="invoiceDetails && invoiceDetails.inv_date"><td><b>Date : </b></td><td>{{invoiceDetails.inv_date}}</td></tr>
+                      <tr *ngIf="invoiceDetails && invoiceDetails.vendor_code"><td><b>Vendor Code : </b></td><td>{{invoiceDetails.vendor_code}}</td></tr>
                     </tbody>
                   </table>
             </td>
@@ -118,3 +119,7 @@
       <!-- <div style="text-align:center" class="col-sm-12" style="margin-bottom:15px"><button onclick="document.print()">Print</button></div> -->
 
     </div>
+
+    <style>
+       @media print{ .modal-body{ height:100%;overflow:visible;} } 
+    </style>

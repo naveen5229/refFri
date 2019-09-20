@@ -1,42 +1,49 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">User Template</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <h5 class="modal-title" id="modal-basic-title">View Template</h5>
+
+  <div class="col-md-10 text-right">
+    <button type="button" class="close doNotPrint" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
 </div>
 
 <div class="modal-body">
   <div class="row">
     <div class="col-6">
-        <div class="form-group">
-            <label>Type</label>
-            <select class="form-control" *ngIf="showhide.show; else other_content" name="template-type"
-              [(ngModel)]="template.type" require>
-              <option value="LR">LR</option>
-              <option value="INV">Invoice</option>
-              <option value='DSPOD_PRT'>Print Distpatch Order</option>
-        
-            </select>
-            <ng-template #other_content>
-              <label
-                style="background-color: #e8edef;padding-top:5px;padding-bottom:5px;padding-left:15px;width:100%;border-radius:3px;">{{template.type}}</label>
-            </ng-template>
-          </div>
+      <div class="form-group">
+        <label>Type</label>
+        <select class="form-control" *ngIf="showhide.show; else other_content" name="template-type"
+          [(ngModel)]="template.type" require>
+          <option value="LR">LR</option>
+          <option value="INV">Invoice</option>
+          <option value='DSPOD_PRT'>Print Distpatch Order</option>
+
+        </select>
+        <ng-template #other_content>
+          <label
+            style="background-color: #e8edef;padding-top:5px;padding-bottom:5px;padding-left:15px;width:100%;border-radius:3px;">{{template.type}}</label>
+        </ng-template>
+      </div>
     </div>
     <div class="col-6">
-        <div class="form-group">
-            <label>Template Name</label>
-            <input type="text" name="template_name" class="form-control" [(ngModel)]="template.templateName">
-          </div>
+      <div class="form-group">
+        <label>Template Name</label>
+        <input type="text" name="template_name" class="form-control" [(ngModel)]="template.templateName">
+      </div>
     </div>
   </div>
-  
 
-  
+
   <!-- Remark -->
   <div class="form-group">
     <label>Template</label>
-    <textarea name="remark" class="form-control" [(ngModel)]="template.templateHtml" rows="15" style="font-size:16px!important;line-height:1.5!important;"></textarea>
+    <textarea name="remark" class="form-control" [(ngModel)]="template.templateHtml" rows="15"
+      style="font-size:16px!important;line-height:1.5!important;" (ngModelChange)="setValue()"></textarea>
   </div>
   <button class="btn btn-primary mt-2" (click)="addEdit()">{{this.common.params.title}}</button>
+  <div class="row">
+    <div id="print-section" class="templatePreview" [innerHTML]="editTemplateHtml"></div>
+  </div>
 </div>

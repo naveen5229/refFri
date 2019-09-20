@@ -33,19 +33,17 @@
         <label style="font-size:16px;">{{docType}}</label>
       </div>
 
-      <div class="col-md-8" *ngIf="docTypes.length && ignore != 1">
-        <auto-suggestion (onSelected)="selectDocType($event)" url=""
-          display="document_type" placeholder="Enter doctype" [data]="docTypes" [preSelected]="null"
-          class="documentType" required>
+      <div class="col-md-4" *ngIf="docTypes.length && ignore != 1">
+        <auto-suggestion (onSelected)="selectDocType($event)" url="" display="document_type" placeholder="Enter doctype"
+          [data]="docTypes" [preSelected]="null" class="documentType" required>
         </auto-suggestion>
         <div class="suggestions ng-star-inserted">
         </div>
       </div>
 
-      <div class="col-md-8" *ngIf="ignore==1">
-        <auto-suggestion  (onSelected)="selectDocType($event)" url="" display="document_type"
-          placeholder="Enter doctype" [data]="docTypes" [preSelected]="{document_type:docType}" class="documentType"
-          required>
+      <div class="col-md-4" *ngIf="ignore==1">
+        <auto-suggestion (onSelected)="selectDocType($event)" url="" display="document_type" placeholder="Enter doctype"
+          [data]="docTypes" [preSelected]="{document_type:docType}" class="documentType" required>
         </auto-suggestion>
         <div class="suggestions ng-star-inserted">
         </div>
@@ -55,8 +53,9 @@
     <div class="row">
       <div class="col-md-4">
         <label>Document Upload </label>
-        <button type="button"  class="btn btn-dark bg-dark text-white" *ngIf="this.docTypeid || this.document.type.id " name="ignore" id="ignore" (click)="ignoreDoc()"
-          style="margin-top: 50px; text-transform: capitalize;">Ignore Document</button>
+        <button type="button" class="btn btn-dark bg-dark text-white" *ngIf="this.docTypeid || this.document.type.id "
+          name="ignore" id="ignore" (click)="ignoreDoc()" style="margin-top: 50px; text-transform: capitalize;">Ignore
+          Document</button>
       </div>
       <div class="col-md-8 upload_img_btn ">
         <input type="file" name="myfile1" id="filePicker1" (change)="handleFileSelection($event,1)" />
