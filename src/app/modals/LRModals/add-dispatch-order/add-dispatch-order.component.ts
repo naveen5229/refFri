@@ -60,6 +60,7 @@ export class AddDispatchOrderComponent implements OnInit {
   }
 
   getDispatchOrderFields(isSetBranchId?) {
+    this.disOrder.id =  this.disOrder.id ? this.disOrder.id : null;
     let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
     let params = "branchId=" + this.accountService.selected.branch.id +
       "&dispatchOrderId=" + this.disOrder.id;
