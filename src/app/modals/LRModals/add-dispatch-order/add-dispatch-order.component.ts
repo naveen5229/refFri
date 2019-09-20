@@ -5,6 +5,8 @@ import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { dateFieldName } from '@telerik/kendo-intl';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
+import { ChangeDriverComponent } from '../../DriverModals/change-driver/change-driver.component';
+import { BasicPartyDetailsComponent } from '../../basic-party-details/basic-party-details.component';
 
 @Component({
   selector: 'add-dispatch-order',
@@ -12,13 +14,15 @@ import { LocationSelectionComponent } from '../../location-selection/location-se
   styleUrls: ['./add-dispatch-order.component.scss']
 })
 export class AddDispatchOrderComponent implements OnInit {
-
+  vehicleType=1;
   dispatchOrderField = [];
   generalDetailColumn2 = [];
   generalDetailColumn1 = [];
   disOrder = {
     date: new Date(),
-    id: null
+    id: null,
+    prefix:null,
+    serial:null
   };
   vehicleData = {
     regno: null,
@@ -61,7 +65,7 @@ export class AddDispatchOrderComponent implements OnInit {
           this.dispatchOrderField = res['data'].result[0];
           let headData = res['data'].headings;
           if (headData.length > 0) {
-            this.setLrHeadData(headData[0]);
+            this.setLrHeadData(headData[0], isSetBranchId);
           }
           this.formatGeneralDetails();
         }
@@ -73,12 +77,16 @@ export class AddDispatchOrderComponent implements OnInit {
 
   }
 
-  setLrHeadData(headData) {
+  setLrHeadData(headData,isSetBranchId?)
+   {
     this.vehicleData.id = headData.vehicle_id;
     this.vehicleData.regno = headData.regno;
     this.disOrder.id = headData.dispatch_id;
     this.disOrder.date = headData.dispatch_date ? new Date(headData.dispatch_date) : null;
-    this.accountService.selected.branch.id = headData.branch_id;
+    isSetBranchId && (this.accountService.selected.branch.id = headData.branch_id);
+    // this.accountService.selected.branch.id = headData.branch_id;
+    this.disOrder.prefix = headData.x_prefix;
+    this.disOrder.serial = headData.x_autonum;
   }
 
   takeActionSource(type, res, i) {
@@ -148,6 +156,11 @@ export class AddDispatchOrderComponent implements OnInit {
     this.vehicleData.id = null;
   }
 
+  resetVehicleData() {
+    this.vehicleData.id = null;
+    this.vehicleData.regno = null;
+  }
+
   closeModal() {
     this.activeModal.close(true);
   }
@@ -178,6 +191,8 @@ export class AddDispatchOrderComponent implements OnInit {
       dispatchOrderId: this.disOrder.id,
       branchId: this.accountService.selected.branch.id,
       vehicleId: this.vehicleData.id,
+      dispatchOrderPrefix:this.disOrder.prefix,
+      dispatchOrderSerial:this.disOrder.serial,
       vehicleRegNo: document.getElementById('vehicleno')['value'],
       date: this.common.dateFormatter(this.disOrder.date),
       dispatchOrderDetails: JSON.stringify(this.dispatchOrderField),
@@ -202,4 +217,25 @@ export class AddDispatchOrderComponent implements OnInit {
         console.log('Error: ', err);
       });
   }
+  addDriver() {
+    this.common.params = { vehicleId: null, vehicleRegNo: null };
+    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data);
+      if (data.data) {
+      }
+    });
+  }
+
+  addAssociation() {
+    console.log("open Association modal")
+    this.common.params = {
+      cmpId: 1,
+    };
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+    });
+  }
+
 }
