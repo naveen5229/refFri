@@ -125,7 +125,6 @@ export class SaveUserTemplateComponent implements OnInit {
 
   addValue(element) {
     let index = element.getElementsByClassName("value")[0]['innerHTML'];
-    console.log("____________soch smj kr likhna:", index);
 
     let genericData = {
       title: 'Suggestion',
@@ -136,9 +135,12 @@ export class SaveUserTemplateComponent implements OnInit {
       },
     }
     this.common.params = { genericData };
-    const activeModal = this.modalService.open(GenericSuggestionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr', });
+    const activeModal = this.modalService.open(GenericSuggestionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr', });
     activeModal.result.then(data => {
       console.log('Date:', data);
+      if (data.id) {
+        document.getElementsByClassName('fillvalue')['value'] = data.event.value;
+      }
     });
   }
 

@@ -17,7 +17,7 @@ export class GenericSuggestionComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
-    this.common.handleModalSize('class', 'modal-lg', '480', 'px');
+    this.common.handleModalSize('class', 'modal-lg', '480', 'px', 1);
     if (this.common.params && this.common.params.genericData) {
 
       this.title = this.common.params.genericData.title;
@@ -43,7 +43,6 @@ export class GenericSuggestionComponent implements OnInit {
   }
 
   getSuggestionData() {
-    console.log("Data :", this.params);
     this.common.loading++;
     this.api.get(this.params)
       .subscribe(res => {
@@ -54,6 +53,11 @@ export class GenericSuggestionComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+  selectData(event) {
+    console.log("event", event);
+    this.activeModal.close({ event, id: this.elementId });
+
   }
 
 }

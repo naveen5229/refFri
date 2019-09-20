@@ -6,7 +6,12 @@
 
 </div>
 <div class="modal-body">
-  <auto-suggestion name="auto-suggestion-data" (onSelected)="getStnData($event)" [data]="apiData" display="name"
-    placeholder="Auto Suggestion" preSelected="null" style="width:60%;">
-  </auto-suggestion>
+  <div class="row">
+    <div class="col-12">
+      <auto-suggestion name="auto-suggestion-data" (onSelected)="selectData($event)" [data]="apiData" display="name"
+        placeholder="Auto Suggestion" preSelected="null" style="width:60%;">
+      </auto-suggestion>
+
+    </div>
+  </div>
 </div>
