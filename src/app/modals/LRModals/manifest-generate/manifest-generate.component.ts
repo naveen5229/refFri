@@ -201,7 +201,7 @@ export class ManifestGenerateComponent implements OnInit {
     (<HTMLInputElement>document.getElementById('driver_license')).value = driver.licence_no;
   }
 
- 
+
 
   getCompanyData(field, company) {
     console.log("field", field, "data", company);
@@ -379,5 +379,5 @@ export class ManifestGenerateComponent implements OnInit {
   closeModal() {
     this.activeModal.close(true);
   }
-
+  getLrFields() { }
 }
