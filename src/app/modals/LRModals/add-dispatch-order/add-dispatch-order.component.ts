@@ -5,6 +5,8 @@ import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { dateFieldName } from '@telerik/kendo-intl';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
+import { ChangeDriverComponent } from '../../DriverModals/change-driver/change-driver.component';
+import { BasicPartyDetailsComponent } from '../../basic-party-details/basic-party-details.component';
 
 @Component({
   selector: 'add-dispatch-order',
@@ -12,7 +14,7 @@ import { LocationSelectionComponent } from '../../location-selection/location-se
   styleUrls: ['./add-dispatch-order.component.scss']
 })
 export class AddDispatchOrderComponent implements OnInit {
-
+  vehicleType=1;
   dispatchOrderField = [];
   generalDetailColumn2 = [];
   generalDetailColumn1 = [];
@@ -26,6 +28,12 @@ export class AddDispatchOrderComponent implements OnInit {
     regno: null,
     id: null
   };
+
+  driverData = {
+    id: null,
+    mobileNo: null
+  }
+
   btnTxt = 'SAVE';
   keepGoing = true;
 
@@ -79,12 +87,19 @@ export class AddDispatchOrderComponent implements OnInit {
    {
     this.vehicleData.id = headData.vehicle_id;
     this.vehicleData.regno = headData.regno;
+    this.vehicleType=headData.vehicleType;
     this.disOrder.id = headData.dispatch_id;
     this.disOrder.date = headData.dispatch_date ? new Date(headData.dispatch_date) : null;
     isSetBranchId && (this.accountService.selected.branch.id = headData.branch_id);
     // this.accountService.selected.branch.id = headData.branch_id;
+<<<<<<< HEAD
     this.disOrder.prefix = headData.x_prefix;
     this.disOrder.serial = headData.x_autonum;
+=======
+    this.disOrder.prefix = headData.prefix;
+    this.disOrder.serial = headData.autonum;
+    
+>>>>>>> hemant
   }
 
   takeActionSource(type, res, i) {
@@ -134,26 +149,68 @@ export class AddDispatchOrderComponent implements OnInit {
     this.vehicleData.id = vehicle.id;
   }
 
-  getDriverInfo(driver, arr?: any) {
-    if (arr && arr === true) {
-      this.dispatchOrderField.map(dof => {
-        if (dof.r_colname == 'driver_name') {
-          dof.r_value = '';
-          dof.r_value = driver.empname;
-        }
-      });
-    } else if (arr) {
-      arr.r_value = '';
-      arr.r_value = driver.empname;
-    }
-    // (<HTMLInputElement>document.getElementById('driver_name')).value = driver.empname;
-    (<HTMLInputElement>document.getElementById('driver_mobile')).value = driver.mobileno;
-  }
+ 
 
   resetVehicle() {
     this.vehicleData.id = null;
   }
 
+  resetDriver(){
+
+    this.driverData.id =null;
+      this.driverData.mobileNo=null;
+    }
+
+  
+
+  resetVehicleData() {
+    console.log("Test");
+    this.vehicleData.id = null;
+    this.vehicleData.regno = null;
+    this.resetDriver();
+  }
+
+  getDriverData(vehicleId) {
+    let params = {
+      vid: vehicleId
+    };
+    console.log("vehicleId 2", this.vehicleData.id);
+    this.common.loading++;
+    this.api.post('Drivers/getDriverInfo', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res', res['data']);
+        if (res['data'].length > 0) {
+          this.getDriverInfo(res['data'][0], true);
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+//lrOrderField To dispatchOrderField
+  getDriverInfo(driver, arr?: any) {
+    if (arr && arr === true) {
+      this.dispatchOrderField.map(dispatchField => {
+        if (dispatchField.r_colname == 'driver_mobile') {
+          dispatchField.r_value = '';
+          dispatchField.r_value = driver.mobileno;
+          dispatchField.r_valueid = driver.id ? driver.id : driver.driver_id;
+        }
+      });
+    } else if (arr) {
+      arr.r_value = '';
+      arr.r_value = driver.mobileno;;
+      arr.r_valueid = driver.id ? driver.id : driver.driver_id;
+    }
+    this.driverData.id = driver.id ? driver.id : driver.driver_id;
+    // (<HTMLInputElement>document.getElementById('driver_id')).value = this.driverData.id;
+    (<HTMLInputElement>document.getElementById('driver_name')).value = driver.empname;
+    (<HTMLInputElement>document.getElementById('driver_license')).value = driver.licence_no;
+  }
+
+
+  
   closeModal() {
     this.activeModal.close(true);
   }
@@ -189,6 +246,7 @@ export class AddDispatchOrderComponent implements OnInit {
       vehicleRegNo: document.getElementById('vehicleno')['value'],
       date: this.common.dateFormatter(this.disOrder.date),
       dispatchOrderDetails: JSON.stringify(this.dispatchOrderField),
+      vehicleType:this.vehicleType
     }
     console.log("params", params);
 
@@ -210,4 +268,25 @@ export class AddDispatchOrderComponent implements OnInit {
         console.log('Error: ', err);
       });
   }
+  addDriver() {
+    this.common.params = { vehicleId: null, vehicleRegNo: null };
+    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data);
+      if (data.data) {
+      }
+    });
+  }
+
+  addAssociation() {
+    console.log("open Association modal")
+    this.common.params = {
+      cmpId: 1,
+    };
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+    });
+  }
+
 }
