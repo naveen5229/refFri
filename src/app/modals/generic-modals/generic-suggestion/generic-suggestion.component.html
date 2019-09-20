@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12">
+      <auto-suggestion name="auto-suggestion-data" (onSelected)="selectData($event)" [data]="apiData" display="name"
+        placeholder="Auto Suggestion" preSelected="null" style="width:60%;">
+      </auto-suggestion>
+
+    </div>
+  </div>
+</div>
