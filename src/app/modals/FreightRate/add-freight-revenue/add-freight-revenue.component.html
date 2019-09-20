@@ -1,135 +1,133 @@
 <div class="modal-header">
-  <h5>Add Freight Revenue</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <h5>Add Freight Revenue</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <div class="row">
-    <div [ngClass]="{'col-6 ':images, 'col-12':!images}">
+    <div class="row">
+        <div [ngClass]="{'col-6 ':images, 'col-12':!images}">
 
-      <div class="row mb-2">
-        <div class="col-3">
-          <label>Registration Number</label>
-        </div>
-        <div class="col-2">
-          <span>{{revenue.vehicleRegNo}}</span>
-        </div>
-        <div class="col-3">
-          <label>Reference type</label>
-        </div>
-        <div class="col-3">
-          {{revenue.refTypeName}}
-        </div>
-        <div class="col-1">
-          <span>
+            <div class="row mb-2">
+                <div class="col-3">
+                    <label>Registration Number</label>
+                </div>
+                <div class="col-2">
+                    <span>{{revenue.vehicleRegNo}}</span>
+                </div>
+                <div class="col-3">
+                    <label>Reference type</label>
+                </div>
+                <div class="col-3">
+                    {{revenue.refTypeName}}
+                </div>
+                <div class="col-1">
+                    <span>
             <i class="fa fa-trash" (click)="deleteAllRevenue()">
             </i>
           </span>
-        </div>
-      </div>
-      <div class="revenue-table">
-        <table class="table table-bordered">
-          <thead class="thead">
-            <tr>
-              <th>Heads Name</th>
-              <!-- <th>Amount</th> -->
-              <th>Manual Amount</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
+                </div>
+            </div>
+            <div class="revenue-table">
+                <table class="table table-bordered">
+                    <thead class="thead">
+                        <tr>
+                            <th>Heads Name</th>
+                            <!-- <th>Amount</th> -->
+                            <th>Manual Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-            <tr *ngFor=" let revenueDetail of revenueDetails; let j = index; ">
-              <td>
-                <input class="form-control" type="text" list="otherTitles" name="revenueDetail-type"
-                  [(ngModel)]="revenueDetail.frHead" (change)="getFrieghtHeaderId(revenueDetail.frHead , j)">
-                <datalist id="otherTitles">
+                        <tr *ngFor=" let revenueDetail of revenueDetails; let j = index; ">
+                            <td>
+                                <input class="form-control" type="text" list="otherTitles" name="revenueDetail-type" [(ngModel)]="revenueDetail.frHead" (change)="getFrieghtHeaderId(revenueDetail.frHead , j)">
+                                <datalist id="otherTitles">
                   <option *ngFor="let freightHead of freightHeads ;" [value]="freightHead.r_name">
                   </option>
                 </datalist>
-              </td>
-              <!-- <td>
+                            </td>
+                            <!-- <td>
               <input type="number" class="form-control" [(ngModel)]="revenueDetail.value">
             </td> -->
-              <td>
-                <input type="number" class="form-control" [(ngModel)]="revenueDetail.manualValue">
-              </td>
-              <td>
+                            <td>
+                                <input type="number" class="form-control" [(ngModel)]="revenueDetail.manualValue">
+                            </td>
+                            <td>
 
-                <button class="btn btn-primary" (click)="addField(j)" *ngIf="j == revenueDetails.length-1"><i
+                                <button class="btn btn-primary" (click)="addField(j)" *ngIf="j == revenueDetails.length-1"><i
                     class="fa fa-plus add"></i></button>
-                <button class="btn btn-danger" (click)="revenueDetails.splice(j,1)" *ngIf="j !== 0"><i
+                                <button class="btn btn-danger" (click)="revenueDetails.splice(j,1)" *ngIf="j !== 0"><i
                     class="fa fa-trash remove"></i></button>
 
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="row mb-3 align-items-baseline">
-        <div class="col-1">
-          <b>Advance Received From Party </b>
-        </div>
-        <div class="col-2" style="text-align: right">
-          <label> {{advanceAmount}} </label>
-        </div>
-        <div class="col-1">
-          <i class="fa fa-plus add" (click)='openTransferModal()'></i>
-        </div>
-        <div class="col-2">
-          <span><b>Remarks</b></span>
-        </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row mb-3 align-items-baseline">
+                <div class="col-3">
+                    <b>Advance Received From Party </b>
+                </div>
+                <div class="col-1" style="text-align: right">
+                    <label> {{advanceAmount}} </label>
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-primary"><i class="fa fa-plus add" (click)='openTransferModal()'></i></button>
+                </div>
+                <div class="col-2">
+                    <span><b>Remarks</b></span>
+                </div>
 
-        <div class="col-4 pl-0">
-          <textarea [(ngModel)]="revenue.remarks" class="form-control"></textarea>
-        </div>
+                <div class="col-3 pl-0">
+                    <textarea [(ngModel)]="revenue.remarks" class="form-control"></textarea>
+                </div>
 
-        <div class="col-1 pl-0">
-          <button class="btn btn-primary" form="expense-Form" id=""
-            (click)="saveDetails();">{{revenue.id?'Edit':'Add'}}</button>
-        </div>
-      </div>
-      <!-- <div *ngIf="data && data.length" class="mt-3">
+                <div class="col-2 pl-0 text-right">
+                    <button class="btn btn-primary" form="expense-Form" id="" (click)="saveDetails();">{{revenue.id?'Edit':'Add'}}</button>
+                </div>
+            </div>
+            <!-- <div *ngIf="data && data.length" class="mt-3">
       <smart-table [data]="table.data" [settings]="table.settings"></smart-table>
     </div> -->
 
-      <div class="view-table">
-        <table class="table table-bordered">
-          <thead class="thead">
-            <tr>
-              <th>SN</th>
-              <th *ngFor="let col of headings" class="text-center">{{formatTitle(col)}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of data; let i=index;">
-              <td> <span>{{i + 1}}</span></td>
-              <td *ngFor="let col of headings; " class="text-center">
-                <span *ngIf="col==['Manual Amount']">
+            <div class="view-table">
+                <table class="table table-bordered">
+                    <thead class="thead">
+                        <tr>
+                            <th>SN</th>
+                            <th *ngFor="let col of headings" class="text-center">{{formatTitle(col)}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of data; let i=index;">
+                            <td> <span>{{i + 1}}</span></td>
+                            <td *ngFor="let col of headings; " class="text-center">
+                                <span *ngIf="col==['Manual Amount']">
                   <input type="number" name="manualValues" class="form-control" [value]="row[col]"
                     [(ngModel)]="row[col]">
                   <i class="fa fa-edit" (click)="editRevenue(row)">
                   </i>
                 </span>
-                <span *ngIf="col!=['Manual Amount'] && col!='Action' ">
+                                <span *ngIf="col!=['Manual Amount'] && col!='Action' ">
                   {{row[col]}}
                 </span>
-                <span *ngIf="col!=['Manual Amount'] && col=='Action'">
+                                <span *ngIf="col!=['Manual Amount'] && col=='Action'">
                   <i class="fa fa-trash" (click)="DeleteRevenue(row)">
                   </i>
                 </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="col-6" *ngIf="images && images.length">
-      <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'revenue-image'" [loadOnInit]="true">
-      </app-image-viewer>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-6" *ngIf="images && images.length">
+            <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'revenue-image'" [loadOnInit]="true">
+            </app-image-viewer>
 
+        </div>
     </div>
-  </div>
 
 </div>

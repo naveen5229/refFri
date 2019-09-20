@@ -49,7 +49,7 @@
                 </td>
                 <td>
                     <span *ngIf="!isGlobal">
-                        <auto-suggestion (onSelected)="getPartyDetail($event)" url="Suggestion/GetCompanies"
+                        <auto-suggestion (onSelected)="getPartyDetail($event)" url="Suggestion/GetCompanies2?type=ALL"
                             display="name" placeholder="Search Party Name" style="width:100%;"
                             class="col-md-9 auto-suggest" [preSelected]="{name:party.name}"
                             (change)="resetData($event)">
