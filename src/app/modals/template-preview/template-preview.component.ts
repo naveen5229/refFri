@@ -11,12 +11,13 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class TemplatePreviewComponent implements OnInit {
   template = {
-    PreviewId:null,
+    PreviewId: null,
     preview: null,
     refId: null,
     refType: null,
   };
   title = '';
+  loginType = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -26,10 +27,10 @@ export class TemplatePreviewComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) {
     this.common.handleModalSize('class', 'modal-lg', '1600');
-    if (this.common.params && this.common.params.previewData) {
-      //this.common.refresh = this.refresh.bind(this);
-      console.log("params:", this.common.params);
+    this.loginType = this.user._loggedInBy;
+    console.log("login Type", this.loginType);
 
+    if (this.common.params && this.common.params.previewData) {
       this.template.PreviewId = this.common.params.previewData.previewId ? this.common.params.previewData.previewId : '';
       this.template.refId = this.common.params.previewData.refId ? this.common.params.previewData.refId : '';
       this.template.refType = this.common.params.previewData.refType ? this.common.params.previewData.refType : '';
@@ -39,6 +40,9 @@ export class TemplatePreviewComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+  ngDestroy() {
+    this.common.params = null;
   }
 
   refresh() {

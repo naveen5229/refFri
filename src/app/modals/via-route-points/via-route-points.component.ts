@@ -170,6 +170,7 @@ export class ViaRoutePointsComponent implements OnInit {
     this.routeData.long = null;
     this.type = "0";
     this.radius = null;
+    this.circle && this.circle.setMap(null);
     this.circle = null;
   }
 
@@ -285,10 +286,12 @@ export class ViaRoutePointsComponent implements OnInit {
           this.common.loading--;
           console.log('res', res['data']);
           this.markers.length && this.markers[0].setMap(null);
+          this.circle.setMap(null);
           this.locType = "map";
-          this.viewTable();
           this.mapName = null;
           this.kms = null;
+          this.circle = null;
+          this.viewTable();
           if (res['data'][0]['y_id'] <= 0) {
             this.common.showToast(res['data'][0]['y_msg']);
           }

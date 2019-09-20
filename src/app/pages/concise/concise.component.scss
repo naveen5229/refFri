@@ -196,13 +196,11 @@ mwlResizable {
     th:nth-child(1) {
         width: 30px !important;
     }
-
     th:nth-child(2) {
-        width: 70px;
+        width: 60px;
     }
-
     th:nth-child(3) {
-        width: 70px;
+        width: 50px;
     }
 
     th:nth-child(4) {
@@ -210,7 +208,7 @@ mwlResizable {
     }
 
     th:nth-child(5) {
-        width: 42px;
+        width: 70px;
     }
 
     th:nth-child(6) {
@@ -218,15 +216,19 @@ mwlResizable {
     }
 
     th:nth-child(7) {
-        width: 110px;
+        width: 42px;
     }
 
     th:nth-child(8) {
-        width: 44px;
+        width: 100px;
     }
 
     th:nth-child(9) {
-        width: 90px;
+        width: 44px;
+    }
+
+    th:nth-child(10) {
+        width: 70px;
     }
 
     th {
