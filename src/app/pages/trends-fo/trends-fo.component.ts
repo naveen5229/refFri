@@ -376,7 +376,6 @@ export class TrendsFoComponent implements OnInit {
 
   locationOnMap(latlng) {
 
-    console.log("laaaaaaaaasdf", latlng)
     if (!latlng.lat) {
       this.common.showToast('Vehicle location not available!');
       return;
@@ -392,7 +391,16 @@ export class TrendsFoComponent implements OnInit {
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
   }
 
-  getPendingStatus(dataTrend) {
+  getPendingStatus(dataTrend, type) {
+    console.log("data", dataTrend);
+    let headings = [];
+    if (type === 'vehicle') {
+      headings = ["RegNo.", "Count Event", "Avg Hrs."];
+    }
+    else {
+      headings = ["Site", "Count Event", "Avg Hrs."];
+
+    }
     let datas = [];
     let data = [];
     let result = [];
@@ -414,7 +422,7 @@ export class TrendsFoComponent implements OnInit {
       });
     }
     data = result;
-    this.common.params = { title: 'SiteWise Vehicle List:', headings: ["RegNo.", "Count Event", "Avg Hrs."], data };
+    this.common.params = { title: 'SiteWise Vehicle List:', headings: headings, data };
     this.modalService.open(ViewListComponent, { size: 'sm', container: 'nb-layout' });
   }
 }
