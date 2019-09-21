@@ -101,15 +101,23 @@ export class TicketPropertiesComponent implements OnInit {
     let icons = [];
     icons.push(
       {
-        class: "fa fa-edit",
-        action: this.openUpdatePropertiesModel.bind(this, details)
+        class: "fas fa-pencil-alt",
+        action: this.addNewProperties.bind(this, details)
 
       },
       {
-        class:'fa fa-trash ml-2',
-        action:this.deleteProperties.bind(this,details)
+        class: 'fa fa-trash ml-2',
+        action: this.deleteProperties.bind(this, details)
       }
-    )
+    );
+    if (details._row_id) {
+      icons.push({
+        class: "fa fa-edit ml-2",
+        action: this.openUpdatePropertiesModel.bind(this, details)
+
+      })
+
+    }
     console.log("details-------:", details)
     return icons;
   }
@@ -118,7 +126,8 @@ export class TicketPropertiesComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
 
-  openUpdatePropertiesModel(values, flag) {
+  openUpdatePropertiesModel(values) {
+    let flag = 'Edit';
     let foid = this.foid;
     this.common.params = { values, flag, foid };
     const activeModel = this.modalService.open(UpdateTicketPropertiesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -126,13 +135,23 @@ export class TicketPropertiesComponent implements OnInit {
       this.getFoProperties();
     });
   }
+  addNewProperties(values) {
+    let flag = 'Add';
 
-  
+    let foid = this.foid;
+    this.common.params = { values, flag, foid };
+
+    const activeModel = this.modalService.open(UpdateTicketPropertiesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModel.result.then(data => {
+      this.getFoProperties();
+    });
+  }
+
   deleteProperties(properties) {
-    console.log("result:",properties);
+    console.log("result:", properties);
     let params = {
       foid: properties._foid,
-      id:properties._row_id
+      id: properties._row_id
     };
     if (properties._row_id) {
       this.common.params = {
@@ -147,12 +166,12 @@ export class TicketPropertiesComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--
               console.log('removeField', res);
-              
+
               if (res['code'] == "1") {
                 console.log("test");
                 this.common.showToast([res][0]['msg']);
               }
-    this.getFoProperties();
+              this.getFoProperties();
 
             }, err => {
               this.common.loading--;
