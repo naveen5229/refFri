@@ -16,7 +16,7 @@ export class GenericSuggestionComponent implements OnInit {
   apiDataFiltered = [];
   showSuggestions = false;
   searchString = "";
-  searchWith = '';
+  searchWith = [];
   display = [];
 
   constructor(private activeModal: NgbActiveModal,
@@ -59,17 +59,22 @@ export class GenericSuggestionComponent implements OnInit {
         console.log(err);
       });
   }
+
   searchData() {
     this.showSuggestions = true;
     this.apiDataFiltered = this.apiData.filter((x) => {
-      return x[this.searchWith].toLowerCase().search(this.searchString.toLowerCase()) != -1;
+      let condition = false;
+      this.searchWith.forEach(ele => {
+        condition = condition || x[ele].toLowerCase().search(this.searchString.toLowerCase()) != -1;
+      });
+      return condition;
     })
   }
+
   selectSuggestion(event) {
     this.showSuggestions = false;
     this.searchString = event.value;
     this.activeModal.close({ event });
-
   }
 
   getDisplay(suggestion) {

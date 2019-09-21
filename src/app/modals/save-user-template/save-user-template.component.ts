@@ -148,8 +148,8 @@ export class SaveUserTemplateComponent implements OnInit {
       param: {
         refType: this.template.type,
       },
-      keySearch: "name",
-      display: ['name', 'value'],
+      keySearch: ['name'],
+      display: ['name'],
     }
     this.common.params = { genericData };
     const activeModal = this.modalService.open(GenericSuggestionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr', });
@@ -162,9 +162,6 @@ export class SaveUserTemplateComponent implements OnInit {
   emptyValue(element) {
     let index = parseInt(element.getElementsByClassName("value")[0]['innerHTML']);
     let noOfReplace = element.getElementsByClassName("replaceValue")[0]['innerHTML'].length;
-    console.log("no replace", noOfReplace);
-
-    console.log("index", index);
     this.template.templateHtml = this.replaceAt(this.template.templateHtml, index, noOfReplace + 2, '@@@');
     this.setValue();
 
