@@ -3,15 +3,20 @@
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
-
 </div>
 <div class="modal-body">
-  <div class="row">
-    <div class="col-12">
-      <auto-suggestion name="auto-suggestion-data" (onSelected)="selectData($event)" [data]="apiData" display="name"
-        placeholder="Auto Suggestion" preSelected="null" style="width:60%;">
-      </auto-suggestion>
 
+  <form>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="search Suggestion" name="searchString" (input)="searchData()"
+        [(ngModel)]="searchString" autocomplete="off">
+
+      <ul class="auto_listing" *ngIf=" (showSuggestions)&&(apiDataFiltered.length >  0)">
+        <li *ngFor="let suggestion of apiDataFiltered;" (click)="selectSuggestion(suggestion)">
+          {{ getDisplay(suggestion)}}
+        </li>
+      </ul>
     </div>
-  </div>
+  </form>
+
 </div>

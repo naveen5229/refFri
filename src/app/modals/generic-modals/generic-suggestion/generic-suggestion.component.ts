@@ -10,18 +10,23 @@ import { ApiService } from '../../../services/api.service';
 })
 export class GenericSuggestionComponent implements OnInit {
   title = '';
-  elementId = null;
   url = '';
   params = null;
   apiData = [];
+  apiDataFiltered = [];
+  showSuggestions = false;
+  searchString = "";
+  searchWith = [];
+  display = [];
+
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
     this.common.handleModalSize('class', 'modal-lg', '480', 'px', 1);
     if (this.common.params && this.common.params.genericData) {
-
       this.title = this.common.params.genericData.title;
-      this.elementId = this.common.params.genericData.id;
+      this.searchWith = this.common.params.genericData.keySearch;
+      this.display = this.common.params.genericData.display;
       this.url = this.common.params.genericData.api;
       let str = "?";
       Object.keys(this.common.params.genericData.param).forEach(element => {
@@ -54,10 +59,30 @@ export class GenericSuggestionComponent implements OnInit {
         console.log(err);
       });
   }
-  selectData(event) {
-    console.log("event", event);
-    this.activeModal.close({ event, id: this.elementId });
 
+  searchData() {
+    this.showSuggestions = true;
+    this.apiDataFiltered = this.apiData.filter((x) => {
+      let condition = false;
+      this.searchWith.forEach(ele => {
+        condition = condition || x[ele].toLowerCase().search(this.searchString.toLowerCase()) != -1;
+      });
+      return condition;
+    })
+  }
+
+  selectSuggestion(event) {
+    this.showSuggestions = false;
+    this.searchString = event.value;
+    this.activeModal.close({ event });
+  }
+
+  getDisplay(suggestion) {
+    let dis = [];
+    this.display.forEach(element => {
+      dis.push(suggestion[element])
+    });
+    return dis.join('-');
   }
 
 }

@@ -1,0 +1,58 @@
+ol,
+ul,
+dl {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  position: absolute;
+  color: black;
+  background: #ffff;
+  list-style: none;
+  line-height: 1.6em;
+}
+.form-group {
+  margin: 0px !important;
+}
+.auto_listing {
+  position: relative;
+  margin: 0px;
+  max-height: 250px;
+  padding: 10px;
+  overflow: auto;
+  background-color: #efefef;
+  padding: 0px !important;
+}
+.auto_listing li {
+  width: 100%;
+  font-size: 14px;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+.auto_listing li + li {
+  border-top: 1px solid #dadada;
+}
+.auto_listing li:hover {
+  background-color: #217346;
+  color: #fff;
+}
+.modal-header {
+  padding: 8px 15px;
+  background-color: #26a69a;
+  h5 {
+    color: #fff;
+  }
+  button {
+    font-size: 30px;
+    color: #fff !important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px 15px;
+    opacity: 1;
+    outline: none;
+  }
+}
+.cust-selection-suggestion {
+  height: 125px;
+  overflow: auto;
+  background-color: #ccc;
+  padding: 5px;
+}
