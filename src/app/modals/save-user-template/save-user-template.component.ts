@@ -5,6 +5,8 @@ import { CommonService } from '../..//services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GenericSuggestionComponent } from '../generic-modals/generic-suggestion/generic-suggestion.component';
+import { asElementData } from '@angular/core/src/view';
+import { lstat } from 'fs';
 
 @Component({
   selector: 'save-user-template',
@@ -12,7 +14,7 @@ import { GenericSuggestionComponent } from '../generic-modals/generic-suggestion
   styleUrls: ['./save-user-template.component.scss']
 })
 export class SaveUserTemplateComponent implements OnInit {
-
+  button = 'Add';
   showhide = {
     show: true
   }
@@ -39,7 +41,7 @@ export class SaveUserTemplateComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1600', 'px');
     if (this.common.params.title == 'Edit') {
       console.log("api data", this.common.params);
-      this.common.params.title = "Update";
+      this.button = "Update";
       this.showhide.show = false;
       this.templatePreview.PreviewId = this.common.params.userTemplate._id ? this.common.params.userTemplate._id : '';
       this.getTemplateId();
@@ -70,17 +72,32 @@ export class SaveUserTemplateComponent implements OnInit {
 
   setValue() {
     let html = this.template.templateHtml;
-    let count = 1;
-    do {
-      let value = `<span class="fillvalue"><i class="far fa-plus-square"></i><label class="value">${count}</label></span>`;
-      html = html.replace('@@@', value);
-      count++;
-    } while (html.search('@@@') != -1)
+    let indeces = this.searchMulti(/@@@/gi, html);
+    let indecesDone = this.searchMulti(/@([a-z]|[A-Z]|_)+@/gi, html);
+    indeces.forEach(element => {
+      let value = `<span class="fillvalue"><i class="far fa-plus-square"></i><label class="value">${element}</label></span>`;
+      html = html.replace(/@@@/i, value);
+    });
+    indecesDone.forEach(element => {
+      html = html.replace(/@([a-z]|[A-Z]|_)+@/i, function (x) {
+        x = x.replace(/@+$/, '').replace(/^@+/, '');
+
+        let value = `<span class="emptyValue"><label class="replaceValue">${x}</label><i class="far fa-minus-square"></i><label class="value">${element}</label></span>`;
+        return value;
+      });
+    });
     this.editTemplateHtml = this.sanitizer.bypassSecurityTrustHtml(html);
     setTimeout(() => {
       let spans = document.getElementsByClassName('fillvalue');
       for (let i = 0; i < spans.length; i++) {
         spans[i]['onclick'] = this.addValue.bind(this, spans[i]);
+      }
+    }, 500);
+
+    setTimeout(() => {
+      let span = document.getElementsByClassName('emptyValue');
+      for (let i = 0; i < span.length; i++) {
+        span[i]['onclick'] = this.emptyValue.bind(this, span[i]);
       }
     }, 500);
   }
@@ -124,24 +141,45 @@ export class SaveUserTemplateComponent implements OnInit {
   }
 
   addValue(element) {
-    let index = element.getElementsByClassName("value")[0]['innerHTML'];
-
+    let index = parseInt(element.getElementsByClassName("value")[0]['innerHTML']);
     let genericData = {
       title: 'Suggestion',
       api: 'UserTemplate/getVariables',
-      id: index,
       param: {
-        refType: 'LR_PRT'
+        refType: this.template.type,
       },
+      keySearch: ['name'],
+      display: ['name'],
     }
     this.common.params = { genericData };
     const activeModal = this.modalService.open(GenericSuggestionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr', });
     activeModal.result.then(data => {
-      console.log('Date:', data);
-      if (data.id) {
-        document.getElementsByClassName('fillvalue')['value'] = data.event.value;
-      }
+      this.template.templateHtml = this.replaceAt(this.template.templateHtml, index, 3, data.event.value);
+      this.setValue();
     });
   }
+
+  emptyValue(element) {
+    let index = parseInt(element.getElementsByClassName("value")[0]['innerHTML']);
+    let noOfReplace = element.getElementsByClassName("replaceValue")[0]['innerHTML'].length;
+    this.template.templateHtml = this.replaceAt(this.template.templateHtml, index, noOfReplace + 2, '@@@');
+    this.setValue();
+
+  }
+
+  replaceAt(str, index, noOfReplace, replacement) {
+    let last = str.substr(index + noOfReplace);
+    let first = str.substr(0, index);
+    return first + replacement + last;
+  };
+
+  searchMulti(regex, str) {
+    var result, indices = [];
+    while ((result = regex.exec(str))) {
+      indices.push(result.index);
+    }
+    return indices;
+  }
+
 
 }
