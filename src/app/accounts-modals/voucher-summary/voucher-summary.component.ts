@@ -475,8 +475,8 @@ export class VoucherSummaryComponent implements OnInit {
 
     const params = {
       vehId: this.VehicleId,
-      lastFilling: lastFilling || this.findFirstSelectInfo(2),
-      currentFilling: currentFilling || this.findLastSelectInfo(2)
+      lastFilling: lastFilling || this.findFirstSelectInfo(1),
+      currentFilling: currentFilling || this.findLastSelectInfo(1)
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)

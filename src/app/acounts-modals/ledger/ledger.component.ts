@@ -379,10 +379,11 @@ console.log('sixe ledger',this.sizeledger);
     this.Accounts[type].primarygroup_id = selectedData.primarygroup_id;
     console.log('Accounts Parent: ', this.Accounts);
   }
-  modelCondition() {
-    this.showConfirm = false;
-    event.preventDefault();
-    return;
+  modelCondition(flag) {
+  //  this.showConfirm = flag;
+    this.activeModal.close({ response: flag});
+ //   event.preventDefault();
+   // return;
   }
   changeevent(value) {
     console.log('vlue ', value);
@@ -728,7 +729,7 @@ console.log('sixe ledger',this.sizeledger);
           this.common.showToast(" This Value Has been Approved!");
         }
        // this.GetLedger();
-       this.modelCondition();
+       this.modelCondition(true);
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
