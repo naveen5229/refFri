@@ -217,7 +217,9 @@ export class AddEscalationIssueComponent implements OnInit {
       issueType: constraint._issue_type_id,
       id: constraint._row_id
     };
-    this.common.params = { constraints: constraints };
+    let api = "FoTicketEscalation/getUsers";
+    let saveApi = "FoTicketEscalation/insertTicketEscalation";
+    this.common.params = { constraints: constraints, api: api, saveapi: saveApi };
     const activeModal = this.modalService.open(ConstraintsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
     });
