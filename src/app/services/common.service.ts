@@ -1678,5 +1678,25 @@ export class CommonService {
     return res;
   }
 
+  formatDynamicData(fields) {
+    let dynamicData={
+      column2 : [],
+      column1 : []
+    }
+    fields.map(dd => {
+      if (dd.r_coltype == 3) {
+        dd.r_value = dd.r_value ? new Date(dd.r_value) : new Date();
+        console.log("date==", dd.r_value);
+      }
+      if (dd.r_colorder % 2 == 0) {
+        dynamicData.column2.push(dd);
+      } else {
+        dynamicData.column1.push(dd);
+      }
+    });
+  
+    return dynamicData;
+
+  }
 
 }

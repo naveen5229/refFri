@@ -423,6 +423,6 @@ export class TrendsFoComponent implements OnInit {
     }
     data = result;
     this.common.params = { title: 'SiteWise Vehicle List:', headings: headings, data };
-    this.modalService.open(ViewListComponent, { size: 'sm', container: 'nb-layout' });
+    this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout' });
   }
 }

@@ -25,7 +25,7 @@
               </span>
             </td>
             <td>
-              <label>VehicleType<span style="color: red">*</span></label>
+              <label>Vehicle Type<span style="color: red">*</span></label>
               <span>
                 <select [(ngModel)]="vehicleType" (change)="resetVehicleData()">
                   <option value="1">Own</option>
@@ -48,7 +48,8 @@
                   (change)="resetVehicle()" inputId="vehicleno" [preSelected]="{regno : vehicleData.regno }" style="width
                       :100%">
                 </auto-suggestion>
-                <input type="text" name="Vehicle" *ngIf="vehicleType!=1;" [(ngModel)]="vehicleData.regno">
+                <input type="text" name="Vehicle" *ngIf="vehicleType!=1;" [(ngModel)]="vehicleData.regno"
+                  id="vehicleno">
               </span>
             </td>
 
@@ -94,8 +95,8 @@
                   url="Suggestion/GetCompanies2?type=All" display="name" placeholder=" Search Name"
                   [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
-                <i *ngIf="generalDetailColumn1[i].r_colname == 'party_name'" class="fa fa-plus add"
-                  (click)="addAssociation()"></i>
+                <!-- <i *ngIf="generalDetailColumn1[i].r_colname == 'party_name'" class="fa fa-plus add"
+                  (click)="addAssociation()"></i> -->
 
                 <!-- Driver Name suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'driver_name'"
@@ -103,7 +104,7 @@
                   (onSelected)="generalDetailColumn1[i].r_valueid = $event.id;getDriverInfo($event, generalDetailColumn1[i])"
                   url="Booster/getDrivers" display="empname" placeholder="Select Driver" class="auto-suggest"
                   [preSelected]="{empname: generalDetailColumn1[i].r_value}" placeholder="Search Driver"
-                  [id]="generalDetailColumn1[i].r_colname">
+                  [inpuId]="generalDetailColumn1[i].r_colname">
                 </auto-suggestion>
                 <i class="fa fa-plus add " *ngIf="generalDetailColumn1[i].r_colname == 'driver_name'"
                   (click)="addDriver()"></i>
@@ -141,7 +142,6 @@
                   [preSelected]="{name:generalDetailColumn1[i].r_value,id:generalDetailColumn1[i].r_valueid}"
                   [inputId]="'material-' + i" *ngIf="generalDetailColumn1[i].r_colname == 'material_name'">
                 </auto-suggestion>
-
               </span>
             </td>
 
@@ -171,7 +171,7 @@
                   (onSelected)="generalDetailColumn2[i].r_valueid = $event.id;getDriverInfo($event, generalDetailColumn2[i])"
                   url="Booster/getDrivers" display="empname" placeholder="Select Driver" class="auto-suggest"
                   [preSelected]="{empname: generalDetailColumn2[i].r_value}" placeholder="Search Driver"
-                  [id]="generalDetailColumn2[i].r_colname">
+                  [inpuId]="generalDetailColumn2[i].r_colname">
                 </auto-suggestion>
                 <i class="fa fa-plus add " *ngIf="generalDetailColumn2[i].r_colname == 'driver_name'"
                   (click)="addDriver()"></i>
