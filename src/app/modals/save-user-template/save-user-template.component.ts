@@ -149,7 +149,7 @@ export class SaveUserTemplateComponent implements OnInit {
         refType: this.template.type,
       },
       keySearch: "name",
-      display: "value",
+      display: ['name', 'value'],
     }
     this.common.params = { genericData };
     const activeModal = this.modalService.open(GenericSuggestionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr', });

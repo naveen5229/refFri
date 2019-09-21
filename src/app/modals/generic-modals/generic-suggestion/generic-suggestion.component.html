@@ -13,7 +13,7 @@
 
       <ul class="auto_listing" *ngIf=" (showSuggestions)&&(apiDataFiltered.length >  0)">
         <li *ngFor="let suggestion of apiDataFiltered;" (click)="selectSuggestion(suggestion)">
-          {{ suggestion[display]}}
+          {{ getDisplay(suggestion)}}
         </li>
       </ul>
     </div>

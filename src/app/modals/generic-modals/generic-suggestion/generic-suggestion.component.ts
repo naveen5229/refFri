@@ -17,7 +17,7 @@ export class GenericSuggestionComponent implements OnInit {
   showSuggestions = false;
   searchString = "";
   searchWith = '';
-  display = '';
+  display = [];
 
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
@@ -70,6 +70,14 @@ export class GenericSuggestionComponent implements OnInit {
     this.searchString = event.value;
     this.activeModal.close({ event });
 
+  }
+
+  getDisplay(suggestion) {
+    let dis = [];
+    this.display.forEach(element => {
+      dis.push(suggestion[element])
+    });
+    return dis.join('-');
   }
 
 }
