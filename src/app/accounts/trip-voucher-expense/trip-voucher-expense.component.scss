@@ -4,7 +4,14 @@ button {
     text-transform: capitalize !important;
     padding: 5px !important;
 }
-
+.pdf-icon{
+    font-size: 30px;
+    color: #9F0001;
+}
+.exel-icon{
+    font-size: 30px;
+    color: #217346;
+}
 nb-card-header{
     padding: 15px 20px;
     border: 1px solid #efefef;
@@ -106,4 +113,8 @@ table{
 }
 table tr.highlight {
     background-color: #FFEE75 !important;
+}
+
+.pdf-exel-icon{
+    margin-left: 4px;
 }

@@ -475,8 +475,8 @@ export class VoucherSummaryComponent implements OnInit {
 
     const params = {
       vehId: this.VehicleId,
-      lastFilling: lastFilling || this.findFirstSelectInfo(2),
-      currentFilling: currentFilling || this.findLastSelectInfo(2)
+      lastFilling: lastFilling || this.findFirstSelectInfo(1),
+      currentFilling: currentFilling || this.findLastSelectInfo(1)
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -1049,7 +1049,9 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
   print(trip, companydata) {
-
+    this.totalRevinue = 0;
+    this.totalAdvance = 0;
+    this.totalFuel = 0;
     let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
     let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
     let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';

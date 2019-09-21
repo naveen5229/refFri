@@ -133,7 +133,6 @@ export class BasicPartyDetailsComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
 
   }
-
   ngOnInit() {
     this.Form = this.formBuilder.group({
       company: ['', [Validators.required]],
@@ -148,7 +147,6 @@ export class BasicPartyDetailsComponent implements OnInit {
       partySupplier: [''],
     });
   }
-
   refresh() {
     this.getCompanyBranches();
     this.getCompanyEstablishment();

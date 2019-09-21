@@ -39,7 +39,7 @@ export class RoutesTimetableComponent implements OnInit {
     }
 
     this.common.loading++;
-    this.api.post('ViaRoutes/getVehicleTimeTable', params)
+    this.api.post('ViaRoutes/getVehicleTimeTable1', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('getRoutesWrtFo:', res);
@@ -57,7 +57,7 @@ export class RoutesTimetableComponent implements OnInit {
         if(route.delay.toString()>"00:00"){
           route['status']='0';
         }
-        else if(route.delay.toString()=="00:00"){
+        else if(route.delay.toString()=="00:00" || route.delay.toString()<"00:00" ){
           route['status']='1';
         }       
       }else{
