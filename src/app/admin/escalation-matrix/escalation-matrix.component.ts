@@ -8,14 +8,14 @@ import { AddEscalationIssueComponent } from '../../modals/add-escalation-issue/a
 @Component({
   selector: 'escalation-matrix',
   templateUrl: './escalation-matrix.component.html',
-  styleUrls: ['./escalation-matrix.component.scss','../../pages/pages.component.css']
+  styleUrls: ['./escalation-matrix.component.scss', '../../pages/pages.component.css']
 })
 export class EscalationMatrixComponent implements OnInit {
 
   escalationMatrix = null;
-  matrixList= [];
+  matrixList = [];
   issue_t
-  foid='';
+  foid = '';
   table = {
     data: {
       headings: {},
@@ -29,22 +29,21 @@ export class EscalationMatrixComponent implements OnInit {
   valobj = {};
 
   constructor(public api: ApiService, public common: CommonService,
-              public user: UserService,
-               public modalService: NgbModal) {
-                this.common.refresh = this.refresh.bind(this);
-                }
+    public user: UserService,
+    public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
+  }
 
   ngOnInit() {
   }
 
-  refresh(){
+  refresh() {
     this.Matrixdata();
   }
 
-  getMatrix(user)
-  {
-    this.foid=user.id,
-    this.Matrixdata();
+  getMatrix(user) {
+    this.foid = user.id,
+      this.Matrixdata();
   }
 
   Matrixdata() {
@@ -53,12 +52,12 @@ export class EscalationMatrixComponent implements OnInit {
       foid: this.foid
     };
     this.common.loading++;
-    this.api.post('FoTicketEscalation/getEscalationMatrix',params)
-            .subscribe(res =>{
-              this.common.loading--;
-              console.log('res: '+res['msg']);
-              this.matrixList= res['msg'];
-              let first_rec = this.matrixList[0];
+    this.api.post('FoTicketEscalation/getEscalationMatrix', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ' + res['msg']);
+        this.matrixList = res['msg'];
+        let first_rec = this.matrixList[0];
         let headings = {};
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
@@ -71,10 +70,10 @@ export class EscalationMatrixComponent implements OnInit {
           headings: headings,
           columns: this.getTableColumns()
         };
-            }, err => {
-              this.common.loading--;
-              this.common.showError();
-            });
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
   }
 
   getTableColumns() {
@@ -110,19 +109,19 @@ export class EscalationMatrixComponent implements OnInit {
 
 
 
-  openAddIssueModel(matrix?){
-    let foid=this.foid;
-    let issueType=matrix._issue_type_id;
-    console.log("foid is:",foid);
-    console.log("foid is:",matrix);
-    if(matrix) this.common.params= {foid,issueType};
-    const activeModal= this.modalService.open(AddEscalationIssueComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
-     activeModal.result.then(data =>{
+  openAddIssueModel(matrix?) {
+    let foid = this.foid;
+    let issueType = matrix._issue_type_id;
+    let issueTypeValue = matrix['Issue Name'];
+    console.log("foid is:", matrix);
+    if (matrix) this.common.params = { foid, issueType, issueTypeValue };
+    const activeModal = this.modalService.open(AddEscalationIssueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
 
       this.Matrixdata();
-       if(!data.status){
-        
-       }
-     });
+      if (!data.status) {
+
+      }
+    });
   }
 }

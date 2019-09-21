@@ -32,15 +32,19 @@ export class AddEscalationIssueComponent implements OnInit {
   level = 1;
   escalationType = {
     id: '',
-    issueType: ''
+    issueType: '',
+    issueTypeValue: ''
   };
   addIssueField = {
     userId: '',
     SeniorId: '',
     foid: '',
     userLevel: '',
-    issue_type_id: ''
+    issue_type_id: '',
+    issuePropertyId: '',
   };
+
+  issueProperties = [];
 
 
 
@@ -51,10 +55,12 @@ export class AddEscalationIssueComponent implements OnInit {
     if (this.common.params) {
       this.escalationType = {
         id: this.common.params.foid,
-        issueType: this.common.params.issueType
+        issueType: this.common.params.issueType,
+        issueTypeValue: this.common.params.issueTypeValue,
       };
     }
     this.getAddIssueTable();
+    this.getIssuePropertiesData();
     this.common.handleModalSize('class', 'modal-lg', '1100', 'px');
   }
 
@@ -69,9 +75,31 @@ export class AddEscalationIssueComponent implements OnInit {
     console.log('getSenior: ', senior);
     this.addIssueField.SeniorId = senior.id;
   }
+
+  getProperties(issue) {
+    this.addIssueField.issuePropertyId = issue.id;
+  }
   dismiss(status) {
     this.activeModal.close({ status: status });
   }
+
+
+  getIssuePropertiesData() {
+    let params = {
+      foid: this.common.params.foid,
+      issue_type_id: this.common.params.issueType,
+    }
+    this.common.loading++;
+    this.api.post('FoTicketEscalation/getPropertySuggestion', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.issueProperties = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
   getAddIssueTable() {
     let params = {
       foid: this.escalationType.id,
@@ -153,6 +181,7 @@ export class AddEscalationIssueComponent implements OnInit {
       user_id: this.addIssueField.userId,
       senior_user_id: this.addIssueField.SeniorId,
       user_level: this.level,
+      issuePropertyId: this.addIssueField.issuePropertyId,
       from_time: this.common.dateFormatter1(this.startTime),
       to_time: this.common.dateFormatter1(this.endTime),
     };

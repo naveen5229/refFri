@@ -7,54 +7,62 @@
 
 <div class="modal-body">
   <div class="row">
-    <div class="col-4">
+    <!-- <div class="col-4">
       <div class="from-group">
         <label>Id</label>
         <input type="text" class="form-control" name="issue-id" readonly [(ngModel)]="escalationType.id">
       </div>
-    </div>
-      <div class="col-4">
-        <div class="from-group">
-          <label>Issue Type</label>
-          <input type="text" class="form-control" name="issue-type" readonly [(ngModel)]="escalationType.issueType">
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="from-group">
-          <label>User Id</label>
-          <auto-suggestion (onSelected)="getUser($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}"
-            display="employeename" placeholder="Search Name" [preSelected]="null"></auto-suggestion>
-        </div>
+    </div> -->
+    <div class="col-4">
+      <div class="from-group">
+        <label>Issue Type</label>
+        <span style="background-color: #e8edef;border-radius:3px;">{{escalationType.issueTypeValue}}</span>
       </div>
     </div>
-      <div class="row">
-        <div class="col-4">
-        <div class="from-group">
-          <label>Senior Id</label>
-          <auto-suggestion (onSelected)="getSenior($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}"
-            display="employeename" placeholder="Search Name" [preSelected]="null"></auto-suggestion>
-        </div>
+    <div class="col-4">
+      <div class="from-group">
+        <label>Issue Properties</label>
+        <auto-suggestion (onSelected)="getProperties($event)" display="name" [data]="issueProperties"
+          placeholder="Search" [preSelected]="null"></auto-suggestion>
       </div>
-      <div class="col-4">
-        <div class="from-group">
-          <label>User Level</label>
-          <select [(ngModel)]="userLevel" class="form-control">
-            <option value="one">1</option>
-            <option value="two">2</option>
-            <option value="three">3</option>
-            <option value="four">4</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-4">
-          <div class="from-group">
-            <label>From Time</label>
-            <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
-            </uj-date-time-picker>
-          </div>
-        </div>
     </div>
-    <div class="row">
+
+    <div class="col-4">
+      <div class="from-group">
+        <label>User Id</label>
+        <auto-suggestion (onSelected)="getUser($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}"
+          display="employeename" placeholder="Search Name" [preSelected]="null"></auto-suggestion>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <div class="from-group">
+        <label>Senior Id</label>
+        <auto-suggestion (onSelected)="getSenior($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}"
+          display="employeename" placeholder="Search Name" [preSelected]="null"></auto-suggestion>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="from-group">
+        <label>User Level</label>
+        <select [(ngModel)]="userLevel" class="form-control">
+          <option value="one">1</option>
+          <option value="two">2</option>
+          <option value="three">3</option>
+          <option value="four">4</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="from-group">
+        <label>From Time</label>
+        <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+        </uj-date-time-picker>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-4">
       <div class="from-group">
         <label>To Time</label>
@@ -64,10 +72,10 @@
       </div>
     </div>
     <div class="col-4" style="margin-top:13px;">
-        <button class="btn btn-primary" type="button" outline (click)="addIssue()" id="add"
+      <button class="btn btn-primary" type="button" outline (click)="addIssue()" id="add"
         style="cursor: pointer;">Add</button>
-    </div> 
-   </div>
+    </div>
+  </div>
 </div>
 
 
