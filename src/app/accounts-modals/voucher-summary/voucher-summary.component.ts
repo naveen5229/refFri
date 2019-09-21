@@ -405,7 +405,7 @@ export class VoucherSummaryComponent implements OnInit {
         (typeof a == 'string' ? a : a.start_time);
     });
     console.log('_____________________MIN MIL GYA___________', min);
-    if(flag==1) { return min['start_time']; } else { return min; }
+    if(min['start_time']) { return min['start_time']; } else { return min; }
     // let options = {
     //   startDate: '',
     //   index: -1
@@ -427,7 +427,7 @@ export class VoucherSummaryComponent implements OnInit {
         (typeof a == 'string' ? a : a.end_time);
     });
     console.log('max founded', max);
-    if(flag==1) { return max['end_time'];}else{ return max; }
+    if(max['end_time']) { return max['end_time'];}else{ return max; }
     
     // let options = {
     //   endDate: '',
