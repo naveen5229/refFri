@@ -67,18 +67,6 @@ export class RoutesTimetableComponent implements OnInit {
         route['status']='1';
       }
      
-      
-      // if (index == 0) {
-      //   route.class = 'completed';
-        
-      // } else if (index == 1) {
-      //   route.class = 'delayed';
-        
-      // } else if (index == 2) {
-      //   route.class = 'running';
-      // } else {
-      //   route.class = "upcoming";
-      // }
     });
     console.log("class",this.routesDetails);
   }

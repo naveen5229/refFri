@@ -20,6 +20,7 @@ import { PrintService } from '../../services/print/print.service';
 })
 export class VoucherSummaryComponent implements OnInit {
   firstdate = '';
+  tripexpencevoucherid=0;
   enddate = '';
   permanentDeleteId = 0;
   sizeIndex = 0;
@@ -116,6 +117,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.tripVoucher = this.common.params.tripVoucher;
       this.trips = this.common.params.tripEditData;
       this.VoucherId = this.tripVoucher.y_voucher_id;
+      this.tripexpencevoucherid=this.tripVoucher.y_id;
       this.FinanceVoucherId = this.tripVoucher.fi_voucher_id;
       this.checkedTrips = this.tripsEditData;
       this.custcode = this.tripVoucher.y_code;
@@ -405,7 +407,7 @@ export class VoucherSummaryComponent implements OnInit {
         (typeof a == 'string' ? a : a.start_time);
     });
     console.log('_____________________MIN MIL GYA___________', min);
-    if(flag==1) { return min['start_time']; } else { return min; }
+    if(min['start_time']) { return min['start_time']; } else { return min; }
     // let options = {
     //   startDate: '',
     //   index: -1
@@ -427,7 +429,7 @@ export class VoucherSummaryComponent implements OnInit {
         (typeof a == 'string' ? a : a.end_time);
     });
     console.log('max founded', max);
-    if(flag==1) { return max['end_time'];}else{ return max; }
+    if(max['end_time']) { return max['end_time'];}else{ return max; }
     
     // let options = {
     //   endDate: '',
@@ -460,7 +462,7 @@ export class VoucherSummaryComponent implements OnInit {
         this.fuelFilings.map(fuelFiling => {
           selectedData.map(tripedit => {
           //  (fuelFiling.id == tripedit.id) ? fuelFiling.isChecked = true : '';
-            (fuelFiling.tripexp_voucherid == this.VoucherId) ? fuelFiling.isChecked = true : '';
+            (fuelFiling.tripexp_voucherid == this.tripexpencevoucherid) ? fuelFiling.isChecked = true : '';
           });
         });
       }, err => {
@@ -1086,7 +1088,9 @@ export class VoucherSummaryComponent implements OnInit {
     });
 
     if (this.vouchertype == -150) {
-      this.fuelFilings.map((fuelfill, index) => {
+      let index=0;
+      this.fuelFilings.map((fuelfill) => {
+        if(fuelfill['isChecked']){
         rows2.push([
           { txt: index + 1 },
           { txt: fuelfill.name || '' },
@@ -1096,6 +1100,8 @@ export class VoucherSummaryComponent implements OnInit {
           { txt: this.common.dateFormatternew(fuelfill.entry_time) || '' },
         ]);
         this.totalFuel += parseFloat(fuelfill.amount);
+        index++;
+      }
       });
     }
 
