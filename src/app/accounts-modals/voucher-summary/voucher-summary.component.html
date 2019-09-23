@@ -139,11 +139,11 @@
           <tbody>
             <tr *ngFor="let fuelFiling of fuelFilings;let l=index;" (click)="selectedRow = l" [ngClass]="{'highlight' : selectedRow == l}">
               <td>{{l+1}}</td>
-              <td *ngIf="VoucherId==0">
+              <td *ngIf="tripexpencevoucherid==0">
                 <input type="checkbox" [name]="'fuelFiling-' + l" [(ngModel)]="fuelFiling.isChecked"  [disabled]="(fuelFiling.tripexp_voucherid)">
               </td>
-              <td *ngIf="VoucherId != 0">
-                <input type="checkbox" [name]="'fuelFiling-' + l" [(ngModel)]="fuelFiling.isChecked"  [disabled]="(fuelFiling.tripexp_voucherid && (fuelFiling.tripexp_voucherid != VoucherId))">
+              <td *ngIf="tripexpencevoucherid != 0">
+                <input type="checkbox" [name]="'fuelFiling-' + l" [(ngModel)]="fuelFiling.isChecked"  [disabled]="(fuelFiling.tripexp_voucherid && (fuelFiling.tripexp_voucherid != tripexpencevoucherid))">
               </td>
               <td>{{fuelFiling.name}}</td>
               <td>{{fuelFiling.litres}}</td>
