@@ -38,26 +38,18 @@
         </div>
         <div class="col-3">
             <div>{{data.scheduled_arrival_time}}</div>
-            <!-- <div [ngClass]="data.delay!=null && data.delay=='00:00':'text-black':data.delay !=null && data.delay.charAt(0) == '-'  ? 'text-green' :'text-red' ">{{data.actual_arrival_time?data.actual_arrival_time:null}}</div> -->
-            <div [ngClass]="{'text-black': (data.delay!=null && data.delay==='00:00'),
-            'text-green':(data.delay !=null && data.delay.charAt(0) == '-')?true:false,
-            'text-red':(data.delay !=null && data.delay.charAt(0) != '-')?true:false}">{{data.actual_arrival_time?data.actual_arrival_time:null}}</div>
+            <div [ngClass]="data.delay!=null && data.delay=='00:00'?'text-black':(data.delay !=null && data.delay.charAt(0) == '-'  ? 'text-green' :'text-red') ">{{data.actual_arrival_time?data.actual_arrival_time:null}}</div>
 
         </div>
 
         <div class="col-3">
             <div>{{data.scheduled_departure_time}}</div>
-            <div [ngClass]="{'text-black': (data.deptDelay!=null && data.deptDelay==='00:00'),
-            'text-green':(data.deptDelay !=null && data.deptDelay.charAt(0) == '-')?true:false,
-            'text-red':(data.deptDelay !=null && data.deptDelay.charAt(0) != '-')?true:false}">{{data.departure_time?data.departure_time:null}}</div>
+            <div [ngClass]="data.deptDelay!=null && data.deptDelay==='00:00'?'text-black':(data.deptDelay !=null && data.deptDelay.charAt(0) == '-' ? 'text-green' :'text-red') ">{{data.actual_arrival_time?data.actual_arrival_time:null}}</div>
         </div>
 
         <div class="col-3">
             <div>{{data.scheduled_halt_time}}</div>
-            <!-- <div [ngClass]="data.scheduled_halt_time > data.actual_halt_time ? 'text-green' : 'text-red'">{{data.actual_halt_time}}</div> -->
-            <div [ngClass]="{'text-black': (data.scheduled_halt_time == data.actual_halt_time),
-            'text-green':(data.scheduled_halt_time > data.actual_halt_time)?true:false,
-            'text-red':(data.scheduled_halt_time < data.actual_halt_time)?true:false}">{{data.actual_halt_time}}</div>
+            <div [ngClass]="data.scheduled_halt_time == data.actual_halt_time ?'text-black':(data.scheduled_halt_time > data.actual_halt_time  ? 'text-green' :'text-red') ">{{data.actual_halt_time}}</div>
         </div>
     </div>
 </div>
