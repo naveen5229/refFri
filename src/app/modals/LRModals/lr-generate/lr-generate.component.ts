@@ -459,10 +459,10 @@ export class LrGenerateComponent implements OnInit {
       console.log('Date:', data);
     });
   }
-  displayVehicleData(row) {
+  displayVehicleData() {
     console.log("-------------vehicle id----------",this.vehicleData.id);
     this.common.params = { vehicleId: this.vehicleData.id }
-    if(row.vid>0)
+    if(this.vehicleData.id>0)
     {
     const activeModal = this.modalService.open(VehiclesViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     
