@@ -90,6 +90,10 @@ export class SaveUserTemplateComponent implements OnInit {
     setTimeout(() => {
       let spans = document.getElementsByClassName('fillvalue');
       for (let i = 0; i < spans.length; i++) {
+        document.getElementsByClassName('fa-plus-square')[i]['style'].color = "green";
+        document.getElementsByClassName('fa-plus-square')[i]['style']['font-size'] = "20px";
+        document.getElementsByClassName('value')[i]['style'][i].display = "none";
+
         spans[i]['onclick'] = this.addValue.bind(this, spans[i]);
       }
     }, 500);
@@ -97,6 +101,9 @@ export class SaveUserTemplateComponent implements OnInit {
     setTimeout(() => {
       let span = document.getElementsByClassName('emptyValue');
       for (let i = 0; i < span.length; i++) {
+        document.getElementsByClassName('fa-minus-square')[i]['style'].color = "red";
+        document.getElementsByClassName('fa-plus-square')[i]['style']['font-size'] = "20px";
+        document.getElementsByClassName('value')[i]['style'][i].display = "none";
         span[i]['onclick'] = this.emptyValue.bind(this, span[i]);
       }
     }, 500);
