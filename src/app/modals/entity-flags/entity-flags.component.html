@@ -90,7 +90,7 @@
         </div>
         <div class="col-12" *ngIf="entityFlag.entityType!=1">
           <auto-suggestion (onSelected)="entityFlag.entityTypeId=$event.id;entityFlag.entityName=$event.name"
-            url="Suggestion/GetCompanies" display="name" placeholder=" " inputId="GetCompanies">
+            url="Suggestion/GetCompanies2?type=ALL" display="name" placeholder=" " inputId="GetCompanies">
           </auto-suggestion>
         </div>
       </div>

@@ -1,62 +1,71 @@
 <div class="modal-header">
     <h5 class="modal-title" id="modal-basic-title">Manual Items</h5>
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-    <span aria-hidden="true">&times;</span>
-  </button>
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 <div class="modal-body">
     <div class="table-conan filter-coff">
         <div>
             <div class="mb-3" *ngFor="let lr of selectLr; let i= index">
-                <form #formFilling="ngForm" name="company-form" id="company-form" (submit)="formFilling.valid && saveLr()">
+                <form #formFilling="ngForm" name="company-form" id="company-form"
+                    (submit)="formFilling.valid && saveLr()">
 
                     <div class="row align-items-center">
                         <div class="col-1">
                             <label>Material<span class="text-red">*</span></label>
                         </div>
                         <div class="col-2">
-                            <auto-suggestion class="w-100" (onSelected)="lr.material_id=($event.id)" (focusout)="setMaterialValue('GetMaterialTypes')" inputId="GetMaterialTypes" name="GetMaterialTypes" url="Suggestion/GetMaterialTypes" display="name" placeholder="Enter value" style="width:75%; display: inline-block"
+                            <auto-suggestion class="w-100" (onSelected)="lr.material_id=($event.id)"
+                                (focusout)="setMaterialValue('GetMaterialTypes')" inputId="GetMaterialTypes"
+                                name="GetMaterialTypes" url="Suggestion/GetMaterialTypes" display="name"
+                                placeholder="Enter value" style="width:75%; display: inline-block"
                                 (unSelected)="lr.material_id = $event">
                             </auto-suggestion>
                             <div *ngIf="lr.material_id==null && isFormSubmit" class="err">
                                 <span>
-                                        value is mandatory
+                                    value is mandatory
                                 </span>
                             </div>
 
                         </div>
                         <div class="col-1">
-                            <button type="button" class="btn btn-primary pt-1 pb-1 rounded-sm w-100" (click)="addmaterial()"><i class="fa fa-plus add">
-                                    </i></button>
+                            <button type="button" class="btn btn-primary pt-1 pb-1 rounded-sm w-100"
+                                (click)="addmaterial()"><i class="fa fa-plus add">
+                                </i></button>
                         </div>
                         <div class="col-1 p-0">
                             <label>Item name<span class="text-red">*</span></label>
                         </div>
                         <div class="col-2">
-                            <input type="text" class="form-control" [(ngModel)]="lr.item_name" name="itemName" id="itemName" required #itemName="ngModel">
+                            <input type="text" class="form-control" [(ngModel)]="lr.item_name" name="itemName"
+                                id="itemName" required #itemName="ngModel">
                             <div *ngIf="isFormSubmit && itemName.errors" class="err">
                                 <span [hidden]="!itemName.errors.required">
-                                            value is mandatory
-                                    </span>
+                                    value is mandatory
+                                </span>
                             </div>
                         </div>
                         <div class="col-1">
                             <label>Party<span class="text-red">*</span></label>
                         </div>
                         <div class="col-2">
-                            <auto-suggestion class="w-100" (onSelected)="lr.company_id=($event.id)" inputId="company" (focusout)="setParty('company')" name="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:75%; display: inline-block;"
-                                (unSelected)="lr.company_id = $event">
+                            <auto-suggestion class="w-100" (onSelected)="lr.company_id=($event.id)" inputId="company"
+                                (focusout)="setParty('company')" name="company" url="Suggestion/GetCompanies2?type=ALL"
+                                display="name" placeholder="Enter Company name"
+                                style="width:75%; display: inline-block;" (unSelected)="lr.company_id = $event">
                             </auto-suggestion>
                             <div *ngIf="lr.company_id==null && isFormSubmit" class="err">
                                 <span>
-                                            value is mandatory
-                                    </span>
+                                    value is mandatory
+                                </span>
                             </div>
 
                         </div>
                         <div class="col-1">
-                            <button type="button" class="btn btn-primary pt-1 pb-1 rounded-sm w-100" (click)="addCompany()"><i class="fa fa-plus add">
-                                    </i></button>
+                            <button type="button" class="btn btn-primary pt-1 pb-1 rounded-sm w-100"
+                                (click)="addCompany()"><i class="fa fa-plus add">
+                                </i></button>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -64,26 +73,28 @@
                             <label>Quantity<span class="text-red">*</span></label>
                         </div>
                         <div class="col-3">
-                            <input type="number" class="form-control" [(ngModel)]="lr.qty" id="quantity" name="quantity" required #quantity="ngModel">
+                            <input type="number" class="form-control" [(ngModel)]="lr.qty" id="quantity" name="quantity"
+                                required #quantity="ngModel">
                             <div *ngIf="isFormSubmit && quantity.errors" class="err">
                                 <span [hidden]="!quantity.errors.required">
-                                                value is mandatory
-                                        </span>
+                                    value is mandatory
+                                </span>
                             </div>
                         </div>
                         <div class="col-1 p-0">
                             <label>Unit Type<span class="text-red">*</span></label>
                         </div>
                         <div class="col-2">
-                            <select class="form-control" id="unitType" name="unitType" required #unitType="ngModel" [(ngModel)]="lr.unitype_id">
-                              <option *ngFor="let unit of unitList" [value]="unit.id">
-                               {{unit.name}}
-                               </option>
-                           </select>
+                            <select class="form-control" id="unitType" name="unitType" required #unitType="ngModel"
+                                [(ngModel)]="lr.unitype_id">
+                                <option *ngFor="let unit of unitList" [value]="unit.id">
+                                    {{unit.name}}
+                                </option>
+                            </select>
                             <div *ngIf="isFormSubmit && unitType.errors" class="err">
                                 <span [hidden]="!unitType.errors.required">
-                                                value is mandatory
-                                        </span>
+                                    value is mandatory
+                                </span>
                             </div>
                         </div>
 
@@ -92,13 +103,15 @@
                             <label>Remark</label>
                         </div>
                         <div class="col-2">
-                            <textarea name="comment" class="form-control" id="remarks" name="remarks" form="usrform" [(ngModel)]="lr.remarks"></textarea>
+                            <textarea name="comment" class="form-control" id="remarks" name="remarks" form="usrform"
+                                [(ngModel)]="lr.remarks"></textarea>
                         </div>
-                        <div class="col-1" *ngIf="i == selectLr.length-1"><button class="btn btn-primary pt-1 pb-1 rounded-sm" (click)="addMore()"><i
-                        class="fa fa-plus add">
-                    </i></button></div>
-                        <div class="col-1" *ngIf="i != 0 "> <button class="btn btn-danger pt-1 pb-1 rounded-sm w-100" (click)="selectLr.splice(i,1)"><i
-                    class="fa fa-trash remove"></i></button></div>
+                        <div class="col-1" *ngIf="i == selectLr.length-1"><button
+                                class="btn btn-primary pt-1 pb-1 rounded-sm" (click)="addMore()"><i
+                                    class="fa fa-plus add">
+                                </i></button></div>
+                        <div class="col-1" *ngIf="i != 0 "> <button class="btn btn-danger pt-1 pb-1 rounded-sm w-100"
+                                (click)="selectLr.splice(i,1)"><i class="fa fa-trash remove"></i></button></div>
                     </div>
                 </form>
 

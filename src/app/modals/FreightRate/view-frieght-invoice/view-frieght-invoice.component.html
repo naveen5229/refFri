@@ -19,7 +19,7 @@
         </button>
       </div>
 
-      <div class="modal-body" id="print-section">
+      <div class="modal-body" id="printSection">
         <table style="width:100%;">
           <tr>
             <td style="width:40%; vertical-align: top;">
@@ -119,3 +119,7 @@
       <!-- <div style="text-align:center" class="col-sm-12" style="margin-bottom:15px"><button onclick="document.print()">Print</button></div> -->
 
     </div>
+
+    <style>
+       @media print{ .modal-body{ height:100%;overflow:visible;} } 
+    </style>

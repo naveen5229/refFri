@@ -12,11 +12,11 @@
     <div class="row">
       <div class="search mt-2">
         <label> Select Employee Name</label>
-        <auto-suggestion (onSelected)="getUserDetails($event)" [data]="getUsersList" display="name" placeholder="Employee"
-          [preSelected]="null" inputId="name"></auto-suggestion>
+        <auto-suggestion (onSelected)="getUserDetails($event)" [data]="getUsersList" seperator="-"
+          [display]="['name','mobileno']" placeholder="Employee" [preSelected]="null" inputId="name"></auto-suggestion>
       </div>
       <div class="col text-right mt-4" *ngIf="selectedUser.details">
-          <button class="btn btn-secondary" (click)="saveUserRole()">Save</button>
+        <button class="btn btn-secondary" (click)="saveUserRole()">Save</button>
       </div>
 
     </div>
@@ -40,7 +40,7 @@
         </div>
       </div>
 
-    
+
     </div>
   </nb-card-body>
 </nb-card>

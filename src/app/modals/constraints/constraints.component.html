@@ -12,9 +12,9 @@
         <div class="col-12">
           <label>Consignee</label>
           <div *ngFor=" let consignee of constraintsType.consignees; let i = index; " class="mt-2">
-            <auto-suggestion (onSelected)="selectSuggestion($event, i, 'consignees')" url="Suggestion/GetCompanies"
-              display="name" placeholder="Search Name" class="auto-suggest" [name]="'consignee-' + i"
-              [preSelected]="consignee">
+            <auto-suggestion (onSelected)="selectSuggestion($event, i, 'consignees')"
+              url="Suggestion/GetCompanies2?type=ALL" display="name" placeholder="Search Name" class="auto-suggest"
+              [name]="'consignee-' + i" [preSelected]="consignee">
             </auto-suggestion>
             <i class="fa fa-plus add" (click)="addField('consignees',i)"
               *ngIf="i == constraintsType.consignees.length-1"></i>
@@ -29,9 +29,9 @@
         <div class="col-12">
           <label>Transporter</label>
           <div *ngFor=" let transport of constraintsType.transporter; let i = index; " class="mt-2">
-            <auto-suggestion (onSelected)="selectSuggestion($event,i,'transporter')" url="Suggestion/GetCompanies"
-              display="name" placeholder=" Search Name" class="auto-suggest" [name]="'transport'- + i"
-              [preSelected]="transport">
+            <auto-suggestion (onSelected)="selectSuggestion($event,i,'transporter')"
+              url="Suggestion/GetCompanies2?type=ALL" display="name" placeholder=" Search Name" class="auto-suggest"
+              [name]="'transport'- + i" [preSelected]="transport">
             </auto-suggestion>
 
             <i class="fa fa-plus add" (click)="addField('transporter',i)"

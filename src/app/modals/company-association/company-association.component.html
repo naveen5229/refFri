@@ -1,8 +1,8 @@
 <div class="modal-header">
     <h5>Company Association</h5>
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-    <span aria-hidden="true">&times;</span>
-  </button>
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 <div class="modal-body">
     <div class="company-association">
@@ -11,7 +11,9 @@
                 <label>Company:</label>
             </div>
             <div class="col-8">
-                <auto-suggestion (onSelected)="assCmpnyId=($event.id);cmpName=($event.name)" id="company" url="Suggestion/GetCompanies" display="name" placeholder="Enter Company name" style="width:60%;" [preSelected]="{name:name}">
+                <auto-suggestion (onSelected)="assCmpnyId=($event.id);cmpName=($event.name)" id="company"
+                    url="Suggestion/GetCompanies2?type=ALL" display="name" placeholder="Enter Company name"
+                    style="width:60%;" [preSelected]="{name:name}">
                 </auto-suggestion>
             </div>
         </div>
@@ -29,10 +31,10 @@
             </div>
             <div class="col-8">
                 <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="branchId">
-                  <option *ngFor="let branch of branchs" [value]="branch.id">
-                    {{branch.name}}
-                 </option>
-              </select>
+                    <option *ngFor="let branch of branchs" [value]="branch.id">
+                        {{branch.name}}
+                    </option>
+                </select>
             </div>
         </div>
         <div class="row mt-2">
@@ -41,10 +43,10 @@
             </div>
             <div class="col-8">
                 <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="assType">
-                  <option *ngFor="let type of associationType" [value]="type.id">
-                    {{type.description}}
-                 </option>
-              </select>
+                    <option *ngFor="let type of associationType" [value]="type.id">
+                        {{type.description}}
+                    </option>
+                </select>
             </div>
         </div>
         <div class="row mt-2">
