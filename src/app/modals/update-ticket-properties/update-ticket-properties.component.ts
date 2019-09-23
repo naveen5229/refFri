@@ -30,7 +30,6 @@ export class UpdateTicketPropertiesComponent implements OnInit {
     is_urgent: true,
     benchMark: null,
     benchMark2: null
-    // foid:''
   };
 
   getProperties = [];
@@ -54,8 +53,6 @@ export class UpdateTicketPropertiesComponent implements OnInit {
       this.properties = this.common.params.values;
       this.flagValue = this.common.params.flag;
       this.foid = this.common.params.foid;
-      //this.id = this.common.params.foid;
-      //this.ticketProperties.issue_type_id = this.properties.issue_id;
       this.ticketProperties.issue_type_id = this.properties['_issue_id'];
       if (this.flagValue === 'Edit') {
         this.ticketProperties.is_deliverytime = this.properties['Is Delivery'] === '✔' ? true : false;
@@ -68,7 +65,6 @@ export class UpdateTicketPropertiesComponent implements OnInit {
         this.ticketProperties.issue_name = this.properties['Issue Name'];
         this.ticketProperties.benchMark = this.properties['Benchmark'];
         this.ticketProperties.benchMark2 = this.properties['Benchmark2'];
-        console.log("BenchMark2:", this.properties["Benchmark2"]);
         this.id = this.properties['_row_id'];
       }
       this.getFoProperties();
@@ -97,7 +93,6 @@ export class UpdateTicketPropertiesComponent implements OnInit {
       id: this.id,
       foid: this.foid
     };
-    console.log('params_insert: ', params);
     this.common.loading++;
     this.api.post('FoTicketProperties/insertTicketProperties', params)
       .subscribe(res => {
@@ -113,13 +108,10 @@ export class UpdateTicketPropertiesComponent implements OnInit {
 
 
   getFoProperties() {
-    //this.table.data=null;
     let params = {
       foid: this.foid,
       foIssueTypeId: this.ticketProperties.issue_type_id,
     };
-    console.log("params/..", params);
-
     this.common.loading++;
     this.api.post('FoTicketProperties/getFoProperties', params)
       .subscribe(res => {
@@ -150,7 +142,6 @@ export class UpdateTicketPropertiesComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    console.log("Data=", this.getProperties);
     this.getProperties.map(matrix => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
@@ -176,7 +167,6 @@ export class UpdateTicketPropertiesComponent implements OnInit {
       },
     );
 
-    console.log("details-------:", details)
     return icons;
   }
 
@@ -201,14 +191,13 @@ export class UpdateTicketPropertiesComponent implements OnInit {
   }
 
   deleteProperties(properties) {
-    console.log("result:", properties);
     let params = {
       foid: properties._foid,
       id: properties._row_id
     };
     if (properties._row_id) {
       this.common.params = {
-        title: 'Delete Matrix ',
+        title: 'Delete Property ',
         description: `<b>&nbsp;` + 'Are You Sure To Delete This Record' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
@@ -218,10 +207,7 @@ export class UpdateTicketPropertiesComponent implements OnInit {
           this.api.post('FoTicketProperties/deleteFoProperties ', params)
             .subscribe(res => {
               this.common.loading--
-              console.log('removeField', res);
-
               if (res['code'] == "1") {
-                console.log("test");
                 this.common.showToast([res][0]['msg']);
               }
               this.getFoProperties();

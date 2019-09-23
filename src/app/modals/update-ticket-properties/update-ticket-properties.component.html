@@ -8,7 +8,8 @@
 <div class="modal-body">
   <div class="row">
     <div class="col-6"><label class="col-6">Issue Name</label>
-      <label style="background-color: #e8edef;border-radius:3px;">{{ticketProperties.issue_name}}</label>
+      <label style="background-color: #e8edef;border-radius:3px; display: inline-block;"
+        class="form-control col-6">{{ticketProperties.issue_name}}</label>
     </div>
 
     <div class="col-6"><label class="col-6">Escape Time</label><input type="text"
@@ -50,7 +51,7 @@
         type="checkbox" name="is_urgent" [(ngModel)]="ticketProperties.is_urgent" style="height:15px; width:15px;">
       <span>&nbsp; is_urgent</span></span>
   </div>
-  <div class="row"><button class="btn-submit btn btn-success" type="button" (click)="updateProperties()">Submit</button>
+  <div class="row"><button class="btn btn-primary submit" type="button" (click)="updateProperties()">Submit</button>
   </div>
 
   <div class="row mt-2">

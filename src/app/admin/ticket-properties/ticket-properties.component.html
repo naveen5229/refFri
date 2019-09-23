@@ -1,41 +1,19 @@
-<div class="model-header" style="margin-left:15px">
-    <h4 class="model-title" id="basic-title">Ticket Properties</h4>
-  </div>
-  <div class="model-body" style="margin-left:10px; margin-right:10px">
-    <div class="search" style="width:300px; text-align: center; margin-bottom: 20px; margin-left: 50px">
-        <auto-suggestion (onSelected)="getSuggestions($event)" url="suggestion/getFoUsersList" display="name"
-        placeholder="Search" [preSelected]="null"></auto-suggestion>
+<nb-card>
+  <nb-card-header>
+    <div class="col-sm-4">
+      <h2>Ticket Properties</h2>
     </div>
-    <!-- <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; color: cadetblue">
-        <tr>
-        <th>Issue Id</th>  
-        <th>Issue Name</th>
-        <th>esc time</th>
-        <th>compl_rem_time</th>
-        <th>compl_esc_time</th>
-        <th>is_Reminder</th>
-        <th>is_escalate</th>
-        <th>is_deliverytime</th>
-        <th>is_urgent</th>
-        <th>Action</th>
-        </tr>
-        <tr *ngFor="let properties of ticketProperties; let i=index;" >
-          <td>{{properties.issue_id}}</td>
-          <td>{{properties.issue_name}}</td>
-          <td>{{properties.esc_time}}</td>
-          <td>{{properties.compl_rem_time}}</td>
-          <td>{{properties.compl_esc_time}}</td>
-          <td>{{properties.is_reminder}}</td>
-          <td>{{properties.is_escalate}}</td>
-          <td>{{properties.is_deliverytime}}</td>
-          <td>{{properties.is_urgent}}</td>
-          <td> <ng-template *ngIf="properties.issue_id!=null && properties.issue_name!=null && properties.esc_time!=null && properties.compl_rem_time!=null
-                      && properties.compl_esc_time!=null && properties.is_reminder!=null && properties.is_escalate!=null && properties.is_deliverytime!=null
-                      && properties.is_urgent!=null;then showEdit; else showAdd"></ng-template>
-           <ng-template #showEdit><button class="btn" (click)="openUpdatePropertiesModel(properties,'edit')">Edit</button></ng-template>
-           <ng-template #showAdd><button class="btn" (click)="openUpdatePropertiesModel(properties,'add')">Add</button></ng-template>
-          </td>
-        </tr>
-        </table> -->
-        <smart-table *ngIf="ticketProperties && ticketProperties.length" [data]="table.data" [settings]="table.settings"></smart-table>
-  </div>
+  </nb-card-header>
+  <nb-card-body style="min-height: 580px;">
+    <div class="row">
+      <div class="search mt-1 ">
+        <auto-suggestion (onSelected)="getSuggestions($event)" url="suggestion/getFoUsersList" display="name"
+          placeholder="Search" [preSelected]="null"></auto-suggestion>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <smart-table *ngIf="ticketProperties && ticketProperties.length" [data]="table.data" [settings]="table.settings">
+      </smart-table>
+    </div>
+  </nb-card-body>
+</nb-card>
