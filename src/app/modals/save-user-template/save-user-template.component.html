@@ -40,11 +40,10 @@
   <div class="form-group">
     <label>Template</label>
     <textarea name="remark" class="form-control" [(ngModel)]="template.templateHtml" rows="15"
-      style="font-size:16px!important;line-height:1.5!important;"></textarea>
+      style="font-size:16px!important;line-height:1.5!important;" (ngModelChange)="setValue()"></textarea>
   </div>
-  <button class="btn btn-primary mt-2" (click)="addEdit()">{{this.common.params.title}}</button>
-
+  <button class="btn btn-primary mt-2" (click)="addEdit()">{{button}}</button>
   <div class="row">
-    <div id="print-section" class="templatePreview" [innerHTML]="showTemplate"></div>
+    <div id="print-section" class="templatePreview" [innerHTML]="editTemplateHtml"></div>
   </div>
 </div>

@@ -1,5 +1,11 @@
 <nb-card style="padding-top: 26px;" (keydown)="keyHandler($event)">
   <nb-card-body>
+    <div class="row pdf-exel-icon">
+        <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
+        style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+      <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
+        style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+    </div>
     <div class="row">
       <div class="col-3">
         <div class="left-box">

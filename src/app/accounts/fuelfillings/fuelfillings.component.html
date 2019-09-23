@@ -1,5 +1,11 @@
 <nb-card>
   <nb-card-body>
+      <div class="row pdf-exel-icon">
+          <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+      </div>
     <div class="row mt-4">
       <div class="col-sm-2 pr-0">
         <label class="tjr-label">Vehicle No</label>
