@@ -54,12 +54,13 @@ export class RoutesTimetableComponent implements OnInit {
   statusFinder() {
     this.routesDetails.map((route, index) => {
       if(route.delay){
-        if(route.delay.toString()>"00:00"){
-          route['status']='0';
-        }
-        else if(route.delay.toString()=="00:00" || route.delay.toString()<"00:00" ){
+        if(route.delay.charAt(0)=="-" ){
           route['status']='1';
         }       
+       else {
+          route['status']='0';
+        }
+         
       }else{
         route['status']='2'
       }  
