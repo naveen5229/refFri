@@ -473,6 +473,7 @@ import { ManifestGenerateComponent } from './modals/LRModals/manifest-generate/m
     MvsLrAssignComponent,
     GenericSuggestionComponent,
     ManifestGenerateComponent,
+    VehiclesViewComponent
 
   ],
   entryComponents: [
@@ -680,7 +681,8 @@ import { ManifestGenerateComponent } from './modals/LRModals/manifest-generate/m
     MarketVehFreightStatementComponent,
     MvsLrAssignComponent,
     GenericSuggestionComponent,
-    ManifestGenerateComponent
+    ManifestGenerateComponent,
+    VehiclesViewComponent
   ],
   imports: [
     BrowserModule,

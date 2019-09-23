@@ -15,6 +15,7 @@ import { LocationSelectionComponent } from '../../location-selection/location-se
 import { AddMaterialComponent } from '../add-material/add-material.component';
 import { AddTransportAgentComponent } from '../add-transport-agent/add-transport-agent.component';
 import { BasicPartyDetailsComponent } from '../../../modals/basic-party-details/basic-party-details.component';
+import { VehiclesViewComponent } from '../../vehicles-view/vehicles-view.component';
 
 @Component({
   selector: 'lr-generate',
@@ -458,5 +459,19 @@ export class LrGenerateComponent implements OnInit {
       console.log('Date:', data);
     });
   }
+  displayVehicleData() {
+    console.log("-------------vehicle id----------",this.vehicleData.id);
+    this.common.params = { vehicleId: this.vehicleData.id }
+    if(this.vehicleData.id>0)
+    {
+    const activeModal = this.modalService.open(VehiclesViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    });
+  }else{
+    this.common.showError("Vehicle Id doesn't exit.");
+  }
 
+  }
 }
