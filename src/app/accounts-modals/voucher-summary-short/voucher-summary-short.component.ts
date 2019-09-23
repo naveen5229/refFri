@@ -365,34 +365,48 @@ export class VoucherSummaryShortComponent implements OnInit {
   }
 
   findFirstSelectInfo(type = 'startDate') {
-    let options = {
-      startDate: '',
-      index: -1
-    };
-    for (let i = 0; i < this.trips.length; i++) {
-      if (this.trips[i].isChecked) {
-        options.startDate = this.trips[i].start_time;
-        options.index = i;
-        break;
-      }
-    }
-    return options[type];
+    // let options = {
+    //   startDate: '',
+    //   index: -1
+    // };
+    // for (let i = 0; i < this.trips.length; i++) {
+    //   if (this.trips[i].isChecked) {
+    //     options.startDate = this.trips[i].start_time;
+    //     options.index = i;
+    //     break;
+    //   }
+    // }
+    // return options[type];
+
+    let min = this.trips.filter(ele => { return ele.isChecked }).reduce((a, b) => {
+      console.log(a);
+      console.log(b);
+      return ((typeof a == 'string' ? a : a.start_time) > b.start_time) ? b.start_time :
+        (typeof a == 'string' ? a : a.start_time);
+    });
+    console.log('_____________________MIN MIL GYA___________', min);
+    return min['start_time'];
   }
 
   findLastSelectInfo(type = 'endDate') {
-    let options = {
-      endDate: '',
-      index: -1
-    };
+    // let options = {
+    //   endDate: '',
+    //   index: -1
+    // };
 
-    for (let i = this.trips.length - 1; i >= 0; i--) {
-      if (this.trips[i].isChecked) {
-        options.endDate = this.trips[i].end_time;
-        options.index = i;
-        break;
-      }
-    }
-    return options[type];
+    // for (let i = this.trips.length - 1; i >= 0; i--) {
+    //   if (this.trips[i].isChecked) {
+    //     options.endDate = this.trips[i].end_time;
+    //     options.index = i;
+    //     break;
+    //   }
+    // }
+    // return options[type];
+    let max = this.trips.filter(ele => { return ele.isChecked }).reduce((a, b) => {
+      return (typeof a == 'string' ? a : a.end_time) < b.end_time ? b.end_time :
+        (typeof a == 'string' ? a : a.end_time);
+    });
+    return max['end_time'];
   }
 
   permanentDelete() {
@@ -861,6 +875,10 @@ export class VoucherSummaryShortComponent implements OnInit {
     this.checkedTrips.map(tripHead => {
       tripidarray.push(tripHead.id);
     });
+    if(tripidarray.length==0){
+      this.common.showError('Please Select Trip');
+      return false;
+    }
     const params = {
       tripIdArray: tripidarray
     };
@@ -891,10 +909,14 @@ export class VoucherSummaryShortComponent implements OnInit {
 
 
 
-  addTransfer() {
+  addTransfer(id) {
     // console.log("invoice", invoice);
     // this.common.params = { invoiceId:invoice._id }
-    this.common.params = { refData: null };
+    let refData = {
+      refType: 14,
+      refId: id
+    };
+    this.common.params = { refData: refData }
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
@@ -923,7 +945,8 @@ export class VoucherSummaryShortComponent implements OnInit {
       });
   }
   print(trip, companydata) {
-
+    this.totalRevinue = 0;
+   this.totalAdvance = 0;
     let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
     let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
     let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';

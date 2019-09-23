@@ -23,7 +23,8 @@ export class ConstraintsComponent implements OnInit {
   issueType = null;
   id = null;
   getContraintsData = [];
-
+  url = '';
+  saveUrl = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -36,8 +37,8 @@ export class ConstraintsComponent implements OnInit {
       this.foId = this.common.params.constraints.foId;
       this.issueType = this.common.params.constraints.issueType;
       this.id = this.common.params.constraints.id;
-
-
+      this.url = this.common.params.api;
+      this.saveUrl = this.common.params.saveApi;
     }
     this.common.handleModalSize('class', 'modal-lg', '1100', 'px', 1);
     this.getContraintsIssueData();
@@ -59,7 +60,7 @@ export class ConstraintsComponent implements OnInit {
 
     console.log("params", params);
     this.common.loading++;
-    this.api.post('FoTicketEscalation/getUsers', params)
+    this.api.post(this.url, params)
       .subscribe(res => {
         this.common.loading--;
         this.constraintsType = res['data'][0].constraints;
@@ -160,7 +161,7 @@ export class ConstraintsComponent implements OnInit {
 
     console.log("params", params);
     this.common.loading++;
-    this.api.post('FoTicketEscalation/insertTicketEscalation', params)
+    this.api.post(this.saveUrl, params)
       .subscribe(res => {
         this.common.loading--;
         console.log("upload result", res);

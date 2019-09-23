@@ -20,6 +20,7 @@ import { PrintService } from '../../services/print/print.service';
 })
 export class VoucherSummaryComponent implements OnInit {
   firstdate = '';
+  tripexpencevoucherid=0;
   enddate = '';
   permanentDeleteId = 0;
   sizeIndex = 0;
@@ -30,9 +31,9 @@ export class VoucherSummaryComponent implements OnInit {
   narration = '';
   tripVoucher;
   typeFlag = 2;
-  totalRevinue=0;
-  totalAdvance=0;
-  totalFuel=0;
+  totalRevinue = 0;
+  totalAdvance = 0;
+  totalFuel = 0;
   selectedRow = -1;
   trips;
   vouchertype = -150;
@@ -116,6 +117,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.tripVoucher = this.common.params.tripVoucher;
       this.trips = this.common.params.tripEditData;
       this.VoucherId = this.tripVoucher.y_voucher_id;
+      this.tripexpencevoucherid=this.tripVoucher.y_id;
       this.FinanceVoucherId = this.tripVoucher.fi_voucher_id;
       this.checkedTrips = this.tripsEditData;
       this.custcode = this.tripVoucher.y_code;
@@ -155,17 +157,20 @@ export class VoucherSummaryComponent implements OnInit {
         else return 1;
       });
       // this.getFuelFillings(this.tripVoucher.startdate, this.tripVoucher.enddate);
-      this.getFuelFillingsEditTime(
-        this.tripVoucher.startdate,
-        this.tripVoucher.enddate,
-        this.common.params.tripPendingDataSelected
-      );
-      this.getVoucherDetails(this.tripVoucher.y_id);
-      this.getTripFreght();
-      this.tripexpvoucherid = this.tripVoucher.y_id;
-      this.VoucherData = this.common.params.VoucherData;
-
-      this.showTransfer();
+      setTimeout(() => {
+        this.getFuelFillingsEditTime(
+          this.tripVoucher.startdate,
+          this.tripVoucher.enddate,
+          this.common.params.tripPendingDataSelected
+        );
+        this.getVoucherDetails(this.tripVoucher.y_id);
+        this.getTripFreght();
+        this.tripexpvoucherid = this.tripVoucher.y_id;
+        this.VoucherData = this.common.params.VoucherData;
+  
+        this.showTransfer();
+      }, 200);
+      console.log('---------****',this.VoucherId);
     }
 
     this.common.handleModalSize('class', 'modal-lg', '1150', 'px', this.sizeIndex);
@@ -393,44 +398,60 @@ export class VoucherSummaryComponent implements OnInit {
     }
   }
 
-  findFirstSelectInfo(type = 'startDate') {
-    let options = {
-      startDate: '',
-      index: -1
-    };
-    for (let i = 0; i < this.trips.length; i++) {
-      if (this.trips[i].isChecked) {
-        options.startDate = this.trips[i].start_time;
-        options.index = i;
-        break;
-      }
-    }
-    return options[type];
+  findFirstSelectInfo(flag,type = 'startDate') {
+    console.log('______________________inside findFirstSelectInfo ____________', this.trips);
+    let min = this.trips.filter(ele => { return ele.isChecked }).reduce((a, b) => {
+      console.log(a);
+      console.log(b);
+      return ((typeof a == 'string' ? a : a.start_time) > b.start_time) ? b.start_time :
+        (typeof a == 'string' ? a : a.start_time);
+    });
+    console.log('_____________________MIN MIL GYA___________', min);
+    if(min['start_time']) { return min['start_time']; } else { return min; }
+    // let options = {
+    //   startDate: '',
+    //   index: -1
+    // };
+    // console.log('trip selection',this.trips);
+    // for (let i = 1; i < this.trips.length; i++) {
+    //   if (this.trips[i].isChecked) {
+    //     options.startDate = this.trips[i].start_time;
+    //     options.index = i;
+    //     break;
+    //   }
+    // }
+    // return options[type];
   }
 
-  findLastSelectInfo(type = 'endDate') {
-    let options = {
-      endDate: '',
-      index: -1
-    };
+  findLastSelectInfo(flag,type = 'endDate') {
+    let max = this.trips.filter(ele => { return ele.isChecked }).reduce((a, b) => {
+      return (typeof a == 'string' ? a : a.end_time) < b.end_time ? b.end_time :
+        (typeof a == 'string' ? a : a.end_time);
+    });
+    console.log('max founded', max);
+    if(max['end_time']) { return max['end_time'];}else{ return max; }
+    
+    // let options = {
+    //   endDate: '',
+    //   index: -1
+    // };
 
-    for (let i = this.trips.length - 1; i >= 0; i--) {
-      if (this.trips[i].isChecked) {
-        options.endDate = this.trips[i].end_time;
-        options.index = i;
-        break;
-      }
-    }
-    return options[type];
+    // for (let i = this.trips.length - 1; i >= 0; i--) {
+    //   if (this.trips[i].isChecked) {
+    //     options.endDate = this.trips[i].end_time;
+    //     options.index = i;
+    //     break;
+    //   }
+    // }
+    // return options[type];
   }
 
 
   getFuelFillingsEditTime(lastFilling?, currentFilling?, selectedData?) {
-    console.log(this.findFirstSelectInfo(), this.findLastSelectInfo());
     const params = {
       vehId: this.VehicleId,
-      lastFilling: lastFilling || this.findFirstSelectInfo(),
-      currentFilling: currentFilling || this.findLastSelectInfo()
+      lastFilling: lastFilling || this.findFirstSelectInfo(1),
+      currentFilling: currentFilling || this.findLastSelectInfo(1)
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -440,7 +461,8 @@ export class VoucherSummaryComponent implements OnInit {
         this.fuelFilings = res['data'] || [];
         this.fuelFilings.map(fuelFiling => {
           selectedData.map(tripedit => {
-            (fuelFiling.id == tripedit.id) ? fuelFiling.isChecked = true : '';
+          //  (fuelFiling.id == tripedit.id) ? fuelFiling.isChecked = true : '';
+            (fuelFiling.tripexp_voucherid == this.tripexpencevoucherid) ? fuelFiling.isChecked = true : '';
           });
         });
       }, err => {
@@ -451,12 +473,12 @@ export class VoucherSummaryComponent implements OnInit {
   }
 
   getFuelFillings(lastFilling?, currentFilling?) {
-    console.log(this.findFirstSelectInfo(), this.findLastSelectInfo());
+    //console.log(this.findFirstSelectInfo(), this.findLastSelectInfo());
 
     const params = {
       vehId: this.VehicleId,
-      lastFilling: lastFilling || this.findFirstSelectInfo(),
-      currentFilling: currentFilling || this.findLastSelectInfo()
+      lastFilling: lastFilling || this.findFirstSelectInfo(1),
+      currentFilling: currentFilling || this.findLastSelectInfo(1)
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -464,7 +486,7 @@ export class VoucherSummaryComponent implements OnInit {
         console.log(res);
         this.common.loading--;
         this.fuelFilings = res['data'];
-        this.fuelFilings.map(fuelFiling => fuelFiling.isChecked = true);
+       // this.fuelFilings.map(fuelFiling => fuelFiling.isChecked = true);
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -788,7 +810,7 @@ export class VoucherSummaryComponent implements OnInit {
     this.tripHeads.map(trip => {
       total += parseFloat(trip.total);
     });
-    this.alltotal =  total;
+    this.alltotal = total;
     console.log('VoucherData: ', this.VoucherData);
   }
 
@@ -954,10 +976,15 @@ export class VoucherSummaryComponent implements OnInit {
     return true;
   }
 
-  addTransfer() {
+  addTransfer(id) {
     // console.log("invoice", invoice);
     // this.common.params = { invoiceId:invoice._id }
-    this.common.params = { refData: null };
+    let refData = {
+      refType: 14,
+      refId: id
+    };
+    this.common.params = { refData: refData }
+    //this.common.params = { refData: null,y_id:id,y_type:14 };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
@@ -967,9 +994,14 @@ export class VoucherSummaryComponent implements OnInit {
 
   showTransfer() {
     let tripidarray = [];
+    console.log('checked trips ', this.checkedTrips);
     this.checkedTrips.map(tripHead => {
       tripidarray.push(tripHead.id);
     });
+    if (tripidarray.length == 0) {
+      this.common.showError('Please Select Trip');
+      return false;
+    }
     const params = {
       tripIdArray: tripidarray
     };
@@ -1019,7 +1051,9 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
   print(trip, companydata) {
-
+    this.totalRevinue = 0;
+    this.totalAdvance = 0;
+    this.totalFuel = 0;
     let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
     let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
     let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
@@ -1030,7 +1064,7 @@ export class VoucherSummaryComponent implements OnInit {
     let rows3 = [];
     let rows4 = [];
     let rows5 = [];
-    let rows6 =[];
+    let rows6 = [];
     console.log('trip check data', this.trips);
     this.trips.map((tripDetail, index) => {
       if (tripDetail.isChecked) {
@@ -1044,17 +1078,19 @@ export class VoucherSummaryComponent implements OnInit {
           { txt: tripDetail.revenue || '' },
           { txt: tripDetail.advance || '' },
         ]);
-        if(tripDetail.revenue){
-        this.totalRevinue += parseFloat(tripDetail.revenue);
+        if (tripDetail.revenue) {
+          this.totalRevinue += parseFloat(tripDetail.revenue);
         }
-        if(tripDetail.advance){
-        this.totalAdvance += parseFloat(tripDetail.advance);
+        if (tripDetail.advance) {
+          this.totalAdvance += parseFloat(tripDetail.advance);
         }
       }
     });
 
     if (this.vouchertype == -150) {
-      this.fuelFilings.map((fuelfill, index) => {
+      let index=0;
+      this.fuelFilings.map((fuelfill) => {
+        if(fuelfill['isChecked']){
         rows2.push([
           { txt: index + 1 },
           { txt: fuelfill.name || '' },
@@ -1064,6 +1100,8 @@ export class VoucherSummaryComponent implements OnInit {
           { txt: this.common.dateFormatternew(fuelfill.entry_time) || '' },
         ]);
         this.totalFuel += parseFloat(fuelfill.amount);
+        index++;
+      }
       });
     }
 
@@ -1108,20 +1146,20 @@ export class VoucherSummaryComponent implements OnInit {
     //   ]);
 
     // });
-if(this.tripFreghtDetails){
-    this.tripFreghtDetails.map((tripHead, index) => {
-      rows5.push([
-        { txt: index + 1 },
-        { txt: tripHead.receipt_no || '' },
-        { txt: tripHead.auto_amount || '' },
-        { txt: this.totalRevinue - (this.alltotal + this.totalFuel) || '' }
+    if (this.tripFreghtDetails) {
+      this.tripFreghtDetails.map((tripHead, index) => {
+        rows5.push([
+          { txt: index + 1 },
+          { txt: tripHead.receipt_no || '' },
+          { txt: tripHead.auto_amount || '' },
+          { txt: this.totalRevinue - (this.alltotal + this.totalFuel) || '' }
 
 
 
-      ]);
+        ]);
 
-    });
-  }
+      });
+    }
 
     rows6.push([
       { txt: this.totalRevinue || '' },
@@ -1174,7 +1212,7 @@ if(this.tripFreghtDetails){
               console.log('__________________________________________:', checkname);
               if (checkname.isChecked) return true; return false
             }).map((checkname, index) => {
-              return { txt: (checkname.lr_no != null && checkname.lr_no)? ('LR No :' + checkname.lr_no) : 'S.No' + index + 1 }
+              return { txt: (checkname.lr_no != null && checkname.lr_no) ? ('LR No :' + checkname.lr_no) : 'S.No' + index + 1 }
             })
           ],
           rows: rows3,
@@ -1267,46 +1305,46 @@ if(this.tripFreghtDetails){
               console.log('__________________________________________:', checkname);
               if (checkname.isChecked) return true; return false
             }).map((checkname, index) => {
-              return { txt: (checkname.lr_no != null && checkname.lr_no)? ('LR No : ' + checkname.lr_no) : 'S.No : ' + (index + 1) }
+              return { txt: (checkname.lr_no != null && checkname.lr_no) ? ('LR No : ' + checkname.lr_no) : 'S.No : ' + (index + 1) }
             })
           ],
           rows: rows3,
           name: 'Trips Expence Detail'
 
         },
-          // {
-          //   headings: [
-          //     { txt: 'Advise Type' },
-          //     { txt: 'User Value' },
-          //     { txt: 'Credit To' },
-          //     { txt: 'Debit To' },
-          //     { txt: 'Remarks' },
-          //     { txt: 'Time' },
-          //     { txt: 'Entry By' }
-          //   ],
-          //   rows: rows4,
-          //   name: 'Advance'
-          // },
-          // {
-          //   headings: [
-          //     { txt: 'Reciept No' },
-          //     { txt: 'Revenue' },
-          //     { txt: 'Remarks' }
-          //   ],
-          //   rows: rows5,
-          //   name: 'Revenue'
-          // }
+        // {
+        //   headings: [
+        //     { txt: 'Advise Type' },
+        //     { txt: 'User Value' },
+        //     { txt: 'Credit To' },
+        //     { txt: 'Debit To' },
+        //     { txt: 'Remarks' },
+        //     { txt: 'Time' },
+        //     { txt: 'Entry By' }
+        //   ],
+        //   rows: rows4,
+        //   name: 'Advance'
+        // },
+        // {
+        //   headings: [
+        //     { txt: 'Reciept No' },
+        //     { txt: 'Revenue' },
+        //     { txt: 'Remarks' }
+        //   ],
+        //   rows: rows5,
+        //   name: 'Revenue'
+        // }
 
-           {
-            headings: [
-              { txt: 'Revenue' },
-              { txt: 'Fuel' },
-              { txt: 'Expence' },
-              { txt: 'Net Revenue' },
-            ],
-            rows: rows6,
-            name: 'Revenue'
-          }
+        {
+          headings: [
+            { txt: 'Revenue' },
+            { txt: 'Fuel' },
+            { txt: 'Expence' },
+            { txt: 'Net Revenue' },
+          ],
+          rows: rows6,
+          name: 'Revenue'
+        }
         ],
         signatures: ['Accountant', 'Approved By'],
         footer: {
@@ -1315,7 +1353,7 @@ if(this.tripFreghtDetails){
           right: { name: 'Page No', value: 1 },
         },
         footertotal: [
-          { name: 'Net Pay to Driver : ', value: this.alltotal -(this.totalAdvance) , size: '20px', weight: 600},
+          { name: 'Net Pay to Driver : ', value: this.alltotal - (this.totalAdvance), size: '20px', weight: 600 },
           { name: ' ', value: ' ' },
           { name: ' ', value: ' ' },
           { name: ' ', value: ' ' },

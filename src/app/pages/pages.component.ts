@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   template: `
     <ngx-sample-layout>
     
-       <nb-menu [items]="user._menu.pages" autoCollapse=true></nb-menu>
+       <nb-menu *ngIf="user._menu.pages.length"  [items]="user._menu.pages" autoCollapse="true"></nb-menu>
      
       <router-outlet></router-outlet>
     </ngx-sample-layout>
