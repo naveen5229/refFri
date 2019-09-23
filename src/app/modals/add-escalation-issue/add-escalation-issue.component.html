@@ -16,22 +16,24 @@
     <div class="col-4">
       <div class="from-group">
         <label>Issue Type</label>
-        <span style="background-color: #e8edef;border-radius:3px;">{{escalationType.issueTypeValue}}</span>
+        <span style="background-color: #e8edef;border-radius:3px;"
+          class="form-control">{{escalationType.issueTypeValue}}</span>
       </div>
     </div>
     <div class="col-4">
       <div class="from-group">
         <label>Issue Properties</label>
         <auto-suggestion (onSelected)="getProperties($event)" display="name" [data]="issueProperties"
-          placeholder="Search" [preSelected]="null"></auto-suggestion>
+          placeholder="Search" [preSelected]="null" inputId="issueProperty"></auto-suggestion>
       </div>
     </div>
 
     <div class="col-4">
       <div class="from-group">
         <label>User Id</label>
-        <auto-suggestion (onSelected)="getUser($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}"
-          display="employeename" placeholder="Search Name" [preSelected]="null"></auto-suggestion>
+        <auto-suggestion (onSelected)="addIssueField.userId = $event.id"
+          url="Suggestion/getFoAdminList?foid={{escalationType.id}}" display="employeename" placeholder="Search Name"
+          [preSelected]="null" inputId="userId"></auto-suggestion>
       </div>
     </div>
   </div>
@@ -39,8 +41,9 @@
     <div class="col-4">
       <div class="from-group">
         <label>Senior Id</label>
-        <auto-suggestion (onSelected)="getSenior($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}"
-          display="employeename" placeholder="Search Name" [preSelected]="null"></auto-suggestion>
+        <auto-suggestion (onSelected)="this.addIssueField.SeniorId = $event.id"
+          url="Suggestion/getFoAdminList?foid={{escalationType.id}}" display="employeename" placeholder="Search Name"
+          [preSelected]="null" inputId="SeniorId"></auto-suggestion>
       </div>
     </div>
     <div class="col-4">

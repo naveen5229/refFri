@@ -24,10 +24,6 @@ export class AddEscalationIssueComponent implements OnInit {
   };
   headings = [];
   valobj = {};
-
-
-
-  issueFieldValues = [];
   userLevel = "one";
   level = 1;
   escalationType = {
@@ -36,23 +32,20 @@ export class AddEscalationIssueComponent implements OnInit {
     issueTypeValue: ''
   };
   addIssueField = {
-    userId: '',
-    SeniorId: '',
-    foid: '',
-    userLevel: '',
-    issue_type_id: '',
-    issuePropertyId: '',
+    userId: null,
+    SeniorId: null,
+    userLevel: null,
+    issue_type_id: null,
+    issuePropertyId: null,
   };
 
   issueProperties = [];
-
-
 
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public modalService: NgbModal,
     public api: ApiService) {
-    if (this.common.params) {
+    if (this.common.params && this.common.params.foid) {
       this.escalationType = {
         id: this.common.params.foid,
         issueType: this.common.params.issueType,
@@ -66,15 +59,7 @@ export class AddEscalationIssueComponent implements OnInit {
 
   ngOnInit() {
   }
-  getUser(user) {
-    console.log('getUser: ', user);
-    this.addIssueField.userId = user.id;
 
-  }
-  getSenior(senior) {
-    console.log('getSenior: ', senior);
-    this.addIssueField.SeniorId = senior.id;
-  }
 
   getProperties(issue) {
     this.addIssueField.issuePropertyId = issue.id;
@@ -82,12 +67,27 @@ export class AddEscalationIssueComponent implements OnInit {
   dismiss(status) {
     this.activeModal.close({ status: status });
   }
+  resetData() {
+    this.addIssueField = {
+      userId: '',
+      SeniorId: '',
+      userLevel: '',
+      issue_type_id: '',
+      issuePropertyId: '',
+    };
+    this.startTime = new Date(new Date().setDate(new Date().getDate() - 7));;
+    this.endTime = new Date();
+    document.getElementById('issueProperty')['value'] = '';
+    document.getElementById('userId')['value'] = '';
+    document.getElementById('SeniorId')['value'] = '';
+
+  }
 
 
   getIssuePropertiesData() {
     let params = {
-      foid: this.common.params.foid,
-      issue_type_id: this.common.params.issueType,
+      foid: this.escalationType.id,
+      issue_type_id: this.escalationType.issueType,
     }
     this.common.loading++;
     this.api.post('FoTicketEscalation/getPropertySuggestion', params)
@@ -109,9 +109,7 @@ export class AddEscalationIssueComponent implements OnInit {
     this.api.post('FoTicketEscalation/getUsers', params)
       .subscribe(res => {
         this.common.loading--
-        console.log('res: ', res['data']);
         this.issueDetails = res['data'] || [];
-        console.log("result", res);
         let first_rec = this.issueDetails[0];
         let headings = {};
         for (var key in first_rec) {
@@ -134,7 +132,6 @@ export class AddEscalationIssueComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    console.log("Data=", this.issueDetails);
     this.issueDetails.map(matrix => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
@@ -176,8 +173,8 @@ export class AddEscalationIssueComponent implements OnInit {
       this.level = 4;
     }
     let params = {
-      foid: this.common.params.foid,
-      issue_type_id: this.common.params.issueType,
+      foid: this.escalationType.id,
+      issue_type_id: this.escalationType.issueType,
       user_id: this.addIssueField.userId,
       senior_user_id: this.addIssueField.SeniorId,
       user_level: this.level,
@@ -185,16 +182,18 @@ export class AddEscalationIssueComponent implements OnInit {
       from_time: this.common.dateFormatter1(this.startTime),
       to_time: this.common.dateFormatter1(this.endTime),
     };
-    console.log('params to insert', params);
     this.common.loading++;
     this.api.post('FoTicketEscalation/insertTicketEscalation', params)
       .subscribe(res => {
         this.common.loading--
-        this.issueFieldValues = res['success'];
-
-        console.log('addIssue', res['success']);
-        this.common.showToast(res['data'][0]['y_msg']);
-        this.getAddIssueTable();
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0]['y_msg']);
+          this.resetData();
+          this.getAddIssueTable();
+        }
+        else {
+          this.common.showError(res['data'][0]['y_msg']);
+        }
       }, err => {
         this.common.loading--;
         this.common.showError();
@@ -203,7 +202,6 @@ export class AddEscalationIssueComponent implements OnInit {
 
 
   removeField(result) {
-    console.log("result:", result);
     let params = {
       fId: result._row_id
 
@@ -217,13 +215,10 @@ export class AddEscalationIssueComponent implements OnInit {
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          console.log('removeld', result.id)
           this.common.loading++;
           this.api.post('FoTicketEscalation/deleteUser ', params)
             .subscribe(res => {
               this.common.loading--
-              console.log('removeField', res);
-
               if (res['code'] == "1") {
                 console.log("test");
                 this.common.showToast([res][0]['msg']);
@@ -239,7 +234,6 @@ export class AddEscalationIssueComponent implements OnInit {
   }
 
   addIssueConstraints(constraint) {
-    console.log("constaints", constraint);
 
     let constraints = {
       foId: constraint._foid,
