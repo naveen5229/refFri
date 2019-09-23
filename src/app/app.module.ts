@@ -250,6 +250,7 @@ import { MarketVehFreightStatementComponent } from './modals/FreightRate/market-
 import { MvsLrAssignComponent } from './modals/FreightRate/mvs-lr-assign/mvs-lr-assign.component';
 import { GenericSuggestionComponent } from './modals/generic-modals/generic-suggestion/generic-suggestion.component';
 import { ManifestGenerateComponent } from './modals/LRModals/manifest-generate/manifest-generate.component';
+import { DriverPersonalInfoComponent } from './modals/driver-personal-info/driver-personal-info.component';
 
 
 
@@ -473,6 +474,7 @@ import { ManifestGenerateComponent } from './modals/LRModals/manifest-generate/m
     MvsLrAssignComponent,
     GenericSuggestionComponent,
     ManifestGenerateComponent,
+    DriverPersonalInfoComponent,
 
   ],
   entryComponents: [
@@ -680,7 +682,8 @@ import { ManifestGenerateComponent } from './modals/LRModals/manifest-generate/m
     MarketVehFreightStatementComponent,
     MvsLrAssignComponent,
     GenericSuggestionComponent,
-    ManifestGenerateComponent
+    ManifestGenerateComponent,
+    DriverPersonalInfoComponent
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,7 @@ import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { UploadDocsComponent } from '../../modals/upload-docs/upload-docs.component';
 import { DriverLedgerMappingComponent } from '../../modals/DriverModals/driver-ledger-mapping/driver-ledger-mapping.component';
+import { DriverPersonalInfoComponent } from '../../modals/driver-personal-info/driver-personal-info.component';
 @Component({
   selector: 'driver-list',
   templateUrl: './driver-list.component.html',
@@ -129,7 +130,8 @@ export class DriverListComponent implements OnInit {
 
             { class: 'fa fa-file', action: this.updateDriver.bind(this, req) },
             { class: 'fa fa-tasks', action: this.updateDriverInfo.bind(this, req) },
-            { class: 'fab fa-reddit', action: this.driverLedgerMapping.bind(this, req) }
+            { class: 'fab fa-reddit', action: this.driverLedgerMapping.bind(this, req) },
+            {class:"fa fa-print",action:this.driverPersonalDetail.bind(this,req)  }
           ]
         },
         rowActions: {
@@ -151,7 +153,13 @@ export class DriverListComponent implements OnInit {
 
   }
 
+  driverPersonalDetail(driverdata){
+    this.common.params = {
+      driverId: driverdata.id,
+    }
+    const activeModal = this.modalService.open(DriverPersonalInfoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
+  }
 
 
   updateDriver(driver) {
