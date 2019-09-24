@@ -261,10 +261,13 @@ export class AddFuelIndentComponent implements OnInit {
     this.api.post(this.apiUrl, params)
       .subscribe(res => {
         this.common.loading--;
-        if (res['data'][0].y_id > 0) {
+        if (res['data'][0].y_id > 0 && this.selectModalTypeId == '1') {
           this.common.showToast(res['data'][0].y_msg);
           result = res['data'];
           this.activeModal.close({ response: result });
+        }
+        else if (this.selectModalTypeId == '1') {
+          this.common.showToast(res['msg']);
         }
         else {
           this.common.showError(res['data'][0].y_msg)

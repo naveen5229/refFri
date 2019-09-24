@@ -83,7 +83,6 @@
             <div class="row" *ngIf="edit">
                 <div class="col-3"><label>Regno</label></div>
                 <div class="col-3">{{fuelIndentData.regno}}</div>
-                <!-- <div class="col-3"><label>{{fuelIndentData.refType}}</label></div> -->
                 <div class="col-4">{{fuelIndentData.refName}}</div>
             </div>
 
@@ -143,7 +142,6 @@
                             [parentForm]="fuelIndent" [ngClass]="{ 'is-invalid': isFormSubmit && f.leager.errors }"
                             name="leager" url="Suggestion/GetAllLedger" display="name" placeholder="Leager "
                             [preSelected]="{name:fuelIndentData.leager}"></auto-suggestion>
-
                     </div>
                 </div>
             </ng-template>
