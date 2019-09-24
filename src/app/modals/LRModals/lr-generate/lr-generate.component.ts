@@ -145,6 +145,9 @@ export class LrGenerateComponent implements OnInit {
         dd.r_value = dd.r_value ? new Date(dd.r_value) : new Date();
         console.log("date==", dd.r_value);
       }
+      if(dd.r_fixedvalues){
+        dd.r_fixedvalues = JSON.parse(dd.r_fixedvalues);
+      }
       if (dd.r_colorder % 2 == 0) {
         this.generalDetailColumn2.push(dd);
       } else {
