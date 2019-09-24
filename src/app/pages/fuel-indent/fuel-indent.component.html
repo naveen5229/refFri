@@ -23,14 +23,24 @@
                         [isStart]="false">
                     </uj-date-time-picker>
                 </div>
-                <div class="col-2">
+                <div class="col-1-5 mr-3">
+                    <select class="form-control" name="indentType" id="indentType" [(ngModel)]="indentType">
+                        <option name="fuelIndent" [value]="fuelIndent">
+                            FuelIndent
+                        </option>
+                        <option name="cashIndent" [value]="cashIndent">
+                            CashIndent
+                        </option>
+                    </select>
+                </div>
+                <div class="col-1-5 mr-3">
                     <select class="form-control" name="dropDown" id="dropDown" [(ngModel)]="vehicleType">
                         <option *ngFor="let status of dropDown1" [value]="status.id">
                             {{status.name}}
                         </option>
                     </select>
                 </div>
-                <div class="col-2">
+                <div class="col-1-5 mr-3">
                     <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="vehicleStatus">
                         <option *ngFor="let status of dropDown2" [value]="status.id">
                             {{status.name}}

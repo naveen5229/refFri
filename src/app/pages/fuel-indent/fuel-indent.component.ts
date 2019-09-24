@@ -45,6 +45,7 @@ export class FuelIndentComponent implements OnInit {
 
   endDate = new Date();
   startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 7));
+  indentType = 'fuelIndent';
   constructor(public api: ApiService,
     private modalService: NgbModal,
     public common: CommonService) {
