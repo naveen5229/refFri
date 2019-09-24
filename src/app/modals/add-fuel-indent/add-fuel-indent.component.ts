@@ -80,7 +80,6 @@ export class AddFuelIndentComponent implements OnInit {
       this.fuelIndentData.leagerId = this.common.params.editFuelData._ledger_id;
       if (this.fuelIndentData.leagerId) {
         this.selectModalTypeId = '1';
-        this.changeModal(this.selectModalTypeId);
       }
     }
 
@@ -149,12 +148,6 @@ export class AddFuelIndentComponent implements OnInit {
     this.indentType = '0';
     console.log("Indent Type", this.indentType);
     this.selectModalTypeId = type;
-    if (this.selectModalTypeId === '1') {
-      this.apiUrl = "Fuel/addCashIndent";
-    }
-    else {
-      this.apiUrl = "Fuel/addFuelIndent";
-    }
     this.resetData();
     console.log(this.apiUrl);
     return this.apiUrl;
@@ -243,6 +236,12 @@ export class AddFuelIndentComponent implements OnInit {
   saveFuelIndent() {
     if (this.fuelIndentData.issueDate == null && this.fuelIndentData.expiryDate == null) {
       this.common.showToast("Select Date");
+    }
+    if (this.selectModalTypeId === '1') {
+      this.apiUrl = "Fuel/addCashIndent";
+    }
+    else {
+      this.apiUrl = "Fuel/addFuelIndent";
     }
     const params = {
       rowid: this.fuelIndentData.rowId ? this.fuelIndentData.rowId : null,
