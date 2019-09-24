@@ -10,6 +10,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BankAccountsComponent } from '../bank-accounts/bank-accounts.component';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { PartyLedgerMappingComponent } from '../party-ledger-mapping/party-ledger-mapping.component';
+import { AddCompanyAssociationComponent } from '../add-company-association/add-company-association.component';
 
 @Component({
   selector: 'basic-party-details',
@@ -21,42 +22,42 @@ export class BasicPartyDetailsComponent implements OnInit {
 
   isFormSubmit = false;
   Form: FormGroup;
-  branchId = null;
   cmpName = null;
-  associationType = [];
-  branchs = [];
   assCmpnyId = null;
   userCmpnyId = null;
   cmpAlias = null;
-  assType = '';
-  save = false;
   website = null;
-  remark = null;
+  address = null;
   panNo = '';
   gstNo = '';
-  assocId = null;
-  companyId = null;
-  companyName = null;
   partyId = null;
   partyName = null;
   value = false;
   modalClose = false;
-  partyCode = null;
-  userCode = null;
-  activeTab = 'Company Branches';
+  activeTab = 'Company Association';
   gstPanCheck = false;
+  associationType=null;
 
   dropDown = [
     { name: 'Self', id: 1 },
     { name: 'Others', id: 2 },
   ];
 
-  companyExist = [];
-
   data = [];
   cmpEstablishment = [];
   companyContacts = [];
   companyBanks = [];
+  companyAssociation = [];
+  table0 = {
+    companyAssociation: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+
   table4 = {
     companyBanks: {
       headings: {},
@@ -106,30 +107,25 @@ export class BasicPartyDetailsComponent implements OnInit {
     this.userCmpnyId = this.common.params.cmpId;
     if (this.common.params.cmpAssocDetail) {
       this.value = true;
+      this.associationType=this.common.params.associationType;
       this.cmpAlias = this.common.params.cmpAssocDetail['Company Alias'];
       this.panNo = this.common.params.cmpAssocDetail.Pan ? this.common.params.cmpAssocDetail.Pan : '';
       this.gstNo = this.common.params.cmpAssocDetail.Gst ? this.common.params.cmpAssocDetail.Gst : '';
-      this.branchId = this.common.params.cmpAssocDetail._branchid;
-      this.assType = this.common.params.cmpAssocDetail._asstype;
-      this.remark = this.common.params.cmpAssocDetail.Remark;
+      // this.remark = this.common.params.cmpAssocDetail.Remark;
       this.website = this.common.params.cmpAssocDetail.Website;
-      this.assCmpnyId = this.common.params.cmpAssocDetail._asscompid;
-      this.assocId = this.common.params.cmpAssocDetail._id;
-      this.partyId = this.common.params.cmpAssocDetail._asscompid;
+      //  this.assCmpnyId = this.common.params.cmpAssocDetail._asscompid;
+      this.partyId = this.common.params.cmpAssocDetail._partyid;
       this.partyName = this.common.params.cmpAssocDetail['Company Name'];
+      console.log("party Name", this.partyName);
       this.cmpName = this.common.params.cmpAssocDetail['Company Name'];
       this.userCmpnyId = this.common.params.cmpAssocDetail._usercmpyid;
-      this.userCode = this.common.params.cmpAssocDetail._usersuppcode ? this.common.params.cmpAssocDetail._usersuppcode : null;
-      this.partyCode = this.common.params.cmpAssocDetail._partysuppcode ? this.common.params.cmpAssocDetail._partysuppcode : null;
+      this.getCompanyAssociation();
       this.getCompanyBranches();
       this.getCompanyEstablishment();
       this.getCompanyContacts();
-      this.getAssociationType();
       this.getCompanyBanks();
     }
-    this.getAssociationType();
-    this.getSelfBranch();
-
+    
     this.common.refresh = this.refresh.bind(this);
 
   }
@@ -138,19 +134,18 @@ export class BasicPartyDetailsComponent implements OnInit {
       company: ['', [Validators.required]],
       cmpAlias: [''],
       gstNo: [''],
-      assType: ['', [Validators.required]],
-      branchId: [''],
       website: [''],
-      remark: [''],
+      address: [''],
       panNo: [''],
-      userSupplier: [''],
-      partySupplier: [''],
     });
   }
   refresh() {
+    this.getCompanyAssociation();
     this.getCompanyBranches();
     this.getCompanyEstablishment();
     this.getCompanyContacts();
+    this.getCompanyBanks();
+    
   }
 
   // convenience getter for easy access to form fields
@@ -166,25 +161,83 @@ export class BasicPartyDetailsComponent implements OnInit {
     this.activeModal.close({ response: this.modalClose });
   }
 
-  getAssociationType() {
-    this.api.get('Suggestion/getAssocTypeWrtFo')
+  getCompanyAssociation() {
+    const params = "assocType=" + this.associationType +"&partyId="+this.partyId;
+    this.common.loading++;
+    this.api.get('ManageParty/getCmpAssocWrtType?' + params)
       .subscribe(res => {
-        this.associationType = res['data'];
-      }, err => {
-      });
-  }
-
-  getSelfBranch() {
-    this.api.post('Suggestion/GetBranchList', {})
-      .subscribe(res => {
-        this.branchs = res['data'];
+        this.common.loading--;
+        this.companyAssociation = [];
+        this.table0 = {
+          companyAssociation: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
+        if (!res['data']) return;
+        this.companyAssociation = res['data'];
+        let first_rec = this.companyAssociation[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table0.companyAssociation.headings[key] = headerObj;
+          }
+        }
+        this.table0.companyAssociation.columns = this.getCmpAssocTableColumns();
+        console.log('Api Response:', res);
       },
         err => {
+          this.common.loading--;
+          console.error('Api Error:', err);
         });
   }
 
+  getCmpAssocTableColumns() {
+    let columns = [];
+    console.log("Data=", this.data);
+    this.companyAssociation.map(companyAssocition => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        if (this.headings[i] == "Action") {
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.addeditCompanyAssociation.bind(this, companyAssocition, 'Update') }] };
+        }
+        else {
+          this.valobj[this.headings[i]] = { value: companyAssocition[this.headings[i]], class: 'black', action: '' };
+        }
+      }
+      columns.push(this.valobj);
+    });
+    return columns;
+  }
+
+  addeditCompanyAssociation(cmpAssocDetail?) {
+    this.common.params = {
+      cmpId: this.partyId,
+      cmpName: this.partyName,
+      userCmpId: this.userCmpnyId,
+    };
+    cmpAssocDetail && (this.common.params['cmpAssocDetail'] = cmpAssocDetail);
+    const activeModal = this.modalService.open(AddCompanyAssociationComponent, {
+      size: "sm",
+      container: "nb-layout"
+    });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getCompanyAssociation();
+      }
+    });
+
+  }
+
+
   getCompanyBranches() {
-    let params = "assocCmpId=" + this.partyId + "&userCmpId=" + this.userCmpnyId;
+    let params = "assocCmpId=" + this.partyId;
     this.common.loading++;
     this.api.get('ManageParty/getCompanyBranches?' + params)
       .subscribe(res => {
@@ -285,9 +338,11 @@ export class BasicPartyDetailsComponent implements OnInit {
     });
   }
 
+  
 
-  getCompanyEstablishment(branchId?) {
-    let params = "assocCmpId=" + this.partyId + "&userCmpId=" + this.userCmpnyId;
+
+  getCompanyEstablishment() {
+    let params = "assocCmpId=" + this.partyId;
     this.common.loading++;
     this.api.get('ManageParty/getCmpEstablishment?' + params)
       .subscribe(res => {
@@ -360,13 +415,13 @@ export class BasicPartyDetailsComponent implements OnInit {
     });
     activeModal.result.then(data => {
       if (data.response) {
-        this.getCompanyEstablishment(data.response);
+        this.getCompanyEstablishment();
       }
     });
   }
 
   getCompanyContacts() {
-    let params = "assocCmpId=" + this.partyId + "&userCmpId=" + this.userCmpnyId;
+    let params = "assocCmpId=" + this.partyId;
     this.common.loading++;
     this.api.get('ManageParty/getCmpContacts?' + params)
       .subscribe(res => {
@@ -441,7 +496,7 @@ export class BasicPartyDetailsComponent implements OnInit {
   }
 
   getCompanyBanks() {
-    let params = "partyId=" + this.partyId + "&userCmpId=" + this.userCmpnyId;
+    let params = "partyId=" + this.partyId;
     this.common.loading++;
     this.api.get('ManageParty/getPartyBankAccouts?' + params)
       .subscribe(res => {
@@ -539,7 +594,6 @@ export class BasicPartyDetailsComponent implements OnInit {
   }
 
   saveBasicDetails() {
-    console.log("save Basic Details");
     console.log('gst and pan', this.gstNo, this.panNo);
     var regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
     var reggst = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9a-zA-Z]){1}?$/;
@@ -557,23 +611,18 @@ export class BasicPartyDetailsComponent implements OnInit {
     }
 
     let params = {
-      branchId: this.branchId,
+      cmpName: this.cmpName,
+      cmpAlias: this.cmpAlias,
+      address: this.address,
       website: this.website,
-      remark: this.remark,
       panNo: this.panNo,
       gstNo: this.gstNo,
-      cmpAlias: this.cmpAlias,
-      assType: this.assType,
-      cmpName: this.cmpName,
-      assCmpnyId: this.assCmpnyId,
-      userCmpnyId: this.userCmpnyId,
-      assocId: this.assocId,
-      userSuppCode: this.userCode,
-      partySuppCode: this.partyCode,
+      cmpId: this.partyId,
+      // userCmpnyId: this.userCmpnyId,
     }
     ++this.common.loading;
     console.log("params", params);
-    this.api.post('ManageParty/addCompWithAssoc', params)
+    this.api.post('ManageParty/addAndUpdateParty', params)
       .subscribe(res => {
         --this.common.loading;
         console.log("Testing")
@@ -581,21 +630,17 @@ export class BasicPartyDetailsComponent implements OnInit {
           this.value = true;
           this.partyId = res['data'][0].y_id;
           this.partyName = res['data'][0].y_compname;
-          this.branchId = null;
           this.website = null;
-          this.remark = null;
+          this.address = null;
           this.panNo = '';
           this.gstNo = '';
           this.cmpAlias = null;
-          // this.assType = '';
           this.cmpName = null;
-          this.userCode = null;
-          this.partyCode = null;
-          this.common.params = {
-            partyId: res['data'][0].y_ass_id,
-            userGroupId: this.assType,
-          };
-          this.modalService.open(PartyLedgerMappingComponent, { size: "lg", container: "nb-layout" });
+          // this.common.params = {
+          //   partyId: res['data'][0].y_ass_id,
+          //   // userGroupId: this.assType,
+          // };
+          // this.modalService.open(PartyLedgerMappingComponent, { size: "lg", container: "nb-layout" });
           this.common.showToast(res['data'][0].y_msg);
 
         } else {
