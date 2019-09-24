@@ -45,7 +45,6 @@ export class VehiclesViewComponent implements OnInit {
         this.common.loading--;
         console.log('res', res['data']);
         if (res['data'].length > 0) {
-
           this.driver.regNo = res['data'][0].regno != null ? res['data'][0].regno : "_";
           this.driver.vehicleType = res['data'][0].vehicle_type != null ? res['data'][0].vehicle_type : "_";
           this.driver.vehicleMaker = res['data'][0].vehicle_maker != null ? res['data'][0].vehicle_maker : "_";
@@ -67,6 +66,6 @@ export class VehiclesViewComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close(true);
-  }
+  };
 
 }
