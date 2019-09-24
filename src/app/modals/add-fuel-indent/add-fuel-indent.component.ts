@@ -77,6 +77,11 @@ export class AddFuelIndentComponent implements OnInit {
       this.fuelIndentData.refTypeSourceId = this.common.params.editFuelData._ref_id;
       this.fuelIndentData.refType = this.common.params.editFuelData._ref_type;
       this.fuelIndentData.refName = this.common.params.editFuelData._ref_name;
+      this.fuelIndentData.leagerId = this.common.params.editFuelData._ledger_id;
+      if (this.fuelIndentData.leagerId) {
+        this.selectModalTypeId = '1';
+        this.changeModal(this.selectModalTypeId);
+      }
     }
 
     if (this.common.params && this.common.params.refData) {
