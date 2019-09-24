@@ -68,7 +68,7 @@ export class FuelIndentComponent implements OnInit {
       this.apiUrl = "Fuel/getPendingFuelIndentWrtFo?";
     }
     else {
-      this.apiUrl = "getPendingCashIndentWrtFo?";
+      this.apiUrl = "Fuel/getPendingCashIndentWrtFo?";
 
     }
     console.log("url", this.apiUrl);
