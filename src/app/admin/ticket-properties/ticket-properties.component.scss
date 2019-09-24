@@ -1,5 +1,6 @@
-td {
-  background-color: #ffffff;
+.search {
+  width: 220px;
+  margin-left: 20px;
 }
 
 :host ::ng-deep .fa-trash {
@@ -12,7 +13,7 @@ td {
     padding: 10px 28px;
     font-weight: normal;
     font-size: 11px;
-    left: -22px;
+    left: -14px;
     top: -28px;
     -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
     box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
@@ -57,7 +58,7 @@ td {
     padding: 10px 28px;
     font-weight: normal;
     font-size: 11px;
-    left: -22px;
+    left: -17px;
     top: -28px;
     -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
     box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
@@ -102,7 +103,7 @@ td {
     padding: 10px 28px;
     font-weight: normal;
     font-size: 11px;
-    left: -22px;
+    left: -13px;
     top: -28px;
     -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
     box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);

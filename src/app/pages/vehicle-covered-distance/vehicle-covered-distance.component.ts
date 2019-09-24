@@ -60,6 +60,9 @@ export class VehicleCoveredDistanceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         let re = JSON.stringify(res['data']);
+        if (re == null) {
+          return this.data = [];
+        }
         console.log("re---", re);
         let rep = JSON.parse(re);
         this.data = JSON.parse(re);
@@ -180,9 +183,9 @@ export class VehicleCoveredDistanceComponent implements OnInit {
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
 
   }
-  openCompactForm(){
+  openCompactForm() {
     this.common.params = { data: this.data };
-    const activeModal = this.modalService.open(VehicleDistanceCoveredCompactFormComponent, { size: 'lg', container: 'nb-layout' , backdrop: 'static' });
+    const activeModal = this.modalService.open(VehicleDistanceCoveredCompactFormComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
 

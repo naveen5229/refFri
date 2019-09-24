@@ -1,0 +1,105 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Driver Personal Information</h4>
+    <!-- <h2>Update Driver Attendance</h2> -->
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <h5><u><b>Personal Information</b></u></h5>
+    <div class="row mt-3">
+
+        <div class="col-8">
+            <div class="row">
+                <div class="col-8">
+                    <label>Full Name :</label>&nbsp;<span>{{name}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label>D.O.B</label><span>{{DOB}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <label>Mobile Number :</label><span>{{pNumber}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <label>Secondary Number :</label><span>{{sNumber}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 text-rigth">
+            <img src="{{photo}}" style="width: 192px;
+            margin-top: -20px;
+            height: 148px;" />
+
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12 ">
+            <label>Permanent Address :</label><span>{{address}}</span>
+        </div>
+    </div>
+    <div class="row mt-3 ">
+        <div class="col-6 ">
+            <label>Adhar Number : </label><span>{{aadhar}}</span>
+        </div>
+        <div class="col-6">
+            <label>Pan Number :</label><span>{{pan}}</span>
+        </div>
+    </div>
+    <h4><u><b>Licence Information</b></u></h4>
+    <div class="row mt-3 ">
+        <div class="col-3 ">
+            <label>DL Number :</label><span>{{LicenceNo}}</span>
+        </div>
+    </div>
+    <div class="row mt-3 ">
+        <div class="col-3 ">
+            <label>Dl Expiry Date :</label><span>{{DLexpiry}}</span>
+        </div>
+    </div>
+    <div class="row mt-3 ">
+        <div class="col-3 ">
+            <label>Dl Type :</label><span>{{Dltype}}</span>
+        </div>
+    </div>
+    <h5><u><b>Gurantee Detail</b></u></h5>
+    <div class="row mt-3 ">
+        <div class="col-12 ">
+            <label>Guranter Name :</label><span>{{Gname}}</span>
+        </div>
+    </div>
+    <div class="row mt-3 ">
+        <div class="col-12 ">
+            <label>Guranter Mobile :</label><span>{{GuranterM}}</span>
+        </div>
+
+    </div>
+    <div class="row mt-3 ">
+        <div class="col-4 ">
+            <div class="form-group ">
+                <label>------------</label>
+                <br>
+                <label>Driver Signture</label>
+            </div>
+        </div>
+        <div class="col-4 ">
+            <div class="form-group ">
+                <label>------------</label>
+                <br>
+                <label>Guranter Signture</label>
+            </div>
+        </div>
+        <div class="col-4 ">
+            <div class="form-group ">
+                <label>------------</label>
+                <br>
+                <label>Manager</label>
+            </div>
+        </div>
+    </div>
+</div>

@@ -90,6 +90,8 @@ export class SaveUserTemplateComponent implements OnInit {
     setTimeout(() => {
       let spans = document.getElementsByClassName('fillvalue');
       for (let i = 0; i < spans.length; i++) {
+        ;
+
         spans[i]['onclick'] = this.addValue.bind(this, spans[i]);
       }
     }, 500);
@@ -97,6 +99,7 @@ export class SaveUserTemplateComponent implements OnInit {
     setTimeout(() => {
       let span = document.getElementsByClassName('emptyValue');
       for (let i = 0; i < span.length; i++) {
+
         span[i]['onclick'] = this.emptyValue.bind(this, span[i]);
       }
     }, 500);
