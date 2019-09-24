@@ -12,7 +12,7 @@
           <label> Report Type </label>
         </div>
         <div class="col-7">
-          <select [(ngModel)]="reportType" class="form-control" (change)="getFieldName()">
+          <select [(ngModel)]="reportType" class="form-control" (change)="getFieldName()" [attr.disabled]="fieldId?!editable:editable">
             <option value='LR'>LR</option>
             <option value='POD'>POD</option>
             <!-- <option value='FRINV'>Freight Invoice Print</option>
@@ -28,7 +28,7 @@
           <label>Block Type</label>
         </div>
         <div class="col-8">
-          <select class="form-control" [(ngModel)]="blockType">
+          <select class="form-control" [(ngModel)]="blockType" [attr.disabled]="fieldId?!editable:editable">
             <option value='1'>General Detail</option>
             <option value='2'>Material</option>
           </select>
@@ -59,8 +59,46 @@
         </div>
       </div>
     </div>
+
+  </div>
+
+  <div class="row mb-3" *ngIf="typeId!=3">
+
+    <div class="col-5">
+      <div class="row">
+        <div class="col-5">
+        </div>
+        <div class="col-7">
+          <label>
+            <input type="checkbox" [(ngModel)]="isFixedValue">
+            Is Fixed Value ?
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-5" *ngIf="isFixedValue">
+      <div class="row" *ngFor="let fixValue of fixValues; let i = index">
+        <div class="col-4">
+        </div>
+        <div class="col-6">
+          <input type="text" [(ngModel)]="fixValue.title" class="form-control">
+
+        </div>
+
+        <div class="col-2">
+          <i class="fa fa-plus" *ngIf="i == fixValues.length-1" (click)="addFixValue()"></i>
+          <i class="fa fa-trash" (click)="fixValues.splice(i,1)" *ngIf="i !== 0"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
     <div class="col-2">
-      <button class="btn btn-primary" name="submit" (click)="Add()" style="cursor:pointer;">Add</button>
+      <button class="btn btn-primary" name="submit" (click)="Add()" style="cursor:pointer;">{{btn1}}</button>
+    </div>
+    <div class="col-2" *ngIf="fieldId">
+      <button class="btn btn-danger" name="reset" (click)="resetData()" style="cursor:pointer;">{{btn2}}</button>
     </div>
   </div>
   <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="addField">
