@@ -34,7 +34,6 @@ export class LrRateComponent implements OnInit {
     weight: null,
     mgWeight: null,
     shortage: null,
-    shortagePer: null,
     detenation: null,
     delay: null,
     weightDistance: null,
@@ -42,7 +41,9 @@ export class LrRateComponent implements OnInit {
     unloading: null,
     qty: null,
     mgQty: null,
-    brokerage: null
+    brokerage: null,
+    shortageunit:0,
+    brokerageunit:0
   };
   filters = [{
     param: null,
@@ -54,7 +55,6 @@ export class LrRateComponent implements OnInit {
     weight: null,
     mgWeight: null,
     shortage: null,
-    shortagePer: null,
     detenation: null,
     delay: null,
     weightDistance: null,
@@ -62,7 +62,7 @@ export class LrRateComponent implements OnInit {
     unloading: null,
     qty: null,
     mgQty: null,
-
+    shortageunit:0
   }];
 
   lrId = null;
@@ -125,7 +125,6 @@ export class LrRateComponent implements OnInit {
       weight: null,
       mgWeight: null,
       shortage: null,
-      shortagePer: null,
       detenation: null,
       delay: null,
       weightDistance: null,
@@ -133,6 +132,7 @@ export class LrRateComponent implements OnInit {
       unloading: null,
       qty: null,
       mgQty: null,
+      shortageunit:0
     });
   }
 
@@ -340,7 +340,6 @@ export class LrRateComponent implements OnInit {
   }
   postAllowedReset() {
     this.general.shortage = null;
-    this.general.shortagePer = null;
   }
 
   setValue(data) {
@@ -353,6 +352,8 @@ export class LrRateComponent implements OnInit {
       this.general.qty = data[0]['qty_coeff'];
       this.general.mgQty = data[0]['mg_qty'];
       this.general.brokerage = data[0]['brokerage'];
+      this.general.brokerageunit=data[0]['brokerageunit'];
+      this.general.shortageunit=data[0]['shortageunit'];
       this.rateDiv = this.data[0]['_allowedit'];
       this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
       this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
