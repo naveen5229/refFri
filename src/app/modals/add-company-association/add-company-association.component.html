@@ -1,0 +1,69 @@
+<div class="modal-header">
+    <h5>Company Association</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="add-company-Association">
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Name:<span class="text-red">*</span></label>
+            </div>
+            <div class="col-8">
+                <strong>cmpName</strong>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Association Type<span class="text-red">*</span></label>
+            </div>
+            <div class="col-8">
+                <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="assType">
+                    <option *ngFor="let type of associationType" [value]="type.y_id">
+                        {{type.y_groupname}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Branch Name:</label>
+            </div>
+            <div class="col-8">
+                <select class="form-control" name="branchDropdown" id="branchDropdown" [(ngModel)]="branchId">
+                    <option *ngFor="let branch of branchs" [value]="branch.id">
+                        {{branch.name}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Party Supplier Code:</label>
+            </div>
+            <div class="col-md-8">
+                <input id="partySupplier" name="party" [(ngModel)]="partySupplierCode" type="text" placeholder="Enter Party Supplier Code" autocomplete="off" class="form-control">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>User Supplier Code:</label>
+            </div>
+            <div class="col-md-8">
+                <input id="userSupplier" name="user" [(ngModel)]="userSullierCode" type="text" placeholder="Enter User Supplier Code" autocomplete="off" class="form-control">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Remark</label>
+            </div>
+            <div class="col-8">
+                <textarea name="comment" class="form-control" [(ngModel)]="remark"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer mt-2">
+    <button type="button" class="btn btn-primary" (click)="addCompanyAssociation()">Add</button>
+</div>

@@ -251,6 +251,7 @@ import { MvsLrAssignComponent } from './modals/FreightRate/mvs-lr-assign/mvs-lr-
 import { GenericSuggestionComponent } from './modals/generic-modals/generic-suggestion/generic-suggestion.component';
 import { ManifestGenerateComponent } from './modals/LRModals/manifest-generate/manifest-generate.component';
 import { DriverPersonalInfoComponent } from './modals/driver-personal-info/driver-personal-info.component';
+import { AddCompanyAssociationComponent } from './modals/add-company-association/add-company-association.component';
 
 
 
@@ -476,6 +477,7 @@ import { DriverPersonalInfoComponent } from './modals/driver-personal-info/drive
     ManifestGenerateComponent,
     VehiclesViewComponent,
     DriverPersonalInfoComponent,
+    AddCompanyAssociationComponent,
 
   ],
   entryComponents: [
@@ -685,7 +687,8 @@ import { DriverPersonalInfoComponent } from './modals/driver-personal-info/drive
     GenericSuggestionComponent,
     ManifestGenerateComponent,
     VehiclesViewComponent,
-    DriverPersonalInfoComponent
+    DriverPersonalInfoComponent,
+    AddCompanyAssociationComponent
   ],
   imports: [
     BrowserModule,
