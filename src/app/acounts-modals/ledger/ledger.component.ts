@@ -15,6 +15,7 @@ import { AccountService } from '../../services/account.service';
 export class LedgerComponent implements OnInit {
   lastActiveId = '';
   deletedid = 0;
+  foid=1;
   showConfirm = false;
   showExit = false;
   salutiondata = [];
@@ -92,6 +93,7 @@ export class LedgerComponent implements OnInit {
     if (this.common.params && this.common.params.ledgerdata) {
       this.currentPage = "Edit Ledger";
       this.deletedid = this.common.params.deleted;
+      this.foid=this.common.params.ledgerdata[0].y_foid
       // console.log('deleted id',this.deletedid);
       // console.log('edit ledger data ', this.common.params.ledgerdata[0]);
       this.Accounts = {
@@ -364,7 +366,12 @@ console.log('sixe ledger',this.sizeledger);
   dismiss(response) {
     console.log('Accounts:', this.Accounts);
     // console.log('Accounts:', response);
+    if(this.foid >0){
     this.activeModal.close({ response: response, ledger: this.Accounts });
+    }else{
+    this.common.showError("Sysytem Entry Can't Update");
+    this.activeModal.close({ response: false, ledger: this.Accounts });     
+    }
     // this.activeModal.close({ ledger: this.Accounts });
   }
 
@@ -689,6 +696,7 @@ console.log('sixe ledger',this.sizeledger);
     let params = {
       id: tblid
     };
+    if(this.foid>0){
     if (tblid) {
       console.log('city', tblid);
       this.common.params = {
@@ -706,6 +714,10 @@ console.log('sixe ledger',this.sizeledger);
         }
       });
     }
+  }
+  else{
+    this.common.showError("System Entry Can't Delete");
+  }
   }
   approveDeleteFunction(type, typeans,xid) {
     console.log('type',type,'typeans',typeans,'xid',xid);
