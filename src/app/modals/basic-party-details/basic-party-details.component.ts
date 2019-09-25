@@ -340,7 +340,7 @@ export class BasicPartyDetailsComponent implements OnInit {
       container: "nb-layout"
     });
     activeModal.result.then(data => {
-      if (data) {
+      if (data.response) {
         this.getCompanyBranches();
       }
     });
@@ -360,7 +360,7 @@ export class BasicPartyDetailsComponent implements OnInit {
       container: "nb-layout"
     });
     activeModal.result.then(data => {
-      if (data) {
+      if (data.response) {
         this.getCompanyBranches();
       }
     });
@@ -442,7 +442,7 @@ export class BasicPartyDetailsComponent implements OnInit {
       container: "nb-layout"
     });
     activeModal.result.then(data => {
-      if (data) {
+      if (data.response) {
         this.getCompanyEstablishment();
       }
     });
@@ -517,7 +517,7 @@ export class BasicPartyDetailsComponent implements OnInit {
       container: "nb-layout"
     });
     activeModal.result.then(data => {
-      if (data) {
+      if (data.response) {
         this.getCompanyContacts();
       }
     });
@@ -592,7 +592,7 @@ export class BasicPartyDetailsComponent implements OnInit {
       container: "nb-layout"
     });
     activeModal.result.then(data => {
-      if (data) {
+      if (data.response) {
         this.getCompanyBanks();
       }
     });
