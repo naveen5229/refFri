@@ -250,6 +250,7 @@ import { MarketVehFreightStatementComponent } from './modals/FreightRate/market-
 import { MvsLrAssignComponent } from './modals/FreightRate/mvs-lr-assign/mvs-lr-assign.component';
 import { GenericSuggestionComponent } from './modals/generic-modals/generic-suggestion/generic-suggestion.component';
 import { ManifestGenerateComponent } from './modals/LRModals/manifest-generate/manifest-generate.component';
+import { DriverPersonalInfoComponent } from './modals/driver-personal-info/driver-personal-info.component';
 import { AddCompanyAssociationComponent } from './modals/add-company-association/add-company-association.component';
 
 
@@ -474,6 +475,8 @@ import { AddCompanyAssociationComponent } from './modals/add-company-association
     MvsLrAssignComponent,
     GenericSuggestionComponent,
     ManifestGenerateComponent,
+    VehiclesViewComponent,
+    DriverPersonalInfoComponent,
     AddCompanyAssociationComponent,
 
   ],
@@ -683,6 +686,8 @@ import { AddCompanyAssociationComponent } from './modals/add-company-association
     MvsLrAssignComponent,
     GenericSuggestionComponent,
     ManifestGenerateComponent,
+    VehiclesViewComponent,
+    DriverPersonalInfoComponent,
     AddCompanyAssociationComponent
   ],
   imports: [

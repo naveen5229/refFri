@@ -36,7 +36,9 @@ export class ViewMaintenanceComponent implements OnInit {
     this.api.get('VehicleMaintenance/viewDetailed?jobId=' + this.jobId + "&vehicleId=" + this.vehicleId)
       .subscribe(res => {
         this.common.loading--;
+        console.log("res['data'][0]",res['data'][0]);
         let headings = Object.keys(res['data'][0]);
+        console.log("headings",headings);
         for (let index = 0; index < headings.length; index++) {
           const header = headings[index];
           const value = res['data'][0][header];

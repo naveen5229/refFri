@@ -22,13 +22,13 @@ export class VehicleDistanceComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-      this.common.refresh = this.refresh.bind(this);
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
 
-  refresh(){
+  refresh() {
     console.log('refresh');
   }
   getFoList(user) {
@@ -36,31 +36,31 @@ export class VehicleDistanceComponent implements OnInit {
     this.data.foid = user.id;
   }
   getDistance() {
-    if(this.data.startDate>this.data.endDate){
+    if (this.data.startDate > this.data.endDate) {
       this.common.showError("StartDate Should be less then Enddate");
-    }else{
+    } else {
       console.log('Start Date: ', this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-"));
-    console.log('End Date: ', this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-"));
+      console.log('End Date: ', this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-"));
 
-    console.log("Data:", this.data);
-    let params = {
-      fromTime: this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-"),
-      tTime: this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-"),
-    };
-    this.common.loading++;
-    this.api.post('vehicles/foVehicleDistance', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
-        this.result = res['data'];
-        this.table = this.setTable();
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
+      console.log("Data:", this.data);
+      let params = {
+        fromTime: this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-"),
+        tTime: this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-"),
+      };
+      this.common.loading++;
+      this.api.post('vehicles/foVehicleDistance', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('Res:', res['data']);
+          this.result = res['data'];
+          this.table = this.setTable();
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
     }
-    
+
   }
 
   setTable() {
@@ -131,7 +131,7 @@ export class VehicleDistanceComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = "FoName:" + fodata['name'];
         let center_heading = "Report:" + "Vehicle Distance";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
       }, err => {
         this.common.loading--;
         console.log(err);
