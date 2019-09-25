@@ -16,6 +16,7 @@ import { AddMaterialComponent } from '../add-material/add-material.component';
 import { AddTransportAgentComponent } from '../add-transport-agent/add-transport-agent.component';
 import { BasicPartyDetailsComponent } from '../../../modals/basic-party-details/basic-party-details.component';
 import { VehiclesViewComponent } from '../../vehicles-view/vehicles-view.component';
+import { AddDriverCompleteComponent } from '../../DriverModals/add-driver-complete/add-driver-complete.component';
 
 @Component({
   selector: 'lr-generate',
@@ -100,7 +101,7 @@ export class LrGenerateComponent implements OnInit {
             this.setLrHeadData(headData[0], isSetBranchId);
           }
           this.particulars = res['data'].details;
-           this.setlrParticulars(this.particulars);
+          this.setlrParticulars(this.particulars);
           // console.log(this.particulars, this.particulars[0].fixed);
           // console.log("this.lrGeneralField", this.lrGeneralField, "head data", headData);
           this.formatGeneralDetails();
@@ -145,7 +146,7 @@ export class LrGenerateComponent implements OnInit {
         dd.r_value = dd.r_value ? new Date(dd.r_value) : new Date();
         console.log("date==", dd.r_value);
       }
-      if(dd.r_fixedvalues){
+      if (dd.r_fixedvalues) {
         dd.r_fixedvalues = JSON.parse(dd.r_fixedvalues);
       }
       if (dd.r_colorder % 2 == 0) {
@@ -160,12 +161,12 @@ export class LrGenerateComponent implements OnInit {
 
   formatMaterialDetails(particularDetails) {
     particularDetails.map(dd => {
-      if(dd.r_fixedvalues){
+      if (dd.r_fixedvalues) {
         dd.r_fixedvalues = JSON.parse(dd.r_fixedvalues);
       }
     });
     return particularDetails
-    
+
   }
 
   addCompany() {
@@ -189,7 +190,7 @@ export class LrGenerateComponent implements OnInit {
 
   addDriver() {
     this.common.params = { vehicleId: null, vehicleRegNo: null };
-    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log("data", data);
       if (data.data) {
@@ -352,7 +353,7 @@ export class LrGenerateComponent implements OnInit {
           if (customjfield.r_coltype == 3) {
             customjfield.r_value = customjfield.r_value ? new Date(customjfield.r_value) : new Date();
           }
-          if(customjfield.r_fixedvalues) {
+          if (customjfield.r_fixedvalues) {
             customjfield.r_fixedvalues = JSON.parse(customjfield.r_fixedvalues);
           }
           customjfields[customIndex].push(customjfield);
@@ -476,18 +477,17 @@ export class LrGenerateComponent implements OnInit {
     });
   }
   displayVehicleData() {
-    console.log("-------------vehicle id----------",this.vehicleData.id);
+    console.log("-------------vehicle id----------", this.vehicleData.id);
     this.common.params = { vehicleId: this.vehicleData.id }
-    if(this.vehicleData.id>0)
-    {
-    const activeModal = this.modalService.open(VehiclesViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-    });
-  }else{
-    this.common.showError("Vehicle Id doesn't exit.");
-  }
+    if (this.vehicleData.id > 0) {
+      const activeModal = this.modalService.open(VehiclesViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+
+      activeModal.result.then(data => {
+        console.log('Date:', data);
+      });
+    } else {
+      this.common.showError("Vehicle Id doesn't exit.");
+    }
 
   }
 }
