@@ -16,7 +16,7 @@ export class VehiclesViewComponent implements OnInit {
     vehicleType: null,
     vehicleMaker: null,
     vehicleModel: null,
-    chassicNo: null,
+    chassisNo: null,
     gvw: null,
     bsCode: null,
     makerName: null,
@@ -50,7 +50,7 @@ export class VehiclesViewComponent implements OnInit {
           this.driver.vehicleType = res['data'][0].vehicle_type != null ? res['data'][0].vehicle_type : "_";
           this.driver.vehicleMaker = res['data'][0].vehicle_maker != null ? res['data'][0].vehicle_maker : "_";
           this.driver.vehicleModel = res['data'][0].vehicle_model != null ? res['data'][0].vehicle_model : "_";
-          this.driver.chassicNo = res['data'][0].chassis_no != null ? res['data'][0].chassis_no : "_";
+          this.driver.chassisNo = res['data'][0].chassis_no != null ? res['data'][0].chassis_no : "_";
           this.driver.gvw = res['data'][0].gvw != null ? res['data'][0].gvw : "_";
           this.driver.bsCode = res['data'][0].bs_code != null ? res['data'][0].bs_code : "_";
           this.driver.makerName = res['data'][0].make_name != null ? res['data'][0].make_name : "_";

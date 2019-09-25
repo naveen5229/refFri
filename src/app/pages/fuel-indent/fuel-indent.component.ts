@@ -45,6 +45,8 @@ export class FuelIndentComponent implements OnInit {
 
   endDate = new Date();
   startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 7));
+  indentType = '0';
+  apiUrl = "Fuel/getPendingFuelIndentWrtFo?";
   constructor(public api: ApiService,
     private modalService: NgbModal,
     public common: CommonService) {
@@ -62,11 +64,18 @@ export class FuelIndentComponent implements OnInit {
   }
 
   getFuelIndent() {
+    if (this.indentType == '0') {
+      this.apiUrl = "Fuel/getPendingFuelIndentWrtFo?";
+    }
+    else {
+      this.apiUrl = "Fuel/getPendingCashIndentWrtFo?";
+
+    }
+    console.log("url", this.apiUrl);
     const params = "startdate=" + this.common.dateFormatter1(this.startDate) + "&enddate=" + this.common.dateFormatter1(this.endDate) + "&addedBy=" + this.vehicleType + "&status=" + this.vehicleStatus + "&regno=" + this.regno;
     console.log("params", params);
-    console.log("params", params);
     ++this.common.loading;
-    this.api.get('Fuel/getPendingFuelIndentWrtFo?' + params)
+    this.api.get(this.apiUrl + params)
       .subscribe(res => {
         --this.common.loading;
         this.data = [];

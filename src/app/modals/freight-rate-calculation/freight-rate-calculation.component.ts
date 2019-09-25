@@ -78,7 +78,7 @@ export class FreightRateCalculationComponent implements OnInit {
   }
 
   getAllFieldName() {
-    this.api.get('Suggestion/lrFoFields?sugId=1')
+    this.api.get('Suggestion/lrFoFields?sugId=2')
       .subscribe(res => {
         this.fofields = res['data'];
         console.log("fo", this.fofields);
