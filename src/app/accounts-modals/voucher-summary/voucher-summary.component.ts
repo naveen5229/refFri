@@ -37,6 +37,7 @@ export class VoucherSummaryComponent implements OnInit {
   selectedRow = -1;
   trips;
   vouchertype = -150;
+  totalDays=0;
   vehclename = '';
   ledgers = [];
   debitLedgerdata = [];
@@ -52,7 +53,7 @@ export class VoucherSummaryComponent implements OnInit {
   tripFreghtDetails = [];
   lastOdoMeter=0;
   currentOdoMeter=0;
-  fuelMilege=0;
+  fuelMilege = '0';
   totalqty=0;
   creditLedger = {
     name: '',
@@ -116,7 +117,9 @@ export class VoucherSummaryComponent implements OnInit {
     console.log('tripPendingDataSelected', this.common.params.tripPendingDataSelected);
 
     if (this.common.params.tripVoucher) {
-      this.vehclename = this.common.params.tripVoucher.y_vehicle_name
+      this.lastOdoMeter = this.common.params.tripVoucher.y_start_odometer || 0;
+      this.currentOdoMeter = this.common.params.tripVoucher.y_end_odometer || 0;
+      this.vehclename = this.common.params.tripVoucher.y_vehicle_name;
       this.tripsEditData = this.common.params.tripDetails;
       this.tripVoucher = this.common.params.tripVoucher;
       this.trips = this.common.params.tripEditData;
@@ -176,6 +179,7 @@ export class VoucherSummaryComponent implements OnInit {
       }, 200);
       console.log('---------****',this.VoucherId);
       this.getOdoMeter();
+     
 
     }
 
@@ -412,12 +416,15 @@ export class VoucherSummaryComponent implements OnInit {
     }
   }
   changeFuelFilling(){
-    this.totalqty=0
+    this.totalqty=0;
+    let tqty = 0;
     this.fuelFilings.map(fuelFiling =>{ 
       if(fuelFiling.isChecked){
-        this.totalqty +=fuelFiling.litres;
+        tqty +=fuelFiling.litres;
     }
+
   });
+  this.totalqty= parseFloat(tqty.toFixed(2));
   }
   findFirstSelectInfo(flag,type = 'startDate') {
     console.log('______________________inside findFirstSelectInfo ____________', this.trips);
@@ -486,6 +493,7 @@ export class VoucherSummaryComponent implements OnInit {
             (fuelFiling.tripexp_voucherid == this.tripexpencevoucherid) ? fuelFiling.isChecked = true : '';
           });
         });
+        this.changeFuelFilling();
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -525,12 +533,20 @@ export class VoucherSummaryComponent implements OnInit {
       .subscribe(res => {
         console.log('last odo meter',res['data'][0]);
         this.common.loading--;
-        this.fuelMilege = res['data'][0]['get_tripexp_lastodometer'];
+        if(this.VoucherId==0){
+        this.lastOdoMeter = res['data'][0]['y_lastodo'] || '0';
+        }
+        this.totalDays = res['data'][0]['y_totaldays'] || 0;
+        this.fuelMilege=((this.currentOdoMeter-this.lastOdoMeter)/this.totalqty).toFixed(2) || '0';
       }, err => {
         console.log(err);
         this.common.loading--;
         this.common.showError();
       });
+  }
+  changeFuelCalculate(){
+    this.fuelMilege = ((this.currentOdoMeter-this.lastOdoMeter)/this.totalqty).toFixed(2) || '0';
+
   }
   getVoucherDetails(voucherId) {
     console.log('voucher id last ', voucherId)
@@ -788,7 +804,9 @@ export class VoucherSummaryComponent implements OnInit {
       tripExpVoucherId: tripexpvoucherid,
       fuelFilings: this.fuelFilings,
       accDetail: this.accDetails,
-      voucherArray: voucherDetailArray
+      voucherArray: voucherDetailArray,
+      startOdometer: this.lastOdoMeter,
+      endOdometer: this.currentOdoMeter
 
     };
 
@@ -1103,6 +1121,7 @@ export class VoucherSummaryComponent implements OnInit {
     let rows4 = [];
     let rows5 = [];
     let rows6 = [];
+    let rows7 = [];
     console.log('trip check data', this.trips);
     this.trips.map((tripDetail, index) => {
       if (tripDetail.isChecked) {
@@ -1204,9 +1223,17 @@ export class VoucherSummaryComponent implements OnInit {
       { txt: this.totalFuel || '' },
       { txt: this.alltotal || '' },
       { txt: this.totalRevinue - (this.alltotal + this.totalFuel) || '' },
+      { txt: ((this.totalRevinue - (this.alltotal + this.totalFuel)) - this.totalDays) || '' },
 
 
 
+    ]);
+    rows7.push([
+        { txt: this.totalqty },
+        { txt: this.lastOdoMeter },
+        { txt: this.currentOdoMeter },
+        { txt: this.fuelMilege },
+      
     ]);
     console.log('rows4', rows4);
     let invoiceJson = {};
@@ -1337,6 +1364,16 @@ export class VoucherSummaryComponent implements OnInit {
         },
         {
           headings: [
+            { txt: 'Total Fuel' },
+            { txt: 'Last Odometer' },
+            { txt: 'Current Odometer' },
+            { txt: 'Fuel Milege' },
+          ],
+          rows: rows7,
+          name: 'Fuel Milege'
+        },
+        {
+          headings: [
             { txt: 'S.No' },
             { txt: 'Head' },
             ...this.trips.filter(checkname => {
@@ -1379,6 +1416,7 @@ export class VoucherSummaryComponent implements OnInit {
             { txt: 'Fuel' },
             { txt: 'Expence' },
             { txt: 'Net Revenue' },
+            { txt: 'Avg. Revenue' },
           ],
           rows: rows6,
           name: 'Revenue'
