@@ -19,12 +19,17 @@ export class AddCompanyAssociationComponent implements OnInit {
   remark='';
   updateId=null;
   update=false;
+  cmpName=this.common.params.cmpName;
   
 
   constructor(public common:CommonService,
     public activeModal:NgbActiveModal,
     public api:ApiService) {
     console.log("params Party",this.common.params);
+    if(this.common.params.cmpAssocDetail){
+      this.cmpName=this.common.params.cmpAssocDetail['Company Name'];
+
+    }
     this.getAssociationType();
     this.getSelfBranch();
    }

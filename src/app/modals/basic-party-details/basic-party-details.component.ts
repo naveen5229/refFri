@@ -38,11 +38,6 @@ export class BasicPartyDetailsComponent implements OnInit {
   gstPanCheck = false;
   associationType=null;
 
-  dropDown = [
-    { name: 'Self', id: 1 },
-    { name: 'Others', id: 2 },
-  ];
-
   data = [];
   cmpEstablishment = [];
   companyContacts = [];
@@ -530,7 +525,6 @@ export class BasicPartyDetailsComponent implements OnInit {
           this.common.loading--;
           console.error('Api Error:', err);
         });
-
   }
 
 
