@@ -26,6 +26,18 @@
                                 <input type="text" class="form-control" formControlName="company" [ngClass]="{ 'is-invalid': isFormSubmit && f.company }" [(ngModel)]="cmpName" autocomplete="off">
                             </div>
                         </div>
+                        <div *ngIf="partyId==null" class="row mt-2">
+                            <div class="col-4">
+                                <label>Association Type<span class="text-red">*</span></label>
+                            </div>
+                            <div class="col-8">
+                                <select class="form-control" name="dropdown" id="dropdown" formControlName="association" [(ngModel)]="assType">
+                                    <option *ngFor="let type of associationTypes" [value]="type.y_id">
+                                        {{type.y_groupname}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="row mt-2">
                             <div class="col-4">
                                 <label>Pan:</label>
@@ -51,6 +63,18 @@
                             </div>
                             <div class="col-8">
                                 <input type="text" id="cmpAlias" class="form-control" formControlName="cmpAlias" [(ngModel)]="cmpAlias" name="cmpAlias" autocomplete="off">
+                            </div>
+                        </div>
+                        <div *ngIf="partyId==null" class="row mt-2">
+                            <div class="col-4">
+                                <label>Branch Name:</label>
+                            </div>
+                            <div class="col-8">
+                                <select class="form-control" name="branchDropdown" id="branchDropdown" formControlName="branch" [(ngModel)]="branchId">
+                                    <option *ngFor="let branch of branchs" [value]="branch.id">
+                                        {{branch.name}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mt-2">
