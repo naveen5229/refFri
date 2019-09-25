@@ -15,64 +15,66 @@
 
           <!-- fixed Data -->
           <tr>
-              <td>
-                  <label>Branch</label>
-                  <span>
-                    <select class="form-control" [(ngModel)]="accountService.selected.branch.id"
-                      (change)="getDispatchOrderFields();">
-                      <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
-                    </select>
-                  </span>
-                </td>
-              <td>
-                  <label>Vehicle Type<span style="color: red">*</span></label>
-                  <span>
-                    <select [(ngModel)]="vehicleType" (change)="resetVehicleData()">
-                      <option value="1">Own</option>
-                      <option value="2">Group</option>
-                      <option value="3">Market</option></select>
-                  </span>
-                </td>
+            <td>
+              <label>Branch</label>
+              <span>
+                <select class="form-control" [(ngModel)]="accountService.selected.branch.id"
+                  (change)="getDispatchOrderFields();">
+                  <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
+                </select>
+              </span>
+            </td>
+            <td>
+              <label>Vehicle Type<span style="color: red">*</span></label>
+              <span>
+                <select [(ngModel)]="vehicleType" (change)="resetVehicleData()">
+                  <option value="1">Own</option>
+                  <option value="2">Group</option>
+                  <option value="3">Market</option>
+                </select>
+              </span>
+            </td>
 
 
-            
-           
+
+
           </tr>
           <tr>
-              <td>
-                  <label>Vehicle<span style="color: red">*</span></label>
-                  <span>
-                    <auto-suggestion *ngIf="vehicleType==1" (onSelected)="getVehicleInfo($event)" url="Vehicles/getVehicleListForFoid"
-                      display="regno" placeholder="Enter Vehicle Number" (change)="resetVehicle()" inputId="vehicleno"
-                      [preSelected]="{regno : vehicleData.regno }" style="width
+            <td>
+              <label>Vehicle<span style="color: red">*</span></label>
+              <span>
+                <auto-suggestion *ngIf="vehicleType==1" (onSelected)="getVehicleInfo($event)"
+                  url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number"
+                  (change)="resetVehicle()" inputId="vehicleno" [preSelected]="{regno : vehicleData.regno }" style="width
                       :100%">
-                    </auto-suggestion>
-                    <input type="text" name="Vehicle" *ngIf="vehicleType!=1;" [(ngModel)] = "vehicleData.regno" id = "vehicleno" >
-                  </span>
-                </td>
+                </auto-suggestion>
+                <input type="text" name="Vehicle" *ngIf="vehicleType!=1;" [(ngModel)]="vehicleData.regno"
+                  id="vehicleno">
+              </span>
+            </td>
 
-                <td>
-                    <label>serial No<span style="color: red">*</span></label>
-                    <span>
-                      <input type="text" [(ngModel)]=disOrder.prefix class="form-control" placeholder="Prefix"
-                        style="width:40%;float:left">
-                      <input type="text" [(ngModel)]=disOrder.serial class="form-control" placeholder="Number"
-                        style="width:60%;float:left">
-      
-                    </span>
-                  </td>
-           
+            <td>
+              <label>serial No<span style="color: red">*</span></label>
+              <span>
+                <input type="text" [(ngModel)]=disOrder.prefix class="form-control" placeholder="Prefix"
+                  style="width:40%;float:left">
+                <input type="text" [(ngModel)]=disOrder.serial class="form-control" placeholder="Number"
+                  style="width:60%;float:left">
+
+              </span>
+            </td>
+
             <td></td>
           </tr>
           <tr>
-              <td>
-                  <label>Date<span style="color: red">*</span></label>
-                  <span>
-                    <uj-date-time-picker (onChanged)="disOrder.date = $event" [dateTimeValue]="disOrder.date"
-                      [isTime]="false" class="col-6">
-                    </uj-date-time-picker>
-                  </span>
-                </td>
+            <td>
+              <label>Date<span style="color: red">*</span></label>
+              <span>
+                <uj-date-time-picker (onChanged)="disOrder.date = $event" [dateTimeValue]="disOrder.date"
+                  [isTime]="false" class="col-6">
+                </uj-date-time-picker>
+              </span>
+            </td>
           </tr>
 
           <!-- ordered Data -->

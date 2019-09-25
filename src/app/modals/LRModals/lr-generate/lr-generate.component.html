@@ -66,6 +66,8 @@
                   [preSelected]="{regno : vehicleData.regno }" style="width
                   :100%" *ngIf='lr.vehicleType == 1' inputId='vehicleno'>
                 </auto-suggestion>
+                <i *ngIf='lr.vehicleType == 1' class="fa fa-eye"
+                    (click)="displayVehicleData()"></i>
                 <input type="text" [(ngModel)]=vehicleData.regno class="form-control" placeholder="Vehicle"
                   *ngIf='lr.vehicleType !=1' id="vehicleno">
 

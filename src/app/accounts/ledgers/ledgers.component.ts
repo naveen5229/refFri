@@ -121,7 +121,11 @@ console.log('deleted ledger and simple',params);
           activeModal.result.then(data => {
             // console.log('Data: ', data);
             if (data.response) {
+            if (data.ledger) {
               this.addLedger(data.ledger);
+            }else{
+              this.GetLedger();
+            }
             }
           });
 

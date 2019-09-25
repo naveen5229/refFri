@@ -3,7 +3,9 @@
         <div class="model-body">
             <div class="row">
                 <div class="col-sm-3">
-                    <select [(ngModel)]="trendType" class="form-control" (ngModelChange)="getCategoryDayMonthWeekWise(trendType)" style=" border: 1px solid #324148; font-size: 10px">
+                    <select [(ngModel)]="trendType" class="form-control"
+                        (ngModelChange)="getCategoryDayMonthWeekWise(trendType)"
+                        style=" border: 1px solid #324148; font-size: 10px">
                         <option value="11">Loading</option>
                         <option value="21">Unloading</option>
                         <option value="0">Onward</option>
@@ -11,14 +13,17 @@
                     </select>
                 </div>
                 <div class="col-sm-3" *ngIf="showPeriod">
-                    <select [(ngModel)]="period" class="form-control" (ngModelChange)="initialize()" style=" border: 1px solid #324148; font-size: 10px">
+                    <select [(ngModel)]="period" class="form-control" (ngModelChange)="initialize()"
+                        style=" border: 1px solid #324148; font-size: 10px">
                         <option value="1">Day</option>
                         <option value="2">Week</option>
                         <option value="3">Month</option>
                     </select>
                 </div>
                 <div class="col-sm-3" *ngIf="(period=='2')">
-                    <select [(ngModel)]="weekMonthNumber" class="form-control" (ngModelChange)="getweeklyMothlyTrend();getTrendsVehicleSite()" style=" border: 1px solid #324148; font-size: 10px">
+                    <select [(ngModel)]="weekMonthNumber" class="form-control"
+                        (ngModelChange)="getweeklyMothlyTrend();getTrendsVehicleSite()"
+                        style=" border: 1px solid #324148; font-size: 10px">
                         <option value="4">4</option>
                         <option value="5">5</option>
                         <option value="6">6</option>
@@ -35,7 +40,9 @@
                     </select>
                 </div>
                 <div class="col-sm-3" *ngIf="(period=='3')">
-                    <select [(ngModel)]="weekMonthNumber" class="form-control" (ngModelChange)="getweeklyMothlyTrend();getTrendsVehicleSite()" style=" border: 1px solid #324148; font-size: 10px">
+                    <select [(ngModel)]="weekMonthNumber" class="form-control"
+                        (ngModelChange)="getweeklyMothlyTrend();getTrendsVehicleSite()"
+                        style=" border: 1px solid #324148; font-size: 10px">
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
@@ -49,7 +56,8 @@
                     </uj-date-time-picker>
                 </div>
                 <div class="col-sm-2" *ngIf="period == '1'">
-                    <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate" [isTime]="false" [isStart]="false">
+                    <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate" [isTime]="false"
+                        [isStart]="false">
                     </uj-date-time-picker>
                 </div>
                 <div class="col-sm-2" *ngIf="period == '1'">
@@ -61,7 +69,8 @@
             <div class="row" style="margin-top: -23px;">
 
                 <div class="col-sm-12" *ngIf="dateDay.length>0">
-                    <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet" style="margin-right:5px;height:250px" [options]="chart.options">
+                    <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet"
+                        style="margin-right:5px;height:250px" [options]="chart.options">
                     </chart>
                     <!-- <chart *ngIf="chartObject.data && trendType!='0' && trendType!='31'" [type]="chartObject.type" [data]="chartObject.data" style="margin-right:5px;height:250px" [options]="chartObject.options"></chart> -->
                     <!-- <chart *ngIf="this.chartObject1.data.datasets && trendType=='0' || trendType=='31'" [type]="chartObject1.type" [data]="chartObject1.data" style="margin-right:5px;height:250px" [options]="chartObject1.options"></chart> -->
@@ -115,16 +124,21 @@
                         <tbody>
                             <ng-container *ngFor="let trendsVehicleSite of trendsVehicleSiteData; let i=index;">
 
-                                <tr *ngIf="((trendType=='11' && trendsVehicleSite.ldng_count!=0  && trendsVehicleSite.loading_hrs!=0) || (trendType=='21'&& trendsVehicleSite.unloading_hrs!=0 && trendsVehicleSite.unldng_count!=0))">
+                                <tr
+                                    *ngIf="((trendType=='11' && trendsVehicleSite.ldng_count!=0  && trendsVehicleSite.loading_hrs!=0) || (trendType=='21'&& trendsVehicleSite.unloading_hrs!=0 && trendsVehicleSite.unldng_count!=0))">
                                     <td style="color:#00695C; " (click)="locationOnMap(trendsVehicleSite) ">
                                         {{trendsVehicleSite.sitename}}</td>
-                                    <td *ngIf="trendType=='11' " style="text-align: center">{{trendsVehicleSite.loading_hrs | number : '1.2-2' }}
+                                    <td *ngIf="trendType=='11' " style="text-align: center">
+                                        {{trendsVehicleSite.loading_hrs | number : '1.2-2' }}
                                     </td>
-                                    <td *ngIf="trendType=='21'" style="text-align: center">{{trendsVehicleSite.unloading_hrs | number : '1.2-2' }}
+                                    <td *ngIf="trendType=='21'" style="text-align: center">
+                                        {{trendsVehicleSite.unloading_hrs | number : '1.2-2' }}
                                     </td>
-                                    <td style="color:#00695C;text-align: center;" *ngIf="trendType=='11'" (click)="trendsVehicleSite.ldng_count>0? getPendingStatus(trendsVehicleSite):''">
+                                    <td style="color:#00695C;text-align: center;" *ngIf="trendType=='11'"
+                                        (click)="trendsVehicleSite.ldng_count>0? getPendingStatus(trendsVehicleSite,'vehicle'):''">
                                         {{trendsVehicleSite.ldng_count }}</td>
-                                    <td style="color:#E91E63;" *ngIf="trendType=='21'" (click)="trendsVehicleSite.unldng_count >0 ?getPendingStatus(trendsVehicleSite):''">
+                                    <td style="color:#E91E63;" *ngIf="trendType=='21'"
+                                        (click)="trendsVehicleSite.unldng_count >0 ?getPendingStatus(trendsVehicleSite,'vehicle'):''">
                                         {{trendsVehicleSite.unldng_count}}</td>
 
                                 </tr>
@@ -146,14 +160,22 @@
                         </thead>
                         <tbody>
                             <ng-container *ngFor="let trendsVehicle of trendsVehicleData; let i=index; ">
-                                <tr *ngIf="((trendType=='11' && trendsVehicle.ldng_count!=0 ) || (trendType=='21'&& trendsVehicle.unldng_count!=0))">
+                                <tr
+                                    *ngIf="((trendType=='11' && trendsVehicle.ldng_count!=0 ) || (trendType=='21'&& trendsVehicle.unldng_count!=0))">
                                     <td *ngIf="trendType=='11' || trendType=='21' ">{{trendsVehicle.vehicle_id }}</td>
 
-                                    <td *ngIf="trendType=='11' " style="text-align:center">{{trendsVehicle.loading_hrs | number : '1.2-2' }}</td>
-                                    <td *ngIf="trendType=='21' " style="text-align:center">{{trendsVehicle.unloading_hrs | number : '1.2-2' }}
+                                    <td *ngIf="trendType=='11' " style="text-align:center">
+                                        {{trendsVehicle.loading_hrs | number : '1.2-2' }}</td>
+                                    <td *ngIf="trendType=='21' " style="text-align:center">
+                                        {{trendsVehicle.unloading_hrs | number : '1.2-2' }}
                                     </td>
-                                    <td *ngIf="trendType=='11' " style="text-align:center">{{trendsVehicle.ldng_count }}</td>
-                                    <td *ngIf="trendType=='21' " style="text-align:center">{{trendsVehicle.unldng_count }}</td>
+                                    <td *ngIf="trendType=='11' " style="color:#00695C;text-align: center;"
+                                        (click)="trendsVehicle.ldng_count>0? getPendingStatus(trendsVehicle,'site'):''">
+                                        {{trendsVehicle.ldng_count }}</td>
+                                    <td *ngIf="trendType=='21' " style="color:#E91E63;"
+                                        (click)="trendsVehicle.unldng_count >0 ?getPendingStatus(trendsVehicle,'site'):''">
+                                        {{trendsVehicle.unldng_count }}
+                                    </td>
                                 </tr>
                             </ng-container>
                         </tbody>

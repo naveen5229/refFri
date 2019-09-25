@@ -11,6 +11,14 @@ nb-card-header{
     margin-bottom: 10px;
 }
 
+.pdf-icon{
+    font-size: 30px;
+    color: #9F0001;
+}
+.exel-icon{
+    font-size: 30px;
+    color: #217346;
+}
 table{
     thead{
         display: table;
@@ -82,4 +90,8 @@ auto-suggestion :host ::ng-deep .form-control {
     padding: 3px 5px !important;
     height: auto !important;
     font-size: 12px !important;
+}
+
+.pdf-exel-icon{
+    margin-left: 8px;
 }

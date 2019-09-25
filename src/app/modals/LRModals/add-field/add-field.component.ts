@@ -21,8 +21,8 @@ export class AddFieldComponent implements OnInit {
     name: null,
   }
   ];
-  fixValues=[{
-    title:''
+  fixValues = [{
+    title: ''
   }];
   isFixedValue = false;
   fieldId = null;
@@ -44,6 +44,7 @@ export class AddFieldComponent implements OnInit {
 
   btn1 = "Add";
   btn2 = "Cancel";
+  editable: true;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -75,12 +76,12 @@ export class AddFieldComponent implements OnInit {
     console.log("type:", this.typeId);
     let params = {
       name: this.name,
-      fieldId:this.fieldId,
+      fieldId: this.fieldId,
       type: this.typeId,
       reportType: this.reportType,
       blockType: this.blockType,
-      isFixedValue:this.isFixedValue,
-      fixValues:JSON.stringify(this.fixValues)
+      isFixedValue: this.isFixedValue,
+      fixValues: JSON.stringify(this.fixValues)
     }
     console.log("params", params);
     this.common.loading++;
@@ -214,52 +215,52 @@ export class AddFieldComponent implements OnInit {
   }
 
 
-  addFixValue(){
+  addFixValue() {
     this.fixValues.push({
-      title:''
+      title: ''
     });
   }
 
-  editRow(row){
-    this.fieldId=row._id;
+  editRow(row) {
+    this.fieldId = row._id;
     this.common.loading++;
     let params = {
-      fieldId : this.fieldId
+      fieldId: this.fieldId
     }
     this.api.post('LorryReceiptsOperation/getFieldData', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("Result:", res['data']);
-        if( res['data']){
-        this.setData(res['data'][0]);
-      }else{
-        this.common.showError("Data is not available for edit");
-      }
+        if (res['data']) {
+          this.setData(res['data'][0]);
+        } else {
+          this.common.showError("Data is not available for edit");
+        }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
       });
   }
 
-  setData(data){
+  setData(data) {
     this.reportType = data.master_type;
     this.blockType = data.block_type;
     this.typeId = data.col_type;
     this.name = data.col_title;
-    this.fixValues=data.newvalues?JSON.parse(data.newvalues):this.fixValues;
+    this.fixValues = data.newvalues ? JSON.parse(data.newvalues) : this.fixValues;
     this.isFixedValue = data.is_active;
     this.btn1 = "Update";
 
   }
-  resetData(data){
+  resetData(data) {
     this.reportType = 'LR';
     this.blockType = 1;
     this.typeId = null;
     this.name = null;
     this.isFixedValue = false;
-    this.fieldId=null;
-    this.fixValues=[{
-      title:''
+    this.fieldId = null;
+    this.fixValues = [{
+      title: ''
     }];
     this.btn1 = "Add";
 

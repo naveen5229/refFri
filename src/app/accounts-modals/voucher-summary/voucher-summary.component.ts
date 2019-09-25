@@ -20,6 +20,7 @@ import { PrintService } from '../../services/print/print.service';
 })
 export class VoucherSummaryComponent implements OnInit {
   firstdate = '';
+  tripexpencevoucherid=0;
   enddate = '';
   permanentDeleteId = 0;
   sizeIndex = 0;
@@ -49,6 +50,10 @@ export class VoucherSummaryComponent implements OnInit {
   DriverName;
   totalTrip = [];
   tripFreghtDetails = [];
+  lastOdoMeter=0;
+  currentOdoMeter=0;
+  fuelMilege=0;
+  totalqty=0;
   creditLedger = {
     name: '',
     id: 0
@@ -116,6 +121,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.tripVoucher = this.common.params.tripVoucher;
       this.trips = this.common.params.tripEditData;
       this.VoucherId = this.tripVoucher.y_voucher_id;
+      this.tripexpencevoucherid=this.tripVoucher.y_id;
       this.FinanceVoucherId = this.tripVoucher.fi_voucher_id;
       this.checkedTrips = this.tripsEditData;
       this.custcode = this.tripVoucher.y_code;
@@ -169,6 +175,8 @@ export class VoucherSummaryComponent implements OnInit {
         this.showTransfer();
       }, 200);
       console.log('---------****',this.VoucherId);
+      this.getOdoMeter();
+
     }
 
     this.common.handleModalSize('class', 'modal-lg', '1150', 'px', this.sizeIndex);
@@ -389,13 +397,28 @@ export class VoucherSummaryComponent implements OnInit {
   checkedAll() {
     console.log('true value', this.checkall);
     let selectedAll = '';
+    this.checkedTrips = [];
     if (this.checkall) {
-      this.trips.map(trip => trip.isChecked = true);
+      
+      this.trips.map(trip =>{ 
+        if(!trip.voucher_id){
+        trip.isChecked = true
+        this.checkedTrips.push(trip);
+      }
+      console.log('all cheked trips ',this.checkedTrips);
+    });
     } else {
       this.trips.map(trip => trip.isChecked = false);
     }
   }
-
+  changeFuelFilling(){
+    this.totalqty=0
+    this.fuelFilings.map(fuelFiling =>{ 
+      if(fuelFiling.isChecked){
+        this.totalqty +=fuelFiling.litres;
+    }
+  });
+  }
   findFirstSelectInfo(flag,type = 'startDate') {
     console.log('______________________inside findFirstSelectInfo ____________', this.trips);
     let min = this.trips.filter(ele => { return ele.isChecked }).reduce((a, b) => {
@@ -405,7 +428,7 @@ export class VoucherSummaryComponent implements OnInit {
         (typeof a == 'string' ? a : a.start_time);
     });
     console.log('_____________________MIN MIL GYA___________', min);
-    if(flag==1) { return min['start_time']; } else { return min; }
+    if(min['start_time']) { return min['start_time']; } else { return min; }
     // let options = {
     //   startDate: '',
     //   index: -1
@@ -427,7 +450,7 @@ export class VoucherSummaryComponent implements OnInit {
         (typeof a == 'string' ? a : a.end_time);
     });
     console.log('max founded', max);
-    if(flag==1) { return max['end_time'];}else{ return max; }
+    if(max['end_time']) { return max['end_time'];}else{ return max; }
     
     // let options = {
     //   endDate: '',
@@ -460,7 +483,7 @@ export class VoucherSummaryComponent implements OnInit {
         this.fuelFilings.map(fuelFiling => {
           selectedData.map(tripedit => {
           //  (fuelFiling.id == tripedit.id) ? fuelFiling.isChecked = true : '';
-            (fuelFiling.tripexp_voucherid == this.VoucherId) ? fuelFiling.isChecked = true : '';
+            (fuelFiling.tripexp_voucherid == this.tripexpencevoucherid) ? fuelFiling.isChecked = true : '';
           });
         });
       }, err => {
@@ -475,8 +498,8 @@ export class VoucherSummaryComponent implements OnInit {
 
     const params = {
       vehId: this.VehicleId,
-      lastFilling: lastFilling || this.findFirstSelectInfo(2),
-      currentFilling: currentFilling || this.findLastSelectInfo(2)
+      lastFilling: lastFilling || this.findFirstSelectInfo(1),
+      currentFilling: currentFilling || this.findLastSelectInfo(1)
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -484,6 +507,7 @@ export class VoucherSummaryComponent implements OnInit {
         console.log(res);
         this.common.loading--;
         this.fuelFilings = res['data'];
+        this.getOdoMeter();
        // this.fuelFilings.map(fuelFiling => fuelFiling.isChecked = true);
       }, err => {
         console.log(err);
@@ -491,7 +515,23 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.showError();
       });
   }
-
+  getOdoMeter() {
+    const params = {
+      date: this.date,
+      vehId: this.VehicleId,
+    };
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/getOdoMeter', params)
+      .subscribe(res => {
+        console.log('last odo meter',res['data'][0]);
+        this.common.loading--;
+        this.fuelMilege = res['data'][0]['get_tripexp_lastodometer'];
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
   getVoucherDetails(voucherId) {
     console.log('voucher id last ', voucherId)
     const params = {
@@ -764,7 +804,7 @@ export class VoucherSummaryComponent implements OnInit {
             // this.activeModal.close({ status: true });
           } else {
             let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
-            this.common.showError(message);
+            this.common.showError(res['data'][0]['save_tripexp_voucher_v1']);
           }
         }
 
@@ -1049,7 +1089,9 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
   print(trip, companydata) {
-
+    this.totalRevinue = 0;
+    this.totalAdvance = 0;
+    this.totalFuel = 0;
     let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
     let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
     let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
@@ -1084,7 +1126,9 @@ export class VoucherSummaryComponent implements OnInit {
     });
 
     if (this.vouchertype == -150) {
-      this.fuelFilings.map((fuelfill, index) => {
+      let index=0;
+      this.fuelFilings.map((fuelfill) => {
+        if(fuelfill['isChecked']){
         rows2.push([
           { txt: index + 1 },
           { txt: fuelfill.name || '' },
@@ -1094,6 +1138,8 @@ export class VoucherSummaryComponent implements OnInit {
           { txt: this.common.dateFormatternew(fuelfill.entry_time) || '' },
         ]);
         this.totalFuel += parseFloat(fuelfill.amount);
+        index++;
+      }
       });
     }
 

@@ -6,7 +6,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UpdateTicketPropertiesComponent } from '../../modals/update-ticket-properties/update-ticket-properties.component'
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
-
 @Component({
   selector: 'ticket-properties',
   templateUrl: './ticket-properties.component.html',
@@ -49,7 +48,6 @@ export class TicketPropertiesComponent implements OnInit {
   }
 
   getFoProperties() {
-    //this.table.data=null;
     let params = {
       foid: this.foid
     };
@@ -59,10 +57,10 @@ export class TicketPropertiesComponent implements OnInit {
         this.common.loading--;
         this.ticketProperties = [];
         this.ticketProperties = res['data'];
-        if (res['data'])
-          this.ticketProperties
-        console.log('res: ' + res['data'].foid);
-        console.log('ticketProperties: ' + this.ticketProperties);
+        if (this.ticketProperties == null) {
+          return this.ticketProperties = [];
+        }
+
         let first_rec = this.ticketProperties[0];
         let headings = {};
         for (var key in first_rec) {
@@ -85,7 +83,6 @@ export class TicketPropertiesComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    console.log("Data=", this.ticketProperties);
     this.ticketProperties.map(matrix => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
@@ -101,16 +98,23 @@ export class TicketPropertiesComponent implements OnInit {
     let icons = [];
     icons.push(
       {
-        class: "fa fa-edit",
-        action: this.openUpdatePropertiesModel.bind(this, details)
+        class: "fas fa-pencil-alt",
+        action: this.addNewProperties.bind(this, details)
 
       },
       {
-        class:'fa fa-trash ml-2',
-        action:this.deleteProperties.bind(this,details)
+        class: 'fa fa-trash ml-2',
+        action: this.deleteProperties.bind(this, details)
       }
-    )
-    console.log("details-------:", details)
+    );
+    if (details._row_id) {
+      icons.push({
+        class: "fa fa-edit ml-2",
+        action: this.openUpdatePropertiesModel.bind(this, details)
+
+      })
+
+    }
     return icons;
   }
 
@@ -118,7 +122,17 @@ export class TicketPropertiesComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
 
-  openUpdatePropertiesModel(values, flag) {
+  openUpdatePropertiesModel(values) {
+    let flag = 'Edit';
+    let foid = this.foid;
+    this.common.params = { values, flag, foid };
+    const activeModel = this.modalService.open(UpdateTicketPropertiesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModel.result.then(data => {
+      this.getFoProperties();
+    });
+  }
+  addNewProperties(values) {
+    let flag = 'Add';
     let foid = this.foid;
     this.common.params = { values, flag, foid };
     const activeModel = this.modalService.open(UpdateTicketPropertiesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -127,16 +141,14 @@ export class TicketPropertiesComponent implements OnInit {
     });
   }
 
-  
   deleteProperties(properties) {
-    console.log("result:",properties);
     let params = {
       foid: properties._foid,
-      id:properties._row_id
+      id: properties._row_id
     };
     if (properties._row_id) {
       this.common.params = {
-        title: 'Delete Matrix ',
+        title: 'Delete Property ',
         description: `<b>&nbsp;` + 'Are You Sure To Delete This Record' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
@@ -146,13 +158,10 @@ export class TicketPropertiesComponent implements OnInit {
           this.api.post('FoTicketProperties/deleteFoProperties ', params)
             .subscribe(res => {
               this.common.loading--
-              console.log('removeField', res);
-              
               if (res['code'] == "1") {
-                console.log("test");
                 this.common.showToast([res][0]['msg']);
               }
-    this.getFoProperties();
+              this.getFoProperties();
 
             }, err => {
               this.common.loading--;

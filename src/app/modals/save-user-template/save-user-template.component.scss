@@ -530,3 +530,19 @@ print-section {
         }
     }
 }
+
+
+:host ::ng-deep .fa-plus-square{
+    color: green !important;
+    font-size: 20px !important;
+}
+:host ::ng-deep .fa-minus-square{
+    color: red !important;
+    font-size: 20px !important;
+    margin-left: 20px;
+}
+:host ::ng-deep .value{
+    display: none !important;
+}
+
+

@@ -14,15 +14,15 @@ import { BasicPartyDetailsComponent } from '../../basic-party-details/basic-part
   styleUrls: ['./add-dispatch-order.component.scss']
 })
 export class AddDispatchOrderComponent implements OnInit {
-  vehicleType=1;
+  vehicleType = 1;
   dispatchOrderField = [];
   generalDetailColumn2 = [];
   generalDetailColumn1 = [];
   disOrder = {
     date: new Date(),
     id: null,
-    prefix:null,
-    serial:null
+    prefix: null,
+    serial: null
   };
   vehicleData = {
     regno: null,
@@ -84,19 +84,18 @@ export class AddDispatchOrderComponent implements OnInit {
 
   }
 
-  setLrHeadData(headData,isSetBranchId?)
-   {
-     console.log("head data",headData)
+  setLrHeadData(headData, isSetBranchId?) {
+    console.log("head data", headData)
     this.vehicleData.id = headData.vehicle_id;
     this.vehicleData.regno = headData.regno;
-    this.vehicleType=headData.veh_asstype;
+    this.vehicleType = headData.veh_asstype;
     this.disOrder.id = headData.dispatch_id;
     this.disOrder.date = headData.dispatch_date ? new Date(headData.dispatch_date) : null;
     isSetBranchId && (this.accountService.selected.branch.id = headData.branch_id);
     // this.accountService.selected.branch.id = headData.branch_id;
     this.disOrder.prefix = headData.prefix;
     this.disOrder.serial = headData.autonum;
-    
+
   }
 
   takeActionSource(type, res, i) {
@@ -147,11 +146,8 @@ export class AddDispatchOrderComponent implements OnInit {
     this.getDriverData(this.vehicleData.id);
   }
 
- 
 
-  resetVehicle() {
-    this.vehicleData.id = null;
-  }
+
 
   // resetDriver(){
 
@@ -160,7 +156,7 @@ export class AddDispatchOrderComponent implements OnInit {
   //     this.
   //   }
 
-  
+
 
   resetVehicleData() {
     console.log("Test");
@@ -171,7 +167,7 @@ export class AddDispatchOrderComponent implements OnInit {
 
   getDriverData(vehicleId) {
     let params = {
-      vid: vehicleId?vehicleId:this.vehicleData.id
+      vid: vehicleId ? vehicleId : this.vehicleData.id
     };
     console.log("vehicleId 2", params);
     this.common.loading++;
@@ -188,17 +184,17 @@ export class AddDispatchOrderComponent implements OnInit {
       })
   }
 
-  resetDriverInfo(){
+  resetDriverInfo() {
     this.dispatchOrderField.map(dispatchField => {
       if (dispatchField.r_colname == 'driver_name') {
         dispatchField.r_value = null;
-        dispatchField.r_valueid =null;
-        (<HTMLInputElement>document.getElementById('driver_mobile')).value = null; 
+        dispatchField.r_valueid = null;
+        (<HTMLInputElement>document.getElementById('driver_mobile')).value = null;
       }
     });
   }
 
-//lrOrderField To dispatchOrderField
+  //lrOrderField To dispatchOrderField
   getDriverInfo(driver, arr?: any) {
     if (arr && arr === true) {
       this.dispatchOrderField.map(dispatchField => {
@@ -215,11 +211,11 @@ export class AddDispatchOrderComponent implements OnInit {
     }
     this.driverData.id = driver.id ? driver.id : driver.driver_id;
     // (<HTMLInputElement>document.getElementById('driver_id')).value = this.driverData.id;
-    (<HTMLInputElement>document.getElementById('driver_mobile')).value = driver.mobileno; 
+    (<HTMLInputElement>document.getElementById('driver_mobile')).value = driver.mobileno;
   }
 
 
-  
+
   closeModal() {
     this.activeModal.close(true);
   }
@@ -250,12 +246,12 @@ export class AddDispatchOrderComponent implements OnInit {
       dispatchOrderId: this.disOrder.id,
       branchId: this.accountService.selected.branch.id,
       vehicleId: this.vehicleData.id,
-      dispatchOrderPrefix:this.disOrder.prefix,
-      dispatchOrderSerial:this.disOrder.serial,
+      dispatchOrderPrefix: this.disOrder.prefix,
+      dispatchOrderSerial: this.disOrder.serial,
       vehicleRegNo: document.getElementById('vehicleno')['value'],
       date: this.common.dateFormatter(this.disOrder.date),
       dispatchOrderDetails: JSON.stringify(this.dispatchOrderField),
-      vehicleType:this.vehicleType
+      vehicleType: this.vehicleType
     }
     console.log("params", params);
 

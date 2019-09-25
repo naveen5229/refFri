@@ -177,6 +177,7 @@ export class ManageFoPartyComponent implements OnInit {
     this.common.params = {
       cmpId: this.companyId,
       cmpName: this.companyName,
+      associationType:this.assType,
     };
     cmpAssocDetail && (this.common.params['cmpAssocDetail'] = cmpAssocDetail);
     console.log("add",this.common.params);

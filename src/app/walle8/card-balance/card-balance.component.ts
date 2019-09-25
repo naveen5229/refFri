@@ -112,7 +112,7 @@ export class CardBalanceComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Card Balance";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading,["Action"],'');
       }, err => {
         this.common.loading--;
         console.log(err);
