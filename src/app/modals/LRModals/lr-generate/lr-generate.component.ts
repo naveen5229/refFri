@@ -15,6 +15,7 @@ import { LocationSelectionComponent } from '../../location-selection/location-se
 import { AddMaterialComponent } from '../add-material/add-material.component';
 import { AddTransportAgentComponent } from '../add-transport-agent/add-transport-agent.component';
 import { BasicPartyDetailsComponent } from '../../../modals/basic-party-details/basic-party-details.component';
+import { AddDriverCompleteComponent } from '../../DriverModals/add-driver-complete/add-driver-complete.component';
 
 @Component({
   selector: 'lr-generate',
@@ -188,7 +189,7 @@ export class LrGenerateComponent implements OnInit {
 
   addDriver() {
     this.common.params = { vehicleId: null, vehicleRegNo: null };
-    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log("data", data);
       if (data.data) {
