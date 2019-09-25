@@ -27,6 +27,19 @@
       <div class="col-sm-7"><label>MG-Qty</label></div>
       <div class="col-sm-5"><input type="text" class="form-control" [(ngModel)]=general.mgQty></div>
     </div>
+
+    <div class="row" *ngFor="let filter of filters; let i= index">
+      <div class="col-sm-7"><label>Allowed Shortage</label>
+      </div>
+      <div class="col-sm-5">
+          <!-- <select [(ngModel)]="general.shortageunit" class="col-5">
+              <option value="0">Fixed</option>
+              <option value="1">%</option>
+            </select> -->
+        <input type="text" class="form-control col-12" [(ngModel)]="filter.minRange" style="display:inline-block;">
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-sm-7"><label>Brokerage</label>
       
@@ -38,26 +51,20 @@
             </select>
         <input type="text" style="display:inline-block;" class="form-control col-7" [(ngModel)]=general.brokerage></div>
     </div>
-    <div class="row" *ngFor="let filter of filters; let i= index">
-      <div class="col-sm-7"><label>Allowed Shortage</label>
-        <span>
-          <!-- <label><input type="radio" [name]="'as_'+i" [id]="'as_'+i" value="shortage" [(ngModel)]="filter.param"
-              (click)="allowedShortageReset(i)"> <b>Shortage Value</b></label>
-          &nbsp;&nbsp;
-          <label><input type="radio" [name]="'as_'+i" [id]="'as_'+i" value="shortagePer" [(ngModel)]="filter.param"
-              (click)="allowedShortageReset(i)" checked></label>
-          <b>Shortage(%)</b> -->
-          
-        </span>
-      </div>
+
+
+    <div class="row">
+      <div class="col-sm-7"><label>Shortage</label>
+      
+    </div>
       <div class="col-sm-5">
-          <!-- <select [(ngModel)]="general.shortageunit" class="col-5">
+          <select [(ngModel)]="general.shortageunit" class="col-5">
               <option value="0">Fixed</option>
               <option value="1">%</option>
-            </select> -->
-        <input type="text" class="form-control col-7" [(ngModel)]="filter.minRange" style="display:inline-block;">
-      </div>
+            </select>
+        <input type="text" style="display:inline-block;" class="form-control col-7" [(ngModel)]=general.shortage></div>
     </div>
+    
     <div class="row" *ngFor="let filter of filters; let i= index">
       <div class="col-sm-7"><label>Penalty Shortage(/Kg)</label>
         <!-- <span>
@@ -152,7 +159,7 @@
             <td><input type="text" class="form-control" [(ngModel)]=filter.mgWeight></td>
             <td>Shortage(/Kg) </td>
             <td>
-              <select [(ngModel)]="filters.shortageunit">
+              <select [(ngModel)]="filter.shortageunit">
                 <option value="0">Fixed</option>
                 <option value="1">%</option>
               </select>
