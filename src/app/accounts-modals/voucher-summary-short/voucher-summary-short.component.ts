@@ -875,8 +875,8 @@ export class VoucherSummaryShortComponent implements OnInit {
     this.checkedTrips.map(tripHead => {
       tripidarray.push(tripHead.id);
     });
-    if(tripidarray.length){
-      this.common.showError('Plese Select Trip');
+    if(tripidarray.length==0){
+      this.common.showError('Please Select Trip');
       return false;
     }
     const params = {
@@ -945,7 +945,8 @@ export class VoucherSummaryShortComponent implements OnInit {
       });
   }
   print(trip, companydata) {
-
+    this.totalRevinue = 0;
+   this.totalAdvance = 0;
     let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
     let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
     let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';

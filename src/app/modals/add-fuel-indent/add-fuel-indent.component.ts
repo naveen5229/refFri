@@ -26,20 +26,7 @@ export class AddFuelIndentComponent implements OnInit {
     3: [{ name: 'LR', id: 11 }, { name: 'Manifest', id: 12 }]
   };
 
-  fuelIndentData = {
-    rowId: null,
-    vehicleType: 1,
-    vehicleId: null,
-    regno: null,
-    amount: null,
-    fuelId: null,
-    issueDate: new Date(),
-    expiryDate: new Date(new Date().setDate(new Date().getDate() + 3)),
-    remark: null,
-    refType: null,
-    refTypeSourceId: null,
-    refName: null,
-  };
+  fuelIndentData = this.setFuelIndent();
   refTypeResults = [];
   indentType = '1';
   fuelStations = [];
@@ -60,6 +47,8 @@ export class AddFuelIndentComponent implements OnInit {
       tableHeight: "58vh",
     }
   };
+  selectModalTypeId = '0';
+  apiUrl = "Fuel/addFuelIndent";
   constructor(public activeModel: NgbActiveModal,
     public api: ApiService,
     public modalService: NgbModal,
@@ -88,6 +77,10 @@ export class AddFuelIndentComponent implements OnInit {
       this.fuelIndentData.refTypeSourceId = this.common.params.editFuelData._ref_id;
       this.fuelIndentData.refType = this.common.params.editFuelData._ref_type;
       this.fuelIndentData.refName = this.common.params.editFuelData._ref_name;
+      this.fuelIndentData.leagerId = this.common.params.editFuelData._ledger_id;
+      if (this.fuelIndentData.leagerId) {
+        this.selectModalTypeId = '1';
+      }
     }
 
     if (this.common.params && this.common.params.refData) {
@@ -107,19 +100,57 @@ export class AddFuelIndentComponent implements OnInit {
         refType: [''],
         refTypeSource: [''],
         indentTypeValue: ['', Validators.required],
-        fuelStation: ['', Validators.required],
+        fuelStation: [''],
+        leager: ['']
       });
     } else {
       this.fuelIndent = this.formBuilder.group({
         refTypeSource: [''],
         indentTypeValue: ['', Validators.required],
-        fuelStation: ['', Validators.required],
+        fuelStation: [''],
+        leager: ['']
       });
     }
 
   }
   ngOnDestroy() {
     this.common.params = null;
+  }
+
+  setFuelIndent() {
+    return {
+      rowId: null,
+      vehicleType: 1,
+      vehicleId: null,
+      regno: null,
+      amount: null,
+      fuelId: null,
+      issueDate: new Date(),
+      expiryDate: new Date(new Date().setDate(new Date().getDate() + 3)),
+      remark: '',
+      refType: null,
+      refTypeSourceId: null,
+      refName: null,
+      leagerId: null,
+    }
+  };
+  resetData() {
+    this.setFuelIndent();
+    document.getElementById('regno')['value'] = '';
+    document.getElementById('refType')['value'] = '-1';
+    document.getElementById('refTypeSource')['value'] = '';
+    document.getElementById('refTypeSource')['value'] = '';
+    document.getElementById('indentTypeValue')['value'] = null;
+    (<HTMLInputElement>document.getElementById('indentTypeValue')).value = '';
+  }
+
+  changeModal(type) {
+    this.indentType = '0';
+    console.log("Indent Type", this.indentType);
+    this.selectModalTypeId = type;
+    this.resetData();
+    console.log(this.apiUrl);
+    return this.apiUrl;
   }
   get f() {
     return this.fuelIndent.controls;
@@ -197,9 +228,20 @@ export class AddFuelIndentComponent implements OnInit {
     );
   }
 
+  selectLeager(leager) {
+    this.fuelIndentData.leagerId = leager.id;
+    console.log("leagerId", this.fuelIndentData.leagerId);
+  }
+
   saveFuelIndent() {
     if (this.fuelIndentData.issueDate == null && this.fuelIndentData.expiryDate == null) {
       this.common.showToast("Select Date");
+    }
+    if (this.selectModalTypeId === '1') {
+      this.apiUrl = "Fuel/addCashIndent";
+    }
+    else {
+      this.apiUrl = "Fuel/addFuelIndent";
     }
     const params = {
       rowid: this.fuelIndentData.rowId ? this.fuelIndentData.rowId : null,
@@ -215,17 +257,21 @@ export class AddFuelIndentComponent implements OnInit {
       issueDate: this.common.dateFormatter(this.fuelIndentData.issueDate),
       expDate: this.common.dateFormatter(this.fuelIndentData.expiryDate),
       fsid: this.fuelIndentData.fuelId,
+      ledgerId: this.fuelIndentData.leagerId,
     };
 
     let result: any;
     this.common.loading++;
-    this.api.post('Fuel/addFuelIndent', params)
+    this.api.post(this.apiUrl, params)
       .subscribe(res => {
         this.common.loading--;
-        if (res['data'][0].y_id > 0) {
+        if (res['data'][0].y_id > 0 && this.selectModalTypeId == '1') {
           this.common.showToast(res['data'][0].y_msg);
           result = res['data'];
           this.activeModal.close({ response: result });
+        }
+        else if (this.selectModalTypeId == '1') {
+          this.common.showToast(res['msg']);
         }
         else {
           this.common.showError(res['data'][0].y_msg)
@@ -307,16 +353,7 @@ export class AddFuelIndentComponent implements OnInit {
     this.fuelData.map(fuel => {
       let column = {};
       for (let key in this.generateHeadings()) {
-        // if (key == 'Action') {
-        //   column[key] = {
-        //     value: "",
-        //     isHTML: false,
-        //     action: null,
-        //     icons: this.actionIcons(fuel)
-        //   };
-        // } else {
         column[key] = { value: fuel[key], class: 'black', action: '' };
-        // }
       }
       columns.push(column);
     })

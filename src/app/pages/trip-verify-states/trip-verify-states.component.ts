@@ -255,7 +255,7 @@ export class TripVerifyStatesComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = "FoName:" + fodata['name'];
         let center_heading = "Report:" + "Verify Trip States";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
       }, err => {
         this.common.loading--;
         console.log(err);

@@ -84,8 +84,8 @@
         <tr>
           <td><label>Consignor Name* </label></td>
           <td> <span>
-              <auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies" display="name"
-                placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion><i
+              <auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies2?type=ALL"
+                display="name" placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion><i
                 class="fa fa-plus  add col-md-2" (click)="addConsignee()"></i>
             </span></td>
           <td><label>Consignor Address</label></td>
@@ -98,8 +98,8 @@
         <tr>
           <td><label>Consignee Name*</label></td>
           <td> <span>
-              <auto-suggestion (onSelected)="getConsigneeDetail($event)" url="Suggestion/GetCompanies" display="name"
-                placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion>
+              <auto-suggestion (onSelected)="getConsigneeDetail($event)" url="Suggestion/GetCompanies2?type=ALL"
+                display="name" placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion>
               <div col-md-2><i class="fa fa-plus  add col-md-2" (click)="addConsignee()"></i>
               </div>
             </span></td>

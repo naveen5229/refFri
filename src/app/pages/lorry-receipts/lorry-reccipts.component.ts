@@ -249,22 +249,24 @@ export class LorryRecciptsComponent implements OnInit {
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
-        Revenue: R.revenue_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-green', action: this.lrRates.bind(this, R, 0) }, { class: 'fa fa-check i-green ml-2', action: this.openRevenueModal.bind(this, R, 0) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 0) }, { class: 'fa fa-times-circle i-red-cross ml-2', action: this.openRevenueModal.bind(this, R, 0) }] },
-        Expense: R.expense_amount > 0 ? { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-green', action: this.lrRates.bind(this, R, 1) }, { class: 'fa fa-check i-green ml-2', action: this.openExpenseModal.bind(this, R, 1) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 1) }, { class: 'fa fa-times-circle i-red-cross ml-2', action: this.openExpenseModal.bind(this, R, 1) }] },
+        Revenue: R.revenue_amount > 0 ? { value: '', class: 'text-center', isHTML: false, icons: [{ class: 'fa fa-inr icon i-green', action: this.lrRates.bind(this, R, 0) }, { class: 'fa fa-check icon i-green ml-2', action: this.openRevenueModal.bind(this, R, 0) }] } : { value: '', class: 'text-center', isHTML: false, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 0) }, { class: 'fa fa-times-circle i-red-cross ml-2', action: this.openRevenueModal.bind(this, R, 0) }] },
+        Expense: R.expense_amount > 0 ? { value: '', class: 'text-center', isHTML: false, icons: [{ class: 'fa fa-inr icon i-green', action: this.lrRates.bind(this, R, 1) }, { class: 'fa fa-check icon i-green ml-2', action: this.openExpenseModal.bind(this, R, 1) }] } : { value: '', class: 'text-center', isHTML: false, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 1) }, { class: 'fa fa-times-circle i-red-cross ml-2', action: this.openExpenseModal.bind(this, R, 1) }] },
         // PodImage: R.pod_docid ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getPodImage.bind(this, R) }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
         // PodDetails: R.poddetails ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.openPodDeatilsModal.bind(this, R) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.openPodDeatilsModal.bind(this, R) }] },
         // PodReceived: R.podreceived ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-check i-green' }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
-        LRImage: R.lr_image ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getImage.bind(this, R) }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
+        LRImage: R.lr_image ?
+          { value: '', class: 'text-center', isHTML: false, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getImage.bind(this, R) }] } :
+          { value: '', class: 'text-center', isHTML: false, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
 
         details: {
-          value: '', action: null, isHTML: true, icons: [
+          value: '', action: null, isHTML: false, icons: [
             {
-              class: R.pod_docid ? 'far fa-image i-green mr-1' : 'far fa-image i-red-cross mr-1', action: R.pod_docid ? this.getPodImage.bind(this, R) : null
+              class: R.pod_docid ? 'far fa-image i-green icon mr-1' : 'far fa-image i-red-cross mr-1', action: R.pod_docid ? this.getPodImage.bind(this, R) : null
             }, {
-              class: R.poddetails ? 'fa fa-list  i-green mr-1' : 'fa fa-list i-red-cross mr-1', action: this.openPodDeatilsModal.bind(this, R)
+              class: R.poddetails ? 'fa fa-list icon i-green mr-1' : 'fa fa-list i-red-cross mr-1', action: this.openPodDeatilsModal.bind(this, R)
             },
             {
-              class: R.podreceived ? 'fa fa-check  i-green' : 'fa fa-check   i-red-cross', action: null,
+              class: R.podreceived ? 'fa fa-check icon i-green' : 'fa fa-check   i-red-cross', action: null,
 
             }
           ]

@@ -5,6 +5,8 @@ import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { dateFieldName } from '@telerik/kendo-intl';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
+import { ChangeDriverComponent } from '../../DriverModals/change-driver/change-driver.component';
+import { BasicPartyDetailsComponent } from '../../basic-party-details/basic-party-details.component';
 
 @Component({
   selector: 'add-dispatch-order',
@@ -12,18 +14,26 @@ import { LocationSelectionComponent } from '../../location-selection/location-se
   styleUrls: ['./add-dispatch-order.component.scss']
 })
 export class AddDispatchOrderComponent implements OnInit {
-
+  vehicleType = 1;
   dispatchOrderField = [];
   generalDetailColumn2 = [];
   generalDetailColumn1 = [];
   disOrder = {
     date: new Date(),
-    id: null
+    id: null,
+    prefix: null,
+    serial: null
   };
   vehicleData = {
     regno: null,
     id: null
   };
+
+  driverData = {
+    id: null,
+    mobileNo: null
+  }
+
   btnTxt = 'SAVE';
   keepGoing = true;
 
@@ -38,7 +48,7 @@ export class AddDispatchOrderComponent implements OnInit {
 
     console.log("dispatchOrderData", this.common.params.dispatchOrderData);
     if (this.common.params.dispatchOrderData) {
-      this.disOrder.id = this.common.params.dispatchOrderData.id ? this.common.params.dispatchOrderData.id : 'null';
+      this.disOrder.id = this.common.params.dispatchOrderData.id ? this.common.params.dispatchOrderData.id : null;
     }
     if (this.disOrder.id || this.accountService.selected.branch.id) {
       this.getDispatchOrderFields(true);
@@ -50,6 +60,7 @@ export class AddDispatchOrderComponent implements OnInit {
   }
 
   getDispatchOrderFields(isSetBranchId?) {
+    this.disOrder.id =  this.disOrder.id ? this.disOrder.id : null;
     let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
     let params = "branchId=" + this.accountService.selected.branch.id +
       "&dispatchOrderId=" + this.disOrder.id;
@@ -61,7 +72,7 @@ export class AddDispatchOrderComponent implements OnInit {
           this.dispatchOrderField = res['data'].result[0];
           let headData = res['data'].headings;
           if (headData.length > 0) {
-            this.setLrHeadData(headData[0]);
+            this.setLrHeadData(headData[0], isSetBranchId);
           }
           this.formatGeneralDetails();
         }
@@ -73,12 +84,18 @@ export class AddDispatchOrderComponent implements OnInit {
 
   }
 
-  setLrHeadData(headData) {
+  setLrHeadData(headData, isSetBranchId?) {
+    console.log("head data", headData)
     this.vehicleData.id = headData.vehicle_id;
     this.vehicleData.regno = headData.regno;
+    this.vehicleType = headData.veh_asstype;
     this.disOrder.id = headData.dispatch_id;
     this.disOrder.date = headData.dispatch_date ? new Date(headData.dispatch_date) : null;
-    this.accountService.selected.branch.id = headData.branch_id;
+    isSetBranchId && (this.accountService.selected.branch.id = headData.branch_id);
+    // this.accountService.selected.branch.id = headData.branch_id;
+    this.disOrder.prefix = headData.prefix;
+    this.disOrder.serial = headData.autonum;
+
   }
 
   takeActionSource(type, res, i) {
@@ -126,27 +143,78 @@ export class AddDispatchOrderComponent implements OnInit {
     console.log("vehicle", vehicle);
     this.vehicleData.regno = vehicle.regno;
     this.vehicleData.id = vehicle.id;
+    this.getDriverData(this.vehicleData.id);
   }
 
+
+
+
+  // resetDriver(){
+
+  //   this.driverData.id =null;
+  //     this.driverData.mobileNo=null;
+  //     this.
+  //   }
+
+
+
+  resetVehicleData() {
+    console.log("Test");
+    this.vehicleData.id = null;
+    this.vehicleData.regno = null;
+    this.resetDriverInfo();
+  }
+
+  getDriverData(vehicleId) {
+    let params = {
+      vid: vehicleId ? vehicleId : this.vehicleData.id
+    };
+    console.log("vehicleId 2", params);
+    this.common.loading++;
+    this.api.post('Drivers/getDriverInfo', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res', res['data']);
+        if (res['data'].length > 0) {
+          this.getDriverInfo(res['data'][0], true);
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+
+  resetDriverInfo() {
+    this.dispatchOrderField.map(dispatchField => {
+      if (dispatchField.r_colname == 'driver_name') {
+        dispatchField.r_value = null;
+        dispatchField.r_valueid = null;
+        (<HTMLInputElement>document.getElementById('driver_mobile')).value = null;
+      }
+    });
+  }
+
+  //lrOrderField To dispatchOrderField
   getDriverInfo(driver, arr?: any) {
     if (arr && arr === true) {
-      this.dispatchOrderField.map(dof => {
-        if (dof.r_colname == 'driver_name') {
-          dof.r_value = '';
-          dof.r_value = driver.empname;
+      this.dispatchOrderField.map(dispatchField => {
+        if (dispatchField.r_colname == 'driver_name') {
+          dispatchField.r_value = '';
+          dispatchField.r_value = driver.empname;
+          dispatchField.r_valueid = driver.id ? driver.id : driver.driver_id;
         }
       });
     } else if (arr) {
       arr.r_value = '';
-      arr.r_value = driver.empname;
+      arr.r_value = driver.empname;;
+      arr.r_valueid = driver.id ? driver.id : driver.driver_id;
     }
-    // (<HTMLInputElement>document.getElementById('driver_name')).value = driver.empname;
+    this.driverData.id = driver.id ? driver.id : driver.driver_id;
+    // (<HTMLInputElement>document.getElementById('driver_id')).value = this.driverData.id;
     (<HTMLInputElement>document.getElementById('driver_mobile')).value = driver.mobileno;
   }
 
-  resetVehicle() {
-    this.vehicleData.id = null;
-  }
+
 
   closeModal() {
     this.activeModal.close(true);
@@ -178,9 +246,12 @@ export class AddDispatchOrderComponent implements OnInit {
       dispatchOrderId: this.disOrder.id,
       branchId: this.accountService.selected.branch.id,
       vehicleId: this.vehicleData.id,
+      dispatchOrderPrefix: this.disOrder.prefix,
+      dispatchOrderSerial: this.disOrder.serial,
       vehicleRegNo: document.getElementById('vehicleno')['value'],
       date: this.common.dateFormatter(this.disOrder.date),
       dispatchOrderDetails: JSON.stringify(this.dispatchOrderField),
+      vehicleType: this.vehicleType
     }
     console.log("params", params);
 
@@ -202,4 +273,25 @@ export class AddDispatchOrderComponent implements OnInit {
         console.log('Error: ', err);
       });
   }
+  addDriver() {
+    this.common.params = { vehicleId: null, vehicleRegNo: null };
+    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data);
+      if (data.data) {
+      }
+    });
+  }
+
+  addAssociation() {
+    console.log("open Association modal")
+    this.common.params = {
+      cmpId: 1,
+    };
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+    });
+  }
+
 }

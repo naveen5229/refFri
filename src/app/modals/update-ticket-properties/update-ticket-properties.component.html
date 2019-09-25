@@ -7,27 +7,56 @@
 <div class="border" style="height: 2px; background-color: darkslategray; margin-top: 20px; margin-bottom: 20px"></div>
 <div class="modal-body">
   <div class="row">
-    <div class="col-6"><label class="col-6">Issue Name</label><input type="text"    class="form-control col-6" [(ngModel)]="ticketProperties.issue_name" name="isue type" style="font-size: 10px;display:inline-block;"></div>
-    <div class="col-6"><label class="col-6">Escape Time</label><input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"   class="form-control col-6" [(ngModel)]="ticketProperties.esc_time" name="esc_time" style="font-size: 10px;display:inline-block;"></div>
-  </div>
-  <div class="row" style="margin-top:10px;">
-    <div class="col-6"><label class="col-6">Complete Remaining Time</label><input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"   class="form-control col-6" [(ngModel)]="ticketProperties.compl_rem_time" name="compl_rem_time" style="font-size: 10px;display:inline-block;"></div>
-    <div class="col-6"><label class="col-6">Complete Escape Time</label><input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"   class="form-control col-6" [(ngModel)]="ticketProperties.compl_esc_time" name="compl_esc_time" style="font-size: 10px;display:inline-block;"></div>
+    <div class="col-6"><label class="col-6">Issue Name</label>
+      <label style="background-color: #e8edef;border-radius:3px; display: inline-block;"
+        class="form-control col-6">{{ticketProperties.issue_name}}</label>
+    </div>
+
+    <div class="col-6"><label class="col-6">Escape Time</label><input type="text"
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6"
+        [(ngModel)]="ticketProperties.esc_time" name="esc_time" style="font-size: 10px;display:inline-block;">
+    </div>
   </div>
 
   <div class="row" style="margin-top:10px;">
-  <div class="col-6"><label class="col-6">Bench Mark</label><input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6" [(ngModel)]="ticketProperties.benchMark" name="benchMark" style="font-size:10px;display:inline-block;"></div>
-  <div class="col-6"><label class="col-6">Bench Mark2</label><input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6" [(ngModel)]="ticketProperties.benchMark2" name="benchMark" style="font-size:10px;display:inline-block;"></div>
+    <div class="col-6"><label class="col-6">Complete Remaining Time</label><input type="text"
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6"
+        [(ngModel)]="ticketProperties.compl_rem_time" name="compl_rem_time"
+        style="font-size: 10px;display:inline-block;"></div>
+    <div class="col-6"><label class="col-6">Complete Escape Time</label><input type="text"
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6"
+        [(ngModel)]="ticketProperties.compl_esc_time" name="compl_esc_time"
+        style="font-size: 10px;display:inline-block;"></div>
+  </div>
+
+  <div class="row" style="margin-top:10px;">
+    <div class="col-6"><label class="col-6">Bench Mark</label><input type="text"
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6"
+        [(ngModel)]="ticketProperties.benchMark" name="benchMark" style="font-size:10px;display:inline-block;"></div>
+    <div class="col-6"><label class="col-6">Bench Mark2</label><input type="text"
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6"
+        [(ngModel)]="ticketProperties.benchMark2" name="benchMark" style="font-size:10px;display:inline-block;"></div>
   </div>
   <div class="row" style="margin-top: 10px;">
-    <span style="border:1px solid lightgrey;margin-left:3%;padding-top:0.5%;padding-bottom:0.9%;" class="col-2"><input type="checkbox"  name="is_reminder" [(ngModel)]="ticketProperties.is_reminder" style="height:15px; width:15px;">
-    <span>&nbsp; is_reminder</span></span>
-    <span style="border:1px solid lightgrey;margin-left:3%;padding-top:0.5%;padding-bottom:0.9%;" class="col-2"><input type="checkbox"  name="is_escalate" [(ngModel)]="ticketProperties.is_escalate" style="height:15px; width:15px;">
-    <span>&nbsp; is_escalate</span></span>
-    <span style="border:1px solid lightgrey;margin-left:3%;padding-top:0.5%;padding-bottom:0.9%;" class="col-2"><input type="checkbox"  name="is_deliverytime" [(ngModel)]="ticketProperties.is_deliverytime"
-    style="height:15px; width:15px;"> <span>&nbsp; is_deliverytime</span></span>
-    <span style="border:1px solid lightgrey;margin-left:3%;padding-top:0.5%;padding-bottom:0.9%;" class="col-2"><input type="checkbox"  name="is_urgent" [(ngModel)]="ticketProperties.is_urgent" style="height:15px; width:15px;">
-    <span>&nbsp; is_urgent</span></span>
+    <span style="border:1px solid lightgrey;margin-left:3%;padding-top:0.5%;padding-bottom:0.9%;" class="col-2"><input
+        type="checkbox" name="is_reminder" [(ngModel)]="ticketProperties.is_reminder" style="height:15px; width:15px;">
+      <span>&nbsp; is_reminder</span></span>
+    <span style="border:1px solid lightgrey;margin-left:3%;padding-top:0.5%;padding-bottom:0.9%;" class="col-2"><input
+        type="checkbox" name="is_escalate" [(ngModel)]="ticketProperties.is_escalate" style="height:15px; width:15px;">
+      <span>&nbsp; is_escalate</span></span>
+    <span style="border:1px solid lightgrey;margin-left:3%;padding-top:0.5%;padding-bottom:0.9%;" class="col-2"><input
+        type="checkbox" name="is_deliverytime" [(ngModel)]="ticketProperties.is_deliverytime"
+        style="height:15px; width:15px;"> <span>&nbsp; is_deliverytime</span></span>
+    <span style="border:1px solid lightgrey;margin-left:3%;padding-top:0.5%;padding-bottom:0.9%;" class="col-2"><input
+        type="checkbox" name="is_urgent" [(ngModel)]="ticketProperties.is_urgent" style="height:15px; width:15px;">
+      <span>&nbsp; is_urgent</span></span>
   </div>
-  <div style="float:right;margin-bottom:10px;"><button class="btn-submit btn btn-success"  type="button" (click)="updateProperties()" style="text-align: center; margin-top: 20px; width: 80px; height:30px;  font-size: 10px;">Submit</button></div>
+  <div class="row"><button class="btn btn-primary submit" type="button" (click)="updateProperties()">Submit</button>
+  </div>
+
+  <div class="row mt-2">
+    <smart-table *ngIf="getProperties && getProperties.length" [data]="table.data" [settings]="table.settings">
+    </smart-table>
+
+  </div>
 </div>

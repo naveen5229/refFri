@@ -12,6 +12,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
 import { promise } from 'selenium-webdriver';
+import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 
 @Component({
   selector: 'daybook',
@@ -26,6 +27,7 @@ export class DaybookComponent implements OnInit {
   VoucherEditTime=[];
   pendingDataEditTme=[];
   tripExpDriver=[];
+  fuelFilings=[];
   DayBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -624,6 +626,69 @@ console.log('fuel data 111',fueldata);
         }
       });
     }
+  }
+  openFuelEdit(vchData){
+    console.log('vch data new ##',vchData);
+    let promises = [];
+    console.log('testing issue solved');
+    promises.push(this.getVocherEditTime(vchData['y_voucherid']));
+    promises.push(this.getDataFuelFillingsEdit(vchData['y_vehicle_id'],vchData['y_fuel_station_id'],vchData['y_voucherid']));
+
+    Promise.all(promises).then(result => {
+    this.common.params = {
+      vehId: vchData['y_vehicle_id'],
+      lastFilling: this.DayBook.startdate,
+      currentFilling: this.DayBook.enddate,
+      fuelstationid: vchData['y_fuel_station_id'],
+      fuelData:this.fuelFilings,
+      voucherId:vchData['y_voucherid'],
+      voucherData:this.VoucherEditTime,
+      sizeIndex:1
+      //vehname:this.trips[0].y_vehicle_name
+    };
+
+    const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data return: ', data);
+      if (data.success) {
+        this.getDayBook();
+      }
+    });
+  }).catch(err => {
+    console.log(err);
+    this.common.showError('There is some technical error occured. Please Try Again!');
+  })
+  }
+
+  getDataFuelFillingsEdit(vehcleID,fuelStationId,vchrID) {
+    return new Promise((resolve, reject) => {
+    const params = {
+      vehId: vehcleID,
+      lastFilling: this.DayBook.startdate,
+      currentFilling:this.DayBook.enddate,
+      fuelstationid: fuelStationId,
+      voucherId:vchrID
+    };
+    this.common.loading++;
+    this.api.post('Fuel/getFeulfillings', params)
+      .subscribe(res => {
+      //  console.log('fuel data', res['data']);
+        this.common.loading--;
+        if(res['data'].length){
+        this.fuelFilings = res['data'];
+        resolve();
+        }else {
+          this.common.showError('please Select Correct date');
+        }
+        // this.getHeads();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+        reject();
+      });
+    })
+   
   }
 }
 

@@ -33,7 +33,7 @@ export class UserTemplatesComponent implements OnInit {
     public common: CommonService,
     private commonService: CommonService,
     public api: ApiService,
-    public user:UserService,
+    public user: UserService,
     private modalService: NgbModal) {
     this.getUserViews();
     this.common.refresh = this.refresh.bind(this);
@@ -121,10 +121,10 @@ export class UserTemplatesComponent implements OnInit {
 
   actionIcons(view) {
     let icons = [
-      {
-        class: "far fa-eye devtemp",
-        action: this.templateDevView.bind(this, 'Template Development View', view)
-      },
+      // {
+      //   class: "far fa-eye devtemp",
+      //   action: this.templateDevView.bind(this, 'Template Development View', view)
+      // },
       {
         class: "far fa-edit",
         action: this.addAndEdit.bind(this, 'Edit', view)
@@ -138,12 +138,12 @@ export class UserTemplatesComponent implements OnInit {
         action: this.assign.bind(this, 'Edit', view)
       },
     ];
-    if(this.user._details._id==57){
+    if (this.user._details._id == 57) {
       icons.push(
-      {
-        class: "fas fa-trash-alt",
-        action: this.deleteUserTemplate.bind(this, view)
-      },
+        {
+          class: "fas fa-trash-alt",
+          action: this.deleteUserTemplate.bind(this, view)
+        },
       )
     }
     return icons;
