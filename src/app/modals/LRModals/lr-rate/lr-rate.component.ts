@@ -43,10 +43,10 @@ export class LrRateComponent implements OnInit {
     mgQty: null,
     brokerage: null,
     shortageunit:0,
-    brokerageunit:0
+    brokerageunit:0,
   };
   filters = [{
-    param: null,
+    param: 'shortage',
     paramValue: null,
     minRange: null,
     maxRange: null,
@@ -62,7 +62,8 @@ export class LrRateComponent implements OnInit {
     unloading: null,
     qty: null,
     mgQty: null,
-    shortageunit:0
+    shortageunit:0,
+
   }];
 
   lrId = null;
@@ -116,7 +117,7 @@ export class LrRateComponent implements OnInit {
 
   addMore() {
     this.filters.push({
-      param: null,
+      param: 'shortage',
       paramValue: null,
       minRange: null,
       maxRange: null,
@@ -354,9 +355,12 @@ export class LrRateComponent implements OnInit {
       this.general.brokerage = data[0]['brokerage'];
       this.general.brokerageunit=data[0]['brokerageunit'];
       this.general.shortageunit=data[0]['shortageunit'];
+      this.general.shortage=data[0]['short_coeff'];
       this.rateDiv = this.data[0]['_allowedit'];
-      this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
-      this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
+      this.filters[0].minRange=this.data[0]["range_min"];
+      this.filters[0].param=this.data[0]["filter_param"];
+      // this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
+      // this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
       this.filters[0].shortage = data[1] && data[1]['short_coeff'] ? data[1]['short_coeff'] : '';
     }
     else {
@@ -373,6 +377,9 @@ export class LrRateComponent implements OnInit {
     this.general.qty = null;
     this.general.mgQty = null;
     this.general.brokerage = null;
+    this.general.shortage=null;
+    this.general.shortageunit=0;
+    this.general.brokerageunit=0;
     this.filters[0].param = null;
     this.filters[0].minRange = null;
     this.filters[0].shortage = null;
