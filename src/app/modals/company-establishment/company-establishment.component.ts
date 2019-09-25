@@ -67,7 +67,7 @@ export class CompanyEstablishmentComponent implements OnInit {
   }
 
   getCompanyBranchs() {
-    let params = "assocCmpId=" + this.common.params.cmpId + "&userCmpId=" + this.common.params.userCmpId;
+    let params = "assocCmpId=" + this.common.params.cmpId;
     this.api.get('Suggestion/getSelfBranch?' + params)
       .subscribe(res => {
         this.branchs = res['data'];

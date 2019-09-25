@@ -22,7 +22,6 @@ export class CompanyContactsComponent implements OnInit {
   MobileNo = null;
   email = null;
   remark = null;
-  userCmpnyId = this.common.params.userCmpId;
   assCmpnyId = null;
   contactId = null;
   establishment=null;
@@ -41,7 +40,6 @@ export class CompanyContactsComponent implements OnInit {
       this.phoneNo = this.common.params.contactDetail.PhoneNO;
       this.remark = this.common.params.contactDetail.Remark;
       this.assCmpnyId = this.common.params.contactDetail._asscompid;
-      this.userCmpnyId = this.common.params.contactDetail._usercmpyid;
       this.establishmentType = this.common.params.contactDetail._estabid;
       this.name = this.common.params.contactDetail.Name;
       this.email = this.common.params.contactDetail.Email;
@@ -58,7 +56,7 @@ export class CompanyContactsComponent implements OnInit {
   }
 
   getCompanyBranchs() {
-    let params = "assocCmpId=" + this.assCmpnyId + "&userCmpId=" + this.userCmpnyId;
+    let params = "assocCmpId=" + this.assCmpnyId;
     this.api.get('Suggestion/getSelfBranch?' + params)
       .subscribe(res => {
         this.branchs = res['data'];
@@ -67,7 +65,7 @@ export class CompanyContactsComponent implements OnInit {
   }
 
   getCompanyEstablishmentType() {
-    let params = "partyId=" + this.assCmpnyId + "&userCmpId=" + this.userCmpnyId;
+    let params = "partyId=" + this.assCmpnyId;
     this.api.get('Suggestion/getPartyEstablishment?' + params)
       .subscribe(res => {
         this.companyEstablishmentType = res['data'];
@@ -110,7 +108,6 @@ export class CompanyContactsComponent implements OnInit {
         mobNo: this.MobileNo,
         email: this.email,
         assCmpnyId: this.assCmpnyId,
-        userCmpnyId: this.userCmpnyId,
         contactId: this.contactId
       }
       ++this.common.loading;
