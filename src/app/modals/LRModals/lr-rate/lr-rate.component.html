@@ -32,11 +32,11 @@
       <div class="col-sm-7"><label>Allowed Shortage</label>
       </div>
       <div class="col-sm-5">
-          <!-- <select [(ngModel)]="general.shortageunit" class="col-5">
-              <option value="0">Fixed</option>
-              <option value="1">%</option>
-            </select> -->
-        <input type="text" class="form-control col-12" [(ngModel)]="filter.minRange" style="display:inline-block;">
+          <select [(ngModel)]="filter.param" class="col-sm-5">
+              <option value="shortage">Fixed</option>
+              <option value="shortagePer">%</option>
+            </select>
+        <input type="text" class="form-control col-sm-7" [(ngModel)]="filter.minRange" style="display:inline-block;">
       </div>
     </div>
 
