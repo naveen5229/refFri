@@ -99,7 +99,7 @@ export class LrGenerateComponent implements OnInit {
             this.setLrHeadData(headData[0], isSetBranchId);
           }
           this.particulars = res['data'].details;
-          this.setlrParticulars(this.particulars);
+           this.setlrParticulars(this.particulars);
           // console.log(this.particulars, this.particulars[0].fixed);
           // console.log("this.lrGeneralField", this.lrGeneralField, "head data", headData);
           this.formatGeneralDetails();
@@ -155,6 +155,16 @@ export class LrGenerateComponent implements OnInit {
     });
     console.log("generalDetailColumn2", this.generalDetailColumn2);
     console.log("generalDetailColumn1", this.generalDetailColumn1);
+  }
+
+  formatMaterialDetails(particularDetails) {
+    particularDetails.map(dd => {
+      if(dd.r_fixedvalues){
+        dd.r_fixedvalues = JSON.parse(dd.r_fixedvalues);
+      }
+    });
+    return particularDetails
+    
   }
 
   addCompany() {
@@ -340,6 +350,9 @@ export class LrGenerateComponent implements OnInit {
           }
           if (customjfield.r_coltype == 3) {
             customjfield.r_value = customjfield.r_value ? new Date(customjfield.r_value) : new Date();
+          }
+          if(customjfield.r_fixedvalues) {
+            customjfield.r_fixedvalues = JSON.parse(customjfield.r_fixedvalues);
           }
           customjfields[customIndex].push(customjfield);
         });

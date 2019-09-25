@@ -472,11 +472,17 @@
                 <td *ngFor="let dynm of dynamic; let k = index;">
                   <label>{{dynm.r_coltitle}}<span style="color: red" *ngIf="dynm.r_required">*</span></label>
                   <span>
-                    <input type="text" class="form-control" [(ngModel)]=dynm.r_value *ngIf="dynm.r_coltype != 3">
+                    <input type="text" class="form-control" [(ngModel)]=dynm.r_value *ngIf="dynm.r_coltype != 3 && !dynm.r_fixedvalues">
 
                     <uj-date-time-picker (onChanged)="dynm.r_value = $event" [dateTimeValue]="dynm.r_value"
-                      *ngIf="dynm.r_coltype == 3" [isTime]="false">
+                      *ngIf="dynm.r_coltype == 3 && !dynm.r_fixedvalues " [isTime]="false">
                     </uj-date-time-picker>
+
+                    <select [(ngModel)]="dynm.r_value" class="form-conrol"
+                    *ngIf="dynm.r_fixedvalues">
+                    <option [value]="fixValue.title" *ngFor="let fixValue of dynm.r_fixedvalues">
+                      {{fixValue.title}}</option>
+                  </select>
 
                   </span>
                 </td>
