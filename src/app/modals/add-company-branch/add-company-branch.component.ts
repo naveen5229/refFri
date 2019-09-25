@@ -20,7 +20,6 @@ export class AddCompanyBranchComponent implements OnInit {
   branchName = null;
   location = null;
   assCmpnyId = this.common.params.cmpId;
-  userCmpnyId = this.common.params.userCmpId;
   companyId = null;
   name = null;
   result = [];
@@ -44,7 +43,6 @@ export class AddCompanyBranchComponent implements OnInit {
       this.name = this.common.params.doc.State;
       this.location = this.common.params.doc.City;
       this.assCmpnyId = this.common.params.doc._asscompid;
-      this.userCmpnyId = this.common.params.doc._usercmpyid;
       this.branchId = this.common.params.doc._id;
       this.locId = this.common.params.doc._locid;
       this.stateId = this.common.params.doc._state_id;
@@ -93,7 +91,6 @@ export class AddCompanyBranchComponent implements OnInit {
         gstIn: this.gstIn,
         branchName: this.branchName,
         assCmpnyId: this.assCmpnyId,
-        userCmpnyId: this.userCmpnyId,
         branchId: this.branchId,
       };
       ++this.common.loading;
