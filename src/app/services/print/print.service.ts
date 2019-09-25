@@ -758,7 +758,7 @@ export class PrintService {
     tr.innerHTML = row.map(col => {
       console.log('{{{', col);
       return `<td colspan="${col.colspan || 1}" style="text-align: ${col.align || 'left'}">${
-        (typeof col.txt === 'string' || typeof col.txt === 'number') ? col.txt : `<strong>${col.txt.name}</strong>: <span>${col.txt.value}</span>`
+        (!col.txt || typeof col.txt === 'string' || typeof col.txt === 'number') ? (col.txt || '') : `<strong>${col.txt.name}</strong>: <span>${col.txt.value}</span>`
         }</td>`
     }).join('');
     return tr;
