@@ -20,6 +20,7 @@ export class AddCompanyAssociationComponent implements OnInit {
   updateId=null;
   update=false;
   cmpName=this.common.params.cmpName;
+  cmpId=this.common.params.cmpId;
   
 
   constructor(public common:CommonService,
@@ -28,6 +29,7 @@ export class AddCompanyAssociationComponent implements OnInit {
     console.log("params Party",this.common.params);
     if(this.common.params.cmpAssocDetail){
       this.cmpName=this.common.params.cmpAssocDetail['Company Name'];
+      this.updateId=this.common.params.cmpAssocDetail._id;
 
     }
     this.getAssociationType();
