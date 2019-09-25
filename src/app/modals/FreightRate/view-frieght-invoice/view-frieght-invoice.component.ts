@@ -373,35 +373,4 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     // window.print();
     // this.renderer.setElementClass(document.body, 'test', false);
   }
-
-
-//   printData() {
-//    this.printElement(document.getElementById("printSection"));
-    
-//      var modThis = document.querySelector("#printSection");
-//      modThis.appendChild(document.createTextNode("new"));
-    
-//     window.print();
-// }
-
-
-//  printElement(elem) {
-//     var domClone = elem.cloneNode(true);
-//     console.log(domClone);
-    
-//     var $printSection = document.getElementById("printSection");
-//     console.log("print-Section",$printSection);
-    
-//     if (!$printSection) {
-//          $printSection = document.createElement("div");
-//         $printSection.id = "printSection";
-//         document.body.appendChild($printSection);
-//     }
-//     console.log("NotPrintSection");
-//     $printSection.innerHTML = "";
-    
-//     $printSection.appendChild(domClone);
-// }
-
-
 }
