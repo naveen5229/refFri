@@ -50,6 +50,10 @@ export class VoucherSummaryComponent implements OnInit {
   DriverName;
   totalTrip = [];
   tripFreghtDetails = [];
+  lastOdoMeter=0;
+  currentOdoMeter=0;
+  fuelMilege=0;
+  totalqty=0;
   creditLedger = {
     name: '',
     id: 0
@@ -171,6 +175,8 @@ export class VoucherSummaryComponent implements OnInit {
         this.showTransfer();
       }, 200);
       console.log('---------****',this.VoucherId);
+      this.getOdoMeter();
+
     }
 
     this.common.handleModalSize('class', 'modal-lg', '1150', 'px', this.sizeIndex);
@@ -391,13 +397,28 @@ export class VoucherSummaryComponent implements OnInit {
   checkedAll() {
     console.log('true value', this.checkall);
     let selectedAll = '';
+    this.checkedTrips = [];
     if (this.checkall) {
-      this.trips.map(trip => trip.isChecked = true);
+      
+      this.trips.map(trip =>{ 
+        if(!trip.voucher_id){
+        trip.isChecked = true
+        this.checkedTrips.push(trip);
+      }
+      console.log('all cheked trips ',this.checkedTrips);
+    });
     } else {
       this.trips.map(trip => trip.isChecked = false);
     }
   }
-
+  changeFuelFilling(){
+    this.totalqty=0
+    this.fuelFilings.map(fuelFiling =>{ 
+      if(fuelFiling.isChecked){
+        this.totalqty +=fuelFiling.litres;
+    }
+  });
+  }
   findFirstSelectInfo(flag,type = 'startDate') {
     console.log('______________________inside findFirstSelectInfo ____________', this.trips);
     let min = this.trips.filter(ele => { return ele.isChecked }).reduce((a, b) => {
@@ -486,6 +507,7 @@ export class VoucherSummaryComponent implements OnInit {
         console.log(res);
         this.common.loading--;
         this.fuelFilings = res['data'];
+        this.getOdoMeter();
        // this.fuelFilings.map(fuelFiling => fuelFiling.isChecked = true);
       }, err => {
         console.log(err);
@@ -493,7 +515,23 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.showError();
       });
   }
-
+  getOdoMeter() {
+    const params = {
+      date: this.date,
+      vehId: this.VehicleId,
+    };
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/getOdoMeter', params)
+      .subscribe(res => {
+        console.log('last odo meter',res['data'][0]);
+        this.common.loading--;
+        this.fuelMilege = res['data'][0]['get_tripexp_lastodometer'];
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
   getVoucherDetails(voucherId) {
     console.log('voucher id last ', voucherId)
     const params = {
@@ -766,7 +804,7 @@ export class VoucherSummaryComponent implements OnInit {
             // this.activeModal.close({ status: true });
           } else {
             let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
-            this.common.showError(message);
+            this.common.showError(res['data'][0]['save_tripexp_voucher_v1']);
           }
         }
 
