@@ -51,10 +51,6 @@ export class CompanyEstablishmentComponent implements OnInit {
   ngOnInit() {
   }
 
-  closeModal() {
-    this.activeModal.close();
-  }
-
   getState() {
     this.api.post('Suggestion/GetState', {})
       .subscribe(res => {
@@ -90,7 +86,7 @@ export class CompanyEstablishmentComponent implements OnInit {
     }
     else if (this.locId == null) {
       this.common.showError("please add city")
-    }else if(this.branchId==null){
+    } else if (this.branchId == null) {
       this.common.showError("please add Branch");
     }
     else {
@@ -124,6 +120,10 @@ export class CompanyEstablishmentComponent implements OnInit {
             console.error(' Api Error:', err)
           });
     }
+  }
+
+  closeModal() {
+    this.activeModal.close();
   }
 
 }
