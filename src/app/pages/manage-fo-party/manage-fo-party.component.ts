@@ -181,11 +181,11 @@ export class ManageFoPartyComponent implements OnInit {
       size: "lg",
       container: "nb-layout"
     });
-    activeModal.result.then(data => {
-      if (data.response) {
-        this.getCmpAssocWrtType();
-      }
-    });
+    // activeModal.result.then(data => {
+    //   if (data.response) {
+    //     this.getCmpAssocWrtType();
+    //   }
+    // });
 
   }
 
