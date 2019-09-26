@@ -425,6 +425,8 @@ export class VoucherSummaryComponent implements OnInit {
 
   });
   this.totalqty= parseFloat(tqty.toFixed(2));
+  this.changeFuelCalculate();
+
   }
   findFirstSelectInfo(flag,type = 'startDate') {
     console.log('______________________inside findFirstSelectInfo ____________', this.trips);
@@ -494,6 +496,7 @@ export class VoucherSummaryComponent implements OnInit {
           });
         });
         this.changeFuelFilling();
+
       }, err => {
         console.log(err);
         this.common.loading--;
