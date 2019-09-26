@@ -135,13 +135,13 @@
                         </div>
                     </div>
                     <div class="col-2">
-                        <label>Leager:</label>
+                        <label>Ledger:</label>
                     </div>
                     <div class="col-3">
-                        <auto-suggestion (onSelected)="selectLeager($event)" inputId="leager" controlName="leager"
-                            [parentForm]="fuelIndent" [ngClass]="{ 'is-invalid': isFormSubmit && f.leager.errors }"
-                            name="leager" url="Suggestion/GetAllLedger" display="name" placeholder="Leager "
-                            [preSelected]="{name:fuelIndentData.leagerName}"></auto-suggestion>
+                        <auto-suggestion (onSelected)="selectLedger($event)" inputId="ledger" controlName="ledger"
+                            [parentForm]="fuelIndent" [ngClass]="{ 'is-invalid': isFormSubmit && f.ledger.errors }"
+                            name="ledger" url="Suggestion/GetAllLedger" display="name" placeholder="Ledger "
+                            [preSelected]="{name:fuelIndentData.ledgerName}"></auto-suggestion>
                     </div>
                 </div>
             </ng-template>
