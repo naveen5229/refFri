@@ -100,7 +100,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let trip of trips; let i = index;" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i}">
+            <tr *ngFor="let trip of trips; let i = index;" (click)="selectedRow = i"
+              [ngClass]="{'highlight' : selectedRow == i}">
               <td>{{i+1}}</td>
               <td>
                 <input type="checkbox" [name]="'trip-' + i" [id]="'trip-' + i" [(ngModel)]="trip.isChecked"
@@ -137,13 +138,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let fuelFiling of fuelFilings;let l=index;" (click)="selectedRow = l" [ngClass]="{'highlight' : selectedRow == l}">
+            <tr *ngFor="let fuelFiling of fuelFilings;let l=index;" (click)="selectedRow = l"
+              [ngClass]="{'highlight' : selectedRow == l}">
               <td>{{l+1}}</td>
               <td *ngIf="tripexpencevoucherid==0">
-                <input type="checkbox" [name]="'fuelFiling-' + l" [(ngModel)]="fuelFiling.isChecked"  [disabled]="(fuelFiling.tripexp_voucherid)">
+                <input type="checkbox" [name]="'fuelFiling-' + l" [(ngModel)]="fuelFiling.isChecked"
+                  [disabled]="(fuelFiling.tripexp_voucherid)" (ngModelChange)="changeFuelFilling()">
               </td>
               <td *ngIf="tripexpencevoucherid != 0">
-                <input type="checkbox" [name]="'fuelFiling-' + l" [(ngModel)]="fuelFiling.isChecked"  [disabled]="(fuelFiling.tripexp_voucherid && (fuelFiling.tripexp_voucherid != tripexpencevoucherid))">
+                <input type="checkbox" [name]="'fuelFiling-' + l" [(ngModel)]="fuelFiling.isChecked"
+                  (ngModelChange)="changeFuelFilling()"
+                  [disabled]="(fuelFiling.tripexp_voucherid && (fuelFiling.tripexp_voucherid != tripexpencevoucherid))">
               </td>
               <td>{{fuelFiling.name}}</td>
               <td>{{fuelFiling.litres}}</td>
@@ -151,12 +156,46 @@
               <td>{{fuelFiling.amount}}</td>
               <td>{{fuelFiling.entry_time | date : 'dd MMM'}}</td>
             </tr>
+           
+
           </tbody>
         </table>
       </div>
-      <div>
-        <button class="btn btn-dark" (click)="getHeads()">Show Head</button>
+      <div class="table_box_two mt-3">
+
+        <table>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>
+              <div class="form-group"><label class="tjr-label">Total Fuel.</label><input type="text" class="tjr-input"
+                  name="totalqty" [(ngModel)]="totalqty" (input)="changeFuelCalculate()" ></div>
+            </td>
+            <td>
+              <div class="form-group"><label class="tjr-label">Last odometer</label><input type="number" class="tjr-input"
+                  name="lastOdoMeter" [(ngModel)]="lastOdoMeter"  (input)="changeFuelCalculate()"  ></div>
+            </td>
+            <td>
+              <div class="form-group"><label class="tjr-label">Current odometer</label><input type="number"
+                  class="tjr-input" name="currentOdoMeter" [(ngModel)]="currentOdoMeter" (input)="changeFuelCalculate()"  ></div>
+            </td>
+            <td>
+              <div class="form-group"><label class="tjr-label">Fuel Milege</label> <input type="text" class="tjr-input"
+                  name="fuelMilege" [(ngModel)]="fuelMilege"  disabled></div>
+            </td>
+          </tr>
+        </table>
+
+        <!--  <div class="form-group col-2 mt-4"><label class="tjr-label">Total Qty.</label><input type="text" class="tjr-input" name="totalqty" [(ngModel)]="totalqty"></div>
+          <div class="form-group col-2 mt-4"><label class="tjr-label">Last odometer</label><input type="text" class="tjr-input" name="lastOdoMeter"  [(ngModel)]="lastOdoMeter"></div>
+          <div class="form-group col-2 mt-4"><label class="tjr-label">Current odometer</label><input type="text" class="tjr-input" name="currentOdoMeter" [(ngModel)]="currentOdoMeter"></div>
+          <div class="form-group col-2 mt-4"><label class="tjr-label">Fuel Milege</label> <input type="text" class="tjr-input" name="fuelMilege"  [(ngModel)]="fuelMilege" disabled></div> -->
+<div>
+    <button class="btn btn-dark" (click)="getHeads()">Show Head</button>
+</div>
       </div>
+
       <div class="table_box_three mt-3">
         <table class="table table-bordered">
           <thead>
@@ -172,7 +211,8 @@
               <td>{{i+1}}</td>
               <td>{{tripHead.name}}</td>
               <td>
-                <input type="number" [name]="tripHead.name" [disabled]="isItReadOnly(tripHead, headname+'-'+i)" [id]="headname+'-'+i" [(ngModel)]="tripHead.total" (input)="calculateTripAllTotal(i)">
+                <input type="number" [name]="tripHead.name" [disabled]="isItReadOnly(tripHead, headname+'-'+i)"
+                  [id]="headname+'-'+i" [(ngModel)]="tripHead.total" (input)="calculateTripAllTotal(i)">
               </td>
               <td *ngFor="let trip of tripHead.trips; let j = index;">
                 <input type="number" [name]="'trip-amount-' + tripHead.name + j" [(ngModel)]="trip.amount"
@@ -190,17 +230,19 @@
           </div> -->
           <div class="form-group col-2 mt-4">
             <label class="tjr-label">Total</label>
-            <input type="number" class="form-control" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal" disabled readonly>
+            <input type="number" class="form-control" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal" disabled
+              readonly>
           </div>
 
           <div class="form-group col-3 mt-4">
-              <label class="tjr-label">Remarks</label>
-            <textarea class="form-control ref-input total_textarea" id="narration" name="narration" [(ngModel)]="narration">
+            <label class="tjr-label">Remarks</label>
+            <textarea class="form-control ref-input total_textarea" id="narration" name="narration"
+              [(ngModel)]="narration">
             </textarea>
           </div>
         </div>
         <div class="row">
-          
+
           <div class="form-group col-2 mt-4">
             <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="showTransfer()">Show Transfers</button>
           </div>
@@ -265,67 +307,73 @@
             </auto-suggetion-in-side>
           </div>
           </div> -->
-      <div class="row" *ngIf="transferData">
-        <table class="table table-bordered" id="table">
+        <div class="row" *ngIf="transferData">
+          <table class="table table-bordered" id="table">
 
-          <thead style="background-color:#263238; color:#fff;">
-           <tr>
-              <th>Advise Type</th>
-              <th>User Value</th>
-              <th>Credit To</th>
-              <th>Debit To</th>
-              <th>Remarks</th>
-              <th>Time</th>
-              <th>Entry By</th>
-              
-            </tr>
-          </thead>             
-              <tr *ngFor="let item of transferData; let i = index;">
-              
-                <td *ngFor="let itemheading of transferHeading">
-                    {{item[itemheading]}}                 
-               </td>
-            
-          </tr>
-        </table>
-      </div>
-      <div class="row">
-       
-        <div class="form-group col-2 mt-4">
-          <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="getTripFreght()">Show Revenues</button>
-        </div>
-      </div>
-      <div class="row" *ngIf="tripFreghtDetails">
-        <table class="table table-bordered" id="table">
+            <thead style="background-color:#263238; color:#fff;">
+              <tr>
+                <th>Advise Type</th>
+                <th>User Value</th>
+                <th>Credit To</th>
+                <th>Debit To</th>
+                <th>Remarks</th>
+                <th>Time</th>
+                <th>Entry By</th>
 
-          <thead style="background-color:#263238; color:#fff;">
-           <tr>
-              <th>Receipt No</th>
-              <th>Revenue</th>
-              <th>Remarks</th>
+              </tr>
+            </thead>
+            <tr *ngFor="let item of transferData; let i = index;">
+
+              <td *ngFor="let itemheading of transferHeading">
+                {{item[itemheading]}}
+              </td>
+
             </tr>
-          </thead>             
-              <tr *ngFor="let item of tripFreghtDetails; let i = index;">
-                <td>{{item.receipt_no}}</td>
-                <td>{{item.auto_amount}}</td>
-                <td>{{item.remarks}}</td>
-          </tr>
-        </table>
-      </div>
-      
+          </table>
         </div>
+        <div class="row">
+
+          <div class="form-group col-2 mt-4">
+            <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="getTripFreght()">Show Revenues</button>
+          </div>
+        </div>
+        <div class="row" *ngIf="tripFreghtDetails">
+          <table class="table table-bordered" id="table">
+
+            <thead style="background-color:#263238; color:#fff;">
+              <tr>
+                <th>Receipt No</th>
+                <th>Revenue</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tr *ngFor="let item of tripFreghtDetails; let i = index;">
+              <td>{{item.receipt_no}}</td>
+              <td>{{item.auto_amount}}</td>
+              <td>{{item.remarks}}</td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
     </div>
 
 
     <div class="modal-footer">
-       
-        <button *ngIf="VoucherId !=0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="printTripDetail()">Print</button>
-        <button *ngIf="typeFlag==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
-        <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="approveVoucher()">Approve</button>
-        <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
-        <button *ngIf="permanentDeleteId !=0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="permanentDeleteConfirm()"> PermanentDelete</button>
-        <button *ngIf="permanentDeleteId !=0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="restore()"> Restore</button>
-      <button *ngIf="permanentDeleteId==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="callSaveVoucher()">Submit</button>
+
+      <button *ngIf="VoucherId !=0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="printTripDetail()">Print</button>
+      <button *ngIf="typeFlag==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2"
+        (click)="deleteConsignment()">Delete</button>
+      <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2"
+        (click)="approveVoucher()">Approve</button>
+      <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2"
+        (click)="deleteConsignment()">Delete</button>
+      <button *ngIf="permanentDeleteId !=0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2"
+        (click)="permanentDeleteConfirm()"> PermanentDelete</button>
+      <button *ngIf="permanentDeleteId !=0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="restore()">
+        Restore</button>
+      <button *ngIf="permanentDeleteId==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2"
+        (click)="callSaveVoucher()">Submit</button>
       <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="dismiss(false)">Close</button>
     </div>
     <!-- <div>
