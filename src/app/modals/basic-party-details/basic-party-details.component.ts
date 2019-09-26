@@ -639,13 +639,15 @@ export class BasicPartyDetailsComponent implements OnInit {
       panNo: this.panNo,
       gstNo: this.gstNo,
       cmpId: this.partyId,
+      assocType:this.assType,
+      branchId:this.branchId,
       // userCmpnyId: this.userCmpnyId,
     }
 
-    if (this.refName == 'Add') {
-      params['assocType'] = this.assType;
-        params['branchId'] = this.branchId;
-    }
+    // if (this.partyId == null) {
+    //   params['assocType'] = this.assType;
+    //     params['branchId'] = this.branchId;
+    // }
     //    assocType:this.assType,
     //    branchId:this.branchId,
     // }
