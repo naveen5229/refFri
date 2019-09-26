@@ -112,7 +112,7 @@ export class AddCompanyBranchComponent implements OnInit {
             console.error(' Api Error:', err)
           });
     }
-    
+
   }
 
 }

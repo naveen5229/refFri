@@ -77,9 +77,9 @@ export class AddFuelIndentComponent implements OnInit {
       this.fuelIndentData.refTypeSourceId = this.common.params.editFuelData._ref_id;
       this.fuelIndentData.refType = this.common.params.editFuelData._ref_type;
       this.fuelIndentData.refName = this.common.params.editFuelData._ref_name;
-      this.fuelIndentData.leagerId = this.common.params.editFuelData._ledger_id;
-      if (this.fuelIndentData.leagerId) {
-        this.fuelIndentData.leagerName = this.common.params.editFuelData.leager_name;
+      this.fuelIndentData.ledgerId = this.common.params.editFuelData._ledger_id;
+      if (this.fuelIndentData.ledgerId) {
+        this.fuelIndentData.ledgerName = this.common.params.editFuelData['Ledger Name'];
         this.selectModalTypeId = '1';
       }
     }
@@ -89,7 +89,9 @@ export class AddFuelIndentComponent implements OnInit {
       this.refData.type = this.common.params.refData.refType;
       this.refData.id = this.common.params.refData.refId;
       this.getReferenceData();
-      this.getFuelIndent();
+      if (!this.fuelIndentData.ledgerId) {
+        this.getFuelIndent();
+      }
     }
   }
 
@@ -102,14 +104,14 @@ export class AddFuelIndentComponent implements OnInit {
         refTypeSource: [''],
         indentTypeValue: ['', Validators.required],
         fuelStation: [''],
-        leager: ['']
+        ledger: ['']
       });
     } else {
       this.fuelIndent = this.formBuilder.group({
         refTypeSource: [''],
         indentTypeValue: ['', Validators.required],
         fuelStation: [''],
-        leager: ['']
+        ledger: ['']
       });
     }
 
@@ -132,8 +134,8 @@ export class AddFuelIndentComponent implements OnInit {
       refType: null,
       refTypeSourceId: null,
       refName: null,
-      leagerId: null,
-      leagerName: null,
+      ledgerId: null,
+      ledgerName: null,
     }
   };
   resetData() {
@@ -230,9 +232,10 @@ export class AddFuelIndentComponent implements OnInit {
     );
   }
 
-  selectLeager(leager) {
-    this.fuelIndentData.leagerId = leager.id;
-    console.log("leagerId", this.fuelIndentData.leagerId);
+  selectLedger(ledger) {
+    this.fuelIndentData.ledgerId = ledger.id;
+    return this.fuelIndentData.ledgerId;
+    console.log("leagerId", this.fuelIndentData.ledgerId);
   }
 
   saveFuelIndent() {
@@ -259,7 +262,7 @@ export class AddFuelIndentComponent implements OnInit {
       issueDate: this.common.dateFormatter(this.fuelIndentData.issueDate),
       expDate: this.common.dateFormatter(this.fuelIndentData.expiryDate),
       fsid: this.fuelIndentData.fuelId,
-      ledgerId: this.fuelIndentData.leagerId,
+      ledgerId: this.fuelIndentData.ledgerId,
     };
 
     let result: any;
@@ -267,17 +270,27 @@ export class AddFuelIndentComponent implements OnInit {
     this.api.post(this.apiUrl, params)
       .subscribe(res => {
         this.common.loading--;
-        if (res['data'][0].y_id > 0 && this.selectModalTypeId == '1') {
-          this.common.showToast(res['data'][0].y_msg);
-          result = res['data'];
-          this.activeModal.close({ response: result });
+        if (this.selectModalTypeId == '0') {
+          console.log('Fuel Indent :::::::')
+          if (res['data'][0].y_id > 0) {
+            this.common.showToast(res['data'][0].y_msg);
+            result = res['data'];
+            this.activeModal.close({ response: result });
+          } else {
+            this.common.showError(res['data'][0].y_msg)
+          }
         }
-        else if (this.selectModalTypeId == '0') {
-          this.common.showToast(res['msg']);
+        else if (this.selectModalTypeId == '1') {
+          if (res['success']) {
+            this.common.showToast(res['msg']);
+            console.log('Cash Indent :::::::')
+            this.activeModal.close({ response: 'success' });
+          } else {
+            this.common.showError(res['msg']);
+          }
+
         }
-        else {
-          this.common.showError(res['data'][0].y_msg)
-        }
+
       },
         err => console.error('Api Error:', err));
   }
@@ -372,5 +385,3 @@ export class AddFuelIndentComponent implements OnInit {
   }
 
 }
-
-
