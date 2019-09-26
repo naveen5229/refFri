@@ -52,24 +52,20 @@ export class FuelIndentComponent implements OnInit {
     public common: CommonService) {
     this.getFuelIndent();
     this.common.refresh = this.refresh.bind(this);
-
-
   }
 
   ngOnInit() {
   }
-  refresh() {
 
+  refresh() {
     this.getFuelIndent();
   }
 
   getFuelIndent() {
     if (this.indentType == '0') {
       this.apiUrl = "Fuel/getPendingFuelIndentWrtFo?";
-    }
-    else {
+    } else {
       this.apiUrl = "Fuel/getPendingCashIndentWrtFo?";
-
     }
     console.log("url", this.apiUrl);
     const params = "startdate=" + this.common.dateFormatter1(this.startDate) + "&enddate=" + this.common.dateFormatter1(this.endDate) + "&addedBy=" + this.vehicleType + "&status=" + this.vehicleStatus + "&regno=" + this.regno;
@@ -78,6 +74,7 @@ export class FuelIndentComponent implements OnInit {
     this.api.get(this.apiUrl + params)
       .subscribe(res => {
         --this.common.loading;
+        console.log('API Res:', res);
         this.data = [];
         this.table = {
           data: {
@@ -110,15 +107,15 @@ export class FuelIndentComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    console.log("Data=", this.data);
+    // console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("Type", this.headings[i]);
-        console.log("doc index value:", doc[this.headings[i]]);
+        // console.log("Type", this.headings[i]);
+        // console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
           console.log("Test");
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.editFuelIndent.bind(this, doc) }, { class: 'fa fa-trash', action: this.deleteFuelIndent.bind(this, doc) },] };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.editFuelIndent.bind(this, doc) }, { class: 'fa fa-trash', action: this.deleteFuelIndent.bind(this, doc) }, { class: "fa fa-print", action: this.printReceipt.bind(this, doc) }] };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -197,5 +194,129 @@ export class FuelIndentComponent implements OnInit {
       }
     });
   }
+
+  printReceipt(receipt) {
+    console.log('Receipt:', receipt);
+    let html = `
+    <div style="padding: 20px 40px;/* background: #B2B2B2 !important; */width: 90%;margin: auto;margin-top: 30px;border: 2px solid #555;"><div _ngcontent-wbc-c12="" style="
+    background: #fff;
+    padding: 15px;
+"><div style="text-align:center;"><span style="
+    font-size: 35px;
+    font-weight: 600;
+">${receipt._fo_name}</span></div><div _ngcontent-wbc-c12="" style="text-align:center;margin-bottom: 30px;"><span _ngcontent-wbc-c12="" style="
+    font-size: 18px;
+    margin-bottom: 30px;
+">${receipt._fo_address}</span></div><div _ngcontent-wbc-c12="" class="row" style="
+    margin: 10px -15px;
+    font-size: 20px;
+"><div class="col" style="text-align:left"><span _ngcontent-wbc-c12="" style="
+    font-weight: 600;
+    margin-right: 10px;
+">Ref No:</span><span>${receipt._ref_id}</span></div><div _ngcontent-wbc-c12="" class="col" style="text-align:right"><span _ngcontent-wbc-c12="" style="
+    font-weight: 600;
+    margin-right: 0px;
+">Date:</span><span _ngcontent-wbc-c12="" style="
+    border-bottom: 1px solid #000;
+    padding-left: 7px;
+">${receipt['Issue Date']}</span></div></div><div _ngcontent-wbc-c12="" style="
+    margin-bottom: 10px;
+    font-size: 20px;
+    margin-top: 30px;
+"><span _ngcontent-wbc-c12="" style="
+    font-weight: 600;
+    margin-right: 5px;
+    display: inline-block;
+    width: 30px;
+    /* background: red; */
+">To,</span><span _ngcontent-wbc-c12="" style="
+    border-bottom: 1px solid #000;
+    display: inline-block;
+    width: calc(100% - 40px);
+">${receipt['Fuel Station']}</span></div><div _ngcontent-wbc-c12="" style="
+    font-size: 20px;
+    margin-top: 30px;
+"><span _ngcontent-wbc-c12="" style="
+    font-weight: 600;
+    margin-right: 5px;
+    display: inline-block;
+    width: 110px;
+    /* background: red; */
+">Vehicle No.</span><span _ngcontent-wbc-c12="" style="
+    border-bottom: 1px solid #000;
+    display: inline-block;
+    width: calc(100% - 115px);
+">${receipt.regno}</span></div><div _ngcontent-wbc-c12="" style="
+    margin-bottom: 15px;
+    padding-left: 115px;
+    font-size: 14px;
+    width: 70%;
+"><span _ngcontent-wbc-c12="">Please Supply to the bearer the following on credit &amp; debit the cost of my/our account:-</span></div><table _ngcontent-wbc-c12="" class="table table-bordered" style="
+    margin-top: 40px;
+    border-color: #000 !important;
+    border-width: 2px;
+"><tbody _ngcontent-wbc-c12="" style="
+    border: none;
+"><tr _ngcontent-wbc-c12="" style="
+    border: none;
+"><td _ngcontent-wbc-c12="" style="
+    border-left: none;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-color: #000 !important;
+"><span _ngcontent-wbc-c12="" style="
+    font-weight: 600;
+    margin-right: 10px;
+">${receipt._ledger_id ? 'CASH' : 'FUEL'}:</span><span _ngcontent-wbc-c12="" style="
+    display: inline-block;
+    width: 80%;
+    padding-left: 10px;
+">${receipt._ledger_id ? '₹' + receipt.Amount : receipt.Fuel + ' ltr'}</span></td><td _ngcontent-wbc-c12="" style="
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-color: #000 !important;
+"><span _ngcontent-wbc-c12=""></span></td></tr></tbody></table><div _ngcontent-wbc-c12="" class="row" style="
+    margin-top: 80px;
+    font-size: 16px;
+    font-weight: bold;
+"><div _ngcontent-wbc-c12="" class="col"><span _ngcontent-wbc-c12="">Sign. of Driver</span></div><div _ngcontent-wbc-c12="" class="col" style="
+    text-align: right;
+"><span _ngcontent-wbc-c12="">Signature with Stamp</span></div></div></div>
+    </div>
+    `;
+
+
+    let ele = document.createElement('div');
+    ele.id = "print-receipt";
+    ele.className = "print-receipt";
+    ele.innerHTML = html;
+    ele.style.left = '0';
+    ele.style.position = "absolute";
+    ele.style.top = "0";
+    ele.style.width = "100%";
+    ele.style.height = "100%";
+    ele.style.backgroundColor = "#fff";
+    ele.style.zIndex = '9999999999999999999999';
+
+
+    document.body.appendChild(ele);
+    document.getElementsByTagName('ngx-app')[0]['style'].visibility = "hidden";
+
+    window.print();
+    let printWindowListener = setInterval(() => {
+      if (document.readyState == "complete") {
+        clearInterval(printWindowListener);
+        document.getElementsByTagName('ngx-app')[0]['style'].visibility = "visible";
+        let bodyElement = document.getElementsByTagName('body')[0];
+        let printElement = document.getElementById('print-receipt');
+        bodyElement.removeChild(printElement);
+      }
+    }, 200);
+
+  }
+
+
 
 }
