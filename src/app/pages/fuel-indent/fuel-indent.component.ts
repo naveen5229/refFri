@@ -119,7 +119,11 @@ export class FuelIndentComponent implements OnInit {
         // console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
           console.log("Test");
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.editFuelIndent.bind(this, doc) }, { class: 'fa fa-trash', action: this.deleteFuelIndent.bind(this, doc) }, { class: "fa fa-print", action: this.printReceipt.bind(this, doc) }] };
+          this.valobj[this.headings[i]] = {
+            value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.editFuelIndent.bind(this, doc) },
+            { class: 'fa fa-trash', action: this.deleteFuelIndent.bind(this, doc) },
+            { class: "fa fa-print", action: this.printReceipt.bind(this, doc) }]
+          };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
