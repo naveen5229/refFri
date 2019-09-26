@@ -86,7 +86,7 @@
                 <div class="col-4">{{fuelIndentData.refName}}</div>
             </div>
 
-            <div class="row mt-2" *ngIf="selectModalTypeId==0; else cashIndent">
+            <div class="row mt-2" *ngIf="selectModalTypeId=='0'; else cashIndent">
                 <div class="col-3">
                     <form>
                         <input type="radio" name="radio" value='0' [(ngModel)]="indentType" class="radioType">
@@ -141,7 +141,7 @@
                         <auto-suggestion (onSelected)="selectLeager($event)" inputId="leager" controlName="leager"
                             [parentForm]="fuelIndent" [ngClass]="{ 'is-invalid': isFormSubmit && f.leager.errors }"
                             name="leager" url="Suggestion/GetAllLedger" display="name" placeholder="Leager "
-                            [preSelected]="{name:fuelIndentData.leager}"></auto-suggestion>
+                            [preSelected]="{name:fuelIndentData.leagerName}"></auto-suggestion>
                     </div>
                 </div>
             </ng-template>

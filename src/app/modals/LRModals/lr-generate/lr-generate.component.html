@@ -66,6 +66,8 @@
                   [preSelected]="{regno : vehicleData.regno }" style="width
                   :100%" *ngIf='lr.vehicleType == 1' inputId='vehicleno'>
                 </auto-suggestion>
+                <i *ngIf='lr.vehicleType == 1' class="fa fa-eye"
+                    (click)="displayVehicleData()"></i>
                 <input type="text" [(ngModel)]=vehicleData.regno class="form-control" placeholder="Vehicle"
                   *ngIf='lr.vehicleType !=1' id="vehicleno">
 
@@ -101,8 +103,9 @@
             <td *ngIf=" generalDetailColumn1[i] && generalDetailColumn1[i].r_coltitle">
 
               <!-- field Title -->
-              <label *ngIf="generalDetailColumn1[i].r_colname !='supplier_name' || (generalDetailColumn1[i].r_colname =='supplier_name' && lr.vehicleType !=1) ">{{generalDetailColumn1[i].r_coltitle}}<span style="color: red"
-                  *ngIf="generalDetailColumn1[i].r_required">*</span></label>
+              <label
+                *ngIf="generalDetailColumn1[i].r_colname !='supplier_name' || (generalDetailColumn1[i].r_colname =='supplier_name' && lr.vehicleType !=1) ">{{generalDetailColumn1[i].r_coltitle}}<span
+                  style="color: red" *ngIf="generalDetailColumn1[i].r_required">*</span></label>
               <span>
 
                 <!-- Vehicle Auto Suggestion -->
@@ -117,8 +120,9 @@
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name'"
                   (onChange)="generalDetailColumn1[i].r_valueid = ''"
                   (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn1[i].r_colname,$event)"
-                  url="Suggestion/GetCompanies2?type=CNEE&lrType={{lr.lrType}}" display="name" placeholder=" Search Name"
-                  [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
+                  url="Suggestion/GetCompanies2?type=CNEE&lrType={{lr.lrType}}" display="name"
+                  placeholder=" Search Name" [preSelected]="{name:generalDetailColumn1[i].r_value}"
+                  class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
                   (click)="addAssociation()"></i>
@@ -151,13 +155,14 @@
                   url="Suggestion/GetCompanies2?type=MVS" display="name" placeholder=" Search Name"
                   [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
-                <i *ngIf="generalDetailColumn1[i].r_colname =='supplier_name' && foCmpnyId>0 && lr.vehicleType !=1" class="fa fa-plus add"
-                  (click)="addAssociation()"></i>
+                <i *ngIf="generalDetailColumn1[i].r_colname =='supplier_name' && foCmpnyId>0 && lr.vehicleType !=1"
+                  class="fa fa-plus add" (click)="addAssociation()"></i>
                 <!-- Driver Name suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'driver_mobile'"
                   (onChange)="generalDetailColumn1[i].r_valueid = ''"
                   (onSelected)="getDriverInfo($event, generalDetailColumn1[i]);generalDetailColumn1[i].r_valueid = $event.id;generalDetailColumn1[i].r_value = $event.mobileno"
-                  url="Booster/getDrivers" display="display" placeholder="Select Driver" class="auto-suggest d-block"[value]="generalDetailColumn1[i].r_value"
+                  url="Booster/getDrivers" display="display" placeholder="Select Driver" class="auto-suggest d-block"
+                  [value]="generalDetailColumn1[i].r_value"
                   [preSelected]="generalDetailColumn1[i].r_value ? {display: generalDetailColumn1[i].r_value , empname:''} : {display: '', empname:''}"
                   placeholder="Search Driver">
                 </auto-suggestion>
@@ -244,6 +249,14 @@
                   *ngIf="generalDetailColumn1[i].r_colname == 'driver_name'" [id]='generalDetailColumn1[i].r_colname'
                   readonly>
 
+
+                <!-- dynamic data array -->
+                <select [(ngModel)]="generalDetailColumn1[i].r_value" class="form-conrol"
+                  *ngIf="generalDetailColumn1[i].r_fixedvalues">
+                  <option [value]="fixValue.title" *ngFor="let fixValue of generalDetailColumn1[i].r_fixedvalues">
+                    {{fixValue.title}}</option>
+                </select>
+
                 <!-- Simple text Box -->
                 <input type="text" class="form-control" [(ngModel)]=generalDetailColumn1[i].r_value *ngIf="generalDetailColumn1[i].r_colname != 'regno' && generalDetailColumn1[i].r_colname != 'lr_date' &&
                    generalDetailColumn1[i].r_colname != 'source' && generalDetailColumn1[i].r_colname != 'destination' && 
@@ -251,7 +264,7 @@
                    generalDetailColumn1[i].r_colname !='consignor_name' && generalDetailColumn1[i].r_colname !='transporter_name'&& 
                    generalDetailColumn1[i].r_colname!='taxpaid_by_name' && generalDetailColumn1[i].r_colname !='invoiceto_name' &&
                    generalDetailColumn1[i].r_colname !='pay_type_name'&& generalDetailColumn1[i].r_colname !='supplier_name'&& 
-                   generalDetailColumn1[i].r_colname != 'driver_name' " [id]='generalDetailColumn1[i].r_colname'>
+                   generalDetailColumn1[i].r_colname != 'driver_name' && !generalDetailColumn1[i].r_fixedvalues " [id]='generalDetailColumn1[i].r_colname'>
               </span>
             </td>
 
@@ -277,8 +290,9 @@
                 <auto-suggestion (onChange)="generalDetailColumn2[i].r_valueid = ''"
                   *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name'"
                   (onSelected)="generalDetailColumn2[i].r_value = $event.name;generalDetailColumn2[i].r_valueid = $event.id;getCompanyData(generalDetailColumn2[i].r_colname,$event)"
-                  url="Suggestion/GetCompanies2?type=CNEE&lrType={{lr.lrType}}" display="name" placeholder=" Search Name"
-                  [preSelected]="{name : generalDetailColumn2[i].r_value}" class="auto-suggest">
+                  url="Suggestion/GetCompanies2?type=CNEE&lrType={{lr.lrType}}" display="name"
+                  placeholder=" Search Name" [preSelected]="{name : generalDetailColumn2[i].r_value}"
+                  class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
                   (click)="addAssociation()"></i>
@@ -313,14 +327,15 @@
                   url="Suggestion/GetCompanies2?type=MVS" display="name" placeholder=" Search Name"
                   [preSelected]="{name:generalDetailColumn2[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
-                <i *ngIf="generalDetailColumn2[i].r_colname =='supplier_name' && foCmpnyId>0 && lr.vehicleType !=1 " class="fa fa-plus add"
-                  (click)="addAssociation()"></i>
+                <i *ngIf="generalDetailColumn2[i].r_colname =='supplier_name' && foCmpnyId>0 && lr.vehicleType !=1 "
+                  class="fa fa-plus add" (click)="addAssociation()"></i>
 
                 <!-- Driver Name suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname == 'driver_mobile'"
                   (onChange)="generalDetailColumn2[i].r_valueid = ''"
                   (onSelected)="getDriverInfo($event, generalDetailColumn2[i]);generalDetailColumn2[i].r_valueid = $event.id;generalDetailColumn2[i].r_value = $event.mobileno"
-                  url="Booster/getDrivers" display="display" placeholder="Select Driver" class="auto-suggest" [value]="generalDetailColumn1[i].r_value"
+                  url="Booster/getDrivers" display="display" placeholder="Select Driver" class="auto-suggest"
+                  [value]="generalDetailColumn1[i].r_value"
                   [preSelected]="generalDetailColumn2[i].r_value ? {display: generalDetailColumn2[i].r_value,empname : ''} : {display: '', empname:''}"
                   placeholder="Search Driver">
                 </auto-suggestion>
@@ -406,6 +421,13 @@
                   *ngIf="generalDetailColumn2[i].r_colname == 'driver_name'" [id]='generalDetailColumn2[i].r_colname'
                   readonly>
 
+                    <!-- dynamic data array -->
+                <select [(ngModel)]="generalDetailColumn2[i].r_value" class="form-conrol"
+                *ngIf="generalDetailColumn2[i].r_fixedvalues">
+                <option [value]="fixValue.title" *ngFor="let fixValue of generalDetailColumn2[i].r_fixedvalues">
+                  {{fixValue.title}}</option>
+              </select>
+
 
                 <!-- Simple text Box -->
                 <input type="text" class="form-control" [(ngModel)]=generalDetailColumn2[i].r_value
@@ -415,7 +437,8 @@
                   generalDetailColumn2[i].r_colname !='consignor_name' && generalDetailColumn2[i].r_colname !='transporter_name'&&
                   generalDetailColumn2[i].r_colname !='transporter_name' && generalDetailColumn2[i].r_colname!='taxpaid_by_name'&& 
                   generalDetailColumn2[i].r_colname !='pay_type_name' && generalDetailColumn2[i].r_colname!='invoiceto_name'&&
-                  generalDetailColumn2[i].r_colname !='supplier_name' && generalDetailColumn2[i].r_colname != 'driver_name'" [id]='generalDetailColumn2[i].r_colname'>
+                  generalDetailColumn2[i].r_colname !='supplier_name' && generalDetailColumn2[i].r_colname != 'driver_name'
+                  && !generalDetailColumn2[i].r_fixedvalues" [id]='generalDetailColumn2[i].r_colname'>
 
               </span>
             </td>
@@ -451,11 +474,17 @@
                 <td *ngFor="let dynm of dynamic; let k = index;">
                   <label>{{dynm.r_coltitle}}<span style="color: red" *ngIf="dynm.r_required">*</span></label>
                   <span>
-                    <input type="text" class="form-control" [(ngModel)]=dynm.r_value *ngIf="dynm.r_coltype != 3">
+                    <input type="text" class="form-control" [(ngModel)]=dynm.r_value *ngIf="dynm.r_coltype != 3 && !dynm.r_fixedvalues">
 
                     <uj-date-time-picker (onChanged)="dynm.r_value = $event" [dateTimeValue]="dynm.r_value"
-                      *ngIf="dynm.r_coltype == 3" [isTime]="false">
+                      *ngIf="dynm.r_coltype == 3 && !dynm.r_fixedvalues " [isTime]="false">
                     </uj-date-time-picker>
+
+                    <select [(ngModel)]="dynm.r_value" class="form-conrol"
+                    *ngIf="dynm.r_fixedvalues">
+                    <option [value]="fixValue.title" *ngFor="let fixValue of dynm.r_fixedvalues">
+                      {{fixValue.title}}</option>
+                  </select>
 
                   </span>
                 </td>

@@ -20,7 +20,6 @@ export class AddCompanyBranchComponent implements OnInit {
   branchName = null;
   location = null;
   assCmpnyId = this.common.params.cmpId;
-  userCmpnyId = this.common.params.userCmpId;
   companyId = null;
   name = null;
   result = [];
@@ -44,7 +43,6 @@ export class AddCompanyBranchComponent implements OnInit {
       this.name = this.common.params.doc.State;
       this.location = this.common.params.doc.City;
       this.assCmpnyId = this.common.params.doc._asscompid;
-      this.userCmpnyId = this.common.params.doc._usercmpyid;
       this.branchId = this.common.params.doc._id;
       this.locId = this.common.params.doc._locid;
       this.stateId = this.common.params.doc._state_id;
@@ -93,7 +91,6 @@ export class AddCompanyBranchComponent implements OnInit {
         gstIn: this.gstIn,
         branchName: this.branchName,
         assCmpnyId: this.assCmpnyId,
-        userCmpnyId: this.userCmpnyId,
         branchId: this.branchId,
       };
       ++this.common.loading;
@@ -115,88 +112,7 @@ export class AddCompanyBranchComponent implements OnInit {
             console.error(' Api Error:', err)
           });
     }
-    //   if(this.branchName!=null){
-    //     if(this.locId!=null){
-    //       if (this.common.params.flag == 'Update') {
-    //         if (this.gstIn != null || this.pinCode != null) {
-    //           const params = {
-    //             address: this.address,
-    //             remark: this.remark,
-    //             pinCode: this.pinCode,
-    //             stateId: this.stateId,
-    //             locId: this.locId,
-    //             gstIn: this.gstIn,
-    //             branchName: this.branchName,
-    //             assCmpnyId: this.assCmpnyId,
-    //             userCmpnyId: this.userCmpnyId,
-    //             branchId: this.branchId,
-    //           };
-    //           ++this.common.loading;
-    //           console.log("params", params);
-    //           this.api.post('ManageParty/saveCompanyBranch', params)
-    //             .subscribe(res => {
-    //               --this.common.loading;
-    //               if (res['data'][0].y_id > 0) {
-    //                 this.common.showToast(res['data'][0].y_msg);
-    //                 this.Update = true;
-    //                 this.activeModal.close({ response: this.Update });
-    //               }
-    //               else {
-    //                 this.common.showError(res['data'][0].y_msg)
-    //               }
-    //             },
-    //               err => {
-    //                 --this.common.loading;
-    //                 console.error(' Api Error:', err)
-    //               });
-    //         } else {
-    //           this.common.showError("please enter Gstno/Pincode");
-    //         }
 
-    //       } else {
-    //         if (this.gstIn != null || this.pinCode != null) {
-    //           const params = {
-    //             address: this.address,
-    //             remark: this.remark,
-    //             pinCode: this.pinCode,
-    //             stateId: this.stateId,
-    //             locId: this.locId,
-    //             gstIn: this.gstIn,
-    //             branchName: this.branchName,
-    //             assCmpnyId: this.common.params.cmpId,
-    //             userCmpnyId: this.common.params.userCmpId,
-    //             branchId: this.branchId,
-    //           };
-    //           ++this.common.loading;
-    //           console.log("params", params);
-    //           this.api.post('ManageParty/saveCompanyBranch', params)
-    //             .subscribe(res => {
-    //               --this.common.loading;
-    //               console.log("Testing")
-    //               if (res['data'][0].y_id > 0) {
-    //                 this.common.showToast(res['data'][0].y_msg);
-    //                 this.Update = true;
-    //                 this.activeModal.close({ response: this.Update });
-    //               } else {
-    //                 this.common.showError(res['data'][0].y_msg)
-    //               }
-    //             },
-    //               err => {
-    //                 --this.common.loading;
-    //                 console.error(' Api Error:', err)
-    //               });
-    //         } else {
-    //           this.common.showError("please enter Gstno/Pincode");
-    //         }
-    //       }   
-    //     }else{
-    //       this.common.showError("please add city")
-    //     }
-
-    //   }else{
-    //     this.common.showError("please add branch Name")
-    //   }
-    // }
   }
 
 }

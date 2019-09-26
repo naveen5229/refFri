@@ -2,7 +2,7 @@
   <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
 <div class="modal-header">
   <h5 class="modal-title" id="modal-basic-title">Add Secondary Account</h5>
-  <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+  <button type="button" class="close" aria- label="Close" (click)="modalCondition(false)">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -36,7 +36,7 @@
 <div class="modal-footer">
   <div class="row">
     <div class="col">
-      <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel" style="cursor: pointer;">Cancel</button>
+      <button class="btn btn-danger" type="button" outline (click)="modalCondition(false)" id="cancel" style="cursor: pointer;">Cancel</button>
     </div>
     <div class="col text-right">
       <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit" style="cursor: pointer;">Submit
