@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BasicPartyDetailsComponent } from '../../modals/basic-party-details/basic-party-details.component';
 import { CommonService } from '../../services/common.service';
 import { PartyLedgerMappingComponent } from '../../modals/party-ledger-mapping/party-ledger-mapping.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 
 
@@ -156,7 +157,12 @@ export class ManageFoPartyComponent implements OnInit {
         console.log("Type", this.headings[i]);
         console.log("doc index value:", cmpAssocDetail[this.headings[i]]);
         if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.addNewParty.bind(this, 'Edit', cmpAssocDetail) }, { class: 'fab fa-reddit', action: this.partyMapping.bind(this, cmpAssocDetail) }] };
+          this.valobj[this.headings[i]] = {
+            value: "", action: null,
+            icons: [{ class: 'fa fa-edit', action: this.addNewParty.bind(this, 'Edit', cmpAssocDetail) },
+            { class: 'fab fa-reddit', action: this.partyMapping.bind(this, cmpAssocDetail) },
+            { class: 'fa fa-trash', action: this.deleteParty.bind(this, cmpAssocDetail) }]
+          };
         }
         else {
           this.valobj[this.headings[i]] = { value: cmpAssocDetail[this.headings[i]], class: 'black', action: '' };
@@ -208,5 +214,32 @@ export class ManageFoPartyComponent implements OnInit {
       this.common.showToast('Ledger Already Mapped')
     }
   }
+
+  deleteParty(party) {
+    const params = {
+      assocId: party._id,
+    }
+    if (party._id) {
+      this.common.params = {
+        title: 'Delete Party ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          this.api.post("ManageParty/deletePartyAssociation", params)
+            .subscribe(res => {
+              console.log('Api Response:', res)
+              this.common.showToast(res['msg']);
+              this.getCmpAssocWrtType();
+              this.common.loading--;
+            },
+              err => console.error(' Api Error:', err));
+        }
+      });
+    }
+  }
+
 
 }

@@ -173,7 +173,7 @@ export class FuelIndentComponent implements OnInit {
     }
     if (fuel._id) {
       this.common.params = {
-        title: 'Delete  ',
+        title: 'Delete Indent ',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
