@@ -177,10 +177,10 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
-  addAssociation() {
+  addAssociation(assType) {
     console.log("open Association modal")
     this.common.params = {
-      cmpId: this.foCmpnyId,
+      assType:assType
     };
     const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
@@ -476,6 +476,7 @@ export class LrGenerateComponent implements OnInit {
       console.log('Date:', data);
     });
   }
+
   displayVehicleData() {
     console.log("-------------vehicle id----------", this.vehicleData.id);
     this.common.params = { vehicleId: this.vehicleData.id }
@@ -489,5 +490,9 @@ export class LrGenerateComponent implements OnInit {
       this.common.showError("Vehicle Id doesn't exit.");
     }
 
+  }
+
+  changeLrSeries(){
+    console.log("changeLrSeries");
   }
 }

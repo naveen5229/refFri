@@ -67,7 +67,7 @@
                   :100%" *ngIf='lr.vehicleType == 1' inputId='vehicleno'>
                 </auto-suggestion>
                 <i *ngIf='lr.vehicleType == 1' class="fa fa-eye"
-                    (click)="displayVehicleData()"></i>
+                    (click)="displayVehicleData()" style="padding: 7px;background-color:gray"></i>
                 <input type="text" [(ngModel)]=vehicleData.regno class="form-control" placeholder="Vehicle"
                   *ngIf='lr.vehicleType !=1' id="vehicleno">
 
@@ -77,9 +77,9 @@
               <label>Lr No<span style="color: red">*</span></label>
               <span>
                 <input type="text" [(ngModel)]=lr.prefix class="form-control" placeholder="Prefix"
-                  style="width:40%;float:left">
+                  style="width:40%;float:left" (focusout)="changeLrSeries()">
                 <input type="text" [(ngModel)]=lr.serial class="form-control" placeholder="Number"
-                  style="width:60%;float:left">
+                  style="width:60%;float:left" >
 
               </span>
             </td>
@@ -125,7 +125,7 @@
                   class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
-                  (click)="addAssociation()"></i>
+                  (click)="addAssociation(-44)"></i>
 
                 <!-- consignor suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'consignor_name'"
@@ -135,7 +135,7 @@
                   [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn1[i].r_colname == 'consignor_name' && foCmpnyId>0" class="fa fa-plus add"
-                  (click)="addAssociation()"></i>
+                  (click)="addAssociation(-41)"></i>
 
                 <!-- transporter suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname =='transporter_name'"
@@ -145,7 +145,7 @@
                   [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn1[i].r_colname =='transporter_name' && foCmpnyId>0" class="fa fa-plus add"
-                  (click)="addAssociation()"></i>
+                  (click)="addAssociation(-40)"></i>
 
 
                 <!-- suplier suggestion -->
@@ -156,7 +156,7 @@
                   [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn1[i].r_colname =='supplier_name' && foCmpnyId>0 && lr.vehicleType !=1"
-                  class="fa fa-plus add" (click)="addAssociation()"></i>
+                  class="fa fa-plus add" (click)="addAssociation(-39)"></i>
                 <!-- Driver Name suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'driver_mobile'"
                   (onChange)="generalDetailColumn1[i].r_valueid = ''"
@@ -295,7 +295,7 @@
                   class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
-                  (click)="addAssociation()"></i>
+                  (click)="addAssociation(-44)"></i>
 
 
                 <!-- consignor suggestion -->
@@ -306,7 +306,7 @@
                   [preSelected]="{name:generalDetailColumn2[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn2[i].r_colname == 'consignor_name' && foCmpnyId>0" class="fa fa-plus add"
-                  (click)="addAssociation()"></i>
+                  (click)="addAssociation(-41)"></i>
 
 
                 <!-- transporter suggestion -->
@@ -317,7 +317,7 @@
                   [preSelected]="{name:generalDetailColumn2[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn2[i].r_colname =='transporter_name' && foCmpnyId>0" class="fa fa-plus add"
-                  (click)="addAssociation()"></i>
+                  (click)="addAssociation(-40)"></i>
 
 
                 <!-- suplier suggestion -->
@@ -328,7 +328,7 @@
                   [preSelected]="{name:generalDetailColumn2[i].r_value}" class="auto-suggest">
                 </auto-suggestion>
                 <i *ngIf="generalDetailColumn2[i].r_colname =='supplier_name' && foCmpnyId>0 && lr.vehicleType !=1 "
-                  class="fa fa-plus add" (click)="addAssociation()"></i>
+                  class="fa fa-plus add" (click)="addAssociation(-39)"></i>
 
                 <!-- Driver Name suggestion -->
                 <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname == 'driver_mobile'"
