@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
+import { PartyLedgerMappingComponent } from '../party-ledger-mapping/party-ledger-mapping.component';
 
 @Component({
   selector: 'add-company-association',
@@ -16,7 +17,7 @@ export class AddCompanyAssociationComponent implements OnInit {
   assType=null;
   partySupplierCode=null;
   userSullierCode=null;
-  remark='';
+  remark=null;
   updateId=null;
   update=false;
   cmpName=this.common.params.cmpName;
@@ -25,11 +26,17 @@ export class AddCompanyAssociationComponent implements OnInit {
 
   constructor(public common:CommonService,
     public activeModal:NgbActiveModal,
+    public modalService: NgbModal,
     public api:ApiService) {
     console.log("params Party",this.common.params);
     if(this.common.params.cmpAssocDetail){
       this.cmpName=this.common.params.cmpAssocDetail['Company Name'];
       this.updateId=this.common.params.cmpAssocDetail._id;
+      this.partySupplierCode=this.common.params.cmpAssocDetail.PartySupplierCode;
+      this.userSullierCode=this.common.params.cmpAssocDetail.UserSupplierCode;
+      this.remark=this.common.params.cmpAssocDetail.Remark;
+      this.branchId=this.common.params.cmpAssocDetail._branchid;
+      this.assType=this.common.params.cmpAssocDetail._asstype;
 
     }
     this.getAssociationType();
@@ -86,6 +93,12 @@ export class AddCompanyAssociationComponent implements OnInit {
         if (res['data'][0].y_id > 0) {
           this.common.showToast(res['data'][0].y_msg);
           this.update = true;
+          this.common.params = {
+              partyId: res['data'][0].y_id,
+              userGroupId: this.assType,
+
+            };
+            this.modalService.open(PartyLedgerMappingComponent, { size: "lg", container: "nb-layout" });
           this.activeModal.close({ response: this.update });
         }
         else {

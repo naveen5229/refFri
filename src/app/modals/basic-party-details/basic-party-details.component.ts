@@ -36,7 +36,12 @@ export class BasicPartyDetailsComponent implements OnInit {
   modalClose = false;
   activeTab = 'Company Association';
   gstPanCheck = false;
-  associationType=null;
+  associationType = null;
+  associationTypes = [];
+  branchs = [];
+  branchId = null;
+  assType = null;
+  refName = this.common.params.refName;
 
   data = [];
   cmpEstablishment = [];
@@ -102,7 +107,7 @@ export class BasicPartyDetailsComponent implements OnInit {
     this.userCmpnyId = this.common.params.cmpId;
     if (this.common.params.cmpAssocDetail) {
       this.value = true;
-      this.associationType=this.common.params.associationType;
+      this.associationType = this.common.params.associationType;
       this.cmpAlias = this.common.params.cmpAssocDetail['Company Alias'];
       this.panNo = this.common.params.cmpAssocDetail.Pan ? this.common.params.cmpAssocDetail.Pan : '';
       this.gstNo = this.common.params.cmpAssocDetail.Gst ? this.common.params.cmpAssocDetail.Gst : '';
@@ -120,7 +125,8 @@ export class BasicPartyDetailsComponent implements OnInit {
       this.getCompanyContacts();
       this.getCompanyBanks();
     }
-    
+    this.getAssociationType();
+    this.getSelfBranch();
     this.common.refresh = this.refresh.bind(this);
 
   }
@@ -132,6 +138,8 @@ export class BasicPartyDetailsComponent implements OnInit {
       website: [''],
       address: [''],
       panNo: [''],
+      branch: [''],
+      association: [''],
     });
   }
   refresh() {
@@ -140,7 +148,32 @@ export class BasicPartyDetailsComponent implements OnInit {
     this.getCompanyEstablishment();
     this.getCompanyContacts();
     this.getCompanyBanks();
-    
+
+  }
+
+  getAssociationType() {
+    this.common.loading++;
+    this.api.get('Suggestion/getAssocTypeWrtFo')
+      .subscribe(res => {
+        this.common.loading--;
+        this.associationTypes = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  getSelfBranch() {
+    this.common.loading++;
+    this.api.post('Suggestion/GetBranchList', {})
+      .subscribe(res => {
+        this.common.loading--;
+        this.branchs = res['data'];
+      },
+        err => {
+          this.common.loading--;
+          console.log(err);
+        });
   }
 
   // convenience getter for easy access to form fields
@@ -157,7 +190,7 @@ export class BasicPartyDetailsComponent implements OnInit {
   }
 
   getCompanyAssociation() {
-    const params = "assocType=" + this.associationType +"&partyId="+this.partyId;
+    const params = "assocType=" + null + "&partyId=" + this.partyId;
     this.common.loading++;
     this.api.get('ManageParty/getCmpAssocWrtType?' + params)
       .subscribe(res => {
@@ -223,7 +256,7 @@ export class BasicPartyDetailsComponent implements OnInit {
       container: "nb-layout"
     });
     activeModal.result.then(data => {
-      if (data.response) {
+      if (data) {
         this.getCompanyAssociation();
       }
     });
@@ -307,7 +340,7 @@ export class BasicPartyDetailsComponent implements OnInit {
       container: "nb-layout"
     });
     activeModal.result.then(data => {
-      if (data.response) {
+      if (data) {
         this.getCompanyBranches();
       }
     });
@@ -332,9 +365,6 @@ export class BasicPartyDetailsComponent implements OnInit {
       }
     });
   }
-
-  
-
 
   getCompanyEstablishment() {
     let params = "assocCmpId=" + this.partyId;
@@ -373,7 +403,6 @@ export class BasicPartyDetailsComponent implements OnInit {
         });
   }
 
-
   getTableColumns2() {
     let columns = [];
     console.log("Data=", this.data);
@@ -392,7 +421,6 @@ export class BasicPartyDetailsComponent implements OnInit {
     });
     return columns;
   }
-
 
   addCompanyEstablishment(cmpEstablish?) {
     this.common.params = {
@@ -451,7 +479,6 @@ export class BasicPartyDetailsComponent implements OnInit {
           console.error('Api Error:', err);
         });
   }
-
 
   getTableColumns3() {
     let columns = [];
@@ -526,7 +553,6 @@ export class BasicPartyDetailsComponent implements OnInit {
           console.error('Api Error:', err);
         });
   }
-
 
   getTableColumns4() {
     let columns = [];
@@ -604,7 +630,8 @@ export class BasicPartyDetailsComponent implements OnInit {
       }
     }
 
-    let params = {
+    let params;
+    params = {
       cmpName: this.cmpName,
       cmpAlias: this.cmpAlias,
       address: this.address,
@@ -612,8 +639,19 @@ export class BasicPartyDetailsComponent implements OnInit {
       panNo: this.panNo,
       gstNo: this.gstNo,
       cmpId: this.partyId,
+      assocType:this.assType,
+      branchId:this.branchId,
       // userCmpnyId: this.userCmpnyId,
     }
+
+    // if (this.partyId == null) {
+    //   params['assocType'] = this.assType;
+    //     params['branchId'] = this.branchId;
+    // }
+    //    assocType:this.assType,
+    //    branchId:this.branchId,
+    // }
+
     ++this.common.loading;
     console.log("params", params);
     this.api.post('ManageParty/addAndUpdateParty', params)
@@ -636,6 +674,7 @@ export class BasicPartyDetailsComponent implements OnInit {
           // };
           // this.modalService.open(PartyLedgerMappingComponent, { size: "lg", container: "nb-layout" });
           this.common.showToast(res['data'][0].y_msg);
+          //this.getCompanyAssociation();
 
         } else {
           this.common.showError(res['data'][0].y_msg)

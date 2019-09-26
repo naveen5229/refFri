@@ -170,19 +170,19 @@
             <td>&nbsp;</td>
             <td>
               <div class="form-group"><label class="tjr-label">Total Fuel.</label><input type="text" class="tjr-input"
-                  name="totalqty" [(ngModel)]="totalqty"></div>
+                  name="totalqty" [(ngModel)]="totalqty" (input)="changeFuelCalculate()" ></div>
             </td>
             <td>
-              <div class="form-group"><label class="tjr-label">Last odometer</label><input type="text" class="tjr-input"
-                  name="lastOdoMeter" [(ngModel)]="lastOdoMeter"></div>
+              <div class="form-group"><label class="tjr-label">Last odometer</label><input type="number" class="tjr-input"
+                  name="lastOdoMeter" [(ngModel)]="lastOdoMeter"  (input)="changeFuelCalculate()"  ></div>
             </td>
             <td>
-              <div class="form-group"><label class="tjr-label">Current odometer</label><input type="text"
-                  class="tjr-input" name="currentOdoMeter" [(ngModel)]="currentOdoMeter"></div>
+              <div class="form-group"><label class="tjr-label">Current odometer</label><input type="number"
+                  class="tjr-input" name="currentOdoMeter" [(ngModel)]="currentOdoMeter" (input)="changeFuelCalculate()"  ></div>
             </td>
             <td>
-              <div class="form-group"><label class="tjr-label">Fuel Milege</label> <input type="text" class="tjr-input"
-                  name="fuelMilege" [(ngModel)]="fuelMilege" disabled></div>
+              <div class="form-group"><label class="tjr-label">Fuel Milege</label> <input type="number" class="tjr-input"
+                  name="fuelMilege" [(ngModel)]="fuelMilege"  disabled></div>
             </td>
           </tr>
         </table>
