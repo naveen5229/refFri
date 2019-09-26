@@ -49,6 +49,8 @@ export class AddFuelIndentComponent implements OnInit {
   };
   selectModalTypeId = '0';
   apiUrl = "Fuel/addFuelIndent";
+  branchList = [];
+
   constructor(public activeModel: NgbActiveModal,
     public api: ApiService,
     public modalService: NgbModal,
@@ -56,6 +58,7 @@ export class AddFuelIndentComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public common: CommonService) {
     this.getFuelStationList();
+    this.getBranchList();
     this.index = this.common.params.index;
     this.common.handleModalSize('class', 'modal-lg', '900', 'px', this.index);
     if (this.common.params && this.common.params.title) {
@@ -136,6 +139,7 @@ export class AddFuelIndentComponent implements OnInit {
       refName: null,
       ledgerId: null,
       ledgerName: null,
+      branchId: null,
     }
   };
   resetData() {
@@ -146,6 +150,7 @@ export class AddFuelIndentComponent implements OnInit {
     document.getElementById('refTypeSource')['value'] = '';
     document.getElementById('indentTypeValue')['value'] = null;
     (<HTMLInputElement>document.getElementById('indentTypeValue')).value = '';
+    document.getElementById('branchId')['value'] = null;
   }
 
   changeModal(type) {
@@ -235,7 +240,17 @@ export class AddFuelIndentComponent implements OnInit {
   selectLedger(ledger) {
     this.fuelIndentData.ledgerId = ledger.id;
     return this.fuelIndentData.ledgerId;
-    console.log("leagerId", this.fuelIndentData.ledgerId);
+  }
+  getBranchList() {
+    this.api.get("Suggestion/GetBranchList").subscribe(
+      res => {
+        console.log("Branch List", res['data']);
+        this.branchList = res['data'];
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   saveFuelIndent() {
@@ -263,6 +278,7 @@ export class AddFuelIndentComponent implements OnInit {
       expDate: this.common.dateFormatter(this.fuelIndentData.expiryDate),
       fsid: this.fuelIndentData.fuelId,
       ledgerId: this.fuelIndentData.ledgerId,
+      branchId: this.fuelIndentData.branchId
     };
 
     let result: any;

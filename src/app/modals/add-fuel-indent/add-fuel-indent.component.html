@@ -170,6 +170,13 @@
 
         <div class="row mt-2">
             <div class="col-3">
+                <label>Branch ID</label>
+            </div>
+            <div class="col-3">
+                <auto-suggestion (onSelected)="fuelIndentData.branchId=$event.id" inputId="branchId" name="branchId"
+                    [data]="branchList" display="name" placeholder="branchId"></auto-suggestion>
+            </div>
+            <div class="col-2">
                 <label>Remark:</label>
             </div>
             <div class="col-4">
