@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class AccountService {
   selected = {
     branch: {
-      name: '',
+      name: 'All',
       id: 0,
       lr_number: null,
       is_constcenterallow: false,
