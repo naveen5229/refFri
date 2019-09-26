@@ -26,635 +26,556 @@
       </div>
 
 
-      <div class="modal-body" id="print-section" *ngIf="lrDetails">
-        <table style="width:100%;">
-          <tr>
-            <td style="width:40%; vertical-align: top;">
-              <h2>{{lrDetails.branch_name}}</h2>
-              <Address id="branch_address" [innerHtml]="lrDetails.branch_address"></Address>
-            </td>
-            <td style="width:60%; vertical-align: top;">
-              <table class="table table-bordered" style="border-collapse: collapse" border="1" bordercolor="grey">
-                <tbody>
-                  <tr>
-                    <td><b>GR NO. : </b> {{lrDetails.receipt_no}}</td>
-                    <td><b>Date : </b> {{lrDetails.lr_date | date : 'dd MMM yyyy'}} </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"><b>Truck No. :</b> {{lrDetails.regno}}</td>
-                  </tr>
-                  <tr>
-                    <td><b>From : </b> {{lrDetails.source}}</td>
-                    <td><b>To : </b> {{lrDetails.destination}}</td>
-                  </tr>
-                  <tr>
-                    <td><b>Driver Name : </b>{{lrDetails.driver_name}} </td>
-                    <td><b>Driver No. : </b> {{lrDetails.driver_mobile}}</td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"><b>License No. :</b> {{lrDetails.driver_license}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </table>
-        <table class="table table-bordered table-hover">
-          <tbody>
-            <tr>
-              <td>
-                <b>Consignor's Name & Address : </b><br>
-                {{lrDetails.consignor}}
-                <address>{{lrDetails.consigner_address}}</address>
-              </td>
-              <td>
-                <b>Delivery Address : </b><br>
-                <address>{{lrDetails.delivery_address}}</address>
-              </td>
-              <td>
-                <b>Consignee's Name & Address : </b><br>
-                {{lrDetails.consignee}}
-                <address>{{lrDetails.consignee_address}}</address>
-              </td>
-              <td *ngIf="lrDetails.travelagent">
-                <b>Transport Agent : </b><br>
-                {{lrDetails.travelagent}}
-              </td>
-            </tr>
-            <tr *ngIf="lrDetails.invoiceto_name">
-              <td colspan="3">
-                <b>Invoice To : </b>
-                {{lrDetails.invoiceto_name}}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <table class="w-100">
-          <tr>
-            <td style="vertical-align: top; width: 75%">
-              <table class="table table-bordered table-hover">
-                <tbody>
-                  <tr>
-                    <td>
-                      <b>No. of Articles</b>
-                    </td>
-                    <td colspan="2">
-                      <b>Particulars</b>
-                    </td>
-                    <td>
-                      <b>Weight</b>
-                    </td>
-                  </tr>
-                  <tr *ngFor="let particular of particulars ; let i = index">
-                    <td>{{particular.articles}}</td>
-                    <td colspan="2">
-                      <span *ngIf="particular.material"><span>Material : </span> <span>{{particular.material}} </span>
-                      </span>
-                      <span *ngIf="particular.material_value"><span>, Value : </span> <span>
-                          {{particular.material_value}}</span></span>
-                      <span *ngIf="particular.invoice"><span>, Invoice :
-                        </span><span>{{particular.invoice}}</span></span>
-                      <span *ngFor="let field of particular.customjsonfields">
-                        <span *ngIf="field.value"> , {{field.name}} : </span>
-                        <span *ngIf="field.value">{{field.value}}</span></span>
-                    </td>
-                    <td>{{particular.weight}} {{particular.weight_unit_code}}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <table class="table table-bordered">
+      <!--  -->
+
+      <ng-container [ngSwitch]="layout">
+        <ng-container *ngSwitchCase="1">
+          <div class="modal-body" id="print-section" *ngIf="lrDetails">
+            <table style="width:100%;">
+              <tr>
+                <td style="width:40%; vertical-align: top;">
+                  <h2>{{lrDetails.branch_name}}</h2>
+                  <Address id="branch_address" [innerHtml]="lrDetails.branch_address"></Address>
+                </td>
+                <td style="width:60%; vertical-align: top;">
+                  <table class="table table-bordered" style="border-collapse: collapse" border="1" bordercolor="grey">
+                    <tbody>
+                      <tr>
+                        <td><b>GR NO. : </b> {{lrDetails.receipt_no}}</td>
+                        <td><b>Date : </b> {{lrDetails.lr_date | date : 'dd MMM yyyy'}} </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2"><b>Truck No. :</b> {{lrDetails.regno}}</td>
+                      </tr>
+                      <tr>
+                        <td><b>From : </b> {{lrDetails.source}}</td>
+                        <td><b>To : </b> {{lrDetails.destination}}</td>
+                      </tr>
+                      <tr>
+                        <td><b>Driver Name : </b>{{lrDetails.driver_name}} </td>
+                        <td><b>Driver No. : </b> {{lrDetails.driver_mobile}}</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2"><b>License No. :</b> {{lrDetails.driver_license}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </table>
+            <table class="table table-bordered table-hover">
+              <tbody>
                 <tr>
-                  <td *ngIf="lrDetails.net_weight">
-                    Net Weight :
-                    {{lrDetails.net_weight}}
+                  <td>
+                    <b>Consignor's Name & Address : </b><br>
+                    {{lrDetails.consignor}}
+                    <address>{{lrDetails.consigner_address}}</address>
                   </td>
-                  <td *ngIf="lrDetails.gross_weight">
-                    Gross Weight :
-                    {{lrDetails.gross_weight}}
+                  <td>
+                    <b>Delivery Address : </b><br>
+                    <address>{{lrDetails.delivery_address}}</address>
                   </td>
-                  <td *ngIf="lrDetails.tare_weight">
-                    Tare Weight :
-                    {{lrDetails.tare_weight}}
+                  <td>
+                    <b>Consignee's Name & Address : </b><br>
+                    {{lrDetails.consignee}}
+                    <address>{{lrDetails.consignee_address}}</address>
+                  </td>
+                  <td *ngIf="lrDetails.travelagent">
+                    <b>Transport Agent : </b><br>
+                    {{lrDetails.travelagent}}
                   </td>
                 </tr>
-              </table>
-            </td>
-            <td style="vertical-align: top; width: 25%;">
-              <table class="table table-bordered table-hover">
-                <tbody>
-                  <tr>
-                    <td><b>Payment Type : </b>{{lrDetails.str_paytype}} </td>
-                  </tr>
-                  <tr>
-                    <td><b>GST Paid By :</b> {{lrDetails.str_taxpaidby}}</td>
-                  </tr>
-                  <tr>
-                    <td><b>Amount :</b> {{lrDetails.amount}}</td>
-                  </tr>
-                  <tr *ngIf="lrDetails.gstrate">
-                    <td><b>GST Rate :</b> {{lrDetails.gstrate}} %</td>
-                  </tr>
-                  <tr *ngIf="lrDetails.gstamount">
-                    <td><b>GST Amount :</b> {{lrDetails.gstamount}}</td>
-                  </tr>
-                  <tr>
-                    <td><b> Total Amount :</b> {{lrDetails.total_amount}}</td>
-                  </tr>
-                  <tr *ngIf="lrDetails.advance_amount">
-                    <td><b> Advance Amount :</b> {{lrDetails.advance_amount}}</td>
-                  </tr>
-                  <tr *ngIf="lrDetails.pending_amount">
-                    <td><b> Remaining Amount :</b> {{lrDetails.pending_amount}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </table>
+                <tr *ngIf="lrDetails.invoiceto_name">
+                  <td colspan="3">
+                    <b>Invoice To : </b>
+                    {{lrDetails.invoiceto_name}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="w-100">
+              <tr>
+                <td style="vertical-align: top; width: 75%">
+                  <table class="table table-bordered table-hover">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <b>No. of Articles</b>
+                        </td>
+                        <td colspan="2">
+                          <b>Particulars</b>
+                        </td>
+                        <td>
+                          <b>Weight</b>
+                        </td>
+                      </tr>
+                      <tr *ngFor="let particular of particulars ; let i = index">
+                        <td>{{particular.articles}}</td>
+                        <td colspan="2">
+                          <span *ngIf="particular.material"><span>Material : </span> <span>{{particular.material}}
+                            </span>
+                          </span>
+                          <span *ngIf="particular.material_value"><span>, Value : </span> <span>
+                              {{particular.material_value}}</span></span>
+                          <span *ngIf="particular.invoice"><span>, Invoice :
+                            </span><span>{{particular.invoice}}</span></span>
+                          <span *ngFor="let field of particular.customjsonfields">
+                            <span *ngIf="field.value"> , {{field.name}} : </span>
+                            <span *ngIf="field.value">{{field.value}}</span></span>
+                        </td>
+                        <td>{{particular.weight}} {{particular.weight_unit_code}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-bordered">
+                    <tr>
+                      <td *ngIf="lrDetails.net_weight">
+                        Net Weight :
+                        {{lrDetails.net_weight}}
+                      </td>
+                      <td *ngIf="lrDetails.gross_weight">
+                        Gross Weight :
+                        {{lrDetails.gross_weight}}
+                      </td>
+                      <td *ngIf="lrDetails.tare_weight">
+                        Tare Weight :
+                        {{lrDetails.tare_weight}}
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td style="vertical-align: top; width: 25%;">
+                  <table class="table table-bordered table-hover">
+                    <tbody>
+                      <tr>
+                        <td><b>Payment Type : </b>{{lrDetails.str_paytype}} </td>
+                      </tr>
+                      <tr>
+                        <td><b>GST Paid By :</b> {{lrDetails.str_taxpaidby}}</td>
+                      </tr>
+                      <tr>
+                        <td><b>Amount :</b> {{lrDetails.amount}}</td>
+                      </tr>
+                      <tr *ngIf="lrDetails.gstrate">
+                        <td><b>GST Rate :</b> {{lrDetails.gstrate}} %</td>
+                      </tr>
+                      <tr *ngIf="lrDetails.gstamount">
+                        <td><b>GST Amount :</b> {{lrDetails.gstamount}}</td>
+                      </tr>
+                      <tr>
+                        <td><b> Total Amount :</b> {{lrDetails.total_amount}}</td>
+                      </tr>
+                      <tr *ngIf="lrDetails.advance_amount">
+                        <td><b> Advance Amount :</b> {{lrDetails.advance_amount}}</td>
+                      </tr>
+                      <tr *ngIf="lrDetails.pending_amount">
+                        <td><b> Remaining Amount :</b> {{lrDetails.pending_amount}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </table>
 
-        <table class="table table-bordered table-hover" style="width: 100%">
-          <tr>
-            <td style="vertical-align: top; width: 75%;">
-              <b> Terms & Conditions : </b> <br>
-              {{lrDetails.lr_terms}}
-            </td>
-            <td style="vertical-align: top; width: 25%;">
-              <div style="height:100px"><b>Logistic Sign</b></div>
-              <div><b>Receiver Sign</b></div>
-            </td>
-          </tr>
-        </table>
-        <table class="table table-bordered table-hover">
-          <tr style="text-align:center">
-            <td>
-              <b> {{lrDetails.lr_footer}}</b>
+            <table class="table table-bordered table-hover" style="width: 100%">
+              <tr>
+                <td style="vertical-align: top; width: 75%;">
+                  <b> Terms & Conditions : </b> <br>
+                  {{lrDetails.lr_terms}}
+                </td>
+                <td style="vertical-align: top; width: 25%;">
+                  <div style="height:100px"><b>Logistic Sign</b></div>
+                  <div><b>Receiver Sign</b></div>
+                </td>
+              </tr>
+            </table>
+            <table class="table table-bordered table-hover">
+              <tr style="text-align:center">
+                <td>
+                  <b> {{lrDetails.lr_footer}}</b>
 
-            </td>
-          </tr>
-        </table>
+                </td>
+              </tr>
+            </table>
 
-      </div>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+          <div class="modal-body p-0" id="print-section">
+            <div class="lr-print-recipt">
+              <div class="recipt-header">
+                <div class="row">
+                  <div class="col-5">
+                    <div class="site-logo">
+                      <p>MEERA ROADWAYS</p>
+                      <span>Fleet Owners & Transport Contractor</span>
+                    </div>
+                  </div>
+                  <div class="col-7">
+                    <p class="address clearfix">
+                      <label>Vayor Office:</label>
+                      <span>Vayor, District : Abdasa M.: 9727770697 / 98</span>
+                    </p>
+                    <p class="address clearfix">
+                      <label>Bhuj Office:</label>
+                      <span>11, Dhanlaxmi Complex, Madhapar Higway, Bhuj-Kutch, M. 7567655500</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="recipt-body">
+                <div class="code-box">
+                  <div class="row">
+                    <div class="col-5 offset-7 clearfix">
+                      <div class="code-numbox">
+                        <p>CODE NO.</p>
+                        <span></span>
+                      </div>
+                      <div class="bilty-chalan-no">
+                        <b>Mob. 97277 70697/98</b>
+                        <div class="chalan-no-box">
+                          <p>Bilty Chalan No.</p>
+                          <span>{{lrDetails.receipt_no}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-8">
+                    <div class="lr-customer-detail">
+                      <p><label>Consignor:</label> {{lrDetails.consignor}}</p>
+                      <p><label>A/C:</label> </p>
+                      <p><label>Delivery:</label> {{lrDetails.delivery_address}}</p>
+                      <p><label>Address:</label> {{lrDetails.consigner_address}}</p>
+                    </div>
+                    <div class="lr-recipt-bil">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Destination Detaila</th>
+                            <th>Truck No</th>
+                            <th>Weight MT</th>
+                            <th>Types of Goods</th>
+                            <th>Bags</th>
+                          </tr>
+                        </thead>
+                        <tbody *ngFor="let particular of particulars ; let i = index">
+                          <tr>
+                            <td>
+                              <p><label>City Name :</label> SANAND DUMP</p>
+                            </td>
+                            <td>{{lrDetails.regno}}</td>
+                            <td>{{particular.weight}} {{particular.weight_unit_code}}</td>
+                            <td>
+                              <span *ngIf="particular.material"><span>Material : </span> <span>{{particular.material}}
+                                </span>
+                              </span>
+                              <span *ngIf="particular.material_value"><span>, Value : </span> <span>
+                                  {{particular.material_value}}</span></span>
+                              <span *ngIf="particular.invoice">
+                                <span>, Invoice :</span><span>{{particular.invoice}}</span>
+                              </span>
+                              <span *ngFor="let field of particular.customjsonfields">
+                                <span *ngIf="field.value"> , {{field.name}} : </span>
+                                <span *ngIf="field.value">{{field.value}}</span>
+                              </span>
+                            </td>
+                            <td>{{particular.articles}}</td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <p><label>Tehsil :</label></p>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <p><label>Distrik :</label></p>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="lr-description">
+                      <p class="m-0">WE here by declare that cenvet credit on input capital goods and input services
+                        used
+                        for provideing the taxable service has not been taken under the provisions of the cenvat credit
+                        rules 2004 (under condition of 13/2012-st dated 17.03.2012) and hence eligible for abatement.
+                      </p>
+                    </div>
+                    <div class="lr-other-info">
+                      <p class="note">Person liable to pay service tax: Consignor/Consignee/Transporter</p>
+                      <div class="row">
+                        <div class="col-10">
+                          <p class="advance">
+                            <span>Diesel : 0.00</span>
+                            <span> Advance : 0.00</span>
+                          </p>
+                        </div>
+                        <div class="col-2">
+                          <p class="ulp">ULP</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="invoice-detail">
+                      <p><label>Date :</label><span>{{lrDetails.lr_date | date : 'dd MMM yyyy'}}</span></p>
+                      <p><label>Invoice No :</label><span></span></p>
+                      <p><label>D.C. No. :</label><span></span></p>
+                      <p><label>Driver Name :</label><span>{{lrDetails.driver_name}}</span></p>
+                      <p><label>Licence No. :</label><span>{{lrDetails.driver_license}}</span></p>
+                    </div>
+                    <div class="transporter-name">
+                      <div class="transporter-name-heading">
+                        <p>Transporter Name :</p>
+                      </div>
+                      <div class="transporter-name-body">
+                        <p></p>
+                      </div>
+                    </div>
+                    <div class="signature">
+                      <p>Reveiver Signature & Stamp</p>
+                    </div>
+                    <div class="signature_name">
+                      <p>For, MEERA ROADWAYS</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="3">
+          <div class="modal-body p-0" id="print-section">
+            <div class="recipt-three-section">
+              <div class="recipt-three-header">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="gst-no">
+                      <p>GSTIN : 08ANJP3025f15</p>
+                    </div>
+                    <div class="nikita-logo text-center">
+                      <h2><span>NIKITA</span> CARGO MOVERS</h2>
+                      <p class="teg-line">FLEET OWNER, TRANSPORT CONTRACTOR & COMMISION AGENT</p>
+                      <p class="speciallist">speciallist : 20, 30, 34 ft Container For All Over India</p>
+                      <p class="address">Khandal Chamber, Near Apno Rajasthan Hotel, Todi Mod, Sikar Road, Jaipur,
+                        Rajasthan-302013</p>
+                      <p class="other-info">Email : jaipur@nikitacargo.com, Website : www.nikitacargo.com</p>
+                    </div>
+                    <div class="mob-no">
+                      <p>
+                        <span class="pull-left text-right pr-1">Mob.:</span>
+                        <span class="pull-right">
+                          9829474407<br>
+                          9649874407<br>
+                          9829099082
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="recipt-three-body">
+                <div class="row">
+                  <div class="col-8">
+                    <div class="clearfix">
+                      <div class="consigor-box">
+                        <p class="red-title">CONSIGOR COPY</p>
+                        <div class="consigor-inner clearfix">
+                          <div class="left">
+                            <label></label>
+                            <label></label>
+                          </div>
+                          <div class="right">
+                            <p>The Consignor has statd that <br> he has not insured the consigment</p>
+                            <p>OR</p>
+                            <p>he has installed that consigment</p>
+                            <p class="compnay">Company <span></span></p>
+                            <p class="policy">Policy No<span></span>Date <span></span></p>
+                            <p class="amount">Amount<span></span>Risk<span></span></p>
+                          </div>
+                        </div>
+                        <p class="pin-code">JAIPUR - 302013</p>
+                      </div>
+                      <div class="truck-detail">
+                        <p class="truck-no"><label>Truck No.</label><span>{{lrDetails.regno}}</span></p>
+                        <p class="at-rick">At Owner's Rick</p>
+                        <p class="get-pay-box">GSTPAYBLE BY CONSIGNOR/CONSINEE</p>
+                        <p class="e-bill"><label>E-Way Bill NO.</label><span></span></p>
+                      </div>
+                    </div>
+                    <div class="feal-form clearfix pt-3">
+                      <p class="name">Consigor's Name & Address M/s <span>{{lrDetails.consignor}}</span></p>
+                      <p class="blank"><span>{{lrDetails.consigner_address}}</span></p>
+                      <p class="gistin"><span></span>GSTIN<span></span></p>
+                      <p class="bank-name">Consignee's Bank's Name & Address M/s <span>{{lrDetails.consignee}}</span>
+                      </p>
+                      <p class="blank"><span>{{lrDetails.consignee_address}}</span></p>
+                      <p><span></span></p>
+                      <p class="gistin"><span></span>GSTIN<span></span></p>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="lr-no">
+                      <label>L.R. No.</label>
+                      <p>Date <span>{{lrDetails.lr_date | date : 'dd MMM yyyy'}}</span></p>
+                    </div>
+                    <div class="form-box">
+                      <label>From</label>
+                      <span>{{lrDetails.source}}</span>
+                    </div>
+                    <div class="to-box">
+                      <label>To.</label>
+                      <span>{{lrDetails.destination}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="recipt-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Packages</th>
+                        <th>Description (said to contation)</th>
+                        <th>Weight</th>
+                        <th>Rate</th>
+                        <th>Freight</th>
+                        <th>PAID</th>
+                        <th>ToPay</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td><b>Note:</b> 1. We are not tacking tax credit of</td>
+                        <td rowspan="2" class="text-right">TOTAL</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td colspan="3">PARTY INVOICE NO.</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="recipt-three-footer mt-5">
+                  <div class="row">
+                    <div class="col-6">
+                      <p class="value-rs">Value Rs. . . . . . . . . . . . . . . . . . . . . . . . .</p>
+                    </div>
+                    <div class="col-6">
+                      <p class="signatcher text-right"><b>For Nikita Cargo Movers</b></p>
+                    </div>
+                  </div>
+                  <p class="note-red text-center m-0">Re-boking is not our responsibility, Goods Receipt at Owner's Risk
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </ng-container>
+        <ng-container *ngSwitchCase="4">
+          <div class="modal-body p-0 layout-4" id="print-section">
+            <div class="lr-print-recipt">
+              <div class="recipt-header">
+                <div class="row">
+                  <div class="col-5">
+                    <div class="site-logo">
+                      <p>MEERA ROADWAYS</p>
+                      <span>Fleet Owners & Transport Contractor</span>
+                    </div>
+                  </div>
+                  <div class="col-7">
+                    <p class="address clearfix">
+                      <label>Vayor Office:</label>
+                      <span>Vayor, District : Abdasa M.: 9727770697 / 98</span>
+                    </p>
+                    <p class="address clearfix">
+                      <label>Bhuj Office:</label>
+                      <span>11, Dhanlaxmi Complex, Madhapar Higway, Bhuj-Kutch, M. 7567655500</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="recipt-body">
+                <!-- SLIP & Code NO -->
+                <div class="row" style="margin:0px;">
+                  <div class="col-10 text-right"><strong>Slip:</strong></div>
+                  <div class="col-2" style="border-bottom: 1px solid gray;"><span></span></div>
+                  <div class="col-10 text-right" style="margin-top:10px;"><strong>Code No:</strong></div>
+                  <div class="col-2" style="border-bottom: 1px solid gray;"><span></span></div>
+                </div>
+                <!-- SLIP & Code END -->
+                <div class="row l4-details">
+                  <div class="col-8">
+                    <div class="row">
+                      <div class="col-4"><strong>Party Name</strong></div>
+                      <div class="col-8"><span class="l4-blank">:</span></div>
+                    </div>
+                    <div class="row l4-row">
+                      <div class="col-4"><strong>Date</strong></div>
+                      <div class="col-8"><span class="l4-blank">:</span></div>
+                    </div>
+                    <div class="row l4-row">
+                      <div class="col-4"><strong>Order No</strong></div>
+                      <div class="col-8"><span class="l4-blank"> :</span></div>
+                    </div>
+                    <div class="row l4-row">
+                      <div class="col-4"><strong>Truck No</strong></div>
+                      <div class="col-8"><span class="l4-blank">:</span></div>
+                    </div>
+                    <div class="row l4-row">
+                      <div class="col-4"><strong>Driver Name</strong></div>
+                      <div class="col-8"><span class="l4-blank">:</span></div>
+                    </div>
+                    <div class="row l4-row">
+                      <div class="col-4"><strong>Licence No.</strong></div>
+                      <div class="col-8"><span class="l4-blank">:</span></div>
+                    </div>
+                    <div class="row l4-row">
+                      <div class="col-4"><strong>Weight</strong></div>
+                      <div class="col-8"><span class="l4-blank">:</span></div>
+                    </div>
+                    <div class="row l4-row">
+                      <div class="col-4"><strong>Licence No.</strong></div>
+                      <div class="col-8"><span class="l4-blank">:</span></div>
+                    </div>
+                    <div class="row l4-row">
+                      <div class="col-4"><strong>Material</strong></div>
+                      <div class="col-8"><span class="l4-blank">:</span></div>
+                    </div>
+                    <div class="row l4-row">
+                      <div class="col-4"><strong>Bags</strong></div>
+                      <div class="col-8"><span class="l4-blank">:</span></div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="l4-note"></div>
+                    <div class="l4-owner">For, MEERA ROADWAYS</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
     </div>
 
   </nb-card-body>
 </nb-card>
-
-<!-- <ng-container [ngSwitch]="layout">
-  <ng-container *ngSwitchCase="1">
-    <div class="modal-body" id="print-section" *ngIf="lrDetails">
-      <table style="width:100%;">
-        <tr>
-          <td style="width:40%; vertical-align: top;">
-            <h2>{{lrDetails.branch_name}}</h2>
-            <Address id="branch_address" [innerHtml]="lrDetails.branch_address"></Address>
-          </td>
-          <td style="width:60%; vertical-align: top;">
-            <table class="table table-bordered" style="border-collapse: collapse" border="1" bordercolor="grey">
-              <tbody>
-                <tr>
-                  <td><b>GR NO. : </b> {{lrDetails.receipt_no}}</td>
-                  <td><b>Date : </b> {{lrDetails.lr_date | date : 'dd MMM yyyy'}} </td>
-                </tr>
-                <tr>
-                  <td colspan="2"><b>Truck No. :</b> {{lrDetails.regno}}</td>
-                </tr>
-                <tr>
-                  <td><b>From : </b> {{lrDetails.source}}</td>
-                  <td><b>To : </b> {{lrDetails.destination}}</td>
-                </tr>
-                <tr>
-                  <td><b>Driver Name : </b>{{lrDetails.driver_name}} </td>
-                  <td><b>Driver No. : </b> {{lrDetails.driver_mobile}}</td>
-                </tr>
-                <tr>
-                  <td colspan="2"><b>License No. :</b> {{lrDetails.driver_license}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </table>
-      <table class="table table-bordered table-hover">
-        <tbody>
-          <tr>
-            <td>
-              <b>Consignor's Name & Address : </b><br>
-              {{lrDetails.consignor}}
-              <address>{{lrDetails.consigner_address}}</address>
-            </td>
-            <td>
-              <b>Delivery Address : </b><br>
-              <address>{{lrDetails.delivery_address}}</address>
-            </td>
-            <td>
-              <b>Consignee's Name & Address : </b><br>
-              {{lrDetails.consignee}}
-              <address>{{lrDetails.consignee_address}}</address>
-            </td>
-          </tr>
-          <tr *ngIf="lrDetails.invoiceto_name">
-            <td colspan="3">
-              <b>Invoice To : </b>
-              {{lrDetails.invoiceto_name}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table class="w-100">
-        <tr>
-          <td style="vertical-align: top; width: 75%">
-            <table class="table table-bordered table-hover">
-              <tbody>
-                <tr>
-                  <td>
-                    <b>No. of Articles</b>
-                  </td>
-                  <td colspan="2">
-                    <b>Particulars</b>
-                  </td>
-                  <td>
-                    <b>Weight</b>
-                  </td>
-                </tr>
-                <tr *ngFor="let particular of particulars ; let i = index">
-                  <td>{{particular.articles}}</td>
-                  <td colspan="2">
-                    <span *ngIf="particular.material"><span>Material : </span> <span>{{particular.material}}
-                      </span>
-                    </span>
-                    <span *ngIf="particular.material_value"><span>, Value : </span> <span>
-                        {{particular.material_value}}</span></span>
-                    <span *ngIf="particular.invoice"><span>, Invoice :
-                      </span><span>{{particular.invoice}}</span></span>
-                    <span *ngFor="let field of particular.customjsonfields">
-                      <span *ngIf="field.value"> , {{field.name}} : </span>
-                      <span *ngIf="field.value">{{field.value}}</span></span>
-                  </td>
-                  <td>{{particular.weight}} {{particular.weight_unit_code}}</td>
-                </tr>
-              </tbody>
-            </table>
-            <table class="table table-bordered">
-              <tr>
-                <td *ngIf="lrDetails.net_weight">
-                  Net Weight :
-                  {{lrDetails.net_weight}}
-                </td>
-                <td *ngIf="lrDetails.gross_weight">
-                  Gross Weight :
-                  {{lrDetails.gross_weight}}
-                </td>
-                <td *ngIf="lrDetails.tare_weight">
-                  Tare Weight :
-                  {{lrDetails.tare_weight}}
-                </td>
-              </tr>
-            </table>
-          </td>
-          <td style="vertical-align: top; width: 25%;">
-            <table class="table table-bordered table-hover">
-              <tbody>
-                <tr>
-                  <td><b>Payment Type : </b>{{lrDetails.str_paytype}} </td>
-                </tr>
-                <tr>
-                  <td><b>GST Paid By :</b> {{lrDetails.str_taxpaidby}}</td>
-                </tr>
-                <tr>
-                  <td><b>Amount :</b> {{lrDetails.amount}}</td>
-                </tr>
-                <tr *ngIf="lrDetails.gstrate">
-                  <td><b>GST Rate :</b> {{lrDetails.gstrate}} %</td>
-                </tr>
-                <tr *ngIf="lrDetails.gstamount">
-                  <td><b>GST Amount :</b> {{lrDetails.gstamount}}</td>
-                </tr>
-                <tr>
-                  <td><b> Total Amount :</b> {{lrDetails.total_amount}}</td>
-                </tr>
-                <tr *ngIf="lrDetails.advance_amount">
-                  <td><b> Advance Amount :</b> {{lrDetails.advance_amount}}</td>
-                </tr>
-                <tr *ngIf="lrDetails.pending_amount">
-                  <td><b> Remaining Amount :</b> {{lrDetails.pending_amount}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </table>
-
-      <table class="table table-bordered table-hover" style="width: 100%">
-        <tr>
-          <td style="vertical-align: top; width: 75%;">
-            <b> Terms & Conditions : </b> <br>
-            {{lrDetails.lr_terms}}
-          </td>
-          <td style="vertical-align: top; width: 25%;">
-            <div style="height:100px"><b>Logistic Sign</b></div>
-            <div><b>Receiver Sign</b></div>
-          </td>
-        </tr>
-      </table>
-      <table class="table table-bordered table-hover">
-        <tr style="text-align:center">
-          <td>
-            <b> {{lrDetails.lr_footer}}</b>
-
-          </td>
-        </tr>
-      </table>
-
-    </div>
-  </ng-container>
-  <ng-container *ngSwitchCase="2">
-    <div class="modal-body p-0" id="print-section">
-      <div class="lr-print-recipt">
-        <div class="recipt-header">
-          <div class="row">
-            <div class="col-5">
-              <div class="site-logo">
-                <p>MEERA ROADWAYS</p>
-                <span>Fleet Owners & Transport Contractor</span>
-              </div>
-            </div>
-            <div class="col-7">
-              <p class="address clearfix">
-                <label>Vayor Office:</label>
-                <span>Vayor, District : Abdasa M.: 9727770697 / 98</span>
-              </p>
-              <p class="address clearfix">
-                <label>Bhuj Office:</label>
-                <span>11, Dhanlaxmi Complex, Madhapar Higway, Bhuj-Kutch, M. 7567655500</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="recipt-body">
-          <div class="code-box">
-            <div class="row">
-              <div class="col-5 offset-7 clearfix">
-                <div class="code-numbox">
-                  <p>CODE NO.</p>
-                  <span></span>
-                </div>
-                <div class="bilty-chalan-no">
-                  <b>Mob. 97277 70697/98</b>
-                  <div class="chalan-no-box">
-                    <p>Bilty Chalan No.</p>
-                    <span>{{lrDetails.receipt_no}}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-8">
-              <div class="lr-customer-detail">
-                <p><label>Consignor:</label> {{lrDetails.consignor}}</p>
-                <p><label>A/C:</label> </p>
-                <p><label>Delivery:</label> {{lrDetails.delivery_address}}</p>
-                <p><label>Address:</label> {{lrDetails.consigner_address}}</p>
-              </div>
-              <div class="lr-recipt-bil">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Destination Detaila</th>
-                      <th>Truck No</th>
-                      <th>Weight MT</th>
-                      <th>Types of Goods</th>
-                      <th>Bags</th>
-                    </tr>
-                  </thead>
-                  <tbody *ngFor="let particular of particulars ; let i = index">
-                    <tr>
-                      <td>
-                        <p><label>City Name :</label> SANAND DUMP</p>
-                      </td>
-                      <td>{{lrDetails.regno}}</td>
-                      <td>{{particular.weight}} {{particular.weight_unit_code}}</td>
-                      <td>
-                        <span *ngIf="particular.material"><span>Material : </span> <span>{{particular.material}}
-                          </span>
-                        </span>
-                        <span *ngIf="particular.material_value"><span>, Value : </span> <span>
-                            {{particular.material_value}}</span></span>
-                        <span *ngIf="particular.invoice">
-                          <span>, Invoice :</span><span>{{particular.invoice}}</span>
-                        </span>
-                        <span *ngFor="let field of particular.customjsonfields">
-                          <span *ngIf="field.value"> , {{field.name}} : </span>
-                          <span *ngIf="field.value">{{field.value}}</span>
-                        </span>
-                      </td>
-                      <td>{{particular.articles}}</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p><label>Tehsil :</label></p>
-                      </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p><label>Distrik :</label></p>
-                      </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="lr-description">
-                <p class="m-0">WE here by declare that cenvet credit on input capital goods and input services
-                  used
-                  for provideing the taxable service has not been taken under the provisions of the cenvat credit
-                  rules 2004 (under condition of 13/2012-st dated 17.03.2012) and hence eligible for abatement.
-                </p>
-              </div>
-              <div class="lr-other-info">
-                <p class="note">Person liable to pay service tax: Consignor/Consignee/Transporter</p>
-                <div class="row">
-                  <div class="col-10">
-                    <p class="advance">
-                      <span>Diesel : 0.00</span>
-                      <span> Advance : 0.00</span>
-                    </p>
-                  </div>
-                  <div class="col-2">
-                    <p class="ulp">ULP</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-4">
-              <div class="invoice-detail">
-                <p><label>Date :</label><span>{{lrDetails.lr_date | date : 'dd MMM yyyy'}}</span></p>
-                <p><label>Invoice No :</label><span></span></p>
-                <p><label>D.C. No. :</label><span></span></p>
-                <p><label>Driver Name :</label><span>{{lrDetails.driver_name}}</span></p>
-                <p><label>Licence No. :</label><span>{{lrDetails.driver_license}}</span></p>
-              </div>
-              <div class="transporter-name">
-                <div class="transporter-name-heading">
-                  <p>Transporter Name :</p>
-                </div>
-                <div class="transporter-name-body">
-                  <p></p>
-                </div>
-              </div>
-              <div class="signature">
-                <p>Reveiver Signature & Stamp</p>
-              </div>
-              <div class="signature_name">
-                <p>For, MEERA ROADWAYS</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </ng-container>
-  <ng-container *ngSwitchCase="3">
-    <div class="modal-body p-0" id="print-section">
-      <div class="recipt-three-section">
-        <div class="recipt-three-header">
-          <div class="row">
-            <div class="col-12">
-              <div class="gst-no">
-                <p>GSTIN : 08ANJP3025f15</p>
-              </div>
-              <div class="nikita-logo text-center">
-                <h2><span>NIKITA</span> CARGO MOVERS</h2>
-                <p class="teg-line">FLEET OWNER, TRANSPORT CONTRACTOR & COMMISION AGENT</p>
-                <p class="speciallist">speciallist : 20, 30, 34 ft Container For All Over India</p>
-                <p class="address">Khandal Chamber, Near Apno Rajasthan Hotel, Todi Mod, Sikar Road, Jaipur,
-                  Rajasthan-302013</p>
-                <p class="other-info">Email : jaipur@nikitacargo.com, Website : www.nikitacargo.com</p>
-              </div>
-              <div class="mob-no">
-                <p>
-                  <span class="pull-left text-right pr-1">Mob.:</span>
-                  <span class="pull-right">
-                    9829474407<br>
-                    9649874407<br>
-                    9829099082
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="recipt-three-body">
-          <div class="row">
-            <div class="col-8">
-              <div class="clearfix">
-                <div class="consigor-box">
-                  <p class="red-title">CONSIGOR COPY</p>
-                  <div class="consigor-inner clearfix">
-                    <div class="left">
-                      <label></label>
-                      <label></label>
-                    </div>
-                    <div class="right">
-                      <p>The Consignor has statd that <br> he has not insured the consigment</p>
-                      <p>OR</p>
-                      <p>he has installed that consigment</p>
-                      <p class="compnay">Company <span></span></p>
-                      <p class="policy">Policy No<span></span>Date <span></span></p>
-                      <p class="amount">Amount<span></span>Risk<span></span></p>
-                    </div>
-                  </div>
-                  <p class="pin-code">JAIPUR - 302013</p>
-                </div>
-                <div class="truck-detail">
-                  <p class="truck-no"><label>Truck No.</label><span>{{lrDetails.regno}}</span></p>
-                  <p class="at-rick">At Owner's Rick</p>
-                  <p class="get-pay-box">GSTPAYBLE BY CONSIGNOR/CONSINEE</p>
-                  <p class="e-bill"><label>E-Way Bill NO.</label><span></span></p>
-                </div>
-              </div>
-              <div class="feal-form clearfix pt-3">
-                <p class="name">Consigor's Name & Address M/s <span>{{lrDetails.consignor}}</span></p>
-                <p class="blank"><span>{{lrDetails.consigner_address}}</span></p>
-                <p class="gistin"><span></span>GSTIN<span></span></p>
-                <p class="bank-name">Consignee's Bank's Name & Address M/s <span>{{lrDetails.consignee}}</span>
-                </p>
-                <p class="blank"><span>{{lrDetails.consignee_address}}</span></p>
-                <p><span></span></p>
-                <p class="gistin"><span></span>GSTIN<span></span></p>
-              </div>
-            </div>
-            <div class="col-4">
-              <div class="lr-no">
-                <label>L.R. No.</label>
-                <p>Date <span>{{lrDetails.lr_date | date : 'dd MMM yyyy'}}</span></p>
-              </div>
-              <div class="form-box">
-                <label>From</label>
-                <span>{{lrDetails.source}}</span>
-              </div>
-              <div class="to-box">
-                <label>To.</label>
-                <span>{{lrDetails.destination}}</span>
-              </div>
-            </div>
-          </div>
-          <div class="recipt-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Packages</th>
-                  <th>Description (said to contation)</th>
-                  <th>Weight</th>
-                  <th>Rate</th>
-                  <th>Freight</th>
-                  <th>PAID</th>
-                  <th>ToPay</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td><b>Note:</b> 1. We are not tacking tax credit of</td>
-                  <td rowspan="2" class="text-right">TOTAL</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td colspan="3">PARTY INVOICE NO.</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="recipt-three-footer mt-5">
-            <div class="row">
-              <div class="col-6">
-                <p class="value-rs">Value Rs. . . . . . . . . . . . . . . . . . . . . . . . .</p>
-              </div>
-              <div class="col-6">
-                <p class="signatcher text-right"><b>For Nikita Cargo Movers</b></p>
-              </div>
-            </div>
-            <p class="note-red text-center m-0">Re-boking is not our responsibility, Goods Receipt at Owner's Risk
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-  </ng-container>
-</ng-container> -->
