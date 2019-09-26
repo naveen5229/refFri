@@ -492,7 +492,23 @@ export class LrGenerateComponent implements OnInit {
 
   }
 
-  changeLrSeries(){
+  changeSerialNo(){
     console.log("changeLrSeries");
+    if(!this.lr.id){
+      let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
+      let params = "branchId=" + this.accountService.selected.branch.id +
+        "&prefix=" + this.lr.prefix+
+        "&reportType= LR";
+      this.common.loading++;
+      this.api.get('LorryReceiptsOperation/getNextSerialNo?' + params)
+        .subscribe(res => {
+          console.log('reds',res['data'][0].result) ;
+          this.lr.serial = res['data'][0].result;
+          this.common.loading--;
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+      }
   }
 }
