@@ -10,8 +10,8 @@ import { DatePickerComponent } from '../date-picker/date-picker.component';
   styleUrls: ['./vehicle-gps-trail.component.scss', '../../pages/pages.component.css']
 })
 export class VehicleGpsTrailComponent implements OnInit {
-  startDate = null;
-  endDate = null;
+  startDate = new Date();
+  endDate = new Date();
   vId = null;
   vehicleNo = null
   gpsTrail = [];
@@ -32,12 +32,14 @@ export class VehicleGpsTrailComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    console.log("common params", this.common.params);
-    this.startDate = this.common.params.vehicleData.startDate;
-    this.endDate = this.common.params.vehicleData.endDate;
-    this.vId = this.common.params.vehicleData.vehicleId;
-    this.vehicleNo = this.common.params.vehicleData.vehicleRegNo;
-    this.result(1);
+    console.log("common params", this.common.params.vehicleData);
+    if (this.common.params && this.common.params.vehicleData) {
+      this.startDate = new Date(this.common.params.vehicleData.startDate);
+      this.endDate = new Date(this.common.params.vehicleData.endDate);
+      this.vId = this.common.params.vehicleData.vehicleId;
+      this.vehicleNo = this.common.params.vehicleData.vehicleRegNo;
+      this.result(1);
+    }
   }
 
   ngOnInit() {
@@ -49,33 +51,12 @@ export class VehicleGpsTrailComponent implements OnInit {
     this.vId = vehicleList.id;
   }
 
-  getDate(type) {
-
-    this.common.params = { ref_page: 'trip status feedback' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (type == 'start') {
-
-          this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
-          console.log("start date:", this.startDate);
-        }
-        else {
-          this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
-          console.log('endDate', this.endDate);
-        }
-
-      }
-
-    });
-  }
-
 
   result(button) {
 
-    this.startDate = this.common.dateFormatter(this.startDate);
-    this.endDate = this.common.dateFormatter(this.endDate);
-    if (this.startDate > this.endDate) {
+    let startDate = this.common.dateFormatter(this.startDate);
+    let endDate = this.common.dateFormatter(this.endDate);
+    if (startDate > endDate) {
       this.common.showError("Entered Valid  Date");
       return;
     }
@@ -83,8 +64,8 @@ export class VehicleGpsTrailComponent implements OnInit {
     let selectapi = '';
     let params = {
       vehicleId: this.vId,
-      startTime: this.startDate,
-      toTime: this.endDate
+      startTime: startDate,
+      toTime: endDate
     };
     if (button == 1) {
       selectapi = 'VehicleTrail/getVehicleTrailAll';
