@@ -38,7 +38,7 @@ export class FuelIndentComponent implements OnInit {
   dropDown2 = [
     { name: 'Pending', id: 0 },
     { name: 'Complete', id: 1 },
-    { name: 'reject', id: -1 },
+    { name: 'Reject', id: -1 },
     { name: 'All', id: -2 },
 
   ];
@@ -64,6 +64,12 @@ export class FuelIndentComponent implements OnInit {
   }
 
   getFuelIndent() {
+    let startDate = this.common.dateFormatter1(this.startDate);
+    let endDate = this.common.dateFormatter1(this.endDate);
+    if (startDate > endDate) {
+      this.common.showError("Start Date should less then End Date");
+      return;
+    }
     if (this.indentType == '0') {
       this.apiUrl = "Fuel/getPendingFuelIndentWrtFo?";
     }
@@ -71,9 +77,7 @@ export class FuelIndentComponent implements OnInit {
       this.apiUrl = "Fuel/getPendingCashIndentWrtFo?";
 
     }
-    console.log("url", this.apiUrl);
     const params = "startdate=" + this.common.dateFormatter1(this.startDate) + "&enddate=" + this.common.dateFormatter1(this.endDate) + "&addedBy=" + this.vehicleType + "&status=" + this.vehicleStatus + "&regno=" + this.regno;
-    console.log("params", params);
     ++this.common.loading;
     this.api.get(this.apiUrl + params)
       .subscribe(res => {
@@ -155,12 +159,19 @@ export class FuelIndentComponent implements OnInit {
 
 
 
-  deleteFuelIndent(doc) {
-    console.log("values", doc);
-    const params = {
-      rowid: doc._id,
+  deleteFuelIndent(fuel) {
+    let deleteUrl = "Fuel/deleteFuelIndent";
+    if (this.indentType == '0') {
+      deleteUrl = "Fuel/deleteFuelIndent";
     }
-    if (doc._id) {
+    else {
+      deleteUrl = "Fuel/deleteCashIndent";
+
+    }
+    const params = {
+      rowid: fuel._id,
+    }
+    if (fuel._id) {
       this.common.params = {
         title: 'Delete  ',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
@@ -169,8 +180,7 @@ export class FuelIndentComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.common.loading++;
-          console.log("par", params);
-          this.api.post('Fuel/deleteFuelIndent', params)
+          this.api.post(deleteUrl, params)
             .subscribe(res => {
               console.log('Api Response:', res)
               this.common.showToast(res['msg']);
