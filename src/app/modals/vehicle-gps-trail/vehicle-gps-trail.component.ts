@@ -38,7 +38,9 @@ export class VehicleGpsTrailComponent implements OnInit {
       this.endDate = new Date(this.common.params.vehicleData.endDate);
       this.vId = this.common.params.vehicleData.vehicleId;
       this.vehicleNo = this.common.params.vehicleData.vehicleRegNo;
-      this.result(1);
+      setTimeout(() => {
+        this.result(1);
+      }, 2000);
     }
   }
 
@@ -120,7 +122,6 @@ export class VehicleGpsTrailComponent implements OnInit {
     this.gpsTrail.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
       columns.push(this.valobj);
