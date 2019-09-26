@@ -53,7 +53,7 @@ export class VoucherSummaryComponent implements OnInit {
   tripFreghtDetails = [];
   lastOdoMeter=0;
   currentOdoMeter=0;
-  fuelMilege = '0';
+  fuelMilege = 0;
   totalqty=0;
   creditLedger = {
     name: '',
@@ -117,8 +117,8 @@ export class VoucherSummaryComponent implements OnInit {
     console.log('tripPendingDataSelected', this.common.params.tripPendingDataSelected);
 
     if (this.common.params.tripVoucher) {
-      this.lastOdoMeter = this.common.params.tripVoucher.y_start_odometer || 0;
-      this.currentOdoMeter = this.common.params.tripVoucher.y_end_odometer || 0;
+      this.lastOdoMeter = parseFloat(this.common.params.tripVoucher.y_start_odometer) || 0;
+      this.currentOdoMeter = parseFloat(this.common.params.tripVoucher.y_end_odometer) || 0;
       this.vehclename = this.common.params.tripVoucher.y_vehicle_name;
       this.tripsEditData = this.common.params.tripDetails;
       this.tripVoucher = this.common.params.tripVoucher;
@@ -425,6 +425,8 @@ export class VoucherSummaryComponent implements OnInit {
 
   });
   this.totalqty= parseFloat(tqty.toFixed(2));
+  this.changeFuelCalculate();
+
   }
   findFirstSelectInfo(flag,type = 'startDate') {
     console.log('______________________inside findFirstSelectInfo ____________', this.trips);
@@ -494,6 +496,7 @@ export class VoucherSummaryComponent implements OnInit {
           });
         });
         this.changeFuelFilling();
+
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -534,10 +537,11 @@ export class VoucherSummaryComponent implements OnInit {
         console.log('last odo meter',res['data'][0]);
         this.common.loading--;
         if(this.VoucherId==0){
-        this.lastOdoMeter = res['data'][0]['y_lastodo'] || '0';
+        this.lastOdoMeter = res['data'][0]['y_lastodo'] || 0;
         }
         this.totalDays = res['data'][0]['y_totaldays'] || 0;
-        this.fuelMilege=((this.currentOdoMeter-this.lastOdoMeter)/this.totalqty).toFixed(2) || '0';
+        this.changeFuelCalculate();
+       // this.fuelMilege=parseFloat(((this.currentOdoMeter-this.lastOdoMeter) / this.totalqty).toFixed(2)) || 0;
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -545,7 +549,7 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
   changeFuelCalculate(){
-    this.fuelMilege = ((this.currentOdoMeter-this.lastOdoMeter)/this.totalqty).toFixed(2) || '0';
+    this.fuelMilege = parseFloat(((this.currentOdoMeter-this.lastOdoMeter) / this.totalqty).toFixed(2)) || 0;
 
   }
   getVoucherDetails(voucherId) {

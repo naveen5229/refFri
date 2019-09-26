@@ -177,10 +177,10 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
-  addAssociation() {
+  addAssociation(assType) {
     console.log("open Association modal")
     this.common.params = {
-      cmpId: this.foCmpnyId,
+      assType:assType
     };
     const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
@@ -476,6 +476,7 @@ export class LrGenerateComponent implements OnInit {
       console.log('Date:', data);
     });
   }
+
   displayVehicleData() {
     console.log("-------------vehicle id----------", this.vehicleData.id);
     this.common.params = { vehicleId: this.vehicleData.id }
@@ -489,5 +490,25 @@ export class LrGenerateComponent implements OnInit {
       this.common.showError("Vehicle Id doesn't exit.");
     }
 
+  }
+
+  changeSerialNo(){
+    console.log("changeLrSeries");
+    if(!this.lr.id){
+      let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
+      let params = "branchId=" + this.accountService.selected.branch.id +
+        "&prefix=" + this.lr.prefix+
+        "&reportType= LR";
+      this.common.loading++;
+      this.api.get('LorryReceiptsOperation/getNextSerialNo?' + params)
+        .subscribe(res => {
+          console.log('reds',res['data'][0].result) ;
+          this.lr.serial = res['data'][0].result;
+          this.common.loading--;
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+      }
   }
 }

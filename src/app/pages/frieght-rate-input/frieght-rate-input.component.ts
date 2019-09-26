@@ -8,6 +8,7 @@ import { FreightInputWithoutLocationComponent } from '../../modals/FreightRate/f
 import { FreightInputLocationComponent } from '../../modals/FreightRate/freight-input-location/freight-input-location.component';
 import { FoFreightRatesComponent } from '../../modals/FreightRate/fo-freight-rates/fo-freight-rates.component';
 import { FreightRateCalculationComponent } from '../../modals/freight-rate-calculation/freight-rate-calculation.component';
+import { FreightRateSummaryComponent } from '../../modals/FreightRate/freight-rate-summary/freight-rate-summary.component';
 
 @Component({
   selector: 'frieght-rate-input',
@@ -132,6 +133,11 @@ export class FrieghtRateInputComponent implements OnInit {
         class: "addButton",
 
         action: this.openWithLocationModal.bind(this, details),
+      },
+      {
+        class: "fa fa-eye ml-1",
+
+        action: this.frieghtRateSummary.bind(this, details),
       }
     )
     return icons;
@@ -173,6 +179,25 @@ export class FrieghtRateInputComponent implements OnInit {
       }
     });
   }
+
+//Created by Hemant Singh Sisodia
+frieghtRateSummary(row)
+{
+  console.log("row", row);
+    let data = {
+      id: row._id
+    }
+    this.common.params = { id: data.id };
+    const activeModal = this.modalService.open(FreightRateSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data && data.response) {
+        this.getFrieghtRate();
+      }
+    });
+}
+
+
+
   openWithLocationModal(row) {
     console.log("row", row);
 
