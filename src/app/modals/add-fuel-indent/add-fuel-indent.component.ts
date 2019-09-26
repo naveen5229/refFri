@@ -81,6 +81,8 @@ export class AddFuelIndentComponent implements OnInit {
       this.fuelIndentData.refType = this.common.params.editFuelData._ref_type;
       this.fuelIndentData.refName = this.common.params.editFuelData._ref_name;
       this.fuelIndentData.ledgerId = this.common.params.editFuelData._ledger_id;
+      this.fuelIndentData.branchId = this.common.params.editFuelData._branchid;
+      this.fuelIndentData.branchName = this.common.params.editFuelData['Branch Name'];
       if (this.fuelIndentData.ledgerId) {
         this.fuelIndentData.ledgerName = this.common.params.editFuelData['Ledger Name'];
         this.selectModalTypeId = '1';
@@ -140,6 +142,7 @@ export class AddFuelIndentComponent implements OnInit {
       ledgerId: null,
       ledgerName: null,
       branchId: null,
+      branchName: '',
     }
   };
   resetData() {
