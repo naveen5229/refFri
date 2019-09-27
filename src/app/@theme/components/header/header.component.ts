@@ -130,7 +130,7 @@ export class HeaderComponent implements OnInit {
 
   selectBranch() {
     this.accountService.selected.branch = this.accountService.branches.find(branch => {
-      if (branch.id === this.accountService.selected.branchId) return true;
+      if (branch.id == this.accountService.selected.branchId) return true;
       return false;
     });
     console.log('________', this.accountService.selected.branch);
