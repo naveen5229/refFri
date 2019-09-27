@@ -103,8 +103,9 @@ export class BasicPartyDetailsComponent implements OnInit {
     public modalService: NgbModal,
     private formBuilder: FormBuilder,
     public common: CommonService) {
-    console.log("association", this.common.params.cmpAssocDetail)
-    this.userCmpnyId = this.common.params.cmpId;
+    this.assType = this.common.params.assType;
+    console.log("AssType", this.assType);
+    this.userCmpnyId = this.common.params.assType;
     if (this.common.params.cmpAssocDetail) {
       this.value = true;
       this.associationType = this.common.params.associationType;
@@ -157,10 +158,25 @@ export class BasicPartyDetailsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.associationTypes = res['data'];
+        if (this.assType) {
+          this.setAssociationType(this.assType);
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  setAssociationType(id) {
+    let name = "";
+    this.associationTypes.map(ele => {
+      if (ele.y_id == id) {
+        name = ele.y_groupname;
+      };
+    });
+    console.log("assocation type:", name);
+
+    return name;
   }
 
   getSelfBranch() {
@@ -639,8 +655,8 @@ export class BasicPartyDetailsComponent implements OnInit {
       panNo: this.panNo,
       gstNo: this.gstNo,
       cmpId: this.partyId,
-      assocType:this.assType,
-      branchId:this.branchId,
+      assocType: this.assType,
+      branchId: this.branchId,
       // userCmpnyId: this.userCmpnyId,
     }
 

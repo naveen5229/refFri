@@ -12,11 +12,11 @@ import { encode } from 'punycode';
 export class ApiService {
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
   //  URL: string = 'http://elogist.in/testservices/'; // prod Server
-  // URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://localhost/Transtruck/booster_webservices/';
   // URL: string = 'http://192.168.1.111/booster_webservices/'; // Sachin
   // URL: string = 'http://192.168.0.127/booster_webservices/'; // Umang
-   URL: string = 'http://localhost/booster_webservices/'; // sachin
+  // URL: string = 'http://localhost/booster_webservices/'; // sachin
   // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
   URL2 = 'http://elogist.in/transtruck/';
@@ -244,6 +244,17 @@ export class ApiService {
       .subscribe(res => {
         console.log('Branches :', res['data']);
         this.accountService.branches = res['data'];
+        if (this.accountService.branches.length == 2) {
+          console.log('_________________________TRUE');
+          this.accountService.selected.branchId = this.accountService.branches[1].id;
+          this.accountService.selected.branch = this.accountService.branches[1];
+        } else {
+          console.log('_________________________ELSE');
+          this.accountService.selected.branchId = 0;
+          this.accountService.selected.branch.id = 0;
+          // this.accountService.selected.branch.name = ;
+
+        }
       }, err => {
         console.log('Error: ', err);
       });

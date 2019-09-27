@@ -22,7 +22,7 @@
       <div class="col-3">
         <input type="text" class="form-control" [(ngModel)]="formatName">
       </div>
-      <div class="col-3"> 
+      <div class="col-3">
         <label>Report Type</label>
       </div>
       <div class="col-3">
@@ -47,33 +47,33 @@
         <label *ngIf="!isGlobal">Branch</label>
       </div>
       <div class="col-3">
-        <select class="form-control" [(ngModel)]="accountService.selected.branch" (change)="getBranchDetails();"
+        <select class="form-control" [(ngModel)]="accountService.selected.branchId" (ngModelChange)="selectBranch();"
           *ngIf="!isGlobal">
           <option value="">Select Branch</option>
-          <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}
+          <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}
           </option>
         </select>
       </div>
       <div class="col-3">
-          <label *ngIf="!isGlobal">Party</label>
-        </div>
-        <div class="col-3">
-          <span *ngIf="!isGlobal">
-            <auto-suggestion (onSelected)="getPartyDetail($event)" url="Suggestion/GetCompanies2?type=ALL" display="name"
-              placeholder="Search Party Name" style="width:100%;" class="auto-suggest"
-              [preSelected]="{name:party.name}" (change)="resetData($event)">
-            </auto-suggestion>
-          </span>
-        </div>
+        <label *ngIf="!isGlobal">Party</label>
+      </div>
+      <div class="col-3">
+        <span *ngIf="!isGlobal">
+          <auto-suggestion (onSelected)="getPartyDetail($event)" url="Suggestion/GetCompanies2?type=ALL" display="name"
+            placeholder="Search Party Name" style="width:100%;" class="auto-suggest" [preSelected]="{name:party.name}"
+            (change)="resetData($event)">
+          </auto-suggestion>
+        </span>
+      </div>
     </div>
     <div class="row">
-     
+
       <div class="col-3">
         <label *ngIf="!isGlobal">Material</label>
       </div>
       <div class="col-3">
         <span *ngIf="!isGlobal">
-            <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
+          <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
             placeholder="Search Material Name" style="width:100%;" class="auto-suggest"
             [preSelected]="{name:material.name}" (change)="resetMaterail($event)">
           </auto-suggestion>
@@ -83,20 +83,20 @@
           </auto-suggestion> -->
         </span>
       </div>
-  
-<div class="col-6">
-    <button class="btn btn-primary" (click)="saveReportFormat()">Add Format</button>
-    <button class="btn btn-danger" (click)="resetFormatData()" style="margin-left:25px">Cancel</button>
-    <button class="btn btn-info" (click)="getReportFormat()" style="margin-left:25px">Search</button>
+
+      <div class="col-6">
+        <button class="btn btn-primary" (click)="saveReportFormat()">{{btnName}}</button>
+        <button class="btn btn-danger" (click)="resetFormatData()" style="margin-left:25px">Cancel</button>
+        <button class="btn btn-info" (click)="getReportFormat()" style="margin-left:25px">Search</button>
+      </div>
+    </div>
   </div>
-  </div>
-</div>
 
   <div class="row mt-2">
-      <smart-table *ngIf="reportFormats && reportFormats.length" [data]="table.data" [settings]="table.settings">
-      </smart-table>
-    </div>
-         <div class="no-data alert alert-danger" role="alert" *ngIf="reportFormats.length==0">
-            No Data available !
-          </div>
+    <smart-table *ngIf="reportFormats && reportFormats.length" [data]="table.data" [settings]="table.settings">
+    </smart-table>
+  </div>
+  <div class="no-data alert alert-danger" role="alert" *ngIf="reportFormats.length==0">
+    No Data available !
+  </div>
 </div>
