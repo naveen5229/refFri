@@ -20,6 +20,7 @@ import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import * as moment_ from "moment";
 import { elementAt } from "rxjs/operators";
 import { RouteGuard } from "../guards/route.guard";
+import { saveAs } from 'file-saver';
 const moment = moment_;
 @Injectable({
   providedIn: "root"
@@ -939,6 +940,9 @@ export class CommonService {
 
 
     doc.save("report.pdf");
+//   var FileSaver = require('file-saver');
+// var blob = new Blob(["Hello, world!"]);
+// FileSaver.saveAs(blob);
   }
 
   downloadPdf(divId, isLandscape?) {
