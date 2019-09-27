@@ -244,6 +244,17 @@ export class ApiService {
       .subscribe(res => {
         console.log('Branches :', res['data']);
         this.accountService.branches = res['data'];
+        if (this.accountService.branches.length == 2) {
+          console.log('_________________________TRUE');
+          this.accountService.selected.branchId = this.accountService.branches[1].id;
+          this.accountService.selected.branch = this.accountService.branches[1];
+        } else {
+          console.log('_________________________ELSE');
+          this.accountService.selected.branchId = 0;
+          this.accountService.selected.branch.id = 0;
+          // this.accountService.selected.branch.name = ;
+
+        }
       }, err => {
         console.log('Error: ', err);
       });

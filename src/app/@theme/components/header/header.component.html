@@ -42,10 +42,10 @@
   <div class="select_branch"
     *ngIf="router.url.includes('accounts') ||router.url.includes('admin/generate-lr') ||router.url.includes('pages/generate-lr')">
     <label>Branch</label>
-    <select class="form-control" [(ngModel)]="accountService.selected.branch" (change)="common.refresh()">
+    <select class="form-control" [(ngModel)]="accountService.selected.branchId" (ngModelChange)="selectBranch()">
       <option value="">Select Branch</option>
       <option *ngFor="let branch of accountService.branches"
-        [selected]="(accountService.branches.length != 2) ?  (branch.name == 'All') :  (branch.name != 'All')" [ngValue]="branch">
+         [value]="branch.id">
         {{branch.name}}</option>
     </select>
   </div>

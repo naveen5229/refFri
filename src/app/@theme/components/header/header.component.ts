@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit {
       "name": "test2322"
     }
   ];
+  selectedBranch = 0;
 
   constructor(private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
@@ -125,6 +126,14 @@ export class HeaderComponent implements OnInit {
       return;
     }
     this.common.refresh();
+  }
+
+  selectBranch() {
+    this.accountService.selected.branch = this.accountService.branches.find(branch => {
+      if (branch.id === this.accountService.selected.branchId) return true;
+      return false;
+    });
+    console.log('________', this.accountService.selected.branch);
   }
 
 }
