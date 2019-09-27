@@ -253,6 +253,7 @@ import { ManifestGenerateComponent } from './modals/LRModals/manifest-generate/m
 import { DriverPersonalInfoComponent } from './modals/driver-personal-info/driver-personal-info.component';
 import { AddCompanyAssociationComponent } from './modals/add-company-association/add-company-association.component';
 import { FreightRateSummaryComponent } from './modals/FreightRate/freight-rate-summary/freight-rate-summary.component';
+import { AddReportFormatsComponent } from './modals/add-report-formats/add-report-formats.component';
 
 
 
@@ -480,9 +481,11 @@ import { FreightRateSummaryComponent } from './modals/FreightRate/freight-rate-s
     DriverPersonalInfoComponent,
     AddCompanyAssociationComponent,
     FreightRateSummaryComponent,
+    AddReportFormatsComponent,
 
   ],
   entryComponents: [
+    AddReportFormatsComponent,
     AddDispatchOrderComponent,
     ViewMVSFreightStatementComponent,
     FreightInvoiceRateComponent,
