@@ -47,10 +47,10 @@
         <label *ngIf="!isGlobal">Branch</label>
       </div>
       <div class="col-3">
-        <select class="form-control" [(ngModel)]="accountService.selected.branch" (change)="getBranchDetails();"
+        <select class="form-control" [(ngModel)]="accountService.selected.branchId" (ngModelChange)="selectBranch();"
           *ngIf="!isGlobal">
           <option value="">Select Branch</option>
-          <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}
+          <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}
           </option>
         </select>
       </div>
@@ -85,7 +85,7 @@
       </div>
   
 <div class="col-6">
-    <button class="btn btn-primary" (click)="saveReportFormat()">Add Format</button>
+    <button class="btn btn-primary" (click)="saveReportFormat(null)">{{btnName}}</button>
     <button class="btn btn-danger" (click)="resetFormatData()" style="margin-left:25px">Cancel</button>
     <button class="btn btn-info" (click)="getReportFormat()" style="margin-left:25px">Search</button>
   </div>
