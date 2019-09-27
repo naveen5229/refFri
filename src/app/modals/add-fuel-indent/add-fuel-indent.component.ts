@@ -260,6 +260,10 @@ export class AddFuelIndentComponent implements OnInit {
     if (this.fuelIndentData.issueDate == null && this.fuelIndentData.expiryDate == null) {
       this.common.showToast("Select Date");
     }
+    if (this.fuelIndentData.issueDate  > this.fuelIndentData.expiryDate) {
+      this.common.showError("Enter Valid  Date");
+      return;
+    }
     if (this.selectModalTypeId === '1') {
       this.apiUrl = "Fuel/addCashIndent";
     }
