@@ -170,6 +170,14 @@
 
         <div class="row mt-2">
             <div class="col-3">
+                <label>Branch ID</label>
+            </div>
+            <div class="col-3">
+                <auto-suggestion (onSelected)="fuelIndentData.branchId=$event.id" inputId="branchId" name="branchId"
+                    [data]="branchList" display="name" placeholder="branchId"
+                    [preSelected]="{name:fuelIndentData.branchName}"></auto-suggestion>
+            </div>
+            <div class="col-2">
                 <label>Remark:</label>
             </div>
             <div class="col-4">
@@ -179,7 +187,7 @@
         </div>
     </div>
 
-    <div class="row text-right">
+    <div class="row text-right mt-2">
         <div class="col text-right">
             <button type="submit" class="btn btn-primary" form="fuelIndent-form"
                 (click)="isFormSubmit=true">{{button}}</button>
