@@ -128,12 +128,22 @@
                   *ngIf="generalDetailColumn1[i].r_colname == 'source_name' ||generalDetailColumn1[i].r_colname == 'destination_name'"
                   (click)="sourceString='----'; takeActionSource('generalDetailColumn1',null,i);"></i>
 
+
+
+                <!-- dynamic data array -->
+                <select [(ngModel)]="generalDetailColumn1[i].r_value" class="form-conrol"
+                  *ngIf="generalDetailColumn1[i].r_fixedvalues">
+                  <option [value]="fixValue.title" *ngFor="let fixValue of generalDetailColumn1[i].r_fixedvalues">
+                    {{fixValue.title}}</option>
+                </select>
+
+
                 <!-- Simple text Box -->
-                <input type="text" class="form-control" [(ngModel)]=generalDetailColumn1[i].r_value
-                  *ngIf="generalDetailColumn1[i].r_colname != 'regno' && generalDetailColumn1[i].r_colname != 'lr_date' 
+                <input type="text" class="form-control" [(ngModel)]=generalDetailColumn1[i].r_value *ngIf="generalDetailColumn1[i].r_colname != 'regno' && generalDetailColumn1[i].r_colname != 'lr_date' 
                   && generalDetailColumn1[i].r_colname != 'driver_mobile'  && generalDetailColumn1[i].r_colname != 'driver_name' 
                   && generalDetailColumn1[i].r_colname != 'party_name' && generalDetailColumn1[i].r_colname != 'material_name'
-                  && generalDetailColumn1[i].r_colname != 'source' && generalDetailColumn1[i].r_colname != 'destination'" [id]='generalDetailColumn1[i].r_colname'>
+                  && generalDetailColumn1[i].r_colname != 'source' && generalDetailColumn1[i].r_colname != 'destination' 
+                  && generalDetailColumn1[i].r_colname != 'r_fixedvalues'" [id]='generalDetailColumn1[i].r_colname'>
 
                 <!-- material detail -->
                 <auto-suggestion (onChange)="generalDetailColumn1[i].r_valueid = ''"
@@ -194,12 +204,19 @@
                   (click)="sourceString='----'; takeActionSource('generalDetailColumn2',null,i);"></i>
 
 
+                <!-- dynamic data array -->
+                <select [(ngModel)]="generalDetailColumn2[i].r_value" class="form-conrol"
+                  *ngIf="generalDetailColumn2[i].r_fixedvalues">
+                  <option [value]="fixValue.title" *ngFor="let fixValue of generalDetailColumn2[i].r_fixedvalues">
+                    {{fixValue.title}}</option>
+                </select>
+
                 <!-- Simple text Box -->
-                <input type="text" class="form-control" [(ngModel)]=generalDetailColumn2[i].r_value
-                  *ngIf="generalDetailColumn2[i].r_colname != 'regno' && generalDetailColumn2[i].r_colname != 'lr_date'
+                <input type="text" class="form-control" [(ngModel)]=generalDetailColumn2[i].r_value *ngIf="generalDetailColumn2[i].r_colname != 'regno' && generalDetailColumn2[i].r_colname != 'lr_date'
                   && generalDetailColumn2[i].r_colname != 'driver_mobile'  && generalDetailColumn2[i].r_colname != 'driver_name'
                   && generalDetailColumn2[i].r_colname != 'party_name' && generalDetailColumn2[i].r_colname != 'material_name'
-                  && generalDetailColumn2[i].r_colname != 'source_name' && generalDetailColumn2[i].r_colname != 'destination_name'" [id]='generalDetailColumn2[i].r_colname'>
+                  && generalDetailColumn2[i].r_colname != 'source_name' && generalDetailColumn2[i].r_colname != 'destination_name'
+                  && generalDetailColumn2[i].r_colname != 'r_fixedvalues'" [id]='generalDetailColumn2[i].r_colname'>
 
                 <!-- material detail -->
                 <auto-suggestion (onChange)="generalDetailColumn2[i].r_valueid = ''"
