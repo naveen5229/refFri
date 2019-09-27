@@ -147,7 +147,7 @@ export class CommonService {
     this.router.navigate([page.page]);
   }
 
-  dateFormatter(date, type = "YYYYMMDD", isTime = true, separator = "-") {
+  dateFormatter(date, type = "YYYYMMDD", isTime = true, separator = "-"):any {
     let d = new Date(date);
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
