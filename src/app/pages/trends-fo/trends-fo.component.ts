@@ -61,13 +61,14 @@ export class TrendsFoComponent implements OnInit {
     public modalService: NgbModal,
     public mapService: MapService,
   ) {
-    this.initialize();
+    this.common.refresh = this.refresh.bind(this);
+    this.refresh();
   }
 
   ngOnInit() {
   }
 
-  initialize() {
+  refresh() {
     this.getTrends();
     this.getTrendsVehicleSite();
     //this.getTrendsVehicle()
@@ -87,6 +88,9 @@ export class TrendsFoComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.trends = res['data'].result || [];
+        if (this.trends.length == 0 || this.trends == null) {
+          this.common.showError("Chart is not available");
+        }
         this.vehicleCount = res['data'].veh_count;
         this.dateDay = this.trends.map(trend => {
           return this.datepipe.transform(trend.date_day, 'dd-MMM');
@@ -120,6 +124,10 @@ export class TrendsFoComponent implements OnInit {
     let yAxesLabel1 = yAxesLabels[this.trendType][1];
     let xAxesLabel = this.xAxesLabels[this.period];
 
+    let sortBy = this.trendType == "11" ? 'ldng_count' : this.trendType == "21" ? 'unldng_count' : 'onward';
+
+    this.trendsVehicleSiteData = _.reverse(_.sortBy(this.trendsVehicleSiteData, [sortBy]));
+    this.trendsVehicleData = _.reverse(_.sortBy(this.trendsVehicleData, [sortBy]));
     this.trends.forEach((trend) => {
       if (this.trendType == "11" || this.trendType == "21") {
         this.chart.data.line.push(this.trendType == "11" ? (trend.loading_hrs / trend.loading_count) || 0 : (trend.unloading_hrs / trend.unloading_count) || 0);
@@ -304,8 +312,14 @@ export class TrendsFoComponent implements OnInit {
     this.api.post("Trends/getTrendsWrtVehiclesAndSites", params).subscribe(res => {
       this.common.loading--;
       this.trendsVehicleData = res['data']['vehData'] || [];
+      if (this.trendsVehicleData.length == 0 || this.trendsVehicleData == null) {
+        this.common.showError("Vehicle Data is not availabe")
+      }
       console.log("--------------------", this.trendsVehicleData)
-      this.trendsVehicleSiteData = res['data']['siteData'] || []
+      this.trendsVehicleSiteData = res['data']['siteData'] || [];
+      if (this.trendsVehicleSiteData.length == 0 || this.trendsVehicleSiteData == null) {
+        this.common.showError("Site Data is not availabe")
+      }
       this.loadingSite = res['data']['siteData'].lodingArray
       this.getTrendsVehicle();
       this.getTrendsSite();
@@ -412,6 +426,12 @@ export class TrendsFoComponent implements OnInit {
         temp.push(key, datas[key].count, (datas[key].avgHours / datas[key].count).toFixed(2));
         result.push(temp);
       });
+      result.sort((a, b) => {
+        if (b[1] == a[1])
+          return b[2] - a[2];
+        else
+          return b[1] - a[1];
+      });
     }
     else if (this.trendType == '21') {
       datas = dataTrend.unloadingArray;
@@ -420,9 +440,16 @@ export class TrendsFoComponent implements OnInit {
         temp.push(key, datas[key].count, (datas[key].avgHours / datas[key].count).toFixed(2));
         result.push(temp);
       });
+      result.sort((a, b) => {
+        if (b[1] == a[1])
+          return b[2] - a[2];
+        else
+          return b[1] - a[1];
+      });
     }
     data = result;
-    this.common.params = { title: 'SiteWise Vehicle List:', headings: headings, data };
+    let subTitle = dataTrend.sitename ? dataTrend.sitename : dataTrend.vehicle_id;
+    this.common.params = { title: 'SiteWise Vehicle List :' + subTitle, headings: headings, data };
     this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout' });
   }
 }
