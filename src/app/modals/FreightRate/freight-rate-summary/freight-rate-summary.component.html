@@ -1,0 +1,40 @@
+<div class="modal-header">
+    <h5>Freight Rate Summary</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+<div class="row">
+  <div class="col-3">
+    <label>Select Param</label>
+
+  </div>
+  <div class="col-3">
+      <select class="form-control" [(ngModel)]='param'>
+          <option *ngFor="let lrfodata of lrFo;" [value]="lrfodata.Name">{{lrfodata.Name}}</option>
+        </select>
+  </div>
+
+  <div class="col-3" style="margin-top:5px;">
+    <input type="radio" name="ratetype" [(ngModel)]="rateType" value="wt">
+    <label>Weight</label>
+    <input type="radio" name="ratetype" [(ngModel)]="rateType" value="qty" style="margin-left:5px;">
+    <label>Quantity</label>
+  </div>
+
+  <div class="col-2">
+    <input type="button" value="Submit" class="btn btn-primary" (click)="FreightRateSummary()">
+  </div>
+  
+</div>
+
+
+<div class="row mt-2">
+    <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings">
+    </smart-table>
+  </div>
+       <div class="no-data alert alert-danger" role="alert" *ngIf="data.length==0">
+          No Data available !
+        </div>
+  </div>

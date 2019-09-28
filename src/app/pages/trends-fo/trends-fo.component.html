@@ -13,7 +13,7 @@
                     </select>
                 </div>
                 <div class="col-sm-3" *ngIf="showPeriod">
-                    <select [(ngModel)]="period" class="form-control" (ngModelChange)="initialize()"
+                    <select [(ngModel)]="period" class="form-control" (ngModelChange)="refresh()"
                         style=" border: 1px solid #324148; font-size: 10px">
                         <option value="1">Day</option>
                         <option value="2">Week</option>
@@ -61,7 +61,7 @@
                     </uj-date-time-picker>
                 </div>
                 <div class="col-sm-2" *ngIf="period == '1'">
-                    <button class="btn btn-primary" (click)="initialize()">Submit</button>
+                    <button class="btn btn-primary" (click)="refresh()">Submit</button>
                 </div>
             </div>
             <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
@@ -91,7 +91,7 @@
                         <thead class="thead">
                             <tr>
                                 <th>Regno</th>
-                                <th style="text-align: center">Onward(Hr)</th>
+                                <th style="text-align: center">Avg Onward/Day(Hr)</th>
                                 <th style="text-align: center">Halt Count</th>
                                 <th style="text-align: center">Average Halt(Hr)</th>
                             </tr>
@@ -134,10 +134,11 @@
                                     <td *ngIf="trendType=='21'" style="text-align: center">
                                         {{trendsVehicleSite.unloading_hrs | number : '1.2-2' }}
                                     </td>
-                                    <td style="color:#00695C;text-align: center;" *ngIf="trendType=='11'"
+                                    <td style="color:#00695C;text-align: center; cursor: pointer;"
+                                        *ngIf="trendType=='11'"
                                         (click)="trendsVehicleSite.ldng_count>0? getPendingStatus(trendsVehicleSite,'vehicle'):''">
                                         {{trendsVehicleSite.ldng_count }}</td>
-                                    <td style="color:#E91E63;" *ngIf="trendType=='21'"
+                                    <td style="color:#E91E63; cursor: pointer;" *ngIf="trendType=='21'"
                                         (click)="trendsVehicleSite.unldng_count >0 ?getPendingStatus(trendsVehicleSite,'vehicle'):''">
                                         {{trendsVehicleSite.unldng_count}}</td>
 
@@ -169,10 +170,12 @@
                                     <td *ngIf="trendType=='21' " style="text-align:center">
                                         {{trendsVehicle.unloading_hrs | number : '1.2-2' }}
                                     </td>
-                                    <td *ngIf="trendType=='11' " style="color:#00695C;text-align: center;"
+                                    <td *ngIf="trendType=='11' "
+                                        style="color:#00695C;text-align: center; cursor: pointer;"
                                         (click)="trendsVehicle.ldng_count>0? getPendingStatus(trendsVehicle,'site'):''">
                                         {{trendsVehicle.ldng_count }}</td>
-                                    <td *ngIf="trendType=='21' " style="color:#E91E63;"
+                                    <td *ngIf="trendType=='21'  "
+                                        style="color:#E91E63;cursor: pointer; text-align: center"
                                         (click)="trendsVehicle.unldng_count >0 ?getPendingStatus(trendsVehicle,'site'):''">
                                         {{trendsVehicle.unldng_count }}
                                     </td>

@@ -137,7 +137,7 @@ export class TripVoucherExpenseComponent implements OnInit {
     if (this.selectedVehicle.id == 0) {
       this.common.showToast('please enter registration number !!')
     } else if (this.accountService.selected.branch.id == 0) {
-      this.common.showToast('please Select Branch !!')
+      this.common.showError('please Select Branch !!')
     } else {
       this.getTripExpences();
       console.log('this.selectedVehicle.id',this.selectedVehicle.regno);

@@ -1,0 +1,14 @@
+:host ::ng-deep .fa-eye:before {
+    font-size: 18px!important;
+    margin-left: 10px!important;
+    background-color: lightgray!important;
+    color: red!important;
+    border-radius: 5px!important;
+}
+:host ::ng-deep .alert-danger{
+width: 100% !important;
+}
+:host ::ng-deep .tableFixHead{
+    height: auto!important;
+
+    }

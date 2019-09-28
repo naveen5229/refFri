@@ -135,13 +135,13 @@
                         </div>
                     </div>
                     <div class="col-2">
-                        <label>Leager:</label>
+                        <label>Ledger:</label>
                     </div>
                     <div class="col-3">
-                        <auto-suggestion (onSelected)="selectLeager($event)" inputId="leager" controlName="leager"
-                            [parentForm]="fuelIndent" [ngClass]="{ 'is-invalid': isFormSubmit && f.leager.errors }"
-                            name="leager" url="Suggestion/GetAllLedger" display="name" placeholder="Leager "
-                            [preSelected]="{name:fuelIndentData.leagerName}"></auto-suggestion>
+                        <auto-suggestion (onSelected)="selectLedger($event)" inputId="ledger" controlName="ledger"
+                            [parentForm]="fuelIndent" [ngClass]="{ 'is-invalid': isFormSubmit && f.ledger.errors }"
+                            name="ledger" url="Suggestion/GetAllLedger" display="name" placeholder="Ledger "
+                            [preSelected]="{name:fuelIndentData.ledgerName}"></auto-suggestion>
                     </div>
                 </div>
             </ng-template>
@@ -170,6 +170,14 @@
 
         <div class="row mt-2">
             <div class="col-3">
+                <label>Branch ID</label>
+            </div>
+            <div class="col-3">
+                <auto-suggestion (onSelected)="fuelIndentData.branchId=$event.id" inputId="branchId" name="branchId"
+                    [data]="branchList" display="name" placeholder="branchId"
+                    [preSelected]="{name:fuelIndentData.branchName}"></auto-suggestion>
+            </div>
+            <div class="col-2">
                 <label>Remark:</label>
             </div>
             <div class="col-4">
@@ -179,7 +187,7 @@
         </div>
     </div>
 
-    <div class="row text-right">
+    <div class="row text-right mt-2">
         <div class="col text-right">
             <button type="submit" class="btn btn-primary" form="fuelIndent-form"
                 (click)="isFormSubmit=true">{{button}}</button>

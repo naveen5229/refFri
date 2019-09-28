@@ -1,132 +1,136 @@
 .table-conan {
-    table {
-        width: 100%;
-        tbody {
-            tr {
-                td {
-                    padding: 2px;
-                    font-size: 12px;
-                    font-weight: 700;
-                    width: 190px;
-                    span {
-                        display: inline-block;
-                        label input {
-                            width: auto;
-                        }
-                        button {
-                            border-radius: 3px;
-                            padding: 3px 7px;
-                            width: 100%;
-                        }
-                    }
-                }
+  table {
+    width: 100%;
+    tbody {
+      tr {
+        td {
+          padding: 2px;
+          font-size: 12px;
+          font-weight: 700;
+          width: 190px;
+          span {
+            display: inline-block;
+            label input {
+              width: auto;
             }
+            button {
+              border-radius: 3px;
+              padding: 3px 7px;
+              width: 100%;
+            }
+          }
         }
+      }
     }
+  }
 }
 
-input{
-    width: 125%;
+input {
+  width: 125%;
 }
 
 .submit {
-    border-radius: 3px;
-    padding: 8px 15px;
-    text-transform: capitalize;
+  border-radius: 3px;
+  padding: 8px 15px;
+  text-transform: capitalize;
 }
 
- :host ::ng-deep .tableFixHead {
-    height: auto !important
+:host ::ng-deep .tableFixHead {
+  height: auto !important;
 }
 
 :host ::ng-deep .fa-trash-alt {
-    color: black;
-    font-size: 18px;
-    span {
-        position: absolute;
-        display: none;
-        padding: 10px 28px;
-        font-weight: normal;
-        font-size: 11px;
-        left: -22px;
-        top: -28px;
-        -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-        box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-        font-family: Roboto;
-        z-index: 9999;
-    }
-    span::before {
-        content: 'Delete';
-        display: block;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        background-color: black;
-        border-radius: 3px;
-        padding: 5px 10px;
-        color: #fff;
-        width: 100%;
-    }
-    span::after {
-        content: '';
-        width: 0;
-        height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid black;
-        position: absolute;
-        bottom: -5px;
-        right: 24px;
-    }
+  color: black;
+  font-size: 18px;
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 28px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -22px;
+    top: -28px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Delete";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: black;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
 }
 
 :host ::ng-deep .fa-trash-alt:hover span {
-    display: block;
+  display: block;
 }
 
 .active-image {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .image {
-    background-size: contain;
-    height: 160px;
+  background-size: contain;
+  height: 160px;
 }
 
 .image-name {
-    font-size: 18px;
-    font-weight: 600;
-    padding: 5px;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 5px;
 }
 
 :host ::ng-deep .image-gallery-2 {
-    width: 100%;
-    position: relative;
-    height: 700px;
-    background: #000;
-    margin-top: 45px;
-    margin-bottom: 0px;
+  width: 100%;
+  position: relative;
+  height: 700px;
+  background: #000;
+  margin-top: 45px;
+  margin-bottom: 0px;
 }
 
 .modal-body,
 .container {
-    padding: 0px !important;
+  padding: 0px !important;
 }
 
 .modal-header {
-    padding: 10px 15px;
-    background-color: #263238;
-    h5 {
-        color: #fff;
-        margin: 0px;
-    }
-    .close {
-        background: transparent;
-        color: #fff !important;
-        opacity: 1;
-        padding: 10px 20px;
-        margin: -10px -1rem -1rem auto;
-        outline: none !important;
-    }
+  padding: 10px 15px;
+  background-color: #263238;
+  h5 {
+    color: #fff;
+    margin: 0px;
+  }
+  .close {
+    background: transparent;
+    color: #fff !important;
+    opacity: 1;
+    padding: 10px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none !important;
+  }
+}
+select {
+  box-shadow: none;
+  width: 100%;
 }

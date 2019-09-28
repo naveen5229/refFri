@@ -252,6 +252,8 @@ import { GenericSuggestionComponent } from './modals/generic-modals/generic-sugg
 import { ManifestGenerateComponent } from './modals/LRModals/manifest-generate/manifest-generate.component';
 import { DriverPersonalInfoComponent } from './modals/driver-personal-info/driver-personal-info.component';
 import { AddCompanyAssociationComponent } from './modals/add-company-association/add-company-association.component';
+import { FreightRateSummaryComponent } from './modals/FreightRate/freight-rate-summary/freight-rate-summary.component';
+import { AddReportFormatsComponent } from './modals/add-report-formats/add-report-formats.component';
 
 
 
@@ -478,9 +480,12 @@ import { AddCompanyAssociationComponent } from './modals/add-company-association
     VehiclesViewComponent,
     DriverPersonalInfoComponent,
     AddCompanyAssociationComponent,
+    FreightRateSummaryComponent,
+    AddReportFormatsComponent,
 
   ],
   entryComponents: [
+    AddReportFormatsComponent,
     AddDispatchOrderComponent,
     ViewMVSFreightStatementComponent,
     FreightInvoiceRateComponent,
@@ -688,7 +693,8 @@ import { AddCompanyAssociationComponent } from './modals/add-company-association
     ManifestGenerateComponent,
     VehiclesViewComponent,
     DriverPersonalInfoComponent,
-    AddCompanyAssociationComponent
+    AddCompanyAssociationComponent,
+    FreightRateSummaryComponent
   ],
   imports: [
     BrowserModule,
