@@ -12,21 +12,15 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrls: ['./lr-invoice-columns.component.scss', "../pages.component.css",]
 })
 export class LrInvoiceColumnsComponent implements OnInit {
-  party = {
-    name: null,
-    id: null,
-    address: null
-  }
-  types = [];
-  reportType = 'LR';
+ 
   LrInvoiceColumns = [];
   unassign = [];
-
+  formatId= null;
   assign = {
     left: [],
     right: []
   }
-  isGlobal = false;
+ 
 
   constructor(
     public common: CommonService,
@@ -35,8 +29,11 @@ export class LrInvoiceColumnsComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
   ) {
-    this.common.handleModalSize('class', 'modal-lg', '1100');
-    //this.getTypes();
+    this.common.handleModalSize('class', 'modal-lg','1100','px',1);
+    if(this.common.params){
+    this.formatId = this.common.params.format.id;
+  }
+    this.getLrInvoiceColumns();
 
   }
 
@@ -47,38 +44,11 @@ export class LrInvoiceColumnsComponent implements OnInit {
   }
 
 
-  getPartyDetail(party) {
-    console.log("party", party);
-    this.party.address = party.address;
-    this.party.name = party.name;
-    this.party.id = party.id;
-  }
-
-  getBranchDetails() {
-    this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
-      .subscribe(res => {
-        console.log("branchdetails", res['data']);
-      }, err => {
-        console.log(err);
-      });
-  }
-
-  addParty() {
-    console.log("open material modal")
-    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
-    activeModal.result.then(data => {
-      console.log('Data:', data);
-
-    });
-  }
-
   getLrInvoiceColumns() {
     this.common.loading++;
     let params = {
       branchId: this.accountService.selected.branch.id,
-      reportType: this.reportType,
-      partyId: this.party.id,
-      isGlobal: this.isGlobal
+      formatId: this.formatId,
     }
     this.api.post('LorryReceiptsOperation/getLrInvoiceFields', params)
       .subscribe(res => {
@@ -94,10 +64,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
 
 
 
-  resetData(type) {
-    this.party.id = null;
-  }
-
+ 
   drop(event: CdkDragDrop<string[]>) {
     console.log("drop", event);
     if (event.previousContainer === event.container) {
@@ -165,11 +132,8 @@ export class LrInvoiceColumnsComponent implements OnInit {
 
   saveLrInvoiceColumns() {
     let params = {
-      branchId: this.accountService.selected.branch.id,
-      reportType: this.reportType,
-      partyId: this.party.id,
+      formatId: this.formatId,   
       lrInvoiceColumns: JSON.stringify(this.assignOrder()),
-      isGlobal: this.isGlobal
     }
     console.log("Params", params)
     this.common.loading++;
@@ -191,19 +155,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
       });
   }
 
-  getTypes() {
-    ++this.common.loading;
-    this.api.get('Suggestion/getTypeMaster?typeId=66')
-      .subscribe(res => {
-        console.log("branchdetails", res['data']);
-        --this.common.loading;
-        this.types = res['data'];
-      }, err => {
-        --this.common.loading;
-        console.log(err);
-      });
-  }
-
+ 
   assignOrder() {
     let selected = [];
     let count = 1;
