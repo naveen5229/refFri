@@ -68,6 +68,7 @@ export class LrPodDetailsComponent implements OnInit {
       if (detail['r_coltype'] == 3 && detail['r_value']) {
         copyDetails['r_value'] = this.common.dateFormatter1(detail['r_value']);
       }
+
       return copyDetails;
     });
 
@@ -130,6 +131,9 @@ export class LrPodDetailsComponent implements OnInit {
       if (dd.r_coltype == 3) {
         dd.r_value = dd.r_value ? new Date(dd.r_value) : new Date();
         console.log("date==", dd.r_value);
+      }
+      if (dd.r_fixedvalues) {
+        dd.r_fixedvalues = JSON.parse(dd.r_fixedvalues);
       }
       if (dd.r_colorder % 2 == 0) {
         this.evenArray.push(dd);
