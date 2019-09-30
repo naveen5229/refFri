@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -715,7 +716,7 @@ import { AddReportFormatsComponent } from './modals/add-report-formats/add-repor
     MatDatepickerModule,
     MatNativeDateModule,
     NgxPrintModule,
-
+    NgxQRCodeModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']

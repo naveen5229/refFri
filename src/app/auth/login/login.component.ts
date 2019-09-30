@@ -23,6 +23,9 @@ export class LoginComponent implements OnInit {
   otpCount = 0;
 
   formSubmit = false;
+  qrCode: any;
+  elementType: 'url' | 'canvas' | 'img' = 'url';
+  interval = null;
 
   constructor(public router: Router,
     private route: ActivatedRoute,
@@ -30,6 +33,7 @@ export class LoginComponent implements OnInit {
     public user: UserService,
     public activity: ActivityService,
     public api: ApiService) {
+
 
   }
 
@@ -95,10 +99,17 @@ export class LoginComponent implements OnInit {
         console.log(res);
         if (res['success']) {
           this.listenOTP = true;
-          this.otpCount = 30;
+          this.otpCount = 10;
+          this.qrCode = Math.floor(Math.random() * 1000000);
+          if (this.qrCode.length != 6) {
+            this.qrCode = Math.floor(Math.random() * 1000000);
+          }
+          this.qrCodeRegenrate();
           this.otpResendActive();
           this.formSubmit = false;
           this.common.showToast(res['msg']);
+          console.log("qrCode", this.qrCode);
+
         } else {
           this.common.showError(res['msg']);
         }
@@ -148,6 +159,10 @@ export class LoginComponent implements OnInit {
     if (this.otpCount > 0) {
       setTimeout(this.otpResendActive.bind(this, --this.otpCount), 1000);
     }
+    else {
+      return this.common.showError("Session Expired & Login Again");
+
+    }
   }
 
 
@@ -189,5 +204,22 @@ export class LoginComponent implements OnInit {
 
   }
 
+  qrCodeRegenrate() {
+    setTimeout(() => {
+      this.listenOTP = false;
+      this.otpCount = 0;
+      this.formSubmit = false;
+      this.qrCode = null;
+    }, 10000);
+
+    this.interval = setInterval(() => {
+      this.repatedApiHit();
+    }, 5000);
+  }
+
+  repatedApiHit() {
+    console.log("interval", this.interval);
+    console.log("Api Hit");
+  }
 
 }
