@@ -15,6 +15,8 @@ import { LocationSelectionComponent } from '../../location-selection/location-se
 import { AddMaterialComponent } from '../add-material/add-material.component';
 import { AddTransportAgentComponent } from '../add-transport-agent/add-transport-agent.component';
 import { BasicPartyDetailsComponent } from '../../../modals/basic-party-details/basic-party-details.component';
+import { VehiclesViewComponent } from '../../vehicles-view/vehicles-view.component';
+import { AddDriverCompleteComponent } from '../../DriverModals/add-driver-complete/add-driver-complete.component';
 
 @Component({
   selector: 'lr-generate',
@@ -144,6 +146,9 @@ export class LrGenerateComponent implements OnInit {
         dd.r_value = dd.r_value ? new Date(dd.r_value) : new Date();
         console.log("date==", dd.r_value);
       }
+      if (dd.r_fixedvalues) {
+        dd.r_fixedvalues = JSON.parse(dd.r_fixedvalues);
+      }
       if (dd.r_colorder % 2 == 0) {
         this.generalDetailColumn2.push(dd);
       } else {
@@ -154,6 +159,16 @@ export class LrGenerateComponent implements OnInit {
     console.log("generalDetailColumn1", this.generalDetailColumn1);
   }
 
+  formatMaterialDetails(particularDetails) {
+    particularDetails.map(dd => {
+      if (dd.r_fixedvalues) {
+        dd.r_fixedvalues = JSON.parse(dd.r_fixedvalues);
+      }
+    });
+    return particularDetails
+
+  }
+
   addCompany() {
     console.log("open consignee modal")
     const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
@@ -162,12 +177,15 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
-  addAssociation() {
+  addAssociation(assType) {
     console.log("open Association modal")
     this.common.params = {
-      cmpId: this.foCmpnyId,
+      assType:assType
     };
-    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
     activeModal.result.then(data => {
       console.log('Data:', data);
     });
@@ -175,7 +193,7 @@ export class LrGenerateComponent implements OnInit {
 
   addDriver() {
     this.common.params = { vehicleId: null, vehicleRegNo: null };
-    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log("data", data);
       if (data.data) {
@@ -338,6 +356,9 @@ export class LrGenerateComponent implements OnInit {
           if (customjfield.r_coltype == 3) {
             customjfield.r_value = customjfield.r_value ? new Date(customjfield.r_value) : new Date();
           }
+          if (customjfield.r_fixedvalues) {
+            customjfield.r_fixedvalues = JSON.parse(customjfield.r_fixedvalues);
+          }
           customjfields[customIndex].push(customjfield);
         });
       }
@@ -459,4 +480,38 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
+  displayVehicleData() {
+    console.log("-------------vehicle id----------", this.vehicleData.id);
+    this.common.params = { vehicleId: this.vehicleData.id }
+    if (this.vehicleData.id > 0) {
+      const activeModal = this.modalService.open(VehiclesViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+
+      activeModal.result.then(data => {
+        console.log('Date:', data);
+      });
+    } else {
+      this.common.showError("Vehicle Id doesn't exit.");
+    }
+
+  }
+
+  changeSerialNo(){
+    console.log("changeLrSeries");
+    if(!this.lr.id){
+      let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
+      let params = "branchId=" + this.accountService.selected.branch.id +
+        "&prefix=" + this.lr.prefix+
+        "&reportType= LR";
+      this.common.loading++;
+      this.api.get('LorryReceiptsOperation/getNextSerialNo?' + params)
+        .subscribe(res => {
+          console.log('reds',res['data'][0].result) ;
+          this.lr.serial = res['data'][0].result;
+          this.common.loading--;
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+      }
+  }
 }

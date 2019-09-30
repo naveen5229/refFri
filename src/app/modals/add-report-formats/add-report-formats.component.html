@@ -1,0 +1,102 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Add Format</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="clearfix">
+
+    <div class="row">
+      <div class="col-6">
+        <label>
+          <input type="checkbox" [(ngModel)]="isGlobal">
+          Do you want to set Globally ?
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <label>Format Name</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" [(ngModel)]="formatName">
+      </div>
+      <div class="col-3">
+        <label>Report Type</label>
+      </div>
+      <div class="col-3">
+        <select [(ngModel)]="reportType" class="form-control">
+          <option value='LR'>LR</option>
+          <option value='POD'>POD</option>
+          <option value='FRINV'>Freight Invoice Print</option>
+          <option value='FRINV2'>Freight Invoice Print 2</option>
+          <option value='FRINV3'>Freight Invoice Print 3</option>
+          <option value='FRSUP'>Freight Invoice Support </option>
+          <option value='FRSUP2'>Freight Invoice Support 2</option>
+          <option value='FRSUP3'>Freight Invoice Support 3</option>
+          <option value='MVSFRSTMT'>MVS FR Statements</option>
+          <option value='DSPOD'>Distpatch Order</option>
+          <option value='LR_PRT'>Print LR</option>
+          <option value='DSPOD_PRT'>Print Distpatch Order</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <label *ngIf="!isGlobal">Branch</label>
+      </div>
+      <div class="col-3">
+        <select class="form-control" [(ngModel)]="accountService.selected.branchId" (ngModelChange)="selectBranch();"
+          *ngIf="!isGlobal">
+          <option value="">Select Branch</option>
+          <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}
+          </option>
+        </select>
+      </div>
+      <div class="col-3">
+        <label *ngIf="!isGlobal">Party</label>
+      </div>
+      <div class="col-3">
+        <span *ngIf="!isGlobal">
+          <auto-suggestion (onSelected)="getPartyDetail($event)" url="Suggestion/GetCompanies2?type=ALL" display="name"
+            placeholder="Search Party Name" style="width:100%;" class="auto-suggest" [preSelected]="{name:party.name}"
+            (change)="resetData($event)">
+          </auto-suggestion>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+
+      <div class="col-3">
+        <label *ngIf="!isGlobal">Material</label>
+      </div>
+      <div class="col-3">
+        <span *ngIf="!isGlobal">
+          <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
+            placeholder="Search Material Name" style="width:100%;" class="auto-suggest"
+            [preSelected]="{name:material.name}" (change)="resetMaterail($event)">
+          </auto-suggestion>
+          <!-- <auto-suggestion (onSelected)="" url="Suggestion/GetMaterialTypes" display="name"
+            placeholder="Material Name" style="width:100%;" class="auto-suggest"
+            [preSelected]="{name:party.name}" (change)="">
+          </auto-suggestion> -->
+        </span>
+      </div>
+
+      <div class="col-6">
+        <button class="btn btn-primary" (click)="saveReportFormat()">{{btnName}}</button>
+        <button class="btn btn-danger" *ngIf="btnName=='Update Format'" (click)="resetFormatData()" style="margin-left:25px">Cancel</button>
+        <button class="btn btn-info" (click)="getReportFormat()" style="margin-left:25px">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <smart-table *ngIf="reportFormats && reportFormats.length" [data]="table.data" [settings]="table.settings">
+    </smart-table>
+  </div>
+  <div class="no-data alert alert-danger" role="alert" *ngIf="reportFormats.length==0">
+    No Data available !
+  </div>
+</div>

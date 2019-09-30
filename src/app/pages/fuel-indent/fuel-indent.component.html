@@ -1,7 +1,7 @@
 <nb-card style="border: 0px; height: 100%;">
     <nb-card-header class="fuel-indent">
         <span>
-            <h5>Fuel Indent</h5>
+            <h5>Fuel/Cash Indent</h5>
         </span>
     </nb-card-header>
     <nb-card-body>
@@ -23,14 +23,24 @@
                         [isStart]="false">
                     </uj-date-time-picker>
                 </div>
-                <div class="col-2">
+                <div class="col-1-5 mr-3">
+                    <select class="form-control" name="indentType" id="indentType" [(ngModel)]="indentType">
+                        <option name="fuelIndent" [value]="0">
+                            Fuel-Indent
+                        </option>
+                        <option name="cashIndent" [value]="1">
+                            Cash-Indent
+                        </option>
+                    </select>
+                </div>
+                <div class="col-1-5 mr-3">
                     <select class="form-control" name="dropDown" id="dropDown" [(ngModel)]="vehicleType">
                         <option *ngFor="let status of dropDown1" [value]="status.id">
                             {{status.name}}
                         </option>
                     </select>
                 </div>
-                <div class="col-2">
+                <div class="col-1-5 mr-3">
                     <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="vehicleStatus">
                         <option *ngFor="let status of dropDown2" [value]="status.id">
                             {{status.name}}

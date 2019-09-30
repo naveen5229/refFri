@@ -1,3 +1,56 @@
-<p>
-  vehicles-view works!
-</p>
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Vehicle Details</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="model-body" style="margin-left: 10px; margin-right: 10px; padding:10px; border:2px solid lightgray;margin-bottom:10px;margin-top:10px;">
+
+  
+
+<div class="row">
+    <div class="col-6">
+      <label class="col-6">Reg No.</label><span class="col-6">{{driver.regNo}}</span>
+    </div><div class="col-6">
+        <label class="col-6">Vehicle Type</label><span class="col-6">{{driver.vehicleType}}</span>
+    </div>
+</div>
+  <div class="row">
+      <div class="col-6">
+          <label class="col-6">Vehicle Maker</label><span class="col-6">{{driver.vehicleMaker}}</span>
+      </div><div class="col-6">
+          <label class="col-6">Vehicle Model</label><span class="col-6">{{driver.vehicleModel}}</span>
+          
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label class="col-6">Chassis No.</label><span class="col-6">{{driver.chassisNo}}</span>
+        </div><div class="col-6">
+            <label class="col-6">Gross Vehicle Weight</label><span class="col-6">{{driver.gvw}}</span>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-6">
+              <label class="col-6">Bs Code</label><span class="col-6">{{driver.bsCode}}</span>
+          </div><div class="col-6">
+              <label class="col-6">Maker Name</label><span class="col-6">{{driver.makerName}}</span>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label class="col-6">Modal Name</label><span class="col-6">{{driver.modalName}}</span>
+            </div><div class="col-6">
+                <label class="col-6">Body Type</label><span class="col-6">{{driver.bodyType}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <label class="col-6">Capacity</label><span class="col-6">{{driver.capacity}}</span>
+            </div>
+            <div class="col-6">
+              <label class="col-6">Engine No.</label><span class="col-6">{{driver.engineNo}}</span>
+            </div>
+          </div>
+</div>

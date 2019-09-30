@@ -11,16 +11,18 @@
       <div class="row">
         <div class="col-md-4 pr-0">
           Vehicle : {{vehicleNo}}
-          <!-- <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
-                placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion> -->
+
         </div>
-        <div class="col-md-3 pr-0">
-          <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="startDate"
-            placeholder="Start Date" (click)="getDate('start')">
+        <div class="col-md-4 pr-0">
+          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
+          </uj-date-time-picker>
+
         </div>
-        <div class="col-md-3 pr-0">
-          <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="endDate"
-            placeholder="End Date" (click)="getDate('end')">
+        <div class="col-md-4 pr-0">
+          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isStart]="false"
+            [isTime]="false">
+          </uj-date-time-picker>
+
         </div>
       </div>
       <div class="row">

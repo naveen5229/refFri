@@ -233,6 +233,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/lr-pod-receipts',
       },
       {
+        title: 'Fuel/Cash Indent',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-indent',
+        home: true,
+      },
+      {
         title: 'Expenses',
         icon: 'fa fa-book',
         link: '/pages/expenses',
@@ -340,12 +346,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/fse-entry',
         home: true,
       },
-      {
-        title: 'Fuel Indent',
-        icon: 'fas fa-gas-pump',
-        link: '/pages/fuel-indent',
-        home: true,
-      },
+     
       {
         title: 'Fuel Mileage With ODO',
         icon: 'fas fa-gas-pump',

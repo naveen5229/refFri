@@ -251,6 +251,9 @@ import { MvsLrAssignComponent } from './modals/FreightRate/mvs-lr-assign/mvs-lr-
 import { GenericSuggestionComponent } from './modals/generic-modals/generic-suggestion/generic-suggestion.component';
 import { ManifestGenerateComponent } from './modals/LRModals/manifest-generate/manifest-generate.component';
 import { DriverPersonalInfoComponent } from './modals/driver-personal-info/driver-personal-info.component';
+import { AddCompanyAssociationComponent } from './modals/add-company-association/add-company-association.component';
+import { FreightRateSummaryComponent } from './modals/FreightRate/freight-rate-summary/freight-rate-summary.component';
+import { AddReportFormatsComponent } from './modals/add-report-formats/add-report-formats.component';
 
 
 
@@ -474,10 +477,15 @@ import { DriverPersonalInfoComponent } from './modals/driver-personal-info/drive
     MvsLrAssignComponent,
     GenericSuggestionComponent,
     ManifestGenerateComponent,
+    VehiclesViewComponent,
     DriverPersonalInfoComponent,
+    AddCompanyAssociationComponent,
+    FreightRateSummaryComponent,
+    AddReportFormatsComponent,
 
   ],
   entryComponents: [
+    AddReportFormatsComponent,
     AddDispatchOrderComponent,
     ViewMVSFreightStatementComponent,
     FreightInvoiceRateComponent,
@@ -683,7 +691,10 @@ import { DriverPersonalInfoComponent } from './modals/driver-personal-info/drive
     MvsLrAssignComponent,
     GenericSuggestionComponent,
     ManifestGenerateComponent,
-    DriverPersonalInfoComponent
+    VehiclesViewComponent,
+    DriverPersonalInfoComponent,
+    AddCompanyAssociationComponent,
+    FreightRateSummaryComponent
   ],
   imports: [
     BrowserModule,

@@ -5,6 +5,7 @@ import { DatePickerComponent } from '../../date-picker/date-picker.component';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { BasicPartyDetailsComponent } from '../../basic-party-details/basic-party-details.component';
 
 
 @Component({
@@ -107,9 +108,13 @@ export class FoFreightRatesComponent implements OnInit {
 
     });
   }
+
   addCompany() {
-    console.log("open material modal")
-    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    console.log("open material modal");
+    this.common.params={
+      modelname:"Fright Rate Input",
+    }
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Data:', data);
     });

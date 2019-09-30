@@ -6,6 +6,19 @@
     </button>
 </div>
 <div class="modal-body" style="max-height: 500px;">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="radio-type">
+                <input type="radio" value="0" name="radio" [(ngModel)]="selectModalTypeId"
+                    (change)="changeModal(selectModalTypeId)">Fuel Indent
+                <input type="radio" value="1" name="radio" [(ngModel)]="selectModalTypeId"
+                    (change)="changeModal(selectModalTypeId)">Cash Indent
+            </div>
+        </div>
+    </div>
+
+
     <div class="fuel-indent mt-2">
         <form [formGroup]="fuelIndent" name="fuelIndent-form" id="fuelIndent-form"
             (submit)="fuelIndent.valid && saveFuelIndent()">
@@ -25,7 +38,7 @@
                     <label>Regno:</label>
                 </div>
                 <div class="col-3" *ngIf="fuelIndentData.vehicleType==1">
-                    <auto-suggestion (onSelected)="selectVehicle($event)" id="regno" controlName="regno"
+                    <auto-suggestion (onSelected)="selectVehicle($event)" inputId="regno" controlName="regno"
                         [parentForm]="fuelIndent" [ngClass]="{ 'is-invalid': isFormSubmit && f.regno.errors }"
                         name="regno" url="Suggestion/getFoVehicleList" display="regno" placeholder="Vehicle Number"
                         [preSelected]="{regno:fuelIndentData.regno}"></auto-suggestion>
@@ -34,8 +47,9 @@
                     </div>
                 </div>
                 <div *ngIf="fuelIndentData.vehicleType!=1" class="col-3">
-                    <input type="text" class="form-control" formControlName="regno" [(ngModel)]="fuelIndentData.regno"
-                        [ngClass]="{ 'is-invalid': isFormSubmit && f.regno.errors }" autocomplete="off">
+                    <input type="text" class="form-control" formControlName="regno" id="customRegno"
+                        [(ngModel)]="fuelIndentData.regno" [ngClass]="{ 'is-invalid': isFormSubmit && f.regno.errors }"
+                        autocomplete="off">
                     <div *ngIf="isFormSubmit && f.regno.errors" class="error">
                         <div *ngIf="f.regno.errors.required">value is Require</div>
                     </div>
@@ -69,11 +83,10 @@
             <div class="row" *ngIf="edit">
                 <div class="col-3"><label>Regno</label></div>
                 <div class="col-3">{{fuelIndentData.regno}}</div>
-                <!-- <div class="col-3"><label>{{fuelIndentData.refType}}</label></div> -->
                 <div class="col-4">{{fuelIndentData.refName}}</div>
             </div>
 
-            <div class="row mt-2">
+            <div class="row mt-2" *ngIf="selectModalTypeId=='0'; else cashIndent">
                 <div class="col-3">
                     <form>
                         <input type="radio" name="radio" value='0' [(ngModel)]="indentType" class="radioType">
@@ -106,6 +119,34 @@
                     </div>
                 </div>
             </div>
+            <ng-template #cashIndent>
+                <div class="row mt-2">
+                    <div class="col-3">
+                        <label>Amount</label>
+
+                    </div>
+                    <div class="col-3">
+                        <input type="text" id="indentTypeValue" formControlName="indentTypeValue"
+                            [ngClass]="{ 'is-invalid': isFormSubmit && f.indentTypeValue.errors }"
+                            name="indentTypeValue" class="form-control" autocomplete="off" placeholder="Enter value"
+                            [(ngModel)]="fuelIndentData.amount">
+                        <div *ngIf="isFormSubmit && f.indentTypeValue.errors" class="invalid-feedback">
+                            <div *ngIf="f.indentTypeValue.errors.required">Value is require</div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <label>Ledger:</label>
+                    </div>
+                    <div class="col-3">
+                        <auto-suggestion (onSelected)="selectLedger($event)" inputId="ledger" controlName="ledger"
+                            [parentForm]="fuelIndent" [ngClass]="{ 'is-invalid': isFormSubmit && f.ledger.errors }"
+                            name="ledger" url="Suggestion/GetAllLedger" display="name" placeholder="Ledger "
+                            [preSelected]="{name:fuelIndentData.ledgerName}"></auto-suggestion>
+                    </div>
+                </div>
+            </ng-template>
+
+
         </form>
 
         <div class="row mt-2">
@@ -129,16 +170,24 @@
 
         <div class="row mt-2">
             <div class="col-3">
+                <label>Branch ID</label>
+            </div>
+            <div class="col-3">
+                <auto-suggestion (onSelected)="fuelIndentData.branchId=$event.id" inputId="branchId" name="branchId"
+                    [data]="branchList" display="name" placeholder="branchId"
+                    [preSelected]="{name:fuelIndentData.branchName}"></auto-suggestion>
+            </div>
+            <div class="col-2">
                 <label>Remark:</label>
             </div>
             <div class="col-4">
-                <textarea name="comment" class="form-control" rows="5" cols="5"
+                <textarea name="remark" id="remark" class="form-control" rows="5" cols="5"
                     [(ngModel)]="fuelIndentData.remark"></textarea>
             </div>
         </div>
     </div>
 
-    <div class="row text-right">
+    <div class="row text-right mt-2">
         <div class="col text-right">
             <button type="submit" class="btn btn-primary" form="fuelIndent-form"
                 (click)="isFormSubmit=true">{{button}}</button>

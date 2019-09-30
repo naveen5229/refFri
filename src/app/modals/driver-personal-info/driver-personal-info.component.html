@@ -1,105 +1,149 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Driver Personal Information</h4>
-    <!-- <h2>Update Driver Attendance</h2> -->
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+        <h5 class="modal-title" id="modal-basic-title">View Driver Details</h5>
+        <span (click)="printHandler()" class="doNotPrint print-icon text-rigth"><i class="fa fa-print"></i></span>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <p aria-hidden="true">&times;</p>
+      </button>
+      
+    </div>
 <div class="modal-body">
-    <h5><u><b>Personal Information</b></u></h5>
-    <div class="row mt-3">
+    <h4 class="hed1" style="margin-left:5px;"><u><b>Personal Information</b></u></h4>
+    <div class="row mt-3 divborderstyle">
 
         <div class="col-8">
-            <div class="row">
-                <div class="col-8">
-                    <label>Full Name :</label>&nbsp;<span>{{name}}</span>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <label class="col-6">Full Name:</label><span class="ml-2 col-6">{{name}}</span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6">
-                    <label>D.O.B</label><span>{{DOB}}</span>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <label class="col-6">D.O.B:</label><span class="ml-2 col-6">{{DOB}}</span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-8">
-                    <label>Mobile Number :</label><span>{{pNumber}}</span>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <label class="col-6">Mobile Number:</label><span class="ml-2 col-6">{{pNumber}}</span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-8">
-                    <label>Secondary Number :</label><span>{{sNumber}}</span>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <label class="col-6">Secondary Number:</label><span class="ml-2 col-6">{{sNumber}}</span>
                 </div>
             </div>
+
+            
+
+                <div class="row mt-2">
+                        <div class="col-12">
+                            <label class="col-6">Adhar Number:</label><span class="ml-2 col-6">{{aadhar}}</span>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <label class="col-6">PAN Number:</label><span class="ml-2 col-6">{{pan}}</span>
+                        </div>
+                    </div>
+                    <div class="row mt-2 mb-5">
+                            <div class="col-12">
+                                <label class="col-6">Permanent Address:</label><span class="ml-2 col-6">{{address}}</span>
+                            </div>
+                        </div>
+
         </div>
         <div class="col-4 text-rigth">
-            <img src="{{photo}}" style="width: 192px;
-            margin-top: -20px;
-            height: 148px;" />
+            <img  [src]="photo" style="width:192px;margin-top:10px;height: 148px;border:2px solid lightgray;border-radius: 2px;"/>
+        </div>
+    </div>
+    
+   
+    <h4 class="headingstyle hed2"><u><b>Licence Information</b></u></h4>
+    <div class="divborderstyle">
+    <div class="row mt-3 ">
+        <div class="col-8 ">
+            <div class="col-12">
+            <label class="col-6">DL Number:</label><span class="ml-2 col-6">{{LicenceNo}}</span>
+        </div></div>
+    </div>
+    <div class="row mt-3 ">
+        <div class="col-8 ">
+                <div class="col-12">
+            <label class="col-6">DL Expiry Date:</label><span class="ml-2 col-6">{{DLexpiry}}</span>
+        </div></div>
+    </div>
+    <div class="row mt-3 ">
+        <div class="col-8">
+                <div class="col-12">
+            <label class="col-6">DL Type:</label><span class="ml-2 col-6">{{Dltype}}</span>
+        </div></div>
+    </div>
+</div>
 
-        </div>
+
+<h4 class="headingstyle hed3"><u><b>Bank Detail</b></u></h4>
+<div style="border:2px solid lightgray; padding:10px;margin-left:5px;margin-right:5px;border-radius:2px;">
+    <div class="row mt-2">
+        <div class="col-8">
+                <div class="col-12">
+            <label class="col-6">Name:</label><span class="ml-2 col-6">{{bankName}}</span>
+        </div></div>
     </div>
-    <div class="row mt-3">
-        <div class="col-12 ">
-            <label>Permanent Address :</label><span>{{address}}</span>
-        </div>
-    </div>
-    <div class="row mt-3 ">
-        <div class="col-6 ">
-            <label>Adhar Number : </label><span>{{aadhar}}</span>
-        </div>
-        <div class="col-6">
-            <label>Pan Number :</label><span>{{pan}}</span>
-        </div>
-    </div>
-    <h4><u><b>Licence Information</b></u></h4>
-    <div class="row mt-3 ">
-        <div class="col-3 ">
-            <label>DL Number :</label><span>{{LicenceNo}}</span>
-        </div>
-    </div>
-    <div class="row mt-3 ">
-        <div class="col-3 ">
-            <label>Dl Expiry Date :</label><span>{{DLexpiry}}</span>
-        </div>
-    </div>
-    <div class="row mt-3 ">
-        <div class="col-3 ">
-            <label>Dl Type :</label><span>{{Dltype}}</span>
-        </div>
-    </div>
-    <h5><u><b>Gurantee Detail</b></u></h5>
-    <div class="row mt-3 ">
-        <div class="col-12 ">
-            <label>Guranter Name :</label><span>{{Gname}}</span>
-        </div>
-    </div>
-    <div class="row mt-3 ">
-        <div class="col-12 ">
-            <label>Guranter Mobile :</label><span>{{GuranterM}}</span>
+
+    <div class="row mt-2">
+            <div class="col-8">
+                    <div class="col-12">
+                <label class="col-6">Account No:</label><span class="ml-2 col-6">{{bankAccountNumber}}</span>
+            </div></div>
         </div>
 
+        <div class="row mt-2">
+                <div class="col-8">
+                        <div class="col-12">
+                    <label class="col-6">IFSC Code:</label><span class="ml-2 col-6">{{bankIfscCode}}</span>
+                </div></div>
+            </div>
+</div>
+
+    <h4 class="headingstyle hed4"><u><b>Guarantor Detail</b></u></h4>
+    <div class="divborderstyle">
+    <div class="row mt-2 ">
+        <div class="col-8">
+                <div class="col-12">
+            <label class="col-6">Guarantor Name:</label><span class="ml-2 col-6">{{Gname}}</span>
+        </div></div>
     </div>
-    <div class="row mt-3 ">
+    <div class="row mt-2 ">
+        <div class="col-8">
+                <div class="col-12">
+            <label class="col-6">Guarantor Mobile:</label><span class="ml-2 col-6">{{GuranterM}}</span>
+        </div></div>
+
+    </div>
+</div>
+<div class="mt-3" style="margin-left:5px;">
+    <div class="row mt-2 ">
         <div class="col-4 ">
             <div class="form-group ">
                 <label>------------</label>
                 <br>
-                <label>Driver Signture</label>
+                <label>Driver Signature:</label>
             </div>
         </div>
         <div class="col-4 ">
             <div class="form-group ">
                 <label>------------</label>
                 <br>
-                <label>Guranter Signture</label>
+                <label>Guarantor Signature:</label>
             </div>
         </div>
         <div class="col-4 ">
             <div class="form-group ">
                 <label>------------</label>
                 <br>
-                <label>Manager</label>
+                <label>Manager:</label>
             </div>
         </div>
     </div>
+</div>
+
 </div>

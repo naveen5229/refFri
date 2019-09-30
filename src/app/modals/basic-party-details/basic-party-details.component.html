@@ -28,14 +28,17 @@
                                     autocomplete="off">
                             </div>
                         </div>
-                        <div class="row mt-2">
+                        <div *ngIf="partyId==null" class="row mt-2">
                             <div class="col-4">
-                                <label>Alias:</label>
+                                <label>Association Type<span class="text-red">*</span></label>
                             </div>
                             <div class="col-8">
-                                <input type="text" id="cmpAlias" class="form-control" formControlName="cmpAlias"
-                                    [(ngModel)]="cmpAlias" name="cmpAlias" autocomplete="off">
-
+                                <select class="form-control" name="dropdown" id="dropdown" formControlName="association"
+                                    [(ngModel)]="assType">
+                                    <option *ngFor="let type of associationTypes" [value]="type.y_id">
+                                        {{type.y_groupname}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -50,6 +53,38 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-4">
+                                <label>Website:</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" class="form-control" formControlName="website" [(ngModel)]="website">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label>Alias:</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" id="cmpAlias" class="form-control" formControlName="cmpAlias"
+                                    [(ngModel)]="cmpAlias" name="cmpAlias" autocomplete="off">
+                            </div>
+                        </div>
+                        <div *ngIf="partyId==null" class="row mt-2">
+                            <div class="col-4">
+                                <label>Branch Name:</label>
+                            </div>
+                            <div class="col-8">
+                                <select class="form-control" name="branchDropdown" id="branchDropdown"
+                                    formControlName="branch" [(ngModel)]="branchId">
+                                    <option *ngFor="let branch of branchs" [value]="branch.id">
+                                        {{branch.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-4">
                                 <label>GST NO:</label>
                             </div>
                             <div class="col-8">
@@ -60,71 +95,11 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-4">
-                                <label>User Supplier Code:</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input id="userSupplier" name="user" formControlName="userSupplier"
-                                    [(ngModel)]="userCode" type="text" placeholder="Enter User Supplier Code"
-                                    autocomplete="off" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="row mt-2">
-                            <div class="col-4">
-                                <label>Association Type<span class="text-red">*</span></label>
+                                <label>Address</label>
                             </div>
                             <div class="col-8">
-                                <select class="form-control" name="dropdown" id="dropdown" formControlName="assType"
-                                    [ngClass]="{ 'is-invalid': isFormSubmit && f.assType }" [(ngModel)]="assType">
-                                    <option *ngFor="let type of associationType" [value]="type.y_id">
-                                        {{type.y_groupname}}
-                                    </option>
-                                </select>
-                                <!-- <div *ngIf="isFormSubmit && f.assType.errors" class="error">
-                                <div *ngIf="f.assType.errors.required">Association Type is Require</div>
-                            </div> -->
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-4">
-                                <label>Branch Name:</label>
-                            </div>
-                            <div class="col-8">
-                                <select class="form-control" name="dropdown" id="dropdown" formControlName="branchId"
-                                    [(ngModel)]="branchId">
-                                    <option *ngFor="let branch of branchs" [value]="branch.id">
-                                        {{branch.name}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-4">
-                                <label>Website:</label>
-                            </div>
-                            <div class="col-8">
-                                <input type="text" class="form-control" formControlName="website" [(ngModel)]="website">
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-4">
-                                <label>Remark</label>
-                            </div>
-                            <div class="col-8">
-                                <textarea name="comment" class="form-control" formControlName="remark" form="usrform"
-                                    [(ngModel)]="remark"></textarea>
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-4">
-                                <label>Party Supplier Code:</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input id="partySupplier" name="party" formControlName="partySupplier"
-                                    [(ngModel)]="partyCode" type="text" placeholder="Enter Party Supplier Code"
-                                    autocomplete="off" class="form-control">
+                                <textarea name="comment" class="form-control" formControlName="address" form="usrform"
+                                    [(ngModel)]="address"></textarea>
                             </div>
                         </div>
                     </div>
@@ -140,6 +115,8 @@
             <div class="">
                 <div class="tabs_style_main">
                     <ul class="tabs_style text-left">
+                        <li [ngClass]="activeTab=='Company Association'?'active':''"
+                            (click)="activeTab='Company Association'">Association</li>
                         <li [ngClass]="activeTab=='Company Branches'?'active':''"
                             (click)="activeTab='Company Branches'">Offices</li>
                         <li [ngClass]="activeTab=='Company Establishment'?'active':''"
@@ -153,6 +130,22 @@
             </div>
             <div class="">
                 <div class="manage-Party">
+                    <div *ngIf="activeTab=='Company Association'">
+                        <div class="">
+                            <div class="text-right">
+                                <button type="button" class="btn btn-primary p-2 rounded-sm"
+                                    (click)="addeditCompanyAssociation()">Add company Association</button>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="">
+                                <smart-table *ngIf="companyAssociation && companyAssociation.length"
+                                    [data]="table0.companyAssociation" [settings]="table0.settings"
+                                    id="companyAssociation">
+                                </smart-table>
+                            </div>
+                        </div>
+                    </div>
                     <div *ngIf="activeTab=='Company Branches'">
                         <div class="">
                             <div class="text-right">
