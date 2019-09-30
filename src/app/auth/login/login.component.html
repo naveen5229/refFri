@@ -11,7 +11,7 @@
   </div>
   <h1 id="title" class="title">{{user._loggedInBy == 'admin' ? 'Admin' : 'FBP'}} Login</h1>
   <!-- <p class="sub-title">Discover...<span class="title">Smart</span> Logistics</p> -->
-  <p class="sub-title" *ngIf="user._loggedInBy != 'admin' ">eLogist is building an integrated AI-driven utilisation
+  <p class="sub-title">eLogist is building an integrated AI-driven utilisation
     based digital platform
     for the
     Transportation industry</p>
@@ -36,7 +36,7 @@
 
 
   <div *ngIf="listenOTP">
-    <!-- <form #otpForm="ngForm" (submit)="otpForm.valid && login()">
+    <form #otpForm="ngForm" (submit)="otpForm.valid && login()">
 
       <div class="form-group">
         <input [(ngModel)]="userDetails.otp" #otp="ngModel" name="otp" id="input-otp" placeholder="OTP number"
@@ -46,21 +46,21 @@
           <div class="error" [hidden]="!otp.errors.minlength">OTP must be 04 digit long</div>
           <div class="error" [hidden]="!otp.errors.pattern">Invalid OTP number</div>
         </div>
-      </div>-->
+      </div>
 
-    <!-- <p class="resendOtp" *ngIf="otpCount && listenOTP">Remaining Time in {{otpCount}} seconds..</p> -->
-    <!--<p class="resendOtp" style="cursor:pointer;" *ngIf="!otpCount && listenOTP" (click)="sendOTP()">Resend OTP</p>
+      <p class="resendOtp" *ngIf="otpCount && listenOTP">Remaining Time in {{otpCount}} seconds..</p>
+      <p class="resendOtp" style="cursor:pointer;" *ngIf="!otpCount && listenOTP" (click)="sendOTP()">Resend OTP</p>
 
 
       <button type="submit" (click)="formSubmit = true" class="btn btn-primary btn-block custom-btn">
         Login
       </button>
-    </form> -->
+    </form>
 
-    <div class="qrClass">
+    <!-- <div class="qrClass">
       <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="[qrCode]" qrc-class="qr-class"
         qrc-errorCorrectionLevel="M">
       </ngx-qrcode>
-    </div>
+    </div> -->
   </div>
 </div>
