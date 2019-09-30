@@ -273,6 +273,7 @@ export class AddReportFormatsComponent implements OnInit {
               this.common.loading--;
 
               this.common.showToast(res['msg']);
+              this.resetFormatData();
 
               this.getReportFormat();
             }, err => {
