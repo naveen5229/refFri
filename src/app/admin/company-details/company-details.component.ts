@@ -32,7 +32,7 @@ export class CompanyDetailsComponent implements OnInit {
 
   getCompanies() {
     ++this.common.loading;
-    this.api.get('company/getCompanies')
+    this.api.get('company/getCompanies2')
       .subscribe(res => {
         --this.common.loading;
         console.log("response", res);
