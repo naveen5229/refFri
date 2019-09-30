@@ -254,6 +254,7 @@ import { DriverPersonalInfoComponent } from './modals/driver-personal-info/drive
 import { AddCompanyAssociationComponent } from './modals/add-company-association/add-company-association.component';
 import { FreightRateSummaryComponent } from './modals/FreightRate/freight-rate-summary/freight-rate-summary.component';
 import { AddReportFormatsComponent } from './modals/add-report-formats/add-report-formats.component';
+import { FreightRateRulesComponent } from './modals/FreightRate/freight-rate-rules/freight-rate-rules.component';
 
 
 
@@ -482,9 +483,11 @@ import { AddReportFormatsComponent } from './modals/add-report-formats/add-repor
     AddCompanyAssociationComponent,
     FreightRateSummaryComponent,
     AddReportFormatsComponent,
+    FreightRateRulesComponent,
 
   ],
   entryComponents: [
+    FreightRateRulesComponent,
     AddReportFormatsComponent,
     AddDispatchOrderComponent,
     ViewMVSFreightStatementComponent,
