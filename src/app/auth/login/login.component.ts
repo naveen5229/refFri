@@ -13,7 +13,6 @@ import { ActivityService } from '../../services/Activity/activity.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  // id:5
   userDetails = {
     mobile: '',
     otp: '',
@@ -33,7 +32,6 @@ export class LoginComponent implements OnInit {
     public user: UserService,
     public activity: ActivityService,
     public api: ApiService) {
-
 
   }
 
@@ -99,7 +97,7 @@ export class LoginComponent implements OnInit {
         console.log(res);
         if (res['success']) {
           this.listenOTP = true;
-          this.otpCount = 10;
+          this.otpCount = 120;
           this.qrCode = Math.floor(Math.random() * 1000000);
           if (this.qrCode.length != 6) {
             this.qrCode = Math.floor(Math.random() * 1000000);
@@ -210,7 +208,7 @@ export class LoginComponent implements OnInit {
       this.otpCount = 0;
       this.formSubmit = false;
       this.qrCode = null;
-    }, 10000);
+    }, 120000);
 
     this.interval = setInterval(() => {
       this.repatedApiHit();
@@ -218,6 +216,9 @@ export class LoginComponent implements OnInit {
   }
 
   repatedApiHit() {
+    //   if (this.interval) {
+    //     clearInterval(this.interval);
+    //  }
     console.log("interval", this.interval);
     console.log("Api Hit");
   }
