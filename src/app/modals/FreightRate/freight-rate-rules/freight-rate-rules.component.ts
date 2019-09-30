@@ -25,7 +25,7 @@ export class FreightRateRulesComponent implements OnInit {
 
   rateRules = [];
 
-  rateApplied = 'LR';
+  rateApplied = '1';
   rateParam = 'weight';
   rateName = null;
   rateId = null;
@@ -190,8 +190,8 @@ export class FreightRateRulesComponent implements OnInit {
         this.accountService.selected.branch.id = res['data'][0]['branch_id'];
         this.accountService.selected.branchId = res['data'][0]['branch_id'];
         this.accountService.selected.branch.name = res['data'][0]['branch_name'];
-        this.rateApplied = res['data'][0]['rate_applied'];
-        this.rateParam = res['data'][0['rate_param']]
+        this.rateApplied = res['data'][0]['rule_value'];
+        this.rateParam = res['data'][0]['rule_type'];
         this.rateName = res['data'][0]['name'];
       }, err => {
         this.common.loading--;
@@ -278,7 +278,7 @@ export class FreightRateRulesComponent implements OnInit {
         this.accountService.selected.branch.id = null;
         this.accountService.selected.branchId = null;
         this.accountService.selected.branch.name = null;
-        this.rateApplied = 'LR';
+        this.rateApplied = '1';
         this.rateParam = 'weight';
         this.rateName = null;
         this.btnName="Add Rule";

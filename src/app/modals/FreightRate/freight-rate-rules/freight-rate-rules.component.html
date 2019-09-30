@@ -66,16 +66,17 @@
           </div>
           <div class="col-3">
               <select [(ngModel)]="rateApplied" class="form-control">
-                  <option value='LR'>LR</option>
-                  <option value='POD'>POD</option>
-                  <option value='LOWER'>Lower</option>
-                  <option value='UPPER'>Upper</option>
+                  <option value='1'>LR</option>
+                  <option value='2'>POD</option>
+                  <option value='3'>Lower</option>
+                  <option value='4'>Upper</option>
                 </select>
           </div>
   
        
       </div>
-      <div>
+      <div class="row mt-2">
+        <div class="col-5"></div>
           <div class="col-6">
               <button class="btn btn-primary" (click)="saveRateFormat()">{{btnName}}</button>
               <button class="btn btn-danger" (click)="resetRateData()" style="margin-left:25px" *ngIf="btnName == 'Update Rule'">Cancel</button>
