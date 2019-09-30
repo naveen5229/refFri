@@ -8,6 +8,8 @@ import {
   NbThemeService
 } from "@nebular/theme";
 import { Router } from "@angular/router";
+
+import { Http, Headers } from '@angular/http';
 import { DatePipe, FormatWidth } from "@angular/common";
 import { ApiService } from "./api.service";
 import { DataService } from "./data.service";
@@ -76,6 +78,7 @@ export class CommonService {
     public dataService: DataService,
     public user: UserService,
     private datePipe: DatePipe,
+    private http: Http
   ) { }
 
   showError(msg?, err?) {
@@ -939,10 +942,30 @@ export class CommonService {
     });
 
 
-    doc.save("report.pdf");
+    // doc.save("report.pdf");
 //   var FileSaver = require('file-saver');
 // var blob = new Blob(["Hello, world!"]);
-// FileSaver.saveAs(blob);
+// FileSaver.saveAs(blob,'report.json');
+
+// const blob = new Blob(["Hello, world!"], { type: 'text/csv' });
+// const url= window.URL.createObjectURL(blob);
+// window.open(url);
+
+// const blob = new Blob(["Hello, world!"], { type: 'text/plain' });
+// saveAs(blob, 'test.pdf');
+const headers = new Headers();
+headers.append('Accept', 'text/plain');
+this.http.get('/api/files', { headers: headers })
+  .toPromise()
+  .then(response => this.saveToFileSystem(response));
+  }
+
+  private saveToFileSystem(response) {
+    const contentDispositionHeader: string = response.headers.get('Content-Disposition');
+    const parts: string[] = contentDispositionHeader.split(';');
+    const filename = parts[1].split('=')[1];
+    const blob = new Blob([response._body], { type: 'text/plain' });
+    saveAs(blob, filename);
   }
 
   downloadPdf(divId, isLandscape?) {
