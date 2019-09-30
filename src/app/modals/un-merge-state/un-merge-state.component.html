@@ -123,10 +123,10 @@
         <div #map id="map"></div>
         <div class="time-line-event">
           <div class="time-line-scale"></div>
-          <!-- <div *ngFor="let event of vehicleEventsR; let i = index;" class="time-line-circle"
+          <div *ngFor="let event of vehicleEventsR; let i = index;" class="time-line-circle"
             [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'%'} "
             (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo(event)" (click)="setEventInfo(event,true)">
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
