@@ -1,11 +1,135 @@
 <div class="modal-header">
-    <h5 class="modal-title" id="modal-basic-title">Unmerge State</h5>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+  <h5 class="modal-title" id="modal-basic-title">UnMerge State</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
-    <div class="row">
-        <div class="col-6">
 
+<div class="modal-body">
+  <div class="un-Merge-Status ">
+    <span><b><i class="fa fa-truck"></i>:</b> {{unMergeStatus.regno}}</span> &nbsp;&nbsp;
+    <span><b><i class="fa fa-address-card"></i> :</b> {{unMergeStatus.vehicleId}}</span> &nbsp;&nbsp;
+  </div>
+
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="row">
+        <!-- <div class="col-sm-6" *ngIf="lUlBtn">
+          <div style="height: 480px; overflow: auto; width: 100%;">
+            <table class="table table-bordered table-hover halts-show">
+              <tbody>
+                <tr>
+                  <th>Dt</th>
+                  <th>Loc</th>
+                  <th>Dist</th>
+                  <th>Days</th>
+                  <th>HT</th>
+                </tr>
+                <tr *ngFor="let lUL of loadingUnLoading;let i = index; ">
+                  <td>{{lUL.date}}</td>
+                  <td>{{lUL.loc}}</td>
+                  <td>{{lUL.distance}}</td>
+                  <td>{{lUL.days}}</td>
+                  <td>{{lUL.y_halt_desc}}</td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div> -->
+        <div [class]="'col-sm-12'">
+
+          <div class="tableFixHead">
+            <table class="table table-bordered table-hover halts-show" style="border:1px gray solid">
+              <thead>
+                <th>#</th>
+                <th>Date</th>
+                <th>Start</th>
+                <th>Duration</th>
+                <th>End</th>
+                <th>Location</th>
+                <th>Dist</th>
+                <th>KM/h</th>
+                <th>AdUserId <span style="margin-left:15px"><i class="fa fa-refresh report-btn"
+                      (click)="mapReset();"></i></span></th>
+              </thead>
+              <tbody *ngFor="let unMergeEvent of unMergeEvents;let i = index;">
+                <tr [id]="'unMergeEvent-row-'+i"
+                  [ngStyle]="{'color':!unMergeEvent.lastType ? 'none':(unMergeEvent.lastType==21?'red':'green'),
+                            'border':  unMergeEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  unMergeEvent.desc!='Trails'? '#'+unMergeEvent.color :'#fff'}"
+                  (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
+
+                  <td (click)="openSmartTool(i,unMergeEvent);" *ngIf="unMergeEvent.inflexCode!=-1"><b><span
+                        *ngIf="unMergeEvent.y_is_manual">*</span>{{i+1}}</b>
+                  </td>
+                  <td (click)="openSmartTool(i,unMergeEvent);" *ngIf="unMergeEvent.inflexCode==-1"><span
+                      *ngIf="unMergeEvent.y_is_manual">*</span>{{i+1}}</td>
+                  <td (click)="openSmartTool(i,unMergeEvent);">{{unMergeEvent.date}}</td>
+                  <td (click)="openSmartTool(i,unMergeEvent);">
+                    {{unMergeEvent.ts_start}}</td>
+                  <td (click)="openSmartTool(i,unMergeEvent);">{{unMergeEvent.duration}}</td>
+                  <td (click)="openSmartTool(i,unMergeEvent);">{{unMergeEvent.ts_end}}</td>
+                  <td (click)="openSmartTool(i,unMergeEvent); " *ngIf="unMergeEvent.y_site_type_id==1">
+                    {{unMergeEvent.site_name}},{{unMergeEvent.loc}}</td>
+                  <td (click)="openSmartTool(i,unMergeEvent);" *ngIf="unMergeEvent.y_site_type_id!=1">
+                    {{unMergeEvent.loc}}
+                  </td>
+                  <td (click)="openSmartTool(i,unMergeEvent);">{{unMergeEvent.distance}}</td>
+                  <td (click)="openSmartTool(i,unMergeEvent);">{{unMergeEvent.kmph}}</td>
+                  <td (click)="openSmartTool(i,unMergeEvent);">{{unMergeEvent.aduserid}}
+                    <input *ngIf="unMergeEvent.vs_id && unMergeEvent.haltId == null" [(ngModel)]="isChecks[i]"
+                      (change)="mergeWithVS(unMergeEvent.vs_id,unMergeEvent.haltId,isChecks[i],i)" type="checkbox"
+                      class="pull-right" style="margin-top:1px;" />
+                  </td>
+
+                </tr>
+                <tr *ngIf="unMergeEvent.isOpen">
+                  <td colspan="9">
+                    <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
+                        <span class="zoom-btn" (click)="setZoom(6)">1</span>
+                        <span class="zoom-btn" (click)="setZoom(9)">2</span>
+                        <span class="zoom-btn" (click)="setZoom(12)">3</span>
+                        <span class="zoom-btn" (click)="setZoom(15)">4</span>
+                        <span class="zoom-btn" (click)="setZoom(18)">5</span>
+                        <span class="zoom-btn" (click)="showHide()">{{showHideSite}}</span>
+
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:20px;margin-bottom:50px;text-align: center" *ngIf="ref_page!='ari'">
+            <button class="btn btn-primary" (click)="reviewComplete(1)" style="padding:5px" *ngIf="btnStatus">Review
+              Done</button>
+            <button class="btn btn-primary" (click)="reviewComplete(-1)" style="padding:5px ; margin-left:20px">Advanced
+              Review</button>
+          </div>
+          <div style="margin-top:30px;margin-bottom:50px;text-align: center" *ngIf="ref_page=='ari'">
+            <button (click)="resolveTicket(1)" style="padding:5px" *ngIf="btnStatus">Accept</button>
+            <button (click)="resolveTicket(-1)" style="padding:5px ; margin-left:20px">Reject</button>
+          </div>
         </div>
+      </div>
+
+
+    </div>
+    <div class="col-sm-6">
+
+      <!-- table div location -->
+      <div [class]="'map-container'">
+        <div #map id="map"></div>
+        <div class="time-line-event">
+          <div class="time-line-scale"></div>
+          <!-- <div *ngFor="let event of vehicleEventsR; let i = index;" class="time-line-circle"
+            [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'%'} "
+            (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo(event)" (click)="setEventInfo(event,true)">
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
