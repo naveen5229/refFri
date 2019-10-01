@@ -107,10 +107,23 @@ export class AssignUserTemplateComponent implements OnInit {
       partyId: this.party.id
     }
     console.log("paraaaaaaaaaaaaa",params)
-  
-    
+    this.common.loading++;
+    this.api.post('UserTemplate/assign', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res:', res);
+        if (res['data'][0].y_id <= 0) {
+          this.common.showError(res['data'][0].y_msg);
+        }
+        else {
+          this.common.showToast(res['data'][0].y_msg);
+          this.getUserViews(true);
+        }
 
-    
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
   changeTemplateType(template) {
