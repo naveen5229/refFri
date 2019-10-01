@@ -55,10 +55,10 @@
                       (click)="mapReset();"></i></span></th>
               </thead>
               <tbody *ngFor="let unMergeEvent of unMergeEvents;let i = index;">
-                <tr [id]="'unMergeEvent-row-'+i"
+                <tr [id]="'unMergeEvent-row-'+i" [ngClass]="unMergeEvent.halt_id == null ?'black':'')"
                   [ngStyle]="{'color':!unMergeEvent.lastType ? 'none':(unMergeEvent.lastType==21?'red':'green'),
                             'border':  unMergeEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  unMergeEvent.desc!='Trails'? '#'+unMergeEvent.color :'#fff'}"
-                  (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
+                  (mouseover)="mapService.toggleBounceMF(i,1)" (mouseout)="mapService.toggleBounceMF(i,2)">
 
                   <td (click)="openSmartTool(i,unMergeEvent);" *ngIf="unMergeEvent.inflexCode!=-1"><b><span
                         *ngIf="unMergeEvent.y_is_manual">*</span>{{i+1}}</b>
@@ -87,11 +87,11 @@
                 <tr *ngIf="unMergeEvent.isOpen">
                   <td colspan="9">
                     <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
-                        <span class="zoom-btn" (click)="setZoom(6)">1</span>
-                        <span class="zoom-btn" (click)="setZoom(9)">2</span>
-                        <span class="zoom-btn" (click)="setZoom(12)">3</span>
-                        <span class="zoom-btn" (click)="setZoom(15)">4</span>
-                        <span class="zoom-btn" (click)="setZoom(18)">5</span>
+                        <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
+                        <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
+                        <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
+                        <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
+                        <span class="zoom-btn" (click)="mapService.zoomMap(19)">5</span>
 
                       </span>
                     </div>
