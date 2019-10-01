@@ -241,10 +241,13 @@ export class AssignUserTemplateComponent implements OnInit {
 
   unassignTemplate(view) {
     let params = {
-      templateId: view._id,
+      templateId: view._template_id,
       branchId: view._branch_id,
       type: view._ref_type,
       isAssign: "false",
+      materialId:view._material_id,
+      partyId:view._party_id,
+      rowId:view._id
     }
     if (view._id) {
       this.common.params = {
