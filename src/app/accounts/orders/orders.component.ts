@@ -1546,20 +1546,20 @@ let invoiceJson={};
      
       details: [
      
-        { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
-        { name: 'Invoice No', value: voucherdataprint.custcode },
-        { name: 'Invoice Date', value: voucherdataprint.date },
-        { name: 'Purchase Ledger', value: voucherdataprint.purchaseledger.name },
-        { name: 'Supplier Ledger', value: voucherdataprint.ledger.name },
-        { name: 'Supplier Ref. No', value: voucherdataprint.vendorbidref },
-        { name: 'P.O.No.', value: voucherdataprint.qutationrefrence },
-        { name: 'Shipment Location', value: voucherdataprint.shipmentlocation },
-        { name: 'Payment Terms', value: voucherdataprint.paymentterms },
-        { name: 'Bilty Number', value: voucherdataprint.biltynumber },
-        { name: 'Bilty Date', value: voucherdataprint.biltydate },
-        { name: 'Dilivery Terms', value: voucherdataprint.deliveryterms },
-        { name: 'Billing Address', value: voucherdataprint.billingaddress },
-        { name: 'Invoice Remarks', value: voucherdataprint.orderremarks }
+        { name: 'Invoice Type : ', value: voucherdataprint.ordertype.name },
+        { name: 'Invoice No : ', value: voucherdataprint.custcode },
+        { name: 'Invoice Date : ', value: voucherdataprint.date },
+        { name: 'Purchase Ledger : ', value: voucherdataprint.purchaseledger.name },
+        { name: 'Supplier Ledger : ', value: voucherdataprint.ledger.name },
+        { name: 'Supplier Ref. No : ', value: voucherdataprint.vendorbidref },
+        { name: 'P.O.No. : ', value: voucherdataprint.qutationrefrence },
+        { name: 'Shipment Location : ', value: voucherdataprint.shipmentlocation },
+        { name: 'Payment Terms : ', value: voucherdataprint.paymentterms },
+        { name: 'Bilty Number : ', value: voucherdataprint.biltynumber },
+        { name: 'Bilty Date : ', value: voucherdataprint.biltydate },
+        { name: 'Dilivery Terms : ', value: voucherdataprint.deliveryterms },
+        { name: 'Billing Address : ', value: voucherdataprint.billingaddress },
+        { name: 'Invoice Remarks : ', value: voucherdataprint.orderremarks }
       ],
       table: {
         headings: [
@@ -1595,10 +1595,10 @@ let invoiceJson={};
     
      details: [
     
-       { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
-       { name: 'Invoice No', value: voucherdataprint.custcode },
-       { name: 'Invoice Date', value: voucherdataprint.date },
-       { name: 'Purchase Ledger', value: voucherdataprint.purchaseledger.name },
+       { name: 'Invoice Type : ', value: voucherdataprint.ordertype.name },
+       { name: 'Invoice No : ', value: voucherdataprint.custcode },
+       { name: 'Invoice Date : ', value: voucherdataprint.date },
+       { name: 'Purchase Ledger : ', value: voucherdataprint.purchaseledger.name },
      ],
      table: {
        headings: [
@@ -1630,21 +1630,21 @@ let invoiceJson={};
     
      details: [
     
-       { name: 'Invoice Type', value: voucherdataprint.ordertype.name },
-       { name: 'Invoice No', value: voucherdataprint.custcode },
-       { name: 'Invoice Date', value: voucherdataprint.date },
-       { name: 'Sales Ledger', value: voucherdataprint.purchaseledger.name },
-       { name: 'Party Name', value: voucherdataprint.ledger.name },
-       { name: 'Order No', value: voucherdataprint.vendorbidref },
-       { name: 'Other Reference', value: voucherdataprint.qutationrefrence },
-       { name: 'Shipment Location', value: voucherdataprint.shipmentlocation },
-       { name: 'Payment Terms', value: voucherdataprint.paymentterms },
-       { name: 'Eway Bill Number', value: voucherdataprint.biltynumber },
-       { name: 'Eway Bill Date', value: voucherdataprint.biltydate },
-       { name: 'Dilivery Terms', value: voucherdataprint.deliveryterms },
-       { name: 'Billing Address', value: voucherdataprint.billingaddress },
-       { name: 'Consignee Address', value: voucherdataprint.grnremarks },
-       { name: 'Invoice Remarks', value: voucherdataprint.orderremarks }
+       { name: 'Invoice Type : ', value: voucherdataprint.ordertype.name },
+       { name: 'Invoice No : ', value: voucherdataprint.custcode },
+       { name: 'Invoice Date : ', value: voucherdataprint.date },
+       { name: 'Sales Ledger : ', value: voucherdataprint.purchaseledger.name },
+       { name: 'Party Name : ', value: voucherdataprint.ledger.name },
+       { name: 'Order No : ', value: voucherdataprint.vendorbidref },
+       { name: 'Other Reference : ', value: voucherdataprint.qutationrefrence },
+       { name: 'Shipment Location : ', value: voucherdataprint.shipmentlocation },
+       { name: 'Payment Terms : ', value: voucherdataprint.paymentterms },
+       { name: 'Eway Bill Number : ', value: voucherdataprint.biltynumber },
+       { name: 'Eway Bill Date : ', value: voucherdataprint.biltydate },
+       { name: 'Dilivery Terms : ', value: voucherdataprint.deliveryterms },
+       { name: 'Billing Address : ', value: voucherdataprint.billingaddress },
+       { name: 'Consignee Address : ', value: voucherdataprint.grnremarks },
+       { name: 'Invoice Remarks : ', value: voucherdataprint.orderremarks }
      ],
      table: {
        headings: [
