@@ -14,6 +14,15 @@ export class AssignUserTemplateComponent implements OnInit {
   showdata = {
     show: true
   }
+  party = {
+    name: null,
+    id: null,
+    address: null
+  }
+  material = {
+    name: null,
+    id: null
+  }
   alltemplateList = [];
   templateList = [];
   branchId = null;
@@ -49,6 +58,10 @@ export class AssignUserTemplateComponent implements OnInit {
       this.templateTypeShow = this.common.params.preAssignUserTemplate.type;
       this.templateName = this.common.params.preAssignUserTemplate.name;
       this.templateId = this.common.params.preAssignUserTemplate.id;
+      this.party.id  =  this.common.params.preAssignUserTemplate.partyId;
+      this.party.name =this.common.params.preAssignUserTemplate.partyName;
+      this.material.name =this.common.params.preAssignUserTemplate.materialName;
+      this.material.id = this.common.params.preAssignUserTemplate.materialId;
       this.getUserViews(true);
     } else {
       this.getUserViews();
@@ -72,30 +85,32 @@ export class AssignUserTemplateComponent implements OnInit {
       });
   }
 
+  getPartyDetail(party) {
+    console.log("party", party);
+    this.party.address = party.address;
+    this.party.name = party.name;
+    this.party.id = party.id;
+  }
+
+  getMaterialDetail(material) {
+    this.material.name = material.name;
+    this.material.id = material.id;
+  }
+
   assignTemplate(isAssign = "true") {
     let params = {
       templateId: this.templateId,
       branchId: this.accountService.selected.branch.id,
       type: this.templateType,
       isAssign: isAssign,
+      materialId:this.material.id,
+      partyId: this.party.id
     }
-    this.common.loading++;
-    this.api.post('UserTemplate/assign', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('res:', res);
-        if (res['data'][0].y_id <= 0) {
-          this.common.showError(res['data'][0].y_msg);
-        }
-        else {
-          this.common.showToast(res['data'][0].y_msg);
-          this.getUserViews(true);
-        }
+    console.log("paraaaaaaaaaaaaa",params)
+  
+    
 
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+    
   }
 
   changeTemplateType(template) {
@@ -106,6 +121,14 @@ export class AssignUserTemplateComponent implements OnInit {
   selectTemplateType() {
     document.getElementById('templateId')['value'] = '';
     this.filterTemplate();
+  }
+
+  resetData(type) {
+    this.party.id = null;
+  }
+
+  resetMaterail(material) {
+    this.material.id = null;
   }
 
   getUserViews(isBranch = false) {
