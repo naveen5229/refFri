@@ -10,6 +10,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.component';
 import { LrInvoiceColumnsComponent } from '../../pages/lr-invoice-columns/lr-invoice-columns.component';
 import { AddReportFormatsComponent } from '../../modals/add-report-formats/add-report-formats.component';
+import { FreightRateRulesComponent } from '../../modals/FreightRate/freight-rate-rules/freight-rate-rules.component';
 @Component({
   selector: 'lr-diagnostics',
   templateUrl: './lr-diagnostics.component.html',
@@ -119,6 +120,13 @@ export class LrDiagnosticsComponent implements OnInit {
 
   lrInvoice() {
     const activeModal = this.modalService.open(AddReportFormatsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    });
+  }
+
+  freightRateRules(){
+    const activeModal = this.modalService.open(FreightRateRulesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
