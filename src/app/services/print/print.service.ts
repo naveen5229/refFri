@@ -785,9 +785,9 @@ export class PrintService {
     footerContainer.className = 'pp-v1-footer';
     footerContainer.innerHTML = `
       <div class="row">
-        <div class="col-4"><strong>${footer.left.name}</strong>: <span>${footer.left.value}</span></div>
-        <div class="col-4 text-center"><strong>${footer.center.name}</strong>: <span>${footer.center.value}</span></div>
-        <div class="col-4 text-right"><strong>${footer.right.name}</strong>: <span class="page-number">${page}</span></div>
+        <div class="col-4">${footer.left.name}: <span>${footer.left.value}</span></div>
+        <div class="col-4 text-center">${footer.center.name}: <span>${footer.center.value}</span></div>
+        <div class="col-4 text-right">${footer.right.name}: <span class="page-number">${page}</span></div>
       </div>`;
     return footerContainer;
   }
