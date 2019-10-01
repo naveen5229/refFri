@@ -3,11 +3,11 @@
         display: none !important;
     }
 }
-.templatePreview{
 
+.templatePreview {
+    border: 1px solid black;
     width: -webkit-fill-available !important;
 }
-
 
 print-section {
     z-index: 999;
@@ -17,7 +17,7 @@ print-section {
     content: "\f021";
     margin-right: 15px;
     font-size: 24px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .btn.doNotPrint {
@@ -531,18 +531,17 @@ print-section {
     }
 }
 
-
-:host ::ng-deep .fa-plus-square{
+:host ::ng-deep .fa-plus-square {
     color: green !important;
     font-size: 20px !important;
 }
-:host ::ng-deep .fa-minus-square{
+
+:host ::ng-deep .fa-minus-square {
     color: red !important;
     font-size: 20px !important;
     margin-left: 20px;
 }
-:host ::ng-deep .value{
+
+:host ::ng-deep .value {
     display: none !important;
 }
-
-
