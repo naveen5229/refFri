@@ -3,6 +3,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'un-merge-state',
@@ -55,6 +56,7 @@ export class UnMergeStateComponent implements OnInit {
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
 
     setTimeout(() => {
+
       this.getUnMergeStates();
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
       });
@@ -123,13 +125,11 @@ export class UnMergeStateComponent implements OnInit {
         console.log(err);
       })
   }
-
-  setBounds(latlng) {
-    if (!this.bounds)
-      this.bounds = this.map.getBounds();
-    this.bounds.extend(latlng);
-    this.map.fitBounds(this.bounds);
+  mapReset() {
+    this.getUnMergeStates();
   }
+
+
 
   resetBtnStatus() {
     this.btnStatus = true;
@@ -229,12 +229,63 @@ export class UnMergeStateComponent implements OnInit {
       });
   }
 
-  mapReset() {
-    this.reloadData();
+
+  drop(event: CdkDragDrop<string[]>) {
+    console.log('Previous Event: ', event.previousIndex);
+    console.log("current Event", event.currentIndex);
+
+    moveItemInArray(this.unMergeEvents, event.previousIndex, event.currentIndex);
+
   }
 
-  reloadData() {
-    this.getUnMergeStates();
+  onDragEnded(event, index, movedItem) {
+    console.log('onDragEnded: ', event, index, movedItem);
+    let offsetsCurrent = document.getElementById('unMergeEvent-row-' + index).getBoundingClientRect();
+    let middle = (offsetsCurrent.top + offsetsCurrent.bottom) / 2;
+    let movedOnItem = null;
+    this.unMergeEvents.map((unMergeEvent, i) => {
+      if (index !== i) {
+        let offset = document.getElementById('unMergeEvent-row-' + i).getBoundingClientRect();
+        if (middle >= offset.top && middle <= offset.bottom) {
+          movedOnItem = unMergeEvent;
+        }
+      }
+    });
+
+    if (movedOnItem) {
+      this.common.showToast('Moved Item Detected');
+      this.siteMerge(movedItem, movedOnItem);
+    } else {
+      this.common.showError('You have moved to different location');
+    }
+  }
+
+  siteMerge(movedItem, movedOnItem) {
+    console.log("SiteMerge");
+    console.log('Moved: ', movedItem);
+    console.log('Moved On: ', movedOnItem);
+    let params = {
+      dragHaltId: movedItem.haltId,
+      dropHaltId: movedOnItem.haltId
+    };
+    this.mapReset();
+
+    // this.common.loading++;
+    // console.log(params);
+    // this.api.post('HaltOperations/mergeHalts', params)
+    //   .subscribe(res => {
+    //     this.common.loading--;
+    //     if (res['success']) {
+    //       this.mapReset();
+    //     } else {
+    //       this.common.showToast(res['msg']);
+    //       this.mapReset();
+    //     }
+    //   }, err => {
+    //     this.common.loading--;
+    //     console.log(err);
+    //     this.common.showError(err);
+    //   });
   }
 
 

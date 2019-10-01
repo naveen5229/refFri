@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">UnMerge State</h5>
+  <h5 class="modal-title" id="modal-basic-title">unmerge State</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -15,29 +15,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="row">
-        <!-- <div class="col-sm-6" *ngIf="lUlBtn">
-          <div style="height: 480px; overflow: auto; width: 100%;">
-            <table class="table table-bordered table-hover halts-show">
-              <tbody>
-                <tr>
-                  <th>Dt</th>
-                  <th>Loc</th>
-                  <th>Dist</th>
-                  <th>Days</th>
-                  <th>HT</th>
-                </tr>
-                <tr *ngFor="let lUL of loadingUnLoading;let i = index; ">
-                  <td>{{lUL.date}}</td>
-                  <td>{{lUL.loc}}</td>
-                  <td>{{lUL.distance}}</td>
-                  <td>{{lUL.days}}</td>
-                  <td>{{lUL.y_halt_desc}}</td>
 
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div> -->
         <div [class]="'col-sm-12'">
 
           <div class="tableFixHead">
@@ -55,9 +33,16 @@
                       (click)="mapReset();"></i></span></th>
               </thead>
               <tbody *ngFor="let unMergeEvent of unMergeEvents;let i = index;">
-                <tr [id]="'unMergeEvent-row-'+i" [ngClass]="unMergeEvent.halt_id == null ?'black':'')"
+                <!-- <tr [id]="'unMergeEvent-row-'+i" [ngClass]="unMergeEvent.halt_id == null ?'black':''"
                   [ngStyle]="{'color':!unMergeEvent.lastType ? 'none':(unMergeEvent.lastType==21?'red':'green'),
                             'border':  unMergeEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  unMergeEvent.desc!='Trails'? '#'+unMergeEvent.color :'#fff'}"
+                  (mouseover)="mapService.toggleBounceMF(i,1)" (mouseout)="mapService.toggleBounceMF(i,2)"> -->
+
+
+                <tr cdkDrag [id]="'unMergeEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
+                  (cdkDragEnded)="onDragEnded($event, i, unMergeEvent)" cdkDragLockAxis="y"
+                  [ngClass]="unMergeEvent.halt_id == null ?'black':''"
+                  [ngStyle]="{'border':  unMergeEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  unMergeEvent.desc!='Trails'? '#'+unMergeEvent.color :'#fff'}"
                   (mouseover)="mapService.toggleBounceMF(i,1)" (mouseout)="mapService.toggleBounceMF(i,2)">
 
                   <td (click)="openSmartTool(i,unMergeEvent);" *ngIf="unMergeEvent.inflexCode!=-1"><b><span
