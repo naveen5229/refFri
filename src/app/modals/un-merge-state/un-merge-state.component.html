@@ -35,6 +35,7 @@
           <div cdkDropList [cdkDropListData]="unMergeEvents" (cdkDropListDropped)="drop($event)" class="drag-list">
             <div class="row drag-box m-0" *ngFor="let unMergeEvent of unMergeEvents; let i = index;" cdkDrag
               [ngClass]="unMergeEvent.halt_id == null ?'black':''" [id]="'unMergeEvent-row-'+i"
+              [cdkDragDisabled]="!unMergeEvent.id"
               [ngStyle]="{'border':  unMergeEvent.y_place_id ? '4px dashed red' : '1px solid black', 'background-color' :  unMergeEvent.desc!='Trails'? '#'+unMergeEvent.color :'#fff'}"
               (mouseover)="mapService.toggleBounceMF(i,1)" (mouseout)="mapService.toggleBounceMF(i,2)">
 
@@ -71,7 +72,7 @@
                   class="pull-right" style="margin-top:1px;" />
               </div>
               <div *ngIf="unMergeEvent.isOpen">
-                <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
+                <div class="row zoomOnMap"> <span>
                     <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
                     <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
                     <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
