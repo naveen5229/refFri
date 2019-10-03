@@ -123,6 +123,9 @@ export class SaveUserTemplateComponent implements OnInit {
           if (this.template.id == null) {
             this.reset();
             this.getTemplateId();
+            if (this.button == 'Add') {
+              this.activeModal.close();
+            }
           }
         }
         else {
