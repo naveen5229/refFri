@@ -73,7 +73,7 @@
 
             <auto-suggestion *ngIf="destination.type == 'site'"
               (onSelected)="selectSuggestion($event,i,'destinations','site')" url="Suggestion/getSites?typeId=1"
-              seperator="-" [display]="['name','siteName']" placeholder="Search Site" inputId="'site-'+i"
+              seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site" inputId="'site-'+i"
               [preSelected]="destination">
             </auto-suggestion>
 
