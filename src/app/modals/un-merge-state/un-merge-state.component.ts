@@ -233,10 +233,20 @@ export class UnMergeStateComponent implements OnInit {
   drop(event: CdkDragDrop<string[]>) {
     console.log('Previous Event: ', event.previousIndex);
     console.log("current Event", event.currentIndex);
+    console.log("Data", event.container.data);
 
-    moveItemInArray(this.unMergeEvents, event.previousIndex, event.currentIndex);
-
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
   }
+
+
+
 
   onDragEnded(event, index, movedItem) {
     console.log('onDragEnded: ', event, index, movedItem);
@@ -268,9 +278,8 @@ export class UnMergeStateComponent implements OnInit {
       dragHaltId: movedItem.id,
       dropHaltId: movedOnItem.id
     };
-
-    this.common.loading++;
     console.log("Params......", params);
+    this.common.loading++;
     this.api.post('HaltOperations/mergeHalts', params)
       .subscribe(res => {
         this.common.loading--;
