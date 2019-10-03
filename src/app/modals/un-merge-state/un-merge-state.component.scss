@@ -164,7 +164,100 @@
   text-transform: capitalize;
   outline: none;
 }
-.black {
-  background: black !important;
-  color: #0a84fe;
+
+// .............
+
+.drag-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 25px 25px 0;
+  display: inline-block;
+  vertical-align: top;
+  height: 390px;
+  overflow-y: scroll;
+  border-bottom: 2px solid gray;
+  z-index: 99999999;
+}
+
+.drag-list {
+  border: solid 1px #ccc;
+  min-height: 60px;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  display: block;
+  z-index: 99999999;
+}
+
+.drag-box {
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: white;
+  font-size: 14px;
+  z-index: 99999999;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  z-index: 100000 !important;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+  z-index: 99999999;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  z-index: 9999;
+}
+
+.drag-box:last-child {
+  border: none;
+}
+
+.drag-list.cdk-drop-list-dragging .drag-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  z-index: 9999;
+}
+
+.drag-handle {
+  // position: absolute;
+  // top: 10px;
+  // right: 10px;
+  // color: #ccc;
+  cursor: move;
+  width: 16px;
+  height: 16px;
+  z-index: 9999;
+}
+
+.row-head {
+  background-color: #000;
+  color: #fff;
+}
+
+.row-head .col-th {
+  padding: 0px 20px;
+  width: 9%;
+  word-spacing: normal;
+}
+
+.drag-box .col-td {
+  width: 10%;
+  padding: 6px 5px;
+}
+
+.drag-box .col-td :last-child {
+  border-right: 0px;
+}
+:host ::ng-deep .container {
+  padding: 0px !important;
 }

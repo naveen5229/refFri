@@ -265,27 +265,28 @@ export class UnMergeStateComponent implements OnInit {
     console.log('Moved: ', movedItem);
     console.log('Moved On: ', movedOnItem);
     let params = {
-      dragHaltId: movedItem.haltId,
-      dropHaltId: movedOnItem.haltId
+      dragHaltId: movedItem.id,
+      dropHaltId: movedOnItem.id
     };
-    this.mapReset();
 
-    // this.common.loading++;
-    // console.log(params);
-    // this.api.post('HaltOperations/mergeHalts', params)
-    //   .subscribe(res => {
-    //     this.common.loading--;
-    //     if (res['success']) {
-    //       this.mapReset();
-    //     } else {
-    //       this.common.showToast(res['msg']);
-    //       this.mapReset();
-    //     }
-    //   }, err => {
-    //     this.common.loading--;
-    //     console.log(err);
-    //     this.common.showError(err);
-    //   });
+    this.common.loading++;
+    console.log("Params......", params);
+    this.api.post('HaltOperations/mergeHalts', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("Api_______________", res['data']);
+
+        if (res['success']) {
+          this.mapReset();
+        } else {
+          this.common.showToast(res['msg']);
+          this.mapReset();
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+        this.common.showError(err);
+      });
   }
 
 
