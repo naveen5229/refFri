@@ -134,7 +134,6 @@ export class UnMergeStateComponent implements OnInit {
   resetBtnStatus() {
     this.btnStatus = true;
     this.unMergeEvents.forEach(vehicleEventDetail => {
-      console.log("vehicleEventDetail", vehicleEventDetail)
       if (vehicleEventDetail.color == 'ff13ec') {
         this.btnStatus = false;
         return;
@@ -144,25 +143,7 @@ export class UnMergeStateComponent implements OnInit {
 
   openSmartTool(i, vehicleEvent) {
     if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null)
-      // if (confirm("Merge with this Halt?")) {
-      //   this.common.loading++;
-      //   let params = { ms_id: this.vSId, hs_id: vehicleEvent.vs_id };
-      //   console.log("params", params);
-      //   this.api.post('HaltOperations/mergeManualStates', params)
-      //     .subscribe(res => {
-      //       this.common.loading--;
-      //       if (res['success']) {
-      //         this.reloadData();
-      //       } else {
-      //         this.common.showToast(res['msg']);
-      //         this.reloadData();
-      //       }
-      //     }, err => {
-      //       this.common.loading--;
-      //       this.common.showError(err);
-      //       console.log(err);
-      //     });
-      // }
+
       this.vSId = null;
     this.isChecks = {};
     console.log(this.onlyDrag);
@@ -231,8 +212,11 @@ export class UnMergeStateComponent implements OnInit {
 
 
   drop(event: CdkDragDrop<string[]>) {
-    console.log('Previous Event: ', event.previousIndex);
-    console.log("current Event", event.currentIndex);
+    let movedItem = this.unMergeEvents[event.previousIndex];
+    let movedOnItem = this.unMergeEvents[event.currentIndex];
+    console.log("Data", event);
+    console.log('Previous Event: ', event.previousIndex, this.unMergeEvents[event.previousIndex]);
+    console.log("current Event", event.currentIndex, this.unMergeEvents[event.currentIndex]);
     console.log("Data", event.container.data);
 
     if (event.previousContainer === event.container) {
@@ -243,37 +227,39 @@ export class UnMergeStateComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
     }
+    this.siteMerge(movedItem, movedOnItem);
   }
 
 
+  // onDragEnded(event, index, movedItem) {
+  //   console.log('onDragEnded: ', event, index, movedItem);
+  //   if (event) return;
+  //   let offsetsCurrent = document.getElementById('unMergeEvent-row-' + index).getBoundingClientRect();
+  //   let middle = (offsetsCurrent.top + offsetsCurrent.bottom) / 2;
+  //   let movedOnItem = null;
+  //   this.unMergeEvents.map((unMergeEvent, i) => {
+  //     if (index !== i) {
+  //       let offset = document.getElementById('unMergeEvent-row-' + i).getBoundingClientRect();
+  //       if (middle >= offset.top && middle <= offset.bottom) {
+  //         movedOnItem = unMergeEvent;
+  //       }
+  //     }
+  //   });
 
-
-  onDragEnded(event, index, movedItem) {
-    console.log('onDragEnded: ', event, index, movedItem);
-    let offsetsCurrent = document.getElementById('unMergeEvent-row-' + index).getBoundingClientRect();
-    let middle = (offsetsCurrent.top + offsetsCurrent.bottom) / 2;
-    let movedOnItem = null;
-    this.unMergeEvents.map((unMergeEvent, i) => {
-      if (index !== i) {
-        let offset = document.getElementById('unMergeEvent-row-' + i).getBoundingClientRect();
-        if (middle >= offset.top && middle <= offset.bottom) {
-          movedOnItem = unMergeEvent;
-        }
-      }
-    });
-
-    if (movedOnItem) {
-      this.common.showToast('Moved Item Detected');
-      this.siteMerge(movedItem, movedOnItem);
-    } else {
-      this.common.showError('You have moved to different location');
-    }
-  }
+  //   if (movedOnItem) {
+  //     this.common.showToast('Moved Item Detected');
+  //     this.siteMerge(movedItem, movedOnItem);
+  //   } else {
+  //     this.common.showError('You have moved to different location');
+  //   }
+  // }
 
   siteMerge(movedItem, movedOnItem) {
-    console.log("SiteMerge");
     console.log('Moved: ', movedItem);
     console.log('Moved On: ', movedOnItem);
+    if (movedItem.id == null || movedOnItem.id == null) {
+      return this.common.showError("Select valid Record");
+    }
     let params = {
       dragHaltId: movedItem.id,
       dropHaltId: movedOnItem.id

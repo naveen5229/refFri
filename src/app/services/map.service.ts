@@ -327,7 +327,7 @@ export class MapService {
     //console.log("index",index);
     //.log("test",test);
     //console.log("item",item);
-    console.log('Evtype:', evtype);
+    // console.log('Evtype:', evtype);
     if (this.markers[id]) {
       if (this.markers[id].getAnimation() == null && evtype == 1) {
         this.markers[id].setAnimation(google.maps.Animation.BOUNCE);
