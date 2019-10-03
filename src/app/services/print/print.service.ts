@@ -138,55 +138,55 @@ export class PrintService {
     let previousPageContainer = null;
     json.tables.map((tableJSON, tableIndex) => {
       let rowIndex = 0;
-      // while (rowIndex < tableJSON.rows.length) {
-      let pageContainer = previousPageContainer;
-      if (!pageContainer) {
-        pageContainer = this.createPageHtml();
-        ppContainer.appendChild(pageContainer);
-      }
-
-      let page = pageContainer.children[0];
-      let pageInsider = page.children[0];
-      if (tableIndex === 0 && rowIndex === 0) {
-        pageInsider.appendChild(this.createHeaderHtml(json.headers));
-        pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
-      }
-
-      let tableContainer = this.createTableHtml(tableJSON.name);
-      pageInsider.appendChild(tableContainer);
-      let table = tableContainer.children[1];
-      if (rowIndex == 0) {
-        table.appendChild(this.createTheadHtml(tableJSON.headings));
-      }
-
-      let tbody = this.createTbodyHtml()
-      table.appendChild(tbody);
-      let newPageFlag = false;
-      for (let i = rowIndex; i < tableJSON.rows.length; i++) {
-        let row = this.createTrHtml(tableJSON.rows[i]);
-        tbody.appendChild(row);
-        let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
-        console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
-        if (mm > pageSize && i != tableJSON.rows.length - 1) {
-          rowIndex = i + 1;
-          newPageFlag = true;
-          break;
+      while (rowIndex < tableJSON.rows.length) {
+        let pageContainer = previousPageContainer;
+        if (!pageContainer) {
+          pageContainer = this.createPageHtml();
+          ppContainer.appendChild(pageContainer);
         }
-        rowIndex++;
-      }
-      if (rowIndex == tableJSON.rows.length && tableIndex == json.tables.length - 1) {
-        pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
-        pageContainer.appendChild(this.createSignatureHtml(json.signatures));
-      }
 
-      pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
-      if (!newPageFlag) {
-        previousPageContainer = pageContainer;
-      } else {
-        pageIndex++;
-        previousPageContainer = null;
+        let page = pageContainer.children[0];
+        let pageInsider = page.children[0];
+        if (tableIndex === 0 && rowIndex === 0) {
+          pageInsider.appendChild(this.createHeaderHtml(json.headers));
+          pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
+        }
+
+        let tableContainer = this.createTableHtml(tableJSON.name);
+        pageInsider.appendChild(tableContainer);
+        let table = tableContainer.children[1];
+        if (rowIndex == 0) {
+          table.appendChild(this.createTheadHtml(tableJSON.headings));
+        }
+
+        let tbody = this.createTbodyHtml()
+        table.appendChild(tbody);
+        let newPageFlag = false;
+        for (let i = rowIndex; i < tableJSON.rows.length; i++) {
+          let row = this.createTrHtml(tableJSON.rows[i]);
+          tbody.appendChild(row);
+          let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
+          console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+          if (mm > pageSize && i != tableJSON.rows.length - 1) {
+            rowIndex = i + 1;
+            newPageFlag = true;
+            break;
+          }
+          rowIndex++;
+        }
+        if (rowIndex == tableJSON.rows.length && tableIndex == json.tables.length - 1) {
+          pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
+          pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+        }
+
+        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+        if (!newPageFlag) {
+          previousPageContainer = pageContainer;
+        } else {
+          pageIndex++;
+          previousPageContainer = null;
+        }
       }
-      // }
     });
   }
 
@@ -531,7 +531,7 @@ export class PrintService {
         headerIndex++;
         previousPageContainer = pageContainer;
       }
-      if(headerIndex === json.headers.length){
+      if (headerIndex === json.headers.length) {
         pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
       }
     };
@@ -615,7 +615,7 @@ export class PrintService {
         footerIndex++;
         previousPageContainer = pageContainer;
       }
-      if(footerIndex === json.footers.length){
+      if (footerIndex === json.footers.length) {
         pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
       }
     };
