@@ -168,6 +168,7 @@ export class SiteInOutComponent implements OnInit {
       });
   }
   changeRefernceType(type) {
+    this.siteName = type.name;
     this.siteId = this.sitesDatalist.find((element) => {
       console.log(element.name == type);
       if (element.is_flag == 2) {
