@@ -15,7 +15,7 @@ export class ConstraintsComponent implements OnInit {
     consignees: [{ name: '', id: '' }],
     transporter: [{ name: '', id: '' }],
     vehicles: [{ regno: '', id: '' }],
-    destinations: [{ name: '', id: '', type: '', sd_loc_name: '', location: '' },],
+    destinations: [{ name: '', id: '', type: '', siteName: '', location: '' },],
   }
   searchString = '';
   keepGoing = true;
@@ -78,7 +78,7 @@ export class ConstraintsComponent implements OnInit {
       id: '',
       regno: '',
       type: 'site',
-      sd_loc_name: '',
+      siteName: '',
       location: ''
     });
   }
@@ -106,7 +106,7 @@ export class ConstraintsComponent implements OnInit {
         break;
       case 'destinations':
         if (locationType == 'site') {
-          this.constraintsType[type][index] = { id: details.id, name: details.name, sd_loc_name: details.sd_loc_name, type: 'site' };
+          this.constraintsType[type][index] = { id: details.id, name: details.name, siteName: details.sd_loc_name, type: 'site' };
         }
         else {
           this.constraintsType[type][index] = { id: details.id, name: details.name ? details.name : '', location: details.location, type: 'map' };
