@@ -183,10 +183,7 @@ export class ManageFoPartyComponent implements OnInit {
     };
     cmpAssocDetail && (this.common.params['cmpAssocDetail'] = cmpAssocDetail);
     console.log("add", this.common.params);
-    const activeModal = this.modalService.open(BasicPartyDetailsComponent, {
-      size: "lg",
-      container: "nb-layout"
-    });
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     // activeModal.result.then(data => {
     //   if (data.response) {
     //     this.getCmpAssocWrtType();
@@ -206,7 +203,7 @@ export class ManageFoPartyComponent implements OnInit {
         container: "nb-layout"
       });
       activeModal.result.then(data => {
-        if (data.response) {
+        if (data) {
           this.getCmpAssocWrtType();
         }
       });

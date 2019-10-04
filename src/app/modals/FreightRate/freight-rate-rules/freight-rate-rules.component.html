@@ -1,0 +1,95 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Add Rule</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="clearfix">
+      <div class="row">
+        <div class="col-3">
+          <label>Rate Name</label>
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" [(ngModel)]="rateName">
+        </div>
+        <div class="col-3">
+            <label >Branch</label>
+        </div>
+        <div class="col-3">
+            <select class="form-control" [(ngModel)]="accountService.selected.branchId" (ngModelChange)="selectBranch();"
+            >
+            <option value="">Select Branch</option>
+            <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}
+            </option>
+          </select>
+          
+        </div>
+      </div>
+      <div class="row">
+     
+        <div class="col-3">
+          <label >Party</label>
+        </div>
+        <div class="col-3">
+          <span >
+            <auto-suggestion (onSelected)="getPartyDetail($event)" url="Suggestion/GetCompanies2?type=ALL" display="name"
+              placeholder="Search Party Name" style="width:100%;" class="auto-suggest" [preSelected]="{name:party.name}"
+              (change)="resetData($event)">
+            </auto-suggestion>
+          </span>
+        </div>
+        <div class="col-3">
+            <label >Material</label>
+          </div>
+          <div class="col-3">
+            <span >
+              <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
+                placeholder="Search Material Name" style="width:100%;" class="auto-suggest"
+                [preSelected]="{name:material.name}" (change)="resetMaterail($event)">
+              </auto-suggestion>
+            </span>
+          </div>
+      </div>
+      <div class="row">
+  
+          <div class="col-3">
+              <label>Rate Param</label>          
+          </div>
+          <div class="col-3">
+              <select [(ngModel)]="rateParam" class="form-control">
+                  <option value='weight'>Weight</option>
+                </select>
+          </div>
+          <div class="col-3">
+              <label>Rate Applied On</label>          
+          </div>
+          <div class="col-3">
+              <select [(ngModel)]="rateApplied" class="form-control">
+                  <option value='1'>LR</option>
+                  <option value='2'>POD</option>
+                  <option value='3'>Lower</option>
+                  <option value='4'>Upper</option>
+                </select>
+          </div>
+  
+       
+      </div>
+      <div class="row mt-2">
+        <div class="col-5"></div>
+          <div class="col-6">
+              <button class="btn btn-primary" (click)="saveRateFormat()">{{btnName}}</button>
+              <button class="btn btn-danger" (click)="resetRateData()" style="margin-left:25px" *ngIf="btnName == 'Update Rule'">Cancel</button>
+              <button class="btn btn-info" (click)="getRateData()" style="margin-left:25px">Search</button>
+            </div>
+      </div>
+    </div>
+  
+    <div class="row mt-2">
+      <smart-table *ngIf="rateRules && rateRules.length" [data]="table.data" [settings]="table.settings">
+      </smart-table>
+    </div>
+    <div class="no-data alert alert-danger" role="alert" *ngIf="rateRules.length==0">
+      No Data available !
+    </div>
+  </div>
