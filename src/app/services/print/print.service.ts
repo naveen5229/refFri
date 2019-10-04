@@ -56,7 +56,7 @@ export class PrintService {
   printInvoice(json: any, format: number = 1) {
     this['invoiceFormat' + format](this.createPrintWrapper(), json);
     console.log('json Format data', json);
-    //this.print();
+    this.print();
   }
 
   /**
