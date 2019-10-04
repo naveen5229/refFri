@@ -140,6 +140,7 @@
           <option value="-11">Paid By Card</option>
           <option value="-21">Paid By Cash</option>
         </select>
+
             </div>
             <div class="col-6">
                 <div class="form-group" *ngIf="isPump">
@@ -162,6 +163,10 @@
                     <label class="fill-elt">Cash To Driver</label>
                     <input class="fill-elt form-control" name="cash" id="cash" [(ngModel)]="driverCash" />
                 </div>
+            </div>
+            <div class="col-6" *ngIf="pumpPayType=='-21' && !isPump">
+                <auto-suggestion (onSelected)="getPumpData($event)" url="Suggestion/GetAllLedgerWrtFo" display="name" placeholder="Enter Pump Name" [preSelected]="{name:''}" class="fstn-name" style="width:60%;">
+                </auto-suggestion>
             </div>
 
 
