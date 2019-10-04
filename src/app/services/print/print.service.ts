@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 const PAGE_SIZE = {
-  chrome: 360,
+  chrome: 290,
   firefox: 280,
   safari: 360,
   ei: 280,
@@ -138,55 +138,56 @@ export class PrintService {
     let previousPageContainer = null;
     json.tables.map((tableJSON, tableIndex) => {
       let rowIndex = 0;
-      // while (rowIndex < tableJSON.rows.length) {
-      let pageContainer = previousPageContainer;
-      if (!pageContainer) {
-        pageContainer = this.createPageHtml();
-        ppContainer.appendChild(pageContainer);
-      }
-
-      let page = pageContainer.children[0];
-      let pageInsider = page.children[0];
-      if (tableIndex === 0 && rowIndex === 0) {
-        pageInsider.appendChild(this.createHeaderHtml(json.headers));
-        pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
-      }
-
-      let tableContainer = this.createTableHtml(tableJSON.name);
-      pageInsider.appendChild(tableContainer);
-      let table = tableContainer.children[1];
-      if (rowIndex == 0) {
-        table.appendChild(this.createTheadHtml(tableJSON.headings));
-      }
-
-      let tbody = this.createTbodyHtml()
-      table.appendChild(tbody);
-      let newPageFlag = false;
-      for (let i = rowIndex; i < tableJSON.rows.length; i++) {
-        let row = this.createTrHtml(tableJSON.rows[i]);
-        tbody.appendChild(row);
-        let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
-        console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
-        if (mm > pageSize && i != tableJSON.rows.length - 1) {
-          rowIndex = i + 1;
-          newPageFlag = true;
-          break;
+      while (rowIndex < tableJSON.rows.length) {
+        let pageContainer = previousPageContainer;
+        if (!pageContainer) {
+          pageContainer = this.createPageHtml();
+          ppContainer.appendChild(pageContainer);
         }
-        rowIndex++;
-      }
-      if (rowIndex == tableJSON.rows.length && tableIndex == json.tables.length - 1) {
-        pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
-        pageContainer.appendChild(this.createSignatureHtml(json.signatures));
-      }
 
-      pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
-      if (!newPageFlag) {
-        previousPageContainer = pageContainer;
-      } else {
-        pageIndex++;
-        previousPageContainer = null;
+        let page = pageContainer.children[0];
+        let pageInsider = page.children[0];
+        if (tableIndex === 0 && rowIndex === 0) {
+          pageInsider.appendChild(this.createHeaderHtml(json.headers));
+          pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
+        }
+
+        let tableContainer = this.createTableHtml(tableJSON.name);
+        pageInsider.appendChild(tableContainer);
+        let table = tableContainer.children[1];
+        if (rowIndex == 0) {
+          table.appendChild(this.createTheadHtml(tableJSON.headings));
+        }
+
+        let tbody = this.createTbodyHtml()
+        table.appendChild(tbody);
+        let newPageFlag = false;
+        for (let i = rowIndex; i < tableJSON.rows.length; i++) {
+          let row = this.createTrHtml(tableJSON.rows[i]);
+          tbody.appendChild(row);
+          let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
+          console.log('rowIndex', rowIndex, 'MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+          if (mm > pageSize && i != tableJSON.rows.length - 1) {
+            rowIndex = i + 1;
+            newPageFlag = true;
+            console.log('___________________NEW PAGE__________________');
+            break;
+          }
+          rowIndex++;
+        }
+        if (rowIndex == tableJSON.rows.length && tableIndex == json.tables.length - 1) {
+          pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
+          pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+        }
+
+        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+        if (!newPageFlag) {
+          previousPageContainer = pageContainer;
+        } else {
+          pageIndex++;
+          previousPageContainer = null;
+        }
       }
-      // }
     });
   }
 
@@ -531,7 +532,7 @@ export class PrintService {
         headerIndex++;
         previousPageContainer = pageContainer;
       }
-      if(headerIndex === json.headers.length){
+      if (headerIndex === json.headers.length) {
         pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
       }
     };
@@ -593,7 +594,6 @@ export class PrintService {
 
     let footerIndex = 0;
     while (footerIndex < json.footers.length) {
-      console.log('___________INDEX:', footerIndex, json.footers.length);
       let footer = json.footers[footerIndex];
       let pageContainer = previousPageContainer;
       if (!pageContainer) {
@@ -615,7 +615,7 @@ export class PrintService {
         footerIndex++;
         previousPageContainer = pageContainer;
       }
-      if(footerIndex === json.footers.length){
+      if (footerIndex === json.footers.length) {
         pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
       }
     };
@@ -649,7 +649,6 @@ export class PrintService {
   }
 
   createHeader2(header) {
-    console.log('_______________________Header:', header);
     let headerContainer = document.createElement('div');
     // headerContainer.className = 'pp-v1-header';
     headerContainer.className = "row";
@@ -711,7 +710,6 @@ export class PrintService {
     }).join('')}
       </div>
     `;
-    console.log('_________________________________________:', detailsContainer.innerHTML);
     return detailsContainer;
   }
 
@@ -736,7 +734,6 @@ export class PrintService {
    */
   createTheadHtml(headings: any[]) {
     let tHead = document.createElement('thead');
-    console.log('headings:__________________', headings);
     tHead.innerHTML = headings.map(heading => { return `<th>${heading.txt}</th>`; }).join('');
     return tHead;
   }
@@ -756,7 +753,6 @@ export class PrintService {
   createTrHtml(row: any[]) {
     let tr = document.createElement('tr');
     tr.innerHTML = row.map(col => {
-      console.log('{{{', col);
       return `<td colspan="${col.colspan || 1}" style="text-align: ${col.align || 'left'}">${
         (!col.txt || typeof col.txt === 'string' || typeof col.txt === 'number') ? (col.txt || '') : `<strong>${col.txt.name}</strong>: <span>${col.txt.value}</span>`
         }</td>`
@@ -785,9 +781,9 @@ export class PrintService {
     footerContainer.className = 'pp-v1-footer';
     footerContainer.innerHTML = `
       <div class="row">
-        <div class="col-4"><strong>${footer.left.name}</strong>: <span>${footer.left.value}</span></div>
-        <div class="col-4 text-center"><strong>${footer.center.name}</strong>: <span>${footer.center.value}</span></div>
-        <div class="col-4 text-right"><strong>${footer.right.name}</strong>: <span class="page-number">${page}</span></div>
+        <div class="col-4">${footer.left.name}: <span>${footer.left.value}</span></div>
+        <div class="col-4 text-center">${footer.center.name}: <span>${footer.center.value}</span></div>
+        <div class="col-4 text-right">${footer.right.name}: <span class="page-number">${page}</span></div>
       </div>`;
     return footerContainer;
   }

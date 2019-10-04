@@ -1,0 +1,16 @@
+<nb-card>
+    <nb-card-header>
+        <h5>Unmerge LR State</h5>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="no-data alert alert-danger" role="alert" *ngIf="unMerge.length==0">
+            No Data Available On That Time Period !
+        </div>
+
+        <div>
+            <smart-table *ngIf="unMerge.length>0" [data]="table.data" [settings]="table.settings"></smart-table>
+        </div>
+        <button class="btn btn-primary">Submit</button>
+    </nb-card-body>
+
+</nb-card>

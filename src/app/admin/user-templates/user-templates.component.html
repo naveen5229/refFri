@@ -7,14 +7,32 @@
   <nb-card-body>
     <div class="container">
       <div class="row">
-        <div class="col-6">
+        <div class="col-2">
+          <select class="form-control" name="templateType" [(ngModel)]="templateType">
+            <option value="LR_PRT">Lr</option>
+            <option value="FRINV">Invoice</option>
+            <option value='DSPOD_PRT'>Print Distpatch Order</option>
+            <option value='ALL'>All</option>
+          </select>
         </div>
-        <div class="col-6 text-right">
+        <div class="col-2">
+          <button class="btn btn-primary " (click)="getUserViews(false)">Get All Type</button>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary " (click)="getUserViews(true)">Get Fo Type</button>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary " (click)="getUserViews(null)">Get Unassign Type</button>
+        </div>
+        <div class="col-2 text-right">
           <button class="btn btn-primary mr-3" (click)="addAndEdit('Add',null)">Add</button>
-          <button class="btn btn-primary ml-3" (click)="assign('add',null)">Assign</button>
+          <!-- <button class="btn btn-primary ml-3" (click)="assign('add',null)">Assign</button> -->
         </div>
       </div>
     </div>
-    <smart-table *ngIf="views.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <div class="mt-2">
+      <smart-table *ngIf="views.length" [data]="table.data" [settings]="table.settings"></smart-table>
+
+    </div>
   </nb-card-body>
 </nb-card>
