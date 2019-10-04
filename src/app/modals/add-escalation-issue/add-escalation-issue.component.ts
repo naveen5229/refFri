@@ -27,7 +27,6 @@ export class AddEscalationIssueComponent implements OnInit {
   userLevel = "one";
   level = 1;
   escalationType = {
-    id: '',
     issueType: '',
     issueTypeValue: ''
   };
@@ -45,9 +44,9 @@ export class AddEscalationIssueComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal,
     public api: ApiService) {
-    if (this.common.params && this.common.params.foid) {
+    if (this.common.params) {
       this.escalationType = {
-        id: this.common.params.foid,
+        // id: this.common.params.foid,
         issueType: this.common.params.issueType,
         issueTypeValue: this.common.params.issueTypeValue,
       };
@@ -86,7 +85,7 @@ export class AddEscalationIssueComponent implements OnInit {
 
   getIssuePropertiesData() {
     let params = {
-      foid: this.escalationType.id,
+      // foid: this.escalationType.id,
       issue_type_id: this.escalationType.issueType,
     }
     this.common.loading++;
@@ -102,7 +101,7 @@ export class AddEscalationIssueComponent implements OnInit {
 
   getAddIssueTable() {
     let params = {
-      foid: this.escalationType.id,
+      // foid: this.escalationType.id,
       issue_type_id: this.escalationType.issueType
     };
     this.common.loading++;
@@ -173,7 +172,7 @@ export class AddEscalationIssueComponent implements OnInit {
       this.level = 4;
     }
     let params = {
-      foid: this.escalationType.id,
+      // foid: this.escalationType.id,
       issue_type_id: this.escalationType.issueType,
       user_id: this.addIssueField.userId,
       senior_user_id: this.addIssueField.SeniorId,
@@ -236,7 +235,7 @@ export class AddEscalationIssueComponent implements OnInit {
   addIssueConstraints(constraint) {
 
     let constraints = {
-      foId: constraint._foid,
+      // foId: constraint._foid,
       issueType: constraint._issue_type_id,
       id: constraint._row_id
     };
