@@ -127,18 +127,21 @@ export class LoginComponent implements OnInit {
       this.formSubmit = false;
       this.qrCode = null;
     }, 120000);
-
     this.interval = setInterval(() => {
       this.login();
     }, 5000);
+
   }
 
 
 
   login() {
     console.log("interval", this.interval);
-    console.log("Api Hit");
-    this.login();
+    if (this.otpCount <= 0) {
+      console.log("clear");
+      clearInterval(this.interval);
+    }
+
     const params = {
       type: "verifyotp",
       mobileno: this.userDetails.mobile,
@@ -152,9 +155,9 @@ export class LoginComponent implements OnInit {
     this.api.post('Login/verifyotp', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log(res);
-        this.common.showToast(res['msg']);
+        console.log(res['msg']);
         if (res['success']) {
+          this.common.showToast(res['msg']);
           localStorage.setItem('USER_TOKEN', res['data'][0]['authkey']);
           localStorage.setItem('USER_DETAILS', JSON.stringify(res['data'][0]));
           this.user._details = res['data'][0];
@@ -163,9 +166,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
 
           this.getUserPagesList();
-          if (this.interval) {
-            clearInterval(this.interval);
-          }
+
         }
       }, err => {
         --this.common.loading;
