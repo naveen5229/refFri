@@ -87,7 +87,30 @@ export class ConstraintsComponent implements OnInit {
     this.constraintsType[type].splice(index, 1);
   }
 
-  removeObjectData(type) {
+  removeObjectData(type, locationType?) {
+
+    switch (type) {
+      case 'consignees':
+        this.constraintsType[type] = { id: null, name: '' };
+        break;
+      case 'transporter':
+        this.constraintsType[type] = { id: null, name: '' };
+        break;
+      case 'vehicles':
+        this.constraintsType[type] = { id: null, regno: '' };
+        break;
+      case 'destinations':
+        if (locationType == 'site') {
+          this.constraintsType[type] = { id: null, name: '', siteName: '', type: 'site' };
+        }
+        else {
+          this.constraintsType[type] = { id: null, name: '', location: '', type: 'map' };
+        }
+        break;
+      default:
+        console.log("type", type);
+        break;
+    }
     this.constraintsType[type] = [];
   }
   resetData(data, index, type) {
