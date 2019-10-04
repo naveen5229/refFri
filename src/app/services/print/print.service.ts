@@ -133,7 +133,9 @@ export class PrintService {
   */
   invoiceFormat2(ppContainer: HTMLElement, json: any) {
     const DPI = this.getDPI();
-    const pageSize = PAGE_SIZE[this.detectBrowser()];
+    const pageSize = PAGE_SIZE[this.detectBrowser()] || 300;
+    console.log('___________________________ME HU PAGE SIZE:', pageSize);
+
     let pageIndex = 1;
     let previousPageContainer = null;
     json.tables.map((tableJSON, tableIndex) => {
