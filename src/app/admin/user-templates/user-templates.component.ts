@@ -29,13 +29,14 @@ export class UserTemplatesComponent implements OnInit {
       hideHeader: true
     }
   };
+  templateType = "LR_PRT";
+  isFoid = false;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     private commonService: CommonService,
     public api: ApiService,
     public user: UserService,
     private modalService: NgbModal) {
-    this.getUserViews();
     this.common.refresh = this.refresh.bind(this);
 
   }
@@ -44,13 +45,15 @@ export class UserTemplatesComponent implements OnInit {
   }
 
   refresh() {
-    this.getUserViews();
+    this.getUserViews(false);
   }
 
 
-  getUserViews() {
+  getUserViews(isFoid) {
+    this.isFoid = isFoid;
+    let params = "type=" + this.templateType + "&isFoid=" + this.isFoid;
     this.common.loading++;
-    this.api.get('userTemplate/view')
+    this.api.get('userTemplate/view?' + params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res:', res);
@@ -155,7 +158,10 @@ export class UserTemplatesComponent implements OnInit {
     this.common.params = { title: title, userTemplate: row };
     const activeModal = this.modalService.open(SaveUserTemplateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
-      this.getUserViews();
+      if (title == 'Add') {
+        this.getUserViews(this.isFoid);
+
+      }
     });
   }
 
@@ -169,7 +175,6 @@ export class UserTemplatesComponent implements OnInit {
     this.common.params = { previewData };
     const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
     activeModal.result.then(data => {
-      this.getUserViews();
     });
   }
 
@@ -177,7 +182,6 @@ export class UserTemplatesComponent implements OnInit {
     this.common.params = { title: title, userTemplate: row };
     const activeModal = this.modalService.open(TemplateDevviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
     activeModal.result.then(data => {
-      this.getUserViews();
     });
   }
 
@@ -201,7 +205,7 @@ export class UserTemplatesComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--;
               this.common.showToast(res['msg']);
-              this.getUserViews();
+              this.getUserViews(this.isFoid);
 
             }, err => {
               this.common.loading--;
@@ -227,7 +231,6 @@ export class UserTemplatesComponent implements OnInit {
     this.common.params = { title: title, preAssignUserTemplate };
     const activeModal = this.modalService.open(AssignUserTemplateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
     activeModal.result.then(data => {
-      this.getUserViews();
     });
   }
 }
