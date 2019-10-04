@@ -16,7 +16,7 @@ export class UpdateTicketPropertiesComponent implements OnInit {
   properties;
   flagValue = '';
   id = null;
-  foid = null;
+  // foid = null;
 
   ticketProperties = {
     issue_type_id: '',
@@ -52,7 +52,7 @@ export class UpdateTicketPropertiesComponent implements OnInit {
     if (this.common.params) {
       this.properties = this.common.params.values;
       this.flagValue = this.common.params.flag;
-      this.foid = this.common.params.foid;
+      // this.foid = this.common.params.foid;
       this.ticketProperties.issue_type_id = this.properties['_issue_id'];
       if (this.flagValue === 'Edit') {
         this.ticketProperties.is_deliverytime = this.properties['Is Delivery'] === '✔' ? true : false;
@@ -91,7 +91,7 @@ export class UpdateTicketPropertiesComponent implements OnInit {
       benchmark: this.ticketProperties.benchMark,
       benchmark2: this.ticketProperties.benchMark2,
       id: this.id,
-      foid: this.foid
+      // foid: this.foid
     };
     this.common.loading++;
     this.api.post('FoTicketProperties/insertTicketProperties', params)
@@ -109,7 +109,7 @@ export class UpdateTicketPropertiesComponent implements OnInit {
 
   getFoProperties() {
     let params = {
-      foid: this.foid,
+      // foid: this.foid,
       foIssueTypeId: this.ticketProperties.issue_type_id,
     };
     this.common.loading++;
@@ -177,7 +177,7 @@ export class UpdateTicketPropertiesComponent implements OnInit {
   addIssueConstraints(constraint) {
     console.log("constaints", constraint);
     let constraints = {
-      foId: constraint._foid,
+      // foId: constraint._foid,
       issueType: constraint._issue_id,
       id: constraint._row_id,
     };
@@ -192,7 +192,7 @@ export class UpdateTicketPropertiesComponent implements OnInit {
 
   deleteProperties(properties) {
     let params = {
-      foid: properties._foid,
+      // foid: properties._foid,
       id: properties._row_id
     };
     if (properties._row_id) {
