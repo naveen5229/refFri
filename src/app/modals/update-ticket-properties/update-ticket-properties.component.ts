@@ -54,6 +54,7 @@ export class UpdateTicketPropertiesComponent implements OnInit {
       this.flagValue = this.common.params.flag;
       // this.foid = this.common.params.foid;
       this.ticketProperties.issue_type_id = this.properties['_issue_id'];
+      this.ticketProperties.issue_name = this.properties['Issue Name'];
       if (this.flagValue === 'Edit') {
         this.ticketProperties.is_deliverytime = this.properties['Is Delivery'] === '✔' ? true : false;
         this.ticketProperties.is_escalate = this.properties['Is Escalate'] === '✔' ? true : false;
