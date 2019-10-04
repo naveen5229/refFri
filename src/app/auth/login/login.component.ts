@@ -84,9 +84,16 @@ export class LoginComponent implements OnInit {
 
 
   sendOTP() {
+    this.qrCode = Math.floor(Math.random() * 1000000);
+    if (this.qrCode.length != 6) {
+      this.qrCode = Math.floor(Math.random() * 1000000);
+    }
+    this.qrCode = this.qrCode.toString();
+    console.log("Code", this.qrCode);
     const params = {
       type: "login",
-      mobileno: this.userDetails.mobile
+      mobileno: this.userDetails.mobile,
+      qrcode: this.qrCode
     };
     console.log('Params:', params);
     ++this.common.loading;
@@ -98,12 +105,6 @@ export class LoginComponent implements OnInit {
         if (res['success']) {
           this.listenOTP = true;
           this.otpCount = 120;
-          this.qrCode = Math.floor(Math.random() * 1000000);
-          if (this.qrCode.length != 6) {
-            this.qrCode = Math.floor(Math.random() * 1000000);
-          }
-          console.log("Code", this.qrCode);
-
           this.qrCodeRegenrate();
           this.otpResendActive();
           this.formSubmit = false;
@@ -119,17 +120,35 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  qrCodeRegenrate() {
+    setTimeout(() => {
+      this.listenOTP = false;
+      this.otpCount = 0;
+      this.formSubmit = false;
+      this.qrCode = null;
+    }, 120000);
+
+    this.interval = setInterval(() => {
+      this.login();
+    }, 5000);
+  }
+
+
+
   login() {
+    console.log("interval", this.interval);
+    console.log("Api Hit");
+    this.login();
     const params = {
       type: "verifyotp",
       mobileno: this.userDetails.mobile,
       otp: this.userDetails.otp,
+      qrcode: this.qrCode,
       device_token: null
     };
 
+    console.log('Login Params:', params);
     ++this.common.loading;
-
-    console.log('Login Params:', params)
     this.api.post('Login/verifyotp', params)
       .subscribe(res => {
         --this.common.loading;
@@ -138,14 +157,15 @@ export class LoginComponent implements OnInit {
         if (res['success']) {
           localStorage.setItem('USER_TOKEN', res['data'][0]['authkey']);
           localStorage.setItem('USER_DETAILS', JSON.stringify(res['data'][0]));
-
           this.user._details = res['data'][0];
           this.user._token = res['data'][0]['authkey'];
-
           console.log('Login Type: ', this.user._loggedInBy);
           localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
 
           this.getUserPagesList();
+          if (this.interval) {
+            clearInterval(this.interval);
+          }
         }
       }, err => {
         --this.common.loading;
@@ -203,25 +223,5 @@ export class LoginComponent implements OnInit {
 
   }
 
-  qrCodeRegenrate() {
-    setTimeout(() => {
-      this.listenOTP = false;
-      this.otpCount = 0;
-      this.formSubmit = false;
-      this.qrCode = null;
-    }, 120000);
-
-    this.interval = setInterval(() => {
-      this.repatedApiHit();
-    }, 5000);
-  }
-
-  repatedApiHit() {
-    //   if (this.interval) {
-    //     clearInterval(this.interval);
-    //  }
-    console.log("interval", this.interval);
-    console.log("Api Hit");
-  }
 
 }
