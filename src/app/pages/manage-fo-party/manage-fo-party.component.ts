@@ -203,7 +203,7 @@ export class ManageFoPartyComponent implements OnInit {
         container: "nb-layout"
       });
       activeModal.result.then(data => {
-        if (data.response) {
+        if (data) {
           this.getCmpAssocWrtType();
         }
       });
