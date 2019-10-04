@@ -37,6 +37,7 @@ export class EditFillingComponent implements OnInit {
   refId = null;
   referenceName = null;
   date = null;
+  ledgerId=null;
   referenceType = [{
     name: 'Select Type',
     id: '0'
@@ -234,6 +235,11 @@ export class EditFillingComponent implements OnInit {
   }
 
   submitFillingData() {
+    if(this.pumpPayType=='-11'){
+      this.ledgerId=null;
+    }else{
+       this.driverCash=0; 
+    }
     if (this.date == null) {
       this.common.showError("Fill Date To Continue");
       return;
@@ -260,6 +266,7 @@ export class EditFillingComponent implements OnInit {
         fuelCompany: '',
         petrolPumpId: this.pump_id,
         driver_cash: this.driverCash,
+        ledgerId:this.ledgerId,
         odometer_val: this.odoVal,
         refNum: this.refNo,
         refType: this.refernceType,
