@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 const PAGE_SIZE = {
-  chrome: 360,
+  chrome: 290,
   firefox: 280,
   safari: 360,
   ei: 280,
@@ -166,10 +166,11 @@ export class PrintService {
           let row = this.createTrHtml(tableJSON.rows[i]);
           tbody.appendChild(row);
           let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
-          console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+          console.log('rowIndex', rowIndex, 'MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
           if (mm > pageSize && i != tableJSON.rows.length - 1) {
             rowIndex = i + 1;
             newPageFlag = true;
+            console.log('___________________NEW PAGE__________________');
             break;
           }
           rowIndex++;
@@ -593,7 +594,6 @@ export class PrintService {
 
     let footerIndex = 0;
     while (footerIndex < json.footers.length) {
-      console.log('___________INDEX:', footerIndex, json.footers.length);
       let footer = json.footers[footerIndex];
       let pageContainer = previousPageContainer;
       if (!pageContainer) {
@@ -649,7 +649,6 @@ export class PrintService {
   }
 
   createHeader2(header) {
-    console.log('_______________________Header:', header);
     let headerContainer = document.createElement('div');
     // headerContainer.className = 'pp-v1-header';
     headerContainer.className = "row";
@@ -711,7 +710,6 @@ export class PrintService {
     }).join('')}
       </div>
     `;
-    console.log('_________________________________________:', detailsContainer.innerHTML);
     return detailsContainer;
   }
 
@@ -736,7 +734,6 @@ export class PrintService {
    */
   createTheadHtml(headings: any[]) {
     let tHead = document.createElement('thead');
-    console.log('headings:__________________', headings);
     tHead.innerHTML = headings.map(heading => { return `<th>${heading.txt}</th>`; }).join('');
     return tHead;
   }
@@ -756,7 +753,6 @@ export class PrintService {
   createTrHtml(row: any[]) {
     let tr = document.createElement('tr');
     tr.innerHTML = row.map(col => {
-      console.log('{{{', col);
       return `<td colspan="${col.colspan || 1}" style="text-align: ${col.align || 'left'}">${
         (!col.txt || typeof col.txt === 'string' || typeof col.txt === 'number') ? (col.txt || '') : `<strong>${col.txt.name}</strong>: <span>${col.txt.value}</span>`
         }</td>`
