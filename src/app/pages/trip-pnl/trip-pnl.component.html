@@ -7,9 +7,9 @@
             </div>
             <div class="col-2">
                 <span>
-                    <span class="pdf-icon" title="PDF Export" (click)="printPDF('verifyState')"
-                        style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-                    <span class="exel-icon" title="CSV Export" (click)="printCsv('verifyState')"
+                    <span class="pdf-icon" title="PDF Export" (click)="printPDF('pl')" style="cursor: pointer;"><i
+                            class="fa fa-file-pdf"></i></span>
+                    <span class="exel-icon" title="CSV Export" (click)="printCsv('pl')"
                         style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
                 </span>
             </div>
@@ -48,7 +48,8 @@
                 </div>
             </div>
             <div class="mt-2">
-                <smart-table *ngIf="TripPNLData && TripPNLData.length" [data]="table.data" [settings]="table.settings">
+                <smart-table *ngIf="TripPNLData && TripPNLData.length" [data]="table.data" id="pl"
+                    [settings]="table.settings">
                 </smart-table>
             </div>
         </div>
