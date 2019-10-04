@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 const PAGE_SIZE = {
-  chrome: 290,
+  chrome: 360,
   firefox: 280,
   safari: 360,
   ei: 280,
@@ -56,7 +56,7 @@ export class PrintService {
   printInvoice(json: any, format: number = 1) {
     this['invoiceFormat' + format](this.createPrintWrapper(), json);
     console.log('json Format data', json);
-    this.print();
+    //this.print();
   }
 
   /**
@@ -133,7 +133,9 @@ export class PrintService {
   */
   invoiceFormat2(ppContainer: HTMLElement, json: any) {
     const DPI = this.getDPI();
-    const pageSize = PAGE_SIZE[this.detectBrowser()];
+    const pageSize = 300;//PAGE_SIZE[this.detectBrowser()];
+    console.log('DPI:', DPI);
+    console.log('pageSize:', pageSize);
     let pageIndex = 1;
     let previousPageContainer = null;
     json.tables.map((tableJSON, tableIndex) => {
@@ -854,6 +856,8 @@ export class PrintService {
         break;
       }
     }
+
+    console.log('______________________________browserName', browserName);
 
     return browserName;
   }
