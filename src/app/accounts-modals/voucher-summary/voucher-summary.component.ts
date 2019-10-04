@@ -944,9 +944,11 @@ export class VoucherSummaryComponent implements OnInit {
       vehicle_id: null,
       id: null,
       ref_type: null,
-      ref_id: null,
+      ref_id: null
+      
     };
-    this.common.params = { rowfilling, title: 'Add Fuel Filling' };
+    this.common.handleModalSize('class', 'modal-lg', '1150', 'px', this.sizeIndex);
+    this.common.params = { rowfilling, title: 'Add Fuel Filling' ,sizeIndex:1};
     const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {

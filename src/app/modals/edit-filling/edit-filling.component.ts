@@ -16,6 +16,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class EditFillingComponent implements OnInit {
   isFormSubmit = false;
+  sizeIndex=0;
   title = '';
   filldate = '';
   litres = 0;
@@ -70,9 +71,9 @@ export class EditFillingComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.common.handleModalSize('class', 'modal-lg', '700');
 
     this.title = this.common.params.title;
+    this.sizeIndex = this.common.params.sizeIndex
     console.log("params", this.common.params);
     let rec = this.common.params.rowfilling;
 
@@ -103,6 +104,8 @@ export class EditFillingComponent implements OnInit {
       this.regno = this.common.params.rowfilling.regno;
       console.log("vid123", this.vehicleId);
     }
+    this.common.handleModalSize('class', 'modal-lg', '700','px',this.sizeIndex);
+
   }
 
   ngOnInit() {
