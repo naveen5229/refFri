@@ -38,6 +38,7 @@ export class EditFillingComponent implements OnInit {
   referenceName = null;
   date = null;
   ledgerId=null;
+  ledger=[];
   referenceType = [{
     name: 'Select Type',
     id: '0'
@@ -71,7 +72,7 @@ export class EditFillingComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
     this.common.handleModalSize('class', 'modal-lg', '700');
-
+     
     this.title = this.common.params.title;
     console.log("params", this.common.params);
     let rec = this.common.params.rowfilling;
@@ -103,6 +104,7 @@ export class EditFillingComponent implements OnInit {
       this.regno = this.common.params.rowfilling.regno;
       console.log("vid123", this.vehicleId);
     }
+    this.getAllLedger();
   }
 
   ngOnInit() {
@@ -116,6 +118,19 @@ export class EditFillingComponent implements OnInit {
       }
     });
     this.refernceTypes();
+  }
+
+  getAllLedger() {
+    this.common.loading++;
+    this.api.get('Suggestion/GetAllLedgerWrtFo')
+      .subscribe(res => {  
+        this.common.loading--;
+        this.ledger=res['data'];
+      },
+        err => {
+          this.common.loading--;
+          console.error('Api Error:', err);
+        });
   }
 
   getReferenceData() {
