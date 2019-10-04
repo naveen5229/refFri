@@ -87,6 +87,9 @@ export class ConstraintsComponent implements OnInit {
     this.constraintsType[type].splice(index, 1);
   }
 
+  removeObjectData(type) {
+    this.constraintsType[type] = [];
+  }
   resetData(data, index, type) {
     this.constraintsType[type][index].id = null;
     console.log("", this.constraintsType[type].id = null);

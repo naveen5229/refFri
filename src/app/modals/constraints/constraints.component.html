@@ -11,9 +11,10 @@
       <div class="row">
         <div class="col-12">
           <label>Consignee</label>
+          <i class="fa fa-trash remove" (click)="removeObjectData('consignees')" *ngIf="i !== 0"></i>
           <div *ngFor=" let consignee of constraintsType.consignees; let i = index; " class="mt-2">
             <auto-suggestion (onSelected)="selectSuggestion($event, i, 'consignees')"
-              url="Suggestion/GetCompanies2?type=ALL" display="name" placeholder="Search Name" class="auto-suggest"
+              url="Suggestion/GetCompanies2?type=cnee" display="name" placeholder="Search Name" class="auto-suggest"
               [name]="'consignee-' + i" [preSelected]="consignee">
             </auto-suggestion>
             <i class="fa fa-plus add" (click)="addField('consignees',i)"
@@ -30,7 +31,7 @@
           <label>Transporter</label>
           <div *ngFor=" let transport of constraintsType.transporter; let i = index; " class="mt-2">
             <auto-suggestion (onSelected)="selectSuggestion($event,i,'transporter')"
-              url="Suggestion/GetCompanies2?type=ALL" display="name" placeholder=" Search Name" class="auto-suggest"
+              url="Suggestion/GetCompanies2?type=ta" display="name" placeholder=" Search Name" class="auto-suggest"
               [name]="'transport'- + i" [preSelected]="transport">
             </auto-suggestion>
 
