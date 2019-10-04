@@ -1227,7 +1227,7 @@ export class VoucherSummaryComponent implements OnInit {
       { txt: this.totalFuel || '' },
       { txt: this.alltotal || '' },
       { txt: this.totalRevinue - (this.alltotal + this.totalFuel) || '' },
-      { txt: ((this.totalRevinue - (this.alltotal + this.totalFuel)) - this.totalDays) || '' },
+      { txt: ((this.totalRevinue - (this.alltotal + this.totalFuel)) / this.totalDays).toFixed(2) || '' },
 
 
 

@@ -139,6 +139,7 @@ export class FoUserRoleComponent implements OnInit {
 
   checkOrUnCheckAll(details, type) {
     this.common.isComponentActive = true;
+    console.log("component is", this.common.isComponentActive);
     if (type === 'group') {
       console.log('details.isSelected:', details.isSelected);
       details.pages.map(page => {

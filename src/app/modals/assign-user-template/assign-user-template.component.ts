@@ -14,6 +14,15 @@ export class AssignUserTemplateComponent implements OnInit {
   showdata = {
     show: true
   }
+  party = {
+    name: null,
+    id: null,
+    address: null
+  }
+  material = {
+    name: null,
+    id: null
+  }
   alltemplateList = [];
   templateList = [];
   branchId = null;
@@ -49,6 +58,10 @@ export class AssignUserTemplateComponent implements OnInit {
       this.templateTypeShow = this.common.params.preAssignUserTemplate.type;
       this.templateName = this.common.params.preAssignUserTemplate.name;
       this.templateId = this.common.params.preAssignUserTemplate.id;
+      this.party.id  =  this.common.params.preAssignUserTemplate.partyId;
+      this.party.name =this.common.params.preAssignUserTemplate.partyName;
+      this.material.name =this.common.params.preAssignUserTemplate.materialName;
+      this.material.id = this.common.params.preAssignUserTemplate.materialId;
       this.getUserViews(true);
     } else {
       this.getUserViews();
@@ -72,13 +85,28 @@ export class AssignUserTemplateComponent implements OnInit {
       });
   }
 
+  getPartyDetail(party) {
+    console.log("party", party);
+    this.party.address = party.address;
+    this.party.name = party.name;
+    this.party.id = party.id;
+  }
+
+  getMaterialDetail(material) {
+    this.material.name = material.name;
+    this.material.id = material.id;
+  }
+
   assignTemplate(isAssign = "true") {
     let params = {
       templateId: this.templateId,
       branchId: this.accountService.selected.branch.id,
       type: this.templateType,
       isAssign: isAssign,
+      materialId:this.material.id,
+      partyId: this.party.id
     }
+    console.log("paraaaaaaaaaaaaa",params)
     this.common.loading++;
     this.api.post('UserTemplate/assign', params)
       .subscribe(res => {
@@ -106,6 +134,14 @@ export class AssignUserTemplateComponent implements OnInit {
   selectTemplateType() {
     document.getElementById('templateId')['value'] = '';
     this.filterTemplate();
+  }
+
+  resetData(type) {
+    this.party.id = null;
+  }
+
+  resetMaterail(material) {
+    this.material.id = null;
   }
 
   getUserViews(isBranch = false) {
@@ -205,10 +241,13 @@ export class AssignUserTemplateComponent implements OnInit {
 
   unassignTemplate(view) {
     let params = {
-      templateId: view._id,
+      templateId: view._template_id,
       branchId: view._branch_id,
       type: view._ref_type,
       isAssign: "false",
+      materialId:view._material_id,
+      partyId:view._party_id,
+      rowId:view._id
     }
     if (view._id) {
       this.common.params = {
