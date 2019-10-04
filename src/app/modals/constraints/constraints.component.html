@@ -11,9 +11,10 @@
       <div class="row">
         <div class="col-12">
           <label>Consignee</label>
+          <i class="fas fa-redo-alt refresh" (click)="removeObjectData('consignees')" *ngIf="i !== 0"></i>
           <div *ngFor=" let consignee of constraintsType.consignees; let i = index; " class="mt-2">
             <auto-suggestion (onSelected)="selectSuggestion($event, i, 'consignees')"
-              url="Suggestion/GetCompanies2?type=ALL" display="name" placeholder="Search Name" class="auto-suggest"
+              url="Suggestion/GetCompanies2?type=cnee" display="name" placeholder="Search Name" class="auto-suggest"
               [name]="'consignee-' + i" [preSelected]="consignee">
             </auto-suggestion>
             <i class="fa fa-plus add" (click)="addField('consignees',i)"
@@ -28,9 +29,10 @@
       <div class="row">
         <div class="col-12">
           <label>Transporter</label>
+          <i class="fas fa-redo-alt refresh" (click)="removeObjectData('transporter')" *ngIf="i !== 0"></i>
           <div *ngFor=" let transport of constraintsType.transporter; let i = index; " class="mt-2">
             <auto-suggestion (onSelected)="selectSuggestion($event,i,'transporter')"
-              url="Suggestion/GetCompanies2?type=ALL" display="name" placeholder=" Search Name" class="auto-suggest"
+              url="Suggestion/GetCompanies2?type=ta" display="name" placeholder=" Search Name" class="auto-suggest"
               [name]="'transport'- + i" [preSelected]="transport">
             </auto-suggestion>
 
@@ -46,6 +48,7 @@
       <div class="row">
         <div class="col-12">
           <label>Vehicle </label>
+          <i class="fas fa-redo-alt refresh" (click)="removeObjectData('vehicles')" *ngIf="i !== 0"></i>
           <div *ngFor=" let vehicle of constraintsType.vehicles; let i = index; " class="mt-2">
             <auto-suggestion (onSelected)="selectSuggestion($event,i,'vehicles')" url="Vehicles/getVehicleListForFoid"
               display="regno" placeholder=" Search Regno" class="auto-suggest" [name]="'vehicle'- + i"
@@ -63,6 +66,7 @@
       <div class="row">
         <div class="col-12">
           <label>Destinations</label>
+          <i class="fas fa-redo-alt refresh" (click)="removeObjectData('destinations')" *ngIf="i !== 0"></i>
           <div *ngFor="let destination of constraintsType.destinations; let i = index; " class="mt-2">
             <span>Site</span>
             <input value="site" [(ngModel)]="destination.type" type="radio" checked="checked" class="m-2"
@@ -73,7 +77,7 @@
 
             <auto-suggestion *ngIf="destination.type == 'site'"
               (onSelected)="selectSuggestion($event,i,'destinations','site')" url="Suggestion/getSites?typeId=1"
-              seperator="-" [display]="['name','siteName']" placeholder="Search Site" inputId="'site-'+i"
+              seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site" inputId="'site-'+i"
               [preSelected]="destination">
             </auto-suggestion>
 
