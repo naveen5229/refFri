@@ -1,100 +1,98 @@
 @media print {
+  html {
+    height: 100%;
+  }
 
-    html {
-        height: 100%;
-    }
+  @page {
+    margin: 0;
+    padding: 0;
+  }
 
-    @page {
-        margin: 0;
-        padding: 0;
-    }
+  body {
+    margin: 0px;
+    padding: 0px;
+    overflow: visible !important;
+  }
 
-    body {
-        margin: 0px;
-        padding: 0px;
-        overflow: visible !important;
-    }
-
-    /****** Settings for Mizilla ******/
-    @-moz-document url-prefix() {
-        .print-page-container {
-            height: 340mm !important;
-        }
-
-        .pp-container {
-            font-size-adjust: 0.4;
-        }
-    }
-
-    // used for body tag to hide other view
-    .printing {
-        ngx-app {
-            display: none;
-        }
-    }
-
-    // print page warpper like as body
-    .printing-page {
-        top: 0;
-        left: 0;
-        width: auto;
-        height: auto;
-        z-index: 9999999;
-        background: #fff;
-        overflow: visible;
-    }
-
+  /****** Settings for Mizilla ******/
+  @-moz-document url-prefix() {
     .print-page-container {
-        position: relative;
-        height: 418mm;
-        padding: 50px 50px 0px 100px;
-        page-break-after: always;
-        page-break-inside: avoid;
-    }
-
-    // print page container
-    .print-page {
-        height: calc(100% - 150px);
+      height: 340mm !important;
     }
 
     .pp-container {
-        position: relative;
-        background: #fff;
-        height: 100%;
+      font-size-adjust: 0.4;
+    }
+  }
 
-        .pp-v1-details {
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
+  // used for body tag to hide other view
+  .printing {
+    ngx-app {
+      display: none;
+    }
+  }
 
-        .pp-v1-signature {
-            position: absolute;
-            bottom: 80px;
-            left: 0;
-            width: 100%;
-            text-align: right;
-            padding-right: 50px;
+  // print page warpper like as body
+  .printing-page {
+    top: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    z-index: 9999999;
+    background: #fff;
+    overflow: visible;
+  }
 
-            div {
-                display: inline-block;
-                border-top: 2px solid #000;
-                min-width: 150px;
-                text-align: center;
-                font-weight: 500;
-                padding-top: 0px;
-                margin-left: 25px;
-                margin-right: 25px;
-            }
-        }
+  .print-page-container {
+    position: relative;
+    height: 370mm;
+    padding: 50px 50px 0px 100px;
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
 
-        .pp-v1-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 0px 50px 20px 100px;
-        }
+  // print page container
+  .print-page {
+    height: calc(100% - 150px);
+  }
 
+  .pp-container {
+    position: relative;
+    background: #fff;
+    height: 100%;
+
+    .pp-v1-details {
+      margin-top: 15px;
+      margin-bottom: 15px;
     }
 
+    .pp-v1-signature {
+      position: absolute;
+      bottom: 80px;
+      left: 0;
+      width: 100%;
+      text-align: right;
+      padding-right: 50px;
+
+      div {
+        display: inline-block;
+        border-top: 2px solid #000;
+        min-width: 150px;
+        text-align: center;
+        font-weight: 500;
+        padding-top: 0px;
+        margin-left: 25px;
+        margin-right: 25px;
+      }
+    }
+
+    .pp-v1-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 0px 50px 20px 100px;
+      font-weight: 100 !important;
+    }
+  }
 }

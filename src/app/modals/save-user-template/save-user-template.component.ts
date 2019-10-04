@@ -22,7 +22,8 @@ export class SaveUserTemplateComponent implements OnInit {
     type: null,
     templateName: null,
     templateHtml: null,
-    id: null
+    id: null,
+    showType: null
   }
   templatePreview = {
     PreviewId: null,
@@ -55,6 +56,7 @@ export class SaveUserTemplateComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         this.template.type = res['data'][0].ref_type;
+        this.template.showType = res['data'][0]['Type'];
         this.template.templateName = res['data'][0].title;
         this.template.templateHtml = res['data'][0].details;
         this.template.id = res['data'][0].id;
@@ -121,6 +123,9 @@ export class SaveUserTemplateComponent implements OnInit {
           if (this.template.id == null) {
             this.reset();
             this.getTemplateId();
+            if (this.button == 'Add') {
+              this.activeModal.close();
+            }
           }
         }
         else {
