@@ -133,7 +133,7 @@ export class PrintService {
   */
   invoiceFormat2(ppContainer: HTMLElement, json: any) {
     const DPI = this.getDPI();
-    const pageSize = 300;//PAGE_SIZE[this.detectBrowser()];
+    const pageSize = PAGE_SIZE[this.detectBrowser()];
     console.log('DPI:', DPI);
     console.log('pageSize:', pageSize);
     let pageIndex = 1;
@@ -848,10 +848,11 @@ export class PrintService {
     broswers.ie = /*@cc_on!@*/false || !!document['documentMode'];
     broswers.edge = !broswers.ie && !!window['StyleMedia'];
     broswers.chrome = !!window['chrome'] && (!!window['chrome'].webstore || !!window['chrome'].runtime);
-
-    let browserName = '';
+    console.log('___________________broswers:', broswers);
+    let browserName = 'chrome';
     for (let broswer in broswers) {
       if (broswers[broswer]) {
+        console.log('_______________BROWSER____FOUND____________:', broswers[broswer]);
         browserName = broswer;
         break;
       }

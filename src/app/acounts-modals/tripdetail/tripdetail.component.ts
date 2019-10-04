@@ -393,7 +393,8 @@ this.vouchertype=this.common.params.VoucherData[0]['y_vouchertype_id'];
     const params = {
       vehId: this.VehicleId,
       lastFilling: lastFilling || this.findFirstSelectInfo(),
-      currentFilling: currentFilling || this.findLastSelectInfo()
+      currentFilling: currentFilling || this.findLastSelectInfo(),
+      date:this.date
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -418,7 +419,8 @@ this.vouchertype=this.common.params.VoucherData[0]['y_vouchertype_id'];
     const params = {
       vehId: this.VehicleId,
       lastFilling: lastFilling || this.findFirstSelectInfo(),
-      currentFilling: currentFilling || this.findLastSelectInfo()
+      currentFilling: currentFilling || this.findLastSelectInfo(),
+      date:this.date
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)

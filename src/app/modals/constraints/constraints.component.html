@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-12">
           <label>Consignee</label>
-          <i class="fa fa-trash remove" (click)="removeObjectData('consignees')" *ngIf="i !== 0"></i>
+          <i class="fas fa-redo-alt refresh" (click)="removeObjectData('consignees')"></i>
           <div *ngFor=" let consignee of constraintsType.consignees; let i = index; " class="mt-2">
             <auto-suggestion (onSelected)="selectSuggestion($event, i, 'consignees')"
               url="Suggestion/GetCompanies2?type=cnee" display="name" placeholder="Search Name" class="auto-suggest"
@@ -29,6 +29,7 @@
       <div class="row">
         <div class="col-12">
           <label>Transporter</label>
+          <i class="fas fa-redo-alt refresh" (click)="removeObjectData('transporter')"></i>
           <div *ngFor=" let transport of constraintsType.transporter; let i = index; " class="mt-2">
             <auto-suggestion (onSelected)="selectSuggestion($event,i,'transporter')"
               url="Suggestion/GetCompanies2?type=ta" display="name" placeholder=" Search Name" class="auto-suggest"
@@ -47,6 +48,7 @@
       <div class="row">
         <div class="col-12">
           <label>Vehicle </label>
+          <i class="fas fa-redo-alt refresh" (click)="removeObjectData('vehicles')"></i>
           <div *ngFor=" let vehicle of constraintsType.vehicles; let i = index; " class="mt-2">
             <auto-suggestion (onSelected)="selectSuggestion($event,i,'vehicles')" url="Vehicles/getVehicleListForFoid"
               display="regno" placeholder=" Search Regno" class="auto-suggest" [name]="'vehicle'- + i"
@@ -64,6 +66,7 @@
       <div class="row">
         <div class="col-12">
           <label>Destinations</label>
+          <i class="fas fa-redo-alt refresh" (click)="removeObjectData('destinations')"></i>
           <div *ngFor="let destination of constraintsType.destinations; let i = index; " class="mt-2">
             <span>Site</span>
             <input value="site" [(ngModel)]="destination.type" type="radio" checked="checked" class="m-2"
