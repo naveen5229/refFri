@@ -477,7 +477,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
   },
   {
     title: 'Challan',
-    icon: 'fas fa-car-battery',
+    icon: 'fas fa-chalkboard-teacher',
     link: '/challan/pending-challan'
   },
  
