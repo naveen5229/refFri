@@ -481,6 +481,4 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     link: '/challan/pending-challan'
   },
  
-
-
 ]);

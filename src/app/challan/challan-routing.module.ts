@@ -16,7 +16,7 @@ const routes: Routes = [
             {
                 path: 'pending-challan',
                 component: PendingChallanComponent,
-                canActivate: [AuthGuard]
+                canActivate: [AuthGuard,RouteGuard]
             },
             
 
