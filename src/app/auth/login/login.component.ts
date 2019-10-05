@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
         console.log(res);
         if (res['success']) {
           this.listenOTP = true;
-          this.otpCount = 120;
+          this.otpCount = 10;
           this.qrCodeRegenrate();
           this.otpResendActive();
           this.formSubmit = false;
@@ -116,7 +116,7 @@ export class LoginComponent implements OnInit {
       }, err => {
         --this.common.loading;
         this.common.showError();
-        console.log(err);
+        console.log("rrrrrr", err);
       });
   }
 
@@ -126,22 +126,21 @@ export class LoginComponent implements OnInit {
       this.otpCount = 0;
       this.formSubmit = false;
       this.qrCode = null;
-    }, 120000);
+    }, 10000);
     this.interval = setInterval(() => {
       this.login();
     }, 5000);
+
 
   }
 
 
 
   login() {
-    console.log("interval", this.interval);
     if (this.otpCount <= 0) {
       console.log("clear");
       clearInterval(this.interval);
     }
-
     const params = {
       type: "verifyotp",
       mobileno: this.userDetails.mobile,
@@ -151,11 +150,12 @@ export class LoginComponent implements OnInit {
     };
 
     console.log('Login Params:', params);
-    ++this.common.loading;
     this.api.post('Login/verifyotp', params)
       .subscribe(res => {
-        --this.common.loading;
-        console.log(res['msg']);
+        console.log(res);
+        if (!res['success']) {
+          return;
+        }
         if (res['success']) {
           this.common.showToast(res['msg']);
           localStorage.setItem('USER_TOKEN', res['data'][0]['authkey']);
@@ -164,14 +164,11 @@ export class LoginComponent implements OnInit {
           this.user._token = res['data'][0]['authkey'];
           console.log('Login Type: ', this.user._loggedInBy);
           localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
-
           this.getUserPagesList();
-
         }
       }, err => {
-        --this.common.loading;
+        // --this.common.loading;
         this.common.showError();
-        console.log(err);
       });
   }
 
