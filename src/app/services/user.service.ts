@@ -42,18 +42,15 @@ export class UserService {
     vehicleMaintenance: [],
     wareHouse: [],
     account: [],
-    challan:[]
+    challan:[],
   };
 
 
 
   constructor(public dataService: DataService) {
-
     console.log('Details: ', localStorage.getItem('USER_DETAILS'));
-
     this._token = localStorage.getItem('USER_TOKEN') || '';
     this._details = JSON.parse(localStorage.getItem('USER_DETAILS')) || null;
-
     this._loggedInBy = localStorage.getItem('LOGGED_IN_BY') || '';
     this._customer = JSON.parse(localStorage.getItem('CUSTOMER_DETAILS')) || { name: '', id: '' };
 

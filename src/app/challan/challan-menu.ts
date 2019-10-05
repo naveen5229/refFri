@@ -12,4 +12,4 @@ export const CHALLAN_MENU_ITEMS = JSON.stringify([
       link: '/challan/pending-challan',
       home: true,
     },
-])
+]);
