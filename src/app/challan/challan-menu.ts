@@ -1,5 +1,5 @@
 import { NbMenuItem } from '@nebular/theme';
-export const CHALLAN_MENU_ITEMS: NbMenuItem[] = [
+export const CHALLAN_MENU_ITEMS = JSON.stringify([
     {
       title: 'Home Dashboard',
       icon: 'fa fa-home',
@@ -12,4 +12,4 @@ export const CHALLAN_MENU_ITEMS: NbMenuItem[] = [
       link: '/challan/pending-challan',
       home: true,
     },
-]
+])

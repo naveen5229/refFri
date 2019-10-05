@@ -8,13 +8,13 @@ import { CHALLAN_MENU_ITEMS } from './challan-menu';
   selector: 'ngx-pages',
   template: `
     <ngx-sample-layout>
-      <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
+      <nb-menu [items]="user._menu.challan" autoCollapse="true"></nb-menu>
       <router-outlet></router-outlet>
     </ngx-sample-layout>
   `,
 })
 export class ChallanComponent {
-  menu = CHALLAN_MENU_ITEMS;
+  // menu = CHALLAN_MENU_ITEMS;
   constructor(public user: UserService, public router: Router) {
     // if (this.user._loggedInBy == 'customer') {
     //     this.router.navigate(['/pages']);

@@ -172,6 +172,8 @@ export class LoginComponent implements OnInit {
         this.user.filterMenu("vehicleMaintenance", "vehicleMaintenance");
         this.user.filterMenu("wareHouse", "wareHouse");
         this.user.filterMenu("account", "account");
+        this.user.filterMenu("challan", "challan");
+
         console.log('this.user:', this.user);
         if (this.user._loggedInBy == 'admin') {
           this.router.navigate(['/admin']);
