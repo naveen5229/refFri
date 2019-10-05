@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 
 @Component({
   selector: 'pending-challan',
@@ -8,8 +10,8 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./pending-challan.component.scss']
 })
 export class PendingChallanComponent implements OnInit {
-  startDate = new Date();
   endDate = new Date();
+  startDate= new Date(new Date().setDate(new Date(this.endDate).getDate() -30));
   challanStatus = '-1';
   challan = [];
   table = {
@@ -23,22 +25,35 @@ export class PendingChallanComponent implements OnInit {
   };
 
   constructor(public common: CommonService,
-    public api: ApiService) { }
+    public api: ApiService,
+    private modalService: NgbModal,) {
+
+     }
 
   ngOnInit() {
   }
 
   getPendingChallans() {
-    let params = "fromTime=" + this.common.dateFormatter(this.startDate) + "&toTime=" + this.common.dateFormatter(this.endDate) + "&viewType=" + this.challanStatus;
+    if(!this.startDate && !this.endDate){
+      this.common.showError("Please Enter StartDate and EndDate");
+    }else if(!this.startDate){
+      this.common.showError("Please Enter StartDate");
+    }else if(!this.endDate){
+      this.common.showError("Please Enter EndDate");
+    }else if(this.startDate>this.endDate){
+      this.common.showError("StartDate Should be less Then EndDate")
+    }else{
+      let params = "fromTime=" + this.common.dateFormatter(this.startDate) + "&toTime=" + this.common.dateFormatter(this.endDate) + "&viewType=" + this.challanStatus;
     this.common.loading++;
     this.api.get('RcDetails/getPendingChallans?' + params)
       .subscribe(res => {
         console.log('Res:', res);
         this.common.loading--;
-        // if (!res['data']){
-        //   return;
-        // } 
         this.clearAllTableData();
+        if (!res['data']){
+          this.common.showError("Data Not Found");
+          return;
+        }    
         this.challan = res['data'];
         this.setTable();
       },
@@ -46,7 +61,8 @@ export class PendingChallanComponent implements OnInit {
           this.common.loading--;
           this.common.showError(err);
         });
-
+    }
+    
   }
 
   setTable() {
@@ -77,7 +93,7 @@ export class PendingChallanComponent implements OnInit {
       let column = {};
       for (let key in this.generateHeadings(chHeadings)) {
         if (key == "Action") {
-          
+          column[key]={value: "", action: null,icons:[{class: 'fa fa-edit', action: '' },{class: 'fa fa-edit', action: '' }]};
         } else {
           column[key] = { value: item[key], class: 'black', action: '' };
         }
@@ -86,6 +102,17 @@ export class PendingChallanComponent implements OnInit {
     });
     return columns;
   }
+
+  // paymentDocImage(paymentId){
+  //     let refdata = {
+  //       refid: "",
+  //       reftype: "",
+  //       doctype: "",
+  //       docid: paymentId
+  //     }
+  //     this.common.params = { refdata: refdata, title: 'docImage' };
+  //     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
+  // }
 
   clearAllTableData() {
     this.table = {

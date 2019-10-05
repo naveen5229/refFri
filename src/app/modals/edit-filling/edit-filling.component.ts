@@ -37,8 +37,12 @@ export class EditFillingComponent implements OnInit {
   refId = null;
   referenceName = null;
   date = null;
-  ledgerId=null;
-  ledger=[];
+  ledgerId = null;
+  ledgers = [];
+  ledger = {
+    name: '',
+    id: '',
+  };
   referenceType = [{
     name: 'Select Type',
     id: '0'
@@ -72,7 +76,7 @@ export class EditFillingComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
     this.common.handleModalSize('class', 'modal-lg', '700');
-     
+
     this.title = this.common.params.title;
     console.log("params", this.common.params);
     let rec = this.common.params.rowfilling;
@@ -120,18 +124,6 @@ export class EditFillingComponent implements OnInit {
     this.refernceTypes();
   }
 
-  getAllLedger() {
-    this.common.loading++;
-    this.api.get('Suggestion/GetAllLedgerWrtFo')
-      .subscribe(res => {  
-        this.common.loading--;
-        this.ledger=res['data'];
-      },
-        err => {
-          this.common.loading--;
-          console.error('Api Error:', err);
-        });
-  }
 
   getReferenceData() {
     const params = "id=" + this.refId +
@@ -247,13 +239,43 @@ export class EditFillingComponent implements OnInit {
     this.regno = vehicle.regno;
     document.getElementById('vehicleno')['value'] = '';
     this.resetRefernceType();
+    console.log("reg1", this.regno);
+    this.setLedger();
+  }
+
+  getAllLedger() {
+    this.common.loading++;
+    this.api.get('Suggestion/GetAllLedgerWrtFo')
+      .subscribe(res => {
+        this.common.loading--;
+        this.ledgers = res['data'];
+        // console.log("regnoLedger",this.ledger[0]['name']);
+      },
+        err => {
+          this.common.loading--;
+          console.error('Api Error:', err);
+        });
+  }
+
+  setLedger() {
+    for (var i = 0; i < this.ledgers.length; i++) {
+      if (this.ledgers[i]['name'].toString().startsWith(this.regno)) {
+        this.ledgerId = this.ledgers[i]['id'];
+        //this.ledgerName=this.ledger[i]['name'];
+        this.ledger = {
+          name: this.ledgers[i]['name'],
+          id: this.ledgers[i]['id'],
+        }
+        break;
+      }
+    }
   }
 
   submitFillingData() {
-    if(this.pumpPayType=='-11'){
-      this.ledgerId=null;
-    }else{
-       this.driverCash=0; 
+    if (this.pumpPayType == '-11') {
+      this.ledgerId = null;
+    } else {
+      this.driverCash = 0;
     }
     if (this.date == null) {
       this.common.showError("Fill Date To Continue");
@@ -281,7 +303,7 @@ export class EditFillingComponent implements OnInit {
         fuelCompany: '',
         petrolPumpId: this.pump_id,
         driver_cash: this.driverCash,
-        ledgerId:this.ledgerId,
+        ledgerId: this.ledgerId,
         odometer_val: this.odoVal,
         refNum: this.refNo,
         refType: this.refernceType,
@@ -338,7 +360,6 @@ export class EditFillingComponent implements OnInit {
 
 
   pumpPayStatus() {
-
     if (this.pumpPayType == '-11') {
       this.pump_id = parseInt(this.pumpPayType);
       this.pump = '';
@@ -346,7 +367,7 @@ export class EditFillingComponent implements OnInit {
       this.pump_id = parseInt(this.pumpPayType);
       this.pump = '';
     }
-
   }
+
 
 }
