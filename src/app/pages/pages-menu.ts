@@ -475,7 +475,10 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fas fa-landmark',
     link: '/ware-house/ware-house-receipts'
   },
-
-
-
+  {
+    title: 'Challan',
+    icon: 'fas fa-chalkboard-teacher',
+    link: '/challan/pending-challan'
+  },
+ 
 ]);

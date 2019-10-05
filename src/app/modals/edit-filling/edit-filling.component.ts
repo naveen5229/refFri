@@ -16,7 +16,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class EditFillingComponent implements OnInit {
   isFormSubmit = false;
-  sizeIndex=0;
+  sizeIndex = 0;
   title = '';
   filldate = '';
   litres = 0;
@@ -38,7 +38,12 @@ export class EditFillingComponent implements OnInit {
   refId = null;
   referenceName = null;
   date = null;
-  ledgerId=null;
+  ledgerId = null;
+  ledgers = [];
+  ledger = {
+    name: '',
+    id: '',
+  };
   referenceType = [{
     name: 'Select Type',
     id: '0'
@@ -76,40 +81,40 @@ export class EditFillingComponent implements OnInit {
     this.sizeIndex = this.common.params.sizeIndex
     console.log("params", this.common.params);
     let rec = this.common.params.rowfilling;
-    let detail=this.common.params.info
-if(this.common.params.rowfilling){
-    this.refernceType = rec.ref_type;
-    this.refId = rec.ref_id;
-    if (this.refId != null) {
-      this.edit = 1;
-    }
-    // this.getReferenceData();
-    // this.getRefernceType(this.refernceType);
+    let detail = this.common.params.info
+    if (this.common.params.rowfilling) {
+      this.refernceType = rec.ref_type;
+      this.refId = rec.ref_id;
+      if (this.refId != null) {
+        this.edit = 1;
+      }
+      // this.getReferenceData();
+      // this.getRefernceType(this.refernceType);
 
-    // this.showDate = rec.fdate;
-    // this.filldate = rec.fdate;
-    this.litres = rec.litres;
-    this.isfull = rec.is_full;
-    this.rate = rec.rate;
-    this.amount = rec.amount;
-    this.pump = rec.pp;
-    this.pump_id = rec.fuel_station_id;
-    this.filling_id = rec.id;
-    this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
-    this.odoVal = rec.odometer ? rec.odometer : 0;
-  }
-  else if(this.common.params.info){
-    this.refernceType = detail._reftype;
-    this.refTypeName = detail._refid;
-    // if (this.refId != null) {
-    //   this.edit = 1;
-    // }
-    this.date=new Date(this.common.dateFormatter1(detail._dttime));
-    this.isPump=false
-    this.regno=detail._regno
-    //this.date=detail._dttime
-    this.vehicleId=detail._vid
-  }
+      // this.showDate = rec.fdate;
+      // this.filldate = rec.fdate;
+      this.litres = rec.litres;
+      this.isfull = rec.is_full;
+      this.rate = rec.rate;
+      this.amount = rec.amount;
+      this.pump = rec.pp;
+      this.pump_id = rec.fuel_station_id;
+      this.filling_id = rec.id;
+      this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
+      this.odoVal = rec.odometer ? rec.odometer : 0;
+    }
+    else if (this.common.params.info) {
+      this.refernceType = detail._reftype;
+      this.refTypeName = detail._refid;
+      // if (this.refId != null) {
+      //   this.edit = 1;
+      // }
+      this.date = new Date(this.common.dateFormatter1(detail._dttime));
+      this.isPump = false
+      this.regno = detail._regno
+      //this.date=detail._dttime
+      this.vehicleId = detail._vid
+    }
     if (this.common.params.title == 'Edit Fuel Filling') {
       let dateArr = rec.fdate.split('-');
       dateArr[2] = '20' + dateArr[2];
@@ -118,8 +123,8 @@ if(this.common.params.rowfilling){
       this.regno = this.common.params.rowfilling.regno;
       console.log("vid123", this.vehicleId);
     }
-    this.common.handleModalSize('class', 'modal-lg', '700','px',this.sizeIndex);
-
+    this.common.handleModalSize('class', 'modal-lg', '700', 'px', this.sizeIndex);
+    this.getAllLedger();
   }
 
   ngOnInit() {
@@ -134,6 +139,7 @@ if(this.common.params.rowfilling){
     });
     this.refernceTypes();
   }
+
 
   getReferenceData() {
     const params = "id=" + this.refId +
@@ -249,13 +255,43 @@ if(this.common.params.rowfilling){
     this.regno = vehicle.regno;
     document.getElementById('vehicleno')['value'] = '';
     this.resetRefernceType();
+    console.log("reg1", this.regno);
+    this.setLedger();
+  }
+
+  getAllLedger() {
+    this.common.loading++;
+    this.api.get('Suggestion/GetAllLedgerWrtFo')
+      .subscribe(res => {
+        this.common.loading--;
+        this.ledgers = res['data'];
+        // console.log("regnoLedger",this.ledger[0]['name']);
+      },
+        err => {
+          this.common.loading--;
+          console.error('Api Error:', err);
+        });
+  }
+
+  setLedger() {
+    for (var i = 0; i < this.ledgers.length; i++) {
+      if (this.ledgers[i]['name'].toString().startsWith(this.regno)) {
+        this.ledgerId = this.ledgers[i]['id'];
+        //this.ledgerName=this.ledger[i]['name'];
+        this.ledger = {
+          name: this.ledgers[i]['name'],
+          id: this.ledgers[i]['id'],
+        }
+        break;
+      }
+    }
   }
 
   submitFillingData() {
-    if(this.pumpPayType=='-11'){
-      this.ledgerId=null;
-    }else{
-       this.driverCash=0; 
+    if (this.pumpPayType == '-11') {
+      this.ledgerId = null;
+    } else {
+      this.driverCash = 0;
     }
     if (this.date == null) {
       this.common.showError("Fill Date To Continue");
@@ -283,7 +319,7 @@ if(this.common.params.rowfilling){
         fuelCompany: '',
         petrolPumpId: this.pump_id,
         driver_cash: this.driverCash,
-        ledgerId:this.ledgerId,
+        ledgerId: this.ledgerId,
         odometer_val: this.odoVal,
         refNum: this.refNo,
         refType: this.refernceType,
@@ -340,7 +376,6 @@ if(this.common.params.rowfilling){
 
 
   pumpPayStatus() {
-
     if (this.pumpPayType == '-11') {
       this.pump_id = parseInt(this.pumpPayType);
       this.pump = '';
@@ -348,7 +383,7 @@ if(this.common.params.rowfilling){
       this.pump_id = parseInt(this.pumpPayType);
       this.pump = '';
     }
-
   }
+
 
 }
