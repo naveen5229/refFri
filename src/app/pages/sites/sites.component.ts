@@ -131,21 +131,21 @@ export class SitesComponent implements OnInit {
 
 
   companyDetails() {
-    this.companies = [];
-    this.common.loading++;
-    this.api.get('Company/getCompanies2')
-      .subscribe(res => {
-        this.common.loading--;
-        console.log(res);
-        this.companies = res['data'];
-        if (res != []) {
-          this.site.company_id = this.companies[0].company_id;
-          this.companySites();
-        }
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+    // this.companies = [];
+    // this.common.loading++;
+    // this.api.get('Company/getCompanies')
+    //   .subscribe(res => {
+    //     this.common.loading--;
+    //     console.log(res);
+    //     this.companies = res['data'];
+    //     if (res != []) {
+    //       this.site.company_id = this.companies[0].company_id;
+    //       this.companySites();
+    //     }
+    //   }, err => {
+    //     this.common.loading--;
+    //     console.log(err);
+    //   });
   }
 
   //Save Sites
