@@ -133,7 +133,7 @@ export class SitesComponent implements OnInit {
   companyDetails() {
     // this.companies = [];
     // this.common.loading++;
-    // this.api.get('Company/getCompanies2')
+    // this.api.get('Company/getCompanies')
     //   .subscribe(res => {
     //     this.common.loading--;
     //     console.log(res);
