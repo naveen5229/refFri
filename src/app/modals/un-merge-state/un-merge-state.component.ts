@@ -14,17 +14,15 @@ export class UnMergeStateComponent implements OnInit {
   unMergeStatus = {
     vehicleId: null,
     regno: null,
-
   };
+
   map: any;
   unMergeEvents = [];
   vehicleEventsR = [];
   Markers = [];
   bounds = null;
   btnStatus = true;
-  vSId = null;
   isChecks = {};
-  hsId: any;
   onlyDrag = false;
   polygons = [];
 
@@ -142,9 +140,6 @@ export class UnMergeStateComponent implements OnInit {
   }
 
   openSmartTool(i, vehicleEvent) {
-    if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null)
-
-      this.vSId = null;
     this.isChecks = {};
     console.log(this.onlyDrag);
     if (!this.onlyDrag) {
@@ -161,9 +156,7 @@ export class UnMergeStateComponent implements OnInit {
 
   zoomFunctionality(i, vehicleEvent) {
     console.log("vehicleEvent", vehicleEvent);
-
     this.mapService.zoomAt(this.mapService.createLatLng(vehicleEvent.lat, vehicleEvent.long), 16);
-
     console.log("vehicleEvent.siteId", vehicleEvent.site_id)
     if (vehicleEvent.site_id) {
       console.log("vehicleEvent.siteId", vehicleEvent.site_id)
@@ -174,7 +167,6 @@ export class UnMergeStateComponent implements OnInit {
 
   fnLoadGeofence(siteId) {
     console.log("siteID:", siteId);
-
     this.common.loading++;
     let params = {
       siteId: siteId

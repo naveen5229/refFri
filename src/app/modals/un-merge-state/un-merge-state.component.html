@@ -11,7 +11,6 @@
     <span><b><i class="fa fa-address-card"></i> :</b> {{unMergeStatus.vehicleId}}</span> &nbsp;&nbsp;
   </div>
 
-
   <div class="row">
     <div class="col-sm-6">
       <div class="container">
@@ -67,9 +66,9 @@
               <div class="col-td " (click)="openSmartTool(i,unMergeEvent);">{{unMergeEvent.distance}}</div>
               <div class="col-td " (click)="openSmartTool(i,unMergeEvent);">{{unMergeEvent.kmph}}</div>
               <div class="col-td " (click)="openSmartTool(i,unMergeEvent);">{{unMergeEvent.aduserid}}
-                <input *ngIf="unMergeEvent.vs_id && unMergeEvent.haltId == null" [(ngModel)]="isChecks[i]"
-                  (change)="mergeWithVS(unMergeEvent.vs_id,unMergeEvent.haltId,isChecks[i],i)" type="checkbox"
-                  class="pull-right" style="margin-top:1px;" />
+                <!-- <input *ngIf="unMergeEvent.vs_id && unMergeEvent.halt_id == null" [(ngModel)]="isChecks[i]"
+                  (change)="mergeWithVS(unMergeEvent.vs_id,unMergeEvent.halt_id,isChecks[i],i)" type="checkbox"
+                  class="pull-right" style="margin-top:1px;" /> -->
               </div>
               <div *ngIf="unMergeEvent.isOpen">
                 <div class="row zoomOnMap"> <span>
