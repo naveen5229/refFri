@@ -135,6 +135,7 @@
               <th>Rate</th>
               <th>Amount</th>
               <th>Date</th>
+              <th>Ledger Name</th>
             </tr>
           </thead>
           <tbody>
@@ -155,6 +156,7 @@
               <td>{{fuelFiling.rate}}</td>
               <td>{{fuelFiling.amount}}</td>
               <td>{{fuelFiling.entry_time | date : 'dd MMM'}}</td>
+              <td>{{ fuelFiling.ledger_name}}</td>
             </tr>
            
 
@@ -319,14 +321,23 @@
                 <th>Remarks</th>
                 <th>Time</th>
                 <th>Entry By</th>
+                <th>Add Fuel</th>
 
               </tr>
             </thead>
             <tr *ngFor="let item of transferData; let i = index;">
 
               <td *ngFor="let itemheading of transferHeading">
-                {{item[itemheading]}}
+              <span *ngIf="itemheading=='lr_id' && (item[itemheading])">
+        <button class="btn btn-dark" (click)="addFuelFilling(14)">Add New Fuel </button>
+
+              </span>  
+               <span *ngIf="itemheading=='lr_id' && (!item[itemheading])"> &nbsp;
+              </span>
+              
+              <span *ngIf="itemheading != 'lr_id'">{{item[itemheading]}}</span>
               </td>
+             
 
             </tr>
           </table>
@@ -336,6 +347,10 @@
           <div class="form-group col-2 mt-4">
             <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="getTripFreght()">Show Revenues</button>
           </div>
+          <div class="form-group col-2 mt-4">
+           <span>Trip Advance : </span> <span>{{ tripAdvanceTotal }} </span> 
+          </div>
+          
         </div>
         <div class="row" *ngIf="tripFreghtDetails">
           <table class="table table-bordered" id="table">

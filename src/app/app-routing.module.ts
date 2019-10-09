@@ -77,6 +77,11 @@ const routes: Routes = [
     loadChildren: 'app/walle8/walle8.module#Walle8Module',
     canActivate: [AuthGuard],
   },
+  {
+    path:'challan',
+    loadChildren:'app/challan/challan.module#ChallanModule',
+    canActivate:[AuthGuard]
+  },
 
   {
     path: 'auth',

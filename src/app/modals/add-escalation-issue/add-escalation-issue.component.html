@@ -31,9 +31,8 @@
     <div class="col-4">
       <div class="from-group">
         <label>User Id</label>
-        <auto-suggestion (onSelected)="addIssueField.userId = $event.id"
-          url="Suggestion/getFoAdminList?foid={{escalationType.id}}" display="employeename" placeholder="Search Name"
-          [preSelected]="null" inputId="userId"></auto-suggestion>
+        <auto-suggestion (onSelected)="addIssueField.userId = $event.id" url="Suggestion/getFoAdminList"
+          display="employeename" placeholder="Search Name" [preSelected]="null" inputId="userId"></auto-suggestion>
       </div>
     </div>
   </div>
@@ -41,9 +40,8 @@
     <div class="col-4">
       <div class="from-group">
         <label>Senior Id</label>
-        <auto-suggestion (onSelected)="this.addIssueField.SeniorId = $event.id"
-          url="Suggestion/getFoAdminList?foid={{escalationType.id}}" display="employeename" placeholder="Search Name"
-          [preSelected]="null" inputId="SeniorId"></auto-suggestion>
+        <auto-suggestion (onSelected)="this.addIssueField.SeniorId = $event.id" url="Suggestion/getFoAdminList"
+          display="employeename" placeholder="Search Name" [preSelected]="null" inputId="SeniorId"></auto-suggestion>
       </div>
     </div>
     <div class="col-4">

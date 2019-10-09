@@ -28,7 +28,8 @@ export class AddEscalationIssueComponent implements OnInit {
   level = 1;
   escalationType = {
     issueType: '',
-    issueTypeValue: ''
+    issueTypeValue: '',
+    id: ''
   };
   addIssueField = {
     userId: null,
@@ -49,6 +50,7 @@ export class AddEscalationIssueComponent implements OnInit {
         // id: this.common.params.foid,
         issueType: this.common.params.issueType,
         issueTypeValue: this.common.params.issueTypeValue,
+        id: ''
       };
     }
     this.getAddIssueTable();
