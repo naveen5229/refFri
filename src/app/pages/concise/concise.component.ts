@@ -35,6 +35,7 @@ import { PdfService } from "../../services/pdf/pdf.service";
 import { MatTableDataSource } from "@angular/material";
 import { EntityFlagsComponent } from "../../modals/entity-flags/entity-flags.component";
 import { DatePipe } from "@angular/common";
+import { PdfViewerComponent } from "../../generic/pdf-viewer/pdf-viewer.component";
 
 @Component({
   selector: "concise",
@@ -154,6 +155,14 @@ export class ConciseComponent implements OnInit {
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
       search: ["", Validators.required]
+    });
+  }
+
+  showPDG() {
+    this.common.params = { pdfUrl: 'assets/pdfs/file.pdf', title: "Challan" };
+    this.modalService.open(PdfViewerComponent, {
+      size: "lg",
+      container: "nb-layout"
     });
   }
 

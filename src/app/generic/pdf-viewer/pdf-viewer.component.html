@@ -1,0 +1,9 @@
+<div class="modal-header">
+  <h5>{{title || 'Document'}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <pdf-viewer [src]="pdfUrl" [render-text]="true" style="display: block;"></pdf-viewer>
+</div>

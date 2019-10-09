@@ -5,12 +5,12 @@
     </div>
   </nb-card-header>
   <nb-card-body style="min-height: 580px;">
-    <div class="row">
+    <!-- <div class="row">
       <div class="search mt-1 ">
         <auto-suggestion (onSelected)="getSuggestions($event)" url="suggestion/getFoUsersList" display="name"
           placeholder="Search" [preSelected]="null"></auto-suggestion>
       </div>
-    </div>
+    </div> -->
     <div class="row mt-2">
       <smart-table *ngIf="ticketProperties && ticketProperties.length" [data]="table.data" [settings]="table.settings">
       </smart-table>
