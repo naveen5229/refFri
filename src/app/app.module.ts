@@ -255,6 +255,7 @@ import { AddCompanyAssociationComponent } from './modals/add-company-association
 import { FreightRateSummaryComponent } from './modals/FreightRate/freight-rate-summary/freight-rate-summary.component';
 import { AddReportFormatsComponent } from './modals/add-report-formats/add-report-formats.component';
 import { FreightRateRulesComponent } from './modals/FreightRate/freight-rate-rules/freight-rate-rules.component';
+import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.component';
 
 
 
@@ -483,6 +484,7 @@ import { FreightRateRulesComponent } from './modals/FreightRate/freight-rate-rul
     AddCompanyAssociationComponent,
     FreightRateSummaryComponent,
     AddReportFormatsComponent,
+    UnMergeStateComponent,
     FreightRateRulesComponent,
 
   ],
@@ -697,7 +699,8 @@ import { FreightRateRulesComponent } from './modals/FreightRate/freight-rate-rul
     VehiclesViewComponent,
     DriverPersonalInfoComponent,
     AddCompanyAssociationComponent,
-    FreightRateSummaryComponent
+    FreightRateSummaryComponent,
+    UnMergeStateComponent
   ],
   imports: [
     BrowserModule,

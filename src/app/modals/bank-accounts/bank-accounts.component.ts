@@ -121,7 +121,6 @@ export class BankAccountsComponent implements OnInit {
             console.error(' Api Error:', err)
           });
     }
-
   }
 
 

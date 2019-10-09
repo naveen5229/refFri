@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { ViewTransferComponent } from '../../modals/FreightRate/view-transfer/view-transfer.component';
+import { EditFillingComponent } from '../../modals/edit-filling/edit-filling.component';
 
 @Component({
   selector: 'transfers',
@@ -103,7 +104,7 @@ export class TransfersComponent implements OnInit {
             action: null,
             isHTML: false,
             icons: [
-              { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc) },
+              { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc)}, {class:"fas fa-gas-pump", action: this.editFuelFilling.bind(this, doc)},
             ]
           };
         }
@@ -146,6 +147,17 @@ export class TransfersComponent implements OnInit {
     });
   }
 
+  editFuelFilling(info){
+    if(info._vid== null){
+      return this.common.showError("Vehichel id does not exist");
+    }
+    this.common.params={info};
+    const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      this.viewTransfer();
+    });
+  }
   openViewTransfer(id,title,ledgerType)
   {
     console.log("Id",id);

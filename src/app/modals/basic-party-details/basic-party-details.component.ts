@@ -41,7 +41,7 @@ export class BasicPartyDetailsComponent implements OnInit {
   branchs = [];
   branchId = null;
   assType = null;
-  refName = this.common.params.refName;
+  tempCmp = null;
 
   data = [];
   cmpEstablishment = [];
@@ -103,30 +103,34 @@ export class BasicPartyDetailsComponent implements OnInit {
     public modalService: NgbModal,
     private formBuilder: FormBuilder,
     public common: CommonService) {
-    this.assType = this.common.params.assType;
-    console.log("AssType", this.assType);
-    this.userCmpnyId = this.common.params.assType;
-    if (this.common.params.cmpAssocDetail) {
-      this.value = true;
-      this.associationType = this.common.params.associationType;
-      this.cmpAlias = this.common.params.cmpAssocDetail['Company Alias'];
-      this.panNo = this.common.params.cmpAssocDetail.Pan ? this.common.params.cmpAssocDetail.Pan : '';
-      this.gstNo = this.common.params.cmpAssocDetail.Gst ? this.common.params.cmpAssocDetail.Gst : '';
-      // this.remark = this.common.params.cmpAssocDetail.Remark;
-      this.website = this.common.params.cmpAssocDetail.Website;
-      //  this.assCmpnyId = this.common.params.cmpAssocDetail._asscompid;
-      this.partyId = this.common.params.cmpAssocDetail._partyid;
-      this.partyName = this.common.params.cmpAssocDetail['Company Name'];
-      console.log("party Name", this.partyName);
-      this.cmpName = this.common.params.cmpAssocDetail['Company Name'];
-      this.userCmpnyId = this.common.params.cmpAssocDetail._usercmpyid;
-      this.getCompanyAssociation();
-      this.getCompanyBranches();
-      this.getCompanyEstablishment();
-      this.getCompanyContacts();
-      this.getCompanyBanks();
+    if (this.common.params) {
+      this.assType = this.common.params.assType;
+      console.log("AssType", this.assType);
+      this.userCmpnyId = this.common.params.assType;
+      this.getAssociationType();
+      console.log("params",this.common.params.cmpAssocDetail)
+      if (this.common.params.cmpAssocDetail) {
+        this.value = true;
+        this.associationType = this.common.params.assType;
+        this.cmpAlias = this.common.params.cmpAssocDetail['Company Alias'];
+        this.panNo = this.common.params.cmpAssocDetail.Pan ? this.common.params.cmpAssocDetail.Pan : '';
+        this.gstNo = this.common.params.cmpAssocDetail.Gst ? this.common.params.cmpAssocDetail.Gst : '';
+        // this.remark = this.common.params.cmpAssocDetail.Remark;
+        this.website = this.common.params.cmpAssocDetail.Website;
+        //  this.assCmpnyId = this.common.params.cmpAssocDetail._asscompid;
+        this.partyId = this.common.params.cmpAssocDetail._partyid;
+        this.partyName = this.common.params.cmpAssocDetail['Company Name'];
+        console.log("party Name", this.partyName);
+        this.cmpName = this.common.params.cmpAssocDetail['Company Name'];
+        this.userCmpnyId = this.common.params.cmpAssocDetail._usercmpyid;
+        this.getCompanyAssociation();
+        this.getCompanyBranches();
+        this.getCompanyEstablishment();
+        this.getCompanyContacts();
+        this.getCompanyBanks();
+      }
     }
-    this.getAssociationType();
+
     this.getSelfBranch();
     this.common.refresh = this.refresh.bind(this);
 

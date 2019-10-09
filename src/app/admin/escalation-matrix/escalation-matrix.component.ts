@@ -15,7 +15,7 @@ export class EscalationMatrixComponent implements OnInit {
   escalationMatrix = null;
   matrixList = [];
   issue_t
-  foid = '';
+  // foid = '';
   table = {
     data: {
       headings: {},
@@ -32,6 +32,7 @@ export class EscalationMatrixComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
+    this.Matrixdata();
   }
 
   ngOnInit() {
@@ -41,15 +42,15 @@ export class EscalationMatrixComponent implements OnInit {
     this.Matrixdata();
   }
 
-  getMatrix(user) {
-    this.foid = user.id,
-      this.Matrixdata();
-  }
+  // getMatrix(user) {
+  //   // this.foid = user.id,
+  //     this.Matrixdata();
+  // }
 
   Matrixdata() {
     //this.escalationMatrix = user;
     let params = {
-      foid: this.foid
+      // foid: this.foid
     };
     this.common.loading++;
     this.api.post('FoTicketEscalation/getEscalationMatrix', params)
@@ -110,11 +111,11 @@ export class EscalationMatrixComponent implements OnInit {
 
 
   openAddIssueModel(matrix?) {
-    let foid = this.foid;
+    // let foid = this.foid;
     let issueType = matrix._issue_type_id;
     let issueTypeValue = matrix['Issue Name'];
     console.log("foid is:", matrix);
-    if (matrix) this.common.params = { foid, issueType, issueTypeValue };
+    if (matrix) this.common.params = {  issueType, issueTypeValue };
     const activeModal = this.modalService.open(AddEscalationIssueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
 
