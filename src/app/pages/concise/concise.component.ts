@@ -158,14 +158,6 @@ export class ConciseComponent implements OnInit {
     });
   }
 
-  showPDG() {
-    this.common.params = { pdfUrl: 'assets/pdfs/file.pdf', title: "Challan" };
-    this.modalService.open(PdfViewerComponent, {
-      size: "lg",
-      container: "nb-layout"
-    });
-  }
-
   ngAfterViewInit() {
     this.common.stopScroll();
   }
