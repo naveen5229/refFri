@@ -1,0 +1,30 @@
+.status span + span {
+  margin-left: 15px;
+}
+
+:host ::ng-deep .container {
+  padding: 0px !important;
+}
+.zoomOnMap {
+  margin-left: 170px;
+}
+
+table {
+  height: 300px;
+  overflow-y: scroll;
+}
+th {
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background: #ccc;
+}
+tr:nth-child(odd) {
+  background: #fff;
+}
+.map {
+  height: 162vh;
+}

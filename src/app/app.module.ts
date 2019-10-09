@@ -257,6 +257,7 @@ import { FreightRateSummaryComponent } from './modals/FreightRate/freight-rate-s
 import { AddReportFormatsComponent } from './modals/add-report-formats/add-report-formats.component';
 import { FreightRateRulesComponent } from './modals/FreightRate/freight-rate-rules/freight-rate-rules.component';
 import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.component';
+import { FuelFillingTimetableComponent } from './modals/fuel-filling-timetable/fuel-filling-timetable.component';
 
 
 
@@ -487,6 +488,7 @@ import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.co
     AddReportFormatsComponent,
     UnMergeStateComponent,
     FreightRateRulesComponent,
+    FuelFillingTimetableComponent,
 
   ],
   entryComponents: [
@@ -701,7 +703,8 @@ import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.co
     DriverPersonalInfoComponent,
     AddCompanyAssociationComponent,
     FreightRateSummaryComponent,
-    UnMergeStateComponent
+    UnMergeStateComponent,
+    FuelFillingTimetableComponent
   ],
   imports: [
     BrowserModule,

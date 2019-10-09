@@ -150,11 +150,11 @@ export class CommonService {
     this.router.navigate([page.page]);
   }
 
-  dateFormatter(date, type = "YYYYMMDD", isTime = true, separator = "-"):any {
+  dateFormatter(date, type = "YYYYMMDD", isTime = true, separator = "-"): any {
     let d = new Date(date);
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
-    let dat = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
+    let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
 
     // console.log(dat + separator + month + separator + year);
     if (type == "ddMMYYYY") {
@@ -182,7 +182,7 @@ export class CommonService {
     let d = new Date(date);
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
-    let dat = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
+    let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
 
     // console.log(dat + separator + month + separator + year);
     if (type == "ddMMYYYY") {
@@ -943,21 +943,21 @@ export class CommonService {
 
 
     // doc.save("report.pdf");
-//   var FileSaver = require('file-saver');
-// var blob = new Blob(["Hello, world!"]);
-// FileSaver.saveAs(blob,'report.json');
+    //   var FileSaver = require('file-saver');
+    // var blob = new Blob(["Hello, world!"]);
+    // FileSaver.saveAs(blob,'report.json');
 
-// const blob = new Blob(["Hello, world!"], { type: 'text/csv' });
-// const url= window.URL.createObjectURL(blob);
-// window.open(url);
+    // const blob = new Blob(["Hello, world!"], { type: 'text/csv' });
+    // const url= window.URL.createObjectURL(blob);
+    // window.open(url);
 
-// const blob = new Blob(["Hello, world!"], { type: 'text/plain' });
-// saveAs(blob, 'test.pdf');
-const headers = new Headers();
-headers.append('Accept', 'text/plain');
-this.http.get('/api/files', { headers: headers })
-  .toPromise()
-  .then(response => this.saveToFileSystem(response));
+    // const blob = new Blob(["Hello, world!"], { type: 'text/plain' });
+    // saveAs(blob, 'test.pdf');
+    const headers = new Headers();
+    headers.append('Accept', 'text/plain');
+    this.http.get('/api/files', { headers: headers })
+      .toPromise()
+      .then(response => this.saveToFileSystem(response));
   }
 
   private saveToFileSystem(response) {
@@ -1706,9 +1706,9 @@ this.http.get('/api/files', { headers: headers })
   }
 
   formatDynamicData(fields) {
-    let dynamicData={
-      column2 : [],
-      column1 : []
+    let dynamicData = {
+      column2: [],
+      column1: []
     }
     fields.map(dd => {
       if (dd.r_coltype == 3) {
@@ -1721,7 +1721,7 @@ this.http.get('/api/files', { headers: headers })
         dynamicData.column1.push(dd);
       }
     });
-  
+
     return dynamicData;
 
   }
