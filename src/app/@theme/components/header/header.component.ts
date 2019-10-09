@@ -101,6 +101,7 @@ export class HeaderComponent implements OnInit {
         vehicleMaintenance: [],
         wareHouse: [],
         account: [],
+        challan: []
       };
       localStorage.clear();
       localStorage.removeItem('DOST_USER_PAGES');

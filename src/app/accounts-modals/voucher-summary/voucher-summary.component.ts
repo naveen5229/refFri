@@ -21,6 +21,7 @@ import { PrintService } from '../../services/print/print.service';
 export class VoucherSummaryComponent implements OnInit {
   firstdate = '';
   tripexpencevoucherid=0;
+  tripAdvanceTotal=0;
   enddate = '';
   permanentDeleteId = 0;
   sizeIndex = 0;
@@ -481,7 +482,8 @@ export class VoucherSummaryComponent implements OnInit {
     const params = {
       vehId: this.VehicleId,
       lastFilling: lastFilling || this.findFirstSelectInfo(1),
-      currentFilling: currentFilling || this.findLastSelectInfo(1)
+      currentFilling: currentFilling || this.findLastSelectInfo(1),
+      date:this.date
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -510,7 +512,8 @@ export class VoucherSummaryComponent implements OnInit {
     const params = {
       vehId: this.VehicleId,
       lastFilling: lastFilling || this.findFirstSelectInfo(1),
-      currentFilling: currentFilling || this.findLastSelectInfo(1)
+      currentFilling: currentFilling || this.findLastSelectInfo(1),
+      date:this.date
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -929,7 +932,7 @@ export class VoucherSummaryComponent implements OnInit {
     });
   }
 
-  addFuelFilling() {
+  addFuelFilling(refid?) {
     let rowfilling = {
       fdate: null,
       litres: null,
@@ -942,9 +945,11 @@ export class VoucherSummaryComponent implements OnInit {
       vehicle_id: null,
       id: null,
       ref_type: null,
-      ref_id: null,
+      ref_id: refid ? refid : null
+      
     };
-    this.common.params = { rowfilling, title: 'Add Fuel Filling' };
+    this.common.handleModalSize('class', 'modal-lg', '1150', 'px', this.sizeIndex);
+    this.common.params = { rowfilling, title: 'Add Fuel Filling' ,sizeIndex:1};
     const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -1073,12 +1078,22 @@ export class VoucherSummaryComponent implements OnInit {
         this.transferHeading = [];
         this.common.loading--;
         if (res['data']) {
+          this.tripAdvanceTotal=0;
           this.transferData = res['data'];
           let first_rec = this.transferData[0];
           for (var key in first_rec) {
             //console.log('kys',first_rec[key]);
             this.transferHeading.push(key);
           }
+          this.transferData.forEach(transferkey => {
+            if(transferkey['Advise Type'] != 'Fuel'){
+            console.log('trade center',transferkey);
+            this.tripAdvanceTotal += parseFloat(transferkey['User Value']);
+            }
+          }); 
+
+          console.log('trade center tripAdvanceTotal',this.tripAdvanceTotal);
+          
         } else {
           this.transferData = [];
         }
@@ -1143,6 +1158,13 @@ export class VoucherSummaryComponent implements OnInit {
           this.totalRevinue += parseFloat(tripDetail.revenue);
         }
         if (tripDetail.advance) {
+          console.log('???????',tripDetail);
+          // tripDetail.forEach(transferkey => {
+          //   if(transferkey['Advise Type'] != 'Fuel'){
+          //   console.log('trade center',transferkey);
+          //   this.tripAdvanceTotal += parseFloat(transferkey['User Value']);
+          //   }
+          // }); 
           this.totalAdvance += parseFloat(tripDetail.advance);
         }
       }
@@ -1433,7 +1455,7 @@ export class VoucherSummaryComponent implements OnInit {
           right: { name: 'Page No', value: 1 },
         },
         footertotal: [
-          { name: 'Net Pay to Driver : ', value: this.alltotal - (this.totalAdvance), size: '20px', weight: 600 },
+          { name: 'Net Pay to Driver : ', value: this.alltotal - (this.tripAdvanceTotal), size: '20px', weight: 600 },
           { name: ' ', value: ' ' },
           { name: ' ', value: ' ' },
           { name: ' ', value: ' ' },

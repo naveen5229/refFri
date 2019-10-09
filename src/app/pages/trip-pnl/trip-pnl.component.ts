@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'trip-pnl',
@@ -24,6 +25,7 @@ export class TripPnlComponent implements OnInit {
   }
 
   constructor(public common: CommonService,
+    private datePipe: DatePipe,
     public user: UserService,
     public api: ApiService) {
 
@@ -33,20 +35,22 @@ export class TripPnlComponent implements OnInit {
   }
 
   getPnlSummary() {
+    let startDate=this.common.dateFormatter(this.startDate);
+    let endDate=this.common.dateFormatter(this.endDate);
     console.log('_________________________________=====+++++++++++++++_________________');
 
-    if (!this.startDate && !this.endDate) {
+    if (!startDate && !endDate) {
       this.common.showError("Please Enter StartDate And Enddate");
-    } else if (!this.startDate) {
+    } else if (!startDate) {
       this.common.showError("Please Enter StartDate")
     } else if (!this.endDate) {
       this.common.showError("Please Enter EndDate");
-    } else if (this.startDate > this.endDate) {
+    } else if (startDate > endDate) {
       this.common.showError("StartDate Should Be Less Then EndDate")
     } else {
       let params = {
-        startDate: this.common.dateFormatter(this.startDate),
-        endDate: this.common.dateFormatter(this.endDate)
+        startDate: this.common.dateFormatter(startDate),
+        endDate: this.common.dateFormatter(endDate)
       }
       this.common.loading++;
       this.api.post('TripsOperation/getPnlSummary', params)
@@ -123,7 +127,8 @@ export class TripPnlComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Trip Profit And Loss";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
+        let time = "Start Date:"+this.datePipe.transform(this.startDate, 'dd-MM-yyyy')+"  End Date:"+this.datePipe.transform(this.endDate, 'dd-MM-yyyy');
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], time);
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -141,7 +146,8 @@ export class TripPnlComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = "FoName:" + fodata['name'];
         let center_heading = "Report:" + "Trip Profit And Loss";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
+        let time = "Start Date:"+this.datePipe.transform(this.startDate, 'dd-MM-yyyy')+"  End Date:"+this.datePipe.transform(this.endDate, 'dd-MM-yyyy');
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, null, time);
       }, err => {
         this.common.loading--;
         console.log(err);

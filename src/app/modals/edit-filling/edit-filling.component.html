@@ -167,8 +167,7 @@
             <div class="col-6" *ngIf="pumpPayType=='-21' && !isPump">
                 <div class="form-group">
                     <label class="fill-elt">Ledger</label>
-                    <auto-suggestion (onSelected)="ledgerId=($event.id)" url="Suggestion/GetAllLedgerWrtFo" display="name" placeholder="Enter Ledger" style="width:60%;">
-                    </auto-suggestion>
+                    <auto-suggestion (onSelected)="ledgerId=($event.id)" display="name" [data]="ledgers" placeholder="enter Ledger" style="width:60%;" [preSelected]="ledger"></auto-suggestion>
                 </div>
             </div>
         </div>
