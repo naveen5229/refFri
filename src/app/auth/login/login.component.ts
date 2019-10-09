@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
         console.log(res);
         if (res['success']) {
           this.listenOTP = true;
-          this.otpCount = 10;
+          this.otpCount = 120;
           this.qrCodeRegenrate();
           this.otpResendActive();
           this.formSubmit = false;
@@ -126,7 +126,7 @@ export class LoginComponent implements OnInit {
       this.otpCount = 0;
       this.formSubmit = false;
       this.qrCode = null;
-    }, 10000);
+    }, 120000);
     this.interval = setInterval(() => {
       this.login();
     }, 5000);
