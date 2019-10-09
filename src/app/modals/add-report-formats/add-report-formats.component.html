@@ -86,7 +86,7 @@
 
       <div class="col-6">
         <button class="btn btn-primary" (click)="saveReportFormat()">{{btnName}}</button>
-        <button class="btn btn-danger" (click)="resetFormatData()" style="margin-left:25px">Cancel</button>
+        <button class="btn btn-danger" *ngIf="btnName=='Update Format'" (click)="resetFormatData()" style="margin-left:25px">Cancel</button>
         <button class="btn btn-info" (click)="getReportFormat()" style="margin-left:25px">Search</button>
       </div>
     </div>

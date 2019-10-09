@@ -432,7 +432,8 @@ export class VoucherSummaryShortComponent implements OnInit {
     const params = {
       vehId: this.VehicleId,
       lastFilling: lastFilling || this.findFirstSelectInfo(),
-      currentFilling: currentFilling || this.findLastSelectInfo()
+      currentFilling: currentFilling || this.findLastSelectInfo(),
+      date:this.date
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -457,7 +458,8 @@ export class VoucherSummaryShortComponent implements OnInit {
     const params = {
       vehId: this.VehicleId,
       lastFilling: lastFilling || this.findFirstSelectInfo(),
-      currentFilling: currentFilling || this.findLastSelectInfo()
+      currentFilling: currentFilling || this.findLastSelectInfo(),
+      date:this.date
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)

@@ -140,6 +140,7 @@
           <option value="-11">Paid By Card</option>
           <option value="-21">Paid By Cash</option>
         </select>
+
             </div>
             <div class="col-6">
                 <div class="form-group" *ngIf="isPump">
@@ -163,9 +164,12 @@
                     <input class="fill-elt form-control" name="cash" id="cash" [(ngModel)]="driverCash" />
                 </div>
             </div>
-
-
-
+            <div class="col-6" *ngIf="pumpPayType=='-21' && !isPump">
+                <div class="form-group">
+                    <label class="fill-elt">Ledger</label>
+                    <auto-suggestion (onSelected)="ledgerId=($event.id)" display="name" [data]="ledgers" placeholder="enter Ledger" style="width:60%;" [preSelected]="ledger"></auto-suggestion>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-6">

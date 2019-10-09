@@ -177,6 +177,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/vehicles',
         home: true,
       },
+      {
+        title: 'Unmerge LR State',
+        icon: 'fas fa-clone',
+        link: '/pages/unmerge-lrstate',
+        home: true,
+      },
     ]
   },
   {
@@ -469,7 +475,10 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fas fa-landmark',
     link: '/ware-house/ware-house-receipts'
   },
-
-
-
+  {
+    title: 'Challan',
+    icon: 'fas fa-chalkboard-teacher',
+    link: '/challan/pending-challan'
+  },
+ 
 ]);

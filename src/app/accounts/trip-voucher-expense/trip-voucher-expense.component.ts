@@ -210,6 +210,18 @@ export class TripVoucherExpenseComponent implements OnInit {
     const key = event.key.toLowerCase();
     let activeId = document.activeElement.id;
     console.log('Active event', event);
+    if (key == 'enter') {
+      //this.allowBackspace = true;
+      if (activeId.includes('suggestion')) {
+        this.setFoucus('vchtype');
+      } else if (activeId.includes('vchtype')) {
+        this.setFoucus('startdate');
+      }else if (activeId.includes('startdate')) {
+        this.setFoucus('enddate');
+      }else if (activeId.includes('enddate')) {
+        this.setFoucus('btnSubmit');
+      }
+    }
     if ((key == 'backspace' || key == 'delete') && activeId == 'suggestion') {
       /***************************** Handle Row Enter ******************* */
       this.selectedVehicle.id = 0;
@@ -220,6 +232,16 @@ export class TripVoucherExpenseComponent implements OnInit {
       else if (this.selectedRow != this.showtripvoucher.length - 1) this.selectedRow++;
 
     }
+  }
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
   checkedAllSelected() {
     this.checkedTrips = [];

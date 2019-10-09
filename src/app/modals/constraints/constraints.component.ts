@@ -19,7 +19,7 @@ export class ConstraintsComponent implements OnInit {
   }
   searchString = '';
   keepGoing = true;
-  foId = null;
+  // foId = null;
   issueType = null;
   id = null;
   getContraintsData = [];
@@ -34,14 +34,14 @@ export class ConstraintsComponent implements OnInit {
 
     if (this.common.params && this.common.params.constraints) {
 
-      this.foId = this.common.params.constraints.foId;
+      // this.foId = this.common.params.constraints.foId;
       this.issueType = this.common.params.constraints.issueType;
       this.id = this.common.params.constraints.id;
       this.url = this.common.params.api;
       this.saveUrl = this.common.params.saveApi;
+      this.getContraintsIssueData();
     }
     this.common.handleModalSize('class', 'modal-lg', '1100', 'px', 1);
-    this.getContraintsIssueData();
   }
 
   ngOnInit() {
@@ -53,7 +53,7 @@ export class ConstraintsComponent implements OnInit {
 
   getContraintsIssueData() {
     const params = {
-      foid: this.foId,
+      // foid: this.foId,
       issue_type_id: this.issueType,
       id: this.id
     }
@@ -87,6 +87,27 @@ export class ConstraintsComponent implements OnInit {
     this.constraintsType[type].splice(index, 1);
   }
 
+  removeObjectData(type) {
+
+    switch (type) {
+      case 'consignees':
+        this.constraintsType[type] = [{ id: null, name: '' }];
+        break;
+      case 'transporter':
+        this.constraintsType[type] = [{ id: null, name: '' }];
+        break;
+      case 'vehicles':
+        this.constraintsType[type] = [{ id: null, regno: '' }];
+        break;
+      case 'destinations':
+        this.constraintsType[type] = [{ id: null, name: '', siteName: '', type: 'site' }];
+        this.constraintsType[type] = [{ id: null, name: '', location: '', type: 'map' }];
+        break;
+      default:
+        console.log("type", type);
+        break;
+    }
+  }
   resetData(data, index, type) {
     this.constraintsType[type][index].id = null;
     console.log("", this.constraintsType[type].id = null);
@@ -154,7 +175,7 @@ export class ConstraintsComponent implements OnInit {
     }
     const params = {
       constraints: JSON.stringify(issues),
-      foid: this.foId,
+      // foid: this.foId,
       issue_type_id: this.issueType,
       id: this.id
     }

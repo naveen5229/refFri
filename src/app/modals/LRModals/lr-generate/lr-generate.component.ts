@@ -182,7 +182,7 @@ export class LrGenerateComponent implements OnInit {
     this.common.params = {
       assType:assType
     };
-    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw'   });
     activeModal.result.then(data => {
       console.log('Data:', data);
     });

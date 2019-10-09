@@ -15,7 +15,7 @@ export class TicketPropertiesComponent implements OnInit {
 
   ticketProperties = [];
   checkFlag = false;
-  foid = '';
+  // foid = '';
 
   table = {
     data: {
@@ -34,6 +34,7 @@ export class TicketPropertiesComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
+    this.refresh();
   }
 
   ngOnInit() {
@@ -42,17 +43,15 @@ export class TicketPropertiesComponent implements OnInit {
   refresh() {
     this.getFoProperties();
   }
-  getSuggestions(suggestionList) {
-    this.foid = suggestionList.id;
-    this.getFoProperties();
-  }
+  // getSuggestions(suggestionList) {
+  //   this.getFoProperties();
+  // }
 
   getFoProperties() {
     let params = {
-      foid: this.foid
     };
     this.common.loading++;
-    this.api.post('FoTicketProperties/getFoProperties', params)
+    this.api.post('FoTicketProperties/getFoProperties',params)
       .subscribe(res => {
         this.common.loading--;
         this.ticketProperties = [];
@@ -124,8 +123,8 @@ export class TicketPropertiesComponent implements OnInit {
 
   openUpdatePropertiesModel(values) {
     let flag = 'Edit';
-    let foid = this.foid;
-    this.common.params = { values, flag, foid };
+    // let foid = this.foid;
+    this.common.params = { values, flag };
     const activeModel = this.modalService.open(UpdateTicketPropertiesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModel.result.then(data => {
       this.getFoProperties();
@@ -133,8 +132,8 @@ export class TicketPropertiesComponent implements OnInit {
   }
   addNewProperties(values) {
     let flag = 'Add';
-    let foid = this.foid;
-    this.common.params = { values, flag, foid };
+    // let foid = this.foid;
+    this.common.params = { values, flag};
     const activeModel = this.modalService.open(UpdateTicketPropertiesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModel.result.then(data => {
       this.getFoProperties();
@@ -143,7 +142,6 @@ export class TicketPropertiesComponent implements OnInit {
 
   deleteProperties(properties) {
     let params = {
-      foid: properties._foid,
       id: properties._row_id
     };
     if (properties._row_id) {

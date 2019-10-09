@@ -5,6 +5,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateService } from '../../services/date.service';
 import { DatePipe } from '@angular/common';
 import { style } from '@angular/animations';
+import { UserService } from '../../services/user.service';
 
 
 
@@ -38,6 +39,7 @@ export class ConsolidateFuelAverageComponent implements OnInit {
     private modalService: NgbModal,
     public activeModal: NgbActiveModal,
     public dateService: DateService,
+    public user:UserService,
     private datePipe: DatePipe
   ) {
     let today = new Date();
@@ -141,6 +143,48 @@ export class ConsolidateFuelAverageComponent implements OnInit {
     return columns;
 
   }
+
+  
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "Trip Profit And Loss";
+        let time = "Start Date:"+this.datePipe.transform(this.startTime, 'dd-MM-yyyy h:mm:ss a')+"  End Date:"+this.datePipe.transform(this.endTime, 'dd-MM-yyyy h:mm:ss a');
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], time);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  printCsv(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = "FoName:" + fodata['name'];
+        let center_heading = "Report:" + "Trip Profit And Loss";
+        let time = "Start Date:"+this.datePipe.transform(this.startTime, 'dd-MM-yyyy h:mm:ss a')+"  End Date:"+this.datePipe.transform(this.endTime, 'dd-MM-yyyy h:mm:ss a');
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, null, time);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
+  }
+
 
 
 }
