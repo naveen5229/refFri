@@ -16,6 +16,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class EditFillingComponent implements OnInit {
   isFormSubmit = false;
+  sizeIndex = 0;
   title = '';
   filldate = '';
   litres = 0;
@@ -75,31 +76,45 @@ export class EditFillingComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.common.handleModalSize('class', 'modal-lg', '700');
 
     this.title = this.common.params.title;
+    this.sizeIndex = this.common.params.sizeIndex
     console.log("params", this.common.params);
     let rec = this.common.params.rowfilling;
+    let detail = this.common.params.info
+    if (this.common.params.rowfilling) {
+      this.refernceType = rec.ref_type;
+      this.refId = rec.ref_id;
+      if (this.refId != null) {
+        this.edit = 1;
+      }
+      // this.getReferenceData();
+      // this.getRefernceType(this.refernceType);
 
-    this.refernceType = rec.ref_type;
-    this.refId = rec.ref_id;
-    if (this.refId != null) {
-      this.edit = 1;
+      // this.showDate = rec.fdate;
+      // this.filldate = rec.fdate;
+      this.litres = rec.litres;
+      this.isfull = rec.is_full;
+      this.rate = rec.rate;
+      this.amount = rec.amount;
+      this.pump = rec.pp;
+      this.pump_id = rec.fuel_station_id;
+      this.filling_id = rec.id;
+      this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
+      this.odoVal = rec.odometer ? rec.odometer : 0;
     }
-    // this.getReferenceData();
-    // this.getRefernceType(this.refernceType);
-
-    // this.showDate = rec.fdate;
-    // this.filldate = rec.fdate;
-    this.litres = rec.litres;
-    this.isfull = rec.is_full;
-    this.rate = rec.rate;
-    this.amount = rec.amount;
-    this.pump = rec.pp;
-    this.pump_id = rec.fuel_station_id;
-    this.filling_id = rec.id;
-    this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
-    this.odoVal = rec.odometer ? rec.odometer : 0;
+    else if (this.common.params.info) {
+      this.refernceType = detail._reftype;
+      this.refTypeName = detail._refid;
+      // if (this.refId != null) {
+      //   this.edit = 1;
+      // }
+      this.date = new Date(this.common.dateFormatter1(detail._dttime));
+      this.isPump = false
+      this.regno = detail._regno
+      //this.date=detail._dttime
+      this.vehicleId = detail._vid
+    }
     if (this.common.params.title == 'Edit Fuel Filling') {
       let dateArr = rec.fdate.split('-');
       dateArr[2] = '20' + dateArr[2];
@@ -108,6 +123,7 @@ export class EditFillingComponent implements OnInit {
       this.regno = this.common.params.rowfilling.regno;
       console.log("vid123", this.vehicleId);
     }
+    this.common.handleModalSize('class', 'modal-lg', '700', 'px', this.sizeIndex);
     this.getAllLedger();
   }
 
