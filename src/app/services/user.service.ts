@@ -7,6 +7,7 @@ import { BATTERY_MENU_ITEMS } from '../battery/battery-menu';
 import { MAINTENANCE_MENU_ITEMS } from '../vehicle-maintenance/vehicle-maintenance-menu';
 import { WAREHOUSE_MENU_ITEMS } from '../ware-house/ware-house-menu';
 import { ACCOUNTS_MENU_ITEMS } from '../accounts/accountes-menu';
+import { CHALLAN_MENU_ITEMS } from '../challan/challan-menu';
 
 const COLLECTION = {
   admin: ADMIN_MENU_ITEMS,
@@ -15,7 +16,8 @@ const COLLECTION = {
   battery: BATTERY_MENU_ITEMS,
   vehicleMaintenance: MAINTENANCE_MENU_ITEMS,
   wareHouse: WAREHOUSE_MENU_ITEMS,
-  account: ACCOUNTS_MENU_ITEMS
+  account: ACCOUNTS_MENU_ITEMS,
+  challan:CHALLAN_MENU_ITEMS
 };
 
 @Injectable({
@@ -40,17 +42,15 @@ export class UserService {
     vehicleMaintenance: [],
     wareHouse: [],
     account: [],
+    challan:[],
   };
 
 
 
   constructor(public dataService: DataService) {
-
     console.log('Details: ', localStorage.getItem('USER_DETAILS'));
-
     this._token = localStorage.getItem('USER_TOKEN') || '';
     this._details = JSON.parse(localStorage.getItem('USER_DETAILS')) || null;
-
     this._loggedInBy = localStorage.getItem('LOGGED_IN_BY') || '';
     this._customer = JSON.parse(localStorage.getItem('CUSTOMER_DETAILS')) || { name: '', id: '' };
 
