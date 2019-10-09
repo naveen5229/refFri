@@ -282,6 +282,6 @@ export class FreightRateRulesComponent implements OnInit {
         this.rateParam = 'weight';
         this.rateName = null;
         this.btnName="Add Rule";
-  }
+  } 
 }
 
