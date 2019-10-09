@@ -15,6 +15,7 @@ import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.com
 import { AssignUserTemplateComponent } from '../../modals/assign-user-template/assign-user-template.component';
 import { FreightInvoiceRateComponent } from '../../modals/FreightRate/freight-invoice-rate/freight-invoice-rate.component';
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
+import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 
 @Component({
   selector: 'freight-invoices',
@@ -252,17 +253,36 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
+  // printInvoice(inv, invNo) {
+  //   let invoice = {
+  //     id: inv._id,
+  //   }
+  //   this.common.params = { invoice: invoice }
+  //   const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+  //   activeModal.result.then(data => {
+  //     console.log('Date:', data);
+
+  //   });
+  // }
+
   printInvoice(inv, invNo) {
-    let invoice = {
-      id: inv._id,
+    let previewData = {
+      title: 'Invoice',
+      previewId: null,
+      refId: inv._id,
+      refType: "INV_PRT"
     }
-    this.common.params = { invoice: invoice }
-    const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    this.common.params = { previewData };
+    console.log("invoice", inv);
+
+    // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
+
     activeModal.result.then(data => {
       console.log('Date:', data);
-
     });
   }
+
 
   supportDoc(inv, invNo) {
     let invoice = {
