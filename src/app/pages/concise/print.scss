@@ -1,51 +1,58 @@
-.nb_card_box{
+.nb_card_box {
     position: absolute;
     top: 70px;
     z-index: 998;
 }
-.status-print-view2{
+
+.status-print-view2 {
     width: 210mm;
     height: 297mm;
     margin: auto;
 }
-.graph-data nb-card{
+
+.graph-data nb-card {
     width: 33%;
     display: inline-block;
     padding: 0px;
     font-size: 14px;
     font-weight: bold;
 }
-.graph-data nb-card nb-card-body{
-    padding: 15px 10px;
+
+.graph-data nb-card nb-card-body {
+    padding: 15px 6px;
     display: block;
 }
-.status-print-view{
+
+.status-print-view {
     padding: 15px;
     height: 310mm;
     font-size: 24px;
-    
-   
 }
-.all_data{
-    font-size:12px;
+
+.all_data {
+    font-size: 12px;
 }
+
 .status-print-view .dashboard_chart {
     width: 60%;
     margin: 0 auto;
     margin-bottom: 15px;
     margin-top: 16px;
 }
-.truck-route{
+
+.truck-route {
     position: relative;
     width: 80%;
     margin: 0 auto;
     margin-bottom: 40px;
     margin-top: 20px;
 }
-.truck_road{
+
+.truck_road {
     display: block;
     width: 100%;
 }
+
 .truck_road:before {
     content: '';
     display: block;
@@ -56,6 +63,7 @@
     position: absolute;
     bottom: -3px;
 }
+
 .truck_road:after {
     content: '';
     display: block;
@@ -67,28 +75,38 @@
     right: 0px;
     bottom: -3px;
 }
-.truck_road hr{
+
+.truck_road hr {
     background-color: #000;
     height: 2px;
     margin: 0px;
 }
-.left-truck{
+
+.left-truck {
     margin-left: 15px;
 }
-.right-truck{
+
+.right-truck {
     float: right;
     margin-right: 15px;
 }
+
 .truck_road i {
     font-size: 40px;
     color: #f87003;
 }
-#page-2 .status_box nb-card:nth-child(1){
+
+#page-2 .status_box nb-card:nth-child(1) {
     border-top: 0px !important;
 }
-.status-print-title h4{
+
+.status-print-title h4 {
     font-weight: bold;
     color: #55a1ff;
     font-size: 28px;
     margin: 0px;
+}
+
+.status_box {
+    margin-right: -90px !important;
 }
