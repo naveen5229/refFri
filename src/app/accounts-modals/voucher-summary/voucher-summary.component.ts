@@ -1141,6 +1141,7 @@ export class VoucherSummaryComponent implements OnInit {
     let rows5 = [];
     let rows6 = [];
     let rows7 = [];
+    let rows8=  [];
     console.log('trip check data', this.trips);
     this.trips.map((tripDetail, index) => {
       if (tripDetail.isChecked) {
@@ -1261,6 +1262,13 @@ export class VoucherSummaryComponent implements OnInit {
         { txt: this.fuelMilege },
       
     ]);
+    rows8.push([
+      { txt: this.tripAdvanceTotal },
+      { txt: this.alltotal },
+      { txt:  this.alltotal - (this.tripAdvanceTotal) },
+     
+    
+  ]);
     console.log('rows4', rows4);
     let invoiceJson = {};
 
@@ -1446,6 +1454,15 @@ export class VoucherSummaryComponent implements OnInit {
           ],
           rows: rows6,
           name: 'Revenue'
+        },
+        {
+          headings: [
+            { txt: 'Advance' },
+            { txt: 'Expenses' },
+            { txt: 'Net Pay' }            
+          ],
+          rows: rows8,
+          name: 'Drivar'
         }
         ],
         signatures: ['Accountant', 'Approved By'],
@@ -1455,8 +1472,8 @@ export class VoucherSummaryComponent implements OnInit {
           right: { name: 'Page No', value: 1 },
         },
         footertotal: [
-          { name: 'Net Pay to Driver : ', value: this.alltotal - (this.tripAdvanceTotal), size: '20px', weight: 600 },
-          { name: ' ', value: ' ' },
+          // { name: 'Net Pay to Driver : ', value: this.alltotal - (this.tripAdvanceTotal), size: '20px', weight: 600 },
+          // { name: ' ', value: ' ' },
           { name: ' ', value: ' ' },
           { name: ' ', value: ' ' },
           { name: 'Remarks : ', value: this.narration },
