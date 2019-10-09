@@ -105,16 +105,30 @@ export class PendingChallanComponent implements OnInit {
   }
 
   paymentDocImage(paymentId) {
-    console.log('___paymentId', paymentId);
-    let refdata = {
-      refid: "",
-      reftype: "",
-      doctype: "",
-      docid: paymentId
-    }
-    this.common.params = { refdata: refdata, title: 'docImage' };
-    console.log('Params:', this.common.params);
-    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
+    // console.log('___paymentId', paymentId);
+    // let refdata = {
+    //   refid: "",
+    //   reftype: "",
+    //   doctype: "",
+    //   docid: paymentId
+    // }
+ let params ="docId="+paymentId;
+    this.common.loading++;
+    this.api.get('Documents/getRepositoryImages?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res['data']);
+        if (res['data']) {
+         let pdfUrl=res['data'][0]._url;
+         console.log("pd")
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    // this.common.params = { refdata: refdata, title: 'docImage' };
+    // console.log('Params:', this.common.params);
+    // const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
   }
 
   clearAllTableData() {
