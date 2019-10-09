@@ -3,6 +3,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { PdfViewerComponent } from '../../generic/pdf-viewer/pdf-viewer.component';
 
 @Component({
   selector: 'pending-challan',
@@ -23,6 +24,7 @@ export class PendingChallanComponent implements OnInit {
       hideHeader: true
     }
   };
+  pdfUrl = '';
 
   constructor(public common: CommonService,
     public api: ApiService,
@@ -94,7 +96,7 @@ export class PendingChallanComponent implements OnInit {
       let column = {};
       for (let key in this.generateHeadings(chHeadings)) {
         if (key == "Action") {
-          column[key] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.paymentDocImage.bind(this, item._payment_doc_id) }, { class: 'fa fa-edit', action: this.paymentDocImage.bind(this, item._ch_doc_id) }] };
+          column[key] = { value: "", action: null, icons: [{ class: 'far fa-file-alt', action: this.paymentDocImage.bind(this, item._ch_doc_id) }, { class: 'far fa-file-pdf', action: this.paymentDocImage.bind(this, item._payment_doc_id) }] };
         } else {
           column[key] = { value: item[key], class: 'black', action: '' };
         }
@@ -105,30 +107,28 @@ export class PendingChallanComponent implements OnInit {
   }
 
   paymentDocImage(paymentId) {
-    // console.log('___paymentId', paymentId);
-    // let refdata = {
-    //   refid: "",
-    //   reftype: "",
-    //   doctype: "",
-    //   docid: paymentId
-    // }
- let params ="docId="+paymentId;
-    this.common.loading++;
-    this.api.get('Documents/getRepositoryImages?' + params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log(res['data']);
-        if (res['data']) {
-         let pdfUrl=res['data'][0]._url;
-         console.log("pd")
-        }
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-    // this.common.params = { refdata: refdata, title: 'docImage' };
-    // console.log('Params:', this.common.params);
-    // const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
+    if (paymentId) {
+      this.pdfUrl = '';
+      let params = "docId=" + paymentId;
+      this.common.loading++;
+      this.api.get('Documents/getRepositoryImages?' + params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log(res['data']);
+          if (res['data']) {
+            this.pdfUrl = res['data'][0]['url'];
+            this.common.params = { pdfUrl: this.pdfUrl, title: "Challan" };
+            console.log("params", this.common.params);
+            this.modalService.open(PdfViewerComponent, {
+              size: "lg",
+              container: "nb-layout"
+            });
+          }
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
   }
 
   clearAllTableData() {

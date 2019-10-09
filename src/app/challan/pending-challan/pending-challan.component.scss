@@ -1,130 +1,144 @@
-// .fa-edit {
-//     color: blue,
-// }
-// :host ::ng-deep td i.fa-edit {
-//     background-color: #04a9f5;
-//     color: #fff;
-//     padding: 5px;
-//     border-radius: 3px;
-//     position: relative;
-//     margin-right: 5px;
-// }
-//  :host ::ng-deep td i.fa-edit:hover span {
-//     display: block;
-// }
-//  :host ::ng-deep td i.fa-edit span {
-//     position: absolute;
-//     display: none;
-//     padding: 11px 57px;
-//     left: -44px;
-//     top: -28px;
-//     font-family: Roboto;
-//     z-index: 999;
-// }
-//  :host ::ng-deep td i.fa-edit span::before {
-//     content: "Open Pending Image";
-//     display: block;
-//     position: absolute;
-//     top: 0px;
-//     left: 0px;
-//     background-color: #04a9f5;
-//     border-radius: 3px;
-//     padding: 5px 10px;
-// }
-//  :host ::ng-deep td i.fa-edit span::after {
-//     content: "";
-//     width: 0;
-//     height: 0;
-//     border-left: 5px solid transparent;
-//     border-right: 5px solid transparent;
-//     border-top: 5px solid #04a9f5;
-//     position: absolute;
-//     bottom: -5px;
-//     left: 50%;
-//     transform: translate(-50%);
-// }
-//   :host ::ng-deep td i.fa-reddit {
-//     background-color: #82c91e;
-//     color: #fff;
-//     padding: 5px;
-//     border-radius: 3px;
-//     position: relative;
-//   }
-//   :host ::ng-deep td i.fa-reddit:hover span {
-//     display: block;
-//   }
-//   :host ::ng-deep td i.fa-reddit span {
-//     position: absolute;
-//     display: none;
-//     padding: 11px 70px;
-//     left: -59px;
-//     top: -28px;
-//     font-family: Roboto;
-//     z-index: 999;
-//   }
-//   :host ::ng-deep td i.fa-reddit span::before {
-//     content: "Party Ledger Mapping";
-//     display: block;
-//     position: absolute;
-//     top: 0px;
-//     left: 0px;
-//     background-color: #82c91e;
-//     border-radius: 3px;
-//     padding: 5px 10px;
-//   }
-//   :host ::ng-deep td i.fa-reddit span::after {
-//     content: "";
-//     width: 0;
-//     height: 0;
-//     border-left: 5px solid transparent;
-//     border-right: 5px solid transparent;
-//     border-top: 5px solid #82c91e;
-//     position: absolute;
-//     bottom: -5px;
-//     left: 50%;
-//     transform: translate(-50%);
-//   }
-//   :host ::ng-deep .fa-trash {
-//     color: red;
-//     font-size: 18px;
-//     margin-left: 6px;
-//     span {
-//       position: absolute;
-//       display: none;
-//       padding: 10px 33px;
-//       font-weight: normal;
-//       font-size: 11px;
-//       left: -22px;
-//       top: -28px;
-//       -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-//       box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-//       font-family: Roboto;
-//       z-index: 9999;
-//     }
-//     span::before {
-//       content: "Delete";
-//       display: block;
-//       position: absolute;
-//       top: 0px;
-//       left: 0px;
-//       background-color: red;
-//       border-radius: 3px;
-//       padding: 5px 10px;
-//       color: #fff;
-//       width: 100%;
-//     }
-//     span::after {
-//       content: "";
-//       width: 0;
-//       height: 0;
-//       border-left: 5px solid transparent;
-//       border-right: 5px solid transparent;
-//       border-top: 5px solid red;
-//       position: absolute;
-//       bottom: -5px;
-//       right: 24px;
-//     }
-//   }
-//   :host ::ng-deep .fa-trash:hover span {
-//     display: block;
-//   }
+.fa-edit {
+    color: blue,
+}
+
+:host ::ng-deep td i.fa-file-alt {
+    background-color: #04a9f5;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+    padding-top: 11px;
+    height: 29px;
+    // margin-right: 5px;
+}
+
+ :host ::ng-deep td i.fa-file-alt:hover span {
+    display: block;
+}
+
+ :host ::ng-deep td i.fa-file-alt span {
+    position: absolute;
+    display: none;
+    padding: 11px 57px;
+    left: -44px;
+    top: -28px;
+    font-family: Roboto;
+    z-index: 999;
+}
+
+ :host ::ng-deep td i.fa-file-alt span::before {
+    content: "Challan";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #04a9f5;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+
+ :host ::ng-deep td i.fa-file-alt span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #04a9f5;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+:host ::ng-deep .fa-file-alt:hover span {
+    display: block;
+}
+
+ :host ::ng-deep td i.fa-file-pdf {
+    background-color: red;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+}
+
+ :host ::ng-deep td i.fa-file-pdf span {
+    position: absolute;
+    display: none;
+    padding: 11px 70px;
+    left: -59px;
+    top: -28px;
+    font-family: Roboto;
+    z-index: 999;
+}
+
+ :host ::ng-deep td i.fa-file-pdf span::before {
+    content: "Payment Receipt";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: red;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+
+ :host ::ng-deep td i.fa-file-pdf span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid red;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+ :host ::ng-deep .fa-file-pdf {
+    color: red;
+    font-size: 18px;
+    margin-left: 6px;
+    span {
+        position: absolute;
+        display: none;
+        padding: 10px 33px;
+        font-weight: normal;
+        font-size: 11px;
+        left: -22px;
+        top: -28px;
+        -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+        box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+        font-family: Roboto;
+        z-index: 9999;
+    }
+    span::before {
+        content: "Delete";
+        display: block;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-color: red;
+        border-radius: 3px;
+        padding: 5px 10px;
+        color: #fff;
+        width: 100%;
+    }
+    span::after {
+        content: "";
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid red;
+        position: absolute;
+        bottom: -5px;
+        right: 24px;
+    }
+}
+
+ :host ::ng-deep .fa-file-pdf:hover span {
+    display: block;
+}
