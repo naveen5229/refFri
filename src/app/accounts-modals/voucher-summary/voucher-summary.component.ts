@@ -7,11 +7,11 @@ import { AddTripComponent } from '../../modals/add-trip/add-trip.component';
 import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-filling.component';
 import { AddDriverComponent } from '../../driver/add-driver/add-driver.component';
 import { AccountService } from '../../services/account.service';
-import { DateService } from '../../services/date.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-filling.component';
 import { PrintService } from '../../services/print/print.service';
+import { DateService } from '../../services/date/date.service';
 
 @Component({
   selector: 'voucher-summary',
@@ -20,8 +20,8 @@ import { PrintService } from '../../services/print/print.service';
 })
 export class VoucherSummaryComponent implements OnInit {
   firstdate = '';
-  tripexpencevoucherid=0;
-  tripAdvanceTotal=0;
+  tripexpencevoucherid = 0;
+  tripAdvanceTotal = 0;
   enddate = '';
   permanentDeleteId = 0;
   sizeIndex = 0;
@@ -38,7 +38,7 @@ export class VoucherSummaryComponent implements OnInit {
   selectedRow = -1;
   trips;
   vouchertype = -150;
-  totalDays=0;
+  totalDays = 0;
   vehclename = '';
   ledgers = [];
   debitLedgerdata = [];
@@ -52,10 +52,10 @@ export class VoucherSummaryComponent implements OnInit {
   DriverName;
   totalTrip = [];
   tripFreghtDetails = [];
-  lastOdoMeter=0;
-  currentOdoMeter=0;
+  lastOdoMeter = 0;
+  currentOdoMeter = 0;
   fuelMilege = 0;
-  totalqty=0;
+  totalqty = 0;
   creditLedger = {
     name: '',
     id: 0
@@ -90,6 +90,7 @@ export class VoucherSummaryComponent implements OnInit {
   }];
   constructor(public api: ApiService,
     public common: CommonService,
+    private dateService: DateService,
     public modalService: NgbModal,
     public accountService: AccountService,
     private printService: PrintService,
@@ -125,7 +126,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.tripVoucher = this.common.params.tripVoucher;
       this.trips = this.common.params.tripEditData;
       this.VoucherId = this.tripVoucher.y_voucher_id;
-      this.tripexpencevoucherid=this.tripVoucher.y_id;
+      this.tripexpencevoucherid = this.tripVoucher.y_id;
       this.FinanceVoucherId = this.tripVoucher.fi_voucher_id;
       this.checkedTrips = this.tripsEditData;
       this.custcode = this.tripVoucher.y_code;
@@ -175,12 +176,12 @@ export class VoucherSummaryComponent implements OnInit {
         this.getTripFreght();
         this.tripexpvoucherid = this.tripVoucher.y_id;
         this.VoucherData = this.common.params.VoucherData;
-  
+
         this.showTransfer();
       }, 200);
-      console.log('---------****',this.VoucherId);
+      console.log('---------****', this.VoucherId);
       this.getOdoMeter();
-     
+
 
     }
 
@@ -404,32 +405,32 @@ export class VoucherSummaryComponent implements OnInit {
     let selectedAll = '';
     this.checkedTrips = [];
     if (this.checkall) {
-      
-      this.trips.map(trip =>{ 
-        if(!trip.voucher_id){
-        trip.isChecked = true
-        this.checkedTrips.push(trip);
-      }
-      console.log('all cheked trips ',this.checkedTrips);
-    });
+
+      this.trips.map(trip => {
+        if (!trip.voucher_id) {
+          trip.isChecked = true
+          this.checkedTrips.push(trip);
+        }
+        console.log('all cheked trips ', this.checkedTrips);
+      });
     } else {
       this.trips.map(trip => trip.isChecked = false);
     }
   }
-  changeFuelFilling(){
-    this.totalqty=0;
+  changeFuelFilling() {
+    this.totalqty = 0;
     let tqty = 0;
-    this.fuelFilings.map(fuelFiling =>{ 
-      if(fuelFiling.isChecked){
-        tqty +=fuelFiling.litres;
-    }
+    this.fuelFilings.map(fuelFiling => {
+      if (fuelFiling.isChecked) {
+        tqty += fuelFiling.litres;
+      }
 
-  });
-  this.totalqty= parseFloat(tqty.toFixed(2));
-  this.changeFuelCalculate();
+    });
+    this.totalqty = parseFloat(tqty.toFixed(2));
+    this.changeFuelCalculate();
 
   }
-  findFirstSelectInfo(flag,type = 'startDate') {
+  findFirstSelectInfo(flag, type = 'startDate') {
     console.log('______________________inside findFirstSelectInfo ____________', this.trips);
     let min = this.trips.filter(ele => { return ele.isChecked }).reduce((a, b) => {
       console.log(a);
@@ -438,7 +439,7 @@ export class VoucherSummaryComponent implements OnInit {
         (typeof a == 'string' ? a : a.start_time);
     });
     console.log('_____________________MIN MIL GYA___________', min);
-    if(min['start_time']) { return min['start_time']; } else { return min; }
+    if (min['start_time']) { return min['start_time']; } else { return min; }
     // let options = {
     //   startDate: '',
     //   index: -1
@@ -454,14 +455,14 @@ export class VoucherSummaryComponent implements OnInit {
     // return options[type];
   }
 
-  findLastSelectInfo(flag,type = 'endDate') {
+  findLastSelectInfo(flag, type = 'endDate') {
     let max = this.trips.filter(ele => { return ele.isChecked }).reduce((a, b) => {
       return (typeof a == 'string' ? a : a.end_time) < b.end_time ? b.end_time :
         (typeof a == 'string' ? a : a.end_time);
     });
     console.log('max founded', max);
-    if(max['end_time']) { return max['end_time'];}else{ return max; }
-    
+    if (max['end_time']) { return max['end_time']; } else { return max; }
+
     // let options = {
     //   endDate: '',
     //   index: -1
@@ -483,7 +484,7 @@ export class VoucherSummaryComponent implements OnInit {
       vehId: this.VehicleId,
       lastFilling: lastFilling || this.findFirstSelectInfo(1),
       currentFilling: currentFilling || this.findLastSelectInfo(1),
-      date:this.date
+      date: this.date
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -493,7 +494,7 @@ export class VoucherSummaryComponent implements OnInit {
         this.fuelFilings = res['data'] || [];
         this.fuelFilings.map(fuelFiling => {
           selectedData.map(tripedit => {
-          //  (fuelFiling.id == tripedit.id) ? fuelFiling.isChecked = true : '';
+            //  (fuelFiling.id == tripedit.id) ? fuelFiling.isChecked = true : '';
             (fuelFiling.tripexp_voucherid == this.tripexpencevoucherid) ? fuelFiling.isChecked = true : '';
           });
         });
@@ -513,7 +514,7 @@ export class VoucherSummaryComponent implements OnInit {
       vehId: this.VehicleId,
       lastFilling: lastFilling || this.findFirstSelectInfo(1),
       currentFilling: currentFilling || this.findLastSelectInfo(1),
-      date:this.date
+      date: this.date
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -522,7 +523,7 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.loading--;
         this.fuelFilings = res['data'];
         this.getOdoMeter();
-       // this.fuelFilings.map(fuelFiling => fuelFiling.isChecked = true);
+        // this.fuelFilings.map(fuelFiling => fuelFiling.isChecked = true);
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -537,22 +538,22 @@ export class VoucherSummaryComponent implements OnInit {
     this.common.loading++;
     this.api.post('TripExpenseVoucher/getOdoMeter', params)
       .subscribe(res => {
-        console.log('last odo meter',res['data'][0]);
+        console.log('last odo meter', res['data'][0]);
         this.common.loading--;
-        if(this.VoucherId==0){
-        this.lastOdoMeter = res['data'][0]['y_lastodo'] || 0;
+        if (this.VoucherId == 0) {
+          this.lastOdoMeter = res['data'][0]['y_lastodo'] || 0;
         }
         this.totalDays = res['data'][0]['y_totaldays'] || 0;
         this.changeFuelCalculate();
-       // this.fuelMilege=parseFloat(((this.currentOdoMeter-this.lastOdoMeter) / this.totalqty).toFixed(2)) || 0;
+        // this.fuelMilege=parseFloat(((this.currentOdoMeter-this.lastOdoMeter) / this.totalqty).toFixed(2)) || 0;
       }, err => {
         console.log(err);
         this.common.loading--;
         this.common.showError();
       });
   }
-  changeFuelCalculate(){
-    this.fuelMilege = parseFloat(((this.currentOdoMeter-this.lastOdoMeter) / this.totalqty).toFixed(2)) || 0;
+  changeFuelCalculate() {
+    this.fuelMilege = parseFloat(((this.currentOdoMeter - this.lastOdoMeter) / this.totalqty).toFixed(2)) || 0;
 
   }
   getVoucherDetails(voucherId) {
@@ -932,24 +933,24 @@ export class VoucherSummaryComponent implements OnInit {
     });
   }
 
-  addFuelFilling(refid?) {
+  addFuelFilling(refid?, reftype?) {
     let rowfilling = {
-      fdate: null,
+      fdate: (this.common.changeDateformat(this.date.split('-').reverse().join('-'))),
       litres: null,
       is_full: null,
-      regno: null,
+      regno: this.vehclename,
       rate: null,
       amount: null,
       pp: null,
       fuel_station_id: null,
-      vehicle_id: null,
+      vehicle_id: this.VehicleId,
       id: null,
-      ref_type: null,
+      ref_type: reftype ? reftype : null,
       ref_id: refid ? refid : null
-      
+
     };
     this.common.handleModalSize('class', 'modal-lg', '1150', 'px', this.sizeIndex);
-    this.common.params = { rowfilling, title: 'Add Fuel Filling' ,sizeIndex:1};
+    this.common.params = { rowfilling, title: 'Edit Fuel Filling', sizeIndex: 1 };
     const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -1078,7 +1079,7 @@ export class VoucherSummaryComponent implements OnInit {
         this.transferHeading = [];
         this.common.loading--;
         if (res['data']) {
-          this.tripAdvanceTotal=0;
+          this.tripAdvanceTotal = 0;
           this.transferData = res['data'];
           let first_rec = this.transferData[0];
           for (var key in first_rec) {
@@ -1086,14 +1087,14 @@ export class VoucherSummaryComponent implements OnInit {
             this.transferHeading.push(key);
           }
           this.transferData.forEach(transferkey => {
-            if(transferkey['Advise Type'] != 'Fuel'){
-            console.log('trade center',transferkey);
-            this.tripAdvanceTotal += parseFloat(transferkey['User Value']);
+            if (transferkey['Advise Type'] != 'Fuel') {
+              console.log('trade center', transferkey);
+              this.tripAdvanceTotal += parseFloat(transferkey['User Value']);
             }
-          }); 
+          });
 
-          console.log('trade center tripAdvanceTotal',this.tripAdvanceTotal);
-          
+          console.log('trade center tripAdvanceTotal', this.tripAdvanceTotal);
+
         } else {
           this.transferData = [];
         }
@@ -1141,7 +1142,7 @@ export class VoucherSummaryComponent implements OnInit {
     let rows5 = [];
     let rows6 = [];
     let rows7 = [];
-    let rows8=  [];
+    let rows8 = [];
     console.log('trip check data', this.trips);
     this.trips.map((tripDetail, index) => {
       if (tripDetail.isChecked) {
@@ -1159,7 +1160,7 @@ export class VoucherSummaryComponent implements OnInit {
           this.totalRevinue += parseFloat(tripDetail.revenue);
         }
         if (tripDetail.advance) {
-          console.log('???????',tripDetail);
+          console.log('???????', tripDetail);
           // tripDetail.forEach(transferkey => {
           //   if(transferkey['Advise Type'] != 'Fuel'){
           //   console.log('trade center',transferkey);
@@ -1172,20 +1173,20 @@ export class VoucherSummaryComponent implements OnInit {
     });
 
     if (this.vouchertype == -150) {
-      let index=0;
+      let index = 0;
       this.fuelFilings.map((fuelfill) => {
-        if(fuelfill['isChecked']){
-        rows2.push([
-          { txt: index + 1 },
-          { txt: fuelfill.name || '' },
-          { txt: fuelfill.litres || '' },
-          { txt: fuelfill.rate || '', align: 'left' },
-          { txt: fuelfill.amount || '', align: 'left' },
-          { txt: this.common.dateFormatternew(fuelfill.entry_time) || '' },
-        ]);
-        this.totalFuel += parseFloat(fuelfill.amount);
-        index++;
-      }
+        if (fuelfill['isChecked']) {
+          rows2.push([
+            { txt: index + 1 },
+            { txt: fuelfill.name || '' },
+            { txt: fuelfill.litres || '' },
+            { txt: fuelfill.rate || '', align: 'left' },
+            { txt: fuelfill.amount || '', align: 'left' },
+            { txt: this.common.dateFormatternew(fuelfill.entry_time) || '' },
+          ]);
+          this.totalFuel += parseFloat(fuelfill.amount);
+          index++;
+        }
       });
     }
 
@@ -1256,19 +1257,19 @@ export class VoucherSummaryComponent implements OnInit {
 
     ]);
     rows7.push([
-        { txt: this.totalqty },
-        { txt: this.lastOdoMeter },
-        { txt: this.currentOdoMeter },
-        { txt: this.fuelMilege },
-      
+      { txt: this.totalqty },
+      { txt: this.lastOdoMeter },
+      { txt: this.currentOdoMeter },
+      { txt: this.fuelMilege },
+
     ]);
     rows8.push([
       { txt: this.tripAdvanceTotal },
       { txt: this.alltotal },
-      { txt:  this.alltotal - (this.tripAdvanceTotal) },
-     
-    
-  ]);
+      { txt: this.alltotal - (this.tripAdvanceTotal) },
+
+
+    ]);
     console.log('rows4', rows4);
     let invoiceJson = {};
 
@@ -1459,7 +1460,7 @@ export class VoucherSummaryComponent implements OnInit {
           headings: [
             { txt: 'Advance' },
             { txt: 'Expenses' },
-            { txt: 'Net Pay' }            
+            { txt: 'Net Pay' }
           ],
           rows: rows8,
           name: 'Drivar'
