@@ -270,7 +270,7 @@ export class FreightInvoicesComponent implements OnInit {
       title: 'Invoice',
       previewId: null,
       refId: inv._id,
-      refType: "INV_PRT"
+      refType: "FRINV"
     }
     this.common.params = { previewData };
     console.log("invoice", inv);
