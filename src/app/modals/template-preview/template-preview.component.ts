@@ -60,8 +60,8 @@ export class TemplatePreviewComponent implements OnInit {
     this.api.get('userTemplate/preview?tId=' + this.template.PreviewId + '&refid=' + this.template.refId + '&ref_type=' + this.template.refType)
       .subscribe(res => {
         --this.common.loading;
-        // console.log("preview : ", res['data']);
-        this.template.preview = this.sanitizer.bypassSecurityTrustHtml(res['data']);
+        this.template.PreviewId = res['data'][0].templateid;
+        this.template.preview = this.sanitizer.bypassSecurityTrustHtml(res['data'][0].result);
         //console.log("preview : ",this.template.preview)
       })
   }
