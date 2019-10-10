@@ -73,9 +73,9 @@ export class FreightInvoiceComponent implements OnInit {
           this.freightInvoice.parentId = res['data'][0].parent_id;
           this.freightInvoice.type = res['data'][0].inv_type;
           this.freightInvoice.partyAddress=res['data'][0].party_address;
-          this.freightInvoice.title = res['data'][0].title;
+          this.freightInvoice.title = res['data'][0].inv_title;
           this.material.id = res['data'][0].material_id;;
-          this.material.name = res['data'][0].material;
+          this.material.name = res['data'][0].material_name;
           this.btnTxt="Update Invoice";
         }
       }, err => {
