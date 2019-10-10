@@ -35,6 +35,7 @@ import { PdfService } from "../../services/pdf/pdf.service";
 import { MatTableDataSource } from "@angular/material";
 import { EntityFlagsComponent } from "../../modals/entity-flags/entity-flags.component";
 import { DatePipe } from "@angular/common";
+import { PdfViewerComponent } from "../../generic/pdf-viewer/pdf-viewer.component";
 
 @Component({
   selector: "concise",
