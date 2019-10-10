@@ -75,13 +75,13 @@ export class SaveUserTemplateComponent implements OnInit {
   setValue() {
     let html = this.template.templateHtml;
     let indeces = this.searchMulti(/@@@/gi, html);
-    let indecesDone = this.searchMulti(/@([a-z]|[A-Z]|_)+@/gi, html);
+    let indecesDone = this.searchMulti(/@([a-z]|[A-Z]|_|[0-9])+@/gi, html);
     indeces.forEach(element => {
       let value = `<span class="fillvalue"><i class="far fa-plus-square"></i><label class="value">${element}</label></span>`;
       html = html.replace(/@@@/i, value);
     });
     indecesDone.forEach(element => {
-      html = html.replace(/@([a-z]|[A-Z]|_)+@/i, function (x) {
+      html = html.replace(/@([a-z]|[A-Z]|_|[0-9])+@/i, function (x) {
         x = x.replace(/@+$/, '').replace(/^@+/, '');
 
         let value = `<span class="emptyValue"><label class="replaceValue">${x}</label><i class="far fa-minus-square"></i><label class="value">${element}</label></span>`;

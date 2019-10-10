@@ -88,8 +88,8 @@ export class EditFillingComponent implements OnInit {
       if (this.refId != null) {
         this.edit = 1;
       }
-      // this.getReferenceData();
-      // this.getRefernceType(this.refernceType);
+      this.getReferenceData();
+      this.getRefernceType(this.refernceType);
 
       // this.showDate = rec.fdate;
       // this.filldate = rec.fdate;
@@ -117,7 +117,11 @@ export class EditFillingComponent implements OnInit {
     }
     if (this.common.params.title == 'Edit Fuel Filling') {
       let dateArr = rec.fdate.split('-');
-      dateArr[2] = '20' + dateArr[2];
+      if(dateArr[2].length==2){
+        dateArr[2] = '20' + dateArr[2];
+      }else{
+      dateArr[2] = dateArr[2];
+      }
       this.date = new Date(dateArr.join('/'))
       this.vehicleId = this.common.params.rowfilling.vehicle_id;
       this.regno = this.common.params.rowfilling.regno;

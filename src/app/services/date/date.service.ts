@@ -39,6 +39,7 @@ export class DateService {
       return (month + seperator + date);
     }
   }
+
   timeFormatter(timeToFormat, format = 'HH:MM', seperator = ':') {
     timeToFormat = new Date(timeToFormat);
     let hours = timeToFormat.getHours();
@@ -67,5 +68,16 @@ export class DateService {
 
       return (hours + seperator + minutes);
     }
+  }
+
+  /**
+   * Date Formatter For Any Date Formatt. For more details read angular date format pipe doc.
+   * https://angular.io/api/common/DatePipe
+   * @param date {type: string | DateObject}
+   * @param format {type: string} Example: for "09 Oct 2019" => "dd MMM yyyy", "2019/10/09" => "yyyy/mm/dd" for more formats please read doc
+   * 
+   */
+  format(date, format: string = 'dd MMM yyyy') {
+    return this.datePipe.transform(date);
   }
 }
