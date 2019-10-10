@@ -10,6 +10,11 @@ import { DomSanitizer } from "@angular/platform-browser";
   styleUrls: ['./template-preview.component.scss']
 })
 export class TemplatePreviewComponent implements OnInit {
+
+  type='';
+  isFoid="";
+  view=[];
+  templateType="";
   template = {
     PreviewId: null,
     preview: null,
@@ -37,6 +42,7 @@ export class TemplatePreviewComponent implements OnInit {
       this.title = this.common.params.previewData.title ? this.common.params.previewData.title : 'Preview';
     }
     this.preview();
+    this.showdata();
   }
 
   ngOnInit() {
@@ -98,6 +104,28 @@ export class TemplatePreviewComponent implements OnInit {
     }, 1000);
   }
 
+  showdata()
+  {
+    
+   this.type= this.common.params.previewData.refType ? this.common.params.previewData.refType : '';
+    if(this.type=="FRINV")
+    this.isFoid = this.templateType;
+    let params = "type=" + this.type + "&isFoid=" + true;
+    this.common.loading++;
+    this.api.get('userTemplate/view?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res:', res);
+        this.view = res['data'] || [];
+        console.log("View",this.view);
+        //console.log("id",this.view['_id'])
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
+  }
 
 
 
