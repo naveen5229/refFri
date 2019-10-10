@@ -3,6 +3,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { PdfViewerComponent } from '../../generic/pdf-viewer/pdf-viewer.component';
 
 @Component({
   selector: 'pending-challan',
@@ -11,7 +12,7 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 })
 export class PendingChallanComponent implements OnInit {
   endDate = new Date();
-  startDate= new Date(new Date().setDate(new Date(this.endDate).getDate() -30));
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 30));
   challanStatus = '-1';
   challan = [];
   table = {
@@ -23,46 +24,48 @@ export class PendingChallanComponent implements OnInit {
       hideHeader: true
     }
   };
+  pdfUrl = '';
 
   constructor(public common: CommonService,
     public api: ApiService,
-    private modalService: NgbModal,) {
+    private modalService: NgbModal, ) {
 
-     }
+  }
 
   ngOnInit() {
   }
 
+
   getPendingChallans() {
-    if(!this.startDate && !this.endDate){
+    if (!this.startDate && !this.endDate) {
       this.common.showError("Please Enter StartDate and EndDate");
-    }else if(!this.startDate){
+    } else if (!this.startDate) {
       this.common.showError("Please Enter StartDate");
-    }else if(!this.endDate){
+    } else if (!this.endDate) {
       this.common.showError("Please Enter EndDate");
-    }else if(this.startDate>this.endDate){
+    } else if (this.startDate > this.endDate) {
       this.common.showError("StartDate Should be less Then EndDate")
-    }else{
+    } else {
       let params = "fromTime=" + this.common.dateFormatter(this.startDate) + "&toTime=" + this.common.dateFormatter(this.endDate) + "&viewType=" + this.challanStatus;
-    this.common.loading++;
-    this.api.get('RcDetails/getPendingChallans?' + params)
-      .subscribe(res => {
-        console.log('Res:', res);
-        this.common.loading--;
-        this.clearAllTableData();
-        if (!res['data']){
-          this.common.showError("Data Not Found");
-          return;
-        }    
-        this.challan = res['data'];
-        this.setTable();
-      },
-        err => {
+      this.common.loading++;
+      this.api.get('RcDetails/getPendingChallans?' + params)
+        .subscribe(res => {
+          console.log('Res:', res);
           this.common.loading--;
-          this.common.showError(err);
-        });
+          this.clearAllTableData();
+          if (!res['data']) {
+            this.common.showError("Data Not Found");
+            return;
+          }
+          this.challan = res['data'];
+          this.setTable();
+        },
+          err => {
+            this.common.loading--;
+            this.common.showError(err);
+          });
     }
-    
+
   }
 
   setTable() {
@@ -93,7 +96,7 @@ export class PendingChallanComponent implements OnInit {
       let column = {};
       for (let key in this.generateHeadings(chHeadings)) {
         if (key == "Action") {
-          column[key]={value: "", action: null,icons:[{class: 'fa fa-edit', action: '' },{class: 'fa fa-edit', action: '' }]};
+          column[key] = { value: "", action: null, icons: [{ class: 'far fa-file-alt', action: this.paymentDocImage.bind(this, item._ch_doc_id) }, { class: 'far fa-file-pdf', action: this.paymentDocImage.bind(this, item._payment_doc_id) }] };
         } else {
           column[key] = { value: item[key], class: 'black', action: '' };
         }
@@ -103,16 +106,30 @@ export class PendingChallanComponent implements OnInit {
     return columns;
   }
 
-  // paymentDocImage(paymentId){
-  //     let refdata = {
-  //       refid: "",
-  //       reftype: "",
-  //       doctype: "",
-  //       docid: paymentId
-  //     }
-  //     this.common.params = { refdata: refdata, title: 'docImage' };
-  //     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'imageviewcomp' });
-  // }
+  paymentDocImage(paymentId) {
+    if (paymentId) {
+      this.pdfUrl = '';
+      let params = "docId=" + paymentId;
+      this.common.loading++;
+      this.api.get('Documents/getRepositoryImages?' + params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log(res['data']);
+          if (res['data']) {
+            this.pdfUrl = res['data'][0]['url'];
+            this.common.params = { pdfUrl: this.pdfUrl, title: "Challan" };
+            console.log("params", this.common.params);
+            this.modalService.open(PdfViewerComponent, {
+              size: "lg",
+              container: "nb-layout"
+            });
+          }
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
+  }
 
   clearAllTableData() {
     this.table = {

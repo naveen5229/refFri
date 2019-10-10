@@ -16,6 +16,9 @@ import { ThemeModule } from './@theme/theme.module';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './auth/login/login.component';
 import { HttpModule } from '@angular/http';
+
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.component';
 import { LocationMarkerComponent } from './modals/location-marker/location-marker.component';
 import { TicketTrailsComponent } from './modals/ticket-trails/ticket-trails.component';
@@ -256,8 +259,9 @@ import { FreightRateSummaryComponent } from './modals/FreightRate/freight-rate-s
 import { AddReportFormatsComponent } from './modals/add-report-formats/add-report-formats.component';
 import { FreightRateRulesComponent } from './modals/FreightRate/freight-rate-rules/freight-rate-rules.component';
 import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.component';
+import { PdfViewerComponent } from './generic/pdf-viewer/pdf-viewer.component';
 
-
+const COMMON_COMPONENT = [UnMergeStateComponent, PdfViewerComponent];
 
 @NgModule({
   declarations: [AppComponent,
@@ -484,8 +488,8 @@ import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.co
     AddCompanyAssociationComponent,
     FreightRateSummaryComponent,
     AddReportFormatsComponent,
-    UnMergeStateComponent,
     FreightRateRulesComponent,
+    ...COMMON_COMPONENT
 
   ],
   entryComponents: [
@@ -700,7 +704,7 @@ import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.co
     DriverPersonalInfoComponent,
     AddCompanyAssociationComponent,
     FreightRateSummaryComponent,
-    UnMergeStateComponent
+    ...COMMON_COMPONENT
   ],
   imports: [
     BrowserModule,
@@ -721,7 +725,7 @@ import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.co
     MatDatepickerModule,
     MatNativeDateModule,
     NgxPrintModule,
-
+    PdfViewerModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']
