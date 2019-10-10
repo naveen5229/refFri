@@ -104,6 +104,8 @@ table {
 }
 
 .status_box {
+    width: 100%;
+
     nb-card {
         margin: 0px !important;
         border: none !important;
@@ -196,9 +198,11 @@ mwlResizable {
     th:nth-child(1) {
         width: 30px !important;
     }
+
     th:nth-child(2) {
         width: 60px;
     }
+
     th:nth-child(3) {
         width: 50px;
     }
@@ -234,6 +238,7 @@ mwlResizable {
     th {
         position: relative;
         z-index: 999;
+
         .sort-container {
             width: 15px;
             display: none
@@ -243,10 +248,12 @@ mwlResizable {
             width: auto;
         }
     }
+
     th:hover {
         .sort-container {
             display: inline-block;
         }
+
         .filter-input-container {
             width: calc(100% - 17px);
         }
@@ -255,7 +262,8 @@ mwlResizable {
     td {
         .icon.fa-chart-pie {
             color: #04a9f5;
-            span{
+
+            span {
                 position: absolute;
                 display: none;
                 padding: 10px 65px;
@@ -266,9 +274,10 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
-                z-index:9999;
+                z-index: 9999;
             }
-            span::before{
+
+            span::before {
                 content: 'Change Vehicle Status';
                 display: block;
                 position: absolute;
@@ -277,10 +286,11 @@ mwlResizable {
                 background-color: #04A9F5;
                 border-radius: 3px;
                 padding: 5px 10px;
-                color:#fff;
+                color: #fff;
                 width: 100%;
             }
-            span::after{
+
+            span::after {
                 content: '';
                 width: 0;
                 height: 0;
@@ -294,13 +304,15 @@ mwlResizable {
                 transform: translate(-50%);
             }
         }
-        .icon.fa-chart-pie:hover span{
+
+        .icon.fa-chart-pie:hover span {
             display: block;
         }
 
         .icon.fa-star {
             color: #8518d5;
-            span{
+
+            span {
                 position: absolute;
                 display: none;
                 padding: 10px 44px;
@@ -311,9 +323,10 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
-                z-index:9999;
+                z-index: 9999;
             }
-            span::before{
+
+            span::before {
                 content: 'Vehicle Event';
                 display: block;
                 position: absolute;
@@ -322,10 +335,11 @@ mwlResizable {
                 background-color: #8518d5;
                 border-radius: 3px;
                 padding: 5px 10px;
-                color:#fff;
+                color: #fff;
                 width: 100%;
             }
-            span::after{
+
+            span::after {
                 content: '';
                 width: 0;
                 height: 0;
@@ -339,13 +353,15 @@ mwlResizable {
                 transform: translate(-50%);
             }
         }
-        .icon.fa-star:hover span{
+
+        .icon.fa-star:hover span {
             display: block;
         }
 
         .icon.fa-route {
             color: #ff8091;
-            span{
+
+            span {
                 position: absolute;
                 display: none;
                 padding: 10px 44px;
@@ -357,9 +373,10 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
-                z-index:9999;
+                z-index: 9999;
             }
-            span::before{
+
+            span::before {
                 content: 'Route Tracker';
                 display: block;
                 position: absolute;
@@ -368,10 +385,11 @@ mwlResizable {
                 background-color: #ff8091;
                 border-radius: 3px;
                 padding: 5px 10px;
-                color:#fff;
+                color: #fff;
                 width: 100%;
             }
-            span::after{
+
+            span::after {
                 content: '';
                 width: 0;
                 height: 0;
@@ -385,13 +403,15 @@ mwlResizable {
                 transform: translate(-50%);
             }
         }
-        .icon.fa-route:hover span{
+
+        .icon.fa-route:hover span {
             display: block;
         }
 
         .icon.fa-truck {
             color: #5cd050;
-            span{
+
+            span {
                 position: absolute;
                 display: none;
                 padding: 10px 23px;
@@ -402,9 +422,10 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
-                z-index:9999;
+                z-index: 9999;
             }
-            span::before{
+
+            span::before {
                 content: 'Trips';
                 display: block;
                 position: absolute;
@@ -413,10 +434,11 @@ mwlResizable {
                 background-color: #5cd050;
                 border-radius: 3px;
                 padding: 5px 10px;
-                color:#fff;
+                color: #fff;
                 width: 100%;
             }
-            span::after{
+
+            span::after {
                 content: '';
                 width: 0;
                 height: 0;
@@ -430,13 +452,15 @@ mwlResizable {
                 transform: translate(-50%);
             }
         }
-        .icon.fa-truck:hover span{
+
+        .icon.fa-truck:hover span {
             display: block;
         }
 
         .icon.fa-globe {
             color: #d51818;
-        span{
+
+            span {
                 position: absolute;
                 display: none;
                 padding: 10px 46px;
@@ -447,9 +471,10 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
-                z-index:9999;
+                z-index: 9999;
             }
-            span::before{
+
+            span::before {
                 content: 'Vehicle States';
                 display: block;
                 position: absolute;
@@ -458,10 +483,11 @@ mwlResizable {
                 background-color: #d51818;
                 border-radius: 3px;
                 padding: 5px 10px;
-                color:#fff;
+                color: #fff;
                 width: 100%;
             }
-            span::after{
+
+            span::after {
                 content: '';
                 width: 0;
                 height: 0;
@@ -473,12 +499,15 @@ mwlResizable {
                 right: 9px;
             }
         }
-        .icon.fa-globe:hover span{
+
+        .icon.fa-globe:hover span {
             display: block;
         }
+
         .icon.fa-question-circle {
             color: #b150d0;
-            span{
+
+            span {
                 position: absolute;
                 display: none;
                 padding: 10px 42px;
@@ -489,9 +518,10 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
-                z-index:9999;
+                z-index: 9999;
             }
-            span::before{
+
+            span::before {
                 content: 'Report Issue';
                 display: block;
                 position: absolute;
@@ -500,10 +530,11 @@ mwlResizable {
                 background-color: #b150d0;
                 border-radius: 3px;
                 padding: 5px 10px;
-                color:#fff;
+                color: #fff;
                 width: 100%;
             }
-            span::after{
+
+            span::after {
                 content: '';
                 width: 0;
                 height: 0;
@@ -515,50 +546,56 @@ mwlResizable {
                 right: 10px;
             }
         }
-            .icon.fa-user-secret {
-                color: #50a1d0;
-                span{
-                    position: absolute;
-                    display: none;
-                    padding: 10px 28px;
-                    font-weight: normal;
-                    font-size: 11px;
-                    left: -22px;
-                    top: -28px;
-                    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-                    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-                    font-family: Roboto;
-                    z-index:9999;
-                }
-                span::before{
-                    content: 'Station';
-                    display: block;
-                    position: absolute;
-                    top: 0px;
-                    left: 0px;
-                    background-color: #50a1d0;
-                    border-radius: 3px;
-                    padding: 5px 10px;
-                    color:#fff;
-                    width: 100%;
-                }
-                span::after{
-                    content: '';
-                    width: 0;
-                    height: 0;
-                    border-left: 5px solid transparent;
-                    border-right: 5px solid transparent;
-                    border-top: 5px solid #50a1d0;
-                    position: absolute;
-                    bottom: -5px;
-                    right: 22px;
-                }
-                
+
+        .icon.fa-user-secret {
+            color: #50a1d0;
+
+            span {
+                position: absolute;
+                display: none;
+                padding: 10px 28px;
+                font-weight: normal;
+                font-size: 11px;
+                left: -22px;
+                top: -28px;
+                -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                font-family: Roboto;
+                z-index: 9999;
+            }
+
+            span::before {
+                content: 'Station';
+                display: block;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                background-color: #50a1d0;
+                border-radius: 3px;
+                padding: 5px 10px;
+                color: #fff;
+                width: 100%;
+            }
+
+            span::after {
+                content: '';
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #50a1d0;
+                position: absolute;
+                bottom: -5px;
+                right: 22px;
+            }
+
         }
-        .icon.fa-user-secret:hover span{
+
+        .icon.fa-user-secret:hover span {
             display: block;
         }
-        .icon.fa-question-circle:hover span{
+
+        .icon.fa-question-circle:hover span {
             display: block;
         }
 
@@ -568,7 +605,8 @@ mwlResizable {
 
         .icon.fa-tachometer-alt {
             color: #ff8099;
-            span{
+
+            span {
                 position: absolute;
                 display: none;
                 padding: 10px 35px;
@@ -579,9 +617,10 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
-                z-index:9999;
+                z-index: 9999;
             }
-            span::before{
+
+            span::before {
                 content: 'Odometer';
                 display: block;
                 position: absolute;
@@ -590,10 +629,11 @@ mwlResizable {
                 background-color: #ff8099;
                 border-radius: 3px;
                 padding: 5px 10px;
-                color:#fff;
+                color: #fff;
                 width: 100%;
             }
-            span::after{
+
+            span::after {
                 content: '';
                 width: 0;
                 height: 0;
@@ -605,61 +645,66 @@ mwlResizable {
                 right: 50%;
                 transform: translate(50%);
             }
-            
-    }
-    .icon.fa-tachometer-alt:hover span{
-        display: block;
-    }
 
-
-
-
-
-
-    .icon.fa-flag-checkered {
-        color: #d84a11;
-        span{
-            position: absolute;
-            display: none;
-            padding: 10px 35px;
-            font-weight: normal;
-            font-size: 11px;
-            left: -28px;
-            top: -28px;
-            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-            font-family: Roboto;
-            z-index:9999;
         }
-        span::before{
-            content: 'Entity flag';
+
+        .icon.fa-tachometer-alt:hover span {
             display: block;
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            background-color: #d84a11;
-            border-radius: 3px;
-            padding: 5px 10px;
-            color:#fff;
-            width: 100%;
         }
-        span::after{
-            content: '';
-            width: 0;
-            height: 0;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            border-top: 5px solid #d84a11;
-            position: absolute;
-            bottom: -5px;
-            right: 50%;
-            transform: translate(50%);
+
+
+
+
+
+
+        .icon.fa-flag-checkered {
+            color: #d84a11;
+
+            span {
+                position: absolute;
+                display: none;
+                padding: 10px 35px;
+                font-weight: normal;
+                font-size: 11px;
+                left: -28px;
+                top: -28px;
+                -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                font-family: Roboto;
+                z-index: 9999;
+            }
+
+            span::before {
+                content: 'Entity flag';
+                display: block;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                background-color: #d84a11;
+                border-radius: 3px;
+                padding: 5px 10px;
+                color: #fff;
+                width: 100%;
+            }
+
+            span::after {
+                content: '';
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #d84a11;
+                position: absolute;
+                bottom: -5px;
+                right: 50%;
+                transform: translate(50%);
+            }
+
         }
-        
-}
-.icon.fa-flag-checkered:hover span{
-    display: block;
-}
+
+        .icon.fa-flag-checkered:hover span {
+            display: block;
+        }
 
     }
 
@@ -697,7 +742,8 @@ mwlResizable {
     background: #fff;
     color: black;
 }
-.exel-icon{
+
+.exel-icon {
     bottom: 35px;
     position: absolute;
     right: 30px;
@@ -711,7 +757,8 @@ mwlResizable {
     color: #fff;
     box-shadow: 5px 4px 24px rgba(0, 0, 0, 0.4);
 }
-.pdf-print{
+
+.pdf-print {
     width: 40px !important;
     height: 40px !important;
     text-align: center !important;
