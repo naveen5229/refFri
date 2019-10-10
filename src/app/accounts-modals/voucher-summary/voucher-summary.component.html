@@ -1,7 +1,7 @@
 <nb-card>
   <nb-card-body style="padding:0px;" (keydown)="keyHandler($event)">
     <div class="modal-header">
-      <h5>Add Trip</h5>
+      <h5>Add Trip Expense</h5>
       <button type="button" class="close" aria-label="Close" (click)=dismiss(false)>
         <span aria-hidden="true">&times;</span>
       </button>
@@ -83,7 +83,7 @@
           </div>
         </div>
       </div>
-      <div class="table_box mt-3">
+      <div class="table_box_Four mt-3">
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -124,7 +124,7 @@
         <button class="btn btn-dark mr-1" (click)="addFuelFilling()">Add New Fuel </button>
         <button class="btn btn-dark" (click)="getFuelFillings()">Show Fuel Entries</button>
       </div>
-      <div class="table_box_two mt-3">
+      <div class="table_box mt-3">
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -183,7 +183,7 @@
                   class="tjr-input" name="currentOdoMeter" [(ngModel)]="currentOdoMeter" (input)="changeFuelCalculate()"  ></div>
             </td>
             <td>
-              <div class="form-group"><label class="tjr-label">Fuel Milege</label> <input type="number" class="tjr-input"
+              <div class="form-group" style="width: 50%"><label class="tjr-label">Fuel Milege</label> <input type="number" class="tjr-input"
                   name="fuelMilege" [(ngModel)]="fuelMilege"  disabled></div>
             </td>
           </tr>
@@ -310,12 +310,12 @@
           </div>
           </div> -->
         <div class="row" *ngIf="transferData">
-          <table class="table table-bordered" id="table">
+          <table class="table_box table-bordered ml-3 mr-3" id="table">
 
             <thead style="background-color:#263238; color:#fff;">
               <tr>
                 <th>Advise Type</th>
-                <th>User Value</th>
+                <th>Amount</th>
                 <th>Credit To</th>
                 <th>Debit To</th>
                 <th>Remarks</th>
@@ -329,7 +329,7 @@
 
               <td *ngFor="let itemheading of transferHeading">
               <span *ngIf="itemheading=='lr_id' && (item[itemheading])">
-        <button class="btn btn-dark" (click)="addFuelFilling(14)">Add New Fuel </button>
+        <button class="btn btn-dark btncolor" (click)="addFuelFilling(item[itemheading],11)">Add New Fuel </button>
 
               </span>  
                <span *ngIf="itemheading=='lr_id' && (!item[itemheading])"> &nbsp;
@@ -343,15 +343,19 @@
           </table>
         </div>
         <div class="row">
+          <div class="form-group col-6 mt-4">
+           <span> &nbsp; &nbsp; &nbsp; &nbsp; Trip Advance :</span> 
+           <span>{{ tripAdvanceTotal }} </span> 
+          </div>
+         
+        </div>
+        <div class="row">
 
           <div class="form-group col-2 mt-4">
             <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="getTripFreght()">Show Revenues</button>
           </div>
-          <div class="form-group col-2 mt-4">
-           <span>Trip Advance : </span> <span>{{ tripAdvanceTotal }} </span> 
-          </div>
-          
         </div>
+       
         <div class="row" *ngIf="tripFreghtDetails">
           <table class="table table-bordered" id="table">
 

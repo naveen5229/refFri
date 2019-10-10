@@ -246,7 +246,7 @@ export class PdfService {
 
   newaddTableInDoc(doc, headings, rows) {
     // console.log("ids",left_heading,center_heading);
-    let tempLineBreak = { fontSize: 10, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, cellWidth: 51, valign: 'middle', halign: 'center' };
+    let tempLineBreak = { fontSize: 10, cellPadding: 1, minCellHeight: 11, minCellWidth: 9, cellWidth: 48, valign: 'middle', halign: 'center' };
 
     doc.autoTable({
       head: headings,
@@ -263,7 +263,7 @@ export class PdfService {
 
       },
       styles: tempLineBreak,
-      columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
+      columnStyles: { text: { cellWidth: 35, halign: 'center', valign: 'middle' } },
 
     });
 
