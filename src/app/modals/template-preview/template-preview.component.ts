@@ -109,6 +109,7 @@ export class TemplatePreviewComponent implements OnInit {
     
    this.type= this.common.params.previewData.refType ? this.common.params.previewData.refType : '';
     if(this.type=="FRINV")
+    {
     this.isFoid = this.templateType;
     let params = "type=" + this.type + "&isFoid=" + true;
     this.common.loading++;
@@ -124,7 +125,7 @@ export class TemplatePreviewComponent implements OnInit {
         console.log(err);
       });
 
-
+    }
   }
 
 
