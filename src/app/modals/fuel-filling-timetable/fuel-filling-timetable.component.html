@@ -11,6 +11,8 @@
   <div class="status">
     <span><b><i class="fa fa-truck"></i>:</b> {{regno}}</span> &nbsp;&nbsp;
     <span><b><i class="fa fa-address-card"></i> :</b> {{vehicleId}}</span> &nbsp;&nbsp;
+    <span><b><i class="far fa-clock">{{datePipe.format(time,'dd-mm-yyyy') }}</i></b></span>
+    <span><button class="btn btn-primary" (click)="saveTime()"></button></span>
   </div>
 
   <div class="row">

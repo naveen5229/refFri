@@ -357,17 +357,19 @@ export class MapService {
     }
   }
 
-  resetMarker(reset = true, boundsReset = true) {
-    for (let i = 0; i < this.markers.length; i++) {
-      if (this.markers[i])
-        this.markers[i].setMap(null);
+  resetMarker(reset = true, boundsReset = true, markers?) {
+    let actualMarker = markers || this.markers;
+    for (let i = 0; i < actualMarker.length; i++) {
+      if (actualMarker[i])
+        actualMarker[i].setMap(null);
     }
     if (reset)
-      this.markers = [];
+      actualMarker = [];
     if (boundsReset) {
       this.bounds = new google.maps.LatLngBounds();
     }
   }
+
   resetBounds() {
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < this.markers.length; index++) {

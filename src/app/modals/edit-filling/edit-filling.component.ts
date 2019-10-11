@@ -406,7 +406,8 @@ export class EditFillingComponent implements OnInit {
       this.common.params = { fuelTimeTable };
       const activeModal = this.modalService.open(FuelFillingTimetableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-
+        console.log("data", data);
+        this.date = new Date(this.common.dateFormatter(data.time));
       });
     }
 

@@ -5,6 +5,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
 import * as _ from 'lodash';
+import { DateService } from '../../services/date/date.service';
 
 @Component({
   selector: 'fuel-filling-timetable',
@@ -21,11 +22,21 @@ export class FuelFillingTimetableComponent implements OnInit {
   fuelFillingData = [];
   markers = [];
   marker = [];
+  fuelMarkers = [];
   latlong = [{ lat: null, long: null, color: null, subType: null }];
+  locallatlong = {
+    lat: null,
+    long: null,
+  };
+  time = null;
   trailsData = [];
+  siteId = null;
+  pumpname = '';
+  infoWindow = null;
+  insideInfo = null;
   constructor(
     public common: CommonService,
-    private datePipe: DatePipe,
+    public datePipe: DateService,
     public api: ApiService,
     private activeModal: NgbActiveModal,
     public mapService: MapService) {
@@ -50,7 +61,10 @@ export class FuelFillingTimetableComponent implements OnInit {
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
     setTimeout(() => {
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
-        this.createMarkers(evt.latLng.lat(), evt.latLng.lng());
+        this.locallatlong.lat = evt.latLng.lat();
+        this.locallatlong.long = evt.latLng.lng();
+        this.getClosedLatLong();
+        // this.createMarkers(evt.latLng.lat(), evt.latLng.lng());
       });
     }, 1000);
   }
@@ -70,7 +84,6 @@ export class FuelFillingTimetableComponent implements OnInit {
       this.marker[0].setMap(null);
     }
     this.marker = this.mapService.createMarkers(this.latlong, false, false);
-    this.getClosedLatLong();
   }
 
 
@@ -141,28 +154,91 @@ export class FuelFillingTimetableComponent implements OnInit {
     this.trailsData;
     let distance: any;
     let sortedData = [];
-
-
-    this.trailsData.forEach((element, index) => {
-      distance = this.common.distanceFromAToB(element.lat, element.long, this.latlong[0].lat, this.latlong[0].long, 'K');
-      if (distance <= 50) {
+    this.trailsData.forEach(element => {
+      distance = this.common.distanceFromAToB(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long, 'K');
+      if (distance <= 1) {
         element['distance'] = distance;
         return sortedData.push(element);
       }
     });
 
-    let object = _.sortBy(sortedData, ['distance'], ['asc']);
-    console.log("Sorted ", object);
+    let object = _.first(_.sortBy(sortedData, ['distance'], ['asc']));
+    if (object) {
+      console.log("Sorted Data ", object);
+      this.createMarkers(object.lat, object.long);
+      this.getFuelStation(object.lat, object.long);
+      this.time = object.time;
+    }
+    else {
+      this.common.showError("No GPS Data, Near Space");
+    }
 
-    // let object = this.trailsData.filter(element => {
-    //   distance = this.common.distanceFromAToB(element.lat, element.long, this.latlong[0].lat, this.latlong[0].long, 'K');
-    //   return distance;
-    // }).sort(function (a, b) {
-    //   return b.distance - a.distance;
-    // });
-    // console.log("distance", distance);
-    // console.log("Trails Data", object);
 
   }
 
+  getFuelStation(lat, lng) {
+    const params = "lat=" + lat +
+      "&long=" + lng;
+    this.common.loading++;
+    this.api.get('fuel/getAllSiteWrtFuelStation?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.fuelMarkers = res['data'];
+        if (this.markers.length) {
+          this.mapService.resetMarker(true, true, this.markers);
+        }
+        this.markers = this.mapService.createMarkers(this.fuelMarkers);
+        this.mapService.zoomAt({ lat: lat, lng: lng }, 10);
+        let markerIndex = 0
+        for (const marker of this.mapService.markers) {
+          let event = this.fuelMarkers[markerIndex];
+          this.mapService.addListerner(marker, 'click', () => this.setPetrolInfo(event));
+          this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
+          this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
+          markerIndex++;
+        }
+      }, err => {
+        this.common.showError("Error occurred");
+        this.common.loading--;
+        console.log(err);
+      });
+
+  }
+
+  setPetrolInfo(event) {
+    console.log("Event Data:", event);
+    this.siteId = event.id;
+    this.pumpname = event.name;
+    console.log("pumpname and siteid", this.pumpname, this.siteId);
+  }
+
+  setEventInfo(event) {
+    this.insideInfo = new Date().getTime();
+    if (this.infoWindow) {
+      this.infoWindow.close();
+    }
+    this.infoWindow = this.mapService.createInfoWindow();
+    this.infoWindow.opened = false;
+    this.infoWindow.setContent(`
+    <p>Site Id :${event.id}</p>
+    <p>Pump Name :${event.name}</p>`);
+
+
+    // this.infoWindow.setContent("Flicker Test");
+    this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long));
+    this.infoWindow.open(this.mapService.map);
+  }
+
+
+  async unsetEventInfo() {
+    let diff = new Date().getTime() - this.insideInfo;
+    if (diff > 200) {
+      this.infoWindow.close();
+      this.infoWindow.opened = false;
+    }
+  }
+
+  saveTime() {
+    this.activeModal.close({ time: this.time });
+  }
 }
