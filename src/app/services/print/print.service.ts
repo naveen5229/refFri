@@ -55,7 +55,6 @@ export class PrintService {
    */
   printInvoice(json: any, format: number = 1) {
     this['invoiceFormat' + format](this.createPrintWrapper(), json);
-    console.log('json Format data', json);
     this.print();
   }
 
@@ -134,8 +133,8 @@ export class PrintService {
   invoiceFormat2(ppContainer: HTMLElement, json: any) {
     const DPI = this.getDPI();
     const pageSize = PAGE_SIZE[this.detectBrowser()];
-    console.log('DPI:', DPI);
-    console.log('pageSize:', pageSize);
+    // console.log('DPI:', DPI);
+    // console.log('pageSize:', pageSize);
     let pageIndex = 1;
     let previousPageContainer = null;
     json.tables.map((tableJSON, tableIndex) => {
@@ -168,11 +167,11 @@ export class PrintService {
           let row = this.createTrHtml(tableJSON.rows[i]);
           tbody.appendChild(row);
           let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
-          console.log('rowIndex', rowIndex, 'MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
-          if (mm > pageSize && i != tableJSON.rows.length - 1) {
+          // console.log('rowIndex', rowIndex, 'MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+          if (mm > pageSize) {
             rowIndex = i + 1;
             newPageFlag = true;
-            console.log('___________________NEW PAGE__________________');
+            // console.log('___________________NEW PAGE__________________');
             break;
           }
           rowIndex++;
@@ -236,7 +235,7 @@ export class PrintService {
           let row = this.createTrHtml(tableJSON.rows[i]);
           tbody.appendChild(row);
           let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
-          console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+          // console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
           if (mm > pageSize && i != tableJSON.rows.length - 1) {
             rowIndex = i + 1;
             newPageFlag = true;
@@ -267,245 +266,6 @@ export class PrintService {
    * @param json - JSON data in format 1
    */
   generalPrint2(json: any) {
-    let xJSON1 = {
-      "headers":
-        [
-          {
-            columns: [
-              {
-                type: 'normal',
-                col: 8,
-                values: [
-                  {
-                    type: 'txt',
-                    value: 'WAYMORE',
-                    fontSize: '18px',
-                    fontWeight: 'bold',
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                  {
-                    type: 'html',
-                    value: "Address :S.N.491/1,Near Bharat Petrol Pump,Sanand-Sarkhej Highway,Telav-Ahmedabad,Gujarat,382210<br /> Mobile : 9662128210<br /> Phone : 9825226596<br /> GST No. : 24AACFW8917C1Z8<br /> Email : mrways99@yahoo.co.in",
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  }
-                ]
-              },
-              {
-                type: 'table',
-                col: 4,
-                values: [
-                  {
-                    type: 'object',
-                    value: {
-                      lable: 'INVOICE NO.',
-                      value: 'KJS0005'
-                    },
-                    fontSize: '14px',
-                    isBold: false,
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                  {
-                    type: 'object',
-                    value: {
-                      lable: 'To',
-                      value: 'KJS Cement(I) Limited'
-                    },
-                    fontSize: '14px',
-                    isBold: false,
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                  {
-                    type: 'object',
-                    value: {
-                      lable: 'PAN',
-                      value: 'AABCD5727F'
-                    },
-                    fontSize: '14px',
-                    isBold: false,
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                  {
-                    type: 'object',
-                    value: {
-                      lable: 'GST',
-                      value: '23AABCD5727F1Z0'
-                    },
-                    fontSize: '14px',
-                    isBold: false,
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                  {
-                    type: 'object',
-                    value: {
-                      lable: 'Date',
-                      value: '18 Sep 19'
-                    },
-                    fontSize: '14px',
-                    isBold: false,
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                ]
-              }
-            ]
-          }
-        ],
-      "details": [],
-      "tables": [{
-        "headings":
-          [
-            { "txt": "SN" },
-            { "txt": "Vehicle" },
-            { "txt": "LR Number" },
-            { "txt": "LR Date" },
-            { "txt": "From" },
-            { "txt": "To" },
-            { "txt": "Net Weight" },
-            { "txt": "Rate Per Tonne" },
-            { "txt": "Shortage" },
-            { "txt": "Adv Amount" },
-            { "txt": "Amount" },
-          ]
-        ,
-        "rows": [
-          [{ "txt": "1" }, { "txt": "GJ12BW6465" }, { "txt": "KH00006" }, { "txt": "17 Aug 19" }, { "txt": "Bina" }, { "txt": "Nimrani" }, { "txt": "39.92" }, { "txt": "900" }, { "txt": "" }, { "txt": "25000.00" }, { "txt": "35928.00" }],
-        ]
-      }],
-      "footer": {
-        "left": { "name": "Powered By", "value": "Elogist Solutions" },
-        "center": { "name": "Printed Date", "value": "06-July-2019" },
-        "right": { "name": "Page No", "value": 1 }
-      },
-      "footers":
-        [
-          {
-            columns: [
-              {
-                col: 8,
-                type: 'normal',
-                values: [
-                  {
-                    type: 'html',
-                    value: '<strong>Amount In Words :</strong> Two Lakh Seven Thousand One Hundred Eight',
-                    fontSize: '18px',
-                    fontWeight: 'bold',
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                ]
-              },
-              {
-                col: 4,
-                type: 'table',
-                values: [
-                  {
-                    type: 'object',
-                    value: {
-                      lable: 'Total',
-                      value: '504108.00'
-                    },
-                    fontSize: '14px',
-                    isBold: false,
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                  {
-                    type: 'object',
-                    value: {
-                      lable: 'Advance Amount',
-                      value: '297000.00'
-                    },
-                    fontSize: '14px',
-                    isBold: false,
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                  {
-                    type: 'object',
-                    value: {
-                      lable: 'Net Amount',
-                      value: '207108.00'
-                    },
-                    fontSize: '14px',
-                    isBold: false,
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                ]
-              },
-              {
-                col: 8,
-                type: 'normal',
-                border: '1px solid #c2c2c2',
-                values: [
-                  {
-                    type: 'html',
-                    value: `<b>Terms & Conditions :</b> We hereby declare that cenvet credit on capital goods and input services used for providing the taxable service has not been taken the provisions of the cenvet credit rules 2004(under condition of 13/2012-stdated 17.03.12)and hence eligible for abatemend`,
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                ]
-              },
-              {
-                col: 4,
-                type: 'normal',
-                border: '1px solid #c2c2c2',
-                values: [
-                  {
-                    type: 'html',
-                    value: `<div>Logistic Sign</div> <div style="margin-top:100px;">Receiver Sign</div>`,
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    align: 'left',
-                    color: '#000',
-                    class: '',
-                  },
-                ]
-              },
-              {
-                col: 12,
-                border: '1px solid #c2c2c2',
-                type: 'normal',
-                values: [
-                  {
-                    type: 'txt',
-                    value: `Late payment would be charged 24% interest per annum.`,
-                    fontSize: '14px',
-                    fontWeight: '700',
-                    align: 'center',
-                    color: '#000',
-                    class: '',
-                  },
-                ]
-              },
-            ]
-          }
-        ],
-    };
-    // json = xJSON1;
-
     let ppContainer = this.createPrintWrapper();
     const DPI = this.getDPI();
     const pageSize = PAGE_SIZE[this.detectBrowser()] - 1;
@@ -524,7 +284,7 @@ export class PrintService {
       let headerHtml = this.createHeader2(header);
       pageInsider.appendChild(headerHtml);
       let mm = ((pageInsider['offsetHeight']) * 25.4) / DPI;
-      console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+      // console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
       if (mm > pageSize) {
         pageInsider.removeChild(headerHtml);
         previousPageContainer = null;
@@ -569,7 +329,7 @@ export class PrintService {
           let row = this.createTrHtml(tableJSON.rows[i]);
           tbody.appendChild(row);
           let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
-          console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+          // console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
           if (mm > pageSize && i != tableJSON.rows.length - 1) {
             rowIndex = i + 1;
             newPageFlag = true;
@@ -607,7 +367,7 @@ export class PrintService {
       let headerHtml = this.createHeader2(footer);
       pageInsider.appendChild(headerHtml);
       let mm = ((pageInsider['offsetHeight']) * 25.4) / DPI;
-      console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+      // console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
       if (mm > pageSize) {
         pageInsider.removeChild(headerHtml);
         previousPageContainer = null;
@@ -848,17 +608,13 @@ export class PrintService {
     broswers.ie = /*@cc_on!@*/false || !!document['documentMode'];
     broswers.edge = !broswers.ie && !!window['StyleMedia'];
     broswers.chrome = !!window['chrome'] && (!!window['chrome'].webstore || !!window['chrome'].runtime);
-    console.log('___________________broswers:', broswers);
     let browserName = 'chrome';
     for (let broswer in broswers) {
       if (broswers[broswer]) {
-        console.log('_______________BROWSER____FOUND____________:', broswers[broswer]);
         browserName = broswer;
         break;
       }
     }
-
-    console.log('______________________________browserName', browserName);
 
     return browserName;
   }
