@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'fuel-filling-timetable',
@@ -19,6 +20,9 @@ export class FuelFillingTimetableComponent implements OnInit {
   isOpen = false;
   fuelFillingData = [];
   markers = [];
+  marker = [];
+  latlong = [{ lat: null, long: null, color: null, subType: null }];
+  trailsData = [];
   constructor(
     public common: CommonService,
     private datePipe: DatePipe,
@@ -31,7 +35,7 @@ export class FuelFillingTimetableComponent implements OnInit {
       this.regno = this.common.params.fuelTimeTable.regno;
       this.vehicleId = this.common.params.fuelTimeTable.vehicleId;
       this.startTime = this.common.dateFormatter(this.common.params.fuelTimeTable.startTime);
-      this.endTime = this.common.dateFormatter(this.common.params.fuelTimeTable.endTime);
+      this.endTime = this.common.dateFormatter(this.common.params.fuelTimeTable.endTime.setHours(23, 59, 59, 0));
       this.getFuelFillingData();
     }
   }
@@ -44,11 +48,31 @@ export class FuelFillingTimetableComponent implements OnInit {
     this.mapService.setMapType(0);
     this.mapService.zoomMap(5);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
+    setTimeout(() => {
+      this.mapService.addListerner(this.mapService.map, 'click', evt => {
+        this.createMarkers(evt.latLng.lat(), evt.latLng.lng());
+      });
+    }, 1000);
   }
 
   closeModal() {
     this.activeModal.close(false);
   }
+
+  createMarkers(lat, long) {
+    this.latlong = [{
+      lat: lat,
+      long: long,
+      color: '0000FF',
+      subType: 'marker'
+    }];
+    if (this.marker.length) {
+      this.marker[0].setMap(null);
+    }
+    this.marker = this.mapService.createMarkers(this.latlong, false, false);
+    this.getClosedLatLong();
+  }
+
 
   getFuelFillingData() {
     let params = "vehicleId=" + this.vehicleId + "&startTime=" + this.startTime + "&exitTime=" + this.endTime;
@@ -60,7 +84,6 @@ export class FuelFillingTimetableComponent implements OnInit {
         this.fuelFillingData = res['data'];
         console.log("fuel Data:", this.fuelFillingData);
         this.createPolyPath();
-
       },
         err => {
           this.common.loading--;
@@ -69,34 +92,77 @@ export class FuelFillingTimetableComponent implements OnInit {
   }
 
   createPolyPath() {
-    this.mapService.clearAll();
-    this.markers.forEach(mark => {
-      mark.setMap(null);
-    });
-
-    this.markers = [];
-    let polygonOption = {
-      strokeColor: '#000000',
-      strokeWeight: 1,
-      icons: [{
-        icon: this.mapService.lineSymbol,
-        offset: '0',
-        repeat: '50px'
-      }]
-    };
-
-    for (let i = 0; i < this.fuelFillingData.length; i++) {
-      this.fuelFillingData[i].color = (i == 0) ? "00FF00" : (i == this.fuelFillingData.length - 1 ? "FF0000" : null);
-      this.fuelFillingData[i].subType = (this.fuelFillingData[i]._type == 1 || i == 0 || i == this.fuelFillingData.length - 1) ? "marker" : null;
-      console.log(">>>>>", this.mapService.createPolyPathManual(this.mapService.createLatLng(this.fuelFillingData[i]._lat, this.fuelFillingData[i]._long), polygonOption));
+    let params = {
+      vehicleId: this.vehicleId,
+      startTime: this.startTime,
+      toTime: this.endTime,
     }
-    this.markers = this.mapService.createMarkers(this.fuelFillingData);
+    this.common.loading++;
+    this.api.post('VehicleTrail/getVehicleTrailAll', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.mapService.clearAll();
+        let i = 0;
+        let prevElement = null;
+        let total = 0;
+        this.trailsData = res['data'];
+        for (const element of res['data']) {
+          this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
+          this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
+          prevElement = element;
+          i++;
+        }
+        this.mapService.polygonPath && this.mapService.polygonPath.set('icons', [{
+          icon: this.mapService.lineSymbol,
+          offset: "0%"
+        }]);
+        this.mapService.createMarkers(this.fuelFillingData, false, true);
+        let markerIndex = 0
+        for (const marker of this.mapService.markers) {
+          let event = this.fuelFillingData[markerIndex];
+          // this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
+          // this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
+          markerIndex++;
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err); ////
+      });
+
 
   }
 
   checkFuelData(index, fuel) {
     this.isOpen = true;
     console.log(index, fuel);
+  }
+
+  getClosedLatLong() {
+    this.trailsData;
+    let distance: any;
+    let sortedData = [];
+
+
+    this.trailsData.forEach((element, index) => {
+      distance = this.common.distanceFromAToB(element.lat, element.long, this.latlong[0].lat, this.latlong[0].long, 'K');
+      if (distance <= 50) {
+        element['distance'] = distance;
+        return sortedData.push(element);
+      }
+    });
+
+    let object = _.sortBy(sortedData, ['distance'], ['asc']);
+    console.log("Sorted ", object);
+
+    // let object = this.trailsData.filter(element => {
+    //   distance = this.common.distanceFromAToB(element.lat, element.long, this.latlong[0].lat, this.latlong[0].long, 'K');
+    //   return distance;
+    // }).sort(function (a, b) {
+    //   return b.distance - a.distance;
+    // });
+    // console.log("distance", distance);
+    // console.log("Trails Data", object);
+
   }
 
 }

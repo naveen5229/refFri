@@ -157,6 +157,7 @@ export class LoginComponent implements OnInit {
           return;
         }
         if (res['success']) {
+          clearInterval(this.interval);
           this.common.showToast(res['msg']);
           localStorage.setItem('USER_TOKEN', res['data'][0]['authkey']);
           localStorage.setItem('USER_DETAILS', JSON.stringify(res['data'][0]));

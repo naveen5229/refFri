@@ -205,10 +205,10 @@ export class MapService {
     let latLng = { lat: 0, lng: 0 }
     let keys = Object.keys(markerData);
     latLng.lat = parseFloat(markerData[keys.find((element) => {
-      return element == "lat" || element == "y_lat" || element == "x_lat" || element == "x_tlat";
+      return element == "lat" || element == "y_lat" || element == "x_lat" || element == "x_tlat" || element == "_lat";
     })]);
     latLng.lng = parseFloat(markerData[keys.find((element) => {
-      return element == "lng" || element == "long" || element == "x_long" || element == "x_tlong";
+      return element == "lng" || element == "long" || element == "x_long" || element == "x_tlong" || element == "_long";
     })]);
     return latLng;
   }

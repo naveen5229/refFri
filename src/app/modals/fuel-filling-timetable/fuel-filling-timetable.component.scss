@@ -2,23 +2,52 @@
   margin-left: 15px;
 }
 
-:host ::ng-deep .container {
-  padding: 0px !important;
-}
 .zoomOnMap {
   margin-left: 170px;
 }
 
-table {
-  height: 300px;
-  overflow-y: scroll;
+.container {
+  overflow-y: auto;
+  height: auto;
+  max-height: calc(100vh - 160px);
 }
-th {
-  background-color: black;
-  color: white;
-  text-align: center;
+thead {
+  background-color: #263238;
+  color: #fff;
+  th {
+    background-color: black;
+    color: white;
+  }
+  th:nth-child(1) {
+    width: 35px;
+  }
+  th:nth-child(2) {
+    width: 450px;
+  }
+  th:nth-child(3) {
+    width: 300px;
+  }
+  th:nth-child(3) {
+    width: 150px;
+  }
 }
 
+tbody {
+  tr {
+    td:nth-child(1) {
+      width: 35px;
+    }
+    td:nth-child(2) {
+      width: 450px;
+    }
+    td:nth-child(3) {
+      width: 300px;
+    }
+    td:nth-child(4) {
+      width: 150px;
+    }
+  }
+}
 tr:nth-child(even) {
   background: #ccc;
 }
@@ -26,5 +55,5 @@ tr:nth-child(odd) {
   background: #fff;
 }
 .map {
-  height: 162vh;
+  height: 76vh;
 }
