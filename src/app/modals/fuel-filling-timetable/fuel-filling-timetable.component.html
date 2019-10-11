@@ -30,12 +30,12 @@
           </thead>
           <tbody>
             <tr *ngFor="let fuel of fuelFillingData; let i = index;" (mouseover)="mapService.toggleBounceMF(i,1)"
-              (mouseout)="mapService.toggleBounceMF(i,2)">
-              <td (click)="checkFuelData(i,fuel)">{{i+1}}</td>
-              <td (click)="checkFuelData(i,fuel)">{{fuel.name}}</td>
-              <td (click)="checkFuelData(i,fuel)">{{fuel.loc}}</td>
-              <td (click)="checkFuelData(i,fuel)">{{fuel.site_id}}</td>
-              <td (click)="checkFuelData(i,fuel)">{{fuel.time}}</td>
+              (mouseout)="mapService.toggleBounceMF(i,2)" (click)="checkFuelData(fuel,i)">
+              <td>{{i+1}}</td>
+              <td>{{fuel.name}}</td>
+              <td>{{fuel.loc}}</td>
+              <td>{{fuel.site_id}}</td>
+              <td>{{fuel.time}}</td>
             </tr>
             <tr>
               <!-- <div *ngIf="isOpen" style="text-align:center" class="row zoomOnMap"> <span>

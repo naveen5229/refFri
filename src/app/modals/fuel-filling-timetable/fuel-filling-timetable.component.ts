@@ -96,7 +96,6 @@ export class FuelFillingTimetableComponent implements OnInit {
             return this.fuelFillingData.push(fuel);
           });
           this.createPolyPath();
-          this.mapService.createMarkers(this.fuelFillingData, false, true);
 
         }
       },
@@ -117,6 +116,7 @@ export class FuelFillingTimetableComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.mapService.clearAll();
+        this.mapService.createMarkers(this.fuelFillingData, false, true);
         let i = 0;
         let prevElement = null;
         let total = 0;
@@ -144,7 +144,8 @@ export class FuelFillingTimetableComponent implements OnInit {
       });
   }
 
-  checkFuelData(index, fuel) {
+  checkFuelData(fuel, index) {
+    console.log("fuel", fuel);
     this.mapService.zoomAt({ lat: fuel._lat, lng: fuel._long }, 10);
   }
 
