@@ -28,6 +28,9 @@ export class WebActivitySummaryComponent implements OnInit {
     console.log('refresh');
   }
   getFoWebView() {
+    if (this.startDate > this.endDate) {
+      return this.common.showError("Select valid Date");
+    }
     let params = "startDate=" + this.common.dateFormatter(this.startDate) + "&endDate=" + this.common.dateFormatter(this.endDate);
     this.common.loading++;
     this.api.get('FoAdmin/getFoAdminWebActivity?' + params)
