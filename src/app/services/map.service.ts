@@ -361,6 +361,8 @@ export class MapService {
     let actualMarker = markers || this.markers;
     for (let i = 0; i < actualMarker.length; i++) {
       if (actualMarker[i])
+      console.log("reset");
+      
         actualMarker[i].setMap(null);
     }
     if (reset)
