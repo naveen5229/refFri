@@ -3,21 +3,42 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
+// By Default Module
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
-import { NgxQRCodeModule } from 'ngx-qrcode2';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoginComponent } from './auth/login/login.component';
 import { HttpModule } from '@angular/http';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+// BY On Demand add Module
+import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { DirectiveModule } from './directives/directives.module';
+import { from } from 'rxjs';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ImageViewerModule } from 'ng2-image-viewer';
+import { MatIconModule } from '@angular/material/icon';
+import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+import { DeactivateGuardService } from './guards/route.guard';
+import { NgxPrintModule } from 'ngx-print';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
+import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
+
+
+// Create Custom Component
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './auth/login/login.component';
 import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.component';
 import { LocationMarkerComponent } from './modals/location-marker/location-marker.component';
 import { TicketTrailsComponent } from './modals/ticket-trails/ticket-trails.component';
@@ -37,11 +58,9 @@ import { CustomerSelectionComponent } from './modals/customer-selection/customer
 import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.component';
 import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
 import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
-import { DirectiveModule } from './directives/directives.module';
 import { AddDocumentComponent } from './documents/documentation-modals/add-document/add-document.component';
 import { ImportDocumentComponent } from './documents/documentation-modals/import-document/import-document.component';
 import { AddAgentComponent } from '../app/documents/documentation-modals/add-agent/add-agent.component';
-import { from } from 'rxjs';
 import { AccountsComponent } from './acounts-modals/accounts/accounts.component';
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
@@ -61,31 +80,14 @@ import { EmpDashboardComponent } from './documents/documentation-modals/emp-dash
 import { DocumentIssuesComponent } from './documents/documentation-modals/document-issues/document-issues.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ImageViewerModule } from 'ng2-image-viewer';
-import { MatIconModule } from '@angular/material/icon';
 import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
 import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
 import { AddTripComponent } from './modals/add-trip/add-trip.component';
 import { ManualHaltComponent } from './modals/manual-halt/manual-halt.component';
-
-import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
-import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
-
-import {
-  MatFormFieldModule,
-  MatMenuModule,
-  MatCheckboxModule,
-  MatDatepickerModule,
-  MatNativeDateModule
-} from '@angular/material';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
-
 import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
 import { HttpResponseHandlerService } from './services/http-response-handler.service';
@@ -95,7 +97,6 @@ import { AddDriverCompleteComponent } from './modals/DriverModals/add-driver-com
 import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
 import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
-import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 import { DriverVehicleRemappingComponent } from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
@@ -110,7 +111,6 @@ import { RouteMapperComponent } from './modals/route-mapper/route-mapper.compone
 import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/pending-licence-detail.component';
 import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
 import { ResizableModule } from 'angular-resizable-element';
-import { NgxPrintModule } from 'ngx-print';
 import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
 import { UserCallHistoryComponent } from './modals/user-call-history/user-call-history.component';
 import { DriverDistanceComponent } from './modals/driver-distance/driver-distance.component';
@@ -131,12 +131,9 @@ import { CsvErrorReportComponent } from './modals/csv-error-report/csv-error-rep
 import { AddShortTargetComponent } from './modals/add-short-target/add-short-target.component';
 import { FuelStationEntryComponent } from './modals/fuel-station-entry/fuel-station-entry.component';
 import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-station.component';
-import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
 import { LedgerviewComponent } from './acounts-modals/ledgerview/ledgerview.component';
-import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
-import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
 import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empty-details.component';
 import { AddVehicleComponent } from './modals/add-vehicle/add-vehicle.component';
@@ -162,7 +159,6 @@ import { GpsEnabledDisabledComponent } from './modals/gps-enabled-disabled/gps-e
 import { UnmappedLrComponent } from './modals/LRModals/unmapped-lr/unmapped-lr.component';
 import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.component';
 import { FoSiteCountComponent } from './modals/fo-site-count/fo-site-count.component';
-import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { PrintManifestComponent } from './modals/print-manifest/print-manifest.component';
 import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-short/voucher-summary-short.component';
 import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-modal-service/add-vehicle-modal-service.component';
@@ -243,7 +239,6 @@ import { RouteTimeTableDetailsComponent } from './modals/route-time-table-detail
 import { RoutesTimetableComponent } from './modals/routes-timetable/routes-timetable.component';
 import { VehicleTimeTableAssociationComponent } from './modals/vehicle-time-table-association/vehicle-time-table-association.component';
 import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledger-mapping/driver-ledger-mapping.component';
-import { DeactivateGuardService } from './guards/route.guard';
 import { ConstraintsComponent } from './modals/constraints/constraints.component';
 import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-transfer.component';
 import { ViewMVSFreightStatementComponent } from './modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
@@ -287,7 +282,6 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   ImageViewComponent,
   TicketTrailsComponent,
   BuyTimeComponent,
-
   ReminderComponent,
   TicketForwardComponent,
   RemarkModalComponent,
