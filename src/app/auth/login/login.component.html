@@ -5,7 +5,7 @@
   <!-- <div class="blink" *ngIf="this.user._loggedInBy== 'admin'">
   <span>Login By Admin</span>
 </div> -->
-  <i *ngIf="listenOTP" (click)="listenOTP = false;qrCode=null;" class="icon ion-md-arrow-round-back back-icon"></i>
+  <i *ngIf="listenOTP" (click)="backToLogin()" class="icon ion-md-arrow-round-back back-icon"></i>
   <div class="logo">
     <img src="http://elogist.in/images/elogist-logo.png">
   </div>
@@ -35,7 +35,7 @@
   </div>
 
 
-  <div *ngIf="listenOTP && user._loggedInBy=='customer'; else admin">
+  <div *ngIf="listenOTP && user._loggedInBy=='customer';">
     <form #otpForm="ngForm" (submit)="otpForm.valid && login()">
       <div class="form-group">
         <input [(ngModel)]="userDetails.otp" #otp="ngModel" name="otp" id="input-otp" placeholder="OTP number"
@@ -53,11 +53,11 @@
       </button>
     </form>
   </div>
-  <ng-template #admin>
+  <div *ngIf="listenOTP && user._loggedInBy=='admin' && qrCode">
     <div class="qrClass">
       <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="qrCode" qrc-class="qr-class"
         qrc-errorCorrectionLevel="M">
       </ngx-qrcode>
     </div>
-  </ng-template>
+  </div>
 </div>

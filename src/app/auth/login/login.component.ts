@@ -215,4 +215,11 @@ export class LoginComponent implements OnInit {
       })
   }
 
+  backToLogin() {
+    this.listenOTP = false;
+    this.qrCode = null;
+    this.formSubmit = false;
+    clearInterval(this.interval);
+  }
+
 }
