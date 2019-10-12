@@ -7,62 +7,62 @@
 
 
 <div class="modal-body">
-    <div class="row route-headings">
-        <div class="col-1"></div>
-        <div class="col-2">
-            <strong>Location</strong>
-        </div>
-        <div class="col-3">
-            <strong>Arrival</strong>
-        </div>
-        <div class="col-3">
-            <strong>Departure</strong>
-        </div>
-        <div class="col-3">
-            <strong>Halt(Hours)</strong>
-        </div>
-    </div>
 
-    <div class="row routes" *ngFor="let data of routesDetails; let i = index;">
-        <div class="col-1 route-container">
-            <div class="route-truck"
-                *ngIf="data.status == '2' && (routesDetails[i - 1].status == 0 || routesDetails[i - 1].status == 1)">
-                <img src="assets/icons/truck.svg" alt="truck">
+    <div>
+        <div class="row route-headings">
+            <div class="col-1"></div>
+            <div class="col-3">
+                <strong>Location</strong>
             </div>
-            <div class="route-line"
-                [ngClass]="{'running' : data.status == '0' , 'running' : data.status == '1','upcoming' : data.status == '2' }"
-                style="top: 0"></div>
-            <div class="route-circle"
-                [ngClass]="{'route-circle-red' : data.status == '0', 'route-circle-green' : data.status == '1','route-circle-blue': data.status == '2' }">
+            <div class="col-2">
+                <strong>Arrival</strong>
             </div>
-            <div class="route-line"
-                [ngClass]="{'running': data.status == '0' , 'running':data.status == '1','upcoming': data.status == '2' }">
+            <div class="col-2">
+                <strong>Departure</strong>
+            </div>
+            <div class="col-2">
+                <strong>Halt(Hours)</strong>
+            </div>
+            <div class="col-2">
+                <strong>KM</strong>
             </div>
         </div>
-        <div class="col-2">
-            <div>({{data.loc_name}})</div>
-            <div> {{data.name}}</div>
-        </div>
-        <div class="col-3">
-            <div>{{data.scheduled_arrival_time}}</div>
-            <div
-                [ngClass]="data.delay!=null && data.delay==' 00:00'?'text-black':(data.delay !=null && data.delay.charAt(0) == '-'  ? 'text-green' :'text-red') ">
-                {{data.actual_arrival_time?data.actual_arrival_time:null}}</div>
+        <div class="row routes" *ngFor="let data of routesDetails; let i = index;">
+            <div class="col-1 route-container">
+                <div class="route-truck" *ngIf="isLastStop == i">
+                    <img src="assets/icons/truck.svg" alt="truck">
+                </div>
+                <div class="route-line" [ngClass]="{'running' : ((data.status == '0' || data.status == 1) && (isLastStop==-1 || isLastStop > i)),'upcoming' : (data.status == '2' && (isLastStop!=-1 && isLastStop <= i)) }" style="top: 0"></div>
+                <div class="route-circle" [ngClass]="{'route-circle-red' : data.status == '0', 'route-circle-green' : data.status == '1','route-circle-blue': (data.status == '2' && isLastStop <= i), 'route-circle-gray': (data.status == '2' && (isLastStop==-1 || isLastStop > i)) }">
+                </div>
+                <div class="route-line" [ngClass]="{'running' : ((data.status == '0' || data.status == 1) && (isLastStop==-1 || isLastStop > i)),'upcoming' : (data.status == '2' && (isLastStop!=-1 && isLastStop <= i)) }">
+                </div>
+            </div>
+            <div class="col-3">
+                <div>({{data.loc_name}})</div>
+                <div> {{data.name}}</div>
+            </div>
+            <div class="col-2">
+                <div>{{data.scheduled_arrival_time}}</div>
+                <div [ngClass]="data.delay!=null && data.delay==' 00:00'?'text-black':(data.delay !=null && data.delay.charAt(0) == '-'  ? 'text-green' :'text-red') ">
+                    {{data.actual_arrival_time?data.actual_arrival_time:null}}</div>
 
-        </div>
+            </div>
 
-        <div class="col-3">
-            <div>{{data.scheduled_departure_time}}</div>
-            <div
-                [ngClass]="data.deptDelay!=null && data.deptDelay==' 00:00'?'text-black':(data.deptDelay !=null && data.deptDelay.charAt(0) == '-' ? 'text-green' :'text-red') ">
-                {{data.departure_time?data.departure_time:null}}</div>
-        </div>
+            <div class="col-2">
+                <div>{{data.scheduled_departure_time}}</div>
+                <div [ngClass]="data.deptDelay!=null && data.deptDelay==' 00:00'?'text-black':(data.deptDelay !=null && data.deptDelay.charAt(0) == '-' ? 'text-green' :'text-red') ">
+                    {{data.departure_time?data.departure_time:null}}</div>
+            </div>
 
-        <div class="col-3">
-            <div>{{data.scheduled_halt_time}}</div>
-            <div
-                [ngClass]="data.scheduled_halt_time == data.actual_halt_time ?'text-black':(data.scheduled_halt_time > data.actual_halt_time  ? 'text-green' :'text-red') ">
-                {{data.actual_halt_time}}</div>
+            <div class="col-2">
+                <div>{{data.scheduled_halt_time}}</div>
+                <div [ngClass]="data.scheduled_halt_time == data.actual_halt_time ?'text-black':(data.scheduled_halt_time > data.actual_halt_time  ? 'text-green' :'text-red') ">
+                    {{data.actual_halt_time}}</div>
+            </div>
+            <div class="col-2 mt-2">
+                <div>{{data.kms}}</div>
+            </div>
         </div>
     </div>
 </div>

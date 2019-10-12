@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
 
   listenOTP = false;
   otpCount = 0;
-
+  button = 'Send OTP';
   formSubmit = false;
   qrCode = null;
   elementType: 'url' | 'canvas' | 'img' = 'url';
@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       if (params.type && (params.type.toLowerCase() == 'admin' || params.type.toLowerCase() == 'partner')) {
+        this.button = 'Send Qr-Code';
         this.user._loggedInBy = params.type.toLowerCase();
       } else if (params.type) {
         this.router.navigate(['/auth/login']);
@@ -43,9 +44,9 @@ export class LoginComponent implements OnInit {
         return;
       } else {
         this.user._loggedInBy = 'customer';
+        this.button = 'Send OTP';
       }
       console.log("Login By", this.user._loggedInBy);
-
     });
   }
 
