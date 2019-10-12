@@ -822,3 +822,6 @@ nb-card-header {
 .iv-snap-view {
   visibility: hidden !important;
 }
+.qr-class > img {
+  width: 200px !important;
+}

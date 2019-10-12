@@ -1,0 +1,83 @@
+.status span + span {
+  margin-left: 15px;
+}
+
+.zoomOnMap {
+  margin-left: 170px;
+}
+
+.container {
+  overflow-y: auto;
+  height: auto;
+  max-height: calc(100vh - 160px);
+}
+thead {
+  background-color: #263238;
+  color: #fff;
+  th {
+    background-color: black;
+    color: white;
+  }
+  th:nth-child(1) {
+    width: 35px;
+  }
+  th:nth-child(2) {
+    width: 450px;
+  }
+  th:nth-child(3) {
+    width: 300px;
+  }
+  th:nth-child(3) {
+    width: 150px;
+  }
+}
+
+tbody {
+  tr {
+    td:nth-child(1) {
+      width: 35px;
+    }
+    td:nth-child(2) {
+      width: 450px;
+    }
+    td:nth-child(3) {
+      width: 300px;
+    }
+    td:nth-child(4) {
+      width: 150px;
+    }
+  }
+}
+tr:nth-child(even) {
+  background: #ccc;
+}
+tr:nth-child(odd) {
+  background: #fff;
+}
+.map {
+  height: 76vh;
+}
+
+.btn {
+  background: #f2f2f2;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
+  display: inline-block;
+  font-size: 14px;
+  text-align: center;
+  height: 30px;
+  line-height: 5px;
+  border-radius: 4px;
+  font-family: Exo;
+  color: #000;
+  cursor: pointer;
+}
+
+
+.btn.btn-primary {
+  background-color: #3c6ac7;
+  color: #fff;
+}
+
