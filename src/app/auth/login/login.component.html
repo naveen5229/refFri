@@ -5,13 +5,15 @@
   <!-- <div class="blink" *ngIf="this.user._loggedInBy== 'admin'">
   <span>Login By Admin</span>
 </div> -->
-  <i *ngIf="listenOTP" (click)="listenOTP = false;" class="icon ion-md-arrow-round-back back-icon"></i>
+  <i *ngIf="listenOTP" (click)="listenOTP = false;qrCode=null;" class="icon ion-md-arrow-round-back back-icon"></i>
   <div class="logo">
     <img src="http://elogist.in/images/elogist-logo.png">
   </div>
   <h1 id="title" class="title">{{user._loggedInBy == 'admin' ? 'Admin' : 'FBP'}} Login</h1>
   <!-- <p class="sub-title">Discover...<span class="title">Smart</span> Logistics</p> -->
-  <p class="sub-title">eLogist is building an integrated AI-driven utilisation based digital platform for the
+  <p class="sub-title">eLogist is building an integrated AI-driven utilisation
+    based digital platform
+    for the
     Transportation industry</p>
   <div *ngIf="!listenOTP">
     <form #mobileForm="ngForm" (submit)="mobileForm.valid && sendOTP()">
@@ -32,9 +34,9 @@
     </form>
   </div>
 
-  <div *ngIf="listenOTP">
-    <form #otpForm="ngForm" (submit)="otpForm.valid && login()">
 
+  <div *ngIf="listenOTP && user._loggedInBy=='customer'; else admin">
+    <form #otpForm="ngForm" (submit)="otpForm.valid && login()">
       <div class="form-group">
         <input [(ngModel)]="userDetails.otp" #otp="ngModel" name="otp" id="input-otp" placeholder="OTP number"
           class="form-control" pattern="[0-9]+" minlength="4" maxlength="4" autocomplete="off" required>
@@ -44,15 +46,18 @@
           <div class="error" [hidden]="!otp.errors.pattern">Invalid OTP number</div>
         </div>
       </div>
-
-      <p class="resendOtp" *ngIf="otpCount && listenOTP">Resend OTP in {{otpCount}} seconds..</p>
+      <p class="resendOtp" *ngIf="otpCount && listenOTP">Remaining Time in {{otpCount}} seconds..</p>
       <p class="resendOtp" style="cursor:pointer;" *ngIf="!otpCount && listenOTP" (click)="sendOTP()">Resend OTP</p>
-
-
       <button type="submit" (click)="formSubmit = true" class="btn btn-primary btn-block custom-btn">
         Login
       </button>
     </form>
-
   </div>
+  <ng-template #admin>
+    <div class="qrClass">
+      <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="qrCode" qrc-class="qr-class"
+        qrc-errorCorrectionLevel="M">
+      </ngx-qrcode>
+    </div>
+  </ng-template>
 </div>
