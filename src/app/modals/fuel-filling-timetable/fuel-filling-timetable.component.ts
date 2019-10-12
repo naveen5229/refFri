@@ -131,30 +131,27 @@ export class FuelFillingTimetableComponent implements OnInit {
           icon: this.mapService.lineSymbol,
           offset: "0%"
         }]);
-        // let markerIndex = 0
-        // for (const marker of this.mapService.markers) {
-        //   let event = this.fuelFillingData[markerIndex];
-        //   this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
-        //   this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
-        //   markerIndex++;
-        // }
+        let markerIndex = 0
+        for (const marker of this.mapService.markers) {
+          let event = this.fuelFillingData[markerIndex];
+          this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
+          this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
+          markerIndex++;
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  checkFuelData(fuel, index) {
-    console.log("fuel", fuel);
-    this.mapService.zoomAt({ lat: fuel._lat, lng: fuel._long }, 10);
-  }
+
 
   getClosedLatLong() {
     let distance: any;
     let sortedData = [];
     this.trailsData.forEach(element => {
       distance = this.common.distanceFromAToB(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long, 'K');
-      if (distance <= 1) {
+      if (distance <= 10) {
         element['distance'] = distance;
         return sortedData.push(element);
       }
@@ -173,8 +170,7 @@ export class FuelFillingTimetableComponent implements OnInit {
   }
 
   getFuelStation(lat, lng) {
-    const params = "lat=" + lat +
-      "&long=" + lng;
+    const params = "lat=" + lat + "&long=" + lng;
     this.common.loading++;
     this.api.get('fuel/getAllSiteWrtFuelStation?' + params)
       .subscribe(res => {
@@ -184,7 +180,7 @@ export class FuelFillingTimetableComponent implements OnInit {
           this.mapService.resetMarker(true, true, this.markers);
         }
         this.markers = this.mapService.createMarkers(this.fuelMarkers);
-        this.mapService.zoomAt({ lat: lat, lng: lng }, 10);
+        this.mapService.zoomAt({ lat: lat, lng: lng }, 18);
         let markerIndex = 0
         for (const marker of this.mapService.markers) {
           let event = this.fuelMarkers[markerIndex];
@@ -201,17 +197,19 @@ export class FuelFillingTimetableComponent implements OnInit {
   }
 
   setEventInfo(event) {
-    this.insideInfo = new Date().getTime();
-    if (this.infoWindow) {
-      this.infoWindow.close();
+    if (event.id || event.site_id) {
+      this.insideInfo = new Date().getTime();
+      if (this.infoWindow) {
+        this.infoWindow.close();
+      }
+      this.infoWindow = this.mapService.createInfoWindow();
+      this.infoWindow.opened = false;
+      this.infoWindow.setContent(`
+      <p>Site Id :${event.id || event.site_id}</p>
+      <p>Pump Name :${event.name}</p>`);
+      this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long));
+      this.infoWindow.open(this.mapService.map);
     }
-    this.infoWindow = this.mapService.createInfoWindow();
-    this.infoWindow.opened = false;
-    this.infoWindow.setContent(`
-    <p>Site Id :${event.id}</p>
-    <p>Pump Name :${event.name}</p>`);
-    this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long));
-    this.infoWindow.open(this.mapService.map);
   }
 
 
@@ -225,5 +223,9 @@ export class FuelFillingTimetableComponent implements OnInit {
 
   saveTime() {
     this.activeModal.close({ time: this.time });
+  }
+  checkFuelData(fuel, index) {
+    console.log("fuel", fuel);
+    this.mapService.zoomAt({ lat: fuel._lat, lng: fuel._long }, 10);
   }
 }
