@@ -36,11 +36,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       if (params.type && (params.type.toLowerCase() == 'admin' || params.type.toLowerCase() == 'partner')) {
-        this.button = 'Send Qr-Code';
+        this.button = 'Generate Qr-Code';
         this.user._loggedInBy = params.type.toLowerCase();
       } else if (params.type) {
         this.router.navigate(['/auth/login']);
-
         return;
       } else {
         this.user._loggedInBy = 'customer';
@@ -95,9 +94,7 @@ export class LoginComponent implements OnInit {
       mobileno: this.userDetails.mobile,
       qrcode: this.qrCode
     };
-    console.log('Params:', params);
     ++this.common.loading;
-
     this.api.post('Login/login', params)
       .subscribe(res => {
         --this.common.loading;
@@ -217,6 +214,7 @@ export class LoginComponent implements OnInit {
 
   backToLogin() {
     this.listenOTP = false;
+    this.otpCount = 0;
     this.qrCode = null;
     this.formSubmit = false;
     clearInterval(this.interval);
