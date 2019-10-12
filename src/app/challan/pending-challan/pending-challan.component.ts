@@ -96,7 +96,7 @@ export class PendingChallanComponent implements OnInit {
       let column = {};
       for (let key in this.generateHeadings(chHeadings)) {
         if (key == "Action") {
-          column[key] = { value: "", action: null, icons: [{ class: 'far fa-file-alt', action: this.paymentDocImage.bind(this, item._ch_doc_id) }, { class: 'far fa-file-pdf', action: this.paymentDocImage.bind(this, item._payment_doc_id) }] };
+          column[key] = { value: "", action: null, icons: [{ class: item._ch_doc_id ?'far fa-file-alt':'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) }, { class: item._payment_doc_id ? 'far fa-file-pdf':'far far fa-file-pdf text-color', action: this.paymentDocImage.bind(this, item._payment_doc_id) }] };
         } else {
           column[key] = { value: item[key], class: 'black', action: '' };
         }
