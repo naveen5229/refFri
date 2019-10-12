@@ -12,6 +12,7 @@ export class RoutesTimetableComponent implements OnInit {
   vehId = null;
   routeId = null;
   routeTTId = null;
+  isLastStop = -1;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -53,23 +54,23 @@ export class RoutesTimetableComponent implements OnInit {
 
   statusFinder() {
     this.routesDetails.map((route, index) => {
-      if(route.delay){
-        if(route.delay.charAt(0)=="-" ){
-          route['status']='1';
-        }       
-       else {
-          route['status']='0';
+      if (index == 0) {
+        route['status'] = '1';
+      }else if (route.delay) {
+        if (route.delay.charAt(0) == "-") {
+          route['status'] = '1';
+          this.isLastStop=-1;
+        } else {
+          route['status'] = '0';
+          this.isLastStop=-1;
         }
-         
-      }else{
-        route['status']='2'
-      }  
-      if(index==0){
-        route['status']='1';
+      } else {
+        route['status'] = '2';
+        if (this.routesDetails[index - 1].status == 0 || this.routesDetails[index - 1].status == 1) {
+          this.isLastStop = index;
+        }
       }
-     
     });
-    console.log("class",this.routesDetails);
   }
 
   closeModal() {

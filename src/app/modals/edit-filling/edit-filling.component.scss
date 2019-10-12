@@ -1,30 +1,38 @@
 :host ::ng-deep.blue {
-    color: blue;
-    font-weight: 700;
+  color: blue;
+  font-weight: 700;
 }
 .row-mgn-vert {
-    margin-top: 3px;
-    margin-bottom: 3px;
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 
 .fill-elt {
-    padding: 3px; font-size: 14px;
+  padding: 3px;
+  font-size: 14px;
 }
 
 .fstn-name {
-    overflow: auto !important;
-    max-height: 150px !important;
+  overflow: auto !important;
+  max-height: 150px !important;
 }
 .chkbx {
-    width: 20px; height: 20px;
+  width: 20px;
+  height: 20px;
 }
-.add-pp-lnk { margin-top: 5px; cursor: pointer;  }
-.invalid-feedback{
-
-    display: inline-block;
-    font-size: 14px;
-    color: red;
+.add-pp-lnk {
+  margin-top: 5px;
+  cursor: pointer;
 }
-.requiredfield{
-    color: red;   
+.invalid-feedback {
+  display: inline-block;
+  font-size: 14px;
+  color: red;
+}
+.requiredfield {
+  color: red;
+}
+:host ::ng-deep .fa-route {
+  font-size: 16px;
+  color: blue;
 }
