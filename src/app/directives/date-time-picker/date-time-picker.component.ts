@@ -44,8 +44,14 @@ export class DateTimePickerComponent implements OnInit {
 
   setDate(event: Date, type) {
     console.log("Event", event, "Type", type);
-    this.onChanged.emit(event);
-
+    if (!this.isTime && this.dateTimeValue && this.dateTimeValue.getTime() !== event.getTime()) {
+      if (this.isStart)
+        this.onChanged.emit(new Date(event.setHours(0, 0, 0, 0)));
+      else
+        this.onChanged.emit(new Date(event.setHours(23, 59, 59, 0)));
+      this.dateTimeValue = event;
+    } else
+      this.onChanged.emit(event);
   }
 
 }

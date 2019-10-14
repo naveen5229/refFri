@@ -90,19 +90,50 @@
     </div>
     </div>
 
+    <div class="row mt-2">
+        <div class="col-6">
+            <div class="row">
+              <div class="col-4">
+                <label>Material</label>
+              </div>
+              <div class="col-8">
+                  <span >
+                      <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
+                        placeholder="Search Material Name" style="width:100%;" class="auto-suggest"
+                        [preSelected]="{name:material.name}" (change)="resetMaterail($event)">
+                      </auto-suggestion>
+                    </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+              <div class="row">
+                <div class="col-4">
+                  <label>Gst Rate</label>
+                </div>
+                <div class="col-8">
+                  <select [(ngModel)]="freightInvoice.gst" name="gst">
+                    <option value="5" selected>5%</option>
+                    <option value="12">12%</option>
+                    <option value="0">N.A.</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+      
+    </div>
+
 
   <div class="row mt-2">
       <div class="col-6">
           <div class="row">
-            <div class="col-4">
-              <label>Gst Rate</label>
+            <div class="col-4" style="padding-top:20px">
+              <span><b>Title</b></span>
             </div>
             <div class="col-8">
-              <select [(ngModel)]="freightInvoice.gst" name="gst">
-                <option value="5" selected>5%</option>
-                <option value="12">12%</option>
-                <option value="0">N.A.</option>
-              </select>
+              <textarea rows="5" name="title" id="title" row="5" rows="3" class="form-control"
+                [(ngModel)]="freightInvoice.title"></textarea>
             </div>
           </div>
         </div>

@@ -18,9 +18,9 @@ export class HttpResponseHandlerService implements HttpInterceptor {
         /****************** FOR LOGOUT **************** */
         if (response['body'] && response['body']['code']) {
           const code = response['body']['code'];
-          const success=response['body']['success'];
+          const success = response['body']['success'];
           const codes = [101];
-        
+
           if (codes.indexOf(code) !== -1) {
             localStorage.clear();
             setTimeout(() => {
@@ -28,22 +28,22 @@ export class HttpResponseHandlerService implements HttpInterceptor {
             }, 1000);
             this.router.navigate(['/auth/login']);
           }
-          if (!success) {
+          if (!success && response['body'].msg !== "Qr Code Wrong!!") {
             setTimeout(() => {
               this.common.showError(response['body']['msg']);
             }, 500);
           }
         }
-        if (response['body'] && response['body']['encData']){
-           
-            // console.log("heres");
-            let data = atob(response['body']['encData']);
-            console.log("Encrypted Base64 From Api-->" ,response['body']['encData'] );
-             console.log("Encrypted From Api-->",data);
-            data = JSON.parse(data);
-            console.log("Decrypted Data-->", data);
-            response['body'] = data;
-          
+        if (response['body'] && response['body']['encData']) {
+
+          // console.log("heres");
+          let data = atob(response['body']['encData']);
+          console.log("Encrypted Base64 From Api-->", response['body']['encData']);
+          console.log("Encrypted From Api-->", data);
+          data = JSON.parse(data);
+          console.log("Decrypted Data-->", data);
+          response['body'] = data;
+
         }
       }),
       catchError((err: any) => {
