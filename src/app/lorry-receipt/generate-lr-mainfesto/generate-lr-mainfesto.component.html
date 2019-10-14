@@ -46,12 +46,12 @@
         <td>
           <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
             placeholder="Enter Vehicle Number" [preSelected]="{regno : mainfesto.vehicleRegNo}" style="width:60%;"
-            (change)="resetData($event)" inputId="vehicleno">
+            (change)="resetData()" inputId="vehicleno">
           </auto-suggestion>
         </td>
         <td><label>Seal No</label></td>
         <td>
-          <input type="text" [(ngModel)]=mainfesto.sealNo class="form-control" placeholder="Enter Seal Number">
+          <input type="text" [(ngModel)]=mainfesto.sealNo (change)="resetData() class="form-control" placeholder="Enter Seal Number">
         </td>
       </tr>
       <tr>

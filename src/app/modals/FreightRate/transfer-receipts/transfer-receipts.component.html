@@ -88,9 +88,9 @@
                 </div>
 
                 <div class="radio-type col-8" style="padding-left: 37px;">
-                    <input type="radio" value="transfer" name="radio" [(ngModel)]="transferReceipt.selectOption"
+                    <input type="radio" value="Transfer" name="radio" [(ngModel)]="transferReceipt.selectOption"
                         (change)="report(transferReceipt.selectOption)" [disabled]="refData?.selectOption && refData.selectOption=='receipt'?true:false" >Transfer
-                    <input type="radio" value="receipt" name="radio" [(ngModel)]="transferReceipt.selectOption"
+                    <input type="radio" value="Receipt" name="radio" [(ngModel)]="transferReceipt.selectOption"
                         (change)="report(transferReceipt.selectOption)" [disabled]="refData?.selectOption && refData.selectOption=='transfer'?true:false" >Receipt
                 </div>
             </div>
@@ -117,7 +117,7 @@
                 </div>
                 <div class="col-6 pl-0">
                     <auto-suggestion url="Suggestion/GetPurchaseLedger" (onSelected)="creditId=$event.id" display="name"
-                        placeholder="" inputId="creditledger">
+                        placeholder="" inputId="creditledger" [preSelected]="{name:creditName}">
                     </auto-suggestion>
                 </div>
             </div>
@@ -130,7 +130,7 @@
                 </div>
                 <div class="col-7">
                     <auto-suggestion url="Suggestion/GetPurchaseLedger"
-                        (onSelected)="debitId=$event.id" display="name" placeholder="" inputId="debitledger">
+                        (onSelected)="debitId=$event.id" display="name" placeholder="" inputId="debitledger" [preSelected]="{name:debitName}">
                     </auto-suggestion>
                 </div>
             </div>

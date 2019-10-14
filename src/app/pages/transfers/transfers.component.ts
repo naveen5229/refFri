@@ -104,7 +104,7 @@ export class TransfersComponent implements OnInit {
             action: null,
             isHTML: false,
             icons: [
-              { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc)}, {class:"fas fa-gas-pump", action: this.editFuelFilling.bind(this, doc)},
+              { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc)}, {class:"fas fa-gas-pump", action: this.editFuelFilling.bind(this, doc)},{class:"fas fa-edit", action: this.editTransfer.bind(this, doc._id)}
             ]
           };
         }
@@ -137,9 +137,20 @@ export class TransfersComponent implements OnInit {
 
 
   addTransfer() {
-    // console.log("invoice", invoice);
-    // this.common.params = { invoiceId:invoice._id }
+   
     this.common.params = { refData: null };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      this.viewTransfer();
+    });
+  }
+
+  editTransfer(transferId?) {
+    let refData = {
+      transferId:transferId
+    }
+    this.common.params = { refData: refData };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
