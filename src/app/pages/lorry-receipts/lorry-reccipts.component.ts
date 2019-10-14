@@ -37,8 +37,8 @@ export class LorryRecciptsComponent implements OnInit {
   vehicleType = -1;
   tempstartTime = null;
   tempendTime = null;
-  vehicleId = null;
-  regno = null;
+  searchValue = null;
+  searchString = null;
   // showMsg = false;
   constructor(
     public api: ApiService,
@@ -71,17 +71,7 @@ export class LorryRecciptsComponent implements OnInit {
 
     this.getLorryReceipts();
   }
-  selectvehicleType(type) {
-    this.vehicleType = type.target.value;
-    this.vehicleId = null;
-    this.regno = null;
-  }
-
-  selectVehicle(vehicle) {
-    this.vehicleId = vehicle.id;
-    this.regno = vehicle.regno;
-  }
-
+ 
   getLorryReceipts() {
     console.log("--this.tempendTime---", this.tempendTime, "this.tempstartTime---", this.tempstartTime)
     if (this.tempendTime < this.tempstartTime) {
@@ -96,8 +86,8 @@ export class LorryRecciptsComponent implements OnInit {
       status: this.lrType,
       lrCategory: this.lrCategory,
       vehicleType: this.vehicleType,
-      vehicleId: this.vehicleId,
-      vehicleRegNo: this.regno,
+      searchValue: this.searchValue,
+      searchString:this.searchString
     };
     console.log("api params Data:", params);
     this.table = null;
@@ -210,6 +200,7 @@ export class LorryRecciptsComponent implements OnInit {
       Consigner: { title: 'Consigner', placeholder: 'Consigner' },
       Consignee: { title: 'Consignee', placeholder: 'Consignee' },
       TA: { title: 'TA', placeholder: 'TA' },
+      Supplier: { title: 'Supplier', placeholder: 'Supplier' },
       Source: { title: 'Source', placeholder: 'Source' },
       Destination: { title: 'Destination', placeholder: 'Destination' },
       AddTime: { title: 'AddTime', placeholder: 'AddTime' },
@@ -246,6 +237,7 @@ export class LorryRecciptsComponent implements OnInit {
         Consigner: { value: R.lr_consigner_name },
         Consignee: { value: R.lr_consignee_name },
         TA: { value: R.lr_ta_name },
+        Supplier:{value:R.lr_supplier_name},
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
