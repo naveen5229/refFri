@@ -20,6 +20,7 @@ export class FuelFillingTimetableComponent implements OnInit {
   fuelFillingData = [];
   markers = [];
   marker = [];
+  fuelFillingMarkers = [];
   fuelMarkers = [];
   latlong = [{ lat: null, long: null, color: null, subType: null }];
   locallatlong = {
@@ -116,7 +117,7 @@ export class FuelFillingTimetableComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.mapService.clearAll();
-        this.mapService.createMarkers(this.fuelFillingData, false, true);
+        this.fuelFillingMarkers = this.mapService.createMarkers(this.fuelFillingData, false, true);
         let i = 0;
         let prevElement = null;
         let total = 0;
@@ -132,7 +133,7 @@ export class FuelFillingTimetableComponent implements OnInit {
           offset: "0%"
         }]);
         let markerIndex = 0
-        for (const marker of this.mapService.markers) {
+        for (const marker of this.fuelFillingMarkers) {
           let event = this.fuelFillingData[markerIndex];
           this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
           this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
@@ -182,7 +183,7 @@ export class FuelFillingTimetableComponent implements OnInit {
         this.markers = this.mapService.createMarkers(this.fuelMarkers);
         this.mapService.zoomAt({ lat: lat, lng: lng }, 18);
         let markerIndex = 0
-        for (const marker of this.mapService.markers) {
+        for (const marker of this.markers) {
           let event = this.fuelMarkers[markerIndex];
           this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
           this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
