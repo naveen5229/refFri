@@ -1,0 +1,24 @@
+<!-- Author by Lalit -->
+
+<nb-card>
+  <nb-card-header>Captcha </nb-card-header>
+  <nb-card-body style="min-height: 580px;">
+    <div class="row mt-2">
+      <div class="col-3">
+        <img src={{captchaImage}} aria-placeholder="Image" id="captchId" alt="Image Not Available" aria-disabled="true">
+      </div>
+      <div class="col-3 mt-5">
+        <input type="text" name="captchaText" id="captchaText" placeholder="Captcha" [(ngModel)]="captchaText"
+          class="form-control">
+      </div>
+
+      <div class="col-2 mt-5">
+        <button type="submit" class="btn btn-primary m-0" name="submitCaptcha" (click)="fillCaptcha()">Submit</button>
+      </div>
+    </div>
+
+
+
+
+  </nb-card-body>
+</nb-card>
