@@ -5,6 +5,25 @@
 }
 
 
+@media print
+{
+  table { page-break-after:auto }
+  tr    { page-break-inside:avoid; page-break-after:auto }
+  td    { page-break-inside:avoid; page-break-after:auto }
+  thead { display:table-header-group }
+  tfoot { display:table-footer-group }
+}
+
+table {
+    tr{
+        td{
+            font-size: small !important;
+        }
+        th{
+            font-size: small !important;
+        }
+    }
+}
 
 print-section {
     z-index: 999;
@@ -527,3 +546,34 @@ print-section {
         }
     }
 }
+
+
+// .print-lr-manifest .modal-lg table tr td, .print-lr-manifest .modal-lg table tr th 
+
+
+:host ::ng-deep table tr th {
+  font-size: small !important;
+}
+
+:host ::ng-deep table tr td {
+    font-size: small !important;
+  }
+
+  :host ::ng-deep table tr td {
+      span{
+    font-size: small !important;
+      }
+  }
+
+  :host ::ng-deep span{
+      font-size:14px!important;
+  }
+
+  :host ::ng-deep label{
+      font-size:14px!important;
+      font-weight: 600!important;
+  }
+
+  .iconsize{
+      font-size:24px!important;
+  }
