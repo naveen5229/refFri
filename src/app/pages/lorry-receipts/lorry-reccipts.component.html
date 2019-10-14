@@ -18,25 +18,25 @@
           <option value="myLr">Self</option>
         </select>
       </div>
-      <div class="col-sm-1-5">
-        <label>LR Category</label>
+      <div class="col-sm-1-5 ml-2">
+        <label>Category</label>
         <select [(ngModel)]="lrCategory" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="0">FTL</option>
           <option value="1">LTL</option>
           <option value="-1">All</option>
         </select>
       </div>
-      <div class="col-sm-2">
+      <div class="col-sm-1-5 ml-2">
         <label>From :</label>
         <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
           placeholder="Start Date" (click)="getDate('start')">
       </div>
-      <div class="col-sm-2">
+      <div class="col-sm-1-5 ml-2">
         <label>To :</label>
         <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
           placeholder="End Date" (click)="getDate('end')">
       </div>
-      <div class="col-sm-1-5">
+      <div class="col-sm-1-5 ml-2">
         <label>LR Status</label>
         <select [(ngModel)]="lrType" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="0">Pending</option>
@@ -48,7 +48,7 @@
 
       <div class="col-sm-1-5 ml-2">
         <label>Vehicle Type</label>
-        <select (change)="selectvehicleType($event)" class="form-control"
+        <select class="form-control"
           style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="-1">All</option>
           <option value="1">Own</option>
@@ -56,15 +56,23 @@
           <option value="3">Market</option>
         </select>
       </div>
-      <div class="col-sm-1-5 ml-2" *ngIf="vehicleType==1">
-        <label>Regno</label>
-        <auto-suggestion (onSelected)="selectVehicle($event)" inputId="regno" name="vehicle"
-          url="Suggestion/getFoVehicleList" display="regno" placeholder="Vehicle Number">
-        </auto-suggestion>
+      <div class="col-sm-1-5 ml-2" >
+        <label>Search String</label>
+        <select class="form-control"
+        style=" border: 2px solid darkcyan; font-size: 13px" [(ngModel)]="searchString">
+        <option value="veh">Vehicle</option>
+        <option value="lr">LR No</option>
+        <option value="consigner">Consigner</option>
+        <option value="consignee">Consignee</option>
+        <option value="ta">TA</option>
+        <option value="source">Source</option>
+        <option value="dest">Destination</option>
+        <option value="supplier">Supplier</option>
+      </select>
       </div>
-      <div class="col-sm-1-5 ml-2" *ngIf="vehicleType==-1 || vehicleType>=2">
-        <label>Regno</label>
-        <input type="text" class="form-control" [(ngModel)]="regno" autocomplete="off" name="regno">
+      <div class="col-sm-1-5 ml-2">
+        <label>Search Value</label>
+        <input type="text" class="form-control" [(ngModel)]="searchValue" autocomplete="off" name="searchValue">
       </div>
 
 
