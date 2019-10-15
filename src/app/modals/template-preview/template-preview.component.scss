@@ -4,6 +4,19 @@
     }
 }
 
+ :host ::ng-deep.table {
+    border: 0.5px solid #dee2e6!important;
+  }
+:host ::ng-deep .table-bordered 
+ {
+    thead  tr  th{
+     border: 0.5px solid #000!important;
+    }
+    tbody tr td {
+        border:0.5px solid #dee2e6!important;
+    }
+  }
+
 
 @media print
 {
