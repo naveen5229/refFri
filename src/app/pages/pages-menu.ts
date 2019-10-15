@@ -456,6 +456,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     link: '/tyres/tyre-summary'
   },
   {
+    title: 'Accounts Entry Approval',
+    icon: 'fas fa-coins',
+    link: '/accounts/account-entry-approval'
+  },
+  {
     title: 'Battery',
     icon: 'fas fa-car-battery',
     link: '/battery/battery-inventory'
@@ -480,5 +485,5 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fas fa-chalkboard-teacher',
     link: '/challan/pending-challan'
   },
- 
+  
 ]);

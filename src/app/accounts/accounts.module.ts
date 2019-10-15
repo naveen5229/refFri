@@ -44,6 +44,7 @@ import { TallyexportComponent } from './tallyexport/tallyexport.component';
 import { TripExpenseTallyComponent } from './trip-expense-tally/trip-expense-tally.component';
 import { StaticsComponent } from './statics/statics.component';
 import { LedgerapproveComponent } from './ledgerapprove/ledgerapprove.component';
+import { AccountEntryApprovalComponent } from './account-entry-approval/account-entry-approval.component';
 const PAGES_COMPONENTS = [
   AccountsComponent,
 ];
@@ -96,7 +97,8 @@ const PAGES_COMPONENTS = [
     TallyexportComponent,
     TripExpenseTallyComponent,
     StaticsComponent,
-    LedgerapproveComponent
+    LedgerapproveComponent,
+    AccountEntryApprovalComponent
   ],
   entryComponents:[
     StockitemsComponent,

@@ -196,8 +196,8 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12 text-right" style="padding-right:61px;">
+    <div class="row" >
+        <div class="col-12 text-right" style="padding-right:61px;" *ngIf="!transferReceipt.readOnly">
             <button class="btn btn-primary" id="save" (click)="saveTransfer()">Save</button>
         </div>
     </div>
