@@ -14,6 +14,7 @@ import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summ
 import { promise } from 'selenium-webdriver';
 import { StorerequisitionComponent } from '../../acounts-modals/storerequisition/storerequisition.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 
 @Component({
   selector: 'daybooks',
@@ -449,7 +450,7 @@ export class DaybooksComponent implements OnInit {
     // console.log(dateSendingToServer);
   }
   openVoucherEdit(voucherId, voucheradd, vchtypeid) {
-    console.log('ledger123', voucheradd);
+    console.log('ledger123', vchtypeid);
     if (voucherId) {
       this.common.params = {
         voucherId: voucherId,
@@ -755,5 +756,17 @@ export class DaybooksComponent implements OnInit {
       });
     })
    
+  }
+  editTransfer(transferId?) {
+    let refData = {
+      transferId:transferId,
+      readOnly:true
+    }
+    this.common.params = { refData: refData };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    //  this.viewTransfer();
+    });
   }
 }
