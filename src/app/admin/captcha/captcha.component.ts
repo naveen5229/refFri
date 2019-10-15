@@ -13,14 +13,18 @@ import { CommonService } from '../../services/common.service';
 export class CaptchaComponent implements OnInit {
   captchaImage = null;
   captchaText = '';
+  captchaData = [];
   constructor(public api: ApiService,
     public common: CommonService) {
+    this.common.refresh = this.refresh.bind(this);
     this.getPendingCaptchaList();
-    this.captchaImage = "assets/images/avtar-2.png";
   }
   ngOnInit() {
   }
 
+  refresh() {
+    this.getPendingCaptchaList();
+  }
 
   getPendingCaptchaList() {
     let params = {
@@ -29,29 +33,35 @@ export class CaptchaComponent implements OnInit {
     this.api.get('Captchas/getPendingCaptchasInfo?')
       .subscribe(res => {
         this.common.loading--;
-        console.log("api data", res);
-        this.common.showToast(res['msg'])
+        this.captchaData = res['data'];
+        console.log("api data", this.captchaData);
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
       })
   }
 
-  fillCaptcha() {
+  fillCaptcha(captcha, index) {
+    document.getElementById("captchaText").focus();
+    this.captchaData.splice(index, 1);
+    console.log("remaining Data", this.captchaData);
     let params = {
       text: this.captchaText,
-      captchaId: 1
+      captchaId: captcha.id
     };
     this.common.loading++;
-    this.api.post('Captchas/updateCaptcha', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("api data", res);
-        this.common.showToast(res['msg'])
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-      })
+    if (this.captchaText) {
+      this.api.post('Captchas/updateCaptcha', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("api data", res);
+          this.captchaText = '';
+          this.getPendingCaptchaList();
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+        })
+    }
   }
 
 }
