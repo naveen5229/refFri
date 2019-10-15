@@ -42,6 +42,7 @@ import { TallyexportComponent } from './tallyexport/tallyexport.component';
 import { TripExpenseTallyComponent } from './trip-expense-tally/trip-expense-tally.component';
 import { StaticsComponent } from './statics/statics.component';
 import { LedgerapproveComponent } from './ledgerapprove/ledgerapprove.component';
+import { AccountEntryApprovalComponent } from './account-entry-approval/account-entry-approval.component';
 
 const routes: Routes = [{
     path: '',
@@ -226,7 +227,11 @@ const routes: Routes = [{
         {
             path:'ledgerapprove',
             component:LedgerapproveComponent
-        }
+        },
+        {
+            path: 'account-entry-approval',
+            component: AccountEntryApprovalComponent,
+        },
     ],
 
 }];
