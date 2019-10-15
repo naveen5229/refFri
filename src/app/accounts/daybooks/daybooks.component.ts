@@ -759,7 +759,8 @@ export class DaybooksComponent implements OnInit {
   }
   editTransfer(transferId?) {
     let refData = {
-      transferId:transferId
+      transferId:transferId,
+      btnHide:true
     }
     this.common.params = { refData: refData };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
