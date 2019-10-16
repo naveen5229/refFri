@@ -90,6 +90,7 @@ export class TransferReceiptsComponent implements OnInit {
         this.transferReceipt.refId = this.common.params.refData.refId;
         this.transferReceipt.selectOption = this.common.params.refData.selectOption ? this.common.params.refData.selectOption : 'transfer';  
       this.getReferenceData();
+      this.showdata();
       this.getRefernceType(this.transferReceipt.refernceType);
     }
     }
