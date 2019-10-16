@@ -151,31 +151,43 @@ export class FuelFillingTimetableComponent implements OnInit {
     let distance: any;
     let firstpoint: any
     let secondpoint: any
-    let totaldistance: any;
+    let isSinglePoint = false;
     let atPointdistance: any;
 
     let sortedData = [];
     this.trailsData.forEach(element => {
-      distance = this.mapService.haversine(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long);
+      distance = this.common.distanceFromAToB(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long, "Mt");
+      let distance1 = this.mapService.haversine(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long);
+      console.log("BY map function", distance1);
+
       if (distance <= 10000) {
+        console.log("BY common function", distance);
         element['distance'] = distance;
         return sortedData.push(element);
       }
     });
 
     let listPoints = _.sortBy(sortedData, ['distance'], ['asc']);
-    console.log(">>>>", listPoints);
+
     firstpoint = listPoints[0];
     secondpoint = listPoints[1];
+    console.log("first points", firstpoint);
+    console.log("second points", secondpoint);
 
-    let pointP = this.mapService.getPerpendicularPoint([firstpoint, secondpoint], this.locallatlong);
-    console.log("At point created ", pointP);
 
-    if (listPoints.length) {
-      this.createMarkers(pointP.lat, pointP.long);
-      this.getFuelStation(pointP.lat, pointP.long);
-      this.time = listPoints.time;
-
+    if (listPoints.length > 1) {
+      let type = this.mapService.getTriangleType([firstpoint, secondpoint], this.locallatlong);
+      console.log("Type", type);
+      if (type === 'A') {
+        let pointP = this.mapService.getPerpendicularPoint([firstpoint, secondpoint], this.locallatlong);
+        console.log("point P", pointP);
+        this.createMarkers(pointP.lat, pointP.long);
+        this.getFuelStation(pointP.lat, pointP.long);
+        this.time = listPoints.time;
+      }
+      else {
+        isSinglePoint = true;
+      }
     }
     else {
       this.common.showError("No GPS Data, Near Space");
@@ -194,7 +206,7 @@ export class FuelFillingTimetableComponent implements OnInit {
           this.mapService.resetMarker(true, true, this.markers);
         }
         this.markers = this.mapService.createMarkers(this.fuelMarkers);
-        this.mapService.zoomAt({ lat: lat, lng: lng }, 12);
+        this.mapService.zoomAt({ lat: lat, lng: lng }, 10);
         let markerIndex = 0
         for (const marker of this.markers) {
           let event = this.fuelMarkers[markerIndex];

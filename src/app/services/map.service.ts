@@ -587,16 +587,12 @@ export class MapService {
     return R * c;
   }
   getPerpendicularPoint(line, point) {
-    console.log("line", line);
-    console.log("point", point);
+
     let d = this.distanceFromline(line, point);
     let a = this.haversine(line[0].lat, line[0].long, point.lat, point.long);
     let b = this.haversine(line[1].lat, line[1].long, point.lat, point.long);
     let c = this.haversine(line[0].lat, line[0].long, line[1].lat, line[1].long);
-    console.log("A", a);
-    console.log("B", b);
-    console.log("C", c);
-    console.log("D", d);
+
     if (d > a) {
       let index = a > b ? 1 : 0;
       return { "x": line[index].x, "y": line[index].y, "ratio": index };
@@ -619,9 +615,15 @@ export class MapService {
 
   getTriangleType(line, point) {
     let pi = Math.PI;
+    console.log("pi", pi);
+
     let a = this.haversine(line[0].lat, line[0].long, point.lat, point.long);
     let b = this.haversine(line[1].lat, line[1].long, point.lat, point.long);
     let c = this.haversine(line[0].lat, line[0].long, line[1].lat, line[1].long);
+    console.log("A", a);
+    console.log("B", b);
+    console.log("C", c);
+
 
     if (a == 0 || b == 0 || c == 0)
       return 'A';
@@ -640,6 +642,7 @@ export class MapService {
     betta = betta * 180 / pi;
     gamma = gamma * 180 / pi;
     //print_r(array(let alpha,let betta,let gamma,let points));echo "<br>";
+    console.log("gamma Value", gamma);
 
     if (gamma > 90) {
       return 'A';
