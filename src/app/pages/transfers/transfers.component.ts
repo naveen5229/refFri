@@ -192,7 +192,7 @@ export class TransfersComponent implements OnInit {
     }
     if (row._id) {
       this.common.params = {
-        title: 'Delete Route ',
+        title: 'Delete Transfer ',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
@@ -208,7 +208,7 @@ export class TransfersComponent implements OnInit {
                 this.viewTransfer();
               }
               else {
-                this.common.showToast(res['data'][0].y_msg);
+                this.common.showError(res['data'][0].y_msg);
               }
             }, err => {
               this.common.loading--;
