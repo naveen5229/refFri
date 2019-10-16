@@ -20,7 +20,6 @@ const PAGES_COMPONENTS = [
   imports: [
     ChallanRoutingModule,
     ThemeModule,
-    DashboardModule,
     DirectiveModule,
     ImageViewerModule,
     ChartModule,
@@ -33,7 +32,7 @@ const PAGES_COMPONENTS = [
     PendingChallanComponent,
   ],
   entryComponents: [
-  
+
   ],
   exports: [
   ],
