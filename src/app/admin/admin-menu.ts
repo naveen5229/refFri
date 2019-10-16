@@ -195,6 +195,12 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         link: '/admin/vouchers-summary',
         home: true,
       },
+      {
+        title: 'Challan Payment Request',
+        icon: 'far fa-list-alt',
+        link: '/admin/challan-payment-request',
+        home: true,
+      },
 
 
     ]

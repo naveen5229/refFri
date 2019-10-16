@@ -66,6 +66,7 @@ import { UserTemplatesComponent } from './user-templates/user-templates.componen
 import { FuelMileageWithOdoComponent } from '../pages/fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { BatteryModalsComponent } from '../battery/battery-modals/battery-modals.component';
 import { FoFuelAverageComponent } from '../pages/fo-fuel-average/fo-fuel-average.component';
+import { ChallanPendingRequestComponent } from '../modals/challanModals/challan-pending-request/challan-pending-request.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -390,6 +391,11 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
 
         },
+        {
+            path:'challan-payment-request',
+            component:ChallanPendingRequestComponent,
+            canActivate:[RouteGuard]
+        }
 
 
     ],
