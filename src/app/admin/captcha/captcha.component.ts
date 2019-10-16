@@ -11,57 +11,60 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./captcha.component.scss']
 })
 export class CaptchaComponent implements OnInit {
-  captchaImage = null;
-  captchaText = '';
-  captchaData = [];
+  count = 0;
+  captchas = [];
+
   constructor(public api: ApiService,
     public common: CommonService) {
     this.common.refresh = this.refresh.bind(this);
-    this.getPendingCaptchaList();
+    this.getCaptchas();
   }
+
   ngOnInit() {
   }
 
-  refresh() {
-    this.getPendingCaptchaList();
+  ngAfterViewInit() {
   }
 
-  getPendingCaptchaList() {
-    let params = {
-    };
-    this.common.loading++;
-    this.api.get('Captchas/getPendingCaptchasInfo?')
+  refresh() {
+    this.getCaptchas();
+  }
+
+  getCaptchas() {
+    this.api.get('Captchas/getPendingCaptchasInfo')
       .subscribe(res => {
-        this.common.loading--;
-        this.captchaData = res['data'];
-        console.log("api data", this.captchaData);
+        console.log('Res:', res);
+        if (res['data'] && res['data'].length)
+          this.captchas.push(...res['data'].splice(0, 5 - this.captchas.length).map(captcha => { captcha.txt = ''; return captcha }));
       }, err => {
-        this.common.loading--;
         console.log('Error: ', err);
+        this.common.showError();
       })
   }
 
-  fillCaptcha(captcha, index) {
-    document.getElementById("captchaText").focus();
-    this.captchaData.splice(index, 1);
-    console.log("remaining Data", this.captchaData);
+  captchaValidator(captcha, index) {
+    if (captcha.txt && captcha.txt.length > 4)
+      this.sendCaptchaTxt(captcha, index);
+    else this.common.showError('Please enter valid captcha');
+  }
+
+  sendCaptchaTxt(captcha, index) {
+    this.captchas.splice(index, 1);
     let params = {
-      text: this.captchaText,
+      text: captcha.txt,
       captchaId: captcha.id
     };
-    this.common.loading++;
-    if (this.captchaText) {
-      this.api.post('Captchas/updateCaptcha', params)
-        .subscribe(res => {
-          this.common.loading--;
-          console.log("api data", res);
-          this.captchaText = '';
-          this.getPendingCaptchaList();
-        }, err => {
-          this.common.loading--;
-          console.log('Error: ', err);
-        })
-    }
+    this.api.post('Captchas/updateCaptcha', params)
+      .subscribe(res => {
+        console.log("Res: ", res);
+        if (res['success']) this.count++;
+        // this.getCaptchas();
+      }, err => {
+        console.log('Error: ', err);
+      })
+    setTimeout(() => {
+      document.getElementById("captcha-0").focus();
+    }, 500);
   }
 
 }
