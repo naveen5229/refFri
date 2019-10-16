@@ -156,10 +156,7 @@ export class FuelFillingTimetableComponent implements OnInit {
 
     let sortedData = [];
     this.trailsData.forEach(element => {
-      distance = this.common.distanceFromAToB(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long, "Mt");
-      let distance1 = this.mapService.haversine(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long);
-      console.log("BY map function", distance1);
-
+      distance = this.mapService.haversine(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long);
       if (distance <= 10000) {
         console.log("BY common function", distance);
         element['distance'] = distance;

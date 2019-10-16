@@ -577,15 +577,32 @@ export class MapService {
     });
   }
 
-  haversine(lat1, long1, lat2, long2) {
-    var radians = Array.prototype.map.call(arguments, function (deg) { return deg / 180.0 * Math.PI; });
-    var R = 6372800; // meters
-    var distanceLat = lat2 - lat1;
-    var distanceLong = long2 - long1;
-    var a = Math.sin(distanceLat / 2) * Math.sin(distanceLat / 2) + Math.sin(distanceLong / 2) * Math.sin(distanceLong / 2) * Math.cos(lat1) * Math.cos(lat2);
-    var c = 2 * Math.asin(Math.sqrt(a));
-    return R * c;
-  }
+  haversine(lat1, lon1, lat2, lon2) {
+    // Math lib function names
+    const [pi, asin, sin, cos, sqrt, pow, round] = [
+      'PI', 'asin', 'sin', 'cos', 'sqrt', 'pow', 'round'
+    ]
+      .map(k => Math[k]),
+
+      // degrees as radians
+      [rlat1, rlat2, rlon1, rlon2] = [lat1, lat2, lon1, lon2]
+        .map(x => x / 180 * pi),
+
+      dLat = rlat2 - rlat1,
+      dLon = rlon2 - rlon1,
+      radius = 6372800; // Meter
+
+    // km
+    return round(
+      radius * 2 * asin(
+        sqrt(
+          pow(sin(dLat / 2), 2) +
+          pow(sin(dLon / 2), 2) *
+          cos(rlat1) * cos(rlat2)
+        )
+      ) * 100
+    ) / 100;
+  };
   getPerpendicularPoint(line, point) {
 
     let d = this.distanceFromline(line, point);
