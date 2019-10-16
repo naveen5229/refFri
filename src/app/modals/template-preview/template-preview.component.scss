@@ -5,7 +5,7 @@
 }
 
  :host ::ng-deep.table {
-    border: 0.5px solid #dee2e6!important;
+    border: 0.5px solid black!important;
   }
 :host ::ng-deep .table-bordered 
  {
@@ -13,7 +13,7 @@
      border: 0.5px solid #000!important;
     }
     tbody tr td {
-        border:0.5px solid #dee2e6!important;
+        border:0.5px solid black!important;
     }
   }
 
