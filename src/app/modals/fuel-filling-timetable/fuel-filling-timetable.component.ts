@@ -79,7 +79,7 @@ export class FuelFillingTimetableComponent implements OnInit {
     if (this.marker.length) {
       this.marker[0].setMap(null);
     }
-    this.marker = this.mapService.createMarkers(this.latlong, false, false);
+    this.marker = this.mapService.createMarkers(this.latlong, false, true);
   }
 
 
@@ -149,20 +149,33 @@ export class FuelFillingTimetableComponent implements OnInit {
 
   getClosedLatLong() {
     let distance: any;
+    let firstpoint: any
+    let secondpoint: any
+    let totaldistance: any;
+    let atPointdistance: any;
+
     let sortedData = [];
     this.trailsData.forEach(element => {
-      distance = this.common.distanceFromAToB(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long, 'K');
-      if (distance <= 10) {
+      distance = this.mapService.haversine(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long);
+      if (distance <= 10000) {
         element['distance'] = distance;
         return sortedData.push(element);
       }
     });
-    let object = _.first(_.sortBy(sortedData, ['distance'], ['asc']));
-    if (object) {
-      console.log("Sorted Data ", object);
-      this.createMarkers(object.lat, object.long);
-      this.getFuelStation(object.lat, object.long);
-      this.time = object.time;
+
+    let listPoints = _.sortBy(sortedData, ['distance'], ['asc']);
+    console.log(">>>>", listPoints);
+    firstpoint = listPoints[0];
+    secondpoint = listPoints[1];
+
+    let pointP = this.mapService.getPerpendicularPoint([firstpoint, secondpoint], this.locallatlong);
+    console.log("At point created ", pointP);
+
+    if (listPoints.length) {
+      this.createMarkers(pointP.lat, pointP.long);
+      this.getFuelStation(pointP.lat, pointP.long);
+      this.time = listPoints.time;
+
     }
     else {
       this.common.showError("No GPS Data, Near Space");
@@ -181,7 +194,7 @@ export class FuelFillingTimetableComponent implements OnInit {
           this.mapService.resetMarker(true, true, this.markers);
         }
         this.markers = this.mapService.createMarkers(this.fuelMarkers);
-        this.mapService.zoomAt({ lat: lat, lng: lng }, 18);
+        this.mapService.zoomAt({ lat: lat, lng: lng }, 12);
         let markerIndex = 0
         for (const marker of this.markers) {
           let event = this.fuelMarkers[markerIndex];

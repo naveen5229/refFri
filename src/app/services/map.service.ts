@@ -124,7 +124,7 @@ export class MapService {
         }]
       }]
     };
-    //$("#"+mapId).heigth(height);
+    //let ("#"+mapId).heigth(height);
     this.map = new google.maps.Map(this.mapDiv, opt);
     this.mapLoadDiv = this.map.getDiv();
     this.bounds = new google.maps.LatLngBounds();
@@ -361,9 +361,9 @@ export class MapService {
     let actualMarker = markers || this.markers;
     for (let i = 0; i < actualMarker.length; i++) {
       if (actualMarker[i])
-      console.log("reset");
-      
-        actualMarker[i].setMap(null);
+        console.log("reset");
+
+      actualMarker[i].setMap(null);
     }
     if (reset)
       actualMarker = [];
@@ -576,6 +576,81 @@ export class MapService {
       });
     });
   }
+
+  haversine(lat1, long1, lat2, long2) {
+    var radians = Array.prototype.map.call(arguments, function (deg) { return deg / 180.0 * Math.PI; });
+    var R = 6372800; // meters
+    var distanceLat = lat2 - lat1;
+    var distanceLong = long2 - long1;
+    var a = Math.sin(distanceLat / 2) * Math.sin(distanceLat / 2) + Math.sin(distanceLong / 2) * Math.sin(distanceLong / 2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.asin(Math.sqrt(a));
+    return R * c;
+  }
+  getPerpendicularPoint(line, point) {
+    console.log("line", line);
+    console.log("point", point);
+    let d = this.distanceFromline(line, point);
+    let a = this.haversine(line[0].lat, line[0].long, point.lat, point.long);
+    let b = this.haversine(line[1].lat, line[1].long, point.lat, point.long);
+    let c = this.haversine(line[0].lat, line[0].long, line[1].lat, line[1].long);
+    console.log("A", a);
+    console.log("B", b);
+    console.log("C", c);
+    console.log("D", d);
+    if (d > a) {
+      let index = a > b ? 1 : 0;
+      return { "x": line[index].x, "y": line[index].y, "ratio": index };
+    }
+    let ratio = (Math.sqrt((a ** 2) - (d ** 2)) / c);
+    console.log("ratio", ratio);
+    let lat = (ratio * (line[1].lat - line[0].lat)) + line[0].lat;
+    let long = (ratio * (line[1].long - line[0].long)) + line[0].long;
+    return { "lat": lat, "long": long, "ratio": ratio };
+  }
+
+  distanceFromline(line, point) {
+    const arcConst = (2 * Math.PI * 6372800) / 360;
+    let a = line[0].lat - line[1].lat;
+    let b = line[0].long - line[1].long;
+    let c = (line[0].long * (line[1].lat - line[0].lat)) - (line[0].lat * (line[1].long - line[1].long));
+    let d = Math.abs((a * point.lat) + (b * point.long) + c) / Math.sqrt((a ** 2) + (b ** 2));
+    return d;
+  }
+
+  getTriangleType(line, point) {
+    let pi = Math.PI;
+    let a = this.haversine(line[0].lat, line[0].long, point.lat, point.long);
+    let b = this.haversine(line[1].lat, line[1].long, point.lat, point.long);
+    let c = this.haversine(line[0].lat, line[0].long, line[1].lat, line[1].long);
+
+    if (a == 0 || b == 0 || c == 0)
+      return 'A';
+
+    let a2 = a ** 2;
+    let b2 = b ** 2;
+    let c2 = c ** 2;
+    // print_r(array(let a,let b,let c,let a2,let b2,let c2));//echo "<br>";
+    // From Cosine law
+    let alpha = Math.acos((b2 + c2 - a2) / (2 * b * c));
+    let betta = Math.acos((a2 + c2 - b2) / (2 * a * c));
+    let gamma = Math.acos((a2 + b2 - c2) / (2 * a * b));
+
+    // Converting to degree 
+    alpha = alpha * 180 / pi;
+    betta = betta * 180 / pi;
+    gamma = gamma * 180 / pi;
+    //print_r(array(let alpha,let betta,let gamma,let points));echo "<br>";
+
+    if (gamma > 90) {
+      return 'A';
+    }
+    else
+      return 'O';
+  }
+
+
+
+
 
 
 }
