@@ -172,7 +172,8 @@ thead {
     border-right: none;
 }
 
-.route-circle-red {
+.route-circle-red,
+.route-circle-gray {
     width: 15px;
     height: 15px;
     background: red;
@@ -200,6 +201,10 @@ thead {
     position: absolute;
     z-index: 999;
     top: 22.5px;
+}
+
+.route-circle-gray {
+    background: gray;
 }
 
 .route-truck img {

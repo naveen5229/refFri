@@ -32,9 +32,14 @@ export class FreightInvoiceComponent implements OnInit {
     type:null,
     parentId:null,
     partyAddress:null,
+    title:null
   };
+  material = {
+    name: null,
+    id: null
+  }
 
-  btnTxt = "Save & Select LR"
+  btnTxt = "Save & Select LR";
   constructor(public modalService: NgbModal,
     public common: CommonService,
     public activeModal: NgbActiveModal,
@@ -68,6 +73,9 @@ export class FreightInvoiceComponent implements OnInit {
           this.freightInvoice.parentId = res['data'][0].parent_id;
           this.freightInvoice.type = res['data'][0].inv_type;
           this.freightInvoice.partyAddress=res['data'][0].party_address;
+          this.freightInvoice.title = res['data'][0].inv_title;
+          this.material.id = res['data'][0].material_id;;
+          this.material.name = res['data'][0].material_name;
           this.btnTxt="Update Invoice";
         }
       }, err => {
@@ -140,7 +148,9 @@ export class FreightInvoiceComponent implements OnInit {
       gst: this.freightInvoice.gst,
       type:this.freightInvoice.type,
       parentId:this.freightInvoice.parentId,
-      partyAddress:this.freightInvoice.partyAddress
+      partyAddress:this.freightInvoice.partyAddress,
+      title:this.freightInvoice.title,
+      materialId:this.material.id
     };
     ++this.common.loading;
     this.api.post("FrieghtRate/saveInvoices", params)
@@ -194,5 +204,13 @@ export class FreightInvoiceComponent implements OnInit {
     }
   }
 
+  getMaterialDetail(material) {
+    console.log("material==",material);
+    this.material.name = material.name;
+    this.material.id = material.id;
+  }
 
+  resetMaterail(material) {
+    this.material.id = null;
+  }
 }

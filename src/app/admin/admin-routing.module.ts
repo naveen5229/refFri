@@ -66,6 +66,7 @@ import { UserTemplatesComponent } from './user-templates/user-templates.componen
 import { FuelMileageWithOdoComponent } from '../pages/fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { BatteryModalsComponent } from '../battery/battery-modals/battery-modals.component';
 import { FoFuelAverageComponent } from '../pages/fo-fuel-average/fo-fuel-average.component';
+import { CaptchaComponent } from './captcha/captcha.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -388,7 +389,11 @@ const routes: Routes = [{
             path: 'battery-modals',
             component: BatteryModalsComponent,
             canActivate: [RouteGuard]
-
+        },
+        {
+            path: 'captcha',
+            component: CaptchaComponent,
+            canActivate: [RouteGuard]
         },
 
 

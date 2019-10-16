@@ -142,3 +142,17 @@
  :host ::ng-deep .fa-file-pdf:hover span {
     display: block;
 }
+
+:host ::ng-deep.fa-file-alt.text-color {
+    // background: lightblue !important;
+    // color: #fff !important;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+:host ::ng-deep.fa-file-pdf.text-color {
+    // background: lightcoral !important;
+    // color: #fff !important;
+    cursor: not-allowed;
+    opacity: 0.5;
+}

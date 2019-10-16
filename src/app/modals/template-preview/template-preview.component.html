@@ -2,6 +2,9 @@
   <h5 class="modal-title" id="modal-basic-title" style="text-align:right;width:100%;" class="doNotPrint">{{title}}</h5>
 
   <div class="col-md-6 text-right">
+    <select *ngIf="view.length>0" class="mr-3 doNotPrint" [(ngModel)]="template.PreviewId"  (change)="preview()" style="border-radius:5px;border:none;">
+      <option  *ngFor="let data of view;"  [value]="data._id">{{data.Name}}</option>
+    </select>
     <span *ngIf="loginType=='admin'" (click)="refresh()" class="doNotPrint"><i class="fa fa-refresh"></i></span>
     <span (click)="printHandler()" class="doNotPrint print-icon"><i class="fa fa-print"></i></span>
     <span (click)="common.downloadPdf('print-section',true)" class="pdf-icon doNotPrint" style="margin-left:20px"><i

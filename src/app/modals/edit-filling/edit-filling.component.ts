@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddPumpComponent } from '../add-pump/add-pump.component';
 import { FormBuilder, Validators } from '@angular/forms';
+import { FuelFillingTimetableComponent } from '../fuel-filling-timetable/fuel-filling-timetable.component';
 
 @Component({
   selector: 'edit-filling',
@@ -117,10 +118,10 @@ export class EditFillingComponent implements OnInit {
     }
     if (this.common.params.title == 'Edit Fuel Filling') {
       let dateArr = rec.fdate.split('-');
-      if(dateArr[2].length==2){
+      if (dateArr[2].length == 2) {
         dateArr[2] = '20' + dateArr[2];
-      }else{
-      dateArr[2] = dateArr[2];
+      } else {
+        dateArr[2] = dateArr[2];
       }
       this.date = new Date(dateArr.join('/'))
       this.vehicleId = this.common.params.rowfilling.vehicle_id;
@@ -387,6 +388,34 @@ export class EditFillingComponent implements OnInit {
       this.pump_id = parseInt(this.pumpPayType);
       this.pump = '';
     }
+  }
+
+  fuelFillingTimetable() {
+    if (this.regno && this.date) {
+      let startDate = this.date;
+      let endDate = this.date;
+      let fuelTimeTable = {
+        title: 'FuelFilling TimeTable',
+        regno: this.regno,
+        vehicleId: this.vehicleId,
+        startTime: new Date(startDate.setDate(startDate.getDate() - 1)),
+        endTime: new Date(endDate.setDate(endDate.getDate() + 2)),
+      }
+      console.log("Params", fuelTimeTable);
+      this.common.handleModalSize('class', 'modal-lg', '1200', 'px', 1);
+      this.common.params = { fuelTimeTable };
+      const activeModal = this.modalService.open(FuelFillingTimetableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data) {
+          console.log("data", data);
+          this.date = new Date(this.common.dateFormatter(data.time));
+        }
+      });
+    }
+    else {
+      this.common.showError(!this.regno ? "Select Regno" : "Select Date");
+    }
+
   }
 
 
