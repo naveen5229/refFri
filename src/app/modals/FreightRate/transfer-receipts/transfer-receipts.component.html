@@ -89,9 +89,11 @@
 
                 <div class="radio-type col-8" style="padding-left: 37px;">
                     <input type="radio" value="Transfer" name="radio" [(ngModel)]="transferReceipt.selectOption"
-                        (change)="report(transferReceipt.selectOption)" [disabled]="refData?.selectOption && refData.selectOption=='receipt'?true:false" >Transfer
+                        (change)="report(transferReceipt.selectOption)"
+                        [disabled]="refData?.selectOption && refData.selectOption=='receipt'?true:false">Transfer
                     <input type="radio" value="Receipt" name="radio" [(ngModel)]="transferReceipt.selectOption"
-                        (change)="report(transferReceipt.selectOption)" [disabled]="refData?.selectOption && refData.selectOption=='transfer'?true:false" >Receipt
+                        (change)="report(transferReceipt.selectOption)"
+                        [disabled]="refData?.selectOption && refData.selectOption=='transfer'?true:false">Receipt
                 </div>
             </div>
         </div>
@@ -129,8 +131,8 @@
                     <span><b>Receiver(Dr)</b><b style="color:red;">*</b></span>
                 </div>
                 <div class="col-7">
-                    <auto-suggestion url="Suggestion/GetPurchaseLedger"
-                        (onSelected)="debitId=$event.id" display="name" placeholder="" inputId="debitledger" [preSelected]="{name:debitName}">
+                    <auto-suggestion url="Suggestion/GetPurchaseLedger" (onSelected)="debitId=$event.id" display="name"
+                        placeholder="" inputId="debitledger" [preSelected]="{name:debitName}">
                     </auto-suggestion>
                 </div>
             </div>
@@ -183,6 +185,14 @@
                         [(ngModel)]="transferReceipt.amount">
                 </div>
             </div>
+            <div class="row">
+                <span *ngIf="this.transferReceipt.approvalStatus" style="margin-left: 20px; margin-top: 10px;"><b>Status :
+                    </b>{{this.transferReceipt.approvalStatus}}</span>
+            </div>
+            <div class="row">        
+                <span *ngIf="this.transferReceipt.approvalRemark" style="margin-left: 20px; margin-top: 10px;"><b>Status Remark :
+                    </b>{{this.transferReceipt.approvalRemark}}</span>
+            </div>
         </div>
         <div class="col-6">
             <div class="row">
@@ -196,7 +206,7 @@
             </div>
         </div>
     </div>
-    <div class="row" >
+    <div class="row">
         <div class="col-12 text-right" style="padding-right:61px;" *ngIf="!transferReceipt.readOnly">
             <button class="btn btn-primary" id="save" (click)="saveTransfer()">Save</button>
         </div>
