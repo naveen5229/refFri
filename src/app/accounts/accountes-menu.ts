@@ -23,7 +23,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 link: '/accounts/costcenter'
             },
             {
-                title: 'Ledger',
+                title: 'Ledger (F1)',
                 link: '/accounts/ledgers/0'
             },
             {
@@ -113,7 +113,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
         icon: 'fa fa-file-excel',
         children: [
             {
-                title: 'Day Book',
+                title: 'Day Book (Ctrl+1)',
                 link: '/accounts/daybooks/0'
             },
             {
@@ -130,7 +130,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
             },
 
             {
-                title: 'Ledger View',
+                title: 'Ledger View (Ctrl+2)',
                 link: '/accounts/ledgerview'
             },
             {
@@ -138,23 +138,23 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 link: '/accounts/cost-center-report'
             },
             {
-                title: 'Trading Account',
+                title: 'Trading Account (Ctrl+5)',
                 link: '/accounts/trading'
             },
             {
-                title: 'Profit & Loss A/C',
+                title: 'Profit & Loss A/C (Ctrl+3)',
                 link: '/accounts/profitloss'
             },
             {
-                title: 'Balance Sheet',
+                title: 'Balance Sheet (Ctrl+4)',
                 link: '/accounts/balancesheet'
             },
             {
-                title: 'Trial Balance',
+                title: 'Trial Balance (Ctrl+6)',
                 link: '/accounts/trialbalance'
             },
             {
-                title: 'Ledger Mapping',
+                title: 'Ledger Mapping (Ctrl+0)',
                 link: '/accounts/ledgermapping'
             },
             {
@@ -296,15 +296,15 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
 
         children: [
             {
-                title: 'Trip Voucher Expense',
+                title: 'Trip Voucher Expense (F10)',
                 link: '/accounts/trip-voucher-expense'
             },
             {
-                title: 'Trip Voucher Expense(Short)',
+                title: 'Trip Voucher Expense(Short) (F11)',
                 link: '/accounts/trip-voucher-expense/1'
             },
             {
-                title: 'Fuel Fillings',
+                title: 'Fuel Fillings (F12)',
                 link: '/accounts/fuelfillings'
             },
         ]
