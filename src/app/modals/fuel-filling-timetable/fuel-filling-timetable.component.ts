@@ -160,7 +160,9 @@ export class FuelFillingTimetableComponent implements OnInit {
     let marker: any
     let isSinglePoint = false;
     let sortedData = [];
-
+    let t1: any;
+    let t2: any;
+    let t3: any;
 
     this.trailsData.forEach(element => {
       distance = this.mapService.haversine(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long);
@@ -172,29 +174,31 @@ export class FuelFillingTimetableComponent implements OnInit {
     point = _.first(_.sortBy(sortedData, ['distance'], ['asc']));
     console.log("point ", point);
     console.log("point previous ", point.previous);
-    console.log("point previous ", point.previous);
+    console.log("point next ", point.next);
 
     if (point.previous && this.mapService.getTriangleType([point, point.previous], this.locallatlong) == 'A') {
+      console.log("type A");
       marker = this.mapService.getPerpendicularPoint([point, point.previous], this.locallatlong);
-      console.log("Temp Marker Point", marker);
       this.createMarkers(marker.lat, marker.long);
       this.getFuelStation(marker.lat, marker.long);
-      console.log("point Time", point.time);
-      console.log("ratio with time ", (marker.ratio * (point.previous.time - point.time)));
-      console.log("Add time", point.time + (marker.ratio * (point.previous.time - point.time)));
-      this.time = point.time + (marker.ratio * (point.previous.time - point.time));
+
+      t1 = new Date(point.time).getTime();
+      t2 = new Date(point.previous.time).getTime();
+      console.log("t1", t1);
+      console.log("t2", t2);
+      this.time = new Date(t1 + (marker.ratio * (t2 - t1)));
       console.log("time", this.time);
 
     }
-    else if (point.next && this.mapService.getTriangleType([point, point.next], this.locallatlong) == 'O') {
+    else if (point.next && this.mapService.getTriangleType([point, point.next], this.locallatlong) == 'A') {
       marker = this.mapService.getPerpendicularPoint([point, point.next], this.locallatlong);
-      console.log("Temp Marker Point O Type", marker);
       this.createMarkers(marker.lat, marker.long);
       this.getFuelStation(marker.lat, marker.long);
-      console.log("point Time", point.time);
-      console.log("ratio with time ", (marker.ratio * (point.next.time - point.time)));
-      console.log("Add time", point.time + (marker.ratio * (point.next.time - point.time)));
-      this.time = point.time + (marker.ratio * (point.next.time - point.time));
+      t1 = new Date(point.time).getTime();
+      t2 = new Date(point.next.time).getTime();
+      console.log("t1", t1);
+      console.log("t2", t2);
+      this.time = new Date(t1 + (marker.ratio * (t2 - t1)));
       console.log("time", this.time);
     }
     else {
