@@ -34,8 +34,9 @@ export class CaptchaComponent implements OnInit {
     this.api.get('Captchas/getPendingCaptchasInfo')
       .subscribe(res => {
         console.log('Res:', res);
-        if (res['data'] && res['data'].length)
-          this.captchas.push(...res['data'].splice(0, 5 - this.captchas.length).map(captcha => { captcha.txt = ''; return captcha }));
+        // if (res['data'] && res['data'].length)
+        this.captchas = res['data'].map(captcha => { captcha.txt = ''; return captcha; });
+        // this.captchas.push(...res['data'].splice(0, 5 - this.captchas.length).map(captcha => { captcha.txt = ''; return captcha }));
       }, err => {
         console.log('Error: ', err);
         this.common.showError();
@@ -63,7 +64,7 @@ export class CaptchaComponent implements OnInit {
         console.log('Error: ', err);
       })
     setTimeout(() => {
-      document.getElementById("captcha-0").focus();
+      if (this.captchas.length) document.getElementById("captcha-0").focus();
     }, 500);
   }
 
