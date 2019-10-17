@@ -25,6 +25,7 @@ export class AddFieldComponent implements OnInit {
     title: ''
   }];
   isFixedValue = false;
+  isAutoCalculate = false;
   fieldId = null;
   typeId = null;
   name = null;
@@ -81,6 +82,7 @@ export class AddFieldComponent implements OnInit {
       reportType: this.reportType,
       blockType: this.blockType,
       isFixedValue: this.isFixedValue,
+      isAutoCalculate:this.isAutoCalculate,
       fixValues: JSON.stringify(this.fixValues)
     }
     console.log("params", params);
@@ -249,6 +251,7 @@ export class AddFieldComponent implements OnInit {
     this.name = data.col_title;
     this.fixValues = data.newvalues ? JSON.parse(data.newvalues) : this.fixValues;
     this.isFixedValue = data.is_active;
+    this.isAutoCalculate = data.is_autocalculate;
     this.btn1 = "Update";
 
   }
@@ -258,6 +261,7 @@ export class AddFieldComponent implements OnInit {
     this.typeId = null;
     this.name = null;
     this.isFixedValue = false;
+    this.isAutoCalculate = false
     this.fieldId = null;
     this.fixValues = [{
       title: ''

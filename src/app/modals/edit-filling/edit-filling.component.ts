@@ -392,8 +392,8 @@ export class EditFillingComponent implements OnInit {
 
   fuelFillingTimetable() {
     if (this.regno && this.date) {
-      let startDate = this.date;
-      let endDate = this.date;
+      let startDate = new Date(this.date);
+      let endDate = new Date(this.date);
       let fuelTimeTable = {
         title: 'FuelFilling TimeTable',
         regno: this.regno,
@@ -406,11 +406,14 @@ export class EditFillingComponent implements OnInit {
       this.common.params = { fuelTimeTable };
       const activeModal = this.modalService.open(FuelFillingTimetableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        if(data){
+        if (data) {
           console.log("data", data);
           this.date = new Date(this.common.dateFormatter(data.time));
         }
       });
+    }
+    else {
+      this.common.showError(!this.regno ? "Select Regno" : "Select Date");
     }
 
   }
