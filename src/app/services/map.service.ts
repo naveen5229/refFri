@@ -631,6 +631,9 @@ export class MapService {
   }
 
   getTriangleType(line, point) {
+
+    console.log("line", line);
+
     let pi = Math.PI;
     console.log("pi", pi);
 

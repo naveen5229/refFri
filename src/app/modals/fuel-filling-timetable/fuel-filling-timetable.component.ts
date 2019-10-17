@@ -120,8 +120,15 @@ export class FuelFillingTimetableComponent implements OnInit {
         this.fuelFillingMarkers = this.mapService.createMarkers(this.fuelFillingData, false, true);
         let i = 0;
         let prevElement = null;
-        let total = 0;
         this.trailsData = res['data'];
+        this.trailsData.map((element, index) => {
+          element['previous'] = index ? Object.assign({}, this.trailsData[index - 1]) : null,
+            element['next'] = index < this.trailsData.length - 1 ? Object.assign({}, this.trailsData[index + 1]) : null
+          if (element['previous']) {
+            delete element['previous']['previous']
+            delete element['previous']['next']
+          }
+        });
         for (const element of res['data']) {
           this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
           this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
@@ -149,46 +156,68 @@ export class FuelFillingTimetableComponent implements OnInit {
 
   getClosedLatLong() {
     let distance: any;
-    let firstpoint: any
-    let secondpoint: any
+    let point: any
+    let marker: any
     let isSinglePoint = false;
-    let atPointdistance: any;
-
     let sortedData = [];
+
+
     this.trailsData.forEach(element => {
       distance = this.mapService.haversine(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long);
-      if (distance <= 10000) {
-        console.log("BY common function", distance);
-        element['distance'] = distance;
-        return sortedData.push(element);
-      }
+      element['distance'] = distance;
+      return sortedData.push(element);
     });
 
-    let listPoints = _.sortBy(sortedData, ['distance'], ['asc']);
+    console.log("sort Data", _.sortBy(sortedData, ['distance'], ['asc']));
+    point = _.first(_.sortBy(sortedData, ['distance'], ['asc']));
+    console.log("point ", point);
+    console.log("point previous ", point.previous);
+    console.log("point previous ", point.previous);
 
-    firstpoint = listPoints[0];
-    secondpoint = listPoints[1];
-    console.log("first points", firstpoint);
-    console.log("second points", secondpoint);
+    if (point.previous && this.mapService.getTriangleType([point, point.previous], this.locallatlong) == 'A') {
+      marker = this.mapService.getPerpendicularPoint([point, point.previous], this.locallatlong);
+      console.log("Temp Marker Point", marker);
+      this.createMarkers(marker.lat, marker.long);
+      this.getFuelStation(marker.lat, marker.long);
+      console.log("point Time", point.time);
+      console.log("ratio with time ", (marker.ratio * (point.previous.time - point.time)));
+      console.log("Add time", point.time + (marker.ratio * (point.previous.time - point.time)));
+      this.time = point.time + (marker.ratio * (point.previous.time - point.time));
+      console.log("time", this.time);
 
-
-    if (listPoints.length > 1) {
-      let type = this.mapService.getTriangleType([firstpoint, secondpoint], this.locallatlong);
-      console.log("Type", type);
-      if (type === 'A') {
-        let pointP = this.mapService.getPerpendicularPoint([firstpoint, secondpoint], this.locallatlong);
-        console.log("point P", pointP);
-        this.createMarkers(pointP.lat, pointP.long);
-        this.getFuelStation(pointP.lat, pointP.long);
-        this.time = listPoints.time;
-      }
-      else {
-        isSinglePoint = true;
-      }
+    }
+    else if (point.next && this.mapService.getTriangleType([point, point.next], this.locallatlong) == 'O') {
+      marker = this.mapService.getPerpendicularPoint([point, point.next], this.locallatlong);
+      console.log("Temp Marker Point O Type", marker);
+      this.createMarkers(marker.lat, marker.long);
+      this.getFuelStation(marker.lat, marker.long);
+      console.log("point Time", point.time);
+      console.log("ratio with time ", (marker.ratio * (point.next.time - point.time)));
+      console.log("Add time", point.time + (marker.ratio * (point.next.time - point.time)));
+      this.time = point.time + (marker.ratio * (point.next.time - point.time));
+      console.log("time", this.time);
     }
     else {
-      this.common.showError("No GPS Data, Near Space");
+      marker = point;
     }
+
+    // if (listPoints.length > 1) {
+    //   let type = this.mapService.getTriangleType([firstpoint, secondpoint], this.locallatlong);
+    //   console.log("Type", type);
+    //   if (type === 'A') {
+    //     let pointP = this.mapService.getPerpendicularPoint([firstpoint, secondpoint], this.locallatlong);
+    //     console.log("point P", pointP);
+    //     this.createMarkers(pointP.lat, pointP.long);
+    //     this.getFuelStation(pointP.lat, pointP.long);
+    //     this.time = listPoints.time;
+    //   }
+    //   else {
+    //     isSinglePoint = true;
+    //   }
+    // }
+    // else {
+    //   this.common.showError("No GPS Data, Near Space");
+    // }
 
   }
 
