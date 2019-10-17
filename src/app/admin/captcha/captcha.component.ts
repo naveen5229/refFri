@@ -59,7 +59,7 @@ export class CaptchaComponent implements OnInit {
       .subscribe(res => {
         console.log("Res: ", res);
         if (res['success']) this.count++;
-        // this.getCaptchas();
+        this.getCaptchas();
       }, err => {
         console.log('Error: ', err);
       })
