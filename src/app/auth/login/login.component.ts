@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
 
   listenOTP = false;
   otpCount = 0;
-
+  button = 'Send OTP';
   formSubmit = false;
   qrCode = null;
   elementType: 'url' | 'canvas' | 'img' = 'url';
@@ -36,22 +36,23 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       if (params.type && (params.type.toLowerCase() == 'admin' || params.type.toLowerCase() == 'partner')) {
+        this.button = 'Generate Qr-Code';
         this.user._loggedInBy = params.type.toLowerCase();
       } else if (params.type) {
         this.router.navigate(['/auth/login']);
-
         return;
       } else {
         this.user._loggedInBy = 'customer';
+        this.button = 'Send OTP';
       }
       console.log("Login By", this.user._loggedInBy);
-
     });
   }
 
   ngAfterViewInit() {
     this.removeDummy();
   }
+
 
   removeDummy() {
     let allTags = document.getElementsByTagName('nb-card-header');
@@ -60,7 +61,6 @@ export class LoginComponent implements OnInit {
     console.log('All Tags: ', allTags);
     if (this.user._loggedInBy == "customer") {
       let nbCard = document.getElementsByTagName('nb-card')[0];
-      // nbCard['style']['backgroundColor'] = "#000";
       nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/app-login-bg.jpg')";
       nbCard['style']['backgroundSize'] = 'cover';
       nbCard['style']['backgroundRepeat'] = 'no-repeat';
@@ -70,7 +70,6 @@ export class LoginComponent implements OnInit {
 
     if (this.user._loggedInBy == "admin") {
       let nbCard = document.getElementsByTagName('nb-card')[0];
-      // nbCard['style']['backgroundColor'] = "#000";
       nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/login-admin.jpg')";
       nbCard['style']['backgroundSize'] = 'cover';
       nbCard['style']['backgroundRepeat'] = 'no-repeat';
@@ -82,7 +81,7 @@ export class LoginComponent implements OnInit {
 
 
   sendOTP() {
-    if (this.user._loggedInBy == 'admin') {
+    if (this.user._loggedInBy == "admin") {
       this.qrCode = Math.floor(Math.random() * 1000000);
       if (this.qrCode.length != 6) {
         this.qrCode = Math.floor(Math.random() * 1000000);
@@ -94,17 +93,15 @@ export class LoginComponent implements OnInit {
       mobileno: this.userDetails.mobile,
       qrcode: this.qrCode
     };
-    console.log('Params:', params);
-    ++this.common.loading;
-
+    this.common.loading++;
     this.api.post('Login/login', params)
       .subscribe(res => {
-        --this.common.loading;
+        this.common.loading--;
         console.log(res);
         if (res['success']) {
           this.listenOTP = true;
           this.otpCount = 120;
-          if (this.user._loggedInBy == 'admin') {
+          if (this.user._loggedInBy == "admin") {
             this.qrCodeRegenrate();
           }
           this.otpResendActive();
@@ -115,7 +112,7 @@ export class LoginComponent implements OnInit {
           this.common.showError(res['msg']);
         }
       }, err => {
-        --this.common.loading;
+        this.common.loading--;
         this.common.showError();
         console.log("rrrrrr", err);
       });
@@ -199,7 +196,7 @@ export class LoginComponent implements OnInit {
         this.user.filterMenu("account", "account");
         this.user.filterMenu("challan", "challan");
 
-        if (this.user._loggedInBy == 'admin') {
+        if (this.user._loggedInBy == "admin") {
           this.router.navigate(['/admin']);
         } else if (this.user._loggedInBy == 'partner') {
           this.router.navigate(['/partner']);
@@ -212,6 +209,14 @@ export class LoginComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
       })
+  }
+
+  backToLogin() {
+    this.listenOTP = false;
+    this.otpCount = 0;
+    this.qrCode = null;
+    this.formSubmit = false;
+    clearInterval(this.interval);
   }
 
 }
