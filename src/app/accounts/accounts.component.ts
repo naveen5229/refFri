@@ -75,17 +75,44 @@ export class AccountsComponent {
 
   onKeyDown(event) {
     console.log('================== Key Down Event ==========:', event);
-    const keys = ['f4', 'f5', 'f6', 'f7', 'f8', 'f9'];
+    const keys = ['f4', 'f5', 'f6', 'f7', 'f8', 'f9','f1','f10','f11','f12'];
     const key = event.key.toLowerCase();
     const index = keys.indexOf(key);
-    if (index != -1) {
+    if(event.ctrlKey){
+      let redirectUrl='';
+      console.log('event key',key);
+      if(key == 1){
+        redirectUrl='/accounts/daybooks/0';
+      } else if(key == 2){
+        redirectUrl='/accounts/ledgerview';
+      }else if(key == 3){
+        redirectUrl='/accounts/profitloss';
+      }else if(key == 4){
+        redirectUrl='/accounts/balancesheet';
+      }else if(key == 5){
+        redirectUrl='/accounts/trading';
+      }else if(key == 6){
+        redirectUrl='/accounts/trialbalance';
+      }else if(key == 0){
+        redirectUrl='/accounts/ledgermapping';
+      }
+      if(redirectUrl !=''){
+            this.router.navigate([redirectUrl]);
+            event.preventDefault();
+      }
+    }else if (index != -1) {
       const routes = {
         'f4': '/accounts/vouchers/-8/Contra Voucher',
         'f5': '/accounts/vouchers/-1/Bank Payment Voucher',
         'f6': '/accounts/vouchers/-3/Cash Payment Voucher',
         'f7': '/accounts/vouchers/-2/Bank Receipt Voucher',
         'f8': '/accounts/vouchers/-4/Cash Receipt Voucher',
-        'f9': '/accounts/vouchers/-7/Journal Voucher'
+        'f9': '/accounts/vouchers/-7/Journal Voucher',
+        'f1': '/accounts/ledgers/0',
+        'f10': '/accounts/trip-voucher-expense',
+        'f11': '/accounts/trip-voucher-expense/1',
+        'f12': '/accounts/fuelfillings',
+
       }
       let pressedKey = keys[index];
       console.log('Pressed Key:', pressedKey);
