@@ -49,7 +49,7 @@ export class PendingChallanComponent implements OnInit {
     } else if (this.startDate > this.endDate) {
       this.common.showError("StartDate Should be less Then EndDate")
     } else {
-      let params = "fromTime=" + this.common.dateFormatter(this.startDate) + "&toTime=" + this.common.dateFormatter(this.endDate) + "&viewType=" + this.challanStatus;
+      let params = "fromTime=" + this.common.dateFormatter(this.startDate) + "&toTime=" + this.common.dateFormatter(this.endDate) + "&viewType=" + this.challanStatus + "&appType="+ 'dashboard';
       this.common.loading++;
       this.api.get('RcDetails/getPendingChallans?' + params)
         .subscribe(res => {

@@ -67,6 +67,7 @@ import { FuelMileageWithOdoComponent } from '../pages/fuel-mileage-with-odo/fuel
 import { BatteryModalsComponent } from '../battery/battery-modals/battery-modals.component';
 import { FoFuelAverageComponent } from '../pages/fo-fuel-average/fo-fuel-average.component';
 import { ChallanPaymentRequestComponent } from '../challan/challan-payment-request/challan-payment-request.component';
+import { MvGpsApiReqComponent } from '../challan/mv-gps-api-req/mv-gps-api-req.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -394,6 +395,11 @@ const routes: Routes = [{
         {
             path: 'challan-payment-request',
             component: ChallanPaymentRequestComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'mv-gps-api-req',
+            component: MvGpsApiReqComponent,
             canActivate: [RouteGuard]
         }
 

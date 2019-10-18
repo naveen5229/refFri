@@ -10,6 +10,7 @@ import { ChallanComponent } from './challan-component';
 import { PendingChallanComponent } from './pending-challan/pending-challan.component';
 import { DashboardModule } from '../pages/dashboard/dashboard.module';
 import { SharedModule } from '../shared.module';
+import { MvGpsApiReqComponent } from './mv-gps-api-req/mv-gps-api-req.component';
 
 
 const PAGES_COMPONENTS = [
