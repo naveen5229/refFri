@@ -392,8 +392,8 @@ export class EditFillingComponent implements OnInit {
 
   fuelFillingTimetable() {
     if (this.regno && this.date) {
-      let startDate = this.date;
-      let endDate = this.date;
+      let startDate = new Date(this.date);
+      let endDate = new Date(this.date);
       let fuelTimeTable = {
         title: 'FuelFilling TimeTable',
         regno: this.regno,

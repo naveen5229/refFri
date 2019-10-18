@@ -1,27 +1,22 @@
 <!-- Author by Lalit -->
 
 <nb-card>
-  <nb-card-header>Captcha </nb-card-header>
+  <nb-card-header>Captcha : <span>0{{count}}</span></nb-card-header>
   <nb-card-body style="min-height: 580px;">
-    <div class="container" *ngFor="let captcha of captchaData;let i = index;">
-      <div class="row mt-2" *ngIf="i==0">
-        <div class="col-3">
-          <img [src]="captcha.url" aria-placeholder="Image" id="captchId" alt="Image Not Available"
-            aria-disabled="true">
+    <div class="container">
+      <div class="captcha-container" *ngFor="let captcha of captchas;let i = index;" [hidden]="i !== 0">
+        <div>
+          <img [src]="captcha.url" alt="Captcha">
         </div>
-        <div class="col-3">
-          <input type="text" name="captchaText" id="captchaText" placeholder="Captcha" [(ngModel)]="captchaText"
-            class="form-control">
+        <div>
+          <input type="text" [name]="'captcha-'+ i" [id]="'captcha-' + i" placeholder="Enter Captcha"
+            [(ngModel)]="captcha.txt" class="form-control" (keyup.enter)="captchaValidator(captcha,i)">
         </div>
-
-        <div class="col-2">
+        <div>
           <button type="submit" class="btn btn-primary m-0" name="submitCaptcha"
-            (click)="fillCaptcha(captcha,i)">Submit</button>
+            (click)="captchaValidator(captcha,i)">Submit</button>
         </div>
       </div>
     </div>
-
-
-
   </nb-card-body>
 </nb-card>

@@ -198,7 +198,7 @@ export class GenerateLrMainfestoComponent implements OnInit {
     }
   }
 
-  resetData(event) {
+  resetData() {
     console.log(event);
     this.mainfesto.vehicleId = null;
   }

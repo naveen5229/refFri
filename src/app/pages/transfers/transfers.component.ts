@@ -104,7 +104,7 @@ export class TransfersComponent implements OnInit {
             action: null,
             isHTML: false,
             icons: [
-              { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc)}, {class:"fas fa-gas-pump", action: this.editFuelFilling.bind(this, doc)},
+              { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc)}, {class:"fas fa-gas-pump", action: this.editFuelFilling.bind(this, doc)},{class:"fas fa-edit", action: this.editTransfer.bind(this, doc._id)}
             ]
           };
         }
@@ -137,9 +137,20 @@ export class TransfersComponent implements OnInit {
 
 
   addTransfer() {
-    // console.log("invoice", invoice);
-    // this.common.params = { invoiceId:invoice._id }
+   
     this.common.params = { refData: null };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      this.viewTransfer();
+    });
+  }
+
+  editTransfer(transferId?) {
+    let refData = {
+      transferId:transferId
+    }
+    this.common.params = { refData: refData };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
@@ -181,7 +192,7 @@ export class TransfersComponent implements OnInit {
     }
     if (row._id) {
       this.common.params = {
-        title: 'Delete Route ',
+        title: 'Delete Transfer ',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
@@ -197,7 +208,7 @@ export class TransfersComponent implements OnInit {
                 this.viewTransfer();
               }
               else {
-                this.common.showToast(res['data'][0].y_msg);
+                this.common.showError(res['data'][0].y_msg);
               }
             }, err => {
               this.common.loading--;
