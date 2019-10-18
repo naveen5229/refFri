@@ -23,19 +23,24 @@ export class AddGpsSupplierComponent implements OnInit {
   }
 
   saveMvGpsSupplier(){
-    let params={
-      supplierName:this.gpsSupplier,
-    }
-    this.common.loading++;
-    this.api.post('GpsData/addGpsSupplier', params)
-      .subscribe(res => {
-        --this.common.loading;
-        this.activeModel.close({ response: true });
-      },
-        err => {
+    if(this.gpsSupplier==''){
+      this.common.showError("Please Enter Gps Supplier ")
+    }else{
+      let params={
+        supplierName:this.gpsSupplier,
+      }
+      this.common.loading++;
+      this.api.post('GpsData/addGpsSupplier', params)
+        .subscribe(res => {
           --this.common.loading;
-          console.error(' Api Error:', err)
-        });
+          this.activeModel.close({ response: true });
+        },
+          err => {
+            --this.common.loading;
+            console.error(' Api Error:', err)
+          });
+    }
+    
   }
 
   

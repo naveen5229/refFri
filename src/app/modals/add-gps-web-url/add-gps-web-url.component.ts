@@ -56,21 +56,28 @@ export class AddGpsWebUrlComponent implements OnInit {
   }
 
   addGpsWebUrl(){
-    let params={
-      gpsSupplierId:this.gpsSupplierId,
-      url:this.gpsUrl,
-      rowId:this.rowId,
-    }
-    this.common.loading++;
-    this.api.post('GpsData/addGpsWebUrl', params)
-      .subscribe(res => {
-        --this.common.loading;
-        this.activeModel.close({ response: true });
-      },
-        err => {
+    if(this.gpsSupplierId==null){
+      this.common.showError("Please Enter Gps Supplier")
+    }else if(this.gpsUrl==''){
+      this.common.showError("Please Enter Gps Url")
+    }else{
+      let params={
+        gpsSupplierId:this.gpsSupplierId,
+        url:this.gpsUrl,
+        rowId:this.rowId,
+      }
+      this.common.loading++;
+      this.api.post('GpsData/addGpsWebUrl', params)
+        .subscribe(res => {
           --this.common.loading;
-          console.error(' Api Error:', err)
-        });
+          this.activeModel.close({ response: true });
+        },
+          err => {
+            --this.common.loading;
+            console.error(' Api Error:', err)
+          });
+    }
+    
   }
 
 }

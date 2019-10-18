@@ -109,47 +109,6 @@ export class MvGpsApiReqComponent implements OnInit {
   }
 
 
-  // acRemainingBalance(challanDetails){
-  //   this.common.loading++;
-  //   let params="foid="+challanDetails._foid;
-  //   this.api.get('Gisdb/getAccountRemainingBalance?'+params)
-  //     .subscribe(res => {
-  //       console.log('Res:', res);
-  //       this.common.loading--;
-  //       if (!res['data']) {
-  //         this.common.showError("Data Not Found");
-  //         return;
-  //       }
-  //       this.payChallanPayment(challanDetails,res['data'][0]['main_balance']);
-        
-
-  //     },
-  //       err => {
-  //         this.common.loading--;
-  //         this.common.showError(err);
-  //       });
-  
-
-  // }
-
-  // payChallanPayment(challanDetails,mainBalance){
-  //   this.common.params={
-  //     regNo:challanDetails.Regno,
-  //     chDate:challanDetails['Challan Date'],
-  //     chNo:challanDetails['Challan No'],
-  //     amount:challanDetails.Amount,
-  //     rowId:challanDetails._id,
-  //     mainBalance:mainBalance
-  //   }
-  //   const activeModal = this.modalService.open(PayChallanPaymentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-  //   activeModal.result.then(data => {
-  //     if (data.response) {
-  //      // this.getPendingChallans();
-  //     }
-  //   });
-
-  // }
-
   clearAllTableData() {
     this.table = {
       data: {

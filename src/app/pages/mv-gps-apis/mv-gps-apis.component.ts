@@ -91,6 +91,7 @@ export class MvGpsApisComponent implements OnInit {
     });
     return columns;
   }
+  
   addEditGpsApiUrl(gpsData?) {
     this.common.params=null;
     if (gpsData) {
@@ -104,6 +105,7 @@ export class MvGpsApisComponent implements OnInit {
     });
 
   }
+
   deleteGpsApiUrl(rowId) {
     let params={
       rowId:rowId
@@ -119,8 +121,6 @@ export class MvGpsApisComponent implements OnInit {
           --this.common.loading;
           console.error(' Api Error:', err)
         });
-
-
   }
 
   clearAllTableData() {
