@@ -177,6 +177,10 @@ export class LedgerviewComponent implements OnInit {
   }
   getLedgerView() {
     console.log('Ledger:', this.ledger);
+    if(this.ledger.ledger.id==0){
+      this.common.showError('Please Select Ledger');
+      this.setFoucus('ledger');
+    }else{
     let params = {
       startdate: this.ledger.startDate,
       enddate: this.ledger.endDate,
@@ -202,6 +206,7 @@ export class LedgerviewComponent implements OnInit {
         this.common.showError();
       });
   }
+}
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
