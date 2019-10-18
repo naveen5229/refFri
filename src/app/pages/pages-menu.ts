@@ -352,7 +352,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/fse-entry',
         home: true,
       },
-     
+
       {
         title: 'Fuel Mileage With ODO',
         icon: 'fas fa-gas-pump',
@@ -455,6 +455,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fa fa-cog',
     link: '/tyres/tyre-summary'
   },
+
   {
     title: 'Battery',
     icon: 'fas fa-car-battery',
@@ -480,5 +481,5 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fas fa-chalkboard-teacher',
     link: '/challan/pending-challan'
   },
- 
+
 ]);

@@ -31,8 +31,8 @@ export class ClearAdvicesComponent implements OnInit {
     public api: ApiService,
     private activeModal: NgbActiveModal) {
 
-    this.rowId = this.common.params.advice._id ? this.common.params.advice._id : null;
-    this.adviceId = this.common.params.advice._advice_type_id ? this.common.params.advice._advice_type_id : null;
+    this.rowId = this.common.params.advice.id ? this.common.params.advice.id : null;
+    this.adviceId = this.common.params.advice.typeId ? this.common.params.advice.typeId : null;
     this.getFuelStationList();
   }
 
