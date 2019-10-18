@@ -162,7 +162,6 @@ export class FuelFillingTimetableComponent implements OnInit {
     let sortedData = [];
     let t1: any;
     let t2: any;
-    let t3: any;
 
     this.trailsData.forEach(element => {
       distance = this.mapService.haversine(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long);
@@ -181,7 +180,6 @@ export class FuelFillingTimetableComponent implements OnInit {
       marker = this.mapService.getPerpendicularPoint([point, point.previous], this.locallatlong);
       this.createMarkers(marker.lat, marker.long);
       this.getFuelStation(marker.lat, marker.long);
-
       t1 = new Date(point.time).getTime();
       t2 = new Date(point.previous.time).getTime();
       console.log("t1", t1);
@@ -191,6 +189,7 @@ export class FuelFillingTimetableComponent implements OnInit {
 
     }
     else if (point.next && this.mapService.getTriangleType([point, point.next], this.locallatlong) == 'A') {
+      console.log("type A");
       marker = this.mapService.getPerpendicularPoint([point, point.next], this.locallatlong);
       this.createMarkers(marker.lat, marker.long);
       this.getFuelStation(marker.lat, marker.long);
@@ -202,7 +201,12 @@ export class FuelFillingTimetableComponent implements OnInit {
       console.log("time", this.time);
     }
     else {
+      console.log("type O");
       marker = point;
+      this.createMarkers(marker.lat, marker.long);
+      this.getFuelStation(marker.lat, marker.long);
+      this.time = new Date(point.time);
+      console.log("time", this.time);
     }
 
     // if (listPoints.length > 1) {
