@@ -57,7 +57,7 @@
         </tr>
       </thead>
       <tr *ngFor="let dataItem of ledgerMappingData; let i = index;" (click)="selectedRow = i"
-        [ngClass]="{'highlight' : selectedRow == i}" (dblclick)="(dataItem.y_ledgerid) ? openLedgerModal(dataItem.y_ledgerid):''">
+        [ngClass]="{'highlight' : selectedRow == i}" (dblclick)="openLedgerModal(dataItem.y_ledgerid)">
         <td>{{i + 1}}</td>
         <td>{{dataItem.y_group_name}}</td>
         <td>{{dataItem.y_ledger_name}}</td>
