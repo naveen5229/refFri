@@ -16,8 +16,10 @@
       </div>
 
       
-        <div class="col-3">
+        <div class="col-1" style="text-align: right;">
         <label>Ledger</label>
+        </div>
+        <div class="col-2">
           <div class="search" style="display:inline-block;">
             <auto-suggestion (onSelected)="ledger($event)" url="Suggestion/GetPurchaseLedger" display="name"
             placeholder="Search" [preSelected]="null"></auto-suggestion>

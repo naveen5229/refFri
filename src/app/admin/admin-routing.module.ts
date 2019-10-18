@@ -68,6 +68,7 @@ import { BatteryModalsComponent } from '../battery/battery-modals/battery-modals
 import { FoFuelAverageComponent } from '../pages/fo-fuel-average/fo-fuel-average.component';
 import { ChallanPaymentRequestComponent } from '../challan/challan-payment-request/challan-payment-request.component';
 import { MvGpsApiReqComponent } from '../challan/mv-gps-api-req/mv-gps-api-req.component';
+import { CaptchaComponent } from './captcha/captcha.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -390,7 +391,11 @@ const routes: Routes = [{
             path: 'battery-modals',
             component: BatteryModalsComponent,
             canActivate: [RouteGuard]
-
+        },
+        {
+            path: 'captcha',
+            component: CaptchaComponent,
+            canActivate: [RouteGuard]
         },
         {
             path: 'challan-payment-request',

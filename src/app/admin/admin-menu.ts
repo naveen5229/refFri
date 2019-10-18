@@ -207,8 +207,12 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         link: '/admin/mv-gps-api-req',
         home: true,
       },
-
-
+      {
+        title: 'Captcha',
+        icon: 'far fa-list-alt',
+        link: '/admin/captcha',
+        home: true,
+      },
 
     ]
   },

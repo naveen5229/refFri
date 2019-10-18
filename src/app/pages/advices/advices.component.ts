@@ -162,8 +162,12 @@ export class AdvicesComponent implements OnInit {
     });
   }
   clearAdvices(row) {
-    console.log("row:", row);
-    this.common.params = { advice: row };
+    let data = {
+      id : row._id,
+      typeId : row._advice_type_id
+    }
+    console.log("row:", data);
+    this.common.params = { advice: data };
     const activeModal = this.modalService.open(ClearAdvicesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.searchData();
