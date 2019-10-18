@@ -1,0 +1,49 @@
+.btn {
+  background: #f2f2f2;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
+  display: inline-block;
+  font-size: 14px;
+  text-align: center;
+  height: 30px;
+  line-height: 5px;
+  border-radius: 4px;
+  font-family: Exo;
+  color: #000;
+  cursor: pointer;
+}
+
+.btn.btn-primary {
+  background-color: #3c6ac7;
+  color: #fff;
+}
+
+.captcha-container {
+  width: 450px;
+  margin: auto;
+  padding: 10px 25px;
+  border: 2px solid #e2e2e2;
+  text-align: center;
+
+  div {
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    img {
+      width: 100%;
+    }
+
+    input {
+      font-size: 20px !important;
+      text-align: center !important;
+    }
+
+    button {
+      font-size: 20px;
+      height: 50px;
+      width: 100%;
+    }
+  }
+}
