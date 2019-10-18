@@ -62,6 +62,33 @@ export class TemplatePreviewComponent implements OnInit {
         --this.common.loading;
         this.template.PreviewId = res['data'][0].templateid;
         this.template.preview = this.sanitizer.bypassSecurityTrustHtml(res['data'][0].result);
+
+        setTimeout(() => {
+          
+        
+        let noDataHideElements = document.getElementsByClassName("noDataHide");
+        for (let index = 0; index < noDataHideElements.length; index++) {
+          console.log("Html Element Length:",noDataHideElements.length);
+            const element = noDataHideElements[index];
+            console.log("Ele", element);
+            let datas = element.getElementsByClassName("data");
+            let show = false;
+            for (let index2 = 0; index2 < datas.length; index2++) {
+                const element2 = datas[index2];
+                console.log("Ele", element2);
+                if (element2.innerHTML.trim() !== '') {
+                    show = true;
+                    break;
+                }
+            }
+            if (!show) {
+                 element['style']['display'] = "none";
+            }
+        }
+      }, 100);
+
+
+
         //console.log("preview : ",this.template.preview)
       })
   }
@@ -127,6 +154,8 @@ export class TemplatePreviewComponent implements OnInit {
 
     }
   }
+
+ 
 
 
 

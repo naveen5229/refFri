@@ -36,7 +36,9 @@ export class TransferReceiptsComponent implements OnInit {
     modeId: '-1',
     amount: null,
     remark: null,
-    readOnly:false
+    readOnly:false,
+    approvalStatus:null,
+    approvalRemark:null
   };
   refernceData = [];
   referenceName = null;
@@ -90,6 +92,7 @@ export class TransferReceiptsComponent implements OnInit {
         this.transferReceipt.refId = this.common.params.refData.refId;
         this.transferReceipt.selectOption = this.common.params.refData.selectOption ? this.common.params.refData.selectOption : 'transfer';  
       this.getReferenceData();
+      this.showdata();
       this.getRefernceType(this.transferReceipt.refernceType);
     }
     }
@@ -412,6 +415,8 @@ export class TransferReceiptsComponent implements OnInit {
     this.creditName = data.credit_ledger_name;
     this.debitId = data.debit_ledger_id;
     this.debitName = data.debit_ledger_name;
+    this.transferReceipt.approvalRemark = data._remarks;
+    this.transferReceipt.approvalStatus = data._status;
     this.showdata();
 
     data.advice_id;

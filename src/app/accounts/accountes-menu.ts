@@ -201,6 +201,10 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Ledger Approve',
                 link: '/accounts/ledgerapprove'
             },
+            {
+                title: 'Accounts Entry Approval',
+                link: '/accounts/account-entry-approval'
+            },
         ],
     },
     {
