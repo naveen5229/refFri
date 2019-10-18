@@ -179,6 +179,7 @@ export class LedgerviewComponent implements OnInit {
     console.log('Ledger:', this.ledger);
     if(this.ledger.ledger.id==0){
       this.common.showError('Please Select Ledger');
+      this.setFoucus('ledger');
     }else{
     let params = {
       startdate: this.ledger.startDate,
