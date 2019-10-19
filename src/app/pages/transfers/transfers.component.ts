@@ -104,7 +104,7 @@ export class TransfersComponent implements OnInit {
             action: null,
             isHTML: false,
             icons: [
-              { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc)}, {class:"fas fa-gas-pump", action: this.editFuelFilling.bind(this, doc)},{class:"fas fa-edit", action: this.editTransfer.bind(this, doc._id)}
+              {  class:doc._islocked?'' :'fa fa-trash', action: this.deleteTransfer.bind(this, doc)}, {class:"fas fa-gas-pump", action: this.editFuelFilling.bind(this, doc)},{class:doc._islocked?'' :"fas fa-edit", action: this.editTransfer.bind(this, doc._id)}
             ]
           };
         }
