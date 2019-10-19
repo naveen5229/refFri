@@ -25,8 +25,8 @@
       </div>
       <div class="col-3" *ngIf="button==='Add';else regno">
         <auto-suggestion (onSelected)="selectVehicle($event)" url="Suggestion/getFoVehicleList" display="regno"
-          placeholder="Regno" [preSelected]="{regno:vehicleSupplierAssociation.regno}" (change)="resetvehicle()"
-          inputId="vehicleno" style="width:60%;">
+          placeholder="Regno" [preSelected]="{regno:vehicleSupplierAssociation.regno}" (change)="resetvehicle($event)"
+          [inputId]="vehicleno">
         </auto-suggestion>
       </div>
       <ng-template #regno>

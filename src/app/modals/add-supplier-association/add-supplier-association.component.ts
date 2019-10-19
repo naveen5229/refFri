@@ -43,7 +43,6 @@ export class AddSupplierAssociationComponent implements OnInit {
       this.vehicleSupplierAssociation.driverName = this.common.params.vehicleSupplier.driverName;
       this.vehicleSupplierAssociation.mobile = this.common.params.vehicleSupplier.mobileNo;
       this.vehicleSupplierAssociation.licensce = this.common.params.vehicleSupplier.licensce;
-
     }
   }
 
@@ -57,6 +56,7 @@ export class AddSupplierAssociationComponent implements OnInit {
   closeModal() {
     this.activeModal.close(false);
   }
+
 
   addParty() {
     const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -72,13 +72,22 @@ export class AddSupplierAssociationComponent implements OnInit {
     this.vehicleSupplierAssociation.vehicleId = vehicle.id;
     this.vehicleSupplierAssociation.regno = vehicle.regno;
   }
-  resetvehicle() {
-    this.vehicleSupplierAssociation.vehicleId = null;
-    this.vehicleSupplierAssociation.regno = '';
+  resetvehicle(vehicle) {
+    if (document.getElementById('vehicleno') == null) {
+      this.vehicleSupplierAssociation.vehicleId = null;
+      this.vehicleSupplierAssociation.regno = vehicle.target.value;
+    }
+
 
   }
 
   saveVehicleSupplier() {
+    if (!this.vehicleSupplierAssociation.partyId || !this.vehicleSupplierAssociation.regno
+      || !this.vehicleSupplierAssociation.driverName || !this.vehicleSupplierAssociation.mobile
+      || !this.vehicleSupplierAssociation.licensce) {
+      this.common.showError("Please Fill All Field");
+      return;
+    }
     let params = {
       rowId: this.vehicleSupplierAssociation.rowId ? this.vehicleSupplierAssociation.rowId : null,
       partyId: this.vehicleSupplierAssociation.partyId,
@@ -90,6 +99,7 @@ export class AddSupplierAssociationComponent implements OnInit {
       mappedDate: this.common.dateFormatter(this.vehicleSupplierAssociation.mappedDate),
     }
     console.log("params:", params);
+
 
     this.common.loading++;
     this.api.post('ManageParty/vehicleSupplierAssoc', params)
