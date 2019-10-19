@@ -255,6 +255,7 @@ import { FreightRateRulesComponent } from './modals/FreightRate/freight-rate-rul
 import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.component';
 import { FuelFillingTimetableComponent } from './modals/fuel-filling-timetable/fuel-filling-timetable.component';
 import { PdfViewerComponent } from './generic/pdf-viewer/pdf-viewer.component';
+import { AddSupplierAssociationComponent } from './modals/add-supplier-association/add-supplier-association.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -471,6 +472,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   FreightRateSummaryComponent,
   UnMergeStateComponent,
   FuelFillingTimetableComponent,
+  AddSupplierAssociationComponent
 
 ];
 
@@ -479,7 +481,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     LoginComponent,
     CustomTimePipe,
     CustomDatePipe,
-    ...COMMON_COMPONENT
+    ...COMMON_COMPONENT,
   ],
   entryComponents: [
     ...COMMON_COMPONENT

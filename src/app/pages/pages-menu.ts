@@ -183,6 +183,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/unmerge-lrstate',
         home: true,
       },
+      {
+        title: 'Vehicle Supplier Association',
+        icon: 'far fa-building',
+        link: '/pages/vehicle-supplier-association',
+        home: true,
+      }
     ]
   },
   {

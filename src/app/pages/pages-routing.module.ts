@@ -85,6 +85,7 @@ import { FoUserRoleComponent } from './fo-user-role/fo-user-role.component';
 import { TrendsFoComponent } from './trends-fo/trends-fo.component';
 import { MvsFreightStatementComponent } from './mvs-freight-statement/mvs-freight-statement.component';
 import { UnmergeLRStateComponent } from './unmerge-lrstate/unmerge-lrstate.component';
+import { VehicleSupplierAssociationComponent } from './vehicle-supplier-association/vehicle-supplier-association.component';
 
 
 
@@ -528,6 +529,11 @@ const routes: Routes = [{
   {
     path: 'unmerge-lrstate',
     component: UnmergeLRStateComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'vehicle-supplier-association',
+    component: VehicleSupplierAssociationComponent,
     canActivate: [AuthGuard, RouteGuard]
   },
 
