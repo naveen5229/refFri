@@ -255,6 +255,7 @@ import { FreightRateRulesComponent } from './modals/FreightRate/freight-rate-rul
 import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.component';
 import { FuelFillingTimetableComponent } from './modals/fuel-filling-timetable/fuel-filling-timetable.component';
 import { PdfViewerComponent } from './generic/pdf-viewer/pdf-viewer.component';
+import { AddSupplierAssociationComponent } from './modals/add-supplier-association/add-supplier-association.component';
 import { ChallanPendingRequestComponent } from './modals/challanModals/challan-pending-request/challan-pending-request.component';
 import { PayChallanPaymentComponent } from './modals/challanModals/pay-challan-payment/pay-challan-payment.component';
 import { AddGpsApiUrlComponent } from './modals/add-gps-api-url/add-gps-api-url.component';
@@ -476,6 +477,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   FreightRateSummaryComponent,
   UnMergeStateComponent,
   FuelFillingTimetableComponent,
+  AddSupplierAssociationComponent,
   ChallanPendingRequestComponent,
   PayChallanPaymentComponent,
   AddGpsApiUrlComponent,
@@ -490,11 +492,6 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CustomTimePipe,
     CustomDatePipe,
     ...COMMON_COMPONENT,
-    ChallanPendingRequestComponent,
-    PayChallanPaymentComponent,
-    AddGpsApiUrlComponent,
-    AddGpsWebUrlComponent,
-    AddGpsSupplierComponent
   ],
   entryComponents: [
     ...COMMON_COMPONENT

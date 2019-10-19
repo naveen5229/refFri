@@ -13,6 +13,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./alert-related-issue.component.scss', '../../pages/pages.component.css']
 })
 export class AlertRelatedIssueComponent implements OnInit {
+  endDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 30));
   missingIndusrtyData = [];
   ticketsData = [];
   missing = 0;
@@ -43,7 +45,7 @@ export class AlertRelatedIssueComponent implements OnInit {
 
   ticket() {
     this.common.loading++;
-    this.api.get('MissingIndustry' + (this.foid? ('?foid=' + this.foid) : ''))
+    this.api.get('MissingIndustry' + (this.foid ? ('?foid=' + this.foid) : ''))
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
@@ -117,7 +119,7 @@ export class AlertRelatedIssueComponent implements OnInit {
 
 
   enterTicket(issue) {
-    console.log("Issue :",issue);
+    console.log("Issue :", issue);
     let result;
     let params = {
       tblRefId: 7,
@@ -167,18 +169,18 @@ export class AlertRelatedIssueComponent implements OnInit {
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       console.log("after data chnage ");
-      if(!this.foid){
-       this.ticket();
+      if (!this.foid) {
+        this.ticket();
       }
       let newData = [];
       for (const ticket of this.ticketsData) {
-        if(ticket.id != issue.id){
+        if (ticket.id != issue.id) {
           newData.push(ticket);
         }
       }
       this.ticketsData = newData;
       this.table = null;
-      this.table= this.setTable();
+      this.table = this.setTable();
       this.exitTicket(VehicleStatusData);
     });
 
