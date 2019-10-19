@@ -85,8 +85,7 @@ import { TrendsFoComponent } from './trends-fo/trends-fo.component';
 import { MvsFreightStatementComponent } from './mvs-freight-statement/mvs-freight-statement.component';
 import { UnmergeLRStateComponent } from './unmerge-lrstate/unmerge-lrstate.component';
 import { VehicleSupplierAssociationComponent } from './vehicle-supplier-association/vehicle-supplier-association.component';
-
-
+import { MvGpsApisComponent } from './mv-gps-apis/mv-gps-apis.component';
 
 
 
@@ -173,7 +172,8 @@ const PAGES_COMPONENTS = [
     TrendsFoComponent,
     MvsFreightStatementComponent,
     UnmergeLRStateComponent,
-    VehicleSupplierAssociationComponent
+    VehicleSupplierAssociationComponent,
+    MvGpsApisComponent
 
 
 

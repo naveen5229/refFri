@@ -1,6 +1,13 @@
 .modal-header{
     background-color: #343a40;
 }
+:host ::ng-deep .btn{padding:4px!important;color:white!important;border-radius:4px!important;}
+:host ::ng-deep .btn-primary{background-color:black!important;}
+.btn{
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-transform: capitalize;
+}
 .btn{
     padding: 5px 10px;
     border-radius: 3px;

@@ -269,8 +269,8 @@ export class LorryRecciptsComponent implements OnInit {
           value: '', isHTML: true, action: null, icons: [{
             class: 'fa fa-print icon', action: this.printLr.bind(this, R)
           },
-          { class: 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) },
-          { class: 'fa fa-trash icon', action: this.deleteLr.bind(this, R) },
+          { class: R.is_locked ?'' : 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) },
+          { class: R.is_locked  ? '' : 'fa fa-trash icon', action: this.deleteLr.bind(this, R) },
           // { class: 'fa fa-inr  icon', action: this.lrRates.bind(this, R,0) },
           { class: 'fa fa-handshake-o  icon', action: this.tripSettlement.bind(this, R) },
           ]//`<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R),

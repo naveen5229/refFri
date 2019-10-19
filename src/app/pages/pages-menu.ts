@@ -188,7 +188,13 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'far fa-building',
         link: '/pages/vehicle-supplier-association',
         home: true,
-      }
+      },
+      {
+        title: 'MV GPS API',
+        icon: 'fas fa-clone',
+        link: '/pages/mv-gps-apis',
+        home: true,
+      },
     ]
   },
   {

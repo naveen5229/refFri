@@ -1,0 +1,19 @@
+<nb-card style="border: 0px; height: 100%;">
+    <nb-card-header class="gps-api">
+        <div class="row">
+            <div class="col-2">
+                <h5 style="margin-top: 12px;">MV GPS APIS</h5>
+            </div>
+            <div class="col-10">
+                <button type="button" style="margin-left: 752px;" class="btn btn-primary" (click)="addEditGpsApiUrl()">Add Gps Api Url</button>
+            </div>
+        </div>
+
+    </nb-card-header>
+    <nb-card-body>
+        <div class="mv-gps-api">
+            <smart-table *ngIf="mvGpsApiDetails && mvGpsApiDetails.length" [data]="table.data" [settings]="table.settings" id="PaymentRequest">
+            </smart-table>
+        </div>
+    </nb-card-body>
+</nb-card>

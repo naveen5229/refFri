@@ -1,0 +1,69 @@
+<div class="modal-header">
+    <h5>Pay Challan Payment</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+    <div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>RegNo</label>
+            </div>
+            <div class="col-8">
+                <strong>{{this.common.params.regNo}}</strong>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Challan Date</label>
+            </div>
+            <div class="col-8">
+                <strong>{{this.common.params.chDate}}</strong>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Challan Number</label>
+            </div>
+            <div class="col-8">
+                <strong>{{this.common.params.chNo}}</strong> </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Amount</label>
+            </div>
+            <div class="col-8">
+                <strong>{{this.common.params.amount}}</strong>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Main Balance</label>
+            </div>
+            <div class="col-6">
+                <strong>{{this.common.params.mainBalance}}</strong>
+            </div>
+            <div class="col-2">
+                <button style="margin-left: -47px;" class="btn btn-primary" type="button" (click)="challanPay()">Pay</button>
+            </div>
+        </div>
+
+        <div *ngIf="paymentSucceful" class="row mt-2">
+            <div class="col-4">
+                <label>Remark</label>
+            </div>
+            <div class="col-8">
+                <textarea placeholder="remark" name="description" id="description" [(ngModel)]="remark" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer mt-2">
+    <span *ngIf="paymentSucceful"><button class="btn btn-primary" type="button" id="submit" (click)="challanPay()">Submit</button></span>
+
+</div>
