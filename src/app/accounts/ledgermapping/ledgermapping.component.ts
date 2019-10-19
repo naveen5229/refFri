@@ -220,6 +220,7 @@ export class LedgermappingComponent implements OnInit {
 
   openLedgerModal(ledger_id?) {
     let data = [];
+    if(ledger_id){
     console.log('ledger123', ledger_id);
     if (ledger_id) {
       let params = {
@@ -233,7 +234,7 @@ export class LedgermappingComponent implements OnInit {
           data = res['data'];
           this.common.params = {
             ledgerdata: res['data'],
-            deleted: 1,
+            deleted: 0,
         sizeledger:0
           }
           // this.common.params = { data, title: 'Edit Ledgers Data' };
@@ -255,7 +256,10 @@ export class LedgermappingComponent implements OnInit {
           this.common.showError();
         });
     }
-
+  }
+  else{
+    this.common.showError('Please Select Correct Ledger');
+  }
    
   }
 
