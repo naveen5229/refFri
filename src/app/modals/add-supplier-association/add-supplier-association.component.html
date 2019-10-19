@@ -12,8 +12,9 @@
       </div>
       <div class="col-3">
         <auto-suggestion (onSelected)="selectParty($event)" url="Suggestion/GetCompanies2?type=MVS" display="name"
-          placeholder="Party" [preSelected]="null"></auto-suggestion>
+          placeholder="Party" [preSelected]="{name:vehicleSupplierAssociation.partyName}"></auto-suggestion>
       </div>
+
       <div class="col-2">
         <i class="fa fa-plus add" (click)="addParty()"></i>
       </div>
@@ -22,26 +23,32 @@
       <div class="col-3">
         <label>Regno</label>
       </div>
-      <div class="col-3">
+      <div class="col-3" *ngIf="button==='Add';else regno">
         <auto-suggestion (onSelected)="selectVehicle($event)" url="Suggestion/getFoVehicleList" display="regno"
-          placeholder="Regno" [preSelected]="null" (change)="resetvehicle()" inputId="vehicleno" style="width:60%;">
+          placeholder="Regno" [preSelected]="{regno:vehicleSupplierAssociation.regno}" (change)="resetvehicle()"
+          inputId="vehicleno" style="width:60%;">
         </auto-suggestion>
       </div>
+      <ng-template #regno>
+        <input type="text" name="regno" class="ml-3" [(ngModel)]="vehicleSupplierAssociation.regno" readonly>
+      </ng-template>
     </div>
     <div class="row mt-2">
-      <div class="col-4">
+      <div class="col-3">
         <label>Driver Name</label>
         <input type="text" name="drivername" class="form-control" [(ngModel)]="vehicleSupplierAssociation.driverName">
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <label>Mobile No.</label>
-        <input type="text" name="mobile" class="form-control" [(ngModel)]="vehicleSupplierAssociation.mobile">
+        <input type="number" name="mobile" maxlength="10" class="form-control"
+          [(ngModel)]="vehicleSupplierAssociation.mobile">
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <label>Licensce No.</label>
         <input type="text" name="licensce" class="form-control" [(ngModel)]="vehicleSupplierAssociation.licensce">
       </div>
     </div>
+
 
   </div>
 </div>

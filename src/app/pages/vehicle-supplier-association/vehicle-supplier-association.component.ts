@@ -112,7 +112,7 @@ export class VehicleSupplierAssociationComponent implements OnInit {
   actionIcons(supplier) {
     let icons = [
       {
-        class: 'fa fa-edit',
+        class: 'fa fa-edit mr-3',
         action: this.editSupplier.bind(this, supplier),
       },
       {
@@ -144,7 +144,15 @@ export class VehicleSupplierAssociationComponent implements OnInit {
   editSupplier(supplier) {
     let vehicleSupplier = {
       title: 'Edit Vehicle Supplier Association',
-      button: 'Edit'
+      button: 'Edit',
+      rowId: supplier._rowid,
+      partyId: supplier._partyid,
+      partyName: supplier.Company,
+      vehicleId: supplier._vid,
+      regno: supplier.Regno,
+      driverName: supplier.Driver,
+      mobileNo: supplier['Mobile No'],
+      licensce: supplier['License No']
     };
     this.common.params = { vehicleSupplier };
     const activeModal = this.modalService.open(AddSupplierAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -159,9 +167,9 @@ export class VehicleSupplierAssociationComponent implements OnInit {
     console.log("delete", supplier);
 
     let params = {
-      rowId: supplier._id,
+      rowId: supplier._rowid,
     }
-    if (supplier._id) {
+    if (supplier._rowid) {
       this.common.params = {
         title: 'Delete Vehicle Supplier ',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
@@ -174,15 +182,8 @@ export class VehicleSupplierAssociationComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--;
               console.log("res", res);
-
-              if (res['data'].r_id > 0) {
-                this.common.showToast('Success');
-
-              }
-              else {
-                this.common.showToast(res['data'].r_msg);
-              }
-
+              this.common.showToast(res['msg']);
+              this.getvehicleSupplierData();
             }, err => {
               this.common.loading--;
               console.log('Error: ', err);

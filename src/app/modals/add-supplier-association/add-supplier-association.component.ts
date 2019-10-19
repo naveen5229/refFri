@@ -1,3 +1,5 @@
+// Author By Lalit
+
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
@@ -14,6 +16,7 @@ export class AddSupplierAssociationComponent implements OnInit {
   title = '';
   button = '';
   vehicleSupplierAssociation = {
+    rowId: null,
     partyId: null,
     partyName: '',
     vehicleId: null,
@@ -31,6 +34,17 @@ export class AddSupplierAssociationComponent implements OnInit {
     public activeModal: NgbActiveModal) {
     this.title = this.common.params.vehicleSupplier.title;
     this.button = this.common.params.vehicleSupplier.button;
+    if (this.button === 'Edit') {
+      this.vehicleSupplierAssociation.rowId = this.common.params.vehicleSupplier.rowId;
+      this.vehicleSupplierAssociation.partyId = this.common.params.vehicleSupplier.partyId;
+      this.vehicleSupplierAssociation.partyName = this.common.params.vehicleSupplier.partyName;
+      this.vehicleSupplierAssociation.vehicleId = this.common.params.vehicleSupplier.vehicleId;
+      this.vehicleSupplierAssociation.regno = this.common.params.vehicleSupplier.regno;
+      this.vehicleSupplierAssociation.driverName = this.common.params.vehicleSupplier.driverName;
+      this.vehicleSupplierAssociation.mobile = this.common.params.vehicleSupplier.mobileNo;
+      this.vehicleSupplierAssociation.licensce = this.common.params.vehicleSupplier.licensce;
+
+    }
   }
 
   ngOnInit() {
@@ -66,6 +80,7 @@ export class AddSupplierAssociationComponent implements OnInit {
 
   saveVehicleSupplier() {
     let params = {
+      rowId: this.vehicleSupplierAssociation.rowId ? this.vehicleSupplierAssociation.rowId : null,
       partyId: this.vehicleSupplierAssociation.partyId,
       vehilceId: this.vehicleSupplierAssociation.vehicleId,
       regNo: this.vehicleSupplierAssociation.regno,
@@ -82,12 +97,12 @@ export class AddSupplierAssociationComponent implements OnInit {
         this.common.loading--;
         console.log("data:");
         console.log(res);
-        if (res['data'].y_id > 0) {
-          this.common.showToast('Success');
-          this.activeModal.close({ respose: true });
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
+          this.activeModal.close({ response: true });
         }
         else {
-          this.common.showToast(res['data'].y_msg);
+          this.common.showToast(res['data'][0].y_msg);
         }
 
       }, err => {
