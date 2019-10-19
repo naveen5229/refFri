@@ -9,6 +9,7 @@ import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-rec
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 import { ClearAdvicesComponent } from '../../modals/clear-advices/clear-advices.component';
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
+import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 
 @Component({
   selector: 'account-entry-approval',
@@ -210,6 +211,19 @@ export class AccountEntryApprovalComponent implements OnInit {
         console.log('Date:', data);
       });
     }
+    else if (row.Type == 'MVS') {
+      let invoice = {
+        id: row._id,
+      }
+      this.common.params = { invoice: invoice }
+      const activeModal = this.modalService.open(ViewMVSFreightStatementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+      activeModal.result.then(data => {
+        console.log('Date:', data);
+  
+      });
+      
+    }
+
 
     else {
 
