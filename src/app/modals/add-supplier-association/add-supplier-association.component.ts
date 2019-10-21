@@ -73,8 +73,7 @@ export class AddSupplierAssociationComponent implements OnInit {
 
   saveVehicleSupplier() {
     if (!this.vehicleSupplierAssociation.partyId || !this.vehicleSupplierAssociation.regno
-      || !this.vehicleSupplierAssociation.driverName || !this.vehicleSupplierAssociation.mobile
-      || !this.vehicleSupplierAssociation.licensce) {
+      || !this.vehicleSupplierAssociation.driverName || !this.vehicleSupplierAssociation.mobile) {
       this.common.showError("Please Fill All Field");
       return;
     }
