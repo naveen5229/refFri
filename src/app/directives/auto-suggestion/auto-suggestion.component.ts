@@ -128,7 +128,7 @@ export class AutoSuggestionComponent implements OnInit {
     params += 'search=' + this.searchText;
     this.api.get(this.url + params)
       .subscribe(res => {
-        this.suggestions = res['data'];
+        this.suggestions = res['data'] || [];
         if (this.isNoDataFoundEmit && !this.suggestions.length) this.noDataFound.emit({ search: this.searchText });
       }, err => {
         console.error(err);
