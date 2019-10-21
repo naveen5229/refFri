@@ -7,8 +7,6 @@
             <div class="row ">
                 <div class="col-2">
                     <label>Association Type</label>
-                </div>
-                <div class="col-3">
                     <select class="form-control" name="dropdown" id="dropdown" [(ngModel)]="assType">
                        <option *ngFor="let type of associationType" [value]="type.y_id">
                           {{type.y_groupname}}
@@ -19,14 +17,11 @@
                     <label>Search String</label>
                     <select class="form-control"
                     style=" border: 2px solid darkcyan; font-size: 13px" [(ngModel)]="searchString">
-                    <option value="veh">Vehicle</option>
-                    <option value="lr">LR No</option>
-                    <option value="consigner">Consigner</option>
-                    <option value="consignee">Consignee</option>
-                    <option value="ta">TA</option>
-                    <option value="source">Source</option>
-                    <option value="dest">Destination</option>
-                    <option value="supplier">Supplier</option>
+                    <option value="name">Name</option>
+                    <option value="gst">GST No.</option>
+                    <option value="pan ">PAN No.</option>
+                    <option value="ledgername">Ledger</option>
+                    
                   </select>
                   </div>
                   <div class="col-sm-2 ml-2">
@@ -36,7 +31,7 @@
                 <div class="col-2">
                     <button type="button" class="btn btn-primary" (click)="getCmpAssocWrtType()">Submit</button>
                 </div>
-                <div class="col-5 text-right">
+                <div class="col-2 text-right">
                     <button type="button" class="btn btn-primary" (click)="addNewParty('Add')">ADD NEW PARTY</button>
                 </div>
             </div>

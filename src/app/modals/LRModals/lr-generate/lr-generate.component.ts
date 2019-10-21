@@ -189,13 +189,6 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
-  addSupplierAssociation() {
-    const activeModal = this.modalService.open(AddSupplierAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-      }
-    });
-  }
 
   addDriver() {
     this.common.params = { vehicleId: null, vehicleRegNo: null };
@@ -212,12 +205,34 @@ export class LrGenerateComponent implements OnInit {
     this.vehicleData.regno = vehicle.regno;
     this.vehicleData.id = vehicle.id;
     console.log("vehicleId 1", this.vehicleData.id);
+    this.setSupplierInfo(vehicle.supplier_name,vehicle.supplier_id)
     this.getDriverData(this.vehicleData.id);
+
+  }
+  addSupplierAssociation() {
+    const activeModal = this.modalService.open(AddSupplierAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+      }
+    });
   }
 
+  setSupplierInfo(supplier?,supplierId?) {
+    if (supplier && supplierId) {
+      this.lrGeneralField.map(lrField => {
+        if (lrField.r_colname == 'supplier_name') {
+          lrField.r_value = '';
+          lrField.r_value = supplier;
+          lrField.r_valueid = supplierId;
+        }
+      });
+    } 
+    // (<HTMLInputElement>document.getElementById('driver_name')).value = supplier;
+  }
   getDriverData(vehicleId) {
     let params = {
-      vid: vehicleId
+      vid: vehicleId,
+      vehicleType:this.lr.vehicleType
     };
     console.log("vehicleId 2", this.vehicleData.id);
     this.common.loading++;
@@ -457,6 +472,23 @@ export class LrGenerateComponent implements OnInit {
   resetVehicleData() {
     this.vehicleData.id = null;
     this.vehicleData.regno = null;
+    this.lrGeneralField.map(lrField => {
+      if (lrField.r_colname == 'supplier_name' || lrField.r_colname == 'driver_mobile' ) {
+        console.log("lrField.r_colname",lrField.r_colname);
+        lrField.r_value = '';
+        lrField.r_value = null;
+        lrField.r_valueid = null;
+      }
+    else if(lrField.r_colname == 'driver_name'){
+      (<HTMLInputElement>document.getElementById('driver_name')).value = '';
+    }else if(lrField.r_colname == 'driver_license'){
+      (<HTMLInputElement>document.getElementById('driver_license')).value = '';
+
+    }
+    }
+    );
+    
+
   }
 
   resetData() {
