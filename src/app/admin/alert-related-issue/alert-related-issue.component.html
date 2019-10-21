@@ -10,14 +10,8 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row">
-      <div class="col-3">
-        <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
-          placeholder="Fo User" [preSelected]="null"></auto-suggestion>
-        <div class="suggestions ng-star-inserted">
-        </div>
-      </div>
       <div class="col-2">
-        <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
+        <uj-date-time-picker (onChanged)="startDate = $event " [dateTimeValue]="startDate" [isTime]="false">
         </uj-date-time-picker>
       </div>
       <div class="col-2">
@@ -25,8 +19,11 @@
           [isTime]="false">
         </uj-date-time-picker>
       </div>
-      <div class="col-3">
-        <button class="btn btn-dark" (click)="foid=null;ticket()">All Issue</button>
+      <div class="col-2">
+        <button class="btn btn-dark" (click)="isFo='true';ticket()">Fo Issue</button>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-dark" (click)="isFo='false';ticket()">All Issue</button>
       </div>
     </div>
     <div class="mt-2">

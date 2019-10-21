@@ -97,7 +97,6 @@ import { AddDriverCompleteComponent } from './modals/DriverModals/add-driver-com
 import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
 import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
-import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 import { DriverVehicleRemappingComponent } from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
@@ -343,7 +342,6 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   RadioSelectionComponent,
   UpdateTripDetailComponent,
   ManualHaltComponent,
-  ResolveMissingIndustryComponent,
   DriverVehicleRemappingComponent,
   DriverStatusChangeComponent,
   NewDriverStatusComponent,

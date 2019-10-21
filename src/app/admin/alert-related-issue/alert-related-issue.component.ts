@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
-import { ResolveMissingIndustryComponent } from '../../modals/resolve-missing-industry/resolve-missing-industry.component';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -20,37 +20,47 @@ export class AlertRelatedIssueComponent implements OnInit {
   missing = 0;
   backlog = 0;
   tickets = 1;
-  table = null;
   foid = null;
+  isFo = "true";
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
 
 
   constructor(public api: ApiService,
     public common: CommonService,
-    private modalService: NgbModal, ) {
+    private modalService: NgbModal,
+    public user: UserService) {
     this.common.refresh = this.refresh.bind(this);
+    this.foid = this.user._customer.id;
+    console.log("foId", this.foid);
+
     this.ticket();
   }
 
   ngOnInit() {
   }
   refresh() {
-    console.log('Refresh');
-    this.ticket();
-  }
-  selectFoUser(user) {
-    console.log("user", user);
-    this.foid = user.id;
     this.ticket();
   }
 
   ticket() {
+    let startTime = this.common.dateFormatter(this.startDate);
+    let endTime = this.common.dateFormatter(this.endDate);
+    const params = "startDate=" + startTime + "&endDate=" + endTime + "&isFo=" + this.isFo;
     this.common.loading++;
-    this.api.get('MissingIndustry' + (this.foid ? ('?foid=' + this.foid) : ''))
+    this.api.get('MissingIndustry?' + params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
-        this.ticketsData = res['data'];
-        this.table = this.setTable();
+        this.ticketsData = res['data'] || [];
+        this.ticketsData.length ? this.setTable() : this.resetTable();
         console.log("data:", this.ticketsData);
         if (this.ticketsData) {
           this.tickets = 1;
@@ -64,57 +74,76 @@ export class AlertRelatedIssueComponent implements OnInit {
 
   }
 
-  setTable() {
-    let headings = {
-      vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
-      regno: { title: 'Regno ', placeholder: 'Regno ' },
-      ltime: { title: 'Ltime', placeholder: 'Ltime' },
-      ttime: { title: 'Ttime', placeholder: 'Ttime' },
-      disa: { title: 'Disa', placeholder: 'Disa' },
-      dis: { title: 'Dis', placeholder: 'Dis' },
-      ratio: { title: 'Ratio', placeholder: 'Ratio' },
-      foname: { title: 'Fo Name', placeholder: 'Fo Name' },
-      holdBy: { title: 'Hold By', placeholder: 'Hold By' },
-      remark: { title: 'Remark', placeholder: 'Remark' },
-      action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'text-dark' },
+  resetTable() {
+    this.table.data = {
+      headings: {},
+      columns: []
     };
+  }
+
+  setTable() {
+    this.table.data = {
+      headings: this.generateHeadings(),
+      columns: this.getTableColumns()
+    };
+    return true;
+  }
 
 
-    return {
-      data: {
-        headings: headings,
-        columns: this.getTableColumns()
-      },
-      settings: {
-        hideHeader: true,
-        tableHeight: "auto"
+  generateHeadings() {
+    let headings = {};
+    for (var key in this.ticketsData[0]) {
+      if (key.charAt(0) != "_") {
+        headings[key] = { title: key, placeholder: this.formatTitle(key) };
       }
     }
+    return headings;
   }
+
+  formatTitle(strval) {
+    let pos = strval.indexOf('_');
+    if (pos > 0) {
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
+    } else {
+      return strval.charAt(0).toUpperCase() + strval.substr(1);
+    }
+  }
+
 
   getTableColumns() {
     let columns = [];
     this.ticketsData.map(ticket => {
-
-      let column = {
-        vehicleNumber: { value: ticket.vehicle_id },
-        regno: { value: ticket.regno },
-        ltime: { value: ticket.ltime, date: 'dd MMM HH:mm' },
-        ttime: { value: ticket.ttime, date: 'dd MMM HH:mm' },
-        disa: { value: ticket.disa },
-        dis: { value: ticket.dis },
-        ratio: { value: ticket.ratio },
-        foname: { value: ticket.fo_name },
-        holdBy: { value: ticket.hold_by },
-        remark: { value: ticket.remark },
-        action: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.enterTicket.bind(this, ticket), class: 'icon text-center del' },
-      };
-
-
+      let column = {};
+      for (let key in this.generateHeadings()) {
+        if (key == 'Action') {
+          column[key] = {
+            value: "",
+            isHTML: false,
+            action: null,
+            icons: this.actionIcons(ticket)
+          };
+        } else {
+          column[key] = { value: ticket[key], class: 'black', action: '' };
+        }
+      }
       columns.push(column);
-    });
+    })
+
     return columns;
   }
+
+  actionIcons(ticket) {
+    let icons = [
+      {
+        class: 'fa fa-pencil-alt mr-3',
+        action: this.enterTicket.bind(this, ticket),
+      },
+
+    ];
+
+    return icons;
+  }
+
 
 
 
@@ -123,7 +152,7 @@ export class AlertRelatedIssueComponent implements OnInit {
     let result;
     let params = {
       tblRefId: 7,
-      tblRowId: issue.vehicle_id
+      tblRowId: issue._vid
     };
     console.log("params", params);
     this.common.loading++;
@@ -148,23 +177,20 @@ export class AlertRelatedIssueComponent implements OnInit {
 
 
   openChangeStatusModal(issue) {
-
     let ltime = new Date(issue.addtime);
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
     let latch_time = this.common.dateFormatter(subtractLTime);
-
     let VehicleStatusData = {
-      id: issue.id,
-      vehicle_id: issue.vehicle_id,
-      tTime: issue.ttime,
+      id: issue._id,
+      vehicle_id: issue._vid,
+      tTime: issue._ttime,
       suggest: null,
-      latch_time: issue.ltime,
+      latch_time: issue._ltime,
       status: 2,
       remark: issue.remark
     }
     console.log("missing open data ", VehicleStatusData);
     this.common.ref_page = 'ari';
-
     this.common.params = VehicleStatusData;
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
@@ -174,17 +200,17 @@ export class AlertRelatedIssueComponent implements OnInit {
       }
       let newData = [];
       for (const ticket of this.ticketsData) {
-        if (ticket.id != issue.id) {
+        if (ticket._id != issue._id) {
           newData.push(ticket);
         }
       }
       this.ticketsData = newData;
-      this.table = null;
-      this.table = this.setTable();
+      this.resetTable();
+      this.setTable();
       this.exitTicket(VehicleStatusData);
     });
-
   }
+
   exitTicket(missingIssue) {
     let result;
     var params = {

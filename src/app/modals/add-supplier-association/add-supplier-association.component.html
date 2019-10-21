@@ -24,13 +24,15 @@
         <label>Regno</label>
       </div>
       <div class="col-3" *ngIf="button==='Add';else regno">
-        <auto-suggestion (onSelected)="selectVehicle($event)" url="Suggestion/getFoVehicleList" display="regno"
+        <input type="text" name="regno" class="form-control" [(ngModel)]="vehicleSupplierAssociation.regno">
+
+        <!-- <auto-suggestion (onSelected)="selectVehicle($event)" url="Suggestion/getFoVehicleList" display="regno"
           placeholder="Regno" [preSelected]="{regno:vehicleSupplierAssociation.regno}" (change)="resetvehicle($event)"
           [inputId]="vehicleno">
-        </auto-suggestion>
+        </auto-suggestion> -->
       </div>
       <ng-template #regno>
-        <input type="text" name="regno" class="ml-3" [(ngModel)]="vehicleSupplierAssociation.regno" readonly>
+        <input type="text" name="regno" class="ml-3 regno" [(ngModel)]="vehicleSupplierAssociation.regno" readonly>
       </ng-template>
     </div>
     <div class="row mt-2">

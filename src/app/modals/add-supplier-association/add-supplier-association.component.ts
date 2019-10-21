@@ -68,18 +68,17 @@ export class AddSupplierAssociationComponent implements OnInit {
     this.vehicleSupplierAssociation.partyId = party.id;
     this.vehicleSupplierAssociation.partyName = party.name;
   }
-  selectVehicle(vehicle) {
-    this.vehicleSupplierAssociation.vehicleId = vehicle.id;
-    this.vehicleSupplierAssociation.regno = vehicle.regno;
-  }
-  resetvehicle(vehicle) {
-    if (document.getElementById('vehicleno') == null) {
-      this.vehicleSupplierAssociation.vehicleId = null;
-      this.vehicleSupplierAssociation.regno = vehicle.target.value;
-    }
 
-
-  }
+  // selectVehicle(vehicle) {
+  //   this.vehicleSupplierAssociation.vehicleId = vehicle.id;
+  //   this.vehicleSupplierAssociation.regno = vehicle.regno;
+  // }
+  // resetvehicle(vehicle) {
+  //   if (document.getElementById('vehicleno') == null) {
+  //     this.vehicleSupplierAssociation.vehicleId = null;
+  //     this.vehicleSupplierAssociation.regno = vehicle.target.value;
+  //   }
+  // }
 
   saveVehicleSupplier() {
     if (!this.vehicleSupplierAssociation.partyId || !this.vehicleSupplierAssociation.regno
