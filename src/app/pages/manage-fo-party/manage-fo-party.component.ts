@@ -15,6 +15,8 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 })
 export class ManageFoPartyComponent implements OnInit {
   assType = null;
+  searchValue = null;
+  searchString = null;
   associationType = [];
   companyId = null;
   companyName = null;
@@ -91,7 +93,9 @@ export class ManageFoPartyComponent implements OnInit {
   }
 
   getCmpAssocWrtType() {
-    const params = "assocType=" + this.assType;
+    const params = "assocType=" + this.assType+
+    "searchValue="+ this.searchValue+
+      "searchString="+this.searchString;
     console.log("pod", params);
     this.common.loading++;
     this.api.get('ManageParty/getCmpAssocWrtType?' + params)

@@ -17,6 +17,7 @@ import { AddTransportAgentComponent } from '../add-transport-agent/add-transport
 import { BasicPartyDetailsComponent } from '../../../modals/basic-party-details/basic-party-details.component';
 import { VehiclesViewComponent } from '../../vehicles-view/vehicles-view.component';
 import { AddDriverCompleteComponent } from '../../DriverModals/add-driver-complete/add-driver-complete.component';
+import { AddSupplierAssociationComponent } from '../../add-supplier-association/add-supplier-association.component';
 
 @Component({
   selector: 'lr-generate',
@@ -185,6 +186,14 @@ export class LrGenerateComponent implements OnInit {
     const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw'   });
     activeModal.result.then(data => {
       console.log('Data:', data);
+    });
+  }
+
+  addSupplierAssociation() {
+    const activeModal = this.modalService.open(AddSupplierAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+      }
     });
   }
 
