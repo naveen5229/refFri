@@ -137,6 +137,7 @@ export class FreightInvoicesComponent implements OnInit {
 
   actionIcon(row) {
     let actionIcons = [];
+    if(!row._islocked){
     actionIcons.push(
       {
         class: "far fa-eye",
@@ -151,7 +152,7 @@ export class FreightInvoicesComponent implements OnInit {
         class: "fas fa-trash-alt",
         action: this.deleteRow.bind(this, row),
       }
-    );
+    );}
     if (row._lrcount > 0) {
       actionIcons.push({
         class: "fas fa-print",

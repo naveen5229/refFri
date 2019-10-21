@@ -27,6 +27,8 @@ import { NearbyPodsComponent } from './admin/nearby-pods/nearby-pods.component';
 import { FuelMileageWithOdoComponent } from './pages/fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { WebActivitySummaryComponent } from './admin/web-activity-summary/web-activity-summary.component';
 import { FoFuelAverageComponent } from './pages/fo-fuel-average/fo-fuel-average.component';
+import { ChallanPaymentRequestComponent } from './challan/challan-payment-request/challan-payment-request.component';
+import { MvGpsApiReqComponent } from './challan/mv-gps-api-req/mv-gps-api-req.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -46,8 +48,9 @@ const PAGES_COMPONENTS = [
     NearbyPodsComponent,
     FuelMileageWithOdoComponent,
     WebActivitySummaryComponent,
-    FoFuelAverageComponent
-
+    FoFuelAverageComponent,
+    ChallanPaymentRequestComponent,
+    MvGpsApiReqComponent
 ];
 
 
@@ -59,7 +62,7 @@ const PAGES_COMPONENTS = [
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         ImageViewerModule,
-        ChartModule
+        ChartModule,
     ],
     exports: [...PAGES_COMPONENTS],
     providers: [],

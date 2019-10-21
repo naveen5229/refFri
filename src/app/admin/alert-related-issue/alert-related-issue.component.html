@@ -1,9 +1,10 @@
 <nb-card>
   <nb-card-header>
     <div class="col-sm-4">
-      <h2>Alert Related Issues</h2>
+      <h5>Alert Related Issues</h5>
     </div>
     <div class="col-sm-8 text-right">
+      <label>{{ticketsData.length}} Records</label>
     </div>
 
   </nb-card-header>
@@ -15,14 +16,22 @@
         <div class="suggestions ng-star-inserted">
         </div>
       </div>
+      <div class="col-2">
+        <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-2">
+        <uj-date-time-picker (onChanged)="endDate = $event" [isStart]="false" [dateTimeValue]="endDate"
+          [isTime]="false">
+        </uj-date-time-picker>
+      </div>
       <div class="col-3">
         <button class="btn btn-dark" (click)="foid=null;ticket()">All Issue</button>
       </div>
     </div>
-    <div class="col-1 pl-0 pt-2">{{ticketsData.length}} Records</div>
-    <smart-table *ngIf="ticketsData && ticketsData.length" [data]="table.data" [settings]="table.settings">
-    </smart-table>
-    <br>
-
+    <div class="mt-2">
+      <smart-table *ngIf="ticketsData && ticketsData.length" [data]="table.data" [settings]="table.settings">
+      </smart-table>
+    </div>
   </nb-card-body>
 </nb-card>

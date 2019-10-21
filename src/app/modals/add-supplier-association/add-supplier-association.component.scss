@@ -1,0 +1,42 @@
+.btn {
+  background: #f2f2f2;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
+  display: inline-block;
+  font-size: 14px;
+  text-align: center;
+  height: 30px;
+  line-height: 5px;
+  border-radius: 4px;
+  font-family: Exo;
+  color: #000;
+  cursor: pointer;
+}
+
+/* submit Button Css */
+
+.btn.btn-primary {
+  background-color: #3c6ac7;
+  color: #fff;
+  background-color: #73a1ff;
+}
+
+.btn.btn-primary:hover,
+.btn.btn-primary:active,
+.btn.btn-primary:focus {
+  background-color: #0054ff;
+}
+
+.add {
+  font-size: 18px;
+  color: #fff;
+  background: #000;
+  width: 28px;
+  padding: 6px 0px;
+  text-align: center;
+  border-radius: 3px;
+  float: right;
+  margin-left: 10px;
+}

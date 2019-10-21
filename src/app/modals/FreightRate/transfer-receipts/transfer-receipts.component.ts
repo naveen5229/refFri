@@ -238,7 +238,7 @@ export class TransferReceiptsComponent implements OnInit {
                   this.showdata();
                 }
                 else {
-                  this.common.showToast(res['data'][0].y_msg);
+                  this.common.showError(res['data'][0].y_msg);
                 }
               }, err => {
                 this.common.loading--;
