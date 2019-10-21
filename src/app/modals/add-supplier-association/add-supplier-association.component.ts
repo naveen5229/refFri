@@ -26,6 +26,7 @@ export class AddSupplierAssociationComponent implements OnInit {
     licensce: null,
     mappedDate: new Date()
   }
+  partyList = [];
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -58,6 +59,7 @@ export class AddSupplierAssociationComponent implements OnInit {
   }
 
 
+
   addParty() {
     const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -68,17 +70,6 @@ export class AddSupplierAssociationComponent implements OnInit {
     this.vehicleSupplierAssociation.partyId = party.id;
     this.vehicleSupplierAssociation.partyName = party.name;
   }
-
-  // selectVehicle(vehicle) {
-  //   this.vehicleSupplierAssociation.vehicleId = vehicle.id;
-  //   this.vehicleSupplierAssociation.regno = vehicle.regno;
-  // }
-  // resetvehicle(vehicle) {
-  //   if (document.getElementById('vehicleno') == null) {
-  //     this.vehicleSupplierAssociation.vehicleId = null;
-  //     this.vehicleSupplierAssociation.regno = vehicle.target.value;
-  //   }
-  // }
 
   saveVehicleSupplier() {
     if (!this.vehicleSupplierAssociation.partyId || !this.vehicleSupplierAssociation.regno
