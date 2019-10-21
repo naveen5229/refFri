@@ -7,6 +7,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
 import * as _ from 'lodash';
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
+import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
+import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 
 @Component({
   selector: 'ledgerview',
@@ -177,6 +180,10 @@ export class LedgerviewComponent implements OnInit {
   }
   getLedgerView() {
     console.log('Ledger:', this.ledger);
+    if(this.ledger.ledger.id==0){
+      this.common.showError('Please Select Ledger');
+      this.setFoucus('ledger');
+    }else{
     let params = {
       startdate: this.ledger.startDate,
       enddate: this.ledger.endDate,
@@ -202,6 +209,7 @@ export class LedgerviewComponent implements OnInit {
         this.common.showError();
       });
   }
+}
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -398,5 +406,56 @@ this.ledgerData.map((data,index) => {
     });
     console.log('------',this.ledgerViewData);
     // this.showAllGroups();
+  }
+
+  openfreight(freightId){
+    if(freightId){
+    let invoice = {
+      id: freightId,
+    }
+    this.common.params = { invoice: invoice }
+    const activeModal = this.modalService.open(ViewMVSFreightStatementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
+    });
+  }else{
+    this.common.showError('Please Select another Entry');
+  }
+}
+
+  openRevenue(freightId){
+    if(freightId){
+    let previewData = {
+      title: 'Invoice',
+      previewId: null,
+      refId: freightId,
+      refType: "FRINV"
+    }
+    this.common.params = { previewData };
+
+    // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
+
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    });
+
+      }else{
+        this.common.showError('Please Select another Entry');
+      }
+  }
+
+  editTransfer(transferId?) {
+    let refData = {
+      transferId:transferId,
+      readOnly:true
+    }
+    this.common.params = { refData: refData };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    //  this.viewTransfer();
+    });
   }
 }

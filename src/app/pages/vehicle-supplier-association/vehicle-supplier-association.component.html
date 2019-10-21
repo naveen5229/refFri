@@ -1,0 +1,17 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-9">
+        <h5>Vehicle Supplier Association</h5>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary" name="add" (click)="addSupplierAssociation()">Add</button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <smart-table *ngIf="supplierAssociationData && supplierAssociationData.length" [data]="table.data"
+      [settings]="table.settings" id="vehcileSupplier">
+    </smart-table>
+  </nb-card-body>
+</nb-card>

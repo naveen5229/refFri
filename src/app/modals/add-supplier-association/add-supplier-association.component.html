@@ -1,0 +1,58 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <label>Party</label>
+      </div>
+      <div class="col-3">
+        <auto-suggestion (onSelected)="selectParty($event)" url="Suggestion/GetCompanies2?type=MVS" display="name"
+          placeholder="Party" [preSelected]="{name:vehicleSupplierAssociation.partyName}"></auto-suggestion>
+      </div>
+
+      <div class="col-2">
+        <i class="fa fa-plus add" (click)="addParty()"></i>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-3">
+        <label>Regno</label>
+      </div>
+      <div class="col-3" *ngIf="button==='Add';else regno">
+        <input type="text" name="regno" class="form-control" [(ngModel)]="vehicleSupplierAssociation.regno">
+      </div>
+      <ng-template #regno>
+        <input type="text" name="regno" class="ml-3 regno" [(ngModel)]="vehicleSupplierAssociation.regno" readonly>
+      </ng-template>
+    </div>
+    <div class="row mt-2">
+      <div class="col-3">
+        <label>Driver Name</label>
+        <input type="text" name="drivername" class="form-control" [(ngModel)]="vehicleSupplierAssociation.driverName">
+      </div>
+      <div class="col-3">
+        <label>Mobile No.</label>
+        <input type="number" name="mobile" maxlength="10" class="form-control"
+          [(ngModel)]="vehicleSupplierAssociation.mobile">
+      </div>
+      <div class="col-3">
+        <label>Licensce No.</label>
+        <input type="text" name="licensce" class="form-control" [(ngModel)]="vehicleSupplierAssociation.licensce">
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="modal-footer">
+  <div class="col text-right">
+    <button class="btn btn-primary" type="submit" (click)="saveVehicleSupplier()" id="saveVehicleSupplier"
+      style="cursor: pointer;">{{button}}</button>
+  </div>
+</div>
