@@ -88,7 +88,8 @@
         </tr>
       </thead>
       <tr *ngFor="let dataItem of ledgerData; let i = index;" (click)="selectedRow = i"
-        (dblclick)="(dataItem.y_type.toLowerCase().includes('freight')) ?(dataItem.y_type.toLowerCase().includes('expence'))?openfreight(dataItem['y_transferid']):openRevenue(dataItem['y_transferid']):   (dataItem.y_type.length != '') ? getBookDetail(dataItem.y_voucherid,dataItem.y_code,dataItem.y_type) : '' "
+        (dblclick)="(dataItem.y_type.toLowerCase().includes('freight')) ?(dataItem.y_type.toLowerCase().includes('expence'))?openfreight(dataItem['y_transferid']):openRevenue(dataItem['y_transferid']):  
+        (dataItem.y_type.toLowerCase().includes('lr')) ? editTransfer(dataItem['y_transferid']) : (dataItem.y_type.length != '') ? getBookDetail(dataItem.y_voucherid,dataItem.y_code,dataItem.y_type) : '' "
         (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i,'radclass':(dataItem.y_type == null) }">
         <td>{{i + 1}}</td>
         <td>{{dataItem.y_date | date : 'dd-MMM-yy'}}</td>

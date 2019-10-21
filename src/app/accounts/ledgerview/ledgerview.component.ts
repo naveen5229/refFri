@@ -7,7 +7,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
 import * as _ from 'lodash';
-
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 
@@ -444,5 +444,18 @@ this.ledgerData.map((data,index) => {
       }else{
         this.common.showError('Please Select another Entry');
       }
+  }
+
+  editTransfer(transferId?) {
+    let refData = {
+      transferId:transferId,
+      readOnly:true
+    }
+    this.common.params = { refData: refData };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    //  this.viewTransfer();
+    });
   }
 }
