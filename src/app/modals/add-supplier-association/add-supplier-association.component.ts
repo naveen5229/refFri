@@ -13,8 +13,8 @@ import { BasicPartyDetailsComponent } from '../basic-party-details/basic-party-d
   styleUrls: ['./add-supplier-association.component.scss']
 })
 export class AddSupplierAssociationComponent implements OnInit {
-  title = '';
-  button = '';
+  title = 'Add Vehicle Supplier Association';
+  button = 'Add';
   vehicleSupplierAssociation = {
     rowId: null,
     partyId: null,
@@ -33,9 +33,10 @@ export class AddSupplierAssociationComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     public activeModal: NgbActiveModal) {
-    this.title = this.common.params.vehicleSupplier.title;
-    this.button = this.common.params.vehicleSupplier.button;
-    if (this.button === 'Edit') {
+
+    if (this.common.params && this.common.params.vehicleSupplier) {
+      this.title = this.common.params.vehicleSupplier.rowId ? 'Edit Vehicle Supplier Association' : 'Add Vehicle Supplier Association';
+      this.button = this.common.params.vehicleSupplier.rowId ? 'Edit' : 'Add';
       this.vehicleSupplierAssociation.rowId = this.common.params.vehicleSupplier.rowId;
       this.vehicleSupplierAssociation.partyId = this.common.params.vehicleSupplier.partyId;
       this.vehicleSupplierAssociation.partyName = this.common.params.vehicleSupplier.partyName;
@@ -101,7 +102,7 @@ export class AddSupplierAssociationComponent implements OnInit {
           this.activeModal.close({ response: true });
         }
         else {
-          this.common.showToast(res['data'][0].y_msg);
+          this.common.showError(res['data'][0].y_msg);
         }
 
       }, err => {
