@@ -23,7 +23,7 @@
       <div class="col-3">
         <label>Regno</label>
       </div>
-      <div class="col-3" *ngIf="button==='Add';else regno">
+      <div class="col-3" *ngIf="!vehicleSupplierAssociation.rowId ; else regno">
         <input type="text" name="regno" class="form-control" [(ngModel)]="vehicleSupplierAssociation.regno">
       </div>
       <ng-template #regno>
