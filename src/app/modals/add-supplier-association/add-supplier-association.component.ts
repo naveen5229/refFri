@@ -34,9 +34,9 @@ export class AddSupplierAssociationComponent implements OnInit {
     public modalService: NgbModal,
     public activeModal: NgbActiveModal) {
     if (this.common.params && this.common.params.vehicleSupplier.id) {
-      this.vehicleSupplierAssociation.rowId = this.common.params.vehicleSupplier.id;
-      this.title = this.common.params.vehicleSupplier.rowId ? 'Edit Vehicle Supplier Association' : 'Add Vehicle Supplier Association';
-      this.button = this.common.params.vehicleSupplier.rowId ? 'Edit' : 'Add';
+      this.vehicleSupplierAssociation.rowId = this.common.params.vehicleSupplier.id ? this.common.params.vehicleSupplier.id : null;
+      this.title = this.vehicleSupplierAssociation.rowId ? 'Edit Vehicle Supplier Association' : 'Add Vehicle Supplier Association';
+      this.button = this.vehicleSupplierAssociation.rowId ? 'Edit' : 'Add';
       this.getVehicleSupplierData();
     }
   }
@@ -49,6 +49,7 @@ export class AddSupplierAssociationComponent implements OnInit {
   }
 
   closeModal() {
+    this.common.params = null;
     this.activeModal.close(false);
   }
 
@@ -113,6 +114,7 @@ export class AddSupplierAssociationComponent implements OnInit {
         console.log(res);
         if (res['data'][0].y_id > 0) {
           this.common.showToast(res['data'][0].y_msg);
+          this.common.params = null;
           this.activeModal.close({ response: true });
         }
         else {
