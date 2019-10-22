@@ -79,7 +79,7 @@ export class FuelFillingTimetableComponent implements OnInit {
     if (this.marker.length) {
       this.marker[0].setMap(null);
     }
-    this.marker = this.mapService.createMarkers(this.latlong, false, false);
+    this.marker = this.mapService.createMarkers(this.latlong, false, true);
   }
 
 
@@ -120,8 +120,15 @@ export class FuelFillingTimetableComponent implements OnInit {
         this.fuelFillingMarkers = this.mapService.createMarkers(this.fuelFillingData, false, true);
         let i = 0;
         let prevElement = null;
-        let total = 0;
         this.trailsData = res['data'];
+        this.trailsData.map((element, index) => {
+          element['previous'] = index ? Object.assign({}, this.trailsData[index - 1]) : null,
+            element['next'] = index < this.trailsData.length - 1 ? Object.assign({}, this.trailsData[index + 1]) : null
+          if (element['previous']) {
+            delete element['previous']['previous']
+            delete element['previous']['next']
+          }
+        });
         for (const element of res['data']) {
           this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
           this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
@@ -149,24 +156,76 @@ export class FuelFillingTimetableComponent implements OnInit {
 
   getClosedLatLong() {
     let distance: any;
+    let point: any
+    let marker: any
+    let isSinglePoint = false;
     let sortedData = [];
+    let t1: any;
+    let t2: any;
+
     this.trailsData.forEach(element => {
-      distance = this.common.distanceFromAToB(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long, 'K');
-      if (distance <= 10) {
-        element['distance'] = distance;
-        return sortedData.push(element);
-      }
+      distance = this.mapService.haversine(element.lat, element.long, this.locallatlong.lat, this.locallatlong.long);
+      element['distance'] = distance;
+      return sortedData.push(element);
     });
-    let object = _.first(_.sortBy(sortedData, ['distance'], ['asc']));
-    if (object) {
-      console.log("Sorted Data ", object);
-      this.createMarkers(object.lat, object.long);
-      this.getFuelStation(object.lat, object.long);
-      this.time = object.time;
+
+    console.log("sort Data", _.sortBy(sortedData, ['distance'], ['asc']));
+    point = _.first(_.sortBy(sortedData, ['distance'], ['asc']));
+    console.log("point ", point);
+    console.log("point previous ", point.previous);
+    console.log("point next ", point.next);
+
+    if (point.previous && this.mapService.getTriangleType([point, point.previous], this.locallatlong) == 'A') {
+      console.log("type A");
+      marker = this.mapService.getPerpendicularPoint([point, point.previous], this.locallatlong);
+      this.createMarkers(marker.lat, marker.long);
+      this.getFuelStation(marker.lat, marker.long);
+      t1 = new Date(point.time).getTime();
+      t2 = new Date(point.previous.time).getTime();
+      console.log("t1", t1);
+      console.log("t2", t2);
+      this.time = new Date(t1 + (marker.ratio * (t2 - t1)));
+      console.log("time", this.time);
+
+    }
+    else if (point.next && this.mapService.getTriangleType([point, point.next], this.locallatlong) == 'A') {
+      console.log("type A");
+      marker = this.mapService.getPerpendicularPoint([point, point.next], this.locallatlong);
+      this.createMarkers(marker.lat, marker.long);
+      this.getFuelStation(marker.lat, marker.long);
+      t1 = new Date(point.time).getTime();
+      t2 = new Date(point.next.time).getTime();
+      console.log("t1", t1);
+      console.log("t2", t2);
+      this.time = new Date(t1 + (marker.ratio * (t2 - t1)));
+      console.log("time", this.time);
     }
     else {
-      this.common.showError("No GPS Data, Near Space");
+      console.log("type O");
+      marker = point;
+      this.createMarkers(marker.lat, marker.long);
+      this.getFuelStation(marker.lat, marker.long);
+      this.time = new Date(point.time);
+      console.log("time", this.time);
     }
+
+    // if (listPoints.length > 1) {
+    //   let type = this.mapService.getTriangleType([firstpoint, secondpoint], this.locallatlong);
+    //   console.log("Type", type);
+    //   if (type === 'A') {
+    //     let pointP = this.mapService.getPerpendicularPoint([firstpoint, secondpoint], this.locallatlong);
+    //     console.log("point P", pointP);
+    //     this.createMarkers(pointP.lat, pointP.long);
+    //     this.getFuelStation(pointP.lat, pointP.long);
+    //     this.time = listPoints.time;
+    //   }
+    //   else {
+    //     isSinglePoint = true;
+    //   }
+    // }
+    // else {
+    //   this.common.showError("No GPS Data, Near Space");
+    // }
 
   }
 
@@ -181,7 +240,7 @@ export class FuelFillingTimetableComponent implements OnInit {
           this.mapService.resetMarker(true, true, this.markers);
         }
         this.markers = this.mapService.createMarkers(this.fuelMarkers);
-        this.mapService.zoomAt({ lat: lat, lng: lng }, 18);
+        this.mapService.zoomAt({ lat: lat, lng: lng }, 10);
         let markerIndex = 0
         for (const marker of this.markers) {
           let event = this.fuelMarkers[markerIndex];

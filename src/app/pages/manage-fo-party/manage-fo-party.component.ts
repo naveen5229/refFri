@@ -196,7 +196,7 @@ export class ManageFoPartyComponent implements OnInit {
     if (cmpAssocDetail._ledid == null) {
       this.common.params = {
         partyId: cmpAssocDetail._id,
-        userGroupId: this.assType,
+        userGroupId: cmpAssocDetail._asstype,
       };
       const activeModal = this.modalService.open(PartyLedgerMappingComponent, {
         size: "lg",

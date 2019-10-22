@@ -3,6 +3,8 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
+import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
+
 
 @Component({
   selector: 'ledgermapping',
@@ -213,5 +215,100 @@ export class LedgermappingComponent implements OnInit {
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
+  }
+
+
+  openLedgerModal(ledger_id?) {
+    let data = [];
+    if(ledger_id){
+    console.log('ledger123', ledger_id);
+    if (ledger_id) {
+      let params = {
+        id: ledger_id
+      }
+      this.common.loading++;
+      this.api.post('Accounts/EditLedgerdata', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('Res:', res['data']);
+          data = res['data'];
+          this.common.params = {
+            ledgerdata: res['data'],
+            deleted: 0,
+        sizeledger:0
+          }
+          // this.common.params = { data, title: 'Edit Ledgers Data' };
+          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+          activeModal.result.then(data => {
+            // console.log('Data: ', data);
+            if (data.response) {
+            if (data.ledger) {
+              this.addLedger(data.ledger);
+            }else{
+             // this.GetLedger();
+            }
+            }
+          });
+
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
+    }
+  }
+  else{
+    this.common.showError('Please Select Correct Ledger');
+  }
+   
+  }
+
+  addLedger(ledger) {
+    console.log('ledgerdata', ledger);
+    // const params ='';
+    const params = {
+      name: ledger.name,
+      alias_name: ledger.aliasname,
+      code: ledger.code,
+      foid: ledger.user.id,
+      per_rate: ledger.perrate,
+      primarygroupid: ledger.undergroup.primarygroup_id,
+      account_id: ledger.undergroup.id,
+      accDetails: ledger.accDetails,
+      branchname: ledger.branchname,
+      branchcode: ledger.branchcode,
+      accnumber: ledger.accnumber,
+      creditdays: ledger.creditdays,
+      openingbalance: ledger.openingbalance,
+      isdr: ledger.openingisdr,
+      approved: ledger.approved,
+      deleteview: ledger.deleteview,
+      delete: ledger.delete,
+      x_id: ledger.id ? ledger.id : 0,
+      bankname: ledger.bankname,
+      costcenter: ledger.costcenter,
+      taxtype:ledger.taxtype,
+      taxsubtype:ledger.taxsubtype
+    };
+
+    console.log('params11: ', params);
+    this.common.loading++;
+
+    this.api.post('Accounts/InsertLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+       // this.GetLedger();
+        if (res['data'][0].y_errormsg) {
+          this.common.showToast(res['data'][0].y_errormsg);
+        } else {
+          this.common.showToast('Ledger Has been saved!');
+        }
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
   }
 }

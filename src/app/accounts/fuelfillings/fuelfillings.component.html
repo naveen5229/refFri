@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="col">
-        <button (click)="getFuelVoucher()" class="btn btn-primary w-100 mt-3">Filter</button>
+        <button (click)="getFuelVoucher()" id="btnSubmit" class="btn btn-primary w-100 mt-3">Filter</button>
       </div>
       <div class="col">
         <button (click)="getDataFuelFillings()" class="btn btn-primary mt-3">Add Fuel Voucher</button>
@@ -81,7 +81,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let tripdata of trips;let i=index;" (dblclick)="openVoucherEdit(tripdata)">
+          <tr *ngFor="let tripdata of trips; let i = index;" (click)="selectedRow = i" (dblclick)="openVoucherEdit(tripdata)" [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{i+1}}</td>
             <td>{{tripdata.y_code }}</td>
             <td>{{tripdata.y_ref_no }}</td>
