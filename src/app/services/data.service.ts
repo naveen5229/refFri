@@ -153,7 +153,7 @@ export class DataService {
             link: '/admin/driver-list',
             home: true,
           },
-        
+
           {
             title: 'Vehicle Categories',
             icon: 'fa fa-chart-bar',
@@ -275,12 +275,12 @@ export class DataService {
             icon: 'fa fa-chart-bar',
             link: '/admin/escalation-matrix',
           },
-          {
-            title: 'Fo Vehicle Details',
-            icon: 'fas fa-info-circle',
-            link: '/admin/vehicles-view',
-            home: true,
-          },
+          // {
+          //   title: 'Fo Vehicle Details',
+          //   icon: 'fas fa-info-circle',
+          //   link: '/admin/vehicles-view',
+          //   home: true,
+          // },
           {
             title: 'Company Details',
             icon: 'fas fa-info-circle',
