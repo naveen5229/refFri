@@ -138,7 +138,7 @@ export class VehicleSupplierAssociationComponent implements OnInit {
 
   editSupplier(supplier) {
     let vehicleSupplier = {
-      rowId: supplier._rowid,
+      id: supplier._rowid,
     };
     this.common.params = { vehicleSupplier };
     const activeModal = this.modalService.open(AddSupplierAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
