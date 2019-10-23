@@ -542,7 +542,8 @@ this.ledgerData.map((data,index) => {
       }
   }
 
-  editTransfer(transferId?) {
+  editTransfer(transferId) {
+    if(transferId){
     let refData = {
       transferId:transferId,
       readOnly:true
@@ -553,6 +554,9 @@ this.ledgerData.map((data,index) => {
       console.log('Date:', data);
     //  this.viewTransfer();
     });
+  }else{
+    this.common.showError('Please Select another entry');
+  }
   }
   openConsignmentVoucherEdit(voucherData) {
     const params = {
