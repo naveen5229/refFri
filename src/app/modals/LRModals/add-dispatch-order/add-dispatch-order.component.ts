@@ -205,7 +205,8 @@ export class AddDispatchOrderComponent implements OnInit {
 
   getDriverData(vehicleId) {
     let params = {
-      vid: vehicleId ? vehicleId : this.vehicleData.id
+      vid: vehicleId ? vehicleId : this.vehicleData.id,
+      vehicleType:this.vehicleType
     };
     console.log("vehicleId 2", params);
     this.common.loading++;
