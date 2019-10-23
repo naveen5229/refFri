@@ -161,7 +161,8 @@ export class LedgerviewComponent implements OnInit {
       });
 
   }
-  editTransfer(transferId?) {
+  editTransfer(transferId) {
+    if(transferId){
     let refData = {
       transferId:transferId,
       readOnly:true
@@ -172,6 +173,9 @@ export class LedgerviewComponent implements OnInit {
       console.log('Date:', data);
     //  this.viewTransfer();
     });
+  }else{
+    this.common.showError('Please Select another entry');
+  }
   }
   getLedgerView() {
     console.log('Ledger:', this.ledger);

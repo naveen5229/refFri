@@ -759,6 +759,7 @@ export class DaybooksComponent implements OnInit {
    
   }
   editTransfer(transferId?) {
+    if(transferId){
     let refData = {
       transferId:transferId,
       readOnly:true
@@ -769,7 +770,10 @@ export class DaybooksComponent implements OnInit {
       console.log('Date:', data);
     //  this.viewTransfer();
     });
+  }else{
+    this.common.showError('Please Select another entry');
   }
+}
 
   openfreight(freightId){
     if(freightId){
