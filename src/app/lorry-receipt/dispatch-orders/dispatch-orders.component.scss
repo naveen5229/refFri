@@ -88,3 +88,48 @@
     left: 50%;
     transform: translate(-50%);
 }
+
+:host ::ng-deep td i.fa-list {
+    color: red;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+}
+
+ :host ::ng-deep td i.fa-list:hover span {
+    display: block;
+}
+
+ :host ::ng-deep td i.fa-list span {
+    position: absolute;
+    display: none;
+    padding: 11px 70px;
+    left: -59px;
+    top: -28px;
+    font-family: Roboto;
+    z-index: 999;
+}
+
+ :host ::ng-deep td i.fa-list span::before {
+    content: 'Generate LR';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #82c91e;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+
+ :host ::ng-deep td i.fa-list span::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #82c91e;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+}

@@ -1,0 +1,102 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Update Vehicle Details</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="model-body" style="margin-left: 10px; margin-right: 10px; padding:10px; border:2px solid lightgray;margin-bottom:10px;margin-top:10px;">
+
+  
+
+<div class="row">
+    <div class="col-3">
+      <label>Reg No.</label></div>
+      <div class="col-3">
+      <span>{{vehicle.regNo}}</span></div>
+      <div class="col-3"></div>
+      <div class="col-3"></div>
+</div>
+  <div class="row mt-2">
+      <div class="col-3">
+          <label>Vehicle Maker</label>
+      </div>
+      <div class="col-3">
+          <select class="form-control" [(ngModel)]="vehicle.brandId" (change)='getVehicleModelList()'>
+            <option *ngFor="let brand of brandList" [value]='brand.id'>{{brand.name}}</option>
+          </select>
+      </div>
+      <div class="col-3">
+              <label>Vehicle Modal</label>
+          </div>
+          <div class="col-3">
+          <select class="form-control" [(ngModel)]="vehicle.modelId">
+              <option *ngFor="let model of modelList" [value]='model.id'>{{model.name}}</option>
+            </select>
+      </div>  
+    </div>
+    <div class="row mt-2">
+        <div class="col-3">
+            <label>Chassis No.</label>
+        </div>
+        <div class="col-3">
+            <input type="text" [(ngModel)]="vehicle.chassisNo" class="form-control">
+        </div>
+        <div class="col-3">
+            <label>Vehicle Weight</label>
+        </div>
+        <div class="col-3">
+            <input type="number" [(ngModel)]="vehicle.gvw" class="form-control">
+        </div>   
+      </div>
+      <div class="row mt-2">
+          <div class="col-3">
+              <label>Bs Code</label>
+          </div>
+          <div class="col-3">
+              <select class="form-control" [(ngModel)]="vehicle.bsCode">
+                  <option *ngFor="let bsCode of bsCodes" [value]="bsCode.code">{{bsCode.code}}</option>
+                </select>
+          </div>  
+          <div class="col-3">
+              <label>Vehicle Type</label>
+          </div>
+          <div class="col-3">
+              <input type="text" [(ngModel)]="vehicle.type" class="form-control">
+          </div> 
+        </div>
+        <div class="row mt-2">
+            <div class="col-3">
+                <label>Body Type</label>
+            </div>
+            <div class="col-3">
+            <select class="form-control" [(ngModel)]="vehicle.bodyTypeId">
+                <option *ngFor="let bodyType of bodyTypes" [value]='bodyType.id'>{{bodyType.name}}</option>
+              </select>
+            </div>
+            <div class="col-3">
+                <label>Capacity</label>
+            </div>
+            <div class="col-3">
+                <input type="number" [(ngModel)]="vehicle.capacity" class="form-control">
+            </div>   
+          </div>
+          <div class="row mt-2">
+              <div class="col-3">
+                  <label>Engine No</label>
+              </div>
+              <div class="col-3">
+                  <input type="text" [(ngModel)]="vehicle.engineNo" class="form-control">
+              </div>
+              <div class="col-3">
+                  <label>ManuFacturing Date</label>
+              </div>
+              <div class="col-3">
+              <uj-date-time-picker (onChanged)="vehicle.mfDate = $event" [dateTimeValue]="vehicle.mfDate" [isTime]="false">
+              </uj-date-time-picker>
+              </div>
+            </div>
+            <div class="mt-2" style="text-align: right;">
+                <button class="btn btn-info" (click)="updateVehicleDetails()">{{btnText}}</button>
+              </div>
+</div>

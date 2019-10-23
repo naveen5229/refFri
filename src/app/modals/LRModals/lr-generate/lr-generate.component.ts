@@ -54,7 +54,7 @@ export class LrGenerateComponent implements OnInit {
   generalDetailColumn2 = [];
   generalDetailColumn1 = [];
   foCmpnyId = 0;
-
+  disorderId = null;
   particulars = [];
   constructor(
     public common: CommonService,
@@ -70,9 +70,10 @@ export class LrGenerateComponent implements OnInit {
     }
     if (this.common.params.lrData) {
       this.lrDetails.id = this.common.params.lrData.lrId ? this.common.params.lrData.lrId : 'null';
+      this.disorderId = this.common.params.lrData.dispOrdId ? this.common.params.lrData.dispOrdId : 'null';
       this.btnTxt = 'SAVE'
     }
-    if (this.lrDetails.id || this.accountService.selected.branch.id) {
+    if (this.lrDetails.id || this.accountService.selected.branch.id || this.disorderId ) {
       this.getLrFields(true);
     }
     this.formatGeneralDetails();
@@ -86,7 +87,8 @@ export class LrGenerateComponent implements OnInit {
   getLrFields(isSetBranchId?) {
     let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
     let params = "branchId=" + this.accountService.selected.branch.id +
-      "&lrId=" + this.lrDetails.id;
+      "&lrId=" + this.lrDetails.id+
+      "&dispOrderId="+this.disorderId;
     this.common.loading++;
     this.api.get('LorryReceiptsOperation/getLrFields?' + params)
       .subscribe(res => {
@@ -539,7 +541,7 @@ export class LrGenerateComponent implements OnInit {
       let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
       let params = "branchId=" + this.accountService.selected.branch.id +
         "&prefix=" + this.lr.prefix+
-        "&reportType= LR";
+        "&reportType=LR";
       this.common.loading++;
       this.api.get('LorryReceiptsOperation/getNextSerialNo?' + params)
         .subscribe(res => {
