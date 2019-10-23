@@ -7,6 +7,8 @@ import { dateFieldName } from '@telerik/kendo-intl';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
 import { ChangeDriverComponent } from '../../DriverModals/change-driver/change-driver.component';
 import { BasicPartyDetailsComponent } from '../../basic-party-details/basic-party-details.component';
+import { VehiclesViewComponent } from '../../vehicles-view/vehicles-view.component';
+import { AddSupplierAssociationComponent } from '../../add-supplier-association/add-supplier-association.component';
 
 @Component({
   selector: 'add-dispatch-order',
@@ -139,13 +141,33 @@ export class AddDispatchOrderComponent implements OnInit {
     }, 1000);
 
   }
+
   getVehicleInfo(vehicle) {
     console.log("vehicle", vehicle);
     this.vehicleData.regno = vehicle.regno;
     this.vehicleData.id = vehicle.id;
+    console.log("vehicleId 1", this.vehicleData.id);
+    this.setSupplierInfo(vehicle.supplier_name, vehicle.supplier_id);
     this.getDriverData(this.vehicleData.id);
+
   }
 
+  resetData() {
+    console.log("vehicleId 4", this.vehicleData.id);
+    this.vehicleData.id = null;
+  }
+  setSupplierInfo(supplier?, supplierId?) {
+    if (supplier && supplierId) {
+      this.dispatchOrderField.map(dispatchOrder => {
+        if (dispatchOrder.r_colname == 'supplier_name') {
+          dispatchOrder.r_value = '';
+          dispatchOrder.r_value = supplier;
+          dispatchOrder.r_valueid = supplierId;
+        }
+      });
+    }
+
+  }
 
 
 
@@ -159,11 +181,27 @@ export class AddDispatchOrderComponent implements OnInit {
 
 
   resetVehicleData() {
-    console.log("Test");
+    console.log("dispatchField",this.dispatchOrderField);
     this.vehicleData.id = null;
     this.vehicleData.regno = null;
-    this.resetDriverInfo();
+    this.dispatchOrderField.map(dispatchField => {
+      if (dispatchField.r_colname == 'supplier_name' || dispatchField.r_colname == 'driver_mobile') {
+        console.log("dispatchField.r_colname", dispatchField.r_colname);
+        dispatchField.r_value = '';
+        dispatchField.r_value = null;
+        dispatchField.r_valueid = null;
+      }
+      else if (dispatchField.r_colname == 'driver_name') {
+        (<HTMLInputElement>document.getElementById('driver_name')).value = '';
+      } else if (dispatchField.r_colname == 'driver_license') {
+        (<HTMLInputElement>document.getElementById('driver_license')).value = '';
+      }
+    }
+    );
+
+
   }
+
 
   getDriverData(vehicleId) {
     let params = {
@@ -198,20 +236,21 @@ export class AddDispatchOrderComponent implements OnInit {
   getDriverInfo(driver, arr?: any) {
     if (arr && arr === true) {
       this.dispatchOrderField.map(dispatchField => {
-        if (dispatchField.r_colname == 'driver_name') {
+        if (dispatchField.r_colname == 'driver_mobile') {
           dispatchField.r_value = '';
-          dispatchField.r_value = driver.empname;
+          dispatchField.r_value = driver.mobileno;
           dispatchField.r_valueid = driver.id ? driver.id : driver.driver_id;
         }
       });
     } else if (arr) {
       arr.r_value = '';
-      arr.r_value = driver.empname;;
+      arr.r_value = driver.mobileno;;
       arr.r_valueid = driver.id ? driver.id : driver.driver_id;
     }
     this.driverData.id = driver.id ? driver.id : driver.driver_id;
     // (<HTMLInputElement>document.getElementById('driver_id')).value = this.driverData.id;
-    (<HTMLInputElement>document.getElementById('driver_mobile')).value = driver.mobileno;
+    (<HTMLInputElement>document.getElementById('driver_name')).value = driver.empname;
+    (<HTMLInputElement>document.getElementById('driver_license')).value = driver.licence_no;
   }
 
 
@@ -296,5 +335,46 @@ export class AddDispatchOrderComponent implements OnInit {
       console.log('Data:', data);
     });
   }
+  displayVehicleData() {
+    console.log("-------------vehicle id----------", this.vehicleData.id);
+    this.common.params = { vehicleId: this.vehicleData.id }
+    if (this.vehicleData.id > 0) {
+      const activeModal = this.modalService.open(VehiclesViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
 
+      activeModal.result.then(data => {
+        console.log('Date:', data);
+      });
+    } else {
+      this.common.showError("Vehicle Id doesn't exit.");
+    }
+
+  }
+
+  changeSerialNo() {
+    console.log("changeLrSeries");
+    if (!this.disOrder.id) {
+      let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
+      let params = "branchId=" + this.accountService.selected.branch.id +
+        "&prefix=" + this.disOrder.prefix +
+        "&reportType=DO";
+      this.common.loading++;
+      this.api.get('LorryReceiptsOperation/getNextSerialNo?' + params)
+        .subscribe(res => {
+          console.log('reds', res['data'][0].result);
+          this.disOrder.serial = res['data'][0].result;
+          this.common.loading--;
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
+  }
+
+  addSupplierAssociation() {
+    const activeModal = this.modalService.open(AddSupplierAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+      }
+    });
+  }
 }
