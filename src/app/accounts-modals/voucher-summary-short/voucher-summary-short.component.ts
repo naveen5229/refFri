@@ -19,6 +19,7 @@ import { PrintService } from '../../services/print/print.service';
 })
 export class VoucherSummaryShortComponent implements OnInit {
   permanentDeleteId = 0;
+  showSubmit=0;
   sizeIndex = 0;
   alltotal = 0;
   narration = '';
@@ -94,6 +95,9 @@ export class VoucherSummaryShortComponent implements OnInit {
     }
     if (this.common.params.sizeIndex) {
       this.sizeIndex = this.common.params.sizeIndex;
+    }
+    if (this.common.params.showSubmit) {
+      this.showSubmit = this.common.params.showSubmit;
     }
     if (this.common.params.typeFlag) { this.typeFlag = this.common.params.typeFlag; }
     this.permanentDeleteId = (this.common.params.permanentDelete) ? this.common.params.permanentDelete : 0;
