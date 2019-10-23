@@ -13,8 +13,8 @@ import { BasicPartyDetailsComponent } from '../basic-party-details/basic-party-d
   styleUrls: ['./add-supplier-association.component.scss']
 })
 export class AddSupplierAssociationComponent implements OnInit {
-  title = '';
-  button = '';
+  title = 'Add Vehicle Supplier Association';
+  button = 'Add';
   vehicleSupplierAssociation = {
     rowId: null,
     partyId: null,
@@ -26,23 +26,18 @@ export class AddSupplierAssociationComponent implements OnInit {
     licensce: null,
     mappedDate: new Date()
   }
+  vehicleSupplier = [];
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal,
     public activeModal: NgbActiveModal) {
-    this.title = this.common.params.vehicleSupplier.title;
-    this.button = this.common.params.vehicleSupplier.button;
-    if (this.button === 'Edit') {
-      this.vehicleSupplierAssociation.rowId = this.common.params.vehicleSupplier.rowId;
-      this.vehicleSupplierAssociation.partyId = this.common.params.vehicleSupplier.partyId;
-      this.vehicleSupplierAssociation.partyName = this.common.params.vehicleSupplier.partyName;
-      this.vehicleSupplierAssociation.vehicleId = this.common.params.vehicleSupplier.vehicleId;
-      this.vehicleSupplierAssociation.regno = this.common.params.vehicleSupplier.regno;
-      this.vehicleSupplierAssociation.driverName = this.common.params.vehicleSupplier.driverName;
-      this.vehicleSupplierAssociation.mobile = this.common.params.vehicleSupplier.mobileNo;
-      this.vehicleSupplierAssociation.licensce = this.common.params.vehicleSupplier.licensce;
+    if (this.common.params && this.common.params.vehicleSupplier) {
+      this.vehicleSupplierAssociation.rowId = this.common.params.vehicleSupplier.id ? this.common.params.vehicleSupplier.id : null;
+      this.title = this.vehicleSupplierAssociation.rowId ? 'Edit Vehicle Supplier Association' : 'Add Vehicle Supplier Association';
+      this.button = this.vehicleSupplierAssociation.rowId ? 'Edit' : 'Add';
+      this.getVehicleSupplierData();
     }
   }
 
@@ -54,7 +49,30 @@ export class AddSupplierAssociationComponent implements OnInit {
   }
 
   closeModal() {
+    this.common.params = null;
     this.activeModal.close(false);
+  }
+
+  getVehicleSupplierData() {
+    const params = "rowId=" + this.vehicleSupplierAssociation.rowId;
+    this.api.get('ManageParty/getVehicleSupplierAssocWrtId?' + params)
+      .subscribe(res => {
+        this.vehicleSupplier = res['data'];
+        console.log("data:");
+        console.log(this.vehicleSupplier);
+        this.vehicleSupplierAssociation.partyId = this.vehicleSupplier[0]._partyid;
+        this.vehicleSupplierAssociation.partyName = this.vehicleSupplier[0].Company;
+        this.vehicleSupplierAssociation.vehicleId = this.vehicleSupplier[0]._vid
+        this.vehicleSupplierAssociation.regno = this.vehicleSupplier[0].Regno;
+        this.vehicleSupplierAssociation.driverName = this.vehicleSupplier[0].Driver;
+        this.vehicleSupplierAssociation.mobile = this.vehicleSupplier[0]['Mobile No'];
+        this.vehicleSupplierAssociation.licensce = this.vehicleSupplier[0]['License No'];
+
+      }, err => {
+
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
 
@@ -68,23 +86,10 @@ export class AddSupplierAssociationComponent implements OnInit {
     this.vehicleSupplierAssociation.partyId = party.id;
     this.vehicleSupplierAssociation.partyName = party.name;
   }
-  selectVehicle(vehicle) {
-    this.vehicleSupplierAssociation.vehicleId = vehicle.id;
-    this.vehicleSupplierAssociation.regno = vehicle.regno;
-  }
-  resetvehicle(vehicle) {
-    if (document.getElementById('vehicleno') == null) {
-      this.vehicleSupplierAssociation.vehicleId = null;
-      this.vehicleSupplierAssociation.regno = vehicle.target.value;
-    }
-
-
-  }
 
   saveVehicleSupplier() {
     if (!this.vehicleSupplierAssociation.partyId || !this.vehicleSupplierAssociation.regno
-      || !this.vehicleSupplierAssociation.driverName || !this.vehicleSupplierAssociation.mobile
-      || !this.vehicleSupplierAssociation.licensce) {
+      || !this.vehicleSupplierAssociation.driverName || !this.vehicleSupplierAssociation.mobile) {
       this.common.showError("Please Fill All Field");
       return;
     }
@@ -109,10 +114,11 @@ export class AddSupplierAssociationComponent implements OnInit {
         console.log(res);
         if (res['data'][0].y_id > 0) {
           this.common.showToast(res['data'][0].y_msg);
+          this.common.params = null;
           this.activeModal.close({ response: true });
         }
         else {
-          this.common.showToast(res['data'][0].y_msg);
+          this.common.showError(res['data'][0].y_msg);
         }
 
       }, err => {
