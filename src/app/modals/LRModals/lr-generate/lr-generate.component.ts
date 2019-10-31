@@ -73,8 +73,11 @@ export class LrGenerateComponent implements OnInit {
       this.disorderId = this.common.params.lrData.dispOrdId ? this.common.params.lrData.dispOrdId : 'null';
       this.btnTxt = 'SAVE'
     }
-    if (this.lrDetails.id || this.accountService.selected.branch.id || this.disorderId ) {
+    if (this.lrDetails.id || this.accountService.selected.branch.id) {
       this.getLrFields(true);
+    }
+    else if(this.disorderId ){
+      this.getLrFields();
     }
     this.formatGeneralDetails();
   }
