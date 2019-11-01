@@ -1,0 +1,36 @@
+<!-- goutam -->
+<div class="modal-header">
+    <h5>Add Gps Web Url</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+    <div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Gps Supplier</label>
+            </div>
+            <div class="col-6">
+                <auto-suggestion [data]="gpsSupplierList" (onSelected)="gpsSupplierId = $event.id" display="name" placeholder="Enter Gps Supplier " style="width:60%;"></auto-suggestion>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-danger" type="button" (click)="addNewGpsSupplier()" style="height: 38px; margin-top: -4px;margin-left: -12px;"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Url</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" placeholder="Enter Url Name" [(ngModel)]="gpsUrl">
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div class="modal-footer mt-2">
+    <button class="btn btn-primary" type="button" (click)="addGpsWebUrl()">Submit</button>
+</div>

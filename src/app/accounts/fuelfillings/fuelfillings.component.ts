@@ -397,7 +397,26 @@ export class FuelfillingsComponent implements OnInit {
     const key = event.key.toLowerCase();
    let activeId = document.activeElement.id;
     console.log('Active event 1111', event, activeId);
-
+    if (key == 'enter') {
+      //this.allowBackspace = true;
+      if (activeId.includes('suggestion')) {
+        this.setFoucus('vchtype');
+      } else if (activeId.includes('startdate')) {
+        this.setFoucus('enddate');
+      }else if (activeId.includes('enddate')) {
+        this.setFoucus('btnSubmit');
+      }
+    }
+  }
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
   getVocherEditTime(VoucherID) {
     return new Promise((resolve, reject) => {

@@ -5,12 +5,13 @@ import 'rxjs/add/operator/do';
 import { Router } from '@angular/router';
 import { CommonService } from './common.service';
 import { tap, catchError } from "rxjs/operators";
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpResponseHandlerService implements HttpInterceptor {
-  constructor(protected router: Router, public common: CommonService) { }
+  constructor(protected router: Router, public common: CommonService, public user: UserService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       tap(response => {
@@ -19,10 +20,29 @@ export class HttpResponseHandlerService implements HttpInterceptor {
         if (response['body'] && response['body']['code']) {
           const code = response['body']['code'];
           const success = response['body']['success'];
-          const codes = [101];
+          const codes = [101, 13];
 
           if (codes.indexOf(code) !== -1) {
             localStorage.clear();
+            this.user._token = '';
+            this.user._details = null;
+            this.user._loggedInBy = '';
+            this.user._pages = null;
+            this.user._customer = {
+              name: '',
+              id: '',
+            };
+            this.user._menu = {
+              admin: [],
+              pages: [],
+              tyres: [],
+              battery: [],
+              vehicleMaintenance: [],
+              wareHouse: [],
+              account: [],
+              challan: [],
+            };
+            localStorage.removeItem('DOST_USER_PAGES');
             setTimeout(() => {
               this.common.showError(response['body']['msg']);
             }, 1000);

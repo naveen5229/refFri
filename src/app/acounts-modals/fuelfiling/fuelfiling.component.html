@@ -124,21 +124,25 @@
       </div>
       <div class="row">
         <div class="text_area_box">
+        <label  class="tjr-label">Remarks</label>
           <textarea class="form-control ref-input" id="narration" name="narration" [(ngModel)]="narration">
               </textarea>
         </div>
         <div class="amount_box">
+          <label  class="tjr-label">Total Amount</label>
           <input type="text" class="form-control" name="total" [(ngModel)]="total" id="total" readonly disabled>
         </div>
       </div>
       <div class="row">
-        <div class="col-8"></div>
-        <div class="col-2">
-          <button *ngIf="voucherId !=0" class="btn btn-dark" type="button" outline
+        <div class="col-10"></div>
+       
+        <div class="col-2"> 
+            <button *ngIf="voucherId !=0" class="btn btn-dark" type="button" outline
             (click)="printTripDetail()">Print</button>
-        </div>
-        <div class="col-2"> <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
-            style="cursor: pointer;">Submit</button></div>
+            <span>&nbsp; &nbsp;</span>
+            <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+            style="cursor: pointer;">Submit</button>
+          </div>
 
       </div>
     </div>

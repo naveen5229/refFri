@@ -195,7 +195,24 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         link: '/admin/vouchers-summary',
         home: true,
       },
-
+      {
+        title: 'Challan Payment Request',
+        icon: 'far fa-list-alt',
+        link: '/admin/challan-payment-request',
+        home: true,
+      },
+      {
+        title: 'Mv Gps Api Request',
+        icon: 'far fa-list-alt',
+        link: '/admin/mv-gps-api-req',
+        home: true,
+      },
+      {
+        title: 'Captcha',
+        icon: 'far fa-list-alt',
+        link: '/admin/captcha',
+        home: true,
+      },
 
     ]
   },
@@ -257,12 +274,12 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         icon: 'fa fa-chart-bar',
         link: '/admin/escalation-matrix',
       },
-      {
-        title: 'Fo Vehicle Details',
-        icon: 'fas fa-info-circle',
-        link: '/admin/vehicles-view',
-        home: true,
-      },
+      // {
+      //   title: 'Fo Vehicle Details',
+      //   icon: 'fas fa-info-circle',
+      //   link: '/admin/vehicles-view',
+      //   home: true,
+      // },
       {
         title: 'Company Details',
         icon: 'fas fa-info-circle',

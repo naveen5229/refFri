@@ -120,6 +120,7 @@ export class MvsFreightStatementComponent implements OnInit {
 
   actionIcon(row) {
     let actionIcons = [];
+    if(!row._islocked){
     actionIcons.push(
       {
         class: "far fa-eye",
@@ -135,6 +136,7 @@ export class MvsFreightStatementComponent implements OnInit {
         action: this.deleteMvsStatement.bind(this, row),
       }
     );
+  }
 
     if (row._lrcount > 0) {
       actionIcons.push({

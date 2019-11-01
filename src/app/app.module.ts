@@ -97,7 +97,6 @@ import { AddDriverCompleteComponent } from './modals/DriverModals/add-driver-com
 import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
 import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
-import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 import { DriverVehicleRemappingComponent } from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
@@ -255,6 +254,13 @@ import { FreightRateRulesComponent } from './modals/FreightRate/freight-rate-rul
 import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.component';
 import { FuelFillingTimetableComponent } from './modals/fuel-filling-timetable/fuel-filling-timetable.component';
 import { PdfViewerComponent } from './generic/pdf-viewer/pdf-viewer.component';
+import { AddSupplierAssociationComponent } from './modals/add-supplier-association/add-supplier-association.component';
+import { ChallanPendingRequestComponent } from './modals/challanModals/challan-pending-request/challan-pending-request.component';
+import { PayChallanPaymentComponent } from './modals/challanModals/pay-challan-payment/pay-challan-payment.component';
+import { AddGpsApiUrlComponent } from './modals/add-gps-api-url/add-gps-api-url.component';
+import { AddGpsWebUrlComponent } from './modals/add-gps-web-url/add-gps-web-url.component';
+import { AddGpsSupplierComponent } from './modals/add-gps-supplier/add-gps-supplier.component';
+import { VehicleDetailsUpdateComponent } from './modals/vehicle-details-update/vehicle-details-update.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -337,7 +343,6 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   RadioSelectionComponent,
   UpdateTripDetailComponent,
   ManualHaltComponent,
-  ResolveMissingIndustryComponent,
   DriverVehicleRemappingComponent,
   DriverStatusChangeComponent,
   NewDriverStatusComponent,
@@ -471,6 +476,13 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   FreightRateSummaryComponent,
   UnMergeStateComponent,
   FuelFillingTimetableComponent,
+  AddSupplierAssociationComponent,
+  ChallanPendingRequestComponent,
+  PayChallanPaymentComponent,
+  AddGpsApiUrlComponent,
+  AddGpsWebUrlComponent,
+  AddGpsSupplierComponent,
+  VehicleDetailsUpdateComponent,
 
 ];
 
@@ -479,7 +491,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     LoginComponent,
     CustomTimePipe,
     CustomDatePipe,
-    ...COMMON_COMPONENT
+    ...COMMON_COMPONENT,
   ],
   entryComponents: [
     ...COMMON_COMPONENT

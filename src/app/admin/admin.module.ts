@@ -69,6 +69,8 @@ import { VouchersSummaryComponent } from './vouchers-summary/vouchers-summary.co
 import { UserTemplatesComponent } from './user-templates/user-templates.component';
 import { WebActivitySummaryComponent } from './web-activity-summary/web-activity-summary.component';
 import { BatteryModule } from '../battery/battery.module';
+import { ChallanModule } from '../challan/challan.module';
+import { CaptchaComponent } from './captcha/captcha.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -98,7 +100,8 @@ const PAGES_COMPONENTS = [
   TripAnalysisComponent,
   VscDiagnosisComponent,
   LocationsComponent,
-  VouchersSummaryComponent
+  VouchersSummaryComponent,
+  CaptchaComponent
 
 ];
 @NgModule({
@@ -115,7 +118,8 @@ const PAGES_COMPONENTS = [
     ImageViewerModule,
     SharedModule,
     ChartModule,
-    BatteryModule
+    BatteryModule,
+    ChallanModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -155,6 +159,7 @@ const PAGES_COMPONENTS = [
     LocationsComponent,
     VouchersSummaryComponent,
     UserTemplatesComponent,
+    CaptchaComponent,
   ],
   exports: [
     // VehiclesComponent,

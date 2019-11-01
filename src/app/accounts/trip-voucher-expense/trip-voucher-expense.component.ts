@@ -51,7 +51,6 @@ export class TripVoucherExpenseComponent implements OnInit {
     public user: UserService,
     public accountService: AccountService,
     public modalService: NgbModal) {
-    this.common.currentPage = 'Trip Voucher Expense';
     // this.getTripExpences();
     this.common.refresh = this.refresh.bind(this);
     this.route.params.subscribe(params => {
@@ -61,6 +60,12 @@ export class TripVoucherExpenseComponent implements OnInit {
       }
     });
 
+    if(this.routId==0){
+    this.common.currentPage = 'Trip Voucher Expense';
+    }else{
+    this.common.currentPage = 'Trip Voucher Expense (Short)';
+
+    }
   }
 
   ngOnInit() {

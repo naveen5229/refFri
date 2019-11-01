@@ -54,6 +54,7 @@
                 <th>Start</th>
                 <th>Duration</th>
                 <th>End</th>
+                <th>Month</th>
                 <th>Location</th>
                 <th>Dist</th>
                 <th>KM/h</th>
@@ -79,6 +80,7 @@
                     {{vehicleEvent.startTimeShort||vehicleEvent.time.split('-')[2].split(' ')[0]}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.duration||vehicleEvent.timeShort}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.endTimeShort}}</td>
+                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.y_mon}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent); " *ngIf="vehicleEvent.y_site_type_id==1">
                     {{vehicleEvent.site_name}},{{vehicleEvent.loc}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.y_site_type_id!=1">

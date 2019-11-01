@@ -45,7 +45,10 @@
             <div class="col-2">
                 <strong>Halt(Hours)</strong>
             </div>
-            <div class="col-2">
+            <div class="col-1 tat">
+                <strong>TAT</strong>
+            </div>
+            <div class="col-1 tat">
                 <strong>KM</strong>
             </div>
         </div>
@@ -81,7 +84,12 @@
                 <div [ngClass]="data.scheduled_halt_time == data.actual_halt_time ?'text-black':(data.scheduled_halt_time > data.actual_halt_time  ? 'text-green' :'text-red') ">
                     {{data.actual_halt_time}}</div>
             </div>
-            <div class="col-2 mt-2">
+            <div class="col-1 rowLine ">
+                <div>{{data.scheduleTat}}</div>
+                <div [ngClass]="data.scheduleTat == data.actualTat ?'text-black':(data.scheduleTat > data.actualTat  ? 'text-green' :'text-red') ">{{data.actualTat}}</div>
+
+            </div>
+            <div class="col-1 rowLine ">
                 <div>{{data.kms}}</div>
             </div>
         </div>
