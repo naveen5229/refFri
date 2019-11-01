@@ -33,7 +33,7 @@ export class AddSupplierAssociationComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     public activeModal: NgbActiveModal) {
-    if (this.common.params && this.common.params.vehicleSupplier.id) {
+    if (this.common.params && this.common.params.vehicleSupplier) {
       this.vehicleSupplierAssociation.rowId = this.common.params.vehicleSupplier.id ? this.common.params.vehicleSupplier.id : null;
       this.title = this.vehicleSupplierAssociation.rowId ? 'Edit Vehicle Supplier Association' : 'Add Vehicle Supplier Association';
       this.button = this.vehicleSupplierAssociation.rowId ? 'Edit' : 'Add';

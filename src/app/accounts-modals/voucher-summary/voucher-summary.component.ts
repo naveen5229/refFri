@@ -56,6 +56,7 @@ export class VoucherSummaryComponent implements OnInit {
   currentOdoMeter = 0;
   fuelMilege = 0;
   totalqty = 0;
+  showSubmit=0;
   creditLedger = {
     name: '',
     id: 0
@@ -102,6 +103,9 @@ export class VoucherSummaryComponent implements OnInit {
     }
     if (this.common.params.sizeIndex) {
       this.sizeIndex = this.common.params.sizeIndex;
+    }
+    if (this.common.params.showSubmit) {
+      this.showSubmit = this.common.params.showSubmit;
     }
     if (this.common.params.endDate) {
       this.firstdate = this.common.params.firstDate;
