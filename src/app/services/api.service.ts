@@ -11,8 +11,8 @@ import { encode } from 'punycode';
 })
 export class ApiService {
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
-    //  URL: string = 'http://elogist.in/testservices/'; // prod Server
- URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev Server
+  //  URL: string = 'http://elogist.in/testservices/'; // prod Server
+  URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev Server
   //  URL: string = 'http://localhost/booster_webservices/';
   // URL: string = 'http://192.168.1.116/booster_webservices/'; // Umang
   // URL: string = 'http://localhost/booster_webservices/'; // sachin
