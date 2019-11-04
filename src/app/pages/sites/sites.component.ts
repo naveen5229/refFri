@@ -24,7 +24,6 @@ export class SitesComponent implements OnInit {
     name: null,
     id: null
   }
-
   remainingList = [];
   circle = null;
   routeId = null;
@@ -72,44 +71,40 @@ export class SitesComponent implements OnInit {
     public api: ApiService,
     public mapService: MapService,
     public user: UserService) {
-
     if (user._details.userType != 'U') {
       this.companyDetails();
-    }
-    else {
+    } else {
       this.site.company_id = this.user._details.company_id;
       this.companySites();
     }
-
     this.site.name = "Add";
   }
 
   ngOnInit() {
   }
+
   getRemainingTable() {
     // this.Location = null;
     // this.site.sitename = null;
   }
+
   ngAfterViewInit() {
     this.mapService.mapIntialize("map", 10);
     setTimeout(() => {
       this.mapService.setMapType(0);
     }, 2000);
-
     this.mapService.isDrawAllow = true;
     this.mapService.createPolygonPath();
     this.mapService.addListerner(this.mapService.map, 'click', (event) => {
 
       if (this.mapService.isDrawAllow) {
         console.log("Event", event);
-
         this.currentCenter = event.latLng;
       }
     })
 
     setTimeout(() => {
       if (this.common.params != null) {
-
         let latitude = this.common.params.vehicle.latitude;
         let longitude = this.common.params.vehicle.longitude;
         let marker = [{
@@ -169,20 +164,16 @@ export class SitesComponent implements OnInit {
       this.path += latLngs[0].lat() + " " + latLngs[0].lng() + ",";
       this.path = this.path.substr(0, this.path.length - 1);
       this.path += ")";
-
       console.log("latlong:", this.path)
     }
     if (this.site.sitename == "") {
       this.common.showError("Please fill Site Name.")
-    }
-    else {
+    } else {
       let params = {
         siteName: this.site.sitename,
-
         polygon: this.path,
         siteLoc: this.Location,
         typeId: this.typeID
-
       };
 
       this.common.loading++;
@@ -196,12 +187,10 @@ export class SitesComponent implements OnInit {
             this.site.name = "Add";
             this.Location = null;
             this.typeID = null;
-
             this.site.sitename = '';
             this.companySites();
           }
           if (res['code'] < 0) {
-
             this.common.showError(res['msg']);
             this.companySites();
           }
@@ -213,14 +202,11 @@ export class SitesComponent implements OnInit {
   }
 
   clearMapServices() {
-
     if (this.site.name == "Update") {
-
       this.mapService.resetPolygons();
       this.mapService.clearAll();
       this.path = "";
-    }
-    else {
+    } else {
       this.mapService.clearAll();
     }
   }
@@ -244,7 +230,6 @@ export class SitesComponent implements OnInit {
         this.common.loading--;
         console.log(res);
         this.Sites = res['data'];
-
         if (this.Sites != null) {
           this.showTable = true;
           this.table = this.setTable();
@@ -260,35 +245,22 @@ export class SitesComponent implements OnInit {
 
 
   showdata(datas) {
-
     this.mapService.resetPolygons();
     this.path = datas.latlongs;
-
-
     let latlong = datas.latlongs;
-
-
     this.mapService.setMultiBounds(latlong, true);
-
-
 
     for (let index = 0; index < latlong.length; index++) {
       const thisData = latlong[index];
       latlong[index] = { lat: thisData.lat, lng: thisData.lng };
-
     }
 
-
-
-
-    let latLngsMulti = [
-      {
-        data: latlong,
-        isMain: true,
-        isSec: false,
-        show: datas.name
-      }
-    ];
+    let latLngsMulti = [{
+      data: latlong,
+      isMain: true,
+      isSec: false,
+      show: datas.name
+    }];
     this.site.name = "Update";
     this.site.sitename = datas.name;
     this.site.sitetype = datas.type;
@@ -302,7 +274,6 @@ export class SitesComponent implements OnInit {
     let headings = {
       name: { title: 'Site Name', placeholder: 'Site Name' },
       loc_name: { title: 'Loc Name', placeholder: 'Loc Name' },
-
       Type: { title: 'SiteType', placeholder: 'SiteType' },
       Delete: { title: 'Delete', placeholder: 'Delete', hideSearch: true, class: 'tag' },
     };
@@ -318,6 +289,7 @@ export class SitesComponent implements OnInit {
       }
     }
   }
+
   getTableColumns() {
     let columns = [];
     this.Sites.map(res => {
@@ -341,9 +313,7 @@ export class SitesComponent implements OnInit {
     if (confirm("do you really want to delete this Site: " + row.name + "?")) {
       let params = {
         rowId: row.id,
-
       }
-
       this.mapService.clearAll();
       this.common.loading++;
       this.api.post('SiteFencing/deleteSiteAndFenceWrtFo', params)
@@ -367,6 +337,6 @@ export class SitesComponent implements OnInit {
   }
   selectLocation(res) {
     this.Location = res.location;
-
   }
+
 }
