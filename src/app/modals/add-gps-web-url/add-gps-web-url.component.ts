@@ -83,7 +83,14 @@ export class AddGpsWebUrlComponent implements OnInit {
       this.api.post('GpsData/addGpsWebUrl', params)
         .subscribe(res => {
           --this.common.loading;
-          this.activeModel.close({ response: true });
+          console.log("Api result", res);
+          if (res['data'][0].y_id > 0) {
+            this.common.showToast(res['data'][0].y_msg);
+            this.activeModel.close({ response: true });
+          } else {
+            this.common.showError(res['data'][0].y_msg);
+          }
+
         },
           err => {
             --this.common.loading;
