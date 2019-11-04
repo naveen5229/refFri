@@ -494,7 +494,14 @@
               </tr>
           </table>
         </div>
-        <div><button class="btn btn-primary" (click)=saveDetails()>{{btnTxt}}</button></div>
+        <div><label>Next Page</label>
+          <select [(ngModel)]='nextPage' style="margin-left: 20px;">
+            <option value = 'revenue'>Revenue</option>
+            <option value = 'expense'>Expense</option>
+            <option velue = 'print'>Print</option>
+            <option value = 'close'>Close</option>
+          </select>
+          <button class="btn btn-primary" (click)="saveDetails()" style="margin-left: 20px;">{{btnTxt}}</button></div>
 
       </div>
 

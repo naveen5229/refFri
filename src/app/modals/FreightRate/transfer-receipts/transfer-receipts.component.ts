@@ -31,7 +31,7 @@ export class TransferReceiptsComponent implements OnInit {
     refId: null,
     refTypeName: null,
     date: new Date(),
-    selectOption: "transfer",
+    selectOption: "Transfer",
     adviceTypeId: '-1',
     modeId: '-1',
     amount: null,
@@ -90,7 +90,7 @@ export class TransferReceiptsComponent implements OnInit {
       }else{
         this.transferReceipt.refernceType = this.common.params.refData.refType;
         this.transferReceipt.refId = this.common.params.refData.refId;
-        this.transferReceipt.selectOption = this.common.params.refData.selectOption ? this.common.params.refData.selectOption : 'transfer';  
+        this.transferReceipt.selectOption = this.common.params.refData.selectOption ? this.common.params.refData.selectOption : 'Transfer';  
       this.getReferenceData();
       this.showdata();
       this.getRefernceType(this.transferReceipt.refernceType);
