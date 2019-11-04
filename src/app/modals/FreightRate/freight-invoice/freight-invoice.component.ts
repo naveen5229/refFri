@@ -63,7 +63,7 @@ export class FreightInvoiceComponent implements OnInit {
           this.freightInvoice.branchId = res['data'][0].branch_id;
           this.freightInvoice.branchName = res['data'][0].branch_name;
           this.freightInvoice.companyId = res['data'][0].party_id;
-          this.freightInvoice.companyName = res['data'][0].party_address;
+          this.freightInvoice.companyName = res['data'][0].party_name;
           this.freightInvoice.invoiceNo = res['data'][0].inv_no;
           this.freightInvoice.date = new Date(res['data'][0].inv_date);
           this.freightInvoice.remark = res['data'][0].remarks;
