@@ -36,6 +36,9 @@ export class CaptchaComponent implements OnInit {
         console.log('Res:', res);
         // if (res['data'] && res['data'].length)
         this.captchas = res['data'].map(captcha => { captcha.txt = ''; return captcha; });
+        setTimeout(() => {
+          if (this.captchas.length) document.getElementById("captcha-0").focus();
+        }, 300);
         // this.captchas.push(...res['data'].splice(0, 5 - this.captchas.length).map(captcha => { captcha.txt = ''; return captcha }));
       }, err => {
         console.log('Error: ', err);
@@ -50,6 +53,8 @@ export class CaptchaComponent implements OnInit {
   }
 
   sendCaptchaTxt(captcha, index) {
+    console.log("index:", index);
+
     this.captchas.splice(index, 1);
     let params = {
       text: captcha.txt,
@@ -63,9 +68,9 @@ export class CaptchaComponent implements OnInit {
       }, err => {
         console.log('Error: ', err);
       })
-    setTimeout(() => {
-      if (this.captchas.length) document.getElementById("captcha-0").focus();
-    }, 500);
+    // setTimeout(() => {
+    //   if (this.captchas.length) document.getElementById("captcha-0").focus();
+    // }, 300);
   }
 
 }

@@ -404,7 +404,7 @@ export class LrRateComponent implements OnInit {
     let refdata = {
       refId : this.lrId,
       refType : 11,
-      selectOption:this.type?'transfer':'receipt'
+      selectOption:this.type?'Transfer':'Receipt'
     }
     this.common.params = { refData: refdata };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
