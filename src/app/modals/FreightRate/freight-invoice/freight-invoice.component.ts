@@ -59,6 +59,22 @@ export class FreightInvoiceComponent implements OnInit {
         console.log("InvoiceDetails:", res['data']);
         if(res['data'])
         {
+          console.log("this.common.params.invoiceDetail",this.common.params.invoiceDetail.type,"this.common.params.invoiceDetail.title",this.common.params.invoiceDetail.title);
+          if(this.common.params.invoiceDetail.type && this.common.params.invoiceDetail.type>1&&  this.common.params.invoiceDetail.title == 'add'){
+            this.freightInvoice.branchId = res['data'][0].branch_id;
+            this.freightInvoice.branchName = res['data'][0].branch_name;
+            this.freightInvoice.companyId = res['data'][0].party_id;
+            this.freightInvoice.companyName = res['data'][0].party_name;
+            this.freightInvoice.date = new Date(res['data'][0].inv_date);
+            this.freightInvoice.remark = res['data'][0].remarks;
+            this.freightInvoice.gst = res['data'][0].tax;
+            this.freightInvoice.id = null;
+            this.state = res['data'][0]._is_samestate == "same" ? true : false;
+            this.freightInvoice.parentId = res['data'][0].id;
+            this.freightInvoice.type = this.common.params.invoiceDetail.type;
+          }
+
+          else{
           this.showhide.show = false;
           this.freightInvoice.branchId = res['data'][0].branch_id;
           this.freightInvoice.branchName = res['data'][0].branch_name;
@@ -77,7 +93,7 @@ export class FreightInvoiceComponent implements OnInit {
           this.material.id = res['data'][0].material_id;;
           this.material.name = res['data'][0].material_name;
           this.btnTxt="Update Invoice";
-        }
+       } }
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -89,18 +105,7 @@ export class FreightInvoiceComponent implements OnInit {
 
     
     // }
-    // else if(this.common.params.type && this.common.params.type>1&&  this.common.params.title == 'add'){
-    //   this.freightInvoice.branchId = this.common.params.freightInvoice._branch_id;
-    //   this.freightInvoice.branchName = this.common.params.freightInvoice['Branch Name'];
-    //   this.freightInvoice.companyId = this.common.params.freightInvoice._party_id;
-    //   this.freightInvoice.companyName = this.common.params.freightInvoice['Party Name'];
-    //   this.freightInvoice.date = new Date(this.common.params.freightInvoice._inv_date);
-    //   this.freightInvoice.remark = this.common.params.freightInvoice._remarks;
-    //   this.freightInvoice.gst = this.common.params.freightInvoice._gst;
-    //   this.state = this.common.params.freightInvoice._is_samestate == "same" ? true : false;
-    //   this.freightInvoice.parentId = this.common.params.freightInvoice['_id'];
-    //   this.freightInvoice.type = this.common.params.type;
-    // }
+    
   }
 
   ngOnInit() {
