@@ -274,12 +274,12 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         icon: 'fa fa-chart-bar',
         link: '/admin/escalation-matrix',
       },
-      {
-        title: 'Fo Vehicle Details',
-        icon: 'fas fa-info-circle',
-        link: '/admin/vehicles-view',
-        home: true,
-      },
+      // {
+      //   title: 'Fo Vehicle Details',
+      //   icon: 'fas fa-info-circle',
+      //   link: '/admin/vehicles-view',
+      //   home: true,
+      // },
       {
         title: 'Company Details',
         icon: 'fas fa-info-circle',

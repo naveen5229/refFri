@@ -13,6 +13,9 @@ import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/v
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
 import { promise } from 'selenium-webdriver';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
+import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
+import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 
 @Component({
   selector: 'daybook',
@@ -599,7 +602,7 @@ console.log('fuel data 111',fueldata);
     let tripPendingDataSelected = this.pendingDataEditTme;
     let VoucherData = this.VoucherEditTime;
     let typeFlag = 1;
-    let permanentDelete = this.deletedId;
+    let permanentDelete = 0;//this.deletedId
     let sizeIndex = 1;
     
 
@@ -690,5 +693,60 @@ console.log('fuel data 111',fueldata);
     })
    
   }
+  editTransfer(transferId?) {
+    if(transferId){
+    let refData = {
+      transferId:transferId,
+      readOnly:true
+    }
+    this.common.params = { refData: refData };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    //  this.viewTransfer();
+    });
+  }else{
+    this.common.showError('Please Select another entry');
+  }
+}
+
+openfreight(freightId){
+  if(freightId){
+  let invoice = {
+    id: freightId,
+  }
+
+  this.common.params = { invoice: invoice ,freightIndex:1}
+  const activeModal = this.modalService.open(ViewMVSFreightStatementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+  activeModal.result.then(data => {
+    console.log('Date:', data);
+
+  });
+}else{
+  this.common.showError('Please Select another Entry');
+}
+}
+
+openRevenue(freightId){
+  if(freightId){
+  let previewData = {
+    title: 'Invoice',
+    previewId: null,
+    refId: freightId,
+    refType: "FRINV"
+  }
+  this.common.params = { previewData };
+
+  // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+  const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
+
+  activeModal.result.then(data => {
+    console.log('Date:', data);
+  });
+
+    }else{
+      this.common.showError('Please Select another Entry');
+    }
+}
 }
 

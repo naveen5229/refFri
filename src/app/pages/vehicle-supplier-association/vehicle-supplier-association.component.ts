@@ -128,11 +128,6 @@ export class VehicleSupplierAssociationComponent implements OnInit {
 
 
   addSupplierAssociation() {
-    let vehicleSupplier = {
-      title: 'Add Vehicle Supplier Association',
-      button: 'Add'
-    }
-    this.common.params = { vehicleSupplier };
     const activeModal = this.modalService.open(AddSupplierAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -143,18 +138,9 @@ export class VehicleSupplierAssociationComponent implements OnInit {
 
   editSupplier(supplier) {
     let vehicleSupplier = {
-      title: 'Edit Vehicle Supplier Association',
-      button: 'Edit',
-      rowId: supplier._rowid,
-      partyId: supplier._partyid,
-      partyName: supplier.Company,
-      vehicleId: supplier._vid,
-      regno: supplier.Regno,
-      driverName: supplier.Driver,
-      mobileNo: supplier['Mobile No'],
-      licensce: supplier['License No']
+      id: supplier._rowid,
     };
-    this.common.params = { vehicleSupplier };
+    this.common.params = { vehicleSupplier: vehicleSupplier };
     const activeModal = this.modalService.open(AddSupplierAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {

@@ -84,11 +84,6 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
 
 
       {
-        title: 'Routes',
-        icon: 'fa fa-pencil-square-o',
-        link: '/pages/via-routes',
-      },
-      {
         title: 'Route-Dashboard',
         icon: 'fas fa-map-marked',
         link: '/pages/route-dashboard'
@@ -194,6 +189,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fas fa-clone',
         link: '/pages/mv-gps-apis',
         home: true,
+      },
+      {
+        title: 'Routes',
+        icon: 'fa fa-pencil-square-o',
+        link: '/pages/via-routes',
       },
     ]
   },

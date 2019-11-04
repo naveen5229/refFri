@@ -10,33 +10,34 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div class="row row align-items-end mb-3">
-      <div class="col-1">
+    <table style="width: 100%">
+      <tr>
+      <td>
         <label>Gen. By</label>
         <select class="form-control" name="viewType" [(ngModel)]="viewType">
           <option value="allLR">All</option>
           <option value="myLr">Self</option>
         </select>
-      </div>
-      <div class="col-sm-1-5 ml-2">
+      </td>
+      <td>
         <label>Category</label>
         <select [(ngModel)]="lrCategory" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="0">FTL</option>
           <option value="1">LTL</option>
           <option value="-1">All</option>
         </select>
-      </div>
-      <div class="col-sm-1-5 ml-2">
+      </td>
+      <td>
         <label>From :</label>
         <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
           placeholder="Start Date" (click)="getDate('start')">
-      </div>
-      <div class="col-sm-1-5 ml-2">
+      </td>
+      <td>
         <label>To :</label>
         <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
           placeholder="End Date" (click)="getDate('end')">
-      </div>
-      <div class="col-sm-1-5 ml-2">
+      </td>
+      <td>
         <label>LR Status</label>
         <select [(ngModel)]="lrType" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="0">Pending</option>
@@ -44,9 +45,9 @@
           <option value="-1">Rejected</option>
           <option value="2">All</option>
         </select>
-      </div>
+      </td>
 
-      <div class="col-sm-1-5 ml-2">
+      <td>
         <label>Vehicle Type</label>
         <select class="form-control"
           style=" border: 2px solid darkcyan; font-size: 13px">
@@ -55,8 +56,8 @@
           <option value="2">Group</option>
           <option value="3">Market</option>
         </select>
-      </div>
-      <div class="col-sm-1-5 ml-2" >
+      </td>
+      <td>
         <label>Search String</label>
         <select class="form-control"
         style=" border: 2px solid darkcyan; font-size: 13px" [(ngModel)]="searchString">
@@ -69,18 +70,18 @@
         <option value="dest">Destination</option>
         <option value="supplier">Supplier</option>
       </select>
-      </div>
-      <div class="col-sm-1-5 ml-2">
+    </td>
+      <td>
         <label>Search Value</label>
         <input type="text" class="form-control" [(ngModel)]="searchValue" autocomplete="off" name="searchValue">
-      </div>
+      </td>
 
 
-      <div class="col-sm-1">
+      <td>
         <button class="btn btn-primary m-0 p-0 w-100 text-capitalize" (click)="getLorryReceipts()">submit</button>
-      </div>
-
-    </div>
+      </td>
+    </tr>
+    </table>
     <div>
       <smart-table *ngIf="receipts && receipts.length" [data]="table.receipts" [settings]="table.settings"
         id="tblLorryReceipt">
