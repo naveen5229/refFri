@@ -212,7 +212,7 @@ export class SitesComponent implements OnInit {
 
   showdata(datas) {
     console.log("Data", datas);
-    this.path = datas.polyFence;
+    this.path = datas.fences;
     this.mapService.resetPolygons();
     let latlong = datas.latlongs;
     this.mapService.setMultiBounds(latlong, true);
@@ -232,8 +232,8 @@ export class SitesComponent implements OnInit {
     this.site.sitetype = datas.type;
     this.site.id = datas.id;
     this.Location = datas.loc_name;
-    this.typeID = datas.
-      this.mapService.resetPolygons();
+    this.typeID = datas._type_id;
+    this.mapService.resetPolygons();
     this.mapService.createPolygons(latLngsMulti);
   }
 
