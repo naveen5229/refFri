@@ -135,14 +135,15 @@ export class SitesComponent implements OnInit {
       this.common.showError("Please fill Site Name.")
     } else {
       let params = {
+        siteId: this.site.id,
         siteName: this.site.sitename,
         polygon: this.path,
         siteLoc: this.Location,
         typeId: this.typeID
       };
-
+      let url = this.site.id ? 'SiteFencing/updateSiteFence' : 'SiteFencing/createSiteAndFenceWrtFo';
       this.common.loading++;
-      this.api.post('SiteFencing/createSiteAndFenceWrtFo', params)
+      this.api.post(url, params)
         .subscribe(res => {
           this.common.loading--;
           console.log("Success:", res);
