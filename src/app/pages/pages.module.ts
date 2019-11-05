@@ -86,6 +86,8 @@ import { MvsFreightStatementComponent } from './mvs-freight-statement/mvs-freigh
 import { UnmergeLRStateComponent } from './unmerge-lrstate/unmerge-lrstate.component';
 import { VehicleSupplierAssociationComponent } from './vehicle-supplier-association/vehicle-supplier-association.component';
 import { MvGpsApisComponent } from './mv-gps-apis/mv-gps-apis.component';
+import { VehicleDetailsUpdateComponent } from '../modals/vehicle-details-update/vehicle-details-update.component';
+import { MvGpsApiHistoryComponent } from './mv-gps-api-history/mv-gps-api-history.component';
 
 
 
@@ -173,8 +175,8 @@ const PAGES_COMPONENTS = [
     MvsFreightStatementComponent,
     UnmergeLRStateComponent,
     VehicleSupplierAssociationComponent,
-    MvGpsApisComponent
-
+    MvGpsApisComponent,
+    MvGpsApiHistoryComponent,
 
 
   ],

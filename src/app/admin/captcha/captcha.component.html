@@ -10,7 +10,7 @@
         </div>
         <div>
           <input type="text" [name]="'captcha-'+ i" [id]="'captcha-' + i" placeholder="Enter Captcha"
-            [(ngModel)]="captcha.txt" class="form-control" (keyup.enter)="captchaValidator(captcha,i)">
+            [(ngModel)]="captcha.txt" class="form-control" autofocus (keyup.enter)="captchaValidator(captcha,i)">
         </div>
         <div>
           <button type="submit" class="btn btn-primary m-0" name="submitCaptcha"

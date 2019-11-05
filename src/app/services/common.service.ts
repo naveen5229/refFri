@@ -969,26 +969,44 @@ export class CommonService {
   }
 
   downloadPdf(divId, isLandscape?) {
+    this.loading++;
+    console.log("loder++");
+
     var data = document.getElementById(divId);
-    // console.log("data",data);
     html2canvas(data, {
       useCORS: true,
-      scale: 3
+      scale: 2
     }).then(canvas => {
-      // Few necessary setting options  
-      var imgWidth = isLandscape ? 295 : 208;
-      var pageHeight = isLandscape ? 208 : 295;
-      let imgHeight = isLandscape ? 208 : 295;
-      // var imgHeight = canvas.height * imgWidth / canvas.width;
-      console.log('height:', imgHeight);
-      var heightLeft = imgHeight;
+      var imgData = canvas.toDataURL('image/png');
+        var imgWidth = isLandscape ? 295 : 208;
+        var pageHeight = isLandscape ? 208 : 295;
+        let imgHeight = isLandscape ? 208 : 295;
+        var heightLeft = imgHeight;
 
-      const contentDataURL = canvas.toDataURL('image/png')
-      let pdf = new jsPDF(isLandscape ? 'l' : 'p', 'mm', 'a4'); // A4 size page of PDF  
+        // var imgWidth = 210; 
+        // var pageHeight = 295;  
+        // var imgHeight = canvas.height * imgWidth / canvas.width;
+        // var heightLeft = imgHeight;
+
+      let doc = new jsPDF(isLandscape ? 'l' : 'p', 'mm', 'a4');
       var position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-      pdf.save('MYPdf.pdf'); // Generated PDF   
+
+      doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      console.log(heightLeft);
+      heightLeft -= pageHeight;
+      console.log(heightLeft);
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        doc.addPage();
+        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+      doc.save( 'file.pdf');
+      console.log("loder--");
+       this.loading--;
+       this.showToast("pdf sucessfully download");
     });
+
   }
 
   getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?) {
