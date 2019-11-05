@@ -91,7 +91,7 @@ export class MvGpsApiReqComponent implements OnInit {
       let column = {};
       for (let key in this.generateHeadings(chHeadings)) {
         if (key == "Action") {
-          column[key] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.addGpsWebUrl.bind(this, item) }] }
+          column[key] = { value: "", action: null, icons: [{ class: item._status == 1 ? '' : 'far fa-edit', action: item._status == 1 ? '' : this.addGpsWebUrl.bind(this, item) }] }
         } else {
           column[key] = { value: item[key], class: 'black', action: '' };
         }
