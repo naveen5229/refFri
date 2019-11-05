@@ -299,6 +299,11 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         link: '/admin/user-templates',
         home: true,
       },
+      {
+        title: 'Routes',
+        icon: 'fa fa-pencil-square-o',
+        link: '/admin/via-routes',
+      },
     ]
   },
 
@@ -429,10 +434,6 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
     ]
   },
 
-  {
-    title: 'Routes',
-    icon: 'fa fa-pencil-square-o',
-    link: '/admin/via-routes',
-  },
+
 
 ]);
