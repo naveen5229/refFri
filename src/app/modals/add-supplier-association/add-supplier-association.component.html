@@ -10,7 +10,7 @@
       <div class="col-3">
         <label>Party</label>
       </div>
-      <div class="col-3">
+      <div class="col-4">
         <auto-suggestion (onSelected)="selectParty($event)" url="Suggestion/GetCompanies2?type=MVS" display="name"
           placeholder="Party" [preSelected]="{name:vehicleSupplierAssociation.partyName}"></auto-suggestion>
       </div>

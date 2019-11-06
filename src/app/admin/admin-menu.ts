@@ -274,12 +274,12 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         icon: 'fa fa-chart-bar',
         link: '/admin/escalation-matrix',
       },
-      {
-        title: 'Fo Vehicle Details',
-        icon: 'fas fa-info-circle',
-        link: '/admin/vehicles-view',
-        home: true,
-      },
+      // {
+      //   title: 'Fo Vehicle Details',
+      //   icon: 'fas fa-info-circle',
+      //   link: '/admin/vehicles-view',
+      //   home: true,
+      // },
       {
         title: 'Company Details',
         icon: 'fas fa-info-circle',
@@ -298,6 +298,11 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         icon: 'far fa-user',
         link: '/admin/user-templates',
         home: true,
+      },
+      {
+        title: 'Routes',
+        icon: 'fa fa-pencil-square-o',
+        link: '/admin/via-routes',
       },
     ]
   },
@@ -429,10 +434,6 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
     ]
   },
 
-  {
-    title: 'Routes',
-    icon: 'fa fa-pencil-square-o',
-    link: '/admin/via-routes',
-  },
+
 
 ]);

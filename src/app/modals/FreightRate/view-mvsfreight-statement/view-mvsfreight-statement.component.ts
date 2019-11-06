@@ -19,6 +19,7 @@ export class ViewMVSFreightStatementComponent implements OnInit {
   columnsValue = [];
   amountData = null;
   amountDataKeys = [];
+  freightIndex=0;
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -26,9 +27,9 @@ export class ViewMVSFreightStatementComponent implements OnInit {
     public renderer: Renderer,
     public modalService: NgbModal
   ) {
-
+    this.freightIndex= this.common.params.freightIndex;
     this.invoiceId = this.common.params.invoice.id;
-    this.common.handleModalSize('class', 'modal-lg', '1600');
+    this.common.handleModalSize('class', 'modal-lg', '1600','px',this.freightIndex);
    this.printInvoice();
   }
 

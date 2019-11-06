@@ -11,23 +11,36 @@ import { ApiService } from '../../services/api.service';
 })
 export class AddGpsWebUrlComponent implements OnInit {
 
-  gpsSupplierList=[];
-  gpsSupplierId=null;
-  gpsUrl=''
-  rowId=this.common.params;
+  gpsSupplierList = [];
+  gpsSupplierId = null;
+  gpsSupplierName = '';
+  gpsUrl = ''
+  rowId = this.common.params;
 
-  constructor(public common:CommonService,
+  constructor(public common: CommonService,
     public activeModel: NgbActiveModal,
-    public api:ApiService,
-    private modalService: NgbModal,) { 
+    public api: ApiService,
+    private modalService: NgbModal, ) {
     this.common.handleModalSize('class', 'modal-lg', '480');
+    if (this.common.params && this.common.params.gpsData) {
+      this.rowId = this.common.params.gpsData.rowId;
+      this.gpsSupplierId = this.common.params.gpsData.supplierId;
+      this.gpsSupplierName = this.common.params.gpsData.supplierName;
+      this.gpsUrl = this.common.params.gpsData.url;
+
+    }
     this.getGpsSupplierList();
   }
 
   ngOnInit() {
   }
+  selectSupplierData(gps) {
+    this.gpsSupplierId = gps.id;
+    this.gpsSupplierName = gps.name;
 
-  addNewGpsSupplier(){
+  }
+
+  addNewGpsSupplier() {
     const activeModal = this.modalService.open(AddGpsSupplierComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -55,29 +68,36 @@ export class AddGpsWebUrlComponent implements OnInit {
     this.activeModel.close({ response: false });
   }
 
-  addGpsWebUrl(){
-    if(this.gpsSupplierId==null){
+  addGpsWebUrl() {
+    if (this.gpsSupplierId == null) {
       this.common.showError("Please Enter Gps Supplier")
-    }else if(this.gpsUrl==''){
+    } else if (this.gpsUrl == '') {
       this.common.showError("Please Enter Gps Url")
-    }else{
-      let params={
-        gpsSupplierId:this.gpsSupplierId,
-        url:this.gpsUrl,
-        rowId:this.rowId,
+    } else {
+      let params = {
+        gpsSupplierId: this.gpsSupplierId,
+        url: this.gpsUrl,
+        rowId: this.rowId,
       }
       this.common.loading++;
       this.api.post('GpsData/addGpsWebUrl', params)
         .subscribe(res => {
           --this.common.loading;
-          this.activeModel.close({ response: true });
+          console.log("Api result", res);
+          if (res['data'][0].y_id > 0) {
+            this.common.showToast(res['data'][0].y_msg);
+            this.activeModel.close({ response: true });
+          } else {
+            this.common.showError(res['data'][0].y_msg);
+          }
+
         },
           err => {
             --this.common.loading;
             console.error(' Api Error:', err)
           });
     }
-    
+
   }
 
 }

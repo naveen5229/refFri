@@ -87,6 +87,7 @@ import { MvsFreightStatementComponent } from './mvs-freight-statement/mvs-freigh
 import { UnmergeLRStateComponent } from './unmerge-lrstate/unmerge-lrstate.component';
 import { VehicleSupplierAssociationComponent } from './vehicle-supplier-association/vehicle-supplier-association.component';
 import { MvGpsApisComponent } from './mv-gps-apis/mv-gps-apis.component';
+import { MvGpsApiHistoryComponent } from './mv-gps-api-history/mv-gps-api-history.component';
 
 
 const routes: Routes = [{
@@ -539,6 +540,11 @@ const routes: Routes = [{
   {
     path: 'mv-gps-apis',
     component: MvGpsApisComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'mv-gps-api-history',
+    component: MvGpsApiHistoryComponent,
     canActivate: [AuthGuard, RouteGuard]
   },
 
