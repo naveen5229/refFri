@@ -193,10 +193,10 @@ export class LorryRecciptsComponent implements OnInit {
 
   setTable() {
     let headings = {
-      LRId: { title: 'LR Id', placeholder: 'LR Id' },
-      VehiceNo: { title: 'Vehicle No', placeholder: 'Vehicle No' },
+      // LRId: { title: 'LR Id', placeholder: 'LR Id' },
       LRNo: { title: 'LR No', placeholder: 'LR No' },
       LRDate: { title: 'LR Date', placeholder: 'LR Date' },
+      VehiceNo: { title: 'Vehicle No', placeholder: 'Vehicle No' },     
       Consigner: { title: 'Consigner', placeholder: 'Consigner' },
       Consignee: { title: 'Consignee', placeholder: 'Consignee' },
       TA: { title: 'TA', placeholder: 'TA' },

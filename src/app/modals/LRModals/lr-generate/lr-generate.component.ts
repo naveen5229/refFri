@@ -420,8 +420,8 @@ export class LrGenerateComponent implements OnInit {
     this.particulars.push(newParticular);
   }
 
-  saveDetails() {
-    console.log("vehicleId 3", this.vehicleData.id);
+  saveDetails(print?) {
+    console.log("print?",print);
     // return;
     this.lrGeneralField = this.generalDetailColumn2.concat(this.generalDetailColumn1);
     console.log("lr details", JSON.stringify(this.lrGeneralField));
@@ -471,7 +471,7 @@ export class LrGenerateComponent implements OnInit {
         }else if(this.nextPage == 'expense'){
           this.lrRates(res['data'][0].rtn_id, 1);
           this.closeModal(false);
-        }else if(this.nextPage == 'print' || this.nextPage == 'Print'){
+        }else if(this.nextPage == 'print' || this.nextPage == 'Print'||print ){
           this.closeModal(false);
          this.printLr(res['data'][0].rtn_id);
         }
