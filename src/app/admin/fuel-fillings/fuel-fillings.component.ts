@@ -81,7 +81,7 @@ export class FuelFillingsComponent implements OnInit {
   getFillingData() {
     const params = {
       startTime: this.dates.start,
-      endTime: this.dates.end,
+      endTime: this.dates.end + ' ' + '23:59:59',
     }
 
     this.common.loading++;
@@ -92,7 +92,7 @@ export class FuelFillingsComponent implements OnInit {
     this.api.post('FuelDetails/getFuelFillingEntries', params)
       .subscribe(res => {
         this.common.loading--;
-        this.fillingData = res['data'];
+        this.fillingData = res['data'] || [];
         console.info("filling Data", this.fillingData);
 
         console.log(this.table.data.headings);
@@ -111,7 +111,11 @@ export class FuelFillingsComponent implements OnInit {
     this.common.params = { rowfilling, title: 'Edit Fuel Filling' };
     const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
+      if (data.response) {
+        this.getFillingData();
+        // window.location.reload();
 
+      }
     });
   }
 
@@ -134,7 +138,9 @@ export class FuelFillingsComponent implements OnInit {
     const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        window.location.reload();
+        this.getFillingData();
+        // window.location.reload();
+
       }
     });
   }
@@ -264,7 +270,7 @@ export class FuelFillingsComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = "FoName:" + fodata['name'];
         let center_heading = "Report:" + "Fuel Filling";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
       }, err => {
         this.common.loading--;
         console.log(err);

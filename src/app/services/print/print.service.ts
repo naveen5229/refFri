@@ -55,7 +55,6 @@ export class PrintService {
    */
   printInvoice(json: any, format: number = 1) {
     this['invoiceFormat' + format](this.createPrintWrapper(), json);
-    console.log('json Format data', json);
     this.print();
   }
 
@@ -131,64 +130,259 @@ export class PrintService {
   * @param ppContainer - All printing pages container
   * @param json - JSON data in format 1
   */
- invoiceFormat2(ppContainer: HTMLElement, json: any) {
-  const DPI = this.getDPI();
-  const pageSize = PAGE_SIZE[this.detectBrowser()];
-  let pageIndex = 1;
-  let previousPageContainer = null;
-  json.tables.map((tableJSON, tableIndex) => {
-    let rowIndex = 0;
-   // while (rowIndex < tableJSON.rows.length) {
+  invoiceFormat2(ppContainer: HTMLElement, json: any) {
+    const DPI = this.getDPI();
+    const pageSize = PAGE_SIZE[this.detectBrowser()];
+    // console.log('DPI:', DPI);
+    // console.log('pageSize:', pageSize);
+    let pageIndex = 1;
+    let previousPageContainer = null;
+    json.tables.map((tableJSON, tableIndex) => {
+      let rowIndex = 0;
+      while (rowIndex < tableJSON.rows.length) {
+        let pageContainer = previousPageContainer;
+        if (!pageContainer) {
+          pageContainer = this.createPageHtml();
+          ppContainer.appendChild(pageContainer);
+        }
+
+        let page = pageContainer.children[0];
+        let pageInsider = page.children[0];
+        if (tableIndex === 0 && rowIndex === 0) {
+          pageInsider.appendChild(this.createHeaderHtml(json.headers));
+          pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
+        }
+
+        let tableContainer = this.createTableHtml(tableJSON.name);
+        pageInsider.appendChild(tableContainer);
+        let table = tableContainer.children[1];
+        if (rowIndex == 0) {
+          table.appendChild(this.createTheadHtml(tableJSON.headings));
+        }
+
+        let tbody = this.createTbodyHtml()
+        table.appendChild(tbody);
+        let newPageFlag = false;
+        for (let i = rowIndex; i < tableJSON.rows.length; i++) {
+          let row = this.createTrHtml(tableJSON.rows[i]);
+          tbody.appendChild(row);
+          let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
+          // console.log('rowIndex', rowIndex, 'MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+          if (mm > pageSize) {
+            rowIndex = i + 1;
+            newPageFlag = true;
+            // console.log('___________________NEW PAGE__________________');
+            break;
+          }
+          rowIndex++;
+        }
+        if (rowIndex == tableJSON.rows.length && tableIndex == json.tables.length - 1) {
+          pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
+          pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+        }
+
+        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+        if (!newPageFlag) {
+          previousPageContainer = pageContainer;
+        } else {
+          pageIndex++;
+          previousPageContainer = null;
+        }
+      }
+    });
+  }
+
+
+  /**
+   * Invoice Format 2 : This is one format of invoice if you want to create like this, you can use it.
+   * @param ppContainer - All printing pages container
+   * @param json - JSON data in format 1
+   */
+  generalPrint(json: any) {
+    let ppContainer = this.createPrintWrapper();
+    const DPI = this.getDPI();
+    const pageSize = PAGE_SIZE[this.detectBrowser()];
+    let pageIndex = 1;
+    let previousPageContainer = null;
+
+    json.tables.map((tableJSON, tableIndex) => {
+      let rowIndex = 0;
+      while (rowIndex < tableJSON.rows.length) {
+        let pageContainer = previousPageContainer;
+        if (!pageContainer) {
+          pageContainer = this.createPageHtml();
+          ppContainer.appendChild(pageContainer);
+        }
+
+        let page = pageContainer.children[0];
+        let pageInsider = page.children[0];
+        if (tableIndex === 0 && rowIndex === 0) {
+          pageInsider.appendChild(this.createHeaderHtml(json.headers));
+          pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
+        }
+
+        let tableContainer = this.createTableHtml(tableJSON.name);
+        pageInsider.appendChild(tableContainer);
+        let table = tableContainer.children[tableJSON.name ? 1 : 0];
+        // if (rowIndex == 0) {
+        table.appendChild(this.createTheadHtml(tableJSON.headings));
+        // }
+
+        let tbody = this.createTbodyHtml()
+        table.appendChild(tbody);
+        let newPageFlag = false;
+        for (let i = rowIndex; i < tableJSON.rows.length; i++) {
+          let row = this.createTrHtml(tableJSON.rows[i]);
+          tbody.appendChild(row);
+          let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
+          // console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+          if (mm > pageSize && i != tableJSON.rows.length - 1) {
+            rowIndex = i + 1;
+            newPageFlag = true;
+            break;
+          }
+          rowIndex++;
+        }
+        if (rowIndex == tableJSON.rows.length && tableIndex == json.tables.length - 1) {
+          pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
+          pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+        }
+
+        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+        if (!newPageFlag) {
+          previousPageContainer = pageContainer;
+        } else {
+          pageIndex++;
+          previousPageContainer = null;
+        }
+      }
+    });
+    this.print();
+  }
+
+  /**
+   * Invoice Format 2 : This is one format of invoice if you want to create like this, you can use it.
+   * @param ppContainer - All printing pages container
+   * @param json - JSON data in format 1
+   */
+  generalPrint2(json: any) {
+    let ppContainer = this.createPrintWrapper();
+    const DPI = this.getDPI();
+    const pageSize = PAGE_SIZE[this.detectBrowser()] - 1;
+    let pageIndex = 1;
+    let previousPageContainer = null;
+    let headerIndex = 0;
+    while (headerIndex < json.headers.length) {
+      let header = json.headers[headerIndex];
       let pageContainer = previousPageContainer;
       if (!pageContainer) {
         pageContainer = this.createPageHtml();
         ppContainer.appendChild(pageContainer);
       }
-
       let page = pageContainer.children[0];
       let pageInsider = page.children[0];
-      if (tableIndex === 0 && rowIndex === 0) {
-        pageInsider.appendChild(this.createHeaderHtml(json.headers));
-        pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
-      }
-
-      let tableContainer = this.createTableHtml(tableJSON.name);
-      pageInsider.appendChild(tableContainer);
-      let table = tableContainer.children[1];
-      if (rowIndex == 0) {
-        table.appendChild(this.createTheadHtml(tableJSON.headings));
-      }
-
-      let tbody = this.createTbodyHtml()
-      table.appendChild(tbody);
-      let newPageFlag = false;
-      for (let i = rowIndex; i < tableJSON.rows.length; i++) {
-        let row = this.createTrHtml(tableJSON.rows[i]);
-        tbody.appendChild(row);
-        let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
-        console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
-        if (mm > pageSize && i != tableJSON.rows.length - 1) {
-          rowIndex = i + 1;
-          newPageFlag = true;
-          break;
-        }
-        rowIndex++;
-      }
-      if (rowIndex == tableJSON.rows.length && tableIndex == json.tables.length - 1) {
-           pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
-        pageContainer.appendChild(this.createSignatureHtml(json.signatures));
-      }
-
-      pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
-      if (!newPageFlag) {
-        previousPageContainer = pageContainer;
-      } else {
-        pageIndex++;
+      let headerHtml = this.createHeader2(header);
+      pageInsider.appendChild(headerHtml);
+      let mm = ((pageInsider['offsetHeight']) * 25.4) / DPI;
+      // console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+      if (mm > pageSize) {
+        pageInsider.removeChild(headerHtml);
         previousPageContainer = null;
+        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+        pageIndex++;
+      } else {
+        headerIndex++;
+        previousPageContainer = pageContainer;
       }
-   // }
-  });
-}
+      if (headerIndex === json.headers.length) {
+        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+      }
+    };
+
+    json.tables.map((tableJSON, tableIndex) => {
+      let rowIndex = 0;
+      while (rowIndex < tableJSON.rows.length) {
+        let pageContainer = previousPageContainer;
+        if (!pageContainer) {
+          pageContainer = this.createPageHtml();
+          ppContainer.appendChild(pageContainer);
+        }
+
+        let page = pageContainer.children[0];
+        let pageInsider = page.children[0];
+        // if (tableIndex === 0 && rowIndex === 0) {
+        //   pageInsider.appendChild(this.createHeaderHtml(json.headers, 2));
+        //   pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
+        // }
+
+        let tableContainer = this.createTableHtml(tableJSON.name);
+        pageInsider.appendChild(tableContainer);
+        let table = tableContainer.children[tableJSON.name ? 1 : 0];
+        // if (rowIndex == 0) {
+        table.appendChild(this.createTheadHtml(tableJSON.headings));
+        // }
+
+        let tbody = this.createTbodyHtml()
+        table.appendChild(tbody);
+        let newPageFlag = false;
+        for (let i = rowIndex; i < tableJSON.rows.length; i++) {
+          let row = this.createTrHtml(tableJSON.rows[i]);
+          tbody.appendChild(row);
+          let mm = ((pageInsider['offsetHeight'] + row.offsetHeight) * 25.4) / DPI;
+          // console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+          if (mm > pageSize && i != tableJSON.rows.length - 1) {
+            rowIndex = i + 1;
+            newPageFlag = true;
+            break;
+          }
+          rowIndex++;
+        }
+        if (rowIndex == tableJSON.rows.length && tableIndex == json.tables.length - 1) {
+          // pageInsider.appendChild(this.createBasicDetailsHtml(json.footertotal));
+          // pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+          // pageInsider.appendChild(this.createFooter2(json.footers));
+        }
+
+
+        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+        if (!newPageFlag) {
+          previousPageContainer = pageContainer;
+        } else {
+          pageIndex++;
+          previousPageContainer = null;
+        }
+      }
+    });
+
+    let footerIndex = 0;
+    while (footerIndex < json.footers.length) {
+      let footer = json.footers[footerIndex];
+      let pageContainer = previousPageContainer;
+      if (!pageContainer) {
+        pageContainer = this.createPageHtml();
+        ppContainer.appendChild(pageContainer);
+      }
+      let page = pageContainer.children[0];
+      let pageInsider = page.children[0];
+      let headerHtml = this.createHeader2(footer);
+      pageInsider.appendChild(headerHtml);
+      let mm = ((pageInsider['offsetHeight']) * 25.4) / DPI;
+      // console.log('MM:', mm, ', pageSize:', pageSize, ', i', pageInsider['offsetHeight']);
+      if (mm > pageSize) {
+        pageInsider.removeChild(headerHtml);
+        previousPageContainer = null;
+        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+        pageIndex++;
+      } else {
+        footerIndex++;
+        previousPageContainer = pageContainer;
+      }
+      if (footerIndex === json.footers.length) {
+        pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+      }
+    };
+    this.print();
+  }
 
   /**
    * Create printing page
@@ -204,11 +398,62 @@ export class PrintService {
    * Create Print page header to show print details liek as company name, address etc
    * @param headers - Contains header properties like as font size, color etc.
    */
-  createHeaderHtml(headers: any[]) {
+  createHeaderHtml(headers: any[], template = 1) {
+    if (template == 1) {
+      let headerContainer = document.createElement('div');
+      headerContainer.className = 'pp-v1-header';
+      headerContainer.innerHTML = headers.map(header => {
+        return `<div style="text-align: ${header.align || 'center'}; font-size: ${header.size || '16px'}; font-weight: ${header.weight || 100}; color: ${header.color || '#000'};">${header.txt}</div>`;
+      }).join('');
+      return headerContainer;
+    }
+    return this['createHeader' + template](headers);
+  }
+
+  createHeader2(header) {
+    let headerContainer = document.createElement('div');
+    // headerContainer.className = 'pp-v1-header';
+    headerContainer.className = "row";
+    headerContainer.innerHTML = header.columns.map((column, index) => {
+      if (!column.values.length) return [];
+      return `<div class="col-${column.col}" style="margin-top: 20px; border: ${column.border || ''}">
+                  ${column.type === 'normal' ? column.values.map((value, index) => {
+        return `<div style="font-size: ${value.fontSize || '14px'}; font-weight: ${value.fontWeight || 100}; text-align: ${value.align || 'left'};
+                    color: ${value.color || '#000'}; border: ${value.border || ''} " class="${value.class}"
+          >${value.type === 'object' ? `<strong>${value.value.label}</strong>: <span>${value.value.value}</span>` : `${value.value}`}</div>`
+      }).join('') :
+          `<table class="table table-bordered">
+              ${column.values.map((value, index) => {
+            return `<tr style="font-size: ${value.fontSize || '14px'}; font-weight: ${value.fontWeight || 100}; text-align: ${value.align || 'left'};
+              color: ${value.color || '#000'};" class="${value.class}"
+              ><td><strong>${value.value.lable}:</strong></td><td>${value.value.value}</td></tr>`
+          }).join('')}
+            </table>`}
+                </div>`;
+    }).join('');
+    return headerContainer;
+  }
+
+  createFooter2(footers) {
     let headerContainer = document.createElement('div');
     headerContainer.className = 'pp-v1-header';
-    headerContainer.innerHTML = headers.map(header => {
-      return `<div style="text-align: ${header.align || 'center'}; font-size: ${header.size || '16px'}; font-weight: ${header.weight || 100}; color: ${header.color || '#000'};">${header.txt}</div>`;
+    headerContainer.innerHTML = footers.map(header => {
+      return `<div class="row">${header.columns.map((column, index) => {
+        return `<div class="col-${column.col}" style="margin-top: 20px; border: ${column.border || ''}">
+                  ${column.type === 'normal' ? column.values.map((value, index) => {
+          return `<div style="font-size: ${value.fontSize || '14px'}; font-weight: ${value.fontWeight || 100}; text-align: ${value.align || 'left'};
+                    color: ${value.color || '#000'}; " class="${value.class}"
+          >${value.type === 'object' ? `<strong>${value.value.label}</strong>: <span>${value.value.value}</span>` : `${value.value}`}</div>`
+        }).join('') :
+            `<table class="table table-bordered">
+              ${column.values.map((value, index) => {
+              return `<tr style="font-size: ${value.fontSize || '14px'}; font-weight: ${value.fontWeight || 100}; text-align: ${value.align || 'left'};
+              color: ${value.color || '#000'};" class="${value.class}"
+              ><td><strong>${value.value.lable}:</strong></td><td>${value.value.value}</td></tr>`
+            }).join('')}
+            </table>`}
+                </div>`;
+      }).join('')}</div>`;
     }).join('');
     return headerContainer;
   }
@@ -223,7 +468,7 @@ export class PrintService {
     detailsContainer.innerHTML = `
       <div class="row">
       ${details.map(detail => {
-      return `<div class="col-6"><strong>${detail.name}</strong><span>: </span><span>${detail.value}</span></div>`;
+      return `<div class="col-6" style="margin-top: 8px"><strong>${detail.name}</strong><span>${detail.value}</span></div>`;
     }).join('')}
       </div>
     `;
@@ -271,7 +516,7 @@ export class PrintService {
     let tr = document.createElement('tr');
     tr.innerHTML = row.map(col => {
       return `<td colspan="${col.colspan || 1}" style="text-align: ${col.align || 'left'}">${
-        (typeof col.txt === 'string' || typeof col.txt === 'number') ? col.txt : `<strong>${col.txt.name}</strong>: <span>${col.txt.value}</span>`
+        (!col.txt || typeof col.txt === 'string' || typeof col.txt === 'number') ? (col.txt || '') : `<strong>${col.txt.name}</strong>: <span>${col.txt.value}</span>`
         }</td>`
     }).join('');
     return tr;
@@ -298,9 +543,9 @@ export class PrintService {
     footerContainer.className = 'pp-v1-footer';
     footerContainer.innerHTML = `
       <div class="row">
-        <div class="col-4"><strong>${footer.left.name}</strong>: <span>${footer.left.value}</span></div>
-        <div class="col-4 text-center"><strong>${footer.center.name}</strong>: <span>${footer.center.value}</span></div>
-        <div class="col-4 text-right"><strong>${footer.right.name}</strong>: <span class="page-number">${page}</span></div>
+        <div class="col-4">${footer.left.name}: <span>${footer.left.value}</span></div>
+        <div class="col-4 text-center">${footer.center.name}: <span>${footer.center.value}</span></div>
+        <div class="col-4 text-right">${footer.right.name}: <span class="page-number">${page}</span></div>
       </div>`;
     return footerContainer;
   }
@@ -359,12 +604,11 @@ export class PrintService {
 
     broswers.opera = (!!window['opr'] && !!window['opr'].addons) || !!window['opera'] || navigator.userAgent.indexOf(' OPR/') >= 0;
     broswers.firefox = typeof window['InstallTrigger'] !== 'undefined';
-    broswers.safari = /constructor/i.test(window['HTMLElement']) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari']);
+    // broswers.safari = /constructor/i.test((function HTMLElementConstructor() {}).toString());
     broswers.ie = /*@cc_on!@*/false || !!document['documentMode'];
     broswers.edge = !broswers.ie && !!window['StyleMedia'];
     broswers.chrome = !!window['chrome'] && (!!window['chrome'].webstore || !!window['chrome'].runtime);
-
-    let browserName = '';
+    let browserName = 'chrome';
     for (let broswer in broswers) {
       if (broswers[broswer]) {
         browserName = broswer;

@@ -2,3 +2,181 @@
   height: auto !important;
   max-height: 60vh;
 }
+
+:host ::ng-deep .fa-trash-alt {
+  color: red;
+  font-size: 18px;
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 27px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -4px;
+    top: -32px;
+
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Delete";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: red;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid red;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-trash-alt:hover span {
+  display: block;
+}
+
+:host ::ng-deep .fa-edit {
+  color: black;
+  font-size: 18px;
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 36px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -33px;
+    top: -32px;
+
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Add Time";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: black;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-edit:hover span {
+  display: block;
+}
+
+:host ::ng-deep .fa-truck-moving {
+  color: brown;
+  font-size: 18px;
+  span {
+    position: absolute;
+    display: none;
+    padding: 8px 53px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -50px;
+    top: -26px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Vehicle Asssoction";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: brown;
+    border-radius: 3px;
+    padding: 3px 6px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid brown;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-truck-moving:hover span {
+  display: block;
+}
+
+:host ::ng-deep .fa-pencil-alt {
+  color: green;
+  font-size: 18px;
+  span {
+    position: absolute;
+    display: none;
+    padding: 8px 43px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -47px;
+    top: -29px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Edit TimeTable ";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: green;
+    border-radius: 3px;
+    padding: 3px 6px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid green;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-pencil-alt:hover span {
+  display: block;
+}

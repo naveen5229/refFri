@@ -49,7 +49,14 @@ export class ProfitlossComponent implements OnInit {
     }
   };
   viewType = 'sub';
-
+  topHeadExp=0;
+  topHeadIncome=0;
+  indirectExp=0;
+  directIncome=0;
+  grossLoss=0;
+  grossProfit=0;
+  netProfit=0;
+  netLoss=0;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -115,7 +122,12 @@ export class ProfitlossComponent implements OnInit {
     let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
     let subFirstGroup = _.groupBy(assetsGroup['0'], 'y_subgroupname');
     let subSecondGroup = _.groupBy(assetsGroup['1'], 'y_subgroupname');
-
+    this.topHeadExp=0;
+    this.topHeadIncome=0;
+    this.grossLoss=0;
+    this.grossProfit=0;
+    this.netProfit=0;
+    this.netLoss=0;
     console.log('A:', assetsGroup);
     console.log('B:', firstGroup);
     console.log('C:', secondGroup);
@@ -153,6 +165,19 @@ export class ProfitlossComponent implements OnInit {
     this.liabilities.map(libility => {
       let subGroups = _.groupBy(libility.profitLossData, 'y_subgroupname');
       libility.subGroups = [];
+      if((libility.name.toLowerCase().includes('opening') || libility.name.toLowerCase().includes('purchases') || libility.name.toLowerCase().includes('direct expenses')) && (!libility.name.toLowerCase().includes('indirect'))){
+        this.topHeadExp +=libility.amount;
+      }
+      if((libility.name.toLowerCase().includes('sales') || libility.name.toLowerCase().includes('income') || libility.name.toLowerCase().includes('closing')) && ( !libility.name.toLowerCase().includes('indirect incomes'))){
+        this.topHeadIncome +=libility.amount;
+      }
+      if(libility.name.toLowerCase().includes('indirect expenses')){
+        this.indirectExp =libility.amount;
+        console.log('first indirect exp',libility.amount);
+      }
+      if(libility.name.toLowerCase().includes('indirect incomes')){
+        this.directIncome =libility.amount;
+      }
       if (Object.keys(subGroups).length) {
         Object.keys(subGroups).forEach(key => {
           let total = 0;
@@ -175,6 +200,20 @@ export class ProfitlossComponent implements OnInit {
     this.assets.map(asset => {
       let subGroups = _.groupBy(asset.profitLossData, 'y_subgroupname');
       asset.subGroups = [];
+      if((asset.name.toLowerCase().includes('opening') || asset.name.toLowerCase().includes('purchases') || asset.name.toLowerCase().includes('direct expenses')) && (!asset.name.toLowerCase().includes('indirect'))){
+        this.topHeadExp +=asset.amount;
+      }
+      if((asset.name.toLowerCase().includes('sales') || asset.name.toLowerCase().includes('income') || asset.name.toLowerCase().includes('closing')) && ( !asset.name.toLowerCase().includes('indirect incomes'))){
+        this.topHeadIncome +=asset.amount;
+      }
+      if(asset.name.toLowerCase().includes('indirect expenses')){
+        this.indirectExp = asset.amount;
+        console.log('second indirect exp',asset);
+
+      }
+      if(asset.name.toLowerCase().includes('indirect incomes')){
+        this.directIncome =asset.amount;
+      }
       if (Object.keys(subGroups).length) {
         Object.keys(subGroups).forEach(key => {
           let total = 0;
@@ -192,11 +231,22 @@ export class ProfitlossComponent implements OnInit {
       }
       delete asset.profitLossData;
     });
+    if(this.topHeadIncome>=this.topHeadExp){
+      this.grossProfit=this.topHeadIncome-this.topHeadExp;
+    }else{
+      this.grossLoss=this.topHeadExp-this.topHeadIncome;
+    }
+    if((this.grossProfit+this.directIncome) >= (this.grossLoss+this.indirectExp)){
+      this.netProfit=((this.grossProfit+this.directIncome) - (this.grossLoss+this.indirectExp));
+    }else{
+      this.netLoss=((this.grossLoss+this.indirectExp)-(this.grossProfit+this.directIncome));
+    }
     this.changeViewType();
+    console.log('trip head exp', this.topHeadExp,'topHeadIncome',this.topHeadIncome,'indirectExp',this.indirectExp);
   }
 
   filterData(assetdata, slug) {
-    return assetdata.filter(data => { return (data.y_is_assets === slug ? true : false) });
+    return assetdata.filterfilter(data => { return (data.y_is_assets === slug ? true : false) });
   }
   handleExpandation(event, index, type, section, parentIndex?) {
     console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
@@ -247,6 +297,13 @@ export class ProfitlossComponent implements OnInit {
       if (this.activeId == 'enddate') this.setFoucus('startdate');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
+    }else if ((this.activeId == 'startdate' || this.activeId == 'enddate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }

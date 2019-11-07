@@ -34,6 +34,8 @@ import { OdoMeterComponent } from "../../modals/odo-meter/odo-meter.component";
 import { PdfService } from "../../services/pdf/pdf.service";
 import { MatTableDataSource } from "@angular/material";
 import { EntityFlagsComponent } from "../../modals/entity-flags/entity-flags.component";
+import { DatePipe } from "@angular/common";
+import { PdfViewerComponent } from "../../generic/pdf-viewer/pdf-viewer.component";
 
 @Component({
   selector: "concise",
@@ -51,6 +53,7 @@ export class ConciseComponent implements OnInit {
   allKpis = [];
   searchTxt = "";
   filters = [];
+  today = null;
 
   viewType = "showprim_status";
   viewName = "Primary Status";
@@ -136,12 +139,15 @@ export class ConciseComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
     public mapService: MapService,
+    private datePipe: DatePipe,
     public dateService: DateService,
     public pdfService: PdfService) {
 
     this.getKPIS();
     this.common.currentPage = "";
     this.common.refresh = this.refresh.bind(this);
+    this.today = new Date();
+
   }
 
   ngOnInit() {
@@ -217,6 +223,10 @@ export class ConciseComponent implements OnInit {
             mouseover: this.rotateBounce.bind(this, kpi, i),
             mouseout: this.mapService.toggleBounceMF.bind(this.mapService, i, 2)
           }
+        },
+        vehicleType: {
+          value: kpi.x_vehicle_type,
+          action: "",
         },
         status: {
           value: kpi.showprim_status,
@@ -532,6 +542,7 @@ export class ConciseComponent implements OnInit {
       data: {
         headings: {
           vechile: { title: "Vehicle Number", placeholder: "Vehicle No" },
+          vehicleType: { title: "Vehicle Type", placeholder: "Veh Type" },
           status: { title: "Status", placeholder: "Status" },
           location: { title: "Location", placeholder: "Location" },
           hrs: { title: "Hrs", placeholder: "Hrs " },
@@ -1035,5 +1046,25 @@ export class ConciseComponent implements OnInit {
     this.viewType = lastActive.key;
     this.viewName = lastActive.name;
     this.grouping(this.viewType);
+  }
+
+  exportCsv(tableId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = "Customer Name::" + fodata['name'];
+        let center_heading = "Report Name::" + "Dashboard Trip";
+
+        let time = "Report Generation Time:" + this.datePipe.transform(this.today, 'dd-MM-yyyy hh:mm:ss a');
+        this.common.getCSVFromTableId(tableId, left_heading, center_heading, null, time);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 }

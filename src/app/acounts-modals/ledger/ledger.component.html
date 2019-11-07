@@ -172,7 +172,7 @@
           </div>
           <div class="row" *ngIf="(this.common.params)">
             <div class="form-group">
-              <div class="col-md-2 text-center">
+              <!-- <div class="col-md-2 text-center">
                 <label>For Approved</label>
               </div>
               <div class="col-md-2">
@@ -188,7 +188,7 @@
                       id="approvedfalse" [value]=0>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-2 text-center">
                 <label>For Review</label>
               </div>
@@ -438,6 +438,9 @@
 
     <div class="modal-footer">
       <div class="row">
+          <span *ngIf="mannual">
+              <input type="checkbox" name="mannual" id="mannual"  [(ngModel)]="Accounts.approved"> Is Mannual Approval
+            </span>
         <div class="col" *ngIf="(this.common.params && (this.deletedid == 0))">
           <button class="btn btn-danger" type="button" outline (click)="delete(this.Accounts.id)" id="delete"
             style="cursor: pointer;">Delete</button>
@@ -472,7 +475,7 @@
     <div>
       <p>Are you want to save ?</p>
       <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
-        (click)="modelCondition()">No</button>
+        (click)="modelCondition(false)">No</button>
     </div>
   </div>
 </div>

@@ -27,10 +27,12 @@ export class OrderComponent implements OnInit {
   branchdata = [];
   orderTypeData = [];
   supplier = [];
+  sizeIndex=0;
+  allowBackspace = true;
   ledgers = { all: [], suggestions: [] };
   showSuggestions = false;
   activeLedgerIndex = -1;
-  totalitem = 0;
+  totalitem = null;
   invoiceDetail = [];
   taxDetailData = [];
   mannual=false;
@@ -54,6 +56,7 @@ export class OrderComponent implements OnInit {
     delete: 0,
     ledgeraddressid: null,
     mannual :false,
+    branchid:0,
     // branch: {
     //   name: '',
     //   id: ''
@@ -134,7 +137,10 @@ export class OrderComponent implements OnInit {
     this.setFoucus('ordertype');
     this.getInvoiceDetail();
     // this.common.currentPage = 'Invoice';
-    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
+    if(this.common.params.sizeIndex){
+      this.sizeIndex=this.common.params.sizeIndex;
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeIndex);
     // console.log("open data ",this.invoiceDetail[]);
     this.getFreeze();
   }
@@ -157,7 +163,7 @@ export class OrderComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.getStockItems();
-        this.activeModal.close({ response: true, ledger: this.order });
+        this.activeModal.close({ response: true });
         if (type == 1 && typeans == 'true') {
           this.common.showToast(" This Value Has been Deleted!");
         } else if (type == 1 && typeans == 'false') {
@@ -212,6 +218,7 @@ export class OrderComponent implements OnInit {
         this.order.delete = 0;
         this.order.ledgeraddressid = this.invoiceDetail[0].y_ledger_address_id;
         this.order.mannual = (this.invoiceDetail[0].y_for_approved)?false:true;
+        this.order.branchid = this.invoiceDetail[0].y_fobranch_id;
 
         this.invoiceDetail.map((invoiceDetail, index) => {
           if (!this.order.amountDetails[index]) {
@@ -319,6 +326,7 @@ export class OrderComponent implements OnInit {
       delete: 0,
       ledgeraddressid: null,
       mannual:false,
+      branchid:0,
       // branch: {
       //   name: '',
       //   id: ''
@@ -564,7 +572,8 @@ export class OrderComponent implements OnInit {
       x_id: order.orderid,
       delete: order.delete,
       ledgeraddressid: order.ledgeraddressid,
-      ismannual :order.mannual
+      ismannual :order.mannual,
+      branchid :order.branchid
     };
 
     console.log('params11: ', params);
@@ -577,8 +586,9 @@ export class OrderComponent implements OnInit {
         //this.GetLedger();
         this.order = this.setInvoice();
         this.setFoucus('ordertype');
+
         this.common.showToast('Invoice Are Saved');
-        this.activeModal.close({});
+        this.activeModal.close({responce:'true', delete: 'true'});
        // return;
 
       }, err => {
@@ -598,6 +608,27 @@ export class OrderComponent implements OnInit {
     });
     return total;
   }
+  
+  getStockAvailability(stockid) {
+    let totalitem = 0;
+    let params = {
+      stockid: stockid
+    };
+     this.common.loading++;
+    this.api.post('Suggestion/GetStockItemAvailableQty', params)
+      .subscribe(res => {
+         this.common.loading--;
+        console.log('Res:', res['data'][0].get_stockitemavailableqty);
+        this.totalitem = res['data'][0].get_stockitemavailableqty;
+        //  console.log('totalitem : -',totalitem);
+        return this.totalitem;
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
 
   keyHandler(event) {
     const key = event.key.toLowerCase();
@@ -614,7 +645,22 @@ export class OrderComponent implements OnInit {
       // console.log('alt + C pressed');
       this.openStockItemModal();
     }
+    if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
+      let index = parseInt(this.activeId.split('-')[1]);
+      setTimeout(() => {
+      console.log('available item', this.order.amountDetails[index].qty,'second response',this.totalitem);
+        if ((parseInt(this.totalitem)) < (parseInt(this.order.amountDetails[index].qty))) {
+          alert('Quantity is lower then available quantity');
+          this.order.amountDetails[index].qty = null;
+        }
+      }, 300);
+      // if ((this.totalitem) < parseInt(this.order.amountDetails[index].qty)) {
+      //   console.log('Quantity is lower then available quantity');
+      //   // this.order.amountDetails[index].qty = 0;
+      // }
+    }
     if (key == 'enter') {
+      this.allowBackspace = true;
       if (this.activeId.includes('branch')) {
         this.setFoucus('ordertype');
       } else if (this.activeId.includes('ordertype')) {
@@ -716,12 +762,69 @@ export class OrderComponent implements OnInit {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxDetail' + '-' + index);
       }
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'date') this.setFoucus('custcode');
+      if (this.activeId == 'purchaseledger') this.setFoucus('date');
+      if (this.activeId == 'ledger') this.setFoucus('purchaseledger');
+      if (this.activeId == 'vendorbidref') this.setFoucus('ledger');
+      if (this.activeId == 'qutationrefrence') this.setFoucus('vendorbidref');
+      if (this.activeId == 'shipmentlocation') this.setFoucus('qutationrefrence');
+      if (this.activeId == 'paymentterms') this.setFoucus('shipmentlocation');
+      if (this.activeId == 'biltynumber') this.setFoucus('paymentterms');
+      if (this.activeId == 'biltydate') this.setFoucus('biltynumber');
+      if (this.activeId == 'deliveryterms') this.setFoucus('biltydate');
+      if (this.activeId == 'billingaddress') this.setFoucus('deliveryterms');
+      if (this.activeId == 'grnremarks') this.setFoucus('billingaddress');
+      if (this.activeId.includes('orderremarks') && ((this.order.ordertype.name.toLowerCase().includes('sales')) || (this.order.ordertype.name.toLowerCase().includes('credit')))) {
+        this.setFoucus('grnremarks');
+      }
+      if (this.activeId.includes('orderremarks') && ((this.order.ordertype.name.toLowerCase().includes('purchase')) || (this.order.ordertype.name.toLowerCase().includes('debit')))) {
+        this.setFoucus('billingaddress');
+      }
+      if (this.activeId.includes('remarks')){
+        let index = this.activeId.split('-')[1];
+        this.setFoucus('rate-'+index);
+      } 
+      if (this.activeId.includes('rate')){
+        let index = this.activeId.split('-')[1];
+        this.setFoucus('qty-'+index);
+      } 
+      if (this.activeId.includes('qty')){
+        let index = this.activeId.split('-')[1];
+        this.setFoucus('stockitem-'+index);
+      } 
+      if (this.activeId.includes('stockitem')){
+        let index = this.activeId.split('-')[1];
+        this.setFoucus('warehouse-'+index);
+      } 
+      if (this.activeId.includes('warehouse')){
+        let index = this.activeId.split('-')[1];
+        if(parseInt(index)==0){
+          this.setFoucus('orderremarks');
+        }else{
+          this.setFoucus('remarks-'+(parseInt(index)-1));
+        }
+      } 
+
     } else if (key.includes('arrow')) {
-      //  this.allowBackspace = false;
+        this.allowBackspace = false;
       if (key.includes('arrowup') || key.includes('arrowdown')) {
         this.handleArrowUpDown(key);
         event.preventDefault();
       }
+    }else if ((this.activeId == 'date' || this.activeId == 'biltydate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
+    }
+    else if (key != 'backspace') {
+      this.allowBackspace = false;
     }
   }
 
@@ -785,10 +888,11 @@ export class OrderComponent implements OnInit {
 
   getPurchaseLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: ((this.order.ordertype.id==-104) || (this.order.ordertype.id==-106 )) ? 'sales':'purchase'
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedger', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -803,10 +907,11 @@ export class OrderComponent implements OnInit {
 
   getSupplierLedgers() {
     let params = {
-      search: 123
+      search: 123,
+      invoicetype: 'other'
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetAllLedgerAddress', params)
+    this.api.post('Suggestion/GetAllLedgerForInvoice', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -1081,8 +1186,11 @@ export class OrderComponent implements OnInit {
     } else if (activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
-      // this.order.billingaddress = suggestion.address;
-      this.getAddressByLedgerId(suggestion.id);
+      if(suggestion.address_count >1){
+        this.getAddressByLedgerId(suggestion.id);
+        }else{
+        this.order.billingaddress = suggestion.address;
+        }
     } else if (activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
@@ -1128,33 +1236,13 @@ export class OrderComponent implements OnInit {
           console.log("data", data);
           this.order.delete = 1;
           this.addOrder(this.order);
-          this.activeModal.close({ response: true, ledger: this.order });
+          this.activeModal.close({ response: true,  delete: 'true' });
           this.common.loading--;
         }
       });
     }
   }
 
-  getStockAvailability(stockid) {
-    let totalitem = 0;
-    let params = {
-      stockid: stockid
-    };
-    // this.common.loading++;
-    this.api.post('Suggestion/GetStockItemAvailableQty', params)
-      .subscribe(res => {
-        // this.common.loading--;
-        console.log('Res:', res['data'][0].get_stockitemavailableqty);
-        this.totalitem = res['data'][0].get_stockitemavailableqty;
-        //  console.log('totalitem : -',totalitem);
-        return this.totalitem;
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-
-  }
 
 
   permantdelete(tblid) {
@@ -1179,7 +1267,7 @@ export class OrderComponent implements OnInit {
               this.common.loading--;
               console.log('res: ', res);
               //this.getStockItems();
-              this.activeModal.close({ response: true, ledger: this.order });
+              this.activeModal.close({ response: true, delete: 'true' });
               this.common.showToast(" This Value Has been Deleted!");
             }, err => {
               this.common.loading--;
@@ -1319,19 +1407,19 @@ let invoiceJson={};
      
       details: [
      
-        { name: 'Invoice No', value: voucherdataprint.custcode },
-        { name: 'Invoice Date', value: voucherdataprint.date },
-        { name: 'Purchase Ledger', value: voucherdataprint.purchaseledger.name },
-        { name: 'Supplier Ledger', value: voucherdataprint.ledger.name },
-        { name: 'Supplier Ref. No', value: voucherdataprint.vendorbidref },
-        { name: 'P.O.No.', value: voucherdataprint.qutationrefrence },
-        { name: 'Shipment Location', value: voucherdataprint.shipmentlocation },
-        { name: 'Payment Terms', value: voucherdataprint.paymentterms },
-        { name: 'Bilty Number', value: voucherdataprint.biltynumber },
-        { name: 'Bilty Date', value: voucherdataprint.biltydate },
-        { name: 'Dilivery Terms', value: voucherdataprint.deliveryterms },
-        { name: 'Billing Address', value: voucherdataprint.billingaddress },
-        { name: 'Invoice Remarks', value: voucherdataprint.orderremarks }
+        { name: 'Invoice No : ', value: voucherdataprint.custcode },
+        { name: 'Invoice Date : ', value: voucherdataprint.date },
+        { name: 'Purchase Ledger : ', value: voucherdataprint.purchaseledger.name },
+        { name: 'Supplier Ledger : ', value: voucherdataprint.ledger.name },
+        { name: 'Supplier Ref. No : ', value: voucherdataprint.vendorbidref },
+        { name: 'P.O.No. : ', value: voucherdataprint.qutationrefrence },
+        { name: 'Shipment Location : ', value: voucherdataprint.shipmentlocation },
+        { name: 'Payment Terms : ', value: voucherdataprint.paymentterms },
+        { name: 'Bilty Number : ', value: voucherdataprint.biltynumber },
+        { name: 'Bilty Date : ', value: voucherdataprint.biltydate },
+        { name: 'Dilivery Terms : ', value: voucherdataprint.deliveryterms },
+        { name: 'Billing Address : ', value: voucherdataprint.billingaddress },
+        { name: 'Invoice Remarks : ', value: voucherdataprint.orderremarks }
       ],
       table: {
         headings: [
@@ -1381,9 +1469,9 @@ let invoiceJson={};
     
      details: [
     
-       { name: 'Invoice No', value: voucherdataprint.custcode },
-       { name: 'Invoice Date', value: voucherdataprint.date },
-       { name: 'Purchase Ledger', value: voucherdataprint.purchaseledger.name },
+       { name: 'Invoice No : ', value: voucherdataprint.custcode },
+       { name: 'Invoice Date : ', value: voucherdataprint.date },
+       { name: 'Purchase Ledger : ', value: voucherdataprint.purchaseledger.name },
      ],
      table: {
        headings: [
@@ -1422,7 +1510,7 @@ let invoiceJson={};
       invoiceDetail.taxDetails.map((taxDetail, index) => {
         rows.push([
           { txt: taxDetail.taxledger.name  || '' ,'colspan':3,align:'right'},
-          { txt: taxDetail.taxamount || '','colspan':3 ,align:'right'},
+          { txt: parseFloat(taxDetail.taxamount) || '','colspan':3 ,align:'right'},
           { txt:  '' },
           { txt:  '' }
         ]);
@@ -1440,20 +1528,20 @@ let invoiceJson={};
     
      details: [
     
-       { name: 'Invoice No', value: voucherdataprint.custcode },
-       { name: 'Invoice Date', value: voucherdataprint.date },
-       { name: 'Sales Ledger', value: voucherdataprint.purchaseledger.name },
-       { name: 'Party Name', value: voucherdataprint.ledger.name },
-       { name: 'Order No', value: voucherdataprint.vendorbidref },
-       { name: 'Other Reference', value: voucherdataprint.qutationrefrence },
-       { name: 'Shipment Location', value: voucherdataprint.shipmentlocation },
-       { name: 'Payment Terms', value: voucherdataprint.paymentterms },
-       { name: 'Eway Bill Number', value: voucherdataprint.biltynumber },
-       { name: 'Eway Bill Date', value: voucherdataprint.biltydate },
-       { name: 'Dilivery Terms', value: voucherdataprint.deliveryterms },
-       { name: 'Billing Address', value: voucherdataprint.billingaddress },
-       { name: 'Consignee Address', value: voucherdataprint.grnremarks },
-       { name: 'Invoice Remarks', value: voucherdataprint.orderremarks }
+       { name: 'Invoice No : ', value: voucherdataprint.custcode },
+       { name: 'Invoice Date : ', value: voucherdataprint.date },
+       { name: 'Sales Ledger : ', value: voucherdataprint.purchaseledger.name },
+       { name: 'Party Name : ', value: voucherdataprint.ledger.name },
+       { name: 'Order No : ', value: voucherdataprint.vendorbidref },
+       { name: 'Other Reference : ', value: voucherdataprint.qutationrefrence },
+       { name: 'Shipment Location : ', value: voucherdataprint.shipmentlocation },
+       { name: 'Payment Terms : ', value: voucherdataprint.paymentterms },
+       { name: 'Eway Bill Number : ', value: voucherdataprint.biltynumber },
+       { name: 'Eway Bill Date : ', value: voucherdataprint.biltydate },
+       { name: 'Dilivery Terms : ', value: voucherdataprint.deliveryterms },
+       { name: 'Billing Address : ', value: voucherdataprint.billingaddress },
+       { name: 'Consignee Address : ', value: voucherdataprint.grnremarks },
+       { name: 'Invoice Remarks : ', value: voucherdataprint.orderremarks }
      ],
      table: {
        headings: [

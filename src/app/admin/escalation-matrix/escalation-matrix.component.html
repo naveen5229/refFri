@@ -5,25 +5,30 @@
       <h2>Escalation Matrix</h2>
     </div>
   </nb-card-header>
-  <nb-card-body>
+  <nb-card-body style="min-height: 580px;">
 
-<div class="model-body">
+<!-- <div class="row">
+  <div class="search mt-2">
     <auto-suggestion (onSelected)="getMatrix($event)" url="suggestion/getFoUsersList" display="name"
     placeholder="Search" [preSelected]="null"></auto-suggestion>
-</div>    
 
-<table class="table table-bordered">
+  </div>
+</div>     -->
+
+
+<!-- <table class="table table-bordered">
 <tr>
 <th>Issue Name</th>
 <th>Count Admin</th>
 <th>Action</th>
 </tr>
-<tr *ngFor="let matrix of matrixList; let i=index;" >
+<tr *ngFor="let matrix of matrixList; let i=index;">
   <td>{{matrix.issue_name}}</td>
   <td>{{matrix.admin_count}}</td>
   <td><button class="btn" (click)="openAddIssueModel(matrix)">Add</button></td>
 </tr>
-</table>
+</table> -->
+<smart-table *ngIf="matrixList && matrixList.length" [data]="table.data" [settings]="table.settings"></smart-table>
 </nb-card-body>
 </nb-card>
 

@@ -1,7 +1,98 @@
-.row{
-    margin-bottom:15px;
+.row {
+  margin-bottom: 15px;
 }
-.btn{
-    text-transform: capitalize;
-    margin: 0px;
+.btn {
+  text-transform: capitalize;
+  margin: 0px;
+}
+
+:host ::ng-deep .fa-cog {
+  color: black;
+  font-size: 18px;
+  cursor: pointer;
+  span {
+    position: absolute;
+    display: none;
+    padding: 15px 46px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -54px;
+    top: -37px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Maintenance Details";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: black;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-cog:hover span {
+  display: block;
+}
+
+:host ::ng-deep .fa-trash {
+  color: black;
+  font-size: 18px;
+  cursor: pointer;
+
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 35px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -32px;
+    top: -28px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
+  }
+  span::before {
+    content: "Delete";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: black;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    width: 100%;
+  }
+  span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+    position: absolute;
+    bottom: -5px;
+    right: 24px;
+  }
+}
+:host ::ng-deep .fa-trash:hover span {
+  display: block;
 }

@@ -1,16 +1,22 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const TYRES_MENU_ITEMS = JSON.stringify([
     {
         title: 'Home Dashboard',
         icon: 'fa fa-home',
         link: '/pages/dashboard',
         home: true,
     },
+    // {
+    //     title: 'Inventory',
+    //     icon: 'fa fa-recycle',
+    //     link: '/tyres/inventory',
+    //     home: true,
+    // },
     {
-        title: 'Inventory',
-        icon: 'fa fa-recycle',
-        link: '/tyres/inventory',
+        title: ' Vehicle Tyre Summary',
+        icon: 'fa fa-text-width',
+        link: '/tyres/tyre-summary',
         home: true,
     },
     {
@@ -52,7 +58,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Tyre Summary',
         icon: 'fa fa-text-width',
-        link: '/tyres/tyre-summary',
+        link: '/tyres/tyre-summary-details',
         home: true,
     },
-];
+
+]);

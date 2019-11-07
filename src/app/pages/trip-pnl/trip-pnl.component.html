@@ -1,0 +1,57 @@
+<nb-card style="border: 0px; height: 100%;">
+    <nb-card-header class="toll-soft-recovery">
+        <div class="row">
+            <div class="col-10">
+                <h5>Trip Profit And Loss</h5>
+
+            </div>
+            <div class="col-2">
+                <span>
+                    <span class="pdf-icon" title="PDF Export" (click)="printPDF('pl')" style="cursor: pointer;"><i
+                            class="fa fa-file-pdf"></i></span>
+                    <span class="exel-icon" title="CSV Export" (click)="printCsv('pl')"
+                        style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+                </span>
+            </div>
+        </div>
+
+    </nb-card-header>
+    <nb-card-body>
+        <div class="trip-PNL">
+            <div class="row">
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="mt-2">From Date :</label>
+                        </div>
+                        <div class="col-8 pl-0">
+                            <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"
+                                [isTime]="false">
+                            </uj-date-time-picker>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-3 pr-0">
+                            <label class="mt-2">To Date :</label>
+                        </div>
+                        <div class="col-9 pl-0">
+                            <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate"
+                                [isStart]="false" [isTime]="false">
+                            </uj-date-time-picker>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1 pr-0">
+                    <button type="button" class="btn btn-primary" (click)="getPnlSummary()">Submit</button>
+                </div>
+            </div>
+            <div class="mt-2">
+                <smart-table *ngIf="TripPNLData && TripPNLData.length" [data]="table.data" id="pl"
+                    [settings]="table.settings">
+                </smart-table>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

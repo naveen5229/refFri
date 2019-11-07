@@ -8,6 +8,7 @@ import { FreightInputWithoutLocationComponent } from '../../modals/FreightRate/f
 import { FreightInputLocationComponent } from '../../modals/FreightRate/freight-input-location/freight-input-location.component';
 import { FoFreightRatesComponent } from '../../modals/FreightRate/fo-freight-rates/fo-freight-rates.component';
 import { FreightRateCalculationComponent } from '../../modals/freight-rate-calculation/freight-rate-calculation.component';
+import { FreightRateSummaryComponent } from '../../modals/FreightRate/freight-rate-summary/freight-rate-summary.component';
 
 @Component({
   selector: 'frieght-rate-input',
@@ -28,8 +29,8 @@ export class FrieghtRateInputComponent implements OnInit {
   };
   headings = [];
   valobj = {};
-
-  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));;
+  currentYear = new Date().getFullYear();
+  startDate = new Date(this.currentYear, 3);
   endDate = new Date();
 
   constructor(
@@ -38,7 +39,8 @@ export class FrieghtRateInputComponent implements OnInit {
     public api: ApiService) {
     this.getFrieghtRate();
     this.common.refresh = this.refresh.bind(this);
-
+    this.startDate
+    console.log("current Year", this.startDate);
   }
 
   ngOnInit() {
@@ -49,55 +51,55 @@ export class FrieghtRateInputComponent implements OnInit {
     this.getFrieghtRate();
   }
   getFrieghtRate() {
-    if(this.startDate>this.endDate){
+    if (this.startDate > this.endDate) {
       this.common.showError("StartDate Should be less then Enddate");
-    }else{
+    } else {
       let startDate = this.common.dateFormatter(this.startDate);
-    let endDate = this.common.dateFormatter(this.endDate);
-    let params = {
-      startDate: startDate,
-      endDate: endDate,
-    };
+      let endDate = this.common.dateFormatter(this.endDate);
+      let params = {
+        startDate: startDate,
+        endDate: endDate,
+      };
 
-    this.common.loading++;
-    this.api.post('FrieghtRate/getFrieghtRatePattern', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('res: ', res['data'])
-        this.data = [];
+      this.common.loading++;
+      this.api.post('FrieghtRate/getFrieghtRatePattern', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('res: ', res['data'])
+          this.data = [];
 
-        if (!res['data']) return;
-        this.data = res['data'];
-        this.table = {
-          data: {
-            headings: {},
-            columns: []
-          },
-          settings: {
-            hideHeader: true
+          if (!res['data']) return;
+          this.data = res['data'];
+          this.table = {
+            data: {
+              headings: {},
+              columns: []
+            },
+            settings: {
+              hideHeader: true
+            }
+          };
+          let first_rec = this.data[0];
+          for (var key in first_rec) {
+            if (key.charAt(0) != "_") {
+              this.headings.push(key);
+              let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+              this.table.data.headings[key] = headerObj;
+            }
           }
-        };
-        let first_rec = this.data[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
-          }
-        }
-        let withLocation = { title: this.formatTitle('withLocation'), placeholder: this.formatTitle('withLocation'), hideHeader: true };
-        this.table.data.headings['withLocation'] = withLocation;
+          let withLocation = { title: this.formatTitle('withLocation'), placeholder: this.formatTitle('withLocation'), hideHeader: true };
+          this.table.data.headings['withLocation'] = withLocation;
 
-        let withoutLocation = { title: this.formatTitle('withoutLocation'), placeholder: this.formatTitle('withoutLocation'), hideHeader: true };
-        this.table.data.headings['withoutLocation'] = withoutLocation;
+          let withoutLocation = { title: this.formatTitle('withoutLocation'), placeholder: this.formatTitle('withoutLocation'), hideHeader: true };
+          this.table.data.headings['withoutLocation'] = withoutLocation;
 
 
-        this.table.data.columns = this.getTableColumns();
+          this.table.data.columns = this.getTableColumns();
 
-      }, err => {
-        this.common.loading--;
-        this.common.showError();
-      })
+        }, err => {
+          this.common.loading--;
+          this.common.showError();
+        })
     }
   }
 
@@ -131,6 +133,11 @@ export class FrieghtRateInputComponent implements OnInit {
         class: "addButton",
 
         action: this.openWithLocationModal.bind(this, details),
+      },
+      {
+        class: "fa fa-eye ml-1",
+
+        action: this.frieghtRateSummary.bind(this, details),
       }
     )
     return icons;
@@ -172,6 +179,25 @@ export class FrieghtRateInputComponent implements OnInit {
       }
     });
   }
+
+//Created by Hemant Singh Sisodia
+frieghtRateSummary(row)
+{
+  console.log("row", row);
+    let data = {
+      id: row._id
+    }
+    this.common.params = { id: data.id };
+    const activeModal = this.modalService.open(FreightRateSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data && data.response) {
+        this.getFrieghtRate();
+      }
+    });
+}
+
+
+
   openWithLocationModal(row) {
     console.log("row", row);
 

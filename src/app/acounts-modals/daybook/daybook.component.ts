@@ -9,6 +9,13 @@ import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
+import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
+import { promise } from 'selenium-webdriver';
+import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
+import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
+import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 
 @Component({
   selector: 'daybook',
@@ -18,6 +25,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class DaybookComponent implements OnInit {
   selectedName = '';
   activedateid = '';
+  tripExpenseVoucherTrips=[];
+  TripEditData=[];
+  VoucherEditTime=[];
+  pendingDataEditTme=[];
+  tripExpDriver=[];
+  fuelFilings=[];
   DayBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -89,7 +102,7 @@ export class DaybookComponent implements OnInit {
       this.deletedId =this.common.params.deleteId;
       this.getDayBook();
     }
-    this.common.handleModalSize('class', 'modal-lg', '1250');
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
 
   ngOnInit() {
@@ -113,8 +126,11 @@ export class DaybookComponent implements OnInit {
     this.api.post('Suggestion/GetVouchertypeList', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log('Res-----______:', res['data']);
+      
         this.vouchertypedata = res['data'];
+        this.vouchertypedata.push({id:-1001,name:'Stock Received'},{id:-1002,name:'Stock Transfer'},{id:-1003,name:'Stock Issue'},{id:-1004,name:'Stock Transfer Received'});
+        console.log('res type list',this.vouchertypedata);
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -144,12 +160,13 @@ export class DaybookComponent implements OnInit {
     //  this.common.params = invoiceid;
     this.common.params = {
       invoiceid: invoiceid,
-      delete: this.deletedId
+      delete: this.deletedId,
+      sizeIndex:1
     };
     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
-      if (data.response) {
+      if (data.delete) {
         console.log('open succesfull');
 
         // this.addLedger(data.ledger);
@@ -183,8 +200,8 @@ export class DaybookComponent implements OnInit {
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
      
-      delete: this.deletedId,
-      forapproved: (this.deletedId == 1) ? -1 : 1
+      delete: 0,
+      forapproved: (this.deletedId == 1) ? 0 : 1
     };
 
     this.common.loading++;
@@ -345,24 +362,71 @@ export class DaybookComponent implements OnInit {
   }
 
 
-  openVoucherEdit(voucherId) {
+  openVoucherEdit(voucherId, voucheradd, vchtypeid) {
     console.log('ledger123', voucherId);
     if (voucherId) {
       this.common.params = {
         voucherId: voucherId,
-        delete: this.deletedId
+        delete: this.deletedId,
+        sizeIndex:1,
+        addvoucherid: voucheradd,
+        voucherTypeId: vchtypeid,
       };
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
-        this.getDayBook();
-        this.common.showToast('Voucher updated');
+        if(data.delete)
+        {
+          this.getDayBook();
+        }
+       
+        //this.common.showToast('Voucher updated');
 
       });
     }
   }
+  // getDataFuelFillings() {
+  //   console.log('params model', this.common.params);
+  //   let fuelstatinid = (this.selectedVehicle) ? this.selectedVehicle.id : 0;
+  //   const params = {
+  //     vehId: (this.selectedVehicle) ? this.selectedVehicle.id : 0,
+  //     lastFilling: this.DayBook.startdate,
+  //     currentFilling:this.DayBook.enddate,
+  //     fuelstationid: (this.selectedFuelFilling) ? this.selectedFuelFilling.id : 0
+  //   };
+  //   this.common.loading++;
+  //   this.api.post('Fuel/getFeulfillings', params)
+  //     .subscribe(res => {
+  //       console.log('fuel data', res['data']);
+  //       this.common.loading--;
+  //       if(res['data'].length){
+  //       return res['data'];
+  //       }else {
+  //         this.common.showError('please Select Correct date or vehicle');
+  //       }
+  //       // this.getHeads();
+  //     }, err => {
+  //       console.log(err);
+  //       this.common.loading--;
+  //       this.common.showError();
+  //     });
+  // }
+  openFuelVoucherEdit(fueldata){
+console.log('fuel data 111',fueldata);
+      // this.common.params = {
+      //   vehId: this.selectedVehicle.id,
+      //   lastFilling: this.startdate,
+      //   currentFilling: this.enddate,
+      //   fuelstationid: this.selectedFuelFilling,
+      //   fuelData:this.getDataFuelFillings()
+      // };
 
-
+      // const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      // activeModal.result.then(data => {
+      //    console.log('Data return: ', data);
+        
+      // });  
+  }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
@@ -385,5 +449,304 @@ export class DaybookComponent implements OnInit {
     return;
   }
 
+
+  openConsignmentVoucherEdit(voucherData) {
+    const params = {
+      vehId: 0,
+      voucherid: voucherData.y_voucherid,
+      isdate: 0
+    };
+    this.common.loading++;
+    this.api.post('VehicleTrips/getTripExpenceVouher', params)
+      .subscribe(res => {
+        console.log('trip expence', res);
+        this.common.loading--;
+        this.getVoucherSummary(res['data'][0], voucherData);
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+  getVoucherSummary(tripVoucher, voucherData) {
+    let promises = [];
+    promises.push(this.getPendingOnEditTrips(tripVoucher.y_vehicle_id));
+    promises.push(this.getVocherEditTime(tripVoucher.y_voucher_id));
+    promises.push(this.getPendingTripsEditTime(tripVoucher.y_id, tripVoucher.y_vehicle_id));
+
+    if (voucherData.y_vouchertype_id == -151) {
+      promises.push(this.getTripsExpDriver(tripVoucher.y_id));
+    }
+
+    promises.push(this.getTripExpenseVoucherTripsData(tripVoucher));
+
+    Promise.all(promises).then(result => {
+      this.showVoucherSummary(this.tripExpenseVoucherTrips, tripVoucher, voucherData);
+    }).catch(err => {
+      console.log(err);
+      this.common.showError('There is some technical error occured. Please Try Again!');
+    });
+
+  }
+  getTripExpenseVoucherTripsData(tripVoucher) {
+    return new Promise((resolve, reject) => {
+      const params = {
+        voucherId: tripVoucher.y_voucher_id,
+        voucherDetail: tripVoucher
+      };
+      this.common.loading++;
+      this.api.post('TripExpenseVoucher/getTripExpenseVoucherTripsData', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.tripExpenseVoucherTrips = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
+    });
+  }
+  getPendingOnEditTrips(vehicleid) {
+    return new Promise((resolve, reject) => {
+      const params = {
+        vehId: vehicleid
+      };
+      this.common.loading++;
+      this.api.post('VehicleTrips/getPendingVehicleTrips', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.TripEditData = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject(err);
+        });
+    });
+
+  }
+  getVocherEditTime(VoucherID) {
+    return new Promise((resolve, reject) => {
+      const params = {
+        vchId: VoucherID
+      };
+      this.common.loading++;
+      this.api.post('Voucher/getVoucherDetail', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.VoucherEditTime = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
+    })
+  }
+
+  
+  getPendingTripsEditTime(voucherid, vhicleId) {
+    return new Promise((resolve, reject) => {
+      const params = {
+        vehId: vhicleId,
+        vchrid: voucherid
+      };
+      this.common.loading++;
+      this.api.post('VehicleTrips/getPendingVehicleTripsEdit', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.pendingDataEditTme = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
+    });
+  }
+
+  getTripsExpDriver(tripvoucherid) {
+    return new Promise((resolve, reject) => {
+      const params = {
+        tripVchrId: tripvoucherid
+      };
+      this.common.loading++;
+      this.api.post('TripExpenseVoucher/getTripsExpDriver', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.tripExpDriver = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
+    })
+  }
+
+  showVoucherSummary(tripDetails, tripVoucher, voucherData) {
+    let vehId = tripVoucher.y_vehicle_id;
+    let tripEditData = this.TripEditData;
+    let tripPendingDataSelected = this.pendingDataEditTme;
+    let VoucherData = this.VoucherEditTime;
+    let typeFlag = 1;
+    let permanentDelete = 0;//this.deletedId
+    let sizeIndex = 1;
+    
+
+    if (voucherData.y_vouchertype_id == -151) {
+      let tripExpDriver = this.tripExpDriver;
+      this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected, VoucherData, tripExpDriver, typeFlag, permanentDelete,sizeIndex };
+
+
+      console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
+      const activeModal = this.modalService.open(VoucherSummaryShortComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data.delete) {
+          this.getDayBook();
+        }
+      });
+    } else {
+      let tripExpDriver = this.tripExpDriver;
+      this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected, VoucherData, tripExpDriver, typeFlag, permanentDelete ,sizeIndex};
+      console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
+      const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data.delete) {
+          this.getDayBook();
+        }
+      });
+    }
+  }
+  openFuelEdit(vchData){
+    console.log('vch data new ##',vchData);
+    let promises = [];
+    console.log('testing issue solved');
+    promises.push(this.getVocherEditTime(vchData['y_voucherid']));
+    promises.push(this.getDataFuelFillingsEdit(vchData['y_vehicle_id'],vchData['y_fuel_station_id'],vchData['y_voucherid']));
+
+    Promise.all(promises).then(result => {
+    this.common.params = {
+      vehId: vchData['y_vehicle_id'],
+      lastFilling: this.DayBook.startdate,
+      currentFilling: this.DayBook.enddate,
+      fuelstationid: vchData['y_fuel_station_id'],
+      fuelData:this.fuelFilings,
+      voucherId:vchData['y_voucherid'],
+      voucherData:this.VoucherEditTime,
+      sizeIndex:1
+      //vehname:this.trips[0].y_vehicle_name
+    };
+
+    const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data return: ', data);
+      if (data.success) {
+        this.getDayBook();
+      }
+    });
+  }).catch(err => {
+    console.log(err);
+    this.common.showError('There is some technical error occured. Please Try Again!');
+  })
+  }
+
+  getDataFuelFillingsEdit(vehcleID,fuelStationId,vchrID) {
+    return new Promise((resolve, reject) => {
+    const params = {
+      vehId: vehcleID,
+      lastFilling: this.DayBook.startdate,
+      currentFilling:this.DayBook.enddate,
+      fuelstationid: fuelStationId,
+      voucherId:vchrID
+    };
+    this.common.loading++;
+    this.api.post('Fuel/getFeulfillings', params)
+      .subscribe(res => {
+      //  console.log('fuel data', res['data']);
+        this.common.loading--;
+        if(res['data'].length){
+        this.fuelFilings = res['data'];
+        resolve();
+        }else {
+          this.common.showError('please Select Correct date');
+        }
+        // this.getHeads();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+        reject();
+      });
+    })
+   
+  }
+  editTransfer(transferId?) {
+    if(transferId){
+    let refData = {
+      transferId:transferId,
+      readOnly:true
+    }
+    this.common.params = { refData: refData };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    //  this.viewTransfer();
+    });
+  }else{
+    this.common.showError('Please Select another entry');
+  }
+}
+
+openfreight(freightId){
+  if(freightId){
+  let invoice = {
+    id: freightId,
+  }
+
+  this.common.params = { invoice: invoice ,freightIndex:1}
+  const activeModal = this.modalService.open(ViewMVSFreightStatementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+  activeModal.result.then(data => {
+    console.log('Date:', data);
+
+  });
+}else{
+  this.common.showError('Please Select another Entry');
+}
+}
+
+openRevenue(freightId){
+  if(freightId){
+  let previewData = {
+    title: 'Invoice',
+    previewId: null,
+    refId: freightId,
+    refType: "FRINV"
+  }
+  this.common.params = { previewData };
+
+  // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+  const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
+
+  activeModal.result.then(data => {
+    console.log('Date:', data);
+  });
+
+    }else{
+      this.common.showError('Please Select another Entry');
+    }
+}
 }
 

@@ -3,19 +3,42 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
+// By Default Module
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoginComponent } from './auth/login/login.component';
 import { HttpModule } from '@angular/http';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+// BY On Demand add Module
+import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { DirectiveModule } from './directives/directives.module';
+import { from } from 'rxjs';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ImageViewerModule } from 'ng2-image-viewer';
+import { MatIconModule } from '@angular/material/icon';
+import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+import { DeactivateGuardService } from './guards/route.guard';
+import { NgxPrintModule } from 'ngx-print';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
+import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
+
+
+// Create Custom Component
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './auth/login/login.component';
 import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.component';
 import { LocationMarkerComponent } from './modals/location-marker/location-marker.component';
 import { TicketTrailsComponent } from './modals/ticket-trails/ticket-trails.component';
@@ -35,11 +58,9 @@ import { CustomerSelectionComponent } from './modals/customer-selection/customer
 import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.component';
 import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
 import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
-import { DirectiveModule } from './directives/directives.module';
 import { AddDocumentComponent } from './documents/documentation-modals/add-document/add-document.component';
 import { ImportDocumentComponent } from './documents/documentation-modals/import-document/import-document.component';
 import { AddAgentComponent } from '../app/documents/documentation-modals/add-agent/add-agent.component';
-import { from } from 'rxjs';
 import { AccountsComponent } from './acounts-modals/accounts/accounts.component';
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
@@ -59,31 +80,14 @@ import { EmpDashboardComponent } from './documents/documentation-modals/emp-dash
 import { DocumentIssuesComponent } from './documents/documentation-modals/document-issues/document-issues.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ImageViewerModule } from 'ng2-image-viewer';
-import { MatIconModule } from '@angular/material/icon';
 import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
 import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
 import { AddTripComponent } from './modals/add-trip/add-trip.component';
 import { ManualHaltComponent } from './modals/manual-halt/manual-halt.component';
-
-import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
-import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
-
-import {
-  MatFormFieldModule,
-  MatMenuModule,
-  MatCheckboxModule,
-  MatDatepickerModule,
-  MatNativeDateModule
-} from '@angular/material';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
-
 import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
 import { HttpResponseHandlerService } from './services/http-response-handler.service';
@@ -93,8 +97,6 @@ import { AddDriverCompleteComponent } from './modals/DriverModals/add-driver-com
 import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
 import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
-import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
-import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 import { DriverVehicleRemappingComponent } from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
@@ -108,7 +110,6 @@ import { RouteMapperComponent } from './modals/route-mapper/route-mapper.compone
 import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/pending-licence-detail.component';
 import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
 import { ResizableModule } from 'angular-resizable-element';
-import { NgxPrintModule } from 'ngx-print';
 import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
 import { UserCallHistoryComponent } from './modals/user-call-history/user-call-history.component';
 import { DriverDistanceComponent } from './modals/driver-distance/driver-distance.component';
@@ -129,12 +130,9 @@ import { CsvErrorReportComponent } from './modals/csv-error-report/csv-error-rep
 import { AddShortTargetComponent } from './modals/add-short-target/add-short-target.component';
 import { FuelStationEntryComponent } from './modals/fuel-station-entry/fuel-station-entry.component';
 import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-station.component';
-import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
 import { LedgerviewComponent } from './acounts-modals/ledgerview/ledgerview.component';
-import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
-import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
 import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empty-details.component';
 import { AddVehicleComponent } from './modals/add-vehicle/add-vehicle.component';
@@ -160,7 +158,6 @@ import { GpsEnabledDisabledComponent } from './modals/gps-enabled-disabled/gps-e
 import { UnmappedLrComponent } from './modals/LRModals/unmapped-lr/unmapped-lr.component';
 import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.component';
 import { FoSiteCountComponent } from './modals/fo-site-count/fo-site-count.component';
-import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { PrintManifestComponent } from './modals/print-manifest/print-manifest.component';
 import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-short/voucher-summary-short.component';
 import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-modal-service/add-vehicle-modal-service.component';
@@ -235,415 +232,269 @@ import { StrictMappingComponent } from './modals/strict-mapping/strict-mapping.c
 import { VehiclePriSecRoutemappingComponent } from './modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 import { TyreHistoryComponent } from './modals/Tyres/tyre-history/tyre-history.component';
 import { TemplatePreviewComponent } from './modals/template-preview/template-preview.component';
+import { AddDispatchOrderComponent } from './modals/LRModals/add-dispatch-order/add-dispatch-order.component';
 import { RouteTimeTableComponent } from './modals/route-time-table/route-time-table.component';
 import { RouteTimeTableDetailsComponent } from './modals/route-time-table-details/route-time-table-details.component';
+import { RoutesTimetableComponent } from './modals/routes-timetable/routes-timetable.component';
+import { VehicleTimeTableAssociationComponent } from './modals/vehicle-time-table-association/vehicle-time-table-association.component';
+import { DriverLedgerMappingComponent } from './modals/DriverModals/driver-ledger-mapping/driver-ledger-mapping.component';
+import { ConstraintsComponent } from './modals/constraints/constraints.component';
+import { ViewTransferComponent } from './modals/FreightRate/view-transfer/view-transfer.component';
+import { ViewMVSFreightStatementComponent } from './modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
+import { TemplateDevviewComponent } from './modals/template-devview/template-devview.component';
+import { MarketVehFreightStatementComponent } from './modals/FreightRate/market-veh-freight-statement/market-veh-freight-statement.component';
+import { MvsLrAssignComponent } from './modals/FreightRate/mvs-lr-assign/mvs-lr-assign.component';
+import { GenericSuggestionComponent } from './modals/generic-modals/generic-suggestion/generic-suggestion.component';
+import { ManifestGenerateComponent } from './modals/LRModals/manifest-generate/manifest-generate.component';
+import { DriverPersonalInfoComponent } from './modals/driver-personal-info/driver-personal-info.component';
+import { AddCompanyAssociationComponent } from './modals/add-company-association/add-company-association.component';
+import { FreightRateSummaryComponent } from './modals/FreightRate/freight-rate-summary/freight-rate-summary.component';
+import { AddReportFormatsComponent } from './modals/add-report-formats/add-report-formats.component';
+import { FreightRateRulesComponent } from './modals/FreightRate/freight-rate-rules/freight-rate-rules.component';
+import { UnMergeStateComponent } from './modals/un-merge-state/un-merge-state.component';
+import { FuelFillingTimetableComponent } from './modals/fuel-filling-timetable/fuel-filling-timetable.component';
+import { PdfViewerComponent } from './generic/pdf-viewer/pdf-viewer.component';
+import { AddSupplierAssociationComponent } from './modals/add-supplier-association/add-supplier-association.component';
+import { ChallanPendingRequestComponent } from './modals/challanModals/challan-pending-request/challan-pending-request.component';
+import { PayChallanPaymentComponent } from './modals/challanModals/pay-challan-payment/pay-challan-payment.component';
+import { AddGpsApiUrlComponent } from './modals/add-gps-api-url/add-gps-api-url.component';
+import { AddGpsWebUrlComponent } from './modals/add-gps-web-url/add-gps-web-url.component';
+import { AddGpsSupplierComponent } from './modals/add-gps-supplier/add-gps-supplier.component';
+import { VehicleDetailsUpdateComponent } from './modals/vehicle-details-update/vehicle-details-update.component';
 
+const COMMON_COMPONENT = [UnMergeStateComponent,
+  PdfViewerComponent,
+  FreightRateRulesComponent,
+  AddReportFormatsComponent,
+  AddDispatchOrderComponent,
+  ViewMVSFreightStatementComponent,
+  FreightInvoiceRateComponent,
+  LRRateCalculatorComponent,
+  LrRateComponent,
+  ViewFrieghtInvoiceComponent,
+  LrGenerateComponent,
+  AddFreightExpensesComponent,
+  FreightInputWithoutLocationComponent,
+  FreightInputLocationComponent,
+  VehicleTyreSummaryComponent,
+  BulkVehicleNextServiceDetailComponent,
+  AddAdvancedMaintenanceComponent,
+  VehicleNextServiceDetailComponent,
+  ChangeDriverComponent,
+  SiteTripDetailsComponent,
+  UserCallHistoryComponent,
+  KpisDetailsComponent,
+  LocationMarkerComponent,
+  ImageViewComponent,
+  TicketTrailsComponent,
+  BuyTimeComponent,
+  ReminderComponent,
+  TicketForwardComponent,
+  RemarkModalComponent,
+  VehicleHaltComponent,
+  ConfirmComponent,
+  DatePickerComponent,
+  LocationSelectionComponent,
+  VehicleTripUpdateComponent,
+  ViewListComponent,
+  FuelEntriesComponent,
+  CustomerSelectionComponent,
+  StockTypeComponent,
+  StockSubtypeComponent,
+  StockitemComponent,
+  AddDocumentComponent,
+  ImportDocumentComponent,
+  AddAgentComponent,
+  AccountsComponent,
+  LedgerComponent,
+  BranchComponent,
+  VoucherComponent,
+  VehicleSearchComponent,
+  OrderComponent,
+  TaxdetailComponent,
+  EditDocumentComponent,
+  EditLorryDetailsComponent,
+  PendingDocumentComponent,
+  ErrorReportComponent,
+  ReportIssueComponent,
+  DocumentReportComponent,
+  AddEscalationIssueComponent,
+  DocumentHistoryComponent,
+  EmpDashboardComponent,
+  DocumentIssuesComponent,
+  DriverDistanceComponent,
+  AddPumpComponent,
+  ChangeVehicleStatusComponent,
+  ChangeHaltComponent,
+  LoadHaltComponent,
+  VoucherSummaryComponent,
+  ParticlularsComponent,
+  UpdateTicketPropertiesComponent,
+  AddConsigneeComponent,
+  AddDriverComponent,
+  AddTripComponent,
+  AddFuelFillingComponent,
+  AddDriverCompleteComponent,
+  UpdateSiteDetailsComponent,
+  VechileTrailsComponent,
+  EditDriverComponent,
+  VoucherdetailComponent,
+  VehiclesOnMapComponent,
+  RadioSelectionComponent,
+  UpdateTripDetailComponent,
+  ManualHaltComponent,
+  DriverVehicleRemappingComponent,
+  DriverStatusChangeComponent,
+  NewDriverStatusComponent,
+  DriverAttendanceUpdateComponent,
+  VehicleReportComponent,
+  LRViewComponent,
+  UpdateCompanyComponent,
+  UpdateTransportAgentComponent,
+  VehicleAnalysisComponent,
+  RouteMapperComponent,
+  EditFillingComponent,
+  ImportFillingsComponent,
+  TripDetailsComponent,
+  PendingLicenceDetailComponent,
+  WareHouseModalComponent,
+  AddCityComponent,
+  AddSiteRuleComponent,
+  StorerequisitionComponent,
+  DropDownListComponent,
+  VehicleGpsTrailComponent,
+  VehicleLrComponent,
+  ChoosePeriodsComponent,
+  VehicleStatesComponent,
+  CsvErrorReportComponent,
+  AddShortTargetComponent,
+  FuelStationEntryComponent,
+  ShowFuelStationComponent,
+  DaybookComponent,
+  ProfitlossComponent,
+  PoliceStationComponent,
+  LedgerviewComponent,
+  TankEmptyDetailsComponent,
+  AddVehicleComponent,
+  ImportBulkVehiclesComponent,
+  AddFoAdminUsersComponent,
+  AddFoComponent,
+  PullHistoryGPSDataComponent,
+  OdoMeterComponent,
+  CostCentersComponent,
+  VouchercostcenterComponent,
+  AddFuelFullRuleComponent,
+  ErrorCoomonVehiclesComponent,
+  CostCenterViewComponent,
+  AddPlacementSiteRuleComponent,
+  FuelfilingComponent,
+  VehicleFuelFillingEntryComponent,
+  VehicleWiseFuelFillingComponent,
+  PumpWiseFuelFillingComponent,
+  GpsEnabledDisabledComponent,
+  UnmappedLrComponent,
+  MappedLrComponent,
+  FoSiteCountComponent,
+  PrintManifestComponent,
+  VoucherSummaryShortComponent,
+  AddVehicleModalServiceComponent,
+  AddVehicleSubModalServiceComponent,
+  UpdateTicketSubscribeComponent,
+  ViaRoutePointsComponent,
+  ModalWiseFuelAvgComponent,
+  FuelEditComponent,
+  AddViaRoutesComponent,
+  FoFreightRatesComponent,
+  LrPodDashboardComponent,
+  BatterySummaryReportComponent,
+  RoutesExpensesComponent,
+  RoutesAdvancesComponent,
+  RoutesTrafficKpisComponent,
+  AddFuelIndentComponent,
+  AddFieldComponent,
+  AddFreightRevenueComponent,
+  SaveAdvicesComponent,
+  EntityFlagsComponent,
+  ClearAdvicesComponent,
+  GenericModelComponent,
+  TransferReceiptsComponent,
+  LrPodDetailsComponent,
+  FreightRateCalculationComponent,
+  LrNearbyPodComponent,
+  VehicleDistanceCoveredCompactFormComponent,
+  FreightInvoiceComponent,
+  LrAssignComponent,
+  TypeMasterComponent,
+  TripSettlementComponent,
+  EditViaRoutesPointsComponent,
+  LedgeraddressComponent,
+  AddReceiptsComponent,
+  GetUserBankInfoComponent,
+  UploadDocsComponent,
+  OrderdetailComponent,
+  AddTransportAgentComponent,
+  AddCompanyBranchComponent,
+  CompanyAssociationComponent,
+  CompanyEstablishmentComponent,
+  CompanyContactsComponent,
+  AddMaterialComponent,
+  BasicPartyDetailsComponent,
+  BankAccountsComponent,
+  LrInvoiceColumnsComponent,
+  GenerateLrMainfestoComponent,
+  FoUserStateComponent,
+  FeedbackModalComponent,
+  GenericInputTypeComponent,
+  ModalWiseFuelAverageComponent,
+  TripdetailComponent,
+  SupportingDocComponent,
+  VoucherTypeGetComponent,
+  PartyLedgerMappingComponent,
+  FoWebViewSummaryComponent,
+  BulkCompanyAssociationComponent,
+  AssignUserTemplateComponent,
+  SaveUserTemplateComponent,
+  StrictMappingComponent,
+  VehiclePriSecRoutemappingComponent,
+  TyreHistoryComponent,
+  TemplatePreviewComponent,
+  RouteTimeTableComponent,
+  RouteTimeTableDetailsComponent,
+  DriverLedgerMappingComponent,
+  RoutesTimetableComponent,
+  VehicleTimeTableAssociationComponent,
+  ConstraintsComponent,
+  ViewTransferComponent,
+  TemplateDevviewComponent,
+  MarketVehFreightStatementComponent,
+  MvsLrAssignComponent,
+  GenericSuggestionComponent,
+  ManifestGenerateComponent,
+  VehiclesViewComponent,
+  DriverPersonalInfoComponent,
+  AddCompanyAssociationComponent,
+  FreightRateSummaryComponent,
+  UnMergeStateComponent,
+  FuelFillingTimetableComponent,
+  AddSupplierAssociationComponent,
+  ChallanPendingRequestComponent,
+  PayChallanPaymentComponent,
+  AddGpsApiUrlComponent,
+  AddGpsWebUrlComponent,
+  AddGpsSupplierComponent,
+  VehicleDetailsUpdateComponent,
 
+];
 
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
-    KpisDetailsComponent,
-    LocationMarkerComponent,
-    TicketTrailsComponent,
-    ImageViewComponent,
-    TicketForwardComponent,
-    BuyTimeComponent,
-    ReminderComponent,
-    RemarkModalComponent,
-    VehicleHaltComponent,
-    ConfirmComponent,
-    DatePickerComponent,
-    LocationSelectionComponent,
-    ViewListComponent,
-    VehicleTripUpdateComponent,
-    FuelEntriesComponent,
-    CustomerSelectionComponent,
-    StockTypeComponent,
-    StockSubtypeComponent,
-    StockTypeComponent,
-    StockSubtypeComponent,
-    StockitemComponent,
-    AddDocumentComponent,
-    ImportDocumentComponent,
-    AddAgentComponent,
-    AccountsComponent,
-    LedgerComponent,
-    BranchComponent,
-    VoucherComponent,
-    VehicleSearchComponent,
-    OrderComponent,
-    TaxdetailComponent,
-    EditDocumentComponent,
-    PendingDocumentComponent,
-    ErrorReportComponent,
-    ReportIssueComponent,
-    DocumentReportComponent,
-    ErrorReportComponent,
-    AddEscalationIssueComponent,
-    DocumentReportComponent,
-    DocumentHistoryComponent,
-    EmpDashboardComponent,
-    DocumentIssuesComponent,
-    UpdateTicketPropertiesComponent,
-    EditLorryDetailsComponent,
-    ChangeVehicleStatusComponent,
-    ChangeHaltComponent,
-    LoadHaltComponent,
-    VoucherSummaryComponent,
-    AddConsigneeComponent,
-    ParticlularsComponent,
-    AddDriverComponent,
-    VechileTrailsComponent,
-    AddTripComponent,
-    AddFuelFillingComponent,
-    AddDriverComponent,
-    UpdateSiteDetailsComponent,
-    AddDriverCompleteComponent,
-    UpdateSiteDetailsComponent,
-    EditDriverComponent,
-    VehiclesOnMapComponent,
-    VoucherdetailComponent,
-    RadioSelectionComponent,
-    UpdateTripDetailComponent,
-    ManualHaltComponent,
-    ResolveMissingIndustryComponent,
-    DriverVehicleRemappingComponent,
-    DriverStatusChangeComponent,
-    NewDriverStatusComponent,
-    DriverAttendanceUpdateComponent,
-    VehicleReportComponent,
-    LRViewComponent,
-    UpdateCompanyComponent,
-    UpdateTransportAgentComponent,
-    RouteMapperComponent,
-    TripDetailsComponent,
-    VehicleAnalysisComponent,
-    RouteMapperComponent,
-    PendingLicenceDetailComponent,
-    WareHouseModalComponent,
-    UserCallHistoryComponent,
-    DriverDistanceComponent,
-    EditFillingComponent,
-    AddPumpComponent,
-    ImportFillingsComponent,
-    AddCityComponent,
-    SiteTripDetailsComponent,
-    AddSiteRuleComponent,
-    StorerequisitionComponent,
-    DropDownListComponent,
-    VehicleGpsTrailComponent,
-    VehicleLrComponent,
-    ChoosePeriodsComponent,
-    VehicleStatesComponent,
-    ChangeDriverComponent,
-    CsvErrorReportComponent,
-    AddShortTargetComponent,
-    FuelStationEntryComponent,
-    ShowFuelStationComponent,
-    CustomDatePipe,
-    DaybookComponent,
-    ProfitlossComponent,
-    LedgerviewComponent,
     CustomTimePipe,
-    PoliceStationComponent,
-    TankEmptyDetailsComponent,
-    AddVehicleComponent,
-    ImportBulkVehiclesComponent,
-    AddFoAdminUsersComponent,
-    AddFoComponent,
-    PullHistoryGPSDataComponent,
-    OdoMeterComponent,
-    CostCentersComponent,
-    ErrorCoomonVehiclesComponent,
-    VouchercostcenterComponent,
-    AddFuelFullRuleComponent,
-    CostCenterViewComponent,
-    VehiclesViewComponent,
-    AddPlacementSiteRuleComponent,
-    FuelfilingComponent,
-    VehicleFuelFillingEntryComponent,
-    VehicleWiseFuelFillingComponent,
-    PumpWiseFuelFillingComponent,
-    VehicleNextServiceDetailComponent,
-    BulkVehicleNextServiceDetailComponent,
-    GpsEnabledDisabledComponent,
-    UnmappedLrComponent,
-    MappedLrComponent,
-    FoSiteCountComponent,
-    PrintManifestComponent,
-    VoucherSummaryShortComponent,
-    AddVehicleModalServiceComponent,
-    AddVehicleSubModalServiceComponent,
-    UpdateTicketSubscribeComponent,
-    AddAdvancedMaintenanceComponent,
-    ViaRoutePointsComponent,
-    ModalWiseFuelAvgComponent,
-    FuelEditComponent,
-    AddViaRoutesComponent,
-    VehicleTyreSummaryComponent,
-    FreightInputWithoutLocationComponent,
-    FreightInputLocationComponent,
-    FoFreightRatesComponent,
-    LrPodDashboardComponent,
-    BatterySummaryReportComponent,
-    RoutesExpensesComponent,
-    RoutesAdvancesComponent,
-    RoutesTrafficKpisComponent,
-    AddFuelIndentComponent,
-    LrGenerateComponent,
-    AddFieldComponent,
-    AddFreightRevenueComponent,
-    SaveAdvicesComponent,
-    EntityFlagsComponent,
-    ClearAdvicesComponent,
-    GenericModelComponent,
-    TransferReceiptsComponent,
-    AddFreightExpensesComponent,
-    LrPodDetailsComponent,
-    FreightRateCalculationComponent,
-    ViewFrieghtInvoiceComponent,
-    LrNearbyPodComponent,
-    VehicleDistanceCoveredCompactFormComponent,
-    FreightInvoiceComponent,
-    LrAssignComponent,
-    TypeMasterComponent,
-    TripSettlementComponent,
-    EditViaRoutesPointsComponent,
-    LrRateComponent,
-    LedgeraddressComponent,
-    AddReceiptsComponent,
-    GetUserBankInfoComponent,
-    UploadDocsComponent,
-    OrderdetailComponent,
-    AddTransportAgentComponent,
-    AddCompanyBranchComponent,
-    CompanyAssociationComponent,
-    CompanyEstablishmentComponent,
-    CompanyContactsComponent,
-    AddMaterialComponent,
-    LRRateCalculatorComponent,
-    FoUserStateComponent,
-    LrInvoiceColumnsComponent,
-    GenerateLrMainfestoComponent,
-    FeedbackModalComponent,
-    GenericInputTypeComponent,
-    ModalWiseFuelAverageComponent,
-    GenerateLrMainfestoComponent,
-    TripdetailComponent,
-    SupportingDocComponent,
-    FreightInvoiceRateComponent,
-    BasicPartyDetailsComponent,
-    BankAccountsComponent,
-    LrInvoiceColumnsComponent,
-    PartyLedgerMappingComponent,
-    FoWebViewSummaryComponent,
-    VoucherTypeGetComponent,
-    BulkCompanyAssociationComponent,
-    AssignUserTemplateComponent,
-    SaveUserTemplateComponent,
-    StrictMappingComponent,
-    VehiclePriSecRoutemappingComponent,
-    TyreHistoryComponent,
-    TemplatePreviewComponent,
-    RouteTimeTableComponent,
-    RouteTimeTableDetailsComponent,
-
+    CustomDatePipe,
+    ...COMMON_COMPONENT,
   ],
   entryComponents: [
-    FreightInvoiceRateComponent,
-    LRRateCalculatorComponent,
-    LrRateComponent,
-    ViewFrieghtInvoiceComponent,
-    LrGenerateComponent,
-    AddFreightExpensesComponent,
-    FreightInputWithoutLocationComponent,
-    FreightInputLocationComponent,
-    VehicleTyreSummaryComponent,
-    BulkVehicleNextServiceDetailComponent,
-    AddAdvancedMaintenanceComponent,
-    VehicleNextServiceDetailComponent,
-    ChangeDriverComponent,
-    SiteTripDetailsComponent,
-    UserCallHistoryComponent,
-    KpisDetailsComponent,
-    LocationMarkerComponent,
-    ImageViewComponent,
-    TicketTrailsComponent,
-    BuyTimeComponent,
-    ReminderComponent,
-    TicketForwardComponent,
-    RemarkModalComponent,
-    VehicleHaltComponent,
-    ConfirmComponent,
-    DatePickerComponent,
-    LocationSelectionComponent,
-    VehicleTripUpdateComponent,
-    ViewListComponent,
-    FuelEntriesComponent,
-    CustomerSelectionComponent,
-    StockTypeComponent,
-    StockSubtypeComponent,
-    StockitemComponent,
-    AddDocumentComponent,
-    ImportDocumentComponent,
-    AddAgentComponent,
-    AccountsComponent,
-    LedgerComponent,
-    BranchComponent,
-    VoucherComponent,
-    VehicleSearchComponent,
-    OrderComponent,
-    TaxdetailComponent,
-    EditDocumentComponent,
-    EditLorryDetailsComponent,
-    PendingDocumentComponent,
-    ErrorReportComponent,
-    ReportIssueComponent,
-    DocumentReportComponent,
-    AddEscalationIssueComponent,
-    DocumentHistoryComponent,
-    EmpDashboardComponent,
-    DocumentIssuesComponent,
-    DriverDistanceComponent,
-    AddPumpComponent,
-    ChangeVehicleStatusComponent,
-    ChangeHaltComponent,
-    LoadHaltComponent,
-    VoucherSummaryComponent,
-    ParticlularsComponent,
-    UpdateTicketPropertiesComponent,
-    AddConsigneeComponent,
-    AddDriverComponent,
-    AddTripComponent,
-    AddFuelFillingComponent,
-    AddDriverCompleteComponent,
-    UpdateSiteDetailsComponent,
-    VechileTrailsComponent,
-    EditDriverComponent,
-    VoucherdetailComponent,
-    VehiclesOnMapComponent,
-    RadioSelectionComponent,
-    UpdateTripDetailComponent,
-    ManualHaltComponent,
-    ResolveMissingIndustryComponent,
-    DriverVehicleRemappingComponent,
-    DriverStatusChangeComponent,
-    NewDriverStatusComponent,
-    DriverAttendanceUpdateComponent,
-    VehicleReportComponent,
-    LRViewComponent,
-    UpdateCompanyComponent,
-    UpdateTransportAgentComponent,
-    VehicleAnalysisComponent,
-    RouteMapperComponent,
-    EditFillingComponent,
-    ImportFillingsComponent,
-    TripDetailsComponent,
-    PendingLicenceDetailComponent,
-    WareHouseModalComponent,
-    AddCityComponent,
-    AddSiteRuleComponent,
-    StorerequisitionComponent,
-    DropDownListComponent,
-    VehicleGpsTrailComponent,
-    VehicleLrComponent,
-    ChoosePeriodsComponent,
-    VehicleStatesComponent,
-    CsvErrorReportComponent,
-    AddShortTargetComponent,
-    FuelStationEntryComponent,
-    ShowFuelStationComponent,
-    DaybookComponent,
-    ProfitlossComponent,
-    PoliceStationComponent,
-    LedgerviewComponent,
-    TankEmptyDetailsComponent,
-    AddVehicleComponent,
-    ImportBulkVehiclesComponent,
-    AddFoAdminUsersComponent,
-    AddFoComponent,
-    PullHistoryGPSDataComponent,
-    OdoMeterComponent,
-    CostCentersComponent,
-    VouchercostcenterComponent,
-    AddFuelFullRuleComponent,
-    ErrorCoomonVehiclesComponent,
-    CostCenterViewComponent,
-    AddPlacementSiteRuleComponent,
-    FuelfilingComponent,
-    VehicleFuelFillingEntryComponent,
-    VehicleWiseFuelFillingComponent,
-    PumpWiseFuelFillingComponent,
-    GpsEnabledDisabledComponent,
-    UnmappedLrComponent,
-    MappedLrComponent,
-    FoSiteCountComponent,
-    PrintManifestComponent,
-    VoucherSummaryShortComponent,
-    AddVehicleModalServiceComponent,
-    AddVehicleSubModalServiceComponent,
-    UpdateTicketSubscribeComponent,
-    ViaRoutePointsComponent,
-    ModalWiseFuelAvgComponent,
-    FuelEditComponent,
-    AddViaRoutesComponent,
-    FoFreightRatesComponent,
-    LrPodDashboardComponent,
-    BatterySummaryReportComponent,
-    RoutesExpensesComponent,
-    RoutesAdvancesComponent,
-    RoutesTrafficKpisComponent,
-    AddFuelIndentComponent,
-    AddFieldComponent,
-    AddFreightRevenueComponent,
-    SaveAdvicesComponent,
-    EntityFlagsComponent,
-    ClearAdvicesComponent,
-    GenericModelComponent,
-    TransferReceiptsComponent,
-    LrPodDetailsComponent,
-    FreightRateCalculationComponent,
-    LrNearbyPodComponent,
-    VehicleDistanceCoveredCompactFormComponent,
-    FreightInvoiceComponent,
-    LrAssignComponent,
-    TypeMasterComponent,
-    TripSettlementComponent,
-    EditViaRoutesPointsComponent,
-    LedgeraddressComponent,
-    AddReceiptsComponent,
-    GetUserBankInfoComponent,
-    UploadDocsComponent,
-    OrderdetailComponent,
-    AddTransportAgentComponent,
-    AddCompanyBranchComponent,
-    CompanyAssociationComponent,
-    CompanyEstablishmentComponent,
-    CompanyContactsComponent,
-    AddMaterialComponent,
-    BasicPartyDetailsComponent,
-    BankAccountsComponent,
-    LrInvoiceColumnsComponent,
-    GenerateLrMainfestoComponent,
-    FoUserStateComponent,
-    FeedbackModalComponent,
-    GenericInputTypeComponent,
-    ModalWiseFuelAverageComponent,
-    TripdetailComponent,
-    SupportingDocComponent,
-    VoucherTypeGetComponent,
-    PartyLedgerMappingComponent,
-    FoWebViewSummaryComponent,
-    BulkCompanyAssociationComponent,
-    AssignUserTemplateComponent,
-    SaveUserTemplateComponent,
-    StrictMappingComponent,
-    VehiclePriSecRoutemappingComponent,
-    TyreHistoryComponent,
-    TemplatePreviewComponent,
-    RouteTimeTableComponent,
-    RouteTimeTableDetailsComponent
+    ...COMMON_COMPONENT
   ],
   imports: [
     BrowserModule,
@@ -664,7 +515,8 @@ import { RouteTimeTableDetailsComponent } from './modals/route-time-table-detail
     MatDatepickerModule,
     MatNativeDateModule,
     NgxPrintModule,
-
+    NgxQRCodeModule,
+    PdfViewerModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']
@@ -675,6 +527,7 @@ import { RouteTimeTableDetailsComponent } from './modals/route-time-table-detail
 
   bootstrap: [AppComponent],
   providers: [
+    DeactivateGuardService,
     NgbActiveModal,
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },

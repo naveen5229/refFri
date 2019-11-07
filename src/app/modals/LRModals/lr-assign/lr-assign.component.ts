@@ -16,6 +16,7 @@ export class LrAssignComponent implements OnInit {
   dataList = [];
   selectedType = [];
   invoiceId = null;
+  invoiceType = null;
   data = [];
   table = {
     data: {
@@ -44,6 +45,7 @@ export class LrAssignComponent implements OnInit {
     this.branchId = this.common.params.row._branch_id ? this.common.params.row._branch_id : null;
     this.partyId = this.common.params.row._party_id ? this.common.params.row._party_id : null;
     this.invoiceId = this.common.params.row._id ? this.common.params.row._id : null;
+    this.invoiceType = this.common.params.row._invtype?this.common.params.row._invtype:null;
     this.getlrUnmapped();
     this.viewlrData();
   }
@@ -63,10 +65,11 @@ export class LrAssignComponent implements OnInit {
     this.common.loading++;
     let params = {
       startTime: this.common.dateFormatter(this.startTime).split(' ')[0],
-      endTime: this.common.dateFormatter(this.endTime).split(' ')[0],
+      endTime: this.common.dateFormatter(this.endTime).split(' ')[0] + " 23:59:00",
       partyId: this.partyId,
       branchId: this.branchId,
-      invoiceId: null,
+      invoiceId: this.invoiceId,
+      mapped:0
     }
     console.log("params", params);
     this.api.post('FrieghtRate/getlrUnmapped', params)
@@ -121,7 +124,7 @@ export class LrAssignComponent implements OnInit {
   }
 
   onChange(id: string, isChecked: boolean) {
-    console.log()
+    console.log("id",id);
     if (isChecked) {
       this.selectedType.push(id);
     } else {
@@ -165,6 +168,7 @@ export class LrAssignComponent implements OnInit {
         if (res['success']) {
           this.common.showToast(res['msg']);
           this.refresh();
+          this.selectedType = [];
         }
       }, err => {
         this.common.loading--;
@@ -177,10 +181,11 @@ export class LrAssignComponent implements OnInit {
     this.common.loading++;
     let params = {
       startTime: this.common.dateFormatter(this.startTime).split(' ')[0],
-      endTime: this.common.dateFormatter(this.endTime).split(' ')[0],
+      endTime: this.common.dateFormatter(this.endTime).split(' ')[0] + " 23:59:00",
       partyId: this.partyId,
       branchId: this.branchId,
       invoiceId: this.invoiceId,
+      mapped:1
     }
     console.log("params", params);
     this.api.post('FrieghtRate/getlrUnmapped', params)

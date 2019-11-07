@@ -51,7 +51,6 @@ export class TripVoucherExpenseComponent implements OnInit {
     public user: UserService,
     public accountService: AccountService,
     public modalService: NgbModal) {
-    this.common.currentPage = 'Trip Voucher Expense';
     // this.getTripExpences();
     this.common.refresh = this.refresh.bind(this);
     this.route.params.subscribe(params => {
@@ -61,6 +60,12 @@ export class TripVoucherExpenseComponent implements OnInit {
       }
     });
 
+    if(this.routId==0){
+    this.common.currentPage = 'Trip Voucher Expense';
+    }else{
+    this.common.currentPage = 'Trip Voucher Expense (Short)';
+
+    }
   }
 
   ngOnInit() {
@@ -137,7 +142,7 @@ export class TripVoucherExpenseComponent implements OnInit {
     if (this.selectedVehicle.id == 0) {
       this.common.showToast('please enter registration number !!')
     } else if (this.accountService.selected.branch.id == 0) {
-      this.common.showToast('please Select Branch !!')
+      this.common.showError('please Select Branch !!')
     } else {
       this.getTripExpences();
       console.log('this.selectedVehicle.id',this.selectedVehicle.regno);
@@ -163,14 +168,18 @@ export class TripVoucherExpenseComponent implements OnInit {
   showTripSummary(tripDetails) {
     let vehId = this.selectedVehicle.id;
    let vehname= this.selectedVehicle.regno;
+   let firstDate = this.startdate;
+   let endDate = this.enddate;
     
-    this.common.params = { vehId, tripDetails,vehname };
+    this.common.params = { vehId, tripDetails,vehname,firstDate,endDate };
 
     if (this.routId == 1) {
       const activeModal = this.modalService.open(VoucherSummaryShortComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         console.log('Data123: ', data.status);
         if (data.status) {
+        console.log('response Data123: ', data.status);
+
           //this.addLedger(data.ledger);
           // this.common.loading--;
           this.selectedVehicle.id = 0
@@ -185,6 +194,8 @@ export class TripVoucherExpenseComponent implements OnInit {
       activeModal.result.then(data => {
         console.log('Data321: ', data.status);
         if (data.status) {
+        console.log('response Data1234: ', data.status);
+
           //this.addLedger(data.ledger);
           // this.common.loading--;
           this.selectedVehicle.id = 0
@@ -204,6 +215,18 @@ export class TripVoucherExpenseComponent implements OnInit {
     const key = event.key.toLowerCase();
     let activeId = document.activeElement.id;
     console.log('Active event', event);
+    if (key == 'enter') {
+      //this.allowBackspace = true;
+      if (activeId.includes('suggestion')) {
+        this.setFoucus('vchtype');
+      } else if (activeId.includes('vchtype')) {
+        this.setFoucus('startdate');
+      }else if (activeId.includes('startdate')) {
+        this.setFoucus('enddate');
+      }else if (activeId.includes('enddate')) {
+        this.setFoucus('btnSubmit');
+      }
+    }
     if ((key == 'backspace' || key == 'delete') && activeId == 'suggestion') {
       /***************************** Handle Row Enter ******************* */
       this.selectedVehicle.id = 0;
@@ -214,6 +237,16 @@ export class TripVoucherExpenseComponent implements OnInit {
       else if (this.selectedRow != this.showtripvoucher.length - 1) this.selectedRow++;
 
     }
+  }
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
   checkedAllSelected() {
     this.checkedTrips = [];
@@ -411,7 +444,8 @@ export class TripVoucherExpenseComponent implements OnInit {
       vehId: (this.selectedVehicle.id) ? this.selectedVehicle.id : 0,
       startdate: this.startdate,
       enddate: this.enddate,
-      isdate: this.vchdt
+      isdate: this.vchdt,
+      routid:this.routId
     };
     this.common.loading++;
     this.api.post('VehicleTrips/getTripExpenceFilterVoucher', params)
@@ -428,6 +462,7 @@ export class TripVoucherExpenseComponent implements OnInit {
   }
 
   getVoucherSummary(tripVoucher) {
+    if (this.accountService.selected.branch.id != 0) {
     let promises = [];
     this.selectedVehicle.id = tripVoucher.y_vehicle_id;
     promises.push(this.getTripExpences());
@@ -444,6 +479,10 @@ export class TripVoucherExpenseComponent implements OnInit {
       this.common.showError('There is some technical error occured. Please Try Again!');
     })
   }
+  else{
+    this.common.showError('Please Select Branch');
+  }
+}
 
   getTripExpenseVoucherTripsData(tripVoucher) {
     return new Promise((resolve, reject) => {
@@ -482,10 +521,12 @@ export class TripVoucherExpenseComponent implements OnInit {
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
       const activeModal = this.modalService.open(VoucherSummaryShortComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        console.log('Data: ', data);
-        if (data.response) {
+        console.log('Data active element: ', data);
+        if (data.status) {
+
           //this.addLedger(data.ledger);
-          this.getTripExpences();
+          this.selectedVehicle.id = 0
+          this.getSearchTripExpences();
         }
         this.selectedVehicle.id = 0
       });
@@ -496,10 +537,11 @@ export class TripVoucherExpenseComponent implements OnInit {
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
       const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        console.log('Data: ', data);
-        if (data.response) {
+        console.log('Data active element 2: ', data);
+        if (data.status) {
           //this.addLedger(data.ledger);
-          this.getTripExpences();
+          this.selectedVehicle.id = 0
+          this.getSearchTripExpences();
         }
         this.selectedVehicle.id = 0
 
@@ -550,5 +592,57 @@ export class TripVoucherExpenseComponent implements OnInit {
     });
 
   }
+  pdfFunction() {
+    let params = {
+      search: 'test'
+    };
 
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+        // this.Vouchers = res['data'];
+        let address = (res['data'][0]) ? res['data'][0].addressline + '\n' : '';
+        let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1 + remainingstring3;
+        let foname = (res['data'][0]) ? res['data'][0].foname : '';
+        this.common.getPDFFromTableIdnew('table', foname, cityaddress, '', '', 'Trip Voucher Expence :' + this.startdate + ' To :' + this.enddate);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  csvFunction() {
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+        // this.Vouchers = res['data'];
+        let address = (res['data'][0]) ? res['data'][0].addressline + '\n' : '';
+        let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1;
+        let foname = (res['data'][0]) ? res['data'][0].foname : '';
+        this.common.getCSVFromTableIdNew('table', foname, cityaddress, '', '', remainingstring3);
+        // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
 }

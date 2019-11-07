@@ -7,7 +7,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'auto-suggestion',
   templateUrl: './auto-suggestion.component.html',
-  styleUrls: ['./auto-suggestion.component.scss']
+  styleUrls: ['./auto-suggestion.component.scss'],
+  host: {
+    '(document:click)': 'hideSuggestions($event)'
+  }
 })
 export class AutoSuggestionComponent implements OnInit {
 
@@ -125,7 +128,7 @@ export class AutoSuggestionComponent implements OnInit {
     params += 'search=' + this.searchText;
     this.api.get(this.url + params)
       .subscribe(res => {
-        this.suggestions = res['data'];
+        this.suggestions = res['data'] || [];
         if (this.isNoDataFoundEmit && !this.suggestions.length) this.noDataFound.emit({ search: this.searchText });
       }, err => {
         console.error(err);
@@ -208,7 +211,8 @@ export class AutoSuggestionComponent implements OnInit {
     return className;
   }
 
-  showAllSuggestion() {
+  showAllSuggestion(event) {
+    event.stopPropagation();
     this.showSuggestions = true;
     this.suggestions = this.data;
   }
@@ -217,6 +221,10 @@ export class AutoSuggestionComponent implements OnInit {
     console.log("cleardata");
     this.showSuggestions = false;
     this.suggestions = [];
+  }
+  hideSuggestions() {
+    setTimeout(() =>
+      this.showSuggestions = false, 300);
   }
 
 }

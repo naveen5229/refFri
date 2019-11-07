@@ -15,6 +15,7 @@ export class LedgersComponent implements OnInit {
   selectedName = '';
   deletedId = 0;
   pageName="";
+  sizeledger=0;
   constructor(private activeModal :NgbActiveModal,
     public api: ApiService,
     public common: CommonService,
@@ -37,9 +38,10 @@ export class LedgersComponent implements OnInit {
       this.pageName=this.common.params.pageName;
       this.deletedId = 0;
         this.GetLedger();
+        this.sizeledger=1;
   }
     this.common.currentPage = (this.deletedId == 2) ? 'Cost Category Ledger' : 'Ledger';
-    this.common.handleModalSize('class', 'modal-lg', '1250');
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
 
   }
 
@@ -53,7 +55,7 @@ export class LedgersComponent implements OnInit {
       foid: 123,
       deleted: this.deletedId
     };
-
+console.log('deleted ledger and simple',params);
     this.common.loading++;
     this.api.post('Accounts/GetLedgerdata', params)
       .subscribe(res => {
@@ -112,14 +114,18 @@ export class LedgersComponent implements OnInit {
           this.common.params = {
             ledgerdata: res['data'],
             deleted: this.deletedId,
-        sizeledger:0
+        sizeledger:this.sizeledger
           }
           // this.common.params = { data, title: 'Edit Ledgers Data' };
           const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
           activeModal.result.then(data => {
             // console.log('Data: ', data);
             if (data.response) {
+            if (data.ledger) {
               this.addLedger(data.ledger);
+            }else{
+              this.GetLedger();
+            }
             }
           });
 

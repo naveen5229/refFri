@@ -1,6 +1,6 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const PAGES_MENU_ITEMS = JSON.stringify([
   {
     title: 'Trip',
     icon: 'fas fa-route',
@@ -72,6 +72,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/trends'
       },
       {
+        title: 'Trends Fo',
+        icon: 'fa fa-line-chart',
+        link: '/pages/trends-fo'
+      },
+      {
         title: 'Vehicle OdoMeter',
         icon: 'fas fa-tachometer-alt',
         link: '/pages/vehicle-odoMeter'
@@ -79,10 +84,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
 
       {
-        title: 'Routes',
-        icon: 'fa fa-pencil-square-o',
-        link: '/pages/via-routes',
+        title: 'Route-Dashboard',
+        icon: 'fas fa-map-marked',
+        link: '/pages/route-dashboard'
       },
+      {
+        title: 'Trip P&L',
+        icon: 'fa fa-pencil-square-o',
+        link: '/pages/trip-pnl',
+      },
+
 
     ]
   },
@@ -150,6 +161,46 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'far fa-user',
         link: '/pages/web-acttivity-summary'
       },
+      {
+        title: 'Fo User Role',
+        icon: 'fas fa-user-cog',
+        link: '/pages/fo-user-role',
+      },
+      {
+        title: 'Vehicles',
+        icon: 'fas fa-info-circle',
+        link: '/pages/vehicles',
+        home: true,
+      },
+      {
+        title: 'Unmerge LR State',
+        icon: 'fas fa-clone',
+        link: '/pages/unmerge-lrstate',
+        home: true,
+      },
+      {
+        title: 'Vehicle Supplier Association',
+        icon: 'far fa-building',
+        link: '/pages/vehicle-supplier-association',
+        home: true,
+      },
+      {
+        title: 'MV GPS API',
+        icon: 'fas fa-clone',
+        link: '/pages/mv-gps-apis',
+        home: true,
+      },
+      {
+        title: 'MV GPS API History',
+        icon: 'fas fa-clone',
+        link: '/pages/mv-gps-api-history',
+        home: true,
+      },
+      {
+        title: 'Routes',
+        icon: 'fa fa-pencil-square-o',
+        link: '/pages/via-routes',
+      },
     ]
   },
   {
@@ -172,10 +223,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-file-invoice-dollar',
         link: '/pages/freight-invoices',
       },
+
       {
         title: 'Transfer',
         icon: 'fas fa-dolly-flatbed',
         link: '/pages/transfers',
+      },
+      {
+        title: 'MVS Freight Statement',
+        icon: 'fas fa-dolly-flatbed',
+        link: '/pages/mvs-freight-statement',
       },
       {
         title: 'Freight Expenses/Revenue',
@@ -188,11 +245,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/lorry-receipts',
       },
 
-      // {
-      //   title: 'Generate LR Manifest',
-      //   icon: 'fas fa-receipt',
-      //   link: '/pages/generate-lr-mainfesto',
-      // },
+
       {
         title: 'View LR Manifest',
         icon: 'far fa-file',
@@ -202,6 +255,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'LR/POD Receipts',
         icon: 'fa fa-eye',
         link: '/pages/lr-pod-receipts',
+      },
+      {
+        title: 'Fuel/Cash Indent',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-indent',
+        home: true,
       },
       {
         title: 'Expenses',
@@ -217,6 +276,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Nearby Pods',
         icon: 'fa fa-bar-chart',
         link: '/pages/nearby-pods',
+      },
+      {
+        title: 'Dispatch orders',
+        icon: 'fa fa-book',
+        link: '/pages/dispatch-orders',
       },
     ]
   },
@@ -260,12 +324,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-performance',
         home: true,
       },
-      {
-        title: 'Vehicles',
-        icon: 'fas fa-info-circle',
-        link: '/pages/vehicles',
-        home: true,
-      },
+
 
     ]
   },
@@ -292,12 +351,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/remaining-fuel',
         home: true,
       },
-      // {
-      //   title: ' Model Fuel Mileage',
-      //   icon: 'fas fa-history',
-      //   link: '/pages/fo-fuel-average',
-      //   home: true,
-      // },
+
       {
         title: ' Fuel Master',
         icon: 'fas fa-sliders-h',
@@ -316,12 +370,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/fse-entry',
         home: true,
       },
-      {
-        title: 'Fuel Indent',
-        icon: 'fas fa-gas-pump',
-        link: '/pages/fuel-indent',
-        home: true,
-      },
+
       {
         title: 'Fuel Mileage With ODO',
         icon: 'fas fa-gas-pump',
@@ -422,8 +471,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Tyre',
     icon: 'fa fa-cog',
-    link: '/tyres/inventory'
+    link: '/tyres/tyre-summary'
   },
+
   {
     title: 'Battery',
     icon: 'fas fa-car-battery',
@@ -444,7 +494,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-landmark',
     link: '/ware-house/ware-house-receipts'
   },
+  {
+    title: 'Challan',
+    icon: 'fas fa-chalkboard-teacher',
+    link: '/challan/pending-challan'
+  },
 
-
-
-];
+]);

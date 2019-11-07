@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleNextServiceDetailComponent } from '../../modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from '../../modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 import { OdoMeterComponent } from '../../modals/odo-meter/odo-meter.component';
+import { VehicleDetailsUpdateComponent } from '../../modals/vehicle-details-update/vehicle-details-update.component';
 
 @Component({
   selector: 'vehicles',
@@ -120,6 +121,10 @@ export class VehiclesComponent implements OnInit {
         class: "icon fas fa-tachometer-alt",
         action: this.openOdoMeter.bind(this, data)
       },
+      {
+        class: "icon fa fa-edit",
+        action: this.OpenVehicleupdateModal.bind(this, data)
+      },
     ];
     return icons;
   }
@@ -159,4 +164,20 @@ export class VehiclesComponent implements OnInit {
     activeModal.result.then(data => {
     });
   }
+
+  OpenVehicleupdateModal(vehicle) {
+    let params = {
+      id:vehicle._vid
+    }
+    this.common.params = {vehicle: params};
+    console.log("vehicle", vehicle);
+    let activeModal = this.modalService.open(VehicleDetailsUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(res => {
+      if (res.data) {
+        this.getVehiclesDetail();
+      }
+      console.log('response----', res.data);
+    });
+  }
+
 }

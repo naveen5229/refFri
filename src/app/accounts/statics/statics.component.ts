@@ -220,6 +220,13 @@ export class StaticsComponent implements OnInit {
       if (this.activeId == 'enddate') this.setFoucus('startdate');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
+    }else if ((this.activeId == 'startdate' || this.activeId == 'enddate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-
-import { MENU_ITEMS } from './pages-menu';
+import { PAGES_MENU_ITEMS } from './pages-menu';
 import { NbMenuService } from '@nebular/theme';
 import { ApiService } from '../services/api.service';
 import { AccountService } from '../services/account.service';
@@ -13,7 +12,7 @@ import { Router } from '@angular/router';
   template: `
     <ngx-sample-layout>
     
-       <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
+       <nb-menu *ngIf="user._menu.pages.length"  [items]="user._menu.pages" autoCollapse="true"></nb-menu>
      
       <router-outlet></router-outlet>
     </ngx-sample-layout>
@@ -21,7 +20,7 @@ import { Router } from '@angular/router';
 })
 export class PagesComponent {
 
-  menu = MENU_ITEMS;
+  // menu = MENU_ITEMS;
 
   constructor(public menuService: NbMenuService,
     public api: ApiService,
@@ -30,7 +29,6 @@ export class PagesComponent {
     public router: Router,
 
   ) {
-    console.log('Menu:', this.menuService);
     if (!this.accountService.branches.length) {
       this.getBranches();
       this.getFinancial();

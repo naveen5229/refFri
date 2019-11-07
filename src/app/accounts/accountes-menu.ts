@@ -1,18 +1,12 @@
 import { NbMenuItem } from '@nebular/theme';
-import { VoucherComponent } from '../acounts-modals/voucher/voucher.component';
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     {
         title: 'Home Dashboard',
         icon: 'fa fa-home',
         link: '/pages/dashboard',
         home: true,
     },
-    // {
-    //     title: 'Invoice',
-    //     icon: 'fas fa-file-invoice',
-    //     link: '/accounts/orders'
-    // },
     {
         title: 'Accounts Master',
         icon: 'fas fa-user-circle',
@@ -29,7 +23,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/costcenter'
             },
             {
-                title: 'Ledger',
+                title: 'Ledger (F1)',
                 link: '/accounts/ledgers/0'
             },
             {
@@ -119,7 +113,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-file-excel',
         children: [
             {
-                title: 'Day Book',
+                title: 'Day Book (Ctrl+1)',
                 link: '/accounts/daybooks/0'
             },
             {
@@ -134,9 +128,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Cash Book',
                 link: '/accounts/cashbook'
             },
-            
+
             {
-                title: 'Ledger View',
+                title: 'Ledger View (Ctrl+2)',
                 link: '/accounts/ledgerview'
             },
             {
@@ -144,23 +138,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/cost-center-report'
             },
             {
-                title: 'Trading Account',
+                title: 'Trading Account (Ctrl+5)',
                 link: '/accounts/trading'
             },
             {
-                title: 'Profit & Loass A/C',
+                title: 'Profit & Loss A/C (Ctrl+3)',
                 link: '/accounts/profitloss'
             },
             {
-                title: 'Balance Sheet',
+                title: 'Balance Sheet (Ctrl+4)',
                 link: '/accounts/balancesheet'
             },
             {
-                title: 'Trial Balance',
+                title: 'Trial Balance (Ctrl+6)',
                 link: '/accounts/trialbalance'
             },
             {
-                title: 'Ledger Mapping',
+                title: 'Ledger Mapping (Ctrl+0)',
                 link: '/accounts/ledgermapping'
             },
             {
@@ -179,28 +173,40 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-file-invoice',
         children: [
 
-    {
-        title: 'Trip Expense Tally',
-        link: '/accounts/trip-expense-tally'
+            {
+                title: 'Trip Expense Tally',
+                link: '/accounts/trip-expense-tally'
+            },
+            {
+                title: 'Account Statics',
+                link: '/accounts/statics'
+            },
+            {
+                title: 'GST Reports',
+                link: '/accounts/gstreport'
+            },
+            {
+                title: 'Tally Export',
+                link: '/accounts/tallyexport'
+            },
+            {
+                title: 'Voucher Audit',
+                link: '/accounts/voucheredited'
+            },
+            {
+                title: 'Voucher Audit',
+                link: '/accounts/voucheredited'
+            },
+            {
+                title: 'Ledger Approve',
+                link: '/accounts/ledgerapprove'
+            },
+            {
+                title: 'Accounts Entry Approval',
+                link: '/accounts/account-entry-approval'
+            },
+        ],
     },
-    {
-        title: 'Account Statics',
-        link: '/accounts/statics'
-    },
-    {
-        title: 'GST Reports',
-        link: '/accounts/gstreport'
-    },
-    {
-        title:'Tally Export',
-        link:'/accounts/tallyexport'
-    },
-    {
-        title: 'Voucher Audit',
-        link: '/accounts/voucheredited'
-    }
-],
-},
     {
         title: 'Invoice',
         icon: 'fas fa-file-invoice',
@@ -219,7 +225,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
             },
             {
                 title: 'Debit Note',
-                link: '/accounts/orders/-7/Debit Note'
+                link: '/accounts/orders/-107/Debit Note'
             },
             {
                 title: 'Credit Note',
@@ -252,48 +258,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
         ],
     },
-
-    // {
-    //     title: 'Stock Types',
-    //     icon: 'fas fa-weight-hanging',
-    //     link: '/accounts/stock-types'
-    // },
-    // {
-    //     title: 'Stock Sub Types',
-    //     icon: 'fas fa-weight-hanging',
-    //     link: '/accounts/stock-subtypes'
-    // }
-    // ,
-    // {
-    //     title: 'Stock Item',
-    //     icon: 'fa fa-list',
-    //     link: '/accounts/stockitem'
-    // },
-
-
-
-    // {
-    //     title: 'Account Group',
-    //     icon: 'fa fa-university',
-    //     link: '/accounts/account'
-    // },
-    // {
-    //     title: 'Cost Category',
-    //     icon: 'fa fa-university',
-    //     link: '/accounts/costcenter'
-    // },
-    // {
-    //     title: 'Ledger',
-    //     icon: 'fas fa-file-invoice-dollar',
-    //     link: '/accounts/ledgers/0'
-    // },
-
-
-
-
-
-
-
     {
         title: 'Store Requisition',
         icon: 'fas fa-building',
@@ -316,9 +280,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
         ],
     },
-
-
-
     {
         title: 'Accounts Bin',
         icon: 'fas fa-trash',
@@ -333,38 +294,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
             }
         ]
     },
-
     {
         title: 'Advance Voucher',
         icon: 'fas fa-building',
 
         children: [
             {
-                title: 'Trip Voucher Expense',
+                title: 'Trip Voucher Expense (F10)',
                 link: '/accounts/trip-voucher-expense'
             },
             {
-                title: 'Trip Voucher Expense(Short)',
+                title: 'Trip Voucher Expense(Short) (F11)',
                 link: '/accounts/trip-voucher-expense/1'
             },
             {
-                title: 'Fuel Fillings',
+                title: 'Fuel Fillings (F12)',
                 link: '/accounts/fuelfillings'
             },
         ]
     },
-    // {
-    //     title: 'Trip Voucher Expense',
-    //     icon: 'fas fa-money-check-alt',
-    //     link: '/accounts/trip-voucher-expense'
-    // },
-    // {
-    //     title: 'Fuel Fillings',
-    //     icon: 'fas fa-money-check-alt',
-    //     link: '/accounts/fuelfillings'
-    // },
-
-
-
-
-];
+]);

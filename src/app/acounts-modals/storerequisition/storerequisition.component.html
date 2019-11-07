@@ -28,23 +28,24 @@
                   require>
               </div>
             </div> -->
-          <div class="col">
+          <!-- <div class="col">
             <div class="form-group">
               <label class="ref-label">Code</label>
               <input autocomplete="off" type="text" class="form-control ref-input" name="code" id="code"
                 [(ngModel)]="storeQuestion.code" placeholder="Code" [readonly]="storeRequestStockId == -3">
             </div>
-          </div>
-          <div class="col">
+          </div> -->
+          <div class="col-4" *ngIf="storeRequestStockId == -3">
             <div class="form-group">
-              <label class="ref-label">Cust Code</label>
+              <label class="ref-label">Ref. No</label>
               <input autocomplete="off" type="text" class="form-control ref-input" name="custcode" id="custcode"
                 [(ngModel)]="storeQuestion.custcode" placeholder="Cust Code" [readonly]="storeRequestStockId == -3">
             </div>
           </div>
-          <div class="col">
+          <div class="col-4">
             <div class="form-group">
-              <label class="ref-label">To Branch</label>
+              <label class="ref-label" *ngIf="storeRequestStockId != -3">To Branch</label>
+              <label class="ref-label" *ngIf="storeRequestStockId == -3">From Branch</label>
               <input autocomplete="off" type="text" class="form-control  ref-input" id="tobranch" name="tobranch"
                 placeholder="Please Select Branch" [(ngModel)]="storeQuestion.tobranch.name"
                 [readonly]="storeRequestStockId == -3" (input)="allowBackspace = false;">
@@ -89,9 +90,8 @@
           <th>Unit</th>
           <th>Qty</th>
           <th>remarks</th>
-          <th *ngIf="storeRequestStockId == -3">Issue Qty</th>
-
           <th *ngIf="storeRequestStockId == -3">Issue Warehouse</th>
+          <th *ngIf="storeRequestStockId == -3">Issue Qty</th>
           <th *ngIf="storeRequestStockId == -3">Issue Rate</th>
           <th *ngIf="storeRequestStockId == -3">Issue Amount</th>
           <th *ngIf="storeRequestStockId == -3">Issue remarks</th>
@@ -127,8 +127,7 @@
             <input type="text" [id]="'stockitem-' + i" class="form-control ref-input"
               placeholder="Please Select Stock Item" autocomplete="off" name="'stockitem-' + i"
               [(ngModel)]="detail.stockitem.name" required [readonly]="storeRequestStockId == -3">
-            <span *ngIf="(storeRequestStockId == -1 || storeRequestStockId == -3)">(<i>Available
-                Stock Qty is </i>{{ this.totalitem }})</span>
+          
           </td>
           <td>
             <input type="text" [id]="'stockunit-' + i" class="form-control ref-input"
@@ -140,6 +139,8 @@
               (focus)="getStockAvailability()" [id]="'issueqty-' + i"
               (input)="detail.issueamount = detail.issueqty * detail.issuerate;" [(ngModel)]="detail.issueqty"
               placeholder="Please Enter Issue Quantity">
+              <span *ngIf="(storeRequestStockId == -1 || storeRequestStockId == -3)">(<i>Available
+                  Stock Qty is </i>{{ this.totalitem }})</span>
           </td>
           <td *ngIf="storeRequestStockId != -1">
             <input type="number" class="form-control ref-input" autocomplete="off" name="qty" [id]="'qty-' + i"
@@ -149,6 +150,13 @@
             <input type="text" class="form-control ref-input" autocomplete="off" placeholder="Please Enter Remarks"
               name="remarks" [id]="'remarks-' + i" [(ngModel)]="detail.remarks" [readonly]="storeRequestStockId == -3">
           </td>
+
+          <td *ngIf="storeRequestStockId == -3">
+              <input type="text" [id]="'issuewarehouse-' + i" class="form-control ref-input"
+                [name]="'issuewarehouse-' + i" autocomplete="off" [(ngModel)]="detail.issuewarehouse.name"
+                placeholder="Please Select Issue Warehouse">
+          </td>
+
           <td *ngIf="storeRequestStockId == -3">
             <input type="number" class="form-control ref-input" autocomplete="off" name="issueqty"
               (focus)="getStockAvailability()" [id]="'issueqty-' + i"
@@ -157,11 +165,7 @@
           </td>
 
 
-          <td *ngIf="storeRequestStockId == -3">
-            <input type="text" [id]="'issuewarehouse-' + i" class="form-control ref-input"
-              [name]="'issuewarehouse-' + i" autocomplete="off" [(ngModel)]="detail.issuewarehouse.name"
-              placeholder="Please Select Issue Warehouse">
-          </td>
+         
 
 
           <td *ngIf="storeRequestStockId == -3 ||storeRequestStockId == -1">
@@ -195,8 +199,20 @@
 
     <div class="modal-footer">
       <div class="row">
+          <div class="col" *ngIf="(approveId == 1)">
+              <button class="btn btn-primary mr-2" type="button" outline (click)="approveDeleteFunction(0, 'true',storeQuestion.id)" id="permanentdelete"
+                style="cursor: pointer;">Approve</button>
+            </div>
+          <span *ngIf="mannual && (approveId == 0)">
+              <input type="checkbox" name="mannual" id="mannual"  [(ngModel)]="storeQuestion.approved"> Is Mannual Approval
+            </span>
+            
+          <div class="col" *ngIf="(storeQuestion.id !=0)">
+              <button class="btn btn-danger" type="button" outline (click)="approveDeleteFunction(1, 'true',storeQuestion.id)" id="cancel"
+                style="cursor: pointer;">Delete</button>
+            </div>
         <div class="col text-right"
-          *ngIf="((storeRequestStockId == -3 && pendingid == 1)|| (storeRequestStockId == -1) || (storeRequestStockId == -2 && storeQuestion.id  == 0))">
+          *ngIf="((storeRequestStockId == -3 && pendingid == 1)|| (storeRequestStockId == -1) || (storeRequestStockId == -2))">
           <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
             style="cursor: pointer;">Submit
           </button>

@@ -10,6 +10,7 @@ import { CommonService } from '../../services/common.service';
 })
 export class AccountsComponent implements OnInit {
   showConfirm = false;
+  foid=1;
   Accounts = {
     name: '',
 
@@ -33,9 +34,10 @@ export class AccountsComponent implements OnInit {
     public common: CommonService,
     public api: ApiService) {
    
-
+console.log('accounts get data',this.common.params);
 
     if (this.common.params) {
+     this.foid= this.common.params.name;
       this.Accounts = {
         name: this.common.params.name,
 
@@ -54,8 +56,18 @@ export class AccountsComponent implements OnInit {
   }
   dismiss(response) {
     console.log('Accounts:', this.Accounts);
+    if(this.foid >=1){
     this.activeModal.close({ response: response, Accounts: this.Accounts, });
+  }else{
+    this.common.showError("System Entry Can't Update");
+    this.activeModal.close({ response: false ,Accounts: this.Accounts});
   }
+}
+
+modalCondition(res){
+  this.activeModal.close({ response: false, Accounts: this.Accounts, });
+
+}
 
   onSelected(selectedData, type, display) {
     this.Accounts[type].name = selectedData[display];

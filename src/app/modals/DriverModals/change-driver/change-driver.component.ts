@@ -14,7 +14,8 @@ export class ChangeDriverComponent implements OnInit {
   driver = {
     mobileNo: null,
     id: null,
-    name: null
+    name: null,
+    licence:null,
   }
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
@@ -36,6 +37,7 @@ export class ChangeDriverComponent implements OnInit {
     this.driver.name = driver.empname;
     this.driver.mobileNo = driver.mobileno;
     this.driver.id = driver.id;
+    this.driver.licence = driver.licence_no;
 
   }
   closeModal() {
@@ -48,7 +50,8 @@ export class ChangeDriverComponent implements OnInit {
       vehicleId: this.vehicleId,
       driverId: this.driver.id ? this.driver.id : -1,
       driverMobileno: this.driver.mobileNo ? this.driver.mobileNo : document.getElementById('driverno')['value'],
-      driverName: this.driver.name
+      driverName: this.driver.name,
+      licenceNo : this.driver.licence
     }
 
     this.api.post('Drivers/changeDriver', params)

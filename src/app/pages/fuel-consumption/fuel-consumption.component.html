@@ -10,7 +10,7 @@
                 </uj-date-time-picker>
             </div>
             <div class="col-4">
-                <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false>
+                <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false [isStart]="false">
                 </uj-date-time-picker>
             </div>
             <div class="col-4">
@@ -18,6 +18,6 @@
         </div>
     </nb-card-body>
     <div>
-        <smart-table *ngIf="fuelConsumption && fuelConsumption.length" [data]="table.data" [settings]="table.settings" id="wareHouseInventory">
+        <smart-table *ngIf="fuelConsumption && fuelConsumption.length" [data]="table.data" [settings]="table.settings" id="fuelConsumption">
         </smart-table>
     </div>

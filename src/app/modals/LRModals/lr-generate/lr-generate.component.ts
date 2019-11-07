@@ -14,6 +14,12 @@ import { AddFieldComponent } from '../add-field/add-field.component';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
 import { AddMaterialComponent } from '../add-material/add-material.component';
 import { AddTransportAgentComponent } from '../add-transport-agent/add-transport-agent.component';
+import { BasicPartyDetailsComponent } from '../../../modals/basic-party-details/basic-party-details.component';
+import { VehiclesViewComponent } from '../../vehicles-view/vehicles-view.component';
+import { AddDriverCompleteComponent } from '../../DriverModals/add-driver-complete/add-driver-complete.component';
+import { AddSupplierAssociationComponent } from '../../add-supplier-association/add-supplier-association.component';
+import { TemplatePreviewComponent } from '../../template-preview/template-preview.component';
+import { LrRateComponent } from '../lr-rate/lr-rate.component';
 
 @Component({
   selector: 'lr-generate',
@@ -25,7 +31,7 @@ export class LrGenerateComponent implements OnInit {
     lrType: 1,
     vehicleType: 1,
     lrCategory: 1,
-    num: null,
+    serial: null,
     prefix: null,
     image: null,
     date: new Date(),
@@ -49,8 +55,10 @@ export class LrGenerateComponent implements OnInit {
   lrGeneralField = [];
   generalDetailColumn2 = [];
   generalDetailColumn1 = [];
-
+  foCmpnyId = 0;
+  disorderId = null;
   particulars = [];
+  nextPage = 'close';
   constructor(
     public common: CommonService,
     public accountService: AccountService,
@@ -65,10 +73,14 @@ export class LrGenerateComponent implements OnInit {
     }
     if (this.common.params.lrData) {
       this.lrDetails.id = this.common.params.lrData.lrId ? this.common.params.lrData.lrId : 'null';
+      this.disorderId = this.common.params.lrData.dispOrdId ? this.common.params.lrData.dispOrdId : 'null';
       this.btnTxt = 'SAVE'
     }
     if (this.lrDetails.id || this.accountService.selected.branch.id) {
       this.getLrFields(true);
+    }
+    else if(this.disorderId ){
+      this.getLrFields();
     }
     this.formatGeneralDetails();
   }
@@ -81,7 +93,8 @@ export class LrGenerateComponent implements OnInit {
   getLrFields(isSetBranchId?) {
     let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
     let params = "branchId=" + this.accountService.selected.branch.id +
-      "&lrId=" + this.lrDetails.id;
+      "&lrId=" + this.lrDetails.id+
+      "&dispOrderId="+this.disorderId;
     this.common.loading++;
     this.api.get('LorryReceiptsOperation/getLrFields?' + params)
       .subscribe(res => {
@@ -89,10 +102,10 @@ export class LrGenerateComponent implements OnInit {
         console.log("LoryReceipts:", res['data']['headings'][0].branch_id);
         console.log("res", res['data'], res);
         if (res['data'] && res['data'].result) {
-
-
           this.lrGeneralField = res['data'].result;
           let headData = res['data'].headings;
+          this.foCmpnyId = res['data']['headings'][0].fo_companyid;
+          console.log('focompnyid:::::::::', this.foCmpnyId);
           if (headData.length > 0) {
             this.setLrHeadData(headData[0], isSetBranchId);
           }
@@ -117,7 +130,7 @@ export class LrGenerateComponent implements OnInit {
     this.lr.id = headData.lr_id;
     this.lr.vehicleType = headData.veh_asstype;
     //this.accountService.selected.branch.id = headData.branch_id;
-    this.lr.num = headData.lr_num;
+    this.lr.serial = headData.lr_serial;
     this.lr.prefix = headData.lr_prefix;
     this.lr.image = headData.lr_image;
     if (this.lr.image) {
@@ -142,6 +155,9 @@ export class LrGenerateComponent implements OnInit {
         dd.r_value = dd.r_value ? new Date(dd.r_value) : new Date();
         console.log("date==", dd.r_value);
       }
+      if (dd.r_fixedvalues) {
+        dd.r_fixedvalues = JSON.parse(dd.r_fixedvalues);
+      }
       if (dd.r_colorder % 2 == 0) {
         this.generalDetailColumn2.push(dd);
       } else {
@@ -152,6 +168,16 @@ export class LrGenerateComponent implements OnInit {
     console.log("generalDetailColumn1", this.generalDetailColumn1);
   }
 
+  formatMaterialDetails(particularDetails) {
+    particularDetails.map(dd => {
+      if (dd.r_fixedvalues) {
+        dd.r_fixedvalues = JSON.parse(dd.r_fixedvalues);
+      }
+    });
+    return particularDetails
+
+  }
+
   addCompany() {
     console.log("open consignee modal")
     const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
@@ -160,9 +186,21 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
+  addAssociation(assType) {
+    console.log("open Association modal")
+    this.common.params = {
+      assType:assType
+    };
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw'   });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+    });
+  }
+
+
   addDriver() {
     this.common.params = { vehicleId: null, vehicleRegNo: null };
-    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log("data", data);
       if (data.data) {
@@ -174,13 +212,37 @@ export class LrGenerateComponent implements OnInit {
     console.log("vehicle", vehicle);
     this.vehicleData.regno = vehicle.regno;
     this.vehicleData.id = vehicle.id;
+    console.log("vehicleId 1", this.vehicleData.id);
+    this.setSupplierInfo(vehicle.supplier_name,vehicle.supplier_id)
     this.getDriverData(this.vehicleData.id);
+
+  }
+  addSupplierAssociation() {
+    const activeModal = this.modalService.open(AddSupplierAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+      }
+    });
   }
 
+  setSupplierInfo(supplier?,supplierId?) {
+    if (supplier && supplierId) {
+      this.lrGeneralField.map(lrField => {
+        if (lrField.r_colname == 'supplier_name') {
+          lrField.r_value = '';
+          lrField.r_value = supplier;
+          lrField.r_valueid = supplierId;
+        }
+      });
+    } 
+    // (<HTMLInputElement>document.getElementById('driver_name')).value = supplier;
+  }
   getDriverData(vehicleId) {
     let params = {
-      vid: vehicleId
+      vid: vehicleId,
+      vehicleType:this.lr.vehicleType
     };
+    console.log("vehicleId 2", this.vehicleData.id);
     this.common.loading++;
     this.api.post('Drivers/getDriverInfo', params)
       .subscribe(res => {
@@ -323,6 +385,9 @@ export class LrGenerateComponent implements OnInit {
           if (customjfield.r_coltype == 3) {
             customjfield.r_value = customjfield.r_value ? new Date(customjfield.r_value) : new Date();
           }
+          if (customjfield.r_fixedvalues) {
+            customjfield.r_fixedvalues = JSON.parse(customjfield.r_fixedvalues);
+          }
           customjfields[customIndex].push(customjfield);
         });
       }
@@ -355,7 +420,9 @@ export class LrGenerateComponent implements OnInit {
     this.particulars.push(newParticular);
   }
 
-  saveDetails() {
+  saveDetails(print?) {
+    console.log("print?",print);
+    // return;
     this.lrGeneralField = this.generalDetailColumn2.concat(this.generalDetailColumn1);
     console.log("lr details", JSON.stringify(this.lrGeneralField));
     let materialDetails = JSON.parse(JSON.stringify(this.particulars));
@@ -383,7 +450,7 @@ export class LrGenerateComponent implements OnInit {
       branchId: this.accountService.selected.branch.id,
       vehicleId: this.vehicleData.id,
       vehicleRegNo: document.getElementById('vehicleno')['value'],
-      lrNo: this.lr.num,
+      lrNo: this.lr.serial,
       lrNoText: this.lr.prefix,
       lrDate: this.common.dateFormatter(this.lr.date),
       generalDetails: JSON.stringify(this.lrGeneralField),
@@ -395,10 +462,22 @@ export class LrGenerateComponent implements OnInit {
     this.api.post('LorryReceiptsOperation/generateLR', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('response :', res['data'][0].rtn_id);
-        if (res['data'][0].rtn_id > 0) {
+        if (res['data'] && res['data'][0] && res['data'][0].rtn_id > 0) {
           this.common.showToast("LR Generated Successfully");
-          this.closeModal();
+          console.log('this.nextPage',this.nextPage);
+          if(this.nextPage == 'revenue'){
+            this.closeModal(false); 
+            this.lrRates(res['data'][0].rtn_id, 0);
+        }else if(this.nextPage == 'expense'){
+          this.lrRates(res['data'][0].rtn_id, 1);
+          this.closeModal(false);
+        }else if(this.nextPage == 'print' || this.nextPage == 'Print'||print ){
+          this.closeModal(false);
+         this.printLr(res['data'][0].rtn_id);
+        }
+        else{
+          this.closeModal(true);
+        }
           //this.lrView(res['data'][0].rtn_id);
         } else {
           this.common.showError(res['data'][0].rtn_msg);
@@ -410,27 +489,68 @@ export class LrGenerateComponent implements OnInit {
       });
   }
 
-  resetVehicleData() {
-    this.vehicleData.id = null;
-    this.vehicleData.regno = null;
-  }
+  printLr(lrId) {
+    let previewData = {
+      title: 'Lorry Receipt',
+      previewId: null,
+      refId: lrId,
+      refType: "LR_PRT"
+    }
+    this.common.params = { previewData };
 
-  resetData() {
-    this.vehicleData.id = null;
-  }
+    // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
 
-
-  closeModal() {
-    this.activeModal.close(true);
-  }
-
-  lrView(lrId) {
-    console.log("receipts", lrId);
-    this.common.params = { lrId: lrId }
-    const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
+  }
+
+  lrRates(lrId, type) {
+    let generalModal = true;
+    let rate = {
+      lrId: lrId,
+      rateType: type,
+      generalModal: generalModal,
+    }
+    this.common.params = { rate: rate }
+    const activeModal = this.modalService.open(LrRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+
+    });
+  }
+
+  resetVehicleData() {
+    this.vehicleData.id = null;
+    this.vehicleData.regno = null;
+    this.lrGeneralField.map(lrField => {
+      if (lrField.r_colname == 'supplier_name' || lrField.r_colname == 'driver_mobile' ) {
+        console.log("lrField.r_colname",lrField.r_colname);
+        lrField.r_value = '';
+        lrField.r_value = null;
+        lrField.r_valueid = null;
+      }
+    else if(lrField.r_colname == 'driver_name'){
+      (<HTMLInputElement>document.getElementById('driver_name')).value = '';
+    }else if(lrField.r_colname == 'driver_license'){
+      (<HTMLInputElement>document.getElementById('driver_license')).value = '';
+
+    }
+    }
+    );
+    
+
+  }
+
+  resetData() {
+    console.log("vehicleId 4", this.vehicleData.id);
+    this.vehicleData.id = null;
+  }
+
+
+  closeModal(data) {
+    this.activeModal.close(data);
   }
 
   addMaterial() {
@@ -441,64 +561,38 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
+  displayVehicleData() {
+    console.log("-------------vehicle id----------", this.vehicleData.id);
+    this.common.params = { vehicleId: this.vehicleData.id }
+    if (this.vehicleData.id > 0) {
+      const activeModal = this.modalService.open(VehiclesViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
 
-  getDate() {
-
-  }
-
-
-
-  calculateTotalAmount() {
-
-  }
-
-  calculateTareWeight() {
-
-  }
-
-  calculateReminingAmount() {
+      activeModal.result.then(data => {
+        console.log('Date:', data);
+      });
+    } else {
+      this.common.showError("Vehicle Id doesn't exit.");
+    }
 
   }
 
-
-  loadImage(flag) {
-
+  changeSerialNo(){
+    console.log("changeLrSeries");
+    if(!this.lr.id){
+      let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
+      let params = "branchId=" + this.accountService.selected.branch.id +
+        "&prefix=" + this.lr.prefix+
+        "&reportType=LR";
+      this.common.loading++;
+      this.api.get('LorryReceiptsOperation/getNextSerialNo?' + params)
+        .subscribe(res => {
+          console.log('reds',res['data'][0].result) ;
+          this.lr.serial = res['data'][0].result;
+          this.common.loading--;
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+      }
   }
-
-  getLrDetails() {
-
-  }
-
-
-  addField(index) {
-
-  }
-  addFoField() {
-
-  }
-
-  getAllFieldName() {
-
-
-  }
-
-  getUnit() {
-
-  }
-
-  getWeightUnitId(type, index) {
-
-  }
-
-
-
-  onChangeAuto(search, type) {
-
-  }
-
-
-
-
-
-
 }

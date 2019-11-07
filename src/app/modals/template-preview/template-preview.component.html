@@ -1,13 +1,25 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Template Preview</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-  <span aria-hidden="true">&times;</span>
-</button>
+  <h5 class="modal-title" id="modal-basic-title" style="text-align:right;width:100%;" class="doNotPrint">{{title}}</h5>
+
+  <div class="col-md-6 text-right">
+    <select *ngIf="view.length>0" class="mr-3 doNotPrint" [(ngModel)]="template.PreviewId"  (change)="preview()" style="border-radius:5px;border:none;">
+      <option  *ngFor="let data of view;"  [value]="data._id">{{data.Name}}</option>
+    </select>
+    <span *ngIf="loginType=='admin'" (click)="refresh()" class="doNotPrint"><i class="fa fa-refresh"></i></span>
+    <span (click)="printHandler()" class="doNotPrint print-icon iconsize"><i class="fa fa-print"></i></span>
+    <span (click)="common.downloadPdf('print-section',true)" class="pdf-icon doNotPrint iconsize" style="margin-left:20px"><i
+        class="fa fa-file-pdf"></i></span>
+    <button type="button" class="close doNotPrint" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true" class="iconsize">&times;</span>
+    </button>
+  </div>
 </div>
 
-<div class="modal-body" [innerHTML]="template.preview">
+<div class="modal-body" id="print-section" [innerHTML]="template.preview">
+</div>
 
-  </div>
+
+
 <!-- <div class="modal-body">
   <div class="modal-body p-0" id="print-section">
     <div class="lr-print-recipt">

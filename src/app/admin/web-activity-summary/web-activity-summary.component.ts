@@ -18,17 +18,20 @@ export class WebActivitySummaryComponent implements OnInit {
     public common: CommonService,
     private commonService: CommonService,
     public api: ApiService,
-    public modalService: NgbModal) { 
-      this.common.refresh = this.refresh.bind(this);
-    }
+    public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
+  }
 
   ngOnInit() {
   }
-  refresh(){
+  refresh() {
     console.log('refresh');
   }
   getFoWebView() {
-    let params = "startDate=" + this.common.dateFormatter1(this.startDate) + "&endDate=" + this.common.dateFormatter1(this.endDate);
+    if (this.startDate > this.endDate) {
+      return this.common.showError("Select valid Date");
+    }
+    let params = "startDate=" + this.common.dateFormatter(this.startDate) + "&endDate=" + this.common.dateFormatter(this.endDate);
     this.common.loading++;
     this.api.get('FoAdmin/getFoAdminWebActivity?' + params)
       .subscribe(res => {

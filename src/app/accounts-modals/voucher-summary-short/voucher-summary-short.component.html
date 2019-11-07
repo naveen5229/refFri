@@ -93,6 +93,8 @@
               <th>Start Date</th>
               <th>End Date</th>
               <th>Trip Empty</th>
+              <th>LR No</th>
+              <th>Add Transfer</th>
             </tr>
           </thead>
           <tbody>
@@ -105,10 +107,12 @@
               </td>
               <td>{{trip.start_name}}</td>
               <td>{{trip.end_name || '--'}}</td>
-              <td>{{trip.start_time | date : 'dd MMM'}}</td>
-              <td>{{trip.end_time | date : 'dd MMM' || '--'}}</td>
+              <td>{{trip.start_time | date : 'dd MMM yyyy HH:MM'}}</td>
+              <td>{{trip.end_time | date : 'dd MMM yyyy HH:MM' || '--'}}</td>
               <td *ngIf="trip.is_empty==true">{{'Yes'}}</td>
               <td *ngIf="trip.is_empty==false">{{'No'}}</td>
+              <td>{{trip.lr_no}}</td>
+              <td> <button class="btn btn-primary" (click)="addTransfer(trip.id)">Add Transfer</button></td>
             </tr>
           </tbody>
         </table>
@@ -148,6 +152,12 @@
       <div>
         <button class="btn btn-dark" (click)="getHeads()">Show Head</button>
       </div >
+      <div class="row">
+        
+        <div class="form-group col-2 mt-4">
+          <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="showTransfer()">Show Transfers</button>
+        </div>
+      </div>
       <div class="show-head-tabel mt-3">
         <div class="row">
             <div class="col-4">
@@ -175,61 +185,30 @@
                     </tbody>
                   </table>      
             </div>
-            <div class="col-6 pl-0">
-                <table class="table table-bordered invoice_tabel table-four">
-                  <thead style="background: #263238; color:#fff;">
-                    <tr>
-                      <th>Date</th>
-                      <th>Amount</th>
+            <div class="col-8 pl-0" *ngIf="transferData">
+                <table class="table table-bordered" id="table">
+        
+                  <thead style="background-color:#263238; color:#fff;">
+                   <tr>
+                     <th>S.No</th>
+                      <th>Advise Type</th>
+                      <th>User Value</th>
+                      <th>Credit To</th>
+                      <th>Debit To</th>
                       <th>Remarks</th>
-                      <th>Ledger</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let Details of accDetails; let i = index;">
+                      <th>Time</th>
+                      <th>Entry By</th>
                       
-                      <td>
-                        <input type="text" class="form-control" autocomplete="off" [name]="'date-' + i"
-                          placeholder="Please Enter Date" [(ngModel)]="Details.detaildate" [id]="'detaildate-' + i"
-                         >
-                      </td>
-                      <td>
-                        <input type="number" class="form-control" autocomplete="off" [name]="'detailamount-' + i"
-                          [id]="'mobileno-' + i" [(ngModel)]="Details.detailamount" placeholder="Please Enter Amount" (input)="driverSum()">
-                      </td>
-                      <td>
-                        <input type="email" class="form-control" autocomplete="off" [name]="'detailramarks-' + i" [id]="'detailramarks-' + i"
-                          [(ngModel)]="Details.detailramarks" placeholder="Please Enter Remarks">
-                      </td>
-                      <td>
-                        <input type="text" class="form-control" autocomplete="off" placeholder="Please Select Ledger"
-                          [name]="'detailLedger-' + i" [id]="'detailLedger-' + i" ng-maxlength="10" [(ngModel)]="Details.detailLedger.name" 
-                          (input)="targetId = 'detailLedger-' + i" (keydown)="targetId = 'detailLedger-' + i" >
-                      </td>
-                      
-                      <td *ngIf="i == 0">
-                        <button (click)="addDetails()" class="plustransparent btn btn-plus btn-dark"><i class="fa fa-plus"></i></button>
-                      </td>
-                      <td *ngIf="i !== 0">
-                        <button (click)="accDetails.splice(i,1)" class="btn btn-danger">
-                          <i class="fa fa-trash"></i>
-                        </button>
-                      </td>
                     </tr>
-                    <tr>
-                      <td>&nbsp;</td>
-                      <td><input type="number" class="form-control" name="driverTotal" [(ngModel)]="driverTotal" disabled></td>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                    </tr>
-                  </tbody>
+                  </thead>             
+                      <tr *ngFor="let item of transferData; let i = index;">
+                      <td>{{i+1}}</td>
+                        <td *ngFor="let itemheading of transferHeading">
+                            {{item[itemheading]}}                 
+                       </td>
+                    
+                  </tr>
                 </table>
-              </div>
-              <div class="col-2 pl-0">
-                  <auto-suggetion-in-side [data]="diverledgers" [targetId]="targetId" name="detailLedger"
-                  display="y_ledger_name" (select)="onDebitSelectednew($event, 'detailLedger', 'y_ledger_name',targetId)">
-                </auto-suggetion-in-side>
               </div>
         </div>
  
@@ -272,19 +251,42 @@
 
         </div>
       </div>
+      <div class="row">
+       
+        <div class="form-group col-2 mt-4">
+          <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="getTripFreght()">Show Revenues</button>
+        </div>
+      </div>
+      <div class="table_box mt-3" *ngIf="tripFreghtDetails">
+        <table class="table table-bordered" id="table">
 
+          <thead style="background-color:#263238; color:#fff;">
+           <tr>
+              <th>Receipt No</th>
+              <th>Revenue</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>             
+              <tr *ngFor="let item of tripFreghtDetails; let i = index;">
+                <td>{{item.receipt_no}}</td>
+                <td>{{item.auto_amount}}</td>
+                <td>{{item.remarks}}</td>
+          </tr>
+        </table>
+      </div>
      
     </div>
 
 
     <div class="modal-footer">
-        <button *ngIf="typeFlag==1 && permanentDeleteId ==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
+        <button *ngIf="VoucherId !=0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="printTripDetail()">Print</button>
+        <button *ngIf="((typeFlag==1 && permanentDeleteId ==0)&&showSubmit ==0) " class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
       
         <button *ngIf="approve==1 && permanentDeleteId ==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="approveVoucher()">Approve</button>
         <button *ngIf="approve==1 && permanentDeleteId ==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
         <button *ngIf="permanentDeleteId !=0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="permanentDeleteConfirm()"> PermanentDelete</button>
         <button *ngIf="permanentDeleteId !=0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="restore()"> Restore</button>
-        <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="callSaveVoucher()">Submit</button>
+        <button  *ngIf="showSubmit ==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="callSaveVoucher()">Submit</button>
       <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="dismiss(false)">Close</button>
     </div>
     <!-- <div>

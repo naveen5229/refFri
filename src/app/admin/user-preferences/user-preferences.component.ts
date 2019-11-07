@@ -4,93 +4,131 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as _ from 'lodash';
+import { RouteGuard } from '../../guards/route.guard';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { group } from '@angular/animations';
 @Component({
   selector: 'user-preferences',
   templateUrl: './user-preferences.component.html',
   styleUrls: ['./user-preferences.component.scss', '../../pages/pages.component.css']
 })
 export class UserPreferencesComponent implements OnInit {
-
-  form: FormGroup;
-
-
   data = [];
   selectedUser = {
     details: null,
     oldPreferences: []
   };
-
-  sections = [];
+  formattedData = [];
+  pageGroup = [];
   pagesGroups = {};
+  pageGroupKeys = [];
+  newPage = {
+    module: null,
+    group: null,
+    title: null,
+    url: null,
+    type: 'Dashboard',
+    addType: 1,
+  };
+  getUsersList = [];
+
+
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal,
-    private formBuilder: FormBuilder) {
-      this.common.refresh=this.refresh.bind(this);
-      
- 
+    public route: RouteGuard) {
+    this.common.isComponentActive = false;
+    this.common.refresh = this.refresh.bind(this);
+    this.getAllUserList();
   }
+
+
 
 
   ngOnInit() {
   }
+  ngDestroy() {
 
-  refresh(){
-    console.log("Refresh");
   }
 
-
-  findSections() {
-    this.sections = [];
-    this.pagesGroups = {};
-    this.data.map(data => {
-      let section = { title: data.route.split('/')[1], isSelected: false };
-      if (!this.sections.filter(s => s.title == section.title).length) {
-        this.sections.push(section);
+  //Confirmation that before Leave the PAge
+  canDeactivate() {
+    console.log("activity Start", this.common.isComponentActive);
+    if (this.common.isComponentActive) {
+      this.common.params = {
+        title: 'Confirmation ',
+        description: `<b>&nbsp;` + 'Are Sure To Leave This Page WithOut Save' + `<b>`,
       }
-      if (!this.pagesGroups[section.title]) {
-        this.pagesGroups[section.title] = [];
-      }
-
-      this.pagesGroups[section.title].push({
-        id: data.id,
-        title: data.title,
-        route: data.route,
-        isSelected: data.userid
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.isComponentActive = false;
+          console.log('no, you wont navigate anywhere');
+        }
       });
-    });
+      return false;
+    }
+    console.log('you are going away, goodby');
+    return true;
+  }
 
-    console.log('All Sections: ', this.sections, this.pagesGroups);
+  refresh() {
+    this.data = [];
+    this.selectedUser = {
+      details: null,
+      oldPreferences: []
+    };
+    this.pagesGroups = {};
+    document.getElementById('employeename')['value'] = '';
+    this.common.isComponentActive = false;
+    this.formattedData = [];
   }
 
 
-
-  checkOrUnCheckAll(index) {
-    this.pagesGroups[this.sections[index].title].map(page => page.isSelected = this.sections[index].isSelected);
-  }
-
-
-
-  getUserPages(user) {
-    this.selectedUser.details = user;
-    console.log('User: ', user);
-    const params = {
-      userId: user.id
+  createNewPage() {
+    let params = {
+      moduleName: this.newPage.module,
+      groupName: this.newPage.group,
+      title: this.newPage.title,
+      route: this.newPage.url,
+      type: this.newPage.type,
+      add_type: this.newPage.addType
     };
     this.common.loading++;
-    this.api.post('UserRoles/getAllPages', params)
+    this.api.post('UserRoles/insertNewPageDetails', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res: ', res);
-        
-        this.data = res['data'];
-        console.log("Res Data:", this.data)
+        this.common.showToast(res['msg'])
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+      })
+  }
 
-        this.selectedUser.oldPreferences = res['data'];
-        this.checkSelectedPages(res['data']);
-        this.findSections();
+  checkOrUnCheckAll(details, type) {
+    this.common.isComponentActive = true;
+    if (type === 'group') {
+      details.pages.map(page => {
+        page.isSelected = details.isSelected
+      });
+    } else if (type === 'module') {
+      details.groups.map(group => {
+        group.isSelected = details.isSelected;
+        group.pages.map(page => page.isSelected = details.isSelected);
+      });
+    }
+  }
+
+  getAllUserList() {
+
+    this.common.loading++;
+    this.api.get('UserRoles/getActiveAdminUsers?')
+      .subscribe(res => {
+        this.common.loading--;
+        this.getUsersList = res['data'];
 
       }, err => {
         this.common.loading--;
@@ -98,29 +136,92 @@ export class UserPreferencesComponent implements OnInit {
       })
   }
 
-  checkSelectedPages(pages) {
-    this.sections.map(section => {
-      this.pagesGroups[section.title].map(page => {
-        page.isSelected = this.findSelectedOrNot(page.id, pages);
-      });
-    });
+  getUserPages(user) {
+    this.formattedData = [];
+    this.selectedUser.details = user;
+    const params = {
+      userId: user.id,
+      userType: 1
+    };
+    this.common.loading++;
+    this.api.post('UserRoles/getAllPages', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.data = res['data'];
+        this.data.map(id => {
+
+        });
+        if (res['data'])
+          console.log("Res Data:", this.data)
+        this.selectedUser.oldPreferences = res['data'];
+        this.managedata();
+        // this.findSections();
+        // this.checkSelectedPages(res['data']);
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+      })
   }
 
-  findSelectedOrNot(id, pages) {
-    let status = false;
-    pages.map(page => (page.id == id) && (status = page.userid ? true : false));
-    return status;
+  managedata() {
+    let firstGroup = _.groupBy(this.data, 'module');
+    this.formattedData = Object.keys(firstGroup).map(key => {
+      return {
+        name: key,
+        groups: firstGroup[key],
+        isSelected: false
+      }
+    });
+    this.formattedData.map(module => {
+      let isMasterAllSelected = true;
+      let pageGroup = _.groupBy(module.groups, 'group_name');
+      module.groups = Object.keys(pageGroup).map(key => {
+        let isAllSelected = true;
+        let pages = pageGroup[key].map(page => {
+          page.isSelected = page.userid ? true : false;
+          if (isAllSelected)
+            isAllSelected = page.isSelected;
+          return page;
+        });
+        if (isMasterAllSelected) {
+          isMasterAllSelected = isAllSelected;
+        }
+        return {
+          name: key,
+          pages: pages,
+          isSelected: isAllSelected,
+        }
+      });
+      module.isSelected = isMasterAllSelected;
+    });
+
+    this.formattedData = _.sortBy(this.formattedData, ['name'], ['asc']).map(module => {
+      module.groups = _.sortBy(module.groups, ['name'], ['asc']).map(groups => {
+        groups.pages = _.sortBy(groups.pages, ['title'], ['asc']);
+        return groups;
+      });
+      return module;
+    });
+    console.log("After Formatted", this.formattedData);
+
   }
+
 
   updatePreferences() {
-    const params = { pages: this.findSelectedPages(), userId: this.selectedUser.details.id };
+    const params = {
+      pages: this.findSelectedPages(),
+      userId: this.selectedUser.details.id,
+      userType: 1,
+    };
     console.log("Param:", params);
     this.common.loading++;
     this.api.post('UserRoles/setPagesWrtUser', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res);
-        alert(res['msg']);
+        this.common.showToast(res['msg']);
+        this.refresh();
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -129,20 +230,23 @@ export class UserPreferencesComponent implements OnInit {
 
   findSelectedPages() {
     let data = [];
-    console.log('Sections: ', this.sections);
-    this.sections.map(section => {
-      console.log('Pages: ', this.pagesGroups[section.title]);
-      this.pagesGroups[section.title].map(page => {
-        if (page.isSelected) {       
-          data.push({ id: page.id, status:1 });
-        } 
-        else{
-          data.push({id:page.id, status:0});
-        }
+    console.log('formattedData: ', this.formattedData);
+    this.formattedData.map(module => {
+      module.groups.map(group => {
+        group.pages.map(page => {
+          if (page.isSelected) {
+            data.push({ id: page.id, status: 1 });
+          }
+          else {
+            data.push({ id: page.id, status: 0 });
+          }
+        })
       })
-    
+
     });
     return data;
   }
+
+
 
 }

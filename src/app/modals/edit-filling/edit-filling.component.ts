@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddPumpComponent } from '../add-pump/add-pump.component';
 import { FormBuilder, Validators } from '@angular/forms';
+import { FuelFillingTimetableComponent } from '../fuel-filling-timetable/fuel-filling-timetable.component';
 
 @Component({
   selector: 'edit-filling',
@@ -16,6 +17,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class EditFillingComponent implements OnInit {
   isFormSubmit = false;
+  sizeIndex = 0;
   title = '';
   filldate = '';
   litres = 0;
@@ -25,7 +27,7 @@ export class EditFillingComponent implements OnInit {
   amount = 0.0;
   pump = '';
   pump_id = 0;
-  vehicleId = 0;
+  vehicleId = null;
   filling_id = 0;
   isPump = true;
   pumpPayType = '-21';
@@ -36,6 +38,13 @@ export class EditFillingComponent implements OnInit {
   refTypeName = null;
   refId = null;
   referenceName = null;
+  date = null;
+  ledgerId = null;
+  ledgers = [];
+  ledger = {
+    name: '',
+    id: '',
+  };
   referenceType = [{
     name: 'Select Type',
     id: '0'
@@ -60,36 +69,67 @@ export class EditFillingComponent implements OnInit {
   refernceData = [];
   edit = 0;
 
+  showDate = '';
+
   constructor(private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.common.handleModalSize('class', 'modal-lg', '700');
 
     this.title = this.common.params.title;
+    this.sizeIndex = this.common.params.sizeIndex
     console.log("params", this.common.params);
     let rec = this.common.params.rowfilling;
+    let detail = this.common.params.info
+    if (this.common.params.rowfilling) {
+      this.refernceType = rec.ref_type;
+      this.refId = rec.ref_id;
+      if (this.refId != null) {
+        this.edit = 1;
+      }
+      this.getReferenceData();
+      this.getRefernceType(this.refernceType);
 
-    this.refernceType = rec.ref_type;
-    this.refId = rec.ref_id;
-    if (this.refId != null) {
-      this.edit = 1;
+      // this.showDate = rec.fdate;
+      // this.filldate = rec.fdate;
+      this.litres = rec.litres;
+      this.isfull = rec.is_full;
+      this.rate = rec.rate;
+      this.amount = rec.amount;
+      this.pump = rec.pp;
+      this.pump_id = rec.fuel_station_id;
+      this.filling_id = rec.id;
+      this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
+      this.odoVal = rec.odometer ? rec.odometer : 0;
     }
-    this.getReferenceData();
-    this.getRefernceType(this.refernceType);
-
-    this.filldate = rec.fdate;
-    this.litres = rec.litres;
-    this.isfull = rec.is_full;
-    this.rate = rec.rate;
-    this.amount = rec.amount;
-    this.pump = rec.pp;
-    this.pump_id = rec.fuel_station_id;
-    this.filling_id = rec.id;
-    this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
-    this.odoVal = rec.odometer ? rec.odometer : 0;
+    else if (this.common.params.info) {
+      this.refernceType = detail._reftype;
+      this.refTypeName = detail._refid;
+      // if (this.refId != null) {
+      //   this.edit = 1;
+      // }
+      this.date = new Date(this.common.dateFormatter1(detail._dttime));
+      this.isPump = false
+      this.regno = detail._regno
+      //this.date=detail._dttime
+      this.vehicleId = detail._vid
+    }
+    if (this.common.params.title == 'Edit Fuel Filling') {
+      let dateArr = rec.fdate.split('-');
+      if (dateArr[2].length == 2) {
+        dateArr[2] = '20' + dateArr[2];
+      } else {
+        dateArr[2] = dateArr[2];
+      }
+      this.date = new Date(dateArr.join('/'))
+      this.vehicleId = this.common.params.rowfilling.vehicle_id;
+      this.regno = this.common.params.rowfilling.regno;
+      console.log("vid123", this.vehicleId);
+    }
+    this.common.handleModalSize('class', 'modal-lg', '700', 'px', this.sizeIndex);
+    this.getAllLedger();
   }
 
   ngOnInit() {
@@ -104,6 +144,7 @@ export class EditFillingComponent implements OnInit {
     });
     this.refernceTypes();
   }
+
 
   getReferenceData() {
     const params = "id=" + this.refId +
@@ -161,6 +202,7 @@ export class EditFillingComponent implements OnInit {
         console.log('Error: ', err);
       });
   }
+
   resetRefernceType(isReset = true) {
     document.getElementById('referncetype')['value'] = '';
     if (isReset)
@@ -182,20 +224,16 @@ export class EditFillingComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  getDate() {
-    this.common.params = { ref_page: 'fuelFilling' };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        this.filldate = this.common.dateFormatter1(data.date).split(' ')[0];
-        console.log("data date:");
-        console.log(data.date);
-        this.filldate = this.common.changeDateformat1(this.filldate);
-
-      }
-
-    });
-  }
+  // getDate() {
+  //   this.common.params = { ref_page: 'fuelFilling' };
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     if (data.date) {
+  //       this.filldate = this.common.dateFormatter1(data.date).split(' ')[0];
+  //       this.showDate = this.common.changeDateformat1(this.filldate);
+  //     }
+  //   });
+  // }
 
   resetvehicle() {
     document.getElementById('vehicleno')['value'] = '';
@@ -222,19 +260,56 @@ export class EditFillingComponent implements OnInit {
     this.regno = vehicle.regno;
     document.getElementById('vehicleno')['value'] = '';
     this.resetRefernceType();
+    console.log("reg1", this.regno);
+    this.setLedger();
+  }
+
+  getAllLedger() {
+    this.common.loading++;
+    this.api.get('Suggestion/GetAllLedgerWrtFo')
+      .subscribe(res => {
+        this.common.loading--;
+        this.ledgers = res['data'];
+        // console.log("regnoLedger",this.ledger[0]['name']);
+      },
+        err => {
+          this.common.loading--;
+          console.error('Api Error:', err);
+        });
+  }
+
+  setLedger() {
+    for (var i = 0; i < this.ledgers.length; i++) {
+      if (this.ledgers[i]['name'].toString().startsWith(this.regno)) {
+        this.ledgerId = this.ledgers[i]['id'];
+        //this.ledgerName=this.ledger[i]['name'];
+        this.ledger = {
+          name: this.ledgers[i]['name'],
+          id: this.ledgers[i]['id'],
+        }
+        break;
+      }
+    }
   }
 
   submitFillingData() {
-    console.log('fill date', this.filldate);
-    if (this.filldate == null || this.filldate == '') {
-      this.common.showError('Fill Date To Continue');
+    if (this.pumpPayType == '-11') {
+      this.ledgerId = null;
+    } else {
+      this.driverCash = 0;
+    }
+    if (this.date == null) {
+      this.common.showError("Fill Date To Continue");
       return;
     } else {
       if (this.isfull == false) {
         this.isfull = null;
       }
-      let fmtdate = this.common.dateFormatter1(this.filldate).split(' ')[0];
-      console.log("date::", fmtdate);
+      // console.log('fill date', this.filldate);
+      // let fmtdate = this.common.dateFormatter1(this.filldate);
+      // console.log("testing", fmtdate.indexOf(fmtdate, 0));
+
+      // console.log("check date::", fmtdate);
       let params = {
         vehId: this.vehicleId,
         siteId: this.pump_id,
@@ -242,13 +317,14 @@ export class EditFillingComponent implements OnInit {
         rate: this.rate,
         amount: this.amount,
         fuelDetailsId: this.filling_id,
-        date: fmtdate,
+        date: this.common.dateFormatter(this.date),
         petrolPumplocation: '',
         petrolPumpName: this.pump,
         isFull: this.isfull,
         fuelCompany: '',
         petrolPumpId: this.pump_id,
         driver_cash: this.driverCash,
+        ledgerId: this.ledgerId,
         odometer_val: this.odoVal,
         refNum: this.refNo,
         refType: this.refernceType,
@@ -274,7 +350,8 @@ export class EditFillingComponent implements OnInit {
             this.common.showToast(res['msg']);
             // this.common.showToast("Details Updated Successfully");
             this.filldate = '';
-            this.activeModal.close();
+            console.log("inside console");
+            this.activeModal.close({ response: res["success"] });
           }
           else {
             this.common.showError(res['msg']);
@@ -304,7 +381,6 @@ export class EditFillingComponent implements OnInit {
 
 
   pumpPayStatus() {
-
     if (this.pumpPayType == '-11') {
       this.pump_id = parseInt(this.pumpPayType);
       this.pump = '';
@@ -312,7 +388,35 @@ export class EditFillingComponent implements OnInit {
       this.pump_id = parseInt(this.pumpPayType);
       this.pump = '';
     }
+  }
+
+  fuelFillingTimetable() {
+    if (this.regno && this.date) {
+      let startDate = new Date(this.date);
+      let endDate = new Date(this.date);
+      let fuelTimeTable = {
+        title: 'FuelFilling TimeTable',
+        regno: this.regno,
+        vehicleId: this.vehicleId,
+        startTime: new Date(startDate.setDate(startDate.getDate() - 1)),
+        endTime: new Date(endDate.setDate(endDate.getDate() + 2)),
+      }
+      console.log("Params", fuelTimeTable);
+      this.common.handleModalSize('class', 'modal-lg', '1200', 'px', 1);
+      this.common.params = { fuelTimeTable };
+      const activeModal = this.modalService.open(FuelFillingTimetableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data) {
+          console.log("data", data);
+          this.date = new Date(this.common.dateFormatter(data.time));
+        }
+      });
+    }
+    else {
+      this.common.showError(!this.regno ? "Select Regno" : "Select Date");
+    }
 
   }
+
 
 }

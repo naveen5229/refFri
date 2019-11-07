@@ -124,7 +124,7 @@ export class MapService {
         }]
       }]
     };
-    //$("#"+mapId).heigth(height);
+    //let ("#"+mapId).heigth(height);
     this.map = new google.maps.Map(this.mapDiv, opt);
     this.mapLoadDiv = this.map.getDiv();
     this.bounds = new google.maps.LatLngBounds();
@@ -205,10 +205,10 @@ export class MapService {
     let latLng = { lat: 0, lng: 0 }
     let keys = Object.keys(markerData);
     latLng.lat = parseFloat(markerData[keys.find((element) => {
-      return element == "lat" || element == "y_lat" || element == "x_lat" || element == "x_tlat";
+      return element == "lat" || element == "y_lat" || element == "x_lat" || element == "x_tlat" || element == "_lat";
     })]);
     latLng.lng = parseFloat(markerData[keys.find((element) => {
-      return element == "lng" || element == "long" || element == "x_long" || element == "x_tlong";
+      return element == "lng" || element == "long" || element == "x_long" || element == "x_tlong" || element == "_long";
     })]);
     return latLng;
   }
@@ -327,7 +327,7 @@ export class MapService {
     //console.log("index",index);
     //.log("test",test);
     //console.log("item",item);
-    console.log('Evtype:', evtype);
+    // console.log('Evtype:', evtype);
     if (this.markers[id]) {
       if (this.markers[id].getAnimation() == null && evtype == 1) {
         this.markers[id].setAnimation(google.maps.Animation.BOUNCE);
@@ -357,17 +357,21 @@ export class MapService {
     }
   }
 
-  resetMarker(reset = true, boundsReset = true) {
-    for (let i = 0; i < this.markers.length; i++) {
-      if (this.markers[i])
-        this.markers[i].setMap(null);
+  resetMarker(reset = true, boundsReset = true, markers?) {
+    let actualMarker = markers || this.markers;
+    for (let i = 0; i < actualMarker.length; i++) {
+      if (actualMarker[i])
+        console.log("reset");
+
+      actualMarker[i].setMap(null);
     }
     if (reset)
-      this.markers = [];
+      actualMarker = [];
     if (boundsReset) {
       this.bounds = new google.maps.LatLngBounds();
     }
   }
+
   resetBounds() {
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < this.markers.length; index++) {
@@ -392,7 +396,6 @@ export class MapService {
   }
   resetPolyPaths() {
     if (this.polygonPaths.length > 0) {
-      console.log("Here2");
       this.polygonPaths.forEach(path => {
         path.setMap(null);
       });
@@ -430,7 +433,6 @@ export class MapService {
     });
   }
   createPolyPathManual(latLng, polygonOptions?, drawVertix?) {
-    console.log("In Here");
     if (!this.polygonPath) {
       const defaultPolygonOptions = {
         strokeColor: '#000000',
@@ -450,7 +452,6 @@ export class MapService {
     return this.polygonPath;
   }
   createPolyPathDetached(latLng, polygonOptions?, drawVertix?) {
-    console.log("In Here");
     if (!this.poly) {
       const defaultPolygonOptions = {
         strokeColor: '#FF0000',
@@ -575,6 +576,100 @@ export class MapService {
       });
     });
   }
+
+  haversine(lat1, lon1, lat2, lon2) {
+    // Math lib function names
+    const [pi, asin, sin, cos, sqrt, pow, round] = [
+      'PI', 'asin', 'sin', 'cos', 'sqrt', 'pow', 'round'
+    ]
+      .map(k => Math[k]),
+
+      // degrees as radians
+      [rlat1, rlat2, rlon1, rlon2] = [lat1, lat2, lon1, lon2]
+        .map(x => x / 180 * pi),
+
+      dLat = rlat2 - rlat1,
+      dLon = rlon2 - rlon1,
+      radius = 6372800; // Meter
+
+    // km
+    return round(
+      radius * 2 * asin(
+        sqrt(
+          pow(sin(dLat / 2), 2) +
+          pow(sin(dLon / 2), 2) *
+          cos(rlat1) * cos(rlat2)
+        )
+      ) * 100
+    ) / 100;
+  };
+  getPerpendicularPoint(line, point) {
+
+    let d = this.distanceFromline(line, point);
+    let a = this.haversine(line[0].lat, line[0].long, point.lat, point.long);
+    let b = this.haversine(line[1].lat, line[1].long, point.lat, point.long);
+    let c = this.haversine(line[0].lat, line[0].long, line[1].lat, line[1].long);
+
+    if (d > a) {
+      let index = a > b ? 1 : 0;
+      return { "x": line[index].x, "y": line[index].y, "ratio": index };
+    }
+    let ratio = (Math.sqrt((a ** 2) - (d ** 2)) / c);
+    console.log("ratio", ratio);
+    let lat = (ratio * (line[1].lat - line[0].lat)) + line[0].lat;
+    let long = (ratio * (line[1].long - line[0].long)) + line[0].long;
+    return { "lat": lat, "long": long, "ratio": ratio };
+  }
+
+  distanceFromline(line, point) {
+    const arcConst = (2 * Math.PI * 6372800) / 360;
+    let a = line[0].lat - line[1].lat;
+    let b = line[0].long - line[1].long;
+    let c = (line[0].long * (line[1].lat - line[0].lat)) - (line[0].lat * (line[1].long - line[1].long));
+    let d = Math.abs((a * point.lat) + (b * point.long) + c) / Math.sqrt((a ** 2) + (b ** 2));
+    return d;
+  }
+
+  getTriangleType(line, point) {
+    let pi = Math.PI;
+    console.log("pi", pi);
+    let a = this.haversine(line[0].lat, line[0].long, point.lat, point.long);
+    let b = this.haversine(line[1].lat, line[1].long, point.lat, point.long);
+    let c = this.haversine(line[0].lat, line[0].long, line[1].lat, line[1].long);
+    console.log("A", a);
+    console.log("B", b);
+    console.log("C", c);
+
+
+    if (a == 0 || b == 0 || c == 0)
+      return 'A';
+
+    let a2 = a ** 2;
+    let b2 = b ** 2;
+    let c2 = c ** 2;
+    // print_r(array(let a,let b,let c,let a2,let b2,let c2));//echo "<br>";
+    // From Cosine law
+    let alpha = Math.acos((b2 + c2 - a2) / (2 * b * c));
+    let betta = Math.acos((a2 + c2 - b2) / (2 * a * c));
+    let gamma = Math.acos((a2 + b2 - c2) / (2 * a * b));
+
+    // Converting to degree 
+    alpha = alpha * 180 / pi;
+    betta = betta * 180 / pi;
+    gamma = gamma * 180 / pi;
+    //print_r(array(let alpha,let betta,let gamma,let points));echo "<br>";
+    console.log("gamma Value", gamma);
+
+    if (gamma > 90) {
+      return 'A';
+    }
+    else
+      return 'O';
+  }
+
+
+
+
 
 
 }

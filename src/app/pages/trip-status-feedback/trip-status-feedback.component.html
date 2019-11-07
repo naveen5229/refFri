@@ -5,16 +5,16 @@
         <h5>Trip Status FeedBack</h5>
       </div>
       <div class="col-sm-4" style="text-align:right">
-        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('tbldocs');"
-          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
+        <span class="pdf-icon" title="PDF Export" (click)="printPDF('trip-feedback');" style="cursor: pointer;"><i
+            class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="printCsv('trip-feedback')"
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body>
     <div>
-      <table class="table table-bordered table-hover m-0" id="tbldocs">
+      <table class="table table-bordered table-hover m-0" id="trip-feedback">
         <thead class="thead">
           <tr style="text-align:center">
             <th>#</th>

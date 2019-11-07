@@ -36,21 +36,16 @@ export class DocumentationDetailsComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
-    // this.common.currentPage = 'Vehicle Documents Input';
   }
 
   ngOnInit() {
   }
 
   refresh() {
-    console.log('Refresh');
-    // this.getTableColumns();
     this.selectedVehicle && this.getvehicleData({ id: this.selectedVehicle });
-
   }
 
   getvehicleData(vehicle) {
-    console.log('Vehicle Data: ', vehicle);
     this.selectedVehicle = vehicle.id;
     this.common.loading++;
     this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: vehicle.id })
@@ -97,16 +92,11 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   getTableColumns() {
-    // this.common.loading++;
-    console.log("expiry date:22222");
     let columns = [];
-    console.log("Data:", this.data);
     this.data.map(doc => {
-      console.log("expiry date:22222");
       let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
       let curr = this.common.dateFormatter(new Date()).split(' ')[0];
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
-      console.log("expiry date:", exp_date);
       let column = {
         docId: { value: doc.id, class: this.user._loggedInBy == 'admin' ? 'blue' : 'black', action: this.openHistory.bind(this, doc.id) },
         vehicleNumber: { value: doc.regno },
@@ -139,8 +129,6 @@ export class DocumentationDetailsComponent implements OnInit {
     const activeModal = this.modalService.open(DocumentHistoryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        //this.getHistoryData();
-        //window.location.reload();
       }
     });
   }
@@ -150,13 +138,11 @@ export class DocumentationDetailsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-        console.log('new Date:', this.dates[date]);
       }
     });
   }
 
   imageView(doc) {
-    console.log("image data", doc);
     let images = [{
       name: "image",
       image: doc.img_url
@@ -170,7 +156,6 @@ export class DocumentationDetailsComponent implements OnInit {
       image: doc.img_url3
     },
     ];
-    console.log("images:", images);
     if (this.checkForPdf(images[0].image)) {
       window.open(images[0].image);
       return;
@@ -190,8 +175,9 @@ export class DocumentationDetailsComponent implements OnInit {
       this.common.showError("Please select Vehicle Number");
       return false;
     }
+
     this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle };
-    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.documentUpdate();
@@ -218,7 +204,6 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   editData(doc) {
-    // console.log("Doc data", doc);
     let documentData = [{
       regNumber: doc.regno,
       id: doc.id,
@@ -254,17 +239,14 @@ export class DocumentationDetailsComponent implements OnInit {
     let ret = confirm("Are you sure you want to delete this Document?");
     if (ret) {
       this.common.params = { RemarkModalComponent, title: 'Delete Document' };
-
       const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         if (data.response) {
-          console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
           this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 1 })
             .subscribe(res => {
               this.common.loading--;
-              console.log("data", res);
               alert(res["msg"]);
               this.documentUpdate();
 

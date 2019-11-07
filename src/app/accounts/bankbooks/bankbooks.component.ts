@@ -349,7 +349,14 @@ export class BankbooksComponent implements OnInit {
       if (this.activeId == 'startdate') this.setFoucus('ledger');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
-    } else if (key != 'backspace') {
+    }else if ((this.activeId == 'startdate' || this.activeId == 'enddate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
+    }else if (key != 'backspace') {
       this.allowBackspace = false;
     }
     if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {

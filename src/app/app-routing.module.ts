@@ -10,7 +10,6 @@ import {
 } from '@nebular/auth';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
-import { VehicleKpisComponent } from './pages/vehicle-kpis/vehicle-kpis.component';
 
 const routes: Routes = [
   {
@@ -77,6 +76,11 @@ const routes: Routes = [
     path: 'walle8',
     loadChildren: 'app/walle8/walle8.module#Walle8Module',
     canActivate: [AuthGuard],
+  },
+  {
+    path:'challan',
+    loadChildren:'app/challan/challan.module#ChallanModule',
+    canActivate:[AuthGuard]
   },
 
   {

@@ -14,7 +14,8 @@ import { StrictMappingComponent } from '../../modals/strict-mapping/strict-mappi
 import { VehiclePriSecRoutemappingComponent } from '../../modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 import { RouteTimeTableComponent } from '../../modals/route-time-table/route-time-table.component';
 import { RouteTimeTableDetailsComponent } from '../../modals/route-time-table-details/route-time-table-details.component';
-
+import { RoutesTimetableComponent } from '../../modals/routes-timetable/routes-timetable.component';
+import { Route } from '@angular/router';
 @Component({
   selector: 'via-routes',
   templateUrl: './via-routes.component.html',
@@ -25,7 +26,6 @@ export class ViaRoutesComponent implements OnInit {
   routeId = null;
   doc;
   viaRoutes = [];
-  // doc = null;
   table = {
     data: {
       headings: {},
@@ -37,6 +37,7 @@ export class ViaRoutesComponent implements OnInit {
   };
   headings = [];
   valobj = {};
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -46,29 +47,6 @@ export class ViaRoutesComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-  selectFoUser(user) {
-    console.log("user", user);
-    this.foData = user.id;
-  }
-  strictRoutes() {
-    this.modalService.open(StrictMappingComponent, { size: 'lg', container: 'nb-layout', });
-
-  }
-  addViaRoutes() {
-
-    const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        this.viewTable();
-      }
-    });
-
-  }
-
-  addPriSecRoute() {
-    const activeModal = this.modalService.open(VehiclePriSecRoutemappingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
   }
 
   refresh() {
@@ -85,8 +63,27 @@ export class ViaRoutesComponent implements OnInit {
     this.viewTable();
   }
 
-  viewTable() {
+  selectFoUser(user) {
+    this.foData = user.id;
+  }
+  strictRoutes() {
+    this.modalService.open(StrictMappingComponent, { size: 'lg', container: 'nb-layout', });
+  }
 
+  addViaRoutes() {
+    const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.viewTable();
+      }
+    });
+  }
+
+  addPriSecRoute() {
+    const activeModal = this.modalService.open(VehiclePriSecRoutemappingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  viewTable() {
     this.viaRoutes = [];
     this.common.loading++;
     this.api.get('ViaRoutes/view')
@@ -102,6 +99,7 @@ export class ViaRoutesComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
+
         let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action'), hideSearch: true };
         this.table.data.headings['action'] = action;
         this.table.data.columns = this.getTableColumns();
@@ -122,15 +120,11 @@ export class ViaRoutesComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    console.log("Data=", this.viaRoutes);
     this.viaRoutes.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]], " ", this.headings[i]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         if (this.headings[i] == "via_points") {
-          console.log("Data=");
-          console.log("doc------------>", doc);
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openViaRoutePoints.bind(this, doc) };
         }
         if (this.headings[i] == "expenses") {
@@ -145,6 +139,10 @@ export class ViaRoutesComponent implements OnInit {
 
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openrouteAdvance.bind(this, doc) };
         }
+        if (this.headings[i] == "time_table") {
+
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.addRouteTimeTable.bind(this, doc) };
+        }
         this.valobj['action'] = { class: '', icons: this.actionIcons(doc) };
       }
       columns.push(this.valobj);
@@ -152,34 +150,36 @@ export class ViaRoutesComponent implements OnInit {
     return columns;
   }
 
-  actionIcons(details) {
+  actionIcons(route) {
     let icons = [];
-
-
     icons.push(
       {
+        class: "fas fa-edit mr-3",
+        action: this.editRoute.bind(this, route),
+      },
+      {
         class: "fa fa-window-close",
-        action: this.remove.bind(this, details),
-      }
+        action: this.remove.bind(this, route),
+      },
+      
     )
     return icons;
   }
+
   remove(row) {
-    console.log("row", row);
     let params = {
       id: row._id,
       foid: row._foid,
     }
     if (row._id) {
-      console.log('id', row._id);
       this.common.params = {
         title: 'Delete Route ',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
       }
+
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          console.log("data", data);
           this.common.loading++;
           this.api.post('ViaRoutes/delete', params)
             .subscribe(res => {
@@ -194,9 +194,9 @@ export class ViaRoutesComponent implements OnInit {
       });
     }
   }
+
   openViaRoutePoints(route) {
     this.common.params = { route: route };
-    console.log("params-->", this.common.params)
     const activeModal = this.modalService.open(ViaRoutePointsComponent, { size: 'lg', container: 'nb-layout', windowClass: "mycustomModalClass" });
     activeModal.result.then(data => {
       console.log("data", data);
@@ -204,48 +204,57 @@ export class ViaRoutesComponent implements OnInit {
     });
   }
 
-  openrouteExpenses(doc) {
-    this.common.params = { doc: doc };
-    console.log("params-->", this.common.params);
+  openrouteExpenses(route) {
+    this.common.params = { doc: route };
     const activeModal = this.modalService.open(RoutesExpensesComponent, { size: 'lg', container: 'nb-layout', });
     activeModal.result.then(data => {
-
-      console.log("data", data);
       this.viewTable();
-    }
-    );
+    });
   }
-  openrouteAdvance(doc) {
-    this.common.params = { doc: doc };
-    console.log("params-->", this.common.params);
+
+  openrouteAdvance(route) {
+    this.common.params = { doc: route };
     const activeModal = this.modalService.open(RoutesAdvancesComponent, { size: 'lg', container: 'nb-layout', });
     activeModal.result.then(data => {
-
-      console.log("data", data);
       this.viewTable();
-    }
-    );
+    });
   }
-  openrouteKpi(doc) {
-    this.common.params = { doc: doc };
-    console.log("params-->", this.common.params);
+
+  openrouteKpi(route) {
+    this.common.params = { doc: route };
     const activeModal = this.modalService.open(RoutesTrafficKpisComponent, { size: 'lg', container: 'nb-layout', });
     activeModal.result.then(data => {
-
-      console.log("data", data);
       this.viewTable();
+    });
+  }
+
+  addRouteTimeTable(route) {
+    let routeData = {
+      routeId: route._id,
+      routeName: route.name,
     }
-    );
+    this.common.params = { routeData };
+    const activeModal = this.modalService.open(RouteTimeTableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
-  // activeModal.result.then(data => {
-
-  //   console.log("data", data);
-  //   this.viewTable();
-  // );
-  // }
-  addRouteTime() {
-    const activeModal = this.modalService.open(RouteTimeTableComponent, { size: 'lg', container: 'nb-layout', });
+  editRoute(route){
+    let editRoute={
+      id:route._id,
+      routeName:route.name,
+      routeType:route._route_type,
+      kms:route.kms
+    }
+    console.log(".....",route);
+    
+    this.common.params={editRoute};
+const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+activeModal.result.then(data => {
+  if(data.response){
+    this.viewTable();
+  }
+});
 
   }
+ 
+
 
 }

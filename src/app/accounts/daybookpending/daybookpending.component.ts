@@ -11,7 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
-
+import { StorerequisitionComponent } from '../../acounts-modals/storerequisition/storerequisition.component';
+import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 @Component({
   selector: 'daybookpending',
   templateUrl: './daybookpending.component.html',
@@ -20,6 +21,7 @@ import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summ
 export class DaybookpendingComponent implements OnInit {
   selectedName = '';
   activedateid = '';
+  fuelFilings=[];
   DayBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -106,6 +108,7 @@ export class DaybookpendingComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.vouchertypedata = res['data'];
+        this.vouchertypedata.push({id:-1001,name:'Stock Received'},{id:-1002,name:'Stock Transfer'},{id:-1003,name:'Stock Issue'},{id:-1004,name:'Stock Transfer Received'});
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -327,7 +330,14 @@ export class DaybookpendingComponent implements OnInit {
       if (this.activeId == 'ledger') this.setFoucus('vouchertype');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
-    } else if (key != 'backspace') {
+    } else if ((this.activeId == 'startdate' || this.activeId == 'enddate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
+    }else if (key != 'backspace') {
       this.allowBackspace = false;
     }
 
@@ -353,10 +363,10 @@ export class DaybookpendingComponent implements OnInit {
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
-        if (!data) {
+        if (data.delete) {
           this.getDayBook();
         }
-        this.getDayBook();
+      //  this.getDayBook();
         // this.common.showToast('Voucher updated');
 
       });
@@ -643,5 +653,83 @@ export class DaybookpendingComponent implements OnInit {
         });
     });
   }
+  openStoreQuestionEdit(editData){
+    this.common.params = {
+      storeRequestId: (editData.y_vouchertype_id==-2) ? -3 : editData.y_vouchertype_id,
+      stockQuestionId: editData.y_voucherid,
+      stockQuestionBranchid: editData.y_fobranchid,
+      pendingid: (editData.y_vouchertype_id==-2) ? 0 : 1,
+      approveId:1
+    };
+    const activeModal = this.modalService.open(StorerequisitionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      console.log('responce data return',data);
+      if(data.response){
+     // this.getStoreQuestion();
+      }
+    });
+  }
 
+  openFuelEdit(vchData){
+    console.log('vch data new ##',vchData);
+    let promises = [];
+    console.log('testing issue solved');
+    promises.push(this.getVocherEditTime(vchData['y_voucherid']));
+    promises.push(this.getDataFuelFillingsEdit(vchData['y_vehicle_id'],vchData['y_fuel_station_id'],vchData['y_voucherid']));
+
+    Promise.all(promises).then(result => {
+    this.common.params = {
+      vehId: vchData['y_vehicle_id'],
+      lastFilling: this.DayBook.startdate,
+      currentFilling: this.DayBook.enddate,
+      fuelstationid: vchData['y_fuel_station_id'],
+      fuelData:this.fuelFilings,
+      voucherId:vchData['y_voucherid'],
+      voucherData:this.VoucherEditTime,
+      //vehname:this.trips[0].y_vehicle_name
+    };
+
+    const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data return: ', data);
+      if (data.success) {
+        this.getDayBook();
+      }
+    });
+  }).catch(err => {
+    console.log(err);
+    this.common.showError('There is some technical error occured. Please Try Again!');
+  })
+  }
+
+  getDataFuelFillingsEdit(vehcleID,fuelStationId,vchrID) {
+    return new Promise((resolve, reject) => {
+    const params = {
+      vehId: vehcleID,
+      lastFilling: this.DayBook.startdate,
+      currentFilling:this.DayBook.enddate,
+      fuelstationid: fuelStationId,
+      voucherId:vchrID
+    };
+    this.common.loading++;
+    this.api.post('Fuel/getFeulfillings', params)
+      .subscribe(res => {
+      //  console.log('fuel data', res['data']);
+        this.common.loading--;
+        if(res['data'].length){
+        this.fuelFilings = res['data'];
+        resolve();
+        }else {
+          this.common.showError('please Select Correct date');
+        }
+        // this.getHeads();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+        reject();
+      });
+    })
+   
+  }
 }

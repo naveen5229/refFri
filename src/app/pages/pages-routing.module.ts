@@ -1,5 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { RouteGuard, DeactivateGuardService } from '../guards/route.guard';
 import { AuthGuard } from '../guards/auth.guard';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -76,7 +77,17 @@ import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.compon
 import { FuelMileageWithOdoComponent } from './fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { FuelMasterComponent } from './fuel-master/fuel-master.component';
 import { WebActivitySummaryComponent } from '../admin/web-activity-summary/web-activity-summary.component';
+import { DispatchOrdersComponent } from '../lorry-receipt/dispatch-orders/dispatch-orders.component';
 import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.component';
+import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
+import { RouteDashboardComponent } from './route-dashboard/route-dashboard.component';
+import { FoUserRoleComponent } from './fo-user-role/fo-user-role.component';
+import { TrendsFoComponent } from './trends-fo/trends-fo.component';
+import { MvsFreightStatementComponent } from './mvs-freight-statement/mvs-freight-statement.component';
+import { UnmergeLRStateComponent } from './unmerge-lrstate/unmerge-lrstate.component';
+import { VehicleSupplierAssociationComponent } from './vehicle-supplier-association/vehicle-supplier-association.component';
+import { MvGpsApisComponent } from './mv-gps-apis/mv-gps-apis.component';
+import { MvGpsApiHistoryComponent } from './mv-gps-api-history/mv-gps-api-history.component';
 
 
 const routes: Routes = [{
@@ -90,223 +101,223 @@ const routes: Routes = [{
 
     path: 'dashboard',
     component: ConciseComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard, RouteGuard],
   },
   {
 
     path: 'vehicle-kpis',
     component: VehicleKpisComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard, RouteGuard],
   },
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard, RouteGuard],
   },
   {
 
     path: 'tickets',
     component: TicketsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard, RouteGuard],
   },
   {
 
     path: 'tickets-all',
     component: TicketsAllComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'lorry-receipts',
     component: LorryRecciptsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'generate-lr',
     component: GenerateLRComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'expenses',
     component: ExpensesComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'concise',
     component: ConciseComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'ticket-site-details',
     component: TicketSiteDetailsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'card-mapping',
     component: CardMappingComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'ticket-details',
     component: TicketDetailsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'fuel-average-analysis',
     component: FuelAverageAnalysisComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'vehicle-trip',
     component: VehicleTripComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'route-mapper',
     component: RouteMapperComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'trends',
     component: TrendsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'placements',
     component: PlacementsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'finance-recovery',
     component: FinanceRecoveryComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'fo-fuel-average',
     component: FoFuelAverageComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'fuel-master',
     component: FuelMasterComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'call-logs',
     component: CallLogsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'driver-call-suggestion',
     component: DriverCallSuggestionComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'site-in-out',
     component: SiteInOutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'user-call-summary',
     component: UserCallSummaryComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'placements-dash-board',
     component: PlacementsDashBoardComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'trip-status-feedback',
     component: TripStatusFeedbackComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'trip-onward-delay',
     component: TripOnwardDelayComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'user-activity-status',
     component: UserActivityStatusComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'placement-delay-faults',
     component: PlacementDelayFaultsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'vehicle-covered-distance',
     component: VehicleCoveredDistanceComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'vehicle-gps-detail',
     component: VehicleGpsDetailComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'trip-feedback-logs',
     component: TipFeedbackLogsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'short-target',
     component: ShortTargetComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'onward-kmpd',
     component: onwardKmpdComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'vehicle-trip-stages',
     component: VehicleTripStagesComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'vehicle-trip-states',
     component: VehicleTripStagesComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'fuel-fillings',
     component: FuelFillingsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'remaining-fuel',
     component: RemainingFuelComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   // {
   //   path: 'lr-invoice-columns',
   //   component: LrInvoiceColumnsComponent,
-  //   canActivate: [AuthGuard],
+  //   canActivate: [AuthGuard,RouteGuard],
   // },
   {
     path: 'consolidate-fuel-average',
@@ -315,37 +326,37 @@ const routes: Routes = [{
   {
     path: 'documentation-details',
     component: DocumentationDetailsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'documents-summary',
     component: DocumentsSummaryComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'document-dashboard',
     component: DocumentDashboardComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'driver-performance',
     component: DriverPerformanceComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'vehicle-distance',
     component: VehicleDistanceComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'trip-verify-states',
     component: TripVerifyStatesComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'vehicle-performance',
     component: VehiclePerformanceComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'daywise-vehicle-distance',
@@ -354,38 +365,38 @@ const routes: Routes = [{
   {
     path: 'generate-lr-no-vehicles',
     component: GenerateLrNoVehiclesComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   // {
   //   path: 'generate-lr-mainfesto',
   //   component: GenerateLrMainfestoComponent,
-  //   canActivate: [AuthGuard],
+  //   canActivate: [AuthGuard,RouteGuard],
   // },
   {
     path: 'view-manifesto',
     component: ViewManifestoComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: 'driver-list',
     component: DriverListComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'vehicle-driver-mapping',
     component: VehicleDriverMappingComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'driver-attendance',
     component: DriverAttendanceComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
 
   },
   {
     path: 'driver-document',
     component: DriverDocumentComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
 
   },
 
@@ -393,99 +404,150 @@ const routes: Routes = [{
   {
     path: 'lr-pod-receipts',
     component: LrPodReceiptsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'vehicle-distance-with-odometer',
     component: VehicleDistanceWithOdometerComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'vehicles',
     component: VehiclesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'fse-entry',
     component: FSEEntryComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'vehicle-odoMeter',
     component: VehicleOdometerComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'fuel-indent',
     component: FuelIndentComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'frieght-rate-input',
     component: FrieghtRateInputComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'via-routes',
     component: ViaRoutesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
 
   {
     path: 'freight-expenses',
     component: FreightExpensesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'pod-dashboard',
     component: PodDashboardComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'advices',
     component: AdvicesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'freight-invoices',
     component: FreightInvoicesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'nearby-pods',
     component: NearbyPodsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'transfers',
     component: TransfersComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'sites',
     component: SitesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'manage-fo-party',
     component: ManageFoPartyComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
-    path:'fuel-mileage-with-odo',
-    component:FuelMileageWithOdoComponent,
-    canActivate:[AuthGuard]
+    path: 'fuel-mileage-with-odo',
+    component: FuelMileageWithOdoComponent,
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
     path: 'web-acttivity-summary',
     component: WebActivitySummaryComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
   {
+    path: 'dispatch-orders',
+    component: DispatchOrdersComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  }, {
     path: 'fuel-consumption',
     component: FuelConsumptionComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, RouteGuard]
   },
+  {
+    path: 'trip-pnl',
+    component: TripPnlComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'route-dashboard',
+    component: RouteDashboardComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'fo-user-role',
+    component: FoUserRoleComponent,
+    canActivate: [AuthGuard, RouteGuard],
+    canDeactivate: [DeactivateGuardService]
+  },
+  {
+    path: 'trends-fo',
+    component: TrendsFoComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'mvs-freight-statement',
+    component: MvsFreightStatementComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'unmerge-lrstate',
+    component: UnmergeLRStateComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'vehicle-supplier-association',
+    component: VehicleSupplierAssociationComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'mv-gps-apis',
+    component: MvGpsApisComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'mv-gps-api-history',
+    component: MvGpsApiHistoryComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+
 
   ],
 }];

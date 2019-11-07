@@ -78,6 +78,16 @@ import { FoFuelAverageComponent } from './fo-fuel-average/fo-fuel-average.compon
 import { FuelMileageWithOdoComponent } from './fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { FuelMasterComponent } from './fuel-master/fuel-master.component';
 import { FuelConsumptionComponent } from './fuel-consumption/fuel-consumption.component';
+import { TripPnlComponent } from './trip-pnl/trip-pnl.component';
+import { RouteDashboardComponent } from './route-dashboard/route-dashboard.component';
+import { FoUserRoleComponent } from './fo-user-role/fo-user-role.component';
+import { TrendsFoComponent } from './trends-fo/trends-fo.component';
+import { MvsFreightStatementComponent } from './mvs-freight-statement/mvs-freight-statement.component';
+import { UnmergeLRStateComponent } from './unmerge-lrstate/unmerge-lrstate.component';
+import { VehicleSupplierAssociationComponent } from './vehicle-supplier-association/vehicle-supplier-association.component';
+import { MvGpsApisComponent } from './mv-gps-apis/mv-gps-apis.component';
+import { VehicleDetailsUpdateComponent } from '../modals/vehicle-details-update/vehicle-details-update.component';
+import { MvGpsApiHistoryComponent } from './mv-gps-api-history/mv-gps-api-history.component';
 
 
 
@@ -158,8 +168,17 @@ const PAGES_COMPONENTS = [
     ManageFoPartyComponent,
     FuelMasterComponent,
     FuelConsumptionComponent,
+    TripPnlComponent,
+    RouteDashboardComponent,
+    FoUserRoleComponent,
+    TrendsFoComponent,
+    MvsFreightStatementComponent,
+    UnmergeLRStateComponent,
+    VehicleSupplierAssociationComponent,
+    MvGpsApisComponent,
+    MvGpsApiHistoryComponent,
 
-    // CustomDatePipe
+
   ],
   exports: [
     FuelAverageAnalysisComponent,

@@ -1,0 +1,38 @@
+:host ::ng-deep .tableFixHead {
+    height: auto !important;
+    max-height: calc(100vh - 222px);
+    table {
+        thead {
+            tr {
+                // th {
+                //     width: 33px;
+                //     font-size: 10px;
+                // }
+                // th:first-child{
+                //     width: 30px;
+                // }
+                td:nth-child(1) {
+                    width: 30px;
+                }
+                th:nth-child(2) {
+                    width: 70px;
+                }
+            }
+        }
+        tbody {
+            td {
+                padding: 5px 3px !important;
+                text-align: center;
+            }
+            td input {
+                border: 1px solid #e2e2e2;
+                text-align: center;
+            }
+        }
+    }
+}
+
+.set-text {
+    margin-top: 14px;
+    margin-left: 7px;
+}

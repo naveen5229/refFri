@@ -1,3 +1,24 @@
-:host ::ng-deep .tableFixHead{
-    height: auto !important;
- }
+:host ::ng-deep .tableFixHead {
+  height: 58vh !important;
+}
+b {
+  font-size: 17px;
+}
+label {
+  font-weight: 900;
+  font-size: 16px;
+}
+.radio-type {
+  padding-bottom: 10px;
+  font-size: 18px;
+  text-align: center;
+  color: darkblue;
+  input {
+    margin: 0px;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px !important;
+    margin-left: 8px;
+  }
+}

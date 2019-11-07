@@ -4,6 +4,8 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { RouteTimeTableDetailsComponent } from '../route-time-table-details/route-time-table-details.component';
+import { ConfirmComponent } from '../confirm/confirm.component';
+import { VehicleTimeTableAssociationComponent } from '../vehicle-time-table-association/vehicle-time-table-association.component';
 
 @Component({
   selector: 'route-time-table',
@@ -13,8 +15,11 @@ import { RouteTimeTableDetailsComponent } from '../route-time-table-details/rout
 export class RouteTimeTableComponent implements OnInit {
   routesDetails = [];
   routeId = null;
+  routeName = null;
   startTime = new Date();
   assocType = null;
+  edit = 0;
+  rowId = null;
 
   routeTimeTable = [];
   table = {
@@ -30,10 +35,22 @@ export class RouteTimeTableComponent implements OnInit {
     public common: CommonService,
     public activeModal: NgbActiveModal,
     public modalService: NgbModal) {
+    if (this.common.params && this.common.params.routeData) {
+      this.routeId = this.common.params.routeData.routeId;
+      this.routeName = this.common.params.routeData.routeName;
+    }
+    if (this.routeId) {
+      this.getRouteTimeTableViews();
+    }
     this.getRoutes();
   }
 
   ngOnInit() {
+  }
+  ngOnDestroy() {
+    this.common.params = null;
+    console.log("destroy");
+
   }
   closeModal() {
     this.activeModal.close();
@@ -58,17 +75,20 @@ export class RouteTimeTableComponent implements OnInit {
       this.getRouteTimeTableViews();
     }
   }
-
+  reset() {
+    this.rowId = null;
+    this.startTime = null;
+    this.assocType = null;
+  }
 
   addrouteTime() {
     let params = {
+      rowId: this.rowId ? this.rowId : null,
       routeId: this.routeId,
-      startTime: this.common.timeFormatter(this.startTime),
+      startTime: this.startTime ? this.common.timeFormatter(this.startTime) : null,
       assType: this.assocType,
-
     }
     console.log("Params:", params);
-
     this.common.loading++;
     this.api.post('ViaRoutes/saveTimeTable', params)
       .subscribe(res => {
@@ -87,13 +107,12 @@ export class RouteTimeTableComponent implements OnInit {
         console.log(err);
       });
   }
+
   getRouteTimeTableViews() {
     this.common.loading++;
     this.api.get('ViaRoutes/getTimeTable?routeId=' + this.routeId)
       .subscribe(res => {
         this.common.loading--;
-        console.log('res:', res);
-
         this.routeTimeTable = res['data'];
         this.routeTimeTable.length ? this.setTable() : this.resetTable();
 
@@ -154,9 +173,22 @@ export class RouteTimeTableComponent implements OnInit {
   actionIcons(route) {
     let icons = [
       {
+        class: "fas fa-pencil-alt",
+        action: this.editTimeTable.bind(this, route)
+      },
+      {
         class: "icon fas fa-edit",
         action: this.editRoutes.bind(this, route)
       },
+      {
+        class: "fas fa-truck-moving ml-3",
+        action: this.addvehicleAssociation.bind(this, route)
+      },
+      {
+        class: "fas fa-trash-alt ml-3",
+        action: this.deleteRouteTime.bind(this, route)
+      },
+
     ];
     return icons;
   }
@@ -169,13 +201,69 @@ export class RouteTimeTableComponent implements OnInit {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
+  editTimeTable(route) {
+    this.edit = 1;
+    this.routeId = route._route_id;
+    this.routeName = route._route_name;
+    this.startTime = route._start_time ? new Date(route._start_time) : null;
+    console.log("start Time", this.startTime);
+    this.assocType = route._ass_type;
+    this.rowId = route._rtt_id;
+  }
 
   editRoutes(route) {
-
     console.log("route:", route);
     this.common.params = { route: route };
     const activeModal = this.modalService.open(RouteTimeTableDetailsComponent, { size: 'lg', container: 'nb-layout', });
+  }
 
+  addvehicleAssociation(route) {
+    let vehicleRouteData = {
+      routeId: route._route_id,
+      routeName: route._route_name,
+      routeTimeName: route._rtt_name,
+      routeTime: route._rtt_id,
+      assType: route._ass_type,
+    }
+    console.log("vehicleRouteData:", vehicleRouteData);
+    this.common.params = { vehicleRouteData };
+    const activeModal = this.modalService.open(VehicleTimeTableAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  deleteRouteTime(route) {
+    let params = {
+      routeId: route._route_id,
+      timeTableId: route._rtt_id,
+
+    }
+    if (route._route_id) {
+      this.common.params = {
+        title: 'Delete Route Time',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('ViaRoutes/deleteTimeTable', params)
+            .subscribe(res => {
+              this.common.loading--;
+              if (res['data'][0].y_id > 0) {
+                this.common.showToast('Success');
+                this.getRouteTimeTableViews();
+              }
+              else {
+                this.common.showToast(res['data'][0].y_msg);
+              }
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
   }
 
 

@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,HostListener} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { AccountService } from '../../services/account.service';
 import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-filling.component';
 import { log } from 'util';
+import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-filling.component';
 
 
 @Component({
@@ -27,9 +27,14 @@ export class FuelfillingsComponent implements OnInit {
   selectedVehicle;
   selectedFuelFilling;
   vehicles = [];
+  VoucherEditTime=[];
   flag = false;
   enddate = this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
   startdate = this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event) {
+    this.keyHandler(event);
+  }
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -55,28 +60,7 @@ export class FuelfillingsComponent implements OnInit {
     // this.getTripSummary();
 
   }
-  getPendingTrips() {
-    if (this.flag == false) {
-      this.common.showToast('please enter registration number !!')
-    } else {
-      const params = {
-        vehId: this.selectedVehicle.id
-      };
-      this.common.loading++;
-      this.api.post('VehicleTrips/getPendingVehicleTrips', params)
-        .subscribe(res => {
-          console.log(res);
-          this.common.loading--;
-          this.showTripSummary(res['data']);
-          //this.flag=false;
-          //this.trips = res['data'];
-        }, err => {
-          console.log(err);
-          this.common.loading--;
-          this.common.showError();
-        });
-    }
-  }
+
   getFuelVoucher() {
 
     const params = {
@@ -101,17 +85,47 @@ export class FuelfillingsComponent implements OnInit {
 
   }
 
-  showTripSummary(tripDetails) {
-    let vehId = this.selectedVehicle.id;
-    this.common.params = { vehId, tripDetails };
-    const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        //this.addLedger(data.ledger);
+  getDataFuelFillings() {
+    if (this.accountService.selected.branch.id) {
+    console.log('params model', this.common.params);
+    if(this.selectedVehicle && (this.selectedVehicle.id !=0)){
+      if(this.selectedFuelFilling && (this.selectedFuelFilling.id !=0)){
+    let fuelstatinid = (this.selectedVehicle) ? this.selectedVehicle.id : 0;
+    const params = {
+      vehId: (this.selectedVehicle) ? this.selectedVehicle.id : 0,
+      lastFilling: this.startdate,
+      currentFilling:this.enddate,
+      fuelstationid: (this.selectedFuelFilling) ? this.selectedFuelFilling.id : 0
+    };
+    this.common.loading++;
+    this.api.post('Fuel/getFeulfillings', params)
+      .subscribe(res => {
+       // console.log('fuel data', res['data']);
+        this.common.loading--;
+        if(res['data'].length){
+        this.fuelFilings = res['data'];
+        this.getFuelFillings( res['data']);
+        }else {
+          this.common.showError('please Select Correct date');
+        }
+        // this.getHeads();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+    }
+    else{
+      this.common.showError('Please Select Fuel Station');
+    }
+  }else{
+      this.common.showError('Please Select Vehicle');
       }
-    });
+    }else{
+      this.common.showError('Please Select branch');
+    }
   }
+  
 
   checkedAllSelected() {
     this.checkedTrips = [];
@@ -121,27 +135,27 @@ export class FuelfillingsComponent implements OnInit {
     }
   }
 
-  getFuelFillings() {
+  getFuelFillings(fuelData) {
     if (this.accountService.selected.branch.id) {
       console.log('Branch ID :', this.accountService.selected.branch.id);
       this.common.params = {
         vehId: this.selectedVehicle.id,
         lastFilling: this.startdate,
         currentFilling: this.enddate,
-        fuelstationid: this.selectedFuelFilling
+        fuelstationid: this.selectedFuelFilling,
+        fuelData:fuelData
       };
 
       const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
+         console.log('Data return: ', data);
+        if (data.success) {
           this.getFuelVoucher();
         }
       });
     }
     else {
-      console.log("Select Branch");
-      alert('Please Select Branch');
+      this.common.showError('Please Select Branch');
     }
   }
   // getFuelFillings() {
@@ -181,15 +195,38 @@ export class FuelfillingsComponent implements OnInit {
 
 
   addFuel() {
-    let vehId = this.selectedVehicle.id;
-    this.common.params = { vehId };
-    const activeModal = this.modalService.open(AddFuelFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    let rowfilling = {
+      fdate: null,
+      litres: null,
+      is_full: null,
+      regno: null,
+      rate: null,
+      amount: null,
+      pp: null,
+      fuel_station_id: null,
+      vehicle_id: null,
+      id: null,
+      ref_type: null,
+      ref_id: null,
+    };
+    this.common.params = { rowfilling, title: 'Add Fuel Filling' };
+    const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
       if (data.response) {
-        //this.addLedger(data.ledger);
+       // window.location.reload();
       }
+    //this.common.handleModalSize('class', 'modal-lg', '1150');
+
     });
+    // let vehId = this.selectedVehicle.id;
+    // this.common.params = { vehId };
+    // const activeModal = this.modalService.open(AddFuelFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+    //   // console.log('Data: ', data);
+    //   if (data.response) {
+    //     //this.addLedger(data.ledger);
+    //   }
+    // });
   }
 
 
@@ -285,47 +322,46 @@ export class FuelfillingsComponent implements OnInit {
         this.common.showError();
       });
   }
-  getVoucherSummary(tripVoucher) {
-    console.log(tripVoucher);
-    const params = {
-      voucherId: tripVoucher.id,
-      startDate: tripVoucher.startdate,
-      endDate: tripVoucher.enddate
-    };
-    this.common.loading++;
-    this.api.post('TripExpenseVoucher/getTripExpenseVoucherTrips', params)
-      .subscribe(res => {
-        console.log(res);
-        this.common.loading--;
-        this.showVoucherSummary(res['data'], tripVoucher);
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError();
-      });
-  }
-  showVoucherSummary(tripDetails, tripVoucher) {
-    let vehId = this.selectedVehicle.id;
-    this.common.params = { vehId, tripDetails, tripVoucher };
-    const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        //this.addLedger(data.ledger);
-      }
-    });
-  }
+ 
+ 
 
 
   openVoucherEdit(voucherdata) {
+    let promises = [];
     console.log('testing issue solved');
+    promises.push(this.getVocherEditTime(voucherdata['y_voucher_id']));
+    promises.push(this.getDataFuelFillingsEdit(voucherdata['y_vehicle_id'],voucherdata['y_fuel_station_id'],voucherdata['y_voucher_id']));
+
+    Promise.all(promises).then(result => {
     this.common.params = {
-      voucherdata: voucherdata,
-      vehId: voucherdata.y_vehicle_id,
+      vehId: voucherdata['y_vehicle_id'],
       lastFilling: this.startdate,
       currentFilling: this.enddate,
-      fuelstationid: voucherdata.y_fuel_station_id
+      fuelstationid: voucherdata['y_fuel_station_id'],
+      fuelData:this.fuelFilings,
+      voucherId:voucherdata['y_voucher_id'],
+      voucherData:this.VoucherEditTime,
+      vehname:this.trips[0].y_vehicle_name
     };
+
+    const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data return: ', data);
+      if (data.success) {
+        this.getFuelVoucher();
+      }
+    });
+  }).catch(err => {
+    console.log(err);
+    this.common.showError('There is some technical error occured. Please Try Again!');
+  })
+    // this.common.params = {
+    //   voucherdata: voucherdata,
+    //   vehId: voucherdata.y_vehicle_id,
+    //   lastFilling: this.startdate,
+    //   currentFilling: this.enddate,
+    //   fuelstationid: voucherdata.y_fuel_station_id
+    // };
 
     // const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     // activeModal.result.then(data => {
@@ -357,5 +393,134 @@ export class FuelfillingsComponent implements OnInit {
         })
   }
 
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+   let activeId = document.activeElement.id;
+    console.log('Active event 1111', event, activeId);
+    if (key == 'enter') {
+      //this.allowBackspace = true;
+      if (activeId.includes('suggestion')) {
+        this.setFoucus('vchtype');
+      } else if (activeId.includes('startdate')) {
+        this.setFoucus('enddate');
+      }else if (activeId.includes('enddate')) {
+        this.setFoucus('btnSubmit');
+      }
+    }
+  }
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
+  }
+  getVocherEditTime(VoucherID) {
+    return new Promise((resolve, reject) => {
+      const params = {
+        vchId: VoucherID
+      };
+      this.common.loading++;
+      this.api.post('Voucher/getVoucherDetail', params)
+        .subscribe(res => {
+          console.log('edit time voucher detail',res);
+          this.common.loading--;
+          this.VoucherEditTime = res['data'];
+          resolve();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
+    });
 
+  }
+
+  getDataFuelFillingsEdit(vehcleID,fuelStationId,vchrID) {
+    return new Promise((resolve, reject) => {
+    const params = {
+      vehId: vehcleID,
+      lastFilling: this.startdate,
+      currentFilling:this.enddate,
+      fuelstationid: fuelStationId,
+      voucherId:vchrID
+    };
+    this.common.loading++;
+    this.api.post('Fuel/getFeulfillings', params)
+      .subscribe(res => {
+      //  console.log('fuel data', res['data']);
+        this.common.loading--;
+        if(res['data'].length){
+        this.fuelFilings = res['data'];
+        resolve();
+        }else {
+          this.common.showError('please Select Correct date');
+        }
+        // this.getHeads();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+        reject();
+      });
+    })
+   
+  }
+  pdfFunction() {
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+        // this.Vouchers = res['data'];
+        let address = (res['data'][0]) ? res['data'][0].addressline + '\n' : '';
+        let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1 + remainingstring3;
+        let foname = (res['data'][0]) ? res['data'][0].foname : '';
+        this.common.getPDFFromTableIdnew('table', foname, cityaddress, '', '', 'Trip Voucher Expence :' + this.startdate + ' To :' + this.enddate);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  csvFunction() {
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+        // this.Vouchers = res['data'];
+        let address = (res['data'][0]) ? res['data'][0].addressline + '\n' : '';
+        let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1;
+        let foname = (res['data'][0]) ? res['data'][0].foname : '';
+        this.common.getCSVFromTableIdNew('table', foname, cityaddress, '', '', remainingstring3);
+        // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
 }

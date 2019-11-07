@@ -12,7 +12,7 @@
     </div>
     <div class="col-3">
       <auto-suggestion [data]="routesDetails" [display]="['name','id']"
-        [preSelected]="name ? {name:name,id:routeId}: {name: '',id:''}" seperator="-"
+        [preSelected]="routeName ? {name:routeName,id:routeId}: {name: '',id:''}" seperator="-"
         (onSelected)="changeRouteType($event)" inputId="routeId"></auto-suggestion>
     </div>
     <div class="col-2 mt-1">
@@ -36,7 +36,13 @@
   </div>
   <div class="row ">
     <div class="col-12 text-right mt-3 ">
-      <button type="button " class="btn btn-primary " style="border-radius:3px " (click)="addrouteTime()">Add</button>
+      <button type="button " class="btn btn-primary " style="border-radius:3px " (click)="addrouteTime()">
+        {{this.rowId ?'EDIT':'ADD'}}
+      </button>
+      <button *ngIf="rowId" type="button " class="btn btn-primary ml-3" style="border-radius:3px "
+        (click)="reset()">Cancel
+
+      </button>
     </div>
   </div>
   <div class="mt-2">

@@ -13,8 +13,8 @@ export class StateLogsComponent implements OnInit {
   stateId=2;
   wareHouseId=20;
   stateData=[]
-  startDate = null;
-  endDate = null;
+  endDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 10));
   table = {
     data: {
       headings: {},
@@ -66,8 +66,8 @@ export class StateLogsComponent implements OnInit {
 
 
   getState(){
-    let startDate = this.startDate != null ? this.common.dateFormatter1(this.startDate) : null;
-    let endDate = this.endDate != null ? this.common.dateFormatter1(this.endDate) : null;
+    let startDate = this.startDate != null ? this.common.dateFormatter(this.startDate) : null;
+    let endDate = this.endDate != null ? this.common.dateFormatter(this.endDate) : null;
     if (startDate == null)
     {
        return this.common.showError("Start Date is Missing");

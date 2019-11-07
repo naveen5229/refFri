@@ -6,106 +6,150 @@
 </div>
 <div class="modal-body">
   <div class="row mb-3">
-    <div class="col-5">
+    <div class="col-6">
       <div class="row">
-        <div class="col-3">
+        <div class="col-4">
           <span><b>Branch</b></span>
         </div>
-        <div class="col-9">
-          <select name="branch" class="form-control" [(ngModel)]="freightInvoice.branchId"
-            (change)="getBranchDetails();">
+        <div class="col-8">
+          <select name="branch" class="form-control" [(ngModel)]="freightInvoice.branchId">
             <option value="">Select Branch</option>
             <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
           </select>
         </div>
       </div>
     </div>
-    <div class="col-7">
-      <div class="row">
-        <div class="col-3">
-          <span><b>Party</b></span>
+
+    <div class="col-6">
+        <div class="row">
+          <div class="col-4">
+            <span><b> Time</b></span>
+          </div>
+          <div class="col-8">
+            <uj-date-time-picker (onChanged)="freightInvoice.date = $event" [dateTimeValue]="freightInvoice.date"
+              [isTime]="false">
+            </uj-date-time-picker>
+          </div>
         </div>
-        <div class="col-9">
-          <auto-suggestion *ngIf="showhide.show; else other_content" (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies" display="name"
-            placeholder="Search Consignor Name" style="width:100%;" class="auto-suggest"
-            [preSelected]="{name:freightInvoice.companyName}">
-          </auto-suggestion>
-        </div>
-        <ng-template #other_content>
-            <label style="background-color: #e8edef;padding-top:5px;padding-bottom:5px;padding-left:15px;width:100%;border-radius:3px;">{{freightInvoice.companyName}}</label> 
-          </ng-template>
       </div>
-    </div>
+    
   </div>
   <div class="row mb-3">
-    <div class="col-5">
-      <div class="row">
-        <div class="col-3">
-          <span><b> Time</b></span>
+      <div class="col-6">
+          <div class="row">
+            <div class="col-4">
+              <span><b>Party</b></span>
+            </div>
+            <div class="col-8">
+              <auto-suggestion *ngIf="showhide.show; else other_content" (onSelected)="getConsignorDetail($event)"
+                url="Suggestion/GetCompanies2?type=FCTA" display="name" placeholder="Search Consignor Name" style="width:100%;"
+                class="auto-suggest" [preSelected]="{name:freightInvoice.companyName}">
+              </auto-suggestion>
+            </div>
+            <ng-template #other_content>
+              <label
+                style="background-color: #e8edef;padding-top:5px;padding-bottom:5px;padding-left:15px;width:100%;border-radius:3px;">{{freightInvoice.companyName}}</label>
+            </ng-template>
+          </div>
         </div>
-        <div class="col-9 pl-3 pr-2">
-          <uj-date-time-picker (onChanged)="freightInvoice.date = $event" [dateTimeValue]="freightInvoice.date"
-            [isTime]="false">
-          </uj-date-time-picker>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-4">
+              <span><b>Party Address</b></span>
+            </div>
+            <div class="col-8">
+              <input type="text" id="invoiceAddress" placeholder="Address" name="address"
+               class="form-control" [(ngModel)]="freightInvoice.partyAddress">
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-7">
-      <div class="row">
-        <div class="col-3">
-          <span><b>Invoice No</b></span>
-        </div>
-        <div class="col-9">
-          <input type="text" id="invoiceno" placeholder="Invoice No." name="invoiceno" class="form-control"
-            [(ngModel)]="freightInvoice.invoiceNo">
-        </div>
-      </div>
-    </div>
-  </div>
-
 
   <div class="row">
+      <div class="col-6">
+          <div class="row">
+            <div class="col-4">
+              <span><b>Invoice No</b></span>
+            </div>
+            <div class="col-8">
+              <input type="text" id="invoiceno" placeholder="Invoice No." name="invoiceno" class="form-control"
+                [(ngModel)]="freightInvoice.invoiceNo">
+            </div>
+          </div>
+        </div>
+
     <div class="col-6">
       <div class="row">
-        <div class="col-3">
+        <div class="col-4">
           <label>Intra State</label>
         </div>
-        <div class="col-9">
+        <div class="col-8">
           <input type="checkbox" unchecked [(ngModel)]='state' (change)="check(state)">
         </div>
       </div>
     </div>
-    <div class="col-6">
-      <div class="row">
-        <div class="col-3">
-          <label>Gst Rate</label>
-        </div>
-        <div class="col-9">
-          <select [(ngModel)]="freightInvoice.gst" name="gst">
-            <option value="5" selected>5%</option>
-            <option value="12">12%</option>
-            <option value="0">N.A.</option>
-          </select>
-        </div>
-      </div>
     </div>
-  </div>
+
+    <div class="row mt-2">
+        <div class="col-6">
+            <div class="row">
+              <div class="col-4">
+                <label>Material</label>
+              </div>
+              <div class="col-8">
+                  <span >
+                      <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
+                        placeholder="Search Material Name" style="width:100%;" class="auto-suggest"
+                        [preSelected]="{name:material.name}" (change)="resetMaterail($event)">
+                      </auto-suggestion>
+                    </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+              <div class="row">
+                <div class="col-4">
+                  <label>Gst Rate</label>
+                </div>
+                <div class="col-8">
+                  <select [(ngModel)]="freightInvoice.gst" name="gst">
+                    <option value="5" selected>5%</option>
+                    <option value="12">12%</option>
+                    <option value="0">N.A.</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+      
+    </div>
 
 
-  <div class="row">
+  <div class="row mt-2">
+      <div class="col-6">
+          <div class="row">
+            <div class="col-4" style="padding-top:20px">
+              <span><b>Title</b></span>
+            </div>
+            <div class="col-8">
+              <textarea rows="5" name="title" id="title" row="5" rows="3" class="form-control"
+                [(ngModel)]="freightInvoice.title"></textarea>
+            </div>
+          </div>
+        </div>
+
     <div class="col-6">
       <div class="row">
-        <div class="col-3" style="padding-top:20px">
+        <div class="col-4" style="padding-top:20px">
           <span><b>Remark</b></span>
         </div>
-        <div class="col-7 pl-0">
+        <div class="col-8">
           <textarea rows="5" name="remark" id="remark" row="5" rows="3" class="form-control"
             [(ngModel)]="freightInvoice.remark"></textarea>
         </div>
       </div>
     </div>
   </div>
-
 
 </div>
 <div class="modal-footer">

@@ -30,7 +30,7 @@
                 </td>
                 <td>
                   <input type="number" class="form-control" autocomplete="off" [name]="'taxrate-' + i" [id]="'taxrate-' + i"
-                    [(ngModel)]="taxdetail.taxrate" (input)="taxdetail.taxamount = (taxdetail.taxrate * amount)/100;">
+                    [(ngModel)]="taxdetail.taxrate" (input)="taxdetail.taxamount = ((taxdetail.taxrate * amount)/100).toFixed(2)">
                 </td>
                 <td>
                   <input type="number" class="form-control" autocomplete="off" [name]="'taxamount-' + i" [id]="'taxamount-' + i"

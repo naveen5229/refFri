@@ -4,6 +4,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { LRRateCalculatorComponent } from '../lrrate-calculator/lrrate-calculator.component';
+import { TransferReceiptsComponent } from '../../FreightRate/transfer-receipts/transfer-receipts.component';
 
 @Component({
   selector: 'lr-rate',
@@ -19,9 +20,11 @@ export class LrRateComponent implements OnInit {
   generalModal = true;
   title = "General";
   btnTitle = "Advance Form";
+  advaceTxt = "Advance Received From Party"
   isAdvanced = false;
   postAllowed = null;
   id = null;
+  advanceAmount=0;
   general = {
     param: null,
     minRange: null,
@@ -31,7 +34,6 @@ export class LrRateComponent implements OnInit {
     weight: null,
     mgWeight: null,
     shortage: null,
-    shortagePer: null,
     detenation: null,
     delay: null,
     weightDistance: null,
@@ -39,10 +41,12 @@ export class LrRateComponent implements OnInit {
     unloading: null,
     qty: null,
     mgQty: null,
-    brokerage: null
+    brokerage: null,
+    shortageunit:0,
+    brokerageunit:0,
   };
   filters = [{
-    param: null,
+    param: 'shortage',
     paramValue: null,
     minRange: null,
     maxRange: null,
@@ -51,7 +55,6 @@ export class LrRateComponent implements OnInit {
     weight: null,
     mgWeight: null,
     shortage: null,
-    shortagePer: null,
     detenation: null,
     delay: null,
     weightDistance: null,
@@ -59,6 +62,7 @@ export class LrRateComponent implements OnInit {
     unloading: null,
     qty: null,
     mgQty: null,
+    shortageunit:0,
 
   }];
 
@@ -86,12 +90,14 @@ export class LrRateComponent implements OnInit {
     console.log("this.common.params.LrData", this.common.params.rate);
     this.lrId = this.common.params.rate.lrId ? this.common.params.rate.lrId : null;
     this.type = this.common.params.rate.rateType ? this.common.params.rate.rateType : null;
+    this.advaceTxt = this.common.params.rate.rateType ?"Advance Given To MVS":"Advance Received From Party"
     this.generalModal = this.common.params.rate.generalModal ? this.common.params.rate.generalModal : false;
     this.title = this.common.params.rate.generalModal ? "General" : "Advance";
     this.btnTitle = this.common.params.rate.generalModal ? "Advance Form" : "General Form";
     this.isAdvanced = this.common.params.rate.generalModal ? false : true;
     this.getLrRateDetails();
     this.getLRtRateparams();
+    this.lrGetAdvanceAmount();
 
     if (this.generalModal) {
       this.common.handleModalSize('class', 'modal-lg', '500');
@@ -111,7 +117,7 @@ export class LrRateComponent implements OnInit {
 
   addMore() {
     this.filters.push({
-      param: null,
+      param: 'shortage',
       paramValue: null,
       minRange: null,
       maxRange: null,
@@ -120,7 +126,6 @@ export class LrRateComponent implements OnInit {
       weight: null,
       mgWeight: null,
       shortage: null,
-      shortagePer: null,
       detenation: null,
       delay: null,
       weightDistance: null,
@@ -128,6 +133,7 @@ export class LrRateComponent implements OnInit {
       unloading: null,
       qty: null,
       mgQty: null,
+      shortageunit:0
     });
   }
 
@@ -335,7 +341,6 @@ export class LrRateComponent implements OnInit {
   }
   postAllowedReset() {
     this.general.shortage = null;
-    this.general.shortagePer = null;
   }
 
   setValue(data) {
@@ -348,10 +353,15 @@ export class LrRateComponent implements OnInit {
       this.general.qty = data[0]['qty_coeff'];
       this.general.mgQty = data[0]['mg_qty'];
       this.general.brokerage = data[0]['brokerage'];
+      this.general.brokerageunit=data[0]['brokerageunit'];
+      this.general.shortageunit=data[0]['shortageunit'];
+      this.general.shortage=data[0]['short_coeff'];
       this.rateDiv = this.data[0]['_allowedit'];
-      this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
-      this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
-      this.filters[0].shortage = data[1] && data[1]['short_coeff'] ? data[1]['short_coeff'] : data[1]['short_coeff'];
+      this.filters[0].minRange=this.data[0]["range_min"];
+      this.filters[0].param=this.data[0]["filter_param"];
+      // this.filters[0].param = data[1] && data[1]['filter_param'] ? data[1]['filter_param'] : 'shortage';
+      // this.filters[0].minRange = data[1] && data[1]['range_min'] ? data[1]['range_min'] : '';
+      this.filters[0].shortage = data[1] && data[1]['short_coeff'] ? data[1]['short_coeff'] : '';
     }
     else {
       this.resetValue();
@@ -367,6 +377,9 @@ export class LrRateComponent implements OnInit {
     this.general.qty = null;
     this.general.mgQty = null;
     this.general.brokerage = null;
+    this.general.shortage=null;
+    this.general.shortageunit=0;
+    this.general.brokerageunit=0;
     this.filters[0].param = null;
     this.filters[0].minRange = null;
     this.filters[0].shortage = null;
@@ -385,5 +398,58 @@ export class LrRateComponent implements OnInit {
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
+  }
+
+  saveCalculatedRate() {
+    console.log("hello");
+    const params = {
+      refId: this.lrId,
+      refTypeId: 11,
+      isExpense: '' + this.type
+    };
+    ++this.common.loading;
+    console.log("params", params);
+    this.api.post('LorryReceiptsOperation/saveCalculatedRate', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('Api Response:', res['data'][0]);
+        if (res['data'][0].r_id > 0) {
+          this.common.showToast("Sucessfully saved");
+          this.closeModal();
+        }
+        else {
+          this.common.showError(res['data'][0].r_msg);
+        }
+      },
+        err => console.error(' Api Error:', err));
+  }
+
+
+  openTransferModal(){
+    let refdata = {
+      refId : this.lrId,
+      refType : 11,
+      selectOption:this.type?'Transfer':'Receipt'
+    }
+    this.common.params = { refData: refdata };
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      this.lrGetAdvanceAmount();
+    });
+  }
+
+  lrGetAdvanceAmount() {
+    let params={
+      lrId:this.lrId,
+      isExpense:this.type
+    }
+    this.api.post('lorryReceiptsOperation/lrGetAdvanceAmount',params)
+      .subscribe(res => {
+        console.log('advanceAmount', res['data']);
+        this.advanceAmount = res['data'][0].r_amount;
+      }, err => {
+        console.log(err);
+      });
   }
 }

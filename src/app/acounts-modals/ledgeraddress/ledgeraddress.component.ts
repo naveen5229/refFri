@@ -31,7 +31,11 @@ export class LedgeraddressComponent implements OnInit {
       console.log("After the modal Open:", this.common.params);
 
       this.accDetails = this.common.params.addressdata;
-      this.address = this.accDetails[0].address;
+      this.accDetails.map((addDetail)=>{
+          if(addDetail.is_default){
+            this.address = addDetail.address;
+          }
+      })
 
 
     }

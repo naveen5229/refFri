@@ -100,7 +100,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
       this.valobj['Action'] = {
         icons: [
           // { class: "fa fa-pencil-square", action: this.editMaintenance.bind(this, doc) },
-          { class: "fa fa-cog", action: this.viewDetails.bind(this, doc) },
+          { class: "fa fa-cog mr-3", action: this.viewDetails.bind(this, doc) },
           { class: "fa fa-trash", action: this.deleteMaintenance.bind(this, doc) }]
         , action: null
       };

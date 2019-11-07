@@ -1,0 +1,527 @@
+@media print {
+    .doNotPrint {
+        display: none !important;
+    }
+}
+
+print-section {
+    z-index: 999;
+}
+
+:host ::ng-deep .fa-refresh:before {
+    content: "\f021";
+    margin-right: 15px;
+    font-size: 24px;
+    cursor:pointer;
+}
+
+.btn.doNotPrint {
+    padding: 5px 10px;
+    text-transform: capitalize;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer !important;
+}
+
+.pdf-icon {
+    font-size: 30px;
+    color: #9F0001;
+}
+
+.print-icon {
+    font-size: 30px;
+    color: rgb(136, 160, 196);
+}
+
+.jr-layout {
+    background: transparent;
+    border: navajowhite;
+    color: transparent;
+    box-shadow: none;
+}
+
+.jr-layout option {
+    background: teal;
+    color: #fff;
+}
+
+.jr-layout .active {
+    background: #000;
+}
+
+ :host ::ng-deep .lr-print-recipt {
+    .recipt-header {
+        padding: 15px;
+        border-bottom: 1px solid #ccc;
+        .site-logo {
+            p {
+                font-size: 25px;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+            span {
+                background-color: #ff3a3a;
+                padding: 7px;
+                border-radius: 15px;
+                color: #fff;
+                display: inline-block;
+            }
+        }
+        .address-main {
+            p {
+                margin-bottom: 5px;
+                clear: both;
+                overflow: hidden;
+            }
+            label {
+                float: left;
+                margin-right: 10px;
+                width: 94px;
+                text-align: right;
+            }
+        }
+    }
+    .recipt-body {
+        padding: 15px;
+        .code-box {
+            .code-numbox {
+                width: 45%;
+                float: left;
+                text-align: center;
+                p {
+                    background-color: #000;
+                    color: #fff;
+                    font-weight: bold;
+                    margin: 0px;
+                    padding: 8px 0px;
+                }
+                span {
+                    height: 40px;
+                    border: 1px solid #000;
+                    display: block;
+                    line-height: 40px;
+                    font-weight: bold;
+                    font-size: 16px;
+                }
+            }
+            .bilty-chalan-no {
+                float: right;
+                width: 53%;
+                text-align: center;
+                margin-left: 5px;
+                .chalan-no-box {
+                    border: 1px solid #000;
+                    p {
+                        border-bottom: 1px solid #000;
+                        padding: 5px;
+                        margin: 0px;
+                    }
+                    span {
+                        display: block;
+                        padding: 4px 0px;
+                    }
+                }
+            }
+        }
+        .lr-customer-detail {
+            border: 1px solid #000;
+            overflow: hidden;
+            border-radius: 20px;
+            p {
+                margin: 0px;
+                padding: 8px 15px;
+                label {
+                    margin: 0px;
+                    width: 90px;
+                }
+            }
+            p+p {
+                border-top: 1px solid #000;
+            }
+        }
+        .lr-recipt-bil {
+            margin-top: 20px;
+            border-radius: 20px;
+            border: 1px solid #000;
+            overflow: auto;
+            table {
+                width: 100%;
+                thead {
+                    border-bottom: 1px solid #000;
+                    tr {
+                        th {
+                            padding: 5px;
+                            text-align: center;
+                            border-right: 1px solid #000;
+                        }
+                        th:last-child {
+                            border-right: 0px;
+                        }
+                    }
+                }
+                tbody {
+                    tr {
+                        td {
+                            padding: 5px;
+                            text-align: center;
+                            border-right: 1px solid #000;
+                            p {
+                                margin: 0px;
+                                label {
+                                    margin: 0px;
+                                }
+                            }
+                        }
+                        td:first-child {
+                            text-align: left;
+                        }
+                        td:last-child {
+                            border-right: 0px;
+                        }
+                    }
+                }
+            }
+        }
+        .lr-description {
+            margin: 15px 0px;
+            text-align: justify;
+        }
+        .lr-other-info {
+            p {
+                margin: 5px 0px;
+            }
+            .advance {
+                border: 1px solid #000;
+                border-radius: 30px;
+                padding: 5px 10px;
+                span {
+                    width: 50%;
+                    float: left;
+                }
+            }
+            .ulp {
+                font-size: 20px;
+            }
+        }
+    }
+    .invoice-detail {
+        p {
+            margin-bottom: 10px;
+            label {
+                margin: 0px;
+                width: 42%;
+                font-weight: 500;
+            }
+            span {
+                border-bottom: 1px solid #000;
+                display: inline-block;
+                width: 58%;
+            }
+        }
+    }
+    .transporter-name {
+        border: 1px solid #000;
+        border-radius: 20px;
+        margin-top: 28px;
+        .transporter-name-heading {
+            border-bottom: 1px solid #000;
+            text-align: center;
+            p {
+                padding: 10px;
+                margin: 0px;
+            }
+        }
+        .transporter-name-body {
+            height: 94px;
+            padding: 10px;
+            p {
+                margin: 0px;
+            }
+        }
+    }
+    .signature {
+        border: 1px solid #000;
+        padding: 15px;
+        border-radius: 15px;
+        margin-top: 28px;
+        height: 90px;
+        p {
+            margin: 0px;
+        }
+    }
+    .signature_name {
+        margin-top: 20px;
+        text-align: right;
+        p {
+            margin: 0px;
+            font-weight: bold;
+        }
+    }
+}
+
+ :host ::ng-deep .recipt-three-section {
+    .recipt-three-header {
+        padding: 15px;
+        .gst-no {
+            float: left;
+            width: 20%;
+            p {
+                display: block;
+                margin: 0px;
+            }
+        }
+        .mob-no {
+            float: right;
+            width: 17%;
+            p {
+                display: block;
+                margin: 0px;
+                font-weight: bold;
+            }
+        }
+        .nikita-logo {
+            overflow: hidden;
+            display: inline-block;
+            width: 63%;
+            h2 {
+                color: red;
+                font-weight: bold;
+                font-size: 34px;
+                span {
+                    font-size: 48px;
+                }
+            }
+            p {
+                margin-bottom: 5px;
+            }
+            .teg-line {
+                font-weight: bold;
+            }
+            .speciallist {
+                color: red;
+                border: 1px solid red;
+                border-radius: 20px;
+                font-weight: 600;
+                display: inline-block;
+                padding: 3px 15px;
+            }
+            .address {
+                font-weight: bold;
+            }
+        }
+    }
+    .recipt-three-body {
+        padding: 0px 15px 15px;
+        .consigor-box {
+            width: 60%;
+            float: left;
+            .red-title {
+                text-align: center;
+                color: red;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            .consigor-inner {
+                border: 1px solid #000;
+                padding: 10px;
+                .left {
+                    width: 30px;
+                    float: left;
+                    padding: 10px 0px;
+                    label {
+                        display: block;
+                        width: 20px;
+                        height: 20px;
+                        border: 1px solid #000;
+                        margin-bottom: 35px;
+                    }
+                }
+                .right {
+                    float: right;
+                    width: 89%;
+                    p {
+                        margin-bottom: 5px;
+                    }
+                    .compnay {
+                        span {
+                            display: inline-block;
+                            border-bottom: 1px solid #000;
+                            width: 69%;
+                            margin-left: 3px;
+                        }
+                    }
+                    .policy span {
+                        display: inline-block;
+                        border-bottom: 1px solid #000;
+                        width: 27%;
+                        margin-left: 3px;
+                        margin-right: 3px;
+                    }
+                    .amount span {
+                        display: inline-block;
+                        border-bottom: 1px solid #000;
+                        width: 31%;
+                        margin-left: 3px;
+                        margin-right: 3px;
+                    }
+                }
+            }
+            .pin-code {
+                text-align: center;
+                margin: 0px;
+                border: 1px solid #000;
+                border-top: 0px;
+                padding: 5px;
+            }
+        }
+        .truck-detail {
+            width: 40%;
+            float: right;
+            padding: 20px 15px;
+            p {
+                margin-bottom: 15px;
+                label {
+                    margin: 0px;
+                }
+            }
+            .truck-no {
+                border-bottom: 1px solid #000;
+                padding-bottom: 5px;
+            }
+            .at-rick {
+                text-align: center;
+                color: red;
+                font-weight: bold;
+            }
+            .get-pay-box {
+                text-align: center;
+                border: 1px solid #000;
+                padding: 5px;
+            }
+            .e-bill {
+                border-bottom: 1px solid #000;
+                padding-bottom: 5px;
+            }
+        }
+        .feal-form {
+            p {
+                margin-bottom: 10px;
+            }
+            .name span {
+                display: inline-block;
+                width: 55%;
+                border-bottom: 1px solid #000;
+            }
+            .blank span {
+                display: inline-block;
+                width: 100%;
+                border-bottom: 1px solid #000;
+            }
+            .gistin span {
+                display: inline-block;
+                width: 46%;
+                border-bottom: 1px solid #000;
+            }
+            .bank-name span {
+                display: inline-block;
+                width: 43%;
+                border-bottom: 1px solid #000;
+            }
+        }
+        .lr-no {
+            border: 1px solid #000;
+            padding: 10px;
+            margin-bottom: 30px;
+            p {
+                margin: 0px;
+                span {
+                    display: inline-block;
+                    border-bottom: 1px solid #000;
+                    width: 83%;
+                }
+            }
+        }
+        .form-box {
+            margin-bottom: 30px;
+            span {
+                display: block;
+                width: 100%;
+                border: 1px solid #000;
+                padding: 15px;
+                height: 70px;
+            }
+        }
+        .to-box {
+            span {
+                display: block;
+                width: 100%;
+                border: 1px solid #000;
+                padding: 15px;
+                height: 50px;
+            }
+        }
+        .recipt-table {
+            table {
+                thead {
+                    background-color: #000;
+                    color: #fff;
+                    tr {
+                        th {
+                            padding: 10px;
+                            text-align: center;
+                            border: 1px solid #fff;
+                            white-space: nowrap;
+                        }
+                        th:nth-child(3) {
+                            width: 100px;
+                        }
+                    }
+                }
+                tbody {
+                    tr:first-child {
+                        td {
+                            height: 120px;
+                        }
+                    }
+                    tr {
+                        td {
+                            padding: 5px;
+                            border: 1px solid #000;
+                        }
+                    }
+                }
+            }
+        }
+        .note-red {
+            color: red;
+        }
+    }
+}
+
+.layout-4 {
+    .l4-details {
+        margin: 0px;
+        border: 1px solid gray;
+        margin-top: 10px;
+        border-radius: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        .l4-blank {
+            border-bottom: 1px solid #000;
+            display: block;
+        }
+        .l4-note {
+            min-height: 150px;
+            border: 1px solid #e2e2e2;
+        }
+        .l4-row {
+            margin-top: 10px;
+        }
+        .l4-owner {
+            text-align: right;
+            position: absolute;
+            right: 16px;
+            bottom: -8px;
+        }
+    }
+}

@@ -5,10 +5,10 @@
   <nb-card-body>
     <div class="row">
       <div class="col-9">
-        <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
-          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-        <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
-          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+        <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()" style="cursor: pointer;"><i
+            class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
+            class="fas fa-file-excel"></i></span>
         <div class="row">
           <!-- <div class="col-4">
             <div class="form-group">
@@ -94,10 +94,12 @@
         [ngClass]="{'highlight' : selectedRow == i}"> -->
 
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
-        (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? (dataItem.y_type.toLowerCase().includes('consignment')) ? openConsignmentVoucherEdit(dataItem) :openVoucherEdit(dataItem.y_voucherid,0,dataItem.y_vouchertype_id) : openinvoicemodel(dataItem.y_voucherid)"
+        (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? (dataItem.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(dataItem) :(dataItem.y_type.toLowerCase().includes('fuel')) ? openFuelEdit(dataItem) : (dataItem.y_type.toLowerCase().includes('lr')) ? editTransfer(dataItem['y_transferid']) : openVoucherEdit(dataItem.y_voucherid,0,dataItem.y_vouchertype_id) : (dataItem.y_type.toLowerCase().includes('freight')) ?(dataItem.y_type.toLowerCase().includes('expense'))?openfreight(dataItem['y_transferid']):openRevenue(dataItem['y_transferid']): (dataItem.y_type.toLowerCase().includes('stock')) ? openStoreQuestionEdit(dataItem) :openinvoicemodel(dataItem.y_voucherid)"
         (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{ i+1 }}</td>
-        <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
+        <td>{{dataItem.y_date | date
+          
+          :'dd-MMM-yy'}}</td>
         <td>{{dataItem.y_particulars}}
           <span *ngIf="dataItem.y_docscount>0">
             <i class="far fa-image" (click)="imageOpen(dataItem);"></i>

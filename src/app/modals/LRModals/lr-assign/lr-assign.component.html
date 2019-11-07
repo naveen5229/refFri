@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="row">
+  <div class="row" *ngIf='!(invoiceType>1)'>
     <div class="col-8">
       <div class="row">
         <div class="col-4">
@@ -41,7 +41,7 @@
               <td *ngFor="let heading of headings1">
                 <label *ngIf="heading != 'Action'">{{value[heading]}}</label>
                 <input class="form-check-input" (change)="onChange(data1[i]['_lrid'], $event.target.checked)"
-                  type="checkbox" *ngIf="data1[i]['_lrid']>0 && heading == 'Action'">
+                  type="checkbox" *ngIf="heading == 'Action' && data1[i]['_freight']">
               </td>
             </tr>
           </tbody>

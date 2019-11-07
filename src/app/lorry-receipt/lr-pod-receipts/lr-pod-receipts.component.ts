@@ -108,8 +108,8 @@ export class LrPodReceiptsComponent implements OnInit {
           this.valobj[this.headings[i]] = {
             value: "", action: null,
             icons: [{ class: 'fa fa-edit', action: this.openPodDeatilsModal.bind(this, doc) },
-            { class: 'fa fa-trash', action: this.deleteLr.bind(this, doc) },
-            { class: 'fa fa-eye', action: this.getPodImage.bind(this, doc) }]
+            { class: 'fa fa-eye', action: this.getPodImage.bind(this, doc) },
+            { class: 'fa fa-trash', action: this.deleteLr.bind(this, doc) }]
           };
         }
         else {
@@ -122,12 +122,40 @@ export class LrPodReceiptsComponent implements OnInit {
   }
 
   deleteLr(doc) {
-    console.log("values", doc);
-    const params = {
-      rowid: doc._id,
+    let params = {
+      podId: doc._id
+    };
+    if (doc._id) {
+      this.common.params = {
+        title: 'Delete Lr-Pod-Receipt',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+        this.api.post('LorryReceiptsOperation/deleteLrPodDelete', params)
+      .subscribe(res => {
+        this.common.loading--;
+        if(res['data'][0].r_id>0)
+        {
+          this.common.showToast("Successfully Deleted.");
+          this.getLorryPodReceipts();
+        }
+        else
+        {
+            this.common.showError(res['data'][0].r_msg);
+        }
+        console.log('res', res['data']);
+        }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
     }
+  })
 
   }
+}
 
 
   openPodDeatilsModal(pod) {

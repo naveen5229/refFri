@@ -35,7 +35,7 @@ export class FuelEntriesComponent implements OnInit {
     }
     console.log('params', params);
     this.common.loading++;
-    this.api.post('FuelDetails/getFillingsBwTime', params)
+    this.api.post('FuelDetails/getFillingsEntryBwTime', params)
       .subscribe(res => {
         this.common.loading--;
        // console.log(res);

@@ -1,5 +1,11 @@
 <nb-card style="padding-top: 26px;" (keydown)="keyHandler($event)">
   <nb-card-body>
+    <div class="row pdf-exel-icon">
+        <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
+        style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+      <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
+        style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+    </div>
     <div class="row">
       <div class="col-3">
         <div class="left-box">
@@ -24,7 +30,7 @@
             <div class="col-sm-3 pr-0">
               <div class="form-group m-0">
                 <label class="tjr-label">Filter Date</label>
-                <select class="tjr_select" [(ngModel)]="vchdt">
+                <select class="tjr_select" [(ngModel)]="vchdt" id="vchtype">
                   <option value="1">Voucher Date</option>
                   <option value="0">Entry Date</option>
                 </select>
@@ -45,7 +51,7 @@
               </div>
             </div>
             <div class="col-sm-2">
-              <button (click)="getSearchTripExpences()" class="btn btn-primary mt-3">Submit</button>
+              <button (click)="getSearchTripExpences()" class="btn btn-primary mt-3" id="btnSubmit">Submit</button>
             </div>
           </div>
         </div>

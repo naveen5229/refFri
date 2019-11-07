@@ -1,0 +1,51 @@
+<!-- Author By Lalit -->
+
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="status">
+    <span><b><i class="fa fa-truck"></i>:</b> {{regno}}</span> &nbsp;&nbsp;
+    <span><b><i class="fa fa-address-card"></i> :</b> {{vehicleId}}</span> &nbsp;&nbsp;
+    <span><b><i class="far fa-clock">{{time}}</i></b></span>
+    <span><button class="btn btn-primary" (click)="saveTime()">Submit</button></span>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <div class="container">
+        <table class="table table-bordered mt-2">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Site Id</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fuel of fuelFillingData; let i = index;" (mouseover)="mapService.toggleBounceMF(i,1)"
+              (mouseout)="mapService.toggleBounceMF(i,2)" (click)="checkFuelData(fuel,i)">
+              <td>{{i+1}}</td>
+              <td>{{fuel.name}}</td>
+              <td>{{fuel.loc}}</td>
+              <td>{{fuel.site_id}}</td>
+              <td>{{fuel.time}}</td>
+            </tr>
+            <tr>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-6 pl-0">
+      <div id="map" class="map">
+      </div>
+    </div>
+  </div>

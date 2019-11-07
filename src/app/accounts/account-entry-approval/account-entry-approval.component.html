@@ -1,0 +1,54 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <h5>Account Entry Approval</h5>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row" style="margin-top:10px; margin-bottom:10px;">
+      <div class="col-md-2 pr-0">
+        <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-md-2 pr-0">
+        <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
+          [dateTimeValue]="endTime">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-md-1 pr-0">
+        <label>Requests</label>
+      </div>
+      <div class="col-md-2 pr-0">
+        <select [(ngModel)]="requestType" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
+          <option value="Transfer">Transfer</option>
+          <option value="Invoice">Invoice</option>
+          <option value="MVS">MVS</option>
+        </select>
+      </div>
+      <div class="col-md-1 pr-0">
+       <label>Status</label>
+      </div>
+      <div class="col-md-2 pr-0">
+        <select [(ngModel)]="status" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
+          <option value="0">Pending</option>
+          <option value="1">Accepted</option>
+          <option value="-1">Rejected</option>
+          <option value="2">All</option>
+        </select>
+      </div>
+      <div class="col-md-1 ">
+        <button type="submit" class="btn btn-primary m-0" (click)="getRequests()">Search</button>
+      </div>
+     
+    
+
+    </div>
+    <div>
+      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithLocation">
+      </smart-table>
+
+      <div class="no-data alert alert-danger" role="alert" *ngIf="data.length==0">
+        No Data available !
+      </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>

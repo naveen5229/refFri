@@ -15,7 +15,7 @@ import { TransportAreaComponent } from './transport-area/transport-area.componen
 import { SiteDetailsComponent } from './site-details/site-details.component';
 import { PendingDocumentsComponent } from '../documents/pending-documents/pending-documents.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
-import { RouteGuard } from '../guards/route.guard';
+import { RouteGuard, DeactivateGuardService } from '../guards/route.guard';
 import { VSCTicketAuditComponent } from './vscticket-audit/vscticket-audit.component';
 import { AlertRelatedIssueComponent } from './alert-related-issue/alert-related-issue.component';
 import { from } from 'rxjs';
@@ -66,6 +66,9 @@ import { UserTemplatesComponent } from './user-templates/user-templates.componen
 import { FuelMileageWithOdoComponent } from '../pages/fuel-mileage-with-odo/fuel-mileage-with-odo.component';
 import { BatteryModalsComponent } from '../battery/battery-modals/battery-modals.component';
 import { FoFuelAverageComponent } from '../pages/fo-fuel-average/fo-fuel-average.component';
+import { ChallanPaymentRequestComponent } from '../challan/challan-payment-request/challan-payment-request.component';
+import { MvGpsApiReqComponent } from '../challan/mv-gps-api-req/mv-gps-api-req.component';
+import { CaptchaComponent } from './captcha/captcha.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -146,12 +149,13 @@ const routes: Routes = [{
         {
             path: 'pending-documents',
             component: PendingDocumentsComponent,
-            canActivate: [RouteGuard]
+            canActivate: [RouteGuard],
         },
         {
             path: 'user-preferences',
             component: UserPreferencesComponent,
-            canActivate: [RouteGuard]
+            canActivate: [RouteGuard],
+            canDeactivate: [DeactivateGuardService]
         },
         {
             path: 'alert-related-issue',
@@ -379,7 +383,7 @@ const routes: Routes = [{
         },
         {
             path: 'fo-fuel-average',
-            component:FoFuelAverageComponent,
+            component: FoFuelAverageComponent,
             canActivate: [RouteGuard]
         },
 
@@ -387,8 +391,22 @@ const routes: Routes = [{
             path: 'battery-modals',
             component: BatteryModalsComponent,
             canActivate: [RouteGuard]
-
         },
+        {
+            path: 'captcha',
+            component: CaptchaComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'challan-payment-request',
+            component: ChallanPaymentRequestComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'mv-gps-api-req',
+            component: MvGpsApiReqComponent,
+            canActivate: [RouteGuard]
+        }
 
 
     ],

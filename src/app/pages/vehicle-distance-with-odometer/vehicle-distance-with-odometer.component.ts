@@ -11,8 +11,8 @@ import { CommonService } from '../../services/common.service';
 })
 export class VehicleDistanceWithOdometerComponent implements OnInit {
  foid=null;
- startDate="";
- endDate="";
+ endDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 10));
  table=null;
  data=[];
 
@@ -75,8 +75,8 @@ export class VehicleDistanceWithOdometerComponent implements OnInit {
   showData(){
     
      const params = {
-      fromTime:this.common.dateFormatter1(this.startDate),
-      tTime:this.common.dateFormatter1(this.endDate),
+      fromTime:this.common.dateFormatter(this.startDate),
+      tTime:this.common.dateFormatter(this.endDate),
     };
    console.log("params",params);
    this.common.loading++;

@@ -8,6 +8,8 @@ import {
   NbThemeService
 } from "@nebular/theme";
 import { Router } from "@angular/router";
+
+import { Http, Headers } from '@angular/http';
 import { DatePipe, FormatWidth } from "@angular/common";
 import { ApiService } from "./api.service";
 import { DataService } from "./data.service";
@@ -19,6 +21,8 @@ import "jspdf-autotable";
 import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import * as moment_ from "moment";
 import { elementAt } from "rxjs/operators";
+import { RouteGuard } from "../guards/route.guard";
+import { saveAs } from 'file-saver';
 const moment = moment_;
 @Injectable({
   providedIn: "root"
@@ -65,7 +69,7 @@ export class CommonService {
   };
 
   currentPage = "";
-
+  isComponentActive = false;
   constructor(
     public router: Router,
     private toastrService: NbToastrService,
@@ -73,7 +77,8 @@ export class CommonService {
     public api: ApiService,
     public dataService: DataService,
     public user: UserService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private http: Http
   ) { }
 
   showError(msg?, err?) {
@@ -145,11 +150,11 @@ export class CommonService {
     this.router.navigate([page.page]);
   }
 
-  dateFormatter(date, type = "YYYYMMDD", isTime = true, separator = "-") {
+  dateFormatter(date, type = "YYYYMMDD", isTime = true, separator = "-"): any {
     let d = new Date(date);
     let year = d.getFullYear();
-    let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
-    let dat = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
+    let month = d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
+    let dat = d.getDate() <= 9 ? '0' + d.getDate() : d.getDate();
 
     // console.log(dat + separator + month + separator + year);
     if (type == "ddMMYYYY") {
@@ -177,7 +182,7 @@ export class CommonService {
     let d = new Date(date);
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
-    let dat = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
+    let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
 
     // console.log(dat + separator + month + separator + year);
     if (type == "ddMMYYYY") {
@@ -247,15 +252,15 @@ export class CommonService {
     let minutes = time % 60;
     return hours + ":" + minutes;
   }
-  changeMonthformat(date,type) {
+  changeMonthformat(date, type) {
     let d = new Date(date);
-    return this.datePipe.transform(date,type);
+    return this.datePipe.transform(date, type);
   }
   timeFormatter(date) {
     let d = new Date(date);
-    let hours = d.getHours() < 9 ? "0" + d.getHours() : d.getHours();
-    let minutes = d.getMinutes() < 9 ? "0" + d.getMinutes() : d.getMinutes();
-    let seconds = d.getSeconds() < 9 ? "0" + d.getSeconds() : d.getSeconds();
+    let hours = d.getHours() <= 9 ? "0" + d.getHours() : d.getHours();
+    let minutes = d.getMinutes() <= 9 ? "0" + d.getMinutes() : d.getMinutes();
+    let seconds = d.getSeconds() <= 9 ? "0" + d.getSeconds() : d.getSeconds();
 
     return hours + ":" + minutes + ":" + seconds;
   }
@@ -926,7 +931,7 @@ export class CommonService {
       rowPageBreak: 'avoid',
       headStyles: {
         fillColor: [98, 98, 98],
-        fontSize: 10,
+        fontSize: 11,
         halign: 'center',
         valign: 'middle'
 
@@ -937,27 +942,71 @@ export class CommonService {
     });
 
 
-    doc.save("report.pdf");
+    // doc.save("report.pdf");
+    //   var FileSaver = require('file-saver');
+    // var blob = new Blob(["Hello, world!"]);
+    // FileSaver.saveAs(blob,'report.json');
+
+    // const blob = new Blob(["Hello, world!"], { type: 'text/csv' });
+    // const url= window.URL.createObjectURL(blob);
+    // window.open(url);
+
+    // const blob = new Blob(["Hello, world!"], { type: 'text/plain' });
+    // saveAs(blob, 'test.pdf');
+    const headers = new Headers();
+    headers.append('Accept', 'text/plain');
+    this.http.get('/api/files', { headers: headers })
+      .toPromise()
+      .then(response => this.saveToFileSystem(response));
+  }
+
+  private saveToFileSystem(response) {
+    const contentDispositionHeader: string = response.headers.get('Content-Disposition');
+    const parts: string[] = contentDispositionHeader.split(';');
+    const filename = parts[1].split('=')[1];
+    const blob = new Blob([response._body], { type: 'text/plain' });
+    saveAs(blob, filename);
   }
 
   downloadPdf(divId, isLandscape?) {
-    var data = document.getElementById(divId);
-    // console.log("data",data);
-    html2canvas(data).then(canvas => {
-      // Few necessary setting options  
-      var imgWidth = isLandscape ? 295 : 208;
-      var pageHeight = isLandscape ? 208 : 295;
-      let imgHeight = isLandscape ? 208 : 295;
-      // var imgHeight = canvas.height * imgWidth / canvas.width;
-      console.log('height:', imgHeight);
-      var heightLeft = imgHeight;
+    this.loading++;
+    console.log("loder++");
 
-      const contentDataURL = canvas.toDataURL('image/png')
-      let pdf = new jsPDF(isLandscape ? 'l' : 'p', 'mm', 'a4'); // A4 size page of PDF  
+    var data = document.getElementById(divId);
+    html2canvas(data, {
+      useCORS: true,
+      scale: 2
+    }).then(canvas => {
+      var imgData = canvas.toDataURL('image/png');
+        var imgWidth = isLandscape ? 295 : 208;
+        var pageHeight = isLandscape ? 208 : 295;
+        let imgHeight = isLandscape ? 208 : 295;
+        var heightLeft = imgHeight;
+
+        // var imgWidth = 210; 
+        // var pageHeight = 295;  
+        // var imgHeight = canvas.height * imgWidth / canvas.width;
+        // var heightLeft = imgHeight;
+
+      let doc = new jsPDF(isLandscape ? 'l' : 'p', 'mm', 'a4');
       var position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-      pdf.save('MYPdf.pdf'); // Generated PDF   
+
+      doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      console.log(heightLeft);
+      heightLeft -= pageHeight;
+      console.log(heightLeft);
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        doc.addPage();
+        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+      doc.save( 'file.pdf');
+      console.log("loder--");
+       this.loading--;
+       this.showToast("pdf sucessfully download");
     });
+
   }
 
   getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?) {
@@ -971,17 +1020,17 @@ export class CommonService {
 
     let leftData = { left_heading };
     let centerData = { center_heading };
-    let lowerLeft = { lower_left_heading };
+    let lowerLeft = lower_left_heading ? { lower_left_heading } : {};
     let doctime = { time };
 
-    let info = [];
+    let info = []; lower_left_heading
     let hdgs = {};
     let arr_hdgs = [];
     info.push(organization);
     info.push(blankline);
     info.push(leftData);
-    info.push(lowerLeft);
     info.push(centerData, doctime);
+    info.push(lowerLeft);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
@@ -1324,7 +1373,6 @@ export class CommonService {
     else if (year % 4 != 0 && (month == '02')) {
       date = 28;
     } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
-
     // console.log('Date: ', year + separator + month + separator + date);
     return date + separator + month + separator + year;
   }
@@ -1674,4 +1722,26 @@ export class CommonService {
     }
     return res;
   }
+
+  formatDynamicData(fields) {
+    let dynamicData = {
+      column2: [],
+      column1: []
+    }
+    fields.map(dd => {
+      if (dd.r_coltype == 3) {
+        dd.r_value = dd.r_value ? new Date(dd.r_value) : new Date();
+        console.log("date==", dd.r_value);
+      }
+      if (dd.r_colorder % 2 == 0) {
+        dynamicData.column2.push(dd);
+      } else {
+        dynamicData.column1.push(dd);
+      }
+    });
+
+    return dynamicData;
+
+  }
+
 }

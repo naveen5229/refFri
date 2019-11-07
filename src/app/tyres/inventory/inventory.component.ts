@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-subtype.component';
@@ -21,6 +21,7 @@ export class InventoryComponent implements OnInit {
     modelBrand: null,
     tyreNo: null,
     date1: this.common.dateFormatter(new Date()),
+    cost: null,
     searchModelString: null,
     is_health: false,
     nsd1: null,
@@ -35,6 +36,7 @@ export class InventoryComponent implements OnInit {
     modelBrand: null,
     tyreNo: null,
     date1: this.common.dateFormatter(new Date()),
+    cost: null,
     searchModelString: null,
     is_health: false,
     nsd1: null,
@@ -49,6 +51,7 @@ export class InventoryComponent implements OnInit {
     modelBrand: null,
     tyreNo: null,
     date1: this.common.dateFormatter(new Date()),
+    cost: null,
     searchModelString: null,
     is_health: false,
     nsd1: null,
@@ -105,8 +108,11 @@ export class InventoryComponent implements OnInit {
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
-    public user: UserService
+    public user: UserService,
+    public activeModal: NgbActiveModal,
   ) {
+    this.common.handleModalSize('class', 'modal-lg', '1100', 'px');
+
     console.log("user", user._loggedInBy);
     this.userType = this.common.user._loggedInBy;
     this.searchData();
@@ -116,6 +122,10 @@ export class InventoryComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  closeModal() {
+    this.activeModal.close({ respose: false });
   }
 
   refresh() {
@@ -211,6 +221,7 @@ export class InventoryComponent implements OnInit {
         console.log("return id ", res['data'][0].rtn_id);
         if (res['data'][0].rtn_id > 0) {
           this.common.showToast("sucess");
+          this.activeModal.close({ respose: res['data'] });
         } else {
           this.common.showError(res['data'][0].rtn_msg);
         }
@@ -244,6 +255,7 @@ export class InventoryComponent implements OnInit {
       modelBrand: null,
       tyreNo: null,
       date1: this.common.dateFormatter(new Date()),
+      cost: null,
       searchModelString: null, is_health: false,
       nsd1: null,
       nsd2: null,
@@ -339,7 +351,7 @@ export class InventoryComponent implements OnInit {
   setTable(type: 'tyreSummary' | 'tyrePendingCount') {
     this.tables[type].data = {
       headings: this.generateHeadings(type == 'tyreSummary' ? this.tyre.tyreSummary[0] : this.tyre.tyrePendingCount[0]),
-      columns: this.getColumns(type == 'tyreSummary' ? this.tyre.tyreSummary : this.tyre.tyrePendingCount, type == 'tyreSummary' ? this.tyre.tyreSummary[0] : this.tyre.tyrePendingCount[0],)
+      columns: this.getColumns(type == 'tyreSummary' ? this.tyre.tyreSummary : this.tyre.tyrePendingCount, type == 'tyreSummary' ? this.tyre.tyreSummary[0] : this.tyre.tyrePendingCount[0])
     };
   }
 
@@ -412,43 +424,6 @@ export class InventoryComponent implements OnInit {
 
 
 
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Tyre Inventory";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
-
-  printCsv(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = "Customer Name::" + fodata['name'];
-        let center_heading = "Report Name::" + "Tyre Inventory";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-
-
-  }
 
 
 }

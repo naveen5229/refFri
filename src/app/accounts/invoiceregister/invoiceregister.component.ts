@@ -257,7 +257,14 @@ export class InvoiceregisterComponent implements OnInit {
       if (this.activeId == 'ledger') this.setFoucus('voucherType');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
-    } else if (key != 'backspace') {
+    } else if ((this.activeId == 'startDate' || this.activeId == 'endDate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
+    }else if (key != 'backspace') {
       this.allowBackspace = false;
     }
     if ((key.includes('arrowup') || key.includes('arrowdown')) && this.invoiceRegisterData.length) {

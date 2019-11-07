@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit {
       "name": "test2322"
     }
   ];
+  selectedBranch = 0;
 
   constructor(private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
@@ -72,15 +73,45 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     if (confirm('Are you sure to logout?')) {
-      if (this.user._loggedInBy == 'customer') {
-        this.activity.activityHandler('logout');
 
-      }
-      this.user._token = '';
-      this.user._details = null;
-      this.user._loggedInBy = '';
-      localStorage.clear();
-      this.router.navigate(['/auth/login']);
+      let params = {};
+      ++this.common.loading;
+      this.api.post('Login/logout', params)
+        .subscribe(res => {
+          --this.common.loading;
+          this.common.showToast(res['msg']);
+          if (this.user._loggedInBy == 'customer') {
+            this.activity.activityHandler('logout');
+          }
+          this.user._token = '';
+          this.user._details = null;
+          this.user._loggedInBy = '';
+          this.user._pages = null;
+          this.user._customer = {
+            name: '',
+            id: '',
+          };
+          this.user._menu = {
+            admin: [],
+            pages: [],
+            tyres: [],
+            battery: [],
+            vehicleMaintenance: [],
+            wareHouse: [],
+            account: [],
+            challan: [],
+          };
+          localStorage.clear();
+          localStorage.removeItem('DOST_USER_PAGES');
+          this.router.navigate(['/auth/login']);
+          console.log("logout", res);
+        }, err => {
+          --this.common.loading;
+          this.common.showError();
+          console.log(err);
+        });
+
+
     }
   }
 
@@ -102,6 +133,14 @@ export class HeaderComponent implements OnInit {
       return;
     }
     this.common.refresh();
+  }
+
+  selectBranch() {
+    this.accountService.selected.branch = this.accountService.branches.find(branch => {
+      if (branch.id == this.accountService.selected.branchId) return true;
+      return false;
+    });
+    console.log('________', this.accountService.selected.branch);
   }
 
 }

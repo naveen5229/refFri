@@ -40,37 +40,14 @@
     <div id="table">
     <div class="row balance-shit m-0 p-0">
       <div class="col-6 p-0">
-        <!-- <table class="table table-bordered m-0" id="table1">
-          <thead>
-            <tr>
-              <th>Particulars</th>
-              <th style="text-align: right;">Amount</th>
-            </tr>
-          </thead>
-          <tbody *ngFor="let liability of liabilities; let i = index">
-            <tr style="background: #184154;" [ngStyle]="{ display: i == liabilities.length - 1 ? 'none' : '' }">
-              <td>{{ liability.name }}</td>
-              <td style="text-align: right;">{{ liability.amount  | number : '1.2-2'}}</td>
-            </tr>
-            <tr *ngFor="let balanceSheet of liability.profitLossData let j = index" style="background: #dadfe6;"
-              (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name ) : ' ' "
-              (click)="selectedRow =  'A' + i + j" [ngClass]="{'highlight' : selectedRow == 'A' + i + j }">
-              <td>{{ balanceSheet.y_ledger_name }}</td>
-              <td style="text-align: left;">
-                <p style="margin: 0px; width: 50px; text-align: right;">
-                  {{ balanceSheet.y_amount }}
-                </p>
-              </td>
-            </tr>
-          </tbody>
-        </table> -->
+       
         <div class="row heading m-0 p-0">
-          <div class="col-8">Particulars</div>
+          <div class="col-8">Particular</div>
           <div class="col-4 text-right">Amount</div>
         </div>
         <div *ngFor="let liability of liabilities;  let i = index;"
         (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0)">
-        <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+        <div *ngIf="(liability.name.toLowerCase().includes('opening') || liability.name.toLowerCase().includes('purchases') || liability.name.toLowerCase().includes('direct')) && (!liability.name.toLowerCase().includes('indirect'))" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
           <div class="col-8">{{liability.name}}</div>
           <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
         </div>
@@ -78,6 +55,7 @@
         <div *ngFor="let subGroup of liability.subGroups; let k = index;"
         [hidden]="active.liabilities.mainGroup.indexOf('mainGroup' + i + 0) == -1"
             (click)="handleExpandation($event, i, 'liabilities', 'subGroup', k)">
+        <div  *ngIf="(liability.name.toLowerCase().includes('opening') || liability.name.toLowerCase().includes('purchases') || liability.name.toLowerCase().includes('direct')) && (!liability.name.toLowerCase().includes('indirect'))">
           <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
             <div class="col-8">{{subGroup.name}}</div>
             <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
@@ -93,43 +71,56 @@
               <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
             </div>
           </div>
-
+</div>
         </div>
       </div>
      
+      <div *ngFor="let liability of assets;  let i = index;"
+      (click)="handleExpandation($event, i, 'asset', 'mainGroup', 0)">
+      <div  *ngIf="(liability.name.toLowerCase().includes('opening') || liability.name.toLowerCase().includes('purchases') || liability.name.toLowerCase().includes('direct expenses')) && (!liability.name.toLowerCase().includes('indirect'))" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+        <div class="col-8">{{liability.name}}</div>
+        <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+      </div>
+
+      <div *ngFor="let subGroup of liability.subGroups; let k = index;"
+      [hidden]="active.asset.mainGroup.indexOf('mainGroup' + i + 0) == -1"
+      (click)="handleExpandation($event, i, 'asset', 'subGroup', k)">
+      <div  *ngIf="(liability.name.toLowerCase().includes('opening') || liability.name.toLowerCase().includes('purchases') || liability.name.toLowerCase().includes('direct expenses')) && (!liability.name.toLowerCase().includes('indirect'))">
+        <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
+          <div class="col-8">{{subGroup.name}}</div>
+          <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
+        </div>
+
+        <div *ngFor="let balanceSheet of subGroup.profitLossData; let j = index"
+          (click)="selectedRow =  'B' + i + k + j; $event.stopPropagation();" class="tb-mini row m-0 pl-0 pr-0"
+          [hidden]="active.asset.subGroup.indexOf('subGroup' + i + k) == -1"
+          (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name,balanceSheet.y_type_id) : ' ' "
+          [ngClass]="{'highlight' : selectedRow == 'B' + i + k + j }" style="background: #dadfe6;">
+          <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
+          <div style="text-align: left;" class="col-4 text-right">
+            <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="(grossProfit)" class="th-mini row m-0 pl-0 pr-0">
+      <div class="col-8">Gross Profit C/F</div>
+      <div class="col-4 text-right">{{ grossProfit | number : '1.2-2'}}</div>
+    </div>
+      
       </div>
       <div class="col-6 p-0">
-        <!-- <table class="table table-bordered m-0" id="table2">
-          <thead>
-            <tr>
-              <th>Particulars</th>
-              <th style="text-align: right;">Amount</th>
-            </tr>
-          </thead>
-          <tbody *ngFor="let asset of assets; let k = index">
-            <tr style="background: #184154;" [ngStyle]="{ display: i == assets.length - 1 ? 'none' : '' }">
-              <td>{{ asset.name }}</td>
-              <td style="text-align: right;">{{ asset.amount | number : '1.2-2' }}</td>
-            </tr>
-            <tr *ngFor="let balanceSheet of asset.profitLossData let l = index" (click)="selectedRow =  'B' + k + l"
-              (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name) : ' ' "
-              [ngClass]="{'highlight' : selectedRow == 'B' + k + l }" style="background: #dadfe6;">
-              <td>{{ balanceSheet.y_ledger_name }}</td>
-              <td style="text-align: left;">
-                <p style="margin: 0px; width: 50px; text-align: right;">
-                  {{ balanceSheet.y_amount }}
-                </p>
-              </td>
-            </tr>
-          </tbody>
-        </table> -->
+        
         <div class="row heading m-0 p-0">
-          <div class="col-8">Particulars</div>
+          <div class="col-8">Particular</div>
           <div class="col-4 text-right">Amount</div>
         </div>
         <div *ngFor="let liability of assets;  let i = index;"
         (click)="handleExpandation($event, i, 'asset', 'mainGroup', 0)">
-        <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+        <div *ngIf="((liability.name.toLowerCase().includes('sales') || liability.name.toLowerCase().includes('direct income') || liability.name.toLowerCase().includes('closing')) && (!liability.name.toLowerCase().includes('indirect income')))" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
           <div class="col-8">{{liability.name}}</div>
           <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
         </div>
@@ -137,6 +128,7 @@
         <div *ngFor="let subGroup of liability.subGroups; let k = index;"
         [hidden]="active.asset.mainGroup.indexOf('mainGroup' + i + 0) == -1"
         (click)="handleExpandation($event, i, 'asset', 'subGroup', k)">
+        <div  *ngIf="((liability.name.toLowerCase().includes('sales') || liability.name.toLowerCase().includes('direct income') || liability.name.toLowerCase().includes('closing')) && (!liability.name.toLowerCase().includes('indirect income')))">
           <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
             <div class="col-8">{{subGroup.name}}</div>
             <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
@@ -152,12 +144,198 @@
               <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
             </div>
           </div>
-
+          </div>
         </div>
       </div>
+      
+
+      <div *ngFor="let liability of liabilities;  let i = index;"
+      (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0)">
+      <div *ngIf="((liability.name.toLowerCase().includes('sales') || liability.name.toLowerCase().includes('income') || liability.name.toLowerCase().includes('closing')) && ( !liability.name.toLowerCase().includes('indirect incomes')))" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+        <div class="col-8">{{liability.name}}</div>
+        <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+      </div>
+
+      <div *ngFor="let subGroup of liability.subGroups; let k = index;"
+      [hidden]="active.liabilities.mainGroup.indexOf('mainGroup' + i + 0) == -1"
+          (click)="handleExpandation($event, i, 'liabilities', 'subGroup', k)">
+      <div  *ngIf="((liability.name.toLowerCase().includes('sales') || liability.name.toLowerCase().includes('income') || liability.name.toLowerCase().includes('closing')) && ( !liability.name.toLowerCase().includes('indirect incomes')))">
+        <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
+          <div class="col-8">{{subGroup.name}}</div>
+          <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
+        </div>
+
+        <div *ngFor="let balanceSheet of subGroup.profitLossData; let j = index"
+          (click)="selectedRow =  'A' + i  + k + j; $event.stopPropagation();" class="tb-mini row m-0 pl-0 pr-0" class="tb-mini row m-0 pl-0 pr-0"
+          [hidden]="active.liabilities.subGroup.indexOf('subGroup' + i + k) == -1"
+          (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name,balanceSheet.y_type_id ) : ' ' "
+          [ngClass]="{'highlight' : selectedRow == 'A' + i + k + j }" style="background: #dadfe6;">
+          <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
+          <div style="text-align: left;" class="col-4 text-right">
+            <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+          </div>
+        </div>
+</div>
       </div>
     </div>
-    <div class="row">
+    <div *ngIf="(grossLoss)" class="th-mini row m-0 pl-0 pr-0">
+      <div class="col-8">Gross Loss C/F</div>
+      <div class="col-4 text-right">{{ grossLoss | number : '1.2-2'}}</div>
+    </div>
+      </div>
+
+      <div class="col-6 p-0">
+        
+        <div *ngIf="(grossLoss)" class="th-mini row m-0 pl-0 pr-0">
+          <div class="col-8">Gross Loss C/F</div>
+          <div class="col-4 text-right">{{ grossLoss | number : '1.2-2'}}</div>
+        </div>
+        <div *ngFor="let liability of liabilities;  let i = index;"
+        (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0)">
+        <div *ngIf="(liability.name.toLowerCase().includes('indirect expenses'))" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+          <div class="col-8">{{liability.name}}</div>
+          <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+        </div>
+
+        <div *ngFor="let subGroup of liability.subGroups; let k = index;"
+        [hidden]="active.liabilities.mainGroup.indexOf('mainGroup' + i + 0) == -1"
+            (click)="handleExpandation($event, i, 'liabilities', 'subGroup', k)">
+        <div  *ngIf="(liability.name.toLowerCase().includes('indirect expenses'))">
+          <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
+            <div class="col-8">{{subGroup.name}}</div>
+            <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
+          </div>
+
+          <div *ngFor="let balanceSheet of subGroup.profitLossData; let j = index"
+            (click)="selectedRow =  'A' + i  + k + j; $event.stopPropagation();" class="tb-mini row m-0 pl-0 pr-0" class="tb-mini row m-0 pl-0 pr-0"
+            [hidden]="active.liabilities.subGroup.indexOf('subGroup' + i + k) == -1"
+            (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name,balanceSheet.y_type_id ) : ' ' "
+            [ngClass]="{'highlight' : selectedRow == 'A' + i + k + j }" style="background: #dadfe6;">
+            <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
+            <div style="text-align: left;" class="col-4 text-right">
+              <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+            </div>
+          </div>
+</div>
+        </div>
+      </div>
+     
+      <div *ngFor="let assetSecond of assets;  let i = index;"
+      (click)="handleExpandation($event, i, 'asset', 'mainGroup', 0)">
+      <div  *ngIf="(assetSecond.name.toLowerCase().includes('indirect expenses'))" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == assets.length -1 ? 'none' : ''}">
+        <div class="col-8">{{assetSecond.name}}</div>
+        <div class="col-4 text-right">{{assetSecond.amount | number : '1.2-2'}}</div>
+      </div>
+
+      <div *ngFor="let subGroup of assetSecond.subGroups; let k = index;"
+      [hidden]="active.asset.mainGroup.indexOf('mainGroup' + i + 0) == -1"
+      (click)="handleExpandation($event, i, 'asset', 'subGroup', k)">
+      <div  *ngIf="(assetSecond.name.toLowerCase().includes('indirect expenses'))">
+        <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
+          <div class="col-8">{{subGroup.name}}</div>
+          <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
+        </div>
+
+        <div *ngFor="let balanceSheet of subGroup.profitLossData; let j = index"
+          (click)="selectedRow =  'B' + i + k + j; $event.stopPropagation();" class="tb-mini row m-0 pl-0 pr-0"
+          [hidden]="active.asset.subGroup.indexOf('subGroup' + i + k) == -1"
+          (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name,balanceSheet.y_type_id) : ' ' "
+          [ngClass]="{'highlight' : selectedRow == 'B' + i + k + j }" style="background: #dadfe6;">
+          <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
+          <div style="text-align: left;" class="col-4 text-right">
+            <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+          </div>
+        </div>
+        </div>
+      </div>
+      
+
+    </div>
+
+    <div *ngIf="(netProfit)" class="th-mini row m-0 pl-0 pr-0">
+      <div class="col-8">Net Profit</div>
+      <div class="col-4 text-right">{{ netProfit | number : '1.2-2'}}</div>
+    </div>
+      
+      </div>
+
+      <div class="col-6 p-0">
+        
+        <div *ngIf="(grossProfit)" class="th-mini row m-0 pl-0 pr-0">
+          <div class="col-8">Gross Profit C/F</div>
+          <div class="col-4 text-right">{{ grossProfit | number : '1.2-2'}}</div>
+        </div>
+        <div *ngFor="let liability of assets;  let i = index;"
+        (click)="handleExpandation($event, i, 'asset', 'mainGroup', 0)">
+        <div *ngIf="(liability.name.toLowerCase().includes('indirect income'))" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+          <div class="col-8">{{liability.name}}</div>
+          <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+        </div>
+
+        <div *ngFor="let subGroup of liability.subGroups; let k = index;"
+        [hidden]="active.asset.mainGroup.indexOf('mainGroup' + i + 0) == -1"
+        (click)="handleExpandation($event, i, 'asset', 'subGroup', k)">
+        <div  *ngIf="(liability.name.toLowerCase().includes('indirect income'))">
+          <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
+            <div class="col-8">{{subGroup.name}}</div>
+            <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
+          </div>
+
+          <div *ngFor="let balanceSheet of subGroup.profitLossData; let j = index"
+            (click)="selectedRow =  'B' + i + k + j; $event.stopPropagation();" class="tb-mini row m-0 pl-0 pr-0"
+            [hidden]="active.asset.subGroup.indexOf('subGroup' + i + k) == -1"
+            (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name,balanceSheet.y_type_id) : ' ' "
+            [ngClass]="{'highlight' : selectedRow == 'B' + i + k + j }" style="background: #dadfe6;">
+            <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
+            <div style="text-align: left;" class="col-4 text-right">
+              <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      
+
+      <div *ngFor="let liability of liabilities;  let i = index;"
+      (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0)">
+      <div *ngIf="(liability.name.toLowerCase().includes('indirect incomes'))" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+        <div class="col-8">{{liability.name}}</div>
+        <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+      </div>
+
+      <div *ngFor="let subGroup of liability.subGroups; let k = index;"
+      [hidden]="active.liabilities.mainGroup.indexOf('mainGroup' + i + 0) == -1"
+          (click)="handleExpandation($event, i, 'liabilities', 'subGroup', k)">
+      <div  *ngIf="(liability.name.toLowerCase().includes('indirect incomes'))">
+        <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
+          <div class="col-8">{{subGroup.name}}</div>
+          <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
+        </div>
+
+        <div *ngFor="let balanceSheet of subGroup.profitLossData; let j = index"
+          (click)="selectedRow =  'A' + i  + k + j; $event.stopPropagation();" class="tb-mini row m-0 pl-0 pr-0" class="tb-mini row m-0 pl-0 pr-0"
+          [hidden]="active.liabilities.subGroup.indexOf('subGroup' + i + k) == -1"
+          (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name,balanceSheet.y_type_id ) : ' ' "
+          [ngClass]="{'highlight' : selectedRow == 'A' + i + k + j }" style="background: #dadfe6;">
+          <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
+          <div style="text-align: left;" class="col-4 text-right">
+            <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+          </div>
+        </div>
+</div>
+      </div>
+    </div>
+  
+    <div *ngIf="(netLoss)" class="th-mini row m-0 pl-0 pr-0">
+      <div class="col-8">Net Loss</div>
+      <div class="col-4 text-right">{{ netLoss | number : '1.2-2'}}</div>
+    </div>
+  
+  </div>
+
+
+    </div>
+    <!-- <div class="row">
       <div class="col-6 pr-0">
         <div *ngIf="liabilities.length" class="tanding_total clearfix">
           <div class="total_name">
@@ -180,7 +358,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
   </nb-card-body>
 </nb-card>

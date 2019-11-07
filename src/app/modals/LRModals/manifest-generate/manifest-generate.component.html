@@ -1,0 +1,413 @@
+<!-- Author : Prashant Sharma -->
+<div class="modal-header">
+  <h5>Generate  Manifest</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<nb-card>
+  <nb-card-body class="m-0 p-0" (keydown)="common.enterHandler($event)">
+    <div class="modal-body clearfix">
+      <div [class]="img_flag?'col-md-7':'col-md-12'">
+
+        <!-- common Data -->
+        <table class="table table-bordered gerrate_tabel">
+          <tr>
+            <td>
+              <label>Branch
+                <select class="form-control" [(ngModel)]="accountService.selected.branch.id" (change)="getLrFields();">
+                  <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
+                </select>
+              </label>
+              <!-- <label *ngIf='manifest.id'>Branch : {{accountService.selected.branch.name}} </label> -->
+            </td>
+           
+            <td>
+              <label>
+                Vehicle Type
+                <select [(ngModel)]="manifest.vehicleType" (change)="resetVehicleData()">
+                  <option value="1">Own</option>
+                  <option value="2">Group</option>
+                  <option value="3">Market</option>
+                </select>
+              </label>
+            </td>
+           
+
+          </tr>
+        </table>
+
+        <!-- general Data -->
+        <table class="table table-bordered gerrate_tabel gr-lr-form" style="width:100%">
+
+          <!-- fixed Data -->
+          <tr>
+            <td>
+              <label>Vehicle<span style="color: red">*</span></label>
+              <span>
+                <auto-suggestion (onSelected)="getVehicleInfo($event)" url="Vehicles/getVehicleListForFoid"
+                  display="regno" placeholder="Enter Vehicle Number" (onChange)="resetData($event)" inputId="vehicleno"
+                  [preSelected]="{regno : vehicleData.regno }" style="width
+                  :100%" *ngIf='manifest.vehicleType == 1' inputId='vehicleno'>
+                </auto-suggestion>
+                <input type="text" [(ngModel)]=vehicleData.regno class="form-control" placeholder="Vehicle"
+                  *ngIf='manifest.vehicleType !=1' id="vehicleno">
+
+              </span>
+            </td>
+            <td>
+              <label>Manifest No<span style="color: red">*</span></label>
+              <span>
+                <input type="text" [(ngModel)]=manifest.prefix class="form-control" placeholder="Prefix"
+                  style="width:40%;float:left">
+                <input type="text" [(ngModel)]=manifest.serial class="form-control" placeholder="Number"
+                  style="width:60%;float:left">
+
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Date<span style="color: red">*</span></label>
+              <span>
+                <uj-date-time-picker (onChanged)="manifest.date = $event" [dateTimeValue]="manifest.date" [isTime]="false"
+                  class="col-6">
+                </uj-date-time-picker>
+              </span>
+            </td>
+            <td></td>
+          </tr>
+
+          <!-- ordered Data -->
+          <tr *ngFor=" let dd of generalDetailColumn1 ; let i=index; ">
+
+            <!-- first column -->
+            <td *ngIf=" generalDetailColumn1[i] && generalDetailColumn1[i].r_coltitle">
+
+              <!-- field Title -->
+              <label *ngIf="generalDetailColumn1[i].r_colname !='supplier_name' || (generalDetailColumn1[i].r_colname =='supplier_name' && manifest.vehicleType !=1) ">{{generalDetailColumn1[i].r_coltitle}}<span style="color: red"
+                  *ngIf="generalDetailColumn1[i].r_required">*</span></label>
+              <span>
+
+                <!-- Vehicle Auto Suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'regno'"
+                  (onChange)="generalDetailColumn1[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id"
+                  url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number"
+                  inputId="vehicleno" [preSelected]="{regno : generalDetailColumn1[i].r_value }">
+                </auto-suggestion>
+
+                <!-- Consignee suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name'"
+                  (onChange)="generalDetailColumn1[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn1[i].r_colname,$event)"
+                  url="Suggestion/GetCompanies2?type=CNEE&lrType={{manifest.lrType}}" display="name" placeholder=" Search Name"
+                  [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
+                </auto-suggestion>
+                <i *ngIf="generalDetailColumn1[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
+
+                <!-- consignor suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'consignor_name'"
+                  (onChange)="generalDetailColumn1[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn1[i].r_colname,$event)"
+                  url="Suggestion/GetCompanies2?type=FRCUST" display="name" placeholder=" Search Name"
+                  [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
+                </auto-suggestion>
+                <i *ngIf="generalDetailColumn1[i].r_colname == 'consignor_name' && foCmpnyId>0" class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
+
+                <!-- transporter suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname =='transporter_name'"
+                  (onChange)="generalDetailColumn1[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn1[i].r_colname,$event)"
+                  url="Suggestion/GetCompanies2?type=TA" display="name" placeholder=" Search Name"
+                  [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
+                </auto-suggestion>
+                <i *ngIf="generalDetailColumn1[i].r_colname =='transporter_name' && foCmpnyId>0" class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
+
+
+                <!-- suplier suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname =='supplier_name' && manifest.vehicleType !=1"
+                  (onChange)="generalDetailColumn1[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn1[i].r_value = $event.name;generalDetailColumn1[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn1[i].r_colname,$event)"
+                  url="Suggestion/GetCompanies2?type=MVS" display="name" placeholder=" Search Name"
+                  [preSelected]="{name:generalDetailColumn1[i].r_value}" class="auto-suggest">
+                </auto-suggestion>
+                <i *ngIf="generalDetailColumn1[i].r_colname =='supplier_name' && foCmpnyId>0 && manifest.vehicleType !=1" class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
+                <!-- Driver Name suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn1[i].r_colname == 'driver_mobile'"
+                  (onChange)="generalDetailColumn1[i].r_valueid = ''"
+                  (onSelected)="getDriverInfo($event, generalDetailColumn1[i]);generalDetailColumn1[i].r_valueid = $event.id;generalDetailColumn1[i].r_value = $event.mobileno"
+                  url="Booster/getDrivers" display="display" placeholder="Select Driver" class="auto-suggest d-block"[value]="generalDetailColumn1[i].r_value"
+                  [preSelected]="generalDetailColumn1[i].r_value ? {display: generalDetailColumn1[i].r_value , empname:''} : {display: '', empname:''}"
+                  placeholder="Search Driver">
+                </auto-suggestion>
+                <!-- <input type="text" *ngIf="generalDetailColumn1[i].r_colname == 'driver_mobile'" [(ngModel)]="generalDetailColumn1[i].r_valueid"
+                  id="driver_id"> -->
+                <i class="fa fa-plus add " *ngIf="generalDetailColumn1[i].r_colname == 'driver_mobile'"
+                  (click)="addDriver()"></i>
+
+                <!-- Location Suggestion -->
+                <!-- (onChange)="generalDetailColumn1[i].r_value = $event.location;generalDetailColumn1[i].r_valueid = $event.id" -->
+
+                <auto-suggestion
+                  *ngIf="generalDetailColumn1[i].r_colname == 'source' ||generalDetailColumn1[i].r_colname == 'destination'"
+                  (onChange)="generalDetailColumn1[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn1[i].r_value = $event.location;generalDetailColumn1[i].r_valueid = $event.id"
+                  (noDataFound)="takeActionSource('generalDetailColumn1',$event,i)" [isNoDataFoundEmit]="true"
+                  url="Location/getPlaceFromRedis" display="location" inputId="startname" placeholder="Search Location"
+                  [value]="generalDetailColumn1[i].r_value" class="auto-suggest"
+                  [preSelected]='{location : generalDetailColumn1[i].r_value }'>
+                </auto-suggestion>
+                <i class="fa fa-plus add "
+                  *ngIf="generalDetailColumn1[i].r_colname == 'source' ||generalDetailColumn1[i].r_colname == 'destination'"
+                  (click)="sourceString='----'; takeActionSource('generalDetailColumn1',null,i);"></i>
+
+                <!-- Date Picker -->
+                <uj-date-time-picker (onChanged)="generalDetailColumn1[i].r_value = $event"
+                  [dateTimeValue]="generalDetailColumn1[i].r_value"
+                  *ngIf="generalDetailColumn1[i].r_colname == 'lr_date'" [isTime]="false" class="col-6">
+                </uj-date-time-picker>
+
+                <!-- Tax Paid By -->
+                <div *ngIf="generalDetailColumn1[i].r_colname=='taxpaid_by_name'" style="margin:0px">
+                  <label class="radio-btn">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
+                      [(ngModel)]="generalDetailColumn1[i].r_valueid" value="1">Consignor
+                  </label>
+                  <label class="radio-btn ml-4">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
+                      [(ngModel)]="generalDetailColumn1[i].r_valueid" value="2">Consignee
+                  </label>
+                  <label class="radio-btn">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
+                      [(ngModel)]="generalDetailColumn1[i].r_valueid" value="3">GTA
+                  </label>
+                  <label class="radio-btn ml-4">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
+                      [(ngModel)]="generalDetailColumn1[i].r_valueid" value="4">Exempt
+
+                  </label>
+                  <label class="radio-btn">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
+                      [(ngModel)]="generalDetailColumn1[i].r_valueid" value="-1">N.A.
+                  </label>
+                </div>
+
+                <!-- Pay Type Dropdown -->
+                <select [(ngModel)]="generalDetailColumn1[i].r_valueid" class="form-conrol"
+                  *ngIf="generalDetailColumn1[i].r_colname=='pay_type_name'">
+                  <option value="1">ToPay</option>
+                  <option value="2">Paid</option>
+                  <option value="3">To Be Billed</option>
+                  <option value="-1">None</option>
+                </select>
+
+                <!-- Invoice To DropDown -->
+                <select [(ngModel)]="generalDetailColumn1[i].r_valueid2" class="form-conrol"
+                  *ngIf="generalDetailColumn1[i].r_colname=='invoiceto_name'"
+                  (change)="generalDetailColumn1[i].r_value=''">
+                  <option value="1">Consignee</option>
+                  <option value="2">Consignor</option>
+                  <option value="3">Transport Agent</option>
+                  <option value="9">Others</option>
+                  <option value="-1">N.A.</option>
+                </select>
+
+                <auto-suggestion
+                  (onSelected)=" generalDetailColumn1[i].r_valueid==$event.id;generalDetailColumn1[i].r_value==$event.name"
+                  url="Suggestion/GetCompanies2?type=FRCUST" display="name" placeholder="Invoice Payer Name"
+                  style="width:100%;" class="auto-suggest" [preSelected]="{name:generalDetailColumn1[i].r_value}"
+                  *ngIf="generalDetailColumn1[i].r_colname=='invoiceto_name' && generalDetailColumn1[i].r_valueid2==9">
+                </auto-suggestion>
+
+                <input type="text" class="form-control" [(ngModel)]=generalDetailColumn1[i].r_value
+                  *ngIf="generalDetailColumn1[i].r_colname == 'driver_name'" [id]='generalDetailColumn1[i].r_colname'
+                  readonly>
+
+                <!-- Simple text Box -->
+                <input type="text" class="form-control" [(ngModel)]=generalDetailColumn1[i].r_value *ngIf="generalDetailColumn1[i].r_colname != 'regno' && generalDetailColumn1[i].r_colname != 'lr_date' &&
+                   generalDetailColumn1[i].r_colname != 'source' && generalDetailColumn1[i].r_colname != 'destination' && 
+                   generalDetailColumn1[i].r_colname != 'driver_mobile'&& generalDetailColumn1[i].r_colname != 'consignee_name' &&
+                   generalDetailColumn1[i].r_colname !='consignor_name' && generalDetailColumn1[i].r_colname !='transporter_name'&& 
+                   generalDetailColumn1[i].r_colname!='taxpaid_by_name' && generalDetailColumn1[i].r_colname !='invoiceto_name' &&
+                   generalDetailColumn1[i].r_colname !='pay_type_name'&& generalDetailColumn1[i].r_colname !='supplier_name'&& 
+                   generalDetailColumn1[i].r_colname != 'driver_name' " [id]='generalDetailColumn1[i].r_colname'>
+              </span>
+            </td>
+
+
+            <!-- second Column -->
+            <td *ngIf="generalDetailColumn2[i] && generalDetailColumn2[i].r_coltitle">
+
+              <!-- field Title -->
+              <label>{{generalDetailColumn2[i].r_coltitle}}<span style="color: red"
+                  *ngIf="generalDetailColumn2[i].r_required">*</span></label>
+
+              <span>
+                <!-- Vehicle Auto Suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname == 'regno'"
+                  (onChange)="generalDetailColumn2[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn2[i].r_value = $event.name;generalDetailColumn2[i].r_valueid = $event.id"
+                  url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number"
+                  (change)="resetData($event)" inputId="vehicleno"
+                  [preSelected]="{regno : generalDetailColumn2[i].r_value }">
+                </auto-suggestion>
+
+                <!-- Consignee suggestion -->
+                <auto-suggestion (onChange)="generalDetailColumn2[i].r_valueid = ''"
+                  *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name'"
+                  (onSelected)="generalDetailColumn2[i].r_value = $event.name;generalDetailColumn2[i].r_valueid = $event.id;getCompanyData(generalDetailColumn2[i].r_colname,$event)"
+                  url="Suggestion/GetCompanies2?type=CNEE&lrType={{manifest.lrType}}" display="name" placeholder=" Search Name"
+                  [preSelected]="{name : generalDetailColumn2[i].r_value}" class="auto-suggest">
+                </auto-suggestion>
+                <i *ngIf="generalDetailColumn2[i].r_colname == 'consignee_name' && foCmpnyId>0" class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
+
+
+                <!-- consignor suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname == 'consignor_name'"
+                  (onChange)="generalDetailColumn2[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn2[i].r_value = $event.name;generalDetailColumn2[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn2[i].r_colname,$event)"
+                  url="Suggestion/GetCompanies2?type=FRCUST" display="name" placeholder=" Search Name"
+                  [preSelected]="{name:generalDetailColumn2[i].r_value}" class="auto-suggest">
+                </auto-suggestion>
+                <i *ngIf="generalDetailColumn2[i].r_colname == 'consignor_name' && foCmpnyId>0" class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
+
+
+                <!-- transporter suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname =='transporter_name'"
+                  (onChange)="generalDetailColumn2[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn2[i].r_value = $event.name;generalDetailColumn2[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn2[i].r_colname,$event)"
+                  url="Suggestion/GetCompanies2?type=TA" display="name" placeholder=" Search Name"
+                  [preSelected]="{name:generalDetailColumn2[i].r_value}" class="auto-suggest">
+                </auto-suggestion>
+                <i *ngIf="generalDetailColumn2[i].r_colname =='transporter_name' && foCmpnyId>0" class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
+
+
+                <!-- suplier suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname =='supplier_name' && manifest.vehicleType !=1"
+                  (onChange)="generalDetailColumn2[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn2[i].r_value = $event.name;generalDetailColumn2[i].r_valueid = $event.id ; getCompanyData(generalDetailColumn2[i].r_colname,$event)"
+                  url="Suggestion/GetCompanies2?type=MVS" display="name" placeholder=" Search Name"
+                  [preSelected]="{name:generalDetailColumn2[i].r_value}" class="auto-suggest">
+                </auto-suggestion>
+                <i *ngIf="generalDetailColumn2[i].r_colname =='supplier_name' && foCmpnyId>0 && manifest.vehicleType !=1 " class="fa fa-plus add"
+                  (click)="addAssociation()"></i>
+
+                <!-- Driver Name suggestion -->
+                <auto-suggestion *ngIf="generalDetailColumn2[i].r_colname == 'driver_mobile'"
+                  (onChange)="generalDetailColumn2[i].r_valueid = ''"
+                  (onSelected)="getDriverInfo($event, generalDetailColumn2[i]);generalDetailColumn2[i].r_valueid = $event.id;generalDetailColumn2[i].r_value = $event.mobileno"
+                  url="Booster/getDrivers" display="display" placeholder="Select Driver" class="auto-suggest" [value]="generalDetailColumn1[i].r_value"
+                  [preSelected]="generalDetailColumn2[i].r_value ? {display: generalDetailColumn2[i].r_value,empname : ''} : {display: '', empname:''}"
+                  placeholder="Search Driver">
+                </auto-suggestion>
+                <!-- <input type="text" *ngIf="generalDetailColumn2[i].r_colname == 'driver_mobile'"
+                  [(ngModel)]="generalDetailColumn2[i].r_valueid" id="driver_id"> -->
+                <i class="fa fa-plus add " *ngIf="generalDetailColumn2[i].r_colname == 'driver_mobile'"
+                  (click)="addDriver()"></i>
+
+                <!-- Location Suggestion -->
+                <!--  (onChange)="generalDetailColumn2[i].r_value = $event.location;generalDetailColumn2[i].r_valueid = $event.id" -->
+                <auto-suggestion
+                  *ngIf="generalDetailColumn2[i].r_colname == 'source' ||generalDetailColumn2[i].r_colname == 'destination'"
+                  (onChange)="generalDetailColumn2[i].r_valueid = ''"
+                  (onSelected)="generalDetailColumn2[i].r_value = $event.location;generalDetailColumn2[i].r_valueid = $event.id"
+                  (noDataFound)="takeActionSource('generalDetailColumn2',$event,i)" [isNoDataFoundEmit]="true"
+                  url="Location/getPlaceFromRedis" display="location" inputId="startname" placeholder="Search Location"
+                  [value]="generalDetailColumn2[i].r_value" class="auto-suggest"
+                  [preSelected]='{location : generalDetailColumn2[i].r_value }'>
+                </auto-suggestion>
+                <i class="fa fa-plus add "
+                  *ngIf="generalDetailColumn2[i].r_colname == 'source' ||generalDetailColumn2[i].r_colname == 'destination'"
+                  (click)="sourceString='----'; takeActionSource('generalDetailColumn2',null,i);"></i>
+
+                <!-- Date Picker -->
+                <uj-date-time-picker (onChanged)="generalDetailColumn2[i].r_value = $event"
+                  [dateTimeValue]="generalDetailColumn2[i].r_value"
+                  *ngIf="generalDetailColumn2[i].r_colname == 'lr_date'" [isTime]="false">
+                </uj-date-time-picker>
+
+                <!-- Tax Paid By -->
+                <span *ngIf="generalDetailColumn2[i].r_colname=='taxpaid_by_name'" style="margin: 0px">
+                  <label class="radio-btn">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
+                      [(ngModel)]="generalDetailColumn2[i].r_valueid" value="1">Consignor
+                  </label>
+                  <label class="radio-btn ml-4">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
+                      [(ngModel)]="generalDetailColumn2[i].r_valueid" value="2">Consignee
+                  </label>
+                  <label class="radio-btn">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
+                      [(ngModel)]="generalDetailColumn2[i].r_valueid" value="3">GTA
+                  </label>
+                  <label class="radio-btn ml-4">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
+                      [(ngModel)]="generalDetailColumn2[i].r_valueid" value="4">Exempt
+
+                  </label>
+                  <label class="radio-btn">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy"
+                      [(ngModel)]="generalDetailColumn2[i].r_valueid" value="-1">N.A.
+                  </label>
+                </span>
+
+                <!-- Pay Type Dropdown -->
+                <select [(ngModel)]="generalDetailColumn2[i].r_valueid" class="form-conrol"
+                  *ngIf="generalDetailColumn2[i].r_colname=='pay_type_name'">
+                  <option value="1">ToPay</option>
+                  <option value="2">Paid</option>
+                  <option value="3">To Be Billed</option>
+                  <option value="-1">None</option>
+                </select>
+
+                <!-- Invoice To DropDown -->
+                <select [(ngModel)]="generalDetailColumn2[i].r_valueid2" class="form-conrol"
+                  *ngIf="generalDetailColumn2[i].r_colname=='invoiceto_name'"
+                  (onChange)="generalDetailColumn2[i].r_value='';generalDetailColumn2[i].r_valueid=''">
+                  <option value="1">Consignee</option>
+                  <option value="2">Consignor</option>
+                  <option value="3">Transport Agent</option>
+                  <option value="9">Others</option>
+                  <option value="-1">N.A.</option>
+                </select>
+
+                <auto-suggestion
+                  (onSelected)=" generalDetailColumn2[i].r_valueid=$event.id;generalDetailColumn2[i].r_value=$event.name"
+                  url="Suggestion/GetCompanies2?type=FRCUST" display="name" placeholder="Invoice Payer Name"
+                  style="width:100%;" class="auto-suggest" [preSelected]="{name:generalDetailColumn2[i].r_value}"
+                  *ngIf="generalDetailColumn2[i].r_colname=='invoiceto_name' && generalDetailColumn2[i].r_valueid2==9">
+                </auto-suggestion>
+
+                <input type="text" class="form-control" [(ngModel)]=generalDetailColumn2[i].r_value
+                  *ngIf="generalDetailColumn2[i].r_colname == 'driver_name'" [id]='generalDetailColumn2[i].r_colname'
+                  readonly>
+
+
+                <!-- Simple text Box -->
+                <input type="text" class="form-control" [(ngModel)]=generalDetailColumn2[i].r_value
+                  *ngIf="generalDetailColumn2[i].r_colname != 'regno' && generalDetailColumn2[i].r_colname != 'lr_date' &&
+                  generalDetailColumn2[i].r_colname != 'source' && generalDetailColumn2[i].r_colname != 'destination' && 
+                  generalDetailColumn2[i].r_colname != 'driver_mobile'&& generalDetailColumn2[i].r_colname != 'consignee_name' &&
+                  generalDetailColumn2[i].r_colname !='consignor_name' && generalDetailColumn2[i].r_colname !='transporter_name'&&
+                  generalDetailColumn2[i].r_colname !='transporter_name' && generalDetailColumn2[i].r_colname!='taxpaid_by_name'&& 
+                  generalDetailColumn2[i].r_colname !='pay_type_name' && generalDetailColumn2[i].r_colname!='invoiceto_name'&&
+                  generalDetailColumn2[i].r_colname !='supplier_name' && generalDetailColumn2[i].r_colname != 'driver_name'" [id]='generalDetailColumn2[i].r_colname'>
+
+              </span>
+            </td>
+          </tr>
+        </table>
+      
+        <div><button class="btn btn-primary" (click)=saveDetails()>{{btnTxt}}</button></div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
