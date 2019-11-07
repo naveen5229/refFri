@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'mv-gps-api-history',
@@ -19,7 +21,8 @@ export class MvGpsApiHistoryComponent implements OnInit {
   };
   gpsApiHistory = [];
   constructor(public common: CommonService,
-    public api: ApiService) {
+    public api: ApiService,
+    public modalService: NgbModal) {
     this.getGpsApiHistory();
     this.common.refresh = this.refresh.bind(this);
   }
@@ -82,13 +85,14 @@ export class MvGpsApiHistoryComponent implements OnInit {
         if (key == "Action") {
           column[key] = { value: "", action: null }
         } else {
-          column[key] = { value: item[key], class: 'black', action: '' };
+          column[key] = { value: item[key], class: key == 'TotalVeh' ? 'blue' : 'black', action: key == 'TotalVeh' ? this.vehicleHistory.bind(this, item) : '' };
         }
       }
       columns.push(column);
     });
     return columns;
   }
+
 
 
   resetTable() {
@@ -101,6 +105,26 @@ export class MvGpsApiHistoryComponent implements OnInit {
         hideHeader: true
       }
     };
+  }
+
+
+  vehicleHistory(row) {
+    let dataparams = {
+      view: {
+        api: 'GpsData/getAllVehicleWrtGpsApi',
+        param: {
+          apiId: row._apiid,
+        }
+      },
+      delete: {
+        // api: 'Drivers/deleteAdvice',
+        // param: { id: "_id" }
+      },
+      title: "Vehicle List"
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.params = { data: dataparams };
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
 
