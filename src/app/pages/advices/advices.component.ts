@@ -163,8 +163,8 @@ export class AdvicesComponent implements OnInit {
   }
   clearAdvices(row) {
     let data = {
-      id : row._id,
-      typeId : row._advice_type_id
+      id: row._id,
+      typeId: row._advice_type_id
     }
     console.log("row:", data);
     this.common.params = { advice: data };
@@ -184,9 +184,10 @@ export class AdvicesComponent implements OnInit {
         },
       },
       delete: {
-        api: 'Drivers/deleteAdvice',
-        param: { id: "_id" }
-      }
+        // api: 'Drivers/deleteAdvice',
+        // param: { id: "_id" }
+      },
+      title: "Advices View"
     }
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
