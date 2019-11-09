@@ -120,7 +120,15 @@ export class FuelFillingTimetableComponent implements OnInit {
         this.fuelFillingMarkers = this.mapService.createMarkers(this.fuelFillingData, false, true);
         let i = 0;
         let prevElement = null;
-        this.trailsData = res['data'];
+        let tempTrail = res['data'];
+        for (let i = 0; i < tempTrail.length - 1; i++) {
+          const curr = tempTrail[i];
+          const next = tempTrail[i + 1];
+          if (curr.lat != next.lat || curr.long != next.long) {
+            this.trailsData.push(curr);
+          }
+        }
+        this.trailsData.push(tempTrail[tempTrail.length - 1]);
         this.trailsData.map((element, index) => {
           element['previous'] = index ? Object.assign({}, this.trailsData[index - 1]) : null,
             element['next'] = index < this.trailsData.length - 1 ? Object.assign({}, this.trailsData[index + 1]) : null
@@ -135,6 +143,12 @@ export class FuelFillingTimetableComponent implements OnInit {
           prevElement = element;
           i++;
         }
+        this.mapService.addListerner(this.mapService.polygonPath, 'click', event => {
+          console.log("EVENT", event);
+          this.locallatlong.lat = event.latLng.lat();
+          this.locallatlong.long = event.latLng.lng();
+          this.getClosedLatLong();
+        });
         this.mapService.polygonPath && this.mapService.polygonPath.set('icons', [{
           icon: this.mapService.lineSymbol,
           offset: "0%"
