@@ -705,10 +705,10 @@ export class ConciseComponent implements OnInit {
       this.mapService.setMapType(0);
       this.markers = this.mapService.createMarkers(this.kpis);
       this.mapService.addListerner(this.mapService.map, "center_changed", () => {
-       //this.setMarkerLabels();
+        //this.setMarkerLabels();
       });
       this.mapService.addListerner(this.mapService.map, "zoom_changed", () => {
-       // this.setMarkerLabels();
+        // this.setMarkerLabels();
       });
       let markerIndex = 0;
       for (const marker of this.mapService.markers) {
@@ -736,13 +736,13 @@ export class ConciseComponent implements OnInit {
       }
     }
   }
-createCluster
-  (){
-    if(this.isCluster){
-      this.mapService.createCluster(this.markers,true);
-    }else{
-      this.mapService.createCluster(this.markers,false);
-    } 
+
+  createCluster() {
+    if (this.isCluster) {
+      this.mapService.createCluster(this.markers, true);
+    } else {
+      this.mapService.createCluster(this.markers, false);
+    }
   }
 
   setEventInfo(event) {

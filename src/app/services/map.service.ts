@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CommonService } from './common.service';
 import MarkerClusterer from "@google/markerclusterer"
 declare let google: any;
+declare let MarkerClusterer: any;
 
 @Injectable({
   providedIn: 'root'
@@ -315,34 +316,19 @@ export class MapService {
   }
 
   createCluster(markers, ismake?) {
-    let clusterMarker = [];
-
     if (ismake) {
-      markers.map(marker => {
-        if (marker && marker.position && marker.position.lat() && marker.position.lng()) {
-          clusterMarker.push(marker);
-        }
-      })
-      var mcOptions = { gridSize: 40, maxZoom: 16, zoomOnClick: false, minimumClusterSize: 2, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' };
-      this.cluster = new MarkerClusterer(this.map, clusterMarker, mcOptions);
-      let tmpcluster = this.cluster;
+      this.cluster = new MarkerClusterer(this.map,
+        markers.filter(marker => (marker && marker.position && marker.position.lat() && marker.position.lng())),
+        { gridSize: 40, maxZoom: 16, zoomOnClick: false, minimumClusterSize: 2, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
 
-      if (tmpcluster) {
-        google.maps.event.addListener(tmpcluster, 'clusterclick', (cluster) => {
-          console.log("cluster info Window");
-        });
-      }
-      else {
-        console.log("there is no cluster");
-      }
+      google.maps.event.addListener(this.cluster, 'clusterclick', (cluster) => {
+        console.log("cluster info Window", cluster);
+      });
 
     } else {
       if (this.cluster)
         this.cluster.clearMarkers();
-      markers.map(marker => {
-        if (marker) 
-        marker.setMap(this.map);
-      })
+      markers.map(marker => marker && marker.setMap(this.map));
     }
   }
 
