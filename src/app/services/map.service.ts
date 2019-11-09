@@ -605,10 +605,15 @@ export class MapService {
   };
   getPerpendicularPoint(line, point) {
 
+    console.log("Line", line, "POINT", point);
+
     let d = this.distanceFromline(line, point);
     let a = this.haversine(line[0].lat, line[0].long, point.lat, point.long);
     let b = this.haversine(line[1].lat, line[1].long, point.lat, point.long);
     let c = this.haversine(line[0].lat, line[0].long, line[1].lat, line[1].long);
+
+    console.log("A", a, "B", b, "C", c, "D", d);
+
 
     if (d > a) {
       let index = a > b ? 1 : 0;
