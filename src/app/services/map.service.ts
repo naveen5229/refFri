@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CommonService } from './common.service';
+import MarkerClusterer from "@google/markerclusterer"
 declare let google: any;
 
 @Injectable({
@@ -19,6 +20,7 @@ export class MapService {
   polygons = [];
   isMapLoaded = false;
   mapLoadDiv = null;
+  cluster = null;
   lineSymbol = {
     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
   };
@@ -298,15 +300,52 @@ export class MapService {
         if (changeBounds)
           this.setBounds(latlng);
       }
-      thisMarkers.push(marker);
       this.markers.push(marker);
+      thisMarkers.push(marker);
+
+      console.log("thisMarkers", thisMarkers.length);
       //  marker.addListener('mouseover', this.infoWindow.bind(this, marker, show ));
 
       //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
       //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
+
+
     }
     return thisMarkers;
   }
+
+  createCluster(markers, ismake?) {
+    let clusterMarker = [];
+
+    if (ismake) {
+      markers.map(marker => {
+        if (marker && marker.position && marker.position.lat() && marker.position.lng()) {
+          clusterMarker.push(marker);
+        }
+      })
+      var mcOptions = { gridSize: 40, maxZoom: 16, zoomOnClick: false, minimumClusterSize: 2, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' };
+      this.cluster = new MarkerClusterer(this.map, clusterMarker, mcOptions);
+      let tmpcluster = this.cluster;
+
+      if (tmpcluster) {
+        google.maps.event.addListener(tmpcluster, 'clusterclick', (cluster) => {
+          console.log("cluster info Window");
+        });
+      }
+      else {
+        console.log("there is no cluster");
+      }
+
+    } else {
+      if (this.cluster)
+        this.cluster.clearMarkers();
+      markers.map(marker => {
+        if (marker) 
+        marker.setMap(this.map);
+      })
+    }
+  }
+
 
   createCirclesOnPostion(center, radius) {
     console.log("center,radius", center, radius);

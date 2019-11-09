@@ -234,6 +234,9 @@
                         <div class="tracker_img" [ngStyle]="{ transform: rotate }">
                             <img src="./assets/images/arrow-top.png" alt="image" />
                         </div>
+                        <div>
+                                <input type="checkbox" [(ngModel)] = 'isCluster'  (change)='createCluster()'/> <b>Cluster View ?</b>
+                            </div>
                     </div>
                     <!-- ============================== MAP VIEW END =============================== -->
                 </div>

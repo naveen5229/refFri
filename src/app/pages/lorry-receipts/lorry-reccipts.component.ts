@@ -209,6 +209,8 @@ export class LorryRecciptsComponent implements OnInit {
       LRImage: { title: 'LRImage', placeholder: 'LRImage' },
       details: { title: 'POD', placeholder: 'POD' },
       Action: { title: 'Action', placeholder: 'Action' },
+      Invoice: { title: 'Invoice', placeholder: 'Invoice' },
+
     };
 
     // if (this.user._loggedInBy == 'admin') {
@@ -271,10 +273,14 @@ export class LorryRecciptsComponent implements OnInit {
           },
           { class: R.is_locked ?'' : 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) },
           { class: R.is_locked  ? '' : 'fa fa-trash icon', action: this.deleteLr.bind(this, R) },
-          // { class: 'fa fa-inr  icon', action: this.lrRates.bind(this, R,0) },
           { class: 'fa fa-handshake-o  icon', action: this.tripSettlement.bind(this, R) },
-          ]//`<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R),
-          // `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteLr.bind(this, R)
+          ]
+        },
+        Invoice: {
+          value: '', isHTML: true, action: null, icons: [
+          { class: R.revenue_amount > 0 ?'fa fa-print icon' : 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) },
+        
+          ]
         }
       };
       columns.push(column);
