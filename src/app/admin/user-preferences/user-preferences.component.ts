@@ -110,7 +110,6 @@ export class UserPreferencesComponent implements OnInit {
       hasDelete: this.newPage.delete,
     };
     console.log("params", params);
-    return;
     this.common.loading++;
     this.api.post('UserRoles/insertNewPageDetails', params)
       .subscribe(res => {
@@ -192,7 +191,12 @@ export class UserPreferencesComponent implements OnInit {
       module.groups = Object.keys(pageGroup).map(key => {
         let isAllSelected = true;
         let pages = pageGroup[key].map(page => {
+          console.log("page", page);
           page.isSelected = page.userid ? true : false;
+          page.isAdd = page.isadd ? page.isadd : false;
+          page.isEdit = page.isedit ? page.isedit : false;
+          page.isDeleted = page.isdeleted ? page.isdeleted : false;
+
           if (isAllSelected)
             isAllSelected = page.isSelected;
           return page;
