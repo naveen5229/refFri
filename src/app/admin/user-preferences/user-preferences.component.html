@@ -1,6 +1,21 @@
 <nb-card>
   <nb-card-header>
-    User Role
+    <div class="row">
+      <div class="col-8">
+        User Role
+      </div>
+      <div class="col-4">
+        <input type="checkbox" name="addPermission" id="addPermission" [(ngModel)]="newPage.add" [value]="1"
+          (change)="changePermissionType('add',$event)">
+        <label>Add</label>
+        <input type="checkbox" name="editPermission" id="editPermission" [(ngModel)]="newPage.edit" [value]="1"
+          (change)="changePermissionType('edit',$event)">
+        <label>Edit</label>
+        <input type="checkbox" name="deletePermission" id="deletePermission" [(ngModel)]="newPage.delete" [value]="1"
+          (change)="changePermissionType('delete',$event)">
+        <label>Delete</label>
+      </div>
+    </div>
   </nb-card-header>
 
   <nb-card-body style="min-height: 580px;">
@@ -41,6 +56,20 @@
       </div>
 
       <div class="col-1 mt-4">
+        <div class="row">
+          <div class="col-12">
+            <input type="checkbox" name="addPermission" id="addPermission" [(ngModel)]="newPage.add" [value]="1"
+              (change)="changePermissionType('add',$event)">
+            <label>Add</label>
+            <input type="checkbox" name="editPermission" id="editPermission" [(ngModel)]="newPage.edit" [value]="1"
+              (change)="changePermissionType('edit',$event)">
+            <label>Edit</label>
+            <input type="checkbox" name="deletePermission" id="deletePermission" [(ngModel)]="newPage.delete"
+              [value]="1" (change)="changePermissionType('delete',$event)">
+            <label>Delete</label>
+          </div>
+        </div>
+
         <button type="submit" class="btn btn-primary m-0" name="add" (click)="createNewPage()">Add New Page</button>
       </div>
     </div>
@@ -72,7 +101,26 @@
             <input type="checkbox" class=" page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected"
               (click)="checkOrUnCheckAll(page,'page')">
             {{page.title}}
+            <div class="row permission-type" [hidden]="!page.isSelected">
+              <div class="col-4" style="padding:0px!important;">
+                <input type="checkbox" class="page-box-type" name="add" [(ngModel)]="page.isAdd"
+                  (click)="checkOrUnCheckAll(page,'page')">
+                <label>A</label>
+              </div>
+              <div class="col-4" style="padding:0px!important;">
+                <input type="checkbox" class="page-box-type" name="edit" [(ngModel)]="page.isEdit"
+                  (click)="checkOrUnCheckAll(page,'page')">
+                <label>E</label>
+              </div>
+              <div class="col-4" style="padding:0px!important;">
+                <input type="checkbox" class="page-box-type" name="delete" [(ngModel)]="page.isDeleted"
+                  (click)="checkOrUnCheckAll(page,'page')">
+                <label>D</label>
+              </div>
+            </div>
+
           </div>
+
         </div>
       </div>
 

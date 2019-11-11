@@ -21,8 +21,6 @@ export class UserPreferencesComponent implements OnInit {
   };
   formattedData = [];
   pageGroup = [];
-  pagesGroups = {};
-  pageGroupKeys = [];
   newPage = {
     module: null,
     group: null,
@@ -30,6 +28,9 @@ export class UserPreferencesComponent implements OnInit {
     url: null,
     type: 'Dashboard',
     addType: 1,
+    add: 0,
+    edit: 0,
+    delete: 0
   };
   getUsersList = [];
 
@@ -51,6 +52,15 @@ export class UserPreferencesComponent implements OnInit {
   ngOnInit() {
   }
   ngDestroy() {
+
+  }
+
+  changePermissionType(type, value) {
+    let isFlag = false;
+    isFlag = value.target.checked;
+    if (isFlag) this.newPage[type] = 1;
+    else this.newPage[type] = 0;
+    console.log("type", this.newPage[type]);
 
   }
 
@@ -81,7 +91,6 @@ export class UserPreferencesComponent implements OnInit {
       details: null,
       oldPreferences: []
     };
-    this.pagesGroups = {};
     document.getElementById('employeename')['value'] = '';
     this.common.isComponentActive = false;
     this.formattedData = [];
@@ -95,8 +104,13 @@ export class UserPreferencesComponent implements OnInit {
       title: this.newPage.title,
       route: this.newPage.url,
       type: this.newPage.type,
-      add_type: this.newPage.addType
+      add_type: this.newPage.addType,
+      hasAdd: this.newPage.add,
+      hasEdit: this.newPage.edit,
+      hasDelete: this.newPage.delete,
     };
+    console.log("params", params);
+    return;
     this.common.loading++;
     this.api.post('UserRoles/insertNewPageDetails', params)
       .subscribe(res => {
