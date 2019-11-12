@@ -94,18 +94,18 @@
             {{page.title}}
             <div class="row permission-type" [hidden]="!page.isSelected">
               <div class="col-4" style="padding:0px!important;">
-                <input type="checkbox" class="page-box-type" name="add" [(ngModel)]="page.isAdd"
-                  (click)="checkOrUnCheckAll(page,'page')">
+                <input type="checkbox" class="page-box-type" name="add" [(ngModel)]="page.isadd"
+                  (click)="changePagePermission(page,'isadd',$event)">
                 <label>A</label>
               </div>
               <div class="col-4" style="padding:0px!important;">
-                <input type="checkbox" class="page-box-type" name="edit" [(ngModel)]="page.isEdit"
-                  (click)="checkOrUnCheckAll(page,'page')">
+                <input type="checkbox" class="page-box-type" name="edit" [(ngModel)]="page.isedit"
+                  (click)="changePagePermission(page,'isedit',$event)">
                 <label>E</label>
               </div>
               <div class="col-4" style="padding:0px!important;">
-                <input type="checkbox" class="page-box-type" name="delete" [(ngModel)]="page.isDeleted"
-                  (click)="checkOrUnCheckAll(page,'page')">
+                <input type="checkbox" class="page-box-type" name="delete" [(ngModel)]="page.isdeleted"
+                  (click)="changePagePermission(page,'isdeleted',$event)">
                 <label>D</label>
               </div>
             </div>

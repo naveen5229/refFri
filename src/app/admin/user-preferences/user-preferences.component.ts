@@ -34,8 +34,6 @@ export class UserPreferencesComponent implements OnInit {
   };
   getUsersList = [];
 
-
-
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -45,8 +43,6 @@ export class UserPreferencesComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
     this.getAllUserList();
   }
-
-
 
 
   ngOnInit() {
@@ -61,7 +57,6 @@ export class UserPreferencesComponent implements OnInit {
     if (isFlag) this.newPage[type] = 1;
     else this.newPage[type] = 0;
     console.log("type", this.newPage[type]);
-
   }
 
   //Confirmation that before Leave the PAge
@@ -122,6 +117,8 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   checkOrUnCheckAll(details, type) {
+    console.log("isSeleted", details.isSelected);
+    console.log("type", type);
     this.common.isComponentActive = true;
     if (type === 'group') {
       details.pages.map(page => {
@@ -133,10 +130,24 @@ export class UserPreferencesComponent implements OnInit {
         group.pages.map(page => page.isSelected = details.isSelected);
       });
     }
+    if (!details.isSelected && type == 'page') {
+      details.isSelected = details.isSelected;
+      details.isadd = 0;
+      details.isedit = 0;
+      details.isdeleted = 0;
+    }
+
+  }
+  changePagePermission(details, type, event) {
+    console.log("details", details);
+    console.log("type", details[type]);
+    let isFlag = event.target.checked;
+    console.log("event", event.target.checked);
+    if (isFlag) details[type] = 1;
+    else details[type] = 0;
   }
 
   getAllUserList() {
-
     this.common.loading++;
     this.api.get('UserRoles/getActiveAdminUsers?')
       .subscribe(res => {
@@ -168,8 +179,7 @@ export class UserPreferencesComponent implements OnInit {
           console.log("Res Data:", this.data)
         this.selectedUser.oldPreferences = res['data'];
         this.managedata();
-        // this.findSections();
-        // this.checkSelectedPages(res['data']);
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -191,11 +201,10 @@ export class UserPreferencesComponent implements OnInit {
       module.groups = Object.keys(pageGroup).map(key => {
         let isAllSelected = true;
         let pages = pageGroup[key].map(page => {
-          console.log("page", page);
           page.isSelected = page.userid ? true : false;
-          page.isAdd = page.isadd ? page.isadd : false;
-          page.isEdit = page.isedit ? page.isedit : false;
-          page.isDeleted = page.isdeleted ? page.isdeleted : false;
+          page.isadd = page.isadd ? 1 : 0;
+          page.isedit = page.isedit ? 1 : 0;
+          page.isdeleted = page.isdeleted ? 1 : 0;
 
           if (isAllSelected)
             isAllSelected = page.isSelected;
@@ -253,10 +262,10 @@ export class UserPreferencesComponent implements OnInit {
       module.groups.map(group => {
         group.pages.map(page => {
           if (page.isSelected) {
-            data.push({ id: page.id, status: 1 });
+            data.push({ id: page.id, status: 1, isadd: page.isadd, isedit: page.isedit, isdeleted: page.isdeleted });
           }
           else {
-            data.push({ id: page.id, status: 0 });
+            data.push({ id: page.id, status: 0, isadd: 0, isedit: 0, isdeleted: 0 });
           }
         })
       })
