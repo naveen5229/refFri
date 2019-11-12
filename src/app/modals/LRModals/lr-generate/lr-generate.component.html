@@ -81,7 +81,7 @@
               <span>
                 <input type="text" [(ngModel)]=lr.prefix class="form-control" placeholder="Prefix"
                   style="width:40%;float:left" (focusout)="changeSerialNo()">
-                <input type="text" [(ngModel)]=lr.serial class="form-control" placeholder="Number"
+                <input type="number" [(ngModel)]=lr.serial class="form-control" placeholder="Number"
                   style="width:60%;float:left">
 
               </span>
@@ -505,7 +505,10 @@
             <option velue='print'>Print</option>
             <option value='close'>Close</option>
           </select>
-          <button class="btn btn-primary" (click)="saveDetails()" style="margin-left: 20px;">{{btnTxt}}</button></div>
+          <button class="btn btn-primary" (click)="saveDetails(false)" style="margin-left: 20px;">{{btnTxt}}</button>
+          <button class="btn btn-primary" (click)="saveDetails(true)" style="margin-left: 20px;">{{btnTxt}} &&
+            Print</button>
+        </div>
 
       </div>
 
