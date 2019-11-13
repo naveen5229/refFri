@@ -33,6 +33,7 @@ export class UserPreferencesComponent implements OnInit {
     delete: 0
   };
   getUsersList = [];
+  istaskOpertion = false;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -132,9 +133,10 @@ export class UserPreferencesComponent implements OnInit {
     }
     if (!details.isSelected && type == 'page') {
       details.isSelected = details.isSelected;
-      details.isadd = 0;
-      details.isedit = 0;
-      details.isdeleted = 0;
+      details.isadd = false;
+      details.isedit = false;
+      details.isdeleted = false;
+      details.isOp = true;
     }
 
   }
@@ -142,9 +144,10 @@ export class UserPreferencesComponent implements OnInit {
     console.log("details", details);
     console.log("type", details[type]);
     let isFlag = event.target.checked;
-    console.log("event", event.target.checked);
-    if (isFlag) details[type] = 1;
-    else details[type] = 0;
+    this.istaskOpertion = true;
+    if (this.istaskOpertion) {
+      return details.isOp = true;
+    }
   }
 
   getAllUserList() {
@@ -192,7 +195,8 @@ export class UserPreferencesComponent implements OnInit {
       return {
         name: key,
         groups: firstGroup[key],
-        isSelected: false
+        isSelected: false,
+        isOp: false,
       }
     });
     this.formattedData.map(module => {
@@ -202,9 +206,10 @@ export class UserPreferencesComponent implements OnInit {
         let isAllSelected = true;
         let pages = pageGroup[key].map(page => {
           page.isSelected = page.userid ? true : false;
-          page.isadd = page.isadd ? 1 : 0;
-          page.isedit = page.isedit ? 1 : 0;
-          page.isdeleted = page.isdeleted ? 1 : 0;
+          page.isadd = page.isadd ? true : false;
+          page.isedit = page.isedit ? true : false;
+          page.isdeleted = page.isdeleted ? true : false;
+          page.isOp = false;
 
           if (isAllSelected)
             isAllSelected = page.isSelected;
@@ -262,10 +267,10 @@ export class UserPreferencesComponent implements OnInit {
       module.groups.map(group => {
         group.pages.map(page => {
           if (page.isSelected) {
-            data.push({ id: page.id, status: 1, isadd: page.isadd, isedit: page.isedit, isdeleted: page.isdeleted });
+            data.push({ id: page.id, status: 1, isadd: page.isadd, isedit: page.isedit, isdeleted: page.isdeleted, isOp: page.isOp });
           }
           else {
-            data.push({ id: page.id, status: 0, isadd: 0, isedit: 0, isdeleted: 0 });
+            data.push({ id: page.id, status: 0, isadd: false, isedit: false, isdeleted: false, isOp: page.isOp });
           }
         })
       })
