@@ -316,13 +316,27 @@ export class MapService {
   }
 
   createCluster(markers, ismake?) {
+    let infoWindows = [];
+
     if (ismake) {
       this.cluster = new MarkerClusterer(this.map,
         markers.filter(marker => (marker && marker.position && marker.position.lat() && marker.position.lng())),
         { gridSize: 40, maxZoom: 16, zoomOnClick: false, minimumClusterSize: 2, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-
-      google.maps.event.addListener(this.cluster, 'clusterclick', (cluster) => {
-        console.log("cluster info Window", cluster);
+        let infoWindow = this.createInfoWindow();
+        infoWindows.push(infoWindow);
+        infoWindow.opened = false;
+        google.maps.event.addListener(this.cluster, 'clusterclick', (cluster) => {
+          console.log("cluster info Window", cluster);
+          
+        this.infoStart = new Date().getTime();
+        for (let infoIndex = 0; infoIndex < infoWindows.length; infoIndex++) {
+          const element = infoWindows[infoIndex];
+          if (element)
+            element.close();
+        }
+        infoWindow.setContent("<span style='color:blue'>Info</span> <br> ");
+        infoWindow.setPosition(cluster.latLng); // or evt.latLng
+        infoWindow.open(this.map);
       });
 
     } else {
