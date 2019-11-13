@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CommonService } from './common.service';
+import MarkerClusterer from "@google/markerclusterer"
 declare let google: any;
+declare let MarkerClusterer: any;
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,7 @@ export class MapService {
   polygons = [];
   isMapLoaded = false;
   mapLoadDiv = null;
+  cluster = null;
   lineSymbol = {
     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
   };
@@ -302,15 +305,51 @@ export class MapService {
         if (changeBounds)
           this.setBounds(latlng);
       }
-      thisMarkers.push(marker);
       this.markers.push(marker);
+      thisMarkers.push(marker);
+
+      console.log("thisMarkers", thisMarkers.length);
       //  marker.addListener('mouseover', this.infoWindow.bind(this, marker, show ));
 
       //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
       //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
+
+
     }
     return thisMarkers;
   }
+
+  createCluster(markers, ismake?) {
+    let infoWindows = [];
+
+    if (ismake) {
+      this.cluster = new MarkerClusterer(this.map,
+        markers.filter(marker => (marker && marker.position && marker.position.lat() && marker.position.lng())),
+        { gridSize: 40, maxZoom: 16, zoomOnClick: false, minimumClusterSize: 2, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+        let infoWindow = this.createInfoWindow();
+        infoWindows.push(infoWindow);
+        infoWindow.opened = false;
+        google.maps.event.addListener(this.cluster, 'clusterclick', (cluster) => {
+          console.log("cluster info Window", cluster);
+          
+        this.infoStart = new Date().getTime();
+        for (let infoIndex = 0; infoIndex < infoWindows.length; infoIndex++) {
+          const element = infoWindows[infoIndex];
+          if (element)
+            element.close();
+        }
+        infoWindow.setContent("<span style='color:blue'>Info</span> <br> ");
+        infoWindow.setPosition(cluster.latLng); // or evt.latLng
+        infoWindow.open(this.map);
+      });
+
+    } else {
+      if (this.cluster)
+        this.cluster.clearMarkers();
+      markers.map(marker => marker && marker.setMap(this.map));
+    }
+  }
+
 
   createCirclesOnPostion(center, radius) {
     console.log("center,radius", center, radius);

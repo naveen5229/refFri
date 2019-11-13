@@ -18,6 +18,7 @@ import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-detail
 import { AddReceiptsComponent } from '../../modals/add-receipts/add-receipts.component'
 import { AddTransportAgentComponent } from '../../modals/LRModals/add-transport-agent/add-transport-agent.component'
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
+import { FreightInvoiceComponent } from '../../modals/FreightRate/freight-invoice/freight-invoice.component';
 
 @Component({
   selector: 'lorry-reccipts',
@@ -209,6 +210,8 @@ export class LorryRecciptsComponent implements OnInit {
       LRImage: { title: 'LRImage', placeholder: 'LRImage' },
       details: { title: 'POD', placeholder: 'POD' },
       Action: { title: 'Action', placeholder: 'Action' },
+      Invoice: { title: 'Invoice', placeholder: 'Invoice' },
+
     };
 
     // if (this.user._loggedInBy == 'admin') {
@@ -271,10 +274,14 @@ export class LorryRecciptsComponent implements OnInit {
           },
           { class: R.is_locked ?'' : 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) },
           { class: R.is_locked  ? '' : 'fa fa-trash icon', action: this.deleteLr.bind(this, R) },
-          // { class: 'fa fa-inr  icon', action: this.lrRates.bind(this, R,0) },
           { class: 'fa fa-handshake-o  icon', action: this.tripSettlement.bind(this, R) },
-          ]//`<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R),
-          // `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteLr.bind(this, R)
+          ]
+        },
+        Invoice: {
+          value: '', isHTML: true, action: null, icons: [
+          { class: R._frinvid ? 'fa fa-print icon' : R.revenue_amount > 0 ? 'fa fa-pencil-square-o icon edit ':'' , action:R.revenue_amount > 0 ? this.invoice.bind(this, R) : R.revenue_amount > 0 ? this.invoiceFromLr.bind(this, R):'' },
+        
+          ]
         }
       };
       columns.push(column);
@@ -415,5 +422,45 @@ export class LorryRecciptsComponent implements OnInit {
       this.getLorryReceipts();
     })
   }
+
+  invoiceFromLr(row) {
+    let params={
+      lrId:row.lr_id
+    }
+    this.api.post('FrieghtRate/invoiceFromLr',params)
+      .subscribe(res => {
+        console.log('result', res['data'][0]);
+        if(res['data']&& res['data'][0].r_id > 0){
+          let inv = {
+            _frinvid : res['data'][0].r_id
+          }
+          this.common.showToast(res['data'][0].r_msg);
+          this.invoice(inv);
+        }else if(res['data']){
+          this.common.showError(res['data'][0].r_msg);
+        }
+      }, err => {
+        console.log(err);
+      });
+  }
+
+
+  invoice(inv, type?) {
+    let previewData = {
+      title: 'Invoice',
+      previewId: null,
+      refId: inv._frinvid,
+      refType: "FRINV"
+    }
+    this.common.params = { previewData };
+    console.log("invoice", inv);
+
+    // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
+
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    });
+}
 }
 

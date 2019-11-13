@@ -61,7 +61,8 @@ export class ConciseComponent implements OnInit {
   kpiGroups = null;
   kpiGroupsKeys = [];
   keyGroups = [];
-
+  isCluster = false;
+  markers = null;
   chartData = null;
   chartDataa = null;
   chartOptions = null;
@@ -702,12 +703,12 @@ export class ConciseComponent implements OnInit {
     }
     setTimeout(() => {
       this.mapService.setMapType(0);
-      this.mapService.createMarkers(this.kpis);
+      this.markers = this.mapService.createMarkers(this.kpis);
       this.mapService.addListerner(this.mapService.map, "center_changed", () => {
-        this.setMarkerLabels();
+        //this.setMarkerLabels();
       });
       this.mapService.addListerner(this.mapService.map, "zoom_changed", () => {
-        this.setMarkerLabels();
+        // this.setMarkerLabels();
       });
       let markerIndex = 0;
       for (const marker of this.mapService.markers) {
@@ -733,6 +734,14 @@ export class ConciseComponent implements OnInit {
         const element = this.mapService.markers[index];
         element.setLabel(this.kpis[index].x_showveh);
       }
+    }
+  }
+
+  createCluster() {
+    if (this.isCluster) {
+      this.mapService.createCluster(this.markers, true);
+    } else {
+      this.mapService.createCluster(this.markers, false);
     }
   }
 
