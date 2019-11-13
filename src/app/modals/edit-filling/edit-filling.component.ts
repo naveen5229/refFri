@@ -103,6 +103,8 @@ export class EditFillingComponent implements OnInit {
       this.filling_id = rec.id;
       this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
       this.odoVal = rec.odometer ? rec.odometer : 0;
+      this.vehicleId = rec.vehicle_id;
+      this.regno = rec.regno;
     }
     else if (this.common.params.info) {
       this.refernceType = detail._reftype;
