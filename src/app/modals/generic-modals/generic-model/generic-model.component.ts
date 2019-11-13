@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./generic-model.component.scss']
 })
 export class GenericModelComponent implements OnInit {
+  title = '';
   data = [];
   response = [];
   table = {
@@ -25,13 +26,14 @@ export class GenericModelComponent implements OnInit {
   valobj = {};
   vehicleId = null;
   viewUrl = null;
-  deleteUrl = null;
+  deleteUrl = '';
   deleteParams = {};
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     private commonService: CommonService,
     public api: ApiService, ) {
     if (this.common.params && this.common.params.data) {
+      this.title = this.common.params.data.title ? this.common.params.data.title : '';
       console.log("Dynamic Data", this.common.params.data);
       let str = "?";
       Object.keys(this.common.params.data.view.param).forEach(element => {
@@ -41,7 +43,7 @@ export class GenericModelComponent implements OnInit {
           str += "&" + element + "=" + this.common.params.data.view.param[element];
       });
       this.viewUrl = this.common.params.data.view.api + str;
-      this.deleteUrl = this.common.params.data.delete.api;
+      this.deleteUrl = this.common.params.data.delete ? this.common.params.data.delete.api : '';
     }
     this.AdviceViews();
   }

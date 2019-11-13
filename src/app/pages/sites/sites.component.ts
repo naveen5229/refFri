@@ -69,9 +69,14 @@ export class SitesComponent implements OnInit {
     public user: UserService) {
     this.companySites();
     this.site.name = "Add";
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+
+  refresh() {
+    this.companySites();
   }
 
 
@@ -130,14 +135,15 @@ export class SitesComponent implements OnInit {
       this.common.showError("Please fill Site Name.")
     } else {
       let params = {
+        siteId: this.site.id,
         siteName: this.site.sitename,
         polygon: this.path,
         siteLoc: this.Location,
         typeId: this.typeID
       };
-
+      let url = this.site.id ? 'SiteFencing/updateSiteFence' : 'SiteFencing/createSiteAndFenceWrtFo';
       this.common.loading++;
-      this.api.post('SiteFencing/createSiteAndFenceWrtFo', params)
+      this.api.post(url, params)
         .subscribe(res => {
           this.common.loading--;
           console.log("Success:", res);
@@ -207,11 +213,10 @@ export class SitesComponent implements OnInit {
 
   showdata(datas) {
     console.log("Data", datas);
+    this.path = datas.fences;
     this.mapService.resetPolygons();
-    this.path = datas.latlongs;
     let latlong = datas.latlongs;
     this.mapService.setMultiBounds(latlong, true);
-
     for (let index = 0; index < latlong.length; index++) {
       const thisData = latlong[index];
       latlong[index] = { lat: thisData.lat, lng: thisData.lng };
@@ -228,6 +233,7 @@ export class SitesComponent implements OnInit {
     this.site.sitetype = datas.type;
     this.site.id = datas.id;
     this.Location = datas.loc_name;
+    this.typeID = datas._type_id;
     this.mapService.resetPolygons();
     this.mapService.createPolygons(latLngsMulti);
   }
