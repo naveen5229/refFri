@@ -125,6 +125,7 @@ export class LRRateCalculatorComponent implements OnInit {
         console.log('Api Response:', res['data'][0]);
         if (res['data'][0].r_id > 0) {
           this.common.showToast("Sucessfully saved");
+          this.closeModal();
         }
         else {
           this.common.showError(res['data'][0].r_msg);

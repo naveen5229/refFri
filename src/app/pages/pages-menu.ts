@@ -191,6 +191,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
+        title: 'MV GPS API History',
+        icon: 'fas fa-clone',
+        link: '/pages/mv-gps-api-history',
+        home: true,
+      },
+      {
         title: 'Routes',
         icon: 'fa fa-pencil-square-o',
         link: '/pages/via-routes',

@@ -400,11 +400,36 @@ export class LrRateComponent implements OnInit {
     });
   }
 
+  saveCalculatedRate() {
+    console.log("hello");
+    const params = {
+      refId: this.lrId,
+      refTypeId: 11,
+      isExpense: '' + this.type
+    };
+    ++this.common.loading;
+    console.log("params", params);
+    this.api.post('LorryReceiptsOperation/saveCalculatedRate', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('Api Response:', res['data'][0]);
+        if (res['data'][0].r_id > 0) {
+          this.common.showToast("Sucessfully saved");
+          this.closeModal();
+        }
+        else {
+          this.common.showError(res['data'][0].r_msg);
+        }
+      },
+        err => console.error(' Api Error:', err));
+  }
+
+
   openTransferModal(){
     let refdata = {
       refId : this.lrId,
       refType : 11,
-      selectOption:this.type?'transfer':'receipt'
+      selectOption:this.type?'Transfer':'Receipt'
     }
     this.common.params = { refData: refdata };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
