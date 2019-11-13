@@ -155,8 +155,12 @@ export class EditFillingComponent implements OnInit {
       .subscribe(res => {
         console.log(res['data']);
         let resultData = res['data'][0];
-        this.vehicleId = resultData.vid;
-        this.regno = resultData.regno;
+        let vehicleId = resultData.vid;
+        let regno = resultData.regno;
+        if (vehicleId && regno) {
+          this.vehicleId = vehicleId;
+          this.regno = regno;
+        }
         this.refTypeName = resultData.ref_name;
         // this.id = resultData.vehasstype
         this.refernceTypes();
