@@ -16,7 +16,7 @@ import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
-
+import { AccountService } from '../../services/account.service';
 @Component({
   selector: 'daybook',
   templateUrl: './daybook.component.html',
@@ -71,6 +71,7 @@ export class DaybookComponent implements OnInit {
     private route: ActivatedRoute,
     public user: UserService,
     public modalService: NgbModal,
+    public accountService: AccountService,
     public router: Router) {
     this.common.refresh = this.refresh.bind(this);
     // this.getVoucherTypeList();
