@@ -17,6 +17,7 @@
             <th>Vch No.</th>
             <th>Amount(Debit)</th>
             <th>Amount(Credit)</th>
+            <th *ngIf="accountService.selected.branch.id ==0">Branch</th>
           </tr>
         </thead>
         <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
@@ -36,6 +37,7 @@
           <td>{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
           <td>{{dataItem.y_dramunt}}</td>
           <td>{{dataItem.y_cramunt}}</td>
+          <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
         </tr>
       </table>
     </div>
