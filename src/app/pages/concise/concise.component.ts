@@ -739,6 +739,12 @@ export class ConciseComponent implements OnInit {
 
   createCluster() {
     if (this.isCluster) {
+      for(let i=0;i<this.markers.length;i++){
+        // console.log("marker===",this.markers[i]);
+        // console.log("vehicle===",this.kpis[i].x_showveh);
+        if(this.markers[i])
+        this.markers[i].title = this.kpis[i].x_showveh;
+      }
       this.mapService.createCluster(this.markers, true);
     } else {
       this.mapService.createCluster(this.markers, false);

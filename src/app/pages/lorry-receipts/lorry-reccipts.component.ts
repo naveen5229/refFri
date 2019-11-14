@@ -279,7 +279,7 @@ export class LorryRecciptsComponent implements OnInit {
         },
         Invoice: {
           value: '', isHTML: true, action: null, icons: [
-          { class: R._frinvid ? 'fa fa-print icon' : R.revenue_amount > 0 ? 'fa fa-pencil-square-o icon edit ':'' , action:R.revenue_amount > 0 ? this.invoice.bind(this, R) : R.revenue_amount > 0 ? this.invoiceFromLr.bind(this, R):'' },
+          { class: R._frinvid ? 'fa fa-print icon' : R.revenue_amount > 0 ? 'fa fa-pencil-square-o icon edit ':'' , action:R._frinvid > 0 ? this.invoice.bind(this, R) : R.revenue_amount > 0 ? this.invoiceFromLr.bind(this, R):'' },
         
           ]
         }
