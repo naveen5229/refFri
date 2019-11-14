@@ -72,6 +72,7 @@ export class FuelFillingTimetableComponent implements OnInit {
       });
     }, 1000);
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
+      this.moveLoc = place;
       this.mapService.centerAt({ lat: lat, lng: lng });
       this.mapService.zoomAt({ lat: lat, lng: lng }, 13);
       this.getFuelStation(lat, lng);
