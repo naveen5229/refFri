@@ -40,10 +40,10 @@ export class AccountsComponent {
       .subscribe(res => {
         console.log('Branches :', res['data']);
         this.accountService.branches = res['data'];
-        if (this.accountService.branches.length == 2) {
+        if (this.accountService.branches.length == 1) {
           console.log('_________________________TRUE');
-          this.accountService.selected.branchId = this.accountService.branches[1].id;
-          this.accountService.selected.branch = this.accountService.branches[1];
+          this.accountService.selected.branchId = this.accountService.branches[0].id;
+          this.accountService.selected.branch = this.accountService.branches[0];
         } else {
           console.log('_________________________ELSE');
           this.accountService.selected.branchId = 0;
