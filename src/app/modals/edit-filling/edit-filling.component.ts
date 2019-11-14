@@ -103,6 +103,8 @@ export class EditFillingComponent implements OnInit {
       this.filling_id = rec.id;
       this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
       this.odoVal = rec.odometer ? rec.odometer : 0;
+      this.vehicleId = rec.vehicle_id;
+      this.regno = rec.regno;
     }
     else if (this.common.params.info) {
       this.refernceType = detail._reftype;
@@ -153,8 +155,12 @@ export class EditFillingComponent implements OnInit {
       .subscribe(res => {
         console.log(res['data']);
         let resultData = res['data'][0];
-        this.vehicleId = resultData.vid;
-        this.regno = resultData.regno;
+        let vehicleId = resultData.vid;
+        let regno = resultData.regno;
+        if (vehicleId && regno) {
+          this.vehicleId = vehicleId;
+          this.regno = regno;
+        }
         this.refTypeName = resultData.ref_name;
         // this.id = resultData.vehasstype
         this.refernceTypes();

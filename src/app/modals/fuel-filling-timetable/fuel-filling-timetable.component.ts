@@ -52,6 +52,7 @@ export class FuelFillingTimetableComponent implements OnInit {
       this.startTime = this.common.dateFormatter(this.common.params.fuelTimeTable.startTime);
       this.endTime = this.common.dateFormatter(this.common.params.fuelTimeTable.endTime);
       this.getFuelFillingData();
+      this.createPolyPath();
     }
   }
 
@@ -103,7 +104,6 @@ export class FuelFillingTimetableComponent implements OnInit {
             fuel['subType'] = 'marker';
             return this.fuelFillingData.push(fuel);
           });
-          this.createPolyPath();
 
         }
       },
