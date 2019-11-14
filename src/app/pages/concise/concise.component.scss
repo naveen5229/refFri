@@ -773,3 +773,13 @@ mwlResizable {
     background-color: #ff0000 !important;
     cursor: pointer !important;
 }
+
+.cluster-view {
+    background: #f2f2f2;
+    position: absolute;
+    z-index: 999999;
+    bottom: 20px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    left: 45%;
+}
