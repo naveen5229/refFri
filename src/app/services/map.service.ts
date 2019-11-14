@@ -330,16 +330,19 @@ export class MapService {
         infoWindows.push(infoWindow);
         infoWindow.opened = false;
         google.maps.event.addListener(this.cluster, 'clusterclick', (cluster) => {
-          console.log("cluster info Window", cluster);
-          
+          let infoStr = '';
+          cluster.markers_.map(mrk=>{
+            infoStr +=  mrk.title+', '
+          })
+          console.log("infoStr",infoStr);
         this.infoStart = new Date().getTime();
         for (let infoIndex = 0; infoIndex < infoWindows.length; infoIndex++) {
           const element = infoWindows[infoIndex];
           if (element)
             element.close();
         }
-        infoWindow.setContent("<span style='color:blue'>Info</span> <br> ");
-        infoWindow.setPosition(cluster.latLng); // or evt.latLng
+        infoWindow.setContent(infoStr);
+        infoWindow.setPosition(cluster.center_); // or evt.latLng
         infoWindow.open(this.map);
       });
 
