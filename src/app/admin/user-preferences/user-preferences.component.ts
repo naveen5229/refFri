@@ -57,7 +57,6 @@ export class UserPreferencesComponent implements OnInit {
     isFlag = value.target.checked;
     if (isFlag) this.newPage[type] = 1;
     else this.newPage[type] = 0;
-    console.log("type", this.newPage[type]);
   }
 
   //Confirmation that before Leave the PAge
@@ -118,8 +117,6 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   checkOrUnCheckAll(details, type) {
-    console.log("isSeleted", details.isSelected);
-    console.log("type", type);
     this.common.isComponentActive = true;
     if (type === 'group') {
       details.pages.map(page => {
@@ -141,9 +138,6 @@ export class UserPreferencesComponent implements OnInit {
 
   }
   changePagePermission(details, type, event) {
-    console.log("details", details);
-    console.log("type", details[type]);
-    let isFlag = event.target.checked;
     this.istaskOpertion = true;
     if (this.istaskOpertion) {
       return details.isOp = true;
@@ -234,7 +228,6 @@ export class UserPreferencesComponent implements OnInit {
       });
       return module;
     });
-    console.log("After Formatted", this.formattedData);
 
   }
 
@@ -250,7 +243,6 @@ export class UserPreferencesComponent implements OnInit {
     this.api.post('UserRoles/setPagesWrtUser', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res: ', res);
         this.common.showToast(res['msg']);
         this.refresh();
 
