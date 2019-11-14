@@ -14,6 +14,7 @@ import { StrictMappingComponent } from '../../modals/strict-mapping/strict-mappi
 import { VehiclePriSecRoutemappingComponent } from '../../modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 import { RouteTimeTableComponent } from '../../modals/route-time-table/route-time-table.component';
 import { Route } from '@angular/router';
+import { RouteGuard } from '../../guards/route.guard';
 @Component({
   selector: 'via-routes',
   templateUrl: './via-routes.component.html',
@@ -35,13 +36,20 @@ export class ViaRoutesComponent implements OnInit {
   };
   headings = [];
   valobj = {};
+  permission = {
+    isAdd: false,
+    isEdit: false,
+    isDelete: false
+  }
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public route: RouteGuard,
     public modalService: NgbModal) {
     this.viewTable();
     this.common.refresh = this.refresh.bind(this);
+    console.log(this.route.checkPageOperationPermission());
   }
 
   ngOnInit() {

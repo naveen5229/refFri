@@ -9,6 +9,12 @@ import { state } from '@angular/animations';
   providedIn: 'root'
 })
 export class RouteGuard implements CanActivate {
+  permission = {
+    isadd: false,
+    isedit: false,
+    isdelete: false,
+  };
+  url = null;
   constructor(public user: UserService,
     public common: CommonService,
     private router: Router) {
@@ -16,6 +22,7 @@ export class RouteGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    this.url = state.url;
     return this.checkRouteAccessPermission(state.url);
   }
 
@@ -26,7 +33,18 @@ export class RouteGuard implements CanActivate {
     this.user._pages.map(page => (page.route == route) && (status = true));
     return status;
   }
+
+  checkPageOperationPermission() {
+    this.user._pages.map(page => {
+      if (page.route === this.url) {
+        return page.isadd, page.isedit, page.isdelete;
+      }
+    });
+
+  }
 }
+
+
 
 export interface CanComponentDeactivate {
   canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean;
