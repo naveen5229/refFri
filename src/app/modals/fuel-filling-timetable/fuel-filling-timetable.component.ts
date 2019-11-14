@@ -28,6 +28,7 @@ export class FuelFillingTimetableComponent implements OnInit {
     long: null,
   };
   time = null;
+  showTime = null;
   trailsData = [];
   infoWindow = null;
   insideInfo = null;
@@ -35,7 +36,8 @@ export class FuelFillingTimetableComponent implements OnInit {
     x: null,
     y: null,
     time: new Date()
-  }]
+  }];
+  moveLoc = '';
   constructor(
     public common: CommonService,
     public datePipe: DateService,
@@ -69,10 +71,29 @@ export class FuelFillingTimetableComponent implements OnInit {
         this.getClosedLatLong();
       });
     }, 1000);
+    this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
+      this.mapService.centerAt({ lat: lat, lng: lng });
+      this.mapService.zoomAt({ lat: lat, lng: lng }, 13);
+      this.getFuelStation(lat, lng);
+    });
   }
 
   closeModal() {
     this.activeModal.close(false);
+  }
+
+  loadLatLong() {
+    console.log("moveLoc", this.moveLoc);
+    if (new RegExp(/[0-9]*,[0-9]*/i).test(this.moveLoc)) {
+      let lat = parseFloat(this.moveLoc.split(",")[0]);
+      let lng = parseFloat(this.moveLoc.split(",")[1]);
+      this.mapService.centerAt({ lat: lat, lng: lng });
+      this.mapService.zoomAt({ lat: lat, lng: lng }, 13);
+      this.getFuelStation(lat, lng);
+    }
+    else {
+      this.common.showError("Pattern is Lat,Long");
+    }
   }
 
   createMarkers(lat, long) {
@@ -208,6 +229,8 @@ export class FuelFillingTimetableComponent implements OnInit {
       console.log("t1", t1);
       console.log("t2", t2);
       this.time = new Date(t1 + (marker.ratio * (t2 - t1)));
+      this.showTime = this.time;
+      this.showTime = this.common.changeDateformat(this.showTime);
       console.log("time", this.time);
 
     }
