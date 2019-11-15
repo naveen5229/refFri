@@ -164,8 +164,6 @@ export class AddFuelIndentComponent implements OnInit {
       document.getElementById('refTypeSource')['value'] = '';
       document.getElementById('indentTypeValue')['value'] = null;
       (<HTMLInputElement>document.getElementById('indentTypeValue')).value = '';
-      document.getElementById('indentTypeValue1')['value'] = null;
-      (<HTMLInputElement>document.getElementById('indentTypeValue1')).value = '';
       document.getElementById('branchId')['value'] = null;
     }
   }
