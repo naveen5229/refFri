@@ -91,6 +91,7 @@ export class AddFuelIndentComponent implements OnInit {
 
     if (this.common.params && this.common.params.refData) {
       this.edit = true;
+      this.fuelIndentData.rowId = null;
       this.refData.type = this.common.params.refData.refType;
       this.refData.id = this.common.params.refData.refId;
       this.getReferenceData();
@@ -101,7 +102,8 @@ export class AddFuelIndentComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.fuelIndentData.rowId) {
+    if (!this.fuelIndentData.rowId && !this.refData.id) {
+      console.log("simple add");
       this.fuelIndent = this.formBuilder.group({
         vehicleType: [''],
         regno: ['', Validators.required],
@@ -111,7 +113,15 @@ export class AddFuelIndentComponent implements OnInit {
         fuelStation: [''],
         ledger: ['']
       });
+    } else if (!this.fuelIndentData.rowId && this.refData.id) {
+      console.log("simple add but another Page");
+      this.fuelIndent = this.formBuilder.group({
+        indentTypeValue: ['', Validators.required],
+        fuelStation: [''],
+        ledger: ['']
+      });
     } else {
+      console.log("update");
       this.fuelIndent = this.formBuilder.group({
         refTypeSource: [''],
         indentTypeValue: ['', Validators.required],
@@ -146,14 +156,18 @@ export class AddFuelIndentComponent implements OnInit {
     }
   };
   resetData() {
-    this.setFuelIndent();
-    document.getElementById('regno')['value'] = '';
-    document.getElementById('refType')['value'] = '-1';
-    document.getElementById('refTypeSource')['value'] = '';
-    document.getElementById('refTypeSource')['value'] = '';
-    document.getElementById('indentTypeValue')['value'] = null;
-    (<HTMLInputElement>document.getElementById('indentTypeValue')).value = '';
-    document.getElementById('branchId')['value'] = null;
+    if (!this.refData.id) {
+      this.setFuelIndent();
+      document.getElementById('regno')['value'] = '';
+      document.getElementById('refType')['value'] = '-1';
+      document.getElementById('refTypeSource')['value'] = '';
+      document.getElementById('refTypeSource')['value'] = '';
+      document.getElementById('indentTypeValue')['value'] = null;
+      (<HTMLInputElement>document.getElementById('indentTypeValue')).value = '';
+      document.getElementById('indentTypeValue1')['value'] = null;
+      (<HTMLInputElement>document.getElementById('indentTypeValue1')).value = '';
+      document.getElementById('branchId')['value'] = null;
+    }
   }
 
   changeModal(type) {
@@ -161,8 +175,6 @@ export class AddFuelIndentComponent implements OnInit {
     console.log("Indent Type", this.indentType);
     this.selectModalTypeId = type;
     this.resetData();
-    console.log(this.apiUrl);
-    return this.apiUrl;
   }
   get f() {
     return this.fuelIndent.controls;
@@ -293,6 +305,7 @@ export class AddFuelIndentComponent implements OnInit {
       branchId: this.fuelIndentData.branchId
     };
     console.log("Params", params);
+    console.log("api url", this.apiUrl);
     let result: any;
     return;
     this.common.loading++;
@@ -336,9 +349,8 @@ export class AddFuelIndentComponent implements OnInit {
           this.fuelIndentData.regno = resultData.regno;
           this.fuelIndentData.refName = resultData.ref_name;
           this.fuelIndentData.vehicleType = resultData.vehasstype;
-          this.fuelIndentData.refType = this.dropDownRefTypes['1'].find(element => { return element.id == 14; }).id;
-          this.fuelIndentData.refTypeSourceId = 7457;
-          console.log(".............", this.fuelIndentData.refType);
+          this.fuelIndentData.refType = this.refData.type ? this.refData.type : this.dropDownRefTypes['1'].find(element => { return element.id == 14; }).id;
+          this.fuelIndentData.refTypeSourceId = this.refData.id;
         }, err => {
           this.common.loading--;
           console.log(err);

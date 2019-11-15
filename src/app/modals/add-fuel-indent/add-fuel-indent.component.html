@@ -127,9 +127,9 @@
 
                     </div>
                     <div class="col-3">
-                        <input type="text" id="indentTypeValue" formControlName="indentTypeValue"
+                        <input type="text" id="indentTypeValue1" formControlName="indentTypeValue"
                             [ngClass]="{ 'is-invalid': isFormSubmit && f.indentTypeValue.errors }"
-                            name="indentTypeValue" class="form-control" autocomplete="off" placeholder="Enter value"
+                            name="indentTypeValue1" class="form-control" autocomplete="off" placeholder="Enter value"
                             [(ngModel)]="fuelIndentData.amount">
                         <div *ngIf="isFormSubmit && f.indentTypeValue.errors" class="invalid-feedback">
                             <div *ngIf="f.indentTypeValue.errors.required">Value is require</div>
