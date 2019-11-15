@@ -193,34 +193,22 @@ export class AddFuelIndentComponent implements OnInit {
     const params = {
       vid: this.fuelIndentData.vehicleId,
       regno: this.fuelIndentData.regno,
+      refType : type
     };
-    let url = null;
-    let refType = '';
-    switch (type) {
-      case '11':
-        url = "Suggestion/getLorryReceipts";
-        refType = 'Lr Data is not available you can\'t Add Data';
-        break;
-      case '12':
-        url = "Suggestion/getLorryManifest";
-        refType = 'Manifest Data is not available you can\'t Add Data';
-        break;
-      case '13':
-        url = "Suggestion/getVehicleStates";
-        refType = 'State Data is not available you can\'t Add Data ';
-        break;
-      default:
-        url = null;
-        return;
-    }
+    let url = 'Suggestion/getRefTypeData';
+    let refType = 'No Data Found';
+   
+    ++this.common.loading;
     this.api.post(url, params)
       .subscribe(res => {
         this.refTypeResults = res['data'];
+        --this.common.loading;
         if (this.refTypeResults.length == 0) {
           this.common.showError(refType);
           return;
         }
       }, err => {
+        --this.common.loading;
         console.log(err);
       });
   }
