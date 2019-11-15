@@ -9,11 +9,6 @@ import { state } from '@angular/animations';
   providedIn: 'root'
 })
 export class RouteGuard implements CanActivate {
-  permission = {
-    isadd: false,
-    isedit: false,
-    isdelete: false,
-  };
   url = null;
   constructor(public user: UserService,
     public common: CommonService,
@@ -30,20 +25,20 @@ export class RouteGuard implements CanActivate {
 
   checkRouteAccessPermission(route) {
     let status = false;
-    this.user._pages.map(page => (page.route == route) && (status = true));
+    this.user._pages.map(page => {
+      if (page.route == route) {
+        status = true;
+        this.user.permission = {
+          add: page.isadd,
+          edit: page.isedit,
+          delete: page.isdeleted,
+        };
+      }
+    });
     return status;
   }
 
-  checkPageOperationPermission() {
-    this.user._pages.map(page => {
-      if (page.route === this.url) {
-        return page.isadd, page.isedit, page.isdelete;
-      }
-    });
-
-  }
 }
-
 
 
 export interface CanComponentDeactivate {

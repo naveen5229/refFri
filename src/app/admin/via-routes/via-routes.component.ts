@@ -36,24 +36,19 @@ export class ViaRoutesComponent implements OnInit {
   };
   headings = [];
   valobj = {};
-  permission = {
-    isAdd: false,
-    isEdit: false,
-    isDelete: false
-  }
-
+  permission = {};
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public route: RouteGuard,
     public modalService: NgbModal) {
     this.viewTable();
     this.common.refresh = this.refresh.bind(this);
-    console.log(this.route.checkPageOperationPermission());
+    console.log("permission", this.permission);
   }
 
   ngOnInit() {
   }
+
 
   refresh() {
     this.table = {
@@ -158,17 +153,8 @@ export class ViaRoutesComponent implements OnInit {
 
   actionIcons(route) {
     let icons = [];
-    icons.push(
-      {
-        class: "fas fa-edit mr-3",
-        action: this.editRoute.bind(this, route),
-      },
-      {
-        class: "fa fa-window-close",
-        action: this.remove.bind(this, route),
-      },
-
-    )
+    this.user.permission.edit && icons.push({ class: "fas fa-edit mr-3", action: this.editRoute.bind(this, route) });
+    this.user.permission.delete && icons.push({ class: "fa fa-window-close", action: this.remove.bind(this, route) });
     return icons;
   }
 
