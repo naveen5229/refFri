@@ -67,7 +67,7 @@ export class AddFuelIndentComponent implements OnInit {
     }
     if (this.common.params && this.common.params.editFuelData) {
       this.edit = true;
-      this.fuelIndentData.rowId = this.common.params.editFuelData._id;
+      this.fuelIndentData.rowId = this.common.params.editFuelData._id ? this.common.params.editFuelData._id : null;
       this.fuelIndentData.issueDate = new Date(this.common.dateFormatter(this.common.params.editFuelData._issue_date));
       this.fuelIndentData.expiryDate = new Date(this.common.dateFormatter(this.common.params.editFuelData._expiry_date));
       this.fuelIndentData.fuelId = this.common.params.editFuelData._fsid;
@@ -186,6 +186,7 @@ export class AddFuelIndentComponent implements OnInit {
 
   selectRefType(type) {
     this.fuelIndentData.refType = type.target.value;
+    console.log(">>>>>>>", this.fuelIndentData.refType);
     this.selectedlist(this.fuelIndentData.refType);
   }
 
@@ -244,6 +245,7 @@ export class AddFuelIndentComponent implements OnInit {
     this.fuelIndentData.ledgerId = ledger.id;
     return this.fuelIndentData.ledgerId;
   }
+
   getBranchList() {
     this.api.get("Suggestion/GetBranchList").subscribe(
       res => {
@@ -256,11 +258,14 @@ export class AddFuelIndentComponent implements OnInit {
     );
   }
 
+
   saveFuelIndent() {
+    console.log("hello m aa gya hu");
+
     if (this.fuelIndentData.issueDate == null && this.fuelIndentData.expiryDate == null) {
       this.common.showToast("Select Date");
     }
-    if (this.fuelIndentData.issueDate  > this.fuelIndentData.expiryDate) {
+    if (this.fuelIndentData.issueDate > this.fuelIndentData.expiryDate) {
       this.common.showError("Enter Valid  Date");
       return;
     }
@@ -287,8 +292,9 @@ export class AddFuelIndentComponent implements OnInit {
       ledgerId: this.fuelIndentData.ledgerId,
       branchId: this.fuelIndentData.branchId
     };
-
+    console.log("Params", params);
     let result: any;
+    return;
     this.common.loading++;
     this.api.post(this.apiUrl, params)
       .subscribe(res => {
@@ -329,8 +335,10 @@ export class AddFuelIndentComponent implements OnInit {
           this.fuelIndentData.vehicleId = resultData.vid;
           this.fuelIndentData.regno = resultData.regno;
           this.fuelIndentData.refName = resultData.ref_name;
-          this.fuelIndentData.vehicleType = resultData.vehasstype
-          this.fuelIndentData.refType = this.dropDownRefTypes['1'].find(element => { return element.id == 14; }).name;
+          this.fuelIndentData.vehicleType = resultData.vehasstype;
+          this.fuelIndentData.refType = this.dropDownRefTypes['1'].find(element => { return element.id == 14; }).id;
+          this.fuelIndentData.refTypeSourceId = 7457;
+          console.log(".............", this.fuelIndentData.refType);
         }, err => {
           this.common.loading--;
           console.log(err);
