@@ -13,6 +13,7 @@ import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'ledgerview',
@@ -65,6 +66,7 @@ export class LedgerviewComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public accountService: AccountService,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
 
@@ -82,6 +84,10 @@ export class LedgerviewComponent implements OnInit {
     this.getVoucherTypeList();
     this.getLedgerList();
     this.setFoucus('voucherType');
+    if(this.ledger.ledger.id!=0)
+    {
+    this.getLedgerView();
+  }
   }
   pdfFunction(){
     let params = {

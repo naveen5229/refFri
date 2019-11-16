@@ -140,6 +140,7 @@ export class HeaderComponent implements OnInit {
       if (branch.id == this.accountService.selected.branchId) return true;
       return false;
     });
+    this.refresh();
     console.log('________', this.accountService.selected.branch);
   }
 

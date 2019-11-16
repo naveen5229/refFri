@@ -16,8 +16,8 @@ export class ApiService {
   URL: string = 'http://192.168.1.113/Transtruck/booster_webservices/'; //Komal
   // URL: string = 'http://192.168.1.113/booster_webservices/'; // Umang
   //  URL: string = 'http://localhost/booster_webservices/'; // sachin
-  // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
-  UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
+  // UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
   URL2 = 'http://elogist.in/transtruck/';
 
   constructor(private http: HttpClient,
