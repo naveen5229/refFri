@@ -13,11 +13,12 @@
                     Routes Mapping</button>
             </div>
             <div class="col-3">
-                <button type="submit" class="btn btn-primary m-0" name="add" (click)="addViaRoutes()">Add
+                <button type="button" *ngIf="user.permission.add" class="btn btn-primary m-0" name="add" id="add"
+                    (click)="addViaRoutes()">Add
                     Routes</button>
             </div>
         </div>
-       
+
     </nb-card-header>
 
     <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
