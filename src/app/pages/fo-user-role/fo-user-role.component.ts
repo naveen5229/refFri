@@ -19,6 +19,7 @@ export class FoUserRoleComponent implements OnInit {
     details: null,
     oldPreferences: []
   };
+  istaskOpertion = false;
 
 
   constructor(public api: ApiService,
@@ -152,6 +153,20 @@ export class FoUserRoleComponent implements OnInit {
         group.pages.map(page => page.isSelected = details.isSelected);
       });
     }
+    if (!details.isSelected && type == 'page') {
+      details.isSelected = details.isSelected;
+      details.isadd = false;
+      details.isedit = false;
+      details.isdeleted = false;
+      details.isOp = true;
+    }
+  }
+
+  changePagePermission(details, type, event) {
+    this.istaskOpertion = true;
+    if (this.istaskOpertion) {
+      return details.isOp = true;
+    }
   }
 
 
@@ -183,10 +198,10 @@ export class FoUserRoleComponent implements OnInit {
       module.groups.map(group => {
         group.pages.map(page => {
           if (page.isSelected) {
-            data.push({ id: page.id, status: 1 });
+            data.push({ id: page.id, status: 1, isadd: page.isadd, isedit: page.isedit, isdeleted: page.isdeleted, isOp: page.isOp });
           }
           else {
-            data.push({ id: page.id, status: 0 });
+            data.push({ id: page.id, status: 0, isadd: false, isedit: false, isdeleted: false, isOp: page.isOp });
           }
         })
       })
