@@ -204,11 +204,11 @@ export class AddFuelIndentComponent implements OnInit {
     const params = {
       vid: this.fuelIndentData.vehicleId,
       regno: this.fuelIndentData.regno,
-      refType : type
+      refType: type
     };
     let url = 'Suggestion/getRefTypeData';
     let refType = 'No Data Found';
-   
+
     ++this.common.loading;
     this.api.post(url, params)
       .subscribe(res => {
@@ -258,8 +258,6 @@ export class AddFuelIndentComponent implements OnInit {
 
 
   saveFuelIndent() {
-    console.log("hello m aa gya hu");
-
     if (this.fuelIndentData.issueDate == null && this.fuelIndentData.expiryDate == null) {
       this.common.showToast("Select Date");
     }

@@ -36,14 +36,12 @@ export class ViaRoutesComponent implements OnInit {
   };
   headings = [];
   valobj = {};
-  permission = {};
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
     this.viewTable();
     this.common.refresh = this.refresh.bind(this);
-    console.log("permission", this.permission);
   }
 
   ngOnInit() {
