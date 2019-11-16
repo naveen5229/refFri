@@ -102,7 +102,8 @@ export class FoUserRoleComponent implements OnInit {
       return {
         name: key,
         groups: firstGroup[key],
-        isSelected: false
+        isSelected: false,
+        isOp: false,
       }
     });
 
