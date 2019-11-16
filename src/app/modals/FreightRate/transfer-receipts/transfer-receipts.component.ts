@@ -3,6 +3,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { ConfirmComponent } from '../../confirm/confirm.component';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'transfer-receipts',
@@ -24,7 +25,7 @@ export class TransferReceiptsComponent implements OnInit {
   headings = [];
   valobj = {};
   transferReceipt = {
-    id : null,
+    id: null,
     vehicleId: null,
     vehicleRegNo: null,
     refernceType: '0',
@@ -36,9 +37,9 @@ export class TransferReceiptsComponent implements OnInit {
     modeId: '-1',
     amount: null,
     remark: null,
-    readOnly:false,
-    approvalStatus:null,
-    approvalRemark:null
+    readOnly: false,
+    approvalStatus: null,
+    approvalRemark: null
   };
   refernceData = [];
   referenceName = null;
@@ -75,6 +76,7 @@ export class TransferReceiptsComponent implements OnInit {
 
   constructor(public modalService: NgbModal,
     public common: CommonService,
+    public user: UserService,
     public activeModal: NgbActiveModal,
     public api: ApiService) {
     this.getPaymentMode();
@@ -83,18 +85,18 @@ export class TransferReceiptsComponent implements OnInit {
     if (this.common.params && this.common.params.refData) {
       this.refData = this.common.params.refData;
       this.edit = 1;
-      this.transferReceipt.id = this.common.params.refData.transferId?this.common.params.refData.transferId:null;
-      this.transferReceipt.readOnly = this.common.params.refData.readOnly?this.common.params.refData.readOnly:false
-      if(this.transferReceipt.id){
+      this.transferReceipt.id = this.common.params.refData.transferId ? this.common.params.refData.transferId : null;
+      this.transferReceipt.readOnly = this.common.params.refData.readOnly ? this.common.params.refData.readOnly : false
+      if (this.transferReceipt.id) {
         this.getEditDetils(this.transferReceipt.id);
-      }else{
+      } else {
         this.transferReceipt.refernceType = this.common.params.refData.refType;
         this.transferReceipt.refId = this.common.params.refData.refId;
-        this.transferReceipt.selectOption = this.common.params.refData.selectOption ? this.common.params.refData.selectOption : 'Transfer';  
-      this.getReferenceData();
-      this.showdata();
-      this.getRefernceType(this.transferReceipt.refernceType);
-    }
+        this.transferReceipt.selectOption = this.common.params.refData.selectOption ? this.common.params.refData.selectOption : 'Transfer';
+        this.getReferenceData();
+        this.showdata();
+        this.getRefernceType(this.transferReceipt.refernceType);
+      }
     }
 
   }
@@ -193,7 +195,10 @@ export class TransferReceiptsComponent implements OnInit {
             action: null,
             isHTML: false,
             icons: [
-              { class: 'fa fa-trash', action: this.deleteTransfer.bind(this, doc) },
+              {
+                class: this.user.permission.delete ? 'fa fa-trash' : '', action: this.deleteTransfer.bind(this, doc)
+              },
+
             ]
           };
         }
@@ -225,27 +230,27 @@ export class TransferReceiptsComponent implements OnInit {
         title: 'Delete Transfer ',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
       }
-        const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-        activeModal.result.then(data => {
-          if (data.response) {
-            console.log("data", data);
-            this.common.loading++;
-            this.api.post('FrieghtRate/deleteTransfers', params)
-              .subscribe(res => {
-                this.common.loading--;
-                if (res['data'][0].y_id > 0) {
-                  this.common.showToast('Success');
-                  this.showdata();
-                }
-                else {
-                  this.common.showError(res['data'][0].y_msg);
-                }
-              }, err => {
-                this.common.loading--;
-                console.log('Error: ', err);
-              });
-          }
-        });
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('FrieghtRate/deleteTransfers', params)
+            .subscribe(res => {
+              this.common.loading--;
+              if (res['data'][0].y_id > 0) {
+                this.common.showToast('Success');
+                this.showdata();
+              }
+              else {
+                this.common.showError(res['data'][0].y_msg);
+              }
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
     }
   }
 
@@ -344,7 +349,7 @@ export class TransferReceiptsComponent implements OnInit {
     console.log("Params");
     ++this.common.loading;
     let params = {
-      transferId : this.transferReceipt.id,
+      transferId: this.transferReceipt.id,
       vid: this.transferReceipt.vehicleId,
       regno: this.transferReceipt.vehicleRegNo,
       vehasstype: 1,
@@ -382,24 +387,24 @@ export class TransferReceiptsComponent implements OnInit {
       });
   }
 
-  getEditDetils(id){
-    console.log("getEditDetils====",id);
-      this.common.loading++;
-      this.api.get('LorryReceiptsOperation/getTransferEditDetails?transferId='+id)
-        .subscribe(res => {
-          this.common.loading--;
-          if(res['data']){
-            this.setDetails(res['data'][0])
-          }
-        
-        }, err => {
-          this.common.loading--;
-          this.common.showError();
-        });
+  getEditDetils(id) {
+    console.log("getEditDetils====", id);
+    this.common.loading++;
+    this.api.get('LorryReceiptsOperation/getTransferEditDetails?transferId=' + id)
+      .subscribe(res => {
+        this.common.loading--;
+        if (res['data']) {
+          this.setDetails(res['data'][0])
+        }
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
   }
 
-  setDetails(data){
-   this.transferReceipt.id = data.id;
+  setDetails(data) {
+    this.transferReceipt.id = data.id;
     this.transferReceipt.adviceTypeId = data.advice_type_id;
     this.transferReceipt.vehicleId = data.vid;
     this.transferReceipt.vehicleRegNo = data.regno;
@@ -421,7 +426,7 @@ export class TransferReceiptsComponent implements OnInit {
 
     data.advice_id;
     data.advice_type_name;
-   
+
     data.type;
     data.ref_type_name;
 

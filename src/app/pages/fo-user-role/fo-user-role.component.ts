@@ -19,6 +19,7 @@ export class FoUserRoleComponent implements OnInit {
     details: null,
     oldPreferences: []
   };
+  istaskOpertion = false;
 
 
   constructor(public api: ApiService,
@@ -101,7 +102,8 @@ export class FoUserRoleComponent implements OnInit {
       return {
         name: key,
         groups: firstGroup[key],
-        isSelected: false
+        isSelected: false,
+        isOp: false,
       }
     });
 
@@ -112,6 +114,10 @@ export class FoUserRoleComponent implements OnInit {
         let isAllSelected = true;
         let pages = pageGroup[key].map(page => {
           page.isSelected = page.userid ? true : false;
+          page.isadd = page.isadd ? true : false;
+          page.isedit = page.isedit ? true : false;
+          page.isdeleted = page.isdeleted ? true : false;
+          page.isOp = false;
           if (isAllSelected)
             isAllSelected = page.isSelected;
           return page;
@@ -152,6 +158,20 @@ export class FoUserRoleComponent implements OnInit {
         group.pages.map(page => page.isSelected = details.isSelected);
       });
     }
+    if (!details.isSelected && type == 'page') {
+      details.isSelected = details.isSelected;
+      details.isadd = false;
+      details.isedit = false;
+      details.isdeleted = false;
+      details.isOp = true;
+    }
+  }
+
+  changePagePermission(details, type, event) {
+    this.istaskOpertion = true;
+    if (this.istaskOpertion) {
+      return details.isOp = true;
+    }
   }
 
 
@@ -183,10 +203,10 @@ export class FoUserRoleComponent implements OnInit {
       module.groups.map(group => {
         group.pages.map(page => {
           if (page.isSelected) {
-            data.push({ id: page.id, status: 1 });
+            data.push({ id: page.id, status: 1, isadd: page.isadd, isedit: page.isedit, isdeleted: page.isdeleted, isOp: page.isOp });
           }
           else {
-            data.push({ id: page.id, status: 0 });
+            data.push({ id: page.id, status: 0, isadd: false, isedit: false, isdeleted: false, isOp: page.isOp });
           }
         })
       })

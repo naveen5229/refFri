@@ -18,11 +18,12 @@ export class LoginComponent implements OnInit {
 
   listenOTP = false;
   otpCount = 0;
-  button = 'Send OTP';
+  button = 'Send';
   formSubmit = false;
   qrCode = null;
   elementType: 'url' | 'canvas' | 'img' = 'url';
   interval = null;
+  loginType = 1;
 
   constructor(public router: Router,
     private route: ActivatedRoute,
@@ -43,7 +44,7 @@ export class LoginComponent implements OnInit {
         return;
       } else {
         this.user._loggedInBy = 'customer';
-        this.button = 'Send OTP';
+        this.button = 'Send';
       }
       console.log("Login By", this.user._loggedInBy);
     });
@@ -81,13 +82,11 @@ export class LoginComponent implements OnInit {
 
 
   sendOTP() {
-    if (this.user._loggedInBy == "admin") {
+    this.qrCode = Math.floor(Math.random() * 1000000);
+    if (this.qrCode.length != 6) {
       this.qrCode = Math.floor(Math.random() * 1000000);
-      if (this.qrCode.length != 6) {
-        this.qrCode = Math.floor(Math.random() * 1000000);
-      }
-      this.qrCode = this.qrCode.toString();
     }
+    this.qrCode = this.qrCode.toString();
     const params = {
       type: "login",
       mobileno: this.userDetails.mobile,
@@ -99,9 +98,12 @@ export class LoginComponent implements OnInit {
         this.common.loading--;
         console.log(res);
         if (res['success']) {
+          this.loginType = res['data'].loginType;
+          console.log("loginType", this.loginType);
+
           this.listenOTP = true;
           this.otpCount = 120;
-          if (this.user._loggedInBy == "admin") {
+          if (this.loginType === 2) {
             this.qrCodeRegenrate();
           }
           this.otpResendActive();
@@ -138,7 +140,7 @@ export class LoginComponent implements OnInit {
       type: "verifyotp",
       mobileno: this.userDetails.mobile,
       otp: this.userDetails.otp,
-      qrcode: this.qrCode,
+      qrcode: this.loginType === 1 ? null : this.qrCode,
       device_token: null
     };
     console.log('Login Params:', params);
@@ -216,6 +218,7 @@ export class LoginComponent implements OnInit {
     this.otpCount = 0;
     this.qrCode = null;
     this.formSubmit = false;
+    this.loginType = 1;
     clearInterval(this.interval);
   }
 

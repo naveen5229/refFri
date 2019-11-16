@@ -25,7 +25,7 @@
           <button class="btn btn-primary " (click)="getUserViews(null)">Get Unassign Type</button>
         </div>
         <div class="col-2 text-right">
-          <button class="btn btn-primary mr-3" (click)="addAndEdit('Add',null)">Add</button>
+          <button class="btn btn-primary mr-3" *ngIf="user.permission.add" (click)="addAndEdit('Add',null)">Add</button>
           <!-- <button class="btn btn-primary ml-3" (click)="assign('add',null)">Assign</button> -->
         </div>
       </div>
