@@ -19,6 +19,7 @@
           <th>Ledger</th>
           <th>Amount(Debit)</th>
           <th>Amount(Credit)</th>
+          <th *ngIf="accountService.selected.branch.id ==0">Branch</th>
         </tr>
       </thead>
       <tr *ngFor="let dataItem of ledgerData; let i = index;" (click)="selectedRow = i"
@@ -34,6 +35,7 @@
         <td *ngIf="dataItem.y_dramunt == 0"></td>
         <td *ngIf="dataItem.y_cramunt != 0">{{dataItem.y_cramunt}}</td>
         <td *ngIf="dataItem.y_cramunt ==0"></td>
+        <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
       </tr>
     </table>
   </nb-card-body>

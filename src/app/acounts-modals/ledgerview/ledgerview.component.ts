@@ -13,6 +13,7 @@ import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-rec
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
+import { AccountService } from '../../services/account.service';
 
 
 @Component({
@@ -67,6 +68,7 @@ export class LedgerviewComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     public api: ApiService,
     public common: CommonService,
+    public accountService: AccountService,
     public user: UserService,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
