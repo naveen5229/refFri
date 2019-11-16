@@ -124,14 +124,6 @@ export class UserTemplatesComponent implements OnInit {
 
   actionIcons(view) {
     let icons = [
-      // {
-      //   class: "far fa-eye devtemp",
-      //   action: this.templateDevView.bind(this, 'Template Development View', view)
-      // },
-      {
-        class: "far fa-edit",
-        action: this.addAndEdit.bind(this, 'Edit', view)
-      },
       {
         class: "far fa-eye",
         action: this.templatePreview.bind(this, 'Preview', view)
@@ -141,14 +133,9 @@ export class UserTemplatesComponent implements OnInit {
         action: this.assign.bind(this, 'Edit', view)
       },
     ];
-    if (this.user._details._id == 57) {
-      icons.push(
-        {
-          class: "fas fa-trash-alt",
-          action: this.deleteUserTemplate.bind(this, view)
-        },
-      )
-    }
+    this.user.permission.edit && icons.push({ class: "far fa-edit", action: this.addAndEdit.bind(this, 'Edit', view) });
+    this.user.permission.delete && icons.push({ class: 'fas fa-trash-alt', action: this.deleteUserTemplate.bind(this, view) });
+
     return icons;
   }
 

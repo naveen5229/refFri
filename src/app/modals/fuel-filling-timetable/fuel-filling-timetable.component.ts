@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
 import * as _ from 'lodash';
 import { DateService } from '../../services/date/date.service';
+import { GeometryService } from '../../services/geometry/geometry.service';
 
 @Component({
   selector: 'fuel-filling-timetable',
@@ -43,6 +44,7 @@ export class FuelFillingTimetableComponent implements OnInit {
     public datePipe: DateService,
     public api: ApiService,
     private activeModal: NgbActiveModal,
+    public geometry: GeometryService,
     public mapService: MapService) {
     this.common.handleModalSize('class', 'modal-lg', '1344', 'px', 1);
     if (this.common.params && this.common.params.fuelTimeTable) {
@@ -220,9 +222,9 @@ export class FuelFillingTimetableComponent implements OnInit {
     if (point) {
       console.log("point", point);
       console.log("polyLine", this.polyLineXY);
-      resultData = this.mapService.getClosestPointOnLines(point, this.polyLineXY);
+      resultData = this.geometry.getClosestPointOnLines(point, this.polyLineXY);
       marker.lat = resultData.x, marker.long = resultData.y, marker.ratio = resultData.fTo;
-      console.log("closed point", this.mapService.getClosestPointOnLines(point, this.polyLineXY));
+      console.log("closed point", this.geometry.getClosestPointOnLines(point, this.polyLineXY));
       this.createMarkers(marker.lat, marker.long);
       this.getFuelStation(marker.lat, marker.long);
       t1 = new Date(resultData.pointTime).getTime();

@@ -17,7 +17,7 @@ const COLLECTION = {
   vehicleMaintenance: MAINTENANCE_MENU_ITEMS,
   wareHouse: WAREHOUSE_MENU_ITEMS,
   account: ACCOUNTS_MENU_ITEMS,
-  challan:CHALLAN_MENU_ITEMS
+  challan: CHALLAN_MENU_ITEMS
 };
 
 @Injectable({
@@ -42,9 +42,14 @@ export class UserService {
     vehicleMaintenance: [],
     wareHouse: [],
     account: [],
-    challan:[],
+    challan: [],
   };
 
+  permission = {
+    add: false,
+    edit: false,
+    delete: false,
+  };
 
 
   constructor(public dataService: DataService) {
@@ -56,8 +61,6 @@ export class UserService {
 
     if (!this._pages)
       this._pages = JSON.parse(localStorage.getItem("DOST_USER_PAGES"));
-
-
   }
 
   filterMenu(type?, collection?) {
@@ -86,7 +89,6 @@ export class UserService {
         } else if (!menuItem.children.length) return false;
         return true;
       });
-
   }
 
 }
