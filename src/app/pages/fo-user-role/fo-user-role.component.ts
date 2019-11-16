@@ -113,6 +113,10 @@ export class FoUserRoleComponent implements OnInit {
         let isAllSelected = true;
         let pages = pageGroup[key].map(page => {
           page.isSelected = page.userid ? true : false;
+          page.isadd = page.isadd ? true : false;
+          page.isedit = page.isedit ? true : false;
+          page.isdeleted = page.isdeleted ? true : false;
+          page.isOp = false;
           if (isAllSelected)
             isAllSelected = page.isSelected;
           return page;
