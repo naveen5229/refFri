@@ -13,9 +13,8 @@ import { RoutesTrafficKpisComponent } from '../../modals/routes-traffic-kpis/rou
 import { StrictMappingComponent } from '../../modals/strict-mapping/strict-mapping.component';
 import { VehiclePriSecRoutemappingComponent } from '../../modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 import { RouteTimeTableComponent } from '../../modals/route-time-table/route-time-table.component';
-import { RouteTimeTableDetailsComponent } from '../../modals/route-time-table-details/route-time-table-details.component';
-import { RoutesTimetableComponent } from '../../modals/routes-timetable/routes-timetable.component';
 import { Route } from '@angular/router';
+import { RouteGuard } from '../../guards/route.guard';
 @Component({
   selector: 'via-routes',
   templateUrl: './via-routes.component.html',
@@ -37,7 +36,6 @@ export class ViaRoutesComponent implements OnInit {
   };
   headings = [];
   valobj = {};
-
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -48,6 +46,7 @@ export class ViaRoutesComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
   refresh() {
     this.table = {
@@ -152,17 +151,8 @@ export class ViaRoutesComponent implements OnInit {
 
   actionIcons(route) {
     let icons = [];
-    icons.push(
-      {
-        class: "fas fa-edit mr-3",
-        action: this.editRoute.bind(this, route),
-      },
-      {
-        class: "fa fa-window-close",
-        action: this.remove.bind(this, route),
-      },
-      
-    )
+    this.user.permission.edit && icons.push({ class: "fas fa-edit mr-3", action: this.editRoute.bind(this, route) });
+    this.user.permission.delete && icons.push({ class: "fa fa-window-close", action: this.remove.bind(this, route) });
     return icons;
   }
 
@@ -236,25 +226,25 @@ export class ViaRoutesComponent implements OnInit {
     this.common.params = { routeData };
     const activeModal = this.modalService.open(RouteTimeTableComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
-  editRoute(route){
-    let editRoute={
-      id:route._id,
-      routeName:route.name,
-      routeType:route._route_type,
-      kms:route.kms
+  editRoute(route) {
+    let editRoute = {
+      id: route._id,
+      routeName: route.name,
+      routeType: route._route_type,
+      kms: route.kms
     }
-    console.log(".....",route);
-    
-    this.common.params={editRoute};
-const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-activeModal.result.then(data => {
-  if(data.response){
-    this.viewTable();
-  }
-});
+    console.log(".....", route);
+
+    this.common.params = { editRoute };
+    const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.viewTable();
+      }
+    });
 
   }
- 
+
 
 
 }

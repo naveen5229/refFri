@@ -17,6 +17,7 @@ import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
+import { AccountService } from '../../services/account.service';
 @Component({
   selector: 'daybooks',
   templateUrl: './daybooks.component.html',
@@ -71,8 +72,11 @@ export class DaybooksComponent implements OnInit {
     private route: ActivatedRoute,
     public user: UserService,
     public modalService: NgbModal,
+    public accountService: AccountService,
     public router: Router) {
     this.common.refresh = this.refresh.bind(this);
+
+
     this.getVoucherTypeList();
     //  this.getBranchList();
     this.getAllLedger();
@@ -97,6 +101,7 @@ export class DaybooksComponent implements OnInit {
     this.getBranchList();
     this.getAllLedger();
     this.setFoucus('vouchertype');
+    this.getDayBook();
   }
 
   ngAfterViewInit() {

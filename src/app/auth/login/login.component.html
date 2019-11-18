@@ -35,7 +35,7 @@
   </div>
 
 
-  <div *ngIf="listenOTP && user._loggedInBy=='customer';">
+  <div *ngIf="listenOTP && loginType===1">
     <form #otpForm="ngForm" (submit)="otpForm.valid && login()">
       <div class="form-group">
         <input [(ngModel)]="userDetails.otp" #otp="ngModel" name="otp" id="input-otp" placeholder="OTP number"
@@ -53,7 +53,7 @@
       </button>
     </form>
   </div>
-  <div *ngIf="listenOTP && user._loggedInBy=='admin' && qrCode">
+  <div *ngIf="listenOTP && loginType===2 && qrCode">
     <div class="qrClass">
       <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="qrCode" qrc-class="qr-class"
         qrc-errorCorrectionLevel="M">
