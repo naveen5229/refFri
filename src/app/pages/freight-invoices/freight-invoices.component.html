@@ -17,9 +17,9 @@
         <button type="submit" class="btn btn-primary m-0" (click)="viewFreightInvoice()">Search</button>
       </div>
       <div class="col-md-2">
-        <button class="btn btn-primary m-0" (click)="invoice('Add',null)">Add</button>
+        <button class="btn btn-primary m-0" *ngIf="user.permission.add" (click)="invoice('Add',null)">Add</button>
       </div>
-    
+
 
     </div>
     <div>

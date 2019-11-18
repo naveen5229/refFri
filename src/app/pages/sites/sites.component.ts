@@ -265,7 +265,7 @@ export class SitesComponent implements OnInit {
         name: { value: res.name, action: this.showdata.bind(this, res) },
         loc_name: { value: res.loc_name, action: this.showdata.bind(this, res) },
         Type: { value: res.Type, action: this.showdata.bind(this, res) },
-        Delete: { value: '<i class="fa fa-trash text-danger"></i>', isHTML: true, action: this.deleteRecord.bind(this, res), class: 'icon text-center del' },
+        Delete: this.user.permission.delete && { value: '<i class="fa fa-trash text-danger"></i>', isHTML: true, action: this.deleteRecord.bind(this, res), class: 'icon text-center del' },
         rowActions: {
           click: 'selectRow'
         }

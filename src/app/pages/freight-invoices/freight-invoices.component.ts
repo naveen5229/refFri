@@ -137,22 +137,14 @@ export class FreightInvoicesComponent implements OnInit {
 
   actionIcon(row) {
     let actionIcons = [];
-    if(!row._islocked){
-    actionIcons.push(
-      {
+    if (!row._islocked) {
+      actionIcons.push({
         class: "far fa-eye",
         action: this.lrAssign.bind(this, row),
-      },
-      {
-        class: "far fa-edit",
-        action: this.invoice.bind(this, 'Edit', row),
-      },
-
-      {
-        class: "fas fa-trash-alt",
-        action: this.deleteRow.bind(this, row),
-      }
-    );}
+      });
+      this.user.permission.edit && actionIcons.push({ class: "far fa-edit", action: this.invoice.bind(this, 'Edit', row) });
+      this.user.permission.delete && actionIcons.push({ class: "fas fa-trash-alt", action: this.deleteRow.bind(this, row) });
+    }
     if (row._lrcount > 0) {
       actionIcons.push({
         class: "fas fa-print",
@@ -243,12 +235,12 @@ export class FreightInvoicesComponent implements OnInit {
 
 
   invoice(title, row, type?) {
-   let invoiceDetail={
-      id:row?row._id:false,
-      type:type?type:1,
-      title:title
+    let invoiceDetail = {
+      id: row ? row._id : false,
+      type: type ? type : 1,
+      title: title
     }
-    this.common.params={invoiceDetail:invoiceDetail};
+    this.common.params = { invoiceDetail: invoiceDetail };
     const activeModal = this.modalService.open(FreightInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
@@ -328,7 +320,7 @@ export class FreightInvoicesComponent implements OnInit {
     });
   }
 
-  
-  }
+
+}
 
 
