@@ -8,11 +8,19 @@
 </div>
 
 <div class="modal-body">
-  <div class="status">
-    <span><b><i class="fa fa-truck"></i>:</b> {{regno}}</span> &nbsp;&nbsp;
-    <span><b><i class="fa fa-address-card"></i> :</b> {{vehicleId}}</span> &nbsp;&nbsp;
-    <span><b><i class="far fa-clock">{{time}}</i></b></span>
-    <span><button class="btn btn-primary" (click)="saveTime()">Submit</button></span>
+  <div class="row status">
+    <div class="col-8">
+      <span><b><i class="fa fa-truck"></i>:</b> {{regno}}</span> &nbsp;&nbsp;
+      <span><b><i class="fa fa-address-card"></i> :</b> {{vehicleId}}</span> &nbsp;&nbsp;
+      <span><b><i class="far fa-clock">{{showTime}}</i></b></span>
+      <span><button class="btn btn-primary" (click)="saveTime()">Submit</button></span>
+    </div>
+    <div class="col-4">
+      <span>
+        <input type="text" (keydown.enter)="loadLatLong()" placeholder="Move to.." id="moveLoc" [(ngModel)]="moveLoc"
+          class="form-control">
+      </span>
+    </div>
   </div>
 
   <div class="row">
