@@ -6,6 +6,7 @@ import { DateService } from '../../services/date.service';
 import { DatePipe } from '@angular/common';
 import { style } from '@angular/animations';
 import { UserService } from '../../services/user.service';
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
 
 
@@ -39,7 +40,7 @@ export class ConsolidateFuelAverageComponent implements OnInit {
     private modalService: NgbModal,
     public activeModal: NgbActiveModal,
     public dateService: DateService,
-    public user:UserService,
+    public user: UserService,
     private datePipe: DatePipe
   ) {
     let today = new Date();
@@ -136,7 +137,7 @@ export class ConsolidateFuelAverageComponent implements OnInit {
       let valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
         let val = this.consolFuelAvg[i][this.headings[j]];
-        valobj[this.headings[j]] = { value: val, class: probableVal ? 'lightcoral' : 'black', action: '' };
+        valobj[this.headings[j]] = { value: val, class: probableVal ? 'lightcoral' : 'black', action: this.vehicleFuelHistory.bind(this, this.consolFuelAvg[i]) };
       }
       columns.push(valobj);
     }
@@ -144,7 +145,7 @@ export class ConsolidateFuelAverageComponent implements OnInit {
 
   }
 
-  
+
   printPDF(tblEltId) {
     this.common.loading++;
     let userid = this.user._customer.id;
@@ -156,7 +157,7 @@ export class ConsolidateFuelAverageComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Trip Profit And Loss";
-        let time = "Start Date:"+this.datePipe.transform(this.startTime, 'dd-MM-yyyy h:mm:ss a')+"  End Date:"+this.datePipe.transform(this.endTime, 'dd-MM-yyyy h:mm:ss a');
+        let time = "Start Date:" + this.datePipe.transform(this.startTime, 'dd-MM-yyyy h:mm:ss a') + "  End Date:" + this.datePipe.transform(this.endTime, 'dd-MM-yyyy h:mm:ss a');
         this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], time);
       }, err => {
         this.common.loading--;
@@ -175,16 +176,35 @@ export class ConsolidateFuelAverageComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = "FoName:" + fodata['name'];
         let center_heading = "Report:" + "Trip Profit And Loss";
-        let time = "Start Date:"+this.datePipe.transform(this.startTime, 'dd-MM-yyyy h:mm:ss a')+"  End Date:"+this.datePipe.transform(this.endTime, 'dd-MM-yyyy h:mm:ss a');
+        let time = "Start Date:" + this.datePipe.transform(this.startTime, 'dd-MM-yyyy h:mm:ss a') + "  End Date:" + this.datePipe.transform(this.endTime, 'dd-MM-yyyy h:mm:ss a');
         this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, null, time);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
 
-
   }
 
-
+  vehicleFuelHistory(row) {
+    console.log("row", row);
+    let dataparams = {
+      view: {
+        api: 'Fuel/getFuelAvgLogsWrtVeh',
+        param: {
+          vehicleId: row._vehicle_id,
+          startTime: row.start_time,
+          endTime: row.end_time
+        }
+      },
+      delete: {
+        // api: 'Drivers/deleteAdvice',
+        // param: { id: "_id" }
+      },
+      title: "Fuel History"
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.params = { data: dataparams };
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
 
 }
