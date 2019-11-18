@@ -200,7 +200,7 @@ export class ConsolidateFuelAverageComponent implements OnInit {
         // api: 'Drivers/deleteAdvice',
         // param: { id: "_id" }
       },
-      title: "Fuel History"
+      title: "Fuel Average Logs History"
     }
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
