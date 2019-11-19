@@ -130,7 +130,6 @@ export class TransfersComponent implements OnInit {
 
 
   actionIcons(doc) {
-
     let icons = [
       {
         class: "fas fa-gas-pump",
@@ -142,6 +141,7 @@ export class TransfersComponent implements OnInit {
 
     return icons;
   }
+
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }

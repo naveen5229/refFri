@@ -5,6 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { ReminderComponent } from '../../modals/reminder/reminder.component';
 import { AddFuelIndentComponent } from '../../modals/add-fuel-indent/add-fuel-indent.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'fuel-indent',
@@ -49,6 +50,7 @@ export class FuelIndentComponent implements OnInit {
   apiUrl = "Fuel/getPendingFuelIndentWrtFo?";
   constructor(public api: ApiService,
     private modalService: NgbModal,
+    public user: UserService,
     public common: CommonService) {
     this.getFuelIndent();
     this.common.refresh = this.refresh.bind(this);
@@ -119,11 +121,7 @@ export class FuelIndentComponent implements OnInit {
         // console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
           console.log("Test");
-          this.valobj[this.headings[i]] = {
-            value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.editFuelIndent.bind(this, doc) },
-            { class: 'fa fa-trash', action: this.deleteFuelIndent.bind(this, doc) },
-            { class: "fa fa-print", action: this.printReceipt.bind(this, doc) }]
-          };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: this.actionIcons(doc) };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -131,6 +129,16 @@ export class FuelIndentComponent implements OnInit {
       columns.push(this.valobj);
     });
     return columns;
+  }
+
+  actionIcons(fuel) {
+    let icons = [
+      { class: "fa fa-print", action: this.printReceipt.bind(this, fuel) }
+    ];
+    this.user.permission.edit && icons.push({ class: 'fa fa-edit', action: this.editFuelIndent.bind(this, fuel) });
+    this.user.permission.delete && icons.push({ class: 'fa fa-trash', action: this.deleteFuelIndent.bind(this, fuel) });
+
+    return icons;
   }
 
   formatTitle(title) {
