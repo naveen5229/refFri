@@ -13,7 +13,8 @@
                 </span>
             </div>
             <div class="col-4 text-right">
-                <button type="button" class="btn btn-primary" (click)="addInventory()">Add Inventory</button>
+                <button type="button" class="btn btn-primary" *ngIf="user.permission.add" (click)="addInventory()">Add
+                    Inventory</button>
             </div>
         </div>
 
