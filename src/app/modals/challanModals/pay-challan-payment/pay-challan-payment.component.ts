@@ -85,6 +85,12 @@ export class PayChallanPaymentComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log(res['data']);
+        if (res['success'] === true) {
+          this.common.showToast(res['msg']);
+          this.activeModal.close({ response: true });
+        } else {
+          this.common.showError(res['msg']);
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -92,7 +98,7 @@ export class PayChallanPaymentComponent implements OnInit {
   }
 
   closeModal() {
-    this.activeModal.close();
+    this.activeModal.close({ response: false });
   }
 
 }
