@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PayChallanPaymentComponent } from '../../modals/challanModals/pay-challan-payment/pay-challan-payment.component';
+import { PdfViewerComponent } from '../../generic/pdf-viewer/pdf-viewer.component';
 
 @Component({
   selector: 'challan-payment-request',
@@ -87,7 +88,12 @@ export class ChallanPaymentRequestComponent implements OnInit {
       let column = {};
       for (let key in this.generateHeadings(chHeadings)) {
         if (key == "Action") {
-          column[key] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.acRemainingBalance.bind(this, item) }] }
+          column[key] = {
+            value: "", action: null, icons: [
+              { class: 'fas fa-edit mr-3', action: this.acRemainingBalance.bind(this, item) },
+              { class: item._ch_doc_id ? 'far fa-file-alt' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) },
+            ]
+          }
         } else {
           column[key] = { value: item[key], class: 'black', action: '' };
         }
@@ -95,6 +101,29 @@ export class ChallanPaymentRequestComponent implements OnInit {
       columns.push(column);
     });
     return columns;
+  }
+
+  paymentDocImage(paymentId) {
+    let pdfUrl = '';
+    if (paymentId) {
+
+      let params = "docId=" + paymentId;
+      this.common.loading++;
+      this.api.get('Documents/getRepositoryImages?' + params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log(res['data']);
+          if (res['data']) {
+            pdfUrl = res['data'][0]['url'];
+            this.common.params = { pdfUrl: pdfUrl, title: "Challan" };
+            console.log("params", this.common.params);
+            this.modalService.open(PdfViewerComponent, { size: "lg", container: "nb-layout" });
+          }
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
   }
 
   acRemainingBalance(challanDetails) {
