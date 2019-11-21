@@ -14,7 +14,8 @@
                                     <label>From Date :</label>
                                 </div>
                                 <div class="col-8 pl-0">
-                                    <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate" [isTime]="false">
+                                    <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"
+                                        [isTime]="false">
                                     </uj-date-time-picker>
                                 </div>
                             </div>
@@ -25,16 +26,18 @@
                                     <label>To Date :</label>
                                 </div>
                                 <div class="col-9">
-                                    <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate" [isTime]="false" [isStart]="false">
+                                    <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate"
+                                        [isTime]="false" [isStart]="false">
                                     </uj-date-time-picker>
                                 </div>
                             </div>
                         </div>
                         <div class="col-3">
-                            <select [(ngModel)]="challanStatus" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px; ">
+                            <select [(ngModel)]="challanStatus" class="form-control"
+                                style=" border: 2px solid darkcyan; font-size: 13px; ">
                                 <option value="-1">All</option>
                                 <option value="0">Pending</option>
-                              </select>
+                            </select>
                         </div>
                         <div class="col-2">
                             <button type="button" class="btn btn-primary" (click)="getPendingChallans()">submit</button>
@@ -44,25 +47,24 @@
             </div>
         </div>
         <div class="row" *ngIf="this.challan && this.challan.length">
-            <div class="col-2">
 
-            </div>
-            <div class="col-2 mr-1">
-                <div class="solid">Total Challan<br>{{pendingChallan+paidChallan}}</div>
-            </div>
-
-            <div class="col-2 mr-1">
-                <div class="solid">Pending challan<br>{{pendingChallan }}</div>
+            <div class="col-3">
+                <div class="solid">
+                    <span> Total Challan :
+                        {{pendingChallan+paidChallan}} </span></div>
             </div>
 
-            <div class="col-2 mr-1">
-                <div class="solid">Paid challan<br>{{paidChallan}}</div>
+            <div class="col-3">
+                <div class="solid">
+                    <span> Pending Challan :
+                        {{pendingChallan }} </span> </div>
             </div>
-            <div class="col-2">
-
+            <div class="col-4">
+                <div class="solid">
+                    <span> Paid Challan :
+                        {{paidChallan}} </span>
+                </div>
             </div>
-
-
 
             <!-- <div *ngIf="this.challan && this.challan.length" style="margin-left: 340px;">
                 <table frame="box" style="width:100%">
@@ -84,7 +86,8 @@
             </div> -->
         </div>
         <div class='mt-1'>
-            <smart-table *ngIf="challan && challan.length" [data]="table.data" [settings]="table.settings" id="pendingChallan">
+            <smart-table *ngIf="challan && challan.length" [data]="table.data" [settings]="table.settings"
+                id="pendingChallan">
             </smart-table>
         </div>
     </nb-card-body>

@@ -308,7 +308,6 @@ export class MapService {
       this.markers.push(marker);
       thisMarkers.push(marker);
 
-      console.log("thisMarkers", thisMarkers.length);
       //  marker.addListener('mouseover', this.infoWindow.bind(this, marker, show ));
 
       //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
@@ -326,15 +325,15 @@ export class MapService {
       this.cluster = new MarkerClusterer(this.map,
         markers.filter(marker => (marker && marker.position && marker.position.lat() && marker.position.lng())),
         { gridSize: 40, maxZoom: 16, zoomOnClick: false, minimumClusterSize: 2, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-        let infoWindow = this.createInfoWindow();
-        infoWindows.push(infoWindow);
-        infoWindow.opened = false;
-        google.maps.event.addListener(this.cluster, 'clusterclick', (cluster) => {
-          let infoStr = '';
-          cluster.markers_.map(mrk=>{
-            infoStr +=  mrk.title+', '
-          })
-          console.log("infoStr",infoStr);
+      let infoWindow = this.createInfoWindow();
+      infoWindows.push(infoWindow);
+      infoWindow.opened = false;
+      google.maps.event.addListener(this.cluster, 'clusterclick', (cluster) => {
+        let infoStr = '';
+        cluster.markers_.map(mrk => {
+          infoStr += mrk.title + ', '
+        })
+        console.log("infoStr", infoStr);
         this.infoStart = new Date().getTime();
         for (let infoIndex = 0; infoIndex < infoWindows.length; infoIndex++) {
           const element = infoWindows[infoIndex];
