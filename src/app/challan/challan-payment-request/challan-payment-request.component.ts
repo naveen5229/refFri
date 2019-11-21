@@ -161,7 +161,7 @@ export class ChallanPaymentRequestComponent implements OnInit {
     const activeModal = this.modalService.open(PayChallanPaymentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        // this.getPendingChallans();
+        this.getChallanPaymentRequest();
       }
     });
 
