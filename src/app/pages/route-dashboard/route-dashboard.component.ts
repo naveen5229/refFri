@@ -35,10 +35,10 @@ export class RouteDashboardComponent implements OnInit {
       key: "show_name"
     },
     {
-      name : "Onward Status",
+      name: "Onward Status",
       key: "onward_status"
     }
-   
+
   ];
   isGraphView = false;
   viewType = 'route_status';
@@ -87,7 +87,11 @@ export class RouteDashboardComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("api data", res);
-        if (!res['data']) return;
+        if (!res['data']) {
+          this.routeData = [];
+          this.routesData = [];
+          return
+        };
         this.routeData = res['data'];
         this.grouping('route_status');
         this.routeData.length ? this.table = this.setTable() : this.resetTable();
@@ -143,7 +147,7 @@ export class RouteDashboardComponent implements OnInit {
     }
   }
 
-  handleView(){
+  handleView() {
     this.isGraphView = !this.isGraphView;
   }
 
@@ -153,8 +157,8 @@ export class RouteDashboardComponent implements OnInit {
       let column = {
         regno: { value: route.v_regno ? route.v_regno : '-', },
         lastSeenTime: { value: route.v_time ? this.common.changeDateformat2(route.v_time) : '-', action: this.viewlocation.bind(this, route) },
-       // routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
-        routeName: route.name ? this.getRouteAconym(route.name):'-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
+        // routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
+        routeName: route.name ? this.getRouteAconym(route.name) : '-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
         startLocation: { value: route.f_name ? route.f_name : '-', action: this.viewlocation.bind(this, route) },
         startTime: { value: route.f_end_time ? this.common.changeDateformat2(route.f_end_time) : '-', action: this.viewlocation.bind(this, route) },
         endLocation: { value: route.l_name ? route.l_name : '-', action: this.viewlocation.bind(this, route) },
@@ -265,32 +269,32 @@ export class RouteDashboardComponent implements OnInit {
     });
   }
 
-  getRouteAconym(route){
-    let sortend =  route.substring(0, 20);
+  getRouteAconym(route) {
+    let sortend = route.substring(0, 20);
     // route = route.replace(/\s/g,'');
-    route = "\'"+route+"\'";
-    let acy ={ value: route ? '<acronym title='+route+'>'+sortend+'</acronym>' : '-', action: this.viewlocation.bind(this, route), isHTML : true };
-    console.log("route=",route);
+    route = "\'" + route + "\'";
+    let acy = { value: route ? '<acronym title=' + route + '>' + sortend + '</acronym>' : '-', action: this.viewlocation.bind(this, route), isHTML: true };
+    console.log("route=", route);
 
     return acy;
-  
+
   }
 
 
-grouping(viewType) {
-console.log('viewType',viewType);
+  grouping(viewType) {
+    console.log('viewType', viewType);
     this.routeGroups = _.groupBy(this.routeData, viewType);
     this.routeGroupsKeys = Object.keys(this.routeGroups);
-    this.keyGroups = [];  
-      this.routeGroupsKeys.map(key => {
-        const hue = Math.floor(Math.random() * 359 + 1);
-        this.keyGroups.push({
-          name: key,
-          bgColor: `hsl(${hue}, 100%, 75%)`,
-          textColor: `hsl(${hue}, 100%, 25%)`
-        });
+    this.keyGroups = [];
+    this.routeGroupsKeys.map(key => {
+      const hue = Math.floor(Math.random() * 359 + 1);
+      this.keyGroups.push({
+        name: key,
+        bgColor: `hsl(${hue}, 100%, 75%)`,
+        textColor: `hsl(${hue}, 100%, 25%)`
       });
-    
+    });
+
     this.sortData(viewType);
   }
 
@@ -301,32 +305,32 @@ console.log('viewType',viewType);
   chartColors = [];
   textColor = [];
   selectedFilterKey = "";
-  
-  
+
+
   sortData(viewType) {
     let data = [];
     this.chartColors = [];
     let chartLabels = [];
     let chartData = [];
-       
-      this.keyGroups.map(group => {
-        console.log('group',group,'this.routeGroups',this.routeGroups,'group.name=',group.name,"this.routeGroups[group.name]=",this.routeGroups[group.name] );
-        data.push({ group: group, length:this.routeGroups[group.name] ?this.routeGroups[group.name].length :0 });
+
+    this.keyGroups.map(group => {
+      console.log('group', group, 'this.routeGroups', this.routeGroups, 'group.name=', group.name, "this.routeGroups[group.name]=", this.routeGroups[group.name]);
+      data.push({ group: group, length: this.routeGroups[group.name] ? this.routeGroups[group.name].length : 0 });
+    });
+
+    this.routeGroupsKeys = [];
+    _.sortBy(data, ["length"]).reverse()
+      .map(keyData => {
+        this.routeGroupsKeys.push(keyData.group);
       });
 
-      this.routeGroupsKeys = [];
-      _.sortBy(data, ["length"]).reverse()
-        .map(keyData => {
-          this.routeGroupsKeys.push(keyData.group);
-        });
+    this.routeGroupsKeys.map(keyGroup => {
+      console.log('keyGroup', keyGroup, "keyGroup.name", '"' + keyGroup.name + '"', 'this.routeGroups=', this.routeGroups, 'this.routeGroups[keyGroup.name]=', this.routeGroups[keyGroup.name]);
+      this.chartColors.push(keyGroup.bgColor);
+      chartLabels.push(keyGroup.name);
+      chartData.push(this.routeGroups[keyGroup.name].length);
+    });
 
-      this.routeGroupsKeys.map(keyGroup => {
-          console.log('keyGroup',keyGroup,"keyGroup.name",'"'+keyGroup.name+'"','this.routeGroups=',this.routeGroups,'this.routeGroups[keyGroup.name]=',this.routeGroups[keyGroup.name]);
-         this.chartColors.push(keyGroup.bgColor);
-         chartLabels.push(keyGroup.name);
-          chartData.push(this.routeGroups[keyGroup.name].length);
-      });
-    
 
     let chartInfo = this.common.pieChart(
       chartLabels,
@@ -338,7 +342,7 @@ console.log('viewType',viewType);
     this.selectedFilterKey && this.filterData(this.selectedFilterKey, viewType);
   }
 
-  
+
   filterData(filterKey, viewType?) {
     if (filterKey == "All") {
       this.routeData = this.routesData;
