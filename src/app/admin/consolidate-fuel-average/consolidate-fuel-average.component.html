@@ -16,17 +16,34 @@
     </nb-card-header>
     <nb-card-body>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime" [isTime]="true">
                 </uj-date-time-picker>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime" [isStart]="false" [isTime]="true"></uj-date-time-picker>
             </div>
-            <div class="col-sm-2">
-                <button class="btn btn-primary w-100 pt-1 pb-1" style="border-radius: 3px;" (click)="getConsolidateFuelAvg()">submit</button>
+            <div class="col-sm-2"  *ngIf="modals.length>0">
+                <select [(ngModel)]='selectedModal' (change)='mapChartDataAccordingModal()' class="form-control">
+                    <option *ngFor="let mod of modals" [value]='mod'>{{mod}}</option>
+                </select>
             </div>
+                    <div class="col-sm-2">
+                            <button class="btn btn-primary w-100 pt-1 pb-1" style="border-radius: 3px;" (click)="getConsolidateFuelAvg();getChartData()">submit</button>
+                    </div>
         </div>
+
+        <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
+
+            <div class="row" style="margin-top: 15px;">
+
+                <div class="col-sm-12" >
+                    <chart [type]="chartObject.type" [data]="chartObject.data" style="margin-right:5px;min-height: 200px;"
+            [options]="chartObject.options"></chart>
+                </div>
+
+            </div>
+
         <div style="margin-top: 15px">
             <smart-table *ngIf="consolFuelAvg.length" [data]="table.data" [settings]="table.settings" id="consolidateFuel"></smart-table>
             <div class="no-data alert alert-danger" role="alert" *ngIf="consolFuelAvg.length==0">

@@ -34,6 +34,8 @@ export class ConsolidateFuelAverageComponent implements OnInit {
     }
   };
 
+  selectedModal = null;
+  modals = [];
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -49,6 +51,7 @@ export class ConsolidateFuelAverageComponent implements OnInit {
     this.startTime = new Date(today.getFullYear(), today.getMonth(), 1);
     //this.startTime = new Date(today.setDate(today.getDate() - day + 1));
     this.getConsolidateFuelAvg();
+    this.getChartData();
     this.common.refresh = this.refresh.bind(this);
 
 
@@ -207,4 +210,135 @@ export class ConsolidateFuelAverageComponent implements OnInit {
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
+  chartObject = {
+    type: '',
+    data: {},
+    options: {},
+    elements: {},
+    lables: [],
+    yAxes: [],
+    ticks: {},
+    min: '',
+    max: '',
+    stepSize: ''
+
+  };
+  chartdata = [];
+  modalsData = [];
+  getChartData(modal?) {
+
+    if (this.startTime > this.endTime) {
+      this.common.showToast('start date should be less than end date');
+      return;
+    }
+    this.chartdata = [];
+    let startTime = this.common.dateFormatter(this.startTime);
+    let endTime = this.common.dateFormatter(this.endTime);
+    let params = "startTime=" + startTime +
+      "&endTime=" + endTime;
+
+    this.common.loading++;
+    this.api.get('Fuel/getVehicleAvgAge?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('getChartData', res['data']);
+        if (res['data']) {
+          this.modals = res['data'] && res['data']['keys'] ? res['data']['keys'] : [];
+          this.modalsData = res['data'] && res['data']['graphData'] ? res['data']['graphData'] : [];
+          this.modals.sort();
+          this.modals.reverse();
+          this.selectedModal = this.selectedModal ? this.selectedModal : this.modals[0];
+          this.mapChartDataAccordingModal();
+        }
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+
+  }
+
+  mapChartDataAccordingModal() {
+    console.log('mapChartDataAccordingModal', this.modals.length);
+    if (this.modals.length > 0) {
+      let labelsData = this.modalsData[this.selectedModal]['ages'];
+      console.log("labelsData", labelsData);
+      let minData = this.modalsData[this.selectedModal]['min_avgs'];
+      let maxData = this.modalsData[this.selectedModal]['max_avgs'];
+      let avgData = this.modalsData[this.selectedModal]['act_avgs'];
+      this.showChart(labelsData, minData, maxData, avgData);
+    }
+  }
+
+
+  showChart(labelsData, minData, maxData, avgData) {
+
+    this.chartObject.type = 'line';
+    this.chartObject.data = {
+      labels: labelsData,
+      datasets: [
+        {
+          label: "min",
+          lineTension: 0,
+          borderColor: "red",
+          borderWidth: 0,
+          data: minData,
+          fill: false,
+        },
+        {
+          label: "avg",
+          lineTension: 0,
+          borderColor: "blue",
+          borderWidth: 0,
+          data: avgData,
+          fill: false,
+        },
+        {
+          label: "max",
+          lineTension: 0,
+          borderColor: "green",
+          borderWidth: 0,
+          data: maxData,
+          fill: false,
+          line: false,
+        },
+      ],
+
+    };
+    this.chartObject.options = {
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+        displayColors: false,
+      },
+      title: {
+        display: true,
+        text: 'Fuel Mileage',
+        fontSize: 14,
+        fontColor: 'blue'
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+      // elements: this.element,
+      legend: {
+        display: false
+      },
+
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Fuel Mileage'
+          }
+        }],
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Vehicle Age (Years)'
+          }
+        }],
+      }
+
+    };
+  }
 }
