@@ -154,7 +154,7 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
           this.name = '';
           this.vehid = '';
           this.routesDetails = null;
-
+          this.getRoute();
           this.getVehicleRoute();
 
         }
@@ -226,7 +226,10 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
         if (this.headings[i] == 'Action') {
-          this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateRoute.bind(this, routeDoc._id, routeDoc._routeid, routeDoc.regno, routeDoc.AssocType, routeDoc.Name, routeDoc._vid) }, { class: "fas fa-trash-alt", action: this.deleteRoute.bind(this, routeDoc._id) }] }
+          this.valobj['Action'] = {
+            value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateRoute.bind(this, routeDoc) },
+            { class: "fas fa-trash-alt", action: this.deleteRoute.bind(this, routeDoc._id) }]
+          }
 
         }
         else {
@@ -242,22 +245,23 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
 
 
 
-  updateRoute(id, route, regno, assocType, name, vid) {
+  updateRoute(route) {
+    console.log("route", route);
 
-    if (assocType == "Secondary") {
-      assocType = 3
+
+    if (route.assocType == "Secondary") {
+      route.assocType = 3
     }
     else {
-      assocType = 2
+      route.assocType = 2
     }
 
-    console.log("assoc type:", assocType);
-    this.routeId = route;
-    this.assocType = assocType;
-    this.regno = regno;
-    this.name = name;
-    this.vehid = vid;
-    this.rowId = id;
+    this.routeId = route._routeid;
+    this.assocType = route.assocType;
+    this.regno = route.regno;
+    this.name = route.Name;
+    this.vehid = route._vid;
+    this.rowId = route._id;
     this.wefDate = route._wef_dt ? new Date(route._wef_dt) : null;
     this.expiryDate = route._exp_dt ? new Date(route._exp_dt) : null;
 
