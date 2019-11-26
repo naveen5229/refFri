@@ -208,7 +208,7 @@
                 <span class="exel-icon" title="CSV Export" (click)="exportCsv('print-section')"
                     style="cursor: pointer;"><i class="fas fa-file-excel"></i></span>
             </div>
-            <div class="" *ngIf="table" 00>
+            <div class="" *ngIf="table" [ngClass]="isMapView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">
                 <div>
                     <!-- ============================= SMART TABLE VIEW ============================= -->
                     <div mwlResizable [enableGhostResize]="true" class="map-table-container"

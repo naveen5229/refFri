@@ -193,7 +193,6 @@ export class ConciseComponent implements OnInit {
       res => {
         !isRefresh && this.common.loading--;
         if (res['code'] == 1) {
-          console.log("res[data]=",res["data"]);
           this.allKpis = res["data"];
           localStorage.setItem('KPI_DATA', JSON.stringify(this.allKpis));
           this.kpis = res["data"];
@@ -369,7 +368,6 @@ export class ConciseComponent implements OnInit {
         });
 
       this.kpiGroupsKeys.map(keyGroup => {
-        console.log("keyGroup",keyGroup,this.kpiGroups);
         this.chartColors.push(keyGroup.bgColor);
         chartLabels.push(keyGroup.name);
         chartData.push(this.kpiGroups[keyGroup.name].length);
