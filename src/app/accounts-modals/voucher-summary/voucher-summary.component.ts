@@ -1206,7 +1206,7 @@ export class VoucherSummaryComponent implements OnInit {
               this.totalTrip[indexSecond] = parseFloat(trip.amount);
             }
           }
-          return { txt: trip.amount || '' }
+          return { txt: trip.amount || '' , size: '15px', align: 'left' }
 
         })
 
