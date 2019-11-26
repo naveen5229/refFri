@@ -24,19 +24,20 @@ export class RoutesTimetableComponent implements OnInit {
       this.vehId = this.common.params.routeTime.vehicleId;
       this.routeId = this.common.params.routeTime.routeId;
       this.routeTTId = this.common.params.routeTime.routeTimeId;
-      this.routetrip = this.common.params.routeTime.routetrip;
+      this.routetrip = (this.common.params.routeTime.routetrip)?this.common.params.routeTime.routetrip:0;
     }
-if(this.routetrip==0){
-    this.getRoutes();
-}else{
-  this.getRoutesHistory();
-}
+  if(this.routetrip==0){
+      this.getRoutes();
+  }else{
+    this.getRoutesHistory();
+  }
   }
 
   ngOnInit() {
   }
 
   getRoutes() {
+    console.log('hello dear');
     let params = {
       vehicleId: this.vehId,
       routeId: this.routeId,
