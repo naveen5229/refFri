@@ -13,7 +13,7 @@ export class RoutesTimetableComponent implements OnInit {
   routeId = null;
   routeTTId = null;
   isLastStop = -1;
-
+  routetrip=0;
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal,
@@ -24,9 +24,13 @@ export class RoutesTimetableComponent implements OnInit {
       this.vehId = this.common.params.routeTime.vehicleId;
       this.routeId = this.common.params.routeTime.routeId;
       this.routeTTId = this.common.params.routeTime.routeTimeId;
+      this.routetrip = this.common.params.routeTime.routetrip;
     }
-
+if(this.routetrip==0){
     this.getRoutes();
+}else{
+  this.getRoutesHistory();
+}
   }
 
   ngOnInit() {
@@ -41,6 +45,23 @@ export class RoutesTimetableComponent implements OnInit {
 
     this.common.loading++;
     this.api.post('ViaRoutes/getVehicleTimeTable1', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('getRoutesWrtFo:', res);
+        this.routesDetails = res['data'];
+        this.statusFinder();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+  getRoutesHistory() {
+    let params = {
+      routeId: this.routeId
+    }
+
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/getVehicleTimeTable', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('getRoutesWrtFo:', res);
