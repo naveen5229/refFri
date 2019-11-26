@@ -1,6 +1,10 @@
 <nb-card>
   <nb-card-header>
-    User Role
+    <div class="row">
+      <div class="col-8">
+        User Role
+      </div>
+    </div>
   </nb-card-header>
 
   <nb-card-body style="min-height: 580px;">
@@ -18,12 +22,12 @@
         <input type="text" class="form-control" id="title" name="title" [(ngModel)]="newPage.title">
       </div>
 
-      <div class="col-2">
+      <div class="col-3">
         <label>Url</label>
         <input type="text" class="form-control" id="url" name="url" [(ngModel)]="newPage.url">
       </div>
 
-      <div class="col-1-5">
+      <div class="col-2">
         <label>Type</label>
         <select [(ngModel)]="newPage.type" class="form-control">
           <option value="Dashboard">Dashboard</option>
@@ -39,18 +43,34 @@
           <option value="-1">Both</option>
         </select>
       </div>
+    </div>
 
-      <div class="col-1 mt-4">
+    <div class="row" style="float: right;">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-12">
+            <input type="checkbox" name="addPermission" id="addPermission" [(ngModel)]="newPage.add" [value]="1"
+              (change)="changePermissionType('add',$event)">
+            <label>Add</label>
+            <input type="checkbox" name="editPermission" id="editPermission" [(ngModel)]="newPage.edit" [value]="1"
+              (change)="changePermissionType('edit',$event)">
+            <label>Edit</label>
+            <input type="checkbox" name="deletePermission" id="deletePermission" [(ngModel)]="newPage.delete"
+              [value]="1" (change)="changePermissionType('delete',$event)">
+            <label>Delete</label>
+          </div>
+        </div>
         <button type="submit" class="btn btn-primary m-0" name="add" (click)="createNewPage()">Add New Page</button>
       </div>
     </div>
-    <div class="row">
+
+    <div class="row mt-2">
       <div class="search mt-2">
         <label> Select Employee Name</label>
         <auto-suggestion (onSelected)="getUserPages($event)" [data]="getUsersList" display="employeename"
           placeholder="Employee" [preSelected]="null" inputId="employeename"></auto-suggestion>
       </div>
-      <div class="col text-right mt-4" *ngIf="selectedUser.details">
+      <div class="col text-left mt-4" *ngIf="selectedUser.details">
         <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
       </div>
     </div>
@@ -72,7 +92,26 @@
             <input type="checkbox" class=" page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected"
               (click)="checkOrUnCheckAll(page,'page')">
             {{page.title}}
+            <div class="row permission-type" [hidden]="!page.isSelected">
+              <div class="col-4" style="padding:0px!important;" [hidden]="!page.has_add">
+                <input type="checkbox" class="page-box-type" name="add" [(ngModel)]="page.isadd"
+                  (click)="changePagePermission(page,'isadd',$event)">
+                <label>A</label>
+              </div>
+              <div class="col-4" style="padding:0px!important;" [hidden]="!page.has_edit">
+                <input type="checkbox" class="page-box-type" name="edit" [(ngModel)]="page.isedit"
+                  (click)="changePagePermission(page,'isedit',$event)">
+                <label>E</label>
+              </div>
+              <div class="col-4" style="padding:0px!important;" [hidden]="!page.has_delete">
+                <input type="checkbox" class="page-box-type" name="delete" [(ngModel)]="page.isdeleted"
+                  (click)="changePagePermission(page,'isdeleted',$event)">
+                <label>D</label>
+              </div>
+            </div>
+
           </div>
+
         </div>
       </div>
 

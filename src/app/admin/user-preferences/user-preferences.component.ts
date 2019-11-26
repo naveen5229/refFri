@@ -21,8 +21,6 @@ export class UserPreferencesComponent implements OnInit {
   };
   formattedData = [];
   pageGroup = [];
-  pagesGroups = {};
-  pageGroupKeys = [];
   newPage = {
     module: null,
     group: null,
@@ -30,10 +28,12 @@ export class UserPreferencesComponent implements OnInit {
     url: null,
     type: 'Dashboard',
     addType: 1,
+    add: 0,
+    edit: 0,
+    delete: 0
   };
   getUsersList = [];
-
-
+  istaskOpertion = false;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -46,12 +46,17 @@ export class UserPreferencesComponent implements OnInit {
   }
 
 
-
-
   ngOnInit() {
   }
   ngDestroy() {
 
+  }
+
+  changePermissionType(type, value) {
+    let isFlag = false;
+    isFlag = value.target.checked;
+    if (isFlag) this.newPage[type] = 1;
+    else this.newPage[type] = 0;
   }
 
   //Confirmation that before Leave the PAge
@@ -81,7 +86,6 @@ export class UserPreferencesComponent implements OnInit {
       details: null,
       oldPreferences: []
     };
-    this.pagesGroups = {};
     document.getElementById('employeename')['value'] = '';
     this.common.isComponentActive = false;
     this.formattedData = [];
@@ -95,8 +99,12 @@ export class UserPreferencesComponent implements OnInit {
       title: this.newPage.title,
       route: this.newPage.url,
       type: this.newPage.type,
-      add_type: this.newPage.addType
+      add_type: this.newPage.addType,
+      hasAdd: this.newPage.add,
+      hasEdit: this.newPage.edit,
+      hasDelete: this.newPage.delete,
     };
+    console.log("params", params);
     this.common.loading++;
     this.api.post('UserRoles/insertNewPageDetails', params)
       .subscribe(res => {
@@ -120,10 +128,23 @@ export class UserPreferencesComponent implements OnInit {
         group.pages.map(page => page.isSelected = details.isSelected);
       });
     }
+    if (!details.isSelected && type == 'page') {
+      details.isSelected = details.isSelected;
+      details.isadd = false;
+      details.isedit = false;
+      details.isdeleted = false;
+      details.isOp = true;
+    }
+
+  }
+  changePagePermission(details, type, event) {
+    this.istaskOpertion = true;
+    if (this.istaskOpertion) {
+      return details.isOp = true;
+    }
   }
 
   getAllUserList() {
-
     this.common.loading++;
     this.api.get('UserRoles/getActiveAdminUsers?')
       .subscribe(res => {
@@ -155,8 +176,7 @@ export class UserPreferencesComponent implements OnInit {
           console.log("Res Data:", this.data)
         this.selectedUser.oldPreferences = res['data'];
         this.managedata();
-        // this.findSections();
-        // this.checkSelectedPages(res['data']);
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -169,7 +189,8 @@ export class UserPreferencesComponent implements OnInit {
       return {
         name: key,
         groups: firstGroup[key],
-        isSelected: false
+        isSelected: false,
+        isOp: false,
       }
     });
     this.formattedData.map(module => {
@@ -179,6 +200,11 @@ export class UserPreferencesComponent implements OnInit {
         let isAllSelected = true;
         let pages = pageGroup[key].map(page => {
           page.isSelected = page.userid ? true : false;
+          page.isadd = page.isadd ? true : false;
+          page.isedit = page.isedit ? true : false;
+          page.isdeleted = page.isdeleted ? true : false;
+          page.isOp = false;
+
           if (isAllSelected)
             isAllSelected = page.isSelected;
           return page;
@@ -202,7 +228,6 @@ export class UserPreferencesComponent implements OnInit {
       });
       return module;
     });
-    console.log("After Formatted", this.formattedData);
 
   }
 
@@ -218,7 +243,6 @@ export class UserPreferencesComponent implements OnInit {
     this.api.post('UserRoles/setPagesWrtUser', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res: ', res);
         this.common.showToast(res['msg']);
         this.refresh();
 
@@ -235,10 +259,10 @@ export class UserPreferencesComponent implements OnInit {
       module.groups.map(group => {
         group.pages.map(page => {
           if (page.isSelected) {
-            data.push({ id: page.id, status: 1 });
+            data.push({ id: page.id, status: 1, isadd: page.isadd, isedit: page.isedit, isdeleted: page.isdeleted, isOp: page.isOp });
           }
           else {
-            data.push({ id: page.id, status: 0 });
+            data.push({ id: page.id, status: 0, isadd: false, isedit: false, isdeleted: false, isOp: page.isOp });
           }
         })
       })

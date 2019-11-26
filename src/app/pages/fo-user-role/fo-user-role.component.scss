@@ -40,16 +40,40 @@
   padding: 0px;
   display: inline-table;
 }
+
 input.page-box {
   width: 16px;
   height: 16px !important;
+  cursor: pointer;
 }
 input.group-box {
   width: 16px;
   height: 16px !important;
+  cursor: pointer;
 }
 
 input.module-box {
   width: 16px;
   height: 16px !important;
+  cursor: pointer;
 }
+.permission-type {
+  margin: 2px;
+  border: 1px solid;
+  width: 94%;
+}
+.permission-type.col-4 {
+  padding: 0px;
+  margin: 0px;
+}
+.permission-type,
+label {
+  margin-right: 10px;
+}
+input.page-box-type {
+  width: 12px;
+  height: 12px !important;
+  margin-left: 8px;
+  cursor: pointer;
+}
+

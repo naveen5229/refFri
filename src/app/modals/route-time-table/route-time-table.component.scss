@@ -48,32 +48,31 @@
   display: block;
 }
 
-:host ::ng-deep .fa-edit {
+:host ::ng-deep .fa-list-alt {
   color: black;
   font-size: 18px;
   span {
     position: absolute;
     display: none;
-    padding: 10px 36px;
+    padding: 8px 53px;
     font-weight: normal;
     font-size: 11px;
-    left: -33px;
-    top: -32px;
-
+    left: -50px;
+    top: -26px;
     -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
     box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
     font-family: Roboto;
     z-index: 9999;
   }
   span::before {
-    content: "Add Time";
+    content: "Add Time Details";
     display: block;
     position: absolute;
     top: 0px;
     left: 0px;
     background-color: black;
     border-radius: 3px;
-    padding: 5px 10px;
+    padding: 3px 6px;
     color: #fff;
     width: 100%;
   }
@@ -89,7 +88,7 @@
     right: 24px;
   }
 }
-:host ::ng-deep .fa-edit:hover span {
+:host ::ng-deep .fa-list-alt:hover span {
   display: block;
 }
 

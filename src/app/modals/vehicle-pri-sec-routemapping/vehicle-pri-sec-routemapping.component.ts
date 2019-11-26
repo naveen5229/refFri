@@ -31,11 +31,13 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
   routesDetails = [];
   updateData = [];
   routeId = null;
-  name =''
+  name = ''
   regno = null;
-  rowId=null;
-  isPrimaryCheck=1;
-  insertData1=[]
+  rowId = null;
+  isPrimaryCheck = 1;
+  insertData1 = [];
+  expiryDate = null;
+  wefDate = new Date();
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal,
@@ -73,7 +75,7 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
 
   changeRefernceType(type) {
     console.log('routes123: ', type);
-    this.routeId=type.id
+    this.routeId = type.id
     console.log('routes123:---------------- ', this.routeId);
 
     // this.routeId = this.routesDetails.find((element) => {
@@ -82,7 +84,7 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
     // }).id;
   }
 
- 
+
 
   getVehicleRoute() {
     this.routes = [];
@@ -121,14 +123,19 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
     //     this.isPrimaryCheck=0
     //   }
     // }
+    let wefdate = this.wefDate ? this.common.dateFormatter1(this.wefDate) : null;
+    let expirydate = this.expiryDate ? this.common.dateFormatter1(this.expiryDate) : null;
+
     const params = {
       vehicleId: this.vehid,
       assocType: this.assocType,
       routeId: this.routeId,
       rowId: this.rowId,
-      isPrimaryCheck:this.isPrimaryCheck
+      isPrimaryCheck: this.isPrimaryCheck,
+      wefDate: wefdate,
+      expiryDate: expirydate
     };
- 
+
 
     console.log("params", params)
     this.common.loading++;
@@ -145,21 +152,21 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
           this.assocType = 3;
           this.regno = '';
           this.name = '';
-          this.vehid='';
-          this.routesDetails=null ;
+          this.vehid = '';
+          this.routesDetails = null;
 
           this.getVehicleRoute();
-          
+
         }
-        else  if(params.rowId == null){
+        else if (params.rowId == null) {
           if (res['data'][0].y_id == -2) {
 
-          this.primaryCheck();
-    
-          // this.common.showToast(res['data'][0].y_msg);
-         
+            this.primaryCheck();
+
+            // this.common.showToast(res['data'][0].y_msg);
+
+          }
         }
-      }
         else {
           this.common.showError(res['data'][0].y_msg)
         }
@@ -169,47 +176,48 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
       });
   }
 
-  primaryCheck(){
+  primaryCheck() {
     this.common.params = {
-   title: 'Add More Primary Mapping',
-   description: 'Are you sure you want one more primary mapping?',
-   btn2:"No",
-   btn1:'Yes'
- };
- console.log("Inside confirm model")
- const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
- activeModal.result.then(data => {
-   console.log('res', data);
-   if (data.response) {        
-     this.isPrimaryCheck=0;
-     const params = {
-      vehicleId: this.vehid,
-      assocType: this.assocType,
-      routeId: this.routeId,
-      rowId: this.rowId,
-      isPrimaryCheck:this.isPrimaryCheck
+      title: 'Add More Primary Mapping',
+      description: 'Are you sure you want one more primary mapping?',
+      btn2: "No",
+      btn1: 'Yes'
     };
- 
+    console.log("Inside confirm model")
+    const activeModal = this.modalService.open(ConfirmComponent, { size: "sm", container: "nb-layout" });
+    activeModal.result.then(data => {
+      console.log('res', data);
+      if (data.response) {
+        this.isPrimaryCheck = 0;
+        const params = {
+          vehicleId: this.vehid,
+          assocType: this.assocType,
+          routeId: this.routeId,
+          rowId: this.rowId,
+          isPrimaryCheck: this.isPrimaryCheck
+        };
 
-    console.log("params", params)
-    this.common.loading++;
-    this.api.post('ViaRoutes/vehicleRouteMapping', params).subscribe(res => {
-        this.common.loading--;
+
+        console.log("params", params)
+        this.common.loading++;
+        this.api.post('ViaRoutes/vehicleRouteMapping', params).subscribe(res => {
+          this.common.loading--;
+          this.getVehicleRoute();
+
+          this.insertData1 = res['data'] || [];
+
+
+        })
+      }
+      else if (data.apiHit == 0) {
+        this.isPrimaryCheck = 1;
+        this.insertRoute();
         this.getVehicleRoute();
+      }
 
-        this.insertData1 = res['data'] || [];
+    });
 
-     
-   })}
-   else if(data.apiHit==0){
-     this.isPrimaryCheck = 1;
-     this.insertRoute();
-     this.getVehicleRoute();
-   }
-
- });
- 
-}
+  }
 
   getTableColumns() {
     let columns = [];
@@ -218,7 +226,7 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
         if (this.headings[i] == 'Action') {
-          this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateRoute.bind(this, routeDoc._id, routeDoc._routeid, routeDoc.regno, routeDoc.AssocType, routeDoc.Name,routeDoc._vid) }, { class: "fas fa-trash-alt", action: this.deleteRoute.bind(this, routeDoc._id) }] }
+          this.valobj['Action'] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.updateRoute.bind(this, routeDoc._id, routeDoc._routeid, routeDoc.regno, routeDoc.AssocType, routeDoc.Name, routeDoc._vid) }, { class: "fas fa-trash-alt", action: this.deleteRoute.bind(this, routeDoc._id) }] }
 
         }
         else {
@@ -234,8 +242,7 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
 
 
 
-  updateRoute(id, route, regno, assocType, name,vid) {
-
+  updateRoute(id, route, regno, assocType, name, vid) {
 
     if (assocType == "Secondary") {
       assocType = 3
@@ -243,14 +250,16 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
     else {
       assocType = 2
     }
-   
+
     console.log("assoc type:", assocType);
-    this.routeId = route
+    this.routeId = route;
     this.assocType = assocType;
     this.regno = regno;
     this.name = name;
     this.vehid = vid;
-    this.rowId= id
+    this.rowId = id;
+    this.wefDate = route._wef_dt ? new Date(route._wef_dt) : null;
+    this.expiryDate = route._exp_dt ? new Date(route._exp_dt) : null;
 
   }
 

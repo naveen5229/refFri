@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
 import * as _ from 'lodash';
 import { DateService } from '../../services/date/date.service';
+import { GeometryService } from '../../services/geometry/geometry.service';
 
 @Component({
   selector: 'fuel-filling-timetable',
@@ -28,6 +29,7 @@ export class FuelFillingTimetableComponent implements OnInit {
     long: null,
   };
   time = null;
+  showTime = null;
   trailsData = [];
   infoWindow = null;
   insideInfo = null;
@@ -35,12 +37,14 @@ export class FuelFillingTimetableComponent implements OnInit {
     x: null,
     y: null,
     time: new Date()
-  }]
+  }];
+  moveLoc = '';
   constructor(
     public common: CommonService,
     public datePipe: DateService,
     public api: ApiService,
     private activeModal: NgbActiveModal,
+    public geometry: GeometryService,
     public mapService: MapService) {
     this.common.handleModalSize('class', 'modal-lg', '1344', 'px', 1);
     if (this.common.params && this.common.params.fuelTimeTable) {
@@ -50,6 +54,7 @@ export class FuelFillingTimetableComponent implements OnInit {
       this.startTime = this.common.dateFormatter(this.common.params.fuelTimeTable.startTime);
       this.endTime = this.common.dateFormatter(this.common.params.fuelTimeTable.endTime);
       this.getFuelFillingData();
+      this.createPolyPath();
     }
   }
 
@@ -68,10 +73,30 @@ export class FuelFillingTimetableComponent implements OnInit {
         this.getClosedLatLong();
       });
     }, 1000);
+    this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
+      this.moveLoc = place;
+      this.mapService.centerAt({ lat: lat, lng: lng });
+      this.mapService.zoomAt({ lat: lat, lng: lng }, 13);
+      this.getFuelStation(lat, lng);
+    });
   }
 
   closeModal() {
     this.activeModal.close(false);
+  }
+
+  loadLatLong() {
+    console.log("moveLoc", this.moveLoc);
+    if (new RegExp(/[0-9]*,[0-9]*/i).test(this.moveLoc)) {
+      let lat = parseFloat(this.moveLoc.split(",")[0]);
+      let lng = parseFloat(this.moveLoc.split(",")[1]);
+      this.mapService.centerAt({ lat: lat, lng: lng });
+      this.mapService.zoomAt({ lat: lat, lng: lng }, 13);
+      this.getFuelStation(lat, lng);
+    }
+    else {
+      this.common.showError("Pattern is Lat,Long");
+    }
   }
 
   createMarkers(lat, long) {
@@ -101,7 +126,6 @@ export class FuelFillingTimetableComponent implements OnInit {
             fuel['subType'] = 'marker';
             return this.fuelFillingData.push(fuel);
           });
-          this.createPolyPath();
 
         }
       },
@@ -198,9 +222,9 @@ export class FuelFillingTimetableComponent implements OnInit {
     if (point) {
       console.log("point", point);
       console.log("polyLine", this.polyLineXY);
-      resultData = this.mapService.getClosestPointOnLines(point, this.polyLineXY);
+      resultData = this.geometry.getClosestPointOnLines(point, this.polyLineXY);
       marker.lat = resultData.x, marker.long = resultData.y, marker.ratio = resultData.fTo;
-      console.log("closed point", this.mapService.getClosestPointOnLines(point, this.polyLineXY));
+      console.log("closed point", this.geometry.getClosestPointOnLines(point, this.polyLineXY));
       this.createMarkers(marker.lat, marker.long);
       this.getFuelStation(marker.lat, marker.long);
       t1 = new Date(resultData.pointTime).getTime();
@@ -208,6 +232,8 @@ export class FuelFillingTimetableComponent implements OnInit {
       console.log("t1", t1);
       console.log("t2", t2);
       this.time = new Date(t1 + (marker.ratio * (t2 - t1)));
+      this.showTime = this.time;
+      this.showTime = this.common.changeDateformat(this.showTime);
       console.log("time", this.time);
 
     }

@@ -71,7 +71,8 @@
                     </select>
                 </div>
                 <div class="col-3 offset-2">
-                    <select class="form-control" name="refTypeSource" id="refTypeSource" formControlName="refTypeSource"
+                    <select class="form-control" name="refTypeSource" id="refTypeSource"
+                        [(ngModel)]="fuelIndentData.refName" formControlName="refTypeSource"
                         (change)="selectRefTypeSource($event);">
                         <option *ngFor="let status of refTypeResults;let i = index" [value]="status.id">
                             {{status.source_dest}}

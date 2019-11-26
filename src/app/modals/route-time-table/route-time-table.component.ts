@@ -177,7 +177,7 @@ export class RouteTimeTableComponent implements OnInit {
         action: this.editTimeTable.bind(this, route)
       },
       {
-        class: "icon fas fa-edit",
+        class: "fas fa-list-alt ml-3",
         action: this.editRoutes.bind(this, route)
       },
       {
