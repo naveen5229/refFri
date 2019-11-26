@@ -133,7 +133,7 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
       rowId: this.rowId,
       isPrimaryCheck: this.isPrimaryCheck,
       wefDate: wefdate,
-      expiryDate: expirydate
+      expDate: expirydate
     };
 
 
