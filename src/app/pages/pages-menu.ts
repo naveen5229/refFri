@@ -72,6 +72,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/trends'
       },
       {
+        title: 'Trip Summary',
+        icon: 'fa fa-line-chart',
+        link: '/pages/trip-summary'
+      },
+      {
         title: 'Trends Fo',
         icon: 'fa fa-line-chart',
         link: '/pages/trends-fo'
