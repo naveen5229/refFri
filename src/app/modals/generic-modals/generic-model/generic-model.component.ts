@@ -74,6 +74,7 @@ export class GenericModelComponent implements OnInit {
         if (this.data == null) {
           this.data = [];
           this.table = null;
+          return;
         }
         let first_rec = this.data[0];
         for (var key in first_rec) {
