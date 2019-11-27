@@ -91,7 +91,8 @@
                 <div [ngClass]="data.scheduleTat == data.actualTat ?'text-black':(data.scheduleTat > data.actualTat  ? 'text-green' :'text-red') ">{{data.actualTat || '--'}}</div>
 
             </div>
-            <div class="col-1 rowLine ">
+            <div class="col-1 rowLine" >
+                <div *ngIf="routetrip==0">{{data.scheduled_kms || '--'}}</div>
                 <div>{{data.kms || '--'}}</div>
             </div>
         </div>
