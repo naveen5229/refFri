@@ -159,7 +159,7 @@ export class TripSummaryComponent implements OnInit {
           this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'black', };
         }
         else {
-          this.valobj[this.headings[j]] = { value: this.getSplitData(this.vehicleTrips[i][this.headings[j]]), class: this.getSplitData(this.vehicleTrips[i][this.headings[j]]) > 0 ? 'blue' : 'black', action: this.getSplitData(this.vehicleTrips[i][this.headings[j]]) > 0 ? this.vehicleHistory.bind(this, this.vehicleTrips[i][this.headings[j]], this.vehicleTrips[i]._kpi_id) : '' };
+          this.valobj[this.headings[j]] = { value: this.getSplitData(this.vehicleTrips[i][this.headings[j]]), class: this.getSplitData(this.vehicleTrips[i][this.headings[j]]) != 0 ? 'blue' : 'black', action: this.getSplitData(this.vehicleTrips[i][this.headings[j]]) != 0 ? this.vehicleHistory.bind(this, this.vehicleTrips[i][this.headings[j]], this.vehicleTrips[i]._kpi_id) : '' };
         }
 
       }
