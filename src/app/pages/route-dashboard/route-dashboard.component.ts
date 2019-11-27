@@ -158,7 +158,7 @@ export class RouteDashboardComponent implements OnInit {
         regno: { value: route.v_regno ? route.v_regno : '-', },
         lastSeenTime: { value: route.v_time ? this.common.changeDateformat2(route.v_time) : '-', action: this.viewlocation.bind(this, route) },
         // routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
-        routeName: route.name ? this.getRouteAconym(route.name) : '-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
+        routeName: route.name ? this.getRouteAconym(route.name,route) : '-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
         startLocation: { value: route.f_name ? route.f_name : '-', action: this.viewlocation.bind(this, route) },
         startTime: { value: route.f_end_time ? this.common.changeDateformat2(route.f_end_time) : '-', action: this.viewlocation.bind(this, route) },
         endLocation: { value: route.l_name ? route.l_name : '-', action: this.viewlocation.bind(this, route) },
@@ -235,6 +235,8 @@ export class RouteDashboardComponent implements OnInit {
   }
 
   viewlocation(route) {
+    console.log("route",route);
+    
     const location = {
       lat: route.v_lat ? route.v_lat : 0,
       lng: route.v_long ? route.v_long : 0,
@@ -269,11 +271,11 @@ export class RouteDashboardComponent implements OnInit {
     });
   }
 
-  getRouteAconym(route) {
+  getRouteAconym(route,routeData) {
     let sortend = route.substring(0, 20);
     // route = route.replace(/\s/g,'');
     route = "\'" + route + "\'";
-    let acy = { value: route ? '<acronym title=' + route + '>' + sortend + '</acronym>' : '-', action: this.viewlocation.bind(this, route), isHTML: true };
+    let acy = { value: route ? '<acronym title=' + route + '>' + sortend + '</acronym>' : '-', action: this.viewlocation.bind(this, routeData), isHTML: true };
     console.log("route=", route);
 
     return acy;
