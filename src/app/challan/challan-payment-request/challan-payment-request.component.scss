@@ -1,0 +1,105 @@
+.fa-edit {
+    color: blue;
+  }
+  
+  :host ::ng-deep td i.fa-file-alt {
+    background-color: #04a9f5;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+    padding-top: 11px;
+    height: 29px;
+  }
+  
+  :host ::ng-deep td i.fa-file-alt:hover span {
+    display: block;
+  }
+  
+  :host ::ng-deep td i.fa-file-alt span {
+    position: absolute;
+    display: none;
+    padding: 11px 30px;
+    left: -22px;
+    top: -28px;
+    font-family: Roboto;
+    z-index: 999;
+  }
+  
+  :host ::ng-deep td i.fa-file-alt span::before {
+    content: "Challan";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #04a9f5;
+    border-radius: 3px;
+    padding: 5px 10px;
+  }
+  
+  :host ::ng-deep td i.fa-file-alt span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #04a9f5;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+  }
+  
+  :host ::ng-deep .fa-file-alt:hover span {
+    display: block;
+  }
+  
+  :host ::ng-deep.fa-file-alt.text-color {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+  :host ::ng-deep .fa-edit {
+    color: #17a05d;
+    font-size: 18px;
+    span {
+      position: absolute;
+      display: none;
+      padding: 10px 25px;
+      font-weight: normal;
+      font-size: 11px;
+      left: -7px;
+      top: -28px;
+      -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+      box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+      font-family: Roboto;
+      z-index: 9999;
+    }
+    span::before {
+      content: "Edit";
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background-color: #17a05d;
+      border-radius: 3px;
+      padding: 5px 10px;
+      color: #fff;
+      width: 100%;
+    }
+    span::after {
+      content: "";
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid #17a05d;
+      position: absolute;
+      bottom: -5px;
+      right: 24px;
+    }
+  }
+  :host ::ng-deep .fa-edit:hover span {
+    display: block;
+  }
+  
