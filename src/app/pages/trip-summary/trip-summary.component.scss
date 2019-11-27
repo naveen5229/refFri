@@ -66,3 +66,12 @@ table {
   color: blue;
   cursor: pointer;
 }
+
+:host ::ng-deep .blue {
+  color: blue;
+  cursor: pointer;
+}
+:host ::ng-deep .black {
+  color: black;
+  cursor: pointer;
+} 
