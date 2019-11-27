@@ -6,14 +6,15 @@
     <nb-card-body>
         <div class="row">
             <div class="col-3">
-                <select class="form-control" ([ngModel])="stateType" (change)="selectType($event)" style=" border: 2px solid darkcyan; font-size: 13px">
-          <option value="0">Pending</option>
-          <option value="1">Accept</option>
-          <option value="-1">Reject</option>
-          <option value="-2">Any</option>
+                <select class="form-control" ([ngModel])="stateType" (change)="selectType($event)"
+                    style=" border: 2px solid darkcyan; font-size: 13px">
+                    <option value="0">Pending</option>
+                    <option value="1">Accept</option>
+                    <option value="-1">Reject</option>
+                    <option value="-2">Any</option>
 
 
-        </select>
+                </select>
             </div>
 
             <div class="col-2 pr-0">
@@ -21,14 +22,16 @@
                 </uj-date-time-picker>
             </div>
             <div class="col-2 pr-0">
-                <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event" [dateTimeValue]="endTime">
+                <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
+                    [dateTimeValue]="endTime">
                 </uj-date-time-picker>
             </div>
             <div class="col-2 pr-0">
                 <button type="submit" class="btn btn-primary mt-0 mb-0" (click)="searchData()">Search</button>
             </div>
             <div class="col-2 ">
-                <button class="btn btn-primary mt-0 mb-0" (click)="saveAdvices()">Add</button>
+                <button class="btn btn-primary mt-0 mb-0" *ngIf="user.permission.add"
+                    (click)="saveAdvices()">Add</button>
 
             </div>
 

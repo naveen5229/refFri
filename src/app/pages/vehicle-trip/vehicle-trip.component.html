@@ -5,7 +5,8 @@
                 <h5>Vehicle Trips</h5>
             </div>
             <div class="col-sm-6 text-right">
-                <button class="btn btn-primary m-0" (click)="openAddTripModal()">Add Trip</button>
+                <button class="btn btn-primary m-0" *ngIf="user.permission.add" (click)="openAddTripModal()">Add
+                    Trip</button>
             </div>
         </div>
     </nb-card-header>
@@ -13,7 +14,8 @@
         <div class="row mb-2">
             <div class="col-sm-2">
                 <div class="search_vehicle_input">
-                    <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList" display="regno" placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
+                    <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList"
+                        display="regno" placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
                 </div>
             </div>
             <div class="col-3">
@@ -25,17 +27,20 @@
                 </uj-date-time-picker>
             </div>
             <div class="col-1">
-                <button (click)="getVehicleTrips()" class="btn btn-primary form-control" style="margin:0px;border:0px;">OK</button>
+                <button (click)="getVehicleTrips()" class="btn btn-primary form-control"
+                    style="margin:0px;border:0px;">OK</button>
             </div>
             <div class="col-sm-3 text-right">
                 <span>
-          <span class="pdf-icon" title="PDF Export" (click)="printPDF('vehicleTrip')" style="cursor: pointer;"><i
-              class="fa fa-file-pdf"></i></span>
-                <span class="exel-icon" title="CSV Export" (click)="printCsv('vehicleTrip')" style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+                    <span class="pdf-icon" title="PDF Export" (click)="printPDF('vehicleTrip')"
+                        style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+                    <span class="exel-icon" title="CSV Export" (click)="printCsv('vehicleTrip')"
+                        style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
                 </span>
             </div>
         </div>
-        <smart-table *ngIf="vehicleTrips && vehicleTrips.length" id="vehicleTrip" [data]="table.data" [settings]="table.settings">
+        <smart-table *ngIf="vehicleTrips && vehicleTrips.length" id="vehicleTrip" [data]="table.data"
+            [settings]="table.settings">
         </smart-table>
         <br>
     </nb-card-body>

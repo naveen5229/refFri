@@ -6,6 +6,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { AddSupplierAssociationComponent } from '../../modals/add-supplier-association/add-supplier-association.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'vehicle-supplier-association',
@@ -25,6 +26,7 @@ export class VehicleSupplierAssociationComponent implements OnInit {
   };
   constructor(public api: ApiService,
     public common: CommonService,
+    public user: UserService,
     public modalService: NgbModal,
     private activeModal: NgbActiveModal) {
     this.common.refresh = this.refresh.bind(this);
@@ -34,6 +36,7 @@ export class VehicleSupplierAssociationComponent implements OnInit {
 
   ngOnInit() {
   }
+
   refresh() {
     this.getvehicleSupplierData();
   }
@@ -110,17 +113,9 @@ export class VehicleSupplierAssociationComponent implements OnInit {
   }
 
   actionIcons(supplier) {
-    let icons = [
-      {
-        class: 'fa fa-edit mr-3',
-        action: this.editSupplier.bind(this, supplier),
-      },
-      {
-        class: "fa fa-trash",
-        action: this.deleteSupplier.bind(this, supplier)
-      },
-    ];
-
+    let icons = [];
+    this.user.permission.edit && icons.push({ class: 'fa fa-edit mr-3', action: this.editSupplier.bind(this, supplier) });
+    this.user.permission.delete && icons.push({ class: "fa fa-trash", action: this.deleteSupplier.bind(this, supplier) });
     return icons;
   }
 

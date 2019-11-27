@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'dispatch-orders',
@@ -28,6 +29,7 @@ export class DispatchOrdersComponent implements OnInit {
   }
 
   constructor(public common: CommonService,
+    public user: UserService,
     private modalService: NgbModal,
     public api: ApiService) {
     this.getDispatchOrders();
@@ -82,7 +84,7 @@ export class DispatchOrdersComponent implements OnInit {
       let column = {};
       for (let key in this.generateHeadings(headings)) {
         if (key == "Action") {
-          column[key] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.openDispatchOrder.bind(this, item) }, { class: 'fas fa-trash-alt', action: this.deleteDispatchOrder.bind(this, item) }, { class: 'fa fa-print', action: this.printDispatchOrder.bind(this, item) },{ class: item._lrid?'':'fa fa-list', action: this.openGenerateLr.bind(this, item) }] };
+          column[key] = { value: "", action: null, icons: this.actionIcons(item) }
         } else {
           column[key] = { value: item[key], class: 'black', action: '' };
         }
@@ -90,6 +92,18 @@ export class DispatchOrdersComponent implements OnInit {
       columns.push(column);
     });
     return columns;
+  }
+
+
+  actionIcons(item) {
+    let icons = [
+      { class: 'fa fa-print', action: this.printDispatchOrder.bind(this, item) },
+      { class: item._lrid ? '' : 'fa fa-list', action: this.openGenerateLr.bind(this, item) }
+    ];
+    this.user.permission.edit && icons.push({ class: 'fa fa-edit', action: this.openDispatchOrder.bind(this, item) });
+    this.user.permission.delete && icons.push({ class: 'fas fa-trash-alt', action: this.deleteDispatchOrder.bind(this, item) });
+
+    return icons;
   }
 
   deleteDispatchOrder(dispatchOrder) {
