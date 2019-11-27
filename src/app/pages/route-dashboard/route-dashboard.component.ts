@@ -6,7 +6,7 @@ import { LocationMarkerComponent } from '../../modals/location-marker/location-m
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 import { RoutesTimetableComponent } from '../../modals/routes-timetable/routes-timetable.component';
 import { AddShortTargetComponent } from '../../modals/add-short-target/add-short-target.component';
-
+import * as _ from "lodash";
 @Component({
   selector: 'route-dashboard',
   templateUrl: './route-dashboard.component.html',
@@ -21,8 +21,34 @@ export class RouteDashboardComponent implements OnInit {
     },
     settings: {
       hideHeader: true
-    }
+    },
   };
+  viewName = "Route Status";
+  viewIndex = 0;
+  viewOtions = [
+    {
+      name: "Route Status",
+      key: "route_status"
+    },
+    {
+      name: "Routes",
+      key: "show_name"
+    },
+    {
+      name: "Onward Status",
+      key: "onward_status"
+    }
+
+  ];
+  isGraphView = false;
+  viewType = 'route_status';
+  routesData = [];
+  routeGroups = [];
+  routeGroupsKeys = null;
+  keyGroups = [];
+  activePrimaryStatus = "";
+  primarySubStatus = [];
+
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal) {
@@ -34,8 +60,26 @@ export class RouteDashboardComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngAfterViewInit() {
+    this.common.stopScroll();
+  }
+
+  ngOnDestroy() {
+    this.common.continuoueScroll();
+  }
+
   refresh() {
     this.getFoWiseRouteData();
+  }
+
+  allData() {
+    this.selectedFilterKey = "";
+    this.filterData("All");
+  }
+
+  selectSubStatus(kpis) {
+    this.routeData = kpis;
+    this.table = this.setTable();
   }
   getFoWiseRouteData() {
     this.common.loading++;
@@ -43,10 +87,15 @@ export class RouteDashboardComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("api data", res);
-        if (!res['data']) return;
+        if (!res['data']) {
+          this.routeData = [];
+          this.routesData = [];
+          return
+        };
         this.routeData = res['data'];
+        this.grouping('route_status');
         this.routeData.length ? this.table = this.setTable() : this.resetTable();
-
+        this.routesData = res['data'];
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -88,9 +137,18 @@ export class RouteDashboardComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "72vh"
+        tableHeight: "84vh",
+        count: {
+          icon: "fa fa-map",
+          action: this.handleView.bind(this),
+
+        }
       }
     }
+  }
+
+  handleView() {
+    this.isGraphView = !this.isGraphView;
   }
 
   getTableColumns() {
@@ -98,8 +156,9 @@ export class RouteDashboardComponent implements OnInit {
     this.routeData.map(route => {
       let column = {
         regno: { value: route.v_regno ? route.v_regno : '-', },
-        lastSeenTime: { value: route.v_time ? this.common.changeDateformat(route.v_time) : '-', action: this.viewlocation.bind(this, route) },
-        routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
+        lastSeenTime: { value: route.v_time ? this.common.changeDateformat2(route.v_time) : '-', action: this.viewlocation.bind(this, route) },
+        // routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
+        routeName: route.name ? this.getRouteAconym(route.name) : '-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
         startLocation: { value: route.f_name ? route.f_name : '-', action: this.viewlocation.bind(this, route) },
         startTime: { value: route.f_end_time ? this.common.changeDateformat2(route.f_end_time) : '-', action: this.viewlocation.bind(this, route) },
         endLocation: { value: route.l_name ? route.l_name : '-', action: this.viewlocation.bind(this, route) },
@@ -134,11 +193,11 @@ export class RouteDashboardComponent implements OnInit {
   actionIcons(route) {
     let icons = [
       {
-        class: " fa fa-route mr-2",
+        class: " fa fa-route mr-1",
         action: this.openRouteMapper.bind(this, route),
       },
       {
-        class: "fas fa-truck-moving",
+        class: "fas fa-truck-moving mr-1",
         action: this.viewRouteTimeTable.bind(this, route),
       },
       {
@@ -208,5 +267,111 @@ export class RouteDashboardComponent implements OnInit {
       size: "sm",
       container: "nb-layout"
     });
+  }
+
+  getRouteAconym(route) {
+    let sortend = route.substring(0, 20);
+    // route = route.replace(/\s/g,'');
+    route = "\'" + route + "\'";
+    let acy = { value: route ? '<acronym title=' + route + '>' + sortend + '</acronym>' : '-', action: this.viewlocation.bind(this, route), isHTML: true };
+    console.log("route=", route);
+
+    return acy;
+
+  }
+
+
+  grouping(viewType) {
+    console.log('viewType', viewType);
+    this.routeGroups = _.groupBy(this.routeData, viewType);
+    this.routeGroupsKeys = Object.keys(this.routeGroups);
+    this.keyGroups = [];
+    this.routeGroupsKeys.map(key => {
+      const hue = Math.floor(Math.random() * 359 + 1);
+      this.keyGroups.push({
+        name: key,
+        bgColor: `hsl(${hue}, 100%, 75%)`,
+        textColor: `hsl(${hue}, 100%, 25%)`
+      });
+    });
+
+    this.sortData(viewType);
+  }
+
+
+  chartData = null;
+  chartDataa = null;
+  chartOptions = null;
+  chartColors = [];
+  textColor = [];
+  selectedFilterKey = "";
+
+
+  sortData(viewType) {
+    let data = [];
+    this.chartColors = [];
+    let chartLabels = [];
+    let chartData = [];
+
+    this.keyGroups.map(group => {
+      console.log('group', group, 'this.routeGroups', this.routeGroups, 'group.name=', group.name, "this.routeGroups[group.name]=", this.routeGroups[group.name]);
+      data.push({ group: group, length: this.routeGroups[group.name] ? this.routeGroups[group.name].length : 0 });
+    });
+
+    this.routeGroupsKeys = [];
+    _.sortBy(data, ["length"]).reverse()
+      .map(keyData => {
+        this.routeGroupsKeys.push(keyData.group);
+      });
+
+    this.routeGroupsKeys.map(keyGroup => {
+      console.log('keyGroup', keyGroup, "keyGroup.name", '"' + keyGroup.name + '"', 'this.routeGroups=', this.routeGroups, 'this.routeGroups[keyGroup.name]=', this.routeGroups[keyGroup.name]);
+      this.chartColors.push(keyGroup.bgColor);
+      chartLabels.push(keyGroup.name);
+      chartData.push(this.routeGroups[keyGroup.name].length);
+    });
+
+
+    let chartInfo = this.common.pieChart(
+      chartLabels,
+      chartData,
+      this.chartColors
+    );
+    this.chartData = chartInfo.chartData;
+    this.chartOptions = chartInfo.chartOptions;
+    this.selectedFilterKey && this.filterData(this.selectedFilterKey, viewType);
+  }
+
+
+  filterData(filterKey, viewType?) {
+    if (filterKey == "All") {
+      this.routeData = this.routesData;
+    } else {
+      this.selectedFilterKey = filterKey;
+      this.routeData = this.routesData.filter(route => {
+        if (route[this.viewType] == filterKey) return true;
+        return false;
+      });
+    }
+    this.table = this.setTable();
+  }
+
+  changeOptions(type) {
+    this.selectedFilterKey = "All";
+    this.filterData('All');
+    if (type === "forward") {
+      ++this.viewIndex;
+      if (this.viewIndex > this.viewOtions.length - 1) {
+        this.viewIndex = 0;
+      }
+    } else {
+      --this.viewIndex;
+      if (this.viewIndex < 0) {
+        this.viewIndex = this.viewOtions.length - 1;
+      }
+    }
+    this.viewType = this.viewOtions[this.viewIndex].key;
+    this.viewName = this.viewOtions[this.viewIndex].name;
+    this.grouping(this.viewType);
   }
 }
