@@ -20,7 +20,7 @@
                 <span style="margin-top: -24px" class="route-circle-green"></span>
                 <span> <strong style="margin-left: 25px;">OnTime</strong></span>
             </div>
-            <div class="col-2">
+            <div *ngIf="routetrip==0" class="col-2">
                 <span style="margin-top: -24px" class="route-circle-blue"></span>
                 <span> <strong style="margin-left: 25px;">Upcoming</strong></span>
             </div>
@@ -32,7 +32,7 @@
     </div>
     <div class="mt-2">
         <div class="row route-headings">
-            <div class="col-1" *ngIf="routetrip==0"></div>
+            <div class="col-1"></div>
             <div class="col-3">
                 <strong>Location</strong>
             </div>
@@ -53,6 +53,8 @@
             </div>
         </div>
         <div class="row routes" *ngFor="let data of routesDetails; let i = index;">
+                <div *ngIf="routetrip==1" class="col-1 route-container">
+                </div>
             <div *ngIf="routetrip==0" class="col-1 route-container">
                 <div class="route-truck" *ngIf="isLastStop == i">
                     <img src="assets/icons/truck.svg" alt="truck">
