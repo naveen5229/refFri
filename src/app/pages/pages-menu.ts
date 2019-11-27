@@ -89,6 +89,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/route-dashboard'
       },
       {
+        title: 'Route-Trip',
+        icon: 'fas fa-route',
+        link: '/pages/route-trip'
+      },
+      {
         title: 'Trip P&L',
         icon: 'fa fa-pencil-square-o',
         link: '/pages/trip-pnl',
