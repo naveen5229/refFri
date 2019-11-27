@@ -5,20 +5,24 @@
     <nb-card-body>
         <div class="tabs_style_main">
             <ul class="tabs_style text-left">
-                <li [ngClass]="activeTab=='Credit Fuel Station'?'active':''" (click)="activeTab='Credit Fuel Station'">Credit Fuel Station</li>
+                <li [ngClass]="activeTab=='Credit Fuel Station'?'active':''" (click)="activeTab='Credit Fuel Station'">
+                    Credit Fuel Station</li>
 
                 <li [ngClass]="activeTab=='Fuel Rule'?'active':''" (click)="activeTab='Fuel Rule'">IsFull Rule</li>
 
-                <li [ngClass]="activeTab=='Model Fuel Mileage'?'active':''" (click)="activeTab='Model Fuel Mileage'">Model Fuel Mileage </li>
+                <li [ngClass]="activeTab=='Model Fuel Mileage'?'active':''" (click)="activeTab='Model Fuel Mileage'">
+                    Model Fuel Mileage </li>
             </ul>
         </div>
         <div class="fuel-master">
             <div *ngIf="activeTab=='Fuel Rule'">
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary m-0" name="add" style="border-radius:3px;" (click)="addFuelRule()">Add Rule</button>
+                    <button type="submit" class="btn btn-primary m-0" name="add" *ngIf="user.permission.add"
+                        style="border-radius:3px;" (click)="addFuelRule()">Add Rule</button>
                 </div>
                 <div class="mt-2">
-                    <smart-table *ngIf="fuelNorms && fuelNorms.length" [data]="table.data" [settings]="table.settings"></smart-table>
+                    <smart-table *ngIf="fuelNorms && fuelNorms.length" [data]="table.data" [settings]="table.settings">
+                    </smart-table>
                     <div class="no-data alert alert-danger" role="alert" *ngIf="fuelNorms.length==0">
                         No Data available !
                     </div>
@@ -28,14 +32,17 @@
             <div *ngIf="activeTab=='Credit Fuel Station'">
                 <div class="row">
                     <div class="col-3">
-                        <auto-suggestion (onSelected)="getFs($event)" url="Suggestion/GetFuelStation" display="name" placeholder="Search Fuel Station" [preSelected]="null">
+                        <auto-suggestion (onSelected)="getFs($event)" url="Suggestion/GetFuelStation" display="name"
+                            placeholder="Search Fuel Station" [preSelected]="null">
                         </auto-suggestion>
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-primary pb-1 pt-1" style="border-radius:3px; text-align:center" (click)="addFoFsMapping()">Add</button> </div>
+                        <button class="btn btn-primary pb-1 pt-1" style="border-radius:3px; text-align:center"
+                            (click)="addFoFsMapping()">Add</button> </div>
                 </div>
                 <div class="mt-2">
-                    <smart-table *ngIf="foFsMapping.length" [data]="table1.data" [settings]="table1.settings"></smart-table>
+                    <smart-table *ngIf="foFsMapping.length" [data]="table1.data" [settings]="table1.settings">
+                    </smart-table>
                     <div class="no-data alert alert-danger" role="alert" *ngIf="foFsMapping.length==0">
                         No Data available !
                     </div>
@@ -44,7 +51,8 @@
             <div *ngIf="activeTab=='Model Fuel Mileage'">
                 <div class="row">
                     <div class="col-12 text-right">
-                        <button type="submit" class="btn btn-primary m-0" name="add" (click)="addFuelAvg()" style="border-radius:3px">Add Model Fuel Mileage</button>
+                        <button type="submit" class="btn btn-primary m-0" name="add" *ngIf="user.permission.add"
+                            (click)="addFuelAvg()" style="border-radius:3px">Add Model Fuel Mileage</button>
                     </div>
                 </div>
                 <br>
@@ -52,7 +60,8 @@
                     No Data Available On That Time Period !
                 </div>
                 <div>
-                    <smart-table *ngIf=" fuelAvg.length>0" [data]="fuelTable.data" [settings]="fuelTable.settings"></smart-table>
+                    <smart-table *ngIf=" fuelAvg.length>0" [data]="fuelTable.data" [settings]="fuelTable.settings">
+                    </smart-table>
                 </div>
             </div>
         </div>

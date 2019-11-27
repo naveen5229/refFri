@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 import { SiteTripDetailsComponent } from '../../modals/site-trip-details/site-trip-details.component';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'placements-dash-board',
@@ -28,6 +29,7 @@ export class PlacementsDashBoardComponent implements OnInit {
   dis_all = 0;
   constructor(public api: ApiService,
     public common: CommonService,
+    public user: UserService,
     private modalService: NgbModal) {
     this.getPlacements();
     this.getVehiclePlacement();
@@ -196,7 +198,7 @@ export class PlacementsDashBoardComponent implements OnInit {
 
         }
         else if (this.headings[j] == "Action") {
-          this.valobj[this.headings[j]] = { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.openPlacementModal.bind(this, this.filteredVehiclePlacements[i]), class: 'icon text-center del' };
+          this.valobj[this.headings[j]] = this.user.permission.edit && { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.openPlacementModal.bind(this, this.filteredVehiclePlacements[i]), class: 'icon text-center del' };
         } else if (this.headings[j] == "Current Loc") {
           this.valobj[this.headings[j]] = { value: this.filteredVehiclePlacements[i][this.headings[j]], class: 'black', action: this.showLocation.bind(this, this.filteredVehiclePlacements[i]) };
 

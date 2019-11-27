@@ -1,0 +1,213 @@
+<nb-card style="border:0px;">
+  <!-- <nb-card-header>
+      Trends
+    </nb-card-header> -->
+  <nb-card-body style="padding:15px 15px 0px;">
+    <div class="model-body">
+      <!-- <div class="row" style="width:80px; text-align: center; margin-left: 50px; margin-bottom: 20px">
+          <button class="btn btn-primary" (click)="getOnwardDistance()">distance</button>
+        </div> -->
+      <div class="row">
+        <!-- <div class="col-sm-3">
+            <select [(ngModel)]="trendType" class="form-control" (change)="changeTrendType()"
+              style=" border: 1px solid #324148; font-size: 10px">
+              <option value="1">Hub Deviation Kms</option>
+              <option value="2">Hub Tat</option>
+            </select>
+          </div>
+          <div class="col-sm-3" *ngIf="showPeriod">
+            <select [(ngModel)]="period" class="form-control" (change)="changeTrendType()"
+              style=" border: 1px solid #324148; font-size: 10px">
+              <option value="0">Day</option>
+               <option value="1">Week</option>
+              <option value="2">Month</option> 
+            </select>
+          </div>
+          <div class="col-sm-3" *ngIf="(period=='1' || period=='2') && trendType!='31'">
+            <select [(ngModel)]="week_month_number" class="form-control" (change)="changeTrendType('week_month')"
+              style=" border: 1px solid #324148; font-size: 10px">
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+          </div> -->
+        <!-- <div class="col-sm-3" *ngIf="period==2">
+            <select [(ngModel)]="month_number" class="form-control" (change)="changeWeekValue()" style=" border: 2px solid darkcyan; font-size: 10px">
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+        </div> -->
+        <!-- <div class="col-sm-3" *ngIf="period==1">
+              <input type="text" class="form-control" [(ngModel)]="week_number" name="weekNo." placeholder="Number of Week"> 
+            </div> 
+            <div class="col-sm-3" *ngIf="period==2">
+              <input type="text" class="form-control" [(ngModel)]="month_number" name="monthNo." placeholder="Number of Month"> 
+            </div>  -->
+
+        <!-- trendType=='31' //for onWardKmpd -->
+        <div class="col-sm-2" *ngIf="period == '0' || trendType=='0'">
+          <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date"
+            placeholder="Start Date" (click)="getDate('start')">
+        </div>
+        <div class="col-sm-2" *ngIf="period == '0' || trendType=='0'">
+          <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
+            placeholder="End Date" (click)="getDate('end')">
+        </div>
+        <!-- <div class="col-sm-2">
+              <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate"  [isTime]="false">
+              </uj-date-time-picker>
+          </div>
+           <div class="col-sm-2">
+              <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isStart]="false"  [isTime]="false"  [isTime]="false">
+              </uj-date-time-picker>
+          </div>  -->
+        <div class="col-sm-2" *ngIf="period == '0' || trendType=='31'">
+          <button class="btn btn-primary" (click)="getTripSummary()">submit</button>
+        </div>
+      </div>
+      <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
+      <!-- <div class="row">
+          <div class="col-sm-1 pr-0 text-right" style="padding-top:50px">
+            <label>{{yScale}}</label>
+          </div>
+          <div class="col-sm-11">
+            <chart [type]="chartObject.type" [data]="chartObject.data" style="margin-right:5px;min-height: 200px;"
+              [options]="chartObject.options"></chart>
+          </div>
+          <!-- <div class="col-sm-3">
+            <table class="table table-bordered" style="margin-right: 5px; margin-top:10px">
+              <thead class="thead" style="background-color:darkgrey">
+                <tr>
+                  <th>Date</th>
+                  <th *ngIf="trendType==11">Loading Hours</th>
+                  <th *ngIf="trendType==21">UnLoading Hours </th>
+                  <th *ngIf="trendType==0">OnWard Hours </th>
+  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of Details; let i=index;">
+                  <td>{{data.date_day | date : 'dd MMM'}}</td>
+                  <td *ngIf="trendType==11">{{data.loading_hrs}}</td>
+                  <td *ngIf="trendType==21">{{data.unloading_hrs}}</td>
+                  <td *ngIf="trendType==0">{{data.onward_per}}</td>
+  
+              </tbody>
+            </table>
+  
+          </div> 
+        </div> -->
+      <!-- <div class="row" style="margin-top: 10px" *ngIf="showTables">
+          <div class="col-sm-6 pr-0" *ngIf="!onWardFlag">
+            <table class="table table-bordered">
+              <thead class="thead">
+                <tr>
+                  <th>Site Name</th>
+                  <th *ngIf="trendType==11">Loading Hours</th>
+                  <th *ngIf="trendType==21">Unloading Hours </th>
+                  <th>Count</th>
+  
+                </tr>
+              </thead>
+              <tbody *ngIf="trendType==11">
+                <ng-container *ngFor="let data of siteDetails; let i=index;">
+                  <tr *ngIf="trendType==11 && data.loading_count!= 0">
+                    <td style="color:#00695C;" (click)="locationOnMap(data)"
+                      *ngIf="data.sitename!=null && data.siteid!=null">
+                      <ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname">
+                      </ng-template>
+                      <ng-template #showid>{{data.sitename}}_{{data.siteid}}</ng-template>
+                      <ng-template #showname>{{data.sitename}}</ng-template>
+                    </td>
+                    <td style="color:#00695C;" *ngIf="data.sitename==null">No Site</td>
+                    <td>{{data.loading_hrs}}</td>
+                    <td style="color:#00695C;" (click)="getPendingStatusDetails(data)">{{data.loading_count}}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+              <tbody *ngIf="trendType==21">
+                <ng-container *ngFor="let data of siteUnloading; let i=index;">
+                  <tr *ngIf="trendType==21 && data.unloading_count!= 0">
+                    <td style="color:#E91E63;" (click)="locationOnMap(data)"
+                      *ngIf="data.sitename!=null && data.siteid!=null">
+                      <ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname">
+                      </ng-template>
+                      <ng-template #showid>{{data.sitename}}_{{data.siteid}}</ng-template>
+                      <ng-template #showname>{{data.sitename}}</ng-template>
+                    </td>
+                    <td style="color:#E91E63;" *ngIf="data.sitename==null">No Site</td>
+                    <td>{{data.unloading_hrs}}</td>
+                    <td style="color:#E91E63;" (click)="getPendingStatusDetails(data)">{{data.unloading_count}}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-sm-6" *ngIf="!onWardFlag">
+            <table class="table table-bordered">
+              <thead class="thead">
+                <tr>
+                  <th>Vehicle Name</th>
+                  <th *ngIf="trendType==11">Loading Hours</th>
+                  <th *ngIf="trendType==21">Unloading Hours </th>
+                  <th>Count</th>
+  
+                </tr>
+              </thead>
+              <tbody *ngIf="trendType==11">
+                <ng-container *ngFor="let data of vehicleDetails; let i=index;">
+                  <tr *ngIf="trendType==11 && data.ldng_count!= 0">
+                    <td>{{data.vehicle_id}}</td>
+                    <td>{{data.loading_hrs}}</td>
+                    <td>{{data.ldng_count}}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+              <tbody *ngIf="trendType==21">
+                <ng-container *ngFor="let data of vehicleUnloading; let i=index;">
+                  <tr *ngIf="trendType==21 && data.unldng_count!= 0">
+                    <td>{{data.vehicle_id}}</td>
+                    <td>{{data.unloading_hrs}}</td>
+                    <td>{{data.unldng_count}}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-sm-12" style="height:300px;overflow:auto;" *ngIf="onWardFlag">
+  
+            <table class="table table-bordered" style="margin-left: 70px; margin-right:70px;text-align: center;">
+              <thead class="thead" style="background-color:darkgrey">
+                <tr>
+                  <th>Vehicle Name</th>
+                  <th>OnWard Hours</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+  
+                <tr *ngFor="let data of vehicleDetails; let i=index;">
+                  <td>{{data.vehicle_id}}</td>
+                  <td>{{data.onward}}</td>
+                  <td></td>
+                </tr>
+  
+              </tbody>
+            </table>
+          </div>
+        </div> -->
+    </div>
+    <smart-table *ngIf="vehicleTrips && vehicleTrips.length" id="vehicleTrip" [data]="table.data"
+      [settings]="table.settings">
+    </smart-table>
+  </nb-card-body>
+</nb-card>

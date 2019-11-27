@@ -154,16 +154,8 @@ export class VehicleTripComponent implements OnInit {
         }
 
         this.valobj['action'] = {
-          value: '', isHTML: true, action: null, icons: [
-            { class: 'fa fa-pencil-square-o  edit-btn', isHTML: `<h2>test</h2>`, action: this.update.bind(this, this.vehicleTrips[i]) },
-            { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, this.vehicleTrips[i]) },
-            { class: " fa fa-trash remove", action: this.deleteTrip.bind(this, this.vehicleTrips[i]) },
-            { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, this.vehicleTrips[i]) },
-            { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, this.vehicleTrips[i]) },
-            { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, this.vehicleTrips[i]) },
-            { class: 'fa fa-handshake-o trip-settlement', action: this.tripSettlement.bind(this, this.vehicleTrips[i]) },
-
-          ]
+          value: '', isHTML: true, action: null,
+          icons: this.actionIcons(this.vehicleTrips[i])
         }
         if (this.user._loggedInBy == "admin") {
           this.valobj['action'].icons.push({ class: 'fa fa-chart-pie change-status', action: this.openChangeStatusModal.bind(this, this.vehicleTrips[i]) });
@@ -179,6 +171,19 @@ export class VehicleTripComponent implements OnInit {
     return columns;
   }
 
+  actionIcons(trip) {
+    let icons = [
+      { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, trip) },
+      { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, trip) },
+      { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, trip) },
+      { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, trip) },
+      { class: 'fa fa-handshake-o trip-settlement', action: this.tripSettlement.bind(this, trip) },
+    ];
+    this.user.permission.edit && icons.push({ class: 'fa fa-pencil-square-o  edit-btn', action: this.update.bind(this, trip) });
+    this.user.permission.delete && icons.push({ class: " fa fa-trash remove", action: this.deleteTrip.bind(this, trip) });
+
+    return icons;
+  }
   searchVehicle(value) {
     this.vehicleId = value.id;
     this.vehicleRegNo = value.regno;

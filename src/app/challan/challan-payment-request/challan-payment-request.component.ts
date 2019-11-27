@@ -152,14 +152,17 @@ export class ChallanPaymentRequestComponent implements OnInit {
   payChallanPayment(challanDetails, mainBalance) {
     this.common.params = {
       regNo: challanDetails.Regno,
+      vehicleId: challanDetails._vehid,
       chDate: challanDetails['Challan Date'],
-      chNo: challanDetails['Challan No'],
+      chNo: challanDetails.ChallanNo,
       amount: challanDetails.Amount,
       rowId: challanDetails._id,
       mainBalance: mainBalance
     }
     const activeModal = this.modalService.open(PayChallanPaymentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
+
+      console.log("false", data.response);
       if (data.response) {
         this.getChallanPaymentRequest();
       }
