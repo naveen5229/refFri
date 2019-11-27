@@ -111,13 +111,12 @@ export class DocumentationDetailsComponent implements OnInit {
         verified: { value: doc.is_verified ? 'Yes' : 'No' },
         remark: { value: doc.remarks },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center del' },
-        edit: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center del' },
+        edit: this.user.permission.edit && { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center del' },
         rowActions: { class: 'del' }
       };
       if (this.user._loggedInBy == 'admin') {
         column['delete'] = { value: `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteData.bind(this, doc), class: 'icon text-center' };
       }
-
       columns.push(column);
     });
 

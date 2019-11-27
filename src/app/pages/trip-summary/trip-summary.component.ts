@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class TripSummaryComponent implements OnInit {
   yScale = 'Hours';
   onWardFlag = false;
   fromDate = '';
-  vehicleTrips=[];
+  vehicleTrips = [];
   // lastCategory='';
   headings = [];
   valobj = {};
@@ -73,6 +74,8 @@ export class TripSummaryComponent implements OnInit {
 
   };
 
+  getStartTime = null;
+  getEndTime = null;
 
   constructor(public api: ApiService, public common: CommonService,
     private theme: NbThemeService,
@@ -734,45 +737,45 @@ export class TripSummaryComponent implements OnInit {
     return params;
   }
 
-// getTripSummary(){
-//  // let params = this.newMethod();
-//  const params = {
-//   startDate: this.startDate,
-//   endDate: this.endDate,
-// }; 
-//  console.log('params: ', params);
-//   this.common.loading++;
-//   this.api.post('TripExpenseVoucher/getRouteTripSummary', params)
-//     .subscribe(res => {
-//       this.common.loading--;
-//       console.log('res: ', res['data']);
-//       this.onWardDistance = res['data'];
-//       // this.period = null;
-//       this.showTables = false;
-//       this.showPeriod = false;
-//       this.onWardDistance.forEach((element) => {
-//         this.showdate = this.datepipe.transform(element.DATE, 'dd-MMM');
-//         this.kmpdDate.push(this.showdate);
-//         this.Hours.push(element.KMPD);
-//         console.log('dateDay , Hours: ', this.kmpdDate, this.Hours);
-//         this.yScale = "KMPD"
+  // getTripSummary(){
+  //  // let params = this.newMethod();
+  //  const params = {
+  //   startDate: this.startDate,
+  //   endDate: this.endDate,
+  // }; 
+  //  console.log('params: ', params);
+  //   this.common.loading++;
+  //   this.api.post('TripExpenseVoucher/getRouteTripSummary', params)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log('res: ', res['data']);
+  //       this.onWardDistance = res['data'];
+  //       // this.period = null;
+  //       this.showTables = false;
+  //       this.showPeriod = false;
+  //       this.onWardDistance.forEach((element) => {
+  //         this.showdate = this.datepipe.transform(element.DATE, 'dd-MMM');
+  //         this.kmpdDate.push(this.showdate);
+  //         this.Hours.push(element.KMPD);
+  //         console.log('dateDay , Hours: ', this.kmpdDate, this.Hours);
+  //         this.yScale = "KMPD"
 
-//       });
-//       this.element = {
-//         line: {
-//           tension: 0 // disables bezier curves
-//         }
-//       },
-//         this.bgColor = '#A0522D';
-//       this.showChart();
+  //       });
+  //       this.element = {
+  //         line: {
+  //           tension: 0 // disables bezier curves
+  //         }
+  //       },
+  //         this.bgColor = '#A0522D';
+  //       this.showChart();
 
-//     }, err => {
-//       this.common.loading--;
-//       this.common.showError();
+  //     }, err => {
+  //       this.common.loading--;
+  //       this.common.showError();
 
-//     })
+  //     })
 
-// }
+  // }
   // getTrend() {   //new change for onward-kmpd
   //   if (this.trendType == '31') {
   //     this.lastTrend = 'kmpd'
@@ -801,7 +804,7 @@ export class TripSummaryComponent implements OnInit {
     const params = {
       startDate: startDate,
       endDate: endDate,
-    }; 
+    };
     console.log('params', params);
     this.common.loading++;
     this.api.post('TripExpenseVoucher/getRouteTripSummary', params)
@@ -828,7 +831,7 @@ export class TripSummaryComponent implements OnInit {
 
           }
           let action = { title: 'Action', placeholder: 'Action' };
-         // this.table.data.headings['action'] = action;
+          // this.table.data.headings['action'] = action;
 
 
           this.table.data.columns = this.getTableColumns();
@@ -859,23 +862,15 @@ export class TripSummaryComponent implements OnInit {
           this.valobj[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.vehicleTrips[i]), isHTML: true, class: 'black' };
 
         } else {
-          this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'black', action: '' };
+          this.valobj[this.headings[j]] = { value: this.getSplitData(this.vehicleTrips[i][this.headings[j]]), class: 'blue', action: this.getSplitData(this.vehicleTrips[i][this.headings[j]]) ? this.vehicleHistory.bind(this, this.vehicleTrips[i]) : '' };
         }
 
         this.valobj['action'] = {
           value: '', isHTML: true, action: null, icons: [
-            // { class: 'fa fa-pencil-square-o  edit-btn', isHTML: `<h2>test</h2>`, action:  this.viewRouteTimeTable.bind(this, this.vehicleTrips[i]) },
-            // { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, this.vehicleTrips[i]) },
-            // { class: " fa fa-trash remove", action: this.deleteTrip.bind(this, this.vehicleTrips[i]) },
-            // { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, this.vehicleTrips[i]) },
-            // { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, this.vehicleTrips[i]) },
-            // { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, this.vehicleTrips[i]) },
-            // { class: 'fa fa-handshake-o trip-settlement', action: this.tripSettlement.bind(this, this.vehicleTrips[i]) },
-
           ]
         }
         if (this.user._loggedInBy == "admin") {
-        //  this.valobj['action'].icons.push({ class: 'fa fa-chart-pie change-status', action: this.openChangeStatusModal.bind(this, this.vehicleTrips[i]) });
+          //  this.valobj['action'].icons.push({ class: 'fa fa-chart-pie change-status', action: this.openChangeStatusModal.bind(this, this.vehicleTrips[i]) });
         }
 
 
@@ -887,6 +882,22 @@ export class TripSummaryComponent implements OnInit {
     console.log('Columns:', columns);
     return columns;
   }
+
+  getSplitData(data) {
+    let getStartTime = null;
+    let getEndTime = null;
+    let showData = null;
+    showData = data.split('_')[0];
+    getStartTime = "_" + data.split('_')[1];
+    getEndTime = "_" + data.split('_')[2];
+
+    return showData + getStartTime + getEndTime;
+
+  }
+  getTime() {
+
+  }
+
   formatTitle(strval) {
     let pos = strval.indexOf('_');
     if (pos > 0) {
@@ -895,5 +906,27 @@ export class TripSummaryComponent implements OnInit {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
+
+  vehicleHistory(row) {
+    console.log("row", row);
+    // let dataparams = {
+    //   view: {
+    //     api: 'TripExpenseVoucher/getRouteTripSummaryDril',
+    //     param: {
+    //       startDate: row._apiid,
+    //     }
+    //   },
+    //   delete: {
+    //     // api: 'Drivers/deleteAdvice',
+    //     // param: { id: "_id" }
+    //   },
+    //   title: "Vehicle List"
+    // }
+    // this.common.handleModalSize('class', 'modal-lg', '1100');
+    // this.common.params = { data: dataparams };
+    // const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+
 
 }

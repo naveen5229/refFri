@@ -11,7 +11,8 @@
                             <label class="mt-2">From Date :</label>
                         </div>
                         <div class="col-8 pl-0">
-                            <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate" [isTime]="false">
+                            <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"
+                                [isTime]="false">
                             </uj-date-time-picker>
                         </div>
                     </div>
@@ -22,7 +23,8 @@
                             <label class="mt-2">To Date :</label>
                         </div>
                         <div class="col-9 pl-0">
-                            <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate" [isTime]="false" [isStart]="false">
+                            <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate" [isTime]="false"
+                                [isStart]="false">
                             </uj-date-time-picker>
                         </div>
                     </div>
@@ -33,11 +35,13 @@
                 <div class="col-2">
                 </div>
                 <div class="col-1">
-                    <button type="button" class="btn btn-primary" (click)="openDispatchOrder(false)">Add</button>
+                    <button type="button" class="btn btn-primary" *ngIf="user.permission.add"
+                        (click)="openDispatchOrder(false)">Add</button>
                 </div>
             </div>
             <div class="mt-2">
-                <smart-table *ngIf="dispatchOrders && dispatchOrders.length" [data]="table.data" [settings]="table.settings"></smart-table>
+                <smart-table *ngIf="dispatchOrders && dispatchOrders.length" [data]="table.data"
+                    [settings]="table.settings"></smart-table>
             </div>
             <div class="alert alert-danger text-center mt-3" *ngIf="dispatchOrders==null">
                 <h4 class="no-record">No Record Found</h4>

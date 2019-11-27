@@ -561,7 +561,7 @@ const routes: Routes = [{
     component: TripSummaryComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
-  
+
   ],
 }];
 

@@ -161,7 +161,7 @@ export class FuelFillingsComponent implements OnInit {
       //valobj[this.headings[i]] = { value: val, class: (val > 0 )? 'blue': 'black', action: val >0 ? this.openData.bind(this, docobj, status) : '' };
       let column = {
         //  id: { value: frec.id, class: 'blue', action: this.openData.bind(this, frec) },
-        pump: { value: frec.pp, class: 'blue', action: this.openData.bind(this, frec) },
+        pump: { value: frec.pp, class: 'blue', action: this.user.permission.edit && this.openData.bind(this, frec) },
         date: { value: this.datePipe.transform(frec.date, 'dd MMM yyyy'), class: 'blue', action: this.openFuelEntry.bind(this, frec) },
         regno: { value: frec.regno },
         litres: { value: frec.litres },

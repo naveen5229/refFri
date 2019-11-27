@@ -20,7 +20,8 @@
     <div class="row">
       <div class="col-12">
         <div class="fuel_filling_button">
-          <button id="add-fuel" name="add-fuel" class="btn btn-primary" (click)="addFuel()">Add Fuel</button>
+          <button id="add-fuel" name="add-fuel" *ngIf="user.permission.add" class="btn btn-primary"
+            (click)="addFuel()">Add Fuel</button>
           <button id="import-csv" name="import-csv" class="btn btn-primary" *ngIf="user._loggedInBy=='admin'"
             (click)="addCsv()">Import CSV</button>
           <button id="fuel-station" name="fuel-station" class="btn btn-primary" (click)="getFuelStation()">Fuel
