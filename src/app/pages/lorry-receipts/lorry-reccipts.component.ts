@@ -72,7 +72,7 @@ export class LorryRecciptsComponent implements OnInit {
 
     this.getLorryReceipts();
   }
- 
+
   getLorryReceipts() {
     console.log("--this.tempendTime---", this.tempendTime, "this.tempstartTime---", this.tempstartTime)
     if (this.tempendTime < this.tempstartTime) {
@@ -88,7 +88,7 @@ export class LorryRecciptsComponent implements OnInit {
       lrCategory: this.lrCategory,
       vehicleType: this.vehicleType,
       searchValue: this.searchValue,
-      searchString:this.searchString
+      searchString: this.searchString
     };
     console.log("api params Data:", params);
     this.table = null;
@@ -197,7 +197,7 @@ export class LorryRecciptsComponent implements OnInit {
       // LRId: { title: 'LR Id', placeholder: 'LR Id' },
       LRNo: { title: 'LR No', placeholder: 'LR No' },
       LRDate: { title: 'LR Date', placeholder: 'LR Date' },
-      VehiceNo: { title: 'Vehicle No', placeholder: 'Vehicle No' },     
+      VehiceNo: { title: 'Vehicle No', placeholder: 'Vehicle No' },
       Consigner: { title: 'Consigner', placeholder: 'Consigner' },
       Consignee: { title: 'Consignee', placeholder: 'Consignee' },
       TA: { title: 'TA', placeholder: 'TA' },
@@ -240,15 +240,12 @@ export class LorryRecciptsComponent implements OnInit {
         Consigner: { value: R.lr_consigner_name },
         Consignee: { value: R.lr_consignee_name },
         TA: { value: R.lr_ta_name },
-        Supplier:{value:R.lr_supplier_name},
+        Supplier: { value: R.lr_supplier_name },
         Source: { value: R.lr_source },
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
         Revenue: R.revenue_amount > 0 ? { value: '', class: 'text-center', isHTML: false, icons: [{ class: 'fa fa-inr icon i-green', action: this.lrRates.bind(this, R, 0) }, { class: 'fa fa-check icon i-green ml-2', action: this.openRevenueModal.bind(this, R, 0) }] } : { value: '', class: 'text-center', isHTML: false, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 0) }, { class: 'fa fa-times-circle i-red-cross ml-2', action: this.openRevenueModal.bind(this, R, 0) }] },
         Expense: R.expense_amount > 0 ? { value: '', class: 'text-center', isHTML: false, icons: [{ class: 'fa fa-inr icon i-green', action: this.lrRates.bind(this, R, 1) }, { class: 'fa fa-check icon i-green ml-2', action: this.openExpenseModal.bind(this, R, 1) }] } : { value: '', class: 'text-center', isHTML: false, icons: [{ class: 'fa fa-inr i-red-cross', action: this.lrRates.bind(this, R, 1) }, { class: 'fa fa-times-circle i-red-cross ml-2', action: this.openExpenseModal.bind(this, R, 1) }] },
-        // PodImage: R.pod_docid ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getPodImage.bind(this, R) }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
-        // PodDetails: R.poddetails ? { value: '', isHTML: true, icons: [{ class: 'fa fa-check i-green', action: this.openPodDeatilsModal.bind(this, R) }] } : { value: '', isHTML: true, icons: [{ class: 'fa fa-times-circle i-red-cross', action: this.openPodDeatilsModal.bind(this, R) }] },
-        // PodReceived: R.podreceived ? { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-check i-green' }] } : { value: '', isHTML: true, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
         LRImage: R.lr_image ?
           { value: '', class: 'text-center', isHTML: false, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getImage.bind(this, R) }] } :
           { value: '', class: 'text-center', isHTML: false, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
@@ -268,19 +265,11 @@ export class LorryRecciptsComponent implements OnInit {
         },
 
 
-        Action: {
-          value: '', isHTML: true, action: null, icons: [{
-            class: 'fa fa-print icon', action: this.printLr.bind(this, R)
-          },
-          { class: R.is_locked ?'' : 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) },
-          { class: R.is_locked  ? '' : 'fa fa-trash icon', action: this.deleteLr.bind(this, R) },
-          { class: 'fa fa-handshake-o  icon', action: this.tripSettlement.bind(this, R) },
-          ]
-        },
+        Action: { value: '', isHTML: true, action: null, icons: this.actionIcons(R) },
         Invoice: {
           value: '', isHTML: true, action: null, icons: [
-          { class: R._frinvid ? 'fa fa-print icon' : R.revenue_amount > 0 ? 'fa fa-pencil-square-o icon edit ':'' , action:R._frinvid > 0 ? this.invoice.bind(this, R) : R.revenue_amount > 0 ? this.invoiceFromLr.bind(this, R):'' },
-        
+            { class: R._frinvid ? 'fa fa-print icon' : R.revenue_amount > 0 ? 'fa fa-pencil-square-o icon edit ' : '', action: R._frinvid > 0 ? this.invoice.bind(this, R) : R.revenue_amount > 0 ? this.invoiceFromLr.bind(this, R) : '' },
+
           ]
         }
       };
@@ -289,6 +278,18 @@ export class LorryRecciptsComponent implements OnInit {
     });
     return columns;
   }
+
+  actionIcons(R) {
+    let icons = [
+      { class: 'fa fa-print icon', action: this.printLr.bind(this, R) },
+      { class: 'fa fa-handshake-o  icon', action: this.tripSettlement.bind(this, R) },
+    ];
+    this.user.permission.edit && icons.push({ class: R.is_locked ? '' : 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) });
+    this.user.permission.delete && icons.push({ class: R.is_locked ? '' : 'fa fa-trash icon', action: this.deleteLr.bind(this, R) });
+
+    return icons;
+  }
+
 
   getDate(type) {
 
@@ -424,19 +425,19 @@ export class LorryRecciptsComponent implements OnInit {
   }
 
   invoiceFromLr(row) {
-    let params={
-      lrId:row.lr_id
+    let params = {
+      lrId: row.lr_id
     }
-    this.api.post('FrieghtRate/invoiceFromLr',params)
+    this.api.post('FrieghtRate/invoiceFromLr', params)
       .subscribe(res => {
         console.log('result', res['data'][0]);
-        if(res['data']&& res['data'][0].r_id > 0){
+        if (res['data'] && res['data'][0].r_id > 0) {
           let inv = {
-            _frinvid : res['data'][0].r_id
+            _frinvid: res['data'][0].r_id
           }
           this.common.showToast(res['data'][0].r_msg);
           this.invoice(inv);
-        }else if(res['data']){
+        } else if (res['data']) {
           this.common.showError(res['data'][0].r_msg);
         }
       }, err => {
@@ -461,6 +462,6 @@ export class LorryRecciptsComponent implements OnInit {
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
-}
+  }
 }
 

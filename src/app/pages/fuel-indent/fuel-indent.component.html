@@ -51,7 +51,8 @@
                     <button type="button" class="btn btn-primary w-100" (click)="getFuelIndent()">submit</button>
                 </div>
                 <div class="col-1">
-                    <button type="button" class="btn btn-primary w-100" (click)="addFuelIndent()">Add</button>
+                    <button type="button" class="btn btn-primary w-100" *ngIf="user.permission.add"
+                        (click)="addFuelIndent()">Add</button>
                 </div>
 
             </div>

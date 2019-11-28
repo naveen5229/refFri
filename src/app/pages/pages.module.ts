@@ -88,6 +88,8 @@ import { VehicleSupplierAssociationComponent } from './vehicle-supplier-associat
 import { MvGpsApisComponent } from './mv-gps-apis/mv-gps-apis.component';
 import { VehicleDetailsUpdateComponent } from '../modals/vehicle-details-update/vehicle-details-update.component';
 import { MvGpsApiHistoryComponent } from './mv-gps-api-history/mv-gps-api-history.component';
+import { RouteTripComponent } from './route-trip/route-trip.component';
+import { TripSummaryComponent } from './trip-summary/trip-summary.component';
 
 
 
@@ -177,6 +179,8 @@ const PAGES_COMPONENTS = [
     VehicleSupplierAssociationComponent,
     MvGpsApisComponent,
     MvGpsApiHistoryComponent,
+    RouteTripComponent,
+    TripSummaryComponent,
 
 
   ],

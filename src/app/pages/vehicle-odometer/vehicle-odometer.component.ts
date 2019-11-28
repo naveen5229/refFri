@@ -171,12 +171,7 @@ export class VehicleOdometerComponent implements OnInit {
   actionIcons(details) {
     let icons = [];
     if (details._id) {
-      icons.push(
-        {
-          class: "fa fa-window-close",
-          action: this.remove.bind(this, details),
-        }
-      )
+      this.user.permission.delete && icons.push({ class: "fa fa-window-close", action: this.remove.bind(this, details) });
     }
     else {
       icons.push(

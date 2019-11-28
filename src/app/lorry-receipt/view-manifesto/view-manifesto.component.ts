@@ -5,6 +5,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { PrintManifestComponent } from '../../modals/print-manifest/print-manifest.component';
 import { GenerateLrMainfestoComponent } from '../generate-lr-mainfesto/generate-lr-mainfesto.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'view-manifesto',
@@ -30,6 +31,7 @@ export class ViewManifestoComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
+    public user: UserService,
     public modalService: NgbModal,
     private activeModal: NgbActiveModal) {
     let today = new Date();
@@ -90,7 +92,6 @@ export class ViewManifestoComponent implements OnInit {
         console.log("retrun Data length is zero", this.manifestData);
         if (this.manifestData == null) {
           return;
-
         }
 
         let first_rec = this.manifestData[0];
@@ -121,10 +122,7 @@ export class ViewManifestoComponent implements OnInit {
 
         this.valobj[this.headings[j]] = { value: this.manifestData[i][this.headings[j]], class: (this.manifestData[i][this.headings[j]] > 0) ? 'blue' : 'black', action: '' };
         this.valobj['action'] = {
-          value: '', isHTML: false, action: null, icons: [
-            { class: 'fa fa-print', action: this.openViewManifestModal.bind(this, this.manifestData[i]) },
-            { class: " fa fa-pencil-square-o ml-2", action: this.editLrManifest.bind(this, this.manifestData[i]) }
-          ]
+          value: '', isHTML: false, action: null, icons: this.actionIcons(this.manifestData[i])
           //value: `<span>view</span>`, isHTML: true, class: 'zoom', action: this.openViewManifestModal.bind(this, this.manifestData[i])
         }
       }
@@ -134,6 +132,12 @@ export class ViewManifestoComponent implements OnInit {
   }
 
 
+  actionIcons(mainfest) {
+    let icons = [{ class: 'fa fa-print', action: this.openViewManifestModal.bind(this, mainfest) },
+    ];
+    this.user.permission.edit && icons.push({ class: " fa fa-pencil-square-o ml-2", action: this.editLrManifest.bind(this, mainfest) });
+    return icons;
+  }
 
 
 

@@ -88,6 +88,8 @@ import { UnmergeLRStateComponent } from './unmerge-lrstate/unmerge-lrstate.compo
 import { VehicleSupplierAssociationComponent } from './vehicle-supplier-association/vehicle-supplier-association.component';
 import { MvGpsApisComponent } from './mv-gps-apis/mv-gps-apis.component';
 import { MvGpsApiHistoryComponent } from './mv-gps-api-history/mv-gps-api-history.component';
+import { RouteTripComponent } from './route-trip/route-trip.component';
+import { TripSummaryComponent } from './trip-summary/trip-summary.component';
 
 
 const routes: Routes = [{
@@ -547,7 +549,18 @@ const routes: Routes = [{
     component: MvGpsApiHistoryComponent,
     canActivate: [AuthGuard, RouteGuard]
   },
+  {
 
+    path: 'route-trip',
+    component: RouteTripComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+
+    path: 'trip-summary',
+    component: TripSummaryComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
 
   ],
 }];

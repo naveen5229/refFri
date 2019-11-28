@@ -216,7 +216,7 @@ export class DriverCallSuggestionComponent implements OnInit {
           valobj[this.headings[j]] = {
             value: '', isHTML: true, action: null, icons: [
               { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.driverData[i]) },
-              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.driverData[i]) },
+              this.user.permission.add && { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.driverData[i]) },
               { class: "icon fa fa-route route-mapper", action: this.openRouteMapper.bind(this, this.driverData[i]) },
             ]
           };
@@ -339,7 +339,7 @@ export class DriverCallSuggestionComponent implements OnInit {
           this.valobj2[this.headings[j]] = {
             value: '', isHTML: true, action: null, icons: [
               { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.onwardDelayData[i]) },
-              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.onwardDelayData[i]) }]
+              this.user.permission.add && { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.onwardDelayData[i]) }]
           };
 
           //{ value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.onwardDelayData[i]) };
@@ -447,7 +447,7 @@ export class DriverCallSuggestionComponent implements OnInit {
           this.valobj3[this.headings[j]] = {
             value: '', isHTML: true, action: null, icons: [
               { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.delayFaults[i]) },
-              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.delayFaults[i]) }]
+              this.user.permission.add && { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.delayFaults[i]) }]
           };
           //{ value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.delayFaults[i]) };
 
@@ -551,7 +551,7 @@ export class DriverCallSuggestionComponent implements OnInit {
           this.valobj4[this.headings[j]] = {
             value: '', isHTML: true, action: null, icons: [
               { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.shortTarget[i]) },
-              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.shortTarget[i]) }]
+              this.user.permission.add &&   { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.shortTarget[i]) }]
           };//{ value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.shortTarget[i]) };
 
         } else if (this.headings[j] == "remark") {
@@ -669,7 +669,7 @@ export class DriverCallSuggestionComponent implements OnInit {
           this.valobj5[this.headings[j]] = {
             value: '', isHTML: true, action: null, icons: [
               { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longLoading[i]) },
-              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.longLoading[i]) }]
+              this.user.permission.add &&   { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.longLoading[i]) }]
           };
           //{ value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longLoading[i]) };
 
@@ -783,7 +783,7 @@ export class DriverCallSuggestionComponent implements OnInit {
           this.valobj6[this.headings[j]] = {
             value: '', isHTML: true, action: null, icons: [
               { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longUnLoading[i]) },
-              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.longUnLoading[i]) }]
+              this.user.permission.add &&  { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.longUnLoading[i]) }]
           };
           //{ value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longUnLoading[i]) };
 

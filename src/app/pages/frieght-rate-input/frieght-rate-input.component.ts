@@ -9,6 +9,7 @@ import { FreightInputLocationComponent } from '../../modals/FreightRate/freight-
 import { FoFreightRatesComponent } from '../../modals/FreightRate/fo-freight-rates/fo-freight-rates.component';
 import { FreightRateCalculationComponent } from '../../modals/freight-rate-calculation/freight-rate-calculation.component';
 import { FreightRateSummaryComponent } from '../../modals/FreightRate/freight-rate-summary/freight-rate-summary.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'frieght-rate-input',
@@ -36,6 +37,7 @@ export class FrieghtRateInputComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     public common: CommonService,
+    public user: UserService,
     public api: ApiService) {
     this.getFrieghtRate();
     this.common.refresh = this.refresh.bind(this);
@@ -180,10 +182,9 @@ export class FrieghtRateInputComponent implements OnInit {
     });
   }
 
-//Created by Hemant Singh Sisodia
-frieghtRateSummary(row)
-{
-  console.log("row", row);
+  //Created by Hemant Singh Sisodia
+  frieghtRateSummary(row) {
+    console.log("row", row);
     let data = {
       id: row._id
     }
@@ -194,7 +195,7 @@ frieghtRateSummary(row)
         this.getFrieghtRate();
       }
     });
-}
+  }
 
 
 
