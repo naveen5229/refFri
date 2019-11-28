@@ -60,42 +60,44 @@ export class TripSummaryComponent implements OnInit {
       hideHeader: true
     }
   };
-  MONTHS = ['11-01', '11-02', '11-03', '11-04', '11-05', '11-06', '11-07', '11-08', '11-09', '11-10', '11-11', '11-12'];
-	chartObject = {
-			type: 'line',
-			data: null,
-			options: {
-				responsive: true,
-				title: {
-					display: true,
-					text: 'Chart.js Line Chart'
-				},
-				tooltips: {
-					mode: 'index',
-					intersect: false,
-				},
-				hover: {
-					mode: 'nearest',
-					intersect: true
-				},
-				scales: {
-					x: {
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Month'
-						}
-					},
-					y: {
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Value'
-						}
-					}
-				}
-			}
-		};
+  Config = {
+    type: 'line',
+    data: null,
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart',
+        maintainAspectRatio: false
+      },
+      maintainAspectRatio: false,
+
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+      scales: {
+        x: {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Month'
+          }
+        },
+        y: {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Value'
+          }
+        }
+      }
+    }
+  };
 
 
   constructor(public api: ApiService, public common: CommonService,
@@ -109,34 +111,33 @@ export class TripSummaryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.randomData();
    }
   refresh() {
-
     this.getTripSummary();
   }
 
-randomData(){
-  this.chartObject.data = {
-    labels: ['11-01', '11-02', '11-03', '11-07','11-09','11-10','11-12'],
-    datasets: [{
-      label: 'Kpi',
-      backgroundColor: '#FF0000',
-      borderColor: '#FF0000',
-      data: [
-        Math.ceil(Math.random() * 10),
-        Math.ceil(Math.random() * 10),
-        Math.ceil(Math.random() * 10),
-        Math.ceil(Math.random() * 10),
-        Math.ceil(Math.random() * 10),
-        Math.ceil(Math.random() * 10),
-        Math.ceil(Math.random() * 10)
-      ],
-      fill: false,
-    }]
+  refreshData(row) {
+    console.log("Row------", row);
+    var XLabel = [];
+    var YValues = [];
+    Object.keys(row).forEach(ele => {
+      if (ele !== 'Kpi' && ele != '_kpi_id') {
+        XLabel.push(ele);
+        var datax = parseInt(row[ele].split('$')[0]);
+        YValues.push(isNaN(datax) ? 0 : datax);
+      }
+    });
+    this.Config.data = {
+      labels: XLabel,
+      datasets: [{
+        label: 'My First dataset',
+        backgroundColor: '#FF0000',
+        borderColor: '#FF0000',
+        data: YValues,
+        fill: false,
+      }]
+    };
   }
-}
-
 
   getTripSummary() {
     this.vehicleTrips = [];
@@ -149,6 +150,7 @@ randomData(){
         hideHeader: true
       }
     };
+    this.Config.data = null;
     let startDate = this.common.dateFormatter1(this.startTime);
     let endDate = this.common.dateFormatter1(this.endTime);
     console.log('start & end', startDate, endDate);
@@ -202,10 +204,10 @@ randomData(){
         console.log("column*******", this.headings[j]);
 
         if (this.headings[j] == "Kpi") {
-          this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'blue',action:this.randomData.bind(this) };
+          this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'black', action: this.refreshData.bind(this, this.vehicleTrips[i]) };
         }
         else {
-          this.valobj[this.headings[j]] = { value: this.getSplitData(this.vehicleTrips[i][this.headings[j]]), class: 'blue', action: this.getSplitData(this.vehicleTrips[i][this.headings[j]]) ? this.vehicleHistory.bind(this, this.vehicleTrips[i][this.headings[j]], this.vehicleTrips[i]._kpi_id) : '' };
+          this.valobj[this.headings[j]] = { value: this.getSplitData(this.vehicleTrips[i][this.headings[j]]), class: this.getSplitData(this.vehicleTrips[i][this.headings[j]]) != 0 ? 'blue' : 'black', action: this.getSplitData(this.vehicleTrips[i][this.headings[j]]) != 0 ? this.vehicleHistory.bind(this, this.vehicleTrips[i][this.headings[j]], this.vehicleTrips[i]._kpi_id) : '' };
         }
 
       }
@@ -218,14 +220,12 @@ randomData(){
   }
 
   getSplitData(data) {
-
     let showData = null;
     showData = data.split('$')[0];
-
     return showData;
 
-
   }
+
 
 
   formatTitle(strval) {
@@ -264,7 +264,6 @@ randomData(){
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
-
 
 
 }

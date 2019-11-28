@@ -1,36 +1,38 @@
 <nb-card style="border:0px;">
 
-    <nb-card-body style="padding:15px 15px 0px;">
-      <div class="model-body">
-        <div class="row" style="min-height: 200px;">
-            <div class="col-sm-11">
-                <chart [type]="chartObject.type" [data]="chartObject.data" style="margin-right:5px;min-height: 200px"
-                  [options]="chartObject.options"></chart>
-              </div>
+  <nb-card-body style="padding:15px 15px 0px;">
+    <div class="model-body">
+
+      <div class="row">
+
+
+        <div class="col-md-2 pr-0">
+          <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+          </uj-date-time-picker>
         </div>
-  
-        <div class="row">
-  
-  
-          <div class="col-md-2 pr-0">
-            <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
-            </uj-date-time-picker>
-          </div>
-          <div class="col-md-2 pr-0">
-            <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
-              [dateTimeValue]="endTime">
-            </uj-date-time-picker>
-          </div>
-  
-          <div class="col-sm-2" *ngIf="period == '0' || trendType=='31'">
-            <button class="btn btn-primary" (click)="getTripSummary()">submit</button>
-          </div>
+        <div class="col-md-2 pr-0">
+          <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
+            [dateTimeValue]="endTime">
+          </uj-date-time-picker>
         </div>
-        <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
-  
+
+        <div class="col-sm-2" *ngIf="period == '0' || trendType=='31'">
+          <button class="btn btn-primary" (click)="getTripSummary()">submit</button>
+        </div>
       </div>
-      <smart-table *ngIf="vehicleTrips && vehicleTrips.length" id="vehicleTrip" [data]="table.data"
-        [settings]="table.settings">
-      </smart-table>
-    </nb-card-body>
-  </nb-card>
+
+      <div class="row">
+        <div class="col-sm-12" *ngIf="Config.data">
+          <chart [type]="Config.type" [data]="Config.data" style="margin-right:5px;min-height: 200px;max-height: 330px;"
+            [options]="Config.options"></chart>
+        </div>
+      </div>
+
+      <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
+
+    </div>
+    <smart-table *ngIf="vehicleTrips && vehicleTrips.length" id="vehicleTrip" [data]="table.data"
+      [settings]="table.settings">
+    </smart-table>
+  </nb-card-body>
+</nb-card>
