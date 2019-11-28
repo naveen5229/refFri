@@ -117,7 +117,8 @@ export class TripSummaryComponent implements OnInit {
       this.getTripSummary();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+   }
   refresh() {
     this.getTripSummary();
   }
@@ -239,6 +240,7 @@ export class TripSummaryComponent implements OnInit {
     return showData;
 
   }
+
 
 
   formatTitle(strval) {
