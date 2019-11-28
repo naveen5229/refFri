@@ -5,10 +5,7 @@
 
       <div class="row">
 
-        <div class="col-sm-11" *ngIf="Config.data">
-          <chart [type]="Config.type" [data]="Config.data" style="margin-right:5px;min-height: 200px;"
-            [options]="Config.options"></chart>
-        </div>
+
         <div class="col-md-2 pr-0">
           <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
           </uj-date-time-picker>
@@ -23,6 +20,14 @@
           <button class="btn btn-primary" (click)="getTripSummary()">submit</button>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-sm-12" *ngIf="Config.data">
+          <chart [type]="Config.type" [data]="Config.data" style="margin-right:5px;min-height: 200px;max-height: 330px;"
+            [options]="Config.options"></chart>
+        </div>
+      </div>
+
       <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
 
     </div>
