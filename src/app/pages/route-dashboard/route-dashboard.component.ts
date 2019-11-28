@@ -213,7 +213,7 @@ export class RouteDashboardComponent implements OnInit {
     let today, startday, fromDate, endday, toDate;
     today = new Date();
     startday = route.f_end_time ? this.common.dateFormatter(route.f_end_time) : new Date(today.setDate(today.getDate() - 2));
-    endday = route.l_end_time ? this.common.dateFormatter(route.c_start_time) : new Date();
+    endday = route.c_start_time ? this.common.dateFormatter(route.c_start_time) : new Date();
 
     fromDate = this.common.dateFormatter(startday);
     toDate = this.common.dateFormatter(endday);
