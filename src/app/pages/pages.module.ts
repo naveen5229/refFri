@@ -90,6 +90,7 @@ import { VehicleDetailsUpdateComponent } from '../modals/vehicle-details-update/
 import { MvGpsApiHistoryComponent } from './mv-gps-api-history/mv-gps-api-history.component';
 import { RouteTripComponent } from './route-trip/route-trip.component';
 import { TripSummaryComponent } from './trip-summary/trip-summary.component';
+import { RouteDeviationsComponent } from './route-deviations/route-deviations.component';
 
 
 
@@ -181,6 +182,7 @@ const PAGES_COMPONENTS = [
     MvGpsApiHistoryComponent,
     RouteTripComponent,
     TripSummaryComponent,
+    RouteDeviationsComponent,
 
 
   ],
