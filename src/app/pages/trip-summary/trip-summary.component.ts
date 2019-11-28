@@ -60,18 +60,40 @@ export class TripSummaryComponent implements OnInit {
       hideHeader: true
     }
   };
-  chartObject = {
-    type: '',
-    data: {},
-    options: {},
-    elements: {},
-    lables: [],
-    yAxes: [],
-    ticks: {},
-    min: '',
-    max: '',
-    stepSize: ''
-
+  Config = {
+    type: 'line',
+    data: null,
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart'
+      },
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+      scales: {
+        x: {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Month'
+          }
+        },
+        y: {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Value'
+          }
+        }
+      }
+    }
   };
 
 
@@ -87,10 +109,31 @@ export class TripSummaryComponent implements OnInit {
 
   ngOnInit() { }
   refresh() {
-
     this.getTripSummary();
   }
 
+  refreshData(row) {
+    console.log("Row------", row);
+    var XLabel = [];
+    var YValues = [];
+    Object.keys(row).forEach(ele => {
+      if (ele !== 'Kpi' && ele != '_kpi_id') {
+        XLabel.push(ele);
+        var datax = parseInt(row[ele].split('$')[0]);
+        YValues.push(isNaN(datax) ? 0 : datax);
+      }
+    });
+    this.Config.data = {
+      labels: XLabel,
+      datasets: [{
+        label: 'My First dataset',
+        backgroundColor: '#FF0000',
+        borderColor: '#FF0000',
+        data: YValues,
+        fill: false,
+      }]
+    };
+  }
 
   getTripSummary() {
     this.vehicleTrips = [];
@@ -103,6 +146,7 @@ export class TripSummaryComponent implements OnInit {
         hideHeader: true
       }
     };
+    this.Config.data = null;
     let startDate = this.common.dateFormatter1(this.startTime);
     let endDate = this.common.dateFormatter1(this.endTime);
     console.log('start & end', startDate, endDate);
@@ -156,7 +200,7 @@ export class TripSummaryComponent implements OnInit {
         console.log("column*******", this.headings[j]);
 
         if (this.headings[j] == "Kpi") {
-          this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'black', };
+          this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'black', action: this.refreshData.bind(this, this.vehicleTrips[i]) };
         }
         else {
           this.valobj[this.headings[j]] = { value: this.getSplitData(this.vehicleTrips[i][this.headings[j]]), class: this.getSplitData(this.vehicleTrips[i][this.headings[j]]) != 0 ? 'blue' : 'black', action: this.getSplitData(this.vehicleTrips[i][this.headings[j]]) != 0 ? this.vehicleHistory.bind(this, this.vehicleTrips[i][this.headings[j]], this.vehicleTrips[i]._kpi_id) : '' };
