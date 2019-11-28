@@ -67,8 +67,11 @@ export class TripSummaryComponent implements OnInit {
       responsive: true,
       title: {
         display: true,
-        text: 'Chart.js Line Chart'
+        text: 'Chart.js Line Chart',
+        maintainAspectRatio: false
       },
+      maintainAspectRatio: false,
+
       tooltips: {
         mode: 'index',
         intersect: false,
