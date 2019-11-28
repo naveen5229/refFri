@@ -13,12 +13,14 @@
             <div class="col-10">
                 <div class="row">
                     <div class="col-sm-2">
-                        <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
+                        <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate"
+                            [isTime]="false">
                         </uj-date-time-picker>
                     </div>
 
                     <div class="col-sm-2">
-                        <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]="false" [isStart]="false">
+                        <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]="false"
+                            [isStart]="false">
                         </uj-date-time-picker>
 
                     </div>
@@ -27,11 +29,13 @@
                     </div>
 
                     <div class="col-sm-2">
-                        <button (click)="OpenFoFreight()" class="btn btn-primary">Add</button>
+                        <button (click)="OpenFoFreight()" *ngIf="user.permission.add"
+                            class="btn btn-primary">Add</button>
                     </div>
 
                     <div class="col-sm-2">
-                        <button (click)="freightRateCalculation()" class="btn btn-primary">Freight Rate Calculation</button>
+                        <button (click)="freightRateCalculation()" class="btn btn-primary">Freight Rate
+                            Calculation</button>
                     </div>
                 </div>
             </div>

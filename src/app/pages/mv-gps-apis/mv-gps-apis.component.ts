@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddGpsApiUrlComponent } from '../../modals/add-gps-api-url/add-gps-api-url.component';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'mv-gps-apis',
@@ -24,6 +25,7 @@ export class MvGpsApisComponent implements OnInit {
 
   constructor(private modalService: NgbModal,
     public common: CommonService,
+    public user: UserService,
     public api: ApiService) {
     this.getMvGpsDetails();
   }
@@ -82,7 +84,7 @@ export class MvGpsApisComponent implements OnInit {
       let column = {};
       for (let key in this.generateHeadings(chHeadings)) {
         if (key == "Action") {
-          column[key] = { value: "", action: null, icons: [{ class: 'far fa-edit', action: this.addEditGpsApiUrl.bind(this, item) }, { class: 'fas fa-trash', action: this.deleteGpsApiUrl.bind(this, item._id) }] }
+          column[key] = { value: "", action: null, icons: this.actionIcons(item) }
         } else {
           column[key] = { value: item[key], class: 'black', action: '' };
         }
@@ -91,9 +93,16 @@ export class MvGpsApisComponent implements OnInit {
     });
     return columns;
   }
-  
+
+  actionIcons(item) {
+    let icons = [];
+    this.user.permission.edit && icons.push({ class: 'far fa-edit', action: this.addEditGpsApiUrl.bind(this, item) });
+    this.user.permission.delete && icons.push({ class: 'fas fa-trash', action: this.deleteGpsApiUrl.bind(this, item._id) });
+    return icons;
+  }
+
   addEditGpsApiUrl(gpsData?) {
-    this.common.params=null;
+    this.common.params = null;
     if (gpsData) {
       this.common.params = gpsData;
     }
@@ -107,8 +116,8 @@ export class MvGpsApisComponent implements OnInit {
   }
 
   deleteGpsApiUrl(rowId) {
-    let params={
-      rowId:rowId
+    let params = {
+      rowId: rowId
     }
     this.common.loading++;
     this.api.post('GpsData/deleteMvGpsDetails', params)

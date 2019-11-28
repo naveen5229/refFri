@@ -5,7 +5,8 @@
         <h5>Vehicle Supplier Association</h5>
       </div>
       <div class="col-3">
-        <button class="btn btn-primary" name="add" (click)="addSupplierAssociation()">Add</button>
+        <button class="btn btn-primary" name="add" *ngIf="user.permission.add"
+          (click)="addSupplierAssociation()">Add</button>
       </div>
     </div>
   </nb-card-header>

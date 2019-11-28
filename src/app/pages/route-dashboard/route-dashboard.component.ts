@@ -160,7 +160,7 @@ export class RouteDashboardComponent implements OnInit {
         // routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
         routeName: route.name ? this.getRouteAconym(route.name,route) : '-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
         startLocation: { value: route.f_name ? route.f_name : '-', action: this.viewlocation.bind(this, route) },
-        startTime: { value: route.f_end_time ? this.common.changeDateformat2(route.f_end_time) : '-', action: this.viewlocation.bind(this, route) },
+        startTime: { value: route.f_end_time ? this.common.changeDateformat2(route.f_end_time) : '-', action: this.viewlocation.bind(this, route),class:route.f_delay>0?'red':route.f_delay<0?'green':'' },
         endLocation: { value: route.l_name ? route.l_name : '-', action: this.viewlocation.bind(this, route) },
         lastTime: { value: route.l_end_time ? this.common.changeDateformat2(route.l_end_time) : '-', action: this.viewlocation.bind(this, route) },
         currentLocation: { value: route.c_name ? route.c_name : '-', action: this.viewlocation.bind(this, route) },
@@ -169,7 +169,7 @@ export class RouteDashboardComponent implements OnInit {
         distanceRemaining: { value: route.n_dist_rem ? route.n_dist_rem : '-' },
         etoa: { value: route.etoa_next ? this.common.changeDateformat2(route.etoa_next) : '-', },
         startDelay: { value: route.start_delay ? route.start_delay : '-' },
-        totalDelay: { value: route.total_delay ? route.total_delay : '-' },
+        totalDelay: { value: route.total_delay ? route.total_delay : '-', class:route.c_delay>0?'red':route.c_delay<0?'green':'' },
         lastHrKms: { value: route.last_hour_kms ? route.last_hour_kms : '-' },
         action: {
           value: "",
@@ -178,9 +178,9 @@ export class RouteDashboardComponent implements OnInit {
           icons: this.actionIcons(route)
         },
 
-        rowActions: {
-          click: "selectRow",
-        }
+        // rowActions: {
+        //   click: "selectRow",
+        // }
       };
       columns.push(column);
     });
@@ -213,7 +213,7 @@ export class RouteDashboardComponent implements OnInit {
     let today, startday, fromDate, endday, toDate;
     today = new Date();
     startday = route.f_end_time ? this.common.dateFormatter(route.f_end_time) : new Date(today.setDate(today.getDate() - 2));
-    endday = route.l_end_time ? this.common.dateFormatter(route.l_end_time) : new Date();
+    endday = route.l_end_time ? this.common.dateFormatter(route.c_start_time) : new Date();
 
     fromDate = this.common.dateFormatter(startday);
     toDate = this.common.dateFormatter(endday);

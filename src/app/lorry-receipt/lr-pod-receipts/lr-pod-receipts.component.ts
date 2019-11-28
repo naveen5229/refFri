@@ -106,10 +106,8 @@ export class LrPodReceiptsComponent implements OnInit {
         console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
           this.valobj[this.headings[i]] = {
-            value: "", action: null,
-            icons: [{ class: 'fa fa-edit', action: this.openPodDeatilsModal.bind(this, doc) },
-            { class: 'fa fa-eye', action: this.getPodImage.bind(this, doc) },
-            { class: 'fa fa-trash', action: this.deleteLr.bind(this, doc) }]
+            value: "", action: null, html: true,
+            icons: this.actionIcons(doc)
           };
         }
         else {
@@ -119,6 +117,17 @@ export class LrPodReceiptsComponent implements OnInit {
       columns.push(this.valobj);
     });
     return columns;
+  }
+
+
+  actionIcons(doc) {
+    let icons = [
+      { class: 'fa fa-eye', action: this.getPodImage.bind(this, doc) },
+    ];
+    this.user.permission.edit && icons.push({ class: 'fa fa-edit', action: this.openPodDeatilsModal.bind(this, doc) });
+    this.user.permission.delete && icons.push({ class: 'fa fa-trash', action: this.deleteLr.bind(this, doc) });
+
+    return icons;
   }
 
   deleteLr(doc) {
@@ -134,28 +143,26 @@ export class LrPodReceiptsComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.common.loading++;
-        this.api.post('LorryReceiptsOperation/deleteLrPodDelete', params)
-      .subscribe(res => {
-        this.common.loading--;
-        if(res['data'][0].r_id>0)
-        {
-          this.common.showToast("Successfully Deleted.");
-          this.getLorryPodReceipts();
+          this.api.post('LorryReceiptsOperation/deleteLrPodDelete', params)
+            .subscribe(res => {
+              this.common.loading--;
+              if (res['data'][0].r_id > 0) {
+                this.common.showToast("Successfully Deleted.");
+                this.getLorryPodReceipts();
+              }
+              else {
+                this.common.showError(res['data'][0].r_msg);
+              }
+              console.log('res', res['data']);
+            }, err => {
+              this.common.loading--;
+              this.common.showError();
+            })
         }
-        else
-        {
-            this.common.showError(res['data'][0].r_msg);
-        }
-        console.log('res', res['data']);
-        }, err => {
-        this.common.loading--;
-        this.common.showError();
       })
-    }
-  })
 
+    }
   }
-}
 
 
   openPodDeatilsModal(pod) {
