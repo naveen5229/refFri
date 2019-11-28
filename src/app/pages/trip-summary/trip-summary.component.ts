@@ -67,10 +67,15 @@ export class TripSummaryComponent implements OnInit {
       responsive: true,
       title: {
         display: true,
-        text: 'Chart.js Line Chart',
-        maintainAspectRatio: false
+        text: 'Route Summary',
+        fontSize: 14,
+        fontColor: 'blue'
       },
       maintainAspectRatio: false,
+      lineTension: 0,
+      legend : {
+        display: false
+      },
 
       tooltips: {
         mode: 'index',
@@ -106,8 +111,10 @@ export class TripSummaryComponent implements OnInit {
     public datepipe: DatePipe,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
-
-
+    let today = new Date();
+    this.startTime = new Date(today.setDate(today.getDate() - 7));
+    // this.startTime = this.common.dateFormatter(startDay);
+      this.getTripSummary();
   }
 
   ngOnInit() { }
@@ -129,12 +136,20 @@ export class TripSummaryComponent implements OnInit {
     this.Config.data = {
       labels: XLabel,
       datasets: [{
-        label: 'My First dataset',
+
+        label:'Values',
         backgroundColor: '#FF0000',
         borderColor: '#FF0000',
         data: YValues,
         fill: false,
-      }]
+        lineTension: 0,
+
+      },
+     
+    ],
+    options:{
+        legend: false
+    }
     };
   }
 
