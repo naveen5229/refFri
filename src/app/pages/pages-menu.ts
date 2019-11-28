@@ -72,9 +72,14 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/trends'
       },
       {
-        title: 'Trip Summary',
+        title: 'Route Trip Summary',
         icon: 'fa fa-line-chart',
         link: '/pages/trip-summary'
+      },
+      {
+        title: 'Route Deviations',
+        icon: 'fa fa-line-chart',
+        link: '/pages/route-deviations'
       },
       {
         title: 'Trends Fo',
