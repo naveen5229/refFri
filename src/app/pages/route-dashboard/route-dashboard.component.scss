@@ -3,6 +3,13 @@
   background: cornsilk;
 }
 
+
+:host ::ng-deep.green{
+  background-color: rgb(181, 243, 124);
+}
+:host ::ng-deep.red {
+  background-color:rgb(243, 124, 124);
+}
 :host ::ng-deep .fa-route {
   color: black;
   font-size: 14px;
