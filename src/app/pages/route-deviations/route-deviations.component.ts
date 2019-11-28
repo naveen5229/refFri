@@ -30,7 +30,9 @@ export class RouteDeviationsComponent implements OnInit {
   apiUrl='ViaRoutes/routeDeviation ';
   constructor(public api: ApiService,
     public common: CommonService,
-    public modalService: NgbModal) { }
+    public modalService: NgbModal) {
+      this.getrouteDeviations();
+     }
 
   ngOnInit() {
   }

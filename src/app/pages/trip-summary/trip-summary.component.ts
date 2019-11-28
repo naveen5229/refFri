@@ -155,6 +155,7 @@ export class TripSummaryComponent implements OnInit {
   }
 
   getTripSummary() {
+    this.headings=[];
     this.vehicleTrips = [];
     this.table = {
       data: {
@@ -183,6 +184,7 @@ export class TripSummaryComponent implements OnInit {
         this.vehicleTrips = res['data'];
         if (this.vehicleTrips != null) {
           console.log('vehicleTrips', this.vehicleTrips);
+       
           let first_rec = this.vehicleTrips[0];
           console.log("first_Rec", first_rec);
 
