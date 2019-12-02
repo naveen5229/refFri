@@ -193,10 +193,10 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Voucher Audit',
                 link: '/accounts/voucheredited'
             },
-            {
-                title: 'Voucher Audit',
-                link: '/accounts/voucheredited'
-            },
+            // {
+            //     title: 'Voucher Audit',
+            //     link: '/accounts/voucheredited'
+            // },
             {
                 title: 'Ledger Approve',
                 link: '/accounts/ledgerapprove'
