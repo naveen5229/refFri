@@ -122,9 +122,9 @@ export class FuelDailyConsumptionComponent implements OnInit {
         let formatedDate = this.dateService.format(ele.y_date, 'dd MMM yyyy');
         if (this.flagType == '1') {
           XLabel.push(formatedDate.split(' ')[0]);
+        } else {
+          XLabel.push(formatedDate.split(',')[0]);
         }
-        console.log("date", formatedDate);
-        XLabel.push(formatedDate.split(',')[0]);
       }
       if (ele.y_consumption) {
         YValues.push(ele.y_consumption);
