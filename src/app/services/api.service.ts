@@ -12,9 +12,9 @@ import { encode } from 'punycode';
 export class ApiService {
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
   //  URL: string = 'http://elogist.in/testservices/'; // prod Server
-  URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev Server
+  // URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev Server
   // URL: string = 'http://192.168.1.119/Transtruck/booster_webservices/'; //Komal
-  // URL: string = 'http://192.168.1.111/booster_webservices/'; // Umang
+  URL: string = 'http://192.168.1.111/booster_webservices/'; // Umang
   // URL: string = 'http://localhost/booster_webservices/'; // sachin
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
   URL2 = 'http://elogist.in/transtruck/';
