@@ -43,19 +43,21 @@ export class FuelDailyConsumptionComponent implements OnInit {
           display: true,
           scaleLabel: {
             display: true,
-            labelString: 'Month'
+            labelString: 'Date'
           }
         },
         y: {
           display: true,
           scaleLabel: {
             display: true,
-            labelString: 'Value'
+            labelString: 'Fuel'
           }
         }
       }
     }
   };
+
+  getDailyFuelList = [];
 
   constructor(
     public common: CommonService,
@@ -99,6 +101,9 @@ export class FuelDailyConsumptionComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
+        if (!res['data']) return;
+        this.getDailyFuelList = res['data'] || [];
+        this.getChartData(res['data']);
       }, err => {
         this.common.loading--;
         console.log('Err:', err);
@@ -107,23 +112,44 @@ export class FuelDailyConsumptionComponent implements OnInit {
 
 
   getChartData(row) {
-    console.log("Row------", row);
     var XLabel = [];
     var YValues = [];
-    Object.keys(row).forEach(ele => {
-      if (ele !== 'Kpi' && ele != '_kpi_id') {
-        XLabel.push(ele);
-        var datax = parseInt(row[ele].split('$')[0]);
-        YValues.push(isNaN(datax) ? 0 : datax);
+    row.map(ele => {
+      if (ele.y_date) {
+        XLabel.push(ele.y_date.split('-')[2]);
       }
+      if (ele.y_consumption) {
+        console.log("ele", ele);
+        YValues.push(ele.y_consumption);
+      }
+
+
+      // XLabel.push(ele);
+      // var datax = parseInt(row[ele].split('-')[2]);
+      // YValues.push(isNaN(datax) ? 0 : datax);
     });
+
+
+
+
+    // Object.keys(row).forEach(ele => {
+    //   console.log('ele', ele);
+    //   console.log('ele', row[ele]);
+
+    //   var datax = parseInt(row[ele].split('-')[2]);
+    //   YValues.push(isNaN(datax) ? 0 : datax);
+
+    // });
+    console.log("xlabel", XLabel);
+    console.log("yLabel", YValues);
+
     this.Config.data = {
       labels: XLabel,
       datasets: [{
 
         label: 'Values',
-        backgroundColor: '#FF0000',
-        borderColor: '#FF0000',
+        backgroundColor: '#3835ea',
+        borderColor: '#3835ea',
         data: YValues,
         fill: false,
         lineTension: 0,
