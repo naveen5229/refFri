@@ -3,6 +3,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
+import { DateService } from '../../services/date/date.service';
 
 @Component({
   selector: 'fuel-daily-consumption',
@@ -64,6 +65,7 @@ export class FuelDailyConsumptionComponent implements OnInit {
     public api: ApiService,
     private modalService: NgbModal,
     public activeModal: NgbActiveModal,
+    public dateService: DateService,
     public user: UserService) {
     let today = new Date();
     this.endTime = new Date(today);
@@ -119,10 +121,11 @@ export class FuelDailyConsumptionComponent implements OnInit {
     var YValues = [];
     row.map(ele => {
       if (ele.y_date) {
-        XLabel.push(ele.y_date.split('-')[2]);
+        let formatedDate = this.dateService.format(ele.y_date, 'dd MMM');
+        console.log("date", formatedDate);
+        XLabel.push(formatedDate.split(',')[0]);
       }
       if (ele.y_consumption) {
-        console.log("ele", ele);
         YValues.push(ele.y_consumption);
       }
     });
