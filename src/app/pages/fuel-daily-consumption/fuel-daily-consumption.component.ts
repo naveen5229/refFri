@@ -56,7 +56,7 @@ export class FuelDailyConsumptionComponent implements OnInit {
       }
     }
   };
-
+  flagType = '0';
   getDailyFuelList = [];
 
   constructor(
@@ -82,7 +82,9 @@ export class FuelDailyConsumptionComponent implements OnInit {
     this.getFuelDailyConsumption();
   }
 
-
+  changeModal(type) {
+    this.flagType = type;
+  }
   getFuelDailyConsumption() {
     this.Config.data = null;
     if (this.startTime > this.endTime) {
@@ -94,6 +96,7 @@ export class FuelDailyConsumptionComponent implements OnInit {
     const params = {
       startDate: startDate,
       endDate: endDate,
+      flagtype: this.flagType,
     };
     console.log('params', params);
     this.common.loading++;
@@ -122,26 +125,7 @@ export class FuelDailyConsumptionComponent implements OnInit {
         console.log("ele", ele);
         YValues.push(ele.y_consumption);
       }
-
-
-      // XLabel.push(ele);
-      // var datax = parseInt(row[ele].split('-')[2]);
-      // YValues.push(isNaN(datax) ? 0 : datax);
     });
-
-
-
-
-    // Object.keys(row).forEach(ele => {
-    //   console.log('ele', ele);
-    //   console.log('ele', row[ele]);
-
-    //   var datax = parseInt(row[ele].split('-')[2]);
-    //   YValues.push(isNaN(datax) ? 0 : datax);
-
-    // });
-    console.log("xlabel", XLabel);
-    console.log("yLabel", YValues);
 
     this.Config.data = {
       labels: XLabel,

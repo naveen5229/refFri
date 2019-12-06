@@ -10,6 +10,10 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row">
+      <div class="col-4 radio-type">
+        <input type="radio" value="0" name="radio" [(ngModel)]="flagType" (change)="changeModal(flagType)">Day Wise
+        <input type="radio" value="1" name="radio" [(ngModel)]="flagType" (change)="changeModal(flagType)">Month Wise
+      </div>
       <div class="col-sm-3">
         <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime" [isTime]="false">
         </uj-date-time-picker>
