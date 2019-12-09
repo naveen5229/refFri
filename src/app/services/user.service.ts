@@ -59,8 +59,17 @@ export class UserService {
     this._loggedInBy = localStorage.getItem('LOGGED_IN_BY') || '';
     this._customer = JSON.parse(localStorage.getItem('CUSTOMER_DETAILS')) || { name: '', id: '' };
 
-    if (!this._pages)
+    if (!this._pages) {
       this._pages = JSON.parse(localStorage.getItem("DOST_USER_PAGES"));
+      this.filterMenu("pages", "pages");
+      this.filterMenu("admin", "admin");
+      this.filterMenu("tyres", "tyres");
+      this.filterMenu("battery", "battery");
+      this.filterMenu("vehicleMaintenance", "vehicleMaintenance");
+      this.filterMenu("wareHouse", "wareHouse");
+      this.filterMenu("account", "account");
+      this.filterMenu("challan", "challan");
+    }
   }
 
   filterMenu(type?, collection?) {
