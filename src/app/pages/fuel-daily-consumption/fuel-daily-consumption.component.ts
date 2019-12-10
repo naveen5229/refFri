@@ -4,7 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { DateService } from '../../services/date/date.service';
-
+import { FuelDailyCunsumtionComponent } from '../../modals/fuel-daily-cunsumtion/fuel-daily-cunsumtion.component';
 @Component({
   selector: 'fuel-daily-consumption',
   templateUrl: './fuel-daily-consumption.component.html',
@@ -66,17 +66,17 @@ export class FuelDailyConsumptionComponent implements OnInit {
         console.log('Label:', label, 'Value:', value);
         let month = this.sortArray(label);
         console.log('fuel_daily_cumsion:', month, this.fuel_daily_cumsion);
-        let first_rec = this.fuel_daily_cumsion[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
-          }
-        }
-        console.log('heading data', this.table.data.headings);
+        // let first_rec = this.fuel_daily_cumsion[0];
+        // for (var key in first_rec) {
+        //   if (key.charAt(0) != "_") {
+        //     this.headings.push(key);
+        //     let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+        //     this.table.data.headings[key] = headerObj;
+        //   }
+        // }
+        // console.log('heading data', this.table.data.headings);
         let temp = this.fuel_daily_cumsion;
-        this.fuel_daily_cumsion = [];
+       // this.fuel_daily_cumsion = [];
         let data = temp.filter(cumsion => {
           if (cumsion.Date.split('-')[1] == month) {
             console.log(cumsion.Date.split('-')[1], month);
@@ -85,16 +85,20 @@ export class FuelDailyConsumptionComponent implements OnInit {
           return false;
         });
         console.log('Data:', data);
-        this.table.data.columns = this.getTableColumns(data);
-        setTimeout(() => {
-          this.fuel_daily_cumsion = temp;
-        }, 200);
+        this.openfueldailycunsumption(data);
+
+       // this.table.data.columns = this.getTableColumns(data);
+        // setTimeout(() => {
+        //   this.fuel_daily_cumsion = temp;
+        //   this.openfueldailycunsumption(this.fuel_daily_cumsion);
+        // }, 200);
       }
     },
 
   };
-  flagType = '0';
+  flagType = '1';
   fuel_daily_cumsion = [];
+  fuel_daily_cumsion_level2=[];
   table = {
     data: {
       headings: {},
@@ -116,7 +120,7 @@ export class FuelDailyConsumptionComponent implements OnInit {
     let today = new Date();
     this.endTime = new Date(today);
     let day = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
-    this.startTime = new Date(today.setDate(today.getDate() - 7));
+    this.startTime = new Date(today.setDate(today.getDate() - 90));
     this.common.refresh = this.refresh.bind(this);
     this.getFuelDailyConsumption();
   }
@@ -145,30 +149,33 @@ export class FuelDailyConsumptionComponent implements OnInit {
     const params = {
       startDate: startDate,
       endDate: endDate,
-      flagtype: this.flagType,
+      flagtype:1,
     };
     console.log('params', params);
     this.common.loading++;
     this.api.post('Fuel/getfueldailyconsumption', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res json data:', JSON.parse(res['data'][0]['y_json_data']));
+        console.log('Res json data:', JSON.parse(res['data'][0]['y_json_data_level_1']));
 
         if (!res['data']) return;
         this.getChartData(res['data']);
-        if (res['data'][0]['y_json_data']) {
-          this.fuel_daily_cumsion = JSON.parse(res['data'][0]['y_json_data']);
+        this.fuel_daily_cumsion=[];
+        this.fuel_daily_cumsion_level2=[];
+        if (res['data'][0]['y_json_data_level_1']) {
+          this.fuel_daily_cumsion = JSON.parse(res['data'][0]['y_json_data_level_1']);
+          this.fuel_daily_cumsion_level2 = JSON.parse(res['data'][0]['y_json_data_level_2']);
         }
-        let first_rec = this.fuel_daily_cumsion[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
-          }
-        }
-        console.log('heading data', this.table.data.headings);
-        this.table.data.columns = this.getTableColumns();
+        // let first_rec = this.fuel_daily_cumsion[0];
+        // for (var key in first_rec) {
+        //   if (key.charAt(0) != "_") {
+        //     this.headings.push(key);
+        //     let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+        //     this.table.data.headings[key] = headerObj;
+        //   }
+        // }
+        // console.log('heading data', this.table.data.headings);
+        // this.table.data.columns = this.getTableColumns();
 
       }, err => {
         this.common.loading--;
@@ -238,5 +245,16 @@ export class FuelDailyConsumptionComponent implements OnInit {
     let searchvalue = montharr.indexOf(month) + 1;
     console.log('searchvalue', searchvalue);
     return searchvalue <= 9 ? '0' + searchvalue : searchvalue + '';
+  }
+  openfueldailycunsumption(consumtiondata){
+    this.common.params = {
+      consumtiondata:consumtiondata,
+      fueldailycumsionlevel2:this.fuel_daily_cumsion_level2
+    };
+    const activeModal = this.modalService.open(FuelDailyCunsumtionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+    
+
+    });
   }
 }

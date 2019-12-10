@@ -1,0 +1,12 @@
+<nb-card style="margin: 0px; border:0px;">
+  <nb-card-body (keydown)="keyHandler($event)" style="padding: 0px;">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Fuel Daily Cunsumtion</h5>
+      <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+<smart-table *ngIf="fuelConsumption && fuelConsumption.length" [data]="table.data" [settings]="table.settings" id="fuelConsumption">
+</smart-table>
+</nb-card-body>
+</nb-card>
