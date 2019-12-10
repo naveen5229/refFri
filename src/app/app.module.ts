@@ -262,6 +262,7 @@ import { AddGpsWebUrlComponent } from './modals/add-gps-web-url/add-gps-web-url.
 import { AddGpsSupplierComponent } from './modals/add-gps-supplier/add-gps-supplier.component';
 import { VehicleDetailsUpdateComponent } from './modals/vehicle-details-update/vehicle-details-update.component';
 import { FuelDailyCunsumtionComponent } from './modals/fuel-daily-cunsumtion/fuel-daily-cunsumtion.component';
+import { FuelDailyCunsumtionConditionComponent } from './modals/fuel-daily-cunsumtion-condition/fuel-daily-cunsumtion-condition.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -484,7 +485,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   AddGpsWebUrlComponent,
   AddGpsSupplierComponent,
   VehicleDetailsUpdateComponent,
-  FuelDailyCunsumtionComponent
+  FuelDailyCunsumtionComponent,
+  FuelDailyCunsumtionConditionComponent
 
 ];
 
@@ -494,7 +496,6 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CustomTimePipe,
     CustomDatePipe,
     ...COMMON_COMPONENT,
-    FuelDailyCunsumtionComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT
