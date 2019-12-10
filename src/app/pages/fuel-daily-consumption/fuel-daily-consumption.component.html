@@ -10,10 +10,10 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row">
-      <div class="col-4 radio-type">
+      <!-- <div class="col-4 radio-type">
         <input type="radio" value="0" name="radio" [(ngModel)]="flagType" (change)="changeModal(flagType)">Day Wise
         <input type="radio" value="1" name="radio" [(ngModel)]="flagType" (change)="changeModal(flagType)">Month Wise
-      </div>
+      </div> -->
       <div class="col-sm-3">
         <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime" [isTime]="false">
         </uj-date-time-picker>
@@ -38,6 +38,7 @@
     </div>
 
 
-
+    <!-- <smart-table *ngIf="fuel_daily_cumsion && fuel_daily_cumsion.length" [data]="table.data" [settings]="table.settings" id="fuelConsumption">
+    </smart-table> -->
   </nb-card-body>
 </nb-card>

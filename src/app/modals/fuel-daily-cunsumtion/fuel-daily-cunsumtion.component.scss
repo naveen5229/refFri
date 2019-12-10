@@ -1,0 +1,25 @@
+.nb-theme-corporate nb-card {
+    min-height: 450px;
+}
+.margin {
+    margin-left: 82px;
+}
+.view-table{
+    overflow: auto;
+}
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+    table{
+        tr{
+            th{
+                width: 120px;
+            }
+        }
+    }
+}
+:host ::ng-deep .red{
+    background  : #f5bdbd !important;
+}
+:host ::ng-deep .black{
+    background  :white !important;
+}
