@@ -140,7 +140,6 @@ export class GenericModelComponent implements OnInit {
   }
 
   viewModal(doc) {
-    this.common.loading++;
     Object.keys(this.common.params.data.viewModal.param).forEach(element => {
       console.log("element value:", element);
       this.viewModalParams[element] = doc[this.common.params.data.viewModal.param[element]];
@@ -150,7 +149,8 @@ export class GenericModelComponent implements OnInit {
         api: this.viewModalUrl,
         param: this.viewModalParams
       },
-      title:this.common.params.data.viewModal.title
+      title:this.common.params.data.viewModal.title,
+      previousParam : this.common.params
     }
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
@@ -158,6 +158,8 @@ export class GenericModelComponent implements OnInit {
   }
 
   closeModal() {
+    if(this.common.params.data.previousParam)
+      this.common.params =  this.common.params.previousParam
     this.activeModal.close();
   }
 }

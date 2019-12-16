@@ -1,0 +1,112 @@
+<nb-card>
+    <nb-card-header style="font-size: 32px;">
+      <!-- <h4>Financial Toll Summary(Add Time)</h4> -->
+      <div class="row">
+          <div class="col-4">
+      <img src="http://www.elogist.in/assets/images/logo.png" >
+      </div>
+      <div class="col-4"></div>
+      <div class="col-4">
+      <img src="http://www.elogist.in/assets/images/logo.png">
+    </div>
+    </div>
+    </nb-card-header>
+      
+    <nb-card-body>
+      
+          <div class="row">
+            <div class="col-2">
+                <auto-suggestion (onSelected)="selectFo($event)" [data]="foAgents" (onChange)="getFoAgents()" [display]="['name','mobileno']"
+                placeholder="Enter Customer" seperator="-" inputId="agentFo" style="width:60%;" ></auto-suggestion>
+            </div>
+            <!-- <div class="col-2">
+                <auto-suggestion (onSelected)="getData($event)" [data]="vehicles" display="regno" placeholder="Regno"
+                [preSelected]="null" inputId="vehicleRegno">
+            </div> -->
+            
+        <div class="col-2">
+          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
+            placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
+        </div>
+        <div class="col-2">
+          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+            placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary" type="button" (click)="getaddTimeFinancialTollReport()">Submit</button>
+        </div>
+        <div class="col-1">
+          <span class="pdf-icon" title="PDF Export" (click)="common.downloadPdf('financialaccount');" style="cursor: pointer;"><i
+            class="fa fa-file-pdf"></i></span>
+        </div>
+      </div>
+      <div id="financialaccount">
+      <div class="row" style="margin-top:10px;">
+        <div class="col-6">
+          <table class="table table-bordered">
+            <tr><th class="thead" colspan="2">Provider Details</th></tr>
+            <tr><td>Provider Name</td><td>eLogist</td></tr>
+            <tr><td>Provider Address</td><td>Jaipur</td></tr>
+            <tr><td>GSTIN</td><td>08AAECE3933F1ZS</td></tr>
+            <tr><td>Place Of Suppely</td><td>rajasthan</td></tr>
+          </table>
+        </div>
+        <div class="col-6">
+            <table class="table table-bordered">
+                <tr>
+                  <th class="thead" colspan="2">Customer Details</th>
+                </tr>
+                <tr><td>Customer Id</td><td>{{fo.id}}</td></tr>
+                <tr><td>Mobile No.</td><td>{{fo.mobileNo}}</td></tr>
+                <tr><td>Name</td><td>{{fo.name}}</td></tr>
+                <tr><td>Statement Date</td><td>{{dates.currentdate}}</td></tr>
+                <tr><td>Statement Period</td><td>{{dates.start - dates.end}}</td></tr>
+        
+              </table>
+        </div>
+          
+      </div>
+        <div class="row">
+          <table class="table table-bordered" style="margin-left:15px;margin-right:15px;">
+            <tr>
+              <th class="thead" colspan="4">Account Summary</th>
+            </tr>
+            <tr><td>Opening Balance(Rs.)</td><td>Credit(Rs.)</td><td>Debit(Rs.)</td><td>Closing Balance(Rs.)</td></tr>
+            <tr><td>{{openingBalance}}</td><td>{{creditAmount}}</td><td>{{debitAmount}}</td><td>{{closingBalance}}</td></tr>
+          </table>
+        </div>
+  
+        <div class="row">
+          <table class="table table-bordered" style="margin-left:15px;margin-right:15px;">
+            <tr>
+                <th class="thead" colspan="8">Transaction Details</th>
+            </tr>
+            <tr><th>Vehicle</th>
+              <th>Add Time</th>
+              <th>Transaction Time</th>
+              <th>Toll Plaza</th>
+              <th>Amount(CR)</th>
+              <th>Amount(DR)</th>
+              <th>Transaction Type</th>
+              <th>Balance</th>
+            </tr>
+            <tbody>
+              <tr *ngFor = "let dt of data ">
+                <td>{{dt.vehid}}</td>
+                <td>{{dt.addtime}}</td>
+                <td>{{dt.transtime}}</td>
+                <td>{{dt.remark}}</td>
+                <td>{{dt.amount_credit}}</td>
+                <td>{{dt.amount_debit}}</td>
+                <td>{{dt.entry_type}}</td>
+                <td>{{dt.balance}}</td>
+              </tr>
+            </tbody>
+  
+          </table>
+        </div>
+      </div>
+  
+    </nb-card-body>
+  
+  </nb-card>

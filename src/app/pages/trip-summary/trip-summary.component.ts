@@ -275,6 +275,11 @@ export class TripSummaryComponent implements OnInit {
         // api: 'Drivers/deleteAdvice',
         // param: { id: "_id" }
       },
+      viewModal:{
+        title:'Trip Data Vehicle Wise',
+        api:'TripExpenseVoucher/getRouteTripSummaryDril',
+        param:{'levelId':'_id','startDate':'_start','endDate':'_end','type':'_type'}
+      },  
       title: "Trip Data"
     }
     this.common.handleModalSize('class', 'modal-lg', '1100');

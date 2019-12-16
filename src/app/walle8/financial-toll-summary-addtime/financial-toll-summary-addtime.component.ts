@@ -15,6 +15,11 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
 
     end: this.common.dateFormatter(new Date()),
   };
+  fo = {
+    id : null,
+    name: null,
+    mobileNo:null
+  }
   table = null;
   data = [];
   balance = [];
@@ -22,13 +27,14 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
   closingBalance = null;
   vehid = this.user._details.vehid;
   mobileno = this.user._details.mobileno;
+  foAgents=[];
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal, ) {
-    this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
-    this.getaddTimeFinancialTollReport();
-    this.common.refresh = this.refresh.bind(this);
+    this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
+    // this.getaddTimeFinancialTollReport();
+    // this.common.refresh = this.refresh.bind(this);
 
   }
 
@@ -36,7 +42,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
   }
 
   refresh(){
-    this.getaddTimeFinancialTollReport();
+    //this.getaddTimeFinancialTollReport();
   }
   getDate(date) {
     this.common.params = { ref_page: "card usage" };
@@ -123,7 +129,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     return columns;
   }
   getaddTimeFinancialTollReport() {
-    let params = "&startDate=" + this.dates.start + "&endDate=" + this.dates.end;
+    let params = "&startDate=" + this.dates.start + "&endDate=" + this.dates.end+"&mobileNo="+this.fo.mobileNo;
     // console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getOpeningAndClosingBalance.json?' + params)
@@ -141,7 +147,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-    let param = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
+    let param = "startDate=" + this.dates.start + "&endDate=" + this.dates.end+"&mobileNo="+this.fo.mobileNo;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getFinancialAccountSummaryAddTime.json?' + param)
       .subscribe(Res => {
@@ -157,6 +163,26 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
 
       }, err => {
         this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  selectFo(fo)
+  {
+    this.fo.id = fo.id;
+    this.fo.name = fo.name;
+    this.fo.mobileNo = fo.mobileno;
+  }
+
+  getFoAgents(){
+  let  search= document.getElementById('agentFo')['value'];
+ console.log("searvh ",search)
+    this.api.walle8Get('Suggestion/getFoAgents.json?search='+search)
+      .subscribe(res => {
+        console.log("res",res);
+        this.foAgents=res['data'];
+        console.log("-0-0-0",this.foAgents);
+      }, err => {
         console.log(err);
       });
   }
