@@ -4,7 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { DateService } from '../../services/date/date.service';
-
+import { FuelDailyCunsumtionComponent } from '../../modals/fuel-daily-cunsumtion/fuel-daily-cunsumtion.component';
 @Component({
   selector: 'fuel-daily-consumption',
   templateUrl: './fuel-daily-consumption.component.html',
@@ -54,11 +54,62 @@ export class FuelDailyConsumptionComponent implements OnInit {
             labelString: 'Fuel'
           }
         }
+      },
+      onClick: (e, item) => {
+        console.log("e", e, item);
+        if (!item.length) return;
+        let index = item[0]['_index'];
+        console.log(index);
+        console.log('month data', this.Config.data);
+        let label = this.Config.data.labels[index];
+        let value = this.Config.data.datasets[0].data[index];
+        console.log('Label:', label, 'Value:', value);
+        let month = this.sortArray(label);
+        console.log('fuel_daily_cumsion:', month, this.fuel_daily_cumsion);
+        // let first_rec = this.fuel_daily_cumsion[0];
+        // for (var key in first_rec) {
+        //   if (key.charAt(0) != "_") {
+        //     this.headings.push(key);
+        //     let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+        //     this.table.data.headings[key] = headerObj;
+        //   }
+        // }
+        // console.log('heading data', this.table.data.headings);
+        let temp = this.fuel_daily_cumsion;
+       // this.fuel_daily_cumsion = [];
+        let data = temp.filter(cumsion => {
+          if (cumsion.Date.split('-')[1] == month) {
+            console.log(cumsion.Date.split('-')[1], month);
+            return true;
+          }
+          return false;
+        });
+        console.log('Data:', data);
+        this.openfueldailycunsumption(data);
+
+       // this.table.data.columns = this.getTableColumns(data);
+        // setTimeout(() => {
+        //   this.fuel_daily_cumsion = temp;
+        //   this.openfueldailycunsumption(this.fuel_daily_cumsion);
+        // }, 200);
       }
+    },
+
+  };
+  flagType = '1';
+  fuel_daily_cumsion = [];
+  fuel_daily_cumsion_level2=[];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
     }
   };
-  flagType = '0';
-
+  headings = [];
+  valobj = {};
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -69,7 +120,7 @@ export class FuelDailyConsumptionComponent implements OnInit {
     let today = new Date();
     this.endTime = new Date(today);
     let day = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
-    this.startTime = new Date(today.setDate(today.getDate() - 7));
+    this.startTime = new Date(today.setDate(today.getDate() - 90));
     this.common.refresh = this.refresh.bind(this);
     this.getFuelDailyConsumption();
   }
@@ -86,6 +137,7 @@ export class FuelDailyConsumptionComponent implements OnInit {
   changeModal(type) {
     this.flagType = type;
   }
+
   getFuelDailyConsumption() {
     this.Config.data = null;
     if (this.startTime > this.endTime) {
@@ -97,22 +149,58 @@ export class FuelDailyConsumptionComponent implements OnInit {
     const params = {
       startDate: startDate,
       endDate: endDate,
-      flagtype: this.flagType,
+      flagtype:1,
     };
     console.log('params', params);
     this.common.loading++;
     this.api.post('Fuel/getfueldailyconsumption', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log('Res json data:', JSON.parse(res['data'][0]['y_json_data_level_1']));
+
         if (!res['data']) return;
         this.getChartData(res['data']);
+        this.fuel_daily_cumsion=[];
+        this.fuel_daily_cumsion_level2=[];
+        if (res['data'][0]['y_json_data_level_1']) {
+          this.fuel_daily_cumsion = JSON.parse(res['data'][0]['y_json_data_level_1']);
+          this.fuel_daily_cumsion_level2 = JSON.parse(res['data'][0]['y_json_data_level_2']);
+        }
+        // let first_rec = this.fuel_daily_cumsion[0];
+        // for (var key in first_rec) {
+        //   if (key.charAt(0) != "_") {
+        //     this.headings.push(key);
+        //     let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+        //     this.table.data.headings[key] = headerObj;
+        //   }
+        // }
+        // console.log('heading data', this.table.data.headings);
+        // this.table.data.columns = this.getTableColumns();
+
       }, err => {
         this.common.loading--;
         console.log('Err:', err);
       });
   }
 
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1)
+  }
+
+  getTableColumns(fuel_daily_cumsion?) {
+    let columns = [];
+    if (!fuel_daily_cumsion)
+      fuel_daily_cumsion = this.fuel_daily_cumsion;
+    fuel_daily_cumsion.map(doc => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+      }
+      columns.push(this.valobj);
+    });
+
+    return columns;
+  }
 
   getChartData(row) {
     let XLabel = [];
@@ -151,4 +239,22 @@ export class FuelDailyConsumptionComponent implements OnInit {
     };
   }
 
+  sortArray(month) {
+    console.log('month value', month);
+    let montharr = ['Jan', 'Fab', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let searchvalue = montharr.indexOf(month) + 1;
+    console.log('searchvalue', searchvalue);
+    return searchvalue <= 9 ? '0' + searchvalue : searchvalue + '';
+  }
+  openfueldailycunsumption(consumtiondata){
+    this.common.params = {
+      consumtiondata:consumtiondata,
+      fueldailycumsionlevel2:this.fuel_daily_cumsion_level2
+    };
+    const activeModal = this.modalService.open(FuelDailyCunsumtionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+    
+
+    });
+  }
 }

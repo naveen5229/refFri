@@ -756,6 +756,12 @@ export class CommonService {
     doc.save("report.pdf");
   }
 
+
+  
+
+
+
+
   getPDFFromTableIdnew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, reportname?) {
     console.log("Action Data:", reportname);
     //remove table cols with del class
@@ -978,15 +984,15 @@ export class CommonService {
       scale: 2
     }).then(canvas => {
       var imgData = canvas.toDataURL('image/png');
-      var imgWidth = isLandscape ? 295 : 208;
-      var pageHeight = isLandscape ? 208 : 295;
-      let imgHeight = isLandscape ? 208 : 295;
-      var heightLeft = imgHeight;
-
-      // var imgWidth = 210; 
-      // var pageHeight = 295;  
-      // var imgHeight = canvas.height * imgWidth / canvas.width;
+      // var imgWidth = isLandscape ? 295 : 208;
+      // var pageHeight = isLandscape ? 208 : 295;
+      // let imgHeight = isLandscape ? 208 : 295;
       // var heightLeft = imgHeight;
+
+      var imgWidth = 210; 
+      var pageHeight = 295;  
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
 
       let doc = new jsPDF(isLandscape ? 'l' : 'p', 'mm', 'a4');
       var position = 0;
