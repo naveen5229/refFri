@@ -10,3 +10,8 @@
     background-color:black;
     color:white;
   }
+  @media print {
+    .doNotPrint {
+        display: none !important;
+    }
+}
