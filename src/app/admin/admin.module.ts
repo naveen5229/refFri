@@ -71,6 +71,7 @@ import { WebActivitySummaryComponent } from './web-activity-summary/web-activity
 import { BatteryModule } from '../battery/battery.module';
 import { ChallanModule } from '../challan/challan.module';
 import { CaptchaComponent } from './captcha/captcha.component';
+import { FinancialAccountSummaryComponent } from './financial-account-summary/financial-account-summary.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -160,6 +161,7 @@ const PAGES_COMPONENTS = [
     VouchersSummaryComponent,
     UserTemplatesComponent,
     CaptchaComponent,
+    FinancialAccountSummaryComponent,
   ],
   exports: [
     // VehiclesComponent,
