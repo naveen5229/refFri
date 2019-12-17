@@ -26,12 +26,15 @@ export class GenericModelComponent implements OnInit {
   valobj = {};
   vehicleId = null;
   viewUrl = null;
+  viewModalUrl = null;
   deleteUrl = '';
   deleteParams = {};
+  viewModalParams = {};
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     private commonService: CommonService,
-    public api: ApiService, ) {
+    public api: ApiService,
+    public modalService: NgbModal ) {
     if (this.common.params && this.common.params.data) {
       this.title = this.common.params.data.title ? this.common.params.data.title : '';
       console.log("Dynamic Data", this.common.params.data);
@@ -44,6 +47,7 @@ export class GenericModelComponent implements OnInit {
       });
       this.viewUrl = this.common.params.data.view.api + str;
       this.deleteUrl = this.common.params.data.delete ? this.common.params.data.delete.api : '';
+      this.viewModalUrl = this.common.params.data.viewModal ? this.common.params.data.viewModal.api : '';
     }
     this.AdviceViews();
   }
@@ -99,8 +103,16 @@ export class GenericModelComponent implements OnInit {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
         if (this.headings[i] == "Action") {
-          if (this.deleteUrl)
-            this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash', action: this.delete.bind(this, doc) }] };
+          if (this.deleteUrl || this.viewModalUrl){
+            let icons = [];
+            if(this.deleteUrl){
+              icons.push({ class: 'fa fa-trash', action: this.delete.bind(this, doc) });
+            }
+            if(this.viewModalUrl){
+              icons.push({ class: 'fa fa-eye', action: this.viewModal.bind(this, doc) });
+            }
+            this.valobj[this.headings[i]] = { value: "", action: null, icons: icons };
+          }
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -127,7 +139,27 @@ export class GenericModelComponent implements OnInit {
       });
   }
 
+  viewModal(doc) {
+    Object.keys(this.common.params.data.viewModal.param).forEach(element => {
+      console.log("element value:", element);
+      this.viewModalParams[element] = doc[this.common.params.data.viewModal.param[element]];
+    });
+    let dataparams = {
+      view: {
+        api: this.viewModalUrl,
+        param: this.viewModalParams
+      },
+      title:this.common.params.data.viewModal.title,
+      previousParam : this.common.params
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.params = { data: dataparams };
+    this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
   closeModal() {
+    if(this.common.params.data.previousParam)
+      this.common.params =  this.common.params.previousParam
     this.activeModal.close();
   }
 }
