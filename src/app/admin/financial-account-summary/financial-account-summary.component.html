@@ -1,20 +1,10 @@
 <nb-card>
-   
-      
-    
-      
     <nb-card-body>
-       
-      
           <div class="row doNotPrint">
             <div class="col-2">
                 <auto-suggestion (onSelected)="selectFo($event)" [data]="foAgents" (onChange)="getFoAgents()" [display]="['name','mobileno']"
                 placeholder="Enter Customer" seperator="-" inputId="agentFo" style="width:60%;" ></auto-suggestion>
             </div>
-            <!-- <div class="col-2">
-                <auto-suggestion (onSelected)="getData($event)" [data]="vehicles" display="regno" placeholder="Regno"
-                [preSelected]="null" inputId="vehicleRegno">
-            </div> -->
             
         <div class="col-2">
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
@@ -36,16 +26,10 @@
             class="fa fa-file-pdf"></i></span>
         </div>
       </div>
-      <!-- <div id="financialaccount"> -->
-
-
-          <div id="financialaccount" style="margin-top:20px;">
-    
-              <!-- <h4>Financial Toll Summary(Add Time)</h4> -->
+      
+          <div id="financialaccount">
+            <div style="height:40px"></div>
               <div class="row">
-                  <!-- <div class="col-4">
-              <img src="http://elogist.in/transtruck/admindashboard/assets/images/left-logo.png" style="width:150px;height:120px;">
-              </div> -->
               <div class="col-1"></div>
               <div class="col-4">
                   <b>elogist Solutions Pvt. Ltd.</b><br>
@@ -57,7 +41,6 @@
               <div class="col-3"></div>
               <div class="col-3">
                   <img src="http://elogist.in/transtruck/admindashboard/assets/images/left-logo.png" style="width:150px;height:120px;">
-              <!-- <img src="http://www.elogist.in/assets/images/logo.png" style="width:300px;height:120px;"> -->
             </div>
             </div>
 
@@ -82,11 +65,10 @@
                 <tr><td>Name</td><td>{{fo.name}}</td></tr>
                 <tr><td>Statement Date</td><td>{{dates.currentdate}}</td></tr>
                 <tr><td>Statement Period</td><td>{{dates.start}} - {{dates.end}}</td></tr>
-        
               </table>
         </div>
-          
       </div>
+      
         <div class="row">
           <div class="col-1"></div>
           <div class="col-10">

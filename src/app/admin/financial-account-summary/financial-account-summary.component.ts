@@ -39,16 +39,12 @@ export class FinancialAccountSummaryComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal, ) {
     this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
-    // this.getaddTimeFinancialTollReport();
-    // this.common.refresh = this.refresh.bind(this);
-
   }
 
   ngOnInit() {
   }
 
   refresh(){
-    //this.getaddTimeFinancialTollReport();
   }
 
   calculateAmount(arr)
@@ -59,16 +55,12 @@ export class FinancialAccountSummaryComponent implements OnInit {
    
        if( (usageStatus).toLowerCase!="usage")
        {
-         //add to main amount
          this.openingBalance = parseInt(opening_balance_new) + usageAmount;
        }
        else{
-         //subtract from main amount
          this.openingBalance = parseInt(opening_balance_new) - (usageAmount);
        }
        this.closingBalance = arr[(arr.length-1)]['balance'];
-      //  console.log("opening_balance",opening_balance);
-      //  console.log("closing_balance",closing_balance);
   }
   getDate(date) {
     this.common.params = { ref_page: "card usage" };
