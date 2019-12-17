@@ -53,8 +53,8 @@
 
             <tr *ngFor="let column of columns; let i = index;"
                 (click)="column.rowActions && column.rowActions.click && handleRowClick(column, i)"
-                (dblclick)="column.rowActions?.dblclick && column.rowActions.dblclick()"
-                [ngClass]="{'active-row': isItActive(column)}" [ngStyle]="column.style">
+                (dblclick)="column.rowActions?.dblclick && column.rowActions.dblclick()" class="{{column.class}}"
+                [ngClass]="{'active-row': isItActive(column) }" [ngStyle]="column.style">
 
                 <!-- Records Count -->
                 <td style="width: 40px">

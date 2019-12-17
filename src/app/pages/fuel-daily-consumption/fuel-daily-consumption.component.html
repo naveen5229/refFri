@@ -1,0 +1,44 @@
+<!-- create by Lalit Sigh -->
+
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-10">
+        <h5>Daily Fuel Consumption</h5>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <!-- <div class="col-4 radio-type">
+        <input type="radio" value="0" name="radio" [(ngModel)]="flagType" (change)="changeModal(flagType)">Day Wise
+        <input type="radio" value="1" name="radio" [(ngModel)]="flagType" (change)="changeModal(flagType)">Month Wise
+      </div> -->
+      <div class="col-sm-3">
+        <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime" [isTime]="false">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-sm-3">
+        <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime" [isStart]="false"
+          [isTime]="false">
+        </uj-date-time-picker>
+      </div>
+
+      <div class="col-sm-2">
+        <button class="btn btn-primary w-100 pt-1 pb-1" style="border-radius: 3px;"
+          (click)="getFuelDailyConsumption()">submit</button>
+      </div>
+    </div>
+    <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
+    <div class="row">
+      <div class="col-sm-12" *ngIf="Config.data">
+        <chart [type]="Config.type" [data]="Config.data" style="margin-right:5px;min-height: 400px;max-height: 400px;"
+          [options]="Config.options"></chart>
+      </div>
+    </div>
+
+
+    <!-- <smart-table *ngIf="fuel_daily_cumsion && fuel_daily_cumsion.length" [data]="table.data" [settings]="table.settings" id="fuelConsumption">
+    </smart-table> -->
+  </nb-card-body>
+</nb-card>
