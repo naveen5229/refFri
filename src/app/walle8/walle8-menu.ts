@@ -4,7 +4,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Home Dashboard',
         icon: 'fa fa-home',
-        link: '/walle8',
+        link: '/pages/dashboard',
         home: true,
     },
 
