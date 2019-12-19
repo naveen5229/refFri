@@ -34,7 +34,7 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     DirectiveModule,
-    PagesModule,
+    // PagesModule,
     ChartModule,
 
   ],
