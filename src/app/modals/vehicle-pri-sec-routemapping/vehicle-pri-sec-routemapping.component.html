@@ -10,14 +10,17 @@
             <label>Vehicles:</label>
         </div>
         <div class="col-3">
-            <auto-suggestion (onSelected)="searchVehicle($event)" [preSelected]="{regno:regno}" [id]='regno' url="Suggestion/getFoVehicleList" display="regno" placeholder="Enter Reg No" [preSelected]="null">
+            <auto-suggestion (onSelected)="searchVehicle($event)" [preSelected]="{regno:regno}" [id]='regno'
+                url="Suggestion/getFoVehicleList" display="regno" placeholder="Enter Reg No" [preSelected]="null">
             </auto-suggestion>
         </div>
         <div class="col-1 mt-1">
             <label>Routes:</label>
         </div>
         <div class="col-3">
-            <auto-suggestion [data]="routesDetails" [display]="['name','id']" [preSelected]="name ? {name:name,id:routeId}: {name: '',id:''}" seperator="-" (onSelected)="changeRefernceType($event)" inputId="routeId"></auto-suggestion>
+            <auto-suggestion [data]="routesDetails" [display]="['name','id']"
+                [preSelected]="name ? {name:name,id:routeId}: {name: '',id:''}" seperator="-"
+                (onSelected)="changeRefernceType($event)" inputId="routeId"></auto-suggestion>
         </div>
         <div class="col-2 mt-1 ">
             <label>Associatation Type:</label>
@@ -30,8 +33,21 @@
         </div>
     </div>
     <div class="row ">
-        <div class="col-12 text-right mt-3 ">
-            <button type="button " class="btn btn-primary " style="border-radius:3px " (click)="insertRoute()">Save</button>
+        <div class="col-3">
+            <label>Wef Date</label>
+            <uj-date-time-picker (onChanged)="wefDate = $event" [dateTimeValue]="wefDate" [isTime]="false">
+            </uj-date-time-picker>
+        </div>
+
+        <div class="col-3">
+            <label>Expiry Date</label>
+            <uj-date-time-picker (onChanged)="expiryDate = $event" [dateTimeValue]="expiryDate" [isStart]="false"
+                [isTime]="false">
+            </uj-date-time-picker>
+        </div>
+        <div class="col-3 text-right mt-3 ">
+            <button type="button " class="btn btn-primary " style="border-radius:3px "
+                (click)="insertRoute()">Save</button>
         </div>
     </div>
 </div>

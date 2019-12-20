@@ -120,23 +120,17 @@ export class MvsFreightStatementComponent implements OnInit {
 
   actionIcon(row) {
     let actionIcons = [];
-    if(!row._islocked){
-    actionIcons.push(
-      {
-        class: "far fa-eye",
-        action: this.lrAssign.bind(this, row),
-      },
-      {
-        class: "far fa-edit",
-        action: this.openMvcFreightModal.bind(this, 'Edit', row),
-      },
+    if (!row._islocked) {
+      actionIcons.push(
+        {
+          class: "far fa-eye",
+          action: this.lrAssign.bind(this, row),
+        });
 
-      {
-        class: "fas fa-trash-alt",
-        action: this.deleteMvsStatement.bind(this, row),
-      }
-    );
-  }
+      this.user.permission.edit && actionIcons.push({ class: "far fa-edit", action: this.openMvcFreightModal.bind(this, 'Edit', row) });
+      this.user.permission.delete && actionIcons.push({ class: "fas fa-trash-alt", action: this.deleteMvsStatement.bind(this, row) });
+
+    }
 
     if (row._lrcount > 0) {
       actionIcons.push({
@@ -150,7 +144,7 @@ export class MvsFreightStatementComponent implements OnInit {
     return actionIcons;
   }
 
- 
+
   lrAssign(row) {
     this.common.handleModalSize('class', 'modal-lg', '1300');
     this.common.params = { row: row };
@@ -170,11 +164,11 @@ export class MvsFreightStatementComponent implements OnInit {
   }
 
   openMvcFreightModal(title, row, type?) {
-    console.log("row:",row);
-   let mvsFreight={
-      id:row?row._id:false
+    console.log("row:", row);
+    let mvsFreight = {
+      id: row ? row._id : false
     }
-    this.common.params={mvsFreightId:mvsFreight.id};
+    this.common.params = { mvsFreightId: mvsFreight.id };
     const activeModal = this.modalService.open(MarketVehFreightStatementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       // console.log('Date:', data);

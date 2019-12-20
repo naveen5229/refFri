@@ -72,6 +72,16 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/trends'
       },
       {
+        title: 'Route Trip Summary',
+        icon: 'fa fa-line-chart',
+        link: '/pages/trip-summary'
+      },
+      {
+        title: 'Route Deviations',
+        icon: 'fa fa-line-chart',
+        link: '/pages/route-deviations'
+      },
+      {
         title: 'Trends Fo',
         icon: 'fa fa-line-chart',
         link: '/pages/trends-fo'
@@ -87,6 +97,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Route-Dashboard',
         icon: 'fas fa-map-marked',
         link: '/pages/route-dashboard'
+      },
+      {
+        title: 'Route-Trip',
+        icon: 'fas fa-route',
+        link: '/pages/route-trip'
       },
       {
         title: 'Trip P&L',
@@ -383,6 +398,13 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/fuel-consumption',
         home: true
       },
+      {
+        title: 'Fuel Daily Consumption',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-daily-consumption',
+        home: true
+
+      }
 
     ]
   },
@@ -499,5 +521,10 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fas fa-chalkboard-teacher',
     link: '/challan/pending-challan'
   },
+  {
+    title: 'Walle8',
+    icon: 'fas fa-wallet',
+    link: '/walle8/card-balance'
+  }
 
 ]);

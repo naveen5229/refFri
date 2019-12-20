@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { CommonService } from '../..//services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from "@angular/platform-browser";
+
 @Component({
   selector: 'template-preview',
   templateUrl: './template-preview.component.html',
@@ -84,6 +85,25 @@ export class TemplatePreviewComponent implements OnInit {
             if (!show) {
                  element['style']['display'] = "none";
             }
+            // for (let index = 0; index < document.styleSheets.length ; index++) {
+            //   const element =  document.styleSheets[index];
+            //   try{
+            //     if(element['rules']){
+            //       for(var i=element['rules'].length -1; i >0; i--){
+            //         if(element['rules'][i].cssText.indexOf("@media print") !=-1 )
+            //         {
+            //           let elementx=element['deleteRule'](i);
+
+            //           //elementx.apply(document,[i]);
+
+            //         }
+            //      }
+            //   }
+            //   }catch(err){
+            //     console.log("Exception",err);
+                
+            //   }
+            // }
         }
       }, 100);
 

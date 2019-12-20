@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CommonService } from './common.service';
+import MarkerClusterer from "@google/markerclusterer"
 declare let google: any;
+declare let MarkerClusterer: any;
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,7 @@ export class MapService {
   polygons = [];
   isMapLoaded = false;
   mapLoadDiv = null;
+  cluster = null;
   lineSymbol = {
     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
   };
@@ -63,6 +66,10 @@ export class MapService {
     this.map.panTo(latLng);
     if (level != this.map.getZoom())
       this.zoomMap(level);
+  }
+
+  centerAt(latLng) {
+    this.map.panTo(latLng);
   }
 
   zoomMap(zoomValue) {
@@ -298,15 +305,53 @@ export class MapService {
         if (changeBounds)
           this.setBounds(latlng);
       }
-      thisMarkers.push(marker);
       this.markers.push(marker);
+      thisMarkers.push(marker);
+
       //  marker.addListener('mouseover', this.infoWindow.bind(this, marker, show ));
 
       //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
       //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
+
+
     }
     return thisMarkers;
   }
+
+  createCluster(markers, ismake?) {
+    let infoWindows = [];
+
+    if (ismake) {
+      this.cluster = new MarkerClusterer(this.map,
+        markers.filter(marker => (marker && marker.position && marker.position.lat() && marker.position.lng())),
+        { gridSize: 40, maxZoom: 16, zoomOnClick: false, minimumClusterSize: 2, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+      let infoWindow = this.createInfoWindow();
+      infoWindows.push(infoWindow);
+      infoWindow.opened = false;
+      google.maps.event.addListener(this.cluster, 'clusterclick', (cluster) => {
+        let infoStr = '';
+        cluster.markers_.map(mrk => {
+          infoStr += mrk.title + ', '
+        })
+        console.log("infoStr", infoStr);
+        this.infoStart = new Date().getTime();
+        for (let infoIndex = 0; infoIndex < infoWindows.length; infoIndex++) {
+          const element = infoWindows[infoIndex];
+          if (element)
+            element.close();
+        }
+        infoWindow.setContent(infoStr);
+        infoWindow.setPosition(cluster.center_); // or evt.latLng
+        infoWindow.open(this.map);
+      });
+
+    } else {
+      if (this.cluster)
+        this.cluster.clearMarkers();
+      markers.map(marker => marker && marker.setMap(this.map));
+    }
+  }
+
 
   createCirclesOnPostion(center, radius) {
     console.log("center,radius", center, radius);
@@ -576,100 +621,6 @@ export class MapService {
       });
     });
   }
-
-  haversine(lat1, lon1, lat2, lon2) {
-    // Math lib function names
-    const [pi, asin, sin, cos, sqrt, pow, round] = [
-      'PI', 'asin', 'sin', 'cos', 'sqrt', 'pow', 'round'
-    ]
-      .map(k => Math[k]),
-
-      // degrees as radians
-      [rlat1, rlat2, rlon1, rlon2] = [lat1, lat2, lon1, lon2]
-        .map(x => x / 180 * pi),
-
-      dLat = rlat2 - rlat1,
-      dLon = rlon2 - rlon1,
-      radius = 6372800; // Meter
-
-    // km
-    return round(
-      radius * 2 * asin(
-        sqrt(
-          pow(sin(dLat / 2), 2) +
-          pow(sin(dLon / 2), 2) *
-          cos(rlat1) * cos(rlat2)
-        )
-      ) * 100
-    ) / 100;
-  };
-  getPerpendicularPoint(line, point) {
-
-    let d = this.distanceFromline(line, point);
-    let a = this.haversine(line[0].lat, line[0].long, point.lat, point.long);
-    let b = this.haversine(line[1].lat, line[1].long, point.lat, point.long);
-    let c = this.haversine(line[0].lat, line[0].long, line[1].lat, line[1].long);
-
-    if (d > a) {
-      let index = a > b ? 1 : 0;
-      return { "x": line[index].x, "y": line[index].y, "ratio": index };
-    }
-    let ratio = (Math.sqrt((a ** 2) - (d ** 2)) / c);
-    console.log("ratio", ratio);
-    let lat = (ratio * (line[1].lat - line[0].lat)) + line[0].lat;
-    let long = (ratio * (line[1].long - line[0].long)) + line[0].long;
-    return { "lat": lat, "long": long, "ratio": ratio };
-  }
-
-  distanceFromline(line, point) {
-    const arcConst = (2 * Math.PI * 6372800) / 360;
-    let a = line[0].lat - line[1].lat;
-    let b = line[0].long - line[1].long;
-    let c = (line[0].long * (line[1].lat - line[0].lat)) - (line[0].lat * (line[1].long - line[1].long));
-    let d = Math.abs((a * point.lat) + (b * point.long) + c) / Math.sqrt((a ** 2) + (b ** 2));
-    return d;
-  }
-
-  getTriangleType(line, point) {
-    let pi = Math.PI;
-    console.log("pi", pi);
-    let a = this.haversine(line[0].lat, line[0].long, point.lat, point.long);
-    let b = this.haversine(line[1].lat, line[1].long, point.lat, point.long);
-    let c = this.haversine(line[0].lat, line[0].long, line[1].lat, line[1].long);
-    console.log("A", a);
-    console.log("B", b);
-    console.log("C", c);
-
-
-    if (a == 0 || b == 0 || c == 0)
-      return 'A';
-
-    let a2 = a ** 2;
-    let b2 = b ** 2;
-    let c2 = c ** 2;
-    // print_r(array(let a,let b,let c,let a2,let b2,let c2));//echo "<br>";
-    // From Cosine law
-    let alpha = Math.acos((b2 + c2 - a2) / (2 * b * c));
-    let betta = Math.acos((a2 + c2 - b2) / (2 * a * c));
-    let gamma = Math.acos((a2 + b2 - c2) / (2 * a * b));
-
-    // Converting to degree 
-    alpha = alpha * 180 / pi;
-    betta = betta * 180 / pi;
-    gamma = gamma * 180 / pi;
-    //print_r(array(let alpha,let betta,let gamma,let points));echo "<br>";
-    console.log("gamma Value", gamma);
-
-    if (gamma > 90) {
-      return 'A';
-    }
-    else
-      return 'O';
-  }
-
-
-
-
 
 
 }

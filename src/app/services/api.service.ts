@@ -13,10 +13,9 @@ export class ApiService {
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
   //  URL: string = 'http://elogist.in/testservices/'; // prod Server
   URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev Server
-  // URL: string = 'http://192.168.1.113/Transtruck/booster_webservices/'; //Komal
-  // URL: string = 'http://192.168.1.113/booster_webservices/'; // Umang
+  // URL: string = 'http://192.168.1.119/Transtruck/booster_webservices/'; //Komal
+  // URL: string = 'http://192.168.1.111/booster_webservices/'; // Umang
   // URL: string = 'http://localhost/booster_webservices/'; // sachin
-  // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
   URL2 = 'http://elogist.in/transtruck/';
 
@@ -125,8 +124,8 @@ export class ApiService {
         subURL += '?foAdminId=' + this.user._customer.id + '&multipleAccounts=' + mulAcc;
       }
     }
-
-    if (this.router.url.includes('accounts') && this.accountService.selected.branch) {
+    //this.router.url.includes('accounts') &&
+    if (this.accountService.selected.branch) {
       if (subURL.includes('?')) {
         subURL += '&branch=' + this.accountService.selected.branch;
       } else {
@@ -241,14 +240,14 @@ export class ApiService {
   getBranches() {
     this.post('Suggestion/GetBranchList', { search: 123 })
       .subscribe(res => {
-        console.log('Branches :', res['data']);
+        console.log('Branches :', res['data'], 'length', this.accountService.branches.length);
         this.accountService.branches = res['data'];
-        if (this.accountService.branches.length == 2) {
+        if (this.accountService.branches.length == 1) {
           console.log('_________________________TRUE');
-          this.accountService.selected.branchId = this.accountService.branches[1].id;
-          this.accountService.selected.branch = this.accountService.branches[1];
+          this.accountService.selected.branchId = this.accountService.branches[0].id;
+          this.accountService.selected.branch = this.accountService.branches[0];
         } else {
-          console.log('_________________________ELSE');
+          console.log('_________________________ELSE111');
           this.accountService.selected.branchId = 0;
           this.accountService.selected.branch.id = 0;
           // this.accountService.selected.branch.name = ;

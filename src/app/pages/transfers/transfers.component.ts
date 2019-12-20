@@ -17,8 +17,8 @@ import { EditFillingComponent } from '../../modals/edit-filling/edit-filling.com
 export class TransfersComponent implements OnInit {
   startTime = new Date(new Date().setDate(new Date().getDate() - 7));;
   endTime = new Date();
-  transferType=-1;
-  ledgerId='';
+  transferType = -1;
+  ledgerId = '';
   data = [];
   table = {
     data: {
@@ -48,14 +48,13 @@ export class TransfersComponent implements OnInit {
     this.viewTransfer();
   }
 
-  ledger(ledgerData)
-  {
-    this.ledgerId=ledgerData.id;
+  ledger(ledgerData) {
+    this.ledgerId = ledgerData.id;
   }
 
   viewTransfer() {
     const params = "startTime=" + this.common.dateFormatter(this.startTime) +
-      "&endTime=" + this.common.dateFormatter(this.endTime)+"&ledgerId="+this.ledgerId+"&transferType="+this.transferType;
+      "&endTime=" + this.common.dateFormatter(this.endTime) + "&ledgerId=" + this.ledgerId + "&transferType=" + this.transferType;
     ++this.common.loading;
 
     this.api.get('FrieghtRate/getTransfers?' + params)
@@ -103,19 +102,17 @@ export class TransfersComponent implements OnInit {
             value: "",
             action: null,
             isHTML: false,
-            icons: [
-              {  class:doc._islocked?'' :'fa fa-trash', action: this.deleteTransfer.bind(this, doc)}, {class:"fas fa-gas-pump", action: this.editFuelFilling.bind(this, doc)},{class:doc._islocked?'' :"fas fa-edit", action: this.editTransfer.bind(this, doc._id)}
-            ]
+            icons: this.actionIcons(doc)
           };
         }
-        else if(this.headings[i]=="Credit To"){
-          console.log("test",this.headings[i]);
-          
-          this.valobj[this.headings[i]]={value:doc[this.headings[i]],class:"blue",action:this.openViewTransfer.bind(this,doc._cr_ledgerid,doc[this.headings[i]],"Credit To")}
+        else if (this.headings[i] == "Credit To") {
+          console.log("test", this.headings[i]);
+
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: "blue", action: this.openViewTransfer.bind(this, doc._cr_ledgerid, doc[this.headings[i]], "Credit To") }
         }
-        else if(this.headings[i]=="Debit To"){
-          this.valobj[this.headings[i]]={value:doc[this.headings[i]],class:"blue",action:this.openViewTransfer.bind(this,doc._dr_ledgerid,doc[this.headings[i]],"Debit To")}
-          
+        else if (this.headings[i] == "Debit To") {
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: "blue", action: this.openViewTransfer.bind(this, doc._dr_ledgerid, doc[this.headings[i]], "Debit To") }
+
         }
         else {
 
@@ -131,13 +128,27 @@ export class TransfersComponent implements OnInit {
     return columns;
   }
 
+
+  actionIcons(doc) {
+    let icons = [
+      {
+        class: "fas fa-gas-pump",
+        action: this.editFuelFilling.bind(this, doc)
+      },
+    ];
+    this.user.permission.edit && icons.push({ class: doc._islocked ? '' : "fas fa-edit", action: this.editTransfer.bind(this, doc._id) });
+    this.user.permission.delete && icons.push({ class: doc._islocked ? '' : 'fa fa-trash', action: this.deleteTransfer.bind(this, doc) });
+
+    return icons;
+  }
+
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
 
   addTransfer() {
-   
+
     this.common.params = { refData: null };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
@@ -148,7 +159,7 @@ export class TransfersComponent implements OnInit {
 
   editTransfer(transferId?) {
     let refData = {
-      transferId:transferId
+      transferId: transferId
     }
     this.common.params = { refData: refData };
     const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
@@ -158,23 +169,22 @@ export class TransfersComponent implements OnInit {
     });
   }
 
-  editFuelFilling(info){
-    if(info._vid== null){
+  editFuelFilling(info) {
+    if (info._vid == null) {
       return this.common.showError("Vehichel id does not exist");
     }
-    this.common.params={info};
+    this.common.params = { info };
     const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
       this.viewTransfer();
     });
   }
-  openViewTransfer(id,title,ledgerType)
-  {
-    console.log("Id",id);
-    console.log("Title:",title);
-    console.log("ledgerType:",ledgerType);
-    this.common.params = { ledgerId: id,title:title,ledgerType:ledgerType};
+  openViewTransfer(id, title, ledgerType) {
+    console.log("Id", id);
+    console.log("Title:", title);
+    console.log("ledgerType:", ledgerType);
+    this.common.params = { ledgerId: id, title: title, ledgerType: ledgerType };
     const activeModal = this.modalService.open(ViewTransferComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);

@@ -16,6 +16,8 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
   routeTime = null;
   routeName = null;
   routeTimeName = null;
+  expiryDate = null;
+  wefDate = null;
   assocTypeId = '0';
   assoctionType = [
     {
@@ -23,6 +25,7 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
       name: null,
     }];
   vehicleId = null;
+  regno = "";
   table = {
     data: {
       headings: {},
@@ -34,6 +37,7 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
   };
 
   vehicleTimeTable = [];
+  rowId = null;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -136,10 +140,16 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
   }
 
   addVehicleTimeTable() {
+    let wefdate = this.wefDate ? this.common.dateFormatter1(this.wefDate) : null;
+    let expirydate = this.expiryDate ? this.common.dateFormatter1(this.expiryDate) : null;
+
     let params = {
+      id: this.rowId ? this.rowId : null,
       routeTimeTableId: this.routeTime,
       assType: this.assocTypeId,
-      vId: this.vehicleId
+      vId: this.vehicleId,
+      wefDate: wefdate,
+      expDate: expirydate
     }
     this.common.loading++;
     this.api.post('ViaRoutes/saveVehTimeTableAssoc', params)
@@ -166,6 +176,7 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
     this.api.get('ViaRoutes/getVehTimeTableAssoc?routeTimeTableId=' + this.routeTime)
       .subscribe(res => {
         this.common.loading--;
+        if (!res['data']) return;
         this.vehicleTimeTable = res['data'];
         this.vehicleTimeTable.length ? this.setTable() : this.resetTable();
 
@@ -226,6 +237,10 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
   actionIcons(route) {
     let icons = [
       {
+        class: "fas fa-edit mr-3",
+        action: this.editRouteTime.bind(this, route)
+      },
+      {
         class: "fas fa-trash-alt",
         action: this.deleteRouteTime.bind(this, route)
       },
@@ -242,7 +257,25 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
     }
   }
 
+  editRouteTime(route) {
+    console.log("route", route)
+    this.rowId = route._vtta_id;
+    this.routeId = route._route_id;
+    this.routeName = route._route_name;
+    this.assocTypeId = route._ass_type;
+    this.regno = route.Regno;
+    this.vehicleId = route._vehicle_id;
+    this.wefDate = new Date(route._wef_dt);
+    this.expiryDate = new Date(route._exp_dt);
 
+  }
+  reset() {
+    this.rowId = null;
+    this.wefDate = null;
+    this.expiryDate = null;
+    this.vehicleId = null;
+    document.getElementById('regno')['value'] = '';
+  }
 
 
 
@@ -285,3 +318,4 @@ export class VehicleTimeTableAssociationComponent implements OnInit {
 
 
 }
+

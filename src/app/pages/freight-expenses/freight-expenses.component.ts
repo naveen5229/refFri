@@ -7,6 +7,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { SaveAdvicesComponent } from '../../modals/save-advices/save-advices.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'freight-expenses',
@@ -81,6 +82,7 @@ export class FreightExpensesComponent implements OnInit {
   constructor(
     public api: ApiService,
     public common: CommonService,
+    public user: UserService,
     private modalService: NgbModal,
   ) {
     // let today;
@@ -168,7 +170,7 @@ export class FreightExpensesComponent implements OnInit {
             action: null,
             isHTML: false,
             icons: [
-              { class: 'fa fa-edit', action: this.openExpenseModal.bind(this, doc) },
+              this.user.permission.edit && { class: 'fa fa-edit', action: this.openExpenseModal.bind(this, doc) },
               { action: null, txt: doc._exp_count }
             ]
           };
@@ -179,7 +181,7 @@ export class FreightExpensesComponent implements OnInit {
             action: null,
             isHTML: false,
             icons: [
-              { class: 'fa fa-edit', action: this.openRevenueModal.bind(this, doc) },
+              this.user.permission.edit && { class: 'fa fa-edit', action: this.openRevenueModal.bind(this, doc) },
               { action: null, txt: doc._rev_count }
             ]
           };
@@ -190,7 +192,7 @@ export class FreightExpensesComponent implements OnInit {
             action: null,
             isHTML: false,
             icons: [
-              { class: 'fa fa-edit', action: this.openTransferReceipt.bind(this, doc) },
+              this.user.permission.edit && { class: 'fa fa-edit', action: this.openTransferReceipt.bind(this, doc) },
               { action: null, txt: doc._trans_count }
             ]
           };
@@ -202,7 +204,7 @@ export class FreightExpensesComponent implements OnInit {
             action: null,
             isHTML: false,
             icons: [
-              { class: 'fa fa-edit', action: this.openadvice.bind(this, doc) },
+              this.user.permission.edit && { class: 'fa fa-edit', action: this.openadvice.bind(this, doc) },
               { action: null, txt: doc._adv_count }
             ]
           };

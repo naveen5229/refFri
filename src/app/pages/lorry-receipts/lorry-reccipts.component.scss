@@ -397,7 +397,7 @@ input[type="text"] {
     z-index: 9999;
   }
   span::before {
-    content: "LR Generate";
+    content: "Generate";
     display: block;
     position: absolute;
     top: 0px;
@@ -475,12 +475,13 @@ input[type="text"] {
   span {
     position: absolute;
     display: none;
-    padding: 12px 50px;
+    padding: 11px 32px;
     font-weight: normal;
-    font-size: 11px;
-    left: -59px;
-    top: -35px;
+    font-size: 10px;
+    left: -23px;
+    top: -33px;
     line-height: 14px;
+
     -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
     box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
     font-family: Roboto;

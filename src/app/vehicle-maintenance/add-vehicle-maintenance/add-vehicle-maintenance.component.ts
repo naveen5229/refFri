@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddMaintenanceComponent } from '../model/add-maintenance/add-maintenance.component';
 import { ViewMaintenanceComponent } from '../model/view-maintenance/view-maintenance.component';
 import { AddVehicleModalServiceComponent } from '../model/add-vehicle-modal-service/add-vehicle-modal-service.component';
 import { AddAdvancedMaintenanceComponent } from '../model/add-advanced-maintenance/add-advanced-maintenance.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'add-vehicle-maintenance',
@@ -101,7 +101,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         icons: [
           // { class: "fa fa-pencil-square", action: this.editMaintenance.bind(this, doc) },
           { class: "fa fa-cog mr-3", action: this.viewDetails.bind(this, doc) },
-          { class: "fa fa-trash", action: this.deleteMaintenance.bind(this, doc) }]
+          this.user.permission.delete && { class: "fa fa-trash", action: this.deleteMaintenance.bind(this, doc) }]
         , action: null
       };
       columns.push(this.valobj);

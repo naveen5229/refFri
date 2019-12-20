@@ -5,37 +5,44 @@
                 <form class="w-100">
                     <div class="row">
                         <div class="col-md-2 pr-0">
-                            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number" style="width:60%;" (change)="resetData($event)">
+                            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
+                                display="regno" placeholder="Enter Vehicle Number" style="width:60%;"
+                                (change)="resetData($event)">
                             </auto-suggestion>
                         </div>
                         <div class="col-md-2 pr-0">
-                            <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+                            <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event"
+                                [dateTimeValue]="startTime">
                             </uj-date-time-picker>
                         </div>
                         <div class="col-md-2 pr-0">
-                            <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event" [isStart]="false" [dateTimeValue]="endTime">
+                            <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
+                                [isStart]="false" [dateTimeValue]="endTime">
                             </uj-date-time-picker>
                         </div>
                         <div class="col-md-1 offset-md-08">
                             <button type="submit" class="btn btn-primary m-0" (click)="vehicleMaintenanceData()">
-                View
-              </button>
+                                View
+                            </button>
                         </div>
 
                         <div class="col-md-2 offset-md-08">
-                            <button type="submit" class="btn btn-primary m-0" (click)="addMaintenance()">
-                Add Maintenance
-              </button>
+                            <button type="submit" class="btn btn-primary m-0" *ngIf="user.permission.add"
+                                (click)="addMaintenance()">
+                                Add Maintenance
+                            </button>
                         </div>
                         <div class="col-md-2 offset-md-08">
-                            <button type="submit" class="btn btn-primary" (click)="addAdvanceMaintenance()">
-                Advance Maintenance
-              </button>
+                            <button type="submit" class="btn btn-primary" *ngIf="user.permission.add"
+                                (click)="addAdvanceMaintenance()">
+                                Advance Maintenance
+                            </button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        <smart-table class="maintenance-details" *ngIf="data && data.length>0" [data]="table.data" [settings]="table.settings" id="maintenance"></smart-table>
+        <smart-table class="maintenance-details" *ngIf="data && data.length>0" [data]="table.data"
+            [settings]="table.settings" id="maintenance"></smart-table>
     </nb-card-body>
 </nb-card>

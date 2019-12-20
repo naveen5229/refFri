@@ -88,6 +88,10 @@ import { UnmergeLRStateComponent } from './unmerge-lrstate/unmerge-lrstate.compo
 import { VehicleSupplierAssociationComponent } from './vehicle-supplier-association/vehicle-supplier-association.component';
 import { MvGpsApisComponent } from './mv-gps-apis/mv-gps-apis.component';
 import { MvGpsApiHistoryComponent } from './mv-gps-api-history/mv-gps-api-history.component';
+import { RouteTripComponent } from './route-trip/route-trip.component';
+import { TripSummaryComponent } from './trip-summary/trip-summary.component';
+import { RouteDeviationsComponent } from './route-deviations/route-deviations.component';
+import { FuelDailyConsumptionComponent } from './fuel-daily-consumption/fuel-daily-consumption.component';
 
 
 const routes: Routes = [{
@@ -101,25 +105,25 @@ const routes: Routes = [{
 
     path: 'dashboard',
     component: ConciseComponent,
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'vehicle-kpis',
     component: VehicleKpisComponent,
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'tickets',
     component: TicketsComponent,
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
@@ -547,7 +551,28 @@ const routes: Routes = [{
     component: MvGpsApiHistoryComponent,
     canActivate: [AuthGuard, RouteGuard]
   },
+  {
 
+    path: 'route-trip',
+    component: RouteTripComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+
+    path: 'trip-summary',
+    component: TripSummaryComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'route-deviations',
+    component: RouteDeviationsComponent,
+    canActivate: [AuthGuard, RouteGuard],
+
+  }, {
+    path: 'fuel-daily-consumption',
+    component: FuelDailyConsumptionComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  }
 
   ],
 }];

@@ -13,6 +13,8 @@ import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/v
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
 import { StorerequisitionComponent } from '../../acounts-modals/storerequisition/storerequisition.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
+import { AccountService } from '../../services/account.service';
+
 @Component({
   selector: 'daybookpending',
   templateUrl: './daybookpending.component.html',
@@ -66,6 +68,7 @@ export class DaybookpendingComponent implements OnInit {
     private route: ActivatedRoute,
     public user: UserService,
     public modalService: NgbModal,
+    public accountService: AccountService,
     public router: Router) {
     this.common.refresh = this.refresh.bind(this);
     this.getVoucherTypeList();
@@ -92,6 +95,7 @@ export class DaybookpendingComponent implements OnInit {
     this.getBranchList();
     this.getAllLedger();
     this.setFoucus('vouchertype');
+    this.getDayBook();
   }
 
   ngAfterViewInit() {

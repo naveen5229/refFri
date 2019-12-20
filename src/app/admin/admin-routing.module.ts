@@ -69,6 +69,7 @@ import { FoFuelAverageComponent } from '../pages/fo-fuel-average/fo-fuel-average
 import { ChallanPaymentRequestComponent } from '../challan/challan-payment-request/challan-payment-request.component';
 import { MvGpsApiReqComponent } from '../challan/mv-gps-api-req/mv-gps-api-req.component';
 import { CaptchaComponent } from './captcha/captcha.component';
+import { FinancialAccountSummaryComponent } from './financial-account-summary/financial-account-summary.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -406,8 +407,12 @@ const routes: Routes = [{
             path: 'mv-gps-api-req',
             component: MvGpsApiReqComponent,
             canActivate: [RouteGuard]
-        }
-
+        },
+        {
+            path: 'financial-account-summary',
+            component: FinancialAccountSummaryComponent,
+            canActivate: [RouteGuard]
+        },
 
     ],
 }];

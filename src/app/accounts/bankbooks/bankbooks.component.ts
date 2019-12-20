@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'bankbooks',
@@ -50,6 +51,7 @@ export class BankbooksComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public accountService: AccountService,
     public modalService: NgbModal) {
     // this.getVoucherTypeList();
     this.common.refresh = this.refresh.bind(this);
@@ -73,6 +75,7 @@ export class BankbooksComponent implements OnInit {
     this.getBranchList();
     this.getLedgers();
     this.setFoucus('ledger');
+    this.getBankBook();
   }
 
 

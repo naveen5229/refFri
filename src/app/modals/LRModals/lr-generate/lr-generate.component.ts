@@ -79,7 +79,7 @@ export class LrGenerateComponent implements OnInit {
     if (this.lrDetails.id || this.accountService.selected.branch.id) {
       this.getLrFields(true);
     }
-    else if(this.disorderId ){
+    else if (this.disorderId) {
       this.getLrFields();
     }
     this.formatGeneralDetails();
@@ -93,8 +93,8 @@ export class LrGenerateComponent implements OnInit {
   getLrFields(isSetBranchId?) {
     let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
     let params = "branchId=" + this.accountService.selected.branch.id +
-      "&lrId=" + this.lrDetails.id+
-      "&dispOrderId="+this.disorderId;
+      "&lrId=" + this.lrDetails.id +
+      "&dispOrderId=" + this.disorderId;
     this.common.loading++;
     this.api.get('LorryReceiptsOperation/getLrFields?' + params)
       .subscribe(res => {
@@ -180,7 +180,7 @@ export class LrGenerateComponent implements OnInit {
 
   addCompany() {
     console.log("open consignee modal")
-    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Data:', data);
     });
@@ -189,9 +189,9 @@ export class LrGenerateComponent implements OnInit {
   addAssociation(assType) {
     console.log("open Association modal")
     this.common.params = {
-      assType:assType
+      assType: assType
     };
-    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw'   });
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout',windowClass: 'add-consige-veiw'});
     activeModal.result.then(data => {
       console.log('Data:', data);
     });
@@ -200,7 +200,7 @@ export class LrGenerateComponent implements OnInit {
 
   addDriver() {
     this.common.params = { vehicleId: null, vehicleRegNo: null };
-    const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout', windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       console.log("data", data);
       if (data.data) {
@@ -213,19 +213,21 @@ export class LrGenerateComponent implements OnInit {
     this.vehicleData.regno = vehicle.regno;
     this.vehicleData.id = vehicle.id;
     console.log("vehicleId 1", this.vehicleData.id);
-    this.setSupplierInfo(vehicle.supplier_name,vehicle.supplier_id)
+    this.setSupplierInfo(vehicle.supplier_name, vehicle.supplier_id)
     this.getDriverData(this.vehicleData.id);
 
   }
+
+  //remove , backdrop: 'static' from all modal opening functionality;
   addSupplierAssociation() {
-    const activeModal = this.modalService.open(AddSupplierAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddSupplierAssociationComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       if (data.response) {
       }
     });
   }
 
-  setSupplierInfo(supplier?,supplierId?) {
+  setSupplierInfo(supplier?, supplierId?) {
     if (supplier && supplierId) {
       this.lrGeneralField.map(lrField => {
         if (lrField.r_colname == 'supplier_name') {
@@ -234,13 +236,13 @@ export class LrGenerateComponent implements OnInit {
           lrField.r_valueid = supplierId;
         }
       });
-    } 
+    }
     // (<HTMLInputElement>document.getElementById('driver_name')).value = supplier;
   }
   getDriverData(vehicleId) {
     let params = {
       vid: vehicleId,
-      vehicleType:this.lr.vehicleType
+      vehicleType: this.lr.vehicleType
     };
     console.log("vehicleId 2", this.vehicleData.id);
     this.common.loading++;
@@ -338,7 +340,7 @@ export class LrGenerateComponent implements OnInit {
         if (this.keepGoing && this.generalDetailColumn1[i].r_value.length) {
           this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-          const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+          const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout' });
           this.keepGoing = false;
           activeModal.result.then(res => {
             this.keepGoing = true;
@@ -355,7 +357,7 @@ export class LrGenerateComponent implements OnInit {
         this.generalDetailColumn2[i].r_value = this.generalDetailColumn2[i].r_value ? this.generalDetailColumn2[i].r_value : '-------';
         if (this.keepGoing && this.generalDetailColumn2[i].r_value.length) {
           this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
-          const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+          const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout' });
           this.keepGoing = false;
           activeModal.result.then(res => {
             this.keepGoing = true;
@@ -421,7 +423,7 @@ export class LrGenerateComponent implements OnInit {
   }
 
   saveDetails(print?) {
-    console.log("print?",print);
+    console.log("print?", print);
     // return;
     this.lrGeneralField = this.generalDetailColumn2.concat(this.generalDetailColumn1);
     console.log("lr details", JSON.stringify(this.lrGeneralField));
@@ -464,20 +466,20 @@ export class LrGenerateComponent implements OnInit {
         --this.common.loading;
         if (res['data'] && res['data'][0] && res['data'][0].rtn_id > 0) {
           this.common.showToast("LR Generated Successfully");
-          console.log('this.nextPage',this.nextPage);
-          if(this.nextPage == 'revenue'){
-            this.closeModal(false); 
+          console.log('this.nextPage', this.nextPage);
+          if (this.nextPage == 'revenue') {
+            this.closeModal(false);
             this.lrRates(res['data'][0].rtn_id, 0);
-        }else if(this.nextPage == 'expense'){
-          this.lrRates(res['data'][0].rtn_id, 1);
-          this.closeModal(false);
-        }else if(this.nextPage == 'print' || this.nextPage == 'Print'||print ){
-          this.closeModal(false);
-         this.printLr(res['data'][0].rtn_id);
-        }
-        else{
-          this.closeModal(true);
-        }
+          } else if (this.nextPage == 'expense') {
+            this.lrRates(res['data'][0].rtn_id, 1);
+            this.closeModal(false);
+          } else if (this.nextPage == 'print' || this.nextPage == 'Print' || print) {
+            this.closeModal(false);
+            this.printLr(res['data'][0].rtn_id);
+          }
+          else {
+            this.closeModal(true);
+          }
           //this.lrView(res['data'][0].rtn_id);
         } else {
           this.common.showError(res['data'][0].rtn_msg);
@@ -498,8 +500,8 @@ export class LrGenerateComponent implements OnInit {
     }
     this.common.params = { previewData };
 
-    // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
+    // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'print-lr' });
+    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'print-lr-manifest print-lr' });
 
     activeModal.result.then(data => {
       console.log('Date:', data);
@@ -514,7 +516,7 @@ export class LrGenerateComponent implements OnInit {
       generalModal: generalModal,
     }
     this.common.params = { rate: rate }
-    const activeModal = this.modalService.open(LrRateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(LrRateComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       console.log('Data:', data);
 
@@ -525,21 +527,21 @@ export class LrGenerateComponent implements OnInit {
     this.vehicleData.id = null;
     this.vehicleData.regno = null;
     this.lrGeneralField.map(lrField => {
-      if (lrField.r_colname == 'supplier_name' || lrField.r_colname == 'driver_mobile' ) {
-        console.log("lrField.r_colname",lrField.r_colname);
+      if (lrField.r_colname == 'supplier_name' || lrField.r_colname == 'driver_mobile') {
+        console.log("lrField.r_colname", lrField.r_colname);
         lrField.r_value = '';
         lrField.r_value = null;
         lrField.r_valueid = null;
       }
-    else if(lrField.r_colname == 'driver_name'){
-      (<HTMLInputElement>document.getElementById('driver_name')).value = '';
-    }else if(lrField.r_colname == 'driver_license'){
-      (<HTMLInputElement>document.getElementById('driver_license')).value = '';
+      else if (lrField.r_colname == 'driver_name') {
+        (<HTMLInputElement>document.getElementById('driver_name')).value = '';
+      } else if (lrField.r_colname == 'driver_license') {
+        (<HTMLInputElement>document.getElementById('driver_license')).value = '';
 
-    }
+      }
     }
     );
-    
+
 
   }
 
@@ -555,7 +557,7 @@ export class LrGenerateComponent implements OnInit {
 
   addMaterial() {
     console.log('add material');
-    const activeModal = this.modalService.open(AddMaterialComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    const activeModal = this.modalService.open(AddMaterialComponent, { size: 'sm', container: 'nb-layout', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
@@ -565,7 +567,7 @@ export class LrGenerateComponent implements OnInit {
     console.log("-------------vehicle id----------", this.vehicleData.id);
     this.common.params = { vehicleId: this.vehicleData.id }
     if (this.vehicleData.id > 0) {
-      const activeModal = this.modalService.open(VehiclesViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+      const activeModal = this.modalService.open(VehiclesViewComponent, { size: 'lg', container: 'nb-layout', windowClass: 'print-lr' });
 
       activeModal.result.then(data => {
         console.log('Date:', data);
@@ -576,23 +578,23 @@ export class LrGenerateComponent implements OnInit {
 
   }
 
-  changeSerialNo(){
+  changeSerialNo() {
     console.log("changeLrSeries");
-    if(!this.lr.id){
+    if (!this.lr.id) {
       let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
       let params = "branchId=" + this.accountService.selected.branch.id +
-        "&prefix=" + this.lr.prefix+
+        "&prefix=" + this.lr.prefix +
         "&reportType=LR";
       this.common.loading++;
       this.api.get('LorryReceiptsOperation/getNextSerialNo?' + params)
         .subscribe(res => {
-          console.log('reds',res['data'][0].result) ;
+          console.log('reds', res['data'][0].result);
           this.lr.serial = res['data'][0].result;
           this.common.loading--;
         }, err => {
           this.common.loading--;
           console.log(err);
         });
-      }
+    }
   }
 }
