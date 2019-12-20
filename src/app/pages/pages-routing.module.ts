@@ -105,25 +105,25 @@ const routes: Routes = [{
 
     path: 'dashboard',
     component: ConciseComponent,
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'vehicle-kpis',
     component: VehicleKpisComponent,
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'tickets',
     component: TicketsComponent,
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
@@ -568,9 +568,9 @@ const routes: Routes = [{
     component: RouteDeviationsComponent,
     canActivate: [AuthGuard, RouteGuard],
 
-  },{
-    path:'fuel-daily-consumption',
-    component:FuelDailyConsumptionComponent,
+  }, {
+    path: 'fuel-daily-consumption',
+    component: FuelDailyConsumptionComponent,
     canActivate: [AuthGuard, RouteGuard],
   }
 
