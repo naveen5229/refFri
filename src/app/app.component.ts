@@ -72,6 +72,7 @@ export class AppComponent implements OnInit {
         this.user.filterMenu("wareHouse", "wareHouse");
         this.user.filterMenu("account", "account");
         this.user.filterMenu("challan", "challan");
+        this.user.filterMenu("walle8", "walle8");
 
 
       }, err => {

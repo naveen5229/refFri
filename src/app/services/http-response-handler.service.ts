@@ -41,6 +41,7 @@ export class HttpResponseHandlerService implements HttpInterceptor {
               wareHouse: [],
               account: [],
               challan: [],
+              walle8: [],
             };
             localStorage.removeItem('DOST_USER_PAGES');
             setTimeout(() => {
