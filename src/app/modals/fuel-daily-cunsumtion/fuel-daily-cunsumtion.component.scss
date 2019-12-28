@@ -20,6 +20,12 @@
 :host ::ng-deep .red{
     background  : #f5bdbd !important;
 }
+:host ::ng-deep .green{
+    background  :rgb(111, 209, 111) !important;
+}
+:host ::ng-deep .blue{
+    color  : blue !important;
+}
 :host ::ng-deep .black{
     background  :white !important;
 }

@@ -14,6 +14,9 @@ export class FuelDailyConsumptionComponent implements OnInit {
 
   startTime = null;
   endTime = null;
+  reportType = '1';
+  modelType = '0';
+  modelTypes = [];
   Config = {
     type: 'line',
     data: null,
@@ -122,6 +125,7 @@ export class FuelDailyConsumptionComponent implements OnInit {
     let day = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
     this.startTime = new Date(today.setDate(today.getDate() - 90));
     this.common.refresh = this.refresh.bind(this);
+    this.getVehicleModals();
     this.getFuelDailyConsumption();
   }
 
@@ -138,6 +142,19 @@ export class FuelDailyConsumptionComponent implements OnInit {
     this.flagType = type;
   }
 
+  getVehicleModals() {
+  
+    this.common.loading++;
+    this.api.get('Suggestion/getVehicleModals')
+      .subscribe(res => {
+        this.common.loading--;
+        this.modelTypes = res && res['data'] ? res['data'] : [];
+      }, err => {
+        this.common.loading--;
+        console.log('Err:', err);
+      });
+  }
+
   getFuelDailyConsumption() {
     this.Config.data = null;
     if (this.startTime > this.endTime) {
@@ -150,13 +167,16 @@ export class FuelDailyConsumptionComponent implements OnInit {
       startDate: startDate,
       endDate: endDate,
       flagtype:1,
+      modelType:this.modelType,
+      reportType:this.reportType
     };
     console.log('params', params);
     this.common.loading++;
     this.api.post('Fuel/getfueldailyconsumption', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res json data:', JSON.parse(res['data'][0]['y_json_data_level_1']));
+        console.log('Res json data:',res);
+        // console.log('Res json data:', JSON.parse(res['data'][0]['y_json_data_level_1']));
 
         if (!res['data']) return;
         this.getChartData(res['data']);
@@ -248,6 +268,7 @@ export class FuelDailyConsumptionComponent implements OnInit {
   }
   openfueldailycunsumption(consumtiondata){
     this.common.params = {
+      reportType:this.reportType,
       consumtiondata:consumtiondata,
       fueldailycumsionlevel2:this.fuel_daily_cumsion_level2
     };
