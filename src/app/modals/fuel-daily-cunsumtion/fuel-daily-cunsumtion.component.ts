@@ -12,6 +12,7 @@ import { FuelDailyCunsumtionConditionComponent } from '../fuel-daily-cunsumtion-
 export class FuelDailyCunsumtionComponent implements OnInit {
   fuelConsumption = [];
   fueldailycumsionlevel2 = [];
+  reportType = null;
   table = {
     data: {
       headings: {},
@@ -32,6 +33,7 @@ export class FuelDailyCunsumtionComponent implements OnInit {
       console.log("After the modal Open:", this.common.params);
       this.fuelConsumption = this.common.params.consumtiondata;
       this.fueldailycumsionlevel2 = this.common.params.fueldailycumsionlevel2;
+      this.reportType = this.common.params.reportType;
       let first_rec = this.fuelConsumption[0];
       for (var key in first_rec) {
         if (key.charAt(0) != "_") {
@@ -75,7 +77,7 @@ export class FuelDailyCunsumtionComponent implements OnInit {
         if (this.headings[i] != 'Is Applicable') {
           if (this.headings[i] != 'Date') {
             if (this.headings[i] == 'Vehicle') {
-              this.valobj[this.headings[i]] = { value: doc[this.headings[i]], action: this.openfueldailycunsumption.bind(this, doc[this.headings[i]], doc['Date'],doc['Model']) };
+              this.valobj[this.headings[i]] = { value: doc[this.headings[i]], action: this.openfueldailycunsumption.bind(this, doc[this.headings[i]], doc['Date'],doc['Model']),class:'blue' };
             } else {
               this.valobj[this.headings[i]] = { value: doc[this.headings[i]], action: '' };
             }
