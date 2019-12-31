@@ -123,7 +123,7 @@ export class GenericModelComponent implements OnInit {
           if (this.deleteObj.api)
             icons.push({ class: 'fa fa-trash', action: this.delete.bind(this, doc) });
           if (this.viewModalObj.api)
-            icons.push({ class: 'fa fa-view', action: this.viewModal.bind(this, doc) });
+            icons.push({ class: 'fa fa-eye', action: this.viewModal.bind(this, doc) });
           if (icons.length != 0)
             this.valobj[this.headings[i]] = { value: "", action: null, icons: icons };
         } else {
@@ -154,7 +154,6 @@ export class GenericModelComponent implements OnInit {
   }
 
   viewModal(doc) {
-    this.common.loading++;
     this.viewModalParams = {};
     Object.keys(this.viewModalObj.param).forEach(element => {
       console.log("element value:", element);

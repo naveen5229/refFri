@@ -277,7 +277,7 @@ export class TripSummaryComponent implements OnInit {
           startDate: '_start',
           endDate: '_end',
           type: '_type',
-          id: '_id'
+          levelId: '_id'
         }
       },
       title: "Trip Data"
