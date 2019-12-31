@@ -263,6 +263,7 @@ import { AddGpsSupplierComponent } from './modals/add-gps-supplier/add-gps-suppl
 import { VehicleDetailsUpdateComponent } from './modals/vehicle-details-update/vehicle-details-update.component';
 import { FuelDailyCunsumtionComponent } from './modals/fuel-daily-cunsumtion/fuel-daily-cunsumtion.component';
 import { FuelDailyCunsumtionConditionComponent } from './modals/fuel-daily-cunsumtion-condition/fuel-daily-cunsumtion-condition.component';
+import { CardusageComponent } from './modals/cardusage/cardusage.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -486,7 +487,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   AddGpsSupplierComponent,
   VehicleDetailsUpdateComponent,
   FuelDailyCunsumtionComponent,
-  FuelDailyCunsumtionConditionComponent
+  FuelDailyCunsumtionConditionComponent,
+  CardusageComponent
 
 ];
 
@@ -496,6 +498,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CustomTimePipe,
     CustomDatePipe,
     ...COMMON_COMPONENT,
+    CardusageComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT

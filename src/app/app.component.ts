@@ -57,10 +57,10 @@ export class AppComponent implements OnInit {
       userId: this.user._details.id,
       userType: userTypeId
     };
-    this.common.loading++;
+    // this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
-        this.common.loading--;
+        // this.common.loading--;
         this.user._pages = res['data'].filter(page => { return page.userid; });
         localStorage.setItem('DOST_USER_PAGES', JSON.stringify(this.user._pages));
         console.log('USER PAGES:', this.user._pages);
@@ -76,7 +76,7 @@ export class AppComponent implements OnInit {
 
 
       }, err => {
-        this.common.loading--;
+        // this.common.loading--;
         console.log('Error: ', err);
       })
   }

@@ -1,95 +1,133 @@
 <nb-card>
-    <nb-card-body>
-          <div class="row doNotPrint">
-            <div class="col-2">
-                <auto-suggestion (onSelected)="selectFo($event)" [data]="foAgents" (onChange)="getFoAgents()" [display]="['name','mobileno']"
-                placeholder="Enter Customer" seperator="-" inputId="agentFo" style="width:60%;" ></auto-suggestion>
-            </div>
-            
-        <div class="col-2">
-          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
-            placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
+  <nb-card-body>
+    <div class="row doNotPrint">
+      <div class="col-2">
+        <auto-suggestion (onSelected)="selectFo($event)" [data]="foAgents" (onChange)="getFoAgents()"
+          [display]="['name','mobileno']" placeholder="Enter Customer" seperator="-" inputId="agentFo"
+          style="width:60%;"></auto-suggestion>
+      </div>
+
+      <div class="col-2">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
+      </div>
+      <div class="col-2">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary" type="button" (click)="getaddTimeFinancialTollReport()">Submit</button>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" autocomplete="off" (keyup)="filterData($event)"
+          placeholder="Enter Vehicle" [(ngModel)]='typedKey'>
+      </div>
+      <div class="col-1">
+        <span class="pdf-icon" title="PDF Export" (click)="common.downloadPdf('financialaccount');"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+
+        <!-- <span class="pdf-icon" title="PDF Export" (click)="multiPagePDF();" style="cursor: pointer;"><i
+            class="fa fa-file-pdf"></i></span> -->
+      </div>
+    </div>
+
+    <div id="financialaccount">
+    <!-- <div id="report"> -->
+      <div style="height:40px"></div>
+      <div class="row">
+        <div class="col-6">
+          <b>elogist Solutions Pvt. Ltd.</b><br>
+          Address: 605-21, Jaipur Electronic Market,<br>
+          Riddhi Siddhi Circle, Gopalpura Bypass, Jaipur, Rajasthan - 302018<br>
+          Support: 8081604455<br>
+          Website: www.walle8.com
         </div>
-        <div class="col-2">
-          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
-            placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
-        </div>
-        <div class="col-2">
-          <button class="btn btn-primary" type="button" (click)="getaddTimeFinancialTollReport()">Submit</button>
-        </div>
+        <div class="col-3"></div>
         <div class="col-3">
-          <input type="text" class="form-control" autocomplete="off" (keyup)="filterData($event)"
-            placeholder="Enter Vehicle" [(ngModel)]='typedKey'>
-        </div>
-        <div class="col-1">
-          <span class="pdf-icon" title="PDF Export" (click)="common.downloadPdf('financialaccount');" style="cursor: pointer;"><i
-            class="fa fa-file-pdf"></i></span>
+          <img src="http://elogist.in/transtruck/admindashboard/assets/images/left-logo.png"
+            style="width:150px;height:120px;">
         </div>
       </div>
-      
-          <div id="financialaccount">
-            <div style="height:40px"></div>
-              <div class="row">
-              <div class="col-1"></div>
-              <div class="col-4">
-                  <b>elogist Solutions Pvt. Ltd.</b><br>
-                  Address: 605-21, Jaipur Electronic Market,<br>
-                  Riddhi Siddhi Circle, Gopalpura Bypass, Jaipur, Rajasthan - 302018<br>
-                  Support: 8081604455<br>
-                  Website: www.walle8.com
-              </div>
-              <div class="col-3"></div>
-              <div class="col-3">
-                  <img src="http://elogist.in/transtruck/admindashboard/assets/images/left-logo.png" style="width:150px;height:120px;">
-            </div>
-            </div>
 
       <div class="row" style="margin-top:10px;">
-        <div class="col-1"></div>
-        <div class="col-5">
+        <div class="col-6">
           <table class="table table-bordered">
-            <tr><th class="thead" colspan="2">Provider Details</th></tr>
-            <tr><td>Provider Name</td><td>eLogist</td></tr>
-            <tr><td>Provider Address</td><td>Jaipur</td></tr>
-            <tr><td>GSTIN</td><td>08AAECE3933F1ZS</td></tr>
-            <tr><td>Place Of Supply</td><td>Rajasthan</td></tr>
+            <tr>
+              <th class="thead" colspan="2">Provider Details</th>
+            </tr>
+            <tr>
+              <td>Provider Name</td>
+              <td>eLogist</td>
+            </tr>
+            <tr>
+              <td>Provider Address</td>
+              <td>Jaipur</td>
+            </tr>
+            <tr>
+              <td>GSTIN</td>
+              <td>08AAECE3933F1ZS</td>
+            </tr>
+            <tr>
+              <td>Place Of Supply</td>
+              <td>Rajasthan</td>
+            </tr>
           </table>
         </div>
-        <div class="col-5">
-            <table class="table table-bordered">
-                <tr>
-                  <th class="thead" colspan="2">Customer Details</th>
-                </tr>
-                <tr><td>Customer Id</td><td>{{fo.id}}</td></tr>
-                <tr><td>Mobile No.</td><td>{{fo.mobileNo}}</td></tr>
-                <tr><td>Name</td><td>{{fo.name}}</td></tr>
-                <tr><td>Statement Date</td><td>{{dates.currentdate}}</td></tr>
-                <tr><td>Statement Period</td><td>{{dates.start}} - {{dates.end}}</td></tr>
-              </table>
+        <div class="col-6">
+          <table class="table table-bordered">
+            <tr>
+              <th class="thead" colspan="2">Customer Details</th>
+            </tr>
+            <tr>
+              <td>Customer Id</td>
+              <td>{{fo.id}}</td>
+            </tr>
+            <tr>
+              <td>Mobile No.</td>
+              <td>{{fo.mobileNo}}</td>
+            </tr>
+            <tr>
+              <td>Name</td>
+              <td>{{fo.name}}</td>
+            </tr>
+            <tr>
+              <td>Statement Date</td>
+              <td>{{dates.currentdate}}</td>
+            </tr>
+            <tr>
+              <td>Statement Period</td>
+              <td>{{dates.start}} - {{dates.end}}</td>
+            </tr>
+          </table>
         </div>
       </div>
-      
-        <div class="row">
-          <div class="col-1"></div>
-          <div class="col-10">
+
+      <div class="row">
+        <div class="col-12">
           <table class="table table-bordered">
             <tr>
               <th class="thead" colspan="4">Account Summary</th>
             </tr>
-            <tr><td>Opening Balance(Rs.)</td><td>Closing Balance(Rs.)</td></tr>
-            <tr><td>{{openingBalance}}</td><td>{{closingBalance}}</td></tr>
+            <tr>
+              <td>Opening Balance(Rs.)</td>
+              <td>Closing Balance(Rs.)</td>
+            </tr>
+            <tr>
+              <td>{{openingBalance}}</td>
+              <td>{{closingBalance}}</td>
+            </tr>
           </table>
         </div>
-        </div>
-  
-        <div class="row">
-          <div class="col-1"></div>
-          <div class="col-10">
+      </div>
+
+      <div class="row">
+        <div class="col-12">
           <table class="table table-bordered">
             <tr>
-                <th class="thead" colspan="8">Transaction Details</th>
+              <th class="thead" colspan="8">Transaction Details</th>
             </tr>
-            <tr><th>Vehicle</th>
+            <tr>
+              <th>Vehicle</th>
               <th>Accounting Time</th>
               <th>Transaction Time</th>
               <th>Toll Plaza</th>
@@ -99,7 +137,7 @@
               <th>Balance</th>
             </tr>
             <tbody>
-              <tr *ngFor = "let dt of data ">
+              <tr *ngFor="let dt of data ">
                 <td>{{dt.vehid}}</td>
                 <td>{{dt.addtime}}</td>
                 <td>{{dt.transtime}}</td>
@@ -110,11 +148,9 @@
                 <td>{{dt.balance}}</td>
               </tr>
             </tbody>
-  
           </table>
         </div>
-        </div>
-      
       </div>
-    </nb-card-body>
-  </nb-card>
+    </div>
+  </nb-card-body>
+</nb-card>

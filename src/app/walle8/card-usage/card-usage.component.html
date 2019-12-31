@@ -28,62 +28,8 @@
       </div>
     </div>
   </nb-card-header>
-  <nb-card-body>
-    <table class="table-bordered table-hover table-scroll" id="cardUsage">
-      <thead class="thead">
-        <tr>
-          <th>#</th>
-          <th>Vehicle</th>
-          <th>IOCL</th>
-          <th>BPCL</th>
-          <th>ATM</th>
-          <th>HPCL</th>
-          <th>Tolls</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        <tr *ngFor="let usage of cardUsage; let i = index">
-          <td scope="row">{{i+1}}</td>
-          <td>{{usage.vehicle}}</td>
-          <td>{{usage.iocl}}</td>
-          <td>{{usage.bpcl}}</td>
-          <td>{{usage.atm}}</td>
-          <td>{{usage.hpcl}}</td>
-          <td>{{usage.tolls}}</td>
-        </tr>
-        <!-- <tr *ngFor="let subtotal of sum">
-          <td></td>
-          <td>Sub Total</td>
-          <td>{{subtotal.iocl}}</td>
-          <td>{{subtotal.bpcl}}</td>
-          <td>{{subtotal.atm}}</td>
-          <td>{{subtotal.hpcl}}</td>
-          <td>{{subtotal.tolls}}</td>
-        </tr> -->
-      </tbody>
-      <!-- </table>
-    <table id="cardUsage"> -->
-      <tbody>
-        <tr>
-          <td></td>
-          <td> Subtotal</td>
-          <td>{{iocl}}</td>
-          <td>{{bpcl}}</td>
-          <td>{{atm}}</td>
-          <td>{{hpcl}}</td>
-          <td>{{tolls}}</td>
-        </tr>
-      </tbody>
-      <!-- </table>
-    <table id="cardUsage"> -->
-      <tbody>
-        <tr>
-          <td></td>
-          <td>Total</td>
-          <td>{{total}}</td>
-        </tr>
-      </tbody>
-    </table>
+  <nb-card-body><smart-table *ngIf="cardUsage && cardUsage.length" id="cardUsage" [data]="table.data" [settings]="table.settings">
+  </smart-table>
+    
   </nb-card-body>
 </nb-card>
