@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getUrlScheme } from '@angular/compiler';
+import { CardusageComponent } from '../../modals/cardusage/cardusage.component';
 @Component({
   selector: 'card-usage',
   templateUrl: './card-usage.component.html',
@@ -15,15 +16,23 @@ export class CardUsageComponent implements OnInit {
   cardUsage = [];
   total = 0;
 
-  iocl = 0;
-  bpcl = 0;
-  atm = 0;
-  hpcl = 0;
-  tolls = 0;
+  headings = [];
+  valobj = {};
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+
+  
 
   dates = {
     start: null,
-    end: this.common.dateFormatter(new Date()),
+    end: this.common.dateFormatter1(new Date()),
   }
   // userId = '946';
   // mobileno = 9812929999;
@@ -38,7 +47,7 @@ export class CardUsageComponent implements OnInit {
     let today = new Date();
     this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
     this.getcardUsage();
-    this.calculateTotal();
+    //this.calculateTotal();
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -47,7 +56,7 @@ export class CardUsageComponent implements OnInit {
 
   refresh(){
     this.getcardUsage();
-    this.calculateTotal();
+    //this.calculateTotal();
   }
   ngAfterViewInit() {
 
@@ -70,38 +79,82 @@ export class CardUsageComponent implements OnInit {
   getcardUsage() {
 
 
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
-
-    this.common.loading++;
+    //let params = "aduserid=" + this.user._details.foid + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let params =  "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    console.log("-----------",params);
     let response;
+    this.common.loading++;
     this.api.walle8Get('AccountSummaryApi/ViewCardUsages.json?' + params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
-        this.cardUsage = res['data'];
-        for (let i = 0; i < this.cardUsage.length; i += 1) {
-
-          this.iocl += Number(this.cardUsage[i].iocl);
-          this.bpcl += Number(this.cardUsage[i].bpcl);
-          this.hpcl += Number(this.cardUsage[i].hpcl);
-          this.atm += Number(this.cardUsage[i].atm);
-          this.tolls += Number(this.cardUsage[i].tolls);
-          console.log('............', this.tolls);
+    .subscribe(res => {
+      this.common.loading--;
+      console.log('res: ' + res['data']);
+      this.cardUsage = res['data'];
+      let first_rec = this.cardUsage[0];
+      let headings = {};
+      for (var key in first_rec) {
+        if (key.charAt(0) != "_") {
+          this.headings.push(key);
+          let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+          headings[key] = headerObj;
         }
-
-        this.total = Number(this.total) + Number(this.tolls) + Number(this.iocl) + Number(this.bpcl) + Number(this.hpcl) + Number(this.atm);
-        console.log('card', this.total);
-      }, err => {
+      }
+      this.table.data = {
+        headings: headings,
+        columns: this.getTableColumns()
+      };
+    }, err => {
         this.common.loading--;
         console.log(err);
       });
     return response;
-
   }
 
-  calculateTotal() {
+  getTableColumns() {
+    let columns = [];
+    console.log("Data=", this.cardUsage);
+    this.cardUsage.map(matrix => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        if(this.headings[i]=='vehicle'){
+          this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'blue', action: this.showdata.bind(this, matrix) };
+        }
+        else{
+          this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
+        }
+      }
+        
+
+      // this.valobj['Action'] = { class: '', icons: this.actionIcons(matrix) };
+      columns.push(this.valobj);
+    });
+    return columns;
+  }
 
 
+  // actionIcons(details) {
+  //   let icons = [];
+  //   icons.push(
+  //     {
+  //       class: "fa fa-edit",
+  //       // action: this.openAddIssueModel.bind(this, details)
+
+  //     }
+  //   )
+  //   console.log("details-------:", details)
+  //   return icons;
+  // }
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1)
+  }
+
+
+  showdata(data){
+    this.common.params = { vehicleid: data.vid, startdate:this.dates.start,enddate:this.dates.end};
+    const activeModal = this.modalService.open(CardusageComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static'});
+     activeModal.result.then(data => {
+     });
+    
   }
 
   printPDF(tblEltId) {
