@@ -14,8 +14,8 @@ export class FuelDailyConsumptionComponent implements OnInit {
 
   startTime = null;
   endTime = null;
-  reportType = '1';
-  modelType = '0';
+  reportType = 1;
+  modelType = 0;
   modelTypes = [];
   Config = {
     type: 'line',
@@ -185,6 +185,7 @@ export class FuelDailyConsumptionComponent implements OnInit {
         if (res['data'][0]['y_json_data_level_1']) {
           this.fuel_daily_cumsion = JSON.parse(res['data'][0]['y_json_data_level_1']);
           this.fuel_daily_cumsion_level2 = JSON.parse(res['data'][0]['y_json_data_level_2']);
+          console.log('double data',this.fuel_daily_cumsion);
         }
         // let first_rec = this.fuel_daily_cumsion[0];
         // for (var key in first_rec) {

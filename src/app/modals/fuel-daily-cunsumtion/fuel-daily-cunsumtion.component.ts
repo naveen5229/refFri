@@ -12,7 +12,7 @@ import { FuelDailyCunsumtionConditionComponent } from '../fuel-daily-cunsumtion-
 export class FuelDailyCunsumtionComponent implements OnInit {
   fuelConsumption = [];
   fueldailycumsionlevel2 = [];
-  reportType = null;
+  reportType = 0;
   table = {
     data: {
       headings: {},
@@ -37,7 +37,7 @@ export class FuelDailyCunsumtionComponent implements OnInit {
       let first_rec = this.fuelConsumption[0];
       for (var key in first_rec) {
         if (key.charAt(0) != "_") {
-          if (key != 'Is Applicable') {
+          if (key != 'Is Applicable' && key != 'Median') {
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
@@ -64,11 +64,15 @@ export class FuelDailyCunsumtionComponent implements OnInit {
     fuel_daily_cumsion.map(doc => {
 
       var colorclass = '';
-      if (doc['Is Applicable'] == 1) {
-        colorclass = 'black';
-      } else {
-        colorclass = 'red';
+      if(doc['Median'] !=0 && this.reportType==2){
+        colorclass = 'green';
       }
+      else  if (doc['Is Applicable'] != 1 && this.reportType==1) {
+        colorclass = 'red';
+      } else {
+        colorclass = 'black';
+      }
+    
       this.valobj = {
         class: colorclass
       };
