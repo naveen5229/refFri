@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     mobile: '',
     otp: '',
   };
-
+  iswallet = '-1';
   listenOTP = false;
   otpCount = 0;
   button = 'Send';
@@ -133,17 +133,23 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    
     if (this.otpCount <= 0) {
       clearInterval(this.interval);
     }
+    let url = window.location.href;
+    url = url.toLowerCase();
+   this.iswallet = url.search("walle8customer")>-1?'1':'0';
     const params = {
       type: "verifyotp",
       mobileno: this.userDetails.mobile,
       otp: this.userDetails.otp,
       qrcode: this.loginType === 1 ? null : this.qrCode,
-      device_token: null
+      device_token: null,
+      iswallet : this.iswallet 
     };
-    console.log('Login Params:', params);
+    console.log('Login Params:', params,'url',url,this.iswallet);
+   
     this.api.post('Login/verifyotp', params)
       .subscribe(res => {
         console.log(res);
@@ -181,7 +187,8 @@ export class LoginComponent implements OnInit {
     let userTypeId = this.user._loggedInBy == 'admin' ? 1 : 3;
     const params = {
       userId: this.user._details.id,
-      userType: userTypeId
+      userType: userTypeId,
+      iswallet : this.iswallet 
     };
     this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
