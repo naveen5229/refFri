@@ -40,6 +40,7 @@ export class FinancialAccountSummaryComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal, ) {
+      this.common.refresh = this.refresh.bind(this);
     this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
   }
 
@@ -47,6 +48,7 @@ export class FinancialAccountSummaryComponent implements OnInit {
   }
 
   refresh() {
+    this.getaddTimeFinancialTollReport();
   }
 
   calculateAmount(arr) {
@@ -117,57 +119,18 @@ export class FinancialAccountSummaryComponent implements OnInit {
   }
   typedKey = '';
   filterData(event) {
+    console.log('typedKey',this.typedKey)
     this.data = this.result.filter((ele) => {
-      if (!this.typedKey)
-        return true;
-      else
+      if (!this.typedKey){
+        return true;}
+      else{
+        console.log("ele",ele);
         return ele.vehid ? ele.vehid.toLowerCase().includes(this.typedKey) : false;
+      }
     })
+    console.log("data",this.data);
   }
 
-  // multiPagePDF(id = "report", name = "report") {
-  //   const scale = 1;
-  //   html2canvas(document.getElementById(id), { scale, useCORS: true }).then(canvas => {
-  //     let doc = new jsPDF("p", "mm");
-  //     let images = this.imageSlicer(
-  //       canvas,
-  //       Math.ceil(Math.ceil(canvas.height / 1150) / scale),
-  //       scale
-  //     );
-  //     for (let i = 0; i < images.length; i++) {
-  //       doc.addImage(images[i], "PNG", 10, 10, 200, 275);
-  //       if (i < images.length - 1) doc.addPage();
-  //     }
-  //     doc.save(name + ".pdf");
-  //   });
-  // }
-
-  // imageSlicer(image, imageCount, scale = 1) {
-  //   console.log(imageCount);
-  //   let images = [];
-  //   console.log('image.width:', image.width);
-  //   const widthOfOnePiece = (image.width + 65) * scale;
-  //   const heightOfOnePiece = 1205 * scale;
-  //   for (let y = 0; y < imageCount; y++) {
-  //     let canvas = document.createElement("canvas");
-  //     canvas.width = widthOfOnePiece;
-  //     canvas.height = heightOfOnePiece;
-  //     let context = canvas.getContext("2d");
-  //     context.drawImage(
-  //       image,
-  //       0,
-  //       y * heightOfOnePiece,
-  //       widthOfOnePiece,
-  //       heightOfOnePiece,
-  //       0,
-  //       0,
-  //       canvas.width,
-  //       canvas.height
-  //     );
-  //     images.push(canvas.toDataURL());
-  //   }
-
-  //   return images;
-  // }
+ 
 
 }

@@ -35,6 +35,8 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
     // this.getaddTimeFinancialTollReport();
     // this.common.refresh = this.refresh.bind(this);
+    console.log("user",this.user._details);
+    console.log("customer",this.user._customer);
 
   }
 

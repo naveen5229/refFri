@@ -162,7 +162,8 @@ export class UserPreferencesComponent implements OnInit {
     this.selectedUser.details = user;
     const params = {
       userId: user.id,
-      userType: 1
+      userType: 1,
+      iswallet : localStorage.getItem('iswallet') || '0' 
     };
     this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
@@ -270,7 +271,39 @@ export class UserPreferencesComponent implements OnInit {
     });
     return data;
   }
+  functionalityFlag = [];
 
+  checkOrUnCheckfunctionality(modul,indexmodule,isAll){
+    console.log(modul,indexmodule,isAll);
+    if(isAll){
+      for(let i = 0;i<modul.pages.length;i++)
+      {
+        console.log(modul.pages[i]);
+        modul.pages[i].isSelected = true;
+        modul.pages[i].isadd = true;
+        modul.pages[i].isedit = true;
+        modul.pages[i].isdeleted = true;
+        modul.pages[i].isOp = true;
+      }
+    }
+    else{
+      for(let i = 0;i<modul.pages.length;i++)
+      {
+      modul.pages[i].isSelected = false;
+      modul.pages[i].isadd = false;
+      modul.pages[i].isedit = false;
+      modul.pages[i].isdeleted = false;
+      modul.pages[i].isOp = false;
+    }
+  }
+    // if (!details.isSelected && type == 'page') {
+    //   details.isSelected = details.isSelected;
+    //   details.isadd = false;
+    //   details.isedit = false;
+    //   details.isdeleted = false;
+    //   details.isOp = true;
+    // }
 
+  }
 
 }

@@ -79,7 +79,8 @@ export class FoUserRoleComponent implements OnInit {
     this.selectedUser.details = user;
     const params = {
       userId: user.id,
-      userType: 3
+      userType: 3,
+      iswallet : localStorage.getItem('iswallet') || '0' 
     };
     this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)

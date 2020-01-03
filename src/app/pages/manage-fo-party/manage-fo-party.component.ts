@@ -39,7 +39,7 @@ export class ManageFoPartyComponent implements OnInit {
   constructor(public api: ApiService,
     public modalService: NgbModal,
     public common: CommonService) {
-    this.refresh();
+     this.refresh();
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -47,7 +47,7 @@ export class ManageFoPartyComponent implements OnInit {
   }
 
   refresh() {
-    this.checkCompany();
+    // this.checkCompany();
     this.getAssociationType();
   }
 

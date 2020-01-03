@@ -58,7 +58,9 @@ export class AppComponent implements OnInit {
     let userTypeId = this.user._loggedInBy == 'admin' ? 1 : 3;
     const params = {
       userId: this.user._details.id,
-      userType: userTypeId
+      userType: userTypeId,
+      iswallet : localStorage.getItem('iswallet') || '0' 
+
     };
     // this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
