@@ -119,12 +119,16 @@ export class FinancialAccountSummaryComponent implements OnInit {
   }
   typedKey = '';
   filterData(event) {
+    console.log('typedKey',this.typedKey)
     this.data = this.result.filter((ele) => {
-      if (!this.typedKey)
-        return true;
-      else
+      if (!this.typedKey){
+        return true;}
+      else{
+        console.log("ele",ele);
         return ele.vehid ? ele.vehid.toLowerCase().includes(this.typedKey) : false;
+      }
     })
+    console.log("data",this.data);
   }
 
  
