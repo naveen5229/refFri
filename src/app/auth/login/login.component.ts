@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     mobile: '',
     otp: '',
   };
-  iswallet = '-1';
+  iswallet = '0';
   listenOTP = false;
   otpCount = 0;
   button = 'Send';
@@ -161,6 +161,7 @@ export class LoginComponent implements OnInit {
           this.common.showToast(res['msg']);
           localStorage.setItem('USER_TOKEN', res['data'][0]['authkey']);
           localStorage.setItem('USER_DETAILS', JSON.stringify(res['data'][0]));
+          localStorage.setItem('iswallet', this.iswallet);
           this.user._details = res['data'][0];
           this.user._token = res['data'][0]['authkey'];
           console.log('Login Type: ', this.user._loggedInBy);

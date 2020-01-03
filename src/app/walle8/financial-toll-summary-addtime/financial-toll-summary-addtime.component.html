@@ -5,10 +5,10 @@
     
   <nb-card-body>
         <div class="row">
-          <div class="col-2">
+          <!-- <div class="col-2">
               <auto-suggestion (onSelected)="selectFo($event)" [data]="foAgents" (onChange)="getFoAgents()" display="regno"
               placeholder="Enter Customer" inputId="agentFo" style="width:60%;" [display]="['name','mobileno']"></auto-suggestion>
-          </div>
+          </div> -->
       <div class="col-3">
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
           placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>

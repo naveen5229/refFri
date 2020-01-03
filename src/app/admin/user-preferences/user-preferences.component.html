@@ -87,6 +87,7 @@
           <div class="group-head"><input type="checkbox" [ngClass]="group.isSelected? 'group-box' : 'group-box'"
               [name]="'group-' + j" [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')">
             {{group.name}}
+             <span style="font-size: 14px; margin-left: 40px;">All Functionality</span><input type = "checkbox" class="group-box" [(ngModel)]="group.isAll" (change)="checkOrUnCheckfunctionality(group, i,group.isAll)">
           </div>
           <div class="col-2 page-container" *ngFor="let page of group.pages; let k = index">
             <input type="checkbox" class=" page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected"
