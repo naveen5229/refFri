@@ -103,6 +103,13 @@ export class UserService {
         } else if (!menuItem.children.length) return false;
         return true;
       });
+
+    // this._menu[type].push({
+    //   title: 'Walle8',
+    //   icon: 'fas fa-route',
+    //   link: '/walle8',
+    //   home: true,
+    // });
   }
 
 }
