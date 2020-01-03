@@ -30,7 +30,6 @@ export class AppComponent implements OnInit {
     public activity: ActivityService,
     private router: Router,
     public api: ApiService) {
-    this.navigationDetector();
     if (this.user._details) {
       this.getUserPagesList();
     }
@@ -54,27 +53,6 @@ export class AppComponent implements OnInit {
     }, 120000);
   }
 
-  navigationDetector() {
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        if (event.url === '/walle8') {
-          localStorage.setItem('walle8_ref', '1');
-          localStorage.setItem('ref_back', location.href);
-          location.href = "http://localhost:4200/#/ref-by-dost";
-        }
-      }
-
-      if (event instanceof NavigationEnd) {
-        // Hide loading indicator
-      }
-
-      if (event instanceof NavigationError) {
-        // Hide loading indicator
-        // Present error to user
-        console.log(event.error);
-      }
-    });
-  }
 
   getUserPagesList() {
     let userTypeId = this.user._loggedInBy == 'admin' ? 1 : 3;
