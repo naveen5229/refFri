@@ -53,7 +53,7 @@
 
 <div class="header_mini_menu">
   <div class="add_customer"
-    *ngIf="this.user._loggedInBy !== 'customer'||(this.user._loggedInBy === 'customer' && this.user._details.multipleAccounts>0)">
+    *ngIf="this.user._loggedInBy == 'admin'||this.user._loggedInBy == 'partner' ||(this.user._loggedInBy === 'customer' && this.user._details.multipleAccounts>0)">
     <button class="form-control" (click)="openChangeModal()"><img src="assets/images/add-contact.png"></button>
   </div>
   <div class="current-page" *ngIf="common.currentPage">
