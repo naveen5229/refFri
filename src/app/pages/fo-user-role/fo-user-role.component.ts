@@ -111,6 +111,8 @@ export class FoUserRoleComponent implements OnInit {
     this.formattedData.map(module => {
       let isMasterAllSelected = true;
       let pageGroup = _.groupBy(module.groups, 'group_name');
+      console.log(pageGroup);
+      console.log(Object.keys(pageGroup));
       module.groups = Object.keys(pageGroup).map(key => {
         let isAllSelected = true;
         let pages = pageGroup[key].map(page => {
@@ -166,6 +168,39 @@ export class FoUserRoleComponent implements OnInit {
       details.isdeleted = false;
       details.isOp = true;
     }
+  }
+
+  checkOrUnCheckfunctionality(modul,indexmodule,isAll){
+    console.log(modul,indexmodule,isAll);
+    if(isAll){
+      for(let i = 0;i<modul.pages.length;i++)
+      {
+        console.log(modul.pages[i]);
+        modul.pages[i].isSelected = true;
+        modul.pages[i].isadd = true;
+        modul.pages[i].isedit = true;
+        modul.pages[i].isdeleted = true;
+        modul.pages[i].isOp = true;
+      }
+    }
+    else{
+      for(let i = 0;i<modul.pages.length;i++)
+      {
+      modul.pages[i].isSelected = false;
+      modul.pages[i].isadd = false;
+      modul.pages[i].isedit = false;
+      modul.pages[i].isdeleted = false;
+      modul.pages[i].isOp = false;
+    }
+  }
+    // if (!details.isSelected && type == 'page') {
+    //   details.isSelected = details.isSelected;
+    //   details.isadd = false;
+    //   details.isedit = false;
+    //   details.isdeleted = false;
+    //   details.isOp = true;
+    // }
+
   }
 
   changePagePermission(details, type, event) {
