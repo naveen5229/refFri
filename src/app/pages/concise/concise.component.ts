@@ -212,6 +212,7 @@ export class ConciseComponent implements OnInit {
     let columns = [];
 
     let kpisList = kpis || this.kpis;
+    console.log ("kpisListlenght==",kpisList.length,"kpisList==",kpisList);
     kpisList.map((kpi, i) => {
 
       columns.push({
@@ -561,11 +562,13 @@ export class ConciseComponent implements OnInit {
           action: this.handleMapView.bind(this),
 
         },
-
+        // pagination :true,
 
 
         tableHeight: "87vh"
-      }
+      },
+      
+
     };
   }
 
