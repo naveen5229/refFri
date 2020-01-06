@@ -158,6 +158,7 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   getUserPages(user) {
+    console.log(user);
     this.formattedData = [];
     this.selectedUser.details = user;
     const params = {
@@ -186,6 +187,8 @@ export class UserPreferencesComponent implements OnInit {
 
   managedata() {
     let firstGroup = _.groupBy(this.data, 'module');
+    console.log(firstGroup);
+    console.log(Object.keys(firstGroup));
     this.formattedData = Object.keys(firstGroup).map(key => {
       return {
         name: key,
@@ -194,6 +197,7 @@ export class UserPreferencesComponent implements OnInit {
         isOp: false,
       }
     });
+    console.log(this.formattedData);
     this.formattedData.map(module => {
       let isMasterAllSelected = true;
       let pageGroup = _.groupBy(module.groups, 'group_name');
@@ -243,6 +247,7 @@ export class UserPreferencesComponent implements OnInit {
     this.common.loading++;
     this.api.post('UserRoles/setPagesWrtUser', params)
       .subscribe(res => {
+        console.log(res);
         this.common.loading--;
         this.common.showToast(res['msg']);
         this.refresh();

@@ -35,6 +35,15 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    let url = window.location.href;
+    url = url.toLowerCase();
+   this.iswallet = url.search("walle8customer")>-1?'1':'0';
+    if(this.iswallet=='1'){
+      this.user._loggedInBy = 'walle8customer';
+      this.button = 'Send';
+      return;
+    }
+else{
     this.route.params.subscribe(params => {
       if (params.type && (params.type.toLowerCase() == 'admin' || params.type.toLowerCase() == 'partner')) {
         this.button = 'Generate Qr-Code';
@@ -45,10 +54,12 @@ export class LoginComponent implements OnInit {
       } else {
         this.user._loggedInBy = 'customer';
         this.button = 'Send';
+
       }
       console.log("Login By", this.user._loggedInBy);
     });
   }
+}
 
   ngAfterViewInit() {
     this.removeDummy();
@@ -69,7 +80,7 @@ export class LoginComponent implements OnInit {
       nbCard['style']['height'] = '100%';
     }
 
-    if (this.user._loggedInBy == "admin") {
+    else if (this.user._loggedInBy == "admin") {
       let nbCard = document.getElementsByTagName('nb-card')[0];
       nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/login-admin.jpg')";
       nbCard['style']['backgroundSize'] = 'cover';
@@ -78,6 +89,15 @@ export class LoginComponent implements OnInit {
       nbCard['style']['height'] = '100%';
     }
 
+    else {
+      let nbCard = document.getElementsByTagName('nb-card')[0];
+      // nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/login-admin.jpg')";
+      nbCard['style']['backgroundColor'] = '#e9dcdc';
+      nbCard['style']['backgroundSize'] = 'cover';
+      nbCard['style']['backgroundRepeat'] = 'no-repeat';
+      nbCard['style']['backgroundPosition'] = 'bottom';
+      nbCard['style']['height'] = '100%';
+    }
   }
 
 

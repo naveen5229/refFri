@@ -76,17 +76,21 @@ export class FinancialAccountSummaryComponent implements OnInit {
 
 
   getaddTimeFinancialTollReport() {
+    this.openingBalance = 0;
+    this.closingBalance = 0;
+    this.data = [];
+    if(this.fo.mobileNo){
     let params = "&startDate=" + this.dates.start + "&endDate=" + this.dates.end + "&mobileno=" + this.fo.mobileNo;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getFinancialAccountSummaryAddTime.json?' + params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res);
-        if (res && res['data']) {
+        if (res && res['data'] && res['data'].length>0) {
           this.result = res['data'];
           this.data = res['data'];
-          this.openingBalance = this.data[0]['amount'];
-          this.closingBalance = this.data[this.data.length - 1]['amount'];
+          // this.openingBalance = this.data[0]['amount'];
+          // this.closingBalance = this.data[this.data.length - 1]['amount'];
           this.calculateAmount(this.data);
         }
         else {
@@ -96,7 +100,10 @@ export class FinancialAccountSummaryComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-
+    }
+    else{
+      alert('Please select customer');
+    }
   }
 
   selectFo(fo) {
