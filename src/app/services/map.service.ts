@@ -552,7 +552,9 @@ export class MapService {
   }
   getMapBounds() {
     if (this.map) {
+      console.log("this.map",this.map);
       let boundsx = this.map.getBounds();
+      console.log("boundsx",boundsx);
       let ne = boundsx.getNorthEast(); // LatLng of the north-east corner
       let sw = boundsx.getSouthWest(); // LatLng of the south-west corder
       let lat2 = ne.lat();

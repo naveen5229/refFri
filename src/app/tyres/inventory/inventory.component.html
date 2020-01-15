@@ -50,37 +50,42 @@
                     <th>Tyre No </th>
                     <th>Purchase_Date</th>
                     <th>Purchase_Amount</th>
-
+                    <th>Remarks</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let inventory of inventories; let i = index;">
                     <td>{{i+1}}</td>
-                    <td width="20%">
+                    <td width="14%">
                         <auto-suggestion (onSelected)="selectModel($event,i)" url="Suggestion/getTyreNamesWithBrands"
                             display="modelname" placeholder="Model No" [inputId]="'modelNo_' + i"></auto-suggestion>
 
                     </td>
-                    <td width="15%">
+                    <td width="14%">
                         <auto-suggestion (onSelected)="getTyreSize($event,i)" url="Suggestion/getTyreSize"
                             display="size" placeholder="Size" [inputId]="'size-' + i"></auto-suggestion>
 
 
                     </td>
-                    <td width="20%"><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number"
+                    <td width="14%"><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number"
                             autocomplete="off" class="form-control" [(ngModel)]="inventory.tyreNo" (focus)="size(i)">
                     </td>
-                    <td width="20%">
+                    <td width="14%">
                         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off"
                             (click)="getDate(i)" placeholder="Select Date"
                             [value]="inventory.date1 | date: 'dd MMM yyyy'" name="date" readonly>
 
                     </td>
-                    <td width="20%"><input id="Tyreamount" name="Tyreamount" type="number"
+                    <td width="14%"><input id="Tyreamount" name="Tyreamount" type="number"
                             placeholder="Enter Tyre amount" autocomplete="off" class="form-control"
                             [(ngModel)]="inventory.cost" (focus)="size(i)">
                     </td>
+
+                    <td width="14%"><input id="remark" name="remark" type="text"
+                        placeholder="Remark" autocomplete="off" class="form-control"
+                        [(ngModel)]="inventory.remarks">
+                </td>
                     <!-- <td><input id="is_health" name="is_health" type="checkbox" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.is_health" (change)="valueReset(i)">
             </td>

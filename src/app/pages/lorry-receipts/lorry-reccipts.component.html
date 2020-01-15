@@ -1,8 +1,11 @@
 <nb-card style="border:0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-10">
+      <div class="col-sm-9">
         <h5>Lorry Receipts</h5>
+      </div>
+      <div class="col-sm-1">
+        <i class="fa fa-file-pdf" (click)="common.getPDFFromTableId('tblLorryReceipt')"></i>
       </div>
       <div class="col-sm-2 text-right">
         <button (click)="openGenerateLr(false)" *ngIf="user.permission.add" class="btn btn-primary">LR Generate</button>
@@ -49,7 +52,7 @@
 
         <td>
           <label>Vehicle Type</label>
-          <select class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
+          <select class="form-control" style=" border: 2px solid darkcyan; font-size: 13px" [(ngModel)]="vehicleType">
             <option value="-1">All</option>
             <option value="1">Own</option>
             <option value="2">Group</option>
@@ -80,7 +83,7 @@
         </td>
       </tr>
     </table>
-    <div>
+    <div id = "lr-table">
       <smart-table *ngIf="receipts && receipts.length" [data]="table.receipts" [settings]="table.settings"
         id="tblLorryReceipt">
       </smart-table>
