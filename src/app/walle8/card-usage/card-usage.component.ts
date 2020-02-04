@@ -192,4 +192,6 @@ export class CardUsageComponent implements OnInit {
         console.log(err);
       });
   }
+
+  
 }

@@ -469,7 +469,9 @@
                       [inputId]="'material-' + i" *ngIf="fix.r_colname == 'material_name'">
                     </auto-suggestion>
                     <input type="text" class="form-control" [(ngModel)]=fix.r_value
-                      *ngIf="fix.r_colname != 'material_name'">
+                      *ngIf="fix.r_colname != 'material_name'&&fix.r_coltype==1">
+                      <input type="number" class="form-control" [(ngModel)]=fix.r_value
+                      *ngIf="fix.r_colname != 'material_name'&&fix.r_coltype==2">
                   </span>
                 </td>
                 <td>
@@ -482,8 +484,9 @@
                   <label>{{dynm.r_coltitle}}<span style="color: red" *ngIf="dynm.r_required">*</span></label>
                   <span>
                     <input type="text" class="form-control" [(ngModel)]=dynm.r_value
-                      *ngIf="dynm.r_coltype != 3 && !dynm.r_fixedvalues">
-
+                      *ngIf="dynm.r_coltype == 1 && !dynm.r_fixedvalues">
+                      <input type="number" class="form-control" [(ngModel)]=dynm.r_value
+                      *ngIf="dynm.r_coltype == 2 && !dynm.r_fixedvalues">
                     <uj-date-time-picker (onChanged)="dynm.r_value = $event" [dateTimeValue]="dynm.r_value"
                       *ngIf="dynm.r_coltype == 3 && !dynm.r_fixedvalues " [isTime]="false">
                     </uj-date-time-picker>
@@ -493,7 +496,7 @@
                         {{fixValue.title}}</option>
                     </select>
 
-                  </span>
+                  </span>          
                 </td>
               </tr>
           </table>

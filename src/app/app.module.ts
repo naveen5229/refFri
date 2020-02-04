@@ -265,6 +265,8 @@ import { FuelDailyCunsumtionComponent } from './modals/fuel-daily-cunsumtion/fue
 import { FuelDailyCunsumtionConditionComponent } from './modals/fuel-daily-cunsumtion-condition/fuel-daily-cunsumtion-condition.component';
 import { CardusageComponent } from './modals/cardusage/cardusage.component';
 import { MultiVehicleHaltAddComponent } from './modals/multi-vehicle-halt-add/multi-vehicle-halt-add.component';
+import { BankDetailsComponent } from './modals/bank-details/bank-details.component';
+import { IssueReportComponent } from './modals/issue-report/issue-report.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -491,6 +493,9 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   FuelDailyCunsumtionConditionComponent,
   CardusageComponent,
   MultiVehicleHaltAddComponent,
+  BankDetailsComponent,
+  IssueReportComponent,
+
 
 
 ];
