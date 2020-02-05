@@ -201,9 +201,9 @@ export class RouteMapperComponent implements OnInit {
                 }
                 console.log("vehicleEvents", vehicleEvents);
                 this.vehicleEvents = vehicleEvents;
-                this.mapService.createMarkers(this.vehicleEvents, false, false);
+                let markers = this.mapService.createMarkers(this.vehicleEvents, false, false);
                 let markerIndex = 0
-                for (const marker of this.mapService.markers) {
+                for (const marker of markers) {
                   let event = this.vehicleEvents[markerIndex];
                   this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
                   this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
