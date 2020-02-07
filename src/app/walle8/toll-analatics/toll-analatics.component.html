@@ -27,20 +27,21 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-11">
+      <div class="col-sm-12">
         <label>TOp Toll</label>
       </div>
-      <div class="col-sm-11">
-        <chart *ngIf="chartObject1.type" [type]="chartObject1.type" [data]="chartObject1.data"
+      <div class="col-sm-6">
+          <chart *ngIf="chartObject1.type" [type]="chartObject1.type" [data]="chartObject1.data"
           class="chart chart-horizontal-bar" style="margin-right:5px;min-height: 200px;"
           [options]="chartObject1.options"></chart>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-11">
+    
+    
+      <div class="col-sm-6">
         <chart [type]="chartObject2.type" [data]="chartObject2.data" style="margin-right:5px;min-height: 200px;"
           [options]="chartObject2.options"></chart>
       </div>
     </div>
+    
   </nb-card-body>
 </nb-card>
