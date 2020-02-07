@@ -37,29 +37,29 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     let url = window.location.href;
     url = url.toLowerCase();
-   this.iswallet = url.search("walle8customer")>-1?'1':'0';
-    if(this.iswallet=='1'){
+    this.iswallet = url.search("walle8customer") > -1 ? '1' : '0';
+    if (this.iswallet == '1') {
       this.user._loggedInBy = 'walle8customer';
       this.button = 'Send';
       return;
     }
-else{
-    this.route.params.subscribe(params => {
-      if (params.type && (params.type.toLowerCase() == 'admin' || params.type.toLowerCase() == 'partner')) {
-        this.button = 'Generate Qr-Code';
-        this.user._loggedInBy = params.type.toLowerCase();
-      } else if (params.type) {
-        this.router.navigate(['/auth/login']);
-        return;
-      } else {
-        this.user._loggedInBy = 'customer';
-        this.button = 'Send';
+    else {
+      this.route.params.subscribe(params => {
+        if (params.type && (params.type.toLowerCase() == 'admin' || params.type.toLowerCase() == 'partner')) {
+          this.button = 'Generate Qr-Code';
+          this.user._loggedInBy = params.type.toLowerCase();
+        } else if (params.type) {
+          this.router.navigate(['/auth/login']);
+          return;
+        } else {
+          this.user._loggedInBy = 'customer';
+          this.button = 'Send';
 
-      }
-      console.log("Login By", this.user._loggedInBy);
-    });
+        }
+        console.log("Login By", this.user._loggedInBy);
+      });
+    }
   }
-}
 
   ngAfterViewInit() {
     this.removeDummy();
@@ -153,23 +153,23 @@ else{
   }
 
   login() {
-    
+
     if (this.otpCount <= 0) {
       clearInterval(this.interval);
     }
     let url = window.location.href;
     url = url.toLowerCase();
-   this.iswallet = url.search("walle8customer")>-1?'1':'0';
+    this.iswallet = url.search("walle8customer") > -1 ? '1' : '0';
     const params = {
       type: "verifyotp",
       mobileno: this.userDetails.mobile,
       otp: this.userDetails.otp,
       qrcode: this.loginType === 1 ? null : this.qrCode,
       device_token: null,
-      iswallet : this.iswallet 
+      iswallet: this.iswallet
     };
-    console.log('Login Params:', params,'url',url,this.iswallet);
-   
+    console.log('Login Params:', params, 'url', url, this.iswallet);
+
     this.api.post('Login/verifyotp', params)
       .subscribe(res => {
         console.log(res);
@@ -209,13 +209,20 @@ else{
     const params = {
       userId: this.user._details.id,
       userType: userTypeId,
-      iswallet : this.iswallet 
+      iswallet: this.iswallet
     };
     this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         this.common.loading--;
-        this.user._pages = res['data'].filter(page => { return page.userid; });
+        this.user._pages = res['data'].filter(page => {
+          const defaultModules = ['Documents', 'Walle8', 'challan'];
+          if (defaultModules.indexOf(page.group_name) !== -1) {
+            return true
+          }
+          return page.userid;
+        });
+
         localStorage.setItem('DOST_USER_PAGES', JSON.stringify(this.user._pages));
         this.user.filterMenu("pages", "pages");
         this.user.filterMenu("admin", "admin");
