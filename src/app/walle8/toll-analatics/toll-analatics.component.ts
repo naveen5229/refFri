@@ -136,27 +136,29 @@ export class TollAnalaticsComponent implements OnInit {
     this.chartObject.data = {
       // labels: this.dateDay ? this.dateDay : this.kmpdDate,
       labels: this.date,
+      // render: 'percentage',
+
       datasets: [
         {
           label: 'Toll Consumption',
+          percentFormatString: "#0.##",
           borderColor: this.bgColor,
           data: this.amount,
           fill: false,
           pointHoverRadius: 8,
-          pointHoverBackgroundColor: '#0000FF'
-
+          pointHoverBackgroundColor: '#0000FF',
+          lineTension: 0
         },
       ]
     };
     this.chartObject.options = {
       responsive: true,
       maintainAspectRatio: false,
-
     };
     console.log('This:', this.chartObject);
   }
   showbarGraph() {
-    this.chartObject1.type = 'bar';
+    this.chartObject1.type = 'horizontalBar';
     this.chartObject1.data = {
       // labels: this.dateDay ? this.dateDay : this.kmpdDate,
       labels: this.remark,
@@ -176,18 +178,28 @@ export class TollAnalaticsComponent implements OnInit {
     };
     this.chartObject1.options = {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      scales: {
+        xAxes: [{
+            display: false // this is the same key that was passed to the registerScaleType function
+        }]
+    }
     };
     console.log('This:', this.chartObject);
   }
   showdoughnut() {
-    this.chartObject2.type = 'pie';
+    this.chartObject2.type = 'doughnut';
     this.chartObject2.data = {
       // labels: this.dateDay ? this.dateDay : this.kmpdDate,
       labels: this.zone,
+			percentFormatString: "#0.##",
+
       datasets: [
         {
           label: 'Zones',
+          percentFormatString: "#0.##",
+          render: 'percentage',
+
           data: this.amounts,
           backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#85144b", "#F012BE", "#3D9970", "#111111", "#AAAAAA"]
         },
@@ -196,7 +208,12 @@ export class TollAnalaticsComponent implements OnInit {
     };
     this.chartObject2.options = {
       responsive: true,
-      maintainAspectRatio: false
+      render: 'percentage',
+
+			percentFormatString: "#0.##",
+
+      maintainAspectRatio: false,
+      
     };
     console.log('This:', this.chartObject);
   }
@@ -273,7 +290,7 @@ export class TollAnalaticsComponent implements OnInit {
         this.data1 = res['data'];
         if (res['data']) {
           for (let i = 0; i < this.data1.length; i++) {
-            this.zone.push(this.data1[i].zone);
+            this.zone.push(!this.data1[i].zone?'N.A':this.data1[i].zone);
             this.amounts.push(this.data1[i].amount);
             // this.zone.push(this.data1[i].zone);
             // this.amounts.push(this.data1[i].amount);
