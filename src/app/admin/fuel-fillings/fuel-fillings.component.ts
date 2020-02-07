@@ -39,7 +39,7 @@ export class FuelFillingsComponent implements OnInit {
       hideHeader: true
     }
   };
-
+  sizeIndex=0;
   dates = {
     start: this.common.dateFormatter(new Date()),
     end: this.common.dateFormatter(new Date())
@@ -134,7 +134,7 @@ export class FuelFillingsComponent implements OnInit {
       ref_type: null,
       ref_id: null,
     };
-    this.common.params = { rowfilling, title: 'Add Fuel Filling' };
+    this.common.params = { rowfilling, title: 'Add Fuel Filling',sizeIndex:this.sizeIndex };
     const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {

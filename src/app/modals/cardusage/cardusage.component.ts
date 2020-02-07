@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { IssueReportComponent } from '../issue-report/issue-report.component';
 
 @Component({
   selector: 'cardusage',
@@ -31,7 +32,8 @@ export class CardusageComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private activeModal: NgbActiveModal
+    private activeModal: NgbActiveModal,
+    public modalService: NgbModal,
   ) { 
     console.log("------------",this.common.params);
     this.getcardUsage();
@@ -112,7 +114,16 @@ this.activeModal.close();
 }
 
 
-
-
+openImageUploadModal(cardDetail)
+{
+  let cardUsage = {
+    id : cardDetail.id,
+    vehId : this.common.params.vehicleid
+  }
+  this.common.params = {cardUsage:cardUsage}
+  const activeModal = this.modalService.open(IssueReportComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static'});
+  activeModal.result.then(data => {
+  });
+}
 
 }

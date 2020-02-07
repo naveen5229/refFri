@@ -66,7 +66,13 @@ export class AppComponent implements OnInit {
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         // this.common.loading--;
-        this.user._pages = res['data'].filter(page => { return page.userid; });
+        this.user._pages = res['data'].filter(page => {
+          const defaultModules = ['Documents', 'Walle8', 'challan'];
+          if (defaultModules.indexOf(page.group_name) !== -1) {
+            return true
+          }
+          return page.userid;
+        });
         localStorage.setItem('DOST_USER_PAGES', JSON.stringify(this.user._pages));
         console.log('USER PAGES:', this.user._pages);
         this.user.filterMenu("pages", "pages");

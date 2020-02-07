@@ -28,7 +28,8 @@ export class InventoryComponent implements OnInit {
     nsd2: null,
     nsd3: null,
     psi: null,
-    tyreSize: null
+    tyreSize: null,
+    remarks:null
   },
   {
     modelName: null,
@@ -43,7 +44,8 @@ export class InventoryComponent implements OnInit {
     nsd2: null,
     nsd3: null,
     psi: null,
-    tyreSize: null
+    tyreSize: null,
+    remarks:null
   },
   {
     modelName: null,
@@ -58,7 +60,8 @@ export class InventoryComponent implements OnInit {
     nsd2: null,
     nsd3: null,
     psi: null,
-    tyreSize: null
+    tyreSize: null,
+    remarks:null
   }];
 
   activeRow = -1;
@@ -261,7 +264,8 @@ export class InventoryComponent implements OnInit {
       nsd2: null,
       nsd3: null,
       psi: null,
-      tyreSize: null
+      tyreSize: null,
+      remarks:null
     });
   }
 
