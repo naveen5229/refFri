@@ -93,6 +93,10 @@ export class CardUsageComponent implements OnInit {
       let headings = {};
       for (var key in first_rec) {
         if (key.charAt(0) != "_") {
+          if(key == 'vid') {
+            continue;
+          }
+         
           this.headings.push(key);
           let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
           headings[key] = headerObj;
@@ -145,6 +149,9 @@ export class CardUsageComponent implements OnInit {
   // }
 
   formatTitle(title) {
+    if (title.length <= 4) {
+      return title.toUpperCase() 
+    }
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
 

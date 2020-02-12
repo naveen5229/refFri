@@ -84,7 +84,7 @@ export class FinancialMainSummaryComponent implements OnInit {
   setTable() {
     let headings = {
       vehid: { title: 'Vehicle', placeholder: 'Vehicle' },
-      transtime: { title: 'Transac Time', placeholder: '	Transac Time' },
+      transtime: { title: 'Transaction Time', placeholder: 'Transaction Time' },
       remark: { title: 'Remark', placeholder: 'Remark' },
       amount: { title: 'Amount', placeholder: 'Amount' },
       balance: { title: 'Balance', placeholder: 'Balance' },
@@ -107,7 +107,7 @@ export class FinancialMainSummaryComponent implements OnInit {
     this.data.map(req => {
       let column = {
         vehid: { value: req.vehid },
-        transtime: { value: req.transtime },
+        transtime: { value: this.common.changeDateformat4(req.transtime)},
         remark: { value: req.remark == null ? "-" : req.remark },
         amount: { value: req.amount == null ? "-" : req.amount },
         balance: { value: req.balance == null ? "-" : req.balance },

@@ -1,7 +1,7 @@
 <nb-card>
   <nb-card-header style="font-size: 32px;">
     <h4>Financial Toll Summary</h4>
-    <div class="row m-0 p-0" *ngIf="balance.length">
+    <!-- <div class="row m-0 p-0" *ngIf="balance.length">
       <div class="col-3">
         <label>Opening Balance:</label>
       </div>
@@ -16,7 +16,9 @@
       <div class="col-3">
         <label>{{closingBalance}}</label>
       </div>
-    </div>
+    </div> -->
+   
+
     <div class="row m-0 p-0">
       <div class="col-3">
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
@@ -30,6 +32,9 @@
         <button class="btn btn-primary" type="button" (click)="getfinancialTollReport()">Submit</button>
       </div>
     </div>
+
+    
+
     <div class="row m-0 p-0">
       <div class="col-md-12 text-right margin-top-15 margin-left-220">
 
@@ -42,6 +47,26 @@
 
       </div>
     </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered" style="font-size: 14px;">
+          <tr>
+            <th class="thead" colspan="4">Account Summary</th>
+          </tr>
+          <tr>
+            <td>Opening Balance(Rs.)</td>
+            <td>Closing Balance(Rs.)</td>
+          </tr>
+          <tr>
+            <td>{{openingBalance}}</td>
+            <td>{{closingBalance}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
 
   </nb-card-header>
   <nb-card-body>

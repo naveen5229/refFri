@@ -20,7 +20,7 @@
       <td>{{ card.cardtype}}</td>
       <td (click)="openImageUploadModal(card)" style="color:blue">{{card.cardno}}</td>
       <td>{{card.datetime}}</td>
-      <td>{{card.amount}}</td>
+      <td>{{card.amount | number }}</td>
       <td>{{card.dealer}}</td>
       <td>{{card.location}}</td>
     </tr>

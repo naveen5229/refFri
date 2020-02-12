@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getUrlScheme } from '@angular/compiler';
+import { now } from 'moment';
 
 @Component({
   selector: 'toll-discount',
@@ -31,8 +32,9 @@ export class TollDiscountComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
-    // let today = new Date();
-    // this.dates.start = today.setDate(today.getDate() - 1);
+    let today = new Date();
+    this.dates.start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, 1, 0, 0, 0)) 
+    this.dates.end = this.common.dateFormatter1(today)
     this.getdetails();
     //  this.getdiscountDetails();
     // this.calculateTotal();
@@ -118,7 +120,7 @@ export class TollDiscountComponent implements OnInit {
   gettollDiscount() {
 
 
-    let params = "foid=" + this.user._details.id;
+    let params = "foid=" + this.user._details.foid;
 
     this.common.loading++;
     let response;
@@ -146,6 +148,7 @@ export class TollDiscountComponent implements OnInit {
 
   }
   getdiscountDetails(detailId) {
+    console.log(detailId);
     let today = new Date();
     let start = '';
     let end = '';
@@ -161,14 +164,14 @@ export class TollDiscountComponent implements OnInit {
       case 2:
         start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 2, 1, 0, 0, 0));
         this.dates.start = start;
-        end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0));
+        end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 1, 1, 0, 0, 0));
         this.dates.end = end;
         this.getdetails();
         break;
       case 3:
         start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 3, 1, 0, 0, 0));
         this.dates.start = start;
-        end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0));
+        end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 2, 1, 0, 0, 0));
         this.dates.end = end;
         this.getdetails();
         break;
@@ -182,7 +185,7 @@ export class TollDiscountComponent implements OnInit {
       case 5:
         start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, 1, 0, 0, 0));
         this.dates.start = start;
-        end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0));
+        end = this.common.dateFormatter1(new Date());
         this.dates.end = end;
         this.getdetails();
         break;
@@ -194,8 +197,9 @@ export class TollDiscountComponent implements OnInit {
   }
   getdetails() {
 
+    let today = new Date();
 
-    let params = "mobileNo=" + this.user._details.fo_mobileno + "&startDate=" + this.dates.start + "&endDate=" + this.dates.end;
+    let params = "mobileNo=" + this.user._details.fo_mobileno + "&startDate=" + this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, 1, 0, 0, 0)) + "&endDate=" + this.common.dateFormatter1(today) ;
 
     this.common.loading++;
     let response;
@@ -241,7 +245,7 @@ export class TollDiscountComponent implements OnInit {
     let columns = [];
     this.data.map(req => {
       let column = {
-        transdate: { value: req.transdate == null ? "-" : this.common.changeDateformat(req.transdate) },
+        transdate: { value: req.transdate == null ? "-" : this.common.changeDateformat4(req.transdate) },
         amount: { value: req.amount == null ? "-" : req.amount },
         remark: { value: req.remark == null ? "-" : req.remark },
         disc_type: { value: req.disc_type == null ? "-" : req.disc_type },

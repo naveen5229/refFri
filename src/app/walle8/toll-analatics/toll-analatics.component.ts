@@ -233,6 +233,8 @@ export class TollAnalaticsComponent implements OnInit {
         console.log('Res:', res['data']);
         this.data = res['data'];
         if (res['data']) {
+          this.amount = [];
+          this.date = [];
           for (let i = 0; i < this.data.length; i++) {
             this.amount.push(this.data[i].amt);
             this.common.changeDateformat(this.date.push(this.data[i].transtime));
@@ -261,6 +263,8 @@ export class TollAnalaticsComponent implements OnInit {
         console.log('Res:', res['data']);
         this.data = res['data'];
         if (res['data']) {
+          this.amt = [];
+          this.remark = [];
           for (let i = 0; i < this.data.length; i++) {
             this.amt.push(this.data[i].amount);
             this.remark.push(this.data[i].remark);
@@ -289,6 +293,8 @@ export class TollAnalaticsComponent implements OnInit {
         console.log('Res:', res['data']);
         this.data1 = res['data'];
         if (res['data']) {
+          this.zone = [];
+          this.amounts = [];
           for (let i = 0; i < this.data1.length; i++) {
             this.zone.push(!this.data1[i].zone?'N.A':this.data1[i].zone);
             this.amounts.push(this.data1[i].amount);

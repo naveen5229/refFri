@@ -19,18 +19,18 @@
           <tr>
             <th>#</th>
             <th>Vehicle</th>
-            <th>BPCL</th>
-            <th>HPCL</th>
-            <th>ATM</th>
+            <th style="text-align: center;">BPCL</th>
+            <th style="text-align: center;">HPCL</th>
+            <th style="text-align: center;">ATM</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let cardBalance of data;let i = index">
             <td scope="row">{{i+1}}</td>
             <td>{{cardBalance.vehicle}}</td>
-            <td>{{cardBalance.bpcl}}</td>
-            <td>{{cardBalance.hpcl}}</td>
-            <td>{{cardBalance.atm}}</td>
+            <td style="text-align: center;">{{cardBalance.bpcl}}</td>
+            <td style="text-align: center;">{{cardBalance.hpcl}}</td>
+            <td style="text-align: center;">{{cardBalance.atm}}</td>
           </tr>
         </tbody>
 

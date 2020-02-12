@@ -15,12 +15,17 @@
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
           placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
       </div>
+      
+      <div class="col-3">
+        <auto-suggestion (keyup)="filterData($event)" [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)" url="Suggestion/getVehicleList.json?" display="regno" placeholder="search" style="width:60%;" value="yes" aria-disabled="true">
+        </auto-suggestion>
+
+        <!-- <input type="text" class="form-control" autocomplete="off" (keyup)="filterData($event)"
+          placeholder="Enter Vehicle" [(ngModel)]='typedKey'> -->
+      </div>
+
       <div class="col-2">
         <button class="btn btn-primary" type="button" (click)="getaddTimeFinancialTollReport()">Submit</button>
-      </div>
-      <div class="col-3">
-        <input type="text" class="form-control" autocomplete="off" (keyup)="filterData($event)"
-          placeholder="Enter Vehicle" [(ngModel)]='typedKey'>
       </div>
       <div class="col-1">
         <span class="pdf-icon" title="PDF Export" (click)="common.downloadPdf('financialaccount');"
@@ -101,7 +106,7 @@
           </table>
         </div>
       </div>
-
+<br>
       <div class="row">
         <div class="col-12">
           <table class="table table-bordered">

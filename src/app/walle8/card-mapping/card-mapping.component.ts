@@ -66,7 +66,7 @@ export class CardMappingComponent implements OnInit {
     this.data.map(doc => {
       let column = {
         Vehicle: { value: doc.vehicle },
-        IOCL: { value: doc.iocl },
+        IOCL: { value: doc.bpcl == null ? "-" : doc.bpcl },
         BPCL: { value: doc.bpcl == null ? "-" : doc.bpcl },
         ATM: { value: doc.atm == null ? "-" : doc.atm },
         HPCL: { value: doc.hpcl == null ? "-" : doc.hpcl },

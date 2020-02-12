@@ -88,7 +88,7 @@ export class DoubleTollReportComponent implements OnInit {
     let headings = {
       vehreg: { title: 'Vehicle', placeholder: 'Vehicle' },
       remark: { title: 'TOll Plaza', placeholder: '	Toll Plaza' },
-      transtime: { title: 'Transac Time', placeholder: 'Transac Time' },
+      transtime: { title: 'Transaction Time', placeholder: 'Transaction Time' },
       amount: { title: 'Amount', placeholder: 'Amount' },
 
     };

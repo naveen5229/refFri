@@ -233,6 +233,10 @@ export class CommonService {
     let d = new Date(date);
     return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm:ss a");
   }
+  changeDateformat4(date) {
+    let d = new Date(date);
+    return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm");
+  }
 
   changeDateformat2(date) {
     let d = new Date(date);
@@ -576,6 +580,7 @@ export class CommonService {
     // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
+    console.log(tblelt);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
     }
@@ -713,7 +718,7 @@ export class CommonService {
         doc.setFont("times", "bold", "text-center");
         doc.text(lower_left_heading, xpos, y);
       }
-      doc.text(time, 30, 60);
+      // doc.text(time, 30, 60);
       y = 15;
       doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);

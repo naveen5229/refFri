@@ -23,6 +23,9 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     name: null,
     mobileNo: null
   }
+  regno = null;
+  typedKey = '';
+  vehId = '';
   result = [];
   data = [];
   openingBalance = 0;
@@ -48,6 +51,20 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
  
   ngOnInit() {
   }
+  selectVehicle(vehData) {
+    this.vehId = vehData.id;
+    this.regno = vehData.regno;
+    this.data = this.result.filter((ele) => {
+      if (!this.regno){
+        return true;}
+      else{
+        console.log("ele",ele);
+        return ele.vehid == this.regno ? true : false;
+      }
+    })
+    console.log(this.data);
+  }
+
 
   refresh() {
     this.getaddTimeFinancialTollReport();
@@ -86,7 +103,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     this.data = [];
     console.log("mobile no",this.mobileno);
     if(this.mobileno){
-    let params = "&startDate=" + this.dates.start + "&endDate=" + this.dates.end + "&mobileno=" + this.mobileno;
+    let params = "&startDate=" + this.dates.start + "&endDate=" + this.dates.end + "&mobileno=" + this.mobileno + "&vehid=" + this.vehId;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getFinancialAccountSummaryAddTime.json?' + params)
       .subscribe(res => {
@@ -128,7 +145,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
         console.log(err);
       });
   }
-  typedKey = '';
+
   filterData(event) {
     console.log('typedKey',this.typedKey)
     this.data = this.result.filter((ele) => {

@@ -90,7 +90,7 @@ export class FinancialTollSummaryComponent implements OnInit {
   setTable() {
     let headings = {
       vehid: { title: 'Vehicle', placeholder: 'Vehicle' },
-      transtime: { title: 'Transac Time', placeholder: '	Transac Time' },
+      transtime: { title: 'Transaction Time', placeholder: 'Transaction Time' },
       remark: { title: 'Toll Plaza', placeholder: 'Toll Plaza' },
       amount: { title: 'Amount', placeholder: 'Amount' },
       balance: { title: 'Balance', placeholder: 'Balance' },

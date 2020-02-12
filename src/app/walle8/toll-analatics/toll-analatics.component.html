@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-header style="font-size: 32px;">
-    <h4>Toll Analatics</h4>
+    <h4>Toll Analytics</h4>
     <div class="row m-0 p-0">
       <div class="col-3">
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
@@ -28,7 +28,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <label>TOp Toll</label>
+        <label>Top Toll</label>
       </div>
       <div class="col-sm-6">
           <chart *ngIf="chartObject1.type" [type]="chartObject1.type" [data]="chartObject1.data"
