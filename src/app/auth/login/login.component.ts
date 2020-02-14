@@ -157,8 +157,13 @@ export class LoginComponent implements OnInit {
     if (this.otpCount <= 0) {
       clearInterval(this.interval);
     }
+    if(this.loginType==2 && !this.qrCode){
+      this.common.showError("Please regenerate qrcode");
+      return;
+    }
     let url = window.location.href;
     url = url.toLowerCase();
+
     this.iswallet = url.search("walle8customer") > -1 ? '1' : '0';
     const params = {
       type: "verifyotp",

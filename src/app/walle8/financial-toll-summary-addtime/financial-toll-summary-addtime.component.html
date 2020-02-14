@@ -28,7 +28,7 @@
         <button class="btn btn-primary" type="button" (click)="getaddTimeFinancialTollReport()">Submit</button>
       </div>
       <div class="col-1">
-        <span class="pdf-icon" title="PDF Export" (click)="common.downloadPdf('financialaccount');"
+        <span class="pdf-icon" title="PDF Export" (click)="getPDFFromTableId('financialaccount','tblData');"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
 
         <!-- <span class="pdf-icon" title="PDF Export" (click)="multiPagePDF();" style="cursor: pointer;"><i
@@ -124,14 +124,11 @@
           </table>
         </div>
       </div>
-
+    </div>
       <div class="row">
         <div class="col-12">
-          <table class="table table-bordered">
-            <tr>
-              <th class="thead" colspan="9">Transaction Details</th>
-            </tr>
-            <tr>
+          <table class="table table-bordered" id= "tblData">
+              <thead>
               <th>Vehicle</th>
               <th>Accounting Time</th>
               <th>Transaction Time</th>
@@ -141,7 +138,7 @@
               <th>Transaction Type</th>
               <th>Balance</th>
               <th>Transaction Id</th>
-            </tr>
+          </thead>
             <tbody>
               <tr *ngFor="let dt of data ">
                 <td>{{dt.vehid}}</td>
@@ -158,6 +155,5 @@
           </table>
         </div>
       </div>
-    </div>
   </nb-card-body>
 </nb-card>

@@ -35,7 +35,8 @@ export class LrGenerateComponent implements OnInit {
     prefix: null,
     image: null,
     date: new Date(),
-    id: null
+    id: null,
+    status : null,
   }
   vehicleData = {
     regno: null,
@@ -66,6 +67,8 @@ export class LrGenerateComponent implements OnInit {
     public mapService: MapService,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal) {
+      console.log("this.accountService.selected.branch.id",this.accountService.selected.branch.id);
+
     if (this.img_flag) {
       this.common.handleModalSize('class', 'modal-lg', '1600');
     } else {
@@ -133,6 +136,7 @@ export class LrGenerateComponent implements OnInit {
     this.lr.serial = headData.lr_serial;
     this.lr.prefix = headData.lr_prefix;
     this.lr.image = headData.lr_image;
+    this.lr.status = headData.status;
     if (this.lr.image) {
       this.images[0] = this.lr.image;
       this.img_flag = true;
@@ -580,7 +584,7 @@ export class LrGenerateComponent implements OnInit {
 
   changeSerialNo() {
     console.log("changeLrSeries");
-    if (!this.lr.id) {
+    if (!this.lr.id || this.lr.status==0) {
       let branchId = this.accountService.selected.branch.id ? this.accountService.selected.branch.id : '';
       let params = "branchId=" + this.accountService.selected.branch.id +
         "&prefix=" + this.lr.prefix +
