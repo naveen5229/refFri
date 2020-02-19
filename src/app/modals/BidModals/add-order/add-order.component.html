@@ -1,0 +1,97 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Add Order</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-3"><label>PickUp Location</label></div>
+    <div class="col-3">
+      <auto-suggestion (onChange)="onChangeAuto($event,'start')" (onSelected)="selectLocation($event,'start')"
+        (noDataFound)="takeAction($event,'start')" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
+        display="location" inputId="startName" placeholder="Location" [value]="startName"
+        [preSelected]='{location:startName}'>
+      </auto-suggestion>
+    </div>
+    <div class="col-2"><label>PickUp Time</label></div>
+    <div class="col-4">
+      <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+      </uj-date-time-picker>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3"><label>Drop Location</label></div>
+    <div class="col-3">
+      <auto-suggestion (onChange)="onChangeAuto($event,'end')" (onSelected)="selectLocation($event,'end')"
+        (noDataFound)="takeAction($event,'end')" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
+        display="location" inputId="endName" placeholder="Location" [value]="endName"
+        [preSelected]='{location:endName}'>
+      </auto-suggestion>
+    </div>
+    <div class="col-2"><label>Drop Date</label></div>
+    <div class="col-4">
+      <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime">
+      </uj-date-time-picker>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3"><label>Material</label></div>
+    <div class="col-3">
+      <auto-suggestion (onChange)="material.id = ''" (onSelected)="selectMaterial($event)" url="Suggestion/GetMaterialTypes"
+        display="name" placeholder="Material Name" [preSelected]="{name:material.name}" inputId="material">
+      </auto-suggestion>
+    </div>
+    <div class="col-2"><label>Weight</label></div>
+    <div class="col-4">
+      <select [(ngModel)]="weightUnitId" class="col-6">
+        <option *ngFor='let weightUnit of weightUnits' [value]='weightUnit.id'>{{weightUnit.name}}</option>
+      </select>
+      <input type="text" [(ngModel)]='weight' class="col-6">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3"><label>Body Type</label></div>
+    <div class="col-3"><select [(ngModel)]='bodyId' class="form-control">
+        <option *ngFor='let body of bodies' [value]='body.id'>{{body.name}}</option>
+      </select></div>
+    <div class="col-2"><label>Pay Type</label></div>
+    <div class="col-4">
+      <select class="form-control" [(ngModel)]='paymentId'>
+        <option *ngFor='let payType of payTypes' [value]='payType.id'>{{payType.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3"><label>Rate</label></div>
+    <div class="col-3"><input type="text" [(ngModel)]='rate'></div>
+  
+  </div>
+  <div class="row">
+    <label> Advance Setting </label><label style=" margin-left: 25px; text-decoration: underline;"
+      (click)="advSetting()">{{AdvaceWSetting}}</label>
+  </div>
+
+  <div *ngIf="isAdvance">
+    <div class="row">
+      <div class="col-3"><label>Load By Type</label></div>
+      <div class="col-3"> <input  type="text" [(ngModel)]="loadByType">
+      </div>
+      <div class="col-2"><label>Load By ID</label></div>
+      <div class="col-4"><input  type="text"  [(ngModel)]="loadById">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3"><label>Upload Doc</label></div>
+      <div class="col-3"> <input  type="file" class="file-control" id="upload-fasttag"
+        name="upload-fasttag" (change)="handleFileSelection($event)">
+      </div>
+      <div class="col-2"><label>Remark</label></div>
+      <div class="col-4"><textarea [(ngModel)]='remarks'></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn btn-primary" (click)='saveData()'>Save</button>
+  </div>
+</div>

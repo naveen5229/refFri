@@ -525,6 +525,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     title: 'Walle8',
     icon: 'fas fa-wallet',
     link: '/walle8/card-balance'
-  }
+  },
+  {
+    title: 'Bid-System',
+    icon: 'fas fa-chalkboard-teacher',
+    link: '/bid-system/dashboard'
+  },
 
 ]);

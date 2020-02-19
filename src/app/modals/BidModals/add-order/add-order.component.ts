@@ -1,0 +1,261 @@
+import { Component, OnInit } from '@angular/core';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ApiService } from '../../../services/api.service';
+import { CommonService } from '../../../services/common.service';
+import { UserService } from '../../../services/user.service';
+import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
+
+@Component({
+  selector: 'add-order',
+  templateUrl: './add-order.component.html',
+  styleUrls: ['./add-order.component.scss']
+})
+export class AddOrderComponent implements OnInit {
+  orderId = null;
+
+  endTime = new Date(new Date().setDate(new Date().getDate() + 1));
+  startTime = new Date();
+
+  startName = null;
+  startLat = null;
+  startLng = null;
+  startLocId = null;
+
+  endName = null;
+  endLat = null;
+  endLng = null;
+  endLocId = null;
+
+  AdvaceWSetting = 'More (+)';
+  isAdvance = false;
+
+  bodies = [];
+  bodyId = null;
+
+  weightUnits = [];
+  weightUnitId = null;
+  weight = null;
+
+  material = {
+    name: null,
+    id: null
+  }
+
+  keepGoing = true;
+  searchString = '';
+  document = null;
+  payTypes = [{
+    id: 1,
+    name: 'Cash'
+  },
+  {
+    id: 2,
+    name: 'Advance'
+  }
+  ];
+
+  paymentId = null;
+  remarks = null;
+  loadById = null;
+  loadByType = null;
+  rate = null;
+
+
+
+
+  constructor(
+    public activeModal: NgbActiveModal,
+    public api: ApiService,
+    public common: CommonService,
+    public user: UserService,
+    private modalService: NgbModal
+  ) {
+    this.getVehicleBodyTypes();
+    this.getWeightUnits();
+  }
+
+  ngOnInit() {
+  }
+
+  getVehicleBodyTypes() {
+    this.common.loading++;
+    this.api.get('Vehicles/getVehicleBodyTypes?')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res', res['data']);
+        if (res['data'].length > 0) {
+          this.bodies = res['data'];
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+
+  getWeightUnits() {
+    this.common.loading++;
+    let params = {
+      search : 'test'
+      }
+    this.api.post('suggestion/GetUnit',params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res', res['data']);
+        if (res['data'].length > 0) {
+          this.weightUnits = res['data'];
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+
+  selectLocation(event, type) {
+    console.log("event", event, "type", type);
+    if (type == 'start') {
+      this.startLat = event.lat;
+      this.startLng = event.long;
+      this.startLocId = event.id;
+    } else if (type == 'end') {
+      this.endLat = event.lat;
+      this.endLng = event.long;
+      this.endLocId = event.id;
+    }
+
+  }
+  selectMaterial(event) {
+    console.log("event", event);
+    this.material.id = event.id;
+    this.material.name = event.name
+
+  }
+
+  onChangeAuto(search, type) {
+    console.log("search", search, "type", type);
+    if (type == 'start') {
+      this.startLat = null;
+      this.startLng = null;
+      this.startLocId = null;
+      this.startName = null;
+    } else if (type == 'end') {
+      this.endLat = null;
+      this.endLng = null;
+      this.endLocId = null;
+      this.endName = null;
+    }
+    this.searchString = search;
+    console.log('..........', search);
+  }
+
+  takeAction(res, type) {
+    setTimeout(() => {
+      console.log("Here", this.keepGoing, this.searchString.length, this.searchString);
+
+      if (this.keepGoing && this.searchString.length) {
+        this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        this.keepGoing = false;
+        activeModal.result.then(res => {
+          if (res != null) {
+            console.log('response----', res, res.location, res.id);
+            this.keepGoing = true;
+            if (res.location.lat) {
+              if (type == 'end') {
+                this.endName = res.location.name;
+
+                (<HTMLInputElement>document.getElementById('endname')).value = this.endName;
+                this.endLat = res.location.lat;
+                this.endLng = res.location.lng;
+                this.endLocId = res.id;
+                this.keepGoing = true;
+              }
+              if (type == 'start') {
+                this.startName = res.location.name;
+
+                (<HTMLInputElement>document.getElementById('endname')).value = this.endName;
+                this.startLat = res.location.lat;
+                this.startLng = res.location.lng;
+                this.startLocId = res.id;
+                this.keepGoing = true;
+              }
+            }
+          }
+        })
+
+      }
+    }, 1000);
+
+  }
+
+  closeModal(status) {
+    this.activeModal.close({ response: status });
+  }
+
+  advSetting() {
+    this.AdvaceWSetting = this.isAdvance ? 'More (+)' : 'Less (-)';
+    this.isAdvance = !this.isAdvance;
+
+  }
+
+  // image convert into base 64
+
+  handleFileSelection(event) {
+    this.common.loading++;
+    this.common.getBase64(event.target.files[0])
+      .then((res: any) => {
+        this.common.loading--;
+        let file = event.target.files[0];
+        console.log("Type", file.type, res);
+        if (file.type == "image/jpeg" || file.type == "image/jpg" ||
+          file.type == "image/png") {
+        }
+        else {
+          this.common.showError("valid Format Are : jpeg,png,jpg");
+          return false;
+        }
+        this.document = res;
+
+        // this.newFastag[type] = res.split('base64,')[1];
+        console.log("this.document", this.document)
+      }, err => {
+        this.common.loading--;
+        console.error('Base Err: ', err);
+      })
+  }
+
+  saveData() {
+    this.common.loading++;
+    let params = {
+      x_id: this.orderId,
+      remarks: this.remarks,
+      paytype: this.paymentId,
+      docimage: this.document,
+      loadby_id: this.loadById,
+      loadby_type: this.loadByType,
+      rate: this.rate,
+      weight_unit: this.weightUnitId,
+      weight: this.weight,
+      body_type: this.bodyId,
+      material_id: this.material.id,
+      drop_time: this.common.dateFormatter(this.endTime),
+      drop_id: this.endLocId,
+      pickup_time: this.common.dateFormatter(this.startTime),
+      pickup_id: this.startLocId
+    }
+    this.api.post('Bidding/SaveOrder', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res', res['data']);
+        if(res['data'][0].y_id>0){
+          this.common.showToast(res['data'][0].y_msg);
+          this.closeModal({response:true});
+        }else{
+          this.common.showError(res['data'][0].y_msg);
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+}

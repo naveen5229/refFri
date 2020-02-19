@@ -267,6 +267,7 @@ import { CardusageComponent } from './modals/cardusage/cardusage.component';
 import { MultiVehicleHaltAddComponent } from './modals/multi-vehicle-halt-add/multi-vehicle-halt-add.component';
 import { BankDetailsComponent } from './modals/bank-details/bank-details.component';
 import { IssueReportComponent } from './modals/issue-report/issue-report.component';
+import { AddOrderComponent } from './modals/BidModals/add-order/add-order.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -495,6 +496,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   MultiVehicleHaltAddComponent,
   BankDetailsComponent,
   IssueReportComponent,
+  AddOrderComponent,
 
 
 
