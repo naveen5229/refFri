@@ -26,8 +26,8 @@ export class DashboardComponent implements OnInit {
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public user: UserService,
-    public api: ApiService) { 
-    // this.getOrders();
+    public api: ApiService) {
+    this.getOrders();
     this.common.refresh = this.refresh.bind(this);
   }
   refresh() {
@@ -38,12 +38,13 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   }
 
-  getOrders(){this.common.loading++;
+  getOrders() {
+    this.common.loading++;
     let params = {
-      x_id:null,
-      loadby_id:null,
-      loadby_type:null,
-      status:null
+      x_id: null,
+      loadby_id: null,
+      loadby_type: null,
+      status: null
     }
     this.api.post('Bidding/GetOrder', params)
       .subscribe(res => {
@@ -51,7 +52,7 @@ export class DashboardComponent implements OnInit {
         //console.log('res: ', res['data'])
         console.log("test");
         this.data = [];
-        
+
 
         if (!res['data']) return;
         this.data = res['data'];
@@ -72,7 +73,7 @@ export class DashboardComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        
+
 
 
         this.table.data.columns = this.getTableColumns();
@@ -81,37 +82,63 @@ export class DashboardComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       })
-  
-}
 
-getTableColumns() {
+  }
 
-  let columns = [];
-  console.log("Data=", this.data);
-  this.data.map(doc => {
-    this.valobj = {};
+  getTableColumns() {
 
-    for (let i = 0; i < this.headings.length; i++) {
-      this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
 
-    }
-    this.valobj['Action'] = { class: '', icons: '' };
+      for (let i = 0; i < this.headings.length; i++) {
+        if (this.headings[i] == 'Action') {
+          console.log('action', this.headings[i]);
+          this.valobj[this.headings[i]] = {
+            value: "", action: null, html: true,
+            icons: this.actionIcons(doc)
+          };
+        }
+        else {
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+        }
+      }
+      columns.push(this.valobj);
+
+    });
+
+    return columns;
+  }
 
 
-    columns.push(this.valobj);
+  actionIcons(data) {
+    let icons = [
+      {
+        class: " icon fa fa-pencil-square-o",
+        action: this.openAddOrder.bind(this, data),
+      },
+      {
+        class: "icon fa fa-eye",
+        // action: this.vehicleReport.bind(this, kpi),
+      }
 
-  });
+    ];
 
-  return columns;
-}
+    return icons;
+  }
 
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
-  addOrder(alertMsg) {
+  openAddOrder(data?) {
     
+    let params = {
+      id: data ? data._id : null
+    }
+    this.common.params = {order:params}
     const activeModal = this.modalService.open(AddOrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log("data", data.response);

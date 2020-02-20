@@ -62,7 +62,6 @@ export class AddOrderComponent implements OnInit {
 
 
 
-
   constructor(
     public activeModal: NgbActiveModal,
     public api: ApiService,
@@ -70,11 +69,37 @@ export class AddOrderComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal
   ) {
+    this.orderId = this.common.params && this.common.params.order && this.common.params.order.id ? this.common.params.order.id : null;
+
     this.getVehicleBodyTypes();
     this.getWeightUnits();
+    if (this.orderId) {
+      this.getOrders();
+    }
   }
 
   ngOnInit() {
+  }
+
+  getOrders() {
+    this.common.loading++;
+    let params = {
+      x_id: this.orderId,
+      loadby_id: null,
+      loadby_type: null,
+      status: null
+    }
+    this.api.post('Bidding/GetOrder', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res['data'])
+        console.log("test");
+        this.setData(res['data'][0]);
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+
   }
 
   getVehicleBodyTypes() {
@@ -95,9 +120,9 @@ export class AddOrderComponent implements OnInit {
   getWeightUnits() {
     this.common.loading++;
     let params = {
-      search : 'test'
-      }
-    this.api.post('suggestion/GetUnit',params)
+      search: 'test'
+    }
+    this.api.post('suggestion/GetUnit', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res', res['data']);
@@ -224,6 +249,27 @@ export class AddOrderComponent implements OnInit {
       })
   }
 
+  setData(data) {
+    this.startLocId = data.pickup_id;
+    // this.startTime = data.pickup_time;
+    this.endLocId = data.drop_id;
+    // this.endTime = data.drop_time;
+    this.bodyId = data.body_type;
+    this.weight = data.weight;
+    this.weightUnitId = data.weight_unit;
+    this.rate = data.rate;
+    this.material.id = data.material_id;
+    this.loadByType = data.loadby_type;
+    this.loadById = data.loadby_id;
+    this.paymentId = data.paytype;
+    this.remarks = data.remarks;
+    this.startName = data.pickup_name;
+    this.endName = data.drop_name;
+    // document.getElementById('material').innerHTML = data.material_name;
+    this.material.name = data.material_name;
+
+  }
+
   saveData() {
     this.common.loading++;
     let params = {
@@ -247,10 +293,10 @@ export class AddOrderComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res', res['data']);
-        if(res['data'][0].y_id>0){
+        if (res['data'][0].y_id > 0) {
           this.common.showToast(res['data'][0].y_msg);
-          this.closeModal({response:true});
-        }else{
+          this.closeModal({ response: true });
+        } else {
           this.common.showError(res['data'][0].y_msg);
         }
       }, err => {
