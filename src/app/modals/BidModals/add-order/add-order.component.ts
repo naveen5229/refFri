@@ -11,16 +11,22 @@ import { LocationSelectionComponent } from '../../location-selection/location-se
   styleUrls: ['./add-order.component.scss']
 })
 export class AddOrderComponent implements OnInit {
+  title = '';
   orderId = null;
+  loadingNo = 1;
+  unLoadingNo = 1;
+  bidType = '1';
 
   endTime = new Date(new Date().setDate(new Date().getDate() + 1));
   startTime = new Date();
 
+  pickLocationType = 'city';
   startName = null;
   startLat = null;
   startLng = null;
   startLocId = null;
 
+  dropLocationType = 'city';
   endName = null;
   endLat = null;
   endLng = null;
@@ -54,12 +60,28 @@ export class AddOrderComponent implements OnInit {
   }
   ];
 
+  rateCategory = [{
+    name : 'No Rate',
+    value : '1'
+  },
+  {
+    name : 'Fix Rate',
+    value : '2'
+  },
+  {
+    name : 'Flexible Rate',
+    value : '3'
+  }
+]
+
   paymentId = null;
   remarks = null;
   loadById = null;
   loadByType = null;
   rate = null;
-
+  rateType = '1'
+  contactNo = null;
+  flexibleTime = null;
 
 
   constructor(
@@ -69,8 +91,11 @@ export class AddOrderComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal
   ) {
+    console.log('date',this.startTime)
     this.orderId = this.common.params && this.common.params.order && this.common.params.order.id ? this.common.params.order.id : null;
-
+    this.title = this.common.params && this.common.params.order && this.common.params.order.title ? this.common.params.order.title : null;
+    this.AdvaceWSetting = this.title == 'Order Details' ? 'Less (-)' : 'More (+)';
+    this.isAdvance = this.title == 'Order Details' ?true:false;
     this.getVehicleBodyTypes();
     this.getWeightUnits();
     if (this.orderId) {
@@ -148,6 +173,15 @@ export class AddOrderComponent implements OnInit {
     }
 
   }
+
+  selectSite(site,type) {
+    if (type == 'start') {
+      this.startLocId = site.id;
+    } else if (type == 'end') {
+      this.endLocId = site.id;
+    }
+  }
+
   selectMaterial(event) {
     console.log("event", event);
     this.material.id = event.id;
@@ -250,23 +284,31 @@ export class AddOrderComponent implements OnInit {
   }
 
   setData(data) {
+    this.pickLocationType = data.pickup_id > 0 ? 'site':'city'
     this.startLocId = data.pickup_id;
-    // this.startTime = data.pickup_time;
+    this.startName = data.pickup_name;
+    this.startTime = data.pickup_time?new Date(data.pickup_time) : new Date();
+    this.dropLocationType = data.endLocId > 0 ? 'site':'city'
+    this.endName = data.drop_name;
     this.endLocId = data.drop_id;
-    // this.endTime = data.drop_time;
+    this.endTime = data.drop_time?new Date(data.drop_time) : new Date();
     this.bodyId = data.body_type;
     this.weight = data.weight;
     this.weightUnitId = data.weight_unit;
     this.rate = data.rate;
     this.material.id = data.material_id;
+    this.material.name = data.material_name;
     this.loadByType = data.loadby_type;
     this.loadById = data.loadby_id;
     this.paymentId = data.paytype;
     this.remarks = data.remarks;
-    this.startName = data.pickup_name;
-    this.endName = data.drop_name;
-    // document.getElementById('material').innerHTML = data.material_name;
-    this.material.name = data.material_name;
+    this.bidType = ''+data.bid_type;
+    this.contactNo = data.mobileno;
+    this.loadingNo = data.nol;
+    this.unLoadingNo = data.noul;
+    this.rateType = data.rate_type;
+    this.flexibleTime= data.pickup_flex_hrs;
+    console.log("this.material.name",this.material.name,"endTime",this.endTime)
 
   }
 
@@ -287,7 +329,13 @@ export class AddOrderComponent implements OnInit {
       drop_time: this.common.dateFormatter(this.endTime),
       drop_id: this.endLocId,
       pickup_time: this.common.dateFormatter(this.startTime),
-      pickup_id: this.startLocId
+      pickup_id: this.startLocId,
+      bidType: this.bidType,
+      mobileNo : this.contactNo,
+      noLoding :this.loadingNo,
+      noUnloding : this.unLoadingNo,
+      rateType : this.rateType,
+      pickupFlexHrs : this.flexibleTime
     }
     this.api.post('Bidding/SaveOrder', params)
       .subscribe(res => {

@@ -268,6 +268,9 @@ import { MultiVehicleHaltAddComponent } from './modals/multi-vehicle-halt-add/mu
 import { BankDetailsComponent } from './modals/bank-details/bank-details.component';
 import { IssueReportComponent } from './modals/issue-report/issue-report.component';
 import { AddOrderComponent } from './modals/BidModals/add-order/add-order.component';
+import { AddBidComponent } from './modals/BidModals/add-bid/add-bid.component';
+import { ShowBidDataComponent } from './modals/BidModals/show-bid-data/show-bid-data.component';
+import { GeneralModalComponent } from './modals/general-modal/general-modal.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -497,9 +500,9 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   BankDetailsComponent,
   IssueReportComponent,
   AddOrderComponent,
-
-
-
+  AddBidComponent,
+  ShowBidDataComponent,
+  GeneralModalComponent,
 ];
 
 @NgModule({

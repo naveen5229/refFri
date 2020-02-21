@@ -1,18 +1,65 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Add Order</h5>
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
+<div [class]='title=="Order Details"?"modal-body disable":"modal-body"'>
   <div class="row">
-    <div class="col-3"><label>PickUp Location</label></div>
+    <div class="col-3"><label>PickUp Loc. Type</label></div>
     <div class="col-3">
+      <label>
+        <input type="radio" [(ngModel)]="pickLocationType" value="site" name="pickLocationType"> Site
+      </label>
+      <label class="radio2">
+        <input type="radio" [(ngModel)]="pickLocationType" (change)="selecteCity()" value="city"
+          name="pickLocationType">
+        City
+      </label>
+    </div>
+    <div class="col-2"><label>Pick Location</label></div>
+    <div class="col-4" *ngIf='pickLocationType=="city"'>
       <auto-suggestion (onChange)="onChangeAuto($event,'start')" (onSelected)="selectLocation($event,'start')"
         (noDataFound)="takeAction($event,'start')" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
         display="location" inputId="startName" placeholder="Location" [value]="startName"
         [preSelected]='{location:startName}'>
       </auto-suggestion>
+    </div>
+    <div class="col-4" *ngIf='pickLocationType=="site"'>
+      <auto-suggestion (onSelected)="selectSite($event,'start')" url="Site/getSitesFromRedis?search=" display="name"
+        placeholder="Search site" [value]="startName" [preSelected]='{name:startName}'></auto-suggestion>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3"><label>Drop Loc. Type</label></div>
+    <div class="col-3">
+      <label>
+        <input type="radio" [(ngModel)]="dropLocationType" value="site" name="dropLocationType"> Site
+      </label>
+      <label class="radio2">
+        <input type="radio" [(ngModel)]="dropLocationType" (change)="selecteCity()" value="city"
+          name="dropLocationType">
+        City
+      </label>
+    </div>
+    <div class="col-2"><label>Drop Location</label></div>
+    <div class="col-4" *ngIf='dropLocationType=="city"'>
+      <auto-suggestion (onChange)="onChangeAuto($event,'end')" (onSelected)="selectLocation($event,'end')"
+        (noDataFound)="takeAction($event,'end')" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
+        display="location" inputId="endName" placeholder="Location" [value]="endName"
+        [preSelected]='{location:endName}'>
+      </auto-suggestion>
+    </div>
+    <div class="col-4" *ngIf='dropLocationType=="site"'>
+      <auto-suggestion (onSelected)="selectSite($event,'end')" url="Site/getSitesFromRedis?search=" display="name"
+        placeholder="Search site" [value]="endName" [preSelected]='{name:endName}'></auto-suggestion>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-3"><label>Contact No.</label></div>
+    <div class="col-3"><input type="number" [(ngModel)]='contactNo' class="form-control">
     </div>
     <div class="col-2"><label>PickUp Time</label></div>
     <div class="col-4">
@@ -20,28 +67,26 @@
       </uj-date-time-picker>
     </div>
   </div>
-  <div class="row">
-    <div class="col-3"><label>Drop Location</label></div>
-    <div class="col-3">
-      <auto-suggestion (onChange)="onChangeAuto($event,'end')" (onSelected)="selectLocation($event,'end')"
-        (noDataFound)="takeAction($event,'end')" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
-        display="location" inputId="endName" placeholder="Location" [value]="endName"
-        [preSelected]='{location:endName}'>
-      </auto-suggestion>
-    </div>
-    <div class="col-2"><label>Drop Date</label></div>
-    <div class="col-4">
-      <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime">
-      </uj-date-time-picker>
-    </div>
-  </div>
+
   <div class="row">
     <div class="col-3"><label>Material</label></div>
     <div class="col-3">
-      <auto-suggestion (onChange)="material.id = ''" (onSelected)="selectMaterial($event)" url="Suggestion/GetMaterialTypes"
-        display="name" placeholder="Material Name" [preSelected]="{name:material.name}" inputId="material">
+      <auto-suggestion (onChange)="material.id = ''" (onSelected)="selectMaterial($event)"
+        url="Suggestion/GetMaterialTypes" display="name" placeholder="Material Name"
+        [preSelected]="{name:material.name}" inputId="material" [value]='material.name'>
       </auto-suggestion>
     </div>
+    <div class="col-2"><label>Flexible Time (in Hrs.)</label></div>
+    <div class="col-4">
+      <input type="number" [(ngModel)]='flexibleTime' class="form-control">
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-3"><label>Body Type</label></div>
+    <div class="col-3"><select [(ngModel)]='bodyId' class="form-control">
+        <option *ngFor='let body of bodies' [value]='body.id'>{{body.name}}</option>
+      </select></div>
     <div class="col-2"><label>Weight</label></div>
     <div class="col-4">
       <select [(ngModel)]="weightUnitId" class="col-6">
@@ -51,47 +96,86 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-3"><label>Body Type</label></div>
-    <div class="col-3"><select [(ngModel)]='bodyId' class="form-control">
-        <option *ngFor='let body of bodies' [value]='body.id'>{{body.name}}</option>
+    <div class="col-3"><label>Rate Type</label></div>
+    <div class="col-3"><select class="form-control" [(ngModel)]='rateType'>
+        <option *ngFor="let rc of rateCategory" [value]='rc.value'>{{rc.name}}</option>
       </select></div>
-    <div class="col-2"><label>Pay Type</label></div>
-    <div class="col-4">
+    <div class="col-2"><label>Rate</label></div>
+    <div class="col-4"><input type="text" [(ngModel)]='rate' class='form-control'></div>
+
+  </div>
+  <div class="row">
+    <div class="col-3"><label>Pay Type</label></div>
+    <div class="col-3">
       <select class="form-control" [(ngModel)]='paymentId'>
         <option *ngFor='let payType of payTypes' [value]='payType.id'>{{payType.name}}</option>
       </select>
     </div>
   </div>
   <div class="row">
-    <div class="col-3"><label>Rate</label></div>
-    <div class="col-3"><input type="text" [(ngModel)]='rate'></div>
-  
+    <div class="col-3"><label>Bid Type</label></div>
+    <div class="col-9">
+      <label>
+        <input type="radio" [(ngModel)]="bidType" value="1" name="bidType">Call
+      </label>
+      <label class="radio2">
+        <input type="radio" [(ngModel)]="bidType" value="2" name="bidType">Online
+      </label>
+      <label class="radio2">
+        <input type="radio" [(ngModel)]="bidType" value="3" name="bidType">Call & Online
+      </label>
+    </div>
   </div>
-  <div class="row">
+
+
+  <!-- Advance Field -->
+  <div class="row" style="border-bottom: 1px solid gray; font-size: 17px; color: #0f0f10;">
     <label> Advance Setting </label><label style=" margin-left: 25px; text-decoration: underline;"
       (click)="advSetting()">{{AdvaceWSetting}}</label>
   </div>
 
   <div *ngIf="isAdvance">
-    <div class="row">
+
+
+    <!-- <div class="row">
       <div class="col-3"><label>Load By Type</label></div>
-      <div class="col-3"> <input  type="text" [(ngModel)]="loadByType">
+      <div class="col-3"> <input type="text" [(ngModel)]="loadByType" class='form-control'>
       </div>
       <div class="col-2"><label>Load By ID</label></div>
-      <div class="col-4"><input  type="text"  [(ngModel)]="loadById">
+      <div class="col-4"><input type="text" [(ngModel)]="loadById" class='form-control'>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-3"><label>No. of Loading</label></div>
+      <div class="col-3"> <input type="number" [(ngModel)]="loadingNo" class='form-control'>
+      </div>
+      <div class="col-2"><label>No. of UnLoading</label></div>
+      <div class="col-4"><input type="number" [(ngModel)]="unLoadingNo" class='form-control'>
       </div>
     </div>
     <div class="row">
-      <div class="col-3"><label>Upload Doc</label></div>
-      <div class="col-3"> <input  type="file" class="file-control" id="upload-fasttag"
-        name="upload-fasttag" (change)="handleFileSelection($event)">
+      <!-- <div class="col-3"><label>Upload Doc</label></div>
+      <div class="col-3"> <input type="file" class="file-control" id="upload-fasttag" name="upload-fasttag"
+          (change)="handleFileSelection($event)">
+      </div> -->
+      <div class="col-3"><label>Remark</label></div>
+      <div class="col-3"><textarea [(ngModel)]='remarks' class="form-control"></textarea>
       </div>
-      <div class="col-2"><label>Remark</label></div>
-      <div class="col-4"><textarea [(ngModel)]='remarks'></textarea>
+      <div class="col-2"><label>Drop Time</label></div>
+      <div class="col-4">
+        <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime">
+        </uj-date-time-picker>
       </div>
+
     </div>
+
+    <div class="row">
+
+    </div>
+
+
   </div>
-  <div class="row">
+  <div class="row" *ngIf="title!='Order Details'">
     <button class="btn btn-primary" (click)='saveData()'>Save</button>
   </div>
 </div>

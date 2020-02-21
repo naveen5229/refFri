@@ -1,0 +1,39 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-5">
+        <h5>Orders</h5>
+      </div>
+      <!-- <div class="col-sm-1">
+        <button (click)="openAddOrder()" class="btn btn-primary " style="margin-right:15px">Add Order</button></div>
+     
+ -->
+    </div>
+  </nb-card-header>
+
+  <nb-card-body style="padding:10px 15px;">
+    <div class="mt-3">
+     <table class="table table-bordered">
+       <thead class="thead">
+         <th>Last Hours</th>
+         <th>Orders</th>
+         <th>Bids</th>
+         <th>Avg. Bids</th>
+         <th>Placements</th>
+       </thead>
+       <tbody class="tbody">  
+         <tr *ngFor="let order of orders">
+           <td>{{order.hours}}</td>
+           <td>{{order.orders}}</td>
+           <td>{{order.bids}}</td>
+           <td>{{order.bids_avg}}</td>
+           <td>{{order.placement}}</td>
+
+         </tr>
+
+       </tbody>
+     </table>
+    </div>
+    
+  </nb-card-body>
+</nb-card>

@@ -6,6 +6,8 @@ import { BidSystemComponent } from './bid-system-component';
 import { AuthGuard } from '../guards/auth.guard';
 import { RouteGuard } from '../guards/route.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { OpenOrdersComponent } from './open-orders/open-orders.component';
+import { OrderBoardsComponent } from './order-boards/order-boards.component';
 
 
 const routes: Routes = [
@@ -20,6 +22,14 @@ const routes: Routes = [
             {
                 path: 'dashboard',
                 component: DashboardComponent
+            },
+            {
+                path: 'open-orders',
+                component: OpenOrdersComponent
+            },
+            {
+                path: 'order-boards',
+                component: OrderBoardsComponent
             },
         ],
     }];

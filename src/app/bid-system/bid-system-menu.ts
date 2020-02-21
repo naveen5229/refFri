@@ -8,10 +8,24 @@ export const BIDSYSTEM_MENU_ITEMS = JSON.stringify([
     home: true,
 },
 {
-    title: 'Dashborrd',
+    title: 'Dashboard',
     icon: 'fa fa-credit-card',
     link: '/bid-system/dashboard',
     home: true,
+
+},
+{
+  title: 'Order Boards',
+  icon: 'fa fa-credit-card',
+  link: '/bid-system/order-boards',
+  home: true,
+
+},
+{
+  title: 'Open Orders',
+  icon: 'fa fa-credit-card',
+  link: '/bid-system/open-orders',
+  home: true,
 
 },
 
