@@ -17,6 +17,7 @@ export class GeneralModalComponent implements OnInit {jobId = null;
   apiURL = null;
   parameters = null;
   title = 'Detail';
+  isBtn = false;
   constructor(public api: ApiService,
     public common: CommonService,
     public date: DateService,
@@ -25,7 +26,8 @@ export class GeneralModalComponent implements OnInit {jobId = null;
     private activeModal: NgbActiveModal) {
     this.apiURL = this.common.params.data.apiURL;
     this.title = this.common.params.data.title;
-    this.parameters = this.common.params.data.params
+    this.parameters = this.common.params.data.params;
+    this.isBtn = this.common.params.data.isBtn;
 
     this.viewData();
   }

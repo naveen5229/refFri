@@ -271,6 +271,10 @@ import { AddOrderComponent } from './modals/BidModals/add-order/add-order.compon
 import { AddBidComponent } from './modals/BidModals/add-bid/add-bid.component';
 import { ShowBidDataComponent } from './modals/BidModals/show-bid-data/show-bid-data.component';
 import { GeneralModalComponent } from './modals/general-modal/general-modal.component';
+import { SingleVehicleGpsDataComponent } from './modals/single-vehicle-gps-data/single-vehicle-gps-data.component';
+import { VehicleStatusComponent } from './modals/vehicle-status/vehicle-status.component';
+import { AddProposalComponent } from './modals/BidModals/add-proposal/add-proposal.component';
+import { ProposalStateComponent } from './modals/BidModals/proposal-state/proposal-state.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -503,6 +507,11 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   AddBidComponent,
   ShowBidDataComponent,
   GeneralModalComponent,
+  SingleVehicleGpsDataComponent,
+  VehicleStatusComponent,
+  AddProposalComponent,
+  ProposalStateComponent,
+
 ];
 
 @NgModule({

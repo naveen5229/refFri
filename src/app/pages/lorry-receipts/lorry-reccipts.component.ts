@@ -165,7 +165,8 @@ export class LorryRecciptsComponent implements OnInit {
       title: 'Lorry Receipt',
       previewId: null,
       refId: receipt.lr_id,
-      refType: "LR_PRT"
+      refType: "LR_PRT",
+      autoPrint: true
     }
     this.common.params = { previewData };
     console.log("receipts", receipt);

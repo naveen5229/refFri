@@ -103,7 +103,7 @@ export class DashboardComponent implements OnInit {
 
           };
         }
-        else if (this.headings[i] == 'Bids') {
+        else if (this.headings[i] == 'Bids - Proposals') {
           console.log('action', this.headings[i]);
           // valobj[this.headings[j]] = { value: val, class: 'blue', action: this.openRouteMapper.bind(this, this.driverData[i]) };
 
@@ -114,6 +114,10 @@ export class DashboardComponent implements OnInit {
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
+        if(doc['_is_seen']){
+          console.log("HELLO");
+          this.valobj['class']="makeMeYellow";
+        }
       }
       columns.push(this.valobj);
     });
@@ -123,19 +127,21 @@ export class DashboardComponent implements OnInit {
 
   actionIcons(data) {
     let icons = [];
-    if(data['Order Status']!='Accepted'){
-   icons = [
-      {
+    if(data['Action'].isEdit){
+      icons.push({
         class: " icon fa fa-pencil-square-o blue",
         action: this.openAddOrder.bind(this, data),
-      },
-      {
-        class: "icon fa fa-trash red",
-        action: this.deleteOrder.bind(this, data),
-      }
-
-    ];
-  }
+      });
+    }
+      if(data['Action'].isDelete){
+        icons.push(
+          {
+            class: "icon fa fa-trash red",
+            action: this.deleteOrder.bind(this, data),
+          
+        });
+      
+    }
 
     return icons;
   }
@@ -164,7 +170,8 @@ export class DashboardComponent implements OnInit {
   showBidData(data?) {
 
     let params = {
-      id: data ? data._id : null
+      id: data ? data._id : null,
+      orderType : data._order_type
     }
     this.common.params = { order: params }
     const activeModal = this.modalService.open(ShowBidDataComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });

@@ -7,13 +7,15 @@ import { AddBidComponent } from '../../modals/BidModals/add-bid/add-bid.componen
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { AddOrderComponent } from '../../modals/BidModals/add-order/add-order.component';
 import { GeneralModalComponent } from '../../modals/general-modal/general-modal.component';
+import { ProposalStateComponent } from '../../modals/BidModals/proposal-state/proposal-state.component';
 
 @Component({
   selector: 'open-orders',
   templateUrl: './open-orders.component.html',
   styleUrls: ['./open-orders.component.scss']
 })
-export class OpenOrdersComponent implements OnInit {  data = [];
+export class OpenOrdersComponent implements OnInit {
+  data = [];
   table = {
     data: {
       headings: {},
@@ -44,11 +46,11 @@ export class OpenOrdersComponent implements OnInit {  data = [];
   getOrders(ord_type) {
     let url = 'Bidding/GetOpenOrder';
     let params = 'type=open_orders';
-    if(ord_type == 'bid'){
+    if (ord_type == 'bid') {
       params = 'type=your_bids';
     }
     this.common.loading++;
-    this.api.get('Bidding/GetOpenOrder?'+params)
+    this.api.get('Bidding/GetOpenOrder?' + params)
       .subscribe(res => {
         this.common.loading--;
         //console.log('res: ', res['data'])
@@ -102,8 +104,14 @@ export class OpenOrdersComponent implements OnInit {  data = [];
             icons: this.actionIcons(doc)
           };
         }
+
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+        }
+
+        if (doc['_is_seen']) {
+          console.log("HELLO");
+          this.valobj['class'] = "makeMeYellow";
         }
       }
       columns.push(this.valobj);
@@ -116,40 +124,45 @@ export class OpenOrdersComponent implements OnInit {  data = [];
 
   actionIcons(data) {
     let icons = [];
-    if(this.orderType != 'bid')
-    icons = [{
+    if (data['Action'].isAdd) {
+      icons.push({
         class: " icon fa fa-pencil-square-o blue",
         action: this.openAddOrder.bind(this, data),
-      },
-      {
-        class: " icon fa fa-eye gray",
-        action: this.viewOrder.bind(this, data),
-      },
-     
-    ];
-    else if(this.orderType == 'bid' && data['Bid Status']=='Pending')
-    icons = [
-      {
+      });
+    }
+    
+    if (data['Action'].isEdit) {
+      icons.push({
         class: " icon fa fa-pencil-square-o blue",
         action: this.openAddOrder.bind(this, data),
-      },
-      {
-        class: " icon fa fa-trash red",
-        action: this.deleteBid.bind(this, data),
-      },
-      {
-        class: " icon fa fa-eye gray",
-        action: this.viewOrder.bind(this, data),
-      },
-     
-    ];
-    else{
-      icons = [
+      });
+    }
+    
+    if (data['Action'].isDelete) {
+      icons.push(
+        {
+          class: " icon fa fa-trash red",
+          action: this.deleteBid.bind(this, data),
+        });
+    }
+    if (data['Action'].isView) {
+      icons.push(
         {
           class: " icon fa fa-eye gray",
-        action: this.viewOrder.bind(this, data),
-        }]
+          action: this.viewOrder.bind(this, data),
+
+        });
     }
+
+    if (data['Action'].isProposalView) {
+      console.log("data._bp_status", data._bp_status);
+      icons.push(
+        {
+          class: data._bp_status == 1 ? "icon fa fa-file green" : data._bp_status == -1 ? "icon fa fa-file red" : "icon fa fa-file gray",
+          action: this.proposalLogs.bind(this, data),
+        });
+    }
+
 
 
     return icons;
@@ -163,9 +176,9 @@ export class OpenOrdersComponent implements OnInit {  data = [];
   viewOrder(data) {
 
     let pram = {
-      apiURL : 'Bidding/GetOrder',
-      title : 'Order Details',
-      params : {
+      apiURL: 'Bidding/GetOrder',
+      title: 'Order Details',
+      params: {
         x_id: -data._id
       }
     }
@@ -179,16 +192,21 @@ export class OpenOrdersComponent implements OnInit {  data = [];
   }
 
   openAddOrder(data) {
-    
+    console.log("dataggg", data);
     let params = {
       id: data._id ? data._id : null,
-      bidId : data._bid_id ? data._bid_id : null,
-      type : this.orderType == 'bid' ? 'update' : 'new',
-      rate : data._bid_rate ? data._bid_rate : null,
-      remarks : data._bid_remarks ? data._bid_remarks :null
+      bidId: data._bid_id ? data._bid_id : null,
+      type: this.orderType == 'bid' ? 'update' : 'new',
+      rate: data._bid_rate,
+      remarks: data._bid_remarks,
+      vehicleId: data._vid,
+      vehicleRegNo: data._regno,
+      weight: data._bid_weight,
+      bidExpDate: data._bid_expdate,
+      orderType: data._order_type
     }
-    this.common.params = {order:params}
-    const activeModal = this.modalService.open(AddBidComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    this.common.params = { order: params }
+    const activeModal = this.modalService.open(AddBidComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log("data", data.response);
       if (data.response) {
@@ -199,8 +217,8 @@ export class OpenOrdersComponent implements OnInit {  data = [];
 
   deleteBid(doc) {
     let params = {
-      entityId: doc._id,
-      entityType:'bid'
+      entityId: doc._bid_id,
+      entityType: 'bid'
     };
     if (doc._id) {
       this.common.params = {
@@ -230,5 +248,22 @@ export class OpenOrdersComponent implements OnInit {  data = [];
       })
 
     }
+  }
+
+  proposalLogs(data) {
+    console.log("dataggg", data);
+    let params = {
+      id: data._bid_id,
+      orderId: data._id,
+      orderType: this.orderType,
+      proposalId: data._bp_id
+    }
+    this.common.params = { bidData: params }
+    const activeModal = this.modalService.open(ProposalStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data.response);
+      this.getOrders(this.orderType);
+
+    });
   }
 }

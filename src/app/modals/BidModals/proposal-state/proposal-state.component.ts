@@ -3,18 +3,18 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 import { UserService } from '../../../services/user.service';
-import { VehicleStatusComponent } from '../../vehicle-status/vehicle-status.component';
 import { AddProposalComponent } from '../add-proposal/add-proposal.component';
-import { ProposalStateComponent } from '../proposal-state/proposal-state.component';
 
 @Component({
-  selector: 'show-bid-data',
-  templateUrl: './show-bid-data.component.html',
-  styleUrls: ['./show-bid-data.component.scss']
+  selector: 'proposal-state',
+  templateUrl: './proposal-state.component.html',
+  styleUrls: ['./proposal-state.component.scss']
 })
-export class ShowBidDataComponent implements OnInit {
+export class ProposalStateComponent implements OnInit {
+  bidId = null;
   orderId = null;
   orderType = null;
+  proposalId = null;
   table = {
     data: {
       headings: {},
@@ -27,28 +27,29 @@ export class ShowBidDataComponent implements OnInit {
   headings = [];
   valobj = {};
   data = [];
-  constructor(
-    public activeModal: NgbActiveModal,
+  constructor(public activeModal: NgbActiveModal,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal
-  ) {
-    this.orderId = this.common.params && this.common.params.order && this.common.params.order.id ? this.common.params.order.id : null;
-    this.orderType = this.common.params.order.orderType;
-    this.getBids();
-   }
+    private modalService: NgbModal) {
+      this.bidId = this.common.params.bidData.id;
+      this.orderId = this.common.params.bidData.orderId;
+      this.orderType = this.common.params.bidData.orderType;
+      this.proposalId = this.common.params.bidData.proposalId;
+      this.getProposalLogs();
+     }
 
   ngOnInit() {
   }
 
   closeModal(status) {
-    this.activeModal.close({ respongetBidsse: status });
+    this.activeModal.close({ respongetBidsse: true });
   }
-  getBids() {
+  getProposalLogs() {
     this.common.loading++;
-    let params = "orderId="+this.orderId;
-    this.api.get('Bidding/getBids?'+params)
+    let params = "orderId="+this.orderId+
+    "&bId="+this.bidId;
+    this.api.get('Bidding/getProposals?'+params)
       .subscribe(res => {
         this.common.loading--;
         //console.log('res: ', res['data'])
@@ -102,9 +103,6 @@ export class ShowBidDataComponent implements OnInit {
             icons: this.actionIcons(doc)
           };
         }
-        else if (this.headings[i] == 'Regno'){
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action:this.openVehicleStatus.bind(this,doc)  };
-        }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -118,34 +116,19 @@ export class ShowBidDataComponent implements OnInit {
 
 
   actionIcons(data) {
-    let viewIconClass = data._bp_status == 1 ?"icon fa fa-eye green" : data._bp_status == -1 ?"icon fa fa-eye red" :"icon fa fa-eye gray";
-    let icons = [];
-    if (data['Action'].isAccept) {
-      icons.push({
-        class: " icon fa fa-check",
-        action: this.openConfirmModal.bind(this, data),
-      });
-    }
-    
-    if (data['Action'].isCancel) {
-      icons.push({
-        class: " icon fa fa-times-circle red",
-        // action: this.openAddOrder.bind(this, data),
-      });
-    }
-    
-    if (data['Action'].isProposalAdd) {
-      icons.push({
+    let icons = [
+      {
         class: "icon fa fa-plus",
-         action: this.openProposal.bind(this, data),
-      });
-    }
-    if (data['Action'].isProposalView) {
-      icons.push({
-        class: viewIconClass,
-         action: this.proposalLogs.bind(this, data),
-      });
-    }
+        //  action: this.openPrposal.bind(this, data),
+      },
+      {
+        class: " icon fa fa-check",
+        // action: this.openConfirmModal.bind(this, data),
+      },
+      
+
+    ];
+
     return icons;
   }
 
@@ -154,22 +137,34 @@ export class ShowBidDataComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
-  openConfirmModal(data) {
+  openConfrimModal(status) {
+    let url = 'Bidding/actionOnProposal';
+    let statusString = '';
     let params = {
-      bidId : data._bid_id,
-      orderId : this.orderId
+      orderId : this.orderId,
+      bid:this.bidId,
+      proposalId:this.proposalId,
+      status:status
     }
-    if (!confirm("Do you want Accept this Bid ?")) {
+    
+    if(status==-1){
+      statusString = 'Reject';
+    }else if(status==1){
+      statusString = 'Accept';
+    }
+    
+    if (!confirm("Do you want " +statusString+ " this Proposal ?")) {
       return;
     }
     this.common.loading++;
-    this.api.post('Bidding/AcceptBid', params)
+    this.api.post(url, params)
       .subscribe(res => {
         this.common.loading--;
         console.log("response:", res);
         if (res['data'][0].y_id > 0) {
-          this.common.showToast("Action Sucessfully completed", 10000);
-          this.getBids();
+          this.common.showToast("Sucessfully completed", 10000);
+          this.closeModal({response:true});
+          // this.getProposalLogs();
         }
         else{
           this.common.showError(res['data'][0].y_msg)
@@ -180,28 +175,9 @@ export class ShowBidDataComponent implements OnInit {
       });
   }
 
-  openVehicleStatus(data) {
-    console.log("dataggg",data);
-    if(!data._vid){
-      this.common.showError('Vehicle not Available');
-      return;
-    }
+  openAddPrposalModal() {
     let params = {
-      vehicleId : data._vid 
-    }
-    this.common.params = {data:params}
-    const activeModal = this.modalService.open(VehicleStatusComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      console.log("data", data.response);
-     
-    });
-  }
-
-
-  openProposal(data) {
-    console.log("dataggg",data);
-    let params = {
-      id : data._bid_id,
+      id : this.bidId,
       orderId : this.orderId,
       orderType : this.orderType
     }
@@ -210,25 +186,13 @@ export class ShowBidDataComponent implements OnInit {
     activeModal.result.then(data => {
       console.log("data", data.response);
       if(data.response){
-        this.getBids();
+        this.closeModal({response:true});
+        // this.getProposalLogs();
       }
      
     });
   }
 
-  proposalLogs(data) {
-    console.log("dataggg",data);
-    let params = {
-      id : data._bid_id,
-      orderId : this.orderId,
-      orderType : this.orderType,
-      proposalId : data._bp_id
-    }
-    this.common.params = {bidData:params}
-    const activeModal = this.modalService.open(ProposalStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      console.log("data", data.response);
-     this.getBids();
-    });
-  }
+
+  
 }

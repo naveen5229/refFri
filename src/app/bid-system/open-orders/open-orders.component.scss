@@ -2,6 +2,9 @@
     color: blue;
     font-weight: 700;
 }
+:host ::ng-deep .makeMeYellow{
+    background: #ecec9d!important;
+}
 
 :host ::ng-deep.red {
     color: red;
@@ -9,6 +12,10 @@
 }
 :host ::ng-deep.gray {
     color: gray;
+    font-weight: 700;
+}
+:host ::ng-deep.green {
+    color: green;
     font-weight: 700;
 }
 :host ::ng-deep.lightred {

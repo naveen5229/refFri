@@ -17,8 +17,8 @@ export class AddOrderComponent implements OnInit {
   unLoadingNo = 1;
   bidType = '1';
 
-  endTime = new Date(new Date().setDate(new Date().getDate() + 1));
-  startTime = new Date();
+  endTime = null;//new Date(new Date().setDate(new Date().getDate() + 1));
+  startTime = new Date(new Date().setHours(new Date().getHours() + 1)) //new Date();
 
   pickLocationType = 'city';
   startName = null;
@@ -50,6 +50,21 @@ export class AddOrderComponent implements OnInit {
   keepGoing = true;
   searchString = '';
   document = null;
+  orderTypeId = 1;
+  minWeight = null;
+  orderTypes = [{
+    id: 1,
+    name: 'FTL'
+  },
+  {
+    id: 0,
+    name: 'LTL'
+  },
+  {
+    id: 2,
+    name: 'Bulk'
+  }
+  ];
   payTypes = [{
     id: 1,
     name: 'Cash'
@@ -81,7 +96,7 @@ export class AddOrderComponent implements OnInit {
   rate = null;
   rateType = '1'
   contactNo = null;
-  flexibleTime = null;
+  flexibleTime = 12;
 
 
   constructor(
@@ -308,6 +323,8 @@ export class AddOrderComponent implements OnInit {
     this.unLoadingNo = data.noul;
     this.rateType = data.rate_type;
     this.flexibleTime= data.pickup_flex_hrs;
+    this.orderTypeId = data.order_type;
+    this.minWeight = data.min_weight
     console.log("this.material.name",this.material.name,"endTime",this.endTime)
 
   }
@@ -326,7 +343,7 @@ export class AddOrderComponent implements OnInit {
       weight: this.weight,
       body_type: this.bodyId,
       material_id: this.material.id,
-      drop_time: this.common.dateFormatter(this.endTime),
+      drop_time: this.endTime ? this.common.dateFormatter(this.endTime) : null,
       drop_id: this.endLocId,
       pickup_time: this.common.dateFormatter(this.startTime),
       pickup_id: this.startLocId,
@@ -335,7 +352,9 @@ export class AddOrderComponent implements OnInit {
       noLoding :this.loadingNo,
       noUnloding : this.unLoadingNo,
       rateType : this.rateType,
-      pickupFlexHrs : this.flexibleTime
+      pickupFlexHrs : this.flexibleTime,
+      orderTypeId :this.orderTypeId,
+      minWeight : this.minWeight
     }
     this.api.post('Bidding/SaveOrder', params)
       .subscribe(res => {

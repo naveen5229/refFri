@@ -18,6 +18,7 @@ export class FinancialMainSummaryComponent implements OnInit {
   };
   table = null;
   data = [];
+  mobileNo = null;
   //vehid = 6754;
   //mobileno = 9812929999;
   constructor(
@@ -26,6 +27,7 @@ export class FinancialMainSummaryComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
+    console.log("this.user._customer",this.user._customer);
     this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
     this.getfinancialMainSummary();
     this.common.refresh = this.refresh.bind(this);
@@ -120,8 +122,11 @@ export class FinancialMainSummaryComponent implements OnInit {
     return columns;
   }
   getfinancialMainSummary() {
+    let mobileNo = this.user._customer.mobileNo;
+    if (this.user._loggedInBy == "customer")
+      mobileNo = this.user._details.mobileNo;
 
-    let param = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
+    let param = "startDate=" + this.dates.start + "&endDate=" + this.dates.end+ "&mobileno="+mobileNo;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getFinancialAccountMainSummary.json?' + param)
       .subscribe(Res => {

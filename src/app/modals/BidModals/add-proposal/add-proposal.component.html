@@ -1,36 +1,24 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Bidding</h5>
+  <h5 class="modal-title" id="modal-basic-title">Add Prposal</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <div class="row" *ngIf="orderType!=2">
-    <div class="col-4"><label>Vehicle</label></div>
-    <div class="col-8">
-      <auto-suggestion (onSelected)="selectVehicle($event)" url="suggestion/getFoVehicleList" display="regno"
-        placeholder="Search Vehicle" [preSelected]="{regno:vehicleRegNo}"></auto-suggestion>
-    </div>
-  </div>
+  
   <div class="row">
     <div class="col-4"><label>Rate</label></div>
     <div class="col-8">
       <input type="number" class="form-control" [(ngModel)]="rate">
     </div>
   </div>
-  <div class="row" *ngIf="orderType">
+  <div class="row" *ngIf="orderType==2">
     <div class="col-4"><label>Weight</label></div>
     <div class="col-8">
       <input type="number" class="form-control" [(ngModel)]="weight">
     </div>
   </div>
-  <div class="row">
-    <div class="col-4"><label>Bid Exp Time</label></div>
-      <div class="col-8">
-        <uj-date-time-picker (onChanged)="bidExpTime = $event" [dateTimeValue]="bidExpTime">
-        </uj-date-time-picker>
-      </div>
-  </div>
+ 
   <div class="row">
     <div class="col-4"><label>Remark</label></div>
     <div class="col-8">

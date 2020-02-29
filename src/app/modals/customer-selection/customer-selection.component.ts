@@ -56,6 +56,7 @@ export class CustomerSelectionComponent implements OnInit {
     this.showSuggestions = false;
     this.user._customer.name = this.searchString;
     this.user._customer.id = user.foaid;
+    this.user._customer.mobileNo = user.fomobileno;
     console.log("user====", this.user._customer.name);
     localStorage.setItem('CUSTOMER_DETAILS', JSON.stringify(this.user._customer));
     this.api.getBranches();

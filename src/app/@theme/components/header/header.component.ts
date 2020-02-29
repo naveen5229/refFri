@@ -91,6 +91,7 @@ export class HeaderComponent implements OnInit {
           this.user._customer = {
             name: '',
             id: '',
+            mobileNo:null
           };
           this.user._menu = {
             admin: [],
@@ -102,6 +103,7 @@ export class HeaderComponent implements OnInit {
             account: [],
             challan: [],
             walle8: [],
+            bidSystem:[]
           };
           localStorage.clear();
           localStorage.removeItem('DOST_USER_PAGES');

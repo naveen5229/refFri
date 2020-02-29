@@ -34,6 +34,7 @@ export class UserService {
   _customer = {
     name: '',
     id: '',
+    mobileNo : null
   };
 
   _loggedInBy = '';
@@ -48,6 +49,7 @@ export class UserService {
     account: [],
     challan: [],
     walle8: [],
+    bidSystem:[]
   };
 
   permission = {

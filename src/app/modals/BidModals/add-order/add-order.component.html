@@ -12,7 +12,7 @@
         <input type="radio" [(ngModel)]="pickLocationType" value="site" name="pickLocationType"> Site
       </label>
       <label class="radio2">
-        <input type="radio" [(ngModel)]="pickLocationType" (change)="selecteCity()" value="city"
+        <input type="radio" [(ngModel)]="pickLocationType"  value="city"
           name="pickLocationType">
         City
       </label>
@@ -38,7 +38,7 @@
         <input type="radio" [(ngModel)]="dropLocationType" value="site" name="dropLocationType"> Site
       </label>
       <label class="radio2">
-        <input type="radio" [(ngModel)]="dropLocationType" (change)="selecteCity()" value="city"
+        <input type="radio" [(ngModel)]="dropLocationType"  value="city"
           name="dropLocationType">
         City
       </label>
@@ -104,6 +104,18 @@
     <div class="col-4"><input type="text" [(ngModel)]='rate' class='form-control'></div>
 
   </div>
+
+  <div class="row">
+    <div class="col-3"><label>Order Type</label></div>
+    <div class="col-3"><select [(ngModel)]='orderTypeId' class="form-control">
+        <option *ngFor='let order of orderTypes' [value]='order.id'>{{order.name}}</option>
+      </select></div>
+    <div class="col-2" *ngIf = 'orderTypeId==2'><label>Min Weight</label></div>
+    <div class="col-4">
+      <input type="text" [(ngModel)]='minWeight' class="col-6"  *ngIf = 'orderTypeId==2'>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-3"><label>Pay Type</label></div>
     <div class="col-3">
@@ -112,6 +124,7 @@
       </select>
     </div>
   </div>
+ 
   <div class="row">
     <div class="col-3"><label>Bid Type</label></div>
     <div class="col-9">
