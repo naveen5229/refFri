@@ -233,6 +233,10 @@ export class CommonService {
     let d = new Date(date);
     return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm:ss a");
   }
+  changeDateformat4(date) {
+    let d = new Date(date);
+    return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm");
+  }
 
   changeDateformat2(date) {
     let d = new Date(date);
@@ -576,6 +580,7 @@ export class CommonService {
     // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
+    console.log(tblelt);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
     }
@@ -713,7 +718,7 @@ export class CommonService {
         doc.setFont("times", "bold", "text-center");
         doc.text(lower_left_heading, xpos, y);
       }
-      doc.text(time, 30, 60);
+      // doc.text(time, 30, 60);
       y = 15;
       doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
@@ -755,6 +760,12 @@ export class CommonService {
 
     doc.save("report.pdf");
   }
+
+
+  
+
+
+
 
   getPDFFromTableIdnew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, reportname?) {
     console.log("Action Data:", reportname);
@@ -969,6 +980,8 @@ export class CommonService {
   }
 
   downloadPdf(divId, isLandscape?) {
+    // var doc = new jsPDF('landscape');
+    // doc.text(20, 20, 'Hello landscape world!');
     this.loading++;
     console.log("loder++");
 
@@ -978,15 +991,15 @@ export class CommonService {
       scale: 2
     }).then(canvas => {
       var imgData = canvas.toDataURL('image/png');
-      var imgWidth = isLandscape ? 295 : 208;
-      var pageHeight = isLandscape ? 208 : 295;
-      let imgHeight = isLandscape ? 208 : 295;
-      var heightLeft = imgHeight;
-
-      // var imgWidth = 210; 
-      // var pageHeight = 295;  
-      // var imgHeight = canvas.height * imgWidth / canvas.width;
+      // var imgWidth = isLandscape ? 295 : 208;
+      // var pageHeight = isLandscape ? 208 : 295;
+      // let imgHeight = isLandscape ? 208 : 295;
       // var heightLeft = imgHeight;
+
+      var imgWidth = 210; 
+      var pageHeight = 295;  
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
 
       let doc = new jsPDF(isLandscape ? 'l' : 'p', 'mm', 'a4');
       var position = 0;

@@ -1,0 +1,25 @@
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
+}
+
+:host ::ng-deep.red {
+    color: red;
+    font-weight: 700;
+}
+
+:host ::ng-deep.lightred {
+    background-color: #e27a73;
+    font-weight: 700;
+}
+:host ::ng-deep.lightgreen {
+    background-color: #92e881;
+    font-weight: 700;
+}
+:host ::ng-deep.icon {
+    margin-left: 8px;
+ }
+
+ :host ::ng-deep .makeMeYellow{
+    background: #ecec9d!important;
+}

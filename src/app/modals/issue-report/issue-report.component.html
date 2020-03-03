@@ -1,0 +1,45 @@
+<!-- Header -->
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Report Issue</h5>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<!-- Body -->
+<div class="modal-body">
+  <!-- Issue -->
+  <div class="form-group">
+    <label>Issue Type</label>
+    <select class="form-control" name="issue-type" [(ngModel)]="newIssue.type" require>
+      <option value="">Select a issue</option>
+      <option *ngFor="let issue of issues;" [value]="issue.id">{{issue.name}}</option>
+    </select>
+  </div>
+<!--image upload-->
+
+<div class="form-group">
+
+  <input type="file" name="address-proof" id="address-proof" (change)="handleFileSelection($event)" />
+  </div>
+
+  <!-- Remark -->
+  <div class="form-group">
+    <label>Remark</label>
+    <textarea name="remark" class="form-control" [(ngModel)]="newIssue.remark"></textarea>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
+        style="cursor: pointer;">{{cancelBtn || 'Cancel'}}</button>
+    </div>
+    <div class="col text-right">
+      <button class="btn btn-primary" type="button" outline (click)="saveIssues()" id="submit"
+        style="cursor: pointer;">{{submitBtn || 'Submit'}}</button>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { CommonService } from '../..//services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from "@angular/platform-browser";
+
 @Component({
   selector: 'template-preview',
   templateUrl: './template-preview.component.html',
@@ -20,7 +21,9 @@ export class TemplatePreviewComponent implements OnInit {
     preview: null,
     refId: null,
     refType: null,
+
   };
+  autoPrint = true;
   title = '';
   loginType = '';
   constructor(public api: ApiService,
@@ -40,6 +43,7 @@ export class TemplatePreviewComponent implements OnInit {
       this.template.refId = this.common.params.previewData.refId ? this.common.params.previewData.refId : '';
       this.template.refType = this.common.params.previewData.refType ? this.common.params.previewData.refType : '';
       this.title = this.common.params.previewData.title ? this.common.params.previewData.title : 'Preview';
+      this.autoPrint = this.common.params.previewData.autoPrint ? this.common.params.previewData.autoPrint : false;
     }
     this.preview();
     this.showdata();
@@ -84,6 +88,28 @@ export class TemplatePreviewComponent implements OnInit {
             if (!show) {
                  element['style']['display'] = "none";
             }
+            // for (let index = 0; index < document.styleSheets.length ; index++) {
+            //   const element =  document.styleSheets[index];
+            //   try{
+            //     if(element['rules']){
+            //       for(var i=element['rules'].length -1; i >0; i--){
+            //         if(element['rules'][i].cssText.indexOf("@media print") !=-1 )
+            //         {
+            //           let elementx=element['deleteRule'](i);
+
+            //           //elementx.apply(document,[i]);
+
+            //         }
+            //      }
+            //   }
+            //   }catch(err){
+            //     console.log("Exception",err);
+                
+            //   }
+            // }
+        }
+        if(this.autoPrint){
+          this.printHandler();
         }
       }, 100);
 

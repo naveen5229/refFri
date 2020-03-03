@@ -16,6 +16,8 @@ import { GpsEnabledDisabledComponent } from '../../modals/gps-enabled-disabled/g
 import { TypeMasterComponent } from '../../modals/type-master/type-master.component';
 import { GetUserBankInfoComponent } from '../../modals/get-user-bank-info/get-user-bank-info.component';
 import { BulkCompanyAssociationComponent } from '../../modals/bulk-company-association/bulk-company-association.component';
+import { MultiVehicleHaltAddComponent } from '../../modals/multi-vehicle-halt-add/multi-vehicle-halt-add.component';
+import { SingleVehicleGpsDataComponent } from '../../modals/single-vehicle-gps-data/single-vehicle-gps-data.component';
 @Component({
   selector: 'add-customer',
   templateUrl: './add-customer.component.html',
@@ -139,4 +141,13 @@ export class AddCustomerComponent implements OnInit {
     const activeModal = this.modalService.open(BulkCompanyAssociationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
+  addMultiVehicleHalt(){
+    const activeModal = this.modalService.open(MultiVehicleHaltAddComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+  }
+  addSingleVehicleHalt(){
+    const activeModal = this.modalService.open(SingleVehicleGpsDataComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+  }
+  
 }

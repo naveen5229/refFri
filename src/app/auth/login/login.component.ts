@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     mobile: '',
     otp: '',
   };
-
+  iswallet = '0';
   listenOTP = false;
   otpCount = 0;
   button = 'Send';
@@ -35,19 +35,30 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      if (params.type && (params.type.toLowerCase() == 'admin' || params.type.toLowerCase() == 'partner')) {
-        this.button = 'Generate Qr-Code';
-        this.user._loggedInBy = params.type.toLowerCase();
-      } else if (params.type) {
-        this.router.navigate(['/auth/login']);
-        return;
-      } else {
-        this.user._loggedInBy = 'customer';
-        this.button = 'Send';
-      }
-      console.log("Login By", this.user._loggedInBy);
-    });
+    let url = window.location.href;
+    url = url.toLowerCase();
+    this.iswallet = url.search("walle8customer") > -1 ? '1' : '0';
+    if (this.iswallet == '1') {
+      this.user._loggedInBy = 'walle8customer';
+      this.button = 'Send';
+      return;
+    }
+    else {
+      this.route.params.subscribe(params => {
+        if (params.type && (params.type.toLowerCase() == 'admin' || params.type.toLowerCase() == 'partner')) {
+          this.button = 'Generate Qr-Code';
+          this.user._loggedInBy = params.type.toLowerCase();
+        } else if (params.type) {
+          this.router.navigate(['/auth/login']);
+          return;
+        } else {
+          this.user._loggedInBy = 'customer';
+          this.button = 'Send';
+
+        }
+        console.log("Login By", this.user._loggedInBy);
+      });
+    }
   }
 
   ngAfterViewInit() {
@@ -69,7 +80,7 @@ export class LoginComponent implements OnInit {
       nbCard['style']['height'] = '100%';
     }
 
-    if (this.user._loggedInBy == "admin") {
+    else if (this.user._loggedInBy == "admin") {
       let nbCard = document.getElementsByTagName('nb-card')[0];
       nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/login-admin.jpg')";
       nbCard['style']['backgroundSize'] = 'cover';
@@ -78,6 +89,15 @@ export class LoginComponent implements OnInit {
       nbCard['style']['height'] = '100%';
     }
 
+    else {
+      let nbCard = document.getElementsByTagName('nb-card')[0];
+      // nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/login-admin.jpg')";
+      nbCard['style']['backgroundColor'] = '#e9dcdc';
+      nbCard['style']['backgroundSize'] = 'cover';
+      nbCard['style']['backgroundRepeat'] = 'no-repeat';
+      nbCard['style']['backgroundPosition'] = 'bottom';
+      nbCard['style']['height'] = '100%';
+    }
   }
 
 
@@ -133,17 +153,28 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+
     if (this.otpCount <= 0) {
       clearInterval(this.interval);
     }
+    if(this.loginType==2 && !this.qrCode){
+      this.common.showError("Please regenerate qrcode");
+      return;
+    }
+    let url = window.location.href;
+    url = url.toLowerCase();
+
+    this.iswallet = url.search("walle8customer") > -1 ? '1' : '0';
     const params = {
       type: "verifyotp",
       mobileno: this.userDetails.mobile,
       otp: this.userDetails.otp,
       qrcode: this.loginType === 1 ? null : this.qrCode,
-      device_token: null
+      device_token: null,
+      iswallet: this.iswallet
     };
-    console.log('Login Params:', params);
+    console.log('Login Params:', params, 'url', url, this.iswallet);
+
     this.api.post('Login/verifyotp', params)
       .subscribe(res => {
         console.log(res);
@@ -155,6 +186,7 @@ export class LoginComponent implements OnInit {
           this.common.showToast(res['msg']);
           localStorage.setItem('USER_TOKEN', res['data'][0]['authkey']);
           localStorage.setItem('USER_DETAILS', JSON.stringify(res['data'][0]));
+          localStorage.setItem('iswallet', this.iswallet);
           this.user._details = res['data'][0];
           this.user._token = res['data'][0]['authkey'];
           console.log('Login Type: ', this.user._loggedInBy);
@@ -181,13 +213,21 @@ export class LoginComponent implements OnInit {
     let userTypeId = this.user._loggedInBy == 'admin' ? 1 : 3;
     const params = {
       userId: this.user._details.id,
-      userType: userTypeId
+      userType: userTypeId,
+      iswallet: this.iswallet
     };
     this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         this.common.loading--;
-        this.user._pages = res['data'].filter(page => { return page.userid; });
+        this.user._pages = res['data'].filter(page => {
+          const defaultModules = ['Documents', 'Walle8', 'challan'];
+          if (defaultModules.indexOf(page.group_name) !== -1) {
+            return true
+          }
+          return page.userid;
+        });
+
         localStorage.setItem('DOST_USER_PAGES', JSON.stringify(this.user._pages));
         this.user.filterMenu("pages", "pages");
         this.user.filterMenu("admin", "admin");
@@ -197,6 +237,7 @@ export class LoginComponent implements OnInit {
         this.user.filterMenu("wareHouse", "wareHouse");
         this.user.filterMenu("account", "account");
         this.user.filterMenu("challan", "challan");
+        this.user.filterMenu("walle8", "walle8");
 
         if (this.user._loggedInBy == "admin") {
           this.router.navigate(['/admin']);

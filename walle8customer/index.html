@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>E-logist</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Poppins:400,500,600,700" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+
+  <!-- <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"> -->
+  <script
+    src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+  <!-- google map api -->
+
+  <!-- Production -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs&libraries=visualization,geometry,places,drawing">
+    </script>
+
+  <!-- Develpment -->
+  <!-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBvP2-rohuqEkzDNZspC9skUHSfIrp7S8g&libraries=visualization,geometry,places,drawing">
+    </script> -->
+
+  <!-- google map api end -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css"
+    rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" />
+
+
+<link rel="stylesheet" href="styles.99c9254c3aeeae420e84.css"></head>
+
+<body>
+  <ngx-app>Loading...</ngx-app>
+
+  <style>
+    @-webkit-keyframes spin {
+      0% {
+        transform: rotate(0)
+      }
+
+      100% {
+        transform: rotate(360deg)
+      }
+    }
+
+    @-moz-keyframes spin {
+      0% {
+        -moz-transform: rotate(0)
+      }
+
+      100% {
+        -moz-transform: rotate(360deg)
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0)
+      }
+
+      100% {
+        transform: rotate(360deg)
+      }
+    }
+
+    .spinner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1003;
+      background: #000000;
+      overflow: hidden
+    }
+
+    .spinner div:first-child {
+      display: block;
+      position: relative;
+      left: 50%;
+      top: 50%;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 -75px;
+      border-radius: 50%;
+      box-shadow: 0 3px 3px 0 rgba(255, 56, 106, 1);
+      transform: translate3d(0, 0, 0);
+      animation: spin 2s linear infinite
+    }
+
+    .spinner div:first-child:after,
+    .spinner div:first-child:before {
+      content: '';
+      position: absolute;
+      border-radius: 50%
+    }
+
+    .spinner div:first-child:before {
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      box-shadow: 0 3px 3px 0 rgb(255, 228, 32);
+      -webkit-animation: spin 3s linear infinite;
+      animation: spin 3s linear infinite
+    }
+
+    .spinner div:first-child:after {
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      box-shadow: 0 3px 3px 0 rgba(61, 175, 255, 1);
+      animation: spin 1.5s linear infinite
+    }
+  </style>
+  <div id="nb-global-spinner" class="spinner">
+    <div class="blob blob-0"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+    <div class="blob blob-5"></div>
+  </div>
+
+  <style>
+    .error,
+    .mandatory {
+      color: red !important;
+      font-size: 11px;
+      letter-spacing: .3px;
+      margin-left: 2px;
+    }
+
+    .mandatory {
+      margin: 0;
+      vertical-align: super;
+    }
+
+    .main-content {
+      padding: 1px 1px 0px 0px !important;
+      margin-left: 0px;
+      width: auto;
+    }
+
+    /* .menu-sidebar{
+      width: 180px !important;
+    } */
+
+
+    .pac-container {
+      z-index: 9999 !important;
+    }
+
+    .main-container {
+      width: auto !important;
+    }
+
+    .menu-items {
+
+      font-size: 10px !important;
+    }
+
+    .menu-icon {
+      font-size: 30px !important;
+    }
+
+    .nb-theme-corporate .cdk-overlay-container {
+      z-index: 1055;
+    }
+
+    .cdk-global-overlay-wrapper {
+      z-index: 1056;
+    }
+
+    .cdk-overlay-pane {
+      z-index: 1057;
+    }
+  </style>
+<script type="text/javascript" src="runtime.dbcdf5a57cbced447d33.js"></script><script type="text/javascript" src="polyfills.4bcebfa58a0b6365e2b5.js"></script><script type="text/javascript" src="scripts.5b37542ea53c84aaccaa.js"></script><script type="text/javascript" src="main.1d7caadeaa97809f22b9.js"></script></body>
+
+</html>

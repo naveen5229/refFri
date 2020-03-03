@@ -261,6 +261,20 @@ import { AddGpsApiUrlComponent } from './modals/add-gps-api-url/add-gps-api-url.
 import { AddGpsWebUrlComponent } from './modals/add-gps-web-url/add-gps-web-url.component';
 import { AddGpsSupplierComponent } from './modals/add-gps-supplier/add-gps-supplier.component';
 import { VehicleDetailsUpdateComponent } from './modals/vehicle-details-update/vehicle-details-update.component';
+import { FuelDailyCunsumtionComponent } from './modals/fuel-daily-cunsumtion/fuel-daily-cunsumtion.component';
+import { FuelDailyCunsumtionConditionComponent } from './modals/fuel-daily-cunsumtion-condition/fuel-daily-cunsumtion-condition.component';
+import { CardusageComponent } from './modals/cardusage/cardusage.component';
+import { MultiVehicleHaltAddComponent } from './modals/multi-vehicle-halt-add/multi-vehicle-halt-add.component';
+import { BankDetailsComponent } from './modals/bank-details/bank-details.component';
+import { IssueReportComponent } from './modals/issue-report/issue-report.component';
+import { AddOrderComponent } from './modals/BidModals/add-order/add-order.component';
+import { AddBidComponent } from './modals/BidModals/add-bid/add-bid.component';
+import { ShowBidDataComponent } from './modals/BidModals/show-bid-data/show-bid-data.component';
+import { GeneralModalComponent } from './modals/general-modal/general-modal.component';
+import { SingleVehicleGpsDataComponent } from './modals/single-vehicle-gps-data/single-vehicle-gps-data.component';
+import { VehicleStatusComponent } from './modals/vehicle-status/vehicle-status.component';
+import { AddProposalComponent } from './modals/BidModals/add-proposal/add-proposal.component';
+import { ProposalStateComponent } from './modals/BidModals/proposal-state/proposal-state.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -483,6 +497,20 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   AddGpsWebUrlComponent,
   AddGpsSupplierComponent,
   VehicleDetailsUpdateComponent,
+  FuelDailyCunsumtionComponent,
+  FuelDailyCunsumtionConditionComponent,
+  CardusageComponent,
+  MultiVehicleHaltAddComponent,
+  BankDetailsComponent,
+  IssueReportComponent,
+  AddOrderComponent,
+  AddBidComponent,
+  ShowBidDataComponent,
+  GeneralModalComponent,
+  SingleVehicleGpsDataComponent,
+  VehicleStatusComponent,
+  AddProposalComponent,
+  ProposalStateComponent,
 
 ];
 
@@ -492,6 +520,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CustomTimePipe,
     CustomDatePipe,
     ...COMMON_COMPONENT,
+    CardusageComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT

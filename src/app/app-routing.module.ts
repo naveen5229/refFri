@@ -82,6 +82,11 @@ const routes: Routes = [
     loadChildren:'app/challan/challan.module#ChallanModule',
     canActivate:[AuthGuard]
   },
+  {
+    path: 'bid-system',
+    loadChildren: 'app/bid-system/bid-system.module#BidSystemModule',
+    canActivate: [AuthGuard],
+  },
 
   {
     path: 'auth',

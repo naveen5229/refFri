@@ -158,11 +158,13 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   getUserPages(user) {
+    console.log(user);
     this.formattedData = [];
     this.selectedUser.details = user;
     const params = {
       userId: user.id,
-      userType: 1
+      userType: 1,
+      iswallet : localStorage.getItem('iswallet') || '0' 
     };
     this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
@@ -185,6 +187,8 @@ export class UserPreferencesComponent implements OnInit {
 
   managedata() {
     let firstGroup = _.groupBy(this.data, 'module');
+    console.log(firstGroup);
+    console.log(Object.keys(firstGroup));
     this.formattedData = Object.keys(firstGroup).map(key => {
       return {
         name: key,
@@ -193,6 +197,7 @@ export class UserPreferencesComponent implements OnInit {
         isOp: false,
       }
     });
+    console.log(this.formattedData);
     this.formattedData.map(module => {
       let isMasterAllSelected = true;
       let pageGroup = _.groupBy(module.groups, 'group_name');
@@ -242,6 +247,7 @@ export class UserPreferencesComponent implements OnInit {
     this.common.loading++;
     this.api.post('UserRoles/setPagesWrtUser', params)
       .subscribe(res => {
+        console.log(res);
         this.common.loading--;
         this.common.showToast(res['msg']);
         this.refresh();
@@ -270,7 +276,39 @@ export class UserPreferencesComponent implements OnInit {
     });
     return data;
   }
+  functionalityFlag = [];
 
+  checkOrUnCheckfunctionality(modul,indexmodule,isAll){
+    console.log(modul,indexmodule,isAll);
+    if(isAll){
+      for(let i = 0;i<modul.pages.length;i++)
+      {
+        console.log(modul.pages[i]);
+        modul.pages[i].isSelected = true;
+        modul.pages[i].isadd = true;
+        modul.pages[i].isedit = true;
+        modul.pages[i].isdeleted = true;
+        modul.pages[i].isOp = true;
+      }
+    }
+    else{
+      for(let i = 0;i<modul.pages.length;i++)
+      {
+      modul.pages[i].isSelected = false;
+      modul.pages[i].isadd = false;
+      modul.pages[i].isedit = false;
+      modul.pages[i].isdeleted = false;
+      modul.pages[i].isOp = false;
+    }
+  }
+    // if (!details.isSelected && type == 'page') {
+    //   details.isSelected = details.isSelected;
+    //   details.isadd = false;
+    //   details.isedit = false;
+    //   details.isdeleted = false;
+    //   details.isOp = true;
+    // }
 
+  }
 
 }

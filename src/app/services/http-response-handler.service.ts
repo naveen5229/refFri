@@ -27,10 +27,12 @@ export class HttpResponseHandlerService implements HttpInterceptor {
             this.user._token = '';
             this.user._details = null;
             this.user._loggedInBy = '';
+            
             this.user._pages = null;
             this.user._customer = {
               name: '',
               id: '',
+              mobileNo:null
             };
             this.user._menu = {
               admin: [],
@@ -41,6 +43,8 @@ export class HttpResponseHandlerService implements HttpInterceptor {
               wareHouse: [],
               account: [],
               challan: [],
+              walle8: [],
+              bidSystem:[]
             };
             localStorage.removeItem('DOST_USER_PAGES');
             setTimeout(() => {

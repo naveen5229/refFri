@@ -57,19 +57,22 @@ export class SmartTableComponent implements OnInit {
 
   setData() {
     this.headings = this.data.headings;
-    this.handlePagination(this.pages.active);
-    // this.columns = this.data.columns
-    console.log(this.headings);
-    console.log(this.columns);
+    if (this.settings.pagination) {
+      this.handlePagination(this.pages.active);
+      this.pages.count = Math.floor(this.data.columns.length / this.pages.limit);
+      if (this.data.columns.length % this.pages.limit) {
+        this.pages.count++;
+      }
+    } else {
+      this.columns = this.data.columns
+    }
+    
     this.cdr.detectChanges();
     if (this.search.txt && this.search.key) {
       this.headings[this.search.key].value = this.search.txt;
       this.filterData(this.search.key)
     };
-    this.pages.count = Math.floor(this.data.columns.length / this.pages.limit);
-    if (this.data.columns.length % this.pages.limit) {
-      this.pages.count++;
-    }
+
     this.columns.map((column, index) => column._smartId = index);
   }
 

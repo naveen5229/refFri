@@ -6,6 +6,5 @@
 
 </div>
 <div class="modal-body">
-
-  <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"></smart-table>
 </div>

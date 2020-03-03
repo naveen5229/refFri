@@ -1,15 +1,21 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const WALLE8_MENU_ITEMS = JSON.stringify([
     {
         title: 'Home Dashboard',
         icon: 'fa fa-home',
-        link: '/walle8',
+        link: '/pages/dashboard',
         home: true,
     },
-
     {
-        title: 'Card Mappping',
+        title: 'Card Balance',
+        icon: 'fa fa-credit-card',
+        link: '/walle8/card-balance',
+        home: true,
+
+    },
+    {
+        title: 'Card Mapping',
         icon: 'fa fa-credit-card',
         link: '/walle8/card-mapping',
         home: true,
@@ -21,79 +27,79 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'payment made',
+        title: 'Payment Made',
         icon: 'fa fa-credit-card',
         link: '/walle8/payments-made',
         home: true,
     },
     {
-        title: 'latest recharge',
+        title: 'Latest Recharge',
         icon: 'fa fa-credit-card',
         link: '/walle8/latest-recharge',
         home: true,
     },
     {
-        title: 'toll usage summary',
+        title: 'Toll Usage Summary',
         icon: 'fa fa-credit-card',
         link: '/walle8/toll-usage-summary',
         home: true,
     },
     {
-        title: 'toll discount',
+        title: 'Toll Discount',
         icon: 'fa fa-credit-card',
         link: '/walle8/toll-discount',
         home: true,
     },
     {
-        title: 'toll usage',
+        title: 'Toll Usage',
         icon: 'fa fa-credit-card',
         link: '/walle8/toll-usage',
         home: true,
     },
     {
-        title: 'Toll setteled Request',
+        title: 'Toll Settled Request',
         icon: 'fa fa-credit-card',
         link: '/walle8/toll-setteled-request',
         home: true,
 
     },
     {
-        title: 'current tag balance',
+        title: 'Current Tag Balance',
         icon: 'fa fa-credit-card',
         link: '/walle8/current-tag-balance',
         home: true,
 
     },
     {
-        title: 'double toll report',
+        title: 'Double Toll Report',
         icon: 'fa fa-credit-card',
         link: '/walle8/double-toll-report',
         home: true,
 
     },
     {
-        title: 'financial Toll Summary',
+        title: 'Financial Toll Summary',
         icon: 'fa fa-credit-card',
         link: '/walle8/financial-toll-summary',
         home: true,
 
     },
     {
-        title: 'financial Toll Summary(Add Time)',
+        title: 'Financial Toll Summary(Add Time)',
         icon: 'fa fa-credit-card',
         link: '/walle8/financial-toll-summary-addtime',
         home: true,
 
     },
     {
-        title: 'financial Main Summary',
+        title: 'Financial Main Summary',
         icon: 'fa fa-credit-card',
         link: '/walle8/financial-main-summary',
         home: true,
 
     },
     {
-        title: 'Toll Analatics',
+        title: 'Toll Analytics',
         icon: 'fa fa-credit-card',
         link: '/walle8/toll-analatics',
         home: true,
@@ -106,11 +112,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
 
     },
-    {
-        title: 'card Balance',
-        icon: 'fa fa-credit-card',
-        link: '/walle8/card-balance',
-        home: true,
 
-    },
-];
+]);

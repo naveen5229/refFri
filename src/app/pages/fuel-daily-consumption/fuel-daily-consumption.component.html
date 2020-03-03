@@ -10,19 +10,34 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row">
-      <div class="col-4 radio-type">
+      <!-- <div class="col-4 radio-type">
         <input type="radio" value="0" name="radio" [(ngModel)]="flagType" (change)="changeModal(flagType)">Day Wise
         <input type="radio" value="1" name="radio" [(ngModel)]="flagType" (change)="changeModal(flagType)">Month Wise
-      </div>
-      <div class="col-sm-3">
+      </div> -->
+      <div class="col-sm-2">
         <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime" [isTime]="false">
         </uj-date-time-picker>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime" [isStart]="false"
           [isTime]="false">
         </uj-date-time-picker>
       </div>
+
+      <div class="col-sm-2">
+       <select [(ngModel)]="reportType" class="form-control">
+         <option value=1>Mid 50%</option>
+         <option value=2>Median</option>
+         <option value=3>Average</option>
+       </select>
+      </div>
+
+      <div class="col-sm-2">
+        <select [(ngModel)]="modelType" class="form-control">
+          <option value=0>All</option>
+          <option *ngFor="let mt of modelTypes" [value]='mt.id'>{{mt.name}}</option>
+        </select>
+       </div>
 
       <div class="col-sm-2">
         <button class="btn btn-primary w-100 pt-1 pb-1" style="border-radius: 3px;"
@@ -38,6 +53,7 @@
     </div>
 
 
-
+    <!-- <smart-table *ngIf="fuel_daily_cumsion && fuel_daily_cumsion.length" [data]="table.data" [settings]="table.settings" id="fuelConsumption">
+    </smart-table> -->
   </nb-card-body>
 </nb-card>

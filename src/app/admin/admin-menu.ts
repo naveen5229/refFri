@@ -213,6 +213,11 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         link: '/admin/captcha',
         home: true,
       },
+      {
+        title: 'Financial Account Summary',
+        icon: 'fa fa-pencil-square-o',
+        link: '/admin/financial-account-summary',
+      },
 
     ]
   },

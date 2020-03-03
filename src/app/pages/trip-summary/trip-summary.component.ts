@@ -73,7 +73,7 @@ export class TripSummaryComponent implements OnInit {
       },
       maintainAspectRatio: false,
       lineTension: 0,
-      legend : {
+      legend: {
         display: false
       },
 
@@ -114,11 +114,11 @@ export class TripSummaryComponent implements OnInit {
     let today = new Date();
     this.startTime = new Date(today.setDate(today.getDate() - 7));
     // this.startTime = this.common.dateFormatter(startDay);
-      this.getTripSummary();
+    this.getTripSummary();
   }
 
   ngOnInit() {
-   }
+  }
   refresh() {
     this.getTripSummary();
   }
@@ -138,7 +138,7 @@ export class TripSummaryComponent implements OnInit {
       labels: XLabel,
       datasets: [{
 
-        label:'Values',
+        label: 'Values',
         backgroundColor: '#FF0000',
         borderColor: '#FF0000',
         data: YValues,
@@ -146,16 +146,16 @@ export class TripSummaryComponent implements OnInit {
         lineTension: 0,
 
       },
-     
-    ],
-    options:{
+
+      ],
+      options: {
         legend: false
-    }
+      }
     };
   }
 
   getTripSummary() {
-    this.headings=[];
+    this.headings = [];
     this.vehicleTrips = [];
     this.table = {
       data: {
@@ -184,7 +184,7 @@ export class TripSummaryComponent implements OnInit {
         this.vehicleTrips = res['data'];
         if (this.vehicleTrips != null) {
           console.log('vehicleTrips', this.vehicleTrips);
-       
+
           let first_rec = this.vehicleTrips[0];
           console.log("first_Rec", first_rec);
 
@@ -271,9 +271,14 @@ export class TripSummaryComponent implements OnInit {
           type: id
         }
       },
-      delete: {
-        // api: 'Drivers/deleteAdvice',
-        // param: { id: "_id" }
+      viewModal: {
+        api: 'TripExpenseVoucher/getRouteTripSummaryDril',
+        param: {
+          startDate: '_start',
+          endDate: '_end',
+          type: '_type',
+          levelId: '_id'
+        }
       },
       title: "Trip Data"
     }

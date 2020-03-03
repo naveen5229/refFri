@@ -31,7 +31,8 @@ export class FrieghtRateInputComponent implements OnInit {
   headings = [];
   valobj = {};
   currentYear = new Date().getFullYear();
-  startDate = new Date(this.currentYear, 3);
+  toDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.toDate).getDate() - 20));
   endDate = new Date();
 
   constructor(

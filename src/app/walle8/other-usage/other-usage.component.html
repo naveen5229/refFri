@@ -46,7 +46,7 @@
           <tr *ngFor="let otherUsage of data;let i = index">
             <td scope="row">{{i+1}}</td>
 
-            <td>{{otherUsage.dttime}}</td>
+            <td>{{common.changeDateformat4(otherUsage.dttime)}}</td>
             <td>{{otherUsage.veh}}</td>
             <td>{{otherUsage.amt}}</td>
             <td>{{otherUsage.rema}}</td>

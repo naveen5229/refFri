@@ -35,6 +35,7 @@ export class AddVehicleComponent implements OnInit {
     let params = {
       foid: this.Foid,
       regno: this.regno,
+      id:this.id
 
     };
     // console.log(params);
@@ -54,7 +55,21 @@ export class AddVehicleComponent implements OnInit {
     // return response;
 
   }
+  foName = null;
+  id =null;
+  editFlag = false;
   selectFoVehicle(event) {
-    console.log("print", event.id, event.regno);
+    console.log("print",event, event.id, event.regno);
+    this.regno = event.regno;
+    this.editFlag = true;
+    this.Foid = event.foid;
+    this.id = event.id;
   }
+  resetDetail(){
+    this.foName = null;
+    this.Foid = null;
+    this.id = null;
+    this.regno = null;
+    this.editFlag = false;
+  } 
 }
