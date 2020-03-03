@@ -44,25 +44,26 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal, ) {
-      console.log("this.user._details.",this.user._details);
-      this.fo.id = this.user._details.id;
-      this.fo.mobileNo = this.user._details.fo_mobileno;
-      this.fo.name = this.user._details.name;
-      this.common.refresh = this.refresh.bind(this);
+    console.log("this.user._details.", this.user._details);
+    this.fo.id = this.user._details.id;
+    this.fo.mobileNo = this.user._details.fo_mobileno;
+    this.fo.name = this.user._details.name;
+    this.common.refresh = this.refresh.bind(this);
     this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
   }
 
- 
+
   ngOnInit() {
   }
   selectVehicle(vehData) {
     this.vehId = vehData.id;
     this.regno = vehData.regno;
     this.data = this.result.filter((ele) => {
-      if (!this.regno){
-        return true;}
-      else{
-        console.log("ele",ele);
+      if (!this.regno) {
+        return true;
+      }
+      else {
+        console.log("ele", ele);
         return ele.vehid == this.regno ? true : false;
       }
     })
@@ -79,12 +80,12 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     let opening_balance_new = arr[0]['balance'];
     let usageAmount = arr[0]['amount'];
 
-    console.log("usageStatus",(usageStatus).toLowerCase,"opening_balance_new",opening_balance_new,"usageAmount",usageAmount)
+    console.log("usageStatus", (usageStatus).toLowerCase, "opening_balance_new", opening_balance_new, "usageAmount", usageAmount)
     if ((usageStatus).toLowerCase() == "usage" || (usageStatus).toLowerCase() == "balance recharge") {
-      
+
       this.openingBalance = parseInt(opening_balance_new) - usageAmount;
     }
-   
+
     else {
       this.openingBalance = parseInt(opening_balance_new) + (usageAmount);
     }
@@ -105,30 +106,30 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     this.openingBalance = 0;
     this.closingBalance = 0;
     this.data = [];
-    console.log("mobile no",this.mobileno);
-    if(this.mobileno){
-    let params = "&startDate=" + this.dates.start + "&endDate=" + this.dates.end + "&mobileno=" + this.mobileno + "&vehid=" + this.vehId;
-    this.common.loading++;
-    this.api.walle8Get('FinancialAccountSummary/getFinancialAccountSummaryAddTime.json?' + params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res);
-        if (res && res['data'] && res['data'].length>0) {
-          this.result = res['data'];
-          this.data = res['data'];
-          // this.openingBalance = this.data[0]['amount'];
-          // this.closingBalance = this.data[this.data.length - 1]['amount'];
-          this.calculateAmount(this.data);
-        }
-        else {
-          this.common.showError("data not found");
-        }
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+    console.log("mobile no", this.mobileno);
+    if (this.mobileno) {
+      let params = "&startDate=" + this.dates.start + "&endDate=" + this.dates.end + "&mobileno=" + this.mobileno + "&vehid=" + this.vehId;
+      this.common.loading++;
+      this.api.walle8Get('FinancialAccountSummary/getFinancialAccountSummaryAddTime.json?' + params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('Res:', res);
+          if (res && res['data'] && res['data'].length > 0) {
+            this.result = res['data'];
+            this.data = res['data'];
+            // this.openingBalance = this.data[0]['amount'];
+            // this.closingBalance = this.data[this.data.length - 1]['amount'];
+            this.calculateAmount(this.data);
+          }
+          else {
+            this.common.showError("data not found");
+          }
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
     }
-   
+
   }
 
   selectFo(fo) {
@@ -151,16 +152,17 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
   }
 
   filterData(event) {
-    console.log('typedKey',this.typedKey)
+    console.log('typedKey', this.typedKey)
     this.data = this.result.filter((ele) => {
-      if (!this.typedKey){
-        return true;}
-      else{
-        console.log("ele",ele);
+      if (!this.typedKey) {
+        return true;
+      }
+      else {
+        console.log("ele", ele);
         return ele.vehid ? ele.vehid.toLowerCase().includes(this.typedKey) : false;
       }
     })
-    console.log("data",this.data);
+    console.log("data", this.data);
   }
 
   async getPDFFromTableId(imgId, tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?) {
@@ -272,43 +274,83 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
       format: "a4"
     });
 
-    // @@@@@----------------
-    var data = document.getElementById(imgId);
-    console.log("data", data);
-    let cv = await html2canvas(data, {
-      useCORS: true,
-       scale: 0.8
-    });
-    var imgData = cv.toDataURL('image/png');
-    doc.addImage(imgData, 'PNG', 30, 15, 570, 350);
-    // doc.save("report1.pdf");
-    // html2canvas(data, {
+    // var data = document.getElementById(imgId);
+    // console.log("data", data);
+    // let cv = await html2canvas(data, {
     //   useCORS: true,
-    //   scale: 2
-    // }).then(canvas => {
-    //   var imgData = canvas.toDataURL('image/png');
-    //   doc.addImage(imgData, 'PNG', 0, 15, 700, 150);
-    //   doc.save("report1.pdf");
+    //   scale: 0.8
     // });
+    // var imgData = cv.toDataURL('image/png');
+    // doc.addImage(imgData, 'PNG', 30, 15, 570, 350);
+    /*******Contebt****/
+    let image = this.getBase64Image('logo');
+    doc.setFontSize(12);
+    doc.setFontStyle('bold');
+    doc.text(30, 30, 'eLogist Solutions Pvt. Ltd.');
+    doc.setFontSize(8)
+    doc.setFontStyle('normal');
+    doc.text(30, 39, 'Address: 605-21, Jaipur Electronic Market,');
+    doc.text(30, 46, 'Riddhi Siddhi Circle, Gopalpura Bypass, Jaipur, Rajasthan - 302018');
+    doc.text(30, 53, 'Support: 8081604455');
+    doc.text(30, 60, 'Website: www.walle8.com');
+    doc.addImage(image, 'PNG', 550, 15, 40, 40);
 
+    var startingPage = doc.internal.getCurrentPageInfo().pageNumber;
+    console.log('startingPage:', startingPage);
+    var tempLineBreak = { fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth: 10, cellWidth: 40, valign: 'middle', halign: 'center' };
+    doc.autoTable({
+      html: '#provider',
+      theme: 'grid',
+      rowPageBreak: 'avoid',
+      headStyles: {
+        fillColor: [98, 98, 98],
+        fontSize: 10,
+        halign: 'left',
+        valign: 'middle'
+      },
+      columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
+      startY: 70,
+      margin: { right: 330, left: 30, top: 20 }
+    });
+    doc.setPage(startingPage);
+    doc.autoTable({
+      html: '#customer',
+      theme: 'grid',
+      rowPageBreak: 'avoid',
+      headStyles: {
+        fillColor: [98, 98, 98],
+        fontSize: 10,
+        halign: 'left',
+        valign: 'middle'
+      },
+      columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
+      startY: 70,
+      margin: { left: 330, right: 30, top: 20 }
+    });
 
-    // @@@@@@@@@@@@
-
+    doc.autoTable({
+      html: '#account',
+      theme: 'grid',
+      rowPageBreak: 'avoid',
+      headStyles: {
+        fillColor: [98, 98, 98],
+        fontSize: 10,
+        halign: 'left',
+        valign: 'middle'
+      },
+      columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
+      margin: { left: 30, right: 30, top: 0 }
+    });
+    /****Contehtn End */
 
     var pageContent = function (data) {
-      //header
       let x = 35;
       let y = 40;
-
-      //if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
-
       doc.setFontSize(14);
       doc.setFont("times", "bold");
 
-      // doc.text("elogist Solutions ", x, y);
-
-      //}
       let pageWidth = parseInt(doc.internal.pageSize.width);
+
       if (left_heading != "undefined" && left_heading != null && left_heading != '') {
         x = pageWidth / 2;
         let hdglen = left_heading.length / 2;
@@ -348,11 +390,11 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
         doc.internal.pageSize.height - 10
       );
       /******** Page Top Margin *********** */
-      data.settings.margin.top = 20; 
+      data.settings.margin.top = 20;
     };
 
 
-    let tempLineBreak = { fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth: 10, cellWidth: 40, valign: 'middle', halign: 'center' };
+    var tempLineBreak = { fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth: 10, cellWidth: 40, valign: 'middle', halign: 'center' };
     doc.autoTable({
       head: hdg_coll,
       body: rows,
@@ -365,7 +407,6 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
         fontSize: 10,
         halign: 'center',
         valign: 'middle'
-
       },
       styles: tempLineBreak,
       columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
@@ -374,6 +415,19 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
 
 
     doc.save("report.pdf");
+  }
+
+  getBase64Image(id) {
+    let c = document.createElement('canvas');
+    let img: any = document.getElementById(id);
+    c.height = img.naturalHeight;
+    c.width = img.naturalWidth;
+    let ctx = c.getContext('2d');
+
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+    let base64String = c.toDataURL();
+    console.log(base64String);
+    return base64String;
   }
 
 
