@@ -14,15 +14,15 @@
     <div class="col-4">
       <div class="form-group">
         <label> From Date </label>
-        <input type="text" class="form-control" [value]="startDate | date: 'dd MMM yyyy'" name="date"
-          placeholder="Start Date" (click)="getDate('start')" />
+        <uj-date-time-picker (onChanged)="startDate=($event)" [dateTimeValue]="startDate" [isTime]="true">
+        </uj-date-time-picker>
       </div>
     </div>
     <div class="col-4">
       <div class="form-group">
         <label>To Date</label>
-        <input type="text" class="form-control" [value]="endDate | date: 'dd MMM yyyy'" name="date1"
-          placeholder="End Date" (click)="getDate('end')" />
+        <uj-date-time-picker (onChanged)="endDate=($event)" [dateTimeValue]="endDate" [isTime]="true">
+        </uj-date-time-picker>
       </div>
     </div>
 

@@ -26,6 +26,7 @@ export class AddProposalComponent implements OnInit {
     this.bidId = this.common.params.bidData.id;
     this.orderId = this.common.params.bidData.orderId;
     this.orderType = this.common.params.bidData.orderType;
+    console.log(' add poposal', this.orderType,this.common.params.bidData);
 
   }
 

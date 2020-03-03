@@ -108,6 +108,10 @@ export class ShowBidDataComponent implements OnInit {
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
+        if(doc['_is_seen']){
+          console.log("HELLO");
+          this.valobj['class']="makeMeYellow";
+        }
       }
       columns.push(this.valobj);
 
@@ -123,14 +127,14 @@ export class ShowBidDataComponent implements OnInit {
     if (data['Action'].isAccept) {
       icons.push({
         class: " icon fa fa-check",
-        action: this.openConfirmModal.bind(this, data),
+        action: this.openConfirmModal.bind(this, data,1),
       });
     }
     
     if (data['Action'].isCancel) {
       icons.push({
         class: " icon fa fa-times-circle red",
-        // action: this.openAddOrder.bind(this, data),
+       action: this.openConfirmModal.bind(this, data,-1),
       });
     }
     
@@ -154,12 +158,20 @@ export class ShowBidDataComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
-  openConfirmModal(data) {
+  openConfirmModal(data,status) {
+    let statusString = '';
+    if(status==1){
+      statusString = 'Accept'
+    }
+    else if(status==-1){
+      statusString = 'Reject'
+    }
     let params = {
       bidId : data._bid_id,
-      orderId : this.orderId
+      orderId : this.orderId,
+      status:status
     }
-    if (!confirm("Do you want Accept this Bid ?")) {
+    if (!confirm("Do you want " +statusString+ " this Bid ?")) {
       return;
     }
     this.common.loading++;

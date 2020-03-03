@@ -255,9 +255,10 @@ export class OpenOrdersComponent implements OnInit {
     let params = {
       id: data._bid_id,
       orderId: data._id,
-      orderType: this.orderType,
+      orderType: data._order_type,
       proposalId: data._bp_id
     }
+    console.log("open orders proposalLogs",params);
     this.common.params = { bidData: params }
     const activeModal = this.modalService.open(ProposalStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

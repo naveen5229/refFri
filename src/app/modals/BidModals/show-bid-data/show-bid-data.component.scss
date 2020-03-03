@@ -17,3 +17,6 @@
     color: green;
     font-weight: 700;
 }
+:host ::ng-deep .makeMeYellow{
+    background: #ecec9d!important;
+}

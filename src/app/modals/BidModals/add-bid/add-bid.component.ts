@@ -35,7 +35,7 @@ export class AddBidComponent implements OnInit {
     this.remarks = this.common.params && this.common.params.order && this.common.params.order.remarks ? this.common.params.order.remarks : null;
     this.rate = this.common.params && this.common.params.order && this.common.params.order.rate ? this.common.params.order.rate : null;
     this.type = this.common.params && this.common.params.order && this.common.params.order.type ? this.common.params.order.type : null;
-    this.bidExpTime = this.common.params && this.common.params.order && this.common.params.order.bidExpDate ? new Date(this.common.params.order.bidExpDate) : new Date();
+    this.bidExpTime = this.common.params && this.common.params.order && this.common.params.order.bidExpDate ? new Date(this.common.params.order.bidExpDate) : new Date(new Date().setHours(new Date().getHours() + 1));
     this.weight = this.common.params && this.common.params.order && this.common.params.order.weight ? this.common.params.order.weight : null;
     this.vehicleId = this.common.params && this.common.params.order && this.common.params.order.vehicleId ? this.common.params.order.vehicleId : null;
     this.vehicleRegNo = this.common.params && this.common.params.order && this.common.params.order.vehicleRegNo ? this.common.params.order.vehicleRegNo : null;

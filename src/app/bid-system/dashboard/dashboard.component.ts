@@ -6,6 +6,7 @@ import { UserService } from '../../services/user.service';
 import { ApiService } from '../../services/api.service';
 import { ShowBidDataComponent } from '../../modals/BidModals/show-bid-data/show-bid-data.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { GeneralModalComponent } from '../../modals/general-modal/general-modal.component';
 
 @Component({
   selector: 'dashboard',
@@ -142,6 +143,14 @@ export class DashboardComponent implements OnInit {
         });
       
     }
+    if (data['Action'].isView) {
+      icons.push(
+        {
+          class: " icon fa fa-eye gray",
+          action: this.viewOrder.bind(this, data),
+
+        });
+    }
 
     return icons;
   }
@@ -149,6 +158,24 @@ export class DashboardComponent implements OnInit {
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
+  viewOrder(data) {
+
+    let pram = {
+      apiURL: 'Bidding/GetOrder',
+      title: 'Order Details',
+      params: {
+        x_id: -data._id
+      }
+    }
+    this.common.params = { data: pram };
+    const activeModal = this.modalService.open(GeneralModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data.response);
+      if (data.response) {
+      }
+    });
   }
 
   openAddOrder(data?) {

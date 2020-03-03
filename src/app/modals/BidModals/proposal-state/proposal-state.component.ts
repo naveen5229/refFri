@@ -36,6 +36,7 @@ export class ProposalStateComponent implements OnInit {
       this.orderId = this.common.params.bidData.orderId;
       this.orderType = this.common.params.bidData.orderType;
       this.proposalId = this.common.params.bidData.proposalId;
+      console.log('proposal state ', this.orderType,this.common.params.bidData);
       this.getProposalLogs();
      }
 
@@ -105,6 +106,10 @@ export class ProposalStateComponent implements OnInit {
         }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+        }
+        if(doc['_is_seen']){
+          console.log("HELLO");
+          this.valobj['class']="makeMeYellow";
         }
       }
       columns.push(this.valobj);
@@ -181,6 +186,7 @@ export class ProposalStateComponent implements OnInit {
       orderId : this.orderId,
       orderType : this.orderType
     }
+    console.log(' openAddPrposalModal', params);
     this.common.params = {bidData:params}
     const activeModal = this.modalService.open(AddProposalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
