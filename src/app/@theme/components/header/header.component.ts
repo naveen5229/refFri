@@ -105,7 +105,10 @@ export class HeaderComponent implements OnInit {
             walle8: [],
             bidSystem:[]
           };
-          localStorage.clear();
+          localStorage.removeItem('USER_DETAILS');
+          localStorage.removeItem('USER_TOKEN');
+          localStorage.removeItem('LOGGED_IN_BY');
+          localStorage.removeItem('CUSTOMER_DETAILS');
           localStorage.removeItem('DOST_USER_PAGES');
           this.router.navigate(['/auth/login']);
           console.log("logout", res);
