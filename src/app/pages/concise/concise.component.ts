@@ -906,7 +906,7 @@ export class ConciseComponent implements OnInit {
       vehicleRegNo: values.x_showveh,
       lat: values.x_tlat,
       long: values.x_tlong,
-      vregno: values.x_empname
+      vregno: values.x_showveh
 
     };
     const activeModal = this.modalService.open(VehicleStatesComponent, {

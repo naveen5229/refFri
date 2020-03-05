@@ -11,6 +11,7 @@ import { ApiService } from '../../services/api.service';
 })
 export class OrderBoardsComponent implements OnInit {
   orders= [];
+  bulkOrders = [];
   constructor(
     private modalService: NgbModal,
     public common: CommonService,
@@ -35,6 +36,13 @@ export class OrderBoardsComponent implements OnInit {
         //console.log('res: ', res['data'])
         console.log("test");
         this.orders =res['data'];
+        this.bulkOrders = [{name:"Jaipur To Agra",t_weight:"2000 Ton",p_weight:'1200 Ton',r_weight:"800 Ton"},
+        {name:"Mumbai To Delhi",t_weight:"2000 Ton",p_weight:'1200 Ton',r_weight:"800 Ton"},
+        {name:"BharatPur To Agra",t_weight:"2000 Ton",p_weight:'1200 Ton',r_weight:"800 Ton"},
+        {name:"Ahmedabad To Dholpur",t_weight:"2000 Ton",p_weight:'1200 Ton',r_weight:"800 Ton"},
+        {name:"Delhi To Ajmer",t_weight:"2000 Ton",p_weight:'1200 Ton',r_weight:"800 Ton"}
+      ]
+
         // [{ hours:"3 hrs",orders:"600",bids:"375 (54 %)",bids_avg:"45",placement:"300"},
         // { hours:"6 hrs",orders:"1200",bids:"1175 (56 %)",bids_avg:"56",placement:"930"},
         // { hours:"12 hrs",orders:"2435",bids:"2075 (65 %)",bids_avg:"75",placement:"1258"},

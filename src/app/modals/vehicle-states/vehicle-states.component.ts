@@ -239,7 +239,8 @@ export class VehicleStatesComponent implements OnInit {
     console.log('halt details', details);
     this.halt.lat = details.lat;
     this.halt.long = details.long;
-    this.halt.time = details.addtime;
+    this.halt.time = details.start_time;
+    this.halt.location= details.loc_name;
     console.log('save halt', this.halt);
 
   }
