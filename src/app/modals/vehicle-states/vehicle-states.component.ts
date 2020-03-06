@@ -142,25 +142,6 @@ export class VehicleStatesComponent implements OnInit {
     }, 2000);
   }
 
-
-  // getDate(flag) {
-  //   this.common.params = { ref_page: 'vehicle states' };
-  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-  //   activeModal.result.then(data => {
-  //     if (data.date) {
-  //       if (flag == 'site') {
-  //         this.site.site_date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-  //         console.log('site date ' + this.site.site_date);
-  //       } else {
-  //         this.location.loc_date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-  //         console.log('loc_date ' + this.location.loc_date);
-  //       }
-
-  //     }
-
-  //   });
-  // }
-
   getVehicleEvent() {
 
     let today, start;
