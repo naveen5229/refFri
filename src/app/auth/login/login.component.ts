@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
     otp: '',
   };
   iswallet = '0';
+  isConsignerLogin = '0';
   listenOTP = false;
   otpCount = 0;
   button = 'Send';
@@ -38,8 +39,14 @@ export class LoginComponent implements OnInit {
     let url = window.location.href;
     url = url.toLowerCase();
     this.iswallet = url.search("walle8customer") > -1 ? '1' : '0';
+    this.isConsignerLogin = url.search("consigner") > -1 ? '1' : '0';
     if (this.iswallet == '1') {
       this.user._loggedInBy = 'walle8customer';
+      this.button = 'Send';
+      return;
+    }
+    else if (this.isConsignerLogin == '1') {
+      this.user._loggedInBy = 'consigner';
       this.button = 'Send';
       return;
     }
@@ -83,6 +90,15 @@ export class LoginComponent implements OnInit {
     else if (this.user._loggedInBy == "admin") {
       let nbCard = document.getElementsByTagName('nb-card')[0];
       nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/login-admin.jpg')";
+      nbCard['style']['backgroundSize'] = 'cover';
+      nbCard['style']['backgroundRepeat'] = 'no-repeat';
+      nbCard['style']['backgroundPosition'] = 'bottom';
+      nbCard['style']['height'] = '100%';
+    }
+    else if (this.user._loggedInBy == "consigner") {
+      let nbCard = document.getElementsByTagName('nb-card')[0];
+      // nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/login-admin.jpg')";
+      nbCard['style']['backgroundColor'] = '#29474e';
       nbCard['style']['backgroundSize'] = 'cover';
       nbCard['style']['backgroundRepeat'] = 'no-repeat';
       nbCard['style']['backgroundPosition'] = 'bottom';
