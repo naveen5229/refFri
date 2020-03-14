@@ -7,17 +7,21 @@ import { SharedModule } from '../shared.module';
 import { DirectiveModule } from '../directives/directives.module';
 import { OpenOrdersComponent } from './open-orders/open-orders.component';
 import { OrderBoardsComponent } from './order-boards/order-boards.component';
+import { OrdersWonComponent } from './orders-won/orders-won.component';
+import { ChartModule } from 'angular2-chartjs';
 
 const PAGES_COMPONENTS = [
   BidSystemComponent,
 ];
 @NgModule({
-  declarations: [DashboardComponent, BidSystemComponent, OpenOrdersComponent, OrderBoardsComponent],
+  declarations: [DashboardComponent, BidSystemComponent, OpenOrdersComponent, OrderBoardsComponent, OrdersWonComponent],
   imports: [
     ThemeModule,
     BidsRoutingModule,
     SharedModule,
     DirectiveModule,
+    ChartModule,
+
   ]
 })
 export class BidSystemModule { }

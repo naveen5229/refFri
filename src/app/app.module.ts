@@ -275,6 +275,7 @@ import { SingleVehicleGpsDataComponent } from './modals/single-vehicle-gps-data/
 import { VehicleStatusComponent } from './modals/vehicle-status/vehicle-status.component';
 import { AddProposalComponent } from './modals/BidModals/add-proposal/add-proposal.component';
 import { ProposalStateComponent } from './modals/BidModals/proposal-state/proposal-state.component';
+import { VehicleOrdersComponent } from './modals/BidModals/vehicle-orders/vehicle-orders.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -511,7 +512,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   VehicleStatusComponent,
   AddProposalComponent,
   ProposalStateComponent,
-
+  VehicleOrdersComponent
 ];
 
 @NgModule({

@@ -38,28 +38,28 @@ export class OrderBoardsComponent implements OnInit {
         console.log("test");
         this.orders = res['data'];
         this.bulkOrders = [{
-          name: "Jaipur To Agra", bids: [
-            { bidder: "Shree Yadav", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "JRD", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "Meera Roadways", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "Hari mohan", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "R K ", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" }]
+          name: "Jaipur To Agra", tot_weight:"10000 ton", bids: [
+            { bidder: "Shree Yadav", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "JRD", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "Meera Roadways", t_weight: "2000 Ton",p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "Hari mohan", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "R K ", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" }]
         },
         {
-          name: "delhi To Agra", bids: [
-            { bidder: "Shree Yadav", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "JRD", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "Meera Roadways", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "Hari mohan", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "R K ", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" }]
+          name: "delhi To Agra", tot_weight:"10000 ton", bids: [
+            { bidder: "Shree Yadav", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "JRD", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "Meera Roadways", t_weight: "2000 Ton",p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "Hari mohan", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "R K ", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" }]
         },
         {
-          name: "delhi To mumbai", bids: [
-            { bidder: "Shree Yadav", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "JRD", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "Meera Roadways", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "Hari mohan", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" },
-            { bidder: "R K ", t_weight: "2000 Ton", p_weight: '1200 Ton', r_weight: "800 Ton" }]
+          name: "delhi To mumbai", tot_weight:"10000 ton", bids: [
+            { bidder: "Shree Yadav", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "JRD", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "Meera Roadways", t_weight: "2000 Ton",p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "Hari mohan", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" },
+            { bidder: "R K ", t_weight: "2000 Ton", p_weight: '1200 Ton (60%)', r_weight: "800 Ton (40%)" }]
         }
         ]
 

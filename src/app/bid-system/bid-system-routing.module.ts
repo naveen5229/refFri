@@ -8,6 +8,7 @@ import { RouteGuard } from '../guards/route.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OpenOrdersComponent } from './open-orders/open-orders.component';
 import { OrderBoardsComponent } from './order-boards/order-boards.component';
+import { OrdersWonComponent } from './orders-won/orders-won.component';
 
 
 const routes: Routes = [
@@ -30,6 +31,10 @@ const routes: Routes = [
             {
                 path: 'order-boards',
                 component: OrderBoardsComponent
+            },
+            {
+                path: 'orders-won',
+                component: OrdersWonComponent
             },
         ],
     }];

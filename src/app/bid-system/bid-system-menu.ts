@@ -28,6 +28,14 @@ export const BIDSYSTEM_MENU_ITEMS = JSON.stringify([
   home: true,
 
 },
+{
+  title: 'Orders-Won',
+  icon: 'fa fa-trophy',
+  link: '/bid-system/orders-won',
+  home: true,
+
+},
+
 
 ]);
 

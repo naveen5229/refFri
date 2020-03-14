@@ -59,7 +59,9 @@
       <nb-card-body>
         <div class="row mt-2" *ngFor="let order of bulkOrders" style="border: 1px solid rgb(58, 24, 24);">
           <div class="col-4">
-            <b>{{order.name}}</b>
+            <b>{{order.name}}</b> <br>
+            ({{order.tot_weight}})
+            
           </div>
           <div class="col-8">
             <table class="table table-bordered">
