@@ -410,6 +410,7 @@ export class DashboardComponent implements OnInit {
         console.log("response:", res);
         if (res['data'][0].y_id > 0) {
           this.common.showToast("Action Sucessfully completed", 10000);
+          this.getOrders();
         }
         else{
           this.common.showError(res['data'][0].y_msg)

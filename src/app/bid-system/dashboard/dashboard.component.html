@@ -47,7 +47,7 @@
           </nb-card-body>
         </nb-card>
       </div>
-      <div class="col-9">
+      <div class="col-9" *ngIf="data && data.length">
         <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"></smart-table>
       </div>
       <div class="alert alert-danger text-center col-9" style="margin-top:4rem" *ngIf="!data || !data.length">
