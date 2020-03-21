@@ -35,6 +35,13 @@ export const BIDSYSTEM_MENU_ITEMS = JSON.stringify([
   home: true,
 
 },
+{
+  title: 'Trip Management',
+  icon: 'fa fa-truck',
+  link: '/bid-system/order-trip-management',
+  home: true,
+
+},
 
 
 ]);

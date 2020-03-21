@@ -219,90 +219,6 @@ export class DashboardComponent implements OnInit {
 
   
 
-  viewOrder(data) {
-
-    let pram = {
-      apiURL: 'Bidding/GetOrder',
-      title: 'Order Details',
-      params: {
-        x_id: -data._id
-      }
-    }
-    this.common.params = { data: pram };
-    const activeModal = this.modalService.open(GeneralModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      console.log("data", data.response);
-      if (data.response) {
-      }
-    });
-  }
-
-  openAddOrder(data?) {
-
-    let params = {
-      id: data ? data._id : null,
-      title:data && data._id ? 'Update Order' : 'Add Order'
-    }
-    this.common.params = { order: params }
-    const activeModal = this.modalService.open(AddOrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      console.log("data", data.response);
-      if (data.response) {
-        this.getOrders();
-      }
-    });
-  }
-
-  showBidData(data?) {
-
-    let params = {
-      id: data ? data._id : null,
-      orderType : data._order_type
-    }
-    this.common.params = { order: params }
-    const activeModal = this.modalService.open(ShowBidDataComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      console.log("data", data.response);
-      if (data.response) {
-        this.getOrders();
-      }
-    });
-  }
-
-  deleteOrder(doc) {
-    let params = {
-      entityId: doc._id,
-      entityType:'order'
-    };
-    if (doc._id) {
-      this.common.params = {
-        title: 'Delete Record',
-        description: `<b>&nbsp;` + 'Are Sure To Delete This Order' + `<b>`,
-      }
-      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-      activeModal.result.then(data => {
-        if (data.response) {
-          this.common.loading++;
-          this.api.post('Bidding/deleteEntity', params)
-            .subscribe(res => {
-              this.common.loading--;
-              if (res['data'][0].y_id > 0) {
-                this.common.showToast("Successfully Deleted.");
-                this.getOrders();
-              }
-              else {
-                this.common.showError(res['data'][0].y_msg);
-              }
-              console.log('res', res['data']);
-            }, err => {
-              this.common.loading--;
-              this.common.showError();
-            })
-        }
-      })
-
-    }
-  }
   routeData = [];
 
   grouping(viewType) {
@@ -421,4 +337,89 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  
+  viewOrder(data) {
+
+    let pram = {
+      apiURL: 'Bidding/GetOrder',
+      title: 'Order Details',
+      params: {
+        x_id: -data._id
+      }
+    }
+    this.common.params = { data: pram };
+    const activeModal = this.modalService.open(GeneralModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data.response);
+      if (data.response) {
+      }
+    });
+  }
+
+  openAddOrder(data?) {
+
+    let params = {
+      id: data ? data._id : null,
+      title:data && data._id ? 'Update Order' : 'Add Order'
+    }
+    this.common.params = { order: params }
+    const activeModal = this.modalService.open(AddOrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data.response);
+      if (data.response) {
+        this.getOrders();
+      }
+    });
+  }
+
+  showBidData(data?) {
+
+    let params = {
+      id: data ? data._id : null,
+      orderType : data._order_type
+    }
+    this.common.params = { order: params }
+    const activeModal = this.modalService.open(ShowBidDataComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data.response);
+      if (data.response) {
+        this.getOrders();
+      }
+    });
+  }
+
+  deleteOrder(doc) {
+    let params = {
+      entityId: doc._id,
+      entityType:'order'
+    };
+    if (doc._id) {
+      this.common.params = {
+        title: 'Delete Record',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Order' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          this.api.post('Bidding/deleteEntity', params)
+            .subscribe(res => {
+              this.common.loading--;
+              if (res['data'][0].y_id > 0) {
+                this.common.showToast("Successfully Deleted.");
+                this.getOrders();
+              }
+              else {
+                this.common.showError(res['data'][0].y_msg);
+              }
+              console.log('res', res['data']);
+            }, err => {
+              this.common.loading--;
+              this.common.showError();
+            })
+        }
+      })
+
+    }
+  }
 }

@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { OpenOrdersComponent } from './open-orders/open-orders.component';
 import { OrderBoardsComponent } from './order-boards/order-boards.component';
 import { OrdersWonComponent } from './orders-won/orders-won.component';
+import { OrderTripManagementComponent } from './order-trip-management/order-trip-management.component';
 
 
 const routes: Routes = [
@@ -35,6 +36,10 @@ const routes: Routes = [
             {
                 path: 'orders-won',
                 component: OrdersWonComponent
+            },
+            {
+                path: 'order-trip-management',
+                component: OrderTripManagementComponent
             },
         ],
     }];
