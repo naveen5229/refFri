@@ -52,16 +52,20 @@
 </div>
 
 <div class="header_mini_menu">
+  <div class="bank_icon">
+    <button class="form-control refresh" (click)="openBankModal()"><i class="fa fa-bank icon "></i></button>
+  </div>
   <div class="add_customer"
-    *ngIf="this.user._loggedInBy !== 'customer'||(this.user._loggedInBy === 'customer' && this.user._details.multipleAccounts>0)">
+    *ngIf="this.user._loggedInBy == 'admin'||this.user._loggedInBy == 'partner' ||(this.user._loggedInBy === 'customer' && this.user._details.multipleAccounts>0)">
     <button class="form-control" (click)="openChangeModal()"><img src="assets/images/add-contact.png"></button>
   </div>
   <div class="current-page" *ngIf="common.currentPage">
     <span>{{common.currentPage}}</span>
   </div>
   <div class="refresh_icon">
-    <button class="form-control refresh" (click)="refresh()"><i class="icon ion-refresh"></i></button>
+    <button class="form-control refresh" (click)="refresh()"><i class="fa fa-refresh"></i></button>
   </div>
+   
   <div class="header-container">
     <nb-actions size="medium" [class.right]="position === 'normal'" [class.left]="position === 'inverse'">
       <nb-action class="user_photo" *nbIsGranted="['view', 'user']">

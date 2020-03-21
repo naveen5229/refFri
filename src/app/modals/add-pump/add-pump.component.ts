@@ -29,6 +29,7 @@ export class AddPumpComponent implements OnInit {
   para2 = null;
   para3 = null;
   title = '';
+  sizeIndex = 0;
   latlong;
 
   marker = [];
@@ -44,14 +45,10 @@ export class AddPumpComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private mapService: MapService) {
     this.title = this.common.params.title;
-    this.common.handleModalHeightWidth('class', 'modal-lg', '1200', '1200');
+    this.sizeIndex = this.common.params.sizeIndex;
+    this.common.handleModalHeightWidth('class', 'modal-lg', '1200', '1200','px',this.sizeIndex);
     setTimeout(() => {
-      console.log('--------------location:', "location");
       this.mapService.autoSuggestion("location", (place, lat, lng) => {
-        console.log('Lat: ', lat);
-        console.log('Lng: ', lng);
-        console.log('Place: ', place);
-        console.log("position", this.position);
         this.location = place;
         this.getmapData(lat, lng);
       });
@@ -71,7 +68,6 @@ export class AddPumpComponent implements OnInit {
         this.getmapData(lat, lng);
       });
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
-        console.log("latlong", evt.latLng.lat(), evt.latLng.lng());
         this.latlong = [{
           lat: evt.latLng.lat(),
           long: evt.latLng.lng(),
@@ -85,16 +81,16 @@ export class AddPumpComponent implements OnInit {
         }
         this.pumpname = null;
         this.mark = this.mapService.createMarkers(this.latlong, false, true);
-        console.log("latlong", this.latlong);
       });
     }, 1000);
-    // this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => { this.siteLoc = place; this.siteLocLatLng = { lat: lat, lng: lng } });
   }
 
   gotoSingle() {
-    console.log("position1", this.position);
+    if(!RegExp(/[0-9]+.[0-9]+,[0-9]+.[0-9]+/g).test(this.position)){
+      this.common.showToast('Position Invalid.(lat,long or 23.34,56.78)');
+      return;
+    }
     this.final = this.position.split(",");
-    console.log("array", this.final[0]);
     this.latlong = [{
       lat: this.final[0],
       long: this.final[1],
@@ -106,8 +102,8 @@ export class AddPumpComponent implements OnInit {
       this.mark = null;
     }
     this.pumpname = null;
-    this.mark = this.mapService.createMarkers(this.latlong, false, true);
-
+    this.getmapData(this.final[0],this.final[1]);
+    this.mark = this.mapService.createMarkers(this.latlong, false,true);
   }
 
 
@@ -122,28 +118,17 @@ export class AddPumpComponent implements OnInit {
     this.api.get('fuel/getAllSiteWrtFuelStation?' + params)
       .subscribe(res => {
         this.common.loading--;
-        console.log("result");
-        console.log(res['data']);
         this.marker = res['data'];
         this.mapService.clearAll();
-        this.mapService.createMarkers(this.marker);
-        console.log("marker", this.marker);
+        let siteMarkers = this.mapService.createMarkers(this.marker);
         let markerIndex = 0
-        for (const marker of this.mapService.markers) {
+        for (const marker of siteMarkers) {
           let event = this.marker[markerIndex];
           this.mapService.addListerner(marker, 'click', () => this.setPetrolInfo(event));
           this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
           this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
           markerIndex++;
         }
-        // for (const marker in this.mapService.markers) {
-        //   if (this.mapService.markers.hasOwnProperty(marker)) {
-        //     const event = this.mapService.markers[marker];
-        //     this.mapService.addListerner(marker, 'click', () => this.setPetrolInfo(event));
-        //   this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
-        //   this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
-        //   }
-        // }
       }, err => {
         this.common.showError("Error occurred");
         this.common.loading--;
@@ -156,7 +141,7 @@ export class AddPumpComponent implements OnInit {
     console.log("Event Data:", event);
     this.siteId = event.id;
     this.pumpname = event.name;
-    console.log("pumpname and siteid", this.pumpname, this.siteId);
+    this.name = event.name;
   }
 
   setEventInfo(event) {
@@ -169,8 +154,6 @@ export class AddPumpComponent implements OnInit {
     this.infoWindow.setContent(`
     <p>Site Id :${event.id}</p>
     <p>Pump Name :${event.name}</p>`);
-
-
     // this.infoWindow.setContent("Flicker Test");
     this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long));
     this.infoWindow.open(this.mapService.map);

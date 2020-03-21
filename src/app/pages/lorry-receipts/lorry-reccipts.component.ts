@@ -165,7 +165,8 @@ export class LorryRecciptsComponent implements OnInit {
       title: 'Lorry Receipt',
       previewId: null,
       refId: receipt.lr_id,
-      refType: "LR_PRT"
+      refType: "LR_PRT",
+      autoPrint: true
     }
     this.common.params = { previewData };
     console.log("receipts", receipt);
@@ -208,6 +209,7 @@ export class LorryRecciptsComponent implements OnInit {
       Revenue: { title: 'Revenue', placeholder: 'Revenue' },
       Expense: { title: 'Expense', placeholder: 'Expense' },
       LRImage: { title: 'LRImage', placeholder: 'LRImage' },
+      AddedBy: { title: 'AddedBy', placeholder: 'AddedBy' },
       details: { title: 'POD', placeholder: 'POD' },
       Action: { title: 'Action', placeholder: 'Action' },
       Invoice: { title: 'Invoice', placeholder: 'Invoice' },
@@ -249,7 +251,7 @@ export class LorryRecciptsComponent implements OnInit {
         LRImage: R.lr_image ?
           { value: '', class: 'text-center', isHTML: false, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getImage.bind(this, R) }] } :
           { value: '', class: 'text-center', isHTML: false, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
-
+        AddedBy:{value:R.name},
         details: {
           value: '', action: null, isHTML: false, icons: [
             {

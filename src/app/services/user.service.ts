@@ -9,6 +9,7 @@ import { WAREHOUSE_MENU_ITEMS } from '../ware-house/ware-house-menu';
 import { ACCOUNTS_MENU_ITEMS } from '../accounts/accountes-menu';
 import { CHALLAN_MENU_ITEMS } from '../challan/challan-menu';
 import { WALLE8_MENU_ITEMS } from '../walle8/walle8-menu';
+import {BIDSYSTEM_MENU_ITEMS} from '../bid-system/bid-system-menu'
 
 const COLLECTION = {
   admin: ADMIN_MENU_ITEMS,
@@ -19,7 +20,8 @@ const COLLECTION = {
   wareHouse: WAREHOUSE_MENU_ITEMS,
   account: ACCOUNTS_MENU_ITEMS,
   challan: CHALLAN_MENU_ITEMS,
-  walle8: WALLE8_MENU_ITEMS
+  walle8: WALLE8_MENU_ITEMS,
+  bidSystem: BIDSYSTEM_MENU_ITEMS
 };
 
 @Injectable({
@@ -32,6 +34,7 @@ export class UserService {
   _customer = {
     name: '',
     id: '',
+    mobileNo : null
   };
 
   _loggedInBy = '';
@@ -46,6 +49,7 @@ export class UserService {
     account: [],
     challan: [],
     walle8: [],
+    bidSystem:[]
   };
 
   permission = {
@@ -73,6 +77,7 @@ export class UserService {
       this.filterMenu("account", "account");
       this.filterMenu("challan", "challan");
       this.filterMenu("walle8", "walle8");
+      this.filterMenu("bidSystem", "bidSystem");
 
     }
   }

@@ -36,6 +36,7 @@ import { MatTableDataSource } from "@angular/material";
 import { EntityFlagsComponent } from "../../modals/entity-flags/entity-flags.component";
 import { DatePipe } from "@angular/common";
 import { PdfViewerComponent } from "../../generic/pdf-viewer/pdf-viewer.component";
+import { VehicleOrdersComponent } from "../../modals/BidModals/vehicle-orders/vehicle-orders.component";
 
 @Component({
   selector: "concise",
@@ -212,6 +213,7 @@ export class ConciseComponent implements OnInit {
     let columns = [];
 
     let kpisList = kpis || this.kpis;
+    console.log ("kpisListlenght==",kpisList.length,"kpisList==",kpisList);
     kpisList.map((kpi, i) => {
 
       columns.push({
@@ -561,11 +563,13 @@ export class ConciseComponent implements OnInit {
           action: this.handleMapView.bind(this),
 
         },
-
+        // pagination :true,
 
 
         tableHeight: "87vh"
-      }
+      },
+      
+
     };
   }
 
@@ -869,6 +873,10 @@ export class ConciseComponent implements OnInit {
         class: "icon fas fa-flag-checkered",
         action: this.openentityFlag.bind(this, kpi)
       },
+      {
+        class: "icon fa fa-gavel",
+        action: this.openVehicleWiseOrders.bind(this, kpi)
+      },
     ]
     if (this.user._loggedInBy != "admin") {
       icons.shift();
@@ -903,7 +911,7 @@ export class ConciseComponent implements OnInit {
       vehicleRegNo: values.x_showveh,
       lat: values.x_tlat,
       long: values.x_tlong,
-      vregno: values.x_empname
+      vregno: values.x_showveh
 
     };
     const activeModal = this.modalService.open(VehicleStatesComponent, {
@@ -959,6 +967,19 @@ export class ConciseComponent implements OnInit {
     let regno = kpi.x_showveh;
     this.common.params = { title: 'Entity Flag ', vehicleId, regno };
     this.modalService.open(EntityFlagsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+
+  }
+
+  openVehicleWiseOrders(data){
+    console.log('data',data)
+    let vehicle = {
+      id : data.x_vehicle_id,
+      regno : data.x_showveh
+
+    }
+    this.common.params = { vehicle: vehicle };
+    const activeModal = this.modalService.open(VehicleOrdersComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
 
   }
 

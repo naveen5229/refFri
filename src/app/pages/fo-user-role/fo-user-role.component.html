@@ -21,7 +21,7 @@
 
     </div>
 
-    <div class="container">
+    <div class="container"  *ngIf = 'formattedData.length>0'>
       <div *ngFor="let module of formattedData; let i = index;">
         <div class="module-container">
           <input type="checkbox" [ngClass]="module.isSelected? 'module-box' : 'module-box'" [name]="'section-' + i"
@@ -32,6 +32,7 @@
           <div class="group-head"><input type="checkbox" [ngClass]="group.isSelected? 'group-box' : 'group-box'"
               [name]="'group-' + j" [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')">
             {{group.name}}
+            <span style="font-size: 14px; margin-left: 40px;">All Functionality</span><input type = "checkbox" class="group-box" [(ngModel)]="group.isAll" (change)="checkOrUnCheckfunctionality(group, i,group.isAll)">
           </div>
           <div class="col-2 page-container" *ngFor="let page of group.pages; let k = index">
             <input type="checkbox" class=" page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected"
@@ -59,6 +60,49 @@
       </div>
 
 
+    </div>
+
+    <div class="container mt-4"  *ngIf = 'formattedDataApp.length>0'>
+        <h4>Mobile App</h4>
+      <div *ngFor="let module of formattedDataApp; let i = index;">
+          <div class="module-container">
+            <input type="checkbox" [ngClass]="module.isSelected? 'module-box' : 'module-box'" [name]="'section-' + i"
+              [(ngModel)]="module.isSelected" (change)="checkOrUnCheckAll(module, 'module')"> <span
+              class="module-name">{{module.name | uppercase }}</span>
+          </div>
+          <div class="group-container" *ngFor="let group of module.groups; let j = index">
+            <div class="group-head"><input type="checkbox" [ngClass]="group.isSelected? 'group-box' : 'group-box'"
+                [name]="'group-' + j" [(ngModel)]="group.isSelected" (change)="checkOrUnCheckAll(group, 'group')">
+              {{group.name}}
+              <span style="font-size: 14px; margin-left: 40px;">All Functionality</span><input type="checkbox"
+                class="group-box" [(ngModel)]="group.isAll" (change)="checkOrUnCheckfunctionality(group, i,group.isAll)">
+            </div>
+            <div class="col-2 page-container" *ngFor="let page of group.pages; let k = index">
+              <input type="checkbox" class=" page-box" [name]="'page-' + k" [(ngModel)]="page.isSelected"
+                (click)="checkOrUnCheckAll(page,'page')">
+              {{page.title}}
+              <div class="row permission-type" [hidden]="!page.isSelected">
+                <div class="col-4" style="padding:0px!important;" [hidden]="!page.has_add">
+                  <input type="checkbox" class="page-box-type" name="add" [(ngModel)]="page.isadd"
+                    (click)="changePagePermission(page,'isadd',$event)">
+                  <label>A</label>
+                </div>
+                <div class="col-4" style="padding:0px!important;" [hidden]="!page.has_edit">
+                  <input type="checkbox" class="page-box-type" name="edit" [(ngModel)]="page.isedit"
+                    (click)="changePagePermission(page,'isedit',$event)">
+                  <label>E</label>
+                </div>
+                <div class="col-4" style="padding:0px!important;" [hidden]="!page.has_delete">
+                  <input type="checkbox" class="page-box-type" name="delete" [(ngModel)]="page.isdeleted"
+                    (click)="changePagePermission(page,'isdeleted',$event)">
+                  <label>D</label>
+                </div>
+              </div>
+  
+            </div>
+  
+          </div>
+        </div>
     </div>
   </nb-card-body>
 </nb-card>

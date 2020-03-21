@@ -25,7 +25,8 @@ export class RouteMapperComponent implements OnInit {
   strHaltReason = [];
   getPlace = [];
   placeName = '';
-
+  orderId = null;
+  orderType = null;
   constructor(private modalService: NgbModal,
     private mapService: MapService,
     private apiService: ApiService,
@@ -36,6 +37,8 @@ export class RouteMapperComponent implements OnInit {
     this.endDate = new Date(this.commonService.params.toTime);
     this.vehicleSelected = this.commonService.params.vehicleId;
     this.vehicleRegNo = this.commonService.params.vehicleRegNo;
+    this.orderId = this.commonService.params.orderId;
+    this.orderType = this.commonService.params.orderType;
     console.log("common params:", this.commonService.params, "title:", this.title);
     this.title = this.commonService.params.title ? this.commonService.params.title : this.title;
 
@@ -84,7 +87,7 @@ export class RouteMapperComponent implements OnInit {
     this.strHaltReason = [];
     this.strSiteName = [];
     this.clearAll();
-    if (!(this.vehicleSelected && this.startDate && this.endDate)) {
+    if (!(this.vehicleSelected && this.startDate && this.endDate) &&!(this.orderId) ) {
       this.commonService.showError("Fill All Params");
       return;
     }
@@ -93,6 +96,8 @@ export class RouteMapperComponent implements OnInit {
       vehicleId: this.vehicleSelected,
       startDate: this.commonService.dateFormatter(this.startDate),
       endDate: this.commonService.dateFormatter(this.endDate),
+      orderId: this.orderId,
+      orderType: this.orderType
     }
     console.log("paramssssss--->", params);
     this.apiService.post('HaltOperations/getvehicleEvents', params)
@@ -104,11 +109,13 @@ export class RouteMapperComponent implements OnInit {
         let params = {
           'vehicleId': this.vehicleSelected,
           'startTime': this.commonService.dateFormatter(this.startDate),
-          'toTime': this.commonService.dateFormatter(this.endDate)
+          'toTime': this.commonService.dateFormatter(this.endDate),
+          'orderId': this.orderId,
+          'orderType': this.orderType
         }
         this.commonService.loading++;
         console.log(params);
-        this.apiService.post('Vehicles/getVehDistanceBwTime', { 'vehicleId': this.vehicleSelected, fromTime: params['startTime'], tTime: params['toTime'] })
+        this.apiService.post('Vehicles/getVehDistanceBwTime', { 'vehicleId': this.vehicleSelected, fromTime: params['startTime'], tTime: params['toTime'],orderId: this.orderId,orderType: this.orderType })
           .subscribe(resdist => {
             this.commonService.loading--;
             let distance = resdist['data'];
@@ -201,9 +208,9 @@ export class RouteMapperComponent implements OnInit {
                 }
                 console.log("vehicleEvents", vehicleEvents);
                 this.vehicleEvents = vehicleEvents;
-                this.mapService.createMarkers(this.vehicleEvents, false, false);
+                let markers = this.mapService.createMarkers(this.vehicleEvents, false, false);
                 let markerIndex = 0
-                for (const marker of this.mapService.markers) {
+                for (const marker of markers) {
                   let event = this.vehicleEvents[markerIndex];
                   this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
                   this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());

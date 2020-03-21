@@ -7,11 +7,13 @@
 </div> -->
   <i *ngIf="listenOTP" (click)="backToLogin()" class="icon ion-md-arrow-round-back back-icon"></i>
   <div class="logo">
-    <img src="http://elogist.in/images/elogist-logo.png">
+    <img [src]="user._loggedInBy == 'customer' || user._loggedInBy == 'admin'?'http://elogist.in/transtruck/admindashboard/assets/images/left-logo.png':'http://elogist.in/images/elogist-logo.png'">
   </div>
-  <h1 id="title" class="title">{{user._loggedInBy == 'admin' ? 'Admin' : 'FBP'}} Login</h1>
+  <!-- <h1 id="title" class="title">{{user._loggedInBy == 'admin' ? 'Admin' : 'FBP'}} Login</h1> -->
+  <h1 id="title" class="title" >{{user._loggedInBy == 'admin' ? 'Admin' : user._loggedInBy == 'customer' ? 'Customer': user._loggedInBy == 'consigner'?'Consigner':''}} Login</h1>
+
   <!-- <p class="sub-title">Discover...<span class="title">Smart</span> Logistics</p> -->
-  <p class="sub-title">eLogist is building an integrated AI-driven utilisation
+  <p class='sub-title' *ngIf="user._loggedInBy == 'customer' || user._loggedInBy == 'admin'">eLogist is building an integrated AI-driven utilisation
     based digital platform
     for the
     Transportation industry</p>
@@ -20,7 +22,7 @@
       <div class="form-group">
         <input type="tel" autocomplete="off" minlength="10" maxlength="10" [(ngModel)]="userDetails.mobile"
           #mobile="ngModel" name="mobile" id="input-mobile" placeholder="Mobile Number" class="form-control"
-          pattern="[0-9]+" required>
+          pattern="[0-9]+" required style="margin-top:10px">
         <div *ngIf="mobile.errors && formSubmit">
           <div class="error" [hidden]="!mobile.errors.required">Mobile number is required</div>
           <div class="error" [hidden]="!mobile.errors.minlength">Mobile number must be 10 digit long</div>

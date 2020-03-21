@@ -29,13 +29,13 @@
                 <div class="form-group">
                     <label>Full-Name</label>
                     <input type="text" class="form-control" placeholder="Full-Name" [(ngModel)]="company.name"
-                        #name="ngModel" name="Name" autocomplete="off" required>
+                        #name="ngModel" name="Name" autocomplete="off" required >
                     <div *ngIf="name.errors && isFormSubmit" class="vaidation-errors">
                         <span [hidden]="!name.errors.required">Name is mandatory</span>
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-3" *ngIf="!editFlag">
                 <div class="form-group">
                     <label> Address </label>
                     <input type="text" class="form-control" placeholder="Address" [(ngModel)]="company.address"
@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2 pr-0">
+            <div class="col-2 pr-0" *ngIf="!editFlag">
                 <div class="form-group">
                     <label> Pin-Code</label>
                     <input type="number" class="form-control" placeholder="Pin-Code" [(ngModel)]="company.pincode"
@@ -55,19 +55,19 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2">
+            <!-- <div class="col-2" *ngIf="!editFlag">
                 <div class="form-group">
                     <label>Password </label>
                     <input type="Password" class="form-control" placeholder="Password" [(ngModel)]="company.password"
                         name="Password" autocomplete="off" #password="ngModel" required>
-                    <div *ngIf="pincode.errors && isFormSubmit" class="vaidation-errors">
+                    <div *ngIf="password.errors && isFormSubmit" class="vaidation-errors">
                         <span [hidden]="!address.errors.required">Password is mandatory</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="row" style="margin-bottom:10px">
-            <div class="col-2">
+            <div class="col-2" *ngIf="!editFlag">
                 <button class="modal-footer-btn forward-btn" class="form-control" class="btn btn-primary"
                     form="company-form" (click)="toggle()" id="btToggle" value="Show More" name="Show More"
                     style="text-align: center;width:95px;">Detail</button>
@@ -75,6 +75,9 @@
             <div class="col-2">
                 <button class="btn btn-primary" id="submit" form="addfo-form"
                     (click)="isFormSubmit = true">Submit</button>
+            </div>
+            <div class="col-2" *ngIf="editFlag">
+                <button class="btn btn-danger" id="cancel" form="addfo-form" (click) = "resetDetail()">Cancel</button>
             </div>
         </div>
         <div *ngIf="show_dialog">

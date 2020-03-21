@@ -14,7 +14,7 @@ import { MvGpsApiReqComponent } from './mv-gps-api-req/mv-gps-api-req.component'
 
 
 const PAGES_COMPONENTS = [
-  ChallanComponent,
+  ChallanComponent, 
 ];
 @NgModule({
 

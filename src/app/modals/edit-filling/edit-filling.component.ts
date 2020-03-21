@@ -130,7 +130,7 @@ export class EditFillingComponent implements OnInit {
       this.regno = this.common.params.rowfilling.regno;
       console.log("vid123", this.vehicleId);
     }
-    this.common.handleModalSize('class', 'modal-lg', '700', 'px', this.sizeIndex);
+    this.common.handleModalSize('class', 'modal-lg', '1100', 'px', this.sizeIndex);
     this.getAllLedger();
   }
 
@@ -375,7 +375,7 @@ export class EditFillingComponent implements OnInit {
   }
 
   showAddPump() {
-    this.common.params = { title: 'Petrol Pump' };
+    this.common.params = { title: 'Petrol Pump' ,sizeIndex:this.sizeIndex+1};
     this.common.handleModalHeightWidth('class', 'modal-lg', '1200', '1200');
     const activeModal = this.modalService.open(AddPumpComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

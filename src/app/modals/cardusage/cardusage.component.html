@@ -18,9 +18,9 @@
     </tr>
     <tr *ngFor="let card of cardUsage">
       <td>{{ card.cardtype}}</td>
-      <td>{{card.cardno}}</td>
+      <td (click)="openImageUploadModal(card)" style="color:blue">{{card.cardno}}</td>
       <td>{{card.datetime}}</td>
-      <td>{{card.amount}}</td>
+      <td>{{card.amount | number }}</td>
       <td>{{card.dealer}}</td>
       <td>{{card.location}}</td>
     </tr>

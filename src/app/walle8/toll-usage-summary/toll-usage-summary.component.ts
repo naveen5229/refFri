@@ -118,7 +118,7 @@ export class TollUsageSummaryComponent implements OnInit {
   }
   setTable() {
     let headings = {
-      vehicle: { title: 'vehicle', placeholder: 'vehicle' },
+      vehicle: { title: 'Vehicle', placeholder: 'Vehicle' },
       tolls: { title: 'Amount', placeholder: 'Amount' },
 
 

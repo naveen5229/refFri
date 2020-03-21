@@ -9,6 +9,7 @@ import { CommonService } from './services/common.service';
 import { ActivityService } from './services/Activity/activity.service';
 import { UserService } from './services/user.service';
 import { ApiService } from './services/api.service';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public activity: ActivityService,
+    private router: Router,
     public api: ApiService) {
     if (this.user._details) {
       this.getUserPagesList();
@@ -51,17 +53,26 @@ export class AppComponent implements OnInit {
     }, 120000);
   }
 
+
   getUserPagesList() {
     let userTypeId = this.user._loggedInBy == 'admin' ? 1 : 3;
     const params = {
       userId: this.user._details.id,
-      userType: userTypeId
+      userType: userTypeId,
+      iswallet : localStorage.getItem('iswallet') || '0' 
+
     };
     // this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         // this.common.loading--;
-        this.user._pages = res['data'].filter(page => { return page.userid; });
+        this.user._pages = res['data'].filter(page => {
+          const defaultModules = ['Documents', 'Walle8', 'challan'];
+          if (defaultModules.indexOf(page.group_name) !== -1) {
+            return true
+          }
+          return page.userid;
+        });
         localStorage.setItem('DOST_USER_PAGES', JSON.stringify(this.user._pages));
         console.log('USER PAGES:', this.user._pages);
         this.user.filterMenu("pages", "pages");

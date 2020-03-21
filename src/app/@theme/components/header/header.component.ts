@@ -10,6 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerSelectionComponent } from '../../../modals/customer-selection/customer-selection.component';
 import { AccountService } from '../../../services/account.service';
 import { ActivityService } from '../../../services/Activity/activity.service';
+import { BankDetailsComponent } from '../../../modals/bank-details/bank-details.component';
 
 @Component({
   selector: 'ngx-header',
@@ -90,6 +91,7 @@ export class HeaderComponent implements OnInit {
           this.user._customer = {
             name: '',
             id: '',
+            mobileNo:null
           };
           this.user._menu = {
             admin: [],
@@ -101,8 +103,12 @@ export class HeaderComponent implements OnInit {
             account: [],
             challan: [],
             walle8: [],
+            bidSystem:[]
           };
-          localStorage.clear();
+          localStorage.removeItem('USER_DETAILS');
+          localStorage.removeItem('USER_TOKEN');
+          localStorage.removeItem('LOGGED_IN_BY');
+          localStorage.removeItem('CUSTOMER_DETAILS');
           localStorage.removeItem('DOST_USER_PAGES');
           this.router.navigate(['/auth/login']);
           console.log("logout", res);
@@ -143,6 +149,14 @@ export class HeaderComponent implements OnInit {
     });
     this.refresh();
     console.log('________', this.accountService.selected.branch);
+  }
+
+  openBankModal(){
+    console.log("openBankModal");
+    const activeModal = this.modalService.open(BankDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    });
   }
 
 }

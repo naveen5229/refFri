@@ -291,7 +291,6 @@ export class AddFuelIndentComponent implements OnInit {
     console.log("Params", params);
     console.log("api url", this.apiUrl);
     let result: any;
-    return;
     this.common.loading++;
     this.api.post(this.apiUrl, params)
       .subscribe(res => {

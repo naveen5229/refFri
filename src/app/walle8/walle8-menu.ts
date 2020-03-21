@@ -57,7 +57,7 @@ export const WALLE8_MENU_ITEMS = JSON.stringify([
         home: true,
     },
     {
-        title: 'Toll Setteled Request',
+        title: 'Toll Settled Request',
         icon: 'fa fa-credit-card',
         link: '/walle8/toll-setteled-request',
         home: true,
@@ -99,7 +99,7 @@ export const WALLE8_MENU_ITEMS = JSON.stringify([
 
     },
     {
-        title: 'Toll Analatics',
+        title: 'Toll Analytics',
         icon: 'fa fa-credit-card',
         link: '/walle8/toll-analatics',
         home: true,

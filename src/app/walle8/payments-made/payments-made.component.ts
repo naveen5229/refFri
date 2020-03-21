@@ -136,7 +136,7 @@ export class PaymentsMadeComponent implements OnInit {
       let column = {
         // vehid: { value: req.vehid },
         // transtime: { value: req.transtime },
-        dttime: { value: req.dttime == null ? "-" : req.dttime },
+        dttime: { value: req.dttime == null ? "-" : this.common.changeDateformat4(req.dttime) },
         amt: { value: req.amt == null ? "-" : req.amt },
         rema: { value: req.rema == null ? "-" : req.rema },
 

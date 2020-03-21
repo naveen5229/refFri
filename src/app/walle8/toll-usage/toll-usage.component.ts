@@ -104,9 +104,9 @@ export class TollUsageComponent implements OnInit {
     this.data.map(doc => {
       let column = {
         cardno: { value: doc.cardno },
-        trtime: { value: this.common.dateFormatter(doc.trtime) },
+        trtime: { value: this.common.changeDateformat4(doc.trtime) },
         deal: { value: doc.deal == null ? "-" : doc.deal },
-        amt: { value: doc.amt == null ? "-" : doc.amt },
+        amt: { value: doc.amt == null ? "-" : parseInt(doc.amt) },
         //HPCL: { value: doc.hpcl == null ? "-" : doc.hpcl },
       };
       columns.push(column);

@@ -260,7 +260,6 @@ export class MapService {
           };
       }
 
-
       let marker = null;
       if (dropPoly)
         this.drawPolyMF(latlng);
@@ -278,6 +277,7 @@ export class MapService {
           infoWindows.push(infoWindow);
           infoWindow.opened = false;
           console.log(infoWindow);
+         console.log("typeof (infoKeys)",typeof (infoKeys),infoKeys);
           if (typeof (infoKeys) == 'object') {
             infoKeys.map((display, indexx) => {
               if (indexx != infoKeys.length - 1) {
@@ -552,7 +552,9 @@ export class MapService {
   }
   getMapBounds() {
     if (this.map) {
+      console.log("this.map",this.map);
       let boundsx = this.map.getBounds();
+      console.log("boundsx",boundsx);
       let ne = boundsx.getNorthEast(); // LatLng of the north-east corner
       let sw = boundsx.getSouthWest(); // LatLng of the south-west corder
       let lat2 = ne.lat();

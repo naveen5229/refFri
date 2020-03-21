@@ -21,7 +21,9 @@ export class TemplatePreviewComponent implements OnInit {
     preview: null,
     refId: null,
     refType: null,
+
   };
+  autoPrint = true;
   title = '';
   loginType = '';
   constructor(public api: ApiService,
@@ -41,6 +43,7 @@ export class TemplatePreviewComponent implements OnInit {
       this.template.refId = this.common.params.previewData.refId ? this.common.params.previewData.refId : '';
       this.template.refType = this.common.params.previewData.refType ? this.common.params.previewData.refType : '';
       this.title = this.common.params.previewData.title ? this.common.params.previewData.title : 'Preview';
+      this.autoPrint = this.common.params.previewData.autoPrint ? this.common.params.previewData.autoPrint : false;
     }
     this.preview();
     this.showdata();
@@ -104,6 +107,9 @@ export class TemplatePreviewComponent implements OnInit {
                 
             //   }
             // }
+        }
+        if(this.autoPrint){
+          this.printHandler();
         }
       }, 100);
 
