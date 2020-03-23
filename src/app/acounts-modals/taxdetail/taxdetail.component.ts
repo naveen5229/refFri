@@ -21,7 +21,7 @@ export class TaxdetailComponent implements OnInit {
     },
     taxrate: 0,
     taxamount: 0,
-    totalamount:null
+    totalamount:0
 
   }];
   autoSuggestion = {
@@ -67,8 +67,8 @@ console.log('size index',this.sizeIndex);
       id: '',
     },
     taxrate: 0,
-    taxamount: null,
-    totalamount:null
+    taxamount: 0,
+    totalamount:0
     }];
     console.log('response//////////return',this.taxdetails);
 
@@ -114,8 +114,8 @@ console.log('size index',this.sizeIndex);
         id: '',
       },
       taxrate: 0,
-      taxamount: null,
-      totalamount:null
+      taxamount: 0,
+      totalamount:0
     });
 
     const activeId = document.activeElement.id;
@@ -299,12 +299,12 @@ console.log('size index',this.sizeIndex);
   }
 
   calculateTotal() {
-    let total = null;
+    let total = 0;
     this.taxdetails.map(taxdetail => {
        //console.log('taxdetail Amount: ',  taxdetail);
-      total += parseFloat(taxdetail.taxamount);
+      total += taxdetail.taxamount;
       this.taxdetails[0].totalamount=  total;
     });
-    return total;
+    return  parseFloat(total.toString());
   }
 }
