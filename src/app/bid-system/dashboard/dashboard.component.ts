@@ -32,7 +32,8 @@ export class DashboardComponent implements OnInit {
   headings=null;
   valobj = {};
 
-  
+  endDate = new Date();
+  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 1));
  
   
   constructor(private modalService: NgbModal,
@@ -56,7 +57,9 @@ export class DashboardComponent implements OnInit {
       x_id: null,
       loadby_id: null,
       loadby_type: null,
-      status: null
+      status: null,
+      startDate: this.common.dateFormatter(this.startDate),
+      endDate:this.common.dateFormatter(this.endDate)
     }
     this.api.post('Bidding/GetOrder', params)
       .subscribe(res => {
@@ -72,27 +75,7 @@ export class DashboardComponent implements OnInit {
          this.routeData = res['data'];
         this.grouping('Order Status');
         this.generateTable();
-        // this.table = {
-        //   data: {
-        //     headings: {},
-        //     columns: []
-        //   },
-        //   settings: {
-        //     hideHeader: true
-        //   }
-        // };
-        // let first_rec = this.data[0];
-        // for (var key in first_rec) {
-        //   if (key.charAt(0) != "_") {
-        //     this.headings.push(key);
-        //     let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-        //     this.table.data.headings[key] = headerObj;
-        //   }
-        // }
-
-
-
-        // this.table.data.columns = this.getTableColumns();
+        
 
       }, err => {
         this.common.loading--;

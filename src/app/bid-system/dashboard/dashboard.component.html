@@ -1,17 +1,31 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-5">
+      <div class="col-sm-10">
         <h5>Orders</h5>
       </div>
       <div class="col-sm-1">
         <button (click)="openAddOrder()" class="btn btn-primary " style="margin-right:15px">Add Order</button></div>
-
-
+    </div>
+    <div class="row">
+      <div class="col-1">From :</div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
+        </uj-date-time-picker>
+      </div>
+      <div class="col-1">To :</div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false [isStart]="false">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary pb-1 pt-1" style="border-radius:3px; text-align:center"
+          (click)="getOrders()">Submit</button> </div>
     </div>
   </nb-card-header>
 
   <nb-card-body style="padding:10px 15px;">
+   
     <div class="row">
       <div class="col-3">
         <chart class="dashboard_chart" type="pie" [data]="chartData" [options]="chartOptions" id="chart">

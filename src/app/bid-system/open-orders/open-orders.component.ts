@@ -8,6 +8,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { AddOrderComponent } from '../../modals/BidModals/add-order/add-order.component';
 import { GeneralModalComponent } from '../../modals/general-modal/general-modal.component';
 import { ProposalStateComponent } from '../../modals/BidModals/proposal-state/proposal-state.component';
+import * as _ from "lodash";
 
 @Component({
   selector: 'open-orders',
@@ -16,6 +17,11 @@ import { ProposalStateComponent } from '../../modals/BidModals/proposal-state/pr
 })
 export class OpenOrdersComponent implements OnInit {
   data = [];
+  orderStatesData = [];
+  stateGroups = [];
+  bidData = [];
+  stateGroupsKeys = null;
+  keyGroups = [];
   table = {
     data: {
       headings: {},
@@ -25,7 +31,8 @@ export class OpenOrdersComponent implements OnInit {
       hideHeader: true
     }
   };
-  headings = [];
+  headings=null;
+
   valobj = {};
   orderType = 'open';
   constructor(private modalService: NgbModal,
@@ -60,27 +67,11 @@ export class OpenOrdersComponent implements OnInit {
 
         if (!res['data']) return;
         this.data = res['data'];
-        this.table = {
-          data: {
-            headings: {},
-            columns: []
-          },
-          settings: {
-            hideHeader: true
-          }
-        };
-        let first_rec = this.data[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
-          }
-        }
-
-
-
-        this.table.data.columns = this.getTableColumns();
+         this.orderStatesData = res['data'];
+         this.bidData = res['data'];
+        this.grouping('Bid Status');
+        this.generateTable();
+    
 
       }, err => {
         this.common.loading--;
@@ -89,35 +80,60 @@ export class OpenOrdersComponent implements OnInit {
 
   }
 
+  generateTable() {
+    this.headings  = this.getHeadings();
+    this.table = {
+      data: {
+        headings: this.getHeadings(),
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+  }
+
+  getHeadings() {
+    let headings = {};
+    for (var key in this.orderStatesData[0]) {
+      if (key.charAt(0) != "_") {
+        headings[key] = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+      }
+    }
+    headings['Action'] = { title: 'Action', hideSearch: true };
+    return headings;
+  }
+
+ 
   getTableColumns() {
 
     let columns = [];
-    console.log("Data=", this.data);
+    console.log('heading',this.headings.length);
+
     this.data.map(doc => {
+      console.log('doc',doc);
       this.valobj = {};
 
-      for (let i = 0; i < this.headings.length; i++) {
-        if (this.headings[i] == 'Action') {
-          console.log('action', this.headings[i]);
-          this.valobj[this.headings[i]] = {
+      for (let key in this.getHeadings()) {
+        if (key == 'Action') {
+          console.log('action', key);
+          this.valobj[key] = {
             value: "", action: null, html: true,
             icons: this.actionIcons(doc)
+
           };
         }
-
+       
         else {
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+          this.valobj[key] = { value: doc[key], class: 'black', action: '' };
         }
-
-        if (doc['_is_seen']) {
+        if(doc['_is_seen']){
           console.log("HELLO");
-          this.valobj['class'] = "makeMeYellow";
+          this.valobj['class']="makeMeYellow";
         }
       }
       columns.push(this.valobj);
-
     });
-
     return columns;
   }
 
@@ -130,14 +146,14 @@ export class OpenOrdersComponent implements OnInit {
         action: this.openAddOrder.bind(this, data),
       });
     }
-    
+
     if (data['Action'].isEdit) {
       icons.push({
         class: " icon fa fa-pencil-square-o blue",
         action: this.openAddOrder.bind(this, data),
       });
     }
-    
+
     if (data['Action'].isDelete) {
       icons.push(
         {
@@ -172,6 +188,90 @@ export class OpenOrdersComponent implements OnInit {
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
+
+  
+  grouping(viewType) {
+    console.log('viewType', viewType);
+    this.stateGroups = _.groupBy(this.bidData, viewType);
+    this.stateGroupsKeys = Object.keys(this.stateGroups);
+    this.keyGroups = [];
+    this.stateGroupsKeys.map(key => {
+      const hue = Math.floor(Math.random() * 359 + 1);
+      this.keyGroups.push({
+        name: key,
+        bgColor: `hsl(${hue}, 100%, 75%)`,
+        textColor: `hsl(${hue}, 100%, 25%)`
+      });
+    });
+
+    this.sortData(viewType);
+  }
+
+
+  chartData = null;
+  chartDataa = null;
+  chartOptions = null;
+  chartColors = [];
+  textColor = [];
+  selectedFilterKey = "";
+
+
+  sortData(viewType) {
+    let data = [];
+    this.chartColors = [];
+    let chartLabels = [];
+    let chartData = [];
+
+    this.keyGroups.map(group => {
+      console.log('group', group, 'this.stateGroups', this.stateGroups, 'group.name=', group.name, "this.stateGroups[group.name]=", this.stateGroups[group.name]);
+      data.push({ group: group, length: this.stateGroups[group.name] ? this.stateGroups[group.name].length : 0 });
+    });
+
+    this.stateGroupsKeys = [];
+    _.sortBy(data, ["length"]).reverse()
+      .map(keyData => {
+        this.stateGroupsKeys.push(keyData.group);
+      });
+
+    this.stateGroupsKeys.map(keyGroup => {
+      console.log('keyGroup', keyGroup, "keyGroup.name", '"' + keyGroup.name + '"', 'this.stateGroups=', this.stateGroups, 'this.stateGroups[keyGroup.name]=', this.stateGroups[keyGroup.name]);
+      this.chartColors.push(keyGroup.bgColor);
+      chartLabels.push(keyGroup.name);
+      chartData.push(this.stateGroups[keyGroup.name].length);
+    });
+
+
+    let chartInfo = this.common.pieChart(
+      chartLabels,
+      chartData,
+      this.chartColors
+    );
+    this.chartData = chartInfo.chartData;
+    this.chartOptions = chartInfo.chartOptions;
+     this.selectedFilterKey && this.filterData(this.selectedFilterKey, viewType);
+  }
+
+
+  allData() {
+    this.selectedFilterKey = "";
+    this.filterData("All");
+  }
+
+
+  filterData(filterKey, viewType?) {
+    if (filterKey == "All") {
+      this.data = this.orderStatesData;
+    } else {
+      this.selectedFilterKey = filterKey;
+      this.data = this.orderStatesData.filter(statesData => {
+        if (statesData['Bid Status'] == filterKey) return true;
+        return false;
+      });
+    }
+    console.log("this.orderStatesData ", this.data );
+    this.generateTable();
+  }
+
 
   viewOrder(data) {
 
@@ -258,7 +358,7 @@ export class OpenOrdersComponent implements OnInit {
       orderType: data._order_type,
       proposalId: data._bp_id
     }
-    console.log("open orders proposalLogs",params);
+    console.log("open orders proposalLogs", params);
     this.common.params = { bidData: params }
     const activeModal = this.modalService.open(ProposalStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
