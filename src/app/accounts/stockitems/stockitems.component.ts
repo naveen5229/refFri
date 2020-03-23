@@ -99,10 +99,10 @@ export class StockitemsComponent implements OnInit {
           this.api.post('Stock/UpdateStockItem', params)
             .subscribe(res => {
               this.common.loading--;
-              console.log('res: ', res['data'][0].save_stockitem);
+              console.log('res: update ', res['data'][0].save_stockitem);
               let result = res['data'][0].save_stockitem;
-              if (result == '') {
-                this.common.showToast(" Stock item Update");
+              if (result['success']) {
+                this.common.showToast("Stock item Update Succefully");
               }
               else {
                 this.common.showToast(result);
@@ -166,8 +166,8 @@ export class StockitemsComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         let result = res['data'][0].save_stockitem;
-        if (result == '') {
-          this.common.showToast(" Stock item Add");
+        if (res['success']) {
+          this.common.showToast("Stock item Added Successfully");
         }
         else {
           this.common.showToast(result);

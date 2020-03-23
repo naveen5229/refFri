@@ -113,7 +113,7 @@ export class OrderComponent implements OnInit {
 
   activeId = '';
   lastActiveId = '';
-
+  newid =0;
   autoSuggestion = {
     data: [],
     targetId: '',
@@ -139,6 +139,9 @@ export class OrderComponent implements OnInit {
     // this.common.currentPage = 'Invoice';
     if(this.common.params.sizeIndex){
       this.sizeIndex=this.common.params.sizeIndex;
+    }
+    if(this.common.params.newid){
+      this.newid=this.common.params.newid;
     }
     this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeIndex);
     // console.log("open data ",this.invoiceDetail[]);
@@ -569,7 +572,7 @@ export class OrderComponent implements OnInit {
       // approved: order.Approved,
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
-      x_id: order.orderid,
+      x_id: (this.newid==0) ? order.orderid :0,
       delete: order.delete,
       ledgeraddressid: order.ledgeraddressid,
       ismannual :order.mannual,
