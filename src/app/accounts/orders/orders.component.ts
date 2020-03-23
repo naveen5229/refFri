@@ -13,6 +13,7 @@ import { WareHouseModalComponent } from '../../acounts-modals/ware-house-modal/w
 import { AccountService } from '../../services/account.service';
 import {LedgeraddressComponent} from '../../acounts-modals/ledgeraddress/ledgeraddress.component';
 import { PrintService } from '../../services/print/print.service';
+import { isNull } from 'util';
 
 @Component({
   selector: 'orders',
@@ -347,16 +348,20 @@ export class OrdersComponent implements OnInit {
   dismiss(response) {
     // console.log('Order:', this.order);
     if (response) {
-      //console.log('Order new:', this.order);
+      console.log('Order new:', this.accountService.selected.financialYear);
       // return;
       if (this.accountService.selected.branch.id == 0) {
         this.common.showError('Please select Branch');
         return;
       }
-      if (this.accountService.selected.financialYear.isfrozen == true) {
+      if (this.accountService.selected.financialYear==null) {
+        this.common.showError('This Select financial year ');
+      }else if (this.accountService.selected.financialYear.isfrozen == true){
         this.common.showError('This financial year is freezed. Please select currect financial year');
         return;
-      }else if (this.order.amountDetails[0].amount == 0) {
+      }
+      
+      if (this.order.amountDetails[0].amount == 0) {
         this.common.showError('Please fill correct amount');
         return;
       }else {

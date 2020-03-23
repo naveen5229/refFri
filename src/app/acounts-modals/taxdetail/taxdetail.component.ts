@@ -20,7 +20,7 @@ export class TaxdetailComponent implements OnInit {
       id: '',
     },
     taxrate: 0,
-    taxamount: null,
+    taxamount: 0,
     totalamount:null
 
   }];
