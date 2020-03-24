@@ -287,7 +287,7 @@ console.log('size index',this.sizeIndex);
    }
 
   onSelect(suggestion, activeId) {
-    console.log('current activeId: ', activeId);
+    console.log('current activeId: ', activeId,suggestion);
     const index = parseInt(activeId.split('-')[1]);
 
     this.taxdetails[index].taxledger.name = suggestion.name;
@@ -301,9 +301,10 @@ console.log('size index',this.sizeIndex);
   calculateTotal() {
     let total = 0;
     this.taxdetails.map(taxdetail => {
-       //console.log('taxdetail Amount: ',  taxdetail);
-      total += taxdetail.taxamount;
-      this.taxdetails[0].totalamount=  total;
+      total += parseFloat((taxdetail.taxamount).toString());
+      //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
+
+      this.taxdetails[0].totalamount=  parseFloat(total.toString());
     });
     return  parseFloat(total.toString());
   }

@@ -413,12 +413,12 @@
 
     <div class="modal-footer">
       <div class="row w-100">
-        <div class="col-7">
-            <button class="btn btn-primary mr-2" type="button" (click)="printFunction()" id="printfunction"
+        <div class="col-7" >
+            <button *ngIf="(newid ==0)" class="btn btn-primary mr-2" type="button" (click)="printFunction()" id="printfunction"
             style="cursor: pointer;">Print</button>
           <!-- <span *ngIf="order.mannual"> <input type="checkbox" name="mannual" id="mannual" [(ngModel)]="order.mannual">Is Mannual Approval</span> -->
         </div>
-        <div class="col-1" *ngIf="(this.common.params && (this.deletedId == 0))">
+        <div class="col-1" *ngIf="((this.common.params && (this.deletedId == 0)) && newid ==0)">
           <button class="btn btn-danger" type="button" outline (click)="delete(order.orderid)" id="delete"
             style="cursor: pointer;">Delete</button>
         </div>
