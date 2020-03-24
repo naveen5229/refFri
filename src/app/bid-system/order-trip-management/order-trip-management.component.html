@@ -23,7 +23,7 @@
   </div>
 
       <div class="row mt-3">
-        <div class="col-3">
+        <div class="col-3" *ngIf='orderStatesData.length>0'>
           <chart class="dashboard_chart" type="pie" [data]="chartData" [options]="chartOptions" id="chart">
           </chart>
   
@@ -60,7 +60,7 @@
         <div class="col-9" *ngIf="data && data.length">
           <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"></smart-table>
         </div>
-        <div class="alert alert-danger text-center col-9" style="margin-top:4rem" *ngIf="!data || !data.length">
+        <div class="alert alert-danger text-center col-12" style="margin-top:2rem" *ngIf="!data || !data.length">
           <h4 class="no-record">No Record Found</h4>
         </div>
       </div>

@@ -51,7 +51,15 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   }
 
+  resetData(){
+    this.data = [];
+    this.orderStatesData = [];
+   this.stateGroups = [];
+   this.stateGroupsKeys = null;
+   this.keyGroups = [];
+  }
   getOrders() {
+    this.resetData();
     this.common.loading++;
     let params = {
       x_id: null,

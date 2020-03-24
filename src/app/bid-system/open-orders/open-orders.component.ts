@@ -50,7 +50,18 @@ export class OpenOrdersComponent implements OnInit {
   ngOnInit() {
   }
 
+  
+  resetData(){
+    this.data = [];
+    this.orderStatesData = [];
+   this.stateGroups = [];
+   this.stateGroupsKeys = null;
+   this.keyGroups = [];
+   this.bidData = [];
+  }
+
   getOrders(ord_type) {
+    this.resetData();
     let url = 'Bidding/GetOpenOrder';
     let params = 'type=open_orders';
     if (ord_type == 'bid') {
