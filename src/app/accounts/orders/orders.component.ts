@@ -527,8 +527,10 @@ export class OrdersComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     //console.log('-------------:', document.getElementById(this.activeId)['value']);
-    console.log('Active event', event);
     this.setAutoSuggestion();
+    if((this.order.ordertype.name.toLowerCase().includes('purchase'))&& this.activeId.includes('stockitem') ) { this.suggestions.stockItems = this.suggestions.stockItems; }
+    if ((this.order.ordertype.name.toLowerCase().includes('sales'))&& this.activeId.includes('stockitem') ) { this.suggestions.stockItems = this.suggestions.stockItems; }
+    console.log('Active event11', event,this.order.ordertype.name,this.activeId,this.suggestions.purchasestockItems);
 
     if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('date') || this.activeId.includes('biltydate'))) {
       // document.getElementById("voucher-date").focus();

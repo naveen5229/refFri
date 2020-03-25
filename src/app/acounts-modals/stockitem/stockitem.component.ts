@@ -43,7 +43,9 @@ export class StockitemComponent implements OnInit {
     cess:0,
     igst:0,
     taxability:'',
-    calculationtype:''
+    calculationtype:'',
+    openingbal:0,
+    openingqty:0
 
   };
   activeId='stockType';
@@ -104,7 +106,9 @@ export class StockitemComponent implements OnInit {
         cess:common.params.gst_cess_per,
         igst:common.params.gst_igst_per,
         taxability:common.params.gst_taxability,
-        calculationtype:common.params.gst_calculation_type
+        calculationtype:common.params.gst_calculation_type,
+        openingbal:common.params.opening_balance,
+        openingqty:common.params.opening_qty
       }
 
       console.log('Stock: ', this.stockItem);
