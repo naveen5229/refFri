@@ -42,7 +42,10 @@ export class InvoiceregisterComponent implements OnInit {
   f2Date = 'startDate';
   activedateid = '';
   lastActiveId = '';
-
+  totalbillamount= 0;
+  totaldisamount= 0;
+  totaltaxamount= 0;
+  totalnetamount=0;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -132,6 +135,12 @@ export class InvoiceregisterComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.invoiceRegisterData = res['data'];
+        this.invoiceRegisterData.map(invoiceDetail => {
+          this.totalbillamount += parseFloat(invoiceDetail['y_billamount']);
+          this.totaldisamount += parseFloat(invoiceDetail['y_totalbillamount']);
+          this.totaltaxamount += parseFloat(invoiceDetail['y_taxamount']);
+          this.totalnetamount += parseFloat(invoiceDetail['y_netamount']);
+        })
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
