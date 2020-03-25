@@ -58,16 +58,37 @@ export class OrdersWonComponent implements OnInit {
 
   }
 
-  selectVehicle(data,index){
-    this.pendingPlacement[index]._vid = data.id;
+  vehicles = [];
+  vehicleIds = [];
+  vehId = null;
+  selectVehicle(data,index,_is_multi_select){
+    this.vehId = null;
+    if(_is_multi_select){
+    this.vehicles = data;
+  }
+    else{
+    this.vehId = data.id;
+  }
+  console.log('_is_multi_select',_is_multi_select,"this.vehId",this.vehId);
   }
 
   placedVehicle(order,isPlaced){
+    let vehIds = [];
+    if(this.vehicles.length>0){
+    vehIds = this.vehicles.map(veh=>{
+      console.log('veh',veh);
+      return veh.id;
+    });
+  }
+  else{
+    isPlaced ? vehIds.push(this.vehId) :vehIds.push(order._vids_placed) ;
+  }
+    console.log("vehIds",vehIds);
     this.common.loading++;
     let params = {
       orderId : order._id,
       bidId : order._bid_id,
-      vIds : isPlaced ? order._vid : order._vids_placed,
+      vIds : isPlaced ? JSON.stringify(vehIds) : JSON.stringify(vehIds),
       isPlace :isPlaced
     }
     this.api.post('Bidding/placeUnplaceOrder',params)
