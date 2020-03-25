@@ -71,7 +71,7 @@
             <td>{{order['Drop Point']}}</td>
             <td>{{order['Material']}}</td>
             <td>{{order['Body Type']}}</td>
-            <td> <auto-suggestion (onSelected)="selectVehicle($event,i)" url="suggestion/getFoVehicleList" display="regno"
+            <td> <auto-suggestion [isMultiSelect] = 'order._is_multi_select' (onSelected)="selectVehicle($event,i,order._is_multi_select)" url="suggestion/getFoVehicleList" display="regno"
               placeholder="Search Vehicle" [preSelected]="{regno:order._regno}"></auto-suggestion></td>
             <td> <i class = 'fa fa-check-circle' (click)="placedVehicle(order,true)"></i></td>
           </tr>
