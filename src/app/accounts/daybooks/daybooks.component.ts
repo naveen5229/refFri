@@ -211,7 +211,7 @@ export class DaybooksComponent implements OnInit {
     this.api.post('Company/GetDayBook', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log('Res: length :', res['data'],res['data'].length);
         this.DayData = res['data'];
         this.filterData();
         if (this.DayData.length) {

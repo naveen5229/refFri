@@ -700,9 +700,26 @@ export class OrderComponent implements OnInit {
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
-        if((this.order.ordertype.id != -108)){
+        console.log('order type print',this.order.ordertype);
+        if(this.order.ordertype.id != -108){
+          setTimeout(() => {
+            if(!(this.order.purchaseledger.id)){
+              this.common.showError('Please Select Purchase Legder');  
+              this.order.purchaseledger.name ='';   
+              this.setFoucus('purchaseledger');
+             // return; 
+              }
+          }, 100);
         this.setFoucus('ledgersup');
         }else{
+          setTimeout(() => {
+            if(!(this.order.purchaseledger.id)){
+              this.common.showError('Please Select Purchase Legder');  
+              this.order.purchaseledger.name ='';   
+              this.setFoucus('purchaseledger');
+             // return; 
+              }
+          }, 100);
         this.setFoucus('ledger');
         }
       } else if (this.activeId.includes('discountledger')) {
@@ -720,6 +737,18 @@ export class OrderComponent implements OnInit {
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
+        setTimeout(() => {
+          console.log('this.order.ordertype.id ',this.order.ordertype.id );
+          if((!this.order.ledger.id)){
+            this.order.ledger.name ='';   
+              this.common.showError('Please Select Supplier Legder'); 
+             if(this.order.ordertype.id != -108){
+                this.setFoucus('ledgersup');
+               } else { 
+                 this.setFoucus('ledger'); 
+                }
+              }
+        }, 100);
         this.setFoucus('vendorbidref');
       } else if (this.activeId.includes('vendorbidref')) {
         this.setFoucus('qutationrefrence');
