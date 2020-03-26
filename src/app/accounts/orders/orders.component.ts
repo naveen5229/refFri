@@ -360,7 +360,9 @@ export class OrdersComponent implements OnInit {
         this.common.showError('This financial year is freezed. Please select currect financial year');
         return;
       }
-      
+
+     
+
       if (this.order.amountDetails[0].amount == 0) {
         this.common.showError('Please fill correct amount');
         return;
@@ -622,7 +624,17 @@ export class OrdersComponent implements OnInit {
           this.setFoucus('warehouse' + '-' + 0);
         }
         else {
-          this.setFoucus('ledger');
+          setTimeout(() => {
+            if(!(this.order.purchaseledger.id)){
+              this.common.showError('Please Select Purchase Legder');  
+              this.order.purchaseledger.name ='';   
+              this.setFoucus('purchaseledger');
+             // return; 
+              }
+          }, 100);
+         
+          (this.order.ordertype.id == -108) ? this.setFoucus('ledger') :this.setFoucus('ledger'); 
+          
         }
       } else if (this.activeId.includes('discountledger')) {
         console.log('0000000000000000000000000000000');
@@ -639,6 +651,13 @@ export class OrdersComponent implements OnInit {
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
+        setTimeout(() => {
+          if((!this.order.ledger.id)){
+            this.order.ledger.name ='';   
+              this.common.showError('Please Select Supplier Legder'); 
+              this.setFoucus('ledger');
+              }
+        }, 100);
         this.setFoucus('vendorbidref');
       } else if (this.activeId.includes('vendorbidref')) {
         this.setFoucus('qutationrefrence');
