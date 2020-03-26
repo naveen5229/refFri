@@ -39,6 +39,7 @@ export class OrderComponent implements OnInit {
   approve=0;
   freezedate='';  
   order = {
+    podate:this.common.dateFormatternew(new Date()).split(' ')[0],
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: null,
     biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -203,6 +204,7 @@ export class OrderComponent implements OnInit {
         this.order.orderid = this.common.params.invoiceid;
         this.order.biltynumber = this.invoiceDetail[0].y_biltynumber;
         this.order.date = this.common.dateFormatternew(this.invoiceDetail[0].y_orderdate.split(' ')[0]);
+        this.order.podate = (this.invoiceDetail[0].y_refdate == null) ? '': this.common.dateFormatternew(this.invoiceDetail[0].y_refdate.split(' ')[0]);
         this.order.biltydate = this.common.dateFormatternew(this.invoiceDetail[0].y_biltydatestamp.split(' ')[0]);
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
         this.order.billingaddress = this.invoiceDetail[0].y_vendorbillingaddress;
@@ -314,6 +316,7 @@ export class OrderComponent implements OnInit {
   }
   setInvoice() {
     return {
+    podate:this.common.dateFormatternew(new Date()).split(' ')[0],
       date: this.common.dateFormatternew(new Date()).split(' ')[0],
       biltynumber: '',
       biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -556,6 +559,7 @@ export class OrderComponent implements OnInit {
       billingaddress: order.billingaddress,
       orderremarks: order.orderremarks,
       biltynumber: order.biltynumber,
+      podate: order.podate,
       // code: order.code,
       biltydatestamp: order.biltydate,
       custcode: order.custcode,
@@ -680,7 +684,7 @@ export class OrderComponent implements OnInit {
         
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
-      } else if (this.activeId.includes('date')) {
+      } else if (this.activeId.includes('podate')) {
         if (this.freezedate) {
           let rescompare = this.CompareDate(this.freezedate);
           console.log('heddlo',rescompare);
@@ -691,7 +695,20 @@ export class OrderComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-        this.setFoucus('purchaseledger');
+          this.setFoucus('purchaseledger');
+      }
+    } }  else if (this.activeId.includes('date')) {
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          console.log('heddlo',rescompare);
+          if (rescompare == 0) {
+            console.log('hello');
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('date');
+            }, 150);
+          } else {
+        this.setFoucus('podate');
           }
         }
       } else if (this.activeId.includes('purchaseledger')) {
@@ -806,7 +823,8 @@ export class OrderComponent implements OnInit {
       event.preventDefault();
       console.log('active 1', this.activeId);
       if (this.activeId == 'date') this.setFoucus('custcode');
-      if (this.activeId == 'purchaseledger') this.setFoucus('date');
+      if (this.activeId == 'purchaseledger') this.setFoucus('podate');
+      if (this.activeId == 'podate') this.setFoucus('date');
       if (this.activeId == 'ledger' || this.activeId=='ledgersup') this.setFoucus('purchaseledger');
       if (this.activeId == 'vendorbidref') { (this.order.ordertype.id != -108) ? this.setFoucus('ledgersup') : this.setFoucus('ledger');} 
       if (this.activeId == 'qutationrefrence') this.setFoucus('vendorbidref');

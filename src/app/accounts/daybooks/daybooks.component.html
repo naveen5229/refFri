@@ -107,9 +107,9 @@
           </span>
         </td>
         <td>{{dataItem.y_type}}</td>
-        <td>{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
-        <td>{{dataItem.y_dramunt}}</td>
-        <td>{{dataItem.y_cramunt}}</td>
+        <td>{{(dataItem.y_date != null) ? dataItem.y_code +'/'+ dataItem.y_cust_code : ''}}</td>
+        <td>{{dataItem.y_dramunt | number : '1.2-2'}}</td>
+        <td>{{dataItem.y_cramunt | number : '1.2-2'}}</td>
         <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
       </tr>
     </table>

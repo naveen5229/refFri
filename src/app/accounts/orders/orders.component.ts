@@ -36,6 +36,7 @@ export class OrdersComponent implements OnInit {
   freezedate='';
   allowBackspace = true;
   order = {
+    podate:this.common.dateFormatternew(new Date()).split(' ')[0],
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: '',
     biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -191,6 +192,7 @@ export class OrdersComponent implements OnInit {
 
   setInvoice() {
     return {
+    podate:this.common.dateFormatternew(new Date()).split(' ')[0],
       date: this.common.dateFormatternew(new Date()).split(' ')[0],
       biltynumber: '',
       biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -449,6 +451,7 @@ export class OrdersComponent implements OnInit {
       billingaddress: order.billingaddress,
       orderremarks: order.orderremarks,
       biltynumber: order.biltynumber,
+      podate: order.podate,
       // code: order.code,
       biltydatestamp: order.biltydate,
       custcode: order.custcode,
@@ -601,7 +604,20 @@ export class OrdersComponent implements OnInit {
         this.setFoucus('date');
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
-      } else if (this.activeId.includes('date')) {
+      } else if (this.activeId.includes('podate')) {
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          console.log('heddlo',rescompare);
+          if (rescompare == 0) {
+            console.log('hello');
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('purchaseledger');
+            }, 150);
+          } else {
+          this.setFoucus('purchaseledger');
+      }
+    } }else if (this.activeId.includes('date')) {
         if (this.freezedate) {
           let rescompare = this.CompareDate(this.freezedate);
           console.log('heddlo',rescompare);
@@ -612,7 +628,7 @@ export class OrdersComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-          this.setFoucus('purchaseledger');
+          this.setFoucus('podate');
       }
     } } else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
@@ -735,7 +751,8 @@ export class OrdersComponent implements OnInit {
       event.preventDefault();
       console.log('active 1', this.activeId);
       if (this.activeId == 'date') this.setFoucus('custcode');
-      if (this.activeId == 'purchaseledger') this.setFoucus('date');
+      if (this.activeId == 'podate') this.setFoucus('date');
+      if (this.activeId == 'purchaseledger') this.setFoucus('podate');
       if (this.activeId == 'ledger') this.setFoucus('purchaseledger');
       if (this.activeId == 'vendorbidref') this.setFoucus('ledger');
       if (this.activeId == 'qutationrefrence') this.setFoucus('vendorbidref');
@@ -783,7 +800,7 @@ export class OrdersComponent implements OnInit {
         this.handleArrowUpDown(key);
         event.preventDefault();
       }
-    }else if ((this.activeId == 'date' || this.activeId == 'biltydate') && key !== 'backspace') {
+    }else if ((this.activeId == 'date' || this.activeId =='podate' || this.activeId == 'biltydate') && key !== 'backspace') {
       let regex = /[0-9]|[-]/g;
       let result = regex.test(key);
       if (!result) {

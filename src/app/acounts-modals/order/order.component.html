@@ -43,6 +43,15 @@
 
               </div>
             </div>
+            <div class="col"  *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">
+              <div class="form-group">
+                <label class="ref-label">Po Date</label>
+                <input type="text" autocomplete="off" style="cursor: pointer;" class="form-control ref-input"
+                  autocomplete="off" id="podate" name="po-date" [(ngModel)]="order.podate" maxlength="10"
+                  (click)="lastActiveId = 'po-date'; allowBackspace = false;" (input)="allowBackspace = false;">
+
+              </div>
+            </div>
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Purchase Ledger</label>
