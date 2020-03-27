@@ -90,7 +90,9 @@ export class StockitemsComponent implements OnInit {
             cess:data.stockItem.cess,
             igst:data.stockItem.igst,
             taxability:data.stockItem.taxability,
-            calculationtype:data.stockItem.calculationtype
+            calculationtype:data.stockItem.calculationtype,
+            openinngbal:data.stockItem.openingbal,
+            openingqty:data.stockItem.openingqty
 
           };
           console.log('paramsans: ', params);
@@ -154,7 +156,9 @@ export class StockitemsComponent implements OnInit {
       cess:stockItem.cess,
      igst:stockItem.igst,
      taxability:stockItem.taxability,
-     calculationtype:stockItem.calculationtype
+     calculationtype:stockItem.calculationtype,
+     openinngbal:stockItem.openingbal,
+    openingqty:stockItem.openingqty
 
     };
 

@@ -292,7 +292,7 @@ console.log('size index',this.sizeIndex);
 
     this.taxdetails[index].taxledger.name = suggestion.name;
     this.taxdetails[index].taxledger.id = suggestion.id;
-    this.taxdetails[index].taxrate = suggestion.per_rate;
+    this.taxdetails[index].taxrate = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
     this.taxdetails[index].taxamount = parseFloat(((this.taxdetails[index].taxrate  * this.amount)/100).toFixed(2));
 
     this.autoSuggestion.display = 'name';
