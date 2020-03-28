@@ -616,8 +616,10 @@ export class VoucherComponent implements OnInit {
     }
 
     if (key == 'enter') {
-      if (document.activeElement.id.includes('amount-')) this.handleAmountEnter(document.activeElement.id.split('-')[1])
-      else if (document.activeElement.id == 'narration') {
+      if (document.activeElement.id.includes('amount-')){
+        event.preventDefault();
+        this.handleAmountEnter(document.activeElement.id.split('-')[1])
+      } else if (document.activeElement.id == 'narration') {
         if (this.accountService.selected.branch) {
           // this.accountService.selected.branch
           this.showConfirm = true;
@@ -729,18 +731,24 @@ export class VoucherComponent implements OnInit {
     });
   }
   handleAmountEnter(index) {
+    console.log('------------------Indise Handle Amount----------');
     index = parseInt(index);
     if (this.voucher.amountDetails[index].ledger.is_constcenterallow) {
+      console.log('----------------1');
       this.showConfirmCostCenter = true;
       console.log('last one hello ggg', this.showConfirmCostCenter, this.lastActiveId, 'index last', index);
 
       // this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
     }
     if (this.voucher.total.debit == this.voucher.total.credit && index == this.voucher.amountDetails.length - 1) {
+      console.log('----------------2');
+
       if (this.showConfirmCostCenter) return;
       this.setFoucus('narration');
       return;
     } else if (this.voucher.total.debit == this.voucher.total.credit && index != this.voucher.amountDetails.length - 1) {
+      console.log('----------------3');
+
       this.calculateTotal();
       console.log('console eror 2');
       // this.setFoucus('transaction-type-' + (index + 1));
@@ -749,6 +757,7 @@ export class VoucherComponent implements OnInit {
       }
       return;
     }
+    console.log('----------------4');
 
     let total = {
       debit: 0,
@@ -775,6 +784,8 @@ export class VoucherComponent implements OnInit {
       this.addAmountDetails('credit', this.voucher.total.debit - this.voucher.total.credit);
     } else if (index == this.voucher.amountDetails.length - 1 && this.voucher.total.debit < this.voucher.total.credit) {
       this.addAmountDetails('debit', this.voucher.total.credit - this.voucher.total.debit);
+    }else{
+      this.setFoucus('transaction-type-' + (index + 1));
     }
 
     this.calculateTotal();
