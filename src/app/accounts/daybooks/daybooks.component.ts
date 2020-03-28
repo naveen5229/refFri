@@ -159,13 +159,14 @@ export class DaybooksComponent implements OnInit {
       });
 
   }
-  openinvoicemodel(invoiceid,create=0) {
+  openinvoicemodel(invoiceid,ordertypeid,create=0,) {
     // console.log('welcome to invoice ');
     //  this.common.params = invoiceid;
     this.common.params = {
       invoiceid: invoiceid,
       delete: this.deletedId,
-      newid:create
+      newid:create,
+      ordertype:ordertypeid
     };
     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -383,7 +384,7 @@ export class DaybooksComponent implements OnInit {
     if ((event.ctrlKey && key === 'd') && (!this.activeId && this.DayData.length && this.selectedRow != -1)) {
       console.log('ctrl + d pressed');
       //this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid,1);   
-      ((this.DayData[this.selectedRow].y_type.toLowerCase().includes('voucher')) ? (this.DayData[this.selectedRow].y_type.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid, 6, this.DayData[this.selectedRow].y_vouchertype_id) : (this.DayData[this.selectedRow].y_type.toLowerCase().includes('invoice')) ? this.openinvoicemodel(this.DayData[this.selectedRow].y_voucherid,1) :'' )
+      ((this.DayData[this.selectedRow].y_type.toLowerCase().includes('voucher')) ? (this.DayData[this.selectedRow].y_type.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid, 6, this.DayData[this.selectedRow].y_vouchertype_id) : (this.DayData[this.selectedRow].y_type.toLowerCase().includes('invoice')) ? this.openinvoicemodel(this.DayData[this.selectedRow].y_voucherid,this.DayData[this.selectedRow].y_vouchertype_id,1) :'' )
       event.preventDefault();
       return;
     }
@@ -413,8 +414,8 @@ export class DaybooksComponent implements OnInit {
       if (this.activeId.includes('branch')) {
         this.setFoucus('vouchertype');
       } else if (this.activeId.includes('vouchertype')) {
-        this.setFoucus('ledger');
-      } else if (this.activeId == 'ledger') {
+        this.setFoucus('ledgerdaybook');
+      } else if (this.activeId == 'ledgerdaybook') {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
         this.DayBook.startdate = this.common.handleDateOnEnterNew(this.DayBook.startdate);
@@ -428,8 +429,8 @@ export class DaybooksComponent implements OnInit {
       event.preventDefault();
       console.log('active 1', this.activeId);
       if (this.activeId == 'enddate') this.setFoucus('startdate');
-      if (this.activeId == 'startdate') this.setFoucus('ledger');
-      if (this.activeId == 'ledger') this.setFoucus('vouchertype');
+      if (this.activeId == 'startdate') this.setFoucus('ledgerdaybook');
+      if (this.activeId == 'ledgerdaybook') this.setFoucus('vouchertype');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
     } else if ((this.activeId == 'startdate' || this.activeId == 'enddate') && key !== 'backspace') {

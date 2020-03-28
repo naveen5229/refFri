@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { trimTrailingNulls } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'stockitem',
@@ -260,7 +261,11 @@ export class StockitemComponent implements OnInit {
 
   dismiss(response) {
     console.log('Stock Type:', this.stockItem);
+    if((this.stockItem.name.trim()) ==''){
+      this.common.showError('Please Fill Stock Item Name');
+    }else{
     this.activeModal.close({ response: response, stockItem: this.stockItem });
+    }
   }
 
 

@@ -628,9 +628,13 @@ export class OrdersComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-          this.setFoucus('podate');
+            if (this.order.ordertype.id == -104) {
+              this.setFoucus('salesledger');
+            }else{
+             this.setFoucus('podate');
+            }
       }
-    } } else if (this.activeId.includes('purchaseledger')) {
+    } } else if (this.activeId.includes('purchaseledger') || this.activeId.includes('salesledger')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
@@ -641,10 +645,14 @@ export class OrdersComponent implements OnInit {
         }
         else {
           setTimeout(() => {
+            console.log('sales ledger11111',this.order.purchaseledger.id);
             if(!(this.order.purchaseledger.id)){
               this.common.showError('Please Select Purchase Legder');  
               this.order.purchaseledger.name ='';   
-              this.setFoucus('purchaseledger');
+              if (this.order.ordertype.id == -104) { this.setFoucus('salesledger');}
+              else{
+                this.setFoucus('purchaseledger');
+              }
              // return; 
               }
           }, 100);
@@ -752,8 +760,9 @@ export class OrdersComponent implements OnInit {
       console.log('active 1', this.activeId);
       if (this.activeId == 'date') this.setFoucus('custcode');
       if (this.activeId == 'podate') this.setFoucus('date');
+      if (this.activeId == 'salesledger') this.setFoucus('date');
       if (this.activeId == 'purchaseledger') this.setFoucus('podate');
-      if (this.activeId == 'ledger') this.setFoucus('purchaseledger');
+      if (this.activeId == 'ledger') { (this.order.ordertype.name.toLowerCase().includes('sales')) ? (this.setFoucus('salesledger')) : this.setFoucus('purchaseledger'); }
       if (this.activeId == 'vendorbidref') this.setFoucus('ledger');
       if (this.activeId == 'qutationrefrence') this.setFoucus('vendorbidref');
       if (this.activeId == 'shipmentlocation') this.setFoucus('qutationrefrence');
@@ -1344,7 +1353,7 @@ export class OrdersComponent implements OnInit {
     let activeId = document.activeElement.id;
     console.log('Last Active Id:', activeId)
     if (activeId == 'ordertype') this.autoSuggestion.data = this.suggestions.invoiceTypes;
-    else if (activeId == 'purchaseledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
+    else if (activeId == 'purchaseledger' || activeId == 'salesledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
     else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
     else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
@@ -1387,7 +1396,7 @@ export class OrdersComponent implements OnInit {
       }else{
       this.order.billingaddress = suggestion.address;
       }
-    } else if (activeId == 'purchaseledger') {
+    } else if (activeId == 'purchaseledger' || activeId == 'salesledger') {
       console.log('>>>>>>>>>',suggestion);
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;

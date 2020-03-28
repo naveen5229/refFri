@@ -183,7 +183,7 @@
                   url="Suggestion/GetPurchaseLedger" display="name" inputId="purchaseledger"
                   placeholder="Enter Sales Ledger" [preSelected]="null">
                 </auto-suggestion> -->
-                <input type="text" autocomplete="off" class="form-control ref-input" id="purchaseledger"
+                <input type="text" autocomplete="off" class="form-control ref-input" id="salesledger"
                   name="purchaseledger" [(ngModel)]="order.purchaseledger.name"
                   placeholder="Please Select Purchase Ledger"
                   (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">

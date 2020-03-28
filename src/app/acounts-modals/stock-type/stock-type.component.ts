@@ -14,6 +14,7 @@ export class StockTypeComponent implements OnInit {
   stockType = {
     name: '',
     code: '',
+    isservice:true
   };
   showSuggestions = false;
   suggestions = [];
@@ -34,8 +35,18 @@ export class StockTypeComponent implements OnInit {
   }
 
   dismiss(response) {
-    console.log('Stock Type:', this.stockType);
-    this.activeModal.close({ response: response, stockType: this.stockType });
+    console.log('response',response);
+        if(response){
+        if(this.stockType.name.toString().trim()){
+          console.log('Stock Type:', this.stockType);
+          this.activeModal.close({ response: response, stockType: this.stockType });
+        }else{
+          this.common.showError('Please fill Name');
+          return;
+        }
+      }else{
+        this.activeModal.close({ response: response, stockType: this.stockType });
+      }
   }
 
   // searchUser() {
@@ -113,15 +124,24 @@ export class StockTypeComponent implements OnInit {
         this.setFoucus('name');
       } else if (activeId.includes('name')) {
         this.setFoucus('code');
-      } else if (activeId == 'code') {
+      } else if (activeId.includes('code')) {
+        this.setFoucus('isservice');
+      } else if (activeId == 'isservice') {
+        // this.setFoucus('aliasname');
+        this.showConfirm = true;
+      }else if (activeId == 'notisactive') {
         // this.setFoucus('aliasname');
         this.showConfirm = true;
       }
+
+      
     } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', activeId);
       if (activeId == 'code') this.setFoucus('name');
       if (activeId == 'name') this.setFoucus('user');
+      if (activeId == 'isservice') this.setFoucus('code');
+      if (activeId == 'notisactive') this.setFoucus('code');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
     } else if (key != 'backspace') {

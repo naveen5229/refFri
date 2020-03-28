@@ -129,6 +129,9 @@ export class OrderComponent implements OnInit {
     public modalService: NgbModal,
     private printService: PrintService,
     public pdfService: PdfService) {
+      if(this.common.params.ordertype){
+        this.order.ordertype.id=this.common.params.ordertype;
+      }
     this.getBranchList();
     this.getInvoiceTypes();
     this.getPurchaseLedgers();
@@ -138,7 +141,9 @@ export class OrderComponent implements OnInit {
     this.getWarehouses();
     this.setFoucus('custcode');
     this.getInvoiceDetail();
+    console.log('invoise edit detail',this.common.params);
     // this.common.currentPage = 'Invoice';
+    
     if(this.common.params.sizeIndex){
       this.sizeIndex=this.common.params.sizeIndex;
     }
@@ -708,7 +713,7 @@ export class OrderComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-        this.setFoucus('podate');
+            (this.order.ordertype.name.toLowerCase().includes('sales')) ? (this.setFoucus('purchaseledger')) : this.setFoucus('podate');
           }
         }
       } else if (this.activeId.includes('purchaseledger')) {
@@ -727,7 +732,7 @@ export class OrderComponent implements OnInit {
              // return; 
               }
           }, 100);
-        this.setFoucus('ledgersup');
+          if(this.order.ordertype.id == -104) { this.setFoucus('ledger'); }else { this.setFoucus('ledgersup'); }
         }else{
           setTimeout(() => {
             if(!(this.order.purchaseledger.id)){
@@ -755,17 +760,19 @@ export class OrderComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         setTimeout(() => {
-          console.log('this.order.ordertype.id ',this.order.ordertype.id );
-          if((!this.order.ledger.id)){
+          console.log('this.order.ordertype.id ',(!(this.order.ledger.id)));
+          if((this.order.ledger.id) == ''){
             this.order.ledger.name ='';   
               this.common.showError('Please Select Supplier Legder'); 
-             if(this.order.ordertype.id != -108){
+             if(this.order.ordertype.id == -102){
+              console.log('correct condition111');
                 this.setFoucus('ledgersup');
                } else { 
+            console.log('correct condition');
                  this.setFoucus('ledger'); 
                 }
               }
-        }, 100);
+        }, 50);
         this.setFoucus('vendorbidref');
       } else if (this.activeId.includes('vendorbidref')) {
         this.setFoucus('qutationrefrence');
@@ -821,12 +828,34 @@ export class OrderComponent implements OnInit {
     }
     else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
-      console.log('active 1', this.activeId);
+      console.log('active 1 23123', this.activeId ,this.order.ordertype.id);
       if (this.activeId == 'date') this.setFoucus('custcode');
-      if (this.activeId == 'purchaseledger') this.setFoucus('podate');
+      if (this.activeId == 'purchaseledger') {
+        if(this.order.ordertype.id == -102){
+          this.setFoucus('podate'); 
+        } 
+        else {
+      this.setFoucus('date');
+     } 
+    }
       if (this.activeId == 'podate') this.setFoucus('date');
-      if (this.activeId == 'ledger' || this.activeId=='ledgersup') this.setFoucus('purchaseledger');
-      if (this.activeId == 'vendorbidref') { (this.order.ordertype.id != -108) ? this.setFoucus('ledgersup') : this.setFoucus('ledger');} 
+      if (this.activeId == 'ledger' || this.activeId=='ledgersup') {
+         (this.order.ordertype.id == -102) ?  this.setFoucus('podate') : this.setFoucus('purchaseledger'); 
+        }
+      //this.setFoucus('purchaseledger');
+      if (this.activeId == 'vendorbidref') { 
+              if(this.order.ordertype.id != -108) {
+                    if(this.order.ordertype.id == -102){
+                      this.setFoucus('ledgersup');
+                    }
+                    else{ 
+                      this.setFoucus('ledger')
+                    }
+              }
+              else{ 
+                this.setFoucus('ledger');
+               }
+        }
       if (this.activeId == 'qutationrefrence') this.setFoucus('vendorbidref');
       if (this.activeId == 'shipmentlocation') this.setFoucus('qutationrefrence');
       if (this.activeId == 'paymentterms') this.setFoucus('shipmentlocation');
@@ -886,7 +915,7 @@ export class OrderComponent implements OnInit {
   }
 
   setFoucus(id, isSetLastActive = true) {
-    console.log('Id: ', id);
+    console.log('Id1111: ', id);
     setTimeout(() => {
       let element = document.getElementById(id);
       console.log('Element: ', element);

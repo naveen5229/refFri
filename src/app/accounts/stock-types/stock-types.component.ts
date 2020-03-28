@@ -65,10 +65,10 @@ export class StockTypesComponent implements OnInit {
         // console.log('Data: ', data);
         if (data.response) {
           const params = {
-            foid: 123,
             name: data.stockType.name,
             code: data.stockType.code,
-            id: stockType.id
+            id: stockType.id,
+            isservice:data.stockType.isservice
           };
       
           this.common.loading++;
@@ -114,9 +114,9 @@ export class StockTypesComponent implements OnInit {
 
   addStockType(stockType) {
     const params = {
-      foid: 123,
       name: stockType.name,
-      code: stockType.code
+      code: stockType.code,
+      isservice:stockType.isservice
     };
 
     this.common.loading++;
