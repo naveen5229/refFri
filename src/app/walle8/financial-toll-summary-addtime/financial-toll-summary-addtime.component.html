@@ -17,7 +17,7 @@
       </div>
       
       <div class="col-3">
-        <auto-suggestion (keyup)="filterData($event)" [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)" url="Suggestion/getVehicleList.json?" display="regno" placeholder="search" style="width:60%;" value="yes" aria-disabled="true">
+        <auto-suggestion [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)" url="'Suggestion/getVehicleList.json?" display="regno" placeholder="search" style="width:60%;" value="yes" aria-disabled="true">
         </auto-suggestion>
 
         <!-- <input type="text" class="form-control" autocomplete="off" (keyup)="filterData($event)"

@@ -23,6 +23,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     name: null,
     mobileNo: null
   }
+  foid = null;
   regno = null;
   typedKey = '';
   vehId = '';
@@ -40,8 +41,9 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal, ) {
+      this.foid = this.user._details.foid;
       console.log("this.user._details.",this.user._details);
-      this.fo.id = this.user._details.id;
+      this.fo.id = this.user._details.foid;
       this.fo.mobileNo = this.user._details.fo_mobileno;
       this.fo.name = this.user._details.name;
       this.common.refresh = this.refresh.bind(this);

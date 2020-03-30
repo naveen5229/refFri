@@ -80,6 +80,7 @@ export class RouteMapperComponent implements OnInit {
   vehicleEvents = [];
   timelineValue = 1;
   isPlay = false;
+  
   getHaltTrails() {
     this.strHaltReason = [];
     this.strSiteName = [];
@@ -148,7 +149,7 @@ export class RouteMapperComponent implements OnInit {
                     this.polypath.push({ lat: element.lat, lng: element.long, odo: 0, time: element.time });
                   }
 
-                  this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
+                  this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long), null, false);
                   this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
                   prevElement = element;
                   i++;
