@@ -1,0 +1,73 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-10">
+        <h5>Orders</h5>
+      </div>
+      <div class="col-sm-1">
+        <button (click)="openAddOrder()" class="btn btn-primary " style="margin-right:15px">Add Order</button></div>
+    </div>
+    <div class="row">
+      <div class="col-1">From :</div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
+        </uj-date-time-picker>
+      </div>
+      <div class="col-1">To :</div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false [isStart]="false">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary pb-1 pt-1" style="border-radius:3px; text-align:center"
+          (click)="getOrders()">Submit</button> </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body style="padding:10px 15px;">
+   
+    <div class="row">
+      <div class="col-3" *ngIf='orderStatesData.length>0'>
+        <chart class="dashboard_chart" type="pie" [data]="chartData" [options]="chartOptions" id="chart" >
+        </chart>
+
+        <nb-card>
+          <nb-card-body (click)="allData()" style="cursor: pointer;">
+            <div class="col-sm-1 p-0">
+              <div
+                style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+              </div>
+            </div>
+            <div class="col-sm-8">
+              <span> All Data </span>
+            </div>
+            <div class="col-sm-3">
+              <span>{{ orderStatesData.length }}</span>
+            </div>
+          </nb-card-body>
+        </nb-card>
+        <nb-card *ngFor="let group of keyGroups; let i = index">
+          <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
+            <div class="col-sm-1 p-0">
+              <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                [ngStyle]="{ 'background-color': group.bgColor }"></div>
+            </div>
+            <div class="col-sm-8">
+              {{ group.name | titlecase }}
+            </div>
+            <div class="col-sm-3">
+              {{ stateGroups[group.name].length }}
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </div>
+      <div class="col-9" *ngIf="data && data.length">
+        <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      </div>
+      <div class="alert alert-danger text-center col-12"  *ngIf="!data || !data.length">
+        <h4 class="no-record">No Record Found</h4>
+      </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>

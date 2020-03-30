@@ -31,15 +31,16 @@ export class LorryRecciptsComponent implements OnInit {
   viewImages = null;
   activeImage = 'lr_image';
   viewType = 'allLR';
-  startDate = '';
-  endDate = '';
+ 
   lrType = "2";
   lrCategory = -1;
   vehicleType = -1;
-  tempstartTime = null;
-  tempendTime = null;
+  
   searchValue = null;
   searchString = null;
+  
+  endDate = new Date();
+ startDate = new Date(new Date().setDate(new Date().getDate() - 15));
   // showMsg = false;
   constructor(
     public api: ApiService,
@@ -49,15 +50,6 @@ export class LorryRecciptsComponent implements OnInit {
     public route: ActivatedRoute,
     private modalService: NgbModal,
     public renderer: Renderer) {
-
-    let today;
-    today = new Date();
-    this.tempendTime = new Date();
-    this.tempstartTime = new Date(today.setDate(today.getDate() - 15));
-    today = new Date();
-    this.endDate = this.common.dateFormatter(today);
-    this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
-    console.log('dates ', this.tempendTime, this.tempstartTime);
     this.getLorryReceipts();
     this.common.refresh = this.refresh.bind(this);
 
@@ -74,15 +66,13 @@ export class LorryRecciptsComponent implements OnInit {
   }
 
   getLorryReceipts() {
-    console.log("--this.tempendTime---", this.tempendTime, "this.tempstartTime---", this.tempstartTime)
-    if (this.tempendTime < this.tempstartTime) {
+    if (this.endDate < this.startDate) {
       this.common.showError("End Date Should be greater than Start Date");
       return 0;
     }
-    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
     let params = {
-      startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
-      endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
+      startDate: this.common.dateFormatter(this.startDate),
+      endDate: this.common.dateFormatter(this.endDate),
       type: this.viewType,
       status: this.lrType,
       lrCategory: this.lrCategory,
@@ -165,7 +155,8 @@ export class LorryRecciptsComponent implements OnInit {
       title: 'Lorry Receipt',
       previewId: null,
       refId: receipt.lr_id,
-      refType: "LR_PRT"
+      refType: "LR_PRT",
+      autoPrint: true
     }
     this.common.params = { previewData };
     console.log("receipts", receipt);
@@ -292,31 +283,7 @@ export class LorryRecciptsComponent implements OnInit {
   }
 
 
-  getDate(type) {
-
-    this.common.params = { ref_page: 'LrView' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (type == 'start') {
-          this.tempstartTime = data.date;
-          this.startDate = '';
-          return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
-          console.log('tempstartTime', this.tempstartTime);
-        }
-        else {
-          this.tempendTime = data.date;
-          this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
-          // return this.endDate = date.setDate( date.getDate() + 1 )
-          console.log('tempendTime', this.tempendTime);
-        }
-
-      }
-
-    });
-
-
-  }
+  
   deleteLr(lr) {
     console.log("Lr dddd", lr);
     if (!confirm("Are You Sure you want to delete LR?")) {

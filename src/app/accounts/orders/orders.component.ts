@@ -13,6 +13,7 @@ import { WareHouseModalComponent } from '../../acounts-modals/ware-house-modal/w
 import { AccountService } from '../../services/account.service';
 import {LedgeraddressComponent} from '../../acounts-modals/ledgeraddress/ledgeraddress.component';
 import { PrintService } from '../../services/print/print.service';
+import { isNull } from 'util';
 
 @Component({
   selector: 'orders',
@@ -35,6 +36,7 @@ export class OrdersComponent implements OnInit {
   freezedate='';
   allowBackspace = true;
   order = {
+    podate:this.common.dateFormatternew(new Date()).split(' ')[0],
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: '',
     biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -190,6 +192,7 @@ export class OrdersComponent implements OnInit {
 
   setInvoice() {
     return {
+    podate:this.common.dateFormatternew(new Date()).split(' ')[0],
       date: this.common.dateFormatternew(new Date()).split(' ')[0],
       biltynumber: '',
       biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -347,16 +350,22 @@ export class OrdersComponent implements OnInit {
   dismiss(response) {
     // console.log('Order:', this.order);
     if (response) {
-      //console.log('Order new:', this.order);
+      console.log('Order new:', this.accountService.selected.financialYear);
       // return;
       if (this.accountService.selected.branch.id == 0) {
         this.common.showError('Please select Branch');
         return;
       }
-      if (this.accountService.selected.financialYear.isfrozen == true) {
+      if (this.accountService.selected.financialYear==null) {
+        this.common.showError('This Select financial year ');
+      }else if (this.accountService.selected.financialYear.isfrozen == true){
         this.common.showError('This financial year is freezed. Please select currect financial year');
         return;
-      }else if (this.order.amountDetails[0].amount == 0) {
+      }
+
+     
+
+      if (this.order.amountDetails[0].amount == 0) {
         this.common.showError('Please fill correct amount');
         return;
       }else {
@@ -442,6 +451,7 @@ export class OrdersComponent implements OnInit {
       billingaddress: order.billingaddress,
       orderremarks: order.orderremarks,
       biltynumber: order.biltynumber,
+      podate: order.podate,
       // code: order.code,
       biltydatestamp: order.biltydate,
       custcode: order.custcode,
@@ -522,8 +532,10 @@ export class OrdersComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     //console.log('-------------:', document.getElementById(this.activeId)['value']);
-    console.log('Active event', event);
     this.setAutoSuggestion();
+    if((this.order.ordertype.name.toLowerCase().includes('purchase'))&& this.activeId.includes('stockitem') ) { this.suggestions.stockItems = this.suggestions.stockItems; }
+    if ((this.order.ordertype.name.toLowerCase().includes('sales'))&& this.activeId.includes('stockitem') ) { this.suggestions.stockItems = this.suggestions.stockItems; }
+    console.log('Active event11', event,this.order.ordertype.name,this.activeId,this.suggestions.purchasestockItems);
 
     if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('date') || this.activeId.includes('biltydate'))) {
       // document.getElementById("voucher-date").focus();
@@ -592,7 +604,20 @@ export class OrdersComponent implements OnInit {
         this.setFoucus('date');
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
-      } else if (this.activeId.includes('date')) {
+      } else if (this.activeId.includes('podate')) {
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          console.log('heddlo',rescompare);
+          if (rescompare == 0) {
+            console.log('hello');
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('purchaseledger');
+            }, 150);
+          } else {
+          this.setFoucus('purchaseledger');
+      }
+    } }else if (this.activeId.includes('date')) {
         if (this.freezedate) {
           let rescompare = this.CompareDate(this.freezedate);
           console.log('heddlo',rescompare);
@@ -603,9 +628,13 @@ export class OrdersComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-          this.setFoucus('purchaseledger');
+            if (this.order.ordertype.id == -104) {
+              this.setFoucus('salesledger');
+            }else{
+             this.setFoucus('podate');
+            }
       }
-    } } else if (this.activeId.includes('purchaseledger')) {
+    } } else if (this.activeId.includes('purchaseledger') || this.activeId.includes('salesledger')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
@@ -615,7 +644,21 @@ export class OrdersComponent implements OnInit {
           this.setFoucus('warehouse' + '-' + 0);
         }
         else {
-          this.setFoucus('ledger');
+          setTimeout(() => {
+            console.log('sales ledger11111',this.order.purchaseledger.id);
+            if(!(this.order.purchaseledger.id)){
+              this.common.showError('Please Select Purchase Legder');  
+              this.order.purchaseledger.name ='';   
+              if (this.order.ordertype.id == -104) { this.setFoucus('salesledger');}
+              else{
+                this.setFoucus('purchaseledger');
+              }
+             // return; 
+              }
+          }, 100);
+         
+          (this.order.ordertype.id == -108) ? this.setFoucus('ledger') :this.setFoucus('ledger'); 
+          
         }
       } else if (this.activeId.includes('discountledger')) {
         console.log('0000000000000000000000000000000');
@@ -632,6 +675,13 @@ export class OrdersComponent implements OnInit {
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
+        setTimeout(() => {
+          if((!this.order.ledger.id)){
+            this.order.ledger.name ='';   
+              this.common.showError('Please Select Supplier Legder'); 
+              this.setFoucus('ledger');
+              }
+        }, 100);
         this.setFoucus('vendorbidref');
       } else if (this.activeId.includes('vendorbidref')) {
         this.setFoucus('qutationrefrence');
@@ -709,8 +759,10 @@ export class OrdersComponent implements OnInit {
       event.preventDefault();
       console.log('active 1', this.activeId);
       if (this.activeId == 'date') this.setFoucus('custcode');
-      if (this.activeId == 'purchaseledger') this.setFoucus('date');
-      if (this.activeId == 'ledger') this.setFoucus('purchaseledger');
+      if (this.activeId == 'podate') this.setFoucus('date');
+      if (this.activeId == 'salesledger') this.setFoucus('date');
+      if (this.activeId == 'purchaseledger') this.setFoucus('podate');
+      if (this.activeId == 'ledger') { (this.order.ordertype.name.toLowerCase().includes('sales')) ? (this.setFoucus('salesledger')) : this.setFoucus('purchaseledger'); }
       if (this.activeId == 'vendorbidref') this.setFoucus('ledger');
       if (this.activeId == 'qutationrefrence') this.setFoucus('vendorbidref');
       if (this.activeId == 'shipmentlocation') this.setFoucus('qutationrefrence');
@@ -757,7 +809,7 @@ export class OrdersComponent implements OnInit {
         this.handleArrowUpDown(key);
         event.preventDefault();
       }
-    }else if ((this.activeId == 'date' || this.activeId == 'biltydate') && key !== 'backspace') {
+    }else if ((this.activeId == 'date' || this.activeId =='podate' || this.activeId == 'biltydate') && key !== 'backspace') {
       let regex = /[0-9]|[-]/g;
       let result = regex.test(key);
       if (!result) {
@@ -1301,7 +1353,7 @@ export class OrdersComponent implements OnInit {
     let activeId = document.activeElement.id;
     console.log('Last Active Id:', activeId)
     if (activeId == 'ordertype') this.autoSuggestion.data = this.suggestions.invoiceTypes;
-    else if (activeId == 'purchaseledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
+    else if (activeId == 'purchaseledger' || activeId == 'salesledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
     else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
     else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
@@ -1344,7 +1396,7 @@ export class OrdersComponent implements OnInit {
       }else{
       this.order.billingaddress = suggestion.address;
       }
-    } else if (activeId == 'purchaseledger') {
+    } else if (activeId == 'purchaseledger' || activeId == 'salesledger') {
       console.log('>>>>>>>>>',suggestion);
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;

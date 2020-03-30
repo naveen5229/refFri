@@ -1,0 +1,87 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-5">
+        <h5>Orders Won</h5>
+      </div>
+      <!-- <div class="col-sm-1">
+        <button (click)="openAddOrder()" class="btn btn-primary " style="margin-right:15px">Add Order</button></div>
+     
+      -->
+    </div> 
+  </nb-card-header>
+
+  <nb-card-body style="padding:10px 15px;">
+
+    <!-- menu Bar -->
+    <div class="row">
+      <div class="col-sm-11">
+        <ul class="tabs_style">
+          <li [ngClass]="placementStatus == 'unplaced' ? 'active' : '' " id="dis-all" (click)=" placementStatus = 'unplaced'; getOrderDetails() ">
+            Pending Placement
+          </li>
+          <li [ngClass]="placementStatus == 'placed' ? 'active' : '' " (click)=" placementStatus = 'placed';getOrderDetails() ">
+            Placed Vehicle
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- placed orders -->
+    <div class="mt-3" *ngIf="placementStatus == 'placed'">
+      <table class="table table-bordered">
+        <thead class="thead">
+          <th>Pickup Point</th>
+          <th>Drop Point</th>
+          <th>Material</th>
+          <th>Body Type</th>
+          <th>Placed Vehicle</th>
+          <th></th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let order of placed">
+            <td>{{order['Pickup Point']}}</td>
+            <td>{{order['Drop Point']}}</td>
+            <td>{{order['Material']}}</td>
+            <td>{{order['Body Type']}}</td>
+            <td>{{order['Vehicles Placed']}}</td>
+            <th><i class="fa fa-close" style="color:red" (click)="placedVehicle(order,false)"></i></th>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <!-- pending Order -->
+    <div class="mt-3" *ngIf="placementStatus == 'unplaced'">
+      <table class="table table-bordered">
+        <thead class="thead">
+          <th>Pickup Point</th>
+          <th>Drop Point</th>
+          <th>Material</th>
+          <th>Body Type</th>
+          <th>Vehicle</th>
+          <th></th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let order of pendingPlacement;let i= index">
+            <td>{{order['Pickup Point']}}</td>
+            <td>{{order['Drop Point']}}</td>
+            <td>{{order['Material']}}</td>
+            <td>{{order['Body Type']}}</td>
+            <td> <auto-suggestion [isMultiSelect] = 'order._is_multi_select' (onSelected)="selectVehicle($event,i,order._is_multi_select)" url="suggestion/getFoVehicleList" display="regno"
+              placeholder="Search Vehicle" [preSelected]="{regno:order._regno}"></auto-suggestion></td>
+            <td> <i class = 'fa fa-check-circle' (click)="placedVehicle(order,true)"></i></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  
+
+</nb-card-body>
+
+
+</nb-card>

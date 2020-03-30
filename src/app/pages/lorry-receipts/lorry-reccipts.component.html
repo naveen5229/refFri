@@ -16,7 +16,7 @@
     <table style="width: 100%">
       <tr>
         <td>
-          <label>Gen. By</label>
+          <label>Gen._By</label>
           <select class="form-control" name="viewType" [(ngModel)]="viewType">
             <option value="allLR">All</option>
             <option value="myLr">Self</option>
@@ -32,13 +32,17 @@
         </td>
         <td>
           <label>From :</label>
-          <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
-            placeholder="Start Date" (click)="getDate('start')">
+          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate"  [isTime]=false>
+          </uj-date-time-picker>
+          <!-- <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
+            placeholder="Start Date" (click)="getDate('start')"> -->
         </td>
         <td>
           <label>To :</label>
-          <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
-            placeholder="End Date" (click)="getDate('end')">
+          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]=false  [isStart]=false>
+          </uj-date-time-picker>
+          <!-- <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
+            placeholder="End Date" (click)="getDate('end')"> -->
         </td>
         <td>
           <label>LR Status</label>
@@ -51,7 +55,7 @@
         </td>
 
         <td>
-          <label>Vehicle Type</label>
+          <label>Veh_Type</label>
           <select class="form-control" style=" border: 2px solid darkcyan; font-size: 13px" [(ngModel)]="vehicleType">
             <option value="-1">All</option>
             <option value="1">Own</option>
@@ -60,7 +64,7 @@
           </select>
         </td>
         <td>
-          <label>Search String</label>
+          <label>Search_String</label>
           <select class="form-control" style=" border: 2px solid darkcyan; font-size: 13px" [(ngModel)]="searchString">
             <option value="veh">Vehicle</option>
             <option value="lr">LR No</option>

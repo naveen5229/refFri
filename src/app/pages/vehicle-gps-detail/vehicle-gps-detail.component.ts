@@ -72,8 +72,8 @@ export class VehicleGpsDetailComponent implements OnInit {
       let column = {
         regno: { value: doc.regno },
         apiProvider: { value: doc.apiprovider },
-        lastCall: { value: this.datePipe.transform(doc.lastcalldt, 'dd MMM HH:mm') },
-        time: { value: this.datePipe.transform(doc.dttime, 'dd MMM HH:mm') },
+        lastCall:  {value : doc.lastcalldt}, //{ value: this.datePipe.transform(doc.lastcalldt, 'dd MMM HH:mm') },
+        time: {value : doc.dttime }//{ value: this.datePipe.transform(doc.dttime, 'dd MMM HH:mm') },
 
       };
       columns.push(column);

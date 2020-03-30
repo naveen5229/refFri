@@ -20,8 +20,8 @@ export class TaxdetailComponent implements OnInit {
       id: '',
     },
     taxrate: 0,
-    taxamount: null,
-    totalamount:null
+    taxamount: 0,
+    totalamount:0
 
   }];
   autoSuggestion = {
@@ -67,8 +67,8 @@ console.log('size index',this.sizeIndex);
       id: '',
     },
     taxrate: 0,
-    taxamount: null,
-    totalamount:null
+    taxamount: 0,
+    totalamount:0
     }];
     console.log('response//////////return',this.taxdetails);
 
@@ -114,8 +114,8 @@ console.log('size index',this.sizeIndex);
         id: '',
       },
       taxrate: 0,
-      taxamount: null,
-      totalamount:null
+      taxamount: 0,
+      totalamount:0
     });
 
     const activeId = document.activeElement.id;
@@ -287,24 +287,26 @@ console.log('size index',this.sizeIndex);
    }
 
   onSelect(suggestion, activeId) {
-    console.log('current activeId: ', activeId);
+    console.log('current activeId: ', activeId,suggestion);
     const index = parseInt(activeId.split('-')[1]);
 
     this.taxdetails[index].taxledger.name = suggestion.name;
     this.taxdetails[index].taxledger.id = suggestion.id;
-    this.taxdetails[index].taxrate = suggestion.per_rate;
+    this.taxdetails[index].taxrate = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
+    this.taxdetails[index].taxamount = parseFloat(((this.taxdetails[index].taxrate  * this.amount)/100).toFixed(2));
 
     this.autoSuggestion.display = 'name';
     this.autoSuggestion.targetId = activeId;
   }
 
   calculateTotal() {
-    let total = null;
+    let total = 0;
     this.taxdetails.map(taxdetail => {
-       //console.log('taxdetail Amount: ',  taxdetail);
-      total += parseFloat(taxdetail.taxamount);
-      this.taxdetails[0].totalamount=  total;
+      total += parseFloat((taxdetail.taxamount).toString());
+      //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
+
+      this.taxdetails[0].totalamount=  parseFloat(total.toString());
     });
-    return total;
+    return  parseFloat(total.toString());
   }
 }

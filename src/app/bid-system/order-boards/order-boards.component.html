@@ -1,0 +1,91 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-5">
+        <h5>Order - Bid Status</h5>
+      </div>
+      <!-- <div class="col-sm-1">
+        <button (click)="openAddOrder()" class="btn btn-primary " style="margin-right:15px">Add Order</button></div>
+     
+      -->
+    </div> 
+  </nb-card-header>
+
+  <nb-card-body style="padding:10px 15px;">
+
+    <!-- menu Bar -->
+    <div class="row">
+      <div class="col-sm-11">
+        <ul class="tabs_style">
+          <li [ngClass]="orderType == 'bulk' ? 'active' : '' " id="dis-all" (click)=" orderType = 'bulk';  ">
+            Bulk
+          </li>
+          <li [ngClass]="orderType == 'ftl' ? 'active' : '' " (click)=" orderType = 'ftl'; ">
+            FTL/LTL
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <!-- FTL orders -->
+    <div class="mt-3" *ngIf="orderType == 'ftl'">
+      <table class="table table-bordered">
+        <thead class="thead">
+          <th>Last Hours</th>
+          <th>Orders</th>
+          <th>Bids</th>
+          <th>Avg. Bids</th>
+          <th>Placements</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let order of orders">
+            <td>{{order.hours}}</td>
+            <td>{{order.orders}}</td>
+            <td>{{order.bids}}</td>
+            <td>{{order.bids_avg}}</td>
+            <td>{{order.placement}}</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <!-- Bulk Order -->
+    <nb-card *ngIf="orderType == 'bulk'">
+      <nb-card-body>
+        <div class="row mt-2" *ngFor="let order of bulkOrders" style="border: 1px solid rgb(58, 24, 24);">
+          <div class="col-4">
+            <b>{{order.name}}</b> <br>
+            ({{order.tot_weight}})
+            
+          </div>
+          <div class="col-8">
+            <table class="table table-bordered">
+              <thead class="thead">
+                <th>Bidder</th>
+                <th>Total Weight</th>
+                <th>Picked Weight</th>
+                <th>Remaining Weight</th>
+              </thead>
+              <tbody class="tbody">
+                <tr *ngFor="let bid of order.bids">
+                  <td>{{bid.bidder}}</td>
+                  <td>{{bid.t_weight}}</td>
+                  <td>{{bid.p_weight}}</td>
+                  <td>{{bid.r_weight}}</td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+
+  </nb-card-body>
+</nb-card>
