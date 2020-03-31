@@ -70,7 +70,7 @@ export class PodDashboardComponent implements OnInit {
         this.states = res['data']['summary'];
         this.handleChart();
         this.generateTable();
-      }, err => {
+      }, err => {   
         this.common.loading--;
         this.common.showError();
       });

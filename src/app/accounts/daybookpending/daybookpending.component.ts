@@ -137,13 +137,14 @@ export class DaybookpendingComponent implements OnInit {
       });
 
   }
-  openinvoicemodel(invoiceid) {
+  openinvoicemodel(invoiceid,ordertypeid) {
     // console.log('welcome to invoice ');
     //  this.common.params = invoiceid;
     this.common.params = {
       invoiceid: invoiceid,
       delete: this.deletedId,
-      approveid:4
+      approveid:4,
+      ordertype:ordertypeid
     };
     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

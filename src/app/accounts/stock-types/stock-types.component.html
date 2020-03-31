@@ -25,11 +25,11 @@
           <tr *ngFor="let stockType of stockTypes; let i = index;" (click)="selectedRow = i"
             (dblclick)="openStockTypeModal(stockType)" (enter)="openStockTypeModal(stockType)"
             [ngClass]="{'highlight' : selectedRow == i}">
-            <td>{{i + 1}}</td>
-            <td>{{stockType.name}}</td>
-            <td>{{stockType.code}}</td>
-            <td>{{stockType.entry_dt | date : 'dd-MMM-yy'}}</td>
-            <td class="del">
+            <td *ngIf="stockType.id !=0" >{{i}}</td>
+            <td *ngIf="stockType.id !=0">{{stockType.name}}</td>
+            <td *ngIf="stockType.id !=0">{{stockType.code}}</td>
+            <td *ngIf="stockType.id !=0">{{stockType.entry_dt | date : 'dd-MMM-yy'}}</td>
+            <td class="del" *ngIf="stockType.id !=0">
               <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockType.id)"><i
                   class="fa fa-trash"></i></a>
             </td>

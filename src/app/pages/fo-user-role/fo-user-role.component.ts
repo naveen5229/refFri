@@ -15,6 +15,9 @@ export class FoUserRoleComponent implements OnInit {
   getUsersList = [];
   getAllPagesList = [];
   formattedData = [];
+  formattedDataApp = [];
+  dashBoardPages = [];
+  appPages = [];
   selectedUser = {
     details: null,
     oldPreferences: []
@@ -38,6 +41,7 @@ export class FoUserRoleComponent implements OnInit {
     this.getAllUserList();
     document.getElementById('name')['value'] = '';
     this.formattedData = [];
+    this.formattedDataApp = [];
   }
   //Confirmation that before Leave the PAge
   canDeactivate() {
@@ -87,9 +91,21 @@ export class FoUserRoleComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.getAllPagesList = res['data'];
-        this.managedata();
-        console.log("Res Data:", this.getAllPagesList)
+      
         this.selectedUser.oldPreferences = res['data'];
+        this.getAllPagesList.map(dt=>{
+          console.log('dt',dt);
+          if(dt.type=='Dashboard'){
+            this.dashBoardPages.push(dt);
+          }
+          else if(dt.type=='App'){
+            this.appPages.push(dt);
+          }
+        });
+        console.log("dashboardPages",this.dashBoardPages);
+        console.log("app pages",this.appPages);
+        this.managedata();
+        this.manageAppData();
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -97,7 +113,8 @@ export class FoUserRoleComponent implements OnInit {
   }
 
   managedata() {
-    let firstGroup = _.groupBy(this.getAllPagesList, 'module');
+    this.formattedData = [];
+    let firstGroup = _.groupBy(this.dashBoardPages, 'module');
     console.log(firstGroup);
     this.formattedData = Object.keys(firstGroup).map(key => {
       return {
@@ -138,6 +155,57 @@ export class FoUserRoleComponent implements OnInit {
     });
 
     this.formattedData = _.sortBy(this.formattedData, ['name'], ['asc']).map(module => {
+      module.groups = _.sortBy(module.groups, ['name'], ['asc']).map(groups => {
+        groups.pages = _.sortBy(groups.pages, ['title'], ['asc']);
+        return groups;
+      });
+      return module;
+    });
+  }
+
+  manageAppData() {
+    this.formattedDataApp = [];
+    let firstGroup = _.groupBy(this.appPages, 'module');
+    console.log(firstGroup);
+    this.formattedDataApp = Object.keys(firstGroup).map(key => {
+      return {
+        name: key,
+        groups: firstGroup[key],
+        isSelected: false,
+        isOp: false,
+      }
+    });
+  
+    this.formattedDataApp.map(module => {
+      let isMasterAllSelected = true;
+      let pageGroup = _.groupBy(module.groups, 'group_name');
+      console.log(pageGroup);
+      console.log(Object.keys(pageGroup));
+      module.groups = Object.keys(pageGroup).map(key => {
+        let isAllSelected = true;
+        let pages = pageGroup[key].map(page => {
+          page.isSelected = page.userid ? true : false;
+          page.isadd = page.isadd ? true : false;
+          page.isedit = page.isedit ? true : false;
+          page.isdeleted = page.isdeleted ? true : false;
+          page.isOp = false;
+          if (isAllSelected)
+            isAllSelected = page.isSelected;
+          return page;
+        });
+        if (isMasterAllSelected) {
+          isMasterAllSelected = isAllSelected;
+        }
+        return {
+          name: key,
+          pages: pages,
+          isSelected: isAllSelected,
+        }
+      });
+      module.isSelected = isMasterAllSelected;
+    });
+
+    this.formattedDataApp = _.sortBy(this.formattedDataApp, ['name'], ['asc']).map(module => {
       module.groups = _.sortBy(module.groups, ['name'], ['asc']).map(groups => {
         groups.pages = _.sortBy(groups.pages, ['title'], ['asc']);
         return groups;
@@ -236,6 +304,19 @@ export class FoUserRoleComponent implements OnInit {
     let data = [];
     console.log('formattedData: ', this.formattedData);
     this.formattedData.map(module => {
+      module.groups.map(group => {
+        group.pages.map(page => {
+          if (page.isSelected) {
+            data.push({ id: page.id, status: 1, isadd: page.isadd, isedit: page.isedit, isdeleted: page.isdeleted, isOp: page.isOp });
+          }
+          else {
+            data.push({ id: page.id, status: 0, isadd: false, isedit: false, isdeleted: false, isOp: page.isOp });
+          }
+        })
+      })
+
+    });
+    this.formattedDataApp.map(module => {
       module.groups.map(group => {
         group.pages.map(page => {
           if (page.isSelected) {

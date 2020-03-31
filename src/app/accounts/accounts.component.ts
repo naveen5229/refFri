@@ -62,11 +62,14 @@ export class AccountsComponent {
       .subscribe(res => {
         console.log('financial :', res['data']);
         this.accountService.financialYears = res['data'];
-        this.accountService.financialYears.map(financialYear => {
-          if (financialYear.name.split('-')[0] == (new Date()).getFullYear()) {
-            this.accountService.selected.financialYear = financialYear;
-          }
-        });
+        // this.accountService.financialYears.map(financialYear => {
+        //   if (financialYear.name.split('-')[0] == (new Date()).getFullYear()) {
+        //     this.accountService.selected.financialYear = financialYear;
+        //   }
+        // });
+        this.accountService.selected.financialYear = this.accountService.financialYears[this.accountService.financialYears.length-1];
+
+        console.log('selected financial year',this.accountService.selected.financialYear);
       }, err => {
         this.getFinancial();
         console.log('Error: ', err);

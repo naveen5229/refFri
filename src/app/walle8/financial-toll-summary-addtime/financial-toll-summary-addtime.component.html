@@ -15,9 +15,15 @@
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
           placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
       </div>
-      
+
       <div class="col-3">
-        <auto-suggestion (keyup)="filterData($event)" [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)" url="Suggestion/getVehicleList.json?" display="regno" placeholder="search" style="width:60%;" value="yes" aria-disabled="true">
+<<<<<<< HEAD
+        <auto-suggestion [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)" url="'Suggestion/getVehicleList.json?" display="regno" placeholder="search" style="width:60%;" value="yes" aria-disabled="true">
+=======
+        <auto-suggestion (keyup)="filterData($event)" [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)"
+          url="Suggestion/getVehicleList.json?" display="regno" placeholder="search" style="width:60%;" value="yes"
+          aria-disabled="true">
+>>>>>>> 9f976fbb04317413f6ddce2769e2696c05ed2d73
         </auto-suggestion>
 
         <!-- <input type="text" class="form-control" autocomplete="off" (keyup)="filterData($event)"
@@ -28,7 +34,7 @@
         <button class="btn btn-primary" type="button" (click)="getaddTimeFinancialTollReport()">Submit</button>
       </div>
       <div class="col-1">
-        <span class="pdf-icon" title="PDF Export" (click)="common.downloadPdf('financialaccount');"
+        <span class="pdf-icon" title="PDF Export" (click)="generatePDF();"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
 
         <!-- <span class="pdf-icon" title="PDF Export" (click)="multiPagePDF();" style="cursor: pointer;"><i
@@ -37,7 +43,7 @@
     </div>
 
     <div id="financialaccount">
-    <!-- <div id="report"> -->
+      <!-- <div id="report"> -->
       <div style="height:40px"></div>
       <div class="row">
         <div class="col-6">
@@ -50,87 +56,97 @@
         <div class="col-3"></div>
         <div class="col-3">
           <img src="http://elogist.in/transtruck/admindashboard/assets/images/left-logo.png"
-            style="width:150px;height:120px;">
+            style="width:150px;height:120px;" id="logo" crossorigin="anonymous">
         </div>
       </div>
 
       <div class="row" style="margin-top:10px;">
         <div class="col-6">
-          <table class="table table-bordered">
-            <tr>
-              <th class="thead" colspan="2">Provider Details</th>
-            </tr>
-            <tr>
-              <td>Provider Name</td>
-              <td>eLogist</td>
-            </tr>
-            <tr>
-              <td>Provider Address</td>
-              <td>Jaipur</td>
-            </tr>
-            <tr>
-              <td>GSTIN</td>
-              <td>08AAECE3933F1ZS</td>
-            </tr>
-            <tr>
-              <td>Place Of Supply</td>
-              <td>Rajasthan</td>
-            </tr>
+          <table class="table table-bordered" id="provider">
+            <thead>
+              <tr>
+                <th class="thead" colspan="2">Provider Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Provider Name</td>
+                <td>eLogist</td>
+              </tr>
+              <tr>
+                <td>Provider Address</td>
+                <td>Jaipur</td>
+              </tr>
+              <tr>
+                <td>GSTIN</td>
+                <td>08AAECE3933F1ZS</td>
+              </tr>
+              <tr>
+                <td>Place Of Supply</td>
+                <td>Rajasthan</td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <div class="col-6">
-          <table class="table table-bordered">
-            <tr>
-              <th class="thead" colspan="2">Customer Details</th>
-            </tr>
-            <tr>
-              <td>Customer Id</td>
-              <td>{{fo.id}}</td>
-            </tr>
-            <tr>
-              <td>Mobile No.</td>
-              <td>{{fo.mobileNo}}</td>
-            </tr>
-            <tr>
-              <td>Name</td>
-              <td>{{fo.name}}</td>
-            </tr>
-            <tr>
-              <td>Statement Date</td>
-              <td>{{dates.currentdate}}</td>
-            </tr>
-            <tr>
-              <td>Statement Period</td>
-              <td>{{dates.start}} - {{dates.end}}</td>
-            </tr>
+          <table class="table table-bordered" id="customer">
+            <thead>
+              <tr>
+                <th class="thead" colspan="2">Customer Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Customer Id</td>
+                <td>{{fo.id}}</td>
+              </tr>
+              <tr>
+                <td>Mobile No.</td>
+                <td>{{fo.mobileNo}}</td>
+              </tr>
+              <tr>
+                <td>Name</td>
+                <td>{{fo.name}}</td>
+              </tr>
+              <tr>
+                <td>Statement Date</td>
+                <td>{{dates.currentdate}}</td>
+              </tr>
+              <tr>
+                <td>Statement Period</td>
+                <td>{{dates.start}} - {{dates.end}}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
-<br>
+      <br>
       <div class="row">
         <div class="col-12">
-          <table class="table table-bordered">
-            <tr>
-              <th class="thead" colspan="4">Account Summary</th>
-            </tr>
-            <tr>
-              <td>Opening Balance(Rs.)</td>
-              <td>Closing Balance(Rs.)</td>
-            </tr>
-            <tr>
-              <td>{{openingBalance}}</td>
-              <td>{{closingBalance}}</td>
-            </tr>
+          <table class="table table-bordered" id="account">
+            <thead>
+              <tr>
+                <th class="thead" colspan="4">Account Summary</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Opening Balance(Rs.)</td>
+                <td>Closing Balance(Rs.)</td>
+              </tr>
+              <tr>
+                <td>{{openingBalance}}</td>
+                <td>{{closingBalance}}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-12">
-          <table class="table table-bordered">
-            <tr>
-              <th class="thead" colspan="9">Transaction Details</th>
-            </tr>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered" id="tblData">
+          <thead>
             <tr>
               <th>Vehicle</th>
               <th>Accounting Time</th>
@@ -142,21 +158,21 @@
               <th>Balance</th>
               <th>Transaction Id</th>
             </tr>
-            <tbody>
-              <tr *ngFor="let dt of data ">
-                <td>{{dt.vehid}}</td>
-                <td>{{dt.addtime}}</td>
-                <td>{{dt.transtime}}</td>
-                <td>{{dt.remark}}</td>
-                <td>{{dt.amount_credit}}</td>
-                <td>{{dt.amount_debit}}</td>
-                <td>{{dt.entry_type}}</td>
-                <td>{{dt.balance}}</td>
-                <td>{{dt.txn_id}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dt of data ">
+              <td>{{dt.vehid}}</td>
+              <td>{{dt.addtime}}</td>
+              <td>{{dt.transtime}}</td>
+              <td>{{dt.remark}}</td>
+              <td>{{dt.amount_credit}}</td>
+              <td>{{dt.amount_debit}}</td>
+              <td>{{dt.entry_type}}</td>
+              <td>{{dt.balance}}</td>
+              <td>{{dt.txn_id}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </nb-card-body>

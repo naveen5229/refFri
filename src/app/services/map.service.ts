@@ -260,7 +260,6 @@ export class MapService {
           };
       }
 
-
       let marker = null;
       if (dropPoly)
         this.drawPolyMF(latlng);
@@ -278,6 +277,7 @@ export class MapService {
           infoWindows.push(infoWindow);
           infoWindow.opened = false;
           console.log(infoWindow);
+         console.log("typeof (infoKeys)",typeof (infoKeys),infoKeys);
           if (typeof (infoKeys) == 'object') {
             infoKeys.map((display, indexx) => {
               if (indexx != infoKeys.length - 1) {

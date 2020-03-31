@@ -50,7 +50,7 @@ const PAGES_COMPONENTS = [
     WebActivitySummaryComponent,
     FoFuelAverageComponent,
     ChallanPaymentRequestComponent,
-    MvGpsApiReqComponent
+    MvGpsApiReqComponent,
 ];
 
 

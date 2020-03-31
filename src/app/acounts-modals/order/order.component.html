@@ -4,7 +4,7 @@
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)" style="padding: 0px;">
     <div class="modal-header mb-3">
-      <h5 class="modal-title" id="modal-basic-title">Edit Invoice</h5>
+      <h5 class="modal-title" id="modal-basic-title">{{pagename}}</h5>
       <button type="button" class="close" aria- label="Close" (click)=" modelCondition()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -43,6 +43,15 @@
 
               </div>
             </div>
+            <div class="col"  *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">
+              <div class="form-group">
+                <label class="ref-label">Po Date</label>
+                <input type="text" autocomplete="off" style="cursor: pointer;" class="form-control ref-input"
+                  autocomplete="off" id="podate" name="po-date" [(ngModel)]="order.podate" maxlength="10"
+                  (click)="lastActiveId = 'po-date'; allowBackspace = false;" (input)="allowBackspace = false;">
+
+              </div>
+            </div>
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Purchase Ledger</label>
@@ -56,7 +65,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Supplier Ledger</label>
-                <input autocomplete="off" type="text" class="form-control ref-input" id="ledger" name="ledger"
+                <input autocomplete="off" type="text" class="form-control ref-input" id="ledgersup" name="ledger"
                   [(ngModel)]="order.ledger.name" require>
                 <!-- <auto-suggestion (onSelected)="onSelectedaddress($event, 'ledger', 'name')"
                   url="Suggestion/GetPurchaseLedger" display="name" placeholder="Enter Ledger" inputId="ledger"
@@ -413,12 +422,12 @@
 
     <div class="modal-footer">
       <div class="row w-100">
-        <div class="col-7">
-            <button class="btn btn-primary mr-2" type="button" (click)="printFunction()" id="printfunction"
+        <div class="col-7" >
+            <button *ngIf="(newid ==0)" class="btn btn-primary mr-2" type="button" (click)="printFunction()" id="printfunction"
             style="cursor: pointer;">Print</button>
           <!-- <span *ngIf="order.mannual"> <input type="checkbox" name="mannual" id="mannual" [(ngModel)]="order.mannual">Is Mannual Approval</span> -->
         </div>
-        <div class="col-1" *ngIf="(this.common.params && (this.deletedId == 0))">
+        <div class="col-1" *ngIf="((this.common.params && (this.deletedId == 0)) && newid ==0)">
           <button class="btn btn-danger" type="button" outline (click)="delete(order.orderid)" id="delete"
             style="cursor: pointer;">Delete</button>
         </div>

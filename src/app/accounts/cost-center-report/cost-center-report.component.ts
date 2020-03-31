@@ -18,7 +18,7 @@ export class CostCenterReportComponent implements OnInit {
 
   trial = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startDate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
+    startDate: ((((new Date()).getMonth())+1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear())-1) + '-04-01', 'ddMMYYYY', false, '-'),
     ledger: {
       name: 'All',
       id: 0

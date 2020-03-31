@@ -11,13 +11,13 @@
         <div class="col-6">
             <table class="table table-bordered table-hover">
                 <tbody>
-                    <tr>
+                    <tr *ngIf="!orderId">
                         <td colspan="3">
                             <auto-suggestion (onSelected)="vehicleSelected = $event.id" url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number" [preSelected]="{regno:vehicleRegNo}" style="width:60%;"></auto-suggestion>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
+                    <tr *ngIf="!orderId">
+                        <td *ngIf="!orderId">
                             <div class="row mr-0">
                                 <div class="col-sm-12 pr-0">
                                     <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
@@ -33,7 +33,7 @@
                 </div> -->
                             </div>
                         </td>
-                        <td>
+                        <td *ngIf="!orderId">
                             <div class="row mr-0">
                                 <div class="col-sm-12 pr-0">
                                     <uj-date-time-picker (onChanged)="endDate = $event" [isStart]="false" [dateTimeValue]="endDate">
@@ -113,6 +113,7 @@
                 </tbody>
             </table>
         </div>
+        
         <div class="col-6 pl-0">
             <div id="map" style="width: 100%; height:68vh">
             </div>

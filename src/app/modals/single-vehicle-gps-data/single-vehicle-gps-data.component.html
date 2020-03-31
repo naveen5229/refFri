@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title"> Add Multi Vehicle Halt</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-4">
+      <div class="form-group">
+        <label> Vehicle RegNo </label>
+      <auto-suggestion (onSelected)="selectVehicle($event)" url="Suggestion/getVehicleList.json"
+      [display]="['regno','foid']" seperator="-" placeholder=" vehicleId" preSelected=''></auto-suggestion>
+    </div>
+    </div>
+    <div class="col-4">
+      <div class="form-group">
+        <label> From Date </label>
+        <uj-date-time-picker (onChanged)="startDate=($event)" [dateTimeValue]="startDate" [isTime]="true">
+        </uj-date-time-picker>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="form-group">
+        <label>To Date</label>
+        <uj-date-time-picker (onChanged)="endDate=($event)" [dateTimeValue]="endDate" [isTime]="true">
+        </uj-date-time-picker>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn btn-primary" (click)="addGpsData()">Submit</button>
+    </div>
+  </div>

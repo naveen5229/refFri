@@ -120,7 +120,7 @@ export class TrendsFoComponent implements OnInit {
     let yAxesLabel0 = yAxesLabels[this.trendType][0];
     let yAxeslegent = yAxesLabels[this.trendType][0]
     let yAxeslegent1 = yAxesLabels[this.trendType][1]
-
+    
     let yAxesLabel1 = yAxesLabels[this.trendType][1];
     let xAxesLabel = this.xAxesLabels[this.period];
 

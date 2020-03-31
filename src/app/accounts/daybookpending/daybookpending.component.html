@@ -95,8 +95,8 @@
         [ngClass]="{'highlight' : selectedRow == i}"> -->
 
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
-        (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? (dataItem.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(dataItem) :(dataItem.y_type.toLowerCase().includes('fuel')) ? openFuelEdit(dataItem) : openVoucherEdit(dataItem.y_voucherid,dataItem.y_vouchertype_id) : (dataItem.y_type.toLowerCase().includes('stock')) ? openStoreQuestionEdit(dataItem) : openinvoicemodel(dataItem.y_voucherid) "
-        (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
+        (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? (dataItem.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(dataItem) :(dataItem.y_type.toLowerCase().includes('fuel')) ? openFuelEdit(dataItem) : openVoucherEdit(dataItem.y_voucherid,dataItem.y_vouchertype_id) : (dataItem.y_type.toLowerCase().includes('stock')) ? openStoreQuestionEdit(dataItem) : openinvoicemodel(dataItem.y_voucherid,dataItem.y_vouchertype_id) "
+        (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i, 'highlightcolor' : DayData.length-1 == i}">
         <td>{{ i+1 }}</td>        
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
         <td>{{dataItem.y_particulars}}
@@ -105,7 +105,7 @@
           </span>
         </td>
         <td>{{dataItem.y_type}}</td>
-        <td>{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
+        <td>{{ (dataItem.y_date != null) ? dataItem.y_code +'/'+ dataItem.y_cust_code : ''}}</td>
         <td>{{dataItem.y_dramunt}}</td>
         <td>{{dataItem.y_cramunt}}</td>
         <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>

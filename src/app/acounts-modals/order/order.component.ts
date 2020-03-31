@@ -39,6 +39,7 @@ export class OrderComponent implements OnInit {
   approve=0;
   freezedate='';  
   order = {
+    podate:this.common.dateFormatternew(new Date()).split(' ')[0],
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: null,
     biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -113,12 +114,13 @@ export class OrderComponent implements OnInit {
 
   activeId = '';
   lastActiveId = '';
-
+  newid =0;
   autoSuggestion = {
     data: [],
     targetId: '',
     display: ''
   };
+  pagename = 'Edit Invoice'
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -127,6 +129,9 @@ export class OrderComponent implements OnInit {
     public modalService: NgbModal,
     private printService: PrintService,
     public pdfService: PdfService) {
+      if(this.common.params.ordertype){
+        this.order.ordertype.id=this.common.params.ordertype;
+      }
     this.getBranchList();
     this.getInvoiceTypes();
     this.getPurchaseLedgers();
@@ -134,11 +139,17 @@ export class OrderComponent implements OnInit {
     this.getStockItems('sales');
     this.getStockItems('purchase');
     this.getWarehouses();
-    this.setFoucus('ordertype');
+    this.setFoucus('custcode');
     this.getInvoiceDetail();
+    console.log('invoise edit detail',this.common.params);
     // this.common.currentPage = 'Invoice';
+    
     if(this.common.params.sizeIndex){
       this.sizeIndex=this.common.params.sizeIndex;
+    }
+    if(this.common.params.newid){
+      this.newid=this.common.params.newid;
+      this.pagename ='Add Duplicate Invoice';
     }
     this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeIndex);
     // console.log("open data ",this.invoiceDetail[]);
@@ -198,6 +209,7 @@ export class OrderComponent implements OnInit {
         this.order.orderid = this.common.params.invoiceid;
         this.order.biltynumber = this.invoiceDetail[0].y_biltynumber;
         this.order.date = this.common.dateFormatternew(this.invoiceDetail[0].y_orderdate.split(' ')[0]);
+        this.order.podate = (this.invoiceDetail[0].y_refdate == null) ? '': this.common.dateFormatternew(this.invoiceDetail[0].y_refdate.split(' ')[0]);
         this.order.biltydate = this.common.dateFormatternew(this.invoiceDetail[0].y_biltydatestamp.split(' ')[0]);
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
         this.order.billingaddress = this.invoiceDetail[0].y_vendorbillingaddress;
@@ -309,6 +321,7 @@ export class OrderComponent implements OnInit {
   }
   setInvoice() {
     return {
+    podate:this.common.dateFormatternew(new Date()).split(' ')[0],
       date: this.common.dateFormatternew(new Date()).split(' ')[0],
       biltynumber: '',
       biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -436,7 +449,7 @@ export class OrderComponent implements OnInit {
     this.api.get('Suggestion/GetStockItem?search=123&invoicetype=' + type)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log('Res:', res['data'],type);
         if (type == 'sales') { this.suggestions.salesstockItems = res['data']; }
         if (type == 'purchase') { this.suggestions.purchasestockItems = res['data']; }
       }, err => {
@@ -551,6 +564,7 @@ export class OrderComponent implements OnInit {
       billingaddress: order.billingaddress,
       orderremarks: order.orderremarks,
       biltynumber: order.biltynumber,
+      podate: order.podate,
       // code: order.code,
       biltydatestamp: order.biltydate,
       custcode: order.custcode,
@@ -569,7 +583,7 @@ export class OrderComponent implements OnInit {
       // approved: order.Approved,
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
-      x_id: order.orderid,
+      x_id: (this.newid==0) ? order.orderid :0,
       delete: order.delete,
       ledgeraddressid: order.ledgeraddressid,
       ismannual :order.mannual,
@@ -635,9 +649,10 @@ export class OrderComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     this.setAutoSuggestion();
-
+    if((this.order.ordertype.name.toLowerCase().includes('purchase')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.purchasestockItems; }
+        if ((this.order.ordertype.name.toLowerCase().includes('sales')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.salesstockItems; }
     // console.log('Active Id', this.activeId);
-    if ((event.altKey && key === 'c') && ((this.activeId.includes('purchaseledger')) || (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')))) {
+    if ((event.altKey && key === 'c') && ((this.activeId.includes('purchaseledger')) || (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')) || (this.activeId.includes('ledgersup')))) {
       // console.log('alt + C pressed');
       this.openledger();
     }
@@ -665,16 +680,16 @@ export class OrderComponent implements OnInit {
         this.setFoucus('ordertype');
       } else if (this.activeId.includes('ordertype')) {
         console.log('order type', this.order.ordertype.name);
-        if (this.order.ordertype.name.toLowerCase().includes('purchase')) { this.suggestions.stockItems = this.suggestions.purchasestockItems; }
-        if (this.order.ordertype.name.toLowerCase().includes('sales')) { this.suggestions.stockItems = this.suggestions.salesstockItems; }
+        
 
         this.setFoucus('custcode');
       } else if (this.activeId.includes('custcode')) {
         this.handleVoucherDateOnEnter();
         this.setFoucus('date');
+        
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
-      } else if (this.activeId.includes('date')) {
+      } else if (this.activeId.includes('podate')) {
         if (this.freezedate) {
           let rescompare = this.CompareDate(this.freezedate);
           console.log('heddlo',rescompare);
@@ -685,7 +700,20 @@ export class OrderComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-        this.setFoucus('purchaseledger');
+          this.setFoucus('purchaseledger');
+      }
+    } }  else if (this.activeId.includes('date')) {
+        if (this.freezedate) {
+          let rescompare = this.CompareDate(this.freezedate);
+          console.log('heddlo',rescompare);
+          if (rescompare == 0) {
+            console.log('hello');
+            this.common.showError('Please Enter Date After '+this.freezedate);
+            setTimeout(() => {
+              this.setFoucus('date');
+            }, 150);
+          } else {
+            (this.order.ordertype.name.toLowerCase().includes('sales')) ? (this.setFoucus('purchaseledger')) : this.setFoucus('podate');
           }
         }
       } else if (this.activeId.includes('purchaseledger')) {
@@ -694,7 +722,28 @@ export class OrderComponent implements OnInit {
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
+        console.log('order type print',this.order.ordertype);
+        if(this.order.ordertype.id != -108){
+          setTimeout(() => {
+            if(!(this.order.purchaseledger.id)){
+              this.common.showError('Please Select Purchase Legder');  
+              this.order.purchaseledger.name ='';   
+              this.setFoucus('purchaseledger');
+             // return; 
+              }
+          }, 100);
+          if(this.order.ordertype.id == -104) { this.setFoucus('ledger'); }else { this.setFoucus('ledgersup'); }
+        }else{
+          setTimeout(() => {
+            if(!(this.order.purchaseledger.id)){
+              this.common.showError('Please Select Purchase Legder');  
+              this.order.purchaseledger.name ='';   
+              this.setFoucus('purchaseledger');
+             // return; 
+              }
+          }, 100);
         this.setFoucus('ledger');
+        }
       } else if (this.activeId.includes('discountledger')) {
         console.log('0000000000000000000000000000000');
         if (this.suggestions.list.length) {
@@ -704,12 +753,26 @@ export class OrderComponent implements OnInit {
         }
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('discountate' + '-' + index);
-      } else if (this.activeId.includes('ledger')) {
+      } else if (this.activeId.includes('ledger') || this.activeId.includes('ledgersup')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
+        setTimeout(() => {
+          console.log('this.order.ordertype.id ',(!(this.order.ledger.id)));
+          if((this.order.ledger.id) == ''){
+            this.order.ledger.name ='';   
+              this.common.showError('Please Select Supplier Legder'); 
+             if(this.order.ordertype.id == -102){
+              console.log('correct condition111');
+                this.setFoucus('ledgersup');
+               } else { 
+            console.log('correct condition');
+                 this.setFoucus('ledger'); 
+                }
+              }
+        }, 50);
         this.setFoucus('vendorbidref');
       } else if (this.activeId.includes('vendorbidref')) {
         this.setFoucus('qutationrefrence');
@@ -765,11 +828,34 @@ export class OrderComponent implements OnInit {
     }
     else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
-      console.log('active 1', this.activeId);
+      console.log('active 1 23123', this.activeId ,this.order.ordertype.id);
       if (this.activeId == 'date') this.setFoucus('custcode');
-      if (this.activeId == 'purchaseledger') this.setFoucus('date');
-      if (this.activeId == 'ledger') this.setFoucus('purchaseledger');
-      if (this.activeId == 'vendorbidref') this.setFoucus('ledger');
+      if (this.activeId == 'purchaseledger') {
+        if(this.order.ordertype.id == -102){
+          this.setFoucus('podate'); 
+        } 
+        else {
+      this.setFoucus('date');
+     } 
+    }
+      if (this.activeId == 'podate') this.setFoucus('date');
+      if (this.activeId == 'ledger' || this.activeId=='ledgersup') {
+         (this.order.ordertype.id == -102) ?  this.setFoucus('podate') : this.setFoucus('purchaseledger'); 
+        }
+      //this.setFoucus('purchaseledger');
+      if (this.activeId == 'vendorbidref') { 
+              if(this.order.ordertype.id != -108) {
+                    if(this.order.ordertype.id == -102){
+                      this.setFoucus('ledgersup');
+                    }
+                    else{ 
+                      this.setFoucus('ledger')
+                    }
+              }
+              else{ 
+                this.setFoucus('ledger');
+               }
+        }
       if (this.activeId == 'qutationrefrence') this.setFoucus('vendorbidref');
       if (this.activeId == 'shipmentlocation') this.setFoucus('qutationrefrence');
       if (this.activeId == 'paymentterms') this.setFoucus('shipmentlocation');
@@ -829,7 +915,7 @@ export class OrderComponent implements OnInit {
   }
 
   setFoucus(id, isSetLastActive = true) {
-    console.log('Id: ', id);
+    console.log('Id1111: ', id);
     setTimeout(() => {
       let element = document.getElementById(id);
       console.log('Element: ', element);
@@ -932,7 +1018,8 @@ export class OrderComponent implements OnInit {
     console.log('LEDGER: ', ledger);
     this.order.purchaseledger.name = ledger.name;
     this.order.purchaseledger.id = ledger.id;
-    this.setFoucus('ledger');
+   // this.setFoucus('ledger');
+    (this.order.ordertype.id != -108) ? this.setFoucus('ledgersup') : this.setFoucus('ledger');
 
   }
 
@@ -954,7 +1041,7 @@ export class OrderComponent implements OnInit {
   }
 
   generateIDs() {
-    let IDs = ['ordertype', 'purchaseledger', 'ledger'];
+    let IDs = ['ordertype', 'purchaseledger', 'ledger','ledgersup'];
     this.order.amountDetails.map((amountDetails, index) => {
       IDs.push('stockitem-' + index);
       IDs.push('discountledger-' + index);
@@ -978,7 +1065,7 @@ export class OrderComponent implements OnInit {
         suggestions = this.suggestions.purchaseLedgers.filter(purchaseLedger => purchaseLedger.name.replace(/\./g, "").toLowerCase().includes(search));
         suggestions.splice(10, suggestions.length - 1)
       }
-    } else if (this.activeId == 'ledger') {
+    } else if (this.activeId == 'ledger' || this.activeId == 'ledgersup') {
       if (element['value']) {
         suggestions = this.suggestions.supplierLedgers.filter(supplierLedger => supplierLedger.name.replace(/\./g, "").toLowerCase().includes(search));
         suggestions.splice(10, suggestions.length - 1)
@@ -1010,7 +1097,7 @@ export class OrderComponent implements OnInit {
     if (this.activeId == 'ordertype') {
       this.order.ordertype.name = suggestion.name;
       this.order.ordertype.id = suggestion.id;
-    } else if (this.activeId == 'ledger') {
+    } else if (this.activeId == 'ledger' || this.activeId == 'ledgersup') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
       this.order.billingaddress = suggestion.address;
@@ -1160,9 +1247,10 @@ export class OrderComponent implements OnInit {
 
   setAutoSuggestion() {
     let activeId = document.activeElement.id;
+    console.log('set autosuggestion',activeId,this.suggestions.stockItems);
     if (activeId == 'ordertype') this.autoSuggestion.data = this.suggestions.invoiceTypes;
     else if (activeId == 'purchaseledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
-    else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
+    else if (activeId == 'ledger' || activeId =='ledgersup') this.autoSuggestion.data = this.suggestions.supplierLedgers;
     else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
     else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId.includes('warehouse')) this.autoSuggestion.data = this.suggestions.warehouses;
@@ -1183,7 +1271,7 @@ export class OrderComponent implements OnInit {
     if (activeId == 'ordertype') {
       this.order.ordertype.name = suggestion.name;
       this.order.ordertype.id = suggestion.id;
-    } else if (activeId == 'ledger') {
+    } else if (activeId == 'ledger' || activeId == 'ledgersup') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
       if(suggestion.address_count >1){

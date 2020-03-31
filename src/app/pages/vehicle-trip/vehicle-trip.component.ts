@@ -179,7 +179,7 @@ export class VehicleTripComponent implements OnInit {
       { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, trip) },
       { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, trip) },
       { class: 'fa fa-handshake-o trip-settlement', action: this.tripSettlement.bind(this, trip) },
-      { class: 'fa fa-road road-map', action: this.vehicleInfo.bind(this, trip) },
+      { class: 'fa fa-road route-view', action: this.vehicleInfo.bind(this, trip) },
     ];
     this.user.permission.edit && icons.push({ class: 'fa fa-pencil-square-o  edit-btn', action: this.update.bind(this, trip) });
     this.user.permission.delete && icons.push({ class: " fa fa-trash remove", action: this.deleteTrip.bind(this, trip) });
@@ -293,9 +293,11 @@ export class VehicleTripComponent implements OnInit {
   }
 
   vehicleInfo(trip) {
+    console.log(trip);
     this.common.params = { refData: trip }
     const activeModal = this.modalService.open(VehicleInfoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
+
 
   openChangeDriverModal(vehicleTrip) {
     this.common.params = { vehicleId: vehicleTrip.vehicle_id, vehicleRegNo: vehicleTrip.regno };

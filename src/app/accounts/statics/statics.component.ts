@@ -24,7 +24,7 @@ export class StaticsComponent implements OnInit {
   selectedName = '';
   staticsData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
+    startdate: ((((new Date()).getMonth())+1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear())-1) + '-04-01', 'ddMMYYYY', false, '-'),
   };
   branchdata = [];
   staticsSheetData = [];
@@ -57,6 +57,8 @@ export class StaticsComponent implements OnInit {
     public modalService: NgbModal) {
     this.setFoucus('startdate');
     this.common.currentPage = 'Accounts Statics';
+  console.log('current month',((new Date().getFullYear())-1),((((new Date()).getMonth())+1) > 3) );
+
   }
 
   ngOnInit() {

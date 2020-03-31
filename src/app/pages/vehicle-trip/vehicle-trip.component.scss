@@ -369,6 +369,48 @@ nb-card-body{
     transform: translate(-50%);
 }
 
+:host ::ng-deep td i.fa-road{
+    background-color: yellow;
+    color: black;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 4px;
+}
+:host ::ng-deep td i.fa-road:hover span{
+    display: block;
+}
+:host ::ng-deep td i.fa-road span{
+    position: absolute;
+    display: none;
+    padding: 11px 24px;
+    left: -8px;
+    top: -28px;
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 999;
+}
+:host ::ng-deep td i.fa-road span::before{
+    content: 'Hist. Fuel Consumption';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: yellow;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+:host ::ng-deep td i.fa-road span::after{
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid yellow;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+}
 
 
 :host ::ng-deep td i.fa-road{

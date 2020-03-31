@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { trimTrailingNulls } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'stockitem',
@@ -43,7 +44,9 @@ export class StockitemComponent implements OnInit {
     cess:0,
     igst:0,
     taxability:'',
-    calculationtype:''
+    calculationtype:'',
+    openingbal:0,
+    openingqty:0
 
   };
   activeId='stockType';
@@ -104,7 +107,9 @@ export class StockitemComponent implements OnInit {
         cess:common.params.gst_cess_per,
         igst:common.params.gst_igst_per,
         taxability:common.params.gst_taxability,
-        calculationtype:common.params.gst_calculation_type
+        calculationtype:common.params.gst_calculation_type,
+        openingbal:common.params.opening_balance,
+        openingqty:common.params.opening_qty
       }
 
       console.log('Stock: ', this.stockItem);
@@ -256,7 +261,11 @@ export class StockitemComponent implements OnInit {
 
   dismiss(response) {
     console.log('Stock Type:', this.stockItem);
+    if((this.stockItem.name.trim()) ==''){
+      this.common.showError('Please Fill Stock Item Name');
+    }else{
     this.activeModal.close({ response: response, stockItem: this.stockItem });
+    }
   }
 
 
@@ -328,6 +337,10 @@ export class StockitemComponent implements OnInit {
       } else if (activeId == 'maxlimit') {
         this.setFoucus('minlimit');
       } else if (activeId == 'minlimit') {
+        this.setFoucus('openingbal');
+      }else if (activeId == 'openingbal') {
+        this.setFoucus('openingqty');
+      }else if (activeId == 'openingqty') {
         this.setFoucus('isactive');
       } else if (activeId == 'isactive' || activeId == 'notisactive') {
         this.setFoucus('sales');
@@ -371,10 +384,13 @@ export class StockitemComponent implements OnInit {
       if (activeId == 'inventary' || activeId == 'notinventary') this.setFoucus('purchase');
       if (activeId == 'purchase' || activeId == 'notpurchase') this.setFoucus('sales');
       if (activeId == 'sales' || activeId == 'notsales') this.setFoucus('isactive');
-      if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('minlimit');
+      if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('openingqty');
+      if (activeId == 'openingqty') this.setFoucus('openingbal');
+      if (activeId == 'openingbal') this.setFoucus('minlimit');
       if (activeId == 'minlimit') this.setFoucus('maxlimit');
-      if (activeId == 'maxlimit') this.setFoucus('code');
-      if (activeId == 'code') this.setFoucus('name');
+      if (activeId == 'maxlimit') this.setFoucus('name');
+      // if (activeId == 'name') this.setFoucus('code');
+      // if (activeId == 'code') this.setFoucus('name');
       if (activeId == 'name') this.setFoucus('unit');
       if (activeId == 'unit') this.setFoucus('stockSubType');
       if (activeId == 'stockSubType') this.setFoucus('stockType');

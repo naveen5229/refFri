@@ -25,7 +25,7 @@
       </div>
 
       <div class="col-sm-2">
-       <select [(ngModel)]="reportType" class="form-control">
+       <select [(ngModel)]="reportType" (change)="getFuelDailyConsumption()" class="form-control">
          <option value=1>Mid 50%</option>
          <option value=2>Median</option>
          <option value=3>Average</option>

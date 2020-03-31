@@ -55,7 +55,7 @@ export class TicketsComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
-        this.notifications = res['data'];
+        this.notifications = res['data'] || [];
         this.showMsg = true;
         this.newTickets = [];
         this.openTickets = [];
