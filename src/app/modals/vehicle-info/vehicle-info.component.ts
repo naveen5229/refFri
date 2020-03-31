@@ -59,7 +59,7 @@ export class VehicleInfoComponent implements OnInit {
     let startDate = this.common.dateFormatter(this.startDate);
     let endDate = this.common.dateFormatter(this.endDate);
     console.log('start & end', startDate, endDate);
-    const params = "vId=" + 26 +
+    const params = "vId=" + this.vehicleId +
       "&fromTime=" + startDate +
       "&toTime=" + endDate + "&tonnage=" + this.tonnage;
     console.log('params', params);
