@@ -11,7 +11,7 @@ import { MapService } from '../../services/map.service';
   styleUrls: ['./vehicle-info.component.scss']
 })
 export class VehicleInfoComponent implements OnInit {
-
+  isLite:false;
   vehicleInfo: any = null;
   vehicleId = -1;
   vehicleRegNo = null;
