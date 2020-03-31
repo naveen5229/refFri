@@ -61,7 +61,7 @@ export class VehicleInfoComponent implements OnInit {
     console.log('start & end', startDate, endDate);
     const params = "vId=" + 26 +
       "&fromTime=" + startDate +
-      "&toTime=" + endDate + "&tonnage =" + this.tonnage;
+      "&toTime=" + endDate + "&tonnage=" + this.tonnage;
     console.log('params', params);
     ++this.common.loading;
     this.api.get('Test/getVehicleAvgFuelConsumption?' + params)

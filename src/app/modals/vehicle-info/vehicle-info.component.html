@@ -16,8 +16,8 @@
                 placeholder="Search Vehicle" [preSelected]="(vehicleId>0)?{regno:vehicleRegNo}:{regno:''}">
               </auto-suggestion>
             </td>
-            <td colspan="1">
-              <input type="number" [(ngModel)]='tonnage' placeholder="Tonnage">
+            <td style="width: 90px;" > 
+              <input type="number" [(ngModel)]='tonnage' placeholder="Tonnage" style="width: 90px;">
             </td>
 
           </tr>
@@ -25,7 +25,7 @@
             <td>
               <div class="row mr-0">
                 <div class="col-sm-12 pr-0">
-                  <uj-date-time-picker [isTime]="false" (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+                  <uj-date-time-picker [isTime]="true" (onChanged)="startDate = $event" [dateTimeValue]="startDate">
                   </uj-date-time-picker>
 
                 </div>
@@ -35,7 +35,7 @@
             <td>
               <div class="row mr-0">
                 <div class="col-sm-12 pr-0">
-                  <uj-date-time-picker [isTime]="false" (onChanged)="endDate = $event" [dateTimeValue]="endDate">
+                  <uj-date-time-picker [isTime]="true" (onChanged)="endDate = $event" [dateTimeValue]="endDate">
                   </uj-date-time-picker>
 
                 </div>
