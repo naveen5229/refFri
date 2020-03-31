@@ -267,6 +267,7 @@ import { CardusageComponent } from './modals/cardusage/cardusage.component';
 import { MultiVehicleHaltAddComponent } from './modals/multi-vehicle-halt-add/multi-vehicle-halt-add.component';
 import { BankDetailsComponent } from './modals/bank-details/bank-details.component';
 import { IssueReportComponent } from './modals/issue-report/issue-report.component';
+import { VehicleInfoComponent } from './modals/vehicle-info/vehicle-info.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -507,9 +508,11 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CustomDatePipe,
     ...COMMON_COMPONENT,
     CardusageComponent,
+    VehicleInfoComponent,
   ],
   entryComponents: [
-    ...COMMON_COMPONENT
+    ...COMMON_COMPONENT,
+    VehicleInfoComponent
   ],
   imports: [
     BrowserModule,
