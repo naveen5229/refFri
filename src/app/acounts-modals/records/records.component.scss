@@ -1,0 +1,56 @@
+.modal-header {
+    padding: 10px 15px;
+    background-color: #263238;
+  }
+  .modal-header h5 {
+    color: #fff;
+  }
+  .close {
+    background: transparent;
+    color: #fff !important;
+    opacity: 1;
+    padding: 10px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+  }
+  
+  table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 340px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    } 
+  }
+  table tr.highlight {
+    background-color: #FFEE75 !important;
+    color: #000 !important;
+  }

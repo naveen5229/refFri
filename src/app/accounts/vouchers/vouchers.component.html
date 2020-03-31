@@ -2,7 +2,7 @@
   <!-- <nb-card-header>
   <h4 class="modal-title"> Add Voucher ({{this.voucherName}})</h4>
 </nb-card-header> -->
-  <nb-card-body>
+  <nb-card-body >
     <div class="row">
       <div class="col-9">
         <div class="row">
@@ -78,7 +78,7 @@
 
         <!-- End Amount Details -->
         <div class="row">
-          <div class="col-6">
+          <div class="col-8">
             <div class="form-group">
               <label class="ref-label">Narration</label>
               <textarea class="form-control ref-input" id="narration" (click)="lastActiveId = 'narration'"
@@ -86,14 +86,14 @@
               </textarea>
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-2">
             <div class="form-group">
               <label class="ref-label">Total Debit</label>
               <input type="text" class="form-control ref-input" name="account-name" readonly
                 [(ngModel)]="voucher.total.debit" style="background: #e4e4e4">
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-2">
             <div class="form-group">
               <label class="ref-label">Total Credit</label>
               <input type="text" class="form-control ref-input" name="account-name" readonly

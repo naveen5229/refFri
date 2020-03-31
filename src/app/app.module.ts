@@ -276,6 +276,7 @@ import { VehicleStatusComponent } from './modals/vehicle-status/vehicle-status.c
 import { AddProposalComponent } from './modals/BidModals/add-proposal/add-proposal.component';
 import { ProposalStateComponent } from './modals/BidModals/proposal-state/proposal-state.component';
 import { VehicleOrdersComponent } from './modals/BidModals/vehicle-orders/vehicle-orders.component';
+import { RecordsComponent } from './acounts-modals/records/records.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -512,7 +513,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   VehicleStatusComponent,
   AddProposalComponent,
   ProposalStateComponent,
-  VehicleOrdersComponent
+  VehicleOrdersComponent,
+  RecordsComponent
 ];
 
 @NgModule({
@@ -522,6 +524,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CustomDatePipe,
     ...COMMON_COMPONENT,
     CardusageComponent,
+    
   ],
   entryComponents: [
     ...COMMON_COMPONENT
