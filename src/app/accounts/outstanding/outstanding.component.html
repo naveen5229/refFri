@@ -94,6 +94,7 @@
       <table class="table table-bordered" style="width:100%" id="table">
         <thead style="background-color:#263238; color:#fff;">
           <tr>
+            <th>Date</th>
             <th>Code</th>
             <th>Ref. No.</th>
             <th>Voucher Type</th>
@@ -116,6 +117,7 @@
             <tr *ngFor="let voucher of voucherEntry.vouchers let j = index" (click)="selectedRow =  '' + i + j"
               (dblclick)="(voucher.y_type.toLowerCase().includes('voucher'))  ? (voucher.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(voucher) :openVoucherDetail(voucher.y_voucherid,voucher.y_code) : openinvoicemodel(voucher.y_voucherid)"
               [hidden]="activeGroup.indexOf(i) === -1" [ngClass]="{'highlight' : selectedRow == '' + i + j }">
+              <td>{{ voucher.y_date | date : 'dd-MMM-yy' }}</td>
               <td>{{ voucher.y_code }}</td>
               <td>{{ voucher.y_cust_code }}</td>
               <td>{{ voucher.y_type }}</td>

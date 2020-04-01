@@ -579,13 +579,13 @@ export class OrdersComponent implements OnInit {
       this.openwareHouseModal();
       return;
     }
-    console.log('event.ctrlKey:', event.ctrlKey);
+   
     if (event.ctrlKey && key === "`") {
       console.log('ctrl esacape');
       this.mouse();
       return;
     }
-    if (key === "Home" && (this.activeId.includes('ledger'))) {
+    if (key === 'Home' && (this.activeId.includes('ledger'))) {
       console.log('hello');
     }
     if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {

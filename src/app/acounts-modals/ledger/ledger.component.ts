@@ -22,6 +22,28 @@ export class LedgerComponent implements OnInit {
   userdata = [];
   currentPage = 'Add Ledger';
   state = [];
+  gstregtype = [
+  {
+    name: 'Unknown',
+    id: 'Unknown'
+  },
+  {
+    name: 'Composition',
+    id: 'Composition'
+  },
+  {
+    name: 'Consumer',
+    id: 'Consumer'
+  },
+  {
+    name: 'Regular',
+    id: 'Regular'
+  },
+  {
+    name: 'Unregistered',
+    id: 'Unregistered'
+  }
+  ];
   activeId = "user";
   sizeledger=0;
   mannual=false;
@@ -73,6 +95,10 @@ export class LedgerComponent implements OnInit {
       remarks: '',
       name: '',
       state: {
+        name: '',
+        id: ''
+      },
+      gst_reg_type:{
         name: '',
         id: ''
       },
@@ -152,6 +178,10 @@ export class LedgerComponent implements OnInit {
             name: detail.province_name,
             id: detail.province_id
           },
+          gst_reg_type:{
+            name: detail.y_gst_reg_type,
+            id: detail.y_gst_reg_type
+          },
       defaultcheck:"'"+detail.y_dtl_is_default+"'"
 
         });
@@ -190,11 +220,12 @@ console.log('sixe ledger',this.sizeledger);
   }
 
   generateIDs() {
-    let IDs = ['undergroup','taxtype','taxsubtype'];
+    let IDs = ['undergroup','taxtype','taxsubtype','gst_reg_type'];
     this.Accounts.accDetails.map((amountDetails, index) => {
       IDs.push('salutation-' + index);
       IDs.push('state-' + index);
       IDs.push('city-' + index);
+      IDs.push('gst_reg_type-' + index);
     });
     return IDs;
   }
@@ -212,6 +243,7 @@ console.log('sixe ledger',this.sizeledger);
     salutiondata: [],
     city: [],
     list: [],
+    gstregtype:this.gstregtype,
     taxtype:[{
       id:'GST',
       name:'GST'
@@ -253,6 +285,10 @@ console.log('sixe ledger',this.sizeledger);
       remarks: '',
       name: '',
       state: {
+        name: '',
+        id: ''
+      },
+      gst_reg_type:{
         name: '',
         id: ''
       },
@@ -503,6 +539,9 @@ console.log('sixe ledger',this.sizeledger);
         this.setFoucus('tanNo-' + index);
       } else if (activeId.includes('tanNo-')) {
         let index = activeId.split('-')[1];
+        this.setFoucus('gst_reg_type-' + index);
+      }else if (activeId.includes('gst_reg_type-')) {
+        let index = activeId.split('-')[1];
         this.setFoucus('gstNo-' + index);
       } else if (activeId.includes('gstNo-')) {
         let index = activeId.split('-')[1];
@@ -562,6 +601,9 @@ console.log('sixe ledger',this.sizeledger);
         let index = activeId.split('-')[1];
         this.setFoucus('panNo-' + index);
       } else if (activeId.includes('gstNo-')) {
+        let index = activeId.split('-')[1];
+        this.setFoucus('gst_reg_type-' + index);
+      }else if (activeId.includes('gst_reg_type-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('tanNo-' + index);
       } else if (activeId.includes('city-')) {
@@ -633,7 +675,10 @@ console.log('sixe ledger',this.sizeledger);
       const index = parseInt(this.activeId.split('-')[1]);
       this.Accounts.accDetails[index].state.id = suggestion.id;
       this.GetCity(suggestion.id);
-    } else if (this.activeId.includes('city-')) {
+    }else if (this.activeId.includes('gst_reg_type-')) {
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.Accounts.accDetails[index].gst_reg_type.id = suggestion.id;
+    }  else if (this.activeId.includes('city-')) {
       const index = parseInt(this.activeId.split('-')[1]);
       this.Accounts.accDetails[index].city.id = suggestion.id;
 
@@ -648,6 +693,7 @@ console.log('sixe ledger',this.sizeledger);
     if (activeId == 'undergroup') this.autoSuggestion.data = this.suggestions.underGroupdata;
     else if (activeId.includes('salutation-')) this.autoSuggestion.data = this.suggestions.salutiondata;
     else if (activeId.includes('state-')) this.autoSuggestion.data = this.suggestions.state;
+    else if (activeId.includes('gst_reg_type-')) this.autoSuggestion.data = this.suggestions.gstregtype;
     else if (activeId.includes('city-')) this.autoSuggestion.data = this.suggestions.city;
     else if (activeId.includes('taxtype')) this.autoSuggestion.data = this.suggestions.taxtype;
     else if (activeId.includes('taxsubtype') && this.Accounts.taxtype.includes('GST') ) this.autoSuggestion.data = this.suggestions.taxsubtype;
@@ -678,7 +724,11 @@ console.log('sixe ledger',this.sizeledger);
       this.Accounts.accDetails[index].state.name = suggestion.name;
       this.Accounts.accDetails[index].state.id = suggestion.id;
       this.GetCity(suggestion.id);
-    } else if (activeId.includes('city')) {
+    } else if (activeId.includes('gst_reg_type')) {
+      const index = parseInt(activeId.split('-')[1]);
+      this.Accounts.accDetails[index].gst_reg_type.name = suggestion.name;
+      this.Accounts.accDetails[index].gst_reg_type.id = suggestion.id;
+    }else if (activeId.includes('city')) {
       const index = parseInt(activeId.split('-')[1]);
       this.Accounts.accDetails[index].city.name = suggestion.name;
       this.Accounts.accDetails[index].city.id = suggestion.id;

@@ -248,7 +248,7 @@
       <table class="invoice_tabel">
         <thead style="background: #263238; color:#fff;">
           <tr>
-            <th>Salutation</th>
+            <!-- <th>Salutation</th>
             <th>Name</th>
             <th>Mobile No.</th>
             <th>Email</th>
@@ -260,72 +260,87 @@
             <th>Address</th>
             <th>Remarks</th>
             <th>Default</th>
-            <th>&nbsp;</th>
+            <th>&nbsp;</th> -->
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let Details of Accounts.accDetails; let i = index;">
+          <span *ngFor="let Details of Accounts.accDetails; let i = index;">
+            <tr>
             <td>
               <!-- <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation"
                   display="name" [inputId]="'salution-' + i" [data]="salutiondata" placeholder="Enter Salutation" [preSelected]="{name:' '}">
                 </auto-suggestion> -->
+                <label>Salutation</label>
               <input type="text" class="form-control" autocomplete="off" [id]="'salutation-'+i" name="'salutation-'+i"
                 [(ngModel)]="Details.salutation.name"
                 (click)="lastActiveId = 'salutation-' + i; allowBackspace = false;" placeholder="Please Select Salution"
                 (input)="allowBackspace = false;">
             </td>
             <td>
+              <label>Name</label>
               <input type="text" class="form-control" autocomplete="off" name="account-name"
                 placeholder="Please Enter Name" [(ngModel)]="Details.name" [id]="'accountName-' + i"
                 [value]="Accounts.name">
             </td>
             <td>
+              <label>Mobile No.</label>
               <input type="number" class="form-control" autocomplete="off" name="account-mobileno"
                 [id]="'mobileno-' + i" [(ngModel)]="Details.mobileNo" minlength="10"
                 placeholder="Please Enter Mobile Number" maxlength="10">
             </td>
-            <td>
+            <td colspan="3"> <label>Email</label>
               <input type="email" class="form-control" autocomplete="off" name="account-email" [id]="'email-' + i"
                 [(ngModel)]="Details.email" placeholder="Please Enter Email">
             </td>
-            <td>
+            <td><label>Pan No.</label>
+             
               <input type="text" class="form-control" autocomplete="off" placeholder="Please Enter Pan No."
                 ame="account-name" [id]="'panNo-' + i" ng-maxlength="10" [(ngModel)]="Details.panNo">
             </td>
-            <td>
+            <td> <label>Tan No.</label>
               <input type="text" class="form-control" autocomplete="off" name="account-name"
                 placeholder="Please Enter Tan No." [id]="'tanNo-' + i" ng-maxlength="15" [(ngModel)]="Details.tanNo">
             </td>
-            <td>
+            <td><label>Gst Reg Type</label>
+              <input type="text" class="form-control" autocomplete="off" placeholder="Please Enter Gst Reg Type"
+                name="account-gst_reg_type" [id]="'gst_reg_type-' + i" [(ngModel)]="Details.gst_reg_type.name"
+                (click)="lastActiveId = 'gst_reg_type-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
+            </td>
+            <td> <label>Gst No.</label>
               <input type="text" class="form-control" autocomplete="off" name="account-name"
-                placeholder="Please Enter Gst No." [id]="'gstNo-' + i" ng-maxlength="15" [(ngModel)]="Details.gstNo">
+                placeholder="Please Enter Gst No." [id]="'gstNo-' + i" ng-maxlength="15" (readonly)="Details.gst_reg_type.id =='Unknown' || Details.gst_reg_type.id =='Unregistered' " [(ngModel)]="Details.gstNo">
             </td>
-            <td>
-              <input type="text" class="form-control" autocomplete="off" [id]="'state-'+i" name="'state-'+i"
-                [(ngModel)]="Details.state.name" (click)="lastActiveId = 'state-' + i; allowBackspace = false;"
-                placeholder="Please Select State Name" (input)="allowBackspace = false;">
+            
+          </tr>
+            <tr >
+              <td><label>State</label>
+                <input type="text" class="form-control" autocomplete="off" [id]="'state-'+i" name="'state-'+i"
+                  [(ngModel)]="Details.state.name" (click)="lastActiveId = 'state-' + i; allowBackspace = false;"
+                  placeholder="Please Select State Name" (input)="allowBackspace = false;">
+              </td>
+              <td><label>City</label>
+                <input type="text" class="form-control" autocomplete="off" [id]="'city-'+i" name="'city-'+i"
+                  [(ngModel)]="Details.city.name" (click)="lastActiveId = 'city-' + i; allowBackspace = false;"
+                  placeholder="Please Select City" (input)="allowBackspace = false;">
+  
+                <!-- <auto-suggestion (onSelected)="Details.cityId = $event.id;" url="Suggestion/GetCity" display="name"
+                    [inputId]="'city-' + i" [name]="'city-' + i"  placeholder="Enter City" [preSelected]="null">
+                  </auto-suggestion> -->
+              </td>
+            <td colspan="4">
+              <label>Address</label>
+              <textarea  class="form-control" autocomplete="off" name="account-name" [id]="'address-' + i"
+                [(ngModel)]="Details.address" cols="30" rows="4" placeholder="Please Enter Address"></textarea>
             </td>
-            <td>
-              <input type="text" class="form-control" autocomplete="off" [id]="'city-'+i" name="'city-'+i"
-                [(ngModel)]="Details.city.name" (click)="lastActiveId = 'city-' + i; allowBackspace = false;"
-                placeholder="Please Select City" (input)="allowBackspace = false;">
-
-              <!-- <auto-suggestion (onSelected)="Details.cityId = $event.id;" url="Suggestion/GetCity" display="name"
-                  [inputId]="'city-' + i" [name]="'city-' + i"  placeholder="Enter City" [preSelected]="null">
-                </auto-suggestion> -->
+            <td colspan="2"><label>Remarks</label>
+              <textarea  class="form-control" autocomplete="off" placeholder="Please Enter Remarks"
+                name="account-name" [id]="'remarks-' + i"  cols="30" rows="4" [(ngModel)]="Details.remarks"></textarea>
             </td>
-            <td>
-              <input type="text" class="form-control" autocomplete="off" name="account-name" [id]="'address-' + i"
-                [(ngModel)]="Details.address" placeholder="Please Enter Address">
-            </td>
-            <td>
-              <input type="text" class="form-control" autocomplete="off" placeholder="Please Enter Remarks"
-                name="account-name" [id]="'remarks-' + i" [(ngModel)]="Details.remarks">
-            </td>
-            <td>
+           
+            <td><label>Default</label>
               <input type="radio" class="form-control" name="defaultcheck" [checked]="(Details.defaultcheck)" [id]="'default-' + i" (click)="changedefault(i)"/>
             </td>
-            <td *ngIf="i == 0">
+            <td *ngIf="i == 0"> 
               <button (click)="addDetails()" class="plustransparent btn btn-plus btn-primary"><i class="fa fa-plus"
                   style="font-size: 40px;"></i></button>
             </td>
@@ -335,6 +350,7 @@
               </button>
             </td>
           </tr>
+          </span>
         </tbody>
       </table>
 

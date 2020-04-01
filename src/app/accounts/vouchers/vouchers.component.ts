@@ -532,7 +532,9 @@ export class VouchersComponent implements OnInit {
     }
     console.log('..........................');
 
-
+    if (key === 'Home' && (activeId.includes('ledger'))) {
+      console.log('hello');
+    }
     if(event.ctrlKey && key === "`"){
       this.mouse();
     }else if (key == 'f2' && !this.showDateModal) {
