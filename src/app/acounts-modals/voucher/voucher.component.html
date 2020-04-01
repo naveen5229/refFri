@@ -87,21 +87,21 @@
 
           <!-- End Amount Details -->
           <div class="row">
-            <div class="col-4">
+            <div class="col-8">
               <div class="form-group">
                 <label class="ref-label">Narration</label>
                 <input type="text" class="form-control ref-input" id="narration" (click)="lastActiveId = 'narration'"
                   name="narration" [(ngModel)]="voucher.remarks" (input)="allowBackspace = false;">
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-2">
               <div class="form-group">
                 <label class="ref-label">Total Debit</label>
                 <input type="text" class="form-control ref-input" name="account-name" readonly
                   [(ngModel)]="voucher.total.debit" style="background: #e4e4e4">
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-2">
               <div class="form-group">
                 <label class="ref-label">Total Credit</label>
                 <input type="text" class="form-control ref-input" name="account-name" readonly

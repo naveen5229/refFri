@@ -266,10 +266,11 @@
         <tbody>
           <span *ngFor="let Details of Accounts.accDetails; let i = index;">
             <tr>
-            <td>
+            <td style="width: 70px !Important ;">
               <!-- <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation"
                   display="name" [inputId]="'salution-' + i" [data]="salutiondata" placeholder="Enter Salutation" [preSelected]="{name:' '}">
                 </auto-suggestion> -->
+               
                 <label>Salutation</label>
               <input type="text" class="form-control" autocomplete="off" [id]="'salutation-'+i" name="'salutation-'+i"
                 [(ngModel)]="Details.salutation.name"
@@ -281,14 +282,15 @@
               <input type="text" class="form-control" autocomplete="off" name="account-name"
                 placeholder="Please Enter Name" [(ngModel)]="Details.name" [id]="'accountName-' + i"
                 [value]="Accounts.name">
-            </td>
+            
+          </td>
             <td>
               <label>Mobile No.</label>
               <input type="number" class="form-control" autocomplete="off" name="account-mobileno"
                 [id]="'mobileno-' + i" [(ngModel)]="Details.mobileNo" minlength="10"
                 placeholder="Please Enter Mobile Number" maxlength="10">
             </td>
-            <td colspan="3"> <label>Email</label>
+            <td colspan="3" style="width: 400px !Important ;"> <label>Email</label>
               <input type="email" class="form-control" autocomplete="off" name="account-email" [id]="'email-' + i"
                 [(ngModel)]="Details.email" placeholder="Please Enter Email">
             </td>
@@ -313,12 +315,11 @@
             
           </tr>
             <tr >
-              <td><label>State</label>
+              <td colspan="2"><label>State</label>
                 <input type="text" class="form-control" autocomplete="off" [id]="'state-'+i" name="'state-'+i"
                   [(ngModel)]="Details.state.name" (click)="lastActiveId = 'state-' + i; allowBackspace = false;"
                   placeholder="Please Select State Name" (input)="allowBackspace = false;">
-              </td>
-              <td><label>City</label>
+             <label>City</label>
                 <input type="text" class="form-control" autocomplete="off" [id]="'city-'+i" name="'city-'+i"
                   [(ngModel)]="Details.city.name" (click)="lastActiveId = 'city-' + i; allowBackspace = false;"
                   placeholder="Please Select City" (input)="allowBackspace = false;">
@@ -327,7 +328,7 @@
                     [inputId]="'city-' + i" [name]="'city-' + i"  placeholder="Enter City" [preSelected]="null">
                   </auto-suggestion> -->
               </td>
-            <td colspan="4">
+            <td colspan="5">
               <label>Address</label>
               <textarea  class="form-control" autocomplete="off" name="account-name" [id]="'address-' + i"
                 [(ngModel)]="Details.address" cols="30" rows="4" placeholder="Please Enter Address"></textarea>
@@ -337,17 +338,21 @@
                 name="account-name" [id]="'remarks-' + i"  cols="30" rows="4" [(ngModel)]="Details.remarks"></textarea>
             </td>
            
-            <td><label>Default</label>
+            <td>
+              <span><label>Default</label>
               <input type="radio" class="form-control" name="defaultcheck" [checked]="(Details.defaultcheck)" [id]="'default-' + i" (click)="changedefault(i)"/>
-            </td>
-            <td *ngIf="i == 0"> 
+            </span>
+            <span *ngIf="i == 0"> 
+              &nbsp;
               <button (click)="addDetails()" class="plustransparent btn btn-plus btn-primary"><i class="fa fa-plus"
                   style="font-size: 40px;"></i></button>
-            </td>
-            <td *ngIf="i !== 0">
+           </span>
+            <span *ngIf="i != 0">
+              &nbsp;
               <button (click)="Accounts.accDetails.splice(i,1)" class="btn btn-danger">
                 <i class="fa fa-trash"></i>
               </button>
+              </span>
             </td>
           </tr>
           </span>

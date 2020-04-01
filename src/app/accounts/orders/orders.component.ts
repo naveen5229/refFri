@@ -579,7 +579,15 @@ export class OrdersComponent implements OnInit {
       this.openwareHouseModal();
       return;
     }
-   
+    if (key === 'home' && (this.activeId.includes('ledger'))) {
+      //console.log('hello');
+      // let ledgerindex = this.lastActiveId.split('-')[1];
+      // purchaseledger,ledger,salesledger
+      // if(this.voucher.amountDetails[ledgerindex].ledger.id != ""){
+      // console.log('ledger value ------------',this.voucher.amountDetails[ledgerindex].ledger.id);
+      // this.openinvoicemodel(this.voucher.amountDetails[ledgerindex].ledger.id);
+      // }
+    }
     if (event.ctrlKey && key === "`") {
       console.log('ctrl esacape');
       this.mouse();
@@ -1814,6 +1822,42 @@ export class OrdersComponent implements OnInit {
     });
 
 
+  }
+
+
+  openinvoicemodel(ledger) {
+    let data = [];
+    console.log('ledger123', ledger);
+    if (ledger) {
+      let params = {
+        id: ledger,
+      }
+      this.common.loading++;
+      this.api.post('Accounts/EditLedgerdata', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('Res:', res['data']);
+          data = res['data'];
+          this.common.params = {
+            ledgerdata: res['data'],
+            deleted: 2,
+        sizeledger:0
+          }
+          // this.common.params = { data, title: 'Edit Ledgers Data' };
+          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+          activeModal.result.then(data => {
+            // console.log('Data: ', data);
+            if (data.response) {
+           
+            }
+          });
+
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
+    }
   }
 
 }

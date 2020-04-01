@@ -99,8 +99,8 @@ export class LedgerComponent implements OnInit {
         id: ''
       },
       gst_reg_type:{
-        name: '',
-        id: ''
+        name: 'Unknown',
+        id: 'Unknown'
       },
       defaultcheck:'true'
     }]
