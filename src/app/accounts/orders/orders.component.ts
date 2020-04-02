@@ -580,22 +580,27 @@ export class OrdersComponent implements OnInit {
       return;
     }
     if (key === 'home' && (this.activeId.includes('ledger'))) {
-      //console.log('hello');
-      // let ledgerindex = this.lastActiveId.split('-')[1];
-      // purchaseledger,ledger,salesledger
-      // if(this.voucher.amountDetails[ledgerindex].ledger.id != ""){
-      // console.log('ledger value ------------',this.voucher.amountDetails[ledgerindex].ledger.id);
-      // this.openinvoicemodel(this.voucher.amountDetails[ledgerindex].ledger.id);
-      // }
+      console.log('hello',this.activeId);
+      //let ledgerindex = this.lastActiveId.split('-')[1];
+      //purchaseledger,ledger,salesledger
+      if(this.activeId == "ledger"){
+      console.log('ledger value ------------',this.order.ledger.id);
+      if(this.order.ledger.id != 0){
+      this.openinvoicemodel(this.order.ledger.id);
+      }
+      }else if(this.activeId == "purchaseledger" || this.activeId == "ledgersup"){
+        console.log('purchase ledger value ------------',this.order.purchaseledger.id);
+        if(this.order.purchaseledger.id !=''){
+          this.openinvoicemodel(this.order.purchaseledger.id);
+          }
+      }
     }
     if (event.ctrlKey && key === "`") {
       console.log('ctrl esacape');
       this.mouse();
       return;
     }
-    if (key === 'Home' && (this.activeId.includes('ledger'))) {
-      console.log('hello');
-    }
+   
     if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
       let index = parseInt(this.activeId.split('-')[1]);
       setTimeout(() => {
