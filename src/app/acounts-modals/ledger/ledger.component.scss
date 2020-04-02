@@ -65,20 +65,24 @@ button { background-color: #73a1ff;
 }
 
 .invoice_tabel{
-  thead{
-    tr {
-      th{
-        padding: 5px 10px;
-        border: 1px solid #d8d8d8;
-        font-weight: normal;
-      }
-    }
-  }
+  // thead{
+  //   tr {
+  //     th{
+  //       padding: 5px 10px;
+  //       border: 1px solid #d8d8d8;
+  //       font-weight: normal;
+  //     }
+  //   }
+  // }
   tbody{
     tr {
       td{
         padding: 5px 10px;
         border: 1px solid #d8d8d8;
+        td:first-child{
+          width: 50px;
+         }
+         
         .btn-taxdet{
           padding: 10px;
           border-radius: 5px;
@@ -92,6 +96,8 @@ button { background-color: #73a1ff;
           background-color: transparent;
           outline: none;
           box-shadow: none;
+          width: 100px;
+          margin-top: 10px;
           i{
             font-size: inherit !important;
             color: #263238 !important;
@@ -104,6 +110,8 @@ button { background-color: #73a1ff;
           background-color: transparent;
           outline: none;
           box-shadow: none;
+          width: 100px;
+          margin-top: 10px;
           i{
             font-size: inherit !important;
             color: #d61414 !important;

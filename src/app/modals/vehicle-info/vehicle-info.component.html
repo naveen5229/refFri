@@ -1,181 +1,96 @@
-<!-- <div class="modal-header">
-  <h5>Historic Trip Cost Estimate</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-  <span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-
-  <div class="row">
-      <div class="col-6">
-
-          <div class="row">
-              <div class="col-6">
-                <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList"
-                display="regno" placeholder="Search Vehicle" [preSelected]="(vehicleId>0)?{regno:vehicleRegNo}:{regno:''}"></auto-suggestion>
-              </div>
-              <div class="col-6">
-                <input type="number" [(ngModel)]='tonnage'>
-              </div>
-          </div>
-<br>
-          <div class="row">
-
-            <div class="col-4">
-              <uj-date-time-picker [isTime]="false" (onChanged)="startDate = $event" [dateTimeValue]="startDate">
-              </uj-date-time-picker>
-            </div>
-            <div class="col-4">
-              <uj-date-time-picker [isTime]="false" (onChanged)="endDate = $event" [dateTimeValue]="endDate">
-              </uj-date-time-picker>
-            </div>
-            <div class="col-4">
-              <button (click)="getVehicleInfo()" class="btn btn-primary" style="margin:0px;border:0px;">Submit</button>
-            </div>
-           
-        </div>
-
-<br>
-<br>
-<div class="row">
-  <table class="table table-bordered">
-    <thead style="text-align:center; background-color: aquamarine;">Costs:-</thead>
-    <thead  class="thead">
-    
-        <tr style="text-align:center"> 
-            <th>Avg. Speed</th> 
-            <td>{{vehicleInfo['avgSpeed']}}</td>
-        </tr>
-        <tr style="text-align:center"> 
-            <th>Avg. Speed Moving</th> 
-            <td>{{vehicleInfo['avgSpeedMoving']}}</td>
-        </tr>
-        <tr style="text-align:center"> 
-            <th>Time Taken</th> 
-            <td>{{vehicleInfo['timeTot']}}</td>
-        </tr>
-        <tr style="text-align:center">  
-           <th>Fuel Consuption</th> 
-           <td>{{vehicleInfo['fuelCons']}}</td>
-        </tr>
-        <tr style="text-align:center">  
-           <th>Total Distance</th> 
-           <td>{{vehicleInfo['TotDis']}}</td>
-        </tr>
-        <tr style="text-align:center">   
-          <th>Fuel Avg.</th> 
-          <td>{{vehicleInfo['fuelAvg']}}</td>
-      </tr>
-    </thead>
-  
-</table>
-  
-</div>
-
-      </div>
-      <div class="col-6">
-        <div class="map" id="map"></div>
-      </div>
-  </div>
-
-
-
-</div> -->
-
-
-
 <div [ngStyle]="{background :isLite?'#22b108':'#46a79a'}" class="modal-header">
   <h5 class="modal-title" id="modal-basic-title">Historic Trip Cost Estimate</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-  <span aria-hidden="true">&times;</span>
-</button>
+    <span aria-hidden="true">&times;</span>
+  </button>
 
 </div>
 <div class="modal-body">
   <div class="row">
-      <div class="col-6">
-          <table class="table table-bordered table-hover">
-              <tbody>
-                  <tr>
-                      <td  colspan="2">
-                        <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList"
-                        display="regno" placeholder="Search Vehicle" [preSelected]="(vehicleId>0)?{regno:vehicleRegNo}:{regno:''}" ></auto-suggestion>   
-                      </td>
-                      <td colspan="1">
-                        <input type="number" [(ngModel)]='tonnage' placeholder="Tonnage">
-                      </td>
+    <div class="col-6">
+      <table class="table table-bordered table-hover">
+        <tbody>
+          <tr>
+            <td colspan="2">
+              <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList" display="regno"
+                placeholder="Search Vehicle" [preSelected]="(vehicleId>0)?{regno:vehicleRegNo}:{regno:''}">
+              </auto-suggestion>
+            </td>
+            <td style="width: 90px;" > 
+              <input type="number" [(ngModel)]='tonnage' placeholder="Tonnage" style="width: 90px;">
+            </td>
 
-                  </tr>
-                  <tr>
-                      <td>
-                          <div class="row mr-0">
-                              <div class="col-sm-12 pr-0">
-                                <uj-date-time-picker [isTime]="false" (onChanged)="startDate = $event" [dateTimeValue]="startDate">
-                                </uj-date-time-picker>
-                                
-                              </div>
-                 
-                          </div>
-                      </td>
-                      <td>
-                          <div class="row mr-0">
-                              <div class="col-sm-12 pr-0">
-                                <uj-date-time-picker [isTime]="false" (onChanged)="endDate = $event" [dateTimeValue]="endDate">
-                                </uj-date-time-picker>
-                                 
-                              </div>
-                           
-                          </div>
-                      </td>
-                 
-                      <td class="go_btn">
-                        <button (click)="getVehicleInfo()" class="btn btn-primary" style="margin:0px;border:0px;">Submit</button>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td colspan="3">
-                        <table *ngIf='vehicleInfo != null' class="table table-bordered"> 
-                          <thead  class="thead">
-                          
-                              <tr style="text-align:center"> 
-                                  <th>Avg. Speed</th> 
-                                  <td>{{vehicleInfo['avgSpeed']}} </td>
-                              </tr>
-                              <tr style="text-align:center"> 
-                                  <th>Avg. Speed Moving</th> 
-                                  <td>{{vehicleInfo['avgSpeedMoving']}}</td>
-                              </tr>
-                              <tr style="text-align:center"> 
-                                  <th>Time Taken</th> 
-                                  <td>{{vehicleInfo['timeTot']}}</td>
-                              </tr>
-                              <tr style="text-align:center">  
-                                 <th>Fuel Consuption</th> 
-                                 <td>{{vehicleInfo['fuelCons']}}</td>
-                              </tr>
-                              <tr style="text-align:center">  
-                                 <th>Total Distance</th> 
-                                 <td>{{vehicleInfo['TotDis']}}</td>
-                              </tr>
-                              <tr style="text-align:center">   
-                                <th>Fuel Avg.</th> 
-                                <td>{{vehicleInfo['fuelAvg']}}</td>
-                            </tr>
-                          </thead>
-                        
-                      </table>
-                      </td>
-                  </tr>
-                  <tr>
+          </tr>
+          <tr>
+            <td>
+              <div class="row mr-0">
+                <div class="col-sm-12 pr-0">
+                  <uj-date-time-picker [isTime]="true" (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+                  </uj-date-time-picker>
 
+                </div>
+
+              </div>
+            </td>
+            <td>
+              <div class="row mr-0">
+                <div class="col-sm-12 pr-0">
+                  <uj-date-time-picker [isTime]="true" (onChanged)="endDate = $event" [dateTimeValue]="endDate">
+                  </uj-date-time-picker>
+
+                </div>
+
+              </div>
+            </td>
+
+            <td class="go_btn">
+              <button (click)="getVehicleInfo()" class="btn btn-primary" style="margin:0px;border:0px;">Submit</button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <table *ngIf='vehicleInfo != null' class="table table-bordered">
+                <thead class="thead">
+
+                  <tr style="text-align:center">
+                    <th>Avg. Speed</th>
+                    <td>{{vehicleInfo['avgSpeed']}} </td>
                   </tr>
-              </tbody>
-          </table>
+                  <tr style="text-align:center">
+                    <th>Avg. Speed Moving</th>
+                    <td>{{vehicleInfo['avgSpeedMoving']}}</td>
+                  </tr>
+                  <tr style="text-align:center">
+                    <th>Time Taken</th>
+                    <td>{{vehicleInfo['timeTot']}}</td>
+                  </tr>
+                  <tr style="text-align:center">
+                    <th>Fuel Consuption</th>
+                    <td>{{vehicleInfo['fuelCons']}}</td>
+                  </tr>
+                  <tr style="text-align:center">
+                    <th>Total Distance</th>
+                    <td>{{vehicleInfo['TotDis']}}</td>
+                  </tr>
+                  <tr style="text-align:center">
+                    <th>Fuel Avg.</th>
+                    <td>{{vehicleInfo['fuelAvg']}}</td>
+                  </tr>
+                </thead>
+
+              </table>
+            </td>
+          </tr>
+          <tr>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-6 pl-0">
+      <div id="map" style="width: 100%; height:68vh">
       </div>
-      
-      <div class="col-6 pl-0">
-          <div id="map" style="width: 100%; height:68vh">
-          </div>
-      </div>
+    </div>
   </div>
 </div>

@@ -11,8 +11,8 @@ import { MapService } from '../../services/map.service';
   styleUrls: ['./vehicle-info.component.scss']
 })
 export class VehicleInfoComponent implements OnInit {
-
-  vehicleInfo = {};
+  isLite:false;
+  vehicleInfo: any = null;
   vehicleId = -1;
   vehicleRegNo = null;
   tonnage = 0;
@@ -23,17 +23,17 @@ export class VehicleInfoComponent implements OnInit {
     public api: ApiService,
     public activeModal: NgbActiveModal,
     public mapService: MapService
-    ) { 
-      this.common.handleModalSize('class', 'modal-lg', '1300', 'px', 0);
+  ) {
+    this.common.handleModalSize('class', 'modal-lg', '1300', 'px', 0);
 
-      if (this.common.params && this.common.params.refData) {
-          console.log(this.common.params.refData);
-          this.vehicleId = this.common.params.refData['_vid'];
-          this.vehicleRegNo = this.common.params.refData['Vehicle'];
-          this.startDate = new Date(this.common.params.refData['Start Date']);
-          this.endDate = new Date(this.common.params.refData['End Date']);
-      }
+    if (this.common.params && this.common.params.refData) {
+      console.log(this.common.params.refData);
+      this.vehicleId = this.common.params.refData['_vid'];
+      this.vehicleRegNo = this.common.params.refData['Vehicle'];
+      this.startDate = new Date(this.common.params.refData['Start Date']);
+      this.endDate = new Date(this.common.params.refData['End Date']);
     }
+  }
 
   ngOnInit() {
   }
@@ -42,7 +42,7 @@ export class VehicleInfoComponent implements OnInit {
     this.mapService.mapIntialize("map");
     this.mapService.setMapType(0);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
-}
+  }
   closeModal() {
     this.activeModal.close();
   }
@@ -54,27 +54,27 @@ export class VehicleInfoComponent implements OnInit {
 
   getVehicleInfo() {
     console.log(this.vehicleInfo);
-    this.vehicleInfo = {};
+    this.vehicleInfo = null;
     this.mapService.clearAll();
-  let startDate = this.common.dateFormatter(this.startDate);
-  let endDate = this.common.dateFormatter(this.endDate);
-  console.log('start & end', startDate, endDate);
-  const params = "vId=" + 26 +
-    "&fromTime=" + startDate +
-    "&toTime=" + endDate + "&tonnage =" + this.tonnage ;
-  console.log('params', params);
-  ++this.common.loading;
-  this.api.get('Test/getVehicleAvgFuelConsumption?' + params)
-    .subscribe(res => {
-      --this.common.loading;
-      console.log('Res:', res['data']);
-      this.vehicleInfo = res['data'];
-      this.vehicleInfo['path'].forEach(element => {
-        this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
-        this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
-      });
-      this.mapService.createMarkers([this.vehicleInfo['path'][0], this.vehicleInfo['path'][(this.vehicleInfo['pathCount']-1)]], false, false);
+    let startDate = this.common.dateFormatter(this.startDate);
+    let endDate = this.common.dateFormatter(this.endDate);
+    console.log('start & end', startDate, endDate);
+    const params = "vId=" + this.vehicleId +
+      "&fromTime=" + startDate +
+      "&toTime=" + endDate + "&tonnage=" + this.tonnage;
+    console.log('params', params);
+    ++this.common.loading;
+    this.api.get('Test/getVehicleAvgFuelConsumption?' + params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('Res:', res['data']);
+        this.vehicleInfo = res['data'];
+        this.vehicleInfo['path'].forEach(element => {
+          this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
+          this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
+        });
+        this.mapService.createMarkers([this.vehicleInfo['path'][0], this.vehicleInfo['path'][(this.vehicleInfo['pathCount'] - 1)]], false, false);
 
-    })
+      })
   }
 }

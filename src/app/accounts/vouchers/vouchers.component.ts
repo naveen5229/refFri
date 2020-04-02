@@ -13,13 +13,14 @@ import { AccountService } from '../../services/account.service';
 import { VouchercostcenterComponent } from '../../acounts-modals/vouchercostcenter/vouchercostcenter.component';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { forEach } from '@angular/router/src/utils/collection';
-
+import{ RecordsComponent } from '../../acounts-modals/records/records.component';
 @Component({
   selector: 'vouchers',
   templateUrl: './vouchers.component.html',
   styleUrls: ['./vouchers.component.scss'],
   host: {
     '(document:keydown)': 'keyHandler($event)'
+
   }
 })
 export class VouchersComponent implements OnInit {
@@ -49,6 +50,7 @@ export class VouchersComponent implements OnInit {
   activeLedgerIndex = -1;
   modal = null;
   mannual = false;
+ 
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -528,12 +530,19 @@ export class VouchersComponent implements OnInit {
       }
       return;
     }
-    console.log('..........................');
+    console.log('..........................',key, activeId);
 
-
-
-
-    if (key == 'f2' && !this.showDateModal) {
+    if (key === 'home' && (activeId.includes('ledger'))) {
+      //console.log('hello');
+      let ledgerindex = this.lastActiveId.split('-')[1];
+      if(this.voucher.amountDetails[ledgerindex].ledger.id != ""){
+      console.log('ledger value ------------',this.voucher.amountDetails[ledgerindex].ledger.id);
+      this.openinvoicemodel(this.voucher.amountDetails[ledgerindex].ledger.id);
+      }
+    }
+    if(event.ctrlKey && key === "`"){
+      this.mouse();
+    }else if (key == 'f2' && !this.showDateModal) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
       this.lastActiveId = activeId;
@@ -649,6 +658,19 @@ export class VouchersComponent implements OnInit {
         return;
       }
     }
+  }
+
+   mouse(){
+    this.common.params ={ vouchertype:this.voucherId};
+       // const keydata = event.MouseEvent.toLowerCase();
+    console.log('mouse listner',event);
+    this.modal = this.modalService.open(RecordsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    this.modal.result.then(data => {
+      this.modal = null;
+      if (data.response) {
+        this.addLedger(data.ledger);
+      }
+    });
   }
   vouchercostcenter() {
     console.log('____', document.activeElement.id);
@@ -1013,6 +1035,41 @@ export class VouchersComponent implements OnInit {
 
   }
 
+
+  openinvoicemodel(ledger) {
+    let data = [];
+    console.log('ledger123', ledger);
+    if (ledger) {
+      let params = {
+        id: ledger,
+      }
+      this.common.loading++;
+      this.api.post('Accounts/EditLedgerdata', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('Res:', res['data']);
+          data = res['data'];
+          this.common.params = {
+            ledgerdata: res['data'],
+            deleted: 2,
+        sizeledger:0
+          }
+          // this.common.params = { data, title: 'Edit Ledgers Data' };
+          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+          activeModal.result.then(data => {
+            // console.log('Data: ', data);
+            if (data.response) {
+           
+            }
+          });
+
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
+    }
+  }
 
 
 }

@@ -1,12 +1,6 @@
 <nb-card>
   <nb-card-body>
     <div class="row doNotPrint">
-      <!-- <div class="col-2">
-        <auto-suggestion (onSelected)="selectFo($event)" [data]="foAgents" (onChange)="getFoAgents()"
-          [display]="['name','mobileno']" placeholder="Enter Customer" seperator="-" inputId="agentFo"
-          style="width:60%;"></auto-suggestion>
-      </div> -->
-
       <div class="col-2">
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
           placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
@@ -17,33 +11,25 @@
       </div>
 
       <div class="col-3">
-<<<<<<< HEAD
-        <auto-suggestion [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)" url="'Suggestion/getVehicleList.json?" display="regno" placeholder="search" style="width:60%;" value="yes" aria-disabled="true">
-=======
+        <auto-suggestion [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)"
+          url="'Suggestion/getVehicleList.json?" display="regno" placeholder="search" style="width:60%;" value="yes"
+          aria-disabled="true"></auto-suggestion>
         <auto-suggestion (keyup)="filterData($event)" [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)"
           url="Suggestion/getVehicleList.json?" display="regno" placeholder="search" style="width:60%;" value="yes"
           aria-disabled="true">
->>>>>>> 9f976fbb04317413f6ddce2769e2696c05ed2d73
         </auto-suggestion>
-
-        <!-- <input type="text" class="form-control" autocomplete="off" (keyup)="filterData($event)"
-          placeholder="Enter Vehicle" [(ngModel)]='typedKey'> -->
       </div>
 
       <div class="col-2">
         <button class="btn btn-primary" type="button" (click)="getaddTimeFinancialTollReport()">Submit</button>
       </div>
       <div class="col-1">
-        <span class="pdf-icon" title="PDF Export" (click)="generatePDF();"
-          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-
-        <!-- <span class="pdf-icon" title="PDF Export" (click)="multiPagePDF();" style="cursor: pointer;"><i
-            class="fa fa-file-pdf"></i></span> -->
+        <span class="pdf-icon" title="PDF Export" (click)="generatePDF();" style="cursor: pointer;"><i
+            class="fa fa-file-pdf"></i></span>
       </div>
     </div>
 
     <div id="financialaccount">
-      <!-- <div id="report"> -->
       <div style="height:40px"></div>
       <div class="row">
         <div class="col-6">

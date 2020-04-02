@@ -614,6 +614,14 @@ export class VoucherComponent implements OnInit {
     } else if (key != 'enter' && this.showDateModal) {
       return;
     }
+    if (key === 'home' && (activeId.includes('ledger-'))) {
+      //console.log('hello');
+      let ledgerindex = this.lastActiveId.split('-')[1];
+      if(this.voucher.amountDetails[ledgerindex].ledger.id != ""){
+      console.log('ledger value ------------',this.voucher.amountDetails[ledgerindex].ledger.id);
+      this.openinvoicemodel(this.voucher.amountDetails[ledgerindex].ledger.id);
+      }
+    }
 
     if (key == 'enter') {
       if (document.activeElement.id.includes('amount-')){
@@ -1281,6 +1289,40 @@ export class VoucherComponent implements OnInit {
     localStorage.setItem('InvoiceJSO', JSON.stringify(invoiceJson));
     this.printService.printInvoice(invoiceJson, 1);
 
+  }
+  openinvoicemodel(ledger) {
+    let data = [];
+    console.log('ledger123', ledger);
+    if (ledger) {
+      let params = {
+        id: ledger,
+      }
+      this.common.loading++;
+      this.api.post('Accounts/EditLedgerdata', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('Res:', res['data']);
+          data = res['data'];
+          this.common.params = {
+            ledgerdata: res['data'],
+            deleted: 2,
+        sizeledger:1
+          }
+          // this.common.params = { data, title: 'Edit Ledgers Data' };
+          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+          activeModal.result.then(data => {
+            // console.log('Data: ', data);
+            if (data.response) {
+           
+            }
+          });
+
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
+    }
   }
 
 }

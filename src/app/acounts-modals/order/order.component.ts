@@ -674,6 +674,22 @@ export class OrderComponent implements OnInit {
       //   // this.order.amountDetails[index].qty = 0;
       // }
     }
+    if (key === 'home' && (this.activeId.includes('ledger'))) {
+      console.log('hello',this.activeId);
+      //let ledgerindex = this.lastActiveId.split('-')[1];
+      //purchaseledger,ledger,salesledger
+      if(this.activeId == "ledger" || this.activeId == "ledgersup"){
+      console.log('ledger value ------------',this.order.ledger.id);
+      if(this.order.ledger.id != ''){
+      this.openinvoicemodel(this.order.ledger.id);
+      }
+      }else if(this.activeId == "purchaseledger"){
+        console.log('purchase ledger value ------------',this.order.purchaseledger.id);
+        if(this.order.purchaseledger.id !=''){
+          this.openinvoicemodel(this.order.purchaseledger.id);
+          }
+      }
+    }
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('branch')) {
@@ -1705,6 +1721,40 @@ CompareDate(freezedate) {
     return 0;
   } else {
     return 1;
+  }
+}
+openinvoicemodel(ledger) {
+  let data = [];
+  console.log('ledger123', ledger);
+  if (ledger) {
+    let params = {
+      id: ledger,
+    }
+    this.common.loading++;
+    this.api.post('Accounts/EditLedgerdata', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        data = res['data'];
+        this.common.params = {
+          ledgerdata: res['data'],
+          deleted: 2,
+      sizeledger:1
+        }
+        // this.common.params = { data, title: 'Edit Ledgers Data' };
+        const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+        activeModal.result.then(data => {
+          // console.log('Data: ', data);
+          if (data.response) {
+         
+          }
+        });
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
   }
 }
 }

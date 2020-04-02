@@ -82,6 +82,11 @@ export class StockTypeComponent implements OnInit {
     event.preventDefault();
     return;
   }
+  modelcloseCondition() {
+    this.showExit = false;
+    event.preventDefault();
+    return;
+  }
 
   keyHandler(event) {
     const key = event.key.toLowerCase();

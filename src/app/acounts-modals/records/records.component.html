@@ -1,7 +1,7 @@
 <nb-card style="margin:0px; border:0px;">
   <nb-card-body style="padding:0px;">
     <div class="modal-header">
-      <h5 class="modal-title" id="modal-basic-title">Voucher Detail - {{ voucherCode}}</h5>
+      <h5 class="modal-title" id="modal-basic-title">Last Records</h5>
       <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -10,29 +10,22 @@
       <table class="table table-bordered">
         <thead style="background-color:#263238; color:#fff;">
           <tr>
-            <th>Particular</th>
-            <!--th>Vch Type</th>
-        <th>Vch No.</th-->
-            <th>Amount(Debit)</th>
-            <th>Amount(Credit)</th>
-            <th>Naration</th>
-            <th>Cost Center</th>
+            <th>Date</th>
+            <th> Code</th>
+        <th>Ledger</th>
+            <th>Amount</th>
+            <th>Details</th>
 
           </tr>
         </thead>
         <tr *ngFor=" let dataItem of Detail; let j = index" (click)="selectedRow =  '' + i + j"
           [ngClass]="{'highlight' : selectedRow == '' + i + j }">
-          <td>{{dataItem.y_particulars}}</td>
-          <!--td>{{dataItem.y_type}}</td>
-          <td >{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td-->
-          <td>{{dataItem.y_dramunt}}</td>
-          <td>{{dataItem.y_cramunt}}</td>
-          <td>{{dataItem.y_naration}}</td>
-          <td>
-            <div *ngFor="let costDetail of filterCostDetails(dataItem.y_ccdetails)">
-              {{costDetail}}
-            </div>
-          </td>
+          <td>{{dataItem.y_date}}</td>
+          <td>{{dataItem.y_code}}</td>
+          <td >{{dataItem.y_ledger}}</td>
+          <td>{{dataItem.y_amount}}</td>
+          <td><span *ngFor="let subdataItem of dataItem.y_details;">{{subdataItem}} <br></span></td>
+         
 
 
         </tr>
