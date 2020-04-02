@@ -24,11 +24,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     name: null,
     mobileNo: null
   }
-<<<<<<< HEAD
   foid = null;
-=======
-
->>>>>>> 9f976fbb04317413f6ddce2769e2696c05ed2d73
   regno = null;
   typedKey = '';
   vehId = '';
@@ -45,7 +41,6 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-<<<<<<< HEAD
     public modalService: NgbModal, ) {
       this.foid = this.user._details.foid;
       console.log("this.user._details.",this.user._details);
@@ -53,14 +48,6 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
       this.fo.mobileNo = this.user._details.fo_mobileno;
       this.fo.name = this.user._details.name;
       this.common.refresh = this.refresh.bind(this);
-=======
-    public modalService: NgbModal) {
-    console.log("this.user._details.", this.user._details);
-    this.fo.id = this.user._details.id;
-    this.fo.mobileNo = this.user._details.fo_mobileno;
-    this.fo.name = this.user._details.name;
-    this.common.refresh = this.refresh.bind(this);
->>>>>>> 9f976fbb04317413f6ddce2769e2696c05ed2d73
     this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
   }
 

@@ -267,9 +267,7 @@ import { CardusageComponent } from './modals/cardusage/cardusage.component';
 import { MultiVehicleHaltAddComponent } from './modals/multi-vehicle-halt-add/multi-vehicle-halt-add.component';
 import { BankDetailsComponent } from './modals/bank-details/bank-details.component';
 import { IssueReportComponent } from './modals/issue-report/issue-report.component';
-<<<<<<< HEAD
 import { VehicleInfoComponent } from './modals/vehicle-info/vehicle-info.component';
-=======
 import { AddOrderComponent } from './modals/BidModals/add-order/add-order.component';
 import { AddBidComponent } from './modals/BidModals/add-bid/add-bid.component';
 import { ShowBidDataComponent } from './modals/BidModals/show-bid-data/show-bid-data.component';
@@ -279,7 +277,6 @@ import { VehicleStatusComponent } from './modals/vehicle-status/vehicle-status.c
 import { AddProposalComponent } from './modals/BidModals/add-proposal/add-proposal.component';
 import { ProposalStateComponent } from './modals/BidModals/proposal-state/proposal-state.component';
 import { VehicleOrdersComponent } from './modals/BidModals/vehicle-orders/vehicle-orders.component';
->>>>>>> 9f976fbb04317413f6ddce2769e2696c05ed2d73
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
