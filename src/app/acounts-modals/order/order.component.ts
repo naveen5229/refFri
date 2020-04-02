@@ -741,14 +741,16 @@ export class OrderComponent implements OnInit {
         console.log('order type print',this.order.ordertype);
         if(this.order.ordertype.id != -108){
           setTimeout(() => {
-            if(!(this.order.purchaseledger.id)){
+            if(!(this.order.purchaseledger.id || this.order.purchaseledger.name)){
               this.common.showError('Please Select Purchase Legder');  
               this.order.purchaseledger.name ='';   
               this.setFoucus('purchaseledger');
              // return; 
               }
           }, 100);
-          if(this.order.ordertype.id == -104) { this.setFoucus('ledger'); }else { this.setFoucus('ledgersup'); }
+          if(this.order.ordertype.id == -104) { this.setFoucus('ledger'); }else { 
+        console.log('leddger data print',this.purchaseledger.ledger);
+        this.setFoucus('ledgersup'); }
         }else{
           setTimeout(() => {
             if(!(this.order.purchaseledger.id)){
@@ -758,6 +760,7 @@ export class OrderComponent implements OnInit {
              // return; 
               }
           }, 100);
+        console.log('leddger data print',this.order.purchaseledger);
         this.setFoucus('ledger');
         }
       } else if (this.activeId.includes('discountledger')) {
@@ -777,7 +780,7 @@ export class OrderComponent implements OnInit {
         }
         setTimeout(() => {
           console.log('this.order.ordertype.id ',(!(this.order.ledger.id)));
-          if((this.order.ledger.id) == ''){
+          if((this.order.ledger.id) == '' || (this.order.ledger.name) == ''){
             this.order.ledger.name ='';   
               this.common.showError('Please Select Supplier Legder'); 
              if(this.order.ordertype.id == -102){
@@ -789,6 +792,7 @@ export class OrderComponent implements OnInit {
                 }
               }
         }, 50);
+        console.log('leddger data print',this.order.ledger);
         this.setFoucus('vendorbidref');
       } else if (this.activeId.includes('vendorbidref')) {
         this.setFoucus('qutationrefrence');
@@ -811,7 +815,7 @@ export class OrderComponent implements OnInit {
       } else if (this.activeId.includes('orderremarks')) {
         //let index = activeId.split('-')[1];
         // console.log('stockitem'+'-'+index);
-        this.setFoucus('stockitem' + '-' + 0);
+        this.setFoucus('warehouse' + '-' + 0);
       } else if (this.activeId.includes('stockitem')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
@@ -836,7 +840,7 @@ export class OrderComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('remarks' + '-' + index);
+        this.setFoucus('stockitem' + '-' + index);
       } else if (this.activeId.includes('remarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxDetail' + '-' + index);

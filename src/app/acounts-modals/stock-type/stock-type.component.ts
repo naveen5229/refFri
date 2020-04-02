@@ -27,6 +27,7 @@ export class StockTypeComponent implements OnInit {
     if (this.common.params) {
       this.stockType.name = this.common.params.name;
       this.stockType.code = this.common.params.code;
+      this.stockType.isservice = this.common.params.is_service;
 
     }
   }

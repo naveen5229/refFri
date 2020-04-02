@@ -26,6 +26,7 @@ import { RecordsComponent } from '../../acounts-modals/records/records.component
 })
 export class OrdersComponent implements OnInit {
   showConfirm = false;
+  stockitmeflag = true;
   suggestionname = '';
   branchdata = [];
   orderTypeData = [];
@@ -604,11 +605,13 @@ export class OrdersComponent implements OnInit {
     if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
       let index = parseInt(this.activeId.split('-')[1]);
       setTimeout(() => {
-        console.log('available item', this.order.amountDetails[index].qty, 'second response', this.totalitem);
+        console.log('available item', this.order.amountDetails[index].qty, 'second response', this.totalitem,'stockitemm',this.stockitmeflag);
+        if(this.stockitmeflag){
         if ((parseInt(this.totalitem)) < (parseInt(this.order.amountDetails[index].qty))) {
           alert('Quantity is lower then available quantity');
           this.order.amountDetails[index].qty = 0;
         }
+      }
       }, 300);
       // if ((this.totalitem) < parseInt(this.order.amountDetails[index].qty)) {
       //   console.log('Quantity is lower then available quantity');
@@ -674,7 +677,7 @@ export class OrdersComponent implements OnInit {
         else {
           setTimeout(() => {
             console.log('sales ledger11111', this.order.purchaseledger.id);
-            if (!(this.order.purchaseledger.id)) {
+            if (!(this.order.purchaseledger.id || this.order.purchaseledger.name)) {
               this.common.showError('Please Select Purchase Legder');
               this.order.purchaseledger.name = '';
               if (this.order.ordertype.id == -104) { this.setFoucus('salesledger'); }
@@ -704,7 +707,7 @@ export class OrdersComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         setTimeout(() => {
-          if ((!this.order.ledger.id)) {
+          if (!(this.order.ledger.id || this.order.ledger.name)) {
             this.order.ledger.name = '';
             this.common.showError('Please Select Supplier Legder');
             this.setFoucus('ledger');
@@ -746,7 +749,7 @@ export class OrdersComponent implements OnInit {
         //this.order[index].qty= null;
 
 
-        if (this.order.ordertype.name.toLowerCase().includes('sales')) {
+        if (this.order.ordertype.name.toLowerCase().includes('sales') && (!(this.stockitmeflag))) {
           this.setFoucus('rate' + '-' + index);
         } else {
           this.setFoucus('qty' + '-' + index);
@@ -1449,7 +1452,11 @@ export class OrdersComponent implements OnInit {
       this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
       if (this.order.ordertype.name.toLowerCase().includes('sales')) {
         this.getStockAvailability(suggestion.id);
+        console.log('suggestion indexing',suggestion);
+        if(suggestion.is_service){
         this.order.amountDetails[index].qty = 1;
+        this.stockitmeflag = false;
+        }
       }
 
     } else if (activeId.includes('discountledger')) {
