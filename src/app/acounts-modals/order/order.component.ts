@@ -749,7 +749,7 @@ export class OrderComponent implements OnInit {
               }
           }, 100);
           if(this.order.ordertype.id == -104) { this.setFoucus('ledger'); }else { 
-        console.log('leddger data print',this.purchaseledger.ledger);
+      //  console.log('leddger data print',this.purchaseledger.ledger);
         this.setFoucus('ledgersup'); }
         }else{
           setTimeout(() => {
@@ -1287,22 +1287,31 @@ export class OrderComponent implements OnInit {
   }
 
   onSelect(suggestion, activeId) {
-    console.log('Suggestion: ', suggestion);
+    console.log('Suggestion new implement: ', suggestion);
     if (activeId == 'ordertype') {
       this.order.ordertype.name = suggestion.name;
       this.order.ordertype.id = suggestion.id;
     } else if (activeId == 'ledger' || activeId == 'ledgersup') {
-      this.order.ledger.name = suggestion.name;
+      if(!(suggestion)){
+        this.order.ledger.name = '';
+        this.order.ledger.id = '';
+      }else{
+        this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
       if(suggestion.address_count >1){
         this.getAddressByLedgerId(suggestion.id);
         }else{
         this.order.billingaddress = suggestion.address;
         }
+      }
     } else if (activeId == 'purchaseledger') {
+      if(!(suggestion)){
+        this.order.purchaseledger.name = '';
+        this.order.purchaseledger.id = '';
+      }else{
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
-
+      }
     } else if (activeId.includes('stockitem')) {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].stockitem.name = suggestion.name;
