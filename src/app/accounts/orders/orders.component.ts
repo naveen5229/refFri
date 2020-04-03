@@ -1430,6 +1430,10 @@ export class OrdersComponent implements OnInit {
       }
       this.getStockItems(suggestionname);
     } else if (activeId == 'ledger') {
+      if(!(suggestion)){
+        this.order.ledger.name = '';
+        this.order.ledger.id = 0;
+      }else{
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
       if (suggestion.address_count > 1) {
@@ -1437,13 +1441,18 @@ export class OrdersComponent implements OnInit {
       } else {
         this.order.billingaddress = suggestion.address;
       }
+    }
     } else if (activeId == 'purchaseledger' || activeId == 'salesledger') {
+      if(!(suggestion)){
+        this.order.purchaseledger.name = '';
+        this.order.purchaseledger.id = '';
+      }else{
       console.log('>>>>>>>>>', suggestion);
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
       // this.getAddressByLedgerId(suggestion.id);
       console.log('>>>>>>>>><<<<<<<<<', this.order.purchaseledger.id);
-
+      }
     } else if (activeId.includes('stockitem')) {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].stockitem.name = suggestion.name;
