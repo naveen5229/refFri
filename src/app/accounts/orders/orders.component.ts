@@ -351,9 +351,13 @@ export class OrdersComponent implements OnInit {
         this.common.showError();
       });
   }
-
+  callconfirm(){
+    this.showConfirm=true;
+  }
   dismiss(response) {
     // console.log('Order:', this.order);
+    this.showConfirm = false;
+          event.preventDefault();
     if (response) {
       console.log('Order new:', this.accountService.selected.financialYear);
       // return;
@@ -391,10 +395,21 @@ export class OrdersComponent implements OnInit {
           }, 150);
         } else {
           this.addOrder(this.order);
+          
+          //return;
         }
+      }
+      else{
+        this.common.showError('Please Select Correct Financial Year');
       }
     }
     // this.activeModal.close({ response: response, Voucher: this.order });
+  }
+
+  modelCondition() {
+    this.showConfirm = false;
+    event.preventDefault();
+    return;
   }
 
   getDate(date) {
