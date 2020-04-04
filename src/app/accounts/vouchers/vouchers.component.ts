@@ -926,9 +926,9 @@ export class VouchersComponent implements OnInit {
     this.voucher.amountDetails.map(amountDetail => {
       console.log(amountDetail, amountDetail.transactionType, amountDetail.amount)
       if (amountDetail.transactionType == 'debit') {
-        this.voucher.total.debit += amountDetail.amount;
+        this.voucher.total.debit =  parseFloat((this.voucher.total.debit + amountDetail.amount).toFixed(2));
       } else {
-        this.voucher.total.credit += amountDetail.amount;
+        this.voucher.total.credit = parseFloat((this.voucher.total.credit + amountDetail.amount).toFixed(2))
       }
     });
     if (!isUndefined(index)) {

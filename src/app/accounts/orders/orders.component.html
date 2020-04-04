@@ -44,9 +44,10 @@
 
               </div>
             </div>
-            <div class="col"  *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">
+            <div class="col"  *ngIf="order.ordertype.name.toLowerCase().includes('purchase') || order.ordertype.name.toLowerCase().includes('debit')">
               <div class="form-group">
-                <label class="ref-label">Po Date</label>
+                <label class="ref-label"  *ngIf="order.ordertype.name.toLowerCase().includes('purchase')" >Po Date</label>
+                <label class="ref-label"  *ngIf="order.ordertype.name.toLowerCase().includes('debit')" >Ref Date</label>
                 <input type="text" autocomplete="off" style="cursor: pointer;" class="form-control ref-input"
                   autocomplete="off" id="podate" name="po-date" [(ngModel)]="order.podate" maxlength="10"
                   (click)="lastActiveId = 'po-date'; allowBackspace = false;" (input)="allowBackspace = false;">
@@ -173,6 +174,15 @@
                 <input type="text" style="cursor: pointer;" class="form-control ref-input" autocomplete="off" id="date"
                   name="account-date" [(ngModel)]="order.date" maxlength="10"
                   (click)="lastActiveId = 'account-date'; allowBackspace = false;" (input)="allowBackspace = false;">
+
+              </div>
+            </div>
+            <div class="col"  *ngIf="order.ordertype.name.toLowerCase().includes('credit')">
+              <div class="form-group">
+                <label class="ref-label">Ref Date</label>
+                <input type="text" autocomplete="off" style="cursor: pointer;" class="form-control ref-input"
+                  autocomplete="off" id="podate" name="po-date" [(ngModel)]="order.podate" maxlength="10"
+                  (click)="lastActiveId = 'po-date'; allowBackspace = false;" (input)="allowBackspace = false;">
 
               </div>
             </div>

@@ -649,6 +649,9 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('podate')) {
+        if(this.order.ordertype.id == -106){
+          this.setFoucus('salesledger');
+        }else{
         if (this.freezedate) {
           let rescompare = this.CompareDate(this.freezedate);
           console.log('heddlo', rescompare);
@@ -662,6 +665,8 @@ export class OrdersComponent implements OnInit {
             this.setFoucus('purchaseledger');
           }
         }
+      }
+
       } else if (this.activeId.includes('date')) {
         if (this.freezedate) {
           let rescompare = this.CompareDate(this.freezedate);
@@ -743,9 +748,9 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('deliveryterms')) {
         console.log(this.order.ordertype.name);
         this.setFoucus('billingaddress');
-      } else if ((this.activeId.includes('billingaddress') && (this.order.ordertype.name.toLowerCase().includes('purchase'))) || this.activeId.includes('grnremarks')) {
+      } else if ((this.activeId.includes('billingaddress') && ((this.order.ordertype.name.toLowerCase().includes('purchase')) || (this.order.ordertype.name.toLowerCase().includes('debit')))) || this.activeId.includes('grnremarks')) {
         this.setFoucus('orderremarks');
-      } else if (this.activeId.includes('billingaddress') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
+      } else if (this.activeId.includes('billingaddress') && ((this.order.ordertype.name.toLowerCase().includes('sales'))|| (this.order.ordertype.name.toLowerCase().includes('credit')))) {
         this.setFoucus('grnremarks');
       } else if (this.activeId.includes('orderremarks')) {
         //let index = activeId.split('-')[1];
