@@ -313,12 +313,20 @@ export class OrderComponent implements OnInit {
       });
   }
 
+
   modelCondition() {
+    this.showConfirm = false;
+    event.preventDefault();
+    return;
+  }
+
+  modelConditionnew() {
     // this.showConfirm = false;
     this.activeModal.close({});
     event.preventDefault();
     return;
   }
+  
   setInvoice() {
     return {
     podate:this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -492,6 +500,10 @@ export class OrderComponent implements OnInit {
       this.addOrder(this.order);
         }
       }
+      else{
+        this.common.showError('Please Select Correct Financial Year');
+      }
+      
     }
     // this.activeModal.close({ response: response, Voucher: this.order });
   }
@@ -600,7 +612,6 @@ export class OrderComponent implements OnInit {
         //this.GetLedger();
         this.order = this.setInvoice();
         this.setFoucus('ordertype');
-
         this.common.showToast('Invoice Are Saved');
         this.activeModal.close({responce:'true', delete: 'true'});
        // return;
@@ -608,7 +619,7 @@ export class OrderComponent implements OnInit {
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
-        this.common.showError();
+        this.common.showError(err);
       });
 
 
@@ -1285,7 +1296,9 @@ export class OrderComponent implements OnInit {
     this.autoSuggestion.targetId = activeId;
     console.log('Auto Suggestion: ', this.autoSuggestion);
   }
-
+  callconfirm(){
+    this.showConfirm=true;
+  }
   onSelect(suggestion, activeId) {
     console.log('Suggestion new implement: ', suggestion);
     if (activeId == 'ordertype') {

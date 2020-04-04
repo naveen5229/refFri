@@ -441,7 +441,7 @@
         </div>
 
         <div class="col-1 text-right" *ngIf="(this.deletedId == 0)">
-          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+          <button class="btn btn-primary" type="button" outline (click)="callconfirm()" id="submit"
             style="cursor: pointer;">Submit
           </button>
         </div>
@@ -451,7 +451,7 @@
           </button>
         </div>
         <div class="col-1">
-          <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel"
+          <button class="btn btn-danger" type="button" outline (click)="modelConditionnew()" id="cancel"
             style="cursor: pointer;">Cancel</button>
         </div>
       </div>  
@@ -465,7 +465,7 @@
     <div>
       <p>Are you want to save ?</p>
       <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
-        (click)="dismiss(false)">No</button>
+        (click)="modelCondition()">No</button>
     </div>
   </div>
 </div>
