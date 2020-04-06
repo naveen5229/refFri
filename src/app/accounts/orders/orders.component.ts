@@ -770,9 +770,29 @@ export class OrdersComponent implements OnInit {
 
 
         if (this.order.ordertype.name.toLowerCase().includes('sales') && (!(this.stockitmeflag))) {
-          this.setFoucus('rate' + '-' + index);
+          //this.setFoucus('rate' + '-' + index);
+          setTimeout(() => {
+              if(!(this.order.amountDetails[index].stockitem.id || this.order.amountDetails[index].stockitem.name)){
+                this.common.showError('Please Select Warehouse');  
+                this.order.purchaseledger.name ='';   
+                this.setFoucus('stockitem' + '-' + index);
+               // return; 
+                }else{
+                this.setFoucus('rate' + '-' + index);
+                }
+            }, 100);
         } else {
-          this.setFoucus('qty' + '-' + index);
+          setTimeout(() => {
+            if(!(this.order.amountDetails[index].stockitem.id || this.order.amountDetails[index].stockitem.name)){
+              this.common.showError('Please Select Warehouse');  
+              this.order.purchaseledger.name ='';   
+              this.setFoucus('stockitem' + '-' + index);
+             // return; 
+              }else{
+              this.setFoucus('qty' + '-' + index);
+              }
+          }, 100);
+         // this.setFoucus('qty' + '-' + index);
         }
       } else if (this.activeId.includes('qty')) {
         let index = parseInt(this.activeId.split('-')[1]);
@@ -804,7 +824,21 @@ export class OrdersComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('stockitem' + '-' + index);
+        setTimeout(() => {
+          console.log('suggetion data',this.order.amountDetails[index].warehouse.id );
+  
+            if(!(this.order.amountDetails[index].warehouse.id || this.order.amountDetails[index].warehouse.name)){
+              this.common.showError('Please Select Warehouse');  
+              this.order.purchaseledger.name ='';   
+              this.setFoucus('warehouse' + '-' + index);
+             // return; 
+              }else{
+              this.setFoucus('stockitem' + '-' + index);
+              }
+          }, 100);
+
+          
+      //  this.setFoucus('stockitem' + '-' + index);
       } else if (this.activeId.includes('remarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxDetail' + '-' + index);
@@ -1475,27 +1509,37 @@ export class OrdersComponent implements OnInit {
       }
     } else if (activeId.includes('stockitem')) {
       const index = parseInt(activeId.split('-')[1]);
-      this.order.amountDetails[index].stockitem.name = suggestion.name;
-      this.order.amountDetails[index].stockitem.id = suggestion.id;
-      this.order.amountDetails[index].stockunit.name = suggestion.stockname;
-      this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
-      if (this.order.ordertype.name.toLowerCase().includes('sales')) {
-        this.getStockAvailability(suggestion.id);
-        console.log('suggestion indexing',suggestion);
-        if(suggestion.is_service){
-        this.order.amountDetails[index].qty = 1;
-        this.stockitmeflag = false;
-        }
+        if(!(suggestion)){
+          this.order.amountDetails[index].stockitem.name = '';
+          this.order.amountDetails[index].stockitem.id = '';
+        }else{
+          this.order.amountDetails[index].stockitem.name = suggestion.name;
+          this.order.amountDetails[index].stockitem.id = suggestion.id;
+          this.order.amountDetails[index].stockunit.name = suggestion.stockname;
+          this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
+          if (this.order.ordertype.name.toLowerCase().includes('sales')) {
+            this.getStockAvailability(suggestion.id);
+            console.log('suggestion indexing',suggestion);
+            if(suggestion.is_service){
+            this.order.amountDetails[index].qty = 1;
+            this.stockitmeflag = false;
+            }
+          }
       }
-
     } else if (activeId.includes('discountledger')) {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].discountledger.name = suggestion.name;
       this.order.amountDetails[index].discountledger.id = suggestion.id;
     } else if (activeId.includes('warehouse')) {
+      
       const index = parseInt(activeId.split('-')[1]);
+      if(!(suggestion)){
+        this.order.amountDetails[index].warehouse.name = '';
+        this.order.amountDetails[index].warehouse.id = '';
+      }else{
       this.order.amountDetails[index].warehouse.name = suggestion.name;
       this.order.amountDetails[index].warehouse.id = suggestion.id;
+      }
       //  this.getStockAvailability(suggestion.id);
     }
     else if (activeId.includes('invocelist')) {

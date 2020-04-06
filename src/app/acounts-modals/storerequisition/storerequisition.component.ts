@@ -316,9 +316,9 @@ console.log('store request ',this.common.params);
     this.setAutoSuggestion();
     if (this.activeId.includes('qty-') && (this.storeRequestStockId == -1 || this.storeRequestStockId == -3)) {
       let index = parseInt(this.activeId.split('-')[1]);
-      // console.log('available item', (this.order.amountDetails[index].qty));
+       console.log('available item111',this.totalitem, (document.getElementById(this.activeId)['value']));
       setTimeout(() => {
-        if ((this.totalitem) < (document.getElementById(this.activeId)['value'])) {
+        if (this.totalitem < (parseInt(document.getElementById(this.activeId)['value']))) {
           alert('Quantity is lower then available quantity');
           this.storeQuestion.details[index].issueqty = 0;
         }
