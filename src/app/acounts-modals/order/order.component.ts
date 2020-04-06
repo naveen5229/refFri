@@ -635,10 +635,11 @@ export class OrderComponent implements OnInit {
     return total;
   }
   
-  getStockAvailability(stockid) {
+  getStockAvailability(stockid,whrhouseid) {
     let totalitem = 0;
     let params = {
-      stockid: stockid
+      stockid: stockid,
+      wherehouseid: whrhouseid
     };
      this.common.loading++;
     this.api.post('Suggestion/GetStockItemAvailableQty', params)
@@ -738,7 +739,16 @@ export class OrderComponent implements OnInit {
           this.setFoucus('purchaseledger');
       }
     }}
-   }  else if (this.activeId.includes('date')) {
+   } else if((this.order.ordertype.name.toLowerCase().includes('sales') || this.order.ordertype.name.toLowerCase().includes('credit')) && (this.activeId.includes('rate-'))){ 
+    let index = parseInt(this.activeId.split('-')[1]);
+    let amount = this.order.amountDetails[index].amount;
+    console.log('amount with condition',amount);
+    if(((this.stockitmeflag) && (this.order.biltynumber == '')) && (amount >= 5000)){
+      this.order.amountDetails[index].rate = 0;
+      this.common.showError('Please Enter vailde Eway Bill Number');
+      return
+    }
+  } else if (this.activeId.includes('date')) {
         if (this.freezedate) {
           let rescompare = this.CompareDate(this.freezedate);
           console.log('heddlo',rescompare);
@@ -1383,7 +1393,7 @@ export class OrderComponent implements OnInit {
       this.order.amountDetails[index].stockunit.name = suggestion.stockname;
       this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
       if (this.order.ordertype.name.toLowerCase().includes('sales')) {
-        this.getStockAvailability(suggestion.id);
+        this.getStockAvailability(suggestion.id,this.order.amountDetails[index].warehouse.id);
         console.log('suggestion indexing',suggestion);
         if(suggestion.is_service){
        // this.order.amountDetails[index].qty = 1;
@@ -1404,7 +1414,7 @@ export class OrderComponent implements OnInit {
       }else{
       this.order.amountDetails[index].warehouse.name = suggestion.name;
       this.order.amountDetails[index].warehouse.id = suggestion.id;
-      this.getStockAvailability(suggestion.id);
+      this.getStockAvailability(this.order.amountDetails[index].stockitem.id,suggestion.id);
       }
     }
   }

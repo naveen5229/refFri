@@ -528,10 +528,11 @@ export class OrdersComponent implements OnInit {
     return total;
   }
 
-  getStockAvailability(stockid) {
+  getStockAvailability(stockid,whrhouseid) {
     let totalitem = 0;
     let params = {
-      stockid: stockid
+      stockid: stockid,
+      wherehouseid: whrhouseid
     };
     this.common.loading++;
     this.api.post('Suggestion/GetStockItemAvailableQty', params)
@@ -633,6 +634,18 @@ export class OrdersComponent implements OnInit {
       //   // this.order.amountDetails[index].qty = 0;
       // }
     }
+    if((this.order.ordertype.name.toLowerCase().includes('sales') || this.order.ordertype.name.toLowerCase().includes('credit')) && (this.activeId.includes('rate-'))){ 
+      let index = parseInt(this.activeId.split('-')[1]);
+      let amount = this.order.amountDetails[index].amount;
+      console.log('amount with condition',amount);
+      if(((this.stockitmeflag) && (this.order.biltynumber == '')) && (amount >= 5000)){
+        this.order.amountDetails[index].rate = 0;
+        this.common.showError('Please Enter vailde Eway Bill Number');
+        return
+      }
+    }
+
+
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('branch')) {
@@ -1452,7 +1465,15 @@ export class OrdersComponent implements OnInit {
     else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
     else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
     else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
-    else if (activeId.includes('warehouse')) this.autoSuggestion.data = this.suggestions.warehouses;
+    else if (activeId.includes('warehouse')){
+       this.autoSuggestion.data = this.suggestions.warehouses;
+       if(this.suggestions.warehouses.length ==1){
+       console.log('where house suggestion',this.suggestions.warehouses[0]['id'],this.suggestions.warehouses);
+       let splitindex = parseInt(activeId.split('-')[1]);
+       this.order.amountDetails[splitindex].warehouse.id = this.suggestions.warehouses[0]['id'];
+       this.order.amountDetails[splitindex].warehouse.name = this.suggestions.warehouses[0]['name'];
+       }
+    }
     else if (activeId.includes('invocelist')) this.autoSuggestion.data = this.suggestions.invoiceList;
 
 
@@ -1518,7 +1539,7 @@ export class OrdersComponent implements OnInit {
           this.order.amountDetails[index].stockunit.name = suggestion.stockname;
           this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
           if (this.order.ordertype.name.toLowerCase().includes('sales')) {
-            this.getStockAvailability(suggestion.id);
+            this.getStockAvailability(suggestion.id,(this.order.amountDetails[index].warehouse.id));
             console.log('suggestion indexing',suggestion);
             if(suggestion.is_service){
             this.order.amountDetails[index].qty = 1;

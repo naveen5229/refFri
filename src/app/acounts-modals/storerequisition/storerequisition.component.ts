@@ -656,7 +656,8 @@ console.log('store request ',this.common.params);
     let totalitem = 0;
     let stockid = 0;
     let params = {
-      stockid: this.storeQuestion.details[index].stockitem.id
+      stockid: this.storeQuestion.details[index].stockitem.id,
+      wherehouseid: this.storeQuestion.details[index].warehouse.id
     };
     //  this.common.loading++;
     this.api.post('Suggestion/GetStockItemAvailableQty', params)
