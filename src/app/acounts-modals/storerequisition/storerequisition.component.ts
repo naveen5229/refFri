@@ -101,12 +101,17 @@ export class StorerequisitionComponent implements OnInit {
     public accountService: AccountService) {
 console.log('store request ',this.common.params);
     this.storeRequestStockId = this.common.params.storeRequestId;
+    if(this.storeRequestStockId == -101){
+    this.storeQuestion.requestdate = ((((new Date()).getMonth())+1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear())-1) + '-04-01', 'ddMMYYYY', false, '-')
+    }
+
+
     this.storeQuestion.requesttype.id = this.common.params.storeRequestId;
     this.pendingid = this.common.params.pendingid;
     console.log('stock Request Id', this.pendingid);
     this.common.handleModalSize('class', 'modal-lg', '1150');
 
-    this.storeRequestName = (this.storeRequestStockId == -2) ? 'Store Request' : (this.storeRequestStockId == -3) ? 'Stock Issue' : 'Stock Transfer';
+    this.storeRequestName = (this.storeRequestStockId == -2) ? 'Store Request' : (this.storeRequestStockId == -3) ? 'Stock Issue' : (this.storeRequestStockId == -101) ? 'Opening Stock': 'Stock Transfer';
 
     this.getBranchList();
     this.getStockItems();
@@ -325,6 +330,13 @@ console.log('store request ',this.common.params);
       }, 50);
 
     }
+    if (this.activeId.includes('issueamount-') && (this.storeRequestStockId == -101)){
+      let index = parseInt(this.activeId.split('-')[1]);
+      setTimeout(() => {
+    this.storeQuestion.details[index].issuerate = ((this.storeQuestion.details[index].issueamount) / (this.storeQuestion.details[index].qty))
+    console.log('this.storeQuestion.details[index].issuerate',this.storeQuestion.details[index].issuerate,this.storeQuestion.details[index].issueamount,this.storeQuestion.details[index].qty);
+  }, 50);
+    }
 
     if (key == 'enter') {
       if (this.activeId.includes('requesttype')) {
@@ -384,7 +396,10 @@ console.log('store request ',this.common.params);
         let index = parseInt(this.activeId.split('-')[1]);
         if (this.storeQuestion.requesttype.id == -1) {
           this.setFoucus('issuerate' + '-' + index);
-        } else {
+        } else if (this.storeRequestStockId == -101) {
+          //console.log('hello dear');
+          this.setFoucus('issueamount'+ '-' + index);
+        }else {
           this.setFoucus('remarks' + '-' + index);
         }
       } else if (this.activeId.includes('issuerate')) {
@@ -393,7 +408,7 @@ console.log('store request ',this.common.params);
           this.setFoucus('issueremarks' + '-' + index);
         } else if (this.storeRequestStockId == -1) {
           this.setFoucus('remarks' + '-' + index);
-        } else {
+        }  else {
           this.setFoucus('issueamount' + '-' + index);
         }
       } else if (this.activeId.includes('issueamount')) {
@@ -401,7 +416,11 @@ console.log('store request ',this.common.params);
         console.log('issue amount ', this.storeQuestion.requesttype.id);
         if (this.storeRequestStockId == -3) {
           this.setFoucus('issueremarks' + '-' + index);
-        } else {
+        } else if (this.storeRequestStockId == -101) {
+          //console.log('hello dear');
+          
+          this.setFoucus('plustransparent');
+        }else {
           this.setFoucus('remarks' + '-' + index);
         }
       } else if (this.activeId.includes('issueremarks')) {

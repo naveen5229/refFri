@@ -29,7 +29,7 @@
     <button *ngIf="this.storeRequestId != -3" class="btn mb-4 add-button" (click)="openStoreRequisitions()"><i
         class="fa fa-plus"></i></button>
     <div class="main">
-      <table class="table table-bordered ">
+      <table class="table table-bordered " *ngIf="this.storeRequestId != -101" >
         <thead style="background-color: #263238; color:#fff;">
           <tr>
             <th>#</th>
@@ -51,6 +51,33 @@
             <td *ngIf="this.storeRequestId != -3">{{StockQuestion[0].y_to_fobranch_name}}</td>
             <td *ngIf="this.storeRequestId == -3">{{StockQuestion[0].y_from_fobranch_name}}</td>
             <td>{{StockQuestion[0].y_req_date | date : 'dd-MMM-yy'}}</td>
+            <!-- <td class="del">
+          <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i
+              class="fa fa-trash"></i></a>
+        </td> -->
+          </tr>
+        </tbody>
+
+      </table>
+      <table class="table table-bordered " *ngIf="this.storeRequestId == -101" >
+        <thead style="background-color: #263238; color:#fff;">
+          <tr>
+            <th>#</th>
+            <th>Request No</th>
+            <th>From Branch</th>
+            <th>Issue Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let StockQuestion of StockQuestions; let i = index;" (click)="selectedRow = i"
+            (dblclick)="openStoreRequisitions(StockQuestion[0].y_id,StockQuestion[0].y_from_fobranch_id)"
+            (enter)="openStoreRequisitions(StockQuestion[0].y_id,StockQuestion[0].y_from_fobranch_id)"
+            [ngClass]="{'highlight' : selectedRow == i}">
+
+            <td>{{i + 1}}</td>
+            <td>{{StockQuestion[0].y_code}}</td>
+            <td >{{StockQuestion[0].y_from_fobranch_name}}</td>
+            <td>{{StockQuestion[0].y_issue_date | date : 'dd-MMM-yy'}}</td>
             <!-- <td class="del">
           <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i
               class="fa fa-trash"></i></a>

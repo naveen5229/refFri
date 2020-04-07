@@ -277,6 +277,10 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Stock Transfer',
                 link: '/accounts/storerequisitions/-1'
             },
+            {
+                title: 'Opening Stock',
+                link: '/accounts/storerequisitions/-101'
+            }
 
         ],
     },

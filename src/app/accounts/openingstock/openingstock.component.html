@@ -35,6 +35,7 @@
         <tr>
           <th>S.No</th>
           <th>Item</th>
+          <th>Opening Qty</th>
           <th>Purchase </th>
           <th>Sales</th>
           <th>Credit Note</th>
@@ -42,8 +43,8 @@
           <th>Wastage</th>
           <th>Store Recived </th>
           <th>Store Issue</th>
-          <th>Opening Qty</th>
-          <th>Opening Balance</th>
+          <th>Available Qty</th>
+          <th>Stock Balance Amt</th>
         </tr>
       </thead>
       <tbody>
@@ -51,6 +52,7 @@
           [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{ i+1 }}</td>
         <td>{{openingStock.stockitem_name}}</td>
+        <td>{{openingStock.opening_qty}}</td>
           <td>{{openingStock.pi_total_qty}}</td>
           <td>{{openingStock.si_total_qty}}</td>
           <td>{{openingStock.sr_total_qty}}</td>
