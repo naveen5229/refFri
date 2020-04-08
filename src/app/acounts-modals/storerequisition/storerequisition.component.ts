@@ -177,10 +177,10 @@ console.log('store request ',this.common.params);
         console.log('Res123:', res['data']);
         this.StockQuestiondata = res['data'];
         this.storeQuestion = {
-          requestdate: this.common.dateFormatternew(this.StockQuestiondata[0].y_req_date),
-          issuedate: (this.storeRequestStockId == -3) ? this.common.dateFormatternew(new Date()).split(' ')[0] : this.common.dateFormatternew(this.StockQuestiondata[0].y_issue_date),
+          requestdate: (this.storeRequestStockId == -101) ? this.common.dateFormatternew(this.StockQuestiondata[0].y_issue_date) : this.common.dateFormatternew(this.StockQuestiondata[0].y_req_date),
+          issuedate: (this.storeRequestStockId == -101) ? this.common.dateFormatternew('1970-01-01') :  (this.storeRequestStockId == -3) ? this.common.dateFormatternew(new Date()).split(' ')[0] : this.common.dateFormatternew(this.StockQuestiondata[0].y_issue_date),
           code: this.StockQuestiondata[0].y_code,
-          custcode: this.StockQuestiondata[0].y_cust_code,
+          custcode: (this.StockQuestiondata[0].y_cust_code) ? this.StockQuestiondata[0].y_cust_code: '',
           approved:(this.StockQuestiondata[0].y_for_approved)? false : this.StockQuestiondata[0].y_for_approved,
           deltereview: (this.StockQuestiondata[0].y_del_review == false ? 0 : 1),
           delete: (this.StockQuestiondata[0].y_deleted == false ? 0 : 1),
@@ -194,8 +194,8 @@ console.log('store request ',this.common.params);
             id: this.StockQuestiondata[0].y_from_fobranch_id
           },
           tobranch: {
-            name: this.StockQuestiondata[0].y_to_fobranch_name,
-            id: this.StockQuestiondata[0].y_to_fobranch_id
+            name: (this.StockQuestiondata[0].y_to_fobranch_name)? this.StockQuestiondata[0].y_to_fobranch_name :'',
+            id: (this.StockQuestiondata[0].y_to_fobranch_id) ? this.StockQuestiondata[0].y_to_fobranch_id : 0
           },
           details: []
         }
@@ -206,16 +206,16 @@ console.log('store request ',this.common.params);
           if (!this.storeQuestion.details[index]) {
             this.addAmountDetails();
           }
-          this.storeQuestion.details[index].remarks = stoQuestionDetail.y_dtl_req_remark;
-          this.storeQuestion.details[index].qty = stoQuestionDetail.y_dtl_req_qty;
-          this.storeQuestion.details[index].issueqty = stoQuestionDetail.y_dtl_issue_qty;
-          this.storeQuestion.details[index].issuerate = stoQuestionDetail.y_dtl_issue_rate;
+          this.storeQuestion.details[index].remarks = (stoQuestionDetail.y_dtl_req_remark) ? stoQuestionDetail.y_dtl_req_remark :'';
+          this.storeQuestion.details[index].qty = (this.storeRequestStockId == -101) ? stoQuestionDetail.y_dtl_issue_qty : stoQuestionDetail.y_dtl_req_qty;
+          this.storeQuestion.details[index].issueqty = (this.storeRequestStockId == -101) ? 0 : stoQuestionDetail.y_dtl_issue_qty;
+          this.storeQuestion.details[index].issuerate =  stoQuestionDetail.y_dtl_issue_rate;
           this.storeQuestion.details[index].issueamount = stoQuestionDetail.y_dtl_issue_amount;
           this.storeQuestion.details[index].issueremarks = stoQuestionDetail.y_dtl_issue_remark;
-          this.storeQuestion.details[index].issuewarehouse.id = stoQuestionDetail.y_dtl_issue_warehouse_id;
-          this.storeQuestion.details[index].issuewarehouse.name = stoQuestionDetail.y_issue_warehouse_name;
-          this.storeQuestion.details[index].warehouse.id = stoQuestionDetail.y_dtl_req_warehouse_id;
-          this.storeQuestion.details[index].warehouse.name = stoQuestionDetail.y_req_warehouse_name;
+          this.storeQuestion.details[index].issuewarehouse.id =  (this.storeRequestStockId == -101) ? 0 : stoQuestionDetail.y_dtl_issue_warehouse_id;
+          this.storeQuestion.details[index].issuewarehouse.name =  (this.storeRequestStockId == -101) ? '' : stoQuestionDetail.y_issue_warehouse_name;
+          this.storeQuestion.details[index].warehouse.id =  (this.storeRequestStockId == -101) ? stoQuestionDetail.y_dtl_issue_warehouse_id : stoQuestionDetail.y_dtl_req_warehouse_id;
+          this.storeQuestion.details[index].warehouse.name = (this.storeRequestStockId == -101) ? stoQuestionDetail.y_issue_warehouse_name :  stoQuestionDetail.y_req_warehouse_name;
           this.storeQuestion.details[index].stockitem.id = stoQuestionDetail.y_dtl_req_stockitemid;
           this.storeQuestion.details[index].stockitem.name = stoQuestionDetail.y_req_stockitem_name;
           this.storeQuestion.details[index].stockunit.id = stoQuestionDetail.y_dtl_req_stockunitid;

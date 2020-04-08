@@ -638,10 +638,10 @@ export class OrdersComponent implements OnInit {
       let index = parseInt(this.activeId.split('-')[1]);
       let amount = this.order.amountDetails[index].amount;
       console.log('amount with condition',amount);
-      if(((this.stockitmeflag) && (this.order.biltynumber == '')) && (amount >= 5000)){
-        this.order.amountDetails[index].rate = 0;
+      if(((this.stockitmeflag) && (this.order.biltynumber == '')) && (amount >= 50000)){
+       // this.order.amountDetails[index].rate = 0;
         this.common.showError('Please Enter vailde Eway Bill Number');
-        return
+       // return
       }
     }
 
