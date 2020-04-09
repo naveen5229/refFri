@@ -446,7 +446,16 @@ console.log('store request ',this.common.params);
         }
         let index = parseInt(this.activeId.split('-')[1]);
         if (this.storeQuestion.requesttype.id == -1) {
-          this.setFoucus('stockitem' + '-' + index);
+          setTimeout(() => {
+            if(this.storeQuestion.details[index].warehouse.id == this.storeQuestion.details[index].issuewarehouse.id){
+              this.common.showError('From Warehouse and Transfer Warehouse must not be same ');
+              this.setFoucus('issuewarehouse-'+index);
+             // return;
+            }else{
+            this.setFoucus('stockitem' + '-' + index);
+            }
+          }, 50);
+         
         } else {
           this.setFoucus('issuerate' + '-' + index);
         }
@@ -654,6 +663,7 @@ console.log('store request ',this.common.params);
       let index = parseInt(this.activeId.split('-')[1]);
       this.storeQuestion.details[index].issuewarehouse.name = suggestion.name;
       this.storeQuestion.details[index].issuewarehouse.id = suggestion.id;
+     
     }
     else if (activeId.includes('warehouse')) {
       let index = parseInt(this.activeId.split('-')[1]);

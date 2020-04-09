@@ -2,7 +2,7 @@
   <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
     <div class="modal-header">
       <h5 class="modal-title" id="modal-basic-title">Stock Item</h5>
-      <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+      <button type="button" class="close" aria- label="Close" (click)="modelConditionfirst()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -84,13 +84,7 @@
 
               </div>
             </div>
-            <div class="col">
-              <div class="form-grpou">
-                <label>Name</label>
-                <input type="text" class="form-control" id="name" autocomplete="off" name="stock-name"
-                  [(ngModel)]="stockItem.name">
-              </div>
-            </div>
+            
           </div>
           <div class="row">
 <!--             
@@ -101,7 +95,13 @@
                   [(ngModel)]="stockItem.code">
               </div>
             </div> -->
-           
+            <div class="col">
+              <div class="form-grpou">
+                <label>Name</label>
+                <input type="text" class="form-control" id="name" autocomplete="off" name="stock-name"
+                  [(ngModel)]="stockItem.name">
+              </div>
+            </div>
             <div class="col" *ngIf="!(common.params && common.params.stockType)">
               <div class="form-group">
                 <label>Max Limit</label>
@@ -116,7 +116,7 @@
                   [(ngModel)]="stockItem.minlimit" (keydown.enter)="stockItem.isactive = true;">
               </div>
             </div>
-            <div class="col">
+            <!-- <div class="col">
               <div class="form-grpou">
                 <label>Opening Balance</label>
                 <input type="text" class="form-control" id="openingbal" autocomplete="off" name="openingbal"
@@ -129,7 +129,7 @@
                 <input type="text" class="form-control" id="openingqty" autocomplete="off" name="openingqty"
                   [(ngModel)]="stockItem.openingqty">
               </div>
-            </div>
+            </div> -->
           </div>
 
           <div class="row radiostockitem" *ngIf="!(common.params && common.params.stockType)">
@@ -315,7 +315,7 @@
     <div class="modal-footer">
       <div class="row">
         <div class="col">
-          <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
+          <button class="btn btn-danger" type="button" outline (click)="modelConditionfirst()" id="cancel"
             style="cursor: pointer;">Cancel</button>
         </div>
         <div class="col text-right">

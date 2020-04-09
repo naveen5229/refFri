@@ -55,7 +55,8 @@
         <div class="row">
           <div class="col-4">
             <div class="form-group">
-              <label class="ref-label">Request Date</label>
+              <label class="ref-label" *ngIf="storeRequestStockId != -1">Request Date</label>
+              <label class="ref-label" *ngIf="storeRequestStockId == -1">Transfer Date</label>
               <input autocomplete="off" type="text" style="cursor: pointer;" class="form-control ref-input"
                 autocomplete="off" id="requestdate" name="requestdate" [(ngModel)]="storeQuestion.requestdate"
                 maxlength="10" (click)="lastActiveId = 'requestdate'; allowBackspace = false;"
@@ -100,7 +101,7 @@
         </tr>
         <tr *ngIf="storeRequestStockId == -1">
 
-          <th>Warehouse</th>
+          <th>From Warehouse</th>
           <th>Transfer Warehouse</th>
           <th>Stock Item</th>
           <th>Unit</th>

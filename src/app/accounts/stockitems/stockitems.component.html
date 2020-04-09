@@ -18,8 +18,8 @@
             <th>Stock Type</th>
             <th>Stock Sub Type</th>
             <th>Name</th>
-            <th>Opening Balance</th>
-            <th>Qty</th>
+            <!-- <th>Opening Balance</th>
+            <th>Qty</th> -->
             <th>Date</th>
             <th>Action</th>
           </tr>
@@ -32,8 +32,8 @@
             <td>{{stockItem.stocktype_name}}</td>
             <td>{{stockItem.stoctsubtypename}}</td>
             <td>{{stockItem.name}}</td>
-            <td>{{(stockItem.opening_balance == null ) ? 0: stockItem.opening_balance}}</td>
-            <td>{{(stockItem.opening_qty == null ) ? 0 : stockItem.opening_qty}}</td>
+            <!-- <td>{{(stockItem.opening_balance == null ) ? 0: stockItem.opening_balance}}</td>
+            <td>{{(stockItem.opening_qty == null ) ? 0 : stockItem.opening_qty}}</td> -->
             <td>{{stockItem.entry_dt | date : 'dd-MMM-yy'}}</td>
             <td class="del">
               <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i

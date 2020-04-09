@@ -1,0 +1,186 @@
+<nb-card style="border:0px;">
+  <nb-card-body (keydown)="keyHandler($event)">
+    <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()" style="cursor: pointer;"><i
+        class="fa fa-file-pdf"></i></span>
+    <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
+        class="fas fa-file-excel"></i></span>
+    <div class="" style="float:right; margin-right: 20px">
+      <span><input type="radio" name="view-type" value="main" (click)="activeGroup = []" [(ngModel)]="viewType"> Expand Main Group</span>
+      <span><input type="radio" name="view-type" value="sub" (click)="showAllGroups()" [(ngModel)]="viewType"> Expand All</span>
+    </div>
+    <div class="row">
+
+      <div class="col-9">
+        <div class="row">
+
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">Stock Type</label>
+              <input autocomplete="off" type="text" id="stocktype" class="form-control tjr-input" name="stocktype"
+                [(ngModel)]="outStanding.stockType.name">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">Stock Sub Type</label>
+              <input autocomplete="off" type="text" id="stocksubtype" class="form-control tjr-input" name="stocksubtype"
+                [(ngModel)]="outStanding.stockSubType.name">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">Stock Item</label>
+              <input autocomplete="off" type="text" id="stockItem" class="form-control tjr-input" name="ledger"
+                [(ngModel)]="outStanding.stockItem.name">
+            </div>
+          </div>
+         
+          
+        </div>
+        <div class="row">
+          <!-- <div class="col">
+        <div class="form-group">
+          <label>Branch</label>
+          <input type="text" id="branch" class="form-control" name="branch" [(ngModel)]="outStanding.branch.name"/>
+        </div>
+      </div> -->
+
+      <div class="col">
+        <div class="form-group">
+          <label class="tjr-label">Where House</label>
+          <input autocomplete="off" type="text" id="wherehouse" class="form-control tjr-input" name="wherehouse"
+            [(ngModel)]="outStanding.wherehouse.name">
+        </div>
+      </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="Date" autocomplete="off"
+                maxlength="10" name="account-endDate" [(ngModel)]="outStanding.Date">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getStockSummary()"
+                id="submit" style="cursor: pointer;margin-top: 5px; padding: 7px !important;">Submit</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-3">
+        <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
+        <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name" (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
+      </div> -->
+        <div class="auto-sugg">
+          <div class="form-group" *ngIf="activeId.includes('stocktype')">
+            <auto-suggetion-in-side [data]="StockTypeData" targetId="stocktype" display="name"
+              (select)="onSelected($event, 'stockType', 'name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="activeId.includes('stocksubtype')">
+            <auto-suggetion-in-side [data]="StockSubTypeData" targetId="stocksubtype" display="name"
+              (select)="onSelected($event, 'stockSubType', 'name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="activeId.includes('stockItem')">
+            <auto-suggetion-in-side [data]="StockIemData" targetId="stockItem" display="name"
+              (select)="onSelected($event, 'stockItem', 'name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="activeId.includes('wherehouse')">
+            <auto-suggetion-in-side [data]="StockWhereHouseData" targetId="wherehouse" display="name"
+              (select)="onSelected($event, 'wherehouse', 'name')"></auto-suggetion-in-side>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main">
+      <table class="table table-bordered" style="width:100%" id="table">
+        <thead style="background-color:#263238; color:#fff;">
+          <tr>
+            <th>Stock Type</th>
+            <th>Stock Sub Type</th>
+            <th>Stock Item</th>
+            <th>Branch</th>
+            <th>Where House</th>
+            <th>Opening Qty</th>
+            <th>Stock Received</th>
+            <th>Purchase</th>
+            <th>Sales</th>
+            <th>Issue/Transfer</th>
+            <th>Wastage</th>
+            <th> Debit Note</th>
+            <th>Credit Note</th>
+            <th>Net Available</th>
+           
+          </tr>
+        </thead>
+        <div class="tbody-section">
+          <tbody *ngFor="let voucherEntry of summaryreport; let i = index">
+            <tr class="heading_second" (click)="handleGroupView(i)" style="cursor: pointer;">
+
+              <td><b>{{ voucherEntry.name }}</b></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            
+            </tr>
+            <tr *ngFor="let voucher of voucherEntry.data let j = index" (click)="selectedRow =  '' + i + j" [hidden]="activeGroup.indexOf(i) === -1" [ngClass]="{'highlight' : selectedRow == '' + i + j }">
+              <td></td>
+              <td><b>{{ voucher.name }}</b></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <!-- <tr *ngFor="let vouchernext of voucher.data let k = index" (click)="selectedRow =  '' + i + j + k" [hidden]="activeGroup.indexOf(j) === -1" [ngClass]="{'highlight' : selectedRow == '' + i + j + k}">
+              <td></td>
+              <td></td>
+              <td><b>{{ vouchernext.name }}</b></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr> -->
+          </tbody>
+        </div>
+
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2"
+        [(ngModel)]="outStanding[f2Date]" maxlength="10">
+    </div>
+  </div>
+</div>

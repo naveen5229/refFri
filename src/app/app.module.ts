@@ -279,6 +279,7 @@ import { ProposalStateComponent } from './modals/BidModals/proposal-state/propos
 import { VehicleOrdersComponent } from './modals/BidModals/vehicle-orders/vehicle-orders.component';
 import { RecordsComponent } from './acounts-modals/records/records.component';
 
+
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
   FreightRateRulesComponent,

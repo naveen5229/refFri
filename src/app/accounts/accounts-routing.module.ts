@@ -43,6 +43,7 @@ import { TripExpenseTallyComponent } from './trip-expense-tally/trip-expense-tal
 import { StaticsComponent } from './statics/statics.component';
 import { LedgerapproveComponent } from './ledgerapprove/ledgerapprove.component';
 import { AccountEntryApprovalComponent } from './account-entry-approval/account-entry-approval.component';
+import { StoclsummaryComponent } from './stoclsummary/stoclsummary.component';
 
 const routes: Routes = [{
     path: '',
@@ -230,8 +231,12 @@ const routes: Routes = [{
         },
         {
             path: 'account-entry-approval',
-            component: AccountEntryApprovalComponent,
+            component: AccountEntryApprovalComponent
         },
+        {
+            path :'stoclsummary',
+            component: StoclsummaryComponent
+        }
     ],
 
 }];

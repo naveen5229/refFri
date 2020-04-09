@@ -164,7 +164,11 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
             {
                 title: 'Mapped Fuel Voucher',
                 link: '/accounts/mapped-fuel-voucher'
-            }
+            },
+            // {
+            //     title:' Stock Summary',
+            //     link: '/accounts/stoclsummary'
+            // }
 
         ],
     },

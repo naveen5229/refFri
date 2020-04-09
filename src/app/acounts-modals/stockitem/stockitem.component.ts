@@ -274,6 +274,9 @@ export class StockitemComponent implements OnInit {
     event.preventDefault();
     return;
    }
+   modelConditionfirst(){
+    this.activeModal.close({ response: false, stockItem: this.stockItem });
+   }
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
@@ -337,7 +340,7 @@ export class StockitemComponent implements OnInit {
       } else if (activeId == 'maxlimit') {
         this.setFoucus('minlimit');
       } else if (activeId == 'minlimit') {
-        this.setFoucus('openingbal');
+        this.setFoucus('isactive');
       }else if (activeId == 'openingbal') {
         this.setFoucus('openingqty');
       }else if (activeId == 'openingqty') {
@@ -384,7 +387,7 @@ export class StockitemComponent implements OnInit {
       if (activeId == 'inventary' || activeId == 'notinventary') this.setFoucus('purchase');
       if (activeId == 'purchase' || activeId == 'notpurchase') this.setFoucus('sales');
       if (activeId == 'sales' || activeId == 'notsales') this.setFoucus('isactive');
-      if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('openingqty');
+      if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('minlimit');
       if (activeId == 'openingqty') this.setFoucus('openingbal');
       if (activeId == 'openingbal') this.setFoucus('minlimit');
       if (activeId == 'minlimit') this.setFoucus('maxlimit');

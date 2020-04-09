@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { AccountService } from '../../services/account.service';
+import { UserService } from '../../services/user.service';
+
 @Component({
   selector: 'add-city',
   templateUrl: './add-city.component.html',
@@ -24,15 +27,18 @@ export class AddCityComponent implements OnInit {
 
   };
   allowBackspace = true;
-  autoSuggestion = {
-    data: [],
-    targetId: 'state',
-    display: 'name'
-  };
+  // autoSuggestion = {
+  //   data: [],
+  //   targetId: 'state',
+  //   display: 'name'
+  // };
+  citydata=[];
   activeId = 'state';
   suggestionIndex = -1;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
+    public accountService: AccountService,
+    public user: UserService,
     public api: ApiService) {
     this.getStates();
 
@@ -56,11 +62,11 @@ export class AddCityComponent implements OnInit {
     this.activeModal.close({ response: response, city: this.data });
   }
 
-  onSelected(selectedData, type, display) {
-    this.data[type].name = selectedData[display];
-    this.data[type].id = selectedData.id;
-    console.log('State Data: ', this.data);
-  }
+  // onSelected(selectedData, type, display) {
+  //   this.data[type].name = selectedData[display];
+  //   this.data[type].id = selectedData.id;
+  //   console.log('State Data: ', this.data);
+  // }
   
 
 
@@ -85,7 +91,7 @@ export class AddCityComponent implements OnInit {
       this.allowBackspace = true;
       if (activeId.includes('user')) {
         this.setFoucus('state');
-      } else if (activeId.includes('state')) {
+      } else if (activeId.includes('select-state')) {
         this.setFoucus('city');
       } else if (activeId.includes('city')) {
         this.setFoucus('pincode');
@@ -97,7 +103,7 @@ export class AddCityComponent implements OnInit {
       if (activeId.includes('pincode')) {
         this.setFoucus('city');
       } else if (activeId.includes('city')) {
-        this.setFoucus('state');
+        this.setFoucus('select-state');
       }
      
     } else if (key.includes('arrow')) {
@@ -130,7 +136,7 @@ export class AddCityComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.autoSuggestion.data = res['data'];
+        this.citydata = res['data'];
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -150,4 +156,9 @@ export class AddCityComponent implements OnInit {
     this.data.state.id = suggestion.id;
   }
 
+  onSelected(selectedData, type, display) {
+    
+    this.data.state.name = selectedData[display];
+    this.data.state.id = selectedData.id;
+  }
 }
