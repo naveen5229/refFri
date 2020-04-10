@@ -102,75 +102,9 @@
         </div>
       </div>
     </div>
-    <!-- <div class="main">
-      <table class="table table-bordered" style="width:100%" id="table">
-        <thead style="background-color:#263238; color:#fff;">
-          <tr>
-            <th>Stock Type</th>
-            <th>Stock Sub Type</th>
-            <th>Stock Item</th>
-            <th>Branch</th>
-            <th>Ware House</th>
-            <th>Opening Qty</th>
-            <th>Stock Received</th>
-            <th>Purchase</th>
-            <th>Sales</th>
-            <th>Issue/Transfer</th>
-            <th>Wastage</th>
-            <th> Debit Note</th>
-            <th>Credit Note</th>
-            <th>Net Available</th>
-           
-          </tr>
-        </thead>
-        <div class="tbody-section">
-          <tbody *ngFor="let voucherEntry of summaryreport; let i = index">
-            <tr class="heading_second" (click)="handleGroupView(i)" style="cursor: pointer;">
-
-              <td><b>{{ voucherEntry.name }}</b></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            
-            </tr>
-            <tr *ngFor="let voucher of voucherEntry.data let j = index" (click)="selectedRow =  '' + i + j" [hidden]="activeGroup.indexOf(i) === -1" [ngClass]="{'highlight' : selectedRow == '' + i + j }">
-              <td></td>
-              <td><b>{{ voucher.name }}</b></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-           
-          </tbody>
-        </div>
-
-      </table>
-    </div> -->
     <div id="balance-sheet">
-
-      <div class="row balance-shit">
-        <div class="row heading">
+      <div class="row" style="margin: 0px 0px 0px 0px;width: 100%;">
+        <div class="row x-heading">
           <div class="col x-col">Stock Type</div>
           <div class="col x-col">Stock Sub Type</div>
           <div class="col x-col">Stock Item</div>
@@ -186,30 +120,30 @@
           <div class="col x-col">Credit Note</div>
           <div class="col x-col">Net Available</div>
         </div>
-        <div *ngFor="let stockType of summaryreport" style="width:100%">
-          <div class="row">
+        <div *ngFor="let stockType of summaryreport" class="x-data">
+          <div class="row x-stocktype">
             <div class="col x-col">{{stockType.name}}</div>
           </div>
           <div *ngFor="let stockSubType of stockType.data">
-            <div class="row">
+            <div class="row x-sub-stocktype">
               <div class="col x-col">&nbsp;</div>
               <div class="col x-col">{{stockSubType.name}}</div>
             </div>
             <div *ngFor="let stockItem of stockSubType.data">
-              <div class="row">
+              <div class="row x-stockitem">
                 <div class="col x-col">&nbsp;</div>
                 <div class="col x-col">&nbsp;</div>
                 <div class="col x-col">{{stockItem.name}}</div>
               </div>
               <div *ngFor="let branch of stockItem.data">
-                <div class="row">
+                <div class="row x-branch">
                   <div class="col x-col">&nbsp;</div>
                   <div class="col x-col">&nbsp;</div>
                   <div class="col x-col">&nbsp;</div>
                   <div class="col x-col">{{branch.name}}</div>
                 </div>
                 <div *ngFor="let wareHouse of branch.data">
-                  <div class="row">
+                  <div class="row x-warehouse">
                     <div class="col x-col">&nbsp;</div>
                     <div class="col x-col">&nbsp;</div>
                     <div class="col x-col">&nbsp;</div>
