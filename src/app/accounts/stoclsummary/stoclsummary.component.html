@@ -5,8 +5,10 @@
     <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
         class="fas fa-file-excel"></i></span>
     <div class="" style="float:right; margin-right: 20px">
-      <span><input type="radio" name="view-type" value="main" (click)="activeGroup = []" [(ngModel)]="viewType"> Expand Main Group</span>
-      <span><input type="radio" name="view-type" value="sub" (click)="showAllGroups()" [(ngModel)]="viewType"> Expand All</span>
+      <span><input type="radio" name="view-type" value="main" (click)="activeGroup = []" [(ngModel)]="viewType"> Expand
+        Main Group</span>
+      <span><input type="radio" name="view-type" value="sub" (click)="showAllGroups()" [(ngModel)]="viewType"> Expand
+        All</span>
     </div>
     <div class="row">
 
@@ -34,8 +36,8 @@
                 [(ngModel)]="outStanding.stockItem.name">
             </div>
           </div>
-         
-          
+
+
         </div>
         <div class="row">
           <!-- <div class="col">
@@ -45,20 +47,28 @@
         </div>
       </div> -->
 
-      <div class="col">
-        <div class="form-group">
-          <label class="tjr-label">Where House</label>
-          <input autocomplete="off" type="text" id="wherehouse" class="form-control tjr-input" name="wherehouse"
-            [(ngModel)]="outStanding.wherehouse.name">
-        </div>
-      </div>
           <div class="col">
             <div class="form-group">
-              <label class="tjr-label">Date</label>
-              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="Date" autocomplete="off"
-                maxlength="10" name="account-endDate" [(ngModel)]="outStanding.Date">
+              <label class="tjr-label">Where House</label>
+              <input autocomplete="off" type="text" id="wherehouse" class="form-control tjr-input" name="wherehouse"
+                [(ngModel)]="outStanding.wherehouse.name">
             </div>
           </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">Start Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="Date" autocomplete="off"
+                maxlength="10" name="account-Date" [(ngModel)]="outStanding.Date">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">End Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
+                maxlength="10" name="account-endDate" [(ngModel)]="outStanding.endDate">
+            </div>
+          </div>
+
           <div class="col">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getStockSummary()"
@@ -92,7 +102,7 @@
         </div>
       </div>
     </div>
-    <div class="main">
+    <!-- <div class="main">
       <table class="table table-bordered" style="width:100%" id="table">
         <thead style="background-color:#263238; color:#fff;">
           <tr>
@@ -100,7 +110,7 @@
             <th>Stock Sub Type</th>
             <th>Stock Item</th>
             <th>Branch</th>
-            <th>Where House</th>
+            <th>Ware House</th>
             <th>Opening Qty</th>
             <th>Stock Received</th>
             <th>Purchase</th>
@@ -151,27 +161,85 @@
               <td></td>
               <td></td>
             </tr>
-            <!-- <tr *ngFor="let vouchernext of voucher.data let k = index" (click)="selectedRow =  '' + i + j + k" [hidden]="activeGroup.indexOf(j) === -1" [ngClass]="{'highlight' : selectedRow == '' + i + j + k}">
-              <td></td>
-              <td></td>
-              <td><b>{{ vouchernext.name }}</b></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr> -->
+           
           </tbody>
         </div>
 
       </table>
+    </div> -->
+    <div id="balance-sheet">
+
+      <div class="row balance-shit">
+        <div class="row heading">
+          <div class="col x-col">Stock Type</div>
+          <div class="col x-col">Stock Sub Type</div>
+          <div class="col x-col">Stock Item</div>
+          <div class="col x-col">Branch</div>
+          <div class="col x-col">Ware House</div>
+          <div class="col x-col">Opening Qty</div>
+          <div class="col x-col">Stock Received</div>
+          <div class="col x-col">Purchase</div>
+          <div class="col x-col">Sales</div>
+          <div class="col x-col">Issue/Transfer</div>
+          <div class="col x-col">Wastage</div>
+          <div class="col x-col"> Debit Note</div>
+          <div class="col x-col">Credit Note</div>
+          <div class="col x-col">Net Available</div>
+        </div>
+        <div *ngFor="let stockType of summaryreport" style="width:100%">
+          <div class="row">
+            <div class="col x-col">{{stockType.name}}</div>
+          </div>
+          <div *ngFor="let stockSubType of stockType.data">
+            <div class="row">
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">{{stockSubType.name}}</div>
+            </div>
+            <div *ngFor="let stockItem of stockSubType.data">
+              <div class="row">
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.name}}</div>
+              </div>
+              <div *ngFor="let branch of stockItem.data">
+                <div class="row">
+                  <div class="col x-col">&nbsp;</div>
+                  <div class="col x-col">&nbsp;</div>
+                  <div class="col x-col">&nbsp;</div>
+                  <div class="col x-col">{{branch.name}}</div>
+                </div>
+                <div *ngFor="let wareHouse of branch.data">
+                  <div class="row">
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">{{wareHouse.name}}</div>
+                  </div>
+                  <div *ngFor="let report of wareHouse.data">
+                    <div class="row">
+                      <div class="col x-col">&nbsp;</div>
+                      <div class="col x-col">&nbsp;</div>
+                      <div class="col x-col">&nbsp;</div>
+                      <div class="col x-col">&nbsp;</div>
+                      <div class="col x-col">&nbsp;</div>
+                      <div class="col x-col">{{report.y_opn_qty}}</div>
+                      <div class="col x-col">{{report.y_st_rec_qty}}</div>
+                      <div class="col x-col">{{report.y_pi_qty}}</div>
+                      <div class="col x-col">{{report.y_si_qty}}</div>
+                      <div class="col x-col">{{report.y_st_issue_qty}}</div>
+                      <div class="col x-col">{{report.y_wst_qty}}</div>
+                      <div class="col x-col"> {{report.y_dn_qty}}</div>
+                      <div class="col x-col">{{report.y_cn_qty}}</div>
+                      <div class="col x-col">{{report.y_net_qty}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </nb-card-body>
 </nb-card>

@@ -19,11 +19,12 @@ import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.
 export class StoclsummaryComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
-  summaryreport=[];
+  summaryreport = [];
   activedateid = '';
   selectedName = '';
   outStanding = {
     Date: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     stockType: {
       name: 'All',
       id: 0
@@ -40,6 +41,15 @@ export class StoclsummaryComponent implements OnInit {
       name: 'All',
       id: 0
     },
+  };
+
+  active = {
+    liabilities: {
+      mainGroup: [],
+      subGroup: [],
+      branch: [],
+      warehouse: [],
+    }
   };
 
   StockTypeData = [];
@@ -300,17 +310,7 @@ export class StoclsummaryComponent implements OnInit {
   }
 
   generalizeData() {
-    this.voucherEntries = [];
-    // let allGroups = _.groupBy(this.ledgerData, 'y_stockitem_type_id');
-
-    // let data = [];
-    // Object.keys(allGroups).forEach(key => {
-    //   data.push({
-    //     name: key,
-    //     data: allGroups[key]
-    //   });
-    // });
-    let data = this.generateGroup(this.ledgerData, 'y_stockitem_type_name')
+    this.summaryreport = this.generateGroup(this.ledgerData, 'y_stockitem_type_name')
       .map(group => {
         group.data = this.generateGroup(group.data, 'y_stockitem_subtype_name')
           .map(group => {
@@ -327,15 +327,7 @@ export class StoclsummaryComponent implements OnInit {
           })
         return group;
       });
-  
-
-    //"y_stockitem_subtype_id"
-    //y_stockitem_id
-    //y_fobranch_id
-    //y_warehouse_id
-      this.summaryreport= data;
-    console.log('group of data', data);
-
+    console.log('summaryreport:', this.summaryreport);
     this.showAllGroups();
   }
 
@@ -387,15 +379,19 @@ export class StoclsummaryComponent implements OnInit {
       } else if (this.activeId.includes('wherehouse')) {
         // this.outStanding.startDate = this.common.handleDateOnEnterNew(this.outStanding.startDate);
         this.setFoucus('Date');
-      } else if (this.activeId.includes('Date')) {
+      } else if (this.activeId.includes('endDate')) {
         // this.outStanding.endDate = this.common.handleDateOnEnterNew(this.outStanding.endDate);
         this.setFoucus('submit');
+      } else if (this.activeId.includes('Date')) {
+        // this.outStanding.endDate = this.common.handleDateOnEnterNew(this.outStanding.endDate);
+        this.setFoucus('endDate');
       }
     }
     else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', this.activeId);
       if (this.activeId == 'Date') this.setFoucus('wherehouse');
+      if (this.activeId == 'endDate') this.setFoucus('Date');
       if (this.activeId == 'wherehouse') this.setFoucus('stockItem');
       if (this.activeId == 'stockItem') this.setFoucus('stocksubtype');
       if (this.activeId == 'stocksubtype') this.setFoucus('stocktype');
@@ -416,6 +412,15 @@ export class StoclsummaryComponent implements OnInit {
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.voucherEntries.length - 1) this.selectedRow++;
 
+    }
+  }
+
+  handleExpandation(event, index, type, section, parentIndex?) {
+    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
+    event.stopPropagation();
+    if (this.active[type][section].indexOf(section + index + parentIndex) === -1) this.active[type][section].push(section + index + parentIndex)
+    else {
+      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex), 1);
     }
   }
 
