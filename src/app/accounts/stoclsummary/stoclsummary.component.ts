@@ -49,6 +49,7 @@ export class StoclsummaryComponent implements OnInit {
       subGroup: [],
       branch: [],
       warehouse: [],
+      item: [],
     }
   };
 
@@ -66,7 +67,7 @@ export class StoclsummaryComponent implements OnInit {
   lastActiveId = '';
   headingName = '';
   selectedRow = -1;
-  viewType = 'sub';
+  viewType = 'main';
   TripEditData = [];
   VoucherEditTime = [];
   pendingDataEditTme = [];
@@ -415,12 +416,12 @@ export class StoclsummaryComponent implements OnInit {
     }
   }
 
-  handleExpandation(event, index, type, section, parentIndex?) {
-    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
+  handleExpandation(event, index, type, section, parentIndex?, nextparent? , warehouse? , item?) {
+    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex + nextparent + warehouse +item, this.active[type][section].indexOf(section + index + parentIndex + nextparent + warehouse + item));
     event.stopPropagation();
-    if (this.active[type][section].indexOf(section + index + parentIndex) === -1) this.active[type][section].push(section + index + parentIndex)
+    if (this.active[type][section].indexOf(section + index + parentIndex + nextparent + warehouse +item) === -1) this.active[type][section].push(section + index + parentIndex + nextparent + warehouse + item)
     else {
-      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex), 1);
+      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex + nextparent + warehouse + item), 1);
     }
   }
 
@@ -655,6 +656,22 @@ export class StoclsummaryComponent implements OnInit {
           // this.getDayBook();
         }
       });
+    }
+  }
+
+  changeViewType() {
+    this.active.liabilities.mainGroup = [];
+    this.active.liabilities.subGroup = [];
+
+    if (this.viewType == 'main') {
+      this.summaryreport.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0 + 0 + 0 + 0));
+    } else if (this.viewType == 'all') {
+      this.summaryreport.forEach((liability, i) => {
+        this.active.liabilities.mainGroup.push('mainGroup' + i + 0 + 0 + 0 + 0);
+        liability.subGroups.forEach((subGroup, j) => this.active.liabilities.subGroup.push('subGroup' + i + j));
+      });
+
+      
     }
   }
 }
