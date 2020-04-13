@@ -30,10 +30,10 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Country',
                 link: '/accounts/country'
             },
-            // {
-            //     title: 'State',
-            //     link: '/accounts/state'
-            // },
+            {
+                title: 'State',
+                link: '/accounts/state'
+            },
             {
                 title: 'City',
                 link: '/accounts/city'

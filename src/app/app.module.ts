@@ -279,6 +279,7 @@ import { ProposalStateComponent } from './modals/BidModals/proposal-state/propos
 import { VehicleOrdersComponent } from './modals/BidModals/vehicle-orders/vehicle-orders.component';
 import { RecordsComponent } from './acounts-modals/records/records.component';
 import { AddCountryComponent } from './acounts-modals/add-country/add-country.component';
+import { AddStateComponent } from './acounts-modals/add-state/add-state.component';
 
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
@@ -519,6 +520,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   VehicleOrdersComponent,
   RecordsComponent,
   AddCountryComponent,
+  AddStateComponent,
 
 ];
 
@@ -530,6 +532,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     ...COMMON_COMPONENT,
     CardusageComponent,
     VehicleInfoComponent,
+    AddStateComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

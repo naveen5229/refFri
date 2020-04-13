@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountsComponent } from '../accounts/accounts.component';
 import { AccountService } from '../../services/account.service';
 import { AddCityComponent } from '../../acounts-modals/add-city/add-city.component';
-
+import { AddStateComponent } from '../../acounts-modals/add-state/add-state.component';
 @Component({
   selector: 'ledger',
   templateUrl: './ledger.component.html',
@@ -459,6 +459,12 @@ console.log('sixe ledger',this.sizeledger);
       this.openModal(this.Accounts.accDetails[index].state.id);
       return;
     } 
+    if ((event.altKey && key === 'c') && (activeId.includes('state-'))) {
+      console.log('alt + C pressed ');
+      let index = activeId.split('-')[1];
+      this.openstateModal();
+      return;
+    } 
     this.setAutoSuggestion();
 
     if (this.showExit) {
@@ -684,6 +690,21 @@ console.log('sixe ledger',this.sizeledger);
     
     
   }
+  openstateModal(id) {
+    // console.log('city', city);
+     this.common.params = '';
+     const activeModal = this.modalService.open(AddStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+     activeModal.result.then(data => {
+       if (data.response) {
+        // this.updateCity(data.city, city.id);
+      // this.getpageData();
+      // return;
+      this.GetCity(id);
+       }
+     });
+   
+   
+ }
   selectSuggestion(suggestion, id?) {
     console.log('Suggestion: ', suggestion);
     if (this.activeId == 'undergroup') {

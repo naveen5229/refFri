@@ -155,9 +155,18 @@
                     <div class="col x-col">&nbsp;</div>
                     <div class="col x-col">&nbsp;</div>
                     <div class="col x-col">&nbsp;</div>
-                    <div class="col x-col">{{wareHouse.name}}</div>
+                    <div class="col x-col">{{wareHouse.y_warehouse_name}}</div>
+                    <div class="col x-col">{{wareHouse.y_opn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_st_rec_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_pi_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_si_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_st_issue_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_wst_qty}}</div>
+                    <div class="col x-col"> {{wareHouse.y_dn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_cn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_net_qty}}</div>
                   </div>
-                  <div *ngFor="let report of wareHouse.data" [hidden]="active.liabilities.item.indexOf('item' + i + j + k + l + m) == -1">
+                  <!-- <div *ngFor="let report of wareHouse.data" [hidden]="active.liabilities.item.indexOf('item' + i + j + k + l + m) == -1">
                     <div class="row">
                       <div class="col x-col">&nbsp;</div>
                       <div class="col x-col">&nbsp;</div>
@@ -174,7 +183,7 @@
                       <div class="col x-col">{{report.y_cn_qty}}</div>
                       <div class="col x-col">{{report.y_net_qty}}</div>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>

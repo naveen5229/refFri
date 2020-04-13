@@ -267,32 +267,37 @@ input[type="radio"] {
     .row {
         margin: 0;
         border-bottom: 1px solid #FFF;
-        .x-col {
-            // border-right: 1px solid #c2c2c2;
-        }
-        .x-col:first-child {
-            // border-left: 1px solid #c2c2c2;
-        }
+        // .x-col {
+        //     // border-right: 1px solid #c2c2c2;
+        // }
+        // .x-col:first-child {
+        //     // border-left: 1px solid #c2c2c2;
+        // }
     }
     .x-stocktype {
         background: #48565d;
         color: #fff;
+        font-size: 14px;
     }
     .x-sub-stocktype {
         background-color: #5d6e75;
         color: #fff;
+        font-size: 14px;
     }
     .x-stockitem {
         background: #6f8a96;
         color: #fff;
+        font-size: 14px;
     }
     .x-branch {
         background: #8daab7;
         color: #fff;
+        font-size: 14px;
     }
     .x-warehouse {
         background: #a2bfcc;
         color: #fff;
+        font-size: 14px;
     }
 }
 

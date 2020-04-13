@@ -3,7 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
-import { AddCityComponent } from '../../acounts-modals/add-city/add-city.component';
+import { AddStateComponent } from '../../acounts-modals/add-state/add-state.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { from } from 'rxjs';
 
@@ -69,12 +69,11 @@ export class StateComponent  {
   }
   getpageData() {
     let params = {
-      foid: 123,
-      stateid:this.getstatedata.state.id
+      counntryid:this.getstatedata.state.id
     };
 
     this.common.loading++;
-    this.api.post('Accounts/GetCity', params)
+    this.api.post('Accounts/getState', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -93,20 +92,20 @@ export class StateComponent  {
     if (city) {
       console.log('city', city);
       this.common.params = city;
-      const activeModal = this.modalService.open(AddCityComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      const activeModal = this.modalService.open(AddStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          this.updateCity(data.city, city.id);
+         // this.updateCity(data.city, city.id);
           return;
         }
       });
     }
     else {
       this.common.params = null;
-      const activeModal = this.modalService.open(AddCityComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      const activeModal = this.modalService.open(AddStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          this.addCity(data.city);
+        //  this.addCity(data.city);
           return;
         }
       });

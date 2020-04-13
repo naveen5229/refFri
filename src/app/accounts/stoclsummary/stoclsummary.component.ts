@@ -318,11 +318,11 @@ export class StoclsummaryComponent implements OnInit {
             group.data = this.generateGroup(group.data, 'y_stockitem_name')
               .map(group => {
                 group.data = this.generateGroup(group.data, 'y_fobranch_name')
-                  .map(group => {
-                    group.data = this.generateGroup(group.data, 'y_warehouse_name');
+                 // .map(group => {
+                   // group.data = this.generateGroup(group.data, 'y_warehouse_name');
                     return group;
-                  })
-                return group;
+                 // })
+                //return group;
               })
             return group;
           })

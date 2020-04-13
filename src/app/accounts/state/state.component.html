@@ -43,19 +43,21 @@
         <thead style="background-color: #263238; color: #fff; white-space: nowrap;">
           <tr>
             <th>#</th>
-            <th>State Name</th>
-            <th>City</th>
-            <th>PinCode</th>
+            <th>Country Name</th>
+            <th>State</th>
+            <th>Code</th>
+            <th>Gst Code</th>
             <!-- <th>Action</th> -->
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of data; let i = index;" (click)="selectedRow = i" 
+          <tr *ngFor="let row of data; let i = index;" (click)="selectedRow = i"  (dblclick)="openModal(row)"
            [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{i + 1}}</td>
-            <td>{{ row.statename}}</td>
-            <td>{{row.city_name}}</td>
-            <td>{{row.pincode }}</td>
+            <td>{{row.country_name}}</td>
+            <td>{{row.province_name}}</td>
+            <td>{{row.province_code }}</td>
+            <td>{{row.gst_state_code }}</td>
             <!-- <td class="del">
               <a href="javascript: void(0);" class="delete" title="Delete Document" (click)="deleteCity(row)"><i
                   class="fa fa-trash"></i></a>
