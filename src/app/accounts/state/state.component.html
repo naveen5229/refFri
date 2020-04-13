@@ -6,7 +6,7 @@
             
               <div class="col-6">
                 <div class="form-group">
-                  <label class="tjr-label">State</label>
+                  <label class="tjr-label">Country</label>
                   <input autocomplete="off" type="text" id="state" class="form-control tjr-input" name="state"
                     [(ngModel)]="getstatedata.state.name">
                 </div>
@@ -27,8 +27,8 @@
             </div> -->
             <div class="auto-sugg">
               <div class="form-group">
-                <auto-suggetion-in-side [data]="statedata" targetId="state" display="name"
-                  (select)="onSelected($event, 'state', 'name')"></auto-suggetion-in-side>
+                <auto-suggetion-in-side [data]="statedata" targetId="state" display="country_name"
+                  (select)="onSelected($event, 'state', 'country_name')"></auto-suggetion-in-side>
               </div>
             
             </div>
@@ -50,7 +50,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of data; let i = index;" (click)="selectedRow = i"  (dblclick)="openModal(row)"
+          <tr *ngFor="let row of data; let i = index;" (click)="selectedRow = i" 
            [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{i + 1}}</td>
             <td>{{ row.statename}}</td>

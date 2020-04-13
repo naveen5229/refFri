@@ -1,0 +1,32 @@
+<nb-card style="margin: 0px; border:0px;">
+  <nb-card-body>
+     
+
+
+    <button class="btn mb-4 add-button" (click)="openModal()"><i class="fa fa-plus"></i></button>
+    <div class="main">
+      <table class="table table-bordered">
+        <thead style="background-color: #263238; color: #fff; white-space: nowrap;">
+          <tr>
+            <th>#</th>
+            <th>City</th>
+            <th>Code</th>
+            <!-- <th>Action</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data; let i = index;" (click)="selectedRow = i" (dblclick)="openModal(row)"
+           [ngClass]="{'highlight' : selectedRow == i}">
+            <td>{{i + 1}}</td>
+            <td>{{row.country_name}}</td>
+            <td>{{row.country_code }}</td>
+            <!-- <td class="del">
+              <a href="javascript: void(0);" class="delete" title="Delete Document" (click)="deleteCity(row)"><i
+                  class="fa fa-trash"></i></a>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>

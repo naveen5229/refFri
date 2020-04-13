@@ -44,6 +44,9 @@ import { StaticsComponent } from './statics/statics.component';
 import { LedgerapproveComponent } from './ledgerapprove/ledgerapprove.component';
 import { AccountEntryApprovalComponent } from './account-entry-approval/account-entry-approval.component';
 import { StoclsummaryComponent } from './stoclsummary/stoclsummary.component';
+import { CountryComponent } from './country/country.component';
+import { StateComponent } from './state/state.component';
+
 
 const routes: Routes = [{
     path: '',
@@ -236,6 +239,14 @@ const routes: Routes = [{
         {
             path :'stoclsummary',
             component: StoclsummaryComponent
+        },
+        {
+            path :'country',
+            component: CountryComponent
+        },
+        {
+            path :'state',
+            component: StateComponent
         }
     ],
 

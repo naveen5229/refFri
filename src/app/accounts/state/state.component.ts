@@ -6,25 +6,26 @@ import { UserService } from '../../services/user.service';
 import { AddCityComponent } from '../../acounts-modals/add-city/add-city.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { from } from 'rxjs';
+
 @Component({
-  selector: 'city',
-  templateUrl: './city.component.html',
-  styleUrls: ['./city.component.scss']
+  selector: 'state',
+  templateUrl: './state.component.html',
+  styleUrls: ['./state.component.scss']
 })
-export class CityComponent implements OnInit {
+export class StateComponent  {
   data = [];
   statedata=[];
   showConfirm = false;
   autoSuggestion = {
     data: [],
     targetId: 'state',
-    display: 'name'
+    display: 'country_name'
   };
 
   getstatedata = {
     state: {
-      name: 'Rajasthan',
-      id: 29,
+      name: 'India',
+      id: 1,
 
     }
   };
@@ -35,8 +36,8 @@ export class CityComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal) {
     this.getpageData();
-    this.getStates();
-    this.common.currentPage = 'city';
+    this.getCountry();
+    this.common.currentPage = 'State';
     this.common.refresh = this.refresh.bind(this);
     this.setFoucus('submit');
 
@@ -48,13 +49,13 @@ export class CityComponent implements OnInit {
     console.log('Refresh');
     this.getpageData();
   }
-  getStates() {
+  getCountry() {
     const params = {
       foid: 123
     };
     this.common.loading++;
 
-    this.api.post('Suggestion/GetState', params)
+    this.api.post('Accounts/GetCountry', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -95,9 +96,8 @@ export class CityComponent implements OnInit {
       const activeModal = this.modalService.open(AddCityComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-         // this.updateCity(data.city, city.id);
-        this.getpageData();
-        return;
+          this.updateCity(data.city, city.id);
+          return;
         }
       });
     }
@@ -106,9 +106,8 @@ export class CityComponent implements OnInit {
       const activeModal = this.modalService.open(AddCityComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-        //  this.addCity(data.city);
-        this.getpageData();
-        return;
+          this.addCity(data.city);
+          return;
         }
       });
     }
@@ -231,4 +230,3 @@ export class CityComponent implements OnInit {
     }, 100);
   }
 }
-

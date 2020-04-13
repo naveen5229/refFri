@@ -278,6 +278,7 @@ import { AddProposalComponent } from './modals/BidModals/add-proposal/add-propos
 import { ProposalStateComponent } from './modals/BidModals/proposal-state/proposal-state.component';
 import { VehicleOrdersComponent } from './modals/BidModals/vehicle-orders/vehicle-orders.component';
 import { RecordsComponent } from './acounts-modals/records/records.component';
+import { AddCountryComponent } from './acounts-modals/add-country/add-country.component';
 
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
@@ -516,7 +517,9 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   AddProposalComponent,
   ProposalStateComponent,
   VehicleOrdersComponent,
-  RecordsComponent
+  RecordsComponent,
+  AddCountryComponent,
+
 ];
 
 @NgModule({
