@@ -278,6 +278,7 @@ import { AddProposalComponent } from './modals/BidModals/add-proposal/add-propos
 import { ProposalStateComponent } from './modals/BidModals/proposal-state/proposal-state.component';
 import { VehicleOrdersComponent } from './modals/BidModals/vehicle-orders/vehicle-orders.component';
 import { RecordsComponent } from './acounts-modals/records/records.component';
+import { LoadIntelligenceModule } from './load-intelligence/load-intelligence.module';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -549,6 +550,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    LoadIntelligenceModule,
     NgxPrintModule,
     NgxQRCodeModule,
     PdfViewerModule,

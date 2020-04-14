@@ -10,6 +10,7 @@ import { ACCOUNTS_MENU_ITEMS } from '../accounts/accountes-menu';
 import { CHALLAN_MENU_ITEMS } from '../challan/challan-menu';
 import { WALLE8_MENU_ITEMS } from '../walle8/walle8-menu';
 import {BIDSYSTEM_MENU_ITEMS} from '../bid-system/bid-system-menu'
+import { LOAD_INTELLIGENCE_MENU_ITEMS } from '../load-intelligence/load-intelligence-menu';
 
 const COLLECTION = {
   admin: ADMIN_MENU_ITEMS,
@@ -21,7 +22,8 @@ const COLLECTION = {
   account: ACCOUNTS_MENU_ITEMS,
   challan: CHALLAN_MENU_ITEMS,
   walle8: WALLE8_MENU_ITEMS,
-  bidSystem: BIDSYSTEM_MENU_ITEMS
+  bidSystem: BIDSYSTEM_MENU_ITEMS,
+  loadIntelligence: LOAD_INTELLIGENCE_MENU_ITEMS
 };
 
 @Injectable({
@@ -78,11 +80,13 @@ export class UserService {
       this.filterMenu("challan", "challan");
       this.filterMenu("walle8", "walle8");
       this.filterMenu("bidSystem", "bidSystem");
+      this.filterMenu("loadIntelligence", "loadIntelligence");
 
     }
   }
 
   filterMenu(type?, collection?) {
+    
     this._menu[type] = JSON.parse(COLLECTION[collection])
       .map((menuItem) => {
         if (menuItem.children) {

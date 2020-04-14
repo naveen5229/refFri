@@ -88,6 +88,8 @@
     "roboto-fontface": "0.8.0",
     "rxjs": "6.3.0",
     "rxjs-compat": "^6.0.0",
+    "stream": "0.0.2",
+    "timers": "^0.1.1",
     "typeface-exo": "0.0.22",
     "web-animations-js": "2.2.5",
     "xlsx": "^0.14.3",

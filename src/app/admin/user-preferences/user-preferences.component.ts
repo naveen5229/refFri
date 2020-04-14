@@ -167,6 +167,8 @@ export class UserPreferencesComponent implements OnInit {
 
   getUserPages(user) {
     console.log(user);
+    this.appPages = [];
+    this.dashBoardPages = [];
     this.formattedData = [];
     this.selectedUser.details = user;
     const params = {
@@ -181,7 +183,7 @@ export class UserPreferencesComponent implements OnInit {
         this.data = res['data'];
          this.selectedUser.oldPreferences = res['data'];
         this.data.map(dt=>{
-          console.log('dt',dt);
+          // console.log('dt',dt);
           if(dt.type=='Dashboard'){
             this.dashBoardPages.push(dt);
           }
