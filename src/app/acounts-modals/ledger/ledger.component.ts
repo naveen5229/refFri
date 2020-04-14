@@ -690,7 +690,7 @@ console.log('sixe ledger',this.sizeledger);
     
     
   }
-  openstateModal(id) {
+  openstateModal() {
     // console.log('city', city);
      this.common.params = '';
      const activeModal = this.modalService.open(AddStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
