@@ -18,6 +18,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'load-intelligence',
+    loadChildren: 'app/load-intelligence/load-intelligence.module#LoadIntelligenceModule',
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'intelligence',
     loadChildren: 'app/intelligence/intelligence.module#IntelligenceModule',
     canActivate: [AuthGuard],

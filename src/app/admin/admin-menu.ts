@@ -7,6 +7,11 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
     link: '/pages/dashboard',
   },
   {
+    title: 'Load-Intelligence',
+    icon: 'fa fa-home',
+    link: '/load-intelligence',
+  },
+  {
     title: 'Trip',
     icon: 'fas fa-route',
     children: [

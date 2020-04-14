@@ -26,6 +26,7 @@ export class AdminComponent {
     public api: ApiService,
     public router: Router,
     public accountService: AccountService) {
+      console.log(user._menu.admin);
 
     if (this.user._loggedInBy == 'customer') {
       this.router.navigate(['/pages']);

@@ -281,6 +281,7 @@ import { RecordsComponent } from './acounts-modals/records/records.component';
 import { AddCountryComponent } from './acounts-modals/add-country/add-country.component';
 import { AddStateComponent } from './acounts-modals/add-state/add-state.component';
 
+import { LoadIntelligenceModule } from './load-intelligence/load-intelligence.module';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -556,6 +557,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    LoadIntelligenceModule,
     NgxPrintModule,
     NgxQRCodeModule,
     PdfViewerModule,
