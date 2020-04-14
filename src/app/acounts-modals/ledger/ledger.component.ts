@@ -699,7 +699,8 @@ console.log('sixe ledger',this.sizeledger);
         // this.updateCity(data.city, city.id);
       // this.getpageData();
       // return;
-      this.GetCity(id);
+      //this.GetCity(id);
+      this.GetState();
        }
      });
    
