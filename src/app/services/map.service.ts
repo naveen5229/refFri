@@ -10,8 +10,10 @@ declare let MarkerClusterer: any;
 export class MapService {
 
   poly = null;
+  test = null;
+  elevator = null;
   polyVertices = [];
-  map = null;
+   map = null;
   mapDiv = null;
   markers = [];
   bounds = null;
@@ -478,9 +480,10 @@ export class MapService {
     });
   }
   createPolyPathManual(latLng, polygonOptions?, drawVertix?) {
+    console.log(polygonOptions);
     if (!this.polygonPath) {
       const defaultPolygonOptions = {
-        strokeColor: '#000000',
+        strokeColor: 'black' ,
         strokeOpacity: 1,
         strokeWeight: 3,
         icons: [{
@@ -488,6 +491,7 @@ export class MapService {
           offset: '100%'
         }]
       };
+      console.log(defaultPolygonOptions);
       this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
       this.polygonPath.setMap(this.map);
     }
@@ -496,10 +500,11 @@ export class MapService {
     drawVertix && this.polygonPathVertices.push(this.createSingleMarker(latLng));
     return this.polygonPath;
   }
-  createPolyPathDetached(latLng, polygonOptions?, drawVertix?) {
+  createPolyPathDetached2(latLng, polygonOptions?, drawVertix?,) {
+    // console.log(polygonOptions);
     if (!this.poly) {
       const defaultPolygonOptions = {
-        strokeColor: '#FF0000',
+        strokeColor: "black",
         strokeOpacity: 1,
         strokeWeight: 3,
         icons: [{
@@ -515,6 +520,28 @@ export class MapService {
     drawVertix && this.polyVertices.push(this.createSingleMarker(latLng));
     return this.poly;
   }
+
+  createPolyPathDetached(latLng, polygonOptions?, drawVertix?, poly?) {
+    // console.log(polygonOptions);
+    if (!poly) {
+      const defaultPolygonOptions = {
+        strokeColor: "black",
+        strokeOpacity: 1,
+        strokeWeight: 3,
+        icons: [{
+          icon: this.lineSymbol,
+          offset: '100%'
+        }]
+      }
+      poly = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
+      poly.setMap(this.map);
+    }
+    let path = poly.getPath();
+    path.push(this.createLatLng(latLng.lat, latLng.lng));
+    drawVertix && this.polyVertices.push(this.createSingleMarker(latLng));
+    return poly;
+  }
+
   undoPolyPath(polyLine?) {
     let path = polyLine ? polyLine.getPath() : this.polygonPath.getPath();
     path.pop();
@@ -524,17 +551,26 @@ export class MapService {
 
   createPolyPathsManual(latLngsAll, afterClick?, drawVertix?) {
     latLngsAll.forEach((latLngAll) => {
-      console.log("hereout");
+      // console.log("hereout");
       this.poly = null;
       this.polyVertices = [];
       latLngAll.latLngs.forEach((latLng) => {
-        console.log("herein");
-        this.createPolyPathDetached(latLng);
+        // console.log("herein");
+        const defaultPolygonOptions = {
+          strokeColor: latLngAll.color,
+          strokeOpacity: 1,
+          strokeWeight: 2,
+          icons: [{
+            icon: null,
+            offset: '100%'
+          }]
+        }
+        this.createPolyPathDetached(latLng, defaultPolygonOptions);
       });
       this.polygonPaths.push(this.poly);
       drawVertix && this.polygonPathsVertices.push(this.polyVertices);
       this.addListerner(this.poly, 'click', function (event) { afterClick(latLngAll, event); });
-      console.log(this.polygonPaths);
+      // console.log(this.polygonPaths);
 
     });
   }
@@ -624,5 +660,40 @@ export class MapService {
     });
   }
 
+
+   displayLocationElevation(lat, lng) {
+     console.log(lat, lng);
+    let prom =  new Promise((resolve, reject) => {
+
+    this.elevator ? this.elevator : this.elevator = new google.maps.ElevationService ;
+    let location  = this.createLatLng(lat, lng);
+    console.log(this.elevator);
+console.log(location);
+    this.elevator.getElevationForLocations({
+      'locations': [location]
+    }, 
+
+    (response, status) => {
+      console.log("response:",response, status);
+
+      if (status != google.maps.DistanceMatrixStatus.OK) {
+        reject(-1)
+      } else {
+        console.log(response);
+        resolve(response[0]);
+      }
+    });
+
+  });
+//   prom.then(e => {
+//    this.test =  e;
+//    console.log(e);
+//  })
+//   console.log(this.test);
+  return prom;
+
+
+
+   }
 
 }

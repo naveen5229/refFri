@@ -80,6 +80,11 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
+            path: 'load-intelligence',
+            loadChildren: 'app/load-intelligence/load-intelligence.module#LoadIntelligenceModule',
+            canActivate: [RouteGuard]
+        },
+        {
             path: 'beehive',
             component: BeehiveComponent,
             canActivate: [RouteGuard]

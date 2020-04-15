@@ -1,0 +1,22 @@
+<nb-card>
+ 
+
+  <nb-card-body>
+    <div class="row" style="padding: 10px;">
+      <div class="col-4" >
+        <div style="border: 1px solid gray; height: 50px; width: 350px;">
+          <button style="height: 40px; width: 150px; margin: 5px;" class="btn btn-primary" (click)='viewAllRoutes()'>View All</button>
+          <div *ngIf='counter != 0' class="loader"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-4">
+      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="advices"></smart-table>
+    </div>
+    <div class="col-8">
+      <div #map id="map"></div>
+    </div>
+  </div>
+  </nb-card-body>
+</nb-card>
