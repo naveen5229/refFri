@@ -15,7 +15,7 @@
         <th>Vch No.</th-->
             <th>Amount(Debit)</th>
             <th>Amount(Credit)</th>
-            <th>Naration</th>
+            <!-- <th>Naration</th> -->
             <th>Cost Center</th>
 
           </tr>
@@ -27,15 +27,18 @@
           <td >{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td-->
           <td>{{dataItem.y_dramunt}}</td>
           <td>{{dataItem.y_cramunt}}</td>
-          <td>{{dataItem.y_naration}}</td>
+          <!-- <td>{{dataItem.y_naration}}</td> -->
           <td>
             <div *ngFor="let costDetail of filterCostDetails(dataItem.y_ccdetails)">
               {{costDetail}}
             </div>
           </td>
-
-
         </tr>
+       <tr>
+         <td><label>Narration</label></td>
+        <td colspan="3" *ngIf="Detail">{{ Detail[0]['y_naration'] }}</td>
+      </tr>
+
       </table>
     </div>
     <!-- <div class="modal-footer">

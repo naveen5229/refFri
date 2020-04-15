@@ -34,8 +34,9 @@ export class VoucherdetailComponent implements OnInit {
     this.api.post('Company/GetVoucherDetailList', params)
       .subscribe(res => {
         // this.common.loading--;
-        console.log('Res:', res['data']);
         this.Detail = res['data'];
+        console.log('Res:', this.Detail[0]['y_naration']);
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -45,7 +46,7 @@ export class VoucherdetailComponent implements OnInit {
 
   filterCostDetails(unFilterData) {
     let costFilter = [];
-    console.log('Unfilter:', unFilterData);
+   // console.log('Unfilter:', unFilterData);
     if (unFilterData) {
       let costStr = unFilterData.replace(/'/g, '');
       costStr = costStr.substring(1, costStr.length - 1).replace(/{/g, '').replace(/}/g, '').replace(/"/g, '');
