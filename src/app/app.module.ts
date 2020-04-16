@@ -282,6 +282,7 @@ import { AddCountryComponent } from './acounts-modals/add-country/add-country.co
 import { AddStateComponent } from './acounts-modals/add-state/add-state.component';
 
 import { LoadIntelligenceModule } from './load-intelligence/load-intelligence.module';
+import { StockSummaryComponent } from './acounts-modals/stock-summary/stock-summary.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -522,6 +523,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   RecordsComponent,
   AddCountryComponent,
   AddStateComponent,
+  StockSummaryComponent
 
 ];
 
@@ -534,6 +536,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CardusageComponent,
     VehicleInfoComponent,
     AddStateComponent,
+    
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

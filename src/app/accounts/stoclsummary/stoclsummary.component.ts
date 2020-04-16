@@ -10,6 +10,7 @@ import { UserService } from '../../services/user.service';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
 import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.component';
+import { StockSummaryComponent } from '../../acounts-modals/stock-summary/stock-summary.component';
 
 @Component({
   selector: 'stoclsummary',
@@ -54,7 +55,7 @@ export class StoclsummaryComponent implements OnInit {
   };
 
   StockTypeData = [];
-  StockSubTypeData =[] ;
+  StockSubTypeData = [];
   StockIemData = [];
   StockWhereHouseData = [];
   ledgerData = [];
@@ -73,6 +74,7 @@ export class StoclsummaryComponent implements OnInit {
   pendingDataEditTme = [];
   tripExpDriver = [];
   tripExpenseVoucherTrips = [];
+  isSingleClick: any;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -99,7 +101,7 @@ export class StoclsummaryComponent implements OnInit {
   getStockTypeList() {
     let params = {
       search: 123,
-      all:1
+      all: 1
     };
     this.common.loading++;
     this.api.post('Suggestion/GetTypeOfStock', params)
@@ -118,7 +120,7 @@ export class StoclsummaryComponent implements OnInit {
   getWhereHouseList() {
     let params = {
       search: 123,
-      all:1
+      all: 1
     };
     this.common.loading++;
     this.api.get('Suggestion/GetWareHouse?search=123')
@@ -321,10 +323,10 @@ export class StoclsummaryComponent implements OnInit {
             group.data = this.generateGroup(group.data, 'y_stockitem_name')
               .map(group => {
                 group.data = this.generateGroup(group.data, 'y_fobranch_name')
-                 // .map(group => {
-                   // group.data = this.generateGroup(group.data, 'y_warehouse_name');
-                    return group;
-                 // })
+                // .map(group => {
+                // group.data = this.generateGroup(group.data, 'y_warehouse_name');
+                return group;
+                // })
                 //return group;
               })
             return group;
@@ -419,13 +421,21 @@ export class StoclsummaryComponent implements OnInit {
     }
   }
 
-  handleExpandation(event, index, type, section, parentIndex?, nextparent? , warehouse?) {
-    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex + nextparent + warehouse, this.active[type][section].indexOf(section + index + parentIndex + nextparent + warehouse));
+  handleExpandation(event, index, type, section, parentIndex?, nextparent?, warehouse?) {
+    console.log(event, index, type, section, parentIndex, nextparent, warehouse);
     event.stopPropagation();
-    if (this.active[type][section].indexOf(section + index + parentIndex + nextparent + warehouse) === -1) this.active[type][section].push(section + index + parentIndex + nextparent + warehouse)
-    else {
-      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex + nextparent + warehouse ), 1);
+    if (this.isSingleClick) {
+      clearTimeout(this.isSingleClick);
     }
+    this.isSingleClick = setTimeout(() => {
+      if (this.isSingleClick) {
+        if (this.active[type][section].indexOf(section + index + parentIndex + nextparent + warehouse) === -1) this.active[type][section].push(section + index + parentIndex + nextparent + warehouse)
+        else {
+          this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex + nextparent + warehouse), 1);
+        }
+      }
+    }, 250)
+
   }
 
   handleVoucherDateOnEnter(iddate) {
@@ -472,104 +482,104 @@ export class StoclsummaryComponent implements OnInit {
   }
 
   showAllGroups() {
-    this.activeGroup = this.summaryreport.map((stocktype) => { 
-      let stocktypeopngqty =0;
-      let stocktypestokrecive =0;
-      let stocktypepurchasetotal =0;
-      let stocktypesalestotal =0;
-      let stocktypeissuetotal =0;
-      let stocktypewastagetotal =0;
-      let stocktypedebittotal =0;
-      let stocktypecredittotal =0;
-      let stocktypenettotal =0;
-      stocktype.data.map((stocksubtype)=>{
-        let stocksubtypeopngqty =0;
-        let stocksubtypestokrecive =0;
-        let stocksubtypepurchasetotal =0;
-        let stocksubtypesalestotal =0;
-        let stocksubtypeissuetotal =0;
-        let stocksubtypewastagetotal =0;
-        let stocksubtypedebittotal =0;
-        let stocksubtypecredittotal =0;
-        let stocksubtypenettotal =0;
-        stocksubtype.data.map((item)=>{
-          let itemopngqty =0;
-          let itemstokrecive =0;
-          let itempurchasetotal =0;
-          let itemsalestotal =0;
-          let itemissuetotal =0;
-          let itemwastagetotal =0;
-          let itemdebittotal =0;
-          let itemcredittotal =0;
-          let itemnettotal =0;
-          item.data.map((branch)=>{
-            let opngqty =0;
-            let stokrecive =0;
-            let purchasetotal =0;
-            let salestotal =0;
-            let issuetotal =0;
-            let wastagetotal =0;
-            let debittotal =0;
-            let credittotal =0;
-            let nettotal =0;
-            branch.data.map((warehouse)=>{
-              opngqty +=(warehouse.y_opn_qty)? parseFloat(warehouse.y_opn_qty):0;
-              stokrecive += (warehouse.y_st_rec_qty)? parseFloat(warehouse.y_st_rec_qty) : 0;
-              purchasetotal += (warehouse.y_pi_qty) ? parseFloat(warehouse.y_pi_qty) : 0 ;
-              salestotal += (warehouse.y_si_qty)? parseFloat(warehouse.y_si_qty) : 0;
+    this.activeGroup = this.summaryreport.map((stocktype) => {
+      let stocktypeopngqty = 0;
+      let stocktypestokrecive = 0;
+      let stocktypepurchasetotal = 0;
+      let stocktypesalestotal = 0;
+      let stocktypeissuetotal = 0;
+      let stocktypewastagetotal = 0;
+      let stocktypedebittotal = 0;
+      let stocktypecredittotal = 0;
+      let stocktypenettotal = 0;
+      stocktype.data.map((stocksubtype) => {
+        let stocksubtypeopngqty = 0;
+        let stocksubtypestokrecive = 0;
+        let stocksubtypepurchasetotal = 0;
+        let stocksubtypesalestotal = 0;
+        let stocksubtypeissuetotal = 0;
+        let stocksubtypewastagetotal = 0;
+        let stocksubtypedebittotal = 0;
+        let stocksubtypecredittotal = 0;
+        let stocksubtypenettotal = 0;
+        stocksubtype.data.map((item) => {
+          let itemopngqty = 0;
+          let itemstokrecive = 0;
+          let itempurchasetotal = 0;
+          let itemsalestotal = 0;
+          let itemissuetotal = 0;
+          let itemwastagetotal = 0;
+          let itemdebittotal = 0;
+          let itemcredittotal = 0;
+          let itemnettotal = 0;
+          item.data.map((branch) => {
+            let opngqty = 0;
+            let stokrecive = 0;
+            let purchasetotal = 0;
+            let salestotal = 0;
+            let issuetotal = 0;
+            let wastagetotal = 0;
+            let debittotal = 0;
+            let credittotal = 0;
+            let nettotal = 0;
+            branch.data.map((warehouse) => {
+              opngqty += (warehouse.y_opn_qty) ? parseFloat(warehouse.y_opn_qty) : 0;
+              stokrecive += (warehouse.y_st_rec_qty) ? parseFloat(warehouse.y_st_rec_qty) : 0;
+              purchasetotal += (warehouse.y_pi_qty) ? parseFloat(warehouse.y_pi_qty) : 0;
+              salestotal += (warehouse.y_si_qty) ? parseFloat(warehouse.y_si_qty) : 0;
               issuetotal += (warehouse.y_st_issue_qty) ? parseFloat(warehouse.y_st_issue_qty) : 0;
-              wastagetotal += (warehouse.y_wst_qty)? parseFloat(warehouse.y_wst_qty): 0;
-              debittotal += (warehouse.y_dn_qty)? parseFloat(warehouse.y_dn_qty) : 0;
-              credittotal += (warehouse.y_cn_qty)? parseFloat(warehouse.y_cn_qty): 0;
-              nettotal += (warehouse.y_net_qty) ? parseFloat(warehouse.y_net_qty): 0;
+              wastagetotal += (warehouse.y_wst_qty) ? parseFloat(warehouse.y_wst_qty) : 0;
+              debittotal += (warehouse.y_dn_qty) ? parseFloat(warehouse.y_dn_qty) : 0;
+              credittotal += (warehouse.y_cn_qty) ? parseFloat(warehouse.y_cn_qty) : 0;
+              nettotal += (warehouse.y_net_qty) ? parseFloat(warehouse.y_net_qty) : 0;
             })
-     console.log('totalopngqty',opngqty);
-     itemopngqty +=  branch.totalopngqty=opngqty;
-     itemstokrecive += branch.totalstokrecive=stokrecive;
-     itempurchasetotal+= branch.purchasetotal=purchasetotal;
-     itemsalestotal += branch.salestotal=salestotal;
-     itemissuetotal += branch.issuetotal=issuetotal;
-     itemwastagetotal += branch.wastagetotal=wastagetotal;
-     itemdebittotal += branch.debittotal=debittotal;
-     itemcredittotal += branch.credittotal=credittotal;
-     itemnettotal += branch.nettotal=nettotal;
+            console.log('totalopngqty', opngqty);
+            itemopngqty += branch.totalopngqty = opngqty;
+            itemstokrecive += branch.totalstokrecive = stokrecive;
+            itempurchasetotal += branch.purchasetotal = purchasetotal;
+            itemsalestotal += branch.salestotal = salestotal;
+            itemissuetotal += branch.issuetotal = issuetotal;
+            itemwastagetotal += branch.wastagetotal = wastagetotal;
+            itemdebittotal += branch.debittotal = debittotal;
+            itemcredittotal += branch.credittotal = credittotal;
+            itemnettotal += branch.nettotal = nettotal;
           })
-          stocksubtypeopngqty +=  item.totalqty=itemopngqty;
-          stocksubtypestokrecive += item.totalstokrecive=itemstokrecive;
-          stocksubtypepurchasetotal += item.totalpurchase=itempurchasetotal;
-          stocksubtypesalestotal += item.totalsales=itemsalestotal;
-          stocksubtypeissuetotal +=  item.totalissue=itemissuetotal;
-          stocksubtypewastagetotal += item.totalwastage=itemwastagetotal;
-          stocksubtypedebittotal += item.totaldebit=itemdebittotal;
-          stocksubtypecredittotal += item.totalcredit=itemcredittotal;
-          stocksubtypenettotal += item.totalnet=itemnettotal;
+          stocksubtypeopngqty += item.totalqty = itemopngqty;
+          stocksubtypestokrecive += item.totalstokrecive = itemstokrecive;
+          stocksubtypepurchasetotal += item.totalpurchase = itempurchasetotal;
+          stocksubtypesalestotal += item.totalsales = itemsalestotal;
+          stocksubtypeissuetotal += item.totalissue = itemissuetotal;
+          stocksubtypewastagetotal += item.totalwastage = itemwastagetotal;
+          stocksubtypedebittotal += item.totaldebit = itemdebittotal;
+          stocksubtypecredittotal += item.totalcredit = itemcredittotal;
+          stocksubtypenettotal += item.totalnet = itemnettotal;
         })
-        stocktypeopngqty += stocksubtype.totalqty= stocksubtypeopngqty;
+        stocktypeopngqty += stocksubtype.totalqty = stocksubtypeopngqty;
         stocktypestokrecive += stocksubtype.totalstokrecive = stocksubtypestokrecive;
         stocktypepurchasetotal += stocksubtype.totalpurchase = stocksubtypepurchasetotal;
-        stocktypesalestotal += stocksubtype.totalsales= stocksubtypesalestotal;
-        stocktypeissuetotal += stocksubtype.totalissue=  stocksubtypeissuetotal;
-        stocktypewastagetotal += stocksubtype.totalwastage= stocksubtypewastagetotal;
-        stocktypedebittotal += stocksubtype.totaldebit= stocksubtypedebittotal;
-        stocktypecredittotal += stocksubtype.totalcredit=  stocksubtypecredittotal;
-        stocktypenettotal += stocksubtype.totalnet= stocksubtypenettotal;
+        stocktypesalestotal += stocksubtype.totalsales = stocksubtypesalestotal;
+        stocktypeissuetotal += stocksubtype.totalissue = stocksubtypeissuetotal;
+        stocktypewastagetotal += stocksubtype.totalwastage = stocksubtypewastagetotal;
+        stocktypedebittotal += stocksubtype.totaldebit = stocksubtypedebittotal;
+        stocktypecredittotal += stocksubtype.totalcredit = stocksubtypecredittotal;
+        stocktypenettotal += stocksubtype.totalnet = stocksubtypenettotal;
 
 
 
       })
 
-        stocktype.totalqty= stocktypeopngqty;
-        stocktype.totalstokrecive = stocktypestokrecive;
-        stocktype.totalpurchase = stocktypepurchasetotal;
-        stocktype.totalsales= stocktypesalestotal;
-        stocktype.totalissue=  stocktypeissuetotal;
-        stocktype.totalwastage= stocktypewastagetotal;
-        stocktype.totaldebit= stocktypedebittotal;
-        stocktype.totalcredit=  stocktypecredittotal;
-        stocktype.totalnet= stocktypenettotal;
-     });
-     console.log('totalopngqty',this.summaryreport);
- 
+      stocktype.totalqty = stocktypeopngqty;
+      stocktype.totalstokrecive = stocktypestokrecive;
+      stocktype.totalpurchase = stocktypepurchasetotal;
+      stocktype.totalsales = stocktypesalestotal;
+      stocktype.totalissue = stocktypeissuetotal;
+      stocktype.totalwastage = stocktypewastagetotal;
+      stocktype.totaldebit = stocktypedebittotal;
+      stocktype.totalcredit = stocktypecredittotal;
+      stocktype.totalnet = stocktypenettotal;
+    });
+    console.log('totalopngqty', this.summaryreport);
+
   }
 
   openConsignmentVoucherEdit(voucherData) {
@@ -762,25 +772,84 @@ export class StoclsummaryComponent implements OnInit {
     this.active.liabilities.mainGroup = [];
     this.active.liabilities.subGroup = [];
     setTimeout(() => {
-    console.log('viewtype',this.viewType,type);
-    if (this.viewType == 'main') {
-      this.summaryreport.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0 + 0 + 0));
-    } else if (this.viewType == 'all') {
-      this.summaryreport.forEach((liability, i) => {
-        console.log('liability',liability);
-        liability.data.forEach((mainGroup, j)=>{this.active.liabilities.mainGroup.push('mainGroup' + i + 0 + 0 + 0)
-        mainGroup.data.forEach((subGroup, k) =>{ this.active.liabilities.subGroup.push('subGroup' + i + j + 0 + 0)
-        subGroup.data.forEach((branch, l) => { this.active.liabilities.branch.push('branch' + i + j + k + 0)
-        branch.data.forEach((warehouse, m) =>{ this.active.liabilities.warehouse.push('warehouse' + i + j + k + l) 
-      }); 
-      });
-      });
-      });
-       
-      });
+      console.log('viewtype', this.viewType, type);
+      if (this.viewType == 'main') {
+        this.summaryreport.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0 + 0 + 0));
+      } else if (this.viewType == 'all') {
+        this.summaryreport.forEach((liability, i) => {
+          console.log('liability', liability);
+          liability.data.forEach((mainGroup, j) => {
+            this.active.liabilities.mainGroup.push('mainGroup' + i + 0 + 0 + 0)
+            mainGroup.data.forEach((subGroup, k) => {
+              this.active.liabilities.subGroup.push('subGroup' + i + j + 0 + 0)
+              subGroup.data.forEach((branch, l) => {
+                this.active.liabilities.branch.push('branch' + i + j + k + 0)
+                branch.data.forEach((warehouse, m) => {
+                  this.active.liabilities.warehouse.push('warehouse' + i + j + k + l)
+                });
+              });
+            });
+          });
 
-      
+        });
+
+
+      }
+    }, 20);
+  }
+
+
+  openmodal(data,type) {
+    if (this.isSingleClick) {
+      clearTimeout(this.isSingleClick);
     }
+    setTimeout(() => {
+    console.log('datail data',type, data);
+    if(type.includes('stock')){
+      this.common.params = {
+        startDate :this.outStanding.Date,
+        endDate :this.outStanding.endDate,
+        stocktype:data.y_stockitem_type_id,
+        stocksubtype:data.y_stockitem_subtype_id,
+        stockItem:data.y_stockitem_id
+      };
+    }else if(type.includes('branch')){
+      this.common.params = {
+        startDate :this.outStanding.Date,
+        endDate :this.outStanding.endDate,
+        stocktype:data.y_stockitem_type_id,
+        stocksubtype:data.y_stockitem_subtype_id,
+        stockItem:data.y_stockitem_id,
+        branchid:data.y_fobranch_id
+      };
+    }else{
+      this.common.params = {
+        startDate :this.outStanding.Date,
+        endDate :this.outStanding.endDate,
+        stocktype:data.y_stockitem_type_id,
+        stocksubtype:data.y_stockitem_subtype_id,
+        stockItem:data.y_stockitem_id,
+        branchid:data.y_fobranch_id,
+        warehouse:data.y_warehouse_id
+      };
+      console.log('param model',this.common.params);
+    }
+
+
+    const activeModal = this.modalService.open(StockSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        //this.addLedger(data.ledger);
+        // this.getDayBook();
+      }
+    });
+
+
+
+
+
+    
   }, 20);
   }
 }
