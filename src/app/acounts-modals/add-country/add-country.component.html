@@ -10,17 +10,10 @@
 
       <div class="row">
 
+        
         <div class="col-3">
           <div class="form-group">
-            <label>State</label>
-
-            <input autocomplete="off" type="text" id="select-state" class="form-control tjr-input" name="state"
-              [(ngModel)]="data.state.name">
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="form-group">
-            <label>city</label>
+            <label>Country</label>
             <input autocomplete="off" type="text" class="form-control" name="city" id="city"
               [(ngModel)]="data.city">
           </div>
@@ -28,17 +21,11 @@
         <div class="col-3">
           <div class="form-group">
             <label>Pin Code</label>
-            <input autocomplete="off" type="text" class="form-control" name="pincode" id="pincode"
-              [(ngModel)]="data.pincode" minlength="6" maxlength="6">
+            <input autocomplete="off" type="text" class="form-control" name="code" id="code"
+              [(ngModel)]="data.code">
           </div>
         </div>
-        <div class="col-3 auto-sugg">
-          <!-- <auto-suggetion-in-side *ngIf="autoSuggestion.data.length" [data]="autoSuggestion.data"
-            [targetId]="autoSuggestion.targetId" [display]="autoSuggestion.display"
-            (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side> -->
-            <auto-suggetion-in-side *ngIf="citydata" [data]="citydata" targetId="select-state" display="name"
-            (select)="onSelected($event, 'state', 'name')"></auto-suggetion-in-side>
-        </div>
+       
       </div>
 
     </div>

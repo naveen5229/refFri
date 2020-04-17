@@ -29,7 +29,45 @@
     <button *ngIf="this.storeRequestId != -3" class="btn mb-4 add-button" (click)="openStoreRequisitions()"><i
         class="fa fa-plus"></i></button>
     <div class="main">
-      <table class="table table-bordered ">
+      <table class="table table-bordered " *ngIf="this.storeRequestId == -101  || this.storeRequestId == -1" >
+        <thead style="background-color: #263238; color:#fff;">
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Code</th>
+            <th>From Branch</th>
+            <th *ngIf="this.storeRequestId == -1">To Branch</th>
+            <th *ngIf="this.storeRequestId == -101">Ware House</th>
+            <th>Stock Type</th>
+            <th>Stock Sub Type</th>
+            <th>Stock Item</th>
+            <th>Qty</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let StockQuestion of StockQuestions; let i = index;" (click)="selectedRow = i"
+            (dblclick)="openStoreRequisitions(StockQuestion[0].y_id,StockQuestion[0].y_from_fobranch_id)"
+            (enter)="openStoreRequisitions(StockQuestion[0].y_id,StockQuestion[0].y_from_fobranch_id)"
+            [ngClass]="{'highlight' : selectedRow == i}">
+
+            <td>{{StockQuestion[0].y_id}}</td>
+            <td>{{StockQuestion[0].y_date | date : 'dd-MMM-yy'}}</td>
+            <td>{{StockQuestion[0].y_code}}</td>
+            <td >{{StockQuestion[0].y_fobranch_name}}</td>
+            <td *ngIf="this.storeRequestId == -1">{{StockQuestion[0].y_tobranch_name}}</td>
+            <td *ngIf="this.storeRequestId == -101">{{StockQuestion[0].y_warehouse_name}}</td>
+            <td >{{StockQuestion[0].y_stocktype_name}}</td>
+            <td >{{StockQuestion[0].y_stocksubtype_name}}</td>
+            <td >{{StockQuestion[0].y_stockitem_name}}</td>
+            <td >{{StockQuestion[0].y_qty}}</td>
+            <td >{{StockQuestion[0].y_amount}}</td>
+            
+          </tr>
+        </tbody>
+
+      </table>
+      <table class="table table-bordered " *ngIf="this.storeRequestId == -2 || this.storeRequestId == -3" >
         <thead style="background-color: #263238; color:#fff;">
           <tr>
             <th>#</th>
@@ -59,6 +97,7 @@
         </tbody>
 
       </table>
+      
     </div>
   </nb-card-body>
 </nb-card>

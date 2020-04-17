@@ -1,43 +1,54 @@
 <nb-card style="margin:0px; border:0px;">
   <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
     <div class="modal-header">
-      <h5 class="modal-title" id="modal-basic-title">City</h5>
+      <h5 class="modal-title" id="modal-basic-title">State</h5>
       <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-
       <div class="row">
-
-        <div class="col-3">
+        <div class="col-9">    
+          <div class="row">
+        <div class="col-6">
           <div class="form-group">
-            <label>State</label>
+            <label>Country</label>
 
             <input autocomplete="off" type="text" id="select-state" class="form-control tjr-input" name="state"
               [(ngModel)]="data.state.name">
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-6">
           <div class="form-group">
-            <label>city</label>
+            <label>State Name</label>
             <input autocomplete="off" type="text" class="form-control" name="city" id="city"
               [(ngModel)]="data.city">
           </div>
         </div>
-        <div class="col-3">
-          <div class="form-group">
-            <label>Pin Code</label>
-            <input autocomplete="off" type="text" class="form-control" name="pincode" id="pincode"
-              [(ngModel)]="data.pincode" minlength="6" maxlength="6">
           </div>
-        </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label>Code</label>
+                <input autocomplete="off" type="text" class="form-control" name="pincode" id="pincode"
+                  [(ngModel)]="data.pincode" minlength="6" maxlength="6">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Gst Code</label>
+                <input autocomplete="off" type="text" class="form-control" name="gstcode" id="gstcode"
+                  [(ngModel)]="data.gstcode" minlength="6" maxlength="6">
+              </div>
+            </div>
+          </div>
+      </div>
         <div class="col-3 auto-sugg">
           <!-- <auto-suggetion-in-side *ngIf="autoSuggestion.data.length" [data]="autoSuggestion.data"
             [targetId]="autoSuggestion.targetId" [display]="autoSuggestion.display"
             (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side> -->
-            <auto-suggetion-in-side *ngIf="citydata" [data]="citydata" targetId="select-state" display="name"
-            (select)="onSelected($event, 'state', 'name')"></auto-suggetion-in-side>
+            <auto-suggetion-in-side *ngIf="citydata" [data]="citydata" targetId="select-state" display="country_name"
+            (select)="onSelected($event, 'state', 'country_name')"></auto-suggetion-in-side>
         </div>
       </div>
 

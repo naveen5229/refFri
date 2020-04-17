@@ -27,6 +27,14 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 link: '/accounts/ledgers/0'
             },
             {
+                title: 'Country',
+                link: '/accounts/country'
+            },
+            {
+                title: 'State',
+                link: '/accounts/state'
+            },
+            {
                 title: 'City',
                 link: '/accounts/city'
             },
@@ -164,7 +172,8 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
             {
                 title: 'Mapped Fuel Voucher',
                 link: '/accounts/mapped-fuel-voucher'
-            }
+            },
+            
 
         ],
     },
@@ -255,7 +264,10 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Opening Stock',
                 link: '/accounts/openingstock'
             },
-
+            {
+                title:' Store Register',
+                link: '/accounts/stoclsummary'
+            }
         ],
     },
     {
@@ -277,6 +289,10 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Stock Transfer',
                 link: '/accounts/storerequisitions/-1'
             },
+            {
+                title: 'Opening Stock',
+                link: '/accounts/storerequisitions/-101'
+            }
 
         ],
     },

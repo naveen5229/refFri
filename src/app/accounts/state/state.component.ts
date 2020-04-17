@@ -3,28 +3,29 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
-import { AddCityComponent } from '../../acounts-modals/add-city/add-city.component';
+import { AddStateComponent } from '../../acounts-modals/add-state/add-state.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { from } from 'rxjs';
+
 @Component({
-  selector: 'city',
-  templateUrl: './city.component.html',
-  styleUrls: ['./city.component.scss']
+  selector: 'state',
+  templateUrl: './state.component.html',
+  styleUrls: ['./state.component.scss']
 })
-export class CityComponent implements OnInit {
+export class StateComponent  {
   data = [];
   statedata=[];
   showConfirm = false;
   autoSuggestion = {
     data: [],
     targetId: 'state',
-    display: 'name'
+    display: 'country_name'
   };
 
   getstatedata = {
     state: {
-      name: 'Rajasthan',
-      id: 29,
+      name: 'India',
+      id: 1,
 
     }
   };
@@ -35,8 +36,8 @@ export class CityComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal) {
     this.getpageData();
-    this.getStates();
-    this.common.currentPage = 'city';
+    this.getCountry();
+    this.common.currentPage = 'State';
     this.common.refresh = this.refresh.bind(this);
     this.setFoucus('submit');
 
@@ -48,13 +49,13 @@ export class CityComponent implements OnInit {
     console.log('Refresh');
     this.getpageData();
   }
-  getStates() {
+  getCountry() {
     const params = {
       foid: 123
     };
     this.common.loading++;
 
-    this.api.post('Suggestion/GetState', params)
+    this.api.post('Accounts/GetCountry', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -68,12 +69,11 @@ export class CityComponent implements OnInit {
   }
   getpageData() {
     let params = {
-      foid: 123,
-      stateid:this.getstatedata.state.id
+      counntryid:this.getstatedata.state.id
     };
 
     this.common.loading++;
-    this.api.post('Accounts/GetCity', params)
+    this.api.post('Accounts/getState', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -92,23 +92,21 @@ export class CityComponent implements OnInit {
     if (city) {
       console.log('city', city);
       this.common.params = city;
-      const activeModal = this.modalService.open(AddCityComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      const activeModal = this.modalService.open(AddStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
          // this.updateCity(data.city, city.id);
-        this.getpageData();
-        return;
+          return;
         }
       });
     }
     else {
       this.common.params = null;
-      const activeModal = this.modalService.open(AddCityComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      const activeModal = this.modalService.open(AddStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
         //  this.addCity(data.city);
-        this.getpageData();
-        return;
+          return;
         }
       });
     }
@@ -231,4 +229,3 @@ export class CityComponent implements OnInit {
     }, 100);
   }
 }
-

@@ -1039,7 +1039,7 @@ export class OrderdetailComponent implements OnInit {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].warehouse.name = suggestion.name;
       this.order.amountDetails[index].warehouse.id = suggestion.id;
-      this.getStockAvailability(suggestion.id);
+      this.getStockAvailability(this.order.amountDetails[index].stockitem.id ,suggestion.id);
     }
   }
 
@@ -1071,10 +1071,11 @@ export class OrderdetailComponent implements OnInit {
     }
   }
 
-  getStockAvailability(stockid) {
+  getStockAvailability(stockid,whrhouseid) {
     let totalitem = 0;
     let params = {
-      stockid: stockid
+      stockid: stockid,
+      wherehouseid: whrhouseid
     };
     // this.common.loading++;
     this.api.post('Suggestion/GetStockItemAvailableQty', params)

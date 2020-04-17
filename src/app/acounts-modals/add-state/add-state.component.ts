@@ -5,12 +5,13 @@ import { CommonService } from '../../services/common.service';
 import { AccountService } from '../../services/account.service';
 import { UserService } from '../../services/user.service';
 
+
 @Component({
-  selector: 'add-city',
-  templateUrl: './add-city.component.html',
-  styleUrls: ['./add-city.component.scss']
+  selector: 'add-state',
+  templateUrl: './add-state.component.html',
+  styleUrls: ['./add-state.component.scss']
 })
-export class AddCityComponent implements OnInit {
+export class AddStateComponent implements OnInit {
   showConfirm = false;
   suggestions: [{
     id: '',
@@ -23,7 +24,8 @@ export class AddCityComponent implements OnInit {
       name: '',
       id: 0,
     },
-    id:0
+    id:0,
+    gstcode:''
 
   };
   allowBackspace = true;
@@ -44,13 +46,14 @@ export class AddCityComponent implements OnInit {
       console.log('this.common.params',this.common.params);
     if (this.common.params) {
       this.data = {
-        city: this.common.params.city_name,
+        city: this.common.params.province_name,
         id: this.common.params.id,
-        pincode:this.common.params.pincode,
+        pincode:this.common.params.province_code,
         state: {
-          name: this.common.params.statename ? this.common.params.statename : '',
-          id: this.common.params.province_id,
-        }
+          name: this.common.params.country_name ? this.common.params.country_name : '',
+          id: this.common.params.country_id,
+        },
+        gstcode:this.common.params.gst_state_code
       }
       console.log('data: ', this.data);
     }
@@ -77,14 +80,15 @@ export class AddCityComponent implements OnInit {
   addCity(city) {
     console.log('city', city);
     const params = {
-      cityname: city.city,
-      stateid: city.state.id,
-      pincode: city.pincode,
+      name: city.city,
+      countryid: city.state.id,
+      code: city.pincode,
+      gstcode: city.gstcode,
       id: city.id
     };
     console.log('params: ', params);
     this.common.loading++;
-    this.api.post('Accounts/InsertCity', params)
+    this.api.post('Accounts/InsertState', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
@@ -161,7 +165,7 @@ export class AddCityComponent implements OnInit {
     };
     this.common.loading++;
 
-    this.api.post('Suggestion/GetState', params)
+    this.api.post('Accounts/GetCountry', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -191,3 +195,4 @@ export class AddCityComponent implements OnInit {
     this.data.state.id = selectedData.id;
   }
 }
+

@@ -528,10 +528,11 @@ export class OrdersComponent implements OnInit {
     return total;
   }
 
-  getStockAvailability(stockid) {
+  getStockAvailability(stockid,whrhouseid) {
     let totalitem = 0;
     let params = {
-      stockid: stockid
+      stockid: stockid,
+      wherehouseid: whrhouseid
     };
     this.common.loading++;
     this.api.post('Suggestion/GetStockItemAvailableQty', params)
@@ -633,6 +634,18 @@ export class OrdersComponent implements OnInit {
       //   // this.order.amountDetails[index].qty = 0;
       // }
     }
+    if((this.order.ordertype.name.toLowerCase().includes('sales') || this.order.ordertype.name.toLowerCase().includes('credit')) && (this.activeId.includes('rate-'))){ 
+      let index = parseInt(this.activeId.split('-')[1]);
+      let amount = this.order.amountDetails[index].amount;
+      console.log('amount with condition',amount);
+      if(((this.stockitmeflag) && (this.order.biltynumber == '')) && (amount >= 50000)){
+       // this.order.amountDetails[index].rate = 0;
+        this.common.showError('Please Enter vailde Eway Bill Number');
+       // return
+      }
+    }
+
+
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('branch')) {
@@ -770,9 +783,29 @@ export class OrdersComponent implements OnInit {
 
 
         if (this.order.ordertype.name.toLowerCase().includes('sales') && (!(this.stockitmeflag))) {
-          this.setFoucus('rate' + '-' + index);
+          //this.setFoucus('rate' + '-' + index);
+          setTimeout(() => {
+              if(!(this.order.amountDetails[index].stockitem.id || this.order.amountDetails[index].stockitem.name)){
+                this.common.showError('Please Select Warehouse');  
+                this.order.purchaseledger.name ='';   
+                this.setFoucus('stockitem' + '-' + index);
+               // return; 
+                }else{
+                this.setFoucus('rate' + '-' + index);
+                }
+            }, 100);
         } else {
-          this.setFoucus('qty' + '-' + index);
+          setTimeout(() => {
+            if(!(this.order.amountDetails[index].stockitem.id || this.order.amountDetails[index].stockitem.name)){
+              this.common.showError('Please Select Warehouse');  
+              this.order.purchaseledger.name ='';   
+              this.setFoucus('stockitem' + '-' + index);
+             // return; 
+              }else{
+              this.setFoucus('qty' + '-' + index);
+              }
+          }, 100);
+         // this.setFoucus('qty' + '-' + index);
         }
       } else if (this.activeId.includes('qty')) {
         let index = parseInt(this.activeId.split('-')[1]);
@@ -804,7 +837,21 @@ export class OrdersComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('stockitem' + '-' + index);
+        setTimeout(() => {
+          console.log('suggetion data',this.order.amountDetails[index].warehouse.id );
+  
+            if(!(this.order.amountDetails[index].warehouse.id || this.order.amountDetails[index].warehouse.name)){
+              this.common.showError('Please Select Warehouse');  
+              this.order.purchaseledger.name ='';   
+              this.setFoucus('warehouse' + '-' + index);
+             // return; 
+              }else{
+              this.setFoucus('stockitem' + '-' + index);
+              }
+          }, 100);
+
+          
+      //  this.setFoucus('stockitem' + '-' + index);
       } else if (this.activeId.includes('remarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxDetail' + '-' + index);
@@ -1418,7 +1465,15 @@ export class OrdersComponent implements OnInit {
     else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
     else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
     else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
-    else if (activeId.includes('warehouse')) this.autoSuggestion.data = this.suggestions.warehouses;
+    else if (activeId.includes('warehouse')){
+       this.autoSuggestion.data = this.suggestions.warehouses;
+       if(this.suggestions.warehouses.length ==1){
+       console.log('where house suggestion',this.suggestions.warehouses[0]['id'],this.suggestions.warehouses);
+       let splitindex = parseInt(activeId.split('-')[1]);
+       this.order.amountDetails[splitindex].warehouse.id = this.suggestions.warehouses[0]['id'];
+       this.order.amountDetails[splitindex].warehouse.name = this.suggestions.warehouses[0]['name'];
+       }
+    }
     else if (activeId.includes('invocelist')) this.autoSuggestion.data = this.suggestions.invoiceList;
 
 
@@ -1475,27 +1530,37 @@ export class OrdersComponent implements OnInit {
       }
     } else if (activeId.includes('stockitem')) {
       const index = parseInt(activeId.split('-')[1]);
-      this.order.amountDetails[index].stockitem.name = suggestion.name;
-      this.order.amountDetails[index].stockitem.id = suggestion.id;
-      this.order.amountDetails[index].stockunit.name = suggestion.stockname;
-      this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
-      if (this.order.ordertype.name.toLowerCase().includes('sales')) {
-        this.getStockAvailability(suggestion.id);
-        console.log('suggestion indexing',suggestion);
-        if(suggestion.is_service){
-        this.order.amountDetails[index].qty = 1;
-        this.stockitmeflag = false;
-        }
+        if(!(suggestion)){
+          this.order.amountDetails[index].stockitem.name = '';
+          this.order.amountDetails[index].stockitem.id = '';
+        }else{
+          this.order.amountDetails[index].stockitem.name = suggestion.name;
+          this.order.amountDetails[index].stockitem.id = suggestion.id;
+          this.order.amountDetails[index].stockunit.name = suggestion.stockname;
+          this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
+          if (this.order.ordertype.name.toLowerCase().includes('sales')) {
+            this.getStockAvailability(suggestion.id,(this.order.amountDetails[index].warehouse.id));
+            console.log('suggestion indexing',suggestion);
+            if(suggestion.is_service){
+            this.order.amountDetails[index].qty = 1;
+            this.stockitmeflag = false;
+            }
+          }
       }
-
     } else if (activeId.includes('discountledger')) {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].discountledger.name = suggestion.name;
       this.order.amountDetails[index].discountledger.id = suggestion.id;
     } else if (activeId.includes('warehouse')) {
+      
       const index = parseInt(activeId.split('-')[1]);
+      if(!(suggestion)){
+        this.order.amountDetails[index].warehouse.name = '';
+        this.order.amountDetails[index].warehouse.id = '';
+      }else{
       this.order.amountDetails[index].warehouse.name = suggestion.name;
       this.order.amountDetails[index].warehouse.id = suggestion.id;
+      }
       //  this.getStockAvailability(suggestion.id);
     }
     else if (activeId.includes('invocelist')) {

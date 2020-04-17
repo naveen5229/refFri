@@ -6,11 +6,11 @@ import { AccountService } from '../../services/account.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
-  selector: 'add-city',
-  templateUrl: './add-city.component.html',
-  styleUrls: ['./add-city.component.scss']
+  selector: 'add-country',
+  templateUrl: './add-country.component.html',
+  styleUrls: ['./add-country.component.scss']
 })
-export class AddCityComponent implements OnInit {
+export class AddCountryComponent  implements OnInit {
   showConfirm = false;
   suggestions: [{
     id: '',
@@ -18,13 +18,8 @@ export class AddCityComponent implements OnInit {
   }];
   data = {
     city: '',
-    pincode: '',
-    state: {
-      name: '',
-      id: 0,
-    },
-    id:0
-
+    code: '',
+    id:-1
   };
   allowBackspace = true;
   // autoSuggestion = {
@@ -33,24 +28,20 @@ export class AddCityComponent implements OnInit {
   //   display: 'name'
   // };
   citydata=[];
-  activeId = 'state';
+  activeId = 'city';
   suggestionIndex = -1;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public accountService: AccountService,
     public user: UserService,
     public api: ApiService) {
-    this.getStates();
-      console.log('this.common.params',this.common.params);
+    //this.getStates();
+
     if (this.common.params) {
       this.data = {
-        city: this.common.params.city_name,
-        id: this.common.params.id,
-        pincode:this.common.params.pincode,
-        state: {
-          name: this.common.params.statename ? this.common.params.statename : '',
-          id: this.common.params.province_id,
-        }
+        city: this.common.params.country_name,
+        code:this.common.params.country_code,
+        id:this.common.params.id
       }
       console.log('data: ', this.data);
     }
@@ -61,10 +52,10 @@ export class AddCityComponent implements OnInit {
   dismiss(response) {
     console.log('data:', this.data);
     if(response){
-      this.activeModal.close({ response: response});
-      this.addCity(this.data);
+      this.saveCountry();
+    this.activeModal.close({ response: response });
     }else{
-    this.activeModal.close({ response: response});
+    this.activeModal.close({ response: response });
     }
   }
 
@@ -74,30 +65,7 @@ export class AddCityComponent implements OnInit {
   //   console.log('State Data: ', this.data);
   // }
   
-  addCity(city) {
-    console.log('city', city);
-    const params = {
-      cityname: city.city,
-      stateid: city.state.id,
-      pincode: city.pincode,
-      id: city.id
-    };
-    console.log('params: ', params);
-    this.common.loading++;
-    this.api.post('Accounts/InsertCity', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('res: ', res);
-        this.common.showToast(res['msg']);
 
-
-       // this.getpageData();
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-  }
 
 
   keyHandler(event) {
@@ -118,21 +86,19 @@ export class AddCityComponent implements OnInit {
 
     if (key == 'enter') {
       this.allowBackspace = true;
-      if (activeId.includes('user')) {
-        this.setFoucus('state');
-      } else if (activeId.includes('select-state')) {
-        this.setFoucus('city');
-      } else if (activeId.includes('city')) {
-        this.setFoucus('pincode');
-      } else if (activeId.includes('pincode')) {
+       if (activeId.includes('city')) {
+        this.setFoucus('code');
+      } else if (activeId.includes('code')) {
         this.showConfirm = true;
       }
     } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
-      if (activeId.includes('pincode')) {
+      if (activeId.includes('code')) {
         this.setFoucus('city');
       } else if (activeId.includes('city')) {
-        this.setFoucus('select-state');
+       // this.setFoucus('select-state');
+      this.allowBackspace = false;
+
       }
      
     } else if (key.includes('arrow')) {
@@ -155,13 +121,11 @@ export class AddCityComponent implements OnInit {
     }, 100);
   }
 
-  getStates() {
-    const params = {
-      foid: 123,
-    };
+  saveCountry() {
+    const params = this.data;
     this.common.loading++;
 
-    this.api.post('Suggestion/GetState', params)
+    this.api.post('Accounts/saveCountry', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -172,22 +136,6 @@ export class AddCityComponent implements OnInit {
         this.common.showError();
       });
   }
-  selectSuggestion(suggestion, id?) {
-    console.log('Suggestion on select: ', suggestion);
-    this.data.state.name = suggestion.name;
-    this.data.state.id = suggestion.id;
-
-  }
-
-  onSelect(suggestion, activeId) {
-    console.log('Suggestion: ', suggestion);
-    this.data.state.name = suggestion.name;
-    this.data.state.id = suggestion.id;
-  }
-
-  onSelected(selectedData, type, display) {
-    
-    this.data.state.name = selectedData[display];
-    this.data.state.id = selectedData.id;
-  }
+ 
 }
+

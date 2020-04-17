@@ -6,7 +6,7 @@
             
               <div class="col-6">
                 <div class="form-group">
-                  <label class="tjr-label">State</label>
+                  <label class="tjr-label">Country</label>
                   <input autocomplete="off" type="text" id="state" class="form-control tjr-input" name="state"
                     [(ngModel)]="getstatedata.state.name">
                 </div>
@@ -27,8 +27,8 @@
             </div> -->
             <div class="auto-sugg">
               <div class="form-group">
-                <auto-suggetion-in-side [data]="statedata" targetId="state" display="name"
-                  (select)="onSelected($event, 'state', 'name')"></auto-suggetion-in-side>
+                <auto-suggetion-in-side [data]="statedata" targetId="state" display="country_name"
+                  (select)="onSelected($event, 'state', 'country_name')"></auto-suggetion-in-side>
               </div>
             
             </div>
@@ -43,9 +43,10 @@
         <thead style="background-color: #263238; color: #fff; white-space: nowrap;">
           <tr>
             <th>#</th>
-            <th>State Name</th>
-            <th>City</th>
-            <th>PinCode</th>
+            <th>Country Name</th>
+            <th>State</th>
+            <th>Code</th>
+            <th>Gst Code</th>
             <!-- <th>Action</th> -->
           </tr>
         </thead>
@@ -53,9 +54,10 @@
           <tr *ngFor="let row of data; let i = index;" (click)="selectedRow = i"  (dblclick)="openModal(row)"
            [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{i + 1}}</td>
-            <td>{{ row.statename}}</td>
-            <td>{{row.city_name}}</td>
-            <td>{{row.pincode }}</td>
+            <td>{{row.country_name}}</td>
+            <td>{{row.province_name}}</td>
+            <td>{{row.province_code }}</td>
+            <td>{{row.gst_state_code }}</td>
             <!-- <td class="del">
               <a href="javascript: void(0);" class="delete" title="Delete Document" (click)="deleteCity(row)"><i
                   class="fa fa-trash"></i></a>
