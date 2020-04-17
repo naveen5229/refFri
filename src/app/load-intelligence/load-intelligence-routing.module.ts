@@ -8,6 +8,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { RouteGuard } from '../guards/route.guard';
 import { PopulateAltitudeComponent } from './populate-altitude/populate-altitude.component';
 import { UploadRoutesComponent } from './upload-routes/upload-routes.component';
+import { SpecialAreaComponent } from './special-area/special-area.component';
 
 const routes: Routes = [{
   path: '',
@@ -31,6 +32,11 @@ const routes: Routes = [{
     {
       path: 'upload-routes',
       component: UploadRoutesComponent,
+      canActivate: [AuthGuard, RouteGuard]
+    },
+    {
+      path: 'special-area',
+      component: SpecialAreaComponent,
       canActivate: [AuthGuard, RouteGuard]
     }
   ],
