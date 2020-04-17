@@ -24,5 +24,11 @@ export const LOAD_INTELLIGENCE_MENU_ITEMS = JSON.stringify([
         icon: 'nb-home',
         link: '/load-intelligence/upload-routes',
         home: true,
+    },
+    {
+        title: 'Special-Area',
+        icon: 'nb-home',
+        link: '/load-intelligence/special-area',
+        home: true,
     }
 ]);

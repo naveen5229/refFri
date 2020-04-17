@@ -190,7 +190,7 @@ async getRoutes(row, index) {
             const polygonOptions = {
               strokeColor: row._color,
               strokeOpacity: 1,
-              strokeWeight: 2,
+              strokeWeight: 1,
               icons: [{
                 offset: '100%'
               }]

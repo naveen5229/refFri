@@ -9,8 +9,9 @@ import { DirectiveModule } from '../directives/directives.module';
 import { NbSpinnerModule } from '@nebular/theme';
 import { PopulateAltitudeComponent } from './populate-altitude/populate-altitude.component';
 import { UploadRoutesComponent } from './upload-routes/upload-routes.component';
+import { SpecialAreaComponent } from './special-area/special-area.component';
 @NgModule({
-  declarations: [DashboardComponent, LoadIntelligenceComponent, ShowRoutesComponent, PopulateAltitudeComponent, UploadRoutesComponent],
+  declarations: [DashboardComponent, LoadIntelligenceComponent, ShowRoutesComponent, PopulateAltitudeComponent, UploadRoutesComponent, SpecialAreaComponent],
   imports: [
     CommonModule,
     LoadIntelligenceRoutingModule,
