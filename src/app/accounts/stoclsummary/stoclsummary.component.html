@@ -4,18 +4,20 @@
         class="fa fa-file-pdf"></i></span>
     <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
         class="fas fa-file-excel"></i></span> -->
-    <!-- <div class="" style="float:right; margin-right: 20px">
-      <span><input type="radio" name="view-type" value="main" (click)="activeGroup = []" [(ngModel)]="viewType"> Expand
+    <div class="" style="float:right; margin-right: 20px">
+      <span><input type="radio" name="view-type" value="main" (click)="changeViewType('main')" [(ngModel)]="viewType">
+        Expand
         Main Group</span>
-      <span><input type="radio" name="view-type" value="sub" (click)="showAllGroups()" [(ngModel)]="viewType"> Expand
+      <span><input type="radio" name="view-type" value="all" (click)="changeViewType('all')" [(ngModel)]="viewType">
+        Expand
         All</span>
-    </div> -->
-    <div class="expand-div">
+    </div>
+    <!-- <div class="expand-div">
       <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
       <label>Main Group</label>
       <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
       <label>Expand All</label>
-    </div>
+    </div> -->
 
     <div class="row">
 
@@ -127,30 +129,84 @@
           <div class="col x-col">Credit Note</div>
           <div class="col x-col">Net Available</div>
         </div>
-        <div *ngFor="let stockType of summaryreport let i = index" class="x-data"  (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0,0,0,0)">
-          <div class="row x-stocktype">
+        <div *ngFor="let stockType of summaryreport let i = index" class="x-data">
+          <div class="row x-stocktype" (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0,0,0)">
             <div class="col x-col">{{stockType.name}}</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">{{stockType.totalqty}}</div>
+            <div class="col x-col">{{stockType.totalstokrecive}}</div>
+            <div class="col x-col">{{stockType.totalpurchase}}</div>
+            <div class="col x-col">{{stockType.totalsales}}</div>
+            <div class="col x-col">{{stockType.totalissue}}</div>
+            <div class="col x-col">{{stockType.totalwastage}}</div>
+            <div class="col x-col">{{stockType.totaldebit}}</div>
+            <div class="col x-col">{{stockType.totalcredit}}</div>
+            <div class="col x-col">{{stockType.totalnet}}</div>
           </div>
-          <div *ngFor="let stockSubType of stockType.data let j = index"  [hidden]="active.liabilities.mainGroup.indexOf('mainGroup' + i + 0 + 0 + 0 + 0) == -1" (click)="handleExpandation($event, i, 'liabilities', 'subGroup', j,0,0,0)" >
-            <div class="row x-sub-stocktype"  >
+          <div *ngFor="let stockSubType of stockType.data let j = index"
+            [hidden]="active.liabilities.mainGroup.indexOf('mainGroup' + i + 0 + 0 + 0) == -1">
+            <div class="row x-sub-stocktype" (click)="handleExpandation($event, i, 'liabilities', 'subGroup', j,0,0)">
               <div class="col x-col">&nbsp;</div>
               <div class="col x-col">{{stockSubType.name}}</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">{{stockSubType.totalqty}}</div>
+              <div class="col x-col">{{stockSubType.totalstokrecive}}</div>
+              <div class="col x-col">{{stockSubType.totalpurchase}}</div>
+              <div class="col x-col">{{stockSubType.totalsales}}</div>
+              <div class="col x-col">{{stockSubType.totalissue}}</div>
+              <div class="col x-col">{{stockSubType.totalwastage}}</div>
+              <div class="col x-col">{{stockSubType.totaldebit}}</div>
+              <div class="col x-col">{{stockSubType.totalcredit}}</div>
+              <div class="col x-col">{{stockSubType.totalnet}}</div>
             </div>
-            <div *ngFor="let stockItem of stockSubType.data let k = index" [hidden]="active.liabilities.subGroup.indexOf('subGroup' + i + j + 0 + 0 + 0) == -1" (click)="handleExpandation($event, i, 'liabilities', 'branch', j,k,0,0)" >
-              <div class="row x-stockitem">
+            <div *ngFor="let stockItem of stockSubType.data let k = index"
+              [hidden]="active.liabilities.subGroup.indexOf('subGroup' + i + j + 0 + 0) == -1">
+              <div class="row x-stockitem" (click)="handleExpandation($event, i, 'liabilities', 'branch', j,k,0)"
+                (dblclick)="openmodal(stockItem.data[0].data[0],'stock')">
                 <div class="col x-col">&nbsp;</div>
                 <div class="col x-col">&nbsp;</div>
                 <div class="col x-col">{{stockItem.name}}</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.totalqty}}</div>
+                <div class="col x-col">{{stockItem.totalstokrecive}}</div>
+                <div class="col x-col">{{stockItem.totalpurchase}}</div>
+                <div class="col x-col">{{stockItem.totalsales}}</div>
+                <div class="col x-col">{{stockItem.totalissue}}</div>
+                <div class="col x-col">{{stockItem.totalwastage}}</div>
+                <div class="col x-col">{{stockItem.totaldebit}}</div>
+                <div class="col x-col">{{stockItem.totalcredit}}</div>
+                <div class="col x-col">{{stockItem.totalnet}}</div>
+
               </div>
-              <div *ngFor="let branch of stockItem.data let l = index" (click)="handleExpandation($event, i, 'liabilities', 'warehouse', j,k,l,0)" [hidden]="active.liabilities.branch.indexOf('branch' + i + j + k + 0 + 0) == -1" >
-                <div class="row x-branch">
+              <div *ngFor="let branch of stockItem.data let l = index"
+                [hidden]="active.liabilities.branch.indexOf('branch' + i + j + k + 0) == -1">
+                <div class="row x-branch" (click)="handleExpandation($event, i, 'liabilities', 'warehouse', j,k,l)"
+                  (dblclick)="openmodal(branch.data[0],'branch')">
                   <div class="col x-col">&nbsp;</div>
                   <div class="col x-col">&nbsp;</div>
                   <div class="col x-col">&nbsp;</div>
                   <div class="col x-col">{{branch.name}}</div>
+                  <div class="col x-col">&nbsp;</div>
+                  <div class="col x-col">{{branch.totalopngqty}}</div>
+                  <div class="col x-col">{{branch.totalstokrecive}}</div>
+                  <div class="col x-col">{{branch.purchasetotal}}</div>
+                  <div class="col x-col">{{branch.salestotal}}</div>
+                  <div class="col x-col">{{branch.issuetotal}}</div>
+                  <div class="col x-col">{{branch.wastagetotal}}</div>
+                  <div class="col x-col">{{branch.debittotal}}</div>
+                  <div class="col x-col">{{branch.credittotal}}</div>
+                  <div class="col x-col">{{branch.nettotal}}</div>
+
                 </div>
-                <div *ngFor="let wareHouse of branch.data let m = index" (click)="handleExpandation($event, i, 'liabilities', 'item', j,k,l,m)" [hidden]="active.liabilities.warehouse.indexOf('warehouse' + i + j + k + l + 0) == -1"  >
-                  <div class="row x-warehouse">
+                <div *ngFor="let wareHouse of branch.data let m = index"
+                  [hidden]="active.liabilities.warehouse.indexOf('warehouse' + i + j + k + l) == -1">
+                  <div class="row x-warehouse" (dblclick)="openmodal(wareHouse,'warehouse')">
                     <div class="col x-col">&nbsp;</div>
                     <div class="col x-col">&nbsp;</div>
                     <div class="col x-col">&nbsp;</div>

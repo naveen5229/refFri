@@ -1,7 +1,7 @@
 <nb-card style="margin:0px; border:0px;">
   <nb-card-body style="padding:0px;">
     <div class="modal-header">
-      <h5 class="modal-title" id="modal-basic-title">Voucher Detail - {{ voucherCode}}</h5>
+      <h5 class="modal-title" id="modal-basic-title">Summary Detail</h5>
       <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -10,34 +10,33 @@
       <table class="table table-bordered">
         <thead style="background-color:#263238; color:#fff;">
           <tr>
-            <th>Particular</th>
-            <!--th>Vch Type</th>
-        <th>Vch No.</th-->
-            <th>Amount(Debit)</th>
-            <th>Amount(Credit)</th>
-            <!-- <th>Naration</th> -->
-            <th>Cost Center</th>
+            <th>Order Type</th>
+            <th>Code</th>
+            <th>Order Date</th>
+            <th>Stock Item</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Amount</th>
+            <th>Other Tax</th>
+            <th>Line Amount</th>
+            <th>Remarks</th>
 
           </tr>
         </thead>
         <tr *ngFor=" let dataItem of Detail; let j = index" (click)="selectedRow =  '' + i + j"
           [ngClass]="{'highlight' : selectedRow == '' + i + j }">
-          <td>{{dataItem.y_particulars}}</td>
-          <!--td>{{dataItem.y_type}}</td>
-          <td >{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td-->
-          <td>{{dataItem.y_dramunt}}</td>
-          <td>{{dataItem.y_cramunt}}</td>
-          <!-- <td>{{dataItem.y_naration}}</td> -->
-          <td>
-            <div *ngFor="let costDetail of filterCostDetails(dataItem.y_ccdetails)">
-              {{costDetail}}
-            </div>
-          </td>
+          <td>{{dataItem.y_ordertype_name}}</td>
+          <td>{{dataItem.y_code}}</td>
+          <td>{{dataItem.y_orderdate}}</td>
+          <td>{{dataItem.y_stockitem}}</td>
+          <td>{{dataItem.y_qty}}</td>
+          <td>{{dataItem.y_rate}}</td>
+          <td>{{dataItem.y_amount}}</td>
+          <td>{{dataItem.y_tax_other}}</td>
+          <td>{{dataItem.y_lineamount}}</td>
+          <td>{{dataItem.y_remarks}}</td>
         </tr>
-       <tr>
-         <td><label>Narration</label></td>
-        <td colspan="3" *ngIf="Detail">{{ Detail[0]['y_naration'] }}</td>
-      </tr>
+      
 
       </table>
     </div>

@@ -4,11 +4,11 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
 @Component({
-  selector: 'voucherdetail',
-  templateUrl: './voucherdetail.component.html',
-  styleUrls: ['./voucherdetail.component.scss']
+  selector: 'stock-summary',
+  templateUrl: './stock-summary.component.html',
+  styleUrls: ['./stock-summary.component.scss']
 })
-export class VoucherdetailComponent implements OnInit {
+export class StockSummaryComponent  implements OnInit {
   title = '';
   voucherCode ='';
   Detail = [];
@@ -17,25 +17,33 @@ export class VoucherdetailComponent implements OnInit {
     public common: CommonService,
     public api: ApiService) {
 
-      this.voucherCode = this.common.params.vchcode; 
+      console.log('detail params',this.common.params); 
 
-    this.getDayBookDetailList();
+    this.getDetailList();
+    this.common.handleModalSize('class', 'modal-lg', '1150');
+
   }
   ngOnInit() {
   }
 
-  getDayBookDetailList() {
+  getDetailList() {
     let params = {
-      voucherId: this.common.params.vchid
+      endDate: this.common.params.endDate,
+      startDate: this.common.params.startDate,
+      stockItem: this.common.params.stockItem,
+      stocksubtype: this.common.params.stocksubtype,
+      stocktype: this.common.params.stocktype,
+      warehouse: (this.common.params.warehouse) ? this.common.params.warehouse : 0,
+      branchid: (this.common.params.branchid) ? this.common.params.branchid : 0,
       
     };
-    console.log('vcid', this.common.params);
+    console.log('vcid', params);
 
-    this.api.post('Company/GetVoucherDetailList', params)
+    this.api.post('Stock/getDetailList', params)
       .subscribe(res => {
         // this.common.loading--;
         this.Detail = res['data'];
-        console.log('Res:', this.Detail[0]['y_naration']);
+        console.log('Res:', this.Detail);
 
       }, err => {
         this.common.loading--;
