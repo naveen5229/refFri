@@ -161,6 +161,7 @@ export class MapService {
     this.polygon.setMap(this.map);
   }
   createPolygons(latLngsMulti, options?) {// strokeColor = '#', fillColor = '#') {
+    console.log(latLngsMulti);
     let index = 0;
 
     latLngsMulti.forEach(latLngs => {
@@ -521,8 +522,8 @@ export class MapService {
     return this.poly;
   }
 
-  createPolyPathDetached(latLng, polygonOptions?, drawVertix?, poly?) {
-    // console.log(polygonOptions);
+  createPolyPathDetached(latLng, polygonOptions?, drawVertix?, poly?, infoKeys?) {
+    // console.log(latLng);
     if (!poly) {
       const defaultPolygonOptions = {
         strokeColor: "black",
@@ -533,15 +534,32 @@ export class MapService {
           offset: '100%'
         }]
       }
+
       poly = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
       poly.setMap(this.map);
-    }
+      let infoWindow = new google.maps.InfoWindow();
+      infoWindow.opened = false;
+      google.maps.event.addListener(poly, 'mouseover', function (evt) {
+        infoWindow.setContent("Info: ");
+        infoWindow.setPosition(evt.latLng); // or evt.latLng
+        infoWindow.open(this.map);
+      });
+      // google.maps.event.addListener(poly, 'mouseout', evt => {
+      //   infoWindow.close();
+      //   infoWindow.opened = false;
+      // }); 
+       }
     let path = poly.getPath();
     path.push(this.createLatLng(latLng.lat, latLng.lng));
     drawVertix && this.polyVertices.push(this.createSingleMarker(latLng));
     return poly;
   }
 
+infoCallback(infowindow) {
+   return function() {
+      infowindow.open(this.map);
+   };
+}
   undoPolyPath(polyLine?) {
     let path = polyLine ? polyLine.getPath() : this.polygonPath.getPath();
     path.pop();

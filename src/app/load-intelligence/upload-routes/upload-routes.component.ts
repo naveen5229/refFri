@@ -35,7 +35,7 @@ export class UploadRoutesComponent implements OnInit {
   }
 
   handleFileSelection(event) {
-   
+    this.latLngs = [];
     let input = event.target;
     for (var index = 0; index < input.files.length; index++) {
         let reader = new FileReader();

@@ -186,6 +186,7 @@ async getRoutes(row, index) {
          if(x) {
 
             this.routes = x['data'];
+            // console.log(this.routes);
             this.table.data.columns[index]['action']['icons'][0]['class'] = "far fa-eye green";
             const polygonOptions = {
               strokeColor: row._color,
@@ -199,7 +200,7 @@ async getRoutes(row, index) {
 
             this.routes.forEach(async e => {
               let latLng = {lat: e[0], lng: e[1]}
-               poly  = this.mapService.createPolyPathDetached(latLng, polygonOptions, null, poly);
+               poly  = this.mapService.createPolyPathDetached(latLng, polygonOptions, null, poly, row['route_name']);
           });
           this.counter--;
           row['poly'] = poly;
