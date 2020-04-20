@@ -45,9 +45,9 @@ export class MapService {
   constructor(public common: CommonService) {
   }
 
-  autoSuggestion(elementId, setLocation?) {
+  autoSuggestion(elementId, setLocation?, types?) {
     let options = {
-      types: ['(cities)'],
+      types: types? types :['(cities)'],
       componentRestrictions: { country: "in" }
     };
     let ref = document.getElementById(elementId);//.getElementsByTagName('input')[0];

@@ -1,0 +1,66 @@
+<nb-card>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-6">
+
+          <div class=row>
+            <div class="col-6"  style="text-align:center">
+              <auto-suggestion name="selected-area" (onSelected)="selectArea($event)" url="Suggestion/getSpecialArea" display="loc_name"
+              placeholder="Location Name..." [preSelected]="null"></auto-suggestion>
+            </div>
+            <div class="col-6"  style="text-align:center">
+              <input placeholder="Site LocName.." id="siteLoc" [(ngModel)]="locName" class="form-control">
+            </div>
+          </div>
+<br>
+          <div class=row>
+            <div class="col-4 mt-2"  style="text-align:center">
+              <select name='type' class="form-control" [(ngModel)]='type'>
+                <!-- <option  [value]='1'>Select Type</option> -->
+                <option *ngFor="let t of types" [value]='t'>{{t}}</option>
+              </select>
+            </div>
+            <div class="col-4"  style="text-align:center">
+              <button (click)="enterTicket();"
+              class="btn btn-primary">{{mapService.isDrawAllow ? 'Finish Fencing' :'Create Fencing'}}</button>
+            </div>
+            <div class="col-4"  style="text-align:center">
+              <button (click)="clearAll(true)" class="btn btn-primary">Clear All</button>
+            </div>
+          </div>
+
+          <br>
+
+          <div class=row>
+           
+            <div class="col-4">
+              <button (click)="loadMarkers()" class="btn btn-primary">Load Marker</button>
+            </div>
+            <div class="col-4">
+              <button (click)="DeleteArea();"
+              class="btn btn-primary">Delete Loc</button>
+            </div>
+          </div>
+
+          <br>
+
+        <div class="row">
+          <div class="col-12" style="text-align:center">
+            <span>
+              <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
+              <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
+              <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
+              <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
+              <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
+            </span>
+          </div>
+        </div>
+                
+        
+      </div>
+      <div id="map" class="map col-6">
+      </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,17 @@
+.row{
+    width: 100%;
+}
+.map{
+    width: 90%;
+    height: 80vh;
+}
+.table table tbody tr > td,input,button  {
+    height: 100%;
+    width: 100%;
+    max-width: 160px;
+}
+.tbl{
+    overflow: auto;
+    height: 440px;
+    display: block;
+}
