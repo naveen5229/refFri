@@ -173,7 +173,10 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Mapped Fuel Voucher',
                 link: '/accounts/mapped-fuel-voucher'
             },
-            
+            {
+                title: 'Ledger Register',
+                link: '/accounts/ledgerregidter'
+            },
 
         ],
     },

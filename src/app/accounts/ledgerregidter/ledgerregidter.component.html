@@ -1,0 +1,267 @@
+<nb-card style="margin: 0px; border:0px;">
+  <!-- <nb-card-header>
+    <h4>Account</h4>
+  </nb-card-header> -->
+  <nb-card-body (keydown)="keyHandler($event)">
+    <div class="modal-header" *ngIf="pageName">
+      <h5>Ledger Register</h5>
+      <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="row">
+      <div class="col-9">
+        <!-- <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()" style="cursor: pointer;"><i
+                  class="fa fa-file-pdf"></i></span>
+              <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
+                  class="fas fa-file-excel"></i></span> -->
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Voucher</label>
+              <input autocomplete="off" type="text" id="vouchertype" class="form-control tjr-input" name="vouchertype"
+                [(ngModel)]="ledgerRegister.vouchertype.name">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Ledger</label>
+              <input autocomplete="off" type="text" id="ledgerdaybook" class="form-control tjr-input" name="ledger"
+                [(ngModel)]="ledgerRegister.ledger.name">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Group </label>
+              <input autocomplete="off" type="text" id="group" class="form-control tjr-input" name="group"
+                [(ngModel)]="ledgerRegister.group.name">
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">From Amount</label>
+              <input autocomplete="off" type="text" id="frmamount" class="form-control tjr-input" name="frmamount"
+                [(ngModel)]="ledgerRegister.frmamount">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">To Amount</label>
+              <input autocomplete="off" type="text" id="toamount" class="form-control tjr-input" name="toamount"
+                [(ngModel)]="ledgerRegister.toamount">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Voucher Code </label>
+              <input autocomplete="off" type="text" id="vouchercode" class="form-control tjr-input" name="vouchercode"
+                [(ngModel)]="ledgerRegister.vouchercode">
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Voucher Cust Code</label>
+              <input autocomplete="off" type="text" id="vouchercustcode" class="form-control tjr-input"
+                name="vouchercustcode" [(ngModel)]="ledgerRegister.vouchercustcode">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Remarks</label>
+              <input autocomplete="off" type="text" id="remarks" class="form-control tjr-input" name="remarks"
+                [(ngModel)]="ledgerRegister.remarks">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="debit_box">
+              <div class="form-group">
+                <label class="tjr-label">Is Amount Debit </label>
+                &nbsp;
+                <div class="debit">
+                  <span>Yes</span>
+                  <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
+                    [(ngModel)]="ledgerRegister.isamount" [value]=1>
+                </div>
+                <div class="credit">
+                  <span>No</span>
+                  <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
+                    [(ngModel)]="ledgerRegister.isamount" [value]=0>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">Starting Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
+                id="startdate" placeholder="Select Date" name="account-date" [(ngModel)]="ledgerRegister.startdate"
+                maxlength="10">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">End Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="enddate"
+                placeholder="Select Date" name="account-enddate" [(ngModel)]="ledgerRegister.enddate" maxlength="10">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getDetail()"
+                id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
+                <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
+                  (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
+              </div> -->
+        <div class="auto-sugg">
+          <div class="form-group" *ngIf="activeId.includes('vouchertype')">
+            <auto-suggetion-in-side [data]="vouchertypedata" targetId="vouchertype" display="name"
+              (select)="onSelected($event, 'vouchertype', 'name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="activeId.includes('ledgerdaybook')">
+            <auto-suggetion-in-side [data]="ledgerData" targetId="ledgerdaybook" display="name"
+              (select)="onSelected($event, 'ledger', 'name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="this.activeId.includes('group')">
+            <auto-suggetion-in-side [data]="secondarygroup" targetId="group" display="name"
+              (select)="onSelected($event, 'group', 'name')"></auto-suggetion-in-side>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="balance-sheet">
+      <div class="row" style="margin: 0px 0px 0px 0px;width: 100%;">
+        <div class="row x-heading">
+            <div class="col x-col">Particular</div>
+            <div class="col x-col">Ledger Name</div>
+            <div class="col x-col">Voucher Code</div>
+            <div class="col x-col">Voucher Cust Code</div>
+            <div class="col x-col">Voucher Date</div>
+            <div class="col x-col">Voucher Type</div>
+            <div class="col x-col">Dr Amount</div>
+            <div class="col x-col">Cr Amount</div>
+          </div>
+          <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
+            <div class="row x-stocktype">
+                <div (click)="activeTree = i">{{stockType.name}}</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+         Z </div>
+            <ledger-register-tree [data]="stockType.data" [active]="activeTree == i ? true : false">
+            </ledger-register-tree>
+          </div>
+    </div>
+  </div>
+    <!-- <div id="balance-sheet">
+      <div class="row" style="margin: 0px 0px 0px 0px;width: 100%;">
+        <div class="row x-heading">
+            <div class="col x-col">Particular</div>
+            <div class="col x-col">Ledger Name</div>
+            <div class="col x-col">Voucher Code</div>
+            <div class="col x-col">Voucher Cust Code</div>
+            <div class="col x-col">Voucher Date</div>
+            <div class="col x-col">Voucher Type</div>
+            <div class="col x-col">Dr Amount</div>
+            <div class="col x-col">Cr Amount</div>
+          </div>
+          <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
+            <div class="row x-stocktype" (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0,0,0)">
+              <div class="col x-col">{{stockType.name}}</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">&nbsp;</div>
+            </div>
+            <!-- <div *ngFor="let stockSubType of stockType.data let j = index"
+            [hidden]="active.liabilities.mainGroup.indexOf('mainGroup' + i + 0 + 0 + 0) == -1">
+              <div class="row x-sub-stocktype" (click)="handleExpandation($event, i, 'liabilities', 'subGroup', j,0,0)">
+                <div class="col x-col">{{stockSubType.name}}</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+              </div>
+            </div> 
+    </div>
+
+    </div>
+    </div> -->
+
+
+
+    <!-- <div class="main">
+      <table class="table table-bordered">
+        <thead style="background-color: #263238; color:#fff;">
+          <tr>
+            <th>Particular</th>
+            <th>Ledger Name</th>
+            <th>Voucher Code</th>
+            <th>Voucher Cust Code</th>
+            <th>Voucher Date</th>
+            <th>Voucher Type</th>
+            <th>Dr Amount</th>
+            <th>Cr Amount</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let data of voucherEntries; let i = index;" 
+          [ngClass]="{'highlight' : selectedRow == i}">
+          <tr *ngFor="let sub of data.countlevel; let j = index" (click)="selectedRow = i"
+          [hidden]="j && selectedRow != i">
+            <td>{{sub}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr [hidden]="true"  *ngFor="let lastdata of data.vouchers;">
+            <td></td>
+            <td>{{lastdata.y_ledger_name}}</td>
+            <td>{{lastdata.y_voucher_code}}</td>
+            <td>{{lastdata.y_voucher_cust_code}}</td>
+            <td>{{lastdata.y_voucher_date | date : 'dd-MMM-yy'}}</td>
+            <td>{{lastdata.y_voucher_type_name}}</td>
+            <td>{{lastdata.y_dramunt}}</td>
+            <td>{{lastdata.y_cramunt}}</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div> -->
+    <div class="modal-footer" *ngIf="pageName">
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel"
+            style="cursor: pointer;">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

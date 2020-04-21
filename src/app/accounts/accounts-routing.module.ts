@@ -46,6 +46,7 @@ import { AccountEntryApprovalComponent } from './account-entry-approval/account-
 import { StoclsummaryComponent } from './stoclsummary/stoclsummary.component';
 import { CountryComponent } from './country/country.component';
 import { StateComponent } from './state/state.component';
+import { LedgerregidterComponent } from './ledgerregidter/ledgerregidter.component';
 
 
 const routes: Routes = [{
@@ -247,6 +248,10 @@ const routes: Routes = [{
         {
             path :'state',
             component: StateComponent
+        },
+        {
+            path :'ledgerregidter',
+            component: LedgerregidterComponent
         }
     ],
 

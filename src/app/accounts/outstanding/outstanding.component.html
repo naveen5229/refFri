@@ -44,6 +44,15 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-3">
+            <div class="form-group">
+              <label class="tjr-label">Goup Id</label>
+              <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger"
+            display="name" placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion> -->
+              <input autocomplete="off" type="text" id="groupid" class="form-control tjr-input" name="groupid"
+                [(ngModel)]="outStanding.groupid.name">
+            </div>
+          </div>
           <div class="col-7">
             <div class="row form-group mb-0 mt-2">
               <div class="col-md-4">
@@ -86,6 +95,10 @@
           <div class="form-group" *ngIf="this.activeId.includes('ledger')">
             <auto-suggetion-in-side [data]="ledgerList" targetId="ledger" display="name"
               (select)="onSelected($event, 'ledger', 'name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="this.activeId.includes('groupid')">
+            <auto-suggetion-in-side [data]="secondarygroup" targetId="groupid" display="name"
+              (select)="onSelected($event, 'groupid', 'name')"></auto-suggetion-in-side>
           </div>
         </div>
       </div>

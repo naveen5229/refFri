@@ -22,6 +22,7 @@ export class OutstandingComponent implements OnInit {
   branchdata = [];
   activedateid = '';
   selectedName = '';
+  secondarygroup=[];
   outStanding = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -33,7 +34,11 @@ export class OutstandingComponent implements OnInit {
       name: '',
       id: ''
     },
-    trantype: 0
+    trantype: 0,
+    groupid: {
+      name: 'All',
+      id: 0
+    },
   };
 
   ledgerData = [];
@@ -61,6 +66,7 @@ export class OutstandingComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
     this.getLedgerList();
     this.setFoucus('ledger');
+    this.getSecondaryGoup();
     this.common.currentPage = 'Outstanding Report';
     this.headingName = this.user._customer.name + '( ' + this.accountService.selected.branch.name + ' ) From :' + this.outStanding.startDate + ' To ' + this.outStanding.endDate;
   }
@@ -73,7 +79,25 @@ export class OutstandingComponent implements OnInit {
     this.getLedgerList();
     this.setFoucus('ledger');
   }
+  getSecondaryGoup() {
+    let params = {
+      foid: 123
+    };
 
+    this.common.loading++;
+    this.api.post('Accounts/getSecondaryGoup', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.secondarygroup = res['data'];
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
   getBranchList() {
     let params = {
       search: 123
@@ -116,7 +140,8 @@ export class OutstandingComponent implements OnInit {
       enddate: this.outStanding.endDate,
       ledger: this.outStanding.ledger.id,
       branch: this.outStanding.branch.id,
-      trantype: this.outStanding.trantype
+      trantype: this.outStanding.trantype,
+      groupid: this.outStanding.groupid.id,
     };
 
     this.common.loading++;
@@ -250,9 +275,31 @@ export class OutstandingComponent implements OnInit {
   }
 
   generalizeData() {
+    // this.voucherEntries = [];
+    // let allGroups = _.groupBy(this.ledgerData, 'y_particulars');
+    // let allKeys = Object.keys(allGroups);
+    // allKeys.map((key, index) => {
+    //   this.voucherEntries[index] = {
+    //     name: key,
+    //     amount: {
+    //       debit: 0,
+    //       credit: 0
+    //     },
+    //     vouchers: allGroups[key]
+    //   };
+    //   allGroups[key].map(data => {
+    //     this.voucherEntries[index].amount.debit += parseFloat(data.y_dramunt);
+    //     this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
+    //   });
+    // });
     this.voucherEntries = [];
-    let allGroups = _.groupBy(this.ledgerData, 'y_particulars');
-    let allKeys = Object.keys(allGroups);
+    let allGroups = _.groupBy(this.ledgerData, 'y_path');
+    console.log('allGroups',allGroups);
+
+    allGroups.map((dataval,index) => {
+   console.log('allkeys111',dataval);
+      let subGroups = _.groupBy(dataval, 'y_path');
+    let allKeys = Object.keys(subGroups);
     allKeys.map((key, index) => {
       this.voucherEntries[index] = {
         name: key,
@@ -267,6 +314,7 @@ export class OutstandingComponent implements OnInit {
         this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
       });
     });
+  });
     this.showAllGroups();
   }
 
@@ -303,6 +351,8 @@ export class OutstandingComponent implements OnInit {
         this.outStanding.startDate = this.common.handleDateOnEnterNew(this.outStanding.startDate);
         this.setFoucus('endDate');
       } else if (this.activeId.includes('endDate')) {
+        this.setFoucus('groupid');
+      }else if (this.activeId.includes('endDate')) {
         this.outStanding.endDate = this.common.handleDateOnEnterNew(this.outStanding.endDate);
         this.setFoucus('submit');
       }
@@ -310,6 +360,7 @@ export class OutstandingComponent implements OnInit {
     else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', this.activeId);
+      if (this.activeId == 'groupid') this.setFoucus('endDate');
       if (this.activeId == 'endDate') this.setFoucus('startDate');
       if (this.activeId == 'startDate') this.setFoucus('ledger');
     } else if (key.includes('arrow')) {

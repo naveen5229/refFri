@@ -48,6 +48,7 @@ import { AccountEntryApprovalComponent } from './account-entry-approval/account-
 import { StoclsummaryComponent } from './stoclsummary/stoclsummary.component';
 import { CountryComponent } from './country/country.component';
 import { StateComponent } from './state/state.component';
+import { LedgerregidterComponent,ledgerRegisterTreeComponent } from './ledgerregidter/ledgerregidter.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -105,7 +106,9 @@ const PAGES_COMPONENTS = [
     AccountEntryApprovalComponent,
     StoclsummaryComponent,
     CountryComponent,
-    StateComponent
+    StateComponent,
+    LedgerregidterComponent,
+    ledgerRegisterTreeComponent
   ],
   entryComponents:[
     StockitemsComponent,
