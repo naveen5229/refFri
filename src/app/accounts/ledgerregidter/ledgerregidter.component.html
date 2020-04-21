@@ -143,34 +143,34 @@
         </div>
       </div>
     </div>
-    <div id="balance-sheet">
+    <div id="balance-sheet" style="margin:0px 16px;">
       <div class="row" style="margin: 0px 0px 0px 0px;width: 100%;">
         <div class="row x-heading">
-            <div class="col x-col">Particular</div>
-            <div class="col x-col">Ledger Name</div>
-            <div class="col x-col">Voucher Code</div>
-            <div class="col x-col">Voucher Cust Code</div>
-            <div class="col x-col">Voucher Date</div>
-            <div class="col x-col">Voucher Type</div>
-            <div class="col x-col">Dr Amount</div>
-            <div class="col x-col">Cr Amount</div>
+          <div class="col x-col">Particular</div>
+          <div class="col x-col">Ledger Name</div>
+          <div class="col x-col">Voucher Code</div>
+          <div class="col x-col">Voucher Cust Code</div>
+          <div class="col x-col">Voucher Date</div>
+          <div class="col x-col">Voucher Type</div>
+          <div class="col x-col">Dr Amount</div>
+          <div class="col x-col">Cr Amount</div>
+        </div>
+        <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
+          <div class="row x-stocktype">
+            <div (click)="activeTree = activeTree !== i ? i : -1">{{stockType.name}}</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
           </div>
-          <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
-            <div class="row x-stocktype">
-                <div (click)="activeTree = i">{{stockType.name}}</div>
-                <div class="col x-col">&nbsp;</div>
-                <div class="col x-col">&nbsp;</div>
-                <div class="col x-col">&nbsp;</div>
-                <div class="col x-col">&nbsp;</div>
-                <div class="col x-col">&nbsp;</div>
-                <div class="col x-col">&nbsp;</div>
-                <div class="col x-col">&nbsp;</div>
-         Z </div>
-            <ledger-register-tree [data]="stockType.data" [active]="activeTree == i ? true : false">
-            </ledger-register-tree>
-          </div>
+          <ledger-register-tree [data]="stockType.data" [active]="activeTree == i ? true : false" labels=">">
+          </ledger-register-tree>
+        </div>
+      </div>
     </div>
-  </div>
     <!-- <div id="balance-sheet">
       <div class="row" style="margin: 0px 0px 0px 0px;width: 100%;">
         <div class="row x-heading">

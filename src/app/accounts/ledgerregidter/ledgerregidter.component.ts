@@ -18,23 +18,12 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
   template: `
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
-      <div *ngIf="i == 0 && d.name"  class="row x-sub-stocktype" (click)="isActive = !isActive">
-                <div class="col x-col">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{d.name}}
-                </div>
+      <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1">
+          <div class="col x-col" style="text-align:left">
+           {{labels}} {{d.name}}
+          </div>
       </div>
-      <div *ngIf="i == 1 && d.name"  class="row x-stockitem" (click)="isActive = !isActive">
-      <div class="col x-col">
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{d.name}}
-      </div>
-      </div>
-      <div *ngIf="i == 2 && d.name"  class="row x-branch" (click)="isActive = !isActive">
-      <div class="col x-col">
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{d.name}}
-      </div>
-      </div>
-    
-      <ledger-register-tree *ngIf="d.name" [data]="d.data" [active]="isActive"></ledger-register-tree>
+      <ledger-register-tree *ngIf="d.name" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels + '>'"></ledger-register-tree>
       <div *ngIf="!d.name"  class="row x-warehouse">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
@@ -53,7 +42,8 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 export class ledgerRegisterTreeComponent {
   @Input() data: any;
   @Input() active: boolean;
-  isActive: boolean = false;
+  @Input() labels: string;
+  activeIndex: boolean = false;
 }
 
 @Component({
@@ -103,6 +93,8 @@ export class LedgerregidterComponent implements OnInit {
   showDateModal = false;
   f2Date = 'startDate';
   lastActiveId = '';
+  selectedRow = -1;
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -221,8 +213,6 @@ export class LedgerregidterComponent implements OnInit {
       frmamount: this.ledgerRegister.frmamount,
       toamount: this.ledgerRegister.toamount,
     };
-    // console.log('ledger data', checkvalue.target.checked, id);
-    // console.log('ledger data1', checkvalue, id);
     this.common.loading++;
     this.api.post('Accounts/getLedgerRegister', params)
       .subscribe(res => {
@@ -240,93 +230,57 @@ export class LedgerregidterComponent implements OnInit {
 
   }
 
-
-  selectedRow = -1;
-
-
-
-  // generalizeData() {
-  //   this.voucherEntries = [];
-  //   let allGroups = _.groupBy(this.Ledgerregister, 'y_path');
-  //   let allKeys = Object.keys(allGroups);
-  //   allKeys.map((key, index) => {
-  //     let labels = key.split('-->');
-  //     function findData(index) {
-  //       if (index === labels.length - 1) {
-  //         return {
-  //           name: labels[index],
-  //           amount: {
-  //             debit: 0,
-  //             credit: 0
-  //           },
-  //           data: allGroups[key]
-  //         }
-  //       } else {
-  //         return {
-  //           name: labels[index],
-  //           amount: {
-  //             debit: 0,
-  //             credit: 0
-  //           },
-  //           data: [findData(index + 1)]
-  //         }
-  //       }
-  //     }
-  //     this.voucherEntries[index] = findData(0);
-
-  //     allGroups[key].map(data => {
-  //       this.voucherEntries[index].amount.debit += parseFloat(data.y_dramunt);
-  //       this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
-  //     });
-  //   });
-
-
-
-  //   console.log('voucherEntries', this.voucherEntries);
-
-  // }
-
   generalizeData() {
     this.voucherEntries = [];
-    let allGroups = _.groupBy(this.Ledgerregister, 'y_parent_groupid');
-    let allKeys = Object.keys(allGroups);
-    allKeys.map((key, index) => {
-      console.log('jjj',allGroups[key],key,index)
-      let labels = allGroups[key][index]['y_path'].split('-->');
-      function findData(index) {
-        if (index === labels.length - 1) {
-          return {
-            name: labels[index],
-            amount: {
-              debit: 0,
-              credit: 0
-            },
-            data: allGroups[key]
-          }
+    for (let i = 0; i < this.Ledgerregister.length; i++) {
+      let ledgerRegister = this.Ledgerregister[i];
+      let labels = ledgerRegister.y_path.split('-->');
+      ledgerRegister.labels = labels.splice(1, labels.length);
+      let index = this.voucherEntries.findIndex(voucher => voucher.name === labels[0]);
+      if (index === -1) {
+        this.voucherEntries.push({
+          name: labels[0],
+          data: [ledgerRegister]
+        })
+      } else {
+        this.voucherEntries[index].data.push(ledgerRegister);
+      }
+    }
+
+    this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
+    console.log('voucherEntries', this.voucherEntries);
+  }
+
+  findChilds(data) {
+    let childs = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].labels.length) {
+        let ledgerRegister = data[i];
+        let labels = ledgerRegister.labels;
+        ledgerRegister.labels = labels.splice(1, labels.length);
+        let index = childs.findIndex(voucher => voucher.name === labels[0]);
+        if (index === -1) {
+          childs.push({
+            name: labels[0],
+            data: [ledgerRegister]
+          })
         } else {
-          return {
-            name: labels[index],
-            amount: {
-              debit: 0,
-              credit: 0
-            },
-            data: [findData(index + 1)]
-          }
+          childs[index].data.push(ledgerRegister);
         }
       }
-      this.voucherEntries[index] = findData(0);
-
-      allGroups[key].map(data => {
-        this.voucherEntries[index].amount.debit += parseFloat(data.y_dramunt);
-        this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
+    }
+    if (childs.length) {
+      return childs.map(child => {
+        return {
+          name: child.name,
+          data: this.findChilds(child.data)
+        }
       });
-    });
-
-
-
-    console.log('voucherEntries', this.voucherEntries);
-
+    } else {
+      return data;
+    }
   }
+
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
