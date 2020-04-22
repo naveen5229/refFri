@@ -178,3 +178,108 @@ input[type=radio]{
     font-size: 30px;
     color: #217346;
 }
+
+
+
+.balance-shit {
+    background-color: #dadfe6;
+}
+
+.x-col {
+    width: 12.5%;
+    max-width: 12.5%;
+    padding: 0px 3px;
+    text-align: center;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+.x-heading {
+    width: 100%;
+    margin: 0 0px 0px 1px;
+    padding: 0 !important;
+    background-color: #263238;
+    color: #fff;
+    padding: 0px 0px !important;
+    font-size: 14px;
+    .x-col {
+        border-right: 1px solid #f2f2f2;
+        padding: 6px 4px;
+    }
+    .x-col:last-child {
+        border: none;
+    }
+}
+.x-data {
+    width: 100%;
+    background: #dadfe6;
+
+    .row {
+        margin: 0;
+        border-bottom: 1px solid #FFF;
+        // .x-col {
+        //     // border-right: 1px solid #c2c2c2;
+        // }
+        // .x-col:first-child {
+        //     // border-left: 1px solid #c2c2c2;
+        // }
+    }
+    .x-stocktype {
+        background: #184154;
+        color: #fff;
+        font-size: 14px;
+    }
+    
+}
+.x-sub-stocktype {
+    background-color: #5d6e75;
+    color: #fff;
+    font-size: 14px;
+}
+.x-stockitem {
+    background: #6f8a96;
+    color: #fff;
+    font-size: 14px;
+}
+.x-branch {
+    background: #8DAAB8;
+    color: #fff;
+    font-size: 14px;
+}
+.x-warehouse {
+    background: #dadfe6;
+    color: black;
+    font-size: 14px;
+}
+.th-mini {
+    background: #184154;
+    color: #fff;
+    border-bottom: 1px solid #c7c7c7;
+    border-left: 1px solid #c7c7c7;
+    border-right: 1px solid #c7c7c7;
+}
+
+.tb-mini {
+    border-bottom: 1px solid #c7c7c7;
+    border-left: 1px solid #c7c7c7;
+    border-right: 1px solid #c7c7c7;
+}
+.selected {
+    background-color: #576c77;
+}
+
+.highlight {
+    background-color: #ffee75 !important;
+    color: #000 !important;
+}
+.expand-div {
+    position: absolute;
+    right: 20px;
+
+    label {
+        font-weight: 500;
+        margin-right: 10px;
+        margin-left: 5px;
+        vertical-align: middle;
+    }
+}

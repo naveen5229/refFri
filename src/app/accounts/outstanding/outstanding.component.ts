@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,Input} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,36 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
 import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.component';
 
+@Component({
+  selector: 'ledger-register-tree',
+  template: `
+  <div *ngIf="active">
+    <div *ngFor="let d of data let i = index">
+      <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1">
+          <div class="col x-col" style="text-align:left;margin-left: 20px;">{{labels}} {{d.name}}</div>
+      </div>
+      <ledger-register-tree *ngIf="d.name" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
+      <div *ngIf="!d.name"  class="row x-warehouse">
+        <div class="col x-col">&nbsp;</div>
+        <div class="col x-col">{{d.y_ledger_name}}</div>
+        <div class="col x-col">{{d.y_voucher_code}}</div>
+        <div class="col x-col">{{d.y_voucher_cust_code}}</div>
+        <div class="col x-col">{{d.y_voucher_date | date:'dd-MMM-yy'}}</div>
+        <div class="col x-col">{{d.y_voucher_type_name}}e</div>
+        <div class="col x-col">{{d.y_dramunt}}</div>
+        <div class="col x-col">{{d.y_cramunt}}</div>
+      </div>
+    </div>
+  </div>
+  `,
+  styleUrls: ['./outstanding.component.scss']
+})
+export class ledgerRegisterTreeComponent {
+  @Input() data: any;
+  @Input() active: boolean;
+  @Input() labels: string;
+  activeIndex: boolean = false;
+}
 
 @Component({
   selector: 'outstanding',
@@ -275,47 +305,80 @@ export class OutstandingComponent implements OnInit {
   }
 
   generalizeData() {
-    // this.voucherEntries = [];
-    // let allGroups = _.groupBy(this.ledgerData, 'y_particulars');
-    // let allKeys = Object.keys(allGroups);
-    // allKeys.map((key, index) => {
-    //   this.voucherEntries[index] = {
-    //     name: key,
-    //     amount: {
-    //       debit: 0,
-    //       credit: 0
-    //     },
-    //     vouchers: allGroups[key]
-    //   };
-    //   allGroups[key].map(data => {
-    //     this.voucherEntries[index].amount.debit += parseFloat(data.y_dramunt);
-    //     this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
-    //   });
-    // });
     this.voucherEntries = [];
-    let allGroups = _.groupBy(this.ledgerData, 'y_path');
-    console.log('allGroups',allGroups);
+    for (let i = 0; i < this.ledgerData.length; i++) {
+      let ledgerRegister = this.ledgerData[i];
+      let labels = ledgerRegister.y_path.split('-->');
+      ledgerRegister.labels = labels.splice(1, labels.length);
+      let index = this.voucherEntries.findIndex(voucher => voucher.name === labels[0]);
+      if (index === -1) {
+        this.voucherEntries.push({
+          name: labels[0],
+          data: [ledgerRegister]
+        })
+      } else {
+        this.voucherEntries[index].data.push(ledgerRegister);
+      }
+    }
 
-    allGroups.map((dataval,index) => {
-   console.log('allkeys111',dataval);
-      let subGroups = _.groupBy(dataval, 'y_path');
-    let allKeys = Object.keys(subGroups);
-    allKeys.map((key, index) => {
-      this.voucherEntries[index] = {
-        name: key,
-        amount: {
-          debit: 0,
-          credit: 0
-        },
-        vouchers: allGroups[key]
-      };
-      allGroups[key].map(data => {
-        this.voucherEntries[index].amount.debit += parseFloat(data.y_dramunt);
-        this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
+    this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
+    console.log('voucherEntries', this.voucherEntries);
+  //   this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
+  //   console.log('voucherEntries', this.voucherEntries);
+  //   this.voucherEntries = [];
+  //   let allGroups = _.groupBy(this.ledgerData, 'y_path');
+  //   console.log('allGroups',allGroups);
+
+  //   allGroups.map((dataval,index) => {
+  //  console.log('allkeys111',dataval);
+  //     let subGroups = _.groupBy(dataval, 'y_path');
+  //   let allKeys = Object.keys(subGroups);
+  //   allKeys.map((key, index) => {
+  //     this.voucherEntries[index] = {
+  //       name: key,
+  //       amount: {
+  //         debit: 0,
+  //         credit: 0
+  //       },
+  //       vouchers: allGroups[key]
+  //     };
+  //     allGroups[key].map(data => {
+  //       this.voucherEntries[index].amount.debit += parseFloat(data.y_dramunt);
+  //       this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
+  //     });
+  //   });
+  // });
+  //   this.showAllGroups();
+  }
+  
+  findChilds(data) {
+    let childs = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].labels.length) {
+        let ledgerRegister = data[i];
+        let labels = ledgerRegister.labels;
+        ledgerRegister.labels = labels.splice(1, labels.length);
+        let index = childs.findIndex(voucher => voucher.name === labels[0]);
+        if (index === -1) {
+          childs.push({
+            name: labels[0],
+            data: [ledgerRegister]
+          })
+        } else {
+          childs[index].data.push(ledgerRegister);
+        }
+      }
+    }
+    if (childs.length) {
+      return childs.map(child => {
+        return {
+          name: child.name,
+          data: this.findChilds(child.data)
+        }
       });
-    });
-  });
-    this.showAllGroups();
+    } else {
+      return data;
+    }
   }
 
   keyHandler(event) {

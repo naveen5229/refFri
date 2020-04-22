@@ -19,11 +19,9 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
       <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1">
-          <div class="col x-col" style="text-align:left">
-           {{labels}} {{d.name}}
-          </div>
+          <div class="col x-col" style="text-align:left;margin-left: 20px;">{{labels}} {{d.name}}</div>
       </div>
-      <ledger-register-tree *ngIf="d.name" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels + '>'"></ledger-register-tree>
+      <ledger-register-tree *ngIf="d.name" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
       <div *ngIf="!d.name"  class="row x-warehouse">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
