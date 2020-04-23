@@ -18,6 +18,13 @@ import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.
     <div *ngFor="let d of data let i = index">
       <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1">
           <div class="col x-col" style="text-align:left;margin-left: 20px;">{{labels}} {{d.name}}</div>
+          <div class="col x-col" *ngIf="d.name" >&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name" style="margin-left: -20px;"> {{d.debit | number : '1.2-2'}} </div>
+          <div class="col x-col" *ngIf="d.name"> {{d.credit | number : '1.2-2'}} </div>
       </div>
       <ledger-register-tree *ngIf="d.name" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
       <div *ngIf="!d.name"  class="row x-warehouse">
@@ -27,8 +34,8 @@ import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.
         <div class="col x-col">{{d.y_voucher_cust_code}}</div>
         <div class="col x-col">{{d.y_voucher_date | date:'dd-MMM-yy'}}</div>
         <div class="col x-col">{{d.y_voucher_type_name}}e</div>
-        <div class="col x-col">{{d.y_dramunt}}</div>
-        <div class="col x-col">{{d.y_cramunt}}</div>
+        <div class="col x-col">{{d.y_dramunt | number : '1.2-2'}}</div>
+        <div class="col x-col">{{d.y_cramunt | number : '1.2-2'}}</div>
       </div>
     </div>
   </div>
@@ -314,9 +321,13 @@ export class OutstandingComponent implements OnInit {
       if (index === -1) {
         this.voucherEntries.push({
           name: labels[0],
-          data: [ledgerRegister]
+          data: [ledgerRegister],
+          debit: parseFloat(ledgerRegister.y_dramunt),
+          credit: parseFloat(ledgerRegister.y_cramunt)
         })
       } else {
+        this.voucherEntries[index].debit += parseFloat(ledgerRegister.y_dramunt);
+        this.voucherEntries[index].credit += parseFloat(ledgerRegister.y_cramunt);
         this.voucherEntries[index].data.push(ledgerRegister);
       }
     }
@@ -362,9 +373,13 @@ export class OutstandingComponent implements OnInit {
         if (index === -1) {
           childs.push({
             name: labels[0],
-            data: [ledgerRegister]
+            data: [ledgerRegister],
+            debit: parseFloat(ledgerRegister.y_dramunt),
+            credit: parseFloat(ledgerRegister.y_cramunt)
           })
         } else {
+          childs[index].debit += parseFloat(ledgerRegister.y_dramunt);
+          childs[index].credit += parseFloat(ledgerRegister.y_cramunt);
           childs[index].data.push(ledgerRegister);
         }
       }
@@ -373,7 +388,9 @@ export class OutstandingComponent implements OnInit {
       return childs.map(child => {
         return {
           name: child.name,
-          data: this.findChilds(child.data)
+          data: this.findChilds(child.data),
+          debit: child.debit,
+          credit: child.credit
         }
       });
     } else {

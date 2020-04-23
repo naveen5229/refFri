@@ -1,6 +1,6 @@
 button { 
     padding: 7px 10px !important;
-    background-color: #263238;
+    background-color: black !important;
     border-radius: 5px !important;
     text-transform: capitalize !important;
     cursor: pointer;
@@ -160,6 +160,7 @@ input[type=radio]{
     background-color: #5d6e75;
     color: #fff;
     font-size: 14px;
+    border-bottom: 1px solid #FFF;
 }
 .x-stockitem {
     background: #6f8a96;

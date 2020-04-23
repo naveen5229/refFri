@@ -186,8 +186,7 @@
               </div>
               <div *ngFor="let branch of stockItem.data let l = index"
                 [hidden]="active.liabilities.branch.indexOf('branch' + i + j + k + 0) == -1">
-                <div class="row x-branch" (click)="handleExpandation($event, i, 'liabilities', 'warehouse', j,k,l)"
-                  (dblclick)="openmodal(branch.data[0],'branch')">
+                <div class="row x-branch" (click)="handleExpandation($event, i, 'liabilities', 'warehouse', j,k,l)" (dblclick)="openmodal(branch.data[0],'branch')">
                   <div class="col x-col">&nbsp;</div>
                   <div class="col x-col">&nbsp;</div>
                   <div class="col x-col">&nbsp;</div>

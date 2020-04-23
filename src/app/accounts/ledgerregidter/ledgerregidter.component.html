@@ -9,7 +9,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="row">
+    <div class="row" style="margin-left: 17px;">
       <div class="col-9">
         <!-- <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()" style="cursor: pointer;"><i
                   class="fa fa-file-pdf"></i></span>
@@ -163,8 +163,8 @@
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
-            <div class="col x-col">&nbsp;</div>
-            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">{{stockType.debit | number : '1.2-2'}}</div>
+            <div class="col x-col">{{stockType.credit | number : '1.2-2'}}</div>
           </div>
           <ledger-register-tree [data]="stockType.data" [active]="activeTree == i ? true : false" labels="">
           </ledger-register-tree>

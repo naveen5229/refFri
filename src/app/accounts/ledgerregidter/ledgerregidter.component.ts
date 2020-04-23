@@ -19,7 +19,15 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
       <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1">
-          <div class="col x-col" style="text-align:left;margin-left: 20px;">{{labels}} {{d.name}}</div>
+          <div class="col x-col" *ngIf="d.name" style="text-align:left;margin-left: 20px;">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
+          <div class="col x-col" *ngIf="d.name" >&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name" style="margin-left: -20px;"> {{d.debit | number : '1.2-2'}} </div>
+          <div class="col x-col" *ngIf="d.name"> {{d.credit | number : '1.2-2'}} </div>
+         
       </div>
       <ledger-register-tree *ngIf="d.name" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
       <div *ngIf="!d.name"  class="row x-warehouse">
@@ -29,8 +37,8 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
         <div class="col x-col">{{d.y_voucher_cust_code}}</div>
         <div class="col x-col">{{d.y_voucher_date | date:'dd-MMM-yy'}}</div>
         <div class="col x-col">{{d.y_voucher_type_name}}e</div>
-        <div class="col x-col">{{d.y_dramunt}}</div>
-        <div class="col x-col">{{d.y_cramunt}}</div>
+        <div class="col x-col">{{d.y_dramunt | number : '1.2-2'}}</div>
+        <div class="col x-col">{{d.y_cramunt | number : '1.2-2'}}</div>
       </div>
     </div>
   </div>
@@ -238,9 +246,13 @@ export class LedgerregidterComponent implements OnInit {
       if (index === -1) {
         this.voucherEntries.push({
           name: labels[0],
-          data: [ledgerRegister]
+          data: [ledgerRegister],
+          debit: parseFloat(ledgerRegister.y_dramunt),
+          credit: parseFloat(ledgerRegister.y_cramunt)
         })
       } else {
+        this.voucherEntries[index].debit += parseFloat(ledgerRegister.y_dramunt);
+        this.voucherEntries[index].credit += parseFloat(ledgerRegister.y_cramunt);
         this.voucherEntries[index].data.push(ledgerRegister);
       }
     }
@@ -254,15 +266,20 @@ export class LedgerregidterComponent implements OnInit {
     for (let i = 0; i < data.length; i++) {
       if (data[i].labels.length) {
         let ledgerRegister = data[i];
+        console.log('ledgerRegister', ledgerRegister, i);
         let labels = ledgerRegister.labels;
         ledgerRegister.labels = labels.splice(1, labels.length);
         let index = childs.findIndex(voucher => voucher.name === labels[0]);
         if (index === -1) {
           childs.push({
             name: labels[0],
-            data: [ledgerRegister]
+            data: [ledgerRegister],
+            debit: parseFloat(ledgerRegister.y_dramunt),
+            credit: parseFloat(ledgerRegister.y_cramunt)
           })
         } else {
+          childs[index].debit += parseFloat(ledgerRegister.y_dramunt);
+          childs[index].credit += parseFloat(ledgerRegister.y_cramunt);
           childs[index].data.push(ledgerRegister);
         }
       }
@@ -271,7 +288,9 @@ export class LedgerregidterComponent implements OnInit {
       return childs.map(child => {
         return {
           name: child.name,
-          data: this.findChilds(child.data)
+          data: this.findChilds(child.data),
+          debit: child.debit,
+          credit: child.credit
         }
       });
     } else {
@@ -306,14 +325,28 @@ export class LedgerregidterComponent implements OnInit {
 
     if (key == 'enter') {
       this.allowBackspace = true;
-      if (this.activeId.includes('ledger')) {
-        this.setFoucus('startDate');
-      } else if (this.activeId.includes('startDate')) {
+      if (this.activeId.includes('vouchertype')) {
+        this.setFoucus('ledgerdaybook');
+      } else if (this.activeId.includes('ledgerdaybook')) {
+        this.setFoucus('group');
+      } else if (this.activeId.includes('group')) {
+        this.setFoucus('frmamount');
+      } else if (this.activeId.includes('frmamount')) {
+        this.setFoucus('toamount');
+      } else if (this.activeId.includes('toamount')) {
+        this.setFoucus('vouchercode');
+      } else if (this.activeId.includes('vouchercode')) {
+        this.setFoucus('vouchercustcode');
+      } else if (this.activeId.includes('vouchercustcode')) {
+        this.setFoucus('remarks');
+      } else if (this.activeId.includes('remarks')) {
+        this.setFoucus('trantype');
+      } else if (this.activeId.includes('trantype')) {
+        this.setFoucus('startdate');
+      } else if (this.activeId.includes('startdate')) {
         this.ledgerRegister.startdate = this.common.handleDateOnEnterNew(this.ledgerRegister.startdate);
-        this.setFoucus('endDate');
-      } else if (this.activeId.includes('endDate')) {
-        this.setFoucus('groupid');
-      } else if (this.activeId.includes('endDate')) {
+        this.setFoucus('enddate');
+      } else if (this.activeId.includes('enddate')) {
         this.ledgerRegister.enddate = this.common.handleDateOnEnterNew(this.ledgerRegister.enddate);
         this.setFoucus('submit');
       }
@@ -321,12 +354,20 @@ export class LedgerregidterComponent implements OnInit {
     else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', this.activeId);
-      if (this.activeId == 'groupid') this.setFoucus('endDate');
-      if (this.activeId == 'endDate') this.setFoucus('startDate');
-      if (this.activeId == 'startDate') this.setFoucus('ledger');
+      if (this.activeId == 'enddate') this.setFoucus('startdate');
+      if (this.activeId == 'startdate') this.setFoucus('trantype');
+      if (this.activeId == 'trantype') this.setFoucus('remarks');
+      if (this.activeId == 'remarks') this.setFoucus('vouchercustcode');
+      if (this.activeId == 'vouchercustcode') this.setFoucus('vouchercode');
+      if (this.activeId == 'vouchercode') this.setFoucus('toamount');
+      if (this.activeId == 'toamount') this.setFoucus('frmamount');
+      if (this.activeId == 'frmamount') this.setFoucus('group');
+      if (this.activeId == 'group') this.setFoucus('ledgerdaybook');
+      if (this.activeId == 'ledgerdaybook') this.setFoucus('vouchertype');
+
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
-    } else if ((this.activeId == 'startDate' || this.activeId == 'endDate') && key !== 'backspace') {
+    } else if ((this.activeId == 'startdate' || this.activeId == 'enddate') && key !== 'backspace') {
       let regex = /[0-9]|[-]/g;
       let result = regex.test(key);
       if (!result) {

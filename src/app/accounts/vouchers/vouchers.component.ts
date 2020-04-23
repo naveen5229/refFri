@@ -538,6 +538,8 @@ export class VouchersComponent implements OnInit {
       if(this.voucher.amountDetails[ledgerindex].ledger.id != ""){
       console.log('ledger value ------------',this.voucher.amountDetails[ledgerindex].ledger.id);
       this.openinvoicemodel(this.voucher.amountDetails[ledgerindex].ledger.id);
+      }else{
+        this.common.showError('Please Select Correct Ledger');
       }
     }
     if(event.ctrlKey && key === "`"){

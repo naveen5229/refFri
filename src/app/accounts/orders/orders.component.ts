@@ -604,6 +604,8 @@ export class OrdersComponent implements OnInit {
       console.log('ledger value ------------',this.order.ledger.id);
       if(this.order.ledger.id != 0){
       this.openinvoicemodel(this.order.ledger.id);
+      }else{
+        this.common.showError('Please Select Correct Ledger');
       }
       }else if(this.activeId == "purchaseledger" || this.activeId == "ledgersup"){
         console.log('purchase ledger value ------------',this.order.purchaseledger.id);

@@ -18,6 +18,7 @@ import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-rec
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 import { AccountService } from '../../services/account.service';
+import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 @Component({
   selector: 'daybooks',
   templateUrl: './daybooks.component.html',
@@ -376,6 +377,17 @@ export class DaybooksComponent implements OnInit {
     //       return true;
     //     }
     // }
+    if (key === 'home' && (this.activeId.includes('ledgerdaybook'))) {
+      //console.log('hello');
+      let ledgerindex = this.lastActiveId.split('-')[1];
+      if(this.DayBook.ledger.id != 0){
+      console.log('ledger value ------------',this.DayBook.ledger.id);
+      this.openinvoicedetailmodel(this.DayBook.ledger.id);
+      }else{
+        this.common.showError('Please Select Correct Ledger');
+      }
+
+    }
     if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
       this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
@@ -452,7 +464,40 @@ export class DaybooksComponent implements OnInit {
 
     }
   }
+  openinvoicedetailmodel(ledger) {
+    let data = [];
+    console.log('ledger123', ledger);
+    if (ledger) {
+      let params = {
+        id: ledger,
+      }
+      this.common.loading++;
+      this.api.post('Accounts/EditLedgerdata', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('Res:', res['data']);
+          data = res['data'];
+          this.common.params = {
+            ledgerdata: res['data'],
+            deleted: 2,
+        sizeledger:0
+          }
+          // this.common.params = { data, title: 'Edit Ledgers Data' };
+          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+          activeModal.result.then(data => {
+            // console.log('Data: ', data);
+            if (data.response) {
+           
+            }
+          });
 
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
+    }
+  }
   checkDate(date) {
     // const dateSendingToServer = new DatePipe('en-US').transform(date, 'dd-MM-yyyy')
     // console.log(dateSendingToServer);

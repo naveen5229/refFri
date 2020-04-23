@@ -103,7 +103,7 @@
         </div>
       </div>
     </div>
-    <div id="balance-sheet" style="margin:0px 16px;">
+    <div id="balance-sheet" style="margin:0px;">
       <div class="row" style="margin: 0px 0px 0px 0px;width: 100%;">
         <div class="row x-heading">
           <div class="col x-col">Particular</div>
@@ -123,8 +123,8 @@
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
-            <div class="col x-col">&nbsp;</div>
-            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">{{stockType.debit | number : '1.2-2'}}</div>
+            <div class="col x-col">{{stockType.credit | number : '1.2-2'}}</div>
           </div>
           <ledger-register-tree [data]="stockType.data" [active]="activeTree == i ? true : false" labels="">
           </ledger-register-tree>
