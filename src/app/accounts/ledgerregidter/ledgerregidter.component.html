@@ -41,44 +41,6 @@
         </div>
         <div class="row">
           <div class="col-4">
-            <div class="form-group">
-              <label class="tjr-label">From Amount</label>
-              <input autocomplete="off" type="text" id="frmamount" class="form-control tjr-input" name="frmamount"
-                [(ngModel)]="ledgerRegister.frmamount">
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="form-group">
-              <label class="tjr-label">To Amount</label>
-              <input autocomplete="off" type="text" id="toamount" class="form-control tjr-input" name="toamount"
-                [(ngModel)]="ledgerRegister.toamount">
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="form-group">
-              <label class="tjr-label">Voucher Code </label>
-              <input autocomplete="off" type="text" id="vouchercode" class="form-control tjr-input" name="vouchercode"
-                [(ngModel)]="ledgerRegister.vouchercode">
-            </div>
-          </div>
-
-        </div>
-        <div class="row">
-          <div class="col-4">
-            <div class="form-group">
-              <label class="tjr-label">Voucher Cust Code</label>
-              <input autocomplete="off" type="text" id="vouchercustcode" class="form-control tjr-input"
-                name="vouchercustcode" [(ngModel)]="ledgerRegister.vouchercustcode">
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="form-group">
-              <label class="tjr-label">Remarks</label>
-              <input autocomplete="off" type="text" id="remarks" class="form-control tjr-input" name="remarks"
-                [(ngModel)]="ledgerRegister.remarks">
-            </div>
-          </div>
-          <div class="col-4">
             <div class="debit_box">
               <div class="form-group">
                 <label class="tjr-label">Is Amount Debit </label>
@@ -96,6 +58,46 @@
               </div>
             </div>
           </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">From Amount</label>
+              <input autocomplete="off" type="text" id="frmamount" class="form-control tjr-input" name="frmamount"
+                [(ngModel)]="ledgerRegister.frmamount">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">To Amount</label>
+              <input autocomplete="off" type="text" id="toamount" class="form-control tjr-input" name="toamount"
+                [(ngModel)]="ledgerRegister.toamount">
+            </div>
+          </div>
+         
+
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Voucher Code </label>
+              <input autocomplete="off" type="text" id="vouchercode" class="form-control tjr-input" name="vouchercode"
+                [(ngModel)]="ledgerRegister.vouchercode">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Voucher Cust Code</label>
+              <input autocomplete="off" type="text" id="vouchercustcode" class="form-control tjr-input"
+                name="vouchercustcode" [(ngModel)]="ledgerRegister.vouchercustcode">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Remarks</label>
+              <input autocomplete="off" type="text" id="remarks" class="form-control tjr-input" name="remarks"
+                [(ngModel)]="ledgerRegister.remarks">
+            </div>
+          </div>
+         
 
         </div>
         <div class="row">
@@ -157,14 +159,14 @@
         </div>
         <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
           <div class="row x-stocktype">
-            <div (click)="activeTree = activeTree !== i ? i : -1">{{stockType.name}}</div>
+            <div class="col x-col" (click)="activeTree = activeTree !== i ? i : -1">{{stockType.name}}</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
-            <div class="col x-col">{{stockType.debit | number : '1.2-2'}}</div>
-            <div class="col x-col">{{stockType.credit | number : '1.2-2'}}</div>
+            <div class="col x-col" style="text-align:right;">{{stockType.debit | number : '1.2-2'}}</div>
+            <div class="col x-col" style="text-align:right;">{{stockType.credit | number : '1.2-2'}}</div>
           </div>
           <ledger-register-tree [data]="stockType.data" [active]="activeTree == i ? true : false" labels="">
           </ledger-register-tree>

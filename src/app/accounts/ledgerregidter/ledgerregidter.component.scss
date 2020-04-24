@@ -113,10 +113,11 @@ input[type=radio]{
 .x-col {
     width: 12.5%;
     max-width: 12.5%;
-    padding: 0px 3px;
     text-align: center;
     text-overflow: ellipsis;
     word-break: break-word;
+    border-right: 1px solid #f2f2f2;
+    padding: 6px 4px;
 }
 
 .x-heading {
@@ -161,6 +162,7 @@ input[type=radio]{
     color: #fff;
     font-size: 14px;
     border-bottom: 1px solid #FFF;
+    padding-left: 13px;
 }
 .x-stockitem {
     background: #6f8a96;
@@ -176,6 +178,8 @@ input[type=radio]{
     background: #dadfe6;
     color: black;
     font-size: 14px;
+    padding-left: 13px;
+
 }
 .th-mini {
     background: #184154;
