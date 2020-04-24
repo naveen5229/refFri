@@ -1653,6 +1653,8 @@ export class OrdersComponent implements OnInit {
       if (data.response) {
         console.log('data order responce', data);
         this.order.billingaddress = data.adddata;
+        this.order.ledgeraddressid = data.addressid;
+
         return;
       }
     });

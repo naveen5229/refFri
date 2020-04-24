@@ -29,8 +29,8 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.credit | number : '1.2-2'}} </div>
          
       </div>
-      <ledger-register-tree *ngIf="d.name" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
-      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(d) :openVoucherDetail(d.y_voucherid,d.y_code) : openinvoicemodel(d.y_voucherid)">
+      <ledger-register-tree *ngIf="d.name" [action]="action" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
+      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d) :action(d.y_voucherid,d.y_code) : action(d.y_voucherid)">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
         <div class="col x-col">{{d.y_code}}</div>
@@ -49,6 +49,7 @@ export class ledgerRegisterTreeComponent {
   @Input() data: any;
   @Input() active: boolean;
   @Input() labels: string;
+  @Input() action:any;
   activeIndex: boolean = false;
 }
 

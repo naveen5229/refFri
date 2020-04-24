@@ -85,7 +85,7 @@ export class StoclsummaryComponent implements OnInit {
     this.getStockTypeList();
     this.getWhereHouseList();
     this.setFoucus('stocktype');
-    this.common.currentPage = 'Stock Summary Report';
+    this.common.currentPage = 'Store Regiter';
   }
 
   activeGroup = [];
@@ -118,12 +118,9 @@ export class StoclsummaryComponent implements OnInit {
 
   }
   getWhereHouseList() {
-    let params = {
-      search: 123,
-      all: 1
-    };
+   
     this.common.loading++;
-    this.api.get('Suggestion/GetWareHouse?search=123')
+    this.api.get('Suggestion/GetWareHouse?search=123&all=1')
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);

@@ -17,17 +17,17 @@ import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
       <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1">
-          <div class="col x-col" style="text-align:left;margin-left: 20px;">{{labels}} {{d.name}}</div>
+          <div class="col x-col" *ngIf="d.name">{{labels}} {{d.name}}</div>
           <div class="col x-col" *ngIf="d.name" >&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
-          <div class="col x-col" *ngIf="d.name" style="margin-left: -20px;"> {{d.debit | number : '1.2-2'}} </div>
-          <div class="col x-col" *ngIf="d.name"> {{d.credit | number : '1.2-2'}} </div>
+          <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.debit | number : '1.2-2'}} </div>
+          <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.credit | number : '1.2-2'}} </div>
       </div>
-      <ledger-register-tree *ngIf="d.name" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
-      <div *ngIf="!d.name"  class="row x-warehouse">
+      <ledger-register-tree *ngIf="d.name" [data]="d.data" [action]="action"  [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
+      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d) :action(d.y_voucherid,d.y_code) : action(d.y_voucherid)">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
         <div class="col x-col">{{d.y_voucher_code}}</div>
@@ -46,6 +46,7 @@ export class ledgerRegisterTreeComponent {
   @Input() data: any;
   @Input() active: boolean;
   @Input() labels: string;
+  @Input() action:any;
   activeIndex: boolean = false;
 }
 
