@@ -173,7 +173,15 @@ console.log('deleted ledger and simple',params);
       bankname: ledger.bankname,
       costcenter: ledger.costcenter,
       taxtype:ledger.taxtype,
-      taxsubtype:ledger.taxsubtype
+      taxsubtype:ledger.taxsubtype,
+      isnon:ledger.isnon,
+      hsnno:ledger.hsnno,
+      hsndetail:ledger.hsndetail,
+      gst:ledger.gst,
+      cess:ledger.cess,
+      igst:ledger.igst,
+      taxability:ledger.taxability,
+      calculationtype:ledger.calculationtype,
     };
 
     console.log('params11: ', params);

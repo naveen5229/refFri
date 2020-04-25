@@ -215,3 +215,34 @@ input[type=radio]{
   display: inline-block;
   margin-left: 10px;
 }
+
+.radiostockitem input[type=radio]{
+  height: auto;
+  box-shadow: none;
+  width: 20px;
+  float: left;
+  margin: 0px;
+  
+}
+.radiostockitem{
+margin-bottom: 12px;
+
+}
+
+.radiostockitem .form-group{
+  text-align: left;
+}
+.radiostockitem .form-group span{
+  font-weight: bold;
+  display: block;
+}
+.radiostockitem .form-group label{
+  font-weight: normal;
+}
+.iaactive{
+border: 1px solid black;
+width: auto;
+max-height: 30px;
+margin: 0px;
+padding: 3px 0px;
+}

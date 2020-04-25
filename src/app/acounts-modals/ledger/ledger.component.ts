@@ -48,6 +48,7 @@ export class LedgerComponent implements OnInit {
   activeId = "user";
   sizeledger=0;
   mannual=false;
+  superparentid=0;
   Accounts = {
     name: '',
     aliasname: '',
@@ -77,6 +78,14 @@ export class LedgerComponent implements OnInit {
     costcenter: 0,
     taxsubtype:'',
     taxtype:'',
+    isnon:true,
+    hsnno:0,
+    hsndetail:'',
+    gst:false,
+    cess:0,
+    igst:0,
+    taxability:'',
+    calculationtype:'',
     accDetails: [{
       id: '',
       salutation: {
@@ -136,6 +145,14 @@ export class LedgerComponent implements OnInit {
           id: this.common.params.ledgerdata[0].y_accountgroup_id,
           primarygroup_id: '0',
         },
+        isnon:this.common.params.ledgerdata[0].y_gst_is_non,
+        hsnno:this.common.params.ledgerdata[0].y_gst_hsn_sac_no,
+        hsndetail:this.common.params.ledgerdata[0].y_gst_hsn_sac_desc,
+        gst:this.common.params.ledgerdata[0].y_gst_reg_type,
+        cess:this.common.params.ledgerdata[0].y_gst_cess_per,
+        igst:this.common.params.ledgerdata[0].y_gst_igst_per,
+        taxability:this.common.params.ledgerdata[0].y_gst_taxability,
+        calculationtype:this.common.params.ledgerdata[0].y_gst_calculation_type,
         id: this.common.params.ledgerdata[0].y_id,
         code: this.common.params.ledgerdata[0].y_code,
         branchname: this.common.params.ledgerdata[0].branch_name,
@@ -261,7 +278,35 @@ console.log('sixe ledger',this.sizeledger);
       name:'Integrated Tax'},
      {id:'state tax',
       name:'State Tax'
-      }]
+      }],
+      gstcalcution:[
+        {
+          name:'On Value',
+          id:'value'
+        },
+        {
+          name:'On Time Rate',
+          id:'rate'
+        }
+      ],
+      taxability:[
+        {
+          name:'Unknown',
+          id:'Unknown'
+        },
+        {
+          name:'Exempt',
+          id:'Exempt'
+        },
+        {
+          name:'Nil Rated',
+          id:'rated'
+        },
+        {
+          name:'Taxable',
+          id:'Taxable'
+        }
+      ]
   };
 
 
@@ -370,6 +415,14 @@ console.log('sixe ledger',this.sizeledger);
         this.common.loading--;
         console.log('Res:', res['data']);
         this.suggestions.underGroupdata = res['data'];
+
+        if(this.Accounts.undergroup.id){
+          res['data'].map((value)=>{
+            if(value.y_id == this.Accounts.undergroup.id){
+                this.superparentid=value.y_super_parent_id;
+            }
+          })
+        }
 
       }, err => {
         this.common.loading--;
@@ -534,12 +587,41 @@ console.log('sixe ledger',this.sizeledger);
       } else if (activeId.includes('creditdays')) {
         this.setFoucus('costcenter');
       } else if (activeId.includes('costcenter')) {
-        this.setFoucus('taxtype');
+        if(this.superparentid === -8 || this.superparentid === -8 || this.superparentid === -5 || this.superparentid === -6){
+          this.setFoucus('gst');
+        } else if(this.superparentid === -46){
+          this.setFoucus('taxtype');
+        }else{
+        this.setFoucus('isbank');
+        }
       } else if (activeId.includes('taxtype')) {
         this.setFoucus('taxsubtype');
       }else if (activeId.includes('taxsubtype')) {
         this.setFoucus('isbank');
-      }else if (activeId.includes('salutation-')) {
+      }else if (activeId == 'igst'  ) {
+        this.setFoucus('cess');
+      }else if (activeId == 'gst' || activeId == 'notgst') {
+        this.setFoucus('hsndetail');
+     //  this.showConfirm = true;
+     } else if (activeId == 'hsndetail') {
+        this.setFoucus('hsnno');
+       // this.showConfirm = true;
+      }else if (activeId == 'hsnno') {
+        this.setFoucus('notisnon');
+       // this.showConfirm = true;
+      }else if (activeId == 'cess') {
+        this.setFoucus('isbank');
+      }else if (activeId.includes('calculationtype')) {
+        
+        console.log('test??????');
+        this.setFoucus('taxability');
+      }else if (activeId.includes('taxability')) {
+        
+        console.log('test??????');        
+        this.setFoucus('igst');
+      }else if (activeId == 'isnon' || activeId == 'notisnon') {
+        this.setFoucus('calculationtype');
+     }else if (activeId.includes('salutation-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('accountName-' + index);
       } else if (activeId.includes('accountName-')) {
@@ -559,7 +641,14 @@ console.log('sixe ledger',this.sizeledger);
         this.setFoucus('gst_reg_type-' + index);
       }else if (activeId.includes('gst_reg_type-')) {
         let index = activeId.split('-')[1];
-        this.setFoucus('gstNo-' + index);
+        setTimeout(() => {
+       let gsttype= this.Accounts.accDetails[index].gst_reg_type.id;
+          if(gsttype === 'Unknown' || gsttype ==='Unregistered'){
+            this.setFoucus('state-' + index);
+          }else{
+            this.setFoucus('gstNo-' + index);
+          }
+        }, 20);
       } else if (activeId.includes('gstNo-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('state-' + index);
@@ -628,7 +717,14 @@ console.log('sixe ledger',this.sizeledger);
         this.setFoucus('state-' + index);
       } else if (activeId.includes('state-')) {
         let index = activeId.split('-')[1];
-        this.setFoucus('gstNo-' + index);
+        setTimeout(() => {
+          let gsttype= this.Accounts.accDetails[index].gst_reg_type.id;
+             if(gsttype === 'Unknown' || gsttype ==='Unregistered'){
+               this.setFoucus('gst_reg_type-' + index);
+             }else{
+               this.setFoucus('gstNo-' + index);
+             }
+           }, 20);
       } else if (activeId.includes('address-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('city-' + index);
@@ -646,10 +742,26 @@ console.log('sixe ledger',this.sizeledger);
       if (activeId == 'undergroup') this.setFoucus('aliasname');
       if (activeId == 'aliasname') this.setFoucus('name');
       if (activeId == 'name') this.setFoucus('code');
-      if (activeId == 'isbank') this.setFoucus('taxsubtype');
+      if (activeId == 'isbank') {
+        
+        if(this.superparentid === -8 || this.superparentid === -8 || this.superparentid === -5 || this.superparentid === -6){
+          this.setFoucus('cess');
+        } else if(this.superparentid === -46){
+          this.setFoucus('taxsubtype');
+        }else{
+          this.setFoucus('costcenter1');
+        }
+      }
       if (activeId == 'taxsubtype') this.setFoucus('taxtype');
       if (activeId == 'taxtype') this.setFoucus('costcenter');
-
+      if (activeId == 'cess') this.setFoucus('igst');
+      if (activeId == 'igst') this.setFoucus('taxability');
+      if (activeId == 'taxability') this.setFoucus('calculationtype');
+      if (activeId == 'calculationtype') this.setFoucus('notisnon');
+      if (activeId == 'notisnon' || 'isnon') this.setFoucus('hsnno');
+      if (activeId == 'hsnno') this.setFoucus('hsndetail');
+      if (activeId == 'hsndetail') this.setFoucus('gst');
+      if (activeId == 'gst') this.setFoucus('costcenter1');
       if (activeId == 'code') {
         console.log('active 3', activeId);
         this.setFoucus('user')
@@ -745,23 +857,31 @@ console.log('sixe ledger',this.sizeledger);
     else if (activeId.includes('city-')) this.autoSuggestion.data = this.suggestions.city;
     else if (activeId.includes('taxtype')) this.autoSuggestion.data = this.suggestions.taxtype;
     else if (activeId.includes('taxsubtype') && this.Accounts.taxtype.includes('GST') ) this.autoSuggestion.data = this.suggestions.taxsubtype;
+    else if (activeId == 'calculationtype') this.autoSuggestion.data = this.suggestions.gstcalcution; 
+    else if (activeId == 'taxability')this.autoSuggestion.data = this.suggestions.taxability; 
     else {
       this.autoSuggestion.data = [];
       this.autoSuggestion.display = '';
       this.autoSuggestion.targetId = '';
       return;
     }
-
+    if (activeId == 'undergroup'){
+      this.autoSuggestion.display = 'y_name';
+      this.autoSuggestion.targetId = 'undergroup';
+    }else{
     this.autoSuggestion.display = 'name';
     this.autoSuggestion.targetId = activeId;
     console.log('Auto Suggestion: ', this.autoSuggestion);
+    }
   }
 
   onSelect(suggestion, activeId) {
     console.log('Suggestion: ', suggestion);
     if (activeId == 'undergroup') {
-      this.Accounts.undergroup.name = suggestion.name;
-      this.Accounts.undergroup.id = suggestion.id;
+      this.Accounts.undergroup.name = suggestion.y_name;
+      this.Accounts.undergroup.id = suggestion.y_id;
+      this.superparentid = suggestion.y_super_parent_id;
+      console.log('superparentid',this.superparentid);
     } else if (activeId.includes('salutation')) {
       const index = parseInt(activeId.split('-')[1]);
       this.Accounts.accDetails[index].salutation.name = suggestion.name;
@@ -787,7 +907,15 @@ console.log('sixe ledger',this.sizeledger);
     }
     else if (activeId.includes('taxsubtype')) {
       this.Accounts.taxsubtype = suggestion.name;
-    }
+    }else  if (activeId == 'calculationtype') {
+      console.log('suggestion with id calculate',suggestion);
+      this.Accounts.calculationtype = suggestion.name;
+      this.setFoucus('taxability');
+    } else  if (activeId == 'taxability') {
+      console.log('suggestion with id taxability',suggestion);
+      this.Accounts.taxability = suggestion.name;
+      this.setFoucus('igst');
+    } 
   }
 
   delete(tblid) {

@@ -36,7 +36,7 @@
                 <label>Under Group</label>
               </div>
               <div class="col-md-4">
-                 <input autocomplete="off" type="text" class="form-control" id="undergroup" name="undergroup"
+                 <input autocomplete="off" type="text" class="form-control" id="undergroup" name="y_name"
                   [(ngModel)]="Accounts.undergroup.name" (click)="lastActiveId = 'ledger-'; allowBackspace = false;"
                   (input)="allowBackspace = false;" placeholder="Please Select Under Group">
               </div>
@@ -45,7 +45,7 @@
               </div>
               <div class="col-md-4">
                 <input autocomplete="off" type="number" class="form-control" name="account-perrate" id="perrate"
-                  [(ngModel)]="Accounts.perrate" placeholder="Please Ente Per Rate">
+                  [(ngModel)]="Accounts.perrate" placeholder="Please Enter Per Rate">
               </div>
             </div>
           </div>
@@ -99,7 +99,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" *ngIf="superparentid === -46">
             <div class="form-group">
               <div class="col-md-2 text-center">
                 <label>Tax Type</label>
@@ -118,6 +118,132 @@
               </div>
             </div>
           </div>
+          <div *ngIf="superparentid === -8 || superparentid === -8 || superparentid === -5 || superparentid === -6">
+          <div class="row radiostockitem" >
+            <div class="col-6">
+              <div class="col-md-4 text-center">
+              <label>GST</label>
+              </div>
+              <div class="col-md-8">
+            <div class="row iaactive">     
+                <div class="col-6 pr-0 pl-1">
+                  <div class="form-group">
+                    <input type="radio" class="form-control" name="gst" id="gst"
+                      [(ngModel)]="Accounts.gst" [value]="true" (keydown.enter)="Accounts.gst = true;"
+                      [checked]="true">
+                      Yes
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <input type="radio" class="form-control" name="gst" [(ngModel)]="Accounts.gst"
+                      id="notgst" [value]="false" (keydown.enter)="Accounts.gst = true;">
+                      No
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+                        <div class="col-6" *ngIf="Accounts.gst">
+                          <div class="form-grpou">
+                            <div class="col-md-4 text-center">
+                            <label>HSN/SAC Details</label>
+                            </div>
+                            <div class="col-md-8">
+                            <input type="text" class="form-control" id="hsndetail" autocomplete="off" name="Accounts-hsndetail"
+                              [(ngModel)]="Accounts.hsndetail">
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row radiostockitem"  *ngIf="Accounts.gst">
+                        <div class="col-6" *ngIf="Accounts.gst">
+                          <div class="form-group">
+                            <div class="col-md-4 text-center">
+                            <label>HSN/SAC No.</label>
+                            </div>
+                            <div class="col-md-8">
+                            <input type="text" class="form-control" name="hsnno" autocomplete="off" id="hsnno"
+                              [(ngModel)]="Accounts.hsnno">
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-6" *ngIf="Accounts.gst">
+                          <div class="col-md-4 text-center">
+                          <label>Is Non-Gst</label>
+                          </div>
+                          <div class="col-md-8">
+                          <div class="row iaactive">     
+                            <div class="col-6 pr-0 pl-1">
+                              <div class="form-group">
+                                <input type="radio" class="form-control" name="isnon" id="isnon"
+                                  [(ngModel)]="Accounts.isnon" [value]="true" (keydown.enter)="Accounts.isnon = true;"
+                                  [checked]="true">
+                                Yes
+                              </div>
+                            </div>
+                            <div class="col-6 pl-0">
+                              <div class="form-group">
+                                <input type="radio" class="form-control" name="isnon" [(ngModel)]="Accounts.isnon"
+                                  id="notisnon" [value]="false" (keydown.enter)="Accounts.isnon = false;">
+                                  No
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                        </div>
+        </div>
+        <div class="row radiostockitem"  *ngIf="Accounts.gst">
+         
+                      <div class="col" *ngIf="!Accounts.isnon">
+                        <div class="form-group">
+                          <div class="col-md-4 text-center">
+                          <label>GST Calculation Type</label>
+                          </div>
+                          <div class="col-md-8">
+                          <input type="text" class="form-control" id="calculationtype" autocomplete="off" name="stock-calculationtype"
+                            [(ngModel)]="Accounts.calculationtype">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col" *ngIf="!Accounts.isnon">
+                        <div class="form-group">
+                          <div class="col-md-4 text-center">
+                          <label>GST Taxability</label>
+                          </div>
+                          <div class="col-md-8">
+                          <input type="text" class="form-control" name="taxability" autocomplete="off" id="taxability"
+                            [(ngModel)]="Accounts.taxability">
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row radiostockitem"  *ngIf="Accounts.gst">
+                      <div class="col" *ngIf="!Accounts.isnon">
+                        <div class="form-grpou">
+                          <div class="col-md-4 text-center">
+                          <label>IGST</label>
+                          </div>
+                          <div class="col-md-8">
+                          <input type="text" class="form-control" id="igst" autocomplete="off" name="stock-igst"
+                            [(ngModel)]="Accounts.igst">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col" *ngIf="!Accounts.isnon">
+                        <div class="form-group">
+                          <div class="col-md-4 text-center">
+                          <label>CESS</label>
+                          </div>
+                          <div class="col-md-8">
+                          <input type="text" class="form-control" name="cesstype" autocomplete="off" id="cess"
+                            [(ngModel)]="Accounts.cess">
+                            </div>
+                        </div>
+                      </div>
+                      
+      </div>
+        </div>
           <div class="row">
             <div class="form-group">
 
@@ -155,7 +281,6 @@
                 <input type="text" class="form-control" name="branchcode" placeholder="Please Enter Branch Code"
                   id="branchcode" [(ngModel)]="Accounts.branchcode">
               </div>
-
             </div>
           </div>
           <div class="row" *ngIf="Accounts.isbank == 1">
@@ -227,12 +352,28 @@
             </div>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-3" *ngIf="this.activeId.includes('undergroup')">
           <!-- <div class="form-group" *ngIf="this.activeId.includes('user')">
         <auto-suggetion-in-side [data]="userdata" targetId="user" display="name" (select)="onSelected($event, 'user', 'name')"></auto-suggetion-in-side>
       </div> -->
 
-          <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
+          <auto-suggetion-in-side  [data]="autoSuggestion.data" [targetId]="undergroup"
+            [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)">
+          </auto-suggetion-in-side>
+
+          <!-- <div class="form-group" *ngIf="this.activeId.includes('undergroup')">
+        <auto-suggetion-in-side [data]="underGroupdata" targetId="undergroup" display="name" (select)="onParent($event, 'account', 'name')"></auto-suggetion-in-side>
+      </div> -->
+
+
+
+        </div>
+        <div class="col-3" *ngIf="!this.activeId.includes('undergroup')">
+          <!-- <div class="form-group" *ngIf="this.activeId.includes('user')">
+        <auto-suggetion-in-side [data]="userdata" targetId="user" display="name" (select)="onSelected($event, 'user', 'name')"></auto-suggetion-in-side>
+      </div> -->
+
+          <auto-suggetion-in-side  [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
             [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)">
           </auto-suggetion-in-side>
 
@@ -310,7 +451,7 @@
             </td>
             <td> <label>Gst No.</label>
               <input type="text" class="form-control" autocomplete="off" name="account-name"
-                placeholder="Please Enter Gst No." [id]="'gstNo-' + i" ng-maxlength="15" (readonly)="Details.gst_reg_type.id =='Unknown' || Details.gst_reg_type.id =='Unregistered' " [(ngModel)]="Details.gstNo">
+                placeholder="Please Enter Gst No." [id]="'gstNo-' + i" ng-maxlength="15" [readonly]="Details.gst_reg_type.name === 'Unknown' || Details.gst_reg_type.name === 'Unregistered'" [(ngModel)]="Details.gstNo">
             </td>
             
           </tr>
