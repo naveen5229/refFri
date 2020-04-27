@@ -84,17 +84,6 @@
 
               </div>
             </div>
-            
-          </div>
-          <div class="row">
-<!--             
-            <div class="col">
-              <div class="form-group">
-                <label>Code</label>
-                <input type="text" class="form-control" autocomplete="off" name="stock-code" id="code"
-                  [(ngModel)]="stockItem.code">
-              </div>
-            </div> -->
             <div class="col">
               <div class="form-grpou">
                 <label>Name</label>
@@ -102,6 +91,9 @@
                   [(ngModel)]="stockItem.name">
               </div>
             </div>
+          </div>
+          <div class="row">
+
             <div class="col" *ngIf="!(common.params && common.params.stockType)">
               <div class="form-group">
                 <label>Max Limit</label>
@@ -116,20 +108,34 @@
                   [(ngModel)]="stockItem.minlimit" (keydown.enter)="stockItem.isactive = true;">
               </div>
             </div>
-            <!-- <div class="col">
-              <div class="form-grpou">
-                <label>Opening Balance</label>
-                <input type="text" class="form-control" id="openingbal" autocomplete="off" name="openingbal"
-                  [(ngModel)]="stockItem.openingbal">
-              </div>
-            </div>
+            
             <div class="col">
               <div class="form-grpou">
-                <label>Opening Qty</label>
+                <label>Alias Name</label>
                 <input type="text" class="form-control" id="openingqty" autocomplete="off" name="openingqty"
                   [(ngModel)]="stockItem.openingqty">
               </div>
-            </div> -->
+            </div>
+            <div class="col-3 radiostockitem">
+              <label>Is Service</label>
+              <div class="row iaactive">
+                <div class="col-6 pr-0 pl-1">
+                  <div class="form-group">
+                    <input type="radio" class="form-control" name="openingbal" id="openingbal"
+                      [(ngModel)]="stockItem.openingbal" [value]="1" (keydown.enter)="stockItem.openingbal = 1;"
+                      [checked]="true">
+                    <label>Yes</label>
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <input type="radio" class="form-control" name="openingbal" [(ngModel)]="stockItem.openingbal"
+                      id="notopeningbal" [value]="0" (keydown.enter)="stockItem.openingbal = 0;" [checked]="false">
+                    <label>No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="row radiostockitem" *ngIf="!(common.params && common.params.stockType)">

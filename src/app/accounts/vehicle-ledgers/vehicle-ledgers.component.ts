@@ -171,7 +171,15 @@ export class VehicleLedgersComponent implements OnInit {
         bankname: '',
         costcenter: 0,
         taxtype:'',
-        taxsubtype:''
+        taxsubtype:'',
+        isnon:true,
+        hsnno:'',
+        hsndetail:'',
+        gst:false,
+        cess:'',
+        igst:'',
+        taxability:'',
+        calculationtype:'',
       };
       console.log('params', params);
       let promise = new Promise((resolve, reject) => {

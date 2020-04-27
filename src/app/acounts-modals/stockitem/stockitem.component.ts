@@ -45,8 +45,8 @@ export class StockitemComponent implements OnInit {
     igst:0,
     taxability:'',
     calculationtype:'',
-    openingbal:0,
-    openingqty:0
+    openingbal:1,
+    openingqty:''
 
   };
   activeId='stockType';
@@ -95,21 +95,21 @@ export class StockitemComponent implements OnInit {
           id: ''
         },
         maxlimit: this.common.params.max_limit,
-        minlimit: common.params.min_limit,
-        isactive: common.params.is_active,
-        sales: common.params.for_sales,
-        purchase: common.params.for_purchase,
-        inventary: common.params.for_inventory,
-        isnon:common.params.gst_is_non,
-        hsnno:common.params.gst_hsn_sac_no,
-        hsndetail:common.params.gst_hsn_sac_desc,
-        gst:common.params.gst_is_applicable,
-        cess:common.params.gst_cess_per,
-        igst:common.params.gst_igst_per,
-        taxability:common.params.gst_taxability,
-        calculationtype:common.params.gst_calculation_type,
-        openingbal:common.params.opening_balance,
-        openingqty:common.params.opening_qty
+        minlimit: this.common.params.min_limit,
+        isactive: this.common.params.is_active,
+        sales: this.common.params.for_sales,
+        purchase: this.common.params.for_purchase,
+        inventary: this.common.params.for_inventory,
+        isnon:this.common.params.gst_is_non,
+        hsnno:this.common.params.gst_hsn_sac_no,
+        hsndetail:this.common.params.gst_hsn_sac_desc,
+        gst:this.common.params.gst_is_applicable,
+        cess:this.common.params.gst_cess_per,
+        igst:this.common.params.gst_igst_per,
+        taxability:this.common.params.gst_taxability,
+        calculationtype:this.common.params.gst_calculation_type,
+        openingbal:(this.common.params.is_service)?1:0,
+        openingqty:this.common.params.alias_name
       }
 
       console.log('Stock: ', this.stockItem);
@@ -340,11 +340,11 @@ export class StockitemComponent implements OnInit {
       } else if (activeId == 'maxlimit') {
         this.setFoucus('minlimit');
       } else if (activeId == 'minlimit') {
-        this.setFoucus('isactive');
-      }else if (activeId == 'openingbal') {
         this.setFoucus('openingqty');
-      }else if (activeId == 'openingqty') {
+      }else if (activeId == 'openingbal') {
         this.setFoucus('isactive');
+      }else if (activeId == 'openingqty') {
+        this.setFoucus('openingbal');
       } else if (activeId == 'isactive' || activeId == 'notisactive') {
         this.setFoucus('sales');
       } else if (activeId == 'sales' || activeId == 'notsales') {
@@ -387,10 +387,10 @@ export class StockitemComponent implements OnInit {
       if (activeId == 'inventary' || activeId == 'notinventary') this.setFoucus('purchase');
       if (activeId == 'purchase' || activeId == 'notpurchase') this.setFoucus('sales');
       if (activeId == 'sales' || activeId == 'notsales') this.setFoucus('isactive');
-      if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('minlimit');
-      if (activeId == 'openingqty') this.setFoucus('openingbal');
-      if (activeId == 'openingbal') this.setFoucus('minlimit');
-      if (activeId == 'minlimit') this.setFoucus('maxlimit');
+      if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('openingbal');
+      if (activeId == 'openingqty') this.setFoucus('minlimit');
+      if (activeId == 'openingbal' || activeId =='notopeningbal') this.setFoucus('openingqty');
+      if (activeId == 'minlimit') this.setFoucus('openingqty');
       if (activeId == 'maxlimit') this.setFoucus('name');
       // if (activeId == 'name') this.setFoucus('code');
       // if (activeId == 'code') this.setFoucus('name');
