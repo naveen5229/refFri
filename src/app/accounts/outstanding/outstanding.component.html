@@ -1,6 +1,6 @@
 <nb-card style="border:0px;">
   <nb-card-body (keydown)="keyHandler($event)">
-    <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()" style="cursor: pointer;"><i
+    <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('balance-sheet')" style="cursor: pointer;"><i
         class="fa fa-file-pdf"></i></span>
     <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
         class="fas fa-file-excel"></i></span>
@@ -126,8 +126,8 @@
             <div class="col x-col" style="text-align:right;">{{stockType.debit | number : '1.2-2'}}</div>
             <div class="col x-col" style="text-align:right;">{{stockType.credit | number : '1.2-2'}}</div>
           </div>
-          <ledger-register-tree [data]="stockType.data" [action]="openinvoicemodel.bind(this)" [active]="activeTree == i ? true : false" labels="">
-          </ledger-register-tree>
+          <out-standing-tree [data]="stockType.data" [action]="openinvoicemodel.bind(this)"  [active]="activeTree == i ? true : false" labels="">
+          </out-standing-tree>
         </div>
       </div>
     </div>

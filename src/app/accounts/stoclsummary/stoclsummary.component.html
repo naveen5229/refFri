@@ -1,16 +1,16 @@
 <nb-card style="border:0px;">
   <nb-card-body (keydown)="keyHandler($event)">
-    <!-- <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()" style="cursor: pointer;"><i
+    <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('balance-sheet')" style="cursor: pointer;"><i
         class="fa fa-file-pdf"></i></span>
     <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
-        class="fas fa-file-excel"></i></span> -->
+        class="fas fa-file-excel"></i></span>
     <div class="" style="float:right; margin-right: 20px">
       <span><input type="radio" name="view-type" value="main" (click)="changeViewType('main')" [(ngModel)]="viewType">
-        Expand
-        Main Group</span>
+        Expand Main Group</span>
+        <span><input type="radio" name="view-type" value="stock" (click)="changeViewType('stock')" [(ngModel)]="viewType">
+          Expand Stock Item </span>
       <span><input type="radio" name="view-type" value="all" (click)="changeViewType('all')" [(ngModel)]="viewType">
-        Expand
-        All</span>
+        Expand All</span>
     </div>
     <!-- <div class="expand-div">
       <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
@@ -184,7 +184,8 @@
                 <div class="col x-col">{{stockItem.totalnet}}</div>
 
               </div>
-              <div *ngFor="let branch of stockItem.data let l = index"
+            <div  *ngIf="warehouseid==0">
+              <div *ngFor="let branch of stockItem.data let l = index" 
                 [hidden]="active.liabilities.branch.indexOf('branch' + i + j + k + 0) == -1">
                 <div class="row x-branch" (click)="handleExpandation($event, i, 'liabilities', 'warehouse', j,k,l)" (dblclick)="openmodal(branch.data[0],'branch')">
                   <div class="col x-col">&nbsp;</div>
@@ -205,7 +206,7 @@
                 </div>
                 <div *ngFor="let wareHouse of branch.data let m = index"
                   [hidden]="active.liabilities.warehouse.indexOf('warehouse' + i + j + k + l) == -1">
-                  <div class="row x-warehouse" (dblclick)="openmodal(wareHouse,'warehouse')">
+                  <div class="row x-warehouse" (click)="selectedRow = i + j + k + l+ m" (dblclick)="openmodal(wareHouse,'warehouse')"  [ngClass]="{'highlight' : selectedRow == i + j + k + l+ m}">
                     <div class="col x-col">&nbsp;</div>
                     <div class="col x-col">&nbsp;</div>
                     <div class="col x-col">&nbsp;</div>
@@ -241,6 +242,7 @@
                   </div> -->
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>

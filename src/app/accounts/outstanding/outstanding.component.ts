@@ -10,9 +10,9 @@ import { UserService } from '../../services/user.service';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
 import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.component';
-
+import { PdfService } from '../../services/pdf/pdf.service';
 @Component({
-  selector: 'ledger-register-tree',
+  selector: 'out-standing-tree',
   template: `
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
@@ -26,8 +26,8 @@ import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.debit | number : '1.2-2'}} </div>
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.credit | number : '1.2-2'}} </div>
       </div>
-      <ledger-register-tree *ngIf="d.name" [data]="d.data" [action]="action"  [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
-      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d) :action(d.y_voucherid,d.y_code) : action(d.y_voucherid)">
+      <out-standing-tree *ngIf="d.name" [data]="d.data" [action]="action"  [active]="activeIndex === i ? true : false" [labels]="labels"></out-standing-tree>
+      <div *ngIf="!d.name"  class="row x-warehouse tampu" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d) :action(d.y_voucherid,d.y_code) : action(d.y_voucherid)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
         <div class="col x-col">{{d.y_voucher_code}}</div>
@@ -42,12 +42,17 @@ import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.
   `,
   styleUrls: ['./outstanding.component.scss']
 })
-export class ledgerRegisterTreeComponent {
+export class outStandingTreeComponent {
   @Input() data: any;
   @Input() active: boolean;
   @Input() labels: string;
   @Input() action:any;
   activeIndex: boolean = false;
+  selectedRow:number = -1;
+
+  mujeKoiSelectKrloBhaiya(index){
+    console.log('Index:',index);
+  }
 }
 
 @Component({
@@ -98,6 +103,7 @@ export class OutstandingComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public pdfService: PdfService,
     public csvService: CsvService,
     public accountService: AccountService,
     public modalService: NgbModal) {
@@ -258,7 +264,7 @@ export class OutstandingComponent implements OnInit {
 
         let cityaddress = address + remainingstring1 + remainingstring3;
         let foname = (res['data'][0]) ? res['data'][0].foname : '';
-        this.common.getPDFFromTableIdnew('table', foname, cityaddress, '', '', 'Out Standing From :' + this.outStanding.startDate + ' To :' + this.outStanding.endDate);
+        this.common.getPDFFromTableIdnew('balance-sheet', foname, cityaddress, '', '', 'Out Standing From :' + this.outStanding.startDate + ' To :' + this.outStanding.endDate);
 
       }, err => {
         this.common.loading--;

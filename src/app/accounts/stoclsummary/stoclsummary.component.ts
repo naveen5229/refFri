@@ -4,13 +4,14 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import * as _ from 'lodash';
-import { CsvService } from '../../services/csv/csv.service';
 import { AccountService } from '../../services/account.service';
 import { UserService } from '../../services/user.service';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
 import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.component';
 import { StockSummaryComponent } from '../../acounts-modals/stock-summary/stock-summary.component';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 @Component({
   selector: 'stoclsummary',
@@ -43,7 +44,7 @@ export class StoclsummaryComponent implements OnInit {
       id: 0
     },
   };
-
+warehouseid=0;
   active = {
     liabilities: {
       mainGroup: [],
@@ -78,6 +79,7 @@ export class StoclsummaryComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public pdfService: PdfService,
     public csvService: CsvService,
     public accountService: AccountService,
     public modalService: NgbModal) {
@@ -295,7 +297,9 @@ export class StoclsummaryComponent implements OnInit {
     if (type == 'stockSubType') {
       this.getStockItem(selectedData.id);
     }
-
+    if (type == 'wherehouse') {
+    this.warehouseid=selectedData.id;
+    }
     // console.log('order User: ', this.DayBook);
   }
 
@@ -770,9 +774,22 @@ export class StoclsummaryComponent implements OnInit {
     this.active.liabilities.subGroup = [];
     setTimeout(() => {
       console.log('viewtype', this.viewType, type);
-      if (this.viewType == 'main') {
+      if(this.viewType == 'main') {
         this.summaryreport.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0 + 0 + 0));
-      } else if (this.viewType == 'all') {
+      }  else if(this.viewType == 'stock') {
+        this.summaryreport.forEach((liability, i) => {
+          console.log('liability', liability);
+          liability.data.forEach((mainGroup, j) => {
+            this.active.liabilities.mainGroup.push('mainGroup' + i + 0 + 0 + 0)
+            mainGroup.data.forEach((subGroup, k) => {
+              this.active.liabilities.subGroup.push('subGroup' + i + j + 0 + 0)
+            });
+          });
+
+        });
+
+
+      } else if(this.viewType == 'all') {
         this.summaryreport.forEach((liability, i) => {
           console.log('liability', liability);
           liability.data.forEach((mainGroup, j) => {
@@ -792,6 +809,7 @@ export class StoclsummaryComponent implements OnInit {
 
 
       }
+     
     }, 20);
   }
 
@@ -808,7 +826,9 @@ export class StoclsummaryComponent implements OnInit {
         endDate :this.outStanding.endDate,
         stocktype:data.y_stockitem_type_id,
         stocksubtype:data.y_stockitem_subtype_id,
-        stockItem:data.y_stockitem_id
+        stockItem:data.y_stockitem_id,
+        branchid:data.y_fobranch_id,
+        warehouse:data.y_warehouse_id
       };
     }else if(type.includes('branch')){
       this.common.params = {

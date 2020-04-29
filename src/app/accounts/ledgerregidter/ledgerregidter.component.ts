@@ -30,7 +30,7 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
          
       </div>
       <ledger-register-tree *ngIf="d.name" [action]="action" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
-      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d) :action(d.y_voucherid,d.y_code) : action(d.y_voucherid)">
+      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d) :action(d.y_voucherid,d.y_code) : action(d.y_voucherid)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
         <div class="col x-col">{{d.y_code}}</div>
@@ -51,6 +51,8 @@ export class ledgerRegisterTreeComponent {
   @Input() labels: string;
   @Input() action:any;
   activeIndex: boolean = false;
+  selectedRow:number = -1;
+
 }
 
 @Component({
