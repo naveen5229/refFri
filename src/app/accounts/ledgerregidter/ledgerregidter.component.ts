@@ -11,7 +11,7 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
 import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.component';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
-
+import { PdfService } from '../../services/pdf/pdf.service';
 
 @Component({
   selector: 'ledger-register-tree',
@@ -114,6 +114,7 @@ export class LedgerregidterComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public csvService: CsvService,
+    public pdfService: PdfService,
     public accountService: AccountService,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
