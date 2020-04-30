@@ -537,5 +537,10 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fas fa-chalkboard-teacher',
     link: '/bid-system/dashboard'
   },
+  {
+    title: 'Load Intelligence',
+    icon: 'fas fa-chalkboard-teacher',
+    link: '/load-intelligence/dashboard'
+  },
 
 ]);
