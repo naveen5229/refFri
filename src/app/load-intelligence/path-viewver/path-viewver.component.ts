@@ -1,26 +1,25 @@
-import { Component, NgZone, ElementRef, ViewChild } from '@angular/core';
-// import { IonicPage, NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
-// import { Api } from '../../providers/api/api';
-// import { DataProvider } from '../../providers/data/data';
-// import { CommonProvider } from '../../providers/common/common';
-import { ApiService } from '../../services/api.service';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonService } from '../../services/common.service';
+import { ApiService } from '../../services/api.service';
 import { DataService } from '../../services/data.service';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+// import { LoadDetailsComponent } from '../load-details/load-details.component';
 
 declare var google: any;
-
-
-//@IonicPage()
 @Component({
-  selector: 'path-viewer',
-  templateUrl: './path-viewer.component.html',
+  selector: 'path-viewver',
+  templateUrl: './path-viewver.component.html',
+  styleUrls: ['./path-viewver.component.scss']
 })
-export class PathViewerComponent {
+export class PathViewverComponent implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
+  hotspot: any = null;
   routes = [];
   costRoutes = [];
+  findAsaRoutes = [];
   costRoutesCopy = [];
   routeLines = [];
   linkLines = [];
@@ -34,11 +33,14 @@ export class PathViewerComponent {
   };
   viewType = "map";
 
+  table = [];
+
   connect = false;
 
   selected = {
     suggestion: []
   };
+  polygons = [];
 
   geocoder = null;
   showInfo = -1;
@@ -52,35 +54,43 @@ export class PathViewerComponent {
 
   bounds = null;
 
-  constructor(private zone: NgZone,
+  isAvoidSpecialAreas = true;
 
-    public api: ApiService,
+
+  constructor(
     public common: CommonService,
-
+    public api: ApiService,
     public data: DataService,
-  ) {
-    if (this.common.params['routes']) {
-      localStorage.setItem('ROUTES', JSON.stringify(this.common.params['routes']));
-      localStorage.setItem('ROUTE_TYPE', this.common.params['routeType']);
-      this.connect = this.common.params['connect'];
+    public router: Router,
+    public location: Location,
+    public modalCtrl: NgbModal) {
+    let params = this.common.params;
+    if (!params) {
+      params = JSON.parse(localStorage.getItem('params'));
+    } else {
+      localStorage.setItem('params', JSON.stringify(params));
     }
-    this.routeType = localStorage.getItem('ROUTE_TYPE');
+    console.log('Params: ', params);
+    this.routeType = params.routeType;
 
-    this.routes = JSON.parse(localStorage.getItem('ROUTES'));
-    if (this.routeType == 'cost') {
-      this.getCostRoutesFromAPI();
-    } else if (this.routeType == 'profit') {
-      this.getProfitRoutesFromAPI();
-    }
+    this.routes = params.routes;
+
+    setTimeout(() => {
+      this.loadMap();
+      if (this.routeType == 'cost') {
+        this.getCostRoutesFromAPI();
+      } else if (this.routeType == 'findAsa') {
+        this.getFindAsaRoutesFromAPI();
+      } else if (this.routeType == 'profit') {
+        this.getProfitRoutesFromAPI();
+      }
+    }, 3000);
+
   }
 
-  // ionViewDidLoad() {
-  ngAfterViewInit(): void {
-    console.log('ionViewDidLoad PathViewerPage');
-    this.loadMap();
-    //this.common.sendFireBaseEvent('View', { page: 'Path_Viewer' });
-    //this.common.setFireBaseCurrentScreen('Path_Viewer_Page');
+  ngOnInit() {
   }
+
 
   loadMap(lat = 26.9124336, lng = 75.78727090000007) {
     let mapOptions = {
@@ -94,9 +104,139 @@ export class PathViewerComponent {
     this.geocoder = new google.maps.Geocoder;
   }
 
+  showHideInfo(id) {
+    this.hideInfo = this.showInfo;
+    this.showInfo = (this.showInfo != id) ? id : -1;
+    console.log('Id:', id);
+    console.log('hideInfo:', this.hideInfo);
+    console.log('showInfo:', this.showInfo);
+
+  }
+  selectSuggestion(type, routeIndex, suggestIndex, loadedRoute, suggestionData) {
+    console.log('Route: ', loadedRoute);
+    console.log('Suggestion: ', suggestionData);
+
+    if (type == 'route') {
+      this.selected.suggestion[routeIndex] = -1;
+    } else {
+      this.selected.suggestion[routeIndex] = suggestIndex;
+    }
+
+    let data = {
+      routeId: loadedRoute.id,
+      index: type == 'route' ? -1 : suggestionData.index,
+      suggestionId: type == 'route' ? loadedRoute.route.id : suggestionData.id,
+      preId: routeIndex != 0 ? this.loadedRoutes[routeIndex - 1].route.id : -1,
+      nextId: routeIndex != this.loadedRoutes.length - 1 ? this.loadedRoutes[routeIndex + 1].route.id : this.connect ? this.loadedRoutes[0].route.id : -1,
+      data: {
+        rate: -1,
+        tonnage: -1,
+        brokrage: -1,
+        loading: -1,
+        unloading: -1
+      }
+    }
+
+    console.log('Suggetion Data: ', data, routeIndex);
+    this.getSuggestData(data, routeIndex, loadedRoute.route.id);
+  }
+
+  getSuggestData(data, routeIndex, loadedRouteId) {
+    this.isRunPolyline = false;
+    let loader = this.common.loading++;
+    // loader.present();
+    this.api.post('segmentSuggestion', data)
+      .subscribe(res => {
+        console.log('RES: ', res);
+        // loader.dismiss();
+        if (!this.common.handleApiResponce(res)) {
+          this.common.showToast(res['msg']);
+          localStorage.clear();
+          // this.navCtrl.setRoot('LoginPage');
+          return;
+        }
+
+        this.handleSuggestionUpdate(res['data'].routes, routeIndex, loadedRouteId);
+      }, err => {
+        console.log(err);
+        // loader.dismiss();
+      });
+  }
+  // editLoadDetails(type, routeIndex, suggestIndex, loadedRoute, suggestionData) {
+  //   this.common.params = { suggestion: suggestionData };
+  //   // let modal = this.modalCtrl.open(LoadDetailsComponent, { size: 'lg' });
+
+
+  //   modal.result.then(data => {
+  //     console.log(data);
+  //     if (!data.status) return;
+  //     this.hideInfo = this.showInfo;
+  //     this.showInfo = -1;
+
+  //     if (type == 'route') {
+  //       this.selected.suggestion[routeIndex] = -1;
+  //     } else {
+  //       this.selected.suggestion[routeIndex] = suggestIndex;
+  //     }
+
+  //     let info = {
+  //       index: type == 'route' ? -1 : suggestionData.index,
+  //       suggestionId: type == 'route' ? loadedRoute.route.id : suggestionData.id,
+  //       preId: routeIndex != 0 ? this.loadedRoutes[routeIndex - 1].route.id : -1,
+  //       nextId: routeIndex != this.loadedRoutes.length - 1 ? this.loadedRoutes[routeIndex + 1].route.id : this.connect ? this.loadedRoutes[0].route.id : -1,
+  //       data: {
+  //         rate: (data.load.rate != suggestionData.rate) ? data.load.rate : -1,
+  //         tonnage: (data.load.tonnage != suggestionData.tonnage) ? data.load.tonnage : -1,
+  //         brokrage: (data.load.brokrage != suggestionData.brokrage) ? data.load.brokrage : -1,
+  //         loading: (data.load.loading != suggestionData.loading) ? data.load.loading : -1,
+  //         unloading: (data.load.unloading != suggestionData.unloading) ? (data.load.unloading != suggestionData.unloading) : -1
+  //       }
+  //     };
+  //     this.loadedRoutes[routeIndex].route.suggestions[suggestIndex].rate = data.load.rate;
+  //     this.loadedRoutes[routeIndex].route.suggestions[suggestIndex].tonnage = data.load.tonnage;
+  //     this.loadedRoutes[routeIndex].route.suggestions[suggestIndex].brokrage = data.load.brokrage;
+  //     this.loadedRoutes[routeIndex].route.suggestions[suggestIndex].loading = data.load.loading;
+  //     this.loadedRoutes[routeIndex].route.suggestions[suggestIndex].unloading = data.load.unloading;
+
+  //     console.log('Suggetion Data: ', info, routeIndex);
+  //     this.getSuggestData(info, routeIndex, loadedRoute.route.id);
+
+
+
+  //   });
+  //   // modal.present();
+  // }
+
+  handleSuggestionUpdate(routes, routeIndex, loadedRouteId) {
+    let index = this.loadedRoutes[routeIndex].index;
+
+    this.costRoutes[index] = routes[1];
+    if (typeof (this.costRoutes[index].latLng) == typeof ('')) {
+      this.costRoutes[index].latLng = JSON.parse(this.costRoutes[index].latLng);
+    }
+
+    if (routes[0]) {
+      this.costRoutes[index - 1] = routes[0];
+      if (typeof (this.costRoutes[index - 1].latLng) == typeof ('')) {
+        this.costRoutes[index - 1].latLng = JSON.parse(this.costRoutes[index - 1].latLng);
+      }
+    }
+
+    if (routes[2]) {
+      this.costRoutes[index + 1] = routes[2];
+      if (typeof (this.costRoutes[index + 1].latLng) == typeof ('')) {
+        this.costRoutes[index + 1].latLng = JSON.parse(this.costRoutes[index + 1].latLng);
+      }
+    }
+    console.log(this.costRoutes);
+    this.handleCostRoutes(this.costRoutes, 'suggestion');
+  }
+
+
+
   getCostRoutesFromAPI(isDragged = false) {
     this.removeDummyRoutes();
-    // let loader = this.common.createLoader();
+    let loader = this.common.loading;
 
     let routes = [];
     this.routes.map(route => {
@@ -126,14 +266,44 @@ export class PathViewerComponent {
     console.log(params);
     // loader.present();
 
-    this.api.postJava('info', params)
+    this.api.post('info', params)
       .subscribe(res => {
         console.log('Res:', res);
         // loader.dismiss();
+        let data = res['data']['special_areas'];
+        if (res && res['data']['hotspotDetails']) {
+          this.hotspot = res['data']['hotspotDetails'];
+          console.log(this.hotspot);
+        }
+        // let datay = [{data:data}];
+        // this.createPolygons(datay);
+
+
+
+        let latLngsArray = [];
+        let isMain = false;
+        let isSec = false;
+        let minDis = 100000;
+        let minIndex = -1;
+
+        Object.keys(data).map(e => {
+          latLngsArray.push({ data: data[e]['latLngs'], info: e });
+
+        })
+        console.log(latLngsArray);
+
+        this.createPolygons(latLngsArray);
+
+
+
+
+
+
 
         if (!this.common.handleApiResponce(res)) {
           this.common.showToast(res['msg']);
           localStorage.clear();
+
           // this.navCtrl.setRoot('LoginPage');
           return;
         }
@@ -159,9 +329,98 @@ export class PathViewerComponent {
 
   }
 
+  getFindAsaRoutesFromAPI(isDragged = false) {
+    this.removeDummyRoutes();
+    let routes = [];
+    this.routes.map(route => {
+      routes.push({
+        "origin": {
+          "name": route.origin.name,
+          "lat": parseFloat(route.origin.lat),
+          "lng": parseFloat(route.origin.long)
+        },
+        "destination": {
+          "name": route.destination.name,
+          "lat": parseFloat(route.destination.lat),
+          "lng": parseFloat(route.destination.long)
+        }
+      })
+    });
+
+    console.log(routes);
+
+    console.log(this.common.params);
+    if (this.common.params && this.common.params.routes[0]['isAvoidSpecialAreas']) {
+      this.isAvoidSpecialAreas = this.common.params && this.common.params.routes[0]['isAvoidSpecialAreas'];
+    }
+    const params = {
+      routes: routes,
+      // searchId: this.common.searchId || -1,
+      searchId: -1,
+      connect: this.connect,
+      isAvoidSpecialAreas: this.isAvoidSpecialAreas
+    };
+
+    console.log(params);
+    this.common.loading++;
+    this.api.postJava('info', params,)
+      .subscribe(res => {
+        console.log('Res:', res);
+        this.common.loading--;
+        if (!this.common.handleApiResponce(res)) {
+          this.common.showToast(res['msg']);
+          localStorage.clear();
+          return;
+        }
+        if (res['success']) {
+          localStorage.setItem('COSTROUTES', JSON.stringify(res));
+          if (!res['data']) return;
+          
+          if (res['data']['hotspotDetails']) {
+            this.hotspot = res['data']['hotspotDetails']
+          }
+
+          if (res['data']['special_areas']) {
+            let data = res['data']['special_areas'];
+            let latLngsArray = [];
+            Object.keys(data).map(e => {
+              latLngsArray.push({ data: data[e]['latLngs'], info: e });
+            })
+            this.createPolygons(latLngsArray);
+          }
+
+          if (res['data'].regularPathDetails && res['data'].regularPathDetails.length) {
+            this.drawRegularRoute(res['data'].regularPathDetails[0].latLng);
+          }
+
+          if (!isDragged) {
+            this.common.searchId = res['data'].searchId;
+          }
+
+          if (res['data']['routes']) {
+            localStorage.setItem('COSTROUTES', JSON.stringify(res['data']['routes']));
+            this.handleCostRoutes(res['data']['routes']);
+          }
+          return;
+        }
+        this.common.showToast(res['msg']);
+      }, err => {
+        this.common.loading--;
+        console.error('Error', err);
+      });
+  }
+
+
+  removeDummyRoutes() {
+    this.routes = this.routes.filter(route => {
+      if (route.origin.lat && route.destination.lat) return true;
+      else return false;
+    });
+  }
+
   getProfitRoutesFromAPI(isDragged = false) {
     this.removeDummyRoutes();
-    //  let loader = this.common.createLoader();
+    let loader = this.common.loading++;
 
     let routes = [];
     this.routes.map(route => {
@@ -193,17 +452,19 @@ export class PathViewerComponent {
 
     console.log(params);
 
-    //  loader.present();
+    // loader.present();
 
     this.api.post('infoprofit', params)
       .subscribe(res => {
         console.log('Res:', res);
-        //    loader.dismiss();
+        let data = res['special_areas'];
+        // loader.dismiss();
+
 
         if (!this.common.handleApiResponce(res)) {
           this.common.showToast(res['msg']);
           localStorage.clear();
-          //    this.navCtrl.setRoot('LoginPage');
+          // this.navCtrl.setRoot('LoginPage');
           return;
         }
 
@@ -216,6 +477,7 @@ export class PathViewerComponent {
           console.log('Test: ', JSON.parse(localStorage.getItem('COSTROUTES')));
 
           this.handleCostRoutes(res['data']['routes']);
+
           this.initializeSelectedSuggestion();
           return;
         }
@@ -233,14 +495,8 @@ export class PathViewerComponent {
 
   }
 
-  removeDummyRoutes() {
-    this.routes = this.routes.filter(route => {
-      if (route.origin.lat && route.destination.lat) return true;
-      else return false;
-    });
-  }
-
   handleCostRoutes(costRoutes, type = 'search') {
+    console.log(costRoutes);
     this.data.costRoutes = costRoutes;
     this.costRoutes = costRoutes;
     if (type == 'search') {
@@ -253,6 +509,7 @@ export class PathViewerComponent {
             index: i,
             route: route
           });
+          console.log('-------------------------Loaded--------------: ', this.loadedRoutes);
         }
       });
     }
@@ -301,8 +558,9 @@ export class PathViewerComponent {
     // this.drawPolyline();
 
     this.initializeRunPolyline();
-  }
 
+
+  }
   calulateTotalCost() {
     this.costRoutes.map(costRoute => {
       costRoute.cost.totalCost.value = costRoute.cost.fuel.value + costRoute.cost.border.value + costRoute.cost.toll.value + costRoute.cost.loading.value + costRoute.cost.unloading.value;
@@ -448,27 +706,26 @@ export class PathViewerComponent {
 
   }
 
-  viewDetails() {
-    this.isRunPolyline = false;
-    if (this.routeType == 'cost') {
-      //this.navCtrl.push('CostCalculatorPage');
-    } else if (this.routeType == 'profit') {
-      //this.navCtrl.push('ProfitCalculatorPage');
-    }
-  }
+
 
   goBack() {
     this.isRunPolyline = false;
-    // this.navCtrl.pop();
+    this.common.params = null;
+    // this.router.navigate(['/intelligence/calculator']);
+    this.location.back();
+  }
+  showSuggestion() {
+    document.getElementById('suggestion').className = "suggestion suggestion-show animated slideInUp";
   }
 
-  routeShower() {
-
+  hideSuggestion() {
+    document.getElementById('suggestion').className = "suggestion suggestion-show animated slideOutDown";
+    setTimeout(() => {
+      document.getElementById('suggestion').className = "suggestion animated slideOutDown";
+    }, 500);
   }
 
-  clearShowLines() {
 
-  }
 
   calculateProfit() {
     this.total = {
@@ -505,156 +762,11 @@ export class PathViewerComponent {
     }
   }
 
-  viewSuggestion() {
-    console.log('Tets');
-    // this.navCtrl.push('SuggestionPage');
-  }
-
-
-
   initializeSelectedSuggestion() {
     this.selected.suggestion = [];
     for (let i = 0; i < this.loadedRoutes.length; i++) {
       this.selected.suggestion[i] = -1;
     }
-  }
-
-  selectSuggestion(type, routeIndex, suggestIndex, loadedRoute, suggestionData) {
-    console.log('Route: ', loadedRoute);
-    console.log('Suggestion: ', suggestionData);
-
-    if (type == 'route') {
-      this.selected.suggestion[routeIndex] = -1;
-    } else {
-      this.selected.suggestion[routeIndex] = suggestIndex;
-    }
-
-    let data = {
-      routeId: loadedRoute.id,
-      index: type == 'route' ? -1 : suggestionData.index,
-      suggestionId: type == 'route' ? loadedRoute.route.id : suggestionData.id,
-      preId: routeIndex != 0 ? this.loadedRoutes[routeIndex - 1].route.id : -1,
-      nextId: routeIndex != this.loadedRoutes.length - 1 ? this.loadedRoutes[routeIndex + 1].route.id : this.connect ? this.loadedRoutes[0].route.id : -1,
-      data: {
-        rate: -1,
-        tonnage: -1,
-        brokrage: -1,
-        loading: -1,
-        unloading: -1
-      }
-    }
-
-    console.log('Suggetion Data: ', data, routeIndex);
-    this.getSuggestData(data, routeIndex, loadedRoute.route.id);
-  }
-
-  getSuggestData(data, routeIndex, loadedRouteId) {
-    this.isRunPolyline = false;
-    //   let loader = this.common.createLoader();
-    //loader.present();
-    this.api.post('segmentSuggestion', data)
-      .subscribe(res => {
-        console.log('RES: ', res);
-        // loader.dismiss();
-        if (!this.common.handleApiResponce(res)) {
-          this.common.showToast(res['msg']);
-          localStorage.clear();
-          //    this.navCtrl.setRoot('LoginPage');
-          return;
-        }
-
-        this.handleSuggestionUpdate(res['data'].routes, routeIndex, loadedRouteId);
-      }, err => {
-        console.log(err);
-        // loader.dismiss();
-      });
-  }
-
-  handleSuggestionUpdate(routes, routeIndex, loadedRouteId) {
-    let index = this.loadedRoutes[routeIndex].index;
-
-    this.costRoutes[index] = routes[1];
-    if (typeof (this.costRoutes[index].latLng) == typeof ('')) {
-      this.costRoutes[index].latLng = JSON.parse(this.costRoutes[index].latLng);
-    }
-
-    if (routes[0]) {
-      this.costRoutes[index - 1] = routes[0];
-      if (typeof (this.costRoutes[index - 1].latLng) == typeof ('')) {
-        this.costRoutes[index - 1].latLng = JSON.parse(this.costRoutes[index - 1].latLng);
-      }
-    }
-
-    if (routes[2]) {
-      this.costRoutes[index + 1] = routes[2];
-      if (typeof (this.costRoutes[index + 1].latLng) == typeof ('')) {
-        this.costRoutes[index + 1].latLng = JSON.parse(this.costRoutes[index + 1].latLng);
-      }
-    }
-    console.log(this.costRoutes);
-    this.handleCostRoutes(this.costRoutes, 'suggestion');
-  }
-
-  showSuggestion() {
-    document.getElementById('suggestion').className = "suggestion suggestion-show animated slideInUp";
-  }
-
-  hideSuggestion() {
-    document.getElementById('suggestion').className = "suggestion suggestion-show animated slideOutDown";
-    setTimeout(() => {
-      document.getElementById('suggestion').className = "suggestion animated slideOutDown";
-    }, 500);
-  }
-
-  editLoadDetails(type, routeIndex, suggestIndex, loadedRoute, suggestionData) {
-    let modal = null;// this.modalCtrl.create('LoadDetailsPage', { suggestion: suggestionData });
-    modal.onDidDismiss(data => {
-      console.log(data);
-      if (!data.status) return;
-      this.hideInfo = this.showInfo;
-      this.showInfo = -1;
-
-      if (type == 'route') {
-        this.selected.suggestion[routeIndex] = -1;
-      } else {
-        this.selected.suggestion[routeIndex] = suggestIndex;
-      }
-
-      let info = {
-        index: type == 'route' ? -1 : suggestionData.index,
-        suggestionId: type == 'route' ? loadedRoute.route.id : suggestionData.id,
-        preId: routeIndex != 0 ? this.loadedRoutes[routeIndex - 1].route.id : -1,
-        nextId: routeIndex != this.loadedRoutes.length - 1 ? this.loadedRoutes[routeIndex + 1].route.id : this.connect ? this.loadedRoutes[0].route.id : -1,
-        data: {
-          rate: (data.load.rate != suggestionData.rate) ? data.load.rate : -1,
-          tonnage: (data.load.tonnage != suggestionData.tonnage) ? data.load.tonnage : -1,
-          brokrage: (data.load.brokrage != suggestionData.brokrage) ? data.load.brokrage : -1,
-          loading: (data.load.loading != suggestionData.loading) ? data.load.loading : -1,
-          unloading: (data.load.unloading != suggestionData.unloading) ? (data.load.unloading != suggestionData.unloading) : -1
-        }
-      };
-      this.loadedRoutes[routeIndex].route.suggestions[suggestIndex].rate = data.load.rate;
-      this.loadedRoutes[routeIndex].route.suggestions[suggestIndex].tonnage = data.load.tonnage;
-      this.loadedRoutes[routeIndex].route.suggestions[suggestIndex].brokrage = data.load.brokrage;
-      this.loadedRoutes[routeIndex].route.suggestions[suggestIndex].loading = data.load.loading;
-      this.loadedRoutes[routeIndex].route.suggestions[suggestIndex].unloading = data.load.unloading;
-
-      console.log('Suggetion Data: ', info, routeIndex);
-      this.getSuggestData(info, routeIndex, loadedRoute.route.id);
-
-
-
-    });
-    modal.present();
-  }
-
-  showHideInfo(id) {
-    this.hideInfo = this.showInfo;
-    this.showInfo = (this.showInfo != id) ? id : -1;
-    console.log('Id:', id);
-    console.log('hideInfo:', this.hideInfo);
-    console.log('showInfo:', this.showInfo);
-
   }
 
   initializeRunPolyline() {
@@ -722,12 +834,12 @@ export class PathViewerComponent {
 
   setBounds() {
     this.bounds = new google.maps.LatLngBounds();
-    this.costRoutes.map(costRoute => {
-      this.bounds.extend(new google.maps.LatLng(costRoute.latLng[0].lat, costRoute.latLng[0].lng));
-      this.map.fitBounds(this.bounds);
-      this.bounds.extend(new google.maps.LatLng(costRoute.latLng[costRoute.latLng.length - 1].lat, costRoute.latLng[costRoute.latLng.length - 1].lng));
-      this.map.fitBounds(this.bounds);
-    });
+    // this.costRoutes.map(costRoute => {
+    //   this.bounds.extend(new google.maps.LatLng(costRoute.latLng[0].lat, costRoute.latLng[0].lng));
+    //   this.map.fitBounds(this.bounds);
+    //   this.bounds.extend(new google.maps.LatLng(costRoute.latLng[costRoute.latLng.length - 1].lat, costRoute.latLng[costRoute.latLng.length - 1].lng));
+    //   this.map.fitBounds(this.bounds);
+    // });
 
 
 
@@ -736,4 +848,86 @@ export class PathViewerComponent {
 
   }
 
+  viewDetails() {
+    this.isRunPolyline = false;
+    if (this.routeType == 'cost') {
+      this.router.navigate(['/intelligence/cost-viewer']);
+    } else if (this.routeType == 'profit') {
+      this.router.navigate(['/intelligence/profit-viewer']);
+    } else if (this.routeType == 'findAsa') {
+      this.router.navigate(['/intelligence/cost-viewer']);
+    }
+  }
+
+
+  createPolygons(latLngsMulti, options?) {// strokeColor = '#', fillColor = '#') {
+    console.log(latLngsMulti);
+    let index = 0;
+
+    latLngsMulti.forEach(latLngs => {
+      let colorBorder;
+      let colorFill;
+      let isMain = false;
+      if (latLngs.isSec) {
+        colorBorder = '#f00';
+        colorFill = '#f88';
+      } else if (latLngs.isMain) {
+        colorBorder = '#0f0';
+        colorFill = '#8f8';
+      } else {
+        colorBorder = '#00f';
+        colorFill = '#88f';
+      }
+      const defaultOptions = {
+        paths: latLngs.data,
+        strokeColor: colorBorder,
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        clickable: !latLngs.isMain,
+        fillColor: colorFill,
+        fillOpacity: 0.35
+      };
+      let polygon = new google.maps.Polygon(options || defaultOptions);
+      this.polygons.push(polygon);
+      polygon.setMap(this.map);
+      let infoWindow = new google.maps.InfoWindow();
+      infoWindow.opened = false;
+      let showContent = latLngs.info;
+      google.maps.event.addListener(polygon, 'mouseover', function (evt) {
+        infoWindow.setContent("Info: " + showContent);
+        infoWindow.setPosition(evt.latLng); // or evt.latLng
+        infoWindow.open(this.map);
+      });
+      google.maps.event.addListener(polygon, 'mouseout', function (evt) {
+        infoWindow.close();
+        infoWindow.opened = false;
+      });
+      index++;
+    });
+  }
+
+  drawRegularRoute(latLngs) {
+    console.log('latLngs:', latLngs);
+    let polyline = new google.maps.Polyline({
+      path: [],
+      geodesic: true,
+      strokeColor: '#999999',
+      strokeOpacity: 1.0,
+      strokeWeight: 2,
+    });
+    polyline.setMap(this.map);
+    let path = polyline.getPath();
+    console.log(path);
+    for (let i = 0; i < latLngs.length; i++) {
+      let latLng = new google.maps.LatLng(latLngs[i].lat, latLngs[i].lng)
+      path.push(latLng);
+      this.fitBounds(latLng);
+    }
+  }
+
+  fitBounds(latLng) {
+    if (!this.bounds) this.bounds = new google.maps.LatLngBounds();
+    this.bounds.extend(latLng);
+    this.map.fitBounds(this.bounds);
+  }
 }

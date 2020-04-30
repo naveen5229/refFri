@@ -14,6 +14,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
+        title: 'Load-Intelligence',
+        icon: 'fa fa-home',
+        link: '/pages/load-intelligence',
+        home: true,
+      },
+      {
         title: 'Vehicle Trip',
         icon: 'fas fa-exchange-alt',
         link: '/pages/vehicle-trip',

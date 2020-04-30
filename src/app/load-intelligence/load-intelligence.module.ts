@@ -10,8 +10,11 @@ import { NbSpinnerModule } from '@nebular/theme';
 import { PopulateAltitudeComponent } from './populate-altitude/populate-altitude.component';
 import { UploadRoutesComponent } from './upload-routes/upload-routes.component';
 import { SpecialAreaComponent } from './special-area/special-area.component';
+import { HotspotSummaryComponent } from './hotspot-summary/hotspot-summary.component';
+import { FindRouteComponent } from './find-route/find-route.component';
+import { PathViewverComponent } from './path-viewver/path-viewver.component';
 @NgModule({
-  declarations: [DashboardComponent, LoadIntelligenceComponent, ShowRoutesComponent, PopulateAltitudeComponent, UploadRoutesComponent, SpecialAreaComponent],
+  declarations: [DashboardComponent, LoadIntelligenceComponent, ShowRoutesComponent, PopulateAltitudeComponent, UploadRoutesComponent, SpecialAreaComponent, HotspotSummaryComponent, FindRouteComponent, PathViewverComponent],
   imports: [
     CommonModule,
     LoadIntelligenceRoutingModule,

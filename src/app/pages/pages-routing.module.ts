@@ -108,6 +108,11 @@ const routes: Routes = [{
     canActivate: [AuthGuard, RouteGuard],
   },
   {
+    path: 'load-intelligence',
+    loadChildren: 'app/load-intelligence/load-intelligence.module#LoadIntelligenceModule',
+    canActivate: [AuthGuard],
+  },
+  {
 
     path: 'vehicle-kpis',
     component: VehicleKpisComponent,

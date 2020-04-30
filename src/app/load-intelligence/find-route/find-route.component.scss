@@ -1,0 +1,208 @@
+.cal-btn {
+    font-weight: bold;
+    color: #f1eded;
+    background: #ffa500;
+}
+.routes {
+    max-height: auto;
+    overflow: scroll;
+}
+.input-position {
+    margin-top: 0px; // box-shadow: 0px 3px 10px gray;
+    margin-left: 5px;
+    position: relative;
+}
+.calculator{
+    padding-top: 12px;
+    background-color: orange;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+}
+.text-input-md {
+    margin: 8px 8px;
+    padding: 0px;
+    width: calc(100% - 8px - 8px);
+    font-size: 14px;
+    color: #000;
+}
+.text-input-md::placeholder {
+    color: #888;
+}
+.route-row {
+    background: #607D8B;
+    font-size: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid #fff;
+    text-align: center;
+    color: #fff;
+}
+
+
+.route-to {
+    font-size: 12px;
+    background: #fff;
+    padding: 8px 3px;
+    border-radius: 50%;
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    margin-top: -7px;
+    margin-left: 38px;
+    color: #607D8B;
+
+}
+.route-source {
+    padding: 0px 3px 0px 2px !important;
+}
+.route-destination {
+    padding: 0px 18px 0px 5px !important;
+}
+.delete-route {
+    position: absolute;
+    right: 0px;
+    top: -2px;
+    background: #fff;
+    padding: 3px 0px;
+    border-radius: 50%;
+    font-weight: bold;
+    color: #607D8B;
+    z-index: 999;
+    font-weight: bold;
+    width: 20px;
+    text-align: center;
+    padding-left: 0px;
+    font-size: 14px;
+    height: 20px;
+    font-weight: bold;
+}
+.input-row {
+    background: #Fff;
+    border-bottom: 1px solid #E2E2E2;
+}
+.route-options {
+    background: #f8f8f8;
+    padding: 0;
+}
+.route-options ion-col {
+    padding: 0;
+}
+.route-options button {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: #000;
+    letter-spacing: 0.7px;
+}
+.route-options button:first-child {
+    border-right: -1px solid #fff;
+    font-weight: bold;
+    color: #1f1d1d;
+    background: #ffa500;
+}
+
+.label-md {
+    margin: 0px 8px 0px 0;
+}
+.pro-btn {
+    width: 100%;
+    font-weight: bold;
+    color: black;
+    height: 100%;
+    
+}
+.pointer:hover{ 
+    cursor: pointer; 
+}
+
+.in-active {
+    border-bottom: 1px solid #f2f2f2;
+}
+.active {
+    font-weight: bold;
+    border-bottom: 2px solid;
+    color: orange;
+    background: #fff;
+}
+.profit-input {
+    border: 1px solid #ccc;
+    font-size: 12px !important;
+    width: 100%;
+    padding: 8px 6px;
+    border-color: #131212;
+
+}
+.profit-input .text-input-md {
+    font-size: 12px;
+}
+.location-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 7px 8px;
+} // Loader
+// .custom-spinner-container {
+//     position: fixed;
+//     width: 100%;
+//     height: 100%;
+//     background: rgba(0, 0, 0, 0.5);
+// }
+.section {
+    margin: 0;
+    padding: -2px 13px;
+    background: #f2f2f2;
+    color: #000;
+    text-align: left;
+    font-size: 12px;
+    text-transform: capitalize;
+    letter-spacing: .7px;
+    font-weight: 500;
+}
+.row {
+    margin-top: 5px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    
+}
+
+.table {
+    border-collapse: collapse;
+    margin-top: 10px;
+    width: 100%;
+    color: #1d1c1a;
+    border-width: 1px;
+    border-color: #161615;
+}
+.btn.btn-primary:hover{
+    color: #ffffff;
+    background-color: #87aeff;
+    border-color: transparent;
+    cursor: pointer;
+   
+}
+.tr { 
+    border: solid;
+    border-width: 1px 0;
+  }
+  .col{
+    padding-left: 23px;
+    padding-top: 12px;
+}
+.boxed{
+    border: 3.5px solid #111110;
+    padding: 2px 28px;
+    border-radius: 10px;
+    margin: -3px;
+}
+
+.border_middle{
+    width: 2px;
+    background-color: #ffa500;
+    display: block;
+    margin: 1px 11px;
+}

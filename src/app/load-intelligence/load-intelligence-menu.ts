@@ -30,5 +30,17 @@ export const LOAD_INTELLIGENCE_MENU_ITEMS = JSON.stringify([
         icon: 'nb-home',
         link: '/load-intelligence/special-area',
         home: true,
+    },
+    {
+        title: 'Hotspot-Summary',
+        icon: 'nb-home',
+        link: '/load-intelligence/hotspot-summary',
+        home: true,
+    },
+    {
+        title: 'Find-Route',
+        icon: 'nb-home',
+        link: '/load-intelligence/find-route',
+        home: true,
     }
 ]);
