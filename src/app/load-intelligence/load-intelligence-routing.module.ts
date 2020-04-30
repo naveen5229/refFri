@@ -9,6 +9,9 @@ import { RouteGuard } from '../guards/route.guard';
 import { PopulateAltitudeComponent } from './populate-altitude/populate-altitude.component';
 import { UploadRoutesComponent } from './upload-routes/upload-routes.component';
 import { SpecialAreaComponent } from './special-area/special-area.component';
+import { HotspotSummaryComponent } from './hotspot-summary/hotspot-summary.component';
+import { FindRouteComponent } from './find-route/find-route.component';
+import { PathViewverComponent } from './path-viewver/path-viewver.component';
 
 const routes: Routes = [{
   path: '',
@@ -37,6 +40,21 @@ const routes: Routes = [{
     {
       path: 'special-area',
       component: SpecialAreaComponent,
+      canActivate: [AuthGuard, RouteGuard]
+    },
+    {
+      path: 'hotspot-summary',
+      component: HotspotSummaryComponent,
+      canActivate: [AuthGuard, RouteGuard]
+    },
+    {
+      path: 'find-route',
+      component: FindRouteComponent,
+      canActivate: [AuthGuard, RouteGuard]
+    },
+    {
+      path: 'path-viewver',
+      component: PathViewverComponent,
       canActivate: [AuthGuard, RouteGuard]
     }
   ],
