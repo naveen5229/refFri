@@ -6,6 +6,8 @@ h5 {
   font-family: "Open Sans", sans-serif !important;
 }
 
+
+
 p,
 a,
 label,
@@ -31,7 +33,7 @@ input::placeholder {
 }
 
 .tooltip {
-  opacity: 1 !important;
+  opacity: 1 ;
 }
 
 .nb-theme-corporate nb-sidebar {

@@ -1,0 +1,92 @@
+
+<div class="row" [ngStyle]="{'opacity': loader > 0 ? 0.2 : 1 }">
+  <div class="col-6" *ngIf='state_name != null'>
+      <h1 *ngIf='state_name != null' style="float: left; margin-left: 100px;">{{state_name}}</h1>
+  </div>
+  <div class="col-6">
+      <button *ngIf='typeId == 2 || typeId == 3' class='btn btn-primary custom' (click)='onBack()' >Back</button>
+  </div>
+</div>
+
+
+<div class='row content' [ngStyle]="{'opacity': loader > 0 ? 0.2 : 1 }">
+
+
+  <div class="col-7" style="width: 700px; overflow: auto;">
+
+      <div id='map' style="margin-top: 20px;">  
+          <svg 
+        id="chart"
+        preserveAspectRatio="xMidYMid meet"
+      ></svg>
+      </div>
+  </div>
+
+  <div class="col-5" style="text-align: right;" *ngIf='state_name != null'>
+ 
+
+      <div style="margin: 50px 60px; width: 400px;" *ngIf='plantSummary.length'>
+
+          <table class="table table-striped">
+              <thead style="text-align: center;">
+                  <tr>
+                      <th colspan="4" style="text-align: center;">Source </th>
+                  </tr>
+                  <tr>
+                    <th>#</th>
+                    <th class="plant total" >Total</th>
+                    <th class="plant green" >Green</th>
+                    <th class="plant red" >Red</th>
+                </tr>
+              </thead>
+              <tbody style="text-align: center;">
+
+                <tr *ngFor='let sum of plantSummary' style="text-transform: uppercase;" >
+                  <th>{{sum.name}}</th>
+                  <td (click)='getPlantList(sum._type, 1)' style="color: blue; cursor: pointer;">{{sum.total_cnt}}</td>
+                  <td (click)='getPlantList(sum._type, 2)'  style="color: green; cursor: pointer;">{{sum.green_cnt}}</td>
+                  <td (click)='getPlantList(sum._type, 3)'  style="color: red; cursor: pointer;">{{sum.red_cnt}}</td>
+              </tr>
+
+              </tbody>
+          </table>
+
+         
+          
+      </div>
+
+      <div style="margin: 30px 10px; width: 500px; height: 500px; overflow: auto;" *ngIf='plantList != null'>
+
+          <table class="table table-hover" *ngIf='plantList.length' style="width: 450px;">
+              <thead style="text-align: center;">
+                  <tr>
+                      <th colspan="4" style="text-align: center;">{{categorName}} List</th>
+                  </tr>
+                  <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Lat</th>
+                      <th>Long</th>
+                  </tr>
+              </thead>
+              <tbody style="text-align: center;"> 
+
+                  <tr *ngFor='let sum of plantList; let i = index' style="text-transform: uppercase; cursor: pointer;">
+                      <th>{{i + 1}}</th>
+                      <td>{{sum.plant_name || sum.name}}</td>
+                      <td>{{sum.lat}}</td>
+                      <td>{{sum.long}}</td>
+                  </tr>
+
+              </tbody>
+          </table>  
+      </div>
+  </div>
+
+  
+</div> 
+
+<div *ngIf='loader > 0' id="loader"></div>
+
+
+

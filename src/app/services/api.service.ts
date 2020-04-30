@@ -18,6 +18,8 @@ export class ApiService {
   // URL: string = 'http://localhost/booster_webservices/'; // sachin
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
   URL2 = 'http://elogist.in/transtruck/';
+  URLJava : string = 'http://13.126.162.170:7070/'; // Dev Server
+
 
   constructor(private http: HttpClient,
     public router: Router,
@@ -25,6 +27,20 @@ export class ApiService {
     public user: UserService) {
   }
 
+
+  postJava(endpoint: string, body: any, ) {
+    console.log('test');
+    let reqOpts = {
+      headers: {
+        'Content-Type': 'application/json',
+        'version': '0.1.0'
+      }
+    };
+    if (localStorage.getItem('TOKEN')) {
+      reqOpts.headers['authkey'] = localStorage.getItem('TOKEN');
+    }
+    return this.http.post(this.URLJava + endpoint, body, reqOpts);
+  }
 
   post(subURL: string, body: any, options?) {
     if (this.user._customer.id) {
@@ -36,8 +52,13 @@ export class ApiService {
 
     if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch.id;
 
+    if (options == 'J') {
+      return this.http.post(this.URLJava + subURL, body, { headers: this.setHeaders('0.1.0') })
+
+    } else {
+      return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
+    }
     // console.log('BODY: ', body);
-    return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
   }
   postEncrypt(subURL: string, body: any, options?) {
     if (this.user._customer.id) {
@@ -190,11 +211,11 @@ export class ApiService {
     return this.http.patch(this.URL + subURL, body, { headers: this.setHeaders() })
   }
 
-  setHeaders() {
+  setHeaders(version?) {
     const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'version': '1.0',
+      'version': version || '1.0',
       'entrymode': entryMode,
       'apptype': 'dashboard',
       'authkey': this.user._token || ''
