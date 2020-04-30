@@ -92,7 +92,8 @@ export class VehicleLedgersComponent implements OnInit {
   setAutoSuggestion() {
 
     let params = {
-      search: 123
+      search: 123,
+      conditionid:1
     };
 
     this.common.loading++;

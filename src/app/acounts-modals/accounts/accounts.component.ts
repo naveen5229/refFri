@@ -82,7 +82,7 @@ modalCondition(res){
     this.Accounts[type].name = selectedData[display];
     this.Accounts[type].id = selectedData.y_id;
     this.Accounts[type].primarygroup_id = selectedData.y_parent_id;
-    console.log('Accounts Parent: ', this.Accounts);
+    console.log('Accounts Parent: ', this.Accounts,selectedData);
   }
 
 
@@ -142,7 +142,8 @@ modalCondition(res){
 
   getAccountData() {
     let params = {
-      search: 123
+      search: 123,
+      conditionid:1
     };
 
     this.common.loading++;
@@ -166,9 +167,9 @@ modalCondition(res){
 
   onSelect(suggestion, activeId){
     console.log('Suggestion: ', suggestion);
-      this.Accounts.account.name = suggestion.y_name;
-      this.Accounts.account.id = suggestion.y_id;
-      this.Accounts.account.primarygroup_id =suggestion.y_parent_id;
+      this.Accounts.account.name = suggestion.name;
+      this.Accounts.account.id = suggestion.id;
+      this.Accounts.account.primarygroup_id =suggestion.primarygroup_id;
     console.log('Suggestion selcted: ', this.Accounts.account);
 
   }
