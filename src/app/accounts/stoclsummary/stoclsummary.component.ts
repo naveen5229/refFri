@@ -278,7 +278,7 @@ warehouseid=0;
 
         let cityaddress = address + remainingstring1;
         let foname = (res['data'][0]) ? res['data'][0].foname : '';
-        this.common.getCSVFromTableIdNew('table', foname, cityaddress, '', '', remainingstring3);
+        this.common.getCSVFromTableIdNew('balance-sheet', foname, cityaddress, '', '', remainingstring3);
         // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
 
       }, err => {
@@ -868,5 +868,40 @@ warehouseid=0;
 
     
   }, 20);
+  }
+
+  generateCsvData() {
+    let liabilitiesJson = [];
+    liabilitiesJson.push(Object.assign({Stocktype:" Stock Type",stocksubtype:'Stock Sub Type',stockitem:'Stock Item',branch:'Branch',warehouse:'Ware House',openingqty:'Opening Qty',stockrecived:'Stock Recived',purchase:'Purchase',sales:'Sales',issue:'Issue/Transefer',wastage:'Wastage',debitnote:'Debit Note',creditnote:'Credit Note',net:'Net Available'}));
+
+    this.summaryreport.forEach(liability => {
+      liabilitiesJson.push({ Stocktype: '(ST)'+liability.name, stocksubtype:'',stockitem:'',branch:'',warehouse:'',openingqty:liability.totalqty,stockrecived:liability.totalstokrecive,purchase:liability.totalpurchase,sales:liability.totalsales,issue:liability.totalissue,wastage:liability.totalwastage,debitnote:liability.totaldebit,creditnote:liability.totalcredit,net: liability.totalnet });
+      liability.data.forEach(subGroup => {
+        liabilitiesJson.push({Stocktype: '', stocksubtype:'(SS)'+subGroup.name,stockitem:'',branch:'',warehouse:'',openingqty:subGroup.totalqty,stockrecived:subGroup.totalstokrecive,purchase:subGroup.totalpurchase,sales:subGroup.totalsales,issue:subGroup.totalissue,wastage:subGroup.totalwastage,debitnote:subGroup.totaldebit,creditnote:subGroup.totalcredit,net: subGroup.totalnet });
+        subGroup.data.forEach(balanceSheet => {
+          liabilitiesJson.push({Stocktype: '', stocksubtype:'',stockitem:'(SI)'+balanceSheet.name,branch:'',warehouse:'',openingqty:balanceSheet.totalqty,stockrecived:balanceSheet.totalstokrecive,purchase:balanceSheet.totalpurchase,sales:balanceSheet.totalsales,issue:balanceSheet.totalissue,wastage:balanceSheet.totalwastage,debitnote:balanceSheet.totaldebit,creditnote:balanceSheet.totalcredit,net: balanceSheet.totalnet });
+          balanceSheet.data.forEach(warehouse => {
+            liabilitiesJson.push({Stocktype: '', stocksubtype:'',stockitem:'',branch:'(BR)'+warehouse.name,warehouse:'',openingqty:warehouse.totalopngqty,stockrecived:warehouse.totalstokrecive,purchase:warehouse.purchasetotal,sales:warehouse.salestotal,issue:warehouse.issuetotal,wastage:warehouse.wastagetotal,debitnote:warehouse.debittotal,creditnote:warehouse.credittotal,net: warehouse.nettotal });
+              warehouse.data.forEach(branch => {
+                liabilitiesJson.push({Stocktype: '', stocksubtype:'',stockitem:'',branch:'',warehouse:'(WH)'+branch.y_warehouse_name,openingqty:(branch.y_opn_qty)? branch.y_opn_qty : 0,stockrecived:(branch.y_st_rec_qty) ? branch.y_st_rec_qty :0,purchase:(branch.y_pi_qty) ? branch.y_pi_qty :0,sales:(branch.y_si_qty) ? branch.y_si_qty:0,issue:(branch.y_st_issue_qty) ? branch.y_st_issue_qty:0,wastage:(branch.y_wst_qty) ? branch.y_wst_qty:0 ,debitnote:(branch.y_dn_qty) ? branch.y_dn_qty:0,creditnote:(branch.y_cn_qty) ? branch.y_cn_qty : 0,net: (branch.y_net_qty) ? branch.y_net_qty:0 });
+                });
+           });
+        });
+      });
+    });
+
+    
+    let mergedArray = [];
+
+    for (let i = 0; i < liabilitiesJson.length; i++) {
+       if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
+        mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '' }));
+      } 
+    }
+    mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1]))
+    mergedArray.push(Object.assign({}, {"":'ST = Stock Type ,SS =Stock Sub Type, SI = Stock Item, BR = Branch, WH = Ware House'}))
+
+   this.csvService.jsonToExcel(mergedArray);
+    console.log('Merged:', mergedArray);
   }
 }

@@ -290,7 +290,7 @@ export class OutstandingComponent implements OnInit {
 
         let cityaddress = address + remainingstring1;
         let foname = (res['data'][0]) ? res['data'][0].foname : '';
-        this.common.getCSVFromTableIdNew('table', foname, cityaddress, '', '', remainingstring3);
+        this.common.getCSVFromTableIdNew('balance-sheet', foname, cityaddress, '', '', remainingstring3);
         // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
 
       }, err => {
@@ -702,5 +702,34 @@ export class OutstandingComponent implements OnInit {
         }
       });
     }
+  }
+
+  generateCsvData() {
+    let liabilitiesJson = [];
+    liabilitiesJson.push(Object.assign({liability:" Liability",liabilityAmount:'Amount'}));
+
+    this.voucherEntries.forEach(liability => {
+      liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
+      liability.subGroups.forEach(subGroup => {
+        liabilitiesJson.push({ liability: '(SG)'+subGroup.name, liabilityAmount: subGroup.total });
+        subGroup.balanceSheets.forEach(balanceSheet => {
+          liabilitiesJson.push({ liability: '(L)'+balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
+        });
+      });
+    });
+
+    
+    let mergedArray = [];
+
+    for (let i = 0; i < liabilitiesJson.length; i++) {
+       if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
+        mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '' }));
+      } 
+    }
+    mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1]))
+    mergedArray.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
+
+    this.csvService.jsonToExcel(mergedArray);
+    console.log('Merged:', mergedArray);
   }
 }
