@@ -5,13 +5,15 @@ import { UserService } from '../services/user.service';
   selector: 'ngx-pages',
   template: `
     <ngx-sample-layout>
-    <nb-menu *ngIf="user._menu.loadIntelligence.length"  [items]="user._menu.loadIntelligence" autoCollapse="false"></nb-menu>
+    <nb-menu   [items]="user._menu.loadIntelligence" autoCollapse="false"></nb-menu>
     <router-outlet></router-outlet>
     </ngx-sample-layout>
   `,
 })
 export class LoadIntelligenceComponent  {
 
-  constructor(public user: UserService) {}
+  constructor(public user: UserService) {
+    console.log(user._menu);
+  }
 
 }

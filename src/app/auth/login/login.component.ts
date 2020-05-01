@@ -237,10 +237,7 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.user._pages = res['data'].filter(page => {
-          const defaultModules = ['Documents', 'Walle8', 'challan'];
-          if (defaultModules.indexOf(page.group_name) !== -1) {
-            return true
-          }
+          
           return page.userid;
         });
 
@@ -254,6 +251,7 @@ export class LoginComponent implements OnInit {
         this.user.filterMenu("account", "account");
         this.user.filterMenu("challan", "challan");
         this.user.filterMenu("walle8", "walle8");
+        this.user.filterMenu("loadIntelligence", "loadIntelligence");
 
         if (this.user._loggedInBy == "admin") {
           this.router.navigate(['/admin']);

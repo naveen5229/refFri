@@ -1,4 +1,6 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import { CommonService } from '../../services/common.service';
+
 import * as d3 from 'd3';
 import * as d3Scale from 'd3-scale';
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
@@ -40,7 +42,8 @@ export class HotspotSummaryComponent implements OnInit {
   svg: any;
   projection: any;
 
-  constructor(public api: ApiService, ) {
+  constructor(public api: ApiService, 
+    public common: CommonService) {
 
   }
 
@@ -251,7 +254,7 @@ export class HotspotSummaryComponent implements OnInit {
       .attr("class", "tooltip")
       .style("opacity", 0 );
 
-    // console.log(topojson.feature(data, dist));
+    // console.log(topojson.feature(data, dist)common);
     var subunits = g.selectAll(".subunit")
       .data(topojson.feature(data, dist).features)
       .enter().append("path")
@@ -465,7 +468,10 @@ export class HotspotSummaryComponent implements OnInit {
     }
   }
 
+downloadCsv(catList) {
+  this.common.getCSVFromTableIdLatest(catList);
 
+}
 
 }
 
