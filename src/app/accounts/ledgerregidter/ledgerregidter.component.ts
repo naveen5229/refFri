@@ -30,7 +30,7 @@ import { PdfService } from '../../services/pdf/pdf.service';
          
       </div>
       <ledger-register-tree *ngIf="d.name" [action]="action" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
-      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d) :action(d.y_voucherid,d.y_code) : action(d.y_voucherid)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
+      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
         <div class="col x-col">{{d.y_code}}</div>
@@ -467,7 +467,14 @@ export class LedgerregidterComponent implements OnInit {
     });
   }
 
-  openinvoicemodel(voucherId) {
+  openinvoicemodel(voucherId,code,type) {
+    if(type.toLowerCase().includes('voucher')){
+      if(type.toLowerCase().includes('trip')){
+        this.openConsignmentVoucherEdit(voucherId);
+      }else{
+        this.openVoucherDetail(voucherId,code);
+      }
+    }else{
     this.common.params = {
       invoiceid: voucherId,
       delete: 0,
@@ -483,6 +490,7 @@ export class LedgerregidterComponent implements OnInit {
       }
     });
   }
+}
 
   openConsignmentVoucherEdit(voucherData) {
     const params = {

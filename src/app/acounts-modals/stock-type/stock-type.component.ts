@@ -14,7 +14,7 @@ export class StockTypeComponent implements OnInit {
   stockType = {
     name: '',
     code: '',
-    isservice:true
+    isservice:false
   };
   showSuggestions = false;
   suggestions = [];

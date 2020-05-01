@@ -330,21 +330,21 @@ export class StockitemComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         
-        this.setFoucus('unit');
-      } else if (activeId == 'unit') {
         this.setFoucus('name');
+      } else if (activeId == 'unit') {
+        this.setFoucus('sales');
       } else if (activeId == 'code') {
         this.setFoucus('name');
       } else if (activeId == 'name') {
-        this.setFoucus('maxlimit');
+        this.setFoucus('openingqty');
       } else if (activeId == 'maxlimit') {
         this.setFoucus('minlimit');
       } else if (activeId == 'minlimit') {
-        this.setFoucus('openingqty');
-      }else if (activeId == 'openingbal') {
-        this.setFoucus('isactive');
+        this.setFoucus('gst');
+      }else if ((activeId == 'openingbal') || (activeId == 'notopeningbal')) {
+        this.setFoucus('maxlimit');
       }else if (activeId == 'openingqty') {
-        this.setFoucus('openingbal');
+        this.setFoucus('unit');
       } else if (activeId == 'isactive' || activeId == 'notisactive') {
         this.setFoucus('sales');
       } else if (activeId == 'sales' || activeId == 'notsales') {
@@ -358,7 +358,7 @@ export class StockitemComponent implements OnInit {
      //  this.showConfirm = true;
      }
       else if (activeId == 'inventary' || activeId == 'notinventary') {
-         this.setFoucus('gst');
+         this.setFoucus('notopeningbal');
       //  this.showConfirm = true;
       }else if (activeId == 'gst' || activeId == 'notgst') {
         this.setFoucus('hsndetail');
@@ -386,16 +386,14 @@ export class StockitemComponent implements OnInit {
       console.log('active 1', activeId);
       if (activeId == 'inventary' || activeId == 'notinventary') this.setFoucus('purchase');
       if (activeId == 'purchase' || activeId == 'notpurchase') this.setFoucus('sales');
-      if (activeId == 'sales' || activeId == 'notsales') this.setFoucus('isactive');
+      if (activeId == 'sales' || activeId == 'notsales') this.setFoucus('unit');
       if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('openingbal');
       if (activeId == 'openingqty') this.setFoucus('minlimit');
-      if (activeId == 'openingbal' || activeId =='notopeningbal') this.setFoucus('openingqty');
-      if (activeId == 'minlimit') this.setFoucus('openingqty');
-      if (activeId == 'maxlimit') this.setFoucus('name');
-      // if (activeId == 'name') this.setFoucus('code');
-      // if (activeId == 'code') this.setFoucus('name');
-      if (activeId == 'name') this.setFoucus('unit');
-      if (activeId == 'unit') this.setFoucus('stockSubType');
+      if (activeId == 'openingbal' || activeId =='notopeningbal') this.setFoucus('name');
+      if (activeId == 'minlimit') this.setFoucus('maxlimit');
+      if (activeId == 'name') this.setFoucus('stockSubType');
+      if (activeId == 'maxlimit') this.setFoucus('openingbal');
+      if (activeId == 'unit') this.setFoucus('openingqty');
       if (activeId == 'stockSubType') this.setFoucus('stockType');
       if (activeId == 'cess') this.setFoucus('igst');
       if (activeId == 'igst') this.setFoucus('taxability');
@@ -404,7 +402,7 @@ export class StockitemComponent implements OnInit {
       if (activeId == 'notisnon' || 'isnon') this.setFoucus('hsnno');
       if (activeId == 'hsnno') this.setFoucus('hsndetail');
       if (activeId == 'hsndetail') this.setFoucus('gst');
-      if (activeId == 'gst') this.setFoucus('inventary');
+      if (activeId == 'gst') this.setFoucus('minlimit');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
     } else if (key != 'backspace') {

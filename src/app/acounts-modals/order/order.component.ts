@@ -459,8 +459,8 @@ export class OrderComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data'],type);
-        if (type == 'sales') { this.suggestions.salesstockItems = res['data']; }
-        if (type == 'purchase') { this.suggestions.purchasestockItems = res['data']; }
+        if ((this.order.ordertype.id == -104) || (this.order.ordertype.id == -106)) { this.suggestions.salesstockItems = res['data']; }
+        if ((this.order.ordertype.id == -102) || (this.order.ordertype.id == -107) ||(this.order.ordertype.id == -108) ) { this.suggestions.purchasestockItems = res['data']; }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -662,8 +662,8 @@ export class OrderComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     this.setAutoSuggestion();
-    if((this.order.ordertype.name.toLowerCase().includes('purchase')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.purchasestockItems; }
-        if ((this.order.ordertype.name.toLowerCase().includes('sales')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.salesstockItems; }
+    if(((this.order.ordertype.id == -102) || (this.order.ordertype.id == -107) ||(this.order.ordertype.id == -108) ) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.purchasestockItems; }
+        if (((this.order.ordertype.id == -104) || (this.order.ordertype.id == -106)) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.salesstockItems; }
     // console.log('Active Id', this.activeId);
     if ((event.altKey && key === 'c') && ((this.activeId.includes('purchaseledger')) || (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')) || (this.activeId.includes('ledgersup')))) {
       // console.log('alt + C pressed');
