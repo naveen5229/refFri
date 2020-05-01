@@ -674,5 +674,9 @@ export class LedgerregidterComponent implements OnInit {
       });
     }
   }
+
+  csvFunction(){
+    
+  }
 }
 

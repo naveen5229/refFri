@@ -91,7 +91,7 @@ export class HeaderComponent implements OnInit {
           this.user._customer = {
             name: '',
             id: '',
-            mobileNo:null
+            mobileNo: null
           };
           this.user._menu = {
             admin: [],
@@ -103,7 +103,8 @@ export class HeaderComponent implements OnInit {
             account: [],
             challan: [],
             walle8: [],
-            bidSystem:[]
+            bidSystem: [],
+            loadIntelligence: []
           };
           localStorage.removeItem('USER_DETAILS');
           localStorage.removeItem('USER_TOKEN');
@@ -151,7 +152,7 @@ export class HeaderComponent implements OnInit {
     console.log('________', this.accountService.selected.branch);
   }
 
-  openBankModal(){
+  openBankModal() {
     console.log("openBankModal");
     const activeModal = this.modalService.open(BankDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
