@@ -166,8 +166,7 @@
             </div>
             <div *ngFor="let stockItem of stockSubType.data let k = index"
               [hidden]="active.liabilities.subGroup.indexOf('subGroup' + i + j + 0 + 0) == -1">
-              <div class="row x-stockitem" (click)="handleExpandation($event, i, 'liabilities', 'branch', j,k,0)"
-                (dblclick)="openmodal(stockItem.data[0].data[0],'stock')">
+              <div *ngIf="warehouseid==0" class="row x-stockitem" (click)="handleExpandation($event, i, 'liabilities', 'branch', j,k,0)" (dblclick)="openmodal(stockItem.data[0].data[0],'stock')">
                 <div class="col x-col">&nbsp;</div>
                 <div class="col x-col">&nbsp;</div>
                 <div class="col x-col">{{stockItem.name}}</div>
@@ -184,6 +183,24 @@
                 <div class="col x-col">{{stockItem.totalnet}}</div>
 
               </div>
+              <div *ngIf="warehouseid != 0" class="row x-stockitem" (dblclick)="openmodal(stockItem.data[0].data[0],'stock')"  (click)="selectedRow = i + j + k + 0+ 0"  [ngClass]="{'highlight' : selectedRow == i + j + k + 0+ 0}">
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.name}}</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.totalqty}}</div>
+                <div class="col x-col">{{stockItem.totalstokrecive}}</div>
+                <div class="col x-col">{{stockItem.totalpurchase}}</div>
+                <div class="col x-col">{{stockItem.totalsales}}</div>
+                <div class="col x-col">{{stockItem.totalissue}}</div>
+                <div class="col x-col">{{stockItem.totalwastage}}</div>
+                <div class="col x-col">{{stockItem.totaldebit}}</div>
+                <div class="col x-col">{{stockItem.totalcredit}}</div>
+                <div class="col x-col">{{stockItem.totalnet}}</div>
+
+              </div>
+
             <div  *ngIf="warehouseid==0">
               <div *ngFor="let branch of stockItem.data let l = index" 
                 [hidden]="active.liabilities.branch.indexOf('branch' + i + j + k + 0) == -1">
