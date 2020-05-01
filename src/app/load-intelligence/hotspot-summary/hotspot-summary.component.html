@@ -57,10 +57,13 @@
 
       <div style="margin: 30px 10px; width: 500px; height: 500px; overflow: auto;" *ngIf='plantList != null'>
 
-          <table class="table table-hover" *ngIf='plantList.length' style="width: 450px;">
+          <table class="table table-hover" *ngIf='plantList.length' style="width: 450px;" id='catList'>
               <thead style="text-align: center;">
                   <tr>
-                      <th colspan="4" style="text-align: center;">{{categorName}} List</th>
+                      <th colspan="4" style="text-align: center;">{{categorName}} List
+                        <span class="exel-icon" title="CSV Export" (click)="downloadCsv('catList')"
+                        style="cursor: pointer;float: right;"><i class="fas fa-file-excel"></i></span>
+                    </th>
                   </tr>
                   <tr>
                       <th>#</th>

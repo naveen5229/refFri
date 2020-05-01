@@ -1024,6 +1024,7 @@ export class CommonService {
 
   getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?) {
     let tblelt = document.getElementById(tblEltId);
+    console.log(tblelt);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
     }
@@ -1129,6 +1130,7 @@ export class CommonService {
 
   getCSVFromTableIdNew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblelt = document.getElementById(tblEltId);
+    console.log(tblelt);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
     }
@@ -1157,6 +1159,7 @@ export class CommonService {
           if (doNotIncludes.hasOwnProperty(donotInclude)) {
             const thisNotInclude = doNotIncludes[donotInclude];
             if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+
               isBreak = true;
               break;
             }
@@ -1175,24 +1178,161 @@ export class CommonService {
           let eltinput = hdgCols[i].querySelector("input");
           let attrval = eltinput.getAttribute("placeholder");
           hdgs[attrval] = attrval;
+          console.log(hdgs);
+
           arr_hdgs.push(attrval);
         } else if (elthtml.indexOf('<img') > -1) {
           let eltinput = hdgCols[i].querySelector("img");
           let attrval = eltinput.getAttribute("title");
           hdgs[attrval] = attrval;
+          console.log(hdgs);
+
           arr_hdgs.push(attrval);
         } else if (elthtml.indexOf('href') > -1) {
           let strval = hdgCols[i].innerHTML;
           hdgs[strval] = strval;
+          console.log(hdgs);
+
           arr_hdgs.push(strval);
         } else {
-          let plainText = elthtml.replace(/<[^>]*>/g, '');
-          hdgs[plainText] = plainText;
-          arr_hdgs.push(plainText);
+            
+            let plainText = elthtml.replace(/<[^>]*>/g, '');
+            hdgs[plainText] = plainText;
+            console.log(hdgs);
+  
+            arr_hdgs.push(plainText);
+         
         }
       }
     }
     info.push(hdgs);
+    console.log(hdgs);
+    console.log(info);
+
+
+    let tblrows = tblelt.querySelectorAll('tbody tr');
+    console.log(tblrows);
+    if (tblrows.length >= 1) {
+      for (let i = 0; i < tblrows.length; i++) {
+        if (tblrows[i].classList.contains('cls-hide'))
+          continue;
+        let rowCols = tblrows[i].querySelectorAll('td');
+        let rowdata = [];
+        for (let j = 0; j < rowCols.length; j++) {
+          if (rowCols[j].classList.contains('del'))
+            continue;
+          let colhtml = rowCols[j].innerHTML;
+          if (colhtml.indexOf('input') > -1) {
+            let eltinput = rowCols[j].querySelector("input");
+            let attrval = eltinput.getAttribute('placeholder');
+            rowdata[arr_hdgs[j]] = attrval;
+          } else if (colhtml.indexOf('img') > -1) {
+            let eltinput = rowCols[j].querySelector("img");
+            let attrval = eltinput && eltinput.getAttribute('title');
+            rowdata[arr_hdgs[j]] = attrval;
+          } else if (colhtml.indexOf('href') > -1) {
+            let strval = rowCols[j].innerHTML;
+            rowdata[arr_hdgs[j]] = strval;
+          } else if (colhtml.indexOf('</i>') > -1) {
+            let pattern = /<i.* title="([^"]+)/g;
+            let match = pattern.exec(colhtml);
+            if (match != null && match.length)
+              rowdata[arr_hdgs[j]] = match[1];
+          } else {
+            let plainText = colhtml.replace(/<[^>]*>/g, '');
+            rowdata[arr_hdgs[j]] = plainText;
+          }
+        }
+        console.log(rowdata)
+
+        info.push(rowdata);
+        console.log(info)
+      }
+
+    }
+    new Angular5Csv(info, "report.csv");
+  }
+  getCSVFromTableIdLatest(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
+    let tblelt = document.getElementById(tblEltId);
+    console.log(tblelt);
+    if (tblelt.nodeName != "TABLE") {
+      tblelt = document.querySelector("#" + tblEltId + " table");
+    }
+
+    let organization = { "elogist Solutions": "elogist Solutions" };
+    let blankline = { "": "" };
+
+    let leftData = { '': '', left_heading };
+    let centerData = { '': '', center_heading };
+    let doctime = { time };
+    let last = { '': '', lastheading };
+
+    let info = [];
+    let hdgs = {};
+    let arr_hdgs = [];
+    // info.push(organization);
+    //info.push(blankline);
+    // info.push(leftData);
+    // info.push(centerData);
+    // info.push(last);
+    let hdgCols = tblelt.querySelectorAll('th');
+    if (hdgCols.length >= 1) {
+      for (let i = 0; i < hdgCols.length; i++) {
+        let isBreak = false;
+        for (const donotInclude in doNotIncludes) {
+          if (doNotIncludes.hasOwnProperty(donotInclude)) {
+            const thisNotInclude = doNotIncludes[donotInclude];
+            if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+
+              isBreak = true;
+              break;
+            }
+          }
+        }
+        if (isBreak)
+          continue;
+
+
+        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+          continue;
+        if (hdgCols[i].classList.contains('del'))
+          continue;
+        let elthtml = hdgCols[i].innerHTML;
+        if (elthtml.indexOf('<input') > -1) {
+          let eltinput = hdgCols[i].querySelector("input");
+          let attrval = eltinput.getAttribute("placeholder");
+          hdgs[attrval] = attrval;
+
+          arr_hdgs.push(attrval);
+        } else if (elthtml.indexOf('<img') > -1) {
+          let eltinput = hdgCols[i].querySelector("img");
+          let attrval = eltinput.getAttribute("title");
+          hdgs[attrval] = attrval;
+
+          arr_hdgs.push(attrval);
+        } else if (elthtml.indexOf('href') > -1) {
+          let strval = hdgCols[i].innerHTML;
+          hdgs[strval] = strval;
+
+          arr_hdgs.push(strval);
+        } else {
+          if (i < 5) {
+            if ( i == 0 || i == 1)  {
+                continue;
+            } 
+            
+            let plainText = elthtml.replace(/<[^>]*>/g, '');
+            hdgs[plainText] = plainText;
+  
+            arr_hdgs.push(plainText);
+          }
+         
+        }
+      }
+    }
+    info.push(hdgs);
+    
+
 
     let tblrows = tblelt.querySelectorAll('tbody tr');
     if (tblrows.length >= 1) {
@@ -1226,12 +1366,15 @@ export class CommonService {
             rowdata[arr_hdgs[j]] = plainText;
           }
         }
+        console.log(rowdata)
+
         info.push(rowdata);
+        console.log(info)
       }
+
     }
     new Angular5Csv(info, "report.csv");
   }
-
   getMultipleCSVFromTableIdNew(tblArray, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblEltId = '';
     tblArray.forEach(tblid => {

@@ -51,7 +51,8 @@ export class UserService {
     account: [],
     challan: [],
     walle8: [],
-    bidSystem:[]
+    bidSystem:[],
+    loadIntelligence:[],
   };
 
   permission = {
