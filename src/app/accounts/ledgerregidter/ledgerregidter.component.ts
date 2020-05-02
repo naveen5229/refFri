@@ -49,9 +49,9 @@ export class ledgerRegisterTreeComponent {
   @Input() data: any;
   @Input() active: boolean;
   @Input() labels: string;
-  @Input() action:any;
+  @Input() action: any;
   activeIndex: boolean = false;
-  selectedRow:number = -1;
+  selectedRow: number = -1;
 
 }
 
@@ -127,7 +127,7 @@ export class LedgerregidterComponent implements OnInit {
       this.GetLedger();
       this.sizeledger = 1;
     }
-    this.common.currentPage =  'Ledger Register';
+    this.common.currentPage = 'Ledger Register';
     this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
     this.getVoucherTypeList();
     this.getAllLedger();
@@ -467,30 +467,30 @@ export class LedgerregidterComponent implements OnInit {
     });
   }
 
-  openinvoicemodel(voucherId,code,type) {
-    if(type.toLowerCase().includes('voucher')){
-      if(type.toLowerCase().includes('trip')){
+  openinvoicemodel(voucherId, code, type) {
+    if (type.toLowerCase().includes('voucher')) {
+      if (type.toLowerCase().includes('trip')) {
         this.openConsignmentVoucherEdit(voucherId);
-      }else{
-        this.openVoucherDetail(voucherId,code);
+      } else {
+        this.openVoucherDetail(voucherId, code);
       }
-    }else{
-    this.common.params = {
-      invoiceid: voucherId,
-      delete: 0,
-      indexlg: 0
-    };
-    const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        console.log('open succesfull');
+    } else {
+      this.common.params = {
+        invoiceid: voucherId,
+        delete: 0,
+        indexlg: 0
+      };
+      const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          console.log('open succesfull');
 
-        // this.addLedger(data.ledger);
-      }
-    });
+          // this.addLedger(data.ledger);
+        }
+      });
+    }
   }
-}
 
   openConsignmentVoucherEdit(voucherData) {
     const params = {
@@ -675,8 +675,64 @@ export class LedgerregidterComponent implements OnInit {
     }
   }
 
-  csvFunction(){
-    
+  csvFunction() {
+    let jrxJson = [];
+    jrxJson.push(Object.assign({
+      particular: "Particular",
+      ledgerName: "Ledger Name",
+      voucherCode: "Voucher Code",
+      voucherCustCode: "Voucher Cust Code",
+      voucherDate: "Voucher Date",
+      voucherType: "Voucher Type",
+      drAmount: "Dr Amount",
+      crAmount: "Cr Amount"
+    }));
+    this.voucherEntries.forEach(voucher => {
+      jrxJson.push({
+        particular: voucher.name,
+        ledgerName: "",
+        voucherCode: "",
+        voucherCustCode: "",
+        voucherDate: "",
+        voucherType: "",
+        drAmount: voucher.debit,
+        crAmount: voucher.credit
+      });
+      jrxJson.push(...this.generateCSVData(voucher.data, '  '));
+    });
+    this.csvService.jsonToExcel(jrxJson);
+  }
+
+  generateCSVData(vouchers, str) {
+    let json = [];
+    for (let i = 0; i < vouchers.length; i++) {
+      let voucher = vouchers[i];
+      if (voucher.name) {
+        json.push({
+          particular: str + voucher.name,
+          ledgerName: "",
+          voucherCode: "",
+          voucherCustCode: "",
+          voucherDate: "",
+          voucherType: "",
+          drAmount: voucher.debit,
+          crAmount: voucher.credit
+        });
+        json.push(...this.generateCSVData(voucher.data, str + '  '));
+      } else {
+        json.push({
+          particular: "",
+          ledgerName: voucher.y_ledger_name,
+          voucherCode: voucher.y_code,
+          voucherCustCode: voucher.y_voucher_cust_code,
+          voucherDate: voucher.y_voucher_date,
+          voucherType: voucher.y_voucher_type_name,
+          drAmount: voucher.y_dramunt,
+          crAmount: voucher.y_cramunt
+        });
+      }
+    }
+    return json;
   }
 }
 
