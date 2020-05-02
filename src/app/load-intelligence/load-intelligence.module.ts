@@ -13,8 +13,9 @@ import { SpecialAreaComponent } from './special-area/special-area.component';
 import { HotspotSummaryComponent } from './hotspot-summary/hotspot-summary.component';
 import { FindRouteComponent } from './find-route/find-route.component';
 import { PathViewverComponent } from './path-viewver/path-viewver.component';
+import { ZoneDetailsComponent } from './zone-details/zone-details.component';
 @NgModule({
-  declarations: [DashboardComponent, LoadIntelligenceComponent, ShowRoutesComponent, PopulateAltitudeComponent, UploadRoutesComponent, SpecialAreaComponent, HotspotSummaryComponent, FindRouteComponent, PathViewverComponent],
+  declarations: [DashboardComponent, LoadIntelligenceComponent, ShowRoutesComponent, PopulateAltitudeComponent, UploadRoutesComponent, SpecialAreaComponent, HotspotSummaryComponent, FindRouteComponent, PathViewverComponent, ZoneDetailsComponent],
   imports: [
     CommonModule,
     LoadIntelligenceRoutingModule,
