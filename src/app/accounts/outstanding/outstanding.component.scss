@@ -11,49 +11,20 @@ nb-card-header{
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
+nb-card-body{
+    padding: 16px !important;
+}
 .main{
     display: block;
     margin-top: 20px;
 }
-table{
-    thead{
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-    }
-    tr{
-        th{
-            padding: 5px 10px;
-            font-weight: normal;
-            width: 150px;
-        }
-       
-        td{
-            padding: 5px 10px !important;
-            font-size: 12px;
-            width: 150px;
-            button{
-                padding: 0 !important;
-                font-size: 11px;
-                border-radius: 0px !important;
-                margin: 0px;
-                background-color: transparent;
-                color: black;
-                outline: none;
-                box-shadow: none;
-            }
-        }
-    }
-    tbody{
-        overflow-y: auto;
-        display: block;
-        width: 100%;
-        table-layout: fixed;
-        overflow: auto;
-        max-height: calc(100vh - 172px);
-        
-        
-    }
+.pdf-icon {
+    font-size: 30px;
+    color: #9f0001;
+}
+.exel-icon {
+    font-size: 30px;
+    color: #217346;
 }
 .add-button{
     position: fixed;

@@ -280,33 +280,7 @@ export class OutstandingComponent implements OnInit {
         this.common.showError();
       });
   }
-  csvFunction() {
-    let params = {
-      search: 'test'
-    };
-
-    this.common.loading++;
-    this.api.post('Voucher/GetCompanyHeadingData', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res11:', res['data']);
-        // this.Vouchers = res['data'];
-        let address = (res['data'][0]) ? res['data'][0].addressline + '\n' : '';
-        let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
-        let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
-        let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
-
-        let cityaddress = address + remainingstring1;
-        let foname = (res['data'][0]) ? res['data'][0].foname : '';
-        this.common.getCSVFromTableIdNew('balance-sheet', foname, cityaddress, '', '', remainingstring3);
-        // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
-
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-  }
+ 
   onSelected(selectedData, type, display) {
     this.outStanding[type].name = selectedData[display];
     this.outStanding[type].id = selectedData.id;
@@ -739,5 +713,65 @@ export class OutstandingComponent implements OnInit {
 
     this.csvService.jsonToExcel(mergedArray);
     console.log('Merged:', mergedArray);
+  }
+
+  csvFunction() {
+    let jrxJson = [];
+    jrxJson.push(Object.assign({
+      particular: "Particular",
+      ledgerName: "Ledger Name",
+      voucherCode: "Voucher Code",
+      voucherCustCode: "Voucher Cust Code",
+      voucherDate: "Voucher Date",
+      voucherType: "Voucher Type",
+      drAmount: "Dr Amount",
+      crAmount: "Cr Amount"
+    }));
+    this.voucherEntries.forEach(voucher => {
+      jrxJson.push({
+        particular: voucher.name,
+        ledgerName: "",
+        voucherCode: "",
+        voucherCustCode: "",
+        voucherDate: "",
+        voucherType: "",
+        drAmount: voucher.debit,
+        crAmount: voucher.credit
+      });
+      jrxJson.push(...this.generateCSVData(voucher.data, '  '));
+    });
+    this.csvService.jsonToExcel(jrxJson);
+  }
+
+  generateCSVData(vouchers, str) {
+    let json = [];
+    for (let i = 0; i < vouchers.length; i++) {
+      let voucher = vouchers[i];
+      if (voucher.name) {
+        json.push({
+          particular: str + voucher.name,
+          ledgerName: "",
+          voucherCode: "",
+          voucherCustCode: "",
+          voucherDate: "",
+          voucherType: "",
+          drAmount: voucher.debit,
+          crAmount: voucher.credit
+        });
+        json.push(...this.generateCSVData(voucher.data, str + '  '));
+      } else {
+        json.push({
+          particular: "",
+          ledgerName: (voucher.y_ledger_name) ? voucher.y_ledger_name :'',
+          voucherCode: (voucher.y_code) ? voucher.y_code : '',
+          voucherCustCode: (voucher.y_voucher_cust_code) ? voucher.y_voucher_cust_code :'',
+          voucherDate: (voucher.y_voucher_date) ? voucher.y_voucher_date :'',
+          voucherType: (voucher.y_voucher_type_name) ? voucher.y_voucher_type_name :'',
+          drAmount: voucher.y_dramunt,
+          crAmount: voucher.y_cramunt
+        });
+      }
+    }
+    return json;
   }
 }
