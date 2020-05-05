@@ -1,8 +1,19 @@
 button { 
-    background-color: #73a1ff;
+    padding: 7px 10px !important;
+    background-color: #263238;
     border-radius: 5px !important;
     text-transform: capitalize !important;
-    padding: 10px !important;
+    cursor: pointer;
+    outline: none;
+    box-shadow: none;
+}
+.tjr-button {
+    cursor: pointer;
+    margin-top: 18px;
+    background: #263238 !important;
+    height: auto;
+    border-radius: 3px !important;
+    padding: 3px 8px !important;
 }
 
 nb-card-header{
@@ -39,16 +50,7 @@ table{
             padding: 5px 10px !important;
             font-size: 12px;
             width: 180px;
-            button{
-                padding: 0 !important;
-                font-size: 11px;
-                border-radius: 0px !important;
-                margin: 0px;
-                background-color: transparent;
-                color: #263238;
-                outline: none;
-                box-shadow: none;
-            }
+          
         }
     }
     tbody{

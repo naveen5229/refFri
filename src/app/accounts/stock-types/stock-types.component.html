@@ -17,7 +17,7 @@
             <th>#</th>
             <th>Name</th>
             <th>Code</th>
-            <th>Service</th>
+            <!-- <th>Service</th> -->
             <th>Date</th>
             <th>Action</th>
           </tr>
@@ -29,7 +29,7 @@
             <td *ngIf="stockType.id !=0" >{{i}}</td>
             <td *ngIf="stockType.id !=0">{{stockType.name}}</td>
             <td *ngIf="stockType.id !=0">{{stockType.code}}</td>
-            <td *ngIf="stockType.id !=0">{{(stockType.is_service == true) ? 'True' : False }}</td>
+            <!-- <td *ngIf="stockType.id !=0">{{(stockType.is_service == true) ? 'True' : False }}</td> -->
             <td *ngIf="stockType.id !=0">{{stockType.entry_dt | date : 'dd-MMM-yy'}}</td>
             <td class="del" *ngIf="stockType.id !=0">
               <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockType.id)"><i
