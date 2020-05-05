@@ -976,7 +976,9 @@ export class OrderdetailComponent implements OnInit {
       cess: stockItem.cess,
       igst: stockItem.igst,
       taxability: stockItem.taxability,
-      calculationtype: stockItem.calculationtype
+      calculationtype: stockItem.calculationtype,
+      openinngbal:stockItem.openingbal,
+     openingqty:stockItem.openingqty
 
     };
 

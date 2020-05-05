@@ -32,6 +32,7 @@ export class AccountsComponent implements OnInit {
   };
   activeId ='account';
   suggestionIndex = -1;
+  pagename='Add Secondary Account';
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public modalService: NgbModal,
@@ -52,6 +53,7 @@ console.log('accounts get data',this.common.params);
         }
       }
       console.log('Accounts: ', this.Accounts);
+      this.pagename='Edit Secondary Account';
     }
     this.getAccountData();
   }
@@ -60,12 +62,9 @@ console.log('accounts get data',this.common.params);
   }
   dismiss(response) {
     console.log('Accounts:', this.Accounts);
-    if(this.foid >=1){
+   
     this.activeModal.close({ response: response, Accounts: this.Accounts, });
-  }else{
-    this.common.showError("System Entry Can't Update");
-    this.activeModal.close({ response: false ,Accounts: this.Accounts});
-  }
+ 
 }
 
 modalCondition(res){

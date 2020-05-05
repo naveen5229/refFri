@@ -1,29 +1,21 @@
 <nb-card style="border:0px;">
   <nb-card-body (keydown)="keyHandler($event)">
-    <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('balance-sheet')" style="cursor: pointer;"><i
-        class="fa fa-file-pdf"></i></span>
+    <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('balance-sheet')"
+      style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
     <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
         class="fas fa-file-excel"></i></span>
     <div class="" style="float:right; margin-right: 20px">
-      <span><input type="radio" name="view-type" value="main" (click)="activeGroup = []" [(ngModel)]="viewType"> Expand Main Group</span>
-      <span><input type="radio" name="view-type" value="sub" (click)="showAllGroups()" [(ngModel)]="viewType"> Expand All</span>
+      <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
+        Main Group</span>
+      <span><input type="radio" name="view-type" value="sub"  [(ngModel)]="isExpand"> Expand
+        All</span>
     </div>
     <div class="row">
-
       <div class="col-9">
         <div class="row">
-          <!-- <div class="col">
-        <div class="form-group">
-          <label>Branch</label>
-          <input type="text" id="branch" class="form-control" name="branch" [(ngModel)]="outStanding.branch.name"/>
-        </div>
-      </div> -->
-
           <div class="col">
             <div class="form-group">
               <label class="tjr-label">Ledger</label>
-              <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger"
-            display="name" placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion> -->
               <input autocomplete="off" type="text" id="ledger" class="form-control tjr-input" name="ledger"
                 [(ngModel)]="outStanding.ledger.name">
             </div>
@@ -44,35 +36,33 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-3">
+          <div class="col-4">
             <div class="form-group">
               <label class="tjr-label">Goup Id</label>
-              <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger"
-            display="name" placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion> -->
               <input autocomplete="off" type="text" id="groupid" class="form-control tjr-input" name="groupid"
                 [(ngModel)]="outStanding.groupid.name">
             </div>
           </div>
-          <div class="col-5">
+          <div class="col-4">
             <div class="form-group">
-                <label class="tjr-label">Outstanding Balance</label>
-                <div class="debit_box">
-                  <div class="debit">
-                    <span>Debit</span>
-                    <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
-                      [(ngModel)]="outStanding.trantype" [value]=0>
-                  </div>
-                  <div class="credit">
-                    <span>Credit</span>
-                    <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
-                      [(ngModel)]="outStanding.trantype" [value]=1>
-                  </div>
-                  <div class="credit">
-                    <span>All</span>
-                    <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
-                      [(ngModel)]="outStanding.trantype" [value]=-1>
-                  </div>
-                
+              <label class="tjr-label">Outstanding Balance</label>
+              <div class="debit_box">
+                <div class="debit">
+                  <span>Debit</span>
+                  <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
+                    [(ngModel)]="outStanding.trantype" [value]=0>
+                </div>
+                <div class="credit">
+                  <span>Credit</span>
+                  <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
+                    [(ngModel)]="outStanding.trantype" [value]=1>
+                </div>
+                <div class="credit">
+                  <span>All</span>
+                  <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
+                    [(ngModel)]="outStanding.trantype" [value]=-1>
+                </div>
+
               </div>
             </div>
           </div>
@@ -85,9 +75,6 @@
         </div>
       </div>
       <div class="col-3">
-        <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
-        <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name" (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
-      </div> -->
         <div class="auto-sugg">
           <div class="form-group" *ngIf="this.activeId.includes('ledger')">
             <auto-suggetion-in-side [data]="ledgerList" targetId="ledger" display="name"
@@ -113,7 +100,7 @@
           <div class="col x-col">Cr Amount</div>
         </div>
         <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
-          <div class="row x-stocktype" style="cursor:pointer"  (click)="activeTree = activeTree !== i ? i : -1">
+          <div class="row x-stocktype" style="cursor:pointer" (click)="activeTree = activeTree !== i ? i : -1">
             <div class="col x-col">{{stockType.name}}</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
@@ -123,7 +110,7 @@
             <div class="col x-col" style="text-align:right;">{{stockType.debit | number : '1.2-2'}}</div>
             <div class="col x-col" style="text-align:right;">{{stockType.credit | number : '1.2-2'}}</div>
           </div>
-          <out-standing-tree [data]="stockType.data" [action]="openinvoicemodel.bind(this)"  [active]="activeTree == i ? true : false" labels="">
+          <out-standing-tree  [data]="stockType.data" [action]="openinvoicemodel.bind(this)" [isExpandAll]="isExpand == 'sub'" [active]="activeTree == i || isExpand  ? true : false" labels="">
           </out-standing-tree>
         </div>
       </div>

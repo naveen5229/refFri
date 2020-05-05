@@ -29,7 +29,7 @@ import { PdfService } from '../../services/pdf/pdf.service';
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.credit | number : '1.2-2'}} </div>
          
       </div>
-      <ledger-register-tree *ngIf="d.name" [action]="action" [data]="d.data" [active]="activeIndex === i ? true : false" [labels]="labels"></ledger-register-tree>
+      <ledger-register-tree *ngIf="d.name" [action]="action" [data]="d.data" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></ledger-register-tree>
       <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
@@ -50,6 +50,7 @@ export class ledgerRegisterTreeComponent {
   @Input() active: boolean;
   @Input() labels: string;
   @Input() action: any;
+  @Input() isExpandAll: boolean;
   activeIndex: boolean = false;
   selectedRow: number = -1;
 
@@ -109,6 +110,10 @@ export class LedgerregidterComponent implements OnInit {
   f2Date = 'startDate';
   lastActiveId = '';
   selectedRow = -1;
+
+  isExpandMainGroup: boolean = false;
+  isExpandAll: boolean = false;
+  isExpand: string = '';
 
   constructor(public api: ApiService,
     public common: CommonService,

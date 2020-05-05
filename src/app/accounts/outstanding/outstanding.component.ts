@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -26,8 +26,8 @@ import { PdfService } from '../../services/pdf/pdf.service';
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.debit | number : '1.2-2'}} </div>
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.credit | number : '1.2-2'}} </div>
       </div>
-      <out-standing-tree *ngIf="d.name" [data]="d.data" [action]="action"  [active]="activeIndex === i ? true : false" [labels]="labels"></out-standing-tree>
-      <div *ngIf="!d.name"  class="row x-warehouse tampu" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
+      <out-standing-tree *ngIf="d.name" [data]="d.data" [action]="action" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></out-standing-tree>
+      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
         <div class="col x-col">{{d.y_voucher_code}}</div>
@@ -46,13 +46,12 @@ export class outStandingTreeComponent {
   @Input() data: any;
   @Input() active: boolean;
   @Input() labels: string;
-  @Input() action:any;
+  @Input() action: any;
+  @Input() isExpandAll: boolean;
   activeIndex: boolean = false;
-  selectedRow:number = -1;
+  selectedRow: number = -1;
 
-  mujeKoiSelectKrloBhaiya(index){
-    console.log('Index:',index);
-  }
+
 }
 
 @Component({
@@ -65,7 +64,7 @@ export class OutstandingComponent implements OnInit {
   branchdata = [];
   activedateid = '';
   selectedName = '';
-  secondarygroup=[];
+  secondarygroup = [];
   outStanding = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -100,6 +99,9 @@ export class OutstandingComponent implements OnInit {
   pendingDataEditTme = [];
   tripExpDriver = [];
   tripExpenseVoucherTrips = [];
+  isExpandMainGroup: boolean = false;
+  isExpandAll: boolean = false;
+  isExpand: string = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -230,30 +232,30 @@ export class OutstandingComponent implements OnInit {
       }
     });
   }
-  openinvoicemodel(voucherId,code,type) {
-    if(type.toLowerCase().includes('voucher')){
-      if(type.toLowerCase().includes('trip')){
+  openinvoicemodel(voucherId, code, type) {
+    if (type.toLowerCase().includes('voucher')) {
+      if (type.toLowerCase().includes('trip')) {
         this.openConsignmentVoucherEdit(voucherId);
-      }else{
-        this.openVoucherDetail(voucherId,code);
+      } else {
+        this.openVoucherDetail(voucherId, code);
       }
-    }else{
-    this.common.params = {
-      invoiceid: voucherId,
-      delete: 0,
-      indexlg: 0
-    };
-    const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        console.log('open succesfull');
+    } else {
+      this.common.params = {
+        invoiceid: voucherId,
+        delete: 0,
+        indexlg: 0
+      };
+      const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          console.log('open succesfull');
 
-        // this.addLedger(data.ledger);
-      }
-    });
+          // this.addLedger(data.ledger);
+        }
+      });
+    }
   }
-}
   pdfFunction() {
     let params = {
       search: 'test'
@@ -280,7 +282,7 @@ export class OutstandingComponent implements OnInit {
         this.common.showError();
       });
   }
- 
+
   onSelected(selectedData, type, display) {
     this.outStanding[type].name = selectedData[display];
     this.outStanding[type].id = selectedData.id;
@@ -323,34 +325,34 @@ export class OutstandingComponent implements OnInit {
 
     this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
     console.log('voucherEntries', this.voucherEntries);
-  //   this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
-  //   console.log('voucherEntries', this.voucherEntries);
-  //   this.voucherEntries = [];
-  //   let allGroups = _.groupBy(this.ledgerData, 'y_path');
-  //   console.log('allGroups',allGroups);
+    //   this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
+    //   console.log('voucherEntries', this.voucherEntries);
+    //   this.voucherEntries = [];
+    //   let allGroups = _.groupBy(this.ledgerData, 'y_path');
+    //   console.log('allGroups',allGroups);
 
-  //   allGroups.map((dataval,index) => {
-  //  console.log('allkeys111',dataval);
-  //     let subGroups = _.groupBy(dataval, 'y_path');
-  //   let allKeys = Object.keys(subGroups);
-  //   allKeys.map((key, index) => {
-  //     this.voucherEntries[index] = {
-  //       name: key,
-  //       amount: {
-  //         debit: 0,
-  //         credit: 0
-  //       },
-  //       vouchers: allGroups[key]
-  //     };
-  //     allGroups[key].map(data => {
-  //       this.voucherEntries[index].amount.debit += parseFloat(data.y_dramunt);
-  //       this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
-  //     });
-  //   });
-  // });
-  //   this.showAllGroups();
+    //   allGroups.map((dataval,index) => {
+    //  console.log('allkeys111',dataval);
+    //     let subGroups = _.groupBy(dataval, 'y_path');
+    //   let allKeys = Object.keys(subGroups);
+    //   allKeys.map((key, index) => {
+    //     this.voucherEntries[index] = {
+    //       name: key,
+    //       amount: {
+    //         debit: 0,
+    //         credit: 0
+    //       },
+    //       vouchers: allGroups[key]
+    //     };
+    //     allGroups[key].map(data => {
+    //       this.voucherEntries[index].amount.debit += parseFloat(data.y_dramunt);
+    //       this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
+    //     });
+    //   });
+    // });
+    //   this.showAllGroups();
   }
-  
+
   findChilds(data) {
     let childs = [];
     for (let i = 0; i < data.length; i++) {
@@ -421,7 +423,7 @@ export class OutstandingComponent implements OnInit {
         this.setFoucus('endDate');
       } else if (this.activeId.includes('endDate')) {
         this.setFoucus('groupid');
-      }else if (this.activeId.includes('endDate')) {
+      } else if (this.activeId.includes('endDate')) {
         this.outStanding.endDate = this.common.handleDateOnEnterNew(this.outStanding.endDate);
         this.setFoucus('submit');
       }
@@ -441,7 +443,7 @@ export class OutstandingComponent implements OnInit {
         event.preventDefault();
         return;
       }
-    }else if (key != 'backspace') {
+    } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
     if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.voucherEntries.length) {
@@ -688,28 +690,28 @@ export class OutstandingComponent implements OnInit {
 
   generateCsvData() {
     let liabilitiesJson = [];
-    liabilitiesJson.push(Object.assign({liability:" Liability",liabilityAmount:'Amount'}));
+    liabilitiesJson.push(Object.assign({ liability: " Liability", liabilityAmount: 'Amount' }));
 
     this.voucherEntries.forEach(liability => {
-      liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
+      liabilitiesJson.push({ liability: '(MG)' + liability.name, liabilityAmount: liability.amount });
       liability.subGroups.forEach(subGroup => {
-        liabilitiesJson.push({ liability: '(SG)'+subGroup.name, liabilityAmount: subGroup.total });
+        liabilitiesJson.push({ liability: '(SG)' + subGroup.name, liabilityAmount: subGroup.total });
         subGroup.balanceSheets.forEach(balanceSheet => {
-          liabilitiesJson.push({ liability: '(L)'+balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
+          liabilitiesJson.push({ liability: '(L)' + balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
         });
       });
     });
 
-    
+
     let mergedArray = [];
 
     for (let i = 0; i < liabilitiesJson.length; i++) {
-       if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
+      if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
         mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '' }));
-      } 
+      }
     }
     mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1]))
-    mergedArray.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
+    mergedArray.push(Object.assign({}, { "": 'MG = Main Group ,SG = Sub Group, L = Ledger' }))
 
     this.csvService.jsonToExcel(mergedArray);
     console.log('Merged:', mergedArray);
@@ -762,16 +764,20 @@ export class OutstandingComponent implements OnInit {
       } else {
         json.push({
           particular: "",
-          ledgerName: (voucher.y_ledger_name) ? voucher.y_ledger_name :'',
+          ledgerName: (voucher.y_ledger_name) ? voucher.y_ledger_name : '',
           voucherCode: (voucher.y_code) ? voucher.y_code : '',
-          voucherCustCode: (voucher.y_voucher_cust_code) ? voucher.y_voucher_cust_code :'',
-          voucherDate: (voucher.y_voucher_date) ? voucher.y_voucher_date :'',
-          voucherType: (voucher.y_voucher_type_name) ? voucher.y_voucher_type_name :'',
+          voucherCustCode: (voucher.y_voucher_cust_code) ? voucher.y_voucher_cust_code : '',
+          voucherDate: (voucher.y_voucher_date) ? voucher.y_voucher_date : '',
+          voucherType: (voucher.y_voucher_type_name) ? voucher.y_voucher_type_name : '',
           drAmount: voucher.y_dramunt,
           crAmount: voucher.y_cramunt
         });
       }
     }
     return json;
+  }
+
+  printX() {
+    console.log(this.isExpand);
   }
 }

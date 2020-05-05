@@ -159,7 +159,6 @@ export class StockitemsComponent implements OnInit {
      calculationtype:stockItem.calculationtype,
      openinngbal:stockItem.openingbal,
     openingqty:stockItem.openingqty
-
     };
 
     console.log('params: stocks ', params);

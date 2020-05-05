@@ -3,18 +3,19 @@
     <h4>Account</h4>
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
-    <div class="modal-header" *ngIf="pageName">
-      <h5>Ledger Register</h5>
-      <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
+    <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('balance-sheet')" style="cursor: pointer;"><i
+      class="fa fa-file-pdf"></i></span>
+  <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
+      class="fas fa-file-excel"></i></span>
+      <div class="" style="float:right; margin-right: 20px">
+        <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
+          Main Group</span>
+        <span><input type="radio" name="view-type" value="sub"  [(ngModel)]="isExpand"> Expand
+          All</span>
+      </div>
     <div class="row" style="margin-left: 17px;">
       <div class="col-9">
-        <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('balance-sheet')" style="cursor: pointer;"><i
-                  class="fa fa-file-pdf"></i></span>
-              <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
-                  class="fas fa-file-excel"></i></span>
+       
         <div class="row">
           <div class="col-4">
             <div class="form-group">
@@ -167,7 +168,7 @@
             <div class="col x-col" style="text-align:right;">{{stockType.debit | number : '1.2-2'}}</div>
             <div class="col x-col" style="text-align:right;">{{stockType.credit | number : '1.2-2'}}</div>
           </div>
-          <ledger-register-tree [action]="openinvoicemodel.bind(this)" [data]="stockType.data" [active]="activeTree == i ? true : false" labels="">
+          <ledger-register-tree [action]="openinvoicemodel.bind(this)" [data]="stockType.data" [isExpandAll]="isExpand == 'sub'" [active]="activeTree == i || isExpand  ? true : false" labels="">
           </ledger-register-tree>
         </div>
       </div>
