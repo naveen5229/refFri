@@ -53,12 +53,9 @@
                 [(ngModel)]="outStanding.groupid.name">
             </div>
           </div>
-          <div class="col-7">
-            <div class="row form-group mb-0 mt-2">
-              <div class="col-md-4">
-                <label>Outstanding Balance</label>
-              </div>
-              <div class="col-md-8 pl-0 text-center">
+          <div class="col-5">
+            <div class="form-group">
+                <label class="tjr-label">Outstanding Balance</label>
                 <div class="debit_box">
                   <div class="debit">
                     <span>Debit</span>
@@ -75,11 +72,11 @@
                     <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
                       [(ngModel)]="outStanding.trantype" [value]=-1>
                   </div>
-                </div>
+                
               </div>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-4">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getLedgerView()"
                 id="submit" style="cursor: pointer;margin-top: 5px; padding: 7px !important;">Submit</button>
@@ -116,8 +113,8 @@
           <div class="col x-col">Cr Amount</div>
         </div>
         <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
-          <div class="row x-stocktype">
-            <div class="col x-col"(click)="activeTree = activeTree !== i ? i : -1">{{stockType.name}}</div>
+          <div class="row x-stocktype" style="cursor:pointer"  (click)="activeTree = activeTree !== i ? i : -1">
+            <div class="col x-col">{{stockType.name}}</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>

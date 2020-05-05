@@ -236,7 +236,7 @@ export class LedgerregidterComponent implements OnInit {
         console.log('Res:', res['data']);
         this.Ledgerregister = res['data'];
         this.generalizeData();
-        this.common.showToast(res['data'][0].y_errormsg);
+        //this.common.showToast(res['data'][0].y_errormsg);
 
       }, err => {
         this.common.loading--;

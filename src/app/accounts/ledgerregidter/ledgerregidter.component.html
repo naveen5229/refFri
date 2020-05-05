@@ -41,10 +41,9 @@
         </div>
         <div class="row">
           <div class="col-4">
+            <label class="tjr-label">Is Amount Debit </label>
             <div class="debit_box">
               <div class="form-group">
-                <label class="tjr-label">Is Amount Debit </label>
-                &nbsp;
                 <div class="debit">
                   <span>Yes</span>
                   <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
@@ -158,8 +157,8 @@
           <div class="col x-col">Cr Amount</div>
         </div>
         <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
-          <div class="row x-stocktype">
-            <div class="col x-col" (click)="activeTree = activeTree !== i ? i : -1">{{stockType.name}}</div>
+          <div class="row x-stocktype" style="cursor:pointer"  (click)="activeTree = activeTree !== i ? i : -1">
+            <div class="col x-col">{{stockType.name}}</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
