@@ -12,6 +12,7 @@ import { SpecialAreaComponent } from './special-area/special-area.component';
 import { HotspotSummaryComponent } from './hotspot-summary/hotspot-summary.component';
 import { FindRouteComponent } from './find-route/find-route.component';
 import { PathViewverComponent } from './path-viewver/path-viewver.component';
+import { ZoneDetailsComponent } from './zone-details/zone-details.component';
 
 const routes: Routes = [{
   path: '',
@@ -55,6 +56,11 @@ const routes: Routes = [{
     {
       path: 'path-viewver',
       component: PathViewverComponent,
+      canActivate: [AuthGuard, RouteGuard]
+    },
+    {
+      path: 'zone-details',
+      component: ZoneDetailsComponent,
       canActivate: [AuthGuard, RouteGuard]
     }
   ],

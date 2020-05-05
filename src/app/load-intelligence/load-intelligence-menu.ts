@@ -42,5 +42,11 @@ export const LOAD_INTELLIGENCE_MENU_ITEMS = JSON.stringify([
         icon: 'nb-home',
         link: '/load-intelligence/find-route',
         home: true,
+    },
+    {
+        title: 'Zone-Details',
+        icon: 'nb-home',
+        link: '/load-intelligence/zone-details',
+        home: true,
     }
 ]);

@@ -1,0 +1,90 @@
+<nb-card>
+  <nb-card-body>
+
+<div class="row">
+<div class="col-7">
+  <button style="float: right;" class="btn btn-primary" form="document-form" type="submit" outline (click)="uploadData()" id="submit">Save</button>
+</div>
+</div>
+
+<br>
+<br>
+
+<div class="row">
+<div class="col-7">
+  <div style="min-height: 500px;">
+
+      <table class="table table-hover">
+        <tbody *ngFor="let data of selectedStateData; let i= index">
+          <tr>
+            <td>Category</td>
+            <td>
+              <select [(ngModel)]="data.categoryId" (change)='selectedCategory($event.target.value)'>
+                <option  [value]="11">State</option>
+                <option  [value]="10">Disctrict</option>
+                <option  [value]="12">Tehsil</option>
+              </select>
+            </td>
+  
+            <td>{{locationName}}</td>
+            <td *ngIf='data.categoryId == 11'>
+              <auto-suggestion (onSelected)="data.stateId = $event.id;" display="name"
+                [data]="stateData" [preSelected]="null" style="width: 170px;"></auto-suggestion>
+            </td>
+            <td *ngIf='data.categoryId == 10'>
+              <auto-suggestion (onSelected)="data.stateId = $event;" display="name"
+                [data]="districtData" [preSelected]="null" style="width: 170px;"></auto-suggestion>
+            </td>
+            <td *ngIf='data.categoryId == 12'>
+              <auto-suggestion (onSelected)="data.stateId = $event;" display="name"
+                [data]="tehsilData" [preSelected]="null" style="width: 170px;"></auto-suggestion>
+            </td>
+  
+            <td>Zone</td>
+            <td>
+              <select [(ngModel)]="data.zoneId">
+                <option  [value]="0">Green</option>
+                <option  [value]="2">Orange</option>
+                <option  [value]="1">Red</option>
+              </select>
+            </td>
+  
+            <td *ngIf="i == selectedStateData.length-1"><button class="btn btn-primary" (click)="addMore()"><i
+              class="fa fa-plus add">
+            </i></button></td>
+
+            <td *ngIf="i != 0"> <button class="btn btn-danger" (click)="selectedStateData.splice(i,1)"><i
+              class="fa fa-trash remove"></i></button>
+            </td>
+
+          </tr>
+  
+        </tbody>
+      </table>
+    </div>
+</div>
+<div class="col-5">
+  <div class="row" style="margin-right: 10px;">
+    <div class="col-6">
+      <input type="file" name="vehicleDocCsv" (change)="handleFileSelection($event)" style="margin:4%;">
+    </div>
+    <div class="col-6">
+      <button style="float: right; margin-right: 5px;" class="btn btn-primary" form="document-form" type="submit" outline (click)="uploadCsv()" id="submit">Upload CSV</button>
+    </div>
+    
+  </div>
+<br>
+<br>
+<br>
+<br>
+  <div class="row" style="margin-right: 10px;">
+    <div class="col-12" >
+      <button style="float: right;" class="btn btn-primary" form="document-form" type="submit" outline (click)="DownloadCsv()" id="submit">Download CSV</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+  </nb-card-body>
+</nb-card>
