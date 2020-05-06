@@ -16,6 +16,7 @@
 
       <div id='map' style="margin-top: 20px;">  
           <svg 
+          style="margin-left: 50px;"
         id="chart"
         preserveAspectRatio="xMidYMid meet"
       ></svg>
@@ -36,6 +37,7 @@
                     <th>#</th>
                     <th class="plant total" >Total</th>
                     <th class="plant green" >Green</th>
+                    <th class="plant orange" >Orange</th>
                     <th class="plant red" >Red</th>
                 </tr>
               </thead>
@@ -45,6 +47,7 @@
                   <th>{{sum.name}}</th>
                   <td (click)='getPlantList(sum._type, 1)' style="color: blue; cursor: pointer;">{{sum.total_cnt}}</td>
                   <td (click)='getPlantList(sum._type, 2)'  style="color: green; cursor: pointer;">{{sum.green_cnt}}</td>
+                  <td (click)='getPlantList(sum._type, 4)'  style="color: orange; cursor: pointer;">{{sum.orange_cnt}}</td>
                   <td (click)='getPlantList(sum._type, 3)'  style="color: red; cursor: pointer;">{{sum.red_cnt}}</td>
               </tr>
 
@@ -55,7 +58,7 @@
           
       </div>
 
-      <div style="margin: 30px 10px; width: 500px; height: 500px; overflow: auto;" *ngIf='plantList != null'>
+      <div class='pltlist' style="margin: 30px 10px; width: 480px; height: 500px; overflow: auto;" *ngIf='plantList != null'>
 
           <table class="table table-hover" *ngIf='plantList.length' style="width: 450px;" id='catList'>
               <thead style="text-align: center;">
