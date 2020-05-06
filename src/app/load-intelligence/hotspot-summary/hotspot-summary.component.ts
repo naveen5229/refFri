@@ -80,7 +80,6 @@ export class HotspotSummaryComponent implements OnInit {
 
     } else if (catId == 3) {
       this.categorName = 'Delivery Points'
-
     }
     this.api.get('LoadIntelligence/getPlantsList.json?' + params).subscribe(res => {
       this.loader--;
@@ -236,9 +235,9 @@ export class HotspotSummaryComponent implements OnInit {
       .translate([0, 0]);
 
     var b = path.bounds(o),
-      s = 1 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
+      s = 1 / Math.max((b[1][0] - b[0] [0]) / width, (b[1][1] - b[0][1]) / height),
       t: any = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
-
+      console.log();
     var p = projection
       .scale(s)
       .translate(t);

@@ -1,4 +1,7 @@
-
+.pltlist{
+  max-width: 100%;
+    overflow-x: hidden;
+}
  
 #loader {
     position: absolute;
@@ -65,7 +68,11 @@
 .plant .red {
   color: red;
 }
-  
+
+.plant .orange {
+  color: orange;
+}
+
 .exel-icon{
   font-size: 20px;
   color: #217346;
