@@ -40,6 +40,7 @@ export class OrdersComponent implements OnInit {
   mannual = false;
   freezedate = '';
   allowBackspace = true;
+  ledgerbalance='';
   order = {
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -1528,6 +1529,7 @@ export class OrdersComponent implements OnInit {
       } else {
         this.order.billingaddress = suggestion.address;
       }
+      this.getLedgerView();
     }
     } else if (activeId == 'purchaseledger' || activeId == 'salesledger') {
       if(!(suggestion)){
@@ -1652,7 +1654,30 @@ export class OrdersComponent implements OnInit {
         this.common.showError();
       });
   }
+  getLedgerView() {
+  //  console.log('Ledger:', this.ledger);
+    
+    let params = {
+      startdate: this.common.dateFormatternew(new Date()).split(' ')[0],
+      enddate: this.common.dateFormatternew(new Date()).split(' ')[0],
+      ledger: this.order.ledger.id,
+      vouchertype: -104,
+    };
 
+    this.common.loading++;
+    this.api.post('Accounts/getLedgerView', params)
+      .subscribe(res => {
+        this.common.loading--;
+       this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' (Cr)' : res['data'][res['data'].length - 1]['y_dramunt'] + ' (Dr)'; 
+       console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
+      
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  
+}
   showAddpopup(address) {
     console.log('data salutaion :: ??', address);
     this.common.params = {
