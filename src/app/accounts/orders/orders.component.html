@@ -210,7 +210,7 @@
                   display="name" inputId="ledger" placeholder="Party Name" [preSelected]="null"></auto-suggestion> -->
                 <input type="text" autocomplete="off" class="form-control ref-input" id="ledger" name="ledger" [(ngModel)]="order.ledger.name"
                   placeholder="Please Enter Party Name" require>
-
+                  <span *ngIf="(ledgerbalance)">(<i>Ledger balance is </i>{{ ledgerbalance }})</span>
               </div>
             </div>
             <div class="col">

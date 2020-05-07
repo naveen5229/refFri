@@ -206,7 +206,7 @@
                 <input autocomplete="off" type="text" class="form-control ref-input" id="ledger" name="ledger"
                   [(ngModel)]="order.ledger.name" [readonly]="(order.ordertype.id ==-107 )"
                   require>
-
+                  <span *ngIf="(ledgerbalance)">(<i>Ledger balance is </i>{{ ledgerbalance }})</span>
               </div>
             </div>
             <div class="col">
