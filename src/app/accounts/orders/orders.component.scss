@@ -106,12 +106,16 @@ color:#26a69a !important;
             }
         }
     }
+   
     tbody{
         tr:nth-child(odd){
             background-color: #fff;
         }
         tr:nth-child(even){
             background-color: #e4e4e4;
+        }
+        tr:last-child{
+          height: 78px;
         }
     }
 } 
