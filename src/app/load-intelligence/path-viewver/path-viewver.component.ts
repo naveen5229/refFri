@@ -869,14 +869,14 @@ export class PathViewverComponent implements OnInit {
       let colorFill;
       let isMain = false;
       if (latLngs.isSec) {
-        colorBorder = '#f00';
-        colorFill = '#f88';
+        colorBorder = '#00f';
+        colorFill = '#88f';
       } else if (latLngs.isMain) {
         colorBorder = '#0f0';
         colorFill = '#8f8';
       } else {
-        colorBorder = '#00f';
-        colorFill = '#88f';
+        colorBorder = '#f00';
+        colorFill = '#f88';
       }
       const defaultOptions = {
         paths: latLngs.data,
@@ -911,7 +911,7 @@ export class PathViewverComponent implements OnInit {
     let polyline = new google.maps.Polyline({
       path: [],
       geodesic: true,
-      strokeColor: '#999999',
+      strokeColor: '#800080',
       strokeOpacity: 1.0,
       strokeWeight: 2,
     });

@@ -123,204 +123,200 @@
 
       <!--  -->
       <div *ngIf="routeType === 'cost'">
-      <div  class="sort-details animated slideInUp" *ngIf="costRoutes.length">
+        <div class="sort-details animated slideInUp" *ngIf="costRoutes.length">
 
-        <div class='row'>
-          <div class="col-4"></div>
-          <div class="col-4">
-            <div class="sort-details-head">ESTIMATED TRIP {{routeType === 'cost' ? 'COST' : 'PROFIT'}}</div>
-            <div class="sort-details-total" *ngIf="routeType === 'cost'">
-              <b>
-                <span>{{costRoutes[0].cost['totalCost'].prefix}}</span>
-                <!-- <span>{{costRoutes[0].cost['totalCost'].value}}</span> -->
-                <span>--</span>
-                <span>{{costRoutes[0].cost['totalCost'].suffix}}</span>
-              </b>
+          <div class='row'>
+            <div class="col-4" *ngIf="hideIt"></div>
+            <div class="col-4" *ngIf="hideIt">
+              <div class="sort-details-head">ESTIMATED TRIP {{routeType === 'cost' ? 'COST' : 'PROFIT'}}</div>
+              <div class="sort-details-total" *ngIf="routeType === 'cost'">
+                <b>
+                  <span>{{costRoutes[0].cost['totalCost'].prefix}}</span>
+                  <!-- <span>{{costRoutes[0].cost['totalCost'].value}}</span> -->
+                  <span>--</span>
+                  <span>{{costRoutes[0].cost['totalCost'].suffix}}</span>
+                </b>
+              </div>
+
+              <div class="sort-details-total" *ngIf="routeType === 'profit'"
+                [ngClass]="total.profit < 0 ? 'danger' : total.profit == 0 ? 'warning' : 'success'">
+                <b>
+                  <span>{{costRoutes[0].cost['profit'].prefix}}</span>
+                  <span>{{total.profit | number: '2.'}}</span>
+                  <span>{{costRoutes[0].cost['profit'].suffix}}</span>
+                </b>
+              </div>
+              <div style="height: 11%;" (click)="showSuggestion()" *ngIf="routeType === 'profit'">
+                <!-- <span class="suggestion-amount">+5000</span>  -->
+                <span class="suggestion-text">See Alternative Routes <i name="ios-arrow-round-up"
+                    class=" fa suggestion-arrow"></i></span>
+              </div>
             </div>
-    
-            <div class="sort-details-total" *ngIf="routeType === 'profit'"
-              [ngClass]="total.profit < 0 ? 'danger' : total.profit == 0 ? 'warning' : 'success'">
-              <b>
-                <span>{{costRoutes[0].cost['profit'].prefix}}</span>
-                <span>{{total.profit | number: '2.'}}</span>
-                <span>{{costRoutes[0].cost['profit'].suffix}}</span>
-              </b>
-            </div>
-            <div style="height: 11%;" (click)="showSuggestion()" *ngIf="routeType === 'profit'">
-              <!-- <span class="suggestion-amount">+5000</span>  -->
-              <span class="suggestion-text">See Alternative Routes <i name="ios-arrow-round-up"
-                  class=" fa suggestion-arrow"></i></span>
+            <div class="col-12">
+              <div *ngIf='hotspot != null'>
+                <table class='table'>
+                  <tbody>
+                    <tr>
+                      <th>Source</th>
+                      <td>
+                        <i class='hotspot["Source"] ? fa fa-check : fa fa-times' style="color: green"></i>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Destination</th>
+                      <td><i class='hotspot["Destination"] ? fa fa-check : fa fa-times' style="color: green"></i></td>
+                    </tr>
+                    <tr>
+                      <th>Route(Regular) Km</th>
+                      <td>{{hotspot["Route(Regular) Km"]}}</td>
+                    </tr>
+                    <tr>
+                      <th>Route(Hotspot) Km</th>
+                      <td>{{hotspot["Route(Hotspot) Km"]}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-          <div class="col-4">
-            <div *ngIf='hotspot != null'>
-              <table class='table'>
-                <tbody>
-                  <tr>
-                    <th>Source</th>
-                    <td>
-                      <i class='hotspot["Source"] ? fa fa-check : fa fa-times' style="color: green"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>Destination</th>
-                    <td><i class='hotspot["Destination"] ? fa fa-check : fa fa-times' style="color: green"></i></td>
-                  </tr>
-                  <tr>
-                    <th>Route(Regular) Km</th>
-                    <td>{{hotspot["Route(Regular) Km"]}}</td>
-                  </tr>
-                  <tr>
-                    <th>Route(Hotspot) Km</th>
-                    <td>{{hotspot["Route(Hotspot) Km"]}}</td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
-          </div>
-        </div>
-     
-        <div style="height:40%; padding-top: 15px;" *ngIf="routeType === 'profit'" (click)="viewDetails()">
-          <button block class="sort-details-btn" style="padding:0; margin:0px;">
-            <div class="row" style="height: 100%; width:100%;">
-              <div class="cost-revenue">
-                <div class="row" style="padding:10px 0px;">
-                  <div class="col-5">
-                    <span class="cost">
-                      {{total.cost | number: '2.'}}
-                    </span>
-                    <span class="cost-name">COST ({{costRoutes[0].cost['profit'].prefix}})</span>
-                  </div>
-                  <div class="col-2">
-                    <span class="cost">/</span>
-                  </div>
-                  <div class="col-5">
-                    <span class="cost">
-                      {{total.revenue | number: '2.'}}
-                    </span>
-                    <span class="cost-name">REVENUE ({{costRoutes[0].cost['profit'].prefix}})</span>
+
+          <div style="height:40%; padding-top: 15px;" *ngIf="routeType === 'profit'" (click)="viewDetails()">
+            <button block class="sort-details-btn" style="padding:0; margin:0px;">
+              <div class="row" style="height: 100%; width:100%;">
+                <div class="cost-revenue">
+                  <div class="row" style="padding:10px 0px;">
+                    <div class="col-5">
+                      <span class="cost">
+                        {{total.cost | number: '2.'}}
+                      </span>
+                      <span class="cost-name">COST ({{costRoutes[0].cost['profit'].prefix}})</span>
+                    </div>
+                    <div class="col-2">
+                      <span class="cost">/</span>
+                    </div>
+                    <div class="col-5">
+                      <span class="cost">
+                        {{total.revenue | number: '2.'}}
+                      </span>
+                      <span class="cost-name">REVENUE ({{costRoutes[0].cost['profit'].prefix}})</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="row-12 view-details">
-                <span style="font-size: 16px;">View</span>
-                <span>Details</span>
-                <i name="ios-arrow-round-forward" class="fa sort-arrow" style="right: 15px;"></i>
+                <div class="row-12 view-details">
+                  <span style="font-size: 16px;">View</span>
+                  <span>Details</span>
+                  <i name="ios-arrow-round-forward" class="fa sort-arrow" style="right: 15px;"></i>
+                </div>
               </div>
-            </div>
-          </button>
+            </button>
+          </div>
         </div>
-      </div>
 
-        
-    </div>
+
+      </div>
 
       <!-- find Asa-->
 
       <div *ngIf="routeType != 'cost'">
 
-      <div class="sort-details animated slideInUp" >
-        <div class='row'>
-          <div class="col-4"></div>
-          <div class="col-4">
-            <div class="sort-details-head">ESTIMATED TRIP {{routeType === 'findAsa' ? 'COST' : 'PROFIT'}}</div>
+        <div class="sort-details animated slideInUp">
+          <div class='row'>
+            <div class="col-4" *ngIf="hideIt"></div>
+            <div class="col-4" *ngIf="hideIt">
+              <div class="sort-details-head">ESTIMATED TRIP {{routeType === 'findAsa' ? 'COST' : 'PROFIT'}}</div>
 
-            <div  class="sort-details-total" *ngIf="routeType === 'findAsa'">
-              <b>
-                <span>{{costRoutes[0]?.cost['totalCost'].prefix}}</span>
-                <!-- <span>{{costRoutes[0]?.cost['totalCost'].value}}</span> -->
-                <span>--</span>
-                <span>{{costRoutes[0]?.cost['totalCost'].suffix}}</span>
-              </b>
+              <div class="sort-details-total" *ngIf="routeType === 'findAsa'">
+                <b>
+                  <span>{{costRoutes[0]?.cost['totalCost'].prefix}}</span>
+                  <!-- <span>{{costRoutes[0]?.cost['totalCost'].value}}</span> -->
+                  <span>--</span>
+                  <span>{{costRoutes[0]?.cost['totalCost'].suffix}}</span>
+                </b>
+              </div>
+
+              <div class="sort-details-total" *ngIf="routeType === 'profit'"
+                [ngClass]="total.profit < 0 ? 'danger' : total.profit == 0 ? 'warning' : 'success'">
+                <b>
+                  <span>{{costRoutes[0].cost['profit'].prefix}}</span>
+                  <span>{{total.profit | number: '2.'}}</span>
+                  <span>{{costRoutes[0].cost['profit'].suffix}}</span>
+                </b>
+              </div>
+              <div style="height: 11%;" (click)="showSuggestion()" *ngIf="routeType === 'profit'">
+                <!-- <span class="suggestion-amount">+5000</span>  -->
+                <span class="suggestion-text">See Alternative Routes <i name="ios-arrow-round-up"
+                    class=" fa suggestion-arrow"></i></span>
+              </div>
             </div>
-    
-            <div class="sort-details-total" *ngIf="routeType === 'profit'"
-              [ngClass]="total.profit < 0 ? 'danger' : total.profit == 0 ? 'warning' : 'success'">
-              <b>
-                <span>{{costRoutes[0].cost['profit'].prefix}}</span>
-                <span>{{total.profit | number: '2.'}}</span>
-                <span>{{costRoutes[0].cost['profit'].suffix}}</span>
-              </b>
-            </div>
-            <div style="height: 11%;" (click)="showSuggestion()" *ngIf="routeType === 'profit'">
-              <!-- <span class="suggestion-amount">+5000</span>  -->
-              <span class="suggestion-text">See Alternative Routes <i name="ios-arrow-round-up"
-                  class=" fa suggestion-arrow"></i></span>
+            <div class="col-12" *ngIf="hideIt">
+              <div *ngIf='hotspot != null'>
+                <table class='table'>
+                  <tbody>
+                    <tr>
+                      <th>Source</th>
+                      <td>
+                        <i *ngIf='hotspot["Source"]' class='fa fa-check' style="color: green"></i>
+                        <i *ngIf='!hotspot["Source"]' class='fa fa-times' style="color: red"></i>
+                      </td>
+
+                      <th>Destination</th>
+                      <td>
+                        <i *ngIf='hotspot["Destination"]' class='fa fa-check' style="color: green"></i>
+                        <i *ngIf='!hotspot["Destination"]' class='fa fa-times' style="color: red"></i>
+                      </td>
+
+                      <th>Route(Regular) Km</th>
+                      <td>{{hotspot["Route(Regular) Km"]}}</td>
+
+                      <th>Route(Hotspot) Km</th>
+                      <td>{{hotspot["Route(Hotspot) Km"]}}</td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-          <div class="col-4">
-            <div *ngIf='hotspot != null'>
-
-              
-              <table class='table'>
-                <tbody>
-                  <tr>
-                    <th>Source</th>
-                    <td>
-                      <i *ngIf='hotspot["Source"]' class='fa fa-check' style="color: green"></i>
-                      <i *ngIf='!hotspot["Source"]' class='fa fa-times' style="color: red"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>Destination</th>
-                    <td>
-                      <i *ngIf='hotspot["Destination"]' class='fa fa-check' style="color: green"></i>
-                      <i *ngIf='!hotspot["Destination"]' class='fa fa-times' style="color: red"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>Route(Regular) Km</th>
-                    <td>{{hotspot["Route(Regular) Km"]}}</td>
-                  </tr>
-                  <tr>
-                    <th>Route(Hotspot) Km</th>
-                    <td>{{hotspot["Route(Hotspot) Km"]}}</td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
-          </div>
-        </div>
 
 
 
 
 
-        <div style="height:40%; padding-top: 15px;" *ngIf="routeType === 'profit'" (click)="viewDetails()">
-          <button block class="sort-details-btn" style="padding:0; margin:0px;">
-            <div class="row" style="height: 100%; width:100%;">
-              <div class="cost-revenue">
-                <div class="row" style="padding:10px 0px;">
-                  <div class="col-5">
-                    <span class="cost">
-                      {{total.cost | number: '2.'}}
-                    </span>
-                    <span class="cost-name">COST ({{costRoutes[0].cost['profit'].prefix}})</span>
-                  </div>
-                  <div class="col-2">
-                    <span class="cost">/</span>
-                  </div>
-                  <div class="col-5">
-                    <span class="cost">
-                      {{total.revenue | number: '2.'}}
-                    </span>
-                    <span class="cost-name">REVENUE ({{costRoutes[0].cost['profit'].prefix}})</span>
+          <div style="height:40%; padding-top: 15px;" *ngIf="routeType === 'profit'" (click)="viewDetails()">
+            <button block class="sort-details-btn" style="padding:0; margin:0px;">
+              <div class="row" style="height: 100%; width:100%;">
+                <div class="cost-revenue">
+                  <div class="row" style="padding:10px 0px;">
+                    <div class="col-5">
+                      <span class="cost">
+                        {{total.cost | number: '2.'}}
+                      </span>
+                      <span class="cost-name">COST ({{costRoutes[0].cost['profit'].prefix}})</span>
+                    </div>
+                    <div class="col-2">
+                      <span class="cost">/</span>
+                    </div>
+                    <div class="col-5">
+                      <span class="cost">
+                        {{total.revenue | number: '2.'}}
+                      </span>
+                      <span class="cost-name">REVENUE ({{costRoutes[0].cost['profit'].prefix}})</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="row-12 view-details">
-                <span style="font-size: 16px;">View</span>
-                <span>Details</span>
-                <i name="ios-arrow-round-forward" class="fa sort-arrow" style="right: 15px;"></i>
+                <div class="row-12 view-details">
+                  <span style="font-size: 16px;">View</span>
+                  <span>Details</span>
+                  <i name="ios-arrow-round-forward" class="fa sort-arrow" style="right: 15px;"></i>
+                </div>
               </div>
-            </div>
-          </button>
+            </button>
+          </div>
         </div>
-      </div>
 
-   
+
 
       </div>
 
@@ -344,6 +340,33 @@
       </div> -->
 
       <!--  -->
+    </div>
+
+    <div *ngIf='hotspot != null'>
+      <table class='table'>
+        <tbody>
+          <tr>
+            <th>Source</th>
+            <td>
+              <i *ngIf='hotspot["Source"]' class='fa fa-check' style="color: green"></i>
+              <i *ngIf='!hotspot["Source"]' class='fa fa-times' style="color: red"></i>
+            </td>
+
+            <th>Destination</th>
+            <td>
+              <i *ngIf='hotspot["Destination"]' class='fa fa-check' style="color: green"></i>
+              <i *ngIf='!hotspot["Destination"]' class='fa fa-times' style="color: red"></i>
+            </td>
+
+            <th>Route(Regular) Km</th>
+            <td>{{hotspot["Route(Regular) Km"]}}</td>
+
+            <th>Route(Hotspot) Km</th>
+            <td>{{hotspot["Route(Hotspot) Km"]}}</td>
+
+          </tr>
+        </tbody>
+      </table>
     </div>
   </nb-card-body>
 </nb-card>
