@@ -41,6 +41,9 @@ export class OrdersComponent implements OnInit {
   freezedate = '';
   allowBackspace = true;
   ledgerbalance='';
+  totalqty=0;
+  totalamount=0;
+  totalTaxamount=0;
   order = {
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -444,6 +447,7 @@ export class OrdersComponent implements OnInit {
           this.order.amountDetails[i].lineamount = null;
           console.log('###', this.order.amountDetails[i].amount);
           this.order.amountDetails[i].lineamount = (parseFloat(this.order.amountDetails[i].amount) + parseFloat(data.taxDetails[0].totalamount)).toFixed(2);
+          this.totalTaxamount += data.taxDetails[0].totalamount;
           console.log('###---', this.order.amountDetails[i].lineamount, '-----||', data.taxDetails[0].totalamount);
           this.setFoucus('plustransparent');
           // this.addLedger(data.ledger);
@@ -524,7 +528,24 @@ export class OrdersComponent implements OnInit {
     let total = null;
     this.order.amountDetails.map(amountDetail => {
       // console.log('Amount: ',  amountDetail.amo  unt[type]);
+      total += parseFloat(amountDetail.amount);
+    });
+    return total;
+  }
+
+  calculateTotalLineAmount() {
+    let total = null;
+    this.order.amountDetails.map(amountDetail => {
+      // console.log('Amount: ',  amountDetail.amo  unt[type]);
       total += parseFloat(amountDetail.lineamount);
+    });
+    return total;
+  }
+  calculateTotalQty() {
+    let total = null;
+    this.order.amountDetails.map(amountDetail => {
+      // console.log('Amount: ',  amountDetail.amo  unt[type]);
+      total += parseFloat(amountDetail.qty);
     });
     return total;
   }
