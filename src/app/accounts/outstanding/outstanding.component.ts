@@ -313,44 +313,21 @@ export class OutstandingComponent implements OnInit {
         this.voucherEntries.push({
           name: labels[0],
           data: [ledgerRegister],
-          debit: parseFloat(ledgerRegister.y_dramunt),
-          credit: parseFloat(ledgerRegister.y_cramunt)
+          debit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dramunt) : 0,
+          credit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cramunt) : 0
         })
       } else {
-        this.voucherEntries[index].debit += parseFloat(ledgerRegister.y_dramunt);
-        this.voucherEntries[index].credit += parseFloat(ledgerRegister.y_cramunt);
+        this.voucherEntries[index].debit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dramunt) : 0;
+        this.voucherEntries[index].credit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cramunt) : 0;
+        if (ledgerRegister.y_ledger_name) {
         this.voucherEntries[index].data.push(ledgerRegister);
+        }
       }
     }
 
     this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
     console.log('voucherEntries', this.voucherEntries);
-    //   this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
-    //   console.log('voucherEntries', this.voucherEntries);
-    //   this.voucherEntries = [];
-    //   let allGroups = _.groupBy(this.ledgerData, 'y_path');
-    //   console.log('allGroups',allGroups);
 
-    //   allGroups.map((dataval,index) => {
-    //  console.log('allkeys111',dataval);
-    //     let subGroups = _.groupBy(dataval, 'y_path');
-    //   let allKeys = Object.keys(subGroups);
-    //   allKeys.map((key, index) => {
-    //     this.voucherEntries[index] = {
-    //       name: key,
-    //       amount: {
-    //         debit: 0,
-    //         credit: 0
-    //       },
-    //       vouchers: allGroups[key]
-    //     };
-    //     allGroups[key].map(data => {
-    //       this.voucherEntries[index].amount.debit += parseFloat(data.y_dramunt);
-    //       this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
-    //     });
-    //   });
-    // });
-    //   this.showAllGroups();
   }
 
   findChilds(data) {
@@ -365,13 +342,15 @@ export class OutstandingComponent implements OnInit {
           childs.push({
             name: labels[0],
             data: [ledgerRegister],
-            debit: parseFloat(ledgerRegister.y_dramunt),
-            credit: parseFloat(ledgerRegister.y_cramunt)
+            debit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dramunt) : 0,
+            credit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cramunt) : 0
           })
         } else {
-          childs[index].debit += parseFloat(ledgerRegister.y_dramunt);
-          childs[index].credit += parseFloat(ledgerRegister.y_cramunt);
-          childs[index].data.push(ledgerRegister);
+          childs[index].debit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dramunt) : 0;
+          childs[index].credit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cramunt) : 0;
+          if (ledgerRegister.y_ledger_name) {
+            childs[index].data.push(ledgerRegister);
+          }
         }
       }
     }
