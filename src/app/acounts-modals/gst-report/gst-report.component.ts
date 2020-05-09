@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener ,Pipe, PipeTransform} from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
@@ -7,14 +8,12 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import * as _ from 'lodash';
 import { ExcelService } from '../../services/excel/excel.service';
-import { GstReportComponent } from '../../acounts-modals/gst-report/gst-report.component'
-
 @Component({
-  selector: 'gstreport',
-  templateUrl: './gstreport.component.html',
-  styleUrls: ['./gstreport.component.scss']
+  selector: 'gst-report',
+  templateUrl: './gst-report.component.html',
+  styleUrls: ['./gst-report.component.scss']
 })
-export class GstreportComponent implements OnInit {
+export class GstReportComponent implements OnInit {
   selectedName = '';
   headings=[];
   totalLength=0;
@@ -44,17 +43,24 @@ export class GstreportComponent implements OnInit {
     this.keyHandler(event);
   }
 
-  constructor(public api: ApiService,
+  constructor(private activeModal: NgbActiveModal,
+    public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private excelService: ExcelService,
     public modalService: NgbModal) {
     // this.getVoucherTypeList();
-    this.common.refresh = this.refresh.bind(this);
+    console.log('comman.paramas',this.common.params);
 
+    this.DayData =this.common.params;
+      this.getTableColumnName();
+      //this.filterData();
+      this.totalLength = this.DayData.length;
+
+    this.common.refresh = this.refresh.bind(this);
     this.setFoucus('startdate');
     this.common.currentPage = 'Gst Report';
-
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',1);
 
   }
 
@@ -68,14 +74,14 @@ export class GstreportComponent implements OnInit {
     this.setFoucus('ledger');
   }
   getTableColumnName() {
-
   this.headings = [];
+  let pushdata =[];
   let first_rec = this.DayData[0];
   for (var key in first_rec) {
-    //console.log('kys',first_rec[key]);
-      this.headings.push(key);    
+    console.log('kys',key);
+    if(key != '_id') pushdata.push(key);    
   }
-
+  this.headings = pushdata;
   console.log("headings", this.headings);
  // this.getTableColumns();
 }
@@ -98,7 +104,10 @@ export class GstreportComponent implements OnInit {
   // }
  
 
-
+  dismiss(response) {
+   
+    this.activeModal.close({ response: response});
+  }
   
   
   pdfFunction(){
@@ -299,11 +308,11 @@ export class GstreportComponent implements OnInit {
   //   });
   // }
 
-  openGSTEdit(gstdetail) {
-    console.log('vouher id',  JSON.parse(gstdetail));
-    this.common.params = JSON.parse(gstdetail);
+  getBookDetail(voucherId) {
+    console.log('vouher id', voucherId);
+    this.common.params = voucherId;
 
-    const activeModal = this.modalService.open(GstReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
@@ -330,7 +339,7 @@ export class GstreportComponent implements OnInit {
     console.log('Active event', event, this.activeId);
     if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-     // this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id);
+      this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id);
       return;
     }
     if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {

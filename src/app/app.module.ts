@@ -283,6 +283,7 @@ import { AddStateComponent } from './acounts-modals/add-state/add-state.componen
 
 import { LoadIntelligenceModule } from './load-intelligence/load-intelligence.module';
 import { StockSummaryComponent } from './acounts-modals/stock-summary/stock-summary.component';
+import { GstReportComponent } from './acounts-modals/gst-report/gst-report.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -523,7 +524,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   RecordsComponent,
   AddCountryComponent,
   AddStateComponent,
-  StockSummaryComponent
+  StockSummaryComponent,
+  GstReportComponent
 
 ];
 

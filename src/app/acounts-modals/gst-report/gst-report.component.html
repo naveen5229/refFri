@@ -1,0 +1,45 @@
+<nb-card>
+
+  <nb-card-body class="m-0 p-0">
+    
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Gst Report Detail</h5>
+      <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+    <div class="table-box">
+       
+        <table class="table table-bordered" id="table">
+
+            <thead style="background-color:#263238; color:#fff;">
+             <tr><th>S.No</th>
+                <th *ngFor="let item of headings">
+                     {{item}}                 
+                </th>
+                
+              </tr>
+            </thead>             
+                <tr *ngFor="let item of DayData; let i = index;">
+                  <td>{{ i+1}}</td>
+                  <td *ngFor="let itemheading of headings">
+                      {{item[itemheading]}}                 
+                 </td>
+              
+            </tr>
+           
+          </table>
+    </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="bankBook[f2Date]"
+        maxlength="10">
+    </div>
+  </div>
+</div>

@@ -10,7 +10,7 @@
 
         <div class="row mt-2 align-items-sm-end">
       
-          <div class="col">
+          <!-- <div class="col">
             <div class="form-group">           
 
               <div class="form-group debit_box m-0 w-100">
@@ -31,7 +31,7 @@
               </div>
 
             </div>
-          </div>
+          </div> -->
           <div class="col">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
@@ -68,21 +68,32 @@
        
         <table class="table table-bordered" id="table">
 
+           
             <thead style="background-color:#263238; color:#fff;">
-             <tr><th>S.No</th>
-                <th *ngFor="let item of headings">
-                     {{item}}                 
-                </th>
-                
-              </tr>
-            </thead>             
-                <tr *ngFor="let item of DayData; let i = index;">
-                  <td>{{ i+1}}</td>
-                  <td *ngFor="let itemheading of headings">
-                      {{item[itemheading]}}                 
-                 </td>
-              
-            </tr>
+              <tr><th>S.No</th>
+              <th>Particulars</th>
+              <th>Vouncer Count</th>
+              <th>Taxeble Value</th>
+              <th>Integrated Tax Amount</th>
+              <th>Central Tax Amount</th>
+              <th>State Tax Amount</th>
+              <th>Cess Amount</th>
+              <th>Tax Amount</th>
+              <th>Invoice Amount</th>
+               </tr>
+             </thead>
+             <tr *ngFor="let item of DayData; let i = index;" (click)="selectedRow = i" (dblclick)="openGSTEdit(item.y_details)" [ngClass]="{'highlight' : selectedRow == i}">
+              <td> {{item.y_sno}}</td>
+              <td> {{item.y_name}}</td>
+              <td> {{item.y_vount}}</td>
+              <td> {{item.y_taxval_amt}}</td>
+              <td> {{item.y_inttax_amt}}</td>
+              <td> {{item.y_centax_amt}}</td>
+              <td> {{item.y_statax_amt}}</td>
+              <td> {{item.y_cess_amt}}</td>
+              <td> {{item.y_tax_amt}}</td>
+              <td> {{item.y_inv_amt}}</td>
+        </tr>
           </table>
     </div>
 
