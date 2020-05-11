@@ -83,13 +83,19 @@ table{
         th:nth-child(1){
             width: 50px;
         }
-        th:last-child{
-            width: auto;
+        th:nth-child(2){
+            width: 170px;
+        }
+        td:nth-child(2){
+            width: 50px;
+        }
+        td:nth-child(2){
+            width: 170px;
         }
         td{
             padding: 5px 10px !important;
+            width: 104px;
             font-size: 12px;
-            width: 115px;
             button{
                 padding: 0 !important;
                 font-size: 11px;

@@ -125,7 +125,7 @@
                   id="taxexemptionno" placeholder="Please Enter Tax Exemption No" [(ngModel)]="Branches.taxexemptionno">
               </div>
             </div>
-            <div class="col radiostockitem">
+            <div class="col radiostockitem" *ngIf="common.params">
               <div class="form-group">
                 <label>Is Active</label>
                 <div class="row iaactive">
@@ -225,14 +225,28 @@
           </div>
         </div> -->
           <div class="row">
-            <div class="col">
+            <div class="col-2">
+              <div class="form-group">
+                <label>State</label>
+                <input autocomplete="off" type="text" id="state" class="form-control tjr-input" name="state"
+                [(ngModel)]="Branches.state.name" placeholder="State">
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form-group">
+                <label>City</label>
+                <input autocomplete="off" type="text" id="city" class="form-control tjr-input" name="city"
+                  [(ngModel)]="Branches.city.name" placeholder="City">
+              </div>
+            </div>
+            <div class="col-4">
               <div class="form-group">
                 <label>Lr Terms</label>
                 <textarea class="form-control" autocomplete="off" name="lr-terms" id="lr-terms"
                   [(ngModel)]="Branches.lrTerm" placeholder="Lr Terms"></textarea>
               </div>
             </div>
-            <div class="col">
+            <div class="col-4">
               <div class="form-group">
                 <label>Lr Footer</label>
                 <textarea autocomplete="off" class="form-control" name="lr-footer" id="lr-footer"
@@ -261,11 +275,18 @@
         </div>
         <div class="col-3">
           <div class="auto-sugg">
-            <div class="form-group">
+            <div class="form-group" *ngIf="activeid=='site'">
               <auto-suggetion-in-side [data]="siteData" targetId="site" display="name"
                 (select)="onSelectedSite($event, 'site', 'name')"></auto-suggetion-in-side>
             </div>
-
+            <div class="form-group" *ngIf="activeid=='state'">
+              <auto-suggetion-in-side [data]="statedata" targetId="state" display="name"
+                (select)="onSelectedSite($event, 'state', 'name')"></auto-suggetion-in-side>
+            </div>
+            <div class="form-group" *ngIf="activeid=='city'">
+              <auto-suggetion-in-side [data]="citydata" targetId="city" display="name"
+                (select)="onSelectedSite($event, 'city', 'name')"></auto-suggetion-in-side>
+            </div>
           </div>
         </div>
       </div>

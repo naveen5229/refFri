@@ -1,13 +1,15 @@
 import { Component, OnInit, HostListener ,Pipe, PipeTransform} from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import * as _ from 'lodash';
 import { ExcelService } from '../../services/excel/excel.service';
+import { OrderComponent } from '../../acounts-modals/order/order.component';
+
 @Component({
   selector: 'gst-report',
   templateUrl: './gst-report.component.html',
@@ -60,7 +62,7 @@ export class GstReportComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
     this.setFoucus('startdate');
     this.common.currentPage = 'Gst Report';
-    this.common.handleModalSize('class', 'modal-lg', '1250','px',1);
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
 
   }
 
@@ -78,8 +80,8 @@ export class GstReportComponent implements OnInit {
   let pushdata =[];
   let first_rec = this.DayData[0];
   for (var key in first_rec) {
-    console.log('kys',key);
-    if(key != '_id') pushdata.push(key);    
+   // console.log('kys',key);
+    if(!key.includes('_')) pushdata.push(key);    
   }
   this.headings = pushdata;
   console.log("headings", this.headings);
@@ -233,7 +235,7 @@ export class GstReportComponent implements OnInit {
     this.api.post('Voucher/getGstReport', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res report:', res['data'][0]);
+        console.log('Res report:', res['data']);
        
         this.DayData =res['data'];
       //  this.getTableColumnName();
@@ -330,6 +332,27 @@ export class GstReportComponent implements OnInit {
   RowSelected(u: any) {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
+  }
+
+  openinvoicemodel(item) {
+    // console.log('welcome to invoice ');
+    //  this.common.params = invoiceid;
+    this.common.params = {
+      invoiceid: item._id,
+      delete: 0,
+      newid:0,
+      ordertype:item._typeid,
+      sizeIndex:1
+    };
+    const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data: invoice ', data);
+      if (data.delete) {
+        console.log('open succesfull');
+          //this.getDayBook();
+        // this.addLedger(data.ledger);
+      }
+    });
   }
 
 

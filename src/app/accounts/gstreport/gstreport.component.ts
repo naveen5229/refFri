@@ -224,7 +224,7 @@ export class GstreportComponent implements OnInit {
     this.api.post('Voucher/getGstReport', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res report:', res['data'][0]);
+        console.log('Res report:', res['data']);
        
         this.DayData =res['data'];
       //  this.getTableColumnName();
@@ -250,7 +250,7 @@ export class GstreportComponent implements OnInit {
 }
 
   getDate(date) {
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
       this.bankBook[date] = this.common.dateFormatternew(data.date).split(' ')[0];
       console.log(this.bankBook[date]);
