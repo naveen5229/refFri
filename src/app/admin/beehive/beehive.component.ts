@@ -61,7 +61,9 @@ export class BeehiveComponent implements OnInit {
     this.LatLong = this.common.params;
   }
   ngOnInit() {
-
+  }
+  ngAfterViewInit() {
+    this.mapService.mapIntialize();
   }
   closeModal() {
     this.activeModal.close();
