@@ -30,7 +30,7 @@ import { PdfService } from '../../services/pdf/pdf.service';
       <div *ngIf="!d.name"  style="cursor:pointer" class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
-        <div class="col x-col">{{d.y_voucher_code}}</div>
+        <div class="col x-col">{{d.y_code}}</div>
         <div class="col x-col">{{d.y_voucher_cust_code}}</div>
         <div class="col x-col">{{d.y_voucher_date | date:'dd-MMM-yy'}}</div>
         <div class="col x-col">{{d.y_voucher_type_name}}</div>
