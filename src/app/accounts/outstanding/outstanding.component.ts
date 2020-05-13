@@ -16,9 +16,9 @@ import { PdfService } from '../../services/pdf/pdf.service';
   template: `
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
-      <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1">
-          <div class="col x-col" *ngIf="d.name">{{labels}} {{d.name}}</div>
-          <div class="col x-col" *ngIf="d.name" >&nbsp;</div>
+      <div style="cursor:pointer"  class="row x-sub-stocktype" *ngIf="d.name" (click)="activeIndex = activeIndex !== i ? i : -1" [style.background]="colors[color]">
+          <div class="col x-col" *ngIf="d.name"><span *ngIf="!d.ledgerName">{{labels}} {{d.name}}</span></div>
+          <div class="col x-col" *ngIf="d.name" ><span *ngIf="d.ledgerName">{{labels}} {{d.ledgerName}}</span>&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
@@ -26,7 +26,7 @@ import { PdfService } from '../../services/pdf/pdf.service';
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.debit | number : '1.2-2'}} </div>
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.credit | number : '1.2-2'}} </div>
       </div>
-      <out-standing-tree *ngIf="d.name" [data]="d.data" [action]="action" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></out-standing-tree>
+      <out-standing-tree *ngIf="d.name" [color]="color+1" [data]="d.data" [action]="action" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></out-standing-tree>
       <div *ngIf="!d.name"  style="cursor:pointer" class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
@@ -48,8 +48,11 @@ export class outStandingTreeComponent {
   @Input() labels: string;
   @Input() action: any;
   @Input() isExpandAll: boolean;
+  @Input() color: number = 1;
+
   activeIndex: boolean = false;
   selectedRow: number = -1;
+  colors = ['#5d6e75','#6f8a96','#8DAAB8','#8f8a96'];
 
 
 }
@@ -320,7 +323,7 @@ export class OutstandingComponent implements OnInit {
         this.voucherEntries[index].debit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dramunt) : 0;
         this.voucherEntries[index].credit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cramunt) : 0;
         if (ledgerRegister.y_ledger_name) {
-        this.voucherEntries[index].data.push(ledgerRegister);
+          this.voucherEntries[index].data.push(ledgerRegister);
         }
       }
     }
@@ -349,6 +352,7 @@ export class OutstandingComponent implements OnInit {
           childs[index].debit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dramunt) : 0;
           childs[index].credit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cramunt) : 0;
           if (ledgerRegister.y_ledger_name) {
+
             childs[index].data.push(ledgerRegister);
           }
         }
@@ -364,7 +368,33 @@ export class OutstandingComponent implements OnInit {
         }
       });
     } else {
-      return data;
+      let info = [];
+      let groups = _.groupBy(data, 'y_ledger_name');
+      console.log('Groups:', groups);
+      for (let group in groups) {
+        if (groups[group].length > 1) {
+          let details = {
+            name: group,
+            ledgerName: group,
+            data: groups[group].map(ledger => {
+              ledger.y_ledger_name = '';
+              return ledger;
+            }),
+            debit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_dramunt);
+              return a;
+            }, 0),
+            credit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_cramunt);
+              return a;
+            }, 0)
+          }
+          info.push(details);
+        } else {
+          info.push(...groups[group]);
+        }
+      }
+      return info;
     }
   }
 
@@ -402,7 +432,11 @@ export class OutstandingComponent implements OnInit {
         this.setFoucus('endDate');
       } else if (this.activeId.includes('endDate')) {
         this.setFoucus('groupid');
-      } else if (this.activeId.includes('endDate')) {
+      } else if (this.activeId.includes('groupid')) {
+        this.outStanding.endDate = this.common.handleDateOnEnterNew(this.outStanding.endDate);
+        this.setFoucus('trantype');
+      }
+      else if (this.activeId.includes('trantype')) {
         this.outStanding.endDate = this.common.handleDateOnEnterNew(this.outStanding.endDate);
         this.setFoucus('submit');
       }
