@@ -17,8 +17,8 @@ import { PdfService } from '../../services/pdf/pdf.service';
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
       <div style="cursor:pointer"  class="row x-sub-stocktype" *ngIf="d.name" (click)="activeIndex = activeIndex !== i ? i : -1" [style.background]="colors[color]">
-          <div class="col x-col" *ngIf="d.name"><span *ngIf="!d.ledgerName">{{labels}} {{d.name}}</span></div>
-          <div class="col x-col" *ngIf="d.name" ><span *ngIf="d.ledgerName">{{labels}} {{d.ledgerName}}</span>&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name"><span *ngIf="!d.ledgerName">{{labels}} {{d.name}} {{color}}</span></div>
+          <div class="col x-col" *ngIf="d.name" ><span *ngIf="d.ledgerName">{{labels}} {{d.ledgerName}} {{color}}</span>&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
@@ -48,11 +48,11 @@ export class outStandingTreeComponent {
   @Input() labels: string;
   @Input() action: any;
   @Input() isExpandAll: boolean;
-  @Input() color: number = 1;
+  @Input() color: number = 0;
 
   activeIndex: boolean = false;
   selectedRow: number = -1;
-  colors = ['#5d6e75','#6f8a96','#8DAAB8','#8f8a96'];
+  colors = ['#5d6e75','#6f8a96','#8DAAB8','#a8a5ad'];
 
 
 }
