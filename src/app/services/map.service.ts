@@ -93,19 +93,29 @@ export class MapService {
     }
   }
 
-  createSingleMarker(latLng) {
+  createSingleMarker(latLng, dragEvent?) {
     var icon = {
-      path: google.maps.SymbolPath.CIRCLE,
+      path: google.maps.SymbolPath.redpin,
       scale: 4,
       fillColor: "#000000",
       fillOpacity: 1,
       strokeWeight: 1
     };
+  
     var marker = new google.maps.Marker({
       icon: icon,
       position: latLng,
-      map: this.map
+      map: this.map,
+      draggable:dragEvent ? true : false
     });
+
+    if(dragEvent) {
+
+      this.addListerner(marker,  'dragend', (e) => dragEvent(e))
+          
+
+    }
+    
     return marker;
   }
 
