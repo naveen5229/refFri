@@ -157,7 +157,9 @@
           <div class="col x-col">Dr Amount</div>
           <div class="col x-col">Cr Amount</div>
         </div>
+        <div class="jrx-dtbody">
         <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
+          
           <div class="row x-stocktype" style="cursor:pointer"  (click)="activeTree = activeTree !== i ? i : -1">
             <div class="col x-col">{{stockType.name}}</div>
             <div class="col x-col">&nbsp;</div>
@@ -173,6 +175,7 @@
         </div>
       </div>
     </div>
+  </div>
     <!-- <div id="balance-sheet">
       <div class="row" style="margin: 0px 0px 0px 0px;width: 100%;">
         <div class="row x-heading">
