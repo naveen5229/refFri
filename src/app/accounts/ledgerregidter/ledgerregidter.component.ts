@@ -43,7 +43,10 @@ import { PdfService } from '../../services/pdf/pdf.service';
     </div>
   </div>
   `,
-  styleUrls: ['./ledgerregidter.component.scss']
+  styleUrls: ['./ledgerregidter.component.scss'],
+  host: {
+    '(document:keydown)': 'keyHandler($event)'
+  }
 })
 export class ledgerRegisterTreeComponent {
   @Input() data: any;
@@ -54,6 +57,15 @@ export class ledgerRegisterTreeComponent {
   activeIndex: boolean = false;
   selectedRow: number = -1;
 
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.data.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.data.length - 1 && key === 'arrowdown') this.selectedRow++;
+    }
+  }
 }
 
 @Component({

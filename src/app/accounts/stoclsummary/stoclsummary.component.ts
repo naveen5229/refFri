@@ -414,10 +414,10 @@ warehouseid=0;
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
-    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.voucherEntries.length) {
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.summaryreport.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
-      else if (this.selectedRow != this.voucherEntries.length - 1) this.selectedRow++;
+      else if (this.selectedRow != this.summaryreport.length - 1) this.selectedRow++;
 
     }
   }
