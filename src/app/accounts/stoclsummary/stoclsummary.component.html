@@ -129,6 +129,7 @@
           <div class="col x-col">Credit Note</div>
           <div class="col x-col">Net Available</div>
         </div>
+        <div class="jrx-dtbody">
         <div *ngFor="let stockType of summaryreport let i = index" class="x-data">
           <div class="row x-stocktype" (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0,0,0)">
             <div class="col x-col">{{stockType.name}}</div>
@@ -263,6 +264,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   </nb-card-body>

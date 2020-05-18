@@ -237,13 +237,15 @@ input[type="radio"] {
 }
 
 .x-heading {
-    width: 100%;
+    width: 81%;
     margin: 0 0px 0px 1px;
     padding: 0 !important;
     background-color: #263238;
     color: #fff;
     padding: 0px 0px !important;
     font-size: 14px;
+    position: fixed;
+    z-index: 2;
     .x-col {
         border-right: 1px solid #f2f2f2;
         padding: 6px 4px;
@@ -255,7 +257,9 @@ input[type="radio"] {
 .x-data {
     width: 100%;
     background: #dadfe6;
-
+    overflow: scroll;
+    overflow: auto;
+    z-index: 1;
     .row {
         margin: 0;
         border-bottom: 1px solid #FFF;
@@ -333,4 +337,10 @@ input[type="radio"] {
         margin-left: 5px;
         vertical-align: middle;
     }
+}
+.jrx-dtbody{
+    height: calc(100vh - 350px);
+    overflow: auto;
+    width: 102%;
+    margin-top: 47px;
 }

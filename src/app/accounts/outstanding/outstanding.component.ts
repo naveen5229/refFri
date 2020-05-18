@@ -27,7 +27,7 @@ import { PdfService } from '../../services/pdf/pdf.service';
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.credit | number : '1.2-2'}} </div>
       </div>
       <out-standing-tree *ngIf="d.name" [color]="color+1" [data]="d.data" [action]="action" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></out-standing-tree>
-      <div *ngIf="!d.name"  style="cursor:pointer" class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
+      <div *ngIf="!d.name" style="cursor:pointer" class="row x-warehouse"  (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
         <div class="col x-col">{{d.y_code}}</div>
@@ -40,7 +40,10 @@ import { PdfService } from '../../services/pdf/pdf.service';
     </div>
   </div>
   `,
-  styleUrls: ['./outstanding.component.scss']
+  styleUrls: ['./outstanding.component.scss'],
+  host: {
+    '(document:keydown)': 'keyHandler($event)'
+  }
 })
 export class outStandingTreeComponent {
   @Input() data: any;
@@ -52,9 +55,16 @@ export class outStandingTreeComponent {
 
   activeIndex: boolean = false;
   selectedRow: number = -1;
-  colors = ['#5d6e75','#6f8a96','#8DAAB8','#a8a5ad'];
+  colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a8a5ad'];
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
 
-
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.data.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.data.length - 1 && key === 'arrowdown') this.selectedRow++;
+    }
+  }
 }
 
 @Component({
@@ -459,12 +469,12 @@ export class OutstandingComponent implements OnInit {
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
-    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.voucherEntries.length) {
-      /************************ Handle Table Rows Selection ********************** */
-      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
-      else if (this.selectedRow != this.voucherEntries.length - 1) this.selectedRow++;
+    // if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.voucherEntries.length) {
+    //   /************************ Handle Table Rows Selection ********************** */
+    //   if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+    //   else if (this.selectedRow != this.voucherEntries.length - 1) this.selectedRow++;
 
-    }
+    // }
   }
 
   handleVoucherDateOnEnter(iddate) {
