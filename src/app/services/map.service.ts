@@ -64,7 +64,7 @@ export class MapService {
     setLocation && setLocation(place, lat, lng, placeFull.formatted_address);
   }
 
-  zoomAt(latLng, level = 18) {
+  zoomAt(latLng, level = 15) {
     this.map.panTo(latLng);
     if (level != this.map.getZoom())
       this.zoomMap(level);
@@ -93,15 +93,15 @@ export class MapService {
     }
   }
 
-  createSingleMarker(latLng, dragEvent?) {
-    var icon = {
-      path: google.maps.SymbolPath.redpin,
-      scale: 4,
-      fillColor: "#000000",
-      fillOpacity: 1,
-      strokeWeight: 1
-    };
-  
+  createSingleMarker(latLng, icons?, dragEvent?, clickEvent?) {
+
+    var icon = icons? icons: {
+                  path: google.maps.SymbolPath.redpin,
+                  scale: 4,
+                  fillColor: "#000000",
+                  fillOpacity: 1,
+                  strokeWeight: 1
+                };
     var marker = new google.maps.Marker({
       icon: icon,
       position: latLng,
@@ -111,9 +111,12 @@ export class MapService {
 
     if(dragEvent) {
 
-      this.addListerner(marker,  'dragend', (e) => dragEvent(e))
+      this.addListerner(marker,  'dragend', (e) => dragEvent(e, latLng))
           
 
+    }
+    if(clickEvent) {
+      this.addListerner(marker,  'click', (e) => clickEvent(e, latLng))
     }
     
     return marker;
