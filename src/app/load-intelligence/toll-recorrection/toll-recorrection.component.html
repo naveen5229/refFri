@@ -17,12 +17,11 @@
         <button class="accept" (click) = 'rejectApprove(1)'>Accept</button>
         <button class= "reject" (click) = 'rejectApprove(-1)'>Reject</button>
       </div>
+      <div class="tolls_count_container">
+        <label for="">Nearby Tolls :</label>&nbsp;
+        <span>{{tollCounts}}</span>
+      </div>
       <div #map id="map" class="map">
-        <div class="tolls_count_container">
-          <label for="">Nearby Tolls</label>&nbsp;
-          <span>{{tollCounts}}</span>
-        </div>
-        
       </div>
     </div>
   </div>
