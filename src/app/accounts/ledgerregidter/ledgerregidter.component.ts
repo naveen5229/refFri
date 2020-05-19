@@ -12,6 +12,7 @@ import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdeta
 import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.component';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { PdfService } from '../../services/pdf/pdf.service';
+import {AdvanceComponent } from '../../acounts-modals/advance/advance.component';
 
 @Component({
   selector: 'ledger-register-tree',
@@ -82,6 +83,7 @@ export class LedgerregidterComponent implements OnInit {
   pageName = "";
   sizeledger = 0;
   voucherEntries = [];
+  flag=0;
   ledgerRegister = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: ((((new Date()).getMonth()) + 1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear()) - 1) + '-04-01', 'ddMMYYYY', false, '-'),
@@ -650,6 +652,28 @@ export class LedgerregidterComponent implements OnInit {
         });
     })
   }
+
+  addvance(){
+    this.common.params = { 'isamount':this.ledgerRegister.isamount,'remarks':this.ledgerRegister.remarks,'vouchercustcode':this.ledgerRegister.vouchercustcode,'vouchercode':this.ledgerRegister.vouchercode,'frmamount':this.ledgerRegister.frmamount,'toamount':this.ledgerRegister.toamount };
+    const activeModal = this.modalService.open(AdvanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data: ', data);
+      if (data.response) {
+        this.ledgerRegister.isamount=data.ledger.isamount;
+        this.ledgerRegister.remarks=data.ledger.remarks;
+        this.ledgerRegister.vouchercustcode=data.ledger.vouchercustcode;
+        this.ledgerRegister.vouchercode=data.ledger.vouchercode;
+        this.ledgerRegister.frmamount=data.ledger.frmamount;
+        this.ledgerRegister.toamount=data.ledger.toamount;
+
+
+        if(data.ledger.toamount !=0 || data.ledger.frmamount !=0 ||data.ledger.vouchercode !='' ||data.ledger.vouchercustcode !='' ||data.ledger.remarks !='' ||data.ledger.isamount !=0){
+          this.flag = 1;
+        }
+      }
+    });
+  }
+
 
   showVoucherSummary(tripDetails, tripVoucher, voucherData) {
     let vehId = tripVoucher.y_vehicle_id;
