@@ -19,19 +19,26 @@
         position: relative;
         box-sizing: content-box;
         width: 100%;
-        .tolls_count_container {
-            z-index: 25;
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: white;
-            color: black;
-            padding: 20px;
-        }
+        
     }
     .marker_data {
         color: black;
         font-size: 16px;
+        z-index: 2;
+    }
+    .tolls_count_container {
+        z-index: 25;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: white;
+        color: black;
+        padding: 20px;
+        margin: 10px;
+        label {
+            margin: 0;
+            padding: 0;
+        }
     }
     .buttons {
         position: absolute;
