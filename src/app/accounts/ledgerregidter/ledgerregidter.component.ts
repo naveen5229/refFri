@@ -19,7 +19,8 @@ import {AdvanceComponent } from '../../acounts-modals/advance/advance.component'
   template: `
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
-      <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1">
+      <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1"
+      [style.background]="colors[color]">
           <div class="col x-col" *ngIf="d.name">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
           <div class="col x-col" *ngIf="d.name" >&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
@@ -30,7 +31,7 @@ import {AdvanceComponent } from '../../acounts-modals/advance/advance.component'
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.credit | number : '1.2-2'}} </div>
          
       </div>
-      <ledger-register-tree *ngIf="d.name" style="cursor:pointer" [action]="action" [data]="d.data" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></ledger-register-tree>
+      <ledger-register-tree *ngIf="d.name" [color]="color+1" style="cursor:pointer" [action]="action" [data]="d.data" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></ledger-register-tree>
       <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
         <div class="col x-col">{{d.y_ledger_name}}</div>
@@ -55,9 +56,12 @@ export class ledgerRegisterTreeComponent {
   @Input() labels: string;
   @Input() action: any;
   @Input() isExpandAll: boolean;
+  @Input() color: number = 0;
+
   activeIndex: boolean = false;
   selectedRow: number = -1;
-
+  colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a8a5ad'];
+  
   keyHandler(event) {
     const key = event.key.toLowerCase();
 
