@@ -68,36 +68,26 @@ table{
         display: table;
         width: 100%;
         table-layout: fixed;
-    }
-    tr{
-        th{
-            padding: 5px 10px;
-            font-weight: normal;
-            width: 115px;
-            font-weight: 500;
-        }
-        th:nth-child(1){
-            width: 50px;
-        }
-        th:last-child{
-            width: auto;
-        }
-        td{
-            padding: 5px 10px !important;
-            font-size: 12px;
-            width: 115px;
-            button{
-                padding: 0 !important;
-                font-size: 11px;
-                border-radius: 0px !important;
-                margin: 0px;
-                background-color: transparent;
-                color: #263238;
-                outline: none;
-                box-shadow: none;
+        tr{
+            th{
+                padding: 5px 10px;
+                font-weight: normal;
+                width: 115px;
+                font-weight: 500;
             }
+            th:nth-child(1){
+                width: 50px;
+            }
+            th:nth-child(2){
+                width: 160px;
+            }
+            th:last-child{
+                width: 115px;
+            }
+          
         }
     }
+  
     tbody{
         //overflow-y: auto;
         display: block;
@@ -112,8 +102,11 @@ table{
             td:nth-child(1){
                 width: 50px;
             }
+            td:nth-child(2){
+                width: 160px;
+            }
             td:last-child{
-                width: auto;
+                width: 115px;
             }
         }
         tr:nth-child(odd){
