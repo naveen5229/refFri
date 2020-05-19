@@ -24,7 +24,7 @@ export class TollRecorrectionComponent implements OnInit {
   
   apiData = {id: null, status: 0, changes: {lat: null, lng: null}};
   markerDetails = {markerId: null, markerName: null};
-
+  tollCounts = 0;
   data = [];
   routeData = [];
   table = {
@@ -138,7 +138,7 @@ export class TollRecorrectionComponent implements OnInit {
 
       {
         class: details.isShow ? "far fa-eye green" : "far fa-eye red",
-        action: this.getNearRoutes.bind(this, details),
+        action: this.getNearRoutes.bind(this, details, true),
       },
 
       // {
@@ -164,7 +164,7 @@ export class TollRecorrectionComponent implements OnInit {
 
 
 
-getNearRoutes(details) {
+getNearRoutes(details, zoom) {
     this.clearMarkers();
     this.clearApiData();
     console.log(details);
@@ -175,10 +175,11 @@ getNearRoutes(details) {
         this.common.loading--;
         this.routeData = [];
         if (!res['data']) return;
-        this.mapService.clearAll()
+        this.mapService.clearAll();
         this.routeData = res['data'];
+        this.tollCounts = this.routeData.length;
         let latlng = new google.maps.LatLng(details.lat, details.long);
-        this.mapService.zoomAt(latlng);
+        if(zoom) this.mapService.zoomAt(latlng);
         this.mapService.setMapType(1);
         this.routeData.forEach((val) => {
           
@@ -232,7 +233,7 @@ rejectApprove(status) {
   .subscribe(res => {
     this.common.loading--;
     console.log(res);
-    this.getNearRoutes({id: this.apiData.id, lat: this.apiData.changes.lat, long: this.apiData.changes.lng});
+    this.getNearRoutes({id: this.apiData.id, lat: this.apiData.changes.lat, long: this.apiData.changes.lng}, false);
     this.showData();
   });
 }

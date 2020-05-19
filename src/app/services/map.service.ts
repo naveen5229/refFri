@@ -64,7 +64,7 @@ export class MapService {
     setLocation && setLocation(place, lat, lng, placeFull.formatted_address);
   }
 
-  zoomAt(latLng, level = 15) {
+  zoomAt(latLng, level = 20) {
     this.map.panTo(latLng);
     if (level != this.map.getZoom())
       this.zoomMap(level);
