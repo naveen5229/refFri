@@ -21,8 +21,9 @@ export class TollRecorrectionComponent implements OnInit {
     long: 75.857727,
     zoom: 4.5
   }
-
-  changes = {lat: null, lng: null};
+  
+  apiData = {id: null, status: 0, changes: {lat: null, lng: null}};
+  markerDetails = {markerId: null, markerName: null};
 
   data = [];
   routeData = [];
@@ -37,6 +38,7 @@ export class TollRecorrectionComponent implements OnInit {
   };
   headings = [];
   valobj = {};
+  markers = [];
 
   constructor(public activeModal: NgbActiveModal,
     public modalService: NgbModal,
@@ -56,6 +58,11 @@ export class TollRecorrectionComponent implements OnInit {
 
     }, 200);
 
+  }
+
+  clearApiData(){
+    this.apiData = {id: null, status: 0, changes: {lat: null, lng: null}};
+    this.markerDetails = {markerId: null, markerName: null}
   }
 
   showData() {
@@ -134,19 +141,19 @@ export class TollRecorrectionComponent implements OnInit {
         action: this.getNearRoutes.bind(this, details),
       },
 
-      {
-        class: "fas fa-ban",
-        action: this.rejectApprove.bind(this, details, -1),
-      },
-      {
-        class: "fas fa-check",
-        action: this.rejectApprove.bind(this, details, 1),
-      }
+      // {
+      //   class: "fas fa-ban",
+      //   action: this.rejectApprove.bind(this, details, -1),
+      // },
+      // {
+      //   class: "fas fa-check",
+      //   action: this.rejectApprove.bind(this, details, 1),
+      // }
 
     )
-    if (details.Status == "Accept" || details.Status == "Reject") {
-      icons.pop();
-    }
+    // if (details.Status == "Accept" || details.Status == "Reject") {
+    //   icons.pop();
+    // }
 
     return icons;
   }
@@ -158,7 +165,8 @@ export class TollRecorrectionComponent implements OnInit {
 
 
 getNearRoutes(details) {
-    this.changes = {lat: null, lng: null};
+    this.clearMarkers();
+    this.clearApiData();
     console.log(details);
     let params = {id:  details.id};
     this.common.loading++;
@@ -170,26 +178,63 @@ getNearRoutes(details) {
         this.mapService.clearAll()
         this.routeData = res['data'];
         let latlng = new google.maps.LatLng(details.lat, details.long);
-        this.mapService.createMarkers(this.routeData, false, true, ['id', 'name']);
-        this.mapService.createSingleMarker(latlng, ((e) => {
-          this.changes.lat = e.latLng.lat();
-          this.changes.lng = e.latLng.lng();
-          console.log(this.changes);
-        } ));
+        this.mapService.zoomAt(latlng);
+        this.mapService.setMapType(1);
+        this.routeData.forEach((val) => {
+          
+          let markerApi = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|0|" + val.color + "|000000";
+          // {
+          //   path: google.maps.SymbolPath.redpin,
+          //   scale: 4,
+          //   fillColor: "#"+val.color,
+          //   fillOpacity: 1,
+          //   strokeWeight: 1
+          // };
+           
+           let marker = this.mapService.createSingleMarker(val, markerApi,  ((e, latLng) => {
+            console.log(latLng);
+            this.clearApiData();
+            let lat = e.latLng.lat();
+            let lng = e.latLng.lng();
+            this.apiData.id = val.id;
+            this.apiData.changes.lat = lat;
+            this.apiData.changes.lng = lng;
+            this.markerDetails.markerId = latLng.id;
+            this.markerDetails.markerName = latLng.name;
+          } ), ((e,latLng) => {
+            console.log(latLng);
+            this.clearApiData();
+            let lat = e.latLng.lat();
+            let lng = e.latLng.lng();
+            this.apiData.id = val.id;
+            this.apiData.changes.lat = lat;
+            this.apiData.changes.lng = lng;
+            this.markerDetails.markerId = latLng.id;
+            this.markerDetails.markerName = latLng.name;
+          } ));
+          this.markers.push(marker);
+        }, );
+        
 
 });
 
 }
-
-rejectApprove(details, status) {
-  let params = {id: details.id, status: status , changes: this.changes}
+clearMarkers() {
+  this.markers.forEach((e) => {
+    e.setMap(null);
+  });
+  this.markers = [];
+}
+rejectApprove(status) {
+  let params = {id: this.apiData.id, status: status , changes: this.apiData.changes}
   this.common.loading++;
   this.api.post('LoadIntelligence/updateTollPlazaVerifyStatus', params)
   .subscribe(res => {
     this.common.loading--;
     console.log(res);
+    this.getNearRoutes({id: this.apiData.id, lat: this.apiData.changes.lat, long: this.apiData.changes.lng});
     this.showData();
-});
+  });
 }
 
 }

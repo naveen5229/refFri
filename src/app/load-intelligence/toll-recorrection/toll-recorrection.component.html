@@ -7,7 +7,15 @@
     <div class="col-4">
       <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="advices"></smart-table>
     </div>
-    <div class="col-8">
+    <div class="col-8 map_container">
+      <div class="marker_data" *ngIf = "markerDetails.markerId">
+        <div class="id">{{markerDetails.markerId}}</div>
+        <div class="name">{{markerDetails.markerName}}</div>
+      </div>
+      <div class="buttons" *ngIf = "apiData.id">
+        <button class="accept" (click) = 'rejectApprove(1)'>Accept</button>
+        <button class= "reject" (click) = 'rejectApprove(-1)'>Reject</button>
+      </div>
       <div #map id="map"></div>
     </div>
   </div>

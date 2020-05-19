@@ -10,7 +10,32 @@
     width: 100%;
     z-index: 1;
 }
-
+.map_container {
+    position: relative;
+    height: 80vh;
+    overflow: hidden;
+    .marker_data {
+        color: black;
+        font-size: 16px;
+    }
+    .buttons {
+        position: absolute;
+        bottom: 5%;
+        z-index: 2;
+        .accept {
+            background: lightgreen;
+            padding: 7px 10px;
+            margin: 0 5px;
+            border: none;
+        }
+        .reject {
+            background: lightcoral;
+            padding: 7px 10px;
+            margin: 0 5px;
+            border: none;
+        }
+    }
+}
 :host ::ng-deep.red {
     color: red;
 }
