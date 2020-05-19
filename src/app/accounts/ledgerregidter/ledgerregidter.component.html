@@ -40,7 +40,7 @@
           </div>
 
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-4">
             <label class="tjr-label">Is Amount Debit </label>
             <div class="debit_box">
@@ -99,9 +99,9 @@
           </div>
          
 
-        </div>
+        </div> -->
         <div class="row">
-          <div class="col">
+          <div class="col-4">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
@@ -109,19 +109,30 @@
                 maxlength="10">
             </div>
           </div>
-          <div class="col">
+          <div class="col-4">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="enddate"
                 placeholder="Select Date" name="account-enddate" [(ngModel)]="ledgerRegister.enddate" maxlength="10">
             </div>
           </div>
-          <div class="col">
+          
+          <div class="col-2">
+            <div *ngIf="flag==0" class="form-group addvance">
+              <a href="javascript:void(0)" outline (click)="addvance()" id="submit" style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
+            </div>
+            <div *ngIf="flag == 1" class="form-group addvance">
+              <a href="javascript:void(0)" outline (click)="addvance()" id="submit" class="advncolor" style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
+            </div>
+          </div>
+
+          <div class="col-2">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getDetail()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
             </div>
           </div>
+
         </div>
       </div>
       <div class="col-3">
@@ -151,7 +162,7 @@
           <div class="col x-col">Particular</div>
           <div class="col x-col">Ledger Name</div>
           <div class="col x-col">Voucher Code</div>
-          <div class="col x-col">Voucher Cust Code</div>
+          <div class="col x-col">Ref No</div>
           <div class="col x-col">Voucher Date</div>
           <div class="col x-col">Voucher Type</div>
           <div class="col x-col">Dr Amount</div>
