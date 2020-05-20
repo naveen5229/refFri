@@ -126,7 +126,16 @@ export class AdvanceComponent  implements OnInit {
     }, 100);
   }
 
-
+  clear(){
+    this.Accounts = {
+      isamount:0,
+      remarks:'',
+      vouchercustcode:'',
+      vouchercode:'',
+      frmamount:0,
+      toamount:0 
+    }
+  }
  
 
 

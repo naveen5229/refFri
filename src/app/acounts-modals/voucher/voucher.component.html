@@ -61,6 +61,8 @@
                         <span>{{costDetail.ledger.name}}: </span>
                         <span>{{costDetail.amount}}</span>
                       </div>
+                      <span *ngIf="ledgerbalance && (voucherId != '-1' || voucherId !='-3')">(<i>Ledger balance is </i>
+                        {{ ledgerbalance }})</span>
                     </td>
                     <td>
                       <input type="number" class="form-control" [id]="'amount-' + i" [name]="'amount-' + i"

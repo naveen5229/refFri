@@ -50,6 +50,7 @@ export class VouchersComponent implements OnInit {
   activeLedgerIndex = -1;
   modal = null;
   mannual = false;
+  ledgerbalance = '';
  
   constructor(public api: ApiService,
     public common: CommonService,
@@ -599,7 +600,7 @@ export class VouchersComponent implements OnInit {
         this.setFoucus('amount-' + index);
         //this.setFoucus('ledger-container');
         this.activeLedgerIndex = -1;
-
+        this.getLedgerView(index);
       } else if (activeId == 'voucher-date') {
        
         if (this.freezedate) {
@@ -822,7 +823,7 @@ export class VouchersComponent implements OnInit {
     this.voucher.amountDetails[index].ledger.name = ledger.y_ledger_name;
     this.voucher.amountDetails[index].ledger.id = ledger.y_ledger_id;
     this.voucher.amountDetails[index].ledger.is_constcenterallow = ledger.is_constcenterallow;
-
+    this.getLedgerView(index);
     // console.log('Last Active ID:', ledger.is_constcenterallow, this.voucher.amountDetails[index].ledger.is_constcenterallow);
 
   }
@@ -1079,6 +1080,32 @@ export class VouchersComponent implements OnInit {
           this.common.showError();
         });
     }
+  }
+
+
+  getLedgerView(index) {
+    //  console.log('Ledger:', this.ledger);
+      
+      let params = {
+        startdate: this.common.dateFormatternew(new Date()).split(' ')[0],
+        enddate: this.common.dateFormatternew(new Date()).split(' ')[0],
+        ledger: this.voucher.amountDetails[index].ledger.id,
+        vouchertype: this.voucherId,
+      };
+  
+      this.common.loading++;
+      this.api.post('Accounts/getLedgerView', params)
+        .subscribe(res => {
+          this.common.loading--;
+         this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' (Cr)' : res['data'][res['data'].length - 1]['y_dramunt'] + ' (Dr)'; 
+         console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
+       
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
+    
   }
 
 

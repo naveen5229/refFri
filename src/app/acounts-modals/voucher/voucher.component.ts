@@ -35,6 +35,7 @@ export class VoucherComponent implements OnInit {
     debit: [],
     suggestions: []
   };
+  ledgerbalance='';
   sizeIndex=0;
   currentbalance = 0;
   balances = {};
@@ -647,6 +648,7 @@ export class VoucherComponent implements OnInit {
           this.getCurrentBalance(this.voucher.amountDetails[index].ledger.id);
         }
         this.setFoucus('amount-' + index);
+        this.getLedgerView(index);
         //this.setFoucus('ledger-container');
         this.activeLedgerIndex = -1;
         return;
@@ -869,6 +871,8 @@ export class VoucherComponent implements OnInit {
     this.voucher.amountDetails[index].ledger.name = ledger.y_ledger_name;
     this.voucher.amountDetails[index].ledger.id = ledger.y_ledger_id;
     this.voucher.amountDetails[index].ledger.is_constcenterallow = ledger.is_constcenterallow;
+    this.getLedgerView(index);
+
   }
 
   handleVoucherDateOnEnter() {
@@ -1331,6 +1335,31 @@ export class VoucherComponent implements OnInit {
           this.common.showError();
         });
     }
+  }
+
+  getLedgerView(index) {
+    //  console.log('Ledger:', this.ledger);
+      
+      let params = {
+        startdate: this.common.dateFormatternew(new Date()).split(' ')[0],
+        enddate: this.common.dateFormatternew(new Date()).split(' ')[0],
+        ledger: this.voucher.amountDetails[index].ledger.id,
+        vouchertype: this.voucherId,
+      };
+  
+      this.common.loading++;
+      this.api.post('Accounts/getLedgerView', params)
+        .subscribe(res => {
+          this.common.loading--;
+         this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' (Cr)' : res['data'][res['data'].length - 1]['y_dramunt'] + ' (Dr)'; 
+         console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
+       
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
+    
   }
 
 }
