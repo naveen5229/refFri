@@ -359,11 +359,11 @@ export class LedgerregidterComponent implements OnInit {
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('vouchertype')) {
-        this.setFoucus('ledgerdaybook');
-      } else if (this.activeId.includes('ledgerdaybook')) {
         this.setFoucus('group');
+      } else if (this.activeId.includes('ledgerdaybook')) {
+        this.setFoucus('startdate');
       } else if (this.activeId.includes('group')) {
-        this.setFoucus('trantype');
+        this.setFoucus('ledgerdaybook');
       } else if (this.activeId.includes('frmamount')) {
         this.setFoucus('toamount');
       } else if (this.activeId.includes('toamount')) {
@@ -388,7 +388,7 @@ export class LedgerregidterComponent implements OnInit {
       event.preventDefault();
       console.log('active 1', this.activeId);
       if (this.activeId == 'enddate') this.setFoucus('startdate');
-      if (this.activeId == 'startdate') this.setFoucus('trantype');
+      if (this.activeId == 'startdate') this.setFoucus('ledgerdaybook');
       if (this.activeId == 'trantype') this.setFoucus('group');
       if (this.activeId == 'remarks') this.setFoucus('vouchercustcode');
       if (this.activeId == 'vouchercustcode') this.setFoucus('vouchercode');
