@@ -14,6 +14,7 @@ import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summ
 import { StorerequisitionComponent } from '../../acounts-modals/storerequisition/storerequisition.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { AccountService } from '../../services/account.service';
+import {AdvanceComponent } from '../../acounts-modals/advance/advance.component';
 
 @Component({
   selector: 'daybookpending',
@@ -24,6 +25,8 @@ export class DaybookpendingComponent implements OnInit {
   selectedName = '';
   activedateid = '';
   fuelFilings=[];
+  flag=0;
+
   DayBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -39,7 +42,13 @@ export class DaybookpendingComponent implements OnInit {
       name: 'All',
       id: 0
     },
-    issumrise: 'true'
+    issumrise: 'true',
+    isamount: 0,
+    remarks: '',
+    vouchercustcode: '',
+    vouchercode: '',
+    frmamount: 0,
+    toamount: 0,
 
   };
   lastActiveId = '';
@@ -184,7 +193,13 @@ export class DaybookpendingComponent implements OnInit {
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
       delete: this.deletedId,
-      forapproved: 0
+      forapproved: 0,
+      isamount: this.DayBook.isamount,
+      remarks: this.DayBook.remarks,
+      vouchercustcode: this.DayBook.vouchercustcode,
+      vouchercode: this.DayBook.vouchercode,
+      frmamount: this.DayBook.frmamount,
+      toamount: this.DayBook.toamount,
     };
 
     this.common.loading++;
@@ -736,5 +751,23 @@ export class DaybookpendingComponent implements OnInit {
       });
     })
    
+  }
+  addvance(){
+    this.common.params = { 'isamount':this.DayBook.isamount,'remarks':this.DayBook.remarks,'vouchercustcode':this.DayBook.vouchercustcode,'vouchercode':this.DayBook.vouchercode,'frmamount':this.DayBook.frmamount,'toamount':this.DayBook.toamount };
+    const activeModal = this.modalService.open(AdvanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data: ', data);
+      if (data.response) {
+        this.DayBook.isamount=data.ledger.isamount;
+        this.DayBook.remarks=data.ledger.remarks;
+        this.DayBook.vouchercustcode=data.ledger.vouchercustcode;
+        this.DayBook.vouchercode=data.ledger.vouchercode;
+        this.DayBook.frmamount=data.ledger.frmamount;
+        this.DayBook.toamount=data.ledger.toamount;
+        if(data.ledger.toamount !=0 || data.ledger.frmamount !=0 ||data.ledger.vouchercode !='' ||data.ledger.vouchercustcode !='' ||data.ledger.remarks !='' ||data.ledger.isamount !=0){
+          this.flag = 1;
+        }
+      }
+    });
   }
 }

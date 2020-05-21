@@ -19,6 +19,8 @@ import { TemplatePreviewComponent } from '../../modals/template-preview/template
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 import { AccountService } from '../../services/account.service';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
+import {AdvanceComponent } from '../../acounts-modals/advance/advance.component';
+
 @Component({
   selector: 'daybooks',
   templateUrl: './daybooks.component.html',
@@ -28,6 +30,7 @@ export class DaybooksComponent implements OnInit {
   selectedName = '';
   activedateid = '';
   fuelFilings=[];
+  flag=0;
 
   DayBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -44,7 +47,13 @@ export class DaybooksComponent implements OnInit {
       name: 'All',
       id: 0
     },
-    issumrise: 'true'
+    issumrise: 'true',
+    isamount: 0,
+    remarks: '',
+    vouchercustcode: '',
+    vouchercode: '',
+    frmamount: 0,
+    toamount: 0,
 
   };
   lastActiveId = '';
@@ -206,7 +215,13 @@ export class DaybooksComponent implements OnInit {
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
       delete: this.deletedId,
-      forapproved: (this.deletedId == 1) ? -1 : 1
+      forapproved: (this.deletedId == 1) ? -1 : 1,
+      isamount: this.DayBook.isamount,
+      remarks: this.DayBook.remarks,
+      vouchercustcode: this.DayBook.vouchercustcode,
+      vouchercode: this.DayBook.vouchercode,
+      frmamount: this.DayBook.frmamount,
+      toamount: this.DayBook.toamount,
     };
 
     this.common.loading++;
@@ -863,5 +878,23 @@ export class DaybooksComponent implements OnInit {
       }else{
         this.common.showError('Please Select another Entry');
       }
+  }
+  addvance(){
+    this.common.params = { 'isamount':this.DayBook.isamount,'remarks':this.DayBook.remarks,'vouchercustcode':this.DayBook.vouchercustcode,'vouchercode':this.DayBook.vouchercode,'frmamount':this.DayBook.frmamount,'toamount':this.DayBook.toamount };
+    const activeModal = this.modalService.open(AdvanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data: ', data);
+      if (data.response) {
+        this.DayBook.isamount=data.ledger.isamount;
+        this.DayBook.remarks=data.ledger.remarks;
+        this.DayBook.vouchercustcode=data.ledger.vouchercustcode;
+        this.DayBook.vouchercode=data.ledger.vouchercode;
+        this.DayBook.frmamount=data.ledger.frmamount;
+        this.DayBook.toamount=data.ledger.toamount;
+        if(data.ledger.toamount !=0 || data.ledger.frmamount !=0 ||data.ledger.vouchercode !='' ||data.ledger.vouchercustcode !='' ||data.ledger.remarks !='' ||data.ledger.isamount !=0){
+          this.flag = 1;
+        }
+      }
+    });
   }
 }
