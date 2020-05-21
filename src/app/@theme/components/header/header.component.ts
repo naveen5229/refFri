@@ -111,6 +111,7 @@ export class HeaderComponent implements OnInit {
           localStorage.removeItem('LOGGED_IN_BY');
           localStorage.removeItem('CUSTOMER_DETAILS');
           localStorage.removeItem('DOST_USER_PAGES');
+          localStorage.removeItem('DOST_axesToken');
           this.router.navigate(['/auth/login']);
           console.log("logout", res);
         }, err => {
