@@ -173,7 +173,7 @@ export class LoginComponent implements OnInit {
     if (this.otpCount <= 0) {
       clearInterval(this.interval);
     }
-    if(this.loginType==2 && !this.qrCode){
+    if (this.loginType == 2 && !this.qrCode) {
       this.common.showError("Please regenerate qrcode");
       return;
     }
@@ -193,7 +193,7 @@ export class LoginComponent implements OnInit {
 
     this.api.post('Login/verifyotp', params)
       .subscribe(res => {
-        console.log(res);
+        console.log('login res', res);
         if (!res['success']) {
           return;
         }
@@ -207,6 +207,10 @@ export class LoginComponent implements OnInit {
           this.user._token = res['data'][0]['authkey'];
           console.log('Login Type: ', this.user._loggedInBy);
           localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
+          if (res['data'][0].axesToken && this.user._loggedInBy === 'customer') {
+            localStorage.setItem('DOST_axesToken', res['data'][0].axesToken);
+          }
+
           this.getUserPagesList();
         }
       }, err => {
@@ -237,7 +241,7 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.user._pages = res['data'].filter(page => {
-          
+
           return page.userid;
         });
 

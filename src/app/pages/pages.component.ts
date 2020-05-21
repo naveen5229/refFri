@@ -26,9 +26,7 @@ export class PagesComponent {
     public api: ApiService,
     public accountService: AccountService,
     public user: UserService,
-    public router: Router,
-
-  ) {
+    public router: Router) {
     if (!this.accountService.branches.length) {
       this.getBranches();
       this.getFinancial();
@@ -38,6 +36,23 @@ export class PagesComponent {
       this.router.navigate(['/admin']);
     }
   }
+
+  ngAfterViewInit() {
+    document.getElementsByTagName('nb-sidebar')[0]['onclick'] = event => {
+      let srcElement = event.srcElement;
+      if (srcElement.className === 'menu-title' && srcElement.tagName === 'SPAN') {
+        this.handleMenuClick(srcElement.parentElement.text, srcElement.parentElement.hash.replace(/#\//, ''));
+      }
+    }
+  }
+
+  handleMenuClick(title: string, link: string) {
+    if (title === 'Vehicle Tracking') {
+      let url = 'http://fvts.in/auth/checkloginandredirect/?token=' + localStorage.getItem('DOST_axesToken') + '&frompage=' + window.location.href;
+      window.location.href = url;
+    }
+  }
+
   getBranches() {
     this.api.post('Suggestion/GetBranchList', { search: 123 })
       .subscribe(res => {

@@ -360,6 +360,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/fuel-fillings',
         home: true,
       },
+      
       {
         title: 'Fuel Mileage',
         icon: 'fas fa-tachometer-alt',
@@ -543,4 +544,9 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     link: '/load-intelligence/dashboard'
   },
 
+  {
+    title: 'Load Intelligence',
+    icon: 'fas fa-chalkboard-teacher',
+    link: '/load-intelligence/dashboard'
+  },
 ]);
