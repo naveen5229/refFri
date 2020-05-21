@@ -46,7 +46,13 @@ export class DaybookComponent implements OnInit {
       name: 'All',
       id: 0
     },
-    issumrise: 'true'
+    issumrise: 'true',
+    isamount: 0,
+    remarks: '',
+    vouchercustcode: '',
+    vouchercode: '',
+    frmamount: 0,
+    toamount: 0,
 
   };
   lastActiveId = '';
@@ -98,7 +104,13 @@ export class DaybookComponent implements OnInit {
           name: 'All',
           id: this.common.params.vouchertype
         },
-        issumrise: 'true'
+        issumrise: 'true',
+        isamount: 0,
+        remarks: '',
+        vouchercustcode: '',
+        vouchercode: '',
+        frmamount: 0,
+        toamount: 0,
       }
       this.deletedId =this.common.params.deleteId;
       this.getDayBook();
@@ -201,9 +213,14 @@ export class DaybookComponent implements OnInit {
       ledger: this.DayBook.ledger.id,
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
-     
       delete: 0,
-      forapproved: (this.deletedId == 1) ? 0 : 1
+      forapproved: (this.deletedId == 1) ? 0 : 1,
+      isamount: this.DayBook.isamount,
+      remarks: this.DayBook.remarks,
+      vouchercustcode: this.DayBook.vouchercustcode,
+      vouchercode: this.DayBook.vouchercode,
+      frmamount: this.DayBook.frmamount,
+      toamount: this.DayBook.toamount,
     };
 
     this.common.loading++;
