@@ -14,8 +14,9 @@ import { HotspotSummaryComponent } from './hotspot-summary/hotspot-summary.compo
 import { FindRouteComponent } from './find-route/find-route.component';
 import { PathViewverComponent } from './path-viewver/path-viewver.component';
 import { ZoneDetailsComponent } from './zone-details/zone-details.component';
+import { TollRecorrectionComponent } from './toll-recorrection/toll-recorrection.component';
 @NgModule({
-  declarations: [DashboardComponent, LoadIntelligenceComponent, ShowRoutesComponent, PopulateAltitudeComponent, UploadRoutesComponent, SpecialAreaComponent, HotspotSummaryComponent, FindRouteComponent, PathViewverComponent, ZoneDetailsComponent],
+  declarations: [DashboardComponent, LoadIntelligenceComponent, ShowRoutesComponent, PopulateAltitudeComponent, UploadRoutesComponent, SpecialAreaComponent, HotspotSummaryComponent, FindRouteComponent, PathViewverComponent, ZoneDetailsComponent, TollRecorrectionComponent],
   imports: [
     CommonModule,
     LoadIntelligenceRoutingModule,

@@ -5,7 +5,7 @@ import { UserService } from '../../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
 import { ConfirmComponent } from '../../confirm/confirm.component';
-import { Row } from 'jspdf-autotable';
+// import { Row } from 'jspdf-autotable';
 import { setData } from '@telerik/kendo-intl';
 
 @Component({

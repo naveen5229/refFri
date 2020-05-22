@@ -17,8 +17,8 @@ import { PdfService } from '../../services/pdf/pdf.service';
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
       <div style="cursor:pointer"  class="row x-sub-stocktype" *ngIf="d.name" (click)="activeIndex = activeIndex !== i ? i : -1" [style.background]="colors[color]">
-          <div class="col x-col" *ngIf="d.name"><span *ngIf="!d.ledgerName">{{labels}} {{d.name}} {{color}}</span></div>
-          <div class="col x-col" *ngIf="d.name" ><span *ngIf="d.ledgerName">{{labels}} {{d.ledgerName}} {{color}}</span>&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name"><span *ngIf="!d.ledgerName">{{labels}} {{d.name}}</span></div>
+          <div class="col x-col" *ngIf="d.name" ><span *ngIf="d.ledgerName">{{labels}} {{d.ledgerName}}</span>&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
