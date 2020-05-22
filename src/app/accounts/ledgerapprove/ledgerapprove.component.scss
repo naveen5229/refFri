@@ -1,4 +1,6 @@
- 
+.nb-theme-corporate nb-card {
+    min-height: 450px;
+}
  
  button { 
     padding: 7px 10px !important;
@@ -16,6 +18,14 @@ nb-card-header{
 .main{
     display: block;
     margin-top: 20px;
+}
+.table-box{
+    width: 100%;
+    height: calc(100vh - 260px);
+    overflow: hidden;
+}
+.col-8{
+    margin-left: 32px;
 }
 table{
     thead{
