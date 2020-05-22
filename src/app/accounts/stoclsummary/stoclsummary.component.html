@@ -128,6 +128,8 @@
           <div class="col x-col"> Debit Note</div>
           <div class="col x-col">Credit Note</div>
           <div class="col x-col">Net Available</div>
+          <div class="col x-col">Opening Amount</div>
+          <div class="col x-col">Closing Amount</div>
         </div>
         <div class="jrx-dtbody">
         <div *ngFor="let stockType of summaryreport let i = index" class="x-data">
@@ -146,6 +148,8 @@
             <div class="col x-col">{{stockType.totaldebit}}</div>
             <div class="col x-col">{{stockType.totalcredit}}</div>
             <div class="col x-col">{{stockType.totalnet}}</div>
+            <div class="col x-col">{{stockType.totalopeamt | number : '1.2-2'}}</div>
+            <div class="col x-col">{{stockType.totalcloamt | number : '1.2-2'}}</div>
           </div>
           <div *ngFor="let stockSubType of stockType.data let j = index"
             [hidden]="active.liabilities.mainGroup.indexOf('mainGroup' + i + 0 + 0 + 0) == -1">
@@ -164,6 +168,8 @@
               <div class="col x-col">{{stockSubType.totaldebit}}</div>
               <div class="col x-col">{{stockSubType.totalcredit}}</div>
               <div class="col x-col">{{stockSubType.totalnet}}</div>
+              <div class="col x-col">{{stockSubType.totalopeamt | number : '1.2-2'}}</div>
+              <div class="col x-col">{{stockSubType.totalcloamt | number : '1.2-2'}}</div>
             </div>
             <div *ngFor="let stockItem of stockSubType.data let k = index"
               [hidden]="active.liabilities.subGroup.indexOf('subGroup' + i + j + 0 + 0) == -1">
@@ -182,6 +188,8 @@
                 <div class="col x-col">{{stockItem.totaldebit}}</div>
                 <div class="col x-col">{{stockItem.totalcredit}}</div>
                 <div class="col x-col">{{stockItem.totalnet}}</div>
+                <div class="col x-col">{{stockItem.totalopeamt | number : '1.2-2'}}</div>
+                <div class="col x-col">{{stockItem.totalcloamt | number : '1.2-2'}}</div>
 
               </div>
               <div *ngIf="warehouseid != 0" class="row x-stockitem" (dblclick)="openmodal(stockItem.data[0].data[0],'stock')"  (click)="selectedRow = i + j + k + 0+ 0"  [ngClass]="{'highlight' : selectedRow == i + j + k + 0+ 0}">
@@ -199,6 +207,8 @@
                 <div class="col x-col">{{stockItem.totaldebit}}</div>
                 <div class="col x-col">{{stockItem.totalcredit}}</div>
                 <div class="col x-col">{{stockItem.totalnet}}</div>
+                <div class="col x-col">{{stockItem.totalopeamt | number : '1.2-2'}}</div>
+                <div class="col x-col">{{stockItem.totalcloamt | number : '1.2-2'}}</div>
 
               </div>
 
@@ -220,6 +230,8 @@
                   <div class="col x-col">{{branch.debittotal}}</div>
                   <div class="col x-col">{{branch.credittotal}}</div>
                   <div class="col x-col">{{branch.nettotal}}</div>
+                  <div class="col x-col">{{branch.opnamttotal | number : '1.2-2'}}</div>
+                  <div class="col x-col">{{branch.cloamttotal | number : '1.2-2'}}</div>
 
                 </div>
                 <div *ngFor="let wareHouse of branch.data let m = index"
@@ -239,6 +251,8 @@
                     <div class="col x-col"> {{wareHouse.y_dn_qty}}</div>
                     <div class="col x-col">{{wareHouse.y_cn_qty}}</div>
                     <div class="col x-col">{{wareHouse.y_net_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_opn_amt | number : '1.2-2'}}</div>
+                    <div class="col x-col">{{wareHouse.y_clos_amt | number : '1.2-2'}}</div>
                   </div>
                   <!-- <div *ngFor="let report of wareHouse.data" [hidden]="active.liabilities.item.indexOf('item' + i + j + k + l + m) == -1">
                     <div class="row">
