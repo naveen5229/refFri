@@ -205,10 +205,10 @@ export class OrderComponent implements OnInit {
     this.api.post('Company/getInvoiceDetail', params)
       .subscribe(res => {
         // this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log('Res detail:', res['data']);
         this.invoiceDetail = res['data']['invoice'];
         this.taxDetailData = res['data']['taxdetail'];
-        console.log('Invoice detail', this.invoiceDetail[0]['y_biltynumber']);
+        console.log('Invoice detail', this.invoiceDetail);
         console.log('Tax Detail', this.taxDetailData);
         this.deletedId = this.common.params.delete;
         this.order.orderid = this.common.params.invoiceid;
@@ -286,7 +286,7 @@ export class OrderComponent implements OnInit {
           });
 
         });
-
+        console.log('this.order.totalamount - this.totalamount',this.order.amountDetails);
         // amountDetails: [{
         //   transactionType: 'debit',
         //   ledger: '',
@@ -641,12 +641,19 @@ export class OrderComponent implements OnInit {
   }
 
   calculateTotalLineAmount() {
-    let total = null;
+    let total = 0;
+    let totalamount = 0;
     this.order.amountDetails.map(amountDetail => {
       // console.log('Amount: ',  amountDetail.amo  unt[type]);
       total += (amountDetail.lineamount);
+      totalamount += (amountDetail.amount);
     });
+    this.totalTaxamount = ((total) - (totalamount));
+    //console.log('parseflot :', total , totalamount,this.totalTaxamount);
+
     return total;
+
+
   }
   calculateTotalQty() {
     let total = null;
@@ -1905,7 +1912,7 @@ getLedgerView() {
     this.api.post('Accounts/getLedgerView', params)
       .subscribe(res => {
         this.common.loading--;
-       this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' (Cr)' : res['data'][res['data'].length - 1]['y_dramunt'] + ' (Dr)'; 
+       this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' (Cr)' : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0.00') ? '0' : res['data'][res['data'].length - 1]['y_dramunt'] + ' (Dr)'; 
        console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
       
       }, err => {

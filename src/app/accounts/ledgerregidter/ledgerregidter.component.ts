@@ -244,7 +244,7 @@ export class LedgerregidterComponent implements OnInit {
       vouchertyid: this.ledgerRegister.vouchertype.id,
       groupid: this.ledgerRegister.group.id,
       startDate: this.ledgerRegister.startdate,
-      endDate: this.ledgerRegister.startdate,
+      endDate: this.ledgerRegister.enddate,
       isamount: this.ledgerRegister.isamount,
       remarks: this.ledgerRegister.remarks,
       vouchercustcode: this.ledgerRegister.vouchercustcode,
