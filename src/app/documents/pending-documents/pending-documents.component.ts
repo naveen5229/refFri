@@ -360,6 +360,7 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   updateDocument(modal, status?, confirm?) {
+    console.log("this.modal.first.nextCount",this.modal.first.nextCount,"this.modal.first.data.images.length - 1",this.modal.first.data.images.length - 1)
     if (this.modal.first.nextCount < this.modal.first.data.images.length - 1) {
       this.common.showError('Please Review All Images');
       return;
