@@ -60,7 +60,7 @@ export class ledgerRegisterTreeComponent {
 
   activeIndex: boolean = false;
   selectedRow: number = -1;
-  colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca'];
+  colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca','bfcfd9'];
   
   keyHandler(event) {
     const key = event.key.toLowerCase();
@@ -754,6 +754,8 @@ export class LedgerregidterComponent implements OnInit {
 
         if(data.ledger.toamount !=0 || data.ledger.frmamount !=0 ||data.ledger.vouchercode !='' ||data.ledger.vouchercustcode !='' ||data.ledger.remarks !='' ||data.ledger.isamount !=0){
           this.flag = 1;
+        }else{
+          this.flag = 0;
         }
       }
     });
