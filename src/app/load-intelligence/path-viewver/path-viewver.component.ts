@@ -56,7 +56,8 @@ export class PathViewverComponent implements OnInit {
 
   isAvoidSpecialAreas = true;
 
-
+  source = '';
+  destination = '';
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -89,6 +90,10 @@ export class PathViewverComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('onInit', this.common.params);
+    this.source = this.common.params['routes'][0].origin;
+    this.destination = this.common.params['routes'][0].destination;
+    console.log('source', this.source, 'destination', this.destination);
   }
 
 
