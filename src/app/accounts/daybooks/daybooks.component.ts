@@ -53,7 +53,7 @@ export class DaybooksComponent implements OnInit {
     vouchercustcode: '',
     vouchercode: '',
     frmamount: 0,
-    toamount: 0,
+    toamount: 0
 
   };
   lastActiveId = '';

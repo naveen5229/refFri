@@ -493,6 +493,8 @@ warehouseid=0;
       let stocktypedebittotal = 0;
       let stocktypecredittotal = 0;
       let stocktypenettotal = 0;
+      let stocktypeopnamttotal = 0;
+      let stocktypecloamttotal = 0;
       stocktype.data.map((stocksubtype) => {
         let stocksubtypeopngqty = 0;
         let stocksubtypestokrecive = 0;
@@ -503,6 +505,8 @@ warehouseid=0;
         let stocksubtypedebittotal = 0;
         let stocksubtypecredittotal = 0;
         let stocksubtypenettotal = 0;
+        let stocksubtypeopnamttotal = 0;
+        let stocksubtypecloamttotal = 0;
         stocksubtype.data.map((item) => {
           let itemopngqty = 0;
           let itemstokrecive = 0;
@@ -513,6 +517,8 @@ warehouseid=0;
           let itemdebittotal = 0;
           let itemcredittotal = 0;
           let itemnettotal = 0;
+          let itemopnamttotal = 0;
+          let itemcloamttotal = 0;
           item.data.map((branch) => {
             let opngqty = 0;
             let stokrecive = 0;
@@ -523,6 +529,8 @@ warehouseid=0;
             let debittotal = 0;
             let credittotal = 0;
             let nettotal = 0;
+            let opnamttotal = 0;
+            let cloamttotal = 0;
             branch.data.map((warehouse) => {
               opngqty += (warehouse.y_opn_qty) ? parseFloat(warehouse.y_opn_qty) : 0;
               stokrecive += (warehouse.y_st_rec_qty) ? parseFloat(warehouse.y_st_rec_qty) : 0;
@@ -533,6 +541,8 @@ warehouseid=0;
               debittotal += (warehouse.y_dn_qty) ? parseFloat(warehouse.y_dn_qty) : 0;
               credittotal += (warehouse.y_cn_qty) ? parseFloat(warehouse.y_cn_qty) : 0;
               nettotal += (warehouse.y_net_qty) ? parseFloat(warehouse.y_net_qty) : 0;
+              opnamttotal += (warehouse.y_opn_amt) ? parseFloat(warehouse.y_opn_amt) : 0;
+              cloamttotal += (warehouse.y_clos_amt) ? parseFloat(warehouse.y_clos_amt) : 0;
             })
             console.log('totalopngqty', opngqty);
             itemopngqty += branch.totalopngqty = opngqty;
@@ -544,6 +554,8 @@ warehouseid=0;
             itemdebittotal += branch.debittotal = debittotal;
             itemcredittotal += branch.credittotal = credittotal;
             itemnettotal += branch.nettotal = nettotal;
+            itemopnamttotal += branch.opnamttotal = opnamttotal;
+            itemcloamttotal += branch.cloamttotal = cloamttotal;
           })
           stocksubtypeopngqty += item.totalqty = itemopngqty;
           stocksubtypestokrecive += item.totalstokrecive = itemstokrecive;
@@ -554,6 +566,10 @@ warehouseid=0;
           stocksubtypedebittotal += item.totaldebit = itemdebittotal;
           stocksubtypecredittotal += item.totalcredit = itemcredittotal;
           stocksubtypenettotal += item.totalnet = itemnettotal;
+          stocksubtypeopnamttotal += item.totalopeamt = itemopnamttotal;
+          stocksubtypecloamttotal += item.totalcloamt = itemcloamttotal;
+
+         
         })
         stocktypeopngqty += stocksubtype.totalqty = stocksubtypeopngqty;
         stocktypestokrecive += stocksubtype.totalstokrecive = stocksubtypestokrecive;
@@ -564,7 +580,8 @@ warehouseid=0;
         stocktypedebittotal += stocksubtype.totaldebit = stocksubtypedebittotal;
         stocktypecredittotal += stocksubtype.totalcredit = stocksubtypecredittotal;
         stocktypenettotal += stocksubtype.totalnet = stocksubtypenettotal;
-
+        stocktypeopnamttotal += stocksubtype.totalopeamt = stocksubtypeopnamttotal;
+        stocktypecloamttotal += stocksubtype.totalcloamt = stocksubtypecloamttotal;
 
 
       })
@@ -578,6 +595,8 @@ warehouseid=0;
       stocktype.totaldebit = stocktypedebittotal;
       stocktype.totalcredit = stocktypecredittotal;
       stocktype.totalnet = stocktypenettotal;
+      stocktype.totalopeamt = stocktypeopnamttotal;
+      stocktype.totalcloamt = stocktypecloamttotal;
     });
     console.log('totalopngqty', this.summaryreport);
 

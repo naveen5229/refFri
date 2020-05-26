@@ -228,8 +228,8 @@ input[type="radio"] {
 }
 
 .x-col {
-    width: 7.14%;
-    max-width: 7.14%;
+    width: 6.25%;
+    max-width: 6.25%;
     padding: 0px 3px;
     text-align: center;
     text-overflow: ellipsis;
@@ -237,13 +237,13 @@ input[type="radio"] {
 }
 
 .x-heading {
-    width: 81%;
+    width: 82%;
     margin: 0 0px 0px 1px;
     padding: 0 !important;
     background-color: #263238;
     color: #fff;
     padding: 0px 0px !important;
-    font-size: 14px;
+    font-size: 10px;
     position: fixed;
     z-index: 2;
     .x-col {
@@ -273,34 +273,35 @@ input[type="radio"] {
     .x-stocktype {
         background: #184154;
         color: #fff;
-        font-size: 14px;
+        font-size: 10px;
         cursor:pointer;
+        
     }
     .x-sub-stocktype {
         background-color: #5d6e75;
+        font-size: 10px;
         color: #fff;
-        font-size: 14px;
         cursor:pointer;
 
     }
     .x-stockitem {
-        background: #6f8a96;
+        background: #7998a7;
         color: #fff;
-        font-size: 14px;
+        font-size: 10px;
         cursor:pointer;
 
     }
     .x-branch {
         background: #8DAAB8;
         color: #fff;
-        font-size: 14px;
+        font-size: 10px;
         cursor:pointer;
 
     }
     .x-warehouse {
         background: #dadfe6;
         color: black;
-        font-size: 14px;
+        font-size: 10px;
         cursor:pointer;
 
     }
@@ -339,8 +340,8 @@ input[type="radio"] {
     }
 }
 .jrx-dtbody{
-    height: calc(100vh - 350px);
+    height: calc(100vh - 305px);
     overflow: auto;
     width: 102%;
-    margin-top: 47px;
+    margin-top: 37px;
 }
