@@ -44,6 +44,7 @@ export class StoclsummaryComponent implements OnInit {
       id: 0
     },
   };
+  branchid=0;
 warehouseid=0;
   active = {
     liabilities: {
@@ -88,6 +89,7 @@ warehouseid=0;
     this.getWhereHouseList();
     this.setFoucus('stocktype');
     this.common.currentPage = 'Store Regiter';
+  this.branchid=  this.accountService.selected.branch.id;
   }
 
   activeGroup = [];
@@ -98,6 +100,8 @@ warehouseid=0;
     this.getStockTypeList();
     this.getWhereHouseList();
     this.setFoucus('ledger');
+  this.branchid=  this.accountService.selected.branch.id;
+ console.log('branchid',this.branchid);
   }
 
   getStockTypeList() {
@@ -834,11 +838,14 @@ warehouseid=0;
 
 
   openmodal(data,type) {
+    console.log('data.y_net_qty',data.y_net_qty)
+    
     if (this.isSingleClick) {
       clearTimeout(this.isSingleClick);
     }
     setTimeout(() => {
     console.log('datail data',type, data);
+    if(data.y_net_qty != data.y_opn_amt){
     if(type.includes('stock')){
       this.common.params = {
         startDate :this.outStanding.Date,
@@ -883,11 +890,12 @@ warehouseid=0;
 
 
 
-
+  }
 
     
   }, 20);
-  }
+  
+}
 
   generateCsvData() {
     let liabilitiesJson = [];

@@ -111,6 +111,9 @@ input[type=radio]{
         border-right: 1px solid #f2f2f2;
         padding: 6px 4px;
     }
+    .x-col:first-child {
+        max-width: 24.8%;
+    }
     .x-col:last-child {
         border: none;
     }
@@ -135,6 +138,9 @@ input[type=radio]{
         background: #184154;
         color: #fff;
         font-size: 14px;
+        .x-col:first-child {
+            max-width: 25.7%;
+        }
     }
     
 }
@@ -144,6 +150,9 @@ input[type=radio]{
     font-size: 14px;
     border-bottom: 1px solid #FFF;
     padding-left: 13px;
+    .x-col:first-child {
+        max-width: 24.5%;
+    }
 }
 .x-stockitem {
     //background: #6f8a96;
@@ -151,17 +160,26 @@ input[type=radio]{
     font-size: 14px;
     border-bottom: 1px solid #FFF;
     padding-left: 23px;
+    .x-col:first-child {
+        max-width: 24.5%;
+    }
 }
 .x-branch {
     background: #8DAAB8;
     color: #fff;
     font-size: 14px;
+    .x-col:first-child {
+        max-width: 26%;
+    }
 }
 .x-warehouse {
     background: #dadfe6;
     color: black;
     font-size: 14px;
     padding-left: 13px;
+    .x-col:first-child {
+        max-width: 24.5%;
+    }
 
 }
 .th-mini {
@@ -230,8 +248,8 @@ input[type=radio]{
 }
 .x-warehouse {
     .x-col:first-child {
-    margin-left: -9px;
-    }
+        max-width: 24.5%;
+        }
     .x-col:last-child {
         border-right: none;
         text-align: right;
@@ -242,3 +260,17 @@ input[type=radio]{
     overflow: auto;
     width: 99%;
 }
+.date-modal{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999999;
+    top: 0;
+    left: 0;
+  }
+  .date-modal-body{
+    background: #fff;
+    width: 200px;
+    margin: 15% auto auto auto;
+  }

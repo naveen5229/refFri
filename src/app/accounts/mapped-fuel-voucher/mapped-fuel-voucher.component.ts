@@ -33,7 +33,11 @@ export class MappedFuelVoucherComponent implements OnInit {
   handleKeyboardEvent(event) {
     this.keyHandler(event);
   }
-
+  showDateModal = false;
+  f2Date = '';
+  activedateid = '';
+  allowBackspace = true;
+  lastActiveId= 'startdate';
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -132,6 +136,28 @@ export class MappedFuelVoucherComponent implements OnInit {
         return;
       }
     }
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.fuelVoucher[this.activeId];
+      this.activedateid = this.lastActiveId;
+      return;
+    }else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleOrderDateOnEnter(this.activeId);
+      this.setFoucus('enddate');
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      return;
+    }
+    if (key.includes('arrow')) {
+      this.allowBackspace = false;
+      event.preventDefault();
     if ((key.includes('arrowup') || key.includes('arrowdown')) && this.voucherDetails.length) {
      
       /************************ Handle Table Rows Selection ********************** */
@@ -139,6 +165,14 @@ export class MappedFuelVoucherComponent implements OnInit {
       else if (this.selectedRow != this.voucherDetails.length - 1) this.selectedRow++;
 
     }
+  }
+    if (key == 'enter') {
+          if (this.activeId.includes('startdate')) {
+            this.setFoucus('enddate');
+          } else if (this.activeId.includes('enddate')) {
+            this.setFoucus('submit');
+          }
+        }
 
   }
   // keyHandler(event) {
@@ -209,6 +243,43 @@ export class MappedFuelVoucherComponent implements OnInit {
     });
     console.log('VoucheL:::::::::::::', voucherGroup, this.mappedDetails);
 
+  }
+  handleOrderDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startdate') ? 'startdate' : 'enddate';
+    if (this.f2Date.includes('-')) {
+      dateArray = this.f2Date.split('-');
+    } else if (this.f2Date.includes('/')) {
+      dateArray = this.f2Date.split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.fuelVoucher[datestring] = date + separator + month + separator + year;
+    console.log('data parameter',datestring,this.fuelVoucher);
+  }
+  setFoucus(id, isSetLastActive = true) {
+    console.log('Id: ', id);
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+     // this.setAutoSuggestion();
+    }, 100);
   }
 
 
