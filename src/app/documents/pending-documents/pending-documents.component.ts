@@ -360,8 +360,8 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   updateDocument(modal, status?, confirm?) {
-    console.log("this.modal.first.nextCount",this.modal.first.nextCount,"this.modal.first.data.images.length - 1",this.modal.first.data.images.length - 1)
-    if (this.modal.first.nextCount < this.modal.first.data.images.length - 1) {
+    console.log("this.modal.first.nextCount", this.modal[modal].nextCount, "this.modal.first.data.images.length - 1", this.modal[modal].data.images.length - 1)
+    if (this.modal[modal].nextCount < this.modal[modal].data.images.length - 1) {
       this.common.showError('Please Review All Images');
       return;
     }
@@ -696,16 +696,20 @@ export class PendingDocumentsComponent implements OnInit {
 
   handleNextImageClick(modal) {
     setTimeout(() => {
+      console.log('Modal:', modal);
       let modalElement = document.getElementsByClassName(modal == 'first' ? 'custom-modal-1' : 'custom-modal-2')[0];
+      console.log('modalElement:', modalElement);
       if (modalElement) {
         let nextElement = modalElement.getElementsByClassName('next')[0];
+        console.log('nextElement:', nextElement);
         if (nextElement) {
           nextElement['onclick'] = () => {
+            console.log('click-next', modal, this.modal[modal].nextCount);
             this.modal[modal].nextCount++;
           }
         }
       }
-    }, 2000);
+    }, 5000);
   }
 
 }
