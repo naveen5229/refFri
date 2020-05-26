@@ -48,7 +48,7 @@ export class PagesComponent {
 
   handleMenuClick(title: string, link: string) {
     if (title === 'Vehicle Tracking') {
-      let url = 'http://fvts.in/auth/checkloginandredirect/?token=' + localStorage.getItem('DOST_axesToken') + '&frompage=' + window.location.href;
+      let url = 'http://fvts.in/#/auth/checkloginandredirect/?token=' + localStorage.getItem('DOST_axesToken') + '&frompage=' + window.location.href;
       window.location.href = url;
     }
   }
