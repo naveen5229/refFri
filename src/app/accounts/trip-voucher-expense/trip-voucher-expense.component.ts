@@ -40,6 +40,7 @@ export class TripVoucherExpenseComponent implements OnInit {
   selectedRow = -1;
   tripExpenseVoucherTrips = [];
 
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -69,6 +70,7 @@ export class TripVoucherExpenseComponent implements OnInit {
   }
 
   ngOnInit() {
+   
   }
 
   refresh() {
