@@ -897,3 +897,17 @@ legend {
     font-size: 17px;
     color: #fff;
 }
+
+tr {
+    display: flex;
+    th {
+        width: 80%;
+        display: flex;
+        align-items: center;
+    }
+    td {
+        width: 20%;
+        display: flex;
+        align-items: center;
+    }
+}
