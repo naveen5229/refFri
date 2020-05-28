@@ -23,6 +23,8 @@ import * as moment_ from "moment";
 import { elementAt } from "rxjs/operators";
 import { RouteGuard } from "../guards/route.guard";
 import { saveAs } from 'file-saver';
+import { AccountService } from '../services/account.service';
+
 const moment = moment_;
 @Injectable({
   providedIn: "root"
@@ -78,7 +80,9 @@ export class CommonService {
     public dataService: DataService,
     public user: UserService,
     private datePipe: DatePipe,
-    private http: Http
+    private http: Http,
+    private accountService: AccountService,
+
   ) { }
 
   showError(msg?, err?) {
@@ -1900,4 +1904,31 @@ export class CommonService {
 
   }
 
+  handleVoucherDateOnEnter(iddate,f2Date) {
+    let dateArray = [];
+    let separator = '-';
+  
+    //let datestring = (this.activedateid == 'startDate') ? this.startDate : this.endDate;
+    let datestring = f2Date;
+    if (datestring.includes('-')) {
+      dateArray = datestring.split('-');
+    } else if (datestring.includes('/')) {
+      dateArray = datestring.split('/');
+      separator = '/';
+    } else {
+      this.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let finacialyear = (month > '04')? (this.accountService.selected.financialYear['name']).split('-')[0] :(this.accountService.selected.financialYear['name']).split('-')[1];
+    let year = dateArray[2];
+    year = (year) ? (year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year):finacialyear;
+    console.log('Date: ', date + separator + month + separator + year);
+    console.log('starting date 122 :',this.accountService.financialYears);
+   return  date + separator + month + separator + year;
+  
+  }
 }
