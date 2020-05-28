@@ -555,7 +555,8 @@ export class VouchersComponent implements OnInit {
     } else if (key == 'enter' && this.showDateModal) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
-      this.handleVoucherDateOnEnter();
+      //this.handleVoucherDateOnEnter();
+      this.voucher.date= this.common.handleVoucherDateOnEnter(this.voucher.date);
       this.setFoucus(this.lastActiveId);
       return;
     } else if (key != 'enter' && this.showDateModal) {

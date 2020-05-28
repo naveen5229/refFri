@@ -426,16 +426,16 @@
           <!-- <td><b>Total Amount : </b></td> -->
           <td>&nbsp;</td>
           <td>
-            <label class="ref-label">Total Amount:</label><input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
+            <label class="ref-label">Total Amt:</label><input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
               [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;">
           </td>
           <td>
-            <label class="ref-label">Total Tax Amount:</label>
+            <label class="ref-label">Total Tax Amt:</label>
             <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
             [(ngModel)]="totalTaxamount" readonly style="background-color: #eeeeee;">
         </td>
           <td>
-            <label class="ref-label">Total Line Amount:</label>
+            <label class="ref-label">Total Line Amt:</label>
             <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
             [(ngModel)]="order.totalamount" [value]="calculateTotalLineAmount()" readonly style="background-color: #eeeeee;">
         </td>
@@ -482,7 +482,7 @@
 <div class="date-modal" *ngIf="showDateModal">
   <div class="date-modal-body">
     <div>
-      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="f2Date"
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="order[f2Date]"
         maxlength="10">
     </div>
   </div>

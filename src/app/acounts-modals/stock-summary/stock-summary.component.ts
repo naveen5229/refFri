@@ -82,7 +82,7 @@ export class StockSummaryComponent  implements OnInit {
     //  this.common.params = invoiceid;
     this.common.params = {
       invoiceid: invoiceid,
-      delete: 2,
+      delete: 0,
       newid:create,
       ordertype:ordertypeid,
       sizeIndex:1

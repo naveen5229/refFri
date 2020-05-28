@@ -454,7 +454,12 @@ console.log('sixe ledger',this.sizeledger);
 
   }
   save(response){
-  this.showConfirm = true;
+    if(this.Accounts.undergroup.id){
+      this.showConfirm = true;
+    }else{
+      this.common.showError('Please Select Under Group');
+      this.setFoucus('undergroup');
+    }
   }
 
   dismiss(response) {

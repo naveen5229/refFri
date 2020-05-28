@@ -1904,11 +1904,12 @@ export class CommonService {
 
   }
 
-  handleVoucherDateOnEnter(iddate,f2Date) {
+  handleVoucherDateOnEnter(f2Date) {
     let dateArray = [];
     let separator = '-';
   
     //let datestring = (this.activedateid == 'startDate') ? this.startDate : this.endDate;
+    console.log('f2Date',f2Date);
     let datestring = f2Date;
     if (datestring.includes('-')) {
       dateArray = datestring.split('-');
@@ -1922,12 +1923,15 @@ export class CommonService {
     let date = dateArray[0];
     date = date.length == 1 ? '0' + date : date;
     let month = dateArray[1];
-    month = month.length == 1 ? '0' + month : month;
-    let finacialyear = (month > '04')? (this.accountService.selected.financialYear['name']).split('-')[0] :(this.accountService.selected.financialYear['name']).split('-')[1];
+    console.log('month before',month,month.length,typeof(month));
+    month = month.length == 1 ? ('0' + month) : (((parseInt(month)) >= 13) ? 12 : month);
+    console.log('month after',month);
+    let finacialyear = (month > '03')? (this.accountService.selected.financialYear['name']).split('-')[0] :(this.accountService.selected.financialYear['name']).split('-')[1];
     let year = dateArray[2];
     year = (year) ? (year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year):finacialyear;
     console.log('Date: ', date + separator + month + separator + year);
     console.log('starting date 122 :',this.accountService.financialYears);
+    this.accountService.voucherDate = date + separator + month + separator + year;
    return  date + separator + month + separator + year;
   
   }
