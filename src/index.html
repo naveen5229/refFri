@@ -143,14 +143,80 @@
     }
 
     
+    @keyframes dot-keyframes {
+      0% {
+        opacity: .4;
+        transform: scale(1, 1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.2, 1.2);
+      }
+
+      100% {
+        opacity: .4;
+        transform: scale(1, 1);
+      }
+    }
+
+    .loading-dots {
+      text-align: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1003;
+      background: #f5f7f8;
+      /*#000000*/
+      ;
+      overflow: hidden
+    }
+
+    .loading-dots--dot {
+      position: relative;
+      top: 50%;
+      margin: -75px 0 0 -45px;
+      animation: dot-keyframes 1.5s infinite ease-in-out;
+      background-color: rgb(55, 55, 209);
+      border-radius: 50%;
+      display: inline-block;
+      height: 12px;
+      width: 12px;
+    }
+
+    loading-dots:nth-child(2) {
+      animation-delay: .5s;
+    }
+
+    loading-dots:nth-child(3) {
+      animation-delay: 1s;
+    }
+   
+
+    loading-dots:nth-child(4) {
+      animation-delay: 1.5s;
+    }
+    loading-dots:nth-child(5) {
+      animation-delay: 2s;
+    }
   </style>
-  <div id="nb-global-spinner" class="spinner">
+  <!-- <div id="nb-global-spinner" class="spinner">
     <div class="blob blob-0"></div>
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
     <div class="blob blob-4"></div>
     <div class="blob blob-5"></div>
+  </div> -->
+
+  <div class="loading-dots" id="nb-global-spinner">
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
   </div>
 
   <style>
