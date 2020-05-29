@@ -171,9 +171,10 @@
               <div class="col x-col">{{stockSubType.totalopeamt | number : '1.2-2'}}</div>
               <div class="col x-col">{{stockSubType.totalcloamt | number : '1.2-2'}}</div>
             </div>
-            <div *ngFor="let stockItem of stockSubType.data let k = index"
+            <div *ngFor="let stockItem of stockSubType.data let k = index let l = index"
               [hidden]="active.liabilities.subGroup.indexOf('subGroup' + i + j + 0 + 0) == -1">
-              <div *ngIf="warehouseid==0" class="row x-stockitem" (click)="handleExpandation($event, i, 'liabilities', 'branch', j,k,0)" (dblclick)="openmodal(stockItem.data[0].data[0],'stock')">
+              <div *ngIf="warehouseid==0">
+              <div *ngIf="branchid == 0" class="row x-stockitem" (click)="handleExpandation($event, i, 'liabilities', 'branch', j,k,0)" (dblclick)="openmodal(stockItem.data[0].data[0],'stock')">
                 <div class="col x-col">&nbsp;</div>
                 <div class="col x-col">&nbsp;</div>
                 <div class="col x-col">{{stockItem.name}}</div>
@@ -191,6 +192,26 @@
                 <div class="col x-col">{{stockItem.totalopeamt | number : '1.2-2'}}</div>
                 <div class="col x-col">{{stockItem.totalcloamt | number : '1.2-2'}}</div>
 
+              </div>
+              <div *ngIf="branchid != 0" class="row 2 x-stockitem" (click)="handleExpandation($event, i, 'liabilities', 'warehouse', j,k,l)" (dblclick)="openmodal(stockItem.data[0].data[0],'stock')">
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.name}}</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.totalqty}}</div>
+                <div class="col x-col">{{stockItem.totalstokrecive}}</div>
+                <div class="col x-col">{{stockItem.totalpurchase}}</div>
+                <div class="col x-col">{{stockItem.totalsales}}</div>
+                <div class="col x-col">{{stockItem.totalissue}}</div>
+                <div class="col x-col">{{stockItem.totalwastage}}</div>
+                <div class="col x-col">{{stockItem.totaldebit}}</div>
+                <div class="col x-col">{{stockItem.totalcredit}}</div>
+                <div class="col x-col">{{stockItem.totalnet}}</div>
+                <div class="col x-col">{{stockItem.totalopeamt | number : '1.2-2'}}</div>
+                <div class="col x-col">{{stockItem.totalcloamt | number : '1.2-2'}}</div>
+
+              </div>
               </div>
               <div *ngIf="warehouseid != 0" class="row x-stockitem" (dblclick)="openmodal(stockItem.data[0].data[0],'stock')"  (click)="selectedRow = i + j + k + 0+ 0"  [ngClass]="{'highlight' : selectedRow == i + j + k + 0+ 0}">
                 <div class="col x-col">&nbsp;</div>
@@ -212,7 +233,7 @@
 
               </div>
 
-            <div  *ngIf="warehouseid==0">
+            <div  *ngIf="warehouseid==0 && (branchid == 0)">
               <div *ngFor="let branch of stockItem.data let l = index" 
                 [hidden]="active.liabilities.branch.indexOf('branch' + i + j + k + 0) == -1">
                 <div class="row x-branch" (click)="handleExpandation($event, i, 'liabilities', 'warehouse', j,k,l)" (dblclick)="openmodal(branch.data[0],'branch')">
@@ -254,26 +275,33 @@
                     <div class="col x-col">{{wareHouse.y_opn_amt | number : '1.2-2'}}</div>
                     <div class="col x-col">{{wareHouse.y_clos_amt | number : '1.2-2'}}</div>
                   </div>
-                  <!-- <div *ngFor="let report of wareHouse.data" [hidden]="active.liabilities.item.indexOf('item' + i + j + k + l + m) == -1">
-                    <div class="row">
-                      <div class="col x-col">&nbsp;</div>
-                      <div class="col x-col">&nbsp;</div>
-                      <div class="col x-col">&nbsp;</div>
-                      <div class="col x-col">&nbsp;</div>
-                      <div class="col x-col">&nbsp;</div>
-                      <div class="col x-col">{{report.y_opn_qty}}</div>
-                      <div class="col x-col">{{report.y_st_rec_qty}}</div>
-                      <div class="col x-col">{{report.y_pi_qty}}</div>
-                      <div class="col x-col">{{report.y_si_qty}}</div>
-                      <div class="col x-col">{{report.y_st_issue_qty}}</div>
-                      <div class="col x-col">{{report.y_wst_qty}}</div>
-                      <div class="col x-col"> {{report.y_dn_qty}}</div>
-                      <div class="col x-col">{{report.y_cn_qty}}</div>
-                      <div class="col x-col">{{report.y_net_qty}}</div>
-                    </div>
-                  </div> -->
                 </div>
               </div>
+              </div>
+            <div  *ngIf="warehouseid==0 && (branchid != 0)">
+              <div *ngFor="let branch of stockItem.data" >
+              <div *ngFor="let wareHouse of branch.data" 
+              [hidden]="active.liabilities.warehouse.indexOf('warehouse' + i + j + k + l) == -1">
+                  <div class="row x-warehouse" (click)="selectedRow = i + j + k + l+ m" (dblclick)="openmodal(wareHouse,'warehouse')"  [ngClass]="{'highlight' : selectedRow == i + j + k + l+ m}">
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">{{wareHouse.y_warehouse_name}}</div>
+                    <div class="col x-col">{{wareHouse.y_opn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_st_rec_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_pi_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_si_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_st_issue_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_wst_qty}}</div>
+                    <div class="col x-col"> {{wareHouse.y_dn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_cn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_net_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_opn_amt | number : '1.2-2'}}</div>
+                    <div class="col x-col">{{wareHouse.y_clos_amt | number : '1.2-2'}}</div>
+                  </div>
+              </div>
+            </div>
             </div>
             </div>
           </div>

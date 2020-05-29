@@ -157,13 +157,13 @@
                 <table class='table'>
                   <tbody>
                     <tr>
-                      <th>Source</th>
+                      <th>Source <span *ngIf="source">({{source.name}})</span></th>
                       <td>
                         <i class='hotspot["Source"] ? fa fa-check : fa fa-times' style="color: green"></i>
                       </td>
                     </tr>
                     <tr>
-                      <th>Destination</th>
+                      <th>Destination <span *ngIf="destination">({{destination.name}})</span></th>
                       <td><i class='hotspot["Destination"] ? fa fa-check : fa fa-times' style="color: green"></i></td>
                     </tr>
                     <tr>
@@ -254,13 +254,13 @@
                 <table class='table'>
                   <tbody>
                     <tr>
-                      <th>Source</th>
+                      <th>Source <span *ngIf="source">({{source.name}})</span></th>
                       <td>
                         <i *ngIf='hotspot["Source"]' class='fa fa-check' style="color: green"></i>
                         <i *ngIf='!hotspot["Source"]' class='fa fa-times' style="color: red"></i>
                       </td>
 
-                      <th>Destination</th>
+                      <th>Destination <span *ngIf="destination">({{destination.name}})</span></th>
                       <td>
                         <i *ngIf='hotspot["Destination"]' class='fa fa-check' style="color: green"></i>
                         <i *ngIf='!hotspot["Destination"]' class='fa fa-times' style="color: red"></i>
@@ -346,13 +346,13 @@
       <table class='table'>
         <tbody>
           <tr>
-            <th>Source</th>
+            <th>Source <span *ngIf="source">({{source.name}})</span></th>
             <td>
               <i *ngIf='hotspot["Source"]' class='fa fa-check' style="color: green"></i>
               <i *ngIf='!hotspot["Source"]' class='fa fa-times' style="color: red"></i>
             </td>
 
-            <th>Destination</th>
+            <th>Destination <span *ngIf="destination">({{destination.name}})</span></th>
             <td>
               <i *ngIf='hotspot["Destination"]' class='fa fa-check' style="color: green"></i>
               <i *ngIf='!hotspot["Destination"]' class='fa fa-times' style="color: red"></i>

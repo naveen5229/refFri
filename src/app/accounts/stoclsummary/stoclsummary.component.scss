@@ -227,15 +227,24 @@ input[type="radio"] {
     background-color: #dadfe6;
 }
 
+// .x-col {
+//     width: 6.25%;
+//     max-width: 6.25%;
+//     padding: 0px 3px;
+//     text-align: center;
+//     text-overflow: ellipsis;
+//     word-break: break-word;
+// }
+
 .x-col {
     width: 6.25%;
     max-width: 6.25%;
-    padding: 0px 3px;
     text-align: center;
     text-overflow: ellipsis;
     word-break: break-word;
+    border-right: 1px solid #f2f2f2;
+    padding: 6px 4px;
 }
-
 .x-heading {
     width: 82%;
     margin: 0 0px 0px 1px;

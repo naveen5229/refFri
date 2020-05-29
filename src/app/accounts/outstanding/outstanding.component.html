@@ -91,7 +91,7 @@
       <div class="row" style="margin: 45px 0px 0px 0px;width: 100%;">
         <div class="row x-heading">
           <div class="col x-col">Particular</div>
-          <div class="col x-col">Ledger Name</div>
+          <!-- <div class="col x-col">Ledger Name</div> -->
           <div class="col x-col">Voucher Code</div>
           <div class="col x-col">Voucher Cust Code</div>
           <div class="col x-col">Voucher Date</div>
@@ -103,7 +103,7 @@
         <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
             <div class="row x-stocktype" style="cursor:pointer" (click)="activeTree = activeTree !== i ? i : -1">
               <div class="col x-col">{{stockType.name}}</div>
-              <div class="col x-col">&nbsp;</div>
+              <!-- <div class="col x-col">&nbsp;</div> -->
               <div class="col x-col">&nbsp;</div>
               <div class="col x-col">&nbsp;</div>
               <div class="col x-col">&nbsp;</div>
