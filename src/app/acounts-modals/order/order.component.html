@@ -72,7 +72,7 @@
                 <!-- <auto-suggestion (onSelected)="onSelectedaddress($event, 'ledger', 'name')"
                   url="Suggestion/GetPurchaseLedger" display="name" placeholder="Enter Ledger" inputId="ledger"
                   [data]="supplier" [preSelected]="null"></auto-suggestion> -->
-                  <span *ngIf="(ledgerbalance)">(<i>Ledger balance is </i>{{ ledgerbalance }})</span>
+                  <span *ngIf="(ledgerbalance)">(<i>Current Balance: </i>{{ ledgerbalance }})</span>
               </div>
             </div>
             <div class="col">
@@ -207,7 +207,7 @@
                 <input autocomplete="off" type="text" class="form-control ref-input" id="ledger" name="ledger"
                   [(ngModel)]="order.ledger.name" [readonly]="(order.ordertype.id ==-107 )"
                   require>
-                  <span *ngIf="(ledgerbalance)">(<i>Ledger balance is </i>{{ ledgerbalance }})</span>
+                  <span *ngIf="(ledgerbalance)">(<i>Cur Bal: </i>{{ ledgerbalance }})</span>
               </div>
             </div>
             <div class="col">
