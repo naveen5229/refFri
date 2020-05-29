@@ -36,7 +36,7 @@
                     <th>Transaction </th>
                     <th>Ledger</th>
                     <th>Amount</th>
-                    <!-- <th>&nbsp;</th> -->
+                    <th>&nbsp;</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -72,6 +72,10 @@
                         *ngIf="((this.voucherId == '-1' ||  this.voucherId =='-3') && (this.voucher.amountDetails[i].transactionType == 'credit'))">(<i>Current
                           Available Balance is</i>
                         {{findBalance(i)}})</span> -->
+                    </td>
+                    <td>
+                      <button (click)="deleterow(i)" class="btn btn-danger"><i
+                          class="fa fa-trash"></i></button>
                     </td>
                     <!-- <td *ngIf="i == 0">
                     <button class="plustransparent" (click)="addAmountDetails()"> <i class="fa fa-plus text-primary"

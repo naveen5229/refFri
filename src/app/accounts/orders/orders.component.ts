@@ -1686,7 +1686,7 @@ export class OrdersComponent implements OnInit {
       startdate: this.common.dateFormatternew(new Date()).split(' ')[0],
       enddate: this.common.dateFormatternew(new Date()).split(' ')[0],
       ledger: this.order.ledger.id,
-      vouchertype: -104,
+      vouchertype: 0,
     };
 
     this.common.loading++;

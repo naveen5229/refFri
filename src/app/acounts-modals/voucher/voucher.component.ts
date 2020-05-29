@@ -803,6 +803,10 @@ export class VoucherComponent implements OnInit {
     }
 
     this.calculateTotal();
+    if (this.voucher.total.debit != this.voucher.total.credit){
+      console.log('amount','amount-' + (this.voucher.amountDetails.length - 1));
+      this.setFoucus('amount-' + (this.voucher.amountDetails.length - 1));
+    }
     // this.setFoucus('transaction-type-' + (parseInt(index) + 1));
   }
 
@@ -1348,7 +1352,7 @@ export class VoucherComponent implements OnInit {
         startdate: this.common.dateFormatternew(new Date()).split(' ')[0],
         enddate: this.common.dateFormatternew(new Date()).split(' ')[0],
         ledger: this.voucher.amountDetails[index].ledger.id,
-        vouchertype: this.voucherId,
+        vouchertype: 0,
       };
   
       this.common.loading++;
@@ -1365,5 +1369,9 @@ export class VoucherComponent implements OnInit {
         });
     
   }
-
+  deleterow(i){
+    this.voucher.amountDetails.splice(i,1);
+    this.handleAmountEnter(this.voucher.amountDetails.length - 2);
+   // this.setFoucus('amount-'+(this.voucher.amountDetails.length - 1));
+  }
 }

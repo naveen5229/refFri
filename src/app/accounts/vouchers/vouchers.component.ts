@@ -722,9 +722,6 @@ export class VouchersComponent implements OnInit {
         this.setFoucus('transaction-type-' + (index + 1));
       }
       return;
-    }else if (this.voucher.total.debit != this.voucher.total.credit){
-      console.log('amount','amount-' + (this.voucher.amountDetails.length - 1));
-      this.setFoucus('amount-' + (this.voucher.amountDetails.length - 1));
     }
 
     let total = {
@@ -755,6 +752,10 @@ export class VouchersComponent implements OnInit {
     }
 
     this.calculateTotal();
+    if (this.voucher.total.debit != this.voucher.total.credit){
+      console.log('amount','amount-' + (this.voucher.amountDetails.length - 1));
+      this.setFoucus('amount-' + (this.voucher.amountDetails.length - 1));
+    }
     // this.setFoucus('transaction-type-' + (parseInt(index) + 1));
   }
 
@@ -767,7 +768,11 @@ export class VouchersComponent implements OnInit {
       console.log('last active id 66: ', this.lastActiveId);
     }, 100);
   }
-
+  deleterow(i){
+    this.voucher.amountDetails.splice(i,1);
+    this.handleAmountEnter(this.voucher.amountDetails.length - 2);
+   // this.setFoucus('amount-'+(this.voucher.amountDetails.length - 1));
+  }
   getElementsIDs() {
     let elementIDs = ['ref-code', 'voucher-date'];
     this.voucher.amountDetails.map((amountDetail, index) => {
@@ -1094,7 +1099,7 @@ export class VouchersComponent implements OnInit {
         startdate: this.common.dateFormatternew(new Date()).split(' ')[0],
         enddate: this.common.dateFormatternew(new Date()).split(' ')[0],
         ledger: this.voucher.amountDetails[index].ledger.id,
-        vouchertype: this.voucherId,
+        vouchertype: 0,
       };
   
       this.common.loading++;
