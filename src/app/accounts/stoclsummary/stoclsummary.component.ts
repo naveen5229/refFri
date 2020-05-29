@@ -88,7 +88,7 @@ warehouseid=0;
     this.getStockTypeList();
     this.getWhereHouseList();
     this.setFoucus('stocktype');
-    this.common.currentPage = 'Store Regiter';
+    this.common.currentPage = 'Store Register';
   this.branchid=  this.accountService.selected.branch.id;
   }
 

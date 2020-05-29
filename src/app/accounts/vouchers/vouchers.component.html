@@ -53,7 +53,7 @@
                       <span>{{detail.ledger.name}}: &nbsp; &nbsp;</span>
                       <span>{{detail.amount}}</span>
                     </div>
-                    <span *ngIf="(voucherId != '-1' || voucherId !='-3') && ledgerbalance">(<i>Ledger balance is </i>
+                    <span *ngIf="ledgerbalance">(<i>Cur Bal: </i>
                     {{ ledgerbalance }})</span>
                   </div>
                 </td>
@@ -61,10 +61,10 @@
                   <input type="number" class="form-control" [id]="'amount-' + i" [name]="'amount-' + i"
                     (click)="lastActiveId = 'amount-' + i" (input)="calculateTotal(i); allowBackspace = false;"
                     autocomplete="off" [(ngModel)]="amountDetail.amount">
-                  <span
+                  <!-- <span
                     *ngIf="((this.voucherId == '-1' ||  this.voucherId =='-3') && (this.voucher.amountDetails[i].transactionType == 'credit'))">(<i>Current
                       Available Balance is</i>
-                    {{findBalance(i)}})</span>
+                    {{findBalance(i)}})</span> -->
                 </td>
                 <!-- <td *ngIf="i == 0">
             <button class="plustransparent" (click)="addAmountDetails()"> <i class="fa fa-plus text-primary"

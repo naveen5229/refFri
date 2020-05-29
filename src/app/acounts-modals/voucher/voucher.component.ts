@@ -646,7 +646,7 @@ export class VoucherComponent implements OnInit {
         this.selectLedger(this.ledgers.suggestions[this.activeLedgerIndex !== -1 ? this.activeLedgerIndex : 0], index);
         console.log('hello dear', this.voucher.amountDetails[index].transactionType);
         if ((this.voucherId == '-1' || this.voucherId == '-3') && (this.voucher.amountDetails[index].transactionType == 'credit')) {
-          this.getCurrentBalance(this.voucher.amountDetails[index].ledger.id);
+         // this.getCurrentBalance(this.voucher.amountDetails[index].ledger.id);
         }
         this.setFoucus('amount-' + index);
         this.getLedgerView(index);
@@ -767,6 +767,9 @@ export class VoucherComponent implements OnInit {
         this.setFoucus('transaction-type-' + (index + 1));
       }
       return;
+    }else if (this.voucher.total.debit != this.voucher.total.credit){
+      console.log('amount','amount-' + (this.voucher.amountDetails.length - 1));
+      this.setFoucus('amount-' + (this.voucher.amountDetails.length - 1));
     }
     console.log('----------------4');
 
@@ -1352,7 +1355,7 @@ export class VoucherComponent implements OnInit {
       this.api.post('Accounts/getLedgerView', params)
         .subscribe(res => {
           this.common.loading--;
-          this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0') ? ((res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' (Cr)':'0') : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0') ? '0' : (res['data'][res['data'].length - 1]['y_dramunt']) != '0.00'? res['data'][res['data'].length - 1]['y_dramunt'] + ' (Dr)':'0';  
+          this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0') ? ((res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' Cr':'0') : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0') ? '0' : (res['data'][res['data'].length - 1]['y_dramunt']) != '0.00'? res['data'][res['data'].length - 1]['y_dramunt'] + ' Dr':'0';  
          console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
        
         }, err => {
