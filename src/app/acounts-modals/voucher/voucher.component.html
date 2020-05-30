@@ -61,8 +61,8 @@
                         <span>{{costDetail.ledger.name}}: </span>
                         <span>{{costDetail.amount}}</span>
                       </div>
-                      <span *ngIf="ledgerbalance">(<i>Cur Bal: </i>
-                        {{ ledgerbalance }})</span>
+                      <span *ngIf="ledgerbalance[i]">(<i>Cur Bal: </i>
+                        {{ ledgerbalance[i] }})</span>
                     </td>
                     <td>
                       <input type="number" class="form-control" [id]="'amount-' + i" [name]="'amount-' + i"

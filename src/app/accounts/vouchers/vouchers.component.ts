@@ -50,7 +50,7 @@ export class VouchersComponent implements OnInit {
   activeLedgerIndex = -1;
   modal = null;
   mannual = false;
-  ledgerbalance = '';
+  ledgerbalance = [];
  
   constructor(public api: ApiService,
     public common: CommonService,
@@ -545,7 +545,7 @@ export class VouchersComponent implements OnInit {
     }
     if(event.ctrlKey && key === "`"){
       this.mouse();
-    }else if (key == 'f2' && !this.showDateModal) {
+    }else if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
       this.lastActiveId = activeId;
@@ -1106,7 +1106,7 @@ export class VouchersComponent implements OnInit {
       this.api.post('Accounts/getLedgerView', params)
         .subscribe(res => {
           this.common.loading--;
-          this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0') ? ((res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' Cr':'0') : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0') ? '0' : (res['data'][res['data'].length - 1]['y_dramunt']) != '0.00'? res['data'][res['data'].length - 1]['y_dramunt'] + ' Dr':'0'; 
+          this.ledgerbalance[index] = (res['data'][res['data'].length - 1]['y_cramunt'] != '0') ? ((res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' Cr':'0') : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0') ? '0' : (res['data'][res['data'].length - 1]['y_dramunt']) != '0.00'? res['data'][res['data'].length - 1]['y_dramunt'] + ' Dr':'0'; 
          console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
        
         }, err => {

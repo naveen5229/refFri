@@ -696,7 +696,7 @@ export class OrderComponent implements OnInit {
     console.log('Active event new 3333', event);
     this.setAutoSuggestion();
 
-    if ((key == 'f2' && !this.showDateModal)) {
+    if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
       this.lastActiveId = this.activeId;

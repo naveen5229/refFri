@@ -580,7 +580,7 @@ export class OrdersComponent implements OnInit {
     if ((this.order.ordertype.name.toLowerCase().includes('sales')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     console.log('Active event11', event, this.order.ordertype.name, this.activeId, this.suggestions.purchasestockItems);
 
-    if ((key == 'f2' && !this.showDateModal)) {
+    if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
       this.lastActiveId = this.activeId;

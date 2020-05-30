@@ -141,38 +141,110 @@ button.btn-primary{
     background-color: #263238 !important;
     padding: 8px 10px !important;
 }
-table tr{
-    th:nth-child(1){
-        width: 20%;
-    }
-    th:nth-child(3){
-        padding: 5px 10px!important;
-        font-weight: normal;
-        width: 46%;
-    }
-    th:last-child{
-        width: auto;
-    }
+// table tr{
+//     th:nth-child(1){
+//         width: 20%;
+//     }
+//     th:nth-child(3){
+//         padding: 5px 10px!important;
+//         font-weight: normal;
+//         width: 46%;
+//     }
+//     th:last-child{
+//         width: auto;
+//     }
     
-    td{
-        padding: 5px 10px!important;
-        input, select{
-            padding: 5px !important;
-            height: 30px !important;
-        }
+//     td{
+//         padding: 5px 10px!important;
+//         input, select{
+//             padding: 5px !important;
+//             height: 30px !important;
+//         }
+//     }
+//     td{
+//         padding: 5px 10px !important;
+//         font-size: 12px;
+//         button{
+//             padding: 0 !important;
+//             font-size: 14px;
+//             border-radius: 0px !important;
+//             margin: 0px;
+//             background-color: transparent;
+//             color: #263238;
+//             outline: none;
+//             box-shadow: none;
+//         }
+//     }
+// } 
+
+table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #263238;
+        color: #fff;
     }
-    td{
-        padding: 5px 10px !important;
-        font-size: 12px;
-        button{
-            padding: 0 !important;
-            font-size: 14px;
-            border-radius: 0px !important;
-            margin: 0px;
-            background-color: transparent;
-            color: #263238;
-            outline: none;
-            box-shadow: none;
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 15.5%;
+        }
+        th:nth-child(1){
+            width: 15.5%;
+        }
+        th:nth-child(3){
+            width: 15%;
+        }
+        th:last-child{
+            width: 5%;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+            button{
+                padding: 0 !important;
+                font-size: 11px;
+                border-radius: 0px !important;
+                margin: 0px;
+                background-color: transparent;
+                color: #263238;
+                outline: none;
+                box-shadow: none;
+            }
+        }
+       
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 306px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 15%;
+            }
+            td{
+                width: 15%;
+            }
+            td:nth-child(3){
+                width: 14.5%
+            }
+            td:last-child{
+                width: 5%;
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
         }
     }
 } 
