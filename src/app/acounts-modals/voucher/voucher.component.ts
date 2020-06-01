@@ -624,6 +624,15 @@ export class VoucherComponent implements OnInit {
       this.openinvoicemodel(this.voucher.amountDetails[ledgerindex].ledger.id);
       }
     }
+    if((event.altKey && key === "u")&& (activeId.includes('ledger'))){
+      let ledgerindex = this.lastActiveId.split('-')[1];
+      if(this.voucher.amountDetails[ledgerindex].ledger.id != ""){
+      console.log('ledger value ------------',this.voucher.amountDetails[ledgerindex].ledger.id);
+      this.openinvoicemodel(this.voucher.amountDetails[ledgerindex].ledger.id,0);
+      }else{
+        this.common.showError('Please Select Correct Ledger');
+      }
+    }
 
     if (key == 'enter') {
       if (document.activeElement.id.includes('amount-')){
@@ -1310,7 +1319,7 @@ export class VoucherComponent implements OnInit {
     this.printService.printInvoice(invoiceJson, 1);
 
   }
-  openinvoicemodel(ledger) {
+  openinvoicemodel(ledger,deletedid=2) {
     let data = [];
     console.log('ledger123', ledger);
     if (ledger) {
@@ -1325,7 +1334,7 @@ export class VoucherComponent implements OnInit {
           data = res['data'];
           this.common.params = {
             ledgerdata: res['data'],
-            deleted: 2,
+            deleted:deletedid,
         sizeledger:1
           }
           // this.common.params = { data, title: 'Edit Ledgers Data' };
@@ -1333,7 +1342,9 @@ export class VoucherComponent implements OnInit {
           activeModal.result.then(data => {
             // console.log('Data: ', data);
             if (data.response) {
-           
+              if(deletedid==0){
+                this.addLedger(data.ledger);
+                }
             }
           });
 

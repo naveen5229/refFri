@@ -620,6 +620,13 @@ export class OrdersComponent implements OnInit {
       this.openwareHouseModal();
       return;
     }
+    if ((event.altKey && key === 'u') && (this.activeId.includes('ledger'))) {
+      // console.log('alt + C pressed');
+      if(this.order.ledger.id !=0){
+      this.openinvoicemodel(this.order.ledger.id,0);
+      }
+      return;
+    }
     if (key === 'home' && (this.activeId.includes('ledger'))) {
       console.log('hello',this.activeId);
       //let ledgerindex = this.lastActiveId.split('-')[1];
@@ -1995,7 +2002,7 @@ export class OrdersComponent implements OnInit {
   }
 
 
-  openinvoicemodel(ledger) {
+  openinvoicemodel(ledger,deletedid=2) {
     let data = [];
     console.log('ledger123', ledger);
     if (ledger) {
@@ -2010,7 +2017,7 @@ export class OrdersComponent implements OnInit {
           data = res['data'];
           this.common.params = {
             ledgerdata: res['data'],
-            deleted: 2,
+            deleted: deletedid,
         sizeledger:0
           }
           // this.common.params = { data, title: 'Edit Ledgers Data' };
@@ -2018,7 +2025,10 @@ export class OrdersComponent implements OnInit {
           activeModal.result.then(data => {
             // console.log('Data: ', data);
             if (data.response) {
-           
+              // console.log('ledger data',data.ledger);
+              if(deletedid==0){
+              this.addLedger(data.ledger);
+              }
             }
           });
 

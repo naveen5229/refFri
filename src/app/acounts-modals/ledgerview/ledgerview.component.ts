@@ -14,6 +14,8 @@ import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
 import { AccountService } from '../../services/account.service';
+import { OrderComponent } from '../../acounts-modals/order/order.component';
+import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 
 
 @Component({
@@ -324,38 +326,65 @@ export class LedgerviewComponent implements OnInit {
       this.common.params = {
         invoiceid: voucherId,
         delete: 0,
-      indexlg:1
+        newid:0,
+        ordertype:dataItem.y_vouchertype_id,
+        sizeIndex:1
       };
-      const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
+         console.log('Data: invoice ', data);
+        if (data.delete) {
           console.log('open succesfull');
-  
+            //this.getDayBook();
           // this.addLedger(data.ledger);
         }
       });
+      // this.common.params = {
+      //   invoiceid: voucherId,
+      //   delete: 0,
+      // indexlg:1
+      // };
+      // const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      // activeModal.result.then(data => {
+      //   // console.log('Data: ', data);
+      //   if (data.response) {
+      //     console.log('open succesfull');
+  
+      //     // this.addLedger(data.ledger);
+      //   }
+      // });
     }else if(ytype.toLowerCase().includes('fuel')){
       this.openFuelEdit(dataItem);
 } else if(dataItem.y_type.toLowerCase().includes('trip')){
   this.openConsignmentVoucherEdit(dataItem)
 } else{
-    console.log('vouher id', voucherId);
-    this.common.params = { vchid: voucherId,vchcode:vouhercode};
+  this.common.params = {
+    voucherId: voucherId,
+    delete: 0,
+    addvoucherid: 0,
+    voucherTypeId: dataItem.y_vouchertype_id,
+    sizeIndex:1
+  };
+  const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+  activeModal.result.then(data => {
+    console.log('Data: ', data);
+    if (data.delete) {
+     // this.getDayBook();
+    } 
+    // this.common.showToast('Voucher updated');
 
-    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        return;
-        //   if (stocksubType) {
+  });
+    // console.log('vouher id', voucherId);
+    // this.common.params = { vchid: voucherId,vchcode:vouhercode};
 
-        //     this.updateStockSubType(stocksubType.id, data.stockSubType);
-        //     return;
-        //   }
-        //  this.addStockSubType(data.stockSubType)
-      }
-    });
+    // const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    // activeModal.result.then(data => {
+    //   // console.log('Data: ', data);
+    //   if (data.response) {
+    //     return;
+      
+    //   }
+    // });
   }
 }
   modelCondition() {

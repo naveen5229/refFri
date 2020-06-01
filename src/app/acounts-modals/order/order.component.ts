@@ -728,6 +728,13 @@ export class OrderComponent implements OnInit {
       // console.log('alt + C pressed');
       this.openStockItemModal();
     }
+    if ((event.altKey && key === 'u') && (this.activeId.includes('ledger'))) {
+      // console.log('alt + C pressed');
+      if((this.order.ledger.id) != '0'){
+      this.openinvoicemodel(this.order.ledger.id,0);
+      }
+      return;
+    }
     if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
       let index = parseInt(this.activeId.split('-')[1]);
       setTimeout(() => {
@@ -1913,7 +1920,7 @@ CompareDate(freezedate) {
     return 1;
   }
 }
-openinvoicemodel(ledger) {
+openinvoicemodel(ledger,deletedid=2) {
   let data = [];
   console.log('ledger123', ledger);
   if (ledger) {
@@ -1928,7 +1935,7 @@ openinvoicemodel(ledger) {
         data = res['data'];
         this.common.params = {
           ledgerdata: res['data'],
-          deleted: 2,
+          deleted: deletedid,
       sizeledger:1
         }
         // this.common.params = { data, title: 'Edit Ledgers Data' };
@@ -1936,7 +1943,9 @@ openinvoicemodel(ledger) {
         activeModal.result.then(data => {
           // console.log('Data: ', data);
           if (data.response) {
-         
+            if(deletedid==0){
+              this.addLedger(data.ledger);
+              }
           }
         });
 
