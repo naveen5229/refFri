@@ -65,6 +65,12 @@ color:#26a69a !important;
   font-size: 12px;
 }
 .invoice_tabel{
+      thead{
+        display: table;
+        table-layout: fixed;
+        background-color: #263238;
+        color: #fff;
+    }
     tr{
         th{
             padding: 5px 10px;
@@ -108,6 +114,19 @@ color:#26a69a !important;
     }
    
     tbody{
+          overflow-y: auto;
+          display: block;
+          table-layout: fixed;
+          overflow: auto;
+          max-height: calc(100vh - 238px);
+        td{
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 112px;
+        }
+        td:last-child{
+          width: 90px;
+        }
         tr:nth-child(odd){
             background-color: #fff;
         }
