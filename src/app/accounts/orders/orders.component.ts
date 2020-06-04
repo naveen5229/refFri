@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild, ElementRef  } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -22,9 +22,10 @@ import { RecordsComponent } from '../../acounts-modals/records/records.component
   styleUrls: ['./orders.component.scss'],
   host: {
     '(document:keydown)': 'keyHandler($event)'
-  }
+  },
 })
 export class OrdersComponent implements OnInit {
+  @ViewChild('testInput', { read: ElementRef }) input:ElementRef;
   showConfirm = false;
   stockitmeflag = true;
   suggestionname = '';
@@ -44,6 +45,7 @@ export class OrdersComponent implements OnInit {
   totalqty=0;
   totalamount=0;
   totalTaxamount=0;
+  rateflag=[];
   order = {
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
     date: (this.accountService.voucherDate) ? this.accountService.voucherDate : this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -650,7 +652,32 @@ export class OrdersComponent implements OnInit {
       this.mouse();
       return;
     }
-   
+    if(this.activeId.includes('qty-') || this.activeId.includes('amtrate-')) {
+      let index = parseInt(this.activeId.split('-')[1]);
+      setTimeout(() => {
+      if(((this.order.amountDetails[index].qty == 0) || (this.order.amountDetails[index].qty == null)) && ((this.order.amountDetails[index].rate == 0) || (this.order.amountDetails[index].rate == null))){
+          this.rateflag[index]=1;
+          if(this.activeId.includes('amtrate-')){
+            this.setFoucus('amount-'+index);
+          }
+      }else{
+        this.rateflag[index]=0;
+      }
+      console.log('rate flag ::',index,'index',this.rateflag[index],this.rateflag);
+    }, 50);
+    }
+    if(this.activeId.includes('amount-') ){
+      let index = parseInt(this.activeId.split('-')[1]);
+      setTimeout(() => {
+      if(this.order.amountDetails[index].qty==0 ||  this.order.amountDetails[index].qty== null){
+      this.order.amountDetails[index].qty= 1;
+      this.order.amountDetails[index].lineamount=this.order.amountDetails[index].amount;
+      this.order.amountDetails[index].rate=this.order.amountDetails[index].amount;
+      }else{
+        this.order.amountDetails[index].rate= this.order.amountDetails[index].lineamount/this.order.amountDetails[index].qty;
+      }
+    }, 30);
+    }
     if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
       let index = parseInt(this.activeId.split('-')[1]);
       setTimeout(() => {
@@ -662,12 +689,8 @@ export class OrdersComponent implements OnInit {
         }
       }
       }, 300);
-      // if ((this.totalitem) < parseInt(this.order.amountDetails[index].qty)) {
-      //   console.log('Quantity is lower then available quantity');
-      //   // this.order.amountDetails[index].qty = 0;
-      // }
     }
-    if((this.order.ordertype.name.toLowerCase().includes('sales') || this.order.ordertype.name.toLowerCase().includes('credit')) && (this.activeId.includes('rate-'))){ 
+    if((this.order.ordertype.name.toLowerCase().includes('sales') || this.order.ordertype.name.toLowerCase().includes('credit')) && (this.activeId.includes('amtrate-'))){ 
       let index = parseInt(this.activeId.split('-')[1]);
       let amount = this.order.amountDetails[index].amount;
       console.log('amount with condition',amount);
@@ -848,19 +871,13 @@ export class OrdersComponent implements OnInit {
           this.setFoucus('plustransparent');
         }
         else {
-          this.setFoucus('rate' + '-' + index);
+          this.setFoucus('amtrate' + '-' + index);
         }
-      } else if (this.activeId.includes('rate')) {
+      } else if (this.activeId.includes('amtrate')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        if (this.order.amountDetails[index].amount == 0) {
-          console.log('test hello', this.order.amountDetails[index].amount, index);
-          this.common.showError('Please fill correct amount');
-          this.setFoucus('rate' + index);
-        }
-
-        else {
-          this.setFoucus('remarks' + '-' + index);
-        }
+        let element = document.getElementById('amount-'+index);
+      // element.setSelectionRange(0, this.order.amountDetails[index].amount.length);
+          this.setFoucus('amount-' + index);
       } else if (this.activeId.includes('discountate')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('warehouse' + '-' + index);
@@ -892,6 +909,17 @@ export class OrdersComponent implements OnInit {
         this.setFoucus('taxDetail' + '-' + index);
       } else if (this.activeId.includes('invocelist')) {
         this.setFoucus('custcode');
+      }else if (this.activeId.includes('amount-')) {
+        let index = parseInt(this.activeId.split('-')[1]);
+        if (this.order.amountDetails[index].amount == 0) {
+          console.log('test hello', this.order.amountDetails[index].amount, index);
+          this.common.showError('Please fill correct amount');
+          this.setFoucus('amount-' + index);
+        }
+
+        else {
+          this.setFoucus('remarks' + '-' + index);
+        }
       }
     } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
@@ -918,9 +946,13 @@ export class OrdersComponent implements OnInit {
       }
       if (this.activeId.includes('remarks')) {
         let index = this.activeId.split('-')[1];
-        this.setFoucus('rate-' + index);
+        this.setFoucus('amount-' + index);
       }
-      if (this.activeId.includes('rate')) {
+      if (this.activeId.includes('amount-')) {
+        let index = this.activeId.split('-')[1];
+        this.setFoucus('amtrate-' + index);
+      }
+      if (this.activeId.includes('amtrate')) {
         let index = this.activeId.split('-')[1];
         if (this.order.ordertype.id == -104) {
           this.setFoucus('stockitem-' + index);
@@ -1002,6 +1034,7 @@ export class OrdersComponent implements OnInit {
       // this.moveCursor(element, 0, element['value'].length);
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
+      
       this.setAutoSuggestion();
     }, 100);
   }

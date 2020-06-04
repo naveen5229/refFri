@@ -3,6 +3,9 @@ nb-card-header{
   border: 1px solid #efefef;
   margin-bottom: 10px;
 }
+nb-card-body{
+max-height: calc(100vh - 68px)
+}
 button { 
   padding: 7px 10px !important;
   background-color: #263238;
@@ -70,22 +73,52 @@ color:#26a69a !important;
         table-layout: fixed;
         background-color: #263238;
         color: #fff;
-    }
-    tr{
+    
+      tr{
         th{
-            padding: 5px 10px;
-            font-weight: normal;
-            width: 150px;
+          padding: 5px 10px;
+          font-weight: normal;
+          width: 130px;
         }
         th:last-child{
+          width: 57px;
+        }
+        th:nth-child(9){
+          width: 57px;
+        }
+        th:nth-child(3){
+          width: 138px;
+          padding: 5px;
+        }
+        th:nth-child(4){
+          width: 147px;
+          padding: 5px;
+        }
+       
+    }
+  }   
+    tbody{
+          overflow-y: auto;
+          display: block;
+          table-layout: fixed;
+          overflow: auto;
+          max-height: calc(100vh - 500px);
+        
+       tr{
+        td input{
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 105px;
+        }
+        td:last-child input{
           width: 100px;
         }
         td:nth-child(3) input{
-          width: 100%;
+          width: 105px;
           padding: 5px;
         }
         td:nth-child(4) input{
-          width: 100%;
+          width: 85px;
           padding: 5px;
         }
         td{
@@ -111,22 +144,7 @@ color:#26a69a !important;
               width: 100%;
             }
         }
-    }
-   
-    tbody{
-          overflow-y: auto;
-          display: block;
-          table-layout: fixed;
-          overflow: auto;
-          max-height: calc(100vh - 238px);
-        td{
-            padding: 5px 10px;
-            font-weight: normal;
-            width: 112px;
-        }
-        td:last-child{
-          width: 90px;
-        }
+         }
         tr:nth-child(odd){
             background-color: #fff;
         }
