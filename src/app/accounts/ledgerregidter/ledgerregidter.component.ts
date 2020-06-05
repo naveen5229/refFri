@@ -13,6 +13,9 @@ import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { PdfService } from '../../services/pdf/pdf.service';
 import {AdvanceComponent } from '../../acounts-modals/advance/advance.component';
+import { OrderComponent } from '../../acounts-modals/order/order.component';
+import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
+import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 
 @Component({
   selector: 'ledger-register-tree',
@@ -32,7 +35,7 @@ import {AdvanceComponent } from '../../acounts-modals/advance/advance.component'
          
       </div>
       <ledger-register-tree *ngIf="d.name" [color]="color+1" style="cursor:pointer" [action]="action" [data]="d.data" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></ledger-register-tree>
-      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
+      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name,d) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name,d) : action(d.y_voucherid,'',d.y_voucher_type_name,d)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
         <!--div class="col x-col">{{d.y_ledger_name}}</div-->
         <div class="col x-col">{{d.y_code}}</div>
@@ -81,6 +84,7 @@ export class ledgerRegisterTreeComponent {
 })
 export class LedgerregidterComponent implements OnInit {
   activeTree = -1;
+  fuelFilings=[];
   Ledgerregister = [];
   selectedName = '';
   deletedId = 0;
@@ -571,30 +575,121 @@ export class LedgerregidterComponent implements OnInit {
     });
   }
 
-  openinvoicemodel(voucherId, code, type) {
-    if (type.toLowerCase().includes('voucher')) {
-      if (type.toLowerCase().includes('trip')) {
-        this.openConsignmentVoucherEdit(voucherId);
-      } else {
-        this.openVoucherDetail(voucherId, code);
-      }
-    } else {
+  openinvoicemodel(voucherId, code, type,vocherdata) {
+    if((type.toLowerCase().includes('purchase')) || (type.toLowerCase().includes('sales')) || (type.toLowerCase().includes('debit')) || (type.toLowerCase().includes('credit'))){
+      console.log('invoice edit');
       this.common.params = {
         invoiceid: voucherId,
         delete: 0,
-        indexlg: 0
+        newid:0,
+        ordertype:vocherdata.y_vouchertype_id
       };
-      const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
+         console.log('Data: invoice ', data);
+        if (data.delete) {
           console.log('open succesfull');
-
-          // this.addLedger(data.ledger);
         }
       });
-    }
+     
+    }else if(type.toLowerCase().includes('fuel')){
+      this.openFuelEdit(vocherdata);
+}  else if(type.toLowerCase().includes('trip')){
+  this.openConsignmentVoucherEdit(vocherdata)
+} else{
+
+  this.common.params = {
+    voucherId: voucherId,
+    delete: 0,
+    addvoucherid: 0,
+    voucherTypeId: vocherdata.y_vouchertype_id,
+  };
+  const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+  activeModal.result.then(data => {
+    console.log('Data: ', data);
+    if (data.delete) {
+     // this.getDayBook();
+    } 
+    // this.common.showToast('Voucher updated');
+
+  });
+// this.common.params={
+
+//   vchid :voucherId,
+//   vchcode:vouhercode
+// }
+// const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+// activeModal.result.then(data => {
+//   // console.log('Data: ', data);
+//   if (data.response) {
+//     return;
+  
+//   }
+// });
+}
   }
+  openFuelEdit(vchData){
+    console.log('vch data new ##',vchData);
+    let promises = [];
+    console.log('testing issue solved');
+    promises.push(this.getVocherEditTime(vchData['y_voucherid']));
+    promises.push(this.getDataFuelFillingsEdit(vchData['y_vehicle_id'],vchData['y_refid'],vchData['y_voucherid']));
+
+    Promise.all(promises).then(result => {
+    this.common.params = {
+      vehId: vchData['y_vehicle_id'],
+      lastFilling: this.ledgerRegister.startdate,
+      currentFilling: this.ledgerRegister.enddate,
+      fuelstationid: vchData['y_refid'],
+      fuelData:this.fuelFilings,
+      voucherId:vchData['y_voucherid'],
+      voucherData:this.VoucherEditTime,
+      //vehname:this.trips[0].y_vehicle_name
+    };
+
+    const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data return: ', data);
+      if (data.success) {
+     //   this.getDayBook();
+      }
+    });
+  }).catch(err => {
+    console.log(err);
+    this.common.showError('There is some technical error occured. Please Try Again!');
+  })
+  }
+  getDataFuelFillingsEdit(vehcleID,fuelStationId,vchrID) {
+    return new Promise((resolve, reject) => {
+    const params = {
+      vehId: vehcleID,
+      lastFilling: this.ledgerRegister.startdate,
+      currentFilling:this.ledgerRegister.enddate,
+      fuelstationid: fuelStationId,
+      voucherId:vchrID
+    };
+    this.common.loading++;
+    this.api.post('Fuel/getFeulfillings', params)
+      .subscribe(res => {
+      //  console.log('fuel data', res['data']);
+        this.common.loading--;
+        if(res['data'].length){
+        this.fuelFilings = res['data'];
+        resolve();
+        }else {
+          this.common.showError('please Select Correct date');
+        }
+        // this.getHeads();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+        reject();
+      });
+    })
+   
+  }
+  
 
   openConsignmentVoucherEdit(voucherData) {
     const params = {
