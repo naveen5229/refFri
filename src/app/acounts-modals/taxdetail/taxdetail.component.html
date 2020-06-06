@@ -25,7 +25,7 @@
                 <td>
                   <!-- <auto-suggestion (onSelected)="onSelected($event, 'taxledger', 'name',i)" url="Suggestion/GetPurchaseLedger"  display="name"
          [inputId]="'taxledger-'+i" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
-                  <input type="text" [id]="'taxledger-' + i" autocomplete="off" class="form-control" [name]="'taxledger-' + i"
+                  <input type="text" [id]="'taxleder-' + i" autocomplete="off" class="form-control" [name]="'taxledger-' + i"
                     [(ngModel)]="taxdetail.taxledger.name" required>
                 </td>
                 <td>
@@ -106,7 +106,7 @@
   </nb-card-body>
 </nb-card>
 
-<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+<div class="date-modal" *ngIf="showConfirmtax" (keydown)="keyHandler($event)">
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are You Want to More Tax Detail Then Press Y Otherwise Save to press Enter</p>

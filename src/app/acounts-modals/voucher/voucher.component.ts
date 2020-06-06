@@ -35,7 +35,7 @@ export class VoucherComponent implements OnInit {
     debit: [],
     suggestions: []
   };
-  ledgerbalance='';
+  ledgerbalance=[];
   sizeIndex=0;
   currentbalance = 0;
   balances = {};
@@ -599,7 +599,7 @@ export class VoucherComponent implements OnInit {
       return;
     }
 
-    if (key == 'f2' && !this.showDateModal) {
+    if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
       this.lastActiveId = activeId;
@@ -622,6 +622,15 @@ export class VoucherComponent implements OnInit {
       if(this.voucher.amountDetails[ledgerindex].ledger.id != ""){
       console.log('ledger value ------------',this.voucher.amountDetails[ledgerindex].ledger.id);
       this.openinvoicemodel(this.voucher.amountDetails[ledgerindex].ledger.id);
+      }
+    }
+    if((event.altKey && key === "u")&& (activeId.includes('ledger'))){
+      let ledgerindex = this.lastActiveId.split('-')[1];
+      if(this.voucher.amountDetails[ledgerindex].ledger.id != ""){
+      console.log('ledger value ------------',this.voucher.amountDetails[ledgerindex].ledger.id);
+      this.openinvoicemodel(this.voucher.amountDetails[ledgerindex].ledger.id,0);
+      }else{
+        this.common.showError('Please Select Correct Ledger');
       }
     }
 
@@ -1310,7 +1319,7 @@ export class VoucherComponent implements OnInit {
     this.printService.printInvoice(invoiceJson, 1);
 
   }
-  openinvoicemodel(ledger) {
+  openinvoicemodel(ledger,deletedid=2) {
     let data = [];
     console.log('ledger123', ledger);
     if (ledger) {
@@ -1325,7 +1334,7 @@ export class VoucherComponent implements OnInit {
           data = res['data'];
           this.common.params = {
             ledgerdata: res['data'],
-            deleted: 2,
+            deleted:deletedid,
         sizeledger:1
           }
           // this.common.params = { data, title: 'Edit Ledgers Data' };
@@ -1333,7 +1342,9 @@ export class VoucherComponent implements OnInit {
           activeModal.result.then(data => {
             // console.log('Data: ', data);
             if (data.response) {
-           
+              if(deletedid==0){
+                this.addLedger(data.ledger);
+                }
             }
           });
 
@@ -1359,7 +1370,7 @@ export class VoucherComponent implements OnInit {
       this.api.post('Accounts/getLedgerView', params)
         .subscribe(res => {
           this.common.loading--;
-          this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0') ? ((res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' Cr':'0') : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0') ? '0' : (res['data'][res['data'].length - 1]['y_dramunt']) != '0.00'? res['data'][res['data'].length - 1]['y_dramunt'] + ' Dr':'0';  
+          this.ledgerbalance[index] = (res['data'][res['data'].length - 1]['y_cramunt'] != '0') ? ((res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' Cr':'0') : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0') ? '0' : (res['data'][res['data'].length - 1]['y_dramunt']) != '0.00'? res['data'][res['data'].length - 1]['y_dramunt'] + ' Dr':'0';  
          console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
        
         }, err => {

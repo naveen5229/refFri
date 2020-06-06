@@ -284,6 +284,7 @@ import { LoadIntelligenceModule } from './load-intelligence/load-intelligence.mo
 import { StockSummaryComponent } from './acounts-modals/stock-summary/stock-summary.component';
 import { GstReportComponent } from './acounts-modals/gst-report/gst-report.component';
 import { AdvanceComponent } from './acounts-modals/advance/advance.component';
+import { RangeComponent } from './acounts-modals/range/range.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -526,7 +527,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   AddStateComponent,
   StockSummaryComponent,
   GstReportComponent,
-  AdvanceComponent
+  AdvanceComponent,
+  RangeComponent
 
 ];
 
