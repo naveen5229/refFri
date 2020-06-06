@@ -1031,6 +1031,10 @@ export class OrdersComponent implements OnInit {
       let element = document.getElementById(id);
       console.log('Element: ', element);
       element.focus();
+      // if(id.toLowerCase().includes('amount-')){
+      //   let index = id.split('-')[1];
+      // id.select();
+      // }
       // this.moveCursor(element, 0, element['value'].length);
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
@@ -1733,7 +1737,7 @@ export class OrdersComponent implements OnInit {
     this.api.post('Accounts/getLedgerView', params)
       .subscribe(res => {
         this.common.loading--;
-        this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0') ? ((res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' Cr':'0') : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0') ? '0' : (res['data'][res['data'].length - 1]['y_dramunt']) != '0.00'? res['data'][res['data'].length - 1]['y_dramunt'] + ' Dr':'0'; 
+        this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0') ? ((res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? parseFloat(res['data'][res['data'].length - 1]['y_cramunt']).toFixed(2) + ' Cr':'0') : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0') ? '0' : (res['data'][res['data'].length - 1]['y_dramunt']) != '0.00'? parseFloat(res['data'][res['data'].length - 1]['y_dramunt']).toFixed(2) + ' Dr':'0'; 
       // console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
       
       }, err => {

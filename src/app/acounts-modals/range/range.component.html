@@ -10,14 +10,21 @@
     <div class="modal-body">
 <div class="date-modal"  (keydown)="keyHandler($event)">
   <div class="date-modal-body">
-    <div>
+    <div class="row">
+    <div class="col-4">
       <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="startdate"
         maxlength="10">
     </div>
-    <div>
+    <div class="col-4">
       <input type="text" class="form-control" name="voucher-end-date-f2" id="voucher-end-date-f2" [(ngModel)]="enddate" maxlength="10">
     </div>
+    <div class="col-2 text-right">
+      <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+        style="cursor: pointer;">Submit
+      </button>
+    </div>
   </div>
+</div>
 </div>
 </div>
 </nb-card-body>

@@ -1916,6 +1916,9 @@ export class CommonService {
     } else if (datestring.includes('/')) {
       dateArray = datestring.split('/');
       separator = '/';
+    }else if (datestring.includes('.')) {
+      dateArray = datestring.split('.');
+      separator = '.';
     } else {
       this.showError('Invalid Date Format!');
       return;

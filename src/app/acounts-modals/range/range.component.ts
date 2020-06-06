@@ -32,6 +32,8 @@ export class RangeComponent implements OnInit {
   dismiss(response) {
     //console.log('Accounts:', this.Branches);
     if(response){
+      this.accountService.fromdate=this.startdate;
+      this.accountService.todate=this.enddate;
     this.activeModal.close({ response: response, startdate:this.startdate,enddate:this.enddate });
     }else{
        this.activeModal.close({ response: response});

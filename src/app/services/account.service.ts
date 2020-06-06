@@ -18,6 +18,8 @@ export class AccountService {
   branches = [];
   financialYears = [];
   voucherDate = '';
+  fromdate='';
+  todate='';
 
   constructor() {
   }
