@@ -80,6 +80,10 @@ export class FoUserRoleComponent implements OnInit {
 
 
   getUserDetails(user) {
+    this.getAllPagesList = [];
+    this.formattedData = [];
+    this.dashBoardPages = [];
+    this.appPages = [];
     this.selectedUser.details = user;
     const params = {
       userId: user.id,
@@ -90,6 +94,7 @@ export class FoUserRoleComponent implements OnInit {
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         this.common.loading--;
+      
         this.getAllPagesList = res['data'];
       
         this.selectedUser.oldPreferences = res['data'];
