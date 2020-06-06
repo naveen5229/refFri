@@ -29,6 +29,9 @@ export class TripExpenseTallyComponent implements OnInit {
 
   constructor(public api:ApiService,
     public common:CommonService) {
+
+    this.common.currentPage = 'Trip Expense Tally';
+
    }
 
   ngOnInit() {

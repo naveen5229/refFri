@@ -46,7 +46,7 @@ export class OrdersComponent implements OnInit {
   totalTaxamount=0;
   order = {
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
-    date: this.common.dateFormatternew(new Date()).split(' ')[0],
+    date: (this.accountService.voucherDate) ? this.accountService.voucherDate : this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: '',
     biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
     totalamount: null,
@@ -109,7 +109,7 @@ export class OrdersComponent implements OnInit {
 
 
   showDateModal = false;
-  f2Date = 'startDate';
+  f2Date = 'date';
   activedateid = '';
 
   suggestions = {
@@ -580,19 +580,21 @@ export class OrdersComponent implements OnInit {
     if ((this.order.ordertype.name.toLowerCase().includes('sales')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     console.log('Active event11', event, this.order.ordertype.name, this.activeId, this.suggestions.purchasestockItems);
 
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('date') || this.activeId.includes('biltydate'))) {
+    if ((key == 'f2' && !this.showDateModal)) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
       this.lastActiveId = this.activeId;
       this.setFoucus('voucher-date-f2', false);
       this.showDateModal = true;
-      this.f2Date = this.activeId;
+      this.f2Date = 'date';
       this.activedateid = this.lastActiveId;
       return;
     } else if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
-      this.handleOrderDateOnEnter(this.activeId);
+      console.log('(orderactivedateid',(this.order[this.lastActiveId]),this.activeId);
+      //this.handleOrderDateOnEnter(this.activeId);
+      this.order.date= this.common.handleVoucherDateOnEnter(this.order.date);
       this.setFoucus(this.lastActiveId);
 
       return;
@@ -684,8 +686,10 @@ export class OrdersComponent implements OnInit {
         this.handleVoucherDateOnEnter();
         this.setFoucus('date');
       } else if (this.activeId.includes('biltydate')) {
+        this.handleOrderDateOnEnter('biltydate');
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('podate')) {
+        this.handleOrderDateOnEnter('podate');
         if(this.order.ordertype.id == -106){
           this.setFoucus('salesledger');
         }else{
@@ -961,7 +965,7 @@ export class OrdersComponent implements OnInit {
     let separator = '-';
 
     //console.log('starting date 122 :', this.activedateid);
-    let datestring = (this.activedateid == 'date') ? 'date' : 'biltydate';
+    let datestring = (iddate == 'date') ? 'podate' : 'biltydate';
     if (this.order[datestring].includes('-')) {
       dateArray = this.order[datestring].split('-');
     } else if (this.order[datestring].includes('/')) {
@@ -974,10 +978,10 @@ export class OrdersComponent implements OnInit {
     let date = dateArray[0];
     date = date.length == 1 ? '0' + date : date;
     let month = dateArray[1];
-    month = month.length == 1 ? '0' + month : month;
+    month = month.length == 1 ? '0' + month : (month >= 13) ? 12 : month;
+    let finacialyear = (month > '03')? (this.accountService.selected.financialYear['name']).split('-')[0] :(this.accountService.selected.financialYear['name']).split('-')[1];
     let year = dateArray[2];
-    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-    console.log('Date: ', date + separator + month + separator + year);
+    year = (year) ? (year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year):finacialyear;
     this.order[datestring] = date + separator + month + separator + year;
   }
 
@@ -1682,15 +1686,15 @@ export class OrdersComponent implements OnInit {
       startdate: this.common.dateFormatternew(new Date()).split(' ')[0],
       enddate: this.common.dateFormatternew(new Date()).split(' ')[0],
       ledger: this.order.ledger.id,
-      vouchertype: -104,
+      vouchertype: 0,
     };
 
     this.common.loading++;
     this.api.post('Accounts/getLedgerView', params)
       .subscribe(res => {
         this.common.loading--;
-       this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' (Cr)' : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0.00') ? '0' : res['data'][res['data'].length - 1]['y_dramunt'] + ' (Dr)'; 
-       console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
+        this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0') ? ((res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' Cr':'0') : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0') ? '0' : (res['data'][res['data'].length - 1]['y_dramunt']) != '0.00'? res['data'][res['data'].length - 1]['y_dramunt'] + ' Dr':'0'; 
+      // console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
       
       }, err => {
         this.common.loading--;

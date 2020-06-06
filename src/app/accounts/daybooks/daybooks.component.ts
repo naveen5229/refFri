@@ -57,7 +57,7 @@ export class DaybooksComponent implements OnInit {
 
   };
   lastActiveId = '';
-  showDateModal = false;
+  //showDateModal = false;
   vouchertypedata = [];
   branchdata = [];
   DayData = [];
@@ -403,11 +403,11 @@ export class DaybooksComponent implements OnInit {
       }
 
     }
-    if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
-      /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
-      return;
-    }
+    // if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
+    //   /***************************** Handle Row Enter ******************* */
+    //   this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
+    //   return;
+    // }
     if ((event.ctrlKey && key === 'd') && (!this.activeId && this.DayData.length && this.selectedRow != -1)) {
       console.log('ctrl + d pressed');
       //this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid,1);   
@@ -415,25 +415,23 @@ export class DaybooksComponent implements OnInit {
       event.preventDefault();
       return;
     }
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
-      this.showDateModal = false;
-      console.log('Last Ac: ', this.lastActiveId);
-      this.handleVoucherDateOnEnter(this.activeId);
-      this.setFoucus(this.lastActiveId);
+    // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+    //   this.lastActiveId = this.activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = this.activeId;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // } else if ((key == 'enter' && this.showDateModal)) {
+    //   this.showDateModal = false;
+    //   console.log('Last Ac: ', this.lastActiveId);
+    //   this.handleVoucherDateOnEnter(this.activeId);
+    //   this.setFoucus(this.lastActiveId);
 
-      return;
-    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-      return;
-    }
+    //   return;
+    // } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+    //   return;
+    // }
 
 
     if (key == 'enter') {

@@ -11,6 +11,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { LedgeraddressComponent } from '../../acounts-modals/ledgeraddress/ledgeraddress.component';
 import { PrintService } from '../../services/print/print.service';
 import { PdfService } from '../../services/pdf/pdf.service';
+import { AccountService } from '../../services/account.service';
 
 
 
@@ -126,14 +127,17 @@ export class OrderComponent implements OnInit {
     display: ''
   };
   pagename = 'Edit Invoice'
-
+  showDateModal = false;
+  f2Date = 'date';
+  activedateid = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private activeModal: NgbActiveModal,
     public modalService: NgbModal,
     private printService: PrintService,
-    public pdfService: PdfService) {
+    public pdfService: PdfService,
+    public accountService: AccountService) {
       if(this.common.params.ordertype){
         this.order.ordertype.id=this.common.params.ordertype;
       }
@@ -689,8 +693,30 @@ export class OrderComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
-    console.log('Active event', event);
+    console.log('Active event new 3333', event);
     this.setAutoSuggestion();
+
+    if ((key == 'f2' && !this.showDateModal)) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = 'date';
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      console.log('(orderactivedateid',(this.order[this.lastActiveId]),this.activeId);
+      this.order.date= this.common.handleVoucherDateOnEnter(this.order.date);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    }else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+        return;
+      }
+
     if(((this.order.ordertype.id == -102) || (this.order.ordertype.id == -107) ||(this.order.ordertype.id == -108) ) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.purchasestockItems; }
         if (((this.order.ordertype.id == -104) || (this.order.ordertype.id == -106)) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.salesstockItems; }
     // console.log('Active Id', this.activeId);
@@ -748,10 +774,11 @@ export class OrderComponent implements OnInit {
         this.setFoucus('date');
         
       } else if (this.activeId.includes('biltydate')) {
+        this.handleOrderDateOnEnter('biltydate');
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('podate')) {
         console.log('order type', this.order.ordertype);
-
+        this.handleOrderDateOnEnter('podate');
         if(this.order.ordertype.id == -106){
           this.setFoucus('purchaseledger');
         }else{
@@ -1043,7 +1070,30 @@ export class OrderComponent implements OnInit {
       this.setAutoSuggestion();
     }, 100);
   }
+  handleOrderDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
 
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (iddate == 'date') ? 'podate' : 'biltydate';
+    if (this.order[datestring].includes('-')) {
+      dateArray = this.order[datestring].split('-');
+    } else if (this.order[datestring].includes('/')) {
+      dateArray = this.order[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : (month >= 13) ? 12 : month;
+    let finacialyear = (month > '03')? (this.accountService.selected.financialYear['name']).split('-')[0] :(this.accountService.selected.financialYear['name']).split('-')[1];
+    let year = dateArray[2];
+    year = (year) ? (year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year):finacialyear;
+    this.order[datestring] = date + separator + month + separator + year;
+  }
   handleVoucherBiltyDateOnEnter() {
     let dateArray = [];
     let separator = '-';
@@ -1905,14 +1955,14 @@ getLedgerView() {
       startdate: this.common.dateFormatternew(new Date()).split(' ')[0],
       enddate: this.common.dateFormatternew(new Date()).split(' ')[0],
       ledger: this.order.ledger.id,
-      vouchertype: -104,
+      vouchertype: 0,
     };
 
     this.common.loading++;
     this.api.post('Accounts/getLedgerView', params)
       .subscribe(res => {
         this.common.loading--;
-       this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' (Cr)' : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0.00') ? '0' : res['data'][res['data'].length - 1]['y_dramunt'] + ' (Dr)'; 
+        this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0') ? ((res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' Cr':'0') : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0') ? '0' : (res['data'][res['data'].length - 1]['y_dramunt']) != '0.00'? res['data'][res['data'].length - 1]['y_dramunt'] + ' Dr':'0'; 
        console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
       
       }, err => {

@@ -88,7 +88,7 @@ warehouseid=0;
     this.getStockTypeList();
     this.getWhereHouseList();
     this.setFoucus('stocktype');
-    this.common.currentPage = 'Store Regiter';
+    this.common.currentPage = 'Store Register';
   this.branchid=  this.accountService.selected.branch.id;
   }
 
@@ -838,14 +838,14 @@ warehouseid=0;
 
 
   openmodal(data,type) {
-    console.log('data.y_net_qty',data.y_net_qty)
+    console.log('data.y_net_qty',data.y_net_qty,data.y_opn_qty);
     
     if (this.isSingleClick) {
       clearTimeout(this.isSingleClick);
     }
     setTimeout(() => {
     console.log('datail data',type, data);
-    if(data.y_net_qty != data.y_opn_amt){
+    if(data.y_net_qty != data.y_opn_qty){
     if(type.includes('stock')){
       this.common.params = {
         startDate :this.outStanding.Date,

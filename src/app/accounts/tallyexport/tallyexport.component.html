@@ -1,5 +1,5 @@
 <nb-card style="border:0px;">
-  <nb-card-body >
+  <nb-card-body (keydown)="keyHandler($event)">
    <!-- <button (click)="excelService.saveAsXMLFile()">XML</button> -->
    
     <div class="row mt-3 pl-6">
@@ -67,3 +67,12 @@
     
   </nb-card-body>
 </nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2"
+        [(ngModel)]="f2Date" maxlength="10">
+    </div>
+  </div>
+</div>

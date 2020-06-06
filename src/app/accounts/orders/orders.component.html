@@ -75,7 +75,7 @@
                 <!-- <auto-suggestion (onSelected)="onSelectedaddress($event, 'ledger', 'name')"
                   url="Suggestion/GetPurchaseLedger" display="name" placeholder="Enter Ledger" inputId="ledger"
                   [data]="supplier" [preSelected]="null"></auto-suggestion> -->
-                  <span *ngIf="(ledgerbalance)">(<i>Ledger balance is </i>{{ ledgerbalance }})</span>
+                  <span *ngIf="(ledgerbalance)">(<i>Current Balance: </i>{{ ledgerbalance }})</span>
               </div>
             </div>
             <div class="col">
@@ -211,7 +211,7 @@
                   display="name" inputId="ledger" placeholder="Party Name" [preSelected]="null"></auto-suggestion> -->
                 <input type="text" autocomplete="off" class="form-control ref-input" id="ledger" name="ledger" [(ngModel)]="order.ledger.name"
                   placeholder="Please Enter Party Name" require>
-                  <span *ngIf="(ledgerbalance)">(<i>Ledger balance is </i>{{ ledgerbalance }})</span>
+                  <span *ngIf="(ledgerbalance)">(<i>Cur Bal: </i>{{ ledgerbalance }})</span>
               </div>
             </div>
             <div class="col">
@@ -426,16 +426,16 @@
           <!-- <td><b>Total Amount : </b></td> -->
           <td>&nbsp;</td>
           <td>
-            <label class="ref-label">Total Amount:</label><input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
+            <label class="ref-label">Total Amt:</label><input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
               [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;">
           </td>
           <td>
-            <label class="ref-label">Total Tax Amount:</label>
+            <label class="ref-label">Total Tax Amt:</label>
             <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
             [(ngModel)]="totalTaxamount" readonly style="background-color: #eeeeee;">
         </td>
           <td>
-            <label class="ref-label">Total Line Amount:</label>
+            <label class="ref-label">Total Line Amt:</label>
             <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
             [(ngModel)]="order.totalamount" [value]="calculateTotalLineAmount()" readonly style="background-color: #eeeeee;">
         </td>
@@ -482,7 +482,7 @@
 <div class="date-modal" *ngIf="showDateModal">
   <div class="date-modal-body">
     <div>
-      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="f2Date"
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="order[f2Date]"
         maxlength="10">
     </div>
   </div>

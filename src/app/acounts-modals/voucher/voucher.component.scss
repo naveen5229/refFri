@@ -144,10 +144,16 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 15%;
+            width: 15.5%;
         }
         th:nth-child(1){
+            width: 15.5%;
+        }
+        th:nth-child(3){
             width: 15%;
+        }
+        th:last-child{
+            width: 5%;
         }
         td{
             padding: 5px 10px !important;
@@ -163,6 +169,7 @@ table{
                 box-shadow: none;
             }
         }
+       
     }
     tbody{
         overflow-y: auto;
@@ -181,8 +188,11 @@ table{
             td{
                 width: 15%;
             }
-            td:last-child{
+            td:nth-child(3){
                 width: 14.5%
+            }
+            td:last-child{
+                width: 5%;
             }
         }
         tr:nth-child(odd){
