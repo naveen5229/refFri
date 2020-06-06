@@ -5,6 +5,8 @@ import { ApiService } from '../services/api.service';
 import { AccountService } from '../services/account.service';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { RangeComponent} from '../acounts-modals/range/range.component';
 
 @Component({
   selector: 'ngx-pages',
@@ -24,7 +26,10 @@ export class AccountsComponent {
 
   constructor(public api: ApiService,
     public router: Router,
-    public user: UserService, public accountService: AccountService) {
+    public user: UserService,
+     public accountService: AccountService,
+    public modalService: NgbModal,
+    private activeModal: NgbActiveModal,) {
     // if (this.user._loggedInBy == 'customer') {
     //   this.router.navigate(['/pages']);
     //   return;
@@ -98,6 +103,14 @@ export class AccountsComponent {
         redirectUrl='/accounts/trialbalance';
       }else if(key == 0){
         redirectUrl='/accounts/ledgermapping';
+      }
+      else if(key == 'f2'){
+       // redirectUrl='/acounts-modals/range';
+        const activeModal = this.modalService.open(RangeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+     // this.voucher.date = this.common.dateFormatternew(data.date).split(' ')[0];
+      //  console.log('Date:', this.date);
+       });
       }
       if(redirectUrl !=''){
             this.router.navigate([redirectUrl]);

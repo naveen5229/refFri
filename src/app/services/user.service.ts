@@ -9,7 +9,7 @@ import { WAREHOUSE_MENU_ITEMS } from '../ware-house/ware-house-menu';
 import { ACCOUNTS_MENU_ITEMS } from '../accounts/accountes-menu';
 import { CHALLAN_MENU_ITEMS } from '../challan/challan-menu';
 import { WALLE8_MENU_ITEMS } from '../walle8/walle8-menu';
-import {BIDSYSTEM_MENU_ITEMS} from '../bid-system/bid-system-menu'
+import { BIDSYSTEM_MENU_ITEMS } from '../bid-system/bid-system-menu'
 import { LOAD_INTELLIGENCE_MENU_ITEMS } from '../load-intelligence/load-intelligence-menu';
 
 const COLLECTION = {
@@ -36,7 +36,7 @@ export class UserService {
   _customer = {
     name: '',
     id: '',
-    mobileNo : null
+    mobileNo: null
   };
 
   _loggedInBy = '';
@@ -51,8 +51,8 @@ export class UserService {
     account: [],
     challan: [],
     walle8: [],
-    bidSystem:[],
-    loadIntelligence:[],
+    bidSystem: [],
+    loadIntelligence: [],
   };
 
   permission = {
@@ -87,7 +87,7 @@ export class UserService {
   }
 
   filterMenu(type?, collection?) {
-    
+
     this._menu[type] = JSON.parse(COLLECTION[collection])
       .map((menuItem) => {
         if (menuItem.children) {
@@ -113,6 +113,15 @@ export class UserService {
         } else if (!menuItem.children.length) return false;
         return true;
       });
+
+    if (type === 'pages' && localStorage.getItem('DOST_axesToken')) {
+      console.log('test');
+      this._menu[type].push({
+        title: 'Vehicle Tracking',
+        icon: 'fas fa-chalkboard-teacher',
+        link: '#'
+      })
+    }
   }
 
 }

@@ -11,7 +11,7 @@ import { LedgerComponent} from '../ledger/ledger.component';
   styleUrls: ['./taxdetail.component.scss']
 })
 export class TaxdetailComponent implements OnInit {
-  showConfirm = false;
+  showConfirmtax = false;
   amount=0;
   sizeIndex=0;
   taxdetails = [{
@@ -34,7 +34,7 @@ export class TaxdetailComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public common: CommonService,
     public modalService: NgbModal) {
-    this.setFoucus('taxledger-0');
+    this.setFoucus('taxleder-0');
     this.getPurchaseLedgers();
     console.log('tax detail ',this.common.params,this.common.params.taxDetail.length);
     this.amount = this.common.params.amount;
@@ -89,7 +89,7 @@ console.log('size index',this.sizeIndex);
         this.common.loading--;
         console.log('Res:', res['data']);
         this.autoSuggestion.data = res['data'];
-        this.autoSuggestion.targetId = 'taxledger-0';
+        this.autoSuggestion.targetId = 'taxleder-0';
         this.autoSuggestion.display = 'name';
         // this.suggestions.purchaseLedgers = res['data'];
       }, err => {
@@ -122,24 +122,24 @@ console.log('size index',this.sizeIndex);
     let index = parseInt(activeId.split('-')[1]) + 1;
     console.log(index);
     // activeId.includes('taxdetailbutton');
-    this.setFoucus('taxledger-' + index);
+    this.setFoucus('taxleder-' + index);
   }
 
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
-    if ((event.altKey && key === 'c') && (activeId.includes('taxledger'))) {
+    if ((event.altKey && key === 'c') && (activeId.includes('taxleder'))) {
       // console.log('alt + C pressed');
       this.openledger();
     }
-    if (activeId.includes('taxledger')) {
+    if (activeId.includes('taxleder')) {
     
       this.autoSuggestion.targetId = activeId;
       console.log('-=-----------------------------');
     }
 
-    if (this.showConfirm) {
+    if (this.showConfirmtax) {
       if (key == 'enter') {
         console.log(' show taxdetails:', this.taxdetails);
         this.dismiss(true);
@@ -147,7 +147,7 @@ console.log('size index',this.sizeIndex);
       } else if (key == 'y') {
         this.addAmountDetails();
       }
-      this.showConfirm = false;
+      this.showConfirmtax = false;
       event.preventDefault();
       return;
     }
@@ -155,17 +155,17 @@ console.log('size index',this.sizeIndex);
     if (key == 'enter') {
       this.allowBackspace = true;
       // console.log('active', activeId);
-      if (activeId.includes('taxledger') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
+      if (activeId.includes('taxleder') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
         let index = activeId.split('-')[1];
-        if (activeId.includes('taxledger')) this.setFoucus('taxrate-' + index);
+        if (activeId.includes('taxleder')) this.setFoucus('taxrate-' + index);
         if (activeId.includes('taxrate')) this.setFoucus('taxamount-' + index);
         if (activeId.includes('taxamount')){
          console.log('total length of text detail',this.taxdetails.length,'actv id',activeId);
          let totallenth =this.taxdetails.length;
          if(totallenth == ( parseInt(index)+1)){
-          this.showConfirm = true;
+          this.showConfirmtax = true;
          }else{
-          this.setFoucus('taxledger-' + (parseInt(index)+1));
+          this.setFoucus('taxleder-' + (parseInt(index)+1));
          }
         }
         
@@ -176,10 +176,10 @@ console.log('size index',this.sizeIndex);
     } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
 
-      if (activeId.includes('taxledger') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
+      if (activeId.includes('taxleder') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
         let index = parseInt(activeId.split('-')[1]);
         if (index != 0) this.setFoucus('taxamount-' + (index - 1));
-        if (activeId.includes('taxrate')) this.setFoucus('taxledger-' + index);
+        if (activeId.includes('taxrate')) this.setFoucus('taxleder-' + index);
         if (activeId.includes('taxamount')) this.setFoucus('taxrate-' + index);
 
       }
@@ -202,7 +202,7 @@ console.log('size index',this.sizeIndex);
       // this.moveCursor(element, 0, element['value'].length);
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
-      if (id.includes('taxledger')) {
+      if (id.includes('taxleder')) {
         this.autoSuggestion.targetId = id;
         console.log('==================================');
         console.log('Target Id:', this.autoSuggestion.targetId);
@@ -289,7 +289,7 @@ console.log('size index',this.sizeIndex);
   }
 
   modelCondition(){
-    this.showConfirm = false;
+    this.showConfirmtax = false;
     event.preventDefault();
     return;
    }

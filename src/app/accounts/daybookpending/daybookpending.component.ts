@@ -766,6 +766,8 @@ export class DaybookpendingComponent implements OnInit {
         this.DayBook.toamount=data.ledger.toamount;
         if(data.ledger.toamount !=0 || data.ledger.frmamount !=0 ||data.ledger.vouchercode !='' ||data.ledger.vouchercustcode !='' ||data.ledger.remarks !='' ||data.ledger.isamount !=0){
           this.flag = 1;
+        }else{
+          this.flag = 0;
         }
       }
     });

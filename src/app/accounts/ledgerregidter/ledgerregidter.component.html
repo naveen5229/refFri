@@ -161,7 +161,7 @@
       <div class="row" style="margin: 0px 0px 0px 0px;width: 100%;">
         <div class="row x-heading">
           <div class="col x-col">Particular</div>
-          <div class="col x-col">Ledger Name</div>
+          <!-- <div class="col x-col">Ledger Name</div> -->
           <div class="col x-col">Voucher Code</div>
           <div class="col x-col">Ref No</div>
           <div class="col x-col">Voucher Date</div>
@@ -173,7 +173,7 @@
         <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
           <div class="row x-stocktype" style="cursor:pointer"  (click)="activeTree = activeTree !== i ? i : -1">
             <div class="col x-col">{{stockType.name}}</div>
-            <div class="col x-col">&nbsp;</div>
+            <!-- <div class="col x-col">&nbsp;</div> -->
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
             <div class="col x-col">&nbsp;</div>
@@ -281,3 +281,11 @@
     </div>
   </nb-card-body>
 </nb-card>
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2"
+        [(ngModel)]="ledgerRegister[f2Date]" maxlength="10">
+    </div>
+  </div>
+</div>

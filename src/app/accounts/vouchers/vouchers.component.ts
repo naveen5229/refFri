@@ -50,7 +50,7 @@ export class VouchersComponent implements OnInit {
   activeLedgerIndex = -1;
   modal = null;
   mannual = false;
-  ledgerbalance = '';
+  ledgerbalance = [];
  
   constructor(public api: ApiService,
     public common: CommonService,
@@ -543,9 +543,18 @@ export class VouchersComponent implements OnInit {
         this.common.showError('Please Select Correct Ledger');
       }
     }
+    if((event.altKey && key === "u")&& (activeId.includes('ledger'))){
+      let ledgerindex = this.lastActiveId.split('-')[1];
+      if(this.voucher.amountDetails[ledgerindex].ledger.id != ""){
+      console.log('ledger value ------------',this.voucher.amountDetails[ledgerindex].ledger.id);
+      this.openinvoicemodel(this.voucher.amountDetails[ledgerindex].ledger.id,0);
+      }else{
+        this.common.showError('Please Select Correct Ledger');
+      }
+    }
     if(event.ctrlKey && key === "`"){
       this.mouse();
-    }else if (key == 'f2' && !this.showDateModal) {
+    }else if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
       this.lastActiveId = activeId;
@@ -555,7 +564,8 @@ export class VouchersComponent implements OnInit {
     } else if (key == 'enter' && this.showDateModal) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
-      this.handleVoucherDateOnEnter();
+      //this.handleVoucherDateOnEnter();
+      this.voucher.date= this.common.handleVoucherDateOnEnter(this.voucher.date);
       this.setFoucus(this.lastActiveId);
       return;
     } else if (key != 'enter' && this.showDateModal) {
@@ -594,7 +604,7 @@ export class VouchersComponent implements OnInit {
         this.selectLedger(this.ledgers.suggestions[this.activeLedgerIndex !== -1 ? this.activeLedgerIndex : 0], index);
         // console.log('hello dear', this.voucher.amountDetails[index].transactionType);
         if ((this.voucherId == '-1' || this.voucherId == '-3') && (this.voucher.amountDetails[index].transactionType == 'credit')) {
-          this.getCurrentBalance(this.voucher.amountDetails[index].ledger.id);
+         // this.getCurrentBalance(this.voucher.amountDetails[index].ledger.id);
         }
         console.log('test rest successfull', this.voucher.amountDetails[index].is_constcenterallow);
         this.setFoucus('amount-' + index);
@@ -751,6 +761,10 @@ export class VouchersComponent implements OnInit {
     }
 
     this.calculateTotal();
+    if (this.voucher.total.debit != this.voucher.total.credit){
+      console.log('amount','amount-' + (this.voucher.amountDetails.length - 1));
+      this.setFoucus('amount-' + (this.voucher.amountDetails.length - 1));
+    }
     // this.setFoucus('transaction-type-' + (parseInt(index) + 1));
   }
 
@@ -763,7 +777,11 @@ export class VouchersComponent implements OnInit {
       console.log('last active id 66: ', this.lastActiveId);
     }, 100);
   }
-
+  deleterow(i){
+    this.voucher.amountDetails.splice(i,1);
+    this.handleAmountEnter(this.voucher.amountDetails.length - 2);
+   // this.setFoucus('amount-'+(this.voucher.amountDetails.length - 1));
+  }
   getElementsIDs() {
     let elementIDs = ['ref-code', 'voucher-date'];
     this.voucher.amountDetails.map((amountDetail, index) => {
@@ -1047,7 +1065,7 @@ export class VouchersComponent implements OnInit {
   }
 
 
-  openinvoicemodel(ledger) {
+  openinvoicemodel(ledger,deletedid=2) {
     let data = [];
     console.log('ledger123', ledger);
     if (ledger) {
@@ -1062,7 +1080,7 @@ export class VouchersComponent implements OnInit {
           data = res['data'];
           this.common.params = {
             ledgerdata: res['data'],
-            deleted: 2,
+            deleted: deletedid,
         sizeledger:0
           }
           // this.common.params = { data, title: 'Edit Ledgers Data' };
@@ -1070,7 +1088,9 @@ export class VouchersComponent implements OnInit {
           activeModal.result.then(data => {
             // console.log('Data: ', data);
             if (data.response) {
-           
+              if(deletedid==0){
+                this.addLedger(data.ledger);
+                }
             }
           });
 
@@ -1090,14 +1110,14 @@ export class VouchersComponent implements OnInit {
         startdate: this.common.dateFormatternew(new Date()).split(' ')[0],
         enddate: this.common.dateFormatternew(new Date()).split(' ')[0],
         ledger: this.voucher.amountDetails[index].ledger.id,
-        vouchertype: this.voucherId,
+        vouchertype: 0,
       };
   
       this.common.loading++;
       this.api.post('Accounts/getLedgerView', params)
         .subscribe(res => {
           this.common.loading--;
-         this.ledgerbalance = (res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' (Cr)' : res['data'][res['data'].length - 1]['y_dramunt'] + ' (Dr)'; 
+          this.ledgerbalance[index] = (res['data'][res['data'].length - 1]['y_cramunt'] != '0') ? ((res['data'][res['data'].length - 1]['y_cramunt'] != '0.00') ? res['data'][res['data'].length - 1]['y_cramunt'] + ' Cr':'0') : ((res['data'][res['data'].length - 1]['y_dramunt']) == '0') ? '0' : (res['data'][res['data'].length - 1]['y_dramunt']) != '0.00'? res['data'][res['data'].length - 1]['y_dramunt'] + ' Dr':'0'; 
          console.log('Res getLedgerView:', res['data'], res['data'][res['data'].length - 1] ,this.ledgerbalance);
        
         }, err => {

@@ -27,7 +27,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
-import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 import { DeactivateGuardService } from './guards/route.guard';
 import { NgxPrintModule } from 'ngx-print';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
@@ -285,6 +284,7 @@ import { LoadIntelligenceModule } from './load-intelligence/load-intelligence.mo
 import { StockSummaryComponent } from './acounts-modals/stock-summary/stock-summary.component';
 import { GstReportComponent } from './acounts-modals/gst-report/gst-report.component';
 import { AdvanceComponent } from './acounts-modals/advance/advance.component';
+import { RangeComponent } from './acounts-modals/range/range.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -527,7 +527,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   AddStateComponent,
   StockSummaryComponent,
   GstReportComponent,
-  AdvanceComponent
+  AdvanceComponent,
+  RangeComponent
 
 ];
 
@@ -568,10 +569,6 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     NgxPrintModule,
     NgxQRCodeModule,
     PdfViewerModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
-      libraries: ['drawing']
-    }),
     ResizableModule,
     DateInputsModule
   ],

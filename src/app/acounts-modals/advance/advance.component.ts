@@ -11,6 +11,12 @@ import { CommonService } from '../../services/common.service';
 export class AdvanceComponent  implements OnInit {
   showConfirm = false;
   Accounts = {
+    isamount:null,
+    frmamount:null,
+    toamount:null,
+    vouchercode:null,
+    vouchercustcode:null,
+    remarks:null
   };
 
   allowBackspace = true;

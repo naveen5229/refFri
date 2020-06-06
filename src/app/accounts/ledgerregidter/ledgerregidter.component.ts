@@ -22,7 +22,7 @@ import {AdvanceComponent } from '../../acounts-modals/advance/advance.component'
       <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1"
       [style.background]="colors[color]">
           <div class="col x-col" *ngIf="d.name">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
-          <div class="col x-col" *ngIf="d.name" >&nbsp;</div>
+         
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
@@ -34,7 +34,7 @@ import {AdvanceComponent } from '../../acounts-modals/advance/advance.component'
       <ledger-register-tree *ngIf="d.name" [color]="color+1" style="cursor:pointer" [action]="action" [data]="d.data" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></ledger-register-tree>
       <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
-        <div class="col x-col">{{d.y_ledger_name}}</div>
+        <!--div class="col x-col">{{d.y_ledger_name}}</div-->
         <div class="col x-col">{{d.y_code}}</div>
         <div class="col x-col">{{d.y_voucher_cust_code}}</div>
         <div class="col x-col">{{d.y_voucher_date | date:'dd-MMM-yy'}}</div>
@@ -60,7 +60,7 @@ export class ledgerRegisterTreeComponent {
 
   activeIndex: boolean = false;
   selectedRow: number = -1;
-  colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a8a5ad'];
+  colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca','bfcfd9'];
   
   keyHandler(event) {
     const key = event.key.toLowerCase();
@@ -125,7 +125,7 @@ export class LedgerregidterComponent implements OnInit {
   secondarygroup = [];
   allowBackspace = true;
   showDateModal = false;
-  f2Date = 'startDate';
+  f2Date = 'startdate';
   lastActiveId = '';
   selectedRow = -1;
 
@@ -244,7 +244,7 @@ export class LedgerregidterComponent implements OnInit {
       vouchertyid: this.ledgerRegister.vouchertype.id,
       groupid: this.ledgerRegister.group.id,
       startDate: this.ledgerRegister.startdate,
-      endDate: this.ledgerRegister.startdate,
+      endDate: this.ledgerRegister.enddate,
       isamount: this.ledgerRegister.isamount,
       remarks: this.ledgerRegister.remarks,
       vouchercustcode: this.ledgerRegister.vouchercustcode,
@@ -294,12 +294,48 @@ export class LedgerregidterComponent implements OnInit {
     console.log('voucherEntries', this.voucherEntries);
   }
 
+  // findChilds(data) {
+  //   let childs = [];
+  //   for (let i = 0; i < data.length; i++) {
+  //     if (data[i].labels.length) {
+  //       let ledgerRegister = data[i];
+  //       console.log('ledgerRegister', ledgerRegister, i);
+  //       let labels = ledgerRegister.labels;
+  //       ledgerRegister.labels = labels.splice(1, labels.length);
+  //       let index = childs.findIndex(voucher => voucher.name === labels[0]);
+  //       if (index === -1) {
+  //         childs.push({
+  //           name: labels[0],
+  //           data: [ledgerRegister],
+  //           debit: parseFloat(ledgerRegister.y_dramunt),
+  //           credit: parseFloat(ledgerRegister.y_cramunt)
+  //         })
+  //       } else {
+  //         childs[index].debit += parseFloat(ledgerRegister.y_dramunt);
+  //         childs[index].credit += parseFloat(ledgerRegister.y_cramunt);
+  //         childs[index].data.push(ledgerRegister);
+  //       }
+  //     }
+  //   }
+  //   if (childs.length) {
+  //     return childs.map(child => {
+  //       return {
+  //         name: child.name,
+  //         data: this.findChilds(child.data),
+  //         debit: child.debit,
+  //         credit: child.credit
+  //       }
+  //     });
+  //   } else {
+  //     return data;
+  //   }
+  // }
+
   findChilds(data) {
     let childs = [];
     for (let i = 0; i < data.length; i++) {
       if (data[i].labels.length) {
         let ledgerRegister = data[i];
-        console.log('ledgerRegister', ledgerRegister, i);
         let labels = ledgerRegister.labels;
         ledgerRegister.labels = labels.splice(1, labels.length);
         let index = childs.findIndex(voucher => voucher.name === labels[0]);
@@ -307,13 +343,16 @@ export class LedgerregidterComponent implements OnInit {
           childs.push({
             name: labels[0],
             data: [ledgerRegister],
-            debit: parseFloat(ledgerRegister.y_dramunt),
-            credit: parseFloat(ledgerRegister.y_cramunt)
+            debit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dramunt) : 0,
+            credit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cramunt) : 0
           })
         } else {
-          childs[index].debit += parseFloat(ledgerRegister.y_dramunt);
-          childs[index].credit += parseFloat(ledgerRegister.y_cramunt);
-          childs[index].data.push(ledgerRegister);
+          childs[index].debit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dramunt) : 0;
+          childs[index].credit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cramunt) : 0;
+          if (ledgerRegister.y_ledger_name) {
+
+            childs[index].data.push(ledgerRegister);
+          }
         }
       }
     }
@@ -327,16 +366,58 @@ export class LedgerregidterComponent implements OnInit {
         }
       });
     } else {
-      return data;
+      let info = [];
+      let groups = _.groupBy(data, 'y_ledger_name');
+      console.log('Groups:', groups);
+      for (let group in groups) {
+        if (groups[group].length > 1) {
+          let details = {
+            name: group,
+            ledgerName: group,
+            data: groups[group].map(ledger => {
+              ledger.y_ledger_name = '';
+              return ledger;
+            }),
+            debit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_dramunt);
+              return a;
+            }, 0),
+            credit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_cramunt);
+              return a;
+            }, 0)
+          }
+          info.push(details);
+        } else {
+         // info.push(...groups[group]);
+         let details = {
+          name: group,
+          ledgerName: group,
+          data: groups[group].map(ledger => {
+            ledger.y_ledger_name = '';
+            return ledger;
+          }),
+          debit: groups[group].reduce((a, b) => {
+            a += parseFloat(b.y_dramunt);
+            return a;
+          }, 0),
+          credit: groups[group].reduce((a, b) => {
+            a += parseFloat(b.y_cramunt);
+            return a;
+          }, 0)
+        }
+        info.push(details);
+        }
+      }
+      return info;
     }
   }
-
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
 
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
       this.lastActiveId = this.activeId;
@@ -442,7 +523,7 @@ export class LedgerregidterComponent implements OnInit {
     let separator = '-';
 
     //console.log('starting date 122 :', this.activedateid);
-    let datestring = (this.activedateid == 'startDate') ? 'startDate' : 'endDate';
+    let datestring = (this.activedateid == 'startdate') ? 'startdate' : 'enddate';
     if (this.ledgerRegister[datestring].includes('-')) {
       dateArray = this.ledgerRegister[datestring].split('-');
     } else if (this.ledgerRegister[datestring].includes('/')) {
@@ -673,6 +754,8 @@ export class LedgerregidterComponent implements OnInit {
 
         if(data.ledger.toamount !=0 || data.ledger.frmamount !=0 ||data.ledger.vouchercode !='' ||data.ledger.vouchercustcode !='' ||data.ledger.remarks !='' ||data.ledger.isamount !=0){
           this.flag = 1;
+        }else{
+          this.flag = 0;
         }
       }
     });

@@ -72,7 +72,7 @@
                 <!-- <auto-suggestion (onSelected)="onSelectedaddress($event, 'ledger', 'name')"
                   url="Suggestion/GetPurchaseLedger" display="name" placeholder="Enter Ledger" inputId="ledger"
                   [data]="supplier" [preSelected]="null"></auto-suggestion> -->
-                  <span *ngIf="(ledgerbalance)">(<i>Ledger balance is </i>{{ ledgerbalance }})</span>
+                  <span *ngIf="(ledgerbalance)">(<i>Current Balance: </i>{{ ledgerbalance }})</span>
               </div>
             </div>
             <div class="col">
@@ -169,7 +169,9 @@
             </div>
             <div class="col">
               <div class="form-group">
-                <label class="ref-label">Invoice Date</label>
+               
+                <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('credit')">credit Date</label>
+                <label class="ref-label" *ngIf="(!order.ordertype.name.toLowerCase().includes('credit'))">Invoice Date</label>
                 <input autocomplete="off" type="text" style="cursor: pointer;" class="form-control ref-input"
                   autocomplete="off" id="date" name="account-date" [(ngModel)]="order.date" maxlength="10"
                   (click)="lastActiveId = 'account-date'; allowBackspace = false;" (input)="allowBackspace = false;">
@@ -207,7 +209,7 @@
                 <input autocomplete="off" type="text" class="form-control ref-input" id="ledger" name="ledger"
                   [(ngModel)]="order.ledger.name" [readonly]="(order.ordertype.id ==-107 )"
                   require>
-                  <span *ngIf="(ledgerbalance)">(<i>Ledger balance is </i>{{ ledgerbalance }})</span>
+                  <span *ngIf="(ledgerbalance)">(<i>Cur Bal: </i>{{ ledgerbalance }})</span>
               </div>
             </div>
             <div class="col">
@@ -440,16 +442,16 @@
           <!-- <td><b>Total Amount : </b></td> -->
          
           <td>
-            <label class="ref-label">Total Amount:</label><input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
+            <label class="ref-label">Total Amt:</label><input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
               [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;">
           </td>
           <td>
-            <label class="ref-label">Total Tax Amount:</label>
+            <label class="ref-label">Total Tax Amt:</label>
             <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
             [(ngModel)]="totalTaxamount" readonly style="background-color: #eeeeee;">
           </td>
           <td>
-            <label class="ref-label">Total Bill Amount:</label>
+            <label class="ref-label">Total Bill Amt:</label>
             <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
             [(ngModel)]="order.totalamount" [value]="calculateTotalLineAmount()" readonly style="background-color: #eeeeee;">
         </td>
@@ -508,6 +510,14 @@
       <p>Are you want to save ?</p>
       <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
         (click)="modelCondition()">No</button>
+    </div>
+  </div>
+</div>
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="order[f2Date]"
+        maxlength="10">
     </div>
   </div>
 </div>

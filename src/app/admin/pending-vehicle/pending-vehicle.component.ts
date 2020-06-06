@@ -211,7 +211,8 @@ export class PendingVehicleComponent implements OnInit {
         this.modal[modal].data.document.img_url3 = res["data"][0]._rcimage3;
         this.modal[modal].data.document._bscode = res["data"][0]._bscode;
         this.modal[modal].data.document.bodyTypeId = res["data"][0]._bodytypeid;
-
+        this.modal[modal].data.document.chasisNo = res["data"][0].chasisNo;
+        this.modal[modal].data.document.engineNo = res["data"][0].engineNo;
         this.modal[modal].data.images = [];
 
         if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
@@ -327,6 +328,8 @@ export class PendingVehicleComponent implements OnInit {
         manufacturingDate: newDate,
         emsId: document._bscode,
         bodyTypeId: document.bodyTypeId,
+        chasisNo: document.chasisNo,
+        engineNo:document.engineNo
       };
       console.log("Params is", params);
       if (!document.document_type_id) {

@@ -7,6 +7,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { AccountService } from '../../services/account.service';
+import {AdvanceComponent } from '../../acounts-modals/advance/advance.component';
 
 @Component({
   selector: 'cashbook',
@@ -15,6 +16,7 @@ import { AccountService } from '../../services/account.service';
 })
 export class CashbookComponent implements OnInit {
   selectedName = '';
+  flag=0;
   DayBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -30,7 +32,13 @@ export class CashbookComponent implements OnInit {
       name: 'All',
       id: 0
     },
-    issumrise: 'true'
+    issumrise: 'true',
+    isamount: 0,
+    remarks: '',
+    vouchercustcode: '',
+    vouchercode: '',
+    frmamount: 0,
+    toamount: 0,
 
   };
   vouchertypedata = [];
@@ -178,8 +186,14 @@ export class CashbookComponent implements OnInit {
       ledger: this.DayBook.ledger.id,
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
+      isamount: this.DayBook.isamount,
+      remarks: this.DayBook.remarks,
+      vouchercustcode: this.DayBook.vouchercustcode,
+      vouchercode: this.DayBook.vouchercode,
+      frmamount: this.DayBook.frmamount,
+      toamount: this.DayBook.toamount,
     };
-
+ 
     this.common.loading++;
     this.api.post('Company/GetCashBook', params)
       .subscribe(res => {
@@ -352,6 +366,27 @@ export class CashbookComponent implements OnInit {
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
+  }
+
+  addvance(){
+    this.common.params = { 'isamount':this.DayBook.isamount,'remarks':this.DayBook.remarks,'vouchercustcode':this.DayBook.vouchercustcode,'vouchercode':this.DayBook.vouchercode,'frmamount':this.DayBook.frmamount,'toamount':this.DayBook.toamount };
+    const activeModal = this.modalService.open(AdvanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data: ', data);
+      if (data.response) {
+        this.DayBook.isamount=data.ledger.isamount;
+        this.DayBook.remarks=data.ledger.remarks;
+        this.DayBook.vouchercustcode=data.ledger.vouchercustcode;
+        this.DayBook.vouchercode=data.ledger.vouchercode;
+        this.DayBook.frmamount=data.ledger.frmamount;
+        this.DayBook.toamount=data.ledger.toamount;
+        if(data.ledger.toamount !=0 || data.ledger.frmamount !=0 ||data.ledger.vouchercode !='' ||data.ledger.vouchercustcode !='' ||data.ledger.remarks !='' ||data.ledger.isamount !=0){
+          this.flag = 1;
+        }else{
+          this.flag = 0;
+        }
+      }
+    });
   }
 
   test(e) {

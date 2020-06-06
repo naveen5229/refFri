@@ -23,6 +23,6 @@
       "auto-suggestion-in-side/*": [
         "dist/auto-suggestion-in-side/*"
       ]
-    }
+    },
   }
 }

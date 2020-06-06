@@ -152,6 +152,27 @@
               </div>
             </div>
 
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Engine No</label>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-8">
+                    <input type="text"  name="engineNo" [(ngModel)]="modal.first.data.document.engineNo" class="form-control mt-1">            
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">chasis No</label>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-8">
+                    <input type="text"  name="chasisNo" class="form-control mt-1" [(ngModel)]="modal.first.data.document.chasisNo">
+                  </div>
+                </div>
+              </div>
+            </div>
 
 
 
@@ -322,6 +343,28 @@
                         {{emission}}
                       </option>
                     </datalist>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Engine No</label>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-8">
+                    <input type="text"  name="engineNo" [(ngModel)]="modal.second.data.document.engineNo" class="form-control mt-1">            
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">chasis No</label>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-8">
+                    <input type="text"  name="chasisNo" class="form-control mt-1" [(ngModel)]="modal.second.data.document.chasisNo">
                   </div>
                 </div>
               </div>

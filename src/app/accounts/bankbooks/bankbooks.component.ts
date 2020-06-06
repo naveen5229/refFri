@@ -6,6 +6,7 @@ import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { AccountService } from '../../services/account.service';
+import {AdvanceComponent } from '../../acounts-modals/advance/advance.component';
 
 @Component({
   selector: 'bankbooks',
@@ -14,6 +15,8 @@ import { AccountService } from '../../services/account.service';
 })
 export class BankbooksComponent implements OnInit {
   selectedName = '';
+  flag=0;
+
   bankBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -25,8 +28,13 @@ export class BankbooksComponent implements OnInit {
       name: 'All',
       id: 0
     },
-
-    issumrise: 'true'
+    issumrise: 'true',
+    isamount: 0,
+    remarks: '',
+    vouchercustcode: '',
+    vouchercode: '',
+    frmamount: 0,
+    toamount: 0,
 
   };
   vouchertypedata = [];
@@ -205,6 +213,12 @@ export class BankbooksComponent implements OnInit {
       enddate: this.bankBook.enddate,
       ledger: this.bankBook.ledger.id,
       branchId: this.bankBook.branch.id,
+      isamount: this.bankBook.isamount,
+      remarks: this.bankBook.remarks,
+      vouchercustcode: this.bankBook.vouchercustcode,
+      vouchercode: this.bankBook.vouchercode,
+      frmamount: this.bankBook.frmamount,
+      toamount: this.bankBook.toamount,
     };
 
     this.common.loading++;
@@ -384,5 +398,24 @@ export class BankbooksComponent implements OnInit {
   test(e) {
     console.log('--------: ', e);
   }
-
+  addvance(){
+    this.common.params = { 'isamount':this.bankBook.isamount,'remarks':this.bankBook.remarks,'vouchercustcode':this.bankBook.vouchercustcode,'vouchercode':this.bankBook.vouchercode,'frmamount':this.bankBook.frmamount,'toamount':this.bankBook.toamount };
+    const activeModal = this.modalService.open(AdvanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data: ', data);
+      if (data.response) {
+        this.bankBook.isamount=data.ledger.isamount;
+        this.bankBook.remarks=data.ledger.remarks;
+        this.bankBook.vouchercustcode=data.ledger.vouchercustcode;
+        this.bankBook.vouchercode=data.ledger.vouchercode;
+        this.bankBook.frmamount=data.ledger.frmamount;
+        this.bankBook.toamount=data.ledger.toamount;
+        if(data.ledger.toamount !=0 || data.ledger.frmamount !=0 ||data.ledger.vouchercode !='' ||data.ledger.vouchercustcode !='' ||data.ledger.remarks !='' ||data.ledger.isamount !=0){
+          this.flag = 1;
+        }else{
+          this.flag = 0;
+        }
+      }
+    });
+  }
 }

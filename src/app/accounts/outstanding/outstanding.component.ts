@@ -17,8 +17,8 @@ import { PdfService } from '../../services/pdf/pdf.service';
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
       <div style="cursor:pointer"  class="row x-sub-stocktype" *ngIf="d.name" (click)="activeIndex = activeIndex !== i ? i : -1" [style.background]="colors[color]">
-          <div class="col x-col" *ngIf="d.name"><span *ngIf="!d.ledgerName">{{labels}} {{d.name}} {{color}}</span></div>
-          <div class="col x-col" *ngIf="d.name" ><span *ngIf="d.ledgerName">{{labels}} {{d.ledgerName}} {{color}}</span>&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name"><span *ngIf="d.name">{{labels}} {{d.name}}</span>
+          <span *ngIf="d.ledgerName">{{labels}} {{d.ledgerName}}</span>&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
@@ -29,7 +29,7 @@ import { PdfService } from '../../services/pdf/pdf.service';
       <out-standing-tree *ngIf="d.name" [color]="color+1" [data]="d.data" [action]="action" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></out-standing-tree>
       <div *ngIf="!d.name" style="cursor:pointer" class="row x-warehouse"  (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name) : action(d.y_voucherid,'',d.y_voucher_type_name)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col x-col">&nbsp;</div>
-        <div class="col x-col">{{d.y_ledger_name}}</div>
+        <!--div class="col x-col">{{d.y_ledger_name}}</div-->
         <div class="col x-col">{{d.y_code}}</div>
         <div class="col x-col">{{d.y_voucher_cust_code}}</div>
         <div class="col x-col">{{d.y_voucher_date | date:'dd-MMM-yy'}}</div>
@@ -80,7 +80,7 @@ export class OutstandingComponent implements OnInit {
   secondarygroup = [];
   outStanding = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startDate:  ((((new Date()).getMonth()) + 1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear()) - 1) + '-04-01', 'ddMMYYYY', false, '-'),
     ledger: {
       name: 'All',
       id: 0
@@ -343,6 +343,70 @@ export class OutstandingComponent implements OnInit {
 
   }
 
+  // findChilds(data) {
+  //   let childs = [];
+  //   for (let i = 0; i < data.length; i++) {
+  //     if (data[i].labels.length) {
+  //       let ledgerRegister = data[i];
+  //       let labels = ledgerRegister.labels;
+  //       ledgerRegister.labels = labels.splice(1, labels.length);
+  //       let index = childs.findIndex(voucher => voucher.name === labels[0]);
+  //       if (index === -1) {
+  //         childs.push({
+  //           name: labels[0],
+  //           data: [ledgerRegister],
+  //           debit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dramunt) : 0,
+  //           credit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cramunt) : 0
+  //         })
+  //       } else {
+  //         childs[index].debit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dramunt) : 0;
+  //         childs[index].credit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cramunt) : 0;
+  //         if (ledgerRegister.y_ledger_name) {
+
+  //           childs[index].data.push(ledgerRegister);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   if (childs.length) {
+  //     return childs.map(child => {
+  //       return {
+  //         name: child.name,
+  //         data: this.findChilds(child.data),
+  //         debit: child.debit,
+  //         credit: child.credit
+  //       }
+  //     });
+  //   } else {
+  //     let info = [];
+  //     let groups = _.groupBy(data, 'y_ledger_name');
+  //     console.log('Groups:', groups);
+  //     for (let group in groups) {
+  //       if (groups[group].length > 1) {
+  //         let details = {
+  //           name: group,
+  //           ledgerName: group,
+  //           data: groups[group].map(ledger => {
+  //             ledger.y_ledger_name = '';
+  //             return ledger;
+  //           }),
+  //           debit: groups[group].reduce((a, b) => {
+  //             a += parseFloat(b.y_dramunt);
+  //             return a;
+  //           }, 0),
+  //           credit: groups[group].reduce((a, b) => {
+  //             a += parseFloat(b.y_cramunt);
+  //             return a;
+  //           }, 0)
+  //         }
+  //         info.push(details);
+  //       } else {
+  //         info.push(...groups[group]);
+  //       }
+  //     }
+  //     return info;
+  //   }
+  // }
   findChilds(data) {
     let childs = [];
     for (let i = 0; i < data.length; i++) {
@@ -401,7 +465,24 @@ export class OutstandingComponent implements OnInit {
           }
           info.push(details);
         } else {
-          info.push(...groups[group]);
+         // info.push(...groups[group]);
+         let details = {
+          name: group,
+          ledgerName: group,
+          data: groups[group].map(ledger => {
+            ledger.y_ledger_name = '';
+            return ledger;
+          }),
+          debit: groups[group].reduce((a, b) => {
+            a += parseFloat(b.y_dramunt);
+            return a;
+          }, 0),
+          credit: groups[group].reduce((a, b) => {
+            a += parseFloat(b.y_cramunt);
+            return a;
+          }, 0)
+        }
+        info.push(details);
         }
       }
       return info;
