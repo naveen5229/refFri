@@ -31,7 +31,7 @@ export class DaybooksComponent implements OnInit {
   activedateid = '';
   fuelFilings=[];
   flag=0;
-
+   
   DayBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -56,6 +56,7 @@ export class DaybooksComponent implements OnInit {
     toamount: 0
 
   };
+  
   lastActiveId = '';
   //showDateModal = false;
   vouchertypedata = [];
@@ -85,7 +86,9 @@ export class DaybooksComponent implements OnInit {
     public accountService: AccountService,
     public router: Router) {
     this.common.refresh = this.refresh.bind(this);
-
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.DayBook.startdate;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.DayBook.enddate;
+   
 
     this.getVoucherTypeList();
     //  this.getBranchList();
@@ -101,10 +104,11 @@ export class DaybooksComponent implements OnInit {
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
     this.common.currentPage = (this.deletedId==0) ?'Day Book': 'Voucher & Invoice Deleted' ;
-
+    console.log('start date and end date2',this.accountService.fromdate,this.accountService.todate,this.accountService.selected.branch);
   }
 
   ngOnInit() {
+
   }
   refresh() {
     this.getVoucherTypeList();
@@ -115,7 +119,7 @@ export class DaybooksComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
+    
   }
 
   getVoucherTypeList() {
@@ -208,6 +212,8 @@ export class DaybooksComponent implements OnInit {
   }
   getDayBook() {
     console.log('Accounts:', this.DayBook);
+    this.DayBook.startdate= this.accountService.fromdate;
+      this.DayBook.enddate= this.accountService.todate;
     let params = {
       startdate: this.DayBook.startdate,
       enddate: this.DayBook.enddate,

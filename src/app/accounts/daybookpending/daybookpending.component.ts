@@ -79,6 +79,8 @@ export class DaybookpendingComponent implements OnInit {
     public modalService: NgbModal,
     public accountService: AccountService,
     public router: Router) {
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.DayBook.startdate;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.DayBook.enddate;
     this.common.refresh = this.refresh.bind(this);
     this.getVoucherTypeList();
     //  this.getBranchList();
@@ -186,6 +188,8 @@ export class DaybookpendingComponent implements OnInit {
   }
   getDayBook() {
     console.log('Accounts:', this.DayBook);
+    this.DayBook.startdate= this.accountService.fromdate;
+      this.DayBook.enddate= this.accountService.todate;
     let params = {
       startdate: this.DayBook.startdate,
       enddate: this.DayBook.enddate,

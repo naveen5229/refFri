@@ -77,6 +77,8 @@ export class CashbookComponent implements OnInit {
     public user: UserService,
     public accountService: AccountService,
     public modalService: NgbModal) {
+      this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.DayBook.startdate;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.DayBook.enddate;
     this.common.refresh = this.refresh.bind(this);
 
     this.getAllLedger();
@@ -190,6 +192,8 @@ export class CashbookComponent implements OnInit {
       });
   }
   getDayBook() {
+    this.DayBook.startdate= this.accountService.fromdate;
+    this.DayBook.enddate= this.accountService.todate;
     console.log('Accounts:', this.DayBook);
     let params = {
       startdate: this.DayBook.startdate,

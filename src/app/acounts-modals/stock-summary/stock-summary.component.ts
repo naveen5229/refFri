@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
+import { StorerequisitionComponent } from '../../acounts-modals/storerequisition/storerequisition.component';
 
 @Component({
   selector: 'stock-summary',
@@ -77,8 +79,10 @@ export class StockSummaryComponent  implements OnInit {
     //console.log('Accounts:', this.Branches);
     this.activeModal.close({ response: response, test: this.Detail });
   }
-  openinvoicemodel(invoiceid,ordertypeid,create=0,) {
+  openinvoicemodel(invoiceid,dataItem,ordertypeid,create=0) {
     // console.log('welcome to invoice ');
+    console.log('stock type list',dataItem);
+    if((dataItem.y_ordertype_name.toLowerCase().includes('purchase')) || (dataItem.y_ordertype_name.toLowerCase().includes('sales')) || (dataItem.y_ordertype_name.toLowerCase().includes('debit')) || (dataItem.y_ordertype_name.toLowerCase().includes('credit'))){
     //  this.common.params = invoiceid;
     this.common.params = {
       invoiceid: invoiceid,
@@ -96,5 +100,41 @@ export class StockSummaryComponent  implements OnInit {
         // this.addLedger(data.ledger);
       }
     });
+  }else if(dataItem.y_ordertype_name.toLowerCase().includes('voucher')){
+
+    this.common.params = {
+      voucherId: invoiceid,
+      delete: 0,
+      addvoucherid: 0,
+      voucherTypeId: dataItem.y_ordertype_id,
+      sizeIndex:1
+    };
+    const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      console.log('Data: ', data);
+      if (data.delete) {
+       // this.getDayBook();
+      } 
+      // this.common.showToast('Voucher updated');
+  
+    });
+  
+  } else if(dataItem.y_ordertype_name.toLowerCase().includes('stock')){
+    console.log('stock type list editable',dataItem);
+    this.common.params = {
+      storeRequestId: (dataItem.y_ordertype_id==-2) ? -3 : dataItem.y_ordertype_id,
+      stockQuestionId: invoiceid,
+      stockQuestionBranchid: dataItem.y_fobranch_id,
+      pendingid: (dataItem.y_ordertype_id==-2) ? 0 : 1,
+      sizeIndex:1
+    };
+    const activeModal = this.modalService.open(StorerequisitionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      console.log('responce data return',data);
+      if(data.response){
+     // this.getStoreQuestion();
+      }
+    });
   }
+}
 }

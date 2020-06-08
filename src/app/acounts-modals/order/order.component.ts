@@ -945,9 +945,13 @@ export class OrderComponent implements OnInit {
       } else if (this.activeId.includes('qty')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('rate' + '-' + index);
-      } else if (this.activeId.includes('rate')) {
+      } else if (this.activeId.includes('rate-')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('remarks' + '-' + index);
+        this.setFoucus('amount' + '-' + index);
+      }
+      else if (this.activeId.includes('amount-')) {
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('remarks-' + index);
       } else if (this.activeId.includes('discountate')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('warehouse' + '-' + index);
@@ -972,7 +976,7 @@ export class OrderComponent implements OnInit {
         }, 100);
 
       // this.setFoucus('stockitem' + '-' + index);
-      } else if (this.activeId.includes('remarks')) {
+      } else if (this.activeId.includes('remarks-')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxDetail' + '-' + index);
       }
@@ -1021,7 +1025,11 @@ export class OrderComponent implements OnInit {
       if (this.activeId.includes('orderremarks') && ((this.order.ordertype.name.toLowerCase().includes('purchase')) || (this.order.ordertype.name.toLowerCase().includes('debit')))) {
         this.setFoucus('billingaddress');
       }
-      if (this.activeId.includes('remarks')){
+      if (this.activeId.includes('remarks-')){
+        let index = this.activeId.split('-')[1];
+        this.setFoucus('amount-'+index);
+      } 
+      if (this.activeId.includes('amount-')){
         let index = this.activeId.split('-')[1];
         this.setFoucus('rate-'+index);
       } 

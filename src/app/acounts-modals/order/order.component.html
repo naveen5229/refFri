@@ -388,8 +388,7 @@
               (input)="amountDetail.lineamount = amountDetail.amount = amountDetail.qty * amountDetail.rate;">
           </td>
           <td *ngIf="(order.ordertype.id != -108)">
-            <input type="number" class="form-control ref-input" autocomplete="off" name="account-amount"
-              [(ngModel)]="amountDetail.amount" readonly style="background-color: #eeeeee;">
+            <input type="number" class="form-control ref-input" autocomplete="off" [id]="'amount-' + i"  name="account-amount" [(ngModel)]="amountDetail.amount" >
           </td>
           <!-- <td>
             <input type="text" [id]="'discountledger-' + i" class="form-control" [name]="'discountledger-' + i"

@@ -14,6 +14,7 @@ import { PdfService } from '../../services/pdf/pdf.service';
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
+
 @Component({
   selector: 'out-standing-tree',
   template: `
@@ -55,10 +56,17 @@ export class outStandingTreeComponent {
   @Input() action: any;
   @Input() isExpandAll: boolean;
   @Input() color: number = 0;
+  @Input() getaction:any;
 
   activeIndex: boolean = false;
   selectedRow: number = -1;
   colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a8a5ad'];
+  deletedId = 0;
+  constructor(public common: CommonService,
+    public modalService: NgbModal,  
+    public user: UserService,
+    public accountService: AccountService) {
+    }
   keyHandler(event) {
     const key = event.key.toLowerCase();
 
@@ -67,7 +75,52 @@ export class outStandingTreeComponent {
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.data.length - 1 && key === 'arrowdown') this.selectedRow++;
     }
+    if ((event.ctrlKey && key === 'd') && (this.data.length && this.selectedRow != -1)) {
+      ((this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('voucher')) ? (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.data[this.selectedRow].y_voucherid, 6, this.data[this.selectedRow].y_vouchertype_id) : (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('invoice')) ? this.openinvoicemodeledit(this.data[this.selectedRow].y_voucherid,this.data[this.selectedRow].y_vouchertype_id,1) :'' )
+      event.preventDefault();
+      return;
+    }
   }
+  openVoucherEdit(voucherId, voucheradd, vchtypeid) {
+    console.log('ledger123', vchtypeid);
+    if (voucherId) {
+      this.common.params = {
+        voucherId: voucherId,
+        delete: this.deletedId,
+        addvoucherid: voucheradd,
+        voucherTypeId: vchtypeid,
+      };
+      const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      activeModal.result.then(data => {
+        console.log('Data: ', data);
+        if (data.delete) {
+          this.getaction();
+        } 
+        // this.common.showToast('Voucher updated');
+
+      });
+    }
+  }
+  openinvoicemodeledit(invoiceid,ordertypeid,create=0) {
+    // console.log('welcome to invoice ');
+    //  this.common.params = invoiceid;
+    this.common.params = {
+      invoiceid: invoiceid,
+      delete: this.deletedId,
+      newid:create,
+      ordertype:ordertypeid
+    };
+    const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data: invoice ', data);
+      if (data.delete) {
+        console.log('open succesfull');
+          this.getaction();
+        // this.addLedger(data.ledger);
+      }
+    });
+  }
+
 }
 
 @Component({

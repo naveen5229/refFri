@@ -46,6 +46,7 @@ export class OrdersComponent implements OnInit {
   totalamount=0;
   totalTaxamount=0;
   rateflag=[];
+  ledgersuggestiondata=[];
   order = {
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
     date: (this.accountService.voucherDate) ? this.accountService.voucherDate : this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -666,18 +667,18 @@ export class OrdersComponent implements OnInit {
       console.log('rate flag ::',index,'index',this.rateflag[index],this.rateflag);
     }, 50);
     }
-    if(this.activeId.includes('amount-') ){
-      let index = parseInt(this.activeId.split('-')[1]);
-      setTimeout(() => {
-      if(this.order.amountDetails[index].qty==0 ||  this.order.amountDetails[index].qty== null){
-      this.order.amountDetails[index].qty= 1;
-      this.order.amountDetails[index].lineamount=this.order.amountDetails[index].amount;
-      this.order.amountDetails[index].rate=this.order.amountDetails[index].amount;
-      }else{
-        this.order.amountDetails[index].rate= this.order.amountDetails[index].lineamount/this.order.amountDetails[index].qty;
-      }
-    }, 30);
-    }
+    // if(this.activeId.includes('amount-') ){
+    //   let index = parseInt(this.activeId.split('-')[1]);
+    //   setTimeout(() => {
+    //   if(this.order.amountDetails[index].qty==0 ||  this.order.amountDetails[index].qty== null){
+    //   this.order.amountDetails[index].qty= 1;
+    //   this.order.amountDetails[index].lineamount=this.order.amountDetails[index].amount;
+    //   this.order.amountDetails[index].rate=this.order.amountDetails[index].amount;
+    //   }else{
+    //     this.order.amountDetails[index].rate= this.order.amountDetails[index].lineamount/this.order.amountDetails[index].qty;
+    //   }
+    // }, 30);
+    // }
     if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
       let index = parseInt(this.activeId.split('-')[1]);
       setTimeout(() => {
@@ -1544,7 +1545,10 @@ export class OrdersComponent implements OnInit {
     console.log('Last Active Id:', activeId)
     if (activeId == 'ordertype') this.autoSuggestion.data = this.suggestions.invoiceTypes;
     else if (activeId == 'purchaseledger' || activeId == 'salesledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
-    else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
+    else if (activeId == 'ledger'){
+       this.autoSuggestion.data = this.suggestions.supplierLedgers;
+     // this.ledgersuggestiondata = this.suggestions.supplierLedgers;
+    }
     else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
     else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId.includes('warehouse')){

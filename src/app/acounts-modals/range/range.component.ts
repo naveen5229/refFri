@@ -13,8 +13,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./range.component.scss']
 })
 export class RangeComponent implements OnInit {
-  startdate = this.common.dateFormatternew(new Date());
-  enddate = this.common.dateFormatternew(new Date());
+  startdate =(this.accountService.fromdate)?this.accountService.fromdate: this.common.dateFormatternew(new Date());
+  enddate = (this.accountService.todate)?this.accountService.todate:this.common.dateFormatternew(new Date());
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -34,6 +34,7 @@ export class RangeComponent implements OnInit {
     if(response){
       this.accountService.fromdate=this.startdate;
       this.accountService.todate=this.enddate;
+      console.log('range date',this.accountService.fromdate);
     this.activeModal.close({ response: response, startdate:this.startdate,enddate:this.enddate });
     }else{
        this.activeModal.close({ response: response});

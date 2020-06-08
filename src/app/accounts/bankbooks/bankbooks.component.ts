@@ -72,6 +72,9 @@ export class BankbooksComponent implements OnInit {
     public accountService: AccountService,
     public modalService: NgbModal) {
     // this.getVoucherTypeList();
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.bankBook.startdate;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.bankBook.enddate;
+   
     this.common.refresh = this.refresh.bind(this);
 
     this.getBranchList();
@@ -218,6 +221,8 @@ export class BankbooksComponent implements OnInit {
   }
   getBankBook() {
     console.log('Accounts:', this.bankBook);
+    this.bankBook.startdate= this.accountService.fromdate;
+    this.bankBook.enddate= this.accountService.todate;
     let params = {
       startdate: this.bankBook.startdate,
       enddate: this.bankBook.enddate,

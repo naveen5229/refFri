@@ -23,6 +23,7 @@ export class StorerequisitionComponent implements OnInit {
   totalitem = 0;
   mannual=false;
   approveId=0;
+  sizeIndex=0;
   storeQuestion = {
     requestdate: this.common.dateFormatternew(new Date()).split(' ')[0],
     issuedate: null,
@@ -109,7 +110,10 @@ console.log('store request ',this.common.params);
     this.storeQuestion.requesttype.id = this.common.params.storeRequestId;
     this.pendingid = this.common.params.pendingid;
     console.log('stock Request Id', this.pendingid);
-    this.common.handleModalSize('class', 'modal-lg', '1150');
+    if(this.common.params.sizeIndex){
+      this.sizeIndex = this.common.params.sizeIndex;
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1150','px',this.sizeIndex);
 
     this.storeRequestName = (this.storeRequestStockId == -2) ? 'Store Request' : (this.storeRequestStockId == -3) ? 'Stock Issue' : (this.storeRequestStockId == -101) ? 'Opening Stock': 'Stock Transfer';
 

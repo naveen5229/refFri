@@ -309,6 +309,11 @@
             [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)">
           </auto-suggetion-in-side>
         </div>
+        <!-- <div class="auto-sugg" *ngIf="activeId == 'ledger'">
+          <auto-suggetion-in-side [data]="ledgersuggestiondata" [targetId]="ledger"
+            [display]="name" (select)="onSelect($event, ledger)">
+          </auto-suggetion-in-side>
+        </div> -->
         <!-- <div class="ledger-container">
           
           <div *ngFor="let suggestion of getSuggestions(); let i = index;" class="ledger-option"

@@ -22,17 +22,15 @@ import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.
   template: `
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
-      <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1"
-      [style.background]="colors[color]">
+      <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1" [style.background]="colors[color]">
           <div class="col x-col" *ngIf="d.name">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
-         
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name">&nbsp;</div>
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.debit | number : '1.2-2'}} </div>
           <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.credit | number : '1.2-2'}} </div>
-         
+ 
       </div>
       <ledger-register-tree *ngIf="d.name" [color]="color+1" style="cursor:pointer" [action]="action" [data]="d.data" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></ledger-register-tree>
       <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name,d) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name,d) : action(d.y_voucherid,'',d.y_voucher_type_name,d)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">

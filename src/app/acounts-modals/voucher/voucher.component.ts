@@ -134,13 +134,7 @@ export class VoucherComponent implements OnInit {
       vchId: this.common.params.voucherId
 
     };
-    setTimeout(() => {
-      if (this.common.params.addvoucherid == 6) {
-        console.log('this.common.poarams',this.common.params);
-        this.vouchername = 'Add Duplicate Voucher';
-        this.voucher.xId = 0;
-      }
-    }, 3000);
+   
     console.log('vcid', this.common.params);
     this.deleteId = this.common.params.delete;
     this.api.post('Voucher/getVoucherDetail', params)
@@ -205,6 +199,13 @@ export class VoucherComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
+      setTimeout(() => {
+        if (this.common.params.addvoucherid && (this.common.params.addvoucherid == 6)) {
+          console.log('this.common.poarams',this.common.params);
+          this.vouchername = 'Add Duplicate Voucher';
+          this.voucher.xId = 0;
+        }
+      }, 500);
 
   }
 
