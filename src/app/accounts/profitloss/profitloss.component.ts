@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'profitloss',
@@ -62,7 +63,11 @@ export class ProfitlossComponent implements OnInit {
     public user: UserService,
     public pdfService: PdfService,
     public csvService: CsvService,
+    public accountService: AccountService,
     public modalService: NgbModal) {
+      this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.plData.startdate;
+      this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.plData.enddate;
+       
     // this.getBalanceSheet();
     this.getBranchList();
     this.setFoucus('startdate');
@@ -94,6 +99,8 @@ export class ProfitlossComponent implements OnInit {
  
 
   getBalanceSheet() {
+    this.plData.startdate= this.accountService.fromdate;
+    this.plData.enddate= this.accountService.todate;
     console.log('Balance Sheet:', this.plData);
     let params = {
       startdate: this.plData.startdate,
@@ -261,16 +268,17 @@ export class ProfitlossComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
 
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
+    // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = this.activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = this.activeId;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // } else
+     if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);

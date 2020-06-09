@@ -15,6 +15,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class RangeComponent implements OnInit {
   startdate =(this.accountService.fromdate)?this.accountService.fromdate: this.common.dateFormatternew(new Date());
   enddate = (this.accountService.todate)?this.accountService.todate:this.common.dateFormatternew(new Date());
+  allowBackspacerange = true;
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -24,9 +25,44 @@ export class RangeComponent implements OnInit {
     public accountService: AccountService,
     private activeModal: NgbActiveModal,) { 
     this.common.handleModalSize('class', 'modal-lg', '650','px',0);
+    this.setFoucus('voucher-date-f2');
     }
 
   ngOnInit() {
+  }
+
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+   let activeId = document.activeElement.id;
+    console.log('Active event', event);
+    
+    if (key == 'enter') {
+      this.allowBackspacerange = true;
+      if (activeId.includes('voucher-date-f2')) {
+        this.setFoucus('voucher-end-date-f2');
+      } else if (activeId.includes('voucher-end-date-f2')) {
+        this.setFoucus('submitf2');
+      }
+    } else if (key == 'backspace' && this.allowBackspacerange) {
+      event.preventDefault();
+      console.log('active 1', activeId);
+      if (activeId == 'voucher-end-date-f2') this.setFoucus('voucher-date-f2');
+    } else if (key.includes('arrow')) {
+      this.allowBackspacerange = false;
+    } else if (key != 'backspace') {
+      this.allowBackspacerange = false;
+    }
+  }
+  
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
 
   dismiss(response) {

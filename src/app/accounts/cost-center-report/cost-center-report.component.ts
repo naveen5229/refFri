@@ -7,6 +7,7 @@ import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
 import { ProfitlossComponent } from '../profitloss/profitloss.component';
 import * as _ from 'lodash';
 import { CostCenterViewComponent } from '../../acounts-modals/cost-center-view/cost-center-view.component';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'cost-center-report',
@@ -49,7 +50,11 @@ export class CostCenterReportComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public accountService: AccountService,
     public modalService: NgbModal) {
+      this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.trial.startDate;
+      this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.trial.endDate;
+     
     this.common.refresh = this.refresh.bind(this);
 
     //this.getVoucherTypeList();
@@ -121,6 +126,8 @@ export class CostCenterReportComponent implements OnInit {
   }
 
   getTrial() {
+    this.trial.startDate= this.accountService.fromdate;
+    this.trial.endDate= this.accountService.todate;
     console.log('Ledger:', this.trial);
     let params = {
       startdate: this.trial.startDate,
@@ -206,16 +213,17 @@ export class CostCenterReportComponent implements OnInit {
       this.getBookDetail(this.costCenterData[this.selectedRow].y_costcenter_id);
       return;
     }
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
+    // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = this.activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = this.activeId;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // }
+     else if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);
