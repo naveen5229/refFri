@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { DataService } from '../../services/data.service';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 declare var google: any;
 
@@ -14,11 +15,12 @@ declare var google: any;
 })
 export class FindRouteComponent implements OnInit {
 
-  data = {routes: {
-    cost: [],
-    profit: [],
-    findAsa:[]
-  }
+  data = {
+    routes: {
+      cost: [],
+      profit: [],
+      findAsa: []
+    }
   }
 
   selected = {
@@ -55,12 +57,14 @@ export class FindRouteComponent implements OnInit {
     findAsa: [
       {
         origin: {
+          location: null,
           name: "",
           lat: "",
           lng: "",
           marker: null,
         },
         destination: {
+          location: null,
           name: "",
           lat: "",
           lng: "",
@@ -123,7 +127,9 @@ export class FindRouteComponent implements OnInit {
     public api: ApiService,
     public router: Router,
     public common: CommonService,
-   ) {
+    public user: UserService,
+  ) {
+    console.log('uder', this.user._details, this.user._loggedInBy);
     // this.getLoadingUnloading('tonnage', '', '', '', '');
     // setTimeout(this.autoSuggestion.bind(this, 'profit', 'profit_origin_0', 0, 'origin'), 3000);
     // setTimeout(this.autoSuggestion.bind(this, 'profit', 'profit_destination_0', 0, 'destination'), 3000);
@@ -155,6 +161,10 @@ export class FindRouteComponent implements OnInit {
   mapViewer(routeType) {
     this.common.searchId = null;
     if (routeType === 'findAsa') {
+      if (this.routes.findAsa[0].origin.location && this.routes.findAsa[0].destination.location) {
+        this.routes.findAsa[0].origin.name = this.routes.findAsa[0].origin.location;
+        this.routes.findAsa[0].destination.name = this.routes.findAsa[0].destination.location;
+      }
       this.data.routes.findAsa = this.routes.findAsa;
       this.common.params = { routes: this.routes.findAsa, routeType: 'findAsa', connect: false };
       console.log(this.common.params);

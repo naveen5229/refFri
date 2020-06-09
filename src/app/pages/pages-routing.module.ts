@@ -92,6 +92,7 @@ import { RouteTripComponent } from './route-trip/route-trip.component';
 import { TripSummaryComponent } from './trip-summary/trip-summary.component';
 import { RouteDeviationsComponent } from './route-deviations/route-deviations.component';
 import { FuelDailyConsumptionComponent } from './fuel-daily-consumption/fuel-daily-consumption.component';
+import { VehicleStatusChangeComponent } from '../admin/vehicle-status-change/vehicle-status-change.component';
 
 
 const routes: Routes = [{
@@ -112,6 +113,11 @@ const routes: Routes = [{
     loadChildren: 'app/load-intelligence/load-intelligence.module#LoadIntelligenceModule',
     canActivate: [AuthGuard],
   },
+  {
+    path: 'admin/vehiclestatuschange',
+    component: VehicleStatusChangeComponent,
+    canActivate: [RouteGuard]
+},
   {
 
     path: 'vehicle-kpis',
@@ -576,6 +582,11 @@ const routes: Routes = [{
   }, {
     path: 'fuel-daily-consumption',
     component: FuelDailyConsumptionComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'vehiclestatuschange',
+    component: VehicleStatusChangeComponent,
     canActivate: [AuthGuard, RouteGuard],
   }
 
