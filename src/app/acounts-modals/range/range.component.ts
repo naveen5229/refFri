@@ -39,8 +39,10 @@ export class RangeComponent implements OnInit {
     if (key == 'enter') {
       this.allowBackspacerange = true;
       if (activeId.includes('voucher-date-f2')) {
+      this.startdate= this.common.handleVoucherDateOnEnter(this.startdate);
         this.setFoucus('voucher-end-date-f2');
       } else if (activeId.includes('voucher-end-date-f2')) {
+      this.enddate= this.common.handleVoucherDateOnEnter(this.enddate);
         this.setFoucus('submitf2');
       }
     } else if (key == 'backspace' && this.allowBackspacerange) {
@@ -68,6 +70,8 @@ export class RangeComponent implements OnInit {
   dismiss(response) {
     //console.log('Accounts:', this.Branches);
     if(response){
+      this.startdate= this.common.handleVoucherDateOnEnter(this.startdate);
+      this.enddate= this.common.handleVoucherDateOnEnter(this.enddate);
       this.accountService.fromdate=this.startdate;
       this.accountService.todate=this.enddate;
       console.log('range date',this.accountService.fromdate);
