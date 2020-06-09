@@ -193,6 +193,8 @@ export class LedgerregidterComponent implements OnInit {
     public pdfService: PdfService,
     public accountService: AccountService,
     public modalService: NgbModal) {
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.ledgerRegister.startdate;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.ledgerRegister.enddate;
     this.common.refresh = this.refresh.bind(this);
 
 
@@ -292,6 +294,8 @@ export class LedgerregidterComponent implements OnInit {
   }
 
   getDetail() {
+    this.ledgerRegister.startdate= this.accountService.fromdate;
+    this.ledgerRegister.enddate= this.accountService.todate
     let params = {
       ledgerid: this.ledgerRegister.ledger.id,
       vouchertyid: this.ledgerRegister.vouchertype.id,
@@ -470,16 +474,17 @@ export class LedgerregidterComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
 
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
+    // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = this.activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = this.activeId;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // } else 
+    if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);

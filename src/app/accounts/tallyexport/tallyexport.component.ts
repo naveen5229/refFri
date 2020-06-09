@@ -51,6 +51,9 @@ export class TallyexportComponent implements OnInit {
     public accountService: AccountService,
     private http: Http,
     public modalService: NgbModal) {
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.startDate;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.endDate;
+       
     this.common.refresh = this.refresh.bind(this);
   
     this.common.currentPage = 'Tally Export';
@@ -86,16 +89,17 @@ export class TallyexportComponent implements OnInit {
     const key = event.key.toLowerCase();
     let activeId = document.activeElement.id;
     console.log('Active event1111', event);
-    if ((key == 'f2' && !this.showDateModal) && (activeId.includes('startDate') || activeId.includes('endDate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = (activeId== 'startDate') ? this.startDate : this.endDate;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
+    // if ((key == 'f2' && !this.showDateModal) && (activeId.includes('startDate') || activeId.includes('endDate'))) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = (activeId== 'startDate') ? this.startDate : this.endDate;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // } else 
+    if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.f2Date,this.lastActiveId,activeId);
       this.handleVoucherDateOnEnter(activeId);
@@ -154,6 +158,8 @@ handleVoucherDateOnEnter(iddate) {
 }
 
   getTallyData(type,filename) {
+    this.startDate= this.accountService.fromdate;
+    this.endDate= this.accountService.todate;
     return new Promise((resolve, reject) => {
       const params = {
         tallyType: type,

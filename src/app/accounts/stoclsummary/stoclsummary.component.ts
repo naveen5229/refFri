@@ -84,6 +84,9 @@ warehouseid=0;
     public csvService: CsvService,
     public accountService: AccountService,
     public modalService: NgbModal) {
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.outStanding.Date;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.outStanding.endDate;
+        
     this.common.refresh = this.refresh.bind(this);
     this.getStockTypeList();
     this.getWhereHouseList();
@@ -174,6 +177,8 @@ warehouseid=0;
   }
 
   getStockSummary() {
+    this.outStanding.Date= this.accountService.fromdate;
+    this.outStanding.endDate= this.accountService.todate;
     console.log('Ledger:', this.outStanding);
     let params = {
       data: this.outStanding,
@@ -357,16 +362,17 @@ warehouseid=0;
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
 
-    if ((key == 'f2' && !this.showDateModal) && this.activeId.includes('Date')) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
+    // if ((key == 'f2' && !this.showDateModal) && this.activeId.includes('Date')) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = this.activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = this.activeId;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // } else 
+    if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);

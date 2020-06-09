@@ -21,14 +21,14 @@
         <div class="form-group">
           <label class="tjr-label">Starting Date</label>
           <input type="text" style="cursor: pointer;" class="form-control tjr-input " autocomplete="off"
-            placeholder="Select Date" name="account-date" [(ngModel)]="startdate" id="startdate" maxlength="10">
+            placeholder="Select Date" name="account-date" [(ngModel)]="accountService.fromdate" id="startdate" maxlength="10">
         </div>
       </div>
       <div class="col">
         <div class="form-group">
           <label class="tjr-label">End Date</label>
           <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off"
-            placeholder="Select Date" name="account-enddate" [(ngModel)]="enddate" maxlength="10">
+            placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.fromdate" maxlength="10">
         </div>
       </div>
       <div class="col">

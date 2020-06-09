@@ -786,22 +786,7 @@ export class OrderComponent implements OnInit {
       } else if (this.activeId.includes('podate')) {
         console.log('order type', this.order.ordertype);
         this.handleOrderDateOnEnter('podate');
-        if(this.order.ordertype.id == -106){
-          this.setFoucus('purchaseledger');
-        }else{
-        if (this.freezedate) {
-          let rescompare = this.CompareDate(this.freezedate);
-          console.log('heddlo',rescompare);
-          if (rescompare == 0) {
-            console.log('hello');
-            this.common.showError('Please Enter Date After '+this.freezedate);
-            setTimeout(() => {
-              this.setFoucus('date');
-            }, 150);
-          } else {
-          this.setFoucus('purchaseledger');
-      }
-    }}
+          this.setFoucus('qutationrefrence');
    } else if((this.order.ordertype.name.toLowerCase().includes('sales') || this.order.ordertype.name.toLowerCase().includes('credit')) && (this.activeId.includes('rate-'))){ 
     let index = parseInt(this.activeId.split('-')[1]);
     let amount = this.order.amountDetails[index].amount;
@@ -822,7 +807,7 @@ export class OrderComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-            (this.order.ordertype.name.toLowerCase().includes('sales')) ? (this.setFoucus('purchaseledger')) : this.setFoucus('podate');
+            (this.order.ordertype.name.toLowerCase().includes('sales')) ? (this.setFoucus('qutationrefrence')) : this.setFoucus('podate');
           }
         }
       } else if (this.activeId.includes('purchaseledger')) {
@@ -888,9 +873,25 @@ export class OrderComponent implements OnInit {
         console.log('leddger data print',this.order.ledger);
         this.setFoucus('vendorbidref');
       } else if (this.activeId.includes('vendorbidref')) {
-        this.setFoucus('qutationrefrence');
-      } else if (this.activeId.includes('qutationrefrence')) {
         this.setFoucus('shipmentlocation');
+      } else if (this.activeId.includes('qutationrefrence')) {
+        if(this.order.ordertype.id == -106){
+          this.setFoucus('salesledger');
+            }else{
+            if (this.freezedate) {
+              let rescompare = this.CompareDate(this.freezedate);
+              console.log('heddlo', rescompare);
+              if (rescompare == 0) {
+                console.log('hello');
+                this.common.showError('Please Enter Date After ' + this.freezedate);
+                setTimeout(() => {
+                  this.setFoucus('purchaseledger');
+                }, 150);
+              } else {
+                this.setFoucus('purchaseledger');
+              }
+            }
+          }
       } else if (this.activeId.includes('shipmentlocation')) {
         this.setFoucus('paymentterms');
       } else if (this.activeId.includes('paymentterms')) {
@@ -986,15 +987,11 @@ export class OrderComponent implements OnInit {
       console.log('active 1 23123', this.activeId ,this.order.ordertype.id);
       if (this.activeId == 'date') this.setFoucus('custcode');
       if (this.activeId == 'purchaseledger') {
-        if(this.order.ordertype.id == -102){
-          this.setFoucus('podate'); 
-        } 
-        else {
-      this.setFoucus('date');
-     } 
+       this.setFoucus('qutationrefrence');
     }
       if (this.activeId == 'podate') this.setFoucus('date');
-      if (this.activeId == 'ledger' || this.activeId=='ledgersup') {
+      if (this.activeId == 'ledger' || this.activeId == 'ledgersup') {
+        console.log('ledger suplier');
          (this.order.ordertype.id == -102) ?  this.setFoucus('podate') : this.setFoucus('purchaseledger'); 
         }
       //this.setFoucus('purchaseledger');
@@ -1011,8 +1008,15 @@ export class OrderComponent implements OnInit {
                 this.setFoucus('ledger');
                }
         }
-      if (this.activeId == 'qutationrefrence') this.setFoucus('vendorbidref');
-      if (this.activeId == 'shipmentlocation') this.setFoucus('qutationrefrence');
+      if (this.activeId == 'qutationrefrence')  {
+        if(this.order.ordertype.id == -102){
+          this.setFoucus('podate'); 
+          } 
+          else {
+        this.setFoucus('date');
+         } 
+     }
+      if (this.activeId == 'shipmentlocation') this.setFoucus('vendorbidref');
       if (this.activeId == 'paymentterms') this.setFoucus('shipmentlocation');
       if (this.activeId == 'biltynumber') this.setFoucus('paymentterms');
       if (this.activeId == 'biltydate') this.setFoucus('biltynumber');

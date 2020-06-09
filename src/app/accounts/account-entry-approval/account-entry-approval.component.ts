@@ -10,6 +10,7 @@ import { TemplatePreviewComponent } from '../../modals/template-preview/template
 import { ClearAdvicesComponent } from '../../modals/clear-advices/clear-advices.component';
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'account-entry-approval',
@@ -17,8 +18,9 @@ import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-
   styleUrls: ['./account-entry-approval.component.scss']
 })
 export class AccountEntryApprovalComponent implements OnInit {
-  startTime = new Date(new Date().setDate(new Date().getDate() - 7));
-  endTime = new Date();
+ // startTime = new Date(new Date().setDate(new Date().getDate() - 7));
+ startTime = this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
+ endTime = this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
   requestType = 'Transfer';
   status = 2;
   data = [];
@@ -38,7 +40,10 @@ export class AccountEntryApprovalComponent implements OnInit {
     private datePipe: DatePipe,
     public user: UserService,
     private activeModal: NgbActiveModal,
+    public accountService: AccountService,
     private modalService: NgbModal) {
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.startTime;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.endTime;
     this.getRequests();
     this.common.refresh = this.refresh.bind(this);
   }
@@ -51,8 +56,33 @@ export class AccountEntryApprovalComponent implements OnInit {
     this.getRequests();
   }
 
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    let activeId = document.activeElement.id;
+    console.log('Active event1111', event);
+    if (key == 'enter') {
+       if (activeId.includes('startDate')) {
+         this.setFoucus('endDate');
+       }else if (activeId.includes('endDate')) {
+         this.setFoucus('requestType');
+       }else if (activeId.includes('requestType')) {
+        this.setFoucus('status');
+        }else if (activeId.includes('status')) {
+        this.setFoucus('submit');
+        }
+   }
+  }
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+    }, 100);
+  }
 
   getRequests() {
+    this.startTime = this.accountService.fromdate;
+    this.endTime = this.accountService.todate;
     if (!this.startTime || !this.endTime) {
       this.common.showError("Dates cannot be blank.");
       return;
@@ -66,7 +96,6 @@ export class AccountEntryApprovalComponent implements OnInit {
     }
     console.log("params", params);
     ++this.common.loading;
-
     this.api.post('Accounts/getApprovalList', params)
       .subscribe(res => {
         --this.common.loading;

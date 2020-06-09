@@ -14,7 +14,7 @@
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input " autocomplete="off"
-                placeholder="Select Date" name="account-date" [(ngModel)]="fuelVoucher.startdate" id="startdate"
+                placeholder="Select Date" name="account-date" [(ngModel)]="accountService.fromdate" id="startdate"
                 maxlength="10" (click)="lastActiveId = 'account-date'; allowBackspace = false;" (input)="allowBackspace = false;">
             </div>
           </div>
@@ -22,7 +22,7 @@
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off"
-                placeholder="Select Date" name="account-enddate" [(ngModel)]="fuelVoucher.enddate" maxlength="10"
+                placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.todate" maxlength="10"
                 (click)="lastActiveId = 'account-date'; allowBackspace = false;" (input)="allowBackspace = false;">
             </div>
           </div>

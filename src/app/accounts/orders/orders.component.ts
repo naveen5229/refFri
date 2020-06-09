@@ -721,24 +721,7 @@ export class OrdersComponent implements OnInit {
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('podate')) {
         this.handleOrderDateOnEnter('podate');
-        if(this.order.ordertype.id == -106){
-          this.setFoucus('salesledger');
-        }else{
-        if (this.freezedate) {
-          let rescompare = this.CompareDate(this.freezedate);
-          console.log('heddlo', rescompare);
-          if (rescompare == 0) {
-            console.log('hello');
-            this.common.showError('Please Enter Date After ' + this.freezedate);
-            setTimeout(() => {
-              this.setFoucus('purchaseledger');
-            }, 150);
-          } else {
-            this.setFoucus('purchaseledger');
-          }
-        }
-      }
-
+          this.setFoucus('qutationrefrence');
       } else if (this.activeId.includes('date')) {
         if (this.freezedate) {
           let rescompare = this.CompareDate(this.freezedate);
@@ -751,7 +734,7 @@ export class OrdersComponent implements OnInit {
             }, 150);
           } else {
             if (this.order.ordertype.id == -104) {
-              this.setFoucus('salesledger');
+              this.setFoucus('qutationrefrence');
             } else {
               this.setFoucus('podate');
             }
@@ -807,9 +790,25 @@ export class OrdersComponent implements OnInit {
         }, 100);
         this.setFoucus('vendorbidref');
       } else if (this.activeId.includes('vendorbidref')) {
-        this.setFoucus('qutationrefrence');
-      } else if (this.activeId.includes('qutationrefrence')) {
         this.setFoucus('shipmentlocation');
+      } else if (this.activeId.includes('qutationrefrence')) {
+        if(this.order.ordertype.id == -104){
+          this.setFoucus('salesledger');
+            }else{
+            if (this.freezedate) {
+              let rescompare = this.CompareDate(this.freezedate);
+              console.log('heddlo', rescompare);
+              if (rescompare == 0) {
+                console.log('hello');
+                this.common.showError('Please Enter Date After ' + this.freezedate);
+                setTimeout(() => {
+                  this.setFoucus('purchaseledger');
+                }, 150);
+              } else {
+                this.setFoucus('purchaseledger');
+              }
+            }
+          }
       } else if (this.activeId.includes('shipmentlocation')) {
         this.setFoucus('paymentterms');
       } else if (this.activeId.includes('paymentterms')) {
@@ -927,12 +926,12 @@ export class OrdersComponent implements OnInit {
       console.log('active 1', this.activeId);
       if (this.activeId == 'date') this.setFoucus('custcode');
       if (this.activeId == 'podate') this.setFoucus('date');
-      if (this.activeId == 'salesledger') this.setFoucus('date');
-      if (this.activeId == 'purchaseledger') this.setFoucus('podate');
+      if (this.activeId == 'salesledger') this.setFoucus('qutationrefrence');
+      if (this.activeId == 'purchaseledger') this.setFoucus('qutationrefrence');
       if (this.activeId == 'ledger') { (this.order.ordertype.name.toLowerCase().includes('sales')) ? (this.setFoucus('salesledger')) : this.setFoucus('purchaseledger'); }
       if (this.activeId == 'vendorbidref') this.setFoucus('ledger');
-      if (this.activeId == 'qutationrefrence') this.setFoucus('vendorbidref');
-      if (this.activeId == 'shipmentlocation') this.setFoucus('qutationrefrence');
+      if (this.activeId == 'qutationrefrence') { (this.order.ordertype.name.toLowerCase().includes('sales')) ? (this.setFoucus('date')) : this.setFoucus('podate'); }
+      if (this.activeId == 'shipmentlocation') this.setFoucus('vendorbidref');
       if (this.activeId == 'paymentterms') this.setFoucus('shipmentlocation');
       if (this.activeId == 'biltynumber') this.setFoucus('paymentterms');
       if (this.activeId == 'biltydate') this.setFoucus('biltynumber');

@@ -17,3 +17,20 @@
     border-radius: 50%;
 
   }
+  button { 
+    padding: 7px 10px !important;
+    background-color: #263238;
+    border-radius: 5px !important;
+    text-transform: capitalize !important;
+    cursor: pointer;
+    outline: none;
+    box-shadow: none;
+}
+.tjr-button {
+  cursor: pointer;
+  margin-top: 18px;
+  background: #263238 !important;
+  height: auto;
+  border-radius: 3px !important;
+  padding: 3px 8px !important;
+}

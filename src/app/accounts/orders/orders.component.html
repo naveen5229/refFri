@@ -38,7 +38,9 @@
             </div>
             <div class="col">
               <div class="form-group">
-                <label class="ref-label">Invoice Date</label>
+                <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">PI Date</label>
+                <label class="ref-label"*ngIf="order.ordertype.name.toLowerCase().includes('debit')">Debit Date</label>
+                <label class="ref-label"*ngIf="order.ordertype.name.toLowerCase().includes('wastage')">wastage Date</label>
                 <input type="text" autocomplete="off" style="cursor: pointer;" class="form-control ref-input"
                   autocomplete="off" id="date" name="account-date" [(ngModel)]="order.date" maxlength="10"
                   (click)="lastActiveId = 'account-date'; allowBackspace = false;" (input)="allowBackspace = false;">
@@ -57,6 +59,16 @@
             </div>
             <div class="col">
               <div class="form-group">
+                <label class="ref-label">Ref.No.</label>
+                <input autocomplete="off" type="text" class="form-control ref-input" name="account-qutationrefrence"
+                  id="qutationrefrence" [(ngModel)]="order.qutationrefrence" placeholder="Ref.No.">
+              </div>
+            </div>
+            
+          </div>
+          <div class="row" *ngIf="(order.ordertype.id != -108)">
+            <div class="col">
+              <div class="form-group">
                 <label class="ref-label">Purchase Ledger</label>
                 <input type="text" autocomplete="off" class="form-control  ref-input" id="purchaseledger"
                   name="purchaseledger" [(ngModel)]="order.purchaseledger.name"
@@ -65,8 +77,6 @@
                   (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </div>
             </div>
-          </div>
-          <div class="row" *ngIf="(order.ordertype.id != -108)">
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Supplier Ledger</label>
@@ -85,13 +95,7 @@
                   id="vendorbidref" [(ngModel)]="order.vendorbidref" placeholder="Supplier Reference No.">
               </div>
             </div>
-            <div class="col">
-              <div class="form-group">
-                <label class="ref-label">P.O.No.</label>
-                <input autocomplete="off" type="text" class="form-control ref-input" name="account-qutationrefrence"
-                  id="qutationrefrence" [(ngModel)]="order.qutationrefrence" placeholder="P.O.No.">
-              </div>
-            </div>
+           
 
 
             <div class="col">
@@ -150,7 +154,7 @@
 
             <div class="col">
               <div class="form-group">
-                  <label class="ref-label">Invoice Remarks</label>
+                  <label class="ref-label">Remarks</label>
                 <textarea class="form-control ref-input" name="account-orderremarks" id="orderremarks"[(ngModel)]="order.orderremarks"
                   placeholder="Invoice Remarks"></textarea>
               </div>
@@ -192,6 +196,16 @@
             </div>
             <div class="col">
               <div class="form-group">
+                <label class="ref-label">Other Reference</label>
+                <input type="text" autocomplete="off" class="form-control ref-input" id="qutationrefrence"name="account-qutationrefrence"
+                  [(ngModel)]="order.qutationrefrence" placeholder="Other Reference">
+              </div>
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
                 <label class="ref-label">Sales Ledger</label>
                 <!-- <auto-suggestion (onSelected)="onSelected($event, 'purchaseledger', 'name')"
                   url="Suggestion/GetPurchaseLedger" display="name" inputId="purchaseledger"
@@ -203,8 +217,6 @@
                   (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Party Name</label>
@@ -222,13 +234,7 @@
                   [(ngModel)]="order.vendorbidref" placeholder="Order No">
               </div>
             </div>
-            <div class="col">
-              <div class="form-group">
-                <label class="ref-label">Other Reference</label>
-                <input type="text" autocomplete="off" class="form-control ref-input" id="qutationrefrence"name="account-qutationrefrence"
-                  [(ngModel)]="order.qutationrefrence" placeholder="Other Reference">
-              </div>
-            </div>
+            
 
 
             <div class="col">
@@ -293,7 +299,7 @@
 
             <div class="col">
               <div class="form-group">
-                  <label class="ref-label">Invoice Remarks</label>
+                  <label class="ref-label">Remarks</label>
                 <textarea class="form-control ref-input" autocomplete="off" name="account-orderremarks" id="orderremarks"
                   [(ngModel)]="order.orderremarks" placeholder="Invoice Remarks"></textarea>
               </div>

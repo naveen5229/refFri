@@ -52,6 +52,8 @@ export class TripVoucherExpenseComponent implements OnInit {
     public user: UserService,
     public accountService: AccountService,
     public modalService: NgbModal) {
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.startdate;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.enddate;
     // this.getTripExpences();
     this.common.refresh = this.refresh.bind(this);
     this.route.params.subscribe(params => {
@@ -141,6 +143,8 @@ export class TripVoucherExpenseComponent implements OnInit {
 
 
   getPendingTrips() {
+    this.startdate= this.accountService.fromdate;
+    this.enddate= this.accountService.todate;
     if (this.selectedVehicle.id == 0) {
       this.common.showToast('please enter registration number !!')
     } else if (this.accountService.selected.branch.id == 0) {
@@ -441,6 +445,8 @@ export class TripVoucherExpenseComponent implements OnInit {
   }
 
   getSearchTripExpences() {
+    this.startdate= this.accountService.fromdate;
+    this.enddate= this.accountService.todate;
 
     const params = {
       vehId: (this.selectedVehicle.id) ? this.selectedVehicle.id : 0,

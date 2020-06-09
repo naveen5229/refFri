@@ -45,6 +45,9 @@ export class MappedFuelVoucherComponent implements OnInit {
     public accountService: AccountService,
     public modalService: NgbModal
   ) {
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.fuelVoucher.startdate;
+     this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.fuelVoucher.enddate;
+      
     // this.common.refresh = this.refresh.bind(this);
     this.common.currentPage = 'Mapped Fuel Voucher';
     this.getFuelVoucher();
@@ -54,6 +57,8 @@ export class MappedFuelVoucherComponent implements OnInit {
   }
 
   getFuelVoucher() {
+    this.fuelVoucher.startdate= this.accountService.fromdate;
+    this.fuelVoucher.enddate= this.accountService.todate;
     this.voucherDetails = [];
     this.mappedDetails = [];
     let type;
@@ -136,16 +141,17 @@ export class MappedFuelVoucherComponent implements OnInit {
         return;
       }
     }
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.fuelVoucher[this.activeId];
-      this.activedateid = this.lastActiveId;
-      return;
-    }else if ((key == 'enter' && this.showDateModal)) {
+    // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = this.activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = this.fuelVoucher[this.activeId];
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // }
+    else if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleOrderDateOnEnter(this.activeId);
