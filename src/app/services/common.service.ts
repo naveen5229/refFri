@@ -766,7 +766,7 @@ export class CommonService {
   }
 
 
-  
+
 
 
 
@@ -1000,8 +1000,8 @@ export class CommonService {
       // let imgHeight = isLandscape ? 208 : 295;
       // var heightLeft = imgHeight;
 
-      var imgWidth = 210; 
-      var pageHeight = 295;  
+      var imgWidth = 210;
+      var pageHeight = 295;
       var imgHeight = canvas.height * imgWidth / canvas.width;
       var heightLeft = imgHeight;
 
@@ -1199,13 +1199,13 @@ export class CommonService {
 
           arr_hdgs.push(strval);
         } else {
-            
-            let plainText = elthtml.replace(/<[^>]*>/g, '');
-            hdgs[plainText] = plainText;
-            console.log(hdgs);
-  
-            arr_hdgs.push(plainText);
-         
+
+          let plainText = elthtml.replace(/<[^>]*>/g, '');
+          hdgs[plainText] = plainText;
+          console.log(hdgs);
+
+          arr_hdgs.push(plainText);
+
         }
       }
     }
@@ -1321,21 +1321,21 @@ export class CommonService {
           arr_hdgs.push(strval);
         } else {
           if (i < 5) {
-            if ( i == 0 || i == 1)  {
-                continue;
-            } 
-            
+            if (i == 0 || i == 1) {
+              continue;
+            }
+
             let plainText = elthtml.replace(/<[^>]*>/g, '');
             hdgs[plainText] = plainText;
-  
+
             arr_hdgs.push(plainText);
           }
-         
+
         }
       }
     }
     info.push(hdgs);
-    
+
 
 
     let tblrows = tblelt.querySelectorAll('tbody tr');
@@ -1729,7 +1729,7 @@ export class CommonService {
       case 52:
       case 53:
         title = origin;
-        title += destination ? title += ` - ${destination}` : '';
+        title += destination ? ` - ${destination}` : '';
         title += ' -> ' + placements.join('-');
         break;
       case 3:
@@ -1738,7 +1738,7 @@ export class CommonService {
       case 21:
 
         title = origin;
-        title += destination ? title += ` - ${destination}` : '';
+        title += destination ? ` - ${destination}` : '';
         placements.length && (title += ' -> ' + placements.join('-'));
         !placements.length && (title += ' *');
         break;
@@ -1748,12 +1748,12 @@ export class CommonService {
       case 22:
       case 23:
         title = origin;
-        title += destination ? title += ` - ${destination}` : '';
+        title += destination ?  ` - ${destination}` : '';
         title += ' -> ' + placements.join('-');
         break;
       default:
         title = origin;
-        title += destination ? title += ` - ${destination}` : '';
+        title += destination ? ` - ${destination}` : '';
         title += ' -> ' + placements.join('-');
         break;
     }
@@ -1907,16 +1907,16 @@ export class CommonService {
   handleVoucherDateOnEnter(f2Date) {
     let dateArray = [];
     let separator = '-';
-  
+
     //let datestring = (this.activedateid == 'startDate') ? this.startDate : this.endDate;
-    console.log('f2Date',f2Date);
+    console.log('f2Date', f2Date);
     let datestring = f2Date;
     if (datestring.includes('-')) {
       dateArray = datestring.split('-');
     } else if (datestring.includes('/')) {
       dateArray = datestring.split('/');
       separator = '/';
-    }else if (datestring.includes('.')) {
+    } else if (datestring.includes('.')) {
       dateArray = datestring.split('.');
       separator = '.';
     } else {
@@ -1926,16 +1926,16 @@ export class CommonService {
     let date = dateArray[0];
     date = date.length == 1 ? '0' + date : date;
     let month = dateArray[1];
-    console.log('month before',month,month.length,typeof(month));
+    console.log('month before', month, month.length, typeof (month));
     month = month.length == 1 ? ('0' + month) : (((parseInt(month)) >= 13) ? 12 : month);
-    console.log('month after',month);
-    let finacialyear = (month > '03')? (this.accountService.selected.financialYear['name']).split('-')[0] :(this.accountService.selected.financialYear['name']).split('-')[1];
+    console.log('month after', month);
+    let finacialyear = (month > '03') ? (this.accountService.selected.financialYear['name']).split('-')[0] : (this.accountService.selected.financialYear['name']).split('-')[1];
     let year = dateArray[2];
-    year = (year) ? (year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year):finacialyear;
+    year = (year) ? (year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year) : finacialyear;
     console.log('Date: ', date + separator + month + separator + year);
-    console.log('starting date 122 :',this.accountService.financialYears);
+    console.log('starting date 122 :', this.accountService.financialYears);
     this.accountService.voucherDate = date + separator + month + separator + year;
-   return  date + separator + month + separator + year;
-  
+    return date + separator + month + separator + year;
+
   }
 }
