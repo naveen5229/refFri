@@ -655,8 +655,9 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
             this.common.loading--;
             if (res['success']) {
               this.reloadData();
-            } else {
               this.common.showToast(res['msg']);
+            } else {
+              this.common.showError(res['msg']);
               this.reloadData();
             }
           }, err => {
