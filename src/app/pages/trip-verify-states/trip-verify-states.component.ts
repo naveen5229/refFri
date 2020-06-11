@@ -300,17 +300,7 @@ export class TripVerifyStatesComponent implements OnInit {
     });
 
 
-    // this.common.loading++;
-    // this.api.post('Vehicles/removeVehicleState', params)
-    //   .subscribe(res => {
-    //     this.common.loading--;
-    //     console.log('res', res['data']);
-
-    //   }, err => {
-    //     this.common.loading--;
-    //     this.common.showError();
-    //   })
-
+  
 
   }
 

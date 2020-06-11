@@ -121,6 +121,9 @@
                             <button class="btn btn-success" (click)="openChangeHaltModal(vehicleEvent,'StateType')"
                             *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null" >{{vehicleEvent.y_halt_desc}}</button>
                       
+                            <span class="zoom-btn" (click)="removeVehicleState(vehicleEvent)"
+                            *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null""><i
+                              class="fa fa-trash"></i></span>
                       </span></div>
                   </td>
                 </tr>

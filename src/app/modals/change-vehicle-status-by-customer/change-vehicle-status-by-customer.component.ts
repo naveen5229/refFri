@@ -11,6 +11,7 @@ import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
 import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
 import { VehicleGpsTrailComponent } from '../../modals/vehicle-gps-trail/vehicle-gps-trail.component';
 import { VehicleLrComponent } from '../vehicle-lr/vehicle-lr.component';
+import { ConfirmComponent } from '../confirm/confirm.component';
 
 declare let google: any;
 
@@ -953,6 +954,45 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     this.common.params = { vehicleData: vehicleData };
     this.common.handleModalSize('class', 'modal-lg', '1600');
     const activeModal = this.modalService.open(VehicleLrComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+  }
+
+  removeVehicleState(vehicleEvent) {
+    let params = {
+      stateid: vehicleEvent.vs_id
+    };
+   
+    this.common.params = {
+      title: 'Remove State ',
+      description: `<b>&nbsp;` + 'Are Sure To Remove State ' + `<b>`,
+    }
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log("data", data);
+        this.common.loading++;
+        this.api.post('Vehicles/removeVehicleState', params)
+          .subscribe(res => {
+            this.common.loading--;
+            console.log('res: ', res);
+            if (res['data'][0].r_id > 0) {
+              this.common.showToast('Selected state has been deleted');
+              this.reloadData();
+            } else {
+              this.common.showToast(res['data'][0].r_msg, '', 10000);
+            }
+
+
+          }, err => {
+            this.common.loading--;
+            console.log('Error: ', err);
+            this.common.showError('Error!');
+          });
+      }
+    });
+
+
+  
 
   }
 }
