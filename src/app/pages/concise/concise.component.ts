@@ -898,7 +898,8 @@ export class ConciseComponent implements OnInit {
       suggest: null,
       latch_time: latch_time,
       status: 2,
-      remark: trip.remark
+      remark: trip.remark,
+      regno : trip.x_showveh,
     };
     this.common.ref_page = 'tsfl';
     this.common.params = VehicleStatusData;

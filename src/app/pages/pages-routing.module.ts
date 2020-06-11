@@ -93,6 +93,7 @@ import { TripSummaryComponent } from './trip-summary/trip-summary.component';
 import { RouteDeviationsComponent } from './route-deviations/route-deviations.component';
 import { FuelDailyConsumptionComponent } from './fuel-daily-consumption/fuel-daily-consumption.component';
 import { VehicleStatusChangeComponent } from '../admin/vehicle-status-change/vehicle-status-change.component';
+import { VehicleStatusChangeByUserComponent } from './vehicle-status-change-by-user/vehicle-status-change-by-user.component';
 
 
 const routes: Routes = [{
@@ -114,9 +115,9 @@ const routes: Routes = [{
     canActivate: [AuthGuard],
   },
   {
-    path: 'admin/vehiclestatuschange',
-    component: VehicleStatusChangeComponent,
-    canActivate: [RouteGuard]
+    path: 'vehiclestatuschange',
+    component: VehicleStatusChangeByUserComponent ,
+    canActivate: [AuthGuard, RouteGuard],
 },
   {
 
@@ -584,12 +585,7 @@ const routes: Routes = [{
     component: FuelDailyConsumptionComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
-  {
-    path: 'vehiclestatuschange',
-    component: VehicleStatusChangeComponent,
-    canActivate: [AuthGuard, RouteGuard],
-  }
-
+  
   ],
 }];
 
