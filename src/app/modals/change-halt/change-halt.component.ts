@@ -12,6 +12,7 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 export class ChangeHaltComponent implements OnInit {
   HaltType = 11;
   SiteType = 1;
+  StateType = 1;
   type = null;
   sites = null;
   vehicleEvent = null;
@@ -28,6 +29,9 @@ export class ChangeHaltComponent implements OnInit {
     }
     else if (this.type == 'HaltType') {
       this.title = "Choose Halt Type"
+    }
+    else if (this.type == 'StateType') {
+      this.title = "Choose State Type"
     }
     this.vehicleEvent = this.common.params;
     console.log("vehicleEvent", this.vehicleEvent, this.common.passedVehicleId);
@@ -48,13 +52,21 @@ export class ChangeHaltComponent implements OnInit {
     this.SiteType = siteType;
     this.submitModal();
   }
+  setState(stateType) {
+    this.StateType = stateType;
+    this.submitModal();
+  }
 
   submitModal() {
     if (this.type == 'SiteType') {
       this.createSite();
     } else if (this.type == 'HaltType') {
-      console.log("haltType++++++++++", this.HaltType);
+      console.log("haltType", this.HaltType);
       this.changeHalt();
+    }
+    else if (this.type == 'StateType') {
+      console.log("stateType", this.StateType);
+      this.changeState();
     }
   }
 
@@ -137,4 +149,24 @@ export class ChangeHaltComponent implements OnInit {
       });
   }
 
+  changeState() {
+    this.common.loading++;
+    let params = {
+      stateId: this.vehicleEvent.vs_id,
+      stateType: this.StateType,
+      siteHaltRowId: this.vehicleEvent.haltId,
+      haltType: this.HaltType
+    };
+    console.log(params);
+    this.api.post('HaltOperations/changeHaltType', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res);
+        this.sites = res['data'];
+        this.activeModal.close();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 }

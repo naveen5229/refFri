@@ -1,0 +1,21 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-10">
+        <h5>Vehicle Status Changes</h5>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body style="padding:10px 15px;">
+    
+    <smart-table *ngIf="VehicleStatusAlerts && VehicleStatusAlerts.length" id="VehicleStatusAlerts" [data]="table.data"
+    [settings]="table.settings">
+</smart-table>
+    <div class="no-data" *ngIf="!VehicleStatusAlerts.length">
+      No Data available !
+    </div>
+    <div style="margin-top:10px">
+      <b>Number Of Alerts : {{ VehicleStatusAlerts.length }}</b>
+    </div>
+  </nb-card-body>
+</nb-card>

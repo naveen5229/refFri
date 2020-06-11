@@ -322,7 +322,7 @@ export class VehicleStatesComponent implements OnInit {
             console.log(res['data'].r_id);
             this.common.showToast('Success!!');
           } else {
-            this.common.showError(res['data'].r_msg);
+            this.common.showError(res['data'][0].r_msg);
           }
         }, err => {
           this.common.loading--;

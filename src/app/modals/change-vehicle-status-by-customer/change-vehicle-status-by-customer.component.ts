@@ -102,26 +102,15 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     };
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    // this.createMarker(lat, lng);
   }
 
-
-  // createMarker(lat = 26.9124336, lng = 75.78727090000007) {
-  //   this.marker = new google.maps.Marker({
-  //     map: this.map,
-  //     animation: google.maps.Animation.DROP,
-  //     position: new google.maps.LatLng(lat, lng),
-  //     draggable: false
-  //   });
-  // }
-
   openChangeHaltModal(vehicleEvent, type) {
+    console.log("type",type,vehicleEvent);
     this.common.changeHaltModal = type;
     this.common.passedVehicleId = this.VehicleStatusData.vehicle_id;
     this.common.params = vehicleEvent;
     const activeModal = this.modalService.open(ChangeHaltComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      // console.log("data", data.respone);
       this.getEvents();
     });
   }
@@ -242,26 +231,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
           }
           console.log("VehicleEvents", this.vehicleEventsR);
         }
-        //  ------------ RouteMapper Code Exit -------------
-
-
-        //bottom bar
-        // let vehEvent = this.vehicleEvents;
-        // let finalIndex = 0;
-        // for (const events of vehEvent) {
-        //   events.eposition = 100;
-        //   events.duration = this.common.dateDiffInHoursAndMins(
-        //     events.start_time, events.end_time);
-        //   vehEvent[finalIndex].width = events.eposition - events.position;
-        //   console.log("vehEvent[finalIndex].width ",vehEvent[finalIndex].width )
-        //   finalIndex++;
-        // }
-        // console.log("vehEvent", vehEvent);
-        // vehEvent = vehEvent.reverse();
-        //  this.vehEvent = vehEvent;
-
-        //-----------------S
-
+      
       }, err => {
         this.common.loading--;
         this.common.showError(err);
@@ -383,15 +353,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
 
       }
-      // else {
-      //   let show = text;
-      //   marker.addListener('mouseover', this.showInfoWindow.bind(this, show, marker));
-      //   marker.addListener('mouseout', this.closeInfoWindow.bind(this));
-      //   marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
-
-      // }
-      // marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
-      //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
+    
     }
     return thisMarkers;
   }
@@ -422,10 +384,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     this.map.fitBounds(this.bounds);
   }
   toggleBounceMF(id, evtype = 1) {
-    //console.log("Bounce marker",id);
-    //console.log("index",index);
-    //.log("test",test);
-    //console.log("item",item);
     if (this.Markers[id]) {
       if (this.Markers[id].getAnimation() == null && evtype == 1) {
         this.Markers[id].setAnimation(google.maps.Animation.BOUNCE);
@@ -507,6 +465,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   zoomFunctionality(i, vehicleEvent) {
     console.log("vehicleEvent", vehicleEvent);
     this.markerZoomMF(i, 19);
+    if (this.lastIndDetails)
     this.calculateDistanceAndTime(this.lastIndDetails, vehicleEvent.lat, vehicleEvent.long, vehicleEvent.time);
     console.log("vehicleEvent.siteId", vehicleEvent.y_site_id)
     if (vehicleEvent.y_site_id) {
@@ -684,10 +643,11 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
 
   openSmartTool(i, vehicleEvent) {
+    console.log("vehicleEvent",vehicleEvent);
     if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null)
       if (confirm("Merge with this Halt?")) {
         this.common.loading++;
-        let params = { ms_id: this.vSId, hs_id: vehicleEvent.vs_id };
+        let params = { ms_id: this.vSId, hs_id: vehicleEvent.haltId };
         console.log("params", params);
         this.api.post('HaltOperations/mergeManualStates', params)
           .subscribe(res => {

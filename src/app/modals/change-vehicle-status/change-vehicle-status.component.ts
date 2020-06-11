@@ -507,6 +507,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   zoomFunctionality(i, vehicleEvent) {
     console.log("vehicleEvent", vehicleEvent);
     this.markerZoomMF(i, 19);
+    if (this.lastIndDetails)
     this.calculateDistanceAndTime(this.lastIndDetails, vehicleEvent.lat, vehicleEvent.long, vehicleEvent.time);
     console.log("vehicleEvent.siteId", vehicleEvent.y_site_id)
     if (vehicleEvent.y_site_id) {
@@ -687,7 +688,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null)
       if (confirm("Merge with this Halt?")) {
         this.common.loading++;
-        let params = { ms_id: this.vSId, hs_id: vehicleEvent.vs_id };
+        let params = { ms_id: this.vSId, hs_id: vehicleEvent.haltId };
         console.log("params", params);
         this.api.post('HaltOperations/mergeManualStates', params)
           .subscribe(res => {
