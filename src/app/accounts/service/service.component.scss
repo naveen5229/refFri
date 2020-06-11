@@ -1,0 +1,281 @@
+nb-card-header{
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+  }
+  nb-card-body{
+  max-height: calc(100vh -70px)
+  }
+  button { 
+    padding: 7px 10px !important;
+    background-color: #263238;
+    border-radius: 5px !important;
+    text-transform: capitalize !important;
+    cursor: pointer;
+  }
+  .ledger-container{
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    padding: 8px;
+    min-height: 100px;
+    max-height: 390px;
+    overflow: auto;
+  }
+  .btn-taxdet{
+  color:#26a69a !important;
+  }
+  
+    .data_model_save{
+      padding: 20px;
+      text-align: center;
+      width: auto;
+      max-width: 250px;
+    }
+    .data_model_save button{
+      border: none;
+      padding: 10px 20px;
+      color: #fff;
+      border-radius: 3px;
+    }
+  
+    .ledger-option{
+      border: 1px solid #f2f2f2;
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 3px;
+  }
+  .active-ledger{
+      background: #e8f0f3;
+      font-weight: bold;
+  }
+  .ref-label{
+    background: #263238;
+    color: #fff;
+    padding: 3px 8px;
+    margin: 0;
+    border-radius: 3px 3px 0px 0px;
+    font-size: 12px;
+    min-width: 80px !important;
+    font-weight: normal;
+  }
+ 
+  .invoice_tabel{
+        thead{
+          display: table;
+          table-layout: fixed;
+          background-color: #263238;
+          color: #fff;
+          th{
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 150px;
+          }
+          th:last-child{
+            width: 57px;
+          }
+          th:nth-child(8){
+            width: 57px;
+          }
+          th:nth-child(2){
+            width: 384px;
+            padding: 5px;
+          }
+          th:nth-child(3){
+            width: 107px;
+            padding: 5px;
+          }
+          th:nth-child(4){
+            width: 107px;
+            padding: 5px;
+          }
+    }   
+      tbody{
+            overflow-y: auto;
+            display: block;
+            table-layout: fixed;
+            overflow: auto;
+            max-height: calc(100vh - 515px);
+          
+         tr{
+          td input{
+              padding: 5px 10px;
+              font-weight: normal;
+              width: 125px;
+          }
+          td:last-child{
+            width: 100px;
+          }
+          td:nth-child(1) input{
+            width: 128px;
+            padding: 5px;
+          }
+          td:nth-child(2) input{
+            width: 364px;
+            padding: 5px;
+          }
+          td:nth-child(3) input{
+            width: 65px;
+            padding: 5px;
+          }
+          td:nth-child(4){
+            width: 97px;
+            padding: 5px;
+          }
+          td:nth-child(4) input{
+            width: 95px;
+            padding: 5px;
+          }
+          td:nth-child(8){
+            width: 57px;
+            padding: 5px;
+          }
+          td{
+              padding: 5px 10px !important;
+              font-size: 12px;
+              button{
+                  padding: 0 !important;
+                  font-size: 14px;
+                  border-radius: 0px !important;
+                  margin: 0px;
+                  background-color: transparent;
+                  color: #263238;
+                  outline: none;
+                  box-shadow: none;
+              }
+              .btn-taxdet{
+                background-color: #000;
+                color: #fff !important;
+                font-size: 12px;
+                padding: 3px 7px !important;
+                border-radius: 3px !important;
+                cursor: pointer;
+              }
+          }
+           }
+          tr:nth-child(odd){
+              background-color: #fff;
+          }
+          tr:nth-child(even){
+              background-color: #e4e4e4;
+          }
+          tr:last-child{
+            height: 42px;
+          }
+          tr:last-child(){
+            
+            td:nth-child(2){
+              width: 80px;
+            }
+            td:nth-child(6){
+              width: 102px;
+            }
+        }
+      }
+  } 
+  .ref-input{
+    border: 1px solid #263238 !important;
+    border-radius: 0px 2px 2px 2px;
+    height: auto;
+    font-size: 12px;
+    padding: 5px !important;
+  }
+  #cancel{
+    background-color: #d61414 !important;
+  }
+  .btn-primary {
+    background-color: #263238 !important;
+  }
+  
+  
+  .date-modal{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999999;
+    top: 0;
+    left: 0;
+  }
+  .date-modal-body{
+    background: #fff;
+    width: 200px;
+    margin: 15% auto auto auto;
+  }
+  input:read-only {
+    background-color: #ccc;
+  }
+  .add_tax_tabel{
+    thead{
+    display: table;
+    table-layout: fixed;
+    background-color: #263238;
+    color: #fff;
+    th{
+      padding: 5px 10px;
+      font-weight: normal;
+      width: 364px;
+    }
+        th:last-child {
+              width: 30px;
+              padding: 3px 10px;
+              border: 1px solid #d8d8d8;
+            }
+        
+         
+    }
+      tbody{
+        overflow-y: auto;
+        display: block;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 515px);
+        td input{
+            width: 364px;
+            padding: 5px;
+          }
+        td:last-child input{
+              width: 20px;
+              padding: 5px;
+              border: 1px solid #d8d8d8;
+            }
+        tr:nth-child(odd){
+          background-color:#fff;
+        }
+        tr:nth-child(even){
+          background-color:#e4e4e4;
+        }
+     tr td button{
+          padding: 0 !important;
+          font-size: 14px;
+          border-radius: 0px !important;
+          margin: 0px;
+          background-color: transparent;
+          color: #263238;
+          outline: none;
+          box-shadow: none;
+          i {
+            color: black !important;
+            }
+      }
+      tr td .btn-danger{
+        padding: 0 !important;
+          font-size: 14px;
+          border-radius: 0px !important;
+          margin: 0px;
+          background-color: transparent;
+          color: black !important;
+          outline: none;
+          box-shadow: none;
+          i {
+          color: black !important;
+          }
+      }
+      }
+    }
+    .totalamount{
+        margin-top: -12px;
+        margin-left: -20px;
+    }
+  

@@ -285,6 +285,7 @@ import { StockSummaryComponent } from './acounts-modals/stock-summary/stock-summ
 import { GstReportComponent } from './acounts-modals/gst-report/gst-report.component';
 import { AdvanceComponent } from './acounts-modals/advance/advance.component';
 import { RangeComponent } from './acounts-modals/range/range.component';
+import { OtherinfoComponent } from './acounts-modals/otherinfo/otherinfo.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -528,7 +529,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   StockSummaryComponent,
   GstReportComponent,
   AdvanceComponent,
-  RangeComponent
+  RangeComponent,
+  OtherinfoComponent
 
 ];
 
@@ -541,6 +543,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CardusageComponent,
     VehicleInfoComponent,
     AddStateComponent,
+    
     
   ],
   entryComponents: [
