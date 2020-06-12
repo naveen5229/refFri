@@ -837,7 +837,12 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
   }
 
-  mapReset() {
+  dataRefresh() {
+   
+    this.reloadData();
+  }
+
+  resetMap() {
     this.clearAllMarkers();
         this.createMarkers(this.vehicleEvents);
         this.resetBtnStatus();

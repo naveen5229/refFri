@@ -81,7 +81,7 @@
                 <th>Dist</th>
                 <th>KM/h</th>
                 <th>AdUserId <span style="margin-left:15px"><i class="fa fa-refresh report-btn"
-                      (click)="mapReset();"></i></span></th>
+                      (click)="dataRefresh();"></i></span></th>
               </thead>
               <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
                 <tr [id]="'vehicleEvent-row-'+i"
@@ -171,6 +171,7 @@
       <div class="status_buttons">
         <button class="btn btn-primary" (click)="lUlBtn=!lUlBtn;showPreviousLUL()">Previous L/UL</button>
         <button class="btn btn-primary" (click)="showHalt()" style="margin-left:3px">Show Halt</button>
+        <button class="btn btn-primary" (click)="resetMap()" style="margin-left:3px">Map Reset</button>
         <!-- <button class="btn btn-primary" (click)="showTrail()" style="margin-left:3px">Show Trail</button> -->
         <button class="btn btn-primary" (click)="beforeLatchTime()" style="margin-left:3px">Before ltime</button>
         <input class="form-control" type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off"
