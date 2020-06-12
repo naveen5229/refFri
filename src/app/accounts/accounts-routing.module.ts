@@ -47,7 +47,7 @@ import { StoclsummaryComponent } from './stoclsummary/stoclsummary.component';
 import { CountryComponent } from './country/country.component';
 import { StateComponent } from './state/state.component';
 import { LedgerregidterComponent } from './ledgerregidter/ledgerregidter.component';
-
+import { ServiceComponent } from './service/service.component';
 
 const routes: Routes = [{
     path: '',
@@ -252,7 +252,11 @@ const routes: Routes = [{
         {
             path :'ledgerregidter',
             component: LedgerregidterComponent
-        }
+        },
+        {
+            path :'service',
+            component: ServiceComponent
+        } 
     ],
 
 }];

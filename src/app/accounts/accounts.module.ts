@@ -49,6 +49,7 @@ import { StoclsummaryComponent } from './stoclsummary/stoclsummary.component';
 import { CountryComponent } from './country/country.component';
 import { StateComponent } from './state/state.component';
 import { LedgerregidterComponent,ledgerRegisterTreeComponent } from './ledgerregidter/ledgerregidter.component';
+import { ServiceComponent } from './service/service.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -109,7 +110,8 @@ const PAGES_COMPONENTS = [
     StateComponent,
     LedgerregidterComponent,
     ledgerRegisterTreeComponent,
-    outStandingTreeComponent
+    outStandingTreeComponent,
+    ServiceComponent
   ],
   entryComponents:[
     StockitemsComponent,

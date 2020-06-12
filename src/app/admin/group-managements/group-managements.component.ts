@@ -95,6 +95,9 @@ export class GroupManagementsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data']);
+        if (res['success'] == "true") {
+          this.common.showToast("User Created");
+        }
       }, err => {
         this.common.loading--;
         this.common.showError();
