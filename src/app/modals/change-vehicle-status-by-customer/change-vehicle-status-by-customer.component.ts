@@ -255,6 +255,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     if (this.lUlBtn) {
       console.log("this.lUlBtn", this.lUlBtn);
       this.getLoadingUnLoading();
+      this.getVehicleTrips();
     }
   }
 
@@ -837,7 +838,10 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
 
   mapReset() {
-    this.reloadData();
+    this.clearAllMarkers();
+        this.createMarkers(this.vehicleEvents);
+        this.resetBtnStatus();
+    // this.reloadData();
   }
 
   openManualHalt(vehicleEvent) {
@@ -991,10 +995,34 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
           });
       }
     });
+  }
+  vehicleTrips = [];
+  getVehicleTrips() {
+    let today, startday, fromDate;
+    today = new Date();
+    startday = new Date(today.setMonth(today.getMonth() - 10));
+    fromDate = this.common.dateFormatter(startday);
+    let fromTime = this.common.dateFormatter(fromDate);
+    let toTime = this.common.dateFormatter(new Date());
+    
+    console.log('start & end', fromTime, toTime);
+    let params = "vehicleId=" + this.VehicleStatusData.vehicle_id +
+      "&startDate=" + fromTime +
+      "&endDate=" + toTime;
+    console.log('params', params);
+    ++this.common.loading;
+    this.api.get('TripsOperation/getTrips?' + params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('Res:', res['data']);
+      
+        this.vehicleTrips = res['data'];
+    
+      }, err => {
+        --this.common.loading;
 
-
-  
-
+        console.log('Err:', err);
+      });
   }
 }
 

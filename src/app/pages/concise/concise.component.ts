@@ -886,6 +886,7 @@ export class ConciseComponent implements OnInit {
   }
 
   openChangeStatusModal(trip) {
+    console.log("tri:::p",this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name));
     let ltime = new Date();
     let tTime = this.common.dateFormatter(new Date());
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
@@ -900,6 +901,7 @@ export class ConciseComponent implements OnInit {
       status: 2,
       remark: trip.remark,
       regno : trip.x_showveh,
+      tripName : this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name)
     };
     this.common.ref_page = 'tsfl';
     this.common.params = VehicleStatusData;

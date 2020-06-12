@@ -21,7 +21,7 @@ export class VehicleStatesComponent implements OnInit {
   eventInfo = null;
   infoWindow = null;
   infoStart = null;
-  stateType = "0";
+  stateType = "-1";
   changeCategory = "halts";
   startDate;
   endDate;

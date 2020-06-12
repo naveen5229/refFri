@@ -13,7 +13,7 @@
       <!-- Any change will need to change in fn_getvehicelstatename -->
       <select [(ngModel)]="stateType" class="form-control" (change)="changeStateType()"
         style=" border: 1px solid #324148; font-size: 10px">
-        <option value="0">Select State</option>
+        <option value="-1">Select State</option>
         <option value="1">Loading</option>
         <option value="2">Onward</option>
         <option value="3">Unloading</option>
@@ -27,7 +27,7 @@
         <option value="411">Driver Related Issue</option>
         <option value="421">Traffic Issue</option>
         <option value="431">Documents Issue</option>
-        <option value="999">Others</option>
+        <option value="0">Others</option>
       </select>
       <!-- Any change will need to change in fn_getvehicelstatename -->
 

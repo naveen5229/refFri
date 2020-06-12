@@ -1,6 +1,7 @@
 <div class="modal-header">
   <h5 class="modal-title" id="modal-basic-title">Change Vehicle Status By Customer</h5>
 
+  <div [innerHTML]="VehicleStatusData.tripName" style="margin-left: 250px;"></div>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -36,6 +37,27 @@
                   <td>{{lUL.distance}}</td>
                   <td>{{lUL.days}}</td>
                   <td>{{lUL.y_halt_desc}}</td>
+
+                </tr>
+              </tbody>
+            </table>
+            <h6>Vehicle Trips (Last 10 days)</h6>
+            <span *ngIf="!vehicleTrips" style="color: red;">There is No Trip in Last 10 days</span>
+            <table class="table table-bordered table-hover halts-show" *ngIf="vehicleTrips && vehicleTrips.length>0">
+              <tbody>
+                <tr>
+                  <th>#</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Trip</th>
+              
+                </tr>
+                <tr *ngFor="let vt of vehicleTrips;let i = index; " > 
+                  <td>{{i+1}}</td>
+                  <td>{{vt["Start Date"]}}</td>
+                  <td>{{vt["End Date"]}}</td>
+                  <td [innerHTML]="common.getJSONTripStatusHTML(vt)"></td>
+                  
 
                 </tr>
               </tbody>
@@ -119,10 +141,10 @@
                           *ngIf="vehicleEvent.desc!='Trails'  && vehicleEvent.haltId">{{vehicleEvent.y_halt_desc}}</button>
 
                           <button class="btn btn-success" (click)="openChangeHaltModal(vehicleEvent,'StateType')"
-                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null && vehicleEvent.adUserId >0"  >{{vehicleEvent.y_halt_desc}}</button>
+                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null" >{{vehicleEvent.y_halt_desc}}</button>
 
                           <span class="zoom-btn" (click)="removeVehicleState(vehicleEvent)"
-                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null && vehicleEvent.adUserId >0"><i
+                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null"><i
                             class="fa fa-trash"></i></span>
                       </span></div>
                   </td>
@@ -149,7 +171,7 @@
       <div class="status_buttons">
         <button class="btn btn-primary" (click)="lUlBtn=!lUlBtn;showPreviousLUL()">Previous L/UL</button>
         <button class="btn btn-primary" (click)="showHalt()" style="margin-left:3px">Show Halt</button>
-        <button class="btn btn-primary" (click)="showTrail()" style="margin-left:3px">Show Trail</button>
+        <!-- <button class="btn btn-primary" (click)="showTrail()" style="margin-left:3px">Show Trail</button> -->
         <button class="btn btn-primary" (click)="beforeLatchTime()" style="margin-left:3px">Before ltime</button>
         <input class="form-control" type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off"
           (click)="getDate('date')" placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date"
