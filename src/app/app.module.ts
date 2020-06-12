@@ -285,6 +285,7 @@ import { StockSummaryComponent } from './acounts-modals/stock-summary/stock-summ
 import { GstReportComponent } from './acounts-modals/gst-report/gst-report.component';
 import { AdvanceComponent } from './acounts-modals/advance/advance.component';
 import { RangeComponent } from './acounts-modals/range/range.component';
+import { ChangeVehicleStatusByCustomerComponent } from './modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
 import { OtherinfoComponent } from './acounts-modals/otherinfo/otherinfo.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
