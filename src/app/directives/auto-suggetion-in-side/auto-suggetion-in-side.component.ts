@@ -23,7 +23,6 @@ export class AutoSuggetionInSideComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    console.log("--------------------+++++++++", changes);
     if (changes.data) {
       this.data = changes.data.currentValue;
     }
@@ -88,13 +87,13 @@ export class AutoSuggetionInSideComponent implements OnInit {
     // console.log('Event:', event);
     const key = event.key.toLowerCase();
     if (key == 'arrowdown') {
-      if (this.activeSuggestion != this.suggestions.length - 1) this.activeSuggestion++;
-      console.log('Active: ', this.activeSuggestion, (this.activeSuggestion - 3) * 25);
-      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 25);
+      if (this.activeSuggestion < this.suggestions.length - 1) this.activeSuggestion++;
+      else if (this.activeSuggestion > this.suggestions.length - 1) this.activeSuggestion = 0;
+      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 4.5 - (this.activeSuggestion > 11 ? (this.activeSuggestion - 13) * 0.5 : 0));
       event.preventDefault();
     } else if (key == 'arrowup') {
       if (this.activeSuggestion != 0) this.activeSuggestion--;
-      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 25);
+      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 4.5 - (this.activeSuggestion > 11 ? (this.activeSuggestion - 13) * 0.5 : 0));
       event.preventDefault();
     } else if (key == 'enter' || key == 'tab') {
       if (this.activeSuggestion !== -1) {
