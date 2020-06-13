@@ -837,7 +837,12 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
   }
 
-  mapReset() {
+  dataRefresh() {
+   
+    this.reloadData();
+  }
+
+  resetMap() {
     this.clearAllMarkers();
         this.createMarkers(this.vehicleEvents);
         this.resetBtnStatus();
@@ -1000,7 +1005,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   getVehicleTrips() {
     let today, startday, fromDate;
     today = new Date();
-    startday = new Date(today.setMonth(today.getMonth() - 10));
+    startday = new Date(today.setDate(today.getDate() - 10));
     fromDate = this.common.dateFormatter(startday);
     let fromTime = this.common.dateFormatter(fromDate);
     let toTime = this.common.dateFormatter(new Date());

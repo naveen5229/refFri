@@ -56,7 +56,8 @@ callData = null;
       vehicleId :this.callData.vehicleId,
       foAdminUserId : this.callData.foAdminUserId,
       currentDay : this.callData.currentDay,
-      nextDay : this.callData.nextDay  
+      nextDay : this.callData.nextDay,
+      type : this.callData.type
     };
 
     console.log("params",params);
