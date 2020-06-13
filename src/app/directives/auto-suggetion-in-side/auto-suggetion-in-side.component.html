@@ -1,5 +1,5 @@
 <div class="TJR-auto-suggestion-container" id="TJR-auto-suggestion-container">
-  <div *lazyFor="let suggestion of suggestions; let i = index;" class="suggestion-option"
+  <div *ngFor="let suggestion of suggestions; let i = index;" class="suggestion-option"
     [ngClass]="activeSuggestion == i ? 'active-suggestion' : ''" (click)='selectSuggestion(suggestion)'>
     <span>{{suggestion[display]}}</span>
   </div>

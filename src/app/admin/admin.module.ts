@@ -75,7 +75,7 @@ import { FinancialAccountSummaryComponent } from './financial-account-summary/fi
 
 const PAGES_COMPONENTS = [
   AdminComponent,
-  // VehicleStatusChangeComponent,
+  VehicleStatusChangeComponent,
   EscalationMatrixComponent,
   GroupManagementsComponent,
   TicketPropertiesComponent,

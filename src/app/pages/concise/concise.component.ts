@@ -37,7 +37,6 @@ import { EntityFlagsComponent } from "../../modals/entity-flags/entity-flags.com
 import { DatePipe } from "@angular/common";
 import { PdfViewerComponent } from "../../generic/pdf-viewer/pdf-viewer.component";
 import { VehicleOrdersComponent } from "../../modals/BidModals/vehicle-orders/vehicle-orders.component";
-import { ChangeVehicleStatusByCustomerComponent } from "../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component";
 
 @Component({
   selector: "concise",
@@ -879,9 +878,9 @@ export class ConciseComponent implements OnInit {
         action: this.openVehicleWiseOrders.bind(this, kpi)
       },
     ]
-    // if (this.user._loggedInBy != "admin") {
-    //   icons.shift();
-    // }
+    if (this.user._loggedInBy != "admin") {
+      icons.shift();
+    }
     return icons;
   }
 
@@ -905,12 +904,7 @@ export class ConciseComponent implements OnInit {
     };
     this.common.ref_page = 'tsfl';
     this.common.params = VehicleStatusData;
-    if (this.user._loggedInBy != "admin") {
-      this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
-    }
-    else{
     this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
-  }
   }
 
 

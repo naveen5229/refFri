@@ -37,12 +37,6 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
-        title: 'Vehicle Status Change',
-        icon: 'fas fa-clipboard-check',
-        link: '/pages/vehiclestatuschange',
-        home: true,
-      },
-      {
         title: 'Placement Dashboard',
         icon: 'fas fa-map-marked-alt',
         link: '/pages/placements-dash-board',
