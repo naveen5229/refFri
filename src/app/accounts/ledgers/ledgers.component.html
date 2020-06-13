@@ -25,7 +25,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of Ledgers; let i = index;" (click)="selectedRow = i"
+          <tr *lazyFor="let data of Ledgers; let i = index;" (click)="selectedRow = i"
             (dblclick)="(deletedId !=2) ? openModal(data) : ''" (enter)="openModal(data)"
             [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{i + 1}}</td>
