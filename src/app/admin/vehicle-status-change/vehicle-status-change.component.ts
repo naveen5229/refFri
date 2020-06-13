@@ -6,6 +6,8 @@ import { ViewListComponent } from '../../modals/view-list/view-list.component';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmpDashboardComponent } from '../../documents/documentation-modals/emp-dashboard/emp-dashboard.component';
+import { ChangeVehicleStatusByCustomerComponent } from '../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'vehicle-status-change',
@@ -17,19 +19,19 @@ export class VehicleStatusChangeComponent implements OnInit {
   dis = "old";
   VehicleStatusAlerts = [];
   status = {
-    1:'Accept',
-    0:'Pending',
-    '-1':'Advance Review'
+    1: 'Accept',
+    0: 'Pending',
+    '-1': 'Advance Review'
   }
   constructor(
     public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
-  )
-   {
+    public user: UserService 
+  ) {
 
     this.getVehicleStatusAlerts(this.viewType);
-     this.common.refresh = this.refresh.bind(this);
+    this.common.refresh = this.refresh.bind(this);
 
 
   }
@@ -90,6 +92,19 @@ export class VehicleStatusChangeComponent implements OnInit {
     });
   }
 
+  openChangeStatusCustomerModal(VehicleStatusData) {
+    console.log("VehicleStatusData", VehicleStatusData);
+    this.common.params = VehicleStatusData;
+    this.common.ref_page = 'vsc';
+    const activeModal = this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      //console.log("data", data.respone);
+      // this.getVehicleStatusAlerts(this.viewType);
+
+      this.exitTicket(VehicleStatusData);
+    });
+  }
+
   enterTicket(VehicleStatusData) {
     let result;
     let params = {
@@ -108,7 +123,12 @@ export class VehicleStatusChangeComponent implements OnInit {
           return false;
         }
         else {
-          this.openChangeStatusModal(VehicleStatusData);
+          if (this.user._loggedInBy == "admin") {
+             this.openChangeStatusModal(VehicleStatusData);
+          }
+          else {
+            this.openChangeStatusCustomerModal(VehicleStatusData);
+          }
         }
       }, err => {
         this.common.loading--;
@@ -130,8 +150,8 @@ export class VehicleStatusChangeComponent implements OnInit {
         result = res
         console.log(result);
         if (!result.sucess) {
-         // alert(result.msg);
-         this.getVehicleStatusAlerts(this.viewType);
+          // alert(result.msg);
+          this.getVehicleStatusAlerts(this.viewType);
           return false;
         }
         else {
@@ -145,7 +165,7 @@ export class VehicleStatusChangeComponent implements OnInit {
   }
 
   openAnalyticsModal() {
-    this.common.params = {title: 'Analytics' };
+    this.common.params = { title: 'Analytics' };
     const activeModal = this.modalService.open(EmpDashboardComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
 
