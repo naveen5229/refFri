@@ -265,7 +265,8 @@ export class VehicleStatesComponent implements OnInit {
           lat: this.halt.lat,
           long: this.halt.long,
           datetime: this.halt.time,
-          remark: this.remark
+          remark: this.remark,
+          category: this.changeCategory
         };
 
       } else if (this.changeCategory == 'sites') {
@@ -282,7 +283,8 @@ export class VehicleStatesComponent implements OnInit {
             lat: this.site.lat,
             long: this.site.long,
             datetime: this.site.site_date,
-            remark: this.remark
+            remark: this.remark,
+            category: this.changeCategory
           };
         }
 
@@ -300,7 +302,9 @@ export class VehicleStatesComponent implements OnInit {
             lat: this.location.lat,
             long: this.location.long,
             datetime: this.location.loc_date,
-            remark: this.remark
+            remark: this.remark,
+            category: this.changeCategory
+
           };
 
         }
@@ -365,7 +369,8 @@ export class VehicleStatesComponent implements OnInit {
         vehicleId: this.vid,
         time: this.common.dateFormatter(this.halt.time),
         lat: this.halt.lat,
-        long: this.halt.long
+        long: this.halt.long,
+        category : this.changeCategory
       };
 
     } else if (this.changeCategory == 'sites') {
@@ -373,7 +378,8 @@ export class VehicleStatesComponent implements OnInit {
         vehicleId: this.vid,
         time: this.site.site_date,
         lat: this.site.lat,
-        long: this.site.long
+        long: this.site.long,
+        category : this.changeCategory
       };
 
     } else {
@@ -381,7 +387,8 @@ export class VehicleStatesComponent implements OnInit {
         vehicleId: this.vid,
         time: this.location.loc_date,
         lat: this.location.lat,
-        long: this.location.long
+        long: this.location.long,
+        category : this.changeCategory
       };
     }
     console.log('params', params);
