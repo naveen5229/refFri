@@ -24,7 +24,8 @@ import { LazyForDirective } from './lazyFor.directive';
     ],
     declarations: [AutoSuggestionComponent, SmartTableComponent, AutoSuggetionInSideComponent,
         DateTimePickerComponent,
-        MonthPickerComponent,LazyForDirective
+        MonthPickerComponent,
+        LazyForDirective
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [],
