@@ -531,8 +531,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   GstReportComponent,
   AdvanceComponent,
   RangeComponent,
-  OtherinfoComponent
-
+  OtherinfoComponent,
+  ChangeVehicleStatusByCustomerComponent
 ];
 
 @NgModule({
@@ -544,8 +544,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CardusageComponent,
     VehicleInfoComponent,
     AddStateComponent,
-    
-    
+
+
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
