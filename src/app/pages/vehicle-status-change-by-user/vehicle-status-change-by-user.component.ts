@@ -22,12 +22,12 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
       hideHeader: true
     }
   };
-  VehicleStatusAlerts =[];
+  VehicleStatusAlerts = [];
   constructor(
     public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
-    public user: UserService 
+    public user: UserService
   ) {
 
     this.getVehicleStatusAlerts();
@@ -50,8 +50,10 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res['data']);
-        this.VehicleStatusAlerts = res['data'];
-        this.gettingTableHeader(this.VehicleStatusAlerts);
+        if (res['data']) {
+          this.VehicleStatusAlerts = res['data'];
+          this.gettingTableHeader(this.VehicleStatusAlerts);
+        }
       }, err => {
         this.common.loading--;
         console.error(err);
@@ -89,10 +91,10 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
             value: '', isHTML: true, action: null,
             icons: this.actionIcons(tbldt)
           }
-        } else if(this.headings[i] == 'Trip'){
+        } else if (this.headings[i] == 'Trip') {
           this.valobj[this.headings[i]] = {
             value: this.common.getTripStatusHTML(tbldt._trip_status_type, tbldt._showtripstart, tbldt._showtripend, tbldt._p_placement_type, tbldt._p_loc_name),
-           
+
             isHTML: true,
           }
         }
@@ -106,25 +108,26 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
   }
 
   actionIcons(data) {
-    let icons = [{ class: 'fa fa-cog delete',
-     action: this.openChangeStatusCustomerModal.bind(this, data)
-     }];
+    let icons = [{
+      class: 'fa fa-cog delete',
+      action: this.enterTicket.bind(this, data)
+    }];
     return icons;
   }
- 
 
-  
+
+
 
   openChangeStatusCustomerModal(vs) {
     let VehicleStatusData = {
-      vehicle_id : vs._vid,
-      latch_time : vs.latch_time,
-      toTime : vs.ttime,
-      suggest : 0,
-      status : 1,
-      fo_name : vs.group_name,
-      regno : vs.vehicle_name,
-      tripName : this.common.getTripStatusHTML(vs._trip_status_type, vs._showtripstart, vs._showtripend, vs._p_placement_type, vs._p_loc_name)     
+      vehicle_id: vs._vid,
+      latch_time: vs.latch_time,
+      toTime: vs.ttime,
+      suggest: 0,
+      status: 1,
+      fo_name: vs.group_name,
+      regno: vs.vehicle_name,
+      tripName: this.common.getTripStatusHTML(vs._trip_status_type, vs._showtripstart, vs._showtripend, vs._p_placement_type, vs._p_loc_name)
     }
     console.log("VehicleStatusData", VehicleStatusData);
     this.common.params = VehicleStatusData;
@@ -132,8 +135,8 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
     const activeModal = this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       //console.log("data", data.respone);
-       this.getVehicleStatusAlerts();
-      this.exitTicket(VehicleStatusData);
+      this.getVehicleStatusAlerts();
+      this.exitTicket(vs);
     });
   }
 
@@ -141,7 +144,7 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
     let result;
     let params = {
       tblRefId: 1,
-      tblRowId: VehicleStatusData.vehicle_id
+      tblRowId: VehicleStatusData._vid
     };
     console.log("params", params);
     this.common.loading++;
@@ -155,8 +158,8 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
           return false;
         }
         else {
-          
-            this.openChangeStatusCustomerModal(VehicleStatusData);
+
+          this.openChangeStatusCustomerModal(VehicleStatusData);
         }
       }, err => {
         this.common.loading--;
@@ -168,7 +171,7 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
     let result;
     var params = {
       tblRefId: 1,
-      tblRowId: VehicleStatusData.vehicle_id
+      tblRowId: VehicleStatusData._vid
     };
     console.log("params", params);
     this.common.loading++;

@@ -50,13 +50,14 @@
                   <th>Start Date</th>
                   <th>End Date</th>
                   <th>Trip</th>
-              
+                  <th>Is_Empty</th>
                 </tr>
                 <tr *ngFor="let vt of vehicleTrips;let i = index; " > 
                   <td>{{i+1}}</td>
                   <td>{{vt["Start Date"]}}</td>
                   <td>{{vt["End Date"]}}</td>
                   <td [innerHTML]="common.getJSONTripStatusHTML(vt)"></td>
+                  <td>{{vt["Empty Trip"]}}</td>
                   
 
                 </tr>
