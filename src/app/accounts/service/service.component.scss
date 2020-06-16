@@ -73,7 +73,7 @@ nb-card-header{
             width: 150px;
           }
           th:last-child{
-            width: 57px;
+            width: 71px;
           }
           th:nth-child(8){
             width: 57px;
@@ -207,32 +207,38 @@ nb-card-header{
     background-color: #ccc;
   }
   .add_tax_tabel{
-    thead{
-    display: table;
-    table-layout: fixed;
-    background-color: #263238;
-    color: #fff;
-    th:nth-child(1){
-      padding: 5px 10px;
-      font-weight: normal;
-      width: 720px;
-    }th:nth-child(2){
-      padding: 5px 10px;
-      font-weight: normal;
-      width: 170px;
-    }th:nth-child(3){
-      padding: 5px 10px;
-      font-weight: normal;
-      width: 170px;
-    }
-        th:last-child {
-              width: 30px;
-              padding: 3px 10px;
-              border: 1px solid #d8d8d8;
-            }
+          thead{
+          display: table;
+          table-layout: fixed;
+          background-color: #263238;
+          color: #fff;
+          th:nth-child(1){
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 720px;
+            border: 1px solid #d8d8d8;
+
+          }th:nth-child(2){
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 170px;
+            border: 1px solid #d8d8d8;
+
+          }th:nth-child(3){
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 170px;
+            border: 1px solid #d8d8d8;
+
+          }
+          th:last-child {
+                width: 30px;
+                padding: 3px 10px;
+                border: 1px solid #d8d8d8;
+              }
         
          
-    }
+            }
       tbody{
         overflow-y: auto;
         display: block;
@@ -248,7 +254,7 @@ nb-card-header{
             padding: 5px;
           }
           td:nth-child(3) input{
-            width: 170px;
+            width: 180px;
             padding: 5px;
           }
         td:last-child input{

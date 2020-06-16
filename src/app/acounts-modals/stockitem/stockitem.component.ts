@@ -74,7 +74,7 @@ export class StockitemComponent implements OnInit {
     public common: CommonService,
     public api: ApiService) {
       console.log("open data model data:",this.common.params);
-    if (this.common.params) {
+    if (this.common.params.name) {
       this.sizeIndex =this.common.params.sizeIndex;
       this.stockItem = {
         name: this.common.params.name,
@@ -361,13 +361,18 @@ export class StockitemComponent implements OnInit {
          this.setFoucus('notopeningbal');
       //  this.showConfirm = true;
       }else if (activeId == 'gst' || activeId == 'notgst') {
+        if(activeId=='gst'){
+          this.stockItem.gst=true;
+        }else{
+          this.stockItem.gst=false;
+        }
         this.setFoucus('hsndetail');
      //  this.showConfirm = true;
      } else if (activeId == 'hsndetail') {
         this.setFoucus('hsnno');
        // this.showConfirm = true;
       }else if (activeId == 'hsnno') {
-        this.setFoucus('notisnon');
+        this.setFoucus('isnon');
        // this.showConfirm = true;
       }else if (activeId == 'cess') {
         // this.setFoucus('stock-name');
@@ -377,32 +382,34 @@ export class StockitemComponent implements OnInit {
         console.log('test??????');
         this.setFoucus('taxability');
       }else if (activeId.includes('taxability')) {
-        
-        console.log('test??????');        
+        if(this.stockItem.taxability=='Taxable'){       
         this.setFoucus('igst');
+      }else{
+        this.setFoucus('cess');
+      }
       }
     } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', activeId);
-      if (activeId == 'inventary' || activeId == 'notinventary') this.setFoucus('purchase');
-      if (activeId == 'purchase' || activeId == 'notpurchase') this.setFoucus('sales');
-      if (activeId == 'sales' || activeId == 'notsales') this.setFoucus('unit');
-      if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('openingbal');
-      if (activeId == 'openingqty') this.setFoucus('minlimit');
-      if (activeId == 'openingbal' || activeId =='notopeningbal') this.setFoucus('name');
-      if (activeId == 'minlimit') this.setFoucus('maxlimit');
-      if (activeId == 'name') this.setFoucus('stockSubType');
-      if (activeId == 'maxlimit') this.setFoucus('openingbal');
-      if (activeId == 'unit') this.setFoucus('openingqty');
-      if (activeId == 'stockSubType') this.setFoucus('stockType');
-      if (activeId == 'cess') this.setFoucus('igst');
-      if (activeId == 'igst') this.setFoucus('taxability');
-      if (activeId == 'taxability') this.setFoucus('calculationtype');
-      if (activeId == 'calculationtype') this.setFoucus('notisnon');
-      if (activeId == 'notisnon' || 'isnon') this.setFoucus('hsnno');
-      if (activeId == 'hsnno') this.setFoucus('hsndetail');
-      if (activeId == 'hsndetail') this.setFoucus('gst');
-      if (activeId == 'gst') this.setFoucus('minlimit');
+      if (activeId == 'inventary' || activeId == 'notinventary') {this.setFoucus('purchase');}
+      else if (activeId == 'purchase' || activeId == 'notpurchase') {this.setFoucus('sales');}
+      else if (activeId == 'sales' || activeId == 'notsales') {this.setFoucus('unit');}
+      else if (activeId == 'isactive' || activeId == 'notisactive') {this.setFoucus('openingbal');}
+      else if (activeId == 'openingqty'){ this.setFoucus('minlimit'); }
+      else if (activeId == 'openingbal' || activeId =='notopeningbal') {this.setFoucus('name');}
+      else if (activeId == 'minlimit'){ this.setFoucus('maxlimit');}
+      else if (activeId == 'name'){ this.setFoucus('stockSubType');}
+      else if (activeId == 'maxlimit'){ this.setFoucus('openingbal');}
+      else if (activeId == 'unit'){ this.setFoucus('openingqty');}
+      else if (activeId == 'stockSubType'){ this.setFoucus('stockType');}
+      else if (activeId == 'cess'){ this.setFoucus('igst');}
+      else if (activeId == 'igst'){ this.setFoucus('taxability');}
+      else if (activeId == 'taxability'){ this.setFoucus('calculationtype');}
+      else if (activeId == 'calculationtype'){ this.setFoucus('notisnon');}
+      else if (activeId == 'notisnon' || 'isnon'){ this.setFoucus('hsnno');}
+      else if (activeId == 'hsnno') { this.setFoucus('hsndetail');}
+      else if (activeId == 'hsndetail'){ this.setFoucus('gst'); }
+      else if (activeId == 'gst' || activeId == 'notgst') { this.setFoucus('minlimit'); }
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
     } else if (key != 'backspace') {

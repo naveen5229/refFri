@@ -394,7 +394,7 @@
               (input)="amountDetail.lineamount = amountDetail.amount = (amountDetail.qty * amountDetail.rate).toFixed(2)">
           </td>
           <td *ngIf="(order.ordertype.id != -108)">
-            <input type="number" class="form-control ref-input" autocomplete="off" [id]="'amount-' + i" name="account-amount" [(ngModel)]="amountDetail.amount" (input)="amountDetail.lineamount = amountDetail.amount">
+            <input type="number" class="form-control ref-input select" autocomplete="off" [id]="'amount-' + i"  name="account-amount" [(ngModel)]="amountDetail.amount" (input)="amountDetail.lineamount = amountDetail.amount">
           </td>
           <!-- <td *ngIf="(order.ordertype.id != -108) && (rateflag[i] == 0)">
             <input type="number" class="form-control ref-input" autocomplete="off" [id]="'amount-' + i" name="account-amount" [(ngModel)]="amountDetail.amount" readonly style="background-color: #eeeeee;">
@@ -458,7 +458,7 @@
           </td>
           <td>
             <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxrate-' + i" [id]="'taxrate-' + i"
-              [(ngModel)]="taxdetail.taxrate" placeholder="Please Enter Tax Rate" (input)="taxdetail.taxamount = ((taxdetail.taxrate * amount)/100).toFixed(2)">
+              [(ngModel)]="taxdetail.taxrate" placeholder="Please Enter Tax Rate" (input)="taxdetail.taxamount = ((taxdetail.taxrate * totalamount)/100).toFixed(2)">
           </td>
           <td>
             <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxamount-' + i" [id]="'taxamount-' + i"
