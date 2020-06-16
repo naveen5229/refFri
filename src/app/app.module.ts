@@ -287,6 +287,7 @@ import { AdvanceComponent } from './acounts-modals/advance/advance.component';
 import { RangeComponent } from './acounts-modals/range/range.component';
 import { ChangeVehicleStatusByCustomerComponent } from './modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
 import { OtherinfoComponent } from './acounts-modals/otherinfo/otherinfo.component';
+import { UpdateLocationComponent } from './modals/update-location/update-location.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -532,7 +533,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   AdvanceComponent,
   RangeComponent,
   OtherinfoComponent,
-  ChangeVehicleStatusByCustomerComponent
+  ChangeVehicleStatusByCustomerComponent,
+  UpdateLocationComponent
 ];
 
 @NgModule({
@@ -544,6 +546,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CardusageComponent,
     VehicleInfoComponent,
     AddStateComponent,
+    UpdateLocationComponent,
 
 
   ],

@@ -89,7 +89,14 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
             value: '', isHTML: true, action: null,
             icons: this.actionIcons(tbldt)
           }
-        } else {
+        } else if(this.headings[i] == 'Trip'){
+          this.valobj[this.headings[i]] = {
+            value: this.common.getTripStatusHTML(tbldt._trip_status_type, tbldt._showtripstart, tbldt._showtripend, tbldt._p_placement_type, tbldt._p_loc_name),
+           
+            isHTML: true,
+          }
+        }
+        else {
           this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'black', action: '' };
         }
       }
@@ -117,7 +124,7 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
       status : 1,
       fo_name : vs.group_name,
       regno : vs.vehicle_name,
-      
+      tripName : this.common.getTripStatusHTML(vs._trip_status_type, vs._showtripstart, vs._showtripend, vs._p_placement_type, vs._p_loc_name)     
     }
     console.log("VehicleStatusData", VehicleStatusData);
     this.common.params = VehicleStatusData;
@@ -125,8 +132,7 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
     const activeModal = this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       //console.log("data", data.respone);
-      // this.getVehicleStatusAlerts(this.viewType);
-
+       this.getVehicleStatusAlerts();
       this.exitTicket(VehicleStatusData);
     });
   }
