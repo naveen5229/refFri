@@ -549,6 +549,17 @@ export class ServiceComponent implements OnInit {
         //this.GetLedger();
         if (order.print) this.printFunction();
         this.order = this.setInvoice();
+        this.taxdetails =  [];
+        this.taxdetails = [{
+          taxledger: {
+            name: '',
+            id: '',
+          },
+          taxrate: 0,
+          taxamount: 0,
+          totalamount:0
+      
+        }];
         this.setFoucus('ordertype');
         this.common.showToast('Invoice Are Saved');
         return;
@@ -1711,6 +1722,14 @@ export class ServiceComponent implements OnInit {
       this.order.amountDetails[index].warehouse.id = suggestion.id;
       }
       //  this.getStockAvailability(suggestion.id);
+    }else if (this.activeId.includes('taxleder-')) {
+      console.log('tax ledger',suggestion);
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.taxdetails[index].taxledger.name = suggestion.name;
+      this.taxdetails[index].taxledger.id = suggestion.id;
+      this.taxdetails[index].taxrate = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
+      this.taxdetails[index].taxamount = parseFloat(((this.taxdetails[index].taxrate  * this.totalamount)/100).toFixed(2));
+  
     }
     else if (activeId.includes('invocelist')) {
       this.getInvoiceDetail(suggestion.id);
@@ -2197,6 +2216,33 @@ export class ServiceComponent implements OnInit {
     });
     return  parseFloat(total.toString());
   }
+  calculateTaxRateTotal(){
+    let total = 0;
+    this.taxdetails.map(taxdetail => {
+      total += parseFloat((taxdetail.taxrate).toString());
+      //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
 
+      //this.taxdetails[0].taxrate=  parseFloat(total.toString());
+    });
+    return  parseFloat(total.toString());
+  }
+  calculateTaxAmount(){
+    let total = 0;
+    this.taxdetails.map(taxdetail => {
+      total += parseFloat((taxdetail.taxamount).toString());
+      //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
+
+      this.taxdetails[0].totalamount=  parseFloat(total.toString());
+    });
+    
+    this.taxdetails.map(taxdetail => {
+      total += parseFloat((taxdetail.taxrate).toString());
+      //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
+
+      //this.taxdetails[0].taxrate=  parseFloat(total.toString());
+    });
+    return  parseFloat(total.toString());
+
+  }
 }
 

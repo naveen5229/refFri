@@ -721,7 +721,11 @@ export class OrdersComponent implements OnInit {
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('podate')) {
         this.handleOrderDateOnEnter('podate');
+        if (this.order.ordertype.id == -104) {
+          this.setFoucus('salesledger');
+        }else{
           this.setFoucus('qutationrefrence');
+        }
       } else if (this.activeId.includes('date')) {
         if (this.freezedate) {
           let rescompare = this.CompareDate(this.freezedate);
@@ -734,7 +738,7 @@ export class OrdersComponent implements OnInit {
             }, 150);
           } else {
             if (this.order.ordertype.id == -104) {
-              this.setFoucus('qutationrefrence');
+              this.setFoucus('vendorbidref');
             } else {
               this.setFoucus('podate');
             }
@@ -788,9 +792,17 @@ export class OrdersComponent implements OnInit {
             this.setFoucus('ledger');
           }
         }, 100);
+        if(this.order.ordertype.id == -104){
+        this.setFoucus('paymentterms');
+        }else{
         this.setFoucus('vendorbidref');
+        }
       } else if (this.activeId.includes('vendorbidref')) {
+        if(this.order.ordertype.id == -104){
+        this.setFoucus('podate');
+        }else{
         this.setFoucus('shipmentlocation');
+        }
       } else if (this.activeId.includes('qutationrefrence')) {
         if(this.order.ordertype.id == -104){
           this.setFoucus('salesledger');
@@ -810,7 +822,11 @@ export class OrdersComponent implements OnInit {
             }
           }
       } else if (this.activeId.includes('shipmentlocation')) {
+        if(this.order.ordertype.id == -104){
+        this.setFoucus('orderremarks');
+        }else{
         this.setFoucus('paymentterms');
+        }
       } else if (this.activeId.includes('paymentterms')) {
         this.setFoucus('biltynumber');
       } else if (this.activeId.includes('biltynumber')) {
@@ -822,7 +838,11 @@ export class OrdersComponent implements OnInit {
       } else if ((this.activeId.includes('billingaddress') && ((this.order.ordertype.name.toLowerCase().includes('purchase')) || (this.order.ordertype.name.toLowerCase().includes('debit')))) || this.activeId.includes('grnremarks')) {
         this.setFoucus('orderremarks');
       } else if (this.activeId.includes('billingaddress') && ((this.order.ordertype.name.toLowerCase().includes('sales'))|| (this.order.ordertype.name.toLowerCase().includes('credit')))) {
+        if(this.order.ordertype.id == -104){
+        this.setFoucus('shipmentlocation');
+        }else{
         this.setFoucus('grnremarks');
+        }
       } else if (this.activeId.includes('orderremarks')) {
         //let index = activeId.split('-')[1];
         // console.log('stockitem'+'-'+index);
