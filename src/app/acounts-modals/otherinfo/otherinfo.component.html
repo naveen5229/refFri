@@ -3,18 +3,17 @@
     <h4>Invoice</h4>
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)" style="padding: 0px;">
-    <div class="modal-header mb-3">
+    <div class="modal-header">
       <h5 class="modal-title" id="modal-basic-title">Other Detail</h5>
       <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body row m-0 p-0 mb-4">
-
+    <div class="modal-body">
    <div class="row">
     <div class="col" >
       <div class="form-group">
-        <label class="ref-label" >Order Date</label>
+        <label class="ref-label" >Ref Date</label>
         <input type="text" autocomplete="off" style="cursor: pointer;" class="form-control ref-input"
           autocomplete="off" id="podate" name="po-date" [(ngModel)]="service.podate" maxlength="10"
           (click)="lastActiveId = 'po-date'; allowBackspace = false;" (input)="allowBackspace = false;">
@@ -35,16 +34,15 @@
                   [(ngModel)]="service.paymentterms" placeholder="Payment Terms">
               </div>
             </div>
-            <div class="col">
-              <div class="form-group">
-                <label class="ref-label">Eway Bill Number</label>
-                <input type="text" autocomplete="off" class="form-control ref-input" id="biltynumber" name="account-biltynumber"
-                  [(ngModel)]="service.biltynumber" placeholder="Eway Bill Number">
-              </div>
-            </div>
-            
           </div>
       <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="ref-label">Eway Bill No.</label>
+            <input type="text" autocomplete="off" class="form-control ref-input" id="biltynumber" name="account-biltynumber"
+              [(ngModel)]="service.biltynumber" placeholder="Eway Bill Number">
+          </div>
+        </div>
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Eway Bill Date</label>
@@ -62,19 +60,20 @@
                   [(ngModel)]="service.deliveryterms" placeholder="Delivery Terms">
               </div>
             </div>
-
+      </div>
+      <div class="row">
             <div class="col">
               <div class="form-group">
                   <label class="ref-label">Party Billing Address</label>
                 <textarea class="form-control ref-input" autocomplete="off" name="account-billingaddress" id="billingaddress"
-                  [(ngModel)]="service.billingaddress" placeholder="Party Billing Address"></textarea>
+                  [(ngModel)]="service.billingaddress" row="6" placeholder="Party Billing Address"></textarea>
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Shipment Location</label>
                 <textarea autocomplete="off" class="form-control ref-input" id="shipmentlocation"name="account-shipmentlocation"
-                  [(ngModel)]="service.shipmentlocation" placeholder="Shipment Location"></textarea>
+                  [(ngModel)]="service.shipmentlocation" row="6" placeholder="Shipment Location"></textarea>
               </div>
             </div>
       </div>
