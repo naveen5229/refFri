@@ -2178,7 +2178,7 @@ export class ServiceComponent implements OnInit {
     shipmentlocation: this.order.shipmentlocation };
     const activeModal = this.modalService.open(OtherinfoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
+       console.log('Data: ', data);
       if (data.response) {
         this.setFoucus('warehouse-0');
         // console.log('ledger data',data.ledger);
@@ -2232,7 +2232,7 @@ export class ServiceComponent implements OnInit {
       total += parseFloat((taxdetail.taxamount).toString());
       //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
 
-      this.taxdetails[0].totalamount=  parseFloat(total.toString());
+     // this.taxdetails[0].totalamount=  parseFloat(total.toString());
     });
     
     this.taxdetails.map(taxdetail => {
