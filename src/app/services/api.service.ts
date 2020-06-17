@@ -11,11 +11,8 @@ import { encode } from 'punycode';
 })
 export class ApiService {
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
-  //  URL: string = 'http://elogist.in/testservices/'; // prod Server
-    URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev Server
-  // URL: string = 'http://192.168.1.119/Transtruck/booster_webservices/'; //Komal
-      // URL: string = 'http://192.168.0.118/booster_webservices/'; // Umang
- // URL: string = 'http://localhost/booster_webservices/'; // sachin
+   URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
+  // URL: string = 'http://localhost/booster_webservices/'; // Local
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
   URL2 = 'http://elogist.in/transtruck/';
   URLJava : string = 'http://13.126.162.170:7070/'; // Dev Server

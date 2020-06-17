@@ -8,7 +8,7 @@
 </div>
 <div class="modal-body">
   <div class="vehicle_status clearfix">
-    <span><b><i class="fa fa-user"></i> :</b> {{VehicleStatusData.fo_name}}</span>
+    <!-- <span><b><i class="fa fa-user"></i> :</b> {{VehicleStatusData.fo_name}}</span> -->
     <span><b><i class="fa fa-truck"></i>:</b> {{VehicleStatusData.regno}}</span> &nbsp;&nbsp;
     <span><b><i class="fa fa-address-card"></i> :</b> {{VehicleStatusData.vehicle_id}}</span> &nbsp;&nbsp;
     <span><b><i class="fa fa-industry"></i> :</b> {{lastIndType}} &nbsp;&nbsp; {{distDiff}}&nbsp;&nbsp;
@@ -146,6 +146,10 @@
                           <span class="zoom-btn" (click)="removeVehicleState(vehicleEvent)"
                           *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null"><i
                             class="fa fa-trash"></i></span>
+
+                            <span class="zoom-btn" (click)="updateLocation(vehicleEvent)"
+                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id"><i
+                            class="fa fa-map-marker"></i></span>
                       </span></div>
                   </td>
                 </tr>

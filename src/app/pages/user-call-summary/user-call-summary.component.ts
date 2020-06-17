@@ -114,11 +114,18 @@ export class UserCallSummaryComponent implements OnInit {
     for (var i = 0; i < this.data.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        if (j != 0) {
+        if (j != 0 && this.headings[j] != 'User Name') {
+          if(this.data[i][this.headings[j]]){
           this.valobj[this.headings[j]] = {
-            value: `<div style="color: black;" class="${this.data[i][this.headings[j]] ? 'blue' : 'black'}"><span>${this.data[i][this.headings[j]] || '-'}</span></div>`,
+            value: `<div style="color: black;" class="${this.data[i][this.headings[j]] ? 'blue' : 'black'}"><span>${this.data[i][this.headings[j]] || ''}</span></div>`,
             action: this.openHistoryModel.bind(this, this.data[i],this.headings[j]), isHTML: true,
           }
+        }else{
+          this.valobj[this.headings[j]] = {
+            value: `<div style="color: black;" class="${this.data[i][this.headings[j]] ? 'blue' : 'black'}"><span>${this.data[i][this.headings[j]] || ''}</span></div>`,
+            isHTML: true,
+          }
+        }
         } else {
           this.valobj[this.headings[j]] = { value: this.data[i][this.headings[j]], class: 'black', action: '' };
 
