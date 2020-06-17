@@ -53,6 +53,7 @@ export class OtherinfoComponent implements OnInit {
         this.service.shipmentlocation = this.common.params.shipmentlocation
     }
     this.setFoucus('podate');
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 1);
 
   }
 

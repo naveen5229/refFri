@@ -73,7 +73,7 @@ nb-card-header{
             width: 150px;
           }
           th:last-child{
-            width: 57px;
+            width: 71px;
           }
           th:nth-child(8){
             width: 57px;
@@ -83,11 +83,11 @@ nb-card-header{
             padding: 5px;
           }
           th:nth-child(3){
-            width: 107px;
+            width: 85px;
             padding: 5px;
           }
           th:nth-child(4){
-            width: 107px;
+            width: 115px;
             padding: 5px;
           }
     }   
@@ -96,7 +96,7 @@ nb-card-header{
             display: block;
             table-layout: fixed;
             overflow: auto;
-            max-height: calc(100vh - 515px);
+            max-height: calc(100vh - 540px);
           
          tr{
           td input{
@@ -120,7 +120,7 @@ nb-card-header{
             padding: 5px;
           }
           td:nth-child(4){
-            width: 97px;
+            width: 106px;
             padding: 5px;
           }
           td:nth-child(4) input{
@@ -207,32 +207,54 @@ nb-card-header{
     background-color: #ccc;
   }
   .add_tax_tabel{
-    thead{
-    display: table;
-    table-layout: fixed;
-    background-color: #263238;
-    color: #fff;
-    th{
-      padding: 5px 10px;
-      font-weight: normal;
-      width: 364px;
-    }
-        th:last-child {
-              width: 30px;
-              padding: 3px 10px;
-              border: 1px solid #d8d8d8;
-            }
+          thead{
+          display: table;
+          table-layout: fixed;
+          background-color: #263238;
+          color: #fff;
+          th:nth-child(1){
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 720px;
+            border: 1px solid #d8d8d8;
+
+          }th:nth-child(2){
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 170px;
+            border: 1px solid #d8d8d8;
+
+          }th:nth-child(3){
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 170px;
+            border: 1px solid #d8d8d8;
+
+          }
+          th:last-child {
+                width: 30px;
+                padding: 3px 10px;
+                border: 1px solid #d8d8d8;
+              }
         
          
-    }
+            }
       tbody{
         overflow-y: auto;
         display: block;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 515px);
-        td input{
-            width: 364px;
+        max-height: calc(100vh - 535px);
+        td:nth-child(1) input{
+            width: 720px;
+            padding: 5px;
+          }
+          td:nth-child(2) input{
+            width: 170x;
+            padding: 5px;
+          }
+          td:nth-child(3) input{
+            width: 180px;
             padding: 5px;
           }
         td:last-child input{
@@ -275,7 +297,23 @@ nb-card-header{
       }
     }
     .totalamount{
-        margin-top: -12px;
-        margin-left: -20px;
+      max-width: 177px;
+      margin-top: -12px;
+      margin-left: -20px;
+    }
+    .totaltaxamount{
+      margin-left: 142px;
+      margin-top: -17px;
+      max-width: 140px;
+    }
+    .totaltaxamountsecond{
+      max-width: 144px;
+      margin-left: 100px;
+      margin-top: -50px;
+    }
+    .totalbeforetaxamount{
+      margin-left: 160px;
+      max-width: 135px;
+
     }
   

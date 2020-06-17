@@ -12,6 +12,7 @@ import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
 import { VehicleGpsTrailComponent } from '../../modals/vehicle-gps-trail/vehicle-gps-trail.component';
 import { VehicleLrComponent } from '../vehicle-lr/vehicle-lr.component';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { UpdateLocationComponent } from '../update-location/update-location.component';
 
 declare let google: any;
 
@@ -1020,7 +1021,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log('Res:', res['data']);
-      
         this.vehicleTrips = res['data'];
     
       }, err => {
@@ -1028,6 +1028,23 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
 
         console.log('Err:', err);
       });
+  }
+
+  updateLocation(vehicleEvent){
+    let location = {
+      refId:vehicleEvent.vs_id,
+      refType : 1,
+      lat:vehicleEvent.lat,
+      lng:vehicleEvent.long
+    }
+    console.log("vehicle event",vehicleEvent);
+    this.common.params = {location:location}
+    const activeModal = this.modalService.open(UpdateLocationComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+
+    activeModal.result.then(data => {
+      console.log("data", data.respone);
+      
+    });
   }
 }
 
