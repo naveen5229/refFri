@@ -232,7 +232,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 link: '/accounts/orders/-104/Sales Invoice'
             },
             {
-                title: 'Service Invoive',
+                title: 'Sales Invoice (sort)',
                 link: '/accounts/service'
             },
             {
