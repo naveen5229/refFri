@@ -18,6 +18,7 @@ export class UpdateLocationComponent implements OnInit {
   }
   lat = null;
   lng = null;
+  name=null;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService,
@@ -27,6 +28,7 @@ export class UpdateLocationComponent implements OnInit {
     this.refId= this.common.params.location.refId;
     this.lat = this.common.params.location.lat?this.common.params.location.lat:null;
     this.lng= this.common.params.location.lng?this.common.params.location.lng:null;
+    this.name=this.common.params.location.name;
   }
   }
 
@@ -51,6 +53,9 @@ export class UpdateLocationComponent implements OnInit {
       if(distance>20){
         alert("Distance is Greater than 20 Km.Please choose appropriate name");
         return 
+      }else if(this.location.name.trim().toLowerCase() != this.name.trim().toLowerCase()){
+        alert("Name Doesn't match");
+        return
       }
       else{
         this.updateLocation()
@@ -66,7 +71,9 @@ export class UpdateLocationComponent implements OnInit {
     let params = {
      location : this.location.name,
      refType : this.refType,
-     refId : this.refId
+     refId : this.refId,
+     locationLat:this.location.lat,
+     locationLng:this.location.lng
     }
 
     this.api.post('HaltOperations/updateSequenceStateLocName', params)

@@ -1036,7 +1036,8 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       refId:vehicleEvent.vs_id,
       refType : 1,
       lat:vehicleEvent.lat,
-      lng:vehicleEvent.long
+      lng:vehicleEvent.long,
+      name:vehicleEvent.loc
     }
     console.log("vehicle event",vehicleEvent);
     this.common.params = {location:location}
