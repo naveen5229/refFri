@@ -290,6 +290,7 @@ import { OtherinfoComponent } from './acounts-modals/otherinfo/otherinfo.compone
 import { UpdateLocationComponent } from './modals/update-location/update-location.component';
 import { VerifyfuturetripstateComponent } from './modals/verifyfuturetripstate/verifyfuturetripstate.component';
 import { GstdataComponent } from './acounts-modals/gstdata/gstdata.component';
+import { CheckloginandredirectComponent } from './auth/checkloginandredirect/checkloginandredirect.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -552,7 +553,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     AddStateComponent,
     UpdateLocationComponent,
     VerifyfuturetripstateComponent,
-
+    CheckloginandredirectComponent
 
   ],
   entryComponents: [

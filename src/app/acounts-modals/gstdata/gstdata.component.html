@@ -8,7 +8,7 @@
     </div>
     
   </nb-card-header>
-  <nb-card-body (keydown)="keyHandler($event)">
+  <nb-card-body>
     <div class="labelpagename"> 
     <div class="ref-label">{{ pagename1}}</div>
     <div class="ref-label">{{ pagename2}}</div>
@@ -69,11 +69,3 @@
   </nb-card-body>
 </nb-card>
 
-<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
-  <div class="date-modal-body">
-    <div>
-      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="ledger[f2Date]"
-        maxlength="10">
-    </div>
-  </div>
-</div>
