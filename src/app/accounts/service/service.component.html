@@ -431,7 +431,7 @@
             <button class="plustransparent btn btn-plus" id="plustransparent" (click)="addAmountDetails()"><i
                 class="fa fa-plus"></i></button></td>
           <td *ngIf="i !== 0">
-            <button (click)="order.amountDetails.splice(i,1)" class="btn btn-danger"><i
+            <button (click)="order.amountDetails.splice(i,1); tempdata.splice(i,1)" class="btn btn-danger"><i
                 class="fa fa-trash"></i></button>
           </td>
         </tr>

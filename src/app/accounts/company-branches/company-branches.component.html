@@ -10,21 +10,22 @@
           <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Code</th>
+            <!-- <th>Code</th> -->
             <th>Email</th>
-            <th>Excise No</th>
-            <th>Fax No</th>
+            <th>State</th>
+            <!-- <th>Excise No</th>
+            <th>Fax No</th> -->
             <th>GST NO</th>
-            <th>Import/Export No</th>
+            <!-- <th>Import/Export No</th> -->
             <th>Mobile No</th>
             <th>PAN No</th>
             <th>Phone No</th>
             <th>TAN No</th>
             <th>TAX Exemption No</th>
             <th>TIN No</th>
-            <th>Tollfree Number</th>
+            <!-- <th>Tollfree Number</th>
             <th>Addressline</th>
-            <th>Remarks</th>
+            <th>Remarks</th> -->
             <th>Approve Mannual</th>
             <th>Action</th>
           </tr>
@@ -35,21 +36,23 @@
             [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{i + 1}}</td>
             <td>{{branchdata.name}}</td>
-            <td>{{branchdata.code}}</td>
+            <!-- <td>{{branchdata.code}}</td> -->
             <td>{{branchdata.email}}</td>
-            <td>{{branchdata.exciseno}}</td>
-            <td>{{branchdata.faxnumber}}</td>
+            <td *ngIf="branchdata.province_name">{{branchdata.province_name}} ( {{branchdata.gst_state_code}} )</td>
+            <td *ngIf="!branchdata.province_name"></td>
+             <!-- <td>{{branchdata.exciseno}}</td>
+            <td>{{branchdata.faxnumber}}</td> -->
             <td>{{branchdata.gstno}}</td>
-            <td>{{branchdata.importexportno}}</td>
+            <!-- <td>{{branchdata.importexportno}}</td> -->
             <td>{{branchdata.mobilenumber}}</td>
             <td>{{branchdata.panno}}</td>
             <td>{{branchdata.phonenumber}}</td>
             <td>{{branchdata.tanno}}</td>
             <td>{{branchdata.taxexemptionno}}</td>
             <td>{{branchdata.tinno}}</td>
-            <td>{{branchdata.tollfreenumber}}</td>
+            <!-- <td>{{branchdata.tollfreenumber}}</td>
             <td>{{branchdata.addressline}}</td>
-            <td>{{branchdata.remarks}}</td>
+            <td>{{branchdata.remarks}}</td> -->
             <td *ngIf="branchdata.is_inv_manualapprove">Yes</td>
             <td *ngIf="!branchdata.is_inv_manualapprove">No</td>
             <td class="del">
