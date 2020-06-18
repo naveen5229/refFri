@@ -1036,14 +1036,15 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       refId:vehicleEvent.vs_id,
       refType : 1,
       lat:vehicleEvent.lat,
-      lng:vehicleEvent.long
+      lng:vehicleEvent.long,
+      name:vehicleEvent.loc
     }
     console.log("vehicle event",vehicleEvent);
     this.common.params = {location:location}
     const activeModal = this.modalService.open(UpdateLocationComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
 
     activeModal.result.then(data => {
-      console.log("data", data.respone);
+      this.reloadData();
       
     });
   }
