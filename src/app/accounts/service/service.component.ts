@@ -16,6 +16,7 @@ import { PrintService } from '../../services/print/print.service';
 import { isNull } from 'util';
 import { RecordsComponent } from '../../acounts-modals/records/records.component';
 import { OtherinfoComponent } from '../../acounts-modals/otherinfo/otherinfo.component';
+import { GstdataComponent} from '../../acounts-modals/gstdata/gstdata.component';
 
 @Component({
   selector: 'service',
@@ -50,6 +51,12 @@ export class ServiceComponent implements OnInit {
   ledgersuggestiondata=[];
   Taxdata=[];
   selectflag=1;
+  otherinfoflag = 0;
+  showConfirmaddmore=false;
+  stateGstCode=0;
+  tempdata=[];
+  gstrate=0;
+  branchstategstcode=0;
   order = {
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
     date: (this.accountService.voucherDate) ? this.accountService.voucherDate : this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -309,6 +316,9 @@ export class ServiceComponent implements OnInit {
       defaultcheck: false
 
     });
+    let index = parseInt(this.lastActiveId.split('-')[1]);
+        console.log('tax detail inex',this.lastActiveId,index);
+      this.setFoucus('warehouse-' + (index+1));
   }
   getTaxLedgers() {
     let params = {
@@ -449,6 +459,12 @@ export class ServiceComponent implements OnInit {
 
   modelCondition() {
     this.showConfirm = false;
+    event.preventDefault();
+    return;
+  }
+  modelConditionaddmore() {
+    this.showConfirmaddmore = false;
+    this.setFoucus('taxleder-0');
     event.preventDefault();
     return;
   }
@@ -630,8 +646,16 @@ export class ServiceComponent implements OnInit {
     if ((this.order.ordertype.name.toLowerCase().includes('purchase')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     if ((this.order.ordertype.name.toLowerCase().includes('sales')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     console.log('Active event11', event, this.order.ordertype.name, this.activeId, this.suggestions.purchasestockItems);
-
-    if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
+    if(this.showConfirmaddmore && key=='enter'){
+      this.showConfirmaddmore=false;
+      this.addAmountDetails();
+      
+    }if(this.showConfirmaddmore && key=='n'){
+      this.showConfirmaddmore=false;
+      event.preventDefault();
+      return;
+    }
+   else if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
       this.lastActiveId = this.activeId;
@@ -840,6 +864,7 @@ export class ServiceComponent implements OnInit {
       } else if (this.activeId.includes('taxleder')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxrate-' + index);
+       
       }
       else if (this.activeId.includes('taxrate'))  {
         let index = parseInt(this.activeId.split('-')[1]);
@@ -980,7 +1005,8 @@ export class ServiceComponent implements OnInit {
       } else if (this.activeId.includes('remarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
        this.lastActiveId=this.activeId;
-        this.setFoucus('plustransparent');
+       // this.setFoucus('plustransparent');
+        this.showConfirmaddmore=true;
       } else if (this.activeId.includes('invocelist')) {
         this.setFoucus('custcode');
       }else if (this.activeId.includes('amount-')) {
@@ -997,6 +1023,7 @@ export class ServiceComponent implements OnInit {
           }else{
             this.order.amountDetails[index].rate = this.order.amountDetails[index].amount/this.order.amountDetails[index].qty;
           }
+        this.callgstcode(this.order.amountDetails[index].stockitem.name,this.order.amountDetails[index].amount);
           this.setFoucus('remarks' + '-' + index);
         }
       }
@@ -1684,6 +1711,7 @@ export class ServiceComponent implements OnInit {
         }else{
             this.order.ledger.name = suggestion.name;
             this.order.ledger.id = suggestion.id;
+            this.stateGstCode=suggestion.gst_state_code;
             if (suggestion.address_count > 1) {
               this.getAddressByLedgerId(suggestion.id);
             } else {
@@ -1712,6 +1740,7 @@ export class ServiceComponent implements OnInit {
           this.order.amountDetails[index].stockitem.id = suggestion.id;
           this.order.amountDetails[index].stockunit.name = suggestion.stockname;
           this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
+          this.gstrate = suggestion.gst_igst_per;
           if (this.order.ordertype.name.toLowerCase().includes('sales')) {
             this.getStockAvailability(suggestion.id,(this.order.amountDetails[index].warehouse.id));
             console.log('suggestion indexing',suggestion);
@@ -1881,6 +1910,74 @@ export class ServiceComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+
+  callgstcode(stockname,amount){
+    console.log('call ddd',stockname,amount);
+    let params = {
+      partyledger:this.order.ledger.id
+    };
+    if(amount !=null){
+    this.common.loading++;
+    this.api.post('Accounts/GetGstCode', params)
+      .subscribe(res => {
+        this.common.loading--;
+        let taxamount = (amount * this.gstrate)/100;
+        console.log('Res gst code:', res,res['data'][0]['gst_state_code'],this.stateGstCode,this.gstrate,taxamount);
+
+        if(res['data'][0]){
+         this.branchstategstcode = res['data'][0]['gst_state_code'];
+        if((res['data'][0]['gst_state_code'] && this.stateGstCode) && (res['data'][0]['gst_state_code'] == this.stateGstCode)){
+          this.tempdata.push({
+            'stockname' :stockname, 
+            'amount':amount,
+            'gstrate':this.gstrate,
+            'igst': 0, 
+            'cgst':taxamount/2, 
+           'sgst':taxamount/2
+          });
+          // this.tempdata['stockname'] = stockname; 
+          // this.tempdata['igst'] = 0; 
+          // this.tempdata['cgst'] = taxamount/2; 
+          // this.tempdata['sgst'] = taxamount/2; 
+        }}else{
+          this.tempdata.push({
+            'stockname' :stockname, 
+            'amount':amount,
+            'gstrate':this.gstrate,
+            'igst':taxamount , 
+            'cgst':0, 
+           'sgst':0
+          });
+        
+
+          // this.tempdata['stockname'] = stockname; 
+          // this.tempdata['igst'] = taxamount; 
+          // this.tempdata['cgst'] = 0; 
+          // this.tempdata['sgst'] = 0; 
+        }
+        console.log('temp data',this.tempdata);
+        
+        // this.Vouchers = res['data'];
+       // this.print(this.order, res['data']);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+    }
+  }
+  showgstdetail(){
+    this.common.params = { tempdata: this.tempdata,partycode:this.stateGstCode ,branchcode:this.branchstategstcode};
+    const activeModal = this.modalService.open(GstdataComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        // console.log('ledger data',data.ledger);
+        // this.addLedger(data.ledger);
+      }
+    });
   }
   print(voucherdataprint, companydata) {
 
@@ -2195,6 +2292,11 @@ export class ServiceComponent implements OnInit {
        console.log('Data: ', data);
       if (data.response) {
         this.setFoucus('warehouse-0');
+        if(data.ledger.biltydate !=0 || data.ledger.biltynumber !=0 ||data.ledger.custcode !='' ||data.ledger.deliveryterms !='' ||data.ledger.grnremarks !='' ||data.ledger.orderremarks !='' ||data.ledger.paymentterms !='' ||data.ledger.podate !='' ||data.ledger.qutationrefrence !='' ||data.ledger.shipmentlocation !='' ||data.ledger.billingaddress !='' ||data.ledger.vendorbidref !=''){
+          this.otherinfoflag = 1;
+        }else{
+          this.otherinfoflag = 0;
+        }
         // console.log('ledger data',data.ledger);
         // this.addLedger(data.ledger);
       }
