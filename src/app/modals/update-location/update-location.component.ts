@@ -50,12 +50,9 @@ export class UpdateLocationComponent implements OnInit {
     if(this.lat&&this.lng){
       let distance = this.common.distanceFromAToB(this.lat, this.lng, this.location.lat, this.location.lng, "K")
       console.log("distance",distance);
-      if(distance>20){
+      if(distance>20 && this.location.name.trim().toLowerCase() != this.name.trim().toLowerCase()){
         alert("Distance is Greater than 20 Km.Please choose appropriate name");
         return 
-      }else if(this.location.name.trim().toLowerCase() != this.name.trim().toLowerCase()){
-        alert("Name Doesn't match");
-        return
       }
       else{
         this.updateLocation()

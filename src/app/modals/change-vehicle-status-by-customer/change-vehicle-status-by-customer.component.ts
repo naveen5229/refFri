@@ -1044,7 +1044,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     const activeModal = this.modalService.open(UpdateLocationComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
 
     activeModal.result.then(data => {
-      console.log("data", data.respone);
+      this.reloadData();
       
     });
   }
