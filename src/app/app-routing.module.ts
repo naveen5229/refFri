@@ -10,6 +10,7 @@ import {
 } from '@nebular/auth';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
+import { CheckloginandredirectComponent } from './auth/checkloginandredirect/checkloginandredirect.component';
 
 const routes: Routes = [
   {
@@ -108,6 +109,10 @@ const routes: Routes = [
       {
         path: 'login/:type',
         component: LoginComponent,
+      },
+      {
+        path: 'checkloginandredirect',
+        component: CheckloginandredirectComponent,
       },
       {
         path: 'old-login',

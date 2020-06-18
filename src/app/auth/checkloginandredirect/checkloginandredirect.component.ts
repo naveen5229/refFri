@@ -14,6 +14,7 @@ export class CheckloginandredirectComponent implements OnInit {
   frompage: string;
   token: string;
   page: string;
+  oldtoken: string;
 
   constructor(private route: ActivatedRoute, private common: CommonService,
     private user: UserService, private router: Router, private dataService: DataService,
@@ -27,17 +28,23 @@ export class CheckloginandredirectComponent implements OnInit {
         this.page = param.split('page=')[1].replace(/%2F/g, '/');
       } else if (param.startsWith('frompage=')) {
         this.frompage = param.split('frompage=')[1].replace(/%2F/g, '/');
+      } else if (param.startsWith('oldtoken=')) {
+        this.oldtoken = param.split('oldtoken=')[1];
       }
     })
     console.log('Token:', this.token);
     console.log('page:', this.page);
     console.log('frompage:', this.frompage);
-    // let details = this.common.parseJwt(this.token);
-    let details = null;
-    console.log('Details:', details);
+    let details = this.common.parseJwt(this.token);
+    let walle8details = this.common.parseJwt(this.oldtoken);
+
+    console.log('Details:', details, walle8details);
     if (details) {
       this.user._details = details;
-      this.user._details.id = details.user_id;
+      this.user._details.authkey = this.token;
+      this.user._details.authkeyOld = this.oldtoken;
+      this.user._details.fo_mobileno = walle8details.fo_mobile;
+      this.user._details.foid = walle8details.foid;;
       this.user._token = this.token;
       this.user._loggedInBy = 'walle8customer';
       let url = window.location.href;
@@ -79,7 +86,8 @@ export class CheckloginandredirectComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.user._pages = res['data'].filter(page => {
-          return page.userid;
+          // return page.userid;
+          return true;
         });
 
         localStorage.setItem('DOST_USER_PAGES', JSON.stringify(this.user._pages));
@@ -93,7 +101,7 @@ export class CheckloginandredirectComponent implements OnInit {
         this.user.filterMenu("challan", "challan");
         this.user.filterMenu("walle8", "walle8");
         this.user.filterMenu("loadIntelligence", "loadIntelligence");
-        // this.router.navigate(['/pages']);
+        this.router.navigate([this.page || '/pages']);
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);

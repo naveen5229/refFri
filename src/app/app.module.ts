@@ -553,8 +553,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     AddStateComponent,
     UpdateLocationComponent,
     VerifyfuturetripstateComponent,
-    CheckloginandredirectComponent
-
+    CheckloginandredirectComponent,
+    CheckloginandredirectComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
