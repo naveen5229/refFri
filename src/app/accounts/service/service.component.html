@@ -234,7 +234,11 @@
                   <span *ngIf="(ledgerbalance)"><i>Cur Bal: </i>{{ ledgerbalance }}</span>
               </div>
             </div>
-            <div class="col" style="margin-top: 18px;">
+            <div class="col" *ngIf="otherinfoflag==0"  style="margin-top: 18px;">
+              <a href="javascript:void(0)" outline (click)="OtherInfo()" id="OtherInfo"
+                style="cursor: pointer;">Other Info </a>
+            </div>
+            <div class="col" *ngIf="otherinfoflag==1"  style="margin-top: 18px;">
               <a href="javascript:void(0)" class="advncolor" outline (click)="OtherInfo()" id="OtherInfo"
                 style="cursor: pointer;">Other Info </a>
             </div>
@@ -440,6 +444,9 @@
       <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
               [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;">
     </div>
+    <div class="col-2 totalamount">
+      <button (click)="showgstdetail()" class="btn btn-primary">Show Gst Detail</button>
+    </div>
   </div>
     <table class="add_tax_tabel">
       <thead style="background-color: #263238; color:#fff;">
@@ -515,7 +522,15 @@
     </div>
   </nb-card-body>
 </nb-card>
-
+<div class="date-modal" *ngIf="showConfirmaddmore">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to add more detail then press enter otherwise n ?</p>
+      <button (click)="addAmountDetails()">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+        (click)="modelConditionaddmore()">No</button>
+    </div>
+  </div>
+</div>
 
 <div class="date-modal" *ngIf="showConfirm">
   <div class="date-modal-body data_model_save">

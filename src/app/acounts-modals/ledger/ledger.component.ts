@@ -466,7 +466,15 @@ console.log('sixe ledger',this.sizeledger);
     console.log('Accounts:', this.Accounts);
     // console.log('Accounts:', response);
     if(this.foid >0){
-    this.activeModal.close({ response: response, ledger: this.Accounts });
+      console.log('act id ',this.activeId);
+      this.activeModal.close({ response: response, ledger: this.Accounts });
+      // let index = this.activeId.split('-')[1];
+      // if(this.Accounts.accDetails[index].state.id !='' && this.Accounts.accDetails[index].city.id !=-1){
+      //   this.activeModal.close({ response: response, ledger: this.Accounts });
+      //   }else{
+      //     this.common.showError('Please select city');
+      //     this.setFoucus('city-0');
+      //   }
     }else{
     this.common.showError("Sysytem Entry Can't Update");
     this.activeModal.close({ response: false, ledger: this.Accounts });     
@@ -567,13 +575,13 @@ console.log('sixe ledger',this.sizeledger);
       } else if (activeId == 'aliasname') {
         this.setFoucus('undergroup');
       } else if (activeId.includes('undergroup')) {
-        this.setFoucus('perrate');
+        this.setFoucus('creditdays');
       } else if (activeId.includes('perrate')) {
-        this.setFoucus('openingbalance');
+        this.setFoucus('isbank');
       } else if (activeId.includes('openingbalance')) {
         this.setFoucus('openingisdr');
       } else if (activeId.includes('openingisdr')) {
-        this.setFoucus('creditdays');
+        this.setFoucus('costcenter');
       } else if (activeId.includes('branchname')) {
         this.setFoucus('branchcode');
       } else if (activeId.includes('accnumber')) {
@@ -590,7 +598,7 @@ console.log('sixe ledger',this.sizeledger);
       } else if (activeId.includes('bankname')) {
         this.setFoucus('branchname');
       } else if (activeId.includes('creditdays')) {
-        this.setFoucus('costcenter');
+        this.setFoucus('openingbalance');
       } else if (activeId.includes('costcenter')) {
         if(this.superparentid === -8 || this.superparentid === -8 || this.superparentid === -5 || this.superparentid === -6){
           this.setFoucus('gst');
@@ -602,7 +610,7 @@ console.log('sixe ledger',this.sizeledger);
       } else if (activeId.includes('taxtype')) {
         this.setFoucus('taxsubtype');
       }else if (activeId.includes('taxsubtype')) {
-        this.setFoucus('isbank');
+        this.setFoucus('perrate');
       }else if (activeId == 'igst'  ) {
         this.setFoucus('cess');
       }else if (activeId == 'gst' || activeId == 'notgst') {
@@ -667,12 +675,17 @@ console.log('sixe ledger',this.sizeledger);
         this.setFoucus('city-' + index);
       } else if (activeId.includes('city-')) {
         let index = activeId.split('-')[1];
-        if (this.suggestions.list.length) {
-          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
-          this.suggestions.list = [];
-          this.suggestionIndex = -1;
+        // if (this.suggestions.list.length) {
+        //   this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+        //   this.suggestions.list = [];
+        //   this.suggestionIndex = -1;
+        // }
+        if(this.Accounts.accDetails[index].state.id !='' && this.Accounts.accDetails[index].city.id !=-1){
+        this.setFoucus('address-' + index); 
+        }else{
+          this.common.showError('Please select city');
+          this.setFoucus('city-' + index);
         }
-        this.setFoucus('address-' + index);
       } else if (activeId.includes('address-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('remarks-' + index);

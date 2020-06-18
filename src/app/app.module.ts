@@ -289,6 +289,7 @@ import { ChangeVehicleStatusByCustomerComponent } from './modals/change-vehicle-
 import { OtherinfoComponent } from './acounts-modals/otherinfo/otherinfo.component';
 import { UpdateLocationComponent } from './modals/update-location/update-location.component';
 import { VerifyfuturetripstateComponent } from './modals/verifyfuturetripstate/verifyfuturetripstate.component';
+import { GstdataComponent } from './acounts-modals/gstdata/gstdata.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -536,7 +537,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   OtherinfoComponent,
   ChangeVehicleStatusByCustomerComponent,
   UpdateLocationComponent,
-  VerifyfuturetripstateComponent
+  VerifyfuturetripstateComponent,
+  GstdataComponent
 ];
 
 @NgModule({
