@@ -13,6 +13,7 @@ import { VehicleGpsTrailComponent } from '../../modals/vehicle-gps-trail/vehicle
 import { VehicleLrComponent } from '../vehicle-lr/vehicle-lr.component';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { UpdateLocationComponent } from '../update-location/update-location.component';
+import { VerifyfuturetripstateComponent } from '../verifyfuturetripstate/verifyfuturetripstate.component';
 
 declare let google: any;
 
@@ -1044,6 +1045,22 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     activeModal.result.then(data => {
       console.log("data", data.respone);
       
+    });
+  }
+
+  verifyTrip(vehicleEvent){
+    
+    let verifyTrip = {
+      startTime:vehicleEvent.startTime,
+      trip_desc:vehicleEvent.trip_desc,
+      trip_id:vehicleEvent.trip_id,
+      stateId:vehicleEvent.vs_id
+    }
+    console.log("vehicle event",vehicleEvent);
+    this.common.params = {verifyTrip:verifyTrip}
+    const activeModal = this.modalService.open(VerifyfuturetripstateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    this.reloadData();
     });
   }
 }
