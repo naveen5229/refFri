@@ -59,15 +59,15 @@ export class AppComponent implements OnInit {
     const params = {
       userId: this.user._details.id,
       userType: userTypeId,
-      iswallet : localStorage.getItem('iswallet') || '0' 
-
+      iswallet: localStorage.getItem('iswallet') || '0'
     };
     // this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         // this.common.loading--;
         this.user._pages = res['data'].filter(page => {
-         
+          if (localStorage.getItem('iswallet') === '1')
+            return true;
           return page.userid;
         });
         localStorage.setItem('DOST_USER_PAGES', JSON.stringify(this.user._pages));
