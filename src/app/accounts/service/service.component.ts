@@ -17,6 +17,7 @@ import { isNull } from 'util';
 import { RecordsComponent } from '../../acounts-modals/records/records.component';
 import { OtherinfoComponent } from '../../acounts-modals/otherinfo/otherinfo.component';
 import { GstdataComponent} from '../../acounts-modals/gstdata/gstdata.component';
+import { map } from 'd3';
 
 @Component({
   selector: 'service',
@@ -55,7 +56,7 @@ export class ServiceComponent implements OnInit {
   showConfirmaddmore=false;
   stateGstCode=0;
   tempdata=[];
-  gstrate=0;
+  gstrate=[];
   branchstategstcode=0;
   order = {
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -321,7 +322,7 @@ export class ServiceComponent implements OnInit {
     });
     let index = parseInt(this.lastActiveId.split('-')[1]);
         console.log('tax detail inex',this.lastActiveId,index);
-      //this.showConfirmaddmore = false;
+      this.showConfirmaddmore = false;
       this.setFoucus('warehouse-' + (index+1));
   }
   getTaxLedgers() {
@@ -1031,7 +1032,7 @@ export class ServiceComponent implements OnInit {
           }else{
             this.order.amountDetails[index].rate = this.order.amountDetails[index].amount/this.order.amountDetails[index].qty;
           }
-        this.callgstcode(this.order.amountDetails[index].stockitem.name,this.order.amountDetails[index].amount);
+       // this.callgstcode(this.order.amountDetails[index].stockitem.name,this.order.amountDetails[index].amount);
           this.setFoucus('remarks' + '-' + index);
         }
       }
@@ -1748,7 +1749,7 @@ export class ServiceComponent implements OnInit {
           this.order.amountDetails[index].stockitem.id = suggestion.id;
           this.order.amountDetails[index].stockunit.name = suggestion.stockname;
           this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
-          this.gstrate = suggestion.gst_igst_per;
+          this.gstrate[index] = suggestion.gst_igst_per;
           if (this.order.ordertype.name.toLowerCase().includes('sales')) {
             this.getStockAvailability(suggestion.id,(this.order.amountDetails[index].warehouse.id));
             console.log('suggestion indexing',suggestion);
@@ -1933,6 +1934,9 @@ export class ServiceComponent implements OnInit {
 
         if(res['data'][0]){
          this.branchstategstcode = res['data'][0]['gst_state_code'];
+        }else{
+         this.branchstategstcode = 0;
+
         }
         console.log('temp data',this.tempdata);
 
@@ -1943,36 +1947,53 @@ export class ServiceComponent implements OnInit {
       });
     
   }
-  callgstcode(stockname,amount){
-   
-        let taxamount = (amount * this.gstrate)/100;
-        console.log('Res gst code:',this.branchstategstcode,this.stateGstCode,this.gstrate,taxamount);
+  callgstcode(){
+      this.tempdata=[];
+      this.order.amountDetails.map((mapdata,index)=>{
+          let amount = mapdata.amount;
+          let stockname = mapdata.stockitem.name;
+          let gstamount = this.gstrate[index];
+        let taxamount = (amount * gstamount)/100;
+      //  console.log('Res gst code:',this.branchstategstcode,this.stateGstCode,gstamount,taxamount);
 
         if(this.branchstategstcode){
         if((this.branchstategstcode && this.stateGstCode) && (this.branchstategstcode == this.stateGstCode)){
           this.tempdata.push({
             'stockname' :stockname, 
             'amount':amount,
-            'gstrate':this.gstrate,
+            'gstrate':gstamount,
             'igst': 0, 
             'cgst':taxamount/2, 
            'sgst':taxamount/2
           });
-        
+        }
+        else{
+          this.tempdata.push({
+            'stockname' :stockname, 
+            'amount':amount,
+            'gstrate':gstamount,
+            'igst':taxamount , 
+            'cgst':0, 
+           'sgst':0
+          });
         }
       }else{
         this.tempdata.push({
           'stockname' :stockname, 
           'amount':amount,
-          'gstrate':this.gstrate,
+          'gstrate':gstamount,
           'igst':taxamount , 
           'cgst':0, 
          'sgst':0
         });
       }
+    });
+    console.log('tmp data',this.tempdata);
+    this.showgstdetail();
         
   }
   showgstdetail(){
+    
     this.common.params = { tempdata: this.tempdata,partycode:this.stateGstCode ,branchcode:this.branchstategstcode};
     const activeModal = this.modalService.open(GstdataComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
