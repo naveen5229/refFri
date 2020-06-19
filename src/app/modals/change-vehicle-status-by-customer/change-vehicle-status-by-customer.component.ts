@@ -13,6 +13,7 @@ import { VehicleGpsTrailComponent } from '../../modals/vehicle-gps-trail/vehicle
 import { VehicleLrComponent } from '../vehicle-lr/vehicle-lr.component';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { UpdateLocationComponent } from '../update-location/update-location.component';
+import { VerifyfuturetripstateComponent } from '../verifyfuturetripstate/verifyfuturetripstate.component';
 
 declare let google: any;
 
@@ -1035,15 +1036,32 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       refId:vehicleEvent.vs_id,
       refType : 1,
       lat:vehicleEvent.lat,
-      lng:vehicleEvent.long
+      lng:vehicleEvent.long,
+      name:vehicleEvent.loc
     }
     console.log("vehicle event",vehicleEvent);
     this.common.params = {location:location}
     const activeModal = this.modalService.open(UpdateLocationComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
 
     activeModal.result.then(data => {
-      console.log("data", data.respone);
+      this.reloadData();
       
+    });
+  }
+
+  verifyTrip(vehicleEvent){
+    
+    let verifyTrip = {
+      startTime:vehicleEvent.startTime,
+      trip_desc:vehicleEvent.trip_desc,
+      trip_id:vehicleEvent.trip_id,
+      stateId:vehicleEvent.vs_id
+    }
+    console.log("vehicle event",vehicleEvent);
+    this.common.params = {verifyTrip:verifyTrip}
+    const activeModal = this.modalService.open(VerifyfuturetripstateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    this.reloadData();
     });
   }
 }

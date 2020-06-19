@@ -43,6 +43,13 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
+        title: 'Trip Issues',
+        icon: 'fas fa-clipboard-check',
+        link: '/pages/tripissues',
+        home: true,
+      },
+
+      {
         title: 'Placement Dashboard',
         icon: 'fas fa-map-marked-alt',
         link: '/pages/placements-dash-board',
