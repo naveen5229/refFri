@@ -4,11 +4,11 @@ nb-card-header{
   margin-bottom: 10px;
 }
 .pdf-icon{
-    font-size: 30px;
+    font-size: 20px;
     color: #9F0001;
   }
   .exel-icon{
-    font-size: 30px;
+    font-size: 20px;
     color: #217346;
   }
   table {
@@ -18,7 +18,7 @@ nb-card-header{
   }
  
   td, th {
-    border: 1px solid #dddddd;
+    // border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
   }
@@ -86,10 +86,68 @@ nb-card-header{
  
  }
  .tbody-two tr{
-  color: #fff;
-  background-color: #616161 !important;
+  color: #000;
+  background-color:lightgrey!important;
  }
  .tbody-three tr{
-  color: #fff;
-  background-color: #000 !important;
+  color: #000;
+  background-color: darkgrey !important;
  }
+
+
+
+ .float{
+  float:right;
+}
+
+ :host ::ng-deep .tableFixHead th{
+  background:#E5F3F9!important;
+}
+
+:host ::ng-deep .tableFixHead{
+ border-top-left-radius: 10px;
+ border-top-right-radius: 10px;
+ // overflow:hidden!important;
+}
+
+:host ::ng-deep tbody tr:nth-child(even){
+  background:#EDF1F7!important;
+}
+
+:host ::ng-deep tbody tr:nth-child(odd){
+ background:#f5f5f538 !important;
+}
+
+:host ::ng-deep .table-bordered {
+  border:none!important;
+  border-width:0!important;
+}
+
+:host ::ng-deep tbody tr td{
+  border:none!important
+}
+
+:host ::ng-deep thead tr th{
+  border:none!important;
+}
+
+:host ::ng-deep .filter-container{
+  border-radius:23px!important;
+}
+:host ::ng-deep table thead{
+  background:#E5F3F9!important;
+  color:#000!important;
+  border-top-left-radius:5px!important;
+  border-top-right-radius:5px!important;
+}
+// :host ::ng-deep .tbody-two tr td .one{
+//   width:363px;
+// }
+
+// :host ::ng-deep .tbody-two tr td .two{
+//   width:250px;
+// }
+
+// :host ::ng-deep .tbody-two tr td .three{
+//   width:250px;
+// }

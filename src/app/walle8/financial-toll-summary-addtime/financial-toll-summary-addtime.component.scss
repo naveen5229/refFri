@@ -1,12 +1,51 @@
 .pdf-icon{
-    font-size: 30px;
+    font-size: 20px;
     color: #9F0001;
   }
   .exel-icon{
-    font-size: 30px;
-    color: #217346;
+    font-size: 20px;
+    color: #5bbe88;
   }
   .thead{
-    background-color:black;
-    color:white;
+    background-color:#E5F3F9;
+    color:#000;
+  }
+
+  .float{
+    float:right;
+  }
+  
+   :host ::ng-deep .tableFixHead th{
+    background:#E5F3F9!important;
+  }
+  
+  :host ::ng-deep .tableFixHead{
+   border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
+   // overflow:hidden!important;
+  }
+  
+  :host ::ng-deep tbody tr:nth-child(even){
+    background:#EDF1F7!important;
+  }
+  
+  :host ::ng-deep tbody tr:nth-child(odd){
+   background:#f5f5f538 !important;
+  }
+  
+  :host ::ng-deep .table-bordered {
+    border:none!important;
+    border-width:0!important;
+  }
+  
+  :host ::ng-deep tbody tr td{
+    border:none!important
+  }
+  
+  :host ::ng-deep thead tr th{
+    border:none!important;
+  }
+  
+  :host ::ng-deep .filter-container{
+    border-radius:23px!important;
   }
