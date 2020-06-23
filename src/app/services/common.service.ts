@@ -1748,7 +1748,7 @@ export class CommonService {
       case 22:
       case 23:
         title = origin;
-        title += destination ?  ` - ${destination}` : '';
+        title += destination ? ` - ${destination}` : '';
         title += ' -> ' + placements.join('-');
         break;
       default:
@@ -1938,4 +1938,12 @@ export class CommonService {
     return date + separator + month + separator + year;
 
   }
+
+  parseJwt(token) {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+      return null;
+    }
+  };
 }

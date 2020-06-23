@@ -120,7 +120,7 @@
         </div>
         <div class="col-3">
           <div class="ledger-container" id="ledger-container">
-            <div *ngFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
+            <div *lazyFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
               [ngClass]="activeLedgerIndex == i ? 'active-ledger' : ''" (click)='selectLedger(ledger)'>
               <span>{{ledger.y_ledger_name}}</span>
             </div>

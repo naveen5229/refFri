@@ -50,7 +50,12 @@
                   <th>Start Date</th>
                   <th>End Date</th>
                   <th>Trip</th>
+<<<<<<< HEAD
                   <th>Is_Empty</th>
+=======
+                  <th>Empty</th>
+              
+>>>>>>> dev
                 </tr>
                 <tr *ngFor="let vt of vehicleTrips;let i = index; " > 
                   <td>{{i+1}}</td>
@@ -121,23 +126,23 @@
                 <tr *ngIf="vehicleEvent.isOpen">
                   <td colspan="9">
                     <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
-                        <span class="zoom-btn" (click)="setZoom(6)">1</span>
-                        <span class="zoom-btn" (click)="setZoom(9)">2</span>
-                        <span class="zoom-btn" (click)="setZoom(12)">3</span>
-                        <span class="zoom-btn" (click)="setZoom(15)">4</span>
-                        <span class="zoom-btn" (click)="setZoom(18)">5</span>
-                        <span class="zoom-btn" (click)="showHide()">{{showHideSite}}</span>
+                        <span class="zoom-btn" (click)="setZoom(6)"  title="zoom Level 1">1</span>
+                        <span class="zoom-btn" (click)="setZoom(9)"  title="zoom Level 2">2</span>
+                        <span class="zoom-btn" (click)="setZoom(12)" title="zoom Level 3">3</span>
+                        <span class="zoom-btn" (click)="setZoom(15)" title="zoom Level 4">4</span>
+                        <span class="zoom-btn" (click)="setZoom(18)" title="zoom Level 5">5</span>
+                        <span class="zoom-btn" (click)="showHide()"  title="Show and Hide Site">{{showHideSite}}</span>
                         <span class="zoom-btn" (click)="setSiteHalt(vehicleEvent,true)"
-                          *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId">CSH</span>
+                          *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId" title="Map Site">CSH</span>
                         <!-- <span class="zoom-btn" (click)="deleteHalt(vehicleEvent)" *ngIf="vehicleEvent.y_is_delete"><i
                                     class="fa fa-trash"></i></span> -->
                         <span class="zoom-btn" *ngIf="vehicleEvent.haltTypeId == -1"
-                          (click)="openManualHalt(vehicleEvent);">MH</span>
+                          (click)="openManualHalt(vehicleEvent);" title="Merge Halt">MH</span>
                         <span class="zoom-btn"><i class="fa fa-question-circle report-btn"
                             (click)="reportIssue(vehicleEvent);"></i></span>
                         <span class="zoom-btn" (click)="openChangeHaltModal(vehicleEvent,'SiteType')"
                           *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_id"><i
-                            class="fa fa-plus"></i></span>
+                            class="fa fa-plus" title="Create Site"></i></span>
                         <button class="btn btn-success" (click)="openChangeHaltModal(vehicleEvent,'HaltType')"
                           *ngIf="vehicleEvent.desc!='Trails'  && vehicleEvent.haltId">{{vehicleEvent.y_halt_desc}}</button>
 
@@ -146,12 +151,17 @@
 
                           <span class="zoom-btn" (click)="removeVehicleState(vehicleEvent)"
                           *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null"><i
-                            class="fa fa-trash"></i></span>
+                            class="fa fa-trash" title="Delete"></i></span>
 
                             <span class="zoom-btn" (click)="updateLocation(vehicleEvent)"
                           *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id"><i
-                            class="fa fa-map-marker"></i></span>
-                      </span></div>
+                            class="fa fa-map-marker" title="Change Location"></i></span>
+                            
+                            <span class="zoom-btn" (click)="verifyTrip(vehicleEvent)"
+                            *ngIf="vehicleEvent.trip_id"><i
+                              class="fa fa-check" title="Mark Resolved"></i></span>
+                      </span>
+                    </div>
                   </td>
                 </tr>
               </tbody>

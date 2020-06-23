@@ -16,6 +16,8 @@ import { PrintService } from '../../services/print/print.service';
 import { isNull } from 'util';
 import { RecordsComponent } from '../../acounts-modals/records/records.component';
 import { OtherinfoComponent } from '../../acounts-modals/otherinfo/otherinfo.component';
+import { GstdataComponent} from '../../acounts-modals/gstdata/gstdata.component';
+import { map } from 'd3';
 
 @Component({
   selector: 'service',
@@ -49,6 +51,13 @@ export class ServiceComponent implements OnInit {
   rateflag=[];
   ledgersuggestiondata=[];
   Taxdata=[];
+  selectflag=1;
+  otherinfoflag = 0;
+  showConfirmaddmore=false;
+  stateGstCode=0;
+  tempdata=[];
+  gstrate=[];
+  branchstategstcode=0;
   order = {
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
     date: (this.accountService.voucherDate) ? this.accountService.voucherDate : this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -161,11 +170,12 @@ export class ServiceComponent implements OnInit {
     public modalService: NgbModal,
     public accountService: AccountService) {
     // this.getBranchList();
-      this.order.ordertype.id = -104;
-      this.order.ordertype.name = 'sales';
+      this.order.ordertype.id = -109;
+      this.order.ordertype.name = 'Service Sales Invoice';
       this.suggestionname = 'Service';
     this.getStockItems('sales');
     this.getTaxLedgers();
+
     // this.route.params.subscribe(params => {
     //   console.log('Params1: ', params);
       
@@ -205,6 +215,7 @@ export class ServiceComponent implements OnInit {
       this.getWarehouses();
       this.mannual = this.accountService.selected.branch.is_inv_manualapprove;
       this.order.ismanual = this.mannual;
+      this.callApigstcode();
     };
 
     this.common.refresh();
@@ -212,6 +223,7 @@ export class ServiceComponent implements OnInit {
     this.setFoucus('custcode');
     this.common.currentPage = this.order.ordertype.name;
     this.getFreeze();
+    this.callApigstcode();
   }
 
   ngOnInit() {
@@ -284,7 +296,7 @@ export class ServiceComponent implements OnInit {
     };
   }
 
-
+  
   addAmountDetails() {
     this.order.amountDetails.push({
       id: -1,
@@ -308,6 +320,10 @@ export class ServiceComponent implements OnInit {
       defaultcheck: false
 
     });
+    let index = parseInt(this.lastActiveId.split('-')[1]);
+        console.log('tax detail inex',this.lastActiveId,index);
+      this.showConfirmaddmore = false;
+      this.setFoucus('warehouse-' + (index+1));
   }
   getTaxLedgers() {
     let params = {
@@ -451,6 +467,12 @@ export class ServiceComponent implements OnInit {
     event.preventDefault();
     return;
   }
+  modelConditionaddmore() {
+    this.showConfirmaddmore = false;
+    this.setFoucus('taxleder-0');
+    event.preventDefault();
+    return;
+  }
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -549,6 +571,17 @@ export class ServiceComponent implements OnInit {
         //this.GetLedger();
         if (order.print) this.printFunction();
         this.order = this.setInvoice();
+        this.taxdetails =  [];
+        this.taxdetails = [{
+          taxledger: {
+            name: '',
+            id: '',
+          },
+          taxrate: 0,
+          taxamount: 0,
+          totalamount:0
+      
+        }];
         this.setFoucus('ordertype');
         this.common.showToast('Invoice Are Saved');
         return;
@@ -568,6 +601,7 @@ export class ServiceComponent implements OnInit {
       // console.log('Amount: ',  amountDetail.amo  unt[type]);
       total += parseFloat(amountDetail.amount);
     });
+    this.totalamount = total;
     return total;
   }
 
@@ -617,8 +651,19 @@ export class ServiceComponent implements OnInit {
     if ((this.order.ordertype.name.toLowerCase().includes('purchase')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     if ((this.order.ordertype.name.toLowerCase().includes('sales')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     console.log('Active event11', event, this.order.ordertype.name, this.activeId, this.suggestions.purchasestockItems);
-
-    if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
+    if(this.showConfirmaddmore && key=='enter'){
+      console.log('set command',this.lastActiveId,this.activeId);
+      this.showConfirmaddmore=false;
+      this.addAmountDetails();
+      event.preventDefault();
+      return;
+      
+    }if(this.showConfirmaddmore && key=='n'){
+      this.showConfirmaddmore=false;
+      event.preventDefault();
+      return;
+    }
+   else if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
       this.lastActiveId = this.activeId;
@@ -768,7 +813,7 @@ export class ServiceComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-            if (this.order.ordertype.id == -104) {
+            if (this.order.ordertype.id == -109) {
               this.setFoucus('salesledger');
             } else {
               this.setFoucus('podate');
@@ -790,7 +835,7 @@ export class ServiceComponent implements OnInit {
             if (!(this.order.purchaseledger.id || this.order.purchaseledger.name)) {
               this.common.showError('Please Select Purchase Legder');
               this.order.purchaseledger.name = '';
-              if (this.order.ordertype.id == -104) { this.setFoucus('salesledger'); }
+              if (this.order.ordertype.id == -109) { this.setFoucus('salesledger'); }
               else {
                 this.setFoucus('purchaseledger');
               }
@@ -827,6 +872,7 @@ export class ServiceComponent implements OnInit {
       } else if (this.activeId.includes('taxleder')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxrate-' + index);
+       
       }
       else if (this.activeId.includes('taxrate'))  {
         let index = parseInt(this.activeId.split('-')[1]);
@@ -841,7 +887,13 @@ export class ServiceComponent implements OnInit {
         let index = parseInt(this.lastActiveId.split('-')[1]);
         console.log('tax detail inex',this.lastActiveId,index);
       this.setFoucus('taxleder-' + (index+1));
+      }else if(this.activeId.includes('plustransparent')){
+        let index = parseInt(this.lastActiveId.split('-')[1]);
+        console.log('tax detail inex',this.lastActiveId,index);
+       // this.showConfirmaddmore=true;
+     // this.setFoucus('warehouse-' + (index+1));
       }
+      
       // else if (this.activeId.includes('vendorbidref')) {
       //   this.setFoucus('shipmentlocation');
       // } else if (this.activeId.includes('qutationrefrence')) {
@@ -904,7 +956,7 @@ export class ServiceComponent implements OnInit {
                 this.setFoucus('stockitem' + '-' + index);
                // return; 
                 }else{
-                this.setFoucus('rate' + '-' + index);
+                this.setFoucus('qty-' + index);
                 }
             }, 100);
         } else {
@@ -961,7 +1013,9 @@ export class ServiceComponent implements OnInit {
       //  this.setFoucus('stockitem' + '-' + index);
       } else if (this.activeId.includes('remarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('plustransparent');
+       this.lastActiveId=this.activeId;
+     //  this.setFoucus('plustransparent');
+        this.showConfirmaddmore=true;
       } else if (this.activeId.includes('invocelist')) {
         this.setFoucus('custcode');
       }else if (this.activeId.includes('amount-')) {
@@ -973,6 +1027,12 @@ export class ServiceComponent implements OnInit {
         }
 
         else {
+          if(!this.order.amountDetails[index].qty){
+            this.order.amountDetails[index].qty = this.order.amountDetails[index].amount/this.order.amountDetails[index].rate;
+          }else{
+            this.order.amountDetails[index].rate = this.order.amountDetails[index].amount/this.order.amountDetails[index].qty;
+          }
+       // this.callgstcode(this.order.amountDetails[index].stockitem.name,this.order.amountDetails[index].amount);
           this.setFoucus('remarks' + '-' + index);
         }
       }
@@ -1005,11 +1065,12 @@ export class ServiceComponent implements OnInit {
       }
       if (this.activeId.includes('amount-')) {
         let index = this.activeId.split('-')[1];
+        
         this.setFoucus('amtrate-' + index);
       }
       if (this.activeId.includes('amtrate')) {
         let index = this.activeId.split('-')[1];
-        if (this.order.ordertype.id == -104) {
+        if (this.order.ordertype.id == -109) {
           this.setFoucus('stockitem-' + index);
         } else {
           this.setFoucus('qty-' + index);
@@ -1147,7 +1208,7 @@ export class ServiceComponent implements OnInit {
     console.log('purchase=====', this.order.ordertype.id);
     let params = {
       search: 123,
-      invoicetype: ((this.order.ordertype.id == -104) || (this.order.ordertype.id == -106)) ? 'sales' : 'purchase'
+      invoicetype: ((this.order.ordertype.id == -109) || (this.order.ordertype.id == -106)) ? 'sales' : 'purchase'
     };
     this.common.loading++;
     this.api.post('Suggestion/GetAllLedgerForInvoice', params)
@@ -1653,19 +1714,20 @@ export class ServiceComponent implements OnInit {
       }
       this.getStockItems(suggestionname);
     } else if (activeId == 'ledger') {
-      if(!(suggestion)){
-        this.order.ledger.name = '';
-        this.order.ledger.id = 0;
-      }else{
-      this.order.ledger.name = suggestion.name;
-      this.order.ledger.id = suggestion.id;
-      if (suggestion.address_count > 1) {
-        this.getAddressByLedgerId(suggestion.id);
-      } else {
-        this.order.billingaddress = suggestion.address;
-      }
-      this.getLedgerView();
-    }
+        if(!(suggestion)){
+          this.order.ledger.name = '';
+          this.order.ledger.id = 0;
+        }else{
+            this.order.ledger.name = suggestion.name;
+            this.order.ledger.id = suggestion.id;
+            this.stateGstCode=suggestion.gst_state_code;
+            if (suggestion.address_count > 1) {
+              this.getAddressByLedgerId(suggestion.id);
+            } else {
+              this.order.billingaddress = suggestion.address;
+            }
+            this.getLedgerView();
+          }
     } else if (activeId == 'purchaseledger' || activeId == 'salesledger') {
       if(!(suggestion)){
         this.order.purchaseledger.name = '';
@@ -1687,11 +1749,12 @@ export class ServiceComponent implements OnInit {
           this.order.amountDetails[index].stockitem.id = suggestion.id;
           this.order.amountDetails[index].stockunit.name = suggestion.stockname;
           this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
+          this.gstrate[index] = suggestion.gst_igst_per;
           if (this.order.ordertype.name.toLowerCase().includes('sales')) {
             this.getStockAvailability(suggestion.id,(this.order.amountDetails[index].warehouse.id));
             console.log('suggestion indexing',suggestion);
             if(suggestion.is_service){
-            this.order.amountDetails[index].qty = 1;
+           // this.order.amountDetails[index].qty = 0;
             this.stockitmeflag = false;
             }
           }
@@ -1711,6 +1774,14 @@ export class ServiceComponent implements OnInit {
       this.order.amountDetails[index].warehouse.id = suggestion.id;
       }
       //  this.getStockAvailability(suggestion.id);
+    }else if (this.activeId.includes('taxleder-')) {
+      console.log('tax ledger',suggestion);
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.taxdetails[index].taxledger.name = suggestion.name;
+      this.taxdetails[index].taxledger.id = suggestion.id;
+      this.taxdetails[index].taxrate = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
+      this.taxdetails[index].taxamount = parseFloat(((this.taxdetails[index].taxrate  * this.totalamount)/100).toFixed(2));
+  
     }
     else if (activeId.includes('invocelist')) {
       this.getInvoiceDetail(suggestion.id);
@@ -1848,6 +1919,90 @@ export class ServiceComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+  callApigstcode(){
+   // console.log('call ddd',stockname,amount);
+    let params = {
+      partyledger:this.order.ledger.id
+    };
+    this.common.loading++;
+    this.api.post('Accounts/GetGstCode', params)
+      .subscribe(res => {
+        this.common.loading--;
+        
+       // console.log('Res gst code:', res,res['data'][0]['gst_state_code'],this.stateGstCode,this.gstrate);
+
+        if(res['data'][0]){
+         this.branchstategstcode = res['data'][0]['gst_state_code'];
+        }else{
+         this.branchstategstcode = 0;
+
+        }
+        console.log('temp data',this.tempdata);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+    
+  }
+  callgstcode(){
+      this.tempdata=[];
+      this.order.amountDetails.map((mapdata,index)=>{
+          let amount = mapdata.amount;
+          let stockname = mapdata.stockitem.name;
+          let gstamount = this.gstrate[index];
+        let taxamount = (amount * gstamount)/100;
+      //  console.log('Res gst code:',this.branchstategstcode,this.stateGstCode,gstamount,taxamount);
+
+        if(this.branchstategstcode){
+        if((this.branchstategstcode && this.stateGstCode) && (this.branchstategstcode == this.stateGstCode)){
+          this.tempdata.push({
+            'stockname' :stockname, 
+            'amount':amount,
+            'gstrate':gstamount,
+            'igst': 0, 
+            'cgst':taxamount/2, 
+           'sgst':taxamount/2
+          });
+        }
+        else{
+          this.tempdata.push({
+            'stockname' :stockname, 
+            'amount':amount,
+            'gstrate':gstamount,
+            'igst':taxamount , 
+            'cgst':0, 
+           'sgst':0
+          });
+        }
+      }else{
+        this.tempdata.push({
+          'stockname' :stockname, 
+          'amount':amount,
+          'gstrate':gstamount,
+          'igst':taxamount , 
+          'cgst':0, 
+         'sgst':0
+        });
+      }
+    });
+    console.log('tmp data',this.tempdata);
+    this.showgstdetail();
+        
+  }
+  showgstdetail(){
+    
+    this.common.params = { tempdata: this.tempdata,partycode:this.stateGstCode ,branchcode:this.branchstategstcode};
+    const activeModal = this.modalService.open(GstdataComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        // console.log('ledger data',data.ledger);
+        // this.addLedger(data.ledger);
+      }
+    });
   }
   print(voucherdataprint, companydata) {
 
@@ -2159,9 +2314,14 @@ export class ServiceComponent implements OnInit {
     shipmentlocation: this.order.shipmentlocation };
     const activeModal = this.modalService.open(OtherinfoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
+       console.log('Data: ', data);
       if (data.response) {
         this.setFoucus('warehouse-0');
+        if(data.ledger.biltydate !=0 || data.ledger.biltynumber !=0 ||data.ledger.custcode !='' ||data.ledger.deliveryterms !='' ||data.ledger.grnremarks !='' ||data.ledger.orderremarks !='' ||data.ledger.paymentterms !='' ||data.ledger.podate !='' ||data.ledger.qutationrefrence !='' ||data.ledger.shipmentlocation !='' ||data.ledger.billingaddress !='' ||data.ledger.vendorbidref !=''){
+          this.otherinfoflag = 1;
+        }else{
+          this.otherinfoflag = 0;
+        }
         // console.log('ledger data',data.ledger);
         // this.addLedger(data.ledger);
       }
@@ -2197,6 +2357,33 @@ export class ServiceComponent implements OnInit {
     });
     return  parseFloat(total.toString());
   }
+  calculateTaxRateTotal(){
+    let total = 0;
+    this.taxdetails.map(taxdetail => {
+      total += parseFloat((taxdetail.taxrate).toString());
+      //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
 
+      //this.taxdetails[0].taxrate=  parseFloat(total.toString());
+    });
+    return  parseFloat(total.toString());
+  }
+  calculateTaxAmount(){
+    let total = 0;
+    this.taxdetails.map(taxdetail => {
+      total += parseFloat((taxdetail.taxamount).toString());
+      //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
+
+     // this.taxdetails[0].totalamount=  parseFloat(total.toString());
+    });
+    
+    this.taxdetails.map(taxdetail => {
+      total += parseFloat((taxdetail.taxrate).toString());
+      //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
+
+      //this.taxdetails[0].taxrate=  parseFloat(total.toString());
+    });
+    return  parseFloat(total.toString());
+
+  }
 }
 

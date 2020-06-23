@@ -195,17 +195,16 @@
             <div class="row iaactive">     
                 <div class="col-6 pr-0 pl-1">
                   <div class="form-group">
-                    <input type="radio" class="form-control" name="gst" id="gst"
+                      <input type="radio" class="form-control" name="gst" id="gst"
                       [(ngModel)]="stockItem.gst" [value]="true" (keydown.enter)="stockItem.gst = true;"
-                      [checked]="true">
+                     >
                     <label>Yes</label>
                   </div>
                 </div>
                 <div class="col-6 pl-0">
                   <div class="form-group">
-                    <input type="radio" class="form-control" name="gst" [(ngModel)]="stockItem.gst"
-                      id="notgst" [value]="false" (keydown.enter)="stockItem.gst = true;">
-                    <label>No</label>
+                      <input type="radio" class="form-control" name="gst" [(ngModel)]="stockItem.gst" id="notgst" [value]="false" (keydown.enter)="stockItem.gst = false;">
+                    <label>No</label>   
                   </div>
                 </div>
               </div>
@@ -230,15 +229,13 @@
                             <div class="col-6 pr-0 pl-1">
                               <div class="form-group">
                                 <input type="radio" class="form-control" name="isnon" id="isnon"
-                                  [(ngModel)]="stockItem.isnon" [value]="true" (keydown.enter)="stockItem.isnon = true;"
-                                  [checked]="true">
+                                  [(ngModel)]="stockItem.isnon" [value]="true" (keydown.enter)="stockItem.isnon = true;">
                                 <label>Yes</label>
                               </div>
                             </div>
                             <div class="col-6 pl-0">
                               <div class="form-group">
-                                <input type="radio" class="form-control" name="isnon" [(ngModel)]="stockItem.isnon"
-                                  id="notisnon" [value]="false" (keydown.enter)="stockItem.isnon = false;">
+                                <input type="radio" class="form-control" name="isnon" [(ngModel)]="stockItem.isnon" id="notisnon" [value]="false" (keydown.enter)="stockItem.isnon = false;" [checked]="stockItem.isnon == false">
                                 <label>No</label>
                               </div>
                             </div>
@@ -263,9 +260,9 @@
                       </div>
                       <div class="col" *ngIf="!stockItem.isnon">
                         <div class="form-grpou">
-                          <label>IGST</label>
+                          <label>Tax Rate</label>
                           <input type="text" class="form-control" id="igst" autocomplete="off" name="stock-igst"
-                            [(ngModel)]="stockItem.igst">
+                            [(ngModel)]="stockItem.igst" [readonly]="stockItem.taxability !='Taxable'">
                         </div>
                       </div>
                       <div class="col" *ngIf="!stockItem.isnon">

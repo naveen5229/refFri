@@ -36,7 +36,9 @@ export class AccountsComponent {
     // }
     if (!this.accountService.branches.length) {
       this.getBranches();
-      this.getFinancial();
+    }
+    if (!this.accountService.financialYears.length) {
+    this.getFinancial();
     }
   }
 
@@ -49,6 +51,7 @@ export class AccountsComponent {
           console.log('_________________________TRUE');
           this.accountService.selected.branchId = this.accountService.branches[0].id;
           this.accountService.selected.branch = this.accountService.branches[0];
+          this.getFinancial();
         } else {
           console.log('_________________________ELSE');
           this.accountService.selected.branchId = 0;

@@ -234,7 +234,11 @@
                   <span *ngIf="(ledgerbalance)"><i>Cur Bal: </i>{{ ledgerbalance }}</span>
               </div>
             </div>
-            <div class="col" style="margin-top: 18px;">
+            <div class="col" *ngIf="otherinfoflag==0"  style="margin-top: 18px;">
+              <a href="javascript:void(0)" outline (click)="OtherInfo()" id="OtherInfo"
+                style="cursor: pointer;">Other Info </a>
+            </div>
+            <div class="col" *ngIf="otherinfoflag==1"  style="margin-top: 18px;">
               <a href="javascript:void(0)" class="advncolor" outline (click)="OtherInfo()" id="OtherInfo"
                 style="cursor: pointer;">Other Info </a>
             </div>
@@ -394,7 +398,7 @@
               (input)="amountDetail.lineamount = amountDetail.amount = (amountDetail.qty * amountDetail.rate).toFixed(2)">
           </td>
           <td *ngIf="(order.ordertype.id != -108)">
-            <input type="number" class="form-control ref-input" autocomplete="off" [id]="'amount-' + i" name="account-amount" [(ngModel)]="amountDetail.amount" (input)="amountDetail.lineamount = amountDetail.amount">
+            <input type="number" class="form-control ref-input select" autocomplete="off" [id]="'amount-' + i"  name="account-amount" [(ngModel)]="amountDetail.amount" (input)="amountDetail.lineamount = amountDetail.amount">
           </td>
           <!-- <td *ngIf="(order.ordertype.id != -108) && (rateflag[i] == 0)">
             <input type="number" class="form-control ref-input" autocomplete="off" [id]="'amount-' + i" name="account-amount" [(ngModel)]="amountDetail.amount" readonly style="background-color: #eeeeee;">
@@ -427,7 +431,7 @@
             <button class="plustransparent btn btn-plus" id="plustransparent" (click)="addAmountDetails()"><i
                 class="fa fa-plus"></i></button></td>
           <td *ngIf="i !== 0">
-            <button (click)="order.amountDetails.splice(i,1)" class="btn btn-danger"><i
+            <button (click)="order.amountDetails.splice(i,1);" class="btn btn-danger"><i
                 class="fa fa-trash"></i></button>
           </td>
         </tr>
@@ -439,6 +443,9 @@
     <div class="col-2 totalamount">
       <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
               [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;">
+    </div>
+    <div class="col-2 totalamount">
+      <button (click)="callgstcode()" class="btn btn-primary">Show Gst Detail</button>
     </div>
   </div>
     <table class="add_tax_tabel">
@@ -458,7 +465,7 @@
           </td>
           <td>
             <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxrate-' + i" [id]="'taxrate-' + i"
-              [(ngModel)]="taxdetail.taxrate" placeholder="Please Enter Tax Rate" (input)="taxdetail.taxamount = ((taxdetail.taxrate * amount)/100).toFixed(2)">
+              [(ngModel)]="taxdetail.taxrate" placeholder="Please Enter Tax Rate" (input)="taxdetail.taxamount = ((taxdetail.taxrate * totalamount)/100).toFixed(2)">
           </td>
           <td>
             <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxamount-' + i" [id]="'taxamount-' + i"
@@ -472,15 +479,28 @@
                 class="fa fa-trash text-primary"></i></button>
           </td>
         </tr>
-        <tr>
-          <td colspan="2">&nbsp;</td>
-          <td><input type="number" class="form-control" name="totalamount" id="totalamount"
-              [value]="calculateTaxTotal()" readonly style="background-color: #eeeeee;"></td>
-        </tr>
       </tbody>
 
     </table>
+    <div class="row">
+      <div class="col-6">
+      </div>
+      <div class="col-2">
+        <input type="number" class="form-control totalbeforetaxamount" name="totalamount" id="totalamount"
+                [value]="calculateTaxRateTotal()" readonly style="background-color: #eeeeee;">
+      </div>
+    <div class="col-4">
+      <span class="col-2">
+      <input type="number" class="form-control totaltaxamount" name="totalamount" id="totalamount"
+              [value]="calculateTaxTotal()" readonly style="background-color: #eeeeee;">
+      </span>
+      <!-- <span class="col-2">
+      <input type="number" class="form-control totaltaxamountsecond" name="totalamount" id="totalamount"
+              [value]="calculateTaxAmount()" readonly style="background-color: #eeeeee;">
+      </span> -->
 
+    </div>
+  </div>
     <div class="modal-footer">
       <div class="row w-100">
         <div class="col-11">
@@ -502,7 +522,15 @@
     </div>
   </nb-card-body>
 </nb-card>
-
+<div class="date-modal" *ngIf="showConfirmaddmore">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to add more detail then press enter otherwise n ?</p>
+      <button (click)="addAmountDetails()">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+        (click)="modelConditionaddmore()">No</button>
+    </div>
+  </div>
+</div>
 
 <div class="date-modal" *ngIf="showConfirm">
   <div class="date-modal-body data_model_save">

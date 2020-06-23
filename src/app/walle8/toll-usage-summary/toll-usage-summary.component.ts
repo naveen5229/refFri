@@ -87,11 +87,10 @@ export class TollUsageSummaryComponent implements OnInit {
         console.log(err);
       });
   }
+  
+  
   gettollUsageSummary() {
-
-
     let params = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
-
     this.common.loading++;
     let response;
     this.api.walle8Get('TollSummary/getTollUsageSummary.json?' + params)
@@ -99,7 +98,6 @@ export class TollUsageSummaryComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.data = res['data'];
-
         if (this.data == null) {
           this.data = [];
           this.table = null;

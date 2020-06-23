@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Verify Future Trip State</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row" style="margin-top:10px">
+    <div class="col-sm-4">
+      <label>Trip Desc.  </label>
+    </div>
+    <div class="col-sm-8" [innerHTML]="tripDesc">
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:10px">
+    <div class="col-sm-4">
+      <label>State Time  </label>
+    </div>
+    <div class="col-sm-8">
+      <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime"></uj-date-time-picker>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" outline (click)="updateTrip()" id="updateTrip"
+    style="cursor: pointer;">Mark Resolved</button>
+</div>

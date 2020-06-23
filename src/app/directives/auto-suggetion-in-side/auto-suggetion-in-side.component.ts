@@ -99,7 +99,23 @@ export class AutoSuggetionInSideComponent implements OnInit {
       if (this.activeSuggestion !== -1) {
         this.selectSuggestion(this.suggestions[this.activeSuggestion]);
       } else {
-        this.selectSuggestion(this.suggestions[0]);
+
+
+        let value = document.getElementById(this.targetId)['value'];
+        if (!value) {
+          this.selectSuggestion(this.suggestions[0]);
+        } else {
+          let suggestion = this.data.filter(s => s[this.display].toLowerCase() === value.toLowerCase());
+          console.log(suggestion);
+          if (!suggestion.length) {
+            this.selectSuggestion(this.suggestions[0]);
+          } else {
+            this.selectSuggestion(suggestion[0]);
+          }
+       }
+
+
+
       }
     }
   }
