@@ -156,10 +156,13 @@
                             <span class="zoom-btn" (click)="verifyTrip(vehicleEvent)"
                             *ngIf="vehicleEvent.trip_id"><i
                               class="fa fa-check" title="Mark Resolved"></i></span>
+                              <span class="zoom-btn" (click)="tripStateMapping(vehicleEvent)"
+                              *ngIf="vehicleEvent.vs_id"><i
+                                class="fa fa-check" title="Trip State Mapping"></i></span>
                       </span>
                     </div>
                   </td>
-                </tr>
+                </tr>   
               </tbody>
             </table>
           </div>

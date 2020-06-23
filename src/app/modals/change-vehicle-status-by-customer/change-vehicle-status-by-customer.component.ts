@@ -14,6 +14,7 @@ import { VehicleLrComponent } from '../vehicle-lr/vehicle-lr.component';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { UpdateLocationComponent } from '../update-location/update-location.component';
 import { VerifyfuturetripstateComponent } from '../verifyfuturetripstate/verifyfuturetripstate.component';
+import { TripStateMappingComponent } from '../trip-state-mapping/trip-state-mapping.component';
 
 declare let google: any;
 
@@ -968,15 +969,25 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     const activeModal = this.modalService.open(VehicleLrComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
-
-  removeVehicleState(vehicleEvent) {
+  strictDeleteVS = false;
+  removeVehicleState(vehicleEvent,resmsg?) {
+    
     let params = {
-      stateid: vehicleEvent.vs_id
+      stateid: vehicleEvent.vs_id,
+      isStrictDelete: this.strictDeleteVS
     };
-   
+   if(!this.strictDeleteVS){
     this.common.params = {
       title: 'Remove State ',
       description: `<b>&nbsp;` + 'Are Sure To Remove State ' + `<b>`,
+    }
+  }
+    else
+    {
+      this.common.params = {
+        title: 'Remove State ',
+        description: `<b>&nbsp;` + resmsg + `<b>`,
+      }
     }
     const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
@@ -990,7 +1001,12 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
             if (res['data'][0].r_id > 0) {
               this.common.showToast('Selected state has been deleted');
               this.reloadData();
-            } else {
+            } else if(res['data'][0].r_id == -1){
+              this.strictDeleteVS = true;
+              resmsg = 'Are You Sure ?<br>'+res['data'][0].r_msg;
+              this.removeVehicleState(vehicleEvent,resmsg);
+            }
+            else {
               this.common.showToast(res['data'][0].r_msg, '', 10000);
             }
 
@@ -1060,6 +1076,17 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     console.log("vehicle event",vehicleEvent);
     this.common.params = {verifyTrip:verifyTrip}
     const activeModal = this.modalService.open(VerifyfuturetripstateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    this.reloadData();
+    });
+  }
+
+  tripStateMapping(vehicleEvent){
+    let vehicle={
+      stateId:vehicleEvent.vs_id
+    }
+    this.common.params = {vehicle:vehicle}
+    const activeModal = this.modalService.open(TripStateMappingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
     this.reloadData();
     });
