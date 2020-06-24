@@ -219,7 +219,7 @@ export class OrderComponent implements OnInit {
         this.order.biltynumber = this.invoiceDetail[0].y_biltynumber;
         this.order.date = this.common.dateFormatternew(this.invoiceDetail[0].y_orderdate.split(' ')[0]);
         this.order.podate = (this.invoiceDetail[0].y_refdate == null) ? '': this.common.dateFormatternew(this.invoiceDetail[0].y_refdate.split(' ')[0]);
-        this.order.biltydate = this.common.dateFormatternew(this.invoiceDetail[0].y_biltydatestamp.split(' ')[0]);
+        this.order.biltydate = (this.invoiceDetail[0].y_biltydatestamp == null) ? '': this.common.dateFormatternew(this.invoiceDetail[0].y_biltydatestamp.split(' ')[0]);
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
         this.order.billingaddress = this.invoiceDetail[0].y_vendorbillingaddress;
         this.order.ordertype.id = this.invoiceDetail[0].y_ordertype_id;
@@ -290,7 +290,7 @@ export class OrderComponent implements OnInit {
           });
 
         });
-        console.log('this.order.totalamount - this.totalamount',this.order.amountDetails);
+        console.log('new type data',this.order,this.order.amountDetails);
         // amountDetails: [{
         //   transactionType: 'debit',
         //   ledger: '',
