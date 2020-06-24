@@ -109,7 +109,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
 
   openChangeHaltModal(vehicleEvent, type) {
-    console.log("type",type,vehicleEvent);
+    console.log("type", type, vehicleEvent);
     this.common.changeHaltModal = type;
     this.common.passedVehicleId = this.VehicleStatusData.vehicle_id;
     this.common.params = vehicleEvent;
@@ -235,7 +235,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
           }
           console.log("VehicleEvents", this.vehicleEventsR);
         }
-      
+
       }, err => {
         this.common.loading--;
         this.common.showError(err);
@@ -358,7 +358,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
 
       }
-    
+
     }
     return thisMarkers;
   }
@@ -471,7 +471,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     console.log("vehicleEvent", vehicleEvent);
     this.markerZoomMF(i, 19);
     if (this.lastIndDetails)
-    this.calculateDistanceAndTime(this.lastIndDetails, vehicleEvent.lat, vehicleEvent.long, vehicleEvent.time);
+      this.calculateDistanceAndTime(this.lastIndDetails, vehicleEvent.lat, vehicleEvent.long, vehicleEvent.time);
     console.log("vehicleEvent.siteId", vehicleEvent.y_site_id)
     if (vehicleEvent.y_site_id) {
       console.log("vehicleEvent.siteId", vehicleEvent.y_site_id)
@@ -648,7 +648,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
 
   openSmartTool(i, vehicleEvent) {
-    console.log("vehicleEvent",vehicleEvent);
+    console.log("vehicleEvent", vehicleEvent);
     if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null)
       if (confirm("Merge with this Halt?")) {
         this.common.loading++;
@@ -841,14 +841,14 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
 
   dataRefresh() {
-   
+
     this.reloadData();
   }
 
   resetMap() {
     this.clearAllMarkers();
-        this.createMarkers(this.vehicleEvents);
-        this.resetBtnStatus();
+    this.createMarkers(this.vehicleEvents);
+    this.resetBtnStatus();
     // this.reloadData();
   }
 
@@ -911,6 +911,41 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     });
   }
 
+  decouplingState(vehicleEvent) {
+    this.common.params = {
+      title: 'Decoupling State ',
+      description: `Are you sure ?`,
+    }
+  const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+  activeModal.result.then(data => {
+    if (data.response) {
+      console.log("data", data);
+      let params = {
+        stateId: vehicleEvent.vs_id
+      };
+      this.common.loading++;
+      this.api.post('HaltOperations/decoupleStateHalt', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('res: ', res);
+          if (res['data'][0].y_id > 0) {
+            this.common.showToast(res['data'][0].y_msg);
+            this.reloadData();
+          }
+          else {
+            this.common.showError(res['data'][0].y_msg);
+          }
+
+
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError('Error!');
+        });
+    }
+  });
+}
+
   openRouteMapper() {
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     this.common.params = {
@@ -969,56 +1004,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     const activeModal = this.modalService.open(VehicleLrComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
-  strictDeleteVS = false;
-  removeVehicleState(vehicleEvent,resmsg?) {
-    
-    let params = {
-      stateid: vehicleEvent.vs_id,
-      isStrictDelete: this.strictDeleteVS
-    };
-   if(!this.strictDeleteVS){
-    this.common.params = {
-      title: 'Remove State ',
-      description: `<b>&nbsp;` + 'Are Sure To Remove State ' + `<b>`,
-    }
-  }
-    else
-    {
-      this.common.params = {
-        title: 'Remove State ',
-        description: `<b>&nbsp;` + resmsg + `<b>`,
-      }
-    }
-    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
-    activeModal.result.then(data => {
-      if (data.response) {
-        console.log("data", data);
-        this.common.loading++;
-        this.api.post('Vehicles/removeVehicleState', params)
-          .subscribe(res => {
-            this.common.loading--;
-            console.log('res: ', res);
-            if (res['data'][0].r_id > 0) {
-              this.common.showToast('Selected state has been deleted');
-              this.reloadData();
-            } else if(res['data'][0].r_id == -1){
-              this.strictDeleteVS = true;
-              resmsg = 'Are You Sure ?<br>'+res['data'][0].r_msg;
-              this.removeVehicleState(vehicleEvent,resmsg);
-            }
-            else {
-              this.common.showToast(res['data'][0].r_msg, '', 10000);
-            }
 
-
-          }, err => {
-            this.common.loading--;
-            console.log('Error: ', err);
-            this.common.showError('Error!');
-          });
-      }
-    });
-  }
   vehicleTrips = [];
   getVehicleTrips() {
     let today, startday, fromDate;
@@ -1027,7 +1013,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     fromDate = this.common.dateFormatter(startday);
     let fromTime = this.common.dateFormatter(fromDate);
     let toTime = this.common.dateFormatter(new Date());
-    
+
     console.log('start & end', fromTime, toTime);
     let params = "vehicleId=" + this.VehicleStatusData.vehicle_id +
       "&startDate=" + fromTime +
@@ -1039,7 +1025,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
         --this.common.loading;
         console.log('Res:', res['data']);
         this.vehicleTrips = res['data'];
-    
+
       }, err => {
         --this.common.loading;
 
@@ -1047,48 +1033,48 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       });
   }
 
-  updateLocation(vehicleEvent){
+  updateLocation(vehicleEvent) {
     let location = {
-      refId:vehicleEvent.vs_id,
-      refType : 1,
-      lat:vehicleEvent.lat,
-      lng:vehicleEvent.long,
-      name:vehicleEvent.loc
+      refId: vehicleEvent.vs_id,
+      refType: 1,
+      lat: vehicleEvent.lat,
+      lng: vehicleEvent.long,
+      name: vehicleEvent.loc
     }
-    console.log("vehicle event",vehicleEvent);
-    this.common.params = {location:location}
+    console.log("vehicle event", vehicleEvent);
+    this.common.params = { location: location }
     const activeModal = this.modalService.open(UpdateLocationComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
 
     activeModal.result.then(data => {
       this.reloadData();
-      
+
     });
   }
 
-  verifyTrip(vehicleEvent){
-    
+  verifyTrip(vehicleEvent) {
+
     let verifyTrip = {
-      startTime:vehicleEvent.startTime,
-      trip_desc:vehicleEvent.trip_desc,
-      trip_id:vehicleEvent.trip_id,
-      stateId:vehicleEvent.vs_id
+      startTime: vehicleEvent.startTime,
+      trip_desc: vehicleEvent.trip_desc,
+      trip_id: vehicleEvent.trip_id,
+      stateId: vehicleEvent.vs_id
     }
-    console.log("vehicle event",vehicleEvent);
-    this.common.params = {verifyTrip:verifyTrip}
+    console.log("vehicle event", vehicleEvent);
+    this.common.params = { verifyTrip: verifyTrip }
     const activeModal = this.modalService.open(VerifyfuturetripstateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-    this.reloadData();
+      this.reloadData();
     });
   }
 
-  tripStateMapping(vehicleEvent){
-    let vehicle={
-      stateId:vehicleEvent.vs_id
+  tripStateMapping(vehicleEvent) {
+    let vehicle = {
+      stateId: vehicleEvent.vs_id
     }
-    this.common.params = {vehicle:vehicle}
+    this.common.params = { vehicle: vehicle }
     const activeModal = this.modalService.open(TripStateMappingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-    this.reloadData();
+      this.reloadData();
     });
   }
 }

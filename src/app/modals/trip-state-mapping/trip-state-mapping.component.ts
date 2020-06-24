@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
   selector: 'trip-state-mapping',
@@ -79,5 +80,54 @@ export class TripStateMappingComponent implements OnInit {
         console.error(err);
         this.common.showError();
       });
+  }
+
+  removeVehicleState(strictDeleteVS,resmsg?) {
+    
+    let params = {
+      stateid: this.stateId,
+      isStrictDelete:strictDeleteVS
+    };
+   if(!strictDeleteVS){
+    this.common.params = {
+      title: 'Remove State ',
+      description: `<b>&nbsp;` + 'Are Sure To Remove State ' + `<b>`,
+    }
+  }
+    else
+    {
+      this.common.params = {
+        title: 'Remove State ',
+        description: `<b>&nbsp;` + resmsg + `<b>`,
+      }
+    }
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log("data", data);
+        this.common.loading++;
+        this.api.post('Vehicles/removeVehicleState', params)
+          .subscribe(res => {
+            this.common.loading--;
+            console.log('res: ', res);
+            if (res['data'][0].r_id > 0) {
+              this.common.showToast('Selected state has been deleted');
+            } else if(res['data'][0].r_id == -1){
+             strictDeleteVS = true;
+              resmsg = 'Are You Sure ?<br>'+res['data'][0].r_msg;
+              this.removeVehicleState(true,resmsg);
+            }
+            else {
+              this.common.showToast(res['data'][0].r_msg, '', 10000);
+            }
+
+
+          }, err => {
+            this.common.loading--;
+            console.log('Error: ', err);
+            this.common.showError('Error!');
+          });
+      }
+    });
   }
 }

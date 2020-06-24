@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Trips</h5>
+  <h5 class="modal-title" id="modal-basic-title">Trips</h5> 
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
   <span aria-hidden="true">&times;</span>
 </button>
@@ -7,6 +7,9 @@
 
 <div class="modal-body">
   <div class="row">
+    <div class="col-12" style="text-align: right;">
+  <button (click)="removeVehicleState(false)">Delete State</button>
+  </div>
       <div class="col-12" style="height: 72vh; margin-top: 10px;">
     <table class="table table-bordered table-hover">
       <thead class="thead">

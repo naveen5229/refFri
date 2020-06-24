@@ -145,9 +145,9 @@
                           <button class="btn btn-success" (click)="openChangeHaltModal(vehicleEvent,'StateType')"
                           *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null" >{{vehicleEvent.y_halt_desc}}</button>
 
-                          <span class="zoom-btn" (click)="removeVehicleState(vehicleEvent)"
-                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null"><i
-                            class="fa fa-trash" title="Delete"></i></span>
+                          <span class="zoom-btn" (click)="decouplingState(vehicleEvent)"
+                          *ngIf="vehicleEvent.isDecouple"><i
+                            class="fa fa-chain-broken" title="Decoupling"></i></span>
 
                             <span class="zoom-btn" (click)="updateLocation(vehicleEvent)"
                           *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id"><i
@@ -158,7 +158,7 @@
                               class="fa fa-check" title="Mark Resolved"></i></span>
                               <span class="zoom-btn" (click)="tripStateMapping(vehicleEvent)"
                               *ngIf="vehicleEvent.vs_id"><i
-                                class="fa fa-check" title="Trip State Mapping"></i></span>
+                                class="fa fa-chain" title="Trip State Mapping"></i></span>
                       </span>
                     </div>
                   </td>
