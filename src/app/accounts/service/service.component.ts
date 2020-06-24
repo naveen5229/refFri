@@ -170,7 +170,7 @@ export class ServiceComponent implements OnInit {
     public modalService: NgbModal,
     public accountService: AccountService) {
     // this.getBranchList();
-      this.order.ordertype.id = -109;
+      this.order.ordertype.id = -104;
       this.order.ordertype.name = 'Service Sales Invoice';
       this.suggestionname = 'Service';
     this.getStockItems('sales');
@@ -813,7 +813,7 @@ export class ServiceComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-            if (this.order.ordertype.id == -109) {
+            if (this.order.ordertype.id == -104) {
               this.setFoucus('salesledger');
             } else {
               this.setFoucus('podate');
@@ -835,7 +835,7 @@ export class ServiceComponent implements OnInit {
             if (!(this.order.purchaseledger.id || this.order.purchaseledger.name)) {
               this.common.showError('Please Select Purchase Legder');
               this.order.purchaseledger.name = '';
-              if (this.order.ordertype.id == -109) { this.setFoucus('salesledger'); }
+              if (this.order.ordertype.id == -104) { this.setFoucus('salesledger'); }
               else {
                 this.setFoucus('purchaseledger');
               }
@@ -1070,7 +1070,7 @@ export class ServiceComponent implements OnInit {
       }
       if (this.activeId.includes('amtrate')) {
         let index = this.activeId.split('-')[1];
-        if (this.order.ordertype.id == -109) {
+        if (this.order.ordertype.id == -104) {
           this.setFoucus('stockitem-' + index);
         } else {
           this.setFoucus('qty-' + index);
@@ -1208,7 +1208,7 @@ export class ServiceComponent implements OnInit {
     console.log('purchase=====', this.order.ordertype.id);
     let params = {
       search: 123,
-      invoicetype: ((this.order.ordertype.id == -109) || (this.order.ordertype.id == -106)) ? 'sales' : 'purchase'
+      invoicetype: ((this.order.ordertype.id == -104) || (this.order.ordertype.id == -106)) ? 'sales' : 'purchase'
     };
     this.common.loading++;
     this.api.post('Suggestion/GetAllLedgerForInvoice', params)
