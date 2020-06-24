@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Trips</h5> 
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12" style="text-align: right;">
+  <button (click)="removeVehicleState(false)">Delete State</button>
+  </div>
+      <div class="col-12" style="height: 72vh; margin-top: 10px;">
+    <table class="table table-bordered table-hover">
+      <thead class="thead">
+        <tr>
+          <th>#</th>
+          <th>Trip</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Select trip</th>
+        </tr>
+      </thead>
+      <tbody class="tbody">
+     <tr *ngFor="let trip of trips;let i = index;">
+          <td>{{i+1}}</td>
+          <td>{{trip.trip_desc}}</td>
+          <td>{{trip.start_time}}</td>
+          <td>{{trip.end_time}}</td>
+         <td><input type="checkbox" [(ngModel)]="trip.is_mapped"></td>
+        </tr>
+
+      </tbody>
+    </table>
+      </div> 
+  </div> 
+</div>
+
+<div class="modal-footer">
+  <button type="submit" class="btn btn-danger" (click)="map(false)">UnMap All</button>
+
+  <button type="submit" class="btn btn-primary" (click)="map(true)">Map</button>
+</div>

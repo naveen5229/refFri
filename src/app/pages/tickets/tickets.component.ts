@@ -81,7 +81,7 @@ export class TicketsComponent implements OnInit {
         --this.common.loading;
         console.log(res);
         if (res['success']) {
-          this.tickets = res['data'];
+          this.tickets = res['data'] ? res['data']: [];
           // this.claimTicketGroups = _.groupBy(res['data'], 'regno');
           // this.claimTicketGroups = _.groupBy(this.tickets, 'regno');
           // console.log('Groups', this.claimTicketGroups);

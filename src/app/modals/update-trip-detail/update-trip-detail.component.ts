@@ -36,9 +36,9 @@ export class UpdateTripDetailComponent implements OnInit {
     this.vehicleTrip.tripTypeId = this.common.params.vehicleTrip.trip_type_id;
     this.vehicleTrip.VehicleId = this.common.params.vehicleTrip.vehicle_id;
     this.vehicleTrip.vehicleRegNo = this.common.params.vehicleTrip.regno;
-    this.vehicleTrip.startName = this.common.params.vehicleTrip.start_name;
-    this.vehicleTrip.startTime = this.common.params.vehicleTrip.start_time;
-    this.vehicleTrip.endName = this.common.params.vehicleTrip.end_name;
+    this.vehicleTrip.startName = this.common.params.vehicleTrip.start_name?this.common.params.vehicleTrip.start_name:this.common.params.vehicleTrip._origin;
+    this.vehicleTrip.startTime = this.common.params.vehicleTrip.start_time?this.common.params.vehicleTrip.start_time:this.common.params.vehicleTrip._startdate;
+    this.vehicleTrip.endName = this.common.params.vehicleTrip.end_name?this.common.params.vehicleTrip.end_name:this.common.params.vehicleTrip._destination;
     this.vehicleTrip.targetTime = this.common.params.vehicleTrip.end_time;
 
 

@@ -1,12 +1,11 @@
-import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../services/common.service';
-// import * as _ from 'lodash';
-import * as moment from 'moment';
 
 @Component({
   selector: 'smart-table',
   templateUrl: './smart-table.component.html',
-  styleUrls: ['./smart-table.component.scss', '../../pages/pages.component.css']
+  styleUrls: ['./smart-table.component.scss', '../../pages/pages.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SmartTableComponent implements OnInit {
   @Input() data: any;
@@ -66,7 +65,7 @@ export class SmartTableComponent implements OnInit {
     } else {
       this.columns = this.data.columns
     }
-    
+
     this.cdr.detectChanges();
     if (this.search.txt && this.search.key) {
       this.headings[this.search.key].value = this.search.txt;
@@ -160,11 +159,12 @@ export class SmartTableComponent implements OnInit {
   }
 
   isItActive(column) {
-    if (column.rowActions)
+    if (column.rowActions) {
       if (column.rowActions.click == 'selectRow' && column._smartId === this.activeRow)
         return true;
       else if (column.rowActions.click == 'selectMultiRow' && this.activeRows.indexOf(column._smartId) !== -1)
         return true;
+    }
     return false;
   }
 
@@ -201,6 +201,8 @@ export class SmartTableComponent implements OnInit {
     let startIndex = this.pages.limit * (this.pages.active - 1);
     let lastIndex = (this.pages.limit * this.pages.active);
     this.columns = this.data.columns.slice(startIndex, lastIndex);
+    this.columns.map((column, index) => column._smartId = index);
+
   }
 
   customPage() {
