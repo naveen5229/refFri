@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
     <router-outlet></router-outlet>
   </ngx-sample-layout>
   `,
+  styleUrls: ['./walle8.component.scss']
+
 })
 export class Walle8Component {
 
