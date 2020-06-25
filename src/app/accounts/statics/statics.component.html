@@ -82,8 +82,8 @@
             (click)="handleExpandation($event, i, 'asset', 'mainGroup', 0)">
             <div class="th-mini row m-0 pl-0 pr-0">
               <div class="col-6">{{liability.name}}</div>
-              <div class="col-3"></div>
-              <div class="col-3"></div>
+              <div class="col-3" style="padding-left:100px;">{{assetApproved}}</div>
+              <div class="col-3" style="padding-left:105px;">{{assetPending}}</div>
             </div>
 
             <div *ngFor="let subGroup of liability.balanceSheets; let k = index"

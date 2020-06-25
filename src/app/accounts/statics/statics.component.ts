@@ -37,6 +37,9 @@ export class StaticsComponent implements OnInit {
   pending1=0;
   pending2=0;
 
+  assetApproved=0;
+  assetPending=0
+
   liabilities = [];
   assets = [];
   allowBackspace = true;
@@ -156,6 +159,12 @@ export class StaticsComponent implements OnInit {
 
     const pending2 = this.liabilities[1]['balanceSheets'].reduce((sum, item) => sum + item.y_total_pending, 0);
     this.pending2=pending2;
+
+    const assetapprove=this.assets[0]['balanceSheets'].reduce((sum, item) => sum + item.y_total_approved, 0);
+    this.assetApproved=assetapprove;
+
+    const assetPendings=this.assets[0]['balanceSheets'].reduce((sum, item) => sum + item.y_total_pending, 0);
+    this.assetPending=assetPendings;
 
 
     // this.liabilities.map(libility => {
