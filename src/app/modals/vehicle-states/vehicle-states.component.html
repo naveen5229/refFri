@@ -71,10 +71,12 @@
       <label>Date:</label>
     </div>
     <div class="col-sm-4">
-      <input [(ngModel)]="site.site_date" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
+      <uj-date-time-picker (onChanged)="site.site_date = $event"
+      [dateTimeValue]="site.site_date" [isTime]="true" class="col-6">
+    </uj-date-time-picker>
+      <!-- <input [(ngModel)]="site.site_date" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
         class="form-control" autocomplete="off" name="date">
-      <owl-date-time #date></owl-date-time>
-      <!-- <input type="text" class="form-control" [value]="site.site_date | date : 'dd MMM yyyy'" name="date" placeholder="Date" (click)="getDate('site')"> -->
+      <owl-date-time #date></owl-date-time> -->
     </div>
   </div>
   <div class="row mt-4" [hidden]="changeCategory != 'location'">
@@ -82,18 +84,23 @@
       <label>Location: </label>
     </div>
     <div class="col-sm-4">
-      <input type="text" placeholder="place.." id="location" name="location" [(ngModel)]="location.loc"
-        class="form-control mt-0">
+      <auto-suggestion (onSelected)="setLocation($event)" url="Location/getPlaceFromRedis" display="location"
+        placeholder="Enter Location" [preSelected]="null" [apiHitLimit]="3" inputId="driverno">
+      </auto-suggestion>
+      <!-- <input type="text" placeholder="place.." id="location" name="location" [(ngModel)]="location.loc"
+        class="form-control mt-0"> -->
     </div>
 
     <div class="col-sm-2 mt-2">
       <label>Date:</label>
     </div>
     <div class="col-sm-4">
-      <input [(ngModel)]="location.loc_date" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="Date Time"
+      <uj-date-time-picker (onChanged)="location.loc_date = $event"
+      [dateTimeValue]="location.loc_date" [isTime]="true" class="col-6">
+    </uj-date-time-picker>
+      <!-- <input [(ngModel)]="location.loc_date" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="Date Time"
         class="form-control" autocomplete="off" name="date1">
-      <owl-date-time #date1></owl-date-time>
-      <!-- <input type="text" class="form-control" [value]="location.loc_date | date : 'dd MMM yyyy'" name="date1" placeholder="Date" (click)="getDate('loc')"> -->
+      <owl-date-time #date1></owl-date-time> -->
     </div>
   </div>
   <!-- </div> -->
