@@ -101,6 +101,13 @@ export class VehicleStatesComponent implements OnInit {
 
   }
 
+  setLocation(event){
+    console.log(event);
+    this.location.loc = event.location;
+    this.location.lat = event.lat;
+    this.location.long = event.long;
+  }
+
   autoSuggestion(elementId) {
     var options = {
       types: ['(cities)'],

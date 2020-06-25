@@ -214,7 +214,6 @@ export class ConciseComponent implements OnInit {
     let columns = [];
 
     let kpisList = kpis || this.kpis;
-    console.log ("kpisListlenght==",kpisList.length,"kpisList==",kpisList);
     kpisList.map((kpi, i) => {
 
       columns.push({
@@ -564,9 +563,7 @@ export class ConciseComponent implements OnInit {
           action: this.handleMapView.bind(this),
 
         },
-        // pagination :true,
-
-
+        pagination :true,
         tableHeight: "87vh"
       },
       
@@ -745,8 +742,6 @@ export class ConciseComponent implements OnInit {
   createCluster() {
     if (this.isCluster) {
       for(let i=0;i<this.markers.length;i++){
-        // console.log("marker===",this.markers[i]);
-        // console.log("vehicle===",this.kpis[i].x_showveh);
         if(this.markers[i])
         this.markers[i].title = this.kpis[i].x_showveh;
       }
@@ -886,7 +881,6 @@ export class ConciseComponent implements OnInit {
   }
 
   openChangeStatusModal(trip) {
-    console.log("tri:::p",this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name));
     let ltime = new Date();
     let tTime = this.common.dateFormatter(new Date());
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
@@ -980,7 +974,6 @@ export class ConciseComponent implements OnInit {
   }
 
   openVehicleWiseOrders(data){
-    console.log('data',data)
     let vehicle = {
       id : data.x_vehicle_id,
       regno : data.x_showveh
@@ -1109,7 +1102,6 @@ export class ConciseComponent implements OnInit {
         this.common.getCSVFromTableId(tableId, left_heading, center_heading, null, time);
       }, err => {
         this.common.loading--;
-        console.log(err);
       });
   }
 }

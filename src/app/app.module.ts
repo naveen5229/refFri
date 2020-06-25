@@ -291,6 +291,7 @@ import { UpdateLocationComponent } from './modals/update-location/update-locatio
 import { VerifyfuturetripstateComponent } from './modals/verifyfuturetripstate/verifyfuturetripstate.component';
 import { GstdataComponent } from './acounts-modals/gstdata/gstdata.component';
 import { CheckloginandredirectComponent } from './auth/checkloginandredirect/checkloginandredirect.component';
+import { TripStateMappingComponent } from './modals/trip-state-mapping/trip-state-mapping.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -539,7 +540,9 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   ChangeVehicleStatusByCustomerComponent,
   UpdateLocationComponent,
   VerifyfuturetripstateComponent,
-  GstdataComponent
+  GstdataComponent,
+  TripStateMappingComponent,
+
 ];
 
 @NgModule({
@@ -555,6 +558,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     VerifyfuturetripstateComponent,
     CheckloginandredirectComponent,
     CheckloginandredirectComponent,
+
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
