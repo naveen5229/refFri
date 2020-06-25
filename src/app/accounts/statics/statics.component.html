@@ -7,7 +7,7 @@
       <label>Expand Group</label>
       <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">
       <label>Expand All</label>
-      
+
     </div>
     <!-- View Expand End -->
 
@@ -50,10 +50,10 @@
           </div>
           <div *ngFor="let liability of liabilities;  let i = index;"
             (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0)">
-            <div class="th-mini row m-0 pl-0 pr-0" >
+            <div class="th-mini row m-0 pl-0 pr-0">
               <div class="col-6">{{liability.name}}</div>
-              <div class="col-3 text-right"></div>
-              <div class="col-3 text-right"></div>
+              <div class="col-3 text-right">{{liability.name == 'Vouchers' ? approved1: approved2}}</div>
+              <div class="col-3 text-right">{{liability.name == 'Vouchers' ? pending1:pending2}}</div>
             </div>
 
             <div *ngFor="let subGroup of liability.balanceSheets; let k = index;"
@@ -62,8 +62,12 @@
               [ngClass]="{'highlight' : selectedRow == 'a' + i + k }" style="background: #dadfe6;">
               <div class="tb-mini row m-0 pl-0 pr-0">
                 <div class="col-6">{{subGroup.y_name}}</div>
-                <div class="col-3 text-right" [ngClass]="{'handHighLight' : subGroup.y_total_approved !=0 }" (click)="(subGroup.y_total_approved !=0) ? opendaybookmodel(subGroup.y_id,0) :''">{{subGroup.y_total_approved}}</div>
-                <div class="col-3 text-right" [ngClass]="{'handHighLight' : subGroup.y_total_pending !=0 }" (click)="(subGroup.y_total_pending !=0) ? opendaybookmodel(subGroup.y_id,1) :''">{{subGroup.y_total_pending}}</div>
+                <div class="col-3 text-right" [ngClass]="{'handHighLight' : subGroup.y_total_approved !=0 }"
+                  (click)="(subGroup.y_total_approved !=0) ? opendaybookmodel(subGroup.y_id,0) :''">
+                  {{subGroup.y_total_approved}}</div>
+                <div class="col-3 text-right" [ngClass]="{'handHighLight' : subGroup.y_total_pending !=0 }"
+                  (click)="(subGroup.y_total_pending !=0) ? opendaybookmodel(subGroup.y_id,1) :''">
+                  {{subGroup.y_total_pending}}</div>
               </div>
             </div>
           </div>
@@ -89,7 +93,9 @@
               <div class="tb-mini row m-0 pl-0 pr-0">
                 <div class="col-6">{{subGroup.y_name}}</div>
                 <div class="col-3 text-right">{{subGroup.y_total_approved}}</div>
-                <div class="col-3 text-right"  [ngClass]="{'handHighLight' : subGroup.y_total_pending !=0 }" (click)="(subGroup.y_total_pending !=0) ? openPageModel(subGroup.y_name) : ''">{{subGroup.y_total_pending}}</div>
+                <div class="col-3 text-right" [ngClass]="{'handHighLight' : subGroup.y_total_pending !=0 }"
+                  (click)="(subGroup.y_total_pending !=0) ? openPageModel(subGroup.y_name) : ''">
+                  {{subGroup.y_total_pending}}</div>
               </div>
             </div>
           </div>
@@ -99,11 +105,11 @@
         <div class="col-6 pr-0">
           <div *ngIf="liabilities.length" class="tanding_total clearfix">
             <div class="total_name">Total</div>
-            <div class="total_amount" style="text-align: right;">
+            <div class="total_amount" style="text-align: right; padding-right:5px;">
               <p style="margin: 0px; width: 100px; text-align: right;">
                 {{liabilities[liabilities.length-1]['pending']}}</p>
             </div>
-            <div class="total_amount" style="text-align: right;">
+            <div class="total_amount" style="text-align: right;padding-right:42px;">
               <p style="margin: 0px; width: 100px; text-align: right;">
                 {{liabilities[liabilities.length-1]['approve']}}</p>
             </div>
@@ -112,11 +118,11 @@
         <div class="col-6 pl-0">
           <div class="tanding_total clearfix" *ngIf="assets.length">
             <div class="total_name">Total</div>
-            <div class="total_amount" style="text-align: right;">
+            <div class="total_amount" style="text-align: right; padding-right:5px;">
               <p style="margin: 0px; width: 100px; text-align: right;">
                 {{assets[assets.length-1]['pending']}}</p>
             </div>
-            <div class="total_amount" style="text-align: right;">
+            <div class="total_amount" style="text-align: right; padding-right:42px;">
               <p style="margin: 0px; width: 100px; text-align: right;">
                 {{assets[assets.length-1]['approve']}}</p>
             </div>

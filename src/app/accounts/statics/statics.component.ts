@@ -31,6 +31,11 @@ export class StaticsComponent implements OnInit {
   branchdata = [];
   staticsSheetData = [];
   activeId = '';
+  approved1=0;
+  approved2=0;
+
+  pending1=0;
+  pending2=0;
 
   liabilities = [];
   assets = [];
@@ -140,6 +145,18 @@ export class StaticsComponent implements OnInit {
     }
 
     console.log('liabilities', this.liabilities, 'asset data ', this.assets);
+    const approve1 = this.liabilities[0]['balanceSheets'].reduce((sum, item) => sum + item.y_total_approved, 0);
+    this.approved1=approve1;
+
+    const approve2 = this.liabilities[1]['balanceSheets'].reduce((sum, item) => sum + item.y_total_approved, 0);
+    this.approved2=approve2;
+    
+    const pending1 = this.liabilities[0]['balanceSheets'].reduce((sum, item) => sum + item.y_total_pending, 0);
+    this.pending1=pending1;
+
+    const pending2 = this.liabilities[1]['balanceSheets'].reduce((sum, item) => sum + item.y_total_pending, 0);
+    this.pending2=pending2;
+
 
     // this.liabilities.map(libility => {
     //   let subGroups = _.groupBy(libility.balanceSheets, 'y_sub_groupname');
@@ -370,7 +387,12 @@ export class StaticsComponent implements OnInit {
         liabilitiesJson.push({ liability: subGroup.y_name, liabilityAmount: subGroup.y_total_approved ,pending:subGroup.y_total_pending});
         
       });
+
+    
     });
+
+    
+
 
     let assetsJson = [];
     assetsJson.push(Object.assign({ asset: "Master Name", assetAmount: 'System',assetPending:'User Defined' }));
