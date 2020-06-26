@@ -38,7 +38,7 @@ import { DatePipe } from "@angular/common";
 import { PdfViewerComponent } from "../../generic/pdf-viewer/pdf-viewer.component";
 import { VehicleOrdersComponent } from "../../modals/BidModals/vehicle-orders/vehicle-orders.component";
 import { ChangeVehicleStatusByCustomerComponent } from "../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component";
-
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: "concise",
   templateUrl: "./concise.component.html",
@@ -144,6 +144,7 @@ export class ConciseComponent implements OnInit {
     public mapService: MapService,
     private datePipe: DatePipe,
     public dateService: DateService,
+    private _sanitizer: DomSanitizer,
     public pdfService: PdfService) {
 
     this.getKPIS();
@@ -248,7 +249,7 @@ export class ConciseComponent implements OnInit {
           action: "",
         },
         trip: {
-          value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
+          value: this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name)),
           action: this.getUpadte.bind(this, kpi),
           isHTML: true,
         },
