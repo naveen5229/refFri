@@ -42,7 +42,8 @@ export class VehicleTripComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      pagination:true
     }
   };
   constructor(
@@ -81,7 +82,8 @@ export class VehicleTripComponent implements OnInit {
         columns: []
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+        pagination: true
       }
     };
     let startDate = this.common.dateFormatter(this.startDate);

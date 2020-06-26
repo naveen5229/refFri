@@ -19,7 +19,8 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      pagination:true
     }
   };
   VehicleStatusAlerts = [];
@@ -62,6 +63,19 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
   }
 
   gettingTableHeader(tableData) {
+
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true,
+        pagination: true
+      },
+      
+    };
+
     let first_rec = tableData[0];
     for (var key in first_rec) {
       if (key.charAt(0) != "_") {

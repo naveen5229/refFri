@@ -12,6 +12,9 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 export class TripStateMappingComponent implements OnInit {
   trips = [];
   tripIds = [];
+  stateIds = [];
+  vtStates = [];
+  dis_all = 't';
   stateId = null;
   constructor(
     public common: CommonService,
@@ -22,6 +25,7 @@ export class TripStateMappingComponent implements OnInit {
     if (this.common.params && this.common.params.vehicle && this.common.params.vehicle.stateId) {
       this.stateId = this.common.params.vehicle.stateId;
       this.getTrips();
+      this.getvtStates();
     }
   }
 
@@ -40,7 +44,23 @@ export class TripStateMappingComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res['data']);
-        this.trips = res['data'];
+        this.trips = res['data']?res['data']:[];
+      }, err => {
+        this.common.loading--;
+        console.error(err);
+        this.common.showError();
+      });
+  }
+
+  getvtStates() {
+    let params = "stateId=" + this.stateId;
+    console.log(params)
+    this.common.loading++;
+    this.api.get('HaltOperations/getStateReviveSuggestions?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res: ', res['data']);
+        this.vtStates = res['data']?res['data']:[];
       }, err => {
         this.common.loading--;
         console.error(err);
@@ -74,6 +94,37 @@ export class TripStateMappingComponent implements OnInit {
         console.log('Res: ', res['data']);
         this.common.showToast(res['data'][0].y_msg)
         this.getTrips();
+        // this.trips = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.error(err);
+        this.common.showError();
+      });
+  }
+
+  revertState(flag) {
+   
+      this.tripIds = [];
+      this.vtStates.map(vts => {
+        console.log("vts",vts);
+        if (vts.is_mapped) {
+          this.tripIds.push(vts.id)
+        }
+      })
+
+    let params = {
+      stateId: this.stateId,
+      vtId: JSON.stringify(this.tripIds),
+    }
+
+    console.log(params)
+    this.common.loading++;
+    this.api.post('HaltOperations/reviveState', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res: ', res['data']);
+        this.common.showToast(res['data'][0].y_msg)
+        this.getvtStates();
         // this.trips = res['data'];
       }, err => {
         this.common.loading--;
