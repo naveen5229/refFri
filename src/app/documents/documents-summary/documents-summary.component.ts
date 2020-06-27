@@ -20,6 +20,11 @@ export class DocumentsSummaryComponent implements OnInit {
   vehicle_info = [];
   total_recs = 0;
   fodata = [];
+  pages = {
+    count: 0,
+    active: 1,
+    limit: 25,
+  };
 
   constructor(
     public api: ApiService,
@@ -33,6 +38,10 @@ export class DocumentsSummaryComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  ngAfterViewInit() {
+  }
+
 
   refresh() {
     console.log('Refresh');
@@ -49,7 +58,10 @@ export class DocumentsSummaryComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
+        this.pages.count = Math.ceil(this.data.result.length / 25);
         this.total_recs = this.data.result.length;
+        this.handlePagination(this.pages.active);
+
         if (this.data.result.length) {
           for (var key in this.data.result[0]) {
             if (key.charAt(0) != "_")
@@ -62,7 +74,9 @@ export class DocumentsSummaryComponent implements OnInit {
         console.log(err);
       });
   }
+  setData() {
 
+  }
 
   getDocumentType(strval) {
     if (strval) {
@@ -242,5 +256,14 @@ export class DocumentsSummaryComponent implements OnInit {
         this.getDocumentMatrixData();
       }
     });
+  }
+  dr = [];
+  handlePagination(page) {
+    this.pages.active = page;
+    let startIndex = this.pages.limit * (this.pages.active - 1);
+    let lastIndex = (this.pages.limit * this.pages.active);
+    console.log('this.data.result', this.data.result)
+    this.dr = this.data.result.slice(startIndex, lastIndex);
+    console.log("dr", this.dr);
   }
 }

@@ -143,12 +143,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tickets',
         home: true,
       },
-      {
-        title: 'Card Mapping',
-        icon: 'fas fa-clone',
-        link: '/pages/card-mapping',
-        home: true,
-      },
+    
       // {
       //   title: 'Finance Recovery',
       //   icon: 'fas fa-tachometer-alt',
@@ -158,6 +153,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Tickets All',
         icon: 'fas fa-ticket-alt',
         link: '/pages/tickets-all',
+        home: true,
+      },
+      {
+        title: 'Card Mapping',
+        icon: 'fas fa-clone',
+        link: '/pages/card-mapping',
         home: true,
       },
       {
