@@ -141,6 +141,8 @@ export class OrderComponent implements OnInit {
       if(this.common.params.ordertype){
         this.order.ordertype.id=this.common.params.ordertype;
       }
+
+      console.log("INVOICE");
     this.getBranchList();
     this.getInvoiceTypes();
     this.getPurchaseLedgers();
