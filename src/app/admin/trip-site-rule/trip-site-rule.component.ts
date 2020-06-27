@@ -78,7 +78,7 @@ export class TripSiteRuleComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.data = res['data'];
+        this.data = res['data']?res['data']:[];
 
         let index = 0;
         for (const data of this.data) {

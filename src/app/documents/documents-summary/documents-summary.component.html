@@ -67,9 +67,9 @@
 
           <tbody class="">
             <ng-container *ngIf="total_recs">
-              <tr *ngFor="let row of data.result; let i=index;" class="{{getDocClasses(row)}}">
+              <tr *ngFor="let row of dr; let i=index;" class="{{getDocClasses(row)}}">
 
-                <td style='width: 40px;'> <span>{{i + 1}}</span></td>
+                <td style='width: 40px;'> <span>{{((pages.active-1)*25)+(i+1)}}</span></td>
 
                 <td *ngFor="let col of columns; " class="text-center">
 
@@ -115,7 +115,24 @@
 
           </tbody>
         </table>
+       
       </div>
+      <div class="row">
+        <div class="pagination" *ngIf="pages.count > 1">
+          <!-- Page Count -->
+          <div class="pagination_links">
+              <button (click)="handlePagination(pages.active - 1)" [disabled]="pages.active == 1">Pre</button>
+              <button *ngFor="let page of common.generateArray(pages.count)" (click)="handlePagination(page)"
+                  [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</button>
+              <button (click)="handlePagination(pages.active + 1)" [disabled]="pages.active == pages.count">Next</button>
+          </div>
+          <!-- Page Count END -->
+      </div>
+      <!-- <div class="numer_list ml-3">
+        <input type="text" class="customPage form-control" name="customPageNo" (keyup.enter)="handlePagination(pages.active);"
+            [(ngModel)]="pages.limit">
+    </div> -->
+    </div>
     </div>
   </nb-card-body>
 </nb-card>
