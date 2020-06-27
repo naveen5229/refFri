@@ -564,10 +564,10 @@ export class ConciseComponent implements OnInit {
           action: this.handleMapView.bind(this),
 
         },
-        pagination :true,
+        pagination: true,
         tableHeight: "87vh"
       },
-      
+
 
     };
   }
@@ -742,9 +742,9 @@ export class ConciseComponent implements OnInit {
 
   createCluster() {
     if (this.isCluster) {
-      for(let i=0;i<this.markers.length;i++){
-        if(this.markers[i])
-        this.markers[i].title = this.kpis[i].x_showveh;
+      for (let i = 0; i < this.markers.length; i++) {
+        if (this.markers[i])
+          this.markers[i].title = this.kpis[i].x_showveh;
       }
       this.mapService.createCluster(this.markers, true);
     } else {
@@ -903,9 +903,9 @@ export class ConciseComponent implements OnInit {
     if (this.user._loggedInBy != "admin") {
       this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
     }
-    else{
-    this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
-  }
+    else {
+      this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    }
   }
 
 
@@ -974,10 +974,10 @@ export class ConciseComponent implements OnInit {
 
   }
 
-  openVehicleWiseOrders(data){
+  openVehicleWiseOrders(data) {
     let vehicle = {
-      id : data.x_vehicle_id,
-      regno : data.x_showveh
+      id: data.x_vehicle_id,
+      regno: data.x_showveh
 
     }
     this.common.params = { vehicle: vehicle };
