@@ -1571,10 +1571,10 @@ export class CommonService {
       case 11:
         html = `
             <!-- At Origin -->
-            ${this.handleTripCircle(x_origin.trim(), 'loading')}
+            ${this.handleTripCircle(this.formattTripStatus(x_origin.trim()), 'loading')}
             ${x_destination ? `
               <span>-</span>
-              <span class="unloading">${this.formattDestination(x_destination.trim())}</span>
+              <span class="unloading">${this.formattTripStatus(x_destination.trim())}</span>
             ` : !x_placements.length ? ` <i title="${x_origin.trim()} -> " class="icon ion-md-arrow-round-forward"></i> ` : ``}
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
@@ -1582,10 +1582,10 @@ export class CommonService {
       case 12:
         html = `
             <!-- At Destination -->
-            <span class="loading">${x_origin.trim()}</span>
+            <span class="loading">${this.formattTripStatus(x_origin.trim())}</span>
             ${x_destination ? `
               <span>-</span>
-              ${this.handleTripCircle(this.formattDestination(x_destination.trim()), 'unloading')}
+              ${this.handleTripCircle(this.formattTripStatus(x_destination.trim()), 'unloading')}
             ` : !x_placements.length ? `<i title="Hello World!!" class="icon ion-md-arrow-round-forward"></i>` : `<i title=""></i>`}
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
@@ -1597,10 +1597,10 @@ export class CommonService {
       case 53:
         html = `
             <!-- Onward -->
-            <span class="loading">${x_origin.trim()}</span>
+            <span class="loading">${this.formattTripStatus(x_origin.trim())}</span>
             ${x_destination ? `
               <span>-</span>
-              <span class="unloading">${this.formattDestination(x_destination.trim())}</span>
+              <span class="unloading">${this.formattTripStatus(x_destination.trim())}</span>
             ` : !x_placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
@@ -1608,61 +1608,43 @@ export class CommonService {
       case 4:
       case 20:
       case 21:
-
         html = `
-           
-            <span class="loading">${x_origin.trim()}</span>
+            <span class="loading">${this.formattTripStatus(x_origin.trim())}</span>
             ${x_destination ? `
               <span>-</span>
-              <span class="unloading">${this.formattDestination(x_destination.trim())}</span>
+              <span class="unloading">${this.formattTripStatus(x_destination.trim())}</span>
             ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}`;
-        // console.log('X_placementType =', x_placements.length, x_status);
         if (x_placements.length && x_placements.length > 0) {
           html += ` <!-- Available (Done) -->
           ${this.formatTripPlacement(x_placement_type, x_placements)}`
-
         } else {
           html += ` <!-- Available (Next) -->
           <i class="fa fa-check-circle complete"></i>`;
-
         }
-
-        // else {
-        //   html = `
-        //     <!-- Available (Next) -->
-        //     <span class="loading">${x_origin.trim()}</span>
-        //     ${x_destination ? `
-        //       <span>-</span>
-        //       <span class="unloading">${x_destination.trim()}</span>
-        //     ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
-        //     ${this.formatTripPlacement(x_placement_type, x_placements)}`;
-        // }
         break;
-
       case 5:
       case 15:
       case 22:
       case 23:
         html = `
             <!-- Available (Moved) -->
-            <span class="unloading">${x_origin.trim()}</span><i title=""></i>
+            <span class="unloading">${this.formattTripStatus(x_origin.trim())}</span><i title=""></i>
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
       default:
         html = `
             <!-- Ambiguous -->
-            <span class="loading">${x_origin.trim()}</span>
+            <span class="loading">${this.formattTripStatus(x_origin.trim())}</span>
             <span>-</span><i title=""></i>
-            <span class="unloading">${this.formattDestination(x_destination.trim())}</span>
+            <span class="unloading">${this.formattTripStatus(x_destination.trim())}</span>
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
     }
-    // console.log('HTML:', html);
     return html + this.handleTripStatusOnExcelExport(x_status, x_origin, x_destination, x_placements);
   }
 
-  formattDestination(destination: string) {
-    let arr = destination.split('-');
+  formattTripStatus(places: string) {
+    let arr = places.split('-');
     let html = arr.map((ar, index) => {
       if (ar.includes('#')) {
         let x = ar.split('#');
@@ -1674,7 +1656,6 @@ export class CommonService {
   }
 
   formatTripPlacement(placementType, placements) {
-    // console.log('++++:placements:', placements, placementType);
 
     if (!placements.length) return '';
     let html = ` <i class="icon ion-md-arrow-round-forward"></i> `;
@@ -1724,6 +1705,7 @@ export class CommonService {
 
   handleTripStatusOnExcelExport(status, origin, destination, placements) {
     let title = '';
+    origin = origin.split('-').map(des => des.split('#')[0]).join(' - ')
     destination = destination.split('-').map(des => des.split('#')[0]).join(' - ');
 
     switch (status) {
