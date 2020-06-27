@@ -96,7 +96,7 @@ nb-card-header{
             display: block;
             table-layout: fixed;
             overflow: auto;
-            max-height: calc(100vh - 540px);
+            max-height: calc(100vh - 510px);
           
          tr{
           td input{
@@ -319,5 +319,9 @@ nb-card-header{
 
     .advncolor{
       color: blue;
+      }
+
+      .row{
+        margin-left:0!important;
       }
   
