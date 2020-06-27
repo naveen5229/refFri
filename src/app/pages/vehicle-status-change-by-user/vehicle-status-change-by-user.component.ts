@@ -4,7 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { ChangeVehicleStatusByCustomerComponent } from '../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
-
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'vehicle-status-change-by-user',
   templateUrl: './vehicle-status-change-by-user.component.html',
@@ -28,7 +28,8 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
-    public user: UserService
+    public user: UserService,
+    private _sanitizer: DomSanitizer, 
   ) {
 
     this.getVehicleStatusAlerts();
@@ -141,7 +142,7 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
       status: 1,
       fo_name: vs.group_name,
       regno: vs.vehicle_name,
-      tripName: this.common.getTripStatusHTML(vs._trip_status_type, vs._showtripstart, vs._showtripend, vs._p_placement_type, vs._p_loc_name)
+      tripName: this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(vs._trip_status_type, vs._showtripstart, vs._showtripend, vs._p_placement_type, vs._p_loc_name))
     }
     console.log("VehicleStatusData", VehicleStatusData);
     this.common.params = VehicleStatusData;

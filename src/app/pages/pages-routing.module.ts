@@ -95,6 +95,7 @@ import { FuelDailyConsumptionComponent } from './fuel-daily-consumption/fuel-dai
 import { VehicleStatusChangeComponent } from '../admin/vehicle-status-change/vehicle-status-change.component';
 import { VehicleStatusChangeByUserComponent } from './vehicle-status-change-by-user/vehicle-status-change-by-user.component';
 import { TripissuesComponent } from './tripissues/tripissues.component';
+import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
 
 
 const routes: Routes = [{
@@ -147,6 +148,12 @@ const routes: Routes = [{
 
     path: 'tickets-all',
     component: TicketsAllComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+
+    path: 'tickets-kpi',
+    component: TicketsKpiComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   {

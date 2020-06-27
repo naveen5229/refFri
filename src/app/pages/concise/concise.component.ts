@@ -761,7 +761,7 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
-      <span><b>Trip:</b>${this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.x_p_placement_type, event.x_p_loc_name)}</span> <br>
+      <span><b>Trip:</b>${this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.x_p_placement_type, event.x_p_loc_name))}</span> <br>
       <b>Status:</b>${event.showprim_status} <br>
       <b>Location:</b>${event.Address} <br>
       `
@@ -896,7 +896,7 @@ export class ConciseComponent implements OnInit {
       status: 2,
       remark: trip.remark,
       regno : trip.x_showveh,
-      tripName : this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name)
+      tripName : this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name))
     };
     this.common.ref_page = 'tsfl';
     this.common.params = VehicleStatusData;

@@ -94,6 +94,7 @@ import { RouteDeviationsComponent } from './route-deviations/route-deviations.co
 import { FuelDailyConsumptionComponent } from './fuel-daily-consumption/fuel-daily-consumption.component';
 import { VehicleStatusChangeByUserComponent } from './vehicle-status-change-by-user/vehicle-status-change-by-user.component';
 import { TripissuesComponent } from './tripissues/tripissues.component';
+import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
 
 
 
@@ -189,6 +190,7 @@ const PAGES_COMPONENTS = [
     FuelDailyConsumptionComponent,
     VehicleStatusChangeByUserComponent,
     TripissuesComponent,
+    TicketsKpiComponent,
 
 
   ],
