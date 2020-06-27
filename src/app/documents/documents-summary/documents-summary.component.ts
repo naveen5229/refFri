@@ -58,7 +58,7 @@ export class DocumentsSummaryComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
-        this.pages.count = Math.ceil(this.data.result.length / 250);
+        this.pages.count = Math.ceil(this.data.result.length / this.pages.limit);
         this.total_recs = this.data.result.length;
         this.handlePagination(this.pages.active);
 
