@@ -33,7 +33,7 @@ export class SmartTableComponent implements OnInit {
     column: null,
     heading: ''
   };
-
+  filtertimer: any;
   constructor(private cdr: ChangeDetectorRef,
     public common: CommonService) { }
 
@@ -76,24 +76,30 @@ export class SmartTableComponent implements OnInit {
   }
 
   filterData(key) {
-    let search = this.headings[key].value.toLowerCase();
-    this.search = { key, txt: search };
-    this.columns = this.data.columns.filter(column => {
-      if (!search.length) return true;
-      let value = column[key].value;
-      if (search.includes('>') || search.includes('<') || search.includes('!')) {
-        if (search.length == 1) return true;
-        if (search[0] == '>') return value && value > search.split('>')[1]
-        else if (search[0] == '<') return value && value < search.split('<')[1];
-        else if (search[0] == '!') return value && value != search.split('!')[1];
-      } else if (value && value.toString().toLowerCase().includes(search.toLowerCase())) return true;
-      return false;
-    });
+    clearTimeout(this.filtertimer);
+    this.filtertimer = setTimeout(() => {
+      console.log('filterData:', key,this.headings[key].value);
+      let search = this.headings[key].value.toLowerCase();
+      this.search = { key, txt: search };
+      this.columns = this.data.columns.filter(column => {
+        if (!search.length) return true;
+        let value = column[key].value;
+        if (search.includes('>') || search.includes('<') || search.includes('!')) {
+          if (search.length == 1) return true;
+          if (search[0] == '>') return value && value > search.split('>')[1]
+          else if (search[0] == '<') return value && value < search.split('<')[1];
+          else if (search[0] == '!') return value && value != search.split('!')[1];
+        } else if (value && value.toString().toLowerCase().includes(search.toLowerCase())) return true;
+        return false;
+      });
 
-    if (search.includes('>') || search.includes('<') || search.includes('!')) {
-      if (search.includes('>')) this.sortColumn(key, 'asc')
-      else this.sortColumn(key, 'desc')
-    }
+      if (search.includes('>') || search.includes('<') || search.includes('!')) {
+        if (search.includes('>')) this.sortColumn(key, 'asc')
+        else this.sortColumn(key, 'desc')
+      }
+      this.cdr.detectChanges();
+    }, this.data.columns.length > 150 ? 1000 : 300);
+
   }
 
   sortColumn(key, sortType?) {

@@ -24,6 +24,7 @@ import { elementAt } from "rxjs/operators";
 import { RouteGuard } from "../guards/route.guard";
 import { saveAs } from 'file-saver';
 import { AccountService } from '../services/account.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 const moment = moment_;
 @Injectable({
@@ -79,7 +80,7 @@ export class CommonService {
     public api: ApiService,
     public dataService: DataService,
     public user: UserService,
-    private datePipe: DatePipe,
+    private datePipe: DatePipe, private _sanitizer: DomSanitizer,
     private http: Http,
     private accountService: AccountService,
 
@@ -1629,6 +1630,8 @@ export class CommonService {
         html = `
             <!-- Available (Moved) -->
             <span class="unloading">${this.formattTripStatus(x_origin.trim())}</span><i title=""></i>
+            <span>-</span><i title=""></i>
+            <span class="unloading">${this.formattTripStatus(x_destination.trim())}</span>
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
       default:
@@ -1640,7 +1643,7 @@ export class CommonService {
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
     }
-    return html + this.handleTripStatusOnExcelExport(x_status, x_origin, x_destination, x_placements);
+    return this._sanitizer.bypassSecurityTrustHtml(html + this.handleTripStatusOnExcelExport(x_status, x_origin, x_destination, x_placements));
   }
 
   formattTripStatus(places: string) {

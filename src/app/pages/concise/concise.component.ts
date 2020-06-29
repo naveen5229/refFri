@@ -216,7 +216,9 @@ export class ConciseComponent implements OnInit {
 
     let kpisList = kpis || this.kpis;
     kpisList.map((kpi, i) => {
-
+      if (kpi.x_showveh.includes("RJ14GG4161")) {
+        console.log('kpi::', kpi);
+      }
       columns.push({
         vechile: {
           value: kpi.x_showveh,
@@ -249,7 +251,7 @@ export class ConciseComponent implements OnInit {
           action: "",
         },
         trail: {
-          value: this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name)),
+          value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
           action: this.getUpadte.bind(this, kpi),
           isHTML: true,
         },
@@ -771,7 +773,7 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
-      <span><b>Trip:</b>${this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.x_p_placement_type, event.x_p_loc_name))}</span> <br>
+      <span><b>Trip:</b>${this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.x_p_placement_type, event.x_p_loc_name)}</span> <br>
       <b>Status:</b>${event.showprim_status} <br>
       <b>Location:</b>${event.Address} <br>
       `
@@ -906,7 +908,7 @@ export class ConciseComponent implements OnInit {
       status: 2,
       remark: trip.remark,
       regno: trip.x_showveh,
-      tripName: this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name))
+      tripName: this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name)
     };
     this.common.ref_page = 'tsfl';
     this.common.params = VehicleStatusData;
