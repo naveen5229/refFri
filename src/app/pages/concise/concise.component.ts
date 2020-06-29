@@ -282,6 +282,13 @@ export class ConciseComponent implements OnInit {
   grouping(viewType) {
     this.kpis = this.allKpis;
     this.kpiGroups = _.groupBy(this.allKpis, viewType);
+    Object.keys(this.kpiGroups).forEach(key => {
+      if (key.includes('#')) {
+        let xKey = key.split('-').map(k => k.split('#')[0]).join(' - ');
+        this.kpiGroups[xKey] = this.kpiGroups[key];
+        delete this.kpiGroups[key];
+      }
+    });
     this.kpiGroupsKeys = Object.keys(this.kpiGroups);
     this.keyGroups = [];
 
@@ -415,7 +422,10 @@ export class ConciseComponent implements OnInit {
     } else {
       this.selectedFilterKey = filterKey;
       this.kpis = this.allKpis.filter(kpi => {
-        if (kpi[this.viewType] == filterKey) return true;
+        let value = kpi[this.viewType].split('-').map(k => k.split('#')[0]).join(' - ');
+        if (value == filterKey) {
+          return true;
+        }
         return false;
       });
     }
@@ -895,8 +905,8 @@ export class ConciseComponent implements OnInit {
       latch_time: latch_time,
       status: 2,
       remark: trip.remark,
-      regno : trip.x_showveh,
-      tripName : this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name))
+      regno: trip.x_showveh,
+      tripName: this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name))
     };
     this.common.ref_page = 'tsfl';
     this.common.params = VehicleStatusData;
@@ -1105,4 +1115,5 @@ export class ConciseComponent implements OnInit {
         this.common.loading--;
       });
   }
+
 }

@@ -1648,7 +1648,9 @@ export class CommonService {
     let html = arr.map((ar, index) => {
       if (ar.includes('#')) {
         let x = ar.split('#');
-        return `<span style="color:#${x[1]}">${x[0]}</span>${arr.length - 1 != index ? ' - ' : ''}`;
+        if (x[2])
+          return `<span style="color:#${x[1]};"><del>${x[0]}</del></span>${arr.length - 1 != index ? ' - ' : ''}`;
+        return `<span style="color:#${x[1]};">${x[0]}</span>${arr.length - 1 != index ? ' - ' : ''}`;
       }
       return `<span>${ar}</span>${arr.length - 1 != index ? ' - ' : ''}`
     }).join('');
