@@ -156,6 +156,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
+        title: 'Tickets KPI',
+        icon: 'fas fa-ticket-alt',
+        link: '/pages/tickets-kpi',
+        home: true,
+      },
+      {
         title: 'Card Mapping',
         icon: 'fas fa-clone',
         link: '/pages/card-mapping',

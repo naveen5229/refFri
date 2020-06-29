@@ -69,7 +69,7 @@
             <ng-container *ngIf="total_recs">
               <tr *ngFor="let row of dr; let i=index;" class="{{getDocClasses(row)}}">
 
-                <td style='width: 40px;'> <span>{{((pages.active-1)*25)+(i+1)}}</span></td>
+                <td style='width: 40px;'> <span>{{((pages.active-1)*pages.limit)+(i+1)}}</span></td>
 
                 <td *ngFor="let col of columns; " class="text-center">
 

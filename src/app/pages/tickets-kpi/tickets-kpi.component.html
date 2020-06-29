@@ -1,0 +1,48 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <h5>Tickets KPI</h5>
+  </nb-card-header>
+  <nb-card-body>
+    <table class="table table-bordered table-hover">
+      <thead class="thead">
+        <tr>
+          <th rowspan="2">#</th>
+          <th rowspan="2">Ticket types</th>
+          <th colspan="2">UnAcknowledged</th>
+          <th colspan="2">UnClaimed</th>
+          <th colspan="2">UnCalled</th>
+          <th colspan="2">Open</th>
+        </tr>
+        <tr>
+         
+          <th> < 30 mins</th>
+          <th>  > 30 mins</th>
+          <th> < 30 mins</th>
+          <th> > 30 mins</th>
+          <th> < 1 hr</th>
+          <th> > 1 hr </th>
+          <th> < 3 hr</th>
+          <th> > 3 hr</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let kpi of kpis; let i = index">
+          <td>{{i + 1}}</td>
+          <td><b>{{kpi.tkt}}</b></td>
+          <td>{{kpi.unacklt30mins }}</td>
+          <td>{{kpi.unackgt30mins}}</td>
+          <td>{{kpi.unclmlt30mins}}</td>
+          <td>{{kpi.unclmgt30mins}}</td>
+          <td>{{kpi.uncallt1hr}}</td>
+          <td>{{kpi.uncalgt1hr}}</td>
+          <td>{{kpi.openlt3hr}}</td>
+          <td>{{kpi.opengt3hr}}</td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div class="no-data alert alert-danger" role="alert" *ngIf="!kpis.length">
+      No Data available !
+    </div>
+  </nb-card-body>
+</nb-card>

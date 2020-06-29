@@ -248,7 +248,7 @@ export class ConciseComponent implements OnInit {
           value: this.common.changeTimeformat(kpi.x_idle_time),
           action: "",
         },
-        trip: {
+        trail: {
           value: this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name)),
           action: this.getUpadte.bind(this, kpi),
           isHTML: true,
@@ -551,7 +551,7 @@ export class ConciseComponent implements OnInit {
           location: { title: "Location", placeholder: "Location" },
           hrs: { title: "Hrs", placeholder: "Hrs " },
           Idle_Time: { title: "Idle Time", placeholder: "Idle Time" },
-          trip: { title: "Trip", placeholder: "Trip" },
+          trail: { title: "Trail", placeholder: "Trail" },
           kmp: { title: "Kmp", placeholder: "KMP" },
           action: { title: "Action", placeholder: "", hideSearch: true }
         },
@@ -564,10 +564,10 @@ export class ConciseComponent implements OnInit {
           action: this.handleMapView.bind(this),
 
         },
-        pagination :true,
+        pagination: true,
         tableHeight: "87vh"
       },
-      
+
 
     };
   }
@@ -742,9 +742,9 @@ export class ConciseComponent implements OnInit {
 
   createCluster() {
     if (this.isCluster) {
-      for(let i=0;i<this.markers.length;i++){
-        if(this.markers[i])
-        this.markers[i].title = this.kpis[i].x_showveh;
+      for (let i = 0; i < this.markers.length; i++) {
+        if (this.markers[i])
+          this.markers[i].title = this.kpis[i].x_showveh;
       }
       this.mapService.createCluster(this.markers, true);
     } else {
@@ -761,7 +761,7 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
-      <span><b>Trip:</b>${this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.x_p_placement_type, event.x_p_loc_name)}</span> <br>
+      <span><b>Trip:</b>${this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.x_p_placement_type, event.x_p_loc_name))}</span> <br>
       <b>Status:</b>${event.showprim_status} <br>
       <b>Location:</b>${event.Address} <br>
       `
@@ -896,16 +896,16 @@ export class ConciseComponent implements OnInit {
       status: 2,
       remark: trip.remark,
       regno : trip.x_showveh,
-      tripName : this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name)
+      tripName : this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name))
     };
     this.common.ref_page = 'tsfl';
     this.common.params = VehicleStatusData;
     if (this.user._loggedInBy != "admin") {
       this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
     }
-    else{
-    this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
-  }
+    else {
+      this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    }
   }
 
 
@@ -974,10 +974,10 @@ export class ConciseComponent implements OnInit {
 
   }
 
-  openVehicleWiseOrders(data){
+  openVehicleWiseOrders(data) {
     let vehicle = {
-      id : data.x_vehicle_id,
-      regno : data.x_showveh
+      id: data.x_vehicle_id,
+      regno: data.x_showveh
 
     }
     this.common.params = { vehicle: vehicle };
