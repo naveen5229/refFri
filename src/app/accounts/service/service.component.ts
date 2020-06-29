@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { UserService } from '../../@core/data/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,7 +32,7 @@ export class ServiceComponent implements OnInit {
 
 
 
-  showHideButton=true;
+  showHideButton = true;
   showConfirm = false;
   stockitmeflag = true;
   suggestionname = '';
@@ -165,6 +165,7 @@ export class ServiceComponent implements OnInit {
     display: ''
   };
   params = null;
+  isModal = false;
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -172,9 +173,10 @@ export class ServiceComponent implements OnInit {
     public router: Router,
     private printService: PrintService,
     public modalService: NgbModal,
+    public activeModal: NgbActiveModal,
     public accountService: AccountService) {
 
-    
+
     // this.getBranchList();
     this.order.ordertype.id = -104;
     this.order.ordertype.name = 'Service Sales Invoice';
@@ -229,11 +231,14 @@ export class ServiceComponent implements OnInit {
     this.getFreeze();
     this.callApigstcode();
     if (this.common.params && this.common.params.invoiceid) {  // Add by hemant 27 june 2020
-      this.showHideButton=false;
+      this.showHideButton = false;
       console.log("Params:", this.common.params);
-      this.params =this.common.params;
-      this.common.params=null;
+      this.params = this.common.params;
+      this.common.params = null;
       this.getInvoiceDetail(this.params.invoiceid);
+      if (this.params.isModal) {
+        this.isModal = true
+      }
     }
   }
 
@@ -610,7 +615,7 @@ export class ServiceComponent implements OnInit {
       total += parseFloat(amountDetail.amount);
     });
     this.totalamount = total;
-    console.log("TOTALAMOUNT:",this.totalamount);
+    console.log("TOTALAMOUNT:", this.totalamount);
     return total;
   }
 
@@ -1395,7 +1400,7 @@ export class ServiceComponent implements OnInit {
 
 
 
-        
+
         console.log("TaxDetail:", this.taxdetails);
 
         // amountDetails: [{
