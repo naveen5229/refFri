@@ -842,6 +842,25 @@ input[type=number] {
 
 /* New design css */
 
+.page-as-modal .modal-dialog {
+  width: 100% !important;
+  max-width: 90% !important;
+  height: 100%;
+}
+.page-as-modal .modal-content {
+  height: 95% !important;
+}
+.page-as-modal nb-card-header {
+  margin: 0 !important;
+  border-bottom: 1px solid #c2c2c2 !important;
+  padding: 5px 10px !important;
+  background: #fff !important;
+}
+.page-as-modal nb-card-body {
+  background: #fff !important;
+  padding: 5px 0px !important;
+}
+
 
 
 
