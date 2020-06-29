@@ -248,7 +248,7 @@ export class ConciseComponent implements OnInit {
           value: this.common.changeTimeformat(kpi.x_idle_time),
           action: "",
         },
-        trip: {
+        trail: {
           value: this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name)),
           action: this.getUpadte.bind(this, kpi),
           isHTML: true,
@@ -551,7 +551,7 @@ export class ConciseComponent implements OnInit {
           location: { title: "Location", placeholder: "Location" },
           hrs: { title: "Hrs", placeholder: "Hrs " },
           Idle_Time: { title: "Idle Time", placeholder: "Idle Time" },
-          trip: { title: "Trip", placeholder: "Trip" },
+          trail: { title: "Trail", placeholder: "Trail" },
           kmp: { title: "Kmp", placeholder: "KMP" },
           action: { title: "Action", placeholder: "", hideSearch: true }
         },
