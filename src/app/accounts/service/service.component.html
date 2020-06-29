@@ -3,9 +3,14 @@
     <h4>Invoice</h4>
   </nb-card-header> -->
   <nb-card-body>
+    <div class="row" *ngIf="isModal" style="height:40px;background-color:black;margin:0!important">
+      <h4 style="color:white;padding:6px">Service Sales Invoice</h4>
+      <i class="fa fa-times close"  (click)="activeModal.dismiss()"></i>
+    </div>
+    
     <div class="row mb-4 mt-4">
-      <div class="col-9">
-        <div class="row">
+      <div class="col-9 p-0">
+        
           <!-- <div class="col-4">
             <div class="form-group">
               <label class="ref-label">Invoice Type</label>
@@ -22,7 +27,7 @@
 
             </div>
           </div> -->
-        </div>
+        
 
         <!-- Purchase Start -->
         <div
@@ -168,9 +173,9 @@
         <!--sales-->
         <div
           *ngIf="order.ordertype.name.toLowerCase().includes('sales') || order.ordertype.name.toLowerCase().includes('credit note') ">
-          <div class="row">
-            <div class="col">
-              <div class="form-group">
+          <div class="row" style="margin-left:0!important">
+            <div class="col-6 pl-0">
+              <div class="form-group p1-0">
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('sales')">Invoice
                   No.</label>
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('credit')">Credit Note
@@ -179,7 +184,7 @@
                   id="custcode" [(ngModel)]="order.custcode" placeholder="Please Enter Invoice No.">
               </div>
             </div>
-            <div class="col">
+            <div class="col-6">
               <div class="form-group">
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('credit')">Credit
                   Date</label>
@@ -216,8 +221,8 @@
             </div> -->
 
           </div>
-          <div class="row">
-            <div class="col">
+          <div class="row" style="margin-left:0!important;">
+            <div class="col-6 pl-0">
               <div class="form-group">
                 <label class="ref-label">Sales Ledger</label>
                 <!-- <auto-suggestion (onSelected)="onSelected($event, 'purchaseledger', 'name')"
@@ -230,7 +235,7 @@
                   (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </div>
             </div>
-            <div class="col">
+            <div class="col-6">
               <div class="form-group">
                 <label class="ref-label">Party Ledger</label>
                 <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger"
@@ -345,7 +350,7 @@
       </div>
     </div>
     <!--sales end-->
-    <div class="row"></div>
+    <div class="row">
     <table class="invoice_tabel table table-bordered">
       <thead style="background-color: #263238; color:#fff;">
 
@@ -446,6 +451,7 @@
         </tr>
       </tbody>
     </table>
+  </div>
     <div class="row">
       <div class="col-8">
       </div>

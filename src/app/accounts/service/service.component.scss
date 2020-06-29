@@ -322,6 +322,16 @@ nb-card-header{
       }
 
       .row{
-        margin-left:0!important;
+        margin-left:15px!important;
+        margin-right:15px!important;
+      }
+
+      .close{
+        position: absolute;
+        font-size: 20px;
+        right: 6px;
+        color: white;
+        top: 6px;
+        right:10;
       }
   
