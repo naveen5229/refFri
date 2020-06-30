@@ -24,7 +24,8 @@
       <thead class="thead">
         <tr>
           <th>#</th>
-          <th>Trip</th>
+          <th>Original Trip</th>
+          <th>Current Trip</th>
           <th>State Desc.</th>
           <th>Start Time</th>
           <th>User Info</th>
@@ -35,6 +36,7 @@
      <tr *ngFor="let vts of vtStates;let i = index;">
           <td>{{i+1}}</td>
           <td>{{vts.trip_desc}}</td>
+          <td [innerHTML]="common.getJSONTripStatusHTML(vts)"></td>
           <td>{{vts.state_desc}}</td>
           <td>{{vts.start_time}}</td>
           <td>{{vts.userinfo}}</td>
@@ -52,7 +54,8 @@
       <thead class="thead">
         <tr>
           <th>#</th>
-          <th>Trip</th>
+          <th>Original Trip</th>
+          <th>Current Trip</th>
           <th>Start Time</th>
           <th>End Time</th>
           <th>User Info</th>
@@ -63,6 +66,7 @@
      <tr *ngFor="let trip of trips;let i = index;">
           <td>{{i+1}}</td>
           <td>{{trip.trip_desc}}</td>
+          <td [innerHTML]="common.getJSONTripStatusHTML(trip)"></td>
           <td>{{trip.start_time}}</td>
           <td>{{trip.end_time}}</td>
           <td>{{trip.userinfo}}</td>
