@@ -292,6 +292,7 @@ import { VerifyfuturetripstateComponent } from './modals/verifyfuturetripstate/v
 import { GstdataComponent } from './acounts-modals/gstdata/gstdata.component';
 import { CheckloginandredirectComponent } from './auth/checkloginandredirect/checkloginandredirect.component';
 import { TripStateMappingComponent } from './modals/trip-state-mapping/trip-state-mapping.component';
+import { TicketInfoComponent } from './modals/ticket-info/ticket-info.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -542,6 +543,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   VerifyfuturetripstateComponent,
   GstdataComponent,
   TripStateMappingComponent,
+  TicketInfoComponent,
 
 ];
 

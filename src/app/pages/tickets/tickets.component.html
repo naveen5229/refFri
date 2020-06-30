@@ -10,7 +10,7 @@
                         <tr>
                             <th>#</th>
                             <th>Vehicle No</th>
-                            <th>Driver</th>
+                            <!-- <th>Driver</th> -->
                             <th>Message</th>
                             <th>Remaining Time</th>
                             <th>Action</th>
@@ -20,7 +20,7 @@
                         <tr *ngFor="let ticket of newTickets; let i = index">
                             <td scope="row">{{i + 1}}</td>
                             <td>{{ticket.regno}}</td>
-                            <td>{{ticket.empname}}</td>
+                            <!-- <td>{{ticket.empname}}</td> -->
                             <td>{{ticket.msg}}</td>
                             <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
                             <td>
@@ -42,18 +42,20 @@
                         <tr>
                             <th>#</th>
                             <th>Vehicle No</th>
-                            <th>Driver</th>
+                            <!-- <th>Driver</th> -->
                             <th>Message</th>
                             <th>Remaining Time</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let ticket of openTickets; let i = index;" (click)="showDetails(ticket)">
                             <td scope="row">{{i + 1}}</td>
                             <td>{{ticket.regno}}</td>
-                            <td>{{ticket.empname}}</td>
+                            <!-- <td>{{ticket.empname}}</td> -->
                             <td>{{ticket.msg}}</td>
                             <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
+                            <td><span><u style="color: blue;cursor: pointer;" (click)="oprnInfoModel(ticket)">info</u></span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -68,7 +70,7 @@
                         <tr>
                             <th>#</th>
                             <th>Vehicle No</th>
-                            <th>Driver</th>
+                            <!-- <th>Driver</th> -->
                             <th>Message</th>
                             <th>Add Time</th>
                             <th>Trails</th>
@@ -79,7 +81,7 @@
                         <tr *ngFor="let ticket of tickets; let i = index;">
                             <td scope="row">{{i + 1}}</td>
                             <td>{{ticket.regno}}</td>
-                            <td>{{ticket.empname}}</td>
+                            <!-- <td>{{ticket.empname}}</td> -->
                             <td>{{ticket.msg}}</td>
                             <td>{{ticket.addtime | date : 'dd MMM HH:mm'}}</td>
                             <td (click)="showTrailList(ticket)" style="cursor:pointer">show</td>

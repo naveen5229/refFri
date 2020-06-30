@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { TicketTrailsComponent } from '../../modals/ticket-trails/ticket-trails.component';
+import { TicketInfoComponent } from '../../modals/ticket-info/ticket-info.component';
 
 @Component({
   selector: 'tickets',
@@ -201,8 +202,18 @@ export class TicketsComponent implements OnInit {
 
   showDetails(notification) {
     console.log(notification)
-    this.common.renderPage(notification.pri_type, notification.sec_type1, notification.sec_type2, notification);
+    // this.common.renderPage(notification.pri_type, notification.sec_type1, notification.sec_type2, notification);
   }
 
+oprnInfoModel(tkt){
+  console.log("ticket",tkt);
+  let ticket= {
+    id : tkt.ticket_id,
+    priType : tkt.pri_type
+  }
+  this.common.params = { ticket :ticket};
+  const activeModal = this.modalService.open(TicketInfoComponent, { size: 'lg', container: 'nb-layout' });
+
+}
 
 }
