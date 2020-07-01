@@ -13,7 +13,7 @@ export class MapService {
   test = null;
   elevator = null;
   polyVertices = [];
-   map = null;
+  map = null;
   mapDiv = null;
   markers = [];
   bounds = null;

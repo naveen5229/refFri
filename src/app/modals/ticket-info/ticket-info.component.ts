@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HtmlTagDefinition } from '@angular/compiler';
+import { LocationMarkerComponent } from '../location-marker/location-marker.component';
 
 @Component({
   selector: 'ticket-info',
@@ -13,9 +14,10 @@ export class TicketInfoComponent implements OnInit {
 
   numbers = [];
   data = [];
-  title = 'Ticket Info';
+  title = 'Ticket Details';
   ticketId = null;
   priType = null;
+  issueInfo = null;
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
@@ -41,6 +43,7 @@ export class TicketInfoComponent implements OnInit {
         let headings = [];
         //  headings = Object.keys(res['data'].tkt_info[0]);
         let hdg = Object.keys(res['data'].tkt_info[0]);
+        this.issueInfo = res['data'].issue_info[0];
         for(let i=0;i<hdg.length ; i++){
           headings.push(this.formatTitle(hdg[i]));
         }
@@ -77,5 +80,20 @@ export class TicketInfoComponent implements OnInit {
 
   closeModal(isFatal) {
     this.activeModal.close({ response: isFatal });
+  }
+
+  showLocation(lat,lng) {
+  
+    const location = {
+      lat: lat,
+      lng: lng,
+      name: "",
+      time: ""
+    };
+    this.common.params = { location, title: "Location" };
+    const activeModal = this.modalService.open(LocationMarkerComponent , {
+      size: "lg",
+      container: "nb-layout"
+    });
   }
 }
