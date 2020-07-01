@@ -10,20 +10,24 @@ import { MapService } from '../../services/map.service';
 })
 export class SubSitesComponent implements OnInit {
   siteId = null;
+  siteName = null;
+  siteLoc = null;
   subSites = null;
-  subSiteName =null;
+  subSiteName = null;
   btn = 'Create Fencing';
   typeIds = [];
   typeId = null;
   subSiteId = null;
-  subSiteLatLng= null;
+  subSiteLatLng = null;
+  sitepoly = null;
+  subsitepolys = [];
   constructor(
     public common: CommonService,
     public api: ApiService,
     public mapService: MapService
   ) {
     this.common.refresh = this.refresh.bind(this);
-  this.getTypeIds(); 
+    this.getTypeIds();
 
   }
 
@@ -31,12 +35,13 @@ export class SubSitesComponent implements OnInit {
   }
 
   refresh() {
-    this.getTypeIds(); 
+    this.getTypeIds();
     console.log('refresh');
   }
   selectSite(site) {
     this.siteId = site.id;
-    this.mapService.zoomAt({lat:parseFloat(site.lat),lng:parseFloat(site.long)});
+    this.getFencing();
+    // this.mapService.zoomAt({ lat: parseFloat(site.lat), lng: parseFloat(site.long) });
   }
 
   getTypeIds() {
@@ -53,7 +58,7 @@ export class SubSitesComponent implements OnInit {
 
   createFinishFencing() {
     this.mapService.isDrawAllow = !this.mapService.isDrawAllow;
-    if(!this.mapService.isDrawAllow){
+    if (!this.mapService.isDrawAllow) {
       this.submitPolygon();
     }
   }
@@ -66,28 +71,51 @@ export class SubSitesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        this.subSites = res['data'];
+        this.subSites = res['data']['markers'];
+        this.mapService.clearAll();
         this.markerCreate();
+        let data = res['data']['fences'];
+        console.log('Res: ', res['data']);
+        this.createFences(data);
+        this.getFencing(false);
       }, err => {
         this.common.loading--;
         this.common.showError();
       });
   }
 
-  getFencing() {
-    let params = "siteId=" + this.siteId;
+  getFencing(isclear=true) {
+    let params = {
+      strictSelected:true,
+      siteId : this.siteId,
+    };
+    isclear && this.mapService.clearAll();
     this.common.loading++;
     this.api.post("SiteFencing/getSiteFences", params)
       .subscribe(res => {
         this.common.loading--;
         let data = res['data'];
-        let count = Object.keys(data).length;
         console.log('Res: ', res['data']);
+        this.mapService.createMarkers([data[Object.keys(data)[0]].marker]);
+        let Options = {
+          paths: data[Object.keys(data)[0]].latLngs,
+          strokeColor: '#D2691E',
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          clickable: false,
+          fillColor: '#b5651d',
+          fillOpacity: 0.35
+        };
+        this.sitepoly && this.sitepoly.setMap(null);
+      this.sitepoly = this.mapService.createPolygon(data[Object.keys(data)[0]].latLngs,Options);
+      this.mapService.setPolyBounds(this.mapService.polygon.getPath(),true);
+      // this.mapService.zoomMap(17);
 
       }, err => {
         this.common.loading--;
         this.common.showError();
       });
+
   }
 
   ngAfterViewInit() {
@@ -112,10 +140,10 @@ export class SubSitesComponent implements OnInit {
 
 
   submitValidity() {
-      if (!this.subSiteName || !this.siteId) {
-        return false;
-      }
-      return true;
+    if (!this.subSiteName || !this.siteId) {
+      return false;
+    }
+    return true;
   }
 
   submitPolygon() {
@@ -140,25 +168,26 @@ export class SubSitesComponent implements OnInit {
           siteId: this.siteId,
           subSiteName: this.subSiteName,
           typeId: this.typeId,
+          subSiteId: this.subSiteId
         };
-        let url = this.subSiteId ? "SubSiteOperation/updateSiteFence":"SubSiteOperation/insertSiteFence"
-          this.api.post(url, params)
-            .subscribe(res => {
-              if (!res['success']) {
-                this.common.showError(res['msg']);
-                this.mapService.isDrawAllow = true;
-                return;
-              }
-              this.subSiteId = res['data'];
-              this.common.showToast("Created subsite");
-              this.gotoSingle();
-              this.clearAll();
-            }, err => {
-              console.error(err);
-              this.common.showError();
+        let url = this.subSiteId ? "SubSiteOperation/updateSiteFence" : "SubSiteOperation/insertSiteFence"
+        this.api.post(url, params)
+          .subscribe(res => {
+            if (!res['success']) {
+              this.common.showError(res['msg']);
               this.mapService.isDrawAllow = true;
-            });
-       
+              return;
+            }
+            this.subSiteId = res['data'];
+            this.common.showToast("Created subsite");
+
+            this.gotoSingle();
+          }, err => {
+            console.error(err);
+            this.common.showError();
+            this.mapService.isDrawAllow = true;
+          });
+
       } else {
         alert("No polyLine Was Drawn..");
         this.mapService.isDrawAllow = true;
@@ -172,7 +201,17 @@ export class SubSitesComponent implements OnInit {
     this.mapService.isDrawAllow = false;
     this.subSiteName = null;
     this.siteId = null;
+    this.siteName = null;
+    this.siteLoc = null;
     this.subSiteId = null;
+    this.typeId = null;
+    if(this.subsitepolys.length>0) {
+      this.subsitepolys.forEach(e=>{
+        e.setMap(null);
+      });
+      this.subsitepolys = [];
+    }
+    this.sitepoly && this.sitepoly.setMap(null);
     this.mapService.clearAll();
   }
 
@@ -194,59 +233,17 @@ export class SubSitesComponent implements OnInit {
         this.typeId = data[0].type_id;
         this.subSiteId = data[0].id;
         this.subSiteName = data[0].name;
-        this.siteId = data[0].site_id
-        this.api.post("SiteFencing/getSubSiteFences", { subSiteId: this.subSiteId })
+        this.siteId = data[0].site_id;
+        this.siteName = data[0].sname;
+        this.siteLoc = data[0].slname;
+        this.getFencing();
+        this.api.post("SubSiteOperation/getSubSiteFences", { subSiteId: this.subSiteId })
           .subscribe(res => {
             this.common.loading++;
             let data = res['data'];
             let count = Object.keys(data).length;
             console.log('Res: ', res['data']);
-            if (data[this.subSiteId]) {
-              this.tempData[0]['color'] = 'f00';
-            }
-            
-            this.mapService.createMarkers(this.tempData);
-            if (count == 1) {
-              this.mapService.createPolygon(data[Object.keys(data)[0]].latLngs);
-              console.log("Single", data[Object.keys(data)[0]]);
-            }
-            else if (count > 1) {
-              let latLngsArray = [];
-              let show = "Unknown";
-              let isMain = false;
-              let isSec = false;
-              let minDis = 100000;
-              let minIndex = -1;
-              for (const datax in data) {
-                isMain = false;
-                if (data.hasOwnProperty(datax)) {
-                  const datav = data[datax];
-                  if (datax == this.subSiteId) {
-                    isMain = true;
-                  }
-                  else if (minDis > datav.dis) {
-                    isMain = false;
-                    minDis = datav.dis;
-                    minIndex = latLngsArray.length;
-                  }
-                  latLngsArray.push({
-                    data: datav.latLngs, isMain: isMain, isSec: isSec, show:
-                      `
-                  Id: ${datax}<br>
-                  Name:${datav.name}<br>
-                  Location:${datav.loc_name}<br>
-                  `
-                  });
-                }
-              }
-              if (minIndex != -1)
-                latLngsArray[minIndex].isSec = true;
-              this.mapService.createPolygons(latLngsArray);
-            }
-            else {
-              console.log("Else");
-            }
-            this.mapService.zoomMap(18.5);
+            this.createFences(data);
             this.common.loading--;
           }, err => {
             console.error(err);
@@ -259,5 +256,60 @@ export class SubSitesComponent implements OnInit {
       });
 
     this.common.loading--;
+  }
+
+  createFences(data) {
+    if(this.subsitepolys.length>0) {
+      this.subsitepolys.forEach(e=>{
+        e.setMap(null);
+      });
+      this.subsitepolys = [];
+    }
+    let count = Object.keys(data).length;
+    if (data[this.subSiteId]) {
+      this.tempData[0]['color'] = 'f00';
+    }
+
+    this.mapService.createMarkers(this.tempData);
+    if (count == 1) {
+      this.subsitepolys.push( this.mapService.createPolygon(data[Object.keys(data)[0]].latLngs));
+      console.log("Single", data[Object.keys(data)[0]]);
+    }
+    else if (count > 1) {
+      let latLngsArray = [];
+      let show = "Unknown";
+      let isMain = false;
+      let isSec = false;
+      let minDis = 100000;
+      let minIndex = -1;
+      for (const datax in data) {
+        isMain = false;
+        if (data.hasOwnProperty(datax)) {
+          const datav = data[datax];
+          if (datax == this.subSiteId) {
+            isMain = true;
+          }
+          else if (minDis > datav.dis) {
+            isMain = false;
+            minDis = datav.dis;
+            minIndex = latLngsArray.length;
+          }
+          latLngsArray.push({
+            data: datav.latLngs, isMain: isMain, isSec: isSec, show:
+              `
+          Id: ${datax}<br>
+          Name:${datav.name}<br>
+          Location:${datav.loc_name}<br>
+          `
+          });
+        }
+      }
+      if (minIndex != -1)
+        latLngsArray[minIndex].isSec = true;
+        this.subsitepolys.push(...this.mapService.createPolygons(latLngsArray));
+    }
+    else {
+      console.log("Else");
+    }
   }
 }

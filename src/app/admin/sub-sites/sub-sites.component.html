@@ -6,7 +6,7 @@
           <tr>
             <td>
               <auto-suggestion (onSelected)="selectSite($event)" [(ngModel)]="siteId" url="Suggestion/getSites?typeId=1"
-                seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site" [preSelected]="null">
+                seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site" [preSelected]="{name:siteName,sd_loc_name:siteLoc}">
               </auto-suggestion>
             </td>
             <td>
@@ -30,6 +30,11 @@
             <td>
               <input (keydown.enter)="gotoSingle()" placeholder="Sub Site Id" [(ngModel)]="subSiteId"
                 class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button class="btn" (click)="clearAll()">Clear All</button>
             </td>
           </tr>
         </table>
