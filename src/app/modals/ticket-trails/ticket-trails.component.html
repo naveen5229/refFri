@@ -8,12 +8,18 @@
   <table class="table table-bordered table-hover">
     <thead>
       <tr>
-        <th *ngFor="let heading of headings">{{heading}}</th>
+        <th>#</th>
+        <th>Employee Name</th>
+        <th>Spent Time</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of datas;">
-        <td *ngFor="let info of data">{{info}}</td>
+      <tr *ngFor="let data of datas;let i=index">
+        <td>{{i+1}}</td>
+        <td>{{data.employeename}}</td>
+        <td>{{data.spent_time}}</td>
+        <td>{{data.status}}</td>
       </tr>
     </tbody>
 

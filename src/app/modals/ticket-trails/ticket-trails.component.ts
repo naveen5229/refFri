@@ -9,19 +9,44 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./ticket-trails.component.scss','../../pages/pages.component.css']
 })
 export class TicketTrailsComponent implements OnInit {
-  title = '';
+  title = 'Trail List';
   headings = [];
   datas = [];
+  
 
   constructor(public common: CommonService,
     private activeModal: NgbActiveModal) {
-    this.title = this.common.params.title;
-    this.headings = this.common.params.headings;
-    this.datas = this.common.params.data;
+    // this.title = this.common.params.title;
+    this.headings = this.common.params.headers;
+    console.log(this.common.params)
+    
+      this.datas = this.common.params.trailList;
+      if(this.datas){
+      this.datas.map(data => {
+        if (data.spent_time > 0) {
+          let t = data.spent_time;
+          let m = Math.floor((t / 60));
+          let M = m % 60 > 9 ? m % 60 : '0' + m % 60;
+          let H: any = Math.floor(m / 60) > 9 ? Math.floor(m / 60) : '0' + Math.floor(m / 60);
+          let S = t % 60 > 9 ? t % 60 : '0' + t % 60;
+          data.spent_time = H + ":" + M + ":" + S;
+          console.log(H + ":" + M + ":" + S);
+          if (H > 23) {
+            let D = Math.floor(H / 24);
+            let h = H % 24 > 9 ? H % 24 : '0' + H % 24;
+            data.spent_time = D + " Day" + ' ' + h + ":" + M + ":" + S;
+            console.log(D + " Day" + ' ' + h + ":" + M + ":" + S);
+          }
+      }});
+    }
+      
+    console.log(this.datas)
   }
 
   ngOnInit() {
   }
+
+ 
   closeModal() {
     this.activeModal.close();
   }

@@ -32,6 +32,16 @@ export class TicketInfoComponent implements OnInit {
   ngOnInit() {
   }
 
+  findRemainingTime(time) {
+    let minutes = time % 60;
+    let hours = Math.floor((time / 60));
+    if (hours) {
+      return hours + ' hours ' + minutes + ' minutes';
+    }
+    return minutes + ' minutes ';
+
+  }
+
   viewData() {
     let params = "ticket_id=" + this.ticketId +
       "&pri_type=" + this.priType
