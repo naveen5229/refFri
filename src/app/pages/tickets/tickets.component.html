@@ -84,9 +84,9 @@
                             <!-- <td>{{ticket.empname}}</td> -->
                             <td>{{ticket.msg}}</td>
                             <td>{{ticket.addtime | date : 'dd MMM HH:mm'}}</td>
-                            <td (click)="showTrailList(ticket)" style="cursor:pointer">show</td>
+                            <td (click)="showTrailList(ticket)" style="cursor:pointer;color:blue;">show</td>
                             <td>
-                                <span (click)="claimTicket(ticket)">Claim</span>
+                                <span (click)="claimTicket(ticket)" style="cursor: pointer;color:blue;">Claim</span>
                             </td>
                         </tr>
                     </tbody>

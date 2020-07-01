@@ -5,7 +5,40 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="row title">
+
+  <div class="row">
+    <table class="table table-bordered">
+      <tr>
+        <td>Vehicle No</td><td>{{issueInfo.regno}}</td>
+      </tr>
+      <tr>
+        <td>Driver</td><td>{{issueInfo.empname}}</td>
+      </tr>
+      <tr>
+        <td>Time Since</td><td *ngIf="issueInfo.start_time">{{issueInfo.start_time | date : 'dd MMM hh:mm a'}}</td>
+      </tr>
+      <tr>
+        <td>Duration</td><td>{{findRemainingTime(issueInfo.duration)}}</td>
+      </tr>
+      <tr>
+        <td>Location</td><td>{{issueInfo.loc_name}}</td>
+      </tr>
+      <tr>
+        <td>Map View</td><td (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;">click here</td>
+      </tr>
+      <tr>
+        <td>Reason</td><td>{{issueInfo.halt_type}}</td>
+      </tr>
+    </table>
+
+    <div class="row" style="width:90%;margin-left:5%;background-color: lightgrey;padding: 8px;font-weight: bold;color: black;border-radius: 5px;">
+      Ticket Action
+    </div>
+
+  </div>
+
+
+  <!-- <div class="row title">
     <h4>Issue Info</h4>
   </div>
   <div class="row">
@@ -81,7 +114,7 @@
     <div *ngIf="data[number*2+1]" class="col-md-3 value">
       {{data[number*2+1]?data[number*2+1]['value']:''}}
     </div>
-  </div>
+  </div> -->
 </div>
 <div class="modal-footer" *ngIf="isBtn">
   <div class="row">
