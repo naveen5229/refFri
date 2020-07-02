@@ -24,16 +24,25 @@
         <td>Location</td><td>{{issueInfo.loc_name}}</td>
       </tr>
       <tr>
-        <td>Map View</td><td (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;">click here</td>
+        <td>Map View</td><td (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;">Click here</td>
       </tr>
       <tr>
         <td>Reason</td><td>{{issueInfo.halt_type}}</td>
       </tr>
     </table>
 
-    <div class="row" style="width:90%;margin-left:5%;background-color: lightgrey;padding: 8px;font-weight: bold;color: black;border-radius: 5px;">
-      Ticket Action
+    <div style="width:100%;background-color: lightgrey;padding: 8px;font-weight: bold;color: black;">
+      Ticket Actions
     </div>
+    
+    <table class="table table-bordered tbl">
+      <tr><td>Time Remaining</td><td></td><td (click)="getExtraTime()"><i class="fa fa-plus" aria-hidden="true" title="Extra Time" style="cursor:pointer;"></i></td></tr>
+      <tr><td>Reminder</td><td></td><td (click)="setReminder()"><i class="fa fa-bell" aria-hidden="true" title="Reminder" style="cursor:pointer;"></i></td></tr>
+      <tr><td>Forward</td><td></td><td><i class="fa fa-share" aria-hidden="true" title="forward" style="cursor:pointer;"></i></td></tr>
+      <tr><td>TrailList</td><td></td><td><i class="fa fa-list-alt" aria-hidden="true" title="Trail List" style="cursor:pointer;"></i></td></tr>
+      <tr><td>Comments</td><td></td><td><i class="fa fa-commenting" aria-hidden="true" title="Comment" style="cursor:pointer;"></i></td></tr>
+    </table>
+    
 
   </div>
 

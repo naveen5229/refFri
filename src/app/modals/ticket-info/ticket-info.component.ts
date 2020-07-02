@@ -4,6 +4,8 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HtmlTagDefinition } from '@angular/compiler';
 import { LocationMarkerComponent } from '../location-marker/location-marker.component';
+import { ReminderComponent } from '../reminder/reminder.component';
+import { BuyTimeComponent } from '../buy-time/buy-time.component';
 
 @Component({
   selector: 'ticket-info',
@@ -18,6 +20,7 @@ export class TicketInfoComponent implements OnInit {
   ticketId = null;
   priType = null;
   issueInfo = null;
+  ticketInfo=null;
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
@@ -53,6 +56,7 @@ export class TicketInfoComponent implements OnInit {
         let headings = [];
         //  headings = Object.keys(res['data'].tkt_info[0]);
         let hdg = Object.keys(res['data'].tkt_info[0]);
+        this.ticketInfo=res['data'].tkt_info[0];
         this.issueInfo = res['data'].issue_info[0];
         for(let i=0;i<hdg.length ; i++){
           headings.push(this.formatTitle(hdg[i]));
@@ -104,6 +108,29 @@ export class TicketInfoComponent implements OnInit {
     const activeModal = this.modalService.open(LocationMarkerComponent , {
       size: "lg",
       container: "nb-layout"
+    });
+    
+  }
+
+  setReminder(){
+    this.common.params = { fo_ticket_allocation_id:this.ticketInfo.fo_ticket_allocation_id};
+    // this.notification.fo_ticket_allocation_id
+    const activeModal = this.modalService.open(ReminderComponent , {
+      size: "lg",
+      container: "nb-layout"
+    })
+    activeModal.result.then(data => {
+      console.log("Data:",data);
+      // this.closeModal(true);
+    });
+  }
+
+  getExtraTime() {
+    this.common.params = { ticketId: this.ticketInfo.fo_ticket_allocation_id };
+    const activeModal = this.modalService.open(BuyTimeComponent , {size: "lg",container: "nb-layout"})
+    activeModal.result.then(data => {
+      console.log("data:",data);
+      // this.closeModal(data);
     });
   }
 }
