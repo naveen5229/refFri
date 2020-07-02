@@ -85,7 +85,7 @@ export class SmartTableComponent implements OnInit {
       this.columns = [];
       if (!search.length) {
         if (this.settings.pagination) {
-          this.columns = this.data.columns.splice(0, this.pages.limit);
+          this.columns = this.data.columns.slice(0, this.pages.limit);
         } else {
           this.columns = this.data.columns;
         }
