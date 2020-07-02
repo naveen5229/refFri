@@ -13,7 +13,7 @@ export class MapService {
   test = null;
   elevator = null;
   polyVertices = [];
-   map = null;
+  map = null;
   mapDiv = null;
   markers = [];
   bounds = null;
@@ -90,6 +90,15 @@ export class MapService {
     for (let index = 0; index < bounds.length; index++) {
       const thisPoint = bounds[index];
       this.setBounds(this.createLatLng(thisPoint.lat, thisPoint.lng));
+    }
+  }
+  setPolyBounds(polygon, isReset = false) {
+    console.log("polygon",polygon);
+    if (isReset)
+      this.resetBounds();
+    for (let index = 0; index < polygon["i"].length; index++) {
+      const thisPoint = polygon["i"][index];
+      this.setBounds(this.createLatLng(thisPoint.lat(), thisPoint.lng()));
     }
   }
 
@@ -172,6 +181,7 @@ export class MapService {
     };
     this.polygon = new google.maps.Polygon(options || defaultOptions);
     this.polygon.setMap(this.map);
+    return this.polygon;
   }
   createPolygons(latLngsMulti, options?) {// strokeColor = '#', fillColor = '#') {
     console.log(latLngsMulti);
@@ -217,6 +227,8 @@ export class MapService {
       });
       index++;
     });
+  return this.polygons;
+
   }
 
   addListerner(element, event, callback) {

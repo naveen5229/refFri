@@ -1,0 +1,124 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <div class="row">
+    <table class="table table-bordered">
+      <tr>
+        <td>Vehicle No</td><td>{{issueInfo.regno}}</td>
+      </tr>
+      <tr>
+        <td>Driver</td><td>{{issueInfo.empname}}</td>
+      </tr>
+      <tr>
+        <td>Time Since</td><td *ngIf="issueInfo.start_time">{{issueInfo.start_time | date : 'dd MMM hh:mm a'}}</td>
+      </tr>
+      <tr>
+        <td>Duration</td><td>{{findRemainingTime(issueInfo.duration)}}</td>
+      </tr>
+      <tr>
+        <td>Location</td><td>{{issueInfo.loc_name}}</td>
+      </tr>
+      <tr>
+        <td>Map View</td><td (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;">click here</td>
+      </tr>
+      <tr>
+        <td>Reason</td><td>{{issueInfo.halt_type}}</td>
+      </tr>
+    </table>
+
+    <div class="row" style="width:90%;margin-left:5%;background-color: lightgrey;padding: 8px;font-weight: bold;color: black;border-radius: 5px;">
+      Ticket Action
+    </div>
+
+  </div>
+
+
+  <!-- <div class="row title">
+    <h4>Issue Info</h4>
+  </div>
+  <div class="row">
+    <div class="col-md-3 head">
+      <label>Vehicle No : </label>
+    </div>
+    <div class="col-md-3 value">
+      {{issueInfo.regno}}
+    </div>
+    <div class="col-md-3 head">
+      <label>Employee</label>
+    </div>
+    <div class="col-md-3 value">
+      {{issueInfo.empname}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 head">
+      <label>Mobile No.</label>
+    </div>
+    <div class="col-md-3 value">
+      {{issueInfo.mobileno}}
+    </div>
+    <div class="col-md-3 head">
+      <label>Halt Type</label>
+    </div>
+    <div class="col-md-3 value">
+      {{issueInfo.halt_type}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 head">
+      <label>Site : </label>
+    </div>
+    <div class="col-md-3 value">
+      {{issueInfo.site_name}}
+    </div>
+    <div class="col-md-3 head">
+      <label>Location :</label>
+    </div>
+    <div class="col-md-3 value">
+      <u style="color: blue; cursor: pointer;"
+        (click)="showLocation(issueInfo.lat,issueInfo.long)">{{issueInfo.loc_name}}</u>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 head">
+      <label>Start Time : </label>
+    </div>
+    <div class="col-md-3 value">
+      {{issueInfo.start_time}}
+    </div>
+    <div class="col-md-3 head">
+      <label>Duration :</label>
+    </div>
+    <div class="col-md-3 value">
+      {{issueInfo.duration}}
+    </div>
+  </div>
+  <div class="row title">
+    <h4>Ticket Info</h4>
+  </div>
+  <div class="row" *ngFor="let number of numbers;" style="margin-bottom:15px;">
+    <div class="col-md-3 head">
+      <label>{{data[number*2]['head']+':'}}</label>
+    </div>
+    <div class="col-md-3 value">
+      {{data[number*2]['value']}}
+    </div>
+    <div *ngIf="data[number*2+1]" class="col-md-3 head">
+      <label>{{data[number*2+1]?data[number*2+1]['head']+':':''}}</label>
+    </div>
+    <div *ngIf="data[number*2+1]" class="col-md-3 value">
+      {{data[number*2+1]?data[number*2+1]['value']:''}}
+    </div>
+  </div> -->
+</div>
+<div class="modal-footer" *ngIf="isBtn">
+  <div class="row">
+    <button class="btn btn-primary" (click)="closeModal(false)">Back</button>
+    <button class="btn btn-primary" (click)="closeModal(true)">SAVE</button>
+  </div>
+</div>

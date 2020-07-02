@@ -76,18 +76,7 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
       },
 
 
-      {
-        title: 'Site Details',
-        icon: 'fa fa-sitemap',
-        link: '/admin/site-details',
-        home: true,
-      },
-      {
-        title: 'Subsites',
-        icon: 'fa fa-arrows-alt',
-        link: '/admin/sub-sites',
-        home: true,
-      },
+     
       {
         title: 'Trip Diagnosis',
         icon: 'fa fa-arrows-alt',
@@ -103,13 +92,25 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
     ]
   },
   {
-    title: 'Site Fencing',
+    title: 'Sites',
     icon: 'fas fa-coins',
     home: true,
     children: [{
       title: 'Site Fencing',
       icon: 'fas fa-coins',
       link: '/admin/site-fencing',
+    },
+    {
+      title: 'Site Details',
+      icon: 'fa fa-sitemap',
+      link: '/admin/site-details',
+      home: true,
+    },
+    {
+      title: 'Subsites',
+      icon: 'fa fa-arrows-alt',
+      link: '/admin/sub-sites',
+      home: true,
     },
     {
       title: 'Buffer Polyline ',

@@ -216,7 +216,9 @@ export class ConciseComponent implements OnInit {
 
     let kpisList = kpis || this.kpis;
     kpisList.map((kpi, i) => {
-
+      if (kpi.x_showveh.includes("RJ14GG4161")) {
+        console.log('kpi::', kpi);
+      }
       columns.push({
         vechile: {
           value: kpi.x_showveh,
@@ -249,7 +251,7 @@ export class ConciseComponent implements OnInit {
           action: "",
         },
         trail: {
-          value: this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name)),
+          value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
           action: this.getUpadte.bind(this, kpi),
           isHTML: true,
         },
@@ -282,6 +284,13 @@ export class ConciseComponent implements OnInit {
   grouping(viewType) {
     this.kpis = this.allKpis;
     this.kpiGroups = _.groupBy(this.allKpis, viewType);
+    Object.keys(this.kpiGroups).forEach(key => {
+      if (key.includes('#')) {
+        let xKey = key.split('-').map(k => k.split('#')[0]).join(' - ');
+        this.kpiGroups[xKey] = this.kpiGroups[key];
+        delete this.kpiGroups[key];
+      }
+    });
     this.kpiGroupsKeys = Object.keys(this.kpiGroups);
     this.keyGroups = [];
 
@@ -415,7 +424,10 @@ export class ConciseComponent implements OnInit {
     } else {
       this.selectedFilterKey = filterKey;
       this.kpis = this.allKpis.filter(kpi => {
-        if (kpi[this.viewType] == filterKey) return true;
+        let value = kpi[this.viewType].split('-').map(k => k.split('#')[0]).join(' - ');
+        if (value == filterKey) {
+          return true;
+        }
         return false;
       });
     }
@@ -761,7 +773,7 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
-      <span><b>Trip:</b>${this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.x_p_placement_type, event.x_p_loc_name))}</span> <br>
+      <span><b>Trip:</b>${this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.x_p_placement_type, event.x_p_loc_name)}</span> <br>
       <b>Status:</b>${event.showprim_status} <br>
       <b>Location:</b>${event.Address} <br>
       `
@@ -895,8 +907,8 @@ export class ConciseComponent implements OnInit {
       latch_time: latch_time,
       status: 2,
       remark: trip.remark,
-      regno : trip.x_showveh,
-      tripName : this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name))
+      regno: trip.x_showveh,
+      tripName: this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name)
     };
     this.common.ref_page = 'tsfl';
     this.common.params = VehicleStatusData;
@@ -1105,4 +1117,5 @@ export class ConciseComponent implements OnInit {
         this.common.loading--;
       });
   }
+
 }

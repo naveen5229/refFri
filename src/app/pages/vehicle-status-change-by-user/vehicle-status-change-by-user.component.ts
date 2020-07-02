@@ -142,7 +142,7 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
       status: 1,
       fo_name: vs.group_name,
       regno: vs.vehicle_name,
-      tripName: this._sanitizer.bypassSecurityTrustHtml(this.common.getTripStatusHTML(vs._trip_status_type, vs._showtripstart, vs._showtripend, vs._p_placement_type, vs._p_loc_name))
+      tripName: this.common.getTripStatusHTML(vs._trip_status_type, vs._showtripstart, vs._showtripend, vs._p_placement_type, vs._p_loc_name)
     }
     console.log("VehicleStatusData", VehicleStatusData);
     this.common.params = VehicleStatusData;

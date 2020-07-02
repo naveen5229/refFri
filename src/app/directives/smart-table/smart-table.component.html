@@ -24,7 +24,7 @@
                             <!-- Search INPUT -->
                             <div class="filter-input-container">
                                 <input type="text" class="filter-input" [(ngModel)]="headings[heading].value"
-                                    (input)="filterData(heading)" [placeholder]="headings[heading].placeholder"
+                                    (ngModelChange)="filterData(heading)" [placeholder]="headings[heading].placeholder"
                                     [title]="headings[heading].placeholder">
                             </div>
                             <!-- Search INPUT END -->

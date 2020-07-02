@@ -858,7 +858,7 @@ input[type=number] {
 }
 .page-as-modal nb-card-body {
   background: #fff !important;
-  padding: 5px 0px !important;
+  padding: 0px 0px !important;
 }
 
 

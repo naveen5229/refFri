@@ -85,10 +85,12 @@
                 <th>AdUserId <span style="margin-left:15px"><i class="fa fa-refresh report-btn"
                       (click)="dataRefresh();"></i></span></th>
               </thead>
+              <!-- 'color':!vehicleEvent.lastType ? 'none':(vehicleEvent.lastType==21?'red':'green'), -->
               <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
                 <tr [id]="'vehicleEvent-row-'+i"
-                  [ngStyle]="{'color':!vehicleEvent.lastType ? 'none':(vehicleEvent.lastType==21?'red':'green'),
-                            'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
+                
+                  [ngStyle]="{
+                            'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'border-bottom':  vehicleEvent.showHorLine? '5px solid black' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
                   (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
                   <!-- <tr cdkDrag [id]="'vehicleEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
                           (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
