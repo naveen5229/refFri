@@ -9,7 +9,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./ticket-trails.component.scss','../../pages/pages.component.css']
 })
 export class TicketTrailsComponent implements OnInit {
-  title = 'Trail List';
+  trails = [];
+  comments = [];
+  commentsFlag = false;
+  trailFlag = false;
+  
+  title="";
   headings = [];
   datas = [];
   
@@ -17,12 +22,27 @@ export class TicketTrailsComponent implements OnInit {
   constructor(public common: CommonService,
     private activeModal: NgbActiveModal) {
     // this.title = this.common.params.title;
-    this.headings = this.common.params.headers;
+    //this.headings = this.common.params.headers;
     console.log(this.common.params)
+
+    if (this.common.params.type == 'comments') {
+      this.title="Comment List"
+      this.comments = this.common.params.commmentList;
+      this.commentsFlag = true;
+
+    }
+
+    if(this.common.params.type == 'trail'){
+      this.title="Trail List";
+      this.trails=this.common.params.trailList;
+      this.trailFlag=true;
+    }
     
-      this.datas = this.common.params.trailList;
-      if(this.datas){
-      this.datas.map(data => {
+      this.trails = this.common.params.trailList;
+      this.comments= this.common.params.commentList;
+      if(this.common.params.type == 'trail'){
+        if(this.common.params.trailList){
+      this.trails.map(data => {
         if (data.spent_time > 0) {
           let t = data.spent_time;
           let m = Math.floor((t / 60));
@@ -40,8 +60,9 @@ export class TicketTrailsComponent implements OnInit {
       }});
     }
       
-    console.log(this.datas)
+    console.log(this.trails)
   }
+}
 
   ngOnInit() {
   }

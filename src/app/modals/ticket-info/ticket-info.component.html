@@ -7,7 +7,7 @@
 <div class="modal-body">
 
   <div class="row">
-    <table class="table table-bordered">
+    <table class="table table-bordered" *ngIf="issueInfo">
       <tr>
         <td>Vehicle No</td><td>{{issueInfo.regno}}</td>
       </tr>
@@ -36,16 +36,22 @@
     </div>
     
     <table class="table table-bordered tbl">
-      <tr><td>Time Remaining</td><td></td><td (click)="getExtraTime()"><i class="fa fa-plus" aria-hidden="true" title="Extra Time" style="cursor:pointer;"></i></td></tr>
+      <tr><td>Time Remaining</td><td style="float:right">{{ticketInfo && common.findRemainingTime(ticketInfo.exp_tkt_time)}}</td><td (click)="getExtraTime()"><i class="fa fa-plus" aria-hidden="true" title="Extra Time" style="cursor:pointer;"></i></td></tr>
       <tr><td>Reminder</td><td></td><td (click)="setReminder()"><i class="fa fa-bell" aria-hidden="true" title="Reminder" style="cursor:pointer;"></i></td></tr>
       <tr><td>Forward</td><td></td><td><i class="fa fa-share" aria-hidden="true" title="forward" style="cursor:pointer;"></i></td></tr>
-      <tr><td>TrailList</td><td></td><td><i class="fa fa-list-alt" aria-hidden="true" title="Trail List" style="cursor:pointer;"></i></td></tr>
-      <tr><td>Comments</td><td></td><td><i class="fa fa-commenting" aria-hidden="true" title="Comment" style="cursor:pointer;"></i></td></tr>
+      <tr><td>TrailList</td><td></td><td (click)="trailList()"><i class="fa fa-list-alt" aria-hidden="true" title="Trail List" style="cursor:pointer;"></i></td></tr>
+      <tr><td>Comments</td><td (click)="getComment()"><i class="fa fa-eye" aria-hidden="true" title="get Comment" style="cursor:pointer;float:right"></i></td><td (click)="setComments()"><i class="fa fa-commenting" aria-hidden="true" title="Set Comment" style="cursor:pointer;"></i></td></tr>
     </table>
+
+    <div class="col-sm-6 offset-6">
+      <span (click)="setRemark(-5)" style="cursor: pointer;" class="col-sm-6"><span style="background: lightgrey;padding: 6px;border-radius: 5px;font-weight: bold;border: 2px solid whitesmoke">Can't Do</span></span>
+      <span (click)="setRemark(5)" style="cursor:pointer;" class="col-sm-6"><span style="background: lightgrey;padding: 6px;border-radius: 5px;font-weight: bold;border: 2px solid whitesmoke">Mark as Default</span></span>
+    </div>
     
 
   </div>
 
+  
 
   <!-- <div class="row title">
     <h4>Issue Info</h4>

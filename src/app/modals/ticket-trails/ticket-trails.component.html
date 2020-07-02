@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <table class="table table-bordered table-hover">
+  <table class="table table-bordered table-hover" *ngIf="trailFlag">
     <thead>
       <tr>
         <th>#</th>
@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of datas;let i=index">
+      <tr *ngFor="let data of trails;let i=index">
         <td>{{i+1}}</td>
         <td>{{data.employeename}}</td>
         <td>{{data.spent_time}}</td>
@@ -23,5 +23,26 @@
       </tr>
     </tbody>
 
+  </table>
+
+  <table class="table table-bordered table-hover" *ngIf="commentsFlag">
+    <thead>
+      <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Comment</th>
+      <th>Time</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let comment of comments; let i = index">
+      <tr>
+      <td>{{i+1}}</td>
+      <td>{{comment.employeename}}</td>
+      <td>{{comment.status}}</td>
+      <td>{{comment.comment}}</td>
+      <td>{{comment.addtime | date : 'dd MMM hh:mm a'}}</td>
+    </tr>
+    </tbody>
   </table>
 </div>
