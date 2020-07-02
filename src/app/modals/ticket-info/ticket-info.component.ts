@@ -18,6 +18,7 @@ export class TicketInfoComponent implements OnInit {
   ticketId = null;
   priType = null;
   issueInfo = null;
+  isBtn=false
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
