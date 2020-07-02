@@ -15,6 +15,9 @@
         <td>Driver</td><td>{{issueInfo.empname}}</td>
       </tr>
       <tr>
+        <td>Message</td><td>{{ticketInfo.msg}}</td>
+      </tr>
+      <tr>
         <td>Time Since</td><td *ngIf="issueInfo.start_time">{{issueInfo.start_time | date : 'dd MMM hh:mm a'}}</td>
       </tr>
       <tr>
@@ -27,7 +30,7 @@
         <td>Map View</td><td (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;">Click here</td>
       </tr>
       <tr>
-        <td>Reason</td><td>{{issueInfo.halt_type}}</td>
+        <td>Reason (Halt)</td><td>{{issueInfo.halt_type}} </td>
       </tr>
     </table>
 
@@ -38,7 +41,7 @@
     <table class="table table-bordered tbl">
       <tr><td>Time Remaining</td><td></td><td (click)="getExtraTime()"><i class="fa fa-plus" aria-hidden="true" title="Extra Time" style="cursor:pointer;"></i></td></tr>
       <tr><td>Reminder</td><td></td><td (click)="setReminder()"><i class="fa fa-bell" aria-hidden="true" title="Reminder" style="cursor:pointer;"></i></td></tr>
-      <tr><td>Forward</td><td></td><td><i class="fa fa-share" aria-hidden="true" title="forward" style="cursor:pointer;"></i></td></tr>
+      <tr><td>Forward</td><td></td><td (click)="forwardTicket()"><i class="fa fa-share" aria-hidden="true" title="forward" style="cursor:pointer;"></i></td></tr>
       <tr><td>TrailList</td><td></td><td><i class="fa fa-list-alt" aria-hidden="true" title="Trail List" style="cursor:pointer;"></i></td></tr>
       <tr><td>Comments</td><td></td><td><i class="fa fa-commenting" aria-hidden="true" title="Comment" style="cursor:pointer;"></i></td></tr>
     </table>

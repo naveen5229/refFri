@@ -6,6 +6,8 @@ import { HtmlTagDefinition } from '@angular/compiler';
 import { LocationMarkerComponent } from '../location-marker/location-marker.component';
 import { ReminderComponent } from '../reminder/reminder.component';
 import { BuyTimeComponent } from '../buy-time/buy-time.component';
+import { GenericSuggestionComponent } from '../generic-modals/generic-suggestion/generic-suggestion.component';
+import { TicketForwardComponent } from '../ticket-forward/ticket-forward.component';
 
 @Component({
   selector: 'ticket-info',
@@ -132,6 +134,16 @@ export class TicketInfoComponent implements OnInit {
     activeModal.result.then(data => {
       console.log("data:",data);
       // this.closeModal(data);
+    });
+  }
+
+   forwardTicket() {
+    this.common.params = { title: 'Forward Ticket', ticketId: this.ticketInfo.ticket_id, fo_ticket_allocation_id: this.ticketInfo.fo_ticket_allocation_id, msg: this.ticketInfo.msg };
+    const activeModal = this.modalService.open(TicketForwardComponent, { size: 'sm', container: 'nb-layout', backdrop:'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log()
+      }
     });
   }
 }
