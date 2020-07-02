@@ -8,6 +8,8 @@ import { ReminderComponent } from '../reminder/reminder.component';
 import { BuyTimeComponent } from '../buy-time/buy-time.component';
 import { GenericSuggestionComponent } from '../generic-modals/generic-suggestion/generic-suggestion.component';
 import { TicketForwardComponent } from '../ticket-forward/ticket-forward.component';
+import { TicketTrailsComponent } from '../ticket-trails/ticket-trails.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'ticket-info',
@@ -21,10 +23,11 @@ export class TicketInfoComponent implements OnInit {
   title = 'Ticket Details';
   ticketId = null;
   priType = null;
-  issueInfo = null;
+  issueInfo = {};
   ticketInfo=null;
   isBtn=false
   constructor(public api: ApiService,
+    public user:UserService,
     public common: CommonService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
@@ -144,6 +147,112 @@ export class TicketInfoComponent implements OnInit {
       if (data.response) {
         console.log()
       }
+    });
+  }
+  trailList(){
+    ++this.common.loading;
+    this.api.get('FoTickets/getTrailLists?ticket_id=' + this.ticketInfo.ticket_id)
+      .subscribe(res => {
+        console.log(res);
+        --this.common.loading;
+        let trailList = res['data'];
+        let type ='trail';
+        if(trailList){
+        console.log("DataTrail:",res['data']);
+        let headers = ["#", "Employee Name", "Spent Time", "Status"];
+        
+        this.common.params = {trailList,headers,type};
+        const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
+        activeModal.componentInstance.modalHeader = 'Trails';
+        }else{
+          this.common.showError("No record found for this search criteria.")
+        }
+      }, err => {
+        --this.common.loading;
+        console.log(err);
+        this.common.showError();
+      });
+  }
+
+  getComment(){
+    ++this.common.loading;
+    this.api.get('FoTickets/getTicketComments?ticket_id=' + this.ticketInfo.ticket_id)
+      .subscribe(res => {
+        console.log(res);
+        --this.common.loading;
+        let commentList = res['data'];
+        let type ='comments';
+        if(commentList){
+        console.log("DataTrail:",res['data']);
+        //let headers = ["#", "Employee Name", "Spent Time", "Status"];
+        
+        this.common.params = { commentList,type };
+        const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
+        activeModal.componentInstance.modalHeader = 'Comments';
+        }else{
+          this.common.showError("No record found for this search criteria.")
+        }
+      }, err => {
+        --this.common.loading;
+        console.log(err);
+        this.common.showError();
+      });
+  }
+
+  
+    setComments() {
+    let comment = prompt("Comment", "");
+    if (comment && comment.length>1) {
+      let params = {
+        ticket_id: this.ticketInfo.ticket_id,
+        aduserid: this.user._details.id,
+        comment: comment,
+        status: this.ticketInfo.status}
+        this.common.loading++;
+        this.api.post('FoTickets/setTicketComments', params)
+          .subscribe(res => {
+            console.log(res);
+            this.common.loading--;
+            this.common.showToast(res['msg']);
+          }, err => {
+            this.common.loading--;
+            console.log(err);
+            this.common.showError();
+          });
+  }
+
+}
+
+
+setRemark(status){
+  let remark = prompt("Remark", "");
+  if (!remark && status == -5) {
+    this.common.showToast('Remark is mandatory in cant do');
+    return;
+  }
+  this.updateNotificationStatus(status,remark);
+}
+
+updateNotificationStatus(status,remark){
+  let params = {
+    ticket_id: this.ticketInfo.ticket_id,
+    fo_ticket_allocation_id: this.ticketInfo.fo_ticket_allocation_id,
+    status: status,
+    aduserid: this.user._details.id,
+    remark: remark,
+    msg: this.ticketInfo.msg
+  };
+  console.log(params);
+  this.common.loading++;
+  this.api.post('FoTickets/updateTicketStatus', params)
+    .subscribe(res => {
+      console.log(res);
+      this.common.loading--;
+      this.common.showToast(res['msg']);
+    }, err => {
+      this.common.loading--;
+      console.log(err);
+      this.common.showError();
     });
   }
 }
