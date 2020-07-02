@@ -24,10 +24,10 @@ export class TicketInfoComponent implements OnInit {
   ticketId = null;
   priType = null;
   issueInfo = {};
-  ticketInfo=null;
-  isBtn=false
+  ticketInfo = null;
+  isBtn = false
   constructor(public api: ApiService,
-    public user:UserService,
+    public user: UserService,
     public common: CommonService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
@@ -56,15 +56,15 @@ export class TicketInfoComponent implements OnInit {
       "&pri_type=" + this.priType
     console.log("this.parameters", params);
     this.common.loading++;
-    this.api.get("FoTickets/getSingleTicketInfo?"+params)
+    this.api.get("FoTickets/getSingleTicketInfo?" + params)
       .subscribe(res => {
         this.common.loading--;
         let headings = [];
         //  headings = Object.keys(res['data'].tkt_info[0]);
         let hdg = Object.keys(res['data'].tkt_info[0]);
-        this.ticketInfo=res['data'].tkt_info[0];
+        this.ticketInfo = res['data'].tkt_info[0];
         this.issueInfo = res['data'].issue_info[0];
-        for(let i=0;i<hdg.length ; i++){
+        for (let i = 0; i < hdg.length; i++) {
           headings.push(this.formatTitle(hdg[i]));
         }
         console.log("headings", headings);
@@ -79,14 +79,14 @@ export class TicketInfoComponent implements OnInit {
         for (let index = 0; index < Math.ceil(this.data.length / 2); index++) {
           this.numbers.push(index);
         }
-        
+
         console.log("Data Details", this.data);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
 
-      
+
   }
   formatTitle(strval) {
     let pos = strval.indexOf('_');
@@ -102,8 +102,8 @@ export class TicketInfoComponent implements OnInit {
     this.activeModal.close({ response: isFatal });
   }
 
-  showLocation(lat,lng) {
-  
+  showLocation(lat, lng) {
+
     const location = {
       lat: lat,
       lng: lng,
@@ -111,60 +111,60 @@ export class TicketInfoComponent implements OnInit {
       time: ""
     };
     this.common.params = { location, title: "Location" };
-    const activeModal = this.modalService.open(LocationMarkerComponent , {
+    const activeModal = this.modalService.open(LocationMarkerComponent, {
       size: "lg",
       container: "nb-layout"
     });
-    
+
   }
 
-  setReminder(){
-    this.common.params = { fo_ticket_allocation_id:this.ticketInfo.fo_ticket_allocation_id};
+  setReminder() {
+    this.common.params = { fo_ticket_allocation_id: this.ticketInfo.fo_ticket_allocation_id };
     // this.notification.fo_ticket_allocation_id
-    const activeModal = this.modalService.open(ReminderComponent , {
+    const activeModal = this.modalService.open(ReminderComponent, {
       size: "lg",
       container: "nb-layout"
     })
     activeModal.result.then(data => {
-      console.log("Data:",data);
+      console.log("Data:", data);
       // this.closeModal(true);
     });
   }
 
   getExtraTime() {
     this.common.params = { ticketId: this.ticketInfo.fo_ticket_allocation_id };
-    const activeModal = this.modalService.open(BuyTimeComponent , {size: "lg",container: "nb-layout"})
+    const activeModal = this.modalService.open(BuyTimeComponent, { size: "lg", container: "nb-layout" })
     activeModal.result.then(data => {
-      console.log("data:",data);
+      console.log("data:", data);
       // this.closeModal(data);
     });
   }
 
-   forwardTicket() {
+  forwardTicket() {
     this.common.params = { title: 'Forward Ticket', ticketId: this.ticketInfo.ticket_id, fo_ticket_allocation_id: this.ticketInfo.fo_ticket_allocation_id, msg: this.ticketInfo.msg };
-    const activeModal = this.modalService.open(TicketForwardComponent, { size: 'sm', container: 'nb-layout', backdrop:'static' });
+    const activeModal = this.modalService.open(TicketForwardComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         console.log()
       }
     });
   }
-  trailList(){
+  trailList() {
     ++this.common.loading;
     this.api.get('FoTickets/getTrailLists?ticket_id=' + this.ticketInfo.ticket_id)
       .subscribe(res => {
         console.log(res);
         --this.common.loading;
         let trailList = res['data'];
-        let type ='trail';
-        if(trailList){
-        console.log("DataTrail:",res['data']);
-        let headers = ["#", "Employee Name", "Spent Time", "Status"];
-        
-        this.common.params = {trailList,headers,type};
-        const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
-        activeModal.componentInstance.modalHeader = 'Trails';
-        }else{
+        let type = 'trail';
+        if (trailList) {
+          console.log("DataTrail:", res['data']);
+          let headers = ["#", "Employee Name", "Spent Time", "Status"];
+
+          this.common.params = { trailList, headers, type };
+          const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
+          activeModal.componentInstance.modalHeader = 'Trails';
+        } else {
           this.common.showError("No record found for this search criteria.")
         }
       }, err => {
@@ -174,22 +174,22 @@ export class TicketInfoComponent implements OnInit {
       });
   }
 
-  getComment(){
+  getComment() {
     ++this.common.loading;
     this.api.get('FoTickets/getTicketComments?ticket_id=' + this.ticketInfo.ticket_id)
       .subscribe(res => {
         console.log(res);
         --this.common.loading;
         let commentList = res['data'];
-        let type ='comments';
-        if(commentList){
-        console.log("DataTrail:",res['data']);
-        //let headers = ["#", "Employee Name", "Spent Time", "Status"];
-        
-        this.common.params = { commentList,type };
-        const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
-        activeModal.componentInstance.modalHeader = 'Comments';
-        }else{
+        let type = 'comments';
+        if (commentList) {
+          console.log("DataTrail:", res['data']);
+          //let headers = ["#", "Employee Name", "Spent Time", "Status"];
+
+          this.common.params = { commentList, type };
+          const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
+          activeModal.componentInstance.modalHeader = 'Comments';
+        } else {
           this.common.showError("No record found for this search criteria.")
         }
       }, err => {
@@ -199,60 +199,61 @@ export class TicketInfoComponent implements OnInit {
       });
   }
 
-  
-    setComments() {
+
+  setComments() {
     let comment = prompt("Comment", "");
-    if (comment && comment.length>1) {
+    if (comment && comment.length > 1) {
       let params = {
         ticket_id: this.ticketInfo.ticket_id,
         aduserid: this.user._details.id,
         comment: comment,
-        status: this.ticketInfo.status}
-        this.common.loading++;
-        this.api.post('FoTickets/setTicketComments', params)
-          .subscribe(res => {
-            console.log(res);
-            this.common.loading--;
-            this.common.showToast(res['msg']);
-          }, err => {
-            this.common.loading--;
-            console.log(err);
-            this.common.showError();
-          });
+        status: this.ticketInfo.status
+      }
+      this.common.loading++;
+      this.api.post('FoTickets/setTicketComments', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.common.showToast(res['msg']);
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+          this.common.showError();
+        });
+    }
+
   }
 
-}
 
-
-setRemark(status){
-  let remark = prompt("Remark", "");
-  if (!remark && status == -5) {
-    this.common.showToast('Remark is mandatory in cant do');
-    return;
+  setRemark(status) {
+    let remark = prompt("Remark", "");
+    if (!remark && status == -5) {
+      this.common.showToast('Remark is mandatory in cant do');
+      return;
+    }
+    this.updateNotificationStatus(status, remark);
   }
-  this.updateNotificationStatus(status,remark);
-}
 
-updateNotificationStatus(status,remark){
-  let params = {
-    ticket_id: this.ticketInfo.ticket_id,
-    fo_ticket_allocation_id: this.ticketInfo.fo_ticket_allocation_id,
-    status: status,
-    aduserid: this.user._details.id,
-    remark: remark,
-    msg: this.ticketInfo.msg
-  };
-  console.log(params);
-  this.common.loading++;
-  this.api.post('FoTickets/updateTicketStatus', params)
-    .subscribe(res => {
-      console.log(res);
-      this.common.loading--;
-      this.common.showToast(res['msg']);
-    }, err => {
-      this.common.loading--;
-      console.log(err);
-      this.common.showError();
-    });
+  updateNotificationStatus(status, remark) {
+    let params = {
+      ticket_id: this.ticketInfo.ticket_id,
+      fo_ticket_allocation_id: this.ticketInfo.fo_ticket_allocation_id,
+      status: status,
+      aduserid: this.user._details.id,
+      remark: remark,
+      msg: this.ticketInfo.msg
+    };
+    console.log(params);
+    this.common.loading++;
+    this.api.post('FoTickets/updateTicketStatus', params)
+      .subscribe(res => {
+        console.log(res);
+        this.common.loading--;
+        this.common.showToast(res['msg']);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+        this.common.showError();
+      });
   }
 }
