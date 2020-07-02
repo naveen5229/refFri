@@ -220,7 +220,7 @@ export class ConciseComponent implements OnInit {
         console.log('kpi::', kpi);
       }
       columns.push({
-        vechile: {
+        vehicle: {
           value: kpi.x_showveh,
           action: this.getZoomAndaddShortTarget.bind(this, kpi),
           colActions: {
@@ -269,6 +269,68 @@ export class ConciseComponent implements OnInit {
 
         rowActions: {
           click: "selectRow"
+        }
+      });
+    });
+    return columns;
+  }
+
+  getTableColumns2(kpis?) {
+    console.log('____itstype2')
+    let columns = [];
+
+    let kpisList = kpis || this.kpis;
+    kpisList.map((kpi, i) => {
+      if (kpi.x_showveh.includes("RJ14GG4161")) {
+        console.log('kpi::', kpi);
+      }
+      columns.push({
+        _id: kpi.x_showveh,
+        vehicle: {
+          value: kpi.x_showveh,
+          action: '',
+          colActions: {
+            dblclick: '',
+            click: '',
+            mouseover: '',
+            mouseout: ''
+          }
+        },
+        vehicleType: {
+          value: kpi.x_vehicle_type,
+          action: "",
+        },
+        status: {
+          value: kpi.showprim_status,
+          action: '',
+        },
+        location: {
+          value: kpi.Address,
+          action: ''
+        },
+        hrs: {
+          value: kpi.x_hrssince,
+          action: "",
+        },
+        Idle_Time: {
+          value: this.common.changeTimeformat(kpi.x_idle_time),
+          action: "",
+        },
+        trail: {
+          value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
+          action: '',
+          isHTML: true,
+        },
+        kmp: {
+          value: kpi.x_kmph,
+          action: "",
+        },
+
+        action: {
+          value: "",
+          isHTML: false,
+          action: null,
+          icons: this.actionIcons2(kpi)
         }
       });
     });
@@ -446,6 +508,7 @@ export class ConciseComponent implements OnInit {
       time: ""
     };
     this.common.params = { location, title: "Vehicle Location" };
+    console.log('this.common.params', this.common.params);
     const activeModal = this.modalService.open(LocationMarkerComponent, {
       size: "lg",
       container: "nb-layout"
@@ -557,7 +620,7 @@ export class ConciseComponent implements OnInit {
     return {
       data: {
         headings: {
-          vechile: { title: "Vehicle Number", placeholder: "Vehicle No" },
+          vehicle: { title: "Vehicle Number", placeholder: "Vehicle No" },
           vehicleType: { title: "Vehicle Type", placeholder: "Veh Type" },
           status: { title: "Status", placeholder: "Status" },
           location: { title: "Location", placeholder: "Location" },
@@ -567,17 +630,19 @@ export class ConciseComponent implements OnInit {
           kmp: { title: "Kmp", placeholder: "KMP" },
           action: { title: "Action", placeholder: "", hideSearch: true }
         },
-        columns: this.getTableColumns(kpis)
+        columns: this.getTableColumns2(kpis)
       },
       settings: {
         hideHeader: true,
         count: {
           icon: "fa fa-map",
           action: this.handleMapView.bind(this),
-
         },
         pagination: true,
-        tableHeight: "87vh"
+        tableHeight: "87vh",
+        oneAction: true,
+        selectRow: true,
+        selectMultiRow: false
       },
 
 
@@ -842,6 +907,57 @@ export class ConciseComponent implements OnInit {
       this.isZoomed = true;
     }
   }
+
+  actionIcons2(kpi) {
+    let icons = [
+      {
+        class: "icon fa fa-chart-pie",
+        action: '',
+      },
+      {
+        class: "icon fa fa-star",
+        action: '',
+      },
+
+      {
+        class: "icon fa fa-route",
+        action: '',
+      },
+      {
+        class: "icon fa fa-truck",
+        action: '',
+      },
+      {
+        class: "icon fa fa-globe",
+        action: '',
+      },
+      {
+        class: "icon fa fa-question-circle",
+        action: '',
+      },
+      {
+        class: "icon fa fa-user-secret",
+        action: ''
+      },
+      {
+        class: "icon fas fa-tachometer-alt",
+        action: ''
+      },
+      {
+        class: "icon fas fa-flag-checkered",
+        action: ''
+      },
+      {
+        class: "icon fa fa-gavel",
+        action: ''
+      },
+    ]
+    // if (this.user._loggedInBy != "admin") {
+    //   icons.shift();
+    // }
+    return icons;
+  }
+
 
   actionIcons(kpi) {
     let icons = [
@@ -1116,6 +1232,73 @@ export class ConciseComponent implements OnInit {
       }, err => {
         this.common.loading--;
       });
+  }
+
+  jrxActionHandler(details: any) {
+    console.log('details:', details);
+    if (details.heading && details.actionLevel !== 'icon') {
+      switch (details.heading) {
+        case 'vehicle':
+          if (details.actionType === 'click')
+            this.addShortTarget(this.findKPI(details.column._id))
+          else if (details.actionType === 'dblclick')
+            this.showDetails(this.findKPI(details.column._id))
+          else if (details.actionType === 'mouseover' && this.isMapView)
+            this.rotateBounce.bind(this.findKPI(details.column._id), details.index)
+          else if (details.actionType === 'mouseout' && this.isMapView)
+            this.mapService.toggleBounceMF(details.index, 2)
+          break;
+        case 'status':
+          this.showDetails(this.findKPI(details.column._id));
+          break;
+        case 'location':
+          this.showLocation(this.findKPI(details.column._id));
+          break;
+        case 'trail':
+          this.getUpadte(this.findKPI(details.column._id));
+          break;
+      }
+    } else if (details.actionLevel === 'icon') {
+      switch (details.heading) {
+        case 'icon fa fa-chart-pie':
+          this.openChangeStatusModal(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-star':
+          this.vehicleReport(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-route':
+          this.openRouteMapper(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-truck':
+          this.openTripDetails(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-globe':
+          this.openVehicleStates(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-question-circle':
+          this.reportIssue(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-user-secret':
+          this.openStations(this.findKPI(details.column._id))
+          break;
+        case 'icon fas fa-tachometer-alt':
+          this.openOdoMeter(this.findKPI(details.column._id))
+          break;
+        case 'icon fas fa-flag-checkered':
+          this.openentityFlag(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-gavel':
+          this.openVehicleWiseOrders(this.findKPI(details.column._id))
+          break;
+      }
+    }
+  }
+
+  findKPI(regno) {
+    return this.kpis.find((kpi) => {
+      if (kpi.x_showveh == regno) return true;
+      return false;
+    });
   }
 
 }
