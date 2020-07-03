@@ -62,6 +62,7 @@ nb-card-header{
   }
  
   .invoice_tabel{
+    margin-top: -35px;
         thead{
           display: table;
           table-layout: fixed;
@@ -79,7 +80,7 @@ nb-card-header{
             width: 57px;
           }
           th:nth-child(2){
-            width: 384px;
+            width: 247px;
             padding: 5px;
           }
           th:nth-child(3){
@@ -112,7 +113,7 @@ nb-card-header{
             padding: 5px;
           }
           td:nth-child(2) input{
-            width: 364px;
+            width: 200px;
             padding: 5px;
           }
           td:nth-child(3) input{
@@ -297,9 +298,9 @@ nb-card-header{
       }
     }
     .totalamount{
-      max-width: 177px;
+      max-width: 147px;
       margin-top: -12px;
-      margin-left: -20px;
+      margin-left: 12px
     }
     .totaltaxamount{
       margin-left: 142px;

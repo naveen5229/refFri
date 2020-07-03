@@ -253,10 +253,14 @@ const routes: Routes = [{
             path :'ledgerregidter',
             component: LedgerregidterComponent
         },
+        // {
+        //     path :'service',
+        //     component: ServiceComponent
+        // },
         {
-            path :'service',
+            path: 'service/:id/:name',
             component: ServiceComponent
-        } 
+        }, 
     ],
 
 }];
