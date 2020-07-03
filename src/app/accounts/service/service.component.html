@@ -4,7 +4,7 @@
   </nb-card-header> -->
   <nb-card-body>
     <div class="row" *ngIf="isModal" style="height:40px;background-color:black;margin:0!important">
-      <h4 style="color:white;padding:6px">Service Sales Invoice</h4>
+      <h4 style="color:white;padding:6px">{{currentPage}}</h4>
       <i class="fa fa-times close"  (click)="activeModal.dismiss()"></i>
     </div>
     
@@ -196,39 +196,11 @@
 
               </div>
             </div>
-            <!-- <div class="col">
-              <div class="form-group">
-                <label class="ref-label">Invoice No</label>
-                <input type="text" autocomplete="off" class="form-control ref-input" id="vendorbidref"name="account-vendorbidref"
-                  [(ngModel)]="order.vendorbidref" placeholder="Order No">
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-group">
-                <label class="ref-label">Invoice Date</label>
-                <input type="text" autocomplete="off" style="cursor: pointer;" class="form-control ref-input"
-                  autocomplete="off" id="podate" name="po-date" [(ngModel)]="order.podate" maxlength="10"
-                  (click)="lastActiveId = 'po-date'; allowBackspace = false;" (input)="allowBackspace = false;">
-
-              </div>
-            </div> -->
-            <!-- <div class="col">
-              <div class="form-group">
-                <label class="ref-label">Other Reference</label>
-                <input type="text" autocomplete="off" class="form-control ref-input" id="qutationrefrence"name="account-qutationrefrence"
-                  [(ngModel)]="order.qutationrefrence" placeholder="Other Reference">
-              </div>
-            </div> -->
-
           </div>
           <div class="row" style="margin-left:0!important;">
             <div class="col-6 pl-0">
               <div class="form-group">
                 <label class="ref-label">Sales Ledger</label>
-                <!-- <auto-suggestion (onSelected)="onSelected($event, 'purchaseledger', 'name')"
-                  url="Suggestion/GetPurchaseLedger" display="name" inputId="purchaseledger"
-                  placeholder="Enter Sales Ledger" [preSelected]="null">
-                </auto-suggestion> -->
                 <input type="text" autocomplete="off" class="form-control ref-input" id="salesledger"
                   name="purchaseledger" [(ngModel)]="order.purchaseledger.name"
                   placeholder="Please Select Purchase Ledger"
@@ -238,93 +210,24 @@
             <div class="col-6">
               <div class="form-group">
                 <label class="ref-label">Party Ledger</label>
-                <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger"
-                  display="name" inputId="ledger" placeholder="Party Name" [preSelected]="null"></auto-suggestion> -->
                 <input type="text" autocomplete="off" class="form-control ref-input" id="ledger" name="ledger"
                   [(ngModel)]="order.ledger.name" placeholder="Please Enter Party Name" require>
                 <span *ngIf="(ledgerbalance)"><i>Cur Bal: </i>{{ ledgerbalance }}</span>
+              &nbsp;&nbsp;
+              <a *ngIf="otherinfoflag==0" href="javascript:void(0)" outline (click)="OtherInfo()" id="OtherInfo" style="cursor: pointer;float: right;">Other
+                Info </a>
+                <a *ngIf="otherinfoflag==1"  href="javascript:void(0)" class="advncolor" outline (click)="OtherInfo()" id="OtherInfo" style="cursor: pointer;margin-left: 255;">Other Info </a>
               </div>
             </div>
-            <div class="col" *ngIf="otherinfoflag==0" style="margin-top: 18px;">
+            <!-- <div class="col" *ngIf="otherinfoflag==0" style="margin-top: 18px;">
               <a href="javascript:void(0)" outline (click)="OtherInfo()" id="OtherInfo" style="cursor: pointer;">Other
                 Info </a>
             </div>
             <div class="col" *ngIf="otherinfoflag==1" style="margin-top: 18px;">
               <a href="javascript:void(0)" class="advncolor" outline (click)="OtherInfo()" id="OtherInfo"
                 style="cursor: pointer;">Other Info </a>
-            </div>
-            <!-- <div class="col">
-              <div class="form-group">
-                <label class="ref-label">Payment Terms</label>
-                <input type="text" autocomplete="off" class="form-control ref-input" id="paymentterms" name="account-paymentterms"
-                  [(ngModel)]="order.paymentterms" placeholder="Payment Terms">
-              </div>
             </div> -->
-
-
-
           </div>
-
-          <!-- <div class="row">
-           
-            <div class="col">
-              <div class="form-group">
-                <label class="ref-label">Eway Bill Number</label>
-                <input type="text" autocomplete="off" class="form-control ref-input" id="biltynumber" name="account-biltynumber"
-                  [(ngModel)]="order.biltynumber" placeholder="Eway Bill Number">
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-group">
-                <label class="ref-label">Eway Bill Date</label>
-                <input type="text" style="cursor: pointer;" class="form-control ref-input" autocomplete="off" id="biltydate"
-                  name="account-biltydate" [(ngModel)]="order.biltydate" maxlength="10"
-                  (click)="lastActiveId = 'account-biltydate'; allowBackspace = false;"
-                  (input)="allowBackspace = false;">
-
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-group">
-                <label class="ref-label">Delivery Terms</label>
-                <input type="text" autocomplete="off" class="form-control ref-input" id="deliveryterms" name="account-deliveryterms"
-                  [(ngModel)]="order.deliveryterms" placeholder="Delivery Terms">
-              </div>
-            </div>
-
-          </div>
-          <div class="row">
-            <div class="col">
-              <div class="form-group">
-                  <label class="ref-label">Party Billing Address</label>
-                <textarea class="form-control ref-input" autocomplete="off" name="account-billingaddress" id="billingaddress"
-                  [(ngModel)]="order.billingaddress" placeholder="Party Billing Address"></textarea>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-group">
-                <label class="ref-label">Shipment Location</label>
-                <textarea autocomplete="off" class="form-control ref-input" id="shipmentlocation"name="account-shipmentlocation"
-                  [(ngModel)]="order.shipmentlocation" placeholder="Shipment Location"></textarea>
-              </div>
-            </div>
-            <!-- <div class="col">
-              <div class="form-group">
-                  <label class="ref-label">Consignee Address</label>
-                <textarea class="form-control ref-input" autocomplete="off" name="account-grnremarks" id="grnremarks"
-                   [(ngModel)]="order.grnremarks" placeholder="Consignee Address"></textarea>
-              </div>
-            </div> 
-
-
-            <div class="col">
-              <div class="form-group">
-                  <label class="ref-label">Remarks</label>
-                <textarea class="form-control ref-input" autocomplete="off" name="account-orderremarks" id="orderremarks"
-                  [(ngModel)]="order.orderremarks" placeholder="Invoice Remarks"></textarea>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
 
@@ -362,10 +265,11 @@
         <th *ngIf="(order.ordertype.id != -108)">Amount</th>
         <!-- <th>Dis Ledger</th>
           <th>Dis Amount</th> -->
-        <!-- <th *ngIf="(order.ordertype.id != -108)">Line Amount</th> -->
+        <th *ngIf="(order.ordertype.id != -108)">Line Amount</th>
 
         <th *ngIf="(order.ordertype.id != -108)">remarks</th>
 
+        <th></th>
         <th></th>
       </thead>
 
@@ -426,10 +330,10 @@
           <!-- <td> <input type="number" class="form-control" autocomplete="off" name="account-discountate"
               [(ngModel)]="amountDetail.discountate" [id]="'discountate-' + i"
               (input)="amountDetail.lineamount = amountDetail.amount - amountDetail.discountate;" [value]="0"></td> -->
-          <!-- <td *ngIf="(order.ordertype.id != -108)">
+          <td *ngIf="(order.ordertype.id != -108)">
             <input type="number" class="form-control" autocomplete="off" name="account-lineamount"
               [(ngModel)]="amountDetail.lineamount"  readonly style="background-color: #eeeeee;">
-          </td> -->
+          </td>
 
 
           <td *ngIf="(order.ordertype.id != -108)">
@@ -437,9 +341,9 @@
               [id]="'remarks-' + i" [(ngModel)]="amountDetail.remarks" placeholder="Please Enter Remarks">
           </td>
 
-          <!-- <td *ngIf="(order.ordertype.id != -108)">
+          <td *ngIf="(order.ordertype.id != -108)">
             <button (click)="TaxDetails(i)" [id]="'taxDetail-'+i" class="btn btn-taxdet">Tax</button>
-          </td> -->
+          </td>
 
           <td *ngIf="i == 0 && (order.ordertype.id != -108)">
             <button class="plustransparent btn btn-plus" id="plustransparent" (click)="addAmountDetails()"><i
@@ -453,11 +357,18 @@
     </table>
   </div>
     <div class="row">
-      <div class="col-8">
+      <div class="col-6">
       </div>
       <div class="col-2 totalamount">
         <input type="number"  class="form-control ref-input" autocomplete="off" name="account-totalamount"
           [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;">
+      
+      </div>
+      <div class="col-2 totalamount">
+        <!-- <input type="number"  class="form-control ref-input" autocomplete="off" name="account-totalamount"
+          [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;"> -->
+          <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
+          [(ngModel)]="order.totalamount" [value]="calculateTotalLineAmount()" readonly style="background-color: #eeeeee;">
       </div>
       <div class="col-2 totalamount">
         <button (click)="callgstcode()" class="btn btn-primary" style="font-size:11px!important;padding:4px!important;">Show Gst Detail</button>
@@ -472,23 +383,22 @@
         <th></th>
       </thead>
       <tbody>
-        <tr *ngFor="let taxdetail of taxdetails; let i = index;">
+        <tr *ngFor="let taxdetail of taxdetailsother; let i = index;">
           <td>
             <!-- <auto-suggestion (onSelected)="onSelected($event, 'taxledger', 'name',i)" url="Suggestion/GetPurchaseLedger"  display="name"
    [inputId]="'taxledger-'+i" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
 
-            <input type="text" [id]="'taxleder-' + i" autocomplete="off" class="form-control ref-input"
-              [name]="'taxledger-' + i" [(ngModel)]="taxdetail.taxledger.name" placeholder="Please Enter Tax Ledger"
-              required>
+            <input type="text" [id]="'taxlederother-' + i" autocomplete="off" class="form-control ref-input"
+              [name]="'taxledgerother-' + i" [(ngModel)]="taxdetail.taxledgerother.name" placeholder="Please Enter Tax Ledger" required>
           </td>
           <td>
-            <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxrate-' + i"
-              [id]="'taxrate-' + i" [(ngModel)]="taxdetail.taxrate" placeholder="Please Enter Tax Rate"
-              (input)="taxdetail.taxamount = ((taxdetail.taxrate * totalamount)/100).toFixed(2)">
+            <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxrateother-' + i"
+              [id]="'taxrateother-' + i" [(ngModel)]="taxdetail.taxrateother" placeholder="Please Enter Tax Rate"
+              (input)="taxdetail.taxamountother = ((taxdetail.taxrateother * totalamount)/100).toFixed(2)">
           </td>
           <td>
-            <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxamount-' + i"
-              [id]="'taxamount-' + i" [(ngModel)]="taxdetail.taxamount" placeholder="Please Enter Tax Amount">
+            <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxamountother-' + i"
+              [id]="'taxamountother-' + i" [(ngModel)]="taxdetail.taxamountother" placeholder="Please Enter Tax Amount">
           </td>
           <td *ngIf="i == 0">
             <button class="btn btn-plus plustransparent" [id]="'taxdetailbutton-'+i" (click)="addTaxAmountDetails()"><i
@@ -523,7 +433,7 @@
     </div>
     <div class="modal-footer">
       <div class="row w-100">
-        <div class="col-11">
+        <div class="col-10">
           <input type="checkbox" name="print" id="print" [(ngModel)]="order.print">Print After Save
           <span *ngIf="mannual">
             <input type="checkbox" name="mannual" id="mannual" [(ngModel)]="order.ismanual"> Is Mannual Approval
@@ -536,8 +446,16 @@
 
         <!-- Edit by Hemant 27 june 2020 -->
         <div class="col-1 text-right">
-          <button class="btn btn-primary" [ngStyle]="{'display':showHideButton ? 'block' : 'none'}" type="button" outline (click)="callconfirm()" id="submit"
+          <!-- <button class="btn btn-primary" [ngStyle]="{'display':showHideButton ? 'block' : 'none'}" type="button" outline (click)="callconfirm()" id="submit"
             style="cursor: pointer;">Submit
+          </button> -->
+          <button class="btn btn-primary" type="button" outline (click)="callconfirm()" id="submit"
+            style="cursor: pointer;">Submit
+          </button>
+        </div>
+        <div class="col-1 text-right">
+          <button class="btn btn-primary" type="button" outline (click)="activeModal.dismiss()" id="cancel"
+            style="cursor: pointer;">Cancel
           </button>
         </div>
       </div>
@@ -550,6 +468,15 @@
       <p>Are you want to add more detail then press enter otherwise n ?</p>
       <button (click)="addAmountDetails()">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
         (click)="modelConditionaddmore()">No</button>
+    </div>
+  </div>
+</div>
+<div class="date-modal" *ngIf="showConfirmtaxaddmore">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to add Tax detail then press enter otherwise n ?</p>
+      <button (click)="addTaxAmountDetails()">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+        (click)="modelConditionTaxaddmore()">No</button>
     </div>
   </div>
 </div>

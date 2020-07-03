@@ -58,6 +58,9 @@ export class LedgeraddressComponent implements OnInit {
       console.log('slt data',this.accDetails[this.selectedRow]);
       this.address = this.accDetails[this.selectedRow].address +'@'+this.accDetails[this.selectedRow].id;
     }
+    if(key == 'enter'){
+        this.dismiss(true);
+    }
   }
   slectdata(data){
     this.address = data.address +'@'+data.id;
@@ -66,9 +69,9 @@ export class LedgeraddressComponent implements OnInit {
 
   }
   dismiss(response) {
-    console.log('Accounts address:', this.address);
     // console.log('Accounts:', response);
    let finaladdressid =  (this.address.split("@")[1]) ? this.address.split("@")[1] : this.addressid;
+   console.log('Accounts address:', this.address,finaladdressid,response);
     this.activeModal.close({ response: response, adddata:this.address.split("@")[0],addressid:finaladdressid });
     // this.activeModal.close({ ledger: this.Accounts });
   }

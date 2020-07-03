@@ -69,6 +69,7 @@ export class OtherinfoComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('-------------:', event);
+    if (key == 'enter') {
     if (this.activeId.includes('biltydate')) {
       this.handleOrderDateOnEnter('biltydate');
       this.setFoucus('deliveryterms');
@@ -91,6 +92,7 @@ export class OtherinfoComponent implements OnInit {
     } else if (this.activeId.includes('shipmentlocation')) {
       this.setFoucus('submitother');
     }
+  }
   }
 
   handleOrderDateOnEnter(iddate) {

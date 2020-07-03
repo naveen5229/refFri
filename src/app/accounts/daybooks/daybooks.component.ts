@@ -208,7 +208,7 @@ export class DaybooksComponent implements OnInit {
     const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
     activeModal.result.then(data => {
       console.log('Data: invoice ', data);
-        if (data.delete) {
+        if (data.msg) {
           console.log('open succesfull');
           this.getDayBook();
         // this.addLedger(data.ledger);

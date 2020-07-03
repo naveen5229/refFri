@@ -227,13 +227,13 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Purchase Invoice',
                 link: '/accounts/orders/-102/Purchase Invoice'
             },
+            // {
+            //     title: 'Sales Invoice',
+            //     link: '/accounts/orders/-104/Sales Invoice'
+            // },
             {
                 title: 'Sales Invoice',
-                link: '/accounts/orders/-104/Sales Invoice'
-            },
-            {
-                title: 'Sales Invoice (sort)',
-                link: '/accounts/service'
+                link: '/accounts/service/-104/Sales Invoice'
             },
             {
                 title: 'Purchase Assets Invoice',
