@@ -47,9 +47,7 @@
     </table>
 
     <div class="col-sm-6 offset-6">
-      <span (click)="setRemark(-5)" style="cursor: pointer;" class="col-sm-6"><span style="background: lightgrey;padding: 6px;border-radius: 5px;font-weight: bold;border: 2px solid whitesmoke">Can't Do</span></span>
-      <span (click)="setRemark(5)" style="cursor:pointer;" class="col-sm-6"><span style="background: lightgrey;padding: 6px;border-radius: 5px;font-weight: bold;border: 2px solid whitesmoke">Mark as Default</span></span>
-    </div>
+      </div>
     
 
   </div>
@@ -134,9 +132,9 @@
     </div>
   </div> -->
 </div>
-<div class="modal-footer" *ngIf="isBtn">
+<div class="modal-footer">
   <div class="row">
-    <button class="btn btn-primary" (click)="closeModal(false)">Back</button>
-    <button class="btn btn-primary" (click)="closeModal(true)">SAVE</button>
+       <button class="btn btn-danger" (click)="setRemark(-5)">Can't Do</button>
+    <button class="btn btn-primary" (click)="setRemark(5)">Mark as Default</button>
   </div>
 </div>
