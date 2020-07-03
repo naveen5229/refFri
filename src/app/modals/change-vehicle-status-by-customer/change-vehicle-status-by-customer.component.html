@@ -184,20 +184,34 @@
 
     </div>
     <div class="col-sm-6">
-      <div class="status_buttons">
-        <button class="btn btn-primary" (click)="lUlBtn=!lUlBtn;showPreviousLUL()">Previous L/UL</button>
-        <button class="btn btn-primary" (click)="showHalt()" style="margin-left:3px">Show Halt</button>
-        <button class="btn btn-primary" (click)="resetMap()" style="margin-left:3px">Map Reset</button>
+      <div class=row>
+      <div class="status_buttons col-5">
+        <button class="btn btn-primary" style="padding: 5px 0px;" (click)="lUlBtn=!lUlBtn;showPreviousLUL()">Previous L/UL</button>
+        <button class="btn btn-primary" style="padding: 5px 0px;margin-left:1px" (click)="showHalt()" >Show Halt</button>
+        <button class="btn btn-primary"style="padding: 5px 0px;margin-left:1px" (click)="resetMap()" >Map Reset</button>
         <!-- <button class="btn btn-primary" (click)="showTrail()" style="margin-left:3px">Show Trail</button> -->
-        <button class="btn btn-primary" (click)="beforeLatchTime()" style="margin-left:3px">Before ltime</button>
-        <input class="form-control" type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off"
+        <button class="btn btn-primary" style="padding: 5px 0px;margin-left:1px" (click)="beforeLatchTime()" >Before ltime</button>
+          
+        <!-- <input class="form-control" type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off"
           (click)="getDate('date')" placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date"
-          readonly>
+          readonly> -->
         <!-- <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
           Auto Halt </button>
         <button class="btn btn-primary" id="addManualHalt" (click)="openManualHalt('vehicleEvent')"
           style="margin-left:3px">Manual Halt </button> -->
       </div>
+      <div class="col-3">
+          <uj-date-time-picker (onChanged)="getDate('lTime',$event);" [isTime]='false' [dateTimeValue]="lTime">
+          </uj-date-time-picker>
+      </div>
+      <div class="col-3">
+          <uj-date-time-picker (onChanged)="getDate('tTime',$event);" [isTime]='false' [isStart]="false" [dateTimeValue]="toTime">
+          </uj-date-time-picker>
+      </div>
+      <div class="col-1">
+          <button class="btn btn-primary" (click)="reloadData()" style="padding: 5px 5px;">OK </button>
+        </div>
+    </div>
       <!-- table div location -->
       <div [class]=" lUlBtn?' map-container':'map-container'">
         <div #map1 id="map1"></div>

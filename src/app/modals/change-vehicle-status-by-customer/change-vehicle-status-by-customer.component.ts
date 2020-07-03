@@ -57,7 +57,8 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   vehicleEvent = null;
   convertSiteHaltFlag = false;
   ref_page: null;
-  toTime = this.common.dateFormatter(new Date());
+  toTime = new Date();
+  lTime = new Date();
   hsId: any;
   constructor(
     public modalService: NgbModal,
@@ -65,13 +66,15 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     public api: ApiService,
     private activeModal: NgbActiveModal,
   ) {
+
     this.VehicleStatusData = this.common.params;
+    console.log("VehicleStatusData", this.VehicleStatusData,this.lTime,this.toTime);
+    this.lTime = this.VehicleStatusData.latch_time?new Date(this.VehicleStatusData.latch_time):this.lTime;
     this.ref_page = this.common.ref_page;
     if (this.ref_page != 'vsc') {
-      this.toTime = this.VehicleStatusData.tTime
+      this.toTime = new Date(this.VehicleStatusData.tTime)
     }
     this.common.handleModalSize('class', 'modal-lg', '1600');
-    console.log("VehicleStatusData", this.VehicleStatusData);
     this.getLastIndDetails();
     this.getEvents();
     //this.getLoadingUnLoading();
@@ -130,8 +133,8 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     console.log("show trail");
     let params = {
       'vehicleId': this.VehicleStatusData.vehicle_id,
-      'fromTime': this.VehicleStatusData.latch_time,
-      'toTime': this.toTime,
+      'fromTime': this.common.dateFormatter(this.VehicleStatusData.latch_time),
+      'toTime': this.common.dateFormatter(this.toTime),
       'suggestId': this.VehicleStatusData.suggest,
       'status': this.VehicleStatusData.status ? this.VehicleStatusData.status : 10
     }
@@ -181,8 +184,8 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     //this.VehicleStatusData.latch_time = '2019-02-14 13:19:13';
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
-      "&fromTime=" + this.VehicleStatusData.latch_time +
-      "&toTime=" + this.toTime +
+      "&fromTime=" + this.common.dateFormatter(this.VehicleStatusData.latch_time) +
+      "&toTime=" + this.common.dateFormatter(this.toTime) +
       "&status=" + status;
     console.log(params);
     this.api.get('HaltOperations/getHaltHistoryV2?' + params)
@@ -262,14 +265,27 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     }
   }
 
+  getDate(type,event){
+    console.log("type,event",type,event);
+    if(type=='lTime'){
+      this.VehicleStatusData.latch_time = event;
+      console.log('lTime',this.VehicleStatusData.latch_time);
+    }
+    else if(type=='tTime'){
+      this.toTime = event;
+      console.log('tTime',this.toTime);
+    }
+    console.log("latch time",this.VehicleStatusData.latch_time,"ttime",this.toTime);
+
+  }
 
   getLoadingUnLoading() {
     this.dataType = 'events';
     //this.VehicleStatusData.latch_time = '2019-02-14 13:19:13';
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
-      "&latchTime=" + this.VehicleStatusData.latch_time +
-      "&toTime=" + this.toTime;
+      "&latchTime=" + this.common.dateFormatter(this.VehicleStatusData.latch_time) +
+      "&toTime=" + this.common.dateFormatter(this.toTime);
     console.log(params);
     this.api.get('HaltOperations/getMasterHaltDetail?' + params)
       .subscribe(res => {
@@ -429,8 +445,8 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     this.common.loading++;
     let params = {
       vehicleId: this.VehicleStatusData.vehicle_id,
-      latchTime: this.VehicleStatusData.latch_time,
-      toTime: this.toTime,
+      latchTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
+      toTime: this.common.dateFormatter(this.toTime),
       status: status
     };
     console.log(params);
@@ -458,7 +474,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
         this.lastIndDetails = res['data'][0];
         if (this.lastIndDetails) {
           console.log("lastIndDetails", this.lastIndDetails);
-          this.calculateDistanceAndTime(this.lastIndDetails, this.VehicleStatusData.latch_lat, this.VehicleStatusData.latch_long, this.VehicleStatusData.latch_time);
+          this.calculateDistanceAndTime(this.lastIndDetails, this.VehicleStatusData.latch_lat, this.VehicleStatusData.latch_long, this.common.dateFormatter(this.VehicleStatusData.latch_time));
           this.lastIndType = this.lastIndDetails.li_type;
         }
       }, err => {
@@ -536,12 +552,9 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
 
   beforeLatchTime() {
-    console.log("before substracting", this.VehicleStatusData.latch_time);
     let ltime = new Date(this.VehicleStatusData.latch_time);
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 3));
-    console.log("after substracting", subtractLTime);
     this.VehicleStatusData.latch_time = this.common.dateFormatter(subtractLTime);
-    console.log("after substracting", this.VehicleStatusData.latch_time);
     this.reloadData();
   }
 
@@ -629,23 +642,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
 
   }
 
-  getDate(index) {
-    this.common.params.ref_page = 'cvs';
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      let timeType = data.timeType;
-      this.customDate = this.common.dateFormatter(data.date).split(' ')[0];
-      if (timeType == "tTime") {
-        this.toTime = this.common.dateFormatter(this.customDate);
-        console.log("tTime===", this.toTime);
-      } else if (timeType == "lTime") {
-        this.VehicleStatusData.latch_time = this.common.dateFormatter(this.customDate);
-        console.log("lTime===", this.VehicleStatusData.latch_time);
-      }
-
-      this.reloadData();
-    });
-  }
+ 
 
   openSmartTool(i, vehicleEvent) {
     console.log("vehicleEvent", vehicleEvent);
@@ -809,11 +806,11 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = {
-      fromTime: this.VehicleStatusData.latch_time,
+      fromTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
       vehicleId: this.VehicleStatusData.vehicle_id,
       tLat: 0.0,
       tLong: 0.0,
-      tTime: this.toTime,
+      tTime: this.common.dateFormatter(this.toTime),
     }
 
     console.log("params=", params);
@@ -951,8 +948,8 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     this.common.params = {
       vehicleId: this.VehicleStatusData.vehicle_id ? this.VehicleStatusData.vehicle_id : null,
       vehicleRegNo: this.VehicleStatusData.regno,
-      fromTime: this.VehicleStatusData.latch_time,
-      toTime: this.toTime
+      fromTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
+      toTime: this.common.dateFormatter(this.toTime)
     };
     console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, {
