@@ -190,9 +190,10 @@ export class TicketsComponent implements OnInit {
         --this.common.loading;
         let trailList = res['data'];
         if(trailList){
+        let type="trail"
         console.log("DataTrail:",res['data']);
         let headers = ["#", "Employee Name", "Spent Time", "Status"];
-        this.common.params = { trailList, headers };
+        this.common.params = { trailList, headers,type };
         const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
         activeModal.componentInstance.modalHeader = 'Trails';
         }else{

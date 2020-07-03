@@ -122,7 +122,7 @@ export class TicketInfoComponent implements OnInit {
     this.common.params = { fo_ticket_allocation_id: this.ticketInfo.fo_ticket_allocation_id };
     // this.notification.fo_ticket_allocation_id
     const activeModal = this.modalService.open(ReminderComponent, {
-      size: "lg",
+      size: "sm",
       container: "nb-layout"
     })
     activeModal.result.then(data => {
@@ -133,7 +133,7 @@ export class TicketInfoComponent implements OnInit {
 
   getExtraTime() {
     this.common.params = { ticketId: this.ticketInfo.fo_ticket_allocation_id };
-    const activeModal = this.modalService.open(BuyTimeComponent, { size: "lg", container: "nb-layout" })
+    const activeModal = this.modalService.open(BuyTimeComponent, { size: "sm", container: "nb-layout" })
     activeModal.result.then(data => {
       console.log("data:", data);
       // this.closeModal(data);

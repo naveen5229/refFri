@@ -211,79 +211,11 @@ export class ConciseComponent implements OnInit {
     );
   }
 
+
   getTableColumns(kpis?) {
     let columns = [];
-
     let kpisList = kpis || this.kpis;
     kpisList.map((kpi, i) => {
-      if (kpi.x_showveh.includes("RJ14GG4161")) {
-        console.log('kpi::', kpi);
-      }
-      columns.push({
-        vehicle: {
-          value: kpi.x_showveh,
-          action: this.getZoomAndaddShortTarget.bind(this, kpi),
-          colActions: {
-            dblclick: this.showDetails.bind(this, kpi),
-            click: this.addShortTarget.bind(this, kpi),
-            mouseover: this.rotateBounce.bind(this, kpi, i),
-            mouseout: this.mapService.toggleBounceMF.bind(this.mapService, i, 2)
-          }
-        },
-        vehicleType: {
-          value: kpi.x_vehicle_type,
-          action: "",
-        },
-        status: {
-          value: kpi.showprim_status,
-          action: this.showDetails.bind(this, kpi),
-        },
-        location: {
-          value: kpi.Address,
-          action: this.showLocation.bind(this, kpi)
-        },
-        hrs: {
-          value: kpi.x_hrssince,
-          action: "",
-        },
-        Idle_Time: {
-          value: this.common.changeTimeformat(kpi.x_idle_time),
-          action: "",
-        },
-        trail: {
-          value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
-          action: this.getUpadte.bind(this, kpi),
-          isHTML: true,
-        },
-        kmp: {
-          value: kpi.x_kmph,
-          action: "",
-        },
-
-        action: {
-          value: "",
-          isHTML: false,
-          action: null,
-          icons: this.actionIcons(kpi)
-        },
-
-        rowActions: {
-          click: "selectRow"
-        }
-      });
-    });
-    return columns;
-  }
-
-  getTableColumns2(kpis?) {
-    console.log('____itstype2')
-    let columns = [];
-
-    let kpisList = kpis || this.kpis;
-    kpisList.map((kpi, i) => {
-      if (kpi.x_showveh.includes("RJ14GG4161")) {
-        console.log('kpi::', kpi);
-      }
       columns.push({
         _id: kpi.x_showveh,
         vehicle: {
@@ -330,7 +262,7 @@ export class ConciseComponent implements OnInit {
           value: "",
           isHTML: false,
           action: null,
-          icons: this.actionIcons2(kpi)
+          icons: this.actionIcons()
         }
       });
     });
@@ -508,7 +440,6 @@ export class ConciseComponent implements OnInit {
       time: ""
     };
     this.common.params = { location, title: "Vehicle Location" };
-    console.log('this.common.params', this.common.params);
     const activeModal = this.modalService.open(LocationMarkerComponent, {
       size: "lg",
       container: "nb-layout"
@@ -630,7 +561,7 @@ export class ConciseComponent implements OnInit {
           kmp: { title: "Kmp", placeholder: "KMP" },
           action: { title: "Action", placeholder: "", hideSearch: true }
         },
-        columns: this.getTableColumns2(kpis)
+        columns: this.getTableColumns(kpis)
       },
       settings: {
         hideHeader: true,
@@ -908,7 +839,7 @@ export class ConciseComponent implements OnInit {
     }
   }
 
-  actionIcons2(kpi) {
+  actionIcons() {
     let icons = [
       {
         class: "icon fa fa-chart-pie",
@@ -958,56 +889,6 @@ export class ConciseComponent implements OnInit {
     return icons;
   }
 
-
-  actionIcons(kpi) {
-    let icons = [
-      {
-        class: " icon fa fa-chart-pie",
-        action: this.openChangeStatusModal.bind(this, kpi),
-      },
-      {
-        class: "icon fa fa-star",
-        action: this.vehicleReport.bind(this, kpi),
-      },
-
-      {
-        class: " icon fa fa-route",
-        action: this.openRouteMapper.bind(this, kpi),
-      },
-      {
-        class: " icon fa fa-truck",
-        action: this.openTripDetails.bind(this, kpi),
-      },
-      {
-        class: "icon fa fa-globe",
-        action: this.openVehicleStates.bind(this, kpi),
-      },
-      {
-        class: "icon fa fa-question-circle",
-        action: this.reportIssue.bind(this, kpi),
-      },
-      {
-        class: "icon fa fa-user-secret",
-        action: this.openStations.bind(this, kpi)
-      },
-      {
-        class: "icon fas fa-tachometer-alt",
-        action: this.openOdoMeter.bind(this, kpi)
-      },
-      {
-        class: "icon fas fa-flag-checkered",
-        action: this.openentityFlag.bind(this, kpi)
-      },
-      {
-        class: "icon fa fa-gavel",
-        action: this.openVehicleWiseOrders.bind(this, kpi)
-      },
-    ]
-    // if (this.user._loggedInBy != "admin") {
-    //   icons.shift();
-    // }
-    return icons;
-  }
 
   openChangeStatusModal(trip) {
     let ltime = new Date();
@@ -1235,7 +1116,6 @@ export class ConciseComponent implements OnInit {
   }
 
   jrxActionHandler(details: any) {
-    console.log('details:', details);
     if (details.heading && details.actionLevel !== 'icon') {
       switch (details.heading) {
         case 'vehicle':

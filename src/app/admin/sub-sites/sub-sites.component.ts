@@ -96,7 +96,7 @@ export class SubSitesComponent implements OnInit {
         this.common.loading--;
         let data = res['data'];
         console.log('Res: ', res['data']);
-        this.mapService.createMarkers([data[Object.keys(data)[0]].marker]);
+        this.mapService.createMarkers([data[Object.keys(data)[0]].marker],false,true,['id','name']);
         let Options = {
           paths: data[Object.keys(data)[0]].latLngs,
           strokeColor: '#D2691E',

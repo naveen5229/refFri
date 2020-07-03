@@ -150,7 +150,7 @@ export class SmartTableComponent implements OnInit {
       if (this.headings[key].type === 'date') {
         let firstDate = a[key].value ? this.common.dateFormatter(a[key].value) : 0;
         let secondDate = b[key].value ? this.common.dateFormatter(b[key].value) : 0;
-        return firstDate - secondDate;
+        return firstDate > secondDate ? 1 : -1;
       } else if (counts.time > counts.number) {
         let firstValue = a[key].value ? parseFloat(a[key].value.replace(':', '.')) : 0;
         let secondValue = b[key].value ? parseFloat(b[key].value.replace(':', '.')) : 0;
