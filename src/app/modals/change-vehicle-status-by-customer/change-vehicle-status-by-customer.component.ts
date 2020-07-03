@@ -60,15 +60,13 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   toTime = new Date();
   lTime = new Date();
   hsId: any;
+  
   constructor(
     public modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
-    private activeModal: NgbActiveModal,
-  ) {
-
+    private activeModal: NgbActiveModal) {
     this.VehicleStatusData = this.common.params;
-    console.log("VehicleStatusData", this.VehicleStatusData,this.lTime,this.toTime);
     this.lTime = this.VehicleStatusData.latch_time?new Date(this.VehicleStatusData.latch_time):this.lTime;
     this.ref_page = this.common.ref_page;
     if (this.ref_page != 'vsc') {
@@ -78,13 +76,11 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     this.getLastIndDetails();
     this.getEvents();
     //this.getLoadingUnLoading();
-    console.log("date1", this.toTime);
   }
 
   ngOnInit() {
   }
   ngAfterViewInit() {
-    console.log('ionViewDidLoad MarkerLocationPage');
     // this.location = this.common.params['location'];
     this.loadMap(this.location.lat, this.location.lng);
   }
@@ -112,7 +108,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
 
   openChangeHaltModal(vehicleEvent, type) {
-    console.log("type", type, vehicleEvent);
     this.common.changeHaltModal = type;
     this.common.passedVehicleId = this.VehicleStatusData.vehicle_id;
     this.common.params = vehicleEvent;
@@ -123,14 +118,12 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
 
   showHalt() {
-    console.log("show Halt");
     this.getEvents();
   }
 
   showTrail() {
     this.dataType = 'trails';
     this.common.loading++;
-    console.log("show trail");
     let params = {
       'vehicleId': this.VehicleStatusData.vehicle_id,
       'fromTime': this.common.dateFormatter(this.VehicleStatusData.latch_time),
@@ -138,18 +131,15 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       'suggestId': this.VehicleStatusData.suggest,
       'status': this.VehicleStatusData.status ? this.VehicleStatusData.status : 10
     }
-    console.log(params);
     this.api.post('VehicleStatusChange/getVehicleTrail', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.vehicleEvents = res['data'];
         this.clearAllMarkers();
         this.createMarkers(res['data']);
       }, err => {
         this.common.loading--;
         this.common.showError(err);
-        console.log(err);
       });
   }
 
@@ -164,7 +154,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
   infoWindow = null;
   setEventInfo(event, isClick?) {
-    console.log(event);
     if (!isClick)
       this.toggleBounceMF(event.mIndex);
     else
@@ -172,7 +161,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
 
   }
   unsetEventInfo(event) {
-    console.log(event);
     this.toggleBounceMF(event.mIndex, 2);
 
   }
@@ -187,11 +175,9 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       "&fromTime=" + this.common.dateFormatter(this.VehicleStatusData.latch_time) +
       "&toTime=" + this.common.dateFormatter(this.toTime) +
       "&status=" + status;
-    console.log(params);
     this.api.get('HaltOperations/getHaltHistoryV2?' + params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.vehicleEvents = res['data'];
         this.clearAllMarkers();
         this.createMarkers(res['data']);
@@ -207,12 +193,10 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
           else
             element.lastType = null;
         });
-        console.log("StartElement", startElement);
         if (startElement) {
           let start = startElement.startTime;
           let startIndex = this.vehicleEvents.indexOf(startElement);
           let end = this.vehicleEvents[this.vehicleEvents.length - 1].endTime;
-          console.log(res);
           this.vehicleEventsR = [];
           let vehicleEvents = res['data'];
           let realStart = new Date(vehicleEvents[startIndex].startTime) < new Date(start) ?
@@ -224,7 +208,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
           let totalHourDiff = 0;
           if (vehicleEvents.length != 0) {
             totalHourDiff = this.common.dateDiffInHours(realStart, realEnd, true);
-            console.log("Total Diff", totalHourDiff);
           }
           for (let index = startIndex; index < vehicleEvents.length; index++) {
             vehicleEvents[index].mIndex = index;
@@ -233,23 +216,19 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
               realStart, vehicleEvents[index].startTime) / totalHourDiff) * 98;
             vehicleEvents[index].width = (this.common.dateDiffInHours(
               vehicleEvents[index].startTime, vehicleEvents[index].endTime, true) / totalHourDiff) * 98;
-            console.log("Width", vehicleEvents[index].width);
             this.vehicleEventsR.push(vehicleEvents[index]);
           }
-          console.log("VehicleEvents", this.vehicleEventsR);
         }
 
       }, err => {
         this.common.loading--;
         this.common.showError(err);
-        console.log(err);
       })
   }
 
   resetBtnStatus() {
     this.btnStatus = true;
     this.vehicleEvents.forEach(vehicleEventDetail => {
-      console.log("vehicleEventDetail", vehicleEventDetail)
       if (vehicleEventDetail.color == 'ff13ec') {
         this.btnStatus = false;
         return;
@@ -259,23 +238,18 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
 
   showPreviousLUL() {
     if (this.lUlBtn) {
-      console.log("this.lUlBtn", this.lUlBtn);
       this.getLoadingUnLoading();
       this.getVehicleTrips();
     }
   }
 
   getDate(type,event){
-    console.log("type,event",type,event);
     if(type=='lTime'){
       this.VehicleStatusData.latch_time = event;
-      console.log('lTime',this.VehicleStatusData.latch_time);
     }
     else if(type=='tTime'){
       this.toTime = event;
-      console.log('tTime',this.toTime);
     }
-    console.log("latch time",this.VehicleStatusData.latch_time,"ttime",this.toTime);
 
   }
 
@@ -286,16 +260,12 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&latchTime=" + this.common.dateFormatter(this.VehicleStatusData.latch_time) +
       "&toTime=" + this.common.dateFormatter(this.toTime);
-    console.log(params);
     this.api.get('HaltOperations/getMasterHaltDetail?' + params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.loadingUnLoading = res['data'];
-        console.log("this.loadingUnLoading", this.loadingUnLoading);
       }, err => {
         this.common.loading--;
-        console.log(err);
         this.common.showError(err);
       });
   }
@@ -311,7 +281,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   createMarkers(markers, changeBounds = true, drawPoly = false) {
 
     let thisMarkers = [];
-    console.log("Markers", markers);
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < markers.length; index++) {
 
@@ -339,7 +308,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       } else {
         if (subType == 'marker') {
           pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + text + "|" + pinColor + "|000000";
-          console.log("Pin Image:", pinImage);
 
         }
         else //if(subType=='circle')
@@ -363,7 +331,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       if (changeBounds && !('' + markers[index]['desc']).endsWith('LT'))
         this.setBounds(latlng);
       thisMarkers.push(marker);
-      console.log("ThisMarker: ", thisMarkers);
 
       this.Markers.push(marker);
 
@@ -385,7 +352,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       this.vSId = vsId;
       this.hsId = hsId;
     }
-    console.log("vsId", vsId, "hsId", hsId, "isCheck", isCheck, "j", j);
   }
 
   unCheckAll(j) {
@@ -441,7 +407,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
 
   reviewComplete(status) {
-    console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = {
       vehicleId: this.VehicleStatusData.vehicle_id,
@@ -449,48 +414,38 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       toTime: this.common.dateFormatter(this.toTime),
       status: status
     };
-    console.log(params);
     this.api.post('HaltOperations/reviewDone?', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.activeModal.close();
       }, err => {
         this.common.loading--;
-        console.log(err);
         this.common.showError();
       });
     this.activeModal.close();
   }
 
   getLastIndDetails() {
-    console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = "vehId=" + this.VehicleStatusData.vehicle_id;
-    console.log(params);
     this.api.get('HaltOperations/lastIndustryDetails?' + params)
       .subscribe(res => {
         this.common.loading--;
         this.lastIndDetails = res['data'][0];
         if (this.lastIndDetails) {
-          console.log("lastIndDetails", this.lastIndDetails);
           this.calculateDistanceAndTime(this.lastIndDetails, this.VehicleStatusData.latch_lat, this.VehicleStatusData.latch_long, this.common.dateFormatter(this.VehicleStatusData.latch_time));
           this.lastIndType = this.lastIndDetails.li_type;
         }
       }, err => {
         this.common.loading--;
-        console.log(err);
       });
   }
 
   zoomFunctionality(i, vehicleEvent) {
-    console.log("vehicleEvent", vehicleEvent);
     this.markerZoomMF(i, 19);
     if (this.lastIndDetails)
       this.calculateDistanceAndTime(this.lastIndDetails, vehicleEvent.lat, vehicleEvent.long, vehicleEvent.time);
-    console.log("vehicleEvent.siteId", vehicleEvent.y_site_id)
     if (vehicleEvent.y_site_id) {
-      console.log("vehicleEvent.siteId", vehicleEvent.y_site_id)
       this.fnLoadGeofence(vehicleEvent.y_site_id);
     }
   }
@@ -499,12 +454,10 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     let showHide = this.showHideSite;
     if (showHide == 'SS') {
       //this.setZoom(13);
-      console.log("Show Site");
       this.showHideSite = 'HS';
       this.getSites();
     } else {
       this.showHideSite = 'SS';
-      console.log("Hide Site");
       this.clearOtherMarker(this.siteMarkers);
 
     }
@@ -530,10 +483,8 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
         lat2: lat2,
         lng2: lng2
       };
-      console.log(params);
       this.api.post('VehicleStatusChange/getSiteAndSubSite?', params)
         .subscribe(res => {
-          console.log(res);
           if (this.siteMarkers.length == 0) {
             this.siteMarkers = this.createMarkers(res['data'], false);
             this.common.loading--;
@@ -546,7 +497,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
 
         }, err => {
           this.common.loading--;
-          console.log(err);
         });
     }
   }
@@ -569,8 +519,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   calculateDistanceAndTime(lastIndDetails, lat2, long2, time2) {
     this.distDiff = this.common.distanceFromAToB(lastIndDetails.li_lat, lastIndDetails.li_lng, lat2, long2, "K");
     this.timeDiff = this.common.differenceBtwT1AndT2(time2, lastIndDetails.li_time);
-    console.log("this.distDiff", this.distDiff);
-    console.log("this.timeDiff", this.timeDiff);
   }
 
   Fences = null;
@@ -586,7 +534,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       .subscribe(res => {
         let data = res['data'];
         let count = Object.keys(data).length;
-        console.log('Res: ', res['data']);
         if (count > 0) {
           let latLngsArray = [];
           let mainLatLng = null;
@@ -596,19 +543,15 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
               if (datax == siteId)
                 mainLatLng = datav.latLngs;
               latLngsArray.push(datav.latLngs);
-              console.log("Multi", datax);
             }
           }
           this.createPolygons(latLngsArray, mainLatLng);
         }
-        else {
-          console.log("Else");
-        }
+        
         this.common.loading--;
       }, err => {
         this.common.loading--;
         this.common.showError(err);
-        console.log(err);
       });
   }
   createPolygons(latLngsMulti, mainLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
@@ -645,12 +588,10 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
  
 
   openSmartTool(i, vehicleEvent) {
-    console.log("vehicleEvent", vehicleEvent);
     if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null)
       if (confirm("Merge with this Halt?")) {
         this.common.loading++;
         let params = { ms_id: this.vSId, hs_id: vehicleEvent.haltId };
-        console.log("params", params);
         this.api.post('HaltOperations/mergeManualStates', params)
           .subscribe(res => {
             this.common.loading--;
@@ -664,12 +605,10 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
           }, err => {
             this.common.loading--;
             this.common.showError(err);
-            console.log(err);
           });
       }
     this.vSId = null;
     this.isChecks = {};
-    console.log(this.onlyDrag);
     if (!this.onlyDrag) {
       this.vehicleEvents.forEach(vEvent => {
         if (vEvent != vehicleEvent)
@@ -684,13 +623,10 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
 
 
   drop(event: CdkDragDrop<string[]>) {
-    console.log('Event: ', event);
     //moveItemInArray(this.vehicleEvents, event.previousIndex, event.currentIndex);
-    //console.log("hiiiiii",this.vehicleEvents, event.previousIndex, event.currentIndex);
   }
 
   onDragEnded(event, index, movedItem) {
-    console.log('onDragEnded: ', event, index, movedItem);
     let offsetsCurrent = document.getElementById('vehicleEvent-row-' + index).getBoundingClientRect();
     let middle = (offsetsCurrent.top + offsetsCurrent.bottom) / 2;
     let movedOnItem = null;
@@ -713,14 +649,10 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
 
   siteMerge(movedItem, movedOnItem) {
     this.common.loading++;
-    console.log("SiteMerge");
-    console.log('Moved: ', movedItem);
-    console.log('Moved On: ', movedOnItem);
     let params = {
       dragHaltId: movedItem.haltId,
       dropHaltId: movedOnItem.haltId
     };
-    console.log(params);
     this.api.post('HaltOperations/mergeHalts', params)
       .subscribe(res => {
         this.common.loading--;
@@ -732,7 +664,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
         }
       }, err => {
         this.common.loading--;
-        console.log(err);
         this.common.showError(err);
       });
   }
@@ -743,25 +674,21 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
 
   convertSiteHalt(siteId) {
-    console.log(this.convertSiteHaltFlag);
     if (this.convertSiteHaltFlag) {
       this.common.loading++;
       let params = {
         vehicleHaltRowId: this.vehicleEvent.haltId,
         siteId: siteId,
       };
-      console.log(params);
       this.api.post('HaltOperations/allocateVehicleHaltToSite', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log(res);
           this.reloadData();
 
           this.convertSiteHaltFlag = false;
 
         }, err => {
           this.common.loading--;
-          console.log(err);
         });
     }
   }
@@ -771,20 +698,16 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     let params = {
       haltId: vehicleEvent.haltId,
     };
-    console.log(params);
     this.api.post('HaltOperations/deleteHalt', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.reloadData();
       }, err => {
         this.common.loading--;
-        console.log(err);
       });
   }
   infowindow = null;
   showInfoWindow(show, marker) {
-    console.log('Info:', show);
     if (this.infowindow != null) {
       this.infowindow.close();
     }
@@ -803,7 +726,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   }
 
   addAutomaticHalt() {
-    console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = {
       fromTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
@@ -813,7 +735,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       tTime: this.common.dateFormatter(this.toTime),
     }
 
-    console.log("params=", params);
 
     this.api.post('AutoHalts/addSingleVehicleAutoHalts', params)
       .subscribe(res => {
@@ -826,13 +747,11 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
         }
       }, err => {
         this.common.loading--;
-        console.log(err);
       });
   }
 
   reportIssue(vehicleEvent) {
     this.common.params = { refPage: 'vsc' };
-    console.log("reportIssue", vehicleEvent);
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
   }
@@ -851,14 +770,12 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
 
   openManualHalt(vehicleEvent) {
     this.common.params = { vehicleId: this.VehicleStatusData.vehicle_id, vehicleRegNo: this.VehicleStatusData.regno }
-    console.log("open manual halt modal");
     const activeModal = this.modalService.open(ManualHaltComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data =>
       this.reloadData());
   }
 
   resolveTicket(status) {
-    console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = {
       rowId: this.VehicleStatusData.id,
@@ -872,15 +789,12 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       // this.activeModal.close();
       return;
     }
-    console.log("param:", params);
     this.api.post('MissingIndustry/edit', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.activeModal.close();
       }, err => {
         this.common.loading--;
-        console.log(err);
       });
     // this.activeModal.close();
   }
@@ -890,18 +804,15 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        console.log("reason For delete: ", data.remark);
         params.remark = data.remark;
         this.common.loading++;
         this.api.post('MissingIndustry/edit', params)
           .subscribe(res => {
             this.common.loading--;
-            console.log("data", res);
             this.activeModal.close();
 
           }, err => {
             this.common.loading--;
-            console.log(err);
 
           });
       }
@@ -916,7 +827,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
   activeModal.result.then(data => {
     if (data.response) {
-      console.log("data", data);
       let params = {
         stateId: vehicleEvent.vs_id
       };
@@ -924,7 +834,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       this.api.post('HaltOperations/decoupleStateHalt', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log('res: ', res);
           if (res['data'][0].y_id > 0) {
             this.common.showToast(res['data'][0].y_msg);
             this.reloadData();
@@ -936,7 +845,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
 
         }, err => {
           this.common.loading--;
-          console.log('Error: ', err);
           this.common.showError('Error!');
         });
     }
@@ -951,16 +859,12 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       fromTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
       toTime: this.common.dateFormatter(this.toTime)
     };
-    console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, {
       size: "lg",
       container: "nb-layout"
       , windowClass: "mycustomModalClass"
     });
-    activeModal.result.then(
-      data => console.log("data", data)
-      // this.reloadData()
-    );
+   
   }
 
 
@@ -1011,22 +915,18 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     let fromTime = this.common.dateFormatter(fromDate);
     let toTime = this.common.dateFormatter(new Date());
 
-    console.log('start & end', fromTime, toTime);
     let params = "vehicleId=" + this.VehicleStatusData.vehicle_id +
       "&startDate=" + fromTime +
       "&endDate=" + toTime;
-    console.log('params', params);
     ++this.common.loading;
     this.api.get('TripsOperation/getTrips?' + params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('Res:', res['data']);
         this.vehicleTrips = res['data'];
 
       }, err => {
         --this.common.loading;
 
-        console.log('Err:', err);
       });
   }
 
@@ -1038,7 +938,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       lng: vehicleEvent.long,
       name: vehicleEvent.loc
     }
-    console.log("vehicle event", vehicleEvent);
     this.common.params = { location: location }
     const activeModal = this.modalService.open(UpdateLocationComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
 
@@ -1056,7 +955,6 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       trip_id: vehicleEvent.trip_id,
       stateId: vehicleEvent.vs_id
     }
-    console.log("vehicle event", vehicleEvent);
     this.common.params = { verifyTrip: verifyTrip }
     const activeModal = this.modalService.open(VerifyfuturetripstateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
