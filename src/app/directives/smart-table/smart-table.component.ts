@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, ChangeDetectionStrategy, Input, Output, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { CommonService } from '../../services/common.service';
 export class SmartTableComponent implements OnInit {
   @Input() data: any;
   @Input() settings: any;
+  @Output() action = new EventEmitter();
   objectKeys = Object.keys;
   headings = null;
   columns = [];
@@ -55,6 +56,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   setData() {
+    this.data.columns.map((column, index) => column._smartId = index);
     this.headings = this.data.headings;
     if (this.settings.pagination) {
       this.handlePagination(this.pages.active);
@@ -71,34 +73,51 @@ export class SmartTableComponent implements OnInit {
       this.headings[this.search.key].value = this.search.txt;
       this.filterData(this.search.key)
     };
-
-    this.columns.map((column, index) => column._smartId = index);
   }
 
   filterData(key) {
     clearTimeout(this.filtertimer);
     this.filtertimer = setTimeout(() => {
-      console.log('filterData:', key,this.headings[key].value);
+      console.log('filterData:', key, this.headings[key].value, this.data.columns.length);
       let search = this.headings[key].value.toLowerCase();
       this.search = { key, txt: search };
-      this.columns = this.data.columns.filter(column => {
-        if (!search.length) return true;
-        let value = column[key].value;
-        if (search.includes('>') || search.includes('<') || search.includes('!')) {
-          if (search.length == 1) return true;
-          if (search[0] == '>') return value && value > search.split('>')[1]
-          else if (search[0] == '<') return value && value < search.split('<')[1];
-          else if (search[0] == '!') return value && value != search.split('!')[1];
-        } else if (value && value.toString().toLowerCase().includes(search.toLowerCase())) return true;
-        return false;
-      });
+      console.log('--', this.headings[key].value, search);
+      this.columns = [];
+      if (!search.length) {
+        if (this.settings.pagination) {
+          this.columns = this.data.columns.slice(0, this.pages.limit);
+        } else {
+          this.columns = this.data.columns;
+        }
+      } else {
+        for (let i = 0; i < this.data.columns.length; i++) {
+          let value = this.data.columns[i][key].value;
+          if (search.includes('>') || search.includes('<') || search.includes('!')) {
+            if (search.length == 1) {
+              this.columns.push(this.data.columns[i]);
+            } else if (search[0] == '>' && value && value > search.split('>')[1]) {
+              this.columns.push(this.data.columns[i]);
+            } else if (search[0] == '<' && value && value < search.split('<')[1]) {
+              this.columns.push(this.data.columns[i]);
+            } else if (search[0] == '!' && value && value != search.split('!')[1]) {
+              this.columns.push(this.data.columns[i]);
+            }
+          } else if (value && value.toString().toLowerCase().includes(search.toLowerCase())) {
+            this.columns.push(this.data.columns[i]);
+          }
+          if (this.settings.pagination && this.columns.length >= this.pages.limit) {
+            break;
+          }
+
+        }
+      }
 
       if (search.includes('>') || search.includes('<') || search.includes('!')) {
         if (search.includes('>')) this.sortColumn(key, 'asc')
         else this.sortColumn(key, 'desc')
       }
       this.cdr.detectChanges();
-    }, this.data.columns.length > 150 ? 1000 : 300);
+    }, this.data.columns.length > 150 ? 500 : 300);
 
   }
 
@@ -207,8 +226,6 @@ export class SmartTableComponent implements OnInit {
     let startIndex = this.pages.limit * (this.pages.active - 1);
     let lastIndex = (this.pages.limit * this.pages.active);
     this.columns = this.data.columns.slice(startIndex, lastIndex);
-    this.columns.map((column, index) => column._smartId = index);
-
   }
 
   customPage() {
@@ -271,6 +288,70 @@ export class SmartTableComponent implements OnInit {
   isPropertyBinding(column, property, byDefault = '') {
     if (column[property]) return column[property];
     return byDefault;
+  }
+
+
+  jrxActionHandler(event, actionLevel: 'row' | 'col' | 'icon', actionType: 'click' | 'dblclick' | 'mouseover' | 'mouseout',
+    column: any, heading?, index?, icon?) {
+    if (actionLevel === 'row') {
+      if (this.settings.selectRow) {
+        this.activeRow = column._smartId
+      } else if (this.settings.selectMultiRow) {
+        if (this.activeRows.indexOf(column._smartId) === -1) {
+          this.activeRows.push(column._smartId);
+        } else {
+          this.activeRows.splice(this.activeRows.indexOf(column._smartId), 1);
+        }
+      }
+    }
+
+    event.stopPropagation();
+    if (actionType == 'mouseover' || actionType == 'mouseout') {
+      return;
+    }
+
+    if (this.settings.oneAction) {
+      this.action.emit({
+        actionLevel,
+        actionType,
+        column,
+        heading,
+        index
+      });
+      return
+    }
+    if (actionLevel === 'row') {
+      this.jrxRowActions(actionType, column);
+    } else if (actionLevel === 'col') {
+      this.jrxColumActions(actionType, column, heading, index);
+    } else if (actionLevel === 'icon') {
+      icon.action && icon.action();
+    }
+
+  }
+
+  jrxRowActions(actionType, column: any) {
+    if (actionType === 'click') {
+      if (column.rowActions && column.rowActions.click) {
+        column.rowActions.click();
+      }
+    } else if (actionType === 'dblclick') {
+      if (column.rowActions && column.rowActions.dblclick) {
+        column.rowActions.dblclick()
+      }
+    }
+  }
+
+  jrxColumActions(actionType, column, heading, index) {
+    if (actionType === 'click') {
+      this.handleColumnClick(column, heading, index);
+    } else if (actionType === 'dblclick') {
+      this.handleColDoubleClick(column, heading)
+    } else if (actionType === 'mouseover') {
+      this.handleMouseHover(column, heading);
+    } else if (actionType === 'mouseout') {
+      this.handleMouseOut(column, heading)
+    }
   }
 
 }

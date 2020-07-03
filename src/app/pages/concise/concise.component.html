@@ -220,7 +220,7 @@
             }" (resizeEnd)="onResizeEnd($event, 'smartTable')">
                         <div id="print-section">
                             <smart-table class="home-page-tabel" style="width:100%;" [data]="table.data"
-                                [settings]="table.settings">
+                                [settings]="table.settings" (action)="jrxActionHandler($event)">
                             </smart-table>
                         </div>
                     </div>
