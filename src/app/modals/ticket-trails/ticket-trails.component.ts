@@ -25,23 +25,22 @@ export class TicketTrailsComponent implements OnInit {
     //this.headings = this.common.params.headers;
     console.log(this.common.params)
 
-    if (this.common.params.type == 'comments') {
+    if (this.common.params.type && this.common.params.type == 'comments') {
       this.title="Comment List"
       this.comments = this.common.params.commmentList;
       this.commentsFlag = true;
 
     }
 
-    if(this.common.params.type == 'trail'){
+   else{
       this.title="Trail List";
-      this.trails=this.common.params.trailList;
+      this.trails=this.common.params.trailList ? this.common.params.trailList : this.common.params.data ?this.common.params.data:[];
       this.trailFlag=true;
     }
     
-      this.trails = this.common.params.trailList;
-      this.comments= this.common.params.commentList;
-      if(this.common.params.type == 'trail'){
-        if(this.common.params.trailList){
+     
+      if(!this.common.params.type || this.common.params.type == 'trail'){
+        if(this.trails){
       this.trails.map(data => {
         if (data.spent_time > 0) {
           let t = data.spent_time;
