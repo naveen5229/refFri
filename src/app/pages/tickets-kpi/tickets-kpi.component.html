@@ -6,8 +6,8 @@
     <table class="table table-bordered table-hover">
       <thead class="thead">
         <tr>
-          <th rowspan="2">#</th>
-          <th rowspan="2">Ticket types</th>
+          <th rowspan="2" style="padding-bottom:20px!important;">#</th>
+          <th rowspan="2" style="width:20%;padding-bottom:20px!important;">Ticket types</th>
           <th colspan="2">UnAcknowledged</th>
           <th colspan="2">UnClaimed</th>
           <th colspan="2">UnCalled</th>
@@ -28,7 +28,7 @@
       <tbody>
         <tr *ngFor="let kpi of kpis; let i = index">
           <td>{{i + 1}}</td>
-          <td><b>{{kpi.tkt}}</b></td>
+          <td style="width:20%;">{{kpi.tkt}}</td>
           <td>{{kpi.unacklt30mins }}</td>
           <td>{{kpi.unackgt30mins}}</td>
           <td>{{kpi.unclmlt30mins}}</td>
