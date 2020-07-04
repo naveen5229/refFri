@@ -134,11 +134,11 @@ console.log('size index',this.sizeIndex);
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id new', activeId,key);
-    if ((event.altKey && key === 'c') && (activeId.includes('taxleder'))) {
+    if ((event.altKey && key === 'c') && (activeId.includes('taxleder-'))) {
       // console.log('alt + C pressed');
       this.openledger();
     }
-    if (activeId.includes('taxleder')) {
+    if (activeId.includes('taxleder-')) {
     
       this.autoSuggestion.targetId = activeId;
       console.log('-=-----------------------------');
@@ -162,9 +162,9 @@ console.log('size index',this.sizeIndex);
     if (key == 'enter') {
       this.allowBackspace = true;
       // console.log('active', activeId);
-      if (activeId.includes('taxleder') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
+      if (activeId.includes('taxleder-') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
         let index = activeId.split('-')[1];
-        if (activeId.includes('taxleder')) this.setFoucus('taxrate-' + index);
+        if (activeId.includes('taxleder-')) this.setFoucus('taxrate-' + index);
         if (activeId.includes('taxrate')) this.setFoucus('taxamount-' + index);
         if (activeId.includes('taxamount-')){
          console.log('total length of text detail',this.taxdetails.length,'actv id',activeId);
@@ -183,7 +183,7 @@ console.log('size index',this.sizeIndex);
     } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
 
-      if (activeId.includes('taxleder') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
+      if (activeId.includes('taxleder-') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
         let index = parseInt(activeId.split('-')[1]);
         if (index != 0) this.setFoucus('taxamount-' + (index - 1));
         if (activeId.includes('taxrate')) this.setFoucus('taxleder-' + index);
@@ -209,7 +209,7 @@ console.log('size index',this.sizeIndex);
       // this.moveCursor(element, 0, element['value'].length);
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
-      if (id.includes('taxleder')) {
+      if (id.includes('taxleder-')) {
         this.autoSuggestion.targetId = id;
         console.log('==================================');
         console.log('Target Id:', this.autoSuggestion.targetId);
@@ -307,7 +307,7 @@ console.log('size index',this.sizeIndex);
 
     this.taxdetails[index].taxledger.name = suggestion.name;
     this.taxdetails[index].taxledger.id = suggestion.id;
-    this.taxdetails[index].taxrate = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
+    this.taxdetails[index].taxrate = (this.taxdetails[index].taxrate)?this.taxdetails[index].taxrate:(suggestion.per_rate == null) ? 0 : suggestion.per_rate;
     this.taxdetails[index].taxamount = parseFloat(((this.taxdetails[index].taxrate  * this.amount)/100).toFixed(2));
 
     this.autoSuggestion.display = 'name';

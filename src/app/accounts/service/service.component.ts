@@ -499,13 +499,13 @@ export class ServiceComponent implements OnInit {
   }
   modelConditionaddmore() {
     this.showConfirmaddmore = false;
-    this.setFoucus('taxledgerother-0');
+    this.setFoucus('taxlederother-0');
     event.preventDefault();
     return;
   }
   modelConditionTaxaddmore() {
     this.showConfirmtaxaddmore = false;
-    this.setFoucus('submit');
+    this.setFoucus('servicesubmit');
     event.preventDefault();
     return;
   }
@@ -693,19 +693,23 @@ export class ServiceComponent implements OnInit {
     if ((this.order.ordertype.name.toLowerCase().includes('purchase')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     if ((this.order.ordertype.name.toLowerCase().includes('sales')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     console.log('Active event11', event, this.order.ordertype.name, this.activeId, this.suggestions.purchasestockItems);
-    if (this.showConfirmaddmore && key == 'enter') {
+    if (this.showConfirmaddmore && key == 'y') {
       console.log('set command', this.lastActiveId, this.activeId);
       this.showConfirmaddmore = false;
       this.addAmountDetails();
       event.preventDefault();
       return;
 
-    } if (this.showConfirmaddmore && key == 'n') {
+    } if (this.showConfirmaddmore && key == 'enter') {
       this.showConfirmaddmore = false;
       event.preventDefault();
-      return;
+      let index = parseInt(this.lastActiveId.split('-')[1]);
+      setTimeout(() => {
+      this.setFoucus('taxlederother-0');
+      }, 50);
+     // return;
     }
-    if (this.showConfirmtaxaddmore && key == 'enter') {
+    if (this.showConfirmtaxaddmore && key == 'y') {
       console.log('set command', this.lastActiveId, this.activeId);
       this.showConfirmtaxaddmore = false;
       this.addTaxAmountDetails();
@@ -715,9 +719,22 @@ export class ServiceComponent implements OnInit {
       event.preventDefault();
       return;
 
-    } if (this.showConfirmtaxaddmore && key == 'n') {
+    } if (this.showConfirmtaxaddmore && key == 'enter') {
       this.showConfirmtaxaddmore = false;
+      this.setFoucus('servicesubmit');
       event.preventDefault();
+     // this.showConfirm = true;
+
+      return;
+    }if (this.showConfirm && (key == 'enter' || key == 'y')) {
+      this.showConfirm = false;
+      event.preventDefault();
+      this.dismiss(true);
+      return;
+    }if (this.showConfirm && key == 'n') {
+      this.showConfirm = false;
+      event.preventDefault();
+     // this.dismiss(true);
       return;
     }
     else if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
@@ -1424,24 +1441,27 @@ export class ServiceComponent implements OnInit {
                 console.log('____daya', data);
                 amountDetails.taxDetails.push(data);
             }
-            else{
-              let oteherdata = {
-                taxledgerother: {
-                  name: txD.y_ledger_name,
-                  id: txD.y_ledger_id,
-                },
-                taxrateother: txD.y_rate,
-                taxamountother: txD.y_amount,
-                totalamountother: 0
-              }
-              console.log('oteherdata',index, oteherdata);
-            // return data;
            
-            this.taxdetailsother.push(oteherdata);
-            //this.addTaxAmountDetails();
-           // return;
-            }
+            
         });
+        });
+
+        taxDetailData.map((txD,index) => {
+          if (txD.y_invoicedetails_id == null){
+            let oteherdata = {
+              taxledgerother: {
+                name: txD.y_ledger_name,
+                id: txD.y_ledger_id,
+              },
+              taxrateother: txD.y_rate,
+              taxamountother: txD.y_amount,
+              totalamountother: 0
+            }
+            console.log('oteherdata',index, oteherdata);
+          // return data;
+         
+          this.taxdetailsother.push(oteherdata);
+          }
         });
 
         // Commented Start by Hemant Singh Sisodia
