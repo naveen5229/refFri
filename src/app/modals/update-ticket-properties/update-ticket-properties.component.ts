@@ -16,6 +16,8 @@ export class UpdateTicketPropertiesComponent implements OnInit {
   properties;
   flagValue = '';
   id = null;
+  benchmark1label = ''
+  benchmark2label = ''
   // foid = null;
 
   ticketProperties = {
@@ -55,6 +57,8 @@ export class UpdateTicketPropertiesComponent implements OnInit {
       // this.foid = this.common.params.foid;
       this.ticketProperties.issue_type_id = this.properties['_issue_id'];
       this.ticketProperties.issue_name = this.properties['Issue Name'];
+      this.benchmark1label = this.properties['_label']?this.properties['_label']: this.benchmark1label;
+      this.benchmark2label = this.properties['_label2']?this.properties['_label2']: this.benchmark2label;
       if (this.flagValue === 'Edit') {
         this.ticketProperties.is_deliverytime = this.properties['Is Delivery'] === '✔' ? true : false;
         this.ticketProperties.is_escalate = this.properties['Is Escalate'] === '✔' ? true : false;
@@ -64,8 +68,8 @@ export class UpdateTicketPropertiesComponent implements OnInit {
         this.ticketProperties.compl_rem_time = this.properties['Comp Rem Time'];
         this.ticketProperties.compl_esc_time = this.properties['Com Esc Time'];
         this.ticketProperties.issue_name = this.properties['Issue Name'];
-        this.ticketProperties.benchMark = this.properties['Benchmark'];
-        this.ticketProperties.benchMark2 = this.properties['Benchmark2'];
+        this.ticketProperties.benchMark = this.properties['_benchmark'];
+        this.ticketProperties.benchMark2 = this.properties['_benchmark2'];
         this.id = this.properties['_row_id'];
       }
       this.getFoProperties();
