@@ -15,6 +15,7 @@ export class ConstraintsComponent implements OnInit {
     consignees: [{ name: '', id: '' }],
     transporter: [{ name: '', id: '' }],
     vehicles: [{ regno: '', id: '' }],
+    groups: [{ id : '',foid : '',description: '',aduserid : '',entrymode: ''}],
     destinations: [{ name: '', id: '', type: '', siteName: '', location: '' },],
   }
   searchString = '';
@@ -79,7 +80,11 @@ export class ConstraintsComponent implements OnInit {
       regno: '',
       type: 'site',
       siteName: '',
-      location: ''
+      location: '',
+      foid : '',
+      description: '',
+      aduserid : '',
+      entrymode: ''
     });
   }
 
@@ -98,6 +103,9 @@ export class ConstraintsComponent implements OnInit {
         break;
       case 'vehicles':
         this.constraintsType[type] = [{ id: null, regno: '' }];
+        break;
+      case 'groups':
+        this.constraintsType[type] = [{ id : null,foid : '',description: '',aduserid : '',entrymode: ''}];
         break;
       case 'destinations':
         this.constraintsType[type] = [{ id: null, name: '', siteName: '', type: 'site' }];
@@ -124,6 +132,9 @@ export class ConstraintsComponent implements OnInit {
         break;
       case 'vehicles':
         this.constraintsType[type][index] = { id: details.id, regno: details.regno };
+        break;
+        case 'groups':
+          this.constraintsType[type][index] = { id: details.id, foid: details.foid, description: details.description, aduserid: details.aduserid, entrymode: details.entrymode};
         break;
       case 'destinations':
         if (locationType == 'site') {
@@ -171,6 +182,7 @@ export class ConstraintsComponent implements OnInit {
       consignees: this.constraintsType.consignees.filter(consignee => { return consignee.id; }).map(consignee => { return consignee.id; }),
       transporters: this.constraintsType.transporter.filter(transport => { return transport.id }).map(transport => { return transport.id }),
       vehicles: this.constraintsType.vehicles.filter(vehicle => { return vehicle.id }).map(vehicle => { return vehicle.id }),
+      groups: this.constraintsType.groups.filter(group => { return group.id }).map(group => { return group.id }),
       destinations: this.constraintsType.destinations.filter(destination => { return destination.id }).map(destination => { return destination.id }),
     }
     const params = {

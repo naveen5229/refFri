@@ -17,9 +17,9 @@
     <tbody>
       <tr *ngFor="let data of trails;let i=index">
         <td>{{i+1}}</td>
-        <td>{{data.employeename}}</td>
-        <td>{{data.spent_time}}</td>
-        <td>{{data.status}}</td>
+        <td>{{data.employeename ? data.employeename : data[1]}}</td>
+        <td>{{data.spent_time ? data.spent_time : data[2]}}</td>
+        <td>{{data.status ? data.status : data[3]}}</td>
       </tr>
     </tbody>
 

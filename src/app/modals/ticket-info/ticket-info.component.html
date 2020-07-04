@@ -9,28 +9,28 @@
   <div class="row">
     <table class="table table-bordered" *ngIf="issueInfo">
       <tr>
-        <td>Vehicle No</td><td>{{issueInfo.regno}}</td>
+        <td>Vehicle No</td><td>{{issueInfo.regno ? issueInfo.regno : ''}}</td>
       </tr>
       <tr>
-        <td>Driver</td><td>{{issueInfo.empname}}</td>
+        <td>Driver</td><td>{{issueInfo.empname ? issueInfo.empname : ''}}</td>
       </tr>
       <tr>
-        <td>Message</td><td>{{ticketInfo.msg}}</td>
+        <td>Message</td><td>{{ticketInfo.msg ? ticketInfo.msg : ''}}</td>
       </tr>
       <tr>
-        <td>Time Since</td><td *ngIf="issueInfo.start_time">{{issueInfo.start_time | date : 'dd MMM hh:mm a'}}</td>
+        <td>Time Since</td><td *ngIf="issueInfo.start_time">{{  issueInfo.start_time | date : 'dd MMM hh:mm a' }}</td>
       </tr>
       <tr>
-        <td>Duration</td><td>{{findRemainingTime(issueInfo.duration)}}</td>
+        <td>Duration</td><td>{{ issueInfo.duration ? findRemainingTime(issueInfo.duration) : ''}}</td>
       </tr>
       <tr>
-        <td>Location</td><td>{{issueInfo.loc_name}}</td>
+        <td>Location</td><td>{{issueInfo.loc_name ? issueInfo.loc_name : ''}}</td>
       </tr>
       <tr>
-        <td>Map View</td><td (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;">Click here</td>
+        <td>Map View</td><td (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;" *ngIf='issueInfo.lat&&issueInfo.long'>Click here</td>
       </tr>
       <tr>
-        <td>Reason (Halt)</td><td>{{issueInfo.halt_type}} </td>
+        <td>Reason (Halt)</td><td>{{issueInfo.halt_type ? issueInfo.halt_type : ''}} </td>
       </tr>
     </table>
 
@@ -47,9 +47,7 @@
     </table>
 
     <div class="col-sm-6 offset-6">
-      <span (click)="setRemark(-5)" style="cursor: pointer;" class="col-sm-6"><span style="background: lightgrey;padding: 6px;border-radius: 5px;font-weight: bold;border: 2px solid whitesmoke">Can't Do</span></span>
-      <span (click)="setRemark(5)" style="cursor:pointer;" class="col-sm-6"><span style="background: lightgrey;padding: 6px;border-radius: 5px;font-weight: bold;border: 2px solid whitesmoke">Mark as Default</span></span>
-    </div>
+      </div>
     
 
   </div>
@@ -134,9 +132,9 @@
     </div>
   </div> -->
 </div>
-<div class="modal-footer" *ngIf="isBtn">
+<div class="modal-footer">
   <div class="row">
-    <button class="btn btn-primary" (click)="closeModal(false)">Back</button>
-    <button class="btn btn-primary" (click)="closeModal(true)">SAVE</button>
+       <button class="btn btn-danger" (click)="setRemark(-5)">Can't Do</button>
+    <button class="btn btn-primary" (click)="setRemark(5)">Mark as Done</button>
   </div>
 </div>
