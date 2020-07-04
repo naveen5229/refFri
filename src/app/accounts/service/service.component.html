@@ -404,7 +404,7 @@
             <button class="btn btn-plus plustransparent" [id]="'taxdetailbutton-'+i" (click)="addTaxAmountDetails()"><i
                 class="fa fa-plus text-primary"></i></button>
           </td>
-          <td *ngIf="i !== 0"> <button class="btn btn-danger" (click)="taxdetails.splice(i,1)"><i
+          <td *ngIf="i !== 0"> <button class="btn btn-danger" (click)="taxdetailsother.splice(i,1)"><i
                 class="fa fa-trash text-primary"></i></button>
           </td>
         </tr>
@@ -449,7 +449,7 @@
           <!-- <button class="btn btn-primary" [ngStyle]="{'display':showHideButton ? 'block' : 'none'}" type="button" outline (click)="callconfirm()" id="submit"
             style="cursor: pointer;">Submit
           </button> -->
-          <button class="btn btn-primary" type="button" outline (click)="callconfirm()" id="submit"
+          <button class="btn btn-primary" type="button" outline (click)="callconfirm()" id="servicesubmit"
             style="cursor: pointer;">Submit
           </button>
         </div>
@@ -465,7 +465,7 @@
 <div class="date-modal" *ngIf="showConfirmaddmore">
   <div class="date-modal-body data_model_save">
     <div>
-      <p>Are you want to add more detail then press enter otherwise n ?</p>
+      <p>Are you want to add more detail then press y otherwise enter to move to tax ledger ?</p>
       <button (click)="addAmountDetails()">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
         (click)="modelConditionaddmore()">No</button>
     </div>
@@ -474,7 +474,7 @@
 <div class="date-modal" *ngIf="showConfirmtaxaddmore">
   <div class="date-modal-body data_model_save">
     <div>
-      <p>Are you want to add Tax detail then press enter otherwise n ?</p>
+      <p>Are you want to add Tax detail then press y otherwise save to enter ?</p>
       <button (click)="addTaxAmountDetails()">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
         (click)="modelConditionTaxaddmore()">No</button>
     </div>

@@ -54,9 +54,7 @@
           </table>
         </div>
         <div class="col-3">
-          <auto-suggetion-in-side *ngIf="autoSuggestion.data.length" [data]="autoSuggestion.data"
-            [targetId]="autoSuggestion.targetId" [display]="autoSuggestion.display"
-            (select)="onSelect($event, autoSuggestion.targetId)">
+          <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId" [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)">
           </auto-suggetion-in-side>
         </div>
       </div>
