@@ -219,7 +219,11 @@ oprnInfoModel(tkt){
   }
   this.common.params = { ticket :ticket};
   const activeModal = this.modalService.open(TicketInfoComponent, { size: 'lg', container: 'nb-layout' });
-
+  activeModal.result.then(data => {
+    console.log("data",data);
+    if(data.response)
+    this.refresh();
+});
 }
 
 }

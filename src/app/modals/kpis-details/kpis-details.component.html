@@ -20,8 +20,9 @@
         <td>{{kpi.x_showveh}} </td>
         <td>{{kpi.showprim_status}}</td>
         <td>{{kpi.x_hrssince}}</td>
-        <td><span>{{kpi.x_showtripstart}}</span> <span *ngIf="kpi.x_showtripend"> ->
-            {{kpi.x_showtripend}} </span></td>
+        <!-- <td><span>{{kpi.x_showtripstart}}</span> <span *ngIf="kpi.x_showtripend"> ->
+            {{kpi.x_showtripend}} </span></td> -->
+        <td [innerHTML]="common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name)"></td>
         <td>{{kpi.x_kmph}}</td>
         <td>{{kpi.Address}}</td>
 
