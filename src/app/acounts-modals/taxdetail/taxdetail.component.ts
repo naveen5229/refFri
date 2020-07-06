@@ -122,7 +122,7 @@ console.log('size index',this.sizeIndex);
       taxamount: 0,
       totalamount:0
     });
-
+    this.showConfirmpoptax=false;
     const activeId = document.activeElement.id;
     let index = parseInt(activeId.split('-')[1]) + 1;
     console.log(index);
@@ -150,7 +150,7 @@ console.log('size index',this.sizeIndex);
         this.dismisspop(true);
        // event.preventDefault();
         //return;
-      } else if (this.showConfirmpoptax && key == 'y') {
+      } else if (this.showConfirmpoptax && key == 'a') {
         this.addAmountpopupDetails();
         this.showConfirmpoptax = false;
         event.preventDefault();

@@ -30,6 +30,8 @@ export class OtherinfoComponent implements OnInit {
   showConfirm = false;
   lastActiveId = '';
   allowBackspace = false;
+  ordertypeid=0;
+  sizeindex=1;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -38,6 +40,7 @@ export class OtherinfoComponent implements OnInit {
     public accountService: AccountService) {
 
     if (this.common.params) {
+      console.log('otr info new',this.common.params);
       this.service.podate = this.common.params.podate,
         this.service.biltynumber = this.common.params.biltynumber,
         this.service.biltydate = this.common.params.biltydate,
@@ -50,10 +53,12 @@ export class OtherinfoComponent implements OnInit {
         this.service.deliveryterms = this.common.params.deliveryterms,
         this.service.paymentterms = this.common.params.paymentterms,
         this.service.orderremarks = this.common.params.orderremarks,
-        this.service.shipmentlocation = this.common.params.shipmentlocation
+        this.service.shipmentlocation = this.common.params.shipmentlocation,
+        this.ordertypeid = this.common.params.ordertypeid,
+        this.sizeindex = this.common.params.sizeindex;
     }
     this.setFoucus('podate');
-    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 1);
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeindex);
 
   }
 
@@ -90,6 +95,9 @@ export class OtherinfoComponent implements OnInit {
     } else if (this.activeId.includes('billingaddress')) {
       this.setFoucus('shipmentlocation');
     } else if (this.activeId.includes('shipmentlocation')) {
+      this.setFoucus('submitother');
+    }
+    else if (this.activeId.includes('orderremarks')) {
       this.setFoucus('submitother');
     }
   }
