@@ -17,8 +17,9 @@ export class AutoSuggetionInSideComponent implements OnInit {
   selectedSuggestion = null;
   displayType = 'string';
   activeSuggestion = -1;
+  canvas: any;
 
-  constructor(private cdr: ChangeDetectorRef, ) {
+  constructor(private cdr: ChangeDetectorRef,) {
 
   }
 
@@ -89,7 +90,19 @@ export class AutoSuggetionInSideComponent implements OnInit {
     if (key == 'arrowdown') {
       if (this.activeSuggestion < this.suggestions.length - 1) this.activeSuggestion++;
       else if (this.activeSuggestion > this.suggestions.length - 1) this.activeSuggestion = 0;
-      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 4.5 - (this.activeSuggestion > 11 ? (this.activeSuggestion - 13) * 0.5 : 0));
+      // document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 4.5 - (this.activeSuggestion > 11 ? (this.activeSuggestion - 13) * 0.5 : 0));
+      let length = 0;
+      for (let i = 0; i < this.activeSuggestion; i++) {
+        let str = this.suggestions[i][this.display];
+        console.log('str', str);
+        let width = this.getTextWidth(str, "10px Poppins");
+        console.log('Width:', width);
+        let lines = Math.ceil(width/196);
+        length += lines * 2;
+      }
+      console.log('length:', length);
+      document.getElementById('TJR-auto-suggestion-container').scroll(0, length);
+
       event.preventDefault();
     } else if (key == 'arrowup') {
       if (this.activeSuggestion != 0) this.activeSuggestion--;
@@ -112,12 +125,20 @@ export class AutoSuggetionInSideComponent implements OnInit {
           } else {
             this.selectSuggestion(suggestion[0]);
           }
-       }
+        }
 
 
 
       }
     }
+  }
+
+  getTextWidth(text, font) {
+    this.canvas = this.canvas || (this.canvas = document.createElement("canvas"));
+    let context = this.canvas.getContext("2d");
+    context.font = font;
+    var metrics = context.measureText(text);
+    return metrics.width;
   }
 
 

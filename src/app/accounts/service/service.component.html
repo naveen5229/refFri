@@ -212,11 +212,11 @@
                 <label class="ref-label">Party Ledger</label>
                 <input type="text" autocomplete="off" class="form-control ref-input" id="ledger" name="ledger"
                   [(ngModel)]="order.ledger.name" placeholder="Please Enter Party Name" require>
-                <span *ngIf="(ledgerbalance)"><i>Cur Bal: </i>{{ ledgerbalance }}</span>
+                <span *ngIf="(ledgerbalance)" class="curbal"><i>Cur Bal: </i>{{ ledgerbalance }}</span>
               &nbsp;&nbsp;
-              <a *ngIf="otherinfoflag==0" href="javascript:void(0)" outline (click)="OtherInfo()" id="OtherInfo" style="cursor: pointer;float: right;">Other
+              <a *ngIf="otherinfoflag==0" class="curbal" href="javascript:void(0)" outline (click)="OtherInfo()" id="OtherInfo" style="cursor: pointer;float: right;">Other
                 Info </a>
-                <a *ngIf="otherinfoflag==1"  href="javascript:void(0)" class="advncolor" outline (click)="OtherInfo()" id="OtherInfo" style="cursor: pointer;margin-left: 255;">Other Info </a>
+                <a *ngIf="otherinfoflag==1" class="curbal" href="javascript:void(0)" class="advncolor" outline (click)="OtherInfo()" id="OtherInfo" style="cursor: pointer;float: right;">Other Info </a>
               </div>
             </div>
             <!-- <div class="col" *ngIf="otherinfoflag==0" style="margin-top: 18px;">
@@ -287,8 +287,8 @@
               name="'stockitem-' + i" [(ngModel)]="amountDetail.stockitem.name" placeholder="Please Select Stock Item"
               required>
             <span
-              *ngIf="((order.ordertype.name.toLowerCase().includes('sales')) && (order.amountDetails[i].warehouse.id)) ">(<i>Available
-                Qty is </i>{{ this.totalitem }})</span>
+              *ngIf="((order.ordertype.name.toLowerCase().includes('sales')) && (order.amountDetails[i].warehouse.id)) "><i>Available
+                Qty is </i>{{ this.totalitem[i] }}</span>
             <!-- <auto-suggestion
                   (onSelected)="amountDetail.stockitem = $event.id;amountDetail.stockunit.id = $event.stockunit_id; amountDetail.stockunit.name = $event.stockname"
                   url="Suggestion/GetStockItem" display="name" [inputId]="'stockitem-' + i" placeholder="Enter Stock Item"
@@ -360,15 +360,18 @@
       <div class="col-6">
       </div>
       <div class="col-2 totalamount">
-        <input type="number"  class="form-control ref-input" autocomplete="off" name="account-totalamount"
-          [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;">
+        <label class="ref-label">{{calculateTotal()}}</label>  
+
+        <!-- <input type="number"  class="form-control ref-input" autocomplete="off" name="account-totalamount"
+          [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;"> -->
       
       </div>
       <div class="col-2 totalamount">
+        <label class="ref-label">{{calculateTotalLineAmount()}}</label>  
         <!-- <input type="number"  class="form-control ref-input" autocomplete="off" name="account-totalamount"
           [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;"> -->
-          <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
-          [(ngModel)]="order.totalamount" [value]="calculateTotalLineAmount()" readonly style="background-color: #eeeeee;">
+          <!-- <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
+          [(ngModel)]="order.totalamount" [value]="calculateTotalLineAmount()" readonly style="background-color: #eeeeee;"> -->
       </div>
       <div class="col-2 totalamount">
         <button (click)="callgstcode()" class="btn btn-primary" style="font-size:11px!important;padding:4px!important;">Show Gst Detail</button>
@@ -394,7 +397,7 @@
           <td>
             <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxrateother-' + i"
               [id]="'taxrateother-' + i" [(ngModel)]="taxdetail.taxrateother" placeholder="Please Enter Tax Rate"
-              (input)="taxdetail.taxamountother = ((taxdetail.taxrateother * totalamount)/100).toFixed(2)">
+              (input)="taxdetail.taxamountother = ((taxdetail.taxrateother * order.totalamount)/100).toFixed(2)">
           </td>
           <td>
             <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxamountother-' + i"
@@ -413,16 +416,39 @@
     </table>
   </div>
     <div class="row">
-      <div class="col-6">
+      <div class="col-10">
       </div>
-      <div class="col-2">
-        <input type="number" class="form-control totalbeforetaxamount" name="totalamount" id="totalamount"
+      <!-- <div class="col-2">
+        <label>Total Tax Amt:</label>
+        <input type="number" class="form-control totalbeforetaxamount" name="totalamount" id="totalamountdiff"
           [value]="calculateTaxRateTotal()" readonly style="background-color: #eeeeee;">
-      </div>
-      <div class="col-4">
+      </div> -->
+      <div class="col-2">
         <span class="col-2">
-          <input type="number" class="form-control totaltaxamount" name="totalamount" id="totalamount"
-            [value]="calculateTaxTotal()" readonly style="background-color: #eeeeee;">
+          <label class="ref-label">Tax Amount : {{calculateTaxTotal()}}</label>  
+          <!-- <input type="number" class="form-control totaltaxamount" name="totalamount" id="totalamount"
+            [value]="calculateTaxTotal()" [(ngModel)]="totaltaxamt" readonly style="background-color: #eeeeee;"> -->
+        </span>
+        <!-- <span class="col-2">
+      <input type="number" class="form-control totaltaxamountsecond" name="totalamount" id="totalamount"
+              [value]="calculateTaxAmount()" readonly style="background-color: #eeeeee;">
+      </span> -->
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-10">
+      </div>
+      <!-- <div class="col-2">
+        <label>Total Tax Amt:</label>
+        <input type="number" class="form-control totalbeforetaxamount" name="totalamount" id="totalamountdiff"
+          [value]="calculateTaxRateTotal()" readonly style="background-color: #eeeeee;">
+      </div> -->
+      <div class="col-2">
+        <span class="col-2">
+          <label class="ref-label">Total Bill Amount : {{(calculateTaxTotal() + calculateTotalLineAmount()) |number : '1.2-2'}}</label>  
+          <!-- <input type="number" class="form-control totaltaxamount" name="totalamount" id="totalamount"
+            [value]="calculateTaxTotal()" [(ngModel)]="totaltaxamt" readonly style="background-color: #eeeeee;"> -->
         </span>
         <!-- <span class="col-2">
       <input type="number" class="form-control totaltaxamountsecond" name="totalamount" id="totalamount"
@@ -453,7 +479,7 @@
             style="cursor: pointer;">Submit
           </button>
         </div>
-        <div class="col-1 text-right">
+        <div class="col-1 text-right" *ngIf="isModal">
           <button class="btn btn-primary" type="button" outline (click)="activeModal.dismiss()" id="cancel"
             style="cursor: pointer;">Cancel
           </button>
@@ -465,18 +491,20 @@
 <div class="date-modal" *ngIf="showConfirmaddmore">
   <div class="date-modal-body data_model_save">
     <div>
-      <p>Are you want to add more detail then press y otherwise enter to move to tax ledger ?</p>
-      <button (click)="addAmountDetails()">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
-        (click)="modelConditionaddmore()">No</button>
+      <h5><b>Invoice detail</b></h5>
+      <p>Please press A for New Line or enter for move to tax ledger ?</p>
+      <button (click)="addAmountDetails()">Add</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+        (click)="modelConditionaddmore()">Cancel</button>
     </div>
   </div>
 </div>
 <div class="date-modal" *ngIf="showConfirmtaxaddmore">
   <div class="date-modal-body data_model_save">
     <div>
-      <p>Are you want to add Tax detail then press y otherwise save to enter ?</p>
-      <button (click)="addTaxAmountDetails()">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
-        (click)="modelConditionTaxaddmore()">No</button>
+      <h5><b>Tax detail</b></h5>
+      <p>Please press A for New Line or press Enter ?</p>
+      <button (click)="addTaxAmountDetails()">Add</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+        (click)="modelConditionTaxaddmore()">Cancel</button>
     </div>
   </div>
 </div>

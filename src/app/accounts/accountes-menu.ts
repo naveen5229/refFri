@@ -245,7 +245,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
             },
             {
                 title: 'Credit Note',
-                link: '/accounts/orders/-106/Credit Note'
+                link: '/accounts/service/-106/Credit Note'
             },
             {
                 title: 'Wastage',

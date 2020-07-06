@@ -313,9 +313,9 @@ nb-card-header{
       margin-top: -50px;
     }
     .totalbeforetaxamount{
-      margin-left: 160px;
+      margin-left: 156px;
       max-width: 135px;
-
+      margin-top: -24px;
     }
 
     .advncolor{
@@ -335,4 +335,18 @@ nb-card-header{
         top: 6px;
         right:10;
       }
-  
+      .auto-sugg > auto-suggetion-in-side{
+            .TJR-auto-suggestion-container{
+              height: 165px !important;
+              margin-top: -37px !important;
+            }
+      }
+      .curbal{
+        font-size: 9px;
+      }
+      //*[@id="ledger-container"]/div/auto-suggetion-in-side
+    // height: 165px;
+    // overflow: auto;
+    // background-color: #ccc;
+    // padding: 5px;
+    // margin-top: -37px;
