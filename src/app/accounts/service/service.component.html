@@ -288,7 +288,7 @@
               required>
             <span
               *ngIf="((order.ordertype.name.toLowerCase().includes('sales')) && (order.amountDetails[i].warehouse.id)) "><i>Available
-                Qty is </i>{{ this.totalitem[i] }}</span>
+                Qty is </i>{{ totalitem[i] }}</span>
             <!-- <auto-suggestion
                   (onSelected)="amountDetail.stockitem = $event.id;amountDetail.stockunit.id = $event.stockunit_id; amountDetail.stockunit.name = $event.stockname"
                   url="Suggestion/GetStockItem" display="name" [inputId]="'stockitem-' + i" placeholder="Enter Stock Item"

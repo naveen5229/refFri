@@ -26,6 +26,7 @@ import { RecordsComponent } from '../../acounts-modals/records/records.component
 })
 export class OrdersComponent implements OnInit {
   @ViewChild('testInput', { read: ElementRef }) input:ElementRef;
+  lastwarehouseActiveId='';
   showConfirm = false;
   stockitmeflag = true;
   suggestionname = '';
@@ -291,6 +292,11 @@ export class OrdersComponent implements OnInit {
       defaultcheck: false
 
     });
+    let index = parseInt(this.lastwarehouseActiveId.split('-')[1]);
+    console.log('tax detail inex', this.lastwarehouseActiveId, index);
+   // this.showConfirmaddmore = false;
+    this.setFoucus('warehouse-' + (index + 1));
+
   }
 
   getBranchList() {
@@ -439,11 +445,11 @@ export class OrdersComponent implements OnInit {
         amount: this.order.amountDetails[i].amount,
         sizeIndex: 1
       }
-      console.log('param common', this.common.params);
+      console.log('param common', this.common.params,this.lastwarehouseActiveId);
 
       const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
+        // console.log('tax detail Data response: ', data,this.lastwarehouseActiveId);
         if (data.response) {
           console.log('????????', data.taxDetails);
           this.order.amountDetails[i].taxDetails = data.taxDetails;
@@ -451,7 +457,7 @@ export class OrdersComponent implements OnInit {
           console.log('###', this.order.amountDetails[i].amount);
           this.order.amountDetails[i].lineamount = (parseFloat(this.order.amountDetails[i].amount) + parseFloat(data.taxDetails[0].totalamount)).toFixed(2);
           this.totalTaxamount += data.taxDetails[0].totalamount;
-          console.log('###---', this.order.amountDetails[i].lineamount, '-----||', data.taxDetails[0].totalamount);
+          console.log('###---', this.order.amountDetails[i].lineamount, '-----||', data.taxDetails[0].totalamount,this.lastwarehouseActiveId);
           this.setFoucus('plustransparent');
           // this.addLedger(data.ledger);
         }
@@ -577,12 +583,14 @@ export class OrdersComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
-    console.log('-------------:', event);
+    console.log('-------------:', event, document.activeElement.id,this.activeId);
     this.setAutoSuggestion();
     if ((this.order.ordertype.name.toLowerCase().includes('purchase')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     if ((this.order.ordertype.name.toLowerCase().includes('sales')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     console.log('Active event11', event, this.order.ordertype.name, this.activeId, this.suggestions.purchasestockItems);
-
+    if (key == 'f3') {
+      this.callconfirm();
+    }
     if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
@@ -925,7 +933,11 @@ export class OrdersComponent implements OnInit {
           
       //  this.setFoucus('stockitem' + '-' + index);
       } else if (this.activeId.includes('remarks')) {
+        console.log('lastwarehouseActiveId',this.lastwarehouseActiveId,this.activeId);
         let index = parseInt(this.activeId.split('-')[1]);
+        setTimeout(() => {
+        this.lastwarehouseActiveId =this.activeId;
+        }, 50);
         this.setFoucus('taxDetail' + '-' + index);
       } else if (this.activeId.includes('invocelist')) {
         this.setFoucus('custcode');
@@ -1195,7 +1207,7 @@ export class OrdersComponent implements OnInit {
         // this.order.ordertype.name = this.invoiceDetail[0].ordertype_name;
         this.order.custcode = this.invoiceDetail[0].y_cust_code;
         this.order.vendorbidref = this.invoiceDetail[0].y_vendorbidref;
-        this.order.qutationrefrence = this.invoiceDetail[0].y_cust_code;
+        this.order.qutationrefrence = this.invoiceDetail[0].y_vendorquotationref;
         this.order.paymentterms = this.invoiceDetail[0].y_paymentterms;
         this.order.deliveryterms = this.invoiceDetail[0].y_deliveryterms;
         this.order.orderremarks = this.invoiceDetail[0].y_order_remarks;
@@ -1561,7 +1573,7 @@ export class OrdersComponent implements OnInit {
   setAutoSuggestion() {
     console.log('-----------------------:', this.suggestions.stockItems, 'ww:', this.suggestions.warehouses);
     let activeId = document.activeElement.id;
-    console.log('Last Active Id:', activeId)
+   // console.log('Last Active Id:', activeId)
     if (activeId == 'ordertype') this.autoSuggestion.data = this.suggestions.invoiceTypes;
     else if (activeId == 'purchaseledger' || activeId == 'salesledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId == 'ledger'){

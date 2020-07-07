@@ -29,6 +29,7 @@ import { map } from 'd3';
 })
 export class ServiceComponent implements OnInit {
   @ViewChild('testInput', { read: ElementRef }) input: ElementRef;
+  autocode='';
   sizeindex=0;
   totaltaxamt=0;
   warehouseflag=true;
@@ -223,6 +224,10 @@ export class ServiceComponent implements OnInit {
     //   }
     //   this.getStockItems(this.suggestionname);
     // });
+    console.log('new params',this.common.params);
+    if (this.common.params && this.common.params.ordertype){
+      this.order.ordertype.id= this.common.params.ordertype;
+    }
     this.common.refresh = () => {
       this.getInvoiceTypes();
       this.getPurchaseLedgers();
@@ -599,7 +604,8 @@ export class ServiceComponent implements OnInit {
       ismannual: order.ismanual,
       branchid: order.branchid,
       taxdetail: this.taxdetailsother,
-      taxdetailflag: 1
+      taxdetailflag: 1,
+      autocode:this.order.autocode
     };
 
     console.log('params11: ', params);
@@ -625,9 +631,9 @@ export class ServiceComponent implements OnInit {
         }];
         this.setFoucus('ordertype');
        // this.common.showToast('Invoice Are Saved');
-       if(res['data'].code){
+      
         this.common.showToast('Your Invoice Code :' + res['data'].code);
-       }
+       
         if(this.isModal){
           this.common.params='';
           this.activeModal.close({responce:'true', msg: 'true'});
@@ -691,7 +697,7 @@ export class ServiceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data'][0].get_stockitemavailableqty);
-        this.totalitem[index] = res['data'][0].get_stockitemavailableqty;
+        this.totalitem[index] = (res['data'][0].get_stockitemavailableqty).toFixed(2);
         //  console.log('totalitem : -',totalitem);
         return this.totalitem;
       }, err => {
@@ -709,6 +715,9 @@ export class ServiceComponent implements OnInit {
     if ((this.order.ordertype.name.toLowerCase().includes('purchase')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     if ((this.order.ordertype.name.toLowerCase().includes('sales')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     console.log('Active event11', event, this.order.ordertype.name, this.activeId, this.suggestions.purchasestockItems);
+    if (key == 'f3') {
+    this.callconfirm();
+    }
     if (this.showConfirmaddmore && key == 'a') {
       console.log('set command', this.lastActiveId, this.activeId);
       this.showConfirmaddmore = false;
@@ -1390,7 +1399,7 @@ export class ServiceComponent implements OnInit {
         this.order.ordertype.name = this.invoiceDetail[0].ordertype_name;
         this.order.custcode = this.invoiceDetail[0].y_cust_code;
         this.order.vendorbidref = this.invoiceDetail[0].y_vendorbidref;
-        this.order.qutationrefrence = this.invoiceDetail[0].y_cust_code;
+        this.order.qutationrefrence = this.invoiceDetail[0].y_vendorquotationref;
         this.order.paymentterms = this.invoiceDetail[0].y_paymentterms;
         this.order.deliveryterms = this.invoiceDetail[0].y_deliveryterms;
         this.order.orderremarks = this.invoiceDetail[0].y_order_remarks;
