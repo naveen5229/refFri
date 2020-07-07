@@ -12,7 +12,6 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { ConciseComponent } from './concise/concise.component';
 import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
 import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.component';
-import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { TrendsComponent } from './trends/trends.component';
@@ -191,12 +190,7 @@ const routes: Routes = [{
     component: CardMappingComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
-  {
-
-    path: 'ticket-details',
-    component: TicketDetailsComponent,
-    canActivate: [AuthGuard, RouteGuard],
-  },
+ 
   {
 
     path: 'fuel-average-analysis',

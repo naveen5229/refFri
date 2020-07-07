@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TicketDetailsComponent } from '../../modals/ticket-details/ticket-details.component';
 
 @Component({
   selector: 'tickets-kpi',
@@ -10,50 +11,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./tickets-kpi.component.scss']
 })
 export class TicketsKpiComponent implements OnInit {
-kpis = [];
-testData = [{
-  tkt : "vehicle Halt 20 mins",
-  unacklt30mins : 35,
-  unackgt30mins : 36,
-  unclmlt30mins : 37,
-  unclmgt30mins : 38,
-  uncallt1hr : 39,
-  uncalgt1hr : 40,
-  openlt3hr : 20,
-  opengt3hr : 30,
-  cmptin6hr :200
-},
-{
-  tkt : "loading Halt 40 mins",
-  unacklt30mins : 35,
-  unackgt30mins : 36,
-  unclmlt30mins : 37,
-  unclmgt30mins : 38,
-  uncallt1hr : 39,
-  uncalgt1hr : 40,
-  openlt3hr : 20,
-  opengt3hr : 30,
-  cmptin6hr :200
-
-},
-{
-  tkt : "unloading Halt 45 mins",
-  unacklt30mins : 35,
-  unackgt30mins : 36,
-  unclmlt30mins : 37,
-  unclmgt30mins : 38,
-  uncallt1hr : 39,
-  uncalgt1hr : 40,
-  openlt3hr : 20,
-  opengt3hr : 30,
-  cmptin6hr :200
-}]
-  constructor(  public api: ApiService,
+  kpis = [];
+  testData = [];
+  type = 'alertwise'
+  constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-      // this.kpis = this.testData;
-     this.getTicketsKPI();
+    // this.kpis = this.testData;
+    this.getTicketsKPI();
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -65,9 +31,11 @@ testData = [{
     this.getTicketsKPI();
   }
 
-  getTicketsKPI() {
+  getTicketsKPI(type?) {
+    this.kpis = [];
+    type = type ? type : this.type;
     ++this.common.loading;
-    this.api.get('VehicleKpis/getTicketKpis?')
+    this.api.get('VehicleKpis/getTicketKpis?type=' + type)
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
@@ -78,4 +46,23 @@ testData = [{
       });
   }
 
+  openTicketDetails(value, type) {
+    console.log("ticket", value, type);
+    if (value.split('_')[2] != 0) {
+      let ticket = {
+        type: type,
+        rowId: value.split('_')[2],
+        columnId: value.split('_')[1],
+      }
+      this.common.params = { ticketInfo: ticket };
+      const activeModal = this.modalService.open(TicketDetailsComponent, { size: 'lg', container: 'nb-layout' });
+      activeModal.result.then(data => {
+        console.log("data", data);
+        if (data.response)
+          this.refresh();
+      });
+    }else{
+      this.common.showError("There is no data");
+    }
+  }
 }

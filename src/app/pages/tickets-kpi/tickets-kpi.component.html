@@ -3,11 +3,24 @@
     <h5>Tickets KPI</h5>
   </nb-card-header>
   <nb-card-body>
+    <div class="row">
+      <div class="col-sm-9">
+        <ul class="tabs_style">
+          <li [ngClass]="type == 'alertwise' ? 'active' : '' " id="dis-all" (click)=" type = 'alertwise'; getTicketsKPI(type); ">
+            Alert Wise
+          </li>
+          <li [ngClass]="type == 'userwise' ? 'active' : '' " (click)=" type = 'userwise';  getTicketsKPI(type)">
+            User Wise
+          </li>
+        </ul>
+      </div>  
+    </div>
     <table class="table table-bordered table-hover">
       <thead class="thead">
         <tr>
           <th rowspan="2" style="padding-bottom:20px!important;">#</th>
-          <th rowspan="2" style="width:20%;padding-bottom:20px!important;">Ticket types</th>
+          <th rowspan="2" style="width:20%;padding-bottom:20px!important;" *ngIf="type=='alertwise'">Ticket Types</th>
+          <th rowspan="2" style="width:20%;padding-bottom:20px!important;" *ngIf="type=='userwise'">User</th>
           <th colspan="2">UnAcknowledged</th>
           <th colspan="2">UnClaimed</th>
           <th colspan="2">UnCalled</th>
@@ -29,18 +42,21 @@
         <tr *ngFor="let kpi of kpis; let i = index">
           <td>{{i + 1}}</td>
           <td style="width:20%;">{{kpi.tkt}}</td>
-          <td>{{kpi.unacklt30mins }}</td>
-          <td>{{kpi.unackgt30mins}}</td>
-          <td>{{kpi.unclmlt30mins}}</td>
-          <td>{{kpi.unclmgt30mins}}</td>
-          <td>{{kpi.uncallt1hr}}</td>
-          <td>{{kpi.uncalgt1hr}}</td>
-          <td>{{kpi.openlt3hr}}</td>
-          <td>{{kpi.opengt3hr}}</td>
+          <td (click)="openTicketDetails(kpi.unacklt30mins,type)" [class]="(kpi.unacklt30mins).split('_')[0]!=0 ? 'drillDown':''  ">{{(kpi.unacklt30mins).split('_')[0] }}</td>
+          <td (click)="openTicketDetails(kpi.unackgt30mins,type)" [class]="(kpi.unackgt30mins).split('_')[0]!=0 ? 'drillDown':''" >{{(kpi.unackgt30mins).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.unclmlt30mins,type)" [class]="(kpi.unclmlt30mins).split('_')[0]!=0 ? 'drillDown':'' ">{{(kpi.unclmlt30mins).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.unclmgt30mins,type)" [class]="(kpi.unclmgt30mins).split('_')[0]!=0 ? 'drillDown':'' ">{{(kpi.unclmgt30mins).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.uncallt1hr,type)" [class]="(kpi.uncallt1hr).split('_')[0]!=0 ? 'drillDown':'' ">{{(kpi.uncallt1hr).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.uncalgt1hr,type)" [class]="(kpi.uncalgt1hr).split('_')[0]!=0 ? 'drillDown':'' ">{{(kpi.uncalgt1hr).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.openlt3hr,type)" [class]="(kpi.openlt3hr).split('_')[0]!=0 ? 'drillDown':'' ">{{(kpi.openlt3hr).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.opengt3hr,type)" [class]="(kpi.opengt3hr).split('_')[0]!=0
+           ? 'drillDown':'' ">{{(kpi.opengt3hr).split('_')[0]}}</td>
           
         </tr>
       </tbody>
     </table>
+
+    
     <div class="no-data alert alert-danger" role="alert" *ngIf="!kpis.length">
       No Data available !
     </div>
