@@ -320,8 +320,8 @@ console.log('size index',this.sizeIndex);
       total += parseFloat((taxdetail.taxamount).toString());
       //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
 
-      this.taxdetails[0].totalamount=  parseFloat(total.toString());
+      this.taxdetails[0].totalamount=  parseFloat(total.toFixed(2));
     });
-    return  parseFloat(total.toString());
+    return  parseFloat(total.toFixed(2));
   }
 }
