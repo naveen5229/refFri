@@ -30,6 +30,7 @@ export class TicketDetailsComponent implements OnInit {
   type = null;
   rowId = null;
   coulmnId = null;
+  date = null;
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -41,6 +42,7 @@ export class TicketDetailsComponent implements OnInit {
      this.type = this.common.params.ticketInfo.type;
      this.rowId = this.common.params.ticketInfo.rowId;
      this.coulmnId = this.common.params.ticketInfo.columnId;
+     this.date = this.common.params.ticketInfo.date;
      console.log("+++",this.type,this.rowId,this.coulmnId);
     this.getDetails();
 
@@ -71,6 +73,7 @@ export class TicketDetailsComponent implements OnInit {
     let params = "type=" + this.type +
       "&rowId=" + this.rowId +
       "&columnId=" + this.coulmnId;
+      "&date="+this.date
     console.log('params', params);
     ++this.common.loading;
     this.api.get('VehicleKpis/getTicketKpisDrillDown?' + params)

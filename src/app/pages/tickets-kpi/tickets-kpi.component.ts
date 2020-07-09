@@ -54,6 +54,7 @@ export class TicketsKpiComponent implements OnInit {
         type: type,
         rowId: value.split('_')[2],
         columnId: value.split('_')[1],
+        date : this.date
       }
       this.common.params = { ticketInfo: ticket };
       const activeModal = this.modalService.open(TicketDetailsComponent, { size: 'lg', container: 'nb-layout' });
