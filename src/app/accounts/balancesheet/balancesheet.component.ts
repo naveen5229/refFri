@@ -3,8 +3,6 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
-import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-import { DaybookComponent } from '../../acounts-modals/daybook/daybook.component';
 import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 import { ProfitlossComponent } from '../../acounts-modals/profitloss/profitloss.component';
 import * as _ from 'lodash';
@@ -45,7 +43,7 @@ export class BalancesheetComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'sub';
+  viewType = 'main';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -76,12 +74,12 @@ export class BalancesheetComponent implements OnInit {
     this.api.post('Company/GetBalanceData', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        //console.log('Res:', res['data']);
         this.balanceSheetData = res['data'];
         this.formattData();
       }, err => {
         this.common.loading--;
-        console.log('Error: ', err);
+       // console.log('Error: ', err);
         this.common.showError();
       });
 
@@ -92,14 +90,14 @@ export class BalancesheetComponent implements OnInit {
     let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
     let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
     // console.log('y_sub_groupname',)
-    let subFirstGroup = _.groupBy(assetsGroup['0'], 'y_sub_groupname');
-    let subSecondGroup = _.groupBy(assetsGroup['1'], 'y_sub_groupname');
+  //  let subFirstGroup = _.groupBy(assetsGroup['0'], 'y_sub_groupname');
+  //  let subSecondGroup = _.groupBy(assetsGroup['1'], 'y_sub_groupname');
 
-    console.log('A:', assetsGroup);
-    console.log('B:', firstGroup);
-    console.log('C:', secondGroup);
-    console.log('subFirstGroup', subFirstGroup);
-    console.log('subSecondGroup', subSecondGroup);
+    // console.log('A:', assetsGroup);
+    // console.log('B:', firstGroup);
+    // console.log('C:', secondGroup);
+    // console.log('subFirstGroup', subFirstGroup);
+    // console.log('subSecondGroup', subSecondGroup);
     this.liabilities = [];
     for (let key in firstGroup) {
       let total = 0;
@@ -164,7 +162,7 @@ export class BalancesheetComponent implements OnInit {
             total
           });
 
-          console.log(subGroups[key], total);
+        //  console.log(subGroups[key], total);
         });
       }
       delete asset.balanceSheets;
@@ -180,7 +178,7 @@ export class BalancesheetComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
-    console.log('Active event', event);
+   // console.log('Active event', event);
 
     // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
     //   // document.getElementById("voucher-date").focus();
@@ -194,7 +192,7 @@ export class BalancesheetComponent implements OnInit {
     // } else 
     if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
-      console.log('Last Ac: ', this.lastActiveId);
+    //  console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);
       this.setFoucus(this.lastActiveId);
 
@@ -215,7 +213,7 @@ export class BalancesheetComponent implements OnInit {
     }
     else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
-      console.log('active 1', this.activeId);
+     // console.log('active 1', this.activeId);
       if (this.activeId == 'enddate') this.setFoucus('startdate');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
@@ -255,13 +253,13 @@ export class BalancesheetComponent implements OnInit {
     month = month.length == 1 ? '0' + month : month;
     let year = dateArray[2];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-    console.log('Date: ', date + separator + month + separator + year);
+   // console.log('Date: ', date + separator + month + separator + year);
     this.balanceData[datestring] = date + separator + month + separator + year;
   }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
-      console.log('Element: ', element);
+     // console.log('Element: ', element);
       element.focus();
       // this.moveCursor(element, 0, element['value'].length);
       // if (isSetLastActive) this.lastActiveId = id;
@@ -270,7 +268,7 @@ export class BalancesheetComponent implements OnInit {
   }
 
   opendaybookmodel(ledgerId, ledgerName) {
-    console.log('ledger id 00000', ledgerId);
+   // console.log('ledger id 00000', ledgerId);
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,
@@ -287,7 +285,7 @@ export class BalancesheetComponent implements OnInit {
     });
   }
   RowSelected(u: any) {
-    console.log('data of u', u);
+   // console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
   }
 
@@ -297,7 +295,7 @@ export class BalancesheetComponent implements OnInit {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate
     };
-    console.log('start date and date', this.common.params);
+   // console.log('start date and date', this.common.params);
     //  this.common.params = voucherId;
 
     const activeModal = this.modalService.open(ProfitlossComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
@@ -311,7 +309,7 @@ export class BalancesheetComponent implements OnInit {
   }
 
   handleExpandation(event, index, type, section, parentIndex?) {
-    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
+   // console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
     event.stopPropagation();
     if (this.active[type][section].indexOf(section + index + parentIndex) === -1) this.active[type][section].push(section + index + parentIndex)
     else {
@@ -384,7 +382,7 @@ export class BalancesheetComponent implements OnInit {
     mergedArray.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
 
     this.csvService.jsonToExcel(mergedArray);
-    console.log('Merged:', mergedArray);
+   // console.log('Merged:', mergedArray);
   }
 
 }

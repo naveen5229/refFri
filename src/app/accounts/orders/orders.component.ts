@@ -292,10 +292,10 @@ export class OrdersComponent implements OnInit {
       defaultcheck: false
 
     });
-    let index = parseInt(this.lastwarehouseActiveId.split('-')[1]);
-    console.log('tax detail inex', this.lastwarehouseActiveId, index);
+    let newindex = parseInt(this.lastwarehouseActiveId.split('-')[1]);
+    console.log('tax detail inex', this.lastwarehouseActiveId, newindex);
    // this.showConfirmaddmore = false;
-    this.setFoucus('warehouse-' + (index + 1));
+    this.setFoucus('warehouse-' + (newindex + 1));
 
   }
 
@@ -445,7 +445,7 @@ export class OrdersComponent implements OnInit {
         amount: this.order.amountDetails[i].amount,
         sizeIndex: 1
       }
-      console.log('param common', this.common.params,this.lastwarehouseActiveId);
+    //  console.log('param common', this.common.params,this.lastwarehouseActiveId);
 
       const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
       activeModal.result.then(data => {
@@ -936,7 +936,7 @@ export class OrdersComponent implements OnInit {
         console.log('lastwarehouseActiveId',this.lastwarehouseActiveId,this.activeId);
         let index = parseInt(this.activeId.split('-')[1]);
         setTimeout(() => {
-        this.lastwarehouseActiveId =this.activeId;
+        this.lastwarehouseActiveId = 'taxDetail' + '-' + index;
         }, 50);
         this.setFoucus('taxDetail' + '-' + index);
       } else if (this.activeId.includes('invocelist')) {

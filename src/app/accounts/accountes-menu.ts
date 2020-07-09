@@ -177,6 +177,11 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Ledger Register',
                 link: '/accounts/ledgerregidter'
             },
+            {
+                title: 'Accounts Report Config',
+                link: '/accounts/reportconfig'
+            },
+            
 
         ],
     },
