@@ -1,0 +1,139 @@
+button { 
+    padding: 7px 10px !important;
+    border-radius: 5px !important;
+    text-transform: capitalize !important;
+    cursor: pointer;
+    outline: none;
+    box-shadow: none;
+    background-color: black !important;
+    color: white !important;
+}
+
+nb-card-header{
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+.selected {
+    background-color: #576c77
+}
+table tr.highlight {
+    background-color: #FFEE75 !important;
+    color: #000 !important;
+}
+.tjr-label {
+    background: #263238;
+    color: #fff;
+    padding: 3px 8px;
+    margin: 0;
+    border-radius: 3px 3px 0px 0px;
+    font-size: 10px;
+}
+
+.tjr-input {
+    border: 1px solid #263238;
+    border-radius: 0px 2px 2px 2px;
+    padding: 3px 5px;
+    height: auto;
+    font-size: 12px;
+}
+
+.tjr-input:focus {
+    border: 1px solid #263238;
+}
+
+.tjr-button {
+    cursor: pointer;
+    margin-top: 18px;
+    background: #263238 !important;
+    height: auto;
+    border-radius: 3px !important;
+    padding: 3px 8px !important;
+}
+
+// :host ::ng-deep.TJR-auto-suggestion-container {
+//     border: 1px solid #263238 !important;
+//     border-radius: 3px !important;
+//     height: 105px !important;
+//     overflow: hidden !important;
+//     max-height: 105px !important;
+// }
+.auto-sugg{
+    max-height: 128px;
+    min-height: 128px;
+}
+table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+        }
+        th:nth-child(1){
+            width: 50px;
+        }
+        th:nth-child(2){
+            width: 200px;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+            button{
+                padding: 0 !important;
+                font-size: 11px;
+                border-radius: 0px !important;
+                margin: 0px;
+                background-color: transparent;
+                color: #263238;
+                outline: none;
+                box-shadow: none;
+            }
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 180px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 50px;
+            }
+            td:nth-child(2){
+                width: 200px;
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+} 
+
+.pdf-icon{
+    font-size: 30px;
+    color: #9F0001;
+}
+.exel-icon{
+    font-size: 30px;
+    color: #217346;
+}
+
+.inn{
+    max-width: 119px
+}
+.cngval{
+    margin-left: 135px !important;
+    margin-top: -15px !important;
+}

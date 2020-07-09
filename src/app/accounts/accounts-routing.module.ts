@@ -48,6 +48,7 @@ import { CountryComponent } from './country/country.component';
 import { StateComponent } from './state/state.component';
 import { LedgerregidterComponent } from './ledgerregidter/ledgerregidter.component';
 import { ServiceComponent } from './service/service.component';
+import { ReportconfigComponent } from './reportconfig/reportconfig.component';
 
 const routes: Routes = [{
     path: '',
@@ -261,6 +262,11 @@ const routes: Routes = [{
             path: 'service/:id/:name',
             component: ServiceComponent
         }, 
+        {
+            path: 'reportconfig',
+            component: ReportconfigComponent
+        }, 
+        
     ],
 
 }];

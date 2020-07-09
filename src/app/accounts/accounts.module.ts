@@ -50,6 +50,7 @@ import { CountryComponent } from './country/country.component';
 import { StateComponent } from './state/state.component';
 import { LedgerregidterComponent,ledgerRegisterTreeComponent } from './ledgerregidter/ledgerregidter.component';
 import { ServiceComponent } from './service/service.component';
+import { ReportconfigComponent } from './reportconfig/reportconfig.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -111,7 +112,8 @@ const PAGES_COMPONENTS = [
     LedgerregidterComponent,
     ledgerRegisterTreeComponent,
     outStandingTreeComponent,
-    ServiceComponent
+    ServiceComponent,
+    ReportconfigComponent
   ],
   entryComponents:[
     StockitemsComponent,
