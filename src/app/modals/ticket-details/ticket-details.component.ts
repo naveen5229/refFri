@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TicketForwardComponent } from '../ticket-forward/ticket-forward.component';
 import { TicketTrailsComponent } from '../ticket-trails/ticket-trails.component';
+import { ChangeVehicleStatusByCustomerComponent } from '../change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
 
 @Component({
   selector: 'ticket-details',
@@ -124,13 +125,17 @@ export class TicketDetailsComponent implements OnInit {
     for (var i = 0; i < this.tickets.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-console.log("this.headings[j]",this.headings[j]);
         if (this.headings[j] == "Action" || this.headings[j] == "action") {
           this.valobj[this.headings[j]] = {
             value: '', isHTML: true, action: null,
             icons: this.actionIcons(this.tickets[i])
           }      
-        } else {
+        }else if(this.headings[j] == "Trip" || this.headings[j] == "trip"){
+          this.valobj[this.headings[j]] = {
+            value: this.common.getTripStatusHTML(this.tickets[i]._trip_status_type, this.tickets[i]._showtripstart, this.tickets[i]._showtripend, this.tickets[i]._p_placement_type, this.tickets[i]._p_loc_name), isHTML: true, action: null,
+          }
+        }
+         else {
           this.valobj[this.headings[j]] = { value: this.tickets[i][this.headings[j]], class: 'black', action: '' };
         }
       }
@@ -142,10 +147,13 @@ console.log("this.headings[j]",this.headings[j]);
   }
 
   actionIcons(ticket) {
-    let icons = [
-      { class: 'fa fa-share', action: this.forwardTicket.bind(this, ticket) },
-      { class: 'fa fa-list-alt', action: this.trailList.bind(this, ticket) },
-    ];
+    let icons = [];
+    if(ticket['Action'].is_forward)
+    icons.push({ class: 'fa fa-share icon', title : "Forward", action: this.forwardTicket.bind(this, ticket) })
+    if(ticket['Action'].is_trail)
+    icons.push({ class: 'fa fa-list-alt icon', title : "Trail", action: this.trailList.bind(this, ticket)  })
+    if(ticket['Action'].is_vsc)
+    icons.push({class: 'fa fa-chart-pie icon', title : "VSC", action: this.openChangeStatusCustomerModal.bind(this, ticket) } )
    
     return icons;
   }
@@ -153,7 +161,6 @@ console.log("this.headings[j]",this.headings[j]);
     ++this.common.loading;
     this.api.get('FoTickets/getTrailLists?ticket_id=' + ticketInfo._ticket_id)
       .subscribe(res => {
-        console.log(res);
         --this.common.loading;
         let trailList = res['data'];
         let type = 'trail';
@@ -181,6 +188,29 @@ console.log("this.headings[j]",this.headings[j]);
       if (data.response) {
         this.getDetails();
       }
+    });
+  }
+
+  
+  openChangeStatusCustomerModal(vs) {
+    let VehicleStatusData = {
+      vehicle_id: vs._vid,
+      latch_time: vs.latch_time,
+      toTime: vs.ttime,
+      suggest: 0,
+      status: 1,
+      fo_name: vs.group_name,
+      regno: vs.vehicle_name,
+      tripName: this.common.getTripStatusHTML(vs._trip_status_type, vs._showtripstart, vs._showtripend, vs._p_placement_type, vs._p_loc_name)
+    }
+    console.log("VehicleStatusData", VehicleStatusData);
+    this.common.params = VehicleStatusData;
+    this.common.ref_page = 'vsc';
+    const activeModal = this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      console.log("data", data.respone);
+      // this.getVehicleStatusAlerts();
+      // this.exitTicket(vs);
     });
   }
   }

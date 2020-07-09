@@ -35,6 +35,7 @@ export class ImageViewComponent implements OnInit {
       this.viewImage();
     }
     else {
+      console.log("image", this.common.params.images)
       this.common.params.images.map(image => {
         if (image.name) {
           if (image.image)

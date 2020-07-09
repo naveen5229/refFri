@@ -14,6 +14,7 @@ export class TicketsKpiComponent implements OnInit {
   kpis = [];
   testData = [];
   type = 'alertwise'
+  date = new Date();
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -35,7 +36,7 @@ export class TicketsKpiComponent implements OnInit {
     this.kpis = [];
     type = type ? type : this.type;
     ++this.common.loading;
-    this.api.get('VehicleKpis/getTicketKpis?type=' + type)
+    this.api.get('VehicleKpis/getTicketKpis?type=' + type+"&fromDate="+this.common.dateFormatter(this.date,"YYYYMMDD", false))
       .subscribe(res => {
         --this.common.loading;
         console.log(res);

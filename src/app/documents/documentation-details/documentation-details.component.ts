@@ -155,10 +155,10 @@ export class DocumentationDetailsComponent implements OnInit {
       image: doc.img_url3
     },
     ];
-    if (this.checkForPdf(images[0].image)) {
-      window.open(images[0].image);
-      return;
-    }
+    // if (this.checkForPdf(images[0].image)) {
+    //   window.open(images[0].image);
+    //   return;
+    // }
     this.common.params = { images, title: 'Image' };
     this.common.handleModalSize('class', 'modal-lg', '1024');
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -224,6 +224,7 @@ export class DocumentationDetailsComponent implements OnInit {
     }];
 
     this.common.params = { documentData, title: 'Update Document', vehicleId: doc.vehicle_id, };
+    console.log("this.common.params",this.common.params);
     this.common.handleModalSize('class', 'modal-lg', '1200');
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
