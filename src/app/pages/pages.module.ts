@@ -94,6 +94,7 @@ import { FuelDailyConsumptionComponent } from './fuel-daily-consumption/fuel-dai
 import { VehicleStatusChangeByUserComponent } from './vehicle-status-change-by-user/vehicle-status-change-by-user.component';
 import { TripissuesComponent } from './tripissues/tripissues.component';
 import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
+import { SupervisorUserAssociationComponent } from './supervisor-user-association/supervisor-user-association.component';
 
 
 
@@ -189,6 +190,7 @@ const PAGES_COMPONENTS = [
     VehicleStatusChangeByUserComponent,
     TripissuesComponent,
     TicketsKpiComponent,
+    SupervisorUserAssociationComponent,
 
 
   ],

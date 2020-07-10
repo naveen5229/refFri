@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
   selector: 'update-location',
@@ -51,8 +52,9 @@ export class UpdateLocationComponent implements OnInit {
       let distance = this.common.distanceFromAToB(this.lat, this.lng, this.location.lat, this.location.lng, "K")
       console.log("distance", distance, this.location.name.split(',')[0].trim().toLowerCase(), this.name.split(',')[0].trim().toLowerCase());
       if (distance > 20 && this.location.name.split(',')[0].trim().toLowerCase() != this.name.split(',')[0].trim().toLowerCase()) {
-        alert("Distance is Greater than 20 Km.Please choose appropriate name");
-        return;
+        this.openConfirm();
+        // alert("Distance is Greater than 20 Km.Please choose appropriate name");
+        // return;
       }
       else {
         this.updateLocation();
@@ -87,5 +89,16 @@ export class UpdateLocationComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       })
+  }
+
+  openConfirm(){
+    this.common.params = {
+      title: 'Alert',
+      description: `Distance is Greater than 20 Km.Please choose appropriate name . Do you still want to updateLocation ?`,
+    }
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      this.updateLocation();
+    });
   }
 }

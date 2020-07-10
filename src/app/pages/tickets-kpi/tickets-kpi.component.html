@@ -74,7 +74,7 @@
       <th> Total Calls</th>
       <th> Driver Call %</th>
       <th> Unrespond Call</th>
-      <th> VSC Count</th>
+      <th> Pending VSC Count</th>
       <th> Last Halt Check Time</th>
       <th>Last Sync Time</th>
     </tr>
@@ -96,7 +96,7 @@
   </tbody>
 </table>
 
-<!-- Driver Call Status  -->
+<!-- Day Wise Status  -->
 <div *ngIf="type == 'daywisereport'" class="row">
   <div class="col-3">
     <uj-date-time-picker (onChanged)="date = $event" [dateTimeValue]="date" [isTime]=false>
@@ -116,7 +116,7 @@
       <th> Driver Call %</th>
       <th> Unrespond Call</th>
       <th> Avg. Response Time</th>
-     
+      <th> Resolved Vsc</th>
     </tr>
   </thead>
   <tbody>
@@ -127,9 +127,8 @@
       <td (click)="openTicketDetails(kpi.totalcalls,type)" [class]="(kpi.totalcalls).split('_')[0]!='0(00:00)' ? 'drillDown':''" >{{(kpi.totalcalls).split('_')[0]}}</td>
       <td (click)="openTicketDetails(kpi.callper,type)" [class]="(kpi.callper).split('_')[0]!='0%' ? 'drillDown':''" >{{(kpi.callper).split('_')[0]}}</td>
       <td (click)="openTicketDetails(kpi.unresponded_call,type)" [class]="(kpi.unresponded_call).split('_')[0]!=0 ? 'drillDown':''" >{{(kpi.unresponded_call).split('_')[0]}}</td>
-      <td (click)="openTicketDetails(kpi.avg_response_time,type)" [class]="(kpi.avg_response_time).split('_')[0]!='00:00' ? 'drillDown':''" >{{(kpi.avg_response_time).split('_')[0]}}</td>
-     
-      
+      <td (click)="openTicketDetails(kpi.avg_response_time,type)" [class]="(kpi.avg_response_time).split('_')[0]=='00:00:00' || (kpi.avg_response_time).split('_')[0]=='-' ? '':'drillDown'" >{{(kpi.avg_response_time).split('_')[0]}}</td>
+      <td (click)="openTicketDetails(kpi.vscrescnt,type)" [class]="(kpi.vscrescnt).split('_')[0]=='00:00:00' || (kpi.avg_response_time).split('_')[0]=='-' ? '':'drillDown'" >{{(kpi.vscrescnt).split('_')[0]}}</td>     
     </tr>
   </tbody>
 </table>

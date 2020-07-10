@@ -48,23 +48,25 @@ export class TicketsKpiComponent implements OnInit {
   }
 
   openTicketDetails(value, type) {
-    console.log("ticket", value, type);
-    if (value.split('_')[2] != 0) {
-      let ticket = {
+    console.log("ticket", value, type,value.split('_')[0]);
+    if (value.split('_')[0] =='0%' || value.split('_')[0] == 0 || value.split('_')[0] == '0' || value.split('_')[0] == '00:00' || value.split('_')[0] == '00:00:00' || value.split('_')[0] == '0(00:00)' || value.split('_')[0] == '-' ) {
+      this.common.showError("There is no data");
+     } 
+     else {
+       let ticket = {
         type: type,
         rowId: value.split('_')[2],
         columnId: value.split('_')[1],
         date : this.date
       }
       this.common.params = { ticketInfo: ticket };
+      console.log("this.common.params.ticketInfo",this.common.params.ticketInfo);
       const activeModal = this.modalService.open(TicketDetailsComponent, { size: 'lg', container: 'nb-layout' });
       activeModal.result.then(data => {
         console.log("data", data);
         if (data.response)
           this.refresh();
       });
-    }else{
-      this.common.showError("There is no data");
     }
   }
 }
