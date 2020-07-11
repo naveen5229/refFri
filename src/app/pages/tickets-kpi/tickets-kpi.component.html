@@ -128,7 +128,7 @@
       <td (click)="openTicketDetails(kpi.callper,type)" [class]="(kpi.callper).split('_')[0]!='0%' ? 'drillDown':''" >{{(kpi.callper).split('_')[0]}}</td>
       <td (click)="openTicketDetails(kpi.unresponded_call,type)" [class]="(kpi.unresponded_call).split('_')[0]!=0 ? 'drillDown':''" >{{(kpi.unresponded_call).split('_')[0]}}</td>
       <td (click)="openTicketDetails(kpi.avg_response_time,type)" [class]="(kpi.avg_response_time).split('_')[0]=='00:00:00' || (kpi.avg_response_time).split('_')[0]=='-' ? '':'drillDown'" >{{(kpi.avg_response_time).split('_')[0]}}</td>
-      <td (click)="openTicketDetails(kpi.vscrescnt,type)" [class]="(kpi.vscrescnt).split('_')[0]=='00:00:00' || (kpi.avg_response_time).split('_')[0]=='-' ? '':'drillDown'" >{{(kpi.vscrescnt).split('_')[0]}}</td>     
+      <td (click)="openTicketDetails(kpi.vscrescnt,type)" [class]="(kpi.vscrescnt).split('_')[0]=='0' || (kpi.vscrescnt).split('_')[0]=='-' ? '':'drillDown'" >{{(kpi.vscrescnt).split('_')[0]}}</td>     
     </tr>
   </tbody>
 </table>
