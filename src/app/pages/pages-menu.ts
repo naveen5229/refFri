@@ -208,6 +208,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/fo-user-role',
       },
       {
+        title: 'Supervisor User Association',
+        icon: 'fas fa-user-cog',
+        link: '/pages/supervisor-user-association',
+      },
+      {
         title: 'Vehicles',
         icon: 'fas fa-info-circle',
         link: '/pages/vehicles',

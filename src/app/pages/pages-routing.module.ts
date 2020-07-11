@@ -95,6 +95,7 @@ import { VehicleStatusChangeComponent } from '../admin/vehicle-status-change/veh
 import { VehicleStatusChangeByUserComponent } from './vehicle-status-change-by-user/vehicle-status-change-by-user.component';
 import { TripissuesComponent } from './tripissues/tripissues.component';
 import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
+import { SupervisorUserAssociationComponent } from './supervisor-user-association/supervisor-user-association.component';
 
 
 const routes: Routes = [{
@@ -537,6 +538,12 @@ const routes: Routes = [{
   {
     path: 'fo-user-role',
     component: FoUserRoleComponent,
+    canActivate: [AuthGuard, RouteGuard],
+    canDeactivate: [DeactivateGuardService]
+  },
+  {
+    path: 'supervisor-user-association',
+    component: SupervisorUserAssociationComponent,
     canActivate: [AuthGuard, RouteGuard],
     canDeactivate: [DeactivateGuardService]
   },
