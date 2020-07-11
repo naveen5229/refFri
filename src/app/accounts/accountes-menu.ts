@@ -54,7 +54,10 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Vehicle Ledger',
                 link: '/accounts/vehicle-ledgers'
             },
-
+            {
+                title: 'Report Configure',
+                link: '/accounts/reportconfig'
+            },
         ],
     },
 
@@ -177,10 +180,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Ledger Register',
                 link: '/accounts/ledgerregidter'
             },
-            {
-                title: 'Accounts Report Config',
-                link: '/accounts/reportconfig'
-            },
+            
             
 
         ],

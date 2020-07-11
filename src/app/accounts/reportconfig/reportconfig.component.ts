@@ -22,7 +22,7 @@ export class ReportconfigComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
    
     this.getRportList();
-    this.common.currentPage = 'Accounts Report Config';
+    this.common.currentPage = 'Report Configure';
     }
 
   ngOnInit() {
