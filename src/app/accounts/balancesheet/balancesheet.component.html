@@ -48,33 +48,15 @@
             <div class="col-8">Liability</div>
             <div class="col-4 text-right">Amount</div>
           </div>
-          <div *ngFor="let liability of liabilities;  let i = index;"
-            (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0)">
-            <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+          <div *ngFor="let liability of assets;  let i = index;"
+            (click)="activeTreeasset = activeTreeasset !== i ? i : -1">
+            <div *ngIf="(assets.length -1 > i)" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
               <div class="col-8">{{liability.name}}</div>
               <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
             </div>
-
-            <div *ngFor="let subGroup of liability.subGroups; let k = index;"
-              [hidden]="active.liabilities.mainGroup.indexOf('mainGroup' + i + 0) == -1"
-              (click)="handleExpandation($event, i, 'liabilities', 'subGroup', k)">
-              <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
-                <div class="col-8">{{subGroup.name}}</div>
-                <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
-              </div>
-
-              <div *ngFor="let balanceSheet of subGroup.balanceSheets; let j = index"
-                (click)="selectedRow =  'A' + i  + k + j; $event.stopPropagation(); " class="tb-mini row m-0 pl-0 pr-0"
-                [hidden]="active.liabilities.subGroup.indexOf('subGroup' + i + k) == -1"
-                (dblclick)="(balanceSheet.y_ledgerid) ? opendaybookmodel(balanceSheet.y_ledgerid,balanceSheet.y_ledger_name) : ' ' "
-                [ngClass]="{'highlight' : selectedRow == 'A' + i + k + j }" style="background: #dadfe6;">
-                <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
-                <div style="text-align: left;" class="col-4 text-right">
-                  <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
-                </div>
-              </div>
-
-            </div>
+            <balance-sheet-tree *ngIf="(assets.length -1 > i)" [action]="opendaybookmodel.bind(this)" [data]="liability.data"
+              [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || isExpand  ? true : false" labels="">
+            </balance-sheet-tree>
           </div>
         </div>
         <div class="col-6 p-0">
@@ -82,52 +64,34 @@
             <div class="col-8">Asset</div>
             <div class="col-4 text-right">Amount</div>
           </div>
-          <div *ngFor="let liability of assets;  let i = index;"
-            (click)="handleExpandation($event, i, 'asset', 'mainGroup', 0)">
-            <div style="background: #184154;" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}"
+          <div *ngFor="let liability of liabilities;  let j = index;" (click)="activeTree = activeTree !== j ? j : -1">
+            <div style="background: #184154;" [ngStyle]="{'display':  j == liabilities.length -1 ? 'none' : ''}"
               class="th-mini row m-0 pl-0 pr-0">
               <div class="col-8">{{liability.name}}</div>
               <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
             </div>
-
-            <div *ngFor="let subGroup of liability.subGroups; let k = index"
-              [hidden]="active.asset.mainGroup.indexOf('mainGroup' + i + 0) == -1"
-              (click)="handleExpandation($event, i, 'asset', 'subGroup', k)">
-              <div class="th-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
-                <div class="col-8">{{subGroup.name}}</div>
-                <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
-              </div>
-
-              <div *ngFor="let balanceSheet of subGroup.balanceSheets; let j = index"
-                (click)="$event.stopPropagation(); selectedRow =  'B' + i + k + j" class="tb-mini row m-0 pl-0 pr-0"
-                [hidden]="active.asset.subGroup.indexOf('subGroup' + i + k) == -1"
-                (dblclick)="(balanceSheet.y_ledgerid) ? opendaybookmodel(balanceSheet.y_ledgerid,balanceSheet.y_ledger_name) : ' ' "
-                [ngClass]="{'highlight' : selectedRow == 'B' + i + k + j }" style="background: #dadfe6;">
-                <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
-                <div style="text-align: left;" class="col-4 text-right">
-                  <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
-                </div>
-              </div>
-            </div>
+            <balance-sheet-tree [action]="opendaybookmodel.bind(this)" [data]="liability.data"
+              [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || isExpand  ? true : false" labels="">
+            </balance-sheet-tree>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-6 pr-0">
           <div *ngIf="liabilities.length" class="tanding_total clearfix">
-            <div class="total_name">{{liabilities[liabilities.length - 1].name}}</div>
+            <div class="total_name">{{liabilities[liabilities.length-1].name}}</div>
             <div class="total_amount" style="text-align: right;">
               <p style="margin: 0px; width: 100px; text-align: right;">
-                {{liabilities[liabilities.length - 1].amount | number : '1.2-2'}}</p>
+                {{liabilities[liabilities.length-1].amount | number : '1.2-2'}}</p>
             </div>
           </div>
         </div>
         <div class="col-6 pl-0">
           <div class="tanding_total clearfix" *ngIf="assets.length">
-            <div class="total_name">{{assets[assets.length - 1].name}}</div>
+            <div class="total_name">{{assets[assets.length-1].name}}</div>
             <div class="total_amount" style="text-align: right;">
               <p style="margin: 0px; width: 100px; text-align: right;">
-                {{assets[assets.length - 1].amount | number : '1.2-2'}}</p>
+                {{assets[assets.length-1].amount | number : '1.2-2'}}</p>
             </div>
           </div>
         </div>

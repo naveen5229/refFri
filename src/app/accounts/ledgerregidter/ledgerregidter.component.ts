@@ -425,7 +425,7 @@ export class LedgerregidterComponent implements OnInit {
     } else {
       let info = [];
       let groups = _.groupBy(data, 'y_ledger_name');
-      console.log('Groups:', groups);
+     // console.log('Groups:', groups);
       for (let group in groups) {
         if (groups[group].length > 1) {
           let details = {

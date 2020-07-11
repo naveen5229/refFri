@@ -20,7 +20,7 @@ import { LedgermappingComponent } from './ledgermapping/ledgermapping.component'
 import { InvoiceregisterComponent } from './invoiceregister/invoiceregister.component';
 import { TripVoucherExpenseComponent } from './trip-voucher-expense/trip-voucher-expense.component';
 import { OutstandingComponent,outStandingTreeComponent } from './outstanding/outstanding.component';
-import { BalancesheetComponent } from './balancesheet/balancesheet.component';
+import { BalancesheetComponent,BalanceSheetTreeComponent } from './balancesheet/balancesheet.component';
 import { ProfitlossComponent } from './profitloss/profitloss.component';
 import { StockavailableComponent } from './stockavailable/stockavailable.component';
 import { WareHouseComponent } from './ware-house/ware-house.component';
@@ -113,7 +113,8 @@ const PAGES_COMPONENTS = [
     ledgerRegisterTreeComponent,
     outStandingTreeComponent,
     ServiceComponent,
-    ReportconfigComponent
+    ReportconfigComponent,
+    BalanceSheetTreeComponent
   ],
   entryComponents:[
     StockitemsComponent,
