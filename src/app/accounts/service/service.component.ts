@@ -186,7 +186,6 @@ export class ServiceComponent implements OnInit {
    // this.order.ordertype.id = -109;
    // this.order.ordertype.name = 'Service Sales Invoice';
     this.suggestionname = 'Service';
-    this.getStockItems('sales');
     this.getTaxLedgers();
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
@@ -228,6 +227,12 @@ export class ServiceComponent implements OnInit {
     if (this.common.params && this.common.params.ordertype){
       this.order.ordertype.id= this.common.params.ordertype;
     }
+    if (this.order.ordertype.id == -102 || this.order.ordertype.id == -107 || this.order.ordertype.id == -105){
+      this.getStockItems('purchase');
+    }else if (this.order.ordertype.id == -104 || this.order.ordertype.id == -106){
+      this.getStockItems('sales');
+    }
+
     this.common.refresh = () => {
       this.getInvoiceTypes();
       this.getPurchaseLedgers();
@@ -629,7 +634,6 @@ export class ServiceComponent implements OnInit {
           totalamountother: 0
 
         }];
-        this.setFoucus('ordertype');
        // this.common.showToast('Invoice Are Saved');
       
         this.common.showToast('Your Invoice Code :' + res['data'].code);
@@ -638,6 +642,8 @@ export class ServiceComponent implements OnInit {
           this.common.params='';
           this.activeModal.close({responce:'true', msg: 'true'});
         }
+        this.setFoucus('custcode');
+
         return;
 
       }, err => {
@@ -912,11 +918,7 @@ export class ServiceComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-            if (this.order.ordertype.id == -104 || this.order.ordertype.id == -106) {
               this.setFoucus('salesledger');
-            } else {
-              this.setFoucus('podate');
-            }
           }
         }
       } else if (this.activeId.includes('purchaseledger') || this.activeId.includes('salesledger')) {

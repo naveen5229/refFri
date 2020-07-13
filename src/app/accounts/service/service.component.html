@@ -2,7 +2,7 @@
   <!-- <nb-card-header>
     <h4>Invoice</h4>
   </nb-card-header> -->
-  <nb-card-body>
+  <nb-card-body>  
     <div class="row" *ngIf="isModal" style="height:40px;background-color:black;margin:0!important">
       <h4 style="color:white;padding:6px">{{currentPage}}</h4>
       <i class="fa fa-times close"  (click)="activeModal.dismiss()"></i>
@@ -32,7 +32,55 @@
         <!-- Purchase Start -->
         <div
           *ngIf="order.ordertype.name.toLowerCase().includes('purchase') || order.ordertype.name.toLowerCase().includes('debit note') || order.ordertype.name.toLowerCase().includes('wastage') ">
-          <div class="row">
+          <div class="row" style="margin-left:0!important">
+            <div class="col-6 pl-0">
+              <div class="form-group p1-0">
+                <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">PI
+                  No.</label>
+                <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('debit note')">Debit Note
+                  No.</label>
+                <input type="text" autocomplete="off" class="form-control ref-input" name="account-custcode"
+                  id="custcode" [(ngModel)]="order.custcode" placeholder="Please Enter Invoice No.">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                  <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">PI Date</label>
+                  <label class="ref-label"*ngIf="order.ordertype.name.toLowerCase().includes('debit')">Debit Date</label>
+                  <label class="ref-label"*ngIf="order.ordertype.name.toLowerCase().includes('wastage')">wastage Date</label>
+
+                <input type="text" style="cursor: pointer;" class="form-control ref-input" autocomplete="off" id="date"
+                  name="account-date" [(ngModel)]="order.date" maxlength="10"
+                  (click)="lastActiveId = 'account-date'; allowBackspace = false;" (input)="allowBackspace = false;">
+
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-left:0!important;">
+            <div class="col-6 pl-0">
+              <div class="form-group">
+                <label class="ref-label">Purchase Ledger</label>
+                <input type="text" autocomplete="off" class="form-control ref-input" id="salesledger"
+                  name="purchaseledger" [(ngModel)]="order.purchaseledger.name"
+                  placeholder="Please Select Purchase Ledger"
+                  (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label class="ref-label">Supplier Ledger</label>
+                <input type="text" autocomplete="off" class="form-control ref-input" id="ledger" name="ledger"
+                  [(ngModel)]="order.ledger.name" placeholder="Please Enter Party Name" require>
+                <span *ngIf="(ledgerbalance)" class="curbal"><i>Cur Bal: </i>{{ ledgerbalance }}</span>
+              &nbsp;&nbsp;
+              <a *ngIf="otherinfoflag==0" class="curbal" href="javascript:void(0)" outline (click)="OtherInfo()" id="OtherInfo" style="cursor: pointer;float: right;">Other
+                Info </a>
+                <a *ngIf="otherinfoflag==1" class="curbal" href="javascript:void(0)" class="advncolor" outline (click)="OtherInfo()" id="OtherInfo" style="cursor: pointer;float: right;">Other Info </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="row">
             <div class="col">
               <div class="form-group">
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">PI No.</label>
@@ -89,9 +137,9 @@
                 <label class="ref-label">Supplier Ledger</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" id="ledger" name="ledger"
                   [(ngModel)]="order.ledger.name" placeholder="Please Select Supplier Ledger" require>
-                <!-- <auto-suggestion (onSelected)="onSelectedaddress($event, 'ledger', 'name')"
+                <auto-suggestion (onSelected)="onSelectedaddress($event, 'ledger', 'name')"
                   url="Suggestion/GetPurchaseLedger" display="name" placeholder="Enter Ledger" inputId="ledger"
-                  [data]="supplier" [preSelected]="null"></auto-suggestion> -->
+                  [data]="supplier" [preSelected]="null"></auto-suggestion>
                 <span *ngIf="(ledgerbalance)"><i>Cur Bal: </i>{{ ledgerbalance }}</span>
               </div>
             </div>
@@ -166,7 +214,7 @@
                   [(ngModel)]="order.orderremarks" placeholder="Invoice Remarks"></textarea>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <!-- Purchase End -->
 

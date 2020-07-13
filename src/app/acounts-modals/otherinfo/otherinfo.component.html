@@ -13,8 +13,9 @@
    <div class="row">
     <div class="col" >
       <div class="form-group">
-        <label class="ref-label" *ngIf="ordertypeid == -104" >Ref Date</label>
+        <label class="ref-label" *ngIf="ordertypeid == -104 || ordertypeid == -107" >Ref Date</label>
         <label class="ref-label" *ngIf="ordertypeid == -106" >Order Date</label>
+        <label class="ref-label" *ngIf="ordertypeid == -102" >Po Date</label>
         <input type="text" autocomplete="off" style="cursor: pointer;" class="form-control ref-input"
           autocomplete="off" id="podate" name="po-date" [(ngModel)]="service.podate" maxlength="10"
           (click)="lastActiveId = 'po-date'; allowBackspace = false;" (input)="allowBackspace = false;">
@@ -23,8 +24,8 @@
     </div>
     <div class="col">
       <div class="form-group">
-        <label class="ref-label" *ngIf="ordertypeid == -104">Ref.No.</label>
-        <label class="ref-label" *ngIf="ordertypeid == -106">Order No</label>
+        <label class="ref-label">Ref.No.</label>
+        
         <input autocomplete="off" type="text" class="form-control ref-input" name="account-qutationrefrence"
           id="qutationrefrence" [(ngModel)]="service.qutationrefrence" placeholder="Ref.No.">
       </div>
@@ -40,14 +41,16 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="ref-label">Eway Bill No.</label>
+            <label class="ref-label" *ngIf="ordertypeid == -102 || ordertypeid == -107">Bilty Number</label>
+            <label class="ref-label" *ngIf="ordertypeid == -106 || ordertypeid == -104">Eway Bill No.</label>
             <input type="text" autocomplete="off" class="form-control ref-input" id="biltynumber" name="account-biltynumber"
-              [(ngModel)]="service.biltynumber" placeholder="Eway Bill Number">
+              [(ngModel)]="service.biltynumber">
           </div>
         </div>
             <div class="col">
               <div class="form-group">
-                <label class="ref-label">Eway Bill Date</label>
+                <label class="ref-label" *ngIf="ordertypeid == -102 || ordertypeid == -107">Bilty Date</label>
+            <label class="ref-label" *ngIf="ordertypeid == -106 || ordertypeid == -104">Eway Bill Date</label>
                 <input type="text" style="cursor: pointer;" class="form-control ref-input" autocomplete="off" id="biltydate"
                   name="account-biltydate" [(ngModel)]="service.biltydate" maxlength="10"
                   (click)="lastActiveId = 'account-biltydate'; allowBackspace = false;"
@@ -63,20 +66,44 @@
               </div>
             </div>
       </div>
+      <div class="row"  *ngIf="ordertypeid == -102 || ordertypeid == -107">
+        <div class="col">
+          <div class="form-group">
+            <label class="ref-label">Supplier Ref.No</label>
+            <input autocomplete="off" type="text" class="form-control ref-input" name="account-vendorbidref"
+              id="vendorbidref" [(ngModel)]="service.vendorbidref" placeholder="Supplier Reference No.">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="ref-label">Shipment Location</label>
+            <input autocomplete="off" type="text" class="form-control ref-input"name="account-shipmentlocation"
+              id="shipmentlocation" [(ngModel)]="service.shipmentlocation" placeholder="Shipment Location">
+          </div>
+        </div>
+      </div>
       <div class="row">
             <div class="col">
               <div class="form-group">
-                  <label class="ref-label">Party Billing Address</label>
+                <label class="ref-label" *ngIf="ordertypeid == -102 || ordertypeid == -107">Vender Billing Address</label>
+            <label class="ref-label" *ngIf="ordertypeid == -106 || ordertypeid == -104">Party Billing Address</label>
                 <textarea class="form-control ref-input" autocomplete="off" name="account-billingaddress" id="billingaddress"
-                  [(ngModel)]="service.billingaddress" row="6" placeholder="Party Billing Address"></textarea>
+                  [(ngModel)]="service.billingaddress" row="6" ></textarea>
               </div>
             </div>
-            <div class="col">
+            <div class="col" *ngIf="ordertypeid == -106 || ordertypeid == -104">
               <div class="form-group">
                 <label class="ref-label" *ngIf="ordertypeid == -104">Address Location</label>
                 <label class="ref-label" *ngIf="ordertypeid == -106">Shipment Location</label>
                 <textarea autocomplete="off" class="form-control ref-input" id="shipmentlocation"name="account-shipmentlocation"
                   [(ngModel)]="service.shipmentlocation" row="6"></textarea>
+              </div>
+            </div>
+            <div class="col" *ngIf="ordertypeid == -102 || ordertypeid == -107">
+              <div class="form-group">
+                  <label class="ref-label">Remarks</label>
+                <textarea class="form-control ref-input" name="account-orderremarks" id="orderremarks"[(ngModel)]="service.orderremarks"
+                  placeholder="Invoice Remarks"></textarea>
               </div>
             </div>
             <!-- <div class="col" *ngIf="ordertypeid == -106">

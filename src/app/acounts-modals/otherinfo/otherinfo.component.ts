@@ -54,6 +54,7 @@ export class OtherinfoComponent implements OnInit {
         this.service.paymentterms = this.common.params.paymentterms,
         this.service.orderremarks = this.common.params.orderremarks,
         this.service.shipmentlocation = this.common.params.shipmentlocation,
+        this.service.orderremarks = this.common.params.orderremarks,
         this.ordertypeid = this.common.params.ordertypeid,
         this.sizeindex = this.common.params.sizeindex;
     }
@@ -91,11 +92,23 @@ export class OtherinfoComponent implements OnInit {
       //  this.handleOrderDateOnEnter();
       this.setFoucus('biltydate');
     } else if (this.activeId.includes('deliveryterms')) {
+      if(this.ordertypeid == -104 || this.ordertypeid == -106){
       this.setFoucus('billingaddress');
+      }else if(this.ordertypeid == -102 || this.ordertypeid == -107){
+      this.setFoucus('vendorbidref');
+      }
     } else if (this.activeId.includes('billingaddress')) {
+      if(this.ordertypeid == -104 || this.ordertypeid == -106){
       this.setFoucus('shipmentlocation');
+      }else if(this.ordertypeid == -102 || this.ordertypeid == -107){
+      this.setFoucus('orderremarks');
+      }
     } else if (this.activeId.includes('shipmentlocation')) {
+      if(this.ordertypeid == -102 || this.ordertypeid == -107){
+      this.setFoucus('billingaddress');
+      }else if(this.ordertypeid == -104 || this.ordertypeid == -106){
       this.setFoucus('submitother');
+      }
     }
     else if (this.activeId.includes('orderremarks')) {
       this.setFoucus('submitother');
