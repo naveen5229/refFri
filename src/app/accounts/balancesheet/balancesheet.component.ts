@@ -60,7 +60,7 @@ export class BalanceSheetTreeComponent {
   doubleClickHandler(event,data) {
     event.stopPropagation();
   //  console.log('data suggestion',data);
-    this.action(data.ledgerdata.y_ledgerid,data.ledgerdata.y_ledger_name);
+    this.action(data);
 
   }
 
@@ -473,14 +473,15 @@ export class BalancesheetComponent implements OnInit {
     }, 100);
   }
 
-  opendaybookmodel(ledgerId, ledgerName) {
-    // console.log('ledger id 00000', ledgerId);
+  opendaybookmodel(data) {
+    
+     console.log('ledger id 00000', data.ledgerdata[0]);
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,
-      ledger: ledgerId,
+      ledger: data.ledgerdata[0].y_ledgerid,
       vouchertype: 0,
-      ledgername: ledgerName
+      ledgername: data.ledgerdata[0].y_ledger_name
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
