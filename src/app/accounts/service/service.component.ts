@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { UserService } from '../../@core/data/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
@@ -641,9 +640,9 @@ export class ServiceComponent implements OnInit {
         if(this.isModal){
           this.common.params='';
           this.activeModal.close({responce:'true', msg: 'true'});
-        }
+        }else{
         this.setFoucus('custcode');
-
+        }
         return;
 
       }, err => {

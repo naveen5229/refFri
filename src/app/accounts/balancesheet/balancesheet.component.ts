@@ -15,14 +15,15 @@ import { AccountService } from '../../services/account.service';
   template: `
   <div *ngIf="active">
     <div *ngFor="let d of data let i = index">
-      <div style="cursor:pointer"  *ngIf="d.name && d.data.length"  class="tb-mini row m-0 pl-0 pr-0" (click)="clickHandler($event, i)" [style.background]="colors[color]">
+      <div style="cursor:pointer"  *ngIf="d.name"  class="tb-mini row m-0 pl-0 pr-0" (click)="clickHandler($event, i)" [style.background]="colors[color]">
           <div class="col-8" *ngIf="d.name">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
           <div  class="col-4 text-right" *ngIf="d.name" style="text-align:right;"> {{d.amount | number : '1.2-2'}} </div>
  
       </div>
       <balance-sheet-tree *ngIf="d.name" [color]="color+1" style="cursor:pointer" [action]="action" [data]="d.data" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></balance-sheet-tree>
-      <div *ngIf="!d.name || !d.data.length"  class="tb-mini row m-0 pl-0 pr-0" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name,d) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name,d) : action(d.y_voucherid,'',d.y_voucher_type_name,d)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
-        <div class="col-8">{{!d.data.length ? d.name : d.y_ledger_name}}</div>
+      <div *ngIf="!d.name"  class="tb-mini row m-0 pl-0 pr-0" (dblclick)="doubleClickHandler($event,d)" 
+      (click)="lastClickHandler($event,i)" [ngClass]="{'highlight' : selectedRow == i }">
+        <div class="col-8">{{d.ledgerName}}</div>
         <div  class="col-4 text-right" style="text-align:right;">{{d.amount | number : '1.2-2'}}</div>
       </div>
     </div>
@@ -54,6 +55,18 @@ export class BalanceSheetTreeComponent {
   clickHandler(event, index) {
     event.stopPropagation();
     this.activeIndex = this.activeIndex !== index ? index : -1
+  }
+
+  doubleClickHandler(event,data) {
+    event.stopPropagation();
+  //  console.log('data suggestion',data);
+    this.action(data.ledgerdata.y_ledgerid,data.ledgerdata.y_ledger_name);
+
+  }
+
+  lastClickHandler(event, index) {
+    event.stopPropagation();
+    this.selectedRow = index;
   }
 
   keyHandler(event) {
@@ -194,7 +207,7 @@ export class BalancesheetComponent implements OnInit {
       let labels = [];
       if (ledgerRegister.y_path)
         labels = ledgerRegister.y_path.split('-->');
-      
+
       ledgerRegister.labels = labels.splice(1, labels.length);
       let index = this.liabilities.findIndex(voucher => voucher.name === labels[0]);
       if (index === -1) {
@@ -235,6 +248,7 @@ export class BalancesheetComponent implements OnInit {
         }
       }
     }
+
     if (childs.length) {
       return childs.map(child => {
         return {
@@ -248,14 +262,15 @@ export class BalancesheetComponent implements OnInit {
       let groups = _.groupBy(data, 'y_ledger_name');
       // console.log('Groups:', data, groups);
       for (let group in groups) {
-        if (groups[group].length > 1) {
+        if (groups[group].length > 1 && group) {
           let details = {
-            name: group,
+            //name: group,
             ledgerName: group,
-            data: groups[group].map(ledger => {
-              ledger.y_ledger_name = '';
-              return ledger;
-            }),
+            ledgerdata:groups[group],
+            // data: groups[group].map(ledger => {
+            //   ledger.y_ledger_name = '';
+            //   return ledger;
+            // }),
             amount: groups[group].reduce((a, b) => {
               a += parseFloat(b.y_amount);
               return a;
@@ -263,15 +278,16 @@ export class BalancesheetComponent implements OnInit {
 
           }
           info.push(details);
-        } else {
+        } else if (group) {
           // info.push(...groups[group]);
           let details = {
-            name: group,
+            // name: group,
             ledgerName: group,
-            data: groups[group].map(ledger => {
-              ledger.y_ledger_name = '';
-              return ledger;
-            }),
+            ledgerdata:groups[group],
+            // data: groups[group].map(ledger => {
+            //   ledger.y_ledger_name = '';
+            //   return ledger;
+            // }),
             amount: groups[group].reduce((a, b) => {
               a += parseFloat(b.y_amount);
               return a;

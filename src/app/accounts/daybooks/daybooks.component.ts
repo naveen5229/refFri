@@ -20,7 +20,7 @@ import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-
 import { AccountService } from '../../services/account.service';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { AdvanceComponent } from '../../acounts-modals/advance/advance.component';
-import { ServiceComponent } from '../service/service.component';
+import { ServiceComponent } from '../service/service.component'; 
 
 @Component({
   selector: 'daybooks',
@@ -85,7 +85,7 @@ export class DaybooksComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     public accountService: AccountService,
-    public router: Router) {
+    public router: Router) {  
     this.common.refresh = this.refresh.bind(this);
     this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate : this.DayBook.startdate;
     this.accountService.todate = (this.accountService.todate) ? this.accountService.todate : this.DayBook.enddate;

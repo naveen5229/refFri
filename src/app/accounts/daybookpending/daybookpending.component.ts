@@ -15,6 +15,7 @@ import { StorerequisitionComponent } from '../../acounts-modals/storerequisition
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { AccountService } from '../../services/account.service';
 import {AdvanceComponent } from '../../acounts-modals/advance/advance.component';
+import { ServiceComponent } from '../service/service.component';
 
 @Component({
   selector: 'daybookpending',
@@ -774,6 +775,24 @@ export class DaybookpendingComponent implements OnInit {
         }else{
           this.flag = 0;
         }
+      }
+    });
+  }
+  openServiceSalesInvoicemodel(dataItem, invoiceid, ordertypeid, create = 0,){
+    this.common.params = {
+      invoiceid: invoiceid,
+      delete: this.deletedId,
+      newid: create,
+      ordertype: ordertypeid,
+      isModal:true
+    };
+    const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
+    activeModal.result.then(data => {
+      console.log('Data: invoice ', data);
+        if (data.msg) {
+          console.log('open succesfull');
+          this.getDayBook();
+        // this.addLedger(data.ledger);
       }
     });
   }
