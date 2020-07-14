@@ -16,7 +16,7 @@ import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summ
 import { AccountService } from '../../services/account.service';
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
-
+import { ServiceComponent } from '../../accounts/service/service.component';
 
 @Component({
   selector: 'ledgerview',
@@ -75,7 +75,7 @@ export class LedgerviewComponent implements OnInit {
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
     if (this.common.params) {
-      console.log("After the modal Open:", this.common.params);
+     // console.log("After the modal Open:", this.common.params);
 
       this.ledgername = this.common.params.ledgername;
       this.vouchertype = this.common.params.vouchertype;
@@ -103,7 +103,7 @@ export class LedgerviewComponent implements OnInit {
 
     //  this.getVoucherTypeList();
 
-    this.setFoucus('voucherType');
+   // this.setFoucus('voucherType');
     //  this.common.currentPage = 'Ledger View';
   }
 
@@ -326,19 +326,33 @@ export class LedgerviewComponent implements OnInit {
       this.common.params = {
         invoiceid: voucherId,
         delete: 0,
-        newid:0,
-        ordertype:dataItem.y_vouchertype_id,
+        newid: 0,
+        ordertype: dataItem.y_vouchertype_id,
+        isModal:true,
         sizeIndex:1
       };
-      const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
       activeModal.result.then(data => {
-         console.log('Data: invoice ', data);
-        if (data.delete) {
-          console.log('open succesfull');
-            //this.getDayBook();
-          // this.addLedger(data.ledger);
+        console.log('Data: invoice ', data);
+          if (data.msg) {
         }
       });
+      // this.common.params = {
+      //   invoiceid: voucherId,
+      //   delete: 0,
+      //   newid:0,
+      //   ordertype:dataItem.y_vouchertype_id,
+      //   sizeIndex:1
+      // };
+      // const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      // activeModal.result.then(data => {
+      //    console.log('Data: invoice ', data);
+      //   if (data.delete) {
+      //     console.log('open succesfull');
+      //       //this.getDayBook();
+      //     // this.addLedger(data.ledger);
+      //   }
+      // });
       // this.common.params = {
       //   invoiceid: voucherId,
       //   delete: 0,

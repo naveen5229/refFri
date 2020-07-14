@@ -21,8 +21,7 @@ import { AccountService } from '../../services/account.service';
  
       </div>
       <balance-sheet-tree *ngIf="d.name" [color]="color+1" style="cursor:pointer" [action]="action" [data]="d.data" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></balance-sheet-tree>
-      <div *ngIf="!d.name"  class="tb-mini row m-0 pl-0 pr-0" (dblclick)="doubleClickHandler($event,d)" 
-      (click)="lastClickHandler($event,i)" [ngClass]="{'highlight' : selectedRow == i }">
+      <div *ngIf="!d.name"  class="tb-mini row m-0 pl-0 pr-0 lastrowcolor" (dblclick)="doubleClickHandler($event,d)" (click)="lastClickHandler($event,i)" [ngClass]="{'highlight' : selectedRow == i }">
         <div class="col-8">{{d.ledgerName}}</div>
         <div  class="col-4 text-right" style="text-align:right;">{{d.amount | number : '1.2-2'}}</div>
       </div>
@@ -52,6 +51,11 @@ export class BalanceSheetTreeComponent {
     public accountService: AccountService) {
   }
 
+  lastClickHandler(event, index) {
+    this.selectedRow = parseInt(index);
+    event.stopPropagation();
+  }
+
   clickHandler(event, index) {
     event.stopPropagation();
     this.activeIndex = this.activeIndex !== index ? index : -1
@@ -64,10 +68,7 @@ export class BalanceSheetTreeComponent {
 
   }
 
-  lastClickHandler(event, index) {
-    event.stopPropagation();
-    this.selectedRow = index;
-  }
+  
 
   keyHandler(event) {
     // console.log('event:', event);
@@ -475,7 +476,7 @@ export class BalancesheetComponent implements OnInit {
 
   opendaybookmodel(data) {
     
-     console.log('ledger id 00000', data.ledgerdata[0]);
+    // console.log('ledger id 00000', data.ledgerdata[0]);
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,

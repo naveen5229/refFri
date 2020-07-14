@@ -64,6 +64,7 @@ export class ServiceComponent implements OnInit {
   gstrate = [];
   branchstategstcode = 0;
   addupdateinvoiceid=0;
+  newid = 0;
   order = {
     autocode:'',
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -250,15 +251,24 @@ export class ServiceComponent implements OnInit {
     this.common.currentPage = this.order.ordertype.name;
     this.getFreeze();
     this.callApigstcode();
+    if(this.common.params && this.common.params.newid){
+      this.newid = this.common.params.newid;
+      this.common.currentPage ='Add Duplicate Invoice';
+    }
+    if(this.common.params && this.common.params.sizeindex){
+      this.sizeindex = this.common.params.sizeindex;
+    }
     if (this.common.params && this.common.params.invoiceid) {  // Add by hemant 27 june 2020
       this.showHideButton = false;
       console.log("Params:", this.common.params);
       this.params = this.common.params;
       this.common.params = null;
       this.addupdateinvoiceid=this.params.invoiceid;
+      
       this.getInvoiceDetail(this.params.invoiceid);
       this.sizeindex= this.sizeindex+1;
      // this.order.ordertype.id = -104;
+     
       if (this.params.isModal) {
         this.isModal = true
       }
@@ -604,7 +614,7 @@ export class ServiceComponent implements OnInit {
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
       ledgeraddressid: order.ledgeraddressid,
-      x_id: this.addupdateinvoiceid,
+      x_id: (this.newid == 0) ? this.addupdateinvoiceid :0,
       ismannual: order.ismanual,
       branchid: order.branchid,
       taxdetail: this.taxdetailsother,
@@ -617,9 +627,7 @@ export class ServiceComponent implements OnInit {
 
     this.api.post('Company/InsertPurchaseOrder', params)
       .subscribe(res => {
-        this.common.loading--;
-        console.log('res invoice : ', res,res['data'].code,res['data']);
-        //this.GetLedger();
+        this.common.loading--;      
         if (order.print) this.printFunction();
         this.order = this.setInvoice();
         this.taxdetailsother = [];
@@ -631,12 +639,8 @@ export class ServiceComponent implements OnInit {
           taxrateother: 0,
           taxamountother: 0,
           totalamountother: 0
-
-        }];
-       // this.common.showToast('Invoice Are Saved');
-      
+        }];      
         this.common.showToast('Your Invoice Code :' + res['data'].code);
-       
         if(this.isModal){
           this.common.params='';
           this.activeModal.close({responce:'true', msg: 'true'});
@@ -644,14 +648,11 @@ export class ServiceComponent implements OnInit {
         this.setFoucus('custcode');
         }
         return;
-
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
-
-
   }
 
   calculateTotal() {
@@ -1384,7 +1385,7 @@ export class ServiceComponent implements OnInit {
     this.api.post('Company/getInvoiceDetail', params)
       .subscribe(res => {
         // this.common.loading--;
-        console.log('Res:', res['data']);
+        
         this.invoiceDetail = res['data']['invoice'];
         let taxDetailData = res['data']['taxdetail'];
         console.log('Invoice detail', this.invoiceDetail[0]['y_biltynumber']);
