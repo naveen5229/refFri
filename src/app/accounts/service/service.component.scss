@@ -350,3 +350,14 @@ nb-card-header{
     // background-color: #ccc;
     // padding: 5px;
     // margin-top: -37px;
+
+.expand-div {
+      position: absolute;
+      right: 20px;
+      label {
+          font-weight: 500;
+          margin-right: 10px;
+          margin-left: 5px;
+          vertical-align: middle;
+      }
+  }

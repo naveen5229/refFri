@@ -59,12 +59,15 @@ export class ServiceComponent implements OnInit {
   otherinfoflag = 0;
   showConfirmaddmore = false;
   showConfirmtaxaddmore = false;
+  showConfirmtaxaddmorewith=false;
   stateGstCode = 0;
   tempdata = [];
   gstrate = [];
   branchstategstcode = 0;
   addupdateinvoiceid=0;
   newid = 0;
+  withtype=0;
+  totalledgeramt=0;
   order = {
     autocode:'',
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -131,6 +134,17 @@ export class ServiceComponent implements OnInit {
   };
 
   taxdetailsother = [{
+    taxledgerother: {
+      name: '',
+      id: '',
+    },
+    taxrateother: 0,
+    taxamountother: 0,
+    totalamountother: 0
+
+  }];
+
+  taxdetailswith = [{
     taxledgerother: {
       name: '',
       id: '',
@@ -273,11 +287,14 @@ export class ServiceComponent implements OnInit {
         this.isModal = true
       }
     }
+    this.changeWithType();
   }
 
   ngOnInit() {
   }
-
+  changeWithType(){
+    console.log('withtype',this.withtype);
+  }
   setInvoice() {
     return {
       autocode:'',
@@ -532,7 +549,12 @@ export class ServiceComponent implements OnInit {
     event.preventDefault();
     return;
   }
-
+  modelConditionTaxaddmorewith() {
+    this.showConfirmtaxaddmorewith = false;
+    this.setFoucus('servicesubmit');
+    event.preventDefault();
+    return;
+  }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -676,7 +698,7 @@ export class ServiceComponent implements OnInit {
       // console.log('Amount: ',  amountDetail.amo  unt[type]);
       total += parseFloat(amountDetail.lineamount);
     });
-    this.order.totalamount=(total).toFixed(2);
+    this.order.totalamount = parseFloat((total).toFixed(2));
       if(total){
       return total;
       }else{
@@ -750,12 +772,27 @@ export class ServiceComponent implements OnInit {
       event.preventDefault();
       return;
 
-    } if (this.showConfirmtaxaddmore && key == 'enter') {
+    } if (this.showConfirmtaxaddmorewith && key == 'a') {
+      console.log('set command', this.lastActiveId, this.activeId);
+      this.showConfirmtaxaddmorewith = false;
+      this.addWithAmountDetails();
+      let index = parseInt(this.lastActiveId.split('-')[1]);
+      console.log('tax detail inex', this.lastActiveId, index);
+      this.setFoucus('taxledereith-' + (index + 1));
+      event.preventDefault();
+      return;
+
+    }if (this.showConfirmtaxaddmore && key == 'enter') {
       this.showConfirmtaxaddmore = false;
       this.setFoucus('servicesubmit');
       event.preventDefault();
      // this.showConfirm = true;
 
+      return;
+    }if (this.showConfirmtaxaddmorewith && key == 'enter') {
+      this.showConfirmtaxaddmorewith = false;
+      this.setFoucus('servicesubmit');
+      event.preventDefault();
       return;
     }if (this.showConfirm && (key == 'enter' || key == 'y')) {
       this.showConfirm = false;
@@ -975,9 +1012,23 @@ export class ServiceComponent implements OnInit {
         this.setFoucus('taxrateother-' + index);
 
       }
+      else if (this.activeId.includes('taxlederwith')) {
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('taxratewith-' + index);
+
+      }
       else if (this.activeId.includes('taxrateother')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxamountother-' + index);
+      }
+      else if (this.activeId.includes('taxratewith')) {
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('taxamountwith-' + index);
+      }
+      else if (this.activeId.includes('taxamountwith')) {
+        this.lastActiveId = this.activeId;
+        this.showConfirmtaxaddmorewith=true;
+       // this.setFoucus('taxdetailbutton-0');
       }
       else if (this.activeId.includes('taxamountother')) {
         console.log('total length of text detail', this.taxdetailsother.length, 'actv id', this.activeId);
@@ -1848,10 +1899,9 @@ export class ServiceComponent implements OnInit {
     else if (activeId == 'purchaseledger' || activeId == 'salesledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId == 'ledger') {
       this.autoSuggestion.data = this.suggestions.supplierLedgers;
-      // this.ledgersuggestiondata = this.suggestions.supplierLedgers;
     }
     else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
-    else if (activeId.includes('taxlederother-')) this.autoSuggestion.data = this.suggestions.Taxdata;
+    else if ((activeId.includes('taxlederother-')) || (activeId.includes('taxlederwith-'))) this.autoSuggestion.data = this.suggestions.Taxdata;
     else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId.includes('warehouse')) {
       this.autoSuggestion.data = this.suggestions.warehouses;
@@ -1863,8 +1913,6 @@ export class ServiceComponent implements OnInit {
       }
     }
     else if (activeId.includes('invocelist')) this.autoSuggestion.data = this.suggestions.invoiceList;
-
-
     else {
       this.autoSuggestion.data = [];
       this.autoSuggestion.display = '';
@@ -2507,7 +2555,7 @@ export class ServiceComponent implements OnInit {
           this.order.podate= data.ledger.podate;
           this.order.biltynumber =data.ledger.biltynumber;
           this.order.biltydate=data.ledger.biltydate;
-          this.order.totalamount=
+        //  this.order.totalamount=
           this.order.grnremarks = data.ledger.grnremarks;
           this.order.billingaddress = data.ledger.billingaddress;
           this.order.custcode = data.ledger.custcode;
@@ -2537,14 +2585,6 @@ export class ServiceComponent implements OnInit {
       taxamountother: 0,
       totalamountother: 0
     });
-
-    // const activeId = document.activeElement.id;
-    // let index = parseInt(activeId.split('-')[1]) + 1;
-    // console.log(index);
-    // activeId.includes('taxdetailbutton');
-    // this.setFoucus('taxleder-' + index);
-   
-   // return;
    this.showConfirmtaxaddmore=false;
    let index = parseInt(this.lastActiveId.split('-')[1]);
    console.log('tax detail inex', this.lastActiveId, index);
@@ -2553,16 +2593,54 @@ export class ServiceComponent implements OnInit {
    return;
   }
 
-  calculateTaxTotal() {
+  addWithAmountDetails() {
+    this.taxdetailswith.push({
+      taxledgerother: {
+        name: '',
+        id: '',
+      },
+      taxrateother: 0,
+      taxamountother: 0,
+      totalamountother: 0
+    });
+   this.showConfirmtaxaddmore=false;
+   let index = parseInt(this.lastActiveId.split('-')[1]);
+   console.log('tax detail inex', this.lastActiveId, index);
+   this.setFoucus('taxlederwith-' + (index + 1));
+   event.preventDefault();
+   return;
+  }
+  calculateLedgerTotal() {
     let total = 0;
-    this.taxdetailsother.map(taxdetail => {
+    this.taxdetailswith.map(taxdetail => {
       total += taxdetail.taxamountother !== null ? parseFloat((taxdetail.taxamountother).toString()) : 0; // edit by hemant 27 june 2020
       //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
 
       this.taxdetailsother[0].totalamountother = total !== null ? parseFloat(total.toString()) : 0; // edit by hemant 27 june 2020
     });
+     total;
+     
+     return this.totalledgeramt =  (total !== null ? parseFloat(total.toFixed(2)) : 0); 
+  }
+  calculateTaxTotal() {
+    let total = 0;
+    this.taxdetailsother.map(taxdetail => {
+      total += taxdetail.taxamountother !== null ? parseFloat((taxdetail.taxamountother).toString()) : 0; 
+      this.taxdetailsother[0].totalamountother = total !== null ? parseFloat(total.toString()) : 0; 
+    });
     this.totaltaxamt = total;
-    return total !== null ? parseFloat(total.toFixed(2)) : 0; // edit by hemant 27 june 2020
+    this.taxdetailswith.map(detailwith=>{
+      if(detailwith.taxamountother !=0){
+      total += detailwith.taxamountother !== null ? parseFloat((detailwith.taxamountother).toString()) : 0; 
+      }
+    })
+
+    return total !== null ? parseFloat(total.toFixed(2)) : 0; 
+  }
+  calculatetotal(index,amount){
+    console.log('calculate total',this.totalledgeramt+1,'sec',this.order.totalamount+1,(this.totalledgeramt + this.order.totalamount));
+    return ((amount * (this.totalledgeramt + this.order.totalamount))/100).toFixed(2);
+
   }
   calculateTaxRateTotal() {
     // let total = 0;

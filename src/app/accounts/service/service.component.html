@@ -7,7 +7,13 @@
       <h4 style="color:white;padding:6px">{{currentPage}}</h4>
       <i class="fa fa-times close"  (click)="activeModal.dismiss()"></i>
     </div>
-    
+    <div class="row" >
+      <div class="expand-div">
+      <input type="radio" autocomplete="off" id="radiotype1" name="radiotype" [(ngModel)]="withtype" value="0" (change)="changeWithType()">  <label>With Stock </label>
+      <input type="radio" autocomplete="off" id="radiotype2" name="radiotype" [(ngModel)]="withtype" value="1" (change)="changeWithType()"> <label> With Ledger </label>
+      <input type="radio" autocomplete="off" id="radiotype3" name="radiotype" [(ngModel)]="withtype" value="2" (change)="changeWithType()">  <label>With Both</label> 
+    </div>
+  </div>
     <div class="row mb-4 mt-4">
       <div class="col-9 p-0">
         
@@ -301,7 +307,7 @@
       </div>
     </div>
     <!--sales end-->
-    <div class="row">
+    <div class="row"  *ngIf="withtype !=1">
     <table class="invoice_tabel table table-bordered">
       <thead style="background-color: #263238; color:#fff;">
 
@@ -404,7 +410,7 @@
       </tbody>
     </table>
   </div>
-    <div class="row">
+    <div class="row" *ngIf="withtype !=1">
       <div class="col-6">
       </div>
       <div class="col-2 totalamount">
@@ -425,10 +431,52 @@
         <button (click)="callgstcode()" class="btn btn-primary" style="font-size:11px!important;padding:4px!important;">Show Gst Detail</button>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="withtype !=0">
     <table class="add_tax_tabel">
       <thead style="background-color: #263238; color:#fff;">
-        <th>Tax Ledger</th>
+        <th>Ledger</th>
+        <th>Rate</th>
+        <th>Amount</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let taxwithdetail of taxdetailswith; let i = index;">
+          <td>
+            <input type="text" [id]="'taxlederwith-' + i" autocomplete="off" class="form-control ref-input"
+              [name]="'taxledgerwith-' + i" [(ngModel)]="taxwithdetail.taxledgerother.name" placeholder="Please Enter Ledger" required>
+          </td>
+          <td>
+            <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxratewith-' + i"
+              [id]="'taxratewith-' + i" [(ngModel)]="taxwithdetail.taxrateother" placeholder="Please Enter Rate"
+              (input)="taxwithdetail.taxamountother = ((taxwithdetail.taxrateother * order.totalamount)/100).toFixed(2)">
+          </td>
+          <td>
+            <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxamountwith-' + i"
+              [id]="'taxamountwith-' + i" [(ngModel)]="taxwithdetail.taxamountother" placeholder="Please Enter Amount">
+          </td>
+          <td *ngIf="i == 0">
+            <button class="btn btn-plus plustransparent" [id]="'taxwithbutton-'+i" (click)="addWithAmountDetails()"><i
+                class="fa fa-plus text-primary"></i></button>
+          </td>
+          <td *ngIf="i !== 0"> <button class="btn btn-danger" (click)="taxdetailswith.splice(i,1)"><i
+                class="fa fa-trash text-primary"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row" *ngIf="withtype !=0">
+    <div class="col-10"></div>
+    <div class="col-2">
+      <span class="col-2">
+        <label class="ref-label">Ledger Amount : {{calculateLedgerTotal()}}</label>  
+       </span>
+    </div>
+  </div>
+  <div class="row" >
+    <table class="add_tax_tabel">
+      <thead style="background-color: #263238; color:#fff;">
+        <th>Tax Ledger</th> 
         <th>Tax Rate</th>
         <th>Tax Amount</th>
         <th></th>
@@ -436,16 +484,13 @@
       <tbody>
         <tr *ngFor="let taxdetail of taxdetailsother; let i = index;">
           <td>
-            <!-- <auto-suggestion (onSelected)="onSelected($event, 'taxledger', 'name',i)" url="Suggestion/GetPurchaseLedger"  display="name"
-   [inputId]="'taxledger-'+i" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
-
             <input type="text" [id]="'taxlederother-' + i" autocomplete="off" class="form-control ref-input"
               [name]="'taxledgerother-' + i" [(ngModel)]="taxdetail.taxledgerother.name" placeholder="Please Enter Tax Ledger" required>
           </td>
           <td>
             <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxrateother-' + i"
               [id]="'taxrateother-' + i" [(ngModel)]="taxdetail.taxrateother" placeholder="Please Enter Tax Rate"
-              (input)="taxdetail.taxamountother = ((taxdetail.taxrateother * order.totalamount)/100).toFixed(2)">
+              (input)="taxdetail.taxamountother = calculatetotal(i,taxdetail.taxrateother)">
           </td>
           <td>
             <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxamountother-' + i"
@@ -460,7 +505,6 @@
           </td>
         </tr>
       </tbody>
-
     </table>
   </div>
     <div class="row">
@@ -553,6 +597,17 @@
       <p>Please press A for New Line or press Enter ?</p>
       <button (click)="addTaxAmountDetails()">Add</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
         (click)="modelConditionTaxaddmore()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="date-modal" *ngIf="showConfirmtaxaddmorewith">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <h5><b>Ledger detail</b></h5>
+      <p>Please press A for New Line or press Enter ?</p>
+      <button (click)="addWithAmountDetails()">Add</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+        (click)="modelConditionTaxaddmorewith()">Cancel</button>
     </div>
   </div>
 </div>
