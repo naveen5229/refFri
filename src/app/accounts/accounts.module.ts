@@ -51,6 +51,7 @@ import { StateComponent } from './state/state.component';
 import { LedgerregidterComponent,ledgerRegisterTreeComponent } from './ledgerregidter/ledgerregidter.component';
 import { ServiceComponent } from './service/service.component';
 import { ReportconfigComponent } from './reportconfig/reportconfig.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -62,7 +63,8 @@ const PAGES_COMPONENTS = [
     AccountsRoutingModule,
     ThemeModule,
     DashboardModule,
-    DirectiveModule
+    DirectiveModule,
+    ScrollingModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,

@@ -22,6 +22,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DirectiveModule } from './directives/directives.module';
 import { from } from 'rxjs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
@@ -591,7 +592,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     NgxQRCodeModule,
     PdfViewerModule,
     ResizableModule,
-    DateInputsModule
+    DateInputsModule,
+    ScrollingModule
   ],
 
   bootstrap: [AppComponent],

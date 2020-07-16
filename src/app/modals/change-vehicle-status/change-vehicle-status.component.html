@@ -1,13 +1,14 @@
 <div class="modal-header">
   <h5 class="modal-title" id="modal-basic-title">Change Vehicle Status</h5>
 
+  <div [innerHTML]="VehicleStatusData.tripName" style="margin-left: 250px;"></div>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
   <div class="vehicle_status clearfix">
-    <span><b><i class="fa fa-user"></i> :</b> {{VehicleStatusData.fo_name}}</span>
+    <!-- <span><b><i class="fa fa-user"></i> :</b> {{VehicleStatusData.fo_name}}</span> -->
     <span><b><i class="fa fa-truck"></i>:</b> {{VehicleStatusData.regno}}</span> &nbsp;&nbsp;
     <span><b><i class="fa fa-address-card"></i> :</b> {{VehicleStatusData.vehicle_id}}</span> &nbsp;&nbsp;
     <span><b><i class="fa fa-industry"></i> :</b> {{lastIndType}} &nbsp;&nbsp; {{distDiff}}&nbsp;&nbsp;
@@ -40,6 +41,29 @@
                 </tr>
               </tbody>
             </table>
+            <h6>Vehicle Trips (Last 10 days)</h6>
+            <span *ngIf="!vehicleTrips" style="color: red;">There is No Trip in Last 10 days</span>
+            <table class="table table-bordered table-hover halts-show" *ngIf="vehicleTrips && vehicleTrips.length>0">
+              <tbody>
+                <tr>
+                  <th>#</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Trip</th>
+                  <th>Empty</th>
+              
+                </tr>
+                <tr *ngFor="let vt of vehicleTrips;let i = index; " > 
+                  <td>{{i+1}}</td>
+                  <td>{{vt["Start Date"]}}</td>
+                  <td>{{vt["End Date"]}}</td>
+                  <td [innerHTML]="common.getJSONTripStatusHTML(vt)"></td>
+                  <td>{{vt["Empty Trip"]}}</td>
+                  
+
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div [class]=" lUlBtn?'col-sm-6':'col-sm-12'">
@@ -59,12 +83,14 @@
                 <th>Dist</th>
                 <th>KM/h</th>
                 <th>AdUserId <span style="margin-left:15px"><i class="fa fa-refresh report-btn"
-                      (click)="mapReset();"></i></span></th>
+                      (click)="dataRefresh();"></i></span></th>
               </thead>
+              <!-- 'color':!vehicleEvent.lastType ? 'none':(vehicleEvent.lastType==21?'red':'green'), -->
               <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
                 <tr [id]="'vehicleEvent-row-'+i"
-                  [ngStyle]="{'color':!vehicleEvent.lastType ? 'none':(vehicleEvent.lastType==21?'red':'green'),
-                            'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
+                
+                  [ngStyle]="{
+                            'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'border-bottom':  vehicleEvent.showHorLine? '5px solid black' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
                   (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
                   <!-- <tr cdkDrag [id]="'vehicleEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
                           (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
@@ -98,35 +124,46 @@
                 <tr *ngIf="vehicleEvent.isOpen">
                   <td colspan="9">
                     <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
-                        <span class="zoom-btn" (click)="setZoom(6)">1</span>
-                        <span class="zoom-btn" (click)="setZoom(9)">2</span>
-                        <span class="zoom-btn" (click)="setZoom(12)">3</span>
-                        <span class="zoom-btn" (click)="setZoom(15)">4</span>
-                        <span class="zoom-btn" (click)="setZoom(18)">5</span>
-                        <span class="zoom-btn" (click)="showHide()">{{showHideSite}}</span>
+                        <span class="zoom-btn" (click)="setZoom(6)"  title="zoom Level 1">1</span>
+                        <span class="zoom-btn" (click)="setZoom(9)"  title="zoom Level 2">2</span>
+                        <span class="zoom-btn" (click)="setZoom(12)" title="zoom Level 3">3</span>
+                        <span class="zoom-btn" (click)="setZoom(15)" title="zoom Level 4">4</span>
+                        <span class="zoom-btn" (click)="setZoom(18)" title="zoom Level 5">5</span>
+                        <span class="zoom-btn" (click)="showHide()"  title="Show and Hide Site">{{showHideSite}}</span>
                         <span class="zoom-btn" (click)="setSiteHalt(vehicleEvent,true)"
-                          *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId">CSH</span>
-                        <!-- <span class="zoom-btn" (click)="deleteHalt(vehicleEvent)" *ngIf="vehicleEvent.y_is_delete"><i
-                                    class="fa fa-trash"></i></span> -->
+                          *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId" title="Map Site">CSH</span>
+                        <span class="zoom-btn" (click)="getRoute(vehicleEvent)" title="Show Route">SR</span>
                         <span class="zoom-btn" *ngIf="vehicleEvent.haltTypeId == -1"
-                          (click)="openManualHalt(vehicleEvent);">MH</span>
+                          (click)="openManualHalt(vehicleEvent);" title="Merge Halt">MH</span>
                         <span class="zoom-btn"><i class="fa fa-question-circle report-btn"
                             (click)="reportIssue(vehicleEvent);"></i></span>
                         <span class="zoom-btn" (click)="openChangeHaltModal(vehicleEvent,'SiteType')"
                           *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_id"><i
-                            class="fa fa-plus"></i></span>
-                            <button class="btn btn-success" (click)="openChangeHaltModal(vehicleEvent,'HaltType')"
-                            *ngIf="vehicleEvent.desc!='Trails' &&  vehicleEvent.haltId">{{vehicleEvent.y_halt_desc}}</button>
-  
-                            <button class="btn btn-success" (click)="openChangeHaltModal(vehicleEvent,'StateType')"
-                            *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null " >{{vehicleEvent.y_halt_desc}}</button>
-                      
-                            <span class="zoom-btn" (click)="removeVehicleState(vehicleEvent)"
-                            *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null "><i
-                              class="fa fa-trash"></i></span>
-                      </span></div>
+                            class="fa fa-plus" title="Create Site"></i></span>
+                        <button class="btn btn-success" (click)="openChangeHaltModal(vehicleEvent,'HaltType')"
+                          *ngIf="vehicleEvent.desc!='Trails'  && vehicleEvent.haltId">{{vehicleEvent.y_halt_desc}}</button>
+
+                          <button class="btn btn-success" (click)="openChangeHaltModal(vehicleEvent,'StateType')"
+                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null" >{{vehicleEvent.y_halt_desc}}</button>
+
+                          <span class="zoom-btn" (click)="decouplingState(vehicleEvent)"
+                          *ngIf="vehicleEvent.isDecouple"><i
+                            class="fa fa-chain-broken" title="Decoupling"></i></span>
+
+                            <span class="zoom-btn" (click)="updateLocation(vehicleEvent)"
+                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id"><i
+                            class="fa fa-map-marker" title="Change Location"></i></span>
+                            
+                            <span class="zoom-btn" (click)="verifyTrip(vehicleEvent)"
+                            *ngIf="vehicleEvent.trip_id"><i
+                              class="fa fa-check" title="Mark Resolved"></i></span>
+                              <span class="zoom-btn" (click)="tripStateMapping(vehicleEvent)"
+                              *ngIf="vehicleEvent.vs_id"><i
+                                class="fa fa-chain" title="Trip State Mapping"></i></span>
+                      </span>
+                    </div>
                   </td>
-                </tr>
+                </tr>   
               </tbody>
             </table>
           </div>
@@ -146,19 +183,34 @@
 
     </div>
     <div class="col-sm-6">
-      <div class="status_buttons">
-        <button class="btn btn-primary" (click)="lUlBtn=!lUlBtn;showPreviousLUL()">Previous L/UL</button>
-        <button class="btn btn-primary" (click)="showHalt()" style="margin-left:3px">Show Halt</button>
+      <div class=row>
+      <div class="status_buttons col-5">
+        <button class="btn btn-primary" style="padding: 5px 0px;" (click)="lUlBtn=!lUlBtn;showPreviousLUL()">Previous L/UL</button>
+        <button class="btn btn-primary" style="padding: 5px 0px;margin-left:1px" (click)="showHalt()" >Show Halt</button>
+        <button class="btn btn-primary"style="padding: 5px 0px;margin-left:1px" (click)="resetMap()" >Map Reset</button>
         <button class="btn btn-primary" (click)="showTrail()" style="margin-left:3px">Show Trail</button>
-        <button class="btn btn-primary" (click)="beforeLatchTime()" style="margin-left:3px">Before ltime</button>
-        <input class="form-control" type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off"
+        <button class="btn btn-primary" style="padding: 5px 0px;margin-left:1px" (click)="beforeLatchTime()" >Before ltime</button>
+          
+        <!-- <input class="form-control" type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off"
           (click)="getDate('date')" placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date"
-          readonly>
-        <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
+          readonly> -->
+        <!-- <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
           Auto Halt </button>
         <button class="btn btn-primary" id="addManualHalt" (click)="openManualHalt('vehicleEvent')"
-          style="margin-left:3px">Manual Halt </button>
+          style="margin-left:3px">Manual Halt </button> -->
       </div>
+      <div class="col-3">
+          <uj-date-time-picker (onChanged)="getDate('lTime',$event);" [isTime]='false' [dateTimeValue]="lTime">
+          </uj-date-time-picker>
+      </div>
+      <div class="col-3">
+          <uj-date-time-picker (onChanged)="getDate('tTime',$event);" [isTime]='false' [isStart]="false" [dateTimeValue]="toTime">
+          </uj-date-time-picker>
+      </div>
+      <div class="col-1">
+          <button class="btn btn-primary" (click)="reloadData()" style="padding: 5px 5px;">OK </button>
+        </div>
+    </div>
       <!-- table div location -->
       <div [class]=" lUlBtn?' map-container':'map-container'">
         <div #map1 id="map1"></div>

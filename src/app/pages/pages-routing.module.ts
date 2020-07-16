@@ -96,6 +96,7 @@ import { VehicleStatusChangeByUserComponent } from './vehicle-status-change-by-u
 import { TripissuesComponent } from './tripissues/tripissues.component';
 import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
 import { SupervisorUserAssociationComponent } from './supervisor-user-association/supervisor-user-association.component';
+import { TripsComponent } from './trips/trips.component';
 
 
 const routes: Routes = [{
@@ -199,9 +200,13 @@ const routes: Routes = [{
     canActivate: [AuthGuard, RouteGuard],
   },
   {
-
     path: 'vehicle-trip',
     component: VehicleTripComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'trip',
+    component: TripsComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   {

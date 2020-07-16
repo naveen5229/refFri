@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,23 +12,9 @@ import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'balance-sheet-tree',
-  template: `
-  <div *ngIf="active">
-    <div *ngFor="let d of data let i = index">
-      <div style="cursor:pointer"  *ngIf="d.name"  class="tb-mini row m-0 pl-0 pr-0" (click)="clickHandler($event, i)" [style.background]="colors[color]">
-          <div class="col-8" *ngIf="d.name">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
-          <div  class="col-4 text-right" *ngIf="d.name" style="text-align:right;"> {{d.amount | number : '1.2-2'}} </div>
- 
-      </div>
-      <balance-sheet-tree *ngIf="d.name" [color]="color+1" style="cursor:pointer" [action]="action" [data]="d.data" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></balance-sheet-tree>
-      <div *ngIf="!d.name"  class="tb-mini row m-0 pl-0 pr-0 lastrowcolor" (dblclick)="doubleClickHandler($event,d)" (click)="lastClickHandler($event,i)" [ngClass]="{'highlight' : selectedRow == i }">
-        <div class="col-8">{{d.ledgerName}}</div>
-        <div  class="col-4 text-right" style="text-align:right;">{{d.amount | number : '1.2-2'}}</div>
-      </div>
-    </div>
-  </div>
-  `,
+  templateUrl: './balancesheet.tree.html',
   styleUrls: ['./balancesheet.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '(document:keydown)': 'keyHandler($event)'
   }
@@ -45,6 +31,8 @@ export class BalanceSheetTreeComponent {
   selectedRow: number = -1;
   colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca', 'bfcfd9'];
   deletedId = 0;
+  items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
   constructor(public common: CommonService,
     public modalService: NgbModal,
     public user: UserService,
@@ -56,19 +44,28 @@ export class BalanceSheetTreeComponent {
     event.stopPropagation();
   }
 
+  ngAfterViewInit() {
+    console.log('--------,', this.active);
+  }
+
+  ngOnChanges(changes) {
+    // console.log('Changes: ', changes);
+    // console.log(changes.active)
+  }
+
   clickHandler(event, index) {
     event.stopPropagation();
     this.activeIndex = this.activeIndex !== index ? index : -1
   }
 
-  doubleClickHandler(event,data) {
+  doubleClickHandler(event, data) {
     event.stopPropagation();
-  //  console.log('data suggestion',data);
+    //  console.log('data suggestion',data);
     this.action(data);
 
   }
 
-  
+
 
   keyHandler(event) {
     // console.log('event:', event);
@@ -95,7 +92,8 @@ export class BalanceSheetTreeComponent {
 @Component({
   selector: 'balancesheet',
   templateUrl: './balancesheet.component.html',
-  styleUrls: ['./balancesheet.component.scss']
+  styleUrls: ['./balancesheet.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BalancesheetComponent implements OnInit {
   selectedName = '';
@@ -134,6 +132,7 @@ export class BalancesheetComponent implements OnInit {
     public pdfService: PdfService,
     public csvService: CsvService,
     public accountService: AccountService,
+    public cdr: ChangeDetectorRef,
     public modalService: NgbModal) {
     this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate : this.balanceData.startdate;
     this.accountService.todate = (this.accountService.todate) ? this.accountService.todate : this.balanceData.enddate;
@@ -224,7 +223,7 @@ export class BalancesheetComponent implements OnInit {
     }
     this.liabilities.map(voucher => voucher.data = this.findChilds(voucher.data));
     console.log('liabilities', this.liabilities);
-
+    this.cdr.detectChanges();
   }
 
   findChilds(data) {
@@ -267,7 +266,7 @@ export class BalancesheetComponent implements OnInit {
           let details = {
             //name: group,
             ledgerName: group,
-            ledgerdata:groups[group],
+            ledgerdata: groups[group],
             // data: groups[group].map(ledger => {
             //   ledger.y_ledger_name = '';
             //   return ledger;
@@ -284,7 +283,7 @@ export class BalancesheetComponent implements OnInit {
           let details = {
             // name: group,
             ledgerName: group,
-            ledgerdata:groups[group],
+            ledgerdata: groups[group],
             // data: groups[group].map(ledger => {
             //   ledger.y_ledger_name = '';
             //   return ledger;
@@ -475,7 +474,7 @@ export class BalancesheetComponent implements OnInit {
   }
 
   opendaybookmodel(data) {
-    
+
     // console.log('ledger id 00000', data.ledgerdata[0]);
     this.common.params = {
       startdate: this.balanceData.startdate,
