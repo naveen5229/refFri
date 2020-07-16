@@ -12,6 +12,9 @@ import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
 import { VehicleGpsTrailComponent } from '../../modals/vehicle-gps-trail/vehicle-gps-trail.component';
 import { VehicleLrComponent } from '../vehicle-lr/vehicle-lr.component';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { UpdateLocationComponent } from '../update-location/update-location.component';
+import { VerifyfuturetripstateComponent } from '../verifyfuturetripstate/verifyfuturetripstate.component';
+import { TripStateMappingComponent } from '../trip-state-mapping/trip-state-mapping.component';
 
 declare let google: any;
 
@@ -54,33 +57,35 @@ export class ChangeVehicleStatusComponent implements OnInit {
   vehicleEvent = null;
   convertSiteHaltFlag = false;
   ref_page: null;
-  toTime = this.common.dateFormatter(new Date());
+  toTime = new Date();
+  lTime = new Date();
   hsId: any;
+  
   constructor(
     public modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
-    private activeModal: NgbActiveModal,
-  ) {
+    private activeModal: NgbActiveModal) {
     this.VehicleStatusData = this.common.params;
+    this.lTime = this.VehicleStatusData.latch_time?new Date(this.VehicleStatusData.latch_time):this.lTime;
     this.ref_page = this.common.ref_page;
     if (this.ref_page != 'vsc') {
-      this.toTime = this.VehicleStatusData.tTime
+      this.toTime = new Date(this.VehicleStatusData.tTime)
     }
-    this.common.handleModalSize('class', 'modal-lg', '1600');
-    console.log("VehicleStatusData", this.VehicleStatusData);
+    this.common.handleModalSize('class', 'modal-lg', '1600','px',0);
+    this.common.handleModalSize('class', 'modal-lg', '1600','px',1);
     this.getLastIndDetails();
     this.getEvents();
     //this.getLoadingUnLoading();
-    console.log("date1", this.toTime);
   }
 
   ngOnInit() {
   }
   ngAfterViewInit() {
-    console.log('ionViewDidLoad MarkerLocationPage');
     // this.location = this.common.params['location'];
     this.loadMap(this.location.lat, this.location.lng);
+    // this.createCirclesOnPostion(new google.maps.LatLng(26.9124, 75.7873), 10000,'#00ff00');
+
   }
 
   loadMap(lat = 26.9124336, lng = 75.78727090000007) {
@@ -103,18 +108,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     };
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    // this.createMarker(lat, lng);
   }
-
-
-  // createMarker(lat = 26.9124336, lng = 75.78727090000007) {
-  //   this.marker = new google.maps.Marker({
-  //     map: this.map,
-  //     animation: google.maps.Animation.DROP,
-  //     position: new google.maps.LatLng(lat, lng),
-  //     draggable: false
-  //   });
-  // }
 
   openChangeHaltModal(vehicleEvent, type) {
     this.common.changeHaltModal = type;
@@ -122,39 +116,33 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.params = vehicleEvent;
     const activeModal = this.modalService.open(ChangeHaltComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      // console.log("data", data.respone);
       this.getEvents();
     });
   }
 
   showHalt() {
-    console.log("show Halt");
     this.getEvents();
   }
 
   showTrail() {
     this.dataType = 'trails';
     this.common.loading++;
-    console.log("show trail");
     let params = {
       'vehicleId': this.VehicleStatusData.vehicle_id,
-      'fromTime': this.VehicleStatusData.latch_time,
-      'toTime': this.toTime,
+      'fromTime': this.common.dateFormatter(this.VehicleStatusData.latch_time),
+      'toTime': this.common.dateFormatter(this.toTime),
       'suggestId': this.VehicleStatusData.suggest,
       'status': this.VehicleStatusData.status ? this.VehicleStatusData.status : 10
     }
-    console.log(params);
     this.api.post('VehicleStatusChange/getVehicleTrail', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.vehicleEvents = res['data'];
         this.clearAllMarkers();
         this.createMarkers(res['data']);
       }, err => {
         this.common.loading--;
         this.common.showError(err);
-        console.log(err);
       });
   }
 
@@ -169,7 +157,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
   infoWindow = null;
   setEventInfo(event, isClick?) {
-    console.log(event);
     if (!isClick)
       this.toggleBounceMF(event.mIndex);
     else
@@ -177,7 +164,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   }
   unsetEventInfo(event) {
-    console.log(event);
     this.toggleBounceMF(event.mIndex, 2);
 
   }
@@ -189,14 +175,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
     //this.VehicleStatusData.latch_time = '2019-02-14 13:19:13';
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
-      "&fromTime=" + this.VehicleStatusData.latch_time +
-      "&toTime=" + this.toTime +
+      "&fromTime=" + this.common.dateFormatter(this.VehicleStatusData.latch_time) +
+      "&toTime=" + this.common.dateFormatter(this.toTime) +
       "&status=" + status;
-    console.log(params);
     this.api.get('HaltOperations/getHaltHistoryV2?' + params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.vehicleEvents = res['data'];
         this.clearAllMarkers();
         this.createMarkers(res['data']);
@@ -212,12 +196,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
           else
             element.lastType = null;
         });
-        console.log("StartElement", startElement);
         if (startElement) {
           let start = startElement.startTime;
           let startIndex = this.vehicleEvents.indexOf(startElement);
           let end = this.vehicleEvents[this.vehicleEvents.length - 1].endTime;
-          console.log(res);
           this.vehicleEventsR = [];
           let vehicleEvents = res['data'];
           let realStart = new Date(vehicleEvents[startIndex].startTime) < new Date(start) ?
@@ -229,7 +211,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
           let totalHourDiff = 0;
           if (vehicleEvents.length != 0) {
             totalHourDiff = this.common.dateDiffInHours(realStart, realEnd, true);
-            console.log("Total Diff", totalHourDiff);
           }
           for (let index = startIndex; index < vehicleEvents.length; index++) {
             vehicleEvents[index].mIndex = index;
@@ -238,42 +219,19 @@ export class ChangeVehicleStatusComponent implements OnInit {
               realStart, vehicleEvents[index].startTime) / totalHourDiff) * 98;
             vehicleEvents[index].width = (this.common.dateDiffInHours(
               vehicleEvents[index].startTime, vehicleEvents[index].endTime, true) / totalHourDiff) * 98;
-            console.log("Width", vehicleEvents[index].width);
             this.vehicleEventsR.push(vehicleEvents[index]);
           }
-          console.log("VehicleEvents", this.vehicleEventsR);
         }
-        //  ------------ RouteMapper Code Exit -------------
-
-
-        //bottom bar
-        // let vehEvent = this.vehicleEvents;
-        // let finalIndex = 0;
-        // for (const events of vehEvent) {
-        //   events.eposition = 100;
-        //   events.duration = this.common.dateDiffInHoursAndMins(
-        //     events.start_time, events.end_time);
-        //   vehEvent[finalIndex].width = events.eposition - events.position;
-        //   console.log("vehEvent[finalIndex].width ",vehEvent[finalIndex].width )
-        //   finalIndex++;
-        // }
-        // console.log("vehEvent", vehEvent);
-        // vehEvent = vehEvent.reverse();
-        //  this.vehEvent = vehEvent;
-
-        //-----------------S
 
       }, err => {
         this.common.loading--;
         this.common.showError(err);
-        console.log(err);
       })
   }
 
   resetBtnStatus() {
     this.btnStatus = true;
     this.vehicleEvents.forEach(vehicleEventDetail => {
-      console.log("vehicleEventDetail", vehicleEventDetail)
       if (vehicleEventDetail.color == 'ff13ec') {
         this.btnStatus = false;
         return;
@@ -283,29 +241,34 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   showPreviousLUL() {
     if (this.lUlBtn) {
-      console.log("this.lUlBtn", this.lUlBtn);
       this.getLoadingUnLoading();
+      this.getVehicleTrips();
     }
   }
 
+  getDate(type,event){
+    if(type=='lTime'){
+      this.VehicleStatusData.latch_time = event;
+    }
+    else if(type=='tTime'){
+      this.toTime = event;
+    }
+
+  }
 
   getLoadingUnLoading() {
     this.dataType = 'events';
     //this.VehicleStatusData.latch_time = '2019-02-14 13:19:13';
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
-      "&latchTime=" + this.VehicleStatusData.latch_time +
-      "&toTime=" + this.toTime;
-    console.log(params);
+      "&latchTime=" + this.common.dateFormatter(this.VehicleStatusData.latch_time) +
+      "&toTime=" + this.common.dateFormatter(this.toTime);
     this.api.get('HaltOperations/getMasterHaltDetail?' + params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.loadingUnLoading = res['data'];
-        console.log("this.loadingUnLoading", this.loadingUnLoading);
       }, err => {
         this.common.loading--;
-        console.log(err);
         this.common.showError(err);
       });
   }
@@ -321,7 +284,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
   createMarkers(markers, changeBounds = true, drawPoly = false) {
 
     let thisMarkers = [];
-    console.log("Markers", markers);
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < markers.length; index++) {
 
@@ -349,7 +311,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
       } else {
         if (subType == 'marker') {
           pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + text + "|" + pinColor + "|000000";
-          console.log("Pin Image:", pinImage);
 
         }
         else //if(subType=='circle')
@@ -373,7 +334,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
       if (changeBounds && !('' + markers[index]['desc']).endsWith('LT'))
         this.setBounds(latlng);
       thisMarkers.push(marker);
-      console.log("ThisMarker: ", thisMarkers);
 
       this.Markers.push(marker);
 
@@ -384,15 +344,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
 
       }
-      // else {
-      //   let show = text;
-      //   marker.addListener('mouseover', this.showInfoWindow.bind(this, show, marker));
-      //   marker.addListener('mouseout', this.closeInfoWindow.bind(this));
-      //   marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
-
-      // }
-      // marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
-      //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
+      if(markers[index]['radius'])
+      this.createCirclesOnPostion(latlng, markers[index]['radius'],'#00ff00');
+   
     }
     return thisMarkers;
   }
@@ -403,7 +357,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
       this.vSId = vsId;
       this.hsId = hsId;
     }
-    console.log("vsId", vsId, "hsId", hsId, "isCheck", isCheck, "j", j);
   }
 
   unCheckAll(j) {
@@ -423,10 +376,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.map.fitBounds(this.bounds);
   }
   toggleBounceMF(id, evtype = 1) {
-    //console.log("Bounce marker",id);
-    //console.log("index",index);
-    //.log("test",test);
-    //console.log("item",item);
     if (this.Markers[id]) {
       if (this.Markers[id].getAnimation() == null && evtype == 1) {
         this.Markers[id].setAnimation(google.maps.Animation.BOUNCE);
@@ -463,56 +412,45 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   reviewComplete(status) {
-    console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = {
       vehicleId: this.VehicleStatusData.vehicle_id,
-      latchTime: this.VehicleStatusData.latch_time,
-      toTime: this.toTime,
+      latchTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
+      toTime: this.common.dateFormatter(this.toTime),
       status: status
     };
-    console.log(params);
     this.api.post('HaltOperations/reviewDone?', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.activeModal.close();
       }, err => {
         this.common.loading--;
-        console.log(err);
         this.common.showError();
       });
     this.activeModal.close();
   }
 
   getLastIndDetails() {
-    console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = "vehId=" + this.VehicleStatusData.vehicle_id;
-    console.log(params);
     this.api.get('HaltOperations/lastIndustryDetails?' + params)
       .subscribe(res => {
         this.common.loading--;
         this.lastIndDetails = res['data'][0];
         if (this.lastIndDetails) {
-          console.log("lastIndDetails", this.lastIndDetails);
-          this.calculateDistanceAndTime(this.lastIndDetails, this.VehicleStatusData.latch_lat, this.VehicleStatusData.latch_long, this.VehicleStatusData.latch_time);
+          this.calculateDistanceAndTime(this.lastIndDetails, this.VehicleStatusData.latch_lat, this.VehicleStatusData.latch_long, this.common.dateFormatter(this.VehicleStatusData.latch_time));
           this.lastIndType = this.lastIndDetails.li_type;
         }
       }, err => {
         this.common.loading--;
-        console.log(err);
       });
   }
 
   zoomFunctionality(i, vehicleEvent) {
-    console.log("vehicleEvent", vehicleEvent);
     this.markerZoomMF(i, 19);
     if (this.lastIndDetails)
-    this.calculateDistanceAndTime(this.lastIndDetails, vehicleEvent.lat, vehicleEvent.long, vehicleEvent.time);
-    console.log("vehicleEvent.siteId", vehicleEvent.y_site_id)
+      this.calculateDistanceAndTime(this.lastIndDetails, vehicleEvent.lat, vehicleEvent.long, vehicleEvent.time);
     if (vehicleEvent.y_site_id) {
-      console.log("vehicleEvent.siteId", vehicleEvent.y_site_id)
       this.fnLoadGeofence(vehicleEvent.y_site_id);
     }
   }
@@ -521,12 +459,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let showHide = this.showHideSite;
     if (showHide == 'SS') {
       //this.setZoom(13);
-      console.log("Show Site");
       this.showHideSite = 'HS';
       this.getSites();
     } else {
       this.showHideSite = 'SS';
-      console.log("Hide Site");
       this.clearOtherMarker(this.siteMarkers);
 
     }
@@ -552,10 +488,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
         lat2: lat2,
         lng2: lng2
       };
-      console.log(params);
       this.api.post('VehicleStatusChange/getSiteAndSubSite?', params)
         .subscribe(res => {
-          console.log(res);
           if (this.siteMarkers.length == 0) {
             this.siteMarkers = this.createMarkers(res['data'], false);
             this.common.loading--;
@@ -568,18 +502,14 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
         }, err => {
           this.common.loading--;
-          console.log(err);
         });
     }
   }
 
   beforeLatchTime() {
-    console.log("before substracting", this.VehicleStatusData.latch_time);
     let ltime = new Date(this.VehicleStatusData.latch_time);
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 3));
-    console.log("after substracting", subtractLTime);
     this.VehicleStatusData.latch_time = this.common.dateFormatter(subtractLTime);
-    console.log("after substracting", this.VehicleStatusData.latch_time);
     this.reloadData();
   }
 
@@ -594,8 +524,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
   calculateDistanceAndTime(lastIndDetails, lat2, long2, time2) {
     this.distDiff = this.common.distanceFromAToB(lastIndDetails.li_lat, lastIndDetails.li_lng, lat2, long2, "K");
     this.timeDiff = this.common.differenceBtwT1AndT2(time2, lastIndDetails.li_time);
-    console.log("this.distDiff", this.distDiff);
-    console.log("this.timeDiff", this.timeDiff);
   }
 
   Fences = null;
@@ -611,7 +539,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
       .subscribe(res => {
         let data = res['data'];
         let count = Object.keys(data).length;
-        console.log('Res: ', res['data']);
         if (count > 0) {
           let latLngsArray = [];
           let mainLatLng = null;
@@ -621,19 +548,15 @@ export class ChangeVehicleStatusComponent implements OnInit {
               if (datax == siteId)
                 mainLatLng = datav.latLngs;
               latLngsArray.push(datav.latLngs);
-              console.log("Multi", datax);
             }
           }
           this.createPolygons(latLngsArray, mainLatLng);
         }
-        else {
-          console.log("Else");
-        }
+        
         this.common.loading--;
       }, err => {
         this.common.loading--;
         this.common.showError(err);
-        console.log(err);
       });
   }
   createPolygons(latLngsMulti, mainLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
@@ -667,48 +590,30 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   }
 
-  getDate(index) {
-    this.common.params.ref_page = 'cvs';
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      let timeType = data.timeType;
-      this.customDate = this.common.dateFormatter(data.date).split(' ')[0];
-      if (timeType == "tTime") {
-        this.toTime = this.common.dateFormatter(this.customDate);
-        console.log("tTime===", this.toTime);
-      } else if (timeType == "lTime") {
-        this.VehicleStatusData.latch_time = this.common.dateFormatter(this.customDate);
-        console.log("lTime===", this.VehicleStatusData.latch_time);
-      }
-
-      this.reloadData();
-    });
-  }
+ 
 
   openSmartTool(i, vehicleEvent) {
     if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null)
       if (confirm("Merge with this Halt?")) {
         this.common.loading++;
         let params = { ms_id: this.vSId, hs_id: vehicleEvent.haltId };
-        console.log("params", params);
         this.api.post('HaltOperations/mergeManualStates', params)
           .subscribe(res => {
             this.common.loading--;
             if (res['success']) {
               this.reloadData();
-            } else {
               this.common.showToast(res['msg']);
+            } else {
+              this.common.showError(res['msg']);
               this.reloadData();
             }
           }, err => {
             this.common.loading--;
             this.common.showError(err);
-            console.log(err);
           });
       }
     this.vSId = null;
     this.isChecks = {};
-    console.log(this.onlyDrag);
     if (!this.onlyDrag) {
       this.vehicleEvents.forEach(vEvent => {
         if (vEvent != vehicleEvent)
@@ -723,13 +628,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
 
   drop(event: CdkDragDrop<string[]>) {
-    console.log('Event: ', event);
     //moveItemInArray(this.vehicleEvents, event.previousIndex, event.currentIndex);
-    //console.log("hiiiiii",this.vehicleEvents, event.previousIndex, event.currentIndex);
   }
 
   onDragEnded(event, index, movedItem) {
-    console.log('onDragEnded: ', event, index, movedItem);
     let offsetsCurrent = document.getElementById('vehicleEvent-row-' + index).getBoundingClientRect();
     let middle = (offsetsCurrent.top + offsetsCurrent.bottom) / 2;
     let movedOnItem = null;
@@ -752,14 +654,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   siteMerge(movedItem, movedOnItem) {
     this.common.loading++;
-    console.log("SiteMerge");
-    console.log('Moved: ', movedItem);
-    console.log('Moved On: ', movedOnItem);
     let params = {
       dragHaltId: movedItem.haltId,
       dropHaltId: movedOnItem.haltId
     };
-    console.log(params);
     this.api.post('HaltOperations/mergeHalts', params)
       .subscribe(res => {
         this.common.loading--;
@@ -771,7 +669,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
         }
       }, err => {
         this.common.loading--;
-        console.log(err);
         this.common.showError(err);
       });
   }
@@ -782,25 +679,21 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   convertSiteHalt(siteId) {
-    console.log(this.convertSiteHaltFlag);
     if (this.convertSiteHaltFlag) {
       this.common.loading++;
       let params = {
         vehicleHaltRowId: this.vehicleEvent.haltId,
         siteId: siteId,
       };
-      console.log(params);
       this.api.post('HaltOperations/allocateVehicleHaltToSite', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log(res);
           this.reloadData();
 
           this.convertSiteHaltFlag = false;
 
         }, err => {
           this.common.loading--;
-          console.log(err);
         });
     }
   }
@@ -810,20 +703,16 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let params = {
       haltId: vehicleEvent.haltId,
     };
-    console.log(params);
     this.api.post('HaltOperations/deleteHalt', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.reloadData();
       }, err => {
         this.common.loading--;
-        console.log(err);
       });
   }
   infowindow = null;
   showInfoWindow(show, marker) {
-    console.log('Info:', show);
     if (this.infowindow != null) {
       this.infowindow.close();
     }
@@ -842,17 +731,15 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   addAutomaticHalt() {
-    console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = {
-      fromTime: this.VehicleStatusData.latch_time,
+      fromTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
       vehicleId: this.VehicleStatusData.vehicle_id,
       tLat: 0.0,
       tLong: 0.0,
-      tTime: this.toTime,
+      tTime: this.common.dateFormatter(this.toTime),
     }
 
-    console.log("params=", params);
 
     this.api.post('AutoHalts/addSingleVehicleAutoHalts', params)
       .subscribe(res => {
@@ -865,31 +752,35 @@ export class ChangeVehicleStatusComponent implements OnInit {
         }
       }, err => {
         this.common.loading--;
-        console.log(err);
       });
   }
 
   reportIssue(vehicleEvent) {
     this.common.params = { refPage: 'vsc' };
-    console.log("reportIssue", vehicleEvent);
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
   }
 
-  mapReset() {
+  dataRefresh() {
+
     this.reloadData();
+  }
+
+  resetMap() {
+    this.clearAllMarkers();
+    this.createMarkers(this.vehicleEvents);
+    this.resetBtnStatus();
+    // this.reloadData();
   }
 
   openManualHalt(vehicleEvent) {
     this.common.params = { vehicleId: this.VehicleStatusData.vehicle_id, vehicleRegNo: this.VehicleStatusData.regno }
-    console.log("open manual halt modal");
     const activeModal = this.modalService.open(ManualHaltComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data =>
       this.reloadData());
   }
 
   resolveTicket(status) {
-    console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = {
       rowId: this.VehicleStatusData.id,
@@ -903,15 +794,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
       // this.activeModal.close();
       return;
     }
-    console.log("param:", params);
     this.api.post('MissingIndustry/edit', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.activeModal.close();
       }, err => {
         this.common.loading--;
-        console.log(err);
       });
     // this.activeModal.close();
   }
@@ -921,42 +809,67 @@ export class ChangeVehicleStatusComponent implements OnInit {
     const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        console.log("reason For delete: ", data.remark);
         params.remark = data.remark;
         this.common.loading++;
         this.api.post('MissingIndustry/edit', params)
           .subscribe(res => {
             this.common.loading--;
-            console.log("data", res);
             this.activeModal.close();
 
           }, err => {
             this.common.loading--;
-            console.log(err);
 
           });
       }
     });
   }
 
+  decouplingState(vehicleEvent) {
+    this.common.params = {
+      title: 'Decoupling State ',
+      description: `Are you sure ?`,
+    }
+  const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+  activeModal.result.then(data => {
+    if (data.response) {
+      let params = {
+        stateId: vehicleEvent.vs_id
+      };
+      this.common.loading++;
+      this.api.post('HaltOperations/decoupleStateHalt', params)
+        .subscribe(res => {
+          this.common.loading--;
+          if (res['data'][0].y_id > 0) {
+            this.common.showToast(res['data'][0].y_msg);
+            this.reloadData();
+          }
+          else {
+            this.common.showError(res['data'][0].y_msg);
+          }
+
+
+        }, err => {
+          this.common.loading--;
+          this.common.showError('Error!');
+        });
+    }
+  });
+}
+
   openRouteMapper() {
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     this.common.params = {
       vehicleId: this.VehicleStatusData.vehicle_id ? this.VehicleStatusData.vehicle_id : null,
       vehicleRegNo: this.VehicleStatusData.regno,
-      fromTime: this.VehicleStatusData.latch_time,
-      toTime: this.toTime
+      fromTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
+      toTime: this.common.dateFormatter(this.toTime)
     };
-    console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, {
       size: "lg",
       container: "nb-layout"
       , windowClass: "mycustomModalClass"
     });
-    activeModal.result.then(
-      data => console.log("data", data)
-      // this.reloadData()
-    );
+   
   }
 
 
@@ -997,43 +910,153 @@ export class ChangeVehicleStatusComponent implements OnInit {
     const activeModal = this.modalService.open(VehicleLrComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
-  removeVehicleState(vehicleEvent) {
-    let params = {
-      stateid: vehicleEvent.vs_id
-    };
-   
-    this.common.params = {
-      title: 'Remove State ',
-      description: `<b>&nbsp;` + 'Are Sure To Remove State ' + `<b>`,
+
+  vehicleTrips = [];
+  getVehicleTrips() {
+    let today, startday, fromDate;
+    today = new Date();
+    startday = new Date(today.setDate(today.getDate() - 10));
+    fromDate = this.common.dateFormatter(startday);
+    let fromTime = this.common.dateFormatter(fromDate);
+    let toTime = this.common.dateFormatter(new Date());
+
+    let params = "vehicleId=" + this.VehicleStatusData.vehicle_id +
+      "&startDate=" + fromTime +
+      "&endDate=" + toTime;
+    ++this.common.loading;
+    this.api.get('TripsOperation/getTrips?' + params)
+      .subscribe(res => {
+        --this.common.loading;
+        this.vehicleTrips = res['data'];
+
+      }, err => {
+        --this.common.loading;
+
+      });
+  }
+
+  updateLocation(vehicleEvent) {
+    let location = {
+      refId: vehicleEvent.vs_id,
+      refType: 1,
+      lat: vehicleEvent.lat,
+      lng: vehicleEvent.long,
+      name: vehicleEvent.loc
     }
-    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    this.common.params = { location: location }
+    const activeModal = this.modalService.open(UpdateLocationComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+
     activeModal.result.then(data => {
-      if (data.response) {
-        console.log("data", data);
-        this.common.loading++;
-        this.api.post('Vehicles/removeVehicleState', params)
-          .subscribe(res => {
-            this.common.loading--;
-            console.log('res: ', res);
-            if (res['data'][0].r_id > 0) {
-              this.common.showToast('Selected state has been deleted');
-              this.reloadData();
-            } else {
-              this.common.showToast(res['data'][0].r_msg, '', 10000);
-            }
+      this.reloadData();
 
-
-          }, err => {
-            this.common.loading--;
-            console.log('Error: ', err);
-            this.common.showError('Error!');
-          });
-      }
     });
+  }
 
+  verifyTrip(vehicleEvent) {
 
-  
+    let verifyTrip = {
+      startTime: vehicleEvent.startTime,
+      trip_desc: vehicleEvent.trip_desc,
+      trip_id: vehicleEvent.trip_id,
+      stateId: vehicleEvent.vs_id
+    }
+    this.common.params = { verifyTrip: verifyTrip }
+    const activeModal = this.modalService.open(VerifyfuturetripstateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.reloadData();
+    });
+  }
 
+  tripStateMapping(vehicleEvent) {
+    let vehicle = {
+      stateId: vehicleEvent.vs_id
+    }
+    this.common.params = { vehicle: vehicle }
+    const activeModal = this.modalService.open(TripStateMappingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.reloadData();
+    });
+  }
+
+  circle = null;
+  createCirclesOnPostion(center, radius,color) {
+    console.log("center, radius,color",center, radius,color);
+    this.circle =  new google.maps.Circle({
+      strokeColor: color ? color :'#FF0000',
+      strokeOpacity: 1,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.2,
+      map: this.map,
+      center: center,
+      radius: radius
+    });
+    return this.circle;
+  }
+  routeData = null;
+  getRoute(vehicleEvent){
+    console.log("show route",vehicleEvent);
+    let status = this.VehicleStatusData.status ? this.VehicleStatusData.status : 10;
+    this.dataType = 'events';
+    //this.VehicleStatusData.latch_time = '2019-02-14 13:19:13';
+    this.common.loading++;
+    let params = "vId=" + this.VehicleStatusData.vehicle_id +
+      "&fromTime=" + vehicleEvent.startTime +
+      "&toTime=" + vehicleEvent.endTime +
+      "&isProximity=1";
+    this.api.get('HaltOperations/getTimeTrails?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        if (this.polygonPath) {
+          this.polygonPath.setMap(null);
+          this.polygonPath = null;
+        }
+        this.routeData = res['data'];
+       console.log('route data',this.routeData);
+       this.routeData.forEach(rd => {
+        this.createPolyPathManual(new google.maps.LatLng(rd.lat, rd.long));
+       });
+       this.animateCircle(this.polygonPath);
+       console.log("this.polygonPath",this.polygonPath);
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError(err);
+      })
+  }
+  polygonPath = null;
+  lineSymbol = {
+    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+  };
+
+  createPolyPathManual(latLng, polygonOptions?) {
+    
+    if (!this.polygonPath) {
+      const defaultPolygonOptions = {
+        strokeColor: 'black' ,
+        strokeOpacity: 1,
+        strokeWeight: 1,    
+        icons: [{
+          icon: this.lineSymbol,
+          offset: '0',
+          strokeWeight:3
+          // repeat : '100px'
+        }]
+      };
+      this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
+      this.polygonPath.setMap(this.map);
+    }
+    let path = this.polygonPath.getPath();
+    path.push(latLng);
+  }
+  animateCircle(line) {
+    var count = 0;
+    setInterval(function() {
+      count = (count + 1) % 200; // change this to 1000 to only show the line once
+      var icons = line.get('icons');
+      icons[0].offset = (count / 2) + '%';
+      line.set('icons', icons);
+    }, 25); // change this value to change the speed
   }
 }
 

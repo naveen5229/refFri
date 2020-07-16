@@ -25,6 +25,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/vehicle-trip',
       },
       {
+        title: 'Trips',
+        icon: 'fas fa-exchange-alt',
+        link: '/pages/trip',
+      },
+      {
         title: 'Trip Status FeedBack',
         icon: 'fas fa-comment-alt',
         link: '/pages/trip-status-feedback',

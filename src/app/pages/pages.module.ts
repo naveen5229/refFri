@@ -95,6 +95,7 @@ import { VehicleStatusChangeByUserComponent } from './vehicle-status-change-by-u
 import { TripissuesComponent } from './tripissues/tripissues.component';
 import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
 import { SupervisorUserAssociationComponent } from './supervisor-user-association/supervisor-user-association.component';
+import { TripsComponent } from './trips/trips.component';
 
 
 
@@ -191,6 +192,7 @@ const PAGES_COMPONENTS = [
     TripissuesComponent,
     TicketsKpiComponent,
     SupervisorUserAssociationComponent,
+    TripsComponent,
 
 
   ],

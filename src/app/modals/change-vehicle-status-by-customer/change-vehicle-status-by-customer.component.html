@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Change Vehicle Status By Customer</h5>
+  <h5 class="modal-title" id="modal-basic-title">Change Vehicle Status by Customer</h5>
 
   <div [innerHTML]="VehicleStatusData.tripName" style="margin-left: 250px;"></div>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
@@ -132,8 +132,7 @@
                         <span class="zoom-btn" (click)="showHide()"  title="Show and Hide Site">{{showHideSite}}</span>
                         <span class="zoom-btn" (click)="setSiteHalt(vehicleEvent,true)"
                           *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId" title="Map Site">CSH</span>
-                        <!-- <span class="zoom-btn" (click)="deleteHalt(vehicleEvent)" *ngIf="vehicleEvent.y_is_delete"><i
-                                    class="fa fa-trash"></i></span> -->
+                        <span class="zoom-btn" (click)="getRoute(vehicleEvent)" title="Show Route">SR</span>
                         <span class="zoom-btn" *ngIf="vehicleEvent.haltTypeId == -1"
                           (click)="openManualHalt(vehicleEvent);" title="Merge Halt">MH</span>
                         <span class="zoom-btn"><i class="fa fa-question-circle report-btn"

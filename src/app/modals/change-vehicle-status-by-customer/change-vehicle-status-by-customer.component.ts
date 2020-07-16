@@ -84,6 +84,8 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   ngAfterViewInit() {
     // this.location = this.common.params['location'];
     this.loadMap(this.location.lat, this.location.lng);
+    // this.createCirclesOnPostion(new google.maps.LatLng(26.9124, 75.7873), 10000,'#00ff00');
+
   }
 
   loadMap(lat = 26.9124336, lng = 75.78727090000007) {
@@ -342,7 +344,9 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
 
       }
-
+      if(markers[index]['radius'])
+      this.createCirclesOnPostion(latlng, markers[index]['radius'],'#00ff00');
+   
     }
     return thisMarkers;
   }
@@ -973,5 +977,87 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       this.reloadData();
     });
   }
+
+  circle = null;
+  createCirclesOnPostion(center, radius,color) {
+    console.log("center, radius,color",center, radius,color);
+    this.circle =  new google.maps.Circle({
+      strokeColor: color ? color :'#FF0000',
+      strokeOpacity: 1,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.2,
+      map: this.map,
+      center: center,
+      radius: radius
+    });
+    return this.circle;
+  }
+  routeData = null;
+  getRoute(vehicleEvent){
+    console.log("show route",vehicleEvent);
+    let status = this.VehicleStatusData.status ? this.VehicleStatusData.status : 10;
+    this.dataType = 'events';
+    //this.VehicleStatusData.latch_time = '2019-02-14 13:19:13';
+    this.common.loading++;
+    let params = "vId=" + this.VehicleStatusData.vehicle_id +
+      "&fromTime=" + vehicleEvent.startTime +
+      "&toTime=" + vehicleEvent.endTime +
+      "&isProximity=1";
+    this.api.get('HaltOperations/getTimeTrails?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        if (this.polygonPath) {
+          this.polygonPath.setMap(null);
+          this.polygonPath = null;
+        }
+        this.routeData = res['data'];
+       console.log('route data',this.routeData);
+       this.routeData.forEach(rd => {
+        this.createPolyPathManual(new google.maps.LatLng(rd.lat, rd.long));
+       });
+       this.animateCircle(this.polygonPath);
+       console.log("this.polygonPath",this.polygonPath);
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError(err);
+      })
+  }
+  polygonPath = null;
+  lineSymbol = {
+    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+  };
+
+  createPolyPathManual(latLng, polygonOptions?) {
+    
+    if (!this.polygonPath) {
+      const defaultPolygonOptions = {
+        strokeColor: 'black' ,
+        strokeOpacity: 1,
+        strokeWeight: 1,    
+        icons: [{
+          icon: this.lineSymbol,
+          offset: '0',
+          strokeWeight:3
+          // repeat : '100px'
+        }]
+      };
+      this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
+      this.polygonPath.setMap(this.map);
+    }
+    let path = this.polygonPath.getPath();
+    path.push(latLng);
+  }
+  animateCircle(line) {
+    var count = 0;
+    setInterval(function() {
+      count = (count + 1) % 200; // change this to 1000 to only show the line once
+      var icons = line.get('icons');
+      icons[0].offset = (count / 2) + '%';
+      line.set('icons', icons);
+    }, 25); // change this value to change the speed
+  }
 }
+
 

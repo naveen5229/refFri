@@ -1,0 +1,27 @@
+<nb-card style="border:0px;">
+  <!-- <nb-card-header>
+    <h5>Tickets KPI</h5>
+  </nb-card-header> -->
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-9">
+        <ul class="tabs_style">
+          <li [ngClass]="type == 'all' ? 'active' : '' " id="dis-all" (click)=" type = 'all'; getTicketsKPI(type); ">
+            All
+          </li>
+          <li [ngClass]="type == 'pendingStamp' ? 'active' : '' " (click)=" type = 'pendingStamp';  getTicketsKPI(type)">
+            Pending Stamp
+          </li>
+          <li [ngClass]="type == 'verified' ? 'active' : '' " id="dis-all" (click)=" type = 'verified'; getTicketsKPI(type); ">
+           Verified
+          </li>
+          
+        </ul>
+      </div>  
+    </div>
+  
+    <div class="no-data alert alert-danger" role="alert" >
+      No Data available !
+    </div>
+  </nb-card-body>
+</nb-card>
