@@ -21,4 +21,8 @@ export class TripsComponent implements OnInit {
   ngOnInit() {
   }
 
+  getTicketsKPI(type){
+    console.log('type:', type)
+  }
+
 }
