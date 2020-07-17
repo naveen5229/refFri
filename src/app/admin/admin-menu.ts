@@ -21,6 +21,11 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         link: '/admin/vehiclestatuschange',
       },
       {
+        title: 'Trip Verification',
+        icon: 'fas fa-clipboard-check',
+        link: '/admin/tripverification',
+      },
+      {
         title: 'VSC Ticket Audit',
         icon: 'fas fa-ticket-alt',
         link: '/admin/vscticketaudit',
