@@ -188,7 +188,7 @@ export class BalancesheetComponent implements OnInit {
       let index = this.assets.findIndex(voucher => voucher.name === labels[0]);
       if (index === -1) {
         this.assets.push({
-          name: labels[0],
+          name: labels[0]|| ledgerRegister.y_groupname,
           data: [ledgerRegister],
           amount: parseFloat(ledgerRegister.y_amount)
         })

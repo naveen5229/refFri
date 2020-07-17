@@ -259,6 +259,11 @@ export class ServiceComponent implements OnInit {
       this.mannual = this.accountService.selected.branch.is_inv_manualapprove;
       this.order.ismanual = this.mannual;
       this.callApigstcode();
+      if (this.order.ordertype.id == -102 || this.order.ordertype.id == -107 || this.order.ordertype.id == -105){
+        this.getStockItems('purchase');
+      }else if (this.order.ordertype.id == -104 || this.order.ordertype.id == -106){
+        this.getStockItems('sales');
+      }
     };
     this.common.refresh();
     this.setFoucus('custcode');
@@ -287,13 +292,14 @@ export class ServiceComponent implements OnInit {
         this.isModal = true
       }
     }
-    this.changeWithType();
+   // this.changeWithType();
   }
 
   ngOnInit() {
   }
   changeWithType(){
     console.log('withtype',this.withtype);
+    this.withtype=this.withtype;
   }
   setInvoice() {
     return {
@@ -612,6 +618,7 @@ export class ServiceComponent implements OnInit {
   addOrder(order) {
     console.log('new order', order);
     // const params = {};
+         
     const params = {
       billingaddress: order.billingaddress,
       orderremarks: order.orderremarks,
@@ -641,14 +648,15 @@ export class ServiceComponent implements OnInit {
       branchid: order.branchid,
       taxdetail: this.taxdetailsother,
       taxdetailflag: 1,
-      autocode:this.order.autocode
+      autocode:this.order.autocode,
+      ledgertaxdetail:this.taxdetailswith
     };
 
     console.log('params11: ', params);
     this.common.loading++;
 
     this.api.post('Company/InsertPurchaseOrder', params)
-      .subscribe(res => {
+      .subscribe(res => { 
         this.common.loading--;      
         if (order.print) this.printFunction();
         this.order = this.setInvoice();
@@ -784,7 +792,7 @@ export class ServiceComponent implements OnInit {
 
     }if (this.showConfirmtaxaddmore && key == 'enter') {
       this.showConfirmtaxaddmore = false;
-      this.setFoucus('servicesubmit');
+      this.setFoucus('taxlederother-0');
       event.preventDefault();
      // this.showConfirm = true;
 
@@ -1485,7 +1493,7 @@ export class ServiceComponent implements OnInit {
 
         });
 
-        console.log("TaxDetailData:", taxDetailData);
+       // console.log("TaxDetailData:", taxDetailData);
 
         // this.taxdetailsother = taxDetailData.map(txD => {
         //   let data = {
@@ -1507,7 +1515,7 @@ export class ServiceComponent implements OnInit {
             if(index==0){
               this.taxdetailsother.pop();
               }
-            if (amountDetails.id == txD.y_invoicedetails_id) {
+            if (amountDetails.id == txD.y_invoicedetails_id && (txD.y_invoicedetails_id)) {
                 let data = {
                   taxledger: {
                     name: txD.y_ledger_name,
@@ -1526,7 +1534,11 @@ export class ServiceComponent implements OnInit {
         });
 
         taxDetailData.map((txD,index) => {
-          if (txD.y_invoicedetails_id == null){
+          console.log('oteherdata before',index, txD);
+          if(index==0){
+            this.taxdetailswith.pop();
+            }
+          if (txD.y_invoicedetails_id == null && (!txD.y_is_ledger)){
             let oteherdata = {
               taxledgerother: {
                 name: txD.y_ledger_name,
@@ -1536,10 +1548,28 @@ export class ServiceComponent implements OnInit {
               taxamountother: txD.y_amount,
               totalamountother: 0
             }
-            console.log('oteherdata',index, oteherdata);
           // return data;
          
           this.taxdetailsother.push(oteherdata);
+          }else if(txD.y_invoicedetails_id == null && txD.y_is_ledger){
+            if(this.order.amountDetails[0].amount){
+              this.withtype=2;
+            }else{
+              this.withtype=1;
+            }
+           // this.changeWithType();
+                  let oteherdata = {
+                    taxledgerother: {
+                      name: txD.y_ledger_name,
+                      id: txD.y_ledger_id,
+                    },
+                    taxrateother: txD.y_rate,
+                    taxamountother: txD.y_amount,
+                    totalamountother: 0
+                  }
+
+                this.taxdetailswith.push(oteherdata);
+            console.log('oteherdata',index, oteherdata,this.taxdetailswith);
           }
         });
 
@@ -2008,6 +2038,14 @@ export class ServiceComponent implements OnInit {
       this.taxdetailsother[index].taxledgerother.id = suggestion.id;
       this.taxdetailsother[index].taxrateother = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
       this.taxdetailsother[index].taxamountother = parseFloat(((this.taxdetailsother[index].taxrateother * this.totalamount) / 100).toFixed(2));
+
+    } else if (this.activeId.includes('taxlederwith-')) {
+      console.log('tax ledger', suggestion);
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.taxdetailswith[index].taxledgerother.name = suggestion.name;
+      this.taxdetailswith[index].taxledgerother.id = suggestion.id;
+      this.taxdetailswith[index].taxrateother = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
+      this.taxdetailswith[index].taxamountother = parseFloat(((this.taxdetailsother[index].taxrateother * this.totalamount) / 100).toFixed(2));
 
     }
     else if (activeId.includes('invocelist')) {
