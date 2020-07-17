@@ -17,6 +17,7 @@ export class ChangeHaltComponent implements OnInit {
   sites = null;
   vehicleEvent = null;
   title = null;
+  isDoubtfull = false;
   constructor(
     public common: CommonService,
     private activeModal: NgbActiveModal,
@@ -134,7 +135,8 @@ export class ChangeHaltComponent implements OnInit {
     this.common.loading++;
     let params = {
       siteHaltRowId: this.vehicleEvent.haltId,
-      haltType: this.HaltType
+      haltType: this.HaltType,
+      isDoubtfull:this.isDoubtfull
     };
     console.log(params);
     this.api.post('HaltOperations/changeHaltType', params)

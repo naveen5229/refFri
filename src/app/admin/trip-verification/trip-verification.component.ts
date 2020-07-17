@@ -1,25 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
+import { DatePipe } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
-import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
-import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 
 @Component({
-  selector: 'trips',
-  templateUrl: './trips.component.html',
-  styleUrls: ['./trips.component.scss']
+  selector: 'trip-verification',
+  templateUrl: './trip-verification.component.html',
+  styleUrls: ['./trip-verification.component.scss']
 })
-export class TripsComponent implements OnInit {
-
-  type = '2'
+export class TripVerificationComponent implements OnInit {
 
   startDate = null;
   endDate = null;
   vehicleId = -1;
   vehicleRegNo = null;
+  status = 0;
   vehicleTrips = [];
   //table = null;
   headings = [];
@@ -49,7 +47,7 @@ export class TripsComponent implements OnInit {
     this.startDate = new Date(today.setDate(today.getDate() - 14))
     console.log('start and enddate', this.startDate, this.endDate);
 
-    this.getVehicleTrips(this.type);
+    this.getVehicleTrips();
     this.common.refresh = this.refresh.bind(this);
 
   }
@@ -59,10 +57,9 @@ export class TripsComponent implements OnInit {
 
   refresh() {
 
-    this.getVehicleTrips(this.type);
+    this.getVehicleTrips();
   }
-  getVehicleTrips(type) {
-    this.type = type;
+  getVehicleTrips() {
     this.vehicleTrips = [];
     this.table = {
       data: {
@@ -80,7 +77,7 @@ export class TripsComponent implements OnInit {
     let params = "vehicleId=" + this.vehicleId +
       "&startDate=" + startDate +
       "&endDate=" + endDate +
-      "&status=" + this.type;
+      "&status=" + this.status;
     console.log('params', params);
     ++this.common.loading;
     this.api.get('TripsOperation/getTrips?' + params)
@@ -112,7 +109,7 @@ export class TripsComponent implements OnInit {
           this.table.data.headings['googlekm'] = googlekm;
           let hiskm = { title: 'Historic KM (Avg)', placeholder: 'Historic KM (Avg)' };
           this.table.data.headings['hiskm'] = hiskm;
-          if (this.type == '-2') {
+          if (this.status == -2) {
             let status = { title: 'Status', placeholder: 'Status' };
             this.table.data.headings['status'] = status;
             let remark = { title: 'Remark', placeholder: 'Remark' };
@@ -171,6 +168,7 @@ export class TripsComponent implements OnInit {
         this.valobj['status'] = {
           value: this.vehicleTrips[i]['_statusname'], isHTML: true, action: null,
         }
+
         this.valobj['action'] = {
           value: '', isHTML: true, action: null,
           icons: this.actionIcons(this.vehicleTrips[i])
@@ -189,8 +187,8 @@ export class TripsComponent implements OnInit {
 
   actionIcons(trip) {
     let icons = [
-      { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, trip) },
-      { class: 'fa fa-question-circle  change-status', action: this.openRemarkModal.bind(this, trip) },
+
+      { class: 'fa fa-chart-pie change-status', action: this.openChangeStatusModal.bind(this, trip) },
 
     ];
 
@@ -201,60 +199,34 @@ export class TripsComponent implements OnInit {
     this.vehicleRegNo = value.regno;
   }
 
-  openRemarkModal(trip) {
-    this.common.params = { remark: null, title: 'Add Objection ' }
-    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        let remark = data.remark;
-        this.tripStampped(remark, trip._tripid)
-      }
-    });
-  }
 
-  openRouteMapper(trip) {
-    console.log("----trip----", trip);
+  openChangeStatusModal(trip) {
+    console.log("trip====", trip);
     let today, startday, fromDate;
     today = new Date();
     startday = new Date(today.setDate(today.getDate() - 2));
     fromDate = this.common.dateFormatter(startday);
     let fromTime = this.common.dateFormatter(fromDate);
     let toTime = this.common.dateFormatter(new Date());
-    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
-    this.common.params = {
-      vehicleId: trip._vid,
-      vehicleRegNo: trip.Vehicle,
-      fromTime: trip._startdate || fromTime,
-      toTime: trip._enddate || toTime
-    };
-    console.log("open Route Mapper modal", this.common.params);
-    const activeModal = this.modalService.open(RouteMapperComponent, {
-      size: "lg",
-      container: "nb-layout",
-      windowClass: "myCustomModalClass"
+    let VehicleStatusData = {
+      vehicle_id: trip._vid,
+      suggest: 11,
+      latch_time: trip._startdate || fromTime,
+      tTime: trip._enddate || toTime,
+      tripId: trip._tripid,
+      ref_page: 'tv',
+      verifystatus:trip._statustype,
+      tripName: this.common.getJSONTripStatusHTML(trip)
+    }
+    console.log("VehicleStatusData", VehicleStatusData);
+
+    this.common.params = VehicleStatusData;
+    const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      this.getVehicleTrips();
     });
-    activeModal.result.then(
-      data => console.log("data", data)
-      // this.reloadData()
-    );
+
   }
 
-  tripStampped(remark, tripId) {
-    console.log("this.tripId", tripId);
-    let params = {
-      tripId: tripId,
-      status: -2,
-      remark: remark
-    };
-    ++this.common.loading;
-    this.api.post('HaltOperations/tripVerification', params)
-      .subscribe(res => {
-        --this.common.loading;
-        this.common.showToast(res['data'][0].y_msg);
-        this.getVehicleTrips(this.type);
-      }, err => {
-        --this.common.loading;
 
-      });
-  }
 }

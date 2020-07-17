@@ -51,15 +51,15 @@
                   <th>End Date</th>
                   <th>Trip</th>
                   <th>Empty</th>
-              
+
                 </tr>
-                <tr *ngFor="let vt of vehicleTrips;let i = index; " > 
+                <tr *ngFor="let vt of vehicleTrips;let i = index; ">
                   <td>{{i+1}}</td>
                   <td>{{vt["Start Date"]}}</td>
                   <td>{{vt["End Date"]}}</td>
                   <td [innerHTML]="common.getJSONTripStatusHTML(vt)"></td>
                   <td>{{vt["Empty Trip"]}}</td>
-                  
+
 
                 </tr>
               </tbody>
@@ -88,7 +88,6 @@
               <!-- 'color':!vehicleEvent.lastType ? 'none':(vehicleEvent.lastType==21?'red':'green'), -->
               <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
                 <tr [id]="'vehicleEvent-row-'+i"
-                
                   [ngStyle]="{
                             'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'border-bottom':  vehicleEvent.showHorLine? '5px solid black' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
                   (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
@@ -102,10 +101,10 @@
                   <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1"><span
                       *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">
+                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'color':vehicleEvent.startcolor ? vehicleEvent.startcolor: '#000000' }" >
                     {{vehicleEvent.startTimeShort||vehicleEvent.time.split('-')[2].split(' ')[0]}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.duration||vehicleEvent.timeShort}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.endTimeShort}}</td>
+                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'color':vehicleEvent.durationcolor ? vehicleEvent.durationcolor: '#000000' }">{{vehicleEvent.duration||vehicleEvent.timeShort}}</td>
+                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'color':vehicleEvent.endcolor ? vehicleEvent.endcolor: '#000000' }">{{vehicleEvent.endTimeShort}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.y_mon}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent); " *ngIf="vehicleEvent.y_site_type_id==1">
                     {{vehicleEvent.site_name}},{{vehicleEvent.loc}}</td>
@@ -124,12 +123,12 @@
                 <tr *ngIf="vehicleEvent.isOpen">
                   <td colspan="9">
                     <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
-                        <span class="zoom-btn" (click)="setZoom(6)"  title="zoom Level 1">1</span>
-                        <span class="zoom-btn" (click)="setZoom(9)"  title="zoom Level 2">2</span>
+                        <span class="zoom-btn" (click)="setZoom(6)" title="zoom Level 1">1</span>
+                        <span class="zoom-btn" (click)="setZoom(9)" title="zoom Level 2">2</span>
                         <span class="zoom-btn" (click)="setZoom(12)" title="zoom Level 3">3</span>
                         <span class="zoom-btn" (click)="setZoom(15)" title="zoom Level 4">4</span>
                         <span class="zoom-btn" (click)="setZoom(18)" title="zoom Level 5">5</span>
-                        <span class="zoom-btn" (click)="showHide()"  title="Show and Hide Site">{{showHideSite}}</span>
+                        <span class="zoom-btn" (click)="showHide()" title="Show and Hide Site">{{showHideSite}}</span>
                         <span class="zoom-btn" (click)="setSiteHalt(vehicleEvent,true)"
                           *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId" title="Map Site">CSH</span>
                         <span class="zoom-btn" (click)="getRoute(vehicleEvent)" title="Show Route">SR</span>
@@ -138,45 +137,53 @@
                         <span class="zoom-btn"><i class="fa fa-question-circle report-btn"
                             (click)="reportIssue(vehicleEvent);"></i></span>
                         <span class="zoom-btn" (click)="openChangeHaltModal(vehicleEvent,'SiteType')"
-                          *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_id"><i
-                            class="fa fa-plus" title="Create Site"></i></span>
+                          *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_id"><i class="fa fa-plus"
+                            title="Create Site"></i></span>
                         <button class="btn btn-success" (click)="openChangeHaltModal(vehicleEvent,'HaltType')"
                           *ngIf="vehicleEvent.desc!='Trails'  && vehicleEvent.haltId">{{vehicleEvent.y_halt_desc}}</button>
 
-                          <button class="btn btn-success" (click)="openChangeHaltModal(vehicleEvent,'StateType')"
-                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null" >{{vehicleEvent.y_halt_desc}}</button>
+                        <button class="btn btn-success" (click)="openChangeHaltModal(vehicleEvent,'StateType')"
+                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null">{{vehicleEvent.y_halt_desc}}</button>
 
-                          <span class="zoom-btn" (click)="decouplingState(vehicleEvent)"
-                          *ngIf="vehicleEvent.isDecouple"><i
-                            class="fa fa-chain-broken" title="Decoupling"></i></span>
+                        <span class="zoom-btn" (click)="decouplingState(vehicleEvent)"
+                          *ngIf="vehicleEvent.isDecouple"><i class="fa fa-chain-broken" title="Decoupling"></i></span>
 
-                            <span class="zoom-btn" (click)="updateLocation(vehicleEvent)"
-                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id"><i
-                            class="fa fa-map-marker" title="Change Location"></i></span>
-                            
-                            <span class="zoom-btn" (click)="verifyTrip(vehicleEvent)"
-                            *ngIf="vehicleEvent.trip_id"><i
-                              class="fa fa-check" title="Mark Resolved"></i></span>
-                              <span class="zoom-btn" (click)="tripStateMapping(vehicleEvent)"
-                              *ngIf="vehicleEvent.vs_id"><i
-                                class="fa fa-chain" title="Trip State Mapping"></i></span>
+                        <span class="zoom-btn" (click)="updateLocation(vehicleEvent)"
+                          *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id"><i class="fa fa-map-marker"
+                            title="Change Location"></i></span>
+
+                        <span class="zoom-btn" (click)="verifyTrip(vehicleEvent)" *ngIf="vehicleEvent.trip_id"><i
+                            class="fa fa-check" title="Mark Resolved"></i></span>
+                        <span class="zoom-btn" (click)="tripStateMapping(vehicleEvent)" *ngIf="vehicleEvent.vs_id"><i
+                            class="fa fa-chain" title="Trip State Mapping"></i></span>
                       </span>
                     </div>
                   </td>
-                </tr>   
+                </tr>
               </tbody>
             </table>
           </div>
-          <div style="margin-top:20px;margin-bottom:50px;text-align: center" *ngIf="ref_page!='ari'">
+          <div style="margin-top:30px;margin-bottom:50px;text-align: center" *ngIf="tripId">
+            <button class="btn btn-primary" (click)="tripVerification(2)" style="padding:5px ; margin-left:20px">Stamp Trip
+            </button>
+            <button class="btn btn-primary" (click)="tripVerification(1)"
+              style="padding:5px ; margin-left:20px">Highly Confident
+            </button>
+            <button class="btn btn-primary" (click)="tripVerification(-1)" style="padding:5px ; margin-left:20px">can't Say
+            </button>
+          </div>
+          <div style="margin-top:20px;margin-bottom:50px;text-align: center" *ngIf="ref_page!='ari' && !tripId">
             <button class="btn btn-primary" (click)="reviewComplete(1)" style="padding:5px" *ngIf="btnStatus">Review
               Done</button>
             <button class="btn btn-primary" (click)="reviewComplete(-1)" style="padding:5px ; margin-left:20px">Advanced
               Review</button>
+
           </div>
           <div style="margin-top:30px;margin-bottom:50px;text-align: center" *ngIf="ref_page=='ari'">
             <button (click)="resolveTicket(1)" style="padding:5px" *ngIf="btnStatus">Accept</button>
             <button (click)="resolveTicket(-1)" style="padding:5px ; margin-left:20px">Reject</button>
           </div>
+
         </div>
       </div>
 
@@ -184,33 +191,38 @@
     </div>
     <div class="col-sm-6">
       <div class=row>
-      <div class="status_buttons col-5">
-        <button class="btn btn-primary" style="padding: 5px 0px;" (click)="lUlBtn=!lUlBtn;showPreviousLUL()">Previous L/UL</button>
-        <button class="btn btn-primary" style="padding: 5px 0px;margin-left:1px" (click)="showHalt()" >Show Halt</button>
-        <button class="btn btn-primary"style="padding: 5px 0px;margin-left:1px" (click)="resetMap()" >Map Reset</button>
-        <button class="btn btn-primary" (click)="showTrail()" style="margin-left:3px">Show Trail</button>
-        <button class="btn btn-primary" style="padding: 5px 0px;margin-left:1px" (click)="beforeLatchTime()" >Before ltime</button>
-          
-        <!-- <input class="form-control" type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off"
+        <div class="status_buttons col-5">
+          <button class="btn btn-primary" style="padding: 5px 0px;" (click)="lUlBtn=!lUlBtn;showPreviousLUL()">Previous
+            L/UL</button>
+          <button class="btn btn-primary" style="padding: 5px 0px;margin-left:1px" (click)="showHalt()">Show
+            Halt</button>
+          <button class="btn btn-primary" style="padding: 5px 0px;margin-left:1px" (click)="resetMap()">Map
+            Reset</button>
+          <button class="btn btn-primary" (click)="showTrail()" style="margin-left:3px">Show Trail</button>
+          <button class="btn btn-primary" style="padding: 5px 0px;margin-left:1px" (click)="beforeLatchTime()">Before
+            ltime</button>
+
+          <!-- <input class="form-control" type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off"
           (click)="getDate('date')" placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date"
           readonly> -->
-        <!-- <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
+          <!-- <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
           Auto Halt </button>
         <button class="btn btn-primary" id="addManualHalt" (click)="openManualHalt('vehicleEvent')"
           style="margin-left:3px">Manual Halt </button> -->
-      </div>
-      <div class="col-3">
+        </div>
+        <div class="col-3">
           <uj-date-time-picker (onChanged)="getDate('lTime',$event);" [isTime]='false' [dateTimeValue]="lTime">
           </uj-date-time-picker>
-      </div>
-      <div class="col-3">
-          <uj-date-time-picker (onChanged)="getDate('tTime',$event);" [isTime]='false' [isStart]="false" [dateTimeValue]="toTime">
+        </div>
+        <div class="col-3">
+          <uj-date-time-picker (onChanged)="getDate('tTime',$event);" [isTime]='false' [isStart]="false"
+            [dateTimeValue]="toTime">
           </uj-date-time-picker>
-      </div>
-      <div class="col-1">
+        </div>
+        <div class="col-1">
           <button class="btn btn-primary" (click)="reloadData()" style="padding: 5px 5px;">OK </button>
         </div>
-    </div>
+      </div>
       <!-- table div location -->
       <div [class]=" lUlBtn?' map-container':'map-container'">
         <div #map1 id="map1"></div>
