@@ -50,7 +50,7 @@
           </div>
           <div *ngFor="let liability of assets;  let i = index;"
             (click)="activeTreeasset = activeTreeasset !== i ? i : -1">
-            <div *ngIf="(assets.length -1 > i)" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+            <div *ngIf="(assets.length -1 > i)" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == assets.length -1 ? 'none' : ''}">
               <div class="col-8">{{liability.name}}</div>
               <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
             </div>
