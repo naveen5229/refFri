@@ -28,7 +28,7 @@ import { CashbookComponent } from './cashbook/cashbook.component';
 import { BankbooksComponent } from './bankbooks/bankbooks.component';
 import { CityComponent } from './city/city.component';
 import { StorerequisitionsComponent } from './storerequisitions/storerequisitions.component';
-import { TradingComponent } from './trading/trading.component';
+import { TradingComponent ,TradingTreeComponent} from './trading/trading.component';
 import { OpeningstockComponent } from './openingstock/openingstock.component';
 import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
 import { CostcenterComponent } from './costcenter/costcenter.component';
@@ -116,7 +116,8 @@ const PAGES_COMPONENTS = [
     outStandingTreeComponent,
     ServiceComponent,
     ReportconfigComponent,
-    BalanceSheetTreeComponent
+    BalanceSheetTreeComponent,
+    TradingTreeComponent
   ],
   entryComponents:[
     StockitemsComponent,

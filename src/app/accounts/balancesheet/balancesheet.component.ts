@@ -64,29 +64,15 @@ export class BalanceSheetTreeComponent {
     this.action(data);
 
   }
-
-
-
   keyHandler(event) {
-    // console.log('event:', event);
     event.stopPropagation();
     const key = event.key.toLowerCase();
-    // console.log('ctrl + d pressed', this.data[this.selectedRow]);
-
     if ((key.includes('arrowup') || key.includes('arrowdown')) && this.data.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.data.length - 1 && key === 'arrowdown') this.selectedRow++;
     }
-    // if ((event.ctrlKey && key === 'd') && (this.data.length && this.selectedRow != -1)) {
-    //   ((this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('voucher')) ? (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('trip')) ? '' : this.opendaybookmodel(this.data[this.selectedRow].y_voucherid, 6, this.data[this.selectedRow].y_vouchertype_id) : (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('invoice')) ? this.opendaybookmodel(this.data[this.selectedRow].y_voucherid,this.data[this.selectedRow].y_vouchertype_id,1) :'' )
-    //   event.preventDefault();
-    //   return;
-    // }
-
   }
-
-
 }
 
 @Component({
@@ -122,7 +108,7 @@ export class BalancesheetComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'main';
+  viewType = 'main'; 
   assettottalamount = 0;
   libilitytottalamount = 0;
 

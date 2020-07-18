@@ -136,15 +136,14 @@ table tr.highlight {
 .tb-mini .col-4 {
     padding-top: 10px;
     padding-bottom: 10px;
+    color: #fff;
 }
 
 .td-mini .col-8 {
     border-right: 1px solid #c7c7c7;
+    color: #fff;
 }
-.highlight {
-    background-color: #FFEE75 !important;
-    color: #000 !important;
-}
+
 
 .expand-div {
     position: absolute;
@@ -156,4 +155,12 @@ table tr.highlight {
         margin-left: 5px;
         vertical-align: middle;
     }
+}
+.lastrowcolor{
+    background-color: #bfcfd9 !important;
+    
+}
+.highlight {
+    background-color: #FFEE75 !important;
+    color: #000 !important;
 }
