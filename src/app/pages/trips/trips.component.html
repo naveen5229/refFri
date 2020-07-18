@@ -3,25 +3,40 @@
     <h5>Tickets KPI</h5>
   </nb-card-header> -->
   <nb-card-body>
+    <div class="row mb-2">
+      <div class="col-sm-2">
+          <div class="search_vehicle_input">
+              <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList"
+                  display="regno" placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
+          </div>
+      </div>
+      <div class="col-3">
+          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+          </uj-date-time-picker>
+      </div>
+      <div class="col-3">
+          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isStart]="false">
+          </uj-date-time-picker>
+      </div>  
+  </div>
     <div class="row">
       <div class="col-sm-9">
         <ul class="tabs_style">
-          <li [ngClass]="type == 'all' ? 'active' : '' " id="dis-all" (click)=" type = 'all'; getTicketsKPI(type); ">
-            All
+          <li [ngClass]="type == '2' ? 'active' : '' " id="dis-all" (click)=" type = '2'; getVehicleTrips(type); ">
+            Verified
+           </li>
+           <li [ngClass]="type == '1' ? 'active' : '' " id="dis-all" (click)=" type = '1'; getVehicleTrips(type); ">
+            High Confidential
+           </li>
+          <li [ngClass]="type == '-2' ? 'active' : '' " (click)=" type = '-2';  getVehicleTrips(type)">
+            Objections
           </li>
-          <li [ngClass]="type == 'pendingStamp' ? 'active' : '' " (click)=" type = 'pendingStamp';  getTicketsKPI(type)">
-            Pending Stamp
-          </li>
-          <li [ngClass]="type == 'verified' ? 'active' : '' " id="dis-all" (click)=" type = 'verified'; getTicketsKPI(type); ">
-           Verified
-          </li>
-          
         </ul>
       </div>  
     </div>
   
-    <div class="no-data alert alert-danger" role="alert" >
-      No Data available !
-    </div>
+    <smart-table *ngIf="vehicleTrips && vehicleTrips.length" id="vehicleTrip" [data]="table.data"
+    [settings]="table.settings">
+</smart-table>
   </nb-card-body>
 </nb-card>

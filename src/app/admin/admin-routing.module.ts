@@ -70,6 +70,7 @@ import { ChallanPaymentRequestComponent } from '../challan/challan-payment-reque
 import { MvGpsApiReqComponent } from '../challan/mv-gps-api-req/mv-gps-api-req.component';
 import { CaptchaComponent } from './captcha/captcha.component';
 import { FinancialAccountSummaryComponent } from './financial-account-summary/financial-account-summary.component';
+import { TripVerificationComponent } from './trip-verification/trip-verification.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -92,6 +93,11 @@ const routes: Routes = [{
         {
             path: 'vehiclestatuschange',
             component: VehicleStatusChangeComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'tripverification',
+            component: TripVerificationComponent,
             canActivate: [RouteGuard]
         },
         {
