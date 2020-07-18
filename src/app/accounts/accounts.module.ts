@@ -21,7 +21,7 @@ import { InvoiceregisterComponent } from './invoiceregister/invoiceregister.comp
 import { TripVoucherExpenseComponent } from './trip-voucher-expense/trip-voucher-expense.component';
 import { OutstandingComponent,outStandingTreeComponent } from './outstanding/outstanding.component';
 import { BalancesheetComponent,BalanceSheetTreeComponent } from './balancesheet/balancesheet.component';
-import { ProfitlossComponent } from './profitloss/profitloss.component';
+import { ProfitlossComponent,ProfitlossTreeComponent } from './profitloss/profitloss.component';
 import { StockavailableComponent } from './stockavailable/stockavailable.component';
 import { WareHouseComponent } from './ware-house/ware-house.component';
 import { CashbookComponent } from './cashbook/cashbook.component';
@@ -117,7 +117,8 @@ const PAGES_COMPONENTS = [
     ServiceComponent,
     ReportconfigComponent,
     BalanceSheetTreeComponent,
-    TradingTreeComponent
+    TradingTreeComponent,
+    ProfitlossTreeComponent
   ],
   entryComponents:[
     StockitemsComponent,

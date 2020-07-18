@@ -115,7 +115,7 @@ export class TradingComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'sub';
+  viewType = 'main';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -208,7 +208,7 @@ export class TradingComponent implements OnInit {
       }
     }
    // console.log('assets', this.assets);
-    this.assets.map(voucher => voucher.data = this.findChilds(voucher.data));
+    this.assets.map(voucher => (voucher.amount !=0) ?  voucher.data = this.findChilds(voucher.data) :'' );
 
     console.log('assets', this.assets);
     for (let i = 0; i < secondGroup.length; i++) {
@@ -231,7 +231,7 @@ export class TradingComponent implements OnInit {
         this.liabilities[index].data.push(ledgerRegister);
       }
     }
-    this.liabilities.map(voucher => voucher.data = this.findChilds(voucher.data));
+    this.liabilities.map(voucher => (voucher.amount !=0) ? voucher.data = this.findChilds(voucher.data) : '');
     console.log('liabilities', this.liabilities);
     this.cdr.detectChanges();
   }
