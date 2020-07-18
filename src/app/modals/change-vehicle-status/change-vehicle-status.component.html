@@ -101,10 +101,10 @@
                   <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1"><span
                       *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'color':vehicleEvent.startcolor ? vehicleEvent.startcolor: '#000000' }" >
+                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'background-color':vehicleEvent.startcolor ? vehicleEvent.startcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }" >
                     {{vehicleEvent.startTimeShort||vehicleEvent.time.split('-')[2].split(' ')[0]}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'color':vehicleEvent.durationcolor ? vehicleEvent.durationcolor: '#000000' }">{{vehicleEvent.duration||vehicleEvent.timeShort}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'color':vehicleEvent.endcolor ? vehicleEvent.endcolor: '#000000' }">{{vehicleEvent.endTimeShort}}</td>
+                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'background-color':vehicleEvent.durationcolor ? vehicleEvent.durationcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }">{{vehicleEvent.duration||vehicleEvent.timeShort}}</td>
+                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'background-color':vehicleEvent.endcolor ? vehicleEvent.endcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }">{{vehicleEvent.endTimeShort}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.y_mon}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent); " *ngIf="vehicleEvent.y_site_type_id==1">
                     {{vehicleEvent.site_name}},{{vehicleEvent.loc}}</td>

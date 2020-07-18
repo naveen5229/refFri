@@ -133,7 +133,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
       'fromTime': this.common.dateFormatter(this.VehicleStatusData.latch_time),
       'toTime': this.common.dateFormatter(this.toTime),
       'suggestId': this.VehicleStatusData.suggest,
-      'status': this.VehicleStatusData.status ? this.VehicleStatusData.status : 10
+      'status': this.VehicleStatusData.status ? this.VehicleStatusData.status : 10,
+      'tripId':this.tripId
     }
     this.api.post('VehicleStatusChange/getVehicleTrail', params)
       .subscribe(res => {
@@ -178,7 +179,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&fromTime=" + this.common.dateFormatter(this.VehicleStatusData.latch_time) +
       "&toTime=" + this.common.dateFormatter(this.toTime) +
-      "&status=" + status;
+      "&status=" + status+
+      "&tripId=" +this.tripId;
     this.api.get('HaltOperations/getHaltHistoryV2?' + params)
       .subscribe(res => {
         this.common.loading--;
@@ -263,7 +265,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&latchTime=" + this.common.dateFormatter(this.VehicleStatusData.latch_time) +
-      "&toTime=" + this.common.dateFormatter(this.toTime);
+      "&toTime=" + this.common.dateFormatter(this.toTime)+
+      "&tripId=" +this.tripId;
     this.api.get('HaltOperations/getMasterHaltDetail?' + params)
       .subscribe(res => {
         this.common.loading--;
@@ -418,7 +421,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
       vehicleId: this.VehicleStatusData.vehicle_id,
       latchTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
       toTime: this.common.dateFormatter(this.toTime),
-      status: status
+      status: status,
+      tripId: this.tripId
     };
     this.api.post('HaltOperations/reviewDone?', params)
       .subscribe(res => {
@@ -451,9 +455,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.markerZoomMF(i, 19);
     if (this.lastIndDetails)
       this.calculateDistanceAndTime(this.lastIndDetails, vehicleEvent.lat, vehicleEvent.long, vehicleEvent.time);
-    if (vehicleEvent.y_site_id) {
-      this.fnLoadGeofence(vehicleEvent.y_site_id);
-    }
+      this.fnLoadGeofence(vehicleEvent);
   }
 
   showHide() {
@@ -529,11 +531,13 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   Fences = null;
   FencesPoly = null;
-  fnLoadGeofence(siteId) {
+  fnLoadGeofence(vehicleEvent) {
     this.common.loading++;
 
     let params = {
-      siteId: siteId
+      siteId: vehicleEvent.y_site_id,
+      lat:vehicleEvent.lat,
+      lng:vehicleEvent.long
     };
 
     this.api.post('SiteFencing/getSiteFences', params)
@@ -546,7 +550,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
           for (const datax in data) {
             if (data.hasOwnProperty(datax)) {
               const datav = data[datax];
-              if (datax == siteId)
+              if (datax == vehicleEvent.y_site_id)
                 mainLatLng = datav.latLngs;
               latLngsArray.push(datav.latLngs);
             }
@@ -988,7 +992,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       strokeOpacity: 1,
       strokeWeight: 2,
       fillColor: '#FF0000',
-      fillOpacity: 0.2,
+      fillOpacity: 0.1,
       map: this.map,
       center: center,
       radius: radius
