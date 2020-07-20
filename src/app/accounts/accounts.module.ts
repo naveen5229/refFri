@@ -30,7 +30,7 @@ import { CityComponent } from './city/city.component';
 import { StorerequisitionsComponent } from './storerequisitions/storerequisitions.component';
 import { TradingComponent ,TradingTreeComponent} from './trading/trading.component';
 import { OpeningstockComponent } from './openingstock/openingstock.component';
-import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
+import { TrialbalanceComponent ,TrailTreeComponent} from './trialbalance/trialbalance.component';
 import { CostcenterComponent } from './costcenter/costcenter.component';
 import { CostCenterReportComponent } from './cost-center-report/cost-center-report.component';
 import { VouchereditedComponent } from './voucheredited/voucheredited.component';
@@ -118,7 +118,8 @@ const PAGES_COMPONENTS = [
     ReportconfigComponent,
     BalanceSheetTreeComponent,
     TradingTreeComponent,
-    ProfitlossTreeComponent
+    ProfitlossTreeComponent,
+    TrailTreeComponent
   ],
   entryComponents:[
     StockitemsComponent,

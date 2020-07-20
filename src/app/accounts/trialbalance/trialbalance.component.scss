@@ -16,10 +16,8 @@ nb-card-header{
 .selected {
     background-color: #576c77
 }
-table tr.highlight {
-    background-color: #FFEE75 !important;
-    color: #000 !important;
-}
+
+
 .tjr-label {
     background: #263238;
     color: #fff;
@@ -140,10 +138,7 @@ table{
 .selected {
     background-color: #576c77
 }
-table tr.highlight {
-    background-color: #FFEE75 !important;
-    color: #000 !important;
-}
+
 .pdf-icon{
     font-size: 30px;
     color: #9F0001;
@@ -206,10 +201,34 @@ table tr.highlight {
 .td-mini .col-8 {
     border-right: 1px solid #c7c7c7;
 }
-
-.highlight {
-    background-color: #FFEE75 !important;
-    color: #000 !important;
+.x-data {
+    width: 100%;
+    background: #dadfe6;
+    overflow: scroll;
+    overflow: auto;
+    z-index: 1;
+    .row {
+        margin: 0; 
+        border-bottom: 1px solid #FFF;
+        // .x-col {
+        //     // border-right: 1px solid #c2c2c2;
+        // }
+        // .x-col:first-child {
+        //     // border-left: 1px solid #c2c2c2;
+        // }
+    }
+    .x-stocktype {
+        background: #184154;
+        color: #fff;
+        font-size: 14px;
+        .x-col:first-child {
+            max-width: 25.7%;
+        }
+    }
+    
+}
+.x-col{
+    color: #fff;
 }
 .expand-div {
     position: absolute;
@@ -221,4 +240,13 @@ table tr.highlight {
         margin-left: 5px;
         vertical-align: middle;
     }
+}
+
+.lastrowcolor{
+    background-color: #bfcfd9 !important;
+    
+}
+.highlight {
+    background-color: #FFEE75 !important;
+    color: #000 !important;
 }

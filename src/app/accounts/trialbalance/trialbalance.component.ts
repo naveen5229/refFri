@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,70 @@ import * as _ from 'lodash';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { AccountService } from '../../services/account.service';
+@Component({
+  selector: 'trail-tree',
+  templateUrl: './trail.tree.html',
+  styleUrls: ['./trialbalance.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(document:keydown)': 'keyHandler($event)'
+  }
+})
+export class TrailTreeComponent {
+  @Input() data: any;
+  @Input() active: boolean;
+  @Input() labels: string;
+  @Input() action: any;
+  @Input() isExpandAll: boolean;
+  @Input() color: number = 0;
+  @Input() getaction: any;
+  activeIndex: boolean = false;
+  selectedRow: number = -1;
+  colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca', 'bfcfd9'];
+  deletedId = 0;
+  items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  constructor(public common: CommonService,
+    public modalService: NgbModal,
+    public user: UserService,
+    public accountService: AccountService) {
+  }
+
+  lastClickHandler(event, index) {
+    this.selectedRow = parseInt(index);
+    event.stopPropagation();
+  }
+
+  ngAfterViewInit() {
+   // console.log('--------,', this.active);
+  }
+
+  ngOnChanges(changes) {
+    // console.log('Changes: ', changes);
+    // console.log(changes.active)
+  }
+
+  clickHandler(event, index) {
+    event.stopPropagation();
+    this.activeIndex = this.activeIndex !== index ? index : -1
+  }
+
+  doubleClickHandler(event, data) {
+    event.stopPropagation();
+    //  console.log('data suggestion',data);
+    this.action(data);
+
+  }
+  keyHandler(event) {
+    event.stopPropagation();
+    const key = event.key.toLowerCase();
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.data.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.data.length - 1 && key === 'arrowdown') this.selectedRow++;
+    }
+  }
+}
 
 @Component({
   selector: 'trialbalance',
@@ -19,7 +83,7 @@ import { AccountService } from '../../services/account.service';
 })
 export class TrialbalanceComponent implements OnInit {
   selectedName = '';
-
+  voucherEntries=[];
   trial = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startDate: ((((new Date()).getMonth())+1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear())-1) + '-04-01', 'ddMMYYYY', false, '-'),
@@ -51,7 +115,7 @@ export class TrialbalanceComponent implements OnInit {
     }
    
   };
-  viewType = 'sub';
+  viewType = 'main';
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -102,7 +166,8 @@ export class TrialbalanceComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.TrialData = res['data'];
-        this.formattData();
+       // this.formattData(); 
+        this.generalizeData();
         if (this.TrialData.length) {
           document.activeElement['blur']();
           this.selectedRow = 0;
@@ -113,6 +178,140 @@ export class TrialbalanceComponent implements OnInit {
         this.common.showError();
       });
   }
+  generalizeData() {
+    this.voucherEntries = [];
+    for (let i = 0; i < this.TrialData.length; i++) {
+      let ledgerRegister = this.TrialData[i];
+      let labels = ledgerRegister.y_path.split('-->');
+      ledgerRegister.labels = labels.splice(1, labels.length);
+      let index = this.voucherEntries.findIndex(voucher => voucher.name === labels[0]);
+      if (index === -1) {
+        this.voucherEntries.push({
+          name: labels[0],
+          data: [ledgerRegister]|| ledgerRegister.y_ledger_name,
+          debit: parseFloat(ledgerRegister.y_dr_bal),
+          credit: parseFloat(ledgerRegister.y_cr_bal),
+          opnbal: parseFloat(ledgerRegister.y_openbal),
+          clobal: parseFloat(ledgerRegister.y_closebal)
+        })
+      } else {
+        this.voucherEntries[index].debit += parseFloat(ledgerRegister.y_dr_bal);
+        this.voucherEntries[index].credit += parseFloat(ledgerRegister.y_cr_bal);
+        this.voucherEntries[index].opnbal += parseFloat(ledgerRegister.y_openbal);
+        this.voucherEntries[index].clobal += parseFloat(ledgerRegister.y_closebal);
+        this.voucherEntries[index].data.push(ledgerRegister);
+        
+      }
+    }
+
+    this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
+    console.log('voucherEntries', this.voucherEntries);
+  }
+  findChilds(data) {
+    let childs = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].labels.length) {
+        let ledgerRegister = data[i];
+        let labels = ledgerRegister.labels;
+        ledgerRegister.labels = labels.splice(1, labels.length);
+        let index = childs.findIndex(voucher => voucher.name === labels[0]);
+        if (index === -1) {
+          childs.push({
+            name: labels[0],
+            data: [ledgerRegister],
+            debit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dr_bal) : 0,
+            credit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cr_bal) : 0,           
+            opnbal: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_openbal) : 0,
+            clobal: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_closebal) : 0
+
+            
+          })
+        } else {
+          childs[index].debit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dr_bal) : 0;
+          childs[index].credit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cr_bal) : 0;
+          childs[index].opnbal += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_openbal) : 0;
+          childs[index].clobal += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_closebal) : 0;
+          if (ledgerRegister.y_ledger_name) {
+            childs[index].data.push(ledgerRegister);
+          }
+        }
+      }
+    }
+    if (childs.length) {
+      return childs.map(child => {
+        return {
+          name: child.name,
+          data: this.findChilds(child.data),
+          debit: child.debit,
+          credit: child.credit,
+          opnbal: child.opnbal,
+          clobal: child.clobal
+        }
+      });
+    } else {
+      let info = [];
+      let groups = _.groupBy(data, 'y_ledger_name');
+     // console.log('Groups:', groups);
+      for (let group in groups) {
+        if (groups[group].length > 1) {
+          let details = {
+           // name: group,
+            ledgerName: group,
+            data: groups[group].map(ledger => {
+              ledger.y_ledger_name = '';
+              return ledger;
+            }),
+            debit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_dr_bal);
+              return a;
+            }, 0),
+            credit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_cr_bal);
+              return a;
+            }, 0),
+            opnbal: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_openbal);
+              return a;
+            }, 0),
+            clobal: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_closebal);
+              return a;
+            }, 0)
+          }
+          info.push(details);
+        } else {
+         // info.push(...groups[group]);
+         let details = {
+          //name: group,
+          ledgerName: group,
+          data: groups[group].map(ledger => {
+            ledger.y_ledger_name = '';
+            return ledger;
+          }),
+          debit: groups[group].reduce((a, b) => {
+            a += parseFloat(b.y_dr_bal);
+            return a;
+          }, 0),
+          credit: groups[group].reduce((a, b) => {
+            a += parseFloat(b.y_cr_bal);
+            return a;
+          }, 0),
+          opnbal: groups[group].reduce((a, b) => {
+            a += parseFloat(b.y_openbal);
+            return a;
+          }, 0),
+          clobal: groups[group].reduce((a, b) => {
+            a += parseFloat(b.y_closebal);
+            return a;
+          }, 0)
+        }
+        info.push(details);
+        }
+      }
+      return info;
+    }
+  }
+
   changeViewType() {
     console.log('____________');
     this.active.trialBalanceData.mainGroup = [];
@@ -329,7 +528,7 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
     console.log('Active event', event);
     if (key == 'enter' && !this.activeId && this.TrialData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.TrialData[this.selectedRow].y_ledger_id, this.TrialData[this.selectedRow].y_ledger_name);
+      this.getBookDetail(this.TrialData[this.selectedRow]);
       return;
     }
     // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
@@ -431,15 +630,18 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
   }
 
 
-  getBookDetail(voucherId, ledgerName) {
-    console.log('vouher id', voucherId);
+  getBookDetail(vcrdata) {
+    console.log('vouher id', vcrdata);
     //  this.common.params = voucherId;
+    if(vcrdata.ledgerName.includes('Profit & Loss A/c')){
+      this.getProfitLoss();
+    }else{
     this.common.params = {
       startdate: this.trial.startDate,
       enddate: this.trial.endDate,
-      ledger: voucherId,
+      ledger: vcrdata.data[0].y_ledgerid,
       vouchertype: 0,
-      ledgername: ledgerName
+      ledgername: vcrdata.data[0].y_ledger_name
 
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
@@ -455,6 +657,7 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
         //  this.addStockSubType(data.stockSubType)
       }
     });
+  }
   }
 
   getProfitLoss() {
