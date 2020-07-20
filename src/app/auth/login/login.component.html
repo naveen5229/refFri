@@ -17,7 +17,9 @@
     based digital platform
     for the
     Transportation industry</p>
-  <div *ngIf="!listenOTP">
+  <div *ngIf="!listenOTP" style="border:3px solid white; padding:8px;border-radius:5px;">
+    <nb-tabset>
+      <nb-tab tabTitle="Mobile Login">
     <form #mobileForm="ngForm" (submit)="mobileForm.valid && sendOTP()">
       <div class="form-group">
         <input type="tel" autocomplete="off" minlength="10" maxlength="10" [(ngModel)]="userDetails.mobile"
@@ -34,6 +36,16 @@
         {{button}}
       </button>
     </form>
+    </nb-tab>
+
+    <nb-tab tabTitle="User Login">
+      <div>
+      <input type="text" autocomplete="off" [(ngModel)]="users.username" #mobile="ngModel" name="username" id="input-username" placeholder="Username" class="form-control"  required style="margin-top:10px">
+      <input type="password" autocomplete="off" [(ngModel)]="users.password" #mobile="ngModel" name="password" id="input-password" placeholder="Password" class="form-control"  required style="margin-top:10px">
+      <button type="submit"  class="btn btn-primary btn-block custom-btn" tabindex="-1" (click)="userLogin()">Login</button>
+    </div>
+  </nb-tab>
+  </nb-tabset>
   </div>
 
 

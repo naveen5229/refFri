@@ -70,7 +70,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("Data :", res);
-        this.data = res['data'];
+        this.data = res['data'] || [];
         let first_rec = this.data[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
