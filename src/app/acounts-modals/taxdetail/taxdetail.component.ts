@@ -8,10 +8,13 @@ import { LedgerComponent} from '../ledger/ledger.component';
 @Component({
   selector: 'taxdetail',
   templateUrl: './taxdetail.component.html',
-  styleUrls: ['./taxdetail.component.scss']
+  styleUrls: ['./taxdetail.component.scss'],
+  host: {
+    '(document:keydown)': 'keyHandler($event)'
+  },
 })
 export class TaxdetailComponent implements OnInit {
-  showConfirmtax = false;
+  showConfirmpoptax = false;
   amount=0;
   sizeIndex=0;
   taxdetails = [{
@@ -56,7 +59,7 @@ console.log('size index',this.sizeIndex);
   ngOnInit() {
   }
 
-  dismiss(response) {
+  dismisspop(response) {
     console.log('response>>>>>>>>>',response,this.taxdetails);
     if(response){
     this.activeModal.close({ response: response, taxDetails: this.taxdetails });
@@ -74,6 +77,8 @@ console.log('size index',this.sizeIndex);
 
     this.activeModal.close({ response: response, taxDetails: this.taxdetails });
     }
+    event.preventDefault();
+    return;
     // return this.taxdetails;
     // console.log(this.taxdetails);
 
@@ -107,7 +112,7 @@ console.log('size index',this.sizeIndex);
     console.log('tax detail User: ', selectedData, type, display, index);
   }
 
-  addAmountDetails() {
+  addAmountpopupDetails() {
     this.taxdetails.push({
       taxledger: {
         name: '',
@@ -117,7 +122,7 @@ console.log('size index',this.sizeIndex);
       taxamount: 0,
       totalamount:0
     });
-
+    this.showConfirmpoptax=false;
     const activeId = document.activeElement.id;
     let index = parseInt(activeId.split('-')[1]) + 1;
     console.log(index);
@@ -128,42 +133,44 @@ console.log('size index',this.sizeIndex);
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
-    console.log('Active Id', activeId);
-    if ((event.altKey && key === 'c') && (activeId.includes('taxleder'))) {
+    console.log('Active Id new', activeId,key);
+    if ((event.altKey && key === 'c') && (activeId.includes('taxleder-'))) {
       // console.log('alt + C pressed');
       this.openledger();
     }
-    if (activeId.includes('taxleder')) {
+    if (activeId.includes('taxleder-')) {
     
       this.autoSuggestion.targetId = activeId;
       console.log('-=-----------------------------');
     }
-
-    if (this.showConfirmtax) {
-      if (key == 'enter') {
-        console.log(' show taxdetails:', this.taxdetails);
-        this.dismiss(true);
+    if (this.showConfirmpoptax && key == 'enter') {
+      console.log(' show taxdetails:', this.taxdetails,this.showConfirmpoptax);
         this.common.showToast('Your Value Has been saved!');
-      } else if (key == 'y') {
-        this.addAmountDetails();
+        this.showConfirmpoptax = false;
+        this.dismisspop(true);
+       // event.preventDefault();
+        //return;
+      } else if (this.showConfirmpoptax && key == 'a') {
+        this.addAmountpopupDetails();
+        this.showConfirmpoptax = false;
+        event.preventDefault();
+        return;
       }
-      this.showConfirmtax = false;
-      event.preventDefault();
-      return;
-    }
+     
+    
 
     if (key == 'enter') {
       this.allowBackspace = true;
       // console.log('active', activeId);
-      if (activeId.includes('taxleder') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
+      if (activeId.includes('taxleder-') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
         let index = activeId.split('-')[1];
-        if (activeId.includes('taxleder')) this.setFoucus('taxrate-' + index);
+        if (activeId.includes('taxleder-')) this.setFoucus('taxrate-' + index);
         if (activeId.includes('taxrate')) this.setFoucus('taxamount-' + index);
-        if (activeId.includes('taxamount')){
+        if (activeId.includes('taxamount-')){
          console.log('total length of text detail',this.taxdetails.length,'actv id',activeId);
          let totallenth =this.taxdetails.length;
          if(totallenth == ( parseInt(index)+1)){
-          this.showConfirmtax = true;
+          this.showConfirmpoptax = true;
          }else{
           this.setFoucus('taxleder-' + (parseInt(index)+1));
          }
@@ -176,7 +183,7 @@ console.log('size index',this.sizeIndex);
     } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
 
-      if (activeId.includes('taxleder') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
+      if (activeId.includes('taxleder-') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
         let index = parseInt(activeId.split('-')[1]);
         if (index != 0) this.setFoucus('taxamount-' + (index - 1));
         if (activeId.includes('taxrate')) this.setFoucus('taxleder-' + index);
@@ -202,7 +209,7 @@ console.log('size index',this.sizeIndex);
       // this.moveCursor(element, 0, element['value'].length);
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
-      if (id.includes('taxleder')) {
+      if (id.includes('taxleder-')) {
         this.autoSuggestion.targetId = id;
         console.log('==================================');
         console.log('Target Id:', this.autoSuggestion.targetId);
@@ -289,7 +296,7 @@ console.log('size index',this.sizeIndex);
   }
 
   modelCondition(){
-    this.showConfirmtax = false;
+    this.showConfirmpoptax = false;
     event.preventDefault();
     return;
    }
@@ -300,7 +307,7 @@ console.log('size index',this.sizeIndex);
 
     this.taxdetails[index].taxledger.name = suggestion.name;
     this.taxdetails[index].taxledger.id = suggestion.id;
-    this.taxdetails[index].taxrate = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
+    this.taxdetails[index].taxrate = (this.taxdetails[index].taxrate)?this.taxdetails[index].taxrate:(suggestion.per_rate == null) ? 0 : suggestion.per_rate;
     this.taxdetails[index].taxamount = parseFloat(((this.taxdetails[index].taxrate  * this.amount)/100).toFixed(2));
 
     this.autoSuggestion.display = 'name';
@@ -313,8 +320,8 @@ console.log('size index',this.sizeIndex);
       total += parseFloat((taxdetail.taxamount).toString());
       //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
 
-      this.taxdetails[0].totalamount=  parseFloat(total.toString());
+      this.taxdetails[0].totalamount=  parseFloat(total.toFixed(2));
     });
-    return  parseFloat(total.toString());
+    return  parseFloat(total.toFixed(2));
   }
 }

@@ -20,15 +20,15 @@ import { LedgermappingComponent } from './ledgermapping/ledgermapping.component'
 import { InvoiceregisterComponent } from './invoiceregister/invoiceregister.component';
 import { TripVoucherExpenseComponent } from './trip-voucher-expense/trip-voucher-expense.component';
 import { OutstandingComponent,outStandingTreeComponent } from './outstanding/outstanding.component';
-import { BalancesheetComponent } from './balancesheet/balancesheet.component';
-import { ProfitlossComponent } from './profitloss/profitloss.component';
+import { BalancesheetComponent,BalanceSheetTreeComponent } from './balancesheet/balancesheet.component';
+import { ProfitlossComponent,ProfitlossTreeComponent } from './profitloss/profitloss.component';
 import { StockavailableComponent } from './stockavailable/stockavailable.component';
 import { WareHouseComponent } from './ware-house/ware-house.component';
 import { CashbookComponent } from './cashbook/cashbook.component';
 import { BankbooksComponent } from './bankbooks/bankbooks.component';
 import { CityComponent } from './city/city.component';
 import { StorerequisitionsComponent } from './storerequisitions/storerequisitions.component';
-import { TradingComponent } from './trading/trading.component';
+import { TradingComponent ,TradingTreeComponent} from './trading/trading.component';
 import { OpeningstockComponent } from './openingstock/openingstock.component';
 import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
 import { CostcenterComponent } from './costcenter/costcenter.component';
@@ -50,6 +50,8 @@ import { CountryComponent } from './country/country.component';
 import { StateComponent } from './state/state.component';
 import { LedgerregidterComponent,ledgerRegisterTreeComponent } from './ledgerregidter/ledgerregidter.component';
 import { ServiceComponent } from './service/service.component';
+import { ReportconfigComponent } from './reportconfig/reportconfig.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -61,7 +63,8 @@ const PAGES_COMPONENTS = [
     AccountsRoutingModule,
     ThemeModule,
     DashboardModule,
-    DirectiveModule
+    DirectiveModule,
+    ScrollingModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -111,7 +114,11 @@ const PAGES_COMPONENTS = [
     LedgerregidterComponent,
     ledgerRegisterTreeComponent,
     outStandingTreeComponent,
-    ServiceComponent
+    ServiceComponent,
+    ReportconfigComponent,
+    BalanceSheetTreeComponent,
+    TradingTreeComponent,
+    ProfitlossTreeComponent
   ],
   entryComponents:[
     StockitemsComponent,

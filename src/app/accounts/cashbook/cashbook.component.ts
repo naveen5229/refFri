@@ -12,6 +12,7 @@ import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
+import { ServiceComponent } from '../service/service.component';
 
 @Component({
   selector: 'cashbook',
@@ -406,21 +407,34 @@ export class CashbookComponent implements OnInit {
   getBookDetail(voucherId,ytype,dataItem) {
     console.log('vouher id', voucherId,'ytype',ytype);
     if((ytype.toLowerCase().includes('purchase')) || (ytype.toLowerCase().includes('sales')) || (ytype.toLowerCase().includes('debit')) || (ytype.toLowerCase().includes('credit'))){
+     
       this.common.params = {
         invoiceid: voucherId,
         delete: 0,
-        newid:0,
-        ordertype:dataItem.y_vouchertype_id
+        newid: 0,
+        ordertype: dataItem.y_vouchertype_id,
+        isModal:true
       };
-      const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
       activeModal.result.then(data => {
-         console.log('Data: invoice ', data);
-        if (data.delete) {
-          console.log('open succesfull');
-            //this.getDayBook();
-          // this.addLedger(data.ledger);
+        console.log('Data: invoice ', data);
+          if (data.msg) {
         }
       });
+
+      // this.common.params = {
+      //   invoiceid: voucherId,
+      //   delete: 0,
+      //   newid:0,
+      //   ordertype:dataItem.y_vouchertype_id
+      // };
+      // const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      // activeModal.result.then(data => {
+      //    console.log('Data: invoice ', data);
+      //   if (data.delete) {
+      //     console.log('open succesfull');
+      //   }
+      // });
       // this.common.params = {
       //   invoiceid: voucherId,
       //   delete: 0,

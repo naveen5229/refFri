@@ -45,6 +45,7 @@ export class OrderComponent implements OnInit {
   totalamount=0;
   totalTaxamount=0;
   order = {
+    autocode:'',
     podate:this.common.dateFormatternew(new Date()).split(' ')[0],
     date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: null,
@@ -242,6 +243,7 @@ export class OrderComponent implements OnInit {
         this.order.ledgeraddressid = this.invoiceDetail[0].y_ledger_address_id;
         this.order.mannual = (this.invoiceDetail[0].y_for_approved)?false:true;
         this.order.branchid = this.invoiceDetail[0].y_fobranch_id;
+        this.order.autocode = this.invoiceDetail[0].y_code
 
         this.invoiceDetail.map((invoiceDetail, index) => {
           if (!this.order.amountDetails[index]) {
@@ -340,6 +342,7 @@ export class OrderComponent implements OnInit {
   
   setInvoice() {
     return {
+      autocode:'',
     podate:this.common.dateFormatternew(new Date()).split(' ')[0],
       date: this.common.dateFormatternew(new Date()).split(' ')[0],
       biltynumber: '',

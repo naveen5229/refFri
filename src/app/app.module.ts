@@ -22,6 +22,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DirectiveModule } from './directives/directives.module';
 import { from } from 'rxjs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
@@ -293,6 +294,7 @@ import { GstdataComponent } from './acounts-modals/gstdata/gstdata.component';
 import { CheckloginandredirectComponent } from './auth/checkloginandredirect/checkloginandredirect.component';
 import { TripStateMappingComponent } from './modals/trip-state-mapping/trip-state-mapping.component';
 import { TicketInfoComponent } from './modals/ticket-info/ticket-info.component';
+import { TicketDetailsComponent } from './modals/ticket-details/ticket-details.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -544,6 +546,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   GstdataComponent,
   TripStateMappingComponent,
   TicketInfoComponent,
+  TicketDetailsComponent,
 
 ];
 
@@ -589,7 +592,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     NgxQRCodeModule,
     PdfViewerModule,
     ResizableModule,
-    DateInputsModule
+    DateInputsModule,
+    ScrollingModule
   ],
 
   bootstrap: [AppComponent],

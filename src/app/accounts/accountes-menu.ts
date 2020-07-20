@@ -54,7 +54,10 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Vehicle Ledger',
                 link: '/accounts/vehicle-ledgers'
             },
-
+            {
+                title: 'Report Configure',
+                link: '/accounts/reportconfig'
+            },
         ],
     },
 
@@ -177,6 +180,8 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Ledger Register',
                 link: '/accounts/ledgerregidter'
             },
+            
+            
 
         ],
     },
@@ -225,27 +230,31 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
         children: [
             {
                 title: 'Purchase Invoice',
-                link: '/accounts/orders/-102/Purchase Invoice'
+                link: '/accounts/service/-102/Purchase Invoice'
             },
+            // {
+            //     title: 'Sales Invoice',
+            //     link: '/accounts/orders/-104/Sales Invoice'
+            // },
             {
                 title: 'Sales Invoice',
-                link: '/accounts/orders/-104/Sales Invoice'
-            },
-            {
-                title: 'Sales Invoice (sort)',
-                link: '/accounts/service'
+                link: '/accounts/service/-104/Sales Invoice'
             },
             {
                 title: 'Purchase Assets Invoice',
                 link: '/accounts/orders/-105/Purchase Assets Invoice'
             },
+            // {
+            //     title: 'Debit Note',
+            //     link: '/accounts/orders/-107/Debit Note'
+            // },
             {
                 title: 'Debit Note',
-                link: '/accounts/orders/-107/Debit Note'
+                link: '/accounts/service/-107/Debit Note'
             },
             {
                 title: 'Credit Note',
-                link: '/accounts/orders/-106/Credit Note'
+                link: '/accounts/service/-106/Credit Note'
             },
             {
                 title: 'Wastage',

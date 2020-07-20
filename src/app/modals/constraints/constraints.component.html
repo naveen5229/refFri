@@ -65,6 +65,24 @@
     <div class="col-3">
       <div class="row">
         <div class="col-12">
+          <label>Groups</label>
+          <i class="fas fa-redo-alt refresh" (click)="removeObjectData('groups')"></i>
+          <div *ngFor=" let group of constraintsType.groups; let i = index; " class="mt-2">
+            <auto-suggestion (onSelected)="selectSuggestion($event,i,'groups')" url="suggestion/getGroups"
+              display="description" placeholder="Group" class="auto-suggest" [name]="'group'- + i"
+              [preSelected]="group" (onChange)="resetData($event,i,'groups')">
+            </auto-suggestion>
+            <i class="fa fa-plus add" (click)="addField('groups',i)"
+              *ngIf="i == constraintsType.groups.length-1"></i>
+            <i class="fa fa-trash remove" (click)="deleteField('groups',i)" *ngIf="i !== 0"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-3">
+      <div class="row">
+        <div class="col-12">
           <label>Destinations</label>
           <i class="fas fa-redo-alt refresh" (click)="removeObjectData('destinations')"></i>
           <div *ngFor="let destination of constraintsType.destinations; let i = index; " class="mt-2">

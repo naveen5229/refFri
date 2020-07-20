@@ -14,7 +14,6 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { ConciseComponent } from './concise/concise.component';
 import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.component';
 import { ChartModule } from 'angular2-chartjs';
-import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
 import { TicketActionsComponent } from './ticket-actions/ticket-actions.component';
 import { RemarkModalComponent } from '../modals/remark-modal/remark-modal.component';
@@ -95,6 +94,8 @@ import { FuelDailyConsumptionComponent } from './fuel-daily-consumption/fuel-dai
 import { VehicleStatusChangeByUserComponent } from './vehicle-status-change-by-user/vehicle-status-change-by-user.component';
 import { TripissuesComponent } from './tripissues/tripissues.component';
 import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
+import { SupervisorUserAssociationComponent } from './supervisor-user-association/supervisor-user-association.component';
+import { TripsComponent } from './trips/trips.component';
 
 
 
@@ -130,7 +131,6 @@ const PAGES_COMPONENTS = [
     LorryRecciptsComponent,
     ExpensesComponent,
     ConciseComponent,
-    TicketDetailsComponent,
     TicketSiteDetailsComponent,
     TicketActionsComponent,
     ConciseComponent,
@@ -191,6 +191,8 @@ const PAGES_COMPONENTS = [
     VehicleStatusChangeByUserComponent,
     TripissuesComponent,
     TicketsKpiComponent,
+    SupervisorUserAssociationComponent,
+    TripsComponent,
 
 
   ],

@@ -1,0 +1,29 @@
+<nb-card style=" border: 0px;">
+  <!-- <nb-card-header>
+    <h4>Ledger Mapping</h4>
+  </nb-card-header> -->
+  <nb-card-body>
+    <table class="table table-bordered m-0" id="table">
+  <thead style="background-color:#263238; color:#fff;">
+    <tr>
+      <th>S.No</th>
+      <th>Parent Group</th>
+      <th>Group</th>
+      <th>Balance Sheet Order</th>
+      <th>Is Asset For Balance Sheet</th>
+    </tr>
+  </thead>
+  <tr *ngFor="let dataItem of reportList; let i = index;" (click)="selectedRow = i"
+    [ngClass]="{'highlight' : selectedRow == i}" (dblclick)="openLedgerModal(dataItem.y_ledgerid)">
+    <td>{{i + 1}}</td>
+    <td>{{dataItem.parent_groupname}}</td>
+    <td>{{dataItem.groupname}}</td>
+    <td>
+     <input type="number"  class="form-control inn"  [name]="order + '-' + i" [(ngModel)]="orderno[i]"></td>
+    <td><input type="checkbox" class="form-control inn" [name] = "isasset + '-' + i" [(ngModel)]="isset[i]">
+      <button class="form-control inn cngval" (click)="changevalue(dataItem.id,orderno[i],isset[i])">Submit</button></td>
+    
+  </tr>
+</table>
+</nb-card-body>
+</nb-card>

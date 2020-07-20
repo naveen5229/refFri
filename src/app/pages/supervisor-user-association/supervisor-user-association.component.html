@@ -1,0 +1,50 @@
+<!-- Author By Lalit Singh -->
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-9">
+        <h5>Supervisor User Association</h5>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body style="min-height: 580px;">
+    <div class="row">
+        <table class="table table-bordered" style="width:50%">
+          <thead class="thead">
+            <th>Supervisor</th>
+            <th>Users</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <auto-suggestion (onSelected)="getUserDetails($event)" [data]="getUsersList" seperator="-"
+                  [display]="['name','mobileno']" placeholder="Employee" [preSelected]="null" inputId="name">
+                </auto-suggestion>
+              </td>
+              <td>
+                <div *ngFor="let user of users; let i=index" class="row" style="margin-bottom: 6px;" >
+                  <div class="col-9">
+                    <auto-suggestion  [data]="getUsersList" seperator="-" (onSelected)="user.id = $event.id;user.name = $event.name;user.mobileno = $event.mobileno"
+                      [display]="['name','mobileno']" placeholder="Employee"
+                      [preSelected]="{name:user.name,mobileno:user.mobileno}" inputId="name">
+                    </auto-suggestion>
+                  </div>
+                  <div class="col-3">
+                    <i class="fa fa-trash remove" (click)="users.splice(i,1)" *ngIf="i !== 0"></i>
+                    <i class="fa fa-plus add" (click)="addUser()" *ngIf="i == users.length-1"></i>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      <div class="col text-right mt-4">
+        <button class="btn btn-secondary" (click)="saveAssociation()">Save</button>
+      </div>
+
+    </div>
+
+
+  </nb-card-body>
+</nb-card>

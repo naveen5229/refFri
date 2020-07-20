@@ -118,20 +118,21 @@
        
       </div>
       <div class="row">
-        <div class="pagination" *ngIf="pages.count > 1">
+        <div class="pagination " *ngIf="pages.count > 1">
           <!-- Page Count -->
-          <div class="pagination_links">
+          <div class="pagination_links col-10">
               <button (click)="handlePagination(pages.active - 1)" [disabled]="pages.active == 1">Pre</button>
               <button *ngFor="let page of common.generateArray(pages.count)" (click)="handlePagination(page)"
                   [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</button>
               <button (click)="handlePagination(pages.active + 1)" [disabled]="pages.active == pages.count">Next</button>
-          </div>
           <!-- Page Count END -->
       </div>
-      <!-- <div class="numer_list ml-3">
-        <input type="text" class="customPage form-control" name="customPageNo" (keyup.enter)="handlePagination(pages.active);"
-            [(ngModel)]="pages.limit">
-    </div> -->
+      <div class="numer_list ml-1 col-2">
+        <input type="text" class="customPage form-control" name="customPageNo" (keyup.enter)="setData();"
+              [(ngModel)]="pages.limit">
+            </div>
+    </div>
+    
     </div>
     </div>
   </nb-card-body>

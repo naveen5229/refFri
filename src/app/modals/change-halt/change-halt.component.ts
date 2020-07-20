@@ -3,6 +3,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
 
 @Component({
   selector: 'change-halt',
@@ -17,6 +18,7 @@ export class ChangeHaltComponent implements OnInit {
   sites = null;
   vehicleEvent = null;
   title = null;
+  isDoubtfull = false;
   constructor(
     public common: CommonService,
     private activeModal: NgbActiveModal,
@@ -62,7 +64,11 @@ export class ChangeHaltComponent implements OnInit {
       this.createSite();
     } else if (this.type == 'HaltType') {
       console.log("haltType", this.HaltType);
-      this.changeHalt();
+      if (this.isDoubtfull) {
+        this.openRemarkModal();
+      } else {
+        this.changeHalt();
+      }
     }
     else if (this.type == 'StateType') {
       console.log("stateType", this.StateType);
@@ -117,7 +123,11 @@ export class ChangeHaltComponent implements OnInit {
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         if (data.response) {
-          this.changeHalt();
+          if (this.isDoubtfull) {
+            this.openRemarkModal();
+          } else {
+            this.changeHalt();
+          }
         }
       });
     }
@@ -126,15 +136,32 @@ export class ChangeHaltComponent implements OnInit {
       this.HaltType = null;
     }
     else if (data.y_type == -1) {
-      this.changeHalt();
+      if (this.isDoubtfull) {
+        this.openRemarkModal();
+      } else {
+        this.changeHalt();
+      }
     }
   }
 
-  changeHalt() {
+  openRemarkModal() {
+    this.common.params = { remark: null, title: 'Add Remark' }
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        let remark = data.remark;
+        this.changeHalt(remark)
+      }
+    });
+  }
+
+  changeHalt(remark?) {
     this.common.loading++;
     let params = {
       siteHaltRowId: this.vehicleEvent.haltId,
-      haltType: this.HaltType
+      haltType: this.HaltType,
+      isDoubtfull: this.isDoubtfull,
+      remark: remark
     };
     console.log(params);
     this.api.post('HaltOperations/changeHaltType', params)

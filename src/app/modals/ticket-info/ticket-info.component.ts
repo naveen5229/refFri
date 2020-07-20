@@ -250,6 +250,7 @@ export class TicketInfoComponent implements OnInit {
         console.log(res);
         this.common.loading--;
         this.common.showToast(res['msg']);
+        this.closeModal(true);
       }, err => {
         this.common.loading--;
         console.log(err);

@@ -12,7 +12,6 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { ConciseComponent } from './concise/concise.component';
 import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
 import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.component';
-import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { TrendsComponent } from './trends/trends.component';
@@ -96,6 +95,8 @@ import { VehicleStatusChangeComponent } from '../admin/vehicle-status-change/veh
 import { VehicleStatusChangeByUserComponent } from './vehicle-status-change-by-user/vehicle-status-change-by-user.component';
 import { TripissuesComponent } from './tripissues/tripissues.component';
 import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
+import { SupervisorUserAssociationComponent } from './supervisor-user-association/supervisor-user-association.component';
+import { TripsComponent } from './trips/trips.component';
 
 
 const routes: Routes = [{
@@ -191,12 +192,7 @@ const routes: Routes = [{
     component: CardMappingComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
-  {
-
-    path: 'ticket-details',
-    component: TicketDetailsComponent,
-    canActivate: [AuthGuard, RouteGuard],
-  },
+ 
   {
 
     path: 'fuel-average-analysis',
@@ -204,9 +200,13 @@ const routes: Routes = [{
     canActivate: [AuthGuard, RouteGuard],
   },
   {
-
     path: 'vehicle-trip',
     component: VehicleTripComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'trip',
+    component: TripsComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   {
@@ -543,6 +543,12 @@ const routes: Routes = [{
   {
     path: 'fo-user-role',
     component: FoUserRoleComponent,
+    canActivate: [AuthGuard, RouteGuard],
+    canDeactivate: [DeactivateGuardService]
+  },
+  {
+    path: 'supervisor-user-association',
+    component: SupervisorUserAssociationComponent,
     canActivate: [AuthGuard, RouteGuard],
     canDeactivate: [DeactivateGuardService]
   },

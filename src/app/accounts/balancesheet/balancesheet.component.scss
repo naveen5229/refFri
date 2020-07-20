@@ -100,16 +100,19 @@ nb-card-header {
     border-bottom: 1px solid #c7c7c7;
     border-left: 1px solid #c7c7c7;
     border-right: 1px solid #c7c7c7;
+    color: #fff;
 }
 
 .tb-mini .col-8,
 .tb-mini .col-4 {
     padding-top: 10px;
     padding-bottom: 10px;
+    color: #fff;
 }
 
 .td-mini .col-8 {
     border-right: 1px solid #c7c7c7;
+    color: #fff;
 }
 
 .date-modal {
@@ -141,10 +144,7 @@ nb-card-header {
     background-color: #576c77
 }
 
-.highlight {
-    background-color: #FFEE75 !important;
-    color: #000 !important;
-}
+
 
 .pdf-icon {
     font-size: 30px;
@@ -166,4 +166,12 @@ nb-card-header {
         margin-left: 5px;
         vertical-align: middle;
     }
+}
+.lastrowcolor{
+    background-color: #bfcfd9 !important;
+    
+}
+.highlight {
+    background-color: #FFEE75 !important;
+    color: #000 !important;
 }

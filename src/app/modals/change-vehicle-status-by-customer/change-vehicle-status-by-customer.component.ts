@@ -60,19 +60,21 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   toTime = new Date();
   lTime = new Date();
   hsId: any;
-  
+  tripId: null;
   constructor(
     public modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
     private activeModal: NgbActiveModal) {
     this.VehicleStatusData = this.common.params;
-    this.lTime = this.VehicleStatusData.latch_time?new Date(this.VehicleStatusData.latch_time):this.lTime;
+    this.lTime = this.VehicleStatusData.latch_time ? new Date(this.VehicleStatusData.latch_time) : this.lTime;
+    this.tripId = this.VehicleStatusData.tripId ? this.VehicleStatusData.tripId : this.tripId;
     this.ref_page = this.common.ref_page;
     if (this.ref_page != 'vsc') {
       this.toTime = new Date(this.VehicleStatusData.tTime)
     }
-    this.common.handleModalSize('class', 'modal-lg', '1600');
+    this.common.handleModalSize('class', 'modal-lg', '1600', 'px', 0);
+    this.common.handleModalSize('class', 'modal-lg', '1600', 'px', 1);
     this.getLastIndDetails();
     this.getEvents();
     //this.getLoadingUnLoading();
@@ -83,6 +85,8 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
   ngAfterViewInit() {
     // this.location = this.common.params['location'];
     this.loadMap(this.location.lat, this.location.lng);
+    // this.createCirclesOnPostion(new google.maps.LatLng(26.9124, 75.7873), 10000,'#00ff00');
+
   }
 
   loadMap(lat = 26.9124336, lng = 75.78727090000007) {
@@ -243,11 +247,11 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     }
   }
 
-  getDate(type,event){
-    if(type=='lTime'){
+  getDate(type, event) {
+    if (type == 'lTime') {
       this.VehicleStatusData.latch_time = event;
     }
-    else if(type=='tTime'){
+    else if (type == 'tTime') {
       this.toTime = event;
     }
 
@@ -341,6 +345,8 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
 
       }
+      if (markers[index]['radius'])
+        this.createCirclesOnPostion(latlng, markers[index]['radius'], '#00ff00');
 
     }
     return thisMarkers;
@@ -547,7 +553,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
           }
           this.createPolygons(latLngsArray, mainLatLng);
         }
-        
+
         this.common.loading--;
       }, err => {
         this.common.loading--;
@@ -585,9 +591,10 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
 
   }
 
- 
+
 
   openSmartTool(i, vehicleEvent) {
+    console.log('vehicle event',vehicleEvent);
     if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null)
       if (confirm("Merge with this Halt?")) {
         this.common.loading++;
@@ -824,32 +831,32 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       title: 'Decoupling State ',
       description: `Are you sure ?`,
     }
-  const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
-  activeModal.result.then(data => {
-    if (data.response) {
-      let params = {
-        stateId: vehicleEvent.vs_id
-      };
-      this.common.loading++;
-      this.api.post('HaltOperations/decoupleStateHalt', params)
-        .subscribe(res => {
-          this.common.loading--;
-          if (res['data'][0].y_id > 0) {
-            this.common.showToast(res['data'][0].y_msg);
-            this.reloadData();
-          }
-          else {
-            this.common.showError(res['data'][0].y_msg);
-          }
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      if (data.response) {
+        let params = {
+          stateId: vehicleEvent.vs_id
+        };
+        this.common.loading++;
+        this.api.post('HaltOperations/decoupleStateHalt', params)
+          .subscribe(res => {
+            this.common.loading--;
+            if (res['data'][0].y_id > 0) {
+              this.common.showToast(res['data'][0].y_msg);
+              this.reloadData();
+            }
+            else {
+              this.common.showError(res['data'][0].y_msg);
+            }
 
 
-        }, err => {
-          this.common.loading--;
-          this.common.showError('Error!');
-        });
-    }
-  });
-}
+          }, err => {
+            this.common.loading--;
+            this.common.showError('Error!');
+          });
+      }
+    });
+  }
 
   openRouteMapper() {
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
@@ -864,7 +871,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       container: "nb-layout"
       , windowClass: "mycustomModalClass"
     });
-   
+
   }
 
 
@@ -972,5 +979,107 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
       this.reloadData();
     });
   }
+
+  circle = null;
+  createCirclesOnPostion(center, radius, color) {
+    console.log("center, radius,color", center, radius, color);
+    this.circle = new google.maps.Circle({
+      strokeColor: color ? color : '#FF0000',
+      strokeOpacity: 1,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.2,
+      map: this.map,
+      center: center,
+      radius: radius
+    });
+    return this.circle;
+  }
+  routeData = null;
+  getRoute(vehicleEvent) {
+    console.log("show route", vehicleEvent);
+    let status = this.VehicleStatusData.status ? this.VehicleStatusData.status : 10;
+    this.dataType = 'events';
+    //this.VehicleStatusData.latch_time = '2019-02-14 13:19:13';
+    this.common.loading++;
+    let params = "vId=" + this.VehicleStatusData.vehicle_id +
+      "&fromTime=" + vehicleEvent.startTime +
+      "&toTime=" + vehicleEvent.endTime +
+      "&isProximity=1";
+    this.api.get('HaltOperations/getTimeTrails?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        if (this.polygonPath) {
+          this.polygonPath.setMap(null);
+          this.polygonPath = null;
+        }
+        this.routeData = res['data'];
+        console.log('route data', this.routeData);
+        this.routeData.forEach(rd => {
+          this.createPolyPathManual(new google.maps.LatLng(rd.lat, rd.long));
+        });
+        this.animateCircle(this.polygonPath);
+        console.log("this.polygonPath", this.polygonPath);
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError(err);
+      })
+  }
+  polygonPath = null;
+  lineSymbol = {
+    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+  };
+
+  createPolyPathManual(latLng, polygonOptions?) {
+
+    if (!this.polygonPath) {
+      const defaultPolygonOptions = {
+        strokeColor: 'black',
+        strokeOpacity: 1,
+        strokeWeight: 1,
+        icons: [{
+          icon: this.lineSymbol,
+          offset: '0',
+          strokeWeight: 3
+          // repeat : '100px'
+        }]
+      };
+      this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
+      this.polygonPath.setMap(this.map);
+    }
+    let path = this.polygonPath.getPath();
+    path.push(latLng);
+  }
+  animateCircle(line) {
+    var count = 0;
+    setInterval(function () {
+      count = (count + 1) % 200; // change this to 1000 to only show the line once
+      var icons = line.get('icons');
+      icons[0].offset = (count / 2) + '%';
+      line.set('icons', icons);
+    }, 25); // change this value to change the speed
+  }
+
+  tripStampped(status) {
+    console.log("this.tripId", this.tripId);
+    let params = {
+      tripId: this.tripId,
+      status: status
+    };
+    ++this.common.loading;
+    this.api.post('HaltOperations/tripVerification', params)
+      .subscribe(res => {
+        --this.common.loading;
+        this.common.showToast(res['data'][0].y_msg);
+      }, err => {
+        --this.common.loading;
+
+      });
+  }
 }
+
+
+
+
 

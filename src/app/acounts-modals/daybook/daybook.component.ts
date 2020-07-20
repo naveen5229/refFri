@@ -17,6 +17,8 @@ import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-rec
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 import { AccountService } from '../../services/account.service';
+import { ServiceComponent } from '../../accounts/service/service.component';
+
 @Component({
   selector: 'daybook',
   templateUrl: './daybook.component.html',
@@ -172,15 +174,29 @@ export class DaybookComponent implements OnInit {
     this.common.params = {
       invoiceid: invoiceid,
       delete: this.deletedId,
-      sizeIndex:1,
-      ordertype:ordertypeid
+      newid: 0,
+      ordertype: ordertypeid,
+      isModal:true,
+      sizeIndex:1
     };
-    const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
     activeModal.result.then(data => {
-      if (data.delete) {
-        console.log('open succesfull');
+      console.log('Data: invoice ', data);
+        if (data.msg) {
       }
     });
+    // this.common.params = {
+    //   invoiceid: invoiceid,
+    //   delete: this.deletedId,
+    //   sizeIndex:1,
+    //   ordertype:ordertypeid
+    // };
+    // const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+    //   if (data.delete) {
+    //     console.log('open succesfull');
+    //   }
+    // });
   }
 
   getAllLedger() {

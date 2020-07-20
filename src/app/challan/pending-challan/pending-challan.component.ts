@@ -40,6 +40,7 @@ export class PendingChallanComponent implements OnInit {
 
 
   getPendingChallans() {
+    this.challan = [];
     if (!this.startDate && !this.endDate) {
       this.common.showError("Please Enter StartDate and EndDate");
     } else if (!this.startDate) {
@@ -62,7 +63,7 @@ export class PendingChallanComponent implements OnInit {
           }
           this.challan = res['data'];
           this.pendingChallan = 0;
-          this.pendingChallan = 0;
+          this.paidChallan = 0;
           for (let i = 0; i < this.challan.length; i++) {
             if (this.challan[i]['Payment Type'] == 'Cash')
               this.paidChallan++;

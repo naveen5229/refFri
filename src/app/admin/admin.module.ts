@@ -72,6 +72,7 @@ import { BatteryModule } from '../battery/battery.module';
 import { ChallanModule } from '../challan/challan.module';
 import { CaptchaComponent } from './captcha/captcha.component';
 import { FinancialAccountSummaryComponent } from './financial-account-summary/financial-account-summary.component';
+import { TripVerificationComponent } from './trip-verification/trip-verification.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -162,6 +163,7 @@ const PAGES_COMPONENTS = [
     UserTemplatesComponent,
     CaptchaComponent,
     FinancialAccountSummaryComponent,
+    TripVerificationComponent,
   ],
   exports: [
     // VehiclesComponent,

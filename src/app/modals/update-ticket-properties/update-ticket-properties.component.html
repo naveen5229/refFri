@@ -12,28 +12,28 @@
         class="form-control col-6">{{ticketProperties.issue_name}}</label>
     </div>
 
-    <div class="col-6"><label class="col-6">Escape Time</label><input type="text"
+    <div class="col-6"><label class="col-6">Escalation Time</label><input type="text"
         onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6"
         [(ngModel)]="ticketProperties.esc_time" name="esc_time" style="font-size: 10px;display:inline-block;">
     </div>
   </div>
 
   <div class="row" style="margin-top:10px;">
-    <div class="col-6"><label class="col-6">Complete Remaining Time</label><input type="text"
+    <div class="col-6"><label class="col-6">Complete Reminder Time</label><input type="text"
         onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6"
         [(ngModel)]="ticketProperties.compl_rem_time" name="compl_rem_time"
         style="font-size: 10px;display:inline-block;"></div>
-    <div class="col-6"><label class="col-6">Complete Escape Time</label><input type="text"
+    <div class="col-6"><label class="col-6">Complete Escalation Time</label><input type="text"
         onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6"
         [(ngModel)]="ticketProperties.compl_esc_time" name="compl_esc_time"
         style="font-size: 10px;display:inline-block;"></div>
   </div>
 
   <div class="row" style="margin-top:10px;">
-    <div class="col-6"><label class="col-6">Bench Mark</label><input type="text"
+    <div class="col-6"><label class="col-6">BenchMark1 ({{benchmark1label}})</label><input type="text" [readonly]= "benchmark1label=='Not Required'?true:false"
         onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6"
         [(ngModel)]="ticketProperties.benchMark" name="benchMark" style="font-size:10px;display:inline-block;"></div>
-    <div class="col-6"><label class="col-6">Bench Mark2</label><input type="text"
+    <div class="col-6"><label class="col-6">BenchMark2 ({{benchmark2label}})</label><input type="text" [readonly]= "benchmark2label=='Not Required'?true:false"
         onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control col-6"
         [(ngModel)]="ticketProperties.benchMark2" name="benchMark" style="font-size:10px;display:inline-block;"></div>
   </div>

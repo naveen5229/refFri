@@ -118,6 +118,34 @@ span {
   cursor: none;
 }
 
+:host ::ng-deep .tabset li a{
+  border:none!important;
+  font-size:12px!important;
+  font-weight: 600!important;
+  background-color: #FF5722!important;
+  border: 2px solid #FF5722!important;
+  // border:none!important;
+  margin-top:-25px!important;
+  margin-right: -3px!important;
+}
+
+:host ::ng-deep .tabset .active a:after{
+  bottom:-1px!important;
+  // border:2px solid white!important;
+}
+
+:host ::ng-deep .tabset{
+  padding:0!important;
+  padding-left: 29px!important;
+  // border-bottom: 2px solid #FF5722 !important;
+  border-bottom:none!important;
+}
+
+:host ::ng-deep .tabset .active a {
+  background-color: #fff!important;
+  color: #FF5722 !important;
+}
+
 // .admin{
 //     animation:blinkingText 0.8s infinite;
 // }

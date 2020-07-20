@@ -25,6 +25,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/vehicle-trip',
       },
       {
+        title: 'Trips',
+        icon: 'fas fa-exchange-alt',
+        link: '/pages/trip',
+      },
+      {
         title: 'Trip Status FeedBack',
         icon: 'fas fa-comment-alt',
         link: '/pages/trip-status-feedback',
@@ -156,7 +161,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
-        title: 'Tickets KPI',
+        title: 'Supervisor View',
         icon: 'fas fa-ticket-alt',
         link: '/pages/tickets-kpi',
         home: true,
@@ -206,6 +211,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Fo User Role',
         icon: 'fas fa-user-cog',
         link: '/pages/fo-user-role',
+      },
+      {
+        title: 'Supervisor User Association',
+        icon: 'fas fa-user-cog',
+        link: '/pages/supervisor-user-association',
       },
       {
         title: 'Vehicles',

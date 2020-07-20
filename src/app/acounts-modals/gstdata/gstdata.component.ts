@@ -34,7 +34,7 @@ export class GstdataComponent implements OnInit {
           this.igsttotal += mapdata.igst;
           this.sgsttotal += mapdata.sgst;
           this.cgsttotal += mapdata.cgst;
-          this.totalamount += mapdata.amount;
+          this.totalamount +=parseFloat(mapdata.amount);
         })
       }
      }

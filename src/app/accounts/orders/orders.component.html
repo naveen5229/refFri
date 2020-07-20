@@ -419,7 +419,7 @@
           </td>
          
           <td *ngIf="(order.ordertype.id != -108)">
-            <button (click)="TaxDetails(i)" [id]="'taxDetail-'+i" class="btn btn-taxdet">Tax</button>
+            <button (click)="TaxDetails(i)" [id]="'taxDetail-' + i" class="btn btn-taxdet">Tax</button>
           </td>
          
           <td *ngIf="i == 0 && (order.ordertype.id != -108)">

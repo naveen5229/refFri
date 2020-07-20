@@ -74,9 +74,7 @@ export class DocumentsSummaryComponent implements OnInit {
         console.log(err);
       });
   }
-  setData() {
-
-  }
+ 
 
   getDocumentType(strval) {
     if (strval) {
@@ -266,4 +264,15 @@ export class DocumentsSummaryComponent implements OnInit {
     this.dr = this.data.result.slice(startIndex, lastIndex);
     console.log("dr", this.dr);
   }
+
+  settings:any;
+  setData() {
+      this.handlePagination(this.pages.active);
+      this.pages.count = Math.floor(this.data.result.length / this.pages.limit);
+      if (this.data.result.length % this.pages.limit) {
+        this.pages.count++;
+      }
+      console.log("this.pages.count",this.pages.count,this.data.result.length,this.pages.limit)
+  }
+
 }

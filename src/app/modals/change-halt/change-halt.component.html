@@ -6,6 +6,9 @@
 </div>
 <div class="modal-body">
   <div class="container" *ngIf="type=='HaltType'">
+    <label>
+      <input type="checkbox" [(ngModel)]="isDoubtfull"> Is Doubt Full ?
+    </label>
     <label class="halt-label">
       <input type="radio" name="HaltType" value="11" [(ngModel)]="HaltType" (click)="getlastHalt(11)">
       Loading
@@ -14,10 +17,10 @@
       <input type="radio" name="HaltType" value="21" [(ngModel)]="HaltType" (click)="getlastHalt(21)">
       UnLoading
     </label>
-    <!-- <label class="halt-label">
-      <input type="radio" name="HaltType" value="0" [(ngModel)]="HaltType" (click)="setHalt(0)">
-      Others
-    </label> -->
+    <label class="halt-label">
+      <input type="radio" name="HaltType" value="-1" [(ngModel)]="HaltType" (click)="setHalt(-1)">
+      Buffer
+    </label>
     <label class="halt-label">
       <input type="radio" name="HaltType" value="41" [(ngModel)]="HaltType" (click)="setHalt(41)">
       Food/Tea

@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { UserService } from '../../@core/data/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
@@ -29,9 +28,10 @@ import { map } from 'd3';
 })
 export class ServiceComponent implements OnInit {
   @ViewChild('testInput', { read: ElementRef }) input: ElementRef;
-
-
-
+  autocode='';
+  sizeindex=0;
+  totaltaxamt=0;
+  warehouseflag=true;
   showHideButton = true;
   showConfirm = false;
   stockitmeflag = true;
@@ -42,7 +42,7 @@ export class ServiceComponent implements OnInit {
   ledgers = { all: [], suggestions: [] };
   showSuggestions = false;
   activeLedgerIndex = -1;
-  totalitem = null;
+  totalitem = [];
   invoiceDetail = [];
   taxDetailData = [];
   mannual = false;
@@ -58,11 +58,18 @@ export class ServiceComponent implements OnInit {
   selectflag = 1;
   otherinfoflag = 0;
   showConfirmaddmore = false;
+  showConfirmtaxaddmore = false;
+  showConfirmtaxaddmorewith=false;
   stateGstCode = 0;
   tempdata = [];
   gstrate = [];
   branchstategstcode = 0;
+  addupdateinvoiceid=0;
+  newid = 0;
+  withtype=0;
+  totalledgeramt=0;
   order = {
+    autocode:'',
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
     date: (this.accountService.voucherDate) ? this.accountService.voucherDate : this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: '',
@@ -82,6 +89,7 @@ export class ServiceComponent implements OnInit {
     ledgeraddressid: null,
     print: false,
     branchid: 0,
+
     // branch: {
     //   name: '',
     //   id: ''
@@ -125,14 +133,25 @@ export class ServiceComponent implements OnInit {
     }]
   };
 
-  taxdetails = [{
-    taxledger: {
+  taxdetailsother = [{
+    taxledgerother: {
       name: '',
       id: '',
     },
-    taxrate: 0,
-    taxamount: 0,
-    totalamount: 0
+    taxrateother: 0,
+    taxamountother: 0,
+    totalamountother: 0
+
+  }];
+
+  taxdetailswith = [{
+    taxledgerother: {
+      name: '',
+      id: '',
+    },
+    taxrateother: 0,
+    taxamountother: 0,
+    totalamountother: 0
 
   }];
 
@@ -178,12 +197,18 @@ export class ServiceComponent implements OnInit {
 
 
     // this.getBranchList();
-    this.order.ordertype.id = -104;
-    this.order.ordertype.name = 'Service Sales Invoice';
+   // this.order.ordertype.id = -109;
+   // this.order.ordertype.name = 'Service Sales Invoice';
     this.suggestionname = 'Service';
-    this.getStockItems('sales');
     this.getTaxLedgers();
-
+    this.route.params.subscribe(params => {
+      console.log('Params1: ', params);
+      if (params.id == -102 || params.id == -104 ||params.id == -105 ||params.id == -106 ||params.id == -107 ||params.id == -108 ) {
+        this.order.ordertype.id = params.id;
+        this.order.ordertype.name = params.name;
+      }
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    });
     // this.route.params.subscribe(params => {
     //   console.log('Params1: ', params);
 
@@ -212,11 +237,21 @@ export class ServiceComponent implements OnInit {
     //   }
     //   this.getStockItems(this.suggestionname);
     // });
+    console.log('new params',this.common.params);
+    if (this.common.params && this.common.params.ordertype){
+      this.order.ordertype.id= this.common.params.ordertype;
+    }
+    if (this.order.ordertype.id == -102 || this.order.ordertype.id == -107 || this.order.ordertype.id == -105){
+      this.getStockItems('purchase');
+    }else if (this.order.ordertype.id == -104 || this.order.ordertype.id == -106){
+      this.getStockItems('sales');
+    }
+
     this.common.refresh = () => {
       this.getInvoiceTypes();
       this.getPurchaseLedgers();
       this.getSupplierLedgers();
-      this.getStockItems('sales');
+      //this.getStockItems('sales');
       // this.getStockItems('sales');
       // this.getStockItems('purchase');
       // this.getStockItems('inventary');
@@ -224,29 +259,51 @@ export class ServiceComponent implements OnInit {
       this.mannual = this.accountService.selected.branch.is_inv_manualapprove;
       this.order.ismanual = this.mannual;
       this.callApigstcode();
+      if (this.order.ordertype.id == -102 || this.order.ordertype.id == -107 || this.order.ordertype.id == -105){
+        this.getStockItems('purchase');
+      }else if (this.order.ordertype.id == -104 || this.order.ordertype.id == -106){
+        this.getStockItems('sales');
+      }
     };
     this.common.refresh();
     this.setFoucus('custcode');
     this.common.currentPage = this.order.ordertype.name;
     this.getFreeze();
     this.callApigstcode();
+    if(this.common.params && this.common.params.newid){
+      this.newid = this.common.params.newid;
+      this.common.currentPage ='Add Duplicate Invoice';
+    }
+    if(this.common.params && this.common.params.sizeindex){
+      this.sizeindex = this.common.params.sizeindex;
+    }
     if (this.common.params && this.common.params.invoiceid) {  // Add by hemant 27 june 2020
       this.showHideButton = false;
       console.log("Params:", this.common.params);
       this.params = this.common.params;
       this.common.params = null;
+      this.addupdateinvoiceid=this.params.invoiceid;
+      
       this.getInvoiceDetail(this.params.invoiceid);
+      this.sizeindex= this.sizeindex+1;
+     // this.order.ordertype.id = -104;
+     
       if (this.params.isModal) {
         this.isModal = true
       }
     }
+   // this.changeWithType();
   }
 
   ngOnInit() {
   }
-
+  changeWithType(){
+    console.log('withtype',this.withtype);
+    this.withtype=this.withtype;
+  }
   setInvoice() {
     return {
+      autocode:'',
       podate: this.common.dateFormatternew(new Date()).split(' ')[0],
       date: this.common.dateFormatternew(new Date()).split(' ')[0],
       biltynumber: '',
@@ -412,8 +469,14 @@ export class ServiceComponent implements OnInit {
     this.api.get('Suggestion/GetWareHouse?search=123')
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
         this.suggestions.warehouses = res['data'];
+        if(((res['data']).length) == 1){
+          this.warehouseflag = false;
+        }else{
+          this.warehouseflag = true;
+        }
+        console.log('Res ware house:', res['data'],(res['data']).length,this.warehouseflag);
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -482,11 +545,22 @@ export class ServiceComponent implements OnInit {
   }
   modelConditionaddmore() {
     this.showConfirmaddmore = false;
-    this.setFoucus('taxleder-0');
+    this.setFoucus('taxlederother-0');
     event.preventDefault();
     return;
   }
-
+  modelConditionTaxaddmore() {
+    this.showConfirmtaxaddmore = false;
+    this.setFoucus('servicesubmit');
+    event.preventDefault();
+    return;
+  }
+  modelConditionTaxaddmorewith() {
+    this.showConfirmtaxaddmorewith = false;
+    this.setFoucus('servicesubmit');
+    event.preventDefault();
+    return;
+  }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -519,8 +593,9 @@ export class ServiceComponent implements OnInit {
           console.log('###', this.order.amountDetails[i].amount);
           this.order.amountDetails[i].lineamount = (parseFloat(this.order.amountDetails[i].amount) + parseFloat(data.taxDetails[0].totalamount)).toFixed(2);
           this.totalTaxamount += data.taxDetails[0].totalamount;
-          console.log('###---', this.order.amountDetails[i].lineamount, '-----||', data.taxDetails[0].totalamount);
-          this.setFoucus('plustransparent');
+          console.log('###---', this.order.amountDetails[i].lineamount, '-----||', data.taxDetails[0].totalamount,this.totalTaxamount);
+         // this.setFoucus('plustransparent');
+          this.showConfirmaddmore = true;
           // this.addLedger(data.ledger);
         }
       });
@@ -543,6 +618,7 @@ export class ServiceComponent implements OnInit {
   addOrder(order) {
     console.log('new order', order);
     // const params = {};
+         
     const params = {
       billingaddress: order.billingaddress,
       orderremarks: order.orderremarks,
@@ -567,45 +643,46 @@ export class ServiceComponent implements OnInit {
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
       ledgeraddressid: order.ledgeraddressid,
-      x_id: 0,
+      x_id: (this.newid == 0) ? this.addupdateinvoiceid :0,
       ismannual: order.ismanual,
       branchid: order.branchid,
-      taxdetail: this.taxdetails,
-      taxdetailflag: 1
+      taxdetail: this.taxdetailsother,
+      taxdetailflag: 1,
+      autocode:this.order.autocode,
+      ledgertaxdetail:this.taxdetailswith
     };
 
     console.log('params11: ', params);
     this.common.loading++;
 
     this.api.post('Company/InsertPurchaseOrder', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('res: ', res);
-        //this.GetLedger();
+      .subscribe(res => { 
+        this.common.loading--;      
         if (order.print) this.printFunction();
         this.order = this.setInvoice();
-        this.taxdetails = [];
-        this.taxdetails = [{
-          taxledger: {
+        this.taxdetailsother = [];
+        this.taxdetailsother = [{
+          taxledgerother: {
             name: '',
             id: '',
           },
-          taxrate: 0,
-          taxamount: 0,
-          totalamount: 0
-
-        }];
-        this.setFoucus('ordertype');
-        this.common.showToast('Invoice Are Saved');
+          taxrateother: 0,
+          taxamountother: 0,
+          totalamountother: 0
+        }];      
+        this.common.showToast('Your Invoice Code :' + res['data'].code);
+        if(this.isModal){
+          this.common.params='';
+          this.activeModal.close({responce:'true', msg: 'true'});
+        }else{
+        this.setFoucus('custcode');
+        }
         return;
-
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
-
-
   }
 
   calculateTotal() {
@@ -615,8 +692,12 @@ export class ServiceComponent implements OnInit {
       total += parseFloat(amountDetail.amount);
     });
     this.totalamount = total;
-    console.log("TOTALAMOUNT:", this.totalamount);
-    return total;
+   // console.log("TOTALAMOUNT:", this.totalamount);
+    if(total){
+      return total;
+    }else{
+      return 0;
+    }
   }
 
   calculateTotalLineAmount() {
@@ -625,7 +706,12 @@ export class ServiceComponent implements OnInit {
       // console.log('Amount: ',  amountDetail.amo  unt[type]);
       total += parseFloat(amountDetail.lineamount);
     });
-    return total;
+    this.order.totalamount = parseFloat((total).toFixed(2));
+      if(total){
+      return total;
+      }else{
+        return 0;
+      }
   }
   calculateTotalQty() {
     let total = null;
@@ -636,8 +722,8 @@ export class ServiceComponent implements OnInit {
     return total;
   }
 
-  getStockAvailability(stockid, whrhouseid) {
-    let totalitem = 0;
+  getStockAvailability(stockid,whrhouseid,index) {
+   
     let params = {
       stockid: stockid,
       wherehouseid: whrhouseid
@@ -647,7 +733,7 @@ export class ServiceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data'][0].get_stockitemavailableqty);
-        this.totalitem = res['data'][0].get_stockitemavailableqty;
+        this.totalitem[index] = (res['data'][0].get_stockitemavailableqty).toFixed(2);
         //  console.log('totalitem : -',totalitem);
         return this.totalitem;
       }, err => {
@@ -665,16 +751,66 @@ export class ServiceComponent implements OnInit {
     if ((this.order.ordertype.name.toLowerCase().includes('purchase')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     if ((this.order.ordertype.name.toLowerCase().includes('sales')) && this.activeId.includes('stockitem')) { this.suggestions.stockItems = this.suggestions.stockItems; }
     console.log('Active event11', event, this.order.ordertype.name, this.activeId, this.suggestions.purchasestockItems);
-    if (this.showConfirmaddmore && key == 'enter') {
+    if (key == 'f3') {
+    this.callconfirm();
+    }
+    if (this.showConfirmaddmore && key == 'a') {
       console.log('set command', this.lastActiveId, this.activeId);
       this.showConfirmaddmore = false;
       this.addAmountDetails();
       event.preventDefault();
       return;
 
-    } if (this.showConfirmaddmore && key == 'n') {
+    } if (this.showConfirmaddmore && key == 'enter') {
       this.showConfirmaddmore = false;
       event.preventDefault();
+      let index = parseInt(this.lastActiveId.split('-')[1]);
+      setTimeout(() => {
+      this.setFoucus('taxlederother-0');
+      }, 50);
+     // return;
+    }
+    if (this.showConfirmtaxaddmore && key == 'a') {
+      console.log('set command', this.lastActiveId, this.activeId);
+      this.showConfirmtaxaddmore = false;
+      this.addTaxAmountDetails();
+      let index = parseInt(this.lastActiveId.split('-')[1]);
+      console.log('tax detail inex', this.lastActiveId, index);
+      this.setFoucus('taxlederother-' + (index + 1));
+      event.preventDefault();
+      return;
+
+    } if (this.showConfirmtaxaddmorewith && key == 'a') {
+      console.log('set command', this.lastActiveId, this.activeId);
+      this.showConfirmtaxaddmorewith = false;
+      this.addWithAmountDetails();
+      let index = parseInt(this.lastActiveId.split('-')[1]);
+      console.log('tax detail inex', this.lastActiveId, index);
+      this.setFoucus('taxledereith-' + (index + 1));
+      event.preventDefault();
+      return;
+
+    }if (this.showConfirmtaxaddmore && key == 'enter') {
+      this.showConfirmtaxaddmore = false;
+      this.setFoucus('taxlederother-0');
+      event.preventDefault();
+     // this.showConfirm = true;
+
+      return;
+    }if (this.showConfirmtaxaddmorewith && key == 'enter') {
+      this.showConfirmtaxaddmorewith = false;
+      this.setFoucus('servicesubmit');
+      event.preventDefault();
+      return;
+    }if (this.showConfirm && (key == 'enter' || key == 'y')) {
+      this.showConfirm = false;
+      event.preventDefault();
+      this.dismiss(true);
+      return;
+    }if (this.showConfirm && key == 'n') {
+      this.showConfirm = false;
+      event.preventDefault();
+     // this.dismiss(true);
       return;
     }
     else if (!event.ctrlKey && (key == 'f2' && !this.showDateModal)) {
@@ -778,7 +914,7 @@ export class ServiceComponent implements OnInit {
       setTimeout(() => {
         console.log('available item', this.order.amountDetails[index].qty, 'second response', this.totalitem, 'stockitemm', this.stockitmeflag);
         if (this.stockitmeflag) {
-          if ((parseInt(this.totalitem)) < (parseInt(this.order.amountDetails[index].qty))) {
+          if ((parseInt(this.totalitem[index])) < (parseInt(this.order.amountDetails[index].qty))) {
             alert('Quantity is lower then available quantity');
             this.order.amountDetails[index].qty = 0;
           }
@@ -827,11 +963,7 @@ export class ServiceComponent implements OnInit {
               this.setFoucus('date');
             }, 150);
           } else {
-            if (this.order.ordertype.id == -104) {
               this.setFoucus('salesledger');
-            } else {
-              this.setFoucus('podate');
-            }
           }
         }
       } else if (this.activeId.includes('purchaseledger') || this.activeId.includes('salesledger')) {
@@ -883,24 +1015,43 @@ export class ServiceComponent implements OnInit {
           }
         }, 100);
         this.setFoucus('OtherInfo');
-      } else if (this.activeId.includes('taxleder')) {
+      } else if (this.activeId.includes('taxlederother')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('taxrate-' + index);
+        this.setFoucus('taxrateother-' + index);
 
       }
-      else if (this.activeId.includes('taxrate')) {
+      else if (this.activeId.includes('taxlederwith')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('taxamount-' + index);
+        this.setFoucus('taxratewith-' + index);
+
       }
-      else if (this.activeId.includes('taxamount')) {
-        console.log('total length of text detail', this.taxdetails.length, 'actv id', this.activeId);
-        let totallenth = this.taxdetails.length;
+      else if (this.activeId.includes('taxrateother')) {
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('taxamountother-' + index);
+      }
+      else if (this.activeId.includes('taxratewith')) {
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('taxamountwith-' + index);
+      }
+      else if (this.activeId.includes('taxamountwith')) {
         this.lastActiveId = this.activeId;
-        this.setFoucus('taxdetailbutton-0');
+        this.showConfirmtaxaddmorewith=true;
+       // this.setFoucus('taxdetailbutton-0');
+      }
+      else if (this.activeId.includes('taxamountother')) {
+        console.log('total length of text detail', this.taxdetailsother.length, 'actv id', this.activeId);
+        let totallenth = this.taxdetailsother.length;
+        this.lastActiveId = this.activeId;
+        this.showConfirmtaxaddmore=true;
+       // this.setFoucus('taxdetailbutton-0');
       } else if (this.activeId.includes('taxdetailbutton-')) {
         let index = parseInt(this.lastActiveId.split('-')[1]);
         console.log('tax detail inex', this.lastActiveId, index);
-        this.setFoucus('taxleder-' + (index + 1));
+        this.setFoucus('taxlederother-' + (index + 1));
+      } else if (this.activeId.includes('taxDetail-')) {
+        let index = parseInt(this.lastActiveId.split('-')[1]);
+        console.log('tax detail inex', this.lastActiveId, index);
+       // this.setFoucus('taxlederother-' + (index + 1));
       } else if (this.activeId.includes('plustransparent')) {
         let index = parseInt(this.lastActiveId.split('-')[1]);
         console.log('tax detail inex', this.lastActiveId, index);
@@ -1028,8 +1179,8 @@ export class ServiceComponent implements OnInit {
       } else if (this.activeId.includes('remarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.lastActiveId = this.activeId;
-        //  this.setFoucus('plustransparent');
-        this.showConfirmaddmore = true;
+        this.setFoucus('taxDetail-'+index);
+       // this.showConfirmaddmore = true;
       } else if (this.activeId.includes('invocelist')) {
         this.setFoucus('custcode');
       } else if (this.activeId.includes('amount-')) {
@@ -1293,7 +1444,7 @@ export class ServiceComponent implements OnInit {
     this.api.post('Company/getInvoiceDetail', params)
       .subscribe(res => {
         // this.common.loading--;
-        console.log('Res:', res['data']);
+        
         this.invoiceDetail = res['data']['invoice'];
         let taxDetailData = res['data']['taxdetail'];
         console.log('Invoice detail', this.invoiceDetail[0]['y_biltynumber']);
@@ -1305,11 +1456,11 @@ export class ServiceComponent implements OnInit {
         this.order.biltydate = this.invoiceDetail[0].y_biltydatestamp != null ? this.common.dateFormatternew(this.invoiceDetail[0].y_biltydatestamp.split(' ')[0]) : '';  // edit by hemant 27 june 2020
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
         this.order.billingaddress = this.invoiceDetail[0].y_vendorbillingaddress;
-        // this.order.ordertype.id = this.invoiceDetail[0].y_ordertype_id;
-        // this.order.ordertype.name = this.invoiceDetail[0].ordertype_name;
+        this.order.ordertype.id = this.invoiceDetail[0].y_ordertype_id;
+        this.order.ordertype.name = this.invoiceDetail[0].ordertype_name;
         this.order.custcode = this.invoiceDetail[0].y_cust_code;
         this.order.vendorbidref = this.invoiceDetail[0].y_vendorbidref;
-        this.order.qutationrefrence = this.invoiceDetail[0].y_cust_code;
+        this.order.qutationrefrence = this.invoiceDetail[0].y_vendorquotationref;
         this.order.paymentterms = this.invoiceDetail[0].y_paymentterms;
         this.order.deliveryterms = this.invoiceDetail[0].y_deliveryterms;
         this.order.orderremarks = this.invoiceDetail[0].y_order_remarks;
@@ -1320,12 +1471,13 @@ export class ServiceComponent implements OnInit {
         this.order.shipmentlocation = this.invoiceDetail[0].y_shipmentlocation;
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
         this.order.delete = 0;
+        this.order.autocode = this.invoiceDetail[0].y_code;
 
         this.invoiceDetail.map((invoiceDetail, index) => {
           if (!this.order.amountDetails[index]) {
             this.addAmountDetails();
           }
-          //  this.order.amountDetails[index].id = invoiceDetail.y_dtl_id;
+          this.order.amountDetails[index].id = invoiceDetail.y_dtl_id;
           this.order.amountDetails[index].stockitem.id = invoiceDetail.y_dtl_stockitemid;
           this.order.amountDetails[index].stockitem.name = invoiceDetail.stockitem_name;
           this.order.amountDetails[index].stockunit.id = invoiceDetail.y_dtl_stockunitid;
@@ -1341,25 +1493,85 @@ export class ServiceComponent implements OnInit {
 
         });
 
-        console.log("TaxDetailData:", taxDetailData);
+       // console.log("TaxDetailData:", taxDetailData);
 
-        // add by hemant 27 june 2020
-        this.taxdetails = taxDetailData.map(txD => {
-          let data = {
-            taxledger: {
-              name: txD.y_ledger_name,
-              id: txD.y_ledger_id,
-            },
-            taxrate: txD.y_rate,
-            taxamount: txD.y_amount,
-            totalamount: 0
-          }
-          console.log('____daya', data);
-          return data;
+        // this.taxdetailsother = taxDetailData.map(txD => {
+        //   let data = {
+        //     taxledger: {
+        //       name: txD.y_ledger_name,
+        //       id: txD.y_ledger_id,
+        //     },
+        //     taxrate: txD.y_rate,
+        //     taxamount: txD.y_amount,
+        //     totalamount: 0
+        //   }
+        //   console.log('____daya', data);
+        //   return data;
+        // });
+        // console.log(JSON.stringify(this.taxdetailsother))
+
+        this.taxDetailData = taxDetailData.map((txD,index) => {
+          this.order.amountDetails.map(amountDetails => {
+            if(index==0){
+              this.taxdetailsother.pop();
+              }
+            if (amountDetails.id == txD.y_invoicedetails_id && (txD.y_invoicedetails_id)) {
+                let data = {
+                  taxledger: {
+                    name: txD.y_ledger_name,
+                    id: txD.y_ledger_id,
+                  },
+                  taxrate: txD.y_rate,
+                  taxamount: txD.y_amount,
+                  totalamount: 0
+                }
+                console.log('____daya', data);
+                amountDetails.taxDetails.push(data);
+            }
+           
+            
         });
-        console.log(JSON.stringify(this.taxdetails))
+        });
 
+        taxDetailData.map((txD,index) => {
+          console.log('oteherdata before',index, txD);
+          if(index==0){
+            this.taxdetailswith.pop();
+            }
+          if (txD.y_invoicedetails_id == null && (!txD.y_is_ledger)){
+            let oteherdata = {
+              taxledgerother: {
+                name: txD.y_ledger_name,
+                id: txD.y_ledger_id,
+              },
+              taxrateother: txD.y_rate,
+              taxamountother: txD.y_amount,
+              totalamountother: 0
+            }
+          // return data;
+         
+          this.taxdetailsother.push(oteherdata);
+          }else if(txD.y_invoicedetails_id == null && txD.y_is_ledger){
+            if(this.order.amountDetails[0].amount){
+              this.withtype=2;
+            }else{
+              this.withtype=1;
+            }
+           // this.changeWithType();
+                  let oteherdata = {
+                    taxledgerother: {
+                      name: txD.y_ledger_name,
+                      id: txD.y_ledger_id,
+                    },
+                    taxrateother: txD.y_rate,
+                    taxamountother: txD.y_amount,
+                    totalamountother: 0
+                  }
 
+                this.taxdetailswith.push(oteherdata);
+            console.log('oteherdata',index, oteherdata,this.taxdetailswith);
+          }
+        });
 
         // Commented Start by Hemant Singh Sisodia
 
@@ -1401,7 +1613,7 @@ export class ServiceComponent implements OnInit {
 
 
 
-        console.log("TaxDetail:", this.taxdetails);
+        console.log("TaxDetail:", this.taxdetailsother);
 
         // amountDetails: [{
         //   transactionType: 'debit',
@@ -1509,7 +1721,7 @@ export class ServiceComponent implements OnInit {
         suggestions = this.suggestions.warehouses.filter(warehouse => warehouse.name.replace(/\./g, "").toLowerCase().includes(search));
         suggestions.splice(10, suggestions.length - 1)
       }
-    } else if (this.activeId.includes('taxleder-')) {
+    } else if (this.activeId.includes('taxlederother-')) {
       if (element['value']) {
         suggestions = this.suggestions.Taxdata.filter(warehouse => warehouse.name.replace(/\./g, "").toLowerCase().includes(search));
         suggestions.splice(10, suggestions.length - 1)
@@ -1560,12 +1772,12 @@ export class ServiceComponent implements OnInit {
       this.order.amountDetails[index].warehouse.id = suggestion.id;
     } else if (this.activeId.includes('invocelist')) {
       this.getInvoiceDetail(suggestion.id);
-    } else if (this.activeId.includes('taxledger-')) {
+    } else if (this.activeId.includes('taxledgerother-')) {
       const index = parseInt(this.activeId.split('-')[1]);
-      this.taxdetails[index].taxledger.name = suggestion.name;
-      this.taxdetails[index].taxledger.id = suggestion.id;
-      this.taxdetails[index].taxrate = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
-      this.taxdetails[index].taxamount = parseFloat(((this.taxdetails[index].taxrate * this.totalamount) / 100).toFixed(2));
+      this.taxdetailsother[index].taxledgerother.name = suggestion.name;
+      this.taxdetailsother[index].taxledgerother.id = suggestion.id;
+      this.taxdetailsother[index].taxrateother = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
+      this.taxdetailsother[index].taxamountother = parseFloat(((this.taxdetailsother[index].taxrateother * this.totalamount) / 100).toFixed(2));
 
     }
 
@@ -1717,10 +1929,9 @@ export class ServiceComponent implements OnInit {
     else if (activeId == 'purchaseledger' || activeId == 'salesledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId == 'ledger') {
       this.autoSuggestion.data = this.suggestions.supplierLedgers;
-      // this.ledgersuggestiondata = this.suggestions.supplierLedgers;
     }
     else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
-    else if (activeId.includes('taxleder-')) this.autoSuggestion.data = this.suggestions.Taxdata;
+    else if ((activeId.includes('taxlederother-')) || (activeId.includes('taxlederwith-'))) this.autoSuggestion.data = this.suggestions.Taxdata;
     else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId.includes('warehouse')) {
       this.autoSuggestion.data = this.suggestions.warehouses;
@@ -1732,8 +1943,6 @@ export class ServiceComponent implements OnInit {
       }
     }
     else if (activeId.includes('invocelist')) this.autoSuggestion.data = this.suggestions.invoiceList;
-
-
     else {
       this.autoSuggestion.data = [];
       this.autoSuggestion.display = '';
@@ -1799,7 +2008,7 @@ export class ServiceComponent implements OnInit {
         this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
         this.gstrate[index] = suggestion.gst_igst_per;
         if (this.order.ordertype.name.toLowerCase().includes('sales')) {
-          this.getStockAvailability(suggestion.id, (this.order.amountDetails[index].warehouse.id));
+          this.getStockAvailability(suggestion.id,(this.order.amountDetails[index].warehouse.id),index);
           console.log('suggestion indexing', suggestion);
           if (suggestion.is_service) {
             // this.order.amountDetails[index].qty = 0;
@@ -1822,13 +2031,21 @@ export class ServiceComponent implements OnInit {
         this.order.amountDetails[index].warehouse.id = suggestion.id;
       }
       //  this.getStockAvailability(suggestion.id);
-    } else if (this.activeId.includes('taxleder-')) {
+    } else if (this.activeId.includes('taxlederother-')) {
       console.log('tax ledger', suggestion);
       const index = parseInt(this.activeId.split('-')[1]);
-      this.taxdetails[index].taxledger.name = suggestion.name;
-      this.taxdetails[index].taxledger.id = suggestion.id;
-      this.taxdetails[index].taxrate = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
-      this.taxdetails[index].taxamount = parseFloat(((this.taxdetails[index].taxrate * this.totalamount) / 100).toFixed(2));
+      this.taxdetailsother[index].taxledgerother.name = suggestion.name;
+      this.taxdetailsother[index].taxledgerother.id = suggestion.id;
+      this.taxdetailsother[index].taxrateother = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
+      this.taxdetailsother[index].taxamountother = parseFloat(((this.taxdetailsother[index].taxrateother * this.totalamount) / 100).toFixed(2));
+
+    } else if (this.activeId.includes('taxlederwith-')) {
+      console.log('tax ledger', suggestion);
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.taxdetailswith[index].taxledgerother.name = suggestion.name;
+      this.taxdetailswith[index].taxledgerother.id = suggestion.id;
+      this.taxdetailswith[index].taxrateother = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
+      this.taxdetailswith[index].taxamountother = parseFloat(((this.taxdetailsother[index].taxrateother * this.totalamount) / 100).toFixed(2));
 
     }
     else if (activeId.includes('invocelist')) {
@@ -1941,7 +2158,6 @@ export class ServiceComponent implements OnInit {
         console.log('data order responce', data);
         this.order.billingaddress = data.adddata;
         this.order.ledgeraddressid = data.addressid;
-
         return;
       }
     });
@@ -2358,15 +2574,35 @@ export class ServiceComponent implements OnInit {
       deliveryterms: this.order.deliveryterms,
       paymentterms: this.order.paymentterms,
       orderremarks: this.order.orderremarks,
-      shipmentlocation: this.order.shipmentlocation
+      shipmentlocation: this.order.shipmentlocation,
+      ordertypeid:this.order.ordertype.id,
+      sizeindex: this.sizeindex
     };
     const activeModal = this.modalService.open(OtherinfoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
       console.log('Data: ', data);
       if (data.response) {
+        if(this.warehouseflag){
         this.setFoucus('warehouse-0');
+        }else{
+        this.setFoucus('stockitem-0');
+        }
         if (data.ledger.biltydate != 0 || data.ledger.biltynumber != 0 || data.ledger.custcode != '' || data.ledger.deliveryterms != '' || data.ledger.grnremarks != '' || data.ledger.orderremarks != '' || data.ledger.paymentterms != '' || data.ledger.podate != '' || data.ledger.qutationrefrence != '' || data.ledger.shipmentlocation != '' || data.ledger.billingaddress != '' || data.ledger.vendorbidref != '') {
           this.otherinfoflag = 1;
+
+          this.order.podate= data.ledger.podate;
+          this.order.biltynumber =data.ledger.biltynumber;
+          this.order.biltydate=data.ledger.biltydate;
+        //  this.order.totalamount=
+          this.order.grnremarks = data.ledger.grnremarks;
+          this.order.billingaddress = data.ledger.billingaddress;
+          this.order.custcode = data.ledger.custcode;
+          this.order.vendorbidref = data.ledger.vendorbidref;
+          this.order.qutationrefrence = data.ledger.qutationrefrence;
+          this.order.deliveryterms = data.ledger.deliveryterms;
+          this.order.paymentterms = data.ledger.paymentterms;
+          this.order.orderremarks = data.ledger.orderremarks;
+          this.order.shipmentlocation = data.ledger.shipmentlocation;
         } else {
           this.otherinfoflag = 0;
         }
@@ -2378,49 +2614,89 @@ export class ServiceComponent implements OnInit {
 
   }
   addTaxAmountDetails() {
-    this.taxdetails.push({
-      taxledger: {
+    this.taxdetailsother.push({
+      taxledgerother: {
         name: '',
         id: '',
       },
-      taxrate: 0,
-      taxamount: 0,
-      totalamount: 0
+      taxrateother: 0,
+      taxamountother: 0,
+      totalamountother: 0
     });
-
-    // const activeId = document.activeElement.id;
-    // let index = parseInt(activeId.split('-')[1]) + 1;
-    // console.log(index);
-    // activeId.includes('taxdetailbutton');
-    // this.setFoucus('taxleder-' + index);
+   this.showConfirmtaxaddmore=false;
+   let index = parseInt(this.lastActiveId.split('-')[1]);
+   console.log('tax detail inex', this.lastActiveId, index);
+   this.setFoucus('taxlederother-' + (index + 1));
+   event.preventDefault();
+   return;
   }
 
-  calculateTaxTotal() {
+  addWithAmountDetails() {
+    this.taxdetailswith.push({
+      taxledgerother: {
+        name: '',
+        id: '',
+      },
+      taxrateother: 0,
+      taxamountother: 0,
+      totalamountother: 0
+    });
+   this.showConfirmtaxaddmore=false;
+   let index = parseInt(this.lastActiveId.split('-')[1]);
+   console.log('tax detail inex', this.lastActiveId, index);
+   this.setFoucus('taxlederwith-' + (index + 1));
+   event.preventDefault();
+   return;
+  }
+  calculateLedgerTotal() {
     let total = 0;
-    this.taxdetails.map(taxdetail => {
-      total += taxdetail.taxamount !== null ? parseFloat((taxdetail.taxamount).toString()) : 0; // edit by hemant 27 june 2020
+    this.taxdetailswith.map(taxdetail => {
+      total += taxdetail.taxamountother !== null ? parseFloat((taxdetail.taxamountother).toString()) : 0; // edit by hemant 27 june 2020
       //console.log('taxdetail Amount: ',  taxdetail.taxamount,total);
 
-      this.taxdetails[0].totalamount = total !== null ? parseFloat(total.toString()) : 0; // edit by hemant 27 june 2020
+      this.taxdetailsother[0].totalamountother = total !== null ? parseFloat(total.toString()) : 0; // edit by hemant 27 june 2020
     });
-    return total !== null ? parseFloat(total.toFixed(2).toString()) : 0; // edit by hemant 27 june 2020
+     total;
+     
+     return this.totalledgeramt =  (total !== null ? parseFloat(total.toFixed(2)) : 0); 
+  }
+  calculateTaxTotal() {
+    let total = 0;
+    this.taxdetailsother.map(taxdetail => {
+      total += taxdetail.taxamountother !== null ? parseFloat((taxdetail.taxamountother).toString()) : 0; 
+      this.taxdetailsother[0].totalamountother = total !== null ? parseFloat(total.toString()) : 0; 
+    });
+    this.totaltaxamt = total;
+    this.taxdetailswith.map(detailwith=>{
+      if(detailwith.taxamountother !=0){
+      total += detailwith.taxamountother !== null ? parseFloat((detailwith.taxamountother).toString()) : 0; 
+      }
+    })
+
+    return total !== null ? parseFloat(total.toFixed(2)) : 0; 
+  }
+  calculatetotal(index,amount){
+    console.log('calculate total',this.totalledgeramt+1,'sec',this.order.totalamount+1,(this.totalledgeramt + this.order.totalamount));
+    return ((amount * (this.totalledgeramt + this.order.totalamount))/100).toFixed(2);
+
   }
   calculateTaxRateTotal() {
-    let total = 0;
-    this.taxdetails.map(taxdetail => {
-      total += taxdetail.taxrate !== null ? parseFloat((taxdetail.taxrate).toString()) : 0; // edit by hemant 27 june 2020
-    });
-    return total !== null ? parseFloat(total.toString()) : 0; // edit by hemant 27 june 2020
+    // let total = 0;
+    // this.taxdetailsother.map(taxdetail => {
+    //   total += taxdetail.taxrateother !== null ? parseFloat((taxdetail.taxrateother).toString()) : 0; // edit by hemant 27 june 2020
+    // });
+    return ((this.order.totalamount-this.totalamount)+this.totaltaxamt).toFixed(2);
+   // return total !== null ? parseFloat(total.toString()) : 0; // edit by hemant 27 june 2020
   }
 
   calculateTaxAmount() {
     let total = 0;
-    this.taxdetails.map(taxdetail => {
-      total += taxdetail.taxamount !== null ? parseFloat((taxdetail.taxamount).toString()) : 0; // edit by hemant 27 june 2020
+    this.taxdetailsother.map(taxdetail => {
+      total += taxdetail.taxamountother !== null ? parseFloat((taxdetail.taxamountother).toString()) : 0; // edit by hemant 27 june 2020
     });
 
-    this.taxdetails.map(taxdetail => {
-      total += taxdetail.taxrate !== null ? parseFloat((taxdetail.taxrate).toString()) : 0; // edit by hemant 27 june 2020
+    this.taxdetailsother.map(taxdetail => {
+      total += taxdetail.taxrateother !== null ? parseFloat((taxdetail.taxrateother).toString()) : 0; // edit by hemant 27 june 2020
     });
     return total !== null ? parseFloat(total.toString()) : 0; // edit by hemant 27 june 2020
 

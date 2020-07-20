@@ -16,6 +16,7 @@ import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summ
 import { AccountService } from '../../services/account.service';
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
+import { ServiceComponent } from '../service/service.component';
 
 @Component({
   selector: 'ledgerview',
@@ -274,7 +275,7 @@ export class LedgerviewComponent implements OnInit {
     } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
       return;
     }else if ((event.ctrlKey && key === 'd') && (this.ledgerData.length && this.selectedRow != -1)) {
-      ((this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('voucher')) ? (this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.ledgerData[this.selectedRow].y_voucherid, 6, this.ledgerData[this.selectedRow].y_vouchertype_id) : (this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('invoice')) ? this.openinvoicemodeledit(this.ledgerData[this.selectedRow].y_voucherid,this.ledgerData[this.selectedRow].y_vouchertype_id,1) :'' )
+      ((this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('voucher')) ? (this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.ledgerData[this.selectedRow].y_voucherid, 6, this.ledgerData[this.selectedRow].y_vouchertype_id) : (this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('invoice') || this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('debit') || this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('credit')) ? this.openinvoicemodeledit(this.ledgerData[this.selectedRow].y_voucherid,this.ledgerData[this.selectedRow].y_vouchertype_id,1) :'' )
       event.preventDefault();
       return;
     }
@@ -404,18 +405,29 @@ export class LedgerviewComponent implements OnInit {
       this.common.params = {
         invoiceid: voucherId,
         delete: 0,
-        newid:0,
-        ordertype:dataItem.y_vouchertype_id
+        newid: 0,
+        ordertype: dataItem.y_vouchertype_id,
+        isModal:true
       };
-      const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
       activeModal.result.then(data => {
-         console.log('Data: invoice ', data);
-        if (data.delete) {
-          console.log('open succesfull');
-            //this.getDayBook();
-          // this.addLedger(data.ledger);
+        console.log('Data: invoice ', data);
+          if (data.msg) {
         }
       });
+      // this.common.params = {
+      //   invoiceid: voucherId,
+      //   delete: 0,
+      //   newid:0,
+      //   ordertype:dataItem.y_vouchertype_id
+      // };
+      // const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      // activeModal.result.then(data => {
+      //    console.log('Data: invoice ', data);
+      //   if (data.delete) {
+      //     console.log('open succesfull');
+      //   }
+      // });
       // this.common.params = {
       //   invoiceid: voucherId,
       //   delete: 0,
@@ -822,19 +834,32 @@ this.ledgerData.map((data,index) => {
   openinvoicemodeledit(invoiceid,ordertypeid,create=0) {
     // console.log('welcome to invoice ');
     //  this.common.params = invoiceid;
+    // this.common.params = {
+    //   invoiceid: invoiceid,
+    //   delete: 0,
+    //   newid:create,
+    //   ordertype:ordertypeid
+    // };
+    // const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+    //    console.log('Data: invoice ', data);
+    //   if (data.delete) {
+    //     console.log('open succesfull');
+    //       this.getLedgerView();
+    //   }
+    // });
     this.common.params = {
       invoiceid: invoiceid,
       delete: 0,
-      newid:create,
-      ordertype:ordertypeid
+      newid: create,
+      ordertype: ordertypeid,
+      isModal:true
     };
-    const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
     activeModal.result.then(data => {
-       console.log('Data: invoice ', data);
-      if (data.delete) {
-        console.log('open succesfull');
+      console.log('Data: invoice ', data);
+        if (data.msg) {
           this.getLedgerView();
-        // this.addLedger(data.ledger);
       }
     });
   }
