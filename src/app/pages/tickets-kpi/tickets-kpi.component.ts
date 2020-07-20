@@ -49,7 +49,7 @@ export class TicketsKpiComponent implements OnInit {
 
   openTicketDetails(value, type) {
     console.log("ticket", value, type,value.split('_')[0]);
-    if (value.split('_')[0] =='0%' || value.split('_')[0] == 0 || value.split('_')[0] == '0' || value.split('_')[0] == '00:00' || value.split('_')[0] == '00:00:00' || value.split('_')[0] == '0(00:00)' || value.split('_')[0] == '-' ) {
+    if (value.split('_')[0] =='0%' || value.split('_')[0] == 0 || value.split('_')[0] == '0' || value.split('_')[0] == '00:00' || value.split('_')[0] == '00:00:00' || value.split('_')[0] == '0(00:00)' || value.split('_')[0] == '-' || value.split('_')[0] == '0(00:00,M:0)'	 ) {
       this.common.showError("There is no data");
      } 
      else {
