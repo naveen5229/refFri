@@ -11,10 +11,19 @@ import { ActivityService } from '../../services/Activity/activity.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+  userType='1';
+
   userDetails = {
     mobile: '',
     otp: '',
   };
+
+  users={
+    username:'',
+    password:''
+  }
+
   iswallet = '0';
   isConsignerLogin = '0';
   listenOTP = false;
@@ -72,6 +81,38 @@ export class LoginComponent implements OnInit {
     this.removeDummy();
   }
 
+  userLogin(){
+    const params = {
+      username: this.users.username,
+      password: this.users.password,
+    };
+    this.common.loading++;
+    this.api.post('Login/loginApi', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("res:", res);
+          if (res['code'] == 1) {
+          clearInterval(this.interval);
+          this.common.showToast(res['msg']);
+          localStorage.setItem('USER_TOKEN', res['data']['authkey']);
+          localStorage.setItem('USER_DETAILS', JSON.stringify(res['data']));
+          localStorage.setItem('iswallet', this.iswallet);
+          this.user._details = res['data'];
+          this.user._token = res['data']['authkey'];
+          console.log('Login Type: ', this.user._loggedInBy);
+          localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
+          if (res['data'].axesToken && this.user._loggedInBy === 'customer') {
+          localStorage.setItem('DOST_axesToken', res['data'][0].axesToken);
+          }
+          this.getUserPagesList();
+          }else {
+          this.common.showError(res['msg']);
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
 
   removeDummy() {
     let allTags = document.getElementsByTagName('nb-card-header');
