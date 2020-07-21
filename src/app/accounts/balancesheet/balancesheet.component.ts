@@ -108,7 +108,7 @@ export class BalancesheetComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'main'; 
+  viewType = 'main';
   assettottalamount = 0;
   libilitytottalamount = 0;
 
@@ -174,7 +174,7 @@ export class BalancesheetComponent implements OnInit {
       let index = this.assets.findIndex(voucher => voucher.name === labels[0]);
       if (index === -1) {
         this.assets.push({
-          name: labels[0]|| ledgerRegister.y_groupname,
+          name: labels[0] || ledgerRegister.y_groupname,
           data: [ledgerRegister],
           amount: parseFloat(ledgerRegister.y_amount)
         })
@@ -232,48 +232,48 @@ export class BalancesheetComponent implements OnInit {
             childs[index].data.push(ledgerRegister);
           }
         }
+      } else {
+        childs.push({
+          ledgerName: data[i].y_ledger_name,
+          ledgerdata: data[i],
+          data: [],
+          amount: data[i].y_amount
+        })
       }
     }
 
     if (childs.length) {
       return childs.map(child => {
-        return {
-          name: child.name,
-          data: this.findChilds(child.data),
-          amount: child.amount,
+        if (child.data.length) {
+          return {
+            name: child.name,
+            data: this.findChilds(child.data),
+            amount: child.amount,
+          }
+        } else {
+          return child;
         }
+      }).sort((a, b)=>{
+        if(a.length > b.length) return 1;
+        return -1;
       });
     } else {
       let info = [];
       let groups = _.groupBy(data, 'y_ledger_name');
-      // console.log('Groups:', data, groups);
       for (let group in groups) {
         if (groups[group].length > 1 && group) {
           let details = {
-            //name: group,
             ledgerName: group,
             ledgerdata: groups[group],
-            // data: groups[group].map(ledger => {
-            //   ledger.y_ledger_name = '';
-            //   return ledger;
-            // }),
             amount: groups[group].reduce((a, b) => {
               a += parseFloat(b.y_amount);
               return a;
             }, 0)
-
           }
           info.push(details);
         } else if (group) {
-          // info.push(...groups[group]);
           let details = {
-            // name: group,
             ledgerName: group,
-            ledgerdata: groups[group],
-            // data: groups[group].map(ledger => {
-            //   ledger.y_ledger_name = '';
-            //   return ledger;
-            // }),
             amount: groups[group].reduce((a, b) => {
               a += parseFloat(b.y_amount);
               return a;
@@ -285,6 +285,7 @@ export class BalancesheetComponent implements OnInit {
       return info;
     }
   }
+  
 
   formattData() {
     let assetsGroup = _.groupBy(this.balanceSheetData, 'y_is_assets');
