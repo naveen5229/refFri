@@ -1,16 +1,12 @@
 <nb-card style=" border: 0px;">
-  <!-- <nb-card-header>
-    <h4>Ledger View</h4>
-  </nb-card-header> -->
+
   <nb-card-body (keydown)="keyHandler($event)">
     <!-- View Expand -->
-    <div class="expand-div" style="z-index:99">
-      <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
-      <label>Expand Group</label>
-      <!-- <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">
-      <label>Expand Sub Group</label> -->
-      <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
-      <label>Expand All</label>
+    <div class="" style="float:right; margin-right: 20px">
+      <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
+        Main Group</span>
+      <span><input type="radio" name="view-type" value="sub" [(ngModel)]="isExpand"> Expand
+        All</span>
     </div>
     <!-- View Expand End -->
     <div class="row">
