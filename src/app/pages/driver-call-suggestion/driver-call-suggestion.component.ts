@@ -18,6 +18,13 @@ import { ReportIssueComponent } from '../../modals/report-issue/report-issue.com
   styleUrls: ['./driver-call-suggestion.component.scss']
 })
 export class DriverCallSuggestionComponent implements OnInit {
+  CountSummary=[];
+  onwardTotal=null;
+  onwardDelay=null;
+  loadingTotal=null;
+  loadingDelay=null;
+  unloadingTotal=null;
+  unloadingDelay=null;
   driverData = [];
   headings = [];
   kmpdval = 300;
@@ -41,6 +48,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+    this.getCountSummary();
     let today = new Date();
     this.strcurdate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     today.setDate(today.getDate() - 1);
@@ -268,6 +276,30 @@ export class DriverCallSuggestionComponent implements OnInit {
         this.onwardDelayData = res['data'];
         this.smartTableWithHeadings();
 
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+  getCountSummary(){
+    let type=0;
+    let hrs = 10;
+    this.CountSummary = [];
+    this.common.loading++;
+    let params = "type=" + type +
+      "&hours=" + hrs;
+    this.api.get('TripsOperation/tripOnwardDelay?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("getCountSummary", res['data'][0]);
+        this.CountSummary = res['data'][0];
+        this.onwardTotal=this.CountSummary['totalonward'];
+        this.onwardDelay=this.CountSummary['tenhronwarddelaycount'];
+        this.loadingTotal=this.CountSummary['totalloading'];
+        this.loadingDelay=this.CountSummary['tenhrloadingdelaycount'];
+        this.unloadingTotal=this.CountSummary['totalunloading'];
+        this.unloadingDelay=this.CountSummary['tenhrunloadingdelaycount'];
       }, err => {
         this.common.loading--;
         this.common.showError();
