@@ -60,3 +60,53 @@ nb-card-header{
 :host ::ng-deep .tableFixHead table td i{
     margin-right: 5px;
 }
+
+.divstyleOnboarding{
+    height:auto;
+    margin-bottom: 10px;
+    // box-shadow: inset 0px 0px 5px 6px lightgreen;
+    padding-bottom:10px;
+    border-radius:10px;
+    background: #E3DAFF;
+    border-style: double;
+    border-color: white;
+    border-width: 9px;
+    
+}
+
+.divstyleLoading{
+    height:auto;
+    margin-bottom: 10px;
+    // box-shadow: inset 0px 0px 5px 6px lightsalmon;
+    padding-bottom:10px;
+    border-radius:10px;
+    background: #FCCCA9;
+    border-style: double;
+    border-color: white;
+    border-width: 9px;
+}
+
+.divstyleUnloading{
+    height:auto;
+    margin-bottom: 10px;
+    // box-shadow: inset 0px 0px 5px 6px lightblue;
+    padding-bottom:10px;
+    border-radius:10px;
+    background:#DBF3FA;
+    border-style: double;
+    border-color: white;
+    border-width: 9px;
+}
+
+.tablestyle{
+    width: 86%;
+    margin-left: 7%;
+    // box-shadow: 2px 2px 2px cyan;
+    // box-shadow: inset 0px 0px 4px 3px lightgrey;
+    // box-shadow: 2px 2px 10px 1px;
+    border-radius:5px;
+}
+
+.tablestyle tr td{
+    padding:6px!important;
+}
