@@ -12,14 +12,20 @@ import { AutoSuggestionComponent } from '../../directives/auto-suggestion/auto-s
   styleUrls: ['./add-fo-admin-users.component.scss']
 })
 export class AddFoAdminUsersComponent implements OnInit {
+  btn='Add';
+  data = [];
+  loginType = '';
+  authType = '1';
   foAdminUser: FormGroup;
   submitted = false;
   Fouser = {
+    foAdminName: null,
     name: null,
     mobileNo: null,
     Foid: null,
-
+    foaid:null
   };
+  foadminusrId = null;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -29,14 +35,15 @@ export class AddFoAdminUsersComponent implements OnInit {
 
 
     public activeModal: NgbActiveModal,
-  ) { }
+  ) { this.displayLoginType()}
 
   ngOnInit() {
     this.foAdminUser = this.formbuilder.group({
 
       name: ['', [Validators.required]],
       mobileno: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-
+      authType:[''],
+      loginType:['']
     })
   }
   get f() { return this.foAdminUser.controls; }
@@ -45,21 +52,33 @@ export class AddFoAdminUsersComponent implements OnInit {
 
   }
 
+  displayLoginType() {
+    if (this.authType == '1') {
+      this.data = [
+        { id: 1, name: 'Otp' },
+        { id: 2, name: 'QR Code' }
+      ]
+    }
+  }
+
 
   addFoAdmin() {
-    let params = {
+    let params = {};
+    params = {
       name: this.Fouser.name,
       mobileno: this.Fouser.mobileNo,
       foid: this.Fouser.Foid,
-
+      authType: this.authType,
+      loginType: this.loginType,
+      rowId: this.Fouser.foaid
     };
     this.common.loading++;
     let response;
     this.api.post('FoAdmin/addUsers', params)
       .subscribe(res => {
         this.common.loading--;
-
         console.log('Res:', res['data']);
+        this.common.showToast(res['msg']);
         this.activeModal.close();
       }, err => {
         this.common.loading--;
@@ -67,10 +86,21 @@ export class AddFoAdminUsersComponent implements OnInit {
       });
   }
   selectFoUser(value) {
-    this.Fouser.Foid = value.id;
-    return this.Fouser.Foid;
-    console.log("", value);
+    console.log("--------", value);
+    if (value.foaid != '' || value.foaid != null) {
+      this.btn='Update';
+      this.Fouser.Foid = value.foid;
+      this.Fouser.mobileNo = value.foamobileno;
+      this.Fouser.name = value.foaname;
+      this.Fouser.foAdminName = value.foname;
+      this.Fouser.foaid=value.foaid;
+      this.authType=value.auth_type;
+      this.loginType=value.login_type;
+    }
+  }
 
+  selectFoUserList(value) {
+    this.Fouser.Foid = value.id;
   }
 
 
