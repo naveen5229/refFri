@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Change Vehicle Status By customer</h5>
+  <h5 class="modal-title" id="modal-basic-title">Change Vehicle Status</h5>
 
   <div [innerHTML]="VehicleStatusData.tripName" style="margin-left: 250px;"></div>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
@@ -101,10 +101,10 @@
                   <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1"><span
                       *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">
+                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'background-color':vehicleEvent.startcolor ? vehicleEvent.startcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }" >
                     {{vehicleEvent.startTimeShort||vehicleEvent.time.split('-')[2].split(' ')[0]}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.duration||vehicleEvent.timeShort}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.endTimeShort}}</td>
+                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'background-color':vehicleEvent.durationcolor ? vehicleEvent.durationcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }">{{vehicleEvent.duration||vehicleEvent.timeShort}}</td>
+                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'background-color':vehicleEvent.endcolor ? vehicleEvent.endcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }">{{vehicleEvent.endTimeShort}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.y_mon}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent); " *ngIf="vehicleEvent.y_site_type_id==1">
                     {{vehicleEvent.site_name}},{{vehicleEvent.loc}}</td>
@@ -164,15 +164,15 @@
             </table>
           </div>
           <div style="margin-top:30px;margin-bottom:50px;text-align: center" *ngIf="tripId">
-            <button class="btn btn-primary" (click)="tripStampped(2)" style="padding:5px ; margin-left:20px">Stamp Trip
+            <button class="btn btn-primary" (click)="tripVerification(2)" style="padding:5px ; margin-left:20px">Stamp Trip
             </button>
-            <button class="btn btn-primary" (click)="tripStampped(1)"
+            <button class="btn btn-primary" (click)="tripVerification(1)"
               style="padding:5px ; margin-left:20px">Highly Confident
             </button>
-            <button class="btn btn-primary" (click)="tripStampped(-1)" style="padding:5px ; margin-left:20px">can't Say
+            <button class="btn btn-primary" (click)="tripVerification(-1)" style="padding:5px ; margin-left:20px">can't Say
             </button>
           </div>
-          <div style="margin-top:20px;margin-bottom:50px;text-align: center" *ngIf="ref_page!='ari'">
+          <div style="margin-top:20px;margin-bottom:50px;text-align: center" *ngIf="ref_page!='ari' && !tripId">
             <button class="btn btn-primary" (click)="reviewComplete(1)" style="padding:5px" *ngIf="btnStatus">Review
               Done</button>
             <button class="btn btn-primary" (click)="reviewComplete(-1)" style="padding:5px ; margin-left:20px">Advanced
@@ -206,8 +206,8 @@
           (click)="getDate('date')" placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date"
           readonly> -->
           <!-- <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
-          Auto Halt </button>
-        <button class="btn btn-primary" id="addManualHalt" (click)="openManualHalt('vehicleEvent')"
+          Auto Halt </button> -->
+        <!-- <button class="btn btn-primary" id="addManualHalt" (click)="openManualHalt('vehicleEvent')"
           style="margin-left:3px">Manual Halt </button> -->
         </div>
         <div class="col-3">
