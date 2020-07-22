@@ -20,8 +20,11 @@
         </div>
     </div>
     <div *ngIf="data.length > 50">
+        <div>
+            <input type="text" class="form-control" name="search" [(ngModel)]="search" (click)="$event.stopPropagation()" (ngModelChange)="searchValues()" placeholder="Search ledger...">
+        </div>
         <cdk-virtual-scroll-viewport itemSize="50" style="height: 400px;">
-            <div *cdkVirtualFor="let d of data; let i = index">
+            <div *cdkVirtualFor="let d of searchedData; let i = index">
                 <div style="cursor:pointer" *ngIf="d.name" class="tb-mini row m-0 pl-0 pr-0"
                     (click)="clickHandler($event, i)" [style.background]="colors[color]">
                     <div class="col-8" *ngIf="d.name"><span [innerHTML]="labels"></span> {{d.name}} </div>
@@ -33,7 +36,7 @@
                     [data]="d.data" [isExpandAll]="isExpandAll"
                     [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels + '&nbsp;&nbsp;&nbsp;&nbsp;'">
                 </balance-sheet-tree>
-                <div *ngIf="!d.name" class="tb-mini row m-0 pl-0 pr-0 lastrowcolor" 
+                <div *ngIf="!d.name" class="tb-mini row m-0 pl-0 pr-0 lastrowcolor"
                     (dblclick)="doubleClickHandler($event,d)" (click)="lastClickHandler($event,i)"
                     [ngClass]="{'highlight' : selectedRow == i }">
                     <div class="col-8"><span [innerHTML]="labels"></span>{{d.ledgerName}}</div>
