@@ -107,7 +107,7 @@ nb-card-header {
 .tb-mini .col-4 {
     padding-top: 10px;
     padding-bottom: 10px;
-    color: #fff;
+    // color: #fff;
 }
 
 .td-mini .col-8 {
@@ -168,8 +168,12 @@ nb-card-header {
     }
 }
 .lastrowcolor{
+    color: #000 !important;
     background-color: #b7c7d2  !important;
     
+}
+.anotherlast{
+    background-color: #c7c7d2  !important;
 }
 .highlight {
     background-color: #FFEE75 !important;
