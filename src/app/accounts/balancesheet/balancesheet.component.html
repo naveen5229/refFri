@@ -2,13 +2,17 @@
 
   <nb-card-body (keydown)="keyHandler($event)">
     <!-- View Expand -->
-    <div class="expand-div">
+    <!-- <div class="expand-div">
       <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
       <label>Expand Group</label>
-      <!-- <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">
-      <label>Expand Sub Group</label> -->
       <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
       <label>Expand All</label>
+    </div> -->
+    <div class="" style="float:right; margin-right: 20px">
+      <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
+        Main Group</span>
+      <span><input type="radio" name="view-type" value="sub" [(ngModel)]="isExpand"> Expand
+        All</span>
     </div>
     <!-- View Expand End -->
 
@@ -50,12 +54,12 @@
           </div>
           <div *ngFor="let liability of assets;  let i = index;"
             (click)="activeTreeasset = activeTreeasset !== i ? i : -1">
-            <div *ngIf="(assets.length -1 > i)" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == assets.length -1 ? 'none' : ''}">
+            <div *ngIf="(assets.length -1 > i)" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == assets.length -1 ? 'none' : ''}" (click)="activeTree = activeTree !== i ? i : -1">
               <div class="col-8">{{liability.name}}</div>
               <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
             </div>
             <balance-sheet-tree *ngIf="(assets.length -1 > i)" [action]="opendaybookmodel.bind(this)" [data]="liability.data"
-              [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || isExpand  ? true : false" labels="">
+              [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || isExpand  ? true : false" [labels]="'&nbsp;'">
             </balance-sheet-tree>
           </div>
         </div>
@@ -71,7 +75,7 @@
               <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
             </div>
             <balance-sheet-tree [action]="opendaybookmodel.bind(this)" [data]="liability.data"
-              [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || isExpand  ? true : false" labels="">
+              [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || isExpand  ? true : false" [labels]="'&nbsp;'">
             </balance-sheet-tree>
           </div>
         </div>

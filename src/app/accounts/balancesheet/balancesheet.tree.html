@@ -3,42 +3,43 @@
         <div *ngFor="let d of data; let i = index">
             <div style="cursor:pointer" *ngIf="d.name" class="tb-mini row m-0 pl-0 pr-0"
                 (click)="clickHandler($event, i)" [style.background]="colors[color]">
-                <div class="col-8" *ngIf="d.name">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
+                <div class="col-8" *ngIf="d.name"><span [innerHTML]="labels"></span> {{d.name}} </div>
                 <div class="col-4 text-right" *ngIf="d.name" style="text-align:right;"> {{d.amount | number : '1.2-2'}}
                 </div>
-
             </div>
             <balance-sheet-tree *ngIf="d.name" [color]="color+1" style="cursor:pointer" [action]="action"
                 [data]="d.data" [isExpandAll]="isExpandAll" [active]="activeIndex === i || isExpandAll ? true : false"
-                [labels]="labels">
+                [labels]="labels + '&nbsp;&nbsp;&nbsp;&nbsp;'">
             </balance-sheet-tree>
-            <div *ngIf="!d.name" class="tb-mini row m-0 pl-0 pr-0 lastrowcolor"
+            <div *ngIf="!d.name" class="tb-mini row m-0 pl-0 pr-0 lastrowcolor" 
                 (dblclick)="doubleClickHandler($event,d)" (click)="lastClickHandler($event,i)"
                 [ngClass]="{'highlight' : selectedRow == i }">
-                <div class="col-8">{{d.ledgerName}}</div>
+                <div class="col-8"><span [innerHTML]="labels"></span>{{d.ledgerName}}</div>
                 <div class="col-4 text-right" style="text-align:right;">{{d.amount | number : '1.2-2'}}</div>
             </div>
         </div>
     </div>
     <div *ngIf="data.length > 50">
+        <div>
+            <input type="text" class="form-control" name="search" [(ngModel)]="search" (click)="$event.stopPropagation()" (ngModelChange)="searchValues()" placeholder="Search ledger...">
+        </div>
         <cdk-virtual-scroll-viewport itemSize="50" style="height: 400px;">
-            <div *cdkVirtualFor="let d of data; let i = index">
+            <div *cdkVirtualFor="let d of searchedData; let i = index">
                 <div style="cursor:pointer" *ngIf="d.name" class="tb-mini row m-0 pl-0 pr-0"
                     (click)="clickHandler($event, i)" [style.background]="colors[color]">
-                    <div class="col-8" *ngIf="d.name">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
+                    <div class="col-8" *ngIf="d.name"><span [innerHTML]="labels"></span> {{d.name}} </div>
                     <div class="col-4 text-right" *ngIf="d.name" style="text-align:right;">
                         {{d.amount | number : '1.2-2'}}
                     </div>
-
                 </div>
                 <balance-sheet-tree *ngIf="d.name" [color]="color+1" style="cursor:pointer" [action]="action"
                     [data]="d.data" [isExpandAll]="isExpandAll"
-                    [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels">
+                    [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels + '&nbsp;&nbsp;&nbsp;&nbsp;'">
                 </balance-sheet-tree>
                 <div *ngIf="!d.name" class="tb-mini row m-0 pl-0 pr-0 lastrowcolor"
                     (dblclick)="doubleClickHandler($event,d)" (click)="lastClickHandler($event,i)"
                     [ngClass]="{'highlight' : selectedRow == i }">
-                    <div class="col-8">{{d.ledgerName}}</div>
+                    <div class="col-8"><span [innerHTML]="labels"></span>{{d.ledgerName}}</div>
                     <div class="col-4 text-right" style="text-align:right;">{{d.amount | number : '1.2-2'}}</div>
                 </div>
             </div>

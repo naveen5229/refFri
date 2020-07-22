@@ -122,6 +122,10 @@ export class ProfitlossComponent implements OnInit {
   grossProfit=0;
   netProfit=0;
   netLoss=0;
+  isExpandMainGroup: boolean = false;
+  isExpandAll: boolean = false;
+  isExpand: string = '';
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
