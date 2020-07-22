@@ -147,6 +147,9 @@
 
                         <span class="zoom-btn" (click)="decouplingState(vehicleEvent)"
                           *ngIf="vehicleEvent.isDecouple"><i class="fa fa-chain-broken" title="Decoupling"></i></span>
+                         
+                          <span class="zoom-btn" (click)="details(vehicleEvent)"
+                          ><i class="fa fa-info" title="Details"></i></span>
 
                         <span class="zoom-btn" (click)="updateLocation(vehicleEvent)"
                           *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id"><i class="fa fa-map-marker"
@@ -198,15 +201,15 @@
             Halt</button>
           <button class="btn btn-primary" style="padding: 5px 0px;margin-left:1px" (click)="resetMap()">Map
             Reset</button>
-          <button class="btn btn-primary" (click)="showTrail()" style="margin-left:3px">Show Trail</button>
+          <!-- <button class="btn btn-primary" (click)="showTrail()" style="margin-left:3px">Show Trail</button> -->
           <button class="btn btn-primary" style="padding: 5px 0px;margin-left:1px" (click)="beforeLatchTime()">Before
             ltime</button>
 
           <!-- <input class="form-control" type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off"
           (click)="getDate('date')" placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date"
           readonly> -->
-          <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
-          Auto Halt </button>
+          <!-- <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
+          Auto Halt </button> -->
         <!-- <button class="btn btn-primary" id="addManualHalt" (click)="openManualHalt('vehicleEvent')"
           style="margin-left:3px">Manual Halt </button> -->
         </div>
