@@ -1,13 +1,11 @@
 <nb-card style="border: 0px;">
   <nb-card-body (keydown)="keyHandler($event)">
-      <div class="expand-div">
-          <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
-          <label>Expand Group</label>
-          <!-- <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">
-          <label>Expand Sub Group</label> -->
-          <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
-          <label>Expand All</label>
-        </div>
+    <div class="" style="float:right; margin-right: 20px">
+      <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
+        Main Group</span>
+      <span><input type="radio" name="view-type" value="sub" [(ngModel)]="isExpand"> Expand
+        All</span>
+    </div>
     <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('table')"
       style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
     <span class="exel-icon" title="CSV Export" (click)="generateCsvData()"
