@@ -111,7 +111,9 @@ export class BalancesheetComponent implements OnInit {
   viewType = 'main';
   assettottalamount = 0;
   libilitytottalamount = 0;
-
+  isExpandMainGroup: boolean = false;
+  isExpandAll: boolean = false;
+  isExpand: string = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -237,8 +239,10 @@ export class BalancesheetComponent implements OnInit {
           ledgerName: data[i].y_ledger_name,
           ledgerdata: data[i],
           data: [],
-          amount: data[i].y_amount
-        })
+          amount: data[i].y_amount,
+          ledgerid:data[i].y_ledgerid,
+          colorflag:1
+        });
       }
     }
 
@@ -466,9 +470,9 @@ export class BalancesheetComponent implements OnInit {
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,
-      ledger: data.ledgerdata[0].y_ledgerid,
+      ledger: data.ledgerid,
       vouchertype: 0,
-      ledgername: data.ledgerdata[0].y_ledger_name
+      ledgername: data.ledgerName
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
