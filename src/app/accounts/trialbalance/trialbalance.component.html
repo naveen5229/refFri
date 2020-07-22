@@ -56,7 +56,7 @@
         <div class="col x-col" style="text-align:right;">{{stockType.credit | number : '1.2-2'}}</div>
         <div class="col x-col">{{stockType.clobal | number : '1.2-2'}}</div>
       </div>
-      <trail-tree [action]="getBookDetail.bind(this)" [action]="getBookDetail.bind(this)"  [data]="stockType.data" [isExpandAll]= "isExpand == 'sub'" [active] = "(((activeTree == i) || (isExpand))  ? true : false)" labels="">
+      <trail-tree [action]="getBookDetail.bind(this)" [action]="getBookDetail.bind(this)"  [data]="stockType.data" [isExpandAll]= "isExpand == 'sub'" [active] = "(((activeTree == i) || (isExpand))  ? true : false)" [labels]="'&nbsp;'">
       </trail-tree>
     </div>
     <!-- <div *ngFor="let traildata of trialBalanceData;  let i = index;"

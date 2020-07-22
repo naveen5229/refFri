@@ -59,7 +59,7 @@
               <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
             </div>
             <balance-sheet-tree *ngIf="(assets.length -1 > i)" [action]="opendaybookmodel.bind(this)" [data]="liability.data"
-              [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || isExpand  ? true : false" labels="">
+              [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || isExpand  ? true : false" [labels]="'&nbsp;'">
             </balance-sheet-tree>
           </div>
         </div>
@@ -75,7 +75,7 @@
               <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
             </div>
             <balance-sheet-tree [action]="opendaybookmodel.bind(this)" [data]="liability.data"
-              [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || isExpand  ? true : false" labels="">
+              [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || isExpand  ? true : false" [labels]="'&nbsp;'">
             </balance-sheet-tree>
           </div>
         </div>
