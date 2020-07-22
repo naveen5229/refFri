@@ -116,7 +116,9 @@ export class TradingComponent implements OnInit {
     }
   };
   viewType = 'main';
-
+  isExpandMainGroup: boolean = false;
+  isExpandAll: boolean = false;
+  isExpand: string = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,

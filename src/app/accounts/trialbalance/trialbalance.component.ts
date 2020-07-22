@@ -238,7 +238,7 @@ export class TrialbalanceComponent implements OnInit {
             childs[index].data.push(ledgerRegister);
           }
         }
-      } else {
+      } else { 
         childs.push({
           ledgerName: data[i].y_ledger_name,
           data: [],
