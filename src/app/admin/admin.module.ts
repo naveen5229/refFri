@@ -73,6 +73,7 @@ import { ChallanModule } from '../challan/challan.module';
 import { CaptchaComponent } from './captcha/captcha.component';
 import { FinancialAccountSummaryComponent } from './financial-account-summary/financial-account-summary.component';
 import { TripVerificationComponent } from './trip-verification/trip-verification.component';
+import { VehdocmismatchComponent } from './vehdocmismatch/vehdocmismatch.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -103,7 +104,8 @@ const PAGES_COMPONENTS = [
   VscDiagnosisComponent,
   LocationsComponent,
   VouchersSummaryComponent,
-  CaptchaComponent
+  CaptchaComponent,
+  VehdocmismatchComponent
 
 ];
 @NgModule({
@@ -164,6 +166,7 @@ const PAGES_COMPONENTS = [
     CaptchaComponent,
     FinancialAccountSummaryComponent,
     TripVerificationComponent,
+    VehdocmismatchComponent,
   ],
   exports: [
     // VehiclesComponent,

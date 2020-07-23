@@ -227,6 +227,9 @@ export class TicketInfoComponent implements OnInit {
 
   setRemark(status) {
     let remark = prompt("Remark", "");
+    if(remark === null){
+      return;
+    }
     if (!remark && status == -5) {
       this.common.showToast('Remark is mandatory in cant do');
       return;
@@ -242,7 +245,7 @@ export class TicketInfoComponent implements OnInit {
       aduserid: this.user._details.id,
       remark: remark,
       msg: this.ticketInfo.msg
-    };
+    }; 
     console.log(params);
     this.common.loading++;
     this.api.post('FoTickets/updateTicketStatus', params)
