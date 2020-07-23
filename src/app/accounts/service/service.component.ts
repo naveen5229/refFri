@@ -2660,6 +2660,16 @@ export class ServiceComponent implements OnInit {
      
      return this.totalledgeramt =  (total !== null ? parseFloat(total.toFixed(2)) : 0); 
   }
+  calculateSeprateTaxTotal() {
+    let total = 0;
+    this.taxdetailsother.map(taxdetail => {
+      total += taxdetail.taxamountother !== null ? parseFloat((taxdetail.taxamountother).toString()) : 0; 
+      this.taxdetailsother[0].totalamountother = total !== null ? parseFloat(total.toString()) : 0; 
+    });
+    
+
+    return total !== null ? parseFloat(total.toFixed(2)) : 0; 
+  }
   calculateTaxTotal() {
     let total = 0;
     this.taxdetailsother.map(taxdetail => {

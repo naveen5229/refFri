@@ -22,6 +22,7 @@ export class TicketsComponent implements OnInit {
 
   claimTicketGroups = [];
   claimDrivers = [];
+  dis_all = 'new';
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -67,6 +68,7 @@ export class TicketsComponent implements OnInit {
             this.openTickets.push(ticket);
           }
         });
+        this.setTab();
       }, err => {
         --this.common.loading;
         console.error(err);
@@ -83,11 +85,7 @@ export class TicketsComponent implements OnInit {
         console.log(res);
         if (res['success']) {
           this.tickets = res['data'] ? res['data']: [];
-          // this.claimTicketGroups = _.groupBy(res['data'], 'regno');
-          // this.claimTicketGroups = _.groupBy(this.tickets, 'regno');
-          // console.log('Groups', this.claimTicketGroups);
-          // this.claimDrivers = Object.keys(this.claimTicketGroups);
-          // console.log('keys', this.claimDrivers);
+          this.setTab();
         }
       }, err => {
         --this.common.loading;
@@ -95,6 +93,9 @@ export class TicketsComponent implements OnInit {
       });
   }
 
+  setTab(){
+    this.dis_all = this.newTickets.length>0? 'new' : this.tickets.length>0 ? 'claim' :this.openTickets.length>0?'open':'new'
+  }
 
   claimTicket(ticket) {
     let msg = 'Are you sure to claim this ticket?';

@@ -147,7 +147,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
           this.activeModal.close();
         }
         else {
-          this.common.showError("res['data'][0].rtn_msg");
+          this.common.showError(res['data'][0].rtn_msg);
         }
       }, err => {
         this.common.loading--;

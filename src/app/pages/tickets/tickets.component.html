@@ -3,98 +3,113 @@
         <h5>Tickets</h5>
     </nb-card-header>
     <nb-card-body>
-        <nb-tabset>
-            <nb-tab tabTitle="New">
-                <table class="table table-hover tblnew">
-                    <thead class="thead">
-                        <tr>
-                            <th>#</th>
-                            <th>Vehicle No</th>
-                            <!-- <th>Driver</th> -->
-                            <th>Message</th>
-                            <th>Remaining Time</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let ticket of newTickets; let i = index">
-                            <td scope="row">{{i + 1}}</td>
-                            <td>{{ticket.regno}}</td>
-                            <!-- <td>{{ticket.empname}}</td> -->
-                            <td>{{ticket.msg}}</td>
-                            <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
-                            <td>
-                                <span class="text-primary accept" (click)="updateNotificationStatus(ticket.ticket_id, 2, ticket.msg, ticket.fo_ticket_allocation_id)">Accept</span>
+        <div class="row">
+            <div class="col-sm-9">
+                <ul class="tabs_style">
+                    <li [ngClass]="dis_all == 'new' ? 'active' : '' " id="dis-all" (click)=" dis_all = 'new';">
+                        New
+                    </li>
+                    <li [ngClass]="dis_all == 'open' ? 'active' : '' " (click)=" dis_all = 'open'; ">
+                        Open
+                    </li>
+                    <li [ngClass]="dis_all == 'claim' ? 'active' : '' " (click)=" dis_all = 'claim';">
+                        Claim
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div *ngIf="dis_all == 'new'">
+            <table class="table table-hover tblnew">
+                <thead class="thead">
+                    <tr>
+                        <th>#</th>
+                        <th>Vehicle No</th>
+                        <!-- <th>Driver</th> -->
+                        <th>Message</th>
+                        <th>Remaining Time</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ticket of newTickets; let i = index">
+                        <td scope="row">{{i + 1}}</td>
+                        <td>{{ticket.regno}}</td>
+                        <!-- <td>{{ticket.empname}}</td> -->
+                        <td>{{ticket.msg}}</td>
+                        <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
+                        <td>
+                            <span class="text-primary accept"
+                                (click)="updateNotificationStatus(ticket.ticket_id, 2, ticket.msg, ticket.fo_ticket_allocation_id)">Accept</span>
 
-                                <span class="text-danger deny" (click)="updateNotificationStatus(ticket.ticket_id, -2, ticket.msg, ticket.fo_ticket_allocation_id)">Deny</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="no-data alert alert-danger" role="alert" *ngIf="status == 0 && !newTickets.length && showMsg">
-                    No Data available !
-                </div>
-            </nb-tab>
+                            <span class="text-danger deny"
+                                (click)="updateNotificationStatus(ticket.ticket_id, -2, ticket.msg, ticket.fo_ticket_allocation_id)">Deny</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="no-data alert alert-danger" role="alert" *ngIf="status == 0 && !newTickets.length && showMsg">
+                No Data available !
+            </div>
+        </div>
+        <div *ngIf="dis_all == 'open'">
+            <table class="table  table-hover tblnew">
+                <thead class="thead">
+                    <tr>
+                        <th>#</th>
+                        <th>Vehicle No</th>
+                        <!-- <th>Driver</th> -->
+                        <th>Message</th>
+                        <th>Remaining Time</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ticket of openTickets; let i = index;" (click)="showDetails(ticket)">
+                        <td scope="row">{{i + 1}}</td>
+                        <td>{{ticket.regno}}</td>
+                        <!-- <td>{{ticket.empname}}</td> -->
+                        <td>{{ticket.msg}}</td>
+                        <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
+                        <td><span><u style="color: blue;cursor: pointer;"
+                                    (click)="oprnInfoModel(ticket)">info</u></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="no-data alert alert-danger" role="alert" *ngIf="status == 0 && !openTickets.length && showMsg">
+                No Data available !
+            </div>
+        </div>
+        <div *ngIf="dis_all == 'claim'">
+            <table class="table table-hover tblclaim">
+                <thead class="thead">
+                    <tr>
+                        <th>#</th>
+                        <th>Vehicle No</th>
+                        <!-- <th>Driver</th> -->
+                        <th>Message</th>
+                        <th>Add Time</th>
+                        <th>Trails</th>
+                        <th>Claim</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ticket of tickets; let i = index;">
+                        <td scope="row">{{i + 1}}</td>
+                        <td>{{ticket.regno}}</td>
+                        <!-- <td>{{ticket.empname}}</td> -->
+                        <td>{{ticket.msg}}</td>
+                        <td>{{ticket.addtime | date : 'dd MMM HH:mm'}}</td>
+                        <td (click)="showTrailList(ticket)" style="cursor:pointer;color:blue;">show</td>
+                        <td>
+                            <span (click)="claimTicket(ticket)" style="cursor: pointer;color:blue;">Claim</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="no-data alert alert-danger" role="alert" *ngIf="status == 0 && !tickets.length && showMsg">
+                No Data available !
+            </div>
+        </div>
 
-            <nb-tab tabTitle="Open">
-                <table class="table  table-hover tblnew">
-                    <thead class="thead">
-                        <tr>
-                            <th>#</th>
-                            <th>Vehicle No</th>
-                            <!-- <th>Driver</th> -->
-                            <th>Message</th>
-                            <th>Remaining Time</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let ticket of openTickets; let i = index;" (click)="showDetails(ticket)">
-                            <td scope="row">{{i + 1}}</td>
-                            <td>{{ticket.regno}}</td>
-                            <!-- <td>{{ticket.empname}}</td> -->
-                            <td>{{ticket.msg}}</td>
-                            <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
-                            <td><span><u style="color: blue;cursor: pointer;" (click)="oprnInfoModel(ticket)">info</u></span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="no-data alert alert-danger" role="alert" *ngIf="status == 0 && !openTickets.length && showMsg">
-                    No Data available !
-                </div>
-            </nb-tab>
-
-            <nb-tab tabTitle="Claim">
-                <table class="table table-hover tblclaim">
-                    <thead class="thead">
-                        <tr>
-                            <th>#</th>
-                            <th>Vehicle No</th>
-                            <!-- <th>Driver</th> -->
-                            <th>Message</th>
-                            <th>Add Time</th>
-                            <th>Trails</th>
-                            <th>Claim</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let ticket of tickets; let i = index;">
-                            <td scope="row">{{i + 1}}</td>
-                            <td>{{ticket.regno}}</td>
-                            <!-- <td>{{ticket.empname}}</td> -->
-                            <td>{{ticket.msg}}</td>
-                            <td>{{ticket.addtime | date : 'dd MMM HH:mm'}}</td>
-                            <td (click)="showTrailList(ticket)" style="cursor:pointer;color:blue;">show</td>
-                            <td>
-                                <span (click)="claimTicket(ticket)" style="cursor: pointer;color:blue;">Claim</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="no-data alert alert-danger" role="alert" *ngIf="status == 0 && !tickets.length && showMsg">
-                    No Data available !
-                </div>
-            </nb-tab>
-        </nb-tabset>
     </nb-card-body>
 </nb-card>

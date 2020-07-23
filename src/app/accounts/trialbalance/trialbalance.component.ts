@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,70 @@ import * as _ from 'lodash';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { AccountService } from '../../services/account.service';
+@Component({
+  selector: 'trail-tree',
+  templateUrl: './trail.tree.html',
+  styleUrls: ['./trialbalance.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(document:keydown)': 'keyHandler($event)'
+  }
+})
+export class TrailTreeComponent {
+  @Input() data: any;
+  @Input() active: boolean;
+  @Input() labels: string;
+  @Input() action: any;
+  @Input() isExpandAll: boolean;
+  @Input() color: number = 0;
+  @Input() getaction: any;
+  activeIndex: boolean = false;
+  selectedRow: number = -1;
+  colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca', 'bfcfd9'];
+  deletedId = 0;
+  items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  constructor(public common: CommonService,
+    public modalService: NgbModal,
+    public user: UserService,
+    public accountService: AccountService) {
+  }
+
+  lastClickHandler(event, index) {
+    this.selectedRow = parseInt(index);
+    event.stopPropagation();
+  }
+
+  ngAfterViewInit() {
+    // console.log('--------,', this.active);
+  }
+
+  ngOnChanges(changes) {
+    // console.log('Changes: ', changes);
+    // console.log(changes.active)
+  }
+
+  clickHandler(event, index) {
+    event.stopPropagation();
+    this.activeIndex = this.activeIndex !== index ? index : -1
+  }
+
+  doubleClickHandler(event, data) {
+    event.stopPropagation();
+    //  console.log('data suggestion',data);
+    this.action(data);
+
+  }
+  keyHandler(event) {
+    event.stopPropagation();
+    const key = event.key.toLowerCase();
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.data.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.data.length - 1 && key === 'arrowdown') this.selectedRow++;
+    }
+  }
+}
 
 @Component({
   selector: 'trialbalance',
@@ -19,10 +83,10 @@ import { AccountService } from '../../services/account.service';
 })
 export class TrialbalanceComponent implements OnInit {
   selectedName = '';
-
+  voucherEntries = [];
   trial = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startDate: ((((new Date()).getMonth())+1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear())-1) + '-04-01', 'ddMMYYYY', false, '-'),
+    startDate: ((((new Date()).getMonth()) + 1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear()) - 1) + '-04-01', 'ddMMYYYY', false, '-'),
     ledger: {
       name: 'All',
       id: 0
@@ -49,9 +113,12 @@ export class TrialbalanceComponent implements OnInit {
       mainGroup: [],
       subGroup: []
     }
-   
+
   };
-  viewType = 'sub';
+  viewType = 'main';
+  isExpandMainGroup: boolean = false;
+  isExpandAll: boolean = false;
+  isExpand: string = '';
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -65,9 +132,9 @@ export class TrialbalanceComponent implements OnInit {
     public csvService: CsvService,
     public accountService: AccountService,
     public modalService: NgbModal) {
-      this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.trial.startDate;
-      this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.trial.endDate;
-        
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate : this.trial.startDate;
+    this.accountService.todate = (this.accountService.todate) ? this.accountService.todate : this.trial.endDate;
+
     this.common.refresh = this.refresh.bind(this);
 
     //this.getVoucherTypeList();
@@ -87,9 +154,9 @@ export class TrialbalanceComponent implements OnInit {
 
 
   getTrial() {
-    this.trial.startDate= this.accountService.fromdate;
-    this.trial.endDate= this.accountService.todate;
-    
+    this.trial.startDate = this.accountService.fromdate;
+    this.trial.endDate = this.accountService.todate;
+
     console.log('Ledger:', this.trial);
     let params = {
       startdate: this.trial.startDate,
@@ -102,7 +169,8 @@ export class TrialbalanceComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.TrialData = res['data'];
-        this.formattData();
+        // this.formattData(); 
+        this.generalizeData();
         if (this.TrialData.length) {
           document.activeElement['blur']();
           this.selectedRow = 0;
@@ -113,6 +181,157 @@ export class TrialbalanceComponent implements OnInit {
         this.common.showError();
       });
   }
+  generalizeData() {
+    this.voucherEntries = [];
+    for (let i = 0; i < this.TrialData.length; i++) {
+      let ledgerRegister = this.TrialData[i];
+      let labels = ledgerRegister.y_path.split('-->');
+      ledgerRegister.labels = labels.splice(1, labels.length);
+      let index = this.voucherEntries.findIndex(voucher => voucher.name === labels[0]);
+      if (index === -1) {
+        this.voucherEntries.push({
+          name: labels[0],
+          data: [ledgerRegister] || ledgerRegister.y_ledger_name,
+          debit: parseFloat(ledgerRegister.y_dr_bal),
+          credit: parseFloat(ledgerRegister.y_cr_bal),
+          opnbal: parseFloat(ledgerRegister.y_openbal),
+          clobal: parseFloat(ledgerRegister.y_closebal)
+        })
+      } else {
+        this.voucherEntries[index].debit += parseFloat(ledgerRegister.y_dr_bal);
+        this.voucherEntries[index].credit += parseFloat(ledgerRegister.y_cr_bal);
+        this.voucherEntries[index].opnbal += parseFloat(ledgerRegister.y_openbal);
+        this.voucherEntries[index].clobal += parseFloat(ledgerRegister.y_closebal);
+        this.voucherEntries[index].data.push(ledgerRegister);
+
+      }
+    }
+
+    this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
+    console.log('voucherEntries', this.voucherEntries);
+  }
+  findChilds(data) {
+    let childs = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].labels.length) {
+        let ledgerRegister = data[i];
+        let labels = ledgerRegister.labels;
+        ledgerRegister.labels = labels.splice(1, labels.length);
+        let index = childs.findIndex(voucher => voucher.name === labels[0]);
+        if (index === -1) {
+          childs.push({
+            name: labels[0],
+            data: [ledgerRegister],
+            debit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dr_bal) : 0,
+            credit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cr_bal) : 0,
+            opnbal: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_openbal) : 0,
+            clobal: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_closebal) : 0
+
+
+          })
+        } else {
+          childs[index].debit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dr_bal) : 0;
+          childs[index].credit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cr_bal) : 0;
+          childs[index].opnbal += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_openbal) : 0;
+          childs[index].clobal += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_closebal) : 0;
+          if (ledgerRegister.y_ledger_name) {
+            childs[index].data.push(ledgerRegister);
+          }
+        }
+      } else { 
+        childs.push({
+          ledgerName: data[i].y_ledger_name,
+          data: [],
+          debit: data[i].y_dr_bal || 0,
+          credit: data[i].y_cr_bal || 0,
+          opnbal: data[i].y_openbal || 0,
+          clobal: data[i].y_closebal || 0,
+          ledgerid:data[i].y_ledgerid
+        });
+      }
+    }
+    if (childs.length) {
+      return childs.map(child => {
+        if (child.data.length) {
+          return {
+            name: child.name,
+            data: this.findChilds(child.data),
+            debit: child.debit,
+            credit: child.credit,
+            opnbal: child.opnbal,
+            clobal: child.clobal
+          }
+        } else {
+          return child;
+        }
+      }).sort((a, b)=>{
+        if(a.length > b.length) return 1;
+        return -1;
+      });
+    } else {
+      let info = [];
+      let groups = _.groupBy(data, 'y_ledger_name');
+      // console.log('Groups:', groups);
+      for (let group in groups) {
+        if (groups[group].length > 1) {
+          let details = {
+            // name: group,
+            ledgerName: group,
+            data: groups[group].map(ledger => {
+              ledger.y_ledger_name = '';
+              return ledger;
+            }),
+            debit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_dr_bal);
+              return a;
+            }, 0),
+            credit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_cr_bal);
+              return a;
+            }, 0),
+            opnbal: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_openbal);
+              return a;
+            }, 0),
+            clobal: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_closebal);
+              return a;
+            }, 0)
+          }
+          info.push(details);
+        } else {
+          // info.push(...groups[group]);
+          let details = {
+            //name: group,
+            ledgerName: group,
+            data: groups[group].map(ledger => {
+              ledger.y_ledger_name = '';
+              return ledger;
+            }),
+            debit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_dr_bal);
+              return a;
+            }, 0),
+            credit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_cr_bal);
+              return a;
+            }, 0),
+            opnbal: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_openbal);
+              return a;
+            }, 0),
+            clobal: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_closebal);
+              return a;
+            }, 0)
+          }
+          info.push(details);
+        }
+      }
+      return info;
+    }
+  }
+
   changeViewType() {
     console.log('____________');
     this.active.trialBalanceData.mainGroup = [];
@@ -121,7 +340,7 @@ export class TrialbalanceComponent implements OnInit {
 
     if (this.viewType == 'sub') {
       this.trialBalanceData.forEach((liability, i) => this.active.trialBalanceData.mainGroup.push('mainGroup' + i + 0));
-   
+
     } else if (this.viewType == 'all') {
       this.trialBalanceData.forEach((trail, i) => {
         this.active.trialBalanceData.mainGroup.push('mainGroup' + i + 0);
@@ -141,84 +360,87 @@ export class TrialbalanceComponent implements OnInit {
     let primaryGroup = Object.keys(_.groupBy(this.TrialData, 'primary_groupname')).map(primaryGroupKey => {
       return {
         name: primaryGroupKey,
-        amount:0,
-        dramount:0,
-        cramount:0,
-        openingamount:0,
-        openingType:'',
-        closingType:'',
+        amount: 0,
+        dramount: 0,
+        cramount: 0,
+        openingamount: 0,
+        openingType: '',
+        closingType: '',
         subGroups: Object.keys(_.groupBy(_.groupBy(this.TrialData, 'primary_groupname')[primaryGroupKey], 'groupname')).map(subGroupKey => {
-          return { name: subGroupKey, 
-            amount:0,
-            dramount:0,
-            cramount:0,
-            openingamount:0,
-            openingType:'',
-          closingType:'',
-            trialBalances: _.groupBy(_.groupBy(this.TrialData, 'primary_groupname')[primaryGroupKey], 'groupname')[subGroupKey] };
+          return {
+            name: subGroupKey,
+            amount: 0,
+            dramount: 0,
+            cramount: 0,
+            openingamount: 0,
+            openingType: '',
+            closingType: '',
+            trialBalances: _.groupBy(_.groupBy(this.TrialData, 'primary_groupname')[primaryGroupKey], 'groupname')[subGroupKey]
+          };
         })
       };
     });
     this.trialBalanceData = primaryGroup;
-console.log('trialBalanceData @@@',this.trialBalanceData);
+    console.log('trialBalanceData @@@', this.trialBalanceData);
     for (let key in primaryGroup) {
-     
+
       primaryGroup.map(value => {
         let totalclosing = 0;
-        let totaldr=0;
-        let totalcr=0;
-        let totalopening=0;
-        let openingType='';
-        let closingType='';
-        console.log('map value',value.subGroups);
-   if(value.subGroups && value.subGroups.length >0){  value.subGroups.map(valuenew => {
-     
-    let subtotalclosing = 0;
-    let subtotaldr=0;
-    let subtotalcr=0;
-    let subtotalopening=0;
-          valuenew.trialBalances.map(trailvalue => {
-         // console.log('trial map',trailvalue);
-         openingType=trailvalue.y_openbaltype ;
-         closingType=trailvalue.y_closebaltype ;
-            if (trailvalue.y_closebal){
-               totalclosing += parseFloat(trailvalue.y_closebal);
-               subtotalclosing += parseFloat(trailvalue.y_closebal);
-            }
-            if (trailvalue.y_dr_bal){
-              totaldr += parseFloat(trailvalue.y_dr_bal);
-              subtotaldr += parseFloat(trailvalue.y_dr_bal);
-            }
-            if (trailvalue.y_cr_bal){
-              totalcr += parseFloat(trailvalue.y_cr_bal);
-              subtotalcr += parseFloat(trailvalue.y_cr_bal);
-            }
-            if (trailvalue.y_openbal){
-              totalopening += parseFloat(trailvalue.y_openbal);
-              subtotalopening += parseFloat(trailvalue.y_openbal);
-            }
-        })
-        valuenew.amount=subtotalclosing;
-        valuenew.dramount=subtotaldr;
-        valuenew.cramount=subtotalcr;
-        valuenew.openingamount=subtotalopening;
-        valuenew.openingType=openingType ;
-        valuenew.closingType=closingType ;
-         // console.log('subgroup map',valuenew);
-       // if (valuenew.y_amount) totalclosing += parseFloat(valuenew.y_amount);
-      })
+        let totaldr = 0;
+        let totalcr = 0;
+        let totalopening = 0;
+        let openingType = '';
+        let closingType = '';
+        console.log('map value', value.subGroups);
+        if (value.subGroups && value.subGroups.length > 0) {
+          value.subGroups.map(valuenew => {
+
+            let subtotalclosing = 0;
+            let subtotaldr = 0;
+            let subtotalcr = 0;
+            let subtotalopening = 0;
+            valuenew.trialBalances.map(trailvalue => {
+              // console.log('trial map',trailvalue);
+              openingType = trailvalue.y_openbaltype;
+              closingType = trailvalue.y_closebaltype;
+              if (trailvalue.y_closebal) {
+                totalclosing += parseFloat(trailvalue.y_closebal);
+                subtotalclosing += parseFloat(trailvalue.y_closebal);
+              }
+              if (trailvalue.y_dr_bal) {
+                totaldr += parseFloat(trailvalue.y_dr_bal);
+                subtotaldr += parseFloat(trailvalue.y_dr_bal);
+              }
+              if (trailvalue.y_cr_bal) {
+                totalcr += parseFloat(trailvalue.y_cr_bal);
+                subtotalcr += parseFloat(trailvalue.y_cr_bal);
+              }
+              if (trailvalue.y_openbal) {
+                totalopening += parseFloat(trailvalue.y_openbal);
+                subtotalopening += parseFloat(trailvalue.y_openbal);
+              }
+            })
+            valuenew.amount = subtotalclosing;
+            valuenew.dramount = subtotaldr;
+            valuenew.cramount = subtotalcr;
+            valuenew.openingamount = subtotalopening;
+            valuenew.openingType = openingType;
+            valuenew.closingType = closingType;
+            // console.log('subgroup map',valuenew);
+            // if (valuenew.y_amount) totalclosing += parseFloat(valuenew.y_amount);
+          })
+        }
+
+        value.amount = totalclosing;
+        value.dramount = totaldr;
+        value.cramount = totalcr;
+        value.openingamount = totalopening;
+        value.openingType = openingType;
+        value.closingType = closingType;
+      });
+
     }
-    
-    value.amount=totalclosing;
-    value.dramount=totaldr;
-    value.cramount=totalcr;
-    value.openingamount=totalopening;
-    value.openingType=openingType ;
-    value.closingType=closingType ;
-    });
-      
-    }
-console.log('trialBalanceData @@@',this.trialBalanceData);
+    console.log('trialBalanceData @@@', this.trialBalanceData);
     // this.trialBalanceData = [];
     // for (let key in firstGroup) {
     //   let groups = _.groupBy(firstGroup[key], 'y_ledger_name');
@@ -329,7 +551,7 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
     console.log('Active event', event);
     if (key == 'enter' && !this.activeId && this.TrialData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.TrialData[this.selectedRow].y_ledger_id, this.TrialData[this.selectedRow].y_ledger_name);
+      this.getBookDetail(this.TrialData[this.selectedRow]);
       return;
     }
     // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
@@ -342,7 +564,7 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
     //   this.activedateid = this.lastActiveId;
     //   return;
     // }
-     else if ((key == 'enter' && this.showDateModal)) {
+    else if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);
@@ -375,7 +597,7 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
       if (this.activeId == 'ledger') this.setFoucus('voucherType');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
-    }else if ((this.activeId == 'startDate' || this.activeId == 'endDate') && key !== 'backspace') {
+    } else if ((this.activeId == 'startDate' || this.activeId == 'endDate') && key !== 'backspace') {
       let regex = /[0-9]|[-]/g;
       let result = regex.test(key);
       if (!result) {
@@ -431,30 +653,34 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
   }
 
 
-  getBookDetail(voucherId, ledgerName) {
-    console.log('vouher id', voucherId);
+  getBookDetail(vcrdata) {
+    console.log('vouher id', vcrdata);
     //  this.common.params = voucherId;
-    this.common.params = {
-      startdate: this.trial.startDate,
-      enddate: this.trial.endDate,
-      ledger: voucherId,
-      vouchertype: 0,
-      ledgername: ledgerName
+    if (vcrdata.ledgerName.includes('Profit & Loss A/c')) {
+      this.getProfitLoss();
+    } else {
+      this.common.params = {
+        startdate: this.trial.startDate,
+        enddate: this.trial.endDate,
+        ledger: vcrdata.ledgerid,
+        vouchertype: 0,
+        ledgername: vcrdata.ledgerName
 
-    };
-    const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        return;
-        //   if (stocksubType) {
+      };
+      const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          return;
+          //   if (stocksubType) {
 
-        //     this.updateStockSubType(stocksubType.id, data.stockSubType);
-        //     return;
-        //   }
-        //  this.addStockSubType(data.stockSubType)
-      }
-    });
+          //     this.updateStockSubType(stocksubType.id, data.stockSubType);
+          //     return;
+          //   }
+          //  this.addStockSubType(data.stockSubType)
+        }
+      });
+    }
   }
 
   getProfitLoss() {
@@ -481,17 +707,17 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
   }
   generateCsvData() {
     let liabilitiesJson = [];
-    liabilitiesJson.push(Object.assign({Ledger:"Ledger",OpeningBalance:'Opening Balance',amountdr:'Amount(Debit)',amountcr:'Amount(Credit)',amount:'Closing Balance'}));
+    liabilitiesJson.push(Object.assign({ Ledger: "Ledger", OpeningBalance: 'Opening Balance', amountdr: 'Amount(Debit)', amountcr: 'Amount(Credit)', amount: 'Closing Balance' }));
     this.trialBalanceData.forEach(liability => {
-      liabilitiesJson.push({ Ledger: '(MG)'+liability.name, OpeningBalance : liability.openingamount,amountdr:liability.dramount,amountcr :liability.cramount,amount:liability.amount});
+      liabilitiesJson.push({ Ledger: '(MG)' + liability.name, OpeningBalance: liability.openingamount, amountdr: liability.dramount, amountcr: liability.cramount, amount: liability.amount });
       liability.subGroups.forEach(subGroup => {
-        liabilitiesJson.push({ Ledger: '(SG)'+subGroup.name, OpeningBalance : subGroup.openingamount,amountdr:subGroup.dramount,amountcr :subGroup.cramount,amount:subGroup.amount});
+        liabilitiesJson.push({ Ledger: '(SG)' + subGroup.name, OpeningBalance: subGroup.openingamount, amountdr: subGroup.dramount, amountcr: subGroup.cramount, amount: subGroup.amount });
         subGroup.trialBalances.forEach(trailbalance => {
-          liabilitiesJson.push({ Ledger: '(L)'+trailbalance.y_ledger_name, OpeningBalance : trailbalance.y_openbal,amountdr:trailbalance.y_dr_bal,amountcr :trailbalance.y_cr_bal,amount:trailbalance.y_closebal});
+          liabilitiesJson.push({ Ledger: '(L)' + trailbalance.y_ledger_name, OpeningBalance: trailbalance.y_openbal, amountdr: trailbalance.y_dr_bal, amountcr: trailbalance.y_cr_bal, amount: trailbalance.y_closebal });
         });
       });
     });
-    liabilitiesJson.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
+    liabilitiesJson.push(Object.assign({}, { "": 'MG = Main Group ,SG = Sub Group, L = Ledger' }))
 
     // let mergedArray = [];
     // for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {

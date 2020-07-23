@@ -1,16 +1,12 @@
 <nb-card style=" border: 0px;">
-  <!-- <nb-card-header>
-    <h4>Ledger View</h4>
-  </nb-card-header> -->
+
   <nb-card-body (keydown)="keyHandler($event)">
     <!-- View Expand -->
-    <div class="expand-div" style="z-index:99">
-      <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
-      <label>Expand Group</label>
-      <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">
-      <label>Expand Sub Group</label>
-      <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
-      <label>Expand All</label>
+    <div class="" style="float:right; margin-right: 20px">
+      <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
+        Main Group</span>
+      <span><input type="radio" name="view-type" value="sub" [(ngModel)]="isExpand"> Expand
+        All</span>
     </div>
     <!-- View Expand End -->
     <div class="row">
@@ -46,13 +42,24 @@
 
     <div id="table">
     <div class="row heading m-0 p-0">
-        <div class="col-3">Ledger</div>
+        <div class="col-2">Ledger</div>
         <div class="col-3">Opening Balance</div>
         <div class="col-2">Amount(Debit)</div>
-        <div class="col-2">Amount(Credit)</div>
+        <div class="col-3">Amount(Credit)</div>
         <div class="col-2">Closing Balance</div>
     </div>
-    <div *ngFor="let traildata of trialBalanceData;  let i = index;"
+    <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
+      <div class="row x-stocktype" style="cursor:pointer"  (click)="activeTree = activeTree !== i ? i : -1">
+        <div class="col x-col">{{stockType.name}}</div>
+        <div class="col x-col">{{stockType.opnbal | number : '1.2-2'}}</div>
+        <div class="col x-col" style="text-align:right;">{{stockType.debit | number : '1.2-2'}}</div>
+        <div class="col x-col" style="text-align:right;">{{stockType.credit | number : '1.2-2'}}</div>
+        <div class="col x-col">{{stockType.clobal | number : '1.2-2'}}</div>
+      </div>
+      <trail-tree [action]="getBookDetail.bind(this)" [action]="getBookDetail.bind(this)"  [data]="stockType.data" [isExpandAll]= "isExpand == 'sub'" [active] = "(((activeTree == i) || (isExpand))  ? true : false)" [labels]="'&nbsp;'">
+      </trail-tree>
+    </div>
+    <!-- <div *ngFor="let traildata of trialBalanceData;  let i = index;"
     (click)="handleExpandation($event, i, 'trialBalanceData', 'mainGroup', 0)">
       <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == trialBalanceData.length -1 ? 'none' : ''}">
         <div class="col-3">{{traildata.name}}</div>
@@ -64,8 +71,7 @@
         <div class="col-2" *ngIf="traildata.cramount == 0"></div>
         <div class="col-2" *ngIf="traildata.amount != 0">{{ traildata.amount | number : '1.2-2'}}<span>{{traildata.closingType}}</span></div>
         <div class="col-2" *ngIf="traildata.amount == 0"></div>
-        <!-- <div class="col-4 text-right">{{traildata.amount | number : '1.2-2'}}</div> -->
-      </div>
+         </div>
 
       <div *ngFor="let subGroup of traildata.subGroups; let k = index;"
       [hidden]="active.trialBalanceData.mainGroup.indexOf('mainGroup' + i + 0) == -1"
@@ -84,7 +90,6 @@
         <div class="col-2" *ngIf="subGroup.amount == 0"></div>
 
   
-          <!-- <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div> -->
         </div>
 
         <div *ngFor="let trialBalance of subGroup.trialBalances; let j = index" 
@@ -106,7 +111,7 @@
         </div>
 
       </div>
-    </div>
+    </div> -->
   </div>
     <!-- <table class="table table-bordered" id="table">
       <thead style="background-color:#263238; color:#fff;">

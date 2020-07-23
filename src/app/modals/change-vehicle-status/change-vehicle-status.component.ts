@@ -599,7 +599,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   openSmartTool(i, vehicleEvent) {
     console.log('vehicle event',vehicleEvent);
-    if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null)
+    if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null && vehicleEvent.haltTypeId != -1)
       if (confirm("Merge with this Halt?")) {
         this.common.loading++;
         let params = { ms_id: this.vSId, hs_id: vehicleEvent.haltId };
@@ -980,6 +980,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.params = { vehicle: vehicle }
     const activeModal = this.modalService.open(TripStateMappingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
+      this.vSId = null;
+      this.hsId = null;
       this.reloadData();
     });
   }
@@ -1009,7 +1011,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&fromTime=" + vehicleEvent.startTime +
       "&toTime=" + vehicleEvent.endTime +
-      "&isProximity=1";
+      "&haltId=" + vehicleEvent.haltId +
+      "&isProximity=1"
+      ;
+
     this.api.get('HaltOperations/getTimeTrails?' + params)
       .subscribe(res => {
         this.common.loading--;
@@ -1102,6 +1107,9 @@ tripVerification(status){
         --this.common.loading;
 
       });
+  }
+  details(vehicleEvent){
+
   }
 }
 
