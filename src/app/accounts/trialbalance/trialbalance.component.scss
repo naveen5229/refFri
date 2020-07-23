@@ -250,3 +250,36 @@ table{
     background-color: #FFEE75 !important;
     color: #000 !important;
 }
+
+
+
+//kavita singh css
+.heading{
+    width: 100%;
+    // position: fixed;
+    // left: 241px;
+    z-index: 2;
+    border: 1px solid #263238;
+}
+.heading div{
+    border-right: 1px solid #263238;
+}
+.x-col{
+    border-right: 1px solid #f2f2f2;
+    padding: 6px 4px;
+}
+.lastrowcolor .x-col{
+    color: #000;
+}
+.jrx-dtbody{
+    height: calc(100vh - 292px);
+    overflow: auto;
+    width: 100%;
+}
+.th-mini div, .tb-mini div{
+    padding: 6px 4px;
+}
+.highlight[_ngcontent-cdj-c13] {
+    background-color: #e2ca1f !important;
+
+}

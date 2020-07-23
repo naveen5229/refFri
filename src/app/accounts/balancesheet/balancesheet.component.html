@@ -48,6 +48,7 @@
             <div class="col-8">Liability</div>
             <div class="col-4 text-right">Amount</div>
           </div>
+          <div class="jrx-dtbody">
           <div *ngFor="let liability of assets;  let i = index;"
             (click)="activeTreeasset = activeTreeasset !== i ? i : -1">
             <div *ngIf="(assets.length -1 > i)" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == assets.length -1 ? 'none' : ''}">
@@ -58,12 +59,15 @@
               [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || isExpand  ? true : false" labels="">
             </balance-sheet-tree>
           </div>
+          </div>
+
         </div>
         <div class="col-6 p-0">
           <div class="row heading m-0 p-0">
             <div class="col-8">Asset</div>
             <div class="col-4 text-right">Amount</div>
           </div>
+          <div class="jrx-dtbody">
           <div *ngFor="let liability of liabilities;  let j = index;" (click)="activeTree = activeTree !== j ? j : -1">
             <div style="background: #184154;" [ngStyle]="{'display':  j == liabilities.length -1 ? 'none' : ''}"
               class="th-mini row m-0 pl-0 pr-0">
@@ -73,6 +77,7 @@
             <balance-sheet-tree [action]="opendaybookmodel.bind(this)" [data]="liability.data"
               [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || isExpand  ? true : false" labels="">
             </balance-sheet-tree>
+          </div>
           </div>
         </div>
       </div>
