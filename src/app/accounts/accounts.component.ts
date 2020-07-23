@@ -16,6 +16,7 @@ import { RangeComponent} from '../acounts-modals/range/range.component';
       <router-outlet></router-outlet>
     </ngx-sample-layout>
   `,
+  styleUrls: ['./accounts.scss'],
   host: {
     '(document:keydown)': 'onKeyDown($event)'
   }

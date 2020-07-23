@@ -1,16 +1,26 @@
-
 .nb-theme-corporate nb-card {
     min-height: 450px;
 }
 
 button {
-    padding: 7px 10px !important;
+    padding: 4px 6px !important;
     background-color: #263238;
     border-radius: 5px !important;
     text-transform: capitalize !important;
     cursor: pointer;
     outline: none;
+    -webkit-box-shadow: none;
     box-shadow: none;
+    font-size: 8px;
+    color: #fff;
+    border: none;
+    margin-left: 1px;
+}
+.customPage {
+    font-size: 10px !important;
+    padding: 1px 5px !important;
+    width: 60px;
+    border: 1px solid;
 }
 
 nb-card-header {
@@ -20,10 +30,10 @@ nb-card-header {
 }
 
 .selected {
-    background-color: #576c77
+    background-color: #576c77;
 }
 table tr.highlight {
-    background-color: #FFEE75 !important;
+    background-color: #ffee75 !important;
     color: #000 !important;
 }
 .tjr-label {
@@ -55,34 +65,33 @@ table tr.highlight {
     border-radius: 3px !important;
     padding: 3px 8px !important;
 }
-.auto-sugg{
+.auto-sugg {
     max-height: 128px;
     min-height: 128px;
 }
-table{
-    thead{
+table {
+    thead {
         display: table;
         width: 100%;
         table-layout: fixed;
     }
-    tr{
-        
-        th{
+    tr {
+        th {
             padding: 5px 10px;
             font-weight: normal;
             width: 165px;
         }
-        th:first-child{
+        th:first-child {
             width: 50px;
         }
-        th:last-child{
+        th:last-child {
             width: auto;
         }
-        td{
+        td {
             padding: 5px 10px !important;
             font-size: 12px;
             width: 165px;
-            button{
+            button {
                 padding: 0 !important;
                 font-size: 11px;
                 border-radius: 0px !important;
@@ -94,33 +103,33 @@ table{
             }
         }
     }
-    tbody{
+    tbody {
         overflow-y: auto;
         display: block;
         width: 100%;
         table-layout: fixed;
         overflow: auto;
         max-height: calc(100vh - 312px);
-        tr{
+        tr {
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:last-child{
+            td:last-child {
                 width: auto;
             }
-            td:first-child{
-                width: 50px;   
+            td:first-child {
+                width: 50px;
             }
         }
-        tr:nth-child(odd){
+        tr:nth-child(odd) {
             background-color: #fff;
         }
-        tr:nth-child(even){
+        tr:nth-child(even) {
             background-color: #e4e4e4;
         }
     }
-} 
-.add-button{
+}
+.add-button {
     position: fixed;
     bottom: 10px;
     right: 50px;
@@ -131,48 +140,52 @@ table{
     cursor: pointer !important;
 }
 
-
-.date-modal{
+.date-modal {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 999999;
     top: 0;
     left: 0;
 }
-.date-modal-body{
+.date-modal-body {
     background: #fff;
     width: 152px;
     margin: 15% auto auto auto;
 }
-.pdf-icon{
+.pdf-icon {
     font-size: 30px;
-    color: #9F0001;
+    color: #9f0001;
 }
-.exel-icon{
+.exel-icon {
     font-size: 30px;
     color: #217346;
 }
-.far.fa-image{
+.far.fa-image {
     display: block;
     text-align: right;
     font-size: 18px;
     margin-top: -20px;
     color: #00ff39;
-    cursor: pointer;   
+    cursor: pointer;
 }
 .highlightcolor {
     background-color: gray !important;
-
 }
 .highlightcolor td {
-    color:white !important;
-
+    color: white !important;
 }
-.addvance{
-    margin-top: 22px
+.addvance {
+    margin-top: 22px;
 }
-.advncolor{
-color: blue;
+.advncolor {
+    color: blue;
+}
+.pagination {
+    margin: 0px;
+    margin-top: -10px;
+}
+.active-page {
+    background: teal;
 }
