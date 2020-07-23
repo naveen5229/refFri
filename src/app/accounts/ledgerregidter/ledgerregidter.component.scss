@@ -128,18 +128,21 @@ input[type=radio]{
 }
 
 .x-heading {
-    width: 80%;
+    width: 79.89%;
     margin: 0 0px 0px 1px;
     padding: 0 !important;
     background-color: #263238;
     color: #fff;
     padding: 0px 0px !important;
-    font-size: 12px;
+    font-size: 14px;
     position: fixed;
     z-index: 2;
+    left: 241px;
+    clear: both;
     
     .x-col {
-        border-right: 1px solid #f2f2f2;
+      //  border-right: 1px solid #f2f2f2;
+        border-right: 1px solid #263238;
         padding: 6px 4px;
     }
     .x-col:first-child {
@@ -167,9 +170,9 @@ input[type=radio]{
         // }
     }
     .x-stocktype {
-        background: #184154;
+       background: #184154;
         color: #fff;
-        font-size: 10px;
+        font-size: 12px;
         .x-col:first-child {
             max-width: 25.7%;
         }
@@ -179,12 +182,12 @@ input[type=radio]{
 .x-sub-stocktype {
     background-color: #6f8a96;
     color: #fff;
-    font-size: 10px;
+    font-size: 12px;
     border-bottom: 1px solid #FFF;
-    padding-left: 13px;
+    //padding-left: 12px;
     margin-left: 3px;
     .x-col:first-child {
-        max-width: 24.5%;
+        max-width: 25.5%;
     }
 }
 .x-stockitem {
@@ -204,10 +207,11 @@ input[type=radio]{
     }
 }
 .x-warehouse {
-    background: #dadfe6;
+   // background: #dadfe6;
+    background: #C8C8C8;
     color: black;
-    font-size: 10px;
-    padding-left: 13px;
+    font-size: 12px;
+   // padding-left: 12px;
     margin-left: 3px;
     .x-col:first-child {
         width: 24.5%;
@@ -231,7 +235,7 @@ input[type=radio]{
 }
 
 .highlight {
-    background-color: #ffee75 !important;
+    background-color: #e2ca1f !important;
     color: #000 !important;
 }
 .expand-div {
@@ -263,7 +267,7 @@ border-bottom: 1px solid #FFF;
 }
 .x-warehouse {
     .x-col:first-child {
-    max-width: 24.5%;
+    max-width: 25.5%;
     }
     .x-col:last-child {
         border-right: none;
@@ -273,12 +277,25 @@ border-bottom: 1px solid #FFF;
 .jrx-dtbody{
     height: calc(100vh - 292px);
     overflow: auto;
-    width: 102%;
+    width: 100%;
     margin-top: 28px;
 }
 .addvance{
     margin-top: 22px
 }
+.addvance a{
+    cursor: pointer !important;
+    margin-top: 18px !important;
+    color: blue !important;
+    font-size: 12px;
+    border-bottom: 1px solid blue;
+    
+}
+.addvance a:hover{
+    text-decoration: none !important;
+}
+
+
 .advncolor{
 color: blue;
 }
@@ -296,3 +313,8 @@ color: blue;
     width: 200px;
     margin: 15% auto auto auto;
   }
+@media (min-width: 1367px){
+    .x-heading{
+        width: 80.8%;
+    }
+}
