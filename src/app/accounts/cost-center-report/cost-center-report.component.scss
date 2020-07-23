@@ -153,3 +153,10 @@ table{
     font-size: 30px;
     color: #217346;
 }
+
+
+//kavita singh
+
+.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+    border: 1px solid #c7c7c7;
+}
