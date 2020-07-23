@@ -71,6 +71,7 @@ import { MvGpsApiReqComponent } from '../challan/mv-gps-api-req/mv-gps-api-req.c
 import { CaptchaComponent } from './captcha/captcha.component';
 import { FinancialAccountSummaryComponent } from './financial-account-summary/financial-account-summary.component';
 import { TripVerificationComponent } from './trip-verification/trip-verification.component';
+import { VehdocmismatchComponent } from './vehdocmismatch/vehdocmismatch.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -424,6 +425,12 @@ const routes: Routes = [{
             component: FinancialAccountSummaryComponent,
             canActivate: [RouteGuard]
         },
+        {
+            path: 'vehdocmismatch',
+            component: VehdocmismatchComponent,
+            canActivate: [RouteGuard]
+        },
+
 
     ],
 }];
