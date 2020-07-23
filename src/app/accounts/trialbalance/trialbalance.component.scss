@@ -190,6 +190,8 @@ table{
     border-bottom: 1px solid #c7c7c7;
     border-left: 1px solid #c7c7c7;
     border-right: 1px solid #c7c7c7;
+    font-size: 11px;
+    color: #fff;
 }
 
 .tb-mini .col-8,
@@ -213,9 +215,7 @@ table{
         // .x-col {
         //     // border-right: 1px solid #c2c2c2;
         // }
-        // .x-col:first-child {
-        //     // border-left: 1px solid #c2c2c2;
-        // }
+        
     }
     .x-stocktype {
         background: #184154;
@@ -229,6 +229,9 @@ table{
 }
 .x-col{
     color: #fff;
+}
+.x-col:first-child {
+    max-width: 25.7%;
 }
 .expand-div {
     position: absolute;
@@ -244,7 +247,10 @@ table{
 
 .lastrowcolor{
     background-color: #bfcfd9 !important;
-    
+    font-size: 11px;
+    div{
+        color:#000 !important;
+    }
 }
 .highlight {
     background-color: #FFEE75 !important;

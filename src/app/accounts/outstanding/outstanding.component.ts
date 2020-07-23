@@ -45,7 +45,7 @@ import { ServiceComponent } from '../service/service.component';
     </div>
   </div>
   `,
-  styleUrls: ['./outstanding.component.scss'],
+  styleUrls: ['./outstanding.component.scss'], 
   host: {
     '(document:keydown)': 'keyHandler($event)'
   }

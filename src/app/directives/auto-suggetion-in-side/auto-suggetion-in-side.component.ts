@@ -6,7 +6,6 @@ import { Component, OnInit, Output, Input, EventEmitter, ChangeDetectorRef } fro
   styleUrls: ['./auto-suggetion-in-side.component.scss']
 })
 export class AutoSuggetionInSideComponent implements OnInit {
-
   @Output() select = new EventEmitter();
   @Input() display: any;
   @Input() seperator: string;
@@ -49,7 +48,7 @@ export class AutoSuggetionInSideComponent implements OnInit {
 
   initialize() {
     if (Array.isArray(this.display)) this.displayType = 'array';
-    this.suggestions = this.data;
+    this.suggestions = JSON.parse(JSON.stringify(this.data)).slice(0, 50);
     this.activeSuggestion = -1;
     this.cdr.detectChanges();
     setTimeout(this.handleTargetId.bind(this), 500);
@@ -61,19 +60,23 @@ export class AutoSuggetionInSideComponent implements OnInit {
       ele.oninput = () => this.filterData(document.getElementById(this.targetId)['value']);
       ele.onkeydown = this.handleKeyDown.bind(this);
     }
-
   }
 
   filterData(searchText) {
     if (!searchText) {
-      this.suggestions = JSON.parse(JSON.stringify(this.data));
-      this.suggestions.splice(10, this.suggestions.length - 11);
+      this.suggestions = JSON.parse(JSON.stringify(this.data)).slice(0, 50);
       return;
     }
-    this.suggestions = this.data.filter(suggestion => {
-      return suggestion[this.display].toLowerCase().includes(searchText.toLowerCase());
-    });
-    this.suggestions.splice(10, this.suggestions.length - 11);
+
+    this.suggestions = [];
+    let i = 0;
+    while (this.suggestions.length < 50 && i < this.data.length) {
+      let suggestion = this.data[i];
+      let txt = suggestion[this.display].replace(/\s|\.|_|-/g, '').toLowerCase();
+      if (txt.includes(searchText.replace(/\s|\.|_|-/g, '').toLowerCase())) this.suggestions.push(suggestion);
+      i++;
+    }
+
     return;
   }
 
@@ -85,53 +88,44 @@ export class AutoSuggetionInSideComponent implements OnInit {
   }
 
   handleKeyDown(event) {
-    // console.log('Event:', event);
     const key = event.key.toLowerCase();
     if (key == 'arrowdown') {
       if (this.activeSuggestion < this.suggestions.length - 1) this.activeSuggestion++;
       else if (this.activeSuggestion > this.suggestions.length - 1) this.activeSuggestion = 0;
-      // document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 4.5 - (this.activeSuggestion > 11 ? (this.activeSuggestion - 13) * 0.5 : 0));
-      let length = 0;
-      for (let i = 0; i < this.activeSuggestion; i++) {
-        let str = this.suggestions[i][this.display];
-        console.log('str', str);
-        let width = this.getTextWidth(str, "10px Poppins");
-        console.log('Width:', width);
-        let lines = Math.ceil(width/196);
-        length += lines * 2;
-      }
-      console.log('length:', length);
-      document.getElementById('TJR-auto-suggestion-container').scroll(0, length);
-
+      document.getElementById('TJR-auto-suggestion-container').scroll(0, this.calculateScrollY());
       event.preventDefault();
     } else if (key == 'arrowup') {
       if (this.activeSuggestion != 0) this.activeSuggestion--;
-      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 4.5 - (this.activeSuggestion > 11 ? (this.activeSuggestion - 13) * 0.5 : 0));
+      document.getElementById('TJR-auto-suggestion-container').scroll(0, this.calculateScrollY());
       event.preventDefault();
     } else if (key == 'enter' || key == 'tab') {
       if (this.activeSuggestion !== -1) {
         this.selectSuggestion(this.suggestions[this.activeSuggestion]);
       } else {
-
-
         let value = document.getElementById(this.targetId)['value'];
         if (!value) {
           this.selectSuggestion(this.suggestions[0]);
         } else {
           let suggestion = this.data.filter(s => s[this.display].toLowerCase() === value.toLowerCase());
-          console.log(suggestion);
           if (!suggestion.length) {
             this.selectSuggestion(this.suggestions[0]);
           } else {
             this.selectSuggestion(suggestion[0]);
           }
         }
-
-
-
       }
     }
   }
+
+  calculateScrollY() {
+    let scrollY = 0;
+    let eles = document.querySelectorAll('.suggestion-option');
+    for (let i = 1; i < this.activeSuggestion; i++) {
+      scrollY += eles[i]['offsetHeight'] + 1.5;
+    }
+    return scrollY;
+  }
+
 
   getTextWidth(text, font) {
     this.canvas = this.canvas || (this.canvas = document.createElement("canvas"));

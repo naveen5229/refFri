@@ -31,26 +31,25 @@ export class BalanceSheetTreeComponent {
   selectedRow: number = -1;
   colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca', 'bfcfd9'];
   deletedId = 0;
-  items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  search = '';
+  searchedData = [];
 
   constructor(public common: CommonService,
     public modalService: NgbModal,
-    public user: UserService,
+    public user: UserService, public cdr: ChangeDetectorRef,
     public accountService: AccountService) {
+  }
+
+  ngOnChanges(changes) {
+    if (changes.data) {
+      this.data = changes.data.currentValue;
+      this.searchedData = this.data;
+    }
   }
 
   lastClickHandler(event, index) {
     this.selectedRow = parseInt(index);
     event.stopPropagation();
-  }
-
-  ngAfterViewInit() {
-    console.log('--------,', this.active);
-  }
-
-  ngOnChanges(changes) {
-    // console.log('Changes: ', changes);
-    // console.log(changes.active)
   }
 
   clickHandler(event, index) {
@@ -60,10 +59,9 @@ export class BalanceSheetTreeComponent {
 
   doubleClickHandler(event, data) {
     event.stopPropagation();
-    //  console.log('data suggestion',data);
     this.action(data);
-
   }
+
   keyHandler(event) {
     event.stopPropagation();
     const key = event.key.toLowerCase();
@@ -72,6 +70,18 @@ export class BalanceSheetTreeComponent {
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.data.length - 1 && key === 'arrowdown') this.selectedRow++;
     }
+  }
+
+  searchValues() {
+    this.searchedData = this.data.filter(x => {
+      if (x.name) {
+        return x.name.toLowerCase().includes(this.search.toLowerCase())
+      } else if (x.ledgerName) {
+        return x.ledgerName.toLowerCase().includes(this.search.toLowerCase())
+      }
+      return false;
+    });
+    this.cdr.detectChanges();
   }
 }
 
@@ -111,7 +121,9 @@ export class BalancesheetComponent implements OnInit {
   viewType = 'main';
   assettottalamount = 0;
   libilitytottalamount = 0;
-
+  isExpandMainGroup: boolean = false;
+  isExpandAll: boolean = false;
+  isExpand: string = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -237,8 +249,10 @@ export class BalancesheetComponent implements OnInit {
           ledgerName: data[i].y_ledger_name,
           ledgerdata: data[i],
           data: [],
-          amount: data[i].y_amount
-        })
+          amount: data[i].y_amount,
+          ledgerid: data[i].y_ledgerid,
+          colorflag: 1
+        });
       }
     }
 
@@ -253,8 +267,8 @@ export class BalancesheetComponent implements OnInit {
         } else {
           return child;
         }
-      }).sort((a, b)=>{
-        if(a.length > b.length) return 1;
+      }).sort((a, b) => {
+        if (a.length > b.length) return 1;
         return -1;
       });
     } else {
@@ -285,7 +299,7 @@ export class BalancesheetComponent implements OnInit {
       return info;
     }
   }
-  
+
 
   formattData() {
     let assetsGroup = _.groupBy(this.balanceSheetData, 'y_is_assets');
@@ -466,9 +480,9 @@ export class BalancesheetComponent implements OnInit {
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,
-      ledger: data.ledgerdata[0].y_ledgerid,
+      ledger: data.ledgerid,
       vouchertype: 0,
-      ledgername: data.ledgerdata[0].y_ledger_name
+      ledgername: data.ledgerName
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {

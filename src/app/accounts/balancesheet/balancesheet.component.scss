@@ -99,7 +99,7 @@ nb-card-header {
 .tb-mini {
     border-bottom: 1px solid #c7c7c7;
     border-left: 1px solid #c7c7c7;
-    border-right: 1px solid #c7c7c7;
+    border-right: 1px solid #dab2b2;
     color: #fff;
 }
 
@@ -168,8 +168,12 @@ nb-card-header {
     }
 }
 .lastrowcolor{
+    color: #000 !important;
     background-color: #b7c7d2  !important;
     
+}
+.anotherlast{
+    background-color: #c7c7d2  !important;
 }
 .highlight {
     background-color: #FFEE75 !important;
