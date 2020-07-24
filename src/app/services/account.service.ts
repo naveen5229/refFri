@@ -23,6 +23,7 @@ export class AccountService {
   perPage: number = 1000;
 
   constructor() {
+    this.perPage = parseInt(localStorage.getItem('per_page')) || 1000;
   }
 
 

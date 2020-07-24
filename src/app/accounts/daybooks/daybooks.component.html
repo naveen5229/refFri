@@ -73,13 +73,11 @@
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>S.No</th>
-          <th>Date</th>
-          <th>Particular</th>
-          <th>Vch Type</th>
-          <th>Vch No.</th>
-          <th>Amount(Debit)</th>
-          <th>Amount(Credit)</th>
-          <th *ngIf="accountService.selected.branch.id ==0">Branch</th>
+          <th *ngFor="let filter of filters">
+            <input type="text" [(ngModel)]="filter.search" (ngModelChange)="jrxSearch(filter)" [placeholder]="filter.name"
+              class="jrx-acc-th-inpt">
+          </th>
+          <th *ngIf="accountService.selected.branch.id == 0">Branch</th>
         </tr>
       </thead>
       <tr *ngFor=" let dataItem of data; let i = index;" (click)="selectedRow = i"

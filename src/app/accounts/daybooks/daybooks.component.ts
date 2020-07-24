@@ -11,7 +11,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
-import { promise } from 'selenium-webdriver';
 import { StorerequisitionComponent } from '../../acounts-modals/storerequisition/storerequisition.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
@@ -28,6 +27,10 @@ import { ServiceComponent } from '../service/service.component';
   styleUrls: ['./daybooks.component.scss']
 })
 export class DaybooksComponent implements OnInit {
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event) {
+    this.keyHandler(event);
+  }
   selectedName = '';
   activedateid = '';
   fuelFilings = [];
@@ -55,11 +58,9 @@ export class DaybooksComponent implements OnInit {
     vouchercode: '',
     frmamount: 0,
     toamount: 0
-
   };
 
   lastActiveId = '';
-  //showDateModal = false;
   vouchertypedata = [];
   branchdata = [];
   DayData = [];
@@ -74,10 +75,7 @@ export class DaybooksComponent implements OnInit {
   VoucherEditTime = [];
   tripExpDriver = [];
   tripExpenseVoucherTrips = [];
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event) {
-    this.keyHandler(event);
-  }
+
   pages = {
     count: 0,
     active: 1,
@@ -85,7 +83,16 @@ export class DaybooksComponent implements OnInit {
   };
   data = [];
   jrxPageTimer: any;
-
+  filters = [
+    { name: 'Date', key: 'y_date', search: '' },
+    { name: 'Particular', key: 'y_particulars', search: '' },
+    { name: 'Vch Type', key: 'y_type', search: '' },
+    { name: 'Vch No.', key: 'y_cust_code', search: '' },
+    { name: 'Amount(Debit)', key: 'y_dramunt', search: '' },
+    { name: 'Amount(Credit)', key: 'y_cramunt', search: '' },
+  ];
+  jrxTimeout: any;
+  searchedData = [];
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -93,6 +100,7 @@ export class DaybooksComponent implements OnInit {
     public modalService: NgbModal,
     public accountService: AccountService,
     public router: Router) {
+    this.pages.limit = this.accountService.perPage;
     this.common.refresh = this.refresh.bind(this);
     this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate : this.DayBook.startdate;
     this.accountService.todate = (this.accountService.todate) ? this.accountService.todate : this.DayBook.enddate;
@@ -241,7 +249,7 @@ export class DaybooksComponent implements OnInit {
 
   }
   getDayBook() {
-    console.log('Accounts:', this.DayBook);
+    this.searchedData = [];
     this.DayBook.startdate = this.accountService.fromdate;
     this.DayBook.enddate = this.accountService.todate;
     let params = {
@@ -881,6 +889,7 @@ export class DaybooksComponent implements OnInit {
       this.common.showError('Please Select another Entry');
     }
   }
+
   addvance() {
     this.common.params = { 'isamount': this.DayBook.isamount, 'remarks': this.DayBook.remarks, 'vouchercustcode': this.DayBook.vouchercustcode, 'vouchercode': this.DayBook.vouchercode, 'frmamount': this.DayBook.frmamount, 'toamount': this.DayBook.toamount };
     const activeModal = this.modalService.open(AdvanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -902,11 +911,11 @@ export class DaybooksComponent implements OnInit {
     });
   }
 
-  jrxPagination(page) {
+  jrxPagination(page, data?) {
     this.pages.active = page;
     let startIndex = this.pages.limit * (this.pages.active - 1);
     let lastIndex = (this.pages.limit * this.pages.active);
-    this.data = this.DayData.slice(startIndex, lastIndex);
+    this.data = data ? data.slice(startIndex, lastIndex) : this.searchedData.length ? this.searchedData.slice(startIndex, lastIndex) : this.DayData.slice(startIndex, lastIndex);
   }
 
   jrxPageLimitReset() {
@@ -927,7 +936,32 @@ export class DaybooksComponent implements OnInit {
       }
 
       this.accountService.perPage = this.pages.limit;
+      localStorage.setItem('per_page', this.accountService.perPage.toString());
       this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count);
+    }, 500);
+  }
+
+  jrxSearch(filter) {
+    clearTimeout(this.jrxTimeout);
+    this.jrxTimeout = setTimeout(() => {
+      this.searchedData = [];
+      if (filter.search) {
+        for (let i = 0; i < this.DayData.length; i++) {
+          if (this.DayData[i][filter.key].toLowerCase().includes(filter.search.toLowerCase()))
+            this.searchedData.push(this.DayData[i]);
+        }
+
+        this.pages.count = Math.floor(this.searchedData.length / this.pages.limit);
+        if (this.DayData.length % this.pages.limit) this.pages.count++;
+        this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count, this.searchedData);
+
+      } else {
+        this.searchedData = [];
+        this.pages.count = Math.floor(this.DayData.length / this.pages.limit);
+        if (this.DayData.length % this.pages.limit) this.pages.count++;
+        this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count);
+      }
+
     }, 500);
   }
 }

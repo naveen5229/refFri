@@ -36,6 +36,7 @@
               "src/app/@theme/styles/styles.scss",
               "node_modules/ng-pick-datetime/assets/style/picker.min.css",
               "src/print.scss",
+              "src/accounts.scss",
               "src/styles.css"
             ],
             "scripts": [
