@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import * as _ from 'lodash';
 import { AccountService } from '../../services/account.service';
@@ -77,12 +77,15 @@ warehouseid=0;
   tripExpDriver = [];
   tripExpenseVoucherTrips = [];
   isSingleClick: any;
+  isModal = false;
+  sizeIndex=0;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public pdfService: PdfService,
     public csvService: CsvService,
     public accountService: AccountService,
+    public activeModal: NgbActiveModal,
     public modalService: NgbModal) {
     this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.outStanding.Date;
     this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.outStanding.endDate;
@@ -93,6 +96,21 @@ warehouseid=0;
     this.setFoucus('stocktype');
     this.common.currentPage = 'Store Register';
   this.branchid=  this.accountService.selected.branch.id;
+  if (this.common.params && this.common.params.startdate) {  // Add by hemant 27 june 2020
+    // this.showHideButton = false;
+    this.accountService.fromdate= this.common.params.startdate;
+     this.accountService.todate= this.common.params.enddate;
+
+     this.getStockSummary();
+    // this.sizeindex= this.sizeindex+1;
+     if (this.common.params.isModal) {
+       this.isModal = true;
+     }
+   this.common.params = null;
+     this.common.handleModalSize('class', 'modal-lg', '1200', 'px', this.sizeIndex);
+ 
+    // this.common.params = null;
+   }
   }
 
   activeGroup = [];
@@ -182,7 +200,6 @@ warehouseid=0;
     console.log('Ledger:', this.outStanding);
     let params = {
       data: this.outStanding,
-
     };
 
     this.common.loading++;

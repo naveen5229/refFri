@@ -1,5 +1,9 @@
 <nb-card style="border: 0px;">
   <nb-card-body (keydown)="keyHandler($event)">
+    <div class="row" *ngIf="isModal" style="height:40px;background-color:black;margin:0!important">
+      <h4 style="color:white;padding:6px">{{currentPage}}</h4>
+      <i class="fa fa-times close"  (click)="activeModal.dismiss()"></i>
+    </div>
     <div class="" style="float:right; margin-right: 20px">
       <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
         Main Group</span>
@@ -473,6 +477,16 @@
         </div>
       </div>
     </div> -->
+  </div>
+  <div class="modal-footer" *ngIf="isModal">
+    <div class="row w-100">
+      <div class="col-11"></div>
+      <div class="col-1 text-right" >
+        <button class="btn btn-primary tjr-button" type="button" outline (click)="activeModal.dismiss()" id="cancel"
+          style="cursor: pointer;">Cancel
+        </button>
+      </div>
+    </div>
   </div>
   </nb-card-body>
 </nb-card>

@@ -40,16 +40,9 @@ export class ProfitlossComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    // this.getBalanceSheet();
-    //  this.getBranchList();
-    // this.setFoucus('startdate');
-    // this.common.currentPage = 'Profit & Loss A/C';
-
     this.plData = {
       enddate: this.common.params.enddate,
       startdate: this.common.params.startdate,
-
-
     };
     this.common.handleModalSize('class', 'modal-lg', '1150');
     this.getBalanceSheet();

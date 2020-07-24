@@ -246,14 +246,13 @@ input[type="radio"] {
     padding: 6px 4px;
 }
 .x-heading {
-    width: 82%;
-    margin: 0 0px 0px 1px;
+    width: 100%;
+    margin: 0 0px 0px 0px;
     padding: 0 !important;
     background-color: #263238;
     color: #fff;
     padding: 0px 0px !important;
     font-size: 10px;
-    position: fixed;
     z-index: 2;
     .x-col {
         border-right: 1px solid #f2f2f2;
@@ -352,5 +351,13 @@ input[type="radio"] {
     height: calc(100vh - 305px);
     overflow: auto;
     width: 102%;
-    margin-top: 37px;
 }
+
+.close{
+    background: transparent;
+    color: #fff !important;
+    opacity: 1;
+    padding: 10px 20px;
+    margin: 1px 0rem -1rem auto;
+    outline: none;
+  }
