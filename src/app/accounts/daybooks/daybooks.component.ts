@@ -419,23 +419,8 @@ export class DaybooksComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
-    console.log('Active event', event, this.activeId);
 
-    //   if (this.activeId.includes('startdate') || this.activeId.includes('enddate')) {
-
-    //     const charCode = (event.which) ? event.which : event.keyCode;
-    //     console.log('charcode 0000',charCode);
-    //     if (charCode == 8 ||charCode == 37 || charCode == 38 || charCode == 16  || (charCode > 48 && charCode < 57) || charCode == 13) {
-    //       console.log('true part execute');
-    //       return false;
-    //     //return true;
-    //     }else{
-    //       console.log('else part execute');
-    //       return true;
-    //     }
-    // }
     if (key === 'home' && (this.activeId.includes('ledgerdaybook'))) {
-      //console.log('hello');
       let ledgerindex = this.lastActiveId.split('-')[1];
       if (this.DayBook.ledger.id != 0) {
         console.log('ledger value ------------', this.DayBook.ledger.id);
@@ -445,36 +430,13 @@ export class DaybooksComponent implements OnInit {
       }
 
     }
-    // if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
-    //   /***************************** Handle Row Enter ******************* */
-    //   this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
-    //   return;
-    // }
+
     if ((event.ctrlKey && key === 'd') && (!this.activeId && this.DayData.length && this.selectedRow != -1)) {
       console.log('ctrl + d pressed');
-      //this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid,1);   
       ((this.DayData[this.selectedRow].y_type.toLowerCase().includes('voucher')) ? (this.DayData[this.selectedRow].y_type.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid, 6, this.DayData[this.selectedRow].y_vouchertype_id) : (this.DayData[this.selectedRow].y_type.toLowerCase().includes('invoice')) ? this.openinvoicemodel(this.DayData[this.selectedRow].y_voucherid, this.DayData[this.selectedRow].y_vouchertype_id, 1) : '')
       event.preventDefault();
       return;
     }
-    // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-    //   this.lastActiveId = this.activeId;
-    //   this.setFoucus('voucher-date-f2', false);
-    //   this.showDateModal = true;
-    //   this.f2Date = this.activeId;
-    //   this.activedateid = this.lastActiveId;
-    //   return;
-    // } else if ((key == 'enter' && this.showDateModal)) {
-    //   this.showDateModal = false;
-    //   console.log('Last Ac: ', this.lastActiveId);
-    //   this.handleVoucherDateOnEnter(this.activeId);
-    //   this.setFoucus(this.lastActiveId);
-
-    //   return;
-    // } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-    //   return;
-    // }
-
 
     if (key == 'enter') {
       this.allowBackspace = true;
@@ -948,17 +910,24 @@ export class DaybooksComponent implements OnInit {
   }
 
   jrxPageLimitReset() {
-    clearTimeout(this.jrxPageTimer);
     this.jrxPageTimer = setTimeout(() => {
       if (typeof this.pages.limit === 'string') {
         this.pages.limit = parseInt(this.pages.limit) || 0;
       }
-      if (!this.pages.limit) return;
+
+      if (!this.pages.limit || this.pages.limit < 100) {
+        this.pages.limit = this.accountService.perPage;
+        this.common.showError('Minimum per page limit 100');
+        return;
+      }
+
       this.pages.count = Math.floor(this.DayData.length / this.pages.limit);
       if (this.DayData.length % this.pages.limit) {
         this.pages.count++;
       }
+
+      this.accountService.perPage = this.pages.limit;
       this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count);
-    }, 1000);
+    }, 500);
   }
 }
