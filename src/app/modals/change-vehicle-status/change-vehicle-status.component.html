@@ -107,9 +107,16 @@
                   <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'background-color':vehicleEvent.endcolor ? vehicleEvent.endcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }">{{vehicleEvent.endTimeShort}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.y_mon}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent); " *ngIf="vehicleEvent.y_site_type_id==1">
-                    {{vehicleEvent.site_name}},{{vehicleEvent.loc}}</td>
+                    {{vehicleEvent.site_name}},{{vehicleEvent.loc}}
+                    <span  style="margin-left: 8px;border: 1px solid black; border-radius: 50%;" *ngIf="vehicleEvent.inCluster">
+                      {{vehicleEvent.inCluster}} 
+                    </span>
+                    </td>
                   <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.y_site_type_id!=1">
                     {{vehicleEvent.loc}}
+                    <span  style="margin-left: 8px;border: 1px solid black; border-radius: 50%;" *ngIf="vehicleEvent.inCluster">
+                      {{vehicleEvent.inCluster}} 
+                    </span>
                   </td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.kmph}}</td>
@@ -121,13 +128,14 @@
 
                 </tr>
                 <tr *ngIf="vehicleEvent.isOpen">
-                  <td colspan="9">
+                  <td colspan="10">
                     <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
-                        <span class="zoom-btn" (click)="setZoom(6)" title="zoom Level 1">1</span>
+                        <input type="range" class="zoom-btn" min="1" max="20" [(ngModel)]="zoomLevel" (input)="setZoom(zoomLevel)" name="zoomSlider" style=" display: inline; vertical-align: middle;width: 150px;">
+                        <!-- <span class="zoom-btn" (click)="setZoom(6)" title="zoom Level 1">1</span>
                         <span class="zoom-btn" (click)="setZoom(9)" title="zoom Level 2">2</span>
                         <span class="zoom-btn" (click)="setZoom(12)" title="zoom Level 3">3</span>
                         <span class="zoom-btn" (click)="setZoom(15)" title="zoom Level 4">4</span>
-                        <span class="zoom-btn" (click)="setZoom(18)" title="zoom Level 5">5</span>
+                        <span class="zoom-btn" (click)="setZoom(18)" title="zoom Level 5">5</span> -->
                         <span class="zoom-btn" (click)="showHide()" title="Show and Hide Site">{{showHideSite}}</span>
                         <span class="zoom-btn" (click)="setSiteHalt(vehicleEvent,true)"
                           *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId" title="Map Site">CSH</span>
@@ -159,6 +167,8 @@
                             class="fa fa-check" title="Mark Resolved"></i></span>
                         <span class="zoom-btn" (click)="tripStateMapping(vehicleEvent)" *ngIf="vehicleEvent.vs_id"><i
                             class="fa fa-chain" title="Trip State Mapping"></i></span>
+                        <span class="zoom-btn" (click)="getClusteres(vehicleEvent)" *ngIf="vehicleEvent.vs_id && !vehicleEvent.haltId &&vehicleEvent.haltId == null"><i
+                              class="fa fa-object-group" title="Clusteres"></i></span>
                       </span>
                     </div>
                   </td>
