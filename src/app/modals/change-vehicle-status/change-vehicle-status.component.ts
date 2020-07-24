@@ -1108,6 +1108,21 @@ tripVerification(status){
 
       });
   }
+
+  getClusteres(vehicleEvent){
+    this.common.loading++;
+    let params = "vsId=" + vehicleEvent.vs_id ;
+    this.api.get('HaltOperations/getStateClustures?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("res+++",res);
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError(err);
+      })
+  }
+
   details(vehicleEvent){
 
   }
