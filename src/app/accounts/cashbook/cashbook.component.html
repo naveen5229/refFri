@@ -24,14 +24,14 @@
                 [(ngModel)]="DayBook.vouchertype.name">
             </div>
           </div> -->
-          <div class="col-4">
+          <div class="col-6">
             <div class="form-group">
               <label class="tjr-label">Ledger</label>
               <input type="text" id="ledger" class="form-control tjr-input" name="ledger"
                 [(ngModel)]="DayBook.ledger.name">
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-6">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
@@ -42,14 +42,14 @@
         </div>
         <div class="row">
           
-          <div class="col-4">
+          <div class="col-6">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="enddate"
                 placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.todate" maxlength="10">
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-3">
             <div *ngIf="flag==0" class="form-group addvance">
               <a href="javascript:void(0)" outline (click)="addvance()" id="submit" style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
             </div>
@@ -57,7 +57,7 @@
               <a href="javascript:void(0)" outline (click)="addvance()" id="submit" class="advncolor" style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-3">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getDayBook()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>

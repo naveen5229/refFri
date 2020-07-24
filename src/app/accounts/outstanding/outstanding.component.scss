@@ -98,17 +98,15 @@ input[type=radio]{
 }
 
 .x-heading {
-    width: 81.1%;
-    margin: 0 0px 0px 1px;
+    width: 100%;
+    margin: 0 0px 0px 0px;
     padding: 0 !important;
     background-color: #263238;
     color: #fff;
     padding: 0px 0px !important;
     font-size: 13px;
-    position: fixed;
     z-index: 2;
-    left: 226px;
-    .x-col {
+       .x-col {
         border-right: 1px solid #263238;
         padding: 6px 4px;
     }
@@ -261,7 +259,6 @@ input[type=radio]{
     height: calc(100vh - 330px);
     overflow: auto;
     width: 100%;
-    margin-top: 28px;
 }
 .date-modal{
     position: absolute;
@@ -280,8 +277,3 @@ input[type=radio]{
   
 
 
-  @media (min-width: 1367px){
-    .x-heading{
-        width: 82%;
-    }
-}
