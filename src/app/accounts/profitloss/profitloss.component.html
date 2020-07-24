@@ -1,5 +1,9 @@
 <nb-card style="border: 0px;">
   <nb-card-body (keydown)="keyHandler($event)">
+    <div class="row" *ngIf="isModal" style="height:40px;background-color:black;margin:0!important">
+      <h4 style="color:white;padding:6px">{{currentPage}}</h4>
+      <i class="fa fa-times close"  (click)="activeModal.dismiss()"></i>
+    </div>
     <div class="" style="float:right; margin-right: 20px">
       <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
         Main Group</span>
@@ -70,6 +74,7 @@
 
           </div>
         </div> -->
+        <div class="jrx-dtbody">
         <div *ngFor="let liability of assets;  let i = index;"
         (click)="activeTreeasset = activeTreeasset !== i ? i : -1">
         <div *ngIf="(assets.length -1 > i)" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == assets.length -1 ? 'none' : ''}">
@@ -79,6 +84,7 @@
         <trading-tree *ngIf="(assets.length -1 > i)" [action]="openLedgerViewModel.bind(this)" [data]="liability.data"
           [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || isExpand  ? true : false" labels="">
         </trading-tree>
+      </div>
       </div>
       </div>
       <div class="col-6 p-0">
@@ -114,6 +120,7 @@
 
           </div>
         </div> -->
+        <div class="jrx-dtbody">
         <div *ngFor="let liability of liabilities;  let j = index;" (click)="activeTree = activeTree !== j ? j : -1">
           <div style="background: #184154;" [ngStyle]="{'display':  j == liabilities.length -1 ? 'none' : ''}"
             class="th-mini row m-0 pl-0 pr-0">
@@ -123,6 +130,7 @@
           <profitloss-tree [action]="openLedgerViewModel.bind(this)" [data]="liability.data"
             [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || isExpand  ? true : false" labels="">
           </profitloss-tree>
+        </div>
         </div>
       </div>
       <!-- <div class="col-6 p-0">
@@ -469,6 +477,16 @@
         </div>
       </div>
     </div> -->
+  </div>
+  <div class="modal-footer" *ngIf="isModal">
+    <div class="row w-100">
+      <div class="col-11"></div>
+      <div class="col-1 text-right" >
+        <button class="btn btn-primary tjr-button" type="button" outline (click)="activeModal.dismiss()" id="cancel"
+          style="cursor: pointer;">Cancel
+        </button>
+      </div>
+    </div>
   </div>
   </nb-card-body>
 </nb-card>

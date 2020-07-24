@@ -177,3 +177,8 @@ table tr.highlight {
   .tanding_total {
     padding: 6px 15px;
   }
+  .jrx-dtbody{
+    height: calc(100vh - 292px);
+     overflow: auto;
+    width: 100%;
+  }
