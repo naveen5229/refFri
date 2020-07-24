@@ -33,6 +33,7 @@
         </div>
       </div>
     </div>
+    <div class="table-responsive">
     <table class="table table-bordered" id="table">
       <thead style="background-color:#263238; color:#fff;">
         <tr>
@@ -44,7 +45,7 @@
         </tr>
       </thead>
 
-
+<div class="mytbody">
       <tbody *ngFor="let dataItem of trialBalanceData; let i = index;">
         <tr style="background: #184154; color: #fff">
           <td>{{dataItem.name}}</td>
@@ -81,7 +82,9 @@
           <td *ngIf="trialdata.y_closebal == 0"></td>
         </tr>
       </tbody>
+</div>
     </table>
+   </div>
   </nb-card-body>
 </nb-card>
 
