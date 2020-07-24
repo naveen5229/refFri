@@ -128,17 +128,14 @@ input[type=radio]{
 }
 
 .x-heading {
-    width: 79.89%;
-    margin: 0 0px 0px 1px;
+    width: 100%;
+    margin: 0 0px 0px 0px;
     padding: 0 !important;
     background-color: #263238;
     color: #fff;
     padding: 0px 0px !important;
     font-size: 14px;
-    position: fixed;
     z-index: 2;
-    left: 241px;
-    clear: both;
     
     .x-col {
       //  border-right: 1px solid #f2f2f2;
@@ -278,22 +275,11 @@ border-bottom: 1px solid #FFF;
     height: calc(100vh - 292px);
     overflow: auto;
     width: 100%;
-    margin-top: 28px;
 }
 .addvance{
     margin-top: 22px
 }
-.addvance a{
-    cursor: pointer !important;
-    margin-top: 18px !important;
-    color: blue !important;
-    font-size: 12px;
-    border-bottom: 1px solid blue;
-    
-}
-.addvance a:hover{
-    text-decoration: none !important;
-}
+
 
 
 .advncolor{
@@ -313,8 +299,3 @@ color: blue;
     width: 200px;
     margin: 15% auto auto auto;
   }
-@media (min-width: 1367px){
-    .x-heading{
-        width: 80.8%;
-    }
-}
