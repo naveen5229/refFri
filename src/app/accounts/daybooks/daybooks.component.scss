@@ -33,7 +33,7 @@ nb-card-header {
     background-color: #576c77;
 }
 table tr.highlight {
-    background-color: #ffee75 !important;
+    background-color: #e2ca1f !important;
     color: #000 !important;
 }
 .tjr-label {
@@ -109,7 +109,7 @@ table {
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 312px);
+        max-height: calc(100vh - 318px);
         tr {
             display: table;
             table-layout: fixed;
@@ -174,7 +174,7 @@ table {
     background-color: gray !important;
 }
 .highlightcolor td {
-    color: white !important;
+   // color: white !important;
 }
 .addvance {
     margin-top: 22px;
@@ -189,3 +189,4 @@ table {
 .active-page {
     background: teal;
 }
+

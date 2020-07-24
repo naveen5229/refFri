@@ -102,11 +102,11 @@ table{
         }
     }
     tbody{
-        overflow-y: auto;
+        // overflow-y: auto;
         display: block;
         width: 100%;
         table-layout: fixed;
-        overflow: auto;
+        // overflow: auto;
         tr{
             display: table;
             table-layout: fixed;
@@ -159,4 +159,17 @@ table{
 
 .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
     border: 1px solid #c7c7c7;
+}
+.table-responsive {
+    //height: calc(100vh - 200px)!important;
+}
+th {
+    position: sticky!important;
+    top: 0;
+    z-index: 1!important;
+  
+}
+.mytbody{
+    height: calc(100vh - 253px) !important;
+    overflow: auto!important;
 }
