@@ -229,6 +229,11 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         icon: 'fa fa-pencil-square-o',
         link: '/admin/financial-account-summary',
       },
+      {
+        title: 'Vehicle Document Mismatch Summary',
+        icon: 'fa fa-pencil-square-o',
+        link: '/admin/vehdocmismatch',
+      },
 
     ]
   },

@@ -20,7 +20,7 @@ import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-
 import { AccountService } from '../../services/account.service';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { AdvanceComponent } from '../../acounts-modals/advance/advance.component';
-import { ServiceComponent } from '../service/service.component'; 
+import { ServiceComponent } from '../service/service.component';
 
 @Component({
   selector: 'daybooks',
@@ -78,6 +78,13 @@ export class DaybooksComponent implements OnInit {
   handleKeyboardEvent(event) {
     this.keyHandler(event);
   }
+  pages = {
+    count: 0,
+    active: 1,
+    limit: 1000,
+  };
+  data = [];
+  jrxPageTimer: any;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -85,7 +92,7 @@ export class DaybooksComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     public accountService: AccountService,
-    public router: Router) {  
+    public router: Router) {
     this.common.refresh = this.refresh.bind(this);
     this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate : this.DayBook.startdate;
     this.accountService.todate = (this.accountService.todate) ? this.accountService.todate : this.DayBook.enddate;
@@ -176,7 +183,7 @@ export class DaybooksComponent implements OnInit {
   }
   openinvoicemodel(dataItem, invoiceid, ordertypeid, create = 0,) {
     console.log("DayBOOKS", dataItem);
-   
+
     // console.log('welcome to invoice ');
     //  this.common.params = invoiceid;
     this.common.params = {
@@ -185,7 +192,7 @@ export class DaybooksComponent implements OnInit {
       newid: create,
       ordertype: ordertypeid
     };
-     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     //const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
     activeModal.result.then(data => {
       console.log('Data: invoice ', data);
@@ -197,20 +204,20 @@ export class DaybooksComponent implements OnInit {
     });
   }
 
-  openServiceSalesInvoicemodel(dataItem, invoiceid, ordertypeid, create = 0,){
+  openServiceSalesInvoicemodel(dataItem, invoiceid, ordertypeid, create = 0,) {
     this.common.params = {
       invoiceid: invoiceid,
       delete: this.deletedId,
       newid: create,
       ordertype: ordertypeid,
-      isModal:true
+      isModal: true
     };
     const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
     activeModal.result.then(data => {
       console.log('Data: invoice ', data);
-        if (data.msg) {
-          console.log('open succesfull');
-          this.getDayBook();
+      if (data.msg) {
+        console.log('open succesfull');
+        this.getDayBook();
         // this.addLedger(data.ledger);
       }
     });
@@ -376,6 +383,12 @@ export class DaybooksComponent implements OnInit {
         dayData.y_date = 0;
       }
     });
+
+    this.pages.count = Math.floor(this.DayData.length / this.pages.limit);
+    if (this.DayData.length % this.pages.limit) {
+      this.pages.count++;
+    }
+    this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count);
   }
 
   getBookDetail(voucherId) {
@@ -925,5 +938,27 @@ export class DaybooksComponent implements OnInit {
         }
       }
     });
+  }
+
+  jrxPagination(page) {
+    this.pages.active = page;
+    let startIndex = this.pages.limit * (this.pages.active - 1);
+    let lastIndex = (this.pages.limit * this.pages.active);
+    this.data = this.DayData.slice(startIndex, lastIndex);
+  }
+
+  jrxPageLimitReset() {
+    clearTimeout(this.jrxPageTimer);
+    this.jrxPageTimer = setTimeout(() => {
+      if (typeof this.pages.limit === 'string') {
+        this.pages.limit = parseInt(this.pages.limit) || 0;
+      }
+      if (!this.pages.limit) return;
+      this.pages.count = Math.floor(this.DayData.length / this.pages.limit);
+      if (this.DayData.length % this.pages.limit) {
+        this.pages.count++;
+      }
+      this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count);
+    }, 1000);
   }
 }
