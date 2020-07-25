@@ -420,11 +420,12 @@ export class CommonService {
     showError && this.showError(msg);
   }
 
-  reportAnIssue(issue, refId) {
+  reportAnIssue(issue, refId,relatedData=null) {
     const params = {
       issueTypeId: issue.type,
       refId: refId,
-      remark: issue.remark
+      remark: issue.remark,
+      relatedData : relatedData
     };
     console.info("Params: ", params);
     this.loading++;

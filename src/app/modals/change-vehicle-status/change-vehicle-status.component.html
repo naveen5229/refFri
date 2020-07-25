@@ -108,14 +108,14 @@
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.y_mon}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent); " *ngIf="vehicleEvent.y_site_type_id==1">
                     {{vehicleEvent.site_name}},{{vehicleEvent.loc}}
-                    <span  style="margin-left: 8px;border: 1px solid black; border-radius: 50%;" *ngIf="vehicleEvent.inCluster">
-                      {{vehicleEvent.inCluster}} 
+                    <span  style="margin-left: 8px;border: 1px solid black; border-radius: 50%;" *ngIf="vehicleEvent.clusterInfo">
+                      {{vehicleEvent.clusterInfo['index']}} 
                     </span>
                     </td>
                   <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.y_site_type_id!=1">
                     {{vehicleEvent.loc}}
-                    <span  style="margin-left: 8px;border: 1px solid black; border-radius: 50%;" *ngIf="vehicleEvent.inCluster">
-                      {{vehicleEvent.inCluster}} 
+                    <span  style="margin-left: 8px;border: 1px solid black; border-radius: 50%;" *ngIf="vehicleEvent.clusterInfo">
+                      {{vehicleEvent.clusterInfo['index']}} 
                     </span>
                   </td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
