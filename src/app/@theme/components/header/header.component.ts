@@ -11,6 +11,7 @@ import { CustomerSelectionComponent } from '../../../modals/customer-selection/c
 import { AccountService } from '../../../services/account.service';
 import { ActivityService } from '../../../services/Activity/activity.service';
 import { BankDetailsComponent } from '../../../modals/bank-details/bank-details.component';
+import * as localforage from 'localforage';
 
 @Component({
   selector: 'ngx-header',
@@ -112,6 +113,7 @@ export class HeaderComponent implements OnInit {
           localStorage.removeItem('CUSTOMER_DETAILS');
           localStorage.removeItem('DOST_USER_PAGES');
           localStorage.removeItem('DOST_axesToken');
+          localforage.clear();
           this.router.navigate(['/auth/login']);
           console.log("logout", res);
         }, err => {
