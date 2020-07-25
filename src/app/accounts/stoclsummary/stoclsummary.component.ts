@@ -106,6 +106,9 @@ warehouseid=0;
      if (this.common.params.isModal) {
        this.isModal = true;
      }
+     if (this.common.params.sizeIndex) {
+      this.sizeIndex = this.common.params.sizeIndex;
+    }
    this.common.params = null;
      this.common.handleModalSize('class', 'modal-lg', '1200', 'px', this.sizeIndex);
  

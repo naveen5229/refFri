@@ -582,7 +582,7 @@ export class ProfitlossComponent implements OnInit {
         ledger: data.ledgerdata[0].y_ledgerid,
         sizeIndex:(this.sizeIndex + 1),
         isModal:1
-      };
+      }; 
       const activeModal = this.modalService.open(StoclsummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
