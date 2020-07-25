@@ -4,7 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
-import { ProfitlossComponent } from '../../acounts-modals/profitloss/profitloss.component';
+import { ProfitlossComponent } from '../../accounts/profitloss/profitloss.component';
 import * as _ from 'lodash';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
@@ -476,21 +476,33 @@ export class BalancesheetComponent implements OnInit {
 
   opendaybookmodel(data) {
 
-    // console.log('ledger id 00000', data.ledgerdata[0]);
-    this.common.params = {
-      startdate: this.balanceData.startdate,
-      enddate: this.balanceData.enddate,
-      ledger: data.ledgerid,
-      vouchertype: 0,
-      ledgername: data.ledgerName
-    };
-    const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      //this.getDayBook();
-      //this.common.showToast('Voucher updated');
+      console.log('ledger id 00000',data, data.ledgerdata.y_path);
+      if(data.ledgerdata.y_path.includes('Profit & Loss')){
+        this.common.params = {
+          startdate: this.accountService.fromdate,
+          enddate: this.accountService.todate,
+          isModal:true
+        };
+        const activeModal = this.modalService.open(ProfitlossComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
+        activeModal.result.then(data => {
+          console.log('Data: invoice ', data);
+            if (data.msg) {
+              //console.log('open succesfull');
+          }
+        });
+      }else{
+      this.common.params = {
+        startdate: this.balanceData.startdate,
+        enddate: this.balanceData.enddate,
+        ledger: data.ledgerid,
+        vouchertype: 0,
+        ledgername: data.ledgerName
+      };
+      const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      activeModal.result.then(data => {
 
-    });
+      });
+    }
   }
   RowSelected(u: any) {
     // console.log('data of u', u);
