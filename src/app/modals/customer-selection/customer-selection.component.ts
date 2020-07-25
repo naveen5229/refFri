@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { AccountService } from '../../services/account.service';
+import * as localforage from 'localforage';
 
 @Component({
   selector: 'customer-selection',
@@ -51,6 +52,7 @@ export class CustomerSelectionComponent implements OnInit {
   }
 
   selectUser(user) {
+    localforage.clear();
     this.accountService.branches = [];
     this.searchString = user.foaname + " - " + user.foname;
     this.showSuggestions = false;
