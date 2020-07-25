@@ -764,8 +764,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   reportIssue(vehicleEvent) {
     this.common.params = { refPage: 'vsc' };
+    let clusterData = vehicleEvent.clusterInfo ?  vehicleEvent.clusterInfo['data'] : null;
+    let refId = vehicleEvent.haltId ? vehicleEvent.haltId :vehicleEvent.vs_id;
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
-    activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
+    activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId,clusterData));
   }
 
   dataRefresh() {
@@ -1126,8 +1128,11 @@ clusters = [];
           this.vehicleEvents.map(ve => {
             let distance = this.common.distanceFromAToB(ve.lat, ve.long, ele.lat, ele.long, 'Mt');
             console.log("index,distance,ele.radius",index,distance,ele.radius);
-            if (distance < ele.radius && !ve['inCluster']) {
-              ve['inCluster'] = index+1;
+            if (distance < ele.radius && !ve['clusterInfo']) {
+              ve['clusterInfo'] = {
+                index : index+1,
+                data : ele
+              }
             } 
 
           });
@@ -1144,8 +1149,8 @@ clusters = [];
   }
 resetClusterInfo(){
   this.vehicleEvents.map(ve => {
-    if ( ve['inCluster']) {
-      ve['inCluster'] = false;
+    if ( ve['clusterInfo']) {
+      ve['clusterInfo'] = false;
     } 
 });
 }
