@@ -9,6 +9,8 @@ import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 import { AccountService } from '../../services/account.service';
+import { StoclsummaryComponent } from '../stoclsummary/stoclsummary.component';
+
 @Component({
   selector: 'trading-tree',
   templateUrl: './trading.html',
@@ -81,6 +83,7 @@ export class TradingTreeComponent {
 
 })
 export class TradingComponent implements OnInit {
+  sizeIndex=0;
   selectedName = '';
   balanceData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -547,6 +550,22 @@ export class TradingComponent implements OnInit {
 
   openLedgerViewModel(data) {
     console.log('ledger id 00000', data.ledgerdata[0]);
+    if(data.ledgerdata[0].y_path.includes('Opening Stock') || data.ledgerdata[0].y_path.includes('Closing Stock')){
+      this.common.params = {
+        startdate: this.balanceData.startdate,
+        enddate: this.balanceData.enddate,
+        ledger: data.ledgerdata[0].y_ledgerid,
+        sizeIndex:0,
+        isModal:1
+      }; 
+      const activeModal = this.modalService.open(StoclsummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        //this.getDayBook();
+        //this.common.showToast('Voucher updated');
+  
+      });
+    }else{
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,
@@ -563,4 +582,5 @@ export class TradingComponent implements OnInit {
 
     });
   }
+}
 }
