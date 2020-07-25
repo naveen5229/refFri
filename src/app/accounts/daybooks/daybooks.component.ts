@@ -947,8 +947,11 @@ export class DaybooksComponent implements OnInit {
       this.searchedData = [];
       if (filter.search) {
         for (let i = 0; i < this.DayData.length; i++) {
-          if (this.DayData[i][filter.key].toLowerCase().includes(filter.search.toLowerCase()))
-            this.searchedData.push(this.DayData[i]);
+          if (this.DayData[i][filter.key]) {
+            if ((filter.key === 'y_date' && this.common.changeDateformat(this.DayData[i][filter.key], 'dd-MMM-yy').toLowerCase().includes(filter.search.toLowerCase())) || this.DayData[i][filter.key].toLowerCase().includes(filter.search.toLowerCase())) {
+              this.searchedData.push(this.DayData[i]);
+            }
+          }
         }
 
         this.pages.count = Math.floor(this.searchedData.length / this.pages.limit);
