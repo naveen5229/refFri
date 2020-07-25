@@ -77,20 +77,32 @@ table {
     }
     tr {
         th {
-            padding: 5px 10px;
+            padding: 5px 5px;
             font-weight: normal;
-            width: 165px;
-        }
-        th:first-child {
-            width: 50px;
-        }
-        th:last-child {
             width: auto;
         }
+        th:first-child {
+            width: 40px;
+        }
+        th:nth-child(2){
+            width: 85px;
+        }
+        th:nth-child(4){
+            width: 115px;
+        }
+        th:nth-child(5){
+            width: 160px;
+        }
+        th:nth-child(6), th:nth-child(7){
+            width: 120px;
+        }
+        th:last-child {
+            width: 145px;
+        }
         td {
-            padding: 5px 10px !important;
+            padding: 5px 5px !important;
             font-size: 12px;
-            width: 165px;
+            width: auto;
             button {
                 padding: 0 !important;
                 font-size: 11px;
@@ -115,15 +127,28 @@ table {
             table-layout: fixed;
             width: 100%;
             td:last-child {
-                width: auto;
+                width: 140px;
             }
             td:first-child {
-                width: 50px;
+                width: 40px;
+            }
+            td:nth-child(2){
+                width: 85px;
+            }
+             td:nth-child(4){
+                width: 115px;
+            }
+            td:nth-child(5){
+                width: 160px;
+            }
+            td:nth-child(6), td:nth-child(7){
+                width: 120px;
             }
         }
         tr:nth-child(odd) {
             background-color: #fff;
         }
+
         tr:nth-child(even) {
             background-color: #e4e4e4;
         }
@@ -173,9 +198,9 @@ table {
 .highlightcolor {
     background-color: gray !important;
 }
-.highlightcolor td {
-   // color: white !important;
-}
+// .highlightcolor td {
+//     color: white !important;
+// }
 .addvance {
     margin-top: 22px;
 }

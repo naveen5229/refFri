@@ -3,7 +3,7 @@
     <h4>Invoice</h4>
   </nb-card-header> -->
   <nb-card-body>  
-    <div class="row" *ngIf="isModal" style="height:40px;background-color:black;margin:0!important">
+    <div class="row" *ngIf="isModal" style="height:25px;background-color:#000;margin:0!important">
       <h4 style="color:white;padding:6px">{{currentPage}}</h4>
       <i class="fa fa-times close"  (click)="activeModal.dismiss()"></i>
     </div>
@@ -14,28 +14,10 @@
       <input type="radio" autocomplete="off" id="radiotype3" name="radiotype" value="2" [(ngModel)]="withtype"><label>With Both</label> 
     </div>
   </div>
-    <div class="row mb-4 mt-4">
+    <div class="row mt-4">
       <div class="col-9 p-0">
         
-          <!-- <div class="col-4">
-            <div class="form-group">
-              <label class="ref-label">Invoice Type</label>
-              <input type="text" autocomplete="off" class="form-control ref-input" id="ordertype" name="ordertype"
-                [(ngModel)]="order.ordertype.name" placeholder="Please Select Invoice Type" required>
-            </div>
-          </div> -->
-
-          <!-- <div class="col-4">
-            <div class="form-group">
-              <label class="ref-label">Invoice</label>
-              <input type="text" autocomplete="off" class="form-control ref-input" id="invocelist" name="invocelist"
-                placeholder="Please Select Invoice" required>
-
-            </div>
-          </div> -->
         
-
-        <!-- Purchase Start -->
         <div
           *ngIf="order.ordertype.name.toLowerCase().includes('purchase') || order.ordertype.name.toLowerCase().includes('debit note') || order.ordertype.name.toLowerCase().includes('wastage') ">
           <div class="row" style="margin-left:0!important">
@@ -308,7 +290,7 @@
     </div>
     <!--sales end-->
     <div class="row"  *ngIf="withtype !=1">
-    <table class="invoice_tabel table table-bordered">
+    <table class="invoice_tabel table mb-0">
       <thead style="background-color: #263238; color:#fff;">
 
         <th>Warehouse</th>
@@ -411,24 +393,24 @@
     </table>
   </div>
     <div class="row" *ngIf="withtype !=1">
-      <div class="col-6">
+      <div class="col-7">
       </div>
-      <div class="col-2 totalamount">
-        <label class="ref-label">{{calculateTotal()}}</label>  
+      <div class="col-1 totalamount">
+        <label >{{calculateTotal()}}</label>  
 
         <!-- <input type="number"  class="form-control ref-input" autocomplete="off" name="account-totalamount"
           [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;"> -->
       
       </div>
-      <div class="col-2 totalamount">
-        <label class="ref-label">{{calculateTotalLineAmount()}}</label>  
+      <div class="col-2 totalamount text-center">
+        <label >{{calculateTotalLineAmount()}}</label>  
         <!-- <input type="number"  class="form-control ref-input" autocomplete="off" name="account-totalamount"
           [(ngModel)]="totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;"> -->
           <!-- <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
           [(ngModel)]="order.totalamount" [value]="calculateTotalLineAmount()" readonly style="background-color: #eeeeee;"> -->
       </div>
       <div class="col-2 totalamount">
-        <button (click)="callgstcode()" class="btn btn-primary" style="font-size:11px!important;padding:4px!important;">Show Gst Detail</button>
+        <button (click)="callgstcode()" class="btn btn-primary btnservice">Show Gst Detail</button>
       </div>
     </div>
     <div class="row" *ngIf="withtype !=0">
@@ -468,9 +450,7 @@
   <div class="row" *ngIf="withtype !=0">
     <div class="col-10"></div>
     <div class="col-2">
-      <span class="col-2">
-        <label class="ref-label">Ledger Amount : {{calculateLedgerTotal()}}</label>  
-       </span>
+        <label class="add_tax_tabel_label">Ledger Amount : {{calculateLedgerTotal()}}</label>  
     </div>
   </div>
   <div class="row" >
@@ -516,11 +496,11 @@
           [value]="calculateTaxRateTotal()" readonly style="background-color: #eeeeee;">
       </div> -->
       <div class="col-2">
-        <span class="col-2">
-          <label class="ref-label">Tax Amount : {{calculateSeprateTaxTotal()}}</label>  
+       
+          <label class="add_tax_tabel_label">Tax Amount : {{calculateSeprateTaxTotal()}}</label>  
           <!-- <input type="number" class="form-control totaltaxamount" name="totalamount" id="totalamount"
             [value]="calculateTaxTotal()" [(ngModel)]="totaltaxamt" readonly style="background-color: #eeeeee;"> -->
-        </span>
+     
         <!-- <span class="col-2">
       <input type="number" class="form-control totaltaxamountsecond" name="totalamount" id="totalamount"
               [value]="calculateTaxAmount()" readonly style="background-color: #eeeeee;">
@@ -529,19 +509,19 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-10">
+      <div class="col-9">
       </div>
       <!-- <div class="col-2">
         <label>Total Tax Amt:</label>
         <input type="number" class="form-control totalbeforetaxamount" name="totalamount" id="totalamountdiff"
           [value]="calculateTaxRateTotal()" readonly style="background-color: #eeeeee;">
       </div> -->
-      <div class="col-2">
-        <span class="col-2">
-          <label class="ref-label">Total Bill Amount : {{(calculateTaxTotal() + calculateTotalLineAmount()) |number : '1.2-2'}}</label>  
+      <div class="col-3">
+       
+          <label class="total_label">Total Bill Amount : {{(calculateTaxTotal() + calculateTotalLineAmount()) |number : '1.2-2'}}</label>  
           <!-- <input type="number" class="form-control totaltaxamount" name="totalamount" id="totalamount"
             [value]="calculateTaxTotal()" [(ngModel)]="totaltaxamt" readonly style="background-color: #eeeeee;"> -->
-        </span>
+        
         <!-- <span class="col-2">
       <input type="number" class="form-control totaltaxamountsecond" name="totalamount" id="totalamount"
               [value]="calculateTaxAmount()" readonly style="background-color: #eeeeee;">
@@ -567,12 +547,12 @@
           <!-- <button class="btn btn-primary" [ngStyle]="{'display':showHideButton ? 'block' : 'none'}" type="button" outline (click)="callconfirm()" id="submit"
             style="cursor: pointer;">Submit
           </button> -->
-          <button class="btn btn-primary" type="button" outline (click)="callconfirm()" id="servicesubmit"
+          <button class="btn btn-primary btnservice" type="button" outline (click)="callconfirm()" id="servicesubmit"
             style="cursor: pointer;">Submit
           </button>
         </div>
         <div class="col-1 text-right" *ngIf="isModal">
-          <button class="btn btn-primary" type="button" outline (click)="activeModal.dismiss()" id="cancel"
+          <button class="btn btn-primary btnservice" type="button" outline (click)="activeModal.dismiss()" id="cancel"
             style="cursor: pointer;">Cancel
           </button>
         </div>
@@ -629,4 +609,6 @@
         maxlength="10">
     </div>
   </div>
+
+  
 </div>
