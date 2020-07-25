@@ -234,9 +234,8 @@ export class CommonService {
     return { send: year + "-" + month + "-" + dat, view: dat + "-" + month + "-" + year };
   }
 
-  changeDateformat(date) {
-    let d = new Date(date);
-    return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm:ss a");
+  changeDateformat(date, format = "dd-MMM-yyyy hh:mm:ss a") {
+    return this.datePipe.transform(date, format);
   }
   changeDateformat4(date) {
     let d = new Date(date);
@@ -420,11 +419,12 @@ export class CommonService {
     showError && this.showError(msg);
   }
 
-  reportAnIssue(issue, refId) {
+  reportAnIssue(issue, refId,relatedData=null) {
     const params = {
       issueTypeId: issue.type,
       refId: refId,
-      remark: issue.remark
+      remark: issue.remark,
+      relatedData : relatedData
     };
     console.info("Params: ", params);
     this.loading++;

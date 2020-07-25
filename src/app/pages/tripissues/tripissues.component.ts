@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { ChangeVehicleStatusByCustomerComponent } from '../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
+import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 
 @Component({
   selector: 'tripissues',
@@ -143,12 +144,23 @@ export class TripissuesComponent implements OnInit {
     console.log("VehicleStatusData", VehicleStatusData);
     this.common.params = VehicleStatusData;
     this.common.ref_page = 'vsc';
-    const activeModal = this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
-    activeModal.result.then(data => {
-      //console.log("data", data.respone);
-       this.getVehicleStatusAlerts();
-      this.exitTicket(VehicleStatusData);
-    });
+    if (this.user._loggedInBy != "admin") {
+      const activeModal = this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
+      activeModal.result.then(data => {
+        //console.log("data", data.respone);
+         this.getVehicleStatusAlerts();
+        this.exitTicket(VehicleStatusData);
+      });
+    }
+    else {
+      const activeModal =  this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+      activeModal.result.then(data => {
+        //console.log("data", data.respone);
+         this.getVehicleStatusAlerts();
+        this.exitTicket(VehicleStatusData);
+      });
+    }
+    
   }
 
   enterTicket(VehicleStatusData) {
