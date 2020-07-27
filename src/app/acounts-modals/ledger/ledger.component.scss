@@ -152,24 +152,24 @@ button { background-color: #73a1ff;
   margin: -10px -1rem -1rem auto;
   outline: none;
 }
-.modal-body label{
-  background: #263238;
-  color: #fff;
-  padding: 5px 8px;
-  display: block;
-  margin: 0;
-  border-radius: 3px 3px 0px 0px;
-  font-size: 12px;
-  min-width: 80px !important;
-  font-weight: normal;
-}
-.modal-body input{
-  border: 1px solid #263238 !important;
-  border-radius: 0px 2px 2px 2px;
-  padding: 3px 5px !important;
-  height: auto;
-  font-size: 12px;
-}
+// .modal-body label{
+//   background: #263238;
+//   color: #fff;
+//   padding: 5px 8px;
+//   display: block;
+//   margin: 0;
+//   border-radius: 3px 3px 0px 0px;
+//   font-size: 12px;
+//   min-width: 80px !important;
+//   font-weight: normal;
+// }
+// .modal-body input{
+//   border: 1px solid #263238 !important;
+//   border-radius: 0px 2px 2px 2px;
+//   padding: 3px 5px !important;
+//   height: auto;
+//   font-size: 12px;
+// }
 .modal-footer{
   padding: 10px 15px;
   button{
@@ -186,8 +186,8 @@ button { background-color: #73a1ff;
 .checktype{
   margin: 0px;
   float: left;
-  width: 24px;
-  height: 24px !important;
+  width: 20px;
+  height: 20px !important;
 }
 input[type=radio]{
   width: auto;
@@ -197,12 +197,12 @@ input[type=radio]{
   margin-left: 5px;
   border: 0px !important;
 }
-.debit_box,
-.true_false{
-  border: 1px solid #000;
-  padding: 3px;
-  text-align: left;
-}
+// .debit_box,
+// .true_false{
+//   border: 1px solid #000;
+//   padding: 3px;
+//   text-align: left;
+// }
 .debit,
 .true{
   display: inline-block;

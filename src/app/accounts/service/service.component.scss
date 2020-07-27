@@ -76,19 +76,19 @@ nb-card-header{
             width: 15%;
           }
           th:nth-child(2){
-            width: 28%;
+            width: 24%;
           }
           th:nth-child(3){
-            width: 8%;
+            width: 12%;
           }
           th:nth-child(4){
-            width: 15%;
+            width: 14%;
           }
           th:nth-child(5){
             width: 12%;
           }
           th:nth-child(6){
-            width: 12%;
+            width: 13%;
           }
           th:nth-child(7){
             width: 13%;
@@ -118,19 +118,19 @@ nb-card-header{
             width: 15%;
           }
           td:nth-child(2){
-            width: 18%;
+            width: 24%;
           }
           td:nth-child(3){
-            width: 8%;
+            width: 12%;
           }
           td:nth-child(4){
-            width: 15%;
+            width: 14%;
           }
           td:nth-child(5){
             width: 12%;
           }
           td:nth-child(6){
-            width: 12%;
+            width: 13%;
           }
           td:nth-child(7){
             width: 13%;
@@ -204,6 +204,7 @@ nb-card-header{
     background-color: #ccc;
   }
   .add_tax_tabel{
+    width: 100%;
           thead{
           display: table;
           table-layout: fixed;
@@ -225,12 +226,12 @@ nb-card-header{
           }th:nth-child(3){
             padding: 5px 10px;
             font-weight: normal;
-            width: 19%;
+            width: 18%;
             border: 1px solid #d8d8d8;
 
           }
           th:last-child {
-                 width: 2%;
+                 width: 3%;
                 padding: 3px 10px;
                 border: 1px solid #d8d8d8;
               }
@@ -255,7 +256,7 @@ nb-card-header{
             padding: 5px;
           }
           td:nth-child(3) {
-            width: 19%;
+            width: 18%;
             padding: 5px;
           }
         td:last-child {
@@ -297,16 +298,16 @@ nb-card-header{
       }
       }
     }
-    .totalamount{
-      // max-width: 147px;
-      // margin-top: -12px;
-      // margin-left: 12px
-    }
-    .totaltaxamount{
-      // margin-left: 142px;
-      // margin-top: -17px;
-      // max-width: 140px;
-    }
+    // .totalamount{
+    //    max-width: 147px;
+    //   margin-top: -12px;
+    //   margin-left: 12px
+    // }
+    // .totaltaxamount{
+    //    margin-left: 142px;
+    //   margin-top: -17px;
+    //    max-width: 140px;
+    // }
     .totaltaxamountsecond{
       max-width: 144px;
       margin-left: 100px;
@@ -383,10 +384,12 @@ nb-card-header{
     height: auto !important;
     font-size: 10px !important;
     border-left: 5px solid #26a69a!important;
+    width: 100%;
   }
  .ref-input:focus {
     border: 1px solid #556080 !important;
     border-left: 5px solid #556080!important;
+    outline: 0;
   }
   .expand-div{
     font-size: 10px;

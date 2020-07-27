@@ -74,8 +74,8 @@
                         {{findBalance(i)}})</span> -->
                     </td>
                     <td>
-                      <button (click)="deleterow(i)" class="btn btn-danger"><i
-                          class="fa fa-trash"></i></button>
+                      <p (click)="deleterow(i)"><i
+                          class="fa fa-trash"></i></p>
                     </td>
                     <!-- <td *ngIf="i == 0">
                     <button class="plustransparent" (click)="addAmountDetails()"> <i class="fa fa-plus text-primary"
@@ -146,7 +146,7 @@
             style="cursor: pointer;">Permanent Delete</button>
         </div>
         <div class="col" *ngIf="(this.deleteId == 2)">
-          <button class="btn btn-danger" type="button" outline (click)="approve(voucher.xId)" id="permanentdelete"
+          <button class="btn btn-sucess" type="button" outline (click)="approve(voucher.xId)" id="permanentdelete"
             style="cursor: pointer;">Approve</button>
         </div>
         <div class="col text-right" *ngIf="(this.deleteId == 0 || this.deleteId == 2 )">
@@ -155,7 +155,7 @@
           </button>
         </div>
         <div class="col text-right" *ngIf="(this.deleteId == 1)">
-          <button class="btn btn-primary" type="button" outline (click)="restore()" id="restore"
+          <button class="btn btn-Warning" type="button" outline (click)="restore()" id="restore"
             style="cursor: pointer;">Restore
           </button>
         </div>

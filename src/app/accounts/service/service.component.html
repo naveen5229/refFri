@@ -3,7 +3,7 @@
     <h4>Invoice</h4>
   </nb-card-header> -->
   <nb-card-body>  
-    <div class="row" *ngIf="isModal" style="height:25px;background-color:#000;margin:0!important">
+    <div class="row" *ngIf="isModal" style="height:25px;background-color:#263238;margin:0!important">
       <h4 style="color:white;padding:6px">{{currentPage}}</h4>
       <i class="fa fa-times close"  (click)="activeModal.dismiss()"></i>
     </div>
@@ -447,9 +447,9 @@
       </tbody>
     </table>
   </div>
-  <div class="row" *ngIf="withtype !=0">
-    <div class="col-10"></div>
-    <div class="col-2">
+  <div class="row" *ngIf="withtype !=0" style="margin-right: 30px!important;">
+    <div class="col-xl-10 col-lg-9"></div>
+    <div class="col-xl-2 col-lg-3 text-right">
         <label class="add_tax_tabel_label">Ledger Amount : {{calculateLedgerTotal()}}</label>  
     </div>
   </div>
@@ -487,15 +487,15 @@
       </tbody>
     </table>
   </div>
-    <div class="row">
-      <div class="col-10">
+    <div class="row" style="margin-right: 30px!important;">
+      <div class="col-xl-10 col-lg-9">
       </div>
       <!-- <div class="col-2">
         <label>Total Tax Amt:</label>
         <input type="number" class="form-control totalbeforetaxamount" name="totalamount" id="totalamountdiff"
           [value]="calculateTaxRateTotal()" readonly style="background-color: #eeeeee;">
       </div> -->
-      <div class="col-2">
+      <div class="col-xl-2 col-lg-3 text-right">
        
           <label class="add_tax_tabel_label">Tax Amount : {{calculateSeprateTaxTotal()}}</label>  
           <!-- <input type="number" class="form-control totaltaxamount" name="totalamount" id="totalamount"
@@ -508,15 +508,15 @@
 
       </div>
     </div>
-    <div class="row">
-      <div class="col-9">
+    <div class="row" style="margin-right: 30px!important;">
+      <div class="col-xl-9 col-lg-8">
       </div>
       <!-- <div class="col-2">
         <label>Total Tax Amt:</label>
         <input type="number" class="form-control totalbeforetaxamount" name="totalamount" id="totalamountdiff"
           [value]="calculateTaxRateTotal()" readonly style="background-color: #eeeeee;">
       </div> -->
-      <div class="col-3">
+      <div class="col-xl-3 col-lg-4 text-right">
        
           <label class="total_label">Total Bill Amount : {{(calculateTaxTotal() + calculateTotalLineAmount()) |number : '1.2-2'}}</label>  
           <!-- <input type="number" class="form-control totaltaxamount" name="totalamount" id="totalamount"
@@ -532,7 +532,7 @@
     <div class="modal-footer">
       <div class="row w-100">
         <div class="col-10">
-          <input type="checkbox" name="print" id="print" [(ngModel)]="order.print">Print After Save
+          <input type="checkbox" name="print" id="print" [(ngModel)]="order.print" style="vertical-align: text-top;"> Print After Save
           <span *ngIf="mannual">
             <input type="checkbox" name="mannual" id="mannual" [(ngModel)]="order.ismanual"> Is Mannual Approval
           </span>
