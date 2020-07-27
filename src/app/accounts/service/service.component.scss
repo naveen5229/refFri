@@ -62,34 +62,42 @@ nb-card-header{
   }
  
   .invoice_tabel{
-    margin-top: -35px;
         thead{
           display: table;
           table-layout: fixed;
           background-color: #263238;
           color: #fff;
+           width: 100%;
           th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 150px;
           }
-          th:last-child{
-            width: 71px;
-          }
-          th:nth-child(8){
-            width: 57px;
+          th:nth-child(1){
+            width: 15%;
           }
           th:nth-child(2){
-            width: 247px;
-            padding: 5px;
+            width: 28%;
           }
           th:nth-child(3){
-            width: 85px;
-            padding: 5px;
+            width: 8%;
           }
           th:nth-child(4){
-            width: 115px;
-            padding: 5px;
+            width: 15%;
+          }
+          th:nth-child(5){
+            width: 12%;
+          }
+          th:nth-child(6){
+            width: 12%;
+          }
+          th:nth-child(7){
+            width: 13%;
+          }
+          th:nth-child(8){
+            width: 5%;
+          }
+          th:last-child{
+            width: 2%;
           }
     }   
       tbody{
@@ -97,44 +105,43 @@ nb-card-header{
             display: block;
             table-layout: fixed;
             overflow: auto;
-            max-height: calc(100vh - 510px);
-          
+            max-height: calc(100vh - 575px);
+            border: 1px solid #cccccc;
+            margin-top: -3px;
          tr{
-          td input{
-              padding: 5px 10px;
+          td {
               font-weight: normal;
-              width: 125px;
-          }
-          td:last-child{
-            width: 100px;
-          }
-          td:nth-child(1) input{
-            width: 128px;
-            padding: 5px;
-          }
-          td:nth-child(2) input{
-            width: 200px;
-            padding: 5px;
-          }
-          td:nth-child(3) input{
-            width: 65px;
-            padding: 5px;
-          }
-          td:nth-child(4){
-            width: 106px;
-            padding: 5px;
-          }
-          td:nth-child(4) input{
-            width: 95px;
-            padding: 5px;
-          }
-          td:nth-child(8){
-            width: 57px;
-            padding: 5px;
-          }
-          td{
               padding: 5px 10px !important;
               font-size: 12px;
+          }
+          td:nth-child(1){
+            width: 15%;
+          }
+          td:nth-child(2){
+            width: 18%;
+          }
+          td:nth-child(3){
+            width: 8%;
+          }
+          td:nth-child(4){
+            width: 15%;
+          }
+          td:nth-child(5){
+            width: 12%;
+          }
+          td:nth-child(6){
+            width: 12%;
+          }
+          td:nth-child(7){
+            width: 13%;
+          }
+          td:nth-child(8){
+            width: 5%;
+          }
+          td:last-child{
+            width: 2%;
+          }
+          td{           
               button{
                   padding: 0 !important;
                   font-size: 14px;
@@ -161,18 +168,7 @@ nb-card-header{
           tr:nth-child(even){
               background-color: #e4e4e4;
           }
-          tr:last-child{
-            height: 42px;
-          }
-          tr:last-child(){
-            
-            td:nth-child(2){
-              width: 80px;
-            }
-            td:nth-child(6){
-              width: 102px;
-            }
-        }
+        
       }
   } 
   .ref-input{
@@ -213,27 +209,28 @@ nb-card-header{
           table-layout: fixed;
           background-color: #263238;
           color: #fff;
+          width: 100%;
           th:nth-child(1){
             padding: 5px 10px;
             font-weight: normal;
-            width: 720px;
+            width: 60%;
             border: 1px solid #d8d8d8;
 
           }th:nth-child(2){
             padding: 5px 10px;
             font-weight: normal;
-            width: 170px;
+            width: 19%;
             border: 1px solid #d8d8d8;
 
           }th:nth-child(3){
             padding: 5px 10px;
             font-weight: normal;
-            width: 170px;
+            width: 19%;
             border: 1px solid #d8d8d8;
 
           }
           th:last-child {
-                width: 30px;
+                 width: 2%;
                 padding: 3px 10px;
                 border: 1px solid #d8d8d8;
               }
@@ -245,21 +242,24 @@ nb-card-header{
         display: block;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 535px);
-        td:nth-child(1) input{
-            width: 720px;
+        max-height: calc(100vh - 582px);
+        border: 1px solid #cccccc;
+        margin-top: -2px;
+        width: 100%;
+          td:nth-child(1) {
+            width: 60%;
             padding: 5px;
           }
-          td:nth-child(2) input{
-            width: 170x;
+          td:nth-child(2) {
+            width: 19%;
             padding: 5px;
           }
-          td:nth-child(3) input{
-            width: 180px;
+          td:nth-child(3) {
+            width: 19%;
             padding: 5px;
           }
-        td:last-child input{
-              width: 20px;
+        td:last-child {
+              width: 2%;
               padding: 5px;
               border: 1px solid #d8d8d8;
             }
@@ -298,14 +298,14 @@ nb-card-header{
       }
     }
     .totalamount{
-      max-width: 147px;
-      margin-top: -12px;
-      margin-left: 12px
+      // max-width: 147px;
+      // margin-top: -12px;
+      // margin-left: 12px
     }
     .totaltaxamount{
-      margin-left: 142px;
-      margin-top: -17px;
-      max-width: 140px;
+      // margin-left: 142px;
+      // margin-top: -17px;
+      // max-width: 140px;
     }
     .totaltaxamountsecond{
       max-width: 144px;
@@ -329,11 +329,11 @@ nb-card-header{
 
       .close{
         position: absolute;
-        font-size: 20px;
-        right: 6px;
+        font-size: 14px;
         color: white;
         top: 6px;
-        right:10;
+        right:10px;
+        opacity: 1;
       }
       .auto-sugg > auto-suggetion-in-side{
             .TJR-auto-suggestion-container{
@@ -361,3 +361,69 @@ nb-card-header{
           vertical-align: middle;
       }
   }
+
+  // kavita singh
+
+
+.ref-label {   
+    background: #26323800!important;
+    color: #000000!important;
+    padding: 3px 8px 3px 0!important;
+    margin: 0!important;
+    border-radius: 3px 3px 0px 0px!important;
+    font-size: 10px!important;
+    font-weight: 600!important;
+    letter-spacing: 1px;
+  }
+  
+.ref-input {
+    border: 1px solid #d4d4d4 !important;
+    border-radius: 0px!important;
+    padding: 5px 10px !important;
+    height: auto !important;
+    font-size: 10px !important;
+    border-left: 5px solid #26a69a!important;
+  }
+ .ref-input:focus {
+    border: 1px solid #556080 !important;
+    border-left: 5px solid #556080!important;
+  }
+  .expand-div{
+    font-size: 10px;
+  }
+  .expand-div label{
+   vertical-align: text-top;
+  }
+  .form-group {
+    margin-bottom: 0px!important;
+}
+  .totalamount label, .add_tax_tabel_label{
+    background-color: #d8d8d8;
+    padding: 5px 10px ;
+    text-align: center;
+    border-radius: 15px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #000;
+    letter-spacing: 1px;
+    min-width: 80px;
+}
+.total_label{
+  background-color: #263238;
+  padding: 5px 20px ;
+  text-align: center;
+  color: #fff; 
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 15px;
+  letter-spacing: 1px;
+ 
+}
+.btnservice{
+  font-size: 12px!important;
+  padding: 4px 10px!important;
+
+}
+.page-as-modal .modal-content {
+  height: auto!important;
+}

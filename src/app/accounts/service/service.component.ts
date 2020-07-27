@@ -171,7 +171,8 @@ export class ServiceComponent implements OnInit {
     invoiceTypes: [],
     list: [],
     invoiceList: [],
-    Taxdata: []
+    Taxdata: [],
+    ledgerTaxdata:[]
   };
   suggestionIndex = -1;
 
@@ -397,14 +398,22 @@ export class ServiceComponent implements OnInit {
   }
   getTaxLedgers() {
     let params = {
-      search: 123
+      group:0,
+      ledger:0
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetLedgerWithRate', params)
+   // this.api.post('Suggestion/GetLedgerWithRate', params)
+    this.api.post('Accounts/getLedgerMapping', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.suggestions.Taxdata = res['data'];
+        res['data'].map((data)=>{
+          if(data.y_tax_type_name){
+          this.suggestions.Taxdata.push(data);
+          }else{
+            this.suggestions.ledgerTaxdata.push(data);
+          }
+        });
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -1931,7 +1940,10 @@ export class ServiceComponent implements OnInit {
       this.autoSuggestion.data = this.suggestions.supplierLedgers;
     }
     else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
-    else if ((activeId.includes('taxlederother-')) || (activeId.includes('taxlederwith-'))) this.autoSuggestion.data = this.suggestions.Taxdata;
+    else if (activeId.includes('taxlederother-')){
+      this.autoSuggestion.data = this.suggestions.ledgerTaxdata;
+    } else if(activeId.includes('taxlederwith-')) { this.autoSuggestion.data = this.suggestions.Taxdata; }
+  
     else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId.includes('warehouse')) {
       this.autoSuggestion.data = this.suggestions.warehouses;
@@ -2034,16 +2046,16 @@ export class ServiceComponent implements OnInit {
     } else if (this.activeId.includes('taxlederother-')) {
       console.log('tax ledger', suggestion);
       const index = parseInt(this.activeId.split('-')[1]);
-      this.taxdetailsother[index].taxledgerother.name = suggestion.name;
-      this.taxdetailsother[index].taxledgerother.id = suggestion.id;
+      this.taxdetailsother[index].taxledgerother.name = suggestion.y_ledger_name;
+      this.taxdetailsother[index].taxledgerother.id = suggestion.y_ledgerid;
       this.taxdetailsother[index].taxrateother = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
       this.taxdetailsother[index].taxamountother = parseFloat(((this.taxdetailsother[index].taxrateother * this.totalamount) / 100).toFixed(2));
 
     } else if (this.activeId.includes('taxlederwith-')) {
       console.log('tax ledger', suggestion);
       const index = parseInt(this.activeId.split('-')[1]);
-      this.taxdetailswith[index].taxledgerother.name = suggestion.name;
-      this.taxdetailswith[index].taxledgerother.id = suggestion.id;
+      this.taxdetailswith[index].taxledgerother.name = suggestion.y_ledger_name;
+      this.taxdetailswith[index].taxledgerother.id = suggestion.y_ledgerid;
       this.taxdetailswith[index].taxrateother = (suggestion.per_rate == null) ? 0 : suggestion.per_rate;
       this.taxdetailswith[index].taxamountother = parseFloat(((this.taxdetailsother[index].taxrateother * this.totalamount) / 100).toFixed(2));
 
