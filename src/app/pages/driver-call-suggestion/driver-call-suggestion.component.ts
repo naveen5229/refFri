@@ -209,7 +209,9 @@ export class DriverCallSuggestionComponent implements OnInit {
         }
         else if (this.headings[j] == "Vehicle") {
           valobj[this.headings[j]] = { value: val, class: 'blue', action: this.addShortTarget.bind(this, this.driverData[i]) };
-
+        }
+        else if (this.headings[j] == "Mobile") {
+          valobj[this.headings[j]] = { value: val, class: 'blue', action: this.callNotification.bind(this, this.driverData[i]) };
         }
         else if (this.headings[j] == "Trip") {
           valobj[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.driverData[i]), isHTML: true, class: 'black', action: this.openPlacementModal.bind(this, this.driverData[i]) };
@@ -956,4 +958,23 @@ export class DriverCallSuggestionComponent implements OnInit {
     );
   }
 
+  callNotification(driver){
+    console.log("driver",driver);
+    let params = {
+      mobileno:driver['Mobile'],
+      callTime:this.common.dateFormatter(new Date())
+
+    }
+  console.log('params: ', params);
+  this.common.loading++;
+  this.api.post('Notifications/sendCallSuggestionNotifications' , params)
+    .subscribe(res => {
+      this.common.loading--;
+      console.log('res--',res);
+      this.common.showToast(res['msg']);
+    }, err => {
+      this.common.loading--;
+      this.common.showError();
+    })
+  }
 }
