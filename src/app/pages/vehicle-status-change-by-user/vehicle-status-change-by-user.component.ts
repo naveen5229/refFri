@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { ChangeVehicleStatusByCustomerComponent } from '../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 @Component({
   selector: 'vehicle-status-change-by-user',
   templateUrl: './vehicle-status-change-by-user.component.html',
@@ -147,12 +148,23 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
     console.log("VehicleStatusData", VehicleStatusData);
     this.common.params = VehicleStatusData;
     this.common.ref_page = 'vsc';
-    const activeModal = this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
-    activeModal.result.then(data => {
-      //console.log("data", data.respone);
-      this.getVehicleStatusAlerts();
-      this.exitTicket(vs);
-    });
+    if (this.user._loggedInBy != "admin") {
+      const activeModal = this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
+      activeModal.result.then(data => {
+        //console.log("data", data.respone);
+         this.getVehicleStatusAlerts();
+        this.exitTicket(vs);
+      });
+    }
+    else {
+      const activeModal =  this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+      activeModal.result.then(data => {
+        //console.log("data", data.respone);
+         this.getVehicleStatusAlerts();
+        this.exitTicket(vs);
+      });
+    }
+    
   }
 
   enterTicket(VehicleStatusData) {
