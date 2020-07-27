@@ -7,33 +7,63 @@
 <div class="modal-body">
 
   <div class="row">
+    <div style="width: 100%;">
     <table class="table table-bordered" *ngIf="issueInfo">
+      <!-- fixed row in all -->
       <tr>
-        <td>Vehicle No</td><td>{{issueInfo.regno ? issueInfo.regno : ''}}</td>
+        <td>Trip</td> <td [innerHTML]="common.getTripStatusHTML(issueInfo['trip']._trip_status_type, issueInfo['trip']._showtripstart, issueInfo['trip']._showtripend, issueInfo['trip']._p_placement_type, issueInfo['trip']._p_loc_name)"></td>
       </tr>
       <tr>
-        <td>Driver</td><td>{{issueInfo.empname ? issueInfo.empname : ''}}</td>
+        <td>Vehicle No</td><td> <span *ngIf="issueInfo.regno" >{{issueInfo.regno ? issueInfo.regno : ''}}</span></td>
       </tr>
       <tr>
-        <td>Message</td><td>{{ticketInfo.msg ? ticketInfo.msg : ''}}</td>
+        <td>Driver</td><td><span *ngIf="issueInfo.empname" >{{issueInfo.empname ? issueInfo.empname : ''}}</span></td>
       </tr>
       <tr>
-        <td>Time Since</td><td *ngIf="issueInfo.start_time">{{  issueInfo.start_time | date : 'dd MMM hh:mm a' }}</td>
+        <td>ETOA</td><td><span *ngIf="issueInfo.etoa" >{{issueInfo.etoa ? issueInfo.etoa : ''}}</span> <span *ngIf="issueInfo.delay" >({{issueInfo.delay ? issueInfo.delay : ''}})</span></td>
       </tr>
       <tr>
-        <td>Duration</td><td>{{ issueInfo.duration ? findRemainingTime(issueInfo.duration) : ''}}</td>
+        <td>Target Time</td><td><span *ngIf="issueInfo.target_time" >{{issueInfo.target_time ? issueInfo.target_time : ''}}</span></td>
       </tr>
       <tr>
-        <td>Location</td><td>{{issueInfo.loc_name ? issueInfo.loc_name : ''}}</td>
+        <td>Message</td><td> <span *ngIf="ticketInfo.msg" >{{ticketInfo.msg ? ticketInfo.msg : ''}}</span></td>
       </tr>
       <tr>
-        <td>Map View</td><td (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;" *ngIf='issueInfo.lat&&issueInfo.long'>Click here</td>
+        <td>Location</td><td ><span (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;" *ngIf='issueInfo.lat&&issueInfo.long'>{{issueInfo.loc_name ? issueInfo.loc_name : ''}}</span></td>
       </tr>
-      <tr>
-        <td>Reason (Halt)</td><td>{{issueInfo.halt_type ? issueInfo.halt_type : ''}} </td>
+     
+     
+      <!-- rows according ticket type -->
+      <tr *ngIf="priType==200">
+       
+          <td>Reason (Halt)</td><td><span *ngIf="issueInfo.halt_type" >{{issueInfo.halt_type ? issueInfo.halt_type : ''}} </span></td>
+        </tr>  
+      <tr *ngIf="priType==200">
+        <td>Time Since</td><td><span *ngIf="issueInfo.start_time" >{{  issueInfo.start_time | date : 'dd MMM hh:mm a' }} </span> <span *ngIf="issueInfo.duration" >({{ issueInfo.duration ? findRemainingTime(issueInfo.duration) : ''}})</span></td>
+      </tr>
+      <tr *ngIf="priType==300">
+        <td>Current Distance</td><td> <span *ngIf="issueInfo.current_distance" >{{issueInfo.current_distance ? issueInfo.current_distance : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==300">
+        <td>Current Speed</td><td> <span *ngIf="issueInfo.current_speed" >{{issueInfo.current_speed ? issueInfo.current_speed : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==300">
+        <td>Average Speed</td><td> <span *ngIf="issueInfo.avg_speed" >{{issueInfo.avg_speed ? issueInfo.avg_speed : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==400">
+        <td>Drive Time</td><td> <span *ngIf="issueInfo.drive_time" >{{issueInfo.drive_time ? issueInfo.drive_time : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==400">
+        <td>Distance Covered</td><td> <span *ngIf="issueInfo.dist_covered" >{{issueInfo.dist_covered ? issueInfo.dist_covered : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==400">
+        <td>Average Speed</td><td> <span *ngIf="issueInfo.avg_speed" >{{issueInfo.avg_speed ? issueInfo.avg_speed : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==400">
+        <td>Max Speed</td><td> <span *ngIf="issueInfo.max_speed" >{{issueInfo.max_speed ? issueInfo.max_speed : ''}}</span></td>
       </tr>
     </table>
-
+  </div>
     <div style="width:100%;background-color: lightgrey;padding: 8px;font-weight: bold;color: black;">
       Ticket Actions
     </div>
