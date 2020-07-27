@@ -52,14 +52,23 @@
     <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
       <div class="row x-stocktype" style="cursor:pointer"  (click)="activeTree = activeTree !== i ? i : -1">
         <div class="col x-col">{{stockType.name}}</div>
-        <div class="col x-col">{{stockType.opnbal | number : '1.2-2'}}</div>
-        <div class="col x-col" style="text-align:right;">{{stockType.debit | number : '1.2-2'}}</div>
-        <div class="col x-col" style="text-align:right;">{{stockType.credit | number : '1.2-2'}}</div>
-        <div class="col x-col">{{stockType.clobal | number : '1.2-2'}}</div>
+        <div class="col x-col">{{ stockType.opnbal | number : '1.2-2' }} <span>{{stockType.opentype}}</span></div>
+        <div class="col x-col" style="text-align:right;">{{ stockType.debit | number : '1.2-2'}}</div>
+        <div class="col x-col" style="text-align:right;">{{ stockType.credit | number : '1.2-2'}}</div>
+        <div class="col x-col">{{ stockType.clobal | number : '1.2-2'}} <span>{{ stockType.clostype}}</span></div>
       </div>
       <trail-tree [action]="getBookDetail.bind(this)" [action]="getBookDetail.bind(this)"  [data]="stockType.data" [isExpandAll]= "isExpand == 'sub'" [active] = "(((activeTree == i) || (isExpand))  ? true : false)" [labels]="'&nbsp;'">
       </trail-tree>
     </div>
+    <div class="x-data">
+    <div class="row x-stocktype" style="cursor:pointer" *ngIf="openingbal != 0">
+      <div class="col x-col">Profit & Loss A/c</div>
+      <div class="col x-col">{{openingbal | number : '1.2-2'}}</div>
+      <div class="col x-col">&nbsp;</div>
+      <div class="col x-col">&nbsp;</div>
+      <div class="col x-col">{{closingbal | number : '1.2-2'}}</div>
+    </div>
+  </div>
   </div>
     <!-- <div *ngFor="let traildata of trialBalanceData;  let i = index;"
     (click)="handleExpandation($event, i, 'trialBalanceData', 'mainGroup', 0)">

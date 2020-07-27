@@ -119,6 +119,8 @@ export class TrialbalanceComponent implements OnInit {
   isExpandMainGroup: boolean = false;
   isExpandAll: boolean = false;
   isExpand: string = '';
+  openingbal =0;
+  closingbal = 0;
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -182,9 +184,12 @@ export class TrialbalanceComponent implements OnInit {
       });
   }
   generalizeData() {
+    this.openingbal =0;
+    this.closingbal = 0;
     this.voucherEntries = [];
     for (let i = 0; i < this.TrialData.length; i++) {
       let ledgerRegister = this.TrialData[i];
+      console.log('ledgerRegister',ledgerRegister);
       let labels = ledgerRegister.y_path.split('-->');
       ledgerRegister.labels = labels.splice(1, labels.length);
       let index = this.voucherEntries.findIndex(voucher => voucher.name === labels[0]);
@@ -192,23 +197,25 @@ export class TrialbalanceComponent implements OnInit {
         this.voucherEntries.push({
           name: labels[0],
           data: [ledgerRegister] || ledgerRegister.y_ledger_name,
-          debit: parseFloat(ledgerRegister.y_dr_bal),
-          credit: parseFloat(ledgerRegister.y_cr_bal),
+          debit: Math.abs(parseFloat(ledgerRegister.y_dr_bal)),
+          credit: Math.abs(parseFloat(ledgerRegister.y_cr_bal)),
           opnbal: parseFloat(ledgerRegister.y_openbal),
           clobal: parseFloat(ledgerRegister.y_closebal)
         })
+        
       } else {
         this.voucherEntries[index].debit += parseFloat(ledgerRegister.y_dr_bal);
         this.voucherEntries[index].credit += parseFloat(ledgerRegister.y_cr_bal);
         this.voucherEntries[index].opnbal += parseFloat(ledgerRegister.y_openbal);
         this.voucherEntries[index].clobal += parseFloat(ledgerRegister.y_closebal);
         this.voucherEntries[index].data.push(ledgerRegister);
-
       }
+      this.openingbal += parseFloat(ledgerRegister.y_openbal);
+      this.closingbal += parseFloat(ledgerRegister.y_closebal);
     }
 
     this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
-    console.log('voucherEntries', this.voucherEntries);
+    console.log('voucherEntries', this.voucherEntries,this.closingbal,'ds',this.openingbal);
   }
   findChilds(data) {
     let childs = [];
