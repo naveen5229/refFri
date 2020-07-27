@@ -51,7 +51,7 @@
     "@nebular/auth": "3.0.0",
     "@nebular/bootstrap": "3.0.0",
     "@nebular/security": "3.0.0",
-    "@nebular/theme": "3.0.0",
+    "@nebular/theme": "^5.1.0",
     "@ng-bootstrap/ng-bootstrap": "^4.1.2",
     "@progress/kendo-angular-dateinputs": "^3.7.3",
     "@progress/kendo-angular-intl": "^1.4.0",
