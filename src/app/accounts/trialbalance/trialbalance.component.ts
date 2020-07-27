@@ -197,8 +197,8 @@ export class TrialbalanceComponent implements OnInit {
         this.voucherEntries.push({
           name: labels[0],
           data: [ledgerRegister] || ledgerRegister.y_ledger_name,
-          debit: Math.abs(parseFloat(ledgerRegister.y_dr_bal)),
-          credit: Math.abs(parseFloat(ledgerRegister.y_cr_bal)),
+          debit: (parseFloat(ledgerRegister.y_dr_bal)),
+          credit: (parseFloat(ledgerRegister.y_cr_bal)),
           opnbal: parseFloat(ledgerRegister.y_openbal),
           clobal: parseFloat(ledgerRegister.y_closebal)
         })
