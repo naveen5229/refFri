@@ -256,7 +256,7 @@ nb-menu .menu-item > .menu-items > .menu-item a {
 }
 
 .modal-header {
-  padding: 10px 15px !important;
+  padding: 5px 15px !important;
   background-color: #26a69a;
 }
 
@@ -265,7 +265,7 @@ nb-menu .menu-item > .menu-items > .menu-item a {
 }
 
 .modal-header .close {
-  background: transparent;
+  background: transparent!important;
   color: #fff !important;
   opacity: 1;
   padding: 8px 20px;
@@ -870,7 +870,7 @@ input[type=number] {
 .addvance a {
   font-size: 12px;
 }
-.tjr-label {   
+.tjr-label, .ref-label {   
   background: #26323800!important;
   color: #000000!important;
   padding: 3px 8px 3px 0!important;
@@ -881,7 +881,7 @@ input[type=number] {
   letter-spacing: 1px;
 }
 
-.tjr-input{
+.tjr-input, .ref-input{
   border: 1px solid #d4d4d4 !important;
   border-radius: 0px!important;
   padding: 5px 10px !important;
@@ -898,7 +898,7 @@ input[type=number] {
   border-radius: 0px !important;
 }
 .pdf-icon, .exel-icon{
-  font-size: 18px!important;
+  font-size: 24px!important;
 }
 .form-group {
   margin-bottom: 7px!important;
@@ -914,7 +914,23 @@ input[type=number] {
   border-radius: 0px 0px 12px 12px!important;
   letter-spacing: 1px;
 }
-.highlightcolor[_ngcontent-jxl-c12] {
+.highlightcolor{
   background-color: #403f3f !important;
   color: #fff!important;
+}
+#cancel, #delete{
+  background-color: #d61414 !important;
+  border-color: #d61414!important;
+}
+
+ button.btn-primary {
+  background: #263238 !important;
+   border: 1px solid #263238 !important;
+ }
+ button.btn-primary:hover {
+  background: #263238 !important;
+   border: 1px solid #263238 !important;
+ }
+ .btn:active:focus, .btn:focus {
+  outline: 0 !important;
 }

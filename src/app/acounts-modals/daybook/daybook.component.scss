@@ -152,7 +152,7 @@ table{
     color: #fff;
   }
   .close{
-    background: transparent;
+    background: transparent!important;
     color: #fff !important;
     opacity: 1;
     padding: 10px 20px;
@@ -160,8 +160,7 @@ table{
     outline: none;
   }
   .highlightcolor {
-    background-color: gray !important;
-
+    background-color: gray ;
 }
 .highlightcolor td {
     color:black !important;
