@@ -189,7 +189,7 @@ export class TrialbalanceComponent implements OnInit {
     this.voucherEntries = [];
     for (let i = 0; i < this.TrialData.length; i++) {
       let ledgerRegister = this.TrialData[i];
-      console.log('ledgerRegister',ledgerRegister);
+     // console.log('ledgerRegister',ledgerRegister);
       let labels = ledgerRegister.y_path.split('-->');
       ledgerRegister.labels = labels.splice(1, labels.length);
       let index = this.voucherEntries.findIndex(voucher => voucher.name === labels[0]);
@@ -266,7 +266,7 @@ export class TrialbalanceComponent implements OnInit {
             debit: child.debit,
             credit: child.credit,
             opnbal: child.opnbal,
-            clobal: child.clobal
+            clobal: child.clobal,
           }
         } else {
           return child;
