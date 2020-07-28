@@ -417,7 +417,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   reviewComplete(status) {
-    this.common.loading++;
+    // this.common.loading++;
     let params = {
       vehicleId: this.VehicleStatusData.vehicle_id,
       latchTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
@@ -427,10 +427,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
     };
     this.api.post('HaltOperations/reviewDone?', params)
       .subscribe(res => {
-        this.common.loading--;
+        // this.common.loading--;
         this.activeModal.close();
       }, err => {
-        this.common.loading--;
+        // this.common.loading--;
         this.common.showError();
       });
     this.activeModal.close();
@@ -477,7 +477,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   getSites() {
     if (this.map) {
-      this.common.loading++;
+      // this.common.loading++;
       let boundsx = this.map.getBounds();
       let ne = boundsx.getNorthEast(); // LatLng of the north-east corner
       let sw = boundsx.getSouthWest(); // LatLng of the south-west corder
@@ -496,16 +496,16 @@ export class ChangeVehicleStatusComponent implements OnInit {
         .subscribe(res => {
           if (this.siteMarkers.length == 0) {
             this.siteMarkers = this.createMarkers(res['data'], false);
-            this.common.loading--;
+            // this.common.loading--;
           }
           else {
             this.clearOtherMarker(this.siteMarkers);
             this.siteMarkers = this.createMarkers(res['data'], false);
-            this.common.loading--;
+            // this.common.loading--;
           }
 
         }, err => {
-          this.common.loading--;
+          // this.common.loading--;
         });
     }
   }
@@ -533,7 +533,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   Fences = null;
   FencesPoly = null;
   fnLoadGeofence(vehicleEvent) {
-    this.common.loading++;
+    // this.common.loading++;
 
     let params = {
       siteId: vehicleEvent.y_site_id,
@@ -559,9 +559,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
           this.createPolygons(latLngsArray, mainLatLng);
         }
 
-        this.common.loading--;
+        // this.common.loading--;
       }, err => {
-        this.common.loading--;
+        // this.common.loading--;
         this.common.showError(err);
       });
   }
@@ -599,14 +599,16 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
 
   openSmartTool(i, vehicleEvent) {
+    vehicleEvent.isOpen = !vehicleEvent.isOpen;
+    if(vehicleEvent.isOpen){
     console.log('vehicle event', vehicleEvent);
     if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null && vehicleEvent.haltTypeId != -1)
       if (confirm("Merge with this Halt?")) {
-        this.common.loading++;
+        // this.common.loading++;
         let params = { ms_id: this.vSId, hs_id: vehicleEvent.haltId };
         this.api.post('HaltOperations/mergeManualStates', params)
           .subscribe(res => {
-            this.common.loading--;
+            // this.common.loading--;
             if (res['success']) {
               this.reloadData();
               this.common.showToast(res['msg']);
@@ -615,7 +617,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
               this.reloadData();
             }
           }, err => {
-            this.common.loading--;
+            // this.common.loading--;
             this.common.showError(err);
           });
       }
@@ -626,14 +628,13 @@ export class ChangeVehicleStatusComponent implements OnInit {
         if (vEvent != vehicleEvent)
           vEvent.isOpen = false;
       });
-      vehicleEvent.isOpen = !vehicleEvent.isOpen;
+      // vehicleEvent.isOpen = !vehicleEvent.isOpen;
       this.zoomFunctionality(i, vehicleEvent);
       this.getSites();
     }
     this.onlyDrag = false;
   }
-
-
+  }
   drop(event: CdkDragDrop<string[]>) {
     //moveItemInArray(this.vehicleEvents, event.previousIndex, event.currentIndex);
   }
