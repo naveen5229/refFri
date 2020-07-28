@@ -735,31 +735,24 @@ export class TrialbalanceComponent implements OnInit {
     this.selectedName = u;   // declare variable in component.
   }
   generateCsvData() {
+    console.log('set bal',this.openingbal,)
     let liabilitiesJson = [];
-    liabilitiesJson.push(Object.assign({ Ledger: "Ledger", OpeningBalance: 'Opening Balance', amountdr: 'Amount(Debit)', amountcr: 'Amount(Credit)', amount: 'Closing Balance' }));
-    this.trialBalanceData.forEach(liability => {
-      liabilitiesJson.push({ Ledger: '(MG)' + liability.name, OpeningBalance: liability.openingamount, amountdr: liability.dramount, amountcr: liability.cramount, amount: liability.amount });
-      liability.subGroups.forEach(subGroup => {
-        liabilitiesJson.push({ Ledger: '(SG)' + subGroup.name, OpeningBalance: subGroup.openingamount, amountdr: subGroup.dramount, amountcr: subGroup.cramount, amount: subGroup.amount });
-        subGroup.trialBalances.forEach(trailbalance => {
-          liabilitiesJson.push({ Ledger: '(L)' + trailbalance.y_ledger_name, OpeningBalance: trailbalance.y_openbal, amountdr: trailbalance.y_dr_bal, amountcr: trailbalance.y_cr_bal, amount: trailbalance.y_closebal });
-        });
-      });
+    liabilitiesJson.push(Object.assign({ Ledger: "Particulars", OpeningBalance: 'Opening Balance', amountdr: 'Amount(Debit)', amountcr: 'Amount(Credit)', amount: 'Closing Balance' }));
+    this.voucherEntries.forEach(liability => {
+      liabilitiesJson.push({ Ledger: liability.name, OpeningBalance:  Math.abs(liability.opnbal) +' '+ liability.opnbaltype , amountdr: liability.debit, amountcr: liability.credit, amount:  Math.abs(liability.clobal) +' '+ liability.opnbaltype });
+      // liability.subGroups.forEach(subGroup => {
+      //   liabilitiesJson.push({ Ledger: '(SG)' + subGroup.name, OpeningBalance: subGroup.openingamount, amountdr: subGroup.dramount, amountcr: subGroup.cramount, amount: subGroup.amount });
+      //   subGroup.trialBalances.forEach(trailbalance => {
+      //     liabilitiesJson.push({ Ledger: '(L)' + trailbalance.y_ledger_name, OpeningBalance: trailbalance.y_openbal, amountdr: trailbalance.y_dr_bal, amountcr: trailbalance.y_cr_bal, amount: trailbalance.y_closebal });
+      //   });
+      // });
     });
-    liabilitiesJson.push(Object.assign({}, { "": 'MG = Main Group ,SG = Sub Group, L = Ledger' }))
+    liabilitiesJson.push({ Ledger: 'Profit & Loss A/c', OpeningBalance:  (this.openingbal +' '+(this.openingbal >=0)?'Cr':'Dr') , amountdr: '', amountcr: '', amount:  (this.closingbal +' '+ (this.closingbal >=0)?'Cr':'Dr' )})
+    liabilitiesJson.push({ Ledger: 'Grand Total', OpeningBalance: '' , amountdr: this.debitbal, amountcr: this.creditbal, amount:  ''  });
 
-    // let mergedArray = [];
-    // for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
-    //   if (liabilitiesJson[i] && assetsJson[i] && i < liabilitiesJson.length - 1 && i < assetsJson.length - 1) {
-    //     mergedArray.push(Object.assign({}, liabilitiesJson[i], assetsJson[i]));
-    //   } else if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
-    //     mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '' }));
-    //   } else if (assetsJson[i] && i < assetsJson.length - 1) {
-    //     mergedArray.push(Object.assign({}, { liability: '', liabilityAmount: '' }, assetsJson[i]));
-    //   }
-    // }
-    // mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
+   // liabilitiesJson.push(Object.assign({}, { "": 'MG = Main Group ,SG = Sub Group, L = Ledger' }))
 
+  
     this.csvService.jsonToExcel(liabilitiesJson);
     console.log('Merged:', liabilitiesJson);
   }
