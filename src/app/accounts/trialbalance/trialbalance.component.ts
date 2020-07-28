@@ -25,6 +25,7 @@ export class TrailTreeComponent {
   @Input() active: boolean;
   @Input() labels: string;
   @Input() action: any;
+  @Input() actionabs: any;
   @Input() isExpandAll: boolean;
   @Input() color: number = 0;
   @Input() getaction: any;
@@ -63,6 +64,11 @@ export class TrailTreeComponent {
     event.stopPropagation();
     //  console.log('data suggestion',data);
     this.action(data);
+
+  }
+  setabsHandler(a) {
+    //  console.log('data suggestion',data);
+    return Math.abs(a);
 
   }
   keyHandler(event) {
@@ -121,6 +127,8 @@ export class TrialbalanceComponent implements OnInit {
   isExpand: string = '';
   openingbal =0;
   closingbal = 0;
+  debitbal = 0;
+  creditbal =0;
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -200,7 +208,9 @@ export class TrialbalanceComponent implements OnInit {
           debit: (parseFloat(ledgerRegister.y_dr_bal)),
           credit: (parseFloat(ledgerRegister.y_cr_bal)),
           opnbal: parseFloat(ledgerRegister.y_openbal),
-          clobal: parseFloat(ledgerRegister.y_closebal)
+          clobal: parseFloat(ledgerRegister.y_closebal),
+          opnbaltype: ledgerRegister.y_openbaltype,
+          clobaltype: ledgerRegister.y_closebaltype
         })
         
       } else {
@@ -212,6 +222,8 @@ export class TrialbalanceComponent implements OnInit {
       }
       this.openingbal += parseFloat(ledgerRegister.y_openbal);
       this.closingbal += parseFloat(ledgerRegister.y_closebal);
+      this.debitbal += parseFloat(ledgerRegister.y_dr_bal);
+      this.creditbal += parseFloat(ledgerRegister.y_cr_bal);
     }
 
     this.voucherEntries.map(voucher => voucher.data = this.findChilds(voucher.data));
@@ -232,7 +244,9 @@ export class TrialbalanceComponent implements OnInit {
             debit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_dr_bal) : 0,
             credit: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cr_bal) : 0,
             opnbal: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_openbal) : 0,
-            clobal: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_closebal) : 0
+            clobal: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_closebal) : 0,
+            opnbaltype: ledgerRegister.y_openbaltype,
+            clobaltype: ledgerRegister.y_closebaltype
 
 
           })
@@ -241,6 +255,8 @@ export class TrialbalanceComponent implements OnInit {
           childs[index].credit += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_cr_bal) : 0;
           childs[index].opnbal += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_openbal) : 0;
           childs[index].clobal += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_closebal) : 0;
+          childs[index].opnbaltype = (childs[index].opnbal < 0) ? 'Cr' : 'Dr';
+          childs[index].clobaltype = (childs[index].clobal < 0) ? 'Cr' : 'Dr';
           if (ledgerRegister.y_ledger_name) {
             childs[index].data.push(ledgerRegister);
           }
@@ -253,7 +269,9 @@ export class TrialbalanceComponent implements OnInit {
           credit: data[i].y_cr_bal || 0,
           opnbal: data[i].y_openbal || 0,
           clobal: data[i].y_closebal || 0,
-          ledgerid:data[i].y_ledgerid
+          ledgerid:data[i].y_ledgerid,
+          opnbaltype: data[i].y_openbaltype,
+          clobaltype: data[i].y_closebaltype
         });
       }
     }
@@ -267,6 +285,8 @@ export class TrialbalanceComponent implements OnInit {
             credit: child.credit,
             opnbal: child.opnbal,
             clobal: child.clobal,
+            opnbaltype: child.y_openbaltype,
+            clobaltype: child.y_closebaltype
           }
         } else {
           return child;
@@ -338,7 +358,9 @@ export class TrialbalanceComponent implements OnInit {
       return info;
     }
   }
-
+  positiveLookingValue(a){
+    return Math.abs(a);
+  }
   changeViewType() {
     console.log('____________');
     this.active.trialBalanceData.mainGroup = [];
