@@ -46,19 +46,19 @@ input[type="date"].form-control{
   .modal-body .row + .row{
       margin-top: 10px;
   }
-  .modal-body label{
-    color: #263238;
-    margin: 0;
-    min-width: 80px !important;
-    font-weight: normal;
-  }
-  .modal-body input{
-    border: 1px solid #263238 !important;
-    border-radius: 0px 2px 2px 2px;
-    padding: 3px 5px !important;
-    height: auto;
-    font-size: 12px;
-  }
+  // .modal-body label{
+  //   color: #263238;
+  //   margin: 0;
+  //   min-width: 80px !important;
+  //   font-weight: normal;
+  // }
+  // .modal-body input{
+  //   border: 1px solid #263238 !important;
+  //   border-radius: 0px 2px 2px 2px;
+  //   padding: 3px 5px !important;
+  //   height: auto;
+  //   font-size: 12px;
+  // }
   .modal-body input[type=file]{
       border: 0px !important;
   }
