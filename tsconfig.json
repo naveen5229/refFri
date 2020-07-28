@@ -24,5 +24,6 @@
         "dist/auto-suggestion-in-side/*"
       ]
     },
+    "skipLibCheck": true,
   }
 }
