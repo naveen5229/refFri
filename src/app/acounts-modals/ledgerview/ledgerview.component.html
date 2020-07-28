@@ -5,10 +5,15 @@
       <button type="button" class="close" aria- label="Close" (click)=" modelCondition()">
         <span aria-hidden="true">&times;</span>
       </button>
-    </div>
+    </div> 
   </nb-card-header>
   <nb-card-body (keydown)="keyHandler($event)">
-    <table class="table table-bordered">
+    <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()" style="cursor: pointer;"><i
+      class="fa fa-file-pdf"></i></span>
+  <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
+      class="fas fa-file-excel"></i></span>
+
+    <table class="table table-bordered" id="table">
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>#</th>

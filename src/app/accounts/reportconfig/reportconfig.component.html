@@ -10,6 +10,7 @@
       <th>Parent Group</th>
       <th>Group</th>
       <th>Balance Sheet Order</th>
+      <th>Tial Balance Order</th>
       <th>Is Asset For Balance Sheet</th>
     </tr>
   </thead>
@@ -18,10 +19,10 @@
     <td>{{i + 1}}</td>
     <td>{{dataItem.parent_groupname}}</td>
     <td>{{dataItem.groupname}}</td>
-    <td>
-     <input type="number"  class="form-control inn"  [name]="order + '-' + i" [(ngModel)]="orderno[i]"></td>
+    <td> <input type="number"  class="form-control inn"  [name]="order + '-' + i" [(ngModel)]="orderno[i]"></td>
+    <td> <input type="number"  class="form-control inn"  [name]="trial + '-' + i" [(ngModel)]="trailordr[i]"></td>
     <td><input type="checkbox" class="form-control inn" [name] = "isasset + '-' + i" [(ngModel)]="isset[i]">
-      <button class="form-control inn cngval" (click)="changevalue(dataItem.id,orderno[i],isset[i])">Submit</button></td>
+      <button class="form-control inn cngval" (click)="changevalue(dataItem.id,orderno[i],isset[i],trailordr[i])">Submit</button></td>
     
   </tr>
 </table>

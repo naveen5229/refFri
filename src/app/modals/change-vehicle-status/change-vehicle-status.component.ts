@@ -533,7 +533,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   Fences = null;
   FencesPoly = null;
   fnLoadGeofence(vehicleEvent) {
-    this.common.loading++;
+    // this.common.loading++;
 
     let params = {
       siteId: vehicleEvent.y_site_id,
@@ -559,9 +559,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
           this.createPolygons(latLngsArray, mainLatLng);
         }
 
-        this.common.loading--;
+        // this.common.loading--;
       }, err => {
-        this.common.loading--;
+        // this.common.loading--;
         this.common.showError(err);
       });
   }
