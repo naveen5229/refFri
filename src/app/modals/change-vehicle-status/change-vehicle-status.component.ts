@@ -428,12 +428,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.api.post('HaltOperations/reviewDone?', params)
       .subscribe(res => {
         // this.common.loading--;
-        this.activeModal.close();
+        this.closeModal(true);
       }, err => {
         // this.common.loading--;
         this.common.showError();
       });
-    this.activeModal.close();
+    this.closeModal(true);
   }
 
   getLastIndDetails() {
