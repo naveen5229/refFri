@@ -37,6 +37,8 @@ export class GstdataComponent implements OnInit {
           this.totalamount +=parseFloat(mapdata.amount);
         })
       }
+      
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
      }
 
   ngOnInit() {

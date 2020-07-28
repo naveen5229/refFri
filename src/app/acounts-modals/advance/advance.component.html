@@ -72,21 +72,22 @@
     </div>
 
     <div class="modal-footer">
-      <div class="row">
-        <div class="col">
+      <div class="row w-100" style="justify-content: flex-end;">
+        <div class="col-2">
           <button class="btn btn-danger" type="button" outline (click)="clear()" id="clear"
             style="cursor: pointer;">Clear Fields
           </button>
         </div>
-        <div class="col">
-          <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
-            style="cursor: pointer;">Cancel</button>
-        </div>
-        <div class="col text-right">
-          <button class="btn btn-danger" type="button" outline (click)="dismiss(true)" id="submit"
+        <div class="col-2">
+          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
             style="cursor: pointer;">Submit
           </button>
         </div>
+        <div class="col-2">
+          <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
+            style="cursor: pointer;">Cancel</button>
+        </div>
+     
 
       </div>
     </div>

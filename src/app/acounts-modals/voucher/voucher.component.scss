@@ -76,23 +76,23 @@ nb-card-header{
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
-.ref-label{
-    background: #263238;
-    color: #fff;
-    padding: 3px 8px;
-    margin: 0;
-    border-radius: 3px 3px 0px 0px;
-    font-size: 12px;
-    min-width: 80px !important;
-    font-weight: normal;
-}
-.ref-input{
-    border: 1px solid #263238 !important;
-    border-radius: 0px 2px 2px 2px;
-    padding: 3px 5px;
-    height: auto;
-    font-size: 12px;
-}
+// .ref-label{
+//     background: #263238;
+//     color: #fff;
+//     padding: 3px 8px;
+//     margin: 0;
+//     border-radius: 3px 3px 0px 0px;
+//     font-size: 12px;
+//     min-width: 80px !important;
+//     font-weight: normal;
+// }
+// .ref-input{
+//     border: 1px solid #263238 !important;
+//     border-radius: 0px 2px 2px 2px;
+//     padding: 3px 5px;
+//     height: auto;
+//     font-size: 12px;
+// }
 .date-modal-body .ng-pristine{
     border: 0px !important;
     padding: 8px;
@@ -208,3 +208,8 @@ table{
         }
     }
 } 
+// kavita singh
+
+.btn-delete{
+background-color: #dc3545;
+}

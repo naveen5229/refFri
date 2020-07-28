@@ -60,7 +60,6 @@ export class GstreportComponent implements OnInit {
     this.setFoucus('startdate');
     this.common.currentPage = 'Gst Report';
 
-
   }
 
   ngOnInit() {
