@@ -3,6 +3,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { GenericSuggestionComponent } from '../generic-modals/generic-suggestion/generic-suggestion.component';
 
 @Component({
   selector: 'trip-state-mapping',
@@ -14,6 +15,8 @@ export class TripStateMappingComponent implements OnInit {
   tripIds = [];
   stateIds = [];
   vtStates = [];
+  reasons = [];
+  reason = 0;
   dis_all = 't';
   stateId = null;
   constructor(
@@ -26,6 +29,7 @@ export class TripStateMappingComponent implements OnInit {
       this.stateId = this.common.params.vehicle.stateId;
       this.getTrips();
       this.getvtStates();
+      this.getReasons();
     }
   }
 
@@ -134,10 +138,10 @@ export class TripStateMappingComponent implements OnInit {
   }
 
   removeVehicleState(strictDeleteVS,resmsg?) {
-    
     let params = {
       stateid: this.stateId,
-      isStrictDelete:strictDeleteVS
+      isStrictDelete:strictDeleteVS,
+      reason:this.reason
     };
    if(!strictDeleteVS){
     this.common.params = {
@@ -179,6 +183,17 @@ export class TripStateMappingComponent implements OnInit {
             this.common.showError('Error!');
           });
       }
+    });
+  }
+
+getReasons(){
+  this.api.get("Suggestion/getTypeMaster?typeId=10")
+    .subscribe(res => {
+      console.log('Res: ', res['data']);
+      this.reasons = res['data']?res['data']:[];
+    }, err => {
+      console.error(err);
+      this.common.showError();
     });
   }
 }

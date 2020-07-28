@@ -13,7 +13,7 @@
          Trips
         </li>
         <li [ngClass]="dis_all == 'vt' ? 'active' : ''" (click)="dis_all = 'vt'">
-         VT States
+         Vehicle States
         </li>
       </ul>
     </div>
@@ -80,7 +80,10 @@
 </div>
 
 <div class="modal-footer" *ngIf="dis_all == 'vt'">
-  <button type="submit" class="btn btn-danger" (click)="removeVehicleState(false)">Delete State</button>
+  <select [(ngModel)]='reason'>
+    <option *ngFor='let rs of reasons' [value]='rs.id'>{{rs.description}}</option>
+  </select>
+  <button type="submit" class="btn btn-danger" (click)="removeVehicleState(false)" *ngIf="reason!=0">Delete State</button>
 
   <button type="submit" class="btn btn-primary" (click)="revertState()">Revert state</button>
 </div>
