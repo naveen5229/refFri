@@ -4,7 +4,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { LedgerComponent} from '../ledger/ledger.component';
-
+import { AccountService } from '../../services/account.service';
 @Component({
   selector: 'taxdetail',
   templateUrl: './taxdetail.component.html',
@@ -36,7 +36,8 @@ export class TaxdetailComponent implements OnInit {
   constructor(public api: ApiService,
     private activeModal: NgbActiveModal,
     public common: CommonService,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    public accountService: AccountService) {
     this.setFoucus('taxleder-0');
     this.getPurchaseLedgers();
     console.log('tax detail ',this.common.params,this.common.params.taxDetail.length);
@@ -84,18 +85,30 @@ console.log('size index',this.sizeIndex);
 
   }
 
+
+
+        
+
+  
   getPurchaseLedgers() {
     let params = {
-      search: 123
+      group:0,
+      ledger:0
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetLedgerWithRate', params)
+    this.api.post('Accounts/getLedgerMapping', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.autoSuggestion.data = res['data'];
+        res['data'].map((data)=>{
+          if(data.y_tax_type_name){
+          this.autoSuggestion.data.push(data);
+          }
+        });
+
+       // this.autoSuggestion.data = res['data'];
         this.autoSuggestion.targetId = 'taxleder-0';
-        this.autoSuggestion.display = 'name';
+        this.autoSuggestion.display = 'y_ledger_name';
         // this.suggestions.purchaseLedgers = res['data'];
       }, err => {
         this.common.loading--;
@@ -302,15 +315,15 @@ console.log('size index',this.sizeIndex);
    }
 
   onSelect(suggestion, activeId) {
-    console.log('current activeId: ', activeId,suggestion);
     const index = parseInt(activeId.split('-')[1]);
 
-    this.taxdetails[index].taxledger.name = suggestion.name;
-    this.taxdetails[index].taxledger.id = suggestion.id;
+    this.taxdetails[index].taxledger.name = suggestion.y_ledger_name;
+    this.taxdetails[index].taxledger.id = suggestion.y_ledgerid;
     this.taxdetails[index].taxrate = (this.taxdetails[index].taxrate)?this.taxdetails[index].taxrate:(suggestion.per_rate == null) ? 0 : suggestion.per_rate;
     this.taxdetails[index].taxamount = parseFloat(((this.taxdetails[index].taxrate  * this.amount)/100).toFixed(2));
+    console.log('current activeId: ', activeId,this.taxdetails[index].taxledger);
 
-    this.autoSuggestion.display = 'name';
+    this.autoSuggestion.display = 'y_ledger_name';
     this.autoSuggestion.targetId = activeId;
   }
 

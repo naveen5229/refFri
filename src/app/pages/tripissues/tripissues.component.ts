@@ -96,13 +96,15 @@ export class TripissuesComponent implements OnInit {
     // this.table.data.headings['Action'] = { title: 'Action', placeholder: 'Action' };
     this.valobj = {};
     let columns = [];
-    tableData.map(tbldt => {
-      this.valobj = {};
+    tableData.map((tbldt,index) => {
+      this.valobj = {
+        class:'xyz'
+      };
       for (let i = 0; i < this.headings.length; i++) {
         if (this.headings[i] == 'Action') {
           this.valobj[this.headings[i]] = {
             value: '', isHTML: true, action: null,
-            icons: this.actionIcons(tbldt)
+            icons: this.actionIcons(tbldt,index)
           }
         } else if(this.headings[i] == 'Trip'){
           this.valobj[this.headings[i]] = {
@@ -115,14 +117,19 @@ export class TripissuesComponent implements OnInit {
           this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'black', action: '' };
         }
       }
+      console.log("tbldt",tbldt);
+      if(tbldt['_class']){
+        console.log('seleed');
+        this.valobj['class']="selected";
+      }
       columns.push(this.valobj);
     });
     return columns;
   }
 
-  actionIcons(data) {
+  actionIcons(data,index) {
     let icons = [{ class: 'fa fa-cog delete',
-     action: this.openChangeStatusCustomerModal.bind(this, data)
+     action: this.openChangeStatusCustomerModal.bind(this, data,index)
      }];
     return icons;
   }
@@ -130,7 +137,11 @@ export class TripissuesComponent implements OnInit {
 
   
 
-  openChangeStatusCustomerModal(vs) {
+  openChangeStatusCustomerModal(vs,index) {
+    console.log('iiii',index);
+    this.VehicleStatusAlerts[index]['_class']='selected';
+    console.log("this.VehicleStatusAlerts[index]['_class']",this.VehicleStatusAlerts[index]['_class']);
+    this.gettingTableHeader(this.VehicleStatusAlerts);
     let VehicleStatusData = {
       vehicle_id : vs._vid,
       latch_time : vs.latch_time,
@@ -148,16 +159,16 @@ export class TripissuesComponent implements OnInit {
       const activeModal = this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
       activeModal.result.then(data => {
         //console.log("data", data.respone);
-         this.getVehicleStatusAlerts();
-        this.exitTicket(VehicleStatusData);
+        //  this.getVehicleStatusAlerts();
+        // this.exitTicket(VehicleStatusData);
       });
     }
     else {
       const activeModal =  this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
       activeModal.result.then(data => {
         //console.log("data", data.respone);
-         this.getVehicleStatusAlerts();
-        this.exitTicket(VehicleStatusData);
+        //  this.getVehicleStatusAlerts();
+        // this.exitTicket(VehicleStatusData);
       });
     }
     
@@ -182,7 +193,7 @@ export class TripissuesComponent implements OnInit {
         }
         else {
           
-            this.openChangeStatusCustomerModal(VehicleStatusData);
+            // this.openChangeStatusCustomerModal(VehicleStatusData);
         }
       }, err => {
         this.common.loading--;
@@ -205,7 +216,7 @@ export class TripissuesComponent implements OnInit {
         console.log(result);
         if (!result.sucess) {
           // alert(result.msg);
-          this.getVehicleStatusAlerts();
+          // this.getVehicleStatusAlerts();
           return false;
         }
         else {

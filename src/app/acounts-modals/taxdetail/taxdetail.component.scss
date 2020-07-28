@@ -70,6 +70,12 @@ button { background-color: #73a1ff;
     }
   }
 }
+.auto-sugg > auto-suggetion-in-side{
+  .TJR-auto-suggestion-container{
+    height: 165px !important;
+    margin-top: -37px !important;
+  }
+}
   .close{
     background-color: #ccc;
     font-size: 26px;

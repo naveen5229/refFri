@@ -409,9 +409,9 @@ export class ServiceComponent implements OnInit {
         console.log('Res:', res['data']);
         res['data'].map((data)=>{
           if(data.y_tax_type_name){
-          this.suggestions.Taxdata.push(data);
+          this.suggestions.ledgerTaxdata.push(data);
           }else{
-            this.suggestions.ledgerTaxdata.push(data);
+            this.suggestions.Taxdata.push(data);
           }
         });
       }, err => {
@@ -1962,7 +1962,13 @@ export class ServiceComponent implements OnInit {
       return;
     }
 
-    if (activeId.includes('invocelist')) { this.autoSuggestion.display = 'cust_code'; } else { this.autoSuggestion.display = 'name'; }
+    if (activeId.includes('invocelist')) { 
+      this.autoSuggestion.display = 'cust_code'; 
+  }else if (activeId.includes('taxlederwith') || activeId.includes('taxlederother')) {
+    this.autoSuggestion.display = 'y_ledger_name';
+  }else {
+     this.autoSuggestion.display = 'name'; 
+    }
     this.autoSuggestion.targetId = activeId;
     console.log('Auto Suggestion: ', this.autoSuggestion);
   }
