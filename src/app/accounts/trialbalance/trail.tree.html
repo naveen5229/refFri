@@ -7,10 +7,12 @@
                 <div class="col x-col" *ngIf="d.name"> {{d.amount | number : '1.2-2'}}
                 </div> -->
                 <div class="col x-col"><span [innerHTML]="labels"></span> {{d.name}}</div>
-                <div class="col x-col">{{d.opnbal | number : '1.2-2'}}</div>
+                <div class="col x-col" *ngIf="d.opnbal >= 0">{{d.opnbal | number : '1.2-2'}} <span> Dr</span></div>
+                <div class="col x-col" *ngIf="!(d.opnbal >= 0)">{{setabsHandler(d.opnbal) | number : '1.2-2'}} <span> Cr</span></div>
                 <div class="col x-col" style="text-align:right;">{{d.debit | number : '1.2-2'}}</div>
                 <div class="col x-col" style="text-align:right;">{{d.credit | number : '1.2-2'}}</div>
-                <div class="col x-col">{{d.clobal | number : '1.2-2'}}</div>
+                <div class="col x-col" *ngIf="d.opnbal >= 0">{{setabsHandler(d.clobal) | number : '1.2-2'}}<span>Dr</span></div>
+                <div class="col x-col" *ngIf="!(d.opnbal >= 0)">{{setabsHandler(d.clobal) | number : '1.2-2'}}<span>Cr</span></div>
 
             </div>
             <trail-tree *ngIf="d.name" [color]="color+1" style="cursor:pointer" [action]="action"
@@ -21,10 +23,10 @@
                 (dblclick)="doubleClickHandler($event,d)" (click)="lastClickHandler($event,i)"
                 [ngClass]="{'highlight' : selectedRow == i }">
                 <div class="col x-col"><span [innerHTML]="labels"></span> {{d.ledgerName}}</div>
-                <div class="col x-col">{{d.opnbal | number : '1.2-2'}}</div>
+                <div class="col x-col">{{setabsHandler(d.opnbal) | number : '1.2-2'}} <span> {{d.opnbaltype}}</span></div>
                 <div class="col x-col" style="text-align:right;">{{d.debit | number : '1.2-2'}}</div>
                 <div class="col x-col" style="text-align:right;">{{d.credit | number : '1.2-2'}}</div>
-                <div class="col x-col">{{d.clobal | number : '1.2-2'}}</div>
+                <div class="col x-col">{{setabsHandler(d.clobal) | number : '1.2-2'}}<span> {{ d.clobaltype}}</span></div>
 
             </div>
         </div>
@@ -39,10 +41,12 @@
                         {{d.amount | number : '1.2-2'}}
                     </div> -->
                 <div class="col x-col"><span [innerHTML]="labels"></span>  {{d.name}}</div>
-                <div class="col x-col">{{d.opnbal | number : '1.2-2'}}</div>
+                <div class="col x-col" *ngIf="d.opnbal >= 0">{{d.opnbal | number : '1.2-2'}} <span> Dr</span></div>
+                <div class="col x-col" *ngIf="!(d.opnbal >= 0)">{{setabsHandler(d.opnbal) | number : '1.2-2'}} <span> Cr</span></div>
                 <div class="col x-col" style="text-align:right;">{{d.debit | number : '1.2-2'}}</div>
                 <div class="col x-col" style="text-align:right;">{{d.credit | number : '1.2-2'}}</div>
-                <div class="col x-col">{{d.clobal | number : '1.2-2'}}</div>
+                <div class="col x-col" *ngIf="d.opnbal >= 0">{{setabsHandler(d.clobal) | number : '1.2-2'}}<span>Dr</span></div>
+                <div class="col x-col" *ngIf="!(d.opnbal >= 0)">{{setabsHandler(d.clobal) | number : '1.2-2'}}<span>Cr</span></div>
 
 
                 </div>
@@ -57,10 +61,10 @@
                     <div class="col-4 text-right" style="text-align:right;">{{d.amount | number : '1.2-2'}}</div> -->
 
                 <div class="col x-col"> <span [innerHTML]="labels"></span> {{d.ledgerName}}</div>
-                <div class="col x-col">{{d.opnbal | number : '1.2-2'}}</div>
+                <div class="col x-col">{{setabsHandler(d.opnbal) | number : '1.2-2'}} <span> {{d.opnbaltype}}</span></div>
                 <div class="col x-col" style="text-align:right;">{{d.debit | number : '1.2-2'}}</div>
                 <div class="col x-col" style="text-align:right;">{{d.credit | number : '1.2-2'}}</div>
-                <div class="col x-col">{{d.clobal | number : '1.2-2'}}</div>
+                <div class="col x-col">{{setabsHandler(d.clobal) | number : '1.2-2'}}<span> {{ d.clobaltype}}</span></div>
                 </div>
             </div>
         </cdk-virtual-scroll-viewport>
