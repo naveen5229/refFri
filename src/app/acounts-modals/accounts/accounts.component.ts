@@ -56,6 +56,7 @@ console.log('accounts get data',this.common.params);
       this.pagename='Edit Secondary Account';
     }
     this.getAccountData();
+    
   }
 
   ngOnInit() {

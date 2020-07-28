@@ -15,6 +15,7 @@ export class ReportconfigComponent implements OnInit {
   reportList=[];
   orderno=[];
   isset=[];
+  trailordr=[];
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -42,6 +43,7 @@ export class ReportconfigComponent implements OnInit {
         this.reportList = res['data'];
           this.reportList.map((dd,index)=>{
             this.orderno[index]=dd.balsht_ord;
+            this.trailordr[index]=dd.trialbal_ord;
             this.isset[index]=dd.balsht_isasset;
           })
       }, err => {
@@ -52,12 +54,13 @@ export class ReportconfigComponent implements OnInit {
 
   }
   
-  changevalue(id,value,isset){
+  changevalue(id,value,isset,trial){
     console.log('set data',id,value,isset);
     let params = {
       id: id,
       orno:value,
-      isset:isset
+      isset:isset,
+      trial:trial
     };
     this.common.loading++;
     this.api.post('Accounts/updateReportConfig', params)
