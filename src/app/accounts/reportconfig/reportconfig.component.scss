@@ -74,10 +74,10 @@ table{
             font-weight: normal;
         }
         th:nth-child(1){
-            width: 50px;
+            width: 40px;
         }
         th:nth-child(2){
-            width: 200px;
+            width: 160px;
         }
         td{
             padding: 5px 10px !important;
@@ -106,10 +106,10 @@ table{
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 50px;
+                width: 40px;
             }
             td:nth-child(2){
-                width: 200px;
+                width: 160px;
             }
         }
         tr:nth-child(odd){
