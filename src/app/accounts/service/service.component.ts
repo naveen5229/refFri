@@ -1461,7 +1461,7 @@ export class ServiceComponent implements OnInit {
         //  this.deletedId = this.params.delete;
         // this.order.orderid = this.params.invoiceid;
         this.order.biltynumber = this.invoiceDetail[0].y_biltynumber;
-        // this.order.date = this.common.dateFormatternew(this.invoiceDetail[0].y_orderdate.split(' ')[0]);
+        this.order.date = this.common.dateFormatternew(this.invoiceDetail[0].y_orderdate,'ddMMYYYY');
         this.order.biltydate = this.invoiceDetail[0].y_biltydatestamp != null ? this.common.dateFormatternew(this.invoiceDetail[0].y_biltydatestamp.split(' ')[0]) : '';  // edit by hemant 27 june 2020
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
         this.order.billingaddress = this.invoiceDetail[0].y_vendorbillingaddress;

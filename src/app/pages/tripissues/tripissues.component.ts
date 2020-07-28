@@ -12,7 +12,7 @@ import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status
   styleUrls: ['./tripissues.component.scss']
 })
 export class TripissuesComponent implements OnInit {
-
+  autoPlay = 'forward';
   headings = [];
   valobj = {};
   table = {
@@ -134,7 +134,12 @@ export class TripissuesComponent implements OnInit {
     return icons;
   }
  
-
+modalOpens(index){
+  if(this.autoPlay=='forward' && index < this.VehicleStatusAlerts.length)
+    this.openChangeStatusCustomerModal(this.VehicleStatusAlerts[index+1],index+1)
+  else if(this.autoPlay=='backward' && index >= 0)
+  this.openChangeStatusCustomerModal(this.VehicleStatusAlerts[index-1],index-1)
+}
   
 
   openChangeStatusCustomerModal(vs,index) {
@@ -158,7 +163,9 @@ export class TripissuesComponent implements OnInit {
     if (this.user._loggedInBy != "admin") {
       const activeModal = this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
       activeModal.result.then(data => {
-        //console.log("data", data.respone);
+        console.log("data", data.response);
+        if(data.response && index < this.VehicleStatusAlerts.length &&  index >= 0)
+        this.modalOpens(index);
         //  this.getVehicleStatusAlerts();
         // this.exitTicket(VehicleStatusData);
       });
@@ -166,7 +173,9 @@ export class TripissuesComponent implements OnInit {
     else {
       const activeModal =  this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
       activeModal.result.then(data => {
-        //console.log("data", data.respone);
+        console.log("data", data.response);
+        if(data.response && index < this.VehicleStatusAlerts.length &&  index >= 0)
+        this.modalOpens(index);
         //  this.getVehicleStatusAlerts();
         // this.exitTicket(VehicleStatusData);
       });

@@ -1,8 +1,13 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-10">
+      <div class="col-6">
         <h5>Trip Issues</h5>
+      </div>
+      <div class="col-6" style="text-align: right;">
+        <span>Autoplay <button class="btn btn-primary" (click)="autoPlay='forward'" style="margin-left: 15px;">Forward</button>
+          <button class="btn btn-primary" (click)="autoPlay='backward'" style="margin-left: 15px;">Backward</button>
+        </span>
       </div>
     </div>
   </nb-card-header>
