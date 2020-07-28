@@ -52,10 +52,10 @@
     <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
       <div class="row x-stocktype" style="cursor:pointer"  (click)="activeTree = activeTree !== i ? i : -1">
         <div class="col x-col">{{stockType.name}}</div>
-        <div class="col x-col">{{ stockType.opnbal | number : '1.2-2' }} <span>{{stockType.opentype}}</span></div>
+        <div class="col x-col">{{ positiveLookingValue(stockType.opnbal) | number : '1.2-2' }} <span>{{stockType.opnbaltype}}</span></div>
         <div class="col x-col" style="text-align:right;">{{ stockType.debit | number : '1.2-2'}}</div>
         <div class="col x-col" style="text-align:right;">{{ stockType.credit | number : '1.2-2'}}</div>
-        <div class="col x-col">{{ stockType.clobal | number : '1.2-2'}} <span>{{ stockType.clostype}}</span></div>
+        <div class="col x-col">{{ positiveLookingValue(stockType.clobal) | number : '1.2-2'}} <span>{{ stockType.clobaltype}}</span></div>
       </div>
       <trail-tree [action]="getBookDetail.bind(this)" [action]="getBookDetail.bind(this)"  [data]="stockType.data" [isExpandAll]= "isExpand == 'sub'" [active] = "(((activeTree == i) || (isExpand))  ? true : false)" [labels]="'&nbsp;'">
       </trail-tree>
@@ -63,11 +63,22 @@
     <div class="x-data">
     <div class="row x-stocktype" style="cursor:pointer" *ngIf="openingbal != 0">
       <div class="col x-col">Profit & Loss A/c</div>
-      <!-- <div class="col x-col">{{openingbal | number : '1.2-2'}}</div> -->
-    <div class="col x-col">&nbsp;</div>
+      <div class="col x-col"  *ngIf="!(openingbal >= 0)">{{positiveLookingValue(openingbal) | number : '1.2-2'}}<span>  Dr</span></div>
+      <div class="col x-col"  *ngIf="(openingbal >= 0)">{{positiveLookingValue(openingbal) | number : '1.2-2'}}<span>  Cr</span></div>
       <div class="col x-col">&nbsp;</div>
       <div class="col x-col">&nbsp;</div>
-      <div class="col x-col">{{closingbal | number : '1.2-2'}}</div>
+      <div class="col x-col" *ngIf="(closingbal >= 0)">{{positiveLookingValue(closingbal) | number : '1.2-2'}}<span> Cr</span></div>
+      <div class="col x-col" *ngIf="!(closingbal >= 0)">{{positiveLookingValue(closingbal) | number : '1.2-2'}}<span> Dr</span></div>
+    </div>
+  </div>
+  <div class="x-data">
+    <div class="row x-stocktype" style="cursor:pointer" *ngIf="debitbal != 0 || creditbal != 0">
+      <div class="col x-col">Grand Total</div>
+      <div class="col x-col">&nbsp;</div>
+      <div class="col x-col">{{debitbal | number : '1.2-2'}}</div>
+      <div class="col x-col">{{creditbal | number : '1.2-2'}}</div>
+      <div class="col x-col">&nbsp;</div>
+     
     </div>
   </div>
   </div>
