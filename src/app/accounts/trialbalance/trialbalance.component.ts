@@ -747,9 +747,9 @@ export class TrialbalanceComponent implements OnInit {
       //   });
       // });
     });
-    liabilitiesJson.push({ Ledger: 'Profit & Loss A/c', OpeningBalance:  (this.openingbal +' '+((this.openingbal >=0)?'Cr':'Dr')) , amountdr: '', amountcr: '', amount:  (this.closingbal +' '+ ((this.closingbal >=0)?'Cr':'Dr' ))});
+    liabilitiesJson.push({ Ledger: 'Profit & Loss A/c', OpeningBalance:  (Math.abs(this.openingbal) +' '+((this.openingbal >=0)?'Cr':'Dr')) , amountdr: '', amountcr: '', amount:  (Math.abs(this.closingbal) +' '+ ((this.closingbal >=0)?'Cr':'Dr' ))});
 
-    liabilitiesJson.push({ Ledger: 'Grand Total', OpeningBalance: '' , amountdr: this.debitbal, amountcr: this.creditbal, amount:  ''  });
+    liabilitiesJson.push({ Ledger: 'Grand Total', OpeningBalance: '' , amountdr: Math.abs(this.debitbal), amountcr: Math.abs(this.creditbal), amount:  ''  });
 
    // liabilitiesJson.push(Object.assign({}, { "": 'MG = Main Group ,SG = Sub Group, L = Ledger' }))
 
