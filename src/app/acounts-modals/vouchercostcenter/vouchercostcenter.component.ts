@@ -57,7 +57,7 @@ export class VouchercostcenterComponent implements OnInit {
       console.log('first active id', this.lastActiveId);
     }, 1000);
 
-
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
 
   ngOnInit() {

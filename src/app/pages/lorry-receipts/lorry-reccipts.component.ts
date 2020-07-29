@@ -187,7 +187,7 @@ export class LorryRecciptsComponent implements OnInit {
     let headings = {
       // LRId: { title: 'LR Id', placeholder: 'LR Id' },
       LRNo: { title: 'LR No', placeholder: 'LR No' },
-      LRDate: { title: 'LR Date', placeholder: 'LR Date' },
+      LRDate: { title: 'LR Date', placeholder: 'LR Date', type : 'date' },
       VehiceNo: { title: 'Vehicle No', placeholder: 'Vehicle No' },
       Consigner: { title: 'Consigner', placeholder: 'Consigner' },
       Consignee: { title: 'Consignee', placeholder: 'Consignee' },
@@ -195,7 +195,7 @@ export class LorryRecciptsComponent implements OnInit {
       Supplier: { title: 'Supplier', placeholder: 'Supplier' },
       Source: { title: 'Source', placeholder: 'Source' },
       Destination: { title: 'Destination', placeholder: 'Destination' },
-      AddTime: { title: 'AddTime', placeholder: 'AddTime' },
+      AddTime: { title: 'AddTime', placeholder: 'AddTime', type: 'date' },
       Revenue: { title: 'Revenue', placeholder: 'Revenue' },
       Expense: { title: 'Expense', placeholder: 'Expense' },
       LRImage: { title: 'LRImage', placeholder: 'LRImage' },

@@ -3,7 +3,7 @@
     <h4>Ledger Mapping</h4>
   </nb-card-header> -->
   <nb-card-body>
-    <table class="table table-bordered m-0" id="table">
+    <table class="table table-bordered ml-0 mr-0 mt-4" id="table">
   <thead style="background-color:#263238; color:#fff;">
     <tr>
       <th>S.No</th>
@@ -19,8 +19,8 @@
     <td>{{i + 1}}</td>
     <td>{{dataItem.parent_groupname}}</td>
     <td>{{dataItem.groupname}}</td>
-    <td> <input type="number"  class="form-control inn"  [name]="order + '-' + i" [(ngModel)]="orderno[i]"></td>
-    <td> <input type="number"  class="form-control inn"  [name]="trial + '-' + i" [(ngModel)]="trailordr[i]"></td>
+    <td> <input type="number"  class="form-control inn ref-input"  [name]="order + '-' + i" [(ngModel)]="orderno[i]"></td>
+    <td> <input type="number"  class="form-control inn ref-input"  [name]="trial + '-' + i" [(ngModel)]="trailordr[i]"></td>
     <td><input type="checkbox" class="form-control inn" [name] = "isasset + '-' + i" [(ngModel)]="isset[i]">
       <button class="form-control inn cngval" (click)="changevalue(dataItem.id,orderno[i],isset[i],trailordr[i])">Submit</button></td>
     

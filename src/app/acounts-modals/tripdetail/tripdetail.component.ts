@@ -138,7 +138,7 @@ this.vouchertype=this.common.params.VoucherData[0]['y_vouchertype_id'];
       this.VoucherData = this.common.params.VoucherData;
     }
 
-    this.common.handleModalSize('class', 'modal-lg', '1150');
+    this.common.handleModalSize('class', 'modal-lg', '1250');
     this.getcreditLedgers('credit');
     this.getDriveLedgers('credit');
 

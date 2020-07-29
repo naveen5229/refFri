@@ -44,7 +44,7 @@ export class ProfitlossComponent implements OnInit {
       enddate: this.common.params.enddate,
       startdate: this.common.params.startdate,
     };
-    this.common.handleModalSize('class', 'modal-lg', '1150');
+    this.common.handleModalSize('class', 'modal-lg', '1250');
     this.getBalanceSheet();
   }
 

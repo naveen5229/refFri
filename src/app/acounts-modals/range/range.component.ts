@@ -24,7 +24,7 @@ export class RangeComponent implements OnInit {
     public modalService: NgbModal,
     public accountService: AccountService,
     private activeModal: NgbActiveModal,) { 
-    this.common.handleModalSize('class', 'modal-lg', '650','px',0);
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
     this.setFoucus('voucher-date-f2');
     }
 

@@ -130,6 +130,7 @@ console.log('store request ',this.common.params);
       this.getStockRequestionForIssue(this.common.params.stockQuestionId, this.common.params.stockQuestionBranchid, this.common.params.storeRequestId);
     }
     this.setFoucus('code');
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
 
   ngOnInit() {
