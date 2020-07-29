@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, ChangeDetectionStrategy, Input, Output, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../services/common.service';
+import { type } from 'os';
 
 @Component({
   selector: 'smart-table',
@@ -11,6 +12,8 @@ export class SmartTableComponent implements OnInit {
   @Input() data: any;
   @Input() settings: any;
   @Output() action = new EventEmitter();
+  @Output() filtered = new EventEmitter();
+  @Input() returnFilteredData: boolean = false;
   objectKeys = Object.keys;
   headings = null;
   columns = [];
@@ -115,6 +118,9 @@ export class SmartTableComponent implements OnInit {
       if (search.includes('>') || search.includes('<') || search.includes('!')) {
         if (search.includes('>')) this.sortColumn(key, 'asc')
         else this.sortColumn(key, 'desc')
+      } else {
+        if (this.returnFilteredData)
+          this.filtered.emit(this.columns);
       }
       this.cdr.detectChanges();
     }, this.data.columns.length > 150 ? 500 : 300);
@@ -156,8 +162,12 @@ export class SmartTableComponent implements OnInit {
         let secondValue = b[key].value ? parseFloat(b[key].value.replace(':', '.')) : 0;
         return firstValue - secondValue;
       } else if (!counts.number) {
-        let firstValue = a[key].value ? a[key].value.toLowerCase() : '';
-        let secondValue = b[key].value ? b[key].value.toLowerCase() : '';
+        let firstValue = '';
+        let secondValue = ''
+        if (typeof a[key].value === 'string') {
+          firstValue = a[key].value ? a[key].value.toLowerCase() : '';
+          secondValue = b[key].value ? b[key].value.toLowerCase() : '';
+        }
         if (firstValue < secondValue) //sort string ascending
           return -1
         if (firstValue > secondValue)
@@ -170,6 +180,8 @@ export class SmartTableComponent implements OnInit {
 
     if (sortType == 'desc' || this.sortType == 'desc') this.columns.reverse();
     this.sortType = this.sortType == 'desc' ? 'asc' : 'desc';
+    if (this.returnFilteredData)
+      this.filtered.emit(this.columns);
   }
 
   handleRowClick(column, index) {

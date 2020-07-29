@@ -5,17 +5,18 @@
         <h5>Trip Issues</h5>
       </div>
       <div class="col-6" style="text-align: right;">
-        <span>Autoplay <button class="btn btn-primary" (click)="autoPlay='forward'" style="margin-left: 15px;">Forward</button>
-          <button class="btn btn-primary" (click)="autoPlay='backward'" style="margin-left: 15px;">Backward</button>
+        <span>Autoplay
+          <button class="btn btn-primary" [ngClass]="{active: autoPlay == 'forward'}" (click)="autoPlay='forward'" style="margin-left: 15px;">Forward</button>
+          <button class="btn btn-primary" [ngClass]="{active: autoPlay == 'backward'}" (click)="autoPlay='backward'" style="margin-left: 15px;">Backward</button>
         </span>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body style="padding:10px 15px;">
-    
+
     <smart-table *ngIf="VehicleStatusAlerts && VehicleStatusAlerts.length" id="VehicleStatusAlerts" [data]="table.data"
-    [settings]="table.settings">
-</smart-table>
+      [settings]="table.settings" [returnFilteredData]="true" (filtered)="jrxFiltered($event)">
+    </smart-table>
     <div class="no-data" *ngIf="!VehicleStatusAlerts.length">
       No Data available !
     </div>
