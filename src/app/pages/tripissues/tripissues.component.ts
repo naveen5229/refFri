@@ -179,7 +179,7 @@ modalOpens(index){
         //  this.getVehicleStatusAlerts();
         // this.exitTicket(VehicleStatusData);
       });
-    }
+   }
     
   }
 
