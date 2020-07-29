@@ -165,6 +165,9 @@ export class DriverCallSuggestionComponent implements OnInit {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
             let hdgobj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            if (key === 'Trip Start Time') {
+              hdgobj['type'] = 'date';
+            }
             this.table.data.headings[key] = hdgobj;
           }
         }
@@ -327,6 +330,9 @@ export class DriverCallSuggestionComponent implements OnInit {
         if (key.charAt(0) != "_") {
           this.headings.push(key);
           let headerObj = { title: key, placeholder: this.formatTitle(key) };
+          if (key === 'ETOA' || key==='Start Time' || key==='Target Time') {
+            headerObj['type'] = 'date';
+          }
           this.table2.data.headings[key] = headerObj;
         }
 
