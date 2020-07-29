@@ -42,7 +42,7 @@
                 <tbody>
                   <tr *ngFor="let amountDetail of voucher.amountDetails; let i = index;" style="background: #e4e4e4;">
                     <td>
-                      <select class="form-control" [id]="'transaction-type-' + i" [name]="'transaction-type-' + i"
+                      <select class="form-control ref-input" [id]="'transaction-type-' + i" [name]="'transaction-type-' + i"
                         [(ngModel)]="amountDetail.transactionType" style="padding: 4px 8px;height:auto;"
                         (change)="calculateTotal()" (click)="lastActiveId = 'transaction-type-' + i">
                         <option value="debit">Debit</option>
@@ -53,7 +53,7 @@
                       <!-- <auto-suggestion (onSelected)="amountDetail.ledger = $event.y_ledger_id"
                       [url]="'Suggestion/GetLedger?transactionType=' + amountDetail.transactionType +'&voucherId=' + voucherId"
                       display="y_ledger_name" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
-                      <input type="text" class="form-control" [id]="'ledger-' + i" [name]="'ledger-' + i"
+                      <input type="text" class="form-control ref-input" [id]="'ledger-' + i" [name]="'ledger-' + i"
                         [(ngModel)]="amountDetail.ledger.name" autocomplete="off"
                         (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;"
                         (input)="allowBackspace = false;">
@@ -65,7 +65,7 @@
                         {{ ledgerbalance[i] }}</span>
                     </td>
                     <td>
-                      <input type="number" class="form-control" [id]="'amount-' + i" [name]="'amount-' + i"
+                      <input type="number" class="form-control ref-input" [id]="'amount-' + i" [name]="'amount-' + i"
                         (click)="lastActiveId = 'amount-' + i" (input)="calculateTotal(i); allowBackspace = false;"
                         autocomplete="off" [(ngModel)]="amountDetail.amount">
                       <!-- <span

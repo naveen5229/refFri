@@ -30,6 +30,7 @@ export class StockTypeComponent implements OnInit {
       this.stockType.isservice = this.common.params.is_service;
 
     }
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
 
   ngOnInit() {

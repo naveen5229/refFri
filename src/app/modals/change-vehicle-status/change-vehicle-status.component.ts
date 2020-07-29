@@ -25,10 +25,10 @@ declare let google: any;
 })
 
 export class ChangeVehicleStatusComponent implements OnInit {
+  @ViewChild('map1') mapElement: ElementRef;
   panelOpenState = false;
   title = '';
   map: any;
-  @ViewChild('map1') mapElement: ElementRef;
   location = {
     lat: 26.9124336,
     lng: 75.78727090000007,
@@ -62,8 +62,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   hsId: any;
   tripId: null;
   zoomLevel = 19;
-  constructor(
-    public modalService: NgbModal,
+  constructor(public modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
     private activeModal: NgbActiveModal) {
@@ -78,16 +77,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1600', 'px', 1);
     this.getLastIndDetails();
     this.getEvents();
-    //this.getLoadingUnLoading();
   }
 
   ngOnInit() {
   }
   ngAfterViewInit() {
-    // this.location = this.common.params['location'];
     this.loadMap(this.location.lat, this.location.lng);
-    // this.createCirclesOnPostion(new google.maps.LatLng(26.9124, 75.7873), 10000,'#00ff00');
-
   }
 
   loadMap(lat = 26.9124336, lng = 75.78727090000007) {
@@ -176,7 +171,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let status = this.VehicleStatusData.status ? this.VehicleStatusData.status : 10;
     this.dataType = 'events';
     //this.VehicleStatusData.latch_time = '2019-02-14 13:19:13';
-    this.common.loading++;
+    this.VehicleStatusData.loader && this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&fromTime=" + this.common.dateFormatter(this.VehicleStatusData.latch_time) +
       "&toTime=" + this.common.dateFormatter(this.toTime) +
@@ -184,7 +179,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       "&tripId=" + this.tripId;
     this.api.get('HaltOperations/getHaltHistoryV2?' + params)
       .subscribe(res => {
-        this.common.loading--;
+        this.VehicleStatusData.loader && this.common.loading--;
         this.vehicleEvents = res['data'];
         this.clearAllMarkers();
         this.createMarkers(res['data']);
@@ -228,7 +223,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
         }
 
       }, err => {
-        this.common.loading--;
+        this.VehicleStatusData.loader && this.common.loading--;
         this.common.showError(err);
       })
   }
@@ -437,18 +432,18 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   getLastIndDetails() {
-    this.common.loading++;
+    this.VehicleStatusData.loader && this.common.loading++;
     let params = "vehId=" + this.VehicleStatusData.vehicle_id;
     this.api.get('HaltOperations/lastIndustryDetails?' + params)
       .subscribe(res => {
-        this.common.loading--;
+        this.VehicleStatusData.loader && this.common.loading--;
         this.lastIndDetails = res['data'][0];
         if (this.lastIndDetails) {
           this.calculateDistanceAndTime(this.lastIndDetails, this.VehicleStatusData.latch_lat, this.VehicleStatusData.latch_long, this.common.dateFormatter(this.VehicleStatusData.latch_time));
           this.lastIndType = this.lastIndDetails.li_type;
         }
       }, err => {
-        this.common.loading--;
+        this.VehicleStatusData.loader && this.common.loading--;
       });
   }
 
@@ -600,40 +595,40 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   openSmartTool(i, vehicleEvent) {
     vehicleEvent.isOpen = !vehicleEvent.isOpen;
-    if(vehicleEvent.isOpen){
-    console.log('vehicle event', vehicleEvent);
-    if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null && vehicleEvent.haltTypeId != -1)
-      if (confirm("Merge with this Halt?")) {
-        // this.common.loading++;
-        let params = { ms_id: this.vSId, hs_id: vehicleEvent.haltId };
-        this.api.post('HaltOperations/mergeManualStates', params)
-          .subscribe(res => {
-            // this.common.loading--;
-            if (res['success']) {
-              this.reloadData();
-              this.common.showToast(res['msg']);
-            } else {
-              this.common.showError(res['msg']);
-              this.reloadData();
-            }
-          }, err => {
-            // this.common.loading--;
-            this.common.showError(err);
-          });
+    if (vehicleEvent.isOpen) {
+      console.log('vehicle event', vehicleEvent);
+      if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null && vehicleEvent.haltTypeId != -1)
+        if (confirm("Merge with this Halt?")) {
+          // this.common.loading++;
+          let params = { ms_id: this.vSId, hs_id: vehicleEvent.haltId };
+          this.api.post('HaltOperations/mergeManualStates', params)
+            .subscribe(res => {
+              // this.common.loading--;
+              if (res['success']) {
+                this.reloadData();
+                this.common.showToast(res['msg']);
+              } else {
+                this.common.showError(res['msg']);
+                this.reloadData();
+              }
+            }, err => {
+              // this.common.loading--;
+              this.common.showError(err);
+            });
+        }
+      this.vSId = null;
+      this.isChecks = {};
+      if (!this.onlyDrag) {
+        this.vehicleEvents.forEach(vEvent => {
+          if (vEvent != vehicleEvent)
+            vEvent.isOpen = false;
+        });
+        // vehicleEvent.isOpen = !vehicleEvent.isOpen;
+        this.zoomFunctionality(i, vehicleEvent);
+        this.getSites();
       }
-    this.vSId = null;
-    this.isChecks = {};
-    if (!this.onlyDrag) {
-      this.vehicleEvents.forEach(vEvent => {
-        if (vEvent != vehicleEvent)
-          vEvent.isOpen = false;
-      });
-      // vehicleEvent.isOpen = !vehicleEvent.isOpen;
-      this.zoomFunctionality(i, vehicleEvent);
-      this.getSites();
+      this.onlyDrag = false;
     }
-    this.onlyDrag = false;
-  }
   }
   drop(event: CdkDragDrop<string[]>) {
     //moveItemInArray(this.vehicleEvents, event.previousIndex, event.currentIndex);
@@ -765,10 +760,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   reportIssue(vehicleEvent) {
     this.common.params = { refPage: 'vsc' };
-    let clusterData = vehicleEvent.clusterInfo ?  vehicleEvent.clusterInfo['data'] : null;
-    let refId = vehicleEvent.haltId ? vehicleEvent.haltId :vehicleEvent.vs_id;
+    let clusterData = vehicleEvent.clusterInfo ? vehicleEvent.clusterInfo['data'] : null;
+    let refId = vehicleEvent.haltId ? vehicleEvent.haltId : vehicleEvent.vs_id;
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
-    activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId,clusterData));
+    activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId, clusterData));
   }
 
   dataRefresh() {
@@ -1112,9 +1107,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
       });
   }
-clusters = [];
+  clusters = [];
   getClusteres(vehicleEvent) {
-    this.clusters.forEach(e=>{
+    this.clusters.forEach(e => {
       e.setMap(null);
     })
     this.clusters = [];
@@ -1128,33 +1123,33 @@ clusters = [];
         res['data'].forEach((ele, index) => {
           this.vehicleEvents.map(ve => {
             let distance = this.common.distanceFromAToB(ve.lat, ve.long, ele.lat, ele.long, 'Mt');
-            console.log("index,distance,ele.radius",index,distance,ele.radius);
+            console.log("index,distance,ele.radius", index, distance, ele.radius);
             if (distance < ele.radius && !ve['clusterInfo']) {
               ve['clusterInfo'] = {
-                index : index+1,
-                data : ele
+                index: index + 1,
+                data: ele
               }
-            } 
+            }
 
           });
           this.clusters.push(this.createCirclesOnPostion(new google.maps.LatLng(ele.lat, ele.long), ele.radius, ele.strokeColor, ele.fillColor, ele.fillOpacity, ele.strokeOpacity));
-          console.log('vehicleevents',this.vehicleEvents)
-        
+          console.log('vehicleevents', this.vehicleEvents)
+
         }
         );
-        
+
       }, err => {
         this.common.loading--;
         this.common.showError(err);
       })
   }
-resetClusterInfo(){
-  this.vehicleEvents.map(ve => {
-    if ( ve['clusterInfo']) {
-      ve['clusterInfo'] = false;
-    } 
-});
-}
+  resetClusterInfo() {
+    this.vehicleEvents.map(ve => {
+      if (ve['clusterInfo']) {
+        ve['clusterInfo'] = false;
+      }
+    });
+  }
 
 
   details(vehicleEvent) {

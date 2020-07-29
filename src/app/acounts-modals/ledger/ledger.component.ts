@@ -448,7 +448,7 @@ console.log('sixe ledger',this.sizeledger);
         console.log('Error: ', err);
         this.common.showError();
       });
-
+      this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
   ngOnInit() {
 

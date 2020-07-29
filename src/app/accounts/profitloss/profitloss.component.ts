@@ -612,26 +612,15 @@ export class ProfitlossComponent implements OnInit {
   generateCsvData() {
     let liabilitiesJson = [];
     liabilitiesJson.push(Object.assign({liability:"Particulars",liabilityAmount:'Amount'}));
-    this.liabilities.forEach(liability => {
-      liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
-      liability.subGroups.forEach(subGroup => {
-        liabilitiesJson.push({ liability: '(SG)'+subGroup.name, liabilityAmount: subGroup.total });
-        subGroup.profitLossData.forEach(balanceSheet => {
-          liabilitiesJson.push({ liability: '(L)'+balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
-        });
-      });
+    this.assets.forEach(liabilitydata => {
+      liabilitiesJson.push({ liability: liabilitydata.name, liabilityAmount: liabilitydata.amount });
     });
 
     let assetsJson = [];
     assetsJson.push(Object.assign({asset:"Particulars",assetAmount:'Amount'}));
-    this.assets.forEach(asset => {
-      assetsJson.push({ asset: '(MG)'+asset.name, assetAmount: asset.amount });
-      asset.subGroups.forEach(subGroup => {
-        assetsJson.push({ asset: '(SG)'+subGroup.name, assetAmount: subGroup.total });
-        subGroup.profitLossData.forEach(balanceSheet => {
-          assetsJson.push({ asset:'(L)'+ balanceSheet.y_ledger_name, assetAmount: balanceSheet.y_amount });
-        });
-      });
+    this.liabilities.forEach(assetdata => {
+      assetsJson.push({ asset: assetdata.name, assetAmount: assetdata.amount });
+      
     });
     let mergedArray = [];
     for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
@@ -644,11 +633,10 @@ export class ProfitlossComponent implements OnInit {
       }
     }
     mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
-    mergedArray.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
+   // mergedArray.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
 
-
-    this.csvService.jsonToExcel(mergedArray);
     console.log('Merged:', mergedArray);
+    this.csvService.jsonToExcel(mergedArray);
   }
 
   changeViewType() {
