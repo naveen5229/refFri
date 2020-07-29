@@ -1,3 +1,9 @@
-:host ::ng-deep .selected{
+:host ::ng-deep .selected {
     background-color: yellow !important;
+}
+.active {
+    background: #40dc7e !important;
+}
+.active:hover {
+    background: #40dc7e !important;
 }
