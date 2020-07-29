@@ -12,7 +12,7 @@
           <div class="row">
         <div class="col-6">
           <div class="form-group">
-            <label>Country</label>
+            <label class="tjr-label">Country</label>
 
             <input autocomplete="off" type="text" id="select-state" class="form-control tjr-input" name="state"
               [(ngModel)]="data.state.name">
@@ -20,8 +20,8 @@
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label>State Name</label>
-            <input autocomplete="off" type="text" class="form-control" name="city" id="city"
+            <label class="tjr-label">State Name</label>
+            <input autocomplete="off" type="text" class="form-control tjr-input" name="city" id="city"
               [(ngModel)]="data.city">
           </div>
         </div>
@@ -29,15 +29,15 @@
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <label>Code</label>
-                <input autocomplete="off" type="text" class="form-control" name="pincode" id="pincode"
+                <label class="tjr-label">Code</label>
+                <input autocomplete="off" type="text" class="form-control tjr-input" name="pincode" id="pincode"
                   [(ngModel)]="data.pincode" minlength="6" maxlength="6">
               </div>
             </div>
-            <div class="col-3">
+            <div class="col-6">
               <div class="form-group">
-                <label>Gst Code</label>
-                <input autocomplete="off" type="text" class="form-control" name="gstcode" id="gstcode"
+                <label class="tjr-label">Gst Code</label>
+                <input autocomplete="off" type="text" class="form-control tjr-input" name="gstcode" id="gstcode"
                   [(ngModel)]="data.gstcode" minlength="6" maxlength="6">
               </div>
             </div>
