@@ -97,6 +97,7 @@ import { TripissuesComponent } from './tripissues/tripissues.component';
 import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
 import { SupervisorUserAssociationComponent } from './supervisor-user-association/supervisor-user-association.component';
 import { TripsComponent } from './trips/trips.component';
+import { IssuesReportComponent } from './issues-report/issues-report.component';
 
 
 const routes: Routes = [{
@@ -125,6 +126,11 @@ const routes: Routes = [{
 {
   path: 'tripissues',
   component: TripissuesComponent ,
+  canActivate: [AuthGuard, RouteGuard],
+},
+{
+  path: 'issues-report',
+  component: IssuesReportComponent ,
   canActivate: [AuthGuard, RouteGuard],
 },
   {

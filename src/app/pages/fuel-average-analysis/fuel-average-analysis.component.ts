@@ -114,8 +114,8 @@ export class FuelAverageAnalysisComponent implements OnInit {
   setTable() {
     let headings = {
       vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
-      startDate: { title: 'Start Date', placeholder: 'Start Date' },
-      endDate: { title: 'End Date', placeholder: 'End Date' },
+      startDate: { title: 'Start Date', placeholder: 'Start Date', type:'date' },
+      endDate: { title: 'End Date', placeholder: 'End Date' , type:'date' },
       liters: { title: 'Liters', placeholder: 'Liters' },
       amount: { title: 'Amounts', placeholder: 'Amounts' },
       average: { title: 'Average', placeholder: 'Average' },
