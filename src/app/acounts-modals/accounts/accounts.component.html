@@ -12,7 +12,7 @@
   
     <div class="col-4">
       <div class="form-group">
-        <label>Parent Account Name</label>
+        <label class="tjr-label">Parent Account Name</label>
         <!-- <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount" display="name"
         inputId="account" name="account" placeholder="Search Parent Account" [preSelected]="{name:Accounts.account.name}"></auto-suggestion> -->
         <input autocomplete="off" type="text" id="account" class="form-control tjr-input" name="account"
@@ -21,8 +21,8 @@
     </div>
     <div class="col-4">
       <div class="form-group">
-        <label>Name</label>
-        <input autocomplete="off" type="text" class="form-control" name="account-name" id="name" [(ngModel)]="Accounts.name">
+        <label class="tjr-label">Name</label>
+        <input autocomplete="off" type="text" class="form-control tjr-input" name="account-name" id="name" [(ngModel)]="Accounts.name">
       </div>
     </div>
     <div class="col-4">

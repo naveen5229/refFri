@@ -25,7 +25,7 @@ export class StockSummaryComponent  implements OnInit {
       console.log('detail params',this.common.params); 
 
     this.getDetailList();
-    this.common.handleModalSize('class', 'modal-lg', '1150');
+    this.common.handleModalSize('class', 'modal-lg', '1250');
  
   }
   ngOnInit() {

@@ -57,6 +57,7 @@ export class AddStateComponent implements OnInit {
       }
       console.log('data: ', this.data);
     }
+    this.common.handleModalSize('class', 'modal-lg', '1250');
   }
 
   ngOnInit() {

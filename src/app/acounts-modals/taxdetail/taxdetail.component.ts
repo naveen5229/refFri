@@ -42,8 +42,8 @@ export class TaxdetailComponent implements OnInit {
     this.getPurchaseLedgers();
     console.log('tax detail ',this.common.params,this.common.params.taxDetail.length);
     this.amount = this.common.params.amount;
-    if(this.common.params.sizelandex) {
-      this.sizeIndex = this.common.params.sizelandex;
+    if(this.common.params.sizeIndex) {
+      this.sizeIndex = this.common.params.sizeIndex;
     }
     if(this.common.params && this.common.params.taxDetail.length){
       this.taxdetails = this.common.params.taxDetail;

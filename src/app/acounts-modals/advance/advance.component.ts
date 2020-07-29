@@ -44,7 +44,7 @@ export class AdvanceComponent  implements OnInit {
       }
       console.log('Accounts 11: ', this.Accounts);
     }
-    this.common.handleModalSize('class', 'modal-lg', '750');
+    this.common.handleModalSize('class', 'modal-lg', '1250');
   }
 
   ngOnInit() {

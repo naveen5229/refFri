@@ -292,6 +292,8 @@ export class ServiceComponent implements OnInit {
       if (this.params.isModal) {
         this.isModal = true
       }
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
+
     }
    // this.changeWithType();
   }
