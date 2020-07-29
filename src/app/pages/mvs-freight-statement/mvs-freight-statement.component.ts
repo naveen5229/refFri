@@ -81,6 +81,9 @@ export class MvsFreightStatementComponent implements OnInit {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            if (key === 'Invoice Date') {
+              headerObj['type'] = 'date';
+            }
             this.table.data.headings[key] = headerObj;
           }
         }

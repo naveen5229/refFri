@@ -84,9 +84,9 @@ export class LrPodReceiptsComponent implements OnInit {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            // if (key === 'Date' || key==='Entred At') {
-            //   headerObj['type'] = 'date';
-            // }
+            if (key === 'LR Date' || key==='POD Date') {
+              headerObj['type'] = 'date';
+            }
             this.table.data.headings[key] = headerObj;
           }
         }
