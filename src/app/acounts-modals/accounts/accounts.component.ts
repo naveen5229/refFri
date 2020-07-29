@@ -56,7 +56,7 @@ console.log('accounts get data',this.common.params);
       this.pagename='Edit Secondary Account';
     }
     this.getAccountData();
-    
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
   }
 
   ngOnInit() {

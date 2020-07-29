@@ -40,3 +40,6 @@
     left: 50%;
     transform: translate(-50%);
 }
+:host ::ng-deep .selected{
+    background-color: yellow !important;
+}

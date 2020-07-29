@@ -420,7 +420,7 @@ nb-card-header{
   font-weight: bold;
   border-radius: 15px;
   letter-spacing: 1px;
- 
+ margin-bottom: 0!important;
 }
 .btnservice{
   font-size: 12px!important;
@@ -434,7 +434,7 @@ nb-card-header{
   font-size: 10px !important;
 }
 .middlearea{
-  height: calc(100vh - 295px);
+  height: calc(100vh - 268px);
   overflow: auto;
   border: 1px solid #cacecd;
   margin-left: 15px;
@@ -454,6 +454,7 @@ background-color: #3e4e56 !important;
 }
 .modal-footer {
   border-top: 1px solid #26323800;
+  padding: 0!important;
 }
 .add_tax_tabel tbody::-webkit-scrollbar-thumb, .invoice_tabel tbody::-webkit-scrollbar-thumb{
   background-color: #888c8e !important;

@@ -91,37 +91,38 @@ export class TripVerificationComponent implements OnInit {
         //this.table = this.setTable();
         if (this.vehicleTrips != null) {
           console.log('vehicleTrips', this.vehicleTrips);
-          let first_rec = this.vehicleTrips[0];
-          console.log("first_Rec", first_rec);
+          this.gettingTableHeader(this.vehicleTrips);
+          // let first_rec = this.vehicleTrips[0];
+          // console.log("first_Rec", first_rec);
 
-          for (var key in first_rec) {
+          // for (var key in first_rec) {
 
-            if (key.charAt(0) != "_") {
-              this.headings.push(key);
-              let headerObj = { title: key, placeholder: this.formatTitle(key) };
-              this.table.data.headings[key] = headerObj;
-            }
+          //   if (key.charAt(0) != "_") {
+          //     this.headings.push(key);
+          //     let headerObj = { title: key, placeholder: this.formatTitle(key) };
+          //     this.table.data.headings[key] = headerObj;
+          //   }
 
-          }
-          let km = { title: 'KM', placeholder: 'KM' };
-          this.table.data.headings['km'] = km;
-          let googlekm = { title: 'Google KM', placeholder: 'Google KM' };
-          this.table.data.headings['googlekm'] = googlekm;
-          let hiskm = { title: 'Historic KM (Avg)', placeholder: 'Historic KM (Avg)' };
-          this.table.data.headings['hiskm'] = hiskm;
-          if (this.status == -2) {
-            let status = { title: 'Status', placeholder: 'Status' };
-            this.table.data.headings['status'] = status;
-            let remark = { title: 'Remark', placeholder: 'Remark' };
-            this.table.data.headings['remark'] = remark;
-          }
-          let action = { title: 'Action', placeholder: 'Action' };
-          this.table.data.headings['action'] = action;
+          // }
+          // let km = { title: 'KM', placeholder: 'KM' };
+          // this.table.data.headings['km'] = km;
+          // let googlekm = { title: 'Google KM', placeholder: 'Google KM' };
+          // this.table.data.headings['googlekm'] = googlekm;
+          // let hiskm = { title: 'Historic KM (Avg)', placeholder: 'Historic KM (Avg)' };
+          // this.table.data.headings['hiskm'] = hiskm;
+          // if (this.status == -2) {
+          //   let status = { title: 'Status', placeholder: 'Status' };
+          //   this.table.data.headings['status'] = status;
+          //   let remark = { title: 'Remark', placeholder: 'Remark' };
+          //   this.table.data.headings['remark'] = remark;
+          // }
+          // let action = { title: 'Action', placeholder: 'Action' };
+          // this.table.data.headings['action'] = action;
 
 
-          this.table.data.columns = this.getTableColumns();
-          console.log("table:");
-          console.log(this.table);
+          // this.table.data.columns = this.getTableColumns();
+          // console.log("table:");
+          // console.log(this.table);
         } else {
           this.common.showToast('No Record Found !!');
         }
@@ -130,6 +131,49 @@ export class TripVerificationComponent implements OnInit {
 
         console.log('Err:', err);
       });
+  }
+
+  gettingTableHeader(tableData) {
+
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true,
+        pagination:true
+      }
+    };
+
+    let first_rec = tableData[0];
+    for (var key in first_rec) {
+      if (key.charAt(0) != "_") {
+        this.headings.push(key);
+        let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+        this.table.data.headings[key] = headerObj;
+      }
+    }
+    let km = { title: 'KM', placeholder: 'KM' };
+    this.table.data.headings['km'] = km;
+    let googlekm = { title: 'Google KM', placeholder: 'Google KM' };
+    this.table.data.headings['googlekm'] = googlekm;
+    let hiskm = { title: 'Historic KM (Avg)', placeholder: 'Historic KM (Avg)' };
+    this.table.data.headings['hiskm'] = hiskm;
+    if (this.status == -2) {
+      let status = { title: 'Status', placeholder: 'Status' };
+      this.table.data.headings['status'] = status;
+      let remark = { title: 'Remark', placeholder: 'Remark' };
+      this.table.data.headings['remark'] = remark;
+    }
+    let action = { title: 'Action', placeholder: 'Action' };
+    this.table.data.headings['action'] = action;
+
+
+    this.table.data.columns = this.getTableColumns();
+   
+
+    this.table.data.columns = this.getTableColumns();
   }
 
   formatTitle(strval) {
@@ -143,8 +187,12 @@ export class TripVerificationComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
+      
     for (var i = 0; i < this.vehicleTrips.length; i++) {
       this.valobj = {};
+      this.valobj = {
+        class:'xyz'
+      };
       for (let j = 0; j < this.headings.length; j++) {
 
         if (this.headings[j] == "Trip") {
@@ -171,13 +219,16 @@ export class TripVerificationComponent implements OnInit {
 
         this.valobj['action'] = {
           value: '', isHTML: true, action: null,
-          icons: this.actionIcons(this.vehicleTrips[i])
+          icons: this.actionIcons(this.vehicleTrips[i],i)
         }
 
 
 
       }
-      this.valobj['style'] = { background: this.vehicleTrips[i]._rowcolor };
+      if(this.vehicleTrips[i]['_class']){
+        console.log('seleed');
+        this.valobj['class']="selected";
+      }
       columns.push(this.valobj);
     }
 
@@ -185,10 +236,10 @@ export class TripVerificationComponent implements OnInit {
     return columns;
   }
 
-  actionIcons(trip) {
+  actionIcons(trip,index) {
     let icons = [
 
-      { class: 'fa fa-chart-pie change-status', action: this.openChangeStatusModal.bind(this, trip) },
+      { class: 'fa fa-chart-pie change-status', action: this.openChangeStatusModal.bind(this, trip,index) },
 
     ];
 
@@ -200,7 +251,11 @@ export class TripVerificationComponent implements OnInit {
   }
 
 
-  openChangeStatusModal(trip) {
+  openChangeStatusModal(trip,index) {
+    this.vehicleTrips[index]['_class']='selected';
+    console.log("this.VehicleStatusAlerts[index]['_class']",this.vehicleTrips[index]);
+
+    this.gettingTableHeader(this.vehicleTrips);
     console.log("trip====", trip);
     let today, startday, fromDate;
     today = new Date();
@@ -223,10 +278,11 @@ export class TripVerificationComponent implements OnInit {
     this.common.params = VehicleStatusData;
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
-      this.getVehicleTrips();
+      // this.getVehicleTrips();
     });
 
   }
+
 
 
 }

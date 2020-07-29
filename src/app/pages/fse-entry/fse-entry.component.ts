@@ -25,7 +25,7 @@ export class FSEEntryComponent implements OnInit {
   setTable() {
     let headings = {
       regno: { title: 'regno', placeholder: 'regno' },
-      entry_time: { title: 'Entry Time', placeholder: 'Entry Time' },
+      entry_time: { title: 'Entry Time', placeholder: 'Entry Time',type:'date' },
       fuel_station: { title: 'fuel Station', placeholder: 'fuel Station' },
       location: { title: 'location', placeholder: 'location' },
       site_name: { title: 'site name', placeholder: 'site name' },
@@ -34,7 +34,7 @@ export class FSEEntryComponent implements OnInit {
       amount: { title: 'amount', placeholder: 'amount' },
       is_full: { title: 'is_full', placeholder: 'is_full' },
       fse_id: { title: 'fse_id', placeholder: 'fse_id' },
-     addtime: { title: 'addtime', placeholder: 'addtime' },
+     addtime: { title: 'addtime', placeholder: 'addtime',type:'date' },
        
     };
     return {

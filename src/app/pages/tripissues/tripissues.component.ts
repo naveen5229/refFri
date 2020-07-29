@@ -22,32 +22,36 @@ export class TripissuesComponent implements OnInit {
     },
     settings: {
       hideHeader: true,
-      pagination:true
+      pagination: true
     }
   };
-  VehicleStatusAlerts =[];
+  VehicleStatusAlerts = [];
+  filteredIndexes = [];
+  firstModal: any;
+  secondModal: any;
+  activeIndex: number = -1;
+  modalRef: any;
+
   constructor(
     public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
-    public user: UserService 
-  ) {
-
+    public user: UserService) {
     this.getVehicleStatusAlerts();
     this.common.refresh = this.refresh.bind(this);
-
-
   }
 
   ngOnInit() {
   }
 
   refresh() {
-    console.log('Refresh');
     this.getVehicleStatusAlerts();
   }
 
   getVehicleStatusAlerts() {
+    this.filteredIndexes = [];
+    this.modalRef = null;
+    this.activeIndex = -1;
     this.common.loading++;
     this.api.get('HaltOperations/getFoAdminWiseTripIssues?')
       .subscribe(res => {
@@ -63,7 +67,6 @@ export class TripissuesComponent implements OnInit {
   }
 
   gettingTableHeader(tableData) {
-
     this.table = {
       data: {
         headings: {},
@@ -71,7 +74,7 @@ export class TripissuesComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        pagination:true
+        pagination: true
       }
     };
 
@@ -92,95 +95,119 @@ export class TripissuesComponent implements OnInit {
   }
 
   getTableColumns(tableData) {
-    // this.headings.push('Action');
-    // this.table.data.headings['Action'] = { title: 'Action', placeholder: 'Action' };
     this.valobj = {};
     let columns = [];
-    tableData.map((tbldt,index) => {
+    tableData.map((tbldt, index) => {
       this.valobj = {
-        class:'xyz'
+        class: 'xyz',
+        index
       };
       for (let i = 0; i < this.headings.length; i++) {
         if (this.headings[i] == 'Action') {
           this.valobj[this.headings[i]] = {
             value: '', isHTML: true, action: null,
-            icons: this.actionIcons(tbldt,index)
+            icons: this.actionIcons(tbldt, index)
           }
-        } else if(this.headings[i] == 'Trip'){
+        } else if (this.headings[i] == 'Trip') {
           this.valobj[this.headings[i]] = {
             value: this.common.getTripStatusHTML(tbldt._trip_status_type, tbldt._showtripstart, tbldt._showtripend, tbldt._p_placement_type, tbldt._p_loc_name),
-           
             isHTML: true,
           }
-        }
-        else {
+        } else {
           this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'black', action: '' };
         }
       }
-      console.log("tbldt",tbldt);
-      if(tbldt['_class']){
-        console.log('seleed');
-        this.valobj['class']="selected";
+      if (tbldt['_class']) {
+        this.valobj['class'] = "selected";
       }
       columns.push(this.valobj);
     });
     return columns;
   }
 
-  actionIcons(data,index) {
-    let icons = [{ class: 'fa fa-cog delete',
-     action: this.openChangeStatusCustomerModal.bind(this, data,index)
-     }];
+  actionIcons(data, index) {
+    let icons = [{
+      class: 'fa fa-cog delete',
+      action: this.handleIconAction.bind(this, data, index)
+    }];
     return icons;
   }
- 
-modalOpens(index){
-  if(this.autoPlay=='forward' && index < this.VehicleStatusAlerts.length)
-    this.openChangeStatusCustomerModal(this.VehicleStatusAlerts[index+1],index+1)
-  else if(this.autoPlay=='backward' && index >= 0)
-  this.openChangeStatusCustomerModal(this.VehicleStatusAlerts[index-1],index-1)
-}
-  
 
-  openChangeStatusCustomerModal(vs,index) {
-    console.log('iiii',index);
-    this.VehicleStatusAlerts[index]['_class']='selected';
-    console.log("this.VehicleStatusAlerts[index]['_class']",this.VehicleStatusAlerts[index]['_class']);
-    this.gettingTableHeader(this.VehicleStatusAlerts);
-    let VehicleStatusData = {
-      vehicle_id : vs._vid,
-      latch_time : vs.latch_time,
-      toTime : vs.ttime,
-      suggest : 0,
-      status : 1,
-      fo_name : vs.group_name,
-      regno : vs.vehicle_name,
-      tripName : this.common.getTripStatusHTML(vs._trip_status_type, vs._showtripstart, vs._showtripend, vs._p_placement_type, vs._p_loc_name)     
+  handleIconAction(tripIssue, index) {
+    this.openChangeStatusCustomerModal(tripIssue, index);
+    this.modalOpens(index);
+  }
+
+  modalOpens(index) {
+    if (this.autoPlay == 'forward' && index < this.VehicleStatusAlerts.length) {
+      if (this.filteredIndexes.length) {
+        let nextIndex = this.filteredIndexes[this.filteredIndexes.indexOf(index) + 1];
+        console.log('nextInex', nextIndex);
+        if (nextIndex) {
+          this.openChangeStatusCustomerModal(this.VehicleStatusAlerts[nextIndex], nextIndex);
+        }
+      } else {
+        this.openChangeStatusCustomerModal(this.VehicleStatusAlerts[index + 1], index + 1);
+      }
+    } else if (this.autoPlay == 'backward' && index >= 0) {
+      if (this.filteredIndexes.length) {
+        let previousIndex = this.filteredIndexes[this.filteredIndexes.indexOf(index) - 1];
+        console.log('previousIndex', previousIndex);
+        if (previousIndex) {
+          this.openChangeStatusCustomerModal(this.VehicleStatusAlerts[previousIndex], previousIndex);
+        }
+      } else {
+        this.openChangeStatusCustomerModal(this.VehicleStatusAlerts[index - 1], index - 1);
+      }
     }
-    console.log("VehicleStatusData", VehicleStatusData);
-    this.common.params = VehicleStatusData;
-    this.common.ref_page = 'vsc';
-    if (this.user._loggedInBy != "admin") {
-      const activeModal = this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
-      activeModal.result.then(data => {
-        console.log("data", data.response);
-        if(data.response && index < this.VehicleStatusAlerts.length &&  index >= 0)
-        this.modalOpens(index);
-        //  this.getVehicleStatusAlerts();
-        // this.exitTicket(VehicleStatusData);
-      });
-    }
-    else {
-      const activeModal =  this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
-      activeModal.result.then(data => {
-        console.log("data", data.response);
-        if(data.response && index < this.VehicleStatusAlerts.length &&  index >= 0)
-        this.modalOpens(index);
-        //  this.getVehicleStatusAlerts();
-        // this.exitTicket(VehicleStatusData);
-      });
-    }
+  }
+
+
+  openChangeStatusCustomerModal(vs, index) {
+    this.VehicleStatusAlerts[index]['_class'] = 'selected';
+    this.table.data.columns[index].class = 'selected';
     
+    let xClass = this.modalRef ? 'xhide-trip-issue' : '';
+    this.common.ref_page = 'vsc';
+    this.common.params = {
+      loader: xClass ? false : true,
+      vehicle_id: vs._vid,
+      latch_time: vs.latch_time,
+      toTime: vs.ttime,
+      suggest: 0,
+      status: 1,
+      fo_name: vs.group_name,
+      regno: vs.vehicle_name,
+      tripName: this.common.getTripStatusHTML(vs._trip_status_type, vs._showtripstart, vs._showtripend, vs._p_placement_type, vs._p_loc_name)
+    };
+
+    let component = this.user._loggedInBy != "admin" ? ChangeVehicleStatusByCustomerComponent : ChangeVehicleStatusComponent;
+    let activeModal = this.modalService.open(
+      component, {
+      size: 'lg',
+      container: 'nb-layout',
+      windowClass: xClass,
+      backdropClass: xClass
+    });
+
+    this.activeIndex = index;
+    this.modalRef = activeModal;
+
+    activeModal.result.then(data => {
+      try {
+        document.querySelector('.xhide-trip-issue').classList.remove('xhide-trip-issue');
+        document.querySelector('.xhide-trip-issue').classList.remove('xhide-trip-issue');
+      } catch (e) {
+        console.log('There is some error in removing class name:', e);
+      }
+
+      if (data.response && index < this.VehicleStatusAlerts.length && index >= 0) {
+        this.modalOpens(this.activeIndex);
+      } else {
+        this.modalRef = null;
+      }
+    });
+
   }
 
   enterTicket(VehicleStatusData) {
@@ -197,12 +224,7 @@ modalOpens(index){
         result = res;
         console.log(result);
         if (!result['success']) {
-          //alert(result.msg);
           return false;
-        }
-        else {
-          
-            // this.openChangeStatusCustomerModal(VehicleStatusData);
         }
       }, err => {
         this.common.loading--;
@@ -210,6 +232,7 @@ modalOpens(index){
       });
 
   }
+
   exitTicket(VehicleStatusData) {
     let result;
     var params = {
@@ -224,18 +247,20 @@ modalOpens(index){
         result = res
         console.log(result);
         if (!result.sucess) {
-          // alert(result.msg);
-          // this.getVehicleStatusAlerts();
           return false;
-        }
-        else {
+        } else {
           return true;
         }
       }, err => {
         this.common.loading--;
         console.log(err);
       });
+  }
 
+  jrxFiltered(event) {
+    console.log('event:', event);
+    this.filteredIndexes = event.map(e => e.index);
+    console.log('this.filteredIndexes:', this.filteredIndexes)
   }
 
 }

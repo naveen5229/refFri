@@ -45,6 +45,7 @@ export class AddCountryComponent  implements OnInit {
       }
       console.log('data: ', this.data);
     }
+    this.common.handleModalSize('class', 'modal-lg', '1250');
   }
 
   ngOnInit() {
