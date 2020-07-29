@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { AccountService } from '../../services/account.service';
+
 @Component({
   selector: 'trail-tree',
   templateUrl: './trail.tree.html',
@@ -540,31 +541,31 @@ export class TrialbalanceComponent implements OnInit {
         this.common.showError();
       });
   }
-  csvFunction() {
-    let params = {
-      search: 'test'
-    };
+  // csvFunction() {
+  //   let params = {
+  //     search: 'test'
+  //   };
 
-    this.common.loading++;
-    this.api.post('Voucher/GetCompanyHeadingData', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res11:', res['data']);
-        // this.Vouchers = res['data'];
-        let address = res['data'][0].addressline + '\n';
-        let remainingstring1 = (res['data'][0].phonenumber) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
-        let remainingstring2 = (res['data'][0].panno) ? ', PAN No -  ' + res['data'][0].panno : '';
-        let remainingstring3 = (res['data'][0].gstno) ? ' GST NO -  ' + res['data'][0].gstno : '';
+  //   this.common.loading++;
+  //   this.api.post('Voucher/GetCompanyHeadingData', params)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log('Res11:', res['data']);
+  //       // this.Vouchers = res['data'];
+  //       let address = res['data'][0].addressline + '\n';
+  //       let remainingstring1 = (res['data'][0].phonenumber) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+  //       let remainingstring2 = (res['data'][0].panno) ? ', PAN No -  ' + res['data'][0].panno : '';
+  //       let remainingstring3 = (res['data'][0].gstno) ? ' GST NO -  ' + res['data'][0].gstno : '';
 
-        let cityaddress = address + remainingstring1;
-        this.common.getCSVFromTableIdNew('table', res['data'][0].foname, cityaddress, '', '', remainingstring3);
+  //       let cityaddress = address + remainingstring1;
+  //       this.common.getCSVFromTableIdNew('table', res['data'][0].foname, cityaddress, '', '', remainingstring3);
 
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-  }
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log('Error: ', err);
+  //       this.common.showError();
+  //     });
+  // }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -734,12 +735,109 @@ export class TrialbalanceComponent implements OnInit {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
   }
-  generateCsvData() {
+  // generateCsvData() {
+  //   console.log('set bal',this.openingbal,)
+  //   let liabilitiesJson = [];
+  //   liabilitiesJson.push(Object.assign({ Ledger: "Particulars", OpeningBalance: 'Opening Balance', amountdr: 'Amount(Debit)', amountcr: 'Amount(Credit)', amount: 'Closing Balance' }));
+  //   this.voucherEntries.forEach(liability => {
+  //     liabilitiesJson.push({ Ledger: liability.name, OpeningBalance:  (this.positiveLookingValue(liability.opnbal)) +' '+ liability.opnbaltype , amountdr: liability.debit, amountcr: liability.credit, amount:  (this.positiveLookingValue(liability.clobal)) +' '+ liability.opnbaltype });
+  //     // liability.subGroups.forEach(subGroup => {
+  //     //   liabilitiesJson.push({ Ledger: '(SG)' + subGroup.name, OpeningBalance: subGroup.openingamount, amountdr: subGroup.dramount, amountcr: subGroup.cramount, amount: subGroup.amount });
+  //     //   subGroup.trialBalances.forEach(trailbalance => {
+  //     //     liabilitiesJson.push({ Ledger: '(L)' + trailbalance.y_ledger_name, OpeningBalance: trailbalance.y_openbal, amountdr: trailbalance.y_dr_bal, amountcr: trailbalance.y_cr_bal, amount: trailbalance.y_closebal });
+  //     //   });
+  //     // });
+  //   });
+  //   liabilitiesJson.push({ Ledger: 'Profit & Loss A/c', OpeningBalance:  ((this.positiveLookingValue(this.openingbal)) +' '+((this.openingbal >=0)?'Cr':'Dr')) , amountdr: '', amountcr: '', amount:  ((this.positiveLookingValue(this.closingbal)) +' '+ ((this.closingbal >=0)?'Cr':'Dr' ))});
+
+  //   liabilitiesJson.push({ Ledger: 'Grand Total', OpeningBalance: '' , amountdr: (this.positiveLookingValue(this.debitbal)), amountcr: (this.positiveLookingValue(this.creditbal)), amount:  ''  });
+
+  //  // liabilitiesJson.push(Object.assign({}, { "": 'MG = Main Group ,SG = Sub Group, L = Ledger' }))
+
+  
+  //   this.csvService.jsonToExcel(liabilitiesJson);
+  //   console.log('Merged:', liabilitiesJson);
+  // }
+
+  
+  csvFunction() {
+    if(this.isExpand == 'main'){
+      this.singleFormatCsvData();
+    } else{
+    let jrxJson = [];
+    jrxJson.push(Object.assign({
+      particular: "Ledger",
+      openingamount: "Opening Balance",
+      drAmount: "Dr Amount",
+      crAmount: "Cr Amount",
+      closingamount:'Closing Balance'
+    }));
+    this.voucherEntries.forEach(voucher => {
+      jrxJson.push({
+        particular: voucher.name,
+        openingamount: (voucher.opnbal==0)? '' :this.positiveLookingValue(voucher.opnbal) +' '+ voucher.opnbaltype ,
+        drAmount: (voucher.debit==0)?'':voucher.debit,
+        crAmount: (voucher.credit==0)?'':voucher.credit,
+        closingamount: ((voucher.clobal)==0)?'':this.positiveLookingValue(voucher.clobal) +' '+voucher.clobaltype
+      });
+      jrxJson.push(...this.generateCSVData(voucher.data, '  '));
+    });
+
+
+    jrxJson.push({
+      particular: 'Profit & Loss A/c',
+      openingamount: this.positiveLookingValue(this.openingbal),
+      drAmount: '',
+      crAmount: '',
+      closingamount:this.positiveLookingValue(this.closingbal)
+    });
+    jrxJson.push({
+      particular: 'Grand Total',
+      openingamount:'',
+      drAmount: this.debitbal,
+      crAmount: this.creditbal,
+      closingamount:''
+    });
+
+
+    this.csvService.jsonToExcel(jrxJson);
+  }
+}
+ 
+  generateCSVData(vouchers, str) {
+    
+    let json = [];
+    for (let i = 0; i < vouchers.length; i++) {
+      let voucher = vouchers[i];
+      if (voucher.name) {
+        json.push({
+          particular: str + voucher.name,
+          openingamount: (this.positiveLookingValue(voucher.opnbal) == 0)?'':voucher.opnbal + ((voucher.opnbal >= 0)? ' Dr' :' Cr'),
+          drAmount: (voucher.debit==0)?'':voucher.debit,
+          crAmount: (voucher.credit==0)?'':voucher.credit,
+          closingamount:(voucher.clobal==0)?'':this.positiveLookingValue(voucher.clobal) + ((!(voucher.clobal >= 0))? ' Cr' :' Dr')
+        });
+        json.push(...this.generateCSVData(voucher.data, str + '  '));
+      } else {
+        json.push({
+          particular: str + voucher.ledgerName,
+          openingamount: (voucher.opnbal == 0)? '':this.positiveLookingValue(voucher.opnbal) + ' '+voucher.opnbaltype,
+          drAmount: (voucher.debit==0)?'':voucher.debit,
+          crAmount: (voucher.credit==0)?'':voucher.credit,
+          closingamount:(voucher.clobal == 0)? '' :this.positiveLookingValue(voucher.clobal) + ' '+voucher.clobaltype
+        });
+      }
+    }
+    return json;
+  
+  }
+
+  singleFormatCsvData() {
     console.log('set bal',this.openingbal,)
     let liabilitiesJson = [];
     liabilitiesJson.push(Object.assign({ Ledger: "Particulars", OpeningBalance: 'Opening Balance', amountdr: 'Amount(Debit)', amountcr: 'Amount(Credit)', amount: 'Closing Balance' }));
     this.voucherEntries.forEach(liability => {
-      liabilitiesJson.push({ Ledger: liability.name, OpeningBalance:  Math.abs(liability.opnbal) +' '+ liability.opnbaltype , amountdr: liability.debit, amountcr: liability.credit, amount:  Math.abs(liability.clobal) +' '+ liability.opnbaltype });
+      liabilitiesJson.push({ Ledger: liability.name, OpeningBalance:  (this.positiveLookingValue(liability.opnbal)) +' '+ liability.opnbaltype , amountdr: liability.debit, amountcr: liability.credit, amount:  (this.positiveLookingValue(liability.clobal)) +' '+ liability.opnbaltype });
       // liability.subGroups.forEach(subGroup => {
       //   liabilitiesJson.push({ Ledger: '(SG)' + subGroup.name, OpeningBalance: subGroup.openingamount, amountdr: subGroup.dramount, amountcr: subGroup.cramount, amount: subGroup.amount });
       //   subGroup.trialBalances.forEach(trailbalance => {
@@ -747,9 +845,9 @@ export class TrialbalanceComponent implements OnInit {
       //   });
       // });
     });
-    liabilitiesJson.push({ Ledger: 'Profit & Loss A/c', OpeningBalance:  (Math.abs(this.openingbal) +' '+((this.openingbal >=0)?'Cr':'Dr')) , amountdr: '', amountcr: '', amount:  (Math.abs(this.closingbal) +' '+ ((this.closingbal >=0)?'Cr':'Dr' ))});
+    liabilitiesJson.push({ Ledger: 'Profit & Loss A/c', OpeningBalance:  ((this.positiveLookingValue(this.openingbal)) +' '+((this.openingbal >=0)?'Cr':'Dr')) , amountdr: '', amountcr: '', amount:  ((this.positiveLookingValue(this.closingbal)) +' '+ ((this.closingbal >=0)?'Cr':'Dr' ))});
 
-    liabilitiesJson.push({ Ledger: 'Grand Total', OpeningBalance: '' , amountdr: Math.abs(this.debitbal), amountcr: Math.abs(this.creditbal), amount:  ''  });
+    liabilitiesJson.push({ Ledger: 'Grand Total', OpeningBalance: '' , amountdr: (this.positiveLookingValue(this.debitbal)), amountcr: (this.positiveLookingValue(this.creditbal)), amount:  ''  });
 
    // liabilitiesJson.push(Object.assign({}, { "": 'MG = Main Group ,SG = Sub Group, L = Ledger' }))
 
@@ -757,7 +855,6 @@ export class TrialbalanceComponent implements OnInit {
     this.csvService.jsonToExcel(liabilitiesJson);
     console.log('Merged:', liabilitiesJson);
   }
-
 
 }
 
