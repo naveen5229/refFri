@@ -562,7 +562,91 @@ export class BalancesheetComponent implements OnInit {
     }
   }
 
-  generateCsvData() {
+  csvFunction() {
+    if(this.isExpand == 'main'){
+      this.singleFormatCsvData();
+    } else{
+    let jrxJson = [];
+    let libilityJson = [];
+    let data = [];
+    jrxJson.push(Object.assign({
+      particular: "Liability",
+      openingamount: "Amount",
+     
+    }));
+    libilityJson.push(Object.assign({
+      particular: "Asset",
+      openingamount: "Amount",
+     
+    }));
+    this.assets.forEach(voucher => {
+      jrxJson.push({
+        particular: voucher.name,
+        openingamount: (voucher.amount==0)? '' :(voucher.amount) ,
+         });
+      jrxJson.push(...this.generateCSVData(voucher.data, '  '));
+    });
+
+    this.liabilities.forEach(voucher => {
+      libilityJson.push({
+        particular: voucher.name,
+        openingamount: (voucher.amount==0)? '' :(voucher.amount) ,
+         });
+         libilityJson.push(...this.generateCSVData(voucher.data, '  '));
+    });
+
+
+    for (let i = 0; i < jrxJson.length; i++) {
+      let info = {
+        libilities: jrxJson[i].particular,
+        "Amount": jrxJson[i].openingamount,
+      };
+      data.push(info);
+    }
+
+    for (let i = 0; i < libilityJson.length; i++) {
+      if (i < data.length) {
+        data[i]["asstes"] = libilityJson[i].particular;
+        data[i]["asstes amount"] = libilityJson[i].openingamount;
+      } else {
+        let info = {
+          "libilities": '',
+          "libilities Amount": '',
+          asstes: libilityJson[i].particular,
+          "asstes amount": libilityJson[i].openingamount,
+        };
+        data.push(info);
+      }
+    } 
+    //console.log('final data:', data)
+    this.csvService.jsonToExcel(data);
+  }
+  
+}
+ 
+  generateCSVData(vouchers, str) {
+    
+    let json = [];
+    for (let i = 0; i < vouchers.length; i++) {
+      let voucher = vouchers[i];
+      if (voucher.name) {
+        json.push({
+          particular: str + voucher.name,
+          openingamount: voucher.amount,
+          });
+        json.push(...this.generateCSVData(voucher.data, str + '  '));
+      } else {
+        json.push({
+          particular: str + voucher.ledgerName,
+          openingamount: voucher.amount,
+           });
+      }
+    }
+    return json;
+  
+  }
+
+  singleFormatCsvData() {
     let liabilitiesJson = [];
     liabilitiesJson.push(Object.assign({ liability: " Liability", liabilityAmount: 'Amount' }));
 
