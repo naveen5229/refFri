@@ -20,6 +20,7 @@ export class VoucherdetailComponent implements OnInit {
       this.voucherCode = this.common.params.vchcode; 
 
     this.getDayBookDetailList();
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
   ngOnInit() {
   }

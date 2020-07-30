@@ -25,15 +25,15 @@
                 <td>
                   <!-- <auto-suggestion (onSelected)="onSelected($event, 'taxledger', 'name',i)" url="Suggestion/GetPurchaseLedger"  display="name"
          [inputId]="'taxledger-'+i" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
-                  <input type="text" [id]="'taxleder-' + i" autocomplete="off" class="form-control" [name]="'taxledger-' + i"
+                  <input type="text" [id]="'taxleder-' + i" autocomplete="off" class="form-control ref-input" [name]="'taxledger-' + i"
                     [(ngModel)]="taxdetail.taxledger.name" required>
                 </td>
                 <td>
-                  <input type="number" class="form-control" autocomplete="off" [name]="'taxrate-' + i" [id]="'taxrate-' + i"
+                  <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxrate-' + i" [id]="'taxrate-' + i"
                     [(ngModel)]="taxdetail.taxrate" (input)="taxdetail.taxamount = ((taxdetail.taxrate * amount)/100).toFixed(2)">
                 </td>
                 <td>
-                  <input type="number" class="form-control" autocomplete="off" [name]="'taxamount-' + i" [id]="'taxamount-' + i"
+                  <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxamount-' + i" [id]="'taxamount-' + i"
                     [(ngModel)]="taxdetail.taxamount">
                 </td>
                 <td *ngIf="i == 0">
@@ -46,7 +46,7 @@
               </tr>
               <tr>
                 <td colspan="2">&nbsp;</td>
-                <td><input type="number" class="form-control" name="totalamount" id="totalamount"
+                <td><input type="number" class="form-control ref-input" name="totalamount" id="totalamount"
                     [value]="calculateTotal()" readonly style="background-color: #eeeeee;"></td>
               </tr>
             </tbody>

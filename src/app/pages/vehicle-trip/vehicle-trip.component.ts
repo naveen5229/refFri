@@ -113,6 +113,9 @@ export class VehicleTripComponent implements OnInit {
             if (key.charAt(0) != "_") {
               this.headings.push(key);
               let headerObj = { title: key, placeholder: this.formatTitle(key) };
+              if (key === 'Start Date' || key=== 'End Date') {
+                headerObj['type'] = 'date';
+              }
               this.table.data.headings[key] = headerObj;
             }
 
