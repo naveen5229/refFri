@@ -46,6 +46,7 @@ export class AccountEntryApprovalComponent implements OnInit {
     this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.endTime;
     this.getRequests();
     this.common.refresh = this.refresh.bind(this);
+    this.common.currentPage =  'Account Entry Approval';
   }
 
   ngOnInit() {

@@ -23,7 +23,17 @@ table tr.highlight {
     margin: 15% auto auto auto;
 }
 table{
+    thead{
+        th{
+            font-weight: normal;
+        }
+    }
     tbody{
+        tr{
+            td{
+                font-size: 12px;
+            }
+        }
         tr:nth-child(odd){
                     background-color: #fff;
                 }

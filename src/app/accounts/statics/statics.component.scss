@@ -68,7 +68,12 @@ nb-card-header {
 }
 
 .balance-shit {
-    background-color: #dadfe6;
+    background-color: #fff;
+   
+}
+.middlebody{
+    height: calc(100vh - 265px);
+    overflow: auto;
 }
 
 .heading {

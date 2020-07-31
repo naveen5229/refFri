@@ -68,7 +68,7 @@ color:#26a69a !important;
 //   font-size: 12px;
 // }
 .invoice_tabel{
-  margin-top: -33px;
+  
       thead{
         display: table;
         table-layout: fixed;
@@ -103,7 +103,7 @@ color:#26a69a !important;
           display: block;
           table-layout: fixed;
           overflow: auto;
-          max-height: calc(100vh - 500px);
+          max-height: calc(100vh - 450px);
         
        tr{
         td input{
@@ -167,9 +167,7 @@ color:#26a69a !important;
         tr:nth-child(even){
             background-color: #e4e4e4;
         }
-        tr:last-child{
-          height: 78px;
-        }
+       
         tr:last-child(){
           td:nth-child(2){
             width: 80px;
@@ -204,4 +202,10 @@ color:#26a69a !important;
 }
 input:read-only {
   background-color: #ccc;
+}
+
+//kavita singh
+
+.diffrow td > * {
+  vertical-align : middle;
 }
