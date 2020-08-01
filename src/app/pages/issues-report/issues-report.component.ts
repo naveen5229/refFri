@@ -63,10 +63,8 @@ export class IssuesReportComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res['data']);
-        if (res['data']) {
-          this.reportData = res['data'];
+          this.reportData = res['data'] || [];
           this.gettingTableHeader(this.reportData);
-        }
       }, err => {
         this.common.loading--;
         console.error(err);
@@ -151,7 +149,7 @@ export class IssuesReportComponent implements OnInit {
     console.log('data',data);
     let dataparams = {
       view: {
-        api: 'TripsOperation/tripReports?',
+        api: 'TripsOperation/tripReports',
         param: {
           fromDate: this.common.dateFormatter1(this.startDate),
           toDate : this.common.dateFormatter1(this.endDate),

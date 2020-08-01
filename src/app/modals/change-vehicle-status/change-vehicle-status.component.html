@@ -95,32 +95,32 @@
                           (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
                           [ngStyle]="{'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
                           (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)"> -->
-                  <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode!=-1"><b><span
+                  <td (click)="method1CallForClick(i,vehicleEvent);" (dblclick)="method2CallForDblClick(vehicleEvent)"  *ngIf="vehicleEvent.inflexCode!=-1"><b><span
                         *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</b>
                   </td>
-                  <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1"><span
-                      *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'background-color':vehicleEvent.startcolor ? vehicleEvent.startcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }" >
+                  <td (click)="method1CallForClick(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1" (dblclick)="method2CallForDblClick(vehicleEvent)" ><span
+                      *ngIf="vehicleEvent.y_is_manual" (dblclick)="method2CallForDblClick(vehicleEvent)" >*</span>{{i+1}}</td>
+                  <td (click)="method1CallForClick(i,vehicleEvent);" (dblclick)="method2CallForDblClick(vehicleEvent)" >{{vehicleEvent.date}}</td>
+                  <td (click)="method1CallForClick(i,vehicleEvent);" (dblclick)="method2CallForDblClick(vehicleEvent)"  [ngStyle]="{'background-color':vehicleEvent.startcolor ? vehicleEvent.startcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }" >
                     {{vehicleEvent.startTimeShort||vehicleEvent.time.split('-')[2].split(' ')[0]}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'background-color':vehicleEvent.durationcolor ? vehicleEvent.durationcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }">{{vehicleEvent.duration||vehicleEvent.timeShort}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);" [ngStyle]="{'background-color':vehicleEvent.endcolor ? vehicleEvent.endcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }">{{vehicleEvent.endTimeShort}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.y_mon}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent); " *ngIf="vehicleEvent.y_site_type_id==1">
+                  <td (click)="method1CallForClick(i,vehicleEvent);" (dblclick)="method2CallForDblClick(vehicleEvent)"   [ngStyle]="{'background-color':vehicleEvent.durationcolor ? vehicleEvent.durationcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }">{{vehicleEvent.duration||vehicleEvent.timeShort}}</td>
+                  <td (click)="method1CallForClick(i,vehicleEvent);" (dblclick)="method2CallForDblClick(vehicleEvent)"  [ngStyle]="{'background-color':vehicleEvent.endcolor ? vehicleEvent.endcolor: vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff' }">{{vehicleEvent.endTimeShort}}</td>
+                  <td (click)="method1CallForClick(i,vehicleEvent);" (dblclick)="method2CallForDblClick(vehicleEvent)" >{{vehicleEvent.y_mon}}</td>
+                  <td (click)="method1CallForClick(i,vehicleEvent); " (dblclick)="method2CallForDblClick(vehicleEvent)"  *ngIf="vehicleEvent.y_site_type_id==1">
                     {{vehicleEvent.site_name}},{{vehicleEvent.loc}}
                     <span  style="margin-left: 8px;border: 1px solid black; border-radius: 50%;" *ngIf="vehicleEvent.clusterInfo">
                       {{vehicleEvent.clusterInfo['index']}} 
                     </span>
                     </td>
-                  <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.y_site_type_id!=1">
+                  <td (click)="method1CallForClick(i,vehicleEvent);" (dblclick)="method2CallForDblClick(vehicleEvent)"  *ngIf="vehicleEvent.y_site_type_id!=1">
                     {{vehicleEvent.loc}}
                     <span  style="margin-left: 8px;border: 1px solid black; border-radius: 50%;" *ngIf="vehicleEvent.clusterInfo">
                       {{vehicleEvent.clusterInfo['index']}} 
                     </span>
                   </td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.kmph}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.adUserId}}
+                  <td (click)="method1CallForClick(i,vehicleEvent); " (dblclick)="method2CallForDblClick(vehicleEvent)" >{{vehicleEvent.distance}}</td>
+                  <td (click)="method1CallForClick(i,vehicleEvent);" (dblclick)="method2CallForDblClick(vehicleEvent)" >{{vehicleEvent.kmph}}</td>
+                  <td (click)="method1CallForClick(i,vehicleEvent);" (dblclick)="method2CallForDblClick(vehicleEvent)" >{{vehicleEvent.adUserId}}
                     <input *ngIf="vehicleEvent.vs_id && vehicleEvent.haltId == null" [(ngModel)]="isChecks[i]"
                       (change)="mergeWithVS(vehicleEvent.vs_id,vehicleEvent.haltId,isChecks[i],i)" type="checkbox"
                       class="pull-right" style="margin-top:1px;" />

@@ -135,7 +135,7 @@ export class TripissuesComponent implements OnInit {
 
   handleIconAction(tripIssue, index) {
     this.openChangeStatusCustomerModal(tripIssue, index);
-    this.modalOpens(index);
+    //this.modalOpens(index);
   }
 
   modalOpens(index) {
@@ -191,14 +191,14 @@ export class TripissuesComponent implements OnInit {
     });
 
     this.activeIndex = index;
-    this.modalRef = activeModal;
+    // this.modalRef = activeModal;
 
     activeModal.result.then(data => {
       try {
         document.querySelector('.xhide-trip-issue').classList.remove('xhide-trip-issue');
         document.querySelector('.xhide-trip-issue').classList.remove('xhide-trip-issue');
       } catch (e) {
-        console.log('There is some error in removing class name:', e);
+        // console.log('There is some error in removing class name:', e);
       }
 
       if (data.response && index < this.VehicleStatusAlerts.length && index >= 0) {
