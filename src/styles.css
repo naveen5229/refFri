@@ -300,18 +300,18 @@ nb-menu .menu-item > .menu-items > .menu-item a {
 
 
 
-fuelfillings auto-suggestion .form-control,
+/* fuelfillings auto-suggestion .form-control,
 trip-voucher-expense auto-suggestion .form-control {
   border: 1px solid #263238 !important;
   border-radius: 0px 2px 2px 2px !important;
   padding: 3px 5px !important;
   height: auto !important;
   font-size: 12px !important;
-}
+} */
 
-.tjr-input:focus {
+/* .tjr-input:focus {
   border: 1px solid #263238 !important;
-}
+} */
 
 .tjr-button {
   cursor: pointer;
@@ -880,7 +880,7 @@ input[type=number] {
   letter-spacing: 1px;
 }
 
-.tjr-input, .ref-input{
+.tjr-input, .ref-input, .tjr_select{
   border: 1px solid #d4d4d4 !important;
   border-radius: 0px!important;
   padding: 5px 10px !important;
@@ -891,6 +891,7 @@ input[type=number] {
 .tjr-input:focus, .ref-input:focus{
   border: 1px solid #556080 !important;
   border-left: 5px solid #556080!important;
+  outline: none;
 }
 .tjr-button{
   background: #26a69a !important;
@@ -938,13 +939,14 @@ input[type=number] {
   bottom: -15px!important;
   right: 150px;
   border-radius: 100% !important;
-  padding: 0 0 2px 0 !important;
-  font-size: 20px;
+  padding: 0 0 0 0 !important;
+  font-size: 20px!important;
   -webkit-box-shadow: 3px 2px 10px #989898;
   box-shadow: 3px 2px 10px #989898;
   cursor: pointer !important;
   width: 40px;
   height: 40px;
+  background-color: #263238!important;
 }
 
 @media (max-width: 1024px) and (min-width: 768px)

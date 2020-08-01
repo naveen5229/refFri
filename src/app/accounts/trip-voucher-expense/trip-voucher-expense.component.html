@@ -6,7 +6,7 @@
       <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
         style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
     </div>
-    <div class="row">
+    <div class="row" style="background-color: #efefef;margin: 0;">
       <div class="col-3">
         <div class="left-box">
           <div class="row">
@@ -30,7 +30,7 @@
             <div class="col-sm-3 pr-0">
               <div class="form-group m-0">
                 <label class="tjr-label">Filter Date</label>
-                <select class="tjr_select" [(ngModel)]="vchdt" id="vchtype">
+                <select class="form-control tjr-input" [(ngModel)]="vchdt" id="vchtype">
                   <option value="1">Voucher Date</option>
                   <option value="0">Entry Date</option>
                 </select>
