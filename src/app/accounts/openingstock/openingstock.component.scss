@@ -61,3 +61,7 @@ table{
     font-size: 30px;
     color: #217346;
 }
+.table-responsive {
+    height: calc(100vh - 240px);
+    overflow: auto;
+}

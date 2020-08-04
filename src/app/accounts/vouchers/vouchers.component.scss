@@ -186,7 +186,9 @@ table{
         color: #fff;
     }
     tr{
-        
+        th{
+            border-right-color: #263238;
+        }
         th:nth-child(1){
             width: 7.5%;
             padding: 5px 10px;

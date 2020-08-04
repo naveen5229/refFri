@@ -28,6 +28,7 @@ table{
         }
         th:first-child{
             width: 5%;
+             min-width: 51px;
         }
         th:last-child{
             width: auto;
@@ -61,6 +62,7 @@ table{
             width: 100%;
             td:first-child{
                 width: 5%;
+                min-width: 51px;
             }
             td:last-child{
                 width: auto;

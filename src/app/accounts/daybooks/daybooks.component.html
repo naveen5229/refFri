@@ -69,6 +69,7 @@
         </div>
       </div>
     </div>
+    <div class="table-responsive">
     <table class="table table-bordered" id="table">
       <thead style="background-color:#263238; color:#fff;">
         <tr>
@@ -98,6 +99,7 @@
         <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
       </tr>
     </table>
+    </div>
     <!-- Pagination -->
     <div class="pagination" *ngIf="pages.count >= 1">
       <!-- Page Count -->

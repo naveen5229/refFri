@@ -30,18 +30,18 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 170px;
+            width: auto;
         }
         th:nth-child(1){
-            width: 40px;
+            width: 5%;
         }
         th:last-child{
-            width: auto;
+            width: 10%;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 170px;
+            width: auto;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -54,10 +54,10 @@ table{
             }
         }
         td:first-child{
-            width: 40px;
+            width: 5%;
         }
         td:last-child{
-            width: auto;
+            width: 10%;
         }
     }
     tbody{

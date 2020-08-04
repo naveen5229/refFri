@@ -80,25 +80,36 @@ table {
             padding: 5px 5px;
             font-weight: normal;
             width: auto;
+            border-right-color: #263238;
         }
         th:first-child {
-            width: 40px;
+            width: 4%;
+            min-width: 41px;
         }
         th:nth-child(2){
-            width: 85px;
+            width: 8%;
+            min-width: 85px;
         }
-        th:nth-child(4){
-            width: 115px;
+        th:nth-child(3){
+            width: 15%;
+        }
+        th:nth-child(3), th:nth-child(4){
+            min-width: 165px;
         }
         th:nth-child(5){
-            width: 160px;
+            width: 15%;
+            max-width: 200px;
+            min-width: 200px;
         }
         th:nth-child(6), th:nth-child(7){
-            width: 120px;
+            min-width: 140px;
         }
-        th:last-child {
-            width: 145px;
+        th:last-child{
+            min-width: 100px;
         }
+       
+    
+      
         td {
             padding: 5px 5px !important;
             font-size: 12px;
@@ -126,24 +137,33 @@ table {
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:last-child {
-                width: 140px;
-            }
             td:first-child {
-                width: 40px;
+                width: 4%;
+                min-width: 41px;
             }
             td:nth-child(2){
-                width: 85px;
+                width: 8%;
+                min-width: 85px;
             }
-             td:nth-child(4){
-                width: 115px;
+            td:nth-child(3){
+                width: 15%;
+
+            }
+            td:nth-child(3), td:nth-child(4){
+                min-width: 165px;
             }
             td:nth-child(5){
-                width: 160px;
+                width: 15%;
+                max-width: 200px;
+                min-width: 200px;
             }
             td:nth-child(6), td:nth-child(7){
-                width: 120px;
+                min-width: 140px;
             }
+            td:last-child{
+                min-width: 100px;
+            }
+          
         }
         tr:nth-child(odd) {
             background-color: #fff;

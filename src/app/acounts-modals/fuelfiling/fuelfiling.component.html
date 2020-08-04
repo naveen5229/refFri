@@ -49,23 +49,23 @@
           <div class="row">
             <div class="form-group col-6 mt-6">
               <label class="tjr-label">Ref</label>
-              <input autocomplete="off" type="text" id="custcode" class="form-control" name="custcode"
+              <input autocomplete="off" type="text" id="custcode" class="form-control tjr-input" name="custcode"
                 [(ngModel)]="custcode">
             </div>
             <div class="form-group col-6 mt-6">
               <label class="tjr-label">Date</label>
-              <input autocomplete="off" type="text" id="date" class="form-control" name="date" [(ngModel)]="date">
+              <input autocomplete="off" type="text" id="date" class="form-control tjr-input" name="date" [(ngModel)]="date">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-6 mt-6">
               <label class="tjr-label">Party Ledger</label>
-              <input autocomplete="off" type="text" id="creditLedger" class="form-control" name="creditLedger"
+              <input autocomplete="off" type="text" id="creditLedger" class="form-control tjr-input" name="creditLedger"
                 [(ngModel)]="creditLedger.name">
             </div>
             <div class="form-group col-6 mt-6">
               <label class="tjr-label">Fuel Ledger</label>
-              <input autocomplete="off" type="text" id="debitLedger" class="form-control" name="debitLedger"
+              <input autocomplete="off" type="text" id="debitLedger" class="form-control tjr-input" name="debitLedger"
                 [(ngModel)]="debitLedger.name">
             </div>
 
@@ -89,7 +89,7 @@
             <tr>
               <th>SN</th>
               <th><input type="checkbox" name="checkall" id="checkall" value="1" [(ngModel)]="checkall"
-                  (ngModelChange)="checkedAll()"></th>
+                  (ngModelChange)="checkedAll()" class="form-control tjr-input"></th>
               <th>Station name</th>
               <th>Quantity</th>
               <th>Rate</th>
@@ -104,12 +104,12 @@
               <td *ngIf="voucherId !=0">
                 <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked"
                   (ngModelChange)="changeTotal(fuelFiling.y_amount,fuelFiling.y_id)"
-                  [disabled]="((fuelFiling.y_voucher_id) && (voucherId !=fuelFiling.y_voucher_id))">
+                  [disabled]="((fuelFiling.y_voucher_id) && (voucherId !=fuelFiling.y_voucher_id))" class="form-control tjr-input">
               </td>
               <td *ngIf="voucherId ==0">
                 <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked"
                   (ngModelChange)="changeTotal(fuelFiling.y_amount,fuelFiling.y_id)"
-                  [disabled]="(fuelFiling.y_voucher_id)">
+                  [disabled]="(fuelFiling.y_voucher_id)" class="form-control tjr-input">
               </td>
               <td>{{fuelFiling.y_name}}</td>
               <td>{{fuelFiling.y_litres}}</td>
@@ -130,7 +130,7 @@
         </div>
         <div class="amount_box">
           <label  class="tjr-label">Total Amount</label>
-          <input type="text" class="form-control" name="total" [(ngModel)]="total" id="total" readonly disabled>
+          <input type="text" class="form-control ref-input" name="total" [(ngModel)]="total" id="total" readonly disabled>
         </div>
       </div>
       <div class="row">
