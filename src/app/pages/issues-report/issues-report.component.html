@@ -4,7 +4,7 @@
   </nb-card-header> -->
   <nb-card-body>
     <div class="row">
-      <div class="col-sm-9">
+      <div class="col-sm-11  ">
         <ul class="tabs_style">
           <li [ngClass]="reportType == 'misTripReject' ? 'active' : '' " id="dis-all" (click)=" reportType = 'misTripReject'; getReportData(reportType); ">
             Rejected
@@ -18,6 +18,12 @@
           <li [ngClass]="reportType == 'maxMisTripMaxUnloadDatDest' ? 'active' : '' " id="dis-all" (click)=" reportType = 'maxMisTripMaxUnloadDatDest'; getReportData(reportType); ">
            Max Unload at Destination
           </li>
+          <li [ngClass]="reportType == 'misTripShareUnload' ? 'active' : '' " id="dis-all" (click)=" reportType = 'misTripShareUnload'; getReportData(reportType); ">
+            Common Unloading Point
+           </li>
+           <li [ngClass]="reportType == 'verticalClusterReport' ? 'active' : '' " id="dis-all" (click)=" reportType = 'verticalClusterReport'; getReportData(reportType); ">
+            Cluster Report
+           </li>
         </ul>
       </div>  
     </div>  
@@ -28,6 +34,8 @@
           <label style="margin-left: 20px;margin-right: 10px;">To :</label>
           <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]=false  [isStart]=false>
           </uj-date-time-picker>
+          <label style="margin-left: 20px;margin-right: 10px;" *ngIf="reportType != 'misTripReject'">Cluster Size</label>
+          <input type="number" [(ngModel)]="clusterSize" *ngIf="reportType != 'misTripReject'">
           <button class="btn btn-primary text-capitalize" style="margin-left: 20px;" (click)="getReportData(reportType)">OK</button>
     </div>
     <smart-table *ngIf="reportData && reportData.length" id="reportData" [data]="table.data"
