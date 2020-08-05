@@ -22,26 +22,67 @@ table tr.highlight {
     width: 152px;
     margin: 15% auto auto auto;
 }
+
 table{
     thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #263238;
+        color: #fff;
+    }
+    tr{
         th{
+            border-right-color: #263238;
             font-weight: normal;
+            font-size: 11px;
+            width: 9%;
+           
         }
+        th:nth-child(1){
+            width: 5%;
+            min-width: 50px;
+           }
+           th:nth-child(5){
+            width: 5%;
+            min-width: 50px;
+           }
+
+        td{
+            width: 9%;
+            font-size: 11px;
+        }
+       
     }
     tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 290px);
         tr{
-            td{
-                font-size: 12px;
-            }
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 5%;
+              min-width: 50px;
+             }
+             td:nth-child(5){
+                width: 5%;
+                min-width: 50px;
+               }
+    
         }
         tr:nth-child(odd){
-                    background-color: #fff;
+             background-color: #fff;
+             }
+        tr:nth-child(even){
+               background-color: #e4e4e4;
                 }
-                tr:nth-child(even){
-                    background-color: #e4e4e4;
-                }
-        }
-}
+    }
+} 
 
 
 .tjr-button {
@@ -54,14 +95,10 @@ table{
 }
 
 .pdf-icon{
-    font-size: 30px;
+    //font-size: 30px;
     color: #9F0001;
 }
 .exel-icon{
-    font-size: 30px;
+  //  font-size: 30px;
     color: #217346;
-}
-.table-responsive {
-    height: calc(100vh - 240px);
-    overflow: auto;
 }
