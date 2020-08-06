@@ -7,14 +7,14 @@ button {
     outline: none;
     box-shadow: none;
 }
-.tjr-button {
-    cursor: pointer;
-    margin-top: 18px;
-    background: #263238 !important;
-    height: auto;
-    border-radius: 3px !important;
-    padding: 3px 8px !important;
-}
+// .tjr-button {
+//     cursor: pointer;
+//     margin-top: 18px;
+//     background: #263238 !important;
+//     height: auto;
+//     border-radius: 3px !important;
+//     padding: 3px 8px !important;
+// }
 
 nb-card-header {
     padding: 15px 20px;
@@ -163,11 +163,11 @@ input[type="radio"] {
     margin: 15% auto auto auto;
 }
 .pdf-icon {
-    font-size: 30px;
+   // font-size: 30px;
     color: #9f0001;
 }
 .exel-icon {
-    font-size: 30px;
+    //font-size: 30px;
     color: #217346;
 }
 
@@ -255,7 +255,7 @@ input[type="radio"] {
     font-size: 10px;
     z-index: 2;
     .x-col {
-        border-right: 1px solid #f2f2f2;
+        border-right: 1px solid #263238;
         padding: 6px 4px;
     }
     .x-col:last-child {
@@ -333,7 +333,7 @@ input[type="radio"] {
 }
 
 .highlight {
-    background-color: #ffee75 !important;
+    background-color: #e2ca1f !important;
     color: #000 !important;
 }
 .expand-div {
@@ -348,9 +348,9 @@ input[type="radio"] {
     }
 }
 .jrx-dtbody{
-    height: calc(100vh - 305px);
+    height: calc(100vh - 298px);
     overflow: auto;
-    width: 102%;
+    width: 100%;
 }
 
 .close{

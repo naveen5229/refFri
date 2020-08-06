@@ -49,17 +49,6 @@
                 [(ngModel)]="outStanding.stockItem.name">
             </div>
           </div>
-
-
-        </div>
-        <div class="row">
-          <!-- <div class="col">
-        <div class="form-group">
-          <label>Branch</label>
-          <input type="text" id="branch" class="form-control" name="branch" [(ngModel)]="outStanding.branch.name"/>
-        </div>
-      </div> -->
-
           <div class="col">
             <div class="form-group">
               <label class="tjr-label">Ware House</label>
@@ -67,14 +56,19 @@
                 [(ngModel)]="outStanding.wherehouse.name">
             </div>
           </div>
-          <div class="col">
+
+        </div>
+        <div class="row">
+        
+       
+          <div class="col-3">
             <div class="form-group">
               <label class="tjr-label">Start Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="Date" autocomplete="off"
                 maxlength="10" name="account-Date" [(ngModel)]="accountService.fromdate">
             </div>
           </div>
-          <div class="col">
+          <div class="col-3">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
@@ -82,7 +76,7 @@
             </div>
           </div>
 
-          <div class="col">
+          <div class="col-3 pt-3">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getStockSummary()"
                 id="submit" style="cursor: pointer;margin-top: 5px; padding: 7px !important;">Submit</button>

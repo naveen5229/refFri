@@ -1,9 +1,9 @@
 <nb-card style="border:0px;">
-  <nb-card-header>
+  <!-- <nb-card-header>
     <h5>Account Entry Approval</h5>
-  </nb-card-header>
+  </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
-    <div class="row" style="margin-top:10px; margin-bottom:10px;">
+    <div class="row mt-4 mb-2">
       <div class="col-md-2 pr-0">
         <!-- <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
         </uj-date-time-picker> -->
@@ -20,20 +20,18 @@
           maxlength="10" name="account-endDate" [(ngModel)]="accountService.todate">
 
       </div>
-      <div class="col-md-1 pr-0">
-        <label class="tjr-label">Requests</label>
-      </div>
+     
       <div class="col-md-2 pr-0">
+        <label class="tjr-label">Requests</label>
         <select [(ngModel)]="requestType" id="requestType" class="form-control tjr-input" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="Transfer">Transfer</option>
           <option value="Invoice">Invoice</option>
           <option value="MVS">MVS</option>
         </select>
       </div>
-      <div class="col-md-1 pr-0">
-       <label class="tjr-label">Status</label>
-      </div>
+     
       <div class="col-md-2 pr-0">
+        <label class="tjr-label">Status</label>
         <select [(ngModel)]="status" id="status" class="form-control tjr-input" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="0">Pending</option>
           <option value="1">Accepted</option>
@@ -41,7 +39,7 @@
           <option value="2">All</option>
         </select>
       </div>
-      <div class="col-md-1 ">
+      <div class="col-md-2 pt-4">
         <button type="submit" class="btn btn-primary m-0 tjr-button" id="submit"  (click)="getRequests()">Search</button>
       </div>
      
