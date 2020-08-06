@@ -24,6 +24,9 @@
            <li [ngClass]="reportType == 'verticalClusterReport' ? 'active' : '' " id="dis-all" (click)=" reportType = 'verticalClusterReport'; getReportData(reportType); ">
             Cluster Report
            </li>
+           <li [ngClass]="reportType == 'misDiffLocUnloadSameName' ? 'active' : '' " id="dis-all" (click)=" reportType = 'misDiffLocUnloadSameName'; getReportData(reportType); ">
+            Diff. Unload Similar Name
+           </li>
         </ul>
       </div>  
     </div>  
@@ -34,8 +37,8 @@
           <label style="margin-left: 20px;margin-right: 10px;">To :</label>
           <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]=false  [isStart]=false>
           </uj-date-time-picker>
-          <label style="margin-left: 20px;margin-right: 10px;" *ngIf="reportType != 'misTripReject'">Cluster Size</label>
-          <input type="number"  [(ngModel)]="clusterSize" *ngIf="reportType != 'misTripReject'" class="clu-input">
+          <label style="margin-left: 20px;margin-right: 10px;" *ngIf="reportType != 'misTripReject'&& reportType != 'misDiffLocUnloadSameName' ">Cluster Size</label>
+          <input type="number"  [(ngModel)]="clusterSize" *ngIf="reportType != 'misTripReject' && reportType != 'misDiffLocUnloadSameName'" class="clu-input">
           <button class="btn btn-primary text-capitalize" style="margin-left: 20px;" (click)="getReportData(reportType)">OK</button>
     </div>
     <smart-table *ngIf="reportData && reportData.length" id="reportData" [data]="table.data"
