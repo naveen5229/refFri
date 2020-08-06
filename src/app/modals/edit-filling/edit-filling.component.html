@@ -13,7 +13,7 @@
             <div class="col-5">
                 <div class="row">
                     <div class="col-6 pr-0">
-                        <label class="fill-elt">Regno
+                        <label class="tjr-label">Regno
                             <span class="requiredfield">*</span>
 
                         </label>
@@ -39,10 +39,10 @@
             <div class="col-7">
                 <div class="row">
                     <div class="col-3 pr-0 mt-2">
-                        <span><b>Reference Type</b></span>
+                        <label class="tjr-label">Reference Type</label>
                     </div>
                     <div class="col-4">
-                        <select class="form-control" (change)="refernceTypes();resetRefernceType(false);" name="reftype"
+                        <select class="form-control tjr-input" (change)="refernceTypes();resetRefernceType(false);" name="reftype"
                             [(ngModel)]="refernceType">
                             <option *ngFor="let reftype of referenceType" [value]="reftype.id">
                                 {{reftype.name}}
@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="col-5">
-                        <input class="form-control" type="text" list="refType"
+                        <input class="form-control tjr-input" type="text" list="refType"
                             (change)="changeRefernceType(refTypeName)" id="referncetype" name="reference-type"
                             [(ngModel)]="refTypeName">
                         <datalist id="refType">
@@ -80,7 +80,7 @@
                 <div class="col-7">
                     <div class="row">
                         <div class="col-2 pr-0">
-                            <label>{{referenceName}}</label>
+                            <label class="tjr-label">{{referenceName}}</label>
                         </div>
                         <div class="col-10">
                             <span>{{refTypeName}}</span>
@@ -91,9 +91,9 @@
         </ng-template>
 
         <div class="row">
-            <div class="col-6">
+            <div class="col-6 pr-0">
                 <div class="form-group">
-                    <label class="fill-elt">Date
+                    <label class="tjr-label">Date
                         <span class="requiredfield">*</span>
                     </label>
                     <uj-date-time-picker (onChanged)="date=$event" [dateTimeValue]="date">
@@ -107,18 +107,18 @@
           </div> -->
                 </div>
             </div>
-            <div class="col-1" style="margin-top: 38px;padding-left: 0px;">
+            <div class="col-1" style="margin-top: 38px;">
                 <span>
                     <i class="fas fa-route" (click)="fuelFillingTimetable()"></i>
                 </span>
             </div>
             <div class="col-5" style="padding-left: 0px;">
                 <div class="form-group">
-                    <label class="fill-elt">Litres
+                    <label class="tjr-label">Litres
                         <span class="requiredfield">*</span>
 
                     </label>
-                    <input name="litres" id="litres" [(ngModel)]="litres" class="fill-elt form-control"
+                    <input name="litres" id="litres" [(ngModel)]="litres" class="tjr-input form-control"
                         (blur)="updateAmount()" #liter="ngModel" required />
                     <div *ngIf="isFormSubmit && liter.errors" class="invalid-feedback">
                         <span [hidden]="!liter.errors.required">Liters Value Required</span>
@@ -127,16 +127,16 @@
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label class="fill-elt">Ref No:</label>
-                    <input class="fill-elt form-control" name="refno" id="refno" [(ngModel)]="refNo" />
+                    <label class="tjr-label">Ref No:</label>
+                    <input class="tjr-input form-control" name="refno" id="refno" [(ngModel)]="refNo" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label class="fill-elt">Rate
+                    <label class="tjr-label">Rate
                         <span class="requiredfield">*</span>
                     </label>
-                    <input class="fill-elt form-control" name="rate" id="rate" [(ngModel)]="rate" #rates="ngModel"
+                    <input class="tjr-input form-control" name="rate" id="rate" [(ngModel)]="rate" #rates="ngModel"
                         required (blur)="updateAmount()" />
                     <div *ngIf="isFormSubmit && rates.errors" class="invalid-feedback">
                         <span [hidden]="!rates.errors.required">Rate Value Required</span>
@@ -145,13 +145,13 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="fill-elt">Is Pump Available(Credit)?</label>
-                    <input class="fill-elt chkbx" type="checkbox" name="isPump" id="isPump" [value]="isPump"
+                    <label class="tjr-label">Is Pump Available(Credit)?</label>
+                    <input class="tjr-input chkbx" type="checkbox" name="isPump" id="isPump" [value]="isPump"
                         [(ngModel)]="isPump" checked />
                 </div>
             </div>
             <div class="col-6" *ngIf="!isPump" style="margin-top:5px">
-                <select [(ngModel)]="pumpPayType" class="form-control" (change)="pumpPayStatus()"
+                <select [(ngModel)]="pumpPayType" class="form-control tjr-input" (change)="pumpPayStatus()"
                     style=" border: 2px solid darkcyan; font-size: 13px; " name="payType">
                     <option value="-11">Paid By Card</option>
                     <option value="-21">Paid By Cash</option>
@@ -160,7 +160,7 @@
             </div>
             <div class="col-6">
                 <div class="form-group" *ngIf="isPump">
-                    <label class="fill-elt">Pump:</label>
+                    <label class="tjr-label">Pump:</label>
                     <auto-suggestion (onSelected)="getPumpData($event)" url="Suggestion/GetFuelStation" display="name"
                         placeholder="Enter Pump Name" [preSelected]="{name: pump}" class="fstn-name" style="width:60%;">
                     </auto-suggestion>
@@ -171,20 +171,20 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label class="fill-elt">Amount:</label>
-                    <input class="fill-elt form-control" name="amount" id="amount" [(ngModel)]="amount"
+                    <label class="tjr-label">Amount:</label>
+                    <input class="form-control tjr-input" name="amount" id="amount" [(ngModel)]="amount"
                         style="background-color: #cecece;" readonly />
                 </div>
             </div>
             <div class="col-6" *ngIf="pumpPayType=='-11' && !isPump">
                 <div class="form-group">
-                    <label class="fill-elt">Cash To Driver</label>
-                    <input class="fill-elt form-control" name="cash" id="cash" [(ngModel)]="driverCash" />
+                    <label class="tjr-label">Cash To Driver</label>
+                    <input class="form-control tjr-input" name="cash" id="cash" [(ngModel)]="driverCash" />
                 </div>
             </div>
             <div class="col-6" *ngIf="pumpPayType=='-21' && !isPump">
                 <div class="form-group">
-                    <label class="fill-elt">Ledger</label>
+                    <label class="tjr-label">Ledger</label>
                     <auto-suggestion (onSelected)="ledgerId=($event.id)" display="name" [data]="ledgers"
                         placeholder="enter Ledger" style="width:60%;" [preSelected]="ledger"></auto-suggestion>
                 </div>
@@ -193,7 +193,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label class="fill-elt">Is Fuel Tank Full?</label>
+                    <label class="tjr-label">Is Fuel Tank Full?</label>
                     <input *ngIf="isfull" class="fill-elt chkbx" type="checkbox" name="isFull" id="isFull"
                         [value]="isfull" [(ngModel)]="isfull" checked />
                     <input *ngIf="!isfull" class="fill-elt chkbx" type="checkbox" name="isFull" id="isFull"
@@ -213,8 +213,8 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label>Odometer:</label>
-                    <input class="fill-elt form-control" name="odometer" id="odometer" [(ngModel)]="odoVal" />
+                    <label class="tjr-label">Odometer:</label>
+                    <input class="form-control tjr-input" name="odometer" id="odometer" [(ngModel)]="odoVal" />
                 </div>
             </div>
 

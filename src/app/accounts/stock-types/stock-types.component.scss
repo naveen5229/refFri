@@ -25,22 +25,27 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
+            width: auto;
         }
         th:nth-child(1){
-            width: 35px;
+            width: 5%;
         }
         th:nth-child(2){
-            width: 450px;
+            width: 30%;
         }
         th:nth-child(3){
-            width: 300px;
+            width: 30%;
         }
         th:nth-child(4){
-            width: 150px;
+            width: 25%;
+        }
+        th:last-child{
+            width: 10%;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
+            width: auto;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -65,16 +70,19 @@ table{
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 35px;
+                width: 5%;
             }
             td:nth-child(2){
-                width: 450px;
+                width: 30%;
             }
             td:nth-child(3){
-                width: 300px;
+                width: 30%;
             }
             td:nth-child(4){
-                width: 150px;
+                width: 25%;
+            }
+            td:last-child{
+                width:10%;
             }
         }
         tr:nth-child(odd){
@@ -123,6 +131,3 @@ i{
   .modal-header h5{
     color: #fff;
   }
-  nb-card-body{
-    padding: 0;
-}

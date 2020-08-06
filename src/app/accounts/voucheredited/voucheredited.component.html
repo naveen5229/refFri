@@ -9,47 +9,12 @@
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
 
         <div class="row">
-          <!-- <div class="col-4">
-            <div class="form-group">
-              <label class="tjr-label">Branch</label>
-              <input type="text" id="branch" class="form-control tjr-input" name="branch"
-                [(ngModel)]="DayBook.branch.name">
-            </div>
-          </div> -->
-          <!-- <div class="col-6">
-            <div class="form-group">
-              <label class="tjr-label">Voucher</label>
-              <input type="text" id="vouchertype" class="form-control tjr-input" name="vouchertype"
-                [(ngModel)]="bankBook.vouchertype.name">
-            </div>
-          </div> -->
+         
           <div class="col-4">
-            <div class="form-group mb-0 mt-2">
-<!-- 
-              <label class="tjr-label labtrj">Voucher Edit Type</label> -->
-
-              <!-- <div class="debit_box">
-                <div class="debit">
-                  <span>voucher date</span>
-                  <input autocomplete="off" type="radio" class="form-control" name="vouchertype" id="vouchertype"
-                    [(ngModel)]="bankBook.vouchertype" [value]=0>
-                </div>
-                <div class="credit">
-                  <span>voucher entry date</span>
-                  <input autocomplete="off" type="radio" class="form-control" name="vouchertype" id="vouchertype"
-                    [(ngModel)]="bankBook.vouchertype" [value]=1>
-                </div>
-                <div class="credit">
-                  <span>lastupdated date</span>
-                  <input autocomplete="off" type="radio" class="form-control" name="vouchertype" id="vouchertype"
-                    [(ngModel)]="bankBook.vouchertype" [value]=2>
-
-                </div>
-              </div> -->
-
+            <div class="form-group mb-0">
               <div class="form-group debit_box m-0 w-100">
                 <label class="tjr-label">Filter Date</label>
-                <select class="tjr_select form-control" [(ngModel)]="bankBook.vouchertype" >
+                <select class="tjr_select form-control  tjr-input" [(ngModel)]="bankBook.vouchertype" >
                   <option value="0">voucher date</option>
                   <option value="1">voucher entry date</option>
                   <option value="2">lastupdated date</option>

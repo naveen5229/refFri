@@ -24,10 +24,11 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 180px;
+            width: 15%;
         }
         th:first-child{
-            width: 35px;
+            width: 5%;
+             min-width: 51px;
         }
         th:last-child{
             width: auto;
@@ -35,7 +36,7 @@ table{
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 180px;
+            width: 15%;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -60,10 +61,11 @@ table{
             table-layout: fixed;
             width: 100%;
             td:first-child{
-                width: 35px;
+                width: 5%;
+                min-width: 51px;
             }
             td:last-child{
-                width: auto
+                width: auto;
             }
         }
         tr:nth-child(odd){
@@ -143,11 +145,11 @@ i{
     margin: 15% auto auto auto;
 }
 .pdf-icon{
-    font-size: 30px;
+   // font-size: 30px;
     color: #9F0001;
 }
 .exel-icon{
-    font-size: 30px;
+   // font-size: 30px;
     color: #217346;
 }
 .highlightcolor{
