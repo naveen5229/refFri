@@ -35,7 +35,7 @@
           <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]=false  [isStart]=false>
           </uj-date-time-picker>
           <label style="margin-left: 20px;margin-right: 10px;" *ngIf="reportType != 'misTripReject'">Cluster Size</label>
-          <input type="number"  [(ngModel)]="clusterSize" *ngIf="reportType != 'misTripReject'" style="width:50px;height: 30px;">
+          <input type="number"  [(ngModel)]="clusterSize" *ngIf="reportType != 'misTripReject'" class="clu-input">
           <button class="btn btn-primary text-capitalize" style="margin-left: 20px;" (click)="getReportData(reportType)">OK</button>
     </div>
     <smart-table *ngIf="reportData && reportData.length" id="reportData" [data]="table.data"
