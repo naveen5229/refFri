@@ -29,9 +29,9 @@
           <div class="col">
             <div class="form-group">
               <label class="tjr-label"
-                *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('purchase')">Vender</label>
+                *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('purchase') || invoiceRegister.voucherType.name.toLowerCase().includes('debit') || invoiceRegister.voucherType.name.toLowerCase().includes('wastage')">Vender</label>
               <label class="tjr-label"
-                *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('sales')">Sales</label>
+                *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('sales') || invoiceRegister.voucherType.name.toLowerCase().includes('credit')">Sales</label>
               <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
               placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion> -->
               <input autocomplete="off" type="text" id="ledger" class="form-control tjr-input" name="ledger"

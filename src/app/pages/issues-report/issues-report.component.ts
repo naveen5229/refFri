@@ -27,6 +27,7 @@ export class IssuesReportComponent implements OnInit {
   reportData = [];
   endDate = new Date();
   startDate = new Date(new Date().setDate(new Date().getDate() - 15));
+  clusterSize = 100
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -57,16 +58,14 @@ export class IssuesReportComponent implements OnInit {
     '&level=1'+
     '&vehicleId='+
     '&locName='+
-    '&clusterSize='+
+    '&clusterSize='+this.clusterSize+
     '&reportType='+this.reportType;
     this.api.get(url+params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res['data']);
-        if (res['data']) {
-          this.reportData = res['data'];
+          this.reportData = res['data'] || [];
           this.gettingTableHeader(this.reportData);
-        }
       }, err => {
         this.common.loading--;
         console.error(err);
@@ -118,8 +117,8 @@ export class IssuesReportComponent implements OnInit {
             icons: this.actionIcons(tbldt)
           }
         }
-        else if (this.headings[i] == 'Location') {
-          this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'blue', action: this.openGenericModel.bind(this,tbldt) };
+        else if (this.headings[i] == 'Location' ||this.headings[i] =='Unload Location') {
+          this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'blue', action: this.openGenericModel.bind(this,tbldt),isHTML: true, };
         }
           
          else if (this.headings[i] == 'Trip') {
@@ -130,7 +129,7 @@ export class IssuesReportComponent implements OnInit {
           }
         }
         else {
-          this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'black', action: '' };
+          this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'black', action: '',isHTML: true, };
         }
       }
       columns.push(this.valobj);
@@ -151,13 +150,15 @@ export class IssuesReportComponent implements OnInit {
     console.log('data',data);
     let dataparams = {
       view: {
-        api: 'TripsOperation/tripReports?',
+        api: 'TripsOperation/tripReports',
         param: {
           fromDate: this.common.dateFormatter1(this.startDate),
           toDate : this.common.dateFormatter1(this.endDate),
           level : 2,
-          locName : data['Location'],
-          reportType : this.reportType
+          locName : data['Location']  || data['Unload Location'],
+          loadLocName : data['Location']  || data['Unload Location'],
+          reportType : this.reportType,
+          clusterSize : this.clusterSize
         }
       },
       viewModal: {
@@ -169,7 +170,7 @@ export class IssuesReportComponent implements OnInit {
           levelId: '_id'
         }
       },
-      title: "Details - " +data['Location']
+      title: "Details - " +data['Location'] || + data['Unload Location']
     }
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
