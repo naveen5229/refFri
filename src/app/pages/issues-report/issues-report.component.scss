@@ -37,3 +37,9 @@
     color: blue !important;
     text-decoration: underline;
 }
+
+:host ::ng-deep .lastcolumn{
+    th:nth-child(5) {
+        width: 550px !important;
+    }
+}

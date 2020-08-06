@@ -18,7 +18,7 @@
           <li [ngClass]="reportType == 'maxMisTripMaxUnloadDatDest' ? 'active' : '' " id="dis-all" (click)=" reportType = 'maxMisTripMaxUnloadDatDest'; getReportData(reportType); ">
            Max Unload at Destination
           </li>
-          <li [ngClass]="reportType == 'misTripShareUnload' ? 'active' : '' " id="dis-all" (click)=" reportType = 'misTripShareUnload'; getReportData(reportType); ">
+          <li [ngClass]="reportType == 'misTripMultiDestSingleUnload' ? 'active' : '' " id="dis-all" (click)=" reportType = 'misTripMultiDestSingleUnload'; getReportData(reportType); ">
             Common Unloading Point
            </li>
            <li [ngClass]="reportType == 'verticalClusterReport' ? 'active' : '' " id="dis-all" (click)=" reportType = 'verticalClusterReport'; getReportData(reportType); ">
@@ -35,11 +35,11 @@
           <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]=false  [isStart]=false>
           </uj-date-time-picker>
           <label style="margin-left: 20px;margin-right: 10px;" *ngIf="reportType != 'misTripReject'">Cluster Size</label>
-          <input type="number" [(ngModel)]="clusterSize" *ngIf="reportType != 'misTripReject'">
+          <input type="number"  [(ngModel)]="clusterSize" *ngIf="reportType != 'misTripReject'" style="width:50px;height: 30px;">
           <button class="btn btn-primary text-capitalize" style="margin-left: 20px;" (click)="getReportData(reportType)">OK</button>
     </div>
     <smart-table *ngIf="reportData && reportData.length" id="reportData" [data]="table.data"
-    [settings]="table.settings">
+    [settings]="table.settings" [ngClass]="reportType == 'misTripMultiDestSingleUnload' ? 'lastcolumn':''">
 </smart-table>
     <div class="no-data" *ngIf="!reportData.length">
       No Data available !

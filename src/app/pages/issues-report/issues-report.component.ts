@@ -118,7 +118,7 @@ export class IssuesReportComponent implements OnInit {
           }
         }
         else if (this.headings[i] == 'Location' ||this.headings[i] =='Unload Location') {
-          this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'blue', action: this.openGenericModel.bind(this,tbldt) };
+          this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'blue', action: this.openGenericModel.bind(this,tbldt),isHTML: true, };
         }
           
          else if (this.headings[i] == 'Trip') {
@@ -129,7 +129,7 @@ export class IssuesReportComponent implements OnInit {
           }
         }
         else {
-          this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'black', action: '' };
+          this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'black', action: '',isHTML: true, };
         }
       }
       columns.push(this.valobj);
