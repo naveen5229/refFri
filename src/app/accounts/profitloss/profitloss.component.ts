@@ -1,7 +1,7 @@
 import { Component, OnInit,Input, ChangeDetectionStrategy, ChangeDetectorRef  } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import * as _ from 'lodash';
@@ -9,6 +9,8 @@ import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 import { AccountService } from '../../services/account.service';
+import { isNull } from 'util';
+import { StoclsummaryComponent } from '../stoclsummary/stoclsummary.component';
 @Component({
   selector: 'profitloss-tree',
   templateUrl: './profitloss.html',
@@ -80,6 +82,7 @@ export class ProfitlossTreeComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfitlossComponent implements OnInit {
+  isModal = false;
   selectedName = '';
   plData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -125,7 +128,7 @@ export class ProfitlossComponent implements OnInit {
   isExpandMainGroup: boolean = false;
   isExpandAll: boolean = false;
   isExpand: string = '';
-
+  sizeIndex=0;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -133,6 +136,7 @@ export class ProfitlossComponent implements OnInit {
     public csvService: CsvService,
     public accountService: AccountService,
     public cdr: ChangeDetectorRef,
+    public activeModal: NgbActiveModal,
     public modalService: NgbModal) {
       this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.plData.startdate;
       this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.plData.enddate;
@@ -141,8 +145,21 @@ export class ProfitlossComponent implements OnInit {
     this.getBranchList();
     this.setFoucus('startdate');
     this.common.currentPage = 'Profit & Loss A/C';
-   // this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 0);
+    this.setFoucus('startdate');
+   if (this.common.params && this.common.params.startdate) {  
+   // this.showHideButton = false;
+   this.accountService.fromdate= this.common.params.startdate
+    this.accountService.todate= this.common.params.enddate
+    this.getBalanceSheet();
+   // this.sizeindex= this.sizeindex+1;
+    if (this.common.params.isModal) {
+      this.isModal = true
+    }
+  this.common.params = null;
+    this.common.handleModalSize('class', 'modal-lg', '1200', 'px', this.sizeIndex);
 
+   // this.common.params = null;
+  }
   }
 
   ngOnInit() {
@@ -558,12 +575,23 @@ export class ProfitlossComponent implements OnInit {
   }
   openLedgerViewModel(data) {
     console.log('ledger id 00000', data);
+    if(data.ledgerdata[0].y_path.includes('Opening Stock') || data.ledgerdata[0].y_path.includes('Closing Stock')){
+      this.common.params = {
+        startdate: this.plData.startdate,
+        enddate: this.plData.enddate,
+        ledger: data.ledgerdata[0].y_ledgerid,
+        sizeIndex:(this.sizeIndex + 1),
+        isModal:1
+      };
+      const activeModal = this.modalService.open(StoclsummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        //this.getDayBook();
+        //this.common.showToast('Voucher updated');
+  
+      });
+    }else{
     this.common.params = {
-      // startdate: this.plData.startdate,
-      // enddate: this.plData.enddate,
-      // ledger: ledgerId,
-      // vouchertype: (typeid==null) ? 0: typeid,
-      // ledgername: ledgerName
       startdate: this.plData.startdate,
       enddate: this.plData.enddate,
       ledger: data.ledgerdata[0].y_ledgerid,
@@ -578,6 +606,7 @@ export class ProfitlossComponent implements OnInit {
       //this.common.showToast('Voucher updated');
 
     });
+  }
   }
 
   generateCsvData() {

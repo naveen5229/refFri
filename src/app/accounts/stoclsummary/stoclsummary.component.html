@@ -1,5 +1,9 @@
 <nb-card style="border:0px;">
   <nb-card-body (keydown)="keyHandler($event)">
+    <div class="row" *ngIf="isModal" style="height:40px;background-color:black;margin:0!important">
+      <h4 style="color:white;padding:6px">{{currentPage}}</h4>
+      <i class="fa fa-times close"  (click)="activeModal.dismiss()"></i>
+    </div>
     <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('balance-sheet')" style="cursor: pointer;"><i
         class="fa fa-file-pdf"></i></span>
     <span class="exel-icon" title="CSV Export" (click)="generateCsvData()" style="cursor: pointer;margin-left: 10px;"><i
@@ -74,7 +78,7 @@
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
-                maxlength="10" name="account-endDate" [(ngModel)]="accountService.fromdate">
+                maxlength="10" name="account-endDate" [(ngModel)]="accountService.todate">
             </div>
           </div>
 
@@ -307,6 +311,16 @@
           </div>
         </div>
       </div>
+      </div>
+    </div>
+    <div class="modal-footer" *ngIf="isModal">
+      <div class="row w-100">
+        <div class="col-11"></div>
+        <div class="col-1 text-right" >
+          <button class="btn btn-primary tjr-button" type="button" outline (click)="activeModal.dismiss()" id="cancel"
+            style="cursor: pointer;">Cancel
+          </button>
+        </div>
       </div>
     </div>
   </nb-card-body>

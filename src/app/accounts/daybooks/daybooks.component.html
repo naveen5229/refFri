@@ -1,7 +1,4 @@
 <nb-card style="padding-top: 0px; border: 0px;">
-  <!-- <nb-card-header>
-    <h4>Day Book</h4>
-  </nb-card-header> -->
   <nb-card-body>
     <div class="row">
       <div class="col-9">
@@ -10,13 +7,6 @@
         <span class="exel-icon" title="CSV Export" (click)="csvFunction()" style="cursor: pointer;margin-left: 10px;"><i
             class="fas fa-file-excel"></i></span>
         <div class="row">
-          <!-- <div class="col-4">
-            <div class="form-group">
-              <label class="tjr-label">Branch</label>
-              <input type="text" id="branch" class="form-control tjr-input" name="branch"
-                [(ngModel)]="DayBook.branch.name">
-            </div>
-          </div> -->
           <div class="col-6">
             <div class="form-group">
               <label class="tjr-label">Voucher</label>
@@ -31,7 +21,6 @@
                 [(ngModel)]="DayBook.ledger.name">
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-4">
@@ -51,10 +40,12 @@
           </div>
           <div class="col-2">
             <div *ngIf="flag==0" class="form-group addvance">
-              <a href="javascript:void(0)" outline (click)="addvance()" id="submit" style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
+              <a href="javascript:void(0)" outline (click)="addvance()" id="submit"
+                style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
             </div>
             <div *ngIf="flag == 1" class="form-group addvance">
-              <a href="javascript:void(0)" outline (click)="addvance()" id="submit" class="advncolor" style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
+              <a href="javascript:void(0)" outline (click)="addvance()" id="submit" class="advncolor"
+                style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
             </div>
           </div>
           <div class="col-2">
@@ -66,10 +57,6 @@
         </div>
       </div>
       <div class="col-3">
-        <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
-          <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
-            (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
-        </div> -->
         <div class="auto-sugg">
           <div class="form-group" *ngIf="this.activeId.includes('vouchertype')">
             <auto-suggetion-in-side [data]="vouchertypedata" targetId="vouchertype" display="name"
@@ -82,30 +69,22 @@
         </div>
       </div>
     </div>
-
-
     <table class="table table-bordered" id="table">
-
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>S.No</th>
-          <th>Date</th>
-          <th>Particular</th>
-          <th>Vch Type</th>
-          <th>Vch No.</th>
-          <th>Amount(Debit)</th>
-          <th>Amount(Credit)</th>
-          <th *ngIf="accountService.selected.branch.id ==0">Branch</th>
+          <th *ngFor="let filter of filters">
+            <input type="text" [(ngModel)]="filter.search" (ngModelChange)="jrxSearch(filter)" [placeholder]="filter.name"
+              class="jrx-acc-th-inpt">
+          </th>
+          <th *ngIf="accountService.selected.branch.id == 0">Branch</th>
         </tr>
       </thead>
-      <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
-        (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
-        [ngClass]="{'highlight' : selectedRow == i}"> -->
-
-      <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
+      <tr *ngFor=" let dataItem of data; let i = index;" (click)="selectedRow = i"
         (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? (dataItem.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(dataItem) :(dataItem.y_type.toLowerCase().includes('fuel')) ? openFuelEdit(dataItem) : (dataItem.y_type.toLowerCase().includes('lr')) ? editTransfer(dataItem['y_transferid']) : openVoucherEdit(dataItem.y_voucherid,0,dataItem.y_vouchertype_id) : (dataItem.y_type.toLowerCase().includes('freight')) ?(dataItem.y_type.toLowerCase().includes('expense'))?openfreight(dataItem['y_transferid']):openRevenue(dataItem['y_transferid']): (dataItem.y_type.toLowerCase().includes('stock')) ? openStoreQuestionEdit(dataItem) :(dataItem.y_type.toLowerCase().includes('wastage'))? openinvoicemodel(dataItem,dataItem.y_voucherid,dataItem.y_vouchertype_id) : openServiceSalesInvoicemodel(dataItem,dataItem.y_voucherid,dataItem.y_vouchertype_id)"
-        (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i, 'highlightcolor' : DayData.length-1 == i}">
-        <td>{{ i+1 }}</td>
+        (enter)="openVoucherEdit(dataItem.y_voucherid) "
+        [ngClass]="{'highlight' : selectedRow == i, 'highlightcolor' : data.length-1 == i}">
+        <td>{{ (i + 1)  + ((pages.active - 1) * accountService.perPage) }}</td>
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
         <td>{{dataItem.y_particulars}}
           <span *ngIf="dataItem.y_docscount>0">
@@ -119,14 +98,23 @@
         <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
       </tr>
     </table>
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="pages.count >= 1">
+      <!-- Page Count -->
+      <div class="pagination_links">
+        <button (click)="jrxPagination(pages.active - 1)" [disabled]="pages.active == 1">Pre</button>
+        <button *ngFor="let page of common.generateArray(pages.count)" (click)="jrxPagination(page)"
+          [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</button>
+        <button (click)="jrxPagination(pages.active + 1)" [disabled]="pages.active == pages.count">Next</button>
+      </div>
+      <!-- Page Count END -->
+      <!-- Records Per Page -->
+      <div class="numer_list ml-3">
+        <input type="text" class="customPage form-control" name="customPageNo" (ngModelChange)="jrxPageLimitReset()"
+          [(ngModel)]="pages.limit">
+      </div>
+      <!-- Records Per Page END -->
+    </div>
+    <!-- Pagination END -->
   </nb-card-body>
 </nb-card>
-
-<!-- <div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
-  <div class="date-modal-body">
-    <div>
-      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="DayBook[f2Date]"
-        maxlength="10">
-    </div>
-  </div>
-</div> -->

@@ -16,6 +16,7 @@ import { RangeComponent} from '../acounts-modals/range/range.component';
       <router-outlet></router-outlet>
     </ngx-sample-layout>
   `,
+  styleUrls: ['./accounts.scss'],
   host: {
     '(document:keydown)': 'onKeyDown($event)'
   }
@@ -85,13 +86,11 @@ export class AccountsComponent {
   }
 
   onKeyDown(event) {
-    console.log('================== Key Down Event ==========:', event);
     const keys = ['f4', 'f5', 'f6', 'f7', 'f8', 'f9','f1','f10','f11','f12'];
     const key = event.key.toLowerCase();
     const index = keys.indexOf(key);
     if(event.ctrlKey){
       let redirectUrl='';
-      console.log('event key',key);
       if(key == 1){
         redirectUrl='/accounts/daybooks/0';
       } else if(key == 2){

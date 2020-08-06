@@ -46,7 +46,8 @@ nb-card-body{
     background-color: #576c77
 }
 table tr.highlight {
-    background-color: #FFEE75 !important;
+   // background-color: #FFEE75 !important;
+   background-color:  #e2ca1f !important;
     color: #000 !important;
 }
 .modal-header{
@@ -97,18 +98,16 @@ input[type=radio]{
 }
 
 .x-heading {
-    width: 81%;
-    margin: 0 0px 0px 1px;
+    width: 100%;
+    margin: 0 0px 0px 0px;
     padding: 0 !important;
     background-color: #263238;
     color: #fff;
     padding: 0px 0px !important;
-    font-size: 14px;
-    position: fixed;
+    font-size: 13px;
     z-index: 2;
-    margin-top: -47px;
-    .x-col {
-        border-right: 1px solid #f2f2f2;
+       .x-col {
+        border-right: 1px solid #263238;
         padding: 6px 4px;
     }
     .x-col:first-child {
@@ -149,9 +148,9 @@ input[type=radio]{
     color: #fff;
     font-size: 14px;
     border-bottom: 1px solid #FFF;
-    padding-left: 13px;
+  
     .x-col:first-child {
-        max-width: 24.5%;
+        max-width: 25.5%;
     }
 }
 .x-stockitem {
@@ -173,12 +172,13 @@ input[type=radio]{
     }
 }
 .x-warehouse {
-    background: #dadfe6;
+   // background: #dadfe6;
+   background: #C8C8C8;
     color: black;
     font-size: 14px;
-    padding-left: 13px;
+   
     .x-col:first-child {
-        max-width: 24.5%;
+        max-width: 25.5%;
     }
 
 }
@@ -224,9 +224,9 @@ input[type=radio]{
     border-bottom: 1px solid #FFF;
 }
 .x-sub-stocktype {
-    .x-col:first-child{
-    margin-left: -9px;
-    }
+    // .x-col:first-child{
+    //  margin-left: -9px;
+    // }
     .x-col:last-child {
         border-right: none;
         text-align: right;
@@ -248,7 +248,7 @@ input[type=radio]{
 }
 .x-warehouse {
     .x-col:first-child {
-        max-width: 24.5%;
+        max-width: 25.5%;
         }
     .x-col:last-child {
         border-right: none;
@@ -258,7 +258,7 @@ input[type=radio]{
 .jrx-dtbody{
     height: calc(100vh - 330px);
     overflow: auto;
-    width: 99%;
+    width: 100%;
 }
 .date-modal{
     position: absolute;
@@ -274,3 +274,6 @@ input[type=radio]{
     width: 200px;
     margin: 15% auto auto auto;
   }
+  
+
+

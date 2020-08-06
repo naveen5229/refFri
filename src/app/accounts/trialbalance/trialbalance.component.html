@@ -16,14 +16,14 @@
         <span class="exel-icon" title="CSV Export" (click)="generateCsvData()"
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
         <div class="row">
-          <div class="col-3">
+          <div class="col-5">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="startDate"
                 autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="accountService.fromdate">
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-5">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
@@ -42,12 +42,13 @@
 
     <div id="table">
     <div class="row heading m-0 p-0">
-        <div class="col-2">Ledger</div>
-        <div class="col-3">Opening Balance</div>
-        <div class="col-2">Amount(Debit)</div>
-        <div class="col-3">Amount(Credit)</div>
-        <div class="col-2">Closing Balance</div>
+        <div class="col x-col">Ledger</div>
+        <div class="col x-col">Opening Balance</div>
+        <div class="col x-col">Amount(Debit)</div>
+        <div class="col x-col">Amount(Credit)</div>
+        <div class="col x-col">Closing Balance</div>
     </div>
+    <div class="jrx-dtbody">
     <div *ngFor="let stockType of voucherEntries let i = index" class="x-data">
       <div class="row x-stocktype" style="cursor:pointer"  (click)="activeTree = activeTree !== i ? i : -1">
         <div class="col x-col">{{stockType.name}}</div>
@@ -59,6 +60,7 @@
       <trail-tree [action]="getBookDetail.bind(this)" [action]="getBookDetail.bind(this)"  [data]="stockType.data" [isExpandAll]= "isExpand == 'sub'" [active] = "(((activeTree == i) || (isExpand))  ? true : false)" [labels]="'&nbsp;'">
       </trail-tree>
     </div>
+  </div>
     <!-- <div *ngFor="let traildata of trialBalanceData;  let i = index;"
     (click)="handleExpandation($event, i, 'trialBalanceData', 'mainGroup', 0)">
       <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == trialBalanceData.length -1 ? 'none' : ''}">
