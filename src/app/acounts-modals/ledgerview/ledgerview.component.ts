@@ -61,6 +61,7 @@ export class LedgerviewComponent implements OnInit {
   f2Date = 'startDate';
   activedateid = '';
   lastActiveId = '';
+  sizeIndex=0;
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -96,9 +97,12 @@ export class LedgerviewComponent implements OnInit {
         }
 
       }
+      if(this.common.params.sizeIndex){
+        this.sizeIndex=this.common.params.sizeIndex;
+      }
       this.getLedgerView();
     }
-    this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 0);
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeIndex);
   
 
     //  this.getVoucherTypeList();
@@ -329,7 +333,7 @@ export class LedgerviewComponent implements OnInit {
         newid: 0,
         ordertype: dataItem.y_vouchertype_id,
         isModal:true,
-        sizeIndex:1
+        sizeIndex:(this.sizeIndex+1)
       };
       const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
       activeModal.result.then(data => {
@@ -377,7 +381,7 @@ export class LedgerviewComponent implements OnInit {
     delete: 0,
     addvoucherid: 0,
     voucherTypeId: dataItem.y_vouchertype_id,
-    sizeIndex:1
+    sizeIndex:(this.sizeIndex+1)
   };
   const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
   activeModal.result.then(data => {
