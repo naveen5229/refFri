@@ -89,12 +89,11 @@ table{
     }
   
     tbody{
-        //overflow-y: auto;
         display: block;
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 312px);
+        max-height: calc(100vh - 290px);
         tr{
             display: table;
             table-layout: fixed;
@@ -147,11 +146,11 @@ table{
     margin: 15% auto auto auto;
 }
 .pdf-icon{
-    font-size: 30px;
+   // font-size: 30px;
     color: #9F0001;
 }
 .exel-icon{
-    font-size: 30px;
+  //  font-size: 30px;
     color: #217346;
 }
 .tjr_select{

@@ -3,14 +3,14 @@
           <div class="row" style="margin-top: 40px;">
             <div class="col-8">
             <div class="row">
-            <div class="col-4">
+            <div class="col-6">
               <div class="form-group">
                 <label class="tjr-label">Group </label>
                 <input autocomplete="off" type="text" id="group" class="form-control tjr-input" name="group"
                   [(ngModel)]="group.name">
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-6">
               <div class="form-group">
                 <label class="tjr-label">Ledger</label>
                 <input autocomplete="off" type="text" id="ledgerdaybook" class="form-control tjr-input" name="ledger"
@@ -19,8 +19,8 @@
             </div>
             </div>
             <div class="row">
-          <div class="col-4"><button class="btn mb-4" id="pending" (click)="GetLedger(4)">Pending For Approval</button></div>
-          <div class="col-4"><button class="btn mb-4" id="delreview" (click)="GetLedger(6)">Deleted Review</button></div>
+          <div class="col-6"><button class="btn mb-4" id="pending" (click)="GetLedger(4)">Pending For Approval</button></div>
+          <div class="col-6"><button class="btn mb-4" id="delreview" (click)="GetLedger(6)">Deleted Review</button></div>
           </div>
         
             </div>

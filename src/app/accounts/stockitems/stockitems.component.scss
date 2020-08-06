@@ -25,24 +25,27 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 140px;
+            width: auto;
         }
         th:nth-child(1){
-            width: 50px;
+            width: 3%;
         }
         th:nth-child(2){
-            width: 350px;
+            width: 15%;
         }
         th:nth-child(3){
-            width: 200px;
+            width: 15%;
+        }
+        th:nth-child(7){
+            width: 10%;
         }
         th:last-child{
-            width: auto;
+            width: 7%;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 140px;
+            width: auto;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -61,23 +64,26 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 172px);
+        max-height: calc(100vh - 190px);
         tr{
             display: table;
             table-layout: fixed;
             width: 100%;
-        td:nth-child(1){
-            width: 50px;
-        }
-        td:nth-child(2){
-            width: 350px;
-        }
-        td:nth-child(3){
-            width: 200px;
-        }
-        td:last-child{
-            width: auto;
-        }
+            td:nth-child(1){
+                width: 3%;
+            }
+            td:nth-child(2){
+                width:  15%;
+            }
+            td:nth-child(3){
+                width: 15%;
+            }
+            td:nth-child(7){
+                width: 10%;
+            }
+            td:last-child{
+                width: 7%;
+            }
         }
         tr:nth-child(odd){
             background-color: #fff;
@@ -124,6 +130,4 @@ i{
   .modal-header h5{
     color: #fff;
   }
-  nb-card-body{
-    padding: 0;
-}
+
