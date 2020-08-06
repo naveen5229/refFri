@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
+import { ShowDataMapComponent } from '../../modals/generic-modals/show-data-map/show-data-map.component';
 
 @Component({
   selector: 'issues-report',
@@ -120,6 +121,9 @@ export class IssuesReportComponent implements OnInit {
         else if (this.headings[i] == 'Location' ||this.headings[i] =='Unload Location') {
           this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'blue', action: this.openGenericModel.bind(this,tbldt),isHTML: true, };
         }
+        else if (this.headings[i] == 'Original' ||this.headings[i] =='Cluster Name' || this.headings[i] =='location') {
+          this.valobj[this.headings[i]] = { value: tbldt[this.headings[i]], class: 'blue', action: this.showDataOnMap.bind(this,tbldt),isHTML: true, };
+        }
           
          else if (this.headings[i] == 'Trip') {
           this.valobj[this.headings[i]] = {
@@ -175,6 +179,15 @@ export class IssuesReportComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  showDataOnMap(data) {
+    // this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    this.common.params = { mapData: data._map };
+    const activeModal = this.modalService.open(ShowDataMapComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
   }
 
   }

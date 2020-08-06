@@ -882,6 +882,11 @@ export class ConciseComponent implements OnInit {
         class: "icon fa fa-gavel",
         action: ''
       },
+      {
+        class: "icon fa fa-phone",
+        action: ''
+      },
+
     ]
     // if (this.user._loggedInBy != "admin") {
     //   icons.shift();
@@ -993,6 +998,30 @@ export class ConciseComponent implements OnInit {
     const activeModal = this.modalService.open(VehicleOrdersComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
 
+  }
+  callNotification(data){
+    console.log("data",data);
+if(data['x_mobileno']){
+    let params = {
+      mobileno:data['x_mobileno'],
+      callTime:this.common.dateFormatter(new Date())
+
+    }
+  console.log('params: ', params);
+  this.common.loading++;
+  this.api.post('Notifications/sendCallSuggestionNotifications' , params)
+    .subscribe(res => {
+      this.common.loading--;
+      console.log('res--',res);
+      this.common.showToast(res['msg']);
+    }, err => {
+      this.common.loading--;
+      this.common.showError();
+    })
+  }
+  else{
+    this.common.showError('Driver Mobile no. does not exist');
+  }
   }
 
 
@@ -1169,6 +1198,9 @@ export class ConciseComponent implements OnInit {
           break;
         case 'icon fa fa-gavel':
           this.openVehicleWiseOrders(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-phone':
+          this.callNotification(this.findKPI(details.column._id))
           break;
       }
     }
