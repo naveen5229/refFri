@@ -3,25 +3,10 @@
     <h4>Invoice</h4>
   </nb-card-header> -->
   <nb-card-body>
-    <div class="row mb-4 mt-4">
+    <div class="row mt-4">
       <div class="col-9">
         <div class="row">
-          <!-- <div class="col-4">
-            <div class="form-group">
-              <label class="ref-label">Invoice Type</label>
-              <input type="text" autocomplete="off" class="form-control ref-input" id="ordertype" name="ordertype"
-                [(ngModel)]="order.ordertype.name" placeholder="Please Select Invoice Type" required>
-            </div>
-          </div> -->
-
-          <!-- <div class="col-4">
-            <div class="form-group">
-              <label class="ref-label">Invoice</label>
-              <input type="text" autocomplete="off" class="form-control ref-input" id="invocelist" name="invocelist"
-                placeholder="Please Select Invoice" required>
-
-            </div>
-          </div> -->
+         
         </div>
 
         <!-- Purchase Start -->
@@ -333,7 +318,7 @@
     </div>
     <!--sales end-->
     <div class="row"></div>
-    <table class="invoice_tabel table table-bordered">
+    <table class="invoice_tabel table table-bordered" style="margin-bottom:0!important">
       <thead style="background-color: #263238; color:#fff;">
       
           <th>Warehouse</th>
@@ -408,7 +393,7 @@
               [(ngModel)]="amountDetail.discountate" [id]="'discountate-' + i"
               (input)="amountDetail.lineamount = amountDetail.amount - amountDetail.discountate;" [value]="0"></td> -->
           <td *ngIf="(order.ordertype.id != -108)">
-            <input type="number" class="form-control" autocomplete="off" name="account-lineamount"
+            <input type="number" class="form-control ref-input" autocomplete="off" name="account-lineamount"
               [(ngModel)]="amountDetail.lineamount"  readonly style="background-color: #eeeeee;">
           </td>
 
@@ -430,12 +415,12 @@
                 class="fa fa-trash"></i></button>
           </td>
         </tr>
-        <tr style="background: #576c77 !important; color:#fff;" *ngIf="(order.ordertype.id != -108)">
+        <tr class="diffrow" style="background: #d3dbe5 !important;" *ngIf="(order.ordertype.id != -108)">
           <td>&nbsp;</td>
           <td>&nbsp;</td>
           <!-- <td><b>Total Qty : </b></td> -->
           <td>
-            <label class="ref-label">Total Qty:</label>
+            <label class="ref-label" style="padding: 0!important;">Total Qty:</label>
             <input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
             [(ngModel)]="totalqty" [value]="calculateTotalQty()" readonly style="background-color: #eeeeee;">
         </td>
@@ -456,6 +441,7 @@
             [(ngModel)]="order.totalamount" [value]="calculateTotalLineAmount()" readonly style="background-color: #eeeeee;">
         </td>
         <td>&nbsp;</td>
+        <td>&nbsp;</td>
         </tr>
       </tbody>
     </table>
@@ -464,7 +450,7 @@
     <div class="modal-footer">
       <div class="row w-100">
         <div class="col-11">
-            <input type="checkbox" name="print" id="print" [(ngModel)]="order.print">Print After Save
+            <input type="checkbox" name="print" id="print" [(ngModel)]="order.print"> Print After Save
             <span *ngIf="mannual">
             <input type="checkbox" name="mannual" id="mannual"  [(ngModel)]="order.ismanual"> Is Mannual Approval
           </span>
@@ -497,7 +483,7 @@
 <div class="date-modal" *ngIf="showDateModal">
   <div class="date-modal-body">
     <div>
-      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="order[f2Date]"
+      <input type="text" class="form-control ref-input" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="order[f2Date]"
         maxlength="10">
     </div>
   </div>

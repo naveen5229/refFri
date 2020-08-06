@@ -352,10 +352,15 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   mergeWithVS(vsId, hsId, isCheck, j) {
+    
     this.unCheckAll(j);
     if (isCheck) {
       this.vSId = vsId;
       this.hsId = hsId;
+    }
+    else{
+      this.vSId = null;
+      this.hsId = null;
     }
   }
 
@@ -364,6 +369,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
       if (this.isChecks.hasOwnProperty(key)) {
         if (key != j) {
           this.isChecks[key] = false;
+        }else if(key == j) {
+          this.isChecks[key] = true;
         }
       }
     }
@@ -604,9 +611,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
           this.api.post('HaltOperations/mergeManualStates', params)
             .subscribe(res => {
               // this.common.loading--;
+                       this.vSId = null;
+                        this.isChecks = {};
               if (res['success']) {
                 this.reloadData();
                 this.common.showToast(res['msg']);
+        
               } else {
                 this.common.showError(res['msg']);
                 this.reloadData();
@@ -616,8 +626,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
               this.common.showError(err);
             });
         }
-      this.vSId = null;
-      this.isChecks = {};
+      // this.vSId = null;
+      // this.isChecks = {};
       if (!this.onlyDrag) {
         this.vehicleEvents.forEach(vEvent => {
           if (vEvent != vehicleEvent)
@@ -630,6 +640,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       this.onlyDrag = false;
     }
   }
+
   drop(event: CdkDragDrop<string[]>) {
     //moveItemInArray(this.vehicleEvents, event.previousIndex, event.currentIndex);
   }
