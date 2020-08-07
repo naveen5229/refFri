@@ -16,12 +16,20 @@
 
     <div class="row m-0 pt-3" style="background-color:white;">
       <div class="col-3 pl-3">
-        <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
-          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly> -->
+
+          <uj-date-time-picker [isTime]=false   (onChanged)="startTime = $event"
+                                [dateTimeValue]="startTime">
+                            </uj-date-time-picker>
       </div>
       <div class="col-3">
-        <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
-          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
+          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly> -->
+
+          <uj-date-time-picker [isTime]=false  [isStart]=false (onChanged)="endTime = $event"
+                                  [dateTimeValue]="endTime">
+                            </uj-date-time-picker>
       </div>
       <div class="col-3">
         <button class="btn customButton" type="button" (click)="getPaymentMade()">Submit</button>
