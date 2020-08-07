@@ -1003,7 +1003,7 @@ export class DaybooksComponent implements OnInit {
     } else {
       this.openServiceSalesInvoicemodel(dataItem, dataItem.y_voucherid, dataItem.y_vouchertype_id)
     }
-
+    this.common.currentPage = (this.deletedId == 0) ? 'Day Book' : 'Voucher & Invoice Deleted';
     // (dataItem.y_type.toLowerCase().includes('voucher'))
     //   ? (dataItem.y_type.toLowerCase().includes('trip'))
     //     ? this.openConsignmentVoucherEdit(dataItem)

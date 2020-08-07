@@ -570,6 +570,7 @@ export class TradingComponent implements OnInit {
 
     });
   }
+  this.common.currentPage = 'Trading Account';
 }
 
 csvFunction() {
