@@ -484,6 +484,7 @@ export class CashbookComponent implements OnInit {
     //   }
     // });
   }
+  this.common.currentPage = 'Cash Book';
   }
   openConsignmentVoucherEdit(voucherData) {
     const params = {
