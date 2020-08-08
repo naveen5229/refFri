@@ -16,32 +16,37 @@
         <thead style="background-color: #263238; color:#fff;">
           <tr>
             <th>#</th>
-            <th>Under Group</th>
+            <!-- <th>Under Group</th>
             <th>Name</th>
             <th>Alias Name</th>
             <th>Cost Center Allow</th>
-            <th>Date</th>
+            <th>Date</th> -->
+            <th *ngFor="let filter of filters">
+              <input type="text" [(ngModel)]="filter.search" (ngModelChange)="jrxSearch(filter)" [placeholder]="filter.name"
+                class="jrx-acc-th-inpt">
+            </th>
 
           </tr>
         </thead>
         <tbody>
-          <tr *lazyFor="let data of Ledgers; let i = index;" (click)="selectedRow = i"
-            (dblclick)="(deletedId !=2) ? openModal(data) : ''" (enter)="openModal(data)"
+          <tr *ngFor="let dataItem of data; let i = index;" (click)="selectedRow = i"
+            (dblclick)="(deletedId !=2) ? openModal(dataItem) : ''" (enter)="openModal(dataItem)"
             [ngClass]="{'highlight' : selectedRow == i}">
-            <td>{{i + 1}}</td>
-            <td>{{ data.groupname}}</td>
-            <td>{{data.name}}</td>
-            <td>{{data.alias_name}}</td>
-            <td *ngIf="deletedId !=2 ">{{data.is_constcenterallow}}</td>
-            <td *ngIf="deletedId ==2 "> <input type="checkbox" [value]='data.is_constcenterallow'
-                [(ngModel)]="data.is_constcenterallow" (change)="updateLedgerCostCenter($event,data.id)" /></td>
-            <td>{{data.entry_dt | date : 'dd-MMM-yy'}}</td>
+            <td>{{ (i + 1)  + ((pages.active - 1) * accountService.perPage) }}</td>
+            <td>{{ dataItem.groupname}}</td>
+            <td>{{dataItem.name}}</td>
+            <td>{{dataItem.alias_name}}</td>
+            <td *ngIf="deletedId !=2 ">{{dataItem.is_constcenterallow}}</td>
+            <td *ngIf="deletedId ==2 "> <input type="checkbox" [value]='dataItem.is_constcenterallow'
+                [(ngModel)]="dataItem.is_constcenterallow" (change)="updateLedgerCostCenter($event,dataItem.id)" /></td>
+            <td>{{dataItem.entry_dt | date : 'dd-MMM-yy'}}</td>
             <!-- <td><span class="fa fa-pencil-square-o" (click)="openModal(data)"></span></td> -->
           </tr>
         </tbody>
 
       </table>
     </div>
+
     <div class="modal-footer" *ngIf="pageName">
         <div class="row">
             <div class="col">
@@ -50,5 +55,23 @@
               </div>
             </div>
           </div>
+           <!-- Pagination -->
+    <div class="pagination" *ngIf="pages.count >= 1">
+      <!-- Page Count -->
+      <div class="pagination_links">
+        <button (click)="jrxPagination(pages.active - 1)" [disabled]="pages.active == 1">Pre</button>
+        <button *ngFor="let page of common.generateArray(pages.count)" (click)="jrxPagination(page)"
+          [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</button>
+        <button (click)="jrxPagination(pages.active + 1)" [disabled]="pages.active == pages.count">Next</button>
+      </div>
+      <!-- Page Count END -->
+      <!-- Records Per Page -->
+      <div class="numer_list ml-3">
+        <input type="text" class="customPage form-control" name="customPageNo" (ngModelChange)="jrxPageLimitReset()"
+          [(ngModel)]="pages.limit">
+      </div>
+      <!-- Records Per Page END -->
+    </div>
+    <!-- Pagination END -->
   </nb-card-body>
 </nb-card>
