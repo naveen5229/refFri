@@ -70,6 +70,7 @@ table tr.highlight {
     min-height: 128px;
 }
 table {
+    min-width: 1110px;
     thead {
         display: table;
         width: 100%;
@@ -79,33 +80,30 @@ table {
         th {
             padding: 5px 5px;
             font-weight: normal;
-            width: 10%;
+            width: 11%;
             border-right-color: #263238;
         }
         th:first-child {
             width: 4%;
-            min-width: 41px;
+           
         }
         th:nth-child(2){
             width: 8%;
-            min-width: 85px;
+            
+        }
+        th:nth-child(5){
+            width: 14%;
+           
         }
         th:nth-child(3){
-            width: 25%;
+            width: 22%;
+
         }
-        th:nth-child(4){
-           min-width: 120px;
-        }
-     
-        th:last-child{
-            min-width: 100px;
-        }
-       
       
         td {
             padding: 5px 5px !important;
             font-size: 12px;
-            width: 10%;
+            width: 11%;
             button {
                 padding: 0 !important;
                 font-size: 11px;
@@ -131,23 +129,21 @@ table {
             width: 100%;
             td:first-child {
                 width: 4%;
-                min-width: 41px;
+               
             }
             td:nth-child(2){
                 width: 8%;
-                min-width: 85px;
+                
+            }
+            td:nth-child(5){
+                width: 14%;
+               
             }
             td:nth-child(3){
-                width: 25%;
+                width: 22%;
 
             }
-            td:nth-child(4){
-                min-width: 120px;
-            }
-            td:last-child{
-                min-width: 100px;
-            }
-          
+         
         }
         tr:nth-child(odd) {
             background-color: #fff;
