@@ -742,7 +742,7 @@ export class MapService {
     data.forEach(ele => {
       let icon = {
         path: google.maps.SymbolPath.CIRCLE,
-        scale: 4,
+        scale: 8,
         fillColor: ele.fillColor || '#0000FF',
         fillOpacity: 1,
         strokeWeight: 1
