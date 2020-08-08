@@ -612,6 +612,7 @@ export class ProfitlossComponent implements OnInit {
 
     });
   }
+  this.common.currentPage = 'Profit & Loss A/C';
   }
 
   singleFormatCsvData() {

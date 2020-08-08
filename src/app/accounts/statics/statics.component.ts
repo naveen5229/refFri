@@ -324,6 +324,7 @@ export class StaticsComponent implements OnInit {
 
 
     });
+    this.common.currentPage = 'Accounts Statics';
   }
 
 
