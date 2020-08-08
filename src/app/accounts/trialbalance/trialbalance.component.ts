@@ -836,7 +836,7 @@ export class TrialbalanceComponent implements OnInit {
   singleFormatCsvData() {
     console.log('set bal',this.openingbal,)
     let liabilitiesJson = [];
-    liabilitiesJson.push(Object.assign({ Ledger: "Particulars", OpeningBalance: 'Opening Balance', amountdr: 'Amount(Debit)', amountcr: 'Amount(Credit)', amount: 'Closing Balance' }));
+    liabilitiesJson.push(Object.assign({ Ledger: "Particulars", OpeningBalance: 'Opening Balance', amountdr: 'Amount(DR)', amountcr: 'Amount(CR)', amount: 'Closing Balance' }));
     this.voucherEntries.forEach(liability => {
       liabilitiesJson.push({ Ledger: liability.name, OpeningBalance:  (this.positiveLookingValue(liability.opnbal)) +' '+ liability.opnbaltype , amountdr: liability.debit, amountcr: liability.credit, amount:  (this.positiveLookingValue(liability.clobal)) +' '+ liability.opnbaltype });
       // liability.subGroups.forEach(subGroup => {
