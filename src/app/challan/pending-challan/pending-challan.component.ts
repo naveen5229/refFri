@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { PdfViewerComponent } from '../../generic/pdf-viewer/pdf-viewer.component';
 import { ChallanPendingRequestComponent } from '../../modals/challanModals/challan-pending-request/challan-pending-request.component';
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
 @Component({
   selector: 'pending-challan',
@@ -180,5 +181,19 @@ export class PendingChallanComponent implements OnInit {
     };
   }
 
+
+  lastchecked(){
+      let dataparams = {
+        view: {
+          api: 'Challans/getPendingLastCheckedReport',
+          param: {}
+        },
+        
+        title: 'Last Checked Report '
+      }
+      this.common.handleModalSize('class', 'modal-lg', '1100');
+      this.common.params = { data: dataparams };
+      const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    }
 
 }
