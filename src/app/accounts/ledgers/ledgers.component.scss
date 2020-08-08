@@ -1,9 +1,11 @@
 button { 
-    padding: 7px 10px !important;
+    padding: 2px 4px !important;
     background-color: #263238;
     border-radius: 5px !important;
     text-transform: capitalize !important;
     cursor: pointer;
+    color: #fff;
+    font-size: 10px;
 }
 
 nb-card-header{
@@ -28,7 +30,7 @@ table{
             width: 170px;
         }
         th:nth-child(1){
-            width: 35px;
+            width: 55px;
         }
         th:nth-child(2){
             width: 150px;
@@ -67,7 +69,7 @@ table{
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 35px;
+                width: 55px;
             }
             td:nth-child(2){
                 width: 150px;
@@ -118,6 +120,19 @@ table tr.highlight {
   .modal-header h5{
     color: #fff;
   }
+  .customPage {
+    font-size: 10px !important;
+    padding: 1px 5px !important;
+    width: 60px;
+    border: 1px solid;
+}
+  .pagination {
+    margin: 0px;
+    margin-top: -10px;
+}
+.active-page {
+    background: teal;
+}
 //   nb-card-body{
 //     padding: 0;
 // }
