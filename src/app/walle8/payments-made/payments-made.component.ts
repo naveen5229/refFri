@@ -14,10 +14,12 @@ export class PaymentsMadeComponent implements OnInit {
   data = [];
   total = 0;
   userId = this.user._details.id;
-  dates = {
-    start: null,
-    end: null,
-  }
+  startTime = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  endTime = new Date();
+  // dates = {
+  //   start: null,
+  //   end: null,
+  // }
   table = null;
   constructor(
     public api: ApiService,
@@ -25,9 +27,9 @@ export class PaymentsMadeComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
-    let today = new Date();
-    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
-    this.dates.end = this.common.dateFormatter1(new Date());
+    // let today = new Date();
+    // this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
+    // this.dates.end = this.common.dateFormatter1(new Date());
     this.getPaymentMade();
     this.common.refresh = this.refresh.bind(this);
     //this.getPaymentMade();
@@ -44,19 +46,19 @@ export class PaymentsMadeComponent implements OnInit {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (date == 'start') {
-        this.dates.start = this.common.dateFormatter(data.date).split(' ')[0];
+        // this.dates.start = this.common.dateFormatter(data.date).split(' ')[0];
+        this.startTime=this.common.dateFormatter(data.date).split(' ')[0];
       }
       if (date == 'end') {
-        this.dates.end = this.common.dateFormatter(data.date).split(' ')[0];
+        // this.dates.end = this.common.dateFormatter(data.date).split(' ')[0];
+        this.endTime=this.common.dateFormatter(data.date).split(' ')[0];
       }
-
-
     });
   }
   getPaymentMade() {
 
 
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.common.dateFormatter(new Date(this.startTime)) + "&enddate=" + this.common.dateFormatter(new Date(this.endTime));
 
     this.common.loading++;
     let response;
@@ -116,8 +118,6 @@ export class PaymentsMadeComponent implements OnInit {
       dttime: { title: 'Date', placeholder: 'Date' },
       amt: { title: 'Amount', placeholder: 'Amount' },
       rema: { title: 'Remark', placeholder: 'Remark' },
-
-
     };
     return {
       data: {
@@ -139,12 +139,9 @@ export class PaymentsMadeComponent implements OnInit {
         dttime: { value: req.dttime == null ? "-" : this.common.changeDateformat4(req.dttime) },
         amt: { value: req.amt == null ? "-" : req.amt },
         rema: { value: req.rema == null ? "-" : req.rema },
-
-
       };
       columns.push(column);
     });
     return columns;
   }
-
 }

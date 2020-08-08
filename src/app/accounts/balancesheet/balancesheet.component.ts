@@ -503,6 +503,7 @@ export class BalancesheetComponent implements OnInit {
 
       });
     }
+    this.common.currentPage = 'Balance Sheet';
   }
   RowSelected(u: any) {
     // console.log('data of u', u);

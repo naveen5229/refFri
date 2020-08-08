@@ -131,6 +131,7 @@ export class outStandingTreeComponent {
     //       this.getaction();
     //   }
     // });
+    this.common.currentPage = 'OutStanding Report';
   }
 
 }

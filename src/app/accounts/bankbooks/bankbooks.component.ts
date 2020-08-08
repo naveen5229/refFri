@@ -384,6 +384,8 @@ export class BankbooksComponent implements OnInit {
     //   }
     // });
   }
+  this.common.currentPage = 'Bank Book';
+
   }
   openConsignmentVoucherEdit(voucherData) {
     const params = {

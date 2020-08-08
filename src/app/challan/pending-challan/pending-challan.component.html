@@ -32,16 +32,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             <select [(ngModel)]="challanStatus" class="form-control"
                                 style=" border: 2px solid darkcyan; font-size: 13px; ">
                                 <option value="-1">All</option>
                                 <option value="0">Pending</option>
                             </select>
                         </div>
-                        <div class="col-2">
-                            <button type="button" class="btn btn-primary" (click)="getPendingChallans()">submit</button>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-primary" (click)="getPendingChallans()">OK</button>
+                            <button type="button" class="btn btn-primary" (click)="lastchecked()" style="margin-left: 15px;">Last Check Report</button>
+                        
                         </div>
+                        
                     </div>
                 </div>
             </div>

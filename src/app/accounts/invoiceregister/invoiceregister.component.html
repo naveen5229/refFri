@@ -29,9 +29,9 @@
           <div class="col">
             <div class="form-group">
               <label class="tjr-label"
-                *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('purchase')">Vender</label>
+                *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('purchase') || invoiceRegister.voucherType.name.toLowerCase().includes('debit') || invoiceRegister.voucherType.name.toLowerCase().includes('wastage')">Vender</label>
               <label class="tjr-label"
-                *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('sales')">Sales</label>
+                *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('sales') || invoiceRegister.voucherType.name.toLowerCase().includes('credit')">Sales</label>
               <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
               placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion> -->
               <input autocomplete="off" type="text" id="ledger" class="form-control tjr-input" name="ledger"
@@ -45,8 +45,6 @@
                 id="code" name="account-code" [(ngModel)]="invoiceRegister.code">
             </div>
           </div>
-        </div>
-        <div class="row">
           <div class="col">
             <div class="form-group">
               <label class="tjr-label">Cust Code</label>
@@ -54,7 +52,10 @@
                 placeholder="Cust Code" id="custcode" name="account-custCode" [(ngModel)]="invoiceRegister.custCode">
             </div>
           </div>
-          <div class="col">
+        </div>
+        <div class="row">
+         
+          <div class="col-3">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
@@ -62,14 +63,14 @@
                 [(ngModel)]="accountService.fromdate">
             </div>
           </div>
-          <div class="col">
+          <div class="col-3">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
                 maxlength="10" placeholder="Select Date" name="account-endDate" [(ngModel)]="accountService.todate">
             </div>
           </div>
-          <div class="col">
+          <div class="col-3">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getInvoiceRegister()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
@@ -134,7 +135,7 @@
 <div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
   <div class="date-modal-body">
     <div>
-      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2"
+      <input type="text" class="form-control tjr-input" name="voucher-date-f2" id="voucher-date-f2"
         [(ngModel)]="invoiceRegister[f2Date]" maxlength="10">
     </div>
   </div>

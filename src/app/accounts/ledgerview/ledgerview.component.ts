@@ -477,6 +477,7 @@ export class LedgerviewComponent implements OnInit {
     //   }
     // });
   }
+  this.common.currentPage = 'Ledger View';
   }
   openFuelEdit(vchData){
     console.log('vch data new ##',vchData);

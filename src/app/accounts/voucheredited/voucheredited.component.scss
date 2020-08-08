@@ -70,6 +70,7 @@ table{
             padding: 5px 10px;
             font-weight: normal;
             width: 130px;
+            border-right-color: #263238;
         }
         th:nth-child(1){
             width: 50px;
@@ -166,15 +167,7 @@ table{
     font-size: 30px;
     color: #217346;
 }
-.tjr_select{
-    border: 1px solid #263238 !important;
-    border-radius: 0px 2px 2px 2px !important;
-    padding: 3px 5px !important;
-    height: auto !important;
-    font-size: 12px !important;
-    display: block;
-    width: 100%;
-}
+
 .debit_box{
     margin-left: 17px;
   }

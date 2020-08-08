@@ -2,7 +2,7 @@
   <!-- <nb-card-header>
     <h4>Day Book</h4>
   </nb-card-header> -->
-  <nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
+  <nb-card-body style="min-height: 450px;">
     <div class="row">
       <div class="col-9">
         <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
@@ -28,7 +28,7 @@
 
     </div>
 
-
+<div class="table-responsive">
     <table class="table table-bordered" id="table">
 
       <thead style="background-color:#263238; color:#fff;">
@@ -65,6 +65,7 @@
         </tr>
       </tbody>
     </table>
+  </div>
   </nb-card-body>
 </nb-card>
 <div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">

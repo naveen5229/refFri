@@ -79,30 +79,33 @@ table {
         th {
             padding: 5px 5px;
             font-weight: normal;
-            width: auto;
+            width: 10%;
+            border-right-color: #263238;
         }
         th:first-child {
-            width: 40px;
+            width: 4%;
+            min-width: 41px;
         }
         th:nth-child(2){
-            width: 85px;
+            width: 8%;
+            min-width: 85px;
+        }
+        th:nth-child(3){
+            width: 25%;
         }
         th:nth-child(4){
-            width: 115px;
+           min-width: 120px;
         }
-        th:nth-child(5){
-            width: 160px;
+     
+        th:last-child{
+            min-width: 100px;
         }
-        th:nth-child(6), th:nth-child(7){
-            width: 120px;
-        }
-        th:last-child {
-            width: 145px;
-        }
+       
+      
         td {
             padding: 5px 5px !important;
             font-size: 12px;
-            width: auto;
+            width: 10%;
             button {
                 padding: 0 !important;
                 font-size: 11px;
@@ -126,24 +129,25 @@ table {
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:last-child {
-                width: 140px;
-            }
             td:first-child {
-                width: 40px;
+                width: 4%;
+                min-width: 41px;
             }
             td:nth-child(2){
-                width: 85px;
+                width: 8%;
+                min-width: 85px;
             }
-             td:nth-child(4){
-                width: 115px;
+            td:nth-child(3){
+                width: 25%;
+
             }
-            td:nth-child(5){
-                width: 160px;
+            td:nth-child(4){
+                min-width: 120px;
             }
-            td:nth-child(6), td:nth-child(7){
-                width: 120px;
+            td:last-child{
+                min-width: 100px;
             }
+          
         }
         tr:nth-child(odd) {
             background-color: #fff;
@@ -182,11 +186,11 @@ table {
     margin: 15% auto auto auto;
 }
 .pdf-icon {
-    font-size: 30px;
+ 
     color: #9f0001;
 }
 .exel-icon {
-    font-size: 30px;
+  
     color: #217346;
 }
 .far.fa-image {

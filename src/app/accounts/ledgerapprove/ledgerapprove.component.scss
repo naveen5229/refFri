@@ -37,21 +37,29 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 140px;
+            word-break: keep-all;
+            white-space: nowrap;
+            width: auto;
         }
         th:nth-child(1){
-            width: 35px;
+            width: 3%;
         }
         th:nth-child(2){
-            width: 440px;
+            width: 15%;
+        }
+        th:nth-child(5){
+            width: 13%;
+        }
+        th:nth-child(6){
+            width: 10%;
         }
         th:last-child{
-            width: auto;
+            width: 7%;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 140px;
+           // width: 140px;
             button{
                 //padding: 5 !important;
                 font-size: 11px;
@@ -75,14 +83,23 @@ table{
             display: table;
             table-layout: fixed;
             width: 100%;
+            td{
+                width: auto;
+            }
             td:nth-child(1){
-                width: 35px;
+                width: 3%;
             }
             td:nth-child(2){
-                width: 440px;
+                width: 15%;
+            }
+            td:nth-child(5){
+                width: 13%;
+            }
+            td:nth-child(6){
+                width: 10%;
             }
             td:last-child{
-                width: auto;
+                width: 7%;
             }
         }
         tr:nth-child(odd){
@@ -121,6 +138,3 @@ table tr.highlight {
   .modal-header h5{
     color: #fff;
   }
-  nb-card-body{
-    padding: 0;
-}

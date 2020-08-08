@@ -352,10 +352,15 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   mergeWithVS(vsId, hsId, isCheck, j) {
+    
     this.unCheckAll(j);
     if (isCheck) {
       this.vSId = vsId;
       this.hsId = hsId;
+    }
+    else{
+      this.vSId = null;
+      this.hsId = null;
     }
   }
 
@@ -364,6 +369,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
       if (this.isChecks.hasOwnProperty(key)) {
         if (key != j) {
           this.isChecks[key] = false;
+        }else if(key == j) {
+          this.isChecks[key] = true;
         }
       }
     }
@@ -604,9 +611,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
           this.api.post('HaltOperations/mergeManualStates', params)
             .subscribe(res => {
               // this.common.loading--;
+                       this.vSId = null;
+                        this.isChecks = {};
               if (res['success']) {
                 this.reloadData();
                 this.common.showToast(res['msg']);
+        
               } else {
                 this.common.showError(res['msg']);
                 this.reloadData();
@@ -616,8 +626,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
               this.common.showError(err);
             });
         }
-      this.vSId = null;
-      this.isChecks = {};
+      // this.vSId = null;
+      // this.isChecks = {};
       if (!this.onlyDrag) {
         this.vehicleEvents.forEach(vEvent => {
           if (vEvent != vehicleEvent)
@@ -630,6 +640,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       this.onlyDrag = false;
     }
   }
+
   drop(event: CdkDragDrop<string[]>) {
     //moveItemInArray(this.vehicleEvents, event.previousIndex, event.currentIndex);
   }
@@ -1109,11 +1120,13 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
   clusters = [];
   getClusteres(vehicleEvent) {
+    console.log("vehicleEvent",vehicleEvent);
     this.clusters.forEach(e => {
       e.setMap(null);
     })
     this.clusters = [];
     this.resetClusterInfo();
+    if(vehicleEvent.vs_id){
     this.common.loading++;
     let params = "vsId=" + vehicleEvent.vs_id;
     this.api.get('HaltOperations/getStateClustures?' + params)
@@ -1142,6 +1155,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.common.loading--;
         this.common.showError(err);
       })
+    }else{
+      this.common.showError("There is no clusters");
+    }
   }
   resetClusterInfo() {
     this.vehicleEvents.map(ve => {
@@ -1155,6 +1171,23 @@ export class ChangeVehicleStatusComponent implements OnInit {
   details(vehicleEvent) {
 
   }
+ 
+  isSingleClick: Boolean = true;     
+
+method1CallForClick(i,event){
+   this.isSingleClick = true;
+        setTimeout(()=>{
+            if(this.isSingleClick){
+              console.log('single click');
+                 this.openSmartTool(i,event);
+            }
+         },250)
+}
+method2CallForDblClick(event){
+         this.isSingleClick = false;
+         console.log('double click');
+        this.getClusteres(event);
+}
 }
 
 

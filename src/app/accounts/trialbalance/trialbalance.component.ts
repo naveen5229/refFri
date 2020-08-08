@@ -711,6 +711,7 @@ export class TrialbalanceComponent implements OnInit {
         }
       });
     }
+    this.common.currentPage = 'Trial Balance';
   }
 
   getProfitLoss() {

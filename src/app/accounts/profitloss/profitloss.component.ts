@@ -590,13 +590,18 @@ export class ProfitlossComponent implements OnInit {
         //this.common.showToast('Voucher updated');
   
       });
-    }else{
+    }else if(data.ledgerdata[0].y_path.includes('Net Profit')){
+
+    }
+    else{
     this.common.params = {
       startdate: this.plData.startdate,
       enddate: this.plData.enddate,
       ledger: data.ledgerdata[0].y_ledgerid,
       vouchertype: (data.ledgerdata[0].y_type_id==null)? 0 : data.ledgerdata[0].y_type_id,
-      ledgername:data.ledgerdata[0].y_ledger_name
+      ledgername:data.ledgerdata[0].y_ledger_name,
+      sizeIndex:(this.sizeIndex + 1),
+
 
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
@@ -607,6 +612,7 @@ export class ProfitlossComponent implements OnInit {
 
     });
   }
+  this.common.currentPage = 'Profit & Loss A/C';
   }
 
   singleFormatCsvData() {

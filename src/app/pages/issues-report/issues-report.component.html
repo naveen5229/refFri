@@ -4,7 +4,7 @@
   </nb-card-header> -->
   <nb-card-body>
     <div class="row">
-      <div class="col-sm-9">
+      <div class="col-sm-11  ">
         <ul class="tabs_style">
           <li [ngClass]="reportType == 'misTripReject' ? 'active' : '' " id="dis-all" (click)=" reportType = 'misTripReject'; getReportData(reportType); ">
             Rejected
@@ -12,12 +12,21 @@
           <li [ngClass]="reportType == 'misTripOutsideUnload' ? 'active' : '' " (click)=" reportType = 'misTripOutsideUnload';  getReportData(reportType)">
             OutSide Unload
           </li>
-          <li [ngClass]="reportType == 'currentreport' ? 'active' : '' " id="dis-all" (click)=" reportType = 'currentreport'; getReportData(reportType); ">
-           Z
+          <li [ngClass]="reportType == 'neverUnloadAtDest' ? 'active' : '' " id="dis-all" (click)=" reportType = 'neverUnloadAtDest'; getReportData(reportType); ">
+           Never Unload at Destinaion
           </li>
-          <li [ngClass]="reportType == 'daywisereport' ? 'active' : '' " id="dis-all" (click)=" reportType = 'daywisereport'; getReportData(reportType); ">
-           A
+          <li [ngClass]="reportType == 'maxMisTripMaxUnloadDatDest' ? 'active' : '' " id="dis-all" (click)=" reportType = 'maxMisTripMaxUnloadDatDest'; getReportData(reportType); ">
+           Max Unload at Destination
           </li>
+          <li [ngClass]="reportType == 'misTripMultiDestSingleUnload' ? 'active' : '' " id="dis-all" (click)=" reportType = 'misTripMultiDestSingleUnload'; getReportData(reportType); ">
+            Common Unloading Point
+           </li>
+           <li [ngClass]="reportType == 'verticalClusterReport' ? 'active' : '' " id="dis-all" (click)=" reportType = 'verticalClusterReport'; getReportData(reportType); ">
+            Cluster Report
+           </li>
+           <li [ngClass]="reportType == 'misDiffLocUnloadSameName' ? 'active' : '' " id="dis-all" (click)=" reportType = 'misDiffLocUnloadSameName'; getReportData(reportType); ">
+            Diff. Unload Similar Name
+           </li>
         </ul>
       </div>  
     </div>  
@@ -28,10 +37,12 @@
           <label style="margin-left: 20px;margin-right: 10px;">To :</label>
           <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]=false  [isStart]=false>
           </uj-date-time-picker>
+          <label style="margin-left: 20px;margin-right: 10px;" *ngIf="reportType != 'misTripReject'&& reportType != 'misDiffLocUnloadSameName' ">Cluster Size</label>
+          <input type="number"  [(ngModel)]="clusterSize" *ngIf="reportType != 'misTripReject' && reportType != 'misDiffLocUnloadSameName'" class="clu-input">
           <button class="btn btn-primary text-capitalize" style="margin-left: 20px;" (click)="getReportData(reportType)">OK</button>
     </div>
     <smart-table *ngIf="reportData && reportData.length" id="reportData" [data]="table.data"
-    [settings]="table.settings">
+    [settings]="table.settings" [ngClass]="reportType == 'misTripMultiDestSingleUnload' ? 'lastcolumn':''">
 </smart-table>
     <div class="no-data" *ngIf="!reportData.length">
       No Data available !

@@ -3,7 +3,7 @@
     margin: 0px;
     border-bottom: 2px solid #26A69A;
     margin-bottom: 10px;
-    padding-left: 5px !important;
+    padding-left: 3px !important;
     li.active{
     background-color: #fff;
     color: #26A69A;
@@ -36,4 +36,14 @@
 :host ::ng-deep .blue{
     color: blue !important;
     text-decoration: underline;
+}
+
+:host ::ng-deep .lastcolumn{
+    th:nth-child(5) {
+        width: 550px !important;
+    }
+}
+.clu-input{
+    width:50px;
+    height: 30px !important;
 }
