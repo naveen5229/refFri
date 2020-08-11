@@ -281,8 +281,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   ];
   bounds = null;
   Markers = [];
-  createMarkers(markers, changeBounds = true, drawPoly = false) {
-
+  createMarkers(markers, changeBounds = true, drawPoly = false,scale=1) {
     let thisMarkers = [];
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < markers.length; index++) {
@@ -304,7 +303,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
           // set custom fillColor on each iteration
           fillColor: "#" + pinColor,
           fillOpacity: 1,
-          scale: 1.3,
+          scale: scale,
           strokeColor: pinColor,
           strokeWeight: 2,
         };
@@ -316,7 +315,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
-            scale: 3,
+            scale: scale,
             fillColor: "#" + pinColor,
             fillOpacity: 0.8,
             strokeWeight: 1
@@ -351,8 +350,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     return thisMarkers;
   }
 
-  mergeWithVS(vsId, hsId, isCheck, j) {
-    
+  mergeWithVS(vsId, hsId, isCheck, j) {  
     this.unCheckAll(j);
     if (isCheck) {
       this.vSId = vsId;
@@ -1187,6 +1185,26 @@ method2CallForDblClick(event){
          this.isSingleClick = false;
          console.log('double click');
         this.getClusteres(event);
+}
+
+sosMarker = [];
+getStoFromMergeState(event) {
+  this.sosMarker.forEach(e => {
+    e.setMap(null);
+  })
+  this.sosMarker = [];
+  this.common.loading++;
+  let params = "vehicleStateId=" + event.vs_id ;
+  this.api.get('HaltOperations/getStoFromMergeState?' + params)
+    .subscribe(res => {
+      this.common.loading--;
+       this.sosMarker =this.createMarkers(res['data'],true,false,5);
+       
+       console.log('sos',this.sosMarker);
+    }, err => {
+      this.common.loading--;
+      this.common.showError(err);
+    });
 }
 }
 

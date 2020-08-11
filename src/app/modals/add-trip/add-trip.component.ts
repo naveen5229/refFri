@@ -8,6 +8,9 @@ import { DatePipe } from '@angular/common';
 import { ReminderComponent } from '../../modals/reminder/reminder.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
+import { MapService } from '../../services/map.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 declare var google: any;
 @Component({
@@ -21,6 +24,8 @@ export class AddTripComponent implements OnInit {
   tripTypeId = 1;
   VehicleId;
   prevehicleId;
+  endLocationType = 'site';
+  startLocationType = 'site';
   vehicleTrip = {
     endLat: null,
     endLng: null,
@@ -46,6 +51,8 @@ export class AddTripComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private datePipe: DatePipe,
     private modalService: NgbModal,
+    public map : MapService,
+    private sanitizer: DomSanitizer,
   ) {
     this.startTime = this.common.dateFormatter(new Date());
     this.targetTime = this.common.dateFormatter(new Date());
@@ -111,6 +118,32 @@ export class AddTripComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
+  }
+
+  selectLoactionSite(flag,event){
+    console.log("flag,event",flag,event);
+    if(flag=='start'){
+      this.vehicleTrip.startLat = event.lat;
+      this.vehicleTrip.startLng = event.long;
+      this.vehicleTrip.startName = event.name;
+    }else if(flag=='end'){
+      this.vehicleTrip.endLat = event.lat;
+      this.vehicleTrip.endLng = event.long;
+      this.vehicleTrip.endName = event.name;
+    }
+  }
+
+  selectLocationCity(flag,event){
+    console.log("flag,event",flag,event);
+    if(flag=='start'){
+      this.vehicleTrip.startLat = event.lat;
+      this.vehicleTrip.startLng = event.long;
+      this.vehicleTrip.startName = event.location;
+    }else if(flag=='end'){
+      this.vehicleTrip.endLat = event.lat;
+      this.vehicleTrip.endLng = event.long;
+      this.vehicleTrip.endName = event.location;
+    }
   }
 
   addTrip() {
@@ -228,4 +261,40 @@ export class AddTripComponent implements OnInit {
       console.log(err);
     });
    }
+
+   openShowRoute(){
+    let st = {
+      name : this.vehicleTrip.startName,
+      lat : this.vehicleTrip.startLat,
+      long : this.vehicleTrip.startLng
+     }
+     let ed = {
+      name : this.vehicleTrip.endName,
+      lat : this.vehicleTrip.endLat,
+      long : this.vehicleTrip.endLng
+     }
+     let dtpoints = [];
+     dtpoints.push(st);
+     this.viaPoints.map(vp=>{
+       if(vp.lat && vp.long){
+       dtpoints.push(vp);
+      }
+     })
+     dtpoints.push(ed);
+     console.log("dtpoints",dtpoints,dtpoints.length)
+     if(dtpoints.length>1){
+       window.open(this.map.getURL(dtpoints));
+     let data = {
+       title : "Map Route",
+      //  url :   this.map.getURL(dtpoints)
+     }
+    this.common.params.data = data;
+    // const activeModal = this.modalService.open(IframeModalComponent, { size: 'lg', container: 'nb-layout' });
+    // activeModal.result.then(data => {
+    // }); 
+   }
+   else{
+     this.common.showError("Atleast Two Points required");
+   }
+  }
 }

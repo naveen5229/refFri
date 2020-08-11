@@ -169,6 +169,7 @@
                             class="fa fa-chain" title="Trip State Mapping"></i></span>
                         <span class="zoom-btn" (click)="getClusteres(vehicleEvent)" *ngIf="vehicleEvent.vs_id && !vehicleEvent.haltId &&vehicleEvent.haltId == null"><i
                               class="fa fa-object-group" title="Clusteres"></i></span>
+                        <span class="zoom-btn" (click)="getStoFromMergeState(vehicleEvent)" *ngIf="vehicleEvent.vs_id && vehicleEvent.haltId">SOS</span>
                       </span>
                     </div>
                   </td>

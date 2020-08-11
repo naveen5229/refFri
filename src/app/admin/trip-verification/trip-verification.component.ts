@@ -44,7 +44,7 @@ export class TripVerificationComponent implements OnInit {
     this.endDate = new Date(today);
     //console.log('today', today);
 
-    this.startDate = new Date(today.setDate(today.getDate() - 14))
+    this.startDate = new Date(today.setDate(today.getDate() - 5))
     console.log('start and enddate', this.startDate, this.endDate);
 
     this.getVehicleTrips();

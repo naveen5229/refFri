@@ -24,13 +24,34 @@
         </div>
     </div>
     <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label>Start Loc type</label>
+        </div>
+        <div style="margin-left:15px">
+          <label>
+            <input type="radio" [(ngModel)]="startLocationType" value="site" name="locationType"> Site
+          </label>
+          <label class="radio2">
+            <input type="radio" [(ngModel)]="startLocationType" value="city"
+              name="locationType"> City
+          </label>
+        </div>
+      </div>
+    <div class="row" style="margin-top:5px">
         <div class="col-md-4 pr-0">
             <label> Start Location </label>
         </div>
         <div class="col-md-8">
-            <input type="text" class="form-control" id="vehicleTrip_starttrip" name="startTrip" placeholder="Start Name" [(ngModel)]="vehicleTrip.startName">
+            <auto-suggestion  (onSelected)="selectLoactionSite('start',$event)"
+            url="Suggestion/getSites?typeId=1&isFoid=true"  display="name"
+            placeholder="Search Site" inputId="site" [preSelected]="null" *ngIf="startLocationType=='site'">
+          </auto-suggestion>
+          <auto-suggestion  (onSelected)="selectLocationCity('start',$event)" url="Location/getPlaceFromRedis"
+          display="location" inputId="startname" placeholder="Location" [preSelected]='null' *ngIf="startLocationType=='city'">
+        </auto-suggestion>
+            <!-- <input type="text" class="form-control" id="vehicleTrip_starttrip" name="startTrip" placeholder="Start Name" [(ngModel)]="vehicleTrip.startName">
             <input id="vehicleTrip_start_lat" name="startLat" class="form-control" style="text-align: left" placeholder="Start lat" type="hidden" readonly [(ngModel)]="vehicleTrip.startLat">
-            <input id="vehicleTrip_start_long" name="startLong" class="form-control" style="text-align: left" placeholder="Start lng" type="hidden" readonly [(ngModel)]="vehicleTrip.startLng">
+            <input id="vehicleTrip_start_long" name="startLong" class="form-control" style="text-align: left" placeholder="Start lng" type="hidden" readonly [(ngModel)]="vehicleTrip.startLng"> -->
         </div>
     </div>
     <div class="row" style="margin-top:5px">
@@ -46,15 +67,35 @@
 
         </div>
     </div>
-
+    <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label>Start Loc type</label>
+        </div>
+        <div style="margin-left:15px">
+          <label>
+            <input type="radio" [(ngModel)]="endLocationType" value="site" name="endlocationType"> Site
+          </label>
+          <label class="radio2">
+            <input type="radio" [(ngModel)]="endLocationType"  value="city"
+              name="endlocationType"> City
+          </label>
+        </div>
+      </div>
     <div class="row" style="margin-top:5px">
         <div class="col-md-4 pr-0">
             <label>Destination Location</label>
         </div>
         <div class="col-md-8" style="margin-top:5px">
-            <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End Name" [(ngModel)]="vehicleTrip.endName">
+            <auto-suggestion  (onSelected)="selectLoactionSite('end',$event)"
+                url="Suggestion/getSites?typeId=1&isFoid=true"  display="name"
+                placeholder="Search Site" inputId="site" [preSelected]="null" *ngIf="endLocationType=='site'">
+              </auto-suggestion>
+              <auto-suggestion  (onSelected)="selectLocationCity('end',$event)" url="Location/getPlaceFromRedis"
+              display="location" inputId="endname" placeholder="Location" [preSelected]='null' *ngIf="endLocationType=='city'">
+            </auto-suggestion>
+            <!-- <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End Name" [(ngModel)]="vehicleTrip.endName">
             <input id="vehicleTrip_end_lat" name="endLat" class="form-control" style="text-align: left" placeholder="End lat" type="hidden" readonly [(ngModel)]="vehicleTrip.endLat">
-            <input id="vehicleTrip_end_long" name="endLong" class="form-control" style="text-align: left" placeholder="End lng" type="hidden" readonly [(ngModel)]="vehicleTrip.endLng">
+            <input id="vehicleTrip_end_long" name="endLong" class="form-control" style="text-align: left" placeholder="End lng" type="hidden" readonly [(ngModel)]="vehicleTrip.endLng"> -->
         </div>
     </div>
     <div class="row" style="margin-top:5px">
@@ -112,6 +153,7 @@
   
   <div>
       <span *ngIf="travellingDistance">Total Travelling Distance = {{travellingDistance}}</span><br>
+      <span (click)="openShowRoute()" style="cursor: pointer; color: blue; margin-right: 15px;" ><u>Show Route</u></span>
       <button [class]="isReorder?'btn btn-primary':'btn btn-danger'" (click)="reordering()">{{btnText}}</button>
   </div>
 </div>

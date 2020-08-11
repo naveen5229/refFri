@@ -776,7 +776,14 @@ export class MapService {
     this.setMultiBounds(data);
   }
 
-
+  getURL(points){
+    let url = "https://www.google.com/maps/dir/";
+    points.map(pt=>{
+      url = url + "'"+pt.lat+","+pt.long+"'/";
+    });
+    console.log("url=",url);
+    return url;
+  }
 
 
 }
