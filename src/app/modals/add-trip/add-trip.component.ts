@@ -286,12 +286,12 @@ export class AddTripComponent implements OnInit {
        window.open(this.map.getURL(dtpoints));
      let data = {
        title : "Map Route",
-      //  url :   this.map.getURL(dtpoints)
+       url :   this.map.getURL(dtpoints)
      }
     this.common.params.data = data;
-    // const activeModal = this.modalService.open(IframeModalComponent, { size: 'lg', container: 'nb-layout' });
-    // activeModal.result.then(data => {
-    // }); 
+  //   const activeModal = this.modalService.open(IframeModalComponent, { size: 'lg', container: 'nb-layout' });
+  //   activeModal.result.then(data => {
+  //   }); 
    }
    else{
      this.common.showError("Atleast Two Points required");

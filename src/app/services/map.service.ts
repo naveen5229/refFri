@@ -779,7 +779,7 @@ export class MapService {
   getURL(points){
     let url = "https://www.google.com/maps/dir/";
     points.map(pt=>{
-      url = url +pt.lat+","+pt.long+"'/";
+      url = url +"'"+pt.lat+","+pt.long+"'/";
     });
     console.log("url=",url);
     return url;
