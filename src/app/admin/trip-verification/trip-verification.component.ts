@@ -265,6 +265,7 @@ export class TripVerificationComponent implements OnInit {
     let toTime = this.common.dateFormatter(new Date());
     let VehicleStatusData = {
       vehicle_id: trip._vid,
+      regno : trip['Vehicle'],
       suggest: 11,
       latch_time: trip._startdate || fromTime,
       tTime: trip._enddate || toTime,

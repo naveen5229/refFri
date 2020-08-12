@@ -69,7 +69,7 @@
     </div>
     <div class="row" style="margin-top:5px">
         <div class="col-md-4">
-          <label>Start Loc type</label>
+          <label>Dest Loc type</label>
         </div>
         <div style="margin-left:15px">
           <label>
@@ -83,7 +83,7 @@
       </div>
     <div class="row" style="margin-top:5px">
         <div class="col-md-4 pr-0">
-            <label>Destination Location</label>
+            <label>Destination</label>
         </div>
         <div class="col-md-8" style="margin-top:5px">
             <auto-suggestion  (onSelected)="selectLoactionSite('end',$event)"
@@ -152,7 +152,7 @@
   </div>
   
   <div>
-      <span *ngIf="travellingDistance">Total Travelling Distance = {{travellingDistance}}</span><br>
+      <!-- <span *ngIf="travellingDistance">Total Travelling Distance = {{travellingDistance}}</span><br> -->
       <span (click)="openShowRoute()" style="cursor: pointer; color: blue; margin-right: 15px;" ><u>Show Route</u></span>
       <button [class]="isReorder?'btn btn-primary':'btn btn-danger'" (click)="reordering()">{{btnText}}</button>
   </div>
