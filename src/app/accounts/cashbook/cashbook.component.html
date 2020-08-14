@@ -83,7 +83,7 @@
       </div>
     </div>
 
-
+<div class="table-responsive">
     <table class="table table-bordered" id="table">
 
       <thead style="background-color:#263238; color:#fff;">
@@ -94,8 +94,8 @@
           <th>Vch Type</th>
           <th>Vch No.</th>
           <th>Ref No.</th>
-          <th>Amount(Debit)</th>
-          <th>Amount(Credit)</th>
+          <th>Amount(DR)</th>
+          <th>Amount(CR)</th>
           <th *ngIf="accountService.selected.branch.id ==0">Branch</th>
         </tr>
       </thead>
@@ -117,6 +117,7 @@
         <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
       </tr>
     </table>
+  </div>
   </nb-card-body>
 </nb-card>
 

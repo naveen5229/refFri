@@ -244,7 +244,7 @@ export class VehicleTripComponent implements OnInit {
   openAddTripModal() {
     this.common.params = { vehId: -1 };
     //console.log("open add trip maodal", this.common.params.vehId);
-    const activeModal = this.modalService.open(AddTripComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' })
+    const activeModal = this.modalService.open(AddTripComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
       this.getVehicleTrips();
 

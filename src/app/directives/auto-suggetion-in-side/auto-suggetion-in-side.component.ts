@@ -99,6 +99,11 @@ export class AutoSuggetionInSideComponent implements OnInit {
       document.getElementById('TJR-auto-suggestion-container').scroll(0, this.calculateScrollY());
       event.preventDefault();
     } else if (key == 'enter' || key == 'tab') {
+      if (!this.suggestions.length) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
       if (this.activeSuggestion !== -1) {
         this.selectSuggestion(this.suggestions[this.activeSuggestion]);
       } else {

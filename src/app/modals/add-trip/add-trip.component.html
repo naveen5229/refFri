@@ -5,17 +5,8 @@
   </button>
 </div>
 <div class="modal-body">
-    <!-- <div class="container">
-             <input type="hidden" id="vehTripId" name="vehTripId" [(ngModel)]="vehicleTrip.id" />
-    <div class="row" style="margin-top:5px">
-              <div class="col-md-4">
-                <label> Vehicle Regno </label>
-              </div> 
-    <div class="col-md-8">
-                <input id="vehicleTripRegNo" name="vehRegNo" type="text" placeholder="Vehicle Reg No" autocomplete="off" class="form-control"
-                  [(ngModel)]="vehicleTrip.regno"  readonly>
-              </div>
-            </div> -->
+  <div class="row">
+      <div class="col-7">
     <div class="row" style="margin-top:5px" *ngIf="prevehicleId == -1">
         <div class="col-md-4">
             <label> Vehicle Regno</label>
@@ -103,6 +94,28 @@
       </datalist>
         </div>
     </div>
+</div>
+<div class="col-5">
+  <label>Via Points</label>
+  <div *ngFor="let vp of viaPoints; let i=index" class="row" style="margin-bottom: 6px;" >
+    <div class="col-10">
+      <auto-suggestion  (onSelected)="selectSite($event,i)"
+                url="Suggestion/getSites?typeId=1&isFoid=true"  display="name"
+                placeholder="Search Site" inputId="site" [preSelected]="{name:vp.name}">
+              </auto-suggestion>
+    </div>
+    <div class="col-2">
+      <i class="fa fa-trash remove" (click)="viaPoints.splice(i,1)" *ngIf="i !== 0"></i>
+      <i class="fa fa-plus add" (click)="addNew()" *ngIf="i == viaPoints.length-1"></i>
+    </div>
+  </div>
+  
+  <div>
+      <span *ngIf="travellingDistance">Total Travelling Distance = {{travellingDistance}}</span><br>
+      <button [class]="isReorder?'btn btn-primary':'btn btn-danger'" (click)="reordering()">{{btnText}}</button>
+  </div>
+</div>
+</div>
 </div>
 <div class="modal-footer">
     <div class="row">
