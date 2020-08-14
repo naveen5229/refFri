@@ -10,8 +10,14 @@ export class CsvService {
 
   constructor(private common: CommonService) { }
 
-  multiTableCSVWithId(tableIds) {
-    let xrows = [{}];
+  /**
+   * Single Or Multi Table CSV Creator
+   * @param tableIds : array of tables example - ['report'] 
+   * @param fileName : name of the file
+   * @param details : array of obects example - [{org: 'Elogist Solutions Pvt Ltd.'}]
+   */
+  byMultiIds(tableIds: string[], fileName: string = 'report', details?: any[]) {
+    let xrows: any[] = [{}];
 
     tableIds.map((tableId, index) => {
       this.findTableHeadings(tableId).map((col, index2) => {
@@ -23,15 +29,16 @@ export class CsvService {
       xrows = this.handleRows(this.findTableRows(tableId), index, xrows);
     });
 
-    let organization = { "elogist Solutions": "elogist Solutions" };
-    let blankline = { "": "" };
+    let blankline: any = { "": "" };
+    let info: any[] = [];
 
-    let info = [];
-    info.push(organization);
+    if (details) {
+      details.forEach(detail => info.push({ "": "", ...detail }))
+    }
     info.push(blankline);
-
     info.push(...xrows);
-    new Angular5Csv(info, "report");
+
+    new Angular5Csv(info, fileName);
   }
 
   findTableHeadings(tableId) {
@@ -66,7 +73,6 @@ export class CsvService {
       }
     }
 
-    console.log('headings: ', headings);
     return headings;
   }
 
@@ -113,7 +119,6 @@ export class CsvService {
         rows.push(rowdata);
       }
     }
-    console.log('Rows:', rows);
     return rows;
   }
 
