@@ -39,7 +39,8 @@ export class AddTripComponent implements OnInit {
   viaPoints =[{
     name : null,
     lat : null,
-    long : null
+    long : null,
+    locType : 'site'
   }]
 
   routes = [];
@@ -206,14 +207,15 @@ export class AddTripComponent implements OnInit {
     let vp =  {
        name:null,
        lat:null,
-       long:null
+       long:null,
+       locType : 'site'
      };
      this.viaPoints.push(vp);
    }
 
    selectSite(event,i){
      console.log("event",event)
-    this.viaPoints[i].name = event.name;
+    this.viaPoints[i].name = event.name || event.location;
     this.viaPoints[i].lat = event.lat;
     this.viaPoints[i].long = event.long;
    }
