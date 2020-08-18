@@ -39,6 +39,7 @@ import { PdfViewerComponent } from "../../generic/pdf-viewer/pdf-viewer.componen
 import { VehicleOrdersComponent } from "../../modals/BidModals/vehicle-orders/vehicle-orders.component";
 import { ChangeVehicleStatusByCustomerComponent } from "../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component";
 import { DomSanitizer } from '@angular/platform-browser';
+import { CsvService } from "../../services/csv/csv.service";
 @Component({
   selector: "concise",
   templateUrl: "./concise.component.html",
@@ -144,7 +145,7 @@ export class ConciseComponent implements OnInit {
     public mapService: MapService,
     private datePipe: DatePipe,
     public dateService: DateService,
-    private _sanitizer: DomSanitizer,
+    private _sanitizer: DomSanitizer, private csvService: CsvService,
     public pdfService: PdfService) {
 
     this.getKPIS();
@@ -999,29 +1000,29 @@ export class ConciseComponent implements OnInit {
 
 
   }
-  callNotification(data){
-    console.log("data",data);
-if(data['x_mobileno']){
-    let params = {
-      mobileno:data['x_mobileno'],
-      callTime:this.common.dateFormatter(new Date())
+  callNotification(data) {
+    console.log("data", data);
+    if (data['x_mobileno']) {
+      let params = {
+        mobileno: data['x_mobileno'],
+        callTime: this.common.dateFormatter(new Date())
 
+      }
+      console.log('params: ', params);
+      this.common.loading++;
+      this.api.post('Notifications/sendCallSuggestionNotifications', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('res--', res);
+          this.common.showToast(res['msg']);
+        }, err => {
+          this.common.loading--;
+          this.common.showError();
+        })
     }
-  console.log('params: ', params);
-  this.common.loading++;
-  this.api.post('Notifications/sendCallSuggestionNotifications' , params)
-    .subscribe(res => {
-      this.common.loading--;
-      console.log('res--',res);
-      this.common.showToast(res['msg']);
-    }, err => {
-      this.common.loading--;
-      this.common.showError();
-    })
-  }
-  else{
-    this.common.showError('Driver Mobile no. does not exist');
-  }
+    else {
+      this.common.showError('Driver Mobile no. does not exist');
+    }
   }
 
 
@@ -1125,20 +1126,20 @@ if(data['x_mobileno']){
     this.grouping(this.viewType);
   }
 
-  exportCsv(tableId) {
+  exportCsv(tableId: string) {
     this.common.loading++;
     let userid = this.user._customer.id;
     if (this.user._loggedInBy == "customer")
       userid = this.user._details.id;
     this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
+      .subscribe((res:any) => {
         this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = "Customer Name::" + fodata['name'];
-        let center_heading = "Report Name::" + "Dashboard Trip";
-
-        let time = "Report Generation Time:" + this.datePipe.transform(this.today, 'dd-MM-yyyy hh:mm:ss a');
-        this.common.getCSVFromTableId(tableId, left_heading, center_heading, null, time);
+        let details = [
+          { customer: 'Customer : ' + res.data.name },
+          { report: 'Report : Dashboard Trips' },
+          { time: 'Time : ' + this.datePipe.transform(this.today, 'dd-MM-yyyy hh:mm:ss a') }
+        ];
+        this.csvService.byMultiIds([tableId], 'Dashboard', details);
       }, err => {
         this.common.loading--;
       });
