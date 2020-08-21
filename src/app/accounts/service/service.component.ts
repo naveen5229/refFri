@@ -68,6 +68,7 @@ export class ServiceComponent implements OnInit {
   newid = 0;
   withtype=0;
   totalledgeramt=0;
+  ledgerData=[];
   order = {
     autocode:'',
     podate: this.common.dateFormatternew(new Date()).split(' ')[0],
@@ -278,7 +279,7 @@ export class ServiceComponent implements OnInit {
     if(this.common.params && this.common.params.sizeindex){
       this.sizeindex = this.common.params.sizeindex;
     }
-    if (this.common.params && this.common.params.invoiceid) {  // Add by hemant 27 june 2020
+    if (this.common.params && this.common.params.invoiceid) {  
       this.showHideButton = false;
       console.log("Params:", this.common.params);
       this.params = this.common.params;
@@ -408,7 +409,7 @@ export class ServiceComponent implements OnInit {
     this.api.post('Accounts/getLedgerMapping', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        //console.log('Res:', res['data']);
         res['data'].map((data)=>{
           if(data.y_tax_type_name){
           this.suggestions.ledgerTaxdata.push(data);
@@ -431,7 +432,7 @@ export class ServiceComponent implements OnInit {
     this.api.post('Suggestion/GetBranchList', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+       // console.log('Res:', res['data']);
         this.branchdata = res['data'];
       }, err => {
         this.common.loading--;
@@ -449,7 +450,7 @@ export class ServiceComponent implements OnInit {
     this.api.post('Suggestion/GetOrderTypeList', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        //console.log('Res:', res['data']);
         this.suggestions.invoiceTypes = res['data'];
       }, err => {
         this.common.loading--;
@@ -486,7 +487,7 @@ export class ServiceComponent implements OnInit {
         }else{
           this.warehouseflag = true;
         }
-        console.log('Res ware house:', res['data'],(res['data']).length,this.warehouseflag);
+       // console.log('Res ware house:', res['data'],(res['data']).length,this.warehouseflag);
 
       }, err => {
         this.common.loading--;
@@ -743,7 +744,7 @@ export class ServiceComponent implements OnInit {
     this.api.post('Suggestion/GetStockItemAvailableQty', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data'][0].get_stockitemavailableqty);
+      //  console.log('Res:', res['data'][0].get_stockitemavailableqty);
         this.totalitem[index] = (res['data'][0].get_stockitemavailableqty).toFixed(2);
         //  console.log('totalitem : -',totalitem);
         return this.totalitem;
@@ -2125,7 +2126,7 @@ export class ServiceComponent implements OnInit {
     this.api.post('Accounts/GetAddressByLedgerId', params)
       .subscribe(res => {
         // this.common.loading--;
-        console.log('Res ledger<<<<<<<<<<<<:', res['data']);
+       // console.log('Res ledger<<<<<<<<<<<<:', res['data']);
         if (res['data'].length > 1) {
           this.showAddpopup(res['data']);
 
@@ -2185,22 +2186,40 @@ export class ServiceComponent implements OnInit {
 
   printFunction() {
     let params = {
-      search: 'test'
+      search: 'test',
+      invoiceid:this.addupdateinvoiceid
     };
 
     this.common.loading++;
     this.api.post('Voucher/GetCompanyHeadingData', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res11:', res['data'], 'this.order', this.order);
         // this.Vouchers = res['data'];
+       // this.legerDetail(this.order.ledger.id);
         this.print(this.order, res['data']);
-
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+  legerDetail(ledgerid){
+      let params = {
+        id: ledgerid,
+      }
+      this.common.loading++;
+      this.api.post('Accounts/EditLedgerdata', params)
+        .subscribe(res => {
+          this.common.loading--;
+        //  console.log('Res:', res['data']);
+          this.ledgerData = res['data'];
+         
+        }, err => {
+          this.common.loading--;
+         // console.log('Error: ', err);
+          this.common.showError();
+        });
+    
   }
   callApigstcode() {
     // console.log('call ddd',stockname,amount);
@@ -2287,17 +2306,25 @@ export class ServiceComponent implements OnInit {
     });
   }
   print(voucherdataprint, companydata) {
+    let headdata=  JSON.parse(companydata[0]['company_head'])[0];
+    let party_head=  JSON.parse(companydata[0]['party_head'])[0];
+    let invoice_head=  JSON.parse(companydata[0]['invoice_head'])[0];
+    let invoice_details =  JSON.parse(companydata[0]['invoice_details']);
+    let invoice_tax=  JSON.parse(companydata[0]['invoice_tax']);
+    //console.log('Res11:',headdata,party_head,invoice_head,invoice_details ,invoice_tax);
 
-    let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
-    let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
-    let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
+    let remainingstring1 = (companydata[0].y_phonenumber) ? ' Phone Number -  ' + headdata.y_phonenumber : '';
+    let remainingstring2 = (companydata[0].y_panno) ? ', PAN No -  ' + headdata.y_panno : '';
+    let remainingstring3 = (companydata[0].y_gstno) ? ', GST NO -  ' + headdata.gstno : '';
 
     let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
     let rows = [];
+    let taxrows = [];
     let totalqty = 0;
     let totalamount = null;
     let lasttotaltax = 0;
     let lineamounttotal = 0;
+    let taxdata = [];
     voucherdataprint.amountDetails.map((invoiceDetail, index) => {
       let taxRowData = '';
       let taxTotal = 0;
@@ -2327,42 +2354,86 @@ export class ServiceComponent implements OnInit {
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
     });
-    rows.push([
-      { txt: '' },
-      { txt: 'Total' },
-      { txt: totalqty || '' },
-      { txt: '-' },
-      { txt: totalamount || null },
-      { txt: lasttotaltax || 0 },
-      { txt: lineamounttotal || 0 },
-      { txt: '' }
-    ]);
+    let arrinvoice =[];
+    let rowtotal=0;
+  invoice_details.map((dtldata,index)=>{
+    rowtotal +=dtldata.amount
+    arrinvoice =  [
+        { txt: index+1 ,width:'5%'},
+        { txt: dtldata.stockitem, size: '22px', weight: 'bold',width:'50%' },
+        { txt: dtldata.hsn , size: '22px', weight: 'bold',width:'15%'},
+        { txt:dtldata.qty, size: '22px', weight: 'bold',width:'15%'  },
+        { txt: dtldata.rate, size: '22px', weight: 'bold',width:'12%'  },
+        { txt: dtldata.per ,width:'10%'},
+        { txt: dtldata.amount, size: '22px', weight: 'bold',width:'20%' }
+      ];
+   rows.push(arrinvoice);
+  });
+  rows.push([
+    { txt: '' ,width:'5%'},
+    { txt: 'Total', size: '22px', weight: 'bold',width:'50%' },
+    { txt: '' , size: '22px', weight: 'bold',width:'15%'},
+    { txt:'', size: '22px', weight: 'bold',width:'15%'  },
+    { txt: '', size: '22px', weight: 'bold',width:'12%'  },
+    { txt: '' ,width:'10%'},
+    { txt: '₹ '+rowtotal, size: '22px', weight: 'bold',width:'20%' }
+  ]);
+  var converter = require('number-to-words');
+  rows.push([
+    { txt: 'Amount Chargeable (in words) \n' +converter.toWords(rowtotal) , size: '22px', weight: 'bold',width:'150%' },
+   
+  ]);
+  let arrtax =[];
+  invoice_tax.map((dtldata,index)=>{
+    arrtax = [
+      { txt: 'test fedf', size: '22px', weight: 'bold',width:'50%'},
+      { txt: dtldata.taxableamt , size: '22px', weight: 'bold',width:'20%'},
+      { txt:dtldata.igst_rate , size: '22px', weight: 'bold',width:'20%' },
+      { txt: dtldata.igst_amt , size: '22px', weight: 'bold',width:'20%' },
+      { txt: dtldata.total_amt, size: '22px', weight: 'bold',width:'20%' }
+    ];
+    taxdata.push([arrtax]);
+  });
+
     let invoiceJson = {};
     if (voucherdataprint.ordertype.name.toLowerCase().includes('purchase') || voucherdataprint.ordertype.name.toLowerCase().includes('debit note')) {
       invoiceJson = {
         headers: [
-          { txt: companydata[0].foname, size: '22px', weight: 'bold' },
-          { txt: companydata[0].addressline },
+          { txt: companydata[0].y_foname, size: '22px', weight: 'bold' },
+          { txt: companydata[0].y_addressline },
           { txt: cityaddress },
           { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
         ],
 
         details: [
 
-          { name: 'Invoice Type : ', value: voucherdataprint.ordertype.name },
-          { name: 'Invoice No : ', value: voucherdataprint.custcode },
-          { name: 'Invoice Date : ', value: voucherdataprint.date },
-          { name: 'Purchase Ledger : ', value: voucherdataprint.purchaseledger.name },
-          { name: 'Supplier Ledger : ', value: voucherdataprint.ledger.name },
-          { name: 'Supplier Ref. No : ', value: voucherdataprint.vendorbidref },
-          { name: 'P.O.No. : ', value: voucherdataprint.qutationrefrence },
-          { name: 'Shipment Location : ', value: voucherdataprint.shipmentlocation },
-          { name: 'Payment Terms : ', value: voucherdataprint.paymentterms },
-          { name: 'Bilty Number : ', value: voucherdataprint.biltynumber },
-          { name: 'Bilty Date : ', value: voucherdataprint.biltydate },
-          { name: 'Dilivery Terms : ', value: voucherdataprint.deliveryterms },
-          { name: 'Billing Address : ', value: voucherdataprint.billingaddress },
-          { name: 'Invoice Remarks : ', value: voucherdataprint.orderremarks }
+          { name: 'Invoice No ', value: voucherdataprint.custcode },
+          { name: 'Dated ', value: voucherdataprint.date },
+          { name: "Supplier's Ref. ", value: '' },
+          { name: 'Mode/Terms of Payment ', value: voucherdataprint.paymentterms },
+          { name: 'Dated ', value: voucherdataprint.podate },
+          { name: "Despatch Document No. ", value: '' },
+          { name: "Delivery Note Date", value: '' },
+          { name: "Despatch through", value: '' },
+          { name: "Destination", value: '' },
+          { name: 'Terms of Delivery ', value: voucherdataprint.deliveryterms },
+
+          
+
+          // { name: 'Invoice Type : ', value: voucherdataprint.ordertype.name },
+          // { name: 'Invoice No : ', value: voucherdataprint.custcode },
+          // { name: 'Invoice Date : ', value: voucherdataprint.date },
+          // { name: 'Purchase Ledger : ', value: voucherdataprint.purchaseledger.name },
+          // { name: 'Supplier Ledger : ', value: voucherdataprint.ledger.name },
+          // { name: 'Supplier Ref. No : ', value: voucherdataprint.vendorbidref },
+          // { name: 'P.O.No. : ', value: voucherdataprint.qutationrefrence },
+          // { name: 'Shipment Location : ', value: voucherdataprint.shipmentlocation },
+          // { name: 'Payment Terms : ', value: voucherdataprint.paymentterms },
+          // { name: 'Bilty Number : ', value: voucherdataprint.biltynumber },
+          // { name: 'Bilty Date : ', value: voucherdataprint.biltydate },
+          // { name: 'Dilivery Terms : ', value: voucherdataprint.deliveryterms },
+          // { name: 'Billing Address : ', value: voucherdataprint.billingaddress },
+          // { name: 'Invoice Remarks : ', value: voucherdataprint.orderremarks }
         ],
         table: {
           headings: [
@@ -2390,10 +2461,10 @@ export class ServiceComponent implements OnInit {
     if (voucherdataprint.ordertype.name.toLowerCase().includes('wastage')) {
       invoiceJson = {
         headers: [
-          { txt: companydata[0].foname, size: '22px', weight: 'bold' },
-          { txt: companydata[0].addressline },
+          { txt: companydata[0].y_foname, size: '22px', weight: 'bold' },
+          { txt: companydata[0].y_addressline },
           { txt: cityaddress },
-          { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
+         // { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
         ],
 
         details: [
@@ -2425,42 +2496,61 @@ export class ServiceComponent implements OnInit {
     if (voucherdataprint.ordertype.name.toLowerCase().includes('sales') || voucherdataprint.ordertype.name.toLowerCase().includes('credit note')) {
       invoiceJson = {
         headers: [
-          { txt: companydata[0].foname, size: '22px', weight: 'bold' },
-          { txt: companydata[0].addressline },
-          { txt: cityaddress },
-          { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
+          { txt: '', value: headdata.branch_name , size: '25px', weight: 'bold',width:'25%' },
+          { txt:'',  value:headdata.address },
+          { txt: 'GstIN/UIN', value:headdata.gstno },
+          {txt: 'State Name :', value : headdata.state},
+          { txt: 'CIN: ', value:headdata.cin},
+          { txt: 'Email: ', value:headdata.email},
+        ],
+        headerssecond: [
+          { txt: '', value:'Buyer'},
+          { txt: '', value:party_head.ledgername ,size: '25px', weight: 'bold',width:'25%' },
+          { txt: 'City Name : ', value:party_head.cityname},
+          { txt: 'GSTIN/UIN : ', value:party_head.gstno},
+          { txt: 'State Name: ', value:party_head.state},
+          { txt: 'Place Of Supply: ', value:party_head.state},
         ],
 
-        details: [
 
-          { name: 'Invoice Type : ', value: voucherdataprint.ordertype.name },
-          { name: 'Invoice No : ', value: voucherdataprint.custcode },
-          { name: 'Invoice Date : ', value: voucherdataprint.date },
-          { name: 'Sales Ledger : ', value: voucherdataprint.purchaseledger.name },
-          { name: 'Party Name : ', value: voucherdataprint.ledger.name },
-          { name: 'Order No : ', value: voucherdataprint.vendorbidref },
-          { name: 'Other Reference : ', value: voucherdataprint.qutationrefrence },
-          { name: 'Shipment Location : ', value: voucherdataprint.shipmentlocation },
-          { name: 'Payment Terms : ', value: voucherdataprint.paymentterms },
-          { name: 'Eway Bill Number : ', value: voucherdataprint.biltynumber },
-          { name: 'Eway Bill Date : ', value: voucherdataprint.biltydate },
-          { name: 'Dilivery Terms : ', value: voucherdataprint.deliveryterms },
-          { name: 'Billing Address : ', value: voucherdataprint.billingaddress },
-          { name: 'Consignee Address : ', value: voucherdataprint.grnremarks },
-          { name: 'Invoice Remarks : ', value: voucherdataprint.orderremarks }
+        details: [
+          { name: 'Invoice No ', value: invoice_head.invNo },
+          { name: 'Delivery Note', value: invoice_head.deliveryNote },
+          { name: "Supplier's Ref. ", value: invoice_head.suppRef },
+          { name: "Buyer's Order No. ", value: invoice_head.orderNo },
+          { name: "Despatch Document No. ", value: invoice_head.despatchdocno },
+          { name: "Despatch through", value: invoice_head.despatchthrough },
+          { name: 'Terms of Delivery ', value: invoice_head.deliveryterms },
+        ],
+        seconddetails: [
+          { name: 'Dated ', value: invoice_head.invDate },
+          { name: 'Mode/Terms Of Payment', value: invoice_head.paymentterms },
+          { name: 'Other Reference(S) ', value: invoice_head.otherRef },
+          { name: 'Dated ', value: invoice_head.OrderDate },
+          { name: "Delivery Note Date", value: invoice_head.deliverynotedate },
+          { name: "Destination", value:invoice_head.destination },
         ],
         table: {
           headings: [
-            { txt: 'Ware House' },
-            { txt: 'Item' },
-            { txt: 'Qty' },
-            { txt: 'Rate' },
-            { txt: 'Amount' },
-            { txt: 'Tax Amount' },
-            { txt: 'Total Amount' },
-            { txt: 'Remarks' }
+            { txt: 'SI', size: '22px', weight: 'bold',width:'5%' },
+            { txt: 'Descripption of Services' , size: '22px', weight: 'bold',width:'50%'},
+            { txt: 'HSN/SAC', size: '22px', weight: 'bold',width:'15%' },
+            { txt: 'Quantity', size: '22px', weight: 'bold',width:'15%' },
+            { txt: 'Rate', size: '22px', weight: 'bold',width:'12%' },
+            { txt: 'Per', size: '22px', weight: 'bold',width:'10%' },
+            { txt: 'Amount' , size: '22px', weight: 'bold',width:'20%'}
           ],
           rows: rows
+        },
+        table1: {
+          headings: [
+            { txt: 'HSN/SAC', size: '22px', weight: 'bold',width:'50%' },
+            { txt: 'Taxable Value', size: '22px', weight: 'bold',width:'20%' },
+            { txt: 'Integrated Rate' , size: '22px', weight: 'bold',width:'20%'},
+            { txt: 'Integrated Amount' , size: '22px', weight: 'bold',width:'20%'},
+            { txt: 'Total Tax Amount', size: '22px', weight: 'bold',width:'20%' }
+          ],
+          rows: taxdata[0]
         },
         signatures: ['Accountant', 'Approved By'],
         footer: {
@@ -2553,7 +2643,7 @@ export class ServiceComponent implements OnInit {
       this.api.post('Accounts/EditLedgerdata', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log('Res:', res['data']);
+          //console.log('Res:', res['data']);
           data = res['data'];
           this.common.params = {
             ledgerdata: res['data'],
