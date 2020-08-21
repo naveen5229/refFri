@@ -89,8 +89,8 @@ export class DaybooksComponent implements OnInit {
     { name: 'Particular', key: 'y_particulars', search: '' },
     { name: 'Vch Type', key: 'y_type', search: '' },
     { name: 'Vch No.', key: 'y_cust_code', search: '' },
-    { name: 'Amount(Debit)', key: 'y_dramunt', search: '' },
-    { name: 'Amount(Credit)', key: 'y_cramunt', search: '' },
+    { name: 'Amount(DR)', key: 'y_dramunt', search: '' },
+    { name: 'Amount(CR)', key: 'y_cramunt', search: '' },
   ];
   jrxTimeout: any;
   searchedData = [];

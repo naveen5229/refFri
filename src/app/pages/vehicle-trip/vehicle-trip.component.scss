@@ -423,6 +423,11 @@ nb-card-body{
 :host ::ng-deep td i.fa-road:hover span{
     display: block;
 }
+
+:host ::ng-deep .blue{
+    text-decoration: underline;
+    color:blue;
+}
 :host ::ng-deep td i.fa-road span{
     position: absolute;
     display: none;

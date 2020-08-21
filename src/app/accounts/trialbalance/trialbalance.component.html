@@ -10,7 +10,7 @@
     </div>
     <!-- View Expand End -->
     <div class="row">
-      <div class="col-9">
+      <div class="col-9 pl-0">
         <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('table')"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
@@ -44,8 +44,8 @@
     <div class="row heading m-0 p-0">
         <div class="col x-col">Ledger</div>
         <div class="col x-col">Opening Balance</div>
-        <div class="col x-col">Amount(Debit)</div>
-        <div class="col x-col">Amount(Credit)</div>
+        <div class="col x-col">Amount(DR)</div>
+        <div class="col x-col">Amount(CR)</div>
         <div class="col x-col">Closing Balance</div>
     </div>
     <div class="jrx-dtbody">
@@ -141,8 +141,8 @@
         <tr>
           <th>Ledger</th>
           <th>Opening Balance</th>
-          <th>Amount(Debit)</th>
-          <th>Amount(Credit)</th>
+          <th>Amount(DR)</th>
+          <th>Amount(CR)</th>
           <th>Closing Balance</th>
         </tr>
       </thead>

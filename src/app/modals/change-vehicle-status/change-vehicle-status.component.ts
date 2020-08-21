@@ -281,8 +281,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   ];
   bounds = null;
   Markers = [];
-  createMarkers(markers, changeBounds = true, drawPoly = false) {
-
+  createMarkers(markers, changeBounds = true, drawPoly = false, scale = 1) {
     let thisMarkers = [];
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < markers.length; index++) {
@@ -304,7 +303,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
           // set custom fillColor on each iteration
           fillColor: "#" + pinColor,
           fillOpacity: 1,
-          scale: 1.3,
+          scale: scale,
           strokeColor: pinColor,
           strokeWeight: 2,
         };
@@ -316,7 +315,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
-            scale: 3,
+            scale: scale,
             fillColor: "#" + pinColor,
             fillOpacity: 0.8,
             strokeWeight: 1
@@ -352,13 +351,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   mergeWithVS(vsId, hsId, isCheck, j) {
-    
     this.unCheckAll(j);
     if (isCheck) {
       this.vSId = vsId;
       this.hsId = hsId;
     }
-    else{
+    else {
       this.vSId = null;
       this.hsId = null;
     }
@@ -369,7 +367,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       if (this.isChecks.hasOwnProperty(key)) {
         if (key != j) {
           this.isChecks[key] = false;
-        }else if(key == j) {
+        } else if (key == j) {
           this.isChecks[key] = true;
         }
       }
@@ -611,12 +609,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
           this.api.post('HaltOperations/mergeManualStates', params)
             .subscribe(res => {
               // this.common.loading--;
-                       this.vSId = null;
-                        this.isChecks = {};
+              this.vSId = null;
+              this.isChecks = {};
               if (res['success']) {
                 this.reloadData();
                 this.common.showToast(res['msg']);
-        
+
               } else {
                 this.common.showError(res['msg']);
                 this.reloadData();
@@ -1120,42 +1118,42 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
   clusters = [];
   getClusteres(vehicleEvent) {
-    console.log("vehicleEvent",vehicleEvent);
+    console.log("vehicleEvent", vehicleEvent);
     this.clusters.forEach(e => {
       e.setMap(null);
     })
     this.clusters = [];
     this.resetClusterInfo();
-    if(vehicleEvent.vs_id){
-    this.common.loading++;
-    let params = "vsId=" + vehicleEvent.vs_id;
-    this.api.get('HaltOperations/getStateClustures?' + params)
-      .subscribe(res => {
-        this.common.loading--;
+    if (vehicleEvent.vs_id) {
+      this.common.loading++;
+      let params = "vsId=" + vehicleEvent.vs_id;
+      this.api.get('HaltOperations/getStateClustures?' + params)
+        .subscribe(res => {
+          this.common.loading--;
 
-        res['data'].forEach((ele, index) => {
-          this.vehicleEvents.map(ve => {
-            let distance = this.common.distanceFromAToB(ve.lat, ve.long, ele.lat, ele.long, 'Mt');
-            console.log("index,distance,ele.radius", index, distance, ele.radius);
-            if (distance < ele.radius && !ve['clusterInfo']) {
-              ve['clusterInfo'] = {
-                index: index + 1,
-                data: ele
+          res['data'].forEach((ele, index) => {
+            this.vehicleEvents.map(ve => {
+              let distance = this.common.distanceFromAToB(ve.lat, ve.long, ele.lat, ele.long, 'Mt');
+              console.log("index,distance,ele.radius", index, distance, ele.radius);
+              if (distance < ele.radius && !ve['clusterInfo']) {
+                ve['clusterInfo'] = {
+                  index: index + 1,
+                  data: ele
+                }
               }
-            }
 
-          });
-          this.clusters.push(this.createCirclesOnPostion(new google.maps.LatLng(ele.lat, ele.long), ele.radius, ele.strokeColor, ele.fillColor, ele.fillOpacity, ele.strokeOpacity));
-          console.log('vehicleevents', this.vehicleEvents)
+            });
+            this.clusters.push(this.createCirclesOnPostion(new google.maps.LatLng(ele.lat, ele.long), ele.radius, ele.strokeColor, ele.fillColor, ele.fillOpacity, ele.strokeOpacity));
+            console.log('vehicleevents', this.vehicleEvents)
 
-        }
-        );
+          }
+          );
 
-      }, err => {
-        this.common.loading--;
-        this.common.showError(err);
-      })
-    }else{
+        }, err => {
+          this.common.loading--;
+          this.common.showError(err);
+        })
+    } else {
       this.common.showError("There is no clusters");
     }
   }
@@ -1171,23 +1169,52 @@ export class ChangeVehicleStatusComponent implements OnInit {
   details(vehicleEvent) {
 
   }
- 
-  isSingleClick: Boolean = true;     
 
-method1CallForClick(i,event){
-   this.isSingleClick = true;
-        setTimeout(()=>{
-            if(this.isSingleClick){
-              console.log('single click');
-                 this.openSmartTool(i,event);
-            }
-         },250)
-}
-method2CallForDblClick(event){
-         this.isSingleClick = false;
-         console.log('double click');
-        this.getClusteres(event);
-}
+  isSingleClick: Boolean = true;
+
+  method1CallForClick(i, event) {
+    this.isSingleClick = true;
+    setTimeout(() => {
+      if (this.isSingleClick) {
+        console.log('single click');
+        this.openSmartTool(i, event);
+      }
+    }, 250)
+  }
+  method2CallForDblClick(event) {
+    this.isSingleClick = false;
+    console.log('double click');
+    this.getClusteres(event);
+  }
+
+  sosMarker = [];
+  sosCluster = [];
+  getStoFromMergeState(event) {
+    this.sosMarker.forEach(e => {
+      e.setMap(null);
+    })
+    this.sosMarker = [];
+    this.sosCluster.forEach(e => {
+      e.setMap(null);
+    })
+    this.sosCluster = [];
+    this.common.loading++;
+    let params = "vehicleStateId=" + event.vs_id;
+    this.api.get('HaltOperations/getStoFromMergeState?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.sosMarker = this.createMarkers(res['data'], true, false, 5);
+        res['data'].forEach((ele, index) => {
+          this.sosCluster.push(this.createCirclesOnPostion(new google.maps.LatLng(ele.lat, ele.long), ele.radius, ele.strokeColor, ele.fillColor, ele.fillOpacity, ele.strokeOpacity));
+          console.log('vehicleevents', this.vehicleEvents);
+        }
+        );
+        console.log('sos', this.sosMarker);
+      }, err => {
+        this.common.loading--;
+        this.common.showError(err);
+      });
+  }
 }
 
 
