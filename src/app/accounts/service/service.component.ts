@@ -2378,9 +2378,9 @@ export class ServiceComponent implements OnInit {
     { txt: '' ,width:'10%'},
     { txt: '₹ '+rowtotal, size: '22px', weight: 'bold',width:'20%' }
   ]);
-  var converter = require('number-to-words');
+  //var converter = require('number-to-words');
   rows.push([
-    { txt: 'Amount Chargeable (in words) \n' +converter.toWords(rowtotal) , size: '22px', weight: 'bold',width:'150%' },
+    { txt: 'Amount Chargeable (in words) \n' +rowtotal , size: '22px', weight: 'bold',width:'150%' },
    
   ]);
   let arrtax =[];
