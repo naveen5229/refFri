@@ -48,21 +48,23 @@
         </div>
         <div class="row" *ngIf="this.challan && this.challan.length">
 
-            <div class="col-3">
-                <div class="solid">
-                    <span> Total Challan :
-                        {{pendingChallan+paidChallan}} </span></div>
+            <div class="col-4">
+                <div class="solid boxStyle">
+                    <div class="heading" style="color:blue;"> Total Amount</div>
+                    <div class="data"><span class="data" style="padding-right:5px;color:blue">₹</span>{{totalAmount}}</div>
+                    </div>
             </div>
 
-            <div class="col-3">
-                <div class="solid">
-                    <span> Pending Challan :
-                        {{pendingChallan }} </span> </div>
+            <div class="col-4">
+                <div class="solid boxStyle">
+                    <div class="heading" style="color:red"> Pending Amount</div>
+                        <div class="data1"><span class="data1" style="padding-right:5px;color:red">₹</span>{{pendingAmount }}</div> 
+                     </div>
             </div>
             <div class="col-4">
-                <div class="solid">
-                    <span> Paid Challan :
-                        {{paidChallan}} </span>
+                <div class="solid boxStyle">
+                    <div class="heading" style="color:green;"> Paid Amount</div>
+                     <div class="data2"><span class="data2" style="padding-right:5px;color:green;">₹</span>{{paidAmount}}</div>
                 </div>
             </div>
 
