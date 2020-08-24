@@ -2360,140 +2360,159 @@ export class ServiceComponent implements OnInit {
     rowtotal +=dtldata.amount
     arrinvoice =  [
         { txt: index+1 ,width:'5%'},
-        { txt: dtldata.stockitem, size: '22px', weight: 'bold',width:'50%' },
-        { txt: dtldata.hsn , size: '22px', weight: 'bold',width:'15%'},
-        { txt:dtldata.qty, size: '22px', weight: 'bold',width:'15%'  },
+        { txt: dtldata.stockitem, size: '22px', weight: 'bold',width:'40%' },
+        { txt: dtldata.hsn , size: '22px', weight: 'bold',width:'10%'},
+        { txt:dtldata.qty, size: '22px', weight: 'bold',width:'10%'  },
         { txt: dtldata.rate, size: '22px', weight: 'bold',width:'12%'  },
-        { txt: dtldata.per ,width:'10%'},
-        { txt: dtldata.amount, size: '22px', weight: 'bold',width:'20%' }
+        { txt: dtldata.per ,width:'8%'},
+        { txt: dtldata.amount, size: '22px', weight: 'bold',width:'15%' }
       ];
    rows.push(arrinvoice);
   });
   rows.push([
     { txt: '' ,width:'5%'},
-    { txt: 'Total', size: '22px', weight: 'bold',width:'50%' },
+    { txt: 'Total', size: '22px', weight: 'bold',width:'30%' ,align:'left'},
     { txt: '' , size: '22px', weight: 'bold',width:'15%'},
     { txt:'', size: '22px', weight: 'bold',width:'15%'  },
-    { txt: '', size: '22px', weight: 'bold',width:'12%'  },
+    { txt: '', size: '22px', weight: 'bold',width:'10%'  },
     { txt: '' ,width:'10%'},
-    { txt: '₹ '+rowtotal, size: '22px', weight: 'bold',width:'20%' }
+    { txt: '₹ '+rowtotal, size: '22px', weight: 'bold',width:'15%' }
   ]);
   //var converter = require('number-to-words');
   rows.push([
-    { txt: 'Amount Chargeable (in words) \n' +rowtotal , size: '22px', weight: 'bold',width:'150%' },
-   
+    { txt: 'Amount Chargeable (in words) \n' +rowtotal , size: '22px', weight: 'bold',colspan:7 }
   ]);
   let arrtax =[];
+  let taxabletotal=0;
+  let integratedtaxabletotal=0;
+  let lasttotal=0;
+  let inr_word=invoice_tax[0].inr_word;
   invoice_tax.map((dtldata,index)=>{
+    taxabletotal += dtldata.taxableamt;
+    integratedtaxabletotal += dtldata.igst_amt;
+    lasttotal += dtldata.total_amt;
     arrtax = [
-      { txt: 'test fedf', size: '22px', weight: 'bold',width:'50%'},
-      { txt: dtldata.taxableamt , size: '22px', weight: 'bold',width:'20%'},
-      { txt:dtldata.igst_rate , size: '22px', weight: 'bold',width:'20%' },
-      { txt: dtldata.igst_amt , size: '22px', weight: 'bold',width:'20%' },
-      { txt: dtldata.total_amt, size: '22px', weight: 'bold',width:'20%' }
+      { txt: 'test fedf', size: '22px', width:'50%'},
+      { txt: dtldata.taxableamt , size: '22px',width:'20%'},
+      { txt:dtldata.igst_rate , size: '22px',width:'20%' },
+      { txt: dtldata.igst_amt , size: '22px',width:'20%' },
+      { txt: dtldata.total_amt, size: '22px',width:'20%' }
     ];
-    taxdata.push([arrtax]);
+    taxdata.push(arrtax);
   });
+  taxdata.push([
+    { txt: 'Total', size: '22px', width:'50%',align:'right'},
+    { txt: taxabletotal , size: '22px',width:'20%'},
+    { txt:'', size: '22px',width:'20%' },
+    { txt: integratedtaxabletotal , size: '22px',width:'20%' },
+    { txt: lasttotal, size: '22px',width:'20%' }
+  ]
+);
+ 
+taxdata.push(
+[
+  { txt: 'Tax Amount (in words) '+inr_word, size: '22px', width:'50%',align:'Left',colspan:5}
+]);
 
     let invoiceJson = {};
-    if (voucherdataprint.ordertype.name.toLowerCase().includes('purchase') || voucherdataprint.ordertype.name.toLowerCase().includes('debit note')) {
-      invoiceJson = {
-        headers: [
-          { txt: companydata[0].y_foname, size: '22px', weight: 'bold' },
-          { txt: companydata[0].y_addressline },
-          { txt: cityaddress },
-          { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
-        ],
+    // if (voucherdataprint.ordertype.name.toLowerCase().includes('purchase') || voucherdataprint.ordertype.name.toLowerCase().includes('debit note')) {
+    //   invoiceJson = {
+    //     headers: [
+    //       { txt: companydata[0].y_foname, size: '22px', weight: 'bold' },
+    //       { txt: companydata[0].y_addressline },
+    //       { txt: cityaddress },
+    //       { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
+    //     ],
 
-        details: [
+    //     details: [
 
-          { name: 'Invoice No ', value: voucherdataprint.custcode },
-          { name: 'Dated ', value: voucherdataprint.date },
-          { name: "Supplier's Ref. ", value: '' },
-          { name: 'Mode/Terms of Payment ', value: voucherdataprint.paymentterms },
-          { name: 'Dated ', value: voucherdataprint.podate },
-          { name: "Despatch Document No. ", value: '' },
-          { name: "Delivery Note Date", value: '' },
-          { name: "Despatch through", value: '' },
-          { name: "Destination", value: '' },
-          { name: 'Terms of Delivery ', value: voucherdataprint.deliveryterms },
+    //       { name: 'Invoice No ', value: voucherdataprint.custcode },
+    //       { name: 'Dated ', value: voucherdataprint.date },
+    //       { name: "Supplier's Ref. ", value: '' },
+    //       { name: 'Mode/Terms of Payment ', value: voucherdataprint.paymentterms },
+    //       { name: 'Dated ', value: voucherdataprint.podate },
+    //       { name: "Despatch Document No. ", value: '' },
+    //       { name: "Delivery Note Date", value: '' },
+    //       { name: "Despatch through", value: '' },
+    //       { name: "Destination", value: '' },
+    //       { name: 'Terms of Delivery ', value: voucherdataprint.deliveryterms },
 
           
 
-          // { name: 'Invoice Type : ', value: voucherdataprint.ordertype.name },
-          // { name: 'Invoice No : ', value: voucherdataprint.custcode },
-          // { name: 'Invoice Date : ', value: voucherdataprint.date },
-          // { name: 'Purchase Ledger : ', value: voucherdataprint.purchaseledger.name },
-          // { name: 'Supplier Ledger : ', value: voucherdataprint.ledger.name },
-          // { name: 'Supplier Ref. No : ', value: voucherdataprint.vendorbidref },
-          // { name: 'P.O.No. : ', value: voucherdataprint.qutationrefrence },
-          // { name: 'Shipment Location : ', value: voucherdataprint.shipmentlocation },
-          // { name: 'Payment Terms : ', value: voucherdataprint.paymentterms },
-          // { name: 'Bilty Number : ', value: voucherdataprint.biltynumber },
-          // { name: 'Bilty Date : ', value: voucherdataprint.biltydate },
-          // { name: 'Dilivery Terms : ', value: voucherdataprint.deliveryterms },
-          // { name: 'Billing Address : ', value: voucherdataprint.billingaddress },
-          // { name: 'Invoice Remarks : ', value: voucherdataprint.orderremarks }
-        ],
-        table: {
-          headings: [
-            { txt: 'Ware House' },
-            { txt: 'Item' },
-            { txt: 'Qty' },
-            { txt: 'Rate' },
-            { txt: 'Amount' },
-            { txt: 'Tax Amount' },
-            { txt: 'Total Amount' },
-            { txt: 'Remarks' }
-          ],
-          rows: rows
-        },
-        signatures: ['Accountant', 'Approved By'],
-        footer: {
-          left: { name: 'Powered By', value: 'Elogist Solutions' },
-          center: { name: 'Printed Date', value: '06-July-2019' },
-          right: { name: 'Page No', value: 1 },
-        }
+    //       // { name: 'Invoice Type : ', value: voucherdataprint.ordertype.name },
+    //       // { name: 'Invoice No : ', value: voucherdataprint.custcode },
+    //       // { name: 'Invoice Date : ', value: voucherdataprint.date },
+    //       // { name: 'Purchase Ledger : ', value: voucherdataprint.purchaseledger.name },
+    //       // { name: 'Supplier Ledger : ', value: voucherdataprint.ledger.name },
+    //       // { name: 'Supplier Ref. No : ', value: voucherdataprint.vendorbidref },
+    //       // { name: 'P.O.No. : ', value: voucherdataprint.qutationrefrence },
+    //       // { name: 'Shipment Location : ', value: voucherdataprint.shipmentlocation },
+    //       // { name: 'Payment Terms : ', value: voucherdataprint.paymentterms },
+    //       // { name: 'Bilty Number : ', value: voucherdataprint.biltynumber },
+    //       // { name: 'Bilty Date : ', value: voucherdataprint.biltydate },
+    //       // { name: 'Dilivery Terms : ', value: voucherdataprint.deliveryterms },
+    //       // { name: 'Billing Address : ', value: voucherdataprint.billingaddress },
+    //       // { name: 'Invoice Remarks : ', value: voucherdataprint.orderremarks }
+    //     ],
+    //     table: {
+    //       headings: [
+    //         { txt: 'Ware House' },
+    //         { txt: 'Item' },
+    //         { txt: 'Qty' },
+    //         { txt: 'Rate' },
+    //         { txt: 'Amount' },
+    //         { txt: 'Tax Amount' },
+    //         { txt: 'Total Amount' },
+    //         { txt: 'Remarks' }
+    //       ],
+    //       rows: rows
+    //     },
+    //     signatures: ['Accountant', 'Approved By'],
+    //     footer: {
+    //       left: { name: 'Powered By', value: 'Elogist Solutions' },
+    //       center: { name: 'Printed Date', value: '06-July-2019' },
+    //       right: { name: 'Page No', value: 1 },
+    //     }
 
 
-      };
-    }
-    if (voucherdataprint.ordertype.name.toLowerCase().includes('wastage')) {
-      invoiceJson = {
-        headers: [
-          { txt: companydata[0].y_foname, size: '22px', weight: 'bold' },
-          { txt: companydata[0].y_addressline },
-          { txt: cityaddress },
-         // { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
-        ],
+    //   };
+    // }
+    // if (voucherdataprint.ordertype.name.toLowerCase().includes('wastage')) {
+    //   invoiceJson = {
+    //     headers: [
+    //       { txt: companydata[0].y_foname, size: '22px', weight: 'bold' },
+    //       { txt: companydata[0].y_addressline },
+    //       { txt: cityaddress },
+    //      // { txt: this.order.ordertype.name, size: '20px', weight: 600, align: 'left' }
+    //     ],
 
-        details: [
+    //     details: [
 
-          { name: 'Invoice Type : ', value: voucherdataprint.ordertype.name },
-          { name: 'Invoice No : ', value: voucherdataprint.custcode },
-          { name: 'Invoice Date : ', value: voucherdataprint.date },
-          { name: 'Purchase Ledger : ', value: voucherdataprint.purchaseledger.name },
-        ],
-        table: {
-          headings: [
-            { txt: 'Ware House' },
-            { txt: 'Item' },
-            { txt: 'Qty' }
+    //       { name: 'Invoice Type : ', value: voucherdataprint.ordertype.name },
+    //       { name: 'Invoice No : ', value: voucherdataprint.custcode },
+    //       { name: 'Invoice Date : ', value: voucherdataprint.date },
+    //       { name: 'Purchase Ledger : ', value: voucherdataprint.purchaseledger.name },
+    //     ],
+    //     table: {
+    //       headings: [
+    //         { txt: 'Ware House' },
+    //         { txt: 'Item' },
+    //         { txt: 'Qty' }
 
-          ],
-          rows: rows
-        },
-        signatures: ['Accountant', 'Approved By'],
-        footer: {
-          left: { name: 'Powered By', value: 'Elogist Solutions' },
-          center: { name: 'Printed Date', value: '06-July-2019' },
-          right: { name: 'Page No', value: 1 },
-        }
+    //       ],
+    //       rows: rows
+    //     },
+    //     signatures: ['Accountant', 'Approved By'],
+    //     footer: {
+    //       left: { name: 'Powered By', value: 'Elogist Solutions' },
+    //       center: { name: 'Printed Date', value: '06-July-2019' },
+    //       right: { name: 'Page No', value: 1 },
+    //     }
 
 
-      };
-    }
-    if (voucherdataprint.ordertype.name.toLowerCase().includes('sales') || voucherdataprint.ordertype.name.toLowerCase().includes('credit note')) {
+    //   };
+    // }
+    // if (voucherdataprint.ordertype.name.toLowerCase().includes('sales') || voucherdataprint.ordertype.name.toLowerCase().includes('credit note')) {
       invoiceJson = {
         headers: [
           { txt: '', value: headdata.branch_name , size: '25px', weight: 'bold',width:'25%' },
@@ -2533,35 +2552,35 @@ export class ServiceComponent implements OnInit {
         table: {
           headings: [
             { txt: 'SI', size: '22px', weight: 'bold',width:'5%' },
-            { txt: 'Descripption of Services' , size: '22px', weight: 'bold',width:'50%'},
-            { txt: 'HSN/SAC', size: '22px', weight: 'bold',width:'15%' },
-            { txt: 'Quantity', size: '22px', weight: 'bold',width:'15%' },
-            { txt: 'Rate', size: '22px', weight: 'bold',width:'12%' },
+            { txt: 'Descripption of Services' , size: '22px', weight: 'bold',width:'40%'},
+            { txt: 'HSN/SAC', size: '22px', weight: 'bold',width:'10%' },
+            { txt: 'Quantity', size: '22px', weight: 'bold',width:'10%' },
+            { txt: 'Rate', size: '22px', weight: 'bold',width:'10%' },
             { txt: 'Per', size: '22px', weight: 'bold',width:'10%' },
-            { txt: 'Amount' , size: '22px', weight: 'bold',width:'20%'}
+            { txt: 'Amount' , size: '22px', weight: 'bold',width:'15%'}
           ],
           rows: rows
         },
         table1: {
           headings: [
-            { txt: 'HSN/SAC', size: '22px', weight: 'bold',width:'50%' },
-            { txt: 'Taxable Value', size: '22px', weight: 'bold',width:'20%' },
-            { txt: 'Integrated Rate' , size: '22px', weight: 'bold',width:'20%'},
-            { txt: 'Integrated Amount' , size: '22px', weight: 'bold',width:'20%'},
-            { txt: 'Total Tax Amount', size: '22px', weight: 'bold',width:'20%' }
+            { txt: 'HSN/SAC', size: '22px', weight: 'bold',width:'30%' },
+            { txt: 'Taxable Value', size: '22px', weight: 'bold',width:'10%' },
+            { txt: 'Integrated Rate' , size: '22px', weight: 'bold',width:'10%'},
+            { txt: 'Integrated Amount' , size: '22px', weight: 'bold',width:'10%'},
+            { txt: 'Total Tax Amount', size: '22px', weight: 'bold',width:'10%' }
           ],
-          rows: taxdata[0]
+          rows: taxdata
         },
-        signatures: ['Accountant', 'Approved By'],
-        footer: {
-          left: { name: 'Powered By', value: 'Elogist Solutions' },
-          center: { name: 'Printed Date', value: '06-July-2019' },
-          right: { name: 'Page No', value: 1 },
-        }
-
+        signatures: {'amount':rowtotal,'pan':headdata.pan},
+        // footer: {
+        //   left: { name: 'Powered By', value: 'Elogist Solutions' },
+        //   center: { name: 'Printed Date', value: '06-July-2019' },
+        //   right: { name: 'Page No', value: 1 },
+        // }
+        invoicetype:voucherdataprint.ordertype.name
 
       };
-    }
+    //}
 
     console.log('JSON', invoiceJson);
 

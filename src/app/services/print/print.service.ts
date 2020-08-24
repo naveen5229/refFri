@@ -96,7 +96,7 @@ export class PrintService {
       let page = pageContainer.children[0];
       let pageInsider = page.children[0];
       if (pageIndex == 1) {
-        pageInsider.appendChild(this.createHeaderHtmlnew(json.headers));
+        pageInsider.appendChild(this.createHeaderHtmlnew(json.headers,json.invoicetype));
         pageInsider.appendChild(this.createBasicDetailsHtmlnew(json.details, json.headers, json.seconddetails, json.headerssecond));
       }
 
@@ -161,9 +161,10 @@ export class PrintService {
         rowIndexnew++;
       }
       if (rowIndexnew == json.table1.rows.length) {
-        pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+       // pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+        pageContainer.appendChild(this.createSignatureHtmlnewformat(json.signatures));
       }
-      pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+      //xpageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
       pageIndex++;
       secondPageIndex++;
     }
@@ -453,7 +454,7 @@ export class PrintService {
     }
     return this['createHeader' + template](headers);
   }
-  createHeaderHtmlnew(headers: any[], template = 1) {
+  createHeaderHtmlnew(headers: any[],invoicename, template = 1) {
     if (template == 1) {
       let headerContainer = document.createElement('div');
       headerContainer.className = 'pp-v1-header';
@@ -463,7 +464,7 @@ export class PrintService {
 
       // }).join('');
 
-      headerContainer.innerHTML = `<div style="text-align: ${'center'}; font-size: ${'16px'}; font-weight: ${100}; color: ${'#000'};">${'Tax Invoice'}</div>`;
+      headerContainer.innerHTML = `<div style="text-align: ${'center'}; font-size: ${'16px'}; font-weight: ${100}; color: ${'#000'};">${invoicename}</div>`;
       return headerContainer;
     }
     return this['createHeader' + template](headers);
@@ -627,6 +628,15 @@ export class PrintService {
    * Create Signature HTML to print on last page of PRINT
    * @param signatures - Array of string
    */
+  createSignatureHtmlnewformat(data) {
+    //console.log('sifnature data',data)
+    let signatureContainer = document.createElement('div');
+    //signatureContainer.className = 'pp-v1-signature';
+    signatureContainer.innerHTML = 
+      `<div style="border:1px solid #ddd;"><div class='row m-0' style="weight: 'bold'">${'Tax Amount (in words) : '+data.amount}</div>`+'\n'+`<div class='row m-0'><div class='col-6'><div>${"Compan's PAN       :  "+data.pan} </div><div>${"Declaration"+'\n'+'We declare that this invoice shows the actual price of the goods desctibeed and that all particulars are true and correct</div>'}</div><div class='col-6' style="border:1px solid #ddd;"><div style="align:right;"> for Elogist Solution Private Limited</div><div style="align:right;weight: 'bold';">Authorise Signatory </div></div></div>`;
+   
+    return signatureContainer;
+  }
   createSignatureHtml(signatures: string[]) {
     let signatureContainer = document.createElement('div');
     signatureContainer.className = 'pp-v1-signature';
