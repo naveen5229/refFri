@@ -275,7 +275,9 @@ export class FuelFillingsComponent implements OnInit {
         // this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
         let details = [
           { customer: 'Customer : ' + fodata['name'] },
-          { report: 'Report : Fuel Filling' }
+          { report: 'Report : Fuel Filling' },
+          {period: 'Report Date :'+this.dates.start+ " to "+this.dates.end},
+          {date : 'Generated On :'+ this.common.dateFormatter(new Date())}
           // { time: 'Time : ' + this.datePipe.transform(this.today, 'dd-MM-yyyy hh:mm:ss a') }
         ];
         this.csvService.byMultiIds([tblEltId], 'Dashboard', details);
