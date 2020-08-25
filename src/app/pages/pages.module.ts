@@ -97,6 +97,7 @@ import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
 import { SupervisorUserAssociationComponent } from './supervisor-user-association/supervisor-user-association.component';
 import { TripsComponent } from './trips/trips.component';
 import { IssuesReportComponent } from './issues-report/issues-report.component';
+import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
 
 
 
@@ -195,6 +196,7 @@ const PAGES_COMPONENTS = [
     SupervisorUserAssociationComponent,
     TripsComponent,
     IssuesReportComponent,
+    VehicleStatesComponent,
 
 
   ],

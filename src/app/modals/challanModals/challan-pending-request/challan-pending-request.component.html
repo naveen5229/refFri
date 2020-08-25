@@ -1,26 +1,19 @@
 <div class="modal-header">
-    <h5>Challan Pending Request</h5>
+    <h5>Traffic Challan Payment Request Summary</h5>
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
   <span aria-hidden="true">&times;</span>
 </button>
 </div>
 <div class="modal-body">
     <div>
+        <b>Your request for traffic challan payment is being submitted for payment through eLogist Solutions.</b><br><br> 
+        <b>Request Details are as below:</b>
         <div class="row mt-2">
             <div class="col-4">
-                <label>RegNo</label>
+                <label>Vehicle No</label>
             </div>
             <div class="col-8">
-                <strong>{{this.common.params.regNo}}</strong>
-            </div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-4">
-                <label>Challan Date</label>
-            </div>
-            <div class="col-8">
-                <strong>{{this.common.params.chDate}}</strong>
+                <strong>{{regNo}}</strong>
             </div>
         </div>
 
@@ -29,19 +22,62 @@
                 <label>Challan Number</label>
             </div>
             <div class="col-8">
-                <strong>{{this.common.params.chNo}}</strong> </div>
+                <strong>{{challanNo}}</strong> </div>
         </div>
 
         <div class="row mt-2">
             <div class="col-4">
-                <label>Amount</label>
+                <label>Challan Date</label>
             </div>
             <div class="col-8">
-                <strong>{{this.common.params.amount}}</strong>
+                <strong>{{chDate}}</strong>
             </div>
         </div>
+        
+       
+
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Challan Amount</label>
+            </div>
+            <div class="col-8">
+                <strong>{{amount}}</strong>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Main Balance</label>
+            </div>
+            <div class="col-8">
+                <strong>{{mainBalance}}</strong>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-4">
+                <label> Convenience Charge</label>
+            </div>
+            <div class="col-8">
+                <strong>100</strong>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-4">
+                <label> Total Amount</label>
+            </div>
+            <div class="col-8">
+                <strong>{{totalAmt}}</strong>
+            </div>
+        </div>
+        
+        <div class="row mt-2">
+            Once you have submitted the request, your main balance will be deducted by Rs. <b>  {{totalAmt}}  </b>. Payment receipt will be available on Walle8 DOST portal within <b>48 hours</b>.        </div>
+
     </div>
 </div>
 <div class="modal-footer mt-2">
+    <button class="btn btn-danger" (click)="closeModal()">Cancel</button>
     <button class="btn btn-primary" type="button" (click)="challanPayRequest()">Pay Request</button>
 </div>

@@ -1,0 +1,50 @@
+<nb-card style="border: 0px;">
+  <nb-card-header>
+      <div class="row">
+          <div class="col-sm-6">
+              <h5>Vehicle States</h5>
+          </div>
+         
+      </div>
+  </nb-card-header>
+  <nb-card-body>
+      <div class="row mb-2">
+          <div class="col-sm-2">
+              <div class="search_vehicle_input">
+                  <auto-suggestion (onSelected)="vehicleId=$event.id" url="suggestion/getFoVehicleList"
+                      display="regno" placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
+              </div>
+          </div>
+          <div class="col-3">
+            <select [(ngModel)]="stateType" class="form-control" (change)="changeStateType()"
+            style=" border: 1px solid #324148; font-size: 10px">
+            <option *ngFor="let st of stateTypes" [value]="st.id">{{st.description}}</option>
+          </select>
+          </div>
+          <div class="col-3">
+              <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]='false'>
+              </uj-date-time-picker>
+          </div>
+          <div class="col-3">
+              <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]='false' [isStart]="false">
+              </uj-date-time-picker>
+          </div>
+          <div class="col-1">
+              <button (click)="getVehicleStates()" class="btn btn-primary form-control"
+                  style="margin:0px;border:0px;">OK</button>
+          </div>
+          <!-- <div class="col-sm-3 text-right">
+              <span>
+                  <span class="pdf-icon" title="PDF Export" (click)="printPDF('vehicleTrip')"
+                      style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+                  <span class="exel-icon" title="CSV Export" (click)="printCsv('vehicleTrip')"
+                      style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+              </span>
+          </div> -->
+      </div>
+      <smart-table *ngIf="vehicleStates && vehicleStates.length" id="vehicleState" [data]="table.data"
+          [settings]="table.settings">
+      </smart-table>
+      <br>
+  </nb-card-body>
+</nb-card>

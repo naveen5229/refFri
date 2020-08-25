@@ -13,21 +13,7 @@
       <!-- Any change will need to change in fn_getvehicelstatename -->
       <select [(ngModel)]="stateType" class="form-control" (change)="changeStateType()"
         style=" border: 1px solid #324148; font-size: 10px">
-        <option value="-1">Select State</option>
-        <option value="1">Loading</option>
-        <option value="2">Onward</option>
-        <option value="3">Unloading</option>
-        <option value="4">Available</option>
-        <option value="301">Accident</option>
-        <option value="311">Break Down</option>
-        <option value="321">Maintenance</option>
-        <option value="331">Waiting for Load</option>
-        <option value="341">Driver Unavailable</option>
-        <option value="401">RTO Issue</option>
-        <option value="411">Driver Related Issue</option>
-        <option value="421">Traffic Issue</option>
-        <option value="431">Documents Issue</option>
-        <option value="0">Others</option>
+        <option *ngFor="let st of stateTypes" [value]="st.id">{{st.description}}</option>
       </select>
       <!-- Any change will need to change in fn_getvehicelstatename -->
 
@@ -48,6 +34,21 @@
       <input type="radio" name="location" value="location" [(ngModel)]="changeCategory" (change)="getCategory()">
       Location
     </div>
+  </div>
+  <div class="row mt-3" *ngIf="changeCategory=='halts'">
+    <div class="col-3">
+    <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false" class="col-6"
+      placeholder="Enter Start Date">
+    </uj-date-time-picker>
+  </div>
+    <div class="col-3">
+    <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]="false" class="col-6"
+      placeholder="Enter End Date" >
+    </uj-date-time-picker>
+  </div>
+  <div class="col-2">
+    <button class="btn btn-primary" (click)="getVehicleEvent()">OK</button>
+  </div>
   </div>
   <div class="row mt-3" *ngIf="changeCategory=='halts'">
     <div class="col-sm-2" style="margin-top:15px">
@@ -71,9 +72,9 @@
       <label>Date:</label>
     </div>
     <div class="col-sm-4">
-      <uj-date-time-picker (onChanged)="site.site_date = $event"
-      [dateTimeValue]="site.site_date" [isTime]="true" class="col-6">
-    </uj-date-time-picker>
+      <uj-date-time-picker (onChanged)="site.site_date = $event" [dateTimeValue]="site.site_date" [isTime]="true"
+        class="col-6">
+      </uj-date-time-picker>
       <!-- <input [(ngModel)]="site.site_date" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
         class="form-control" autocomplete="off" name="date">
       <owl-date-time #date></owl-date-time> -->
@@ -95,16 +96,16 @@
       <label>Date:</label>
     </div>
     <div class="col-sm-4">
-      <uj-date-time-picker (onChanged)="location.loc_date = $event"
-      [dateTimeValue]="location.loc_date" [isTime]="true" class="col-6">
-    </uj-date-time-picker>
+      <uj-date-time-picker (onChanged)="location.loc_date = $event" [dateTimeValue]="location.loc_date" [isTime]="true"
+        class="col-6">
+      </uj-date-time-picker>
       <!-- <input [(ngModel)]="location.loc_date" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="Date Time"
         class="form-control" autocomplete="off" name="date1">
       <owl-date-time #date1></owl-date-time> -->
     </div>
   </div>
   <!-- </div> -->
- 
+
   <div class="row" style="margin-top:10px; height: 450px ">
     <div class="col-sm-6" *ngIf="changeCategory=='halts'" style="height: 450px ">
       <table class="tbl table table-bordered table-hover">
