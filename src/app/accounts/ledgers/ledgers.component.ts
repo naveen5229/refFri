@@ -119,6 +119,8 @@ export class LedgersComponent implements OnInit {
     let startIndex = this.pages.limit * (this.pages.active - 1);
     let lastIndex = (this.pages.limit * this.pages.active);
     this.data = data ? data.slice(startIndex, lastIndex) : this.searchedData.length ? this.searchedData.slice(startIndex, lastIndex) : this.Ledgers.slice(startIndex, lastIndex);
+    console.log('pagination',this.accountService.perPage,this.pages.active);
+
   }
   
   jrxPageLimitReset() {

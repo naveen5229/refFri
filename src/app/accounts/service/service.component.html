@@ -524,7 +524,7 @@
         <div class="col-3 text-right">
           <label class="total_label">Total Bill Amount : {{(calculateTaxTotal() + calculateTotalLineAmount()) |number : '1.2-2'}}</label>  
       </div>
-        <div class="col-7">
+        <div class="col-6">
           <input type="checkbox" name="print" id="print" [(ngModel)]="order.print" style="vertical-align: text-top;"> Print After Save
           <span *ngIf="mannual">
             <input type="checkbox" name="mannual" id="mannual" [(ngModel)]="order.ismanual"> Is Mannual Approval
@@ -535,7 +535,11 @@
             style="cursor: pointer;">Cancel</button>
         </div> -->
 
-        <!-- Edit by Hemant 27 june 2020 -->
+        
+        <div class="col-1 text-right">
+          <button *ngIf="(newid ==0)" class="btn btn-primary btnservice" type="button" (click)="printFunction()" id="printfunction"
+          style="cursor: pointer;">Print</button>
+        </div>
         <div class="col-1 text-right">
           <!-- <button class="btn btn-primary" [ngStyle]="{'display':showHideButton ? 'block' : 'none'}" type="button" outline (click)="callconfirm()" id="submit"
             style="cursor: pointer;">Submit
