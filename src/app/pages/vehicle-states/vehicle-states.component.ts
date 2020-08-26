@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { CsvService } from '../../services/csv/csv.service';
+import { UserService } from '../../services/user.service';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'vehicle-states',
@@ -29,6 +32,8 @@ export class VehicleStatesComponent implements OnInit {
   };
   constructor( public api: ApiService,
     public common: CommonService,
+    private csvService: CsvService,
+    public user: UserService,
     private modalService: NgbModal) {
     this.getStates();
     this.common.refresh = this.refresh.bind(this);
@@ -128,7 +133,8 @@ export class VehicleStatesComponent implements OnInit {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {   
           this.valobj[this.headings[j]] = { value: this.vehicleStates[i][this.headings[j]], class: 'black', action: '' };
-      }
+          this.valobj['Action'] = { value: null, isHTML: false, action: null, class: '', icons: this.actionIcons(this,this.vehicleStates[i]) }
+        }
       this.valobj['style'] = { background: this.vehicleStates[i]._rowcolor };
       columns.push(this.valobj);
     }
@@ -137,6 +143,75 @@ export class VehicleStatesComponent implements OnInit {
     return columns;
   }
 
- 
+  printCsv(tblEltId) {
+    let customerName = this.user._customer.name;
+    if (this.user._loggedInBy == "customer")
+       customerName = this.user._details.name;
+        let details = [
+          { customer: 'Customer : ' + customerName },
+          { report: 'Report : Fleet States' },
+          {period: 'Report Date :'+this.startDate+ " to "+this.endDate},
+         //   {date : 'Generated On :'+ this.common.dateFormatter(new Date())}
+         ];
+        this.csvService.byMultiIds([tblEltId], 'Fleet States', details);
+  }
+  setVehicleDetail(event)
+  {
+    this.vehicleId=event.id;
+    this.stateTypes.push({
+      description : "All",
+      id : -1
+    });
+  }
 
+  
+  actionIcons(details, i) {
+    let icons = [];
+      icons.push({
+        class: "fa fa-trash remove",
+        action: this.removeVehicleState.bind(this, i),
+      })
+
+    return icons;
+  }
+
+
+  removeVehicleState(data) {
+    let params = {
+      stateid: data._id
+    };
+   
+    this.common.params = {
+      title: 'Remove State ',
+      description: `<b>&nbsp;` + 'Are Sure To Remove State ' + `<b>`,
+    }
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log("data", data);
+        this.common.loading++;
+        this.api.post('Vehicles/removeVehicleState', params)
+          .subscribe(res => {
+            this.common.loading--;
+            console.log('res: ', res);
+            if (res['data'][0].r_id > 0) {
+              this.common.showToast('Selected state has been deleted');
+              this.getStates();
+            } else {
+              this.common.showToast(res['data'][0].r_msg, '', 10000);
+            }
+
+
+          }, err => {
+            this.common.loading--;
+            console.log('Error: ', err);
+            this.common.showError('Error!');
+          });
+      }
+    });
+
+
+  
+
+  }
 }

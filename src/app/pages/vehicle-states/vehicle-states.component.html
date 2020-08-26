@@ -4,19 +4,24 @@
           <div class="col-sm-6">
               <h5>Vehicle States</h5>
           </div>
-         
+          <div class="col-md-6 text-right">
+            <span>
+              <span class="exel-icon" title="CSV Export" (click)="printCsv('vehicleState')"
+                style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+            </span>
+          </div>
       </div>
   </nb-card-header>
   <nb-card-body>
       <div class="row mb-2">
           <div class="col-sm-2">
               <div class="search_vehicle_input">
-                  <auto-suggestion (onSelected)="vehicleId=$event.id" url="suggestion/getFoVehicleList"
+                  <auto-suggestion (onSelected)="setVehicleDetail($event)" url="suggestion/getFoVehicleList"
                       display="regno" placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
               </div>
           </div>
           <div class="col-3">
-            <select [(ngModel)]="stateType" class="form-control" (change)="changeStateType()"
+            <select [(ngModel)]="stateType" class="form-control" 
             style=" border: 1px solid #324148; font-size: 10px">
             <option *ngFor="let st of stateTypes" [value]="st.id">{{st.description}}</option>
           </select>
