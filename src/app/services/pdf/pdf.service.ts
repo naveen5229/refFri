@@ -6,7 +6,6 @@ import { UserService } from '../user.service';
 import { ApiService } from '../api.service';
 import html2pdf from 'html2pdf.js';
 import { DatePipe } from '@angular/common';
-import { AccountService } from '../account.service';
 
 
 @Injectable({
@@ -15,46 +14,62 @@ import { AccountService } from '../account.service';
 export class PdfService {
 
   constructor(public common: CommonService,
-    private accountService: AccountService,
     public user: UserService,
     private datePipe: DatePipe,
     public api: ApiService) {
   }
 
-  mutliTablePdfWithId(tableIds) {
+  /**
+   * Print Pdf from multi tables
+   * @param tableIds Table id's
+   * @param fileName File name
+   * @param details In Formatt = [['Customer: Elogist']]
+   */
+  mutliTablePdfWithId(tableIds: string[], fileName: string = 'report', details?: any) {
     let tablesHeadings = [];
     let tablesRows = [];
     tableIds.map(tableId => {
       tablesHeadings.push(this.findTableHeadings(tableId));
       tablesRows.push(this.findTableRows(tableId));
     });
-    /**************** LOGO Creation *************** */
-    let eltimg = document.createElement("img");
-    eltimg.src = "assets/images/elogist.png";
-    eltimg.alt = "logo";
 
     /**************** PDF Size ***************** */
     let maxHeadingLength = 0;
-    tablesHeadings.map(tableHeadings => {
-      if (maxHeadingLength < tableHeadings.length)
-        maxHeadingLength = tableHeadings.length;
+    tablesHeadings.map(tblHeadings => {
+      if (maxHeadingLength < tblHeadings[0].length)
+        maxHeadingLength = tblHeadings[0].length;
     });
     let pageOrientation = "Portrait";
-    if (maxHeadingLength > 7) {
+    if (maxHeadingLength >= 7) {
       pageOrientation = "Landscape";
     }
-
     let doc = new jsPDF({
       orientation: pageOrientation,
       unit: "px",
       format: "a4"
     });
 
+
+
+    if (details && details.length) {
+      let firstColumLength = details[0].length;
+      let maxLength = Math.max(...details.map(detail => detail.length));
+      if (maxLength !== firstColumLength) {
+        for (let i = firstColumLength; i < maxLength; i++) {
+          details[0].push('');
+        }
+      }
+      doc.autoTable({
+        body: details,
+        theme: 'plain'
+      });
+    }
+
     tablesHeadings.map((tableHeadings, index) => {
       doc = this.addTableInDoc(doc, tableHeadings, tablesRows[index]);
     });
 
-    doc.save("report.pdf");
+    doc.save(fileName + '.pdf');
   }
 
   findTableHeadings(tableId) {
@@ -187,14 +202,14 @@ export class PdfService {
 
   addTableInDoc(doc, headings, rows) {
 
-    let tempLineBreak = { fontSize: 10, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, cellWidth: 51, valign: 'middle', halign: 'center' };
+    let tempLineBreak = { fontSize: 10, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, maxCellWidth: 80, valign: 'middle', halign: 'center' };
 
     doc.autoTable({
       head: headings,
       body: rows,
       theme: 'grid',
       didDrawPage: this.didDrawPage,
-      margin: { top: 80 },
+      margin: { top: 20 },
       rowPageBreak: 'avoid',
       headStyles: {
         fillColor: [98, 98, 98],
@@ -211,30 +226,9 @@ export class PdfService {
   }
 
   didDrawPage(data) {
-    console.log('-----', data);
     let doc = data.doc;
-    //header
-    let x = 35;
-    let y = 40;
-
-
-    doc.setFontSize(14);
-    doc.setFont("times", "bold");
-    doc.text("elogist Solutions ", x, y);
-
-    let pageWidth = parseInt(doc.internal.pageSize.width);
-    y = 15;
-    doc.setFontSize(12);
-    doc.line(20, 70, pageWidth - 20, 70);
-
-    let eltimg = document.createElement("img");
-    eltimg.src = "assets/images/elogist.png";
-    eltimg.alt = "logo";
-
-
-    doc.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
     // FOOTER
-    var str = "Page " + data.pageCount;
+    let str = "Page " + data.pageCount;
 
     doc.setFontSize(10);
     doc.text(
@@ -329,10 +323,6 @@ export class PdfService {
     //   doc.internal.pageSize.height - 10
     // );
   }
-
-
-
-
 
   voucherPDF(pdfData?) {
     console.log('Test');
@@ -641,9 +631,6 @@ export class PdfService {
     });
   }
 
-
-
-
   convertNumberToWords(amount) {
     var words = new Array();
     words[0] = '';
@@ -685,10 +672,10 @@ export class PdfService {
       for (var i = 0; i < n_length; i++) {
         received_n_array[i] = number.substr(i, 1);
       }
-      for (var i = 9 - n_length, j = 0; i < 9; i++ , j++) {
+      for (var i = 9 - n_length, j = 0; i < 9; i++, j++) {
         n_array[i] = received_n_array[j];
       }
-      for (var i = 0, j = 1; i < 9; i++ , j++) {
+      for (var i = 0, j = 1; i < 9; i++, j++) {
         if (i == 0 || i == 2 || i == 4 || i == 7) {
           if (n_array[i] == 1) {
             n_array[j] = 10 + (n_array[j]);
