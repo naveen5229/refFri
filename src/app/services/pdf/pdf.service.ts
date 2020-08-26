@@ -7,6 +7,10 @@ import { ApiService } from '../api.service';
 import html2pdf from 'html2pdf.js';
 import { DatePipe } from '@angular/common';
 
+interface jrxPdfOptions {
+  logo?: string;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +29,7 @@ export class PdfService {
    * @param fileName File name
    * @param details In Formatt = [['Customer: Elogist']]
    */
-  mutliTablePdfWithId(tableIds: string[], fileName: string = 'report', details?: any) {
+  jrxTablesPDF(tableIds: string[], fileName: string = 'report', details?: any, options?: jrxPdfOptions) {
     let tablesHeadings = [];
     let tablesRows = [];
     tableIds.map(tableId => {
@@ -50,6 +54,14 @@ export class PdfService {
     });
 
 
+    /********************* Logo ************* */
+    try {
+      let eltimg = document.createElement("img");
+      eltimg.src = (options && options.logo) ? options.logo : "assets/images/elogist.png";
+      doc.addImage(eltimg, 'JPEG', parseInt(doc.internal.pageSize.width) - 55, 15, 30, 30, 'logo', 'NONE', 0);
+    } catch (e) {
+      console.error('Unable to add logo:', e);
+    }
 
     if (details && details.length) {
       let firstColumLength = details[0].length;
@@ -59,13 +71,17 @@ export class PdfService {
           details[0].push('');
         }
       }
+      let tempLineBreak = { fontSize: 10, cellPadding: 0, minCellHeight: 11, minCellWidth: 11, maxCellWidth: 80, valign: 'middle', halign: 'left' };
+
       doc.autoTable({
         body: details,
-        theme: 'plain'
+        theme: 'plain',
+        styles: tempLineBreak
       });
     }
 
     tablesHeadings.map((tableHeadings, index) => {
+      if (tableHeadings[0][0] == '') tableHeadings[0][0] = '#';
       doc = this.addTableInDoc(doc, tableHeadings, tablesRows[index]);
     });
 
@@ -202,21 +218,19 @@ export class PdfService {
 
   addTableInDoc(doc, headings, rows) {
 
-    let tempLineBreak = { fontSize: 10, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, maxCellWidth: 80, valign: 'middle', halign: 'center' };
+    let tempLineBreak = { fontSize: 8, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, maxCellWidth: 80, valign: 'middle', halign: 'center' };
 
     doc.autoTable({
       head: headings,
       body: rows,
       theme: 'grid',
       didDrawPage: this.didDrawPage,
-      margin: { top: 20 },
+      margin: { top: 20, bottom: 20 },
       rowPageBreak: 'avoid',
       headStyles: {
-        fillColor: [98, 98, 98],
-        fontSize: 10,
+        fontSize: 8,
         halign: 'center',
         valign: 'middle'
-
       },
       styles: tempLineBreak,
       columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
@@ -227,10 +241,11 @@ export class PdfService {
 
   didDrawPage(data) {
     let doc = data.doc;
+    //header
     // FOOTER
     let str = "Page " + data.pageCount;
 
-    doc.setFontSize(10);
+    doc.setFontSize(8);
     doc.text(
       str,
       data.settings.margin.left,
