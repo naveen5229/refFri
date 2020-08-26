@@ -20,6 +20,7 @@ export class PayChallanPaymentComponent implements OnInit {
   challanId = null;
   amount = null;
   mainBalance = null;
+  receiptdoc=null;
 
 
 
@@ -60,6 +61,33 @@ export class PayChallanPaymentComponent implements OnInit {
     }
   }
 
+  handleFileSelection(event) {
+    this.common.loading++;
+    this.common.getBase64(event.target.files[0])
+      .then(res => {
+        this.common.loading--;
+        let file = event.target.files[0];
+        console.log("Type", file.type);
+        if (file.type == "image/jpeg" || file.type == "image/jpg" ||
+          file.type == "image/png" || file.type == "application/pdf" ||
+          file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          file.type == "application/vnd.ms-excel" || file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+          this.common.showToast("SuccessFull File Selected");
+        }
+        else {
+          this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
+          return false;
+        }
+
+        console.log('Base 64: ', res);
+        this.receiptdoc=res;
+        // this.driver['image' + index] = res;
+      }, err => {
+        this.common.loading--;
+        console.error('Base Err: ', err);
+      })
+  }
+
   submitChallanPayment() {
     let params = {};
     if (this.paymentState == 1) {
@@ -69,7 +97,11 @@ export class PayChallanPaymentComponent implements OnInit {
         amount: this.amount,
         challanNo: this.challaNumber,
         status: this.paymentState,
+        doc1:this.receiptdoc,
         remark: this.remark
+      }
+      if(this.receiptdoc==null){
+        this.common.showToast('please upload challan payment receipt.')
       }
     }
     else {
