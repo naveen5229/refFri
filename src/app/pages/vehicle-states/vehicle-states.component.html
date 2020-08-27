@@ -16,7 +16,7 @@
       <div class="row mb-2">
           <div class="col-sm-2">
               <div class="search_vehicle_input">
-                  <auto-suggestion (onSelected)="setVehicleDetail($event)" url="suggestion/getFoVehicleList"
+                  <auto-suggestion (onSelected)="setVehicleDetail($event)" (onChange)="resetVehicle()" url="suggestion/getFoVehicleList"
                       display="regno" placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
               </div>
           </div>

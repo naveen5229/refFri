@@ -98,6 +98,7 @@ import { SupervisorUserAssociationComponent } from './supervisor-user-associatio
 import { TripsComponent } from './trips/trips.component';
 import { IssuesReportComponent } from './issues-report/issues-report.component';
 import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
+import { TmgChallanComponent } from './tmg-challan/tmg-challan.component';
 
 
 
@@ -197,6 +198,7 @@ const PAGES_COMPONENTS = [
     TripsComponent,
     IssuesReportComponent,
     VehicleStatesComponent,
+    TmgChallanComponent,
 
 
   ],

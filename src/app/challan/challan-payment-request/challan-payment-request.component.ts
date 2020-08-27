@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PayChallanPaymentComponent } from '../../modals/challanModals/pay-challan-payment/pay-challan-payment.component';
 import { PdfViewerComponent } from '../../generic/pdf-viewer/pdf-viewer.component';
+import { UploadFileComponent } from '../../modals/generic-modals/upload-file/upload-file.component';
 
 @Component({
   selector: 'challan-payment-request',
@@ -90,8 +91,10 @@ export class ChallanPaymentRequestComponent implements OnInit {
         if (key == "Action") {
           column[key] = {
             value: "", action: null, icons: [
-              { class: 'fas fa-edit mr-3', action: this.acRemainingBalance.bind(this, item) },
-              { class: item._ch_doc_id ? 'far fa-file-alt' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) },
+              { class: item._req_status==1?'fas fa-edit mr-2':null, action: this.acRemainingBalance.bind(this, item) },
+              { class: item._ch_doc_id ? 'far fa-file-alt mr-2' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) },
+              { class: item._req_status==2? 'fa fa-upload mr-2' : null, action: this.confirmation.bind(this, item) },
+              
             ]
           }
         } else {
@@ -182,6 +185,48 @@ export class ChallanPaymentRequestComponent implements OnInit {
     };
   }
 
+  confirmation(dt) {
+    const activeModal = this.modalService.open(UploadFileComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log("data",data);
+        this.uploadImg(dt,data.file,data.fileType) 
+      }
+    });
+  }
 
 
+  uploadImg(dt,file,filetype) {
+    console.log('file',filetype);
+    if (filetype == "image/jpeg" || filetype == "image/jpg" ||
+    filetype == "image/png" || filetype == "application/pdf" ||
+    filetype == "application/msword" || filetype == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+    filetype == "application/vnd.ms-excel" || filetype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+    this.common.showToast("SuccessFull File Selected");
+  }
+  else {
+    this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
+    return false;
+  }
+  let params ={
+  challanId: dt._id,
+  vehId: dt._vehid,
+  status: 3,
+  doc1:file
+  }
+    this.common.loading++;
+    this.api.post('Challans/completeChallanPayment', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res['data']);
+        if (res['success'] === true) {
+          this.common.showToast(res['msg']);
+        } else {
+          this.common.showError(res['msg']);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 }

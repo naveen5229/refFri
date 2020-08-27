@@ -168,10 +168,10 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     doc = this.setPdfHeader(doc);
 
     let startingPage = doc.internal.getCurrentPageInfo().pageNumber;
-    doc.autoTable(this.getPdfTableConfig('provider', { right: 330, left: 30, top: 20 }, null, 70));
+    doc.autoTable(this.getPdfTableConfig('provider', { right: 330, left: 30, top: 20 }, null, 70,140));
     doc.setPage(startingPage);
-    doc.autoTable(this.getPdfTableConfig('customer', { left: 330, right: 30, top: 20 }, null, 70));
-    doc.autoTable(this.getPdfTableConfig('account', { left: 30, right: 30, top: 0 }));
+    doc.autoTable(this.getPdfTableConfig('customer', { left: 330, right: 30, top: 20 }, null, 70,140));
+    doc.autoTable(this.getPdfTableConfig('account', { left: 30, right: 30, top: 0 },null,null,290));
     doc.autoTable(this.getPdfTableConfig('tblData', { left: 30, right: 30, top: 0 }, this.setPdfPageFooter.bind(this, doc)));
     doc.save('financial-toll-summary.pdf');
   }
@@ -206,7 +206,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     data.settings.margin.top = 20;
   };
 
-  getPdfTableConfig(id: string, margin: object, footerSetter?: any, startY?: number) {
+  getPdfTableConfig(id: string, margin: object, footerSetter?: any, startY?: number,cellWidth=65) {
     let config = {
       html: '#' + id,
       theme: 'grid',
@@ -223,13 +223,13 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
         cellPadding: 3,
         minCellHeight: 11,
         minCellWidth: 10,
-        cellWidth: 40,
+        cellWidth: cellWidth,
         valign: 'middle',
         halign: 'center'
       },
       columnStyles: {
         text: {
-          cellWidth: 40,
+          cellWidth: cellWidth,
           halign: 'center',
           valign: 'middle'
         }

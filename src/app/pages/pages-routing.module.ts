@@ -99,6 +99,7 @@ import { SupervisorUserAssociationComponent } from './supervisor-user-associatio
 import { TripsComponent } from './trips/trips.component';
 import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
 import { IssuesReportComponent } from './issues-report/issues-report.component';
+import { TmgChallanComponent } from './tmg-challan/tmg-challan.component';
 
 
 const routes: Routes = [{
@@ -616,6 +617,12 @@ const routes: Routes = [{
     component: FuelDailyConsumptionComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
+  {
+    path: 'tmg-challan',
+    component: TmgChallanComponent,
+    canActivate: [AuthGuard,RouteGuard]
+},
+
   
   ],
 }];

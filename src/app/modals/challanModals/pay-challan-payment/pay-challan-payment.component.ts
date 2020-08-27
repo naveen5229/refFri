@@ -100,9 +100,9 @@ export class PayChallanPaymentComponent implements OnInit {
         doc1:this.receiptdoc,
         remark: this.remark
       }
-      if(this.receiptdoc==null){
-        this.common.showToast('please upload challan payment receipt.')
-      }
+      // if(this.receiptdoc==null){
+      //   this.common.showToast('please upload challan payment receipt.')
+      // }
     }
     else {
       params = {

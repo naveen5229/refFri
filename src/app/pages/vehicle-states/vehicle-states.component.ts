@@ -155,6 +155,9 @@ export class VehicleStatesComponent implements OnInit {
          ];
         this.csvService.byMultiIds([tblEltId], 'Fleet States', details);
   }
+  resetVehicle(){
+    this.vehicleId=null;
+  }
   setVehicleDetail(event)
   {
     this.vehicleId=event.id;

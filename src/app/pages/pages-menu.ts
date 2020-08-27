@@ -571,6 +571,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     link: '/challan/pending-challan'
   },
   {
+    title: 'TMG Challan',
+    icon: 'fa fa-home',
+    link: '/challan/tmg-challan',
+    home: true,
+  },
+  {
     title: 'Walle8',
     icon: 'fas fa-wallet',
     link: '/walle8/card-balance'
