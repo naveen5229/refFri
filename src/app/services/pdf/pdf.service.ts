@@ -27,7 +27,7 @@ export class PdfService {
    * Print Pdf from multi tables
    * @param tableIds Table id's
    * @param fileName File name
-   * @param details In Formatt = [['Customer: Elogist']]
+   * @param details In Format = [['Customer: Elogist']]
    */
   jrxTablesPDF(tableIds: string[], fileName: string = 'report', details?: any, options?: jrxPdfOptions) {
     let tablesHeadings = [];
@@ -189,11 +189,11 @@ export class PdfService {
           if (rowCols[j].classList.contains('del'))
             continue;
           let colhtml = rowCols[j].innerHTML;
-          if (colhtml.indexOf('input') > -1) {
+          if (rowCols[j].querySelector("input")) {
             let eltinput = rowCols[j].querySelector("input");
             let attrval = eltinput.getAttribute("placeholder");
             rowdata.push(attrval);
-          } else if (colhtml.indexOf('img') > -1) {
+          } else if (rowCols[j].querySelector("img")) {
             let eltinput = rowCols[j].querySelector("img");
             let attrval = eltinput.getAttribute("title");
             rowdata.push(attrval);
@@ -206,7 +206,7 @@ export class PdfService {
             if (match != null && match.length)
               rowdata.push(match[1]);
           } else {
-            let plainText = colhtml.replace(/<[^>]*>/g, "");
+            let plainText = rowCols[j].innerText;
             rowdata.push(plainText);
           }
         }
