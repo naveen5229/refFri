@@ -49,6 +49,7 @@ import { StateComponent } from './state/state.component';
 import { LedgerregidterComponent } from './ledgerregidter/ledgerregidter.component';
 import { ServiceComponent } from './service/service.component';
 import { ReportconfigComponent } from './reportconfig/reportconfig.component';
+import { TallyimportComponent } from './tallyimport/tallyimport.component';
 
 const routes: Routes = [{
     path: '',
@@ -266,6 +267,10 @@ const routes: Routes = [{
             path: 'reportconfig',
             component: ReportconfigComponent
         }, 
+        {
+            path:'tallyimport',
+            component : TallyimportComponent
+        }
         
     ],
 
