@@ -144,8 +144,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa fa-pencil-square-o',
         link: '/pages/trip-pnl',
       },
-
-
+      {
+        title: 'TMG Trip',
+        icon: 'fa fa-home',
+        link: '/pages/tmg-trip',
+      },
     ]
   },
   {

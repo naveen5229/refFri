@@ -99,6 +99,7 @@ import { TripsComponent } from './trips/trips.component';
 import { IssuesReportComponent } from './issues-report/issues-report.component';
 import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
 import { TmgChallanComponent } from './tmg-challan/tmg-challan.component';
+import { TmgTripComponent } from './tmg-trip/tmg-trip.component';
 
 
 
@@ -199,6 +200,7 @@ const PAGES_COMPONENTS = [
     IssuesReportComponent,
     VehicleStatesComponent,
     TmgChallanComponent,
+    TmgTripComponent,
 
 
   ],

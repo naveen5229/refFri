@@ -100,6 +100,7 @@ import { TripsComponent } from './trips/trips.component';
 import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
 import { IssuesReportComponent } from './issues-report/issues-report.component';
 import { TmgChallanComponent } from './tmg-challan/tmg-challan.component';
+import { TmgTripComponent } from './tmg-trip/tmg-trip.component';
 
 
 const routes: Routes = [{
@@ -133,6 +134,11 @@ const routes: Routes = [{
 {
   path: 'tripissues',
   component: TripissuesComponent ,
+  canActivate: [AuthGuard, RouteGuard],
+},
+{
+  path: 'tmg-trip',
+  component: TmgTripComponent ,
   canActivate: [AuthGuard, RouteGuard],
 },
 {
