@@ -51,7 +51,7 @@ export class TrendsFoComponent implements OnInit {
       labels: [],
       datasets: []
     },
-    yaxisname: "Average Count",
+    yaxisname: "Month",
     options: null
   };
 

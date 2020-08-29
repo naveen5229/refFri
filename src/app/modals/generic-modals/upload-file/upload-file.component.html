@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h5 class="modal-title" id="modal-basic-title">Upload File</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal(false,-1)">
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
   <span aria-hidden="true">&times;</span>
 </button>
 </div>
@@ -13,10 +13,10 @@
 <div class="modal-footer">
   <div class="row">
       <div class="col">
-          <button class="btn btn-danger" type="button" outline (click)="closeModal(false,0)" id="cancel" style="cursor: pointer;">Cancel</button>
+          <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">Cancel</button>
       </div>
       <div class="col text-right">
-          <button class="btn btn-primary" type="button" outline (click)="closeModal(true,1)" id="submit" style="cursor: pointer;">OK</button>
+          <button class="btn btn-primary" type="button" outline (click)="closeModal(true)" id="submit" style="cursor: pointer;">OK</button>
       </div>
   </div>
 </div>

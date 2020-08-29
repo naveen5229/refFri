@@ -573,7 +573,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
   {
     title: 'TMG Challan',
     icon: 'fa fa-home',
-    link: '/challan/tmg-challan',
+    link: '/pages/tmg-challan',
     home: true,
   },
   {

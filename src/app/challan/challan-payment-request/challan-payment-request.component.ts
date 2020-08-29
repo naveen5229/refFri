@@ -91,7 +91,7 @@ export class ChallanPaymentRequestComponent implements OnInit {
         if (key == "Action") {
           column[key] = {
             value: "", action: null, icons: [
-              { class: item._req_status==1?'fas fa-edit mr-2':null, action: this.acRemainingBalance.bind(this, item) },
+              { class: item._req_status==1?'fas fa-edit mr-2':null, action: this.payChallanPayment.bind(this, item) },
               { class: item._ch_doc_id ? 'far fa-file-alt mr-2' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) },
               { class: item._req_status==2? 'fa fa-upload mr-2' : null, action: this.confirmation.bind(this, item) },
               
@@ -129,30 +129,8 @@ export class ChallanPaymentRequestComponent implements OnInit {
     }
   }
 
-  acRemainingBalance(challanDetails) {
-    this.common.loading++;
-    let params = "foid=" + challanDetails._foid;
-    this.api.get('Gisdb/getAccountRemainingBalance?' + params)
-      .subscribe(res => {
-        console.log('Res:', res);
-        this.common.loading--;
-        if (!res['data']) {
-          this.common.showError("Data Not Found");
-          return;
-        }
-        this.payChallanPayment(challanDetails, res['data'][0]['main_balance']);
 
-
-      },
-        err => {
-          this.common.loading--;
-          this.common.showError(err);
-        });
-
-
-  }
-
-  payChallanPayment(challanDetails, mainBalance) {
+  payChallanPayment(challanDetails, ) {
     this.common.params = {
       regNo: challanDetails.Regno,
       vehicleId: challanDetails._vehid,
@@ -160,7 +138,7 @@ export class ChallanPaymentRequestComponent implements OnInit {
       chNo: challanDetails.ChallanNo,
       amount: challanDetails.Amount,
       rowId: challanDetails._id,
-      mainBalance: mainBalance
+      mainBalance: 0
     }
     const activeModal = this.modalService.open(PayChallanPaymentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -221,6 +199,7 @@ export class ChallanPaymentRequestComponent implements OnInit {
         console.log(res['data']);
         if (res['success'] === true) {
           this.common.showToast(res['msg']);
+          this.getChallanPaymentRequest();
         } else {
           this.common.showError(res['msg']);
         }
