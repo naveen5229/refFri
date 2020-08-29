@@ -21,12 +21,16 @@
           <div class="col-4">
             <div class="form-group">
               <label class="tjr-label">Xml File</label>
-              <span>File Should be less than 40 Mb </span>
         <input type="file" name="myfile1" id="filePicker1" (change)="handleFileSelection($event,1)" />
               <!-- <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
                 maxlength="10" name="account-endDate" [(ngModel)]="accountService.todate"> -->
             </div>
           </div>
+          <div class="col-4">
+            <div class="form-group">
+          <span class="lessthan">*File Should be less than 50 Mb </span>
+            </div>
+            </div>
         </div>
         <div class="row">
           <div class="col-4">
