@@ -1,3 +1,152 @@
-<p>
-  tmg-trip works!
-</p>
+<nb-card style="border: 0px;">
+  <!-- <nb-card-header>
+    <div class="row">
+      <div class="col-sm-6">
+        <h5>TMG-Challan</h5>
+      </div>
+    </div>
+  </nb-card-header> -->
+  <nb-card-body>
+    <div class="row mb-2">
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Onward KMPD Graph</b></h6>
+          <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet"
+            style="margin-right:5px;min-height: 350px;max-height: 350px;" style="margin-right:5px;height:250px"
+            [options]="chart.options">
+          </chart>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Loading Time Graph</b></h6>
+          <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
+            [options]="chart1.options">
+          </chart>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Unloading Time Graph</b></h6>
+          <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
+            [options]="chart2.options">
+          </chart>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Worst 3 Vehicles in Last Week/Month(Breakdown + Maintenance)</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Vehicle No.</th>
+              <th>BreakDown+Maintenace (hrs)</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tlh of tripLongHalt">
+                <td>{{tlh['Vehicle Name']}}</td>
+                <td>{{tlh['Breakdown + Maintenance(in Hrs)']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Longest Loading Sites in Last 7 Days</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Site Name</th>
+              <th>Avg. Loading Time (hrs)</th>
+
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let lls of longestLoadindSites">
+                <td>{{lls['Site Name']}}</td>
+                <td>{{lls['Avg Loading Time(in Hrs)']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Longest Unloading Drivers in Last 30 Days
+            </b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Driver Name</th>
+              <th>Avg. Unloading Time (Hrs) </th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let lud of longestUnLoadindDriver">
+                <td>{{lud['Driver Name']}}</td>
+                <td>{{lud['Avg Unloading Time(in Hr:Mi)']}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Slowest 5 Onward Drivers in Last 7 Days</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Driver Name </th>
+              <th>Vehicle No.</th>
+              <th>Trip</th>
+              <th>KMPD</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tso of tripSlowestOnward">
+                <td>{{tso['Driver']}}</td>
+                <td>{{tso['Vehicle No']}}</td>
+                <td>{{tso['Amount']}}</td>
+                <td>{{tso['Due Days']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Longest Unloading Sites in Last 7 Days</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Site Name</th>
+              <th>Avg. Unloading Time (hrs)</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let lus of longestUnLoadindSites">
+                <td>{{lus['Site Name']}}</td>
+                <td>{{lus['Avg Unloading Time(in Hrs)']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>GPS Performance</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Driver Name</th>
+              <th>Challan Amount</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let cda of challansdrivaramount">
+                <td>{{cda['Driver']}}</td>
+                <td>{{cda['Challan Amount']}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

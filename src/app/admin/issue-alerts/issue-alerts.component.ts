@@ -11,6 +11,15 @@ import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status
 })
 export class IssueAlertsComponent implements OnInit {
   issues = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -37,6 +46,7 @@ export class IssueAlertsComponent implements OnInit {
         --this.common.loading;
         console.log('Res: ', res['data']);
         this.issues = res['data'];
+        this.issues.length ? this.setTable() : this.resetTable();
       }, err => {
         --this.common.loading;
         console.error(err);
@@ -44,17 +54,94 @@ export class IssueAlertsComponent implements OnInit {
       });
   }
 
+
+  
+  resetTable() {
+    this.table.data = {
+      headings: {},
+      columns: []
+    };
+  }
+
+  setTable() {
+    this.table.data = {
+      headings: this.generateHeadings(),
+      columns: this.getTableColumns()
+    };
+    return true;
+  }
+
+
+  generateHeadings() {
+    let headings = {};
+    for (var key in this.issues[0]) {
+      if (key.charAt(0) != "_") {
+        headings[key] = { title: key, placeholder: this.formatTitle(key) };
+      }
+    }
+    return headings;
+  }
+
+  formatTitle(strval) {
+    let pos = strval.indexOf('_');
+    if (pos > 0) {
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
+    } else {
+      return strval.charAt(0).toUpperCase() + strval.substr(1);
+    }
+  }
+
+
+  getTableColumns() {
+    let columns = [];
+    this.issues.map(iss => {
+      let column = {};
+      for (let key in this.generateHeadings()) {
+        if (key == 'Action') {
+          column[key] = {
+            value: "",
+            isHTML: false,
+            action: null,
+            icons: this.actionIcons(iss)
+          };
+        } else {
+          column[key] = { value: iss[key], class: 'black', action: '' };
+        }
+      }
+      columns.push(column);
+    })
+
+    return columns;
+  }
+
+  actionIcons(issue) {
+    let icons = [
+      {
+        class: 'fa fa-question-circle mr-3',
+        action: this.goToTrail.bind(this, issue),
+      },
+
+      {
+        class: 'fa fa-check-circle mr-3',
+        action: this.issueComplete.bind(this, issue),
+      },
+
+    ];
+
+    return icons;
+  }
+
   goToSiteFencing() {
     window.open('http://dev.elogist.in/dost/#/admin/site-fencing');
   }
 
   goToTrail(issue) {
-    if (!issue.site_id) {
+    if (!issue._site_id) {
       let ltime = new Date(issue.addtime);
       let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
       let latch_time = this.common.dateFormatter(subtractLTime);
       let VehicleStatusData = {
-        vehicle_id: issue.referid,
+        vehicle_id: issue._referid,
         tTime: issue.addtime,
         suggest: 11,
         latch_time: latch_time
@@ -74,7 +161,7 @@ export class IssueAlertsComponent implements OnInit {
     console.log("issue", issue);
     this.common.loading++;
     let params = {
-      alertId: issue.id,
+      alertId: issue._id,
       status: 1
     };
     console.log(params);
