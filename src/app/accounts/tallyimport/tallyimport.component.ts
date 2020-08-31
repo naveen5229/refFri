@@ -82,8 +82,8 @@ export class TallyimportComponent implements OnInit {
   handleFileSelection(event, index) {
     let file = event.target.files[0];
     let sizeInBytes: number = file.size;
-    if(((sizeInBytes)/ (1024*1024)) > 40){
-      this.common.showError("File Should less than 40 mb");
+    if(((sizeInBytes)/ (1024*1024)) > 50){
+      this.common.showError("File Should less than 50 mb");
       return false;
     }else {
     this.common.loading++;
@@ -193,7 +193,7 @@ handleVoucherDateOnEnter(iddate) {
       this.common.loading++;
       this.api.post('Voucher/importTallyData', params)
         .subscribe(res => {
-          console.log(res);
+          console.log('set invoice',res['success']);
           if(res['success']){
             this.common.showToast(res['data']);
           }
