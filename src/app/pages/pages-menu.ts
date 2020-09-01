@@ -158,6 +158,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     home: true,
     children: [
       {
+        title: 'TMG Dashboard',
+        icon: 'fas fa-pie',
+        link: '/pages/tmg-dashboard',
+        home: true,
+      },
+      {
         title: 'Tickets',
         icon: 'fas fa-ticket-alt',
         link: '/pages/tickets',
@@ -355,6 +361,18 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fas fa-traffic-light',
     children: [
       {
+        title: 'TMG Traffic',
+        icon: 'fa fa-home',
+        link: '/pages/tmg-traffic',
+        home: true,
+      },
+      {
+        title: 'TMG Calls',
+        icon: 'fas fa-pie',
+        link: '/pages/tmg-calls',
+        home: true,
+      },
+      {
         title: 'Call Suggestion',
         icon: 'fas fa-traffic-light',
         link: '/pages/driver-call-suggestion',
@@ -390,7 +408,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/vehicle-performance',
         home: true,
       },
-
+      
 
     ]
   },
@@ -573,6 +591,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fas fa-chalkboard-teacher',
     link: '/challan/pending-challan'
   },
+ 
   {
     title: 'TMG Challan',
     icon: 'fa fa-home',

@@ -1,0 +1,157 @@
+<nb-card style="border: 0px;">
+  <!-- <nb-card-header>
+    <div class="row">
+      <div class="col-sm-6">
+        <h6>TMG-Challan</h6>
+      </div>
+    </div>
+  </nb-card-header> -->
+  <nb-card-body>
+    <div class="row mb-2">
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Live Traffic Status </b></h6>
+          <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-40px;min-height: 250px;max-height: 250px;"
+          [options]="chart.options"></chart>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Longest Driver Unavailable</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Vehicle No.</th>
+              <th>Available Hours</th>
+              <th>Location</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tldu of trafficLongestDriverUnavailable">
+                <td>{{tldu['Vehicle Name']}}</td>
+                <td>{{tldu['Duration (HH:MM)']}}</td>
+                <td>{{tldu['Location']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Longest Issues</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Vehicle No.</th>
+              <th>Offline Since(Hours)</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tlvi of trafficLongestVehicleGpsIssue">
+                <td>{{tlvi['Vehicle Name']}}</td>
+                <td>{{tlvi['Duration (HH:MM)']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b>Top Vehicles with RTO + Maintenance + Breakdown Issues</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Vehicle No.</th>
+              <th>R + M + B (in Hrs)</th>
+              <th>RMB Type</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let ttrmb of trafficTopRmb">
+                <td>{{ttrmb['Vehicle Name']}}</td>
+                <td>{{ttrmb['R + M + B (HH:MM)']}}</td>
+                <td>{{ttrmb['RMB Type']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="row">
+          <div class="col-6">
+            <h6 style="text-align:center"><b>Longest Loading Sites</b></h6>
+            <table class="table table-bordered">
+              <thead class="thead">
+                <th>Site Name</th>
+                <th>Avg Loading Aging Time(in Hrs)</th>
+              </thead>
+              <tbody class="tbody">
+                <tr *ngFor="let tlls of trafficLongestLoadingSites">
+                  <td>{{tlls['Location']}}</td>
+                  <td>{{tlls['Duration (HH:MM)']}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-6">
+            <div>
+              <h6 style="text-align:center"><b>Longest Unloading Vehicles</b></h6>
+              <table class="table table-bordered">
+                <thead class="thead">
+                  <th>Vehicle No.</th>
+                  <th>Avg Unloading Aging Time(in Hrs)</th>
+                </thead>
+                <tbody class="tbody">
+                  <tr *ngFor="let tlus of trafficLongestUnloadingSite">
+                    <td>{{tlus['Vehicle Name']}}</td>
+                    <td>{{tlus['Duration (HH:MM)']}}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <h6 style="text-align:center"><b>Slowest Onward Vehicles</b></h6>
+            <table class="table table-bordered">
+              <thead class="thead">
+                <th>Vehicle No.</th>
+                <th>Driver Name</th>
+                <th>Trip</th>
+                <th>KMPD</th>
+              </thead>
+              <tbody class="tbody">
+                <tr *ngFor="let tsov of trafficSlowestOnwardVehicles">
+                  <td>{{tsov['Vehicle Name']}}</td>
+                  <td>{{tsov['Driver Name']}}</td>
+                  <td>{{tsov['Trip']}}</td>
+                  <td>{{tsov['KM\/Hrs']}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-6">
+            <div>
+              <h6 style="text-align:center"><b>Longest Empty Vehicles</b></h6>
+              <table class="table table-bordered">
+                <thead class="thead">
+                  <th>Vehicle No.</th>
+                  <th>Available Hours</th>
+                  <th>Location</th>
+                </thead>
+                <tbody class="tbody">
+                  <tr *ngFor="let tlve of trafficLongestVehicleEmpty">
+                    <td>{{tlve['Vehicle Name']}}</td>
+                    <td>{{tlve['Duration (HH:MM)']}}</td>
+                    <td>{{tlve['Location']}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

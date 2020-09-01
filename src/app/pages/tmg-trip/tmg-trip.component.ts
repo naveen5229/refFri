@@ -29,7 +29,7 @@ export class TmgTripComponent implements OnInit {
       labels: [],
       datasets: []
     },
-    yaxisname: "Month",
+    yaxisname: null,
     options: null
   };
 
@@ -133,7 +133,7 @@ export class TmgTripComponent implements OnInit {
         --this.common.loading;
         console.log('tripUnLoadindTime:', res);
         this.tripUnLoadindTime = res['data'];
-        if(this.tripUnLoadindTime.length>0) this.handleChart1();
+        if(this.tripUnLoadindTime.length>0) this.handleChart2();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
@@ -267,7 +267,7 @@ export class TmgTripComponent implements OnInit {
     
     data.datasets.push({
       type: 'line',
-      label: 'Amount',
+      label: 'Total(Kms)',
       borderColor: '#c7eded',
       backgroundColor: '#c7eded',
       pointHoverRadius: 8,
@@ -279,7 +279,7 @@ export class TmgTripComponent implements OnInit {
 
     data.datasets.push({
       type: 'bar',
-      label: 'count',
+      label: 'Onward (Kms)',
       borderColor: 'blue',
       backgroundColor: 'blue',
       fill: false,
@@ -331,7 +331,7 @@ export class TmgTripComponent implements OnInit {
         xAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Months',
+            // labelString: 'Months',
             fontSize: 17
           },
         }],
@@ -341,7 +341,7 @@ export class TmgTripComponent implements OnInit {
     options.scales.yAxes.push({
       scaleLabel: {
         display: true,
-        labelString: 'Count',
+        labelString: 'Onward Kms',
         fontSize: 17
       },
       type: 'linear',
@@ -353,7 +353,7 @@ export class TmgTripComponent implements OnInit {
       options.scales.yAxes.push({
         scaleLabel: {
           display: true,
-          labelString: 'Amount',
+          labelString: 'Total Kms',
           fontSize: 17,
         },
         type: 'linear',
@@ -380,7 +380,7 @@ export class TmgTripComponent implements OnInit {
       labels: xaxis,
       datasets: [
         {
-          label: 'Count',
+          label: 'Time (in mins.)',
           data: yaxis,
           borderColor: 'blue',
           backgroundColor: 'blue',
@@ -425,7 +425,7 @@ export class TmgTripComponent implements OnInit {
       labels: xaxis,
       datasets: [
         {
-          label: 'Count',
+          label: 'Time (in mins)',
           data: yaxis,
           borderColor: 'blue',
           backgroundColor: 'blue',

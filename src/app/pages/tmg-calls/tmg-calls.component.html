@@ -1,0 +1,104 @@
+<nb-card style="border: 0px;">
+  <!-- <nb-card-header>
+    <div class="row">
+      <div class="col-sm-6">
+        <h6>TMG-Challan</h6>
+      </div>
+    </div>
+  </nb-card-header> -->
+  <nb-card-body>
+    <div class="row mb-2">
+      <div class="col-4 ">
+        <div>
+          <h6 style="text-align:center"><b>Driver Calls % </b></h6>
+          <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;min-height: 250px;max-height: 250px;"
+            [options]="chart1.options">
+          </chart>
+        </div>
+      </div>
+      <div class="col-4 ">
+        <div>
+          <h6 style="text-align:center"><b>Supervisor Wise % Not Responded Calls</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Executive Name</th>
+              <th>Vehicle Count</th>
+              <th>Yesterday</th>
+              <th>Last 30 Days</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let csnr of callsSupervisorWiseNotRespod">
+                <td>{{csnr['Executive Name']}}</td>
+                <td>{{csnr['vehiclecount']}}</td>
+                <td>{{csnr['Yesterday (count)']}}</td>
+                <td>{{csnr['Last 30 Days (count)']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4 ">
+        <div>
+          <h6 style="text-align:center"><b>% Not Responded Calls</b></h6>
+          <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;min-height: 250px;max-height: 250px;"
+            [options]="chart2.options">
+          </chart>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2 " >
+      <div class="col-2">   
+      </div>
+      <div class="col-2">
+        <h6><b> Worst 3 Driver Calls % </b></h6>
+      </div>
+      <div class="col-6">
+        <div>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Executive Name</th>
+              <th>Yesterday </th>
+              <th>Last 30 Days</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let wdc of callsSupervisorWiseTopWorstDriverCalls">
+                <td>{{wdc['Executive Name']}}</td>
+                <td>{{wdc['Yesterday (count)']}}</td>
+                <td>{{wdc['Last 30 Days (count)']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-2">
+        
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-4 ">
+        <div>
+          <h6 style="text-align:center"><b>Longest Loading TAT</b></h6>
+          <chart [type]="chart3.type" [data]="chart3.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
+            [options]="chart3.options">
+          </chart>
+        </div>
+      </div>
+      <div class="col-4 ">
+        <div>
+          <h6 style="text-align:center"><b>Onward KMPD </b></h6>
+          <chart [type]="chart4.type" [data]="chart4.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
+            [options]="chart4.options">
+          </chart>
+        </div>
+      </div>
+      <div class="col-4 ">
+        <div>
+          <h6 style="text-align:center"><b>Worst Unloading TAT</b></h6>
+          <chart [type]="chart5.type" [data]="chart5.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
+            [options]="chart5.options">
+          </chart>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

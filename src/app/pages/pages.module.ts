@@ -100,6 +100,9 @@ import { IssuesReportComponent } from './issues-report/issues-report.component';
 import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
 import { TmgChallanComponent } from './tmg-challan/tmg-challan.component';
 import { TmgTripComponent } from './tmg-trip/tmg-trip.component';
+import { TmgTrafficComponent } from './tmg-traffic/tmg-traffic.component';
+import { TmgComponent } from './tmg/tmg.component';
+import { TmgCallsComponent } from './tmg-calls/tmg-calls.component';
 
 
 
@@ -201,6 +204,9 @@ const PAGES_COMPONENTS = [
     VehicleStatesComponent,
     TmgChallanComponent,
     TmgTripComponent,
+    TmgTrafficComponent,
+    TmgComponent,
+    TmgCallsComponent,
 
 
   ],

@@ -2,7 +2,7 @@
   <!-- <nb-card-header>
     <div class="row">
       <div class="col-sm-6">
-        <h5>TMG-Challan</h5>
+        <h6>TMG-Challan</h6>
       </div>
     </div>
   </nb-card-header> -->
@@ -12,7 +12,7 @@
         <div>
           <h6 style="text-align:center"><b>Onward KMPD Graph</b></h6>
           <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet"
-            style="margin-right:5px;min-height: 350px;max-height: 350px;" style="margin-right:5px;height:250px"
+            style="margin-right:5px;min-height: 250px;max-height: 250px;" 
             [options]="chart.options">
           </chart>
         </div>
@@ -20,7 +20,7 @@
       <div class="col-4">
         <div>
           <h6 style="text-align:center"><b>Loading Time Graph</b></h6>
-          <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
+          <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;min-height: 250px;max-height: 250px;"
             [options]="chart1.options">
           </chart>
         </div>
@@ -28,7 +28,7 @@
       <div class="col-4">
         <div>
           <h6 style="text-align:center"><b>Unloading Time Graph</b></h6>
-          <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
+          <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;min-height: 250px;max-height: 250px;"
             [options]="chart2.options">
           </chart>
         </div>
@@ -99,14 +99,14 @@
               <th>Driver Name </th>
               <th>Vehicle No.</th>
               <th>Trip</th>
-              <th>KMPD</th>
+              <th>Avg Speed</th>
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let tso of tripSlowestOnward">
-                <td>{{tso['Driver']}}</td>
-                <td>{{tso['Vehicle No']}}</td>
-                <td>{{tso['Amount']}}</td>
-                <td>{{tso['Due Days']}}</td>
+                <td>{{tso['Driver Name']}}</td>
+                <td>{{tso['Vehicle Name']}}</td>
+                <td>{{tso['Trip']}}</td>
+                <td>{{tso['Avg Speed KM\/Hrs']}}</td>
               </tr>
             </tbody>
           </table>
@@ -129,7 +129,7 @@
           </table>
         </div>
       </div>
-      <div class="col-4">
+      <!-- <div class="col-4">
         <div>
           <h6 style="text-align:center"><b>GPS Performance</b></h6>
           <table class="table table-bordered">
@@ -146,7 +146,7 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </div> -->
     </div>
   </nb-card-body>
 </nb-card>

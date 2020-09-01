@@ -2,7 +2,7 @@
   <!-- <nb-card-header>
     <div class="row">
       <div class="col-sm-6">
-        <h5>TMG-Challan</h5>
+        <h6>TMG-Challan</h6>
       </div>
     </div>
   </nb-card-header> -->
@@ -13,8 +13,8 @@
           <h6 style="text-align:center"><b>Last 6 Months Trend</b></h6>
           <!-- <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
           [options]="chart.options"></chart> -->
-          <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet" style="margin-right:5px;min-height: 350px;max-height: 350px;"
-          style="margin-right:5px;height:250px" [options]="chart.options">
+          <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet" style="margin-right:5px;min-height: 250px;max-height: 250px;"
+          [options]="chart.options">
       </chart>
         </div>
       </div>
@@ -83,7 +83,7 @@
               <th>Challan Date</th>
               <th>Vehicle No.</th>
               <th>Amount</th>
-              <th>Status</th>
+             <th>Status</th>
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let cl of challansLatest">
