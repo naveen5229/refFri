@@ -164,6 +164,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
+        title: 'TMG Alerts',
+        icon: 'fa fa-home',
+        link: '/pages/tmg-alerts',
+        home: true,
+      },
+      {
         title: 'Tickets',
         icon: 'fas fa-ticket-alt',
         link: '/pages/tickets',

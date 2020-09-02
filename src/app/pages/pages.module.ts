@@ -103,6 +103,7 @@ import { TmgTripComponent } from './tmg-trip/tmg-trip.component';
 import { TmgTrafficComponent } from './tmg-traffic/tmg-traffic.component';
 import { TmgComponent } from './tmg/tmg.component';
 import { TmgCallsComponent } from './tmg-calls/tmg-calls.component';
+import { TmgAlertsComponent } from './tmg-alerts/tmg-alerts.component';
 
 
 
@@ -207,6 +208,7 @@ const PAGES_COMPONENTS = [
     TmgTrafficComponent,
     TmgComponent,
     TmgCallsComponent,
+    TmgAlertsComponent,
 
 
   ],

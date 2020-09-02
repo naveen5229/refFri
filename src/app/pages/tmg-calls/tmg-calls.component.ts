@@ -94,7 +94,7 @@ export class TmgCallsComponent implements OnInit {
     let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
     let endDate = new Date();
     let params = {
-      totalrecord: 3
+      totalrecord: 7
     };
     ++this.common.loading;
     this.api.post('Tmgreport/GetCallsSupervisorWiseNotRespod', params)

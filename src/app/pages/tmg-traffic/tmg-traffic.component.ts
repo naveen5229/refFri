@@ -73,7 +73,7 @@ export class TmgTrafficComponent implements OnInit {
   getTrafficLongestDriverUnavailable() {
     this.trafficLongestDriverUnavailable = [];
     ++this.common.loading;
-    let params = { totalrecord: 3 };
+    let params = { totalrecord: 5 };
     this.api.post('Tmgreport/GetTrafficLongestDriverUnavailable', params)
       .subscribe(res => {
         --this.common.loading;
@@ -89,7 +89,7 @@ export class TmgTrafficComponent implements OnInit {
     this.trafficLongestVehicleGpsIssue  = [];
     ++this.common.loading;
     let params = {
-      totalrecord : 3
+      totalrecord : 5
     };
     this.api.post('Tmgreport/GetTrafficLongestVehicleGpsIssue', params)
       .subscribe(res => {
