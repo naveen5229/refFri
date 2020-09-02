@@ -144,8 +144,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa fa-pencil-square-o',
         link: '/pages/trip-pnl',
       },
-
-
+      {
+        title: 'TMG Trip',
+        icon: 'fa fa-home',
+        link: '/pages/tmg-trip',
+      },
     ]
   },
   {
@@ -569,6 +572,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     title: 'Challan',
     icon: 'fas fa-chalkboard-teacher',
     link: '/challan/pending-challan'
+  },
+  {
+    title: 'TMG Challan',
+    icon: 'fa fa-home',
+    link: '/pages/tmg-challan',
+    home: true,
   },
   {
     title: 'Walle8',

@@ -19,6 +19,7 @@ export class ChallanPendingRequestComponent implements OnInit {
   amount = null;
   regNo = null;
   chDate = null;
+  accountBalance = 0;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public modalService: NgbModal,
@@ -49,6 +50,7 @@ export class ChallanPendingRequestComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.mainBalance = res['data'][0].main_balance;
+        this.accountBalance = res['data'][0].main_balance+res['data'][0].toll_balance;;
         
         console.log("res--", res);
       }, err => {

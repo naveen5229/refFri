@@ -10,7 +10,7 @@ import { ApiService } from '../../../services/api.service';
 })
 export class PayChallanPaymentComponent implements OnInit {
 
-  paymentState = 1;
+  paymentState = 2;
   remark = "";
 
   regno = "";
@@ -27,7 +27,7 @@ export class PayChallanPaymentComponent implements OnInit {
   constructor(public common: CommonService,
     private activeModal: NgbActiveModal,
     public api: ApiService) {
-    this.paymentState = 1;
+    this.paymentState = 2;
     console.log("this params", this.common.params);
     if (this.common.params) {
       this.regno = this.common.params.regNo;
@@ -47,7 +47,7 @@ export class PayChallanPaymentComponent implements OnInit {
 
   changePaymentState(type) {
     this.paymentState = type;
-    if (this.paymentState == 1) {
+    if (this.paymentState == 2) {
       this.challanPay();
     }
   }
@@ -90,7 +90,7 @@ export class PayChallanPaymentComponent implements OnInit {
 
   submitChallanPayment() {
     let params = {};
-    if (this.paymentState == 1) {
+    if (this.paymentState == 2) {
       params = {
         challanId: this.challanId,
         vehId: this.vehcileId,
@@ -100,14 +100,15 @@ export class PayChallanPaymentComponent implements OnInit {
         doc1:this.receiptdoc,
         remark: this.remark
       }
-      if(this.receiptdoc==null){
-        this.common.showToast('please upload challan payment receipt.')
-      }
+      // if(this.receiptdoc==null){
+      //   this.common.showToast('please upload challan payment receipt.')
+      // }
     }
     else {
       params = {
         challanId: this.challanId,
         status: this.paymentState,
+        doc1:this.receiptdoc,
         remark: this.remark
       }
     }

@@ -297,6 +297,7 @@ import { TicketInfoComponent } from './modals/ticket-info/ticket-info.component'
 import { TicketDetailsComponent } from './modals/ticket-details/ticket-details.component';
 import { ShowDataMapComponent } from './modals/generic-modals/show-data-map/show-data-map.component';
 import { IframeModalComponent } from './modals/iframe-modal/iframe-modal.component';
+import { UploadFileComponent } from './modals/generic-modals/upload-file/upload-file.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -551,6 +552,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   TicketDetailsComponent,
   ShowDataMapComponent,
   IframeModalComponent,
+  UploadFileComponent,
 
 ];
 

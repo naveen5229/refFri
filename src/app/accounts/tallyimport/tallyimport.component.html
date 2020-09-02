@@ -1,0 +1,65 @@
+<nb-card style="border:0px;">
+  <nb-card-body (keydown)="keyHandler($event)">
+   <!-- <button (click)="excelService.saveAsXMLFile()">XML</button> -->
+   
+    <div class="row mt-3 pl-6">
+
+      <div class="col-9">
+       
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Select Type</label>
+              <!-- <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="startDate"
+                autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="accountService.fromdate"> -->
+                <select name="type"  [(ngModel)]="type">
+                  <option value="master">Ledger And Groups Xml(Master)</option>
+                  <option value="voucher">Vouchers Xml</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Xml File</label>
+        <input type="file" name="myfile1" id="filePicker1" (change)="handleFileSelection($event,1)" />
+              <!-- <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
+                maxlength="10" name="account-endDate" [(ngModel)]="accountService.todate"> -->
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+          <span class="lessthan">*File Should be less than 50 Mb </span>
+            </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+             <button class="btn w-100" id="master" (click)="getTallyData('true')">submit</button>
+            </div>
+          </div>
+     
+          <!-- <div class="col-4">
+            <div class="form-group">
+             <button class="btn w-100" id="voucher" (click)="getTallyData('true','DayBook')">Vouchers</button>
+            </div>
+          </div> -->
+        </div>
+
+        
+      </div>
+    
+     
+    </div>
+    
+  </nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2"
+        [(ngModel)]="f2Date" maxlength="10">
+    </div>
+  </div>
+</div>
