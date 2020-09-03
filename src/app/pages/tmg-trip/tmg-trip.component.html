@@ -1,16 +1,10 @@
-<nb-card style="border: 0px;">
-  <!-- <nb-card-header>
-    <div class="row">
-      <div class="col-sm-6">
-        <h6>TMG-Challan</h6>
-      </div>
-    </div>
-  </nb-card-header> -->
-  <nb-card-body>
-    <div class="row mb-2">
+
+ 
+<div class="contentsection">
+    <div class="row mb-2 mr-0 mb-0">
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Onward KMPD Graph</b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Onward KMPD Graph</b></h6>
           <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet"
             style="margin-right:5px;min-height: 250px;max-height: 250px; margin-top:-20px;" 
             [options]="chart.options">
@@ -18,26 +12,26 @@
         </div>
       </div>
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Loading Time Graph</b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Loading Time Graph</b></h6>
           <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart1.options">
           </chart>
         </div>
       </div>
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Unloading Time Graph</b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Unloading Time Graph</b></h6>
           <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart2.options">
           </chart>
         </div>
       </div>
     </div>
-    <div class="row mb-2">
+    <div class="row mb-2 mr-0 mb-0">
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Worst 3 Vehicles in Last Week/Month(Breakdown + Maintenance)</b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Worst 3 Vehicles in Last Week/Month(Breakdown + Maintenance)</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Vehicle No.</th>
@@ -53,8 +47,8 @@
         </div>
       </div>
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Longest Loading Sites in Last 7 Days</b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Longest Loading Sites in Last 7 Days</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Site Name</th>
@@ -71,8 +65,8 @@
         </div>
       </div>
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Longest Unloading Drivers in Last 30 Days
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Longest Unloading Drivers in Last 30 Days
             </b></h6>
           <table class="table table-bordered">
             <thead class="thead">
@@ -90,10 +84,10 @@
         </div>
       </div>
     </div>
-    <div class="row mb-2">
+    <div class="row mb-2 mr-0 mb-0">
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Slowest 5 Onward Drivers in Last 7 Days</b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Slowest 5 Onward Drivers in Last 7 Days</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Driver Name </th>
@@ -113,8 +107,8 @@
         </div>
       </div>
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Longest Unloading Sites in Last 7 Days</b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Longest Unloading Sites in Last 7 Days</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Site Name</th>
@@ -148,5 +142,4 @@
         </div>
       </div> -->
     </div>
-  </nb-card-body>
-</nb-card>
+  </div>

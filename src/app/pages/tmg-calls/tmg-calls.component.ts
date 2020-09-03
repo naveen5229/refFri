@@ -164,8 +164,8 @@ export class TmgCallsComponent implements OnInit {
         {
           label: 'count',
           data: yaxis,
-          borderColor: 'blue',
-          backgroundColor: 'blue',
+          borderColor: '#3d6fc9',
+          backgroundColor: '#3d6fc9',
           fill: false,
           pointHoverRadius: 8,
           pointHoverBackgroundColor: '#FFEB3B',
@@ -209,8 +209,8 @@ export class TmgCallsComponent implements OnInit {
         {
           label: 'counts',
           data: yaxis,
-          borderColor: 'blue',
-          backgroundColor: 'blue',
+          borderColor: '#3d6fc9',
+          backgroundColor: '#3d6fc9',
           fill: false,
           pointHoverRadius: 8,
           pointHoverBackgroundColor: '#FFEB3B',

@@ -199,7 +199,7 @@ export class TmgTrafficComponent implements OnInit {
           {
             label: 'Zones',
             data: dt,
-            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70"]
+            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#8B008B", "#FFD700", "#D2B48C"]
           },
         ]
       };

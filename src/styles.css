@@ -944,6 +944,21 @@ input[type=number] {
   font-size: 14px!important;
 }
 
+.nb-theme-corporate nb-layout .layout nb-layout-header nav{
+  height: 2.85rem!important;
+  overflow: hidden;
+  padding: 0 1.25rem!important;
+}
+.nb-theme-corporate nb-layout .layout nb-layout-header.fixed ~ .layout-container {
+  padding-top: 2.85rem!important;
+} 
+.nb-theme-corporate nb-layout .layout nb-layout-header.fixed ~ .layout-container > nb-sidebar > .main-container {
+  height: calc(100vh - 2.85rem)!important;
+}
+
+
+
+
 @media (max-width: 1024px) and (min-width: 768px)
 {
 table thead, table tbody {

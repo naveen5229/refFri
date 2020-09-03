@@ -252,8 +252,8 @@ export class TmgAlertsComponent implements OnInit {
         {
           label: 'Time (in mins.)',
           data: yaxis,
-          borderColor: 'blue',
-          backgroundColor: 'blue',
+          borderColor: '#3d6fc9',
+          backgroundColor: '#3d6fc9',
           fill: false,
           pointHoverRadius: 8,
           pointHoverBackgroundColor: '#FFEB3B',
@@ -297,8 +297,8 @@ export class TmgAlertsComponent implements OnInit {
         {
           label: 'Time (in mins.)',
           data: yaxis,
-          borderColor: 'blue',
-          backgroundColor: 'blue',
+          borderColor: '#3d6fc9',
+          backgroundColor: '#3d6fc9',
           fill: false,
           pointHoverRadius: 8,
           pointHoverBackgroundColor: '#FFEB3B',
@@ -342,8 +342,8 @@ export class TmgAlertsComponent implements OnInit {
         {
           label: 'Time (in mins)',
           data: yaxis,
-          borderColor: 'blue',
-          backgroundColor: 'blue',
+          borderColor: '#3d6fc9',
+          backgroundColor: '#3d6fc9',
           fill: false,
           pointHoverRadius: 8,
           pointHoverBackgroundColor: '#FFEB3B',

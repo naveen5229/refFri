@@ -268,8 +268,8 @@ export class TmgTripComponent implements OnInit {
     data.datasets.push({
       type: 'line',
       label: 'Total(Kms)',
-      borderColor: '#c7eded',
-      backgroundColor: '#c7eded',
+      borderColor: '#3d6fc9',
+      backgroundColor: '#3d6fc9',
       pointHoverRadius: 8,
       pointHoverBackgroundColor: '#FFEB3B',
       fill: false,
@@ -280,8 +280,8 @@ export class TmgTripComponent implements OnInit {
     data.datasets.push({
       type: 'bar',
       label: 'Onward (Kms)',
-      borderColor: 'blue',
-      backgroundColor: 'blue',
+      borderColor: '#ed7d31',
+      backgroundColor: '#ed7d31',
       fill: false,
       data: this.chart.data.bar.map(value => { return value.toFixed(2) }),
       pointHoverRadius: 8,
@@ -382,8 +382,8 @@ export class TmgTripComponent implements OnInit {
         {
           label: 'Time (in mins.)',
           data: yaxis,
-          borderColor: 'blue',
-          backgroundColor: 'blue',
+          borderColor: '#3d6fc9',
+          backgroundColor: '#3d6fc9',
           fill: false,
           pointHoverRadius: 8,
           pointHoverBackgroundColor: '#FFEB3B',
@@ -433,8 +433,8 @@ export class TmgTripComponent implements OnInit {
         {
           label: 'Time (in mins)',
           data: yaxis,
-          borderColor: 'blue',
-          backgroundColor: 'blue',
+          borderColor: '#3d6fc9',
+          backgroundColor: '#3d6fc9',
           fill: false,
           pointHoverRadius: 8,
           pointHoverBackgroundColor: '#FFEB3B',

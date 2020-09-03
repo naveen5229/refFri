@@ -1,23 +1,17 @@
-<nb-card style="border: 0px;">
-  <!-- <nb-card-header>
-    <div class="row">
-      <div class="col-sm-6">
-        <h6>TMG-Challan</h6>
-      </div>
-    </div>
-  </nb-card-header> -->
-  <nb-card-body>
-    <div class="row mb-2">
+
+ 
+<div class="contentsection">
+    <div class="row mb-2 mr-0 mb-0">
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Live Traffic Status </b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Live Traffic Status </b></h6>
           <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 200px;max-height: 200px;"
           [options]="chart.options"></chart>
         </div>
       </div>
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Longest Driver Unavailable</b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Longest Driver Unavailable</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Vehicle No.</th>
@@ -36,8 +30,8 @@
 
       </div>
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Longest Issues</b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Longest Issues</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Vehicle No.</th>
@@ -55,10 +49,10 @@
       </div>
     </div>
 
-    <div class="row mb-2">
+    <div class="row mb-2 mr-0 mb-0">
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Top Vehicles with RTO + Maintenance + Breakdown Issues</b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Top Vehicles with RTO + Maintenance + Breakdown Issues</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Vehicle No.</th>
@@ -76,9 +70,10 @@
         </div>
       </div>
       <div class="col-8">
-        <div class="row">
+        <div class="row mr-0 mb-0">
           <div class="col-6">
-            <h6 style="text-align:center"><b>Longest Loading Sites</b></h6>
+            <div class="outer">
+            <h6 style="text-align:center"><b class="charthead">Longest Loading Sites</b></h6>
             <table class="table table-bordered">
               <thead class="thead">
                 <th>Site Name</th>
@@ -92,9 +87,10 @@
               </tbody>
             </table>
           </div>
+          </div>
           <div class="col-6">
-            <div>
-              <h6 style="text-align:center"><b>Longest Unloading Vehicles</b></h6>
+            <div class="outer">
+              <h6 style="text-align:center"><b class="charthead">Longest Unloading Vehicles</b></h6>
               <table class="table table-bordered">
                 <thead class="thead">
                   <th>Vehicle No.</th>
@@ -111,9 +107,10 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row mr-0 mb-0">
           <div class="col-6">
-            <h6 style="text-align:center"><b>Slowest Onward Vehicles</b></h6>
+            <div class="outer">
+            <h6 style="text-align:center"><b class="charthead">Slowest Onward Vehicles</b></h6>
             <table class="table table-bordered">
               <thead class="thead">
                 <th>Vehicle No.</th>
@@ -130,10 +127,11 @@
                 </tr>
               </tbody>
             </table>
+            </div>
           </div>
           <div class="col-6">
-            <div>
-              <h6 style="text-align:center"><b>Longest Empty Vehicles</b></h6>
+            <div class="outer">
+              <h6 style="text-align:center"><b class="charthead">Longest Empty Vehicles</b></h6>
               <table class="table table-bordered">
                 <thead class="thead">
                   <th>Vehicle No.</th>
@@ -153,5 +151,4 @@
         </div>
       </div>
     </div>
-  </nb-card-body>
-</nb-card>
+ </div>

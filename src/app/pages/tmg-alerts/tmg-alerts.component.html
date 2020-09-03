@@ -1,9 +1,8 @@
-<nb-card style="border: 0px;">
-  <nb-card-body>
-    <div class="row mb-2">
+<div class="contentsection">
+    <div class="row mb-2 mr-0 mb-0">
       <div class="col-4">
         <div>
-          <h6 style="text-align:center"><b>Alert Ack TAT in Last 7 Days</b></h6>
+          <h6 style="text-align:center"><b class="charthead">Alert Ack TAT in Last 7 Days</b></h6>
           <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart.options">
           </chart>
@@ -11,7 +10,7 @@
       </div>
       <div class="col-4">
         <div>
-          <h6 style="text-align:center"><b>Alert Call TAT in Last 7 Days</b></h6>
+          <h6 style="text-align:center"><b class="charthead">Alert Call TAT in Last 7 Days</b></h6>
           <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart1.options">
           </chart>
@@ -19,17 +18,17 @@
       </div>
       <div class="col-4">
         <div>
-          <h6 style="text-align:center"><b>VSC TAT in Last 7 Days</b></h6>
+          <h6 style="text-align:center"><b class="charthead">VSC TAT in Last 7 Days</b></h6>
           <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart2.options">
           </chart>
         </div>
       </div>
     </div>
-    <div class="row mb-2">
+    <div class="row mb-2 mr-0 mb-0">
       <div class="col-4">
         <div>
-          <h6 style="text-align:center"><b>Longest Alert Not Ack</b></h6>
+          <h6 style="text-align:center"><b class="charthead">Longest Alert Not Ack</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Executive</th>
@@ -48,7 +47,7 @@
       </div>
       <div class="col-4">
         <div>
-          <h6 style="text-align:center"><b>Longest Alert Not Called </b></h6>
+          <h6 style="text-align:center"><b class="charthead">Longest Alert Not Called </b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Executive</th>
@@ -67,7 +66,7 @@
       </div>
       <div class="col-4">
         <div>
-          <h6 style="text-align:center"><b>Longest Pending VSC TAT </b></h6>
+          <h6 style="text-align:center"><b class="charthead">Longest Pending VSC TAT </b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <td>Executive</td>
@@ -86,10 +85,10 @@
         </div>
       </div>
     </div>
-    <div class="row mb-2">
+    <div class="row mb-2 mr-0 mb-0">
       <div class="col-4">
         <div>
-          <h6 style="text-align:center"><b>Longest Open Alert</b></h6>
+          <h6 style="text-align:center"><b class="charthead">Longest Open Alert</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Executive</th>
@@ -108,7 +107,7 @@
       </div>
       <div class="col-4">
         <div>
-          <h6 style="text-align:center"><b>Worst Call TAT in Last 7 Days</b></h6>
+          <h6 style="text-align:center"><b class="charthead">Worst Call TAT in Last 7 Days</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Executive</th>
@@ -127,7 +126,7 @@
       </div>
       <div class="col-4">
         <div>
-          <h6 style="text-align:center"><b>GPS Performance</b></h6>
+          <h6 style="text-align:center"><b class="charthead">GPS Performance</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Executive</th>
@@ -143,5 +142,4 @@
         </div>
       </div>
     </div>
-  </nb-card-body>
-</nb-card>
+  </div>
