@@ -6,6 +6,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { CsvService } from '../../services/csv/csv.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'financial-toll-summary-addtime',
@@ -41,7 +43,9 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal, ) {
+    public modalService: NgbModal,
+    private datePipe: DatePipe,
+    private csvService: CsvService ) {
       this.foid = this.user._details.foid;
       console.log("this.user._details.",this.user._details);
       this.fo.id = this.user._details.foid;
@@ -253,6 +257,17 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
     return canvas.toDataURL();
   }
-
+  printCsv(tblEltId,tblEltId1) {
+    let customerName = this.user._customer.name;
+    if (this.user._loggedInBy == "customer")
+       customerName = this.user._details.name;
+        let details = [
+          { customer: 'Customer : ' + this.fo.name },
+          { report: 'Report : Financial Toll Summary (Add Time)' },
+          {period : 'Period : '+this.common.dateFormatter1(this.dates.start)+" To "+this.common.dateFormatter1(this.dates.end)},
+          { time: 'Time : ' + this.datePipe.transform(new Date(), 'dd-MM-yyyy hh:mm:ss a') }
+         ];
+        this.csvService.byMultiIds([tblEltId1], 'Financial Toll Summary', details);
+  }
 
 }
