@@ -17,6 +17,7 @@
               <div class="form-group">
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">PI No.</label>
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('debit')"> Debit Note No.</label>
+                <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('wastage')">Wastage No.</label>
                 <input autocomplete="off" autocomplete="off" type="text" class="form-control ref-input" id="custcode"
                   name="account-custcode" [(ngModel)]="order.custcode" placeholder="Please Enter Invoice Number">
               </div>

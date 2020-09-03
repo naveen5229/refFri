@@ -26,6 +26,7 @@ export class AddMaintenanceComponent implements OnInit {
   isChecks = {};
   serviceDetails = {
     lastServiceDate: null,
+    invoiceNo : null,
     serviceCategory: '1',
     scheduleServices: "true",
     lastServiceKm: null,
@@ -33,7 +34,9 @@ export class AddMaintenanceComponent implements OnInit {
     nextServiceKm: null,
     serviceCenter: null,
     serviceLocation: null,
-    amount: null,
+    amount: 0,
+    totalAmount: 0,
+    tax:0,
     labourCost: null,
     remark: null,
   }
@@ -91,6 +94,7 @@ export class AddMaintenanceComponent implements OnInit {
       id: this.serviceId ? this.serviceId : null,
       vId: this.vehicleId,
       regno: this.regno,
+      invoiceNo: this.serviceDetails.invoiceNo,
       isScheduledService: this.serviceDetails.scheduleServices,
       serviceCategory: this.serviceDetails.serviceCategory,
       lastServiceDate: this.common.dateFormatter(this.serviceDetails.lastServiceDate),
@@ -100,12 +104,14 @@ export class AddMaintenanceComponent implements OnInit {
       serviceCenter: this.serviceDetails.serviceCenter,
       serviceLocation: this.serviceDetails.serviceLocation,
       amount: this.serviceDetails.amount,
+      tax : this.serviceDetails.tax,
       labourCost: this.serviceDetails.labourCost,
       remark: this.serviceDetails.remark,
       items: JSON.stringify(this.items),
       services: this.arrayToString(this.services)
     };
     console.log("Params:", params);
+    // return ;
     this.common.loading++;
     this.api.post('VehicleMaintenance/add', params)
       .subscribe(res => {
@@ -158,5 +164,9 @@ export class AddMaintenanceComponent implements OnInit {
       this.services = this.common.unionArrays(this.services, [serviceId]);
     else
       this.services.splice(this.services.findIndex((element) => { return element == serviceId }), 1);
+  }
+
+  calculateAmount(){
+    this.serviceDetails.totalAmount = this.serviceDetails.amount + this.serviceDetails.tax;
   }
 }

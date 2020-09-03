@@ -1,0 +1,46 @@
+<nb-card style="border: 0px;">
+  <!-- <nb-card-header>
+   
+  </nb-card-header> -->
+  <nb-card-body>
+    <div class="row" style="margin-top: -20px;text-align: center;">
+      <div class="col-1" style="text-align: center;-webkit-writing-mode: vertical-rl;">
+        <i class="fa fa-backward" (click)="backwardMove()"></i>
+      </div>
+      
+      <div class="col-2">
+        <nb-card [class]="selectedDashboard=='Tmg-Challan'?'active':'default'" (click)="selectedDashboard='Tmg-Challan'">
+          <b>Challan DashBoard</b>
+        </nb-card>
+      </div>
+      <div class="col-2">
+        <nb-card [class]="selectedDashboard=='Tmg-Trip'?'active':'default'" (click)="selectedDashboard='Tmg-Trip'">
+        <b>Trip DashBoard</b>
+        </nb-card>
+      </div>
+      <div class="col-2" >
+        <nb-card [class]="selectedDashboard=='Tmg-Traffic'?'active':'default'" (click)="selectedDashboard='Tmg-Traffic'">
+        <b>Traffic DashBoard</b>
+        </nb-card>
+      </div>
+      <div class="col-2" >
+        <nb-card [class]="selectedDashboard=='Tmg-Calls'?'active':'default'" (click)="selectedDashboard='Tmg-Calls'">
+        <b>Calls DashBoard</b>
+        </nb-card>
+      </div>
+      <div class="col-2" >
+        <nb-card [class]="selectedDashboard=='Tmg-Alerts'?'active':'default'" (click)="selectedDashboard='Tmg-Alerts'">
+        <b>ALerts DashBoard</b>
+        </nb-card>
+      </div>
+      <div class="col-1" style="text-align: center;-webkit-writing-mode: vertical-rl;">
+        <i class="fa fa-forward" (click)="forwardMove()"></i>
+      </div>
+    </div>
+   <tmg-challan *ngIf="selectedDashboard=='Tmg-Challan'"></tmg-challan>
+   <tmg-trip *ngIf="selectedDashboard=='Tmg-Trip'"></tmg-trip>
+   <tmg-traffic *ngIf="selectedDashboard=='Tmg-Traffic'"></tmg-traffic>
+   <tmg-calls *ngIf="selectedDashboard=='Tmg-Calls'"></tmg-calls>
+   <tmg-alerts *ngIf="selectedDashboard=='Tmg-Alerts'"></tmg-alerts>
+  </nb-card-body>
+</nb-card>

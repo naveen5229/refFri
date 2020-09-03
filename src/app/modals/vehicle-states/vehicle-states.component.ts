@@ -23,8 +23,9 @@ export class VehicleStatesComponent implements OnInit {
   infoStart = null;
   stateType = "-1";
   changeCategory = "halts";
-  startDate;
-  endDate;
+  stateTypes = [];
+  startDate = new Date(new Date().setDate(new Date().getDate() - 3));
+  endDate = new Date();
   vid;
   remark = '';
   vehicleEvent = [];
@@ -72,7 +73,8 @@ export class VehicleStatesComponent implements OnInit {
     this.vid = this.common.params.vehicleId;
     this.vehicle[0].lat = this.common.params.lat;
     this.vehicle[0].long = this.common.params.long;
-    this.vehicle[0].vregno = this.common.params.vregno
+    this.vehicle[0].vregno = this.common.params.vregno;
+    this.getStates();
     this.getVehicleEvent();
   }
 
@@ -150,17 +152,14 @@ export class VehicleStatesComponent implements OnInit {
   }
 
   getVehicleEvent() {
-
-    let today, start;
-    today = new Date();
-    this.endDate = this.common.dateFormatter(today);
-    start = new Date(today.setDate(today.getDate() - 3))
-    this.startDate = this.common.dateFormatter(start);
+    let ed = this.common.dateFormatter(this.endDate);
+    // let st = new Date(new Date().setDate(today.getDate() - 3))
+    let st = this.common.dateFormatter(this.startDate);
     let params = {
       vehicleId: this.vid,
-      startDate: this.startDate,
-      endDate: this.endDate,
-      limit: 10
+      startDate: st,
+      endDate: ed,
+      // limit: 10
     };
     console.log('params: ', params);
     this.common.loading++;
@@ -319,7 +318,6 @@ export class VehicleStatesComponent implements OnInit {
       }
 
       console.log('params to save ', params)
-
       this.common.loading++;
       this.api.post('Vehicles/saveVehicleState', params)
         .subscribe(res => {
@@ -528,6 +526,16 @@ export class VehicleStatesComponent implements OnInit {
   }
 
 
+  getStates() {
+    this.api.get("Suggestion/getTypeMaster?typeId=13")
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.stateTypes = res['data'];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+  }
 
 
 }

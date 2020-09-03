@@ -207,13 +207,17 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 link: '/accounts/tallyexport'
             },
             {
-                title: 'Voucher Audit',
-                link: '/accounts/voucheredited'
+                title:'Tally Import',
+                link:'/accounts/tallyimport'
             },
             {
                 title: 'Voucher Audit',
                 link: '/accounts/voucheredited'
             },
+            // {
+            //     title: 'Voucher Audit',
+            //     link: '/accounts/voucheredited'
+            // },
             {
                 title: 'Ledger Approve',
                 link: '/accounts/ledgerapprove'

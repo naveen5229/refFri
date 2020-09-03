@@ -6,6 +6,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { RouteGuard } from '../guards/route.guard';
 import { ChallanComponent } from './challan-component';
 import { PendingChallanComponent } from './pending-challan/pending-challan.component';
+// import { TmgChallanComponent } from '../pages/tmg-challan/tmg-challan.component';
 
 const routes: Routes = [
 
@@ -18,7 +19,7 @@ const routes: Routes = [
                 component: PendingChallanComponent,
                 canActivate: [AuthGuard,RouteGuard]
             },
-            
+           
 
 
 

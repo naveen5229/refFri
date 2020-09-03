@@ -711,6 +711,7 @@ export class LedgerregidterComponent implements OnInit {
 //   }
 // });
 }
+this.common.currentPage = 'Ledger Register';
   }
   openFuelEdit(vchData){
     console.log('vch data new ##',vchData);

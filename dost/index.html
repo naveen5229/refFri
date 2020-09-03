@@ -12,6 +12,9 @@
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Poppins:400,500,600,700" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+
+  <script src="//kendo.cdn.telerik.com/2016.3.914/js/kendo.all.min.js"></script>
 
   <!-- <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"> -->
   <script
@@ -25,7 +28,7 @@
 
   <!-- Develpment -->
   <!-- <script async defer
-    src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBvP2-rohuqEkzDNZspC9skUHSfIrp7S8g&libraries=visualization,geometry,places,drawing">
+    src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDU2NvnfsIzj9xcked94e-fN_9rkPRulZQ&libraries=visualization,geometry,places,drawing">
     </script> -->
 
   <!-- google map api end -->
@@ -39,7 +42,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" />
 
 
-<link rel="stylesheet" href="styles.99c9254c3aeeae420e84.css"></head>
+<link rel="stylesheet" href="styles.678bb6b7820746d766a5.css"></head>
 
 <body>
   <ngx-app>Loading...</ngx-app>
@@ -82,12 +85,12 @@
       width: 100%;
       height: 100%;
       z-index: 1003;
-      background: #000000;
+      background: #b2c3d1; /*#000000*/;
       overflow: hidden
     }
 
     .spinner div:first-child {
-      display: block;
+       /* display: block;
       position: relative;
       left: 50%;
       top: 50%;
@@ -97,7 +100,20 @@
       border-radius: 50%;
       box-shadow: 0 3px 3px 0 rgba(255, 56, 106, 1);
       transform: translate3d(0, 0, 0);
-      animation: spin 2s linear infinite
+      animation: spin 2s linear infinite */
+      position: relative;
+      left: 50%;
+      top: 50%;
+      margin: -75px 0 0 -75px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid blue;
+      border-right: 16px solid green;
+      border-bottom: 16px solid red;
+      border-left: 16px solid pink;
+      width: 150px;
+      height: 150px;
+      animation: spin 2s linear infinite;
     }
 
     .spinner div:first-child:after,
@@ -125,17 +141,86 @@
       box-shadow: 0 3px 3px 0 rgba(61, 175, 255, 1);
       animation: spin 1.5s linear infinite
     }
+
+    
+    @keyframes dot-keyframes {
+      0% {
+        opacity: .4;
+        transform: scale(1, 1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.2, 1.2);
+      }
+
+      100% {
+        opacity: .4;
+        transform: scale(1, 1);
+      }
+    }
+
+    .loading-dots {
+      text-align: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1003;
+      background: #f5f7f8;
+      /*#000000*/
+      ;
+      overflow: hidden
+    }
+
+    .loading-dots--dot {
+      position: relative;
+      top: 50%;
+      margin: -75px 0 0 -45px;
+      animation: dot-keyframes 1.5s infinite ease-in-out;
+      background-color: rgb(55, 55, 209);
+      border-radius: 50%;
+      display: inline-block;
+      height: 12px;
+      width: 12px;
+    }
+
+    loading-dots:nth-child(2) {
+      animation-delay: .5s;
+    }
+
+    loading-dots:nth-child(3) {
+      animation-delay: 1s;
+    }
+   
+
+    loading-dots:nth-child(4) {
+      animation-delay: 1.5s;
+    }
+    loading-dots:nth-child(5) {
+      animation-delay: 2s;
+    }
   </style>
-  <div id="nb-global-spinner" class="spinner">
+  <!-- <div id="nb-global-spinner" class="spinner">
     <div class="blob blob-0"></div>
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
     <div class="blob blob-4"></div>
     <div class="blob blob-5"></div>
+  </div> -->
+
+  <div class="loading-dots" id="nb-global-spinner">
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
   </div>
 
   <style>
+
     .error,
     .mandatory {
       color: red !important;
@@ -189,6 +274,6 @@
       z-index: 1057;
     }
   </style>
-<script type="text/javascript" src="runtime.ca4a7f77e1933777b5e4.js"></script><script type="text/javascript" src="polyfills.4bcebfa58a0b6365e2b5.js"></script><script type="text/javascript" src="scripts.5b37542ea53c84aaccaa.js"></script><script type="text/javascript" src="main.672410f7d6b0781d66fe.js"></script></body>
+<script type="text/javascript" src="runtime.5afa961f9adc8d0d21a3.js"></script><script type="text/javascript" src="polyfills.e410f0cdc1146dda65a3.js"></script><script type="text/javascript" src="scripts.5b37542ea53c84aaccaa.js"></script><script type="text/javascript" src="main.aad2598f9b4a03a044df.js"></script></body>
 
 </html>
