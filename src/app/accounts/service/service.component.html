@@ -20,7 +20,7 @@
         
         <div
           *ngIf="order.ordertype.name.toLowerCase().includes('purchase') || order.ordertype.name.toLowerCase().includes('debit note') || order.ordertype.name.toLowerCase().includes('wastage') ">
-          <div class="row" style="margin-left:17px!important;">
+          <div class="row">
             <div class="col-6 pl-0">
               <div class="form-group p1-0">
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">PI
@@ -44,7 +44,7 @@
               </div>
             </div>
           </div>
-          <div class="row" style="margin-left:17px!important;">
+          <div class="row">
             <div class="col-6 pl-0">
               <div class="form-group">
                 <label class="ref-label">Purchase Ledger</label>
@@ -209,7 +209,7 @@
         <!--sales-->
         <div
           *ngIf="order.ordertype.name.toLowerCase().includes('sales') || order.ordertype.name.toLowerCase().includes('credit note') ">
-          <div class="row" style="margin-left:17px!important;">
+          <div class="row">
             <div class="col-6 pl-0">
               <div class="form-group p1-0">
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('sales')">Invoice
@@ -233,7 +233,7 @@
               </div>
             </div>
           </div>
-          <div class="row" style="margin-left:17px!important;">
+          <div class="row">
             <div class="col-6 pl-0">
               <div class="form-group">
                 <label class="ref-label">Sales Ledger</label>
