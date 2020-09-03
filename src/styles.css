@@ -924,14 +924,7 @@ input[type=number] {
   border-color: #d61414!important;
 }
 
- button.btn-primary {
-  background: #263238 !important;
-   border: 1px solid #263238 !important;
- }
- button.btn-primary:hover {
-  background: #263238 !important;
-   border: 1px solid #263238 !important;
- }
+ 
  .btn:active:focus, .btn:focus {
   outline: 0 !important;
 }
