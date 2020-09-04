@@ -22,20 +22,28 @@
     .logo-containter {
         display: flex;
         align-items: center;
-        width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});  
+        justify-content: space-between;
+        width: 100%;
     }
 
     .control-item {
         display: block;
+        padding-top: 8px!important;
+        i{
+            font-size: 18px;
+        }
     }
 
     .refresh {
         background: content-box;
-        color: white;
-        font-size: 20px;
-        border: none;
+        color: #d1d1d2;
+        background: transparent;
+        border: 1px solid transparent;
         box-shadow: none;
-        padding: 0.375rem 0.75rem;
+        border-radius: 30px;
+        height: 35px;
+        width: 35px;
+        padding: 0.175rem 0.75rem;
     }
     .header-container {
         display: flex;
@@ -44,6 +52,8 @@
         
         nb-action{
             border: 0px !important;
+            padding: 0 .25rem;
+            margin-right: 8px;
         }
 
         .navigation {
@@ -54,6 +64,9 @@
 
             i {
                 display: block;
+            }
+            i:hover {
+               color:#727cf5;
             }
 
         }
@@ -192,9 +205,11 @@
             margin: 0 0.5rem;
         }
     }
-
+    nb-user{
+        cursor: pointer;
+    }
     @include media-breakpoint-down(sm) {
-
+      
         nb-user /deep/ .user-name {
             display: none;
         }
@@ -231,119 +246,141 @@
 }
 
 .user_back_name{
-    width: 950px;
+    //width: 950px;
     display: flex;
 }
-// .header-container {
-//     border-right: 1px solid #585858;
-// }
+
 :host ::ng-deep .right.medium{
     .user_photo{
-        padding: 0px 20px 0px 0px !important;
+       // padding: 0px 20px 0px 0px !important;
     }
     .control-item{
-        padding: 0px 20px 0px 0px !important;
+       // padding: 0px 20px 0px 0px !important;
     }
 }
 .header_button{
-    padding-top: 7px;
     margin-right: 10px;
+    padding-top: 3px;
 
  button {
-    //padding: 23px 15px 23px 0px !important;
     background-color: transparent;
-    border: none;
-    padding: 0.375rem 0.82rem;
-
+    border: 1px solid transparent;
+    padding: 5px 9px;
+    border-radius: 55px;
+    height: 35px;
+    width: 35px;
     .fa-angle-left{
         font-size: 24px;
-        color: #ffffff;
+        color: #d1d1d2;
         vertical-align: middle;
     }
 }
 button:hover {
-    border: none;
     box-shadow: none;
-    height: auto;
-    background-color: #636466;
-    border-radius: 50%;
-    padding: 0.375rem 0.82rem;
-   
+    background-color: #0c1427;
+    border: 1px solid #5e7cf5;
+    color: #5e7cf5;
+    padding: 5px 9px;
+    border-radius: 55px;
+    height: 35px;
+    width: 35px;
+    .fa-angle-left{
+        font-size: 24px;
+        color: #5e7cf5;
+        vertical-align: middle;
+    }
 }
 }
-.add_customer button {
-   // padding: 21px 20px 21px 0px !important;
-    background-color: transparent;
-    border: none;
-    color: #fff;
+.bank_icon{
+    margin-right: 10px;
+    height: 30px;
+}
+.add_customer{
+    margin-right: 10px;
+    height: 30px;
+ button {
+   background-color: transparent;
+   border: 1px solid transparent;
+    color: #d1d1d2;
     box-shadow: none;
-    height: auto;
+    border-radius: 30px;
+    height: 35px;
+    width: 35px;
+    padding: 0.175rem 0.75rem;
+}
 }
 .back_btn img {
-    width: 20px;
+    width: 15px;
 }
 
 .add_customer img {
-    width: 26px;
+    width: 15px;
 }
 
 .refresh_icon {
-    button.refresh {
-        //padding: 19px 20px 19px 0px;
-        height: auto;
-    }
+    margin-right: 10px;
+    height: 30px;
+    border: 1px solid transparent;
 }
 
-.fa-bank {
-    button.refresh {
-        padding: 19px 20px 19px 0px;
-        height: auto;
-    }
-}
-.bank_icon{
-    //padding:12px
-}
-
+// .fa-bank {
+//     button.refresh {
+//         padding: 19px 20px 19px 0px;
+//         height: auto;
+//     }
+// }
 
 .current-page {
     position: absolute;
     bottom: -27px;
-    left: 50%;
-    /* right: 50%; */
-    background: #263238;
+    left: 55%;
     height: auto;
     margin: auto;
-    padding: 5px 10px;
-    /* margin-top: 23px; */
     z-index: 999999;
     overflow: visible;
-    border-radius: 0px 0px 3px 3px;
+    color: #000;
+    border-radius: 0.17rem;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    padding: 4px 20px;
+    background-color: #c9c2de;
+    border-bottom: 1px solid white;
+    -webkit-box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(63, 106, 216, 0.2);
+    box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(63, 106, 216, 0.2);
     transform: translate(-50%);
 }
 .select_branch{
-    padding: 10px 0px;
-    margin-right: 20px;
+    display: block;
     width: 50%;
+    padding: 5px 0;
 }
 .select_branch label{
     margin-right: 0;
     font-size: 12px;
-    margin-bottom: 2px;
-    display: block;
+    margin-right: 5px;
+    color: #d1d1d2;
 }
+
 .select_branch select{
-    width: 100%;
+    width: 60%;
     display: inline-block;
     background: transparent;
-    border: 1px solid #878f92 !important;
-    color: #fff;
+    //border: 1px solid #878f92 !important;
+    border: 1px solid #d1d1d2 !important;
+    color: #d1d1d2;
     opacity: 1;
     padding: 5px !important;
     border-radius: 0px;
+    height: calc(1rem + 14px)!important;
+}
+.select_branch select:hover{
+    border: 1px solid #727cf5 !important;
+    color: #727cf5;
 }
 .select_branch select option{
-    background: #677277;
-    color: #fff;
+    background: #363e4f;
+    color: #d1d1d2;
 }
 :host ::ng-deep .user-picture{
     background-image: url(assets/images/avtar.png) !important;
@@ -351,21 +388,34 @@ button:hover {
 }
 .user_cust_name h4,
 .user-det_name h4{
-    color: white;
-    //padding: 24px 0px;
-    padding: 16px 0 0 0;
+    //color: white;
+    color: #d1d1d2;
+    padding: 11px 0 0 0;
     font-size: medium;
     margin: 0px;
 }
 .branch_option{
     display: flex;
-    width: 320px;
+    //width: 320px;
 }
 .header_mini_menu{
     display: flex;
-    width: 208px;
+    justify-content: flex-end;
+    padding-top: 2px;
 }
 
+.add_customer button:hover, .bank_icon button:hover, .refresh_icon button:hover {
+    background-color: #0c1427;
+    border: 1px solid #5e7cf5;
+    color: #5e7cf5;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    height: 30px;
+    padding: 0.175rem 0.75rem;
+    border-radius: 30px;
+    height: 35px;
+    width: 35px;
+}
 
 
 
