@@ -166,6 +166,8 @@ export class TripVerificationComponent implements OnInit {
       let remark = { title: 'Remark', placeholder: 'Remark' };
       this.table.data.headings['remark'] = remark;
     }
+    let stampedby = { title: 'Stamped By', placeholder: 'Stamped By' };
+    this.table.data.headings['stampedby'] = stampedby;
     let action = { title: 'Action', placeholder: 'Action' };
     this.table.data.headings['action'] = action;
 
@@ -215,6 +217,9 @@ export class TripVerificationComponent implements OnInit {
         }
         this.valobj['status'] = {
           value: this.vehicleTrips[i]['_statusname'], isHTML: true, action: null,
+        }
+        this.valobj['stampedby'] = {
+          value: this.vehicleTrips[i]['_actionby'], isHTML: true, action: null,
         }
 
         this.valobj['action'] = {

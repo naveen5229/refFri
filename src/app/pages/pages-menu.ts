@@ -42,6 +42,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
+        title: 'Vehicle States',
+        icon: 'fas fa-comment-alt',
+        link: '/pages/vehicle-states',
+        home: true,
+      },
+      {
         title: 'Vehicle Status Change',
         icon: 'fas fa-clipboard-check',
         link: '/pages/vehiclestatuschange',
@@ -138,8 +144,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa fa-pencil-square-o',
         link: '/pages/trip-pnl',
       },
-
-
+      {
+        title: 'TMG Trip',
+        icon: 'fa fa-home',
+        link: '/pages/tmg-trip',
+      },
     ]
   },
   {
@@ -148,6 +157,18 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
 
     home: true,
     children: [
+      {
+        title: 'TMG Dashboard',
+        icon: 'fas fa-pie',
+        link: '/pages/tmg-dashboard',
+        home: true,
+      },
+      {
+        title: 'TMG Alerts',
+        icon: 'fa fa-home',
+        link: '/pages/tmg-alerts',
+        home: true,
+      },
       {
         title: 'Tickets',
         icon: 'fas fa-ticket-alt',
@@ -346,6 +367,18 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fas fa-traffic-light',
     children: [
       {
+        title: 'TMG Traffic',
+        icon: 'fa fa-home',
+        link: '/pages/tmg-traffic',
+        home: true,
+      },
+      {
+        title: 'TMG Calls',
+        icon: 'fas fa-pie',
+        link: '/pages/tmg-calls',
+        home: true,
+      },
+      {
         title: 'Call Suggestion',
         icon: 'fas fa-traffic-light',
         link: '/pages/driver-call-suggestion',
@@ -381,7 +414,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/vehicle-performance',
         home: true,
       },
-
+      
 
     ]
   },
@@ -563,6 +596,13 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     title: 'Challan',
     icon: 'fas fa-chalkboard-teacher',
     link: '/challan/pending-challan'
+  },
+ 
+  {
+    title: 'TMG Challan',
+    icon: 'fa fa-home',
+    link: '/pages/tmg-challan',
+    home: true,
   },
   {
     title: 'Walle8',

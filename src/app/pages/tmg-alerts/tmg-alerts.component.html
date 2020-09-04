@@ -1,0 +1,145 @@
+<div class="contentsection">
+    <div class="row mb-2 mr-0 mb-0">
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b class="charthead">Alert Ack TAT in Last 7 Days</b></h6>
+          <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+            [options]="chart.options">
+          </chart>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b class="charthead">Alert Call TAT in Last 7 Days</b></h6>
+          <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+            [options]="chart1.options">
+          </chart>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b class="charthead">VSC TAT in Last 7 Days</b></h6>
+          <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+            [options]="chart2.options">
+          </chart>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2 mr-0 mb-0">
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b class="charthead">Longest Alert Not Ack</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Executive</th>
+              <th>Alert Name</th>
+              <th>Alert Date</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tlh of tripLongHalt">
+                <td>{{tlh['Executive']}}</td>
+                <td>{{tlh['Alert Name']}}</td>
+                <td>{{tlh['Alert Date']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b class="charthead">Longest Alert Not Called </b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Executive</th>
+              <th>Alert Name</th>
+              <th>Alert Date</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let lls of longestLoadindSites">
+                <td>{{tlh['Executive']}}</td>
+                <td>{{tlh['Alert Name']}}</td>
+                <td>{{tlh['Alert Date']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b class="charthead">Longest Pending VSC TAT </b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <td>Executive</td>
+              <th>Count</th>
+              <th>Oldest VSC Date </th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let lud of longestUnLoadindDriver">
+                <td>{{tlh['Executive']}}</td>
+                <td>{{lud['Driver Name']}}</td>
+                <td>{{lud['Avg Unloading Time(in Hr:Mi)']}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2 mr-0 mb-0">
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b class="charthead">Longest Open Alert</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Executive</th>
+              <th>Alert Name</th>
+              <th>Alert Date</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tso of tripSlowestOnward">
+                <td>{{tlh['Executive']}}</td>
+                <td>{{lud['Alert Name']}}</td>
+                <td>{{lud['Alert Date']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b class="charthead">Worst Call TAT in Last 7 Days</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Executive</th>
+              <th>Alert Name</th>
+              <th>TAT (Hrs)</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tso of tripSlowestOnward">
+                <td>{{tlh['Executive']}}</td>
+                <td>{{lud['Alert Name']}}</td>
+                <td>{{lud['TAT in Hrs']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <h6 style="text-align:center"><b class="charthead">GPS Performance</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Executive</th>
+              <th>TAT (Hrs)</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tso of tripSlowestOnward">
+                <td>{{tlh['Executive']}}</td>
+                <td>{{lud['TAT in Hrs']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

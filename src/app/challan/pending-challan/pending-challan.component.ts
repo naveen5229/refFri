@@ -134,8 +134,10 @@ export class PendingChallanComponent implements OnInit {
       chNo: challan['Challan No'],
       amount: challan.Amount,
       rowId: challan._id,
+      vehId: challan._vid,
+      foid: challan._foid,
     }
-    const activeModal = this.modalService.open(ChallanPendingRequestComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ChallanPendingRequestComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.getPendingChallans();

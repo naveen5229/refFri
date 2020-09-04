@@ -52,6 +52,7 @@ import { LedgerregidterComponent,ledgerRegisterTreeComponent } from './ledgerreg
 import { ServiceComponent } from './service/service.component';
 import { ReportconfigComponent } from './reportconfig/reportconfig.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { TallyimportComponent } from './tallyimport/tallyimport.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -119,7 +120,8 @@ const PAGES_COMPONENTS = [
     BalanceSheetTreeComponent,
     TradingTreeComponent,
     ProfitlossTreeComponent,
-    TrailTreeComponent
+    TrailTreeComponent,
+    TallyimportComponent
   ],
   entryComponents:[
     StockitemsComponent,
