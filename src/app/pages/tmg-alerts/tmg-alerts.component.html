@@ -36,10 +36,10 @@
               <th>Alert Date</th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let tlh of tripLongHalt">
-                <td>{{tlh['Executive']}}</td>
-                <td>{{tlh['Alert Name']}}</td>
-                <td>{{tlh['Alert Date']}}</td>
+              <tr *ngFor="let ana of alertNotAck">
+                <td>{{ana['Executive']}}</td>
+                <td>{{ana['Alert Name']}}</td>
+                <td>{{ana['Alert Date']}}</td>
               </tr>
             </tbody>
           </table>
@@ -55,10 +55,10 @@
               <th>Alert Date</th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let lls of longestLoadindSites">
-                <td>{{tlh['Executive']}}</td>
-                <td>{{tlh['Alert Name']}}</td>
-                <td>{{tlh['Alert Date']}}</td>
+              <tr *ngFor="let anc of alertNotCall">
+                <td>{{anc['Executive']}}</td>
+                <td>{{anc['Alert Name']}}</td>
+                <td>{{anc['Alert Date']}}</td>
               </tr>
             </tbody>
           </table>
@@ -70,14 +70,14 @@
           <table class="table table-bordered">
             <thead class="thead">
               <td>Executive</td>
-              <th>Count</th>
+              <th>TAT (Hrs)</th>
               <th>Oldest VSC Date </th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let lud of longestUnLoadindDriver">
+              <tr *ngFor="let lud of alertVscPending">
                 <td>{{tlh['Executive']}}</td>
-                <td>{{lud['Driver Name']}}</td>
-                <td>{{lud['Avg Unloading Time(in Hr:Mi)']}}</td>
+                <td>{{lud['TAT(Hrs)']}}</td>
+                <td>{{lud['VSC Time']}}</td>
 
               </tr>
             </tbody>
@@ -96,10 +96,10 @@
               <th>Alert Date</th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let tso of tripSlowestOnward">
-                <td>{{tlh['Executive']}}</td>
-                <td>{{lud['Alert Name']}}</td>
-                <td>{{lud['Alert Date']}}</td>
+              <tr *ngFor="let ao of alertOpen">
+                <td>{{ao['Executive']}}</td>
+                <td>{{ao['Alert Name']}}</td>
+                <td>{{ao['Alert Date']}}</td>
               </tr>
             </tbody>
           </table>
@@ -115,10 +115,10 @@
               <th>TAT (Hrs)</th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let tso of tripSlowestOnward">
-                <td>{{tlh['Executive']}}</td>
-                <td>{{lud['Alert Name']}}</td>
-                <td>{{lud['TAT in Hrs']}}</td>
+              <tr *ngFor="let awc of alertWorstCallTat">
+                <td>{{awc['Executive']}}</td>
+                <td>{{awc['Alert Name']}}</td>
+                <td>{{awc['TAT in Hrs']}}</td>
               </tr>
             </tbody>
           </table>
@@ -126,16 +126,16 @@
       </div>
       <div class="col-4">
         <div>
-          <h6 style="text-align:center"><b class="charthead">GPS Performance</b></h6>
+          <h6 style="text-align:center"><b class="charthead">Worst VSC TAT in Last 7 Days </b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Executive</th>
               <th>TAT (Hrs)</th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let tso of tripSlowestOnward">
-                <td>{{tlh['Executive']}}</td>
-                <td>{{lud['TAT in Hrs']}}</td>
+              <tr *ngFor="let avw of alertVscWorst">
+                <td>{{avw['Executive']}}</td>
+                <td>{{avw['TAT(Hrs)']}}</td>
               </tr>
             </tbody>
           </table>

@@ -13,10 +13,8 @@ export class TmgCallsComponent implements OnInit {
   callsSupervisorWiseNotRespod = [];
   callsNotRespod = [];
   callsSupervisorWiseTopWorstDriverCalls = [];
-  longestLoadindSites = [];
-  longestUnLoadindDriver = [];
-  tripSlowestOnward = [];
-  longestUnLoadindSites = [];
+  callsSupervisorLoadingTat = [];
+  callsSupervisorUnLoadingTat = [];
   xAxisData = [];
 
   chart1 = {
@@ -53,6 +51,8 @@ export class TmgCallsComponent implements OnInit {
     this.getCallsSupervisorWiseNotRespod();
     this.getCallsNotRespod();
     this.getCallsSupervisorWiseTopWorstDriverCalls();
+    this.getCallsSupervisorLoadingTat();
+    this.getCallsSupervisorUnLoadingTat();
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -65,6 +65,8 @@ export class TmgCallsComponent implements OnInit {
     this.getCallsSupervisorWiseNotRespod();
     this.getCallsNotRespod();
     this.getCallsSupervisorWiseTopWorstDriverCalls();
+    this.getCallsSupervisorLoadingTat();
+    this.getCallsSupervisorUnLoadingTat();
   }
 
   getCallsDrivar() {
@@ -143,6 +145,71 @@ export class TmgCallsComponent implements OnInit {
         --this.common.loading;
         console.log('callsSupervisorWiseTopWorstDriverCalls:', res);
         this.callsSupervisorWiseTopWorstDriverCalls = res['data'];
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
+      });
+  }
+
+  getCallsSupervisorLoadingTat() {
+    this.callsSupervisorLoadingTat = [];
+    ++this.common.loading;
+    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3
+    };
+    this.api.post('Tmgreport/GetCallsSupervisorLoadingTat', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('callsSupervisorLoadingTat:', res);
+        this.callsSupervisorLoadingTat = res['data'];
+        if(this.callsSupervisorLoadingTat.length>0) this.handleChart3();
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
+      });
+  }
+
+  getCallsSupervisorUnLoadingTat() {
+    this.callsSupervisorUnLoadingTat = [];
+    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3
+    };
+    ++this.common.loading;
+    this.api.post('Tmgreport/GetCallsSupervisorUnLoadingTat', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('callsSupervisorUnLoadingTat:', res);
+        this.callsSupervisorUnLoadingTat = res['data'];
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
+      });
+  }
+
+  getAlertWorstCallTat() {
+    this.callsNotRespod = [];
+    ++this.common.loading;
+    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3
+    };
+    this.api.post('Tmgreport/GetAlertWorstCallTat', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('tripUnLoadindTime:', res);
+        this.callsNotRespod = res['data'];
+        if(this.callsNotRespod.length>0) this.handleChart2();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
@@ -236,5 +303,67 @@ export class TmgCallsComponent implements OnInit {
     },
     
   };
+}
+
+handleChart3(){
+  this.callsSupervisorLoadingTat = [{
+    name : 'p',
+    value : 50
+  },
+  {
+    name : 'r',
+    value : 30
+  },{
+    name : 't',
+    value : 40
+  }]
+  let yaxis = [];
+  let xaxis = [];
+  this.callsSupervisorLoadingTat.map(tlt=>{
+    xaxis.push('p');
+    yaxis.push(tlt['value']);
+  });
+  
+  console.log("handleChart3",xaxis,yaxis);
+  this.chart3.type = 'bar'
+  this.chart3.data = {
+    labels: xaxis,
+    datasets: [
+      {
+        label: 'counts',
+        data: yaxis,
+        borderColor: '#3d6fc9',
+        backgroundColor: '#3d6fc9',
+        fill: false,
+        pointHoverRadius: 8,
+        pointHoverBackgroundColor: '#FFEB3B',
+      },
+    ]
+  },
+this.chart3.options= {
+  responsive: true,
+  legend: {
+    position: 'bottom',
+    display:  true
+  },
+  scales: {
+    yAxes: [{
+      ticks: {
+        suggestedMax: 5
+      }
+    }]
+  },
+  maintainAspectRatio: false,
+  title: {
+    display: true,
+  },
+  display: true,
+  elements: {
+    line: {
+      tension: 0
+    }
+  },
+  
+};
 }
 }
