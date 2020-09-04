@@ -123,23 +123,24 @@
           </table>
         </div>
       </div>
-      <!-- <div class="col-4">
+      <div class="col-4">
         <div>
           <h6 style="text-align:center"><b>GPS Performance</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
-              <th>Driver Name</th>
-              <th>Challan Amount</th>
+              <th>Vendor Name</th>
+              <th>Total GPS</th>
+              <th>% Offline GPS</th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let cda of challansdrivaramount">
-                <td>{{cda['Driver']}}</td>
-                <td>{{cda['Challan Amount']}}</td>
-
+              <tr *ngFor="let tgp of tripGpsPerformance">
+                <td>{{tgp['Vendor Name']}}</td>
+                <td>{{tgp['Total GPS']}}</td>
+                <td>{{tgp['% Offline GPS']}}</td>
               </tr>
             </tbody>
           </table>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>

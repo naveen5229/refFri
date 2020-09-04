@@ -17,6 +17,7 @@ export class TmgTripComponent implements OnInit {
   longestUnLoadindDriver = [];
   tripSlowestOnward = [];
   longestUnLoadindSites = [];
+  tripGpsPerformance = [];
   xAxisData = [];
 
   chart = {
@@ -53,9 +54,10 @@ export class TmgTripComponent implements OnInit {
     this.getTripUnLoadindTime();
     this.getTripLongHalt();
     this.getLongestLoadindSites();
-    this.getLongestUnLoadindSites();
     this.getTripSlowestOnward();
     this.getLongestUnLoadindDriver();
+    this.getLongestUnLoadindSites();
+    this.getTripGpsPerformance ();
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -69,9 +71,10 @@ export class TmgTripComponent implements OnInit {
     this.getTripUnLoadindTime();
     this.getTripLongHalt();
     this.getLongestLoadindSites();
-    this.getLongestUnLoadindSites();
     this.getTripSlowestOnward();
     this.getLongestUnLoadindDriver();
+    this.getLongestUnLoadindSites();
+    this.getTripGpsPerformance ();
   }
 
   getTripOnwardKmd() {
@@ -245,6 +248,28 @@ export class TmgTripComponent implements OnInit {
         console.log('Err:', err);
       });
   }
+
+  getTripGpsPerformance(){ 
+    this.tripGpsPerformance = [];
+    ++this.common.loading;
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord:3
+    };
+    this.api.post('Tmgreport/GetTripGpsPerformance', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('tripGpsPerformance:', res['data']);
+        this.tripGpsPerformance = res['data'];
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
+      });
+  }
+
 
   getlabelValue() {
     if (this.tripOnwardKmd) {
