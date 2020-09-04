@@ -1,0 +1,49 @@
+.default{
+    color: #000;
+    border-radius: 0.17rem;
+    font-size: .85rem;
+    text-align: center;
+    padding: 5px;
+    background-color: #c9c2de;
+    cursor: pointer;
+    border-bottom: 1px solid white;
+    box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
+}
+.default:hover{
+    border-radius: 0.17rem;
+    font-size: .85rem;
+    text-align: center;
+    padding: 5px;
+    background-color: #4215ca;
+    color: #fff;
+    cursor: pointer;
+    border-bottom: 1px solid white;
+    box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
+}
+.active{
+    border-radius: 0.17rem;
+    font-size: .85rem;
+    text-align: center;
+    padding: 5px;
+    background-color: #4215ca;
+    color: #fff;
+    cursor: pointer;
+    border-bottom: 1px solid white;
+    box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
+}
+.dirbtn{
+    cursor: pointer;
+    border-radius: 0.17rem;
+    padding: 5px 10px;
+    background-color: #3f6ad8;
+    color: #fff;
+    box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
+}
+.dirbtn:hover{
+    background-color: #0233af;
+}
+.toptab{
+   margin-top: -18px;
+   z-index: 5;
+   background-color: white;
+}

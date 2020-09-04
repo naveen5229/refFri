@@ -924,14 +924,7 @@ input[type=number] {
   border-color: #d61414!important;
 }
 
- button.btn-primary {
-  background: #263238 !important;
-   border: 1px solid #263238 !important;
- }
- button.btn-primary:hover {
-  background: #263238 !important;
-   border: 1px solid #263238 !important;
- }
+ 
  .btn:active:focus, .btn:focus {
   outline: 0 !important;
 }
@@ -950,6 +943,21 @@ input[type=number] {
   background-color: #263238!important;
   font-size: 14px!important;
 }
+
+.nb-theme-corporate nb-layout .layout nb-layout-header nav{
+  height: 2.85rem!important;
+  overflow: hidden;
+  padding: 0 1.25rem!important;
+}
+.nb-theme-corporate nb-layout .layout nb-layout-header.fixed ~ .layout-container {
+  padding-top: 2.85rem!important;
+} 
+.nb-theme-corporate nb-layout .layout nb-layout-header.fixed ~ .layout-container > nb-sidebar > .main-container {
+  height: calc(100vh - 2.85rem)!important;
+}
+
+
+
 
 @media (max-width: 1024px) and (min-width: 768px)
 {

@@ -30,12 +30,12 @@
     }
 
     .refresh {
-        padding: 10%;
         background: content-box;
         color: white;
         font-size: 20px;
         border: none;
         box-shadow: none;
+        padding: 0.375rem 0.75rem;
     }
     .header-container {
         display: flex;
@@ -245,16 +245,34 @@
         padding: 0px 20px 0px 0px !important;
     }
 }
-.header_button button {
-    padding: 23px 15px 23px 0px !important;
+.header_button{
+    padding-top: 7px;
+    margin-right: 10px;
+
+ button {
+    //padding: 23px 15px 23px 0px !important;
     background-color: transparent;
     border: none;
-    color: #fff;
+    padding: 0.375rem 0.82rem;
+
+    .fa-angle-left{
+        font-size: 24px;
+        color: #ffffff;
+        vertical-align: middle;
+    }
+}
+button:hover {
+    border: none;
     box-shadow: none;
     height: auto;
+    background-color: #636466;
+    border-radius: 50%;
+    padding: 0.375rem 0.82rem;
+   
+}
 }
 .add_customer button {
-    padding: 21px 20px 21px 0px !important;
+   // padding: 21px 20px 21px 0px !important;
     background-color: transparent;
     border: none;
     color: #fff;
@@ -271,7 +289,7 @@
 
 .refresh_icon {
     button.refresh {
-        padding: 19px 20px 19px 0px;
+        //padding: 19px 20px 19px 0px;
         height: auto;
     }
 }
@@ -283,7 +301,7 @@
     }
 }
 .bank_icon{
-    padding:12px
+    //padding:12px
 }
 
 
@@ -334,7 +352,8 @@
 .user_cust_name h4,
 .user-det_name h4{
     color: white;
-    padding: 24px 0px;
+    //padding: 24px 0px;
+    padding: 16px 0 0 0;
     font-size: medium;
     margin: 0px;
 }
@@ -346,6 +365,10 @@
     display: flex;
     width: 208px;
 }
+
+
+
+
 @media (min-width: 992px) and (max-width: 1199.98px) { 
     .select_branch{
         width: 350px;

@@ -213,8 +213,8 @@ export class TmgChallanComponent implements OnInit {
     data.datasets.push({
       type: 'line',
       label: 'Amount',
-      borderColor: '#c7eded',
-      backgroundColor: '#c7eded',
+      borderColor: '#ed7d31',
+      backgroundColor: '#ed7d31',
       pointHoverRadius: 8,
       pointHoverBackgroundColor: '#FFEB3B',
       fill: false,
@@ -225,8 +225,8 @@ export class TmgChallanComponent implements OnInit {
     data.datasets.push({
       type: 'bar',
       label: 'count',
-      borderColor: 'blue',
-      backgroundColor: 'blue',
+      borderColor: '#386ac4',
+      backgroundColor: '#386ac4',
       fill: false,
       data: this.chart.data.bar.map(value => { return value.toFixed(2) }),
       pointHoverRadius: 8,

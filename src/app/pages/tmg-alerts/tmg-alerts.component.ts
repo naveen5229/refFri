@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ApiService } from '../../services/api.service';
 
 @Component({
-  selector: 'tmg-trip',
-  templateUrl: './tmg-trip.component.html',
-  styleUrls: ['./tmg-trip.component.scss']
+  selector: 'tmg-alerts',
+  templateUrl: './tmg-alerts.component.html',
+  styleUrls: ['./tmg-alerts.component.scss']
 })
-export class TmgTripComponent implements OnInit {
+export class TmgAlertsComponent implements OnInit {
   tripOnwardKmd = [];
   tripUnLoadindTime = [];
   tripLoadindTime = [];
@@ -18,19 +18,10 @@ export class TmgTripComponent implements OnInit {
   tripSlowestOnward = [];
   longestUnLoadindSites = [];
   xAxisData = [];
-
   chart = {
-    data: {
-      line: [],
-      bar: []
-    },
     type: '',
-    dataSet: {
-      labels: [],
-      datasets: []
-    },
-    yaxisname: null,
-    options: null
+    data: {},
+    options: {},
   };
 
   chart1 = {
@@ -89,7 +80,7 @@ export class TmgTripComponent implements OnInit {
         --this.common.loading;
         console.log('tripOnwardKmd:', res);
         this.tripOnwardKmd = res['data'];
-        this.getlabelValue();
+        this.handleChart();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
@@ -246,76 +237,36 @@ export class TmgTripComponent implements OnInit {
       });
   }
 
-  getlabelValue() {
-    if (this.tripOnwardKmd) {
-      this.tripOnwardKmd.forEach((cmg) => {
-        this.chart.data.line.push(cmg['Amount']);
-        this.chart.data.bar.push(cmg['Onward KMs']);
-        this.xAxisData.push(cmg['Period']);
-      });
-
-      this.handleChart();
-    }
-  }
-
-  handleChart() {
-    console.log("xAxis", this.chart.data.line,this.chart.data.bar,this.xAxisData);
-    let data = {
-      labels: this.xAxisData,
-      datasets: []
-    };
-    
-    data.datasets.push({
-      type: 'line',
-      label: 'Total(Kms)',
-      borderColor: '#3d6fc9',
-      backgroundColor: '#3d6fc9',
-      pointHoverRadius: 8,
-      pointHoverBackgroundColor: '#FFEB3B',
-      fill: false,
-      data: this.chart.data.line,
-      yAxisID: 'y-axis-2'
+  handleChart(){
+    let yaxis = [];
+    let xaxis = [];
+    this.tripLoadindTime.map(tlt=>{
+      xaxis.push(tlt['Period']);
+      yaxis.push(tlt['Loading Duration(Min)']);
     });
-
-    data.datasets.push({
-      type: 'bar',
-      label: 'Onward (Kms)',
-      borderColor: '#ed7d31',
-      backgroundColor: '#ed7d31',
-      fill: false,
-      data: this.chart.data.bar.map(value => { return value.toFixed(2) }),
-      pointHoverRadius: 8,
-      pointHoverBackgroundColor: '#FFEB3B',
-      yAxisID: 'y-axis-1',
-      yAxisName: 'Count',
-    });
-
-    this.chart = {
-      data: {
-        line: [],
-        bar: []
-      },
-      type: 'bar' ,
-      dataSet: data,
-      yaxisname: "Average Count",
-      options: this.setChartOptions()
-    };
-
-  }
-  
-  setChartOptions() {
-    let options = {
+    console.log("handleChart1",xaxis,yaxis);
+    this.chart1.type = 'line'
+    this.chart1.data = {
+      labels: xaxis,
+      datasets: [
+        {
+          label: 'Time (in mins.)',
+          data: yaxis,
+          borderColor: '#3d6fc9',
+          backgroundColor: '#3d6fc9',
+          fill: false,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: '#FFEB3B',
+        },
+      ]
+    },
+    this.chart1.options= {
       responsive: true,
-      hoverMode: 'index',
-      stacked: false,
       legend: {
         position: 'bottom',
         display:  true
       },
-      tooltips: {
-        mode: 'index',
-        intersect: 'true'
-      },
+     
       maintainAspectRatio: false,
       title: {
         display: true,
@@ -326,46 +277,10 @@ export class TmgTripComponent implements OnInit {
           tension: 0
         }
       },
-      scales: {
-        yAxes: [],
-        xAxes: [{
-          scaleLabel: {
-            display: true,
-            // labelString: 'Months',
-            fontSize: 17
-          },
-        }],
-      }
-    }
-
-    options.scales.yAxes.push({
-      scaleLabel: {
-        display: true,
-        labelString: 'Onward Kms',
-        fontSize: 17
-      },
-      type: 'linear',
-      display: true,
-      position: 'left',
-      id: 'y-axis-1',
-
-    });
-      options.scales.yAxes.push({
-        scaleLabel: {
-          display: true,
-          labelString: 'Total Kms',
-          fontSize: 17,
-        },
-        type: 'linear',
-        display: true,
-        position: 'right',
-        id: 'y-axis-2',
-        gridLines: {
-          drawOnChartArea: false,
-        },
-      });
-    return options;
+      
+    };
   }
+ 
 
   handleChart1(){
     let yaxis = [];
@@ -407,14 +322,8 @@ export class TmgTripComponent implements OnInit {
           tension: 0
         }
       },
-      // scales: {
-      //   yAxes: [{
-      //     ticks: { stepSize: 50000},
-      //   }]
-      //  },
       
     };
-   
   }
   
 
@@ -462,3 +371,5 @@ export class TmgTripComponent implements OnInit {
   };
 }
 }
+
+

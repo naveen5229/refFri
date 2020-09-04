@@ -1,26 +1,63 @@
-<nb-card style="border: 0px;">
-  <!-- <nb-card-header>
-    <div class="row">
-      <div class="col-sm-6">
-        <h5>TMG-Challan</h5>
-      </div>
-    </div>
-  </nb-card-header> -->
-  <nb-card-body>
-    <div class="row mb-2">
-      <div class="col-7">
-        <div>
-          <h6 style="text-align:center"><b>Last 6 Months Trend</b></h6>
+
+
+<div class="contentsection">
+    <div class="row mb-2 mr-0 mb-0">
+      <div class="col-6">
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Last 6 Months Trend</b></h6>
           <!-- <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
           [options]="chart.options"></chart> -->
-          <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet" style="margin-right:5px;min-height: 350px;max-height: 350px;"
-          style="margin-right:5px;height:250px" [options]="chart.options">
+          <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet" style="margin-right:5px;min-height: 300px;max-height: 300px;"
+          [options]="chart.options">
       </chart>
         </div>
+        <div class="row mt-4 mr-0 mb-0">
+          <div class="col-6 p-1">
+            <div class="outer">
+              <h6 style="text-align:center"><b class="charthead">Most Aged Challans (Pending)</b></h6>
+              <table class="table table-bordered">
+                <thead class="thead">
+                  <th>Vehicle No.</th>
+                  <th>Amount</th>
+                  <th>Due Days</th>
+                </thead>
+                <tbody class="tbody">
+                  <tr *ngFor="let cma of challansMostAged">
+                    <td>{{cma['Vehicle No']}}</td>
+                    <td>{{cma['Amount']}}</td>
+                    <td>{{cma['Due Days']}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-6 p-1">
+            <div class="outer">
+              <h6 style="text-align:center"><b class="charthead">Latest Challans</b></h6>
+              <table class="table table-bordered">
+                <thead class="thead">
+                  <th>Challan Date</th>
+                  <th>Vehicle No.</th>
+                  <th>Amount</th>
+                 <th>Status</th>
+                </thead>
+                <tbody class="tbody">
+                  <tr *ngFor="let cl of challansLatest">
+                    <td>{{cl['Challan Date']}}</td>
+                    <td>{{cl['Vehicle No']}}</td>
+                    <td>{{cl['Amount']}}</td>
+                    <td>{{cl['Status']}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+     
+        </div>
       </div>
-      <div class="col-5">
-        <div>
-          <h6 style="text-align:center"><b>State Wise Challans in Last 30 Days</b></h6>
+      <div class="col-6">
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">State Wise Challans in Last 30 Days</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>State</th>
@@ -29,17 +66,17 @@
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let csw of challanStateWise">
-                <td>{{csw['state']}}</td>
-                <td>{{csw['Paid Challan Count']}}</td>
-                <td>{{csw['Paid Amount']}}</td>
-                <td>{{csw['Pending Challan Count']}}</td>
-                <td>{{csw['Pending']}}</td>
+                <td><b>{{csw['state']}}</b></td>
+                <td><b>{{csw['Paid Challan Count']}}</b></td>
+                <td><b>{{csw['Paid Amount']}}</b></td>
+                <td><b>{{csw['Pending Challan Count']}}</b></td>
+                <td><b>{{csw['Pending']}}</b></td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div>
-          <h6 style="text-align:center"><b>Worst 3 Drivers(Count Wise) </b></h6>
+        <div class="mt-2 outer">
+          <h6 style="text-align:center"><b class="charthead">Worst 3 Drivers(Count Wise) </b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Driver Name</th>
@@ -53,52 +90,8 @@
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-3">
-        <div>
-          <h6 style="text-align:center"><b>Most Aged Challans (Pending)</b></h6>
-          <table class="table table-bordered">
-            <thead class="thead">
-              <th>Vehicle No.</th>
-              <th>Amount</th>
-              <th>Due Days</th>
-            </thead>
-            <tbody class="tbody">
-              <tr *ngFor="let cma of challansMostAged">
-                <td>{{cma['Vehicle No']}}</td>
-                <td>{{cma['Amount']}}</td>
-                <td>{{cma['Due Days']}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>Latest Challans</b></h6>
-          <table class="table table-bordered">
-            <thead class="thead">
-              <th>Challan Date</th>
-              <th>Vehicle No.</th>
-              <th>Amount</th>
-              <th>Status</th>
-            </thead>
-            <tbody class="tbody">
-              <tr *ngFor="let cl of challansLatest">
-                <td>{{cl['Challan Date']}}</td>
-                <td>{{cl['Vehicle No']}}</td>
-                <td>{{cl['Amount']}}</td>
-                <td>{{cl['Status']}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="col-5">
-        <div>
-          <h6 style="text-align:center"><b>Worst 3 Drivers(Amount Wise) </b></h6>
+        <div  class="mt-2 outer">
+          <h6 style="text-align:center"><b class="charthead">Worst 3 Drivers(Amount Wise) </b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Driver Name</th>
@@ -115,5 +108,4 @@
         </div>
       </div>
     </div>
-  </nb-card-body>
-</nb-card>
+  </div>
