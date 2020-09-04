@@ -8,6 +8,7 @@
     cursor: pointer;
     border-bottom: 1px solid white;
     box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
+    margin-bottom: 0rem;
 }
 .default:hover{
     border-radius: 0.17rem;
@@ -19,8 +20,10 @@
     cursor: pointer;
     border-bottom: 1px solid white;
     box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
+    margin-bottom: 0rem;
 }
 .active{
+    margin-bottom: 0rem;
     border-radius: 0.17rem;
     font-size: .85rem;
     text-align: center;
@@ -47,3 +50,11 @@
    z-index: 5;
    background-color: white;
 }
+.hiddenby{
+     opacity: 0;
+     transition:.5s;
+}
+ .toptab:hover .hiddenby{
+    opacity: 1;
+    transition:1s;
+ }
