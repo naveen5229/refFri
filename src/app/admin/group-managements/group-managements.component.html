@@ -6,10 +6,10 @@
   <div class="body-1-tile" style="margin-left:50px; margin-top: 10px">Groups</div>
   <div class="row" style="margin-top:20px; margin-bottom:20px">
     <div class="col-2"></div>
-    <!-- <div class="col-3" style="text-align: center">
+    <div class="col-3" style="text-align: center">
       <auto-suggestion (onSelected)="searchUserId($event)" url="suggestion/getFoUsersList" display="name"
         placeholder="Fo Id" [preSelected]="null"></auto-suggestion>
-    </div> -->
+    </div>
     <div class="col-3">
       <input type="text" class="form-control" placeholder="group name" name="groupName"
         [(ngModel)]="addGroupDetails.groupName">
@@ -24,7 +24,7 @@
   <div class="row" style="margin-top:20px; margin-bottom:20px">
     <div class="col-1"></div>
     <div class="col-3" style="text-align: center">
-      <auto-suggestion (onSelected)="searchGroupId($event)" seperator='-' url="Suggestion/getAllFoAdminListwithCustomer?isFo=true" [display]="['foaname','foname']"
+      <auto-suggestion (onSelected)="searchGroupId($event)" seperator='-' url="Suggestion/getAllFoAdminListwithCustomer" [display]="['foaname','foname']"
         placeholder="user ID" [preSelected]="null"></auto-suggestion>
     </div>
     <div class="col-2"></div>

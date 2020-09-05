@@ -102,8 +102,8 @@ export class MapService {
     }
   }
 
-  createSingleMarker(latLng, icons?, dragEvent?, clickEvent?,label?) {
-    console.log("label",label);
+  createSingleMarker(latLng, icons?, dragEvent?, clickEvent?) {
+
     var icon = icons ? icons : {
       path: google.maps.SymbolPath.redpin,
       scale: 4,
@@ -114,12 +114,9 @@ export class MapService {
     var marker = new google.maps.Marker({
       icon: icon,
       position: latLng,
-      label : label,
       map: this.map,
-      draggable: dragEvent ? true : false,
+      draggable: dragEvent ? true : false
     });
-
-    console.log("marker",marker);
 
     if (dragEvent) {
       this.addListerner(marker, 'dragend', (e) => dragEvent(e, latLng))
@@ -393,7 +390,7 @@ export class MapService {
       center: center,
       radius: radius
     });
-    console.log("this.circle", this.circle);
+    console.log("this.circle",this.circle);
     return this.circle;
   }
 
@@ -750,49 +747,36 @@ export class MapService {
         fillOpacity: 1,
         strokeWeight: 1
       };
-      
-      if (ele.lat && ele.lng && ele.type == 'marker') {
-        let showContent = ele.show;
-        this.createSingleMarker(this.createLatLng(ele.lat, ele.lng), icon, false, (e, latlng) => {
+      if (ele.lat && ele.lng && ele.type == 'marker') {  
+        let showContent = ele.show;      
+        this.createSingleMarker(this.createLatLng(ele.lat, ele.lng),icon,false,(e,latlng)=>{
           let infoWindow = new google.maps.InfoWindow();
           infoWindow.opened = false;
-          infoWindow.setContent(showContent);
-          infoWindow.setPosition(e.latLng); // or evt.latLng
-          infoWindow.open(this.map);
-
+            infoWindow.setContent(showContent);
+            infoWindow.setPosition(e.latLng); // or evt.latLng
+            infoWindow.open(this.map);
+        
         });
       } else if (ele.lat && ele.lng && ele.type == 'cluster') {
-        let icon1 = {
-          url: ele.url,
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(16, 16)
-        };
         let center = this.createLatLng(ele.lat, ele.lng)
         let radius = ele.radius || 100;
-        this.createCirclesOnPostion(center, radius, ele.strokeColor, ele.fillColor);
+        this.createCirclesOnPostion(center, radius,ele.strokeColor,ele.fillColor);
 
-        let showContent = ele.show;
-        this.createSingleMarker(this.createLatLng(ele.lat, ele.lng), icon1, false, (e, latlng) => {
+        let showContent = ele.show;      
+        this.createSingleMarker(this.createLatLng(ele.lat, ele.lng),icon,false,(e,latlng)=>{
           let infoWindow = new google.maps.InfoWindow();
           infoWindow.opened = false;
-          infoWindow.setContent(showContent);
-          infoWindow.setPosition(e.latLng); // or evt.latLng
-          infoWindow.open(this.map);
-
-        },ele.label);
+            infoWindow.setContent(showContent);
+            infoWindow.setPosition(e.latLng); // or evt.latLng
+            infoWindow.open(this.map);
+        
+        });
       }
     });
     this.setMultiBounds(data);
   }
 
-  getURL(points) {
-    let url = "https://www.google.com/maps/dir/";
-    points.map(pt => {
-      url = url + "'" + pt.lat + "," + pt.long + "'/";
-    });
-    console.log("url=", url);
-    return url;
-  }
+
 
 
 }

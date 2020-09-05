@@ -181,7 +181,7 @@
             <div class="col x-col" style="text-align:right;">{{stockType.debit | number : '1.2-2'}}</div>
             <div class="col x-col" style="text-align:right;">{{stockType.credit | number : '1.2-2'}}</div>
           </div>
-          <ledger-register-tree [action]="openinvoicemodel.bind(this)"  [getaction]="getDetail.bind(this)" [data]="stockType.data" [isExpandAll]="isExpand == 'sub'" [active]="activeTree == i || (isExpand == 'sub')  ? true : false" labels="">
+          <ledger-register-tree [action]="openinvoicemodel.bind(this)"  [getaction]="getDetail.bind(this)" [data]="stockType.data" [isExpandAll]="isExpand == 'sub'" [active]="activeTree == i || isExpand  ? true : false" labels="">
           </ledger-register-tree>
         </div>
       </div>

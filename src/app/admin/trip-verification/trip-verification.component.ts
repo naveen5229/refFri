@@ -44,7 +44,7 @@ export class TripVerificationComponent implements OnInit {
     this.endDate = new Date(today);
     //console.log('today', today);
 
-    this.startDate = new Date(today.setDate(today.getDate() - 5))
+    this.startDate = new Date(today.setDate(today.getDate() - 14))
     console.log('start and enddate', this.startDate, this.endDate);
 
     this.getVehicleTrips();
@@ -270,7 +270,6 @@ export class TripVerificationComponent implements OnInit {
     let toTime = this.common.dateFormatter(new Date());
     let VehicleStatusData = {
       vehicle_id: trip._vid,
-      regno : trip['Vehicle'],
       suggest: 11,
       latch_time: trip._startdate || fromTime,
       tTime: trip._enddate || toTime,

@@ -21,7 +21,6 @@ import { BulkVehicleNextServiceDetailComponent } from '../../modals/bulk-vehicle
 import { PrintManifestComponent } from '../../modals/print-manifest/print-manifest.component';
 import { TripSettlementComponent } from '../../modals/trip-settlement/trip-settlement.component';
 import { VehicleInfoComponent } from '../../modals/vehicle-info/vehicle-info.component';
-import { MapService } from '../../services/map.service';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -53,11 +52,9 @@ export class VehicleTripComponent implements OnInit {
     public common: CommonService,
     public dateService: DateService,
     public user: UserService,
-    public map : MapService,
     private modalService: NgbModal) {
     let today, endDay, startday;
     today = new Date();
-    
     // endDay = new Date(today.setDate(today.getDate() - 1))
     this.endDate = new Date(today);
     //console.log('today', today);
@@ -158,11 +155,7 @@ export class VehicleTripComponent implements OnInit {
         if (this.headings[j] == "Trip") {
           this.valobj[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.vehicleTrips[i]), isHTML: true, class: 'black' };
 
-        }
-        else if (this.headings[j] == "Vehicle") {
-          this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], action:this.openShowRoute.bind(this,this.vehicleTrips[i]), isHTML: true, class: 'blue' };
-        }
-         else {
+        } else {
           this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'black', action: '' };
         }
 
@@ -407,22 +400,5 @@ export class VehicleTripComponent implements OnInit {
 
   }
 
-  openShowRoute(trip){
-    let dtpoints = [];
-    dtpoints = trip._viapoints;
-     if(dtpoints.length>1){
-       window.open(this.map.getURL(dtpoints));
-     let data = {
-       title : "Map Route",
-      //  url :   this.map.getURL(dtpoints)
-     }
-    this.common.params.data = data;
-    // const activeModal = this.modalService.open(IframeModalComponent, { size: 'lg', container: 'nb-layout' });
-    // activeModal.result.then(data => {
-    // }); 
-   }
-   else{
-     this.common.showError("Atleast Two Points required");
-   }
-  }
+
 }

@@ -25,11 +25,13 @@ export class VehicleDriverMappingComponent implements OnInit {
     private modalService: NgbModal,
   ) {
     this.common.refresh = this.refresh.bind(this);
-    this.getdriverMapping();
-  }
 
+    this.getdriverMapping();
+
+  }
   refresh() {
     this.getdriverMapping();
+
   }
 
   ngOnInit() {
@@ -46,11 +48,10 @@ export class VehicleDriverMappingComponent implements OnInit {
     let headings = {
       regno: { title: 'Vehicle Number', placeholder: 'Vehicle Number' },
       mainDriver: { title: 'Primary Driver ', placeholder: 'Primary Driver ' },
-      mappedSinceM:{title: 'Mapped Since',placeholder:'Mapped Since'},
       mobileno: { title: 'Mobile Number', placeholder: 'Mobile Number' },
-      secondaryDriver: { title: 'Secondary Driver', placeholder: 'Secondary Driver' },
-      mappedSinceS:{title:'Mapped Since',placeholder:'Mapped Since'},
+      secondaryDriver: { title: 'Secondary Driver  ', placeholder: 'Secondary Driver ' },
       mobileno2: { title: 'Mobile  Number', placeholder: 'Mobile Number' },
+
     };
     return {
       data: {
@@ -68,19 +69,22 @@ export class VehicleDriverMappingComponent implements OnInit {
     this.data.map(driver => {
 
       let column = {
+
         regno: { value: driver.regno, action: this.remapDriver.bind(this, driver) },
         mainDriver: { value: driver.md_name, action: '' },
-        mappedSinceM:{value:driver.m_entry_dt?this.common.dateFormatter1(driver.m_entry_dt):null,action:''},
         mobileno: { value: driver.md_no, action: '' },
         secondaryDriver: { value: driver.sd_name, action: '' },
-        mappedSinceS:{value:driver.s_entry_dt? this.common.dateFormatter1(driver.s_entry_dt):null,action:''},
         mobileno2: { value: driver.sd_no, action: '' },
         rowActions: {}
       };
+
+
       columns.push(column);
     });
     return columns;
   }
+
+
 
   getdriverMapping() {
     this.common.loading++;
@@ -97,6 +101,7 @@ export class VehicleDriverMappingComponent implements OnInit {
         console.log(err);
       });
     return response;
+
   }
 
   selectDriverStatus(status) {
@@ -123,6 +128,7 @@ export class VehicleDriverMappingComponent implements OnInit {
 
   remapDriver(driver) {
     this.common.params = { driver };
+
     const activeModal = this.modalService.open(DriverVehicleRemappingComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       if (data.response) {

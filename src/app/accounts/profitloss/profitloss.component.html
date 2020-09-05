@@ -83,7 +83,7 @@
           <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
         </div>
         <trading-tree *ngIf="(assets.length -1 > i)" [action]="openLedgerViewModel.bind(this)" [data]="liability.data"
-          [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || (isExpand == 'sub')  ? true : false" labels="">
+          [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || isExpand  ? true : false" labels="">
         </trading-tree>
       </div>
       </div>
@@ -129,7 +129,7 @@
             <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
           </div>
           <profitloss-tree [action]="openLedgerViewModel.bind(this)" [data]="liability.data"
-            [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || (isExpand == 'sub')  ? true : false" labels="">
+            [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || isExpand  ? true : false" labels="">
           </profitloss-tree>
         </div>
         </div>
