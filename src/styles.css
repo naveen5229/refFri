@@ -960,8 +960,8 @@ input[type=number] {
   cursor: pointer !important;
   width: 40px;
   height: 40px;
-  background-color: #263238!important;
-  font-size: 14px!important;
+  /* background-color: #263238!important; */
+  background-color: #727cf5!important;
 }
 
 .nb-theme-corporate nb-layout .layout nb-layout-header nav{
@@ -986,7 +986,12 @@ input[type=number] {
 .nb-theme-corporate nb-sidebar.settings-sidebar.collapsed {
   top: 2.85rem;
 }
-
+.table{
+  box-shadow: 0 2px 10px -1px rgba(69,90,100,.3);
+}
+.table:hover{
+  box-shadow: 0 5px 11px 0 rgba(69,90,100,.3);
+}
 @media (max-width: 1024px) and (min-width: 768px)
 {
 table thead, table tbody {

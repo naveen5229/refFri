@@ -1,4 +1,4 @@
-<div class="header-container col-2" [class.left]="position === 'normal'" [class.right]="position === 'inverse'">
+<div class="header-container col-2 pr-0 pl-2" [class.left]="position === 'normal'" [class.right]="position === 'inverse'">
   <div class="logo-containter">
     <div class="logo" (click)="goToHome()"><b style="color: #ff421a;"><span style="color: #ffffff;">e</span>Logist</b></div>
     <a (click)="toggleSidebar()" href="#" class="navigation" style="color: #9fa2ab;font-size:20px"><i class="fa fa-list" aria-hidden="true"></i></a>
@@ -6,7 +6,7 @@
   </div>
   <!-- <ngx-theme-switcher></ngx-theme-switcher> -->
 </div>
-<div class="user_back_name  col-3">
+<div class="user_back_name  col-5 pr-0 pl-2">
   <div class="header_button back_btn">
     <button *ngIf="this.user._loggedInBy !== 'customer' && this.user._customer.name" class="form-control"
       (click)="backTOHome()">
@@ -32,7 +32,7 @@
       {{this.user._details.name}}</h4>
   </div>
 </div>
-<div class="branch_option  col-4">
+<div class="branch_option  col-3 pr-0 pl-2">
   <div class="select_branch"
     *ngIf="router.url.includes('accounts') ||router.url.includes('admin/generate-lr') ||router.url.includes('pages/generate-lr')">
     <label>F/Y</label>
@@ -55,7 +55,7 @@
   </div>
 </div>
 
-<div class="header_mini_menu  col-3">
+<div class="header_mini_menu  col-2 pr-0 pl-2">
   <div class="bank_icon">
     <button class="form-control refresh" (click)="openBankModal()"><i class="fa fa-bank icon " title="Bank Details"></i></button>
   </div>
