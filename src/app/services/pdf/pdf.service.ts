@@ -7,7 +7,9 @@ import { ApiService } from '../api.service';
 import html2pdf from 'html2pdf.js';
 import { DatePipe } from '@angular/common';
 import { AccountService } from '../account.service';
-
+interface jrxPdfOptions {
+  logo?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -21,40 +23,69 @@ export class PdfService {
     public api: ApiService) {
   }
 
-  mutliTablePdfWithId(tableIds) {
+  /**
+     * Print Pdf from multi tables
+     * @param tableIds Table id's
+     * @param fileName File name
+     * @param details In Format = [['Customer: Elogist']]
+     */
+  jrxTablesPDF(tableIds: string[], fileName: string = 'report', details?: any, options?: jrxPdfOptions) {
     let tablesHeadings = [];
     let tablesRows = [];
     tableIds.map(tableId => {
       tablesHeadings.push(this.findTableHeadings(tableId));
       tablesRows.push(this.findTableRows(tableId));
     });
-    /**************** LOGO Creation *************** */
-    let eltimg = document.createElement("img");
-    eltimg.src = "assets/images/elogist.png";
-    eltimg.alt = "logo";
 
     /**************** PDF Size ***************** */
     let maxHeadingLength = 0;
-    tablesHeadings.map(tableHeadings => {
-      if (maxHeadingLength < tableHeadings.length)
-        maxHeadingLength = tableHeadings.length;
+    tablesHeadings.map(tblHeadings => {
+      if (maxHeadingLength < tblHeadings[0].length)
+        maxHeadingLength = tblHeadings[0].length;
     });
     let pageOrientation = "Portrait";
-    if (maxHeadingLength > 7) {
+    if (maxHeadingLength >= 7) {
       pageOrientation = "Landscape";
     }
-
     let doc = new jsPDF({
       orientation: pageOrientation,
       unit: "px",
       format: "a4"
     });
 
+
+    /********************* Logo ************* */
+    try {
+      let eltimg = document.createElement("img");
+      eltimg.src = (options && options.logo) ? options.logo : "assets/images/elogist.png";
+      doc.addImage(eltimg, 'JPEG', parseInt(doc.internal.pageSize.width) - 55, 15, 30, 30, 'logo', 'NONE', 0);
+    } catch (e) {
+      console.error('Unable to add logo:', e);
+    }
+
+    if (details && details.length) {
+      let firstColumLength = details[0].length;
+      let maxLength = Math.max(...details.map(detail => detail.length));
+      if (maxLength !== firstColumLength) {
+        for (let i = firstColumLength; i < maxLength; i++) {
+          details[0].push('');
+        }
+      }
+      let tempLineBreak = { fontSize: 10, cellPadding: 0, minCellHeight: 11, minCellWidth: 11, maxCellWidth: 80, valign: 'middle', halign: 'left' };
+
+      doc.autoTable({
+        body: details,
+        theme: 'plain',
+        styles: tempLineBreak
+      });
+    }
+
     tablesHeadings.map((tableHeadings, index) => {
+      if (tableHeadings[0][0] == '') tableHeadings[0][0] = '#';
       doc = this.addTableInDoc(doc, tableHeadings, tablesRows[index]);
     });
 
-    doc.save("report.pdf");
+    doc.save(fileName + '.pdf');
   }
 
   findTableHeadings(tableId) {
@@ -70,47 +101,6 @@ export class PdfService {
     console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
-        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
-          continue;
-        if (hdgCols[i].classList.contains('del'))
-          continue;
-        let elthtml = hdgCols[i].innerHTML;
-        if (elthtml.indexOf('<input') > -1) {
-          let eltinput = hdgCols[i].querySelector("input");
-          let attrval = eltinput.getAttribute("placeholder");
-          hdgs.push(attrval);
-        } else if (elthtml.indexOf('<img') > -1) {
-          let eltinput = hdgCols[i].querySelector("img");
-          let attrval = eltinput.getAttribute("title");
-          hdgs.push(attrval);
-        } else if (elthtml.indexOf('href') > -1) {
-          let strval = hdgCols[i].innerHTML;
-          hdgs.push(strval);
-        } else {
-          let plainText = elthtml.replace(/<[^>]*>/g, "");
-          console.log("hdgval:" + plainText);
-          hdgs.push(plainText);
-        }
-      }
-    }
-
-    hdg_coll.push(hdgs);
-    return hdg_coll;
-  }
-
-  newfindTableHeadings(tableId) {
-    let tblelt = document.getElementById(tableId);
-    if (tblelt.nodeName != "TABLE") {
-      tblelt = document.querySelector("#" + tableId + " table");
-    }
-
-    let hdg_coll = [];
-    let hdgs = [];
-    let hdgCols = tblelt.querySelectorAll("th");
-    console.log("hdgcols:", hdgCols);
-    console.log(hdgCols.length);
-    if (hdgCols.length >= 1) {
-      for (let i = 0; i < (hdgCols.length - 1); i++) {
         if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
           continue;
         if (hdgCols[i].classList.contains('del'))
@@ -158,11 +148,11 @@ export class PdfService {
           if (rowCols[j].classList.contains('del'))
             continue;
           let colhtml = rowCols[j].innerHTML;
-          if (colhtml.indexOf('input') > -1) {
+          if (rowCols[j].querySelector("input")) {
             let eltinput = rowCols[j].querySelector("input");
             let attrval = eltinput.getAttribute("placeholder");
             rowdata.push(attrval);
-          } else if (colhtml.indexOf('img') > -1) {
+          } else if (rowCols[j].querySelector("img")) {
             let eltinput = rowCols[j].querySelector("img");
             let attrval = eltinput.getAttribute("title");
             rowdata.push(attrval);
@@ -175,7 +165,7 @@ export class PdfService {
             if (match != null && match.length)
               rowdata.push(match[1]);
           } else {
-            let plainText = colhtml.replace(/<[^>]*>/g, "");
+            let plainText = rowCols[j].innerText;
             rowdata.push(plainText);
           }
         }
@@ -186,62 +176,79 @@ export class PdfService {
   }
 
   addTableInDoc(doc, headings, rows) {
-
-    let tempLineBreak = { fontSize: 10, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, cellWidth: 51, valign: 'middle', halign: 'center' };
-
+    let tempLineBreak = { fontSize: 8, cellPadding: 2, minCellHeight: 11, minCellWidth: 10, valign: 'middle', halign: 'center' };
     doc.autoTable({
       head: headings,
       body: rows,
       theme: 'grid',
       didDrawPage: this.didDrawPage,
-      margin: { top: 80 },
+      margin: { top: 20, bottom: 20 },
       rowPageBreak: 'avoid',
       headStyles: {
-        fillColor: [98, 98, 98],
-        fontSize: 10,
+        fontSize: 8,
         halign: 'center',
         valign: 'middle'
-
       },
       styles: tempLineBreak,
-      columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
+      columnStyles: { 0: { minCellWidth: 10, halign: 'center', valign: 'middle' } },
 
     });
     return doc;
   }
 
   didDrawPage(data) {
-    console.log('-----', data);
     let doc = data.doc;
-    //header
-    let x = 35;
-    let y = 40;
-
-
-    doc.setFontSize(14);
-    doc.setFont("times", "bold");
-    doc.text("elogist Solutions ", x, y);
-
-    let pageWidth = parseInt(doc.internal.pageSize.width);
-    y = 15;
-    doc.setFontSize(12);
-    doc.line(20, 70, pageWidth - 20, 70);
-
-    let eltimg = document.createElement("img");
-    eltimg.src = "assets/images/elogist.png";
-    eltimg.alt = "logo";
-
-
-    doc.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
     // FOOTER
-    var str = "Page " + data.pageCount;
+    let str = "Page " + data.pageCount;
 
-    doc.setFontSize(10);
+    doc.setFontSize(8);
     doc.text(
       str,
       data.settings.margin.left,
       doc.internal.pageSize.height - 10
     );
+  }
+
+
+  newfindTableHeadings(tableId) {
+    let tblelt = document.getElementById(tableId);
+    if (tblelt.nodeName != "TABLE") {
+      tblelt = document.querySelector("#" + tableId + " table");
+    }
+
+    let hdg_coll = [];
+    let hdgs = [];
+    let hdgCols = tblelt.querySelectorAll("th");
+    console.log("hdgcols:", hdgCols);
+    console.log(hdgCols.length);
+    if (hdgCols.length >= 1) {
+      for (let i = 0; i < (hdgCols.length - 1); i++) {
+        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+          continue;
+        if (hdgCols[i].classList.contains('del'))
+          continue;
+        let elthtml = hdgCols[i].innerHTML;
+        if (elthtml.indexOf('<input') > -1) {
+          let eltinput = hdgCols[i].querySelector("input");
+          let attrval = eltinput.getAttribute("placeholder");
+          hdgs.push(attrval);
+        } else if (elthtml.indexOf('<img') > -1) {
+          let eltinput = hdgCols[i].querySelector("img");
+          let attrval = eltinput.getAttribute("title");
+          hdgs.push(attrval);
+        } else if (elthtml.indexOf('href') > -1) {
+          let strval = hdgCols[i].innerHTML;
+          hdgs.push(strval);
+        } else {
+          let plainText = elthtml.replace(/<[^>]*>/g, "");
+          console.log("hdgval:" + plainText);
+          hdgs.push(plainText);
+        }
+      }
+    }
+
+    hdg_coll.push(hdgs);
+    return hdg_coll;
   }
 
   newaddTableInDoc(doc, headings, rows) {
@@ -329,10 +336,6 @@ export class PdfService {
     //   doc.internal.pageSize.height - 10
     // );
   }
-
-
-
-
 
   voucherPDF(pdfData?) {
     console.log('Test');
@@ -685,10 +688,10 @@ export class PdfService {
       for (var i = 0; i < n_length; i++) {
         received_n_array[i] = number.substr(i, 1);
       }
-      for (var i = 9 - n_length, j = 0; i < 9; i++ , j++) {
+      for (var i = 9 - n_length, j = 0; i < 9; i++, j++) {
         n_array[i] = received_n_array[j];
       }
-      for (var i = 0, j = 1; i < 9; i++ , j++) {
+      for (var i = 0, j = 1; i < 9; i++, j++) {
         if (i == 0 || i == 2 || i == 4 || i == 7) {
           if (n_array[i] == 1) {
             n_array[j] = 10 + (n_array[j]);

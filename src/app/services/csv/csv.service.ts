@@ -125,13 +125,13 @@ export class CsvService {
   handleRows(tableRows, table, xrows) {
     tableRows.map((row, index) => {
       row.map((col, index2) => {
-        if (!xrows[index + 1]) {
+        if (!xrows[index]) {
           let keys = Object.keys(xrows[0]).sort();
           let newRow = {};
           keys.map(key => newRow[key] = '');
           xrows.push(newRow);
         }
-        xrows[index + 1]['tabel-' + table + '-col-' + index2] = col;
+        xrows[index]['tabel-' + table + '-col-' + index2] = col;
       });
     });
 

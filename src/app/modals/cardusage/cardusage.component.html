@@ -1,13 +1,16 @@
-
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Card Usage</h5>
+  <h5 class="modal-title" id="modal-basic-title">Card Usage
+    <i class="far fa-file-pdf" style="margin-left: 20px; margin-right: 10px; cursor: pointer;" (click)="downloadPDF()"></i>
+    <i class="far fa-file-excel" style="cursor: pointer;" (click)="downloadCSV()"></i>
+  </h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
+
 </div>
 <div class="modal-body">
 
-  <table *ngIf="cardUsage.length" class="table table-bordered">
+  <table *ngIf="cardUsage.length" class="table table-bordered" id="card-usage-details">
     <tr>
       <th>Category</th>
       <th>Vehicle</th>

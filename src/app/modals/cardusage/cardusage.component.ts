@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IssueReportComponent } from '../issue-report/issue-report.component';
+import { CsvService } from '../../services/csv/csv.service';
+import { PdfService } from '../../services/pdf/pdf.service';
 
 @Component({
   selector: 'cardusage',
@@ -11,11 +13,8 @@ import { IssueReportComponent } from '../issue-report/issue-report.component';
   styleUrls: ['./cardusage.component.scss']
 })
 export class CardusageComponent implements OnInit {
-
-
   cardUsage = [];
   total = 0;
-
   headings = [];
   valobj = {};
   table = {
@@ -28,102 +27,58 @@ export class CardusageComponent implements OnInit {
     }
   };
 
-  constructor(
-    public api: ApiService,
+  constructor(public api: ApiService,
     public common: CommonService,
-    public user: UserService,
-    private activeModal: NgbActiveModal,
-    public modalService: NgbModal,
-  ) { 
-    console.log("------------",this.common.params);
+    public user: UserService, private pdfService: PdfService,
+    private activeModal: NgbActiveModal, private csvService: CsvService,
+    public modalService: NgbModal) {
     this.getcardUsage();
   }
 
   ngOnInit() {
   }
 
-
-
   getcardUsage() {
-
     let params = "vehid=" + this.common.params.vehicleid + "&startdate=" + this.common.params.startdate + "&enddate=" + this.common.params.enddate;
     this.common.loading++;
-    let response;
     this.api.walle8Get('AccountSummaryApi/ViewSingleVehicleReport.json?' + params)
-    .subscribe(res => {
-      this.common.loading--;
-      this.cardUsage = res['data'];
-      console.log("-----+++++------",this.cardUsage);
+      .subscribe(res => {
+        this.common.loading--;
+        this.cardUsage = res['data'];
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-
-
-    // let params = "vehid=" + this.common.params.vehicleid + "&startdate=" + this.common.params.startdate + "&enddate=" + this.common.params.enddate;
-    // console.log("-----------",params);
-    // this.common.loading++;
-    // let response;
-    // this.api.walle8Get('AccountSummaryApi/ViewSingleVehicleReport.json?' + params)
-    // .subscribe(res => {
-    //   this.common.loading--;
-    //   console.log('res: ' + res['data']);
-    //   this.cardUsage = res['data'];
-    //   let first_rec = this.cardUsage;
-    //   let headings = {};
-    //   for (var key in first_rec) {
-    //     if (key.charAt(0) != "_") {
-    //       this.headings.push(key);
-    //       let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-    //       headings[key] = headerObj;
-    //     }
-    //   }
-    //   this.table.data = {
-    //     headings: headings,
-    //     columns: this.getTableColumns()
-    //   };
-    // }, err => {
-    //     this.common.loading--;
-    //     console.log(err);
-    //   });
-    // return response;
-
   }
 
-  // getTableColumns() {
-  //   let columns = [];
-  //   console.log("Data=", this.cardUsage);
-  //   this.cardUsage.map(matrix => {
-  //     this.valobj = {};
-  //     for (let i = 0; i < this.headings.length; i++) {
-  //         this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
-  //     }
-  //     columns.push(this.valobj);
-  //   });
-  //   return columns;
-
-  //   console.log("-----+++++-----",columns);
-  // }
-
-  // formatTitle(title) {
-  //   return title.charAt(0).toUpperCase() + title.slice(1)
-  // }
-
-closeModal(){
-this.activeModal.close();
-}
-
-
-openImageUploadModal(cardDetail)
-{
-  let cardUsage = {
-    id : cardDetail.id,
-    vehId : this.common.params.vehicleid
+  closeModal() {
+    this.activeModal.close();
   }
-  this.common.params = {cardUsage:cardUsage}
-  const activeModal = this.modalService.open(IssueReportComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static'});
-  activeModal.result.then(data => {
-  });
-}
+
+  openImageUploadModal(cardDetail) {
+    let cardUsage = {
+      id: cardDetail.id,
+      vehId: this.common.params.vehicleid
+    }
+    this.common.params = { cardUsage: cardUsage }
+    const activeModal = this.modalService.open(IssueReportComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    });
+  }
+
+  downloadCSV() {
+    let details = [
+      { startDate: 'Start Date: ' + this.common.params.startdate, endDate: 'End Date: ' + this.common.params.enddate }
+    ];
+
+    this.csvService.byMultiIds(['card-usage-details'], 'card-usages', details)
+  }
+
+  downloadPDF() {
+    let details = [
+      ['Start Date: ' + this.common.params.startdate, 'End Date: ' + this.common.params.enddate]
+    ];
+    this.pdfService.jrxTablesPDF(['card-usage-details'], 'card-usages', details)
+  }
 
 }
