@@ -11,7 +11,7 @@
     <div class="" style="float:right; margin-right: 20px">
       <span><input type="radio" name="view-type" value="main" (click)="changeViewType('main')" [(ngModel)]="viewType">
         Expand Main Group</span>
-        <span><input type="radio" name="view-type" value="stock" (click)="changeViewType('stock')" [(ngModel)]="viewType">
+        <span style="margin-left: 5px;"><input type="radio" name="view-type" value="stock" (click)="changeViewType('stock')" [(ngModel)]="viewType">
            Expand Stock Item </span>
       <span><input type="radio" name="view-type" value="all" (click)="changeViewType('all')" [(ngModel)]="viewType">
          Expand All</span>
@@ -25,31 +25,31 @@
 
     <div class="row" *ngIf="!isModal">
 
-      <div class="col-9">
+      <div class="col-9 pl-0 pr-0">
         <div class="row">
 
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Stock Type</label>
               <input autocomplete="off" type="text" id="stocktype" class="form-control tjr-input" name="stocktype"
                 [(ngModel)]="outStanding.stockType.name">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Stock Sub Type</label>
               <input autocomplete="off" type="text" id="stocksubtype" class="form-control tjr-input" name="stocksubtype"
                 [(ngModel)]="outStanding.stockSubType.name">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Stock Item</label>
               <input autocomplete="off" type="text" id="stockItem" class="form-control tjr-input" name="ledger"
                 [(ngModel)]="outStanding.stockItem.name">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Ware House</label>
               <input autocomplete="off" type="text" id="wherehouse" class="form-control tjr-input" name="wherehouse"
@@ -61,14 +61,14 @@
         <div class="row">
         
        
-          <div class="col-3">
+          <div class="col-3 pl-0">
             <div class="form-group">
               <label class="tjr-label">Start Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="Date" autocomplete="off"
                 maxlength="10" name="account-Date" [(ngModel)]="accountService.fromdate">
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-3 pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
@@ -76,7 +76,7 @@
             </div>
           </div>
 
-          <div class="col-3 pt-3">
+          <div class="col-3 pt-3 pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getStockSummary()"
                 id="submit" style="cursor: pointer;margin-top: 5px; padding: 7px !important;">Submit</button>
@@ -85,7 +85,7 @@
 
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pl-0 pr-0">
         <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
         <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name" (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
       </div> -->

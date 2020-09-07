@@ -7,27 +7,27 @@
     <div class="" style="float:right; margin-right: 20px">
       <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
         Main Group</span>
-      <span><input type="radio" name="view-type" value="sub" [(ngModel)]="isExpand"> Expand
+      <span style="margin-left: 5px;"><input type="radio" name="view-type" value="sub" [(ngModel)]="isExpand"> Expand
         All</span>
     </div>
     <div class="row">
-      <div class="col-9">
+      <div class="col-9 pl-0 pr-0">
         <div class="row">
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Ledger</label>
               <input autocomplete="off" type="text" id="ledger" class="form-control tjr-input" name="ledger"
                 [(ngModel)]="outStanding.ledger.name">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="startDate"
                 autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="accountService.fromdate">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
@@ -36,14 +36,14 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label">Goup Id</label>
               <input autocomplete="off" type="text" id="groupid" class="form-control tjr-input" name="groupid"
                 [(ngModel)]="outStanding.groupid.name">
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label">Outstanding Balance</label>
               <div class="debit_box">
@@ -66,7 +66,7 @@
               </div>
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <button class="btn btn-primary tjr-button" type="button" outline (click)="getLedgerView()"
                 id="submit" style="cursor: pointer;margin-top: 5px;">Submit</button>
@@ -74,7 +74,7 @@
           </div>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pl-0 pr-0">
         <div class="auto-sugg">
           <div class="form-group" *ngIf="this.activeId.includes('ledger')">
             <auto-suggetion-in-side [data]="ledgerList" targetId="ledger" display="name"

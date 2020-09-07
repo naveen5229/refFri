@@ -4,9 +4,9 @@
       </nb-card-header> -->
   <nb-card-body>
     <div class="row">
-      <div class="col-12" *ngIf="this.storeRequestId == -3">
+      <div class="col-12 pl-0 pr-0" *ngIf="this.storeRequestId == -3">
         <div class="row">
-          <div class="col-3">
+          <div class="col-3 pl-0">
             <div class="form-group type-radio-box">
 
               <input autocomplete="off" type="radio" id="pending" class="tjr-input" (click)="changeRefresh(0)"
@@ -17,7 +17,7 @@
               <span class="tjr-span">Pending</span>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-2 pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getStoreQuestion()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>

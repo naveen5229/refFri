@@ -4,27 +4,27 @@
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
     <div class="row">
-      <div class="col-9">
+      <div class="col-9 pl-0 pr-0">
         <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
         <div class="row">
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="startDate"
                 autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="accountService.fromdate">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
                 maxlength="10" name="account-endDate" [(ngModel)]="accountService.todate">
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-2 pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getTrial()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
