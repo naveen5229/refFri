@@ -84,7 +84,9 @@
             }
         }
     }
-
+    .logo:first-letter {
+       color: #ffffff;
+      }
     @include nb-for-theme(corporate) {
         $menu-action-separator-color: #3f4550;
 
@@ -259,7 +261,7 @@
     }
 }
 .header_button{
-    margin-right: 10px;
+    margin-right: 2px;
     padding-top: 3px;
 
  button {
@@ -292,11 +294,11 @@ button:hover {
 }
 }
 .bank_icon{
-    margin-right: 10px;
+    margin-right: 2px;
     height: 30px;
 }
 .add_customer{
-    margin-right: 10px;
+    margin-right: 2px;
     height: 30px;
  button {
    background-color: transparent;
@@ -318,7 +320,7 @@ button:hover {
 }
 
 .refresh_icon {
-    margin-right: 10px;
+    margin-right: 2px;
     height: 30px;
     border: 1px solid transparent;
 }
@@ -385,8 +387,26 @@ button:hover {
 :host ::ng-deep .user-picture{
     background-image: url(assets/images/avtar.png) !important;
     background-size: cover !important;
+    height: 2rem!important;
+    width: 2rem!important;
 }
-.user_cust_name h4,
+.user_cust_name{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    h4{
+        color: #d1d1d2;
+        align-self: center;
+        font-size: 14px;
+        margin: 0px;
+    }
+    i{
+        margin-right: 5px;
+        margin-left: 5px;
+        align-self: center;
+    }
+}
 .user-det_name h4{
     color: #d1d1d2;
     padding: 11px 0 0 0;

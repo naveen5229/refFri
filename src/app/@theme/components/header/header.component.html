@@ -1,7 +1,7 @@
 <div class="header-container col-2 pr-0 pl-2" [class.left]="position === 'normal'" [class.right]="position === 'inverse'">
   <div class="logo-containter">
-    <div class="logo" (click)="goToHome()"><b style="color: #ff421a;"><span style="color: #ffffff;">e</span>Logist</b></div>
-    <a (click)="toggleSidebar()" href="#" class="navigation" style="color: #9fa2ab;font-size:20px"><i class="fa fa-list" aria-hidden="true"></i></a>
+    <div class="logo" (click)="goToHome()"><b style="color: #ff421a;">eLogist</b></div>
+    <a (click)="toggleSidebar()" href="#" class="navigation" style="color: #9fa2ab;font-size:18px"><i class="fa fa-list" aria-hidden="true"></i></a>
    
   </div>
   <!-- <ngx-theme-switcher></ngx-theme-switcher> -->
@@ -15,7 +15,8 @@
     </button>
   </div>
   <div class="user_cust_name">
-    <h4 *ngIf="this.user._loggedInBy !== 'customer' && this.user._customer.name"> <i class="fa fa-user" style="margin-right:5px"></i>
+    <i class="fa fa-user"></i>
+    <h4 *ngIf="this.user._loggedInBy !== 'customer' && this.user._customer.name"> 
       {{this.user._customer.name}}
     </h4>
   </div>

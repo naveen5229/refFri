@@ -8,9 +8,9 @@
   </nb-card-header>-->
   <nb-card-body>
     <div class="row">
-      <div class="col-6">
+      <div class="col-6 pl-0 pr-0">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-6 pl-0">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input " autocomplete="off"
@@ -18,7 +18,7 @@
                 maxlength="10" (click)="lastActiveId = 'account-date'; allowBackspace = false;" (input)="allowBackspace = false;">
             </div>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-6 pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off"
@@ -28,16 +28,16 @@
           </div>
         </div>
       </div>
-      <div class="col-6">
-        <div class="col-sm-3">
+      <div class="col-6 pl-0 pr-0">
+        <div class="col-sm-3 pl-0">
           <input style="margin-top:20px;" autocomplete="off" type="radio" name="mapping" id="mapping"
             [(ngModel)]="fuelVoucher.type"  (change)="changeModal(fuelVoucher.type)" [value]=0>&nbsp;UnMapping
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 pl-0">
           <input style="margin-top:20px;" autocomplete="off" type="radio" name="unmapping" id="unmapping"
             [(ngModel)]="fuelVoucher.type" (change)="changeModal(fuelVoucher.type)" [value]=1>&nbsp;Mappping
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 pl-0">
           <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getFuelVoucher()" id="submit"
             style="cursor: pointer;">Submit</button>
         </div>
