@@ -4,7 +4,7 @@
   <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
   <!-- http://elogist.in/transtruck/partnerdashboard/api/fastag_temp/front_1578295605.jpg -->
   <!-- {{activeImage}} -->
-   <a class="close" target="_blank" [href]="'http://elogist.in/Image-filter/?image='+activeImage"> <i class="fa fa-download"></i></a>
+   <a class="close" target="_blank" [href]="activeImage.indexOf('.pdf')>-1?activeImage:'http://elogist.in/Image-filter/?image='+activeImage"> <i class="fa fa-download"></i></a>
 
   <button type="button" class="close" aria- label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
@@ -15,7 +15,7 @@
     <app-image-viewer
       [images]="images"
       [idContainer]="'idOnHTML'" [loadOnInit]="true"
-      [download]="false">
+      [download]="false"  (onNext)="nextMove()" (onPrevious)="backMove()">
     </app-image-viewer>
   </div>
 </div>
