@@ -9,7 +9,7 @@ import { CommonService } from './services/common.service';
 import { ActivityService } from './services/Activity/activity.service';
 import { UserService } from './services/user.service';
 import { ApiService } from './services/api.service';
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
