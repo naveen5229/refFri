@@ -30,7 +30,7 @@ export class PrintManifestComponent implements OnInit {
   }
   closeModal() {
     this.activeModal.close();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 
   getManifestDetail(manifestId) {
@@ -57,9 +57,9 @@ export class PrintManifestComponent implements OnInit {
 
 
   onPrint() {
-    this.renderer.setElementClass(document.body, 'test', true);
+    this.renderer.addClass(document.body, 'test');
     window.print();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
 
 
   }

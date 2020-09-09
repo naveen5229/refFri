@@ -39,7 +39,7 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 
   printInvoice() {

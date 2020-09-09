@@ -4,7 +4,6 @@ import { CommonService } from '../../../services/common.service';
 import { DateService } from '../../../services/date.service';
 import { UserService } from '../../../@core/data/users.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'view-maintenance',

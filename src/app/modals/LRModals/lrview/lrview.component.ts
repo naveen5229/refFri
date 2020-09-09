@@ -31,7 +31,7 @@ export class LRViewComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 
   printLR() {
@@ -61,11 +61,9 @@ export class LRViewComponent implements OnInit {
 
 
   onPrint() {
-    this.renderer.setElementClass(document.body, 'test', true);
+    this.renderer.addClass(document.body, 'test');
     window.print();
-    this.renderer.setElementClass(document.body, 'test', false);
-
-
+    this.renderer.addClass(document.body, 'test');
   }
 
 

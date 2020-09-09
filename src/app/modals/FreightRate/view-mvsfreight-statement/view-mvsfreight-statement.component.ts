@@ -38,7 +38,7 @@ export class ViewMVSFreightStatementComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 
   printInvoice() {
@@ -96,9 +96,9 @@ export class ViewMVSFreightStatementComponent implements OnInit {
 
 
   onPrint() {
-    this.renderer.setElementClass(document.body, 'test', true);
+    this.renderer.addClass(document.body, 'test');
     window.print();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 
  

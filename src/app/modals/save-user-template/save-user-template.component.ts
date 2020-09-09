@@ -5,7 +5,6 @@ import { CommonService } from '../..//services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GenericSuggestionComponent } from '../generic-modals/generic-suggestion/generic-suggestion.component';
-import { asElementData } from '@angular/core/src/view';
 import { lstat } from 'fs';
 
 @Component({

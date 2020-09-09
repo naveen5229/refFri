@@ -79,7 +79,7 @@ export class DriverPersonalInfoComponent implements OnInit {
   }
 
   printHandler() {
-    this.renderer.setElementClass(document.body, 'test', true);
+    this.renderer.addClass(document.body, 'test');
     let css = '@page { size: landscape !important; }';
     let head = document.head || document.getElementsByTagName('head')[0];
     let style = document.createElement('style');
@@ -100,7 +100,7 @@ export class DriverPersonalInfoComponent implements OnInit {
       if (document.readyState == "complete") {
         clearInterval(printWindowListener);
         head.removeChild(style);
-        this.renderer.setElementClass(document.body, 'test', false);
+        this.renderer.addClass(document.body, 'test');
       }
     }, 1000);
   }

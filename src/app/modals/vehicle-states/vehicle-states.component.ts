@@ -6,7 +6,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe, NumberFormatStyle } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { MapService } from '../../services/map.service';
-import { detachProjectedView } from '@angular/core/src/view/view_attach';
 
 declare var google: any;
 @Component({

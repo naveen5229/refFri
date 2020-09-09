@@ -12,7 +12,6 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { AccountService } from '../../services/account.service';
 import { VouchercostcenterComponent } from '../../acounts-modals/vouchercostcenter/vouchercostcenter.component';
 import { PdfService } from '../../services/pdf/pdf.service';
-import { forEach } from '@angular/router/src/utils/collection';
 import{ RecordsComponent } from '../../acounts-modals/records/records.component';
 @Component({
   selector: 'vouchers',
