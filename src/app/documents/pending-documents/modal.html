@@ -169,9 +169,9 @@
                                 href="{{modal.second.data.document.rcImage}}" title="View Document">RC Image</a>
                         </div>
 
-                        <app-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
+                        <!-- <app-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
                             [images]="modal.second.data.images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
-                        </app-image-viewer>
+                        </app-image-viewer> -->
                         <div *ngIf="!modal.second.data.document.img_url">No Image Exists</div>
                         <div id="imgzoom-second"></div>
                     </div>
