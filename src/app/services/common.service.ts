@@ -18,7 +18,7 @@ import { UserService } from "./user.service";
 import html2canvas from 'html2canvas';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
+// import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import * as moment_ from "moment";
 import { elementAt } from "rxjs/operators";
 import { RouteGuard } from "../guards/route.guard";
@@ -1130,7 +1130,7 @@ export class CommonService {
         info.push(rowdata);
       }
     }
-    new Angular5Csv(info, "report.csv");
+    // new Angular5Csv(info, "report.csv");
   }
 
   getCSVFromTableIdNew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
@@ -1255,7 +1255,7 @@ export class CommonService {
       }
 
     }
-    new Angular5Csv(info, "report.csv");
+    // new Angular5Csv(info, "report.csv");
   }
   getCSVFromTableIdLatest(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblelt = document.getElementById(tblEltId);
@@ -1378,7 +1378,7 @@ export class CommonService {
       }
 
     }
-    new Angular5Csv(info, "report.csv");
+    // new Angular5Csv(info, "report.csv");
   }
   getMultipleCSVFromTableIdNew(tblArray, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblEltId = '';
@@ -1486,7 +1486,7 @@ export class CommonService {
           info.push(rowdata);
         }
       }
-      new Angular5Csv(info, "report.csv");
+      // new Angular5Csv(info, "report.csv");
     });
   }
   formatTitle(strval) {
