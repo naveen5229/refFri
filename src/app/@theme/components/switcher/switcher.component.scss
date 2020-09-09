@@ -27,7 +27,7 @@
 
     & > span {
       font-size: 1.125rem;
-      font-weight: nb-theme(font-weight-bold);
+      font-weight: 600;
       transition: opacity 0.3s ease;
       color: #a4abb3;
 
@@ -49,7 +49,7 @@
         color: #a4abb3;
 
         &.active {
-          color: nb-theme(color-white);
+          color: #ffffff;
         }
       }
 
@@ -82,7 +82,7 @@
       right: 0;
       bottom: 0;
       border-radius: 1.75rem;
-      background-color: nb-theme(layout-bg);
+      background-color: #f1f5f8;
     }
 
     .slider::before {
@@ -91,13 +91,13 @@
       height: 1.5rem;
       width: 1.5rem;
       border-radius: 50%;
-      background-color: nb-theme(color-success);
+      background-color: #5dcfe3;
       transition: 0.2s;
 
       box-shadow: 0 0 0.25rem 0 #a4abb3;
 
       @include nb-for-theme(corporate) {
-        background-color: nb-theme(color-primary);
+        background-color: #73a1ff;
       }
     }
   }

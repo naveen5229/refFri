@@ -57,8 +57,8 @@
         }
 
         .navigation {
-            @include nb-ltr(padding-right, nb-theme(padding));
-            @include nb-rtl(padding-left, nb-theme(padding));
+            @include nb-ltr(padding-right, 1.25rem);
+            @include nb-rtl(padding-left, 1.25rem);
             font-size: 2.5rem;
             text-decoration: none;
 
@@ -72,15 +72,15 @@
         }
 
         .logo {
-            padding: 0 nb-theme(padding);
+            padding: 0 1.25rem;
             font-size: 1.75rem;
-            font-weight: nb-theme(font-weight-bolder);
-            @include nb-ltr(border-left, 1px solid nb-theme(separator));
-            @include nb-rtl(border-right, 1px solid nb-theme(separator));
+            font-weight: 500;
+            @include nb-ltr(border-left, 1px solid #cdd5dc);
+            @include nb-rtl(border-right, 1px solid #cdd5dc);
             white-space: nowrap;
 
             span {
-                font-weight: nb-theme(font-weight-normal);
+                font-weight: 400;
             }
         }
     }
@@ -101,7 +101,7 @@
         }
 
         .header-container /deep/ ngx-theme-switcher .dropdown-toggle {
-            color: nb-theme(color-white);
+            color: #ffffff;
             background: transparent;
         }
     }

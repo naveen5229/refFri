@@ -10,7 +10,7 @@
     align-items: center;
     cursor: pointer;
     background-color: nb-theme(switcher-background);
-    border-radius: nb-theme(radius);
+    border-radius: 0.375rem;
 
     &:hover {
       $color: nb-theme(switcher-background);
@@ -24,17 +24,17 @@
     }
 
     i {
-      color: nb-theme(color-primary);
+      color: #73a1ff;
       font-size: 1.8rem;
       border-radius: 50%;
       position: relative;
 
       @include nb-for-theme(default) {
-        color: nb-theme(color-success);
+        color: #5dcfe3;
       }
 
       @include nb-for-theme(corporate) {
-        color: nb-theme(color-fg-highlight);
+        color: #a4abb3;
       }
 
       &::before {
