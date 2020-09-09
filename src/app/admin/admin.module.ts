@@ -39,7 +39,7 @@ import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.co
 import { TransportAreaComponent } from './transport-area/transport-area.component';
 import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
 import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
-import { ImageViewerModule } from 'ng2-image-viewer';
+// import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { SharedModule } from '../shared.module';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
@@ -119,7 +119,7 @@ const PAGES_COMPONENTS = [
     DocumentsModule,
     LorryReceiptModule,
     DriverModule,
-    ImageViewerModule,
+    // ImageViewerModule,
     SharedModule,
     ChartModule,
     BatteryModule,

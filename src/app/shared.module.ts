@@ -5,7 +5,7 @@ import { ThemeModule } from './@theme/theme.module';
 import { DashboardModule } from './partner/dashboard/dashboard.module';
 import { DirectiveModule } from './directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { ImageViewerModule } from 'ng2-image-viewer';
+// import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './admin/remaining-fuel/remaining-fuel.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentationDetailsComponent } from './documents/documentation-details/documentation-details.component';
@@ -63,7 +63,7 @@ const PAGES_COMPONENTS = [
         DirectiveModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
-        ImageViewerModule,
+        // ImageViewerModule,
         ChartModule,
     ],
     exports: [...PAGES_COMPONENTS],

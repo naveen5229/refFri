@@ -22,7 +22,7 @@ import { DirectiveModule } from './directives/directives.module';
 import { from } from 'rxjs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { ImageViewerModule } from 'ng2-image-viewer';
+// import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -585,7 +585,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    ImageViewerModule,
+    // ImageViewerModule,
     MatIconModule,
     DragDropModule,
     ReactiveFormsModule,

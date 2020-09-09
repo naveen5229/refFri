@@ -26,7 +26,7 @@ import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-sugg
 import { DirectiveModule } from '../directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
-import { ImageViewerModule } from 'ng2-image-viewer';
+// import { ImageViewerModule } from 'ng2-image-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 import { RouteMapperComponent } from './route-mapper/route-mapper.component';
@@ -123,7 +123,7 @@ const PAGES_COMPONENTS = [
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    ImageViewerModule,
+    // ImageViewerModule,
     ReactiveFormsModule,
     ResizableModule,
     LorryReceiptModule,
