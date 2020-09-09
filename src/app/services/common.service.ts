@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { NbToastStatus } from "@nebular/theme/components/toastr/model";
 import {
   NbGlobalLogicalPosition,
   NbGlobalPhysicalPosition,

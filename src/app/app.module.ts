@@ -6,7 +6,6 @@
 // By Default Module
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
@@ -576,10 +575,9 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    NgbModule.forRoot(),
+    NgbModule,
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     DirectiveModule,
