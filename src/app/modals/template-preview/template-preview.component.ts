@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { CommonService } from '../..//services/common.service';
@@ -31,7 +31,7 @@ export class TemplatePreviewComponent implements OnInit {
     public user: UserService,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
-    public renderer: Renderer,
+    public renderer: Renderer2,
     private sanitizer: DomSanitizer
   ) {
     this.common.handleModalSize('class', 'modal-lg', '1600');

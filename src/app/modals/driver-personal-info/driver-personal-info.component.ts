@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
@@ -31,7 +31,7 @@ export class DriverPersonalInfoComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService,
-    public renderer: Renderer
+    public renderer: Renderer2
   ) {
     console.log("---------", this.common.params.driverId)
     this.driverPersonalInfo();

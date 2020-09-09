@@ -12,8 +12,7 @@ import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdeta
 import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.component';
 
 // import { Injectable } from '@angular/core';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Http, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 // import { saveAs } from 'file-saver/FileSaver';
 import { saveAs } from 'file-saver';
@@ -49,7 +48,7 @@ export class TallyexportComponent implements OnInit {
     public excelService: ExcelService,
     public csvService: CsvService,
     public accountService: AccountService,
-    private http: Http,
+    private http: HttpClient,
     public modalService: NgbModal) {
     this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.startDate;
     this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.endDate;

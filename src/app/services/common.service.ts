@@ -9,7 +9,7 @@ import {
 } from "@nebular/theme";
 import { Router } from "@angular/router";
 
-import { Http, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DatePipe, FormatWidth } from "@angular/common";
 import { ApiService } from "./api.service";
 import { DataService } from "./data.service";
@@ -81,7 +81,7 @@ export class CommonService {
     public dataService: DataService,
     public user: UserService,
     private datePipe: DatePipe, private _sanitizer: DomSanitizer,
-    private http: Http,
+    private http: HttpClient,
     private accountService: AccountService,
 
   ) { }
@@ -969,7 +969,7 @@ export class CommonService {
 
     // const blob = new Blob(["Hello, world!"], { type: 'text/plain' });
     // saveAs(blob, 'test.pdf');
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Accept', 'text/plain');
     this.http.get('/api/files', { headers: headers })
       .toPromise()
