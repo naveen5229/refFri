@@ -18,6 +18,7 @@
       <th>Amount</th>
       <th>Dealer</th>
       <th>Location</th>
+      <th>Txn No.</th>
     </tr>
     <tr *ngFor="let card of cardUsage">
       <td>{{ card.cardtype}}</td>
@@ -26,6 +27,7 @@
       <td>{{card.amount | number }}</td>
       <td>{{card.dealer}}</td>
       <td>{{card.location}}</td>
+      <td>{{card.txnid}}</td>
     </tr>
   </table>
 

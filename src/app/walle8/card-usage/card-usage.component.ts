@@ -157,6 +157,7 @@ export class CardUsageComponent implements OnInit {
 
 
   showdata(data){
+    console.log()
     this.common.params = { vehicleid: data.vid, startdate:this.dates.start,enddate:this.dates.end};
     const activeModal = this.modalService.open(CardusageComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static'});
      activeModal.result.then(data => {

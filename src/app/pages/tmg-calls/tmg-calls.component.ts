@@ -15,6 +15,7 @@ export class TmgCallsComponent implements OnInit {
   callsNotRespod = [];
   callsSupervisorWiseTopWorstDriverCalls = [];
   callsSupervisorLoadingTat = [];
+  callOnwardKmd = []
   callsSupervisorUnLoadingTat = [];
   xAxisData = [];
 
@@ -53,6 +54,7 @@ export class TmgCallsComponent implements OnInit {
     this.getCallsNotRespod();
     this.getCallsSupervisorWiseTopWorstDriverCalls();
     this.getCallsSupervisorLoadingTat();
+    this.getCallOnwardKmd();
     this.getCallsSupervisorUnLoadingTat();
     this.common.refresh = this.refresh.bind(this);
   }
@@ -67,6 +69,7 @@ export class TmgCallsComponent implements OnInit {
     this.getCallsNotRespod();
     this.getCallsSupervisorWiseTopWorstDriverCalls();
     this.getCallsSupervisorLoadingTat();
+    this.getCallOnwardKmd();
     this.getCallsSupervisorUnLoadingTat();
   }
 
@@ -195,7 +198,27 @@ export class TmgCallsComponent implements OnInit {
         console.log('Err:', err);
       });
   }
-
+  getCallOnwardKmd() {
+    this.callOnwardKmd = [];
+    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 15
+    };
+    ++this.common.loading;
+    this.api.post('Tmgreport/GetCallOnwardKmd', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('callsSupervisorUnLoadingTat:', res);
+        this.callOnwardKmd = res['data'];
+        if (this.callOnwardKmd.length > 0) this.handleChart4();
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
+      });
+  }
   getAlertWorstCallTat() {
     this.callsNotRespod = [];
     ++this.common.loading;
@@ -211,7 +234,7 @@ export class TmgCallsComponent implements OnInit {
         --this.common.loading;
         console.log('tripUnLoadindTime:', res);
         this.callsNotRespod = res['data'];
-        if (this.callsNotRespod.length > 0) this.handleChart4();
+        if (this.callsNotRespod.length > 0) this.handleChart5();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
@@ -360,15 +383,8 @@ export class TmgCallsComponent implements OnInit {
   handleChart4() {
     let yaxis = [];
     let xaxis = [];
-    let executives = _.groupBy(this.callsSupervisorLoadingTat, 'Executive');
-    let periods = _.groupBy(this.callsSupervisorLoadingTat, 'Period');
-
-    this.callsSupervisorLoadingTat.map(tlt => {
-      xaxis.push('p');
-      yaxis.push(tlt['value']);
-    });
-
-
+    let executives = _.groupBy(this.callOnwardKmd, 'Executive');
+    let periods = _.groupBy(this.callOnwardKmd, 'Period');
     let datasets = Object.keys(periods)
       .map(period => {
         let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -377,17 +393,17 @@ export class TmgCallsComponent implements OnInit {
           backgroundColor: color,
           borderColor: color,
           borderWidth: 1,
-          data: periods[period].map(item => item['TAT(Hrs)'])
+          data: periods[period].map(item => item['Onward KMs'])
         }
       });
     console.log('DataSets:', datasets);
-    console.log("handleChart3", xaxis, yaxis);
-    this.chart3.type = 'bar'
-    this.chart3.data = {
+    console.log("handleChart5", xaxis, yaxis);
+    this.chart4.type = 'bar'
+    this.chart4.data = {
       labels: Object.keys(executives),
       datasets
     };
-    this.chart3.options = {
+    this.chart4.options = {
       responsive: true,
       legend: {
         position: 'bottom',
@@ -463,6 +479,5 @@ export class TmgCallsComponent implements OnInit {
 
     };
   }
-
   
 }
