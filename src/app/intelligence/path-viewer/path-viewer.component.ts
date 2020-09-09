@@ -17,7 +17,7 @@ declare var google: any;
   templateUrl: './path-viewer.component.html',
 })
 export class PathViewerComponent {
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', { static: false }) mapElement: ElementRef;
   map: any;
   routes = [];
   costRoutes = [];

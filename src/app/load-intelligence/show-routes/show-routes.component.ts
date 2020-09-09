@@ -14,7 +14,7 @@ declare var google: any;
   styleUrls: ['./show-routes.component.scss']
 })
 export class ShowRoutesComponent implements OnInit {
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', { static: true }) mapElement: ElementRef;
 
   routes = [];
   route = {

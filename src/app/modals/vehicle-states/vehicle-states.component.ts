@@ -16,7 +16,7 @@ declare var google: any;
 })
 export class VehicleStatesComponent implements OnInit {
   map: any;
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', { static: false }) mapElement: ElementRef;
   marker: any;
   eventInfo = null;
   infoWindow = null;

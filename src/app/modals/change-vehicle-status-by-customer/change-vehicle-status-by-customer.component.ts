@@ -28,7 +28,7 @@ export class ChangeVehicleStatusByCustomerComponent implements OnInit {
     panelOpenState = false;
     title = '';
     map: any;
-    @ViewChild('map1') mapElement: ElementRef;
+    @ViewChild('map1', { static: true }) mapElement: ElementRef;
     location = {
       lat: 26.9124336,
       lng: 75.78727090000007,

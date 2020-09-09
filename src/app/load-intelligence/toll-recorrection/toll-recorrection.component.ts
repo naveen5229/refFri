@@ -13,7 +13,7 @@ declare let google: any;
   styleUrls: ['./toll-recorrection.component.scss']
 })
 export class TollRecorrectionComponent implements OnInit {
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', { static: true }) mapElement: ElementRef;
  
   requestData = {
     type: null,

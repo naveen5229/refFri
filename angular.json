@@ -27,7 +27,6 @@
                 "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
               },
               "node_modules/bootstrap/dist/css/bootstrap.css",
-              "node_modules/ng2-image-viewer/imageviewer.scss",
               "node_modules/material-design-icons/iconfont/material-icons.css",
               "node_modules/angular-tooltips/dist/angular-tooltips.min.css",
               "node_modules/typeface-exo/index.css",
@@ -41,7 +40,6 @@
             ],
             "scripts": [
               "node_modules/pace-js/pace.min.js",
-              "node_modules/ng2-image-viewer/imageviewer.js",
               "node_modules/angular-tooltips/dist/angular-tooltips.min.js"
             ]
           },

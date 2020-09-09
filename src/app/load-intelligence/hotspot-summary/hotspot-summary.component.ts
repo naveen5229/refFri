@@ -17,7 +17,7 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./hotspot-summary.component.scss']
 })
 export class HotspotSummaryComponent implements OnInit {
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', { static: false }) mapElement: ElementRef;
 
   public name: string = 'd3';
   data = [];
