@@ -28,7 +28,7 @@ export class CardUsageComponent implements OnInit {
     }
   };
 
-  
+
 
   dates = {
     start: null,
@@ -45,7 +45,7 @@ export class CardUsageComponent implements OnInit {
     public modalService: NgbModal,
   ) {
     let today = new Date();
-    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
+    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 5)));
     this.getcardUsage();
     //this.calculateTotal();
     this.common.refresh = this.refresh.bind(this);
@@ -54,7 +54,7 @@ export class CardUsageComponent implements OnInit {
   ngOnInit() {
   }
 
-  refresh(){
+  refresh() {
     this.getcardUsage();
     //this.calculateTotal();
   }
@@ -80,33 +80,33 @@ export class CardUsageComponent implements OnInit {
 
 
     //let params = "aduserid=" + this.user._details.foid + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
-    let params =  "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
-    console.log("-----------",params);
+    let params = "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    console.log("-----------", params);
     let response;
     this.common.loading++;
     this.api.walle8Get('AccountSummaryApi/ViewCardUsages.json?' + params)
-    .subscribe(res => {
-      this.common.loading--;
-      console.log('res: ' + res['data']);
-      this.cardUsage = res['data'];
-      let first_rec = this.cardUsage[0];
-      let headings = {};
-      for (var key in first_rec) {
-        if (key.charAt(0) != "_") {
-          if(key == 'vid') {
-            continue;
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ' + res['data']);
+        this.cardUsage = res['data'];
+        let first_rec = this.cardUsage[0];
+        let headings = {};
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            if (key == 'vid') {
+              continue;
+            }
+
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            headings[key] = headerObj;
           }
-         
-          this.headings.push(key);
-          let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-          headings[key] = headerObj;
         }
-      }
-      this.table.data = {
-        headings: headings,
-        columns: this.getTableColumns()
-      };
-    }, err => {
+        this.table.data = {
+          headings: headings,
+          columns: this.getTableColumns()
+        };
+      }, err => {
         this.common.loading--;
         console.log(err);
       });
@@ -119,14 +119,14 @@ export class CardUsageComponent implements OnInit {
     this.cardUsage.map(matrix => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        if(this.headings[i]=='vehicle'){
+        if (this.headings[i] == 'vehicle') {
           this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'blue', action: this.showdata.bind(this, matrix) };
         }
-        else{
+        else {
           this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
         }
       }
-        
+
 
       // this.valobj['Action'] = { class: '', icons: this.actionIcons(matrix) };
       columns.push(this.valobj);
@@ -150,18 +150,25 @@ export class CardUsageComponent implements OnInit {
 
   formatTitle(title) {
     if (title.length <= 4) {
-      return title.toUpperCase() 
+      return title.toUpperCase()
     }
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
 
 
-  showdata(data){
-    this.common.params = { vehicleid: data.vid, startdate:this.dates.start,enddate:this.dates.end};
-    const activeModal = this.modalService.open(CardusageComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static'});
-     activeModal.result.then(data => {
-     });
-    
+  showdata(data) {
+    this.common.params = {
+      vehicleName:data.vehicle,
+      vehicleid: data.vid,
+      startdate: this.dates.start,
+      enddate: this.dates.end,
+      name: this.user._details.username,
+      mobileno: this.user._details.fo_mobileno
+    };
+    const activeModal = this.modalService.open(CardusageComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    });
+
   }
 
   printPDF(tblEltId) {
@@ -193,12 +200,12 @@ export class CardUsageComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Card Usage";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading,["Action"],'');
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  
+
 }

@@ -82,7 +82,6 @@ export class UserService {
       this.filterMenu("walle8", "walle8");
       this.filterMenu("bidSystem", "bidSystem");
       this.filterMenu("loadIntelligence", "loadIntelligence");
-
     }
   }
 
