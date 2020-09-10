@@ -5,10 +5,13 @@
       <div class="col-4">
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Onward KMPD Graph</b></h6>
-          <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet"
+          <!-- <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet"
             style="margin-right:5px;min-height: 250px;max-height: 250px; margin-top:-20px;" 
             [options]="chart.options">
-          </chart>
+          </chart> -->
+          <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+          [options]="chart.options">
+        </chart>
         </div>
       </div>
       <div class="col-4">
@@ -31,11 +34,11 @@
     <div class="row mb-2 mr-0 mb-0">
       <div class="col-4">
         <div class="outer">
-          <h6 style="text-align:center"><b class="charthead">Worst 3 Vehicles in Last Week/Month(Breakdown + Maintenance)</b></h6>
+          <h6 style="text-align:center"><b class="charthead">Worst 3 Vehicles in Last Week(Breakdown + Maintenance)</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Vehicle No.</th>
-              <th>BreakDown+Maintenace (hrs)</th>
+              <th>BreakDown+Maintenace (Hrs)</th>
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let tlh of tripLongHalt">
@@ -52,7 +55,7 @@
           <table class="table table-bordered">
             <thead class="thead">
               <th>Site Name</th>
-              <th>Avg. Loading Time (hrs)</th>
+              <th>Avg. Loading Time (Hrs)</th>
 
             </thead>
             <tbody class="tbody">
@@ -112,7 +115,7 @@
           <table class="table table-bordered">
             <thead class="thead">
               <th>Site Name</th>
-              <th>Avg. Unloading Time (hrs)</th>
+              <th>Avg. Unloading Time (Hrs)</th>
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let lus of longestUnLoadindSites">
@@ -124,8 +127,8 @@
         </div>
       </div>
       <div class="col-4">
-        <div>
-          <h6 style="text-align:center"><b>GPS Performance</b></h6>
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">GPS Performance</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
               <th>Vendor Name</th>
