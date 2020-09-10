@@ -19,6 +19,7 @@ export class CheckloginandredirectComponent implements OnInit {
   constructor(private route: ActivatedRoute, private common: CommonService,
     private user: UserService, private router: Router, private dataService: DataService,
     private api: ApiService) {
+      console.log("Testing");
     let params = window.location.href.substr(window.location.href.indexOf('?') + 1).split('&');
     console.log(params);
     params.forEach(param => {
@@ -37,6 +38,7 @@ export class CheckloginandredirectComponent implements OnInit {
     console.log('frompage:', this.frompage);
     let details = this.common.parseJwt(this.token);
     let walle8details = this.common.parseJwt(this.oldtoken);
+    console.log("Walle8Details:",walle8details);
 
     console.log('Details:', details, walle8details);
     if (details) {
@@ -44,7 +46,7 @@ export class CheckloginandredirectComponent implements OnInit {
       this.user._details.authkey = this.token;
       this.user._details.authkeyOld = this.oldtoken;
       this.user._details.fo_mobileno = walle8details.fo_mobile;
-      this.user._details.foid = walle8details.foid;;
+      this.user._details.foid = walle8details.foid;
       this.user._token = this.token;
       this.user._loggedInBy = 'walle8customer';
       let url = window.location.href;

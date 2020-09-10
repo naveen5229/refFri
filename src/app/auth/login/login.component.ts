@@ -98,6 +98,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('USER_DETAILS', JSON.stringify(res['data']));
           localStorage.setItem('iswallet', this.iswallet);
           this.user._details = res['data'];
+          
           this.user._token = res['data']['authkey'];
           console.log('Login Type: ', this.user._loggedInBy);
           localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
@@ -222,6 +223,7 @@ export class LoginComponent implements OnInit {
     url = url.toLowerCase();
 
     this.iswallet = url.search("walle8customer") > -1 ? '1' : '0';
+    console.log("Testing123:");
     const params = {
       type: "verifyotp",
       mobileno: this.userDetails.mobile,
@@ -245,6 +247,8 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('USER_DETAILS', JSON.stringify(res['data'][0]));
           localStorage.setItem('iswallet', this.iswallet);
           this.user._details = res['data'][0];
+         
+          console.log("isWallet:",this.user._details);
           this.user._token = res['data'][0]['authkey'];
           console.log('Login Type: ', this.user._loggedInBy);
           localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
@@ -282,7 +286,6 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.user._pages = res['data'].filter(page => {
-
           return page.userid;
         });
 

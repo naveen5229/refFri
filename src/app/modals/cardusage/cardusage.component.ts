@@ -13,6 +13,7 @@ import { PdfService } from '../../services/pdf/pdf.service';
   styleUrls: ['./cardusage.component.scss']
 })
 export class CardusageComponent implements OnInit {
+  totalAmount=0;
   cardUsage = [];
   total = 0;
   headings = [];
@@ -45,6 +46,10 @@ export class CardusageComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.cardUsage = res['data'];
+        if(this.cardUsage){
+          this.totalAmount=this.cardUsage.reduce((a, b) => +a + +b.amount, 0);
+        }
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -68,17 +73,18 @@ export class CardusageComponent implements OnInit {
 
   downloadCSV() {
     let details = [
-      { startDate: 'Start Date: ' + this.common.params.startdate, endDate: 'End Date: ' + this.common.params.enddate }
+      { name: 'Name:' + this.common.params.name, mobile: 'Mobile: ' + this.common.params.mobileno,report:"Report:Card-Usage",
+       startDate: 'Start Date: ' + this.common.params.startdate, endDate: 'End Date: ' + this.common.params.enddate,vehicle:'Vehicle:'+this.common.params.vehicleName }
     ];
-
-    this.csvService.byMultiIds(['card-usage-details'], 'card-usages', details)
+    this.csvService.byMultiIds(['card-usage-details'], 'card-usages', details);
   }
 
   downloadPDF() {
     let details = [
-      ['Start Date: ' + this.common.params.startdate, 'End Date: ' + this.common.params.enddate]
+      ['Name: ' + this.common.params.name, 'Mobile: ' + this.common.params.mobileno, 'Report: '+'Card-Usage'],
+      ['Start Date: ' + this.common.params.startdate, 'End Date: ' + this.common.params.enddate, 'Vehicle: '+this.common.params.vehicleName]
     ];
-    this.pdfService.jrxTablesPDF(['card-usage-details'], 'card-usages', details)
+    this.pdfService.jrxTablesPDF(['card-usage-details'], 'card-usages', details);
   }
 
 }
