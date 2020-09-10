@@ -45,7 +45,7 @@ export class CardUsageComponent implements OnInit {
     public modalService: NgbModal,
   ) {
     let today = new Date();
-    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 5)));
+    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
     this.getcardUsage();
     //this.calculateTotal();
     this.common.refresh = this.refresh.bind(this);
