@@ -25,7 +25,7 @@ import { RecordsComponent } from '../../acounts-modals/records/records.component
   },
 })
 export class OrdersComponent implements OnInit {
-  @ViewChild('testInput', { read: ElementRef, static: false }) input:ElementRef;
+  @ViewChild('testInput', { read: ElementRef }) input:ElementRef;
   lastwarehouseActiveId='';
   showConfirm = false;
   stockitmeflag = true;

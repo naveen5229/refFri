@@ -27,7 +27,7 @@ import { map } from 'd3';
   },
 })
 export class ServiceComponent implements OnInit {
-  @ViewChild('testInput', { read: ElementRef, static: false }) input: ElementRef;
+  @ViewChild('testInput', { read: ElementRef }) input: ElementRef;
   autocode='';
   sizeindex=0;
   totaltaxamt=0;
