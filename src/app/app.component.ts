@@ -10,7 +10,7 @@ import { ActivityService } from './services/Activity/activity.service';
 import { UserService } from './services/user.service';
 import { ApiService } from './services/api.service';
 import { Router } from '@angular/router';
-
+import { NbIconLibraries } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-app',
@@ -28,8 +28,11 @@ export class AppComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public activity: ActivityService,
-    private router: Router,
+    private router: Router, private iconLibraries: NbIconLibraries,
     public api: ApiService) {
+    this.iconLibraries.registerFontPack('font-awesome', { packClass: 'fa' });
+    this.iconLibraries.setDefaultPack('font-awesome');
+    console.log(this.iconLibraries);
     if (this.user._details) {
       this.getUserPagesList();
     }

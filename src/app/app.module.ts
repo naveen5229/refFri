@@ -6,6 +6,8 @@
 // By Default Module
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
@@ -296,6 +298,7 @@ import { TicketDetailsComponent } from './modals/ticket-details/ticket-details.c
 import { ShowDataMapComponent } from './modals/generic-modals/show-data-map/show-data-map.component';
 import { IframeModalComponent } from './modals/iframe-modal/iframe-modal.component';
 import { UploadFileComponent } from './modals/generic-modals/upload-file/upload-file.component';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -575,6 +578,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
@@ -595,7 +599,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PdfViewerModule,
     ResizableModule,
     DateInputsModule,
-    ScrollingModule
+    ScrollingModule,
+    NbEvaIconsModule
   ],
 
   bootstrap: [AppComponent],
