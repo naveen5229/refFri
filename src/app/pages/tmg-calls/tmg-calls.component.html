@@ -2,7 +2,7 @@
 <div class="contentsection">
 
     <div class="row mb-2 mr-0 mb-0">
-      <div class="col-4 ">
+      <div class="col-4 pl-0">
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Driver Calls % </b></h6>
           <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
@@ -10,8 +10,8 @@
           </chart>
         </div>
       </div>
-      <div class="col-4 ">
-        <div class="outer">
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height:265px">
           <h6 style="text-align:center"><b class="charthead">Supervisor Wise % Not Responded Calls</b></h6>
           <table class="table table-bordered">
             <thead class="thead">
@@ -31,7 +31,7 @@
           </table>
         </div>
       </div>
-      <div class="col-4 ">
+      <div class="col-4 pl-0 pr-0">
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">% Not Responded Calls</b></h6>
           <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
@@ -45,7 +45,7 @@
       </div>
       
       <div class="col-6">
-        <div  class="outer" style="border:1px solid #7c94bf">
+        <div  class="outer" style="border:1px solid #7c94bf;min-height:120px">
           <h6 style="text-align: center;"><b class="charthead"> Worst 3 Driver Calls % </b></h6>
           <table class="table table-bordered">
             <thead class="thead">
@@ -68,7 +68,7 @@
       </div>
     </div>
     <div class="row mb-2 mr-0 mb-0">
-      <div class="col-4 ">
+      <div class="col-4 pl-0">
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Longest Loading TAT</b></h6>
           <chart [type]="chart3.type" [data]="chart3.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
@@ -76,7 +76,7 @@
           </chart>
         </div>
       </div>
-      <div class="col-4 ">
+      <div class="col-4 pl-0">
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Onward KMPD </b></h6>
           <chart [type]="chart4.type" [data]="chart4.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
@@ -84,7 +84,7 @@
           </chart>
         </div>
       </div>
-      <div class="col-4 ">
+      <div class="col-4 pl-0 pr-0">
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Worst Unloading TAT</b></h6>
           <chart [type]="chart5.type" [data]="chart5.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
