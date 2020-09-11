@@ -26,7 +26,7 @@ import { DateService } from "../../services/date.service";
 import { PoliceStationComponent } from "../../modals/police-station/police-station.component";
 import { OdoMeterComponent } from "../../modals/odo-meter/odo-meter.component";
 import { PdfService } from "../../services/pdf/pdf.service";
-import { MatTableDataSource } from "@angular/material";
+import { MatTableDataSource } from "@angular/material/table";
 import { EntityFlagsComponent } from "../../modals/entity-flags/entity-flags.component";
 import { DatePipe } from "@angular/common";
 import { PdfViewerComponent } from "../../generic/pdf-viewer/pdf-viewer.component";
