@@ -17,7 +17,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 // BY On Demand add Module
 import { NgxQRCodeModule } from 'ngx-qrcode2';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DirectiveModule } from './directives/directives.module';
 import { from } from 'rxjs';
@@ -25,7 +25,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 // import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
-import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+// import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { DeactivateGuardService } from './guards/route.guard';
@@ -585,8 +585,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     DirectiveModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
+    // OwlDateTimeModule,
+    // OwlNativeDateTimeModule,
     // ImageViewerModule,
     MatIconModule,
     DragDropModule,
@@ -608,7 +608,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     DeactivateGuardService,
     NgbActiveModal,
     { provide: APP_BASE_HREF, useValue: '/' },
-    { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
+    // { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true },
     // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
   ],
