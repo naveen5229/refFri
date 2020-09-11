@@ -23,7 +23,7 @@
       <th>Amount</th>
       <th>Dealer</th>
       <th>Location</th>
-      <!-- <th>Txn No</th> -->
+      <th>Txn No</th>
     </tr>
     <tr *ngFor="let card of cardUsage">
       <td>{{ card.cardtype}}</td>
@@ -32,7 +32,7 @@
       <td>{{card.amount | number }}</td>
       <td>{{card.dealer}}</td>
       <td>{{card.location}}</td>
-      <!-- <td>{{card.txnid}}</td> -->
+      <td>{{card.txnid}}</td>
     </tr>
     <tr><td colspan="3" style="text-align:center;font-weight:bold">Total Amount</td><td colspan="4" style="text-align:center;font-weight:bold">{{totalAmount}}</td></tr>
   </table>
