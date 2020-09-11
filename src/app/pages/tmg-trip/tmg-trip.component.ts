@@ -20,18 +20,24 @@ export class TmgTripComponent implements OnInit {
   tripGpsPerformance = [];
   xAxisData = [];
 
+  // chart = {
+  //   data: {
+  //     line: [],
+  //     bar: []
+  //   },
+  //   type: '',
+  //   dataSet: {
+  //     labels: [],
+  //     datasets: []
+  //   },
+  //   yaxisname: null,
+  //   options: null
+  // };
+
   chart = {
-    data: {
-      line: [],
-      bar: []
-    },
     type: '',
-    dataSet: {
-      labels: [],
-      datasets: []
-    },
-    yaxisname: null,
-    options: null
+    data: {},
+    options: {},
   };
 
   chart1 = {
@@ -272,61 +278,61 @@ export class TmgTripComponent implements OnInit {
 
 
   getlabelValue() {
-    if (this.tripOnwardKmd) {
-      this.tripOnwardKmd.forEach((cmg) => {
-        this.chart.data.line.push(cmg['Amount']);
-        this.chart.data.bar.push(cmg['Onward KMs']);
-        this.xAxisData.push(cmg['Period']);
-      });
+    // if (this.tripOnwardKmd) {
+    //   this.tripOnwardKmd.forEach((cmg) => {
+    //     this.chart.data.line.push(cmg['Amount']);
+    //     this.chart.data.bar.push(cmg['Onward KMS']);
+    //     this.xAxisData.push(cmg['Period']);
+    //   });
 
       this.handleChart();
-    }
+    // }
   }
 
-  handleChart() {
-    console.log("xAxis", this.chart.data.line,this.chart.data.bar,this.xAxisData);
-    let data = {
-      labels: this.xAxisData,
-      datasets: []
-    };
+  // handleChart() {
+  //   console.log("xAxis", this.chart.data.line,this.chart.data.bar,this.xAxisData);
+  //   let data = {
+  //     labels: this.xAxisData,
+  //     datasets: []
+  //   };
     
-    data.datasets.push({
-      type: 'line',
-      label: 'Total(Kms)',
-      borderColor: '#3d6fc9',
-      backgroundColor: '#3d6fc9',
-      pointHoverRadius: 8,
-      pointHoverBackgroundColor: '#FFEB3B',
-      fill: false,
-      data: this.chart.data.line,
-      yAxisID: 'y-axis-2'
-    });
+  //   data.datasets.push({
+  //     type: 'line',
+  //     label: 'Total(KMS)',
+  //     borderColor: '#3d6fc9',
+  //     backgroundColor: '#3d6fc9',
+  //     pointHoverRadius: 8,
+  //     pointHoverBackgroundColor: '#FFEB3B',
+  //     fill: false,
+  //     data: this.chart.data.line,
+  //     yAxisID: 'y-axis-2'
+  //   });
 
-    data.datasets.push({
-      type: 'bar',
-      label: 'Onward (Kms)',
-      borderColor: '#ed7d31',
-      backgroundColor: '#ed7d31',
-      fill: false,
-      data: this.chart.data.bar.map(value => { return value.toFixed(2) }),
-      pointHoverRadius: 8,
-      pointHoverBackgroundColor: '#FFEB3B',
-      yAxisID: 'y-axis-1',
-      yAxisName: 'Count',
-    });
+  //   data.datasets.push({
+  //     type: 'bar',
+  //     label: 'Onward (KMS)',
+  //     borderColor: '#ed7d31',
+  //     backgroundColor: '#ed7d31',
+  //     fill: false,
+  //     data: this.chart.data.bar.map(value => { return value.toFixed(2) }),
+  //     pointHoverRadius: 8,
+  //     pointHoverBackgroundColor: '#FFEB3B',
+  //     yAxisID: 'y-axis-1',
+  //     yAxisName: 'Count',
+  //   });
 
-    this.chart = {
-      data: {
-        line: [],
-        bar: []
-      },
-      type: 'bar' ,
-      dataSet: data,
-      yaxisname: "Average Count",
-      options: this.setChartOptions()
-    };
+  //   this.chart = {
+  //     data: {
+  //       line: [],
+  //       bar: []
+  //     },
+  //     type: 'bar' ,
+  //     dataSet: data,
+  //     yaxisname: "Average Count",
+  //     options: this.setChartOptions()
+  //   };
 
-  }
+  // }
   
   setChartOptions() {
     let options = {
@@ -366,7 +372,7 @@ export class TmgTripComponent implements OnInit {
     options.scales.yAxes.push({
       scaleLabel: {
         display: true,
-        labelString: 'Onward Kms',
+        labelString: 'Onward KMS',
         fontSize: 17
       },
       type: 'linear',
@@ -378,7 +384,7 @@ export class TmgTripComponent implements OnInit {
       options.scales.yAxes.push({
         scaleLabel: {
           display: true,
-          labelString: 'Total Kms',
+          labelString: 'Total KMS',
           fontSize: 17,
         },
         type: 'linear',
@@ -390,6 +396,62 @@ export class TmgTripComponent implements OnInit {
         },
       });
     return options;
+  }
+
+  handleChart(){
+    let yaxis = [];
+    let xaxis = [];
+    this.tripOnwardKmd.map(tlt=>{
+      xaxis.push(tlt['Period']);
+      yaxis.push(tlt['Onward KMs']);
+    });
+    console.log("handleChart",xaxis,yaxis);
+    this.chart.type = 'bar'
+    this.chart.data = {
+      labels: xaxis,
+      datasets: [
+        {
+          label: 'Onward KMs',
+          data: yaxis,
+          borderColor: '#3d6fc9',
+          backgroundColor: '#3d6fc9',
+          fill: false,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: '#FFEB3B',
+        },
+      ]
+    },
+    this.chart.options= {
+      responsive: true,
+      legend: {
+        position: 'bottom',
+        display:  true
+      },
+      scaleLabel: {
+        display: true,
+        labelString: 'Onward KMS',
+        fontSize: 17,
+      },
+     
+      maintainAspectRatio: false,
+      title: {
+        display: true,
+      },
+      display: true,
+      elements: {
+        line: {
+          tension: 0
+        }
+      },
+      // scales: {
+      //   yAxes: [{
+      //     ticks: { stepSize: 50000},
+      //   }]
+      //  },
+      
+    };
+    
+   
   }
 
   handleChart1(){

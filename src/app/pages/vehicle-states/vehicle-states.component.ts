@@ -17,6 +17,7 @@ export class VehicleStatesComponent implements OnInit {
   vehicleId = null;
   stateType = "-1";
   stateTypes = [];
+  count = 0;
   vehicleStates = [];
   headings = [];
   valobj = {};
@@ -35,6 +36,7 @@ export class VehicleStatesComponent implements OnInit {
     private csvService: CsvService,
     public user: UserService,
     private modalService: NgbModal) {
+    this.count = 0;
     this.getStates();
     this.common.refresh = this.refresh.bind(this);
    }
@@ -54,7 +56,7 @@ export class VehicleStatesComponent implements OnInit {
   }
 
   refresh() {
-
+    this.count = 0;
     this.getVehicleStates();
   }
 
@@ -98,7 +100,7 @@ export class VehicleStatesComponent implements OnInit {
             if (key.charAt(0) != "_") {
               this.headings.push(key);
               let headerObj = { title: key, placeholder: this.formatTitle(key) };
-              if (key === 'Start Date' || key=== 'End Date') {
+              if (key === 'start_time' || key=== 'end_time' ||key=== 'addtime') {
                 headerObj['type'] = 'date';
               }
               this.table.data.headings[key] = headerObj;
@@ -160,11 +162,14 @@ export class VehicleStatesComponent implements OnInit {
   }
   setVehicleDetail(event)
   {
-    this.vehicleId=event.id;
+   this.count++;
+   this.vehicleId=event.id;
+   if(this.count<2){
+    console.log(" this.stateTypes", this.stateTypes)
     this.stateTypes.push({
       description : "All",
       id : -1
-    });
+    });}
   }
 
   

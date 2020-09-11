@@ -140,7 +140,13 @@ export class TmgChallanComponent implements OnInit {
 
   getChallansdrivaramount() {
     this.challansdrivaramount = [];
-    let params = { totalrecord: 3 };
+    let startDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+    let endDate = new Date();
+    let params = {
+      totalrecord: 3,
+      fromdate:this.common.dateFormatter1(startDate),
+      todate: this.common.dateFormatter1(endDate)
+    };
     ++this.common.loading;
     this.api.post('Tmgreport/GetChallansdrivaramount', params)
       .subscribe(res => {
@@ -186,7 +192,7 @@ export class TmgChallanComponent implements OnInit {
   }
 
   handleChart() {
-    console.log("xAxis", this.chart.data.line,this.chart.data.bar,this.xAxisData);
+    console.log("xAxis", this.chart.data.line, this.chart.data.bar, this.xAxisData);
     // this.chart.type = 'bar'
     // this.chart.data = {
     //   labels: this.xAxisData,
@@ -209,7 +215,7 @@ export class TmgChallanComponent implements OnInit {
       labels: this.xAxisData,
       datasets: []
     };
-    
+
     data.datasets.push({
       type: 'line',
       label: 'Amount',
@@ -240,14 +246,14 @@ export class TmgChallanComponent implements OnInit {
         line: [],
         bar: []
       },
-      type: 'bar' ,
+      type: 'bar',
       dataSet: data,
       yaxisname: "Average Count",
       options: this.setChartOptions()
     };
 
   }
-  
+
   setChartOptions() {
     let options = {
       responsive: true,
@@ -255,7 +261,7 @@ export class TmgChallanComponent implements OnInit {
       stacked: false,
       legend: {
         position: 'bottom',
-        display:  true
+        display: true
       },
       tooltips: {
         mode: 'index',
@@ -286,7 +292,7 @@ export class TmgChallanComponent implements OnInit {
     options.scales.yAxes.push({
       scaleLabel: {
         display: true,
-        labelString: 'Count',
+        labelString: 'Count of Challans',
         fontSize: 17
       },
       type: 'linear',
@@ -295,20 +301,20 @@ export class TmgChallanComponent implements OnInit {
       id: 'y-axis-1',
 
     });
-      options.scales.yAxes.push({
-        scaleLabel: {
-          display: true,
-          labelString: 'Amount',
-          fontSize: 17,
-        },
-        type: 'linear',
+    options.scales.yAxes.push({
+      scaleLabel: {
         display: true,
-        position: 'right',
-        id: 'y-axis-2',
-        gridLines: {
-          drawOnChartArea: false,
-        },
-      });
+        labelString: 'Total Challan Amount',
+        fontSize: 17,
+      },
+      type: 'linear',
+      display: true,
+      position: 'right',
+      id: 'y-axis-2',
+      gridLines: {
+        drawOnChartArea: false,
+      },
+    });
     return options;
   }
 }
