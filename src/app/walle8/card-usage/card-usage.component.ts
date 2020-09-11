@@ -162,7 +162,7 @@ export class CardUsageComponent implements OnInit {
       vehicleid: data.vid,
       startdate: this.dates.start,
       enddate: this.dates.end,
-      name: this.user._details.username,
+      name: this.user._loggedInBy=='admin'?this.user._details.username:this.user._details.name,
       mobileno: this.user._details.fo_mobileno
     };
     const activeModal = this.modalService.open(CardusageComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
