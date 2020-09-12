@@ -54,7 +54,7 @@
     "@nebular/eva-icons": "^5.1.0",
     "@nebular/security": "^5.1.0",
     "@nebular/theme": "^5.1.0",
-    "@ng-bootstrap/ng-bootstrap": "^5.3.1",
+    "@ng-bootstrap/ng-bootstrap": "^6.0.0",
     "@progress/kendo-angular-common": "^1.2.2",
     "@progress/kendo-angular-dateinputs": "^4.2.2",
     "@progress/kendo-angular-intl": "^1.4.0",
