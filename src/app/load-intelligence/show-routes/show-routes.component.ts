@@ -3,9 +3,6 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
-import 'rxjs/add/operator/first';
-import { async } from '@angular/core/testing';
-
 declare var google: any;
 
 @Component({

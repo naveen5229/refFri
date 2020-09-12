@@ -13,7 +13,6 @@ import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.
 
 // import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import 'rxjs/add/operator/toPromise';
 // import { saveAs } from 'file-saver/FileSaver';
 import { saveAs } from 'file-saver';
 import { ExcelService } from '../../services/excel/excel.service';

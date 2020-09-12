@@ -18,6 +18,16 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "allowedCommonJsDependencies": [
+              "jspdf",
+              "jspdf-autotable",
+              "file-saver",
+              "angular2-chartjs",
+              "ng2-pdf-viewer",
+              "html2pdf.js",
+              "xlsx",
+              "crypto-js"
+            ],
             "assets": [
               "src/assets",
               "src/favicon.ico",
@@ -163,13 +173,13 @@
           "options": {
             "tsConfig": "projects/auto-suggestion-in-side/tsconfig.lib.json",
             "project": "projects/auto-suggestion-in-side/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
             "production": {
               "tsConfig": "projects/auto-suggestion-in-side/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {

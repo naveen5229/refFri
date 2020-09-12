@@ -7,18 +7,12 @@ import * as _ from 'lodash';
 import { CsvService } from '../../services/csv/csv.service';
 import { AccountService } from '../../services/account.service';
 import { UserService } from '../../services/user.service';
-import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
-import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
-import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.component';
+
 
 // import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import 'rxjs/add/operator/toPromise';
 // import { saveAs } from 'file-saver/FileSaver';
-import { saveAs } from 'file-saver';
 import { ExcelService } from '../../services/excel/excel.service';
-import { constructor } from 'vfile-message';
-
 
 @Component({
   selector: 'tallyexport',
