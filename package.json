@@ -64,6 +64,7 @@
     "@progress/kendo-theme-default": "latest",
     "@techiediaries/ngx-qrcode": "^9.1.0",
     "@types/jquery": "^3.5.1",
+    "angular-csv-ext": "^1.0.3",
     "angular-highcharts": "^10.0.0",
     "angular-resizable-element": "^3.2.4",
     "angular-tooltips": "^1.2.2",
