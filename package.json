@@ -34,7 +34,7 @@
     "release:changelog": "npm run conventional-changelog -- -p angular -i CHANGELOG.md -s"
   },
   "dependencies": {
-    "@agm/core": "^1.1.0",
+    "@agm/core": "^3.0.0-beta.0",
     "@angular-devkit/build-angular": "~0.901.12",
     "@angular-devkit/build-ng-packagr": "~0.901.12",
     "@angular/animations": "^9.1.12",
