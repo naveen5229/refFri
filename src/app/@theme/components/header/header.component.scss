@@ -385,7 +385,7 @@ button:hover {
     color: #d1d1d2;
 }
 :host ::ng-deep .user-picture{
-    background-image: url(assets/images/avtar.png) !important;
+    //background-image: url(assets/images/avtar.png) !important;
     background-size: cover !important;
     height: 2rem!important;
     width: 2rem!important;
