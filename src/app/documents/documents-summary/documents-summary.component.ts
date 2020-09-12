@@ -6,7 +6,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
 import { DocumentIssuesComponent } from '../../documents/documentation-modals/document-issues/document-issues.component';
 import { AddDocumentComponent } from '../documentation-modals/add-document/add-document.component';
-import { DocumentRef } from '@agm/core/utils/browser-globals';
 import { DocumentReportComponent } from '../documentation-modals/document-report/document-report.component';
 @Component({
   selector: 'documents-summary',
