@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 import * as _ from "lodash";
 import { CommonService } from '../common.service';
@@ -151,7 +150,7 @@ export class CsvService {
     { "blank": "", "gst": `GST: ${details.gstno}` },
     ];
     info.push(...jsonArray);
-    // new Angular5Csv(info, "report");
+    new AngularCsv(info, "report");
   }
 
 }

@@ -1,15 +1,13 @@
 import { Injectable } from "@angular/core";
 import {
-  NbGlobalLogicalPosition,
   NbGlobalPhysicalPosition,
-  NbGlobalPosition,
   NbToastrService,
   NbThemeService
 } from "@nebular/theme";
 import { Router } from "@angular/router";
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DatePipe, FormatWidth } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { ApiService } from "./api.service";
 import { DataService } from "./data.service";
 import { UserService } from "./user.service";
@@ -17,10 +15,8 @@ import { UserService } from "./user.service";
 import html2canvas from 'html2canvas';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-// import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
+import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 import * as moment_ from "moment";
-import { elementAt } from "rxjs/operators";
-import { RouteGuard } from "../guards/route.guard";
 import { saveAs } from 'file-saver';
 import { AccountService } from '../services/account.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -418,12 +414,12 @@ export class CommonService {
     showError && this.showError(msg);
   }
 
-  reportAnIssue(issue, refId,relatedData=null) {
+  reportAnIssue(issue, refId, relatedData = null) {
     const params = {
       issueTypeId: issue.type,
       refId: refId,
       remark: issue.remark,
-      relatedData : relatedData
+      relatedData: relatedData
     };
     console.info("Params: ", params);
     this.loading++;
@@ -1129,7 +1125,7 @@ export class CommonService {
         info.push(rowdata);
       }
     }
-    // new Angular5Csv(info, "report.csv");
+    new AngularCsv(info, "report");
   }
 
   getCSVFromTableIdNew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
@@ -1254,7 +1250,8 @@ export class CommonService {
       }
 
     }
-    // new Angular5Csv(info, "report.csv");
+    new AngularCsv(info, "report");
+
   }
   getCSVFromTableIdLatest(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblelt = document.getElementById(tblEltId);
@@ -1377,7 +1374,7 @@ export class CommonService {
       }
 
     }
-    // new Angular5Csv(info, "report.csv");
+    new AngularCsv(info, "report");
   }
   getMultipleCSVFromTableIdNew(tblArray, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblEltId = '';
@@ -1485,7 +1482,7 @@ export class CommonService {
           info.push(rowdata);
         }
       }
-      // new Angular5Csv(info, "report.csv");
+      new AngularCsv(info, "report");
     });
   }
   formatTitle(strval) {
