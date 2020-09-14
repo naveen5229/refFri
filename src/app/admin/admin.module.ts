@@ -12,7 +12,7 @@ import { GroupManagementsComponent } from './group-managements/group-managements
 import { TicketPropertiesComponent } from './ticket-properties/ticket-properties.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
-// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
 import { SiteDetailsComponent } from './site-details/site-details.component';
@@ -114,8 +114,8 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     DirectiveModule,
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     DocumentsModule,
     LorryReceiptModule,
     DriverModule,

@@ -6,7 +6,7 @@
 // By Default Module
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -17,7 +17,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 // BY On Demand add Module
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
-// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DirectiveModule } from './directives/directives.module';
 import { from } from 'rxjs';
@@ -586,8 +586,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     DirectiveModule,
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     // ImageViewerModule,
     MatIconModule,
     DragDropModule,

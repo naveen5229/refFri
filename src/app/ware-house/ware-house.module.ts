@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { WareHouseRoutingModule } from './ware-house-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { DirectiveModule } from '../directives/directives.module';
-// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { WareHouseComponent } from './ware-house-component';
 import { WareHouseDashbordComponent } from './ware-house-dashbord/ware-house-dashbord.component';
 import { WareHouseReceiptsComponent } from './ware-house-receipts/ware-house-receipts.component';
@@ -44,8 +44,8 @@ const PAGES_COMPONENTS = [
     WareHouseRoutingModule,
     ThemeModule,
     DirectiveModule,
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ]
 })
 export class WareHouseModule { }

@@ -24,7 +24,7 @@ import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-avera
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-suggestion.component';
 import { DirectiveModule } from '../directives/directives.module';
-// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
 // import { ImageViewerModule } from 'ng2-image-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -121,8 +121,8 @@ const PAGES_COMPONENTS = [
     MiscellaneousModule,
     ChartModule,
     DirectiveModule,
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     // ImageViewerModule,
     ReactiveFormsModule,
     ResizableModule,

@@ -8,7 +8,7 @@ import { DatePipe } from '@angular/common';
 import { LorryReceiptComponent } from './lorry-receipt.component';
 import { LorryReceiptRoutingModule } from './lorry-receipt-routing.module';
 import { GenerateLRComponent } from './generate-lr/generate-lr.component';
-// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { GenerateLrNoVehiclesComponent } from './generate-lr-no-vehicles/generate-lr-no-vehicles.component';
 import { GenerateLrMainfestoComponent } from './generate-lr-mainfesto/generate-lr-mainfesto.component';
 import { ViewManifestoComponent } from './view-manifesto/view-manifesto.component';
@@ -28,8 +28,8 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     DirectiveModule,
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     DragDropModule
   ],
   exports: [

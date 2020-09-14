@@ -4,7 +4,7 @@ import { FuelAverageAnalysisComponent } from './pages/fuel-average-analysis/fuel
 import { ThemeModule } from './@theme/theme.module';
 import { DashboardModule } from './partner/dashboard/dashboard.module';
 import { DirectiveModule } from './directives/directives.module';
-// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 // import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './admin/remaining-fuel/remaining-fuel.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -61,8 +61,8 @@ const PAGES_COMPONENTS = [
         ThemeModule,
         DashboardModule,
         DirectiveModule,
-        // OwlDateTimeModule,
-        // OwlNativeDateTimeModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
         // ImageViewerModule,
         ChartModule,
     ],
