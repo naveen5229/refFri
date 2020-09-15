@@ -153,8 +153,8 @@
             <div *ngIf="doc_not_img"><a target='_blank' href="{{document.img_url}}" title="View Document">View
                 Document</a>
             </div>
-            <!-- <app-image-viewer *ngIf="document.img_url && !doc_not_img" [images]="images" [idContainer]="'idOnHTML'"
-              [loadOnInit]="true" [snapView]="false"></app-image-viewer> -->
+            <jrx-image-viewer *ngIf="document.img_url && !doc_not_img" [images]="images" [idContainer]="'idOnHTML'"
+              [loadOnInit]="true" [snapView]="false"></jrx-image-viewer>
             <div *ngIf="!document.img_url">No Image Exists</div>
             <div id="imgzoom"></div>
           </div>

@@ -12,7 +12,6 @@ import { DocumentsSummaryComponent } from './documents-summary/documents-summary
 import { PendingDocumentsComponent } from './pending-documents/pending-documents.component';
 import { DatePipe } from '@angular/common';
 import { ChangeHistoryComponent } from './change-history/change-history.component';
-// import { ImageViewerModule } from 'ng2-image-viewer';
 
 const PAGES_COMPONENTS = [
   DocumentsComponent,
@@ -25,7 +24,6 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     // DashboardModule,
     DirectiveModule,
-    // ImageViewerModule
   ],
   providers: [DatePipe],
   declarations: [
