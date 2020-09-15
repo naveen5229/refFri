@@ -9,6 +9,7 @@ import { AutoSuggetionInSideComponent } from './auto-suggetion-in-side/auto-sugg
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import { MonthPickerComponent } from './month-picker/month-picker.component';
 import { LazyForDirective } from './lazyFor.directive';
+import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 
 @NgModule({
     imports: [CommonModule, FormsModule, ReactiveFormsModule, DateInputsModule,],
@@ -20,12 +21,14 @@ import { LazyForDirective } from './lazyFor.directive';
         AutoSuggetionInSideComponent,
         DateTimePickerComponent,
         MonthPickerComponent,
-        LazyForDirective
+        LazyForDirective,
+        ImageViewerComponent
     ],
     declarations: [AutoSuggestionComponent, SmartTableComponent, AutoSuggetionInSideComponent,
         DateTimePickerComponent,
         MonthPickerComponent,
-        LazyForDirective
+        LazyForDirective,
+        ImageViewerComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [],
