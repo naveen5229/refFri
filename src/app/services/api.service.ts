@@ -242,7 +242,7 @@ export class ApiService {
 
 
   setWalle8Headers() {
-    const entryMode = '3';
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
     const authKey = this.user._details.authkeyOld || '';
     const version = '2.3';
 

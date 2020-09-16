@@ -16,11 +16,8 @@ interface jrxPdfOptions {
 })
 export class PdfService {
 
-  constructor(public common: CommonService,
-    private accountService: AccountService,
-    public user: UserService,
-    private datePipe: DatePipe,
-    public api: ApiService) {
+  constructor(public common: CommonService, public user: UserService,
+    private datePipe: DatePipe, public api: ApiService) {
   }
 
   /**
@@ -63,6 +60,18 @@ export class PdfService {
       console.error('Unable to add logo:', e);
     }
 
+    doc.setFontSize(14)
+    doc.setFontType('bold')
+    doc.text(30, 20, 'eLogist Solutions Pvt. Ltd.');
+    doc.setFontType('normal')
+    doc.setFontSize(8)
+    doc.setFontType('italic')
+    doc.text(30, 30, 'Address: 605-21, Jaipur Electronic Market,');
+    doc.text(30, 37, 'Riddhi Siddhi Circle, Gopalpura Bypass, Jaipur, Rajasthan - 302018');
+    doc.setFontSize(8)
+    doc.setFontType('italic')
+    doc.text(30, 44, 'Support: 8081604455');
+
     if (details && details.length) {
       let firstColumLength = details[0].length;
       let maxLength = Math.max(...details.map(detail => detail.length));
@@ -76,7 +85,8 @@ export class PdfService {
       doc.autoTable({
         body: details,
         theme: 'plain',
-        styles: tempLineBreak
+        styles: tempLineBreak,
+        margin: { top: 50, bottom: 20 },
       });
     }
 
@@ -97,8 +107,6 @@ export class PdfService {
     let hdg_coll = [];
     let hdgs = [];
     let hdgCols = tblelt.querySelectorAll("th");
-    console.log("hdgcols:", hdgCols);
-    console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
         if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
@@ -119,7 +127,6 @@ export class PdfService {
           hdgs.push(strval);
         } else {
           let plainText = elthtml.replace(/<[^>]*>/g, "");
-          console.log("hdgval:" + plainText);
           hdgs.push(plainText);
         }
       }
