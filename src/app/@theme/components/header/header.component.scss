@@ -62,10 +62,10 @@
             font-size: 2.5rem;
             text-decoration: none;
 
-            i {
+            svg{
                 display: block;
             }
-            i:hover {
+            svg:hover {
                color:#727cf5;
             }
 
@@ -127,7 +127,7 @@
         text-decoration: none;
         line-height: 1;
 
-        i {
+        svg {
             color: #40dc7e;
             font-size: 2.25rem;
             border-radius: 50%;
@@ -362,19 +362,20 @@ button:hover {
     font-size: 12px;
     margin-right: 5px;
     color: #d1d1d2;
+    
 }
 
 .select_branch select{
     width: 60%;
     display: inline-block;
     background: transparent;
-    //border: 1px solid #878f92 !important;
     border: 1px solid #d1d1d2 !important;
     color: #d1d1d2;
     opacity: 1;
     padding: 5px !important;
     border-radius: 0px;
     height: calc(1rem + 14px)!important;
+    font-weight: normal;
 }
 .select_branch select:hover{
     border: 1px solid #727cf5 !important;
@@ -400,8 +401,9 @@ button:hover {
         align-self: center;
         font-size: 14px;
         margin: 0px;
+        font-weight: normal;
     }
-    i{
+   svg{
         margin-right: 5px;
         margin-left: 5px;
         align-self: center;
