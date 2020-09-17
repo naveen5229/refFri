@@ -173,7 +173,16 @@ export class PdfService {
               rowdata.push(match[1]);
           } else {
             let plainText = rowCols[j].innerText;
-            rowdata.push(plainText);
+            let colspan = rowCols[j].colSpan;
+            if (colspan > 1) {
+              rowdata.push({
+                content: plainText,
+                colSpan: colspan,
+                styles: { halign: rowCols[j].style.textAlign },
+              });
+            } else {
+              rowdata.push(plainText);
+            }
           }
         }
         rows.push(rowdata);
