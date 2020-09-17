@@ -107,6 +107,7 @@
           <th>Net Amount</th>
         </tr>
       </thead>
+      <tbody>
       <tr *ngFor="let dataItem of invoiceRegisterData; let i = index;" (click)="selectedRow = i"
         [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{i + 1}}</td>
@@ -127,6 +128,7 @@
         <td style="color: white">{{totaltaxamount | number : '1.2-2'}}</td>
         <td style="color: white">{{totalnetamount | number : '1.2-2'}}</td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

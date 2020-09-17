@@ -993,6 +993,7 @@ input[type=number] {
   font-size: 1rem;
   line-height: 1.25;
   border-radius: .75rem;
+  border-color: #8b000000 !important;
 }
 @media (max-width: 1024px) and (min-width: 768px)
 {

@@ -14,8 +14,9 @@
       <th>Is Asset For Balance Sheet</th>
     </tr>
   </thead>
+  <tbody>
   <tr *ngFor="let dataItem of reportList; let i = index;" (click)="selectedRow = i"
-    [ngClass]="{'highlight' : selectedRow == i}" (dblclick)="openLedgerModal(dataItem.y_ledgerid)">
+    [ngClass]="{'highlight' : selectedRow == i}">
     <td>{{i + 1}}</td>
     <td>{{dataItem.parent_groupname}}</td>
     <td>{{dataItem.groupname}}</td>
@@ -25,6 +26,8 @@
       <button class="form-control inn cngval" (click)="changevalue(dataItem.id,orderno[i],isset[i],trailordr[i])">Submit</button></td>
     
   </tr>
+  </tbody>
+
 </table>
 </nb-card-body>
 </nb-card>
