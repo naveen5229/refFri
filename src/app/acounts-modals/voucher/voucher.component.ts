@@ -154,6 +154,7 @@ export class VoucherComponent implements OnInit {
       .subscribe(res => {
         console.log('Voucher Edit Details:', res);
         this.voucherId = res['data'][0].y_vouchertype_id || 0;
+        this.vouchername = res['data'][0].y_vouchertype || 0;
         this.voucher = {
           code: res['data'][0].y_cust_code,
           date: this.common.dateFormatternew(res['data'][0].y_date, 'ddMMYYYY', false, '-'),
@@ -379,17 +380,19 @@ export class VoucherComponent implements OnInit {
       });
   }
   printFunction() {
+    console.log('voucher id--->',this.voucher);
     let params = {
-      search: 'test'
+      search: 'test',
+      invoiceid:this.voucher.xId
     };
 
     this.common.loading++;
     this.api.post('Voucher/GetCompanyHeadingData', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res11:', res['data']);
+        console.log('Res11:', JSON.parse(res['data'][0]['company_head'])[0]);
         // this.Vouchers = res['data'];
-        this.print(this.voucher, res['data']);
+        this.print(this.voucher, JSON.parse(res['data'][0]['company_head'])[0]);
 
       }, err => {
         this.common.loading--;
@@ -410,15 +413,15 @@ export class VoucherComponent implements OnInit {
       }
 
     });
-    let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
-    let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
-    let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
+    let remainingstring1 = (companydata.phonenumber) ? ' Phone Number -  ' + companydata.phonenumber : '';
+    let remainingstring2 = (companydata.panno) ? ', PAN No -  ' + companydata.panno : '';
+    let remainingstring3 = (companydata.gstno) ? ', GST NO -  ' + companydata.gstno : '';
 
     let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
 
     let pdfData = {
-      company: companydata[0].foname,
-      address: companydata[0].addressline,
+      company: companydata.foname,
+      address: companydata.addressline,
       city: cityaddress,
       reportName: this.voucherName,
       details: [
@@ -428,7 +431,7 @@ export class VoucherComponent implements OnInit {
         },
         {
           name: 'Branch',
-          value: companydata[0].branchname
+          value: companydata.branchname
         },
         {
           name: 'Voucher Date',
@@ -1270,56 +1273,67 @@ export class VoucherComponent implements OnInit {
 
   print(voucherdataprint, companydata) {
 
-    let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
-    let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
-    let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
+    let remainingstring1 = (companydata.phonenumber) ? ' Phone Number -  ' + companydata.phonenumber : '';
+    let remainingstring2 = (companydata.panno) ? ', PAN No -  ' + companydata.panno : '';
+    let remainingstring3 = (companydata.gstno) ? ', GST NO -  ' + companydata.gstno : '';
 
     let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
     let rows = [];
-    voucherdataprint.amountDetails.map(value => {
-      if (value.transactionType == 'debit') {
-        rows.push([{ txt: value.ledger.name }, { txt: value.amount, align: 'right' }, { txt: '' }]);
-      } else {
-        rows.push([{ txt: value.ledger.name }, { txt: '' }, { txt: value.amount, align: 'right' }]);
+    voucherdataprint.amountDetails.map((value,index) => {
+      if(index==0){
+        rows.push([{ txt:'Account :',weight:'Bold', align: 'left' ,width :'500px',bordertop:'1px solid black !important',borderright:'1px solid black !important'}, { txt: '',bordertop:'1px solid black !important' }]);
       }
+      if (value.transactionType == 'debit') { //value.ledger.name
+        rows.push([{ txt: 'hgg' ,width :'500px',padding:'0 0 0 15px',bordertop:'none !important',borderbottom:'none !important',borderleft:'none !important',borderright:'1px solid black !important'}, { txt: value.amount, align: 'right',weight:'bold',width :'400px' }]);
+      } 
+    
     });
+    voucherdataprint.amountDetails.map((value,index) => {
+      if(index==0){
+        rows.push([{ txt:'Through :', align: 'left' ,width :'500px',bordertop:'none !important',borderright:'1px solid black !important',weight:'Bold'}, { txt: '' }]);
+      }
+      if (value.transactionType == 'debit') {
+      } else { //value.ledger.name
+        rows.push([{ txt:  'tet',width :'500px',padding:'0 0 0 15px',bordertop:'none !important',borderbottom:'none !important',borderleft:'none !important',borderright:'1px solid black !important'}, { txt: value.amount, align: 'right',weight:'bold',width :'400px' }]);
+      }
+    
+    });
+    rows.push([ { txt: 'On Account Of :',weight:'Bold',bordertop:'none !important',borderbottom:'none !important',borderleft:'none !important',borderright:'1px solid black !important' },{ txt: '' }]);
 
-    rows.push([
-      { txt: 'Total' },
-      { txt: voucherdataprint.total.debit, align: 'right' },
-      { txt: voucherdataprint.total.credit, align: 'right' }
-    ]);
+    rows.push([ { txt: voucherdataprint.remarks,padding:'0 0 0 15px',bordertop:'none !important' ,borderbottom:'none !important',borderleft:'none !important',borderright:'1px solid black !important'},{ txt: '' }]);
 
-    rows.push([{ txt: { name: 'In Words', value: this.pdfService.convertNumberToWords(voucherdataprint.total.debit) }, colspan: 3 }]);
-    rows.push([{ txt: { name: 'Narration', value: voucherdataprint.remarks }, colspan: 3 }]);
+    rows.push([ { txt: 'Amount (In Words) :' ,weight:'Bold',bordertop:'none !important',borderbottom:'none !important',borderleft:'none !important',borderright:'1px solid black !important'},{ txt: '' }]);
 
+    rows.push([{ txt: this.pdfService.convertNumberToWords(voucherdataprint.total.debit),width :'500px',padding:'0 0 0 15px',bordertop:'none !important',borderbottom:'none !important',borderleft:'none !important',borderright:'1px solid black !important' }]);
 
+    rows.push([{ txt: '' ,borderbottom:'none !important',bordertop:'none !important',borderleft:'none !important',borderright:'1px solid black !important'},{ txt: '₹  '+voucherdataprint.total.debit ,align: 'right' ,bordertop:'1px solid black !important',width :'400px',borderbottom:'1px solid black !important',weight:'bold'}]);
+
+    console.log('seter footer',this.vouchername);
     let invoiceJson = {
       headers: [
-        { txt: companydata[0].foname, size: '22px', weight: 'bold' },
-        { txt: companydata[0].addressline },
-        { txt: cityaddress },
-        { txt: this.voucherName, size: '20px', weight: 600, align: 'left' }
+        { txt: companydata.branch_name, size: '22px', weight: 'bold' },
+        { txt: companydata.address },
+        { txt: companydata.state },
+        { txt: 'Code : '+companydata.gstno},
+        { txt: this.vouchername , size: '22px', weight: 'bold'}
       ],
       details: [
-        { name: 'Voucher Number', value: voucherdataprint.code },
-        { name: 'Branch', value: companydata[0].branchname },
-        { name: 'Voucher Date', value: voucherdataprint.date },
+        { name: 'No.  : ', value: voucherdataprint.code },
+        { name: 'Dated    :  ', value: voucherdataprint.date }
       ],
       table: {
         headings: [
-          { txt: 'Particulars' },
-          { txt: 'Debit Amount' },
-          { txt: 'Credit Amount' }
+          { txt: 'Particulars',width :'500px',bordertop:'1px solid black !important',borderright:'1px solid black !important' },
+          { txt: 'Amount',width :'400px',align: 'right',bordertop:'1px solid black !important' }
         ],
         rows: rows
       },
-      signatures: ['Accountant', 'Approved By'],
-      footer: {
-        left: { name: 'Powered By', value: 'Elogist Solutions' },
-        center: { name: 'Printed Date', value: '06-July-2019' },
-        right: { name: 'Page No', value: 1 },
-      }
+      signatures: ["Receiver's Signature:", 'Authorised Signatory'],
+      // footer: {
+      //   left: { name: 'Powered By', value: 'Elogist Solutions' },
+      //   center: { name: 'Printed Date', value: '06-July-2019' },
+      //   right: { name: 'Page No', value: 1 },
+      // }
 
 
     };
@@ -1327,7 +1341,7 @@ export class VoucherComponent implements OnInit {
     console.log('JSON', invoiceJson);
 
     localStorage.setItem('InvoiceJSO', JSON.stringify(invoiceJson));
-    this.printService.printInvoice(invoiceJson, 1);
+    this.printService.printInvoice(invoiceJson, 3);
 
   }
   openinvoicemodel(ledger, deletedid = 2) {
