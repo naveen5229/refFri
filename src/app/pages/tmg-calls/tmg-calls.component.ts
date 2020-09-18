@@ -81,7 +81,9 @@ export class TmgCallsComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: true,
+      isadmin: true
     };
     this.api.post('Tmgreport/GetCallsDrivar', params)
       .subscribe(res => {
@@ -100,7 +102,11 @@ export class TmgCallsComponent implements OnInit {
     let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
     let endDate = new Date();
     let params = {
-      totalrecord: 7
+      totalrecord: 7,
+      isfo: true,
+      isadmin: true,
+      fromdate: startDate,
+      todate: endDate,
     };
     ++this.common.loading;
     this.api.post('Tmgreport/GetCallsSupervisorWiseNotRespod', params)
@@ -122,7 +128,9 @@ export class TmgCallsComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: true,
+      isadmin: true
     };
     this.api.post('Tmgreport/GetCallsNotRespod', params)
       .subscribe(res => {
@@ -141,7 +149,11 @@ export class TmgCallsComponent implements OnInit {
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
-      totalrecord: 3
+      totalrecord: 3,
+      fromdate: startDate,
+      todate: endDate,
+      isfo: true,
+      isadmin: true
     };
     ++this.common.loading;
     this.api.post('Tmgreport/GetCallsSupervisorWiseTopWorstDriverCalls', params)
@@ -163,7 +175,9 @@ export class TmgCallsComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: true,
+      isadmin: true
     };
     this.api.post('Tmgreport/GetCallsSupervisorLoadingTat', params)
       .subscribe(res => {
@@ -184,7 +198,9 @@ export class TmgCallsComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 15
+      groupdays: 15,
+      isfo: true,
+      isadmin: true
     };
     ++this.common.loading;
     this.api.post('Tmgreport/GetCallsSupervisorUnLoadingTat', params)
@@ -205,7 +221,9 @@ export class TmgCallsComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 15
+      groupdays: 15,
+      isfo: true,
+      isadmin: true
     };
     ++this.common.loading;
     this.api.post('Tmgreport/GetCallOnwardKmd', params)
@@ -220,21 +238,23 @@ export class TmgCallsComponent implements OnInit {
       });
   }
   getAlertWorstCallTat() {
-    this.callsNotRespod = [];
+    this.callsSupervisorUnLoadingTat = [];
     ++this.common.loading;
     let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 15
+      groupdays: 15,
+      isfo: true,
+      isadmin: true
     };
     this.api.post('Tmgreport/GetAlertWorstCallTat', params)
       .subscribe(res => {
         --this.common.loading;
         console.log('tripUnLoadindTime:', res);
-        this.callsNotRespod = res['data'];
-        if (this.callsNotRespod.length > 0) this.handleChart5();
+        this.callsSupervisorUnLoadingTat = res['data'];
+        if (this.callsSupervisorUnLoadingTat.length > 0) this.handleChart5();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
@@ -248,14 +268,15 @@ export class TmgCallsComponent implements OnInit {
       xaxis.push(tlt['Period']);
       yaxis.push(tlt['Calls Percent']);
     });
+    let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
     console.log("handleChart1", xaxis, yaxis);
     this.chart1.type = 'line'
     this.chart1.data = {
       labels: xaxis,
       datasets: [
         {
-          label: 'count',
-          data: yaxis,
+          label: 'Call %',
+          data: yaxisObj.scaleData,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
           fill: false,
@@ -268,7 +289,7 @@ export class TmgCallsComponent implements OnInit {
         responsive: true,
         legend: {
           position: 'bottom',
-          display: true
+          display: false
         },
 
         maintainAspectRatio: false,
@@ -281,7 +302,16 @@ export class TmgCallsComponent implements OnInit {
             tension: 0
           }
         },
-
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Call %' + yaxisObj.yaxisLabel
+            },
+            ticks: { stepSize: yaxisObj.gridSize },
+            suggestedMin: yaxisObj.minValue,
+          }]
+        }
       };
   }
 
@@ -291,16 +321,17 @@ export class TmgCallsComponent implements OnInit {
     let xaxis = [];
     this.callsNotRespod.map(tlt => {
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Counts']);
+      yaxis.push(tlt['percent']);
     });
+    let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
     console.log("handleChart2", xaxis, yaxis);
     this.chart2.type = 'line'
     this.chart2.data = {
       labels: xaxis,
       datasets: [
         {
-          label: 'counts',
-          data: yaxis,
+          label: 'Call %',
+          data: yaxisObj.scaleData,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
           fill: false,
@@ -313,7 +344,7 @@ export class TmgCallsComponent implements OnInit {
         responsive: true,
         legend: {
           position: 'bottom',
-          display: true
+          display: false
         },
 
         maintainAspectRatio: false,
@@ -326,7 +357,16 @@ export class TmgCallsComponent implements OnInit {
             tension: 0
           }
         },
-
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Call %' + yaxisObj.yaxisLabel
+            },
+            ticks: { stepSize: yaxisObj.gridSize },
+            suggestedMin: yaxisObj.minValue,
+          }]
+        }
       };
   }
 
@@ -338,6 +378,7 @@ export class TmgCallsComponent implements OnInit {
     let datasets = Object.keys(periods)
       .map(period => {
         let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        yaxis.push(...periods[period].map(item => item['TAT(Hrs)']))
         return {
           label: period,
           backgroundColor: color,
@@ -353,19 +394,14 @@ export class TmgCallsComponent implements OnInit {
       labels: Object.keys(executives),
       datasets
     };
+    let chartobj = this.common.chartScaleLabelAndGrid(yaxis);
     this.chart3.options = {
       responsive: true,
       legend: {
         position: 'bottom',
         display: true
       },
-      scales: {
-        yAxes: [{
-          ticks: {
-            suggestedMax: 5
-          }
-        }]
-      },
+
       maintainAspectRatio: false,
       title: {
         display: true,
@@ -375,47 +411,53 @@ export class TmgCallsComponent implements OnInit {
         line: {
           tension: 0
         }
+      },
+      scales: {
+        yAxes: [{scaleLabel: {
+          display: true,
+          labelString: 'TAT (in Hrs.)'+chartobj.yaxisLabel
+        },        
+          ticks: { stepSize: chartobj.gridSize },
+          suggestedMin: chartobj.minValue
+        }]
       },
 
     };
   }
 
   handleChart4() {
-    let yaxis = [];
     let xaxis = [];
     let executives = _.groupBy(this.callOnwardKmd, 'Executive');
     let periods = _.groupBy(this.callOnwardKmd, 'Period');
+    let yaxis = [];
     let datasets = Object.keys(periods)
       .map(period => {
         let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        yaxis.push(...periods[period].map(item => item['Onward KMs']))
         return {
           label: period,
           backgroundColor: color,
           borderColor: color,
           borderWidth: 1,
-          data: periods[period].map(item => item['Onward KMs'])
+          data: this.common.chartScaleLabelAndGrid(periods[period].map(item => item['Onward KMs'])).scaleData
         }
       });
-    console.log('DataSets:', datasets);
-    console.log("handleChart5", xaxis, yaxis);
+  
     this.chart4.type = 'bar'
     this.chart4.data = {
       labels: Object.keys(executives),
       datasets
     };
+    console.log('yaxis:', yaxis);
+    let chartobj = this.common.chartScaleLabelAndGrid(yaxis);
+
     this.chart4.options = {
       responsive: true,
       legend: {
         position: 'bottom',
         display: true
       },
-      scales: {
-        yAxes: [{
-          ticks: {
-            suggestedMax: 5
-          }
-        }]
-      },
+
       maintainAspectRatio: false,
       title: {
         display: true,
@@ -426,8 +468,17 @@ export class TmgCallsComponent implements OnInit {
           tension: 0
         }
       },
-
+      scales: {
+        yAxes: [{scaleLabel: {
+          display: true,
+          labelString: 'KM'+chartobj.yaxisLabel
+        },        
+          ticks: { stepSize: chartobj.gridSize },
+          suggestedMin: chartobj.minValue
+        }]
+      },
     };
+    console.log(' this.chart4:', this.chart4);
   }
 
   handleChart5() {
@@ -438,6 +489,7 @@ export class TmgCallsComponent implements OnInit {
     let datasets = Object.keys(periods)
       .map(period => {
         let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        yaxis.push(...periods[period].map(item => item['TAT(Hrs)']))
         return {
           label: period,
           backgroundColor: color,
@@ -453,19 +505,15 @@ export class TmgCallsComponent implements OnInit {
       labels: Object.keys(executives),
       datasets
     };
+
+    let chartobj = this.common.chartScaleLabelAndGrid(yaxis);
     this.chart5.options = {
       responsive: true,
       legend: {
         position: 'bottom',
         display: true
       },
-      scales: {
-        yAxes: [{
-          ticks: {
-            suggestedMax: 5
-          }
-        }]
-      },
+
       maintainAspectRatio: false,
       title: {
         display: true,
@@ -476,8 +524,16 @@ export class TmgCallsComponent implements OnInit {
           tension: 0
         }
       },
-
+      scales: {
+        yAxes: [{scaleLabel: {
+          display: true,
+          labelString: 'TAT (in Hrs.)'+chartobj.yaxisLabel
+        },        
+          ticks: { stepSize: chartobj.gridSize },
+          suggestedMin: chartobj.minValue
+        }]
+      },
     };
   }
-  
+
 }

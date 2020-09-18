@@ -209,8 +209,12 @@ export class TmgTrafficComponent implements OnInit {
         maintainAspectRatio: false,
         legend: {
           display: true,
-          position: 'right'
-
+          position: 'right',
+          labels: {
+          fontSize : dt.length>8?11:12,
+          padding : dt.length>8?3:8,
+          boxWidth : 10
+          }
         },
         // tooltips: { enabled: false },
         // hover: {mode: null},
