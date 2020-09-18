@@ -419,12 +419,12 @@ export class CommonService {
     showError && this.showError(msg);
   }
 
-  reportAnIssue(issue, refId,relatedData=null) {
+  reportAnIssue(issue, refId, relatedData = null) {
     const params = {
       issueTypeId: issue.type,
       refId: refId,
       remark: issue.remark,
-      relatedData : relatedData
+      relatedData: relatedData
     };
     console.info("Params: ", params);
     this.loading++;
@@ -1942,6 +1942,7 @@ export class CommonService {
       return null;
     }
   };
+
   chartScaleLabelAndGrid(arr) {
     let chartObj = {
       yaxisLabel: '',
@@ -1952,10 +1953,10 @@ export class CommonService {
     var max = arr.reduce(function (a, b) {
       return Math.max(a, b);
     });
-    console.log("max",arr,max);
-   //--y axis scale data
+    console.log("max", arr, max);
+    //--y axis scale data
     if (max > 1000 && max < 90000) {
-      chartObj.scaleData =  arr.map(a => {
+      chartObj.scaleData = arr.map(a => {
         return a /= 100;
       });
       chartObj.yaxisLabel = "(in '00)"
@@ -1989,7 +1990,7 @@ export class CommonService {
     var min1 = chartObj.scaleData.reduce(function (a, b) {
       return Math.min(a, b);
     });
-    console.log("max1",max1,min1);
+    console.log("max1", max1, min1);
     chartObj.gridSize = Math.round(((max1 - min1) / 5) / 10) * 10;
     return chartObj;
   }
