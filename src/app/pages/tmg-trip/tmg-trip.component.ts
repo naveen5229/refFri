@@ -497,6 +497,8 @@ export class TmgTripComponent implements OnInit {
       // scales: {
       //   yAxes: [{
       //     ticks: { stepSize: 50000},
+      //     suggestedMin : 0,
+      //     max : 100
       //   }]
       //  },
       
