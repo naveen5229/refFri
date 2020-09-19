@@ -11,6 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class TollUsageSummaryComponent implements OnInit {
   userId = this.user._details.id;
+  mobile=null;
   dates = {
     start: null,
     end: null,
@@ -28,6 +29,7 @@ export class TollUsageSummaryComponent implements OnInit {
     let today = new Date();
     this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
     this.dates.end = this.common.dateFormatter1(new Date());
+    
     // console.log('dates', this.dates.start);
     //this.getDate(0);
     this.gettollUsageSummary();
@@ -90,7 +92,8 @@ export class TollUsageSummaryComponent implements OnInit {
   
   
   gettollUsageSummary() {
-    let params = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
+    this.mobile=this.user._loggedInBy=='admin'?this.user._details.fo_mobileno:'';
+    let params = "startDate=" + this.dates.start + "&endDate=" + this.dates.end+"&mobileno="+this.mobile;
     this.common.loading++;
     let response;
     this.api.walle8Get('TollSummary/getTollUsageSummary.json?' + params)

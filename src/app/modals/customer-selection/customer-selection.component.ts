@@ -57,11 +57,13 @@ export class CustomerSelectionComponent implements OnInit {
     this.searchString = user.foaname + " - " + user.foname;
     this.showSuggestions = false;
     this.user._customer.name = this.searchString;
+    this.user._customer.foid=user.foid;
     this.user._details.username=user.foname;
     this.user._customer.id = user.foaid;
     this.user._customer.mobileNo = user.fomobileno;
     console.log("user====", this.user._customer.name);
     this.user._details.fo_mobileno=this.user._customer.mobileNo;
+    
     // this.user._details.name=this.user._customer.name;
     localStorage.setItem('CUSTOMER_DETAILS', JSON.stringify(this.user._customer));
     localStorage.setItem('USER_DETAILS',JSON.stringify(this.user._details));
