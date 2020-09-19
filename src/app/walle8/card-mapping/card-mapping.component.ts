@@ -49,6 +49,7 @@ export class CardMappingComponent implements OnInit {
       BPCL: { title: 'BPCL', placeholder: 'BPCL' },
       ATM: { title: 'ATM', placeholder: 'ATM' },
       HPCL: { title: 'HPCL', placeholder: 'HPCL' },
+      TagId:{title:'Tag Id',placeholder:'Tag Id'}
     };
     return {
       data: {
@@ -70,6 +71,7 @@ export class CardMappingComponent implements OnInit {
         BPCL: { value: doc.bpcl == null ? "-" : doc.bpcl },
         ATM: { value: doc.atm == null ? "-" : doc.atm },
         HPCL: { value: doc.hpcl == null ? "-" : doc.hpcl },
+        TagId:{value:doc.tag_id==null ? "-":doc.tag_id}
       };
       columns.push(column);
     });

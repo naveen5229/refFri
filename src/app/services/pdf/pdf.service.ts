@@ -100,6 +100,7 @@ export class PdfService {
 
   findTableHeadings(tableId) {
     let tblelt = document.getElementById(tableId);
+    console.log('tableId:', tableId, tblelt);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tableId + " table");
     }
@@ -136,6 +137,52 @@ export class PdfService {
     return hdg_coll;
   }
 
+  // findTableRows(tableId) {
+  //   //remove table cols with del class
+  //   let tblelt = document.getElementById(tableId);
+  //   if (tblelt.nodeName != "TABLE") {
+  //     tblelt = document.querySelector("#" + tableId + " table");
+  //   }
+
+  //   let rows = [];
+  //   let tblrows = tblelt.querySelectorAll('tbody tr');
+  //   if (tblrows.length >= 1) {
+  //     for (let i = 0; i < tblrows.length; i++) {
+  //       if (tblrows[i].classList.contains('cls-hide'))
+  //         continue;
+  //       let rowCols = tblrows[i].querySelectorAll('td');
+  //       let rowdata = [];
+  //       for (let j = 0; j < rowCols.length; j++) {
+  //         if (rowCols[j].classList.contains('del'))
+  //           continue;
+  //         let colhtml = rowCols[j].innerHTML;
+  //         if (rowCols[j].querySelector("input")) {
+  //           let eltinput = rowCols[j].querySelector("input");
+  //           let attrval = eltinput.getAttribute("placeholder");
+  //           rowdata.push(attrval);
+  //         } else if (rowCols[j].querySelector("img")) {
+  //           let eltinput = rowCols[j].querySelector("img");
+  //           let attrval = eltinput.getAttribute("title");
+  //           rowdata.push(attrval);
+  //         } else if (colhtml.indexOf('href') > -1) {
+  //           let strval = rowCols[j].innerHTML;
+  //           rowdata.push(strval);
+  //         } else if (colhtml.indexOf('</i>') > -1) {
+  //           let pattern = /<i.* title="([^"]+)/g;
+  //           let match = pattern.exec(colhtml);
+  //           if (match != null && match.length)
+  //             rowdata.push(match[1]);
+  //         } else {
+  //           let plainText = rowCols[j].innerText;
+  //           rowdata.push(plainText);
+  //         }
+  //       }
+  //       rows.push(rowdata);
+  //     }
+  //   }
+  //   return rows;
+  // }
+
   findTableRows(tableId) {
     //remove table cols with del class
     let tblelt = document.getElementById(tableId);
@@ -154,31 +201,51 @@ export class PdfService {
         for (let j = 0; j < rowCols.length; j++) {
           if (rowCols[j].classList.contains('del'))
             continue;
+
           let colhtml = rowCols[j].innerHTML;
+          let fontStyle = rowCols[j].style.fontWeight;
+          let fillColor = rowCols[j].style.backgroundColor;
+          let textColor = rowCols[j].style.color;
+          let fontSize = rowCols[j].style.fontSize;
+          let content = rowCols[j].innerText;
+          let colSpan = rowCols[j].colSpan;
+          let rowSpan = rowCols[j].rowSpan;
+          let halign = rowCols[j].style.textAlign || 'center';
+
           if (rowCols[j].querySelector("input")) {
-            let eltinput = rowCols[j].querySelector("input");
-            let attrval = eltinput.getAttribute("placeholder");
-            rowdata.push(attrval);
+            content = rowCols[j].querySelector("input").getAttribute("placeholder");
           } else if (rowCols[j].querySelector("img")) {
-            let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput.getAttribute("title");
-            rowdata.push(attrval);
+            content = rowCols[j].querySelector("img").getAttribute("title");
           } else if (colhtml.indexOf('href') > -1) {
-            let strval = rowCols[j].innerHTML;
-            rowdata.push(strval);
+            content = rowCols[j].innerHTML;
           } else if (colhtml.indexOf('</i>') > -1) {
             let pattern = /<i.* title="([^"]+)/g;
             let match = pattern.exec(colhtml);
             if (match != null && match.length)
-              rowdata.push(match[1]);
-          } else {
-            let plainText = rowCols[j].innerText;
-            rowdata.push(plainText);
+              content = match[1];
           }
+
+          let col = {
+            content,
+            colSpan,
+            rowSpan,
+            styles: {
+              halign
+            },
+          };
+
+          if (fontStyle) col.styles['fontStyle'] = fontStyle;
+          if (fillColor) col.styles['fillColor'] = fillColor;
+          if (textColor) col.styles['textColor'] = textColor;
+          if (fontSize) col.styles['fontSize'] = fontSize;
+
+          rowdata.push(col);
         }
         rows.push(rowdata);
       }
     }
+
+    console.log(rows);
     return rows;
   }
 
