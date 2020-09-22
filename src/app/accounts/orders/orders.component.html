@@ -4,7 +4,7 @@
   </nb-card-header> -->
   <nb-card-body>
     <div class="row mt-4">
-      <div class="col-9">
+      <div class="col-9 pl-0 pr-0">
         <div class="row">
          
         </div>
@@ -13,7 +13,7 @@
         <div
           *ngIf="order.ordertype.name.toLowerCase().includes('purchase') || order.ordertype.name.toLowerCase().includes('debit note') || order.ordertype.name.toLowerCase().includes('wastage') ">
           <div class="row">
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">PI No.</label>
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('debit')"> Debit Note No.</label>
@@ -22,7 +22,7 @@
                   name="account-custcode" [(ngModel)]="order.custcode" placeholder="Please Enter Invoice Number">
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">PI Date</label>
                 <label class="ref-label"*ngIf="order.ordertype.name.toLowerCase().includes('debit')">Debit Date</label>
@@ -33,7 +33,7 @@
 
               </div>
             </div>
-            <div class="col"  *ngIf="order.ordertype.name.toLowerCase().includes('purchase') || order.ordertype.name.toLowerCase().includes('debit')">
+            <div class="col pl-0"  *ngIf="order.ordertype.name.toLowerCase().includes('purchase') || order.ordertype.name.toLowerCase().includes('debit')">
               <div class="form-group">
                 <label class="ref-label"  *ngIf="order.ordertype.name.toLowerCase().includes('purchase')" >Po Date</label>
                 <label class="ref-label"  *ngIf="order.ordertype.name.toLowerCase().includes('debit')" >Ref Date</label>
@@ -43,7 +43,7 @@
 
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Ref.No.</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" name="account-qutationrefrence"
@@ -53,7 +53,7 @@
             
           </div>
           <div class="row" *ngIf="(order.ordertype.id != -108)">
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Purchase Ledger</label>
                 <input type="text" autocomplete="off" class="form-control  ref-input" id="purchaseledger"
@@ -63,7 +63,7 @@
                   (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Supplier Ledger</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" id="ledger" name="ledger"
@@ -74,7 +74,7 @@
                   <span *ngIf="(ledgerbalance)"><i>Cur Bal: </i>{{ ledgerbalance }}</span>
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Supplier Ref.No</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" name="account-vendorbidref"
@@ -84,7 +84,7 @@
            
 
 
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Shipment Location</label>
                 <input autocomplete="off" type="text" class="form-control ref-input"name="account-shipmentlocation"
@@ -94,21 +94,21 @@
           </div>
 
           <div class="row" *ngIf="(order.ordertype.id != -108)">
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Payment Terms</label>
                 <input autocomplete="off" type="text" class="form-control ref-input"name="account-paymentterms"
                   id="paymentterms" [(ngModel)]="order.paymentterms" placeholder="Payment Terms">
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Bilty Number</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" name="account-biltynumber"
                   id="biltynumber" [(ngModel)]="order.biltynumber" placeholder="Bilty Number">
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Bilty Date</label>
 
@@ -119,7 +119,7 @@
 
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Dilivery Terms</label>
                 <input autocomplete="off" type="text" class="form-control ref-input" name="account-deliveryterms"
@@ -128,7 +128,7 @@
             </div>
           </div>
           <div class="row" *ngIf="(order.ordertype.id != -108)">
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                   <label class="ref-label">Vender Billing Address</label>
                 <textarea class="form-control ref-input" name="account-billingaddress" id="billingaddress"
@@ -138,7 +138,7 @@
 
 
 
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                   <label class="ref-label">Remarks</label>
                 <textarea class="form-control ref-input" name="account-orderremarks" id="orderremarks"[(ngModel)]="order.orderremarks"
@@ -153,7 +153,7 @@
         <div
           *ngIf="order.ordertype.name.toLowerCase().includes('sales') || order.ordertype.name.toLowerCase().includes('credit note') ">
           <div class="row">
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('sales')">Invoice No.</label>
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('credit')">Credit Note No.</label>
@@ -161,7 +161,7 @@
                   id="custcode" [(ngModel)]="order.custcode" placeholder="Please Enter Invoice No.">
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label" *ngIf="order.ordertype.name.toLowerCase().includes('credit')">Credit Date</label>
                 <label class="ref-label" *ngIf="(!order.ordertype.name.toLowerCase().includes('credit'))">Invoice Date</label>
@@ -171,14 +171,14 @@
 
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Order No</label>
                 <input type="text" autocomplete="off" class="form-control ref-input" id="vendorbidref"name="account-vendorbidref"
                   [(ngModel)]="order.vendorbidref" placeholder="Order No">
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Order Date</label>
                 <input type="text" autocomplete="off" style="cursor: pointer;" class="form-control ref-input"
@@ -197,7 +197,7 @@
             
           </div>
           <div class="row">
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Sales Ledger</label>
                 <!-- <auto-suggestion (onSelected)="onSelected($event, 'purchaseledger', 'name')"
@@ -210,7 +210,7 @@
                   (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Party Name</label>
                 <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger"
@@ -221,7 +221,7 @@
               </div>
             </div>
             
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Payment Terms</label>
                 <input type="text" autocomplete="off" class="form-control ref-input" id="paymentterms" name="account-paymentterms"
@@ -235,14 +235,14 @@
 
           <div class="row">
            
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Eway Bill Number</label>
                 <input type="text" autocomplete="off" class="form-control ref-input" id="biltynumber" name="account-biltynumber"
                   [(ngModel)]="order.biltynumber" placeholder="Eway Bill Number">
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Eway Bill Date</label>
                 <input type="text" style="cursor: pointer;" class="form-control ref-input" autocomplete="off" id="biltydate"
@@ -252,7 +252,7 @@
 
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Delivery Terms</label>
                 <input type="text" autocomplete="off" class="form-control ref-input" id="deliveryterms" name="account-deliveryterms"
@@ -262,14 +262,14 @@
 
           </div>
           <div class="row">
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                   <label class="ref-label">Party Billing Address</label>
                 <textarea class="form-control ref-input" autocomplete="off" name="account-billingaddress" id="billingaddress"
                   [(ngModel)]="order.billingaddress" placeholder="Party Billing Address"></textarea>
               </div>
             </div>
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                 <label class="ref-label">Shipment Location</label>
                 <textarea autocomplete="off" class="form-control ref-input" id="shipmentlocation"name="account-shipmentlocation"
@@ -285,7 +285,7 @@
             </div> -->
 
 
-            <div class="col">
+            <div class="col pl-0">
               <div class="form-group">
                   <label class="ref-label">Remarks</label>
                 <textarea class="form-control ref-input" autocomplete="off" name="account-orderremarks" id="orderremarks"
@@ -297,7 +297,7 @@
       </div>
 
 
-      <div class="col-3" id="ledger-container">
+      <div class="col-3 pr-0 pl-0" id="ledger-container">
         <div class="auto-sugg">
           <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
             [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)">

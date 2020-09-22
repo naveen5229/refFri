@@ -82,6 +82,7 @@
               <th>Invoice Amount</th>
                </tr>
              </thead>
+            <tbody>
              <tr *ngFor="let item of DayData; let i = index;" (click)="selectedRow = i" (dblclick)="openGSTEdit(item.y_details)" [ngClass]="{'highlight' : selectedRow == i}">
               <td> {{item.y_sno}}</td>
               <td> {{item.y_name}}</td>
@@ -94,6 +95,7 @@
               <td> {{item.y_tax_amt}}</td>
               <td> {{item.y_inv_amt}}</td>
         </tr>
+      </tbody>
           </table>
     </div>
 

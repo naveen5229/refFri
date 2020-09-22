@@ -25,6 +25,7 @@
           <th>Sgst</th>
         </tr>
       </thead>
+    <tbody>
       <tr *ngFor="let dataItem of data; let i = index;" (click)="selectedRow = i"
         (dblclick)="(dataItem.y_type.toLowerCase().includes('freight')) ?(dataItem.y_type.toLowerCase().includes('expence'))?openfreight(dataItem['y_refid']):openRevenue(dataItem['y_refid']): (dataItem.y_type.toLowerCase().includes('lr')) ? editTransfer(dataItem['y_refid']): (dataItem.y_type.length != '') ? getBookDetail(dataItem.y_voucherid,dataItem.y_code,dataItem.y_type,dataItem) : '' "
         (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i,'radclass':(dataItem.y_type == null)}">
@@ -45,6 +46,7 @@
         <td>{{cgsttotal}}</td>
         <td>{{sgsttotal}}</td>
       </tr>
+    </tbody>
     </table>
     <table class="table table-bordered">
       <thead style="background-color:#263238; color:#fff;">
@@ -53,6 +55,7 @@
           <th>Amount</th>
         </tr>
       </thead>
+    <tbody>
      <tr >
         <td class="ref-label">Igst</td>
         <td>{{igsttotal}}</td>
@@ -65,6 +68,7 @@
         <td class="ref-label">Sgst</td>
         <td>{{sgsttotal}}</td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

@@ -18,6 +18,7 @@
 
           </tr>
         </thead>
+      <tbody>
         <tr *ngFor=" let dataItem of Detail; let j = index" (click)="selectedRow =  '' + i + j"
           [ngClass]="{'highlight' : selectedRow == '' + i + j }">
           <td>{{dataItem.y_date}}</td>
@@ -25,10 +26,8 @@
           <td >{{dataItem.y_ledger}}</td>
           <td>{{dataItem.y_amount}}</td>
           <td><span *ngFor="let subdataItem of dataItem.y_details;">{{subdataItem}} <br></span></td>
-         
-
-
         </tr>
+      </tbody>
       </table>
     </div>
     <!-- <div class="modal-footer">

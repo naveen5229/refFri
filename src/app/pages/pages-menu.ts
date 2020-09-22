@@ -159,7 +159,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     children: [
       {
         title: 'TMG Dashboard',
-        icon: 'fa-pie',
+        // icon: 'fa-chart-pie',
         link: '/pages/tmg-dashboard',
         home: true,
       },
@@ -374,7 +374,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       },
       {
         title: 'TMG Calls',
-        icon: 'fa-pie',
+        icon: 'fa-chart-pie',
         link: '/pages/tmg-calls',
         home: true,
       },

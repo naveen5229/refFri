@@ -58,7 +58,7 @@
 
 <div class="header_mini_menu  col-2 pr-0 pl-2">
   <div class="bank_icon">
-    <button class="form-control refresh" (click)="openBankModal()"><i class="fa fa-bank icon " title="Bank Details"></i></button>
+    <button class="form-control refresh" (click)="openBankModal()"><i class="fas fa-university icon" title="Bank Details"></i></button>
   </div>
   <div class="add_customer"
     *ngIf="this.user._loggedInBy == 'admin'||this.user._loggedInBy == 'partner' ||(this.user._loggedInBy === 'customer' && this.user._details.multipleAccounts>0)">
@@ -66,9 +66,9 @@
     <!-- <button class="form-control" (click)="openChangeModal()"><img src="assets/images/add-contact.png" title="Select FO Admin"></button> -->
   </div>
   
-  
+ 
   <div class="refresh_icon">
-    <button class="form-control refresh" (click)="refresh()"><i class="fa fa-refresh" title="Refresh"></i></button>
+    <button class="form-control refresh" (click)="refresh()"><i class="fas fa-sync-alt" title="Refresh"></i></button>
   </div>
    
   <div class="header-container">
@@ -78,7 +78,7 @@
         </nb-user>
         <!-- [nbContextMenu]="userMenu" -->
       </nb-action>
-      <nb-action class="control-item" disabled  title="Notifications"><i class="fas fa-bell"></i></nb-action>
+      <!-- <nb-action class="control-item" disabled  title="Notifications"><i class="fas fa-bell"></i></nb-action> -->
       <!-- <nb-action class="control-item" icon="nb-email"></nb-action> -->
       <!-- <nb-action class="control-item">
         <nb-search type="rotate-layout" (click)="startSearch()"></nb-search>
