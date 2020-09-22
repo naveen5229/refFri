@@ -154,31 +154,51 @@ export class PdfService {
         for (let j = 0; j < rowCols.length; j++) {
           if (rowCols[j].classList.contains('del'))
             continue;
+
           let colhtml = rowCols[j].innerHTML;
+          let fontStyle = rowCols[j].style.fontWeight;
+          let fillColor = rowCols[j].style.backgroundColor;
+          let textColor = rowCols[j].style.color;
+          let fontSize = rowCols[j].style.fontSize;
+          let content = rowCols[j].innerText;
+          let colSpan = rowCols[j].colSpan;
+          let rowSpan = rowCols[j].rowSpan;
+          let halign = rowCols[j].style.textAlign || 'center';
+
           if (rowCols[j].querySelector("input")) {
-            let eltinput = rowCols[j].querySelector("input");
-            let attrval = eltinput.getAttribute("placeholder");
-            rowdata.push(attrval);
+            content = rowCols[j].querySelector("input").getAttribute("placeholder");
           } else if (rowCols[j].querySelector("img")) {
-            let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput.getAttribute("title");
-            rowdata.push(attrval);
+            content = rowCols[j].querySelector("img").getAttribute("title");
           } else if (colhtml.indexOf('href') > -1) {
-            let strval = rowCols[j].innerHTML;
-            rowdata.push(strval);
+            content = rowCols[j].innerHTML;
           } else if (colhtml.indexOf('</i>') > -1) {
             let pattern = /<i.* title="([^"]+)/g;
             let match = pattern.exec(colhtml);
             if (match != null && match.length)
-              rowdata.push(match[1]);
-          } else {
-            let plainText = rowCols[j].innerText;
-            rowdata.push(plainText);
+              content = match[1];
           }
+
+          let col = {
+            content,
+            colSpan,
+            rowSpan,
+            styles: {
+              halign
+            },
+          };
+
+          if (fontStyle) col.styles['fontStyle'] = fontStyle;
+          if (fillColor) col.styles['fillColor'] = fillColor;
+          if (textColor) col.styles['textColor'] = textColor;
+          if (fontSize) col.styles['fontSize'] = fontSize;
+
+          rowdata.push(col);
         }
         rows.push(rowdata);
       }
     }
+
+    console.log(rows);
     return rows;
   }
 

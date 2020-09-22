@@ -27,5 +27,9 @@
       ]
     },
     "skipLibCheck": true,
+  },
+  "angularCompilerOptions": {
+    "enableIvy": true,
+    "allowEmptyCodegenFiles": true
   }
 }
