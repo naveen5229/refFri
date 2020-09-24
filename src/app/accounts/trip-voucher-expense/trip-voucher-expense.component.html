@@ -7,24 +7,24 @@
         style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
     </div>
     <div class="row" style="margin: 0;">
-      <div class="col-3">
+      <div class="col-3 pl-0 pr-0">
         <div class="left-box">
           <div class="row">
-            <div class="col-sm-8 pr-0">
+            <div class="col-sm-8 pl-0">
               <label class="tjr-label">Vehicle No</label>
               <div class="vehicle_no_input">
                 <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getFoVehicleList" display="regno"
                   placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
               </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 pl-0">
               <button (click)="getPendingTrips()" class="btn btn-primary mt-3"><i class="fa fa-plus"></i></button>
             </div>
           </div>
         </div>
 
       </div>
-      <div class="col-9">
+      <div class="col-9 pl-0 pr-0">
         <div class="left-box">
           <div class="row">
             <div class="col-sm-3 pr-0">

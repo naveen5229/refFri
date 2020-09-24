@@ -36,7 +36,8 @@ export class UserService {
   _customer = {
     name: '',
     id: '',
-    mobileNo: null
+    mobileNo: null,
+    foid:null
   };
 
   _loggedInBy = '';
@@ -82,7 +83,6 @@ export class UserService {
       this.filterMenu("walle8", "walle8");
       this.filterMenu("bidSystem", "bidSystem");
       this.filterMenu("loadIntelligence", "loadIntelligence");
-
     }
   }
 

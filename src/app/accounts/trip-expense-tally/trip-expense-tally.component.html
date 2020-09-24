@@ -1,13 +1,13 @@
-<nb-card style="border: 0px; height: 100%; margin-top: 15px !important;">
+<nb-card style="border: 0px;margin-top: 15px !important;">
     <nb-card-body>
         <div class="row">
-            <div class="col-2">
+            <div class="col-2 pl-0">
                 <div class="form-group">
                     <label class="tjr-label">Vehicle</label>
                     <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getFoVehicleList" display="regno" placeholder="Search by vehicle number and regno " [preSelected]="null"></auto-suggestion>
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-2 pl-0">
                 <div class="form-group">
                     <label class="tjr-label">Different Only</label>
                     <select [(ngModel)]="request" id="diffrenttype" class="form-control tjr-input">
@@ -16,7 +16,7 @@
             </select>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-3 pl-0">
                 <!-- <div class="form-group">
                     <label>Start Date</label>
                     <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]=false>
@@ -29,7 +29,7 @@
                       maxlength="10">
                   </div>
             </div>
-            <div class="col-3">
+            <div class="col-3 pl-0">
                 <!-- <div class="form-group">
                     <label>End Date</label>
                     <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false [isStart]="false">
@@ -41,7 +41,7 @@
                       placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.todate" maxlength="10">
                   </div>
             </div>
-            <div class="col-2 mt-4">
+            <div class="col-2 pl-0 mt-4">
                 <button class="btn btn-primary" id="button" (click)="getTripExpenseTally()" style="border-radius:2px;padding: 6px 17px;">Submit</button>
             </div>
         </div>

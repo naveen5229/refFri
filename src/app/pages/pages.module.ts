@@ -97,6 +97,13 @@ import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
 import { SupervisorUserAssociationComponent } from './supervisor-user-association/supervisor-user-association.component';
 import { TripsComponent } from './trips/trips.component';
 import { IssuesReportComponent } from './issues-report/issues-report.component';
+import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
+import { TmgChallanComponent } from './tmg-challan/tmg-challan.component';
+import { TmgTripComponent } from './tmg-trip/tmg-trip.component';
+import { TmgTrafficComponent } from './tmg-traffic/tmg-traffic.component';
+import { TmgComponent } from './tmg/tmg.component';
+import { TmgCallsComponent } from './tmg-calls/tmg-calls.component';
+import { TmgAlertsComponent } from './tmg-alerts/tmg-alerts.component';
 
 
 
@@ -195,6 +202,13 @@ const PAGES_COMPONENTS = [
     SupervisorUserAssociationComponent,
     TripsComponent,
     IssuesReportComponent,
+    VehicleStatesComponent,
+    TmgChallanComponent,
+    TmgTripComponent,
+    TmgTrafficComponent,
+    TmgComponent,
+    TmgCallsComponent,
+    TmgAlertsComponent,
 
 
   ],

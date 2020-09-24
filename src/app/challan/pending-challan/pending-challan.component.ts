@@ -17,8 +17,9 @@ export class PendingChallanComponent implements OnInit {
   startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 30));
   challanStatus = '-1';
   challan = [];
-  paidChallan = 0;
-  pendingChallan = 0;
+  paidAmount = '';
+  pendingAmount = '';
+  totalAmount='';
   table = {
     data: {
       headings: {},
@@ -63,14 +64,36 @@ export class PendingChallanComponent implements OnInit {
             return;
           }
           this.challan = res['data'];
-          this.pendingChallan = 0;
-          this.paidChallan = 0;
-          for (let i = 0; i < this.challan.length; i++) {
-            if (this.challan[i]['Payment Type'] == 'Cash')
-              this.paidChallan++;
-            else
-              this.pendingChallan++;
-          }
+          console.log("ChallanData:",this.challan);
+          // this.pendingChallan = 0;
+          // this.paidChallan = 0;
+
+          const pending = this.challan.filter(item => item['Payment Type'] === 'Pending')
+                        .reduce((pending, current) => pending + current.Amount, 0);
+                        // this.pendingChallan=numberWithCommas(pending);
+                        var pen=Number(pending).toLocaleString('en-GB')
+                        this.pendingAmount=pen;
+
+
+          const cash = this.challan.filter(item => item['Payment Type'] === 'Cash')
+          .reduce((cash, current) => cash + current.Amount, 0);
+          var cashamt=Number(cash).toLocaleString('en-GB')
+          this.paidAmount=cashamt;
+
+          const total=pending+cash;
+          var totl=Number(total).toLocaleString('en-GB');
+          this.totalAmount=totl;
+
+
+          
+
+                        
+          // for (let i = 0; i < this.challan.length; i++) {
+          //   if (this.challan[i]['Payment Type'] == 'Cash')
+          //     this.paidChallan++;
+          //   else
+          //     this.pendingChallan++;
+          // }
           this.setTable();
         },
           err => {
@@ -134,8 +157,10 @@ export class PendingChallanComponent implements OnInit {
       chNo: challan['Challan No'],
       amount: challan.Amount,
       rowId: challan._id,
+      vehId: challan._vid,
+      foid: challan._foid,
     }
-    const activeModal = this.modalService.open(ChallanPendingRequestComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ChallanPendingRequestComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.getPendingChallans();

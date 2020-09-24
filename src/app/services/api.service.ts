@@ -12,8 +12,10 @@ import { encode } from 'punycode';
 export class ApiService {
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
    // URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
-    URL: string = 'http://localhost/booster_webservices/'; // Local
+  //  URL: string = 'http://localhost/booster_webservices/'; // Local
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+    URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
+   
   URL2 = 'http://elogist.in/transtruck/';
   URLJava : string = 'http://13.126.162.170:7070/'; // Dev Server
 
@@ -242,7 +244,7 @@ export class ApiService {
 
 
   setWalle8Headers() {
-    const entryMode = '3';
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
     const authKey = this.user._details.authkeyOld || '';
     const version = '2.3';
 

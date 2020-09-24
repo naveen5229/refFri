@@ -2,7 +2,7 @@
 
   <nb-card-body>
     <div class="row">
-      <div class="col-9">
+      <div class="col-9 pr-0 pl-0">
         <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
@@ -10,7 +10,7 @@
 
         <div class="row">
          
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group mb-0">
               <div class="form-group debit_box m-0 w-100">
                 <label class="tjr-label">Filter Date</label>
@@ -24,7 +24,7 @@
             </div>
           </div>
 
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label ledger-label">Ledger</label>
               <input type="text" id="ledger" class="form-control tjr-input" name="ledger" autocomplete="off"
@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
@@ -41,14 +41,14 @@
                 maxlength="10">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="enddate"
                 placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.todate" maxlength="10">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getVoucherEdited()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
@@ -56,7 +56,7 @@
           </div>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pr-0 pl-0">
         <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
           <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
             (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>

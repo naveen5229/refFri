@@ -6,6 +6,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { CsvService } from '../../services/csv/csv.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'financial-toll-summary-addtime',
@@ -24,6 +26,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     name: null,
     mobileNo: null
   }
+  customerFoid=null;
   foid = null;
   regno = null;
   typedKey = '';
@@ -41,14 +44,17 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal, ) {
-      this.foid = this.user._details.foid;
+    public modalService: NgbModal,
+    private datePipe: DatePipe,
+    private csvService: CsvService ) {
+      this.foid = this.user._loggedInBy == 'admin' ? this.user._customer.foid:this.user._details.foid;
+      console.log("FOID:",this.foid);
       console.log("this.user._details.",this.user._details);
       this.fo.id = this.user._details.foid;
       this.fo.mobileNo = this.user._details.fo_mobileno;
-      this.fo.name = this.user._details.name;
+      this.fo.name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
       this.common.refresh = this.refresh.bind(this);
-    this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
+      this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
   }
 
   ngOnInit() {
@@ -168,10 +174,10 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     doc = this.setPdfHeader(doc);
 
     let startingPage = doc.internal.getCurrentPageInfo().pageNumber;
-    doc.autoTable(this.getPdfTableConfig('provider', { right: 330, left: 30, top: 20 }, null, 70));
+    doc.autoTable(this.getPdfTableConfig('provider', { right: 330, left: 30, top: 20 }, null, 70,140));
     doc.setPage(startingPage);
-    doc.autoTable(this.getPdfTableConfig('customer', { left: 330, right: 30, top: 20 }, null, 70));
-    doc.autoTable(this.getPdfTableConfig('account', { left: 30, right: 30, top: 0 }));
+    doc.autoTable(this.getPdfTableConfig('customer', { left: 330, right: 30, top: 20 }, null, 70,140));
+    doc.autoTable(this.getPdfTableConfig('account', { left: 30, right: 30, top: 0 },null,null,290));
     doc.autoTable(this.getPdfTableConfig('tblData', { left: 30, right: 30, top: 0 }, this.setPdfPageFooter.bind(this, doc)));
     doc.save('financial-toll-summary.pdf');
   }
@@ -206,7 +212,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     data.settings.margin.top = 20;
   };
 
-  getPdfTableConfig(id: string, margin: object, footerSetter?: any, startY?: number) {
+  getPdfTableConfig(id: string, margin: object, footerSetter?: any, startY?: number,cellWidth=65) {
     let config = {
       html: '#' + id,
       theme: 'grid',
@@ -223,13 +229,13 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
         cellPadding: 3,
         minCellHeight: 11,
         minCellWidth: 10,
-        cellWidth: 40,
+        cellWidth: cellWidth,
         valign: 'middle',
         halign: 'center'
       },
       columnStyles: {
         text: {
-          cellWidth: 40,
+          cellWidth: cellWidth,
           halign: 'center',
           valign: 'middle'
         }
@@ -253,6 +259,17 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
     return canvas.toDataURL();
   }
-
+  printCsv(tblEltId,tblEltId1) {
+    let customerName = this.user._customer.name;
+    if (this.user._loggedInBy == "customer")
+       customerName = this.user._details.name;
+        let details = [
+          { customer: 'Customer : ' + this.fo.name },
+          { report: 'Report : Financial Toll Summary (Add Time)' },
+          {period : 'Period : '+this.common.dateFormatter1(this.dates.start)+" To "+this.common.dateFormatter1(this.dates.end)},
+          { time: 'Time : ' + this.datePipe.transform(new Date(), 'dd-MM-yyyy hh:mm:ss a') }
+         ];
+        this.csvService.byMultiIds([tblEltId1], 'Financial Toll Summary', details);
+  }
 
 }
