@@ -39,8 +39,34 @@
     
   </nb-card-header>
   <nb-card-body style="width:96%;margin-left:2%;">
-    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="paymentsMade"></smart-table>
-    <table *ngIf="data.length" style="margin-top:-15px">
+    <!-- <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table> -->
+
+    <table class="table table-bordered" style="width:100%" id="paymentsMade" *ngIf='data.length'>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Amonut</th>
+          <th>Remark</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let payment of data;let i=index' >
+          <td>{{i+1}}</td>
+          <td>{{common.dateFormatter1(payment.dttime)}}</td>
+          <td>{{payment.amt}}</td>
+          <td>{{payment.rema}}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Total</td>
+          <td>{{total}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- <table *ngIf="data.length" style="margin-top:-15px">
       <tbody>
         <tr>
           <th style="width: 40px"></th>
@@ -52,7 +78,7 @@
           </th>
         </tr>
       </tbody>
-    </table>
+    </table> -->
     <br>
   </nb-card-body>
 </nb-card>

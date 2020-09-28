@@ -5,7 +5,7 @@
     <div class="row m-0" style="width:100%;background-color: #E5F3F9;border-top-right-radius: 5px; border-top-left-radius:5px;display:inline-block">
       <h5 class="p-2" style="font-weight:bold; display: inline-block;">Toll Usage</h5>
 
-      <div style="display:inline-block;" class="p-2 float">
+      <div style="display:inline-block;" class="p-2 float" *ngIf="data">
         <span style="display: block;">
           <span class="pdf-icon" title="PDF Export" (click)="printPDF('tollUsage');" style="cursor: pointer;"><i
               class="fa fa-file-pdf"></i></span>
@@ -32,8 +32,32 @@
   </nb-card-header>
 
   <nb-card-body style="width:96%;margin-left:2%;">
-    <smart-table *ngIf="data.length" id="tollUsage" [data]="table.data" [settings]="table.settings">
-    </smart-table>
+    <!-- <smart-table *ngIf="data.length" id="tollUsage" [data]="table.data" [settings]="table.settings">
+    </smart-table> -->
+    <table *ngIf="data" id="tollUsage" class="table table-bordered" style="width:100%">
+      <thead>
+        <tr>
+          <th>Vehicle</th>
+          <th>Amount</th>
+          <th>Plaza Code</th>
+          <th>Transaction Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tollData of data">
+          <td>{{tollData.cardno}}</td>
+          <td>{{tollData.amt}}</td>
+          <td>{{tollData.deal}}</td>
+          <td>{{tollData.trtime}}</td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td>{{total}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
   </nb-card-body>
 </nb-card>
 

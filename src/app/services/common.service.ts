@@ -217,7 +217,7 @@ export class CommonService {
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
 
-    console.log(year + "-" + month + "-" + dat);
+    // console.log(year + "-" + month + "-" + dat);
 
     //return dat + "-" + month + "-" + year;
     return year + "-" + month + "-" + dat;
