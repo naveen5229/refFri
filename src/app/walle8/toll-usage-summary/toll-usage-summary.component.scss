@@ -36,16 +36,16 @@ table {
     }
     tr{
       th:nth-child(1){
-        width: 30px;
+        width: auto;
       }
       th{
-        width: 200px;
+        width: auto;
       }
       td:nth-child(1){
-        width: 30px;
+        width: auto;
       }
       td{
-          width: 200px;
+          width: auto;
       }
       th:last-child{
         width: auto;

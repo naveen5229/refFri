@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
+
 @Component({
   selector: 'financial-toll-summary',
   templateUrl: './financial-toll-summary.component.html',
@@ -24,6 +27,8 @@ export class FinancialTollSummaryComponent implements OnInit {
   mobileno = this.user._details.mobileno;
   constructor(
     public api: ApiService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal,
@@ -52,41 +57,62 @@ export class FinancialTollSummaryComponent implements OnInit {
       console.log('Date:', this.dates);
     });
   }
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Financial Report";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+
+
+  // printPDF(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Financial Report";
+  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+  // printCSV(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Financial Report";
+  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.dates.start),'End Date: '+this.common.dateFormatter1(this.dates.end),  'Report: '+'Financial-Toll-Summary']
+    ];
+    this.pdfService.jrxTablesPDF(['FinancialReport'], 'financial-toll-summary', details);
   }
 
-  printCSV(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Financial Report";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.dates.start),enddate:'End Date:'+this.common.dateFormatter1(this.dates.end), report:"Report:Financial-Toll-Summary"}
+    ];
+    this.csvService.byMultiIds(['FinancialReport'], 'financial-toll-summary', details);
   }
+
   setTable() {
     let headings = {
       vehid: { title: 'Vehicle', placeholder: 'Vehicle' },

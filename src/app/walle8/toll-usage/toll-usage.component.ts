@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 @Component({
   selector: 'toll-usage',
   templateUrl: './toll-usage.component.html',
@@ -11,6 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class TollUsageComponent implements OnInit {
   data = [];
+  total=0;
   tollUsage = [];
   userId = this.user._details.id;
   cardType = 1;
@@ -21,6 +24,8 @@ export class TollUsageComponent implements OnInit {
   }
   constructor(
     public api: ApiService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal,
@@ -46,79 +51,10 @@ export class TollUsageComponent implements OnInit {
       console.log('Date:', this.dates);
     });
   }
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Toll Usage";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
 
-  printCSV(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Toll Usage";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
-  setTable() {
-    let headings = {
-      cardno: { title: 'Vehicle', placeholder: 'Vehicle' },
-      trtime: { title: 'Transaction Time', placeholder: 'Transaction Time' },
-      deal: { title: 'Plaza Name', placeholder: 'Plaza Name' },
-      amt: { title: 'Amount', placeholder: 'Amount' },
-    };
-    return {
-      data: {
-        headings: headings,
-        columns: this.getTableColumns()
-      },
-      settings: {
-        hideHeader: true,
-        tableHeight: "auto"
-      }
-    }
-  }
-  getTableColumns() {
-    let columns = [];
-    this.data.map(doc => {
-      let column = {
-        cardno: { value: doc.cardno },
-        trtime: { value: this.common.changeDateformat4(doc.trtime) },
-        deal: { value: doc.deal == null ? "-" : doc.deal },
-        amt: { value: doc.amt == null ? "-" : parseInt(doc.amt) },
-        //HPCL: { value: doc.hpcl == null ? "-" : doc.hpcl },
-      };
-      columns.push(column);
-    });
-    return columns;
-  }
   gettollUsage() {
-
-
+    this.total=0;
     let params = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
-
-    // console.log('.......,', params);
     this.common.loading++;
     let response;
     this.api.walle8Get('TollSummary/getEntireTollUsage.json?' + params)
@@ -126,20 +62,32 @@ export class TollUsageComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.data = res['data'];
-        if (this.data == null) {
-          this.data = [];
-          this.table = null;
-          return;
-
+        if(res['data']){
+          for (let i = 0; i < this.data.length; i += 1) {
+            this.total += Number(this.data[i].amt);
+          }
         }
-        this.table = this.setTable();
-
       }, err => {
         this.common.loading--;
         console.log(err);
       });
     return response;
-
   }
 
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.dates.start),'End Date: '+this.common.dateFormatter1(this.dates.end),  'Report: '+'Toll-Usage']
+    ];
+    this.pdfService.jrxTablesPDF(['tollUsage'], 'toll-usage', details);
+  }
+
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.dates.start),enddate:'End Date:'+this.common.dateFormatter1(this.dates.end), report:"Report:Toll-Usage"}
+    ];
+    this.csvService.byMultiIds(['tollUsage'], 'toll-usage', details);
+  }
 }
