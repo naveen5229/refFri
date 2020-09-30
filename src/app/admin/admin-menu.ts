@@ -128,7 +128,7 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
       link: '/admin/transport-area',
     },
     {
-      title: 'locations',
+      title: 'Locations/Alias',
       icon: 'fas fa-map',
       link: '/admin/locations',
     },
