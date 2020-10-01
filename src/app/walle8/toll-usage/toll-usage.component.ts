@@ -22,6 +22,7 @@ export class TollUsageComponent implements OnInit {
     start: null,
     end: this.common.dateFormatter(new Date()),
   }
+  
   constructor(
     public api: ApiService,
     private pdfService: PdfService,
