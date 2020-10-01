@@ -8,12 +8,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="row mb-3">
-                        <div class="col-3 ml-3">
+                        <div class="col-3">
                             <div class="row row align-items-center">
-                                <div class="col-4 pl-0 pr-0">
+                                <div class="col-5 pl-0 pr-0">
                                     <label>From Date :</label>
                                 </div>
-                                <div class="col-8 pl-0">
+                                <div class="col-7 pl-0">
                                     <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"
                                         [isTime]="false">
                                     </uj-date-time-picker>
@@ -22,10 +22,10 @@
                         </div>
                         <div class="col-3">
                             <div class="row align-items-center">
-                                <div class="col-3 pr-0 pl-0">
+                                <div class="col-4 pr-0 pl-0">
                                     <label>To Date :</label>
                                 </div>
-                                <div class="col-9">
+                                <div class="col-8">
                                     <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate"
                                         [isTime]="false" [isStart]="false">
                                     </uj-date-time-picker>

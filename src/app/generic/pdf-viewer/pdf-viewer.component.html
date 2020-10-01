@@ -1,5 +1,8 @@
 <div class="modal-header">
   <h5>{{title || 'Document'}}</h5>
+  <a [href]="pdfUrl" download class="close" target="_blank">
+    <i class="fa fa-download"></i>
+  </a>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
     <span aria-hidden="true">&times;</span>
   </button>
