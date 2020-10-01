@@ -1,6 +1,20 @@
 <nb-card style="border: 0px; height: 100%;">
     <nb-card-header class="toll-soft-recovery">
-        <h5>Pending Challan</h5>
+        <div class="row">
+            <div class="col-sm-9">
+                <h5 class="col-sm-10">Pending Challan</h5>
+            </div>
+            <div class="col-sm-3" *ngIf="challan && challan.length">
+                <span style="display: block;">
+                    <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
+                        class="fa fa-file-pdf"></i></span>
+                    <span class="exel-icon" title="CSV Export" (click)="printCSV()"
+                      style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+                  </span>
+            </div>
+        </div>
+        
+        
 
     </nb-card-header>
     <nb-card-body>

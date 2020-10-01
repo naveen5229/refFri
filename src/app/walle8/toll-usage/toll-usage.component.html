@@ -38,23 +38,23 @@
       <thead>
         <tr>
           <th>Vehicle</th>
-          <th>Amount</th>
-          <th>Plaza Code</th>
           <th>Transaction Time</th>
+          <th>Plaza Code</th>
+          <th>Amount</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let tollData of data">
           <td>{{tollData.cardno}}</td>
-          <td>{{tollData.amt}}</td>
-          <td>{{tollData.deal}}</td>
           <td>{{tollData.trtime}}</td>
+          <td>{{tollData.deal}}</td>
+          <td>{{tollData.amt}}</td>
         </tr>
         <tr>
+          <td></td>
+          <td></td>
           <td>Total</td>
           <td>{{total}}</td>
-          <td></td>
-          <td></td>
         </tr>
       </tbody>
     </table>
