@@ -1,6 +1,15 @@
 .fa-edit {
     color: blue;
   }
+
+  .pdf-iconnew{
+    font-size: 20px;
+    color: #9F0001;
+  }
+  .exel-iconnew{
+    font-size: 20px;
+    color: #217346;
+  }
   
   :host ::ng-deep td i.fa-file-alt {
     background-color: #04a9f5;
@@ -99,7 +108,7 @@
   
   :host ::ng-deep .fa-file-pdf {
     color: red;
-    font-size: 18px;
+    font-size: 24px;
     margin-left: 6px;
     span {
       position: absolute;

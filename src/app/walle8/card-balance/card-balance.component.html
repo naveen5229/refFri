@@ -6,9 +6,9 @@
 
       <div style="display:inline-block;" class="p-2 float">
         <span style="display: block;">
-          <span class="pdf-icon" title="PDF Export" (click)="printPDF('cardBalance');" style="cursor: pointer;"><i
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
               class="fa fa-file-pdf"></i></span>
-          <span class="exel-icon" title="CSV Export" (click)="printCSV('cardBalance')"
+          <span class="exel-icon" title="CSV Export" (click)="printCSV();"
             style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
         </span>
       </div>
@@ -26,6 +26,7 @@
             <th style="text-align: center;">BPCL</th>
             <th style="text-align: center;">HPCL</th>
             <th style="text-align: center;">ATM</th>
+            <th style="text-align: center;">Tolls</th>
           </tr>
         </thead>
         <tbody>
@@ -35,6 +36,7 @@
             <td style="text-align: center;">{{cardBalance.bpcl}}</td>
             <td style="text-align: center;">{{cardBalance.hpcl}}</td>
             <td style="text-align: center;">{{cardBalance.atm}}</td>
+            <td style="text-align: center;">{{cardBalance.tolls}}</td>
           </tr>
         </tbody>
 
@@ -44,7 +46,7 @@
             <td> Subtotal</td>
             <td style="text-align: center;padding-right:12px;">{{sum.bpcl}}</td>
             <td style="text-align: center; padding-right:10px;" >{{sum.hpcl}}</td>
-            <td style="text-align: center; padding-right:25px;">{{sum.atm}}</td>
+            <td style="text-align: center; padding-right:171px;">{{sum.atm}}</td>
           </tr>
         </tbody>
         <!-- </table>

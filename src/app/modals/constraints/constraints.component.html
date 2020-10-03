@@ -100,7 +100,7 @@
             </auto-suggestion>
 
             <auto-suggestion *ngIf="destination.type == 'map'" (onChange)="onChangeAuto($event,i)"
-              (onSelected)="selectSuggestion($event,i,'destinations','map')" (noDataFound)="takeAction($event,i)"
+              (onSelected)="selectSuggestion($event,i,'destinations','map')" (noDataFound)="takeAction($event,i,'destination')"
               [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="mapValue"
               placeholder="Location" [preSelected]="destination">
             </auto-suggestion>
@@ -108,6 +108,39 @@
             <i class="fa fa-plus add" (click)="addField('destinations',i)"
               *ngIf="i == constraintsType.destinations.length-1"></i>
             <i class="fa fa-trash remove" (click)="deleteField('destinations',i)" *ngIf="i !== 0"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-3">
+      <div class="row">
+        <div class="col-12">
+          <label>Source</label>
+          <i class="fas fa-redo-alt refresh" (click)="removeObjectData('source')"></i>
+          <div *ngFor="let source of constraintsType.sources; let i = index; " class="mt-2">
+            <span>Site</span>
+            <input value="site" [(ngModel)]="source.type" type="radio" checked="checked" class="m-2"
+              [name]="'source-'+i">
+            &nbsp;
+            <span>Map</span>
+            <input value="map" [(ngModel)]="source.type" type="radio" [name]="'source-'+i" class="m-2">
+
+            <auto-suggestion *ngIf="source.type == 'site'"
+              (onSelected)="selectSuggestion($event,i,'sources','site')" url="Suggestion/getSites?typeId=1"
+              seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site" inputId="'site-'+i"
+              [preSelected]="source">
+            </auto-suggestion>
+
+            <auto-suggestion *ngIf="source.type == 'map'" (onChange)="onChangeAuto($event,i)"
+              (onSelected)="selectSuggestion($event,i,'sources','map')" (noDataFound)="takeAction($event,i,'source')"
+              [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="mapValue"
+              placeholder="Location" [preSelected]="source">
+            </auto-suggestion>
+
+            <i class="fa fa-plus add" (click)="addField('sources',i)"
+              *ngIf="i == constraintsType.sources.length-1"></i>
+            <i class="fa fa-trash remove" (click)="deleteField('sources',i)" *ngIf="i !== 0"></i>
           </div>
         </div>
       </div>

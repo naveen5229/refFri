@@ -287,7 +287,7 @@ export class TmgAlertsComponent implements OnInit {
       responsive: true,
       legend: {
         position: 'bottom',
-        display:  true
+        display:  false
       },
      
       maintainAspectRatio: false,
@@ -300,7 +300,14 @@ export class TmgAlertsComponent implements OnInit {
           tension: 0
         }
       },
-      
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Ack TAT (in Hrs.)'
+          }
+        }]
+      } ,
     };
   }
  
@@ -318,7 +325,7 @@ export class TmgAlertsComponent implements OnInit {
       labels: xaxis,
       datasets: [
         {
-          label: 'Time (in mins.)',
+          label: 'Time (in Mins.)',
           data: yaxis,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
@@ -332,7 +339,7 @@ export class TmgAlertsComponent implements OnInit {
       responsive: true,
       legend: {
         position: 'bottom',
-        display:  true
+        display:  false
       },
      
       maintainAspectRatio: false,
@@ -345,7 +352,14 @@ export class TmgAlertsComponent implements OnInit {
           tension: 0
         }
       },
-      
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Time (in Mins.)'
+          }
+        }]
+      } ,
     };
   }
   
@@ -363,7 +377,7 @@ export class TmgAlertsComponent implements OnInit {
       labels: xaxis,
       datasets: [
         {
-          label: 'Time (in mins)',
+          label: 'Time (in Mins)',
           data: yaxis,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
@@ -377,7 +391,7 @@ export class TmgAlertsComponent implements OnInit {
     responsive: true,
     legend: {
       position: 'bottom',
-      display:  true
+      display:  false
     },
    
     maintainAspectRatio: false,
@@ -390,7 +404,14 @@ export class TmgAlertsComponent implements OnInit {
         tension: 0
       }
     },
-    
+    scales: {
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Time (in Mins.)'
+        }
+      }]
+    } ,
   };
 }
 }

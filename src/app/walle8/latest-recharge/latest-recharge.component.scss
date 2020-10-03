@@ -26,21 +26,21 @@
         display: table;
         width: 100%;
         table-layout: fixed;
-        background-color: #263238;
+        background-color: #a9aaaa;
         color: #fff;        
     }
     tr{
       th:nth-child(1){
-        width: 30px;
-      }
-      th{
         width: 200px;
       }
+      th{
+        width: auto;
+      }
       td:nth-child(1){
-        width: 30px;
+        width: 200px;
       }
       td{
-          width: 200px;
+          width: auto;
       }
       th:last-child{
         width: auto;

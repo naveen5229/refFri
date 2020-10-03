@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 @Component({
   selector: 'other-usage',
@@ -22,6 +24,8 @@ export class OtherUsageComponent implements OnInit {
   table = null;
   constructor(
     public common: CommonService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public api: ApiService,
     public modalService: NgbModal,
     public user: UserService) {
@@ -76,40 +80,57 @@ export class OtherUsageComponent implements OnInit {
 
     });
   }
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Other Usage";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  // printPDF(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Other Usage";
+  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+  // printCSV(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Other Usage";
+  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.dates.start),'End Date: '+this.common.dateFormatter1(this.dates.end),  'Report: '+'Other-Usage']
+    ];
+    this.pdfService.jrxTablesPDF(['otherUsage'], 'other-usage', details);
   }
 
-  printCSV(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Other Usage";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.dates.start),enddate:'End Date:'+this.common.dateFormatter1(this.dates.end), report:"Report:Other-Usage"}
+    ];
+    this.csvService.byMultiIds(['otherUsage'], 'other-usage', details);
   }
 
 }

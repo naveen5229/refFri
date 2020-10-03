@@ -299,6 +299,7 @@ import { ShowDataMapComponent } from './modals/generic-modals/show-data-map/show
 import { IframeModalComponent } from './modals/iframe-modal/iframe-modal.component';
 import { UploadFileComponent } from './modals/generic-modals/upload-file/upload-file.component';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { FoSiteAliasComponent } from './modals/fo-site-alias/fo-site-alias.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -554,6 +555,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   ShowDataMapComponent,
   IframeModalComponent,
   UploadFileComponent,
+  FoSiteAliasComponent,
 
 ];
 
