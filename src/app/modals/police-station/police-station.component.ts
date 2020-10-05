@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
-import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { Api2Service } from '../../services/api2.service';
-import { element } from '@angular/core/src/render3';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 @Component({
   selector: 'police-station',

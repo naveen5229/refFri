@@ -5,7 +5,6 @@ import { VehicleMaintenanceRoutingModule } from './vehicle-maintenance-routing.m
 import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from '../documents/dashboard/dashboard.module';
 import { DirectiveModule } from '../directives/directives.module';
-import { ImageViewerModule } from 'ng2-image-viewer';
 import { AddVehicleMaintenanceComponent } from './add-vehicle-maintenance/add-vehicle-maintenance.component';
 import { AddMaintenanceComponent } from './model/add-maintenance/add-maintenance.component';
 import { ViewMaintenanceComponent } from './model/view-maintenance/view-maintenance.component';
@@ -33,7 +32,6 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     DirectiveModule,
-    ImageViewerModule,
     SharedModule,
     ChartModule,
     ResizableModule

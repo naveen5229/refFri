@@ -3,9 +3,7 @@ nb-card-header{
   border: 1px solid #efefef;
   margin-bottom: 10px;
 }
-nb-card-body{
-max-height: calc(100vh - 68px)
-}
+
 button { 
   padding: 7px 10px !important;
   background-color: #263238;
@@ -101,7 +99,7 @@ color:#26a69a !important;
           display: block;
           table-layout: fixed;
           overflow: auto;
-          max-height: calc(100vh - 450px);
+          max-height: calc(100vh - 435px);
         
        tr{
          td input{

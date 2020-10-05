@@ -118,7 +118,7 @@ export class UserService {
       console.log('test');
       this._menu[type].push({
         title: 'Vehicle Tracking',
-        icon: 'fas fa-chalkboard-teacher',
+        icon: 'fa-chalkboard-teacher',
         link: '#'
       })
     }

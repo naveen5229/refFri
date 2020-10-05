@@ -5,7 +5,6 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { UserCallHistoryComponent } from '../../modals/user-call-history/user-call-history.component';
-import { NullInjector } from '@angular/core/src/di/injector';
 
 @Component({
   selector: 'call-logs',

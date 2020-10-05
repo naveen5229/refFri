@@ -1,22 +1,29 @@
 <div class="modal-header">
   <div class="row" style="width:100%;">
-    <div class="col-10"><h5 class="modal-title" id="modal-basic-title">Card Usage</h5></div>
+    <div class="col-10">
+      <h5 class="modal-title" id="modal-basic-title">Card Usage</h5>
+    </div>
     <div class="col-2">
-    <i class="far fa-file-pdf" style="margin-top:5px;;margin-left:20px; color:white; margin-right: 10px; cursor: pointer;" (click)="downloadPDF()"></i>
-    <i class="far fa-file-excel" style="margin-top:5px;cursor: pointer;color:white;" (click)="downloadCSV()"></i>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-    <span aria-hidden="true">&times;</span>
-    </button>
+      <span (click)="downloadPDF()">
+        <i class="far fa-file-pdf"
+          style="margin-top:5px;;margin-left:20px; color:white; margin-right: 10px; cursor: pointer;"></i>
+      </span>
+      <span (click)="downloadCSV()">
+        <i class="far fa-file-excel" style="margin-top:5px;cursor: pointer;color:white;"></i>
+      </span>
+      <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
   </div>
-  
-    
+
+
 
 </div>
 <div class="modal-body">
 
-  <table *ngIf="cardUsage.length" class="table table-bordered" id="card-usage-details" >
-    <tr>
+  <table *ngIf="cardUsage.length" class="table table-bordered" id="card-usage-details">
+    <thead>
       <th>Category</th>
       <th>Vehicle</th>
       <th>Transaction Date</th>
@@ -24,21 +31,23 @@
       <th>Dealer</th>
       <th>Location</th>
       <th>Txn No</th>
-    </tr>
-    <tr *ngFor="let card of cardUsage">
-      <td>{{ card.cardtype}}</td>
-      <td (click)="openImageUploadModal(card)" style="color:blue">{{card.cardno}}</td>
-      <td>{{card.datetime}}</td>
-      <td>{{card.amount | number }}</td>
-      <td>{{card.dealer}}</td>
-      <td>{{card.location}}</td>
-      <td>{{card.txnid}}</td>
-    </tr>
-    <tr>
-      <td colspan="2"></td>
-      <td style="text-align:center;font-weight:bold">Total Amount</td>
-      <td style="text-align:center;font-weight:bold">{{totalAmount}}</td>
-      <td colspan="2"></td>
-    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let card of cardUsage">
+        <td>{{ card.cardtype}}</td>
+        <td (click)="openImageUploadModal(card)" style="color:blue">{{card.cardno}}</td>
+        <td>{{card.datetime}}</td>
+        <td>{{card.amount | number }}</td>
+        <td>{{card.dealer}}</td>
+        <td>{{card.location}}</td>
+        <td>{{card.txnid}}</td>
+      </tr>
+      <tr>
+        <td colspan="2"></td>
+        <td style="text-align:center;font-weight:bold">Total Amount</td>
+        <td style="text-align:center;font-weight:bold">{{totalAmount}}</td>
+        <td colspan="2"></td>
+      </tr>
+    </tbody>
   </table>
 </div>

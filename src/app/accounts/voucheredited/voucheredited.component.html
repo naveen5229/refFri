@@ -91,7 +91,7 @@
       <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
         [ngClass]="{'highlight' : selectedRow == i}"> -->
-
+      <tbody>
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="getBookDetail(dataItem.y_voucher_id)" (enter)="getBookDetail(dataItem.y_voucherid,dataItem.y_code) "
         [ngClass]="{'highlight' : selectedRow == i,'greterline' :(dataItem.y_days > 1) ,'lowerline' : (dataItem.y_days < 0)}">
@@ -105,6 +105,7 @@
         <td>{{dataItem.y_last_edit_time | date:'dd-MMM-yy h:mm'}}</td>
         <td>{{dataItem.y_last_editby}}</td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

@@ -100,6 +100,7 @@ table{
     cursor: pointer !important;
     width: 40px;
     height: 40px;
+    color: #fff;
   }
 .selected {
     background-color: #576c77
@@ -110,7 +111,7 @@ table tr.highlight {
     cursor: pointer;
    
 }
-i{
+svg{
     font-size: 14px;
     align-content: center;
 }

@@ -15,12 +15,8 @@
       <div class="col-5">
         <div class="row">
           <div class="form-group" class="col-sm-4">
-            <!-- <input [(ngModel)]="currentDay" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate "
-                        placeholder="Start Time" class="form-control" autocomplete="off" name="s-date" [attr.value]="currentDay | date: 'yyyy-MM-dd'" >
-                      <owl-date-time #sDate pickerType = "calendar"></owl-date-time> -->
             <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
               placeholder="Select Date" [value]="currentDay | date: 'dd MMM yyyy'" name="date" readonly>
-
           </div>
           <div class="col-4">
             <div class="search_vehicle_input">

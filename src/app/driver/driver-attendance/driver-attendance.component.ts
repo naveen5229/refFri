@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
-import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-import { from } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DriverAttendanceUpdateComponent } from '../../modals/driver-attendance-update/driver-attendance-update.component';
 import * as _ from "lodash";
-import { PARAMETERS } from '@angular/core/src/util/decorators';
 
 @Component({
   selector: 'driver-attendance',

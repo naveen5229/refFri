@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { CommonService } from '../..//services/common.service';
@@ -31,7 +31,7 @@ export class TemplatePreviewComponent implements OnInit {
     public user: UserService,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
-    public renderer: Renderer,
+    public renderer: Renderer2,
     private sanitizer: DomSanitizer
   ) {
     this.common.handleModalSize('class', 'modal-lg', '1600');
@@ -125,13 +125,13 @@ export class TemplatePreviewComponent implements OnInit {
 
 
   onPrint(id) {
-    this.renderer.setElementClass(document.body, 'test', true);
+    this.renderer.addClass(document.body, 'test');
     window.print();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 
   printHandler() {
-    this.renderer.setElementClass(document.body, 'test', true);
+    this.renderer.addClass(document.body, 'test');
     let css = '@page { size: landscape !important; }';
     let head = document.head || document.getElementsByTagName('head')[0];
     let style = document.createElement('style');
@@ -152,7 +152,7 @@ export class TemplatePreviewComponent implements OnInit {
       if (document.readyState == "complete") {
         clearInterval(printWindowListener);
         head.removeChild(style);
-        this.renderer.setElementClass(document.body, 'test', false);
+        this.renderer.addClass(document.body, 'test');
       }
     }, 1000);
   }

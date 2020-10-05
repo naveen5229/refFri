@@ -508,7 +508,7 @@ export class MapService {
     });
   }
   createPolyPathManual(latLng, polygonOptions?, drawVertix?) {
-    console.log(polygonOptions);
+    // console.log(polygonOptions);
     if (!this.polygonPath) {
       const defaultPolygonOptions = {
         strokeColor: 'black',
@@ -519,7 +519,7 @@ export class MapService {
           offset: '100%'
         }]
       };
-      console.log(defaultPolygonOptions);
+      // console.log(defaultPolygonOptions);
       this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
       this.polygonPath.setMap(this.map);
     }

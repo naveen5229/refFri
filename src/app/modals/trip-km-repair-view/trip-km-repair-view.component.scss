@@ -1,0 +1,19 @@
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+.button-blue {background-color: #008CBA;} /* Blue */
+.button-red {background-color: #f44336;} /* Red */ 
+.button-gray {background-color: #e7e7e7; color: black;} /* Gray */ 
+.button-black {background-color: #555555;} /* Black */

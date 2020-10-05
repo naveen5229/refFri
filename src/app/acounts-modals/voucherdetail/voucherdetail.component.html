@@ -20,6 +20,7 @@
 
           </tr>
         </thead>
+      <tbody>
         <tr *ngFor=" let dataItem of Detail; let j = index" (click)="selectedRow =  '' + i + j"
           [ngClass]="{'highlight' : selectedRow == '' + i + j }">
           <td>{{dataItem.y_particulars}}</td>
@@ -38,7 +39,7 @@
          <td><label>Narration</label></td>
         <td colspan="3" *ngIf="Detail">{{ Detail[0]['y_naration'] }}</td>
       </tr>
-
+    </tbody>
       </table>
     </div>
     <!-- <div class="modal-footer">

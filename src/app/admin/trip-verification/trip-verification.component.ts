@@ -5,6 +5,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TripKmRepairViewComponent } from '../../modals/trip-km-repair-view/trip-km-repair-view.component';
 
 @Component({
   selector: 'trip-verification',
@@ -196,16 +197,14 @@ export class TripVerificationComponent implements OnInit {
         class:'xyz'
       };
       for (let j = 0; j < this.headings.length; j++) {
-
+        
         if (this.headings[j] == "Trip") {
           this.valobj[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.vehicleTrips[i]), isHTML: true, class: 'black' };
 
         } else {
           this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'black', action: '' };
         }
-        this.valobj['km'] = {
-          value: this.vehicleTrips[i]['_km'], isHTML: true, action: null,
-        }
+        this.valobj['km'] = { value: this.vehicleTrips[i]['_km'], class: 'blue',action:this.openTripKmRepair.bind(this, this.vehicleTrips[i]) };
         this.valobj['googlekm'] = {
           value: this.vehicleTrips[i]['_googlekm'], isHTML: true, action: null,
         }
@@ -240,7 +239,24 @@ export class TripVerificationComponent implements OnInit {
     console.log('Columns:', columns);
     return columns;
   }
+  
+  openTripKmRepair(tripInfo){
+    if(!tripInfo['_km']){
+      this.common.showError('No Data');
+      return;
+    }
+    let tripData = {
+      tripId : tripInfo['Trip Id']
+    };
+    this.common.params = tripData;
+    console.log("tripData", this.common.params);
 
+    const activeModal = this.modalService.open(TripKmRepairViewComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      // this.getVehicleTrips();
+    });
+  }
+  
   actionIcons(trip,index) {
     let icons = [
 

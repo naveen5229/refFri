@@ -29,7 +29,7 @@
 
     /deep/ .main-container {
       width: $sidebar-width;
-      background: nb-theme(color-bg);
+      background: #ffffff;
       transition: width 0.3s ease;
       overflow: hidden;
 
@@ -38,7 +38,7 @@
       }
 
       @include nb-for-theme(cosmic) {
-        background: nb-theme(layout-bg);
+        background: #f1f5f8;
       }
     }
   }
@@ -54,11 +54,11 @@
     /deep/ .main-container {
       height:
         calc(#{nb-theme(sidebar-height)} - #{nb-theme(header-height)} - #{nb-theme(sidebar-header-gap)}) !important;
-      @include nb-ltr(border-top-right-radius, nb-theme(radius));
-      @include nb-rtl(border-top-left-radius, nb-theme(radius));
+      @include nb-ltr(border-top-right-radius, 0.375rem);
+      @include nb-rtl(border-top-left-radius, 0.375rem);
 
       @include nb-for-theme(corporate) {
-        border: 1px solid nb-theme(separator);
+        border: 1px solid #cdd5dc;
         height:
           calc(#{nb-theme(sidebar-height)} - #{nb-theme(header-height)}) !important;
       }
@@ -88,7 +88,7 @@
       transition: padding 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.48);
 
       @include nb-for-theme(corporate) {
-        border-radius: nb-theme(radius);
+        border-radius: 0.375rem;
       }
 
       i {
