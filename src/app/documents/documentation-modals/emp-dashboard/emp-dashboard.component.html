@@ -7,13 +7,14 @@
 <div class="modal-body">
   <div class="row" style="margin-bottom:10px">
     <div class="form-group" class="col-sm-3">
-      <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('stdate')"
-        placeholder="Select Date" [value]="startDay | date: 'dd MMM yyyy'" name="stdate" readonly>
+      <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate" [isTime]="false">
+      </uj-date-time-picker>
+      
     </div>
     <div class="form-group" class="col-sm-3">
-      <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('curdate')"
-        placeholder="Select Date" [value]="currentDay | date: 'dd MMM yyyy'" name="curdate" readonly>
-    </div>
+      <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate"[isStart]="false" [isTime]="false">
+      </uj-date-time-picker>
+         </div>
     <div class="form-group" class="col-sm-3">
       <select [(ngModel)]="analyticsType" class="form-control">
         <option value="Employee Wise">Employee Wise</option>
@@ -23,7 +24,7 @@
         <option value="Fo Wise">FO Wise</option>
         <option value="Fo Wise L/UL">FO Wise L/UL</option>
         <option value="User FO Wise">User FO Wise</option>
-
+        <option value="VSC Working Hours">VSC Working Hours</option>
       </select>
     </div>
     <div class="col-sm-3">
