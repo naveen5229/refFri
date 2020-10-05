@@ -11,12 +11,24 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,  
             "preserveSymlinks": true,
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "allowedCommonJsDependencies": [
+              "jspdf",
+              "jspdf-autotable",
+              "file-saver",
+              "angular2-chartjs",
+              "ng2-pdf-viewer",
+              "html2pdf.js",
+              "xlsx",
+              "crypto-js",
+              "iv-viewer"
+            ],
             "assets": [
               "src/assets",
               "src/favicon.ico",
@@ -27,26 +39,33 @@
                 "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
               },
               "node_modules/bootstrap/dist/css/bootstrap.css",
-              "node_modules/ng2-image-viewer/imageviewer.scss",
               "node_modules/material-design-icons/iconfont/material-icons.css",
               "node_modules/angular-tooltips/dist/angular-tooltips.min.css",
               "node_modules/typeface-exo/index.css",
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "src/app/@theme/styles/styles.scss",
-              "node_modules/ng-pick-datetime/assets/style/picker.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "src/print.scss",
               "src/accounts.scss",
+              "src/image-viewer.scss",
               "src/styles.css"
             ],
             "scripts": [
+              "node_modules/jquery/dist/jquery.js",
               "node_modules/pace-js/pace.min.js",
-              "node_modules/ng2-image-viewer/imageviewer.js",
+              "node_modules/@fortawesome/fontawesome-free/js/all.js",
               "node_modules/angular-tooltips/dist/angular-tooltips.min.js"
             ]
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -156,6 +175,11 @@
           "options": {
             "tsConfig": "projects/auto-suggestion-in-side/tsconfig.lib.json",
             "project": "projects/auto-suggestion-in-side/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/auto-suggestion-in-side/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -184,7 +208,7 @@
   "defaultProject": "ngx-admin-demo",
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {}
   },

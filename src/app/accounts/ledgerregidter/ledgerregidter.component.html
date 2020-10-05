@@ -14,24 +14,24 @@
           All</span>
       </div>
     <div class="row" style="margin-left: 0px;">
-      <div class="col-9 pl-0">
+      <div class="col-9 pl-0 pr-0">
        
         <div class="row">
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label">Voucher</label>
               <input autocomplete="off" type="text" id="vouchertype" class="form-control tjr-input" name="vouchertype"
                 [(ngModel)]="ledgerRegister.vouchertype.name">
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label">Group </label>
               <input autocomplete="off" type="text" id="group" class="form-control tjr-input" name="group"
                 [(ngModel)]="ledgerRegister.group.name">
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label">Ledger</label>
               <input autocomplete="off" type="text" id="ledgerdaybook" class="form-control tjr-input" name="ledger"
@@ -102,7 +102,7 @@
 
         </div> -->
         <div class="row">
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
@@ -110,7 +110,7 @@
                 maxlength="10">
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="enddate"
@@ -118,7 +118,7 @@
             </div>
           </div>
           
-          <div class="col-2">
+          <div class="col-2 pl-0">
             <div *ngIf="flag==0" class="form-group addvance">
               <a href="javascript:void(0)" outline (click)="addvance()" id="submit"> Advanced Search</a>
             </div>
@@ -127,7 +127,7 @@
             </div>
           </div>
 
-          <div class="col-2">
+          <div class="col-2 pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getDetail()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
@@ -136,7 +136,7 @@
 
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pl-0 pr-0">
         <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
                 <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
                   (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
@@ -181,7 +181,7 @@
             <div class="col x-col" style="text-align:right;">{{stockType.debit | number : '1.2-2'}}</div>
             <div class="col x-col" style="text-align:right;">{{stockType.credit | number : '1.2-2'}}</div>
           </div>
-          <ledger-register-tree [action]="openinvoicemodel.bind(this)"  [getaction]="getDetail.bind(this)" [data]="stockType.data" [isExpandAll]="isExpand == 'sub'" [active]="activeTree == i || isExpand  ? true : false" labels="">
+          <ledger-register-tree [action]="openinvoicemodel.bind(this)"  [getaction]="getDetail.bind(this)" [data]="stockType.data" [isExpandAll]="isExpand == 'sub'" [active]="activeTree == i || (isExpand == 'sub')  ? true : false" labels="">
           </ledger-register-tree>
         </div>
       </div>

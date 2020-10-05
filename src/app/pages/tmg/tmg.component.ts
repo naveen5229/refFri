@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tmg.component.scss']
 })
 export class TmgComponent implements OnInit {
-  seletionsArray = ['Tmg-Challan', "Tmg-Trip", "Tmg-Traffic","Tmg-Calls","Tmg-Alerts"];
+  seletionsArray = ['Tmg-Challan', "Tmg-Trip", "Tmg-Traffic","Tmg-Calls","Tmg-Alerts","Tmg-Documents"];
   selectedDashboard = 'Tmg-Challan';
   constructor() {
 

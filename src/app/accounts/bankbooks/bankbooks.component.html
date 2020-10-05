@@ -2,7 +2,7 @@
 
   <nb-card-body>
     <div class="row">
-      <div class="col-9">
+      <div class="col-9 pr-0 pl-0">
         <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
@@ -23,14 +23,14 @@
                 [(ngModel)]="bankBook.vouchertype.name">
             </div>
           </div> -->
-          <div class="col-6">
+          <div class="col-6 pl-0">
             <div class="form-group">
               <label class="tjr-label">Ledger</label>
               <input type="text" id="ledger" class="form-control tjr-input" name="ledger" autocomplete="off"
                 [(ngModel)]="bankBook.ledger.name">
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-6 pl-0">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
@@ -42,14 +42,14 @@
         </div>
         <div class="row">
           
-          <div class="col-6">
+          <div class="col-6 pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="enddate"
                 placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.todate" maxlength="10">
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-3 pl-0">
             <div *ngIf="flag==0" class="form-group addvance">
               <a href="javascript:void(0)" outline (click)="addvance()" id="submit" style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
             </div>
@@ -57,7 +57,7 @@
               <a href="javascript:void(0)" outline (click)="addvance()" id="submit" class="advncolor" style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-3 pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getBankBook()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
@@ -65,7 +65,7 @@
           </div>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pr-0 pl-0">
         <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
           <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
             (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
@@ -86,21 +86,18 @@
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>S.No</th>
-          <th>Date</th>
-          <th>Particular</th>
-          <th>Vch Type</th>
-          <th>Vch No.</th>
-          <th>Ref No.</th>
-          <th>Amount(DR)</th>
-          <th>Amount(CR)</th>
-          <th *ngIf="accountService.selected.branch.id ==0">Branch</th>
+          <th *ngFor="let filter of filters">
+            <input type="text" [(ngModel)]="filter.search" (ngModelChange)="jrxSearch(filter)" [placeholder]="filter.name"
+              class="jrx-acc-th-inpt">
+          </th>
+          <th *ngIf="accountService.selected.branch.id == 0">Branch</th>
         </tr>
       </thead>
       <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
         [ngClass]="{'highlight' : selectedRow == i}"> -->
 
-      <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
+      <tr *ngFor=" let dataItem of data; let i = index;" (click)="selectedRow = i"
         (dblclick)="getBookDetail(dataItem.y_voucherid,dataItem.y_type,dataItem)"
         (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i,'radclass':(dataItem.y_type == null) }">
         <td>{{ i+1 }}</td>
@@ -115,6 +112,24 @@
       </tr>
     </table>
    </div>
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="pages.count >= 1">
+      <!-- Page Count -->
+      <div class="pagination_links">
+        <button (click)="jrxPagination(pages.active - 1)" [disabled]="pages.active == 1">Pre</button>
+        <button *ngFor="let page of common.generateArray(pages.count)" (click)="jrxPagination(page)"
+          [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</button>
+        <button (click)="jrxPagination(pages.active + 1)" [disabled]="pages.active == pages.count">Next</button>
+      </div>
+      <!-- Page Count END -->
+      <!-- Records Per Page -->
+      <div class="numer_list ml-3">
+        <input type="text" class="customPage form-control" name="customPageNo" (ngModelChange)="jrxPageLimitReset()"
+          [(ngModel)]="pages.limit">
+      </div>
+      <!-- Records Per Page END -->
+    </div>
+    <!-- Pagination END -->
   </nb-card-body>
 </nb-card>
 

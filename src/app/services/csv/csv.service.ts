@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
+import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 import * as _ from "lodash";
 import { CommonService } from '../common.service';
 
@@ -18,10 +18,11 @@ export class CsvService {
    */
   byMultiIds(tableIds: string[], fileName: string = 'report', details?: any[]) {
     let xrows: any[] = [{}];
-
+    let headings = [{}];
     tableIds.map((tableId, index) => {
       this.findTableHeadings(tableId).map((col, index2) => {
         xrows[0]['tabel-' + index + '-col-' + index2] = col;
+        headings[0]['tabel-' + index + '-col-' + index2] = col;
       });
     });
 
@@ -36,9 +37,9 @@ export class CsvService {
       details.forEach(detail => info.push({ "": "", ...detail }))
     }
     info.push(blankline);
-    info.push(...xrows);
-
-    new Angular5Csv(info, fileName);
+    info.push(...headings, ...xrows);
+    console.log(xrows);
+    new AngularCsv(info, fileName);
   }
 
   findTableHeadings(tableId) {
@@ -55,11 +56,11 @@ export class CsvService {
         if (hdgCols[i].classList.contains('del'))
           continue;
         let elthtml = hdgCols[i].innerHTML;
-        if (elthtml.indexOf('<input') > -1) {
+        if (hdgCols[i].querySelector("input")) {
           let eltinput = hdgCols[i].querySelector("input");
           let attrval = eltinput.getAttribute("placeholder");
           headings.push(attrval);
-        } else if (elthtml.indexOf('<img') > -1) {
+        } else if (hdgCols[i].querySelector("img")) {
           let eltinput = hdgCols[i].querySelector("img");
           let attrval = eltinput.getAttribute("title");
           headings.push(attrval);
@@ -67,12 +68,11 @@ export class CsvService {
           let strval = hdgCols[i].innerHTML;
           headings.push(strval);
         } else {
-          let plainText = elthtml.replace(/<[^>]*>/g, '');
+          let plainText = hdgCols[i].innerText;
           headings.push(plainText);
         }
       }
     }
-
     return headings;
   }
 
@@ -95,15 +95,15 @@ export class CsvService {
           if (rowCols[j].classList.contains('del'))
             continue;
           let colhtml = rowCols[j].innerHTML;
-          if (colhtml.indexOf('input') > -1) {
+          if (colhtml.indexOf('<input') > -1) {
             let eltinput = rowCols[j].querySelector("input");
             let attrval = eltinput.getAttribute("placeholder");
             rowdata.push(attrval);
-          } else if (colhtml.indexOf('img') > -1) {
+          } else if (colhtml.indexOf('<img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
             let attrval = eltinput.getAttribute("title");
             rowdata.push(attrval);
-          } else if (colhtml.indexOf('href') > -1) {
+          } else if (colhtml.indexOf('href=') > -1) {
             let strval = rowCols[j].innerHTML;
             rowdata.push(strval);
           } else if (colhtml.indexOf('</i>') > -1) {
@@ -125,13 +125,13 @@ export class CsvService {
   handleRows(tableRows, table, xrows) {
     tableRows.map((row, index) => {
       row.map((col, index2) => {
-        if (!xrows[index + 1]) {
+        if (!xrows[index]) {
           let keys = Object.keys(xrows[0]).sort();
           let newRow = {};
           keys.map(key => newRow[key] = '');
           xrows.push(newRow);
         }
-        xrows[index + 1]['tabel-' + table + '-col-' + index2] = col;
+        xrows[index]['tabel-' + table + '-col-' + index2] = col;
       });
     });
 
@@ -150,7 +150,7 @@ export class CsvService {
     { "blank": "", "gst": `GST: ${details.gstno}` },
     ];
     info.push(...jsonArray);
-    new Angular5Csv(info, "report");
+    new AngularCsv(info, "report");
   }
 
 }

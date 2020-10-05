@@ -1,6 +1,20 @@
 <nb-card style="border: 0px; height: 100%;">
     <nb-card-header class="toll-soft-recovery">
-        <h5>Pending Challan</h5>
+        <div class="row">
+            <div class="col-sm-9">
+                <h5 class="col-sm-10">Pending Challan</h5>
+            </div>
+            <div class="col-sm-3" *ngIf="challan && challan.length">
+                <span style="display: block;">
+                    <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
+                        class="fa fa-file-pdf"></i></span>
+                    <span class="exel-icon" title="CSV Export" (click)="printCSV()"
+                      style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+                  </span>
+            </div>
+        </div>
+        
+        
 
     </nb-card-header>
     <nb-card-body>
@@ -8,12 +22,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="row mb-3">
-                        <div class="col-3 ml-3">
+                        <div class="col-3">
                             <div class="row row align-items-center">
-                                <div class="col-4 pl-0 pr-0">
+                                <div class="col-5 pl-0 pr-0">
                                     <label>From Date :</label>
                                 </div>
-                                <div class="col-8 pl-0">
+                                <div class="col-7 pl-0">
                                     <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"
                                         [isTime]="false">
                                     </uj-date-time-picker>
@@ -22,10 +36,10 @@
                         </div>
                         <div class="col-3">
                             <div class="row align-items-center">
-                                <div class="col-3 pr-0 pl-0">
+                                <div class="col-4 pr-0 pl-0">
                                     <label>To Date :</label>
                                 </div>
-                                <div class="col-9">
+                                <div class="col-8">
                                     <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate"
                                         [isTime]="false" [isStart]="false">
                                     </uj-date-time-picker>
@@ -51,21 +65,23 @@
         </div>
         <div class="row" *ngIf="this.challan && this.challan.length">
 
-            <div class="col-3">
-                <div class="solid">
-                    <span> Total Challan :
-                        {{pendingChallan+paidChallan}} </span></div>
+            <div class="col-4">
+                <div class="solid boxStyle">
+                    <div class="heading" style="color:blue;"> Total Amount</div>
+                    <div class="data"><span class="data" style="padding-right:5px;color:blue">₹</span>{{totalAmount}}</div>
+                    </div>
             </div>
 
-            <div class="col-3">
-                <div class="solid">
-                    <span> Pending Challan :
-                        {{pendingChallan }} </span> </div>
+            <div class="col-4">
+                <div class="solid boxStyle">
+                    <div class="heading" style="color:red"> Pending Amount</div>
+                        <div class="data1"><span class="data1" style="padding-right:5px;color:red">₹</span>{{pendingAmount }}</div> 
+                     </div>
             </div>
             <div class="col-4">
-                <div class="solid">
-                    <span> Paid Challan :
-                        {{paidChallan}} </span>
+                <div class="solid boxStyle">
+                    <div class="heading" style="color:green;"> Paid Amount</div>
+                     <div class="data2"><span class="data2" style="padding-right:5px;color:green;">₹</span>{{paidAmount}}</div>
                 </div>
             </div>
 

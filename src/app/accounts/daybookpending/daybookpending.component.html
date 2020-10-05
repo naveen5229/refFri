@@ -4,7 +4,7 @@
   </nb-card-header> -->
   <nb-card-body>
     <div class="row">
-      <div class="col-9">
+      <div class="col-9 pl-0 pr-0">
         <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
@@ -17,14 +17,14 @@
                 [(ngModel)]="DayBook.branch.name">
             </div>
           </div> -->
-          <div class="col-6">
+          <div class="col-6 pl-0">
             <div class="form-group">
               <label class="tjr-label">Voucher</label>
               <input autocomplete="off" type="text" id="vouchertype" class="form-control tjr-input" name="vouchertype"
                 [(ngModel)]="DayBook.vouchertype.name">
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-6 pl-0">
             <div class="form-group">
               <label class="tjr-label">Ledger</label>
               <input autocomplete="off" type="text" id="ledger" class="form-control tjr-input" name="ledger"
@@ -34,7 +34,7 @@
 
         </div>
         <div class="row">
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
@@ -42,14 +42,14 @@
                 maxlength="10">
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="enddate"
                 placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.todate" maxlength="10">
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-2 pl-0">
             <div *ngIf="flag==0" class="form-group addvance">
               <a href="javascript:void(0)" outline (click)="addvance()" id="submit" style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
             </div>
@@ -57,7 +57,7 @@
               <a href="javascript:void(0)" outline (click)="addvance()" id="submit" class="advncolor" style="cursor: pointer;margin-top: 18px;">Advanced Search</a>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-2 pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getDayBook()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
@@ -65,7 +65,7 @@
           </div>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pr-0 pl-0">
         <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
           <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
             (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
@@ -101,7 +101,7 @@
       <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
         [ngClass]="{'highlight' : selectedRow == i}"> -->
-
+      <tbody>
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? (dataItem.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(dataItem) :(dataItem.y_type.toLowerCase().includes('fuel')) ? openFuelEdit(dataItem) : openVoucherEdit(dataItem.y_voucherid,dataItem.y_vouchertype_id) : (dataItem.y_type.toLowerCase().includes('stock')) ? openStoreQuestionEdit(dataItem) : openServiceSalesInvoicemodel(dataItem,dataItem.y_voucherid,dataItem.y_vouchertype_id) "
         (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i, 'highlightcolor' : DayData.length-1 == i}">
@@ -118,6 +118,7 @@
         <td>{{dataItem.y_cramunt}}</td>
         <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

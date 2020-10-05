@@ -10,6 +10,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { FuelStationEntryComponent } from '../../modals/fuel-station-entry/fuel-station-entry.component';
 import { ShowFuelStationComponent } from '../../modals/show-fuel-station/show-fuel-station.component';
 import { TankEmptyDetailsComponent } from '../../modals/tank-empty-details/tank-empty-details.component';
+import { CsvService } from '../../services/csv/csv.service';
 @Component({
   selector: 'fuel-fillings',
   templateUrl: './fuel-fillings.component.html',
@@ -50,7 +51,8 @@ export class FuelFillingsComponent implements OnInit {
     private datePipe: DatePipe,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private csvService: CsvService) {
     let today;
     today = new Date();
     this.dates.end = (this.common.dateFormatter(today)).split(' ')[0];
@@ -267,10 +269,18 @@ export class FuelFillingsComponent implements OnInit {
     this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
       .subscribe(res => {
         this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = "FoName:" + fodata['name'];
-        let center_heading = "Report:" + "Fuel Filling";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
+         let fodata = res['data'];
+        // let left_heading = "FoName:" + fodata['name'];
+        // let center_heading = "Report:" + "Fuel Filling";
+        // this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
+        let details = [
+          { customer: 'Customer : ' + fodata['name'] },
+          { report: 'Report : Fuel Filling' },
+          {period: 'Report Date :'+this.dates.start+ " to "+this.dates.end},
+          {date : 'Generated On :'+ this.common.dateFormatter(new Date())}
+          // { time: 'Time : ' + this.datePipe.transform(this.today, 'dd-MM-yyyy hh:mm:ss a') }
+        ];
+        this.csvService.byMultiIds([tblEltId], 'Dashboard', details);
       }, err => {
         this.common.loading--;
         console.log(err);

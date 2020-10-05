@@ -5,7 +5,7 @@
   <nb-card-body (keydown)="keyHandler($event)">
 
     <div class="row">
-      <div class="col-9">
+      <div class="col-9 pl-0 pr-0">
         <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
@@ -17,7 +17,7 @@
          <input type="text" id="branch" class="form-control" name="branch" [(ngModel)]="invoiceRegister.branch.name"/>
       </div>
     </div> -->
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Type</label>
               <!-- <auto-suggestion (onSelected)="onSelected($event, 'orderType', 'name')" url="Suggestion/GetOrderTypeList" display="name"
@@ -26,7 +26,7 @@
                 [(ngModel)]="invoiceRegister.voucherType.name" />
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label"
                 *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('purchase') || invoiceRegister.voucherType.name.toLowerCase().includes('debit') || invoiceRegister.voucherType.name.toLowerCase().includes('wastage')">Vender</label>
@@ -38,14 +38,14 @@
                 [(ngModel)]="invoiceRegister.ledger.name">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Code</label>
               <input autocomplete="off" autocomplete="off" type="text" class="form-control tjr-input" placeholder="Code"
                 id="code" name="account-code" [(ngModel)]="invoiceRegister.code">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Cust Code</label>
               <input autocomplete="off" autocomplete="off" type="text" class="form-control tjr-input"
@@ -55,7 +55,7 @@
         </div>
         <div class="row">
          
-          <div class="col-3">
+          <div class="col-3 pl-0">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
@@ -63,14 +63,14 @@
                 [(ngModel)]="accountService.fromdate">
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-3 pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
                 maxlength="10" placeholder="Select Date" name="account-endDate" [(ngModel)]="accountService.todate">
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-3 pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getInvoiceRegister()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
@@ -78,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pl-0 pr-0">
         <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
             <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name" (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
           </div> -->
@@ -107,6 +107,7 @@
           <th>Net Amount</th>
         </tr>
       </thead>
+      <tbody>
       <tr *ngFor="let dataItem of invoiceRegisterData; let i = index;" (click)="selectedRow = i"
         [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{i + 1}}</td>
@@ -127,6 +128,7 @@
         <td style="color: white">{{totaltaxamount | number : '1.2-2'}}</td>
         <td style="color: white">{{totalnetamount | number : '1.2-2'}}</td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

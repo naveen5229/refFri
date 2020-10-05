@@ -6,29 +6,26 @@ import { UserService } from '../user.service';
 import { ApiService } from '../api.service';
 import html2pdf from 'html2pdf.js';
 import { DatePipe } from '@angular/common';
-
+import { AccountService } from '../account.service';
 interface jrxPdfOptions {
   logo?: string;
 }
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class PdfService {
 
-  constructor(public common: CommonService,
-    public user: UserService,
-    private datePipe: DatePipe,
-    public api: ApiService) {
+  constructor(public common: CommonService, public user: UserService,
+    private datePipe: DatePipe, public api: ApiService) {
   }
 
   /**
-   * Print Pdf from multi tables
-   * @param tableIds Table id's
-   * @param fileName File name
-   * @param details In Format = [['Customer: Elogist']]
-   */
+     * Print Pdf from multi tables
+     * @param tableIds Table id's
+     * @param fileName File name
+     * @param details In Format = [['Customer: Elogist']]
+     */
   jrxTablesPDF(tableIds: string[], fileName: string = 'report', details?: any, options?: jrxPdfOptions) {
     let tablesHeadings = [];
     let tablesRows = [];
@@ -63,6 +60,18 @@ export class PdfService {
       console.error('Unable to add logo:', e);
     }
 
+    doc.setFontSize(14)
+    doc.setFontType('bold')
+    doc.text(30, 20, 'eLogist Solutions Pvt. Ltd.');
+    doc.setFontType('normal')
+    doc.setFontSize(8)
+    doc.setFontType('italic')
+    doc.text(30, 30, 'Address: 605-21, Jaipur Electronic Market,');
+    doc.text(30, 37, 'Riddhi Siddhi Circle, Gopalpura Bypass, Jaipur, Rajasthan - 302018');
+    doc.setFontSize(8)
+    doc.setFontType('italic')
+    doc.text(30, 44, 'Support: 8081604455');
+
     if (details && details.length) {
       let firstColumLength = details[0].length;
       let maxLength = Math.max(...details.map(detail => detail.length));
@@ -76,7 +85,8 @@ export class PdfService {
       doc.autoTable({
         body: details,
         theme: 'plain',
-        styles: tempLineBreak
+        styles: tempLineBreak,
+        margin: { top: 50, bottom: 20 },
       });
     }
 
@@ -90,6 +100,7 @@ export class PdfService {
 
   findTableHeadings(tableId) {
     let tblelt = document.getElementById(tableId);
+    console.log('tableId:', tableId, tblelt);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tableId + " table");
     }
@@ -97,8 +108,6 @@ export class PdfService {
     let hdg_coll = [];
     let hdgs = [];
     let hdgCols = tblelt.querySelectorAll("th");
-    console.log("hdgcols:", hdgCols);
-    console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
         if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
@@ -119,7 +128,6 @@ export class PdfService {
           hdgs.push(strval);
         } else {
           let plainText = elthtml.replace(/<[^>]*>/g, "");
-          console.log("hdgval:" + plainText);
           hdgs.push(plainText);
         }
       }
@@ -128,6 +136,153 @@ export class PdfService {
     hdg_coll.push(hdgs);
     return hdg_coll;
   }
+
+  // findTableRows(tableId) {
+  //   //remove table cols with del class
+  //   let tblelt = document.getElementById(tableId);
+  //   if (tblelt.nodeName != "TABLE") {
+  //     tblelt = document.querySelector("#" + tableId + " table");
+  //   }
+
+  //   let rows = [];
+  //   let tblrows = tblelt.querySelectorAll('tbody tr');
+  //   if (tblrows.length >= 1) {
+  //     for (let i = 0; i < tblrows.length; i++) {
+  //       if (tblrows[i].classList.contains('cls-hide'))
+  //         continue;
+  //       let rowCols = tblrows[i].querySelectorAll('td');
+  //       let rowdata = [];
+  //       for (let j = 0; j < rowCols.length; j++) {
+  //         if (rowCols[j].classList.contains('del'))
+  //           continue;
+  //         let colhtml = rowCols[j].innerHTML;
+  //         if (rowCols[j].querySelector("input")) {
+  //           let eltinput = rowCols[j].querySelector("input");
+  //           let attrval = eltinput.getAttribute("placeholder");
+  //           rowdata.push(attrval);
+  //         } else if (rowCols[j].querySelector("img")) {
+  //           let eltinput = rowCols[j].querySelector("img");
+  //           let attrval = eltinput.getAttribute("title");
+  //           rowdata.push(attrval);
+  //         } else if (colhtml.indexOf('href') > -1) {
+  //           let strval = rowCols[j].innerHTML;
+  //           rowdata.push(strval);
+  //         } else if (colhtml.indexOf('</i>') > -1) {
+  //           let pattern = /<i.* title="([^"]+)/g;
+  //           let match = pattern.exec(colhtml);
+  //           if (match != null && match.length)
+  //             rowdata.push(match[1]);
+  //         } else {
+  //           let plainText = rowCols[j].innerText;
+  //           rowdata.push(plainText);
+  //         }
+  //       }
+  //       rows.push(rowdata);
+  //     }
+  //   }
+  //   return rows;
+  // }
+
+  findTableRows(tableId) {
+    //remove table cols with del class
+    let tblelt = document.getElementById(tableId);
+    if (tblelt.nodeName != "TABLE") {
+      tblelt = document.querySelector("#" + tableId + " table");
+    }
+
+    let rows = [];
+    let tblrows = tblelt.querySelectorAll('tbody tr');
+    if (tblrows.length >= 1) {
+      for (let i = 0; i < tblrows.length; i++) {
+        if (tblrows[i].classList.contains('cls-hide'))
+          continue;
+        let rowCols = tblrows[i].querySelectorAll('td');
+        let rowdata = [];
+        for (let j = 0; j < rowCols.length; j++) {
+          if (rowCols[j].classList.contains('del'))
+            continue;
+
+          let colhtml = rowCols[j].innerHTML;
+          let fontStyle = rowCols[j].style.fontWeight;
+          let fillColor = rowCols[j].style.backgroundColor;
+          let textColor = rowCols[j].style.color;
+          let fontSize = rowCols[j].style.fontSize;
+          let content = rowCols[j].innerText;
+          let colSpan = rowCols[j].colSpan;
+          let rowSpan = rowCols[j].rowSpan;
+          let halign = rowCols[j].style.textAlign || 'center';
+
+          if (rowCols[j].querySelector("input")) {
+            content = rowCols[j].querySelector("input").getAttribute("placeholder");
+          } else if (rowCols[j].querySelector("img")) {
+            content = rowCols[j].querySelector("img").getAttribute("title");
+          } else if (colhtml.indexOf('href') > -1) {
+            content = rowCols[j].innerHTML;
+          } else if (colhtml.indexOf('</i>') > -1) {
+            let pattern = /<i.* title="([^"]+)/g;
+            let match = pattern.exec(colhtml);
+            if (match != null && match.length)
+              content = match[1];
+          }
+
+          let col = {
+            content,
+            colSpan,
+            rowSpan,
+            styles: {
+              halign
+            },
+          };
+
+          if (fontStyle) col.styles['fontStyle'] = fontStyle;
+          if (fillColor) col.styles['fillColor'] = fillColor;
+          if (textColor) col.styles['textColor'] = textColor;
+          if (fontSize) col.styles['fontSize'] = fontSize;
+
+          rowdata.push(col);
+        }
+        rows.push(rowdata);
+      }
+    }
+
+    console.log(rows);
+    return rows;
+  }
+
+  addTableInDoc(doc, headings, rows) {
+    let tempLineBreak = { fontSize: 8, cellPadding: 2, minCellHeight: 11, minCellWidth: 10, valign: 'middle', halign: 'center' };
+    doc.autoTable({
+      head: headings,
+      body: rows,
+      theme: 'grid',
+      didDrawPage: this.didDrawPage,
+      margin: { top: 20, bottom: 20 },
+      rowPageBreak: 'avoid',
+      headStyles: {
+        fontSize: 8,
+        halign: 'center',
+        valign: 'middle'
+      },
+      styles: tempLineBreak,
+      columnStyles: { 0: { minCellWidth: 10, halign: 'center', valign: 'middle' } },
+
+    });
+    return doc;
+  }
+
+  didDrawPage(data) {
+    let doc = data.doc;
+    // FOOTER
+    let str = "Page " + data.pageCount;
+
+    doc.setFontSize(8);
+    doc.text(
+      str,
+      data.settings.margin.left,
+      doc.internal.pageSize.height - 10
+    );
+  }
+
 
   newfindTableHeadings(tableId) {
     let tblelt = document.getElementById(tableId);
@@ -168,89 +323,6 @@ export class PdfService {
 
     hdg_coll.push(hdgs);
     return hdg_coll;
-  }
-
-  findTableRows(tableId) {
-    //remove table cols with del class
-    let tblelt = document.getElementById(tableId);
-    if (tblelt.nodeName != "TABLE") {
-      tblelt = document.querySelector("#" + tableId + " table");
-    }
-
-    let rows = [];
-    let tblrows = tblelt.querySelectorAll('tbody tr');
-    if (tblrows.length >= 1) {
-      for (let i = 0; i < tblrows.length; i++) {
-        if (tblrows[i].classList.contains('cls-hide'))
-          continue;
-        let rowCols = tblrows[i].querySelectorAll('td');
-        let rowdata = [];
-        for (let j = 0; j < rowCols.length; j++) {
-          if (rowCols[j].classList.contains('del'))
-            continue;
-          let colhtml = rowCols[j].innerHTML;
-          if (rowCols[j].querySelector("input")) {
-            let eltinput = rowCols[j].querySelector("input");
-            let attrval = eltinput.getAttribute("placeholder");
-            rowdata.push(attrval);
-          } else if (rowCols[j].querySelector("img")) {
-            let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput.getAttribute("title");
-            rowdata.push(attrval);
-          } else if (colhtml.indexOf('href') > -1) {
-            let strval = rowCols[j].innerHTML;
-            rowdata.push(strval);
-          } else if (colhtml.indexOf('</i>') > -1) {
-            let pattern = /<i.* title="([^"]+)/g;
-            let match = pattern.exec(colhtml);
-            if (match != null && match.length)
-              rowdata.push(match[1]);
-          } else {
-            let plainText = rowCols[j].innerText;
-            rowdata.push(plainText);
-          }
-        }
-        rows.push(rowdata);
-      }
-    }
-    return rows;
-  }
-
-  addTableInDoc(doc, headings, rows) {
-
-    let tempLineBreak = { fontSize: 8, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, maxCellWidth: 80, valign: 'middle', halign: 'center' };
-
-    doc.autoTable({
-      head: headings,
-      body: rows,
-      theme: 'grid',
-      didDrawPage: this.didDrawPage,
-      margin: { top: 20, bottom: 20 },
-      rowPageBreak: 'avoid',
-      headStyles: {
-        fontSize: 8,
-        halign: 'center',
-        valign: 'middle'
-      },
-      styles: tempLineBreak,
-      columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
-
-    });
-    return doc;
-  }
-
-  didDrawPage(data) {
-    let doc = data.doc;
-    //header
-    // FOOTER
-    let str = "Page " + data.pageCount;
-
-    doc.setFontSize(8);
-    doc.text(
-      str,
-      data.settings.margin.left,
-      doc.internal.pageSize.height - 10
-    );
   }
 
   newaddTableInDoc(doc, headings, rows) {
@@ -645,6 +717,9 @@ export class PdfService {
       pdf.save("report.pdf");
     });
   }
+
+
+
 
   convertNumberToWords(amount) {
     var words = new Array();

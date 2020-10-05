@@ -121,6 +121,7 @@ table tr{
         }
     }
 } 
+
 .modal-footer{
     padding: 10px 15px;
 }
@@ -213,3 +214,8 @@ table{
 .btn-delete{
 background-color: #dc3545;
 }
+@media (min-width: 992px){
+    .modal-lg{
+        max-width: 1250px!important;
+    }
+    }

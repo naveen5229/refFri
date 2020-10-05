@@ -1,16 +1,13 @@
 import { Injectable } from "@angular/core";
-import { NbToastStatus } from "@nebular/theme/components/toastr/model";
 import {
-  NbGlobalLogicalPosition,
   NbGlobalPhysicalPosition,
-  NbGlobalPosition,
   NbToastrService,
   NbThemeService
 } from "@nebular/theme";
 import { Router } from "@angular/router";
 
-import { Http, Headers } from '@angular/http';
-import { DatePipe, FormatWidth } from "@angular/common";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DatePipe } from "@angular/common";
 import { ApiService } from "./api.service";
 import { DataService } from "./data.service";
 import { UserService } from "./user.service";
@@ -18,10 +15,8 @@ import { UserService } from "./user.service";
 import html2canvas from 'html2canvas';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
+import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 import * as moment_ from "moment";
-import { elementAt } from "rxjs/operators";
-import { RouteGuard } from "../guards/route.guard";
 import { saveAs } from 'file-saver';
 import { AccountService } from '../services/account.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -81,7 +76,7 @@ export class CommonService {
     public dataService: DataService,
     public user: UserService,
     private datePipe: DatePipe, private _sanitizer: DomSanitizer,
-    private http: Http,
+    private http: HttpClient,
     private accountService: AccountService,
 
   ) { }
@@ -217,7 +212,7 @@ export class CommonService {
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
 
-    console.log(year + "-" + month + "-" + dat);
+    // console.log(year + "-" + month + "-" + dat);
 
     //return dat + "-" + month + "-" + year;
     return year + "-" + month + "-" + dat;
@@ -419,12 +414,12 @@ export class CommonService {
     showError && this.showError(msg);
   }
 
-  reportAnIssue(issue, refId,relatedData=null) {
+  reportAnIssue(issue, refId, relatedData = null) {
     const params = {
       issueTypeId: issue.type,
       refId: refId,
       remark: issue.remark,
-      relatedData : relatedData
+      relatedData: relatedData
     };
     console.info("Params: ", params);
     this.loading++;
@@ -969,7 +964,7 @@ export class CommonService {
 
     // const blob = new Blob(["Hello, world!"], { type: 'text/plain' });
     // saveAs(blob, 'test.pdf');
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Accept', 'text/plain');
     this.http.get('/api/files', { headers: headers })
       .toPromise()
@@ -1130,7 +1125,7 @@ export class CommonService {
         info.push(rowdata);
       }
     }
-    new Angular5Csv(info, "report.csv");
+    new AngularCsv(info, "report");
   }
 
   getCSVFromTableIdNew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
@@ -1255,7 +1250,8 @@ export class CommonService {
       }
 
     }
-    new Angular5Csv(info, "report.csv");
+    new AngularCsv(info, "report");
+
   }
   getCSVFromTableIdLatest(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblelt = document.getElementById(tblEltId);
@@ -1378,7 +1374,7 @@ export class CommonService {
       }
 
     }
-    new Angular5Csv(info, "report.csv");
+    new AngularCsv(info, "report");
   }
   getMultipleCSVFromTableIdNew(tblArray, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblEltId = '';
@@ -1486,7 +1482,7 @@ export class CommonService {
           info.push(rowdata);
         }
       }
-      new Angular5Csv(info, "report.csv");
+      new AngularCsv(info, "report");
     });
   }
   formatTitle(strval) {
@@ -1647,7 +1643,7 @@ export class CommonService {
   }
 
   formattTripStatus(places: string) {
-    let arr = places.split('-');
+    let arr = places.split('$');
     let html = arr.map((ar, index) => {
       if (ar.includes('#')) {
         let x = ar.split('#');
@@ -1681,7 +1677,7 @@ export class CommonService {
   }
 
   handleTripCircle(location, className = 'loading') {
-    let locationArray = location.split('-');
+    let locationArray = location.split('$');
     if (locationArray.length == 1) {
       return `<span class="circle ${className}">${location}</span>`;
     }
@@ -1710,8 +1706,8 @@ export class CommonService {
 
   handleTripStatusOnExcelExport(status, origin, destination, placements) {
     let title = '';
-    origin = origin.split('-').map(des => des.split('#')[0]).join(' - ')
-    destination = destination.split('-').map(des => des.split('#')[0]).join(' - ');
+    origin = origin.split('$').map(des => des.split('#')[0]).join(' - ')
+    destination = destination.split('$').map(des => des.split('#')[0]).join(' - ');
 
     switch (status) {
       case 0:
@@ -1942,4 +1938,57 @@ export class CommonService {
       return null;
     }
   };
+
+  chartScaleLabelAndGrid(arr) {
+    let chartObj = {
+      yaxisLabel: '',
+      scaleData: null,
+      gridSize: null,
+      minValue: 0
+    }
+    var max = arr.reduce(function (a, b) {
+      return Math.max(a, b);
+    });
+    console.log("max", arr, max);
+    //--y axis scale data
+    if (max > 1000 && max < 90000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 100;
+      });
+      chartObj.yaxisLabel = "(in '00)"
+    }
+    else if (max > 90000 && max < 900000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 1000;
+      });
+      chartObj.yaxisLabel = "(in '000)";
+    }
+    else if (max > 900000 && max < 9000000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 100000;
+      });
+      chartObj.yaxisLabel = "(in Lacs)";
+    }
+    else if (max > 9000000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 10000000;
+      });
+      chartObj.yaxisLabel = "(in Cr.)";
+    }
+    else {
+      chartObj.scaleData = arr;
+    }
+
+    //-----grid size
+    var max1 = chartObj.scaleData.reduce(function (a, b) {
+      return Math.max(a, b);
+    });
+    var min1 = chartObj.scaleData.reduce(function (a, b) {
+      return Math.min(a, b);
+    });
+    console.log("max1", max1, min1);
+    chartObj.gridSize = Math.round(((max1 - min1) / 5) / 10) * 10;
+    return chartObj;
+  }
+
 }

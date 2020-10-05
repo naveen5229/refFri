@@ -8,7 +8,7 @@
     <div style="float:right; margin-right: 20px">
       <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
         Main Group</span>
-      <span><input type="radio" name="view-type" value="sub" [(ngModel)]="isExpand"> Expand
+      <span style="margin-left: 5px;"><input type="radio" name="view-type" value="sub" [(ngModel)]="isExpand"> Expand
         All</span>
     </div>
     <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('table')"
@@ -16,7 +16,7 @@
     <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
       style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
     <div class="row" *ngIf="!isModal">
-      <div class="col">
+      <div class="col pl-0">
         <div class="form-group">
           <label class="tjr-label">Starting Date</label>
           <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
@@ -24,14 +24,14 @@
             maxlength="10" />
         </div>
       </div>
-      <div class="col">
+      <div class="col pl-0">
         <div class="form-group">
           <label class="tjr-label">End Date</label>
           <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
             placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.todate" id="enddate" maxlength="10" />
         </div>
       </div>
-      <div class="col">
+      <div class="col pl-0">
         <div class="form-group">
           <button class="btn btn-primary tjr-button" type="button" outline (click)="getBalanceSheet()" id="submit"
             style="cursor: pointer; margin-top: 14px; padding: 5px 10px !important;">
@@ -83,7 +83,7 @@
           <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
         </div>
         <trading-tree *ngIf="(assets.length -1 > i)" [action]="openLedgerViewModel.bind(this)" [data]="liability.data"
-          [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || isExpand  ? true : false" labels="">
+          [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || (isExpand == 'sub')  ? true : false" labels="">
         </trading-tree>
       </div>
       </div>
@@ -129,7 +129,7 @@
             <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
           </div>
           <profitloss-tree [action]="openLedgerViewModel.bind(this)" [data]="liability.data"
-            [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || isExpand  ? true : false" labels="">
+            [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || (isExpand == 'sub')  ? true : false" labels="">
           </profitloss-tree>
         </div>
         </div>

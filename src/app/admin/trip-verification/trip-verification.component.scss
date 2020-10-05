@@ -43,3 +43,7 @@
 :host ::ng-deep .selected{
     background-color: yellow !important;
 }
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
+}

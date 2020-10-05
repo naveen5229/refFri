@@ -17,20 +17,27 @@ export class TmgTripComponent implements OnInit {
   longestUnLoadindDriver = [];
   tripSlowestOnward = [];
   longestUnLoadindSites = [];
+  tripGpsPerformance = [];
   xAxisData = [];
 
+  // chart = {
+  //   data: {
+  //     line: [],
+  //     bar: []
+  //   },
+  //   type: '',
+  //   dataSet: {
+  //     labels: [],
+  //     datasets: []
+  //   },
+  //   yaxisname: null,
+  //   options: null
+  // };
+
   chart = {
-    data: {
-      line: [],
-      bar: []
-    },
     type: '',
-    dataSet: {
-      labels: [],
-      datasets: []
-    },
-    yaxisname: null,
-    options: null
+    data: {},
+    options: {},
   };
 
   chart1 = {
@@ -38,7 +45,7 @@ export class TmgTripComponent implements OnInit {
     data: {},
     options: {},
   };
-  
+
   chart2 = {
     type: '',
     data: {},
@@ -53,9 +60,10 @@ export class TmgTripComponent implements OnInit {
     this.getTripUnLoadindTime();
     this.getTripLongHalt();
     this.getLongestLoadindSites();
-    this.getLongestUnLoadindSites();
     this.getTripSlowestOnward();
     this.getLongestUnLoadindDriver();
+    this.getLongestUnLoadindSites();
+    this.getTripGpsPerformance();
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -69,9 +77,10 @@ export class TmgTripComponent implements OnInit {
     this.getTripUnLoadindTime();
     this.getTripLongHalt();
     this.getLongestLoadindSites();
-    this.getLongestUnLoadindSites();
     this.getTripSlowestOnward();
     this.getLongestUnLoadindDriver();
+    this.getLongestUnLoadindSites();
+    this.getTripGpsPerformance();
   }
 
   getTripOnwardKmd() {
@@ -111,7 +120,7 @@ export class TmgTripComponent implements OnInit {
         --this.common.loading;
         console.log('tripLoadindTime:', res);
         this.tripLoadindTime = res['data'];
-        if(this.tripLoadindTime.length>0) this.handleChart1();
+        if (this.tripLoadindTime.length > 0) this.handleChart1();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
@@ -133,7 +142,7 @@ export class TmgTripComponent implements OnInit {
         --this.common.loading;
         console.log('tripUnLoadindTime:', res);
         this.tripUnLoadindTime = res['data'];
-        if(this.tripUnLoadindTime.length>0) this.handleChart2();
+        if (this.tripUnLoadindTime.length > 0) this.handleChart2();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
@@ -147,7 +156,7 @@ export class TmgTripComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      totalrecord:3
+      totalrecord: 3
     };
     ++this.common.loading;
     this.api.post('Tmgreport/GetTripLoadindHalt', params)
@@ -161,8 +170,8 @@ export class TmgTripComponent implements OnInit {
       });
   }
 
-  getLongestLoadindSites(){
-   
+  getLongestLoadindSites() {
+
     this.longestLoadindSites = [];
     ++this.common.loading;
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
@@ -170,7 +179,7 @@ export class TmgTripComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      totalrecord:3
+      totalrecord: 3
     };
     this.api.post('Tmgreport/GetLongestLoadindSites', params)
       .subscribe(res => {
@@ -190,7 +199,7 @@ export class TmgTripComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      totalrecord:3
+      totalrecord: 3
     };
     ++this.common.loading;
     this.api.post('Tmgreport/GetLongestUnLoadindSites', params)
@@ -204,7 +213,7 @@ export class TmgTripComponent implements OnInit {
       });
   }
 
-  getTripSlowestOnward(){
+  getTripSlowestOnward() {
     this.tripSlowestOnward = [];
     ++this.common.loading;
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
@@ -212,7 +221,7 @@ export class TmgTripComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      totalrecord:3
+      totalrecord: 3
     };
     this.api.post('Tmgreport/GetTripSlowestOnward', params)
       .subscribe(res => {
@@ -225,7 +234,7 @@ export class TmgTripComponent implements OnInit {
       });
   }
 
-  getLongestUnLoadindDriver() { 
+  getLongestUnLoadindDriver() {
     this.longestUnLoadindDriver = [];
     ++this.common.loading;
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
@@ -233,7 +242,7 @@ export class TmgTripComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      totalrecord:3
+      totalrecord: 3
     };
     this.api.post('Tmgreport/GetLongestUnLoadindDriver', params)
       .subscribe(res => {
@@ -246,63 +255,85 @@ export class TmgTripComponent implements OnInit {
       });
   }
 
-  getlabelValue() {
-    if (this.tripOnwardKmd) {
-      this.tripOnwardKmd.forEach((cmg) => {
-        this.chart.data.line.push(cmg['Amount']);
-        this.chart.data.bar.push(cmg['Onward KMs']);
-        this.xAxisData.push(cmg['Period']);
+  getTripGpsPerformance() {
+    this.tripGpsPerformance = [];
+    ++this.common.loading;
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3
+    };
+    this.api.post('Tmgreport/GetTripGpsPerformance', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('tripGpsPerformance:', res['data']);
+        this.tripGpsPerformance = res['data'];
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
       });
-
-      this.handleChart();
-    }
   }
 
-  handleChart() {
-    console.log("xAxis", this.chart.data.line,this.chart.data.bar,this.xAxisData);
-    let data = {
-      labels: this.xAxisData,
-      datasets: []
-    };
-    
-    data.datasets.push({
-      type: 'line',
-      label: 'Total(Kms)',
-      borderColor: '#3d6fc9',
-      backgroundColor: '#3d6fc9',
-      pointHoverRadius: 8,
-      pointHoverBackgroundColor: '#FFEB3B',
-      fill: false,
-      data: this.chart.data.line,
-      yAxisID: 'y-axis-2'
-    });
 
-    data.datasets.push({
-      type: 'bar',
-      label: 'Onward (Kms)',
-      borderColor: '#ed7d31',
-      backgroundColor: '#ed7d31',
-      fill: false,
-      data: this.chart.data.bar.map(value => { return value.toFixed(2) }),
-      pointHoverRadius: 8,
-      pointHoverBackgroundColor: '#FFEB3B',
-      yAxisID: 'y-axis-1',
-      yAxisName: 'Count',
-    });
+  getlabelValue() {
+    // if (this.tripOnwardKmd) {
+    //   this.tripOnwardKmd.forEach((cmg) => {
+    //     this.chart.data.line.push(cmg['Amount']);
+    //     this.chart.data.bar.push(cmg['Onward KMS']);
+    //     this.xAxisData.push(cmg['Period']);
+    //   });
 
-    this.chart = {
-      data: {
-        line: [],
-        bar: []
-      },
-      type: 'bar' ,
-      dataSet: data,
-      yaxisname: "Average Count",
-      options: this.setChartOptions()
-    };
-
+    this.handleChart();
+    // }
   }
-  
+
+  // handleChart() {
+  //   console.log("xAxis", this.chart.data.line,this.chart.data.bar,this.xAxisData);
+  //   let data = {
+  //     labels: this.xAxisData,
+  //     datasets: []
+  //   };
+
+  //   data.datasets.push({
+  //     type: 'line',
+  //     label: 'Total(KMS)',
+  //     borderColor: '#3d6fc9',
+  //     backgroundColor: '#3d6fc9',
+  //     pointHoverRadius: 8,
+  //     pointHoverBackgroundColor: '#FFEB3B',
+  //     fill: false,
+  //     data: this.chart.data.line,
+  //     yAxisID: 'y-axis-2'
+  //   });
+
+  //   data.datasets.push({
+  //     type: 'bar',
+  //     label: 'Onward (KMS)',
+  //     borderColor: '#ed7d31',
+  //     backgroundColor: '#ed7d31',
+  //     fill: false,
+  //     data: this.chart.data.bar.map(value => { return value.toFixed(2) }),
+  //     pointHoverRadius: 8,
+  //     pointHoverBackgroundColor: '#FFEB3B',
+  //     yAxisID: 'y-axis-1',
+  //     yAxisName: 'Count',
+  //   });
+
+  //   this.chart = {
+  //     data: {
+  //       line: [],
+  //       bar: []
+  //     },
+  //     type: 'bar' ,
+  //     dataSet: data,
+  //     yaxisname: "Average Count",
+  //     options: this.setChartOptions()
+  //   };
+
+  // }
+
   setChartOptions() {
     let options = {
       responsive: true,
@@ -310,7 +341,7 @@ export class TmgTripComponent implements OnInit {
       stacked: false,
       legend: {
         position: 'bottom',
-        display:  true
+        display: true
       },
       tooltips: {
         mode: 'index',
@@ -341,7 +372,7 @@ export class TmgTripComponent implements OnInit {
     options.scales.yAxes.push({
       scaleLabel: {
         display: true,
-        labelString: 'Onward Kms',
+        labelString: 'Onward KMS',
         fontSize: 17
       },
       type: 'linear',
@@ -350,38 +381,109 @@ export class TmgTripComponent implements OnInit {
       id: 'y-axis-1',
 
     });
-      options.scales.yAxes.push({
-        scaleLabel: {
-          display: true,
-          labelString: 'Total Kms',
-          fontSize: 17,
-        },
-        type: 'linear',
+    options.scales.yAxes.push({
+      scaleLabel: {
         display: true,
-        position: 'right',
-        id: 'y-axis-2',
-        gridLines: {
-          drawOnChartArea: false,
-        },
-      });
+        labelString: 'Total KMS',
+        fontSize: 17,
+      },
+      type: 'linear',
+      display: true,
+      position: 'right',
+      id: 'y-axis-2',
+      gridLines: {
+        drawOnChartArea: false,
+      },
+    });
     return options;
   }
 
-  handleChart1(){
+  handleChart() {
     let yaxis = [];
     let xaxis = [];
-    this.tripLoadindTime.map(tlt=>{
+    this.tripOnwardKmd.map(tlt => {
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Loading Duration(Min)']);
+      yaxis.push(tlt['Onward KMs']);
     });
-    console.log("handleChart1",xaxis,yaxis);
+    let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
+    console.log("handleChart", xaxis, yaxis);
+    this.chart.type = 'bar'
+    this.chart.data = {
+      labels: xaxis,
+      datasets: [
+        {
+          label: 'Onward KMs',
+          data: yaxisObj.scaleData,
+          borderColor: '#3d6fc9',
+          backgroundColor: '#3d6fc9',
+          fill: false,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: '#FFEB3B',
+        },
+      ]
+    },
+      this.chart.options = {
+        responsive: true,
+        legend: {
+          position: 'bottom',
+          display: false
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Onward KMS' + yaxisObj.yaxisLabel,
+          fontSize: 17,
+        },
+
+        maintainAspectRatio: false,
+        title: {
+          display: true,
+        },
+        display: true,
+        elements: {
+          line: {
+            tension: 0
+          }
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Onward KMS' + yaxisObj.yaxisLabel
+            },
+            ticks: { stepSize: yaxisObj.gridSize },
+            suggestedMin: yaxisObj.minValue,
+          },
+
+
+          ]
+        }
+        // scales: {
+        //   yAxes: [{
+        //     ticks: { stepSize: 50000},
+        //   }]
+        //  },
+
+      };
+
+
+  }
+
+  handleChart1() {
+    let yaxis = [];
+    let xaxis = [];
+    this.tripLoadindTime.map(tlt => {
+      xaxis.push(tlt['Period']);
+      yaxis.push(tlt['Loading Duration(hrs)']);
+    });
+    let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
+    console.log("handleChart1", xaxis, yaxis);
     this.chart1.type = 'line'
     this.chart1.data = {
       labels: xaxis,
       datasets: [
         {
-          label: 'Time (in mins.)',
-          data: yaxis,
+          label: 'Time (in Hrs.)',
+          data: yaxisObj.scaleData,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
           fill: false,
@@ -390,49 +492,63 @@ export class TmgTripComponent implements OnInit {
         },
       ]
     },
-    this.chart1.options= {
-      responsive: true,
-      legend: {
-        position: 'bottom',
-        display:  true
-      },
-     
-      maintainAspectRatio: false,
-      title: {
-        display: true,
-      },
-      display: true,
-      elements: {
-        line: {
-          tension: 0
-        }
-      },
-      // scales: {
-      //   yAxes: [{
-      //     ticks: { stepSize: 50000},
-      //   }]
-      //  },
-      
-    };
-   
-  }
-  
+      this.chart1.options = {
+        responsive: true,
+        legend: {
+          position: 'bottom',
+          display: false
+        },
 
-  handleChart2(){
+        maintainAspectRatio: false,
+        title: {
+          display: true,
+        },
+        display: true,
+        elements: {
+          line: {
+            tension: 0
+          }
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Time (in Hrs.)' + yaxisObj.yaxisLabel
+            },
+            ticks: { stepSize: yaxisObj.gridSize },
+            suggestedMin: yaxisObj.minValue,
+          }
+          ]
+        }
+        // scales: {
+        //   yAxes: [{
+        //     ticks: { stepSize: 50000},
+        //     suggestedMin : 0,
+        //     max : 100
+        //   }]
+        //  },
+
+      };
+
+  }
+
+
+  handleChart2() {
     let yaxis = [];
     let xaxis = [];
-    this.tripUnLoadindTime.map(tlt=>{
+    this.tripUnLoadindTime.map(tlt => {
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Unloading Duration(Min)']);
+      yaxis.push(tlt['Unloading Duration(hrs)']);
     });
-    console.log("handleChart2",xaxis,yaxis);
+    let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
+    console.log("handleChart2", xaxis, yaxis);
     this.chart2.type = 'line'
     this.chart2.data = {
       labels: xaxis,
       datasets: [
         {
-          label: 'Time (in mins)',
-          data: yaxis,
+          label: 'Time (in Hrs)',
+          data: yaxisObj.scaleData,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
           fill: false,
@@ -441,24 +557,33 @@ export class TmgTripComponent implements OnInit {
         },
       ]
     },
-  this.chart2.options= {
-    responsive: true,
-    legend: {
-      position: 'bottom',
-      display:  true
-    },
-   
-    maintainAspectRatio: false,
-    title: {
-      display: true,
-    },
-    display: true,
-    elements: {
-      line: {
-        tension: 0
-      }
-    },
-    
-  };
-}
+      this.chart2.options = {
+        responsive: true,
+        legend: {
+          position: 'bottom',
+          display: false
+        },
+
+        maintainAspectRatio: false,
+        title: {
+          display: true,
+        },
+        display: true,
+        elements: {
+          line: {
+            tension: 0
+          }
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Time (in Hrs.)' + yaxisObj.yaxisLabel
+            },
+            ticks: { stepSize: yaxisObj.gridSize },
+            suggestedMin: yaxisObj.minValue,
+          }]
+        }
+      };
+  }
 }

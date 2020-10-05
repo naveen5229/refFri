@@ -1,4 +1,4 @@
-<div [ngStyle]="{background :isLite?'#22b108':'#46a79a'}" class="modal-header">
+<div class="modal-header">
     <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
     <h5 class="lite" *ngIf="isLite">(LITE MODE >10 Days)</h5>
     <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
@@ -48,16 +48,6 @@
                     </div> -->
                             </div>
                         </td>
-                        <!-- <td>
-              <input [(ngModel)]="startDate" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate "
-                placeholder="Start Time" class="form-control" autocomplete="off" name="s-date">
-              <owl-date-time #sDate></owl-date-time>
-            </td>
-            <td>
-              <input [(ngModel)]="endDate" [owlDateTime]="eDate" [owlDateTimeTrigger]="eDate " placeholder="End Time"
-                class="form-control" autocomplete="off" name="e-date">
-              <owl-date-time #eDate></owl-date-time>
-            </td> -->
                         <td class="go_btn">
                             <button (click)="getHaltTrails()" class="btn btn-primary form-control">Go</button>
                         </td>

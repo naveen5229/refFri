@@ -1,3 +1,5 @@
+@import "~ng-pick-datetime-ex/assets/style/picker.min.css";
+
 h1,
 h2,
 h3,
@@ -69,13 +71,16 @@ input::placeholder {
   border-radius: 0px;
   background-color: #000;
 }
+.nb-theme-corporate nb-sidebar ::-webkit-scrollbar-track {
+  background: #0c1427!important;
+}
 
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
   /* background: #000 !important; */
   border-radius: 0px !important;
-  background-color: #c1c1c1 !important;
+  background-color: #727cf5 !important;
   background-image: -webkit-linear-gradient(
     linear,
     40% 0%,
@@ -158,18 +163,19 @@ select.form-control {
 }
 
 nb-layout-header nav {
-  background: #324148 !important;
+  /* background: #324148 !important; */
+  background: #0c1427 !important;
   color: #f7fafb !important;
   box-shadow: none !important;
 }
 
 nb-sidebar .main-container {
-  background-color: #263238 !important;
+  /* background-color: #263238 !important; */
+  background: #0c1427 !important;
   border: 0px !important;
 }
 
 nb-sidebar nb-menu {
-  background-color: #263238 !important;
   color: #fff !important;
 }
 
@@ -181,41 +187,26 @@ nb-menu .menu-items > .menu-item {
   font-size: 12px;
   padding: 15px 10px !important;
   border-radius: 0px !important;
-  font-weight: normal !important;
-}
-
-nb-menu .menu-item a:hover,
-nb-menu .menu-item a.active {
-  background-color: #26a69a !important;
-  color: #fff !important;
-}
-
-nb-menu .menu-item a.active::before {
-  background: #fff !important;
-}
-
-.menu-icon::before {
-  display: block;
-  /* font-family: "FontAwesome"; */
-  font-size: 16px;
-  margin-right: 8px;
-  color: #fff;
+  /* font-weight: normal !important; */
 }
 
 nb-menu .menu-item > .menu-items {
-  background: #3a454a !important;
+  /* background: #3a454a !important; */
+  background: #363e4f!important;
 }
 
 nb-menu .menu-item > .menu-items > .menu-item {
-  background: #3a454a !important;
+  /* background: #3a454a !important; */
+  background: #363e4f!important;
   color: #fff !important;
   padding: 0px !important;
   margin-bottom: 0px !important;
 }
-
-nb-menu .menu-item > .menu-items > .menu-item a {
-  border: 0px !important;
-  padding-left: 20px !important;
+nb-menu .menu-item a {
+  color: #fff !important;
+}
+nb-menu .menu-item a .menu-icon{
+  color: #fff !important;
 }
 
 .fas.fa-file-invoice:before,
@@ -253,6 +244,28 @@ nb-menu .menu-item > .menu-items > .menu-item a {
 
 .nb-theme-corporate .modal-content {
   border: 0px;
+}
+
+nb-menu .menu-item a:hover,
+nb-menu .menu-item a.active{
+  background-color: #0c1427 !important;
+  color: #727cf5 !important;
+}
+nb-menu .menu-item a:hover .menu-icon,
+nb-menu .menu-item a.active .menu-icon{
+  color: #727cf5 !important;
+}
+nb-menu .menu-item a span,
+nb-menu .menu-item a span{
+ transition: .1s;
+}
+nb-menu .menu-item a:hover span,
+nb-menu .menu-item a.active span{
+ margin-left: 2px;
+ transition: .1s;
+}
+nb-menu .menu-item a.active::before {
+  background:#727cf5 !important;
 }
 
 .modal-header {
@@ -418,9 +431,9 @@ nb-card {
   padding-right: 0px;
 }
 
-.nb-theme-corporate nb-sidebar.compacted {
+/* .nb-theme-corporate nb-sidebar.compacted {
   width: 3.9rem;
-}
+} */
 
 .tabset {
   border-bottom: 2px solid #26a69a !important;
@@ -486,7 +499,7 @@ nb-card {
 }
 
 .btn-primary:hover {
-  background-color: #0898db !important;
+  background-color: #263238 !important;
 }
 
 .btn-success {
@@ -697,7 +710,7 @@ ngb-modal-window {
 
 .menu-sidebar.compacted .scrollable nb-menu > .menu-items > li:hover {
   width: 299px;
-  background-color: #26a69a;
+  background-color: #0c1427;
 }
 
 .menu-sidebar.compacted .scrollable nb-menu > .menu-items > li a span {
@@ -723,12 +736,12 @@ ngb-modal-window {
 }
 
 .menu-sidebar.compacted .scrollable nb-menu .menu-item > .menu-items > .menu-item a {
-  padding-left: 0px !important;
+  padding-left: 10px !important;
   padding-right: 0px !important;
   white-space: nowrap;
 }
 
-.menu-sidebar.compacted .scrollable nb-menu .menu-item > .menu-items > .menu-item a i {
+.menu-sidebar.compacted .scrollable nb-menu .menu-item > .menu-items > .menu-item a svg {
   width: 30px;
   margin-left: 10px;
 }
@@ -887,15 +900,16 @@ input[type=number] {
   padding: 5px 10px !important;
   height: auto !important;
   font-size: 10px !important;
-  border-left: 5px solid #26a69a!important;
+  border-left: 5px solid #727cf5!important;
 }
 .tjr-input:focus, .ref-input:focus{
   border: 1px solid #556080 !important;
   border-left: 5px solid #556080!important;
-  outline: none;
+  outline: none!important;
+  box-shadow: none;
 }
 .tjr-button{
-  background: #26a69a !important;
+  background: #263238!important;
   border-radius: 0px !important;
 }
 .pdf-icon, .exel-icon{
@@ -911,10 +925,7 @@ input[type=number] {
  font-size: 10px!important;
 }
 
-.current-page {
-  border-radius: 0px 0px 12px 12px!important;
-  letter-spacing: 1px;
-}
+
 .highlightcolor{
   background-color: #403f3f !important;
   color: #fff!important;
@@ -940,25 +951,50 @@ input[type=number] {
   cursor: pointer !important;
   width: 40px;
   height: 40px;
-  background-color: #263238!important;
-  font-size: 14px!important;
+  color: #fff;
+  background-color: #727cf5!important;
 }
-
+.nb-theme-corporate nb-layout .layout nb-layout-header {
+  font-family: Exo;
+}
 .nb-theme-corporate nb-layout .layout nb-layout-header nav{
   height: 2.85rem!important;
-  overflow: hidden;
-  padding: 0 1.25rem!important;
+  /* overflow: hidden; */
+  padding: 0 0!important;
 }
-.nb-theme-corporate nb-layout .layout nb-layout-header.fixed ~ .layout-container {
+/* .nb-theme-corporate nb-layout .layout nb-layout-header.fixed ~ .layout-container {
   padding-top: 2.85rem!important;
-} 
+}  */
 .nb-theme-corporate nb-layout .layout nb-layout-header.fixed ~ .layout-container > nb-sidebar > .main-container {
   height: calc(100vh - 2.85rem)!important;
+  top: 2.85rem;
+  border-top-right-radius: 0!important;
 }
 
+.row{
+  margin-right: 0px;
+  margin-left: 0px;
+}
 
-
-
+.nb-theme-corporate nb-layout-header.fixed ~ .layout-container {
+  padding-top: 2.85rem;
+}
+.nb-theme-corporate .btn {
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  font-weight: 500;
+  font-family: Exo;
+  border: 2px solid transparent;
+  -webkit-transition: none;
+  transition: none;
+  cursor: default;
+  padding: .75rem 1.5rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  border-radius: .75rem;
+  border-color: #8b000000 !important;
+}
 @media (max-width: 1024px) and (min-width: 768px)
 {
 table thead, table tbody {

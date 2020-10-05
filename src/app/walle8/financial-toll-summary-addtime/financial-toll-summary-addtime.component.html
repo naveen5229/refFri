@@ -26,7 +26,7 @@
 
       <div class="col-3">
         <auto-suggestion (keyup)="filterData($event)" [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)"
-          url="Suggestion/getVehicleList.json?" display="regno" placeholder="search vehicle" style="width:60%;" value="yes"
+        [url]="'Suggestion/getFoVehicleList.json?foid='+foid" display="regno" placeholder="search vehicle" style="width:60%;" value="yes"
           aria-disabled="true">
         </auto-suggestion>
       </div>
@@ -122,12 +122,12 @@
             <tbody>
               <tr>
                 <td>Customer Id</td>
-                <td>{{fo.id}}</td>
+                <td>{{foid}}</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>Mobile No.</td>
                 <td>{{fo.mobileNo}}</td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>Name</td>
                 <td>{{fo.name}}</td>

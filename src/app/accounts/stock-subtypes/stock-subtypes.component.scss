@@ -66,7 +66,7 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 172px);
+        max-height: calc(100vh - 155px);
         tr{
             display: table;
             table-layout: fixed;
@@ -110,6 +110,7 @@ table{
     cursor: pointer !important;
     width: 40px;
     height: 40px;
+    color: #fff;
   }
 .selected {
     background-color: #576c77
@@ -118,7 +119,7 @@ table tr.highlight {
     background-color: #FFEE75 !important;
     color: #000 !important;
 }
-i{
+svg{
     font-size: 14px;
     text-align: center;
 }

@@ -3,13 +3,13 @@ import { NbMenuItem } from '@nebular/theme';
 export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     {
         title: 'Home Dashboard',
-        icon: 'fa fa-home',
+        icon: 'fa-home',
         link: '/pages/dashboard',
         home: true,
     },
     {
         title: 'Accounts Master',
-        icon: 'fas fa-user-circle',
+        icon: 'fa-user-circle',
 
         children: [
 
@@ -65,7 +65,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
 
     {
         title: 'Stock Master',
-        icon: 'fas fa-building',
+        icon: 'fa-building',
 
         children: [
 
@@ -91,7 +91,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Voucher',
-        icon: 'fas fa-ticket-alt',
+        icon: 'fa-ticket-alt',
         children: [
             {
                 title: 'Journal Voucher (F9)',
@@ -121,7 +121,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Account Reports',
-        icon: 'fa fa-file-excel',
+        icon: 'fa-file-excel',
         children: [
             {
                 title: 'Day Book (Ctrl+1)',
@@ -187,7 +187,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Admin Report',
-        icon: 'fas fa-file-invoice',
+        icon: 'fa-file-invoice',
         children: [
 
             {
@@ -230,7 +230,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Invoice',
-        icon: 'fas fa-file-invoice',
+        icon: 'fa-file-invoice',
         children: [
             {
                 title: 'Purchase Invoice',
@@ -268,7 +268,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Inventry  Reports',
-        icon: 'fa fa-file-excel',
+        icon: 'fa-file-excel',
         children: [
 
             {
@@ -292,7 +292,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Store Requisition',
-        icon: 'fas fa-building',
+        icon: 'fa-building',
 
         children: [
 
@@ -318,7 +318,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Accounts Bin',
-        icon: 'fas fa-trash',
+        icon: 'fa-trash',
         children: [
             {
                 title: 'Ledger Deleted',
@@ -332,7 +332,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Advance Voucher',
-        icon: 'fas fa-building',
+        icon: 'fa-building',
 
         children: [
             {

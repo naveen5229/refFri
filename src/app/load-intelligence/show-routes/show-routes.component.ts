@@ -3,9 +3,6 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
-import 'rxjs/add/operator/first';
-import { async } from '@angular/core/testing';
-
 declare var google: any;
 
 @Component({
@@ -14,7 +11,7 @@ declare var google: any;
   styleUrls: ['./show-routes.component.scss']
 })
 export class ShowRoutesComponent implements OnInit {
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', { static: true }) mapElement: ElementRef;
 
   routes = [];
   route = {

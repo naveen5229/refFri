@@ -1117,7 +1117,7 @@ export class VoucherSummaryComponent implements OnInit {
     };
 
     this.common.loading++;
-    this.api.post('Voucher/GetCompanyHeadingData', params)
+    this.api.post('Voucher/GetCompanyHeadingDataForTrip', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res11:', res['data'], 'this.order');

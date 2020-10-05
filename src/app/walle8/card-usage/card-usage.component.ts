@@ -6,6 +6,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getUrlScheme } from '@angular/compiler';
 import { CardusageComponent } from '../../modals/cardusage/cardusage.component';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 @Component({
   selector: 'card-usage',
   templateUrl: './card-usage.component.html',
@@ -28,7 +30,7 @@ export class CardUsageComponent implements OnInit {
     }
   };
 
-  
+
 
   dates = {
     start: null,
@@ -40,6 +42,8 @@ export class CardUsageComponent implements OnInit {
   // enddate = '31/5/201'
   constructor(
     public api: ApiService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal,
@@ -54,7 +58,7 @@ export class CardUsageComponent implements OnInit {
   ngOnInit() {
   }
 
-  refresh(){
+  refresh() {
     this.getcardUsage();
     //this.calculateTotal();
   }
@@ -80,33 +84,33 @@ export class CardUsageComponent implements OnInit {
 
 
     //let params = "aduserid=" + this.user._details.foid + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
-    let params =  "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
-    console.log("-----------",params);
+    let params = "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    console.log("-----------", params);
     let response;
     this.common.loading++;
     this.api.walle8Get('AccountSummaryApi/ViewCardUsages.json?' + params)
-    .subscribe(res => {
-      this.common.loading--;
-      console.log('res: ' + res['data']);
-      this.cardUsage = res['data'];
-      let first_rec = this.cardUsage[0];
-      let headings = {};
-      for (var key in first_rec) {
-        if (key.charAt(0) != "_") {
-          if(key == 'vid') {
-            continue;
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ' + res['data']);
+        this.cardUsage = res['data'];
+        let first_rec = this.cardUsage[0];
+        let headings = {};
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            if (key == 'vid') {
+              continue;
+            }
+
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            headings[key] = headerObj;
           }
-         
-          this.headings.push(key);
-          let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-          headings[key] = headerObj;
         }
-      }
-      this.table.data = {
-        headings: headings,
-        columns: this.getTableColumns()
-      };
-    }, err => {
+        this.table.data = {
+          headings: headings,
+          columns: this.getTableColumns()
+        };
+      }, err => {
         this.common.loading--;
         console.log(err);
       });
@@ -119,14 +123,14 @@ export class CardUsageComponent implements OnInit {
     this.cardUsage.map(matrix => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        if(this.headings[i]=='vehicle'){
+        if (this.headings[i] == 'vehicle') {
           this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'blue', action: this.showdata.bind(this, matrix) };
         }
-        else{
+        else {
           this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
         }
       }
-        
+
 
       // this.valobj['Action'] = { class: '', icons: this.actionIcons(matrix) };
       columns.push(this.valobj);
@@ -150,55 +154,78 @@ export class CardUsageComponent implements OnInit {
 
   formatTitle(title) {
     if (title.length <= 4) {
-      return title.toUpperCase() 
+      return title.toUpperCase()
     }
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
 
 
-  showdata(data){
-    this.common.params = { vehicleid: data.vid, startdate:this.dates.start,enddate:this.dates.end};
-    const activeModal = this.modalService.open(CardusageComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static'});
-     activeModal.result.then(data => {
-     });
-    
+  showdata(data) {
+    this.common.params = {
+      vehicleName:data.vehicle,
+      vehicleid: data.vid,
+      startdate: this.dates.start,
+      enddate: this.dates.end,
+      name: this.user._loggedInBy=='admin'?this.user._details.username:this.user._details.name,
+      mobileno: this.user._details.fo_mobileno
+    };
+    const activeModal = this.modalService.open(CardusageComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+    });
+
   }
 
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Card Usage";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  // printPDF(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Card Usage";
+  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+  // printCSV(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Card Usage";
+  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name, 'Start Date: '+this.dates.start,'End Date: '+this.dates.end,  'Report: '+'Card-Usage']
+    ];
+    this.pdfService.jrxTablesPDF(['cardUsage'], 'card-usage', details);
   }
 
-  printCSV(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Card Usage";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading,["Action"],'');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,startdate:"Start Date:"+this.dates.start,enddate:"End Date: "+this.dates.end, report:"Report:Card-Usage"}
+    ];
+    this.csvService.byMultiIds(['cardUsage'], 'card-usage', details);
   }
 
-  
 }

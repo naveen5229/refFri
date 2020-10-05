@@ -1,12 +1,12 @@
-<div class="header-container" [class.left]="position === 'normal'" [class.right]="position === 'inverse'">
+<div class="header-container col-2 pr-0 pl-2" [class.left]="position === 'normal'" [class.right]="position === 'inverse'">
   <div class="logo-containter">
-    <a (click)="toggleSidebar()" href="#" class="navigation" style="color: #ff421a;font-size:24px"><i class="fa fa-list" aria-hidden="true"></i></a>
-   
     <div class="logo" (click)="goToHome()"><b style="color: #ff421a;">eLogist</b></div>
+    <a (click)="toggleSidebar()" href="#" class="navigation" style="color: #9fa2ab;font-size:18px"><i class="fa fa-list" aria-hidden="true"></i></a>
+   
   </div>
   <!-- <ngx-theme-switcher></ngx-theme-switcher> -->
 </div>
-<div class="user_back_name">
+<div class="user_back_name  col-5 pr-0 pl-2">
   <div class="header_button back_btn">
     <button *ngIf="this.user._loggedInBy !== 'customer' && this.user._customer.name" class="form-control"
       (click)="backTOHome()">
@@ -15,7 +15,8 @@
     </button>
   </div>
   <div class="user_cust_name">
-    <h4 *ngIf="this.user._loggedInBy !== 'customer' && this.user._customer.name"> <i class="fa fa-user" style="margin-right:5px"></i>
+    <i class="fa fa-user"></i>
+    <h4 *ngIf="this.user._loggedInBy !== 'customer' && this.user._customer.name"> 
       {{this.user._customer.name}}
     </h4>
   </div>
@@ -32,7 +33,7 @@
       {{this.user._details.name}}</h4>
   </div>
 </div>
-<div class="branch_option">
+<div class="branch_option  col-3 pr-0 pl-2">
   <div class="select_branch"
     *ngIf="router.url.includes('accounts') ||router.url.includes('admin/generate-lr') ||router.url.includes('pages/generate-lr')">
     <label>F/Y</label>
@@ -55,19 +56,19 @@
   </div>
 </div>
 
-<div class="header_mini_menu">
+<div class="header_mini_menu  col-2 pr-0 pl-2">
   <div class="bank_icon">
-    <button class="form-control refresh" (click)="openBankModal()"><i class="fa fa-bank icon " title="Bank Details"></i></button>
+    <button class="form-control refresh" (click)="openBankModal()"><i class="fas fa-university icon" title="Bank Details"></i></button>
   </div>
   <div class="add_customer"
     *ngIf="this.user._loggedInBy == 'admin'||this.user._loggedInBy == 'partner' ||(this.user._loggedInBy === 'customer' && this.user._details.multipleAccounts>0)">
-    <button class="form-control" (click)="openChangeModal()"><img src="assets/images/add-contact.png" title="Select FO Admin"></button>
+    <button class="form-control" (click)="openChangeModal()"><i class="fas fa-user-plus" title="Select FO Admin"></i></button>
+    <!-- <button class="form-control" (click)="openChangeModal()"><img src="assets/images/add-contact.png" title="Select FO Admin"></button> -->
   </div>
-  <div class="current-page" *ngIf="common.currentPage">
-    <span>{{common.currentPage}}</span>
-  </div>
+  
+ 
   <div class="refresh_icon">
-    <button class="form-control refresh" (click)="refresh()"><i class="fa fa-refresh" title="Refresh"></i></button>
+    <button class="form-control refresh" (click)="refresh()"><i class="fas fa-sync-alt" title="Refresh"></i></button>
   </div>
    
   <div class="header-container">
@@ -77,11 +78,14 @@
         </nb-user>
         <!-- [nbContextMenu]="userMenu" -->
       </nb-action>
-      <nb-action class="control-item" disabled icon="nb-notifications" title="Notifications"></nb-action>
+      <!-- <nb-action class="control-item" disabled  title="Notifications"><i class="fas fa-bell"></i></nb-action> -->
       <!-- <nb-action class="control-item" icon="nb-email"></nb-action> -->
       <!-- <nb-action class="control-item">
         <nb-search type="rotate-layout" (click)="startSearch()"></nb-search>
       </nb-action> -->
     </nb-actions>
   </div>
+</div>
+<div class="current-page" *ngIf="common.currentPage">
+  <span>{{common.currentPage}}</span>
 </div>

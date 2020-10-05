@@ -2,7 +2,7 @@
 
   <nb-card-body>
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 pl-0 pr-0">
         <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="getCsvReport()"
@@ -32,7 +32,7 @@
 
             </div>
           </div> -->
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
@@ -40,20 +40,20 @@
                 maxlength="10">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="enddate"
                 placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.todate" maxlength="10">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getVoucherEdited()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0 pr-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getCsvData()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Export GST Reports</button>
@@ -82,6 +82,7 @@
               <th>Invoice Amount</th>
                </tr>
              </thead>
+            <tbody>
              <tr *ngFor="let item of DayData; let i = index;" (click)="selectedRow = i" (dblclick)="openGSTEdit(item.y_details)" [ngClass]="{'highlight' : selectedRow == i}">
               <td> {{item.y_sno}}</td>
               <td> {{item.y_name}}</td>
@@ -94,6 +95,7 @@
               <td> {{item.y_tax_amt}}</td>
               <td> {{item.y_inv_amt}}</td>
         </tr>
+      </tbody>
           </table>
     </div>
 

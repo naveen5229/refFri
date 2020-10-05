@@ -9,15 +9,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./tmg-alerts.component.scss']
 })
 export class TmgAlertsComponent implements OnInit {
-  tripOnwardKmd = [];
-  tripUnLoadindTime = [];
-  tripLoadindTime = [];
-  tripLongHalt = [];
-  longestLoadindSites = [];
-  longestUnLoadindDriver = [];
-  tripSlowestOnward = [];
-  longestUnLoadindSites = [];
-  xAxisData = [];
+  alertAckTat = [];
+  alertCallTat = [];
+  alertVscTat = [];
+  alertNotAck = [];
+  alertNotCall = [];
+  alertOpen = [];
+  alertWorstCallTat = [];
+  alertVscPending = [];
+  alertVscWorst = []
+  // xAxisData = [];
   chart = {
     type: '',
     data: {},
@@ -39,14 +40,15 @@ export class TmgAlertsComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal) {
-    this.getTripOnwardKmd();
-    this.getTripLoadindTime();
-    this.getTripUnLoadindTime();
-    this.getTripLongHalt();
-    this.getLongestLoadindSites();
-    this.getLongestUnLoadindSites();
-    this.getTripSlowestOnward();
-    this.getLongestUnLoadindDriver();
+    this.getAlertAckTat();
+    this.getAlertCallTat();
+    this.getAlertVscTat();
+    this.getAlertNotAck();
+    this.getAlertNotCall();
+    this.getAlertOpen();
+    this.getAlertVscPending();
+    this.getAlertWorstCallTat();
+    this.getAlertVscWorst();
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -54,85 +56,86 @@ export class TmgAlertsComponent implements OnInit {
   }
 
   refresh() {
-    this.xAxisData = [];
-    this.getTripOnwardKmd();
-    this.getTripLoadindTime();
-    this.getTripUnLoadindTime();
-    this.getTripLongHalt();
-    this.getLongestLoadindSites();
-    this.getLongestUnLoadindSites();
-    this.getTripSlowestOnward();
-    this.getLongestUnLoadindDriver();
+    // this.xAxisData = [];
+    this.getAlertAckTat();
+    this.getAlertCallTat();
+    this.getAlertVscTat();
+    this.getAlertNotAck();
+    this.getAlertNotCall();
+    this.getAlertOpen();
+    this.getAlertVscPending();
+    this.getAlertWorstCallTat();
+    this.getAlertVscWorst();
   }
 
-  getTripOnwardKmd() {
-    this.tripOnwardKmd = [];
+  getAlertAckTat() {
+    this.alertAckTat = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 1
     };
-    this.api.post('Tmgreport/GetTripOnwardKmd', params)
+    this.api.post('Tmgreport/GetAlertAckTat', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('tripOnwardKmd:', res);
-        this.tripOnwardKmd = res['data'];
-        this.handleChart();
+        console.log('alertAckTat:', res);
+        this.alertAckTat = res['data'];
+        if(this.alertAckTat.length>0) this.handleChart();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
       });
   }
 
-  getTripLoadindTime() {
-    this.tripLoadindTime = [];
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  getAlertCallTat() {
+    this.alertCallTat = [];
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 1
     };
     ++this.common.loading;
-    this.api.post('Tmgreport/GetTripLoadindTime', params)
+    this.api.post('Tmgreport/GetAlertCallTat', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('tripLoadindTime:', res);
-        this.tripLoadindTime = res['data'];
-        if(this.tripLoadindTime.length>0) this.handleChart1();
+        console.log('alertCallTat:', res);
+        this.alertCallTat = res['data'];
+        if(this.alertCallTat.length>0) this.handleChart1();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
       });
   }
 
-  getTripUnLoadindTime() {
-    this.tripUnLoadindTime = [];
+  getAlertVscTat() {
+    this.alertVscTat = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 1
     };
-    this.api.post('Tmgreport/GetTripUnLoadindTime', params)
+    this.api.post('Tmgreport/GetAlertVscTat', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('tripUnLoadindTime:', res);
-        this.tripUnLoadindTime = res['data'];
-        if(this.tripUnLoadindTime.length>0) this.handleChart2();
+        console.log('alertVscTat:', res);
+        this.alertVscTat = res['data'];
+        if(this.alertVscTat.length>0) this.handleChart2();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
       });
   }
 
-  getTripLongHalt() {
-    this.tripLongHalt = [];
+  getAlertNotAck() {
+    this.alertNotAck = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
@@ -141,20 +144,19 @@ export class TmgAlertsComponent implements OnInit {
       totalrecord:3
     };
     ++this.common.loading;
-    this.api.post('Tmgreport/GetTripLoadindHalt', params)
+    this.api.post('Tmgreport/GetAlertNotAck', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('tripLongHalt:', res);
-        this.tripLongHalt = res['data'];
+        console.log('alertNotAck:', res);
+        this.alertNotAck = res['data'];
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
       });
   }
 
-  getLongestLoadindSites(){
-   
-    this.longestLoadindSites = [];
+  getAlertNotCall(){
+    this.alertNotCall = [];
     ++this.common.loading;
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
@@ -163,19 +165,40 @@ export class TmgAlertsComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       totalrecord:3
     };
-    this.api.post('Tmgreport/GetLongestLoadindSites', params)
+    this.api.post('Tmgreport/GetAlertNotCall', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('longestLoadindSites:', res['data']);
-        this.longestLoadindSites = res['data'];
+        console.log('alertNotCall:', res['data']);
+        this.alertNotCall = res['data'];
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
       });
   }
 
-  getLongestUnLoadindSites() {
-    this.longestUnLoadindSites = [];
+  getAlertVscPending(){
+    this.alertVscPending = [];
+    ++this.common.loading;
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord:3
+    };
+    this.api.post('Tmgreport/GetAlertVscPending', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('alertVscPending:', res['data']);
+        this.alertVscPending = res['data'];
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
+      });
+  }
+
+  getAlertOpen() {
+    this.alertOpen = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
@@ -184,19 +207,19 @@ export class TmgAlertsComponent implements OnInit {
       totalrecord:3
     };
     ++this.common.loading;
-    this.api.post('Tmgreport/GetLongestUnLoadindSites', params)
+    this.api.post('Tmgreport/GetAlertOpen', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('longestUnLoadindSites:', res);
-        this.longestUnLoadindSites = res['data'];
+        console.log('alertOpen:', res);
+        this.alertOpen = res['data'];
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
       });
   }
 
-  getTripSlowestOnward(){
-    this.tripSlowestOnward = [];
+  getAlertWorstCallTat() { 
+    this.alertWorstCallTat = [];
     ++this.common.loading;
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
@@ -205,19 +228,19 @@ export class TmgAlertsComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       totalrecord:3
     };
-    this.api.post('Tmgreport/GetTripSlowestOnward', params)
+    this.api.post('Tmgreport/GetAlertWorstCallTat', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('tripSlowestOnward:', res['data']);
-        this.tripSlowestOnward = res['data'];
+        console.log('alertWorstCallTat:', res['data']);
+        this.alertWorstCallTat = res['data'];
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
       });
   }
 
-  getLongestUnLoadindDriver() { 
-    this.longestUnLoadindDriver = [];
+  getAlertVscWorst() { 
+    this.alertVscWorst = [];
     ++this.common.loading;
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
@@ -226,11 +249,11 @@ export class TmgAlertsComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       totalrecord:3
     };
-    this.api.post('Tmgreport/GetLongestUnLoadindDriver', params)
+    this.api.post('Tmgreport/GetAlertVscWorst', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('longestUnLoadindDriver:', res['data']);
-        this.longestUnLoadindDriver = res['data'];
+        console.log('alertVscWorst:', res['data']);
+        this.alertVscWorst = res['data'];
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
@@ -240,17 +263,17 @@ export class TmgAlertsComponent implements OnInit {
   handleChart(){
     let yaxis = [];
     let xaxis = [];
-    this.tripLoadindTime.map(tlt=>{
+    this.alertAckTat.map(tlt=>{
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Loading Duration(Min)']);
+      yaxis.push(tlt['Ack TAT(Hrs)']);
     });
-    console.log("handleChart1",xaxis,yaxis);
-    this.chart1.type = 'line'
-    this.chart1.data = {
+    console.log("handleChart",xaxis,yaxis);
+    this.chart.type = 'line'
+    this.chart.data = {
       labels: xaxis,
       datasets: [
         {
-          label: 'Time (in mins.)',
+          label: 'Ack TAT(Hrs)',
           data: yaxis,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
@@ -260,11 +283,11 @@ export class TmgAlertsComponent implements OnInit {
         },
       ]
     },
-    this.chart1.options= {
+    this.chart.options= {
       responsive: true,
       legend: {
         position: 'bottom',
-        display:  true
+        display:  false
       },
      
       maintainAspectRatio: false,
@@ -277,7 +300,14 @@ export class TmgAlertsComponent implements OnInit {
           tension: 0
         }
       },
-      
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Ack TAT (in Hrs.)'
+          }
+        }]
+      } ,
     };
   }
  
@@ -285,9 +315,9 @@ export class TmgAlertsComponent implements OnInit {
   handleChart1(){
     let yaxis = [];
     let xaxis = [];
-    this.tripLoadindTime.map(tlt=>{
+    this.alertCallTat.map(tlt=>{
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Loading Duration(Min)']);
+      yaxis.push(tlt['Call TAT(Hrs)']);
     });
     console.log("handleChart1",xaxis,yaxis);
     this.chart1.type = 'line'
@@ -295,7 +325,7 @@ export class TmgAlertsComponent implements OnInit {
       labels: xaxis,
       datasets: [
         {
-          label: 'Time (in mins.)',
+          label: 'Time (in Mins.)',
           data: yaxis,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
@@ -309,7 +339,7 @@ export class TmgAlertsComponent implements OnInit {
       responsive: true,
       legend: {
         position: 'bottom',
-        display:  true
+        display:  false
       },
      
       maintainAspectRatio: false,
@@ -322,7 +352,14 @@ export class TmgAlertsComponent implements OnInit {
           tension: 0
         }
       },
-      
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Time (in Mins.)'
+          }
+        }]
+      } ,
     };
   }
   
@@ -330,9 +367,9 @@ export class TmgAlertsComponent implements OnInit {
   handleChart2(){
     let yaxis = [];
     let xaxis = [];
-    this.tripUnLoadindTime.map(tlt=>{
+    this.alertVscTat.map(tlt=>{
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Unloading Duration(Min)']);
+      yaxis.push(tlt['TAT(Hrs)']);
     });
     console.log("handleChart2",xaxis,yaxis);
     this.chart2.type = 'line'
@@ -340,7 +377,7 @@ export class TmgAlertsComponent implements OnInit {
       labels: xaxis,
       datasets: [
         {
-          label: 'Time (in mins)',
+          label: 'Time (in Mins)',
           data: yaxis,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
@@ -354,7 +391,7 @@ export class TmgAlertsComponent implements OnInit {
     responsive: true,
     legend: {
       position: 'bottom',
-      display:  true
+      display:  false
     },
    
     maintainAspectRatio: false,
@@ -367,7 +404,14 @@ export class TmgAlertsComponent implements OnInit {
         tension: 0
       }
     },
-    
+    scales: {
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Time (in Mins.)'
+        }
+      }]
+    } ,
   };
 }
 }

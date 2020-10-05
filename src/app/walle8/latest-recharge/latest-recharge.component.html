@@ -4,11 +4,11 @@
     <div class="row m-0" style="width:100%;background-color: #E5F3F9;border-top-right-radius: 5px; border-top-left-radius:5px;display:inline-block">
       <h5 class="p-2" style="font-weight:bold; display: inline-block;">Latest Recharge</h5>
 
-      <div style="display:inline-block;" class="p-2 float">
+      <div style="display:inline-block;" class="p-2 float" *ngIf="data.length">
         <span style="display: block;">
-          <span class="pdf-icon" title="PDF Export" (click)="printPDF('latestrecharge');" style="cursor: pointer;"><i
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
               class="fa fa-file-pdf"></i></span>
-          <span class="exel-icon" title="CSV Export" (click)="printCSV('latestrecharge')"
+          <span class="exel-icon" title="CSV Export" (click)="printCSV()"
             style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
      </span>
      </div>
@@ -17,9 +17,39 @@
      </nb-card-header>
 
   <nb-card-body style="width:96%;margin-left:2%;">
-    <smart-table *ngIf="data.length" id="latestrecharge" [data]="table.data" [settings]="table.settings">
-    </smart-table>
-    <table *ngIf="data.length" style="margin-top:-15px">
+    <!-- <smart-table *ngIf="data.length" id="latestrecharge" [data]="table.data" [settings]="table.settings">
+    </smart-table> -->
+
+    <table class="table table-bordered" id="latestrecharge" style="width:100%;" *ngIf="data.length">
+      <thead>
+        <tr>
+          <th>Vehicle</th>
+          <th>Recharge</th>
+          <th>Card Number</th>
+          <th>Date</th>
+          <th>Remark</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let recharge of data">
+          <td>{{recharge.vehicle}}</td>
+          <td>{{recharge.nbal}}</td>
+          <td>{{recharge.cardno}}</td>
+          <td>{{recharge.dttime}}</td>
+          <td>{{recharge.rema}}</td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td>{{total}}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <!-- <table *ngIf="data.length" style="margin-top:-15px">
       <tbody>
         <tr>
           <th style="width: 40px"></th>
@@ -32,7 +62,7 @@
         </tr>
       </tbody>
     </table>
-    <br>
+    <br> -->
   </nb-card-body>
 </nb-card>
 

@@ -14,7 +14,7 @@
         <td>Trip</td> <td [innerHTML]="common.getTripStatusHTML(issueInfo['trip']._trip_status_type, issueInfo['trip']._showtripstart, issueInfo['trip']._showtripend, issueInfo['trip']._p_placement_type, issueInfo['trip']._p_loc_name)"></td>
       </tr>
       <tr>
-        <td>Vehicle No</td><td> <span *ngIf="issueInfo.regno" >{{issueInfo.regno ? issueInfo.regno : ''}}</span></td>
+        <td>Vehicle No</td><td> <span *ngIf="issueInfo.regno" [title]="'Group : ' +issueInfo.groupInfo"><b>{{issueInfo.regno ? issueInfo.regno : ''}}</b></span> &nbsp;&nbsp;&nbsp;&nbsp;<span (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;" *ngIf='issueInfo.lat&&issueInfo.long'>[{{issueInfo.loc_name ? issueInfo.loc_name : ''}}]</span></td>
       </tr>
       <tr>
         <td>Driver</td><td><span *ngIf="issueInfo.empname" >{{issueInfo.empname ? issueInfo.empname : ''}}</span></td>
@@ -29,7 +29,7 @@
         <td>Message</td><td> <span *ngIf="ticketInfo.msg" >{{ticketInfo.msg ? ticketInfo.msg : ''}}</span></td>
       </tr>
       <tr>
-        <td>Location</td><td ><span (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;" *ngIf='issueInfo.lat&&issueInfo.long'>{{issueInfo.loc_name ? issueInfo.loc_name : ''}}</span></td>
+        <td>Status</td><td ><span>{{issueInfo.status ? issueInfo.status : ''}}</span></td>
       </tr>
      
      
