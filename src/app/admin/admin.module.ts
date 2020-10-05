@@ -12,7 +12,7 @@ import { GroupManagementsComponent } from './group-managements/group-managements
 import { TicketPropertiesComponent } from './ticket-properties/ticket-properties.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
 import { SiteDetailsComponent } from './site-details/site-details.component';
@@ -39,7 +39,6 @@ import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.co
 import { TransportAreaComponent } from './transport-area/transport-area.component';
 import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
 import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
-import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { SharedModule } from '../shared.module';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
@@ -119,7 +118,6 @@ const PAGES_COMPONENTS = [
     DocumentsModule,
     LorryReceiptModule,
     DriverModule,
-    ImageViewerModule,
     SharedModule,
     ChartModule,
     BatteryModule,

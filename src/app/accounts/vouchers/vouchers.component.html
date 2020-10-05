@@ -1,19 +1,19 @@
-<nb-card style="padding-top: 25px; border: 0px;">
+<nb-card style="padding-top: 18px; border: 0px;">
   <!-- <nb-card-header>
   <h4 class="modal-title"> Add Voucher ({{this.voucherName}})</h4>
 </nb-card-header> -->
   <nb-card-body >
     <div class="row">
-      <div class="col-9">
+      <div class="col-9 pl-0  pr-0">
         <div class="row">
-          <div class="col-6">
+          <div class="col-6 pl-0">
             <div class="form-group">
               <label class="ref-label">Ref</label>
               <input type="text" id="ref-code" class="form-control ref-input" (click)="lastActiveId = 'ref-code'"
                 name="account-name" [(ngModel)]="voucher.code" autofocus autocomplete="doNotAutoComplete">
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-6 pl-0">
             <div class="form-group">
               <label class="ref-label">Date</label>
               <input type="text" style="cursor: pointer;" class="form-control ref-input" autocomplete="off"
@@ -24,7 +24,7 @@
 
         </div>
         <div class="row">
-          <div class="col-12">
+          <div class="col-12 pl-0">
             <table class="table table-bordered">
               <tr style="background: #263238; color: #fff;">
                 <th>Transaction </th>
@@ -84,7 +84,7 @@
 
         <!-- End Amount Details -->
         <div class="row">
-          <div class="col-8">
+          <div class="col-8 pl-0">
             <div class="form-group">
               <label class="ref-label">Narration</label>
               <textarea class="form-control ref-input" id="narration" (click)="lastActiveId = 'narration'"
@@ -92,14 +92,14 @@
               </textarea>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-2 pl-0">
             <div class="form-group">
               <label class="ref-label">Total Debit</label>
               <input type="text" class="form-control ref-input" name="account-name" readonly
                 [(ngModel)]="voucher.total.debit" style="background: #e4e4e4">
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-2 pl-0">
             <div class="form-group">
               <label class="ref-label">Total Credit</label>
               <input type="text" class="form-control ref-input" name="account-name" readonly
@@ -118,7 +118,7 @@
           </div>
         </div>
       </div>
-      <div class="col-3"> 
+      <div class="col-3 pl-0 pr-0"> 
         <div class="ledger-container" id="ledger-container">
           <div *lazyFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
             [ngClass]="activeLedgerIndex == i ? 'active-ledger' : ''" (click)='selectLedger(ledger)'>

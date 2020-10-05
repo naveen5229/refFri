@@ -1,0 +1,17 @@
+=============================================== ImageViewer Fixes =====================================
+
+File Path: node_modules/iv-viewer/lib/ImageViewer.js
+line number : 763
+update from : var lowResImg = this._elements.image
+update to : var lowResImg = NodeList.prototype.isPrototypeOf(this._elements.image) ? this._elements.image[0] : this._elements.image;
+
+File Path: node_modules/iv-viewer/lib/util.js
+line number : 166
+updat from :  element.parentNode.removeChild(element);
+update to : 
+	if (element.parentNode)
+      		element.parentNode.removeChild(element);
+    	else if (element.remove)
+      		element.remove();
+
+=========================================================================================================

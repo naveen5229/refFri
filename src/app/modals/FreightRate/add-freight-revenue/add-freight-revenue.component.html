@@ -124,9 +124,8 @@
             </div>
         </div>
         <div class="col-6" *ngIf="images && images.length">
-            <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'revenue-image'" [loadOnInit]="true">
-            </app-image-viewer>
-
+            <jrx-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'revenue-image'" [loadOnInit]="true">
+            </jrx-image-viewer>
         </div>
     </div>
 

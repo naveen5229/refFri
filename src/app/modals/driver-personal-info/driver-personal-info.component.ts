@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
@@ -31,7 +31,7 @@ export class DriverPersonalInfoComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService,
-    public renderer: Renderer
+    public renderer: Renderer2
   ) {
     console.log("---------", this.common.params.driverId)
     this.driverPersonalInfo();
@@ -79,7 +79,7 @@ export class DriverPersonalInfoComponent implements OnInit {
   }
 
   printHandler() {
-    this.renderer.setElementClass(document.body, 'test', true);
+    this.renderer.addClass(document.body, 'test');
     let css = '@page { size: landscape !important; }';
     let head = document.head || document.getElementsByTagName('head')[0];
     let style = document.createElement('style');
@@ -100,7 +100,7 @@ export class DriverPersonalInfoComponent implements OnInit {
       if (document.readyState == "complete") {
         clearInterval(printWindowListener);
         head.removeChild(style);
-        this.renderer.setElementClass(document.body, 'test', false);
+        this.renderer.addClass(document.body, 'test');
       }
     }, 1000);
   }

@@ -4,7 +4,6 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddViaRoutesComponent } from '../../modals/add-via-routes/add-via-routes.component';
-import { bind } from '@angular/core/src/render3';
 import { ViaRoutePointsComponent } from '../../modals/via-route-points/via-route-points.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { RoutesExpensesComponent } from '../../modals/routes-expenses/routes-expenses.component';
@@ -13,8 +12,6 @@ import { RoutesTrafficKpisComponent } from '../../modals/routes-traffic-kpis/rou
 import { StrictMappingComponent } from '../../modals/strict-mapping/strict-mapping.component';
 import { VehiclePriSecRoutemappingComponent } from '../../modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 import { RouteTimeTableComponent } from '../../modals/route-time-table/route-time-table.component';
-import { Route } from '@angular/router';
-import { RouteGuard } from '../../guards/route.guard';
 @Component({
   selector: 'via-routes',
   templateUrl: './via-routes.component.html',

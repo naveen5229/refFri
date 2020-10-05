@@ -5,7 +5,6 @@ import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { map } from 'rxjs/operators';
-import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'route-mapper',

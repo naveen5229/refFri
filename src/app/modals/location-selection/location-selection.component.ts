@@ -18,7 +18,7 @@ export class LocationSelectionComponent implements OnInit {
   title = '';
   placeholder = '';
   map: any;
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', { static: true }) mapElement: ElementRef;
   name = null;
   location = {
     lat: 26.9124336,

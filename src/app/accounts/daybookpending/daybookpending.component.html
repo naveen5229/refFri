@@ -101,7 +101,7 @@
       <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
         [ngClass]="{'highlight' : selectedRow == i}"> -->
-
+      <tbody>
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? (dataItem.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(dataItem) :(dataItem.y_type.toLowerCase().includes('fuel')) ? openFuelEdit(dataItem) : openVoucherEdit(dataItem.y_voucherid,dataItem.y_vouchertype_id) : (dataItem.y_type.toLowerCase().includes('stock')) ? openStoreQuestionEdit(dataItem) : openServiceSalesInvoicemodel(dataItem,dataItem.y_voucherid,dataItem.y_vouchertype_id) "
         (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i, 'highlightcolor' : DayData.length-1 == i}">
@@ -118,6 +118,7 @@
         <td>{{dataItem.y_cramunt}}</td>
         <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

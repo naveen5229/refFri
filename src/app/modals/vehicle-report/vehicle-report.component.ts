@@ -5,7 +5,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
-import { shimHostAttribute } from '@angular/platform-browser/src/dom/dom_renderer';
 import * as moment_ from 'moment';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { DateService } from '../../services/date.service';

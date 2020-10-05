@@ -325,6 +325,7 @@
 
               </tr>
             </thead>
+          <tbody>
             <tr *ngFor="let item of transferData; let i = index;">
 
               <td *ngFor="let itemheading of transferHeading">
@@ -340,6 +341,7 @@
              
 
             </tr>
+          </tbody>
           </table>
         </div>
         <div class="row">
@@ -366,11 +368,13 @@
                 <th>Remarks</th>
               </tr>
             </thead>
+          <tbody>
             <tr *ngFor="let item of tripFreghtDetails; let i = index;">
               <td>{{item.receipt_no}}</td>
               <td>{{item.auto_amount}}</td>
               <td>{{item.remarks}}</td>
             </tr>
+          </tbody>
           </table>
         </div>
 

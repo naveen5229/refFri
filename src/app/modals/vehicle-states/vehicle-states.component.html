@@ -75,9 +75,6 @@
       <uj-date-time-picker (onChanged)="site.site_date = $event" [dateTimeValue]="site.site_date" [isTime]="true"
         class="col-6">
       </uj-date-time-picker>
-      <!-- <input [(ngModel)]="site.site_date" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
-        class="form-control" autocomplete="off" name="date">
-      <owl-date-time #date></owl-date-time> -->
     </div>
   </div>
   <div class="row mt-4" [hidden]="changeCategory != 'location'">
@@ -99,9 +96,6 @@
       <uj-date-time-picker (onChanged)="location.loc_date = $event" [dateTimeValue]="location.loc_date" [isTime]="true"
         class="col-6">
       </uj-date-time-picker>
-      <!-- <input [(ngModel)]="location.loc_date" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="Date Time"
-        class="form-control" autocomplete="off" name="date1">
-      <owl-date-time #date1></owl-date-time> -->
     </div>
   </div>
   <!-- </div> -->

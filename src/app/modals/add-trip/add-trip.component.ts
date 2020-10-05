@@ -6,7 +6,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { ReminderComponent } from '../../modals/reminder/reminder.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 import { MapService } from '../../services/map.service';

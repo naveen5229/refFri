@@ -10,10 +10,7 @@ import { NbThemeService } from "@nebular/theme";
 import { ImageViewComponent } from "../../modals/image-view/image-view.component";
 import { slideToLeft, slideToUp } from "../../services/animation";
 import * as _ from "lodash";
-import { forEach } from "@angular/router/src/utils/collection";
-import { log } from "util";
 import { ReportIssueComponent } from "../../modals/report-issue/report-issue.component";
-import { componentRefresh, element } from "@angular/core/src/render3/instructions";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RadioSelectionComponent } from "../../modals/radio-selection/radio-selection.component";
 import { VehiclesOnMapComponent } from "../../modals/vehicles-on-map/vehicles-on-map.component";
@@ -32,7 +29,7 @@ import { DateService } from "../../services/date.service";
 import { PoliceStationComponent } from "../../modals/police-station/police-station.component";
 import { OdoMeterComponent } from "../../modals/odo-meter/odo-meter.component";
 import { PdfService } from "../../services/pdf/pdf.service";
-import { MatTableDataSource } from "@angular/material";
+import { MatTableDataSource } from "@angular/material/table";
 import { EntityFlagsComponent } from "../../modals/entity-flags/entity-flags.component";
 
 @Component({

@@ -19,15 +19,15 @@
       text-decoration: none;
       font-size: 2.25rem;
 
-      color: nb-theme(color-fg);
+      color: #a4abb3;
 
       &.selected {
-        color: nb-theme(color-success);
+        color: #5dcfe3;
       }
 
       @include nb-for-theme(cosmic) {
         &.selected {
-          color: nb-theme(link-color);
+          color: #00f9a6;
         }
       }
     }
@@ -63,7 +63,7 @@
 
       @include nb-for-theme(cosmic) {
         .switch .slider {
-          background-color: nb-theme(color-bg);
+          background-color: #ffffff;
         }
       }
     }

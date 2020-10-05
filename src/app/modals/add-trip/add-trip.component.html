@@ -62,11 +62,6 @@
         <div class="col-md-8" style="margin-top:5px">
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
             placeholder="Select Date" [value]="startTime | date: 'dd MMM yyyy'" name="date" readonly>
-
-          <!-- <input [(ngModel)]="startTime" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1 " placeholder="Entry Time"
-        class="form-control" autocomplete="off" name="startTime"> -->
-          <owl-date-time #date1></owl-date-time>
-
         </div>
       </div>
       <div class="row" style="margin-top:5px">
