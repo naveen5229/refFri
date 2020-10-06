@@ -1,16 +1,13 @@
 import { Injectable } from "@angular/core";
-import { NbToastStatus } from "@nebular/theme/components/toastr/model";
 import {
-  NbGlobalLogicalPosition,
   NbGlobalPhysicalPosition,
-  NbGlobalPosition,
   NbToastrService,
   NbThemeService
 } from "@nebular/theme";
 import { Router } from "@angular/router";
 
-import { Http, Headers } from '@angular/http';
-import { DatePipe, FormatWidth } from "@angular/common";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DatePipe } from "@angular/common";
 import { ApiService } from "./api.service";
 import { DataService } from "./data.service";
 import { UserService } from "./user.service";
@@ -18,10 +15,8 @@ import { UserService } from "./user.service";
 import html2canvas from 'html2canvas';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
+import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 import * as moment_ from "moment";
-import { elementAt } from "rxjs/operators";
-import { RouteGuard } from "../guards/route.guard";
 import { saveAs } from 'file-saver';
 import { AccountService } from '../services/account.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -81,7 +76,7 @@ export class CommonService {
     public dataService: DataService,
     public user: UserService,
     private datePipe: DatePipe, private _sanitizer: DomSanitizer,
-    private http: Http,
+    private http: HttpClient,
     private accountService: AccountService,
 
   ) { }
@@ -217,7 +212,7 @@ export class CommonService {
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
 
-    console.log(year + "-" + month + "-" + dat);
+    // console.log(year + "-" + month + "-" + dat);
 
     //return dat + "-" + month + "-" + year;
     return year + "-" + month + "-" + dat;
@@ -969,7 +964,7 @@ export class CommonService {
 
     // const blob = new Blob(["Hello, world!"], { type: 'text/plain' });
     // saveAs(blob, 'test.pdf');
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Accept', 'text/plain');
     this.http.get('/api/files', { headers: headers })
       .toPromise()
@@ -1130,7 +1125,7 @@ export class CommonService {
         info.push(rowdata);
       }
     }
-    new Angular5Csv(info, "report.csv");
+    new AngularCsv(info, "report");
   }
 
   getCSVFromTableIdNew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
@@ -1255,7 +1250,8 @@ export class CommonService {
       }
 
     }
-    new Angular5Csv(info, "report.csv");
+    new AngularCsv(info, "report");
+
   }
   getCSVFromTableIdLatest(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblelt = document.getElementById(tblEltId);
@@ -1378,7 +1374,7 @@ export class CommonService {
       }
 
     }
-    new Angular5Csv(info, "report.csv");
+    new AngularCsv(info, "report");
   }
   getMultipleCSVFromTableIdNew(tblArray, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblEltId = '';
@@ -1486,7 +1482,7 @@ export class CommonService {
           info.push(rowdata);
         }
       }
-      new Angular5Csv(info, "report.csv");
+      new AngularCsv(info, "report");
     });
   }
   formatTitle(strval) {
@@ -1994,5 +1990,23 @@ export class CommonService {
     chartObj.gridSize = Math.round(((max1 - min1) / 5) / 10) * 10;
     return chartObj;
   }
+
+  imageDownloadFromUrl(url, fileName){
+    console.log("url, fileName",url, fileName);
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.responseType = "blob";
+    xhr.onload = function(){
+        var urlCreator = window.URL;
+        var imageUrl = urlCreator.createObjectURL(this.response);
+        var tag = document.createElement('a');
+        tag.href = imageUrl;
+        tag.download = fileName;
+        document.body.appendChild(tag);
+        tag.click();
+        document.body.removeChild(tag);
+    }
+    xhr.send();
+}
 
 }

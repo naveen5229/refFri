@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 @Component({
   selector: 'route-time-table-details',

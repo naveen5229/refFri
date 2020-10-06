@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 @Component({
   selector: 'current-tag-balance',
@@ -13,6 +15,8 @@ export class CurrentTagBalanceComponent implements OnInit {
   table = null;
   constructor(
     public common: CommonService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public api: ApiService,
     public user: UserService,
   ) {
@@ -73,39 +77,56 @@ export class CurrentTagBalanceComponent implements OnInit {
     return columns;
   }
 
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Current Tag Balance";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Report: '+'Current-Tag-Balance']
+    ];
+    this.pdfService.jrxTablesPDF(['currentTagBalance'], 'toll-setteled', details);
   }
 
-  printCSV(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Current Tag Balance";
-        this.common.getCSVFromTableId(tblEltId);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,report:"Report:Current-Tag-Balance"}
+    ];
+    this.csvService.byMultiIds(['currentTagBalance'], 'toll-setteled', details);
   }
+
+  // printPDF(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Current Tag Balance";
+  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+  // printCSV(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Current Tag Balance";
+  //       this.common.getCSVFromTableId(tblEltId);
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
 }

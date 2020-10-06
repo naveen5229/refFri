@@ -6,6 +6,9 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 import { PdfViewerComponent } from '../../generic/pdf-viewer/pdf-viewer.component';
 import { ChallanPendingRequestComponent } from '../../modals/challanModals/challan-pending-request/challan-pending-request.component';
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'pending-challan',
@@ -32,6 +35,9 @@ export class PendingChallanComponent implements OnInit {
   pdfUrl = '';
 
   constructor(public common: CommonService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
+    public user: UserService,
     public api: ApiService,
     private modalService: NgbModal,) {
 
@@ -219,6 +225,23 @@ export class PendingChallanComponent implements OnInit {
       this.common.handleModalSize('class', 'modal-lg', '1100');
       this.common.params = { data: dataparams };
       const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    }
+
+    printPDF(){
+      let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+      console.log("Name:",name);
+      let details = [
+        ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.startDate),'End Date: '+this.common.dateFormatter1(this.endDate),  'Report: '+'Challan']
+      ];
+      this.pdfService.jrxTablesPDF(['pendingChallan'], 'challan', details);
+    }
+  
+    printCSV(){
+      let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+      let details = [
+        { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.startDate),enddate:'End Date:'+this.common.dateFormatter1(this.endDate), report:"Report:Challan"}
+      ];
+      this.csvService.byMultiIds(['pendingChallan'], 'challan', details);
     }
 
 }

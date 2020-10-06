@@ -70,6 +70,7 @@
           <th>Quantity</th>
         </tr>
       </thead>
+    <tbody>
       <tr *ngFor=" let dataItem of stockAvailableData; let i = index;" (click)="selectedRow = i"
         [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{ i+1 }}</td>
@@ -78,6 +79,7 @@
         <td>{{dataItem.y_stockitem}}</td>
         <td>{{dataItem.available_qty}}</td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

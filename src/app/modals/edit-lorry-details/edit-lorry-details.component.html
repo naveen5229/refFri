@@ -125,9 +125,6 @@
               class="icon fa fa-calendar" style="margin-top:10px; margin-left:-5px"></i></span>
         </div>
       </div>
-      <!-- <input [(ngModel)]="lrDate" [owlDateTime]="date" [owlDateTimeTrigger]="date " placeholder="Date"
-            class="form-control" autocomplete="off" name="date">
-          <owl-date-time #date></owl-date-time> -->
       <div class="from-group" style="margin-top:10px">
         <select [(ngModel)]="payType" class="form-control" (change)="changePayType()"
           style=" border: 2px solid darkcyan; font-size: 13px">
@@ -229,9 +226,8 @@
     </div>
 
     <div class="col-9">
-      <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
-      </app-image-viewer>
-
+      <jrx-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
+      </jrx-image-viewer>
     </div>
   </div>
 </div>

@@ -3,8 +3,6 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
-import { PARAMETERS } from '@angular/core/src/util/decorators';
-import { identifierModuleUrl } from '@angular/compiler';
 
 @Component({
   selector: 'manage-stock-exchange',

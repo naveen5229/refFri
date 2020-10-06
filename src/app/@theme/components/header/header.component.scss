@@ -57,30 +57,30 @@
         }
 
         .navigation {
-            @include nb-ltr(padding-right, nb-theme(padding));
-            @include nb-rtl(padding-left, nb-theme(padding));
+            @include nb-ltr(padding-right, 1.25rem);
+            @include nb-rtl(padding-left, 1.25rem);
             font-size: 2.5rem;
             text-decoration: none;
 
-            i {
+            svg{
                 display: block;
             }
-            i:hover {
+            svg:hover {
                color:#727cf5;
             }
 
         }
 
         .logo {
-            padding: 0 nb-theme(padding);
+            padding: 0 1.25rem;
             font-size: 1.75rem;
-            font-weight: nb-theme(font-weight-bolder);
-            @include nb-ltr(border-left, 1px solid nb-theme(separator));
-            @include nb-rtl(border-right, 1px solid nb-theme(separator));
+            font-weight: 500;
+            @include nb-ltr(border-left, 1px solid #cdd5dc);
+            @include nb-rtl(border-right, 1px solid #cdd5dc);
             white-space: nowrap;
 
             span {
-                font-weight: nb-theme(font-weight-normal);
+                font-weight: 400;
             }
         }
     }
@@ -101,7 +101,7 @@
         }
 
         .header-container /deep/ ngx-theme-switcher .dropdown-toggle {
-            color: nb-theme(color-white);
+            color: #ffffff;
             background: transparent;
         }
     }
@@ -127,8 +127,8 @@
         text-decoration: none;
         line-height: 1;
 
-        i {
-            color: nb-theme(color-fg-highlight);
+        svg {
+            color: #40dc7e;
             font-size: 2.25rem;
             border-radius: 50%;
             position: relative;
@@ -159,15 +159,15 @@
 
     @include keyframes(pulse) {
         0% {
-            box-shadow: 0 0 1px 0 rgba(nb-theme(color-fg-highlight), 0);
+            box-shadow: 0 0 1px 0 #40dc7e;
         }
 
         20% {
-            box-shadow: 0 0 3px 10px rgba(nb-theme(color-fg-highlight), 0.4);
+            box-shadow: 0 0 3px 10px #40dc7e;
         }
 
         100% {
-            box-shadow: 0 0 5px 20px rgba(nb-theme(color-fg-highlight), 0);
+            box-shadow: 0 0 5px 20px #40dc7e;
         }
     }
 
@@ -362,19 +362,20 @@ button:hover {
     font-size: 12px;
     margin-right: 5px;
     color: #d1d1d2;
+    
 }
 
 .select_branch select{
     width: 60%;
     display: inline-block;
     background: transparent;
-    //border: 1px solid #878f92 !important;
     border: 1px solid #d1d1d2 !important;
     color: #d1d1d2;
     opacity: 1;
     padding: 5px !important;
     border-radius: 0px;
     height: calc(1rem + 14px)!important;
+    font-weight: normal;
 }
 .select_branch select:hover{
     border: 1px solid #727cf5 !important;
@@ -385,7 +386,7 @@ button:hover {
     color: #d1d1d2;
 }
 :host ::ng-deep .user-picture{
-    background-image: url(assets/images/avtar.png) !important;
+    //background-image: url(assets/images/avtar.png) !important;
     background-size: cover !important;
     height: 2rem!important;
     width: 2rem!important;
@@ -400,8 +401,9 @@ button:hover {
         align-self: center;
         font-size: 14px;
         margin: 0px;
+        font-weight: normal;
     }
-    i{
+   svg{
         margin-right: 5px;
         margin-left: 5px;
         align-self: center;

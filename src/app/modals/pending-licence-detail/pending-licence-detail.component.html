@@ -139,8 +139,8 @@
             <div *ngIf="doc_not_img"><a target='_blank' href="{{driver.licence_photo}}" title="View Licence">View
                 Licence</a>
             </div>
-            <app-image-viewer *ngIf="driver.licence_photo && !doc_not_img" [images]="images" [idContainer]="'idOnHTML'"
-              [loadOnInit]="true" [snapView]="false"></app-image-viewer>
+            <jrx-image-viewer *ngIf="driver.licence_photo && !doc_not_img" [images]="images" [idContainer]="'idOnHTML'"
+              [loadOnInit]="true" [snapView]="false"></jrx-image-viewer>
             <div *ngIf="!driver.licence_photo">No Image Exists</div>
             <div id="imgzoom"></div>
           </div>

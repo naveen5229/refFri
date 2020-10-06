@@ -23,6 +23,7 @@
 
           </tr>
         </thead>
+      <tbody>
         <tr *ngFor=" let dataItem of Detail; let j = index" (click)="selectedRow =  '' + i + j" (dblclick)="openinvoicemodel(dataItem.y_id,dataItem,dataItem.y_ordertype_id)"
           [ngClass]="{'highlight' : selectedRow == '' + i + j }">
           <td>{{dataItem.y_ordertype_name}}</td>
@@ -36,7 +37,7 @@
           <td>{{dataItem.y_lineamount}}</td>
           <td>{{dataItem.y_remarks}}</td>
         </tr>
-      
+      </tbody>
 
       </table>
     </div>

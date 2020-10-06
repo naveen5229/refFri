@@ -12,7 +12,7 @@ declare var google: any;
 export class LocationMarkerComponent implements OnInit {
   title = '';
   map: any;
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', { static: true }) mapElement: ElementRef;
   location = {
     lat: 26.9124336,
     lng: 75.78727090000007,

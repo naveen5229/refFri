@@ -5,12 +5,9 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
-import { from } from 'rxjs';
 import { AddAgentComponent } from '../documentation-modals/add-agent/add-agent.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
-import { log } from 'util';
 import { DocumentHistoryComponent } from '../documentation-modals/document-history/document-history.component';
-import { nextContext } from '@angular/core/src/render3';
 
 
 @Component({

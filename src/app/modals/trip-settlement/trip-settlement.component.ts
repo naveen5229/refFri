@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -30,7 +30,7 @@ export class TripSettlementComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
 
-    public renderer: Renderer
+    public renderer: Renderer2
   ) {
     console.log("data:row", this.common.params.row);
     this.refId = this.common.params.refData.refId;
@@ -44,7 +44,7 @@ export class TripSettlementComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 
   printInvoice() {
@@ -115,9 +115,9 @@ export class TripSettlementComponent implements OnInit {
 
 
   onPrint() {
-    this.renderer.setElementClass(document.body, 'test', true);
+    this.renderer.addClass(document.body, 'test');
     window.print();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 
   findCustomFields(customFields) {

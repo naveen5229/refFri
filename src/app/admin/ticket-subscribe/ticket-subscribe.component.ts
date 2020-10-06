@@ -4,7 +4,6 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { UpdateTicketSubscribeComponent } from '../../modals/update-ticket-subscribe/update-ticket-subscribe.component';
-import { flattenStyles } from '@angular/platform-browser/src/dom/dom_renderer';
 import { DatePipe } from '@angular/common';
 
 

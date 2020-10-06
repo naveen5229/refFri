@@ -12,10 +12,10 @@
 </div>
 <div class="modal-body">
   <div class="container" *ngIf="images && images.length>0">
-    <app-image-viewer
+    <jrx-image-viewer
       [images]="images"
       [idContainer]="'idOnHTML'" [loadOnInit]="true"
       [download]="false"  (onNext)="nextMove()" (onPrevious)="backMove()">
-    </app-image-viewer>
+    </jrx-image-viewer>
   </div>
 </div>
