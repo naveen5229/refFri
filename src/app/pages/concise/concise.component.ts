@@ -273,6 +273,28 @@ export class ConciseComponent implements OnInit {
   grouping(viewType) {
     this.kpis = this.allKpis;
     this.kpiGroups = _.groupBy(this.allKpis, viewType);
+    if (viewType === 'x_showtripend') {
+      let xGroup = {};
+      this.kpiGroups[''].forEach(item => {
+        let key = '';
+        if (item.placements.length) {
+          key = item.placements[0].name;
+        }
+        if (key in xGroup) {
+          xGroup[key].push(item);
+        } else {
+          xGroup[key] = [item];
+        }
+      });
+      Object.keys(xGroup).forEach(key => {
+        if (key in this.keyGroups) {
+          this.kpiGroups[key].push(...xGroup[key]);
+        } else {
+          this.kpiGroups[key] = xGroup[key];
+        }
+      });
+    }
+
     Object.keys(this.kpiGroups).forEach(key => {
       if (key.includes('#')) {
         let xKey = key.split('-').map(k => k.split('#')[0]).join(' - ');
@@ -412,6 +434,7 @@ export class ConciseComponent implements OnInit {
       this.kpis = this.allKpis;
     } else {
       this.selectedFilterKey = filterKey;
+
       this.kpis = this.allKpis.filter(kpi => {
         let value = kpi[this.viewType].split('-').map(k => k.split('#')[0]).join(' - ');
         if (value == filterKey) {
@@ -419,6 +442,27 @@ export class ConciseComponent implements OnInit {
         }
         return false;
       });
+
+
+      if (this.viewType === 'x_showtripend' && filterKey != '') {
+        let kpiGroups = _.groupBy(this.allKpis, this.viewType);
+        let xGroup = {};
+        kpiGroups[''].forEach(item => {
+          let key = '';
+          if (item.placements && item.placements.length) {
+            key = item.placements[0].name;
+            if (key in xGroup) {
+              xGroup[key].push(item);
+            } else {
+              xGroup[key] = [item];
+            }
+          }
+        });
+        Object.keys(xGroup).forEach(key => {
+          if (key === filterKey)
+            this.kpis.push(...xGroup[key]);
+        });
+      }
     }
     this.table = this.setTable();
   }
@@ -995,7 +1039,6 @@ export class ConciseComponent implements OnInit {
 
   }
   callNotification(data) {
-    console.log("data", data);
     if (data['x_mobileno']) {
       let params = {
         mobileno: data['x_mobileno'],
@@ -1126,7 +1169,7 @@ export class ConciseComponent implements OnInit {
     if (this.user._loggedInBy == "customer")
       userid = this.user._details.id;
     this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe((res:any) => {
+      .subscribe((res: any) => {
         this.common.loading--;
         let details = [
           { customer: 'Customer : ' + res.data.name },
