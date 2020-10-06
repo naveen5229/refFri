@@ -18,6 +18,7 @@ import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-detail
 import { AddReceiptsComponent } from '../../modals/add-receipts/add-receipts.component'
 import { AddTransportAgentComponent } from '../../modals/LRModals/add-transport-agent/add-transport-agent.component'
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
+import { PdfService } from '../../services/pdf/pdf.service';
 import { FreightInvoiceComponent } from '../../modals/FreightRate/freight-invoice/freight-invoice.component';
 
 @Component({
@@ -44,6 +45,7 @@ export class LorryRecciptsComponent implements OnInit {
   // showMsg = false;
   constructor(
     public api: ApiService,
+    private pdfService: PdfService,
     public common: CommonService,
     private datePipe: DatePipe,
     public user: UserService,
@@ -430,6 +432,15 @@ export class LorryRecciptsComponent implements OnInit {
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
+  }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.startDate),'End Date: '+this.common.dateFormatter1(this.endDate),  'Report: '+'Lorry-Receipt']
+    ];
+    this.pdfService.jrxTablesPDF(['tblLorryReceipt'], 'lorry-receipt', details);
   }
 }
 
