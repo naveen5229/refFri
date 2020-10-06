@@ -13,11 +13,13 @@ import { CsvService } from '../../services/csv/csv.service';
   styleUrls: ['./financial-main-summary.component.scss']
 })
 export class FinancialMainSummaryComponent implements OnInit {
-  dates = {
-    start: null,
+  // dates = {
+  //   start: null,
 
-    end: this.common.dateFormatter(new Date()),
-  };
+  //   end: this.common.dateFormatter(new Date()),
+  // };
+  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  endDate = new Date();
   table = null;
   data = [];
   mobileNo = null;
@@ -32,7 +34,7 @@ export class FinancialMainSummaryComponent implements OnInit {
     public modalService: NgbModal,
   ) {
     console.log("this.user._customer",this.user._customer);
-    this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
+    // this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
     this.getfinancialMainSummary();
     this.common.refresh = this.refresh.bind(this);
 
@@ -44,51 +46,15 @@ export class FinancialMainSummaryComponent implements OnInit {
   refresh(){
     this.getfinancialMainSummary();
   }
-  getDate(date) {
-    this.common.params = { ref_page: "card usage" };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.dates);
-    });
-  }
-  // printPDF(tblEltId) {
-  //   this.common.loading++;
-  //   let userid = this.user._customer.id;
-  //   if (this.user._loggedInBy == "customer")
-  //     userid = this.user._details.id;
-  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       let fodata = res['data'];
-  //       let left_heading = fodata['name'];
-  //       let center_heading = "Financial Report";
-  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
+  // getDate(date) {
+  //   this.common.params = { ref_page: "card usage" };
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
+  //     console.log('Date:', this.dates);
+  //   });
   // }
-
-  // printCSV(tblEltId) {
-  //   this.common.loading++;
-  //   let userid = this.user._customer.id;
-  //   if (this.user._loggedInBy == "customer")
-  //     userid = this.user._details.id;
-  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       let fodata = res['data'];
-  //       let left_heading = fodata['name'];
-  //       let center_heading = "Financial Report";
-  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
-
-
+  
   setTable() {
     let headings = {
       vehid: { title: 'Vehicle', placeholder: 'Vehicle' },
@@ -132,7 +98,7 @@ export class FinancialMainSummaryComponent implements OnInit {
     if (this.user._loggedInBy == "customer")
       mobileNo = this.user._details.mobileNo;
 
-    let param = "startDate=" + this.dates.start + "&endDate=" + this.dates.end+ "&mobileno="+mobileNo;
+    let param = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+ "&mobileno="+mobileNo;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getFinancialAccountMainSummary.json?' + param)
       .subscribe(Res => {
@@ -158,7 +124,7 @@ export class FinancialMainSummaryComponent implements OnInit {
     let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
     console.log("Name:",name);
     let details = [
-      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.dates.start),'End Date: '+this.common.dateFormatter1(this.dates.end),  'Report: '+'Financial-Main-Summary']
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter(new Date(this.startDate)),'End Date: '+this.common.dateFormatter(new Date(this.endDate)),  'Report: '+'Financial-Main-Summary']
     ];
     this.pdfService.jrxTablesPDF(['FinancialReport'], 'financial-main-summary', details);
   }
@@ -166,7 +132,7 @@ export class FinancialMainSummaryComponent implements OnInit {
   printCSV(){
     let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
     let details = [
-      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.dates.start),enddate:'End Date:'+this.common.dateFormatter1(this.dates.end), report:"Report:Financial-Main-Summary"}
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter(new Date(this.startDate)),enddate:'End Date:'+this.common.dateFormatter(new Date(this.endDate)), report:"Report:Financial-Main-Summary"}
     ];
     this.csvService.byMultiIds(['FinancialReport'], 'financial-main-summary', details);
   }

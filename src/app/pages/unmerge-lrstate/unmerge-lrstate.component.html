@@ -1,6 +1,19 @@
 <nb-card>
     <nb-card-header>
-        <h5>Unmerge LR State</h5>
+        <div class="row">
+            <div class="col-9">
+                <h5>Unmerge LR State</h5>
+            </div>
+            <div class="col-3" *ngIf="unMerge.length">
+                <span>
+                    <span class="pdf-icon" title="PDF Export" (click)="printPDF()" style="cursor: pointer;"><i
+                        class="fa fa-file-pdf"></i></span>
+                    <span class="exel-icon" title="CSV Export" (click)="printCsv()"
+                      style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+                  </span>
+            </div>
+        </div>
+        
     </nb-card-header>
     <nb-card-body>
         <div class="no-data alert alert-danger" role="alert" *ngIf="unMerge.length==0">
@@ -8,7 +21,7 @@
         </div>
 
         <div>
-            <smart-table *ngIf="unMerge.length>0" [data]="table.data" [settings]="table.settings"></smart-table>
+            <smart-table *ngIf="unMerge.length>0" [data]="table.data" [settings]="table.settings" id="unmergeLrStatus"></smart-table>
         </div>
     </nb-card-body>
 
