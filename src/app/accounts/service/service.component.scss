@@ -279,7 +279,7 @@ nb-card-header{
           color: #263238;
           outline: none;
           box-shadow: none;
-          i {
+          svg {
             color: black !important;
             }
       }
@@ -394,9 +394,7 @@ nb-card-header{
   .expand-div{
     font-size: 10px;
   }
-  .expand-div label{
-   vertical-align: text-top;
-  }
+ 
   .form-group {
     margin-bottom: 0px!important;
 }

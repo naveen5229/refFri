@@ -20,8 +20,6 @@ export class EmpDashboardComponent implements OnInit {
   headings = [];
   analyticsType = "Employee Wise";
   valobj = {};
-  startDay = '';
-  currentDay = '';
   table = {
     data: {
       headings: {},
@@ -32,17 +30,15 @@ export class EmpDashboardComponent implements OnInit {
     }
   };
 
+    endDate = new Date();
+    startDate = new Date();
   constructor(private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.title = this.common.params.title;
-    let nDay = new Date();
-    this.startDay = this.common.dateFormatter(nDay);
-    this.currentDay = this.startDay
-    this.getEmpDashboard();
+    this.title = this.common.params.title;    
   }
 
   closeModal(response) {
@@ -51,24 +47,16 @@ export class EmpDashboardComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngAfterViewInit(){
+    this.getEmpDashboard();
+
+  }
+
   getDetails() {
     this.getEmpDashboard();
   }
 
-  getDate(date) {
-    this.common.params = { ref_page: 'user-call-summary' };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        console.log(data.date);
-        if (date == 'stdate') {
-          this.startDay = this.common.dateFormatter(data.date);
-        } else {
-          this.currentDay = this.common.dateFormatter(data.date);
-        }
-      }
-    });
-  }
+ 
 
   formatTitle(strval) {
     let pos = strval.indexOf('_');
@@ -80,12 +68,13 @@ export class EmpDashboardComponent implements OnInit {
   }
 
   getEmpDashboard() {
-    let startDay = new Date(this.startDay);
-    let x_start_date = this.common.dateFormatter(new Date(startDay)).split(' ')[0]
-    let currentDay = new Date(this.currentDay);
-    let x_end_date = this.common.dateFormatter(new Date(currentDay.setDate(currentDay.getDate() + 1))).split(' ')[0]
+    let params = {
+       x_start_date: this.common.dateFormatter(this.startDate),
+        x_end_date: this.common.dateFormatter(this.endDate),
+         analyticsType: this.analyticsType 
+    };
     this.common.loading++;
-    this.api.post('Admin/empDashboard', { x_start_date: x_start_date, x_end_date: x_end_date, analyticsType: this.analyticsType })
+    this.api.post('Admin/empDashboard', params)
       .subscribe(res => {
         this.common.loading--;
         this.data = [];
@@ -132,10 +121,8 @@ export class EmpDashboardComponent implements OnInit {
 
 
   getData(details) {
-    let startDay = new Date(this.startDay);
-    let startDate = this.common.dateFormatter(new Date(startDay)).split(' ')[0]
-    let currentDay = new Date(this.currentDay);
-    let endDate = this.common.dateFormatter(new Date(currentDay.setDate(currentDay.getDate() + 1))).split(' ')[0]
+    let startDate = this.common.dateFormatter(this.startDate);
+    let endDate = this.common.dateFormatter(this.endDate);
 
     let params = {
       startDate: startDate,

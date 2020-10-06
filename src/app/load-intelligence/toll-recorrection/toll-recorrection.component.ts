@@ -3,7 +3,6 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
-import 'rxjs/add/operator/first';
 declare let google: any;
 
 
@@ -13,7 +12,7 @@ declare let google: any;
   styleUrls: ['./toll-recorrection.component.scss']
 })
 export class TollRecorrectionComponent implements OnInit {
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', { static: true }) mapElement: ElementRef;
  
   requestData = {
     type: null,

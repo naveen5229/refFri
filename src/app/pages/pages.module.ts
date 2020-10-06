@@ -24,9 +24,8 @@ import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-avera
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-suggestion.component';
 import { DirectiveModule } from '../directives/directives.module';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
-import { ImageViewerModule } from 'ng2-image-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 import { RouteMapperComponent } from './route-mapper/route-mapper.component';
@@ -104,6 +103,7 @@ import { TmgTrafficComponent } from './tmg-traffic/tmg-traffic.component';
 import { TmgComponent } from './tmg/tmg.component';
 import { TmgCallsComponent } from './tmg-calls/tmg-calls.component';
 import { TmgAlertsComponent } from './tmg-alerts/tmg-alerts.component';
+import { TmgDocumentsComponent } from './tmg-documents/tmg-documents.component';
 
 
 
@@ -123,7 +123,6 @@ const PAGES_COMPONENTS = [
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    ImageViewerModule,
     ReactiveFormsModule,
     ResizableModule,
     LorryReceiptModule,
@@ -209,6 +208,7 @@ const PAGES_COMPONENTS = [
     TmgComponent,
     TmgCallsComponent,
     TmgAlertsComponent,
+    TmgDocumentsComponent,
 
 
   ],

@@ -20,8 +20,7 @@
             <th>#</th>
             <th>Vehicle No</th>
             <th>Driver</th>
-            <th>Origin</th>
-            <th>Destination</th>
+            <th>Trip</th>
             <th>Location</th>
             <th>Trip Status</th>
             <th>Trip_Start Date</th>
@@ -34,8 +33,7 @@
             <td>{{i + 1}}</td>
             <td>{{trip.r_regno}}</td>
             <td>{{trip.r_driver}}</td>
-            <td>{{trip.r_origin}}</td>
-            <td>{{trip.r_destination}}</td>
+            <td [innerHTML]="common.getTripStatusHTML(trip['r_trip']._trip_status_type, trip['r_trip']._showtripstart, trip['r_trip']._showtripend, trip['r_trip']._p_placement_type, trip['r_trip']._p_loc_name)"></td>
             <td style="color:blue; cursor: pointer;" (click)="showLocation(trip)">{{trip.r_location}}</td>
             <td>{{trip.r_tripstatus}}
               <button class="btn btn-success" (click)="tripVerified(trip,'true',i)">Verified</button>

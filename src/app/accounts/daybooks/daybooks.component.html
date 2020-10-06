@@ -81,6 +81,7 @@
           <th *ngIf="accountService.selected.branch.id == 0">Branch</th>
         </tr>
       </thead>
+      <tbody>
       <tr *ngFor=" let dataItem of data; let i = index;" (click)="selectedRow = i"
         (dblclick)="jrxDblClick(dataItem)"
         (enter)="openVoucherEdit(dataItem.y_voucherid) "
@@ -98,6 +99,7 @@
         <td>{{dataItem.y_cramunt | number : '1.2-2'}}</td>
         <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
       </tr>
+    </tbody>
     </table>
     </div>
     <!-- Pagination -->

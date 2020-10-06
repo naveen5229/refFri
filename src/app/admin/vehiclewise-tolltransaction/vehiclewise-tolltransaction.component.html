@@ -9,16 +9,10 @@
       <div class="col-3">
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
           placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
-        <!-- <input [(ngModel)]="dates.startTime" [owlDateTime]="date1" [owlDateTimeTrigger]="date1" placeholder="Start Time"
-            class="form-control" autocomplete="off" name="date1">
-          <owl-date-time #date1></owl-date-time> -->
       </div>
       <div class="col-3">
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
           placeholder="Start Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
-        <!-- <input [(ngModel)]="dates.endTime" [owlDateTime]="date" [owlDateTimeTrigger]="date" placeholder="End Time"
-            class="form-control" autocomplete="off" name="date">
-          <owl-date-time #date></owl-date-time> -->
       </div>
       <div class="col-3">
         <button class="btn btn-primary submit-btn" type="button" (click)="gettollTransactionSummary()">Submit</button>

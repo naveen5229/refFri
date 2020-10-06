@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,7 +25,7 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
-    public renderer: Renderer,
+    public renderer: Renderer2,
     public modalService: NgbModal,
     public printService: PrintService) {
 
@@ -39,7 +39,7 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 
   printInvoice() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,7 +24,7 @@ export class SupportingDocComponent implements OnInit {
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
-    public renderer: Renderer
+    public renderer: Renderer2
   ) { 
     this.invoiceId = this.common.params.invoice.id;
     this.invoiceType = this.common.params.invoice.type;
@@ -38,7 +38,7 @@ export class SupportingDocComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 
   supportDoc()
@@ -94,8 +94,8 @@ export class SupportingDocComponent implements OnInit {
   }
 
   onPrint() {
-    this.renderer.setElementClass(document.body, 'test', true);
+    this.renderer.addClass(document.body, 'test');
     window.print();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 }

@@ -25,7 +25,7 @@ declare let google: any;
 })
 
 export class ChangeVehicleStatusComponent implements OnInit {
-  @ViewChild('map1') mapElement: ElementRef;
+  @ViewChild('map1', { static: true }) mapElement: ElementRef;
   panelOpenState = false;
   title = '';
   map: any;

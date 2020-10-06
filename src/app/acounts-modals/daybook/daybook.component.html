@@ -20,6 +20,7 @@
             <th *ngIf="accountService.selected.branch.id ==0">Branch</th>
           </tr>
         </thead>
+      <tbody>
         <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
             (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
             [ngClass]="{'highlight' : selectedRow == i}"> -->
@@ -39,6 +40,7 @@
           <td>{{dataItem.y_cramunt}}</td>
           <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
         </tr>
+      </tbody>
       </table>
     </div>
   </nb-card-body>

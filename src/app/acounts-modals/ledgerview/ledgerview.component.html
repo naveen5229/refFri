@@ -27,6 +27,7 @@
           <th *ngIf="accountService.selected.branch.id ==0">Branch</th>
         </tr>
       </thead>
+    <tbody>
       <tr *ngFor="let dataItem of ledgerData; let i = index;" (click)="selectedRow = i"
         (dblclick)="(dataItem.y_type.toLowerCase().includes('freight')) ?(dataItem.y_type.toLowerCase().includes('expence'))?openfreight(dataItem['y_refid']):openRevenue(dataItem['y_refid']): (dataItem.y_type.toLowerCase().includes('lr')) ? editTransfer(dataItem['y_refid']): (dataItem.y_type.length != '') ? getBookDetail(dataItem.y_voucherid,dataItem.y_code,dataItem.y_type,dataItem) : '' "
         (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i,'radclass':(dataItem.y_type == null)}">
@@ -42,6 +43,7 @@
         <td *ngIf="dataItem.y_cramunt ==0"></td>
         <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

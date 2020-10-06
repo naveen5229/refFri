@@ -14,7 +14,7 @@ declare var google: any;
   styleUrls: ['./path-viewver.component.scss']
 })
 export class PathViewverComponent implements OnInit {
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', { static: true }) mapElement: ElementRef;
   map: any;
   hotspot: any = null;
   routes = [];

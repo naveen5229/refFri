@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, Renderer } from '@angular/core';
+import { Component, OnInit, NgZone, Renderer2 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
@@ -20,7 +20,7 @@ export class PrintManifestComponent implements OnInit {
     public api: ApiService,
     public mapService: MapService,
     public datepipe: DatePipe,
-    public renderer: Renderer
+    public renderer: Renderer2
   ) {
     let manifestId = this.common.params.manifestId;
     this.getManifestDetail(manifestId);
@@ -30,7 +30,7 @@ export class PrintManifestComponent implements OnInit {
   }
   closeModal() {
     this.activeModal.close();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
   }
 
   getManifestDetail(manifestId) {
@@ -57,9 +57,9 @@ export class PrintManifestComponent implements OnInit {
 
 
   onPrint() {
-    this.renderer.setElementClass(document.body, 'test', true);
+    this.renderer.addClass(document.body, 'test');
     window.print();
-    this.renderer.setElementClass(document.body, 'test', false);
+    this.renderer.addClass(document.body, 'test');
 
 
   }

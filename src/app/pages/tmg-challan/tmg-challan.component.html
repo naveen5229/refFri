@@ -3,7 +3,7 @@
 <div class="contentsection">
     <div class="row mb-2 mr-0 mb-0">
       <div class="col-6 pl-0">
-        <div class="outer">
+        <div class="outer" style="min-height: 300px;">
           <h6 style="text-align:center"><b class="charthead"> Challan Trends (Last 6 Months) </b></h6>
           <!-- <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
           [options]="chart.options"></chart> -->
@@ -13,7 +13,7 @@
         </div>
         <div class="row mt-4 mr-0 mb-0">
           <div class="col-6 p-1">
-            <div class="outer p-0" style="min-height: 95px;">
+            <div class="outer p-0" style="min-height: 130px;">
               <h6 style="text-align:center"><b class="charthead">Most Aged Challans (Pending)</b></h6>
               <table class="table table-bordered">
                 <thead class="thead">
@@ -32,12 +32,13 @@
             </div>
           </div>
           <div class="col-6 p-1">
-            <div class="outer p-0" style="min-height: 95px;">
+            <div class="outer p-0" style="min-height:130px;">
               <h6 style="text-align:center"><b class="charthead">Latest Challans</b></h6>
               <table class="table table-bordered">
                 <thead class="thead">
-                  <th>Challan Date</th>
+                  <th>Date</th>
                   <th>Vehicle No.</th>
+                  <th>State</th>
                   <th>Amount</th>
                  <th>Status</th>
                 </thead>
@@ -45,6 +46,7 @@
                   <tr *ngFor="let cl of challansLatest">
                     <td>{{cl['Challan Date']}}</td>
                     <td>{{cl['Vehicle No']}}</td>
+                    <td>{{cl['State']}}</td>
                     <td>{{cl['Amount']}}</td>
                     <td>{{cl['Status']}}</td>
                   </tr>
@@ -75,7 +77,7 @@
             </tbody>
           </table>
         </div>
-        <div class="mt-2 outer" style="min-height: 95px;">
+        <div class="mt-2 outer" style="min-height: 130px;">
           <h6 style="text-align:center"><b class="charthead">Worst 3 Drivers(Count Wise) </b></h6>
           <table class="table table-bordered">
             <thead class="thead">
@@ -90,7 +92,7 @@
             </tbody>
           </table>
         </div>
-        <div  class="mt-2 outer" style="min-height: 95px;">
+        <div  class="mt-2 outer" style="min-height: 130px;">
           <h6 style="text-align:center"><b class="charthead">Worst 3 Drivers(Amount Wise) </b></h6>
           <table class="table table-bordered">
             <thead class="thead">
@@ -101,7 +103,6 @@
               <tr *ngFor="let cda of challansdrivaramount">
                 <td>{{cda['Driver']}}</td>
                 <td>{{cda['Challan Amount']}}</td>
-
               </tr>
             </tbody>
           </table>

@@ -46,8 +46,10 @@
       <label>Service Center</label>
     </div>
     <div class="col-md-3">
-      <input type="text" placeholder="Center" class="form-control" name="serviceCenter"
-        [(ngModel)]="serviceDetails.serviceCenter">
+      <!-- <input type="text" placeholder="Center" class="form-control" name="serviceCenter"
+        [(ngModel)]="serviceDetails.serviceCenter"> -->
+        <auto-suggestion (onSelected)="selectServiceCenter($event)" [data]="serviceCenters" display="service_center"
+        placeholder="Service Center" (focusout)="setServiceCenter()" inputId="service_center" [preSelected]="{service_center:serviceDetails.serviceCenter}"></auto-suggestion>
     </div>
     <div class="col-md-3">
       <label>Service Location</label>
@@ -55,6 +57,8 @@
     <div class="col-md-3">
       <input type="text" placeholder="Location" class="form-control" name="serviceLocation"
         [(ngModel)]="serviceDetails.serviceLocation">
+
+      
     </div>
 
   </div>
