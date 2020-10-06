@@ -10,7 +10,7 @@ import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.
 import * as _ from 'lodash';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
-import { AccountService } from '../../services/account.service';
+import { AccountService } from '../../services/account.service'; 
 
 @Component({
   selector: 'trail-tree',
@@ -35,10 +35,13 @@ export class TrailTreeComponent {
   colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca', 'bfcfd9'];
   deletedId = 0;
   items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  search = '';
+  searchedData = [];
 
   constructor(public common: CommonService,
     public modalService: NgbModal,
     public user: UserService,
+    public cdr: ChangeDetectorRef,
     public accountService: AccountService) {
   }
 
@@ -52,8 +55,10 @@ export class TrailTreeComponent {
   }
 
   ngOnChanges(changes) {
-    // console.log('Changes: ', changes);
-    // console.log(changes.active)
+    if (changes.data) {
+      this.data = changes.data.currentValue;
+      this.searchedData = this.data;
+    }
   }
 
   clickHandler(event, index) {
@@ -72,6 +77,20 @@ export class TrailTreeComponent {
     return Math.abs(a);
 
   }
+
+  searchValues() {
+    this.searchedData = this.data.filter(x => {
+      if (x.name) {
+        return x.name.toLowerCase().includes(this.search.toLowerCase())
+      } else if (x.ledgerName) {
+        return x.ledgerName.toLowerCase().includes(this.search.toLowerCase())
+      }
+      return false;
+    });
+    this.cdr.detectChanges();
+  }
+
+
   keyHandler(event) {
     event.stopPropagation();
     const key = event.key.toLowerCase();
