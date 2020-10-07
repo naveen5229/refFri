@@ -130,6 +130,11 @@ export class ConciseComponent implements OnInit {
     tables: []
   };
 
+  subGroup = {
+    name: undefined,
+    data: []
+  };
+
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -191,16 +196,14 @@ export class ConciseComponent implements OnInit {
       res => {
         !isRefresh && this.common.loading--;
         if (res['code'] == 1) {
-          this.allKpis = res["data"];
+          this.allKpis = res["data"].slice(0, 80);
           localStorage.setItem('KPI_DATA', JSON.stringify(this.allKpis));
           this.kpis = res["data"];
           this.grouping(this.viewType);
           this.table = this.setTable();
           this.handlePdfPrint();
         }
-
-      },
-      err => {
+      }, err => {
         !isRefresh && this.common.loading--;
       }
     );
@@ -273,7 +276,7 @@ export class ConciseComponent implements OnInit {
   grouping(viewType) {
     this.kpis = this.allKpis;
     this.kpiGroups = _.groupBy(this.allKpis, viewType);
-    if (viewType === 'x_showtripend') {
+    if ((this.viewType === 'x_showtripend' || this.viewType === 'x_showtripstart') && this.kpiGroups['']) {
       let xGroup = {};
       this.kpiGroups[''].forEach(item => {
         let key = '';
@@ -465,6 +468,84 @@ export class ConciseComponent implements OnInit {
       }
     }
     this.table = this.setTable();
+  }
+
+  filterSubStatus(filterKey) {
+    if (this.subGroup.name == filterKey) {
+      this.subGroup = {
+        name: undefined,
+        data: []
+      }
+      return;
+    }
+
+    let kpis = this.allKpis.filter(kpi => {
+      let value = kpi[this.viewType].split('-').map(k => k.split('#')[0]).join(' - ');
+      if (value == filterKey) {
+        return true;
+      }
+      return false;
+    });
+
+    if (kpis.length < 2 || filterKey === '') {
+      this.selectSubStatus(kpis);
+      this.subGroup = {
+        name: undefined,
+        data: []
+      }
+      return;
+    }
+
+    let groups = _.groupBy(kpis, this.viewType === 'x_showtripend' ? 'x_showtripstart' : 'x_showtripend');
+    if ((this.viewType === 'x_showtripend' || this.viewType === 'x_showtripstart') && groups['']) {
+      let xGroup = {};
+      groups[''].forEach(item => {
+        let key = '';
+        if (item.placements && item.placements.length) {
+          key = item.placements[0].name;
+          if (key in xGroup) {
+            xGroup[key].push(item);
+          } else {
+            xGroup[key] = [item];
+          }
+        }
+      });
+      Object.keys(xGroup).forEach(key => {
+        if (key === '') {
+          groups[''] = xGroup[key]
+        } else if (key in groups) {
+          groups[key].push(...xGroup[key])
+        } else {
+          groups[key] = xGroup[key];
+        }
+
+      });
+    }
+    delete groups[''];
+    groups['All'] = kpis;
+    let keysForDelete = [];
+    Object.keys(groups).forEach(key => {
+      let formattedKey = key.split('#')[0];
+      if (formattedKey !== key) {
+        if (formattedKey in groups) {
+          groups[formattedKey].push(...groups[key]);
+          if (keysForDelete.indexOf(key) === -1) {
+            keysForDelete.push(key);
+          }
+        } else {
+          groups[formattedKey] = groups[key];
+          keysForDelete.push(key);
+        }
+      }
+    });
+    keysForDelete.forEach(key => delete groups[key]);
+    this.subGroup.name = filterKey;
+    this.subGroup.data = Object.keys(groups).map(key => {
+      return {
+        name: key,
+        kpi: groups[key]
+      }
+    }).sort((a, b) => a.kpi.length < b.kpi.length ? 1 : -1).slice(0, 6);
   }
 
   showLocation(kpi) {
