@@ -52,7 +52,6 @@
     "@nebular/auth": "^5.1.0",
     "@nebular/bootstrap": "^5.1.0",
     "@nebular/eva-icons": "^5.1.0",
-    "@nebular/security": "^6.2.1",
     "@nebular/theme": "^6.2.1",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "@progress/kendo-angular-common": "^1.2.3",
