@@ -75,7 +75,6 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     if (confirm('Are you sure to logout?')) {
-
       let params = {};
       ++this.common.loading;
       this.api.post('Login/logout', params)
