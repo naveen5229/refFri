@@ -196,7 +196,7 @@ export class ConciseComponent implements OnInit {
       res => {
         !isRefresh && this.common.loading--;
         if (res['code'] == 1) {
-          this.allKpis = res["data"].slice(0, 80);
+          this.allKpis = res["data"];
           localStorage.setItem('KPI_DATA', JSON.stringify(this.allKpis));
           this.kpis = res["data"];
           this.grouping(this.viewType);
