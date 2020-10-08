@@ -61,7 +61,6 @@
     "@types/jquery": "^3.5.2",
     "angular-csv-ext": "^1.0.3",
     "angular-resizable-element": "^3.3.3",
-    "angular-tooltips": "^1.2.2",
     "angular2-chartjs": "^0.5.1",
     "angular2-draggable": "^2.2.4",
     "bootstrap": "^4.5.2",
