@@ -85,7 +85,6 @@ export class CommonService {
     let message = msg || 'Something went wrong! try again.';
     message += err ? ' Error Code: ' + err.status : '';
     this.showToast(message, "danger");
-    //alert(message);
   }
 
   ucWords(str) {
@@ -102,7 +101,6 @@ export class CommonService {
   }
 
   showToast(body, type?, duration?, title?) {
-    // toastTypes = ["success", "info", "warning", "primary", "danger", "default"]
     const config = {
       status: type || "success",
       destroyByClick: true,
@@ -111,8 +109,6 @@ export class CommonService {
       position: NbGlobalPhysicalPosition.TOP_RIGHT,
       preventDuplicates: false
     };
-
-    //alert(body);
     this.toastrService.show(body, title || "Alert", config);
   }
 
@@ -276,48 +272,6 @@ export class CommonService {
     }
     return currentDate;
   }
-
-  // pieChart(chartLabels, chartdatas, charColors) {
-  //   this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-  //     console.log('Config: ', config);
-  //     const colors: any = config.variables;
-  //     const chartjs: any = config.variables.chartjs;
-
-  //     this.chartData = {
-  //       labels: chartLabels,
-  //       datasets: [{
-  //         data: chartdatas,
-  //         backgroundColor: charColors
-  //       }],
-  //     };
-
-  //     this.chartOptions = {
-  //       maintainAspectRatio: false,
-  //       responsive: true,
-  //       scales: {
-  //         xAxes: [
-  //           {
-  //             display: false,
-  //           },
-  //         ],
-  //         yAxes: [
-  //           {
-  //             display: false,
-  //           },
-  //         ],
-  //       },
-  //       legend: false,
-  //     };
-  //   });
-
-  //   setTimeout(() => {
-  //     console.log(document.getElementsByTagName('canvas')[0]);
-
-  //     document.getElementsByTagName('canvas')[0].style.width = "100px";
-  //     document.getElementsByTagName('canvas')[0].style.height = "220px";
-
-  //   }, 10);
-  // }
 
   pieChart(labels, data, colors) {
     let chartData = {
