@@ -299,6 +299,7 @@ export class ConciseComponent implements OnInit {
     }
 
     Object.keys(this.kpiGroups).forEach(key => {
+      
       if (key.includes('#')) {
         let xKey = key.split('-').map(k => k.split('#')[0]).join(' - ');
         this.kpiGroups[xKey] = this.kpiGroups[key];
@@ -486,6 +487,18 @@ export class ConciseComponent implements OnInit {
       }
       return false;
     });
+
+    if (!kpis.length) {
+      kpis = this.allKpis.filter(kpi => !kpi[this.viewType])
+        .filter(kpi => {
+          if (kpi.placements && kpi.placements.length) {
+            if (kpi.placements[0].name === filterKey)
+              return true;
+          }
+          return false;
+        })
+    }
+
 
     if (kpis.length < 2 || filterKey === '') {
       this.selectSubStatus(kpis);
