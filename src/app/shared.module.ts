@@ -29,6 +29,7 @@ import { FoFuelAverageComponent } from './pages/fo-fuel-average/fo-fuel-average.
 import { ChallanPaymentRequestComponent } from './challan/challan-payment-request/challan-payment-request.component';
 import { MvGpsApiReqComponent } from './challan/mv-gps-api-req/mv-gps-api-req.component';
 import { VehicleStatusChangeComponent } from './admin/vehicle-status-change/vehicle-status-change.component';
+import { TmgComponent } from './pages/tmg/tmg.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -51,7 +52,8 @@ const PAGES_COMPONENTS = [
     FoFuelAverageComponent,
     ChallanPaymentRequestComponent,
     MvGpsApiReqComponent,
-    VehicleStatusChangeComponent
+    VehicleStatusChangeComponent,
+    TmgComponent
 ];
 
 

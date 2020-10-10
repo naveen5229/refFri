@@ -146,7 +146,7 @@ export class ConciseComponent implements OnInit {
     public dateService: DateService,
     private _sanitizer: DomSanitizer, private csvService: CsvService,
     public pdfService: PdfService) {
-
+    console.log("this.user._customer",this.user._customer,"this.user._details",this.user._details)
     this.getKPIS();
     this.common.currentPage = "";
     this.common.refresh = this.refresh.bind(this);

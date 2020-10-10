@@ -8,17 +8,12 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Poppins:400,500,600,700" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
-
   <script src="//kendo.cdn.telerik.com/2016.3.914/js/kendo.all.min.js"></script>
-
-  <!-- <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"> -->
-  <script
-    src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+  <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
   <!-- google map api -->
 
   <!-- Production -->
@@ -40,9 +35,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css"
     rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" />
-
-
-<link rel="stylesheet" href="styles.678bb6b7820746d766a5.css"></head>
+<link rel="stylesheet" href="styles.91dfded1ad3677214f1e.css"></head>
 
 <body>
   <ngx-app>Loading...</ngx-app>
@@ -85,12 +78,14 @@
       width: 100%;
       height: 100%;
       z-index: 1003;
-      background: #b2c3d1; /*#000000*/;
+      background: #b2c3d1;
+      /*#000000*/
+      ;
       overflow: hidden
     }
 
     .spinner div:first-child {
-       /* display: block;
+      /* display: block;
       position: relative;
       left: 50%;
       top: 50%;
@@ -142,7 +137,7 @@
       animation: spin 1.5s linear infinite
     }
 
-    
+
     @keyframes dot-keyframes {
       0% {
         opacity: .4;
@@ -193,11 +188,12 @@
     loading-dots:nth-child(3) {
       animation-delay: 1s;
     }
-   
+
 
     loading-dots:nth-child(4) {
       animation-delay: 1.5s;
     }
+
     loading-dots:nth-child(5) {
       animation-delay: 2s;
     }
@@ -220,7 +216,6 @@
   </div>
 
   <style>
-
     .error,
     .mandatory {
       color: red !important;
@@ -254,8 +249,12 @@
     }
 
     .menu-items {
+      padding: 0 !important;
+
       font-size: 10px !important;
     }
+
+
     .nb-theme-corporate .cdk-overlay-container {
       z-index: 1055;
     }
@@ -268,6 +267,6 @@
       z-index: 1057;
     }
   </style>
-<script type="text/javascript" src="runtime.5afa961f9adc8d0d21a3.js"></script><script type="text/javascript" src="polyfills.e410f0cdc1146dda65a3.js"></script><script type="text/javascript" src="scripts.5b37542ea53c84aaccaa.js"></script><script type="text/javascript" src="main.aad2598f9b4a03a044df.js"></script></body>
+<script src="runtime-es2018.cc8aca376e9a1cad8de9.js" type="module"></script><script src="runtime-es5.cc8aca376e9a1cad8de9.js" nomodule defer></script><script src="polyfills-es5.fc5528eee987222acc6c.js" nomodule defer></script><script src="polyfills-es2018.fce5e98aafa3051ad543.js" type="module"></script><script src="scripts.5bd7a9bb9a452fdb0bd4.js" defer></script><script src="main-es2018.f03ad657f9793f329b09.js" type="module"></script><script src="main-es5.f03ad657f9793f329b09.js" nomodule defer></script></body>
 
 </html>
