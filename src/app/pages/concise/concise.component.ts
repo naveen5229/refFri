@@ -192,8 +192,8 @@ export class ConciseComponent implements OnInit {
   getKPIS(isRefresh?) {
     this.lastRefreshTime = new Date();
     !isRefresh && this.common.loading++;
-    this.api.get("VehicleKpis").subscribe(
-      res => {
+    let subscription = this.api.get("VehicleKpis")
+      .subscribe(res => {
         !isRefresh && this.common.loading--;
         if (res['code'] == 1) {
           this.allKpis = res["data"];
@@ -203,10 +203,12 @@ export class ConciseComponent implements OnInit {
           this.table = this.setTable();
           this.handlePdfPrint();
         }
+        subscription.unsubscribe();
       }, err => {
         !isRefresh && this.common.loading--;
-      }
-    );
+        console.error('getKPIs:', err);
+        subscription.unsubscribe();
+      });
   }
 
 
@@ -621,17 +623,17 @@ export class ConciseComponent implements OnInit {
 
   getLR(kpi) {
     this.common.loading++;
-    this.api
-      .post("FoDetails/getLorryDetails", { x_lr_id: kpi.x_lr_id })
-      .subscribe(
-        res => {
-          this.common.loading--;
-          this.showLR(res["data"][0]);
-        },
-        err => {
-          this.common.loading--;
-        }
-      );
+    let subscription = this.api.post("FoDetails/getLorryDetails", { x_lr_id: kpi.x_lr_id })
+      .subscribe((res: any) => {
+        this.common.loading--;
+        if (res.data && res.data.length)
+          this.showLR(res.data[0]);
+        subscription.unsubscribe();
+      }, err => {
+        this.common.loading--;
+        console.error('getLR: ', err);
+        subscription.unsubscribe();
+      });
   }
 
   showLR(data) {
@@ -1147,21 +1149,21 @@ export class ConciseComponent implements OnInit {
       let params = {
         mobileno: data['x_mobileno'],
         callTime: this.common.dateFormatter(new Date())
-
       }
-      console.log('params: ', params);
       this.common.loading++;
-      this.api.post('Notifications/sendCallSuggestionNotifications', params)
+      let subcription = this.api.post('Notifications/sendCallSuggestionNotifications', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log('res--', res);
+          console.log('res', res);
           this.common.showToast(res['msg']);
+          subcription.unsubscribe();
         }, err => {
           this.common.loading--;
           this.common.showError();
-        })
-    }
-    else {
+          console.error('callNotification:', err);
+          subcription.unsubscribe();
+        });
+    } else {
       this.common.showError('Driver Mobile no. does not exist');
     }
   }
@@ -1208,13 +1210,15 @@ export class ConciseComponent implements OnInit {
     let userid = this.user._customer.id;
     if (this.user._loggedInBy == "customer")
       userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+    let subscription = this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
       .subscribe(res => {
         this.common.loading--;
         this.printPDF(res['data']['name']);
+        subscription.unsubscribe();
       }, err => {
         this.common.loading--;
         console.error('Error:', err);
+        subscription.unsubscribe();
       });
   }
 
@@ -1272,7 +1276,7 @@ export class ConciseComponent implements OnInit {
     let userid = this.user._customer.id;
     if (this.user._loggedInBy == "customer")
       userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+    let subscription = this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
       .subscribe((res: any) => {
         this.common.loading--;
         let details = [
@@ -1281,8 +1285,11 @@ export class ConciseComponent implements OnInit {
           { time: 'Time : ' + this.datePipe.transform(this.today, 'dd-MM-yyyy hh:mm:ss a') }
         ];
         this.csvService.byMultiIds([tableId], 'Dashboard', details);
+        subscription.unsubscribe();
       }, err => {
         this.common.loading--;
+        console.error('Err:', err);
+        subscription.unsubscribe();
       });
   }
 
