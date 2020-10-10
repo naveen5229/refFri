@@ -82,7 +82,7 @@
                 <th>Location</th>
                 <th>Dist</th>
                 <th>KM/h</th>
-                <th>AdUserId <span style="margin-left:15px"><i class="fa fa-refresh report-btn"
+                <th>AdUserId <span style="margin-left:15px"><i class="fas fa-sync-alt report-btn"
                       (click)="dataRefresh();"></i></span></th>
               </thead>
               <!-- 'color':!vehicleEvent.lastType ? 'none':(vehicleEvent.lastType==21?'red':'green'), -->
@@ -154,7 +154,7 @@
                           *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null">{{vehicleEvent.y_halt_desc}}</button>
 
                         <span class="zoom-btn" (click)="decouplingState(vehicleEvent)" title="Decoupling"
-                          *ngIf="vehicleEvent.isDecouple"><i class="fa fa-chain-broken" ></i></span>
+                          *ngIf="vehicleEvent.isDecouple"><i class="fas fa-unlink"></i></span>
                          
                           <span class="zoom-btn" title="Details" (click)="details(vehicleEvent)"
                           ><i class="fa fa-info" ></i></span>
@@ -165,8 +165,7 @@
 
                         <span class="zoom-btn" title="Mark Resolved" (click)="verifyTrip(vehicleEvent)" *ngIf="vehicleEvent.trip_id"><i
                             class="fa fa-check" ></i></span>
-                        <span class="zoom-btn" title="Trip State Mapping" (click)="tripStateMapping(vehicleEvent)" *ngIf="vehicleEvent.vs_id"><i
-                            class="fa fa-chain" ></i></span>
+                        <span class="zoom-btn" title="Trip State Mapping" (click)="tripStateMapping(vehicleEvent)" *ngIf="vehicleEvent.vs_id"><i class="fas fa-link"></i></span>
                         <span class="zoom-btn" title="Clusteres" (click)="getClusteres(vehicleEvent)" *ngIf="vehicleEvent.vs_id && !vehicleEvent.haltId &&vehicleEvent.haltId == null"><i
                               class="fa fa-object-group" ></i></span>
                         <span class="zoom-btn" title="Original Location" (click)="getStoFromMergeState(vehicleEvent)" *ngIf="vehicleEvent.vs_id && vehicleEvent.haltId"><i class= "fa fa-paper-plane" ></i></span>

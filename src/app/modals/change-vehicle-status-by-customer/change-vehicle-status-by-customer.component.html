@@ -82,7 +82,7 @@
                 <th>Location</th>
                 <th>Dist</th>
                 <th>KM/h</th>
-                <th>AdUserId <span style="margin-left:15px"><i class="fa fa-refresh report-btn"
+                <th>AdUserId <span style="margin-left:15px"><i class="fas fa-sync-alt report-btn"
                       (click)="dataRefresh();"></i></span></th>
               </thead>
               <!-- 'color':!vehicleEvent.lastType ? 'none':(vehicleEvent.lastType==21?'red':'green'), -->
@@ -146,7 +146,7 @@
                           *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null">{{vehicleEvent.y_halt_desc}}</button>
 
                         <span class="zoom-btn" (click)="decouplingState(vehicleEvent)"
-                          *ngIf="vehicleEvent.isDecouple"><i class="fa fa-chain-broken" title="Decoupling"></i></span>
+                          *ngIf="vehicleEvent.isDecouple"><i class="fas fa-unlink" title="Decoupling"></i></span>
 
                         <span class="zoom-btn" (click)="updateLocation(vehicleEvent)"
                           *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id"><i class="fa fa-map-marker"
@@ -155,7 +155,7 @@
                         <span class="zoom-btn" (click)="verifyTrip(vehicleEvent)" *ngIf="vehicleEvent.trip_id"><i
                             class="fa fa-check" title="Mark Resolved"></i></span>
                         <span class="zoom-btn" (click)="tripStateMapping(vehicleEvent)" *ngIf="vehicleEvent.vs_id"><i
-                            class="fa fa-chain" title="Trip State Mapping"></i></span>
+                            class="fas fa-link" title="Trip State Mapping"></i></span>
                       </span>
                     </div>
                   </td>

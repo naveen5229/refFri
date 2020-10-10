@@ -5,7 +5,7 @@
     <select *ngIf="view.length>0" class="mr-3 doNotPrint" [(ngModel)]="template.PreviewId"  (change)="preview()" style="border-radius:5px;border:none;">
       <option  *ngFor="let data of view;"  [value]="data._id">{{data.Name}}</option>
     </select>
-    <span *ngIf="loginType=='admin'" (click)="refresh()" class="doNotPrint"><i class="fa fa-refresh"></i></span>
+    <span *ngIf="loginType=='admin'" (click)="refresh()" class="doNotPrint"><i class="fas fa-sync-alt"></i></span>
     <span (click)="printHandler()" class="doNotPrint print-icon iconsize"><i class="fa fa-print"></i></span>
     <span (click)="common.downloadPdf('print-section',true)" class="pdf-icon doNotPrint iconsize" style="margin-left:20px"><i
         class="fa fa-file-pdf"></i></span>
