@@ -290,7 +290,7 @@ export class ConciseComponent implements OnInit {
         }
       });
       Object.keys(xGroup).forEach(key => {
-        if (key in this.keyGroups) {
+        if (key in this.kpiGroups) {
           this.kpiGroups[key].push(...xGroup[key]);
         } else {
           this.kpiGroups[key] = xGroup[key];
@@ -299,10 +299,14 @@ export class ConciseComponent implements OnInit {
     }
 
     Object.keys(this.kpiGroups).forEach(key => {
-      
       if (key.includes('#')) {
-        let xKey = key.split('-').map(k => k.split('#')[0]).join(' - ');
-        this.kpiGroups[xKey] = this.kpiGroups[key];
+        // let xKey = key.split('-').map(k => k.split('#')[0]).join(' - ');
+        let xKey = key.split('#')[0];
+        if (xKey in this.kpiGroups) {
+          this.kpiGroups[xKey].push(...this.kpiGroups[key]);
+        } else {
+          this.kpiGroups[xKey] = this.kpiGroups[key];
+        }
         delete this.kpiGroups[key];
       }
     });
@@ -481,24 +485,22 @@ export class ConciseComponent implements OnInit {
     }
 
     let kpis = this.allKpis.filter(kpi => {
-      let value = kpi[this.viewType].split('-').map(k => k.split('#')[0]).join(' - ');
+      let value = kpi[this.viewType].split('#')[0];
       if (value == filterKey) {
         return true;
       }
       return false;
     });
 
-    if (!kpis.length) {
-      kpis = this.allKpis.filter(kpi => !kpi[this.viewType])
-        .filter(kpi => {
-          if (kpi.placements && kpi.placements.length) {
-            if (kpi.placements[0].name === filterKey)
-              return true;
-          }
-          return false;
-        })
-    }
-
+    let placements  = this.allKpis.filter(kpi => !kpi[this.viewType])
+    .filter(kpi => {
+      if (kpi.placements && kpi.placements.length) {
+        if (kpi.placements[0].name === filterKey)
+          return true;
+      }
+      return false;
+    })
+    kpis.push(...placements);
 
     if (kpis.length < 2 || filterKey === '') {
       this.selectSubStatus(kpis);
