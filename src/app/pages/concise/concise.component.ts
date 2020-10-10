@@ -146,7 +146,7 @@ export class ConciseComponent implements OnInit {
     public dateService: DateService,
     private _sanitizer: DomSanitizer, private csvService: CsvService,
     public pdfService: PdfService) {
-    console.log("this.user._customer",this.user._customer,"this.user._details",this.user._details)
+    console.log("this.user._customer", this.user._customer, "this.user._details", this.user._details)
     this.getKPIS();
     this.common.currentPage = "";
     this.common.refresh = this.refresh.bind(this);
@@ -291,6 +291,13 @@ export class ConciseComponent implements OnInit {
           xGroup[key] = [item];
         }
       });
+
+      this.kpiGroups[''] = xGroup[''];
+      delete xGroup[''];
+      if (!this.kpiGroups[''].length) {
+        delete this.kpiGroups[''];
+      }
+
       Object.keys(xGroup).forEach(key => {
         if (key in this.kpiGroups) {
           this.kpiGroups[key].push(...xGroup[key]);
@@ -489,6 +496,11 @@ export class ConciseComponent implements OnInit {
     let kpis = this.allKpis.filter(kpi => {
       let value = kpi[this.viewType].split('#')[0];
       if (value == filterKey) {
+        if (filterKey === '') {
+          if (kpi.placements && kpi.placements.length) {
+            return false;
+          }
+        }
         return true;
       }
       return false;
@@ -504,7 +516,7 @@ export class ConciseComponent implements OnInit {
       })
     kpis.push(...placements);
 
-    if (kpis.length < 2 || filterKey === '') {
+    if (kpis.length < 2) {
       this.selectSubStatus(kpis);
       this.subGroup = {
         name: undefined,
@@ -555,14 +567,6 @@ export class ConciseComponent implements OnInit {
       }
     });
     keysForDelete.forEach(key => delete groups[key]);
-    if (Object.keys(groups).length <= 1) {
-      this.selectSubStatus(kpis);
-      this.subGroup = {
-        name: undefined,
-        data: []
-      }
-      return;
-    }
     groups['All'] = kpis;
     this.subGroup.name = filterKey;
     this.subGroup.data = Object.keys(groups).map(key => {
