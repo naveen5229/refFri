@@ -30,6 +30,13 @@ import { ChallanPaymentRequestComponent } from './challan/challan-payment-reques
 import { MvGpsApiReqComponent } from './challan/mv-gps-api-req/mv-gps-api-req.component';
 import { VehicleStatusChangeComponent } from './admin/vehicle-status-change/vehicle-status-change.component';
 import { TmgComponent } from './pages/tmg/tmg.component';
+import { TmgChallanComponent } from './pages/tmg-challan/tmg-challan.component';
+import { TmgAlertsComponent } from './pages/tmg-alerts/tmg-alerts.component';
+import { TmgCallsComponent } from './pages/tmg-calls/tmg-calls.component';
+import { TmgDocumentsComponent } from './pages/tmg-documents/tmg-documents.component';
+import { TmgTrafficComponent } from './pages/tmg-traffic/tmg-traffic.component';
+import { TmgTripComponent } from './pages/tmg-trip/tmg-trip.component';
+
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -53,7 +60,13 @@ const PAGES_COMPONENTS = [
     ChallanPaymentRequestComponent,
     MvGpsApiReqComponent,
     VehicleStatusChangeComponent,
-    TmgComponent
+    TmgComponent,
+    TmgChallanComponent,
+    TmgAlertsComponent,
+    TmgCallsComponent,
+    TmgDocumentsComponent,
+    TmgTrafficComponent,
+    TmgTripComponent
 ];
 
 
