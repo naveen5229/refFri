@@ -13,6 +13,7 @@ import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
 import { ServiceComponent } from '../service/service.component';
+import * as localforage from 'localforage';
 
 
 @Component({
@@ -63,6 +64,24 @@ export class BankbooksComponent implements OnInit {
   showDateModal = false;
   activedateid = '';
 
+  pages = {
+    count: 0,
+    active: 1,
+    limit: 1000,
+  };
+  data = [];
+  jrxPageTimer: any;
+  filters = [
+    { name: 'Date', key: 'y_date', search: '' },
+    { name: 'Particular', key: 'y_ledger', search: '' },
+    { name: 'Vch Type', key: 'y_type', search: '' },
+    { name: 'Vch No.', key: 'y_cust_code', search: '' },
+    { name: 'Amount(DR)', key: 'y_dramunt', search: '' },
+    { name: 'Amount(CR)', key: 'y_cramunt', search: '' },
+  ];
+  jrxTimeout: any;
+  searchedData = []; 
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -84,6 +103,18 @@ export class BankbooksComponent implements OnInit {
     this.setFoucus('ledger');
     this.common.currentPage = 'Bank Book';
 
+    localforage.getItem('bank_book_ledgers')
+      .then((ledgers: any) => {
+        if (ledgers) this.ledgerData = ledgers;
+        this.getLedgers(ledgers ? false : true);
+      });
+    localforage.getItem('bankbook_data')
+      .then((dayBookData: any) => {
+        if (dayBookData) {
+          this.DayData = dayBookData;
+          this.filterData();
+        }
+      });
 
   }
 
@@ -206,7 +237,7 @@ export class BankbooksComponent implements OnInit {
   //     });
 
   // }
-  getLedgers() {
+  getLedgers(isLoader = true) {
     //this.showSuggestions = true;
     let url = 'Suggestion/GetLedger?transactionType=' + 'credit' + '&voucherId=' + (-1) + '&search=' + 'test';
     console.log('URL: ', url);
@@ -215,13 +246,14 @@ export class BankbooksComponent implements OnInit {
         console.log(res);
         this.ledgerData = res['data'];
         console.log('ledger data new', this.ledgerData[0].y_ledger_id);
+        localforage.setItem('bank_book_ledgers', this.ledgerData);
       }, err => {
         console.error(err);
         this.common.showError();
       });
     this.setFoucus('ref-code');
   }
-  getBankBook() {
+    getBankBook() {
     console.log('Accounts:', this.bankBook);
     this.bankBook.startdate= this.accountService.fromdate;
     this.bankBook.enddate= this.accountService.todate;
@@ -297,6 +329,8 @@ export class BankbooksComponent implements OnInit {
     this.bankBook[datestring] = date + separator + month + separator + year;
   }
 
+  
+
   filterData() {
     let yCodes = [];
     this.DayData.map(dayData => {
@@ -305,6 +339,14 @@ export class BankbooksComponent implements OnInit {
         dayData.y_date = 0;
       }
     });
+
+    this.pages.count = Math.floor(this.DayData.length / this.pages.limit);
+    if (this.DayData.length % this.pages.limit) {
+      this.pages.count++;
+    }
+
+    localforage.setItem('daybook_data', this.DayData);
+    this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count);
   }
   getBookDetail(voucherId,ytype,dataItem) {
     console.log('vouher id', voucherId,'ytype',ytype);
@@ -748,5 +790,62 @@ export class BankbooksComponent implements OnInit {
         }
       });
     }
+  }
+
+  jrxPagination(page, data?) {
+    this.pages.active = page;
+    let startIndex = this.pages.limit * (this.pages.active - 1);
+    let lastIndex = (this.pages.limit * this.pages.active);
+    this.data = data ? data.slice(startIndex, lastIndex) : this.searchedData.length ? this.searchedData.slice(startIndex, lastIndex) : this.DayData.slice(startIndex, lastIndex);
+  }
+
+  jrxPageLimitReset() {
+    this.jrxPageTimer = setTimeout(() => {
+      if (typeof this.pages.limit === 'string') {
+        this.pages.limit = parseInt(this.pages.limit) || 0;
+      }
+
+      if (!this.pages.limit || this.pages.limit < 100) {
+        this.pages.limit = this.accountService.perPage;
+        this.common.showError('Minimum per page limit 100');
+        return;
+      }
+
+      this.pages.count = Math.floor(this.DayData.length / this.pages.limit);
+      if (this.DayData.length % this.pages.limit) {
+        this.pages.count++;
+      }
+
+      this.accountService.perPage = this.pages.limit;
+      localStorage.setItem('per_page', this.accountService.perPage.toString());
+      this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count);
+    }, 500);
+  }
+
+  jrxSearch(filter) {
+    clearTimeout(this.jrxTimeout);
+    this.jrxTimeout = setTimeout(() => {
+      this.searchedData = [];
+      if (filter.search) {
+        for (let i = 0; i < this.DayData.length; i++) {
+          if (this.DayData[i][filter.key]) {
+            if ((filter.key === 'y_date' && this.common.changeDateformat(this.DayData[i][filter.key], 'dd-MMM-yy').toLowerCase().includes(filter.search.toLowerCase())) || this.DayData[i][filter.key].toLowerCase().includes(filter.search.toLowerCase())) {
+              this.searchedData.push(this.DayData[i]);
+            }
+          }
+        }
+
+        this.pages.count = Math.floor(this.searchedData.length / this.pages.limit);
+        if (this.DayData.length % this.pages.limit) this.pages.count++;
+        this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count, this.searchedData);
+
+      } else {
+        this.searchedData = [];
+        this.pages.count = Math.floor(this.DayData.length / this.pages.limit);
+        if (this.DayData.length % this.pages.limit) this.pages.count++;
+        this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count);
+      }
+
+    }, 500);
   }
 }

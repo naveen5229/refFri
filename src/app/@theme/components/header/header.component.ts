@@ -75,7 +75,6 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     if (confirm('Are you sure to logout?')) {
-
       let params = {};
       ++this.common.loading;
       this.api.post('Login/logout', params)
@@ -92,7 +91,8 @@ export class HeaderComponent implements OnInit {
           this.user._customer = {
             name: '',
             id: '',
-            mobileNo: null
+            mobileNo: null,
+            foid:''
           };
           this.user._menu = {
             admin: [],

@@ -73,16 +73,16 @@ export class CardusageComponent implements OnInit {
 
   downloadCSV() {
     let details = [
-      { name: 'Name:' + this.common.params.name, mobile: 'Mobile: ' + this.common.params.mobileno,report:"Report:Card-Usage",
-       startDate: 'Start Date: ' + this.common.params.startdate, endDate: 'End Date: ' + this.common.params.enddate,vehicle:'Vehicle:'+this.common.params.vehicleName }
+      { name: 'Name:' + this.common.params.name,vehicle:'Vehicle:'+this.common.params.vehicleName ,report:"Report:Card-Usage",
+       startDate: 'Start Date: ' + this.common.params.startdate, endDate: 'End Date: ' + this.common.params.enddate }
     ];
     this.csvService.byMultiIds(['card-usage-details'], 'card-usages', details);
   }
 
   downloadPDF() {
     let details = [
-      ['Name: ' + this.common.params.name, 'Mobile: ' + this.common.params.mobileno, 'Report: '+'Card-Usage'],
-      ['Start Date: ' + this.common.params.startdate, 'End Date: ' + this.common.params.enddate, 'Vehicle: '+this.common.params.vehicleName]
+      ['Name: ' + this.common.params.name,'Vehicle: '+this.common.params.vehicleName,  'Report: '+'Card-Usage'],
+      ['Start Date: ' + this.common.params.startdate, 'End Date: ' + this.common.params.enddate]
     ];
     this.pdfService.jrxTablesPDF(['card-usage-details'], 'card-usages', details);
   }

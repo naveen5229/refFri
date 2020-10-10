@@ -33,11 +33,21 @@ export class ProfitlossTreeComponent {
   colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca', 'bfcfd9'];
   deletedId = 0;
   items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
+  
+  search = '';
+  searchedData = [];
   constructor(public common: CommonService,
     public modalService: NgbModal,
     public user: UserService,
+    public cdr: ChangeDetectorRef,
     public accountService: AccountService) {
+  }
+
+  ngOnChanges(changes) {
+    if (changes.data) {
+      this.data = changes.data.currentValue;
+      this.searchedData = this.data;
+    }
   }
 
   lastClickHandler(event, index) {
@@ -49,11 +59,7 @@ export class ProfitlossTreeComponent {
     console.log('--------,', this.active);
   }
 
-  ngOnChanges(changes) {
-    // console.log('Changes: ', changes);
-    // console.log(changes.active)
-  }
-
+ 
   clickHandler(event, index) {
     event.stopPropagation();
     this.activeIndex = this.activeIndex !== index ? index : -1
@@ -74,6 +80,19 @@ export class ProfitlossTreeComponent {
       else if (this.selectedRow != this.data.length - 1 && key === 'arrowdown') this.selectedRow++;
     }
   }
+
+  searchValues() {
+    this.searchedData = this.data.filter(x => {
+      if (x.name) {
+        return x.name.toLowerCase().includes(this.search.toLowerCase())
+      } else if (x.ledgerName) {
+        return x.ledgerName.toLowerCase().includes(this.search.toLowerCase())
+      }
+      return false;
+    });
+    this.cdr.detectChanges();
+  }
+
 }
 @Component({
   selector: 'profitloss',

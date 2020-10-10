@@ -52,6 +52,8 @@ export class AddMaintenanceComponent implements OnInit {
       amount: null,
     }];
   edit = 0;
+  serviceCenters = [];
+
   constructor(public api: ApiService,
     public common: CommonService,
     public date: DateService,
@@ -64,7 +66,7 @@ export class AddMaintenanceComponent implements OnInit {
     this.vehicleId = this.common.params.vehicleId;
     this.regno = this.common.params.regno;
     this.serviceMaintenanceType();
-
+    this.getServiceCenters();
   }
 
   ngOnInit() {
@@ -82,6 +84,19 @@ export class AddMaintenanceComponent implements OnInit {
         this.common.loading--;
         this.serviceType = res['data'];
         console.log("Maintenance Type", this.serviceType);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  getServiceCenters() {
+    this.common.loading++;
+    this.api.get('VehicleMaintenance/getServiceCenters')
+      .subscribe(res => {
+        this.common.loading--;
+        this.serviceCenters = res['data'];
+        console.log("servicecenters", this.serviceCenters);
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -167,5 +182,15 @@ export class AddMaintenanceComponent implements OnInit {
 
   calculateAmount(){
     this.serviceDetails.totalAmount = this.serviceDetails.amount + this.serviceDetails.tax;
+  }
+
+  selectServiceCenter(event){
+    event = event['service_center'].split("-");
+    this.serviceDetails.serviceCenter = event[0];
+    this.serviceDetails.serviceLocation = event[1]
+  }
+
+  setServiceCenter(){
+    this.serviceDetails.serviceCenter = this.serviceDetails.serviceCenter?this.serviceDetails.serviceCenter:(<HTMLInputElement>document.getElementById('service_center')).value;
   }
 }

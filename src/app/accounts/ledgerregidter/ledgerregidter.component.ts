@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -22,6 +22,7 @@ import { ServiceComponent } from '../service/service.component';
   selector: 'ledger-register-tree',
   template: `
   <div *ngIf="active">
+  <div *ngIf="data.length <= 50">
     <div *ngFor="let d of data let i = index">
       <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1" [style.background]="colors[color]">
           <div class="col x-col" *ngIf="d.name">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
@@ -45,6 +46,36 @@ import { ServiceComponent } from '../service/service.component';
         <div class="col x-col" style="text-align:right;">{{d.y_cramunt | number : '1.2-2'}}</div>
       </div>
     </div>
+    </div>
+    <div *ngIf="data.length > 50">
+    <div>
+            <input type="text" class="form-control" name="search" [(ngModel)]="search" (click)="$event.stopPropagation()" (ngModelChange)="searchValues()" placeholder="Search ledger...">
+        </div>
+    <div *ngFor="let d of searchedData let i = index">
+      <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1" [style.background]="colors[color]">
+          <div class="col x-col" *ngIf="d.name">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name">&nbsp;</div>
+          <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.debit | number : '1.2-2'}} </div>
+          <div class="col x-col" *ngIf="d.name" style="text-align:right;"> {{d.credit | number : '1.2-2'}} </div>
+ 
+      </div>
+      <ledger-register-tree *ngIf="d.name" [color]="color+1" style="cursor:pointer" [action]="action" [data]="d.data" [isExpandAll]="isExpandAll"  [active]="activeIndex === i || isExpandAll ? true : false" [labels]="labels"></ledger-register-tree>
+      <div *ngIf="!d.name"  class="row x-warehouse" (dblclick)="(d.y_voucher_type_name.toLowerCase().includes('voucher'))  ? (d.y_voucher_type_name.toLowerCase().includes('trip')) ? action(d,'',d.y_voucher_type_name,d) :action(d.y_voucherid,d.y_code,d.y_voucher_type_name,d) : action(d.y_voucherid,'',d.y_voucher_type_name,d)" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i }">
+        <div class="col x-col">&nbsp;</div>
+        <!--div class="col x-col">{{d.y_ledger_name}}</div-->
+        <div class="col x-col">{{d.y_code}}</div>
+        <div class="col x-col">{{d.y_voucher_cust_code}}</div>
+        <div class="col x-col">{{d.y_voucher_date | date:'dd-MMM-yy'}}</div>
+        <div class="col x-col">{{d.y_voucher_type_name}}</div>
+        <div class="col x-col" style="text-align:right;">{{d.y_dramunt | number : '1.2-2'}}</div>
+        <div class="col x-col" style="text-align:right;">{{d.y_cramunt | number : '1.2-2'}}</div>
+      </div>
+    </div>
+    </div>
+
   </div>
   `,
   styleUrls: ['./ledgerregidter.component.scss'],
@@ -64,10 +95,31 @@ export class ledgerRegisterTreeComponent {
   selectedRow: number = -1;
   colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca','bfcfd9'];
   deletedId = 0;
+  search = '';
+  searchedData = [];
+
   constructor(public common: CommonService,
     public modalService: NgbModal,  
     public user: UserService,
+    public cdr: ChangeDetectorRef,
     public accountService: AccountService) {
+    }
+    ngOnChanges(changes) {
+      if (changes.data) {
+        this.data = changes.data.currentValue;
+        this.searchedData = this.data;
+      }
+    }
+    searchValues() {
+      this.searchedData = this.data.filter(x => {
+        if (x.name) {
+          return x.name.toLowerCase().includes(this.search.toLowerCase())
+        } else if (x.ledgerName) {
+          return x.ledgerName.toLowerCase().includes(this.search.toLowerCase())
+        }
+        return false;
+      });
+      this.cdr.detectChanges();
     }
   keyHandler(event) {
     const key = event.key.toLowerCase();

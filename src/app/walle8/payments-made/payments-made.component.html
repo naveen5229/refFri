@@ -6,9 +6,9 @@
 
       <div style="display:inline-block;" class="p-2 float">
         <span style="display: block;">
-          <span class="pdf-icon" title="PDF Export" (click)="printPDF('paymentsMade');" style="cursor: pointer;"><i
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
               class="fa fa-file-pdf"></i></span>
-          <span class="exel-icon" title="CSV Export" (click)="printCSV('paymentsMade')"
+          <span class="exel-icon" title="CSV Export" (click)="printCSV()"
             style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
         </span>
       </div>
@@ -39,8 +39,34 @@
     
   </nb-card-header>
   <nb-card-body style="width:96%;margin-left:2%;">
-    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="paymentsMade"></smart-table>
-    <table *ngIf="data.length" style="margin-top:-15px">
+    <!-- <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table> -->
+
+    <table class="table table-bordered" style="width:100%" id="paymentsMade" *ngIf='data.length'>
+      <thead style="background: #E5F3F9!important;color: black!important;">
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Amonut</th>
+          <th>Remark</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let payment of data;let i=index' >
+          <td>{{i+1}}</td>
+          <td>{{common.dateFormatter1(payment.dttime)}}</td>
+          <td>{{payment.amt}}</td>
+          <td>{{payment.rema}}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Total</td>
+          <td>{{total}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- <table *ngIf="data.length" style="margin-top:-15px">
       <tbody>
         <tr>
           <th style="width: 40px"></th>
@@ -52,7 +78,7 @@
           </th>
         </tr>
       </tbody>
-    </table>
+    </table> -->
     <br>
   </nb-card-body>
 </nb-card>

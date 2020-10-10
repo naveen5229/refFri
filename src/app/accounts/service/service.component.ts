@@ -2340,7 +2340,7 @@ export class ServiceComponent implements OnInit {
       lasttotaltax += taxTotal;
 
       rows.push([
-        { txt: (index == 0) ? invoiceDetail.warehouse.name : (voucherdataprint.amountDetails[index - 1].warehouse.id == invoiceDetail.warehouse.id) ? '' : invoiceDetail.warehouse.name || '' },
+       // { txt: (index == 0) ? invoiceDetail.warehouse.name : (voucherdataprint.amountDetails[index - 1].warehouse.id == invoiceDetail.warehouse.id) ? '' : invoiceDetail.warehouse.name || '' },
         { txt: invoiceDetail.stockitem.name + '(' + invoiceDetail.stockunit.name + ')' + '</br>' + lasttaxrowdata || '' },
         { txt: invoiceDetail.qty || '' },
         { txt: invoiceDetail.rate || '' },
@@ -2349,7 +2349,7 @@ export class ServiceComponent implements OnInit {
         { txt: invoiceDetail.lineamount || null },
         { txt: invoiceDetail.remarks || '' }
       ]);
-      console.log('invoiceDetail.taxDetails', invoiceDetail.taxDetails);
+      console.log('invoiceDetail.taxDetails', invoiceDetail);
 
       // this.order.totalamount += parseInt(invoiceDetail.y_dtl_lineamount);
 
@@ -2360,20 +2360,20 @@ export class ServiceComponent implements OnInit {
     rowtotal +=dtldata.amount
     arrinvoice =  [
         { txt: index+1 ,width:'5%'},
-        { txt: dtldata.stockitem, size: '22px', weight: 'bold',width:'40%' },
+        { txt: dtldata.stockitem, size: '22px', weight: 'bold',width:'45%' },
         { txt: dtldata.hsn , size: '22px', weight: 'bold',width:'10%'},
         { txt:dtldata.qty, size: '22px', weight: 'bold',width:'10%'  },
-        { txt: dtldata.rate, size: '22px', weight: 'bold',width:'12%'  },
-        { txt: dtldata.per ,width:'8%'},
+        { txt: dtldata.rate, size: '22px', weight: 'bold',width:'10%'  },
+        { txt: dtldata.per ,width:'10%'},
         { txt: dtldata.amount, size: '22px', weight: 'bold',width:'15%' }
       ];
    rows.push(arrinvoice);
   });
   rows.push([
     { txt: '' ,width:'5%'},
-    { txt: 'Total', size: '22px', weight: 'bold',width:'30%' ,align:'left'},
-    { txt: '' , size: '22px', weight: 'bold',width:'15%'},
-    { txt:'', size: '22px', weight: 'bold',width:'15%'  },
+    { txt: 'Total', size: '22px', weight: 'bold',width:'50%' ,align:'left'},
+    { txt: '' , size: '22px', weight: 'bold',width:'10%'},
+    { txt:'', size: '22px', weight: 'bold',width:'10%'  },
     { txt: '', size: '22px', weight: 'bold',width:'10%'  },
     { txt: '' ,width:'10%'},
     { txt: '₹ '+rowtotal, size: '22px', weight: 'bold',width:'15%' }
@@ -2409,10 +2409,10 @@ export class ServiceComponent implements OnInit {
   ]
 );
  
-taxdata.push(
-[
-  { txt: 'Tax Amount (in words) '+inr_word, size: '22px', width:'50%',align:'Left',colspan:5}
-]);
+// taxdata.push(
+// [
+//   { txt: 'Tax Amount (in words) '+inr_word, size: '22px', width:'50%',align:'Left',colspan:5}
+// ]);
 
     let invoiceJson = {};
     // if (voucherdataprint.ordertype.name.toLowerCase().includes('purchase') || voucherdataprint.ordertype.name.toLowerCase().includes('debit note')) {
@@ -2552,7 +2552,7 @@ taxdata.push(
         table: {
           headings: [
             { txt: 'SI', size: '22px', weight: 'bold',width:'5%' },
-            { txt: 'Descripption of Services' , size: '22px', weight: 'bold',width:'40%'},
+            { txt: 'Descripption of Services' , size: '22px', weight: 'bold',width:'50%'},
             { txt: 'HSN/SAC', size: '22px', weight: 'bold',width:'10%' },
             { txt: 'Quantity', size: '22px', weight: 'bold',width:'10%' },
             { txt: 'Rate', size: '22px', weight: 'bold',width:'10%' },
@@ -2571,7 +2571,7 @@ taxdata.push(
           ],
           rows: taxdata
         },
-        signatures: {'amount':rowtotal,'pan':headdata.pan},
+        signatures: {'amount':inr_word,'pan':headdata.pan},
         // footer: {
         //   left: { name: 'Powered By', value: 'Elogist Solutions' },
         //   center: { name: 'Printed Date', value: '06-July-2019' },

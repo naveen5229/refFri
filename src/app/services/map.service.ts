@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CommonService } from './common.service';
-import MarkerClusterer from "@google/markerclusterer"
 declare let google: any;
 declare let MarkerClusterer: any;
 
@@ -508,7 +507,7 @@ export class MapService {
     });
   }
   createPolyPathManual(latLng, polygonOptions?, drawVertix?) {
-    console.log(polygonOptions);
+    // console.log(polygonOptions);
     if (!this.polygonPath) {
       const defaultPolygonOptions = {
         strokeColor: 'black',
@@ -519,7 +518,7 @@ export class MapService {
           offset: '100%'
         }]
       };
-      console.log(defaultPolygonOptions);
+      // console.log(defaultPolygonOptions);
       this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
       this.polygonPath.setMap(this.map);
     }

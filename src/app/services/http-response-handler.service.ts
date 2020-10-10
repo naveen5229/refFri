@@ -31,7 +31,8 @@ export class HttpResponseHandlerService implements HttpInterceptor {
             this.user._customer = {
               name: '',
               id: '',
-              mobileNo: null
+              mobileNo: null,
+              foid:''
             };
             this.user._menu = {
               admin: [],

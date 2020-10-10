@@ -187,7 +187,7 @@
                         </nb-card>
                     </div>
                     <div *ngIf="viewType !== 'showprim_status'">
-                        <nb-card *ngFor="let group of kpiGroupsKeys; let i = index">
+                        <!-- <nb-card *ngFor="let group of kpiGroupsKeys; let i = index">
                             <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
                                 <div class="col-sm-1 p-0">
                                     <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
@@ -200,6 +200,27 @@
                                     {{ kpiGroups[group.name].length }}
                                 </div>
                             </nb-card-body>
+                        </nb-card> -->
+                        <nb-card *ngFor="let group of kpiGroupsKeys; let i = index">
+                            <nb-card-body (click)="filterSubStatus(group.name)" style="cursor: pointer;">
+                                <div class="col-sm-1 p-0">
+                                    <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                                        [ngStyle]="{ 'background-color': group.bgColor }"></div>
+                                </div>
+                                <div class="col-sm-8">
+                                    {{ group.name | titlecase }}
+                                </div>
+                                <div class="col-sm-3">
+                                    {{ kpiGroups[group.name].length }}
+                                </div>
+                            </nb-card-body>
+                            <div class="select_option" *ngIf="subGroup.name === group.name">
+                                <ul>
+                                    <li *ngFor="let subGroup of subGroup.data" (click)="selectSubStatus(subGroup.kpi)">
+                                        <span></span> {{ subGroup.name }} : {{subGroup.kpi.length}}
+                                    </li>
+                                </ul>
+                            </div>
                         </nb-card>
                     </div>
                 </div>

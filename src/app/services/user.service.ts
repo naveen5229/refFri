@@ -36,7 +36,8 @@ export class UserService {
   _customer = {
     name: '',
     id: '',
-    mobileNo: null
+    mobileNo: null,
+    foid:null
   };
 
   _loggedInBy = '';

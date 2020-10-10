@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Trip KM Repair</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-4"><button type="button" class="button button-red" (click)="setAndShowData('gps')">GPS ({{GPSDis}} Km)</button></div>
+        <div class="col-4"><button type="button" class="button button-blue" (click)="setAndShowData('google')">Google ({{GoogleDis}} Km)</button></div>
+        <div class="col-4"><button type="button" class="button" (click)="setAndShowData('repaired')">Repaired ({{RequiredDis}} Km)</button></div>
+    </div><br><br>
+    <div id="map" style="width: 100%; height:68vh"></div>
+</div>

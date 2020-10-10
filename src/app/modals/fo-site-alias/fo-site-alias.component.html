@@ -1,0 +1,78 @@
+<div class="modal-header">
+  <h5>Fo Site Alias</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="add-company-Association">
+    <div class="row mt-2">
+      <div class="col-4">
+        <label>Name:</label>
+      </div>
+      <div class="col-8">
+        <input id="name" [(ngModel)]="name" type="text" placeholder="Enter Name" autocomplete="off"
+          class="form-control">
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-4">
+        <label>Site:</label>
+      </div>
+      <div class="col-8">
+        <span>Site</span>
+        <input value="site" [(ngModel)]="site.type" type="radio" checked="checked" class="m-2" name="'site">
+        &nbsp;
+        <span>Location</span>
+        <input value="location" [(ngModel)]="site.type" type="radio" name="'site" class="m-2">
+
+        <auto-suggestion *ngIf="site.type == 'site'" (onSelected)="selectSite($event,'site')"
+          url="Suggestion/getSites?typeId=1" seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site"
+          inputId="'site-'+i" [preSelected]="null">
+        </auto-suggestion>
+
+        <auto-suggestion *ngIf="site.type == 'location'" (onChange)="onChangeAuto($event)"
+          (onSelected)="selectLocation($event,'site')" (noDataFound)="takeAction($event,'site')" [isNoDataFoundEmit]="true"
+          url="Location/getPlaceFromRedis" display="location" inputId="siteValue" placeholder="Location"
+          [preSelected]="null">
+        </auto-suggestion>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-4">
+        <label>Points :</label>
+      </div>
+      <div class="col-8">
+        <input id="name" [(ngModel)]="points" type="text" placeholder="lat,Lng" autocomplete="off"
+          class="form-control">
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-4">
+        <label>Alias:</label>
+      </div>
+      <div class="col-8">
+        <span>Site</span>
+        <input value="site" [(ngModel)]="alias.type" type="radio" checked="checked" class="m-2" name="'alias">
+        &nbsp;
+        <span>Location</span>
+        <input value="location" [(ngModel)]="alias.type" type="radio" name="'alias" class="m-2">
+
+        <auto-suggestion *ngIf="alias.type == 'site'" (onSelected)="selectSite($event,'alias')"
+          url="Suggestion/getSites?typeId=1" seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site"
+          inputId="'site-'+i" [preSelected]="null">
+        </auto-suggestion>
+
+        <auto-suggestion *ngIf="alias.type == 'location'" (onChange)="onChangeAuto($event)"
+          (onSelected)="selectLocation($event,'alias')" (noDataFound)="takeAction($event,'alias')" [isNoDataFoundEmit]="true"
+          url="Location/getPlaceFromRedis" display="location" inputId="aliasValue" placeholder="Location"
+          [preSelected]="null">
+        </auto-suggestion>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="modal-footer mt-2">
+  <button type="button" class="btn btn-primary" (click)="updateSiteAlias()">Update</button>
+</div>

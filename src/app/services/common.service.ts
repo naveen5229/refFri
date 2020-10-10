@@ -85,7 +85,6 @@ export class CommonService {
     let message = msg || 'Something went wrong! try again.';
     message += err ? ' Error Code: ' + err.status : '';
     this.showToast(message, "danger");
-    //alert(message);
   }
 
   ucWords(str) {
@@ -102,7 +101,6 @@ export class CommonService {
   }
 
   showToast(body, type?, duration?, title?) {
-    // toastTypes = ["success", "info", "warning", "primary", "danger", "default"]
     const config = {
       status: type || "success",
       destroyByClick: true,
@@ -111,8 +109,6 @@ export class CommonService {
       position: NbGlobalPhysicalPosition.TOP_RIGHT,
       preventDuplicates: false
     };
-
-    //alert(body);
     this.toastrService.show(body, title || "Alert", config);
   }
 
@@ -212,7 +208,7 @@ export class CommonService {
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
 
-    console.log(year + "-" + month + "-" + dat);
+    // console.log(year + "-" + month + "-" + dat);
 
     //return dat + "-" + month + "-" + year;
     return year + "-" + month + "-" + dat;
@@ -276,48 +272,6 @@ export class CommonService {
     }
     return currentDate;
   }
-
-  // pieChart(chartLabels, chartdatas, charColors) {
-  //   this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-  //     console.log('Config: ', config);
-  //     const colors: any = config.variables;
-  //     const chartjs: any = config.variables.chartjs;
-
-  //     this.chartData = {
-  //       labels: chartLabels,
-  //       datasets: [{
-  //         data: chartdatas,
-  //         backgroundColor: charColors
-  //       }],
-  //     };
-
-  //     this.chartOptions = {
-  //       maintainAspectRatio: false,
-  //       responsive: true,
-  //       scales: {
-  //         xAxes: [
-  //           {
-  //             display: false,
-  //           },
-  //         ],
-  //         yAxes: [
-  //           {
-  //             display: false,
-  //           },
-  //         ],
-  //       },
-  //       legend: false,
-  //     };
-  //   });
-
-  //   setTimeout(() => {
-  //     console.log(document.getElementsByTagName('canvas')[0]);
-
-  //     document.getElementsByTagName('canvas')[0].style.width = "100px";
-  //     document.getElementsByTagName('canvas')[0].style.height = "220px";
-
-  //   }, 10);
-  // }
 
   pieChart(labels, data, colors) {
     let chartData = {
@@ -1643,7 +1597,7 @@ export class CommonService {
   }
 
   formattTripStatus(places: string) {
-    let arr = places.split('-');
+    let arr = places.split('$');
     let html = arr.map((ar, index) => {
       if (ar.includes('#')) {
         let x = ar.split('#');
@@ -1677,7 +1631,7 @@ export class CommonService {
   }
 
   handleTripCircle(location, className = 'loading') {
-    let locationArray = location.split('-');
+    let locationArray = location.split('$');
     if (locationArray.length == 1) {
       return `<span class="circle ${className}">${location}</span>`;
     }
@@ -1706,8 +1660,8 @@ export class CommonService {
 
   handleTripStatusOnExcelExport(status, origin, destination, placements) {
     let title = '';
-    origin = origin.split('-').map(des => des.split('#')[0]).join(' - ')
-    destination = destination.split('-').map(des => des.split('#')[0]).join(' - ');
+    origin = origin.split('$').map(des => des.split('#')[0]).join(' - ')
+    destination = destination.split('$').map(des => des.split('#')[0]).join(' - ');
 
     switch (status) {
       case 0:
@@ -1938,4 +1892,75 @@ export class CommonService {
       return null;
     }
   };
+
+  chartScaleLabelAndGrid(arr) {
+    let chartObj = {
+      yaxisLabel: '',
+      scaleData: null,
+      gridSize: null,
+      minValue: 0
+    }
+    var max = arr.reduce(function (a, b) {
+      return Math.max(a, b);
+    });
+    console.log("max", arr, max);
+    //--y axis scale data
+    if (max > 1000 && max < 90000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 100;
+      });
+      chartObj.yaxisLabel = "(in '00)"
+    }
+    else if (max > 90000 && max < 900000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 1000;
+      });
+      chartObj.yaxisLabel = "(in '000)";
+    }
+    else if (max > 900000 && max < 9000000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 100000;
+      });
+      chartObj.yaxisLabel = "(in Lacs)";
+    }
+    else if (max > 9000000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 10000000;
+      });
+      chartObj.yaxisLabel = "(in Cr.)";
+    }
+    else {
+      chartObj.scaleData = arr;
+    }
+
+    //-----grid size
+    var max1 = chartObj.scaleData.reduce(function (a, b) {
+      return Math.max(a, b);
+    });
+    var min1 = chartObj.scaleData.reduce(function (a, b) {
+      return Math.min(a, b);
+    });
+    console.log("max1", max1, min1);
+    chartObj.gridSize = Math.round(((max1 - min1) / 5) / 10) * 10;
+    return chartObj;
+  }
+
+  imageDownloadFromUrl(url, fileName){
+    console.log("url, fileName",url, fileName);
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.responseType = "blob";
+    xhr.onload = function(){
+        var urlCreator = window.URL;
+        var imageUrl = urlCreator.createObjectURL(this.response);
+        var tag = document.createElement('a');
+        tag.href = imageUrl;
+        tag.download = fileName;
+        document.body.appendChild(tag);
+        tag.click();
+        document.body.removeChild(tag);
+    }
+    xhr.send();
+}
+
 }

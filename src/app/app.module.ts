@@ -298,7 +298,8 @@ import { TicketDetailsComponent } from './modals/ticket-details/ticket-details.c
 import { ShowDataMapComponent } from './modals/generic-modals/show-data-map/show-data-map.component';
 import { IframeModalComponent } from './modals/iframe-modal/iframe-modal.component';
 import { UploadFileComponent } from './modals/generic-modals/upload-file/upload-file.component';
-import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { FoSiteAliasComponent } from './modals/fo-site-alias/fo-site-alias.component';
+import { TripKmRepairViewComponent } from './modals/trip-km-repair-view/trip-km-repair-view.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -554,6 +555,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   ShowDataMapComponent,
   IframeModalComponent,
   UploadFileComponent,
+  FoSiteAliasComponent,
 
 ];
 
@@ -570,6 +572,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     VerifyfuturetripstateComponent,
     CheckloginandredirectComponent,
     CheckloginandredirectComponent,
+    TripKmRepairViewComponent,
 
   ],
   entryComponents: [
@@ -598,8 +601,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PdfViewerModule,
     ResizableModule,
     DateInputsModule,
-    ScrollingModule,
-    NbEvaIconsModule
+    ScrollingModule
   ],
 
   bootstrap: [AppComponent],

@@ -1,21 +1,12 @@
-<!-- <video autoplay muted loop id="myVideo">
-  <source src="assets/bg-video.mp4" type="video/mp4">
-</video> -->
 <div class="main">
-  <!-- <div class="blink" *ngIf="this.user._loggedInBy== 'admin'">
-  <span>Login By Admin</span>
-</div> -->
   <i *ngIf="listenOTP" (click)="backToLogin()" class="icon ion-md-arrow-round-back back-icon"></i>
   <div class="logo">
     <img
       [src]="user._loggedInBy == 'customer' || user._loggedInBy == 'admin'?'http://elogist.in/transtruck/admindashboard/assets/images/left-logo.png':'http://elogist.in/images/elogist-logo.png'">
   </div>
-  <!-- <h1 id="title" class="title">{{user._loggedInBy == 'admin' ? 'Admin' : 'FBP'}} Login</h1> -->
   <h1 id="title" class="title">
     {{user._loggedInBy == 'admin' ? 'Admin' : user._loggedInBy == 'customer' ? 'Customer': user._loggedInBy == 'consigner'?'Consigner':''}}
     Login</h1>
-
-  <!-- <p class="sub-title">Discover...<span class="title">Smart</span> Logistics</p> -->
   <p class='sub-title' *ngIf="user._loggedInBy == 'customer' || user._loggedInBy == 'admin'">eLogist is building an
     integrated AI-driven utilisation
     based digital platform
@@ -42,7 +33,6 @@
           </button>
         </form>
       </nb-tab>
-
       <nb-tab tabTitle="User Login">
         <div>
           <input type="text" autocomplete="off" [(ngModel)]="users.username" #mobile="ngModel" name="username"
@@ -55,8 +45,6 @@
       </nb-tab>
     </nb-tabset>
   </div>
-
-
   <div *ngIf="listenOTP && loginType===1">
     <form #otpForm="ngForm" (submit)="otpForm.valid && login()">
       <div class="form-group">
@@ -80,5 +68,17 @@
       <ngx-qrcode [qrc-element-type]="elementType" [value]="qrCode" cssClass="qr-class" errorCorrectionLevel="M">
       </ngx-qrcode>
     </div>
+  </div>
+</div>
+<div class="jrx-loader" *ngIf="loading">
+  <div class="lds-roller">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
 </div>

@@ -16,22 +16,8 @@ export class TmgChallanComponent implements OnInit {
   challansdrivarcount = [];
   challansdrivaramount = [];
   xAxisData = [];
-  // yAxisDataL = [];
-  // yAxisDataR = [];
-  // chart = {
-  //   type: 'line',
-  //   plugins: [],
-  //   lineWidth: 0,
-  //   data: null,
-  //   options: {
-  //     responsive: true,
-  //     maintainAspectRatio: false,
-  //     legend: {
-  //       display: true
-  //     },
-  //   },
-
-  // };
+  yaxisObj1 = null;
+  yaxisObj2=null;
 
   chart = {
     data: {
@@ -192,25 +178,9 @@ export class TmgChallanComponent implements OnInit {
   }
 
   handleChart() {
-    console.log("xAxis", this.chart.data.line, this.chart.data.bar, this.xAxisData);
-    // this.chart.type = 'bar'
-    // this.chart.data = {
-    //   labels: this.xAxisData,
-    //   datasets: [
-    //     {
-    //       label: 'Count',
-    //       data: this.yAxisDataL,
-    //       backgroundColor: "#0074D9"
-    //     },
-
-    //     {
-    //       label: 'Amount',
-    //       data: this.yAxisDataR,
-    //       type: 'line',
-    //       fill: false,
-    //     },
-    //   ]
-    // };
+    this.yaxisObj1=this.common.chartScaleLabelAndGrid(this.chart.data.bar);
+    this.yaxisObj2=this.common.chartScaleLabelAndGrid(this.chart.data.line);
+    console.log("this.yaxisObj1", this.yaxisObj1, "this.yaxisObj2", this.yaxisObj2);
     let data = {
       labels: this.xAxisData,
       datasets: []
@@ -224,7 +194,7 @@ export class TmgChallanComponent implements OnInit {
       pointHoverRadius: 8,
       pointHoverBackgroundColor: '#FFEB3B',
       fill: false,
-      data: this.chart.data.line,
+      data: this.yaxisObj2.scaleData,
       yAxisID: 'y-axis-2'
     });
 
@@ -234,7 +204,7 @@ export class TmgChallanComponent implements OnInit {
       borderColor: '#386ac4',
       backgroundColor: '#386ac4',
       fill: false,
-      data: this.chart.data.bar.map(value => { return value.toFixed(2) }),
+      data: this.yaxisObj1.scaleData.map(value => { return value.toFixed(2) }),
       pointHoverRadius: 8,
       pointHoverBackgroundColor: '#FFEB3B',
       yAxisID: 'y-axis-1',
@@ -246,7 +216,7 @@ export class TmgChallanComponent implements OnInit {
         line: [],
         bar: []
       },
-      type: 'bar',
+      type: 'bar',  
       dataSet: data,
       yaxisname: "Average Count",
       options: this.setChartOptions()
@@ -292,9 +262,11 @@ export class TmgChallanComponent implements OnInit {
     options.scales.yAxes.push({
       scaleLabel: {
         display: true,
-        labelString: 'Count of Challans',
-        fontSize: 17
+        labelString: 'Count of Challans'+this.yaxisObj1.yaxisLabel,
+        fontSize: 16
       },
+      ticks: { stepSize: this.yaxisObj1.gridSize},
+      suggestedMin : this.yaxisObj1.minValue,
       type: 'linear',
       display: true,
       position: 'left',
@@ -304,9 +276,12 @@ export class TmgChallanComponent implements OnInit {
     options.scales.yAxes.push({
       scaleLabel: {
         display: true,
-        labelString: 'Total Challan Amount',
-        fontSize: 17,
+        labelString: 'Challan Amount '+this.yaxisObj2.yaxisLabel,
+        fontSize: 16,
       },
+           ticks: { stepSize: this.yaxisObj2.gridSize},
+          suggestedMin : this.yaxisObj2.minValue,
+          // max : 100
       type: 'linear',
       display: true,
       position: 'right',
