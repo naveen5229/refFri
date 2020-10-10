@@ -492,14 +492,14 @@ export class ConciseComponent implements OnInit {
       return false;
     });
 
-    let placements  = this.allKpis.filter(kpi => !kpi[this.viewType])
-    .filter(kpi => {
-      if (kpi.placements && kpi.placements.length) {
-        if (kpi.placements[0].name === filterKey)
-          return true;
-      }
-      return false;
-    })
+    let placements = this.allKpis.filter(kpi => !kpi[this.viewType])
+      .filter(kpi => {
+        if (kpi.placements && kpi.placements.length) {
+          if (kpi.placements[0].name === filterKey)
+            return true;
+        }
+        return false;
+      })
     kpis.push(...placements);
 
     if (kpis.length < 2 || filterKey === '') {
@@ -537,7 +537,6 @@ export class ConciseComponent implements OnInit {
       });
     }
     delete groups[''];
-    groups['All'] = kpis;
     let keysForDelete = [];
     Object.keys(groups).forEach(key => {
       let formattedKey = key.split('#')[0];
@@ -554,6 +553,15 @@ export class ConciseComponent implements OnInit {
       }
     });
     keysForDelete.forEach(key => delete groups[key]);
+    if (Object.keys(groups).length <= 1) {
+      this.selectSubStatus(kpis);
+      this.subGroup = {
+        name: undefined,
+        data: []
+      }
+      return;
+    }
+    groups['All'] = kpis;
     this.subGroup.name = filterKey;
     this.subGroup.data = Object.keys(groups).map(key => {
       return {
