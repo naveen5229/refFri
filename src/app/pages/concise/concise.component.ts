@@ -294,7 +294,7 @@ export class ConciseComponent implements OnInit {
 
       this.kpiGroups[''] = xGroup[''];
       delete xGroup[''];
-      if (!this.kpiGroups[''].length) {
+      if (!this.kpiGroups[''] || !this.kpiGroups[''].length) {
         delete this.kpiGroups[''];
       }
 
