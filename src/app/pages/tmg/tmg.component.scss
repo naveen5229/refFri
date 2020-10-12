@@ -27,7 +27,7 @@
     border-radius: 0.17rem;
     font-size: .85rem;
     text-align: center;
-    padding: 5px;
+    padding: 5px 10px;
     background-color: #4215ca;
     color: #fff;
     cursor: pointer;
@@ -48,7 +48,9 @@
 .toptab{
    margin-top: -18px;
    z-index: 5;
-   background-color: white;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
 }
 .hiddenby{
      opacity: 0;

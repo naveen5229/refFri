@@ -2,43 +2,43 @@
   <!-- <nb-card-header>
    
   </nb-card-header> -->
-  <nb-card-body>
-    <div class="row toptab">
-      <div class="col-1" style="-webkit-writing-mode: vertical-lr;">
+  <nb-card-body style="background: #f5f3f7;padding: 1rem 1rem;">
+    <div class="toptab">
+      <div style="-webkit-writing-mode: vertical-lr;">
         <span class="dirbtn"><i class="fa fa-backward" (click)="backwardMove()"></i></span>
       </div>
       
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Challan'?'active':'default'" (click)="selectedDashboard='Tmg-Challan'">
           <b>Challan DashBoard</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Trip'?'active':'default'" (click)="selectedDashboard='Tmg-Trip'">
         <b>Trip DashBoard</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Traffic'?'active':'default'" (click)="selectedDashboard='Tmg-Traffic'">
         <b>Traffic DashBoard</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Calls'?'active':'default'" (click)="selectedDashboard='Tmg-Calls'">
         <b>Calls DashBoard</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Alerts'?'active':'default'" (click)="selectedDashboard='Tmg-Alerts'">
         <b>ALerts DashBoard</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Documents'?'active':'default'" (click)="selectedDashboard='Tmg-Documents'">
         <b>Document DashBoard</b>
         </p>
       </div>
-      <div class="col-1" style="-webkit-writing-mode: vertical-rl;">
+      <div class="" style="-webkit-writing-mode: vertical-rl;">
         <span class="dirbtn"><i class="fa fa-forward" (click)="forwardMove()"></i></span> 
       </div>
     </div>
