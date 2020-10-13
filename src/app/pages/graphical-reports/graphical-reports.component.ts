@@ -11,6 +11,8 @@ import * as _ from 'lodash';
   styleUrls: ['./graphical-reports.component.scss']
 })
 export class GraphicalReportsComponent implements OnInit {
+  startDate = this.common.getDate(-15);
+  endDate = new Date();
   savedReportSelect = {};
   reportIdUpdate = null;
   editState = false;
@@ -29,6 +31,8 @@ export class GraphicalReportsComponent implements OnInit {
     x:[],
     y:[],
     filter: [],
+    startDate:this.startDate,
+    endDate:this.endDate,
     reportFileName:'',
     // chart: []
   }
@@ -198,6 +202,8 @@ dropdownFilter = [];
       y:[],
       filter: [],
       reportFileName:'',
+      startDate:this.startDate,
+      endDate:this.endDate,
     }
     this.tableGraph = {
       data: {
@@ -271,8 +277,9 @@ dropdownFilter = [];
     this.filterObject = _.clone(data);
     // console.log('filter_Object',this.filterObject)
     let params = {
-      processId:this.processId['_id'],
       info:JSON.stringify(this.filterObject),
+      start_time:this.common.dateFormatter(this.assign.startDate),
+      end_time:this.common.dateFormatter(this.assign.endDate),
     }
 
     let checkCount = 0;
@@ -288,7 +295,7 @@ dropdownFilter = [];
     }
 
     this.common.loading++;
-    this.api.post('Processes/getFilterList',params).subscribe(res=>{
+    this.api.post('GraphicalReport/getFilterList',params).subscribe(res=>{
       this.common.loading--;
       if(res['code'] == 1){
         this.dropdownFilter = res['data'];
@@ -603,6 +610,7 @@ dropdownFilter = [];
   }
 
   getReportPreview(){
+    console.log('complete data', this.assign)
     this.assign.y.forEach(ele=> {
       if(!ele.measure){
         ele.measure = 'Count';
@@ -614,6 +622,8 @@ dropdownFilter = [];
       let params = {
       reportFilter:this.assign.filter ? JSON.stringify(this.assign.filter) : [],
       info:JSON.stringify(info),
+      startTime:this.common.dateFormatter(this.assign.startDate),
+      endTime:this.common.dateFormatter(this.assign.endDate),
     };
 
     if(this.assign.x.length && this.assign.y.length){

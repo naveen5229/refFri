@@ -4,16 +4,21 @@
         <div class="col-4">
           <h5 class="heading-design">Graphical Reports</h5>
         </div>
-        <!-- <div class="col-5">
-          <span style="display: flex;">
-            <auto-suggestion class="form-controls col-9 p-0 searchselect" [data]="processList" display="name"
-              placeholder="Search Process" inputId="ProcessSearch" name="ProcessSearch"  #searchedProcess>
-            </auto-suggestion>
-            <button class="btn btn-primary btn-sm"
-              (click)="getSideBarData(searchedProcess.selectedSuggestion);savedReportSelect = {}">Search</button>
-          </span>
+        <div class="col-6">
+          <div class="row">
+            
+            <label>From</label>
+              <div class=" col-5">
+                  <uj-date-time-picker (onChanged)="assign.startDate=$event" [dateTimeValue]="startDate" [isTime]="false"></uj-date-time-picker>
+              </div>
+
+              <label>To</label>
+              <div class=" col-5">
+                <uj-date-time-picker (onChanged)="assign.endDate=$event" [dateTimeValue]="endDate" [isTime]="false"></uj-date-time-picker>
+            </div>
+          </div>
         </div>
-        <div class="col-3">
+        <!-- <div class="col-3">
           <span style="display: flex;">
             <auto-suggestion class="form-controls col-9 p-0 searchselect" [data]="savedReports" display="name"
             (onSelected)="savedReportSelect = $event" [preSelected]="savedReportSelect['_id'] ? {name: savedReportSelect['name']}:{name:''}"
