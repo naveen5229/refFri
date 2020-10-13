@@ -95,8 +95,8 @@
         margin-bottom: 10px;
         margin-top: -4px;
         border: 1px solid #dedede;
-        max-height: 130px;
-        overflow: auto;
+        // max-height: 130px;
+        // overflow: auto;
         li {
             font-family: "Poppins", sans-serif !important;
             font-size: 0.68rem;
@@ -152,4 +152,10 @@
     padding: 4px;
     border-radius: 20px;
     color: white;
+}
+
+
+.bodyclass{
+    overflow: none !important;
+    padding: 0 !important;
 }

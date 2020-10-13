@@ -29,7 +29,7 @@
         </div> -->
       </div>
     </nb-card-header>
-    <nb-card-body>
+    <nb-card-body class="bodyclass">
       <div class="row mt-2 centarize">
         <div class="col-1 hoverChart" [ngClass]="reportPreviewData.length>1?{'disablePieClick': i == 0}:'' || !reportPreviewData.length?'disablePieClick':'' " 
           *ngFor="let image of chartTypes;let i = index" (click)="active = image.id;getChartofType(image.type);selectedChart = image.type">
@@ -101,6 +101,8 @@
                   <option selected disabled>--Select--</option>
                   <option>None</option>
                   <option>Date</option>
+                  <option>Month</option>
+                  <option>Week</option>
                 </select>
               </div>
             </div>

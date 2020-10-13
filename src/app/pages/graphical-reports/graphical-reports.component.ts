@@ -38,7 +38,7 @@ export class GraphicalReportsComponent implements OnInit {
   }
   processId = '';
 sideBarData = [
-  {title:'Trip Fields', children:[{title:'',children:'',isHide:false}]
+  {title:'Fields', children:[{title:'',children:'',isHide:false}]
   },
 ];
 Operators =[];
@@ -50,7 +50,8 @@ tableGraph = {
   },
   label:[],
   settings: {
-    hideHeader: true
+    hideHeader: true,
+    tableHeight: '45vh',
   }
 }
 
@@ -161,7 +162,7 @@ dropdownFilter = [];
 
   resetSidebarData(){
     this.sideBarData = [
-      {title:'Trip Fields', children:[{title:'',children:'',isHide:false}]
+      {title:'Fields', children:[{title:'',children:'',isHide:false}]
       },
     ];
   }
@@ -212,7 +213,8 @@ dropdownFilter = [];
       },
       label:[],
       settings: {
-        hideHeader: true
+        hideHeader: true,
+        tableHeight: '45vh',
       }
     }
     this.reportIdUpdate =null;
@@ -691,7 +693,7 @@ dropdownFilter = [];
     this.reportPreviewData.map(ele=> {headers.push(ele.series['y_name'])});
     let head = headers;
     let headings = {};
-    headings['Label'] = { title: 'Label',placeholder: 'Label'}
+    headings['X-Axis'] = { title: 'X-Axis',placeholder: 'X-Axis'}
       for(let key in head){
         headings[head[key]] = { title: head[key],placeholder: head[key]}
       };
@@ -732,7 +734,7 @@ dropdownFilter = [];
               console.log(labels,'labels for table')
     }
     labels.map((val,indexLabel)=>{
-      columns[indexLabel]['Label'] = { value: val, class: 'black font-weight-bold'};
+      columns[indexLabel]['X-Axis'] = { value: val, class: 'black font-weight-bold'};
     })
     console.log('headings',this.tableGraph)
     return columns;
