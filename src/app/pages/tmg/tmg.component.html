@@ -4,8 +4,8 @@
   </nb-card-header> -->
   <nb-card-body style="background: #f5f3f7;padding: 1rem 1rem;">
     <div class="toptab">
-      <div style="-webkit-writing-mode: vertical-lr;">
-        <span class="dirbtn"><i class="fa fa-backward" (click)="backwardMove()"></i></span>
+      <div>
+        <p class="dirbtn"><i class="fa fa-backward" (click)="backwardMove()"></i></p>
       </div>
       
       <div class="hiddenby">
@@ -38,8 +38,8 @@
         <b>Document DashBoard</b>
         </p>
       </div>
-      <div class="" style="-webkit-writing-mode: vertical-rl;">
-        <span class="dirbtn"><i class="fa fa-forward" (click)="forwardMove()"></i></span> 
+      <div>
+        <p class="dirbtn"><i class="fa fa-forward" (click)="forwardMove()"></i></p> 
       </div>
     </div>
    <tmg-challan *ngIf="selectedDashboard=='Tmg-Challan'"></tmg-challan>
