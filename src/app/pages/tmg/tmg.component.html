@@ -3,11 +3,11 @@
    
   </nb-card-header> -->
   <nb-card-body style="background: #f5f3f7;padding: 1rem 1rem;">
+    <div class="out-topnav">
+    <div>
+      <p class="dirbtn"><i class="fa fa-backward" (click)="backwardMove()"></i></p>
+    </div>
     <div class="toptab">
-      <div>
-        <p class="dirbtn"><i class="fa fa-backward" (click)="backwardMove()"></i></p>
-      </div>
-      
       <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Challan'?'active':'default'" (click)="selectedDashboard='Tmg-Challan'">
           <b>Challan DashBoard</b>
@@ -38,30 +38,31 @@
         <b>Document DashBoard</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Vehicle-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Vehicle-Analysis'">
         <b>Vehicle Analysis</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Loading-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Loading-Analysis'">
         <b>Loading Analysis</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Unloading-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Unloading-Analysis'">
         <b>Unloading Analysis</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Transporter-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Transporter-Analysis'">
         <b>Transporter Analysis</b>
         </p>
       </div>
-      <div class="col-1">
-        <p class="dirbtn"><i class="fa fa-forward" (click)="forwardMove()"></i></p>
-      </div>
     </div>
+    <div>
+      <p class="dirbtn"><i class="fa fa-forward" (click)="forwardMove()"></i></p>
+    </div>
+   </div>
    <tmg-challan *ngIf="selectedDashboard=='Tmg-Challan'"></tmg-challan>
    <tmg-trip *ngIf="selectedDashboard=='Tmg-Trip'"></tmg-trip>
    <tmg-traffic *ngIf="selectedDashboard=='Tmg-Traffic'"></tmg-traffic>
