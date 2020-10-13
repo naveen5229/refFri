@@ -263,7 +263,7 @@ export class LoginComponent implements OnInit {
   otpResendActive() {
     if (this.otpCount > 0) {
       setTimeout(this.otpResendActive.bind(this, --this.otpCount), 1000);
-    }else {
+    } else {
       return this.common.showError("Session Expired & Login Again");
     }
   }
@@ -281,6 +281,8 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         this.loading--;
         this.user._pages = res['data'].filter(page => {
+          if (localStorage.getItem('iswallet') === '1')
+            return true;
           return page.userid;
         });
 
