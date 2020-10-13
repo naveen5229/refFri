@@ -193,6 +193,8 @@ const PAGES_COMPONENTS = [
     TripsComponent,
     IssuesReportComponent,
     VehicleStatesComponent,
+   
+  
   ],
   exports: [
     FuelAverageAnalysisComponent,

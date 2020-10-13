@@ -38,6 +38,26 @@
         <b>Document DashBoard</b>
         </p>
       </div>
+      <div class="col-1-5 hiddenby">
+        <p [class]="selectedDashboard=='Tmg-Vehicle-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Vehicle-Analysis'">
+        <b>Vehicle Analysis</b>
+        </p>
+      </div>
+      <div class="col-1-5 hiddenby">
+        <p [class]="selectedDashboard=='Tmg-Loading-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Loading-Analysis'">
+        <b>Loading Analysis</b>
+        </p>
+      </div>
+      <div class="col-1-5 hiddenby">
+        <p [class]="selectedDashboard=='Tmg-Unloading-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Unloading-Analysis'">
+        <b>Unloading Analysis</b>
+        </p>
+      </div>
+      <div class="col-1-5 hiddenby">
+        <p [class]="selectedDashboard=='Tmg-Transporter-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Transporter-Analysis'">
+        <b>Transporter Analysis</b>
+        </p>
+      </div>
       <div class="col-1" style="-webkit-writing-mode: vertical-rl;">
         <span class="dirbtn"><i class="fa fa-forward" (click)="forwardMove()"></i></span> 
       </div>
@@ -48,5 +68,9 @@
    <tmg-calls *ngIf="selectedDashboard=='Tmg-Calls'"></tmg-calls>
    <tmg-alerts *ngIf="selectedDashboard=='Tmg-Alerts'"></tmg-alerts>
    <tmg-documents *ngIf="selectedDashboard=='Tmg-Documents'"></tmg-documents>
+   <tmg-traffic-analysis *ngIf="selectedDashboard=='Tmg-Vehicle-Analysis'"></tmg-traffic-analysis>
+   <tmg-loading-analysis *ngIf="selectedDashboard=='Tmg-Loading-Analysis'"></tmg-loading-analysis>
+   <tmg-unloading-analysis *ngIf="selectedDashboard=='Tmg-Unloading-Analysis'"></tmg-unloading-analysis>
+    <tmg-transporter-analysis *ngIf="selectedDashboard=='Tmg-Transporter-Analysis'"></tmg-transporter-analysis>
   </nb-card-body>
 </nb-card>
