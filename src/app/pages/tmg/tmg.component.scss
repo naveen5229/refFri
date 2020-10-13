@@ -1,38 +1,39 @@
 .default{
     color: #000;
-    border-radius: 0.17rem;
-    font-size: .85rem;
+    border-radius: 4.17rem;
+    font-size: .75rem;
     text-align: center;
-    padding: 5px;
-    background-color: #c9c2de;
+    padding: 5px 10px;
+    background-color: #eef1fd;
+    color: #3f6ad8;
     cursor: pointer;
     border-bottom: 1px solid white;
-    box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
+   // box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
     margin-bottom: 0rem;
 }
 .default:hover{
-    border-radius: 0.17rem;
-    font-size: .85rem;
+    border-radius: 4.17rem;
+    font-size: .75rem;
     text-align: center;
-    padding: 5px;
-    background-color: #4215ca;
+    padding: 5px 10px;
+    background-color: #3f6ad8;
     color: #fff;
     cursor: pointer;
     border-bottom: 1px solid white;
-    box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
+   // box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
     margin-bottom: 0rem;
 }
 .active{
     margin-bottom: 0rem;
-    border-radius: 0.17rem;
-    font-size: .85rem;
+    border-radius: 4.17rem;
+    font-size: .75rem;
     text-align: center;
-    padding: 5px;
-    background-color: #4215ca;
+    padding: 5px 10px;
+    background-color: #3f6ad8;
     color: #fff;
     cursor: pointer;
     border-bottom: 1px solid white;
-    box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
+   // box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
 }
 .dirbtn{
     cursor: pointer;
@@ -40,20 +41,29 @@
     padding: 5px 10px;
     background-color: #3f6ad8;
     color: #fff;
+    margin-bottom: 0;
     box-shadow: 0 16px 26px -10px rgba(63,106,216,0.56), 0 4px 25px 0px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(63,106,216,0.2);
 }
 .dirbtn:hover{
     background-color: #0233af;
 }
 .toptab{
-   margin-top: -18px;
+   margin-top: -15px;
+   margin-left: -14px;
+   margin-right: -14px;
+   padding: 6px 1px;
    z-index: 5;
-   background-color: white;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   background: white;
+   -webkit-box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(63, 106, 216, 0.2);
+    box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(63, 106, 216, 0.2);
 }
 .hiddenby{
-     opacity: 0;
+     opacity: 1;
      transition:.5s;
-     margin-right: 5px;
 }
  .toptab:hover .hiddenby{
     opacity: 1;
