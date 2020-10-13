@@ -496,7 +496,7 @@ export class TmgTransporterAnalysisComponent implements OnInit {
     let xaxis = [];
     this.transportarSlowestUnloadingtat.map(tlt => {
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Unloading Duration(hrs)']);
+      yaxis.push(tlt['Avg hrs']);
     });
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
     console.log("handleChart2", xaxis, yaxis);
