@@ -278,8 +278,8 @@ dropdownFilter = [];
     // console.log('filter_Object',this.filterObject)
     let params = {
       info:JSON.stringify(this.filterObject),
-      start_time:this.common.dateFormatter(this.assign.startDate),
-      end_time:this.common.dateFormatter(this.assign.endDate),
+      startTime:this.common.dateFormatter(this.assign.startDate),
+      endTime:this.common.dateFormatter(this.assign.endDate),
     }
 
     let checkCount = 0;
