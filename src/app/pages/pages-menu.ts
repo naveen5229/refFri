@@ -30,7 +30,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/trip',
       },
       {
-        title: 'Graphical Reports',
+        title: 'Business Analytics',
         icon: 'fa-home',
         link: '/pages/graphical-reports',
       },

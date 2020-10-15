@@ -636,7 +636,7 @@ dropdownFilter = [];
             console.log('Response:',res);
             if(res['data']){
             this.reportPreviewData = res['data'];
-            if(this.reportPreviewData.length>1){
+            if(this.assign.x.length > 1 || this.assign.y.length > 1){
               this.active = 2;
               this.selectedChart = 'bar';
             }else{
@@ -750,7 +750,46 @@ dropdownFilter = [];
     let dataSet = [];
     let chartDataSet = [];
 
-    
+    if(this.assign.x.length == 2){
+      let seprator = ' | ';
+      let stateTableDataMap = {};
+      let xAxisDistinct = {};
+      JSON.parse(stateTableData[0].xAxis).map(e=>{
+        if(!xAxisDistinct[e.split(seprator)[0]])
+          xAxisDistinct[e.split(seprator)[0]]=1;
+      });
+      let yAxisDistinct = {};
+      JSON.parse(stateTableData[0].xAxis).map(e=>{
+        if(!yAxisDistinct[e.split(seprator)[1]])
+          yAxisDistinct[e.split(seprator)[1]]=1;
+      });
+      stateTableData.map(e => {
+        e.series.data.map(dt=>{
+          let splitCal = dt.name.split(seprator);
+          let pushObj = {x:dt.x,y:dt.y,name:splitCal[0]};
+          if(stateTableDataMap[splitCal[1]]){
+            if(stateTableDataMap[splitCal[1]][splitCal[0]]){
+              stateTableDataMap[splitCal[1]][splitCal[0]]=pushObj;
+            }else{
+              stateTableDataMap[splitCal[1]][splitCal[0]]=pushObj;
+            }
+          }else{
+            stateTableDataMap[splitCal[1]]={};
+            stateTableDataMap[splitCal[1]][splitCal[0]]=pushObj;
+          }
+        });
+      });
+      stateTableData = [];
+      Object.keys(yAxisDistinct).map(y=>{
+        let dataPut = [];
+        Object.keys(xAxisDistinct).map((x,i)=>{
+          dataPut.push(stateTableDataMap[y][x]?stateTableDataMap[y][x]:{x:i,y:0,name:x});
+        });
+        stateTableData.push({series:{data:dataPut,y_name:y},xAxis:"[\""+Object.keys(xAxisDistinct).join(",")+"\"]"});
+      });
+      console.log('data manupulated x axis:',stateTableData);
+    }
+
     if(stateTableData.length == 1){
     stateTableData.map(e=>{
       labels =[];
@@ -758,6 +797,7 @@ dropdownFilter = [];
         labels.push(label.name)
       })
     });
+    console.log('data after label:',stateTableData);
     
     stateTableData.map(e=> {
       dataSet.push({label:e.series.y_name,data:[],bgColor:[]});
@@ -798,6 +838,7 @@ dropdownFilter = [];
 
       console.log('DataSet from graphics',dataSet)
     }
+    console.log('data after end:',stateTableData);
 
     // start:managed service data
     if(chartType === 'line'){
