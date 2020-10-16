@@ -2,51 +2,76 @@
   <!-- <nb-card-header>
    
   </nb-card-header> -->
-  <nb-card-body>
-    <div class="row toptab">
-      <div class="col-1" style="-webkit-writing-mode: vertical-lr;">
-        <span class="dirbtn"><i class="fa fa-backward" (click)="backwardMove()"></i></span>
-      </div>
-      
-      <div class="col-1-5 hiddenby">
+  <nb-card-body style="background: #f5f3f7;padding: 1rem 1rem;">
+    <div class="out-topnav">
+    <div>
+      <p class="dirbtn"><i class="fa fa-backward" (click)="backwardMove()"></i></p>
+    </div>
+    <div class="toptab">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Challan'?'active':'default'" (click)="selectedDashboard='Tmg-Challan'">
           <b>Challan DashBoard</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Trip'?'active':'default'" (click)="selectedDashboard='Tmg-Trip'">
         <b>Trip DashBoard</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Traffic'?'active':'default'" (click)="selectedDashboard='Tmg-Traffic'">
         <b>Traffic DashBoard</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Calls'?'active':'default'" (click)="selectedDashboard='Tmg-Calls'">
         <b>Calls DashBoard</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Alerts'?'active':'default'" (click)="selectedDashboard='Tmg-Alerts'">
         <b>ALerts DashBoard</b>
         </p>
       </div>
-      <div class="col-1-5 hiddenby">
+      <div class="hiddenby">
         <p [class]="selectedDashboard=='Tmg-Documents'?'active':'default'" (click)="selectedDashboard='Tmg-Documents'">
         <b>Document DashBoard</b>
         </p>
       </div>
-      <div class="col-1" style="-webkit-writing-mode: vertical-rl;">
-        <span class="dirbtn"><i class="fa fa-forward" (click)="forwardMove()"></i></span> 
+      <div class="hiddenby">
+        <p [class]="selectedDashboard=='Tmg-Vehicle-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Vehicle-Analysis'">
+        <b>Vehicle Analysis</b>
+        </p>
+      </div>
+      <div class="hiddenby">
+        <p [class]="selectedDashboard=='Tmg-Loading-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Loading-Analysis'">
+        <b>Loading Analysis</b>
+        </p>
+      </div>
+      <div class="hiddenby">
+        <p [class]="selectedDashboard=='Tmg-Unloading-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Unloading-Analysis'">
+        <b>Unloading Analysis</b>
+        </p>
+      </div>
+      <div class="hiddenby">
+        <p [class]="selectedDashboard=='Tmg-Transporter-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Transporter-Analysis'">
+        <b>Transporter Analysis</b>
+        </p>
       </div>
     </div>
+    <div>
+      <p class="dirbtn"><i class="fa fa-forward" (click)="forwardMove()"></i></p>
+    </div>
+   </div>
    <tmg-challan *ngIf="selectedDashboard=='Tmg-Challan'"></tmg-challan>
    <tmg-trip *ngIf="selectedDashboard=='Tmg-Trip'"></tmg-trip>
    <tmg-traffic *ngIf="selectedDashboard=='Tmg-Traffic'"></tmg-traffic>
    <tmg-calls *ngIf="selectedDashboard=='Tmg-Calls'"></tmg-calls>
    <tmg-alerts *ngIf="selectedDashboard=='Tmg-Alerts'"></tmg-alerts>
    <tmg-documents *ngIf="selectedDashboard=='Tmg-Documents'"></tmg-documents>
+   <tmg-traffic-analysis *ngIf="selectedDashboard=='Tmg-Vehicle-Analysis'"></tmg-traffic-analysis>
+   <tmg-loading-analysis *ngIf="selectedDashboard=='Tmg-Loading-Analysis'"></tmg-loading-analysis>
+   <tmg-unloading-analysis *ngIf="selectedDashboard=='Tmg-Unloading-Analysis'"></tmg-unloading-analysis>
+    <tmg-transporter-analysis *ngIf="selectedDashboard=='Tmg-Transporter-Analysis'"></tmg-transporter-analysis>
   </nb-card-body>
 </nb-card>

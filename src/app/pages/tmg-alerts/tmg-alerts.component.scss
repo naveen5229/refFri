@@ -16,12 +16,12 @@
 }
 .outer{
     padding: 5px 5px;
-    border: 1px solid #efe8e8;
+    background: white;
+    box-shadow: 0 0.66875rem 2.3875rem rgba(31,10,6,0.03), 0 1.1375rem 1.60625rem rgba(31,10,6,0.03), 0 0.45rem 0.73125rem rgba(31,10,6,0.05), 0 0.325rem 0.3875rem rgba(31,10,6,0.03);
+    
 }
 .outer:hover{
-    box-shadow: 0 0.66875rem 2.3875rem rgba(31,10,6,0.03), 0 1.1375rem 1.60625rem rgba(31,10,6,0.03), 0 0.45rem 0.73125rem rgba(31,10,6,0.05), 0 0.325rem 0.3875rem rgba(31,10,6,0.03);
-    padding: 5px 5px;
-    border: 1px solid #efe8e8;
+   padding: 5px 5px;
 }
 .charthead{
     font-weight: bold;
@@ -32,7 +32,7 @@
 .table{
     margin-bottom: 0rem!important;
     .thead{
-        background-color: #e9ebf5;
+        background-color: #c9c2de;
         color: #000000;
         font-size: 12px;
         text-align: center;
@@ -45,12 +45,13 @@
 }
 .table tr td {
     text-align: center !important;
-    background-color: #e9ebf5 !important;
+    background-color: #fff !important;
 }
 .table-bordered th, .table-bordered td {
     border: 1px solid #ffffff!important;
 }
 .contentsection{
-    max-height: calc(100vh - 90px);
+    height: calc(100vh - 110px);
     overflow: auto;
+    margin-top: 10px;
 }

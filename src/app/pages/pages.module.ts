@@ -97,6 +97,8 @@ import { SupervisorUserAssociationComponent } from './supervisor-user-associatio
 import { TripsComponent } from './trips/trips.component';
 import { IssuesReportComponent } from './issues-report/issues-report.component';
 import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
+import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const PAGES_COMPONENTS = [
   PagesComponent
@@ -119,6 +121,7 @@ const PAGES_COMPONENTS = [
     LorryReceiptModule,
     SharedModule,
     DriverModule,
+    DragDropModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -193,6 +196,7 @@ const PAGES_COMPONENTS = [
     TripsComponent,
     IssuesReportComponent,
     VehicleStatesComponent,
+    GraphicalReportsComponent,
   ],
   exports: [
     FuelAverageAnalysisComponent,
