@@ -16,19 +16,17 @@
 
     <div class="row m-0 p-3" style="background-color:white;">
       <div class="col-3 pl-3">
-        <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"  [isTime]="false"></uj-date-time-picker>
-        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
-          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly> -->
+        <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
       </div>
       <div class="col-3">
-        <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false [isStart]="false"></uj-date-time-picker>
-        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
-          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly> -->
+        <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
+          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
       </div>
 
       <div class="col-3">
         <auto-suggestion (keyup)="filterData($event)" [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)"
-        [url]="'Suggestion/getFoVehicleList.json?foid='+foid" display="regno" placeholder="search vehicle" style="width:60%;" value="yes"
+          url="Suggestion/getFoVehicleList.json?foid=' + foid" display="regno" placeholder="search vehicle" style="width:60%;" value="yes"
           aria-disabled="true">
         </auto-suggestion>
       </div>
@@ -124,12 +122,9 @@
             <tbody>
               <tr>
                 <td>Customer Id</td>
-                <td>{{foid}}</td>
+                <td>{{fo.id}}</td>
               </tr>
-              <!-- <tr>
-                <td>Mobile No.</td>
-                <td>{{fo.mobileNo}}</td>
-              </tr> -->
+              
               <tr>
                 <td>Name</td>
                 <td>{{fo.name}}</td>

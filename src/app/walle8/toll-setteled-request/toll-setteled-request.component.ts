@@ -96,7 +96,7 @@ export class TollSetteledRequestComponent implements OnInit {
     return columns;
   }
   gettollSetteledReq() {
-    let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
+    let params = "mobileno=" + this.user._details.fo_mobileno +"startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
     //  console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('TollSummary/getTollSettledRequests.json?' + params)
