@@ -1,0 +1,146 @@
+<div class="contentsection">
+    <div class="row mb-2 mr-0">
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 130px;">
+          <h6 style="text-align:center"><b class="charthead">Live Traffic Status </b></h6>
+          <chart [type]="chart.type" [data]="chart.data" style="margin-right:0px;margin-top:0px;min-height: 200px;max-height: 200px;"
+          [options]="chart.options"></chart>
+        </div>
+      </div>
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 130px;">
+          <h6 style="text-align:center"><b class="charthead">Longest Onward Halt</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Vehicle No.</th>
+              <th>Unavailable Hours</th>
+              <th>Location</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tldu of trafficLongestDriverUnavailable">
+                <td>{{tldu['Vehicle Name']}}</td>
+                <td>{{tldu['Duration (HH:MM)']}}</td>
+                <td>{{tldu['Location']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="col-4 pl-0 pr-0">
+        <div class="outer" style="min-height: 130px;">
+          <h6 style="text-align:center"><b class="charthead">Longest GPS Offline</b></h6>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Vehicle No.</th>
+              <th>Transporter</th>
+              <th>Trip</th>
+              <th>Offline Since(Hours)</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let clgi of consignmentLongestGpsIssue">
+                <td>{{clgi['vehicle']}}</td>
+                <td>{{clgi['transporter']}}</td>
+                <td>{{clgi['trip']}}</td>
+                <td>{{clgi['offline_duration_Hrs']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row mb-2 mr-0">
+          <div class="col-6 pl-0">
+            <div class="outer" style="min-height: 130px;">
+            <h6 style="text-align:center"><b class="charthead">Longest Loading Vehicles</b></h6>
+            <table class="table table-bordered">
+              <thead class="thead">
+                <th>Vehicle</th>
+                <th>Site</th>
+                <td>Transporter</td>
+                <td>Trip</td>
+                <th>Loading Time(in Hrs)</th>
+              </thead>
+              <tbody class="tbody">
+                <tr *ngFor="let cll of consignmentLongestLoading">
+                  <td>{{cll['vehicle']}}</td>
+                  <td>{{cll['site_name']}}</td>
+                  <td>{{cll['transporter']}}</td>
+                  <td>{{cll['trip']}}</td>
+                  <td>{{cll['Loading_duration_Hrs']}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+          <div class="col-6 pl-0 pr-0">
+            <div class="outer" style="min-height: 130px;">
+              <h6 style="text-align:center"><b class="charthead">Longest Unloading Vehicles</b></h6>
+              <table class="table table-bordered">
+                <thead class="thead">
+                    <th>Vehicle</th>
+                    <th>Site</th>
+                    <th>Transporter</th>
+                    <th>Trip</th>
+                    <th>UnLoading Time(in Hrs)</th>
+                </thead>
+                <tbody class="tbody">
+                  <tr *ngFor="let clu of consignmentLongestUnLoading">
+                  <td>{{clu['vehicle']}}</td>
+                  <td>{{clu['site_name']}}</td>
+                  <td>{{clu['transporter']}}</td>
+                  <td>{{clu['trip']}}</td>
+                  <td>{{clu['UnLoading_duration_Hrs']}}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row mr-0 mb-0 mt-2">
+          <div class="col-6 pl-0">
+            <div class="outer" style="min-height: 130px;">
+            <h6 style="text-align:center"><b class="charthead">Slowest Onward Vehicles</b></h6>
+            <table class="table table-bordered">
+              <thead class="thead">
+                <th>Vehicle No.</th>
+                <th>Transporter</th>
+                <th>Trip</th>
+                <th>KMPD</th>
+              </thead>
+              <tbody class="tbody">
+                <tr *ngFor="let cso of consignmentSlowestOnward">
+                  <td>{{cso['Vehicle Name']}}</td>
+                  <td>{{cso['Transporter']}}</td>
+                  <td>{{cso['Trip']}}</td>
+                  <td>{{cso['KMPD']}}</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+          </div>
+          <div class="col-6 pl-0 pr-0">
+            <div class="outer" style="min-height: 130px;">
+              <h6 style="text-align:center"><b class="charthead">Longest Parking Vehicles</b></h6>
+              <table class="table table-bordered">
+                <thead class="thead">
+                  <th>Vehicle No.</th>
+                  <th>Available Hours</th>
+                  <th>Location</th>
+                </thead>
+                <tbody class="tbody">
+                  <tr *ngFor="let tlve of trafficLongestVehicleEmpty">
+                    <td>{{tlve['Vehicle Name']}}</td>
+                    <td>{{tlve['Duration (HH:MM)']}}</td>
+                    <td>{{tlve['Location']}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  

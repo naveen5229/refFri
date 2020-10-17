@@ -1,15 +1,11 @@
-import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 
 import * as d3 from 'd3';
 import * as d3Scale from 'd3-scale';
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
 import * as d3Geo from "d3-geo";
-import * as d3Fetch from "d3-fetch";
 import * as topojson from "topojson-client";
-import { by } from 'protractor';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ConditionalExpr } from '@angular/compiler';
 import { ApiService } from '../../services/api.service';
 @Component({
   selector: 'hotspot-summary',

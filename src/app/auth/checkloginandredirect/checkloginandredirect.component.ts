@@ -19,7 +19,7 @@ export class CheckloginandredirectComponent implements OnInit {
   constructor(private route: ActivatedRoute, private common: CommonService,
     private user: UserService, private router: Router, private dataService: DataService,
     private api: ApiService) {
-      console.log("Testing");
+    console.log("Testing");
     let params = window.location.href.substr(window.location.href.indexOf('?') + 1).split('&');
     console.log(params);
     params.forEach(param => {
@@ -38,7 +38,7 @@ export class CheckloginandredirectComponent implements OnInit {
     console.log('frompage:', this.frompage);
     let details = this.common.parseJwt(this.token);
     let walle8details = this.common.parseJwt(this.oldtoken);
-    console.log("Walle8Details:",walle8details);
+    console.log("Walle8Details:", walle8details);
 
     console.log('Details:', details, walle8details);
     if (details) {
@@ -73,6 +73,10 @@ export class CheckloginandredirectComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  ngAfterViewInit() {
+    document.getElementById('nb-global-spinner').style.display = 'none';
   }
 
   getUserPagesList(iswallet) {

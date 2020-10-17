@@ -1,9 +1,4 @@
 import { Component } from '@angular/core';
-import { RouteGuard } from '../guards/route.guard';
-import { ADMIN_MENU_ITEMS } from './admin-menu';
-import { from } from 'rxjs';
-import { routes } from '@nebular/auth';
-import { DataService } from '../services/data.service';
 import { UserService } from '../services/user.service';
 import { CommonService } from '../services/common.service';
 import { Router } from '@angular/router';

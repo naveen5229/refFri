@@ -52,6 +52,7 @@ export class SmartTableComponent implements OnInit {
     console.log('Data', this.data);
     this.setData();
     this.activeRow = -1;
+    this.cdr.detectChanges();
   }
 
   ngAfterViewInit() {
@@ -62,20 +63,24 @@ export class SmartTableComponent implements OnInit {
     this.data.columns.map((column, index) => column._smartId = index);
     this.headings = this.data.headings;
     if (this.settings.pagination) {
-      this.handlePagination(this.pages.active);
+      // this.handlePagination(this.pages.active);
       this.pages.count = Math.floor(this.data.columns.length / this.pages.limit);
       if (this.data.columns.length % this.pages.limit) {
         this.pages.count++;
       }
+      if (this.pages.count < this.pages.active) {
+        this.pages.active = this.pages.count;
+      }
+      this.handlePagination(this.pages.active);
     } else {
       this.columns = this.data.columns
     }
 
-    this.cdr.detectChanges();
     if (this.search.txt && this.search.key) {
       this.headings[this.search.key].value = this.search.txt;
       this.filterData(this.search.key)
     };
+    this.cdr.detectChanges();
   }
 
   filterData(key) {
@@ -182,6 +187,7 @@ export class SmartTableComponent implements OnInit {
     this.sortType = this.sortType == 'desc' ? 'asc' : 'desc';
     if (this.returnFilteredData)
       this.filtered.emit(this.columns);
+    this.cdr.detectChanges();
   }
 
   handleRowClick(column, index) {
@@ -193,6 +199,7 @@ export class SmartTableComponent implements OnInit {
         this.activeRows.splice(this.activeRows.indexOf(column._smartId), 1);
       }
     } else column.rowActions.click();
+    this.cdr.detectChanges();
   }
 
   isItActive(column) {
@@ -211,12 +218,14 @@ export class SmartTableComponent implements OnInit {
     if (column[heading].colActions && column[heading].colActions.dblclick) {
       column[heading].colActions.dblclick()
     }
+    this.cdr.detectChanges();
   }
 
   handleMouseHover(column, heading) {
     if (column[heading] && column[heading].colActions && column[heading].colActions.mouseover) {
       column[heading].colActions.mouseover()
     }
+    this.cdr.detectChanges();
   }
 
   /**
@@ -228,6 +237,7 @@ export class SmartTableComponent implements OnInit {
     if (column[heading] && column[heading].colActions && column[heading].colActions.mouseout) {
       column[heading].colActions.mouseout()
     }
+    this.cdr.detectChanges();
   }
 
   /**
@@ -238,16 +248,16 @@ export class SmartTableComponent implements OnInit {
     let startIndex = this.pages.limit * (this.pages.active - 1);
     let lastIndex = (this.pages.limit * this.pages.active);
     this.columns = this.data.columns.slice(startIndex, lastIndex);
+    this.cdr.detectChanges();
   }
 
-  customPage() {
-    this.common.loading++;
-    this.isTableHide = true;
+  customPage(event) {
+    console.log('Event:', event);
+    event.preventDefault();
+    event.stopPropagation();
+    this.cdr.detectChanges();
     this.setData();
-    setTimeout(() => {
-      this.common.loading--;
-      this.isTableHide = false;
-    }, 100);
+    this.cdr.detectChanges();
   }
 
   /**
@@ -263,6 +273,7 @@ export class SmartTableComponent implements OnInit {
       this.edit.column = JSON.parse(JSON.stringify(column));
       this.edit.heading = heading;
     }
+    this.cdr.detectChanges();
   }
 
   /**
@@ -273,6 +284,7 @@ export class SmartTableComponent implements OnInit {
     this.edit.row = -1;
     this.edit.column = null;
     this.edit.heading = '';
+    this.cdr.detectChanges();
   }
 
   /**
@@ -281,6 +293,7 @@ export class SmartTableComponent implements OnInit {
   saveEdit(editedColumn: any) {
     this.settings.editableAction({ current: editedColumn, old: this.edit.column });
     this.resetColumn(editedColumn);
+    this.cdr.detectChanges();
   }
 
   /**
@@ -291,10 +304,12 @@ export class SmartTableComponent implements OnInit {
   handleCheckboxChange(event, action) {
     action(event.target.checked);
     event.stopPropagation();
+    this.cdr.detectChanges();
   }
 
   isEventBinding(column, property, event) {
     column[property] && column[property](event);
+    this.cdr.detectChanges();
   }
 
   isPropertyBinding(column, property, byDefault = '') {
@@ -339,6 +354,7 @@ export class SmartTableComponent implements OnInit {
     } else if (actionLevel === 'icon') {
       icon.action && icon.action();
     }
+    this.cdr.detectChanges();
 
   }
 
@@ -352,6 +368,7 @@ export class SmartTableComponent implements OnInit {
         column.rowActions.dblclick()
       }
     }
+    this.cdr.detectChanges();
   }
 
   jrxColumActions(actionType, column, heading, index) {
@@ -364,6 +381,7 @@ export class SmartTableComponent implements OnInit {
     } else if (actionType === 'mouseout') {
       this.handleMouseOut(column, heading)
     }
+    this.cdr.detectChanges();
   }
 
 }
