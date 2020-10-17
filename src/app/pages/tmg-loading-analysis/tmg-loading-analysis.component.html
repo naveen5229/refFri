@@ -1,55 +1,72 @@
 <div class="contentsection">
-    <div class="row mb-2 mr-0 mb-0">
-      <div class="col-6 pl-0">
-        <div class="outer" style="min-height: 300px;">
-          <h6 style="text-align:center"><b class="charthead">Avg Load Time Graph</b></h6>
-          <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-          [options]="chart.options">
+  <div class="row mb-2 mr-0 mb-0">
+    <div class="col-6 pl-0">
+      <div class="outer" style="min-height: 300px;">
+        <h6 style="text-align:center"><b class="charthead">Avg Load Time Graph</b></h6>
+        <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetLoadingtat',{groupdays: 7,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i></p>
+        <chart [type]="chart.type" [data]="chart.data"
+          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart.options">
         </chart>
-        </div>
-      </div>
-      <div class="col-6 pl-0">
-        <div class="outer" style="min-height: 150px;">
-          <h6 style="text-align:center"><b class="charthead">Worst 3 Sites (30 days)</b></h6>
-          <table class="table table-bordered">
-            <thead class="thead">
-              <th>Location</th>
-              <th>Trips</th>
-              <th>Duration (Hrs)</th>
-            </thead>
-            <tbody class="tbody">
-              <tr *ngFor="let ls of loadingSlowest">
-                <td>{{ls['loc_name']}}</td>
-                <td>{{ls['tripcount']}}</td>
-                <td>{{ls['duration_Hrs']}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="outer" style="min-height: 150px;">
-          <h6 style="text-align:center"><b class="charthead">Worst 3 Sites (7 days)</b></h6>
-          <table class="table table-bordered">
-            <thead class="thead">
-              <th>Location</th>
-              <th>Trips</th>
-              <th>Duration (Hrs)</th>
-            </thead>
-            <tbody class="tbody">
-              <tr *ngFor="let ls of loadingSlowest7days">
-                <td>{{ls['loc_name']}}</td>
-                <td>{{ls['tripcount']}}</td>
-                <td>{{ls['duration_Hrs']}}</td>
-              </tr>
-            </tbody>
-          </table>
       </div>
     </div>
+    <div class="col-6 pl-0">
+      <div class="outer" style="min-height: 150px;">
+        <h6 style="text-align:center"><b class="charthead">Worst 3 Loading Sites (30 days)</b></h6>
+        <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/getLoadingSlowest',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
+        <table class="table table-bordered">
+          <thead class="thead">
+            <th>Location</th>
+            <th>Trips</th>
+            <th>Duration (Hrs)</th>
+          </thead>
+          <tbody class="tbody">
+            <tr *ngFor="let ls of loadingSlowest">
+              <td class="link"
+                (click)="getDetials(ls._url,{ts:'tst',fromdate:ls._fromdate,todate:ls._todate,stepno:'1',totalrecord:ls._totalrecord,jparam:ls.loc_name})">
+                {{ls['loc_name']}}</td>
+              <td>{{ls['tripcount']}}</td>
+              <td>{{ls['duration_Hrs']}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="outer" style="min-height: 150px;">
+        <h6 style="text-align:center"><b class="charthead">Worst 3 Loading Sites (7 days)</b></h6>
+        <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/getLoadingSlowest',{totalrecord: 3,stepno: -1},7)"><i title="More Details" class="fa fa-list"></i>
+        </p>
+        <table class="table table-bordered">
+          <thead class="thead">
+            <th>Location</th>
+            <th>Trips</th>
+            <th>Duration (Hrs)</th>
+          </thead>
+          <tbody class="tbody">
+            <tr *ngFor="let ls of loadingSlowest7days">
+              <td class="link"
+                (click)="getDetials(ls._url,{ts:'tst',fromdate:ls._fromdate,todate:ls._todate,stepno:'1',totalrecord:ls._totalrecord,jparam:ls.loc_name})">
+                {{ls['loc_name']}}</td>
+              <td>{{ls['tripcount']}}</td>
+              <td>{{ls['duration_Hrs']}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-     <div class="row mb-2 mr-0 mb-0">
-      <div class="col-6 pl-0">
-        <div class="outer" style="min-height: 145px;">
-          <h6 style="text-align:center"><b class="charthead">Most Aged</b></h6>
-          <table class="table table-bordered">
+  </div>
+  <div class="row mb-2 mr-0 mb-0">
+    <div class="col-6 pl-0">
+      <div class="outer" style="min-height: 145px;">
+        <h6 style="text-align:center"><b class="charthead">Most Aged</b></h6>
+        <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetLoadingAged',{groupdays: 7,totalrecord: 3,stepno: -1},30)"><i title="More Details" title="More Details"
+            class="fa fa-list"></i></p>
+        <chart *ngIf="chart2.type" [type]="chart2.type" [data]="chart2.dataSet"
+          style="margin-right:5px;min-height: 300px;max-height: 300px;" [options]="chart2.options"></chart>
+        <!-- <table class="table table-bordered">
             <thead class="thead">
               <th>Location</th>
               <th>Trips</th>
@@ -62,30 +79,48 @@
                 <td>{{la['duration_hh_MM']}}</td>
               </tr>
             </tbody>
-          </table>
-        </div>
+          </table> -->
       </div>
-      <div class="col-6 pl-0">
-        <div class="outer" style="min-height: 145px;">
-          <h6 style="text-align:center"><b class="charthead">Lowest Loads (Last 30 Days)</b></h6>
-          <table class="table table-bordered">
-            <thead class="thead">
-              <th>Transporter</th>
-              <th>Trip Counts</th>
-              <th>Duration (Hrs)</th>
-            </thead>
-            <tbody class="tbody">
-              <tr *ngFor="let tsl of transportarSlowestLoad ">
-                <td>{{tsl['transporter']}}</td>
-                <td>{{tsl['tripcount']}}</td>
-                <td>{{tsl['duration_Hrs']}}</td>
-              </tr>
-            </tbody>
-           
-          </table>
-        </div>
-      </div>
-     
     </div>
-    
+    <div class="col-6 pl-0">
+      <div class="outer" style="min-height: 150px;">
+        <h6 style="text-align:center"><b class="charthead">Worst 3 Parking Sites (30 days)</b></h6>
+        <!-- <p style="text-align: right; margin-top: -25px;" class="link" (click)="getDetials('Tmgreport/getLoadingSlowest',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i></p> -->
+        <table class="table table-bordered">
+          <thead class="thead">
+            <th>Location</th>
+            <th>Trips</th>
+            <th>Duration (Hrs)</th>
+          </thead>
+          <tbody class="tbody">
+            <!-- <tr *ngFor="let ls of loadingSlowest">
+                <td>{{ls['loc_name']}}</td>
+                <td>{{ls['tripcount']}}</td>
+                <td>{{ls['duration_Hrs']}}</td>
+              </tr> -->
+          </tbody>
+        </table>
+      </div>
+      <div class="outer" style="min-height: 150px;">
+        <h6 style="text-align:center"><b class="charthead">Worst 3 Parking Sites (7 days)</b></h6>
+        <!-- <p style="text-align: right; margin-top: -25px;" class="link" (click)="getDetials('Tmgreport/getLoadingSlowest',{totalrecord: 3,stepno: -1},7)"><i title="More Details" class="fa fa-list"></i></p> -->
+        <table class="table table-bordered">
+          <thead class="thead">
+            <th>Location</th>
+            <th>Trips</th>
+            <th>Duration (Hrs)</th>
+          </thead>
+          <tbody class="tbody">
+            <!-- <tr *ngFor="let ls of loadingSlowest7days">
+                <td>{{ls['loc_name']}}</td>
+                <td>{{ls['tripcount']}}</td>
+                <td>{{ls['duration_Hrs']}}</td>
+              </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
+
+</div>

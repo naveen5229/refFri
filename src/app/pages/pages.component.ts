@@ -37,14 +37,14 @@ export class PagesComponent {
     }
   }
 
-  ngAfterViewInit() {
-    document.getElementsByTagName('nb-sidebar')[0]['onclick'] = event => {
-      let srcElement = event.srcElement;
-      if (srcElement.className === 'menu-title' && srcElement.tagName === 'SPAN') {
-        this.handleMenuClick(srcElement.parentElement.text, srcElement.parentElement.hash.replace(/#\//, ''));
-      }
-    }
-  }
+  // ngAfterViewInit() {
+  //   document.getElementsByTagName('nb-sidebar')[0]['onclick'] = event => {
+  //     let srcElement = event.srcElement;
+  //     if (srcElement.className === 'menu-title' && srcElement.tagName === 'SPAN') {
+  //       this.handleMenuClick(srcElement.parentElement.text, srcElement.parentElement.hash.replace(/#\//, ''));
+  //     }
+  //   }
+  // }
 
   handleMenuClick(title: string, link: string) {
     if (title === 'Vehicle Tracking') {

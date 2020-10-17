@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
@@ -543,5 +544,20 @@ export class TmgTransporterAnalysisComponent implements OnInit {
           }]
         }
       };
-  }
+    }
+      getDetials(url,params){
+        let dataparams = {
+          view: {
+            api: url,
+            param: params,
+            type:'post'
+          },
+          
+          title: 'Details'
+        }
+        console.log("dataparams=",dataparams);
+        this.common.handleModalSize('class', 'modal-lg', '1100');
+        this.common.params = { data: dataparams };
+        const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      }   
 }
