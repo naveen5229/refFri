@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
     public activity: ActivityService,
     private router: Router, private iconLibraries: NbIconLibraries,
     public api: ApiService) {
-      // NbIconPack
+    // NbIconPack
     this.iconLibraries.registerFontPack('font-awesome', { packClass: 'fa' });
     this.iconLibraries.setDefaultPack('font-awesome');
     if (this.user._details) {
@@ -66,7 +66,13 @@ export class AppComponent implements OnInit {
     };
     let subscription = this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
+        console.log('jrx:', res);
         this.user._pages = res['data'].filter(page => {
+          if (this.user._details.tag_model_type != 1 && page.route == '/walle8/tag-summary') {
+            return false;
+          } else if (this.user._details.tag_model_type == 1 && page.route == '/walle8/tag-summary') {
+            return true;
+          }
           if (localStorage.getItem('iswallet') === '1')
             return true;
           return page.userid;
