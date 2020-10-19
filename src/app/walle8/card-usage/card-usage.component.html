@@ -16,12 +16,17 @@
 
     <div class="row m-0 p-3" style="background-color:white;">
       <div class="col-3 pl-3">
-        <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
-          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
+        <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"
+                                        [isTime]="false">
+                                    </uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly> -->
       </div>
       <div class="col-3">
-        <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
-          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
+        <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false [isStart]="false">
+        </uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
+          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly> -->
       </div>
       <div class="col-3">
         <button class="btn customButton" type="button" (click)="getcardUsage()">Submit</button>

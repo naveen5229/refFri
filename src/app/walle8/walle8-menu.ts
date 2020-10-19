@@ -33,6 +33,12 @@ export const WALLE8_MENU_ITEMS = JSON.stringify([
         home: true,
     },
     {
+        title: 'Tag Summary',
+        icon: 'fa-credit-card',
+        link: '/walle8/tag-summary',
+        home: true,
+    },
+    {
         title: 'Latest Recharge',
         icon: 'fa-credit-card',
         link: '/walle8/latest-recharge',

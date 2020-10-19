@@ -5,7 +5,8 @@
         <h5>Lorry Receipts</h5>
       </div>
       <div class="col-sm-1">
-        <i class="fa fa-file-pdf" (click)="common.getPDFFromTableId('tblLorryReceipt')"></i>
+        <!-- <i class="fa fa-file-pdf" (click)="common.getPDFFromTableId('tblLorryReceipt')"></i> -->
+        <i class="fa fa-file-pdf pdf-icon" (click)="printPDF();"></i>
       </div>
       <div class="col-sm-2 text-right">
         <button (click)="openGenerateLr(false)" *ngIf="user.permission.add" class="btn btn-primary">LR Generate</button>
