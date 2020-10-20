@@ -545,19 +545,25 @@ export class TmgTransporterAnalysisComponent implements OnInit {
         }
       };
     }
-      getDetials(url,params){
-        let dataparams = {
-          view: {
-            api: url,
-            param: params,
-            type:'post'
-          },
-          
-          title: 'Details'
-        }
-        console.log("dataparams=",dataparams);
-        this.common.handleModalSize('class', 'modal-lg', '1100');
-        this.common.params = { data: dataparams };
-        const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-      }   
+    getDetials(url, params, days = 0) {
+      let dataparams = {
+        view: {
+          api: url,
+          param: params,
+          type: 'post'
+        },
+  
+        title: 'Details'
+      }
+      if (days) {
+        let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+        let endDate = new Date();
+        dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
+        dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
+      }
+      console.log("dataparams=", dataparams);
+      this.common.handleModalSize('class', 'modal-lg', '1100');
+      this.common.params = { data: dataparams };
+      const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    }
 }

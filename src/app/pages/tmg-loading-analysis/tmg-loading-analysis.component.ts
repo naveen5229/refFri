@@ -3,6 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import * as _ from "lodash";
+
 
 @Component({
   selector: 'tmg-loading-analysis',
@@ -417,89 +419,53 @@ export class TmgLoadingAnalysisComponent implements OnInit {
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
-  handleChart2(fromdate, todate) {
-    let yaxis = [];
+  handleChart2(fromdate, todate) {  
     let xaxis = [];
-    let ids = [];
-    this.loadingAged.map(tlt => {
-      xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Avg hrs']);
-      ids.push(tlt['_id']);
-    });
-    let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
+    let Periods = _.groupBy(this.loadingAged, 'Period');
+    console.log('Periods ',Periods);
+    let site_names = _.groupBy(this.loadingAged, 'site_name');
+    let yaxis = [];
+    let datasets = Object.keys(site_names)
+      .map(site_name => {
+        let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        yaxis.push(...site_names[site_name].map(item => item['loadcount']))
+        return {
+          label: site_name,
+          backgroundColor: color,
+          borderColor: color,
+          fill: false,
+          pointHoverRadius: 8,
+          borderWidth: 3,
+          data: this.common.chartScaleLabelAndGrid(site_names[site_name].map(item => item['loadcount'])).scaleData
+        }
+      });
+    // let datasets = Object.keys(sites)
+    // .map(site => {
+    //   let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+    //   yaxis.push(...sites[site].map(item => item['loadcount']))
+    //   return {
+    //     label: site,
+    //     backgroundColor: color,
+    //     borderColor: color,
+    //     borderWidth: 1,
+    //     data: sites[site].map(item => item['loadcount'])
+    //   }
+    // });
+    console.log('DataSets:', datasets);
     console.log("handleChart2", xaxis, yaxis);
-    this.chart2.type = 'line'
-    this.chart2.data =  [
-      {        
-        type: "line",  
-        dataPoints: [
-        { x: 10, y: 21 },
-        { x: 20, y: 25},
-        { x: 30, y: 20 },
-        { x: 40, y: 25 },
-        { x: 50, y: 27 },
-        { x: 60, y: 28 },
-        { x: 70, y: 28 },
-        { x: 80, y: 24 },
-        { x: 90, y: 26}
-      
-        ]
-      },
-        {        
-        type: "line",
-        dataPoints: [
-        { x: 10, y: 31 },
-        { x: 20, y: 35},
-        { x: 30, y: 30 },
-        { x: 40, y: 35 },
-        { x: 50, y: 35 },
-        { x: 60, y: 38 },
-        { x: 70, y: 38 },
-        { x: 80, y: 34 },
-        { x: 90, y: 44}
-      
-        ]
-      },
-        {        
-        type: "line",
-        dataPoints: [
-        { x: 10, y: 45 },
-        { x: 20, y: 50},
-        { x: 30, y: 40 },
-        { x: 40, y: 45 },
-        { x: 50, y: 45 },
-        { x: 60, y: 48 },
-        { x: 70, y: 43 },
-        { x: 80, y: 41 },
-        { x: 90, y: 28}
-      
-        ]
-      },
-        {        
-        type: "line",
-        dataPoints: [
-        { x: 10, y: 71 },
-        { x: 20, y: 55},
-        { x: 30, y: 50 },
-        { x: 40, y: 65 },
-        { x: 50, y: 95 },
-        { x: 60, y: 68 },
-        { x: 70, y: 28 },
-        { x: 80, y: 34 },
-        { x: 90, y: 14}
-      
-        ]
-      }
-      ],
+    this.chart2.type = 'line';
+    this.chart2.data = {
+      labels: Object.keys(Periods),
+      datasets
+    };
         this.chart2.options = {
         responsive: true,
         legend: {
           position: 'bottom',
-          display: false
+          display: true
         },
         scaleLabel: {
           display: true,
-          labelString: 'Avg hrs' + yaxisObj.yaxisLabel,
           fontSize: 17,
         },
 
@@ -517,36 +483,15 @@ export class TmgLoadingAnalysisComponent implements OnInit {
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: 'Avg hrs' + yaxisObj.yaxisLabel
             },
-            ticks: { stepSize: yaxisObj.gridSize },
-            suggestedMin: yaxisObj.minValue,
-          },
+            
+          }
 
 
           ]
         },
-        onClick: (e, item) => {
-          let idx = item[0]['_index'];
-          // let xax = xaxis[idx];
-          // let yax = yaxis[idx];
-          let params = {
-            stepno: 1,
-            jsonparam: ids[idx],
-            fromdate: fromdate,
-            todate: todate,
-            groupdays: 7
-          }
-          this.getDetials('Tmgreport/GetLoadingtat', params)
-
-        }
-        // scales: {
-        //   yAxes: [{
-        //     ticks: { stepSize: 50000},
-        //   }]
-        //  },
-
+    
       };
-
+console.log("chart2----",this.chart2);
   }
 }

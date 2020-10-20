@@ -64,7 +64,7 @@
         <p style="text-align: right; margin-top: -25px;" class="link"
           (click)="getDetials('Tmgreport/GetLoadingAged',{groupdays: 7,totalrecord: 3,stepno: -1},30)"><i title="More Details" title="More Details"
             class="fa fa-list"></i></p>
-        <chart *ngIf="chart2.type" [type]="chart2.type" [data]="chart2.dataSet"
+        <chart *ngIf="chart2.type" [type]="chart2.type" [data]="chart2.data"
           style="margin-right:5px;min-height: 300px;max-height: 300px;" [options]="chart2.options"></chart>
         <!-- <table class="table table-bordered">
             <thead class="thead">
