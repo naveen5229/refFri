@@ -20,7 +20,7 @@ export class GraphicalReportsComponent implements OnInit {
   addFilterDropData = false;
   btnName = 'Filter Raw Data'
   checked:Boolean;
-  active = 1;
+  active = null;
   selectedChart = 'pie';
   processList = [];
   reportPreviewData = [];
@@ -59,27 +59,32 @@ chartTypes = [
   {
     id:1,
     type:'pie',
-    url:"./assets/images/charts/piechart.jpg"
+    url:"./assets/images/charts/piechart.jpg",
+    blur:true
   },
   {
     id:2,
     type:'bar',
-    url:"./assets/images/charts/barchart.png"
+    url:"./assets/images/charts/barchart.png",
+    blur:true
   },
   {
     id:3,
-    type:'bubble',
-    url:"./assets/images/charts/bubblechart.png"
+    type:'line',
+    url:"./assets/images/charts/linechart.png",
+    blur:true
   },
   {
     id:4,
-    type:'line',
-    url:"./assets/images/charts/linechart.png"
+    type:'bubble',
+    url:"./assets/images/charts/bubblechart.png",
+    blur:true
   },
   {
     id:5,
     type:'table',
-    url:"./assets/images/charts/table.webp"
+    url:"./assets/images/charts/table.webp",
+    blur:true
   }
 ]
 
@@ -89,6 +94,7 @@ dropdownFilter = [];
     public common: CommonService,
     public api: ApiService,) { 
       this.getSideBarList();
+      this.getSavedReportList();
     }
 
   ngOnInit(): void {
@@ -143,7 +149,7 @@ dropdownFilter = [];
 
   getSavedReportList(){
     this.common.loading++;
-    this.api.get(`Processes/getGraphicalReportListByProcess?processId=${this.processId['_id']}`).subscribe(res => {
+    this.api.get(`GraphicalReport/getGraphicalReportList`).subscribe(res => {
       this.common.loading--;
       this.savedReports = [];
       if(res['code'] == 1){
@@ -153,7 +159,6 @@ dropdownFilter = [];
         this.common.showError(res['msg']);
       }
       console.log('savedData:',this.savedReports);
-
     }, err => {
       this.common.loading--;
       console.log(err);
@@ -168,35 +173,35 @@ dropdownFilter = [];
   }
 
 
-  // openPreviewModal(){
-  //   let objectLength = Object.keys(this.savedReportSelect).length
+  openPreviewModal(){
+    let objectLength = Object.keys(this.savedReportSelect).length
   
-  //   console.log(this.savedReportSelect,'preview data')
-  //   if(objectLength >0){
-  //   this.reportIdUpdate = this.savedReportSelect['_id'];
-  //   this.assign.reportFileName = this.savedReportSelect['name'];
-  //   this.graphBodyVisi = false;
-  //   console.log('this.savedReportSelect:',this.savedReportSelect);
-  //   this.assign.x = this.savedReportSelect['x'];
-  //   this.assign.y = this.savedReportSelect['y'];
-  //   this.assign.filter = this.savedReportSelect['report_filter'];
-  //   this.getReportPreview();
-  // }else{
-  //   this.reportIdUpdate = null;
-  //   this.assign.reportFileName = ''
-  //   this.graphBodyVisi = true;
-  //   this.common.showError('Please Select Report')
-  // }
-    // document.getElementById('graphPreview').style.display = 'block';
-    // console.log('viewData',this.assign)
+    console.log(this.savedReportSelect,'preview data')
+    if(objectLength >0){
+      this.reportIdUpdate = this.savedReportSelect['_id'];
+      this.assign.reportFileName = this.savedReportSelect['name'];
+      this.graphBodyVisi = false;
+      console.log('this.savedReportSelect:',this.savedReportSelect);
+      this.assign.x  = this.savedReportSelect['jData']['info']["x"];
+      this.assign.y  = this.savedReportSelect['jData']['info']["y"];
+      this.assign.filter = this.savedReportSelect['jData']['filter'];
+      this.getReportPreview();
+  }else{
+    this.reportIdUpdate = null;
+    this.assign.reportFileName = ''
+    this.graphBodyVisi = true;
+    this.common.showError('Please Select Report')
+  }
+    document.getElementById('graphPreview').style.display = 'block';
+    console.log('viewData',this.assign)
 
-  // }
+  }
 
-  // editGraph(){
-  //   this.editState =true;
-  //   this.graphBodyVisi = true;
-  //   this.getReportPreview();
-  // }
+  editGraph(){
+    this.editState =true;
+    this.graphBodyVisi = true;
+    this.getReportPreview();
+  }
   resetAssignForm(){
     this.assign = {
       x:[],
@@ -217,6 +222,7 @@ dropdownFilter = [];
         tableHeight: '45vh',
       }
     }
+    this.blurChartImage([true,true,true,true,true]);
     this.reportIdUpdate =null;
     this.reportPreviewData = [];
     this.graphPieCharts.forEach(ele => ele.destroy());
@@ -575,18 +581,14 @@ dropdownFilter = [];
 
     let info = {x:this.assign.x,y:this.assign.y};
     let params = {
-    processId:this.processId['_id'],
-    reportFilter:this.assign.filter? JSON.stringify(this.assign.filter) : JSON.stringify([]),
-    info:JSON.stringify(info),
+    jData:JSON.stringify({filter:this.assign.filter,info:this.assign}),
     name: this.assign.reportFileName,
-    reportId:null,
-    isActive:true,
-    requestId:reqID
+    id:reqID
   };
 
   if(params.name){
     this.common.loading++;
-    this.api.post('Processes/saveGraphicalReport',params).subscribe(res=>{
+    this.api.post('GraphicalReport/saveGraphicalReportList',params).subscribe(res=>{
       this.common.loading--;
         if(res['code'] == 1){
           if (res['data'][0].y_id > 0) {
@@ -637,11 +639,10 @@ dropdownFilter = [];
             if(res['data']){
             this.reportPreviewData = res['data'];
             if(this.assign.x.length > 1 || this.assign.y.length > 1){
-              this.active = 2;
-              this.selectedChart = 'bar';
+              this.blurChartImage([true,false,false,false,false]);
             }else{
-              this.active = 1;
-              this.selectedChart = 'pie';}
+              this.blurChartImage([false,false,false,false,false]);
+            }
             console.log('chart data',this.reportPreviewData)
             // this.showChart(this.reportPreviewData,'pie');
             this.getChartofType(this.selectedChart);
@@ -670,7 +671,7 @@ dropdownFilter = [];
       if(chartType === 'table'){
         document.getElementById('table').style.display ='block';
         document.getElementById('graph').style.display ='none';
-        this.getTable();
+        this.getTable(this.reportPreviewData);
       }else{
         document.getElementById('table').style.display ='none';
         document.getElementById('graph').style.display ='block';
@@ -681,16 +682,17 @@ dropdownFilter = [];
     // }
   }
 
-  getTable(){
+  getTable(stateTableData){
+    stateTableData = this.changeDataForXMulti(stateTableData);
     this.tableGraph.data = {
-      headings:this.setHeaders(),
-      columns: this.setColumns() 
+      headings:this.setHeaders(stateTableData),
+      columns: this.setColumns(stateTableData) 
     };
     return true;;
   }
-  setHeaders(){
+  setHeaders(stateTableData){
     let headers = [];
-    this.reportPreviewData.map(ele=> {headers.push(ele.series['y_name'])});
+    stateTableData.map(ele=> {headers.push(ele.series['y_name'])});
     let head = headers;
     let headings = {};
     headings['X-Axis'] = { title: 'X-Axis',placeholder: 'X-Axis'}
@@ -700,17 +702,17 @@ dropdownFilter = [];
       return headings;
   }
 
-  setColumns(){
+  setColumns(stateTableData){
     let columns = [];
     let labels = [];
-    this.reportPreviewData[0].series.data.map(label=> {
+    stateTableData[0].series.data.map(label=> {
       labels.push(_.clone(label.name))
     });
     
-    console.log('preview of report',this.reportPreviewData);
+    console.log('preview of report',stateTableData);
 
-    for(let key in this.setHeaders()){
-    this.reportPreviewData.map((ele,index)=>{
+    for(let key in this.setHeaders(stateTableData)){
+      stateTableData.map((ele,index)=>{
       let column = {};
         console.log('key is',key,ele.y_name)
                 if(key === ele.series.y_name)
@@ -740,6 +742,63 @@ dropdownFilter = [];
     return columns;
   }
 
+  getRestSplit(str,seprator){
+    let rest = "";
+    str.split(seprator).map((e,index)=>{
+      if(index != 0)
+        rest = rest+e+seprator;
+    })
+    let lastIndex = rest.lastIndexOf(seprator);
+    return rest.substring(0, lastIndex);
+  }
+
+  changeDataForXMulti(stateTableData){
+    let stateTableDataLatest = [];
+    if(this.assign.x.length >= 2){
+      let seprator = ' | ';
+      stateTableData.map((stateTabledt,index) => {
+        let stateTableDataMap = {};
+        let xAxisDistinct = {};
+        JSON.parse(stateTableData[index].xAxis).map(condt=>{
+          if(!xAxisDistinct[condt.split(seprator)[0]])
+            xAxisDistinct[condt.split(seprator)[0]]=1;
+        });
+        let yAxisDistinct = {};
+        JSON.parse(stateTableData[0].xAxis).map(condt=>{
+          if(!yAxisDistinct[this.getRestSplit(condt,seprator)])
+            yAxisDistinct[this.getRestSplit(condt,seprator)]=1;
+        });
+        let yName = stateTabledt.series['y_name'];
+        let yAxis = stateTabledt.series['yaxis'];
+        stateTabledt.series.data.map(dt=>{
+          let splitFirst = dt.name.split(seprator)[0];
+          let splitRest = this.getRestSplit(dt.name,seprator);
+          let pushObj = {x:dt.x,y:dt.y,name:splitFirst};
+          if(stateTableDataMap[splitRest]){
+            if(stateTableDataMap[splitRest][splitFirst]){
+              stateTableDataMap[splitRest][splitFirst]=pushObj;
+            }else{
+              stateTableDataMap[splitRest][splitFirst]=pushObj;
+            }
+          }else{
+            stateTableDataMap[splitRest]={};
+            stateTableDataMap[splitRest][splitFirst]=pushObj;
+          }
+        });
+        Object.keys(yAxisDistinct).map(y=>{
+          let dataPut = [];
+          Object.keys(xAxisDistinct).map((x,xi)=>{
+            dataPut.push(stateTableDataMap[y][x]?stateTableDataMap[y][x]:{x:xi,y:0,name:x});
+          });
+          stateTableDataLatest.push({series:{data:dataPut,yaxis:yAxis,y_name:y+(this.assign.y.length > 1 ?'('+yName+')':'')},xAxis:"[\""+Object.keys(xAxisDistinct).join(",")+"\"]"});
+        });
+      });
+      stateTableData = stateTableDataLatest;
+    }
+    console.log('data manupulated x axis:',stateTableData);
+    return stateTableData;
+  }
+
   showChart(stateTableData,chartType) {
     this.graphPieCharts.forEach(ele => ele.destroy());
     console.log('data to send to chart module:',stateTableData);
@@ -749,46 +808,7 @@ dropdownFilter = [];
     let labels =[];
     let dataSet = [];
     let chartDataSet = [];
-
-    if(this.assign.x.length == 2){
-      let seprator = ' | ';
-      let stateTableDataMap = {};
-      let xAxisDistinct = {};
-      JSON.parse(stateTableData[0].xAxis).map(e=>{
-        if(!xAxisDistinct[e.split(seprator)[0]])
-          xAxisDistinct[e.split(seprator)[0]]=1;
-      });
-      let yAxisDistinct = {};
-      JSON.parse(stateTableData[0].xAxis).map(e=>{
-        if(!yAxisDistinct[e.split(seprator)[1]])
-          yAxisDistinct[e.split(seprator)[1]]=1;
-      });
-      stateTableData.map(e => {
-        e.series.data.map(dt=>{
-          let splitCal = dt.name.split(seprator);
-          let pushObj = {x:dt.x,y:dt.y,name:splitCal[0]};
-          if(stateTableDataMap[splitCal[1]]){
-            if(stateTableDataMap[splitCal[1]][splitCal[0]]){
-              stateTableDataMap[splitCal[1]][splitCal[0]]=pushObj;
-            }else{
-              stateTableDataMap[splitCal[1]][splitCal[0]]=pushObj;
-            }
-          }else{
-            stateTableDataMap[splitCal[1]]={};
-            stateTableDataMap[splitCal[1]][splitCal[0]]=pushObj;
-          }
-        });
-      });
-      stateTableData = [];
-      Object.keys(yAxisDistinct).map(y=>{
-        let dataPut = [];
-        Object.keys(xAxisDistinct).map((x,i)=>{
-          dataPut.push(stateTableDataMap[y][x]?stateTableDataMap[y][x]:{x:i,y:0,name:x});
-        });
-        stateTableData.push({series:{data:dataPut,y_name:y},xAxis:"[\""+Object.keys(xAxisDistinct).join(",")+"\"]"});
-      });
-      console.log('data manupulated x axis:',stateTableData);
-    }
+    stateTableData = this.changeDataForXMulti(stateTableData);
 
     if(stateTableData.length == 1){
     stateTableData.map(e=>{
@@ -800,7 +820,7 @@ dropdownFilter = [];
     console.log('data after label:',stateTableData);
     
     stateTableData.map(e=> {
-      dataSet.push({label:e.series.y_name,data:[],bgColor:[]});
+      dataSet.push({label:e.series.y_name,data:[],bgColor:[],yAxesGroup:e.series.yaxis});
         dataSet.map(sub=>{
           if(sub.label === e.series.y_name){
             e.series.data.map(data => {
@@ -821,7 +841,7 @@ dropdownFilter = [];
       });
       
       stateTableData.map((e,index)=> {
-        dataSet.push({label:e.series.y_name,data:[],bgColor:['#1F618D', '#1E8449', '#A04000', '#B03A2E', '#922B21',
+        dataSet.push({label:e.series.y_name,data:[],yAxesGroup:e.series.yaxis,bgColor:['#1F618D', '#1E8449', '#A04000', '#B03A2E', '#922B21',
         '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
         '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF',
         '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
@@ -849,7 +869,9 @@ dropdownFilter = [];
             borderWidth: 1,
             lineTension:0,
             borderColor:data.bgColor[index] ? data.bgColor[index] : '#1AB399',
-            fill: false
+            yAxisID:data.yAxesGroup,
+            fill:false,
+            borderDash: (data.yAxesGroup=='y-right'?[5, 5]:[5,0])
           })
       });
     }else{
@@ -863,6 +885,7 @@ dropdownFilter = [];
                 '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
                 '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
                 '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'],
+              yAxisID:data.yAxesGroup,
               borderWidth: 1
             })
         });}
@@ -878,17 +901,45 @@ dropdownFilter = [];
       showLegend: true
     };
     }else{
+      let yAxes = [];
+      if(this.assign.x.length > 1 && this.assign.y.length > 1 && this.assign.y.find(e=>{return e.yaxis == 'y-left'}) && this.assign.y.find(e=>{return e.yaxis == 'y-right'})){
+        yAxes.push({
+          name: 'y-left',
+          id: 'y-left',
+          position: 'left',
+          scalePositionLeft: true,
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1
+          }
+        },{
+          name: 'y-right',
+          id: 'y-right',
+          position: 'right',
+          scalePositionLeft: false,
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1
+          }
+        });
+      }else{
+        yAxes.push({
+          name: 'y-left',
+          id: 'y-left',
+          position: 'left',
+          scalePositionLeft: true,
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1
+          }
+        });
+      }
       chartData = {
         canvas: document.getElementById('Graph'),
         data: chartDataSet,
         labels: labels,
         scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-              stepSize: 1
-            }
-          }],
+          yAxes: yAxes,
           xAxes: [{
             ticks: {
               beginAtZero: true,
@@ -915,11 +966,17 @@ dropdownFilter = [];
           datasets: chartData.data,
         },
         options: {
+          tooltips: {
+            mode: 'index',
+            intersect: false,
+            position:'nearest'
+          },
           scales: chartData.scales,
           responsive: true,
         }
       }));
     })
+    console.log('chartData Final',charts);
     return charts;
   }
 
@@ -939,6 +996,20 @@ dropdownFilter = [];
     setTimeout(() => {
       head.isHide = !head.isHide;
     }, 10);
+  }
+
+  blurChartImage(setBlur){
+    this.chartTypes.map((e,i)=>{e.blur = setBlur[i]});
+    let setIndex = this.chartTypes[0]['id'];
+    if(!setBlur.find((e,i)=>{setIndex = i;return !e;})){
+      this.active = null;
+      this.selectedChart = null;
+    }else{
+      if(!this.active || this.chartTypes[this.active-1].blur){
+        this.active = setIndex + 1;
+      }
+      this.selectedChart = this.chartTypes[this.active-1].type;
+    }
   }
 
 }
