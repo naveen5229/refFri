@@ -272,7 +272,7 @@ export class TmgTransporterAnalysisComponent implements OnInit {
   getTransportarSlowestLoad7days() {
     this.transportarSlowestLoad7days = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
