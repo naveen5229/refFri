@@ -1001,15 +1001,11 @@ dropdownFilter = [];
   blurChartImage(setBlur){
     this.chartTypes.map((e,i)=>{e.blur = setBlur[i]});
     let setIndex = this.chartTypes[0]['id'];
-    if(!setBlur.find((e,i)=>{setIndex = i;return !e;})){
-      this.active = null;
-      this.selectedChart = null;
-    }else{
-      if(!this.active || this.chartTypes[this.active-1].blur){
-        this.active = setIndex + 1;
-      }
-      this.selectedChart = this.chartTypes[this.active-1].type;
+    setBlur.find((e,i)=>{if(!e)setIndex = i;return !e;});
+    if(!this.active || this.chartTypes[this.active-1].blur){
+      this.active = setIndex + 1;
     }
+    this.selectedChart = this.chartTypes[this.active-1].type;
   }
 
 }
