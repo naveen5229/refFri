@@ -11,7 +11,7 @@ import { encode } from 'punycode';
 })
 export class ApiService {
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
-   URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
+   URL: string = 'http://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
   //  URL: string = 'http://localhost/booster_webservices/'; // Local
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
     // URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos

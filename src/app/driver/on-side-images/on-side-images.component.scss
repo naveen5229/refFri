@@ -1,0 +1,18 @@
+:host ::ng-deep .fa-map-marker{
+    color:blue;
+    font-size: 15px;
+    padding-left: 15px!important;
+}
+
+:host ::ng-deep .fa-image{
+    font-size: 15px;
+    padding-left:15px!important;
+}
+
+:host ::ng-deep .fa-map-marker:hover{
+    cursor: pointer;
+}
+
+:host ::ng-deep .fa-image:hover{
+    cursor: pointer;
+}
