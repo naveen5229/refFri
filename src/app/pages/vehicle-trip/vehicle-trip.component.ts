@@ -193,7 +193,7 @@ export class VehicleTripComponent implements OnInit {
       { class: 'fa fa-handshake-o trip-settlement', action: this.tripSettlement.bind(this, trip) },
       { class: 'fa fa-road route-view', action: this.vehicleInfo.bind(this, trip) },
     ];
-    this.user.permission.edit && icons.push({ class: 'fa fa-pencil-square-o  edit-btn', action: this.update.bind(this, trip) });
+    this.user.permission.edit && icons.push({ class: 'fas fa-edit  edit-btn', action: this.update.bind(this, trip) });
     this.user.permission.delete && icons.push({ class: " fa fa-trash remove", action: this.deleteTrip.bind(this, trip) });
 
     return icons;

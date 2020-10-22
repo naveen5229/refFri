@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DriverVehicleRemappingComponent } from '../../modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
+import { UserService } from '../../services/user.service';
 import { DriverStatusChangeComponent } from '../../modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from '../../modals/new-driver-status/new-driver-status.component';
 @Component({
@@ -21,6 +24,9 @@ export class VehicleDriverMappingComponent implements OnInit {
 
   constructor(
     public common: CommonService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
+    public user: UserService,
     public api: ApiService,
     private modalService: NgbModal,
   ) {
@@ -131,6 +137,23 @@ export class VehicleDriverMappingComponent implements OnInit {
       }
     });
 
+  }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Report: '+'Vehicle-Driver-Map']
+    ];
+    this.pdfService.jrxTablesPDF(['vehicleMapping'], 'vehicle-driver-map', details);
+  }
+
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,report:"Report:Vehicle-Driver-Map"}
+    ];
+    this.csvService.byMultiIds(['vehicleMapping'], 'vehicle-driver-map', details);
   }
 
   // mapDriverSecondry(driver) {

@@ -263,7 +263,7 @@ export class LoginComponent implements OnInit {
   otpResendActive() {
     if (this.otpCount > 0) {
       setTimeout(this.otpResendActive.bind(this, --this.otpCount), 1000);
-    }else {
+    } else {
       return this.common.showError("Session Expired & Login Again");
     }
   }
@@ -281,6 +281,13 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         this.loading--;
         this.user._pages = res['data'].filter(page => {
+          if (this.user._details.tag_model_type != 1 && page.route == '/walle8/tag-summary') {
+            return false;
+          } else if (this.user._details.tag_model_type == 1 && page.route == '/walle8/tag-summary') {
+            return true;
+          }
+          if (localStorage.getItem('iswallet') === '1')
+            return true;
           return page.userid;
         });
 

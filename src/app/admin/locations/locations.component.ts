@@ -112,7 +112,7 @@ export class LocationsComponent implements OnInit {
     })
   }
   OpenFoAlias(){
-    const activeModal = this.modalService.open(FoSiteAliasComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(FoSiteAliasComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // if (data.response) {
       this.saveLocation();

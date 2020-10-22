@@ -13,11 +13,13 @@ import { CsvService } from '../../services/csv/csv.service';
   styleUrls: ['./double-toll-report.component.scss']
 })
 export class DoubleTollReportComponent implements OnInit {
-  dates = {
-    start: null,
+  // dates = {
+  //   start: null,
 
-    end: this.common.dateFormatter(new Date()),
-  };
+  //   end: this.common.dateFormatter(new Date()),
+  // };
+  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  endDate = new Date();
   table = {
     data: {
       headings: {},
@@ -37,11 +39,11 @@ export class DoubleTollReportComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
-    let today = new Date();
-    let start = '';
-    let end = '';
-    start = this.common.dateFormatter1(today.setDate(today.getDate() - 30));
-    this.dates.start = start;
+    // let today = new Date();
+    // let start = '';
+    // let end = '';
+    // start = this.common.dateFormatter1(today.setDate(today.getDate() - 30));
+    // this.dates.start = start;
     // end = this.common.dateFormatter1(new Date(today.getDate()));
     this.getdoubleTollReport();
     this.common.refresh = this.refresh.bind(this);
@@ -55,49 +57,15 @@ export class DoubleTollReportComponent implements OnInit {
     this.getdoubleTollReport();
   }
 
-  getDate(date) {
-    this.common.params = { ref_page: "card usage" };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.dates);
-    });
-  }
-  // printPDF(tblEltId) {
-  //   this.common.loading++;
-  //   let userid = this.user._customer.id;
-  //   if (this.user._loggedInBy == "customer")
-  //     userid = this.user._details.id;
-  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       let fodata = res['data'];
-  //       let left_heading = fodata['name'];
-  //       let center_heading = "Double Toll Report";
-  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
+  // getDate(date) {
+  //   this.common.params = { ref_page: "card usage" };
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
+  //     console.log('Date:', this.dates);
+  //   });
   // }
-
-  // printCSV(tblEltId) {
-  //   this.common.loading++;
-  //   let userid = this.user._customer.id;
-  //   if (this.user._loggedInBy == "customer")
-  //     userid = this.user._details.id;
-  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       let fodata = res['data'];
-  //       let left_heading = fodata['name'];
-  //       let center_heading = "Double Toll Report";
-  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
+  
   setTable() {
     let headings = {
       vehreg: { title: 'Vehicle', placeholder: 'Vehicle' },
@@ -145,7 +113,7 @@ export class DoubleTollReportComponent implements OnInit {
   }
 
   getdoubleTollReport() {
-    let params = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
+    let params = "mobileno=" + this.user._details.fo_mobileno +"startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
     // console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('TollSummary/getDoubleTollReport.json?' + params)
@@ -170,7 +138,7 @@ export class DoubleTollReportComponent implements OnInit {
     let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
     console.log("Name:",name);
     let details = [
-      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.dates.start),'End Date: '+this.common.dateFormatter1(this.dates.end),  'Report: '+'Double-Toll']
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter(new Date(this.startDate)),'End Date: '+this.common.dateFormatter(new Date(this.endDate)),  'Report: '+'Double-Toll']
     ];
     this.pdfService.jrxTablesPDF(['doubleToll'], 'double-toll', details);
   }
@@ -178,7 +146,7 @@ export class DoubleTollReportComponent implements OnInit {
   printCSV(){
     let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
     let details = [
-      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.dates.start),enddate:'End Date:'+this.common.dateFormatter1(this.dates.end), report:"Report:Double-Toll"}
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter(new Date(this.startDate)),enddate:'End Date:'+this.common.dateFormatter(new Date(this.endDate)), report:"Report:Double-Toll"}
     ];
     this.csvService.byMultiIds(['doubleToll'], 'double-toll', details);
   }

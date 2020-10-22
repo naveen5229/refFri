@@ -138,7 +138,7 @@ export class TripSiteRuleComponent implements OnInit {
         ruleType: { value: doc.ruleName },
         action: {
           value: '', isHTML: false, action: null, icons: [
-            { class: 'fa fa-pencil-square-o  edit-btn', action: this.editRule.bind(this, doc) },
+            { class: 'fas fa-edit  edit-btn', action: this.editRule.bind(this, doc) },
             { class: " fa fa-trash remove", action: this.deleteRule.bind(this, doc) }
           ]
         },

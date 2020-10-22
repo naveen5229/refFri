@@ -76,3 +76,8 @@
 <div class="modal-footer mt-2">
   <button type="button" class="btn btn-primary" (click)="updateSiteAlias()">Update</button>
 </div>
+
+  <div class="mt-2">
+    <smart-table *ngIf="foAliases && foAliases.length" [data]="table.data" [settings]="table.settings">
+    </smart-table>
+  </div>

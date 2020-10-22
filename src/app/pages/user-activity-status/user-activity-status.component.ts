@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 @Component({
   selector: 'user-activity-status',
@@ -33,6 +35,8 @@ export class UserActivityStatusComponent implements OnInit {
 
 
   constructor(public api: ApiService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public common: CommonService,
     public modalService: NgbModal,
     private activeModal: NgbActiveModal,
@@ -155,42 +159,60 @@ export class UserActivityStatusComponent implements OnInit {
 
 
 
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "User Activity Statistics";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  // printPDF(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "User Activity Statistics";
+  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+  // printCsv(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = "FoName:" + fodata['name'];
+  //       let center_heading = "Report:" + "User Activity Statistics";
+  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"],'');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+
+
+  // }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.startDate),'End Date: '+this.common.dateFormatter1(this.endDate),  'Report: '+'User-Activity-Status']
+    ];
+    this.pdfService.jrxTablesPDF(['acivitySummary'], 'user-activity-status', details);
   }
 
-  printCsv(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = "FoName:" + fodata['name'];
-        let center_heading = "Report:" + "User Activity Statistics";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"],'');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-
-
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.startDate),enddate:'End Date:'+this.common.dateFormatter1(this.endDate), report:"Report:User-Activity-Status"}
+    ];
+    this.csvService.byMultiIds(['acivitySummary'], 'user-activity-status', details);
   }
+
 
 }
