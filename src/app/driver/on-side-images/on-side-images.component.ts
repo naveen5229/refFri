@@ -110,7 +110,7 @@ export class OnSideImagesComponent implements OnInit {
     if(request._url){
     let images = [{
       name: "Lr",
-      image: request._url ? request._url : '/assets/images/avtar.png',
+      image: request._url,
     }];
     this.common.params = { images, title: request.empname };
     const activeModal =  this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
