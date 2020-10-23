@@ -99,8 +99,8 @@ export class OnSideImagesComponent implements OnInit {
 
   actionIcons(request) {
     let icons=[
-    { class: "fa fa-map-marker", action: this.location.bind(this, request) },
-    { class: "fa fa-image", action: this.accept.bind(this, request) },
+    { class: (request._lat && request._long) ? 'fa fa-map-marker' : 'fa fa-map-marker disbale', action: this.location.bind(this, request) },
+    { class: request._url ? 'fa fa-image' : 'fa fa-image disbale', action: this.accept.bind(this, request) },
   ];
     return icons;
   }
@@ -114,9 +114,10 @@ export class OnSideImagesComponent implements OnInit {
     }];
     this.common.params = { images, title: request.empname };
     const activeModal =  this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "lrModal", });
-    }else{
-      this.common.showError('No Image Available')
     }
+    // else{
+    //   this.common.showError('No Image Available')
+    // }
   }
 
   location(request) {
@@ -128,13 +129,9 @@ export class OnSideImagesComponent implements OnInit {
     let title = 'Location';
     this.common.params = { location, title };
     console.log(this.common.params);
+    if(location.lng && location.lat){
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'xl', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      console.log("response:", data)
-      if (data && data.response) {
-        console.log("response:", data)
-      }
-    })
+    }
   }
 
 }
