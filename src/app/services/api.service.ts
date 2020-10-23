@@ -14,6 +14,7 @@ export class ApiService {
    URL: string = 'http://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
   //  URL: string = 'http://localhost/booster_webservices/'; // Local
   UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
+  // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
     // URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
    
   URL2 = 'http://elogist.in/transtruck/';

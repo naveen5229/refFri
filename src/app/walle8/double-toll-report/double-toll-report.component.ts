@@ -113,7 +113,7 @@ export class DoubleTollReportComponent implements OnInit {
   }
 
   getdoubleTollReport() {
-    let params = "mobileno=" + this.user._details.fo_mobileno +"startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
+    let params = "mobileno=" + this.user._details.fo_mobileno +"&startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
     // console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('TollSummary/getDoubleTollReport.json?' + params)
