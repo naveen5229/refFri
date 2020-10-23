@@ -64,6 +64,7 @@ export class DriverPersonalInfoComponent implements OnInit {
         this.DOB = driverinfodata.dob!=null?driverinfodata.dob:"---------------------";
         this.aadhar = driverinfodata.aadhar_no!=null?driverinfodata.aadhar_no:"---------------------";
         this.sNumber = driverinfodata.mobileno2!=null?driverinfodata.mobileno2:"---------------------";
+        this.Gname=driverinfodata.guarantor_name!=null?driverinfodata.guarantor_name:"-------------------";
         this.GuranterM = driverinfodata.guarantor_mobileno!=null?driverinfodata.guarantor_mobileno:"---------------------";
         this.DLexpiry = driverinfodata.dl_expiry!=null?driverinfodata.dl_expiry:"---------------------";
         this.LicenceNo = driverinfodata.licence_no!=null?driverinfodata.licence_no:"---------------------";

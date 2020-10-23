@@ -88,11 +88,11 @@ export class DriverListComponent implements OnInit {
   }
   updateDriverInfo(driver) {
     this.common.params = { driver };
-    // const activeModal =
-    const activeModal = this.modalService.open(EditDriverComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService
+      .open(EditDriverComponent,
+        { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       if (data.response) {
-        // closeModal(true);
         this.getdriverLists();
       }
     });
@@ -135,7 +135,7 @@ export class DriverListComponent implements OnInit {
             { class: 'fa fa-file', action: this.updateDriver.bind(this, req) },
             { class: 'fa fa-tasks', action: this.updateDriverInfo.bind(this, req) },
             { class: 'fab fa-reddit', action: this.driverLedgerMapping.bind(this, req) },
-            {class:"fa fa-print",action:this.driverPersonalDetail.bind(this,req)  }
+            { class: "fa fa-print", action: this.driverPersonalDetail.bind(this, req) }
           ]
         },
         rowActions: {
@@ -157,7 +157,7 @@ export class DriverListComponent implements OnInit {
 
   }
 
-  driverPersonalDetail(driverdata){
+  driverPersonalDetail(driverdata) {
     this.common.params = {
       driverId: driverdata.id,
     }
@@ -173,19 +173,19 @@ export class DriverListComponent implements OnInit {
 
   }
 
-  printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
-    console.log("Name:",name);
+  printPDF() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:", name);
     let details = [
-      ['Name: ' + name,'Report: '+'Driver-List']
+      ['Name: ' + name, 'Report: ' + 'Driver-List']
     ];
     this.pdfService.jrxTablesPDF(['driverList'], 'driver-list', details);
   }
 
-  printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+  printCSV() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
     let details = [
-      { name: 'Name:' + name,report:"Report:Driver-List"}
+      { name: 'Name:' + name, report: "Report:Driver-List" }
     ];
     this.csvService.byMultiIds(['driverList'], 'driver-list', details);
   }
