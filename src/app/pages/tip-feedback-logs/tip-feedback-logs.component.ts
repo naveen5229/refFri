@@ -129,7 +129,7 @@ export class TipFeedbackLogsComponent implements OnInit {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
         j
-        this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: 'black', action: '' };
+        this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '' };
       }
       columns.push(this.valobj);
     }
