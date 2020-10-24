@@ -35,15 +35,13 @@
           <label>From :</label>
           <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate"  [isTime]=false>
           </uj-date-time-picker>
-          <!-- <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
-            placeholder="Start Date" (click)="getDate('start')"> -->
+        
         </td>
         <td>
           <label>To :</label>
           <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]=false  [isStart]=false>
           </uj-date-time-picker>
-          <!-- <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
-            placeholder="End Date" (click)="getDate('end')"> -->
+         
         </td>
         <td>
           <label>LR Status</label>

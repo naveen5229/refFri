@@ -6,7 +6,7 @@
       </div>
 
       <div class="col-3">
-        <div *ngIf="activitySummary.length">
+        <div *ngIf="activitySummary.length>0">
           <span>
             <span class="pdf-icon" title="PDF Export" (click)="printPDF('feedbackLogs')" style="cursor: pointer;"><i
                 class="fa fa-file-pdf"></i></span>
@@ -18,12 +18,16 @@
       <div class="col-7">
         <div class="row">
           <div class="col-sm-3">
-            <input type="text" class="form-control" [value]="startDate | date: 'dd MMM yyyy'" name="date"
-              placeholder="Start Date" (click)="getDate('start')" />
+            <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate"  [isTime]=false>
+            </uj-date-time-picker>
+            <!-- <input type="text" class="form-control" [value]="startDate | date: 'dd MMM yyyy'" name="date"
+              placeholder="Start Date" (click)="getDate('start')" /> -->
           </div>
           <div class="col-sm-3">
-            <input type="text" class="form-control" [value]="endDate | date: 'dd MMM yyyy'" name="date1"
-              placeholder="End Date" (click)="getDate('end')" />
+            <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]=false  [isStart]=false>
+            </uj-date-time-picker>
+            <!-- <input type="text" class="form-control" [value]="endDate | date: 'dd MMM yyyy'" name="date1"
+              placeholder="End Date" (click)="getDate('end')" /> -->
           </div>
           <div class="col-sm-3">
             <div class="search_vehicle_input">
