@@ -32,13 +32,13 @@ export class TipFeedbackLogsComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal,
     public user: UserService) {
-   
+
     this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.endDate = new Date();
     this.startDate = new Date(new Date().setDate(new Date().getDate() - 1));
   }
@@ -47,7 +47,7 @@ export class TipFeedbackLogsComponent implements OnInit {
     this.vehicleId = null;
     this.getFeedbackLogs();
   }
-  
+
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.vehicleId = vehicle.id;
@@ -112,10 +112,10 @@ export class TipFeedbackLogsComponent implements OnInit {
     for (var i = 0; i < this.activitySummary.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        if(this.headings[j]=='Regno' || this.headings[j]=='regno'){
+        if (this.headings[j] == 'Date' || this.headings[j] == 'date') {
           this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
-        }else
-        this.valobj[this.headings[j]] = { value: this.getHtml(this.activitySummary[i][this.headings[j]]), class: '', action: '', isHTML: true };
+        } else
+          this.valobj[this.headings[j]] = { value: this.getHtml(this.activitySummary[i][this.headings[j]]), class: '', action: '', isHTML: true };
       }
       columns.push(this.valobj);
     }
@@ -132,23 +132,23 @@ export class TipFeedbackLogsComponent implements OnInit {
   }
   getHtml(text) {
     let string = '';
-    if (text) {
-      let txtArr = text.split('-');
-      string = "<span>" + txtArr[0] + "</span>";
-      if (txtArr[1] == ' (Unloading)') {
-        string += "<span class='red'>" + txtArr[1] + "</span>";
-      }
-      else if (txtArr[1] == ' (Available, Unauthorised Movement)') {
-        string += "<span class='purple'>" + txtArr[1] + "</span>";
-      }
-      else if (txtArr[1] == ' (Loading)') {
-        string += "<span class='green'>" + txtArr[1] + "</span>";
-      }
-      else if (txtArr[1] ==' (Onward)'){
-        string += "<span class='blue'>" + txtArr[1] + "</span>";
+    text = JSON.parse(text);
+    if (text && text.length > 0 && text != null) {
+      string += '<span>' + text[0].location + '</span><br>';
+      if (('' + text[0].state_name).search('Onward') > -1) {
+        string += '<span class="blue">(O)</span>';
+      } else if (('' + text[0].state_name).search('Available') > -1) {
+        string += '<span class="purple">(A)</span>';
+      } else if (('' + text[0].state_name).search('Unloading') > -1) {
+        string += '<span class="red">(UL)</span>';
+      } else if (('' + text[0].state_name).search('Loading') > -1) {
+        string += '<span class="green">(L)</span>';
       }
       else {
-        string += "<span>" + txtArr[1] + "</span>";
+        string += '<span>(' + text[0].state_name + ')</span>';
+      }
+      if (text[0].remarks) {
+        string += '<span> - ' + text[0].remarks + '</span>';
       }
     }
     return string;

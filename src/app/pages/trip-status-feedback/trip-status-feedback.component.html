@@ -42,14 +42,17 @@
             <td><span style="display:inline-flex">
                 <input type="text" [(ngModel)]="trip.origin" class="form-control" placeholder="Origin">
                 <input type="text" [(ngModel)]="trip.destination" class="form-control" placeholder="Destination">
-
-                <select [(ngModel)]="trip.status" class="form-control" [name]="'trip-status-' + i">
+                <auto-suggestion (onSelected)="selectState($event,i)" display="description" [data]="states"
+                  style="width:100%!important;" placeholder="Select Status" [preSelected]="null"
+                  className="form-control" >
+                </auto-suggestion>
+                <!-- <select [(ngModel)]="trip.status" class="form-control" [name]="'trip-status-' + i">
                   <option value="" selected>Select Status</option>
                   <option value="11">Loading</option>
                   <option value="12">Unloading</option>
                   <option value="51">Onward</option>
                   <option value="21">Available</option>
-                </select>
+                </select> -->
               </span>
               <span style="display:inline-flex">
                 <input type="remark" [(ngModel)]="trip.remark" class="form-control" placeholder="Remark">
