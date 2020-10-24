@@ -169,8 +169,6 @@ export class DriverListComponent implements OnInit {
   updateDriver(driver) {
     this.common.params = { driver };
     const activeModal = this.modalService.open(UploadDocsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
-
   }
 
   printPDF() {

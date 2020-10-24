@@ -30,7 +30,8 @@ export class EditDriverComponent implements OnInit {
     dlType: null,
     bankName: null,
     accountNo: null,
-    ifscCode: null
+    ifscCode: null,
+    driverImg:null
   }
 
   bGConditions = [
@@ -103,9 +104,11 @@ export class EditDriverComponent implements OnInit {
       dlType: [this.dlTypesData],
       bankName: [this.common.params.driver.bank_name?this.common.params.driver.bank_name:this.driver.bankName],
       accountNo: [this.common.params.driver.bank_acno?this.common.params.driver.bank_acno:this.driver.accountNo],
-      ifscCode:[this.common.params.driver.ifsc_code?this.common.params.driver.ifsc_code:this.driver.ifscCode,
-        [Validators.required,Validators.pattern(/^[A-Za-z]{4}\d{7}$/)]]
-        
+      ifscCode:[this.common.params.driver.ifsc_code?this.common.params.driver.ifsc_code:this.driver.ifscCode
+        // ,[Validators.required,Validators.pattern(/^[A-Za-z]{4}\d{7}$/)]
+      ],
+      driverImg:[this.driver.driverImg]
+
       // ifscCode: [Validators.required,Validators.pattern(/^[A-Za-z]{4}\d{7}$/)]
     });
     console.log("driverForm", this.driverForm);
@@ -139,8 +142,34 @@ export class EditDriverComponent implements OnInit {
     this.dlTypes = dlTypes;
   }
 
+  handleFileSelection(event) {
+    this.common.loading++;
+    this.common.getBase64(event.target.files[0])
+      .then(res => {
+        this.common.loading--;
+        let file = event.target.files[0];
+        console.log("Type", file.type);
+        if (file.type == "image/jpeg" || file.type == "image/jpg" ||
+          file.type == "image/png" || file.type == "application/pdf" ||
+          file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          file.type == "application/vnd.ms-excel" || file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+          this.common.showToast("SuccessFull File Selected");
+        }
+        else {
+          this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
+          return false;
+        }
+          this.driver.driverImg = res;
+          console.log('Base 64 index 1: ', this.driver.driverImg);
+      }, err => {
+        this.common.loading--;
+        console.error('Base Err: ', err);
+      })
+  }
+
 
   Updatedriver() {
+    console.log("driverImage:",this.driver.driverImg);
     if(this.dlTypes){
     this.dlTypesData = this.dlTypes.map(dltype => dltype.id).join(',');
     }else{
@@ -161,7 +190,8 @@ export class EditDriverComponent implements OnInit {
       dltype: this.dlTypesData,
       bankName:this.driverForm.controls.bankName.value,
       accNumber: this.driverForm.controls.accountNo.value,
-      ifscCode: this.driverForm.controls.ifscCode.value
+      ifscCode: this.driverForm.controls.ifscCode.value,
+      driverImg:this.driver.driverImg
     };
     this.common.loading++;
     this.apiservice.post('Drivers/edit', params)

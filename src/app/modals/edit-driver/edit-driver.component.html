@@ -167,11 +167,25 @@
           <input type="text"  class="form-control" id="ifscCode" autocomplete="off" formControlName="ifscCode"
             placeholder="IFSC Code">
 
-            <div *ngIf="submitted && f.ifscCode.errors" class="invalid-feedback">
+            <!-- pattern="/^[A-Za-z]{4}\d{7}$/" -->
+
+            <!-- <div *ngIf="submitted && f.ifscCode.errors" class="invalid-feedback">
               <div *ngIf="f.ifscCode.errors.pattern" >Please Fill Correct IFSC Code</div>
-            </div>
+            </div> -->
         </div>
       </div>
+
+
+      <div class="row margin-top-15">
+        <div class="col-3">
+          <label>Driver Image</label>
+        </div>
+  
+        <div class="col-3">
+          <input type="file" class="form-control" id="driverImg" (change)="handleFileSelection($event) ">
+        </div>
+      </div>
+
 
       <div class="col-md-12 text-center margin-top-15">
         <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form"
