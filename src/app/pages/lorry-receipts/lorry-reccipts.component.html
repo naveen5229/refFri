@@ -5,7 +5,8 @@
         <h5>Lorry Receipts</h5>
       </div>
       <div class="col-sm-1">
-        <i class="fa fa-file-pdf" (click)="common.getPDFFromTableId('tblLorryReceipt')"></i>
+        <!-- <i class="fa fa-file-pdf" (click)="common.getPDFFromTableId('tblLorryReceipt')"></i> -->
+        <i class="fa fa-file-pdf pdf-icon" (click)="printPDF();"></i>
       </div>
       <div class="col-sm-2 text-right">
         <button (click)="openGenerateLr(false)" *ngIf="user.permission.add" class="btn btn-primary">LR Generate</button>
@@ -34,15 +35,13 @@
           <label>From :</label>
           <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate"  [isTime]=false>
           </uj-date-time-picker>
-          <!-- <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
-            placeholder="Start Date" (click)="getDate('start')"> -->
+        
         </td>
         <td>
           <label>To :</label>
           <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]=false  [isStart]=false>
           </uj-date-time-picker>
-          <!-- <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
-            placeholder="End Date" (click)="getDate('end')"> -->
+         
         </td>
         <td>
           <label>LR Status</label>

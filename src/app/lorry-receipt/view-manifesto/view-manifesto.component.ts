@@ -138,7 +138,7 @@ export class ViewManifestoComponent implements OnInit {
   actionIcons(mainfest) {
     let icons = [{ class: 'fa fa-print', action: this.openViewManifestModal.bind(this, mainfest) },
     ];
-    this.user.permission.edit && icons.push({ class: " fa fa-pencil-square-o ml-2", action: this.editLrManifest.bind(this, mainfest) });
+    this.user.permission.edit && icons.push({ class: " fas fa-edit ml-2", action: this.editLrManifest.bind(this, mainfest) });
     return icons;
   }
 

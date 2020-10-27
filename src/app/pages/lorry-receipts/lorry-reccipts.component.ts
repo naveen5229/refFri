@@ -18,6 +18,7 @@ import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-detail
 import { AddReceiptsComponent } from '../../modals/add-receipts/add-receipts.component'
 import { AddTransportAgentComponent } from '../../modals/LRModals/add-transport-agent/add-transport-agent.component'
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
+import { PdfService } from '../../services/pdf/pdf.service';
 import { FreightInvoiceComponent } from '../../modals/FreightRate/freight-invoice/freight-invoice.component';
 
 @Component({
@@ -44,6 +45,7 @@ export class LorryRecciptsComponent implements OnInit {
   // showMsg = false;
   constructor(
     public api: ApiService,
+    private pdfService: PdfService,
     public common: CommonService,
     private datePipe: DatePipe,
     public user: UserService,
@@ -260,7 +262,7 @@ export class LorryRecciptsComponent implements OnInit {
         Action: { value: '', isHTML: true, action: null, icons: this.actionIcons(R) },
         Invoice: {
           value: '', isHTML: true, action: null, icons: [
-            { class: R._frinvid ? 'fa fa-print icon' : R.revenue_amount > 0 ? 'fa fa-pencil-square-o icon edit ' : '', action: R._frinvid > 0 ? this.invoice.bind(this, R) : R.revenue_amount > 0 ? this.invoiceFromLr.bind(this, R) : '' },
+            { class: R._frinvid ? 'fa fa-print icon' : R.revenue_amount > 0 ? 'fas fa-edit icon edit ' : '', action: R._frinvid > 0 ? this.invoice.bind(this, R) : R.revenue_amount > 0 ? this.invoiceFromLr.bind(this, R) : '' },
 
           ]
         }
@@ -276,7 +278,7 @@ export class LorryRecciptsComponent implements OnInit {
       { class: 'fa fa-print icon', action: this.printLr.bind(this, R) },
       { class: 'fa fa-handshake-o  icon', action: this.tripSettlement.bind(this, R) },
     ];
-    this.user.permission.edit && icons.push({ class: R.is_locked ? '' : 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) });
+    this.user.permission.edit && icons.push({ class: R.is_locked ? '' : 'fas fa-edit icon edit', action: this.openGenerateLr.bind(this, R) });
     this.user.permission.delete && icons.push({ class: R.is_locked ? '' : 'fa fa-trash icon', action: this.deleteLr.bind(this, R) });
 
     return icons;
@@ -430,6 +432,15 @@ export class LorryRecciptsComponent implements OnInit {
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
+  }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.startDate),'End Date: '+this.common.dateFormatter1(this.endDate),  'Report: '+'Lorry-Receipt']
+    ];
+    this.pdfService.jrxTablesPDF(['tblLorryReceipt'], 'lorry-receipt', details);
   }
 }
 

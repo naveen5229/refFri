@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
+import { stringify } from 'querystring';
 @Component({
   selector: 'tip-feedback-logs',
   templateUrl: './tip-feedback-logs.component.html',
@@ -11,8 +12,8 @@ import { UserService } from '../../services/user.service';
 })
 export class TipFeedbackLogsComponent implements OnInit {
   vehicleId = null;
-  startDate = '';
-  endDate = '';
+  startDate = null;
+  endDate = null;
   activitySummary = [];
   headings = [];
   valobj = {};
@@ -31,37 +32,20 @@ export class TipFeedbackLogsComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal,
     public user: UserService) {
-    let today;
-    today = new Date();
-    this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    this.startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
+
     this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
+  ngAfterViewInit() {
+    this.endDate = new Date();
+    this.startDate = new Date(new Date().setDate(new Date().getDate() - 1));
+  }
 
   refresh() {
     this.vehicleId = null;
     this.getFeedbackLogs();
-  }
-  getDate(type) {
-    this.common.params = { ref_page: 'trip feedback logs' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (type == 'start') {
-          this.startDate = '';
-          this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
-          console.log('endDate', this.startDate);
-        }
-        else {
-          this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
-          console.log('endDate', this.endDate);
-        }
-      }
-    });
-
   }
 
   getvehicleData(vehicle) {
@@ -83,11 +67,10 @@ export class TipFeedbackLogsComponent implements OnInit {
       }
     };
 
-    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
     const params = {
       vehicleId: this.vehicleId ? this.vehicleId : -1,
-      startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
-      endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
+      startDate: this.common.dateFormatter1(this.startDate),
+      endDate: this.common.dateFormatter1(this.endDate),
     }
 
     console.log("params:", params);
@@ -99,24 +82,25 @@ export class TipFeedbackLogsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
-        this.activitySummary = res['data'];
+        this.activitySummary = res['data'] || [];
         console.log('activitySummary', this.activitySummary);
-        let first_rec = this.activitySummary[0];
-        console.log("first_Rec", first_rec);
+        if (this.activitySummary.length > 0) {
+          let first_rec = this.activitySummary[0];
+          console.log("first_Rec", first_rec);
 
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: key, placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
+          for (var key in first_rec) {
+            if (key.charAt(0) != "_") {
+              this.headings.push(key);
+              let headerObj = { title: key, placeholder: this.formatTitle(key) };
+              this.table.data.headings[key] = headerObj;
+            }
           }
+
+          this.table.data.columns = this.getTableColumns();
+          console.log("table:");
+          console.log(this.table);
+
         }
-
-        this.table.data.columns = this.getTableColumns();
-        console.log("table:");
-        console.log(this.table);
-
-
       }, err => {
         this.common.loading--;
         this.common.showError();
@@ -128,8 +112,10 @@ export class TipFeedbackLogsComponent implements OnInit {
     for (var i = 0; i < this.activitySummary.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        j
-        this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: 'black', action: '' };
+        if (this.headings[j] == 'Date' || this.headings[j] == 'date') {
+          this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
+        } else
+          this.valobj[this.headings[j]] = { value: this.getHtml(this.activitySummary[i][this.headings[j]]), class: '', action: '', isHTML: true };
       }
       columns.push(this.valobj);
     }
@@ -144,7 +130,35 @@ export class TipFeedbackLogsComponent implements OnInit {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
-
+  getHtml(text) {
+    let string = '';
+    text = JSON.parse(text);
+    if (text && text.length > 0 && text != null) {
+      string += '<span>' + text[0].location + '</span><br>';
+      if (('' + text[0].state_name).search('Onward') > -1) {
+        string += '<span class="blue">(O)</span>';
+      } else if (('' + text[0].state_name).search('Available') > -1) {
+        string += '<span class="purple">(A)</span>';
+      } else if (('' + text[0].state_name).search('Unloading') > -1) {
+        string += '<span class="red">(UL)</span>';
+      } else if (('' + text[0].state_name).search('Loading') > -1) {
+        string += '<span class="green">(L)</span>';
+      }
+      else {
+        string += '<span>(' + text[0].state_name + ')</span>';
+      }
+      if (text[0].remarks) {
+        string += '<span> - ' + text[0].remarks + '</span>';
+      }
+      if (text[0].origin) {
+        string += '<br><span> ' + text[0].origin + ' -> </span>';
+      }
+      if (text[0].destination) {
+        string += '<span>' + text[0].destination + '</span>';
+      }
+    }
+    return string;
+  }
   printPDF(tblEltId) {
     this.common.loading++;
     let userid = this.user._customer.id;

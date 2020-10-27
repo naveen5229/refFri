@@ -12,8 +12,13 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa-list',
         link: '/driver/driver-list',
         home: true,
-    },
+    },{
 
+        title: 'Driver On Side Images',
+        icon: 'fa-map-marker',
+        link: '/driver/driver-on-side-images',
+        home: true,
+    },
     {
 
         title: 'Vehicle Driver Mapping',

@@ -281,6 +281,11 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         this.loading--;
         this.user._pages = res['data'].filter(page => {
+          if (this.user._details.tag_model_type != 1 && page.route == '/walle8/tag-summary') {
+            return false;
+          } else if (this.user._details.tag_model_type == 1 && page.route == '/walle8/tag-summary') {
+            return true;
+          }
           if (localStorage.getItem('iswallet') === '1')
             return true;
           return page.userid;

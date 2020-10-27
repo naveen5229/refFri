@@ -252,8 +252,6 @@ export class TollDiscountComponent implements OnInit {
       amount: { title: 'Amount', placeholder: 'Amount' },
       remark: { title: 'Remark', placeholder: 'Remark' },
       disc_type: { title: 'Discount Type', placeholder: 'Discount Type' },
-
-
     };
     return {
       data: {

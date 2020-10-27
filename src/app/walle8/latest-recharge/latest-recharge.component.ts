@@ -103,7 +103,6 @@ export class LatestRechargeComponent implements OnInit {
         }
         if (this.data == null) {
           this.common.showToast('NO DATA FOUND');
-
         }
 
       }, err => {
@@ -111,7 +110,6 @@ export class LatestRechargeComponent implements OnInit {
         console.log(err);
       });
     return response;
-
   }
   // setTable() {
   //   let headings = {

@@ -4,6 +4,8 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 @Component({
   selector: 'vehicle-gps-detail',
   templateUrl: './vehicle-gps-detail.component.html',
@@ -16,6 +18,8 @@ export class VehicleGpsDetailComponent implements OnInit {
   foid;
   table = null;
   constructor(public api: ApiService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public common: CommonService,
     private datePipe: DatePipe,
     public user: UserService,
@@ -82,42 +86,59 @@ export class VehicleGpsDetailComponent implements OnInit {
   }
 
 
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "GPS Details";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"],'');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  // printPDF(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "GPS Details";
+  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"],'');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+  // printCsv(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = "FoName:" + fodata['name'];
+  //       let center_heading = "Report:" + "GPS Details";
+  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"],'');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+
+
+  // }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Report: '+'Vehicle-GPS-Details']
+    ];
+    this.pdfService.jrxTablesPDF(['gpsDetails'], 'gps-Details', details);
   }
 
-  printCsv(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = "FoName:" + fodata['name'];
-        let center_heading = "Report:" + "GPS Details";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"],'');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-
-
+  printCsv(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,report:"Report:Vehicle-GPS-Details"}
+    ];
+    this.csvService.byMultiIds(['gpsDetails'], 'gps-Details', details);
   }
 
 

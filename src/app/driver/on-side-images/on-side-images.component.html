@@ -1,0 +1,36 @@
+<nb-card>
+    <nb-card-header>
+     
+          <h5> Driver Shift Logs   </h5>
+        <!-- <div class="d-flex float-right">
+          <label class="mr-4 text-white pt-1">Status:</label>
+          <select (change)="filterData()" [(ngModel)]="status" class="form-control" style="width: 140px;">
+            <option value='0'>Pending</option>
+            <option value='1'>Active</option>
+            <option value='-1'>Reject</option>
+          </select>
+        </div> -->
+      </nb-card-header>
+    <nb-card-body>
+
+        <div class="row">
+            <uj-date-time-picker (onChanged)="date = $event" [dateTimeValue]="date" [isTime]="false">
+            </uj-date-time-picker>
+            <button (click)="showData()">Submit</button>
+          </div>
+      <div class="row mr-0 ml-0 mt-2">
+        <smart-table *ngIf="onsideimage && onsideimage.length>0" [data]="table.data" [settings]="table.settings" id="onsideimages">
+        </smart-table>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
