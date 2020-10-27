@@ -15,21 +15,22 @@
             <th>Particular</th>
             <th>Vch Type</th>
             <th>Vch No.</th>
-            <th>Amount(Debit)</th>
-            <th>Amount(Credit)</th>
+            <th>Amount(DR)</th>
+            <th>Amount(CR)</th>
             <th *ngIf="accountService.selected.branch.id ==0">Branch</th>
           </tr>
         </thead>
+      <tbody>
         <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
             (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
             [ngClass]="{'highlight' : selectedRow == i}"> -->
 
 
-            <!-- (dblclick)="(dataItem.y_type.toLowerCase().includes('invoice') || dataItem.y_type.toLowerCase().includes('order'))  ? openinvoicemodel(dataItem.y_voucherid) : (dataItem.y_type.toLowerCase().includes('consignment')) ? openConsignmentVoucherEdit(dataItem):openVoucherEdit(dataItem.y_voucherid)" -->
+            <!-- (dblclick)="(dataItem.y_type.toLowerCase().includes('invoice') || dataItem.y_type.toLowerCase().includes('order'))  ? openinvoicemodel(dataItem.y_voucherid,dataItem.y_vouchertype_id) : (dataItem.y_type.toLowerCase().includes('consignment')) ? openConsignmentVoucherEdit(dataItem):openVoucherEdit(dataItem.y_voucherid)" -->
 
         <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
            (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? 
-           (dataItem.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(dataItem) : (dataItem.y_type.toLowerCase().includes('fuel')) ? openFuelEdit(dataItem) :  (dataItem.y_type.toLowerCase().includes('lr')) ? editTransfer(dataItem['y_transferid']) :openVoucherEdit(dataItem.y_voucherid,0,dataItem.y_vouchertype_id) :(dataItem.y_type.toLowerCase().includes('freight')) ?(dataItem.y_type.toLowerCase().includes('expense'))?openfreight(dataItem['y_transferid']):openRevenue(dataItem['y_transferid']): openinvoicemodel(dataItem.y_voucherid)" (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
+           (dataItem.y_type.toLowerCase().includes('trip')) ? openConsignmentVoucherEdit(dataItem) : (dataItem.y_type.toLowerCase().includes('fuel')) ? openFuelEdit(dataItem) :  (dataItem.y_type.toLowerCase().includes('lr')) ? editTransfer(dataItem['y_transferid']) :openVoucherEdit(dataItem.y_voucherid,0,dataItem.y_vouchertype_id) :(dataItem.y_type.toLowerCase().includes('freight')) ?(dataItem.y_type.toLowerCase().includes('expense'))?openfreight(dataItem['y_transferid']):openRevenue(dataItem['y_transferid']): openinvoicemodel(dataItem.y_voucherid,dataItem.y_vouchertype_id)" (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i, 'highlightcolor' : DayData.length-1 == i}">
           <td>{{ i+1}}</td>
           <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
           <td>{{dataItem.y_particulars}}</td>
@@ -39,6 +40,7 @@
           <td>{{dataItem.y_cramunt}}</td>
           <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
         </tr>
+      </tbody>
       </table>
     </div>
   </nb-card-body>

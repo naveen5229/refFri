@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Vehicle States</h5>
+  <h5 class="modal-title" id="modal-basic-title">Vehicle States - {{vehicle[0].vregno}}</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -13,20 +13,7 @@
       <!-- Any change will need to change in fn_getvehicelstatename -->
       <select [(ngModel)]="stateType" class="form-control" (change)="changeStateType()"
         style=" border: 1px solid #324148; font-size: 10px">
-        <option value="0">Select State</option>
-        <option value="1">Loading</option>
-        <option value="2">Onward</option>
-        <option value="3">Unloading</option>
-        <option value="4">Available</option>
-        <option value="301">Accident</option>
-        <option value="311">Break Down</option>
-        <option value="321">Maintenance</option>
-        <option value="331">Waiting for Load</option>
-        <option value="341">Driver Unavailable</option>
-        <option value="401">RTO Issue</option>
-        <option value="411">Driver Related Issue</option>
-        <option value="421">Traffic Issue</option>
-        <option value="431">Documents Issue</option>
+        <option *ngFor="let st of stateTypes" [value]="st.id">{{st.description}}</option>
       </select>
       <!-- Any change will need to change in fn_getvehicelstatename -->
 
@@ -47,6 +34,21 @@
       <input type="radio" name="location" value="location" [(ngModel)]="changeCategory" (change)="getCategory()">
       Location
     </div>
+  </div>
+  <div class="row mt-3" *ngIf="changeCategory=='halts'">
+    <div class="col-3">
+    <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false" class="col-6"
+      placeholder="Enter Start Date">
+    </uj-date-time-picker>
+  </div>
+    <div class="col-3">
+    <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]="false" class="col-6"
+      placeholder="Enter End Date" >
+    </uj-date-time-picker>
+  </div>
+  <div class="col-2">
+    <button class="btn btn-primary" (click)="getVehicleEvent()">OK</button>
+  </div>
   </div>
   <div class="row mt-3" *ngIf="changeCategory=='halts'">
     <div class="col-sm-2" style="margin-top:15px">
@@ -70,10 +72,9 @@
       <label>Date:</label>
     </div>
     <div class="col-sm-4">
-      <input [(ngModel)]="site.site_date" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
-        class="form-control" autocomplete="off" name="date">
-      <owl-date-time #date></owl-date-time>
-      <!-- <input type="text" class="form-control" [value]="site.site_date | date : 'dd MMM yyyy'" name="date" placeholder="Date" (click)="getDate('site')"> -->
+      <uj-date-time-picker (onChanged)="site.site_date = $event" [dateTimeValue]="site.site_date" [isTime]="true"
+        class="col-6">
+      </uj-date-time-picker>
     </div>
   </div>
   <div class="row mt-4" [hidden]="changeCategory != 'location'">
@@ -81,44 +82,24 @@
       <label>Location: </label>
     </div>
     <div class="col-sm-4">
-      <input type="text" placeholder="place.." id="location" name="location" [(ngModel)]="location.loc"
-        class="form-control mt-0">
+      <auto-suggestion (onSelected)="setLocation($event)" url="Location/getPlaceFromRedis" display="location"
+        placeholder="Enter Location" [preSelected]="null" [apiHitLimit]="3" inputId="driverno">
+      </auto-suggestion>
+      <!-- <input type="text" placeholder="place.." id="location" name="location" [(ngModel)]="location.loc"
+        class="form-control mt-0"> -->
     </div>
 
     <div class="col-sm-2 mt-2">
       <label>Date:</label>
     </div>
     <div class="col-sm-4">
-      <input [(ngModel)]="location.loc_date" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="Date Time"
-        class="form-control" autocomplete="off" name="date1">
-      <owl-date-time #date1></owl-date-time>
-      <!-- <input type="text" class="form-control" [value]="location.loc_date | date : 'dd MMM yyyy'" name="date1" placeholder="Date" (click)="getDate('loc')"> -->
+      <uj-date-time-picker (onChanged)="location.loc_date = $event" [dateTimeValue]="location.loc_date" [isTime]="true"
+        class="col-6">
+      </uj-date-time-picker>
     </div>
   </div>
   <!-- </div> -->
-  <!-- <div class="col-sm-6" *ngIf="changeCategory=='halts'">
-      <table class="table table-bordered">
-        <thead class="thead" style="background-color:#d4d4d4">
-          <tr>
-            <th>Select Halt</th>
-            <th>Last 10 Halt</th>
-            <th>Time</th>
-          </tr>
 
-        </thead>
-        <tbody>
-          <tr *ngIf="!vehicleEvent.length">
-            <td colspan="3">Record not found</td>
-          </tr>
-          <tr *ngFor="let data of vehicleEvent; let i=index;">
-            <td> <input type="radio" name="select" value="select" (change)="selectHalt(data)"></td>
-            <td>{{data.halt_reason}}</td>
-            <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div> -->
-  <!-- </div> -->
   <div class="row" style="margin-top:10px; height: 450px ">
     <div class="col-sm-6" *ngIf="changeCategory=='halts'" style="height: 450px ">
       <table class="tbl table table-bordered table-hover">

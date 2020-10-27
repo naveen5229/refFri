@@ -40,6 +40,9 @@ export class FuelfillingsComponent implements OnInit {
     public common: CommonService,
     public accountService: AccountService,
     public modalService: NgbModal) {
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.startdate;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.enddate;
+     
     this.common.currentPage = 'Fuel Voucher';
   }
 
@@ -62,7 +65,8 @@ export class FuelfillingsComponent implements OnInit {
   }
 
   getFuelVoucher() {
-
+    this.startdate= this.accountService.fromdate;
+    this.enddate= this.accountService.todate;
     const params = {
       vehId: (this.selectedVehicle) ? this.selectedVehicle.id : 0,
       lastFilling: this.startdate,
@@ -86,6 +90,8 @@ export class FuelfillingsComponent implements OnInit {
   }
 
   getDataFuelFillings() {
+    this.startdate= this.accountService.fromdate;
+    this.enddate= this.accountService.todate;
     if (this.accountService.selected.branch.id) {
     console.log('params model', this.common.params);
     if(this.selectedVehicle && (this.selectedVehicle.id !=0)){

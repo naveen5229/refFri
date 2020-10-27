@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
@@ -18,6 +18,7 @@ import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-detail
 import { AddReceiptsComponent } from '../../modals/add-receipts/add-receipts.component'
 import { AddTransportAgentComponent } from '../../modals/LRModals/add-transport-agent/add-transport-agent.component'
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
+import { PdfService } from '../../services/pdf/pdf.service';
 import { FreightInvoiceComponent } from '../../modals/FreightRate/freight-invoice/freight-invoice.component';
 
 @Component({
@@ -31,33 +32,26 @@ export class LorryRecciptsComponent implements OnInit {
   viewImages = null;
   activeImage = 'lr_image';
   viewType = 'allLR';
-  startDate = '';
-  endDate = '';
+ 
   lrType = "2";
   lrCategory = -1;
   vehicleType = -1;
-  tempstartTime = null;
-  tempendTime = null;
+  
   searchValue = null;
   searchString = null;
+  
+  endDate = new Date();
+ startDate = new Date(new Date().setDate(new Date().getDate() - 15));
   // showMsg = false;
   constructor(
     public api: ApiService,
+    private pdfService: PdfService,
     public common: CommonService,
     private datePipe: DatePipe,
     public user: UserService,
     public route: ActivatedRoute,
     private modalService: NgbModal,
-    public renderer: Renderer) {
-
-    let today;
-    today = new Date();
-    this.tempendTime = new Date();
-    this.tempstartTime = new Date(today.setDate(today.getDate() - 15));
-    today = new Date();
-    this.endDate = this.common.dateFormatter(today);
-    this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
-    console.log('dates ', this.tempendTime, this.tempstartTime);
+    public renderer: Renderer2) {
     this.getLorryReceipts();
     this.common.refresh = this.refresh.bind(this);
 
@@ -74,15 +68,13 @@ export class LorryRecciptsComponent implements OnInit {
   }
 
   getLorryReceipts() {
-    console.log("--this.tempendTime---", this.tempendTime, "this.tempstartTime---", this.tempstartTime)
-    if (this.tempendTime < this.tempstartTime) {
+    if (this.endDate < this.startDate) {
       this.common.showError("End Date Should be greater than Start Date");
       return 0;
     }
-    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
     let params = {
-      startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
-      endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
+      startDate: this.common.dateFormatter(this.startDate),
+      endDate: this.common.dateFormatter(this.endDate),
       type: this.viewType,
       status: this.lrType,
       lrCategory: this.lrCategory,
@@ -165,7 +157,8 @@ export class LorryRecciptsComponent implements OnInit {
       title: 'Lorry Receipt',
       previewId: null,
       refId: receipt.lr_id,
-      refType: "LR_PRT"
+      refType: "LR_PRT",
+      autoPrint: true
     }
     this.common.params = { previewData };
     console.log("receipts", receipt);
@@ -196,7 +189,7 @@ export class LorryRecciptsComponent implements OnInit {
     let headings = {
       // LRId: { title: 'LR Id', placeholder: 'LR Id' },
       LRNo: { title: 'LR No', placeholder: 'LR No' },
-      LRDate: { title: 'LR Date', placeholder: 'LR Date' },
+      LRDate: { title: 'LR Date', placeholder: 'LR Date', type : 'date' },
       VehiceNo: { title: 'Vehicle No', placeholder: 'Vehicle No' },
       Consigner: { title: 'Consigner', placeholder: 'Consigner' },
       Consignee: { title: 'Consignee', placeholder: 'Consignee' },
@@ -204,10 +197,11 @@ export class LorryRecciptsComponent implements OnInit {
       Supplier: { title: 'Supplier', placeholder: 'Supplier' },
       Source: { title: 'Source', placeholder: 'Source' },
       Destination: { title: 'Destination', placeholder: 'Destination' },
-      AddTime: { title: 'AddTime', placeholder: 'AddTime' },
+      AddTime: { title: 'AddTime', placeholder: 'AddTime', type: 'date' },
       Revenue: { title: 'Revenue', placeholder: 'Revenue' },
       Expense: { title: 'Expense', placeholder: 'Expense' },
       LRImage: { title: 'LRImage', placeholder: 'LRImage' },
+      AddedBy: { title: 'AddedBy', placeholder: 'AddedBy' },
       details: { title: 'POD', placeholder: 'POD' },
       Action: { title: 'Action', placeholder: 'Action' },
       Invoice: { title: 'Invoice', placeholder: 'Invoice' },
@@ -249,7 +243,7 @@ export class LorryRecciptsComponent implements OnInit {
         LRImage: R.lr_image ?
           { value: '', class: 'text-center', isHTML: false, action: null, icons: [{ class: 'fa fa-eye icon', action: this.getImage.bind(this, R) }] } :
           { value: '', class: 'text-center', isHTML: false, action: null, icons: [{ class: 'fa fa-times-circle i-red-cross' }] },
-
+        AddedBy:{value:R.name},
         details: {
           value: '', action: null, isHTML: false, icons: [
             {
@@ -268,7 +262,7 @@ export class LorryRecciptsComponent implements OnInit {
         Action: { value: '', isHTML: true, action: null, icons: this.actionIcons(R) },
         Invoice: {
           value: '', isHTML: true, action: null, icons: [
-            { class: R._frinvid ? 'fa fa-print icon' : R.revenue_amount > 0 ? 'fa fa-pencil-square-o icon edit ' : '', action: R._frinvid > 0 ? this.invoice.bind(this, R) : R.revenue_amount > 0 ? this.invoiceFromLr.bind(this, R) : '' },
+            { class: R._frinvid ? 'fa fa-print icon' : R.revenue_amount > 0 ? 'fas fa-edit icon edit ' : '', action: R._frinvid > 0 ? this.invoice.bind(this, R) : R.revenue_amount > 0 ? this.invoiceFromLr.bind(this, R) : '' },
 
           ]
         }
@@ -284,38 +278,14 @@ export class LorryRecciptsComponent implements OnInit {
       { class: 'fa fa-print icon', action: this.printLr.bind(this, R) },
       { class: 'fa fa-handshake-o  icon', action: this.tripSettlement.bind(this, R) },
     ];
-    this.user.permission.edit && icons.push({ class: R.is_locked ? '' : 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) });
+    this.user.permission.edit && icons.push({ class: R.is_locked ? '' : 'fas fa-edit icon edit', action: this.openGenerateLr.bind(this, R) });
     this.user.permission.delete && icons.push({ class: R.is_locked ? '' : 'fa fa-trash icon', action: this.deleteLr.bind(this, R) });
 
     return icons;
   }
 
 
-  getDate(type) {
-
-    this.common.params = { ref_page: 'LrView' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (type == 'start') {
-          this.tempstartTime = data.date;
-          this.startDate = '';
-          return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
-          console.log('tempstartTime', this.tempstartTime);
-        }
-        else {
-          this.tempendTime = data.date;
-          this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
-          // return this.endDate = date.setDate( date.getDate() + 1 )
-          console.log('tempendTime', this.tempendTime);
-        }
-
-      }
-
-    });
-
-
-  }
+  
   deleteLr(lr) {
     console.log("Lr dddd", lr);
     if (!confirm("Are You Sure you want to delete LR?")) {
@@ -462,6 +432,15 @@ export class LorryRecciptsComponent implements OnInit {
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
+  }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.startDate),'End Date: '+this.common.dateFormatter1(this.endDate),  'Report: '+'Lorry-Receipt']
+    ];
+    this.pdfService.jrxTablesPDF(['tblLorryReceipt'], 'lorry-receipt', details);
   }
 }
 

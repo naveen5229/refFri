@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDocumentComponent } from '../../documents/documentation-modals/add-document/add-document.component';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from "@angular/common";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { AddConsigneeComponent } from '../LRModals/add-consignee/add-consignee.component';
@@ -15,7 +15,10 @@ export class AddFoComponent implements OnInit {
   isFormSubmit = false;
   show_dialog: boolean = false;
   code = 0;
-  companyId = null
+  companyId = null;
+  foName = null;
+  mobileNo = null;
+  editFlag = false;
   public button_name: any = 'Show Login Form!';
 
   document = {
@@ -113,6 +116,7 @@ export class AddFoComponent implements OnInit {
     //console.log("hiiiiiiiiii", form);
 
     let params = {
+      id:this.foid,
       name: this.company.name,
       mobileNo: this.company.mobileNo,
       address: this.company.address,
@@ -186,12 +190,19 @@ export class AddFoComponent implements OnInit {
   }
   selectFoUser(event) {
     this.foid = event.id;
+    this.company.name = event.name;
+    this.company.mobileNo = event.mobileno;
+    this.editFlag = true;
     console.log("id", this.foid);
     this.getSmartTableData();
-
-
   }
 
+  resetDetail(){
+    this.foid = null;
+    this.company.name = null;
+    this.company.mobileNo = null;
+    this.editFlag = false;
+  } 
  
   getSmartTableData() {
 

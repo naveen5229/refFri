@@ -6,7 +6,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe, NumberFormatStyle } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { MapService } from '../../services/map.service';
-import { detachProjectedView } from '@angular/core/src/view/view_attach';
 
 declare var google: any;
 @Component({
@@ -21,10 +20,11 @@ export class VehicleStatesComponent implements OnInit {
   eventInfo = null;
   infoWindow = null;
   infoStart = null;
-  stateType = "0";
+  stateType = "-1";
   changeCategory = "halts";
-  startDate;
-  endDate;
+  stateTypes = [];
+  startDate = new Date(new Date().setDate(new Date().getDate() - 3));
+  endDate = new Date();
   vid;
   remark = '';
   vehicleEvent = [];
@@ -72,7 +72,8 @@ export class VehicleStatesComponent implements OnInit {
     this.vid = this.common.params.vehicleId;
     this.vehicle[0].lat = this.common.params.lat;
     this.vehicle[0].long = this.common.params.long;
-    this.vehicle[0].vregno = this.common.params.vregno
+    this.vehicle[0].vregno = this.common.params.vregno;
+    this.getStates();
     this.getVehicleEvent();
   }
 
@@ -99,6 +100,13 @@ export class VehicleStatesComponent implements OnInit {
 
     console.log("here2");
 
+  }
+
+  setLocation(event){
+    console.log(event);
+    this.location.loc = event.location;
+    this.location.lat = event.lat;
+    this.location.long = event.long;
   }
 
   autoSuggestion(elementId) {
@@ -142,37 +150,15 @@ export class VehicleStatesComponent implements OnInit {
     }, 2000);
   }
 
-
-  // getDate(flag) {
-  //   this.common.params = { ref_page: 'vehicle states' };
-  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-  //   activeModal.result.then(data => {
-  //     if (data.date) {
-  //       if (flag == 'site') {
-  //         this.site.site_date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-  //         console.log('site date ' + this.site.site_date);
-  //       } else {
-  //         this.location.loc_date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-  //         console.log('loc_date ' + this.location.loc_date);
-  //       }
-
-  //     }
-
-  //   });
-  // }
-
   getVehicleEvent() {
-
-    let today, start;
-    today = new Date();
-    this.endDate = this.common.dateFormatter(today);
-    start = new Date(today.setDate(today.getDate() - 3))
-    this.startDate = this.common.dateFormatter(start);
+    let ed = this.common.dateFormatter(this.endDate);
+    // let st = new Date(new Date().setDate(today.getDate() - 3))
+    let st = this.common.dateFormatter(this.startDate);
     let params = {
       vehicleId: this.vid,
-      startDate: this.startDate,
-      endDate: this.endDate,
-      limit: 10
+      startDate: st,
+      endDate: ed,
+      // limit: 10
     };
     console.log('params: ', params);
     this.common.loading++;
@@ -239,7 +225,8 @@ export class VehicleStatesComponent implements OnInit {
     console.log('halt details', details);
     this.halt.lat = details.lat;
     this.halt.long = details.long;
-    this.halt.time = details.addtime;
+    this.halt.time = details.start_time;
+    this.halt.location= details.loc_name;
     console.log('save halt', this.halt);
 
   }
@@ -283,7 +270,8 @@ export class VehicleStatesComponent implements OnInit {
           lat: this.halt.lat,
           long: this.halt.long,
           datetime: this.halt.time,
-          remark: this.remark
+          remark: this.remark,
+          category: this.changeCategory
         };
 
       } else if (this.changeCategory == 'sites') {
@@ -300,7 +288,8 @@ export class VehicleStatesComponent implements OnInit {
             lat: this.site.lat,
             long: this.site.long,
             datetime: this.site.site_date,
-            remark: this.remark
+            remark: this.remark,
+            category: this.changeCategory
           };
         }
 
@@ -318,7 +307,9 @@ export class VehicleStatesComponent implements OnInit {
             lat: this.location.lat,
             long: this.location.long,
             datetime: this.location.loc_date,
-            remark: this.remark
+            remark: this.remark,
+            category: this.changeCategory
+
           };
 
         }
@@ -326,7 +317,6 @@ export class VehicleStatesComponent implements OnInit {
       }
 
       console.log('params to save ', params)
-
       this.common.loading++;
       this.api.post('Vehicles/saveVehicleState', params)
         .subscribe(res => {
@@ -336,7 +326,7 @@ export class VehicleStatesComponent implements OnInit {
             console.log(res['data'].r_id);
             this.common.showToast('Success!!');
           } else {
-            this.common.showError(res['data'].r_msg);
+            this.common.showError(res['data'][0].r_msg);
           }
         }, err => {
           this.common.loading--;
@@ -383,7 +373,8 @@ export class VehicleStatesComponent implements OnInit {
         vehicleId: this.vid,
         time: this.common.dateFormatter(this.halt.time),
         lat: this.halt.lat,
-        long: this.halt.long
+        long: this.halt.long,
+        category : this.changeCategory
       };
 
     } else if (this.changeCategory == 'sites') {
@@ -391,7 +382,8 @@ export class VehicleStatesComponent implements OnInit {
         vehicleId: this.vid,
         time: this.site.site_date,
         lat: this.site.lat,
-        long: this.site.long
+        long: this.site.long,
+        category : this.changeCategory
       };
 
     } else {
@@ -399,7 +391,8 @@ export class VehicleStatesComponent implements OnInit {
         vehicleId: this.vid,
         time: this.location.loc_date,
         lat: this.location.lat,
-        long: this.location.long
+        long: this.location.long,
+        category : this.changeCategory
       };
     }
     console.log('params', params);
@@ -532,6 +525,16 @@ export class VehicleStatesComponent implements OnInit {
   }
 
 
+  getStates() {
+    this.api.get("Suggestion/getTypeMaster?typeId=13")
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.stateTypes = res['data'];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+  }
 
 
 }

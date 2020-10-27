@@ -15,6 +15,8 @@ import { StockSubtypesComponent} from '../stock-subtypes/stock-subtypes.componen
 import { StockTypesComponent } from '../stock-types/stock-types.component';
 import { AccountComponent} from '../account/account.component';
 import { LedgersComponent } from '../ledgers/ledgers.component';
+import { AccountService } from '../../services/account.service';
+
 @Component({
   selector: 'statics',
   templateUrl: './statics.component.html',
@@ -24,11 +26,19 @@ export class StaticsComponent implements OnInit {
   selectedName = '';
   staticsData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
+    startdate: ((((new Date()).getMonth())+1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear())-1) + '-04-01', 'ddMMYYYY', false, '-'),
   };
   branchdata = [];
   staticsSheetData = [];
   activeId = '';
+  approved1=0;
+  approved2=0;
+
+  pending1=0;
+  pending2=0;
+
+  assetApproved=0;
+  assetPending=0
 
   liabilities = [];
   assets = [];
@@ -54,15 +64,23 @@ export class StaticsComponent implements OnInit {
     public user: UserService,
     public pdfService: PdfService,
     public csvService: CsvService,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    public accountService: AccountService) {
+      this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.staticsData.startdate;
+      this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.staticsData.enddate;
+       
     this.setFoucus('startdate');
     this.common.currentPage = 'Accounts Statics';
+  console.log('current month',((new Date().getFullYear())-1),((((new Date()).getMonth())+1) > 3) );
+
   }
 
   ngOnInit() {
   }
 
   getStaticsSheet() {
+    this.staticsData.startdate= this.accountService.fromdate;
+    this.staticsData.enddate= this.accountService.todate;
     let params = {
       startdate: this.staticsData.startdate,
       enddate: this.staticsData.enddate,
@@ -130,6 +148,24 @@ export class StaticsComponent implements OnInit {
     }
 
     console.log('liabilities', this.liabilities, 'asset data ', this.assets);
+    const approve1 = this.liabilities[0]['balanceSheets'].reduce((sum, item) => sum + item.y_total_approved, 0);
+    this.approved1=approve1;
+
+    const approve2 = this.liabilities[1]['balanceSheets'].reduce((sum, item) => sum + item.y_total_approved, 0);
+    this.approved2=approve2;
+    
+    const pending1 = this.liabilities[0]['balanceSheets'].reduce((sum, item) => sum + item.y_total_pending, 0);
+    this.pending1=pending1;
+
+    const pending2 = this.liabilities[1]['balanceSheets'].reduce((sum, item) => sum + item.y_total_pending, 0);
+    this.pending2=pending2;
+
+    const assetapprove=this.assets[0]['balanceSheets'].reduce((sum, item) => sum + item.y_total_approved, 0);
+    this.assetApproved=assetapprove;
+
+    const assetPendings=this.assets[0]['balanceSheets'].reduce((sum, item) => sum + item.y_total_pending, 0);
+    this.assetPending=assetPendings;
+
 
     // this.liabilities.map(libility => {
     //   let subGroups = _.groupBy(libility.balanceSheets, 'y_sub_groupname');
@@ -184,16 +220,17 @@ export class StaticsComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
 
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
+    // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = this.activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = this.activeId;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // } else 
+    if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);
@@ -287,6 +324,7 @@ export class StaticsComponent implements OnInit {
 
 
     });
+    this.common.currentPage = 'Accounts Statics';
   }
 
 
@@ -359,7 +397,12 @@ export class StaticsComponent implements OnInit {
         liabilitiesJson.push({ liability: subGroup.y_name, liabilityAmount: subGroup.y_total_approved ,pending:subGroup.y_total_pending});
         
       });
+
+    
     });
+
+    
+
 
     let assetsJson = [];
     assetsJson.push(Object.assign({ asset: "Master Name", assetAmount: 'System',assetPending:'User Defined' }));

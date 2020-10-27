@@ -3,9 +3,6 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
-import { JsonPipe } from '@angular/common';
-import { EvaIconsPipe } from '../../@theme/pipes';
-import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Component({
   selector: 'routes-expenses',

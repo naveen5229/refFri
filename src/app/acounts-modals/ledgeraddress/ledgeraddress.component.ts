@@ -16,6 +16,7 @@ export class LedgeraddressComponent implements OnInit {
   accDetails = [];
   selectedRow = 0;
   selectedName = '';
+  addressid=0;
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -33,13 +34,15 @@ export class LedgeraddressComponent implements OnInit {
       this.accDetails = this.common.params.addressdata;
       this.accDetails.map((addDetail)=>{
           if(addDetail.is_default){
-            this.address = addDetail.address;
+            this.address = addDetail.address +'@'+addDetail.id;
           }
       })
 
 
-    }
 
+
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
 
   ngOnInit() {
@@ -52,15 +55,24 @@ export class LedgeraddressComponent implements OnInit {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.accDetails.length - 1) this.selectedRow++;
-      this.address = this.accDetails[this.selectedRow].address;
+      console.log('slt data',this.accDetails[this.selectedRow]);
+      this.address = this.accDetails[this.selectedRow].address +'@'+this.accDetails[this.selectedRow].id;
+    }
+    if(key == 'enter'){
+        this.dismiss(true);
     }
   }
+  slectdata(data){
+    this.address = data.address +'@'+data.id;
+    this.addressid = data.id;
+    console.log('data selected',data,this.address);
 
+  }
   dismiss(response) {
-    console.log('Accounts address:', this.address);
     // console.log('Accounts:', response);
-    
-    this.activeModal.close({ response: response, adddata:this.address.split("@")[0],addressid:this.address.split("@")[1] });
+   let finaladdressid =  (this.address.split("@")[1]) ? this.address.split("@")[1] : this.addressid;
+   console.log('Accounts address:', this.address,finaladdressid,response);
+    this.activeModal.close({ response: response, adddata:this.address.split("@")[0],addressid:finaladdressid });
     // this.activeModal.close({ ledger: this.Accounts });
   }
 

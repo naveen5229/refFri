@@ -36,13 +36,13 @@
                     <th>Transaction </th>
                     <th>Ledger</th>
                     <th>Amount</th>
-                    <!-- <th>&nbsp;</th> -->
+                    <th>&nbsp;</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let amountDetail of voucher.amountDetails; let i = index;" style="background: #e4e4e4;">
                     <td>
-                      <select class="form-control" [id]="'transaction-type-' + i" [name]="'transaction-type-' + i"
+                      <select class="form-control ref-input" [id]="'transaction-type-' + i" [name]="'transaction-type-' + i"
                         [(ngModel)]="amountDetail.transactionType" style="padding: 4px 8px;height:auto;"
                         (change)="calculateTotal()" (click)="lastActiveId = 'transaction-type-' + i">
                         <option value="debit">Debit</option>
@@ -53,7 +53,7 @@
                       <!-- <auto-suggestion (onSelected)="amountDetail.ledger = $event.y_ledger_id"
                       [url]="'Suggestion/GetLedger?transactionType=' + amountDetail.transactionType +'&voucherId=' + voucherId"
                       display="y_ledger_name" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
-                      <input type="text" class="form-control" [id]="'ledger-' + i" [name]="'ledger-' + i"
+                      <input type="text" class="form-control ref-input" [id]="'ledger-' + i" [name]="'ledger-' + i"
                         [(ngModel)]="amountDetail.ledger.name" autocomplete="off"
                         (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;"
                         (input)="allowBackspace = false;">
@@ -61,15 +61,21 @@
                         <span>{{costDetail.ledger.name}}: </span>
                         <span>{{costDetail.amount}}</span>
                       </div>
+                      <span *ngIf="ledgerbalance[i]"><i>Cur Bal: </i>
+                        {{ ledgerbalance[i] }}</span>
                     </td>
                     <td>
-                      <input type="number" class="form-control" [id]="'amount-' + i" [name]="'amount-' + i"
+                      <input type="number" class="form-control ref-input" [id]="'amount-' + i" [name]="'amount-' + i"
                         (click)="lastActiveId = 'amount-' + i" (input)="calculateTotal(i); allowBackspace = false;"
                         autocomplete="off" [(ngModel)]="amountDetail.amount">
-                      <span
+                      <!-- <span
                         *ngIf="((this.voucherId == '-1' ||  this.voucherId =='-3') && (this.voucher.amountDetails[i].transactionType == 'credit'))">(<i>Current
                           Available Balance is</i>
-                        {{findBalance(i)}})</span>
+                        {{findBalance(i)}})</span> -->
+                    </td>
+                    <td>
+                      <p (click)="deleterow(i)"><i
+                          class="fa fa-trash"></i></p>
                     </td>
                     <!-- <td *ngIf="i == 0">
                     <button class="plustransparent" (click)="addAmountDetails()"> <i class="fa fa-plus text-primary"
@@ -87,21 +93,21 @@
 
           <!-- End Amount Details -->
           <div class="row">
-            <div class="col-4">
+            <div class="col-8">
               <div class="form-group">
                 <label class="ref-label">Narration</label>
                 <input type="text" class="form-control ref-input" id="narration" (click)="lastActiveId = 'narration'"
                   name="narration" [(ngModel)]="voucher.remarks" (input)="allowBackspace = false;">
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-2">
               <div class="form-group">
                 <label class="ref-label">Total Debit</label>
                 <input type="text" class="form-control ref-input" name="account-name" readonly
                   [(ngModel)]="voucher.total.debit" style="background: #e4e4e4">
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-2">
               <div class="form-group">
                 <label class="ref-label">Total Credit</label>
                 <input type="text" class="form-control ref-input" name="account-name" readonly
@@ -114,7 +120,7 @@
         </div>
         <div class="col-3">
           <div class="ledger-container" id="ledger-container">
-            <div *ngFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
+            <div *lazyFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
               [ngClass]="activeLedgerIndex == i ? 'active-ledger' : ''" (click)='selectLedger(ledger)'>
               <span>{{ledger.y_ledger_name}}</span>
             </div>
@@ -140,7 +146,7 @@
             style="cursor: pointer;">Permanent Delete</button>
         </div>
         <div class="col" *ngIf="(this.deleteId == 2)">
-          <button class="btn btn-danger" type="button" outline (click)="approve(voucher.xId)" id="permanentdelete"
+          <button class="btn btn-sucess" type="button" outline (click)="approve(voucher.xId)" id="permanentdelete"
             style="cursor: pointer;">Approve</button>
         </div>
         <div class="col text-right" *ngIf="(this.deleteId == 0 || this.deleteId == 2 )">
@@ -149,7 +155,7 @@
           </button>
         </div>
         <div class="col text-right" *ngIf="(this.deleteId == 1)">
-          <button class="btn btn-primary" type="button" outline (click)="restore()" id="restore"
+          <button class="btn btn-Warning" type="button" outline (click)="restore()" id="restore"
             style="cursor: pointer;">Restore
           </button>
         </div>

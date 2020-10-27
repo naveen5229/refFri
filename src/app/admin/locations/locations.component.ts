@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationSelectionComponent } from '../../modals/location-selection/location-selection.component';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { FoSiteAliasComponent } from '../../modals/fo-site-alias/fo-site-alias.component';
 @Component({
   selector: 'locations',
   templateUrl: './locations.component.html',
@@ -110,6 +111,14 @@ export class LocationsComponent implements OnInit {
       // }
     })
   }
+  OpenFoAlias(){
+    const activeModal = this.modalService.open(FoSiteAliasComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      // if (data.response) {
+      this.saveLocation();
+      // }
+    })
+  }
 
   Maplocation(latlng) {
     let location = {
@@ -155,6 +164,7 @@ export class LocationsComponent implements OnInit {
         }
       });
     }
+    
   }
 
 

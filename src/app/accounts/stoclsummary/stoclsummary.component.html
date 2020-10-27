@@ -1,0 +1,330 @@
+<nb-card style="border:0px;">
+  <nb-card-body (keydown)="keyHandler($event)">
+    <div class="row" *ngIf="isModal" style="height:40px;background-color:black;margin:0!important">
+      <h4 style="color:white;padding:6px">{{currentPage}}</h4>
+      <i class="fa fa-times close"  (click)="activeModal.dismiss()"></i>
+    </div>
+    <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('balance-sheet')" style="cursor: pointer;"><i
+        class="fa fa-file-pdf"></i></span>
+    <span class="exel-icon" title="CSV Export" (click)="generateCsvData()" style="cursor: pointer;margin-left: 10px;"><i
+        class="fas fa-file-excel"></i></span>
+    <div class="" style="float:right; margin-right: 20px">
+      <span><input type="radio" name="view-type" value="main" (click)="changeViewType('main')" [(ngModel)]="viewType">
+        Expand Main Group</span>
+        <span style="margin-left: 5px;"><input type="radio" name="view-type" value="stock" (click)="changeViewType('stock')" [(ngModel)]="viewType">
+           Expand Stock Item </span>
+      <span><input type="radio" name="view-type" value="all" (click)="changeViewType('all')" [(ngModel)]="viewType">
+         Expand All</span>
+    </div>
+    <!-- <div class="expand-div">
+      <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
+      <label>Main Group</label>
+      <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
+      <label>Expand All</label>
+    </div> -->
+
+    <div class="row" *ngIf="!isModal">
+
+      <div class="col-9 pl-0 pr-0">
+        <div class="row">
+
+          <div class="col pl-0">
+            <div class="form-group">
+              <label class="tjr-label">Stock Type</label>
+              <input autocomplete="off" type="text" id="stocktype" class="form-control tjr-input" name="stocktype"
+                [(ngModel)]="outStanding.stockType.name">
+            </div>
+          </div>
+          <div class="col pl-0">
+            <div class="form-group">
+              <label class="tjr-label">Stock Sub Type</label>
+              <input autocomplete="off" type="text" id="stocksubtype" class="form-control tjr-input" name="stocksubtype"
+                [(ngModel)]="outStanding.stockSubType.name">
+            </div>
+          </div>
+          <div class="col pl-0">
+            <div class="form-group">
+              <label class="tjr-label">Stock Item</label>
+              <input autocomplete="off" type="text" id="stockItem" class="form-control tjr-input" name="ledger"
+                [(ngModel)]="outStanding.stockItem.name">
+            </div>
+          </div>
+          <div class="col pl-0">
+            <div class="form-group">
+              <label class="tjr-label">Ware House</label>
+              <input autocomplete="off" type="text" id="wherehouse" class="form-control tjr-input" name="wherehouse"
+                [(ngModel)]="outStanding.wherehouse.name">
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+        
+       
+          <div class="col-3 pl-0">
+            <div class="form-group">
+              <label class="tjr-label">Start Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="Date" autocomplete="off"
+                maxlength="10" name="account-Date" [(ngModel)]="accountService.fromdate">
+            </div>
+          </div>
+          <div class="col-3 pl-0">
+            <div class="form-group">
+              <label class="tjr-label">End Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
+                maxlength="10" name="account-endDate" [(ngModel)]="accountService.todate">
+            </div>
+          </div>
+
+          <div class="col-3 pt-3 pl-0">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getStockSummary()"
+                id="submit" style="cursor: pointer;margin-top: 5px; padding: 7px !important;">Submit</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-3 pl-0 pr-0">
+        <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
+        <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name" (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
+      </div> -->
+        <div class="auto-sugg">
+          <div class="form-group" *ngIf="activeId.includes('stocktype')">
+            <auto-suggetion-in-side [data]="StockTypeData" targetId="stocktype" display="name"
+              (select)="onSelected($event, 'stockType', 'name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="activeId.includes('stocksubtype')">
+            <auto-suggetion-in-side [data]="StockSubTypeData" targetId="stocksubtype" display="name"
+              (select)="onSelected($event, 'stockSubType', 'name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="activeId.includes('stockItem')">
+            <auto-suggetion-in-side [data]="StockIemData" targetId="stockItem" display="name"
+              (select)="onSelected($event, 'stockItem', 'name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="activeId.includes('wherehouse')">
+            <auto-suggetion-in-side [data]="StockWhereHouseData" targetId="wherehouse" display="name"
+              (select)="onSelected($event, 'wherehouse', 'name')"></auto-suggetion-in-side>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="balance-sheet">
+      <div class="row" style="margin: 0px 0px 0px 0px;width: 100%;">
+        <div class="row x-heading">
+          <div class="col x-col">Stock Type</div>
+          <div class="col x-col">Stock Sub Type</div>
+          <div class="col x-col">Stock Item</div>
+          <div class="col x-col">Branch</div>
+          <div class="col x-col">Ware House</div>
+          <div class="col x-col">Opening Qty</div>
+          <div class="col x-col">Stock Received</div>
+          <div class="col x-col">Purchase</div>
+          <div class="col x-col">Sales</div>
+          <div class="col x-col">Issue/Transfer</div>
+          <div class="col x-col">Wastage</div>
+          <div class="col x-col"> Debit Note</div>
+          <div class="col x-col">Credit Note</div>
+          <div class="col x-col">Net Available</div>
+          <div class="col x-col">Opening Amount</div>
+          <div class="col x-col">Closing Amount</div>
+        </div>
+        <div class="jrx-dtbody">
+        <div *ngFor="let stockType of summaryreport let i = index" class="x-data">
+          <div class="row x-stocktype" (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0,0,0)">
+            <div class="col x-col">{{stockType.name}}</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">&nbsp;</div>
+            <div class="col x-col">{{stockType.totalqty}}</div>
+            <div class="col x-col">{{stockType.totalstokrecive}}</div>
+            <div class="col x-col">{{stockType.totalpurchase}}</div>
+            <div class="col x-col">{{stockType.totalsales}}</div>
+            <div class="col x-col">{{stockType.totalissue}}</div>
+            <div class="col x-col">{{stockType.totalwastage}}</div>
+            <div class="col x-col">{{stockType.totaldebit}}</div>
+            <div class="col x-col">{{stockType.totalcredit}}</div>
+            <div class="col x-col">{{stockType.totalnet}}</div>
+            <div class="col x-col">{{stockType.totalopeamt | number : '1.2-2'}}</div>
+            <div class="col x-col">{{stockType.totalcloamt | number : '1.2-2'}}</div>
+          </div>
+          <div *ngFor="let stockSubType of stockType.data let j = index"
+            [hidden]="active.liabilities.mainGroup.indexOf('mainGroup' + i + 0 + 0 + 0) == -1">
+            <div class="row x-sub-stocktype" (click)="handleExpandation($event, i, 'liabilities', 'subGroup', j,0,0)">
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">{{stockSubType.name}}</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">&nbsp;</div>
+              <div class="col x-col">{{stockSubType.totalqty}}</div>
+              <div class="col x-col">{{stockSubType.totalstokrecive}}</div>
+              <div class="col x-col">{{stockSubType.totalpurchase}}</div>
+              <div class="col x-col">{{stockSubType.totalsales}}</div>
+              <div class="col x-col">{{stockSubType.totalissue}}</div>
+              <div class="col x-col">{{stockSubType.totalwastage}}</div>
+              <div class="col x-col">{{stockSubType.totaldebit}}</div>
+              <div class="col x-col">{{stockSubType.totalcredit}}</div>
+              <div class="col x-col">{{stockSubType.totalnet}}</div>
+              <div class="col x-col">{{stockSubType.totalopeamt | number : '1.2-2'}}</div>
+              <div class="col x-col">{{stockSubType.totalcloamt | number : '1.2-2'}}</div>
+            </div>
+            <div *ngFor="let stockItem of stockSubType.data let k = index let l = index"
+              [hidden]="active.liabilities.subGroup.indexOf('subGroup' + i + j + 0 + 0) == -1">
+              <div *ngIf="warehouseid==0">
+              <div *ngIf="branchid == 0" class="row x-stockitem" (click)="handleExpandation($event, i, 'liabilities', 'branch', j,k,0)" (dblclick)="openmodal(stockItem.data[0].data[0],'stock')">
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.name}}</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.totalqty}}</div>
+                <div class="col x-col">{{stockItem.totalstokrecive}}</div>
+                <div class="col x-col">{{stockItem.totalpurchase}}</div>
+                <div class="col x-col">{{stockItem.totalsales}}</div>
+                <div class="col x-col">{{stockItem.totalissue}}</div>
+                <div class="col x-col">{{stockItem.totalwastage}}</div>
+                <div class="col x-col">{{stockItem.totaldebit}}</div>
+                <div class="col x-col">{{stockItem.totalcredit}}</div>
+                <div class="col x-col">{{stockItem.totalnet}}</div>
+                <div class="col x-col">{{stockItem.totalopeamt | number : '1.2-2'}}</div>
+                <div class="col x-col">{{stockItem.totalcloamt | number : '1.2-2'}}</div>
+
+              </div>
+              <div *ngIf="branchid != 0" class="row 2 x-stockitem" (click)="handleExpandation($event, i, 'liabilities', 'warehouse', j,k,l)" (dblclick)="openmodal(stockItem.data[0].data[0],'stock')">
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.name}}</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.totalqty}}</div>
+                <div class="col x-col">{{stockItem.totalstokrecive}}</div>
+                <div class="col x-col">{{stockItem.totalpurchase}}</div>
+                <div class="col x-col">{{stockItem.totalsales}}</div>
+                <div class="col x-col">{{stockItem.totalissue}}</div>
+                <div class="col x-col">{{stockItem.totalwastage}}</div>
+                <div class="col x-col">{{stockItem.totaldebit}}</div>
+                <div class="col x-col">{{stockItem.totalcredit}}</div>
+                <div class="col x-col">{{stockItem.totalnet}}</div>
+                <div class="col x-col">{{stockItem.totalopeamt | number : '1.2-2'}}</div>
+                <div class="col x-col">{{stockItem.totalcloamt | number : '1.2-2'}}</div>
+
+              </div>
+              </div>
+              <div *ngIf="warehouseid != 0" class="row x-stockitem" (dblclick)="openmodal(stockItem.data[0].data[0],'stock')"  (click)="selectedRow = i + j + k + 0+ 0"  [ngClass]="{'highlight' : selectedRow == i + j + k + 0+ 0}">
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.name}}</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">&nbsp;</div>
+                <div class="col x-col">{{stockItem.totalqty}}</div>
+                <div class="col x-col">{{stockItem.totalstokrecive}}</div>
+                <div class="col x-col">{{stockItem.totalpurchase}}</div>
+                <div class="col x-col">{{stockItem.totalsales}}</div>
+                <div class="col x-col">{{stockItem.totalissue}}</div>
+                <div class="col x-col">{{stockItem.totalwastage}}</div>
+                <div class="col x-col">{{stockItem.totaldebit}}</div>
+                <div class="col x-col">{{stockItem.totalcredit}}</div>
+                <div class="col x-col">{{stockItem.totalnet}}</div>
+                <div class="col x-col">{{stockItem.totalopeamt | number : '1.2-2'}}</div>
+                <div class="col x-col">{{stockItem.totalcloamt | number : '1.2-2'}}</div>
+
+              </div>
+
+            <div  *ngIf="warehouseid==0 && (branchid == 0)">
+              <div *ngFor="let branch of stockItem.data let l = index" 
+                [hidden]="active.liabilities.branch.indexOf('branch' + i + j + k + 0) == -1">
+                <div class="row x-branch" (click)="handleExpandation($event, i, 'liabilities', 'warehouse', j,k,l)" (dblclick)="openmodal(branch.data[0],'branch')">
+                  <div class="col x-col">&nbsp;</div>
+                  <div class="col x-col">&nbsp;</div>
+                  <div class="col x-col">&nbsp;</div>
+                  <div class="col x-col">{{branch.name}}</div>
+                  <div class="col x-col">&nbsp;</div>
+                  <div class="col x-col">{{branch.totalopngqty}}</div>
+                  <div class="col x-col">{{branch.totalstokrecive}}</div>
+                  <div class="col x-col">{{branch.purchasetotal}}</div>
+                  <div class="col x-col">{{branch.salestotal}}</div>
+                  <div class="col x-col">{{branch.issuetotal}}</div>
+                  <div class="col x-col">{{branch.wastagetotal}}</div>
+                  <div class="col x-col">{{branch.debittotal}}</div>
+                  <div class="col x-col">{{branch.credittotal}}</div>
+                  <div class="col x-col">{{branch.nettotal}}</div>
+                  <div class="col x-col">{{branch.opnamttotal | number : '1.2-2'}}</div>
+                  <div class="col x-col">{{branch.cloamttotal | number : '1.2-2'}}</div>
+
+                </div>
+                <div *ngFor="let wareHouse of branch.data let m = index"
+                  [hidden]="active.liabilities.warehouse.indexOf('warehouse' + i + j + k + l) == -1">
+                  <div class="row x-warehouse" (click)="selectedRow = i + j + k + l+ m" (dblclick)="openmodal(wareHouse,'warehouse')"  [ngClass]="{'highlight' : selectedRow == i + j + k + l+ m}">
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">{{wareHouse.y_warehouse_name}}</div>
+                    <div class="col x-col">{{wareHouse.y_opn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_st_rec_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_pi_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_si_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_st_issue_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_wst_qty}}</div>
+                    <div class="col x-col"> {{wareHouse.y_dn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_cn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_net_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_opn_amt | number : '1.2-2'}}</div>
+                    <div class="col x-col">{{wareHouse.y_clos_amt | number : '1.2-2'}}</div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            <div  *ngIf="warehouseid==0 && (branchid != 0)">
+              <div *ngFor="let branch of stockItem.data" >
+              <div *ngFor="let wareHouse of branch.data" 
+              [hidden]="active.liabilities.warehouse.indexOf('warehouse' + i + j + k + l) == -1">
+                  <div class="row x-warehouse" (click)="selectedRow = i + j + k + l+ m" (dblclick)="openmodal(wareHouse,'warehouse')"  [ngClass]="{'highlight' : selectedRow == i + j + k + l+ m}">
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">&nbsp;</div>
+                    <div class="col x-col">{{wareHouse.y_warehouse_name}}</div>
+                    <div class="col x-col">{{wareHouse.y_opn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_st_rec_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_pi_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_si_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_st_issue_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_wst_qty}}</div>
+                    <div class="col x-col"> {{wareHouse.y_dn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_cn_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_net_qty}}</div>
+                    <div class="col x-col">{{wareHouse.y_opn_amt | number : '1.2-2'}}</div>
+                    <div class="col x-col">{{wareHouse.y_clos_amt | number : '1.2-2'}}</div>
+                  </div>
+              </div>
+            </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="modal-footer" *ngIf="isModal">
+      <div class="row w-100">
+        <div class="col-11"></div>
+        <div class="col-1 text-right" >
+          <button class="btn btn-primary tjr-button" type="button" outline (click)="activeModal.dismiss()" id="cancel"
+            style="cursor: pointer;">Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2"
+        [(ngModel)]="outStanding[f2Date]" maxlength="10">
+    </div>
+  </div>
+</div>

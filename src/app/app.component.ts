@@ -9,7 +9,8 @@ import { CommonService } from './services/common.service';
 import { ActivityService } from './services/Activity/activity.service';
 import { UserService } from './services/user.service';
 import { ApiService } from './services/api.service';
-
+import { Router } from '@angular/router';
+import { NbIconLibraries } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-app',
@@ -27,7 +28,11 @@ export class AppComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public activity: ActivityService,
+    private router: Router, private iconLibraries: NbIconLibraries,
     public api: ApiService) {
+    // NbIconPack
+    this.iconLibraries.registerFontPack('font-awesome', { packClass: 'fa' });
+    this.iconLibraries.setDefaultPack('font-awesome');
     if (this.user._details) {
       this.getUserPagesList();
     }
@@ -51,17 +56,27 @@ export class AppComponent implements OnInit {
     }, 120000);
   }
 
+
   getUserPagesList() {
     let userTypeId = this.user._loggedInBy == 'admin' ? 1 : 3;
     const params = {
       userId: this.user._details.id,
-      userType: userTypeId
+      userType: userTypeId,
+      iswallet: localStorage.getItem('iswallet') || '0'
     };
-    this.common.loading++;
-    this.api.post('UserRoles/getAllPages', params)
+    let subscription = this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
-        this.common.loading--;
-        this.user._pages = res['data'].filter(page => { return page.userid; });
+        console.log('jrx:', res);
+        this.user._pages = res['data'].filter(page => {
+          if (this.user._details.tag_model_type != 1 && page.route == '/walle8/tag-summary') {
+            return false;
+          } else if (this.user._details.tag_model_type == 1 && page.route == '/walle8/tag-summary') {
+            return true;
+          }
+          if (localStorage.getItem('iswallet') === '1')
+            return true;
+          return page.userid;
+        });
         localStorage.setItem('DOST_USER_PAGES', JSON.stringify(this.user._pages));
         console.log('USER PAGES:', this.user._pages);
         this.user.filterMenu("pages", "pages");
@@ -72,11 +87,12 @@ export class AppComponent implements OnInit {
         this.user.filterMenu("wareHouse", "wareHouse");
         this.user.filterMenu("account", "account");
         this.user.filterMenu("challan", "challan");
-
-
+        this.user.filterMenu("walle8", "walle8");
+        this.user.filterMenu("loadIntelligence", "loadIntelligence");
+        subscription.unsubscribe();
       }, err => {
-        this.common.loading--;
         console.log('Error: ', err);
+        subscription.unsubscribe();
       })
   }
 

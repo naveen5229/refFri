@@ -76,23 +76,23 @@ nb-card-header{
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
-.ref-label{
-    background: #263238;
-    color: #fff;
-    padding: 3px 8px;
-    margin: 0;
-    border-radius: 3px 3px 0px 0px;
-    font-size: 12px;
-    min-width: 80px !important;
-    font-weight: normal;
-}
-.ref-input{
-    border: 1px solid #263238 !important;
-    border-radius: 0px 2px 2px 2px;
-    padding: 3px 5px;
-    height: auto;
-    font-size: 12px;
-}
+// .ref-label{
+//     background: #263238;
+//     color: #fff;
+//     padding: 3px 8px;
+//     margin: 0;
+//     border-radius: 3px 3px 0px 0px;
+//     font-size: 12px;
+//     min-width: 80px !important;
+//     font-weight: normal;
+// }
+// .ref-input{
+//     border: 1px solid #263238 !important;
+//     border-radius: 0px 2px 2px 2px;
+//     padding: 3px 5px;
+//     height: auto;
+//     font-size: 12px;
+// }
 .date-modal-body .ng-pristine{
     border: 0px !important;
     padding: 8px;
@@ -121,6 +121,7 @@ table tr{
         }
     }
 } 
+
 .modal-footer{
     padding: 10px 15px;
 }
@@ -141,13 +142,24 @@ table{
         color: #fff;
     }
     tr{
-        th{
+        th:nth-child(1){
+            width: 7.5%;
             padding: 5px 10px;
             font-weight: normal;
-            width: 15%;
+        }th:nth-child(2){
+            width: 40%;
+            padding: 5px 10px;
+            font-weight: normal;
         }
-        th:nth-child(1){
-            width: 15%;
+        th:nth-child(3){
+            width: 14.5%;
+            padding: 5px 10px;
+            font-weight: normal;
+        }
+        th:last-child{
+            width: 2%;
+            padding: 5px 10px;
+            font-weight: normal;
         }
         td{
             padding: 5px 10px !important;
@@ -163,6 +175,7 @@ table{
                 box-shadow: none;
             }
         }
+       
     }
     tbody{
         overflow-y: auto;
@@ -176,13 +189,16 @@ table{
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 15%;
+                width: 7.5%;
             }
-            td{
-                width: 15%;
+            td:nth-child(2){
+                width: 40%;
+            }
+            td:nth-child(3){
+                width: 14.5%
             }
             td:last-child{
-                width: 14.5%
+                width: 2%;
             }
         }
         tr:nth-child(odd){
@@ -193,3 +209,13 @@ table{
         }
     }
 } 
+// kavita singh
+
+.btn-delete{
+background-color: #dc3545;
+}
+@media (min-width: 992px){
+    .modal-lg{
+        max-width: 1250px!important;
+    }
+    }

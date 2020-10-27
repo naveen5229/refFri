@@ -19,6 +19,9 @@ import { FinancialMainSummaryComponent } from './financial-main-summary/financia
 import { TollAnalaticsComponent } from './toll-analatics/toll-analatics.component';
 import { OtherUsageComponent } from './other-usage/other-usage.component';
 import { CardBalanceComponent } from './card-balance/card-balance.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { RouteGuard } from '../guards/route.guard';
+import { TagSummaryComponent } from './tag-summary/tag-summary.component';
 const routes: Routes = [{
     path: '',
     component: Walle8Component,
@@ -30,66 +33,87 @@ const routes: Routes = [{
         {
             path: 'card-mapping',
             component: CardMappingComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'card-usage',
             component: CardUsageComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'payments-made',
             component: PaymentsMadeComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'latest-recharge',
             component: LatestRechargeComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'toll-usage-summary',
             component: TollUsageSummaryComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'toll-discount',
             component: TollDiscountComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'toll-usage',
             component: TollUsageComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'toll-setteled-request',
             component: TollSetteledRequestComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'current-tag-balance',
             component: CurrentTagBalanceComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'double-toll-report',
             component: DoubleTollReportComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'financial-toll-summary',
             component: FinancialTollSummaryComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'financial-toll-summary-addtime',
             component: FinancialTollSummaryAddtimeComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'financial-main-summary',
             component: FinancialMainSummaryComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'toll-analatics',
             component: TollAnalaticsComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'other-usage',
             component: OtherUsageComponent,
+            canActivate: [AuthGuard, RouteGuard]
         },
         {
             path: 'card-balance',
             component: CardBalanceComponent,
+            canActivate: [AuthGuard, RouteGuard]
+        },
+        {
+            path: 'tag-summary',
+            component: TagSummaryComponent,
+            // canActivate: [AuthGuard, RouteGuard]
         },
 
 

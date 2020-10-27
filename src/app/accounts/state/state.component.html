@@ -1,0 +1,70 @@
+<nb-card style="margin: 0px; border:0px;">
+  <nb-card-body>
+      <div class="row">
+          <div class="col-9">
+            <div class="row">
+            
+              <div class="col-6">
+                <div class="form-group">
+                  <label class="tjr-label">Country</label>
+                  <input autocomplete="off" type="text" id="state" class="form-control tjr-input" name="state"
+                    [(ngModel)]="getstatedata.state.name">
+                </div>
+              </div>
+             
+              <div class="col-3">
+                <div class="form-group">
+                  <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getpageData()"
+                    id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-3">
+            <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
+              <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
+                (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
+            </div> -->
+            <div class="auto-sugg">
+              <div class="form-group">
+                <auto-suggetion-in-side [data]="statedata" targetId="state" display="country_name"
+                  (select)="onSelected($event, 'state', 'country_name')"></auto-suggetion-in-side>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+
+
+
+    <button class="btn mb-4 add-button" (click)="openModal()"><i class="fa fa-plus"></i></button>
+    <div class="main">
+      <table class="table table-bordered">
+        <thead style="background-color: #263238; color: #fff; white-space: nowrap;">
+          <tr>
+            <th>#</th>
+            <th>Country Name</th>
+            <th>State</th>
+            <th>Code</th>
+            <th>Gst Code</th>
+            <!-- <th>Action</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data; let i = index;" (click)="selectedRow = i"  (dblclick)="openModal(row)"
+           [ngClass]="{'highlight' : selectedRow == i}">
+            <td>{{i + 1}}</td>
+            <td>{{row.country_name}}</td>
+            <td>{{row.province_name}}</td>
+            <td>{{row.province_code }}</td>
+            <td>{{row.gst_state_code }}</td>
+            <!-- <td class="del">
+              <a href="javascript: void(0);" class="delete" title="Delete Document" (click)="deleteCity(row)"><i
+                  class="fa fa-trash"></i></a>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>

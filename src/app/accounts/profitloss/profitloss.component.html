@@ -1,34 +1,37 @@
 <nb-card style="border: 0px;">
   <nb-card-body (keydown)="keyHandler($event)">
-      <div class="expand-div">
-          <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
-          <label>Expand Group</label>
-          <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">
-          <label>Expand Sub Group</label>
-          <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
-          <label>Expand All</label>
-        </div>
+    <div class="row" *ngIf="isModal" style="height:40px;background-color:#263238;margin:0!important">
+      <h4 style="color:white;padding:6px">{{currentPage}}</h4>
+      <i class="fa fa-times close"  (click)="activeModal.dismiss()"></i>
+    </div>
+    <div class="">
+    <div style="float:right; margin-right: 20px">
+      <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
+        Main Group</span>
+      <span style="margin-left: 5px;"><input type="radio" name="view-type" value="sub" [(ngModel)]="isExpand"> Expand
+        All</span>
+    </div>
     <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('table')"
       style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-    <span class="exel-icon" title="CSV Export" (click)="generateCsvData()"
+    <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
       style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
-    <div class="row">
-      <div class="col">
+    <div class="row" *ngIf="!isModal">
+      <div class="col pl-0">
         <div class="form-group">
           <label class="tjr-label">Starting Date</label>
           <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
-            placeholder="Select Date" name="account-date" [(ngModel)]="plData.startdate" id="startdate"
+            placeholder="Select Date" name="account-date" [(ngModel)]="accountService.fromdate" id="startdate"
             maxlength="10" />
         </div>
       </div>
-      <div class="col">
+      <div class="col pl-0">
         <div class="form-group">
           <label class="tjr-label">End Date</label>
           <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
-            placeholder="Select Date" name="account-enddate" [(ngModel)]="plData.enddate" id="enddate" maxlength="10" />
+            placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.todate" id="enddate" maxlength="10" />
         </div>
       </div>
-      <div class="col">
+      <div class="col pl-0">
         <div class="form-group">
           <button class="btn btn-primary tjr-button" type="button" outline (click)="getBalanceSheet()" id="submit"
             style="cursor: pointer; margin-top: 14px; padding: 5px 10px !important;">
@@ -37,9 +40,101 @@
         </div>
       </div>
     </div>
-    <div id="table">
+    <div>
     <div class="row balance-shit m-0 p-0">
       <div class="col-6 p-0">
+        
+        <div class="row heading m-0 p-0">
+          <div class="col-8">Particulars</div>
+          <div class="col-4 text-right">Amount</div>
+        </div>
+        <!-- <div *ngFor="let liability of liabilities;  let i = index;"
+        (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0)">
+          <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+            <div class="col-8">{{liability.name}}</div>
+            <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+          </div>
+
+          <div *ngFor="let subGroup of liability.subGroups; let k = index;"
+          [hidden]="active.liabilities.mainGroup.indexOf('mainGroup' + i + 0) == -1"
+            (click)="handleExpandation($event, i, 'liabilities', 'subGroup', k)">
+            <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
+              <div class="col-8">{{subGroup.name}}</div>
+              <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
+            </div>
+
+            <div *ngFor="let balanceSheet of subGroup.balanceSheets; let j = index" 
+            (click)="selectedRow =  'A' + i  + k + j; $event.stopPropagation();" class="tb-mini row m-0 pl-0 pr-0" [hidden]="active.liabilities.subGroup.indexOf('subGroup' + i + k) == -1"
+            (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name,balanceSheet.y_type_id) : ' ' "
+              [ngClass]="{'highlight' : selectedRow == 'A' + i + k + j }" style="background: #dadfe6;">
+              <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
+              <div style="text-align: left;" class="col-4 text-right">
+                <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+              </div>
+            </div>
+
+          </div>
+        </div> -->
+        <div class="jrx-dtbody">
+        <div *ngFor="let liability of assets;  let i = index;"
+        (click)="activeTreeasset = activeTreeasset !== i ? i : -1">
+        <div *ngIf="(assets.length -1 > i)" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == assets.length -1 ? 'none' : ''}">
+          <div class="col-8">{{liability.name}}</div>
+          <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+        </div>
+        <trading-tree *ngIf="(assets.length -1 > i)" [action]="openLedgerViewModel.bind(this)" [data]="liability.data"
+          [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || (isExpand == 'sub')  ? true : false" labels="">
+        </trading-tree>
+      </div>
+      </div>
+      </div>
+      <div class="col-6 p-0">
+        <div class="row heading m-0 p-0">
+          <div class="col-8">Particulars</div>
+          <div class="col-4 text-right">Amount</div>
+        </div>
+        <!-- <div *ngFor="let liability of assets;  let i = index;"
+          (click)="handleExpandation($event, i, 'asset', 'mainGroup', 0)">
+          <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+            <div class="col-8">{{liability.name}}</div>
+            <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+          </div>
+
+          <div *ngFor="let subGroup of liability.subGroups; let k = index;"
+          [hidden]="active.asset.mainGroup.indexOf('mainGroup' + i + 0) == -1"
+            (click)="handleExpandation($event, i, 'asset', 'subGroup', k)">
+            <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
+              <div class="col-8">{{subGroup.name}}</div>
+              <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
+            </div>
+
+            <div *ngFor="let balanceSheet of subGroup.balanceSheets; let j = index"
+            (click)="$event.stopPropagation(); selectedRow =  'B' + i + k + j" class="tb-mini row m-0 pl-0 pr-0"
+            [hidden]="active.asset.subGroup.indexOf('subGroup' + i + k) == -1"
+            (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name,balanceSheet.y_type_id) : ' ' "
+              [ngClass]="{'highlight' : selectedRow == 'B' + i + k + j }" style="background: #dadfe6;">
+              <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
+              <div style="text-align: left;" class="col-4 text-right">
+                <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+              </div>
+            </div>
+
+          </div>
+        </div> -->
+        <div class="jrx-dtbody">
+        <div *ngFor="let liability of liabilities;  let j = index;" (click)="activeTree = activeTree !== j ? j : -1">
+          <div style="background: #184154;" [ngStyle]="{'display':  j == liabilities.length -1 ? 'none' : ''}"
+            class="th-mini row m-0 pl-0 pr-0">
+            <div class="col-8">{{liability.name}}</div>
+            <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+          </div>
+          <profitloss-tree [action]="openLedgerViewModel.bind(this)" [data]="liability.data"
+            [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || (isExpand == 'sub')  ? true : false" labels="">
+          </profitloss-tree>
+        </div>
+        </div>
+      </div>
+      <!-- <div class="col-6 p-0">
        
         <div class="row heading m-0 p-0">
           <div class="col-8">Particular</div>
@@ -182,9 +277,9 @@
       <div class="col-8">Gross Loss C/F</div>
       <div class="col-4 text-right">{{ grossLoss | number : '1.2-2'}}</div>
     </div>
-      </div>
+      </div> -->
 
-      <div class="col-6 p-0">
+      <!-- <div class="col-6 p-0">
         
         <div *ngIf="(grossLoss)" class="th-mini row m-0 pl-0 pr-0">
           <div class="col-8">Gross Loss C/F</div>
@@ -257,9 +352,9 @@
       <div class="col-4 text-right">{{ netProfit | number : '1.2-2'}}</div>
     </div>
       
-      </div>
+      </div> -->
 
-      <div class="col-6 p-0">
+      <!-- <div class="col-6 p-0">
         
         <div *ngIf="(grossProfit)" class="th-mini row m-0 pl-0 pr-0">
           <div class="col-8">Gross Profit C/F</div>
@@ -331,9 +426,33 @@
       <div class="col-4 text-right">{{ netLoss | number : '1.2-2'}}</div>
     </div>
   
-  </div>
+  
+  
+  
+  </div> -->
 
 
+    </div>
+
+    <div class="row">
+      <div class="col-6 pr-0">
+        <div *ngIf="liabilities.length" class="tanding_total clearfix">
+          <div class="total_name">{{liabilities[liabilities.length - 1].name}}</div>
+          <div class="total_amount" style="text-align: right;">
+            <p style="margin: 0px; width: 100px; text-align: right;">
+              {{liabilities[liabilities.length - 1].amount | number : '1.2-2'}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 pl-0">
+        <div class="tanding_total clearfix" *ngIf="assets.length">
+          <div class="total_name">{{assets[assets.length - 1].name}}</div>
+          <div class="total_amount" style="text-align: right;">
+            <p style="margin: 0px; width: 100px; text-align: right;">
+              {{assets[assets.length - 1].amount | number : '1.2-2'}}</p>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- <div class="row">
       <div class="col-6 pr-0">
@@ -360,6 +479,17 @@
       </div>
     </div> -->
   </div>
+  <div class="modal-footer" *ngIf="isModal">
+    <div class="row w-100">
+      <div class="col-11"></div>
+      <div class="col-1 text-right" >
+        <button class="btn btn-primary tjr-button" type="button" outline (click)="activeModal.dismiss()" id="cancel"
+          style="cursor: pointer;">Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
   </nb-card-body>
 </nb-card>
 

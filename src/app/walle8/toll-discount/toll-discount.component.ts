@@ -4,7 +4,10 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 import { getUrlScheme } from '@angular/compiler';
+import { now } from 'moment';
 
 @Component({
   selector: 'toll-discount',
@@ -27,12 +30,15 @@ export class TollDiscountComponent implements OnInit {
   table = null;
   constructor(
     public api: ApiService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal,
   ) {
-    // let today = new Date();
-    // this.dates.start = today.setDate(today.getDate() - 1);
+    let today = new Date();
+    this.dates.start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, 1, 0, 0, 0)) 
+    this.dates.end = this.common.dateFormatter1(today)
     this.getdetails();
     //  this.getdiscountDetails();
     // this.calculateTotal();
@@ -59,41 +65,62 @@ export class TollDiscountComponent implements OnInit {
       console.log('Date:', this.dates);
     });
   }
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Toll Discount";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+
+
+  // printPDF(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Toll Discount";
+  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+  // printCSV(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Toll Discount";
+  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.dates.start),'End Date: '+this.common.dateFormatter1(this.dates.end),  'Report: '+'Toll-Discount']
+    ];
+    this.pdfService.jrxTablesPDF(['tollDiscount'], 'toll-discount', details);
   }
 
-  printCSV(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Toll Discount";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.dates.start),enddate:'End Date:'+this.common.dateFormatter1(this.dates.end), report:"Report:Toll-Discount"}
+    ];
+    this.csvService.byMultiIds(['tollDiscount'], 'toll-discount', details);
   }
+
   sortDiscount(discounts) {
     discounts.sort((a, b) => {
       return (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0);
@@ -118,7 +145,7 @@ export class TollDiscountComponent implements OnInit {
   gettollDiscount() {
 
 
-    let params = "foid=" + this.user._details.id;
+    let params = "foid=" + this.user._details.foid;
 
     this.common.loading++;
     let response;
@@ -146,6 +173,7 @@ export class TollDiscountComponent implements OnInit {
 
   }
   getdiscountDetails(detailId) {
+    console.log(detailId);
     let today = new Date();
     let start = '';
     let end = '';
@@ -161,14 +189,14 @@ export class TollDiscountComponent implements OnInit {
       case 2:
         start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 2, 1, 0, 0, 0));
         this.dates.start = start;
-        end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0));
+        end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 1, 1, 0, 0, 0));
         this.dates.end = end;
         this.getdetails();
         break;
       case 3:
         start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 3, 1, 0, 0, 0));
         this.dates.start = start;
-        end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0));
+        end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 2, 1, 0, 0, 0));
         this.dates.end = end;
         this.getdetails();
         break;
@@ -182,7 +210,7 @@ export class TollDiscountComponent implements OnInit {
       case 5:
         start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, 1, 0, 0, 0));
         this.dates.start = start;
-        end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0));
+        end = this.common.dateFormatter1(new Date());
         this.dates.end = end;
         this.getdetails();
         break;
@@ -194,8 +222,9 @@ export class TollDiscountComponent implements OnInit {
   }
   getdetails() {
 
+    let today = new Date();
 
-    let params = "mobileNo=" + this.user._details.fo_mobileno + "&startDate=" + this.dates.start + "&endDate=" + this.dates.end;
+    let params = "mobileNo=" + this.user._details.fo_mobileno + "&startDate=" + this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, 1, 0, 0, 0)) + "&endDate=" + this.common.dateFormatter1(today) ;
 
     this.common.loading++;
     let response;
@@ -223,8 +252,6 @@ export class TollDiscountComponent implements OnInit {
       amount: { title: 'Amount', placeholder: 'Amount' },
       remark: { title: 'Remark', placeholder: 'Remark' },
       disc_type: { title: 'Discount Type', placeholder: 'Discount Type' },
-
-
     };
     return {
       data: {
@@ -241,7 +268,7 @@ export class TollDiscountComponent implements OnInit {
     let columns = [];
     this.data.map(req => {
       let column = {
-        transdate: { value: req.transdate == null ? "-" : this.common.changeDateformat(req.transdate) },
+        transdate: { value: req.transdate == null ? "-" : this.common.changeDateformat4(req.transdate) },
         amount: { value: req.amount == null ? "-" : req.amount },
         remark: { value: req.remark == null ? "-" : req.remark },
         disc_type: { value: req.disc_type == null ? "-" : req.disc_type },

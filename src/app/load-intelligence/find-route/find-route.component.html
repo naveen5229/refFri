@@ -1,0 +1,31 @@
+<div class="boxed">
+  <div>
+    <div class="row " text-center style="background: #f8f8f8; height: 40px;">
+      <div class="col text-center " (click)="selected.calculator = 'findAsa'"
+        [ngClass]=" selected.calculator == 'findAsa' ? 'active': 'in-active'"
+        style=" cursor:pointer; padding-top: 12px;background-color: orange;color: #252525;font-weight: bold;font-size: 15px;">
+        ROUTE(HOTSPOT)
+      </div>
+    </div>
+  </div>
+
+  <div class="routes" id="cost-calculator" style="margin-top: 10px; margin-bottom: 10px; overflow: hidden">
+    <div class="input-position" *ngFor="let route of routes.findAsa; let i = index" [hidden]="route.status">
+      <auto-suggestion *ngIf="this.user._details.foid == 11906"  [data]="originData" display="name" placeholder="Search origin..." (onSelected)="route.origin = $event"></auto-suggestion>
+      <auto-suggestion *ngIf="user._details.foid != 11906"(onChange)="route.origin = ''" (onSelected)="route.origin = $event;"
+       url="Location/getPlaceFromRedis" display="location" inputId="startname" placeholder="Search origin"></auto-suggestion>
+      <br>
+      <auto-suggestion *ngIf="this.user._details.foid == 11906" [data]="originData" display="name" placeholder="Search destination..." (onSelected)="route.destination = $event"></auto-suggestion>
+      <auto-suggestion *ngIf="this.user._details.foid != 11906" (onChange)="route.destination = ''" (onSelected)="route.destination = $event;"
+      url="Location/getPlaceFromRedis" display="location" inputId="endname" placeholder="Search destination"></auto-suggestion>
+     
+    </div>
+    <div class="row route-options">
+      <div class="col cal-btn text-center">
+        <button class="btn btn primary" type="button" (click)="mapViewer('findAsa')" style="cursor: pointer;"    block>
+          <!-- [disabled]="!routes.findAsa[0].origin.name && !routes.findAsa[0].origin.location && !routes.findAsa[0].destination.name !routes.findAsa[0].destination.location" -->
+          FIND ROUTE
+        </button>
+      </div>
+    </div>
+  </div>

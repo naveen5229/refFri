@@ -47,7 +47,7 @@ export class CaptchaComponent implements OnInit {
   }
 
   captchaValidator(captcha, index) {
-    if (captcha.txt && captcha.txt.length > 4)
+    if (captcha.txt)
       this.sendCaptchaTxt(captcha, index);
     else this.common.showError('Please enter valid captcha');
   }

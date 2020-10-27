@@ -126,7 +126,7 @@ export class PathViewerComponent {
     console.log(params);
     // loader.present();
 
-    this.api.post('info', params)
+    this.api.postJava('info', params)
       .subscribe(res => {
         console.log('Res:', res);
         // loader.dismiss();

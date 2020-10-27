@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ThemeModule } from '../@theme/theme.module';
 import { DirectiveModule } from '../directives/directives.module';
-import { ImageViewerModule } from 'ng2-image-viewer';
 import { ChartModule } from 'angular2-chartjs';
 import { ResizableModule } from 'angular-resizable-element';
 import { ChallanRoutingModule } from './challan-routing.module';
@@ -14,7 +13,7 @@ import { MvGpsApiReqComponent } from './mv-gps-api-req/mv-gps-api-req.component'
 
 
 const PAGES_COMPONENTS = [
-  ChallanComponent,
+  ChallanComponent, 
 ];
 @NgModule({
 
@@ -22,7 +21,6 @@ const PAGES_COMPONENTS = [
     ChallanRoutingModule,
     ThemeModule,
     DirectiveModule,
-    ImageViewerModule,
     ChartModule,
     ResizableModule,
     SharedModule

@@ -14,6 +14,8 @@ import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summ
 import { StorerequisitionComponent } from '../../acounts-modals/storerequisition/storerequisition.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { AccountService } from '../../services/account.service';
+import {AdvanceComponent } from '../../acounts-modals/advance/advance.component';
+import { ServiceComponent } from '../service/service.component';
 
 @Component({
   selector: 'daybookpending',
@@ -24,6 +26,8 @@ export class DaybookpendingComponent implements OnInit {
   selectedName = '';
   activedateid = '';
   fuelFilings=[];
+  flag=0;
+
   DayBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -39,7 +43,13 @@ export class DaybookpendingComponent implements OnInit {
       name: 'All',
       id: 0
     },
-    issumrise: 'true'
+    issumrise: 'true',
+    isamount: 0,
+    remarks: '',
+    vouchercustcode: '',
+    vouchercode: '',
+    frmamount: 0,
+    toamount: 0,
 
   };
   lastActiveId = '';
@@ -70,6 +80,8 @@ export class DaybookpendingComponent implements OnInit {
     public modalService: NgbModal,
     public accountService: AccountService,
     public router: Router) {
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.DayBook.startdate;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.DayBook.enddate;
     this.common.refresh = this.refresh.bind(this);
     this.getVoucherTypeList();
     //  this.getBranchList();
@@ -137,13 +149,14 @@ export class DaybookpendingComponent implements OnInit {
       });
 
   }
-  openinvoicemodel(invoiceid) {
+  openinvoicemodel(invoiceid,ordertypeid) {
     // console.log('welcome to invoice ');
     //  this.common.params = invoiceid;
     this.common.params = {
       invoiceid: invoiceid,
       delete: this.deletedId,
-      approveid:4
+      approveid:4,
+      ordertype:ordertypeid
     };
     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -176,6 +189,8 @@ export class DaybookpendingComponent implements OnInit {
   }
   getDayBook() {
     console.log('Accounts:', this.DayBook);
+    this.DayBook.startdate= this.accountService.fromdate;
+      this.DayBook.enddate= this.accountService.todate;
     let params = {
       startdate: this.DayBook.startdate,
       enddate: this.DayBook.enddate,
@@ -183,7 +198,13 @@ export class DaybookpendingComponent implements OnInit {
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
       delete: this.deletedId,
-      forapproved: 0
+      forapproved: 0,
+      isamount: this.DayBook.isamount,
+      remarks: this.DayBook.remarks,
+      vouchercustcode: this.DayBook.vouchercustcode,
+      vouchercode: this.DayBook.vouchercode,
+      frmamount: this.DayBook.frmamount,
+      toamount: this.DayBook.toamount,
     };
 
     this.common.loading++;
@@ -289,16 +310,17 @@ export class DaybookpendingComponent implements OnInit {
       this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
       return;
     }
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
+    // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = this.activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = this.activeId;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // }
+     else if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);
@@ -736,4 +758,43 @@ export class DaybookpendingComponent implements OnInit {
     })
    
   }
+  addvance(){
+    this.common.params = { 'isamount':this.DayBook.isamount,'remarks':this.DayBook.remarks,'vouchercustcode':this.DayBook.vouchercustcode,'vouchercode':this.DayBook.vouchercode,'frmamount':this.DayBook.frmamount,'toamount':this.DayBook.toamount };
+    const activeModal = this.modalService.open(AdvanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+       console.log('Data: ', data);
+      if (data.response) {
+        this.DayBook.isamount=data.ledger.isamount;
+        this.DayBook.remarks=data.ledger.remarks;
+        this.DayBook.vouchercustcode=data.ledger.vouchercustcode;
+        this.DayBook.vouchercode=data.ledger.vouchercode;
+        this.DayBook.frmamount=data.ledger.frmamount;
+        this.DayBook.toamount=data.ledger.toamount;
+        if(data.ledger.toamount !=0 || data.ledger.frmamount !=0 ||data.ledger.vouchercode !='' ||data.ledger.vouchercustcode !='' ||data.ledger.remarks !='' ||data.ledger.isamount !=0){
+          this.flag = 1;
+        }else{
+          this.flag = 0;
+        }
+      }
+    });
+  }
+  openServiceSalesInvoicemodel(dataItem, invoiceid, ordertypeid, create = 0,){
+    this.common.params = {
+      invoiceid: invoiceid,
+      delete: this.deletedId,
+      newid: create,
+      ordertype: ordertypeid,
+      isModal:true
+    };
+    const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
+    activeModal.result.then(data => {
+      console.log('Data: invoice ', data);
+        if (data.msg) {
+          console.log('open succesfull');
+          this.getDayBook();
+        // this.addLedger(data.ledger);
+      }
+    });
+  }
+  
 }

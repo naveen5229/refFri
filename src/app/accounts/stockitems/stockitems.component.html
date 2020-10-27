@@ -10,7 +10,7 @@
       </button>
     </div>
     <button class="btn mb-4 add-button" (click)="openStockItemModal()"><i class="fa fa-plus"></i></button>
-    <div class="main">
+    <div class="main table-responsive">
       <table class="table table-bordered ">
         <thead style="background-color: #263238; color:#fff;">
           <tr>
@@ -18,6 +18,8 @@
             <th>Stock Type</th>
             <th>Stock Sub Type</th>
             <th>Name</th>
+            <th>Alias Name</th>
+            <th>Is Sevice</th>
             <th>Date</th>
             <th>Action</th>
           </tr>
@@ -30,6 +32,8 @@
             <td>{{stockItem.stocktype_name}}</td>
             <td>{{stockItem.stoctsubtypename}}</td>
             <td>{{stockItem.name}}</td>
+            <td>{{ stockItem.alias_name }}</td>
+            <td>{{(stockItem.is_service) ? 'Yes' : 'No'}}</td>
             <td>{{stockItem.entry_dt | date : 'dd-MMM-yy'}}</td>
             <td class="del">
               <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i

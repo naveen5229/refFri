@@ -3,49 +3,54 @@ import { NbMenuItem } from '@nebular/theme';
 export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Home Dashboard',
-        icon: 'fa fa-home',
+        icon: 'fa-home',
         link: '/pages/dashboard',
         home: true,
     },
     {
         title: 'Driver List ',
-        icon: 'fa fa-list',
+        icon: 'fa-list',
         link: '/driver/driver-list',
         home: true,
-    },
+    },{
 
+        title: 'Driver On Side Images',
+        icon: 'fa-map-marker',
+        link: '/driver/driver-on-side-images',
+        home: true,
+    },
     {
 
         title: 'Vehicle Driver Mapping',
-        icon: 'fa fa-map-marker',
+        icon: 'fa-map-marker',
         link: '/driver/vehicle-driver-mapping',
         home: true,
     },
     {
 
         title: 'Attendace List',
-        icon: 'fa fa-clock-o',
+        icon: 'fa-clock-o',
         link: '/driver/driver-attendance',
         home: true,
     },
     {
 
         title: 'Driver Document',
-        icon: 'fa fa-book',
+        icon: 'fa-book',
         link: '/driver/driver-document',
         home: true,
     },
     {
 
         title: 'Licence Upload',
-        icon: 'fas fa-address-card',
+        icon: 'fa-address-card',
         link: '/driver/licence-upload',
         home: true,
     },
     {
 
         title: 'Pending Licence',
-        icon: 'fas fa-align-justify',
+        icon: 'fa-align-justify',
         link: '/driver/pending-licence',
         home: true,
     }

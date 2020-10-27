@@ -164,7 +164,7 @@ export class AddSiteRuleComponent implements OnInit {
         console.log("data:");
         console.log(this.result);
         this.common.showToast(res['msg']);
-        this.activeModal.close({ response: this.result });
+        // this.activeModal.close({ response: this.result });
 
       }, err => {
 

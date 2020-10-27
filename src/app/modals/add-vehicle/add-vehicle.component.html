@@ -22,7 +22,7 @@
         <!-- </div> -->
         <!-- <div class="col-sm-3"> -->
         <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name" id="name"
-          placeholder="Fo User"></auto-suggestion>
+          placeholder="Fo User" [preSelected]="{name:Foid}"></auto-suggestion>
       </div>
     </div>
 
@@ -46,7 +46,10 @@
       <button class="btn btn-primary" type="submit" (click)="importDriverCsv()" name="button">Import Csv</button>
     </div> -->
     <div class="col-md-12 text-center margin-top-15">
+
       <button class="btn btn-primary" id="submit" name="button" (click)="Submit()">Submit</button>
+      <button class="btn btn-danger" id="cancel" form="addfo-form" (click) = "resetDetail()" style="margin-left:10px">Cancel</button>
+
     </div>
 
   </div>

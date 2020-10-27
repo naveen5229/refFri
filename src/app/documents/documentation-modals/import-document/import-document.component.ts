@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorReportComponent } from '../error-report/error-report.component';
+import { CsvErrorReportComponent } from '../../../modals/csv-error-report/csv-error-report.component';
 @Component({
   selector: 'import-document',
   templateUrl: './import-document.component.html',
@@ -68,14 +69,12 @@ export class ImportDocumentComponent implements OnInit {
     this.api.post('Drivers/ImportDriversCsv', params)
       .subscribe(res => {
         this.common.loading--;
-        let errorData = res['data']['f'];
+        let successData =  res['data']['success'];
+        let errorData =res['data']['fail'];
         alert(res["msg"]);
-
-        if (errorData.length) {
-          this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
-          const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
-        }
+        this.common.params = { apiData: params,successData, errorData, title: 'Bulk Vehicle csv Verification',isUpdate:false };
+        const activeModal = this.modalService.open(CsvErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  
         this.closeModal(true);
       }, err => {
         this.common.loading--;

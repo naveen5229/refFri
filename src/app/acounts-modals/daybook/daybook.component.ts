@@ -17,6 +17,8 @@ import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-rec
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 import { AccountService } from '../../services/account.service';
+import { ServiceComponent } from '../../accounts/service/service.component';
+
 @Component({
   selector: 'daybook',
   templateUrl: './daybook.component.html',
@@ -46,7 +48,13 @@ export class DaybookComponent implements OnInit {
       name: 'All',
       id: 0
     },
-    issumrise: 'true'
+    issumrise: 'true',
+    isamount: 0,
+    remarks: '',
+    vouchercustcode: '',
+    vouchercode: '',
+    frmamount: 0,
+    toamount: 0,
 
   };
   lastActiveId = '';
@@ -98,7 +106,13 @@ export class DaybookComponent implements OnInit {
           name: 'All',
           id: this.common.params.vouchertype
         },
-        issumrise: 'true'
+        issumrise: 'true',
+        isamount: 0,
+        remarks: '',
+        vouchercustcode: '',
+        vouchercode: '',
+        frmamount: 0,
+        toamount: 0,
       }
       this.deletedId =this.common.params.deleteId;
       this.getDayBook();
@@ -156,23 +170,33 @@ export class DaybookComponent implements OnInit {
       });
 
   }
-  openinvoicemodel(invoiceid) {
-    // console.log('welcome to invoice ');
-    //  this.common.params = invoiceid;
+  openinvoicemodel(invoiceid,ordertypeid) {
     this.common.params = {
       invoiceid: invoiceid,
       delete: this.deletedId,
+      newid: 0,
+      ordertype: ordertypeid,
+      isModal:true,
       sizeIndex:1
     };
-    const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.delete) {
-        console.log('open succesfull');
-
-        // this.addLedger(data.ledger);
+      console.log('Data: invoice ', data);
+        if (data.msg) {
       }
     });
+    // this.common.params = {
+    //   invoiceid: invoiceid,
+    //   delete: this.deletedId,
+    //   sizeIndex:1,
+    //   ordertype:ordertypeid
+    // };
+    // const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+    //   if (data.delete) {
+    //     console.log('open succesfull');
+    //   }
+    // });
   }
 
   getAllLedger() {
@@ -200,9 +224,14 @@ export class DaybookComponent implements OnInit {
       ledger: this.DayBook.ledger.id,
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
-     
       delete: 0,
-      forapproved: (this.deletedId == 1) ? 0 : 1
+      forapproved: (this.deletedId == 1) ? 0 : 1,
+      isamount: this.DayBook.isamount,
+      remarks: this.DayBook.remarks,
+      vouchercustcode: this.DayBook.vouchercustcode,
+      vouchercode: this.DayBook.vouchercode,
+      frmamount: this.DayBook.frmamount,
+      toamount: this.DayBook.toamount,
     };
 
     this.common.loading++;
@@ -303,7 +332,14 @@ export class DaybookComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event, this.activeId);
-    if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.DayData.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      console.log('hello',key);
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.DayData.length - 1) this.selectedRow++;
+
+    }
+    else if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
       this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
       return;
@@ -354,12 +390,13 @@ export class DaybookComponent implements OnInit {
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
-    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
-      /************************ Handle Table Rows Selection ********************** */
-      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
-      else if (this.selectedRow != this.DayData.length - 1) this.selectedRow++;
+    // else if ((key.includes('arrowup') || key.includes('arrowdown')) && this.DayData.length) {
+    //   /************************ Handle Table Rows Selection ********************** */
+    //   console.log('hello',key);
+    //   if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+    //   else if (this.selectedRow != this.DayData.length - 1) this.selectedRow++;
 
-    }
+    // }
   }
 
 

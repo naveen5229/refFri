@@ -13,11 +13,13 @@ import { LocationMarkerComponent } from '../../modals/location-marker/location-m
 })
 export class TripStatusFeedbackComponent implements OnInit {
   trips = [];
+  states = [];
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
     this.getTrips();
+    this.getStates();
     this.common.refresh = this.refresh.bind(this);
 
   }
@@ -29,6 +31,24 @@ export class TripStatusFeedbackComponent implements OnInit {
 
     this.getTrips();
   }
+getStates(){
+  this.common.loading++;
+  this.api.get('Suggestion/getAllDashboardStatus')
+    .subscribe(res => {
+      this.common.loading--;
+      this.states = res['data'] || [];
+    }, err => {
+      this.common.loading--;
+      console.log(err);
+    });
+}
+
+  selectState(event,index){
+    this.trips[index].status = '';
+    this.trips[index].status=(event.v_is_ncv||'')+","+(event.prim_status||'')+","+(event.sec_status||'');
+    console.log("this.trips[index].status",this.trips[index].status);
+  }
+
   getTrips() {
     this.common.loading++;
     this.api.get('TripsOperation/tripDetailsForVerification')
@@ -50,19 +70,8 @@ export class TripStatusFeedbackComponent implements OnInit {
     console.log("action", action);
     if (action == "true") {
       this.changeVerification(trip, action, i);
-
-      // this.common.params = {
-      //   title: "Trip Verification",
-      //   description: " Do you really want to verify it ?"
-      // }
-      // const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-      // activeModal.result.then(data => {
-      //   if (data.response) {
-      //     this.changeVerification(trip, action,i);
-      //   }
-      // });
     }
-    else if ((action == 'false') && ((trip.status > 0) || (trip.origin) || (trip.destination))) {
+    else if ((action == 'false') && ((trip.status) || (trip.origin) || (trip.destination))) {
       this.changeVerification(trip, action, i);
 
     }

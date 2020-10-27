@@ -15,7 +15,9 @@ export class ConstraintsComponent implements OnInit {
     consignees: [{ name: '', id: '' }],
     transporter: [{ name: '', id: '' }],
     vehicles: [{ regno: '', id: '' }],
+    groups: [{ id: '', foid: '', description: '', aduserid: '', entrymode: '' }],
     destinations: [{ name: '', id: '', type: '', siteName: '', location: '' },],
+    sources: [{ name: '', id: '', type: '', siteName: '', location: '' },],
   }
   searchString = '';
   keepGoing = true;
@@ -79,7 +81,11 @@ export class ConstraintsComponent implements OnInit {
       regno: '',
       type: 'site',
       siteName: '',
-      location: ''
+      location: '',
+      foid: '',
+      description: '',
+      aduserid: '',
+      entrymode: ''
     });
   }
 
@@ -99,7 +105,14 @@ export class ConstraintsComponent implements OnInit {
       case 'vehicles':
         this.constraintsType[type] = [{ id: null, regno: '' }];
         break;
+      case 'groups':
+        this.constraintsType[type] = [{ id: null, foid: '', description: '', aduserid: '', entrymode: '' }];
+        break;
       case 'destinations':
+        this.constraintsType[type] = [{ id: null, name: '', siteName: '', type: 'site' }];
+        this.constraintsType[type] = [{ id: null, name: '', location: '', type: 'map' }];
+        break;
+      case 'sources':
         this.constraintsType[type] = [{ id: null, name: '', siteName: '', type: 'site' }];
         this.constraintsType[type] = [{ id: null, name: '', location: '', type: 'map' }];
         break;
@@ -112,6 +125,7 @@ export class ConstraintsComponent implements OnInit {
     this.constraintsType[type][index].id = null;
     console.log("", this.constraintsType[type].id = null);
   }
+  
   selectSuggestion(details, index, type, locationType?) {
     console.log("details", details);
 
@@ -125,7 +139,17 @@ export class ConstraintsComponent implements OnInit {
       case 'vehicles':
         this.constraintsType[type][index] = { id: details.id, regno: details.regno };
         break;
+      case 'groups':
+        this.constraintsType[type][index] = { id: details.id, foid: details.foid, description: details.description, aduserid: details.aduserid, entrymode: details.entrymode };
+        break;
       case 'destinations':
+        if (locationType == 'site') {
+          this.constraintsType[type][index] = { id: details.id, name: details.name, siteName: details.sd_loc_name, type: 'site' };
+        }
+        else {
+          this.constraintsType[type][index] = { id: details.id, name: details.name ? details.name : '', location: details.location, type: 'map' };
+        }
+      case 'sources':
         if (locationType == 'site') {
           this.constraintsType[type][index] = { id: details.id, name: details.name, siteName: details.sd_loc_name, type: 'site' };
         }
@@ -144,7 +168,7 @@ export class ConstraintsComponent implements OnInit {
     this.searchString = search;
   }
 
-  takeAction(res, index) {
+  takeAction(res, index, type) {
     setTimeout(() => {
       if (this.keepGoing && this.searchString.length) {
         this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
@@ -154,10 +178,18 @@ export class ConstraintsComponent implements OnInit {
           if (res != null) {
             this.keepGoing = true;
             if (res.location.lat) {
-              this.constraintsType.destinations[index].location = res.location.name;
-              (<HTMLInputElement>document.getElementById('mapValue')).value = this.constraintsType.destinations[index].location;
-              this.constraintsType.destinations[index].id = res.id;
-              this.keepGoing = true;
+              if (type == 'destination') {
+                this.constraintsType.destinations[index].location = res.location.name;
+                (<HTMLInputElement>document.getElementById('mapValue')).value = this.constraintsType.destinations[index].location;
+                this.constraintsType.destinations[index].id = res.id;
+                this.keepGoing = true;
+              }
+              else if (type == 'source') {
+                this.constraintsType.sources[index].location = res.location.name;
+                (<HTMLInputElement>document.getElementById('mapValue')).value = this.constraintsType.sources[index].location;
+                this.constraintsType.sources[index].id = res.id;
+                this.keepGoing = true;
+              }
             }
           }
         })
@@ -171,7 +203,10 @@ export class ConstraintsComponent implements OnInit {
       consignees: this.constraintsType.consignees.filter(consignee => { return consignee.id; }).map(consignee => { return consignee.id; }),
       transporters: this.constraintsType.transporter.filter(transport => { return transport.id }).map(transport => { return transport.id }),
       vehicles: this.constraintsType.vehicles.filter(vehicle => { return vehicle.id }).map(vehicle => { return vehicle.id }),
+      groups: this.constraintsType.groups.filter(group => { return group.id }).map(group => { return group.id }),
       destinations: this.constraintsType.destinations.filter(destination => { return destination.id }).map(destination => { return destination.id }),
+      sources: this.constraintsType.sources.filter(source => { return source.id }).map(source => { return source.id }),
+    
     }
     const params = {
       constraints: JSON.stringify(issues),

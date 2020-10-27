@@ -4,7 +4,6 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { UpdateTicketSubscribeComponent } from '../../modals/update-ticket-subscribe/update-ticket-subscribe.component';
-import { flattenStyles } from '@angular/platform-browser/src/dom/dom_renderer';
 import { DatePipe } from '@angular/common';
 
 
@@ -121,8 +120,8 @@ export class TicketSubscribeComponent implements OnInit {
         isOld: { value: R.is_old },
         Name: { value: R.name },
         action: {
-          value: '', isHTML: false, action: null, icons: [
-            { class: 'fa fa-pencil-square-o  edit-btn', action: this.editTicketSubscribe.bind(this, R) },
+          value: '', isHTML: true, action: null, icons: [
+            { class: 'fas fa-edit edit-btn', action: this.editTicketSubscribe.bind(this, R) },
           ]
         },
       };

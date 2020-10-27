@@ -23,6 +23,7 @@ import { TollAnalaticsComponent } from './toll-analatics/toll-analatics.componen
 import { OtherUsageComponent } from './other-usage/other-usage.component';
 import { CardBalanceComponent } from './card-balance/card-balance.component';
 import { ChartModule } from 'angular2-chartjs';
+import { TagSummaryComponent } from './tag-summary/tag-summary.component';
 const PAGES_COMPONENTS = [
   Walle8Component,
 ];
@@ -34,7 +35,7 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     DirectiveModule,
-    PagesModule,
+    // PagesModule,
     ChartModule,
 
   ],
@@ -57,6 +58,7 @@ const PAGES_COMPONENTS = [
     TollAnalaticsComponent,
     OtherUsageComponent,
     CardBalanceComponent,
+    TagSummaryComponent,
 
   ],
   exports: [

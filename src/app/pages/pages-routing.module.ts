@@ -12,7 +12,6 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { ConciseComponent } from './concise/concise.component';
 import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
 import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.component';
-import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { TrendsComponent } from './trends/trends.component';
@@ -92,6 +91,22 @@ import { RouteTripComponent } from './route-trip/route-trip.component';
 import { TripSummaryComponent } from './trip-summary/trip-summary.component';
 import { RouteDeviationsComponent } from './route-deviations/route-deviations.component';
 import { FuelDailyConsumptionComponent } from './fuel-daily-consumption/fuel-daily-consumption.component';
+import { VehicleStatusChangeComponent } from '../admin/vehicle-status-change/vehicle-status-change.component';
+import { VehicleStatusChangeByUserComponent } from './vehicle-status-change-by-user/vehicle-status-change-by-user.component';
+import { TripissuesComponent } from './tripissues/tripissues.component';
+import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
+import { SupervisorUserAssociationComponent } from './supervisor-user-association/supervisor-user-association.component';
+import { TripsComponent } from './trips/trips.component';
+import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
+import { IssuesReportComponent } from './issues-report/issues-report.component';
+import { TmgChallanComponent } from './tmg-challan/tmg-challan.component';
+import { TmgTripComponent } from './tmg-trip/tmg-trip.component';
+import { TmgTrafficComponent } from './tmg-traffic/tmg-traffic.component';
+import { TmgComponent } from './tmg/tmg.component';
+import { TmgCallsComponent } from './tmg-calls/tmg-calls.component';
+import { TmgAlertsComponent } from './tmg-alerts/tmg-alerts.component';
+import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
+import { OnSideImagesComponent } from '../driver/on-side-images/on-side-images.component';
 
 
 const routes: Routes = [{
@@ -105,30 +120,71 @@ const routes: Routes = [{
 
     path: 'dashboard',
     component: ConciseComponent,
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
+  {
+    path: 'load-intelligence',
+    loadChildren: () => import('app/load-intelligence/load-intelligence.module').then(m => m.LoadIntelligenceModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'vehiclestatuschange',
+    component: VehicleStatusChangeByUserComponent ,
+    canActivate: [AuthGuard, RouteGuard],
+},
+{
+  path: 'vehicle-states',
+  component: VehicleStatesComponent ,
+  canActivate: [AuthGuard, RouteGuard],
+},
+{
+  path: 'tripissues',
+  component: TripissuesComponent ,
+  canActivate: [AuthGuard, RouteGuard],
+},
+{
+  path: 'tmg-trip',
+  component: TmgTripComponent ,
+  canActivate: [AuthGuard, RouteGuard],
+},
+{
+  path: 'tmg-traffic',
+  component: TmgTrafficComponent ,
+  canActivate: [AuthGuard, RouteGuard],
+},
+{
+  path: 'issues-report',
+  component: IssuesReportComponent ,
+  canActivate: [AuthGuard, RouteGuard],
+},
   {
 
     path: 'vehicle-kpis',
     component: VehicleKpisComponent,
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'tickets',
     component: TicketsComponent,
-    canActivate: [AuthGuard, RouteGuard, RouteGuard],
+    canActivate: [AuthGuard, RouteGuard],
   },
   {
 
     path: 'tickets-all',
     component: TicketsAllComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+
+    path: 'tickets-kpi',
+    component: TicketsKpiComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   {
@@ -166,12 +222,7 @@ const routes: Routes = [{
     component: CardMappingComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
-  {
-
-    path: 'ticket-details',
-    component: TicketDetailsComponent,
-    canActivate: [AuthGuard, RouteGuard],
-  },
+ 
   {
 
     path: 'fuel-average-analysis',
@@ -179,9 +230,13 @@ const routes: Routes = [{
     canActivate: [AuthGuard, RouteGuard],
   },
   {
-
     path: 'vehicle-trip',
     component: VehicleTripComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'trip',
+    component: TripsComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   {
@@ -402,6 +457,11 @@ const routes: Routes = [{
     component: DriverDocumentComponent,
     canActivate: [AuthGuard, RouteGuard]
 
+  },{
+    path: 'driver-on-side-images',
+    component: OnSideImagesComponent,
+    canActivate: [AuthGuard, RouteGuard]
+
   },
 
 
@@ -522,6 +582,12 @@ const routes: Routes = [{
     canDeactivate: [DeactivateGuardService]
   },
   {
+    path: 'supervisor-user-association',
+    component: SupervisorUserAssociationComponent,
+    canActivate: [AuthGuard, RouteGuard],
+    canDeactivate: [DeactivateGuardService]
+  },
+  {
     path: 'trends-fo',
     component: TrendsFoComponent,
     canActivate: [AuthGuard, RouteGuard]
@@ -568,12 +634,40 @@ const routes: Routes = [{
     component: RouteDeviationsComponent,
     canActivate: [AuthGuard, RouteGuard],
 
-  },{
-    path:'fuel-daily-consumption',
-    component:FuelDailyConsumptionComponent,
+  }, {
+    path: 'fuel-daily-consumption',
+    component: FuelDailyConsumptionComponent,
     canActivate: [AuthGuard, RouteGuard],
-  }
+  },
+  {
+    path: 'tmg-challan',
+    component: TmgChallanComponent,
+    canActivate: [AuthGuard,RouteGuard]
+},
+{
+  path: 'tmg-dashboard',
+  component: TmgComponent,
+  canActivate: [AuthGuard,RouteGuard]
+},
+{
+  path: 'tmg-calls',
+  component: TmgCallsComponent,
+  canActivate: [AuthGuard,RouteGuard]
+},
+{
+  path: 'tmg-alerts',
+  component: TmgAlertsComponent,
+  canActivate: [AuthGuard,RouteGuard]
+},
+{
+  path: 'graphical-reports',
+  component: GraphicalReportsComponent,
+  canActivate: [AuthGuard,RouteGuard]
+}
 
+
+
+  
   ],
 }];
 

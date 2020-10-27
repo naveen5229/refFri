@@ -18,6 +18,13 @@ import { ReportIssueComponent } from '../../modals/report-issue/report-issue.com
   styleUrls: ['./driver-call-suggestion.component.scss']
 })
 export class DriverCallSuggestionComponent implements OnInit {
+  CountSummary=[];
+  onwardTotal=null;
+  onwardDelay=null;
+  loadingTotal=null;
+  loadingDelay=null;
+  unloadingTotal=null;
+  unloadingDelay=null;
   driverData = [];
   headings = [];
   kmpdval = 300;
@@ -41,6 +48,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+    this.getCountSummary();
     let today = new Date();
     this.strcurdate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     today.setDate(today.getDate() - 1);
@@ -157,6 +165,9 @@ export class DriverCallSuggestionComponent implements OnInit {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
             let hdgobj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            if (key === 'Trip Start Time') {
+              hdgobj['type'] = 'date';
+            }
             this.table.data.headings[key] = hdgobj;
           }
         }
@@ -201,7 +212,9 @@ export class DriverCallSuggestionComponent implements OnInit {
         }
         else if (this.headings[j] == "Vehicle") {
           valobj[this.headings[j]] = { value: val, class: 'blue', action: this.addShortTarget.bind(this, this.driverData[i]) };
-
+        }
+        else if (this.headings[j] == "Mobile") {
+          valobj[this.headings[j]] = { value: val, class: 'blue', action: this.callNotification.bind(this, this.driverData[i]) };
         }
         else if (this.headings[j] == "Trip") {
           valobj[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.driverData[i]), isHTML: true, class: 'black', action: this.openPlacementModal.bind(this, this.driverData[i]) };
@@ -274,6 +287,30 @@ export class DriverCallSuggestionComponent implements OnInit {
       });
   }
 
+  getCountSummary(){
+    let type=0;
+    let hrs = 10;
+    this.CountSummary = [];
+    this.common.loading++;
+    let params = "type=" + type +
+      "&hours=" + hrs;
+    this.api.get('TripsOperation/tripOnwardDelay?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("getCountSummary", res['data'][0]);
+        this.CountSummary = res['data'][0];
+        this.onwardTotal=this.CountSummary['totalonward'];
+        this.onwardDelay=this.CountSummary['tenhronwarddelaycount'];
+        this.loadingTotal=this.CountSummary['totalloading'];
+        this.loadingDelay=this.CountSummary['tenhrloadingdelaycount'];
+        this.unloadingTotal=this.CountSummary['totalunloading'];
+        this.unloadingDelay=this.CountSummary['tenhrunloadingdelaycount'];
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
   smartTableWithHeadings() {
     this.table2 = {
       data: {
@@ -293,6 +330,9 @@ export class DriverCallSuggestionComponent implements OnInit {
         if (key.charAt(0) != "_") {
           this.headings.push(key);
           let headerObj = { title: key, placeholder: this.formatTitle(key) };
+          if (key === 'ETOA' || key==='Start Time' || key==='Target Time') {
+            headerObj['type'] = 'date';
+          }
           this.table2.data.headings[key] = headerObj;
         }
 
@@ -924,4 +964,23 @@ export class DriverCallSuggestionComponent implements OnInit {
     );
   }
 
+  callNotification(driver){
+    console.log("driver",driver);
+    let params = {
+      mobileno:driver['Mobile'],
+      callTime:this.common.dateFormatter(new Date())
+
+    }
+  console.log('params: ', params);
+  this.common.loading++;
+  this.api.post('Notifications/sendCallSuggestionNotifications' , params)
+    .subscribe(res => {
+      this.common.loading--;
+      console.log('res--',res);
+      this.common.showToast(res['msg']);
+    }, err => {
+      this.common.loading--;
+      this.common.showError();
+    })
+  }
 }

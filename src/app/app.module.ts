@@ -7,27 +7,27 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { HttpModule } from '@angular/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 // BY On Demand add Module
-import { NgxQRCodeModule } from 'ngx-qrcode2';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DirectiveModule } from './directives/directives.module';
 import { from } from 'rxjs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ImageViewerModule } from 'ng2-image-viewer';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatIconModule } from '@angular/material/icon';
-import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+// import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
-import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DeactivateGuardService } from './guards/route.guard';
 import { NgxPrintModule } from 'ngx-print';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
@@ -261,6 +261,45 @@ import { AddGpsApiUrlComponent } from './modals/add-gps-api-url/add-gps-api-url.
 import { AddGpsWebUrlComponent } from './modals/add-gps-web-url/add-gps-web-url.component';
 import { AddGpsSupplierComponent } from './modals/add-gps-supplier/add-gps-supplier.component';
 import { VehicleDetailsUpdateComponent } from './modals/vehicle-details-update/vehicle-details-update.component';
+import { FuelDailyCunsumtionComponent } from './modals/fuel-daily-cunsumtion/fuel-daily-cunsumtion.component';
+import { FuelDailyCunsumtionConditionComponent } from './modals/fuel-daily-cunsumtion-condition/fuel-daily-cunsumtion-condition.component';
+import { CardusageComponent } from './modals/cardusage/cardusage.component';
+import { MultiVehicleHaltAddComponent } from './modals/multi-vehicle-halt-add/multi-vehicle-halt-add.component';
+import { BankDetailsComponent } from './modals/bank-details/bank-details.component';
+import { IssueReportComponent } from './modals/issue-report/issue-report.component';
+import { VehicleInfoComponent } from './modals/vehicle-info/vehicle-info.component';
+import { AddOrderComponent } from './modals/BidModals/add-order/add-order.component';
+import { AddBidComponent } from './modals/BidModals/add-bid/add-bid.component';
+import { ShowBidDataComponent } from './modals/BidModals/show-bid-data/show-bid-data.component';
+import { GeneralModalComponent } from './modals/general-modal/general-modal.component';
+import { SingleVehicleGpsDataComponent } from './modals/single-vehicle-gps-data/single-vehicle-gps-data.component';
+import { VehicleStatusComponent } from './modals/vehicle-status/vehicle-status.component';
+import { AddProposalComponent } from './modals/BidModals/add-proposal/add-proposal.component';
+import { ProposalStateComponent } from './modals/BidModals/proposal-state/proposal-state.component';
+import { VehicleOrdersComponent } from './modals/BidModals/vehicle-orders/vehicle-orders.component';
+import { RecordsComponent } from './acounts-modals/records/records.component';
+import { AddCountryComponent } from './acounts-modals/add-country/add-country.component';
+import { AddStateComponent } from './acounts-modals/add-state/add-state.component';
+
+import { LoadIntelligenceModule } from './load-intelligence/load-intelligence.module';
+import { StockSummaryComponent } from './acounts-modals/stock-summary/stock-summary.component';
+import { GstReportComponent } from './acounts-modals/gst-report/gst-report.component';
+import { AdvanceComponent } from './acounts-modals/advance/advance.component';
+import { RangeComponent } from './acounts-modals/range/range.component';
+import { ChangeVehicleStatusByCustomerComponent } from './modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
+import { OtherinfoComponent } from './acounts-modals/otherinfo/otherinfo.component';
+import { UpdateLocationComponent } from './modals/update-location/update-location.component';
+import { VerifyfuturetripstateComponent } from './modals/verifyfuturetripstate/verifyfuturetripstate.component';
+import { GstdataComponent } from './acounts-modals/gstdata/gstdata.component';
+import { CheckloginandredirectComponent } from './auth/checkloginandredirect/checkloginandredirect.component';
+import { TripStateMappingComponent } from './modals/trip-state-mapping/trip-state-mapping.component';
+import { TicketInfoComponent } from './modals/ticket-info/ticket-info.component';
+import { TicketDetailsComponent } from './modals/ticket-details/ticket-details.component';
+import { ShowDataMapComponent } from './modals/generic-modals/show-data-map/show-data-map.component';
+import { IframeModalComponent } from './modals/iframe-modal/iframe-modal.component';
+import { UploadFileComponent } from './modals/generic-modals/upload-file/upload-file.component';
+import { FoSiteAliasComponent } from './modals/fo-site-alias/fo-site-alias.component';
+import { TripKmRepairViewComponent } from './modals/trip-km-repair-view/trip-km-repair-view.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -483,6 +522,40 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   AddGpsWebUrlComponent,
   AddGpsSupplierComponent,
   VehicleDetailsUpdateComponent,
+  FuelDailyCunsumtionComponent,
+  FuelDailyCunsumtionConditionComponent,
+  CardusageComponent,
+  MultiVehicleHaltAddComponent,
+  BankDetailsComponent,
+  IssueReportComponent,
+  AddOrderComponent,
+  AddBidComponent,
+  ShowBidDataComponent,
+  GeneralModalComponent,
+  SingleVehicleGpsDataComponent,
+  VehicleStatusComponent,
+  AddProposalComponent,
+  ProposalStateComponent,
+  VehicleOrdersComponent,
+  RecordsComponent,
+  AddCountryComponent,
+  AddStateComponent,
+  StockSummaryComponent,
+  GstReportComponent,
+  AdvanceComponent,
+  RangeComponent,
+  OtherinfoComponent,
+  ChangeVehicleStatusByCustomerComponent,
+  UpdateLocationComponent,
+  VerifyfuturetripstateComponent,
+  GstdataComponent,
+  TripStateMappingComponent,
+  TicketInfoComponent,
+  TicketDetailsComponent,
+  ShowDataMapComponent,
+  IframeModalComponent,
+  UploadFileComponent,
+  FoSiteAliasComponent,
 
 ];
 
@@ -492,37 +565,43 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CustomTimePipe,
     CustomDatePipe,
     ...COMMON_COMPONENT,
+    CardusageComponent,
+    VehicleInfoComponent,
+    AddStateComponent,
+    UpdateLocationComponent,
+    VerifyfuturetripstateComponent,
+    CheckloginandredirectComponent,
+    CheckloginandredirectComponent,
+    TripKmRepairViewComponent,
+
   ],
   entryComponents: [
-    ...COMMON_COMPONENT
+    ...COMMON_COMPONENT,
+    VehicleInfoComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    HttpModule,
-    NgbModule.forRoot(),
+    NgbModule,
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    ImageViewerModule,
     MatIconModule,
     DragDropModule,
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    LoadIntelligenceModule,
     NgxPrintModule,
     NgxQRCodeModule,
     PdfViewerModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
-      libraries: ['drawing']
-    }),
     ResizableModule,
-    DateInputsModule
+    DateInputsModule,
+    ScrollingModule
   ],
 
   bootstrap: [AppComponent],
@@ -530,7 +609,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     DeactivateGuardService,
     NgbActiveModal,
     { provide: APP_BASE_HREF, useValue: '/' },
-    { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
+    // { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true },
     // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
   ],

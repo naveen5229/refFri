@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { trimTrailingNulls } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'stockitem',
@@ -43,7 +44,9 @@ export class StockitemComponent implements OnInit {
     cess:0,
     igst:0,
     taxability:'',
-    calculationtype:''
+    calculationtype:'',
+    openingbal:1,
+    openingqty:''
 
   };
   activeId='stockType';
@@ -71,7 +74,7 @@ export class StockitemComponent implements OnInit {
     public common: CommonService,
     public api: ApiService) {
       console.log("open data model data:",this.common.params);
-    if (this.common.params) {
+    if (this.common.params.name) {
       this.sizeIndex =this.common.params.sizeIndex;
       this.stockItem = {
         name: this.common.params.name,
@@ -92,19 +95,21 @@ export class StockitemComponent implements OnInit {
           id: ''
         },
         maxlimit: this.common.params.max_limit,
-        minlimit: common.params.min_limit,
-        isactive: common.params.is_active,
-        sales: common.params.for_sales,
-        purchase: common.params.for_purchase,
-        inventary: common.params.for_inventory,
-        isnon:common.params.gst_is_non,
-        hsnno:common.params.gst_hsn_sac_no,
-        hsndetail:common.params.gst_hsn_sac_desc,
-        gst:common.params.gst_is_applicable,
-        cess:common.params.gst_cess_per,
-        igst:common.params.gst_igst_per,
-        taxability:common.params.gst_taxability,
-        calculationtype:common.params.gst_calculation_type
+        minlimit: this.common.params.min_limit,
+        isactive: this.common.params.is_active,
+        sales: this.common.params.for_sales,
+        purchase: this.common.params.for_purchase,
+        inventary: this.common.params.for_inventory,
+        isnon:this.common.params.gst_is_non,
+        hsnno:this.common.params.gst_hsn_sac_no,
+        hsndetail:this.common.params.gst_hsn_sac_desc,
+        gst:this.common.params.gst_is_applicable,
+        cess:this.common.params.gst_cess_per,
+        igst:this.common.params.gst_igst_per,
+        taxability:this.common.params.gst_taxability,
+        calculationtype:this.common.params.gst_calculation_type,
+        openingbal:(this.common.params.is_service)?1:0,
+        openingqty:this.common.params.alias_name
       }
 
       console.log('Stock: ', this.stockItem);
@@ -256,7 +261,11 @@ export class StockitemComponent implements OnInit {
 
   dismiss(response) {
     console.log('Stock Type:', this.stockItem);
+    if((this.stockItem.name.trim()) ==''){
+      this.common.showError('Please Fill Stock Item Name');
+    }else{
     this.activeModal.close({ response: response, stockItem: this.stockItem });
+    }
   }
 
 
@@ -264,6 +273,9 @@ export class StockitemComponent implements OnInit {
     this.showConfirm = false;
     event.preventDefault();
     return;
+   }
+   modelConditionfirst(){
+    this.activeModal.close({ response: false, stockItem: this.stockItem });
    }
   keyHandler(event) {
     const key = event.key.toLowerCase();
@@ -318,17 +330,21 @@ export class StockitemComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         
-        this.setFoucus('unit');
-      } else if (activeId == 'unit') {
         this.setFoucus('name');
+      } else if (activeId == 'unit') {
+        this.setFoucus('sales');
       } else if (activeId == 'code') {
         this.setFoucus('name');
       } else if (activeId == 'name') {
-        this.setFoucus('maxlimit');
+        this.setFoucus('openingqty');
       } else if (activeId == 'maxlimit') {
         this.setFoucus('minlimit');
       } else if (activeId == 'minlimit') {
-        this.setFoucus('isactive');
+        this.setFoucus('gst');
+      }else if ((activeId == 'openingbal') || (activeId == 'notopeningbal')) {
+        this.setFoucus('maxlimit');
+      }else if (activeId == 'openingqty') {
+        this.setFoucus('unit');
       } else if (activeId == 'isactive' || activeId == 'notisactive') {
         this.setFoucus('sales');
       } else if (activeId == 'sales' || activeId == 'notsales') {
@@ -342,16 +358,21 @@ export class StockitemComponent implements OnInit {
      //  this.showConfirm = true;
      }
       else if (activeId == 'inventary' || activeId == 'notinventary') {
-         this.setFoucus('gst');
+         this.setFoucus('notopeningbal');
       //  this.showConfirm = true;
       }else if (activeId == 'gst' || activeId == 'notgst') {
+        if(activeId=='gst'){
+          this.stockItem.gst=true;
+        }else{
+          this.stockItem.gst=false;
+        }
         this.setFoucus('hsndetail');
      //  this.showConfirm = true;
      } else if (activeId == 'hsndetail') {
         this.setFoucus('hsnno');
        // this.showConfirm = true;
       }else if (activeId == 'hsnno') {
-        this.setFoucus('notisnon');
+        this.setFoucus('isnon');
        // this.showConfirm = true;
       }else if (activeId == 'cess') {
         // this.setFoucus('stock-name');
@@ -361,31 +382,34 @@ export class StockitemComponent implements OnInit {
         console.log('test??????');
         this.setFoucus('taxability');
       }else if (activeId.includes('taxability')) {
-        
-        console.log('test??????');        
+        if(this.stockItem.taxability=='Taxable'){       
         this.setFoucus('igst');
+      }else{
+        this.setFoucus('cess');
+      }
       }
     } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', activeId);
-      if (activeId == 'inventary' || activeId == 'notinventary') this.setFoucus('purchase');
-      if (activeId == 'purchase' || activeId == 'notpurchase') this.setFoucus('sales');
-      if (activeId == 'sales' || activeId == 'notsales') this.setFoucus('isactive');
-      if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('minlimit');
-      if (activeId == 'minlimit') this.setFoucus('maxlimit');
-      if (activeId == 'maxlimit') this.setFoucus('code');
-      if (activeId == 'code') this.setFoucus('name');
-      if (activeId == 'name') this.setFoucus('unit');
-      if (activeId == 'unit') this.setFoucus('stockSubType');
-      if (activeId == 'stockSubType') this.setFoucus('stockType');
-      if (activeId == 'cess') this.setFoucus('igst');
-      if (activeId == 'igst') this.setFoucus('taxability');
-      if (activeId == 'taxability') this.setFoucus('calculationtype');
-      if (activeId == 'calculationtype') this.setFoucus('notisnon');
-      if (activeId == 'notisnon' || 'isnon') this.setFoucus('hsnno');
-      if (activeId == 'hsnno') this.setFoucus('hsndetail');
-      if (activeId == 'hsndetail') this.setFoucus('gst');
-      if (activeId == 'gst') this.setFoucus('inventary');
+      if (activeId == 'inventary' || activeId == 'notinventary') {this.setFoucus('purchase');}
+      else if (activeId == 'purchase' || activeId == 'notpurchase') {this.setFoucus('sales');}
+      else if (activeId == 'sales' || activeId == 'notsales') {this.setFoucus('unit');}
+      else if (activeId == 'isactive' || activeId == 'notisactive') {this.setFoucus('openingbal');}
+      else if (activeId == 'openingqty'){ this.setFoucus('minlimit'); }
+      else if (activeId == 'openingbal' || activeId =='notopeningbal') {this.setFoucus('name');}
+      else if (activeId == 'minlimit'){ this.setFoucus('maxlimit');}
+      else if (activeId == 'name'){ this.setFoucus('stockSubType');}
+      else if (activeId == 'maxlimit'){ this.setFoucus('openingbal');}
+      else if (activeId == 'unit'){ this.setFoucus('openingqty');}
+      else if (activeId == 'stockSubType'){ this.setFoucus('stockType');}
+      else if (activeId == 'cess'){ this.setFoucus('igst');}
+      else if (activeId == 'igst'){ this.setFoucus('taxability');}
+      else if (activeId == 'taxability'){ this.setFoucus('calculationtype');}
+      else if (activeId == 'calculationtype'){ this.setFoucus('notisnon');}
+      else if (activeId == 'notisnon' || 'isnon'){ this.setFoucus('hsnno');}
+      else if (activeId == 'hsnno') { this.setFoucus('hsndetail');}
+      else if (activeId == 'hsndetail'){ this.setFoucus('gst'); }
+      else if (activeId == 'gst' || activeId == 'notgst') { this.setFoucus('minlimit'); }
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
     } else if (key != 'backspace') {

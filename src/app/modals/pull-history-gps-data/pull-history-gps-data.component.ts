@@ -12,8 +12,10 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./pull-history-gps-data.component.scss']
 })
 export class PullHistoryGPSDataComponent implements OnInit {
-  startDate = null;
-  endDate = null;
+  // startDate = null;
+  // endDate = null;
+  startDate = new Date();
+  endDate = new Date();
   foid = '';
   gpsData = [];
   haltData = [];
@@ -21,13 +23,6 @@ export class PullHistoryGPSDataComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public modalService: NgbModal,
     public api: ApiService) {
-    let today = new Date(), start = new Date();
-
-    this.endDate = today;
-    console.log("end Date:", this.endDate);
-
-    start.setDate(today.getDate() - 5);
-    this.startDate = start;
     console.log("Start Date:", this.startDate);
   }
 
@@ -41,37 +36,11 @@ export class PullHistoryGPSDataComponent implements OnInit {
   selectFoUser(user) {
     this.foid = user.id;
   }
-  getDate(type) {
-
-    this.common.params = { ref_page: 'pull-history-gps-data' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (type == 'start') {
-          this.startDate = '';
-          this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
-        }
-        else {
-          this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
-          console.log('endDate', this.endDate);
-        }
-      }
-    });
-
-  }
+ 
   getgpsData() {
-    this.startDate = this.common.dateFormatter(this.startDate).split(' ')[0];
-    this.endDate = this.common.dateFormatter(this.endDate).split(' ')[0];
-    let d1 = new Date(this.startDate);
-    let d2 = new Date(this.endDate);
-    console.log(d1, d2);
-    const diffTime = Math.abs(d2.getTime() - d1.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    console.log(diffDays);
-    if (diffDays > 5) {
-      window.alert('Diffrence between selected date should be less than 5 days');
-      return;
-    }
+    this.startDate = this.common.dateFormatter(this.startDate);
+    this.endDate = this.common.dateFormatter(this.endDate);
+   
 
     this.common.loading++;
     this.api.get3('schedulers/apidata/downloadapidata.php?history=1&&foid=' + this.foid + ' &&fromTime=' + this.startDate + '&&toTime=' + this.endDate)

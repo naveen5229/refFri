@@ -87,6 +87,135 @@ export class PrintService {
     const DPI = this.getDPI();
     const pageSize = PAGE_SIZE[this.detectBrowser()];
     let pageIndex = 1;
+    let rowIndex = 1;
+    let isNextPage = false;
+    let pageContainer = null;
+    while (rowIndex < json.table.rows.length) {
+      pageContainer = this.createPageHtml();
+      ppContainer.appendChild(pageContainer);
+      let page = pageContainer.children[0];
+      let pageInsider = page.children[0];
+      if (pageIndex == 1) {
+        pageInsider.appendChild(this.createHeaderHtmlnew(json.headers,json.invoicetype));
+        pageInsider.appendChild(this.createBasicDetailsHtmlnew(json.details, json.headers, json.seconddetails, json.headerssecond));
+      }
+
+      let tableContainer = this.createTableHtml();
+      pageInsider.appendChild(tableContainer);
+      let table = tableContainer.children[0];
+      if (pageIndex == 1) {
+        table.appendChild(this.createTheadHtml(json.table.headings));
+      }
+
+      let tbody = this.createTbodyHtml()
+      table.appendChild(tbody);
+      for (let i = rowIndex; i < json.table.rows.length; i++) {
+        let row = this.createTrHtml(json.table.rows[i]);
+        tbody.appendChild(row);
+        let mm = (pageInsider['offsetHeight'] + row.offsetHeight * 25.4) / DPI;
+        if (mm > pageSize && i != json.table.rows.length - 1) {
+          rowIndex = i + 1;
+          isNextPage = true;
+          break;
+        }
+        rowIndex++;
+      }
+      // if (rowIndex == json.table.rows.length) {
+      //   pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+      // }
+      // pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+      // pageIndex++;
+    }
+    let rowIndexnew = 0;
+    let secondPageIndex = 1;
+    while (rowIndexnew < json.table1.rows.length) {
+      if (isNextPage) {
+        pageContainer = this.createPageHtml();
+        ppContainer.appendChild(pageContainer);
+      }
+      isNextPage = true;
+      let page = pageContainer.children[0];
+      let pageInsider = page.children[0];
+      // if (secondPageIndex == 1) {
+      //   pageInsider.appendChild(this.createHeaderHtml(json.headers));
+      //   pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
+      // }
+
+      let tableContainer = this.createTableHtml();
+      pageInsider.appendChild(tableContainer);
+      let table = tableContainer.children[0];
+      if (secondPageIndex == 1) {
+        table.appendChild(this.createTheadHtml(json.table1.headings));
+      }
+
+      let tbody = this.createTbodyHtml()
+      table.appendChild(tbody);
+      for (let i = rowIndexnew; i < json.table1.rows.length; i++) {
+        let row = this.createTrHtml(json.table1.rows[i]);
+        tbody.appendChild(row);
+        let mm = (pageInsider['offsetHeight'] + row.offsetHeight * 25.4) / DPI;
+        if (mm > pageSize && i != json.table1.rows.length - 1) {
+          rowIndexnew = i + 1;
+          break;
+        }
+        rowIndexnew++;
+      }
+      if (rowIndexnew == json.table1.rows.length) {
+       // pageContainer.appendChild(this.createSignatureHtml(json.signatures));
+        pageContainer.appendChild(this.createSignatureHtmlnewformat(json.signatures));
+      }
+      //xpageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+      pageIndex++;
+      secondPageIndex++;
+    }
+  }
+
+  invoiceFormat3(ppContainer: HTMLElement, json: any) {
+    const DPI = this.getDPI();
+    const pageSize = PAGE_SIZE[this.detectBrowser()];
+    let pageIndex = 1;
+    let rowIndex = 0;
+    while (rowIndex < json.table.rows.length) {
+      let pageContainer = this.createPageHtmlnew();
+      ppContainer.appendChild(pageContainer);
+      let page = pageContainer.children[0];
+      let pageInsider = page.children[0];
+      if (pageIndex == 1) {
+        pageInsider.appendChild(this.createHeaderHtml(json.headers));
+        pageInsider.appendChild(this.createBasicDetailsHtml(json.details));
+      }
+
+      let tableContainer = this.createTableHtmlnew();
+      pageInsider.appendChild(tableContainer);
+      let table = tableContainer.children[0];
+      if (pageIndex == 1) {
+        table.appendChild(this.createTheadHtmlnew(json.table.headings));
+      }
+
+      let tbody = this.createTbodyHtml()
+      table.appendChild(tbody);
+      for (let i = rowIndex; i < json.table.rows.length; i++) {
+        let row = this.createTrHtmlNew(json.table.rows[i]);
+        tbody.appendChild(row);
+        let mm = (pageInsider['offsetHeight'] + row.offsetHeight * 25.4) / DPI;
+        if (mm > pageSize && i != json.table.rows.length - 1) {
+          rowIndex = i + 1;
+          break;
+        }
+        rowIndex++;
+      }
+      if (rowIndex == json.table.rows.length) {
+        pageContainer.appendChild(this.createSignatureHtmlnew(json.signatures));
+      }
+     // pageContainer.appendChild(this.createFooterHtml(json.footer, pageIndex));
+      pageIndex++;
+    }
+  }
+
+  invoiceFormat4(ppContainer: HTMLElement, json: any) {
+    const DPI = this.getDPI();
+    const pageSize = PAGE_SIZE[this.detectBrowser()];
+    let pageIndex = 1;
     let rowIndex = 0;
     while (rowIndex < json.table.rows.length) {
       let pageContainer = this.createPageHtml();
@@ -124,7 +253,6 @@ export class PrintService {
       pageIndex++;
     }
   }
-
   /**
   * Invoice Format 1 : This is one format of invoice if you want to create like this, you can use it.
   * @param ppContainer - All printing pages container
@@ -394,6 +522,13 @@ export class PrintService {
     return pageContainer;
   }
 
+  createPageHtmlnew() {
+    let pageContainer = document.createElement('div');
+    pageContainer.className = 'print-page-container';
+    pageContainer.innerHTML = `<div class="print-page-new"><div class="page-insider"></div></div>`
+    return pageContainer;
+  }
+
   /**
    * Create Print page header to show print details liek as company name, address etc
    * @param headers - Contains header properties like as font size, color etc.
@@ -409,7 +544,21 @@ export class PrintService {
     }
     return this['createHeader' + template](headers);
   }
+  createHeaderHtmlnew(headers: any[],invoicename, template = 1) {
+    if (template == 1) {
+      let headerContainer = document.createElement('div');
+      headerContainer.className = 'pp-v1-header';
+      // headerContainer.innerHTML = headers.map(header => {
+      //   return `<div style="text-align: ${header.align || 'center'}; font-size: ${header.size || '16px'}; font-weight: ${header.weight || 100}; color: ${header.color || '#000'};">${header.txt}</div>`;
 
+
+      // }).join('');
+
+      headerContainer.innerHTML = `<div style="text-align: ${'center'}; font-size: ${'16px'}; font-weight: ${100}; color: ${'#000'};">${invoicename}</div>`;
+      return headerContainer;
+    }
+    return this['createHeader' + template](headers);
+  }
   createHeader2(header) {
     let headerContainer = document.createElement('div');
     // headerContainer.className = 'pp-v1-header';
@@ -475,6 +624,70 @@ export class PrintService {
     return detailsContainer;
   }
 
+  createBasicDetailsHtmlnew(details: any[], headers?, seconddetails?, headerssecond?) {
+    let detailsContainer = document.createElement('div');
+    detailsContainer.className = 'pp-v1-details';
+    detailsContainer.innerHTML = `
+      <div class="row">
+      <div class="col-6" style="margin-top: 8px;border: 1px solid #ddd;">
+      <div class="row" style="border-bottom:1px solid gray;">
+      
+      ${headers.map(header => {
+      // return `<div class="col-6" style="margin-top: 8px"><strong>${detail.name}</strong><span>${detail.value}</span></div>`;
+      return `<div class="col-12" style="margin-top: 8px; font-size: ${header.size || '16px'}; font-weight: ${header.weight || 100};"><strong>${header.txt}</strong><span>${header.value}</span></div>`;
+    }).join('')}
+    </div>
+    <div class="row">
+    ${headerssecond.map(header => {
+      // return `<div class="col-6" style="margin-top: 8px"><strong>${detail.name}</strong><span>${detail.value}</span></div>`;
+      return `<div class="col-12" style="margin-top: 8px; font-size: ${header.size || '16px'}; font-weight: ${header.weight || 100};"><strong>${header.txt}</strong><span>${header.value}</span></div>`;
+    }).join('')}
+    </div>
+      </div>
+      <div class="col-6" style="margin-top: 8px;border: 1px solid #ddd;">
+      <div class="row">
+      <div class="col-6 p-0">
+      ${details.map((detail, index) => {
+        if(index < 3){
+      // return `<div class="col-6" style="margin-top: 8px"><strong>${detail.name}</strong><span>${detail.value}</span></div>`;
+      return `<div style="padding:0 2px 10px 3px;font-size: ${detail.size || '16px'}; font-weight: ${detail.weight || 100}; border-bottom:${(details.length > (index + 1)) ? '1px solid gray' : ''}; border-right:${(details.length > (index + 1)) ? '1px solid gray;' : ''}; Height:68px;"><strong>${detail.name}</strong><span>${detail.value}</span></div>`;
+        }
+    }).join('')}
+      </div>
+      <div class="col-6 p-0">
+      ${seconddetails.map((sdetail, index) => {
+        if(index < 3){
+      // return `<div class="col-6" style="margin-top: 8px"><strong>${detail.name}</strong><span>${detail.value}</span></div>`;
+      return `<div style="border-bottom:1px solid gray;padding:0 2px 10px 3px;font-size: ${sdetail.size || '16px'}; font-weight: ${sdetail.weight || 100};Height:68px;"><strong>${sdetail.name}</strong><span>${sdetail.value}</span></div>`;
+        }
+    }).join('')}
+      </div>
+      </div>
+      <div class="row">
+      <div class="col-6 p-0">
+      ${details.map((detail, index) => {
+        if(index > 2){
+      // return `<div class="col-6" style="margin-top: 8px"><strong>${detail.name}</strong><span>${detail.value}</span></div>`;
+      return `<div style="padding:0 2px 10px 3px;font-size: ${detail.size || '16px'}; font-weight: ${detail.weight || 100}; border-bottom:${(details.length > (index + 1)) ? '1px solid gray' : ''}; border-right:${(details.length > (index + 1)) ? '1px solid gray;' : ''}; Height:68px;"><strong>${detail.name}</strong><span>${detail.value}</span></div>`;
+        }
+    }).join('')}
+      </div>
+      <div class="col-6 p-0">
+      ${seconddetails.map((sdetail, index) => {
+        if(index > 2){
+      // return `<div class="col-6" style="margin-top: 8px"><strong>${detail.name}</strong><span>${detail.value}</span></div>`;
+      return `<div style="border-bottom:1px solid gray;padding:0 2px 10px 3px;font-size: ${sdetail.size || '16px'}; font-weight: ${sdetail.weight || 100};Height:68px;"><strong>${sdetail.name}</strong><span>${sdetail.value}</span></div>`;
+        }
+    }).join('')}
+      </div>
+      </div>
+      </div>
+      </div>
+    `;
+    return detailsContainer;
+  }
+
+
   /**
    * Create table tag
    */
@@ -490,15 +703,32 @@ export class PrintService {
     return tableContainer;
   }
 
+  createTableHtmlnew(tableName?) {
+    let tableContainer = document.createElement('div');
+
+    tableContainer.className = 'pp-v1-container';
+    tableContainer.innerHTML = '';
+    if (tableName) {
+      tableContainer.innerHTML = `<h5>${tableName}</h5>`;
+    }
+    tableContainer.innerHTML += `<table class="table tablenew"></table>`;
+    return tableContainer;
+  }
   /**
    * Create thead tag for table
    * @param headings - Array of object to set table head
    */
   createTheadHtml(headings: any[]) {
     let tHead = document.createElement('thead');
-    tHead.innerHTML = headings.map(heading => { return `<th>${heading.txt}</th>`; }).join('');
+    tHead.innerHTML = headings.map(heading => { return `<th  style="width: ${heading.width || '100px'};">${heading.txt}</th>`; }).join('');
     return tHead;
   }
+  createTheadHtmlnew(headings: any[]) {
+    let tHead = document.createElement('thead');
+    tHead.innerHTML = headings.map(heading => { return `<th  style="width: ${heading.width || '100px'};border-top: ${heading.bordertop || 'none'};border-right: ${heading.borderright || 'none'};text-align: ${heading.align || 'left'};">${heading.txt}</th>`; }).join('');
+    return tHead;
+  }
+
 
   /**
    * Create tbody tag for Table
@@ -515,10 +745,22 @@ export class PrintService {
   createTrHtml(row: any[]) {
     let tr = document.createElement('tr');
     tr.innerHTML = row.map(col => {
-      return `<td colspan="${col.colspan || 1}" style="text-align: ${col.align || 'left'}">${
+      return `<td colspan="${col.colspan || 1}" style="text-align: ${col.align || 'left'}; width: ${col.width || '100px'}; padding: ${col.padding || '0px'};">${
         (!col.txt || typeof col.txt === 'string' || typeof col.txt === 'number') ? (col.txt || '') : `<strong>${col.txt.name}</strong>: <span>${col.txt.value}</span>`
         }</td>`
     }).join('');
+    //console.log('ros in ', tr);
+    return tr;
+  }
+
+  createTrHtmlNew(row: any[]) {
+    let tr = document.createElement('tr');
+    tr.innerHTML = row.map(col => {
+      return `<td colspan="${col.colspan || 1}" style="text-align: ${col.align || 'left'}; width: ${col.width || '100px'}; padding: ${col.padding || '0px'};border-bottom: ${col.borderbottom || 'none'}; border-left: ${col.borderleft || 'none'}; border-top: ${col.bordertop || 'none'}; border-right: ${col.borderright || 'none'};font-weight: ${col.weight || 'normal'};">${
+        (!col.txt || typeof col.txt === 'string' || typeof col.txt === 'number') ? (col.txt || '') : `<strong>${col.txt.name}</strong>: <span>${col.txt.value}</span>`
+        }</td>`
+    }).join('');
+    //console.log('ros in ', tr);
     return tr;
   }
 
@@ -526,9 +768,24 @@ export class PrintService {
    * Create Signature HTML to print on last page of PRINT
    * @param signatures - Array of string
    */
+  createSignatureHtmlnewformat(data) {
+    //console.log('sifnature data',data)
+    let signatureContainer = document.createElement('div');
+    //signatureContainer.className = 'pp-v1-signature';
+    signatureContainer.innerHTML = 
+      `<div style="border:1px solid #ddd;"><div class='row m-0'><div>${'Tax Amount (in words) : </div><div style="font-weight: bold">'+data.amount}</div></div>`+'\n'+`<div class='row m-0'><div class='col-6'><div class='row'> <div  class='col-6'>${"Compan's PAN         </div><div class='col-6' style='font-weight: bold'>: "+data.pan} </div></div><div>${'Declaration'+'\n'+'We declare that this invoice shows the actual price of the goods desctibeed and that all particulars are true and correct</div>'}</div><div class='col-6' style="border:1px solid #ddd;"><div style="text-align:right;font-weight: bold;"> for Elogist Solution Private Limited</div><div style="text-align:right;">Authorise Signatory </div></div></div>`;
+   
+    return signatureContainer;
+  }
   createSignatureHtml(signatures: string[]) {
     let signatureContainer = document.createElement('div');
     signatureContainer.className = 'pp-v1-signature';
+    signatureContainer.innerHTML = signatures.map(signature => { return `<div>${signature}</div>` }).join('');
+    return signatureContainer;
+  }
+  createSignatureHtmlnew(signatures: string[]) {
+    let signatureContainer = document.createElement('div');
+    signatureContainer.className = 'pp-v1-signaturenew';
     signatureContainer.innerHTML = signatures.map(signature => { return `<div>${signature}</div>` }).join('');
     return signatureContainer;
   }

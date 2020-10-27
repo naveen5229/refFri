@@ -20,6 +20,11 @@
 .add_leader_account .form-group{
     width: 100%;
 }
+.add_leader_account{
+  width: 100%;
+  height: 72vh;
+  overflow: auto;
+}
 @media (min-width: 992px){
     .modal-lg {
         max-width: 1200px !important;
@@ -65,20 +70,24 @@ button { background-color: #73a1ff;
 }
 
 .invoice_tabel{
-  thead{
-    tr {
-      th{
-        padding: 5px 10px;
-        border: 1px solid #d8d8d8;
-        font-weight: normal;
-      }
-    }
-  }
+  // thead{
+  //   tr {
+  //     th{
+  //       padding: 5px 10px;
+  //       border: 1px solid #d8d8d8;
+  //       font-weight: normal;
+  //     }
+  //   }
+  // }
   tbody{
     tr {
       td{
         padding: 5px 10px;
         border: 1px solid #d8d8d8;
+        td:first-child{
+          width: 50px;
+         }
+         
         .btn-taxdet{
           padding: 10px;
           border-radius: 5px;
@@ -92,6 +101,8 @@ button { background-color: #73a1ff;
           background-color: transparent;
           outline: none;
           box-shadow: none;
+          width: 100px;
+          margin-top: 10px;
           i{
             font-size: inherit !important;
             color: #263238 !important;
@@ -104,6 +115,8 @@ button { background-color: #73a1ff;
           background-color: transparent;
           outline: none;
           box-shadow: none;
+          width: 100px;
+          margin-top: 10px;
           i{
             font-size: inherit !important;
             color: #d61414 !important;
@@ -111,6 +124,7 @@ button { background-color: #73a1ff;
         }
       }
     }
+      scroll-behavior: auto;
   }
 }
 .modal-footer{
@@ -138,24 +152,24 @@ button { background-color: #73a1ff;
   margin: -10px -1rem -1rem auto;
   outline: none;
 }
-.modal-body label{
-  background: #263238;
-  color: #fff;
-  padding: 5px 8px;
-  display: block;
-  margin: 0;
-  border-radius: 3px 3px 0px 0px;
-  font-size: 12px;
-  min-width: 80px !important;
-  font-weight: normal;
-}
-.modal-body input{
-  border: 1px solid #263238 !important;
-  border-radius: 0px 2px 2px 2px;
-  padding: 3px 5px !important;
-  height: auto;
-  font-size: 12px;
-}
+// .modal-body label{
+//   background: #263238;
+//   color: #fff;
+//   padding: 5px 8px;
+//   display: block;
+//   margin: 0;
+//   border-radius: 3px 3px 0px 0px;
+//   font-size: 12px;
+//   min-width: 80px !important;
+//   font-weight: normal;
+// }
+// .modal-body input{
+//   border: 1px solid #263238 !important;
+//   border-radius: 0px 2px 2px 2px;
+//   padding: 3px 5px !important;
+//   height: auto;
+//   font-size: 12px;
+// }
 .modal-footer{
   padding: 10px 15px;
   button{
@@ -172,8 +186,8 @@ button { background-color: #73a1ff;
 .checktype{
   margin: 0px;
   float: left;
-  width: 24px;
-  height: 24px !important;
+  width: 20px;
+  height: 20px !important;
 }
 input[type=radio]{
   width: auto;
@@ -183,12 +197,12 @@ input[type=radio]{
   margin-left: 5px;
   border: 0px !important;
 }
-.debit_box,
-.true_false{
-  border: 1px solid #000;
-  padding: 3px;
-  text-align: left;
-}
+// .debit_box,
+// .true_false{
+//   border: 1px solid #000;
+//   padding: 3px;
+//   text-align: left;
+// }
 .debit,
 .true{
   display: inline-block;
@@ -200,4 +214,35 @@ input[type=radio]{
 .false{
   display: inline-block;
   margin-left: 10px;
+}
+
+.radiostockitem input[type=radio]{
+  height: auto;
+  box-shadow: none;
+  width: 20px;
+  float: left;
+  margin: 0px;
+  
+}
+.radiostockitem{
+margin-bottom: 12px;
+
+}
+
+.radiostockitem .form-group{
+  text-align: left;
+}
+.radiostockitem .form-group span{
+  font-weight: bold;
+  display: block;
+}
+.radiostockitem .form-group label{
+  font-weight: normal;
+}
+.iaactive{
+border: 1px solid black;
+width: auto;
+max-height: 30px;
+margin: 0px;
+padding: 3px 0px;
 }

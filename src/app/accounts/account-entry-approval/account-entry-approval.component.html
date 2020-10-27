@@ -1,41 +1,46 @@
 <nb-card style="border:0px;">
-  <nb-card-header>
+  <!-- <nb-card-header>
     <h5>Account Entry Approval</h5>
-  </nb-card-header>
-  <nb-card-body>
-    <div class="row" style="margin-top:10px; margin-bottom:10px;">
-      <div class="col-md-2 pr-0">
-        <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
-        </uj-date-time-picker>
+  </nb-card-header> -->
+  <nb-card-body (keydown)="keyHandler($event)">
+    <div class="row mt-4 mb-2">
+      <div class="col-md-2 pl-0">
+        <!-- <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+        </uj-date-time-picker> -->
+        <label class="tjr-label">Starting Date</label>
+        <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="startDate"
+          autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="accountService.fromdate">        
       </div>
-      <div class="col-md-2 pr-0">
-        <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
+      <div class="col-md-2 pl-0">
+        <!-- <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
           [dateTimeValue]="endTime">
-        </uj-date-time-picker>
+        </uj-date-time-picker> -->
+        <label class="tjr-label">End Date</label>
+        <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
+          maxlength="10" name="account-endDate" [(ngModel)]="accountService.todate">
+
       </div>
-      <div class="col-md-1 pr-0">
-        <label>Requests</label>
-      </div>
-      <div class="col-md-2 pr-0">
-        <select [(ngModel)]="requestType" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
+     
+      <div class="col-md-2 pl-0">
+        <label class="tjr-label">Requests</label>
+        <select [(ngModel)]="requestType" id="requestType" class="form-control tjr-input" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="Transfer">Transfer</option>
           <option value="Invoice">Invoice</option>
           <option value="MVS">MVS</option>
         </select>
       </div>
-      <div class="col-md-1 pr-0">
-       <label>Status</label>
-      </div>
-      <div class="col-md-2 pr-0">
-        <select [(ngModel)]="status" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
+     
+      <div class="col-md-2 pl-0">
+        <label class="tjr-label">Status</label>
+        <select [(ngModel)]="status" id="status" class="form-control tjr-input" style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="0">Pending</option>
           <option value="1">Accepted</option>
           <option value="-1">Rejected</option>
           <option value="2">All</option>
         </select>
       </div>
-      <div class="col-md-1 ">
-        <button type="submit" class="btn btn-primary m-0" (click)="getRequests()">Search</button>
+      <div class="col-md-2 pl-0 pt-4">
+        <button type="submit" class="btn btn-primary m-0 tjr-button" id="submit"  (click)="getRequests()">Search</button>
       </div>
      
     

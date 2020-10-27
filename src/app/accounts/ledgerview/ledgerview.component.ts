@@ -14,6 +14,9 @@ import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
 import { AccountService } from '../../services/account.service';
+import { OrderComponent } from '../../acounts-modals/order/order.component';
+import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
+import { ServiceComponent } from '../service/service.component';
 
 @Component({
   selector: 'ledgerview',
@@ -68,8 +71,10 @@ export class LedgerviewComponent implements OnInit {
     public user: UserService,
     public accountService: AccountService,
     public modalService: NgbModal) {
+      this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.ledger.startDate;
+      this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.ledger.endDate;
+     
     this.common.refresh = this.refresh.bind(this);
-
     this.getVoucherTypeList();
     this.getLedgerList();
     this.setFoucus('voucherType');
@@ -194,6 +199,8 @@ export class LedgerviewComponent implements OnInit {
 
   }
   getLedgerView() {
+    this.ledger.startDate= this.accountService.fromdate;
+    this.ledger.endDate= this.accountService.todate;
     console.log('Ledger:', this.ledger);
     if(this.ledger.ledger.id==0){
       this.common.showError('Please Select Ledger');
@@ -248,16 +255,17 @@ export class LedgerviewComponent implements OnInit {
       this.getBookDetail(this.ledgerData[this.selectedRow].y_ledger_id,'','','');
       return;
     }
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
+    // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = this.activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = this.activeId;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // } 
+    else if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);
@@ -265,6 +273,10 @@ export class LedgerviewComponent implements OnInit {
 
       return;
     } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      return;
+    }else if ((event.ctrlKey && key === 'd') && (this.ledgerData.length && this.selectedRow != -1)) {
+      ((this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('voucher')) ? (this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.ledgerData[this.selectedRow].y_voucherid, 6, this.ledgerData[this.selectedRow].y_vouchertype_id) : (this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('invoice') || this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('debit') || this.ledgerData[this.selectedRow].y_type.toLowerCase().includes('credit')) ? this.openinvoicemodeledit(this.ledgerData[this.selectedRow].y_voucherid,this.ledgerData[this.selectedRow].y_vouchertype_id,1) :'' )
+      event.preventDefault();
       return;
     }
 
@@ -345,47 +357,127 @@ export class LedgerviewComponent implements OnInit {
     }, 100);
   }
 
+  // getBookDetail(voucherId,vouhercode,ytype,dataItem) {
+  //   console.log('vouher id', voucherId,'ytype',ytype);
+  //   if((ytype.toLowerCase().includes('purchase')) || (ytype.toLowerCase().includes('sales')) || (ytype.toLowerCase().includes('debit')) || (ytype.toLowerCase().includes('credit'))){
+  //     this.common.params = {
+  //       invoiceid: voucherId,
+  //       delete: 0,
+  //       indexlg:0
+  //     };
+  //     const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  //     activeModal.result.then(data => {
+  //       // console.log('Data: ', data);
+  //       if (data.response) {
+  //         console.log('open succesfull');
+  
+  //         // this.addLedger(data.ledger);
+  //       }
+  //     });
+  //   }else if(ytype.toLowerCase().includes('fuel')){
+  //         this.openFuelEdit(dataItem);
+  //   }  else if(dataItem.y_type.toLowerCase().includes('trip')){
+  //     this.openConsignmentVoucherEdit(dataItem)
+  //   } else{
+  //   this.common.params={
+
+  //     vchid :voucherId,
+  //     vchcode:vouhercode
+  //   }
+  //   const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+  //   activeModal.result.then(data => {
+  //     // console.log('Data: ', data);
+  //     if (data.response) {
+  //       return;
+  //       //   if (stocksubType) {
+
+  //       //     this.updateStockSubType(stocksubType.id, data.stockSubType);
+  //       //     return;
+  //       //   }
+  //       //  this.addStockSubType(data.stockSubType)
+  //     }
+  //   });
+  // }
+  // }
   getBookDetail(voucherId,vouhercode,ytype,dataItem) {
     console.log('vouher id', voucherId,'ytype',ytype);
     if((ytype.toLowerCase().includes('purchase')) || (ytype.toLowerCase().includes('sales')) || (ytype.toLowerCase().includes('debit')) || (ytype.toLowerCase().includes('credit'))){
       this.common.params = {
         invoiceid: voucherId,
         delete: 0,
-        indexlg:0
+        newid: 0,
+        ordertype: dataItem.y_vouchertype_id,
+        isModal:true
       };
-      const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
-          console.log('open succesfull');
-  
-          // this.addLedger(data.ledger);
+        console.log('Data: invoice ', data);
+          if (data.msg) {
         }
       });
+      // this.common.params = {
+      //   invoiceid: voucherId,
+      //   delete: 0,
+      //   newid:0,
+      //   ordertype:dataItem.y_vouchertype_id
+      // };
+      // const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      // activeModal.result.then(data => {
+      //    console.log('Data: invoice ', data);
+      //   if (data.delete) {
+      //     console.log('open succesfull');
+      //   }
+      // });
+      // this.common.params = {
+      //   invoiceid: voucherId,
+      //   delete: 0,
+      //   indexlg:0
+      // };
+      // const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      // activeModal.result.then(data => {
+      //   // console.log('Data: ', data);
+      //   if (data.response) {
+      //     console.log('open succesfull');
+  
+      //     // this.addLedger(data.ledger);
+      //   }
+      // });
     }else if(ytype.toLowerCase().includes('fuel')){
           this.openFuelEdit(dataItem);
     }  else if(dataItem.y_type.toLowerCase().includes('trip')){
       this.openConsignmentVoucherEdit(dataItem)
     } else{
-    this.common.params={
 
-      vchid :voucherId,
-      vchcode:vouhercode
-    }
-    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        return;
-        //   if (stocksubType) {
+      this.common.params = {
+        voucherId: voucherId,
+        delete: 0,
+        addvoucherid: 0,
+        voucherTypeId: dataItem.y_vouchertype_id,
+      };
+      const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      activeModal.result.then(data => {
+        console.log('Data: ', data);
+        if (data.delete) {
+         // this.getDayBook();
+        } 
+        // this.common.showToast('Voucher updated');
 
-        //     this.updateStockSubType(stocksubType.id, data.stockSubType);
-        //     return;
-        //   }
-        //  this.addStockSubType(data.stockSubType)
-      }
-    });
+      });
+    // this.common.params={
+
+    //   vchid :voucherId,
+    //   vchcode:vouhercode
+    // }
+    // const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    // activeModal.result.then(data => {
+    //   // console.log('Data: ', data);
+    //   if (data.response) {
+    //     return;
+      
+    //   }
+    // });
   }
+  this.common.currentPage = 'Ledger View';
   }
   openFuelEdit(vchData){
     console.log('vch data new ##',vchData);
@@ -719,5 +811,57 @@ this.ledgerData.map((data,index) => {
         }
       });
     }
+  }
+  openVoucherEdit(voucherId, voucheradd, vchtypeid) {
+    console.log('ledger123', vchtypeid);
+    if (voucherId) {
+      this.common.params = {
+        voucherId: voucherId,
+        delete: 0,
+        addvoucherid: voucheradd,
+        voucherTypeId: vchtypeid,
+      };
+      const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      activeModal.result.then(data => {
+        console.log('Data: ', data);
+        if (data.delete) {
+          this.getLedgerView();
+        } 
+        // this.common.showToast('Voucher updated');
+
+      });
+    }
+  }
+  openinvoicemodeledit(invoiceid,ordertypeid,create=0) {
+    // console.log('welcome to invoice ');
+    //  this.common.params = invoiceid;
+    // this.common.params = {
+    //   invoiceid: invoiceid,
+    //   delete: 0,
+    //   newid:create,
+    //   ordertype:ordertypeid
+    // };
+    // const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+    //    console.log('Data: invoice ', data);
+    //   if (data.delete) {
+    //     console.log('open succesfull');
+    //       this.getLedgerView();
+    //   }
+    // });
+    this.common.params = {
+      invoiceid: invoiceid,
+      delete: 0,
+      newid: create,
+      ordertype: ordertypeid,
+      isModal:true
+    };
+    const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
+    activeModal.result.then(data => {
+      console.log('Data: invoice ', data);
+        if (data.msg) {
+          this.getLedgerView();
+      }
+    });
   }
 }

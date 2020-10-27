@@ -6,7 +6,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
 import { DocumentIssuesComponent } from '../../documents/documentation-modals/document-issues/document-issues.component';
 import { AddDocumentComponent } from '../documentation-modals/add-document/add-document.component';
-import { DocumentRef } from '@agm/core/utils/browser-globals';
 import { DocumentReportComponent } from '../documentation-modals/document-report/document-report.component';
 @Component({
   selector: 'documents-summary',
@@ -20,6 +19,11 @@ export class DocumentsSummaryComponent implements OnInit {
   vehicle_info = [];
   total_recs = 0;
   fodata = [];
+  pages = {
+    count: 0,
+    active: 1,
+    limit: 250,
+  };
 
   constructor(
     public api: ApiService,
@@ -33,6 +37,10 @@ export class DocumentsSummaryComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  ngAfterViewInit() {
+  }
+
 
   refresh() {
     console.log('Refresh');
@@ -49,7 +57,10 @@ export class DocumentsSummaryComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
+        this.pages.count = Math.ceil(this.data.result.length / this.pages.limit);
         this.total_recs = this.data.result.length;
+        this.handlePagination(this.pages.active);
+
         if (this.data.result.length) {
           for (var key in this.data.result[0]) {
             if (key.charAt(0) != "_")
@@ -62,7 +73,7 @@ export class DocumentsSummaryComponent implements OnInit {
         console.log(err);
       });
   }
-
+ 
 
   getDocumentType(strval) {
     if (strval) {
@@ -243,4 +254,24 @@ export class DocumentsSummaryComponent implements OnInit {
       }
     });
   }
+  dr = [];
+  handlePagination(page) {
+    this.pages.active = page;
+    let startIndex = this.pages.limit * (this.pages.active - 1);
+    let lastIndex = (this.pages.limit * this.pages.active);
+    console.log('this.data.result', this.data.result)
+    this.dr = this.data.result.slice(startIndex, lastIndex);
+    console.log("dr", this.dr);
+  }
+
+  settings:any;
+  setData() {
+      this.handlePagination(this.pages.active);
+      this.pages.count = Math.floor(this.data.result.length / this.pages.limit);
+      if (this.data.result.length % this.pages.limit) {
+        this.pages.count++;
+      }
+      console.log("this.pages.count",this.pages.count,this.data.result.length,this.pages.limit)
+  }
+
 }

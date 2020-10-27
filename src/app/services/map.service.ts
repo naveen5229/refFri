@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CommonService } from './common.service';
-import MarkerClusterer from "@google/markerclusterer"
 declare let google: any;
 declare let MarkerClusterer: any;
 
@@ -10,6 +9,8 @@ declare let MarkerClusterer: any;
 export class MapService {
 
   poly = null;
+  test = null;
+  elevator = null;
   polyVertices = [];
   map = null;
   mapDiv = null;
@@ -43,9 +44,9 @@ export class MapService {
   constructor(public common: CommonService) {
   }
 
-  autoSuggestion(elementId, setLocation?) {
+  autoSuggestion(elementId, setLocation?, types?) {
     let options = {
-      types: ['(cities)'],
+      types: types ? types : ['(cities)'],
       componentRestrictions: { country: "in" }
     };
     let ref = document.getElementById(elementId);//.getElementsByTagName('input')[0];
@@ -62,7 +63,7 @@ export class MapService {
     setLocation && setLocation(place, lat, lng, placeFull.formatted_address);
   }
 
-  zoomAt(latLng, level = 18) {
+  zoomAt(latLng, level = 20) {
     this.map.panTo(latLng);
     if (level != this.map.getZoom())
       this.zoomMap(level);
@@ -90,10 +91,20 @@ export class MapService {
       this.setBounds(this.createLatLng(thisPoint.lat, thisPoint.lng));
     }
   }
+  setPolyBounds(polygon, isReset = false) {
+    console.log("polygon", polygon);
+    if (isReset)
+      this.resetBounds();
+    for (let index = 0; index < polygon["i"].length; index++) {
+      const thisPoint = polygon["i"][index];
+      this.setBounds(this.createLatLng(thisPoint.lat(), thisPoint.lng()));
+    }
+  }
 
-  createSingleMarker(latLng) {
-    var icon = {
-      path: google.maps.SymbolPath.CIRCLE,
+  createSingleMarker(latLng, icons?, dragEvent?, clickEvent?,label?) {
+    console.log("label",label);
+    var icon = icons ? icons : {
+      path: google.maps.SymbolPath.redpin,
       scale: 4,
       fillColor: "#000000",
       fillOpacity: 1,
@@ -102,8 +113,19 @@ export class MapService {
     var marker = new google.maps.Marker({
       icon: icon,
       position: latLng,
-      map: this.map
+      label : label,
+      map: this.map,
+      draggable: dragEvent ? true : false,
     });
+
+    console.log("marker",marker);
+
+    if (dragEvent) {
+      this.addListerner(marker, 'dragend', (e) => dragEvent(e, latLng))
+    }
+    if (clickEvent) {
+      this.addListerner(marker, 'click', (e) => clickEvent(e, latLng))
+    }
     return marker;
   }
 
@@ -157,8 +179,10 @@ export class MapService {
     };
     this.polygon = new google.maps.Polygon(options || defaultOptions);
     this.polygon.setMap(this.map);
+    return this.polygon;
   }
   createPolygons(latLngsMulti, options?) {// strokeColor = '#', fillColor = '#') {
+    console.log(latLngsMulti);
     let index = 0;
 
     latLngsMulti.forEach(latLngs => {
@@ -201,6 +225,8 @@ export class MapService {
       });
       index++;
     });
+    return this.polygons;
+
   }
 
   addListerner(element, event, callback) {
@@ -260,7 +286,6 @@ export class MapService {
           };
       }
 
-
       let marker = null;
       if (dropPoly)
         this.drawPolyMF(latlng);
@@ -278,6 +303,7 @@ export class MapService {
           infoWindows.push(infoWindow);
           infoWindow.opened = false;
           console.log(infoWindow);
+          console.log("typeof (infoKeys)", typeof (infoKeys), infoKeys);
           if (typeof (infoKeys) == 'object') {
             infoKeys.map((display, indexx) => {
               if (indexx != infoKeys.length - 1) {
@@ -353,18 +379,21 @@ export class MapService {
   }
 
 
-  createCirclesOnPostion(center, radius) {
-    console.log("center,radius", center, radius);
-    return new google.maps.Circle({
-      strokeColor: '#0000FF',
-      strokeOpacity: 1,
+  circle = null;
+  createCirclesOnPostion(center, radius, stokecolor = '#FF0000', fillcolor = '#FF0000', fillOpacity = 0.1, strokeOpacity = 1) {
+    console.log("center, radius,color", center, radius, stokecolor);
+    this.circle = new google.maps.Circle({
+      strokeColor: stokecolor,
+      strokeOpacity: strokeOpacity,
       strokeWeight: 2,
-      fillColor: '#0000FF',
-      fillOpacity: 0.2,
+      fillColor: fillcolor,
+      fillOpacity: fillOpacity,
       map: this.map,
       center: center,
       radius: radius
     });
+    console.log("this.circle", this.circle);
+    return this.circle;
   }
 
   toggleBounceMF(id, evtype = 1) {
@@ -478,9 +507,10 @@ export class MapService {
     });
   }
   createPolyPathManual(latLng, polygonOptions?, drawVertix?) {
+    // console.log(polygonOptions);
     if (!this.polygonPath) {
       const defaultPolygonOptions = {
-        strokeColor: '#000000',
+        strokeColor: 'black',
         strokeOpacity: 1,
         strokeWeight: 3,
         icons: [{
@@ -488,6 +518,7 @@ export class MapService {
           offset: '100%'
         }]
       };
+      // console.log(defaultPolygonOptions);
       this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
       this.polygonPath.setMap(this.map);
     }
@@ -496,10 +527,11 @@ export class MapService {
     drawVertix && this.polygonPathVertices.push(this.createSingleMarker(latLng));
     return this.polygonPath;
   }
-  createPolyPathDetached(latLng, polygonOptions?, drawVertix?) {
+  createPolyPathDetached2(latLng, polygonOptions?, drawVertix?,) {
+    // console.log(polygonOptions);
     if (!this.poly) {
       const defaultPolygonOptions = {
-        strokeColor: '#FF0000',
+        strokeColor: "black",
         strokeOpacity: 1,
         strokeWeight: 3,
         icons: [{
@@ -515,6 +547,45 @@ export class MapService {
     drawVertix && this.polyVertices.push(this.createSingleMarker(latLng));
     return this.poly;
   }
+
+  createPolyPathDetached(latLng, polygonOptions?, drawVertix?, poly?, infoKeys?) {
+    // console.log(latLng);
+    if (!poly) {
+      const defaultPolygonOptions = {
+        strokeColor: "black",
+        strokeOpacity: 1,
+        strokeWeight: 3,
+        icons: [{
+          icon: this.lineSymbol,
+          offset: '100%'
+        }]
+      }
+
+      poly = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
+      poly.setMap(this.map);
+      let infoWindow = new google.maps.InfoWindow();
+      infoWindow.opened = false;
+      google.maps.event.addListener(poly, 'mouseover', function (evt) {
+        infoWindow.setContent("Info: ");
+        infoWindow.setPosition(evt.latLng); // or evt.latLng
+        infoWindow.open(this.map);
+      });
+      // google.maps.event.addListener(poly, 'mouseout', evt => {
+      //   infoWindow.close();
+      //   infoWindow.opened = false;
+      // }); 
+    }
+    let path = poly.getPath();
+    path.push(this.createLatLng(latLng.lat, latLng.lng));
+    drawVertix && this.polyVertices.push(this.createSingleMarker(latLng));
+    return poly;
+  }
+
+  infoCallback(infowindow) {
+    return function () {
+      infowindow.open(this.map);
+    };
+  }
   undoPolyPath(polyLine?) {
     let path = polyLine ? polyLine.getPath() : this.polygonPath.getPath();
     path.pop();
@@ -524,17 +595,26 @@ export class MapService {
 
   createPolyPathsManual(latLngsAll, afterClick?, drawVertix?) {
     latLngsAll.forEach((latLngAll) => {
-      console.log("hereout");
+      // console.log("hereout");
       this.poly = null;
       this.polyVertices = [];
       latLngAll.latLngs.forEach((latLng) => {
-        console.log("herein");
-        this.createPolyPathDetached(latLng);
+        // console.log("herein");
+        const defaultPolygonOptions = {
+          strokeColor: latLngAll.color,
+          strokeOpacity: 1,
+          strokeWeight: 2,
+          icons: [{
+            icon: null,
+            offset: '100%'
+          }]
+        }
+        this.createPolyPathDetached(latLng, defaultPolygonOptions);
       });
       this.polygonPaths.push(this.poly);
       drawVertix && this.polygonPathsVertices.push(this.polyVertices);
       this.addListerner(this.poly, 'click', function (event) { afterClick(latLngAll, event); });
-      console.log(this.polygonPaths);
+      // console.log(this.polygonPaths);
 
     });
   }
@@ -552,7 +632,9 @@ export class MapService {
   }
   getMapBounds() {
     if (this.map) {
+      console.log("this.map", this.map);
       let boundsx = this.map.getBounds();
+      console.log("boundsx", boundsx);
       let ne = boundsx.getNorthEast(); // LatLng of the north-east corner
       let sw = boundsx.getSouthWest(); // LatLng of the south-west corder
       let lat2 = ne.lat();
@@ -620,6 +702,95 @@ export class MapService {
         }
       });
     });
+  }
+
+
+  displayLocationElevation(lat, lng) {
+    console.log(lat, lng);
+    let prom = new Promise((resolve, reject) => {
+
+      this.elevator ? this.elevator : this.elevator = new google.maps.ElevationService;
+      let location = this.createLatLng(lat, lng);
+      console.log(this.elevator);
+      console.log(location);
+      this.elevator.getElevationForLocations({
+        'locations': [location]
+      },
+
+        (response, status) => {
+          console.log("response:", response, status);
+
+          if (status != google.maps.DistanceMatrixStatus.OK) {
+            reject(-1)
+          } else {
+            console.log(response);
+            resolve(response[0]);
+          }
+        });
+
+    });
+    //   prom.then(e => {
+    //    this.test =  e;
+    //    console.log(e);
+    //  })
+    //   console.log(this.test);
+    return prom;
+
+
+
+  }
+
+  drawDataonMap(data) {
+    data.forEach(ele => {
+      let icon = {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 8,
+        fillColor: ele.fillColor || '#0000FF',
+        fillOpacity: 1,
+        strokeWeight: 1
+      };
+      
+      if (ele.lat && ele.lng && ele.type == 'marker') {
+        let showContent = ele.show;
+        this.createSingleMarker(this.createLatLng(ele.lat, ele.lng), icon, false, (e, latlng) => {
+          let infoWindow = new google.maps.InfoWindow();
+          infoWindow.opened = false;
+          infoWindow.setContent(showContent);
+          infoWindow.setPosition(e.latLng); // or evt.latLng
+          infoWindow.open(this.map);
+
+        });
+      } else if (ele.lat && ele.lng && ele.type == 'cluster') {
+        let icon1 = {
+          url: ele.url,
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(16, 16)
+        };
+        let center = this.createLatLng(ele.lat, ele.lng)
+        let radius = ele.radius || 100;
+        this.createCirclesOnPostion(center, radius, ele.strokeColor, ele.fillColor);
+
+        let showContent = ele.show;
+        this.createSingleMarker(this.createLatLng(ele.lat, ele.lng), icon1, false, (e, latlng) => {
+          let infoWindow = new google.maps.InfoWindow();
+          infoWindow.opened = false;
+          infoWindow.setContent(showContent);
+          infoWindow.setPosition(e.latLng); // or evt.latLng
+          infoWindow.open(this.map);
+
+        },ele.label);
+      }
+    });
+    this.setMultiBounds(data);
+  }
+
+  getURL(points) {
+    let url = "https://www.google.com/maps/dir/";
+    points.map(pt => {
+      url = url + "'" + pt.lat + "," + pt.long + "'/";
+    });
+    console.log("url=", url);
+    return url;
   }
 
 

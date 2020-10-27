@@ -1,0 +1,75 @@
+<nb-card style="padding: 0px; border: 0px;">
+  <nb-card-header style="padding: 0px; border: 0px;">
+    <div class="modal-header mb-3">
+      <h3 class="modal-title" id="modal-basic-title">Gst Detail</h3>
+      <button type="button" class="close" aria- label="Close" (click)=" modelCondition()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    
+  </nb-card-header>
+  <nb-card-body>
+    <div class="labelpagename"> 
+    <div class="ref-label">{{ pagename1}}</div>
+    <div class="ref-label">{{ pagename2}}</div>
+  </div>
+    <table class="table table-bordered">
+      <thead style="background-color:#263238; color:#fff;">
+        <tr>
+          <th>#</th>
+          <th>Stock Item</th>
+          <th>Amount</th>
+          <th>Total Tax %</th>
+          <th>Igst</th>
+          <th>Cgst</th>
+          <th>Sgst</th>
+        </tr>
+      </thead>
+    <tbody>
+      <tr *ngFor="let dataItem of data; let i = index;" (click)="selectedRow = i"
+        (dblclick)="(dataItem.y_type.toLowerCase().includes('freight')) ?(dataItem.y_type.toLowerCase().includes('expence'))?openfreight(dataItem['y_refid']):openRevenue(dataItem['y_refid']): (dataItem.y_type.toLowerCase().includes('lr')) ? editTransfer(dataItem['y_refid']): (dataItem.y_type.length != '') ? getBookDetail(dataItem.y_voucherid,dataItem.y_code,dataItem.y_type,dataItem) : '' "
+        (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i,'radclass':(dataItem.y_type == null)}">
+        <td>{{i + 1}}</td>
+        <td>{{dataItem.stockname}}</td>
+        <td>{{dataItem.amount}}</td>
+        <td>{{dataItem.gstrate}}</td>
+        <td>{{dataItem.igst}}</td>
+        <td>{{dataItem.cgst}}</td>
+        <td>{{dataItem.sgst}}</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>{{totalamount}}</td>
+        <td>&nbsp;</td>
+        <td>{{igsttotal}}</td>
+        <td>{{cgsttotal}}</td>
+        <td>{{sgsttotal}}</td>
+      </tr>
+    </tbody>
+    </table>
+    <table class="table table-bordered">
+      <thead style="background-color:#263238; color:#fff;">
+        <tr>
+          <th>Gst Type</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+    <tbody>
+     <tr >
+        <td class="ref-label">Igst</td>
+        <td>{{igsttotal}}</td>
+      </tr>
+      <tr >
+        <td class="ref-label">Cgst</td>
+        <td>{{cgsttotal}}</td>
+      </tr>
+      <tr >
+        <td class="ref-label">Sgst</td>
+        <td>{{sgsttotal}}</td>
+      </tr>
+    </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>
+

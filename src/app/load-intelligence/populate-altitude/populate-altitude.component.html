@@ -1,0 +1,14 @@
+<nb-card>
+ 
+    <nb-card-header>
+        <h5>Populate Atlitude</h5>
+        <button class="btn btn-primary" (click)='startRecurssion()'>Start</button>
+        <button class="btn btn-primary" (click)='stopRecurssion()'>Stop</button>
+      </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="advices"></smart-table>
+    </div>
+   
+  </nb-card-body>
+</nb-card>

@@ -6,31 +6,31 @@
       <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
         style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
     </div>
-    <div class="row">
-      <div class="col-3">
+    <div class="row" style="margin: 0;">
+      <div class="col-3 pl-0 pr-0">
         <div class="left-box">
           <div class="row">
-            <div class="col-sm-8 pr-0">
+            <div class="col-sm-8 pl-0">
               <label class="tjr-label">Vehicle No</label>
               <div class="vehicle_no_input">
                 <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getFoVehicleList" display="regno"
                   placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
               </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 pl-0">
               <button (click)="getPendingTrips()" class="btn btn-primary mt-3"><i class="fa fa-plus"></i></button>
             </div>
           </div>
         </div>
 
       </div>
-      <div class="col-9">
+      <div class="col-9 pl-0 pr-0">
         <div class="left-box">
           <div class="row">
             <div class="col-sm-3 pr-0">
               <div class="form-group m-0">
                 <label class="tjr-label">Filter Date</label>
-                <select class="tjr_select" [(ngModel)]="vchdt" id="vchtype">
+                <select class="form-control tjr-input" [(ngModel)]="vchdt" id="vchtype">
                   <option value="1">Voucher Date</option>
                   <option value="0">Entry Date</option>
                 </select>
@@ -40,14 +40,14 @@
               <div class="form-group m-0">
                 <label class="tjr-label">Starting Date</label>
                 <input type="text" style="cursor: pointer;" class="form-control tjr-input " autocomplete="off"
-                  placeholder="Select Date" name="date" [(ngModel)]="startdate" id="startdate" maxlength="10">
+                  placeholder="Select Date" name="date" [(ngModel)]="accountService.fromdate" id="startdate" maxlength="10">
               </div>
             </div>
             <div class="col-sm-3 pr-0">
               <div class="form-group m-0">
                 <label class="tjr-label">End Date</label>
                 <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate"
-                  autocomplete="off" placeholder="Select Date" name="enddate" [(ngModel)]="enddate" maxlength="10">
+                  autocomplete="off" placeholder="Select Date" name="enddate" [(ngModel)]="accountService.todate" maxlength="10">
               </div>
             </div>
             <div class="col-sm-2">

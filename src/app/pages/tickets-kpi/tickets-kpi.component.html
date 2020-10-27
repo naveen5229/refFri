@@ -1,0 +1,144 @@
+<nb-card style="border:0px;">
+  <!-- <nb-card-header>
+    <h5>Tickets KPI</h5>
+  </nb-card-header> -->
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-9">
+        <ul class="tabs_style">
+          <li [ngClass]="type == 'alertwise' ? 'active' : '' " id="dis-all" (click)=" type = 'alertwise'; getTicketsKPI(type); ">
+            Ticket Alert Wise
+          </li>
+          <li [ngClass]="type == 'userwise' ? 'active' : '' " (click)=" type = 'userwise';  getTicketsKPI(type)">
+            Ticket User Wise
+          </li>
+          <li [ngClass]="type == 'currentreport' ? 'active' : '' " id="dis-all" (click)=" type = 'currentreport'; getTicketsKPI(type); ">
+            Current Status
+          </li>
+          <li [ngClass]="type == 'daywisereport' ? 'active' : '' " id="dis-all" (click)=" type = 'daywisereport'; getTicketsKPI(type); ">
+            Day Wise Report
+          </li>
+        </ul>
+      </div>  
+    </div>
+    <!-- Alert Wise & userWise-->
+    <table class="table table-bordered table-hover" *ngIf="type == 'alertwise' || type == 'userwise' ">
+      <thead class="thead">
+        <tr>
+          <th rowspan="2" style="padding-bottom:20px!important;">#</th>
+          <th rowspan="2" style="width:20%;padding-bottom:20px!important;" *ngIf="type=='alertwise'">Ticket Types</th>
+          <th rowspan="2" style="width:20%;padding-bottom:20px!important;" *ngIf="type=='userwise'">User</th>
+          <th colspan="2">UnAcknowledged</th>
+          <th colspan="2">UnClaimed</th>
+          <th colspan="2">UnCalled</th>
+          <th colspan="2">Open</th>
+        </tr>
+        <tr>
+         
+          <th> < 30 mins</th>
+          <th>  > 30 mins</th>
+          <th> < 30 mins</th>
+          <th> > 30 mins</th>
+          <th> < 1 hr</th>
+          <th> > 1 hr </th>
+          <th> < 3 hr</th>
+          <th> > 3 hr</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let kpi of kpis; let i = index">
+          <td>{{i + 1}}</td>
+          <td style="width:20%;">{{kpi.tkt}}</td>
+          <td (click)="openTicketDetails(kpi.unacklt30mins,type)" [class]="(kpi.unacklt30mins).split('_')[0]!=0 ? 'drillDown':''  ">{{(kpi.unacklt30mins).split('_')[0] }}</td>
+          <td (click)="openTicketDetails(kpi.unackgt30mins,type)" [class]="(kpi.unackgt30mins).split('_')[0]!=0 ? 'drillDown':''" >{{(kpi.unackgt30mins).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.unclmlt30mins,type)" [class]="(kpi.unclmlt30mins).split('_')[0]!=0 ? 'drillDown':'' ">{{(kpi.unclmlt30mins).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.unclmgt30mins,type)" [class]="(kpi.unclmgt30mins).split('_')[0]!=0 ? 'drillDown':'' ">{{(kpi.unclmgt30mins).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.uncallt1hr,type)" [class]="(kpi.uncallt1hr).split('_')[0]!=0 ? 'drillDown':'' ">{{(kpi.uncallt1hr).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.uncalgt1hr,type)" [class]="(kpi.uncalgt1hr).split('_')[0]!=0 ? 'drillDown':'' ">{{(kpi.uncalgt1hr).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.openlt3hr,type)" [class]="(kpi.openlt3hr).split('_')[0]!=0 ? 'drillDown':'' ">{{(kpi.openlt3hr).split('_')[0]}}</td>
+          <td (click)="openTicketDetails(kpi.opengt3hr,type)" [class]="(kpi.opengt3hr).split('_')[0]!=0
+           ? 'drillDown':'' ">{{(kpi.opengt3hr).split('_')[0]}}</td>
+          
+        </tr>
+      </tbody>
+    </table>
+
+ <!--  Current Status -->
+ <table class="table table-bordered table-hover" *ngIf="type == 'currentreport'">
+  <thead class="thead">
+    
+    <tr>
+      <th>  #</th>
+      <th> User Name</th>
+      <th> Total Driver</th>
+      <th> Total Calls</th>
+      <th> Driver Call %</th>
+      <th> Unrespond Call</th>
+      <th> Pending VSC Count</th>
+      <th> Last Halt Check Time</th>
+      <th>Last Sync Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let kpi of kpis; let i = index">
+      <td>{{i + 1}}</td>
+      <td >{{kpi.uname}}</td>
+      <td (click)="openTicketDetails(kpi.totaldriver,type)" [class]="(kpi.totaldriver).split('_')[0]!=0 ? 'drillDown':''" >{{(kpi.totaldriver).split('_')[0]}}</td>
+      <td (click)="openTicketDetails(kpi.totalcalls,type)" [class]="(kpi.totalcalls).split('_')[0]!='0(00:00)' ? 'drillDown':''" >{{(kpi.totalcalls).split('_')[0]}}</td>
+      <td (click)="openTicketDetails(kpi.callper,type)" [class]="(kpi.callper).split('_')[0]!='0%' ? 'drillDown':''" >{{(kpi.callper).split('_')[0]}}</td>
+      <td (click)="openTicketDetails(kpi.unresponded_call,type)" [class]="(kpi.unresponded_call).split('_')[0]!=0 ? 'drillDown':''" >{{(kpi.unresponded_call).split('_')[0]}}</td>
+      <td (click)="openTicketDetails(kpi.vsccount,type)" [class]="(kpi.vsccount).split('_')[0]!=0 ? 'drillDown':''" >{{(kpi.vsccount).split('_')[0]}}</td>
+      <td (click)="openTicketDetails(kpi.lh_check_time,type)" [class]="(kpi.lh_check_time).split('_')[0]!=0 ? 'drillDown':''" >{{(kpi.lh_check_time).split('_')[0]}}</td>
+      <td >{{kpi.last_call_sync_time}}</td>
+    
+      
+    </tr>
+  </tbody>
+</table>
+
+<!-- Day Wise Status  -->
+<div *ngIf="type == 'daywisereport'" class="row">
+  <div class="col-3">
+    <uj-date-time-picker (onChanged)="date = $event" [dateTimeValue]="date" [isTime]=false>
+    </uj-date-time-picker>
+</div>
+<div class="col-2">
+  <button class="btn btn-primary" (click)="getTicketsKPI()">Ok</button>
+</div>
+<table class="table table-bordered table-hover" >
+  <thead class="thead">
+    
+    <tr>
+      <th>  #</th>
+      <th> User Name</th>
+      <th> Total Driver</th>
+      <th> Total Calls</th>
+      <th> Driver Call %</th>
+      <th> Unrespond Call</th>
+      <th> Avg. Response Time</th>
+      <th> Resolved Vsc</th>
+      <th>Last Sync Time</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let kpi of kpis; let i = index">
+      <td>{{i + 1}}</td>
+      <td >{{kpi.uname}}</td>
+      <td (click)="openTicketDetails(kpi.totaldriver,type)" [class]="(kpi.totaldriver).split('_')[0]!=0 ? 'drillDown':''" >{{(kpi.totaldriver).split('_')[0]}}</td>
+      <td (click)="openTicketDetails(kpi.totalcalls,type)" [class]="(kpi.totalcalls).split('_')[0]!='0(00:00,M:0)' ? 'drillDown':''" >{{(kpi.totalcalls).split('_')[0]}}</td>
+      <td (click)="openTicketDetails(kpi.callper,type)" [class]="(kpi.callper).split('_')[0]!='0%' ? 'drillDown':''" >{{(kpi.callper).split('_')[0]}}</td>
+      <td (click)="openTicketDetails(kpi.unresponded_call,type)" [class]="(kpi.unresponded_call).split('_')[0]!=0 ? 'drillDown':''" >{{(kpi.unresponded_call).split('_')[0]}}</td>
+      <td (click)="openTicketDetails(kpi.avg_response_time,type)" [class]="(kpi.avg_response_time).split('_')[0]=='00:00:00' || (kpi.avg_response_time).split('_')[0]=='-' ? '':'drillDown'" >{{(kpi.avg_response_time).split('_')[0]}}</td>
+      <td (click)="openTicketDetails(kpi.vscrescnt,type)" [class]="(kpi.vscrescnt).split('_')[0]=='0' || (kpi.vscrescnt).split('_')[0]=='-' ? '':'drillDown'" >{{(kpi.vscrescnt).split('_')[0]}}</td>     
+      <td >{{kpi.last_call_sync_time}}</td>
+   
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="no-data alert alert-danger" role="alert" *ngIf="!kpis.length">
+      No Data available !
+    </div>
+  </nb-card-body>
+</nb-card>

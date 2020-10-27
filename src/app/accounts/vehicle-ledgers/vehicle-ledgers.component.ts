@@ -92,7 +92,8 @@ export class VehicleLedgersComponent implements OnInit {
   setAutoSuggestion() {
 
     let params = {
-      search: 123
+      search: 123,
+      conditionid:1
     };
 
     this.common.loading++;
@@ -171,7 +172,15 @@ export class VehicleLedgersComponent implements OnInit {
         bankname: '',
         costcenter: 0,
         taxtype:'',
-        taxsubtype:''
+        taxsubtype:'',
+        isnon:true,
+        hsnno:'',
+        hsndetail:'',
+        gst:false,
+        cess:'',
+        igst:'',
+        taxability:'',
+        calculationtype:'',
       };
       console.log('params', params);
       let promise = new Promise((resolve, reject) => {

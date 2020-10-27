@@ -11,22 +11,31 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
-import { promise } from 'selenium-webdriver';
 import { StorerequisitionComponent } from '../../acounts-modals/storerequisition/storerequisition.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 import { AccountService } from '../../services/account.service';
+import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
+import { AdvanceComponent } from '../../acounts-modals/advance/advance.component';
+import { ServiceComponent } from '../service/service.component';
+import * as localforage from 'localforage';
+
 @Component({
   selector: 'daybooks',
   templateUrl: './daybooks.component.html',
   styleUrls: ['./daybooks.component.scss']
 })
 export class DaybooksComponent implements OnInit {
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event) {
+    this.keyHandler(event);
+  }
   selectedName = '';
   activedateid = '';
-  fuelFilings=[];
+  fuelFilings = [];
+  flag = 0;
 
   DayBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -43,11 +52,16 @@ export class DaybooksComponent implements OnInit {
       name: 'All',
       id: 0
     },
-    issumrise: 'true'
-
+    issumrise: 'true',
+    isamount: 0,
+    remarks: '',
+    vouchercustcode: '',
+    vouchercode: '',
+    frmamount: 0,
+    toamount: 0
   };
+
   lastActiveId = '';
-  showDateModal = false;
   vouchertypedata = [];
   branchdata = [];
   DayData = [];
@@ -62,40 +76,70 @@ export class DaybooksComponent implements OnInit {
   VoucherEditTime = [];
   tripExpDriver = [];
   tripExpenseVoucherTrips = [];
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event) {
-    this.keyHandler(event);
-  }
+
+  pages = {
+    count: 0,
+    active: 1,
+    limit: 1000,
+  };
+  data = [];
+  jrxPageTimer: any;
+  filters = [
+    { name: 'Date', key: 'y_date', search: '' },
+    { name: 'Particular', key: 'y_particulars', search: '' },
+    { name: 'Vch Type', key: 'y_type', search: '' },
+    { name: 'Vch No.', key: 'y_cust_code', search: '' },
+    { name: 'Amount(DR)', key: 'y_dramunt', search: '' },
+    { name: 'Amount(CR)', key: 'y_cramunt', search: '' },
+  ];
+  jrxTimeout: any;
+  searchedData = [];
 
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
     public user: UserService,
     public modalService: NgbModal,
-    public accountService: AccountService,
-    public router: Router) {
+    public accountService: AccountService, public router: Router) {
+    this.pages.limit = this.accountService.perPage;
     this.common.refresh = this.refresh.bind(this);
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate : this.DayBook.startdate;
+    this.accountService.todate = (this.accountService.todate) ? this.accountService.todate : this.DayBook.enddate;
 
+    localforage.getItem('day_book_vouchers')
+      .then((vouchers: any) => {
+        if (vouchers) this.vouchertypedata = vouchers;
+        this.getVoucherTypeList(vouchers ? false : true);
+      });
 
-    this.getVoucherTypeList();
-    //  this.getBranchList();
-    this.getAllLedger();
+    localforage.getItem('day_book_ledgers')
+      .then((ledgers: any) => {
+        if (ledgers) this.ledgerData = ledgers;
+        this.getAllLedger(ledgers ? false : true);
+      });
+
+    localforage.getItem('daybook_data')
+      .then((dayBookData: any) => {
+        if (dayBookData) {
+          this.DayData = dayBookData;
+          this.filterData();
+        }
+      });
+
     this.setFoucus('vouchertype');
 
     this.route.params.subscribe(params => {
-      console.log('Params1: ', params);
       if (params.id) {
         this.deletedId = parseInt(params.id);
-        // this.GetLedger();
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
-    this.common.currentPage = (this.deletedId==0) ?'Day Book': 'Voucher & Invoice Deleted' ;
-
+    this.common.currentPage = (this.deletedId == 0) ? 'Day Book' : 'Voucher & Invoice Deleted';
   }
 
   ngOnInit() {
   }
+
   refresh() {
     this.getVoucherTypeList();
     this.getBranchList();
@@ -105,43 +149,43 @@ export class DaybooksComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
   }
 
-  getVoucherTypeList() {
+  getVoucherTypeList(isLoader = true) {
     let params = {
       search: 123
     };
-    this.common.loading++;
+    isLoader && this.common.loading++;
     this.api.post('Suggestion/GetVouchertypeList', params)
       .subscribe(res => {
-        this.common.loading--;
+        isLoader && this.common.loading--;
         console.log('Res======:', res['data']);
         this.vouchertypedata = res['data'];
-        this.vouchertypedata.push({id:-1001,name:'Stock Received'},{id:-1002,name:'Stock Transfer'},{id:-1003,name:'Stock Issue'},{id:-1004,name:'Stock Transfer Received'});
-        console.log('res type list',this.vouchertypedata);
+        this.vouchertypedata.push({ id: -1001, name: 'Stock Received' }, { id: -1002, name: 'Stock Transfer' }, { id: -1003, name: 'Stock Issue' }, { id: -1004, name: 'Stock Transfer Received' });
+        localforage.setItem('day_book_vouchers', this.vouchertypedata);
       }, err => {
-        this.common.loading--;
+        isLoader && this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
-
   }
-  openStoreQuestionEdit(editData){
+
+  openStoreQuestionEdit(editData) {
     this.common.params = {
-      storeRequestId: (editData.y_vouchertype_id==-2) ? -3 : editData.y_vouchertype_id,
+      storeRequestId: (editData.y_vouchertype_id == -2) ? -3 : editData.y_vouchertype_id,
       stockQuestionId: editData.y_voucherid,
       stockQuestionBranchid: editData.y_fobranchid,
-      pendingid: (editData.y_vouchertype_id==-2) ? 0 : 1,
+      pendingid: (editData.y_vouchertype_id == -2) ? 0 : 1,
     };
     const activeModal = this.modalService.open(StorerequisitionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
-      console.log('responce data return',data);
-      if(data.response){
-     // this.getStoreQuestion();
+      console.log('responce data return', data);
+      if (data.response) {
+        // this.getStoreQuestion();
       }
     });
   }
+
   getBranchList() {
     let params = {
       search: 123
@@ -159,43 +203,67 @@ export class DaybooksComponent implements OnInit {
       });
 
   }
-  openinvoicemodel(invoiceid) {
+  openinvoicemodel(dataItem, invoiceid, ordertypeid, create = 0,) {
+    console.log("DayBOOKS", dataItem);
+
     // console.log('welcome to invoice ');
     //  this.common.params = invoiceid;
     this.common.params = {
       invoiceid: invoiceid,
-      delete: this.deletedId
+      delete: this.deletedId,
+      newid: create,
+      ordertype: ordertypeid
     };
     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    //const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
     activeModal.result.then(data => {
-       console.log('Data: invoice ', data);
+      console.log('Data: invoice ', data);
       if (data.delete) {
         console.log('open succesfull');
-          this.getDayBook();
+        this.getDayBook();
         // this.addLedger(data.ledger);
       }
     });
   }
 
-  getAllLedger() {
+  openServiceSalesInvoicemodel(dataItem, invoiceid, ordertypeid, create = 0,) {
+    this.common.params = {
+      invoiceid: invoiceid,
+      delete: this.deletedId,
+      newid: create,
+      ordertype: ordertypeid,
+      isModal: true
+    };
+    const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
+    activeModal.result.then(data => {
+      if (data && data.msg) {
+        this.getDayBook();
+      }
+    });
+  }
+
+  getAllLedger(isLoader = true) {
     let params = {
       search: 123
     };
-    this.common.loading++;
+    isLoader && this.common.loading++;
     this.api.post('Suggestion/GetAllLedger', params)
       .subscribe(res => {
-        this.common.loading--;
+        isLoader && this.common.loading--;
         console.log('Res:', res['data']);
         this.ledgerData = res['data'];
+        localforage.setItem('day_book_ledgers', this.ledgerData);
       }, err => {
-        this.common.loading--;
+        isLoader && this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
 
   }
   getDayBook() {
-    console.log('Accounts:', this.DayBook);
+    this.searchedData = [];
+    this.DayBook.startdate = this.accountService.fromdate;
+    this.DayBook.enddate = this.accountService.todate;
     let params = {
       startdate: this.DayBook.startdate,
       enddate: this.DayBook.enddate,
@@ -203,14 +271,20 @@ export class DaybooksComponent implements OnInit {
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
       delete: this.deletedId,
-      forapproved: (this.deletedId == 1) ? -1 : 1
+      forapproved: (this.deletedId == 1) ? -1 : 1,
+      isamount: this.DayBook.isamount,
+      remarks: this.DayBook.remarks,
+      vouchercustcode: this.DayBook.vouchercustcode,
+      vouchercode: this.DayBook.vouchercode,
+      frmamount: this.DayBook.frmamount,
+      toamount: this.DayBook.toamount,
     };
 
     this.common.loading++;
     this.api.post('Company/GetDayBook', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log('Res: length :', res['data'], res['data'].length);
         this.DayData = res['data'];
         this.filterData();
         if (this.DayData.length) {
@@ -329,6 +403,14 @@ export class DaybooksComponent implements OnInit {
         dayData.y_date = 0;
       }
     });
+
+    this.pages.count = Math.floor(this.DayData.length / this.pages.limit);
+    if (this.DayData.length % this.pages.limit) {
+      this.pages.count++;
+    }
+
+    localforage.setItem('daybook_data', this.DayData);
+    this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count);
   }
 
   getBookDetail(voucherId) {
@@ -359,61 +441,32 @@ export class DaybooksComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
-    console.log('Active event', event, this.activeId);
 
-    //   if (this.activeId.includes('startdate') || this.activeId.includes('enddate')) {
+    if (key === 'home' && (this.activeId.includes('ledgerdaybook'))) {
+      let ledgerindex = this.lastActiveId.split('-')[1];
+      if (this.DayBook.ledger.id != 0) {
+        console.log('ledger value ------------', this.DayBook.ledger.id);
+        this.openinvoicedetailmodel(this.DayBook.ledger.id);
+      } else {
+        this.common.showError('Please Select Correct Ledger');
+      }
 
-    //     const charCode = (event.which) ? event.which : event.keyCode;
-    //     console.log('charcode 0000',charCode);
-    //     if (charCode == 8 ||charCode == 37 || charCode == 38 || charCode == 16  || (charCode > 48 && charCode < 57) || charCode == 13) {
-    //       console.log('true part execute');
-    //       return false;
-    //     //return true;
-    //     }else{
-    //       console.log('else part execute');
-    //       return true;
-    //     }
-    // }
-    if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
-      /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
-      return;
     }
+
     if ((event.ctrlKey && key === 'd') && (!this.activeId && this.DayData.length && this.selectedRow != -1)) {
       console.log('ctrl + d pressed');
-      //this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid,1);   
-      ((this.DayData[this.selectedRow].y_type.toLowerCase().includes('voucher')) ? (this.DayData[this.selectedRow].y_type.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid, 6, this.DayData[this.selectedRow].y_vouchertype_id) : '')
+      ((this.DayData[this.selectedRow].y_type.toLowerCase().includes('voucher')) ? (this.DayData[this.selectedRow].y_type.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.DayData[this.selectedRow].y_voucherid, 6, this.DayData[this.selectedRow].y_vouchertype_id) : (this.DayData[this.selectedRow].y_type.toLowerCase().includes('invoice')) ? this.openinvoicemodel(this.DayData[this.selectedRow].y_voucherid, this.DayData[this.selectedRow].y_vouchertype_id, 1) : '')
       event.preventDefault();
       return;
     }
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
-      this.showDateModal = false;
-      console.log('Last Ac: ', this.lastActiveId);
-      this.handleVoucherDateOnEnter(this.activeId);
-      this.setFoucus(this.lastActiveId);
-
-      return;
-    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-      return;
-    }
-
 
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('branch')) {
         this.setFoucus('vouchertype');
       } else if (this.activeId.includes('vouchertype')) {
-        this.setFoucus('ledger');
-      } else if (this.activeId == 'ledger') {
+        this.setFoucus('ledgerdaybook');
+      } else if (this.activeId == 'ledgerdaybook') {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
         this.DayBook.startdate = this.common.handleDateOnEnterNew(this.DayBook.startdate);
@@ -427,8 +480,8 @@ export class DaybooksComponent implements OnInit {
       event.preventDefault();
       console.log('active 1', this.activeId);
       if (this.activeId == 'enddate') this.setFoucus('startdate');
-      if (this.activeId == 'startdate') this.setFoucus('ledger');
-      if (this.activeId == 'ledger') this.setFoucus('vouchertype');
+      if (this.activeId == 'startdate') this.setFoucus('ledgerdaybook');
+      if (this.activeId == 'ledgerdaybook') this.setFoucus('vouchertype');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
     } else if ((this.activeId == 'startdate' || this.activeId == 'enddate') && key !== 'backspace') {
@@ -450,13 +503,45 @@ export class DaybooksComponent implements OnInit {
 
     }
   }
+  openinvoicedetailmodel(ledger) {
+    let data = [];
+    console.log('ledger123', ledger);
+    if (ledger) {
+      let params = {
+        id: ledger,
+      }
+      this.common.loading++;
+      this.api.post('Accounts/EditLedgerdata', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('Res:', res['data']);
+          data = res['data'];
+          this.common.params = {
+            ledgerdata: res['data'],
+            deleted: 2,
+            sizeledger: 0
+          }
+          // this.common.params = { data, title: 'Edit Ledgers Data' };
+          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+          activeModal.result.then(data => {
+            // console.log('Data: ', data);
+            if (data.response) {
 
+            }
+          });
+
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
+    }
+  }
   checkDate(date) {
     // const dateSendingToServer = new DatePipe('en-US').transform(date, 'dd-MM-yyyy')
     // console.log(dateSendingToServer);
   }
   openVoucherEdit(voucherId, voucheradd, vchtypeid) {
-    console.log('ledger123', vchtypeid);
     if (voucherId) {
       this.common.params = {
         voucherId: voucherId,
@@ -469,9 +554,7 @@ export class DaybooksComponent implements OnInit {
         console.log('Data: ', data);
         if (data.delete) {
           this.getDayBook();
-        } 
-        // this.common.showToast('Voucher updated');
-
+        }
       });
     }
   }
@@ -701,120 +784,242 @@ export class DaybooksComponent implements OnInit {
         });
     })
   }
-  openFuelEdit(vchData){
-    console.log('vch data new ##',vchData);
+  openFuelEdit(vchData) {
+    console.log('vch data new ##', vchData);
     let promises = [];
     console.log('testing issue solved');
     promises.push(this.getVocherEditTime(vchData['y_voucherid']));
-    promises.push(this.getDataFuelFillingsEdit(vchData['y_vehicle_id'],vchData['y_fuel_station_id'],vchData['y_voucherid']));
+    promises.push(this.getDataFuelFillingsEdit(vchData['y_vehicle_id'], vchData['y_fuel_station_id'], vchData['y_voucherid']));
 
     Promise.all(promises).then(result => {
-    this.common.params = {
-      vehId: vchData['y_vehicle_id'],
-      lastFilling: this.DayBook.startdate,
-      currentFilling: this.DayBook.enddate,
-      fuelstationid: vchData['y_fuel_station_id'],
-      fuelData:this.fuelFilings,
-      voucherId:vchData['y_voucherid'],
-      voucherData:this.VoucherEditTime,
-      //vehname:this.trips[0].y_vehicle_name
-    };
+      this.common.params = {
+        vehId: vchData['y_vehicle_id'],
+        lastFilling: this.DayBook.startdate,
+        currentFilling: this.DayBook.enddate,
+        fuelstationid: vchData['y_fuel_station_id'],
+        fuelData: this.fuelFilings,
+        voucherId: vchData['y_voucherid'],
+        voucherData: this.VoucherEditTime,
+        //vehname:this.trips[0].y_vehicle_name
+      };
 
-    const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-       console.log('Data return: ', data);
-      if (data.success) {
-        this.getDayBook();
-      }
-    });
-  }).catch(err => {
-    console.log(err);
-    this.common.showError('There is some technical error occured. Please Try Again!');
-  })
+      const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        console.log('Data return: ', data);
+        if (data.success) {
+          this.getDayBook();
+        }
+      });
+    }).catch(err => {
+      console.log(err);
+      this.common.showError('There is some technical error occured. Please Try Again!');
+    })
   }
 
-  getDataFuelFillingsEdit(vehcleID,fuelStationId,vchrID) {
+  getDataFuelFillingsEdit(vehcleID, fuelStationId, vchrID) {
     return new Promise((resolve, reject) => {
-    const params = {
-      vehId: vehcleID,
-      lastFilling: this.DayBook.startdate,
-      currentFilling:this.DayBook.enddate,
-      fuelstationid: fuelStationId,
-      voucherId:vchrID
-    };
-    this.common.loading++;
-    this.api.post('Fuel/getFeulfillings', params)
-      .subscribe(res => {
-      //  console.log('fuel data', res['data']);
-        this.common.loading--;
-        if(res['data'].length){
-        this.fuelFilings = res['data'];
-        resolve();
-        }else {
-          this.common.showError('please Select Correct date');
-        }
-        // this.getHeads();
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError();
-        reject();
-      });
+      const params = {
+        vehId: vehcleID,
+        lastFilling: this.DayBook.startdate,
+        currentFilling: this.DayBook.enddate,
+        fuelstationid: fuelStationId,
+        voucherId: vchrID
+      };
+      this.common.loading++;
+      this.api.post('Fuel/getFeulfillings', params)
+        .subscribe(res => {
+          //  console.log('fuel data', res['data']);
+          this.common.loading--;
+          if (res['data'].length) {
+            this.fuelFilings = res['data'];
+            resolve();
+          } else {
+            this.common.showError('please Select Correct date');
+          }
+          // this.getHeads();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
     })
-   
+
   }
   editTransfer(transferId?) {
-    if(transferId){
-    let refData = {
-      transferId:transferId,
-      readOnly:true
-    }
-    this.common.params = { refData: refData };
-    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-    //  this.viewTransfer();
-    });
-  }else{
-    this.common.showError('Please Select another entry');
-  }
-}
-
-  openfreight(freightId){
-    if(freightId){
-    let invoice = {
-      id: freightId,
-    }
-    this.common.params = { invoice: invoice }
-    const activeModal = this.modalService.open(ViewMVSFreightStatementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-
-    });
-  }else{
-    this.common.showError('Please Select another Entry');
-  }
-}
-
-  openRevenue(freightId){
-    if(freightId){
-    let previewData = {
-      title: 'Invoice',
-      previewId: null,
-      refId: freightId,
-      refType: "FRINV"
-    }
-    this.common.params = { previewData };
-
-    // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
-
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-    });
-
-      }else{
-        this.common.showError('Please Select another Entry');
+    if (transferId) {
+      let refData = {
+        transferId: transferId,
+        readOnly: true
       }
+      this.common.params = { refData: refData };
+      const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+      activeModal.result.then(data => {
+        console.log('Date:', data);
+        //  this.viewTransfer();
+      });
+    } else {
+      this.common.showError('Please Select another entry');
+    }
+  }
+
+  openfreight(freightId) {
+    if (freightId) {
+      let invoice = {
+        id: freightId,
+      }
+      this.common.params = { invoice: invoice }
+      const activeModal = this.modalService.open(ViewMVSFreightStatementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+      activeModal.result.then(data => {
+        console.log('Date:', data);
+
+      });
+    } else {
+      this.common.showError('Please Select another Entry');
+    }
+  }
+
+  openRevenue(freightId) {
+    if (freightId) {
+      let previewData = {
+        title: 'Invoice',
+        previewId: null,
+        refId: freightId,
+        refType: "FRINV"
+      }
+      this.common.params = { previewData };
+
+      // const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+      const activeModal = this.modalService.open(TemplatePreviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr-manifest print-lr' });
+
+      activeModal.result.then(data => {
+        console.log('Date:', data);
+      });
+
+    } else {
+      this.common.showError('Please Select another Entry');
+    }
+  }
+
+  addvance() {
+    this.common.params = { 'isamount': this.DayBook.isamount, 'remarks': this.DayBook.remarks, 'vouchercustcode': this.DayBook.vouchercustcode, 'vouchercode': this.DayBook.vouchercode, 'frmamount': this.DayBook.frmamount, 'toamount': this.DayBook.toamount };
+    const activeModal = this.modalService.open(AdvanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Data: ', data);
+      if (data.response) {
+        this.DayBook.isamount = data.ledger.isamount;
+        this.DayBook.remarks = data.ledger.remarks;
+        this.DayBook.vouchercustcode = data.ledger.vouchercustcode;
+        this.DayBook.vouchercode = data.ledger.vouchercode;
+        this.DayBook.frmamount = data.ledger.frmamount;
+        this.DayBook.toamount = data.ledger.toamount;
+        if (data.ledger.toamount != 0 || data.ledger.frmamount != 0 || data.ledger.vouchercode != '' || data.ledger.vouchercustcode != '' || data.ledger.remarks != '' || data.ledger.isamount != 0) {
+          this.flag = 1;
+        } else {
+          this.flag = 0;
+        }
+      }
+    });
+  }
+
+  jrxPagination(page, data?) {
+    this.pages.active = page;
+    let startIndex = this.pages.limit * (this.pages.active - 1);
+    let lastIndex = (this.pages.limit * this.pages.active);
+    this.data = data ? data.slice(startIndex, lastIndex) : this.searchedData.length ? this.searchedData.slice(startIndex, lastIndex) : this.DayData.slice(startIndex, lastIndex);
+  }
+
+  jrxPageLimitReset() {
+    this.jrxPageTimer = setTimeout(() => {
+      if (typeof this.pages.limit === 'string') {
+        this.pages.limit = parseInt(this.pages.limit) || 0;
+      }
+
+      if (!this.pages.limit || this.pages.limit < 100) {
+        this.pages.limit = this.accountService.perPage;
+        this.common.showError('Minimum per page limit 100');
+        return;
+      }
+
+      this.pages.count = Math.floor(this.DayData.length / this.pages.limit);
+      if (this.DayData.length % this.pages.limit) {
+        this.pages.count++;
+      }
+
+      this.accountService.perPage = this.pages.limit;
+      localStorage.setItem('per_page', this.accountService.perPage.toString());
+      this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count);
+    }, 500);
+  }
+
+  jrxSearch(filter) {
+    clearTimeout(this.jrxTimeout);
+    this.jrxTimeout = setTimeout(() => {
+      this.searchedData = [];
+      if (filter.search) {
+        for (let i = 0; i < this.DayData.length; i++) {
+          if (this.DayData[i][filter.key]) {
+            if ((filter.key === 'y_date' && this.common.changeDateformat(this.DayData[i][filter.key], 'dd-MMM-yy').toLowerCase().includes(filter.search.toLowerCase())) || this.DayData[i][filter.key].toLowerCase().includes(filter.search.toLowerCase())) {
+              this.searchedData.push(this.DayData[i]);
+            }
+          }
+        }
+
+        this.pages.count = Math.floor(this.searchedData.length / this.pages.limit);
+        if (this.DayData.length % this.pages.limit) this.pages.count++;
+        this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count, this.searchedData);
+
+      } else {
+        this.searchedData = [];
+        this.pages.count = Math.floor(this.DayData.length / this.pages.limit);
+        if (this.DayData.length % this.pages.limit) this.pages.count++;
+        this.jrxPagination(this.pages.active < this.pages.count ? this.pages.active : this.pages.count);
+      }
+
+    }, 500);
+  }
+
+  jrxDblClick(dataItem) {
+    if (dataItem.y_type.toLowerCase().includes('voucher')) {
+      if (dataItem.y_type.toLowerCase().includes('trip')) {
+        this.openConsignmentVoucherEdit(dataItem);
+      } else if (dataItem.y_type.toLowerCase().includes('fuel')) {
+        this.openFuelEdit(dataItem)
+      } else if (dataItem.y_type.toLowerCase().includes('lr')) {
+        this.editTransfer(dataItem['y_transferid'])
+      } else {
+        this.openVoucherEdit(dataItem.y_voucherid, 0, dataItem.y_vouchertype_id)
+      }
+    } else if (dataItem.y_type.toLowerCase().includes('freight')) {
+      if (dataItem.y_type.toLowerCase().includes('expense')) {
+        this.openfreight(dataItem['y_transferid'])
+      } else {
+        this.openRevenue(dataItem['y_transferid'])
+      }
+    } else if (dataItem.y_type.toLowerCase().includes('stock')) {
+      this.openStoreQuestionEdit(dataItem)
+    } else if (dataItem.y_type.toLowerCase().includes('wastage')) {
+      this.openinvoicemodel(dataItem, dataItem.y_voucherid, dataItem.y_vouchertype_id)
+    } else {
+      this.openServiceSalesInvoicemodel(dataItem, dataItem.y_voucherid, dataItem.y_vouchertype_id)
+    }
+    this.common.currentPage = (this.deletedId == 0) ? 'Day Book' : 'Voucher & Invoice Deleted';
+    // (dataItem.y_type.toLowerCase().includes('voucher'))
+    //   ? (dataItem.y_type.toLowerCase().includes('trip'))
+    //     ? this.openConsignmentVoucherEdit(dataItem)
+    //     : (dataItem.y_type.toLowerCase().includes('fuel'))
+    //       ? this.openFuelEdit(dataItem)
+    //       : (dataItem.y_type.toLowerCase().includes('lr'))
+    //         ? this.editTransfer(dataItem['y_transferid'])
+    //         : this.openVoucherEdit(dataItem.y_voucherid, 0, dataItem.y_vouchertype_id)
+    //   : (dataItem.y_type.toLowerCase().includes('freight'))
+    //     ? (dataItem.y_type.toLowerCase().includes('expense'))
+    //       ? this.openfreight(dataItem['y_transferid'])
+    //       : this.openRevenue(dataItem['y_transferid'])
+    //     : (dataItem.y_type.toLowerCase().includes('stock'))
+    //       ? this.openStoreQuestionEdit(dataItem)
+    //       : (dataItem.y_type.toLowerCase().includes('wastage'))
+    //         ? this.openinvoicemodel(dataItem, dataItem.y_voucherid, dataItem.y_vouchertype_id)
+    //         : this.openServiceSalesInvoicemodel(dataItem, dataItem.y_voucherid, dataItem.y_vouchertype_id)
   }
 }

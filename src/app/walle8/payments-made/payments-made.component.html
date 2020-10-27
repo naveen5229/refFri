@@ -1,5 +1,90 @@
 <nb-card>
   <nb-card-header>
+    <div style="border-bottom-left-radius:5px;border-bottom-right-radius:5px; box-shadow: 5px 10px 54px 0px whitesmoke;" class="ml-4 mr-4 pb-4">
+    <div class="row m-0" style="width:100%;background-color: #E5F3F9;border-top-right-radius: 5px; border-top-left-radius:5px;display:inline-block">
+      <h5 class="p-2" style="font-weight:bold; display: inline-block;">Payment Made</h5>
+
+      <div style="display:inline-block;" class="p-2 float">
+        <span style="display: block;">
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCSV()"
+            style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
+    </div>
+
+    <div class="row m-0 pt-3" style="background-color:white;">
+      <div class="col-3 pl-3">
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly> -->
+
+          <uj-date-time-picker [isTime]=false   (onChanged)="startTime = $event"
+                                [dateTimeValue]="startTime">
+                            </uj-date-time-picker>
+      </div>
+      <div class="col-3">
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
+          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly> -->
+
+          <uj-date-time-picker [isTime]=false  [isStart]=false (onChanged)="endTime = $event"
+                                  [dateTimeValue]="endTime">
+                            </uj-date-time-picker>
+      </div>
+      <div class="col-3">
+        <button class="btn customButton" type="button" (click)="getPaymentMade()">Submit</button>
+      </div>
+    </div>
+  </div>
+    
+  </nb-card-header>
+  <nb-card-body style="width:96%;margin-left:2%;">
+    <!-- <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table> -->
+
+    <table class="table table-bordered" style="width:100%" id="paymentsMade" *ngIf='data.length'>
+      <thead style="background: #E5F3F9!important;color: black!important;">
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Amonut</th>
+          <th>Remark</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let payment of data;let i=index' >
+          <td>{{i+1}}</td>
+          <td>{{common.dateFormatter1(payment.dttime)}}</td>
+          <td>{{payment.amt}}</td>
+          <td>{{payment.rema}}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Total</td>
+          <td>{{total}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- <table *ngIf="data.length" style="margin-top:-15px">
+      <tbody>
+        <tr>
+          <th style="width: 40px"></th>
+          <th style="width: 340px">
+            Total:
+          </th>
+          <th>
+            {{total}}
+          </th>
+        </tr>
+      </tbody>
+    </table> -->
+    <br>
+  </nb-card-body>
+</nb-card>
+
+<!-- <nb-card>
+  <nb-card-header>
     <h2>Payments Made</h2>
     <div class="row m-0 p-0">
       <div class="col-3">
@@ -29,7 +114,41 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <!-- <table class="table-bordered table-hover table-scroll" id="paymentsMade">
+    
+    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="paymentsMade"></smart-table>
+    <table *ngIf="data.length" style="margin-top:-15px">
+      <tbody>
+        <tr>
+          <th style="width: 40px"></th>
+          <th style="width: 380px">
+            Total:
+          </th>
+          <th>
+            {{total}}
+          </th>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </nb-card-body>
+</nb-card> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <table class="table-bordered table-hover table-scroll" id="paymentsMade">
       <thead class="thead">
         <tr>
           <th>#</th>
@@ -67,20 +186,3 @@
         </tr>
       </tbody>
     </table> -->
-    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="paymentsMade"></smart-table>
-    <table *ngIf="data.length" style="margin-top:-15px">
-      <tbody>
-        <tr>
-          <th style="width: 40px"></th>
-          <th style="width: 416px">
-            Total:
-          </th>
-          <th>
-            {{total}}
-          </th>
-        </tr>
-      </tbody>
-    </table>
-    <br>
-  </nb-card-body>
-</nb-card>

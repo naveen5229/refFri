@@ -40,6 +40,14 @@ export class BranchComponent implements OnInit {
       id:0,
       name:'Not Applicable'
     },
+    state:{
+      id:0,
+      name:'Not Applicable'
+    },
+    city:{
+      id:0,
+      name:'Not Applicable'
+    },
     latitude: 'null',
     longitude: 'null',
     precode: '',
@@ -49,6 +57,9 @@ export class BranchComponent implements OnInit {
   };
   siteData = [];
   allowBackspace = true;
+  statedata =[];
+  citydata =[];
+  activeid='';
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
@@ -86,6 +97,14 @@ export class BranchComponent implements OnInit {
           id: (this.common.params.site_id) ? this.common.params.site_id : 0,
           name: (this.common.params.sitename) ? this.common.params.sitename : ''
         },
+        state: {
+          id:(this.common.params.province_id) ? this.common.params.province_id :0 ,
+          name:(this.common.params.province_name) ? this.common.params.province_name : ''
+        },
+        city: {
+          id: (this.common.params.city_id) ? this.common.params.city_id : 0,
+          name:(this.common.params.cityname) ? this.common.params.cityname : ''
+        },
         latitude: (this.common.params.lat == null) ? 'null': this.common.params.lat,
         longitude: (this.common.params.long ==null) ? 'null' : this.common.params.long,
         precode: (this.common.params.lr_pre_code) ? this.common.params.lr_pre_code : '',
@@ -94,11 +113,17 @@ export class BranchComponent implements OnInit {
         mannual: this.common.params.is_inv_manualapprove,
 
       }
+      if(this.Branches.state.id !=null){
+        setTimeout(() => {
+          this.GetCity(this.Branches.state.id);
+       // this.setdataofstate();
+        }, 1000);
+      }
 
       //  console.log('Accounts: ', this.Accounts);
     }
     this.common.handleModalSize('class', 'modal-lg', '1250');
-
+    this.GetState()
     this.getSite();
   }
 
@@ -115,9 +140,12 @@ export class BranchComponent implements OnInit {
     console.log('Accounts User: ', this.Branches);
   }
   onSelectedSite(selectedData, type, display) {
-    this.Branches.site.name = selectedData[display];
-    this.Branches.site.id = selectedData.id;
+    this.Branches[type].name = selectedData[display];
+    this.Branches[type].id = selectedData.id;
     console.log('Selected Data: ', selectedData, type, display);
+    if(type=='state'){
+      this.GetCity(selectedData.id);
+    }
     //  console.log('order User: ', this.getstatedata);
     //  this.setFoucus('submit');
   }
@@ -138,9 +166,49 @@ export class BranchComponent implements OnInit {
       });
 
   }
+  GetState() {
+    let params = {
+      foid: 123
+    };
+
+    this.common.loading++;
+    this.api.post('Suggestion/GetState', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.statedata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+ 
+
+  GetCity(stateid) {
+    let params = {
+      state: stateid
+    };
+
+    this.common.loading++;
+    this.api.post('Suggestion/GetCity', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.citydata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
+    this.activeid=activeId;
     console.log('event', event);
     if (event.key == "Escape") {
       this.showExit = true;
@@ -210,7 +278,12 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('gstno')) {
         this.setFoucus('taxexemptionno');
       } else if (activeId.includes('taxexemptionno')) {
-        this.setFoucus('isactive');
+        if(this.common.params){
+          this.setFoucus('isactive');
+        }else{
+        this.setFoucus('site');
+        }
+
       } else if (activeId.includes('isactive')) {
         this.setFoucus('site');
       } else if (activeId.includes('lr-terms')) {
@@ -224,8 +297,12 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('longitude')) {
         this.setFoucus('mannual');
       }else if (activeId.includes('mannual')) {
+        this.setFoucus('state');
+      } else if (activeId.includes('state')) {
+        this.setFoucus('city');
+      }else if (activeId.includes('city')) {
         this.setFoucus('lr-terms');
-      } else if (activeId.includes('addressline')) {
+      }else if (activeId.includes('addressline')) {
         this.setFoucus('remarks');
       } else if (activeId.includes('remarks')) {
         this.showConfirm = true;
@@ -280,6 +357,10 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('lr-footer')) {
         this.setFoucus('lr-terms');
       } else if (activeId.includes('lr-terms')) {
+        this.setFoucus('city');
+      } else if (activeId.includes('city')) {
+        this.setFoucus('state');
+      } else if (activeId.includes('state')) {
         this.setFoucus('mannual');
       } else if (activeId.includes('mannual')) {
         this.setFoucus('longitude');

@@ -1,0 +1,95 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Trips</h5> 
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <div class="col-sm-6">
+      <ul class="tabs_style">
+        <li [ngClass]="dis_all == 't' ? 'active' : ''" id="dis-all" (click)="dis_all = 't'">
+         Trips
+        </li>
+        <li [ngClass]="dis_all == 'vt' ? 'active' : ''" (click)="dis_all = 'vt'">
+         Vehicle States
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row" *ngIf="dis_all == 'vt'">
+      <div class="col-12" style="height: 72vh; margin-top: 10px;">
+    <table class="table table-bordered table-hover">
+      <thead class="thead">
+        <tr>
+          <th>#</th>
+          <th>Original Trip</th>
+          <th>Current Trip</th>
+          <th>State Desc.</th>
+          <th>Start Time</th>
+          <th>User Info</th>
+          <th>Select State</th>
+        </tr>
+      </thead>
+      <tbody class="tbody">
+     <tr *ngFor="let vts of vtStates;let i = index;">
+          <td>{{i+1}}</td>
+          <td>{{vts.trip_desc}}</td>
+          <td [innerHTML]="common.getJSONTripStatusHTML(vts)"></td>
+          <td>{{vts.state_desc}}</td>
+          <td>{{vts.start_time}}</td>
+          <td>{{vts.userinfo}}</td>
+         <td><input type="checkbox" [(ngModel)]="vts.is_mapped"></td>
+        </tr>
+
+      </tbody>
+    </table>
+      </div> 
+  </div> 
+
+  <div class="row" *ngIf="dis_all == 't'">
+      <div class="col-12" style="height: 72vh; margin-top: 10px;">
+    <table class="table table-bordered table-hover">
+      <thead class="thead">
+        <tr>
+          <th>#</th>
+          <th>Original Trip</th>
+          <th>Current Trip</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>User Info</th>
+          <th>Select trip</th>
+        </tr>
+      </thead>
+      <tbody class="tbody">
+     <tr *ngFor="let trip of trips;let i = index;">
+          <td>{{i+1}}</td>
+          <td>{{trip.trip_desc}}</td>
+          <td [innerHTML]="common.getJSONTripStatusHTML(trip)"></td>
+          <td>{{trip.start_time}}</td>
+          <td>{{trip.end_time}}</td>
+          <td>{{trip.userinfo}}</td>
+         <td><input type="checkbox" [(ngModel)]="trip.is_mapped"></td>
+        </tr>
+
+      </tbody>
+    </table>
+      </div> 
+  </div> 
+</div>
+
+<div class="modal-footer" *ngIf="dis_all == 'vt'">
+  <select [(ngModel)]='reason'>
+    <option *ngFor='let rs of reasons' [value]='rs.id'>{{rs.description}}</option>
+  </select>
+  <button type="submit" class="btn btn-danger" (click)="removeVehicleState(false)" *ngIf="reason!=0">Delete State</button>
+
+  <button type="submit" class="btn btn-primary" (click)="revertState()">Revert state</button>
+</div>
+
+<div class="modal-footer" *ngIf="dis_all == 't'">
+  <button type="submit" class="btn btn-danger" (click)="map(false)">UnMap All</button>
+
+  <button type="submit" class="btn btn-primary" (click)="map(true)">Map</button>
+</div>

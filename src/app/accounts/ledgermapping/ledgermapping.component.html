@@ -8,7 +8,7 @@
     <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
       style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
     <div class="row">
-      <div class="col-3">
+      <div class="col-3 pl-0">
         <div class="form-group">
           <label class="tjr-label">Secondary Goup</label>
           <!-- <auto-suggestion (onSelected)="onSelected($event, 'group', 'name')" display="name"
@@ -17,7 +17,7 @@
             [(ngModel)]="ledgerMapping.group.name">
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pl-0">
         <div class="form-group">
           <label class="tjr-label">Ledger</label>
           <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger"
@@ -27,14 +27,14 @@
         </div>
       </div>
 
-      <div class="col-3">
+      <div class="col-3 pl-0">
         <div class="form-group">
           <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getLedgerView()"
             id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
         </div>
       </div>
 
-      <div class="col-3">
+      <div class="col-3 pl-0 pr-0">
         <div class="auto-sugg">
           <div class="form-group" *ngIf="this.activeId.includes('secondaryname')">
             <auto-suggetion-in-side [data]="secondaryData" targetId="secondaryname" display="name"
@@ -56,12 +56,14 @@
           <th>Ledger Name</th>
         </tr>
       </thead>
+    <tbody>
       <tr *ngFor="let dataItem of ledgerMappingData; let i = index;" (click)="selectedRow = i"
         [ngClass]="{'highlight' : selectedRow == i}" (dblclick)="openLedgerModal(dataItem.y_ledgerid)">
         <td>{{i + 1}}</td>
         <td>{{dataItem.y_group_name}}</td>
         <td>{{dataItem.y_ledger_name}}</td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

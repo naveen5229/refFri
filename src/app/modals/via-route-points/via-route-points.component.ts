@@ -313,7 +313,7 @@ export class ViaRoutePointsComponent implements OnInit {
   }
 
   async updateOrder() {
-    await this.calculateKms();
+    // await this.calculateKms();
     let params = {
       data: JSON.stringify(this.tableData),
     }

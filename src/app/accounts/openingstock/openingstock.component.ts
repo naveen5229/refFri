@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,HostListener} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,9 +7,14 @@ import { UserService } from '../../@core/data/users.service';
 @Component({
   selector: 'openingstock',
   templateUrl: './openingstock.component.html',
-  styleUrls: ['./openingstock.component.scss']
+  styleUrls: ['./openingstock.component.scss'],
+  
 })
 export class OpeningstockComponent implements OnInit {
+   @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event) {
+    this.keyHandler(event);
+  }
   openingStocks = [];
   stockdata = [];
   selectedRow = -1;
@@ -38,7 +43,7 @@ export class OpeningstockComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
+  } 
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
@@ -59,9 +64,7 @@ export class OpeningstockComponent implements OnInit {
       this.setFoucus(this.lastActiveId);
 
       return;
-    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
-      return;
-    }
+    } 
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('date')) {
@@ -69,14 +72,15 @@ export class OpeningstockComponent implements OnInit {
         this.setFoucus('submit');
       }
 
-    } else if ((this.activeId == 'date') && key !== 'backspace') {
-      let regex = /[0-9]|[-]/g;
-      let result = regex.test(key);
-      if (!result) {
-        event.preventDefault();
-        return;
-      }
     }
+    //  else if ((this.activeId == 'date') && key !== 'backspace') {
+    //   let regex = /[0-9]|[-]/g;
+    //   let result = regex.test(key);
+    //   if (!result) {
+    //     event.preventDefault();
+    //     return;
+    //   }
+    // }
     else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.openingStocks.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;

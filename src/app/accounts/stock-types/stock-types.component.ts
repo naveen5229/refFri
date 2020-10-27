@@ -64,16 +64,16 @@ export class StockTypesComponent implements OnInit {
       activeModal.result.then(data => {
         // console.log('Data: ', data);
         if (data.response) {
-          const params = {
-            foid: 123,
+          const params1 = {
             name: data.stockType.name,
             code: data.stockType.code,
-            id: stockType.id
+            id: stockType.id,
+            isservice:data.stockType.isservice
           };
-      
+          console.log('params1',params1);
           this.common.loading++;
       
-          this.api.post('Stock/UpdateStockType', params)
+          this.api.post('Stock/UpdateStockType', params1)
             .subscribe(res => {
               this.common.loading--;
               console.log('res: ', res);
@@ -114,9 +114,9 @@ export class StockTypesComponent implements OnInit {
 
   addStockType(stockType) {
     const params = {
-      foid: 123,
       name: stockType.name,
-      code: stockType.code
+      code: stockType.code,
+      isservice:stockType.isservice
     };
 
     this.common.loading++;

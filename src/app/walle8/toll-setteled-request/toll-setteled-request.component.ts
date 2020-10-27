@@ -4,27 +4,33 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 @Component({
   selector: 'toll-setteled-request',
   templateUrl: './toll-setteled-request.component.html',
   styleUrls: ['./toll-setteled-request.component.scss']
 })
 export class TollSetteledRequestComponent implements OnInit {
-  dates = {
-    start: null,
+  // dates = {
+  //   start: null,
 
-    end: this.common.dateFormatter(new Date()),
-  };
+  //   end: this.common.dateFormatter(new Date()),
+  // };
+  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  endDate = new Date();
   table = null;
   data = [];
   constructor(
     public api: ApiService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal,
   ) {
-    let today = new Date();
-    this.dates.start = this.common.dateFormatter1(today.setDate(today.getDate() - 1));
+    // let today = new Date();
+    // this.dates.start = this.common.dateFormatter1(today.setDate(today.getDate() - 1));
     this.gettollSetteledReq();
     this.common.refresh = this.refresh.bind(this);
 
@@ -36,50 +42,16 @@ export class TollSetteledRequestComponent implements OnInit {
   refresh(){
     this.gettollSetteledReq();
   }
-  getDate(date) {
-    this.common.params = { ref_page: "card usage" };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.dates);
-    });
-  }
+  // getDate(date) {
+  //   this.common.params = { ref_page: "card usage" };
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
+  //     console.log('Date:', this.dates);
+  //   });
+  // }
 
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Toll Setteled Request";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
-
-  printCSV(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Toll Setteled Request";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
+  
   setTable() {
     let headings = {
       toll_usage_id: { title: 'Toll Id', placeholder: 'Toll Id' },
@@ -124,7 +96,7 @@ export class TollSetteledRequestComponent implements OnInit {
     return columns;
   }
   gettollSetteledReq() {
-    let params = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
+    let params ="&startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
     //  console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('TollSummary/getTollSettledRequests.json?' + params)
@@ -136,13 +108,29 @@ export class TollSetteledRequestComponent implements OnInit {
           this.data = [];
           this.table = null;
           return;
-
         }
         this.table = this.setTable();
       }, err => {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter(new Date(this.startDate)),'End Date: '+this.common.dateFormatter(new Date(this.endDate)),  'Report: '+'Toll-Setteled']
+    ];
+    this.pdfService.jrxTablesPDF(['tollsettel'], 'toll-setteled', details);
+  }
+
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter(new Date(this.startDate)),enddate:'End Date:'+this.common.dateFormatter(new Date(this.endDate)), report:"Report:Toll-Setteled"}
+    ];
+    this.csvService.byMultiIds(['tollsettel'], 'toll-setteled', details);
   }
 
 }

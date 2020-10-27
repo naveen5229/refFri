@@ -22,20 +22,28 @@
     .logo-containter {
         display: flex;
         align-items: center;
-        width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});  
+        justify-content: space-between;
+        width: 100%;
     }
 
     .control-item {
         display: block;
+        padding-top: 8px!important;
+        i{
+            font-size: 18px;
+        }
     }
 
     .refresh {
-        padding: 10%;
         background: content-box;
-        color: white;
-        font-size: 20px;
-        border: none;
+        color: #d1d1d2;
+        background: transparent;
+        border: 1px solid transparent;
         box-shadow: none;
+        border-radius: 30px;
+        height: 35px;
+        width: 35px;
+        padding: 0.175rem 0.75rem;
     }
     .header-container {
         display: flex;
@@ -44,34 +52,41 @@
         
         nb-action{
             border: 0px !important;
+            padding: 0 .25rem;
+            margin-right: 8px;
         }
 
         .navigation {
-            @include nb-ltr(padding-right, nb-theme(padding));
-            @include nb-rtl(padding-left, nb-theme(padding));
+            @include nb-ltr(padding-right, 1.25rem);
+            @include nb-rtl(padding-left, 1.25rem);
             font-size: 2.5rem;
             text-decoration: none;
 
-            i {
+            svg{
                 display: block;
+            }
+            svg:hover {
+               color:#727cf5;
             }
 
         }
 
         .logo {
-            padding: 0 nb-theme(padding);
+            padding: 0 1.25rem;
             font-size: 1.75rem;
-            font-weight: nb-theme(font-weight-bolder);
-            @include nb-ltr(border-left, 1px solid nb-theme(separator));
-            @include nb-rtl(border-right, 1px solid nb-theme(separator));
+            font-weight: 500;
+            @include nb-ltr(border-left, 1px solid #cdd5dc);
+            @include nb-rtl(border-right, 1px solid #cdd5dc);
             white-space: nowrap;
 
             span {
-                font-weight: nb-theme(font-weight-normal);
+                font-weight: 400;
             }
         }
     }
-
+    .logo:first-letter {
+       color: #ffffff;
+      }
     @include nb-for-theme(corporate) {
         $menu-action-separator-color: #3f4550;
 
@@ -86,7 +101,7 @@
         }
 
         .header-container /deep/ ngx-theme-switcher .dropdown-toggle {
-            color: nb-theme(color-white);
+            color: #ffffff;
             background: transparent;
         }
     }
@@ -112,8 +127,8 @@
         text-decoration: none;
         line-height: 1;
 
-        i {
-            color: nb-theme(color-fg-highlight);
+        svg {
+            color: #40dc7e;
             font-size: 2.25rem;
             border-radius: 50%;
             position: relative;
@@ -144,15 +159,15 @@
 
     @include keyframes(pulse) {
         0% {
-            box-shadow: 0 0 1px 0 rgba(nb-theme(color-fg-highlight), 0);
+            box-shadow: 0 0 1px 0 #40dc7e;
         }
 
         20% {
-            box-shadow: 0 0 3px 10px rgba(nb-theme(color-fg-highlight), 0.4);
+            box-shadow: 0 0 3px 10px #40dc7e;
         }
 
         100% {
-            box-shadow: 0 0 5px 20px rgba(nb-theme(color-fg-highlight), 0);
+            box-shadow: 0 0 5px 20px #40dc7e;
         }
     }
 
@@ -192,9 +207,11 @@
             margin: 0 0.5rem;
         }
     }
-
+    nb-user{
+        cursor: pointer;
+    }
     @include media-breakpoint-down(sm) {
-
+      
         nb-user /deep/ .user-name {
             display: none;
         }
@@ -231,110 +248,197 @@
 }
 
 .user_back_name{
-    width: 560px;
+    //width: 950px;
     display: flex;
 }
-.header-container {
-    border-right: 1px solid #585858;
-}
+
 :host ::ng-deep .right.medium{
     .user_photo{
-        padding: 0px 20px 0px 0px !important;
+       // padding: 0px 20px 0px 0px !important;
     }
     .control-item{
-        padding: 0px 20px 0px 0px !important;
+       // padding: 0px 20px 0px 0px !important;
     }
 }
-.header_button button {
-    padding: 23px 15px 23px 0px !important;
+.header_button{
+    margin-right: 2px;
+    padding-top: 3px;
+
+ button {
     background-color: transparent;
-    border: none;
-    color: #fff;
-    box-shadow: none;
-    height: auto;
+    border: 1px solid transparent;
+    padding: 5px 9px;
+    border-radius: 55px;
+    height: 35px;
+    width: 35px;
+    .fa-angle-left{
+        font-size: 24px;
+        color: #d1d1d2;
+        vertical-align: middle;
+    }
 }
-.add_customer button {
-    padding: 21px 20px 21px 0px !important;
-    background-color: transparent;
-    border: none;
-    color: #fff;
+button:hover {
     box-shadow: none;
-    height: auto;
+    background-color: #0c1427;
+    border: 1px solid #5e7cf5;
+    color: #5e7cf5;
+    padding: 5px 9px;
+    border-radius: 55px;
+    height: 35px;
+    width: 35px;
+    .fa-angle-left{
+        font-size: 24px;
+        color: #5e7cf5;
+        vertical-align: middle;
+    }
+}
+}
+.bank_icon{
+    margin-right: 2px;
+    height: 30px;
+}
+.add_customer{
+    margin-right: 2px;
+    height: 30px;
+ button {
+   background-color: transparent;
+   border: 1px solid transparent;
+    color: #d1d1d2;
+    box-shadow: none;
+    border-radius: 30px;
+    height: 35px;
+    width: 35px;
+    padding: 0.175rem 0.75rem;
+}
 }
 .back_btn img {
-    width: 20px;
+    width: 15px;
 }
 
 .add_customer img {
-    width: 26px;
+    width: 15px;
 }
 
 .refresh_icon {
-    button.refresh {
-        padding: 19px 20px 19px 0px;
-        height: auto;
-    }
+    margin-right: 2px;
+    height: 30px;
+    border: 1px solid transparent;
 }
+
+// .fa-bank {
+//     button.refresh {
+//         padding: 19px 20px 19px 0px;
+//         height: auto;
+//     }
+// }
 
 .current-page {
     position: absolute;
     bottom: -27px;
-    left: 50%;
-    /* right: 50%; */
-    background: #263238;
+    left: 55%;
     height: auto;
     margin: auto;
-    padding: 5px 10px;
-    /* margin-top: 23px; */
     z-index: 999999;
     overflow: visible;
-    border-radius: 0px 0px 3px 3px;
+    color: #000;
+    border-radius: 0.17rem;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    padding: 4px 20px;
+    background-color: #c9c2de;
+    border-bottom: 1px solid white;
+    -webkit-box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(63, 106, 216, 0.2);
+    box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(63, 106, 216, 0.2);
     transform: translate(-50%);
 }
 .select_branch{
-    padding: 10px 0px;
-    margin-right: 20px;
+    display: block;
     width: 50%;
+    padding: 5px 0;
 }
 .select_branch label{
     margin-right: 0;
     font-size: 12px;
-    margin-bottom: 2px;
-    display: block;
+    margin-right: 5px;
+    color: #d1d1d2;
+    
 }
+
 .select_branch select{
-    width: 100%;
+    width: 60%;
     display: inline-block;
     background: transparent;
-    border: 1px solid #878f92 !important;
-    color: #fff;
+    border: 1px solid #d1d1d2 !important;
+    color: #d1d1d2;
     opacity: 1;
     padding: 5px !important;
     border-radius: 0px;
+    height: calc(1rem + 14px)!important;
+    font-weight: normal;
+}
+.select_branch select:hover{
+    border: 1px solid #727cf5 !important;
+    color: #727cf5;
 }
 .select_branch select option{
-    background: #677277;
-    color: #fff;
+    background: #363e4f;
+    color: #d1d1d2;
 }
 :host ::ng-deep .user-picture{
-    background-image: url(assets/images/avtar.png) !important;
+    //background-image: url(assets/images/avtar.png) !important;
     background-size: cover !important;
+    height: 2rem!important;
+    width: 2rem!important;
 }
-.user_cust_name h4,
+.user_cust_name{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    h4{
+        color: #d1d1d2;
+        align-self: center;
+        font-size: 14px;
+        margin: 0px;
+        font-weight: normal;
+    }
+   svg, i{
+        margin-right: 5px;
+        margin-left: 5px;
+        align-self: center;
+    }
+}
 .user-det_name h4{
-    color: white;
-    padding: 24px 0px;
-    font-size: medium;
+    color: #d1d1d2;
+    padding: 11px 0 0 0;
+    font-size: 14px;
     margin: 0px;
 }
 .branch_option{
     display: flex;
-    width: 320px;
 }
 .header_mini_menu{
     display: flex;
-    width: 208px;
+    justify-content: flex-end;
+    padding-top: 2px;
 }
+
+.add_customer button:hover, .bank_icon button:hover, .refresh_icon button:hover {
+    background-color: #0c1427;
+    border: 1px solid #5e7cf5;
+    color: #5e7cf5;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    height: 30px;
+    padding: 0.175rem 0.75rem;
+    border-radius: 30px;
+    height: 35px;
+    width: 35px;
+}
+
+
+
 @media (min-width: 992px) and (max-width: 1199.98px) { 
     .select_branch{
         width: 350px;

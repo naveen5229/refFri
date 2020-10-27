@@ -14,7 +14,9 @@ import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
 import { AccountService } from '../../services/account.service';
-
+import { OrderComponent } from '../../acounts-modals/order/order.component';
+import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
+import { ServiceComponent } from '../../accounts/service/service.component';
 
 @Component({
   selector: 'ledgerview',
@@ -59,6 +61,7 @@ export class LedgerviewComponent implements OnInit {
   f2Date = 'startDate';
   activedateid = '';
   lastActiveId = '';
+  sizeIndex=0;
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -73,7 +76,7 @@ export class LedgerviewComponent implements OnInit {
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
     if (this.common.params) {
-      console.log("After the modal Open:", this.common.params);
+     // console.log("After the modal Open:", this.common.params);
 
       this.ledgername = this.common.params.ledgername;
       this.vouchertype = this.common.params.vouchertype;
@@ -94,14 +97,17 @@ export class LedgerviewComponent implements OnInit {
         }
 
       }
+      if(this.common.params.sizeIndex){
+        this.sizeIndex=this.common.params.sizeIndex;
+      }
       this.getLedgerView();
     }
-    this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 0);
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', this.sizeIndex);
   
 
     //  this.getVoucherTypeList();
 
-    this.setFoucus('voucherType');
+   // this.setFoucus('voucherType');
     //  this.common.currentPage = 'Ledger View';
   }
 
@@ -324,38 +330,79 @@ export class LedgerviewComponent implements OnInit {
       this.common.params = {
         invoiceid: voucherId,
         delete: 0,
-      indexlg:1
+        newid: 0,
+        ordertype: dataItem.y_vouchertype_id,
+        isModal:true,
+        sizeIndex:(this.sizeIndex+1)
       };
-      const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
-          console.log('open succesfull');
-  
-          // this.addLedger(data.ledger);
+        console.log('Data: invoice ', data);
+          if (data.msg) {
         }
       });
+      // this.common.params = {
+      //   invoiceid: voucherId,
+      //   delete: 0,
+      //   newid:0,
+      //   ordertype:dataItem.y_vouchertype_id,
+      //   sizeIndex:1
+      // };
+      // const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      // activeModal.result.then(data => {
+      //    console.log('Data: invoice ', data);
+      //   if (data.delete) {
+      //     console.log('open succesfull');
+      //       //this.getDayBook();
+      //     // this.addLedger(data.ledger);
+      //   }
+      // });
+      // this.common.params = {
+      //   invoiceid: voucherId,
+      //   delete: 0,
+      // indexlg:1
+      // };
+      // const activeModal = this.modalService.open(OrderdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      // activeModal.result.then(data => {
+      //   // console.log('Data: ', data);
+      //   if (data.response) {
+      //     console.log('open succesfull');
+  
+      //     // this.addLedger(data.ledger);
+      //   }
+      // });
     }else if(ytype.toLowerCase().includes('fuel')){
       this.openFuelEdit(dataItem);
 } else if(dataItem.y_type.toLowerCase().includes('trip')){
   this.openConsignmentVoucherEdit(dataItem)
 } else{
-    console.log('vouher id', voucherId);
-    this.common.params = { vchid: voucherId,vchcode:vouhercode};
+  this.common.params = {
+    voucherId: voucherId,
+    delete: 0,
+    addvoucherid: 0,
+    voucherTypeId: dataItem.y_vouchertype_id,
+    sizeIndex:(this.sizeIndex+1)
+  };
+  const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+  activeModal.result.then(data => {
+    console.log('Data: ', data);
+    if (data.delete) {
+     // this.getDayBook();
+    } 
+    // this.common.showToast('Voucher updated');
 
-    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        return;
-        //   if (stocksubType) {
+  });
+    // console.log('vouher id', voucherId);
+    // this.common.params = { vchid: voucherId,vchcode:vouhercode};
 
-        //     this.updateStockSubType(stocksubType.id, data.stockSubType);
-        //     return;
-        //   }
-        //  this.addStockSubType(data.stockSubType)
-      }
-    });
+    // const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    // activeModal.result.then(data => {
+    //   // console.log('Data: ', data);
+    //   if (data.response) {
+    //     return;
+      
+    //   }
+    // });
   }
 }
   modelCondition() {
@@ -643,6 +690,60 @@ export class LedgerviewComponent implements OnInit {
         }
       });
     }
+  }
+
+  pdfFunction() {
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+        // this.Vouchers = res['data'];
+        let address = (res['data'][0]) ? res['data'][0].addressline + '\n' : '';
+        let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1 + remainingstring3;
+        let foname = (res['data'][0]) ? res['data'][0].foname : '';
+        this.common.getPDFFromTableIdnew('table', foname, cityaddress, '', '', 'Ledher View');
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  csvFunction() {
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+        // this.Vouchers = res['data'];
+        let address = (res['data'][0]) ? res['data'][0].addressline + '\n' : '';
+        let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1;
+        let foname = (res['data'][0]) ? res['data'][0].foname : '';
+        this.common.getCSVFromTableIdNew('table', foname, cityaddress, '', '', remainingstring3);
+        // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
   }
 }
 

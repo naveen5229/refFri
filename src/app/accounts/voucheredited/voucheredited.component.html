@@ -2,54 +2,19 @@
 
   <nb-card-body>
     <div class="row">
-      <div class="col-9">
+      <div class="col-9 pr-0 pl-0">
         <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
 
         <div class="row">
-          <!-- <div class="col-4">
-            <div class="form-group">
-              <label class="tjr-label">Branch</label>
-              <input type="text" id="branch" class="form-control tjr-input" name="branch"
-                [(ngModel)]="DayBook.branch.name">
-            </div>
-          </div> -->
-          <!-- <div class="col-6">
-            <div class="form-group">
-              <label class="tjr-label">Voucher</label>
-              <input type="text" id="vouchertype" class="form-control tjr-input" name="vouchertype"
-                [(ngModel)]="bankBook.vouchertype.name">
-            </div>
-          </div> -->
-          <div class="col-4">
-            <div class="form-group mb-0 mt-2">
-<!-- 
-              <label class="tjr-label labtrj">Voucher Edit Type</label> -->
-
-              <!-- <div class="debit_box">
-                <div class="debit">
-                  <span>voucher date</span>
-                  <input autocomplete="off" type="radio" class="form-control" name="vouchertype" id="vouchertype"
-                    [(ngModel)]="bankBook.vouchertype" [value]=0>
-                </div>
-                <div class="credit">
-                  <span>voucher entry date</span>
-                  <input autocomplete="off" type="radio" class="form-control" name="vouchertype" id="vouchertype"
-                    [(ngModel)]="bankBook.vouchertype" [value]=1>
-                </div>
-                <div class="credit">
-                  <span>lastupdated date</span>
-                  <input autocomplete="off" type="radio" class="form-control" name="vouchertype" id="vouchertype"
-                    [(ngModel)]="bankBook.vouchertype" [value]=2>
-
-                </div>
-              </div> -->
-
+         
+          <div class="col-4 pl-0">
+            <div class="form-group mb-0">
               <div class="form-group debit_box m-0 w-100">
                 <label class="tjr-label">Filter Date</label>
-                <select class="tjr_select form-control" [(ngModel)]="bankBook.vouchertype" >
+                <select class="tjr_select form-control  tjr-input" [(ngModel)]="bankBook.vouchertype" >
                   <option value="0">voucher date</option>
                   <option value="1">voucher entry date</option>
                   <option value="2">lastupdated date</option>
@@ -59,7 +24,7 @@
             </div>
           </div>
 
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label ledger-label">Ledger</label>
               <input type="text" id="ledger" class="form-control tjr-input" name="ledger" autocomplete="off"
@@ -68,22 +33,22 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
-                id="startdate" placeholder="Select Date" name="account-date" [(ngModel)]="bankBook.startdate"
+                id="startdate" placeholder="Select Date" name="account-date" [(ngModel)]="accountService.fromdate"
                 maxlength="10">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="enddate"
-                placeholder="Select Date" name="account-enddate" [(ngModel)]="bankBook.enddate" maxlength="10">
+                placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.todate" maxlength="10">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getVoucherEdited()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
@@ -91,7 +56,7 @@
           </div>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pr-0 pl-0">
         <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
           <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
             (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
@@ -126,7 +91,7 @@
       <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
         [ngClass]="{'highlight' : selectedRow == i}"> -->
-
+      <tbody>
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="getBookDetail(dataItem.y_voucher_id)" (enter)="getBookDetail(dataItem.y_voucherid,dataItem.y_code) "
         [ngClass]="{'highlight' : selectedRow == i,'greterline' :(dataItem.y_days > 1) ,'lowerline' : (dataItem.y_days < 0)}">
@@ -140,6 +105,7 @@
         <td>{{dataItem.y_last_edit_time | date:'dd-MMM-yy h:mm'}}</td>
         <td>{{dataItem.y_last_editby}}</td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

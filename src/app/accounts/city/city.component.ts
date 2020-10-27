@@ -95,8 +95,9 @@ export class CityComponent implements OnInit {
       const activeModal = this.modalService.open(AddCityComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          this.updateCity(data.city, city.id);
-          return;
+         // this.updateCity(data.city, city.id);
+        this.getpageData();
+        return;
         }
       });
     }
@@ -105,8 +106,9 @@ export class CityComponent implements OnInit {
       const activeModal = this.modalService.open(AddCityComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          this.addCity(data.city);
-          return;
+        //  this.addCity(data.city);
+        this.getpageData();
+        return;
         }
       });
     }

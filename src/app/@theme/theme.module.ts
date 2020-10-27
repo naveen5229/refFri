@@ -33,9 +33,9 @@ import {
   NbRadioModule,
   NbSelectModule,
   NbTooltipModule,
+  NbIconModule,
 } from '@nebular/theme';
 
-import { NbSecurityModule } from '@nebular/security';
 
 import {
   FooterComponent,
@@ -52,8 +52,7 @@ import {
   PluralPipe,
   RoundPipe,
   TimingPipe,
-  NumberWithCommasPipe,
-  EvaIconsPipe,
+  NumberWithCommasPipe
 } from './pipes';
 import {
   OneColumnLayoutComponent,
@@ -81,7 +80,6 @@ const NB_MODULES = [
   NbPopoverModule,
   NbContextMenuModule,
   NgbModule,
-  NbSecurityModule, // *nbIsGranted directive,
   NbProgressBarModule,
   NbCalendarModule,
   NbCalendarRangeModule,
@@ -124,8 +122,7 @@ const PIPES = [
   PluralPipe,
   RoundPipe,
   TimingPipe,
-  NumberWithCommasPipe,
-  EvaIconsPipe,
+  NumberWithCommasPipe
 ];
 
 const NB_THEME_PROVIDERS = [
@@ -143,14 +140,14 @@ const NB_THEME_PROVIDERS = [
 ];
 
 @NgModule({
-  imports: [...BASE_MODULES, ...NB_MODULES],
+  imports: [...BASE_MODULES, ...NB_MODULES, NbIconModule],
   exports: [...BASE_MODULES, ...NB_MODULES, ...COMPONENTS, ...PIPES],
   declarations: [...COMPONENTS, ...PIPES],
   entryComponents: [...ENTRY_COMPONENTS],
 })
 export class ThemeModule {
-  static forRoot(): ModuleWithProviders {
-    return <ModuleWithProviders>{
+  static forRoot(): ModuleWithProviders<ThemeModule> {
+    return {
       ngModule: ThemeModule,
       providers: [...NB_THEME_PROVIDERS],
     };

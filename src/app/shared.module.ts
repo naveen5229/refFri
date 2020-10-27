@@ -4,8 +4,7 @@ import { FuelAverageAnalysisComponent } from './pages/fuel-average-analysis/fuel
 import { ThemeModule } from './@theme/theme.module';
 import { DashboardModule } from './partner/dashboard/dashboard.module';
 import { DirectiveModule } from './directives/directives.module';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { ImageViewerModule } from 'ng2-image-viewer';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { RemainingFuelComponent } from './admin/remaining-fuel/remaining-fuel.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentationDetailsComponent } from './documents/documentation-details/documentation-details.component';
@@ -29,6 +28,20 @@ import { WebActivitySummaryComponent } from './admin/web-activity-summary/web-ac
 import { FoFuelAverageComponent } from './pages/fo-fuel-average/fo-fuel-average.component';
 import { ChallanPaymentRequestComponent } from './challan/challan-payment-request/challan-payment-request.component';
 import { MvGpsApiReqComponent } from './challan/mv-gps-api-req/mv-gps-api-req.component';
+import { VehicleStatusChangeComponent } from './admin/vehicle-status-change/vehicle-status-change.component';
+import { TmgComponent } from './pages/tmg/tmg.component';
+import { TmgChallanComponent } from './pages/tmg-challan/tmg-challan.component';
+import { TmgAlertsComponent } from './pages/tmg-alerts/tmg-alerts.component';
+import { TmgCallsComponent } from './pages/tmg-calls/tmg-calls.component';
+import { TmgDocumentsComponent } from './pages/tmg-documents/tmg-documents.component';
+import { TmgTrafficComponent } from './pages/tmg-traffic/tmg-traffic.component';
+import { TmgTripComponent } from './pages/tmg-trip/tmg-trip.component';
+import { TmgTrafficAnalysisComponent } from './pages/tmg-traffic-analysis/tmg-traffic-analysis.component';
+import { TmgLoadingAnalysisComponent } from './pages/tmg-loading-analysis/tmg-loading-analysis.component';
+import { TmgTransporterAnalysisComponent } from './pages/tmg-transporter-analysis/tmg-transporter-analysis.component';
+import { TmgUnloadingAnalysisComponent } from './pages/tmg-unloading-analysis/tmg-unloading-analysis.component';
+
+
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -50,7 +63,19 @@ const PAGES_COMPONENTS = [
     WebActivitySummaryComponent,
     FoFuelAverageComponent,
     ChallanPaymentRequestComponent,
-    MvGpsApiReqComponent
+    MvGpsApiReqComponent,
+    VehicleStatusChangeComponent,
+    TmgComponent,
+    TmgChallanComponent,
+    TmgAlertsComponent,
+    TmgCallsComponent,
+    TmgDocumentsComponent,
+    TmgTrafficComponent,
+    TmgTripComponent,
+    TmgTrafficAnalysisComponent,
+    TmgLoadingAnalysisComponent,
+    TmgTransporterAnalysisComponent,
+    TmgUnloadingAnalysisComponent,
 ];
 
 
@@ -61,7 +86,6 @@ const PAGES_COMPONENTS = [
         DirectiveModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
-        ImageViewerModule,
         ChartModule,
     ],
     exports: [...PAGES_COMPONENTS],

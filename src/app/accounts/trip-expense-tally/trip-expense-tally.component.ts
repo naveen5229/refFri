@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { AccountService } from '../../services/account.service';
+import { UserService } from '../../services/user.service';
+
 
 @Component({
   selector: 'trip-expense-tally',
@@ -23,12 +26,20 @@ export class TripExpenseTallyComponent implements OnInit {
   };
   headings = [];
   valobj = {};
-  endDate = new Date();
-  startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 10));
-  request=0
+  endDate = this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
+  //startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 10));
+  startDate= ((((new Date()).getMonth()) + 1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear()) - 1) + '-04-01', 'ddMMYYYY', false, '-');
+  request=0;
+  allowBackspace = true;
+
 
   constructor(public api:ApiService,
-    public common:CommonService) {
+    public common:CommonService,
+    public accountService: AccountService) {
+      this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.startDate;
+      this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.endDate;  
+    this.common.currentPage = 'Trip Expense Tally';
+
    }
 
   ngOnInit() {
@@ -41,8 +52,50 @@ export class TripExpenseTallyComponent implements OnInit {
     console.log('test fase',this.selectedVehicle.id);
 
   }
-
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    let activeId = document.activeElement.id;
+    console.log('Active event', event);
+    if (key == 'enter') {
+      this.allowBackspace = true;
+      if (activeId.includes('startdate')) {
+        this.startDate = this.common.handleDateOnEnterNew(this.startDate);
+        this.setFoucus('enddate');
+      } else if (activeId.includes('enddate')) {
+        this.endDate = this.common.handleDateOnEnterNew(this.endDate);
+        this.setFoucus('submit');
+      }
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', activeId);
+      if (activeId == 'enddate') this.setFoucus('startdate');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if ((activeId == 'startdate' || activeId == 'enddate') && key !== 'backspace') {
+      let regex = /[0-9]|[-]/g;
+      let result = regex.test(key);
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
+    }else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+  }
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
+  }
   getTripExpenseTally() {
+    this.startDate = this.accountService.fromdate;
+    this.endDate = this.accountService.todate;
    this.tripExpense=[];
     this.table = {
       data: {

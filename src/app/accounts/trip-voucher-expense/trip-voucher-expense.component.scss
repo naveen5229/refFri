@@ -5,11 +5,11 @@ button {
     padding: 5px !important;
 }
 .pdf-icon{
-    font-size: 30px;
+    //font-size: 30px;
     color: #9F0001;
 }
 .exel-icon{
-    font-size: 30px;
+  //  font-size: 30px;
     color: #217346;
 }
 nb-card-header{
@@ -17,15 +17,15 @@ nb-card-header{
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
-.tjr_select{
-    border: 1px solid #263238 !important;
-    border-radius: 0px 2px 2px 2px !important;
-    padding: 3px 5px !important;
-    height: auto !important;
-    font-size: 12px !important;
-    display: block;
-    width: 100%;
-}
+// .tjr_select{
+//     border: 1px solid #263238 !important;
+//     border-radius: 0px 2px 2px 2px !important;
+//     padding: 3px 5px !important;
+//     height: auto !important;
+//     font-size: 12px !important;
+//     display: block;
+//     width: 100%;
+// }
 table{
     thead{
         display: table;
@@ -41,18 +41,18 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 143px;
+            width: auto;
         }
         th:first-child{
-            width: 40px;
+            width: 5%;
         }
         th:last-child{
-            width: auto;
+            width: 10%;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 143px;
+            width: auto;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -65,10 +65,10 @@ table{
             }
         }
         td:first-child{
-            width: 40px;
+            width: 5%;
         }
         td:last-child{
-            width: auto;
+            width: 10%;
         }
     }
     tbody{
@@ -104,8 +104,8 @@ table{
     width: 100%;
 }
 .left-box{
-    padding: 10px;
-    background-color: #efefef;
+    //padding: 10px;
+   // background-color: #efefef;
     border-radius: 3px;
 }
 .selected {

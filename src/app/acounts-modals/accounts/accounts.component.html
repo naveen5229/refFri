@@ -1,7 +1,7 @@
 <nb-card style="margin:0px; border:0px;">
   <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Add Secondary Account</h5>
+  <h5 class="modal-title" id="modal-basic-title">{{ pagename }}</h5>
   <button type="button" class="close" aria- label="Close" (click)="modalCondition(false)">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -12,7 +12,7 @@
   
     <div class="col-4">
       <div class="form-group">
-        <label>Parent Account Name</label>
+        <label class="tjr-label">Parent Account Name</label>
         <!-- <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount" display="name"
         inputId="account" name="account" placeholder="Search Parent Account" [preSelected]="{name:Accounts.account.name}"></auto-suggestion> -->
         <input autocomplete="off" type="text" id="account" class="form-control tjr-input" name="account"
@@ -21,14 +21,17 @@
     </div>
     <div class="col-4">
       <div class="form-group">
-        <label>Name</label>
-        <input autocomplete="off" type="text" class="form-control" name="account-name" id="name" [(ngModel)]="Accounts.name">
+        <label class="tjr-label">Name</label>
+        <input autocomplete="off" type="text" class="form-control tjr-input" name="account-name" id="name" [(ngModel)]="Accounts.name">
       </div>
     </div>
     <div class="col-4">
-        <auto-suggetion-in-side *ngIf="autoSuggestion.data.length" [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
-        [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
-      </div>
+        <!-- <auto-suggetion-in-side  [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
+        [display]="y_name" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side> -->
+     
+      <auto-suggetion-in-side  [data]="autoSuggestion.data" targetId="account"
+      display="name" (select)="onSelect($event, autoSuggestion.targetId)">
+    </auto-suggetion-in-side> </div>
   </div>
 
 </div>

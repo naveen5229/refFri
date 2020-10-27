@@ -8,6 +8,41 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row">
+      <div class="col-sm-4" style="cursor:pointer;" (click)=" dis_all = '51';  getReportdata(dis_all)">
+        <div class="col-sm-12 divstyleOnboarding">
+          <label style="font-size:22px;text-align:center;font-weight:500;color:black;width:100%;padding-top:5px;">Onward</label>
+          <div class="row" style="padding-bottom:15px;">
+          <table class="tablestyle">
+            <tr><td style="color:black;font-size:18px;font-weight:500">Total</td><td style="color:black;font-size:18px;font-weight:500">{{onwardTotal}}</td></tr>
+            <tr><td style="color:black;font-size:18px;font-weight:500">Delay</td><td style="color:black;font-size:18px;font-weight:500">{{onwardDelay}}</td></tr>
+          </table>
+        </div>
+        </div>
+      </div>
+      <div class="col-sm-4" style="cursor:pointer;" (click)=" dis_all = '11';getReportdata(dis_all)">
+        <div class="col-sm-12 divstyleLoading">
+          <label style="font-size:22px;text-align:center;font-weight:500;color:black;width:100%;padding-top:5px;">Loading</label>
+          <div class="row" style="padding-bottom:15px;">
+            <table class="tablestyle">
+              <tr><td style="color:black;font-size:18px;font-weight:500">Total</td><td style="color:black;font-size:18px;font-weight:500">{{loadingTotal}}</td></tr>
+              <tr><td style="color:black;font-size:18px;font-weight:500">Delay</td><td style="color:black;font-size:18px;font-weight:500">{{loadingDelay}}</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4" style="cursor:pointer;" (click)=" dis_all = '21';  getReportdata(dis_all)">
+        <div class="col-sm-12 divstyleUnloading">
+          <label style="font-size:22px;text-align:center;font-weight:500;color:black;width:100%;padding-top:5px;">Unloading</label>
+          <div class="row" style="padding-bottom:15px;">
+            <table class="tablestyle">
+              <tr><td style="color:black;font-size:18px;font-weight:500">Total</td><td style="color:black;font-size:18px;font-weight:500">{{unloadingTotal}}</td></tr>
+              <tr><td style="color:black;font-size:18px;font-weight:500">Delay</td><td style="color:black;font-size:18px;font-weight:500">{{unloadingDelay}}</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-sm-9">
         <ul class="tabs_style">
           <li [ngClass]="dis_all == 'dcs' ? 'active' : '' " id="dis-all"

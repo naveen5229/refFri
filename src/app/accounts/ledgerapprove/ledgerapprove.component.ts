@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,HostListener} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +17,26 @@ export class LedgerapproveComponent implements OnInit {
   deletedId = 0;
   pageName="";
   sizeledger=0;
+  ledgerData = []; 
+  secondarygroup = [];
+  group={
+    name: 'All',
+    id: 0
+  };
+  ledger = {
+    name: 'All',
+    id: 0
+  };
+  allowBackspace = true;
+  showDateModal = false;
+  f2Date = 'startDate';
+  lastActiveId = '';
+  selectedRow = -1;
+  activeId='ledgerdaybook';
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event) {
+    this.keyHandler(event);
+  }
   constructor(private activeModal :NgbActiveModal,
     public api: ApiService,
     public common: CommonService,
@@ -41,22 +61,41 @@ export class LedgerapproveComponent implements OnInit {
         this.GetLedger(4);
         this.sizeledger=1;
   }
-  this.GetLedger(4);
+    this.GetLedger(4);
     this.common.currentPage =  'Ledger Pending For Approval';
-    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
+    this.getAllLedger();
+    this.getSecondaryGoup();
 
   }
-
   ngOnInit() {
   }
   refresh() {
     console.log('ledger approve test');
     this.GetLedger(4);
   }
+  getAllLedger() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.ledgerData = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
   GetLedger(id) {
     let params = {
       foid: 123,
-      deleted: id
+      deleted: id,
+      groupid:this.group.id,
+      ledgerid:this.ledger.id
     };
     console.log('approve ledger',params);
 
@@ -74,7 +113,37 @@ export class LedgerapproveComponent implements OnInit {
       });
 
   }
+  
+  onSelected(selectedData, type, display) {
+    if(type=='group'){
+    this.group.name = selectedData[display];
+    this.group.id = selectedData.id;
+    }else{
+      this.ledger.name = selectedData[display];
+      this.ledger.id = selectedData.id;
+    }
+    // console.log('order User: ', this.DayBook);
+  }
 
+  getSecondaryGoup() {
+    let params = {
+      foid: 123
+    };
+
+    this.common.loading++;
+    this.api.post('Accounts/getSecondaryGoup', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.secondarygroup = res['data'];
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
   updateLedgerCostCenter(checkvalue, id) {
     let params = {
       ledgerid: id,
@@ -99,15 +168,13 @@ export class LedgerapproveComponent implements OnInit {
   }
 
 
-  selectedRow = -1;
-
   openModal(ledger?) {
     let data = [];
     console.log('ledger123', ledger);
     if (ledger) {
       let params = {
         id: ledger.id,
-        foid: ledger.foid,
+        foid: 0,
       }
       this.common.loading++;
       this.api.post('Accounts/EditLedgerdata', params)
@@ -148,6 +215,43 @@ export class LedgerapproveComponent implements OnInit {
     }
   }
 
+
+  
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    this.activeId = document.activeElement.id;
+    console.log('Active event', event,this.activeId);
+
+   
+
+    if (key == 'enter') {
+      this.allowBackspace = true;
+       if (this.activeId.includes('ledgerdaybook')) {
+        this.setFoucus('group');
+      } else if (this.activeId.includes('group')) {
+        this.setFoucus('delreview');
+      } 
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+     
+      if (this.activeId == 'group') this.setFoucus('ledgerdaybook');
+      if (this.activeId == 'ledgerdaybook') this.setFoucus('vouchertype');
+
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.Ledgers.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.Ledgers.length - 1) this.selectedRow++;
+
+    }
+  }
+
   addLedger(ledger) {
     console.log('ledgerdata', ledger);
     // const params ='';
@@ -173,7 +277,15 @@ export class LedgerapproveComponent implements OnInit {
       bankname: ledger.bankname,
       costcenter: ledger.costcenter,
       taxtype:ledger.taxtype,
-      taxsubtype:ledger.taxsubtype
+      taxsubtype:ledger.taxsubtype,
+      isnon:ledger.isnon,
+      hsnno:ledger.hsnno,
+      hsndetail:ledger.hsndetail,
+      gst:ledger.gst,
+      cess:ledger.cess,
+      igst:ledger.igst,
+      taxability:ledger.taxability,
+      calculationtype:ledger.calculationtype,
     };
 
     console.log('params11: ', params);
@@ -197,7 +309,16 @@ export class LedgerapproveComponent implements OnInit {
 
   }
 
-
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
+  }
   RowSelected(u: any) {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.

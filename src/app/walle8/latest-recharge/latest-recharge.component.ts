@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 import { getUrlScheme } from '@angular/compiler';
 @Component({
   selector: 'latest-recharge',
@@ -22,6 +24,8 @@ export class LatestRechargeComponent implements OnInit {
   total = null;
   constructor(
     public api: ApiService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal,
@@ -50,46 +54,43 @@ export class LatestRechargeComponent implements OnInit {
       console.log('Date:', this.dates);
     });
   }
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Latest Recharge";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
+  // printPDF(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Latest Recharge";
+  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
 
-  printCSV(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Latest Recharge";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
+  // printCSV(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "Latest Recharge";
+  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
   getLatestRecharge() {
-
-
     let params = "mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
-
     this.common.loading++;
     let response;
     this.api.walle8Get('CardRechargeApi/FoCardRechargeView.json?' + params)
@@ -102,7 +103,6 @@ export class LatestRechargeComponent implements OnInit {
         }
         if (this.data == null) {
           this.common.showToast('NO DATA FOUND');
-
         }
 
       }, err => {
@@ -110,41 +110,57 @@ export class LatestRechargeComponent implements OnInit {
         console.log(err);
       });
     return response;
-
   }
-  setTable() {
-    let headings = {
-      vehicle: { title: 'vehicle', placeholder: 'vehicle' },
-      cardno: { title: 'card Number', placeholder: 'card Number' },
-      dttime: { title: 'Date', placeholder: 'Date' },
-      nbal: { title: 'Recharge', placeholder: 'Recharge' },
-      rema: { title: 'Remark', placeholder: 'Remark' },
-      // HPCL: { title: 'HPCL', placeholder: 'HPCL' },
-    };
-    return {
-      data: {
-        headings: headings,
-        columns: this.getTableColumns()
-      },
-      settings: {
-        hideHeader: true,
-        tableHeight: "auto"
-      }
-    }
-  }
-  getTableColumns() {
-    let columns = [];
-    this.data.map(req => {
-      let column = {
-        vehicle: { value: req.vehicle },
-        cardno: { value: req.cardno },
-        dttime: { value: req.dttime },
-        nbal: { value: req.nbal == null ? "-" : req.nbal },
-        rema: { value: req.rema == null ? "-" : req.rema },
+  // setTable() {
+  //   let headings = {
+  //     vehicle: { title: 'vehicle', placeholder: 'vehicle' },
+  //     cardno: { title: 'card Number', placeholder: 'card Number' },
+  //     dttime: { title: 'Date', placeholder: 'Date' },
+  //     nbal: { title: 'Recharge', placeholder: 'Recharge' },
+  //     rema: { title: 'Remark', placeholder: 'Remark' },
+  //     // HPCL: { title: 'HPCL', placeholder: 'HPCL' },
+  //   };
+  //   return {
+  //     data: {
+  //       headings: headings,
+  //       columns: this.getTableColumns()
+  //     },
+  //     settings: {
+  //       hideHeader: true,
+  //       tableHeight: "auto"
+  //     }
+  //   }
+  // }
+  // getTableColumns() {
+  //   let columns = [];
+  //   this.data.map(req => {
+  //     let column = {
+  //       vehicle: { value: req.vehicle },
+  //       cardno: { value: req.cardno },
+  //       dttime: { value: req.dttime },
+  //       nbal: { value: req.nbal == null ? "-" : req.nbal },
+  //       rema: { value: req.rema == null ? "-" : req.rema },
 
-      };
-      columns.push(column);
-    });
-    return columns;
+  //     };
+  //     columns.push(column);
+  //   });
+  //   return columns;
+  // }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,  'Report: '+'Latest-Recharge']
+    ];
+    this.pdfService.jrxTablesPDF(['latestrecharge'], 'latest-recharge', details);
+  }
+
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name, report:"Report:Latest-Recharge"}
+    ];
+    this.csvService.byMultiIds(['latestrecharge'], 'latest-recharge', details);
   }
 }

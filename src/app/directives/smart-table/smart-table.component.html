@@ -24,7 +24,7 @@
                             <!-- Search INPUT -->
                             <div class="filter-input-container">
                                 <input type="text" class="filter-input" [(ngModel)]="headings[heading].value"
-                                    (input)="filterData(heading)" [placeholder]="headings[heading].placeholder"
+                                    (ngModelChange)="filterData(heading)" [placeholder]="headings[heading].placeholder"
                                     [title]="headings[heading].placeholder">
                             </div>
                             <!-- Search INPUT END -->
@@ -51,10 +51,9 @@
         </thead>
         <tbody>
 
-            <tr *ngFor="let column of columns; let i = index;"
-                (click)="column.rowActions && column.rowActions.click && handleRowClick(column, i)"
-                (dblclick)="column.rowActions?.dblclick && column.rowActions.dblclick()"
-                [ngClass]="{'active-row': isItActive(column)}" [ngStyle]="column.style">
+            <tr *ngFor="let column of columns; let i = index;" (click)="jrxActionHandler($event,'row','click', column)"
+                (dblclick)="jrxActionHandler($event,'row','dblclick',column)" class="{{column.class}}"
+                [ngClass]="{'active-row': activeRow === column._smartId }" [ngStyle]="column.style">
 
                 <!-- Records Count -->
                 <td style="width: 40px">
@@ -65,8 +64,10 @@
                 <!-- Smart Table Value -->
                 <td *ngFor="let heading of objectKeys(headings);"
                     [ngClass]="column[heading] ? column[heading].class : ''"
-                    (click)="handleColumnClick(column, heading, i)" (dblclick)="handleColDoubleClick(column, heading)"
-                    (mouseover)="handleMouseHover(column, heading)" (mouseout)="handleMouseOut(column, heading)"
+                    (click)="jrxActionHandler($event,'col','click', column, heading, i)"
+                    (dblclick)="jrxActionHandler($event,'col','dblclick', column, heading)"
+                    (mouseover)="jrxActionHandler($event,'col','mouseover', column, heading)"
+                    (mouseout)="jrxActionHandler($event,'col','mouseout', column, heading)"
                     [ngStyle]="{cursor: (column[heading] && column[heading].action) ? 'pointer' : ''}">
 
                     <!-- Auto Suggestion -->
@@ -122,8 +123,9 @@
                     <!-- Show Action Icons -->
                     <div *ngIf="column[heading] && column[heading].icons" [class]="column[heading].class || ''">
                         <div *ngFor="let icon of column[heading].icons" [class]="icon.parentClass"
-                            style="display:inline; position: relative;">
-                            <i [class]="icon.class" (click)="icon.action && icon.action()"><span>{{icon.txt}}</span></i>
+                            style="display:inline; position: relative;"
+                            (click)="jrxActionHandler($event, 'icon','click', column, icon.class, -1, icon)">
+                            <i [class]="icon.class"><span>{{icon.txt}}</span></i>
                         </div>
                     </div>
                     <!-- Show Action Icons END -->
@@ -156,7 +158,7 @@
     <!-- Page Count END -->
     <!-- Records Per Page -->
     <div class="numer_list ml-3">
-        <input type="text" class="customPage form-control" name="customPageNo" (keyup.enter)="customPage()"
+        <input type="text" class="customPage form-control" name="customPageNo" (keyup.enter)="customPage($event)"
             [(ngModel)]="pages.limit">
     </div>
     <!-- Records Per Page END -->

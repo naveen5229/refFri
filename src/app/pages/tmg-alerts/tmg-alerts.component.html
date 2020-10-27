@@ -1,0 +1,145 @@
+<div class="contentsection">
+    <div class="row mb-3 mr-0 pt-2">
+      <div class="col-4 pl-0">
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Alert Ack TAT in Last 7 Days</b></h6>
+          <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+            [options]="chart.options">
+          </chart>
+        </div>
+      </div>
+      <div class="col-4 pl-0">
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Alert Call TAT in Last 7 Days</b></h6>
+          <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+            [options]="chart1.options">
+          </chart>
+        </div>
+      </div>
+      <div class="col-4 pl-0 pr-0">
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">VSC TAT in Last 7 Days</b></h6>
+          <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+            [options]="chart2.options">
+          </chart>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3 mr-0">
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 170px;">
+          <h6 style="text-align:center"><b class="charthead">Longest Alert Not Ack</b></h6>
+          <table class="table">
+            <thead class="thead">
+              <th>Executive</th>
+              <th>Alert Name</th>
+              <th>Alert Date</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let ana of alertNotAck">
+                <td>{{ana['Executive']}}</td>
+                <td>{{ana['Alert Name']}}</td>
+                <td>{{ana['Alert Date']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 170px;">
+          <h6 style="text-align:center"><b class="charthead">Longest Alert Not Called </b></h6>
+          <table class="table">
+            <thead class="thead">
+              <th>Executive</th>
+              <th>Alert Name</th>
+              <th>Alert Date</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let anc of alertNotCall">
+                <td>{{anc['Executive']}}</td>
+                <td>{{anc['Alert Name']}}</td>
+                <td>{{anc['Alert Date']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4 pl-0 pr-0">
+        <div class="outer" style="min-height: 170px;">
+          <h6 style="text-align:center"><b class="charthead">Longest Pending VSC TAT </b></h6>
+          <table class="table">
+            <thead class="thead">
+              <td>Executive</td>
+              <th>TAT (Hrs)</th>
+              <th>Oldest VSC Date </th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let lud of alertVscPending">
+                <td>{{lud['Executive']}}</td>
+                <td>{{lud['TAT(Hrs)']}}</td>
+                <td>{{lud['VSC Time']}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3 mr-0">
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 100px;">
+          <h6 style="text-align:center"><b class="charthead">Longest Open Alert</b></h6>
+          <table class="table">
+            <thead class="thead">
+              <th>Executive</th>
+              <th>Alert Name</th>
+              <th>Alert Date</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let ao of alertOpen">
+                <td>{{ao['Executive']}}</td>
+                <td>{{ao['Alert Name']}}</td>
+                <td>{{ao['Alert Date']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 100px;">
+          <h6 style="text-align:center"><b class="charthead">Worst Call TAT in Last 7 Days</b></h6>
+          <table class="table">
+            <thead class="thead">
+              <th>Executive</th>
+              <th>Alert Name</th>
+              <th>TAT (Hrs)</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let awc of alertWorstCallTat">
+                <td>{{awc['Executive']}}</td>
+                <td>{{awc['Alert Name']}}</td>
+                <td>{{awc['TAT in Hrs']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4 pl-0 pr-0">
+        <div class="outer" style="min-height: 100px;">
+          <h6 style="text-align:center"><b class="charthead">Worst VSC TAT in Last 7 Days </b></h6>
+          <table class="table">
+            <thead class="thead">
+              <th>Executive</th>
+              <th>TAT (Hrs)</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let avw of alertVscWorst">
+                <td>{{avw['Executive']}}</td>
+                <td>{{avw['TAT(Hrs)']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

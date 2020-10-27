@@ -1,40 +1,52 @@
-<!-- <video autoplay muted loop id="myVideo">
-  <source src="assets/bg-video.mp4" type="video/mp4">
-</video> -->
-<div class="main">
-  <!-- <div class="blink" *ngIf="this.user._loggedInBy== 'admin'">
-  <span>Login By Admin</span>
-</div> -->
+
+<nb-card style="background-image: url(&quot;http://elogist.in./images/app-login-bg.jpg&quot;);background-size: cover;background-repeat: no-repeat;background-position: center bottom;height: 100vh;">
+  <div class="main">
   <i *ngIf="listenOTP" (click)="backToLogin()" class="icon ion-md-arrow-round-back back-icon"></i>
   <div class="logo">
-    <img src="http://elogist.in/images/elogist-logo.png">
+    <img
+      [src]="user._loggedInBy == 'customer' || user._loggedInBy == 'admin'?'http://elogist.in/transtruck/admindashboard/assets/images/left-logo.png':'http://elogist.in/images/elogist-logo.png'">
   </div>
-  <h1 id="title" class="title">{{user._loggedInBy == 'admin' ? 'Admin' : 'FBP'}} Login</h1>
-  <!-- <p class="sub-title">Discover...<span class="title">Smart</span> Logistics</p> -->
-  <p class="sub-title">eLogist is building an integrated AI-driven utilisation
+  <h1 id="title" class="title">
+    {{user._loggedInBy == 'admin' ? 'Admin' : user._loggedInBy == 'customer' ? 'Customer': user._loggedInBy == 'consigner'?'Consigner':''}}
+    Login</h1>
+  <p class='sub-title' *ngIf="user._loggedInBy == 'customer' || user._loggedInBy == 'admin'">eLogist is building an
+    integrated AI-driven utilisation
     based digital platform
     for the
     Transportation industry</p>
-  <div *ngIf="!listenOTP">
-    <form #mobileForm="ngForm" (submit)="mobileForm.valid && sendOTP()">
-      <div class="form-group">
-        <input type="tel" autocomplete="off" minlength="10" maxlength="10" [(ngModel)]="userDetails.mobile"
-          #mobile="ngModel" name="mobile" id="input-mobile" placeholder="Mobile Number" class="form-control"
-          pattern="[0-9]+" required>
-        <div *ngIf="mobile.errors && formSubmit">
-          <div class="error" [hidden]="!mobile.errors.required">Mobile number is required</div>
-          <div class="error" [hidden]="!mobile.errors.minlength">Mobile number must be 10 digit long</div>
-          <div class="error" [hidden]="!mobile.errors.pattern">Invalid mobile number</div>
+  <div *ngIf="!listenOTP" style="border:3px solid white; padding:8px;border-radius:5px;">
+    <nb-tabset>
+      <nb-tab tabTitle="Mobile Login">
+        <form #mobileForm="ngForm" (submit)="mobileForm.valid && sendOTP()">
+          <div class="form-group">
+            <input type="tel" autocomplete="off" minlength="10" maxlength="10" [(ngModel)]="userDetails.mobile"
+              #mobile="ngModel" name="mobile" id="input-mobile" placeholder="Mobile Number" class="form-control"
+              pattern="[0-9]+" required style="margin-top:10px">
+            <div *ngIf="mobile.errors && formSubmit">
+              <div class="error" [hidden]="!mobile.errors.required">Mobile number is required</div>
+              <div class="error" [hidden]="!mobile.errors.minlength">Mobile number must be 10 digit long</div>
+              <div class="error" [hidden]="!mobile.errors.pattern">Invalid mobile number</div>
+            </div>
+          </div>
+
+          <button type="submit" (click)="formSubmit = true" class="btn btn-primary btn-block custom-btn"
+            (click)="sendOTP">
+            {{button}}
+          </button>
+        </form>
+      </nb-tab>
+      <nb-tab tabTitle="User Login">
+        <div>
+          <input type="text" autocomplete="off" [(ngModel)]="users.username" #mobile="ngModel" name="username"
+            id="input-username" placeholder="Username" class="form-control" required style="margin-top:10px">
+          <input type="password" autocomplete="off" [(ngModel)]="users.password" #mobile="ngModel" name="password"
+            id="input-password" placeholder="Password" class="form-control" required style="margin-top:10px">
+          <button type="submit" class="btn btn-primary btn-block custom-btn" tabindex="-1"
+            (click)="userLogin()">Login</button>
         </div>
-      </div>
-
-      <button type="submit" (click)="formSubmit = true" class="btn btn-primary btn-block custom-btn" (click)="sendOTP">
-        {{button}}
-      </button>
-    </form>
+      </nb-tab>
+    </nb-tabset>
   </div>
-
-
   <div *ngIf="listenOTP && loginType===1">
     <form #otpForm="ngForm" (submit)="otpForm.valid && login()">
       <div class="form-group">
@@ -55,9 +67,21 @@
   </div>
   <div *ngIf="listenOTP && loginType===2 && qrCode">
     <div class="qrClass">
-      <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="qrCode" qrc-class="qr-class"
-        qrc-errorCorrectionLevel="M">
+      <ngx-qrcode [qrc-element-type]="elementType" [value]="qrCode" cssClass="qr-class" errorCorrectionLevel="M">
       </ngx-qrcode>
     </div>
   </div>
 </div>
+<div class="jrx-loader" *ngIf="loading">
+  <div class="lds-roller">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+</nb-card>

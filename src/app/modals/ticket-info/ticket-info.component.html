@@ -1,0 +1,91 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <div class="row">
+    <div style="width: 100%;">
+    <table class="table table-bordered" *ngIf="issueInfo">
+      <!-- fixed row in all -->
+      <tr>
+        <td>Trip</td> <td [innerHTML]="common.getTripStatusHTML(issueInfo['trip']._trip_status_type, issueInfo['trip']._showtripstart, issueInfo['trip']._showtripend, issueInfo['trip']._p_placement_type, issueInfo['trip']._p_loc_name)"></td>
+      </tr>
+      <tr>
+        <td>Vehicle No</td><td> <span *ngIf="issueInfo.regno" [title]="'Group : ' +issueInfo.groupInfo"><b>{{issueInfo.regno ? issueInfo.regno : ''}}</b></span> &nbsp;&nbsp;&nbsp;&nbsp;<span (click)="showLocation(issueInfo.lat,issueInfo.long)" style="cursor:pointer;color:blue;" *ngIf='issueInfo.lat&&issueInfo.long'>[{{issueInfo.loc_name ? issueInfo.loc_name : ''}}]</span></td>
+      </tr>
+      <tr>
+        <td>Driver</td><td><span *ngIf="issueInfo.empname" >{{issueInfo.empname ? issueInfo.empname : ''}}</span></td>
+      </tr>
+      <tr>
+        <td>ETOA</td><td><span *ngIf="issueInfo.etoa" >{{issueInfo.etoa ? issueInfo.etoa : ''}}</span> <span *ngIf="issueInfo.delay" >({{issueInfo.delay ? issueInfo.delay : ''}})</span></td>
+      </tr>
+      <tr>
+        <td>Target Time</td><td><span *ngIf="issueInfo.target_time" >{{issueInfo.target_time ? issueInfo.target_time : ''}}</span></td>
+      </tr>
+      <tr>
+        <td>Message</td><td> <span *ngIf="ticketInfo.msg" >{{ticketInfo.msg ? ticketInfo.msg : ''}}</span></td>
+      </tr>
+      <tr>
+        <td>Status</td><td ><span>{{issueInfo.status ? issueInfo.status : ''}}</span></td>
+      </tr>
+     
+     
+      <!-- rows according ticket type -->
+      <tr *ngIf="priType==200">
+       
+          <td>Reason (Halt)</td><td><span *ngIf="issueInfo.halt_type" >{{issueInfo.halt_type ? issueInfo.halt_type : ''}} </span></td>
+        </tr>  
+      <tr *ngIf="priType==200">
+        <td>Time Since</td><td><span *ngIf="issueInfo.start_time" >{{  issueInfo.start_time | date : 'dd MMM hh:mm a' }} </span> <span *ngIf="issueInfo.duration" >({{ issueInfo.duration ? findRemainingTime(issueInfo.duration) : ''}})</span></td>
+      </tr>
+      <tr *ngIf="priType==300">
+        <td>Current Distance</td><td> <span *ngIf="issueInfo.current_distance" >{{issueInfo.current_distance ? issueInfo.current_distance : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==300">
+        <td>Current Speed</td><td> <span *ngIf="issueInfo.current_speed" >{{issueInfo.current_speed ? issueInfo.current_speed : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==300">
+        <td>Average Speed</td><td> <span *ngIf="issueInfo.avg_speed" >{{issueInfo.avg_speed ? issueInfo.avg_speed : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==400">
+        <td>Drive Time</td><td> <span *ngIf="issueInfo.drive_time" >{{issueInfo.drive_time ? issueInfo.drive_time : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==400">
+        <td>Distance Covered</td><td> <span *ngIf="issueInfo.dist_covered" >{{issueInfo.dist_covered ? issueInfo.dist_covered : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==400">
+        <td>Average Speed</td><td> <span *ngIf="issueInfo.avg_speed" >{{issueInfo.avg_speed ? issueInfo.avg_speed : ''}}</span></td>
+      </tr>
+      <tr *ngIf="priType==400">
+        <td>Max Speed</td><td> <span *ngIf="issueInfo.max_speed" >{{issueInfo.max_speed ? issueInfo.max_speed : ''}}</span></td>
+      </tr>
+    </table>
+  </div>
+    <div style="width:100%;background-color: lightgrey;padding: 8px;font-weight: bold;color: black;">
+      Ticket Actions
+    </div>
+    
+    <table class="table table-bordered tbl">
+      <tr><td>Time Remaining</td><td style="float:right">{{ticketInfo && common.findRemainingTime(ticketInfo.exp_tkt_time)}}</td><td (click)="getExtraTime()"><i class="fa fa-plus" aria-hidden="true" title="Extra Time" style="cursor:pointer;"></i></td></tr>
+      <tr><td>Reminder</td><td></td><td (click)="setReminder()"><i class="fa fa-bell" aria-hidden="true" title="Reminder" style="cursor:pointer;"></i></td></tr>
+      <tr><td>Forward</td><td></td><td (click)="forwardTicket()"><i class="fa fa-share" aria-hidden="true" title="forward" style="cursor:pointer;"></i></td></tr>
+      <tr><td>TrailList</td><td></td><td (click)="trailList()"><i class="fa fa-list-alt" aria-hidden="true" title="Trail List" style="cursor:pointer;"></i></td></tr>
+      <tr><td>Comments</td><td (click)="getComment()"><i class="fa fa-eye" aria-hidden="true" title="get Comment" style="cursor:pointer;float:right"></i></td><td (click)="setComments()"><i class="fa fa-commenting" aria-hidden="true" title="Set Comment" style="cursor:pointer;"></i></td></tr>
+    </table>
+
+    <div class="col-sm-6 offset-6">
+      </div>
+    
+
+  </div>
+
+</div>
+<div class="modal-footer">
+  <div class="row">
+       <button class="btn btn-danger" (click)="setRemark(-5)">Can't Do</button>
+    <button class="btn btn-primary" (click)="setRemark(5)">Mark as Done</button>
+  </div>
+</div>

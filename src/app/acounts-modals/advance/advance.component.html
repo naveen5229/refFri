@@ -1,0 +1,107 @@
+<nb-card style="margin:0px; border:0px;">
+  <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Advanced Search</h5>
+      <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+  <div class="row">
+          <div class="col-4">
+            <label class="tjr-label">Is Amount Debit </label>
+            <div class="debit_box">
+              <div class="form-group">
+                <div class="debit">
+                  <span>Yes</span>
+                  <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
+                    [(ngModel)]="Accounts.isamount" [value]=1>
+                </div>
+                <div class="credit">
+                  <span>No</span>
+                  <input autocomplete="off" type="radio" class="form-control" name="trantype" id="trantype"
+                    [(ngModel)]="Accounts.isamount" [value]=0>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">From Amount</label>
+              <input autocomplete="off" type="text" id="frmamount" class="form-control tjr-input" name="frmamount"
+                [(ngModel)]="Accounts.frmamount">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">To Amount</label>
+              <input autocomplete="off" type="text" id="toamount" class="form-control tjr-input" name="toamount"
+                [(ngModel)]="Accounts.toamount">
+            </div>
+          </div>
+         
+
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Voucher No </label>
+              <input autocomplete="off" type="text" id="vouchercode" class="form-control tjr-input" name="vouchercode"
+                [(ngModel)]="Accounts.vouchercode">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Ref No</label>
+              <input autocomplete="off" type="text" id="vouchercustcode" class="form-control tjr-input"
+                name="vouchercustcode" [(ngModel)]="Accounts.vouchercustcode">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Remarks</label>
+              <input autocomplete="off" type="text" id="remarks" class="form-control tjr-input" name="remarks"
+                [(ngModel)]="Accounts.remarks">
+            </div>
+          </div>
+         
+
+        </div> 
+        
+     
+    </div>
+
+    <div class="modal-footer">
+      <div class="row w-100" style="justify-content: flex-end;padding: 0 20px;">
+       
+          <button class="btn btn-danger" type="button" outline (click)="clear()" id="clear"
+            style="cursor: pointer;">Clear Fields
+          </button>
+        
+      
+          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+            style="cursor: pointer;">Submit
+          </button>
+       
+      
+          <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
+            style="cursor: pointer;">Cancel</button>
+
+     
+
+      </div>
+    </div>
+
+
+  </nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to close this pop up ?</p>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+        (click)="dismiss(false)">No</button>
+    </div>
+  </div>
+</div>

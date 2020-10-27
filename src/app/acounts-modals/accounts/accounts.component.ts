@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'accounts',
@@ -26,13 +28,16 @@ export class AccountsComponent implements OnInit {
   autoSuggestion = {
     data: [],
     targetId: 'account',
-    display: 'name'
+    name: 'y_name'
   };
   activeId ='account';
   suggestionIndex = -1;
+  pagename='Add Secondary Account';
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
-    public api: ApiService) {
+    public modalService: NgbModal,
+    public api: ApiService,
+    public accountService: AccountService) {
    
 console.log('accounts get data',this.common.params);
 
@@ -48,20 +53,19 @@ console.log('accounts get data',this.common.params);
         }
       }
       console.log('Accounts: ', this.Accounts);
+      this.pagename='Edit Secondary Account';
     }
     this.getAccountData();
+    this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
   }
 
   ngOnInit() {
   }
   dismiss(response) {
     console.log('Accounts:', this.Accounts);
-    if(this.foid >=1){
+   
     this.activeModal.close({ response: response, Accounts: this.Accounts, });
-  }else{
-    this.common.showError("System Entry Can't Update");
-    this.activeModal.close({ response: false ,Accounts: this.Accounts});
-  }
+ 
 }
 
 modalCondition(res){
@@ -71,14 +75,14 @@ modalCondition(res){
 
   onSelected(selectedData, type, display) {
     this.Accounts[type].name = selectedData[display];
-    this.Accounts[type].id = selectedData.id;
+    this.Accounts[type].id = selectedData.y_id;
     console.log('Accounts User: ', this.Accounts);
   }
   onParent(selectedData, type, display) {
     this.Accounts[type].name = selectedData[display];
-    this.Accounts[type].id = selectedData.id;
-    this.Accounts[type].primarygroup_id = selectedData.primarygroup_id;
-    console.log('Accounts Parent: ', this.Accounts);
+    this.Accounts[type].id = selectedData.y_id;
+    this.Accounts[type].primarygroup_id = selectedData.y_parent_id;
+    console.log('Accounts Parent: ', this.Accounts,selectedData);
   }
 
 
@@ -138,7 +142,8 @@ modalCondition(res){
 
   getAccountData() {
     let params = {
-      search: 123
+      search: 123,
+      conditionid:1
     };
 
     this.common.loading++;
@@ -158,7 +163,6 @@ modalCondition(res){
     console.log('Suggestion on select: ', suggestion);
       this.Accounts.account.name = suggestion.name;
       this.Accounts.account.id = suggestion.id;
-    
   }
 
   onSelect(suggestion, activeId){
@@ -166,6 +170,8 @@ modalCondition(res){
       this.Accounts.account.name = suggestion.name;
       this.Accounts.account.id = suggestion.id;
       this.Accounts.account.primarygroup_id =suggestion.primarygroup_id;
+    console.log('Suggestion selcted: ', this.Accounts.account);
+
   }
 
 

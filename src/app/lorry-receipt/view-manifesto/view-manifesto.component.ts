@@ -100,6 +100,9 @@ export class ViewManifestoComponent implements OnInit {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
             let headerObj = { title: key, placeholder: this.formatTitle(key) };
+            if (key === 'Date') {
+              headerObj['type'] = 'date';
+            }
             this.table.data.headings[key] = headerObj;
           }
 
@@ -135,7 +138,7 @@ export class ViewManifestoComponent implements OnInit {
   actionIcons(mainfest) {
     let icons = [{ class: 'fa fa-print', action: this.openViewManifestModal.bind(this, mainfest) },
     ];
-    this.user.permission.edit && icons.push({ class: " fa fa-pencil-square-o ml-2", action: this.editLrManifest.bind(this, mainfest) });
+    this.user.permission.edit && icons.push({ class: " fas fa-edit ml-2", action: this.editLrManifest.bind(this, mainfest) });
     return icons;
   }
 

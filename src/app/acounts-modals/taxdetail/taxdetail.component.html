@@ -1,8 +1,8 @@
 <nb-card style="margin:0px; border:0px;">
-  <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
+  <nb-card-body style="padding:0px;">
     <div class="modal-header">
       <h5 class="modal-title" id="modal-basic-title">Add Tax Detail</h5>
-      <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+      <button type="button" class="close" aria- label="Close" (click)="dismisspop(false)">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -14,10 +14,10 @@
           <table>
             <thead style="background-color: #263238; color:#fff;">
               <tr>
-                <td>Tax Ledger</td>
-                <td>Tax Rate</td>
-                <td>Tax Amount</td>
-                <td></td>
+                <th>Tax Ledger</th>
+                <th>Tax Rate</th>
+                <th>Tax Amount</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -25,19 +25,19 @@
                 <td>
                   <!-- <auto-suggestion (onSelected)="onSelected($event, 'taxledger', 'name',i)" url="Suggestion/GetPurchaseLedger"  display="name"
          [inputId]="'taxledger-'+i" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
-                  <input type="text" [id]="'taxledger-' + i" autocomplete="off" class="form-control" [name]="'taxledger-' + i"
+                  <input type="text" [id]="'taxleder-' + i" autocomplete="off" class="form-control ref-input" [name]="'taxledger-' + i"
                     [(ngModel)]="taxdetail.taxledger.name" required>
                 </td>
                 <td>
-                  <input type="number" class="form-control" autocomplete="off" [name]="'taxrate-' + i" [id]="'taxrate-' + i"
+                  <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxrate-' + i" [id]="'taxrate-' + i"
                     [(ngModel)]="taxdetail.taxrate" (input)="taxdetail.taxamount = ((taxdetail.taxrate * amount)/100).toFixed(2)">
                 </td>
                 <td>
-                  <input type="number" class="form-control" autocomplete="off" [name]="'taxamount-' + i" [id]="'taxamount-' + i"
+                  <input type="number" class="form-control ref-input" autocomplete="off" [name]="'taxamount-' + i" [id]="'taxamount-' + i"
                     [(ngModel)]="taxdetail.taxamount">
                 </td>
                 <td *ngIf="i == 0">
-                  <button class="btn btn-plus" [id]="'taxdetailbutton-'+i" (click)="addAmountDetails()"><i
+                  <button class="btn btn-plus" [id]="'taxdetailbuttonpopup-'+i" (click)="addAmountpopupDetails()"><i
                       class="fa fa-plus text-primary"></i></button>
                 </td>
                 <td *ngIf="i !== 0"> <button class="btn btn-danger" (click)="taxdetails.splice(i,1)"><i
@@ -46,18 +46,19 @@
               </tr>
               <tr>
                 <td colspan="2">&nbsp;</td>
-                <td><input type="number" class="form-control" name="totalamount" id="totalamount"
+                <td><input type="number" class="form-control ref-input" name="totalamount" id="totalamount"
                     [value]="calculateTotal()" readonly style="background-color: #eeeeee;"></td>
+                    <td>&nbsp;</td>
               </tr>
             </tbody>
 
           </table>
         </div>
         <div class="col-3">
-          <auto-suggetion-in-side *ngIf="autoSuggestion.data.length" [data]="autoSuggestion.data"
-            [targetId]="autoSuggestion.targetId" [display]="autoSuggestion.display"
-            (select)="onSelect($event, autoSuggestion.targetId)">
-          </auto-suggetion-in-side>
+          <div class="auto-sugg">
+              <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId" [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)">
+              </auto-suggetion-in-side>
+              </div>
         </div>
       </div>
       <!--div class="row" *ngFor="let taxdetail of taxdetails; let i = index;" style="background: #e8f0f3;">
@@ -93,11 +94,11 @@
     <div class="modal-footer">
       <div class="row">
         <div class="col">
-          <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
+          <button class="btn btn-danger" type="button" outline (click)="dismisspop(false)" id="cancel"
             style="cursor: pointer;">Cancel</button>
         </div>
         <div class="col text-right">
-          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+          <button class="btn btn-primary" type="button" outline (click)="dismisspop(true)" id="submit"
             style="cursor: pointer;">Submit
           </button>
         </div>
@@ -106,12 +107,13 @@
   </nb-card-body>
 </nb-card>
 
-<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+<div class="date-modal" *ngIf="showConfirmpoptax">
   <div class="date-modal-body data_model_save">
     <div>
-      <p>Are You Want to More Tax Detail Then Press Y Otherwise Save to press Enter</p>
-      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
-        (click)="modelCondition()">No</button>
+      <h5><b>Tax detail</b></h5>
+      <p>Please press A for New Line or press Enter</p>
+      <button (click)="addAmountpopupDetails()">Add</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+        (click)="modelCondition()">Cancel</button>
     </div>
   </div>
 </div>

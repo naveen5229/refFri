@@ -38,6 +38,23 @@
         <input autocomplete="off" type="text" class="form-control" name="stock-code" id="code" placeholder="Code" [(ngModel)]="stockType.code">
       </div>
     </div>
+    <!-- <div class="col">
+      <label>Is Service</label>
+      <div class="row iaactive radiostockitem">
+        <div class="col-6 pr-0 pl-1">
+          <div class="form-group">
+            <input type="radio" class="form-control" name="isservice" id="isservice" [(ngModel)]="stockType.isservice" [value]="true" (keydown.enter)="stockType.isservice = true;" [checked]="true">
+            <label>Yes</label>
+          </div>
+        </div>
+        <div class="col-6 pl-0">
+          <div class="form-group">
+            <input type="radio" class="form-control" name="isservice" [(ngModel)]="stockType.isservice" id="notisactive" [value]="false" (keydown.enter)="stockType.isservice = false;">
+            <label>No</label>
+          </div>
+        </div>
+      </div>
+    </div> -->
   </div>
 
 </div>
@@ -70,7 +87,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you sure want to close ?</p>
-      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelCondition()">No</button>
+      <button (click)="dismiss(false)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelcloseCondition()">No</button>
     </div>
   </div>
 </div>

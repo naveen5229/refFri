@@ -3,7 +3,7 @@ import { NbMenuItem } from '@nebular/theme';
 export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Dashboard',
-        icon: 'fa fa-book',
+        icon: 'fa-book',
         link: '/lorry-receipt/dashboard',
         home: true,
     },

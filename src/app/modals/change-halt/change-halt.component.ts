@@ -3,6 +3,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
 
 @Component({
   selector: 'change-halt',
@@ -12,10 +13,12 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 export class ChangeHaltComponent implements OnInit {
   HaltType = 11;
   SiteType = 1;
+  StateType = 1;
   type = null;
   sites = null;
   vehicleEvent = null;
   title = null;
+  isDoubtfull = false;
   constructor(
     public common: CommonService,
     private activeModal: NgbActiveModal,
@@ -28,6 +31,9 @@ export class ChangeHaltComponent implements OnInit {
     }
     else if (this.type == 'HaltType') {
       this.title = "Choose Halt Type"
+    }
+    else if (this.type == 'StateType') {
+      this.title = "Choose State Type"
     }
     this.vehicleEvent = this.common.params;
     console.log("vehicleEvent", this.vehicleEvent, this.common.passedVehicleId);
@@ -48,13 +54,25 @@ export class ChangeHaltComponent implements OnInit {
     this.SiteType = siteType;
     this.submitModal();
   }
+  setState(stateType) {
+    this.StateType = stateType;
+    this.submitModal();
+  }
 
   submitModal() {
     if (this.type == 'SiteType') {
       this.createSite();
     } else if (this.type == 'HaltType') {
-      console.log("haltType++++++++++", this.HaltType);
-      this.changeHalt();
+      console.log("haltType", this.HaltType);
+      if (this.isDoubtfull) {
+        this.openRemarkModal();
+      } else {
+        this.changeHalt();
+      }
+    }
+    else if (this.type == 'StateType') {
+      console.log("stateType", this.StateType);
+      this.changeState();
     }
   }
 
@@ -105,7 +123,11 @@ export class ChangeHaltComponent implements OnInit {
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         if (data.response) {
-          this.changeHalt();
+          if (this.isDoubtfull) {
+            this.openRemarkModal();
+          } else {
+            this.changeHalt();
+          }
         }
       });
     }
@@ -114,13 +136,51 @@ export class ChangeHaltComponent implements OnInit {
       this.HaltType = null;
     }
     else if (data.y_type == -1) {
-      this.changeHalt();
+      if (this.isDoubtfull) {
+        this.openRemarkModal();
+      } else {
+        this.changeHalt();
+      }
     }
   }
 
-  changeHalt() {
+  openRemarkModal() {
+    this.common.params = { remark: null, title: 'Add Remark' }
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        let remark = data.remark;
+        this.changeHalt(remark)
+      }
+    });
+  }
+
+  changeHalt(remark?) {
     this.common.loading++;
     let params = {
+      siteHaltRowId: this.vehicleEvent.haltId,
+      haltType: this.HaltType,
+      isDoubtfull: this.isDoubtfull,
+      remark: remark
+    };
+    console.log(params);
+    this.api.post('HaltOperations/changeHaltType', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res);
+        this.sites = res['data'];
+        this.activeModal.close();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  changeState() {
+    this.common.loading++;
+    let params = {
+      stateId: this.vehicleEvent.vs_id,
+      stateType: this.StateType,
       siteHaltRowId: this.vehicleEvent.haltId,
       haltType: this.HaltType
     };
@@ -136,5 +196,4 @@ export class ChangeHaltComponent implements OnInit {
         console.log(err);
       });
   }
-
 }

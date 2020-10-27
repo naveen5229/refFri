@@ -114,7 +114,7 @@ export class VehiclesComponent implements OnInit {
   actionIcons(data) {
     let icons = [
       {
-        class: 'fa fa-pencil-square-o  edit-btn',
+        class: 'fas fa-edit  edit-btn',
         action: this.OpenVehicleNextServiceModal.bind(this, data)
       },
       {

@@ -1,0 +1,156 @@
+.report_bg .report_form_box .stopage_form .k-picker-wrap{
+	padding: 5px !important;
+	width: 100%;
+}
+.k-datepicker{
+	width: 100%  !important;
+	margin-left: 10px;
+}
+
+.date_start{
+	margin-left: 45px !important;
+}
+.date_end{
+	margin-left: 50px !important;
+}
+
+.date_end .k-datepicker .k-picker-wrap .k-select,
+.date_end .k-datepicker .k-picker-wrap:hover .k-select,
+.date_start .k-datepicker .k-picker-wrap .k-select,
+.date_start .k-datepicker .k-picker-wrap:hover .k-select
+{
+	color: #0184C5 !important;
+	background-color: transparent !important;
+	background-image: none !important;
+}
+
+:host ::ng-deep .custom_bg {
+	border-radius: 8px !important;
+	background: #fff !important;
+	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16) !important;
+	display: block;
+	overflow: hidden;
+}
+
+:host ::ng-deep .custom_bg .card_header {
+	border-bottom: none !important;
+	display: block;
+	width: 100%;
+	border-radius: 8px 8px 0px 0px;
+	background: #e5f3f9;
+}
+
+:host ::ng-deep .custom_bg .card_header h5 {
+	font-weight: bold;
+	font-size: 20px;
+	text-align: left;
+	color: #4a555c;
+  background-color: transparent !important;
+	padding-left: 10px!important;
+	padding-top: 5px!important;
+}
+
+:host ::ng-deep .custom_bg .card_header .custom_form{
+    border: none;
+    display: block;
+}
+:host ::ng-deep .custom_bg .custom_form_box{
+    padding: 0px 0px 0px 15px !important;
+}
+
+:host ::ng-deep .custom_bg .custom_form_box .custom_form select.form-control:after{
+    content: "";
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    width: 20px;
+    height: 20px;
+    display: block;
+    right: 0;
+    left: auto;
+}
+
+:host ::ng-deep .customText{
+	border-radius: 23px !important;
+    background: #fff!important;
+    border: 1px solid #a0a0a0;
+    padding: 5px 5px !important;
+    color: #4A555C !important;
+    width: 100%;
+}
+
+:host ::ng-deep .customSelect{
+	border-radius: 23px !important;
+    background: #fff!important;
+    border: 1px solid #a0a0a0;
+    padding: 5px 5px !important;
+    color: #4A555C !important;
+    width: 100%;
+}
+
+:host ::ng-deep .customLabel{
+font-weight: bold!important;
+text-align: left!important;
+color: #8f989e!important;
+margin-bottom: 5px!important;
+font-family: 'lato','sans-serif'!important;
+}
+
+:host ::ng-deep .customButton{
+	border-radius: 29px !important;
+	background: linear-gradient(rgba(1, 132, 197, 0.3) 0%, rgba(1, 132, 197, 0.7) 49.23%, rgba(1, 132, 197, 0.4) 100%, #014263 100%)!important;
+	box-shadow: 0px 3px 6px rgba(1, 132, 197, 0.36);
+	display: flex;
+	align-items: center;
+	padding-top: 2px!important;
+	padding-bottom:2px!important;
+	font-family: Lato;
+	font-weight: bold;
+	font-size: 18px!important;
+	text-align: center;
+  color: #fff!important;
+  margin-top:0px!important;
+}
+
+:host ::ng-deep .customButton img{
+	height: 20px;
+	width: 20px;
+}
+
+:host ::ng-deep .customButton span{
+	font-family: Lato;
+	font-weight: bold;
+	font-size: 18px;
+	text-align: left;
+	color: #fff;
+	padding-left: 10px;
+}
+
+.k-datepicker .k-select, .k-datetimepicker .k-select, .k-timepicker .k-select {
+	 border-color:transparent!important;
+    color: #0184BA!important;
+    background-color: transparent!important;
+	 background-image: none !important;   
+}
+
+ .k-picker-wrap, .k-datepicker {
+    border-radius: 29px!important;
+    padding: 3px!important;
+}
+
+.k-dateinput .k-dateinput-wrap {
+    border-color: rgba(0,0,0,.08)!important;
+    color: #656565!important;
+    background-color: #fff!important;
+    border-radius: 29px!important;
+}
+
+.time-picker.col-4.pl-0.pr-0.form-type{
+	display: flex;
+	align-items: center;
+}
+
+:host ::ng-deep .nb-theme-corporate .form-control{
+	border-radius:23px;
+}

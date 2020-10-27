@@ -7,6 +7,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import * as _ from 'lodash';
 import { ExcelService } from '../../services/excel/excel.service';
+import { GstReportComponent } from '../../acounts-modals/gst-report/gst-report.component'
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'gstreport',
@@ -19,7 +21,7 @@ export class GstreportComponent implements OnInit {
   totalLength=0;
   bankBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
+    startdate: ((((new Date()).getMonth())+1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear())-1) + '-04-01', 'ddMMYYYY', false, '-'),
     reportype: 'b2b',
     issumrise: 'true'
 
@@ -47,13 +49,16 @@ export class GstreportComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private excelService: ExcelService,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    public accountService: AccountService) {
+      this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.bankBook.startdate;
+      this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.bankBook.enddate;
+       
     // this.getVoucherTypeList();
     this.common.refresh = this.refresh.bind(this);
 
     this.setFoucus('startdate');
     this.common.currentPage = 'Gst Report';
-
 
   }
 
@@ -212,6 +217,8 @@ export class GstreportComponent implements OnInit {
   }
 
   getVoucherEdited() {
+    this.bankBook.startdate= this.accountService.fromdate;
+    this.bankBook.enddate= this.accountService.todate;
     console.log('Accounts:', this.bankBook);
     let params = {
       startdate: this.bankBook.startdate,
@@ -223,10 +230,10 @@ export class GstreportComponent implements OnInit {
     this.api.post('Voucher/getGstReport', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res report:', res['data'][0]);
+        console.log('Res report:', res['data']);
        
         this.DayData =res['data'];
-        this.getTableColumnName();
+      //  this.getTableColumnName();
         //this.filterData();
         this.totalLength = this.DayData.length;
         // if (this.DayData.length) {
@@ -249,7 +256,7 @@ export class GstreportComponent implements OnInit {
 }
 
   getDate(date) {
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
       this.bankBook[date] = this.common.dateFormatternew(data.date).split(' ')[0];
       console.log(this.bankBook[date]);
@@ -298,11 +305,11 @@ export class GstreportComponent implements OnInit {
   //   });
   // }
 
-  getBookDetail(voucherId) {
-    console.log('vouher id', voucherId);
-    this.common.params = voucherId;
+  openGSTEdit(gstdetail) {
+    console.log('vouher id',  JSON.parse(gstdetail));
+    this.common.params = JSON.parse(gstdetail);
 
-    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    const activeModal = this.modalService.open(GstReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
@@ -329,19 +336,20 @@ export class GstreportComponent implements OnInit {
     console.log('Active event', event, this.activeId);
     if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id);
+     // this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id);
       return;
     }
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
+    // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = this.activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = this.activeId;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // } 
+    else if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);

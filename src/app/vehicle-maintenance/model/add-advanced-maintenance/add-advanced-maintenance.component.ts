@@ -16,6 +16,7 @@ export class AddAdvancedMaintenanceComponent implements OnInit {
   btn1 = '';
   btn2 = '';
   btn3 = 'Submit'
+  edit = 0;
   isFormSubmit = false;
   vehicleId = null;
   regno = null;

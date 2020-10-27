@@ -23,14 +23,16 @@ export class HttpResponseHandlerService implements HttpInterceptor {
           const codes = [101, 13];
 
           if (codes.indexOf(code) !== -1) {
-            localStorage.clear();
             this.user._token = '';
             this.user._details = null;
             this.user._loggedInBy = '';
+
             this.user._pages = null;
             this.user._customer = {
               name: '',
               id: '',
+              mobileNo: null,
+              foid:''
             };
             this.user._menu = {
               admin: [],
@@ -41,11 +43,21 @@ export class HttpResponseHandlerService implements HttpInterceptor {
               wareHouse: [],
               account: [],
               challan: [],
+              walle8: [],
+              bidSystem: [],
+              loadIntelligence: []
             };
+
+            localStorage.removeItem('USER_DETAILS');
+            localStorage.removeItem('USER_TOKEN');
+            localStorage.removeItem('LOGGED_IN_BY');
+            localStorage.removeItem('CUSTOMER_DETAILS');
             localStorage.removeItem('DOST_USER_PAGES');
+
             setTimeout(() => {
               this.common.showError(response['body']['msg']);
             }, 1000);
+
             this.router.navigate(['/auth/login']);
           }
           if (!success && response['body'].msg !== "Qr Code Wrong!!") {

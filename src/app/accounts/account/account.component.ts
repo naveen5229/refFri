@@ -100,7 +100,7 @@ export class AccountComponent implements OnInit {
         console.log('res: ', res);
         let result = res['data'][0].save_secondarygroup;
         if (result == '') {
-          this.common.showToast("Add Successfull  ");
+          this.common.showToast("Add Successfull");
         }
         else {
           this.common.showToast(result);
@@ -129,7 +129,7 @@ export class AccountComponent implements OnInit {
         console.log('res: ', res);
         let result = res['data'][0].save_secondarygroup;
         if (result == '') {
-          this.common.showToast(" Updated Successfull");
+          this.common.showToast("Updated Successfull");
         }
         else {
           this.common.showToast(result);
@@ -140,7 +140,6 @@ export class AccountComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
-
   }
 
   delete(tblid) {

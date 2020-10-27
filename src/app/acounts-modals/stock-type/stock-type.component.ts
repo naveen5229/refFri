@@ -14,6 +14,7 @@ export class StockTypeComponent implements OnInit {
   stockType = {
     name: '',
     code: '',
+    isservice:false
   };
   showSuggestions = false;
   suggestions = [];
@@ -26,16 +27,28 @@ export class StockTypeComponent implements OnInit {
     if (this.common.params) {
       this.stockType.name = this.common.params.name;
       this.stockType.code = this.common.params.code;
+      this.stockType.isservice = this.common.params.is_service;
 
     }
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
 
   ngOnInit() {
   }
 
   dismiss(response) {
-    console.log('Stock Type:', this.stockType);
-    this.activeModal.close({ response: response, stockType: this.stockType });
+    console.log('response',response);
+        if(response){
+        if(this.stockType.name.toString().trim()){
+          console.log('Stock Type:', this.stockType);
+          this.activeModal.close({ response: response, stockType: this.stockType });
+        }else{
+          this.common.showError('Please fill Name');
+          return;
+        }
+      }else{
+        this.activeModal.close({ response: response, stockType: this.stockType });
+      }
   }
 
   // searchUser() {
@@ -68,6 +81,11 @@ export class StockTypeComponent implements OnInit {
 
   modelCondition() {
     this.showConfirm = false;
+    event.preventDefault();
+    return;
+  }
+  modelcloseCondition() {
+    this.showExit = false;
     event.preventDefault();
     return;
   }
@@ -113,15 +131,24 @@ export class StockTypeComponent implements OnInit {
         this.setFoucus('name');
       } else if (activeId.includes('name')) {
         this.setFoucus('code');
-      } else if (activeId == 'code') {
+      } else if (activeId.includes('code')) {
+        this.setFoucus('isservice');
+      } else if (activeId == 'isservice') {
+        // this.setFoucus('aliasname');
+        this.showConfirm = true;
+      }else if (activeId == 'notisactive') {
         // this.setFoucus('aliasname');
         this.showConfirm = true;
       }
+
+      
     } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', activeId);
       if (activeId == 'code') this.setFoucus('name');
       if (activeId == 'name') this.setFoucus('user');
+      if (activeId == 'isservice') this.setFoucus('code');
+      if (activeId == 'notisactive') this.setFoucus('code');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
     } else if (key != 'backspace') {

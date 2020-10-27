@@ -1,5 +1,80 @@
 <nb-card>
   <nb-card-header>
+    <div style="border-bottom-left-radius:5px;border-bottom-right-radius:5px; box-shadow: 5px 10px 54px 0px whitesmoke;" class="ml-4 mr-4 pb-4">
+    <div class="row m-0" style="width:100%;background-color: #E5F3F9;border-top-right-radius: 5px; border-top-left-radius:5px;display:inline-block">
+      <h5 class="p-2" style="font-weight:bold; display: inline-block;">Other Usage</h5>
+
+      <div style="display:inline-block;" class="p-2 float">
+        <span style="display: block;">
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCSV()"
+            style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
+    </div>
+
+    <div class="row m-0 p-3" style="background-color:white;">
+      <div class="col-3 pl-3">
+        <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"  [isTime]="false"></uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly> -->
+      </div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false [isStart]="false"></uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
+          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly> -->
+      </div>
+      <div class="col-3">
+        <button class="btn customButton" type="button" (click)="getOtherUsageDetail()">Submit</button>
+      </div>
+    </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body style="width:96%;margin-left:2%;">
+    <table class="table table-bordered table-hover" id="otherUsage" *ngIf="data.length">
+      <thead class="thead">
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Vehicle</th>
+          <th>Amount</th>
+          <th>Remark</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let otherUsage of data;let i = index">
+          <td scope="row">{{i+1}}</td>
+
+          <td>{{common.changeDateformat4(otherUsage.dttime)}}</td>
+          <td>{{otherUsage.veh}}</td>
+          <td>{{otherUsage.amt}}</td>
+          <td>{{otherUsage.rema}}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>Total</td>
+          <td>{{total}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+      <!-- <tbody *ngIf="data.length">
+        <tr>
+          <td></td>
+          <td>Total</td>
+          <td>{{total}}</td>
+        </tr>
+      </tbody> -->
+
+
+    </table>
+  </nb-card-body>
+</nb-card>
+
+<!-- <nb-card>
+  <nb-card-header>
     <div class="row">
       <div class="col-6">
         <h4>Other Usage</h4>
@@ -12,10 +87,6 @@
       </div>
     </div>
   </nb-card-header>
-  <!-- <nb-card-body>
-    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="cardMapping"></smart-table>
-  </nb-card-body> -->
-
   <nb-card-body>
     <div class="row mb-3">
       <div class="col-sm-3">
@@ -46,7 +117,7 @@
           <tr *ngFor="let otherUsage of data;let i = index">
             <td scope="row">{{i+1}}</td>
 
-            <td>{{otherUsage.dttime}}</td>
+            <td>{{common.changeDateformat4(otherUsage.dttime)}}</td>
             <td>{{otherUsage.veh}}</td>
             <td>{{otherUsage.amt}}</td>
             <td>{{otherUsage.rema}}</td>
@@ -64,4 +135,4 @@
       </table>
     </div>
   </nb-card-body>
-</nb-card>
+</nb-card> -->

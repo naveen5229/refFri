@@ -1,0 +1,83 @@
+<nb-card style="margin:0px; border:0px;">
+  <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">State</h5>
+      <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-9">    
+          <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label class="tjr-label">Country</label>
+
+            <input autocomplete="off" type="text" id="select-state" class="form-control tjr-input" name="state"
+              [(ngModel)]="data.state.name">
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label class="tjr-label">State Name</label>
+            <input autocomplete="off" type="text" class="form-control tjr-input" name="city" id="city"
+              [(ngModel)]="data.city">
+          </div>
+        </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label class="tjr-label">Code</label>
+                <input autocomplete="off" type="text" class="form-control tjr-input" name="pincode" id="pincode"
+                  [(ngModel)]="data.pincode" minlength="6" maxlength="6">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label class="tjr-label">Gst Code</label>
+                <input autocomplete="off" type="text" class="form-control tjr-input" name="gstcode" id="gstcode"
+                  [(ngModel)]="data.gstcode" minlength="6" maxlength="6">
+              </div>
+            </div>
+          </div>
+      </div>
+        <div class="col-3 auto-sugg">
+          <!-- <auto-suggetion-in-side *ngIf="autoSuggestion.data.length" [data]="autoSuggestion.data"
+            [targetId]="autoSuggestion.targetId" [display]="autoSuggestion.display"
+            (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side> -->
+            <auto-suggetion-in-side *ngIf="citydata" [data]="citydata" targetId="select-state" display="country_name"
+            (select)="onSelected($event, 'state', 'country_name')"></auto-suggetion-in-side>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
+            style="cursor: pointer;">Cancel</button>
+        </div>
+        <div class="col text-right">
+          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+            style="cursor: pointer;">Submit
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+  </nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to save ?</p>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+        (click)="dismiss(false)">No</button>
+    </div>
+  </div>
+</div>

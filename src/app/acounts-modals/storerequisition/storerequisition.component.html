@@ -1,4 +1,4 @@
-<nb-card style="margin: 0px; border:0px; padding-top: 0px;">
+<nb-card style="margin: 0px; border:0px; padding-top: 0px;height: 72vh;">
   <!-- <nb-card-header>
     <h4>Invoice</h4>
   </nb-card-header> -->
@@ -11,30 +11,9 @@
     </div>
     <div class="modal-body row m-0 p-0 mb-4">
       <div class="col-9">
-        <!-- <div class="row">
-          <div class="col-4">
-            <div class="form-group">
-              <label class="ref-label">Request Type</label>
-              <input autocomplete="off" type="text" class="form-control ref-input" id="requesttype" name="requesttype" [(ngModel)]="storeQuestion.requesttype.name"
-                required>
-            </div>
-          </div>
-        </div> -->
+       
         <div class="row">
-          <!-- <div class="col">
-              <div class="form-group">
-                <label class="ref-label">From Branch</label>
-                <input autocomplete="off" type="text" class="form-control ref-input" id="frombranch" name="frombranch" [(ngModel)]="storeQuestion.frombranch.name"
-                  require>
-              </div>
-            </div> -->
-          <!-- <div class="col">
-            <div class="form-group">
-              <label class="ref-label">Code</label>
-              <input autocomplete="off" type="text" class="form-control ref-input" name="code" id="code"
-                [(ngModel)]="storeQuestion.code" placeholder="Code" [readonly]="storeRequestStockId == -3">
-            </div>
-          </div> -->
+         
           <div class="col-4" *ngIf="storeRequestStockId == -3">
             <div class="form-group">
               <label class="ref-label">Ref. No</label>
@@ -42,7 +21,7 @@
                 [(ngModel)]="storeQuestion.custcode" placeholder="Cust Code" [readonly]="storeRequestStockId == -3">
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-4" *ngIf="storeRequestStockId != -101">
             <div class="form-group">
               <label class="ref-label" *ngIf="storeRequestStockId != -3">To Branch</label>
               <label class="ref-label" *ngIf="storeRequestStockId == -3">From Branch</label>
@@ -55,7 +34,8 @@
         <div class="row">
           <div class="col-4">
             <div class="form-group">
-              <label class="ref-label">Request Date</label>
+              <label class="ref-label" *ngIf="storeRequestStockId != -1">Request Date</label>
+              <label class="ref-label" *ngIf="storeRequestStockId == -1">Transfer Date</label>
               <input autocomplete="off" type="text" style="cursor: pointer;" class="form-control ref-input"
                 autocomplete="off" id="requestdate" name="requestdate" [(ngModel)]="storeQuestion.requestdate"
                 maxlength="10" (click)="lastActiveId = 'requestdate'; allowBackspace = false;"
@@ -81,6 +61,7 @@
         </auto-suggetion-in-side>
       </div>
     </div>
+    <div class="table-respopnsive mr-2 ml-2">
     <table class="invoice_tabel table table-bordered">
       <thead style="background-color: #263238; color:#fff;">
         <tr *ngIf="storeRequestStockId != -1">
@@ -89,7 +70,8 @@
           <th>Stock Item</th>
           <th>Unit</th>
           <th>Qty</th>
-          <th>remarks</th>
+          <th *ngIf="storeRequestStockId != -101" >remarks</th>
+          <th *ngIf="storeRequestStockId == -101" >Amount</th>
           <th *ngIf="storeRequestStockId == -3">Issue Warehouse</th>
           <th *ngIf="storeRequestStockId == -3">Issue Qty</th>
           <th *ngIf="storeRequestStockId == -3">Issue Rate</th>
@@ -99,7 +81,7 @@
         </tr>
         <tr *ngIf="storeRequestStockId == -1">
 
-          <th>Warehouse</th>
+          <th>From Warehouse</th>
           <th>Transfer Warehouse</th>
           <th>Stock Item</th>
           <th>Unit</th>
@@ -146,10 +128,11 @@
             <input type="number" class="form-control ref-input" autocomplete="off" name="qty" [id]="'qty-' + i"
               [(ngModel)]="detail.qty" placeholder="Please Enter Quantity" [readonly]="storeRequestStockId == -3">
           </td>
-          <td *ngIf="storeRequestStockId != -1">
+          <!-- <td *ngIf="storeRequestStockId != -101">
             <input type="text" class="form-control ref-input" autocomplete="off" placeholder="Please Enter Remarks"
               name="remarks" [id]="'remarks-' + i" [(ngModel)]="detail.remarks" [readonly]="storeRequestStockId == -3">
-          </td>
+          </td> -->
+          
 
           <td *ngIf="storeRequestStockId == -3">
               <input type="text" [id]="'issuewarehouse-' + i" class="form-control ref-input"
@@ -168,14 +151,14 @@
          
 
 
-          <td *ngIf="storeRequestStockId == -3 ||storeRequestStockId == -1">
+          <td *ngIf="storeRequestStockId == -3 || storeRequestStockId == -1 ">
             <input type="number" class="form-control ref-input" autocomplete="off" placeholder="Please Enter Issue Rate"
               name="issuerate" [id]="'issuerate-' + i"
               (input)="detail.issueamount = detail.issueqty * detail.issuerate;" [(ngModel)]="detail.issuerate">
           </td>
-          <td *ngIf="storeRequestStockId == -3 ||storeRequestStockId == -1">
+          <td *ngIf="storeRequestStockId == -3 || storeRequestStockId == -1 || storeRequestStockId == -101">
             <input type="number" class="form-control ref-input" autocomplete="off" name="issueamount"
-              placeholder="Please Enter Amount" [id]="'issueamount-' + i" [(ngModel)]="detail.issueamount" readonly>
+              placeholder="Please Enter Amount" [id]="'issueamount-' + i" [(ngModel)]="detail.issueamount" (readonly)="storeRequestStockId == -3 || storeRequestStockId == -1" >
           </td>
           <td *ngIf="storeRequestStockId == -1">
             <input type="text" class="form-control ref-input" autocomplete="off" placeholder="Please Enter Remarks"
@@ -195,7 +178,7 @@
         </tr>
       </tbody>
     </table>
-
+   </div>
 
     <div class="modal-footer">
       <div class="row">
@@ -212,7 +195,7 @@
                 style="cursor: pointer;">Delete</button>
             </div>
         <div class="col text-right"
-          *ngIf="((storeRequestStockId == -3 && pendingid == 1)|| (storeRequestStockId == -1) || (storeRequestStockId == -2))">
+          *ngIf="((storeRequestStockId == -3 && pendingid == 1)|| (storeRequestStockId == -1) || (storeRequestStockId == -2) || (storeRequestStockId == -101))">
           <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
             style="cursor: pointer;">Submit
           </button>

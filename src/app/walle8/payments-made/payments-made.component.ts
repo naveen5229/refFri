@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 @Component({
   selector: 'payments-made',
@@ -14,23 +16,19 @@ export class PaymentsMadeComponent implements OnInit {
   data = [];
   total = 0;
   userId = this.user._details.id;
-  dates = {
-    start: null,
-    end: null,
-  }
+  startTime = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  endTime = new Date();
   table = null;
   constructor(
     public api: ApiService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal,
   ) {
-    let today = new Date();
-    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
-    this.dates.end = this.common.dateFormatter1(new Date());
     this.getPaymentMade();
     this.common.refresh = this.refresh.bind(this);
-    //this.getPaymentMade();
   }
 
   ngOnInit() {
@@ -44,20 +42,16 @@ export class PaymentsMadeComponent implements OnInit {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (date == 'start') {
-        this.dates.start = this.common.dateFormatter(data.date).split(' ')[0];
+        this.startTime=this.common.dateFormatter(data.date).split(' ')[0];
       }
       if (date == 'end') {
-        this.dates.end = this.common.dateFormatter(data.date).split(' ')[0];
+        this.endTime=this.common.dateFormatter(data.date).split(' ')[0];
       }
-
-
     });
   }
   getPaymentMade() {
-
-
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
-
+    this.total=0;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.common.dateFormatter(new Date(this.startTime)) + "&enddate=" + this.common.dateFormatter(new Date(this.endTime));
     this.common.loading++;
     let response;
     this.api.walle8Get('PaymentApi/FoPaymentsView.json?' + params)
@@ -65,7 +59,6 @@ export class PaymentsMadeComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.data = res['data'];
-        this.table = this.setTable();
         for (let i = 0; i < this.data.length; i += 1) {
           this.total += Number(this.data[i].amt);
         }
@@ -74,77 +67,22 @@ export class PaymentsMadeComponent implements OnInit {
         console.log(err);
       });
     return response;
-
-  }
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Payments Made";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
   }
 
-  printCSV(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Payments Made";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
-  setTable() {
-    let headings = {
-      dttime: { title: 'Date', placeholder: 'Date' },
-      amt: { title: 'Amount', placeholder: 'Amount' },
-      rema: { title: 'Remark', placeholder: 'Remark' },
-
-
-    };
-    return {
-      data: {
-        headings: headings,
-        columns: this.getTableColumns()
-      },
-      settings: {
-        hideHeader: true,
-        tableHeight: "auto"
-      }
-    }
-  }
-  getTableColumns() {
-    let columns = [];
-    this.data.map(req => {
-      let column = {
-        // vehid: { value: req.vehid },
-        // transtime: { value: req.transtime },
-        dttime: { value: req.dttime == null ? "-" : req.dttime },
-        amt: { value: req.amt == null ? "-" : req.amt },
-        rema: { value: req.rema == null ? "-" : req.rema },
-
-
-      };
-      columns.push(column);
-    });
-    return columns;
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.startTime),'End Date: '+this.common.dateFormatter1(this.endTime),  'Report: '+'Payment-Made']
+    ];
+    this.pdfService.jrxTablesPDF(['paymentsMade'], 'pqyment-made', details);
   }
 
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.startTime),enddate:'End Date:'+this.common.dateFormatter1(this.endTime), report:"Report:Payment-Made"}
+    ];
+    this.csvService.byMultiIds(['paymentsMade'], 'payment-made', details);
+  }
 }

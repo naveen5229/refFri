@@ -14,10 +14,11 @@
           <th>Date</th>
           <th>costCenter Name</th>
           <th>Voucher No</th>
-          <th>Amount(Debit)</th>
-          <th>Amount(Credit)</th>
+          <th>Amount(DR)</th>
+          <th>Amount(CR)</th>
         </tr>
       </thead>
+    <tbody>
       <!-- <tr *ngFor="let dataItem of costCenterData; let i = index;" (click)="selectedRow = i"
         (dblclick)="(dataItem.y_type.length != '') ? getBookDetail(dataItem.y_voucher_id) : '' "
         (dblclick)="getBookDetail(dataItem.y_voucher_id)" (enter)="getBookDetail(dataItem.y_voucher_id) "
@@ -34,6 +35,7 @@
         <td *ngIf="dataItem.y_cramunt != 0">{{dataItem.y_cr_amt}}</td>
         <td *ngIf="dataItem.y_cramunt ==0"></td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

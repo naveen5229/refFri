@@ -8,6 +8,9 @@ import { MAINTENANCE_MENU_ITEMS } from '../vehicle-maintenance/vehicle-maintenan
 import { WAREHOUSE_MENU_ITEMS } from '../ware-house/ware-house-menu';
 import { ACCOUNTS_MENU_ITEMS } from '../accounts/accountes-menu';
 import { CHALLAN_MENU_ITEMS } from '../challan/challan-menu';
+import { WALLE8_MENU_ITEMS } from '../walle8/walle8-menu';
+import { BIDSYSTEM_MENU_ITEMS } from '../bid-system/bid-system-menu'
+import { LOAD_INTELLIGENCE_MENU_ITEMS } from '../load-intelligence/load-intelligence-menu';
 
 const COLLECTION = {
   admin: ADMIN_MENU_ITEMS,
@@ -17,7 +20,10 @@ const COLLECTION = {
   vehicleMaintenance: MAINTENANCE_MENU_ITEMS,
   wareHouse: WAREHOUSE_MENU_ITEMS,
   account: ACCOUNTS_MENU_ITEMS,
-  challan: CHALLAN_MENU_ITEMS
+  challan: CHALLAN_MENU_ITEMS,
+  walle8: WALLE8_MENU_ITEMS,
+  bidSystem: BIDSYSTEM_MENU_ITEMS,
+  loadIntelligence: LOAD_INTELLIGENCE_MENU_ITEMS
 };
 
 @Injectable({
@@ -30,6 +36,8 @@ export class UserService {
   _customer = {
     name: '',
     id: '',
+    mobileNo: null,
+    foid:null
   };
 
   _loggedInBy = '';
@@ -43,6 +51,9 @@ export class UserService {
     wareHouse: [],
     account: [],
     challan: [],
+    walle8: [],
+    bidSystem: [],
+    loadIntelligence: [],
   };
 
   permission = {
@@ -59,7 +70,7 @@ export class UserService {
     this._loggedInBy = localStorage.getItem('LOGGED_IN_BY') || '';
     this._customer = JSON.parse(localStorage.getItem('CUSTOMER_DETAILS')) || { name: '', id: '' };
 
-    if (!this._pages) {
+    if (!this._pages && localStorage.getItem("DOST_USER_PAGES")) {
       this._pages = JSON.parse(localStorage.getItem("DOST_USER_PAGES"));
       this.filterMenu("pages", "pages");
       this.filterMenu("admin", "admin");
@@ -69,10 +80,14 @@ export class UserService {
       this.filterMenu("wareHouse", "wareHouse");
       this.filterMenu("account", "account");
       this.filterMenu("challan", "challan");
+      this.filterMenu("walle8", "walle8");
+      this.filterMenu("bidSystem", "bidSystem");
+      this.filterMenu("loadIntelligence", "loadIntelligence");
     }
   }
 
   filterMenu(type?, collection?) {
+
     this._menu[type] = JSON.parse(COLLECTION[collection])
       .map((menuItem) => {
         if (menuItem.children) {
@@ -98,6 +113,15 @@ export class UserService {
         } else if (!menuItem.children.length) return false;
         return true;
       });
+
+    if (type === 'pages' && localStorage.getItem('DOST_axesToken')) {
+      console.log('test');
+      this._menu[type].push({
+        title: 'Vehicle Tracking',
+        icon: 'fa-chalkboard-teacher',
+        link: '#'
+      })
+    }
   }
 
 }

@@ -6,6 +6,9 @@
 </div>
 <div class="modal-body">
   <div class="container" *ngIf="type=='HaltType'">
+    <label>
+      <input type="checkbox" [(ngModel)]="isDoubtfull"> Is Doubt Full ?
+    </label>
     <label class="halt-label">
       <input type="radio" name="HaltType" value="11" [(ngModel)]="HaltType" (click)="getlastHalt(11)">
       Loading
@@ -15,8 +18,8 @@
       UnLoading
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="0" [(ngModel)]="HaltType" (click)="setHalt(0)">
-      Others
+      <input type="radio" name="HaltType" value="-1" [(ngModel)]="HaltType" (click)="setHalt(-1)">
+      Buffer
     </label>
     <label class="halt-label">
       <input type="radio" name="HaltType" value="41" [(ngModel)]="HaltType" (click)="setHalt(41)">
@@ -144,9 +147,69 @@
 
   </div>
 
+  <div class="container" *ngIf="type=='StateType'">
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="1" [(ngModel)]="StateType" (click)="setState(1)">
+      Loading
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="2" [(ngModel)]="StateType" (click)="setState(2)">
+      Onward
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="3" [(ngModel)]="StateType" (click)="setState(3)">
+      Unloading
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="4" [(ngModel)]="StateType" (click)="setState(4)">
+      Available
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="301" [(ngModel)]="StateType" (click)="setState(301)">
+      Accident
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="311" [(ngModel)]="StateType" (click)="setState(311)">
+      Break Down
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="321" [(ngModel)]="StateType" (click)="setState(321)">
+      Maintenance
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="331" [(ngModel)]="StateType" (click)="setState(331)">
+      Waiting for Load
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="341" [(ngModel)]="StateType" (click)="setState(341)">
+      Driver Unavailable
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="401" [(ngModel)]="StateType" (click)="setState(401)">
+      RTO Issue
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="411" [(ngModel)]="StateType" (click)="setState(411)">
+      Driver Related Issue
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="421" [(ngModel)]="StateType" (click)="setState(421)">
+      Traffic Issue
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="431" [(ngModel)]="StateType" (click)="setState(431)">
+      Documents Issue
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="StateType" value="0" [(ngModel)]="StateType" (click)="setState(0)">
+      Others
+    </label>
+
+  </div>
+
 
 </div>
-<div class="modal-footer">
+<!-- <div class="modal-footer">
   <div class="row">
     <div class="col">
       <button class="btn btn-danger" type="button" outline (click)="closeModal()" id="cancel"
@@ -157,4 +220,4 @@
         style="cursor: pointer;">OK</button>
     </div>
   </div>
-</div>
+</div> -->

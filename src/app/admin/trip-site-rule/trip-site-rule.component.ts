@@ -78,7 +78,7 @@ export class TripSiteRuleComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.data = res['data'];
+        this.data = res['data']?res['data']:[];
 
         let index = 0;
         for (const data of this.data) {
@@ -138,7 +138,7 @@ export class TripSiteRuleComponent implements OnInit {
         ruleType: { value: doc.ruleName },
         action: {
           value: '', isHTML: false, action: null, icons: [
-            { class: 'fa fa-pencil-square-o  edit-btn', action: this.editRule.bind(this, doc) },
+            { class: 'fas fa-edit  edit-btn', action: this.editRule.bind(this, doc) },
             { class: " fa fa-trash remove", action: this.deleteRule.bind(this, doc) }
           ]
         },

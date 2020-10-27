@@ -1,6 +1,28 @@
 <nb-card>
-  <nb-card-header style="font-size: 32px;">
-    <h4>Toll Analatics</h4>
+  <nb-card-header>
+    <div style="border-bottom-left-radius:5px;border-bottom-right-radius:5px; box-shadow: 5px 10px 54px 0px whitesmoke;" class="ml-4 mr-4 pb-4">
+    <div class="row m-0" style="width:100%;background-color: #E5F3F9;border-top-right-radius: 5px; border-top-left-radius:5px;display:inline-block">
+      <h5 class="p-2" style="font-weight:bold; display: inline-block;">Toll Analytics</h5>
+    </div>
+    <div class="row m-0 pt-3" style="background-color:white;">
+      <div class="col-3 pl-3">
+        <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"  [isTime]="false"></uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly> -->
+      </div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false [isStart]="false"></uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
+          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly> -->
+      </div>
+      <div class="col-3">
+        <button class="btn customButton" type="button" (click)="getTollAnalatics()">Submit</button>
+      </div>
+    </div>
+  </div>
+  </nb-card-header>
+  <!-- <nb-card-header style="font-size: 32px;">
+    <h4>Toll Analytics</h4>
     <div class="row m-0 p-0">
       <div class="col-3">
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
@@ -14,8 +36,8 @@
         <button class="btn btn-primary" type="button" (click)="getTollAnalatics()">Submit</button>
       </div>
     </div>
-  </nb-card-header>
-  <nb-card-body>
+  </nb-card-header> -->
+  <nb-card-body style="width:96%;margin-left:2%;">
     <div class="row">
       <div class="col-sm-11">
         <label>Toll Consumption</label>
@@ -27,20 +49,21 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-11">
-        <label>TOp Toll</label>
+      <div class="col-sm-12">
+        <label>Top Toll</label>
       </div>
-      <div class="col-sm-11">
-        <chart *ngIf="chartObject1.type" [type]="chartObject1.type" [data]="chartObject1.data"
+      <div class="col-sm-6">
+          <chart *ngIf="chartObject1.type" [type]="chartObject1.type" [data]="chartObject1.data"
           class="chart chart-horizontal-bar" style="margin-right:5px;min-height: 200px;"
           [options]="chartObject1.options"></chart>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-11">
+    
+    
+      <div class="col-sm-6">
         <chart [type]="chartObject2.type" [data]="chartObject2.data" style="margin-right:5px;min-height: 200px;"
           [options]="chartObject2.options"></chart>
       </div>
     </div>
+    
   </nb-card-body>
 </nb-card>

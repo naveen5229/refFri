@@ -1,4 +1,28 @@
 <nb-card>
+  <nb-card-header>
+    <div style="border-bottom-left-radius:5px;border-bottom-right-radius:5px; box-shadow: 5px 10px 54px 0px whitesmoke;" class="ml-4 mr-4 pb-4">
+    <div class="row m-0" style="width:100%;background-color: #E5F3F9;border-top-right-radius: 5px; border-top-left-radius:5px;display:inline-block">
+      <h5 class="p-2" style="font-weight:bold; display: inline-block;">Card Mapping</h5>
+
+      <div style="display:inline-block;" class="p-2 float">
+        <span style="display: block;">
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCSV()"
+            style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
+    </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body style="width:96%;margin-left:2%;">
+    <smart-table *ngIf="data.length" id="cardMapping" [data]="table.data" [settings]="table.settings">
+    </smart-table>
+  </nb-card-body>
+</nb-card>
+
+<!-- <nb-card>
   <nb-card-header style="font-size: 32px;">
     <h4>Card Mapping</h4>
     <div class ="row m-0 p-0">
@@ -8,36 +32,10 @@
               <span class="pdf-icon" title="PDF Export" (click)="printPDF('cardMapping');" style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
               <span class="exel-icon" title="CSV Export" (click)="printCSV('cardMapping')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
           </span>
-        <!-- <button class="btn btn-primary mr-2" id="submit" submitted="true" >Export CSV</button> 
-        <button class="btn btn-primary" id="submit"  >Export PDF </button> --> 
       </div>
     </div>
   </nb-card-header>
 <nb-card-body>
-  <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="cardMapping"></smart-table>
-
-
+<smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="cardMapping"></smart-table>
 </nb-card-body>
-<!-- <div>
-    <tbody *ngIf="tableData.length!=0">
-        <tr *ngFor="let tableData of tableData; let i = index">
-          <th scope="row">{{i + 1}}</th>
-          <td>{{tableData.Vehicle}}</td>
-          <td>{{tableData.IOCL}}</td>
-          <td>{{tableData.BPCL}}</td>
-          <td>{{tableData.ATM}} </td>
-          <td>{{tableData.HPCL}}</td> -->
-         
-  <!-- <table class="table table-bordered table-hover ">
-    <thead class="thead">
-      <tr style="margin-top:30px">
-        <th>Vehicle</th>
-        <th>IOCL</th>
-        <th>BPCL</th>
-        <th>ATM</th>
-        <th>HPCL</th> -->
-     <!-- </tr> -->
-    <!-- </thead>
-  </table>
-  </div> -->
-</nb-card>
+</nb-card> -->

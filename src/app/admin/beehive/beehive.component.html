@@ -9,17 +9,21 @@
   </nb-card-header>
   <nb-card-body>
     <div>
-      Count = <input type="text" name="lname" placeholder="Enter Size" [(ngModel)]="count"> <br>
+      <!-- Count = <input type="text" name="lname" placeholder="Enter Size" [(ngModel)]="count"> <br>
       Current= <input type="text" name="1stLatLong" placeholder=" 1stLatLong" [(ngModel)]="current" id="1stLatLong">
       <br>
 
-      Data To Encrypt : <input type="text" name="lname" placeholder="Enter Data" [(ngModel)]="data">
-      <div class="clearfix">
+      Data To Encrypt : <input type="text" name="lname" placeholder="Enter Data" [(ngModel)]="data"> -->
+
+      <button class="btn btn-primary" type="button" (click)=" getMapping()">
+        SUBMIT</button>
+
+      <!-- <div class="clearfix">
         <button class="btn  btn-primary" (click)="checkEncrypt()">POST</button>
         <button class="btn  btn-primary" (click)="getSubSites()">GET</button>
         <button class="btn  btn-primary" (click)="checkEncrypt1()">POSTENCRYPT</button>
         <button class="btn  btn-primary" (click)="getSubSites1()">GETENCRYPT</button>
-      </div>
+      </div> -->
     </div>
     <div style="position:relative;">
       <div class="zoom_btn_box">
@@ -47,20 +51,20 @@
   </div>
   <div class="modal-body">
     <div>
-      Count = <input type="text" name="lname" placeholder="Enter Size" [(ngModel)]="count"> <br>
+      <!-- Count = <input type="text" name="lname" placeholder="Enter Size" [(ngModel)]="count"> <br>
       Current= <input type="text" name="1stLatLong" placeholder=" 1stLatLong" [(ngModel)]="current" id="1stLatLong">
       <br>
-      <!-- 2ndLatLong= <input type="text" name="2ndLatLong" placeholder=" 2ndLatLong" id ="2ndLatLong" [(ngModel)]="second"> <br> -->
-      <!-- <button class="btn btn-primary" type="button" (click)=" getMapping()"> -->
-      <!-- SUBMIT</button> -->
-      Data To Encrypt : <input type="text" name="lname" placeholder="Enter Data" [(ngModel)]="data">
+      2ndLatLong= <input type="text" name="2ndLatLong" placeholder=" 2ndLatLong" id="2ndLatLong" [(ngModel)]="second">
+      <br> -->
+      
+      <!-- Data To Encrypt : <input type="text" name="lname" placeholder="Enter Data" [(ngModel)]="data"> -->
       <!-- Data To Decrypt : <input type="text" name="lname" placeholder="Enter data" [(ngModel)]="decrypt"> -->
-      <div class="clearfix">
+      <!-- <div class="clearfix">
         <button class="btn  btn-primary" (click)="checkEncrypt()">POST</button>
         <button class="btn  btn-primary" (click)="getSubSites()">GET</button>
         <button class="btn  btn-primary" (click)="checkEncrypt1()">POSTENCRYPT</button>
         <button class="btn  btn-primary" (click)="getSubSites1()">GETENCRYPT</button>
-      </div>
+      </div> -->
     </div>
     <div style="position:relative;">
       <div class="zoom_btn_box">

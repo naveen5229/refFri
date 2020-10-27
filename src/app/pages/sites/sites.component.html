@@ -21,7 +21,7 @@
             </div>
             <div class="col-8 display">
               <auto-suggestion (onSelected)="selectLocation($event)" [preSelected]="site.id ? { location:Location }:'' "
-                url="Location/getPlaceFromRedis?" display="location" inputId="location" placeholder="Location">
+                url="Location/getPlaceFromRedis?" display="location" inputId="location" placeholder="Location" >
               </auto-suggestion>
             </div>
           </div>
@@ -46,6 +46,17 @@
                 (click)="cancelMapServices()">Cancel</button>
               <button type="submit" class="btn btn-danger pt-2 pb-2 rounded-sm mr-3 text-capitalize"
                 (click)="clearMapServices()">Clear</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-4 display">
+              <label>Move To</label>
+            </div>
+            <div class="col-8 display">
+              <auto-suggestion (onSelected)="selectLocation($event)" [preSelected]="site.id ? { location:Location }:'' "
+                url="Location/getPlaceFromRedis?" display="location" inputId="moveto" placeholder="Location" (focusout)="getLatLng()">
+              </auto-suggestion>
             </div>
           </div>
 

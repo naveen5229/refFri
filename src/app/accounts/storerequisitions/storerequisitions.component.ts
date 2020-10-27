@@ -34,7 +34,7 @@ export class StorerequisitionsComponent implements OnInit {
         this.storeRequestId = parseInt(params.id);
         // this.GetLedger();
 
-        this.common.currentPage = (this.storeRequestId == -2) ? 'Store Request' : (this.storeRequestId == -3) ? 'Stock Issue' : 'Stock Transfer';
+        this.common.currentPage = (this.storeRequestId == -2) ? 'Store Request' : (this.storeRequestId == -3) ? 'Stock Issue' :  (this.storeRequestId == -101) ? 'Opening Stock':'Stock Transfer';
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });

@@ -7,19 +7,12 @@ import * as _ from 'lodash';
 import { CsvService } from '../../services/csv/csv.service';
 import { AccountService } from '../../services/account.service';
 import { UserService } from '../../services/user.service';
-import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
-import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdetail.component';
-import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.component';
+
 
 // import { Injectable } from '@angular/core';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Http, Headers } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import { saveAs } from 'file-saver/FileSaver';
-import { saveAs } from 'file-saver';
 import { ExcelService } from '../../services/excel/excel.service';
-import { constructor } from 'vfile-message';
-
 
 @Component({
   selector: 'tallyexport',
@@ -36,14 +29,24 @@ export class TallyexportComponent implements OnInit {
   }
   endDate= this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
   startDate= this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
+  
+  allowBackspace = true;
+  f2Date = 'startdate';
+  lastActiveId = '';
+  showDateModal = false;
+  activedateid = '';
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public excelService: ExcelService,
     public csvService: CsvService,
     public accountService: AccountService,
-    private http: Http,
+    private http: HttpClient,
     public modalService: NgbModal) {
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.startDate;
+    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.endDate;
+       
     this.common.refresh = this.refresh.bind(this);
   
     this.common.currentPage = 'Tally Export';
@@ -62,6 +65,7 @@ export class TallyexportComponent implements OnInit {
   }
   refresh() {
     this.branchname = this.accountService.selected.branch.name;   
+    console.log('financial year 122 :',(this.accountService.selected.financialYear['name']).split('-')[1]);
   }
 
 
@@ -77,7 +81,28 @@ export class TallyexportComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     let activeId = document.activeElement.id;
-    console.log('Active event', event);
+    console.log('Active event1111', event);
+    // if ((key == 'f2' && !this.showDateModal) && (activeId.includes('startDate') || activeId.includes('endDate'))) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = (activeId== 'startDate') ? this.startDate : this.endDate;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // } else 
+    if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.f2Date,this.lastActiveId,activeId);
+      this.handleVoucherDateOnEnter(activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (activeId.includes('startdate') || activeId.includes('enddate'))) {
+      return;
+    }
+    
     if (key == 'enter') {
      // this.allowBackspace = true;
       if (activeId.includes('branchType')) {
@@ -89,7 +114,45 @@ export class TallyexportComponent implements OnInit {
       }
   }
 }
+
+handleVoucherDateOnEnter(iddate) {
+  let dateArray = [];
+  let separator = '-';
+
+  //let datestring = (this.activedateid == 'startDate') ? this.startDate : this.endDate;
+  let datestring = this.f2Date;
+  if (datestring.includes('-')) {
+    dateArray = datestring.split('-');
+  } else if (datestring.includes('/')) {
+    dateArray = datestring.split('/');
+    separator = '/';
+  } else {
+    this.common.showError('Invalid Date Format!');
+    return;
+  }
+  let date = dateArray[0];
+  date = date.length == 1 ? '0' + date : date;
+  let month = dateArray[1];
+  month = month.length == 1 ? '0' + month : month;
+
+  
+  let finacialyear = (month < '04')? (this.accountService.selected.financialYear['name']).split('-')[0] :(this.accountService.selected.financialYear['name']).split('-')[1];
+  console.log('financial year',finacialyear,month);
+  let year = dateArray[2];
+  year = (year) ? (year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year) : finacialyear;
+  console.log('Date: ', date + separator + month + separator + year);
+  if(this.activedateid == 'startDate'){
+    this.startDate = date + separator + month + separator + year;
+  }else{
+    this.endDate = date + separator + month + separator + year;
+  }
+  
+
+}
+
   getTallyData(type,filename) {
+    this.startDate= this.accountService.fromdate;
+    this.endDate= this.accountService.todate;
     return new Promise((resolve, reject) => {
       const params = {
         tallyType: type,
@@ -112,6 +175,7 @@ export class TallyexportComponent implements OnInit {
         });
     });
   }
+
   
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {

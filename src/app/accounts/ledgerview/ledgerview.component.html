@@ -4,7 +4,7 @@
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
     <div class="row">
-      <div class="col-9">
+      <div class="col-9 pr-0 pl-0">
         <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
@@ -16,7 +16,7 @@
        <input type="text" id="branch" class="form-control" name="branch" [(ngModel)]="ledger.branch.name"/>
     </div>
   </div> -->
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Voucher Type</label>
               <!-- <auto-suggestion (onSelected)="onSelected($event, 'voucherType', 'name')" url="Suggestion/GetVouchertypeList" display="name"
@@ -25,7 +25,7 @@
                 [(ngModel)]="ledger.voucherType.name" />
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Ledger</label>
               <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
@@ -36,21 +36,21 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="startDate"
-                autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="ledger.startDate">
+                autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="accountService.fromdate">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
-                maxlength="10" name="account-endDate" [(ngModel)]="ledger.endDate">
+                maxlength="10" name="account-endDate" [(ngModel)]="accountService.todate">
             </div>
           </div>
-          <div class="col">
+          <div class="col pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getLedgerView()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
@@ -58,7 +58,7 @@
           </div>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pr-0 pl-0">
         <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
         <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name" (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
       </div> -->
@@ -80,14 +80,15 @@
           <th>S.No</th>
           <th>Date</th>
           <th>Code</th>
-          <th>Customer Code</th>
-          <th>Ledger Type</th>
+          <th>Ref No.</th>
+          <th>Voucher Type</th>
           <th>Ledger</th>
-          <th>Amount(Debit)</th>
-          <th>Amount(Credit)</th>
+          <th>Amount(DR)</th>
+          <th>Amount(CR)</th>
           <th *ngIf="accountService.selected.branch.id ==0">Branch</th>
         </tr>
       </thead>
+    <tbody>
       <tr *ngFor="let dataItem of ledgerData; let i = index;" (click)="selectedRow = i"
         (dblclick)="(dataItem.y_type.toLowerCase().includes('freight')) ?(dataItem.y_type.toLowerCase().includes('expence'))?openfreight(dataItem['y_refid']):openRevenue(dataItem['y_refid']):  
         (dataItem.y_type.toLowerCase().includes('lr')) ? editTransfer(dataItem['y_refid']) : (dataItem.y_type.length != '') ? getBookDetail(dataItem.y_voucherid,dataItem.y_code,dataItem.y_type,dataItem) : '' "
@@ -104,6 +105,7 @@
         <td *ngIf="dataItem.y_cramunt ==0"></td>
         <td *ngIf="accountService.selected.branch.id ==0"> {{dataItem.y_company_branch}}</td>
       </tr>
+    </tbody>
     </table>
   </nb-card-body>
 </nb-card>

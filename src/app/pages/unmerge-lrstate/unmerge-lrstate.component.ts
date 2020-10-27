@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UnMergeStateComponent } from '../../modals/un-merge-state/un-merge-state.component';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'unmerge-lrstate',
@@ -22,6 +25,9 @@ export class UnmergeLRStateComponent implements OnInit {
   };
 
   constructor(public common: CommonService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
+    public user: UserService,
     public api: ApiService,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
@@ -98,6 +104,23 @@ export class UnmergeLRStateComponent implements OnInit {
     this.common.params = { unMergeStateData };
     const activeModal = this.modalService.open(UnMergeStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
+  }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name,'Report: '+'UnMerge-LR-Status']
+    ];
+    this.pdfService.jrxTablesPDF(['unmergeLrStatus'], 'unmerge-LR-status', details);
+  }
+
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,report:"Report:UnMerge-LR-Status"}
+    ];
+    this.csvService.byMultiIds(['unmergeLrStatus'], 'unmerge-LR-status', details);
   }
 }
 

@@ -20,26 +20,26 @@ table tr.highlight {
     background-color: #FFEE75 !important;
     color: #000 !important;
 }
-.tjr-label {
-    background: #263238;
-    color: #fff;
-    padding: 3px 8px;
-    margin: 0;
-    border-radius: 3px 3px 0px 0px;
-    font-size: 10px;
-}
+// .tjr-label {
+//     background: #263238;
+//     color: #fff;
+//     padding: 3px 8px;
+//     margin: 0;
+//     border-radius: 3px 3px 0px 0px;
+//     font-size: 10px;
+// }
 
-.tjr-input {
-    border: 1px solid #263238;
-    border-radius: 0px 2px 2px 2px;
-    padding: 3px 5px;
-    height: auto;
-    font-size: 12px;
-}
+// .tjr-input {
+//     border: 1px solid #263238;
+//     border-radius: 0px 2px 2px 2px;
+//     padding: 3px 5px;
+//     height: auto;
+//     font-size: 12px;
+// }
 
-.tjr-input:focus {
-    border: 1px solid #263238;
-}
+// .tjr-input:focus {
+//     border: 1px solid #263238;
+// }
 
 .tjr-button {
     cursor: pointer;
@@ -57,10 +57,10 @@ table tr.highlight {
 //     overflow: hidden !important;
 //     max-height: 105px !important;
 // }
-.auto-sugg{
-    max-height: 128px;
-    min-height: 128px;
-}
+// .auto-sugg{
+//     max-height: 128px;
+//     min-height: 128px;
+// }
 table{
     thead{
         display: table;
@@ -99,7 +99,7 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 312px);
+        max-height: calc(100vh - 290px);
         tr{
             display: table;
             table-layout: fixed;
@@ -121,10 +121,10 @@ table{
 } 
 
 .pdf-icon{
-    font-size: 30px;
+   // font-size: 30px;
     color: #9F0001;
 }
 .exel-icon{
-    font-size: 30px;
+    //font-size: 30px;
     color: #217346;
 }

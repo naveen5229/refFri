@@ -33,11 +33,18 @@
                             </button>
                         </div>
                         <div class="col-md-2 offset-md-08">
-                            <button type="submit" class="btn btn-primary" *ngIf="user.permission.add"
+                            <!-- <button type="submit" class="btn btn-primary" *ngIf="user.permission.add"
                                 (click)="addAdvanceMaintenance()">
                                 Advance Maintenance
-                            </button>
-                        </div>
+                            </button> -->
+
+                            <div class="col-12 text-right" *ngIf='data.length>0'>
+                                <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('maintenance')" style="cursor: pointer;"><i
+                                    class="fa fa-file-pdf"></i></span>
+                                <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('maintenance')"
+                                  style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+                              </div>
+                            </div>
                     </div>
                 </form>
             </div>

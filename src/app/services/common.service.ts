@@ -1,16 +1,13 @@
 import { Injectable } from "@angular/core";
-import { NbToastStatus } from "@nebular/theme/components/toastr/model";
 import {
-  NbGlobalLogicalPosition,
   NbGlobalPhysicalPosition,
-  NbGlobalPosition,
   NbToastrService,
   NbThemeService
 } from "@nebular/theme";
 import { Router } from "@angular/router";
 
-import { Http, Headers } from '@angular/http';
-import { DatePipe, FormatWidth } from "@angular/common";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DatePipe } from "@angular/common";
 import { ApiService } from "./api.service";
 import { DataService } from "./data.service";
 import { UserService } from "./user.service";
@@ -18,11 +15,12 @@ import { UserService } from "./user.service";
 import html2canvas from 'html2canvas';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
+import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 import * as moment_ from "moment";
-import { elementAt } from "rxjs/operators";
-import { RouteGuard } from "../guards/route.guard";
 import { saveAs } from 'file-saver';
+import { AccountService } from '../services/account.service';
+import { DomSanitizer } from '@angular/platform-browser';
+
 const moment = moment_;
 @Injectable({
   providedIn: "root"
@@ -77,15 +75,16 @@ export class CommonService {
     public api: ApiService,
     public dataService: DataService,
     public user: UserService,
-    private datePipe: DatePipe,
-    private http: Http
+    private datePipe: DatePipe, private _sanitizer: DomSanitizer,
+    private http: HttpClient,
+    private accountService: AccountService,
+
   ) { }
 
   showError(msg?, err?) {
     let message = msg || 'Something went wrong! try again.';
     message += err ? ' Error Code: ' + err.status : '';
     this.showToast(message, "danger");
-    //alert(message);
   }
 
   ucWords(str) {
@@ -102,7 +101,6 @@ export class CommonService {
   }
 
   showToast(body, type?, duration?, title?) {
-    // toastTypes = ["success", "info", "warning", "primary", "danger", "default"]
     const config = {
       status: type || "success",
       destroyByClick: true,
@@ -111,8 +109,6 @@ export class CommonService {
       position: NbGlobalPhysicalPosition.TOP_RIGHT,
       preventDuplicates: false
     };
-
-    //alert(body);
     this.toastrService.show(body, title || "Alert", config);
   }
 
@@ -212,7 +208,7 @@ export class CommonService {
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
 
-    console.log(year + "-" + month + "-" + dat);
+    // console.log(year + "-" + month + "-" + dat);
 
     //return dat + "-" + month + "-" + year;
     return year + "-" + month + "-" + dat;
@@ -229,9 +225,12 @@ export class CommonService {
     return { send: year + "-" + month + "-" + dat, view: dat + "-" + month + "-" + year };
   }
 
-  changeDateformat(date) {
+  changeDateformat(date, format = "dd-MMM-yyyy hh:mm:ss a") {
+    return this.datePipe.transform(date, format);
+  }
+  changeDateformat4(date) {
     let d = new Date(date);
-    return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm:ss a");
+    return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm");
   }
 
   changeDateformat2(date) {
@@ -273,48 +272,6 @@ export class CommonService {
     }
     return currentDate;
   }
-
-  // pieChart(chartLabels, chartdatas, charColors) {
-  //   this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-  //     console.log('Config: ', config);
-  //     const colors: any = config.variables;
-  //     const chartjs: any = config.variables.chartjs;
-
-  //     this.chartData = {
-  //       labels: chartLabels,
-  //       datasets: [{
-  //         data: chartdatas,
-  //         backgroundColor: charColors
-  //       }],
-  //     };
-
-  //     this.chartOptions = {
-  //       maintainAspectRatio: false,
-  //       responsive: true,
-  //       scales: {
-  //         xAxes: [
-  //           {
-  //             display: false,
-  //           },
-  //         ],
-  //         yAxes: [
-  //           {
-  //             display: false,
-  //           },
-  //         ],
-  //       },
-  //       legend: false,
-  //     };
-  //   });
-
-  //   setTimeout(() => {
-  //     console.log(document.getElementsByTagName('canvas')[0]);
-
-  //     document.getElementsByTagName('canvas')[0].style.width = "100px";
-  //     document.getElementsByTagName('canvas')[0].style.height = "220px";
-
-  //   }, 10);
-  // }
 
   pieChart(labels, data, colors) {
     let chartData = {
@@ -411,11 +368,12 @@ export class CommonService {
     showError && this.showError(msg);
   }
 
-  reportAnIssue(issue, refId) {
+  reportAnIssue(issue, refId, relatedData = null) {
     const params = {
       issueTypeId: issue.type,
       refId: refId,
-      remark: issue.remark
+      remark: issue.remark,
+      relatedData: relatedData
     };
     console.info("Params: ", params);
     this.loading++;
@@ -576,6 +534,7 @@ export class CommonService {
     // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
+    console.log(tblelt);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
     }
@@ -713,7 +672,7 @@ export class CommonService {
         doc.setFont("times", "bold", "text-center");
         doc.text(lower_left_heading, xpos, y);
       }
-      doc.text(time, 30, 60);
+      // doc.text(time, 30, 60);
       y = 15;
       doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
@@ -755,6 +714,12 @@ export class CommonService {
 
     doc.save("report.pdf");
   }
+
+
+
+
+
+
 
   getPDFFromTableIdnew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, reportname?) {
     console.log("Action Data:", reportname);
@@ -953,7 +918,7 @@ export class CommonService {
 
     // const blob = new Blob(["Hello, world!"], { type: 'text/plain' });
     // saveAs(blob, 'test.pdf');
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Accept', 'text/plain');
     this.http.get('/api/files', { headers: headers })
       .toPromise()
@@ -969,6 +934,8 @@ export class CommonService {
   }
 
   downloadPdf(divId, isLandscape?) {
+    // var doc = new jsPDF('landscape');
+    // doc.text(20, 20, 'Hello landscape world!');
     this.loading++;
     console.log("loder++");
 
@@ -978,15 +945,15 @@ export class CommonService {
       scale: 2
     }).then(canvas => {
       var imgData = canvas.toDataURL('image/png');
-      var imgWidth = isLandscape ? 295 : 208;
-      var pageHeight = isLandscape ? 208 : 295;
-      let imgHeight = isLandscape ? 208 : 295;
-      var heightLeft = imgHeight;
-
-      // var imgWidth = 210; 
-      // var pageHeight = 295;  
-      // var imgHeight = canvas.height * imgWidth / canvas.width;
+      // var imgWidth = isLandscape ? 295 : 208;
+      // var pageHeight = isLandscape ? 208 : 295;
+      // let imgHeight = isLandscape ? 208 : 295;
       // var heightLeft = imgHeight;
+
+      var imgWidth = 210;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
 
       let doc = new jsPDF(isLandscape ? 'l' : 'p', 'mm', 'a4');
       var position = 0;
@@ -1011,6 +978,7 @@ export class CommonService {
 
   getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?) {
     let tblelt = document.getElementById(tblEltId);
+    console.log(tblelt);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
     }
@@ -1111,11 +1079,12 @@ export class CommonService {
         info.push(rowdata);
       }
     }
-    new Angular5Csv(info, "report.csv");
+    new AngularCsv(info, "report");
   }
 
   getCSVFromTableIdNew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblelt = document.getElementById(tblEltId);
+    console.log(tblelt);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
     }
@@ -1144,6 +1113,7 @@ export class CommonService {
           if (doNotIncludes.hasOwnProperty(donotInclude)) {
             const thisNotInclude = doNotIncludes[donotInclude];
             if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+
               isBreak = true;
               break;
             }
@@ -1162,24 +1132,162 @@ export class CommonService {
           let eltinput = hdgCols[i].querySelector("input");
           let attrval = eltinput.getAttribute("placeholder");
           hdgs[attrval] = attrval;
+          console.log(hdgs);
+
           arr_hdgs.push(attrval);
         } else if (elthtml.indexOf('<img') > -1) {
           let eltinput = hdgCols[i].querySelector("img");
           let attrval = eltinput.getAttribute("title");
           hdgs[attrval] = attrval;
+          console.log(hdgs);
+
           arr_hdgs.push(attrval);
         } else if (elthtml.indexOf('href') > -1) {
           let strval = hdgCols[i].innerHTML;
           hdgs[strval] = strval;
+          console.log(hdgs);
+
           arr_hdgs.push(strval);
         } else {
+
           let plainText = elthtml.replace(/<[^>]*>/g, '');
           hdgs[plainText] = plainText;
+          console.log(hdgs);
+
           arr_hdgs.push(plainText);
+
         }
       }
     }
     info.push(hdgs);
+    console.log(hdgs);
+    console.log(info);
+
+
+    let tblrows = tblelt.querySelectorAll('tbody tr');
+    console.log(tblrows);
+    if (tblrows.length >= 1) {
+      for (let i = 0; i < tblrows.length; i++) {
+        if (tblrows[i].classList.contains('cls-hide'))
+          continue;
+        let rowCols = tblrows[i].querySelectorAll('td');
+        let rowdata = [];
+        for (let j = 0; j < rowCols.length; j++) {
+          if (rowCols[j].classList.contains('del'))
+            continue;
+          let colhtml = rowCols[j].innerHTML;
+          if (colhtml.indexOf('input') > -1) {
+            let eltinput = rowCols[j].querySelector("input");
+            let attrval = eltinput.getAttribute('placeholder');
+            rowdata[arr_hdgs[j]] = attrval;
+          } else if (colhtml.indexOf('img') > -1) {
+            let eltinput = rowCols[j].querySelector("img");
+            let attrval = eltinput && eltinput.getAttribute('title');
+            rowdata[arr_hdgs[j]] = attrval;
+          } else if (colhtml.indexOf('href') > -1) {
+            let strval = rowCols[j].innerHTML;
+            rowdata[arr_hdgs[j]] = strval;
+          } else if (colhtml.indexOf('</i>') > -1) {
+            let pattern = /<i.* title="([^"]+)/g;
+            let match = pattern.exec(colhtml);
+            if (match != null && match.length)
+              rowdata[arr_hdgs[j]] = match[1];
+          } else {
+            let plainText = colhtml.replace(/<[^>]*>/g, '');
+            rowdata[arr_hdgs[j]] = plainText;
+          }
+        }
+        console.log(rowdata)
+
+        info.push(rowdata);
+        console.log(info)
+      }
+
+    }
+    new AngularCsv(info, "report");
+
+  }
+  getCSVFromTableIdLatest(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
+    let tblelt = document.getElementById(tblEltId);
+    console.log(tblelt);
+    if (tblelt.nodeName != "TABLE") {
+      tblelt = document.querySelector("#" + tblEltId + " table");
+    }
+
+    let organization = { "elogist Solutions": "elogist Solutions" };
+    let blankline = { "": "" };
+
+    let leftData = { '': '', left_heading };
+    let centerData = { '': '', center_heading };
+    let doctime = { time };
+    let last = { '': '', lastheading };
+
+    let info = [];
+    let hdgs = {};
+    let arr_hdgs = [];
+    // info.push(organization);
+    //info.push(blankline);
+    // info.push(leftData);
+    // info.push(centerData);
+    // info.push(last);
+    let hdgCols = tblelt.querySelectorAll('th');
+    if (hdgCols.length >= 1) {
+      for (let i = 0; i < hdgCols.length; i++) {
+        let isBreak = false;
+        for (const donotInclude in doNotIncludes) {
+          if (doNotIncludes.hasOwnProperty(donotInclude)) {
+            const thisNotInclude = doNotIncludes[donotInclude];
+            if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+
+              isBreak = true;
+              break;
+            }
+          }
+        }
+        if (isBreak)
+          continue;
+
+
+        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+          continue;
+        if (hdgCols[i].classList.contains('del'))
+          continue;
+        let elthtml = hdgCols[i].innerHTML;
+        if (elthtml.indexOf('<input') > -1) {
+          let eltinput = hdgCols[i].querySelector("input");
+          let attrval = eltinput.getAttribute("placeholder");
+          hdgs[attrval] = attrval;
+
+          arr_hdgs.push(attrval);
+        } else if (elthtml.indexOf('<img') > -1) {
+          let eltinput = hdgCols[i].querySelector("img");
+          let attrval = eltinput.getAttribute("title");
+          hdgs[attrval] = attrval;
+
+          arr_hdgs.push(attrval);
+        } else if (elthtml.indexOf('href') > -1) {
+          let strval = hdgCols[i].innerHTML;
+          hdgs[strval] = strval;
+
+          arr_hdgs.push(strval);
+        } else {
+          if (i < 5) {
+            if (i == 0 || i == 1) {
+              continue;
+            }
+
+            let plainText = elthtml.replace(/<[^>]*>/g, '');
+            hdgs[plainText] = plainText;
+
+            arr_hdgs.push(plainText);
+          }
+
+        }
+      }
+    }
+    info.push(hdgs);
+
+
 
     let tblrows = tblelt.querySelectorAll('tbody tr');
     if (tblrows.length >= 1) {
@@ -1213,12 +1321,15 @@ export class CommonService {
             rowdata[arr_hdgs[j]] = plainText;
           }
         }
-        info.push(rowdata);
-      }
-    }
-    new Angular5Csv(info, "report.csv");
-  }
+        console.log(rowdata)
 
+        info.push(rowdata);
+        console.log(info)
+      }
+
+    }
+    new AngularCsv(info, "report");
+  }
   getMultipleCSVFromTableIdNew(tblArray, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
     let tblEltId = '';
     tblArray.forEach(tblid => {
@@ -1325,7 +1436,7 @@ export class CommonService {
           info.push(rowdata);
         }
       }
-      new Angular5Csv(info, "report.csv");
+      new AngularCsv(info, "report");
     });
   }
   formatTitle(strval) {
@@ -1411,10 +1522,10 @@ export class CommonService {
       case 11:
         html = `
             <!-- At Origin -->
-            ${this.handleTripCircle(x_origin.trim(), 'loading')}
+            ${this.handleTripCircle(this.formattTripStatus(x_origin.trim()), 'loading')}
             ${x_destination ? `
               <span>-</span>
-              <span class="unloading">${x_destination.trim()}</span>
+              <span class="unloading">${this.formattTripStatus(x_destination.trim())}</span>
             ` : !x_placements.length ? ` <i title="${x_origin.trim()} -> " class="icon ion-md-arrow-round-forward"></i> ` : ``}
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
@@ -1422,10 +1533,10 @@ export class CommonService {
       case 12:
         html = `
             <!-- At Destination -->
-            <span class="loading">${x_origin.trim()}</span>
+            <span class="loading">${this.formattTripStatus(x_origin.trim())}</span>
             ${x_destination ? `
               <span>-</span>
-              ${this.handleTripCircle(x_destination.trim(), 'unloading')}
+              ${this.handleTripCircle(this.formattTripStatus(x_destination.trim()), 'unloading')}
             ` : !x_placements.length ? `<i title="Hello World!!" class="icon ion-md-arrow-round-forward"></i>` : `<i title=""></i>`}
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
@@ -1437,10 +1548,10 @@ export class CommonService {
       case 53:
         html = `
             <!-- Onward -->
-            <span class="loading">${x_origin.trim()}</span>
+            <span class="loading">${this.formattTripStatus(x_origin.trim())}</span>
             ${x_destination ? `
               <span>-</span>
-              <span class="unloading">${x_destination.trim()}</span>
+              <span class="unloading">${this.formattTripStatus(x_destination.trim())}</span>
             ` : !x_placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
@@ -1448,61 +1559,58 @@ export class CommonService {
       case 4:
       case 20:
       case 21:
-
         html = `
-           
-            <span class="loading">${x_origin.trim()}</span>
+            <span class="loading">${this.formattTripStatus(x_origin.trim())}</span>
             ${x_destination ? `
               <span>-</span>
-              <span class="unloading">${x_destination.trim()}</span>
+              <span class="unloading">${this.formattTripStatus(x_destination.trim())}</span>
             ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}`;
-        // console.log('X_placementType =', x_placements.length, x_status);
         if (x_placements.length && x_placements.length > 0) {
           html += ` <!-- Available (Done) -->
           ${this.formatTripPlacement(x_placement_type, x_placements)}`
-
         } else {
           html += ` <!-- Available (Next) -->
           <i class="fa fa-check-circle complete"></i>`;
-
         }
-
-        // else {
-        //   html = `
-        //     <!-- Available (Next) -->
-        //     <span class="loading">${x_origin.trim()}</span>
-        //     ${x_destination ? `
-        //       <span>-</span>
-        //       <span class="unloading">${x_destination.trim()}</span>
-        //     ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
-        //     ${this.formatTripPlacement(x_placement_type, x_placements)}`;
-        // }
         break;
-
       case 5:
       case 15:
       case 22:
       case 23:
         html = `
             <!-- Available (Moved) -->
-            <span class="unloading">${x_origin.trim()}</span><i title=""></i>
+            <span class="unloading">${this.formattTripStatus(x_origin.trim())}</span><i title=""></i>
+            <span>-</span><i title=""></i>
+            <span class="unloading">${this.formattTripStatus(x_destination.trim())}</span>
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
       default:
         html = `
             <!-- Ambiguous -->
-            <span class="loading">${x_origin.trim()}</span>
+            <span class="loading">${this.formattTripStatus(x_origin.trim())}</span>
             <span>-</span><i title=""></i>
-            <span class="unloading">${x_destination.trim()}</span>
+            <span class="unloading">${this.formattTripStatus(x_destination.trim())}</span>
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
     }
-    // console.log('HTML:', html);
-    return html + this.handleTripStatusOnExcelExport(x_status, x_origin, x_destination, x_placements);
+    return this._sanitizer.bypassSecurityTrustHtml(html + this.handleTripStatusOnExcelExport(x_status, x_origin, x_destination, x_placements));
+  }
+
+  formattTripStatus(places: string) {
+    let arr = places.split('$');
+    let html = arr.map((ar, index) => {
+      if (ar.includes('#')) {
+        let x = ar.split('#');
+        if (x[2])
+          return `<span style="color:#${x[1]};"><del>${x[0]}</del></span>${arr.length - 1 != index ? ' - ' : ''}`;
+        return `<span style="color:#${x[1]};">${x[0]}</span>${arr.length - 1 != index ? ' - ' : ''}`;
+      }
+      return `<span>${ar}</span>${arr.length - 1 != index ? ' - ' : ''}`
+    }).join('');
+    return html;
   }
 
   formatTripPlacement(placementType, placements) {
-    // console.log('++++:placements:', placements, placementType);
 
     if (!placements.length) return '';
     let html = ` <i class="icon ion-md-arrow-round-forward"></i> `;
@@ -1523,7 +1631,7 @@ export class CommonService {
   }
 
   handleTripCircle(location, className = 'loading') {
-    let locationArray = location.split('-');
+    let locationArray = location.split('$');
     if (locationArray.length == 1) {
       return `<span class="circle ${className}">${location}</span>`;
     }
@@ -1552,10 +1660,8 @@ export class CommonService {
 
   handleTripStatusOnExcelExport(status, origin, destination, placements) {
     let title = '';
-    // placements.map((placement, index) => {
-    //   title += placement;
-    //   if (index < placements.length - 1) title += ' - ';
-    // });
+    origin = origin.split('$').map(des => des.split('#')[0]).join(' - ')
+    destination = destination.split('$').map(des => des.split('#')[0]).join(' - ');
 
     switch (status) {
       case 0:
@@ -1569,7 +1675,7 @@ export class CommonService {
       case 52:
       case 53:
         title = origin;
-        title += destination ? title += ` - ${destination}` : '';
+        title += destination ? ` - ${destination}` : '';
         title += ' -> ' + placements.join('-');
         break;
       case 3:
@@ -1578,7 +1684,7 @@ export class CommonService {
       case 21:
 
         title = origin;
-        title += destination ? title += ` - ${destination}` : '';
+        title += destination ? ` - ${destination}` : '';
         placements.length && (title += ' -> ' + placements.join('-'));
         !placements.length && (title += ' *');
         break;
@@ -1588,12 +1694,12 @@ export class CommonService {
       case 22:
       case 23:
         title = origin;
-        title += destination ? title += ` - ${destination}` : '';
+        title += destination ? ` - ${destination}` : '';
         title += ' -> ' + placements.join('-');
         break;
       default:
         title = origin;
-        title += destination ? title += ` - ${destination}` : '';
+        title += destination ? ` - ${destination}` : '';
         title += ' -> ' + placements.join('-');
         break;
     }
@@ -1743,5 +1849,118 @@ export class CommonService {
     return dynamicData;
 
   }
+
+  handleVoucherDateOnEnter(f2Date) {
+    let dateArray = [];
+    let separator = '-';
+
+    //let datestring = (this.activedateid == 'startDate') ? this.startDate : this.endDate;
+    console.log('f2Date', f2Date);
+    let datestring = f2Date;
+    if (datestring.includes('-')) {
+      dateArray = datestring.split('-');
+    } else if (datestring.includes('/')) {
+      dateArray = datestring.split('/');
+      separator = '/';
+    } else if (datestring.includes('.')) {
+      dateArray = datestring.split('.');
+      separator = '.';
+    } else {
+      this.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    console.log('month before', month, month.length, typeof (month));
+    month = month.length == 1 ? ('0' + month) : (((parseInt(month)) >= 13) ? 12 : month);
+    console.log('month after', month);
+    let finacialyear = (month > '03') ? (this.accountService.selected.financialYear['name']).split('-')[0] : (this.accountService.selected.financialYear['name']).split('-')[1];
+    let year = dateArray[2];
+    year = (year) ? (year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year) : finacialyear;
+    console.log('Date: ', date + separator + month + separator + year);
+    console.log('starting date 122 :', this.accountService.financialYears);
+    this.accountService.voucherDate = date + separator + month + separator + year;
+    return date + separator + month + separator + year;
+
+  }
+
+  parseJwt(token) {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+      return null;
+    }
+  };
+
+  chartScaleLabelAndGrid(arr) {
+    let chartObj = {
+      yaxisLabel: '',
+      scaleData: null,
+      gridSize: null,
+      minValue: 0
+    }
+    var max = arr.reduce(function (a, b) {
+      return Math.max(a, b);
+    });
+    console.log("max", arr, max);
+    //--y axis scale data
+    if (max > 1000 && max < 90000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 100;
+      });
+      chartObj.yaxisLabel = "(in '00)"
+    }
+    else if (max > 90000 && max < 900000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 1000;
+      });
+      chartObj.yaxisLabel = "(in '000)";
+    }
+    else if (max > 900000 && max < 9000000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 100000;
+      });
+      chartObj.yaxisLabel = "(in Lacs)";
+    }
+    else if (max > 9000000) {
+      chartObj.scaleData = arr.map(a => {
+        return a /= 10000000;
+      });
+      chartObj.yaxisLabel = "(in Cr.)";
+    }
+    else {
+      chartObj.scaleData = arr;
+    }
+
+    //-----grid size
+    var max1 = chartObj.scaleData.reduce(function (a, b) {
+      return Math.max(a, b);
+    });
+    var min1 = chartObj.scaleData.reduce(function (a, b) {
+      return Math.min(a, b);
+    });
+    console.log("max1", max1, min1);
+    chartObj.gridSize = Math.round(((max1 - min1) / 5) / 10) * 10;
+    return chartObj;
+  }
+
+  imageDownloadFromUrl(url, fileName){
+    console.log("url, fileName",url, fileName);
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.responseType = "blob";
+    xhr.onload = function(){
+        var urlCreator = window.URL;
+        var imageUrl = urlCreator.createObjectURL(this.response);
+        var tag = document.createElement('a');
+        tag.href = imageUrl;
+        tag.download = fileName;
+        document.body.appendChild(tag);
+        tag.click();
+        document.body.removeChild(tag);
+    }
+    xhr.send();
+}
 
 }

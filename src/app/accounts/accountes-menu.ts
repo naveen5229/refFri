@@ -3,13 +3,13 @@ import { NbMenuItem } from '@nebular/theme';
 export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     {
         title: 'Home Dashboard',
-        icon: 'fa fa-home',
+        icon: 'fa-home',
         link: '/pages/dashboard',
         home: true,
     },
     {
         title: 'Accounts Master',
-        icon: 'fas fa-user-circle',
+        icon: 'fa-user-circle',
 
         children: [
 
@@ -25,6 +25,14 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
             {
                 title: 'Ledger (F1)',
                 link: '/accounts/ledgers/0'
+            },
+            {
+                title: 'Country',
+                link: '/accounts/country'
+            },
+            {
+                title: 'State',
+                link: '/accounts/state'
             },
             {
                 title: 'City',
@@ -46,7 +54,10 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Vehicle Ledger',
                 link: '/accounts/vehicle-ledgers'
             },
-
+            {
+                title: 'Report Configure',
+                link: '/accounts/reportconfig'
+            },
         ],
     },
 
@@ -54,7 +65,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
 
     {
         title: 'Stock Master',
-        icon: 'fas fa-building',
+        icon: 'fa-building',
 
         children: [
 
@@ -80,7 +91,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Voucher',
-        icon: 'fas fa-ticket-alt',
+        icon: 'fa-ticket-alt',
         children: [
             {
                 title: 'Journal Voucher (F9)',
@@ -110,7 +121,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Account Reports',
-        icon: 'fa fa-file-excel',
+        icon: 'fa-file-excel',
         children: [
             {
                 title: 'Day Book (Ctrl+1)',
@@ -164,13 +175,19 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
             {
                 title: 'Mapped Fuel Voucher',
                 link: '/accounts/mapped-fuel-voucher'
-            }
+            },
+            {
+                title: 'Ledger Register',
+                link: '/accounts/ledgerregidter'
+            },
+            
+            
 
         ],
     },
     {
         title: 'Admin Report',
-        icon: 'fas fa-file-invoice',
+        icon: 'fa-file-invoice',
         children: [
 
             {
@@ -188,6 +205,10 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
             {
                 title: 'Tally Export',
                 link: '/accounts/tallyexport'
+            },
+            {
+                title:'Tally Import',
+                link:'/accounts/tallyimport'
             },
             {
                 title: 'Voucher Audit',
@@ -209,27 +230,35 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Invoice',
-        icon: 'fas fa-file-invoice',
+        icon: 'fa-file-invoice',
         children: [
             {
                 title: 'Purchase Invoice',
-                link: '/accounts/orders/-102/Purchase Invoice'
+                link: '/accounts/service/-102/Purchase Invoice'
             },
+            // {
+            //     title: 'Sales Invoice',
+            //     link: '/accounts/orders/-104/Sales Invoice'
+            // },
             {
                 title: 'Sales Invoice',
-                link: '/accounts/orders/-104/Sales Invoice'
+                link: '/accounts/service/-104/Sales Invoice'
             },
             {
                 title: 'Purchase Assets Invoice',
                 link: '/accounts/orders/-105/Purchase Assets Invoice'
             },
+            // {
+            //     title: 'Debit Note',
+            //     link: '/accounts/orders/-107/Debit Note'
+            // },
             {
                 title: 'Debit Note',
-                link: '/accounts/orders/-107/Debit Note'
+                link: '/accounts/service/-107/Debit Note'
             },
             {
                 title: 'Credit Note',
-                link: '/accounts/orders/-106/Credit Note'
+                link: '/accounts/service/-106/Credit Note'
             },
             {
                 title: 'Wastage',
@@ -239,7 +268,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Inventry  Reports',
-        icon: 'fa fa-file-excel',
+        icon: 'fa-file-excel',
         children: [
 
             {
@@ -255,12 +284,15 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Opening Stock',
                 link: '/accounts/openingstock'
             },
-
+            {
+                title:' Store Register',
+                link: '/accounts/stoclsummary'
+            }
         ],
     },
     {
         title: 'Store Requisition',
-        icon: 'fas fa-building',
+        icon: 'fa-building',
 
         children: [
 
@@ -277,12 +309,16 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
                 title: 'Stock Transfer',
                 link: '/accounts/storerequisitions/-1'
             },
+            {
+                title: 'Opening Stock',
+                link: '/accounts/storerequisitions/-101'
+            }
 
         ],
     },
     {
         title: 'Accounts Bin',
-        icon: 'fas fa-trash',
+        icon: 'fa-trash',
         children: [
             {
                 title: 'Ledger Deleted',
@@ -296,7 +332,7 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
     },
     {
         title: 'Advance Voucher',
-        icon: 'fas fa-building',
+        icon: 'fa-building',
 
         children: [
             {

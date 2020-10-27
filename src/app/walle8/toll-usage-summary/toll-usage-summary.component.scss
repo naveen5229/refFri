@@ -1,10 +1,14 @@
 .pdf-icon{
-    font-size: 30px;
+    font-size: 20px;
     color: #9F0001;
   }
   .exel-icon{
-    font-size: 30px;
+    font-size: 20px;
     color: #217346;
+  }
+
+  .float{
+    float:right;
   }
 
 table {
@@ -14,7 +18,7 @@ table {
   }
  
   td, th {
-    border: 1px solid #dddddd;
+    // border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
   }
@@ -32,16 +36,16 @@ table {
     }
     tr{
       th:nth-child(1){
-        width: 30px;
+        width: auto;
       }
       th{
-        width: 200px;
+        width: auto;
       }
       td:nth-child(1){
-        width: 30px;
+        width: auto;
       }
       td{
-          width: 200px;
+          width: auto;
       }
       th:last-child{
         width: auto;
@@ -64,10 +68,10 @@ table {
             width: 100%;
         }
         tr:nth-child(odd){
-            background-color: #fff;
+            background-color: #f5f5f538 !important;
         }
         tr:nth-child(even){
-            background-color: #e4e4e4;
+            background-color: #EDF1F7 !important;
         }
     }
  }
@@ -81,3 +85,45 @@ table {
     color: black;
  
  }
+
+ :host ::ng-deep .tableFixHead th{
+   background:#E5F3F9!important;
+ }
+
+ :host ::ng-deep .tableFixHead{
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  // overflow:hidden!important;
+ }
+
+ :host ::ng-deep tbody tr:nth-child(even){
+   background:#EDF1F7!important;
+ }
+
+ :host ::ng-deep tbody tr:nth-child(odd){
+  background:#f5f5f538 !important;
+}
+
+ :host ::ng-deep .table-bordered {
+   border:none!important;
+   border-width:0!important;
+ }
+
+ :host ::ng-deep tbody tr td{
+   border:none!important
+}
+
+ :host ::ng-deep thead tr th{
+   border:none!important;
+ }
+
+ :host ::ng-deep .filter-container{
+   border-radius:23px!important;
+ }
+
+//  :host ::ng-deep tbody tr{
+//    border-top: 1px!important;
+//    border:1px solid lightblue!important;
+//  }
+
+ 

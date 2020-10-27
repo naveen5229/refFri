@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
@@ -44,9 +44,7 @@ export class LrPodReceiptsComponent implements OnInit {
     private datePipe: DatePipe,
     public user: UserService,
     public route: ActivatedRoute,
-    private modalService: NgbModal,
-    public renderer: Renderer
-  ) {
+    private modalService: NgbModal) {
 
   }
 
@@ -84,6 +82,9 @@ export class LrPodReceiptsComponent implements OnInit {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            if (key === 'LR Date' || key==='POD Date') {
+              headerObj['type'] = 'date';
+            }
             this.table.data.headings[key] = headerObj;
           }
         }

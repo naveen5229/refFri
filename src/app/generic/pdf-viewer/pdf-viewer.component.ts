@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
-
 @Component({
   selector: 'TJR-pdf-viewer',
   templateUrl: './pdf-viewer.component.html',
@@ -20,4 +19,5 @@ export class PdfViewerComponent implements OnInit {
   ngOnInit() {
   }
 
+ 
 }

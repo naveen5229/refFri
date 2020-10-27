@@ -91,7 +91,7 @@
     margin-right: 15px;
 }
 
-.truck_road i {
+.truck_road svg {
     font-size: 40px;
     color: #f87003;
 }
@@ -101,10 +101,10 @@
 }
 
 .status-print-title h4 {
-    font-weight: bold;
-    color: #55a1ff;
-    font-size: 28px;
-    margin: 0px;
+    color: #000;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
 }
 
 .status_box {

@@ -18,9 +18,6 @@
         <div class="col-sm-2">
           <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
           </uj-date-time-picker>
-          <!-- <input [(ngModel)]="startDate" [owlDateTime]="date" [owlDateTimeTrigger]="date" placeholder="Date Time"
-            class="form-control" autocomplete="off" name="date" />
-          <owl-date-time #date></owl-date-time> -->
         </div>
         <div class="col-sm-2">
           <uj-date-time-picker (onChanged)="endDate = $event" [isStart]="false" [dateTimeValue]="endDate"

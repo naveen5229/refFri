@@ -70,7 +70,7 @@ export class PodDashboardComponent implements OnInit {
         this.states = res['data']['summary'];
         this.handleChart();
         this.generateTable();
-      }, err => {
+      }, err => {   
         this.common.loading--;
         this.common.showError();
       });
@@ -122,6 +122,9 @@ export class PodDashboardComponent implements OnInit {
     for (var key in this.allPendingPODs[0]) {
       if (key.charAt(0) != "_") {
         headings[key] = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+        if (key === 'LR Date') {
+          headings[key]['type'] = 'date';
+        }
       }
     }
     headings['Action'] = { title: 'Action', hideSearch: true };

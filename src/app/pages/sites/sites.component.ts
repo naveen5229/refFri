@@ -303,8 +303,22 @@ export class SitesComponent implements OnInit {
     }
   }
   selectLocation(res) {
-    this.Location = res.location;
+    console.log(res);
+    this.Location = res && res.location ? res.location :null;
+    if(this.Location)
     this.mapService.zoomAt(this.mapService.createLatLng(res.lat, res.long), 12);
   }
+
+getLatLng(){
+  if(!this.Location){
+    let ltlngString = (<HTMLInputElement>document.getElementById('moveto')).value;
+  console.log("ltlngString",ltlngString);
+  let lat = ltlngString.split(',')[0];
+  let lng = ltlngString.split(',')[1];
+  console.log("lat,lng",lat,lng);
+  this.mapService.zoomAt(this.mapService.createLatLng(lat, lng), 18);
+}
+}
+
 
 }

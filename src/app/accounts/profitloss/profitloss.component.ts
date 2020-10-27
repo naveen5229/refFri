@@ -1,24 +1,111 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input, ChangeDetectionStrategy, ChangeDetectorRef  } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import * as _ from 'lodash';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
+import { AccountService } from '../../services/account.service';
+import { isNull } from 'util';
+import { StoclsummaryComponent } from '../stoclsummary/stoclsummary.component';
+@Component({
+  selector: 'profitloss-tree',
+  templateUrl: './profitloss.html',
+  styleUrls: ['./profitloss.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(document:keydown)': 'keyHandler($event)'
+  }
+})
+export class ProfitlossTreeComponent {
+  @Input() data: any;
+  @Input() active: boolean;
+  @Input() labels: string;
+  @Input() action: any;
+  @Input() isExpandAll: boolean;
+  @Input() color: number = 0;
+  @Input() getaction: any;
+  activeIndex: boolean = false;
+  selectedRow: number = -1;
+  colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca', 'bfcfd9'];
+  deletedId = 0;
+  items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  
+  search = '';
+  searchedData = [];
+  constructor(public common: CommonService,
+    public modalService: NgbModal,
+    public user: UserService,
+    public cdr: ChangeDetectorRef,
+    public accountService: AccountService) {
+  }
 
+  ngOnChanges(changes) {
+    if (changes.data) {
+      this.data = changes.data.currentValue;
+      this.searchedData = this.data;
+    }
+  }
+
+  lastClickHandler(event, index) {
+    this.selectedRow = parseInt(index);
+    event.stopPropagation();
+  }
+
+  ngAfterViewInit() {
+    console.log('--------,', this.active);
+  }
+
+ 
+  clickHandler(event, index) {
+    event.stopPropagation();
+    this.activeIndex = this.activeIndex !== index ? index : -1
+  }
+
+  doubleClickHandler(event, data) {
+    event.stopPropagation();
+    //  console.log('data suggestion',data);
+    this.action(data);
+
+  }
+  keyHandler(event) {
+    event.stopPropagation();
+    const key = event.key.toLowerCase();
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.data.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.data.length - 1 && key === 'arrowdown') this.selectedRow++;
+    }
+  }
+
+  searchValues() {
+    this.searchedData = this.data.filter(x => {
+      if (x.name) {
+        return x.name.toLowerCase().includes(this.search.toLowerCase())
+      } else if (x.ledgerName) {
+        return x.ledgerName.toLowerCase().includes(this.search.toLowerCase())
+      }
+      return false;
+    });
+    this.cdr.detectChanges();
+  }
+
+}
 @Component({
   selector: 'profitloss',
   templateUrl: './profitloss.component.html',
-  styleUrls: ['./profitloss.component.scss']
+  styleUrls: ['./profitloss.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfitlossComponent implements OnInit {
+  isModal = false;
   selectedName = '';
   plData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
+    startdate: ((((new Date()).getMonth())+1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear())-1) + '-04-01', 'ddMMYYYY', false, '-'),
     // branch: {
     //   name: '',
     //   id: 0
@@ -48,7 +135,7 @@ export class ProfitlossComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'sub';
+  viewType = 'main';
   topHeadExp=0;
   topHeadIncome=0;
   indirectExp=0;
@@ -57,18 +144,41 @@ export class ProfitlossComponent implements OnInit {
   grossProfit=0;
   netProfit=0;
   netLoss=0;
+  isExpandMainGroup: boolean = false;
+  isExpandAll: boolean = false;
+  isExpand: string = '';
+  sizeIndex=0;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public pdfService: PdfService,
     public csvService: CsvService,
+    public accountService: AccountService,
+    public cdr: ChangeDetectorRef,
+    public activeModal: NgbActiveModal,
     public modalService: NgbModal) {
+      this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.plData.startdate;
+      this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.plData.enddate;
+       
     // this.getBalanceSheet();
     this.getBranchList();
     this.setFoucus('startdate');
     this.common.currentPage = 'Profit & Loss A/C';
-   // this.common.handleModalSize('class', 'modal-lg', '1150', 'px', 0);
+    this.setFoucus('startdate');
+   if (this.common.params && this.common.params.startdate) {  
+   // this.showHideButton = false;
+   this.accountService.fromdate= this.common.params.startdate
+    this.accountService.todate= this.common.params.enddate
+    this.getBalanceSheet();
+   // this.sizeindex= this.sizeindex+1;
+    if (this.common.params.isModal) {
+      this.isModal = true
+    }
+  this.common.params = null;
+    this.common.handleModalSize('class', 'modal-lg', '1200', 'px', this.sizeIndex);
 
+   // this.common.params = null;
+  }
   }
 
   ngOnInit() {
@@ -94,6 +204,8 @@ export class ProfitlossComponent implements OnInit {
  
 
   getBalanceSheet() {
+    this.plData.startdate= this.accountService.fromdate;
+    this.plData.enddate= this.accountService.todate;
     console.log('Balance Sheet:', this.plData);
     let params = {
       startdate: this.plData.startdate,
@@ -107,7 +219,9 @@ export class ProfitlossComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.profitLossData = res['data'];
-        this.formattData();
+        //this.formattData();
+        this.generalizeData();
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -115,7 +229,134 @@ export class ProfitlossComponent implements OnInit {
       });
 
   }
+  generalizeData() {
+    let assetsGroup = _.groupBy(this.profitLossData, 'y_is_income');
+    let firstGroup = assetsGroup['0'];
+    let secondGroup = assetsGroup['1'];
+    //let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
+    // let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
+    this.assets = [];
+    this.liabilities = [];
+    for (let i = 0; i < firstGroup.length; i++) {
+      let ledgerRegister = firstGroup[i];
+      //console.log('ledgerRegister.y_path:', ledgerRegister.y_path);
+      let labels = [];
+      if (ledgerRegister.y_path)
+        labels = ledgerRegister.y_path.split('-->');
+      ledgerRegister.labels = labels.splice(1, labels.length);
+      let index = this.assets.findIndex(voucher => voucher.name === labels[0]);
+      if (index === -1) {
+        this.assets.push({
+          name: labels[0]|| ledgerRegister.y_groupname,
+          data: [ledgerRegister],
+          amount: parseFloat(ledgerRegister.y_amount)
+        })
+      } else {
+        this.assets[index].amount += parseFloat(ledgerRegister.y_amount);
+        this.assets[index].data.push(ledgerRegister);
+      }
+    }
+   // console.log('assets', this.assets);
+    this.assets.map(voucher => (voucher.amount !=0) ?  voucher.data = this.findChilds(voucher.data) :'' );
 
+    console.log('assets', this.assets);
+    for (let i = 0; i < secondGroup.length; i++) {
+      let ledgerRegister = secondGroup[i];
+      // console.log('ledgerRegister.y_path:', ledgerRegister.y_path);
+      let labels = [];
+      if (ledgerRegister.y_path)
+        labels = ledgerRegister.y_path.split('-->');
+
+      ledgerRegister.labels = labels.splice(1, labels.length);
+      let index = this.liabilities.findIndex(voucher => voucher.name === labels[0]);
+      if (index === -1) {
+        this.liabilities.push({
+          name: labels[0] || ledgerRegister.y_groupname,
+          data: [ledgerRegister],
+          amount: parseFloat(ledgerRegister.y_amount),
+        })
+      } else {
+        this.liabilities[index].amount += parseFloat(ledgerRegister.y_amount);
+        this.liabilities[index].data.push(ledgerRegister);
+      }
+    }
+    this.liabilities.map(voucher => (voucher.amount !=0) ? voucher.data = this.findChilds(voucher.data) : '');
+    console.log('liabilities', this.liabilities);
+    this.cdr.detectChanges();
+  }
+  findChilds(data) {
+    let childs = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].labels.length) {
+        let ledgerRegister = data[i];
+        let labels = ledgerRegister.labels;
+        ledgerRegister.labels = labels.splice(1, labels.length);
+        let index = childs.findIndex(voucher => voucher.name === labels[0]);
+        if (index === -1) {
+          childs.push({
+            name: labels[0],
+            data: [ledgerRegister],
+            amount: ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_amount) : 0
+          })
+        } else {
+          childs[index].amount += ledgerRegister.y_ledger_name ? parseFloat(ledgerRegister.y_amount) : 0;
+          if (ledgerRegister.y_ledger_name) {
+            childs[index].data.push(ledgerRegister);
+          }
+        }
+      }
+    }
+
+    if (childs.length) {
+      return childs.map(child => {
+        return {
+          name: child.name,
+          data: this.findChilds(child.data),
+          amount: child.amount,
+        }
+      });
+    } else {
+      let info = [];
+      let groups = _.groupBy(data, 'y_ledger_name');
+      // console.log('Groups:', data, groups);
+      for (let group in groups) {
+        if (groups[group].length > 1 && group) {
+          let details = {
+            //name: group,
+            ledgerName: group,
+            ledgerdata: groups[group],
+            // data: groups[group].map(ledger => {
+            //   ledger.y_ledger_name = '';
+            //   return ledger;
+            // }),
+            amount: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_amount);
+              return a;
+            }, 0)
+
+          }
+          info.push(details);
+        } else if (group) {
+          // info.push(...groups[group]);
+          let details = {
+            // name: group,
+            ledgerName: group,
+            ledgerdata: groups[group],
+            // data: groups[group].map(ledger => {
+            //   ledger.y_ledger_name = '';
+            //   return ledger;
+            // }),
+            amount: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_amount);
+              return a;
+            }, 0)
+          }
+          info.push(details);
+        }
+      }
+      return info;
+    }
+  }
   formattData() {
     let assetsGroup = _.groupBy(this.profitLossData, 'y_is_income');
     let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
@@ -261,16 +502,17 @@ export class ProfitlossComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
 
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
-      // document.getElementById("voucher-date").focus();
-      // this.voucher.date = '';
-      this.lastActiveId = this.activeId;
-      this.setFoucus('voucher-date-f2', false);
-      this.showDateModal = true;
-      this.f2Date = this.activeId;
-      this.activedateid = this.lastActiveId;
-      return;
-    } else if ((key == 'enter' && this.showDateModal)) {
+    // if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+    //   // document.getElementById("voucher-date").focus();
+    //   // this.voucher.date = '';
+    //   this.lastActiveId = this.activeId;
+    //   this.setFoucus('voucher-date-f2', false);
+    //   this.showDateModal = true;
+    //   this.f2Date = this.activeId;
+    //   this.activedateid = this.lastActiveId;
+    //   return;
+    // } else
+     if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);
@@ -350,14 +592,36 @@ export class ProfitlossComponent implements OnInit {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
   }
-  openLedgerViewModel(ledgerId, ledgerName,typeid) {
-    console.log('ledger id 00000', ledgerId);
+  openLedgerViewModel(data) {
+    console.log('ledger id 00000', data);
+    if(data.ledgerdata[0].y_path.includes('Opening Stock') || data.ledgerdata[0].y_path.includes('Closing Stock')){
+      this.common.params = {
+        startdate: this.plData.startdate,
+        enddate: this.plData.enddate,
+        ledger: data.ledgerdata[0].y_ledgerid,
+        sizeIndex:(this.sizeIndex + 1),
+        isModal:1
+      }; 
+      const activeModal = this.modalService.open(StoclsummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        //this.getDayBook();
+        //this.common.showToast('Voucher updated');
+  
+      });
+    }else if(data.ledgerdata[0].y_path.includes('Net Profit')){
+
+    }
+    else{
     this.common.params = {
       startdate: this.plData.startdate,
       enddate: this.plData.enddate,
-      ledger: ledgerId,
-      vouchertype: (typeid==null) ? 0: typeid,
-      ledgername: ledgerName
+      ledger: data.ledgerdata[0].y_ledgerid,
+      vouchertype: (data.ledgerdata[0].y_type_id==null)? 0 : data.ledgerdata[0].y_type_id,
+      ledgername:data.ledgerdata[0].y_ledger_name,
+      sizeIndex:(this.sizeIndex + 1),
+
+
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
@@ -367,30 +631,21 @@ export class ProfitlossComponent implements OnInit {
 
     });
   }
+  this.common.currentPage = 'Profit & Loss A/C';
+  }
 
-  generateCsvData() {
+  singleFormatCsvData() {
     let liabilitiesJson = [];
     liabilitiesJson.push(Object.assign({liability:"Particulars",liabilityAmount:'Amount'}));
-    this.liabilities.forEach(liability => {
-      liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
-      liability.subGroups.forEach(subGroup => {
-        liabilitiesJson.push({ liability: '(SG)'+subGroup.name, liabilityAmount: subGroup.total });
-        subGroup.profitLossData.forEach(balanceSheet => {
-          liabilitiesJson.push({ liability: '(L)'+balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
-        });
-      });
+    this.assets.forEach(liabilitydata => {
+      liabilitiesJson.push({ liability: liabilitydata.name, liabilityAmount: liabilitydata.amount });
     });
 
     let assetsJson = [];
     assetsJson.push(Object.assign({asset:"Particulars",assetAmount:'Amount'}));
-    this.assets.forEach(asset => {
-      assetsJson.push({ asset: '(MG)'+asset.name, assetAmount: asset.amount });
-      asset.subGroups.forEach(subGroup => {
-        assetsJson.push({ asset: '(SG)'+subGroup.name, assetAmount: subGroup.total });
-        subGroup.profitLossData.forEach(balanceSheet => {
-          assetsJson.push({ asset:'(L)'+ balanceSheet.y_ledger_name, assetAmount: balanceSheet.y_amount });
-        });
-      });
+    this.liabilities.forEach(assetdata => {
+      assetsJson.push({ asset: assetdata.name, assetAmount: assetdata.amount });
+      
     });
     let mergedArray = [];
     for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
@@ -403,11 +658,10 @@ export class ProfitlossComponent implements OnInit {
       }
     }
     mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
-    mergedArray.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
+   // mergedArray.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
 
-
-    this.csvService.jsonToExcel(mergedArray);
     console.log('Merged:', mergedArray);
+    this.csvService.jsonToExcel(mergedArray);
   }
 
   changeViewType() {
@@ -431,4 +685,90 @@ export class ProfitlossComponent implements OnInit {
       });
     }
   }
+
+
+  csvFunction() {
+    if(this.isExpand == 'main'){
+      this.singleFormatCsvData();
+    } else{
+    let jrxJson = [];
+    let libilityJson = [];
+    let data = [];
+    jrxJson.push(Object.assign({
+      particular: "Perticulars",
+      openingamount: "Amount",
+     
+    }));
+    libilityJson.push(Object.assign({
+      particular: "Perticulars",
+      openingamount: "Amount",
+     
+    }));
+    this.assets.forEach(voucher => {
+      jrxJson.push({
+        particular: voucher.name,
+        openingamount: (voucher.amount==0)? '' :(voucher.amount) ,
+         });
+      jrxJson.push(...this.generateCSVData(voucher.data, '  '));
+    });
+
+    this.liabilities.forEach(voucher => {
+      libilityJson.push({
+        particular: voucher.name,
+        openingamount: (voucher.amount==0)? '' :(voucher.amount) ,
+         });
+         libilityJson.push(...this.generateCSVData(voucher.data, '  '));
+    });
+
+
+    for (let i = 0; i < jrxJson.length; i++) {
+      let info = {
+        libilities: jrxJson[i].particular,
+        "Amount": jrxJson[i].openingamount,
+      };
+      data.push(info);
+    }
+
+    for (let i = 0; i < libilityJson.length; i++) {
+      if (i < data.length) {
+        data[i]["asstes"] = libilityJson[i].particular;
+        data[i]["asstes amount"] = libilityJson[i].openingamount;
+      } else {
+        let info = {
+          "libilities": '',
+          "libilities Amount": '',
+          asstes: libilityJson[i].particular,
+          "asstes amount": libilityJson[i].openingamount,
+        };
+        data.push(info);
+      }
+    } 
+    //console.log('final data:', data)
+    this.csvService.jsonToExcel(data);
+  }
+  
+}
+ 
+  generateCSVData(vouchers, str) {
+    
+    let json = [];
+    for (let i = 0; i < vouchers.length; i++) {
+      let voucher = vouchers[i];
+      if (voucher.name) {
+        json.push({
+          particular: str + voucher.name,
+          openingamount: voucher.amount,
+          });
+        json.push(...this.generateCSVData(voucher.data, str + '  '));
+      } else {
+        json.push({
+          particular: str + voucher.ledgerName,
+          openingamount: voucher.amount,
+           });
+      }
+    }
+    return json;
+  
+  }
+
 }

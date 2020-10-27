@@ -5,14 +5,40 @@
         <table>
           <tr>
             <td>
-            <input type="text" class="form-control" [(ngModel)]="siteId" placeholder="Site Id">
+              <auto-suggestion (onSelected)="selectSite($event)" [(ngModel)]="siteId" url="Suggestion/getSites?typeId=1"
+                seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site" [preSelected]="{name:siteName,sd_loc_name:siteLoc}">
+              </auto-suggestion>
             </td>
+            <td>
+              <select class="form-control" [(ngModel)]="typeId">
+                <option *ngFor="let typeIdx of typeIds;" [value]="typeIdx.id">{{typeIdx.description}}</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" [(ngModel)]="subSiteName">
+            </td>
+          </tr>
+          <tr>
+            <td> <button class="btn"
+                (click)="createFinishFencing()">{{mapService.isDrawAllow ? 'Finish Fencing' :'Create Fencing'}}</button>
+            </td>
+         
             <td>
               <button class="btn" (click)="getSubSites()">Get SubSites</button>
             </td>
+
+            <td>
+              <input (keydown.enter)="gotoSingle()" placeholder="Sub Site Id" [(ngModel)]="subSiteId"
+                class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button class="btn" (click)="clearAll()">Clear All</button>
+            </td>
           </tr>
         </table>
-        <table class="tbl table table-bordered table-hover" *ngIf = "subSites">
+        <table class="tbl table table-bordered table-hover" *ngIf="subSites">
           <thead class="thead">
             <tr>
               <th style="width:40px;">S.No</th>
@@ -21,7 +47,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let subSite of subSites;let i = index;" (mouseover)="rotateBounce(i,1)" (mouseout)= "rotateBounce(i,2)" >
+            <tr *ngFor="let subSite of subSites;let i = index;" (mouseover)="rotateBounce(i,1)"
+              (mouseout)="rotateBounce(i,2)">
               <td style="width:40px;">{{i+1}}</td>
               <td style="width:40px;">{{subSite.id}}</td>
               <td>{{subSite.subsite_type}}</td>

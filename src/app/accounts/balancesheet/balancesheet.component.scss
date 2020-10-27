@@ -99,17 +99,20 @@ nb-card-header {
 .tb-mini {
     border-bottom: 1px solid #c7c7c7;
     border-left: 1px solid #c7c7c7;
-    border-right: 1px solid #c7c7c7;
+    border-right: 1px solid #dab2b2;
+    color: #fff;
 }
 
 .tb-mini .col-8,
 .tb-mini .col-4 {
     padding-top: 10px;
     padding-bottom: 10px;
+    //color: #fff;
 }
 
 .td-mini .col-8 {
     border-right: 1px solid #c7c7c7;
+    color: #fff;
 }
 
 .date-modal {
@@ -141,18 +144,15 @@ nb-card-header {
     background-color: #576c77
 }
 
-.highlight {
-    background-color: #FFEE75 !important;
-    color: #000 !important;
-}
+
 
 .pdf-icon {
-    font-size: 30px;
+   // font-size: 30px;
     color: #9F0001;
 }
 
 .exel-icon {
-    font-size: 30px;
+    //font-size: 30px;
     color: #217346;
 }
 
@@ -166,4 +166,44 @@ nb-card-header {
         margin-left: 5px;
         vertical-align: middle;
     }
+}
+.lastrowcolor{
+    color: #000 !important;
+    background-color: #b7c7d2  !important;
+    
+}
+.anotherlast{
+    background-color: #c7c7d2  !important;
+}
+.highlight {
+    background-color: #FFEE75 !important;
+    color: #000 !important;
+}
+
+// kavita singh css
+.heading{
+    padding: 6px 0px !important;
+}
+ .jrx-dtbody{
+    height: calc(100vh - 200px);
+     overflow: auto;
+    width: 100%;
+ }
+.highlight{
+    background-color: #e2ca1f !important;
+}
+.tb-mini .col-8, .tb-mini .col-4{
+    border-right: 1px solid #dcdada;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+.th-mini .col-8, .th-mini .col-4{
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+.tanding_total {
+    padding: 6px 15px;
+}
+.lastrowcolor{
+    color: #000;
 }

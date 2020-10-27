@@ -50,7 +50,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of data; let i = index;" (click)="selectedRow = i" 
+          <tr *ngFor="let row of data; let i = index;" (click)="selectedRow = i"  (dblclick)="openModal(row)"
            [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{i + 1}}</td>
             <td>{{ row.statename}}</td>

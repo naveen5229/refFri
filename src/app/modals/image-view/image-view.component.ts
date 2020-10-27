@@ -17,8 +17,7 @@ export class ImageViewComponent implements OnInit {
   refdata = [];
   activeImage = '';
   params = "";
-
-
+  index = 0 ;
   constructor(public api: ApiService,
     public common: CommonService,
     private activeModal: NgbActiveModal) {
@@ -35,6 +34,7 @@ export class ImageViewComponent implements OnInit {
       this.viewImage();
     }
     else {
+      console.log("image", this.common.params.images)
       this.common.params.images.map(image => {
         if (image.name) {
           if (image.image)
@@ -44,7 +44,7 @@ export class ImageViewComponent implements OnInit {
         }
       });
       this.title = this.common.params.title;
-      this.activeImage = this.images[0];
+      this.activeImage = this.images[this.index];
     }
 
   }
@@ -59,7 +59,7 @@ export class ImageViewComponent implements OnInit {
           res['data'].map(img =>
             this.images.push(img.url)
           )
-          this.activeImage = this.images[0];
+          this.activeImage = this.images[this.index];
         }
       }, err => {
         this.common.loading--;
@@ -74,6 +74,22 @@ export class ImageViewComponent implements OnInit {
     this.activeModal.close();
   }
 
+  nextMove(){
+    this.index++;
+   if(this.index>this.images.length-1){
+     this.activeImage = this.images[0];
+  }else{
+    this.activeImage = this.images[this.index];
+  }
+}
+  backMove(){
+    this.index--;
+    if(this.index<0){
+      this.activeImage = this.images[this.images.length-1];
+   }else{
+     this.activeImage = this.images[this.index];
+   }
+  }
 }
 
 

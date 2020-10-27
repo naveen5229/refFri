@@ -20,6 +20,8 @@ import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status
 import { BulkVehicleNextServiceDetailComponent } from '../../modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 import { PrintManifestComponent } from '../../modals/print-manifest/print-manifest.component';
 import { TripSettlementComponent } from '../../modals/trip-settlement/trip-settlement.component';
+import { VehicleInfoComponent } from '../../modals/vehicle-info/vehicle-info.component';
+import { MapService } from '../../services/map.service';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -41,7 +43,8 @@ export class VehicleTripComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      pagination:true
     }
   };
   constructor(
@@ -50,9 +53,11 @@ export class VehicleTripComponent implements OnInit {
     public common: CommonService,
     public dateService: DateService,
     public user: UserService,
+    public map : MapService,
     private modalService: NgbModal) {
     let today, endDay, startday;
     today = new Date();
+    
     // endDay = new Date(today.setDate(today.getDate() - 1))
     this.endDate = new Date(today);
     //console.log('today', today);
@@ -80,7 +85,8 @@ export class VehicleTripComponent implements OnInit {
         columns: []
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+        pagination: true
       }
     };
     let startDate = this.common.dateFormatter(this.startDate);
@@ -110,6 +116,9 @@ export class VehicleTripComponent implements OnInit {
             if (key.charAt(0) != "_") {
               this.headings.push(key);
               let headerObj = { title: key, placeholder: this.formatTitle(key) };
+              if (key === 'Start Date' || key=== 'End Date') {
+                headerObj['type'] = 'date';
+              }
               this.table.data.headings[key] = headerObj;
             }
 
@@ -149,7 +158,11 @@ export class VehicleTripComponent implements OnInit {
         if (this.headings[j] == "Trip") {
           this.valobj[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.vehicleTrips[i]), isHTML: true, class: 'black' };
 
-        } else {
+        }
+        else if (this.headings[j] == "Vehicle") {
+          this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], action:this.openShowRoute.bind(this,this.vehicleTrips[i]), isHTML: true, class: 'blue' };
+        }
+         else {
           this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'black', action: '' };
         }
 
@@ -178,8 +191,9 @@ export class VehicleTripComponent implements OnInit {
       { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, trip) },
       { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, trip) },
       { class: 'fa fa-handshake-o trip-settlement', action: this.tripSettlement.bind(this, trip) },
+      { class: 'fa fa-road route-view', action: this.vehicleInfo.bind(this, trip) },
     ];
-    this.user.permission.edit && icons.push({ class: 'fa fa-pencil-square-o  edit-btn', action: this.update.bind(this, trip) });
+    this.user.permission.edit && icons.push({ class: 'fas fa-edit  edit-btn', action: this.update.bind(this, trip) });
     this.user.permission.delete && icons.push({ class: " fa fa-trash remove", action: this.deleteTrip.bind(this, trip) });
 
     return icons;
@@ -237,7 +251,7 @@ export class VehicleTripComponent implements OnInit {
   openAddTripModal() {
     this.common.params = { vehId: -1 };
     //console.log("open add trip maodal", this.common.params.vehId);
-    const activeModal = this.modalService.open(AddTripComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' })
+    const activeModal = this.modalService.open(AddTripComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
       this.getVehicleTrips();
 
@@ -288,6 +302,12 @@ export class VehicleTripComponent implements OnInit {
     activeModal.result.then(data => {
       this.getVehicleTrips();
     });
+  }
+
+  vehicleInfo(trip) {
+    console.log(trip);
+    this.common.params = { refData: trip }
+    const activeModal = this.modalService.open(VehicleInfoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
 
@@ -387,5 +407,22 @@ export class VehicleTripComponent implements OnInit {
 
   }
 
-
+  openShowRoute(trip){
+    let dtpoints = [];
+    dtpoints = trip._viapoints;
+     if(dtpoints.length>1){
+       window.open(this.map.getURL(dtpoints));
+     let data = {
+       title : "Map Route",
+      //  url :   this.map.getURL(dtpoints)
+     }
+    this.common.params.data = data;
+    // const activeModal = this.modalService.open(IframeModalComponent, { size: 'lg', container: 'nb-layout' });
+    // activeModal.result.then(data => {
+    // }); 
+   }
+   else{
+     this.common.showError("Atleast Two Points required");
+   }
+  }
 }

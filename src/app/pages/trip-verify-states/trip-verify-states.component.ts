@@ -81,6 +81,9 @@ export class TripVerifyStatesComponent implements OnInit {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            if (key === 'Start Date') {
+              headerObj['type'] = 'date';
+            }
             this.table.data.headings[key] = headerObj;
           }
         }
@@ -300,17 +303,7 @@ export class TripVerifyStatesComponent implements OnInit {
     });
 
 
-    // this.common.loading++;
-    // this.api.post('Vehicles/removeVehicleState', params)
-    //   .subscribe(res => {
-    //     this.common.loading--;
-    //     console.log('res', res['data']);
-
-    //   }, err => {
-    //     this.common.loading--;
-    //     this.common.showError();
-    //   })
-
+  
 
   }
 

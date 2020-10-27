@@ -84,11 +84,11 @@ nb-card-header{
     padding: 3px 8px !important;
 }
 .pdf-icon{
-    font-size: 30px;
+  //  font-size: 30px;
     color: #9F0001;
 }
 .exel-icon{
-    font-size: 30px;
+   // font-size: 30px;
     color: #217346;
 }
 
@@ -136,15 +136,14 @@ table tr.highlight {
 .tb-mini .col-4 {
     padding-top: 10px;
     padding-bottom: 10px;
+    color: #fff;
 }
 
 .td-mini .col-8 {
     border-right: 1px solid #c7c7c7;
+    color: #fff;
 }
-.highlight {
-    background-color: #FFEE75 !important;
-    color: #000 !important;
-}
+
 
 .expand-div {
     position: absolute;
@@ -157,3 +156,29 @@ table tr.highlight {
         vertical-align: middle;
     }
 }
+.lastrowcolor{
+    background-color: #bfcfd9 !important;
+    div{
+        color:#000 !important;
+    }
+}
+.highlight {
+    background-color: #FFEE75 !important;
+    color: #000 !important;
+}
+//kavita singh
+.heading{
+    padding: 6px 0px !important;
+  }
+  .th-mini .col-8, .th-mini .col-4 {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .tanding_total {
+    padding: 6px 15px;
+  }
+  .jrx-dtbody{
+    height: calc(100vh - 200px);
+     overflow: auto;
+    width: 100%;
+  }

@@ -108,7 +108,9 @@ export class CompanyBranchesComponent implements OnInit {
       precode:branch.precode,
       lrcodewidth:branch.lrcodewidth,
       lrcodelastid:branch.lrcodelastid,
-      mannual:`'`+branch.mannual+`'`
+      mannual:`'`+branch.mannual+`'`,
+      cityid: branch.city.id,
+
       
     };
 
@@ -177,7 +179,8 @@ export class CompanyBranchesComponent implements OnInit {
       precode:branch.precode,
       lrcodewidth:branch.lrcodewidth,
       lrcodelastid:branch.lrcodelastid,
-      mannual: `'`+branch.mannual+`'`
+      mannual: `'`+branch.mannual+`'`,
+      cityid: branch.city.id,
     };
     console.log("finalbranch :", params)
     this.common.loading++;

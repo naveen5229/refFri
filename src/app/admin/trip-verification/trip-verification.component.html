@@ -1,0 +1,45 @@
+<nb-card style="border: 0px;">
+  <nb-card-header>
+      <div class="row">
+          <div class="col-sm-6">
+              <h5>Trips Verification</h5>
+          </div>
+      </div>
+  </nb-card-header>
+  <nb-card-body>
+      <div class="row mb-2">
+          <div class="col-sm-2">
+              <div class="search_vehicle_input">
+                  <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList"
+                      display="regno" placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
+              </div>
+          </div>
+          <div class="col-3">
+              <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+              </uj-date-time-picker>
+          </div>
+          <div class="col-3">
+              <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isStart]="false">
+              </uj-date-time-picker>
+          </div>
+          <div class="col-3">
+              <select [(ngModel)]="status">
+                <option value="0">Pending</option>
+                <option value="-2">Objections</option>
+                <option value="-1">Can't Say</option>
+                <option value="1">Highly Confident</option>
+                <option value="2">Stamped</option>
+              </select> 
+          </div>
+          <div class="col-1">
+              <button (click)="getVehicleTrips()" class="btn btn-primary form-control"
+                  style="margin:0px;border:0px;">OK</button>
+          </div>
+         
+      </div>
+      <smart-table *ngIf="vehicleTrips && vehicleTrips.length" id="vehicleTrip" [data]="table.data"
+          [settings]="table.settings">
+      </smart-table>
+      <br>
+  </nb-card-body>
+</nb-card>

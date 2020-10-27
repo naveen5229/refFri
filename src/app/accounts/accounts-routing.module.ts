@@ -43,6 +43,13 @@ import { TripExpenseTallyComponent } from './trip-expense-tally/trip-expense-tal
 import { StaticsComponent } from './statics/statics.component';
 import { LedgerapproveComponent } from './ledgerapprove/ledgerapprove.component';
 import { AccountEntryApprovalComponent } from './account-entry-approval/account-entry-approval.component';
+import { StoclsummaryComponent } from './stoclsummary/stoclsummary.component';
+import { CountryComponent } from './country/country.component';
+import { StateComponent } from './state/state.component';
+import { LedgerregidterComponent } from './ledgerregidter/ledgerregidter.component';
+import { ServiceComponent } from './service/service.component';
+import { ReportconfigComponent } from './reportconfig/reportconfig.component';
+import { TallyimportComponent } from './tallyimport/tallyimport.component';
 
 const routes: Routes = [{
     path: '',
@@ -230,8 +237,41 @@ const routes: Routes = [{
         },
         {
             path: 'account-entry-approval',
-            component: AccountEntryApprovalComponent,
+            component: AccountEntryApprovalComponent
         },
+        {
+            path :'stoclsummary',
+            component: StoclsummaryComponent
+        },
+        {
+            path :'country',
+            component: CountryComponent
+        },
+        {
+            path :'state',
+            component: StateComponent
+        },
+        {
+            path :'ledgerregidter',
+            component: LedgerregidterComponent
+        },
+        // {
+        //     path :'service',
+        //     component: ServiceComponent
+        // },
+        {
+            path: 'service/:id/:name',
+            component: ServiceComponent
+        }, 
+        {
+            path: 'reportconfig',
+            component: ReportconfigComponent
+        }, 
+        {
+            path:'tallyimport',
+            component : TallyimportComponent
+        }
+        
     ],
 
 }];

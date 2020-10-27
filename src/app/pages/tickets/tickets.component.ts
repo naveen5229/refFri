@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { TicketTrailsComponent } from '../../modals/ticket-trails/ticket-trails.component';
+import { TicketInfoComponent } from '../../modals/ticket-info/ticket-info.component';
 
 @Component({
   selector: 'tickets',
@@ -21,6 +22,7 @@ export class TicketsComponent implements OnInit {
 
   claimTicketGroups = [];
   claimDrivers = [];
+  dis_all = 'new';
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -55,7 +57,7 @@ export class TicketsComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
-        this.notifications = res['data'];
+        this.notifications = res['data'] || [];
         this.showMsg = true;
         this.newTickets = [];
         this.openTickets = [];
@@ -66,6 +68,7 @@ export class TicketsComponent implements OnInit {
             this.openTickets.push(ticket);
           }
         });
+        this.setTab();
       }, err => {
         --this.common.loading;
         console.error(err);
@@ -81,12 +84,8 @@ export class TicketsComponent implements OnInit {
         --this.common.loading;
         console.log(res);
         if (res['success']) {
-          this.tickets = res['data'];
-          // this.claimTicketGroups = _.groupBy(res['data'], 'regno');
-          // this.claimTicketGroups = _.groupBy(this.tickets, 'regno');
-          // console.log('Groups', this.claimTicketGroups);
-          // this.claimDrivers = Object.keys(this.claimTicketGroups);
-          // console.log('keys', this.claimDrivers);
+          this.tickets = res['data'] ? res['data']: [];
+          this.setTab();
         }
       }, err => {
         --this.common.loading;
@@ -94,6 +93,9 @@ export class TicketsComponent implements OnInit {
       });
   }
 
+  setTab(){
+    this.dis_all = this.newTickets.length>0? 'new' : this.tickets.length>0 ? 'claim' :this.openTickets.length>0?'open':'new'
+  }
 
   claimTicket(ticket) {
     let msg = 'Are you sure to claim this ticket?';
@@ -188,10 +190,16 @@ export class TicketsComponent implements OnInit {
         console.log(res);
         --this.common.loading;
         let trailList = res['data'];
+        if(trailList){
+        let type="trail"
+        console.log("DataTrail:",res['data']);
         let headers = ["#", "Employee Name", "Spent Time", "Status"];
-        this.common.params = { trailList, headers };
+        this.common.params = { trailList, headers,type };
         const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
         activeModal.componentInstance.modalHeader = 'Trails';
+        }else{
+          this.common.showError("No record found for this search criteria.")
+        }
       }, err => {
         --this.common.loading;
         console.log(err);
@@ -201,8 +209,22 @@ export class TicketsComponent implements OnInit {
 
   showDetails(notification) {
     console.log(notification)
-    this.common.renderPage(notification.pri_type, notification.sec_type1, notification.sec_type2, notification);
+    // this.common.renderPage(notification.pri_type, notification.sec_type1, notification.sec_type2, notification);
   }
 
+oprnInfoModel(tkt){
+  console.log("ticket",tkt);
+  let ticket= {
+    id : tkt.ticket_id,
+    priType : tkt.pri_type
+  }
+  this.common.params = { ticket :ticket};
+  const activeModal = this.modalService.open(TicketInfoComponent, { size: 'lg', container: 'nb-layout' });
+  activeModal.result.then(data => {
+    console.log("data",data);
+    if(data.response)
+    this.refresh();
+});
+}
 
 }

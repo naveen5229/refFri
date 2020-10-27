@@ -70,7 +70,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("Data :", res);
-        this.data = res['data'];
+        this.data = res['data'] || [];
         let first_rec = this.data[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
@@ -79,8 +79,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };
-        this.table.data.headings['Action'] = action;
+       
         this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
@@ -89,6 +88,8 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   }
 
   getTableColumns() {
+    let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };
+    this.table.data.headings['Action'] = action;
     let columns = [];
     console.log("Data=", this.data);
     this.data.map(doc => {

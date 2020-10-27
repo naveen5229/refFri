@@ -5,6 +5,8 @@ import { ApiService } from '../services/api.service';
 import { AccountService } from '../services/account.service';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { RangeComponent} from '../acounts-modals/range/range.component';
 
 @Component({
   selector: 'ngx-pages',
@@ -14,6 +16,7 @@ import { Router } from '@angular/router';
       <router-outlet></router-outlet>
     </ngx-sample-layout>
   `,
+  styleUrls: ['./accounts.scss'],
   host: {
     '(document:keydown)': 'onKeyDown($event)'
   }
@@ -24,14 +27,19 @@ export class AccountsComponent {
 
   constructor(public api: ApiService,
     public router: Router,
-    public user: UserService, public accountService: AccountService) {
+    public user: UserService,
+     public accountService: AccountService,
+    public modalService: NgbModal,
+    private activeModal: NgbActiveModal,) {
     // if (this.user._loggedInBy == 'customer') {
     //   this.router.navigate(['/pages']);
     //   return;
     // }
     if (!this.accountService.branches.length) {
       this.getBranches();
-      this.getFinancial();
+    }
+    if (!this.accountService.financialYears.length) {
+    this.getFinancial();
     }
   }
 
@@ -44,6 +52,7 @@ export class AccountsComponent {
           console.log('_________________________TRUE');
           this.accountService.selected.branchId = this.accountService.branches[0].id;
           this.accountService.selected.branch = this.accountService.branches[0];
+          this.getFinancial();
         } else {
           console.log('_________________________ELSE');
           this.accountService.selected.branchId = 0;
@@ -62,11 +71,14 @@ export class AccountsComponent {
       .subscribe(res => {
         console.log('financial :', res['data']);
         this.accountService.financialYears = res['data'];
-        this.accountService.financialYears.map(financialYear => {
-          if (financialYear.name.split('-')[0] == (new Date()).getFullYear()) {
-            this.accountService.selected.financialYear = financialYear;
-          }
-        });
+        // this.accountService.financialYears.map(financialYear => {
+        //   if (financialYear.name.split('-')[0] == (new Date()).getFullYear()) {
+        //     this.accountService.selected.financialYear = financialYear;
+        //   }
+        // });
+        this.accountService.selected.financialYear = this.accountService.financialYears[this.accountService.financialYears.length-1];
+
+        console.log('selected financial year',this.accountService.selected.financialYear);
       }, err => {
         this.getFinancial();
         console.log('Error: ', err);
@@ -74,13 +86,11 @@ export class AccountsComponent {
   }
 
   onKeyDown(event) {
-    console.log('================== Key Down Event ==========:', event);
     const keys = ['f4', 'f5', 'f6', 'f7', 'f8', 'f9','f1','f10','f11','f12'];
     const key = event.key.toLowerCase();
     const index = keys.indexOf(key);
     if(event.ctrlKey){
       let redirectUrl='';
-      console.log('event key',key);
       if(key == 1){
         redirectUrl='/accounts/daybooks/0';
       } else if(key == 2){
@@ -95,6 +105,14 @@ export class AccountsComponent {
         redirectUrl='/accounts/trialbalance';
       }else if(key == 0){
         redirectUrl='/accounts/ledgermapping';
+      }
+      else if(key == 'f2'){
+       // redirectUrl='/acounts-modals/range';
+        const activeModal = this.modalService.open(RangeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+     // this.voucher.date = this.common.dateFormatternew(data.date).split(' ')[0];
+      //  console.log('Date:', this.date);
+       });
       }
       if(redirectUrl !=''){
             this.router.navigate([redirectUrl]);

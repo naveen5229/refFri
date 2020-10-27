@@ -4,7 +4,6 @@ import { CommonService } from '../../../services/common.service';
 import { DateService } from '../../../services/date.service';
 import { UserService } from '../../../@core/data/users.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'add-maintenance',
@@ -26,6 +25,7 @@ export class AddMaintenanceComponent implements OnInit {
   isChecks = {};
   serviceDetails = {
     lastServiceDate: null,
+    invoiceNo : null,
     serviceCategory: '1',
     scheduleServices: "true",
     lastServiceKm: null,
@@ -33,7 +33,9 @@ export class AddMaintenanceComponent implements OnInit {
     nextServiceKm: null,
     serviceCenter: null,
     serviceLocation: null,
-    amount: null,
+    amount: 0,
+    totalAmount: 0,
+    tax:0,
     labourCost: null,
     remark: null,
   }
@@ -50,6 +52,8 @@ export class AddMaintenanceComponent implements OnInit {
       amount: null,
     }];
   edit = 0;
+  serviceCenters = [];
+
   constructor(public api: ApiService,
     public common: CommonService,
     public date: DateService,
@@ -62,7 +66,7 @@ export class AddMaintenanceComponent implements OnInit {
     this.vehicleId = this.common.params.vehicleId;
     this.regno = this.common.params.regno;
     this.serviceMaintenanceType();
-
+    this.getServiceCenters();
   }
 
   ngOnInit() {
@@ -86,11 +90,25 @@ export class AddMaintenanceComponent implements OnInit {
       });
   }
 
+  getServiceCenters() {
+    this.common.loading++;
+    this.api.get('VehicleMaintenance/getServiceCenters')
+      .subscribe(res => {
+        this.common.loading--;
+        this.serviceCenters = res['data'];
+        console.log("servicecenters", this.serviceCenters);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
   addService() {
     let params = {
       id: this.serviceId ? this.serviceId : null,
       vId: this.vehicleId,
       regno: this.regno,
+      invoiceNo: this.serviceDetails.invoiceNo,
       isScheduledService: this.serviceDetails.scheduleServices,
       serviceCategory: this.serviceDetails.serviceCategory,
       lastServiceDate: this.common.dateFormatter(this.serviceDetails.lastServiceDate),
@@ -100,12 +118,14 @@ export class AddMaintenanceComponent implements OnInit {
       serviceCenter: this.serviceDetails.serviceCenter,
       serviceLocation: this.serviceDetails.serviceLocation,
       amount: this.serviceDetails.amount,
+      tax : this.serviceDetails.tax,
       labourCost: this.serviceDetails.labourCost,
       remark: this.serviceDetails.remark,
       items: JSON.stringify(this.items),
       services: this.arrayToString(this.services)
     };
     console.log("Params:", params);
+    // return ;
     this.common.loading++;
     this.api.post('VehicleMaintenance/add', params)
       .subscribe(res => {
@@ -158,5 +178,19 @@ export class AddMaintenanceComponent implements OnInit {
       this.services = this.common.unionArrays(this.services, [serviceId]);
     else
       this.services.splice(this.services.findIndex((element) => { return element == serviceId }), 1);
+  }
+
+  calculateAmount(){
+    this.serviceDetails.totalAmount = this.serviceDetails.amount + this.serviceDetails.tax;
+  }
+
+  selectServiceCenter(event){
+    event = event['service_center'].split("-");
+    this.serviceDetails.serviceCenter = event[0];
+    this.serviceDetails.serviceLocation = event[1]
+  }
+
+  setServiceCenter(){
+    this.serviceDetails.serviceCenter = this.serviceDetails.serviceCenter?this.serviceDetails.serviceCenter:(<HTMLInputElement>document.getElementById('service_center')).value;
   }
 }

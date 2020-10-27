@@ -8,23 +8,23 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Poppins:400,500,600,700" rel="stylesheet">
-  <!-- <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"> -->
-  <script
-    src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+  <script src="//kendo.cdn.telerik.com/2016.3.914/js/kendo.all.min.js"></script>
+  <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
   <!-- google map api -->
 
   <!-- Production -->
-  <!-- <script async defer
+  <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs&libraries=visualization,geometry,places,drawing">
-    </script> -->
+    </script>
 
   <!-- Develpment -->
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBvP2-rohuqEkzDNZspC9skUHSfIrp7S8g&libraries=visualization,geometry,places,drawing">
-    </script>
+  <!-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDU2NvnfsIzj9xcked94e-fN_9rkPRulZQ&libraries=visualization,geometry,places,drawing">
+    </script> -->
 
   <!-- google map api end -->
 
@@ -35,8 +35,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css"
     rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" />
-
-
 </head>
 
 <body>
@@ -80,12 +78,14 @@
       width: 100%;
       height: 100%;
       z-index: 1003;
-      background: #000000;
+      background: #b2c3d1;
+      /*#000000*/
+      ;
       overflow: hidden
     }
 
     .spinner div:first-child {
-      display: block;
+      /* display: block;
       position: relative;
       left: 50%;
       top: 50%;
@@ -95,7 +95,20 @@
       border-radius: 50%;
       box-shadow: 0 3px 3px 0 rgba(255, 56, 106, 1);
       transform: translate3d(0, 0, 0);
-      animation: spin 2s linear infinite
+      animation: spin 2s linear infinite */
+      position: relative;
+      left: 50%;
+      top: 50%;
+      margin: -75px 0 0 -75px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid blue;
+      border-right: 16px solid green;
+      border-bottom: 16px solid red;
+      border-left: 16px solid pink;
+      width: 150px;
+      height: 150px;
+      animation: spin 2s linear infinite;
     }
 
     .spinner div:first-child:after,
@@ -123,14 +136,83 @@
       box-shadow: 0 3px 3px 0 rgba(61, 175, 255, 1);
       animation: spin 1.5s linear infinite
     }
+
+
+    @keyframes dot-keyframes {
+      0% {
+        opacity: .4;
+        transform: scale(1, 1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.2, 1.2);
+      }
+
+      100% {
+        opacity: .4;
+        transform: scale(1, 1);
+      }
+    }
+
+    .loading-dots {
+      text-align: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1003;
+      background: #f5f7f8;
+      /*#000000*/
+      ;
+      overflow: hidden
+    }
+
+    .loading-dots--dot {
+      position: relative;
+      top: 50%;
+      margin: -75px 0 0 -45px;
+      animation: dot-keyframes 1.5s infinite ease-in-out;
+      background-color: rgb(55, 55, 209);
+      border-radius: 50%;
+      display: inline-block;
+      height: 12px;
+      width: 12px;
+    }
+
+    loading-dots:nth-child(2) {
+      animation-delay: .5s;
+    }
+
+    loading-dots:nth-child(3) {
+      animation-delay: 1s;
+    }
+
+
+    loading-dots:nth-child(4) {
+      animation-delay: 1.5s;
+    }
+
+    loading-dots:nth-child(5) {
+      animation-delay: 2s;
+    }
   </style>
-  <div id="nb-global-spinner" class="spinner">
+  <!-- <div id="nb-global-spinner" class="spinner">
     <div class="blob blob-0"></div>
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
     <div class="blob blob-4"></div>
     <div class="blob blob-5"></div>
+  </div> -->
+
+  <div class="loading-dots" id="nb-global-spinner">
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
+    <div class="loading-dots--dot"></div>
   </div>
 
   <style>
@@ -167,13 +249,11 @@
     }
 
     .menu-items {
+      padding: 0 !important;
 
       font-size: 10px !important;
     }
 
-    .menu-icon {
-      font-size: 30px !important;
-    }
 
     .nb-theme-corporate .cdk-overlay-container {
       z-index: 1055;

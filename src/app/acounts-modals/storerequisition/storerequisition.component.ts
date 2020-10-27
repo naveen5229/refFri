@@ -23,6 +23,7 @@ export class StorerequisitionComponent implements OnInit {
   totalitem = 0;
   mannual=false;
   approveId=0;
+  sizeIndex=0;
   storeQuestion = {
     requestdate: this.common.dateFormatternew(new Date()).split(' ')[0],
     issuedate: null,
@@ -101,12 +102,20 @@ export class StorerequisitionComponent implements OnInit {
     public accountService: AccountService) {
 console.log('store request ',this.common.params);
     this.storeRequestStockId = this.common.params.storeRequestId;
+    if(this.storeRequestStockId == -101){
+    this.storeQuestion.requestdate = ((((new Date()).getMonth())+1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear())-1) + '-04-01', 'ddMMYYYY', false, '-')
+    }
+
+
     this.storeQuestion.requesttype.id = this.common.params.storeRequestId;
     this.pendingid = this.common.params.pendingid;
     console.log('stock Request Id', this.pendingid);
-    this.common.handleModalSize('class', 'modal-lg', '1150');
+    if(this.common.params.sizeIndex){
+      this.sizeIndex = this.common.params.sizeIndex;
+    }
+    this.common.handleModalSize('class', 'modal-lg', '1150','px',this.sizeIndex);
 
-    this.storeRequestName = (this.storeRequestStockId == -2) ? 'Store Request' : (this.storeRequestStockId == -3) ? 'Stock Issue' : 'Stock Transfer';
+    this.storeRequestName = (this.storeRequestStockId == -2) ? 'Store Request' : (this.storeRequestStockId == -3) ? 'Stock Issue' : (this.storeRequestStockId == -101) ? 'Opening Stock': 'Stock Transfer';
 
     this.getBranchList();
     this.getStockItems();
@@ -121,6 +130,7 @@ console.log('store request ',this.common.params);
       this.getStockRequestionForIssue(this.common.params.stockQuestionId, this.common.params.stockQuestionBranchid, this.common.params.storeRequestId);
     }
     this.setFoucus('code');
+    this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
 
   ngOnInit() {
@@ -172,10 +182,10 @@ console.log('store request ',this.common.params);
         console.log('Res123:', res['data']);
         this.StockQuestiondata = res['data'];
         this.storeQuestion = {
-          requestdate: this.common.dateFormatternew(this.StockQuestiondata[0].y_req_date),
-          issuedate: (this.storeRequestStockId == -3) ? this.common.dateFormatternew(new Date()).split(' ')[0] : this.common.dateFormatternew(this.StockQuestiondata[0].y_issue_date),
+          requestdate: (this.storeRequestStockId == -101) ? this.common.dateFormatternew(this.StockQuestiondata[0].y_issue_date) : this.common.dateFormatternew(this.StockQuestiondata[0].y_req_date),
+          issuedate: (this.storeRequestStockId == -101) ? this.common.dateFormatternew('1970-01-01') :  (this.storeRequestStockId == -3) ? this.common.dateFormatternew(new Date()).split(' ')[0] : this.common.dateFormatternew(this.StockQuestiondata[0].y_issue_date),
           code: this.StockQuestiondata[0].y_code,
-          custcode: this.StockQuestiondata[0].y_cust_code,
+          custcode: (this.StockQuestiondata[0].y_cust_code) ? this.StockQuestiondata[0].y_cust_code: '',
           approved:(this.StockQuestiondata[0].y_for_approved)? false : this.StockQuestiondata[0].y_for_approved,
           deltereview: (this.StockQuestiondata[0].y_del_review == false ? 0 : 1),
           delete: (this.StockQuestiondata[0].y_deleted == false ? 0 : 1),
@@ -189,8 +199,8 @@ console.log('store request ',this.common.params);
             id: this.StockQuestiondata[0].y_from_fobranch_id
           },
           tobranch: {
-            name: this.StockQuestiondata[0].y_to_fobranch_name,
-            id: this.StockQuestiondata[0].y_to_fobranch_id
+            name: (this.StockQuestiondata[0].y_to_fobranch_name)? this.StockQuestiondata[0].y_to_fobranch_name :'',
+            id: (this.StockQuestiondata[0].y_to_fobranch_id) ? this.StockQuestiondata[0].y_to_fobranch_id : 0
           },
           details: []
         }
@@ -201,16 +211,16 @@ console.log('store request ',this.common.params);
           if (!this.storeQuestion.details[index]) {
             this.addAmountDetails();
           }
-          this.storeQuestion.details[index].remarks = stoQuestionDetail.y_dtl_req_remark;
-          this.storeQuestion.details[index].qty = stoQuestionDetail.y_dtl_req_qty;
-          this.storeQuestion.details[index].issueqty = stoQuestionDetail.y_dtl_issue_qty;
-          this.storeQuestion.details[index].issuerate = stoQuestionDetail.y_dtl_issue_rate;
+          this.storeQuestion.details[index].remarks = (stoQuestionDetail.y_dtl_req_remark) ? stoQuestionDetail.y_dtl_req_remark :'';
+          this.storeQuestion.details[index].qty = (this.storeRequestStockId == -101) ? stoQuestionDetail.y_dtl_issue_qty : stoQuestionDetail.y_dtl_req_qty;
+          this.storeQuestion.details[index].issueqty = (this.storeRequestStockId == -101) ? 0 : stoQuestionDetail.y_dtl_issue_qty;
+          this.storeQuestion.details[index].issuerate =  stoQuestionDetail.y_dtl_issue_rate;
           this.storeQuestion.details[index].issueamount = stoQuestionDetail.y_dtl_issue_amount;
           this.storeQuestion.details[index].issueremarks = stoQuestionDetail.y_dtl_issue_remark;
-          this.storeQuestion.details[index].issuewarehouse.id = stoQuestionDetail.y_dtl_issue_warehouse_id;
-          this.storeQuestion.details[index].issuewarehouse.name = stoQuestionDetail.y_issue_warehouse_name;
-          this.storeQuestion.details[index].warehouse.id = stoQuestionDetail.y_dtl_req_warehouse_id;
-          this.storeQuestion.details[index].warehouse.name = stoQuestionDetail.y_req_warehouse_name;
+          this.storeQuestion.details[index].issuewarehouse.id =  (this.storeRequestStockId == -101) ? 0 : stoQuestionDetail.y_dtl_issue_warehouse_id;
+          this.storeQuestion.details[index].issuewarehouse.name =  (this.storeRequestStockId == -101) ? '' : stoQuestionDetail.y_issue_warehouse_name;
+          this.storeQuestion.details[index].warehouse.id =  (this.storeRequestStockId == -101) ? stoQuestionDetail.y_dtl_issue_warehouse_id : stoQuestionDetail.y_dtl_req_warehouse_id;
+          this.storeQuestion.details[index].warehouse.name = (this.storeRequestStockId == -101) ? stoQuestionDetail.y_issue_warehouse_name :  stoQuestionDetail.y_req_warehouse_name;
           this.storeQuestion.details[index].stockitem.id = stoQuestionDetail.y_dtl_req_stockitemid;
           this.storeQuestion.details[index].stockitem.name = stoQuestionDetail.y_req_stockitem_name;
           this.storeQuestion.details[index].stockunit.id = stoQuestionDetail.y_dtl_req_stockunitid;
@@ -316,14 +326,21 @@ console.log('store request ',this.common.params);
     this.setAutoSuggestion();
     if (this.activeId.includes('qty-') && (this.storeRequestStockId == -1 || this.storeRequestStockId == -3)) {
       let index = parseInt(this.activeId.split('-')[1]);
-      // console.log('available item', (this.order.amountDetails[index].qty));
+       console.log('available item111',this.totalitem, (document.getElementById(this.activeId)['value']));
       setTimeout(() => {
-        if ((this.totalitem) < (document.getElementById(this.activeId)['value'])) {
+        if (this.totalitem < (parseInt(document.getElementById(this.activeId)['value']))) {
           alert('Quantity is lower then available quantity');
           this.storeQuestion.details[index].issueqty = 0;
         }
       }, 50);
 
+    }
+    if (this.activeId.includes('issueamount-') && (this.storeRequestStockId == -101)){
+      let index = parseInt(this.activeId.split('-')[1]);
+      setTimeout(() => {
+    this.storeQuestion.details[index].issuerate = ((this.storeQuestion.details[index].issueamount) / (this.storeQuestion.details[index].qty))
+    console.log('this.storeQuestion.details[index].issuerate',this.storeQuestion.details[index].issuerate,this.storeQuestion.details[index].issueamount,this.storeQuestion.details[index].qty);
+  }, 50);
     }
 
     if (key == 'enter') {
@@ -384,7 +401,10 @@ console.log('store request ',this.common.params);
         let index = parseInt(this.activeId.split('-')[1]);
         if (this.storeQuestion.requesttype.id == -1) {
           this.setFoucus('issuerate' + '-' + index);
-        } else {
+        } else if (this.storeRequestStockId == -101) {
+          //console.log('hello dear');
+          this.setFoucus('issueamount'+ '-' + index);
+        }else {
           this.setFoucus('remarks' + '-' + index);
         }
       } else if (this.activeId.includes('issuerate')) {
@@ -393,7 +413,7 @@ console.log('store request ',this.common.params);
           this.setFoucus('issueremarks' + '-' + index);
         } else if (this.storeRequestStockId == -1) {
           this.setFoucus('remarks' + '-' + index);
-        } else {
+        }  else {
           this.setFoucus('issueamount' + '-' + index);
         }
       } else if (this.activeId.includes('issueamount')) {
@@ -401,7 +421,11 @@ console.log('store request ',this.common.params);
         console.log('issue amount ', this.storeQuestion.requesttype.id);
         if (this.storeRequestStockId == -3) {
           this.setFoucus('issueremarks' + '-' + index);
-        } else {
+        } else if (this.storeRequestStockId == -101) {
+          //console.log('hello dear');
+          
+          this.setFoucus('plustransparent');
+        }else {
           this.setFoucus('remarks' + '-' + index);
         }
       } else if (this.activeId.includes('issueremarks')) {
@@ -427,7 +451,16 @@ console.log('store request ',this.common.params);
         }
         let index = parseInt(this.activeId.split('-')[1]);
         if (this.storeQuestion.requesttype.id == -1) {
-          this.setFoucus('stockitem' + '-' + index);
+          setTimeout(() => {
+            if(this.storeQuestion.details[index].warehouse.id == this.storeQuestion.details[index].issuewarehouse.id){
+              this.common.showError('From Warehouse and Transfer Warehouse must not be same ');
+              this.setFoucus('issuewarehouse-'+index);
+             // return;
+            }else{
+            this.setFoucus('stockitem' + '-' + index);
+            }
+          }, 50);
+         
         } else {
           this.setFoucus('issuerate' + '-' + index);
         }
@@ -635,6 +668,7 @@ console.log('store request ',this.common.params);
       let index = parseInt(this.activeId.split('-')[1]);
       this.storeQuestion.details[index].issuewarehouse.name = suggestion.name;
       this.storeQuestion.details[index].issuewarehouse.id = suggestion.id;
+     
     }
     else if (activeId.includes('warehouse')) {
       let index = parseInt(this.activeId.split('-')[1]);
@@ -656,7 +690,8 @@ console.log('store request ',this.common.params);
     let totalitem = 0;
     let stockid = 0;
     let params = {
-      stockid: this.storeQuestion.details[index].stockitem.id
+      stockid: this.storeQuestion.details[index].stockitem.id,
+      wherehouseid: this.storeQuestion.details[index].warehouse.id
     };
     //  this.common.loading++;
     this.api.post('Suggestion/GetStockItemAvailableQty', params)

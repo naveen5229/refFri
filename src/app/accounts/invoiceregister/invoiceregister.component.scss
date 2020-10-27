@@ -24,10 +24,11 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 180px;
+            width: 15%;
         }
         th:first-child{
-            width: 35px;
+            width: 5%;
+             min-width: 51px;
         }
         th:last-child{
             width: auto;
@@ -35,7 +36,7 @@ table{
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 180px;
+            width: 15%;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -60,10 +61,11 @@ table{
             table-layout: fixed;
             width: 100%;
             td:first-child{
-                width: 35px;
+                width: 5%;
+                min-width: 51px;
             }
             td:last-child{
-                width: auto
+                width: auto;
             }
         }
         tr:nth-child(odd){
@@ -76,26 +78,26 @@ table{
 }
 
 
-.tjr-label {
-    background: #263238;
-    color: #fff;
-    padding: 3px 8px;
-    margin: 0;
-    border-radius: 3px 3px 0px 0px;
-    font-size: 10px;
-}
+// .tjr-label {
+//     background: #263238;
+//     color: #fff;
+//     padding: 3px 8px;
+//     margin: 0;
+//     border-radius: 3px 3px 0px 0px;
+//     font-size: 10px;
+// }
 
-.tjr-input {
-    border: 1px solid #263238;
-    border-radius: 0px 2px 2px 2px;
-    padding: 3px 5px;
-    height: auto;
-    font-size: 12px;
-}
+// .tjr-input {
+//     border: 1px solid #263238;
+//     border-radius: 0px 2px 2px 2px;
+//     padding: 3px 5px;
+//     height: auto;
+//     font-size: 12px;
+// }
 
-.tjr-input:focus {
-    border: 1px solid #263238;
-}
+// .tjr-input:focus {
+//     border: 1px solid #263238;
+// }
 
 .tjr-button {
     cursor: pointer;
@@ -123,7 +125,7 @@ table tr.highlight {
    
 }
 i{
-    font-size: 30px;
+    font-size: 24px;
     align-content: center;
 }
 
@@ -143,10 +145,13 @@ i{
     margin: 15% auto auto auto;
 }
 .pdf-icon{
-    font-size: 30px;
+   // font-size: 30px;
     color: #9F0001;
 }
 .exel-icon{
-    font-size: 30px;
+   // font-size: 30px;
     color: #217346;
+}
+.highlightcolor{
+    background-color: gray;
 }

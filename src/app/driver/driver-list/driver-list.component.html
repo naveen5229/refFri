@@ -4,15 +4,24 @@
       <div class="col-6">
         <h5>Drivers List</h5>
       </div>
-      <div class="col-6 text-right">
+      <div class="col-4 text-right">
+
         <button class="btn btn-primary" *ngIf="this.user._loggedInBy=='admin'" type="submit" (click)="importDriverCsv()"
           name="button">Import Csv</button>
         <button class="btn btn-primary" id="button" (click)="addDriver();" name="button">ADD</button>
       </div>
+      <div class="col-2 text-right">
+        <span style="display: block;">
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF()" style="cursor: pointer;">
+            <i class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCSV()"
+            style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
     </div>
   </nb-card-header>
   <nb-card-body>
-    <smart-table *ngIf="driverLists && driverLists.length" [data]="table.driverLists" [settings]="table.settings">
+    <smart-table *ngIf="driverLists && driverLists.length" id="driverList" [data]="table.driverLists" [settings]="table.settings">
     </smart-table>
   </nb-card-body>
 </nb-card>

@@ -6,7 +6,8 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountsComponent } from '../accounts/accounts.component';
 import { AccountService } from '../../services/account.service';
-
+import { AddCityComponent } from '../../acounts-modals/add-city/add-city.component';
+import { AddStateComponent } from '../../acounts-modals/add-state/add-state.component';
 @Component({
   selector: 'ledger',
   templateUrl: './ledger.component.html',
@@ -22,9 +23,32 @@ export class LedgerComponent implements OnInit {
   userdata = [];
   currentPage = 'Add Ledger';
   state = [];
+  gstregtype = [
+  {
+    name: 'Unknown',
+    id: 'Unknown'
+  },
+  {
+    name: 'Composition',
+    id: 'Composition'
+  },
+  {
+    name: 'Consumer',
+    id: 'Consumer'
+  },
+  {
+    name: 'Regular',
+    id: 'Regular'
+  },
+  {
+    name: 'Unregistered',
+    id: 'Unregistered'
+  }
+  ];
   activeId = "user";
   sizeledger=0;
   mannual=false;
+  superparentid=0;
   Accounts = {
     name: '',
     aliasname: '',
@@ -54,6 +78,14 @@ export class LedgerComponent implements OnInit {
     costcenter: 0,
     taxsubtype:'',
     taxtype:'',
+    isnon:true,
+    hsnno:0,
+    hsndetail:'',
+    gst:false,
+    cess:0,
+    igst:0,
+    taxability:'',
+    calculationtype:'',
     accDetails: [{
       id: '',
       salutation: {
@@ -75,6 +107,10 @@ export class LedgerComponent implements OnInit {
       state: {
         name: '',
         id: ''
+      },
+      gst_reg_type:{
+        name: 'Unknown',
+        id: 'Unknown'
       },
       defaultcheck:'true'
     }]
@@ -109,6 +145,14 @@ export class LedgerComponent implements OnInit {
           id: this.common.params.ledgerdata[0].y_accountgroup_id,
           primarygroup_id: '0',
         },
+        isnon:this.common.params.ledgerdata[0].y_gst_is_non,
+        hsnno:this.common.params.ledgerdata[0].y_gst_hsn_sac_no,
+        hsndetail:this.common.params.ledgerdata[0].y_gst_hsn_sac_desc,
+        gst:this.common.params.ledgerdata[0].y_gst_reg_type,
+        cess:(this.common.params.ledgerdata[0].y_gst_cess_per)?this.common.params.ledgerdata[0].y_gst_cess_per:0,
+        igst:(this.common.params.ledgerdata[0].y_gst_igst_per)? this.common.params.ledgerdata[0].y_gst_igst_per:0,
+        taxability:this.common.params.ledgerdata[0].y_gst_taxability,
+        calculationtype:this.common.params.ledgerdata[0].y_gst_calculation_type,
         id: this.common.params.ledgerdata[0].y_id,
         code: this.common.params.ledgerdata[0].y_code,
         branchname: this.common.params.ledgerdata[0].branch_name,
@@ -152,6 +196,10 @@ export class LedgerComponent implements OnInit {
             name: detail.province_name,
             id: detail.province_id
           },
+          gst_reg_type:{
+            name: detail.y_gst_reg_type,
+            id: detail.y_gst_reg_type
+          },
       defaultcheck:"'"+detail.y_dtl_is_default+"'"
 
         });
@@ -190,11 +238,12 @@ console.log('sixe ledger',this.sizeledger);
   }
 
   generateIDs() {
-    let IDs = ['undergroup','taxtype','taxsubtype'];
+    let IDs = ['undergroup','taxtype','taxsubtype','gst_reg_type'];
     this.Accounts.accDetails.map((amountDetails, index) => {
       IDs.push('salutation-' + index);
       IDs.push('state-' + index);
       IDs.push('city-' + index);
+      IDs.push('gst_reg_type-' + index);
     });
     return IDs;
   }
@@ -212,6 +261,7 @@ console.log('sixe ledger',this.sizeledger);
     salutiondata: [],
     city: [],
     list: [],
+    gstregtype:this.gstregtype,
     taxtype:[{
       id:'GST',
       name:'GST'
@@ -228,7 +278,35 @@ console.log('sixe ledger',this.sizeledger);
       name:'Integrated Tax'},
      {id:'state tax',
       name:'State Tax'
-      }]
+      }],
+      gstcalcution:[
+        {
+          name:'On Value',
+          id:'value'
+        },
+        {
+          name:'On Time Rate',
+          id:'rate'
+        }
+      ],
+      taxability:[
+        {
+          name:'Unknown',
+          id:'Unknown'
+        },
+        {
+          name:'Exempt',
+          id:'Exempt'
+        },
+        {
+          name:'Nil Rated',
+          id:'rated'
+        },
+        {
+          name:'Taxable',
+          id:'Taxable'
+        }
+      ]
   };
 
 
@@ -253,6 +331,10 @@ console.log('sixe ledger',this.sizeledger);
       remarks: '',
       name: '',
       state: {
+        name: '',
+        id: ''
+      },
+      gst_reg_type:{
         name: '',
         id: ''
       },
@@ -334,6 +416,14 @@ console.log('sixe ledger',this.sizeledger);
         console.log('Res:', res['data']);
         this.suggestions.underGroupdata = res['data'];
 
+        if(this.Accounts.undergroup.id){
+          res['data'].map((value)=>{
+            if(value.y_id == this.Accounts.undergroup.id){
+                this.superparentid=value.y_super_parent_id;
+            }
+          })
+        }
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -358,16 +448,33 @@ console.log('sixe ledger',this.sizeledger);
         console.log('Error: ', err);
         this.common.showError();
       });
-
+      this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
   ngOnInit() {
 
   }
+  save(response){
+    if(this.Accounts.undergroup.id){
+      this.showConfirm = true;
+    }else{
+      this.common.showError('Please Select Under Group');
+      this.setFoucus('undergroup');
+    }
+  }
+
   dismiss(response) {
     console.log('Accounts:', this.Accounts);
     // console.log('Accounts:', response);
     if(this.foid >0){
-    this.activeModal.close({ response: response, ledger: this.Accounts });
+      console.log('act id ',this.activeId);
+      this.activeModal.close({ response: response, ledger: this.Accounts });
+      // let index = this.activeId.split('-')[1];
+      // if(this.Accounts.accDetails[index].state.id !='' && this.Accounts.accDetails[index].city.id !=-1){
+      //   this.activeModal.close({ response: response, ledger: this.Accounts });
+      //   }else{
+      //     this.common.showError('Please select city');
+      //     this.setFoucus('city-0');
+      //   }
     }else{
     this.common.showError("Sysytem Entry Can't Update");
     this.activeModal.close({ response: false, ledger: this.Accounts });     
@@ -416,6 +523,18 @@ console.log('sixe ledger',this.sizeledger);
       this.openAccountModal();
       return;
     }
+    if ((event.altKey && key === 'c') && (activeId.includes('city-'))) {
+      console.log('alt + C pressed ');
+      let index = activeId.split('-')[1];
+      this.openModal(this.Accounts.accDetails[index].state.id);
+      return;
+    } 
+    if ((event.altKey && key === 'c') && (activeId.includes('state-'))) {
+      console.log('alt + C pressed ');
+      let index = activeId.split('-')[1];
+      this.openstateModal();
+      return;
+    } 
     this.setAutoSuggestion();
 
     if (this.showExit) {
@@ -456,13 +575,13 @@ console.log('sixe ledger',this.sizeledger);
       } else if (activeId == 'aliasname') {
         this.setFoucus('undergroup');
       } else if (activeId.includes('undergroup')) {
-        this.setFoucus('perrate');
+        this.setFoucus('creditdays');
       } else if (activeId.includes('perrate')) {
-        this.setFoucus('openingbalance');
+        this.setFoucus('isbank');
       } else if (activeId.includes('openingbalance')) {
         this.setFoucus('openingisdr');
       } else if (activeId.includes('openingisdr')) {
-        this.setFoucus('creditdays');
+        this.setFoucus('costcenter');
       } else if (activeId.includes('branchname')) {
         this.setFoucus('branchcode');
       } else if (activeId.includes('accnumber')) {
@@ -479,14 +598,43 @@ console.log('sixe ledger',this.sizeledger);
       } else if (activeId.includes('bankname')) {
         this.setFoucus('branchname');
       } else if (activeId.includes('creditdays')) {
-        this.setFoucus('costcenter');
+        this.setFoucus('openingbalance');
       } else if (activeId.includes('costcenter')) {
-        this.setFoucus('taxtype');
+        if(this.superparentid === -8 || this.superparentid === -8 || this.superparentid === -5 || this.superparentid === -6){
+          this.setFoucus('gst');
+        } else if(this.superparentid === -46){
+          this.setFoucus('taxtype');
+        }else{
+        this.setFoucus('isbank');
+        }
       } else if (activeId.includes('taxtype')) {
         this.setFoucus('taxsubtype');
       }else if (activeId.includes('taxsubtype')) {
+        this.setFoucus('perrate');
+      }else if (activeId == 'igst'  ) {
+        this.setFoucus('cess');
+      }else if (activeId == 'gst' || activeId == 'notgst') {
+        this.setFoucus('hsndetail');
+     //  this.showConfirm = true;
+     } else if (activeId == 'hsndetail') {
+        this.setFoucus('hsnno');
+       // this.showConfirm = true;
+      }else if (activeId == 'hsnno') {
+        this.setFoucus('notisnon');
+       // this.showConfirm = true;
+      }else if (activeId == 'cess') {
         this.setFoucus('isbank');
-      }else if (activeId.includes('salutation-')) {
+      }else if (activeId.includes('calculationtype')) {
+        
+        console.log('test??????');
+        this.setFoucus('taxability');
+      }else if (activeId.includes('taxability')) {
+        
+        console.log('test??????');        
+        this.setFoucus('igst');
+      }else if (activeId == 'isnon' || activeId == 'notisnon') {
+        this.setFoucus('calculationtype');
+     }else if (activeId.includes('salutation-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('accountName-' + index);
       } else if (activeId.includes('accountName-')) {
@@ -503,7 +651,17 @@ console.log('sixe ledger',this.sizeledger);
         this.setFoucus('tanNo-' + index);
       } else if (activeId.includes('tanNo-')) {
         let index = activeId.split('-')[1];
-        this.setFoucus('gstNo-' + index);
+        this.setFoucus('gst_reg_type-' + index);
+      }else if (activeId.includes('gst_reg_type-')) {
+        let index = activeId.split('-')[1];
+        setTimeout(() => {
+       let gsttype= this.Accounts.accDetails[index].gst_reg_type.id;
+          if(gsttype === 'Unknown' || gsttype ==='Unregistered'){
+            this.setFoucus('state-' + index);
+          }else{
+            this.setFoucus('gstNo-' + index);
+          }
+        }, 20);
       } else if (activeId.includes('gstNo-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('state-' + index);
@@ -517,12 +675,17 @@ console.log('sixe ledger',this.sizeledger);
         this.setFoucus('city-' + index);
       } else if (activeId.includes('city-')) {
         let index = activeId.split('-')[1];
-        if (this.suggestions.list.length) {
-          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
-          this.suggestions.list = [];
-          this.suggestionIndex = -1;
+        // if (this.suggestions.list.length) {
+        //   this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+        //   this.suggestions.list = [];
+        //   this.suggestionIndex = -1;
+        // }
+        if(this.Accounts.accDetails[index].state.id !='' && this.Accounts.accDetails[index].city.id !=-1){
+        this.setFoucus('address-' + index); 
+        }else{
+          this.common.showError('Please select city');
+          this.setFoucus('city-' + index);
         }
-        this.setFoucus('address-' + index);
       } else if (activeId.includes('address-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('remarks-' + index);
@@ -563,13 +726,23 @@ console.log('sixe ledger',this.sizeledger);
         this.setFoucus('panNo-' + index);
       } else if (activeId.includes('gstNo-')) {
         let index = activeId.split('-')[1];
+        this.setFoucus('gst_reg_type-' + index);
+      }else if (activeId.includes('gst_reg_type-')) {
+        let index = activeId.split('-')[1];
         this.setFoucus('tanNo-' + index);
       } else if (activeId.includes('city-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('state-' + index);
       } else if (activeId.includes('state-')) {
         let index = activeId.split('-')[1];
-        this.setFoucus('gstNo-' + index);
+        setTimeout(() => {
+          let gsttype= this.Accounts.accDetails[index].gst_reg_type.id;
+             if(gsttype === 'Unknown' || gsttype ==='Unregistered'){
+               this.setFoucus('gst_reg_type-' + index);
+             }else{
+               this.setFoucus('gstNo-' + index);
+             }
+           }, 20);
       } else if (activeId.includes('address-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('city-' + index);
@@ -587,10 +760,26 @@ console.log('sixe ledger',this.sizeledger);
       if (activeId == 'undergroup') this.setFoucus('aliasname');
       if (activeId == 'aliasname') this.setFoucus('name');
       if (activeId == 'name') this.setFoucus('code');
-      if (activeId == 'isbank') this.setFoucus('taxsubtype');
+      if (activeId == 'isbank') {
+        
+        if(this.superparentid === -8 || this.superparentid === -8 || this.superparentid === -5 || this.superparentid === -6){
+          this.setFoucus('cess');
+        } else if(this.superparentid === -46){
+          this.setFoucus('taxsubtype');
+        }else{
+          this.setFoucus('costcenter1');
+        }
+      }
       if (activeId == 'taxsubtype') this.setFoucus('taxtype');
       if (activeId == 'taxtype') this.setFoucus('costcenter');
-
+      if (activeId == 'cess') this.setFoucus('igst');
+      if (activeId == 'igst') this.setFoucus('taxability');
+      if (activeId == 'taxability') this.setFoucus('calculationtype');
+      if (activeId == 'calculationtype') this.setFoucus('notisnon');
+      if (activeId == 'notisnon' || 'isnon') this.setFoucus('hsnno');
+      if (activeId == 'hsnno') this.setFoucus('hsndetail');
+      if (activeId == 'hsndetail') this.setFoucus('gst');
+      if (activeId == 'gst') this.setFoucus('costcenter1');
       if (activeId == 'code') {
         console.log('active 3', activeId);
         this.setFoucus('user')
@@ -620,6 +809,37 @@ console.log('sixe ledger',this.sizeledger);
     }, 100);
     this.setAutoSuggestion();
   }
+  openModal(id) {
+     // console.log('city', city);
+      this.common.params = '';
+      const activeModal = this.modalService.open(AddCityComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+         // this.updateCity(data.city, city.id);
+       // this.getpageData();
+       // return;
+       this.GetCity(id);
+        }
+      });
+    
+    
+  }
+  openstateModal() {
+    // console.log('city', city);
+     this.common.params = '';
+     const activeModal = this.modalService.open(AddStateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+     activeModal.result.then(data => {
+       if (data.response) {
+        // this.updateCity(data.city, city.id);
+      // this.getpageData();
+      // return;
+      //this.GetCity(id);
+      this.GetState();
+       }
+     });
+   
+   
+ }
   selectSuggestion(suggestion, id?) {
     console.log('Suggestion: ', suggestion);
     if (this.activeId == 'undergroup') {
@@ -633,7 +853,10 @@ console.log('sixe ledger',this.sizeledger);
       const index = parseInt(this.activeId.split('-')[1]);
       this.Accounts.accDetails[index].state.id = suggestion.id;
       this.GetCity(suggestion.id);
-    } else if (this.activeId.includes('city-')) {
+    }else if (this.activeId.includes('gst_reg_type-')) {
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.Accounts.accDetails[index].gst_reg_type.id = suggestion.id;
+    }  else if (this.activeId.includes('city-')) {
       const index = parseInt(this.activeId.split('-')[1]);
       this.Accounts.accDetails[index].city.id = suggestion.id;
 
@@ -648,26 +871,35 @@ console.log('sixe ledger',this.sizeledger);
     if (activeId == 'undergroup') this.autoSuggestion.data = this.suggestions.underGroupdata;
     else if (activeId.includes('salutation-')) this.autoSuggestion.data = this.suggestions.salutiondata;
     else if (activeId.includes('state-')) this.autoSuggestion.data = this.suggestions.state;
+    else if (activeId.includes('gst_reg_type-')) this.autoSuggestion.data = this.suggestions.gstregtype;
     else if (activeId.includes('city-')) this.autoSuggestion.data = this.suggestions.city;
     else if (activeId.includes('taxtype')) this.autoSuggestion.data = this.suggestions.taxtype;
     else if (activeId.includes('taxsubtype') && this.Accounts.taxtype.includes('GST') ) this.autoSuggestion.data = this.suggestions.taxsubtype;
+    else if (activeId == 'calculationtype') this.autoSuggestion.data = this.suggestions.gstcalcution; 
+    else if (activeId == 'taxability')this.autoSuggestion.data = this.suggestions.taxability; 
     else {
       this.autoSuggestion.data = [];
       this.autoSuggestion.display = '';
       this.autoSuggestion.targetId = '';
       return;
     }
-
+    if (activeId == 'undergroup'){
+      this.autoSuggestion.display = 'y_name';
+      this.autoSuggestion.targetId = 'undergroup';
+    }else{
     this.autoSuggestion.display = 'name';
     this.autoSuggestion.targetId = activeId;
     console.log('Auto Suggestion: ', this.autoSuggestion);
+    }
   }
 
   onSelect(suggestion, activeId) {
     console.log('Suggestion: ', suggestion);
     if (activeId == 'undergroup') {
-      this.Accounts.undergroup.name = suggestion.name;
-      this.Accounts.undergroup.id = suggestion.id;
+      this.Accounts.undergroup.name = suggestion.y_name;
+      this.Accounts.undergroup.id = suggestion.y_id;
+      this.superparentid = suggestion.y_super_parent_id;
+      console.log('superparentid',this.superparentid);
     } else if (activeId.includes('salutation')) {
       const index = parseInt(activeId.split('-')[1]);
       this.Accounts.accDetails[index].salutation.name = suggestion.name;
@@ -678,7 +910,11 @@ console.log('sixe ledger',this.sizeledger);
       this.Accounts.accDetails[index].state.name = suggestion.name;
       this.Accounts.accDetails[index].state.id = suggestion.id;
       this.GetCity(suggestion.id);
-    } else if (activeId.includes('city')) {
+    } else if (activeId.includes('gst_reg_type')) {
+      const index = parseInt(activeId.split('-')[1]);
+      this.Accounts.accDetails[index].gst_reg_type.name = suggestion.name;
+      this.Accounts.accDetails[index].gst_reg_type.id = suggestion.id;
+    }else if (activeId.includes('city')) {
       const index = parseInt(activeId.split('-')[1]);
       this.Accounts.accDetails[index].city.name = suggestion.name;
       this.Accounts.accDetails[index].city.id = suggestion.id;
@@ -689,7 +925,15 @@ console.log('sixe ledger',this.sizeledger);
     }
     else if (activeId.includes('taxsubtype')) {
       this.Accounts.taxsubtype = suggestion.name;
-    }
+    }else  if (activeId == 'calculationtype') {
+      console.log('suggestion with id calculate',suggestion);
+      this.Accounts.calculationtype = suggestion.name;
+      this.setFoucus('taxability');
+    } else  if (activeId == 'taxability') {
+      console.log('suggestion with id taxability',suggestion);
+      this.Accounts.taxability = suggestion.name;
+      this.setFoucus('igst');
+    } 
   }
 
   delete(tblid) {

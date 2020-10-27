@@ -14,7 +14,6 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { ConciseComponent } from './concise/concise.component';
 import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.component';
 import { ChartModule } from 'angular2-chartjs';
-import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
 import { TicketActionsComponent } from './ticket-actions/ticket-actions.component';
 import { RemarkModalComponent } from '../modals/remark-modal/remark-modal.component';
@@ -25,9 +24,8 @@ import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-avera
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-suggestion.component';
 import { DirectiveModule } from '../directives/directives.module';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
-import { ImageViewerModule } from 'ng2-image-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 import { RouteMapperComponent } from './route-mapper/route-mapper.component';
@@ -92,8 +90,15 @@ import { RouteTripComponent } from './route-trip/route-trip.component';
 import { TripSummaryComponent } from './trip-summary/trip-summary.component';
 import { RouteDeviationsComponent } from './route-deviations/route-deviations.component';
 import { FuelDailyConsumptionComponent } from './fuel-daily-consumption/fuel-daily-consumption.component';
-
-
+import { VehicleStatusChangeByUserComponent } from './vehicle-status-change-by-user/vehicle-status-change-by-user.component';
+import { TripissuesComponent } from './tripissues/tripissues.component';
+import { TicketsKpiComponent } from './tickets-kpi/tickets-kpi.component';
+import { SupervisorUserAssociationComponent } from './supervisor-user-association/supervisor-user-association.component';
+import { TripsComponent } from './trips/trips.component';
+import { IssuesReportComponent } from './issues-report/issues-report.component';
+import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
+import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const PAGES_COMPONENTS = [
   PagesComponent
@@ -111,12 +116,12 @@ const PAGES_COMPONENTS = [
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    ImageViewerModule,
     ReactiveFormsModule,
     ResizableModule,
     LorryReceiptModule,
     SharedModule,
     DriverModule,
+    DragDropModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -127,7 +132,6 @@ const PAGES_COMPONENTS = [
     LorryRecciptsComponent,
     ExpensesComponent,
     ConciseComponent,
-    TicketDetailsComponent,
     TicketSiteDetailsComponent,
     TicketActionsComponent,
     ConciseComponent,
@@ -185,8 +189,14 @@ const PAGES_COMPONENTS = [
     TripSummaryComponent,
     RouteDeviationsComponent,
     FuelDailyConsumptionComponent,
-
-
+    VehicleStatusChangeByUserComponent,
+    TripissuesComponent,
+    TicketsKpiComponent,
+    SupervisorUserAssociationComponent,
+    TripsComponent,
+    IssuesReportComponent,
+    VehicleStatesComponent,
+    GraphicalReportsComponent,
   ],
   exports: [
     FuelAverageAnalysisComponent,

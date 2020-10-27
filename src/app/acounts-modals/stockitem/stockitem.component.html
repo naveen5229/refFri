@@ -2,7 +2,7 @@
   <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
     <div class="modal-header">
       <h5 class="modal-title" id="modal-basic-title">Stock Item</h5>
-      <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+      <button type="button" class="close" aria- label="Close" (click)="modelConditionfirst()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -29,96 +29,112 @@
     </div> -->
             <div class="col">
               <div class="form-group">
-                <label>Stock Type</label>
-                <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name"-->
-
-                <!-- <auto-suggestion *ngIf= "this.stockTypeName == null" (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
-      placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="null"></auto-suggestion>
-      -->
-                <!-- <auto-suggestion  (onSelected)="onSubTypeSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
-      placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="stockItem.stockType"></auto-suggestion> -->
-
-                <input type="text" class="form-control" id="stockType" autocomplete="off" name="stockType"
+                <label class="ref-label">Stock Type</label>
+                <input type="text" class="form-control ref-input" id="stockType" autocomplete="off" name="stockType"
                   [(ngModel)]="stockItem.stockType.name" (click)="allowBackspace = false;"
                   (input)="allowBackspace = false;">
 
               </div>
-              <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
-        <ul>
-          <li *ngFor="let stocktype of suggestions.stockTypes" class="suggestion" (click)="selectStockType(stocktype)">
-            {{stocktype.name}}
-          </li>
-        </ul>
-      </div-->
             </div>
             <div class="col">
               <div class="form-group">
-                <label>Stock Sub Type</label>
-                <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name"-->
-                <!-- <auto-suggestion (onSelected)="onSelected($event, 'stockSubType', 'name')" [url]="'Suggestion/GetSearchStockType?stocktype=' + stockItem.stockType.id" display="name"
-        placeholder="Enter Stock Sub Type" inputId="stockSubType" [data] ="stockSubType"  name="stockSubType" [preSelected]="{name:stockItem.stockSubType.name}"></auto-suggestion>
-       -->
-                <input type="text" class="form-control" id="stockSubType" autocomplete="off" name="stockSubType"
+                <label class="ref-label">Stock Sub Type</label>
+                <input type="text" class="form-control ref-input" id="stockSubType" autocomplete="off" name="stockSubType"
                   [(ngModel)]="stockItem.stockSubType.name" (click)="allowBackspace = false;"
                   (input)="allowBackspace = false;">
-
-              </div>
-              <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
-        <ul>
-          <li *ngFor="let stocktype of suggestions.stockTypes" class="suggestion" (click)="selectStockType(stocktype)">
-            {{stocktype.name}}
-          </li>
-        </ul>
-      </div-->
-            </div>
-            <div class="col">
-              <div class="form-group">
-                <label>Stock Unit</label>
-                <!-- <auto-suggestion (onSelected)="onSelected($event, 'unit', 'name')" url="Suggestion/getUnit" display="name"
-        placeholder="Enter Unit Name" inputId="unit" [preSelected]="{name:stockItem.unit.name}"></auto-suggestion> -->
-                <!--input type="text" class="form-control" name="stockunit" [(ngModel)]="stockItem.stockunit"-->
-
-                <input type="text" class="form-control" id="unit" autocomplete="off" name="unit"
-                  [(ngModel)]="stockItem.unit.name" (click)="allowBackspace = false;"
-                  (input)="allowBackspace = false;">
-
               </div>
             </div>
-          </div>
-          <div class="row">
-<!--             
-            <div class="col">
-              <div class="form-group">
-                <label>Code</label>
-                <input type="text" class="form-control" autocomplete="off" name="stock-code" id="code"
-                  [(ngModel)]="stockItem.code">
-              </div>
-            </div> -->
+            
             <div class="col">
               <div class="form-grpou">
-                <label>Name</label>
-                <input type="text" class="form-control" id="name" autocomplete="off" name="stock-name"
+                <label class="ref-label">Name</label>
+                <input type="text" class="form-control ref-input" id="name" autocomplete="off" name="stock-name"
                   [(ngModel)]="stockItem.name">
               </div>
             </div>
-            <div class="col" *ngIf="!(common.params && common.params.stockType)">
-              <div class="form-group">
-                <label>Max Limit</label>
-                <input type="text" class="form-control" name="maxlimit" autocomplete="off" id="maxlimit"
-                  [(ngModel)]="stockItem.maxlimit">
-              </div>
-            </div>
-            <div class="col" *ngIf="!(common.params && common.params.stockType)">
-              <div class="form-group">
-                <label>Min Limit</label>
-                <input type="text" class="form-control" name="minlimit" id="minlimit" autocomplete="off"
-                  [(ngModel)]="stockItem.minlimit" (keydown.enter)="stockItem.isactive = true;">
+            <div class="col">
+              <div class="form-grpou">
+                <label class="ref-label">Alias Name</label>
+                <input type="text" class="form-control ref-input" id="openingqty" autocomplete="off" name="openingqty"
+                  [(ngModel)]="stockItem.openingqty">
               </div>
             </div>
           </div>
+          <div class="row radiostockitem">
+            <div class="col">
+              <div class="form-group">
+                <label class="ref-label">Stock Unit</label>
+                <input type="text" class="form-control ref-input" id="unit" autocomplete="off" name="unit"
+                  [(ngModel)]="stockItem.unit.name" (click)="allowBackspace = false;"
+                  (input)="allowBackspace = false;">
+              </div>
+            </div>
+            <div class="col-3">
+              <label class="ref-label">Sales</label>
+              <div class="row iaactive ">
+                <div class="col-6 pr-0 pl-1">
+                  <div class="form-group">
+                    <input type="radio" class="form-control ref-input" name="sales" id="sales" [(ngModel)]="stockItem.sales"
+                      [value]="true" (keydown.enter)="stockItem.purchase = true;">
+                    <label class="ref-label">Yes</label>
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <input type="radio" class="form-control ref-input" name="sales" [(ngModel)]="stockItem.sales" id="notsales"
+                      [value]="false" (keydown.enter)="stockItem.purchase = true;">
+                    <label class="ref-label">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <label class="ref-label">Purchase</label>
+              <div class="row iaactive">
+                <div class="col-6 pr-0 pl-1">
+                  <div class="form-group">
+                    <input type="radio" class="form-control ref-input" name="purchase" id="purchase"
+                      [(ngModel)]="stockItem.purchase" [value]="true" (keydown.enter)="stockItem.inventary = true;">
+                    <label class="ref-label">Yes</label>
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <input type="radio" class="form-control ref-input" name="purchase" [(ngModel)]="stockItem.purchase"
+                      id="notpurchase" [value]="false" (keydown.enter)="stockItem.inventary = true;">
+                    <label class="ref-label">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <label class="ref-label">Inventary</label>
+              <div class="row iaactive">
+                <div class="col-6 pr-0 pl-1">
+                  <div class="form-group">
+                    <input type="radio" class="form-control ref-input" name="inventary" id="inventary"
+                      [(ngModel)]="stockItem.inventary" [value]="true">
+                    <label class="ref-label">Yes</label>
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <input type="radio" class="form-control ref-input" name="inventary" id="notinventary"
+                      [(ngModel)]="stockItem.inventary" [value]="false">
+                    <label class="ref-label">No</label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+           
+            
+            
+           
+          </div>
 
           <div class="row radiostockitem" *ngIf="!(common.params && common.params.stockType)">
-            <div class="col-3">
+            <!-- <div class="col-3">
               <label>Is Active</label>
               <div class="row iaactive">
                 <div class="col-6 pr-0 pl-1">
@@ -137,117 +153,90 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="col-3">
-              <label>Sales</label>
-              <div class="row iaactive ">
-                <div class="col-6 pr-0 pl-1">
-                  <div class="form-group">
-                    <input type="radio" class="form-control" name="sales" id="sales" [(ngModel)]="stockItem.sales"
-                      [value]="true" (keydown.enter)="stockItem.purchase = true;">
-                    <label>Yes</label>
-                  </div>
-                </div>
-                <div class="col-6 pl-0">
-                  <div class="form-group">
-                    <input type="radio" class="form-control" name="sales" [(ngModel)]="stockItem.sales" id="notsales"
-                      [value]="false" (keydown.enter)="stockItem.purchase = true;">
-                    <label>No</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-3">
-              <label>Purchase</label>
+              <label class="ref-label">Is Service</label>
               <div class="row iaactive">
                 <div class="col-6 pr-0 pl-1">
                   <div class="form-group">
-                    <input type="radio" class="form-control" name="purchase" id="purchase"
-                      [(ngModel)]="stockItem.purchase" [value]="true" (keydown.enter)="stockItem.inventary = true;">
-                    <label>Yes</label>
+                    <input type="radio" class="form-control ref-input" name="openingbal" id="openingbal"
+                      [(ngModel)]="stockItem.openingbal" [value]="1" (keydown.enter)="stockItem.openingbal = 1;"
+                      [checked]="true">
+                    <label class="ref-label">Yes</label>
                   </div>
                 </div>
                 <div class="col-6 pl-0">
                   <div class="form-group">
-                    <input type="radio" class="form-control" name="purchase" [(ngModel)]="stockItem.purchase"
-                      id="notpurchase" [value]="false" (keydown.enter)="stockItem.inventary = true;">
-                    <label>No</label>
+                    <input type="radio" class="form-control ref-input" name="openingbal" [(ngModel)]="stockItem.openingbal"
+                      id="notopeningbal" [value]="0" (keydown.enter)="stockItem.openingbal = 0;" [checked]="false">
+                    <label class="ref-label">No</label>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-3">
-              <label>Inventary</label>
-              <div class="row iaactive">
-                <div class="col-6 pr-0 pl-1">
-                  <div class="form-group">
-                    <input type="radio" class="form-control" name="inventary" id="inventary"
-                      [(ngModel)]="stockItem.inventary" [value]="true">
-                    <label>Yes</label>
-                  </div>
-                </div>
-                <div class="col-6 pl-0">
-                  <div class="form-group">
-                    <input type="radio" class="form-control" name="inventary" id="notinventary"
-                      [(ngModel)]="stockItem.inventary" [value]="false">
-                    <label>No</label>
-                  </div>
-                </div>
+            <div class="col" *ngIf="!(common.params && common.params.stockType)">
+              <div class="form-group">
+                <label class="ref-label">Max Limit</label>
+                <input type="text" class="form-control ref-input" name="maxlimit" autocomplete="off" id="maxlimit"
+                  [(ngModel)]="stockItem.maxlimit">
               </div>
-
+            </div>
+            <div class="col" *ngIf="!(common.params && common.params.stockType)">
+              <div class="form-group">
+                <label class="ref-label">Min Limit</label>
+                <input type="text" class="form-control ref-input" name="minlimit" id="minlimit" autocomplete="off"
+                  [(ngModel)]="stockItem.minlimit" (keydown.enter)="stockItem.isactive = true;">
+              </div>
             </div>
           </div>
           <div class="row radiostockitem">
             <div class="col-3">
-              <label>GST</label>
+              <label class="ref-label">GST</label>
             <div class="row iaactive">     
                 <div class="col-6 pr-0 pl-1">
                   <div class="form-group">
-                    <input type="radio" class="form-control" name="gst" id="gst"
+                      <input type="radio" class="form-control ref-input" name="gst" id="gst"
                       [(ngModel)]="stockItem.gst" [value]="true" (keydown.enter)="stockItem.gst = true;"
-                      [checked]="true">
-                    <label>Yes</label>
+                     >
+                    <label class="ref-label">Yes</label>
                   </div>
                 </div>
                 <div class="col-6 pl-0">
                   <div class="form-group">
-                    <input type="radio" class="form-control" name="gst" [(ngModel)]="stockItem.gst"
-                      id="notgst" [value]="false" (keydown.enter)="stockItem.gst = true;">
-                    <label>No</label>
+                      <input type="radio" class="form-control ref-input" name="gst" [(ngModel)]="stockItem.gst" id="notgst" [value]="false" (keydown.enter)="stockItem.gst = false;">
+                    <label class="ref-label">No</label>   
                   </div>
                 </div>
               </div>
             </div>
                         <div class="col" *ngIf="stockItem.gst">
                           <div class="form-grpou">
-                            <label>HSN/SAC Details</label>
-                            <input type="text" class="form-control" id="hsndetail" autocomplete="off" name="stock-hsndetail"
+                            <label class="ref-label">HSN/SAC Details</label>
+                            <input type="text" class="form-control ref-input" id="hsndetail" autocomplete="off" name="stock-hsndetail"
                               [(ngModel)]="stockItem.hsndetail">
                           </div>
                         </div>
                         <div class="col" *ngIf="stockItem.gst">
                           <div class="form-group">
-                            <label>HSN/SAC No.</label>
-                            <input type="text" class="form-control" name="hsnno" autocomplete="off" id="hsnno"
+                            <label class="ref-label">HSN/SAC No.</label>
+                            <input type="text" class="form-control ref-input" name="hsnno" autocomplete="off" id="hsnno"
                               [(ngModel)]="stockItem.hsnno">
                           </div>
                         </div>
                         <div class="col-3" *ngIf="stockItem.gst">
-                          <label>Is Non-Gst</label>
+                          <label class="ref-label">Is Non-Gst</label>
                           <div class="row iaactive">     
                             <div class="col-6 pr-0 pl-1">
                               <div class="form-group">
-                                <input type="radio" class="form-control" name="isnon" id="isnon"
-                                  [(ngModel)]="stockItem.isnon" [value]="true" (keydown.enter)="stockItem.isnon = true;"
-                                  [checked]="true">
-                                <label>Yes</label>
+                                <input type="radio" class="form-control ref-input" name="isnon" id="isnon"
+                                  [(ngModel)]="stockItem.isnon" [value]="true" (keydown.enter)="stockItem.isnon = true;">
+                                <label class="ref-label">Yes</label>
                               </div>
                             </div>
                             <div class="col-6 pl-0">
                               <div class="form-group">
-                                <input type="radio" class="form-control" name="isnon" [(ngModel)]="stockItem.isnon"
-                                  id="notisnon" [value]="false" (keydown.enter)="stockItem.isnon = true;">
-                                <label>No</label>
+                                <input type="radio" class="form-control ref-input" name="isnon" [(ngModel)]="stockItem.isnon" id="notisnon" [value]="false" (keydown.enter)="stockItem.isnon = false;" [checked]="stockItem.isnon == false">
+                                <label class="ref-label">No</label>
                               </div>
                             </div>
                           </div>
@@ -257,29 +246,29 @@
          
                       <div class="col" *ngIf="!stockItem.isnon">
                         <div class="form-group">
-                          <label>GST Calculation Type</label>
-                          <input type="text" class="form-control" id="calculationtype" autocomplete="off" name="stock-calculationtype"
+                          <label class="ref-label">GST Calculation Type</label>
+                          <input type="text" class="form-control ref-input" id="calculationtype" autocomplete="off" name="stock-calculationtype"
                             [(ngModel)]="stockItem.calculationtype">
                         </div>
                       </div>
                       <div class="col" *ngIf="!stockItem.isnon">
                         <div class="form-group">
-                          <label>GST Taxability</label>
-                          <input type="text" class="form-control" name="taxability" autocomplete="off" id="taxability"
+                          <label class="ref-label">GST Taxability</label>
+                          <input type="text" class="form-control ref-input" name="taxability" autocomplete="off" id="taxability"
                             [(ngModel)]="stockItem.taxability">
                         </div>
                       </div>
                       <div class="col" *ngIf="!stockItem.isnon">
                         <div class="form-grpou">
-                          <label>IGST</label>
-                          <input type="text" class="form-control" id="igst" autocomplete="off" name="stock-igst"
-                            [(ngModel)]="stockItem.igst">
+                          <label class="ref-label">Tax Rate</label>
+                          <input type="text" class="form-control ref-input" id="igst" autocomplete="off" name="stock-igst"
+                            [(ngModel)]="stockItem.igst" [readonly]="stockItem.taxability !='Taxable'">
                         </div>
                       </div>
                       <div class="col" *ngIf="!stockItem.isnon">
                         <div class="form-group">
-                          <label>CESS</label>
-                          <input type="text" class="form-control" name="cesstype" autocomplete="off" id="cess"
+                          <label class="ref-label">CESS</label>
+                          <input type="text" class="form-control ref-input" name="cesstype" autocomplete="off" id="cess"
                             [(ngModel)]="stockItem.cess">
                         </div>
                       </div>
@@ -300,7 +289,7 @@
     <div class="modal-footer">
       <div class="row">
         <div class="col">
-          <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
+          <button class="btn btn-danger" type="button" outline (click)="modelConditionfirst()" id="cancel"
             style="cursor: pointer;">Cancel</button>
         </div>
         <div class="col text-right">

@@ -71,6 +71,9 @@ export class DispatchOrdersComponent implements OnInit {
     for (var key in keyObject) {
       if (key.charAt(0) != "_") {
         headings[key] = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+        if (key === 'Date') {
+          headings[key]['type'] = 'date';
+        }
       }
     }
     return headings;

@@ -1,0 +1,112 @@
+
+
+<div class="contentsection">
+    <div class="row mb-0 mr-0 pt-2">
+      <div class="col-6 pl-0">
+        <div class="outer" style="min-height: 300px;">
+          <h6 style="text-align:center"><b class="charthead"> Challan Trends (Last 6 Months) </b></h6>
+          <!-- <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
+          [options]="chart.options"></chart> -->
+          <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet" style="margin-right:5px;min-height: 300px;max-height: 300px;"
+          [options]="chart.options">
+      </chart>
+        </div>
+        <div class="row mt-3 mr-0">
+          <div class="col-6 p-1">
+            <div class="outer" style="min-height: 130px;">
+              <h6 style="text-align:center"><b class="charthead">Most Aged Challans (Pending)</b></h6>
+              <table class="table">
+                <thead class="thead">
+                  <th>Vehicle No.</th>
+                  <th>Amount</th>
+                  <th>Due Days</th>
+                </thead>
+                <tbody class="tbody">
+                  <tr *ngFor="let cma of challansMostAged">
+                    <td>{{cma['Vehicle No']}}</td>
+                    <td>{{cma['Amount']}}</td>
+                    <td>{{cma['Due Days']}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-6 p-1">
+            <div class="outer" style="min-height:130px;">
+              <h6 style="text-align:center"><b class="charthead">Latest Challans</b></h6>
+              <table class="table">
+                <thead class="thead">
+                  <th>Date</th>
+                  <th>Vehicle No.</th>
+                  <th>State</th>
+                  <th>Amount</th>
+                 <th>Status</th>
+                </thead>
+                <tbody class="tbody">
+                  <tr *ngFor="let cl of challansLatest">
+                    <td>{{cl['Challan Date']}}</td>
+                    <td>{{cl['Vehicle No']}}</td>
+                    <td>{{cl['State']}}</td>
+                    <td>{{cl['Amount']}}</td>
+                    <td>{{cl['Status']}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+     
+        </div>
+      </div>
+      <div class="col-6 pl-0 pr-0">
+        <div class="outer" style="min-height: 195px;">
+          <h6 style="text-align:center"><b class="charthead">State Wise Challans in Last 30 Days</b></h6>
+          <table class="table">
+            <thead class="thead">
+              <th>State</th>
+              <th colspan="2">Total</th>
+              <th colspan="2">Pending</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let csw of challanStateWise">
+                <td><b>{{csw['state']}}</b></td>
+                <td><b>{{csw['Total Count']}}</b></td>
+                <td><b>{{csw['Total Challan Amount']}}</b></td>
+                <td><b>{{csw['Pending Challan Count']}}</b></td>
+                <td><b>{{csw['Pending']}}</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-3 outer" style="min-height: 130px;">
+          <h6 style="text-align:center"><b class="charthead">Worst 3 Drivers(Count Wise) </b></h6>
+          <table class="table">
+            <thead class="thead">
+              <th>Driver Name</th>
+              <th>Challan Count</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let cdc of challansdrivarcount">
+                <td>{{cdc['Driver']}}</td>
+                <td>{{cdc['Challan Count']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div  class="mt-3 outer" style="min-height: 130px;">
+          <h6 style="text-align:center"><b class="charthead">Worst 3 Drivers(Amount Wise) </b></h6>
+          <table class="table">
+            <thead class="thead">
+              <th>Driver Name</th>
+              <th>Challan Amount</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let cda of challansdrivaramount">
+                <td>{{cda['Driver']}}</td>
+                <td>{{cda['Challan Amount']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

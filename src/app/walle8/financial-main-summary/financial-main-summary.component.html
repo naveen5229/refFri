@@ -1,38 +1,39 @@
 <nb-card>
-  <nb-card-header style="font-size: 32px;">
-    <h4>Financial Main Summary</h4>
+  <nb-card-header>
+    <div style="border-bottom-left-radius:5px;border-bottom-right-radius:5px; box-shadow: 5px 10px 54px 0px whitesmoke;" class="ml-4 mr-4 pb-4">
+    <div class="row m-0" style="width:100%;background-color: #E5F3F9;border-top-right-radius: 5px; border-top-left-radius:5px;display:inline-block">
+      <h5 class="p-2" style="font-weight:bold; display: inline-block;">Financial Main Summary</h5>
 
-    <div class="row m-0 p-0">
-      <div class="col-3">
-        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
-          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
-      </div>
-      <div class="col-3">
-        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
-          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
-      </div>
-      <div class="col-3">
-        <button class="btn btn-primary" type="button" (click)="getfinancialMainSummary()">Submit</button>
-      </div>
-    </div>
-    <div class="row m-0 p-0">
-      <div class="col-md-12 text-right margin-top-15 margin-left-220">
-
-        <span style="margin-bottom: 10px; display: block;">
-          <span class="pdf-icon" title="PDF Export" (click)="printPDF('FinancialReport');" style="cursor: pointer;"><i
+      <div style="display:inline-block;" class="p-2 float">
+        <span style="display: block;">
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
               class="fa fa-file-pdf"></i></span>
-          <span class="exel-icon" title="CSV Export" (click)="printCSV('FinancialReport')"
+          <span class="exel-icon" title="CSV Export" (click)="printCSV()"
             style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
         </span>
-
       </div>
     </div>
 
+    <div class="row m-0 p-3" style="background-color:white;">
+      <div class="col-3 pl-3">
+        <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"  [isTime]="false"></uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly> -->
+      </div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]=false [isStart]="false"></uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
+          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly> -->
+      </div>
+      <div class="col-3">
+        <button class="btn customButton" type="button" (click)="getfinancialMainSummary()">Submit</button>
+      </div>
+    </div>
+    </div>
   </nb-card-header>
-  <nb-card-body>
-    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="FinancialReport"></smart-table>
-    <br>
 
+  <nb-card-body style="width:96%;margin-left:2%;">
+    <smart-table *ngIf="data.length" id="FinancialReport" [data]="table.data" [settings]="table.settings">
+    </smart-table>
   </nb-card-body>
-
 </nb-card>

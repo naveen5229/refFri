@@ -5,15 +5,9 @@ import { UserService } from "../../services/user.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { KpisDetailsComponent } from "../../modals/kpis-details/kpis-details.component";
 import { LocationMarkerComponent } from "../../modals/location-marker/location-marker.component";
-import { from } from "rxjs";
-import { NbThemeService } from "@nebular/theme";
 import { ImageViewComponent } from "../../modals/image-view/image-view.component";
-import { slideToLeft, slideToUp } from "../../services/animation";
 import * as _ from "lodash";
-import { forEach } from "@angular/router/src/utils/collection";
-import { log } from "util";
 import { ReportIssueComponent } from "../../modals/report-issue/report-issue.component";
-import { componentRefresh, element } from "@angular/core/src/render3/instructions";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RadioSelectionComponent } from "../../modals/radio-selection/radio-selection.component";
 import { VehiclesOnMapComponent } from "../../modals/vehicles-on-map/vehicles-on-map.component";
@@ -32,11 +26,14 @@ import { DateService } from "../../services/date.service";
 import { PoliceStationComponent } from "../../modals/police-station/police-station.component";
 import { OdoMeterComponent } from "../../modals/odo-meter/odo-meter.component";
 import { PdfService } from "../../services/pdf/pdf.service";
-import { MatTableDataSource } from "@angular/material";
+import { MatTableDataSource } from "@angular/material/table";
 import { EntityFlagsComponent } from "../../modals/entity-flags/entity-flags.component";
 import { DatePipe } from "@angular/common";
 import { PdfViewerComponent } from "../../generic/pdf-viewer/pdf-viewer.component";
-
+import { VehicleOrdersComponent } from "../../modals/BidModals/vehicle-orders/vehicle-orders.component";
+import { ChangeVehicleStatusByCustomerComponent } from "../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component";
+import { DomSanitizer } from '@angular/platform-browser';
+import { CsvService } from "../../services/csv/csv.service";
 @Component({
   selector: "concise",
   templateUrl: "./concise.component.html",
@@ -133,6 +130,11 @@ export class ConciseComponent implements OnInit {
     tables: []
   };
 
+  subGroup = {
+    name: undefined,
+    data: []
+  };
+
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -142,8 +144,9 @@ export class ConciseComponent implements OnInit {
     public mapService: MapService,
     private datePipe: DatePipe,
     public dateService: DateService,
+    private _sanitizer: DomSanitizer, private csvService: CsvService,
     public pdfService: PdfService) {
-
+    console.log("this.user._customer", this.user._customer, "this.user._details", this.user._details)
     this.getKPIS();
     this.common.currentPage = "";
     this.common.refresh = this.refresh.bind(this);
@@ -189,8 +192,8 @@ export class ConciseComponent implements OnInit {
   getKPIS(isRefresh?) {
     this.lastRefreshTime = new Date();
     !isRefresh && this.common.loading++;
-    this.api.get("VehicleKpis").subscribe(
-      res => {
+    let subscription = this.api.get("VehicleKpis")
+      .subscribe(res => {
         !isRefresh && this.common.loading--;
         if (res['code'] == 1) {
           this.allKpis = res["data"];
@@ -200,29 +203,29 @@ export class ConciseComponent implements OnInit {
           this.table = this.setTable();
           this.handlePdfPrint();
         }
-
-      },
-      err => {
+        subscription.unsubscribe();
+      }, err => {
         !isRefresh && this.common.loading--;
-      }
-    );
+        console.error('getKPIs:', err);
+        subscription.unsubscribe();
+      });
   }
+
 
   getTableColumns(kpis?) {
     let columns = [];
-
     let kpisList = kpis || this.kpis;
     kpisList.map((kpi, i) => {
-
       columns.push({
-        vechile: {
+        _id: kpi.x_showveh,
+        vehicle: {
           value: kpi.x_showveh,
-          action: this.getZoomAndaddShortTarget.bind(this, kpi),
+          action: '',
           colActions: {
-            dblclick: this.showDetails.bind(this, kpi),
-            click: this.addShortTarget.bind(this, kpi),
-            mouseover: this.rotateBounce.bind(this, kpi, i),
-            mouseout: this.mapService.toggleBounceMF.bind(this.mapService, i, 2)
+            dblclick: '',
+            click: '',
+            mouseover: '',
+            mouseout: ''
           }
         },
         vehicleType: {
@@ -231,11 +234,11 @@ export class ConciseComponent implements OnInit {
         },
         status: {
           value: kpi.showprim_status,
-          action: this.showDetails.bind(this, kpi),
+          action: '',
         },
         location: {
           value: kpi.Address,
-          action: this.showLocation.bind(this, kpi)
+          action: ''
         },
         hrs: {
           value: kpi.x_hrssince,
@@ -245,9 +248,9 @@ export class ConciseComponent implements OnInit {
           value: this.common.changeTimeformat(kpi.x_idle_time),
           action: "",
         },
-        trip: {
+        trail: {
           value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
-          action: this.getUpadte.bind(this, kpi),
+          action: '',
           isHTML: true,
         },
         kmp: {
@@ -259,11 +262,7 @@ export class ConciseComponent implements OnInit {
           value: "",
           isHTML: false,
           action: null,
-          icons: this.actionIcons(kpi)
-        },
-
-        rowActions: {
-          click: "selectRow"
+          icons: this.actionIcons()
         }
       });
     });
@@ -279,6 +278,47 @@ export class ConciseComponent implements OnInit {
   grouping(viewType) {
     this.kpis = this.allKpis;
     this.kpiGroups = _.groupBy(this.allKpis, viewType);
+    if ((this.viewType === 'x_showtripend' || this.viewType === 'x_showtripstart') && this.kpiGroups['']) {
+      let xGroup = {};
+      this.kpiGroups[''].forEach(item => {
+        let key = '';
+        if (item.placements.length) {
+          key = item.placements[0].name;
+        }
+        if (key in xGroup) {
+          xGroup[key].push(item);
+        } else {
+          xGroup[key] = [item];
+        }
+      });
+
+      this.kpiGroups[''] = xGroup[''];
+      delete xGroup[''];
+      if (!this.kpiGroups[''] || !this.kpiGroups[''].length) {
+        delete this.kpiGroups[''];
+      }
+
+      Object.keys(xGroup).forEach(key => {
+        if (key in this.kpiGroups) {
+          this.kpiGroups[key].push(...xGroup[key]);
+        } else {
+          this.kpiGroups[key] = xGroup[key];
+        }
+      });
+    }
+
+    Object.keys(this.kpiGroups).forEach(key => {
+      if (key.includes('#')) {
+        // let xKey = key.split('-').map(k => k.split('#')[0]).join(' - ');
+        let xKey = key.split('#')[0];
+        if (xKey in this.kpiGroups) {
+          this.kpiGroups[xKey].push(...this.kpiGroups[key]);
+        } else {
+          this.kpiGroups[xKey] = this.kpiGroups[key];
+        }
+        delete this.kpiGroups[key];
+      }
+    });
     this.kpiGroupsKeys = Object.keys(this.kpiGroups);
     this.keyGroups = [];
 
@@ -411,12 +451,130 @@ export class ConciseComponent implements OnInit {
       this.kpis = this.allKpis;
     } else {
       this.selectedFilterKey = filterKey;
+
       this.kpis = this.allKpis.filter(kpi => {
-        if (kpi[this.viewType] == filterKey) return true;
+        let value = kpi[this.viewType].split('-').map(k => k.split('#')[0]).join(' - ');
+        if (value == filterKey) {
+          return true;
+        }
         return false;
       });
+
+
+      if (this.viewType === 'x_showtripend' && filterKey != '') {
+        let kpiGroups = _.groupBy(this.allKpis, this.viewType);
+        let xGroup = {};
+        kpiGroups[''].forEach(item => {
+          let key = '';
+          if (item.placements && item.placements.length) {
+            key = item.placements[0].name;
+            if (key in xGroup) {
+              xGroup[key].push(item);
+            } else {
+              xGroup[key] = [item];
+            }
+          }
+        });
+        Object.keys(xGroup).forEach(key => {
+          if (key === filterKey)
+            this.kpis.push(...xGroup[key]);
+        });
+      }
     }
     this.table = this.setTable();
+  }
+
+  filterSubStatus(filterKey) {
+    if (this.subGroup.name == filterKey) {
+      this.subGroup = {
+        name: undefined,
+        data: []
+      }
+      return;
+    }
+
+    let kpis = this.allKpis.filter(kpi => {
+      let value = kpi[this.viewType].split('#')[0];
+      if (value == filterKey) {
+        if (filterKey === '') {
+          if (kpi.placements && kpi.placements.length) {
+            return false;
+          }
+        }
+        return true;
+      }
+      return false;
+    });
+
+    let placements = this.allKpis.filter(kpi => !kpi[this.viewType])
+      .filter(kpi => {
+        if (kpi.placements && kpi.placements.length) {
+          if (kpi.placements[0].name === filterKey)
+            return true;
+        }
+        return false;
+      })
+    kpis.push(...placements);
+
+    if (kpis.length < 2) {
+      this.selectSubStatus(kpis);
+      this.subGroup = {
+        name: undefined,
+        data: []
+      }
+      return;
+    }
+
+    let groups = _.groupBy(kpis, this.viewType === 'x_showtripend' ? 'x_showtripstart' : 'x_showtripend');
+    if ((this.viewType === 'x_showtripend' || this.viewType === 'x_showtripstart') && groups['']) {
+      let xGroup = {};
+      groups[''].forEach(item => {
+        let key = '';
+        if (item.placements && item.placements.length) {
+          key = item.placements[0].name;
+          if (key in xGroup) {
+            xGroup[key].push(item);
+          } else {
+            xGroup[key] = [item];
+          }
+        }
+      });
+      Object.keys(xGroup).forEach(key => {
+        if (key === '') {
+          groups[''] = xGroup[key]
+        } else if (key in groups) {
+          groups[key].push(...xGroup[key])
+        } else {
+          groups[key] = xGroup[key];
+        }
+
+      });
+    }
+    delete groups[''];
+    let keysForDelete = [];
+    Object.keys(groups).forEach(key => {
+      let formattedKey = key.split('#')[0];
+      if (formattedKey !== key) {
+        if (formattedKey in groups) {
+          groups[formattedKey].push(...groups[key]);
+          if (keysForDelete.indexOf(key) === -1) {
+            keysForDelete.push(key);
+          }
+        } else {
+          groups[formattedKey] = groups[key];
+          keysForDelete.push(key);
+        }
+      }
+    });
+    keysForDelete.forEach(key => delete groups[key]);
+    groups['All'] = kpis;
+    this.subGroup.name = filterKey;
+    this.subGroup.data = Object.keys(groups).map(key => {
+      return {
+        name: key,
+        kpi: groups[key]
+      }
+    }).sort((a, b) => a.kpi.length < b.kpi.length ? 1 : -1).slice(0, 6);
   }
 
   showLocation(kpi) {
@@ -469,17 +627,17 @@ export class ConciseComponent implements OnInit {
 
   getLR(kpi) {
     this.common.loading++;
-    this.api
-      .post("FoDetails/getLorryDetails", { x_lr_id: kpi.x_lr_id })
-      .subscribe(
-        res => {
-          this.common.loading--;
-          this.showLR(res["data"][0]);
-        },
-        err => {
-          this.common.loading--;
-        }
-      );
+    let subscription = this.api.post("FoDetails/getLorryDetails", { x_lr_id: kpi.x_lr_id })
+      .subscribe((res: any) => {
+        this.common.loading--;
+        if (res.data && res.data.length)
+          this.showLR(res.data[0]);
+        subscription.unsubscribe();
+      }, err => {
+        this.common.loading--;
+        console.error('getLR: ', err);
+        subscription.unsubscribe();
+      });
   }
 
   showLR(data) {
@@ -542,13 +700,13 @@ export class ConciseComponent implements OnInit {
     return {
       data: {
         headings: {
-          vechile: { title: "Vehicle Number", placeholder: "Vehicle No" },
+          vehicle: { title: "Vehicle Number", placeholder: "Vehicle No" },
           vehicleType: { title: "Vehicle Type", placeholder: "Veh Type" },
           status: { title: "Status", placeholder: "Status" },
           location: { title: "Location", placeholder: "Location" },
           hrs: { title: "Hrs", placeholder: "Hrs " },
           Idle_Time: { title: "Idle Time", placeholder: "Idle Time" },
-          trip: { title: "Trip", placeholder: "Trip" },
+          trail: { title: "Trail", placeholder: "Trail" },
           kmp: { title: "Kmp", placeholder: "KMP" },
           action: { title: "Action", placeholder: "", hideSearch: true }
         },
@@ -559,13 +717,15 @@ export class ConciseComponent implements OnInit {
         count: {
           icon: "fa fa-map",
           action: this.handleMapView.bind(this),
-
         },
+        pagination: true,
+        tableHeight: "87vh",
+        oneAction: true,
+        selectRow: true,
+        selectMultiRow: false
+      },
 
 
-
-        tableHeight: "87vh"
-      }
     };
   }
 
@@ -739,11 +899,9 @@ export class ConciseComponent implements OnInit {
 
   createCluster() {
     if (this.isCluster) {
-      for(let i=0;i<this.markers.length;i++){
-        // console.log("marker===",this.markers[i]);
-        // console.log("vehicle===",this.kpis[i].x_showveh);
-        if(this.markers[i])
-        this.markers[i].title = this.kpis[i].x_showveh;
+      for (let i = 0; i < this.markers.length; i++) {
+        if (this.markers[i])
+          this.markers[i].title = this.kpis[i].x_showveh;
       }
       this.mapService.createCluster(this.markers, true);
     } else {
@@ -830,51 +988,61 @@ export class ConciseComponent implements OnInit {
     }
   }
 
-  actionIcons(kpi) {
+  actionIcons() {
     let icons = [
       {
-        class: " icon fa fa-chart-pie",
-        action: this.openChangeStatusModal.bind(this, kpi),
+        class: "icon fa fa-chart-pie",
+        action: '',
       },
       {
         class: "icon fa fa-star",
-        action: this.vehicleReport.bind(this, kpi),
+        action: '',
       },
 
       {
-        class: " icon fa fa-route",
-        action: this.openRouteMapper.bind(this, kpi),
+        class: "icon fa fa-route",
+        action: '',
       },
       {
-        class: " icon fa fa-truck",
-        action: this.openTripDetails.bind(this, kpi),
+        class: "icon fa fa-truck",
+        action: '',
       },
       {
         class: "icon fa fa-globe",
-        action: this.openVehicleStates.bind(this, kpi),
+        action: '',
       },
       {
         class: "icon fa fa-question-circle",
-        action: this.reportIssue.bind(this, kpi),
+        action: '',
       },
       {
         class: "icon fa fa-user-secret",
-        action: this.openStations.bind(this, kpi)
+        action: ''
       },
       {
         class: "icon fas fa-tachometer-alt",
-        action: this.openOdoMeter.bind(this, kpi)
+        action: ''
       },
       {
         class: "icon fas fa-flag-checkered",
-        action: this.openentityFlag.bind(this, kpi)
+        action: ''
       },
+      {
+        class: "icon fa fa-gavel",
+        action: ''
+      },
+      {
+        class: "icon fa fa-phone",
+        action: ''
+      },
+
     ]
-    if (this.user._loggedInBy != "admin") {
-      icons.shift();
-    }
+    // if (this.user._loggedInBy != "admin") {
+    //   icons.shift();
+    // }
     return icons;
   }
+
 
   openChangeStatusModal(trip) {
     let ltime = new Date();
@@ -889,11 +1057,18 @@ export class ConciseComponent implements OnInit {
       suggest: null,
       latch_time: latch_time,
       status: 2,
-      remark: trip.remark
+      remark: trip.remark,
+      regno: trip.x_showveh,
+      tripName: this.common.getTripStatusHTML(trip.trip_status_type, trip.x_showtripstart, trip.x_showtripend, trip.x_p_placement_type, trip.x_p_loc_name)
     };
     this.common.ref_page = 'tsfl';
     this.common.params = VehicleStatusData;
-    this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    if (this.user._loggedInBy != "admin") {
+      this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
+    }
+    else {
+      this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    }
   }
 
 
@@ -903,7 +1078,7 @@ export class ConciseComponent implements OnInit {
       vehicleRegNo: values.x_showveh,
       lat: values.x_tlat,
       long: values.x_tlong,
-      vregno: values.x_empname
+      vregno: values.x_showveh
 
     };
     const activeModal = this.modalService.open(VehicleStatesComponent, {
@@ -962,6 +1137,41 @@ export class ConciseComponent implements OnInit {
 
   }
 
+  openVehicleWiseOrders(data) {
+    let vehicle = {
+      id: data.x_vehicle_id,
+      regno: data.x_showveh
+
+    }
+    this.common.params = { vehicle: vehicle };
+    const activeModal = this.modalService.open(VehicleOrdersComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+
+  }
+  callNotification(data) {
+    if (data['x_mobileno']) {
+      let params = {
+        mobileno: data['x_mobileno'],
+        callTime: this.common.dateFormatter(new Date())
+      }
+      this.common.loading++;
+      let subcription = this.api.post('Notifications/sendCallSuggestionNotifications', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('res', res);
+          this.common.showToast(res['msg']);
+          subcription.unsubscribe();
+        }, err => {
+          this.common.loading--;
+          this.common.showError();
+          console.error('callNotification:', err);
+          subcription.unsubscribe();
+        });
+    } else {
+      this.common.showError('Driver Mobile no. does not exist');
+    }
+  }
+
 
   getPdf() {
     this.common.downloadPdf('Content1');
@@ -1004,13 +1214,15 @@ export class ConciseComponent implements OnInit {
     let userid = this.user._customer.id;
     if (this.user._loggedInBy == "customer")
       userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+    let subscription = this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
       .subscribe(res => {
         this.common.loading--;
         this.printPDF(res['data']['name']);
+        subscription.unsubscribe();
       }, err => {
         this.common.loading--;
         console.error('Error:', err);
+        subscription.unsubscribe();
       });
   }
 
@@ -1063,23 +1275,95 @@ export class ConciseComponent implements OnInit {
     this.grouping(this.viewType);
   }
 
-  exportCsv(tableId) {
+  exportCsv(tableId: string) {
     this.common.loading++;
     let userid = this.user._customer.id;
     if (this.user._loggedInBy == "customer")
       userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
+    let subscription = this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe((res: any) => {
         this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = "Customer Name::" + fodata['name'];
-        let center_heading = "Report Name::" + "Dashboard Trip";
-
-        let time = "Report Generation Time:" + this.datePipe.transform(this.today, 'dd-MM-yyyy hh:mm:ss a');
-        this.common.getCSVFromTableId(tableId, left_heading, center_heading, null, time);
+        let details = [
+          { customer: 'Customer : ' + res.data.name },
+          { report: 'Report : Dashboard Trips' },
+          { time: 'Time : ' + this.datePipe.transform(this.today, 'dd-MM-yyyy hh:mm:ss a') }
+        ];
+        this.csvService.byMultiIds([tableId], 'Dashboard', details);
+        subscription.unsubscribe();
       }, err => {
         this.common.loading--;
-        console.log(err);
+        console.error('Err:', err);
+        subscription.unsubscribe();
       });
   }
+
+  jrxActionHandler(details: any) {
+    if (details.heading && details.actionLevel !== 'icon') {
+      switch (details.heading) {
+        case 'vehicle':
+          if (details.actionType === 'click')
+            this.addShortTarget(this.findKPI(details.column._id))
+          else if (details.actionType === 'dblclick')
+            this.showDetails(this.findKPI(details.column._id))
+          else if (details.actionType === 'mouseover' && this.isMapView)
+            this.rotateBounce.bind(this.findKPI(details.column._id), details.index)
+          else if (details.actionType === 'mouseout' && this.isMapView)
+            this.mapService.toggleBounceMF(details.index, 2)
+          break;
+        case 'status':
+          this.showDetails(this.findKPI(details.column._id));
+          break;
+        case 'location':
+          this.showLocation(this.findKPI(details.column._id));
+          break;
+        case 'trail':
+          this.getUpadte(this.findKPI(details.column._id));
+          break;
+      }
+    } else if (details.actionLevel === 'icon') {
+      switch (details.heading) {
+        case 'icon fa fa-chart-pie':
+          this.openChangeStatusModal(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-star':
+          this.vehicleReport(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-route':
+          this.openRouteMapper(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-truck':
+          this.openTripDetails(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-globe':
+          this.openVehicleStates(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-question-circle':
+          this.reportIssue(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-user-secret':
+          this.openStations(this.findKPI(details.column._id))
+          break;
+        case 'icon fas fa-tachometer-alt':
+          this.openOdoMeter(this.findKPI(details.column._id))
+          break;
+        case 'icon fas fa-flag-checkered':
+          this.openentityFlag(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-gavel':
+          this.openVehicleWiseOrders(this.findKPI(details.column._id))
+          break;
+        case 'icon fa fa-phone':
+          this.callNotification(this.findKPI(details.column._id))
+          break;
+      }
+    }
+  }
+
+  findKPI(regno) {
+    return this.kpis.find((kpi) => {
+      if (kpi.x_showveh == regno) return true;
+      return false;
+    });
+  }
+
 }

@@ -12,7 +12,13 @@
     <div class="col-md-3">
       <span>{{regno}}</span>
     </div>
-
+    <div class="col-md-3">
+      <label>Invoice No.</label>
+    </div>
+    <div class="col-md-3">
+      <input type="text" placeholder="Invoice No" class="form-control" name="invoiceNo"
+        [(ngModel)]="serviceDetails.invoiceNo" >
+    </div>
   </div>
 
 
@@ -40,8 +46,10 @@
       <label>Service Center</label>
     </div>
     <div class="col-md-3">
-      <input type="text" placeholder="Center" class="form-control" name="serviceCenter"
-        [(ngModel)]="serviceDetails.serviceCenter">
+      <!-- <input type="text" placeholder="Center" class="form-control" name="serviceCenter"
+        [(ngModel)]="serviceDetails.serviceCenter"> -->
+        <auto-suggestion (onSelected)="selectServiceCenter($event)" [data]="serviceCenters" display="service_center"
+        placeholder="Service Center" (focusout)="setServiceCenter()" inputId="service_center" [preSelected]="{service_center:serviceDetails.serviceCenter}"></auto-suggestion>
     </div>
     <div class="col-md-3">
       <label>Service Location</label>
@@ -49,6 +57,8 @@
     <div class="col-md-3">
       <input type="text" placeholder="Location" class="form-control" name="serviceLocation"
         [(ngModel)]="serviceDetails.serviceLocation">
+
+      
     </div>
 
   </div>
@@ -101,10 +111,25 @@
 
   <div class="row">
     <div class="col-md-3">
+      <label>Amount</label>
+    </div>
+    <div class="col-md-3">
+      <input type="number" placeholder="Amount" class="form-control" name="amount" [(ngModel)]="serviceDetails.amount" (change)="calculateAmount()">
+    </div>
+    <div class="col-md-3">
+      <label>Tax</label>
+    </div>
+    <div class="col-md-3">
+      <input type="number" placeholder="Tax" class="form-control" name="tax" [(ngModel)]="serviceDetails.tax" (change)="calculateAmount()">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
       <label>Total Amount</label>
     </div>
     <div class="col-md-3">
-      <input type="number" placeholder="Amount" class="form-control" name="amount" [(ngModel)]="serviceDetails.amount">
+      <label>{{serviceDetails.totalAmount}}</label>
     </div>
     <div class="col-md-3">
       <label>Remark</label>

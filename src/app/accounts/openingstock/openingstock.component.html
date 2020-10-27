@@ -2,22 +2,22 @@
   <!-- <nb-card-header>
     <h4>Day Book</h4>
   </nb-card-header> -->
-  <nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
+  <nb-card-body style="min-height: 450px;">
     <div class="row">
-      <div class="col-9">
+      <div class="col-9 pl-0 pr-0">
         <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
         <div class="row">
-          <div class="col-4">
+          <div class="col-4 pl-0">
             <div class="form-group">
               <label class="tjr-label">Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="date"
                 placeholder="Select Date" name="date" [(ngModel)]="openingstock.date" maxlength="10">
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-3 pl-0">
             <div class="form-group">
               <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="dismiss(true)"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
@@ -28,13 +28,14 @@
 
     </div>
 
-
+<div class="table-responsive">
     <table class="table table-bordered" id="table">
 
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>S.No</th>
           <th>Item</th>
+          <th>Opening Qty</th>
           <th>Purchase </th>
           <th>Sales</th>
           <th>Credit Note</th>
@@ -42,8 +43,8 @@
           <th>Wastage</th>
           <th>Store Recived </th>
           <th>Store Issue</th>
-          <th>Opening Qty</th>
-          <th>Opening Balance</th>
+          <th>Available Qty</th>
+          <th>Stock Balance Amt</th>
         </tr>
       </thead>
       <tbody>
@@ -51,6 +52,7 @@
           [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{ i+1 }}</td>
         <td>{{openingStock.stockitem_name}}</td>
+        <td>{{openingStock.opening_qty}}</td>
           <td>{{openingStock.pi_total_qty}}</td>
           <td>{{openingStock.si_total_qty}}</td>
           <td>{{openingStock.sr_total_qty}}</td>
@@ -63,6 +65,7 @@
         </tr>
       </tbody>
     </table>
+  </div>
   </nb-card-body>
 </nb-card>
 <div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">

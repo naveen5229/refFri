@@ -1,0 +1,23 @@
+<nb-card>
+ 
+  <nb-card-header>
+      <h5>Upload Routes</h5>
+    </nb-card-header>
+<nb-card-body>
+
+  <div class="row">
+
+    <div class="col-2">
+        <label>Upload File :-</label>
+    </div>
+    <div class="col-3">
+      <input style="float: left;" type="file" name="kml" (change)="handleFileSelection($event)">
+    </div>
+    <div class="col-3">
+      <button style="float: left;"  class="btn btn-primary" (click)='UploadRoutes()'>Upload</button>
+    </div>
+
+  </div>
+ 
+</nb-card-body>
+</nb-card>

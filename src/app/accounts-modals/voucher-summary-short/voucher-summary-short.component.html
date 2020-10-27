@@ -200,7 +200,8 @@
                       <th>Entry By</th>
                       
                     </tr>
-                  </thead>             
+                  </thead>  
+                <tbody>           
                       <tr *ngFor="let item of transferData; let i = index;">
                       <td>{{i+1}}</td>
                         <td *ngFor="let itemheading of transferHeading">
@@ -208,6 +209,7 @@
                        </td>
                     
                   </tr>
+                </tbody>
                 </table>
               </div>
         </div>
@@ -266,12 +268,14 @@
               <th>Revenue</th>
               <th>Remarks</th>
             </tr>
-          </thead>             
+          </thead>
+        <tbody>
               <tr *ngFor="let item of tripFreghtDetails; let i = index;">
                 <td>{{item.receipt_no}}</td>
                 <td>{{item.auto_amount}}</td>
                 <td>{{item.remarks}}</td>
           </tr>
+        </tbody>
         </table>
       </div>
      

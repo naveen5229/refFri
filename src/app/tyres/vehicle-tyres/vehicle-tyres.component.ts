@@ -94,6 +94,67 @@ export class VehicleTyresComponent implements OnInit {
   ngOnInit() {
   }
 
+  resetDetails(){
+    this.vehicleTyres = [
+      {
+        tyreNo: null,
+        tyreId: null,
+        details: null,
+        kms: null,
+        date: (this.common.dateFormatter(new Date())).split(' ')[0],
+        tyrePosition: {
+          leftRight: -1,
+          pos: -1,
+          axel: -1,
+          frontRear: -1
+        },
+        position: false
+      },
+      {
+        tyreNo: null,
+        tyreId: null,
+        details: null,
+        kms: null,
+        date: (this.common.dateFormatter(new Date())).split(' ')[0],
+        tyrePosition: {
+          leftRight: -1,
+          pos: -1,
+          axel: -1,
+          frontRear: -1
+        },
+        position: false
+      },
+      {
+        tyreNo: null,
+        tyreId: null,
+        details: null,
+        kms: null,
+        date: (this.common.dateFormatter(new Date())).split(' ')[0],
+        tyrePosition: {
+          leftRight: -1,
+          pos: -1,
+          axel: -1,
+          frontRear: -1
+        },
+        position: false
+      },
+      {
+        tyreNo: null,
+        tyreId: null,
+        details: null,
+        kms: null,
+        date: (this.common.dateFormatter(new Date())).split(' ')[0],
+        tyrePosition: {
+          leftRight: -1,
+          pos: -1,
+          axel: -1,
+          frontRear: -1
+        },
+        position: false
+      },
+    ]
+  }
+
   getDate(index) {
     this.common.params = { ref_page: "Tyre Inputs", date: this.vehicleTyres[index].date };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -151,6 +212,7 @@ export class VehicleTyresComponent implements OnInit {
           console.log("return id ", res['data'][0].r_id, res['data'][0].r_msg);
           if (res['data'][0].r_id > 0) {
             console.log("sucess");
+            this.resetDetails();
             this.common.showToast("sucess");
             this.getMappedTyres();
           } else {

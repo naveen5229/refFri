@@ -152,6 +152,27 @@
               </div>
             </div>
 
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Engine No</label>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-8">
+                    <input type="text"  name="engineNo" [(ngModel)]="modal.first.data.document.engineNo" class="form-control mt-1">            
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">chasis No</label>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-8">
+                    <input type="text"  name="chasisNo" class="form-control mt-1" [(ngModel)]="modal.first.data.document.chasisNo">
+                  </div>
+                </div>
+              </div>
+            </div>
 
 
 
@@ -209,10 +230,10 @@
 
           </div>
           <div class="col-sm-8">
-            <app-image-viewer *ngIf="modal.first.data.document.img_url && !modal.first.data.doc_not_img"
+            <jrx-image-viewer *ngIf="modal.first.data.document.img_url && !modal.first.data.doc_not_img"
               [images]="modal.first.data.images" [idContainer]="'first-' + modal.first.data.imageViewerId"
               [loadOnInit]="true">
-            </app-image-viewer>
+            </jrx-image-viewer>
             <div *ngIf="!modal.first.data.document.img_url">No Image Exists</div>
             <div id="imgzoom-first"></div>
           </div>
@@ -328,6 +349,28 @@
             </div>
 
             <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Engine No</label>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-8">
+                    <input type="text"  name="engineNo" [(ngModel)]="modal.second.data.document.engineNo" class="form-control mt-1">            
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">chasis No</label>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-8">
+                    <input type="text"  name="chasisNo" class="form-control mt-1" [(ngModel)]="modal.second.data.document.chasisNo">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
               <label for="wef_date-second" class="col-sm-4 mgn-vert">manufaturing Date</label>
               <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8" style="padding-left:7px;">
                 <label style="font-size:16px;">
@@ -360,11 +403,10 @@
 
 
           <div class="col-sm-8">
-
-            <app-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
+            <jrx-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
               [images]="modal.second.data.images" [idContainer]="'second-' + modal.second.imageViewerId"
               [loadOnInit]="true">
-            </app-image-viewer>
+            </jrx-image-viewer>
             <div *ngIf="!modal.second.data.document.img_url">No Image Exists</div>
             <div id="imgzoom-second"></div>
           </div>

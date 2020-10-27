@@ -42,7 +42,9 @@
     background: #fff;
     overflow: visible;
   }
-
+  .tablenew{
+    border: none !important;
+  }
   .print-page-container {
     position: relative;
     height: 410mm;
@@ -50,12 +52,14 @@
     page-break-after: always;
     page-break-inside: avoid;
   }
-
+ 
   // print page container
   .print-page {
     height: calc(100% - 150px);
   }
-
+  .print-page-new {
+    height: calc(100% - 50px);
+  }
   .pp-container {
     position: relative;
     background: #fff;
@@ -85,7 +89,25 @@
         margin-right: 25px;
       }
     }
+    .pp-v1-signaturenew {
+      position: absolute;
+      bottom: 80px;
+      left: 0;
+      width: 100%;
+      text-align: left;
+      padding-left: 100px;
 
+      div {
+        display: inline-block;
+      //  border-top: 2px solid #000;
+        min-width: 150px;
+        text-align: center;
+        font-weight: 500;
+        padding-top: 0px;
+        margin-left: 25px;
+        margin-right: 25px;
+      }
+    }
     .pp-v1-footer {
       position: absolute;
       bottom: 0;
@@ -95,4 +117,9 @@
       font-weight: 100 !important;
     }
   }
+}
+
+
+.xhide-trip-issue{
+  visibility: hidden !important;
 }

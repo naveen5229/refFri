@@ -112,3 +112,65 @@ table{
         }
     }
 } 
+.tblclaim tr th:nth-child(1){width:5%!important}
+.tblclaim tr th:nth-child(2){width:10%!important}
+.tblclaim tr th:nth-child(3){width:40%!important} 
+.tblclaim tr th:nth-child(4){width:15%!important}
+.tblclaim tr th:nth-child(5){width:15%!important}
+.tblclaim tr th:nth-child(6){width:15%!important}
+
+.tblclaim tr td:nth-child(1){width:5%!important}
+.tblclaim tr td:nth-child(2){width:10%!important}
+.tblclaim tr td:nth-child(3){width:40%!important} 
+.tblclaim tr td:nth-child(4){width:15%!important;padding-left:15px!important;}
+.tblclaim tr td:nth-child(5){width:15%!important;padding-left:20px!important;}
+.tblclaim tr td:nth-child(6){width:15%!important;padding-left:20px!important;}
+
+.tblnew tr th:nth-child(1){width:5%!important}
+.tblnew tr th:nth-child(2){width:15%!important}
+.tblnew tr th:nth-child(3){width:50%!important}
+.tblnew tr th:nth-child(4){width:15%!important}
+.tblnew tr th:nth-child(5){width:15%!important}
+
+.tblnew tr td:nth-child(1){width:5%!important}
+.tblnew tr td:nth-child(2){width:15%!important}
+.tblnew tr td:nth-child(3){width:50%!important}
+.tblnew tr td:nth-child(4){width:15%!important;padding-left:20px!important;}
+.tblnew tr td:nth-child(5){width:15%!important;padding-left:20px!important;}
+
+
+.tabs_style{
+    width: 100%;
+    margin: 0px;
+    border-bottom: 2px solid #26A69A;
+    margin-bottom: 10px;
+    padding-left: 5px !important;
+    li.active{
+    background-color: #fff;
+    color: #26A69A;
+    position: relative;
+    }
+    li.active:after{
+        content: '';
+        display: block;
+        background-color: #fff;
+        height: 10px;
+        width: 100%;
+        position: absolute;
+        left: 0px;
+    }
+    li{
+        padding: 5px 6px;
+        list-style: none;
+        margin-right: 5px;
+        background-color: #26A69A;
+        border: 2px solid #26A69A;
+        color: #fff;
+        border-bottom: 0px;
+        display: inline-block;
+        border-radius: 5px 5px 0px 0px;
+        font-size: 12px;
+        font-weight: normal;
+        cursor: pointer;
+    }
+}

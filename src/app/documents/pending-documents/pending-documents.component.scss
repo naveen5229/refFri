@@ -26,15 +26,15 @@ label {
     font-weight: normal;
     color: #4b4b4b;
 }
-.modal-body input, 
-.modal-body textarea, 
-.modal-body select{
-    border: 1px solid #263238 !important;
-    border-radius: 0px 2px 2px 2px;
-    padding: 3px 5px !important;
-    height: auto;
-    font-size: 12px;
-}
+// .modal-body input, 
+// .modal-body textarea, 
+// .modal-body select{
+//     border: 1px solid #263238 !important;
+//     border-radius: 0px 2px 2px 2px;
+//     padding: 3px 5px !important;
+//     height: auto;
+//     font-size: 12px;
+// }
 .modal-body textarea{
     height: 100px;
 }
@@ -119,7 +119,7 @@ auto-suggestion {
 }
 
 // Modal
-.custom-modal-1 {
+.custom-modal-1, .custom-modal-2 {
     position: absolute;
     top: 0;
     left: 0;

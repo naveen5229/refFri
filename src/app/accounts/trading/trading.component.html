@@ -4,19 +4,17 @@
     </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
      <!-- View Expand -->
-     <div class="expand-div">
-        <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
-        <label>Expand Group</label>
-        <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">
-        <label>Expand Sub Group</label>
-        <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
-        <label>Expand All</label>
-      </div>
+     <div class="" style="float:right; margin-right: 20px">
+      <span><input type="radio" name="view-type" value="main" [(ngModel)]="isExpand"> Expand
+        Main Group</span>
+      <span style="margin-left: 5px;"><input type="radio" name="view-type" value="sub" [(ngModel)]="isExpand"> Expand
+        All</span>
+    </div>
       <!-- View Expand End -->
 
     <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('table')"
       style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-    <span class="exel-icon" title="CSV Export" (click)="generateCsvData()"
+    <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
       style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
     <div class="row">
       <!--div class="col">
@@ -28,58 +26,37 @@
           </div>
         </div-->
 
-      <div class="col">
+      <div class="col pl-0">
         <div class="form-group">
           <label class="tjr-label">Starting Date</label>
           <input type="text" style="cursor: pointer;" class="form-control tjr-input " autocomplete="off"
-            placeholder="Select Date" name="account-date" [(ngModel)]="balanceData.startdate" id="startdate"
+            placeholder="Select Date" name="account-date" [(ngModel)]="accountService.fromdate" id="startdate"
             maxlength="10">
         </div>
       </div>
-      <div class="col">
+      <div class="col pl-0">
         <div class="form-group">
           <label class="tjr-label">End Date</label>
           <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off"
-            placeholder="Select Date" name="account-enddate" [(ngModel)]="balanceData.enddate" maxlength="10">
+            placeholder="Select Date" name="account-enddate" [(ngModel)]="accountService.todate" maxlength="10">
         </div>
       </div>
-      <div class="col">
+      <div class="col pl-0">
         <div class="form-group">
           <button class="btn btn-primary tjr-button " type="button" outline (click)="getBalanceSheet()" id="submit"
             style="cursor: pointer; margin-top: 14px; padding: 5px 10px !important;">Submit</button>
         </div>
       </div>
     </div>
-<div id="table">
+<div>
     <div class="row balance-shit m-0 p-0">
       <div class="col-6 p-0">
-        <!-- <table class="table table-bordered" id="table1">
-          <thead>
-            <tr>
-              <th>Particulars</th>
-              <th style="text-align: right;">Amount</th>
-            </tr>
-          </thead>
-          <tbody *ngFor="let liability of liabilities; let i = index;">
-            <tr style="background: #184154;" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
-              <td>{{liability.name}}</td>
-              <td style="text-align: right;">{{liability.amount | number : '1.2-2'}}</td>
-            </tr>
-            <tr *ngFor="let balanceSheet of liability.balanceSheets let j = index" style="background: #dadfe6;"
-              (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name) : ' ' "
-              (click)="selectedRow =  'A' + i + j" [ngClass]="{'highlight' : selectedRow == 'A' + i + j }">
-              <td>{{balanceSheet.y_ledger_name}}</td>
-              <td style="text-align: left;">
-                <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
-              </td>
-            </tr>
-          </tbody>
-        </table> -->
+        
         <div class="row heading m-0 p-0">
           <div class="col-8">Particulars</div>
           <div class="col-4 text-right">Amount</div>
         </div>
-        <div *ngFor="let liability of liabilities;  let i = index;"
+        <!-- <div *ngFor="let liability of liabilities;  let i = index;"
         (click)="handleExpandation($event, i, 'liabilities', 'mainGroup', 0)">
           <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
             <div class="col-8">{{liability.name}}</div>
@@ -105,37 +82,26 @@
             </div>
 
           </div>
+        </div> -->
+        <div class="jrx-dtbody">
+        <div *ngFor="let liability of assets;  let i = index;"
+        (click)="activeTreeasset = activeTreeasset !== i ? i : -1">
+        <div *ngIf="(assets.length -1 > i)" class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == assets.length -1 ? 'none' : ''}">
+          <div class="col-8">{{liability.name}}</div>
+          <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
         </div>
+        <trading-tree *ngIf="(assets.length -1 > i)" [action]="openLedgerViewModel.bind(this)" [data]="liability.data"
+          [isExpandAll]="isExpand == 'sub'" [active]="activeTreeasset == i || (isExpand == 'sub')  ? true : false" labels="">
+        </trading-tree>
+      </div>
+      </div>
       </div>
       <div class="col-6 p-0">
-        <!-- <table class="table table-bordered" id="table2">
-          <thead>
-            <tr>
-              <th>Particulars</th>
-              <th style="text-align: right;">Amount</th>
-            </tr>
-          </thead>
-          <tbody *ngFor="let asset of assets; let k = index;">
-            <tr style="background: #184154;" [ngStyle]="{'display':  k == assets.length -1 ? 'none' : ''}">
-              <td>{{asset.name}}</td>
-              <td style="text-align: right;">{{asset.amount | number : '1.2-2'}}</td>
-            </tr>
-            <tr *ngFor=" let balanceSheet of asset.balanceSheets let l = index" (click)="selectedRow =  'B' + k + l"
-              (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name) : ' ' "
-              [ngClass]="{'highlight' : selectedRow == 'B' + k + l }" style="background: #dadfe6;"
-              style="background: #dadfe6;">
-              <td>{{balanceSheet.y_ledger_name}}</td>
-              <td style="text-align: left;">
-                <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
-              </td>
-            </tr>
-          </tbody>
-        </table> -->
         <div class="row heading m-0 p-0">
           <div class="col-8">Particulars</div>
           <div class="col-4 text-right">Amount</div>
         </div>
-        <div *ngFor="let liability of assets;  let i = index;"
+        <!-- <div *ngFor="let liability of assets;  let i = index;"
           (click)="handleExpandation($event, i, 'asset', 'mainGroup', 0)">
           <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
             <div class="col-8">{{liability.name}}</div>
@@ -162,6 +128,18 @@
             </div>
 
           </div>
+        </div> -->
+        <div class="jrx-dtbody">
+        <div *ngFor="let liability of liabilities;  let j = index;" (click)="activeTree = activeTree !== j ? j : -1">
+          <div style="background: #184154;" [ngStyle]="{'display':  j == liabilities.length -1 ? 'none' : ''}"
+            class="th-mini row m-0 pl-0 pr-0">
+            <div class="col-8">{{liability.name}}</div>
+            <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+          </div>
+          <trading-tree [action]="openLedgerViewModel.bind(this)" [data]="liability.data"
+            [isExpandAll]="isExpand == 'sub'" [active]="activeTree == j || (isExpand == 'sub')  ? true : false" labels="">
+          </trading-tree>
+        </div>
         </div>
       </div>
     </div>

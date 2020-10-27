@@ -85,7 +85,7 @@
 <div class="custom-modal-1" *ngIf="modal.first.show" [ngClass]="modal.first.class">
   <div class="custom-modal-body">
     <div class="modal-header">
-      <h5 class="modal-title" id="modal-basic-title-first">{{modal.first.data.title}}</h5>
+      <h5 class="modal-title" id="modal-basic-title-first">{{modal.first.data.title}} (First)</h5>
       <button type="button" class="close" aria-label="Close" (click)="closeModal(false, 'first')">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -272,10 +272,10 @@
           <div class="col-sm-8">
 
 
-            <app-image-viewer *ngIf="modal.first.data.document.img_url && !modal.first.data.doc_not_img"
+            <jrx-image-viewer *ngIf="modal.first.data.document.img_url && !modal.first.data.doc_not_img"
               [images]="modal.first.data.images" [idContainer]="'first-' + modal.first.data.imageViewerId"
               [loadOnInit]="true">
-            </app-image-viewer>
+            </jrx-image-viewer>
             <div *ngIf="!modal.first.data.document.img_url">No Image Exists</div>
             <div id="imgzoom-first"></div>
           </div>
@@ -291,10 +291,10 @@
 
 
 <!-- Modal 2 -->
-<div class="custom-modal-1" *ngIf="modal.second.show" [ngClass]="modal.second.class">
+<div class="custom-modal-2" *ngIf="modal.second.show" [ngClass]="modal.second.class">
   <div class="custom-modal-body">
     <div class="modal-header">
-      <h5 class="modal-title" id="modal-basic-title-second">{{modal.second.data.title}}</h5>
+      <h5 class="modal-title" id="modal-basic-title-second">{{modal.second.data.title}} (Second)</h5>
       <button type="button" class="close" aria-label="Close" (click)="closeModal(false, 'second')">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -486,14 +486,11 @@
             </div>
 
           </div>
-
-
           <div class="col-sm-8">
-
-            <app-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
+            <jrx-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
               [images]="modal.second.data.images" [idContainer]="'second-' + modal.second.imageViewerId"
               [loadOnInit]="true">
-            </app-image-viewer>
+            </jrx-image-viewer>
             <div *ngIf="!modal.second.data.document.img_url">No Image Exists</div>
             <div id="imgzoom-second"></div>
           </div>

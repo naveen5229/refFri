@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <div class="row mt-2">
+        <!-- <div class="row mt-2">
             <div class="col-4">
                 <label>Main Balance</label>
             </div>
@@ -49,11 +49,11 @@
                 <strong>{{mainBalance}}</strong>
             </div>
 
-        </div>
+        </div> -->
         <div class="row mt-2">
             <div class="col-12">
                 <div class="radio-type">
-                    <input type="radio" value="1" name="radio" [(ngModel)]="paymentState"
+                    <input type="radio" value="2" name="radio" [(ngModel)]="paymentState"
                         (change)="changePaymentState(paymentState)">Pay
                     <input type="radio" value="-1" name="radio" [(ngModel)]="paymentState"
                         (change)="changePaymentState(paymentState)">Reject
@@ -61,6 +61,15 @@
             </div>
         </div>
 
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Challan Payment Receipt</label>
+            </div>
+            <div class="col-8">
+                <input type="file" class="file-control" id="challan-receipt" formControlName="paychallanreceipt"
+            (change)="handleFileSelection($event)">
+            </div>
+        </div>
 
         <div class="row mt-2">
             <div class="col-4">

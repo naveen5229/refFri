@@ -68,7 +68,12 @@ nb-card-header {
 }
 
 .balance-shit {
-    background-color: #dadfe6;
+    background-color: #fff;
+   
+}
+.middlebody{
+    height: calc(100vh - 265px);
+    overflow: auto;
 }
 
 .heading {
@@ -148,12 +153,12 @@ nb-card-header {
 }
 
 .pdf-icon {
-    font-size: 30px;
+    //font-size: 30px;
     color: #9F0001;
 }
 
 .exel-icon {
-    font-size: 30px;
+   // font-size: 30px;
     color: #217346;
 }
 

@@ -708,6 +708,100 @@ mwlResizable {
 
     }
 
+    .icon.fa-gavel {
+        color: #d51818;
+
+        span {
+            position: absolute;
+            display: none;
+            padding: 10px 46px;
+            font-size: 11px;
+            font-weight: normal;
+            left: -70px;
+            top: -28px;
+            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+            font-family: Roboto;
+            z-index: 9999;
+        }
+
+        span::before {
+            content: 'Vehicle Orders';
+            display: block;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background-color: #d51818;
+            border-radius: 3px;
+            padding: 5px 10px;
+            color: #fff;
+            width: 100%;
+        }
+
+        span::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #d51818;
+            position: absolute;
+            bottom: -5px;
+            right: 9px;
+        }
+    }
+
+    .icon.fa-gavel:hover span {
+        display: block;
+    }
+
+    .icon.fa-phone {
+        // color: #d51818;
+
+        span {
+            position: absolute;
+            display: none;
+            padding: 10px 46px;
+            font-size: 11px;
+            font-weight: normal;
+            left: -70px;
+            top: -28px;
+            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+            font-family: Roboto;
+            z-index: 9999;
+        }
+
+        span::before {
+            content: 'Call Driver';
+            display: block;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            // background-color: #d51818;
+            border-radius: 3px;
+            padding: 5px 10px;
+            color: #fff;
+            width: 100%;
+        }
+
+        span::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            // border-top: 5px solid #d51818;
+            position: absolute;
+            bottom: -5px;
+            right: 9px;
+        }
+    }
+
+    .icon.fa-phone:hover span {
+        display: block;
+    }
+
     .loading {
         color: green;
     }
@@ -735,7 +829,7 @@ mwlResizable {
 
 :host ::ng-deep.tableFixHead {
     height: auto !important;
-    max-height: calc(100vh - 80px);
+    max-height: calc(100vh - 115px);
 }
 
 :host ::ng-deep .no-search {
@@ -783,3 +877,24 @@ mwlResizable {
     border-radius: 5px;
     left: 45%;
 }
+.status-print-title{
+    margin-top: -7px;
+    padding-bottom: 20px;
+h4{
+    height: auto;
+    margin: auto;
+    z-index: 999999;
+    overflow: visible;
+    border-radius: .17rem;
+    padding: 4px 20px;
+    background-color: #c9c2de;
+    border-bottom: 1px solid #fff;
+    -webkit-box-shadow: 0 16px 26px -10px rgba(63,106,216,.56), 0 4px 25px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(63,106,216,.2);
+    box-shadow: 0 16px 26px -10px rgba(63,106,216,.56), 0 4px 25px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(63,106,216,.2);
+    display: inline-block;
+    color: #000;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+}
+} 

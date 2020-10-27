@@ -38,8 +38,8 @@
       </auto-suggestion>
     </div>
     <div class="col-4" *ngIf="id==4">
-      <auto-suggestion (onSelected)="selectFOAdmin($event)" url="Suggestion/getFoAdminList" display="name"
-        inputId="driver" [preSelected]="{name:refDetails}">
+      <auto-suggestion (onSelected)="selectFOAdmin($event)" url="Suggestion/getFoAdminList" display="employeename"
+        inputId="driver" [preSelected]="{employeename:refDetails}">
       </auto-suggestion>
     </div>
 
@@ -54,7 +54,7 @@
 
 
     <div class="col-4" *ngIf="id==11">
-      <auto-suggestion (onSelected)="selectWareHouse($event)" url="Suggestion/getWarehouseName" display="name"
+      <auto-suggestion (onSelected)="selectWareHouse($event)" url="Suggestion/getWarehouseName" display="employeename"
         [preSelected]="{name:refDetails}">
       </auto-suggestion>
     </div>

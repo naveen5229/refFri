@@ -59,6 +59,7 @@ export class EditDocumentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.vehicleId = this.common.params.vehicleId;
     this.document = this.common.params.documentData;
+    console.log("this.document",this.document);
     this.document.docId = this.document[0].id;
     this.document.regNumber = this.document[0].regNumber;
     this.document.documentId = this.document[0].documentId;
@@ -94,6 +95,7 @@ export class EditDocumentComponent implements OnInit {
     if (this.document.expiryDate) {
       this.document.expiryDate = this.common.dateFormatter(this.document.expiryDate, 'ddMMYYYY').split(' ')[0];
     }
+    console.log("cons image",this.images);
   }
 
   closeModal(response) {
@@ -124,6 +126,7 @@ export class EditDocumentComponent implements OnInit {
           this.images.push({ name: "doc-img", image: this.document.docUpload2 });
           this.common.params = { title: "Doc Image", images: this.images };
         }
+        console.log("func image",this.images);
       }, err => {
         this.common.loading--;
         console.log(err);
