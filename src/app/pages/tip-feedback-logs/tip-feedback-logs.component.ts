@@ -150,6 +150,12 @@ export class TipFeedbackLogsComponent implements OnInit {
       if (text[0].remarks) {
         string += '<span> - ' + text[0].remarks + '</span>';
       }
+      if (text[0].origin) {
+        string += '<br><span> ' + text[0].origin + ' -> </span>';
+      }
+      if (text[0].destination) {
+        string += '<span>' + text[0].destination + '</span>';
+      }
     }
     return string;
   }
