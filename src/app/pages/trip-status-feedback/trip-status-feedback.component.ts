@@ -1,81 +1,87 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 
 @Component({
   selector: 'trip-status-feedback',
   templateUrl: './trip-status-feedback.component.html',
-  styleUrls: ['./trip-status-feedback.component.scss', '../pages.component.css']
+  styleUrls: ['./trip-status-feedback.component.scss', '../pages.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class TripStatusFeedbackComponent implements OnInit {
   trips = [];
+  allTrips = [];
   states = [];
+  pages = {
+    count: 1,
+    active: 1,
+    limit: 100
+  }
   constructor(public api: ApiService,
-    public common: CommonService,
+    public common: CommonService, private cdr: ChangeDetectorRef,
     public user: UserService,
     private modalService: NgbModal) {
     this.getTrips();
     this.getStates();
     this.common.refresh = this.refresh.bind(this);
-
   }
 
   ngOnInit() {
   }
 
   refresh() {
-
     this.getTrips();
   }
-getStates(){
-  this.common.loading++;
-  this.api.get('Suggestion/getAllDashboardStatus')
-    .subscribe(res => {
-      this.common.loading--;
-      this.states = res['data'] || [];
-    }, err => {
-      this.common.loading--;
-      console.log(err);
-    });
-}
 
-  selectState(event,index){
+  getStates() {
+    this.common.loading++;
+    let subscription = this.api.get('Suggestion/getAllDashboardStatus')
+      .subscribe(res => {
+        this.common.loading--;
+        this.states = res['data'] || [];
+        subscription.unsubscribe();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+        subscription.unsubscribe();
+      });
+  }
+
+  selectState(event, index) {
     this.trips[index].status = '';
-    this.trips[index].status=(event.v_is_ncv||'')+","+(event.prim_status||'')+","+(event.sec_status||'');
-    console.log("this.trips[index].status",this.trips[index].status);
+    this.trips[index].status = (event.v_is_ncv || '') + "," + (event.prim_status || '') + "," + (event.sec_status || '');
+    console.log("this.trips[index].status", this.trips[index].status);
   }
 
   getTrips() {
     this.common.loading++;
-    this.api.get('TripsOperation/tripDetailsForVerification')
+    let subscription = this.api.get('TripsOperation/tripDetailsForVerification')
       .subscribe(res => {
         this.common.loading--;
-        this.trips = res['data'];
-        for (let i = 0; i < this.trips.length; i++) {
-          this.trips[i].status = '';
+        this.allTrips = res['data'];
+        for (let i = 0; i < this.allTrips.length; i++) {
+          this.allTrips[i].status = '';
         }
-        console.log("Trips", this.trips);
+        this.setData();
+        this.cdr.detectChanges();
+        subscription.unsubscribe();
       }, err => {
         this.common.loading--;
         console.log(err);
+        subscription.unsubscribe();
       });
   }
 
   tripVerified(trip, action, i) {
-
-    console.log("action", action);
     if (action == "true") {
       this.changeVerification(trip, action, i);
-    }
-    else if ((action == 'false') && ((trip.status) || (trip.origin) || (trip.destination))) {
+    } else if ((action == 'false') && ((trip.status) || (trip.origin) || (trip.destination))) {
       this.changeVerification(trip, action, i);
-
-    }
-    else {
+    } else {
       this.common.showError("One Input Field is Mandatory");
     }
 
@@ -93,9 +99,10 @@ getStates(){
       newState: trip.status,
       location: trip.r_location,
       remark: trip.remark
-    }
+    };
     console.log("params", params);
     this.trips.splice(i, 1);
+    this.setData();
     //this.common.loading++;
     this.api.post('TripsOperation/tripVerification', params)
       .subscribe(res => {
@@ -104,8 +111,7 @@ getStates(){
         if (res['data'][0].rtn_id > 0) {
           this.common.showToast("Successfully Verified");
           // this.getTrips();
-        }
-        else {
+        } else {
           this.common.showError(res['data'][0].rtn_msg);
         }
       }, err => {
@@ -168,6 +174,35 @@ getStates(){
         console.log(err);
       });
 
+  }
 
+  handlePagination(page) {
+    this.pages.active = page;
+    let startIndex = this.pages.limit * (this.pages.active - 1);
+    let lastIndex = (this.pages.limit * this.pages.active);
+    this.trips = this.allTrips.slice(startIndex, lastIndex);
+    this.cdr.detectChanges();
+  }
+
+  customPage(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.cdr.detectChanges();
+    this.setData();
+    this.cdr.detectChanges();
+  }
+
+  setData() {
+    this.pages.count = Math.floor(this.allTrips.length / this.pages.limit);
+    if (this.allTrips.length % this.pages.limit) {
+      this.pages.count++;
+    }
+    if (this.pages.count < this.pages.active) {
+      this.pages.active = this.pages.count;
+    }
+    let startIndex = this.pages.limit * (this.pages.active - 1);
+    let lastIndex = (this.pages.limit * this.pages.active);
+    this.trips = this.allTrips.slice(startIndex, lastIndex);
+    this.cdr.detectChanges();
   }
 }
