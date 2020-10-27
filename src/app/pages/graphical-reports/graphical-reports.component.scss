@@ -10,9 +10,14 @@
     border-radius: 3px;
 }
 
+.filterModalClass{
+    max-width: 90%;
+    margin-left: 5%;
+}
+
 .filter-Container {
     width: 100%;
-    height: 100px;
+    height: 80vh;
     display: inline-block;
     vertical-align: top;
     z-index: 0;

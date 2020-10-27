@@ -542,6 +542,15 @@ dropdownFilter = [];
     this.openFilterModal(this.assign.filter[index],'edit');
   }
 
+  generateCOlorPallet(){
+    let colors = [];
+    for (let angleIndex = 0; angleIndex < 360; angleIndex+=15) {
+      colors.push(this.common.HSLToHex(angleIndex,100,70));
+    }
+    console.log('pallet',colors);
+    return this.common.shuffle(colors);
+  }
+
   addMeasure(index,axis,measure){
         console.log('index:',index,'axis:',axis,'measure:',measure);
         if(measure === 'None'){
@@ -841,12 +850,7 @@ dropdownFilter = [];
       });
       
       stateTableData.map((e,index)=> {
-        dataSet.push({label:e.series.y_name,data:[],yAxesGroup:e.series.yaxis,bgColor:['#1F618D', '#1E8449', '#A04000', '#B03A2E', '#922B21',
-        '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-        '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF',
-        '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-        '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-        '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF']});
+        dataSet.push({label:e.series.y_name,data:[],yAxesGroup:e.series.yaxis,bgColor:this.generateCOlorPallet()});
           dataSet.map(sub=>{
             if(sub.label === e.series.y_name){
               e.series.data.map(data => {
@@ -879,12 +883,7 @@ dropdownFilter = [];
           chartDataSet.push({
               label: data.label,
               data: data.data,
-              backgroundColor: data.bgColor[index] ? data.bgColor[index] : ['#1F618D', '#1E8449', '#A04000', '#B03A2E', '#922B21',
-              '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-              '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF',
-                '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-                '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-                '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'],
+              backgroundColor: data.bgColor[index] ? data.bgColor[index] : this.generateCOlorPallet(),
               yAxisID:data.yAxesGroup,
               borderWidth: 1
             })
@@ -902,12 +901,27 @@ dropdownFilter = [];
     };
     }else{
       let yAxes = [];
+      let sepratorAxisLabel = ' AND ';
+      let yLeftTitle = '';
+      let yRightTitle = '';
+      this.assign.y.map(e=>{
+        if(e.yaxis=='y-left')
+          yLeftTitle+=(e.r_coltitle+" -> "+e.measure)+sepratorAxisLabel;
+        if(e.yaxis=='y-right')
+          yRightTitle+=(e.r_coltitle+" -> "+e.measure)+sepratorAxisLabel;
+      });
+      yLeftTitle = yLeftTitle.slice(0, -5);
+      yRightTitle = yRightTitle.slice(0, -5);
       if(this.assign.x.length > 1 && this.assign.y.length > 1 && this.assign.y.find(e=>{return e.yaxis == 'y-left'}) && this.assign.y.find(e=>{return e.yaxis == 'y-right'})){
         yAxes.push({
           name: 'y-left',
           id: 'y-left',
           position: 'left',
           scalePositionLeft: true,
+          scaleLabel: {
+            display: true,
+            labelString: yLeftTitle
+          },
           ticks: {
             beginAtZero: true,
             stepSize: 1
@@ -916,7 +930,11 @@ dropdownFilter = [];
           name: 'y-right',
           id: 'y-right',
           position: 'right',
-          scalePositionLeft: false,
+          scalePositionLeft: false
+          ,scaleLabel: {
+            display: true,
+            labelString: yRightTitle
+          },
           ticks: {
             beginAtZero: true,
             stepSize: 1
@@ -928,6 +946,10 @@ dropdownFilter = [];
           id: 'y-left',
           position: 'left',
           scalePositionLeft: true,
+          scaleLabel: {
+            display: true,
+            labelString: yLeftTitle
+          },
           ticks: {
             beginAtZero: true,
             stepSize: 1
@@ -941,6 +963,10 @@ dropdownFilter = [];
         scales: {
           yAxes: yAxes,
           xAxes: [{
+            scaleLabel: {
+							display: true,
+							labelString: this.assign.x[0].r_coltitle+' -> '+this.assign.x[0].measure
+						},
             ticks: {
               beginAtZero: true,
               stepSize: 1
