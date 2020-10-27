@@ -27,7 +27,7 @@ export class TipFeedbackLogsComponent implements OnInit {
       tableHeight: '75vh'
     }
   };
-
+  dataFormat = 'vehicle_wise';
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
@@ -74,7 +74,7 @@ export class TipFeedbackLogsComponent implements OnInit {
     }
 
     console.log("params:", params);
-    const data = "startDate=" + params.startDate +
+    const data = "startDate=" + params.startDate +"&pivotBy="+this.dataFormat+
       "&endDate=" + params.endDate + "&vehicleId=" + params.vehicleId;
     this.common.loading++;
 
@@ -87,7 +87,7 @@ export class TipFeedbackLogsComponent implements OnInit {
         if (this.activitySummary.length > 0) {
           let first_rec = this.activitySummary[0];
           console.log("first_Rec", first_rec);
-
+          this.headings = [];
           for (var key in first_rec) {
             if (key.charAt(0) != "_") {
               this.headings.push(key);
@@ -112,9 +112,13 @@ export class TipFeedbackLogsComponent implements OnInit {
     for (var i = 0; i < this.activitySummary.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        if (this.headings[j] == 'Date' || this.headings[j] == 'date') {
+      console.log("as",this.activitySummary[i],[this.headings[j]],this.activitySummary[i][this.headings[j]])
+        if (this.dataFormat=='date_wise' && this.headings[j] == 'Date' || this.headings[j] == 'date') {
           this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
-        } else
+        } else  if (this.dataFormat=='vehicle_wise' && this.headings[j] == 'Regno' || this.headings[j] == 'regno') {
+          this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
+        } 
+        else
           this.valobj[this.headings[j]] = { value: this.getHtml(this.activitySummary[i][this.headings[j]]), class: '', action: '', isHTML: true };
       }
       columns.push(this.valobj);
@@ -132,18 +136,20 @@ export class TipFeedbackLogsComponent implements OnInit {
   }
   getHtml(text) {
     let string = '';
+    console.log("text",text);
     text = JSON.parse(text);
+    console.log("text1",text);
     if (text && text.length > 0 && text != null) {
       string += '<span>' + text[0].location + '</span><br>';
       if (('' + text[0].state_name).search('Onward') > -1) {
-        string += '<span class="blue">(O)</span>';
-      } else if (('' + text[0].state_name).search('Available') > -1) {
-        string += '<span class="purple">(A)</span>';
+        string += '<span class="black">(O)</span>';
       } else if (('' + text[0].state_name).search('Unloading') > -1) {
-        string += '<span class="red">(UL)</span>';
+        string += '<span class="green">(UL)</span>';
       } else if (('' + text[0].state_name).search('Loading') > -1) {
-        string += '<span class="green">(L)</span>';
-      }
+        string += '<span class="blue">(L)</span>';
+      } else if ((('' + text[0].state_name).search('No Data 12 Hr') > -1 )|| (('' + text[0].state_name).search('No GPS Data')  > -1) || (('' + text[0].state_name).search('Undetected')  > -1)) {
+        string += '<span class="red">(Issue)</span>';
+      } 
       else {
         string += '<span>(' + text[0].state_name + ')</span>';
       }
