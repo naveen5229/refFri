@@ -292,7 +292,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
             todate: todate,
             groupdays: 7
           }
-          this.getDetials('Tmgreport/GetLoadingtat',params)
+          this.getDetials('Tmgreport/GetUnLoadingtat',params)
 
         }
         // scales: {
