@@ -432,7 +432,7 @@ export class TmgTransporterAnalysisComponent implements OnInit {
     let xaxis = [];
     this.transportarLoadingTat.map(tlt => {
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Avg hrs']);
+      yaxis.push(tlt['tripcount']);
     });
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
     console.log("handleChart1", xaxis, yaxis);
@@ -441,7 +441,7 @@ export class TmgTransporterAnalysisComponent implements OnInit {
       labels: xaxis,
       datasets: [
         {
-          label: 'Time (in Hrs.)',
+          label: 'Trip Count',
           data: yaxisObj.scaleData,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
@@ -472,7 +472,7 @@ export class TmgTransporterAnalysisComponent implements OnInit {
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: 'Time (in Hrs.)' + yaxisObj.yaxisLabel
+              labelString: 'Trip Count' + yaxisObj.yaxisLabel
             },
             ticks: { stepSize: yaxisObj.gridSize },
             suggestedMin: yaxisObj.minValue,
