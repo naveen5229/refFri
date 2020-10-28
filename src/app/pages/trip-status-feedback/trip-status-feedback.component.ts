@@ -19,7 +19,7 @@ export class TripStatusFeedbackComponent implements OnInit {
   pages = {
     count: 1,
     active: 1,
-    limit: 100
+    limit: 50
   }
   constructor(public api: ApiService,
     public common: CommonService, private cdr: ChangeDetectorRef,
@@ -84,7 +84,7 @@ export class TripStatusFeedbackComponent implements OnInit {
     } else {
       this.common.showError("One Input Field is Mandatory");
     }
-
+    this.cdr.detectChanges();
   }
 
   changeVerification(trip, action, i?) {
@@ -101,9 +101,12 @@ export class TripStatusFeedbackComponent implements OnInit {
       remark: trip.remark
     };
     console.log("params", params);
-    this.trips.splice(i, 1);
+    let index = (i) + ((this.pages.active - 1) * this.pages.limit)
+    this.allTrips.splice(index, 1);
     this.setData();
     //this.common.loading++;
+    this.cdr.detectChanges();
+
     this.api.post('TripsOperation/tripVerification', params)
       .subscribe(res => {
         // this.common.loading--;
@@ -114,6 +117,8 @@ export class TripStatusFeedbackComponent implements OnInit {
         } else {
           this.common.showError(res['data'][0].rtn_msg);
         }
+        this.cdr.detectChanges();
+
       }, err => {
         // this.common.loading--;
         console.log(err);
