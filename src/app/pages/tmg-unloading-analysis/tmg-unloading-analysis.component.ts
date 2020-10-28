@@ -307,6 +307,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
   }
 
   getlabelValue1() {
+    this.xAxisData1 = [];
     if (this.unloadingWorstDestination) {
       this.unloadingWorstDestination.forEach((cmg) => {
         this.chart1.data.line.push(cmg['detention_days']);
