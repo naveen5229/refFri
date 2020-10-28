@@ -153,7 +153,7 @@
 
         <div class="row mt-2" style="text-align: right;">
           <div class="col-12">
-            <button class="btn btn-primary margin_right" (click)="openSaveModal()">Save</button>
+            <button class="btn btn-primary margin_right" (click)="openSaveModal()">{{editState && reportIdUpdate?'Update':'Save'}}</button>
             <button class="btn btn-primary margin_right" (click)="getReportPreview()">Preview</button>
             <button class="btn btn-primary" (click)="resetAssignForm()">Clear</button>
           </div>
@@ -279,7 +279,7 @@
 
         <div class="row mt-2" style="text-align: center;">
           <div class="col-12">
-            <button type="button" class="btn btn-success" (click)="saveGraphicReport()">Save</button>
+            <button type="button" class="btn btn-success" (click)="saveGraphicReport()">{{editState && reportIdUpdate?'Update':'Save'}}</button>
           </div>
         </div>
       </div>
