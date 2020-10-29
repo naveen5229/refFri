@@ -15,6 +15,9 @@ import { CsvService } from '../../services/csv/csv.service';
   // './../../pages/pages.component.css'
 })
 export class CardUsageComponent implements OnInit {
+  mainBalance=null;
+  tollBalance=null;
+  totalBalance=null;
   cardUsage = [];
   total = 0;
 
@@ -55,6 +58,7 @@ export class CardUsageComponent implements OnInit {
     // this.endDate = new Date();
     // this.startDate = new Date(new Date().setDate(new Date(this.endDate).getDate() - 30));
     this.getcardUsage();
+    this.getBalance();
     //this.calculateTotal();
     this.common.refresh = this.refresh.bind(this);
 
@@ -65,27 +69,48 @@ export class CardUsageComponent implements OnInit {
   }
 
   refresh() {
+    this.getBalance();
     this.getcardUsage();
     //this.calculateTotal();
   }
   ngAfterViewInit() {
-
-
   }
 
-  // getDate(date) {
-  //   this.common.params = { ref_page: "card usage" };
-  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-  //   activeModal.result.then(data => {
-  //     if (date == 'start') {
-  //       this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
-  //     }
-  //     if (date == 'end') {
-  //       this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
-  //     }
+  getBalance() {
+    this.mainBalance=null;
+    this.tollBalance=null;
+    this.totalBalance=null;
+    const params = "mobileno=" + this.user._details.fo_mobileno;
+    const subURL = "CardRechargeApi/AccountRemainingAmount.json?";
+    let title = ' Current Balance';
+    this.common.loading--;
+    this.api.walle8Get(subURL + params)
+      .subscribe(async res => {
+        this.common.loading++;
+        console.info("Balance:",res);
+        this.common.showToast(res['responsemessage']);
+        if (res['responsecode'] === 1) {
 
-  //   });
-  // }
+          const main=res["data"][0].main_balance;
+          var mainwithsep=Number(main).toLocaleString('en-GB');
+          this.mainBalance=mainwithsep;
+
+          const toll=res["data"][0].toll_balance;
+          var tollwithsep=Number(toll).toLocaleString('en-GB');
+          this.tollBalance=tollwithsep;
+
+          const total=main+toll;
+          var totalwithsep=Number(total).toLocaleString('en-GB');
+          this.totalBalance=totalwithsep;
+        }
+        
+      }, err => {
+        console.error(err);
+        this.common.loading--;
+        this.common.showToast('Oops! Some technical error has been occurred. Please try again..');
+      });
+  }
+  
   getcardUsage() {
     let params = "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" +this.common.dateFormatter(new Date(this.startDate))+ "&enddate=" + this.common.dateFormatter(new Date(this.endDate));
     console.log("-----------", params);
