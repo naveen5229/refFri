@@ -216,14 +216,14 @@ export class TmgTripComponent implements OnInit {
   getTripSlowestOnward() {
     this.tripSlowestOnward = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
       totalrecord: 3
     };
-    this.api.post('Tmgreport/GetTripSlowestOnward', params)
+    this.api.post('Tmgreport/GetTripSlowestOnward', params) 
       .subscribe(res => {
         --this.common.loading;
         console.log('tripSlowestOnward:', res['data']);

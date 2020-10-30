@@ -30,7 +30,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/trip',
       },
       {
-        title: 'Graphical Reports',
+        title: 'Business Analytics',
         icon: 'fa-home',
         link: '/pages/graphical-reports',
       },
@@ -528,7 +528,13 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       icon: 'fa-list',
       link: '/pages/driver-list',
       home: true,
-    },
+    },{
+
+      title: 'Driver On Side Images',
+      icon: 'fa-map-marker',
+      link: '/pages/driver-on-side-images',
+      home: true,
+  },
 
     {
 
