@@ -14,6 +14,29 @@
       </div>
     </div>
 
+    <div class="row" style="margin-top: 20px;">
+
+      <div class="col-4">
+          <div class="solid boxStyle">
+              <div class="heading" style="color:black"> Main Balance</div>
+              <div class="data"><span class="data" style="padding-right:5px;color:blue">₹</span>{{mainBalance}}</div>
+              </div>
+      </div>
+
+      <div class="col-4">
+          <div class="solid boxStyle">
+              <div class="heading" style="color:black"> Toll Balance</div>
+                  <div class="data1"><span class="data1" style="padding-right:5px;color:blue">₹</span>{{tollBalance}}</div> 
+               </div>
+      </div>
+      <div class="col-4">
+          <div class="solid boxStyle">
+              <div class="heading" style="color:black"> Total Balance</div>
+               <div class="data2"><span class="data2" style="padding-right:5px;color:blue;">₹</span>{{totalBalance}}</div>
+          </div>
+      </div>
+  </div>
+
     <div class="row m-0 p-3" style="background-color:white;">
       <div class="col-3 pl-3">
         <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"

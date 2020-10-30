@@ -53,12 +53,13 @@
           <label>Date of Joining</label>
         </div>
         <div class="col-3">
+          <uj-date-time-picker (onChanged)="driver.date=$event" [dateTimeValue]="driver.date" [isTime]="false"></uj-date-time-picker>
           <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
             [value]="driver.date | date: 'dd MMM yyyy'" formControlName="date" readonly> -->
 
 
-            <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('doj')"
-            placeholder="Select Date" [value]="driver.date | date: 'dd MMM yyyy'" formControlName="date" name="date" readonly>
+            <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('doj')"
+            placeholder="Select Date" [value]="driver.date | date: 'dd MMM yyyy'" formControlName="date" name="date"> -->
 
         </div>
       </div>
@@ -99,12 +100,9 @@
           <label>Date Of Birth</label>
         </div>
         <div class="col-3">
-          <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
-            [value]="driver.dateofbirth | date: 'dd MMM yyyy'" formControlName="dateofbirth" readonly> -->
-
-            <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('dtbrth')"
-            placeholder="Select Date" [value]="driver.dateofbirth | date: 'dd MMM yyyy'" formControlName="dateofbirth" name="dateofbirth" readonly>
-
+          <uj-date-time-picker (onChanged)="driver.dateofbirth=$event" [dateTimeValue]="driver.dateofbirth" [isTime]="false"></uj-date-time-picker>
+            <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('dtbrth')"
+            placeholder="Select Date" [value]="driver.dateofbirth | date: 'dd MMM yyyy'" formControlName="dateofbirth" name="dateofbirth"> -->
         </div>
       </div>
 
@@ -116,56 +114,54 @@
           <input type="text"  class="form-control" id="address" autocomplete="off" formControlName="address"
             placeholder="Address">
         </div>
-  
-        <div class="col-3">
-          <label>DL Expiry Date</label>
-        </div>
-        <div class="col-3">
-          <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
-            [value]="driver.dlExpiryDate | date: 'dd MMM yyyy'" formControlName="dlExpiryDate" readonly> -->
 
-            <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('dlexp')"
-            placeholder="Select Date" [value]="driver.dlExpiryDate | date: 'dd MMM yyyy'" formControlName="dlExpiryDate" name="dlexpiry" readonly>
-        </div>
-      </div>
-      
-      <div class="row margin-top-15">
         <div class="col-3">
           <label>DL Type</label>
         </div>
   
         <div class="col-3">
           <auto-suggestion [data]="isLCType" display="name" seperator="-" placeholder="Select DL Type"
-           (onSelected)="selectDLTypes($event)" inputId="dlType" name="dlType" 
-           isMultiSelect="true" [bGConditions]="bGConditions"></auto-suggestion>
+           (onSelected)="selectDLTypes($event)" inputId="dlType" name="dlType" [preSelected]="common.params.driver.licence_type"
+           isMultiSelect="true"  [bGConditions]="bGConditions"></auto-suggestion>
         </div>
   
+        <!-- <div class="col-3">
+          <label>DL Expiry Date</label>
+        </div>
+        <div class="col-3">
+            <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off"
+            placeholder="Select Date" [value]="driver.dlExpiryDate | date: 'dd MMM yyyy'" formControlName="dlExpiryDate" name="dlexpiry">
+        </div> -->
+      </div>
+      
+      <div class="row margin-top-15">
         <div class="col-3">
           <label>Bank Name</label>
         </div>
         <div class="col-3">
           <input type="text"  class="form-control" id="bankName" autocomplete="off" formControlName="bankName"
-            placeholder="Bank Name">
+            placeholder="Bank Name" readonly>
         </div>
-      </div>
-      
-      <div class="row margin-top-15">
+
         <div class="col-3">
           <label>Account No.</label>
         </div>
   
         <div class="col-3">
           <input type="text"  class="form-control" id="accountNo" autocomplete="off" formControlName="accountNo"
-            placeholder="Account No">
+            placeholder="Account No" readonly>
         </div>
-  
+
+      </div>
+      
+      <div class="row margin-top-15">
         <div class="col-3">
           <label>IFSC Code</label>
         </div>
   
         <div class="col-3">
           <input type="text"  class="form-control" id="ifscCode" autocomplete="off" formControlName="ifscCode"
-            placeholder="IFSC Code">
+            placeholder="IFSC Code" readonly>
 
             <!-- pattern="/^[A-Za-z]{4}\d{7}$/" -->
 
@@ -173,10 +169,7 @@
               <div *ngIf="f.ifscCode.errors.pattern" >Please Fill Correct IFSC Code</div>
             </div> -->
         </div>
-      </div>
 
-
-      <div class="row margin-top-15">
         <div class="col-3">
           <label>Driver Image</label>
         </div>
@@ -186,10 +179,11 @@
         </div>
       </div>
 
-
+      <div class="row margin-top-15">
       <div class="col-md-12 text-center margin-top-15">
         <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form"
           (click)="submitted=true">Update</button>
+      </div>
       </div>
 
   </form>

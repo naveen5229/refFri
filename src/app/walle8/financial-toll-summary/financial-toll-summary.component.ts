@@ -95,7 +95,8 @@ export class FinancialTollSummaryComponent implements OnInit {
     return columns;
   }
   getfinancialTollReport() {
-    let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getOpeningAndClosingBalance.json?' + params)
       .subscribe(res => {
@@ -112,7 +113,7 @@ export class FinancialTollSummaryComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-    let param = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
+    let param = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getFinancialAccountSummary.json?' + param)
       .subscribe(Res => {

@@ -79,8 +79,9 @@ export class TollUsageSummaryComponent implements OnInit {
   }
   
   gettollUsageSummary() {
-    this.mobile=this.user._loggedInBy=='admin'?this.user._details.fo_mobileno:this.user._details.mobile;
-    let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno="+this.mobile;
+    this.mobile=this.user._details.fo_mobileno;
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno="+this.mobile +"&foid="+ foid;
     this.common.loading++;
     let response;
     this.api.walle8Get('TollSummary/getTollUsageSummary.json?' + params)
