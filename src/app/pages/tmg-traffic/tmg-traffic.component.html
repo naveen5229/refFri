@@ -12,6 +12,9 @@
       <div class="col-4 pl-0">
         <div class="outer" style="min-height: 130px;">
           <h6 style="text-align:center"><b class="charthead">Longest Driver Unavailable</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetTrafficLongestDriverUnavailable',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
           <table class="table">
             <thead class="thead">
               <th>Vehicle No.</th>
@@ -32,6 +35,9 @@
       <div class="col-4 pl-0 pr-0">
         <div class="outer" style="min-height: 130px;">
           <h6 style="text-align:center"><b class="charthead">Longest GPS Offline</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetTrafficLongestVehicleGpsIssue',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
           <table class="table">
             <thead class="thead">
               <th>Vehicle No.</th>
@@ -53,6 +59,9 @@
       <div class="col-4 pl-0">
         <div class="outer" style="min-height: 130px;">
           <h6 style="text-align:center"><b class="charthead">Top Vehicles with RTO + Maintenance + Breakdown Issues</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetTrafficTopRmb',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
           <table class="table">
             <thead class="thead">
               <th>Vehicle No.</th>
@@ -74,6 +83,9 @@
           <div class="col-6 pl-0">
             <div class="outer" style="min-height: 130px;">
             <h6 style="text-align:center"><b class="charthead">Longest Loading Sites</b></h6>
+            <p style="text-align: right; margin-top: -25px;" class="link"
+            (click)="getDetials('Tmgreport/GetTrafficLongestLoadingSites',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+          </p>
             <table class="table">
               <thead class="thead">
                 <th>Site Name</th>
@@ -91,6 +103,9 @@
           <div class="col-6 pl-0 pr-0">
             <div class="outer" style="min-height: 130px;">
               <h6 style="text-align:center"><b class="charthead">Longest Unloading Vehicles</b></h6>
+              <p style="text-align: right; margin-top: -25px;" class="link"
+            (click)="getDetials('Tmgreport/GetTrafficLongestUnloadingSite',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+          </p>
               <table class="table">
                 <thead class="thead">
                   <th>Vehicle No.</th>
@@ -111,6 +126,9 @@
           <div class="col-6 pl-0">
             <div class="outer" style="min-height: 130px;">
             <h6 style="text-align:center"><b class="charthead">Slowest Onward Vehicles</b></h6>
+            <p style="text-align: right; margin-top: -25px;" class="link"
+            (click)="getDetials('Tmgreport/GetTrafficSlowestOnwardVehicles',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+          </p>
             <table class="table">
               <thead class="thead">
                 <th>Vehicle No.</th>
@@ -132,6 +150,9 @@
           <div class="col-6 pl-0 pr-0">
             <div class="outer" style="min-height: 130px;">
               <h6 style="text-align:center"><b class="charthead">Longest Empty Vehicles</b></h6>
+              <p style="text-align: right; margin-top: -25px;" class="link"
+            (click)="getDetials('Tmgreport/GetTrafficLongestVehicleEmpty',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+          </p>
               <table class="table">
                 <thead class="thead">
                   <th>Vehicle No.</th>

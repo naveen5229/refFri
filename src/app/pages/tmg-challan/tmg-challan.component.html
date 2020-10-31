@@ -15,6 +15,9 @@
           <div class="col-6 p-1">
             <div class="outer" style="min-height: 130px;">
               <h6 style="text-align:center"><b class="charthead">Most Aged Challans (Pending)</b></h6>
+              <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetChallansMostAged',{totalrecord: 3,stepno: -1},15)"><i title="More Details" class="fa fa-list"></i>
+            </p>
               <table class="table">
                 <thead class="thead">
                   <th>Vehicle No.</th>
@@ -34,6 +37,9 @@
           <div class="col-6 p-1">
             <div class="outer" style="min-height:130px;">
               <h6 style="text-align:center"><b class="charthead">Latest Challans</b></h6>
+              <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetChallansLatestChallans',{totalrecord: 3,stepno: -1},15)"><i title="More Details" class="fa fa-list"></i>
+            </p>
               <table class="table">
                 <thead class="thead">
                   <th>Date</th>
@@ -79,6 +85,9 @@
         </div>
         <div class="mt-3 outer" style="min-height: 130px;">
           <h6 style="text-align:center"><b class="charthead">Worst 3 Drivers(Count Wise) </b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetChallansdrivarcount',{totalrecord: 3,stepno: -1},15)"><i title="More Details" class="fa fa-list"></i>
+        </p>
           <table class="table">
             <thead class="thead">
               <th>Driver Name</th>
@@ -94,6 +103,9 @@
         </div>
         <div  class="mt-3 outer" style="min-height: 130px;">
           <h6 style="text-align:center"><b class="charthead">Worst 3 Drivers(Amount Wise) </b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetChallansdrivaramount',{totalrecord: 3,stepno: -1},365)"><i title="More Details" class="fa fa-list"></i>
+        </p>
           <table class="table">
             <thead class="thead">
               <th>Driver Name</th>
