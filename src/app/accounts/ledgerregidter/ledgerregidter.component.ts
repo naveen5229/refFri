@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +17,6 @@ import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { ServiceComponent } from '../service/service.component';
- 
 @Component({
   selector: 'ledger-register-tree',
   template: `
@@ -51,6 +50,7 @@ import { ServiceComponent } from '../service/service.component';
     <div>
             <input type="text" class="form-control" name="search" [(ngModel)]="search" (click)="$event.stopPropagation()" (ngModelChange)="searchValues()" placeholder="Search ledger...">
         </div>
+        <cdk-virtual-scroll-viewport itemSize="50" style="height: 240px;">
     <div *ngFor="let d of searchedData let i = index">
       <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1" [style.background]="colors[color]">
           <div class="col x-col" *ngIf="d.name">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
@@ -74,8 +74,8 @@ import { ServiceComponent } from '../service/service.component';
         <div class="col x-col" style="text-align:right;">{{d.y_cramunt | number : '1.2-2'}}</div>
       </div>
     </div>
+    </cdk-virtual-scroll-viewport>
     </div>
-
   </div>
   `,
   styleUrls: ['./ledgerregidter.component.scss'],
@@ -112,11 +112,9 @@ export class ledgerRegisterTreeComponent {
     }
     searchValues() {
       this.searchedData = this.data.filter(x => {
-        if (x.name) {
-          return x.name.toLowerCase().includes(this.search.toLowerCase())
-        } else if (x.ledgerName) {
-          return x.ledgerName.toLowerCase().includes(this.search.toLowerCase())
-        }
+        if (x.y_voucher_cust_code) {
+          return x.y_voucher_cust_code.toLowerCase().includes(this.search.toLowerCase())
+        } 
         return false;
       });
       this.cdr.detectChanges();
@@ -249,10 +247,11 @@ export class LedgerregidterComponent implements OnInit {
   lastActiveId = '';
   selectedRow = -1;
 
+
   isExpandMainGroup: boolean = false;
   isExpandAll: boolean = false;
   isExpand: string = '';
-
+  
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -280,9 +279,13 @@ export class LedgerregidterComponent implements OnInit {
   }
 
   ngOnInit() {
+    //this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
   }
   refresh() {
     this.GetLedger();
+  }
+  ngAfterOnInit(){
+  
   }
   getAllLedger() {
     let params = {
