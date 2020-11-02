@@ -5,6 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { stringify } from 'querystring';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'tip-feedback-logs',
   templateUrl: './tip-feedback-logs.component.html',
@@ -31,7 +32,8 @@ export class TipFeedbackLogsComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
-    public user: UserService) {
+    public user: UserService,
+    private sanitizer: DomSanitizer) {
 
     this.common.refresh = this.refresh.bind(this);
   }
@@ -140,6 +142,10 @@ export class TipFeedbackLogsComponent implements OnInit {
     text = JSON.parse(text);
     console.log("text1",text);
     if (text && text.length > 0 && text != null) {
+      let oldTrip = JSON.parse(text[0].o_trip);
+      console.log("oldTrip",oldTrip);
+      string +=text[0].n_trip ? text[0].n_trip :this.getTripHtml(oldTrip);
+      // string +='<span>'+this.common.getTripStatusHTML(oldTrip._trip_status_type,oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name)+'</span><br>';
       string += '<span>' + text[0].location + '</span><br>';
       if (('' + text[0].state_name).search('Onward') > -1) {
         string += '<span class="black">(O)</span>';
@@ -156,14 +162,8 @@ export class TipFeedbackLogsComponent implements OnInit {
       if (text[0].remarks) {
         string += '<span> - ' + text[0].remarks + '</span>';
       }
-      if (text[0].origin) {
-        string += '<br><span> ' + text[0].origin + ' -> </span>';
-      }
-      if (text[0].destination) {
-        string += '<span>' + text[0].destination + '</span>';
-      }
     }
-    return string;
+    return this.sanitizer.bypassSecurityTrustHtml(string);
   }
   printPDF(tblEltId) {
     this.common.loading++;
@@ -203,7 +203,11 @@ export class TipFeedbackLogsComponent implements OnInit {
 
   }
 
-
+getTripHtml(oldTrip){
+  let trip = '<span [innerHTML]='+this.common.getTripStatusHTML(oldTrip._trip_status_type,oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name)['changingThisBreaksApplicationSecurity']+'></span><br>';
+  console.log("trip",trip);
+  return trip;
+}
 
 
 

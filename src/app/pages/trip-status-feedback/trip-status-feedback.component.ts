@@ -79,7 +79,7 @@ export class TripStatusFeedbackComponent implements OnInit {
   tripVerified(trip, action, i) {
     if (action == "true") {
       this.changeVerification(trip, action, i);
-    } else if ((action == 'false') && ((trip.status) || (trip.origin) || (trip.destination))) {
+    } else if ((action == 'false') && ((trip.status) || (trip.trips) )) {
       this.changeVerification(trip, action, i);
     } else {
       this.common.showError("One Input Field is Mandatory");
@@ -94,13 +94,16 @@ export class TripStatusFeedbackComponent implements OnInit {
       oldOrigin: trip.r_origin,
       oldDestination: trip.r_destination,
       oldState: trip.r_state_id,
-      newOrigin: trip.origin ? trip.origin : '',
-      newDestination: trip.destination ? trip.destination : '',
+      oldTrip: JSON.stringify(trip.r_trip),
+      // newOrigin: trip.origin ? trip.origin : '',
+      // newDestination: trip.destination ? trip.destination : '',
+      newTrip: trip.trips || '',
       newState: trip.status,
       location: trip.r_location,
       remark: trip.remark
     };
     console.log("params", params);
+    // return;
     let index = (i) + ((this.pages.active - 1) * this.pages.limit)
     this.allTrips.splice(index, 1);
     this.setData();
