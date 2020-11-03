@@ -17,6 +17,7 @@ export class UploadDocsComponent implements OnInit {
 
   driver = {
     docImage: null,
+    expiryDate:null
   };
   photo = null;
   licenseNo = null;
@@ -110,8 +111,8 @@ export class UploadDocsComponent implements OnInit {
       docNo: this.docNo,
       img1: this.driver.docImage,
       img2: this.photo,
+      dlexpdt:this.common.dateFormatter(this.driver.expiryDate),
       remark: this.remark
-
     }
     if (params.docTypeId == '1') {
       params.docTypeName = "Adhar Card";
@@ -145,6 +146,7 @@ export class UploadDocsComponent implements OnInit {
   getDocChange() {
     this.driver.docImage = null;
     this.remark = null;
+    this.driver.expiryDate=null;
     document.getElementById('imageData1')['value'] = '';
     document.getElementById('imageData2')['value'] = '';
 

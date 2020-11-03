@@ -77,6 +77,9 @@ export class AutoSuggestionComponent implements OnInit {
     if (changes.preSelected) {
       this.preSelected = changes.preSelected.currentValue;
       this.preSelected && this.handlePreSelection();
+      if (this.isMultiSelect) {
+        this.selectedSuggestions = this.preSelected || [];
+      }
     }
 
   }

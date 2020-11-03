@@ -50,6 +50,9 @@
       <label>Expiry Date</label>
     </div>
     <div class="col-3">
+      <uj-date-time-picker (onChanged)="driver.expiryDate=$event" [dateTimeValue]="driver.expiryDate" [isTime]="false"></uj-date-time-picker>
+    </div>
+    <div class="col-3">
       <label>Remark</label>
     </div>
     <div class="col-3">

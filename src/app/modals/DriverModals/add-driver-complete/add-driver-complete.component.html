@@ -52,7 +52,8 @@
         <label>Date of Joining</label>
       </div>
       <div class="col-3">
-        <uj-date-time-picker (onChanged)="driver.doj=$event" [dateTimeValue]="driver.doj"[isTime]="false"></uj-date-time-picker>
+        <uj-date-time-picker (onChanged)="driver.doj=$event" [dateTimeValue]="driver.doj" [isTime]="false">
+        </uj-date-time-picker>
         <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('doj')"
           placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="dateofJoin"> -->
       </div>
@@ -67,20 +68,20 @@
           placeholder="Salary">
       </div>
       <div class="col-3">
-        <label>Gauranter</label>
+        <label>Guarantor</label>
       </div>
       <div class="col-3">
         <input type="text" class="form-control" id="Gauranter" autocomplete="off" formControlName="guranter"
-          placeholder="guranter">
+          placeholder="Guarantor">
       </div>
     </div>
     <div class="row margin-top-15">
       <div class="col-3">
-        <label>Guranter Mobile No.</label>
+        <label>Guarantor Mobile No.</label>
       </div>
       <div class="col-3">
         <input type="text" class="form-control" autocomplete="off" minlength="10" maxlength="10" id="guranter-no."
-          placeholder="Guranter mobile No." formControlName="guranterno"
+          placeholder="Guarantor mobile No." formControlName="guranterno"
           [ngClass]="{ 'is-invalid': submitted && f.guranterno.errors }">
         <div *ngIf="submitted && f.guranterno.errors" class="invalid-feedback">
           <div *ngIf="f.guranterno.errors.minlength ">mobile Number minlength 10</div>
@@ -93,8 +94,9 @@
         <label>Date Of Birth</label>
       </div>
       <div class="col-3">
-        <uj-date-time-picker (onChanged)="driver.dateofbirth=$event" [dateTimeValue]="driver.dateofbirth"[isTime]="false"></uj-date-time-picker>
-          <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('dtbrth')"
+        <uj-date-time-picker (onChanged)="driver.dateofbirth=$event" [dateTimeValue]="driver.dateofbirth"
+          [isTime]="false"></uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('dtbrth')"
           placeholder="Select Date" [value]="driver.dateofbirth | date: 'dd MMM yyyy'" formControlName="dateofbirth" name="dateofbirth"> -->
       </div>
 
@@ -108,8 +110,8 @@
 
       <div class="col-3">
         <auto-suggestion [data]="isLCType" display="name" seperator="-" placeholder="Select DL Type"
-         (onSelected)="selectDLTypes($event)" inputId="dlType" name="dlType" 
-         isMultiSelect="true" [bGConditions]="bGConditions"></auto-suggestion>
+          (onSelected)="selectDLTypes($event)" inputId="dlType" name="dlType" isMultiSelect="true"
+          [bGConditions]="bGConditions"></auto-suggestion>
       </div>
 
 
@@ -117,18 +119,18 @@
         <label>Address</label>
       </div>
       <div class="col-3">
-        <input type="text"  class="form-control" id="address" autocomplete="off" formControlName="address"
+        <input type="text" class="form-control" id="address" autocomplete="off" formControlName="address"
           placeholder="Address">
       </div>
-      
+
     </div>
-    
+
     <div class="row margin-top-15">
       <div class="col-3">
         <label>Bank Name</label>
       </div>
       <div class="col-3">
-        <input type="text"  class="form-control" id="bankName" autocomplete="off" formControlName="bankName"
+        <input type="text" class="form-control" id="bankName" autocomplete="off" formControlName="bankName"
           placeholder="Bank Name">
       </div>
 
@@ -137,19 +139,19 @@
       </div>
 
       <div class="col-3">
-        <input type="text"  class="form-control" id="accountNo" autocomplete="off" formControlName="accountNo"
+        <input type="text" class="form-control" id="accountNo" autocomplete="off" formControlName="accountNo"
           placeholder="Account No">
       </div>
 
     </div>
-    
+
     <div class="row margin-top-15">
       <div class="col-3">
         <label>IFSC Code</label>
       </div>
 
       <div class="col-3">
-        <input type="text"  class="form-control" id="ifscCode" autocomplete="off" formControlName="ifscCode"
+        <input type="text" class="form-control" id="ifscCode" autocomplete="off" formControlName="ifscCode"
           placeholder="IFSC Code">
       </div>
 
