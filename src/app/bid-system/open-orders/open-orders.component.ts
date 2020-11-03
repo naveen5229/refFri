@@ -153,14 +153,14 @@ export class OpenOrdersComponent implements OnInit {
     let icons = [];
     if (data['Action'].isAdd) {
       icons.push({
-        class: " icon fa fa-pencil-square-o blue",
+        class: " icon fas fa-edit blue",
         action: this.openAddOrder.bind(this, data),
       });
     }
 
     if (data['Action'].isEdit) {
       icons.push({
-        class: " icon fa fa-pencil-square-o blue",
+        class: " icon fas fa-edit blue",
         action: this.openAddOrder.bind(this, data),
       });
     }

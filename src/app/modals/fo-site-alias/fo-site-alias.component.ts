@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { ConfirmComponent } from '../confirm/confirm.component';
 import { LocationSelectionComponent } from '../location-selection/location-selection.component';
 
 @Component({
@@ -20,6 +21,16 @@ export class FoSiteAliasComponent implements OnInit {
     name:null,
     id:null
   };
+  foAliases = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
   points = null;
   name = null;
   searchString ='';
@@ -28,7 +39,7 @@ export class FoSiteAliasComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal,
     private activeModal: NgbActiveModal){
-
+      this.getFoAlias();
     }
 
    
@@ -123,6 +134,132 @@ export class FoSiteAliasComponent implements OnInit {
         console.log(err);
       });
 
+  }
+
+  refresh() {
+    console.log('Refresh');
+    this.getFoAlias();
+  }
+
+  getFoAlias() {
+    ++this.common.loading;
+    this.api.get('SitesOperation/viewFoSiteAlias?')
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('Res: ', res['data']);
+        this.foAliases = res['data'];
+        this.foAliases.length ? this.setTable() : this.resetTable();
+      }, err => {
+        --this.common.loading;
+        console.error(err);
+        this.common.showError();
+      });
+  }
+
+
+  
+  resetTable() {
+    this.table.data = {
+      headings: {},
+      columns: []
+    };
+  }
+
+  setTable() {
+    this.table.data = {
+      headings: this.generateHeadings(),
+      columns: this.getTableColumns()
+    };
+    return true;
+  }
+
+
+  generateHeadings() {
+    let headings = {};
+    for (var key in this.foAliases[0]) {
+      if (key.charAt(0) != "_") {
+        headings[key] = { title: key, placeholder: this.formatTitle(key) };
+      }
+    }
+    return headings;
+  }
+
+  formatTitle(strval) {
+    let pos = strval.indexOf('_');
+    if (pos > 0) {
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
+    } else {
+      return strval.charAt(0).toUpperCase() + strval.substr(1);
+    }
+  }
+
+
+  getTableColumns() {
+    let columns = [];
+    this.foAliases.map(iss => {
+      let column = {};
+      for (let key in this.generateHeadings()) {
+        if (key == 'Action') {
+          column[key] = {
+            value: "",
+            isHTML: false,
+            action: null,
+            icons: this.actionIcons(iss)
+          };
+        } else {
+          column[key] = { value: iss[key], class: 'black', action: '' };
+        }
+      }
+      columns.push(column);
+    })
+
+    return columns;
+  }
+
+  actionIcons(loc) {
+    let icons = [
+      { class: 'fa fa-trash', action: this.deleteLocation.bind(this, loc) }
+     
+
+    ];
+
+    return icons;
+  }
+
+  deleteLocation(LocDetails) {
+    let params = {
+      id: LocDetails._id
+    }
+    if (LocDetails._id) {
+      this.common.params = {
+        title: 'Delete Location ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          this.api.post('SitesOperation/deleteFoSiteAlias', params)
+            .subscribe(res => {
+              console.log("data", res);
+              this.common.loading--;
+              if (res['data'][0].y_id > 0) {
+                this.common.showToast('Success');
+                this.getFoAlias();
+              }
+              else {
+                this.common.showToast(res['data'].y_msg);
+              }
+
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
+    
   }
 
 }

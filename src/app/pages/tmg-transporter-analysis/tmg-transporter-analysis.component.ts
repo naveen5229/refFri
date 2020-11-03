@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
@@ -271,7 +272,7 @@ export class TmgTransporterAnalysisComponent implements OnInit {
   getTransportarSlowestLoad7days() {
     this.transportarSlowestLoad7days = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -431,7 +432,7 @@ export class TmgTransporterAnalysisComponent implements OnInit {
     let xaxis = [];
     this.transportarLoadingTat.map(tlt => {
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Avg hrs']);
+      yaxis.push(tlt['tripcount']);
     });
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
     console.log("handleChart1", xaxis, yaxis);
@@ -440,7 +441,7 @@ export class TmgTransporterAnalysisComponent implements OnInit {
       labels: xaxis,
       datasets: [
         {
-          label: 'Time (in Hrs.)',
+          label: 'Trip Count',
           data: yaxisObj.scaleData,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
@@ -471,7 +472,7 @@ export class TmgTransporterAnalysisComponent implements OnInit {
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: 'Time (in Hrs.)' + yaxisObj.yaxisLabel
+              labelString: 'Trip Count' + yaxisObj.yaxisLabel
             },
             ticks: { stepSize: yaxisObj.gridSize },
             suggestedMin: yaxisObj.minValue,
@@ -543,5 +544,26 @@ export class TmgTransporterAnalysisComponent implements OnInit {
           }]
         }
       };
-  }
+    }
+    getDetials(url, params, days = 0) {
+      let dataparams = {
+        view: {
+          api: url,
+          param: params,
+          type: 'post'
+        },
+  
+        title: 'Details'
+      }
+      if (days) {
+        let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+        let endDate = new Date();
+        dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
+        dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
+      }
+      console.log("dataparams=", dataparams);
+      this.common.handleModalSize('class', 'modal-lg', '1100');
+      this.common.params = { data: dataparams };
+      const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    }
 }

@@ -21,12 +21,12 @@
   </nb-card-header>
   <nb-card-body style="padding-bottom: 0px; padding-top: 10px;">
     <div class="row">
-      <div class="col-sm-6 pr-0" *ngIf="placements && placements.length">
+      <div class="col-sm-6 pr-0" >
         <smart-table *ngIf="placements && placements.length" [data]="table.placements" [settings]="table.settings"
           id="tblVehDocs">
         </smart-table>
       </div>
-      <div class="col-sm-6" *ngIf="filteredVehiclePlacements && filteredVehiclePlacements.length">
+      <div class="col-sm-6" >
         <smart-table *ngIf="filteredVehiclePlacements && filteredVehiclePlacements.length" [data]="table1.data"
           [settings]="table1.settings" id="tbldocs">
         </smart-table>

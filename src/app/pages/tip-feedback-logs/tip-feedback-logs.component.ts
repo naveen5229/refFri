@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
+import { stringify } from 'querystring';
 @Component({
   selector: 'tip-feedback-logs',
   templateUrl: './tip-feedback-logs.component.html',
@@ -11,8 +12,8 @@ import { UserService } from '../../services/user.service';
 })
 export class TipFeedbackLogsComponent implements OnInit {
   vehicleId = null;
-  startDate = '';
-  endDate = '';
+  startDate = null;
+  endDate = null;
   activitySummary = [];
   headings = [];
   valobj = {};
@@ -26,42 +27,25 @@ export class TipFeedbackLogsComponent implements OnInit {
       tableHeight: '75vh'
     }
   };
-
+  dataFormat = 'vehicle_wise';
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
     public user: UserService) {
-    let today;
-    today = new Date();
-    this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    this.startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
+
     this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
+  ngAfterViewInit() {
+    this.endDate = new Date();
+    this.startDate = new Date(new Date().setDate(new Date().getDate() - 1));
+  }
 
   refresh() {
     this.vehicleId = null;
     this.getFeedbackLogs();
-  }
-  getDate(type) {
-    this.common.params = { ref_page: 'trip feedback logs' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (type == 'start') {
-          this.startDate = '';
-          this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
-          console.log('endDate', this.startDate);
-        }
-        else {
-          this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
-          console.log('endDate', this.endDate);
-        }
-      }
-    });
-
   }
 
   getvehicleData(vehicle) {
@@ -83,15 +67,14 @@ export class TipFeedbackLogsComponent implements OnInit {
       }
     };
 
-    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
     const params = {
       vehicleId: this.vehicleId ? this.vehicleId : -1,
-      startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
-      endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
+      startDate: this.common.dateFormatter1(this.startDate),
+      endDate: this.common.dateFormatter1(this.endDate),
     }
 
     console.log("params:", params);
-    const data = "startDate=" + params.startDate +
+    const data = "startDate=" + params.startDate +"&pivotBy="+this.dataFormat+
       "&endDate=" + params.endDate + "&vehicleId=" + params.vehicleId;
     this.common.loading++;
 
@@ -99,24 +82,25 @@ export class TipFeedbackLogsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
-        this.activitySummary = res['data'];
+        this.activitySummary = res['data'] || [];
         console.log('activitySummary', this.activitySummary);
-        let first_rec = this.activitySummary[0];
-        console.log("first_Rec", first_rec);
-
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: key, placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
+        if (this.activitySummary.length > 0) {
+          let first_rec = this.activitySummary[0];
+          console.log("first_Rec", first_rec);
+          this.headings = [];
+          for (var key in first_rec) {
+            if (key.charAt(0) != "_") {
+              this.headings.push(key);
+              let headerObj = { title: key, placeholder: this.formatTitle(key) };
+              this.table.data.headings[key] = headerObj;
+            }
           }
+
+          this.table.data.columns = this.getTableColumns();
+          console.log("table:");
+          console.log(this.table);
+
         }
-
-        this.table.data.columns = this.getTableColumns();
-        console.log("table:");
-        console.log(this.table);
-
-
       }, err => {
         this.common.loading--;
         this.common.showError();
@@ -128,8 +112,14 @@ export class TipFeedbackLogsComponent implements OnInit {
     for (var i = 0; i < this.activitySummary.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        j
-        this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: 'black', action: '' };
+      console.log("as",this.activitySummary[i],[this.headings[j]],this.activitySummary[i][this.headings[j]])
+        if (this.dataFormat=='date_wise' && this.headings[j] == 'Date' || this.headings[j] == 'date') {
+          this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
+        } else  if (this.dataFormat=='vehicle_wise' && this.headings[j] == 'Regno' || this.headings[j] == 'regno') {
+          this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
+        } 
+        else
+          this.valobj[this.headings[j]] = { value: this.getHtml(this.activitySummary[i][this.headings[j]]), class: '', action: '', isHTML: true };
       }
       columns.push(this.valobj);
     }
@@ -144,7 +134,37 @@ export class TipFeedbackLogsComponent implements OnInit {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
-
+  getHtml(text) {
+    let string = '';
+    console.log("text",text);
+    text = JSON.parse(text);
+    console.log("text1",text);
+    if (text && text.length > 0 && text != null) {
+      string += '<span>' + text[0].location + '</span><br>';
+      if (('' + text[0].state_name).search('Onward') > -1) {
+        string += '<span class="black">(O)</span>';
+      } else if (('' + text[0].state_name).search('Unloading') > -1) {
+        string += '<span class="green">(UL)</span>';
+      } else if (('' + text[0].state_name).search('Loading') > -1) {
+        string += '<span class="blue">(L)</span>';
+      } else if ((('' + text[0].state_name).search('No Data 12 Hr') > -1 )|| (('' + text[0].state_name).search('No GPS Data')  > -1) || (('' + text[0].state_name).search('Undetected')  > -1)) {
+        string += '<span class="red">(Issue)</span>';
+      } 
+      else {
+        string += '<span>(' + text[0].state_name + ')</span>';
+      }
+      if (text[0].remarks) {
+        string += '<span> - ' + text[0].remarks + '</span>';
+      }
+      if (text[0].origin) {
+        string += '<br><span> ' + text[0].origin + ' -> </span>';
+      }
+      if (text[0].destination) {
+        string += '<span>' + text[0].destination + '</span>';
+      }
+    }
+    return string;
+  }
   printPDF(tblEltId) {
     this.common.loading++;
     let userid = this.user._customer.id;
