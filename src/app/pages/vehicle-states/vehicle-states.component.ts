@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { UserService } from '../../services/user.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 
 @Component({
   selector: 'vehicle-states',
@@ -35,7 +36,8 @@ export class VehicleStatesComponent implements OnInit {
     public common: CommonService,
     private csvService: CsvService,
     public user: UserService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private activeModal: NgbActiveModal) {
     this.count = 0;
     this.getStates();
     this.common.refresh = this.refresh.bind(this);
@@ -178,6 +180,10 @@ export class VehicleStatesComponent implements OnInit {
       icons.push({
         class: "fa fa-trash remove",
         action: this.removeVehicleState.bind(this, i),
+      });
+      icons.push({
+        class: "fa fa-edit edit",
+        action: this.openRemarkModal.bind(this, i),
       })
 
     return icons;
@@ -217,9 +223,30 @@ export class VehicleStatesComponent implements OnInit {
           });
       }
     });
-
-
-  
-
   }
+  openRemarkModal(state) {
+    this.common.params = {title: 'Add Remark' }
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+
+      if (data.response) {
+        let params = {
+          remark : data.remark,
+          id : state._id
+        }
+        console.log("params=",params); 
+        this.common.loading++;
+        this.api.post('Vehicles/saveVehicleState', params)
+          .subscribe(res => {
+            this.common.loading--;
+            this.activeModal.close();
+
+          }, err => {
+            this.common.loading--;
+
+          });
+      }
+    });
+  }
+
 }
