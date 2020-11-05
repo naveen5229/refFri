@@ -111,7 +111,6 @@ export class UploadDocsComponent implements OnInit {
       docNo: this.docNo,
       img1: this.driver.docImage,
       img2: this.photo,
-      dlexpdt:this.common.dateFormatter(this.driver.expiryDate),
       remark: this.remark
     }
     if (params.docTypeId == '1') {
@@ -123,6 +122,7 @@ export class UploadDocsComponent implements OnInit {
     }
     if (params.docTypeId == '3') {
       params.docTypeName = "Driving License"
+      params['dlexpdt'] = this.common.dateFormatter(this.driver.expiryDate);
     }
     this.common.loading++;
     this.api.post('Drivers/uploadDocs', params)

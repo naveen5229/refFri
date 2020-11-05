@@ -24,6 +24,7 @@ export class DriverPersonalInfoComponent implements OnInit {
   Dltype = '';
   photo = '';
   pan = '';
+  accHolderName='';
   bankName='';
   bankAccountNumber=null;
   bankIfscCode='';
@@ -74,6 +75,7 @@ export class DriverPersonalInfoComponent implements OnInit {
         this.bankAccountNumber=driverinfodata.bank_acno!=null?driverinfodata.bank_acno:"---------------------";
         this.bankIfscCode=driverinfodata.ifsc_code!=null?driverinfodata.ifsc_code:"---------------------";
         this.bankName=driverinfodata.bank_name!=null?driverinfodata.bank_name:"---------------------";
+        this.accHolderName=driverinfodata.account_holder_name!=null ? driverinfodata.account_holder_name : "---------------------";
         console.log("dataaaaaaaaaaaaa", this.driverInfo);
       })
 

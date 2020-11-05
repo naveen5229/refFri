@@ -32,6 +32,7 @@ export class EditDriverComponent implements OnInit {
     // dlExpiryDate: null,
     dlType: null,
     bankName: null,
+    accountHolderName:null,
     accountNo: null,
     ifscCode: null,
     driverImg: null,
@@ -98,9 +99,9 @@ export class EditDriverComponent implements OnInit {
       // dlExpiryDate: [this.driver.dlExpiryDate],
       dlType: [this.common.params.driver.licence_type ? this.common.params.driver.licence_type : this.dlTypesData],
       bankName: [this.common.params.driver.bank_name ? this.common.params.driver.bank_name : this.driver.bankName],
+      accountHolderName:[this.common.params.driver.account_holder_name ? this.common.params.driver.account_holder_name:this.driver.accountHolderName],
       accountNo: [this.common.params.driver.bank_acno ? this.common.params.driver.bank_acno : this.driver.accountNo],
-      ifscCode: [this.common.params.driver.ifsc_code ? this.common.params.driver.ifsc_code : this.driver.ifscCode
-      ],
+      ifscCode: [this.common.params.driver.ifsc_code ? this.common.params.driver.ifsc_code : this.driver.ifscCode],
       driverImg: [this.driver.driverImg],
       driverId: [this.common.params.driver.id ? this.common.params.driver.id : null]
     });
@@ -191,6 +192,7 @@ export class EditDriverComponent implements OnInit {
       // dlexpdt:this.driver.dlExpiryDate,
       dltype: this.dlTypesData,
       bankName: this.driverForm.controls.bankName.value,
+      accHolName:this.driverForm.controls.accountHolderName.value,
       accNumber: this.driverForm.controls.accountNo.value,
       ifscCode: this.driverForm.controls.ifscCode.value,
       driverImg: this.driver.driverImg ? this.base64Data:this.driver.driverImg,
