@@ -3,6 +3,9 @@
       <div class="col-4 pl-0">
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Alert Ack TAT in Last 7 Days</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetAlertAckTat',{totalrecord: 3,stepno: -1,groupdays: 1},7)"><i title="More Details" class="fa fa-list"></i>
+        </p>
           <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart.options">
           </chart>
@@ -11,6 +14,9 @@
       <div class="col-4 pl-0">
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Alert Call TAT in Last 7 Days</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetAlertCallTat',{totalrecord: 3,stepno: -1,groupdays: 1},7)"><i title="More Details" class="fa fa-list"></i>
+        </p>
           <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart1.options">
           </chart>
@@ -19,6 +25,9 @@
       <div class="col-4 pl-0 pr-0">
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">VSC TAT in Last 7 Days</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetAlertVscTat',{totalrecord: 3,stepno: -1,groupdays: 1},7)"><i title="More Details" class="fa fa-list"></i>
+        </p>
           <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart2.options">
           </chart>
