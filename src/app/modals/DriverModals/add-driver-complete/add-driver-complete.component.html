@@ -135,6 +135,16 @@
       </div>
 
       <div class="col-3">
+        <label>Account Holder Name</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="accountHolderName" autocomplete="off" formControlName="accountHolderName"
+          placeholder="Account Holder Name">
+      </div>
+    </div>
+
+    <div class="row margin-top-15">
+      <div class="col-3">
         <label>Account No.</label>
       </div>
 
@@ -143,9 +153,6 @@
           placeholder="Account No">
       </div>
 
-    </div>
-
-    <div class="row margin-top-15">
       <div class="col-3">
         <label>IFSC Code</label>
       </div>
@@ -154,6 +161,10 @@
         <input type="text" class="form-control" id="ifscCode" autocomplete="off" formControlName="ifscCode"
           placeholder="IFSC Code">
       </div>
+      
+    </div>
+
+    <div class="row margin-top-15">
 
       <div class="col-3">
         <label>Driver Image</label>
@@ -162,10 +173,8 @@
       <div class="col-3">
         <input type="file" class="form-control" id="driverImg" (change)="handleFileSelection($event) ">
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-md-12 margin-top-15 margin-bottom-10">
+      <div class="col-6 margin-bottom-10">
         <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form"
           (click)="submitted=true">ADD</button>
       </div>

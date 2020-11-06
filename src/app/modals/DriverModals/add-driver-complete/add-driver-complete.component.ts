@@ -35,6 +35,7 @@ export class AddDriverCompleteComponent implements OnInit {
     address: null,
     dlType: null,
     bankName: null,
+    accountHolderName:null,
     accountNo: null,
     ifscCode: null,
     driverImg:null
@@ -80,6 +81,7 @@ export class AddDriverCompleteComponent implements OnInit {
       address: [''],
       dlType: [''],
       bankName: [''],
+      accountHolderName:[''],
       accountNo: [''],
       ifscCode:[''],
       driverImg:[''],
@@ -156,6 +158,7 @@ export class AddDriverCompleteComponent implements OnInit {
       address: this.driverForm.controls.address.value,
       dltype: this.dlTypesData,
       bankName:this.driverForm.controls.bankName.value,
+      accHolName:this.driverForm.controls.accountHolderName.value,
       accNumber: this.driverForm.controls.accountNo.value,
       ifscCode: this.driverForm.controls.ifscCode.value,
       driverImg:this.driver.driverImg,
