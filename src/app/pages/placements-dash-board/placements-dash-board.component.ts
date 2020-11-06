@@ -281,6 +281,7 @@ export class PlacementsDashBoardComponent implements OnInit {
     let dataForView = {
       userId: placement.r_uid,
       siteId: placement.r_siteid,
+      location : placement.r_sitename,
       status: status == 'site' ? 'null' : status,
     };
     this.common.params = { dataForView: dataForView, ref_page: 'placements' };

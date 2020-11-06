@@ -57,6 +57,7 @@ dataForView = null;
       userId :this.dataForView.userId,
       siteId : this.dataForView.siteId,
       status : this.dataForView.status,
+      location : this.dataForView.location
     };
 
     console.log("params",params);
