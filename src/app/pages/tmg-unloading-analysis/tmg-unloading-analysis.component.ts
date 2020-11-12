@@ -292,7 +292,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
             todate: todate,
             groupdays: 7
           }
-          this.getDetials('Tmgreport/GetLoadingtat',params)
+          this.getDetials('Tmgreport/GetUnLoadingtat',params)
 
         }
         // scales: {
@@ -307,6 +307,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
   }
 
   getlabelValue1() {
+    this.xAxisData1 = [];
     if (this.unloadingWorstDestination) {
       this.unloadingWorstDestination.forEach((cmg) => {
         this.chart1.data.line.push(cmg['detention_days']);

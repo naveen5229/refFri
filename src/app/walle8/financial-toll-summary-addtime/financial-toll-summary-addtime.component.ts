@@ -46,13 +46,14 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     public modalService: NgbModal,
     private datePipe: DatePipe,
     private csvService: CsvService ) {
-      this.foid = this.user._details.foid;
+      // this.foid = this.user._details.foid;
       console.log("this.user._details.",this.user._details);
-      this.fo.id = this.user._details.foid;
+      this.fo.id = this.user._loggedInBy == 'admin' ? this.user._customer.foid:this.user._details.foid;
       this.fo.mobileNo = this.user._details.fo_mobileno;
-      this.fo.name = this.user._details.name;
+      this.fo.name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+      console.log("FoName:",this.user._details.username);
       this.common.refresh = this.refresh.bind(this);
-    this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
+      this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
   }
 
   ngOnInit() {
