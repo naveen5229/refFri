@@ -1,0 +1,155 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Addhoc Route</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-3 pr-0">
+            <label> Vehicle Regno</label>
+        </div>
+        <div class="col-md-3" style="margin-top:5px">
+            <label>{{vehicleNo}}</label>
+        </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+        <div class="col-3">
+            <label>Start Loc type</label>
+        </div>
+        <div class="col-3">
+            <label>
+                <input type="radio" [(ngModel)]="startLocationType" value="site" name="locationType"> Site
+            </label>
+            <label class="radio2">
+                <input type="radio" [(ngModel)]="startLocationType" value="city" name="locationType"> City
+            </label>
+        </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+        <div class="col-3 pr-0">
+            <label> Start Location </label>
+        </div>
+        <div class="col-3">
+            <auto-suggestion (onSelected)="selectLoactionSite('start',$event)"
+                url="Suggestion/getSites?typeId=1&isFoid=true" display="name" placeholder="Search Site" inputId="site"
+                [preSelected]="null" *ngIf="startLocationType=='site'">
+            </auto-suggestion>
+            <auto-suggestion (onSelected)="selectLocationCity('start',$event)" url="Location/getPlaceFromRedis"
+                display="location" inputId="startname" placeholder="Location" [preSelected]='null'
+                *ngIf="startLocationType=='city'">
+            </auto-suggestion>
+        </div>
+        <div class="col-3">
+            <label> Start Time</label>
+        </div>
+        <div class="col-3">
+            <uj-date-time-picker [isDate]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+            </uj-date-time-picker>
+        </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+        <div class="col-3">
+            <label>Dest Loc type</label>
+        </div>
+        <div class="col-3">
+            <label>
+                <input type="radio" [(ngModel)]="endLocationType" value="site" name="endlocationType"> Site
+            </label>
+            <label class="radio2">
+                <input type="radio" [(ngModel)]="endLocationType" value="city" name="endlocationType"> City
+            </label>
+        </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+        <div class="col-3 pr-0">
+            <label>Destination</label>
+        </div>
+        <div class="col-3">
+            <auto-suggestion (onSelected)="selectLoactionSite('end',$event)"
+                url="Suggestion/getSites?typeId=1&isFoid=true" display="name" placeholder="Search Site" inputId="site"
+                [preSelected]="null" *ngIf="endLocationType=='site'">
+            </auto-suggestion>
+            <auto-suggestion (onSelected)="selectLocationCity('end',$event)" url="Location/getPlaceFromRedis"
+                display="location" inputId="endname" placeholder="Location" [preSelected]='null'
+                *ngIf="endLocationType=='city'">
+            </auto-suggestion>
+        </div>
+        <div class="col-3">
+            <input type="number" placeholder="Transit Hour" [(ngModel)]="destTat">
+        </div>
+        <div class="col-3">
+            <input type="number" placeholder="Halt Hour" [(ngModel)]="destHaltTime">
+        </div>
+    </div>
+   
+  
+    <div class="row" style="margin-top:5px">
+        <div class="col-3 pr-0">
+            <label> Route Name</label>
+        </div>
+        <div class="col-3">
+            <input type="text" [(ngModel)]="routeName" class="form-control">
+        </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+        <div class="col-12">
+            <label style="text-align: center;">Via Points</label>
+        </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+        <table class="table table-bordered">
+            <thead class="thead">
+            <th>Type</th>
+            <th>Location</th>
+            <th>Transit Hour</th>
+            <th>Halt Hour</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let vp of viaPoints; let i=index">
+            <td>
+                <label>
+                    <input type="radio" [(ngModel)]="vp.locType" value="site" [name]="'locType-'+i"> Site
+                </label>
+                <label class="radio2">
+                    <input type="radio" [(ngModel)]="vp.locType" value="city" [name]="'locType-'+i"> City
+                </label>
+            </td>
+            <td>
+                <auto-suggestion (onSelected)="selectSite($event,i)" url="Suggestion/getSites?typeId=1&isFoid=true"
+                display="name" placeholder="Search Site" inputId="site" [preSelected]="{name:vp.name}"
+                *ngIf="vp.locType=='site'">
+            </auto-suggestion>
+            <auto-suggestion (onSelected)="selectSite($event,i)" url="Location/getPlaceFromRedis"
+                display="location" inputId="location" placeholder="Location" [preSelected]='{location:vp.name}'
+                *ngIf="vp.locType=='city'">
+            </auto-suggestion>
+            </td>
+            <td>
+                <input type="number" placeholder="Transit Hour" [(ngModel)]="vp.tat">
+            </td>
+            <td>
+                <input type="number" placeholder="Halt Hour" [(ngModel)]="vp.haltTime">
+            </td>
+            <td>
+                <i class="fa fa-trash remove" (click)="viaPoints.splice(i,1)" *ngIf="i !== 0"></i>
+                <i class="fa fa-plus add" (click)="addNew()" *ngIf="i == viaPoints.length-1"></i>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+       
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-6">
+            <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-primary" (click)="addRoute();" style="cursor:pointer;">Submit</button>
+        </div>
+    </div>
+</div>

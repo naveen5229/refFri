@@ -4,7 +4,7 @@
         <div class="outer" style="min-height: 300px;">
           <h6 style="text-align:center"><b class="charthead">Avg UnLoad Time Graph</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetUnLoadingtat',{groupdays: 7,totalrecord: 3,stepno: -1},30)"><i title="More Details" title="More Details"
+          (click)="getDetials('Tmgreport/GetUnLoadingtat',{groupdays: 7,totalrecord: 3,stepno: -1},30,'days')"><i title="More Details" title="More Details"
             class="fa fa-list"></i></p>
           <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
           [options]="chart.options">
@@ -15,7 +15,7 @@
         <div class="outer" style="min-height: 150px;">
           <h6 style="text-align:center"><b class="charthead">Worst 3 Consignee (1 Month)</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetUnLoadingWorstConsignee',{groupdays: 7,totalrecord: 3,stepno: -1},30)"><i title="More Details" title="More Details"
+          (click)="getDetials('Tmgreport/GetUnLoadingWorstConsignee',{groupdays: 7,totalrecord: 3,stepno: -1},30,'days')"><i title="More Details" title="More Details"
             class="fa fa-list"></i></p>
           <table class="table table-bordered">
             <thead class="thead">
@@ -35,7 +35,7 @@
         <div class="outer" style="min-height: 150px;">
           <h6 style="text-align:center"><b class="charthead">Worst 3 Consignee (6 Month)</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetUnLoadingWorstConsignee',{groupdays: 7,totalrecord: 3,stepno: -1},180)"><i title="More Details" title="More Details"
+          (click)="getDetials('Tmgreport/GetUnLoadingWorstConsignee',{groupdays: 7,totalrecord: 3,stepno: -1},180,'days')"><i title="More Details" title="More Details"
             class="fa fa-list"></i></p>
           <table class="table table-bordered">
             <thead class="thead">
@@ -59,7 +59,7 @@
         <div class="outer" style="min-height: 300px;">
           <h6 style="text-align:center"><b class="charthead">Detention Trend</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetUnLoadingWorstDestination',{groupdays: 7,totalrecord: 3,stepno: -1},30)"><i title="More Details" title="More Details"
+          (click)="getDetials('Tmgreport/GetUnLoadingWorstDestination',{groupdays: 7,totalrecord: 3,stepno: -1},30,'days')"><i title="More Details" title="More Details"
             class="fa fa-list"></i></p>
           <chart *ngIf="chart1.type" [type]="chart1.type" [data]="chart1.dataSet" style="margin-right:5px;min-height: 300px;max-height: 300px;"
           [options]="chart1.options"></chart>
@@ -83,7 +83,7 @@
         <div class="outer" style="min-height: 150px;">
           <h6 style="text-align:center"><b class="charthead">Worst Transporter (1 Month)</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/getUnLoadingWorstTransportar',{groupdays: 7,totalrecord: 3,stepno: -1},30)"><i title="More Details" title="More Details"
+          (click)="getDetials('Tmgreport/getUnLoadingWorstTransportar',{groupdays: 7,totalrecord: 3,stepno: -1},30,'days')"><i title="More Details" title="More Details"
             class="fa fa-list"></i></p>
           <table class="table table-bordered">
             <thead class="thead">
@@ -92,7 +92,7 @@
               <th>Duration (Hrs)</th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let uwt of unLoadingWorstTransportar">
+              <tr *ngFor="let uwt of unLoadingWorstTransportar1month">
                 <td (click)="getDetials(uwt._url,{ts:'tst',fromdate:uwt._fromdate,todate:uwt._todate,stepno:'1',totalrecord:'3',jsonparam:uwt.transporter})">{{uwt['transporter']}}</td>
                 <td>{{uwt['tripcount']}}</td>
                 <td>{{uwt['duration_Hrs']}}</td>
@@ -103,7 +103,7 @@
         <div class="outer" style="min-height: 150px;">
           <h6 style="text-align:center"><b class="charthead">Worst Transporter (6 Month)</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/getUnLoadingWorstTransportar',{groupdays: 7,totalrecord: 3,stepno: -1},180)"><i title="More Details" title="More Details"
+          (click)="getDetials('Tmgreport/getUnLoadingWorstTransportar',{groupdays: 7,totalrecord: 3,stepno: -1},180,'days')"><i title="More Details" title="More Details"
             class="fa fa-list"></i></p>
           <table class="table table-bordered">
             <thead class="thead">
@@ -112,7 +112,7 @@
               <th>Duration (Hrs)</th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let uwt of unLoadingWorstTransportar1month">
+              <tr *ngFor="let uwt of unLoadingWorstTransportar">
                 <td (click)="getDetials(uwt._url,{ts:'tst',fromdate:uwt._fromdate,todate:uwt._todate,stepno:'1',totalrecord:'3',jsonparam:uwt.transporter})">{{uwt['transporter']}}</td>
                 <td>{{uwt['tripcount']}}</td>
                 <td>{{uwt['duration_Hrs']}}</td>
