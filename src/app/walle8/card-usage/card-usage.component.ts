@@ -166,20 +166,6 @@ export class CardUsageComponent implements OnInit {
     return columns;
   }
 
-
-  // actionIcons(details) {
-  //   let icons = [];
-  //   icons.push(
-  //     {
-  //       class: "fa fa-edit",
-  //       // action: this.openAddIssueModel.bind(this, details)
-
-  //     }
-  //   )
-  //   console.log("details-------:", details)
-  //   return icons;
-  // }
-
   formatTitle(title) {
     if (title.length <= 4) {
       return title.toUpperCase()
