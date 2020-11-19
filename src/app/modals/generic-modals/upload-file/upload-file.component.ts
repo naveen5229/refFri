@@ -12,10 +12,11 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class UploadFileComponent implements OnInit {
 file = null;
 fileType =null;
+sampleURL = null;
   constructor(public api: ApiService,
     public common: CommonService,
     private activeModal: NgbActiveModal) {
-   
+      this.sampleURL =  this.common.params.sampleURL?this.common.params.sampleURL:null;
   }
 
   ngOnInit() {
@@ -43,5 +44,8 @@ fileType =null;
       })
   }
 
+  sampleCsv() {
+    window.open(this.sampleURL);
+  }
 }
 

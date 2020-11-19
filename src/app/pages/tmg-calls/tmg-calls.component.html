@@ -6,7 +6,7 @@
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Driver Calls % </b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsDrivar',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30)"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsDrivar',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart1.options">
@@ -17,7 +17,7 @@
         <div class="outer" style="min-height:265px">
           <h6 style="text-align:center"><b class="charthead">Supervisor Wise % Not Responded Calls</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseNotRespod',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true},30)"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseNotRespod',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <table class="table">
             <thead class="thead">
@@ -41,7 +41,7 @@
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">% Not Responded Calls</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsNotRespod',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30)"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsNotRespod',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart2.options">
@@ -57,7 +57,7 @@
         <div  class="outer" style="border:1px solid #7c94bf;min-height:120px">
           <h6 style="text-align: center;"><b class="charthead"> Worst 3 Driver Calls % </b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseTopWorstDriverCalls',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true},7)"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseTopWorstDriverCalls',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true},7,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <table class="table">
             <thead class="thead">
@@ -84,7 +84,7 @@
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Longest Loading TAT</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorLoadingTat',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30)"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorLoadingTat',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart3.type" [data]="chart3.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
             [options]="chart3.options">
@@ -95,7 +95,7 @@
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Onward KMPD </b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallOnwardKmd',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 15},30)"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallOnwardKmd',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart4.type" [data]="chart4.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
             [options]="chart4.options">
@@ -106,7 +106,7 @@
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Worst Unloading TAT</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorUnLoadingTat',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 15},30)"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorUnLoadingTat',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart5.type" [data]="chart5.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
             [options]="chart5.options">

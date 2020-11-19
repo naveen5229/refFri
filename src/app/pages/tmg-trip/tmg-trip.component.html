@@ -4,7 +4,7 @@
       <div class="outer" style="min-height: 200px;">
         <h6 style="text-align:center"><b class="charthead">Onward KMPD Graph</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripOnwardKmd',{totalrecord: 3,stepno: -1,groupdays: 7},30)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripOnwardKmd',{totalrecord: 3,stepno: -1,groupdays: 7},30,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <chart [type]="chart.type" [data]="chart.data"
@@ -16,7 +16,7 @@
       <div class="outer" style="min-height: 200px;">
         <h6 style="text-align:center"><b class="charthead">Avg. Loading Time Graph</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripLoadindTime',{totalrecord: 3,stepno: -1,groupdays: 7},30)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripLoadindTime',{totalrecord: 3,stepno: -1,groupdays: 7},30,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <chart [type]="chart1.type" [data]="chart1.data"
@@ -28,7 +28,7 @@
       <div class="outer" style="min-height: 200px;">
         <h6 style="text-align:center"><b class="charthead">Avg. Unloading Time Graph</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripUnLoadindTime',{totalrecord: 3,stepno: -1,groupdays: 7},30)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripUnLoadindTime',{totalrecord: 3,stepno: -1,groupdays: 7},30,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <chart [type]="chart2.type" [data]="chart2.data"
@@ -43,7 +43,7 @@
         <h6 style="text-align:center"><b class="charthead">Worst 3 Vehicles in Last Week(Breakdown + Maintenance)</b>
         </h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripLoadindHalt',{totalrecord: 3,stepno: -1},7)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripLoadindHalt',{totalrecord: 3,stepno: -1},7,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <table class="table">
@@ -64,7 +64,7 @@
       <div class="outer" style="min-height: 145px;">
         <h6 style="text-align:center"><b class="charthead">Longest Loading Sites in Last 7 Days</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetLongestLoadindSites',{totalrecord: 3,stepno: -1},30)"><i
+          (click)="getDetials('Tmgreport/GetLongestLoadindSites',{totalrecord: 3,stepno: -1},7,'days')"><i
             title="More Details" class="fa fa-list"></i>
         </p>
         <table class="table">
@@ -87,7 +87,7 @@
         <h6 style="text-align:center"><b class="charthead">Longest Unloading Drivers in Last 30 Days
           </b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetLongestUnLoadindDriver',{totalrecord: 3,stepno: -1},30)"><i
+          (click)="getDetials('Tmgreport/GetLongestUnLoadindDriver',{totalrecord: 3,stepno: -1},30,'days')"><i
             title="More Details" class="fa fa-list"></i>
         </p>
         <table class="table">
@@ -111,7 +111,7 @@
       <div class="outer" style="min-height: 145px;">
         <h6 style="text-align:center"><b class="charthead">Slowest 3 Onward Drivers in Last 7 Days</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripSlowestOnward',{totalrecord: 3,stepno: -1},7)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripSlowestOnward',{totalrecord: 3,stepno: -1},7,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <table class="table">
@@ -136,7 +136,7 @@
       <div class="outer" style="min-height: 145px;">
         <h6 style="text-align:center"><b class="charthead">Longest Unloading Sites in Last 7 Days</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetLongestUnLoadindSites',{totalrecord: 3,stepno: -1},7)"><i
+          (click)="getDetials('Tmgreport/GetLongestUnLoadindSites',{totalrecord: 3,stepno: -1},7,'days')"><i
             title="More Details" class="fa fa-list"></i>
         </p>
         <table class="table">
@@ -157,7 +157,7 @@
       <div class="outer" style="min-height: 145px;">
         <h6 style="text-align:center"><b class="charthead">GPS Performance</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripGpsPerformance',{totalrecord: 3,stepno: -1},30)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripGpsPerformance',{totalrecord: 3,stepno: -1},30,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <table class="table">

@@ -21,7 +21,7 @@
             </div>
             <div class="col-8 display">
               <auto-suggestion (onSelected)="selectLocation($event)" [preSelected]="site.id ? { location:Location }:'' "
-                url="Location/getPlaceFromRedis?" display="location" inputId="location" placeholder="Location" >
+                url="Location/getPlaceFromRedis?" display="location" inputId="location" placeholder="Location">
               </auto-suggestion>
             </div>
           </div>
@@ -55,7 +55,8 @@
             </div>
             <div class="col-8 display">
               <auto-suggestion (onSelected)="selectLocation($event)" [preSelected]="site.id ? { location:Location }:'' "
-                url="Location/getPlaceFromRedis?" display="location" inputId="moveto" placeholder="Location" (focusout)="getLatLng()">
+                url="Location/getPlaceFromRedis?" display="location" inputId="moveto" placeholder="Location"
+                (focusout)="getLatLng()">
               </auto-suggestion>
             </div>
           </div>
@@ -71,6 +72,21 @@
               <smart-table *ngIf="Sites.length>0" style="height:27vh!important;overflow-y:scroll!important;"
                 [data]="table.data" [settings]="table.settings" id="verifyState">
               </smart-table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12" style="text-align: center;"><h6>Upload bulk Data</h6></div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <label>Branch
+                <select class="form-control" [(ngModel)]="accountService.selected.branch.id" >
+                  <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
+                </select>
+              </label>
+            </div>
+            <div class="col-6">
+              <button class="btn btn-info" (click)="openUploadModal()">CSV File</button>
             </div>
           </div>
         </div>

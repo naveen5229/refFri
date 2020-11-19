@@ -180,7 +180,7 @@ export class TmgAlertsComponent implements OnInit {
   getAlertVscPending(){
     this.alertVscPending = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let startDate =new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -222,7 +222,7 @@ export class TmgAlertsComponent implements OnInit {
   getAlertWorstCallTat() { 
     this.alertWorstCallTat = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));;
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -243,7 +243,7 @@ export class TmgAlertsComponent implements OnInit {
   getAlertVscWorst() { 
     this.alertVscWorst = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -415,7 +415,7 @@ export class TmgAlertsComponent implements OnInit {
     } ,
   };
 }
-getDetials(url, params, days = 0) {
+getDetials(url, params, value = 0,type='days') {
   let dataparams = {
     view: {
       api: url,
@@ -425,8 +425,8 @@ getDetials(url, params, days = 0) {
 
     title: 'Details'
   }
-  if (days) {
-    let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+  if (value) {
+    let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
     let endDate = new Date();
     dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
     dataparams.view.param['todate'] = this.common.dateFormatter(endDate);

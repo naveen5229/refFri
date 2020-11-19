@@ -62,7 +62,7 @@ export class TmgChallanComponent implements OnInit {
   getChallansMonthGraph() {
     this.challansMonthGraph = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 6));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 180));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -266,7 +266,7 @@ export class TmgChallanComponent implements OnInit {
         labelString: 'Count of Challans'+this.yaxisObj1.yaxisLabel,
         fontSize: 16
       },
-      ticks: { stepSize: this.yaxisObj1.gridSize},
+      ticks: { stepSize: this.yaxisObj1.gridSize}, //beginAtZero: true,min:0,
       suggestedMin : this.yaxisObj1.minValue,
       type: 'linear',
       display: true,
@@ -280,7 +280,7 @@ export class TmgChallanComponent implements OnInit {
         labelString: 'Challan Amount '+this.yaxisObj2.yaxisLabel,
         fontSize: 16,
       },
-           ticks: { stepSize: this.yaxisObj2.gridSize},
+           ticks: { stepSize: this.yaxisObj2.gridSize}, //beginAtZero: true,min:0,
           suggestedMin : this.yaxisObj2.minValue,
           // max : 100
       type: 'linear',
@@ -294,18 +294,18 @@ export class TmgChallanComponent implements OnInit {
     return options;
   }
 
-  getDetials(url, params, days = 0) {
+  getDetials(url, params, value = 0,type='days') {
     let dataparams = {
       view: {
         api: url,
         param: params,
         type: 'post'
       },
-
+  
       title: 'Details'
     }
-    if (days) {
-      let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
       dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
       dataparams.view.param['todate'] = this.common.dateFormatter(endDate);

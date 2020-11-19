@@ -4,7 +4,7 @@
         <div class="outer" style="min-height: 200px;">
           <h6 style="text-align:center"><b class="charthead">Onward KMPD Graph</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-              (click)="getDetials('Tmgreport/GetTripOnwardKmd',{totalrecord: 3,stepno: -1,groupdays:7},30)"><i title="More Details" class="fa fa-list"></i>
+              (click)="getDetials('Tmgreport/GetTripOnwardKmd',{totalrecord: 3,stepno: -1,groupdays:7},30,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
           <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
           [options]="chart.options">
@@ -15,7 +15,7 @@
         <div class="outer" style="min-height: 200px;">
           <h6 style="text-align:center"><b class="charthead">Load Allocation Graph</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-              (click)="getDetials('Tmgreport/GetTransportarLoadingTat',{totalrecord: 3,stepno: -1,groupdays:7},30)"><i title="More Details" class="fa fa-list"></i>
+              (click)="getDetials('Tmgreport/GetTransportarLoadingTat',{totalrecord: 3,stepno: -1,groupdays:7},30,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
           <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart1.options">
@@ -26,7 +26,7 @@
         <div class="outer" style="min-height: 200px;">
           <h6 style="text-align:center"><b class="charthead">Avg. Unloading Time Graph</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-              (click)="getDetials('Tmgreport/GetTransportarSlowestUnloadingtat',{totalrecord: 3,stepno: -1,groupdays:7},30)"><i title="More Details" class="fa fa-list"></i>
+              (click)="getDetials('Tmgreport/GetTransportarSlowestUnloadingtat',{totalrecord: 3,stepno: -1,groupdays:7},30,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
           <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
             [options]="chart2.options">
@@ -39,7 +39,7 @@
         <div class="outer" style="min-height: 145px;">
           <h6 style="text-align:center"><b class="charthead">Slowest Transporter (Last 60 Days)</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-              (click)="getDetials('Tmgreport/GetTransportarSlowestOnward',{totalrecord: 3,stepno: -1,groupdays:7},60)"><i title="More Details" class="fa fa-list"></i>
+              (click)="getDetials('Tmgreport/GetTransportarSlowestOnward',{totalrecord: 3,stepno: -1,groupdays:7},60,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
           <table class="table table-bordered">
             <thead class="thead">
@@ -61,7 +61,7 @@
         <div class="outer" style="min-height: 145px;">
           <h6 style="text-align:center"><b class="charthead">Lowest Loads (Last 60 Days)</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-              (click)="getDetials('Tmgreport/GetTransportarSlowestLoad',{totalrecord: 3,stepno: -1,groupdays:7},60)"><i title="More Details" class="fa fa-list"></i>
+              (click)="getDetials('Tmgreport/GetTransportarSlowestLoad',{totalrecord: 3,stepno: -1,groupdays:7},60,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
           <table class="table table-bordered">
             <thead class="thead">
@@ -84,7 +84,7 @@
         <div class="outer" style="min-height: 145px;">
           <h6 style="text-align:center"><b class="charthead">Longest Unloading (Last 60 Days)
             <p style="text-align: right; margin-top: -25px;" class="link"
-              (click)="getDetials('Tmgreport/GetTransportarSlowestUnload',{totalrecord: 3,stepno: -1,groupdays:7},60)"><i title="More Details" class="fa fa-list"></i>
+              (click)="getDetials('Tmgreport/GetTransportarSlowestUnload',{totalrecord: 3,stepno: -1,groupdays:7},60,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
             </b></h6>
             <table class="table table-bordered">
@@ -109,7 +109,7 @@
         <div class="outer" style="min-height: 145px;">
           <h6 style="text-align:center"><b class="charthead">Slowest Transporter (Last 7 Days)</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-              (click)="getDetials('Tmgreport/GetTransportarSlowestOnward',{totalrecord: 3,stepno: -1,groupdays:7},7)"><i title="More Details" class="fa fa-list"></i>
+              (click)="getDetials('Tmgreport/GetTransportarSlowestOnward',{totalrecord: 3,stepno: -1,groupdays:7},7,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
           <table class="table table-bordered">
             <thead class="thead">
@@ -131,7 +131,7 @@
         <div class="outer" style="min-height: 145px;">
           <h6 style="text-align:center"><b class="charthead">Lowest Load (Last 7 Days)</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-              (click)="getDetials('Tmgreport/GetTransportarSlowestLoad',{totalrecord: 3,stepno: -1,groupdays:7},7)"><i title="More Details" class="fa fa-list"></i>
+              (click)="getDetials('Tmgreport/GetTransportarSlowestLoad',{totalrecord: 3,stepno: -1,groupdays:7},7,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
           <table class="table table-bordered">
             <thead class="thead">
@@ -155,7 +155,7 @@
         <div class="outer" style="min-height: 145px;">
           <h6 style="text-align:center"><b class="charthead">Longest Unloading (Last 7 days)</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-              (click)="getDetials('Tmgreport/GetTransportarSlowestUnload',{totalrecord: 3,stepno: -1,groupdays:7},7)"><i title="More Details" class="fa fa-list"></i>
+              (click)="getDetials('Tmgreport/GetTransportarSlowestUnload',{totalrecord: 3,stepno: -1,groupdays:7},7,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
           <table class="table table-bordered">
             <thead class="thead">
