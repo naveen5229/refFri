@@ -22,6 +22,10 @@ sampleURL = null;
   ngOnInit() {
   }
   
+  ngAfterViewInit(){
+    console.log("this.common.params.sampleURL",this.common.params.sampleURL)
+    this.sampleURL =  this.common.params.sampleURL?this.common.params.sampleURL:null;
+  }
   closeModal(response) {
     this.activeModal.close({ response: response,file:this.file,fileType:this.fileType });
   }

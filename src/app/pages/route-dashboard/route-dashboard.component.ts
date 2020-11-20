@@ -206,7 +206,7 @@ export class RouteDashboardComponent implements OnInit {
         action: this.addShortTarget.bind(this, route)
       },
       {
-        class: " fa fa-route mr-1",
+        class: " fa fa-plus mr-1",
         action: this.adhocRoute.bind(this, route),
       },
     ]
