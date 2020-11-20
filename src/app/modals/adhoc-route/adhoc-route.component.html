@@ -48,40 +48,7 @@
             </uj-date-time-picker>
         </div>
     </div>
-    <div class="row" style="margin-top:5px">
-        <div class="col-3">
-            <label>Dest Loc type</label>
-        </div>
-        <div class="col-3">
-            <label>
-                <input type="radio" [(ngModel)]="endLocationType" value="site" name="endlocationType"> Site
-            </label>
-            <label class="radio2">
-                <input type="radio" [(ngModel)]="endLocationType" value="city" name="endlocationType"> City
-            </label>
-        </div>
-    </div>
-    <div class="row" style="margin-top:5px">
-        <div class="col-3 pr-0">
-            <label>Destination</label>
-        </div>
-        <div class="col-3">
-            <auto-suggestion (onSelected)="selectLoactionSite('end',$event)"
-                url="Suggestion/getSites?typeId=1&isFoid=true" display="name" placeholder="Search Site" inputId="site"
-                [preSelected]="null" *ngIf="endLocationType=='site'">
-            </auto-suggestion>
-            <auto-suggestion (onSelected)="selectLocationCity('end',$event)" url="Location/getPlaceFromRedis"
-                display="location" inputId="endname" placeholder="Location" [preSelected]='null'
-                *ngIf="endLocationType=='city'">
-            </auto-suggestion>
-        </div>
-        <div class="col-3">
-            <input type="number" placeholder="Transit Hour" [(ngModel)]="destTat">
-        </div>
-        <div class="col-3">
-            <input type="number" placeholder="Halt Hour" [(ngModel)]="destHaltTime">
-        </div>
-    </div>
+    
    
   
     <div class="row" style="margin-top:5px">
@@ -140,7 +107,40 @@
         </table>
        
     </div>
-
+    <div class="row" style="margin-top:5px">
+        <div class="col-3">
+            <label>Dest Loc type</label>
+        </div>
+        <div class="col-3">
+            <label>
+                <input type="radio" [(ngModel)]="endLocationType" value="site" name="endlocationType"> Site
+            </label>
+            <label class="radio2">
+                <input type="radio" [(ngModel)]="endLocationType" value="city" name="endlocationType"> City
+            </label>
+        </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+        <div class="col-3 pr-0">
+            <label>Destination</label>
+        </div>
+        <div class="col-3">
+            <auto-suggestion (onSelected)="selectLoactionSite('end',$event)"
+                url="Suggestion/getSites?typeId=1&isFoid=true" display="name" placeholder="Search Site" inputId="site"
+                [preSelected]="null" *ngIf="endLocationType=='site'">
+            </auto-suggestion>
+            <auto-suggestion (onSelected)="selectLocationCity('end',$event)" url="Location/getPlaceFromRedis"
+                display="location" inputId="endname" placeholder="Location" [preSelected]='null'
+                *ngIf="endLocationType=='city'">
+            </auto-suggestion>
+        </div>
+        <div class="col-3">
+            <input type="number" placeholder="Transit Hour" [(ngModel)]="destTat">
+        </div>
+        <div class="col-3">
+            <input type="number" placeholder="Halt Hour" [(ngModel)]="destHaltTime">
+        </div>
+    </div>
 </div>
 
 <div class="modal-footer">
