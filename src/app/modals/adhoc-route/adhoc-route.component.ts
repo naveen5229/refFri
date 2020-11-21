@@ -25,6 +25,8 @@ export class AdhocRouteComponent implements OnInit {
   endLocationType = 'site';
   startLocationType = 'site';
   routeName = null;
+  routes = [];
+  routeId = null;
   viaPoints =[{
     name : null,
     lat : null,
@@ -111,6 +113,31 @@ export class AdhocRouteComponent implements OnInit {
    this.viaPoints[i].long = event.long;
    this.viaPoints[i].siteId = event.id;
   }
+
+  getRouteDetail(type) {
+    console.log("Type Id", type);
+    this.routeId = this.routes.find((element) => {
+      return element.route_name == type;
+    }).id;
+    this.routeName = type;
+  }
+
+  getRoutes() {
+    let ids = '';
+     ids= this.startLocId+","+this.endLocId+",";
+    this.viaPoints.map(vp=>{
+      ids+=vp.siteId+','
+    })
+    let param = "points="+ids.slice(0, -1);
+    console.log("param",param);
+    this.api.get('ViaRoutes/getViaRouteSuggestions?'+param)
+      .subscribe(res => {
+        this.routes = res['data'];
+      }, err => {
+        console.log(err);
+      });
+  }
+
   addRoute() {
     let stPoint = {
       name : this.startName,

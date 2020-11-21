@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h5 class="modal-title" id="modal-basic-title">Addhoc Route</h5>
+    <h5 class="modal-title" id="modal-basic-title">Ad-hoc Route</h5>
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -51,14 +51,7 @@
     
    
   
-    <div class="row" style="margin-top:5px">
-        <div class="col-3 pr-0">
-            <label> Route Name</label>
-        </div>
-        <div class="col-3">
-            <input type="text" [(ngModel)]="routeName" class="form-control">
-        </div>
-    </div>
+    
     <div class="row" style="margin-top:5px">
         <div class="col-12">
             <label style="text-align: center;">Via Points</label>
@@ -140,6 +133,22 @@
         <div class="col-3">
             <input type="number" placeholder="Halt Hour" [(ngModel)]="destHaltTime">
         </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+        <div class="col-3 pr-0">
+            <label> Route Name</label>
+        </div>
+        <div class="col-3">
+            <input class="form-control" type="text" list="routeList" name="routeList-type" [(ngModel)]="routeName"
+            (change)="getRouteDetail(routeName)">
+          <datalist id="routeList">
+            <option *ngFor="let route of routes;" [value]="route.route_name">
+            </option>
+          </datalist>
+        </div>
+        <div class="col-md-3 pr-0">
+            <span (click)="getRoutes()"><i class="fa fa-eye"  ></i></span>
+          </div>
     </div>
 </div>
 
