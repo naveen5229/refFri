@@ -3,6 +3,8 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LocationMarkerComponent } from '../location-marker/location-marker.component';
 
 @Component({
   selector: 'site-trip-details',
@@ -28,7 +30,8 @@ dataForView = null;
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private activeModal : NgbActiveModal
+    private activeModal : NgbActiveModal,
+    private modalService: NgbModal
   ) {
     this.common.handleModalSize('class', 'modal-lg', '1400');
     this.dataForView = this.common.params.dataForView;
@@ -115,14 +118,35 @@ dataForView = null;
       for(var i = 0; i < this.headings.length; i++) {
         let val = std[this.headings[i]];
         let status = '';
-        
-        valobj[this.headings[i]] = { value: val, class: 'black', action: '' };       
-
+        if (this.headings[i] == "Curr. Loc.") {
+          valobj[this.headings[i]] = { value: val, class: 'blue', action: this.showLocation.bind(this, std) };
+        }else{
+          valobj[this.headings[i]] = { value: val, class: 'black', action: '' };   
+        }
       }
      
       columns.push(valobj);     
     });
     return columns;
+  }
+
+  showLocation(kpi){
+    if (!kpi._lat) {
+      this.common.showToast("Vehicle location not available!");
+      return;
+    }
+    const location = {
+      lat: kpi._lat,
+      lng: kpi._long,
+      name: "",
+      time: ""
+    };
+    ////console.log("Location: ", location);
+    this.common.params = { location, title: "Vehicle Location" };
+    const activeModal = this.modalService.open(LocationMarkerComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
   }
 
   closeModal() {
