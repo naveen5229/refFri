@@ -76,7 +76,7 @@ export class TipFeedbackLogsComponent implements OnInit {
     }
 
     console.log("params:", params);
-    const data = "startDate=" + params.startDate +"&pivotBy="+this.dataFormat+
+    const data = "startDate=" + params.startDate + "&pivotBy=" + this.dataFormat +
       "&endDate=" + params.endDate + "&vehicleId=" + params.vehicleId;
     this.common.loading++;
 
@@ -114,12 +114,12 @@ export class TipFeedbackLogsComponent implements OnInit {
     for (var i = 0; i < this.activitySummary.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-      console.log("as",this.activitySummary[i],[this.headings[j]],this.activitySummary[i][this.headings[j]])
-        if (this.dataFormat=='date_wise' && this.headings[j] == 'Date' || this.headings[j] == 'date') {
+        console.log("as", this.activitySummary[i], [this.headings[j]], this.activitySummary[i][this.headings[j]])
+        if (this.dataFormat == 'date_wise' && this.headings[j] == 'Date' || this.headings[j] == 'date') {
           this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
-        } else  if (this.dataFormat=='vehicle_wise' && this.headings[j] == 'Regno' || this.headings[j] == 'regno') {
+        } else if (this.dataFormat == 'vehicle_wise' && this.headings[j] == 'Regno' || this.headings[j] == 'regno') {
           this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
-        } 
+        }
         else
           this.valobj[this.headings[j]] = { value: this.getHtml(this.activitySummary[i][this.headings[j]]), class: '', action: '', isHTML: true };
       }
@@ -138,33 +138,50 @@ export class TipFeedbackLogsComponent implements OnInit {
   }
   getHtml(text) {
     let string = '';
-    console.log("text",text);
     text = JSON.parse(text);
-    console.log("text1",text);
     if (text && text.length > 0 && text != null) {
       let oldTrip = JSON.parse(text[0].o_trip);
-      console.log("oldTrip",oldTrip);
-      string +=text[0].n_trip ? text[0].n_trip :this.getTripHtml(oldTrip);
+      let str = text[0].n_trip ? text[0].n_trip : this.getTripHtml(oldTrip);
+      let title = ' ';
       // string +='<span>'+this.common.getTripStatusHTML(oldTrip._trip_status_type,oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name)+'</span><br>';
       string += '<span>' + text[0].location + '</span><br>';
+      title += text[0].location + ' ';
       if (('' + text[0].state_name).search('Onward') > -1) {
         string += '<span class="black">(O)</span>';
+        title += '(O)';
       } else if (('' + text[0].state_name).search('Unloading') > -1) {
         string += '<span class="green">(UL)</span>';
+        title += '(UL)';
       } else if (('' + text[0].state_name).search('Loading') > -1) {
         string += '<span class="blue">(L)</span>';
-      } else if ((('' + text[0].state_name).search('No Data 12 Hr') > -1 )|| (('' + text[0].state_name).search('No GPS Data')  > -1) || (('' + text[0].state_name).search('Undetected')  > -1)) {
+        title += '(L)';
+      } else if ((('' + text[0].state_name).search('No Data 12 Hr') > -1) || (('' + text[0].state_name).search('No GPS Data') > -1) || (('' + text[0].state_name).search('Undetected') > -1)) {
         string += '<span class="red">(Issue)</span>';
-      } 
+        title += '(Issue)';
+      }
       else {
         string += '<span>(' + text[0].state_name + ')</span>';
+        title += '(' + text[0].state_name + ')';
+
       }
       if (text[0].remarks) {
         string += '<span> - ' + text[0].remarks + '</span>';
+        title += ' - ' + text[0].remarks;
       }
+      str = this.formatTripTitle(str, title);
+      string = str + string;
     }
     return this.sanitizer.bypassSecurityTrustHtml(string);
   }
+
+  formatTripTitle(str: string, strToAdd) {
+    let stIndex = str.indexOf('<i title="');
+    let endIndex = str.indexOf('"></i>>');
+    let str2 = str.slice(stIndex, endIndex)
+    let str3 = str2 + ' > ' + strToAdd;
+    return str.replace(str2, str3);
+  }
+
   printPDF(tblEltId) {
     this.common.loading++;
     let userid = this.user._customer.id;
@@ -203,11 +220,11 @@ export class TipFeedbackLogsComponent implements OnInit {
 
   }
 
-getTripHtml(oldTrip){
-  let trip = '<span [innerHTML]='+this.common.getTripStatusHTML(oldTrip._trip_status_type,oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name)['changingThisBreaksApplicationSecurity']+'></span><br>';
-  console.log("trip",trip);
-  return trip;
-}
+  getTripHtml(oldTrip) {
+    let trip = '<span [innerHTML]=' + this.common.getTripStatusHTML(oldTrip._trip_status_type, oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name)['changingThisBreaksApplicationSecurity'] + '></span><br>';
+    console.log("trip", trip);
+    return trip;
+  }
 
 
 
