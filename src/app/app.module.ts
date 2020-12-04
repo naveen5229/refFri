@@ -560,7 +560,6 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   FoSiteAliasComponent,
   AdhocRouteComponent,
   TollpaymentmanagementComponent
-
 ];
 
 @NgModule({
@@ -578,11 +577,11 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CheckloginandredirectComponent,
     TripKmRepairViewComponent,
     TollpaymentmanagementComponent,
-
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
-    VehicleInfoComponent
+    VehicleInfoComponent,
+    
   ],
   imports: [
     BrowserModule,

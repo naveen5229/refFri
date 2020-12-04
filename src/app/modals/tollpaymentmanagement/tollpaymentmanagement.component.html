@@ -1,1 +1,40 @@
-<p>tollpaymentmanagement works!</p>
+
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Toll Payment Management</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+          <div class="col-2">
+              <label>Vehicle</label>
+              <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList" display="regno"
+                placeholder="Search Vehicle" [preSelected]="null">
+              </auto-suggestion>
+          </div>
+          <div class="col-3">
+            <label>Vehicle Class</label>
+            <select [(ngModel)]='vClass'>
+              <option *ngFor="let vc of vehicleClass" [value]='vc.id'>{{vc.description}}</option>
+            </select>
+        </div>
+          <div class="col-2">
+              <label>Start Date</label>
+              <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
+              </uj-date-time-picker>
+          </div>
+
+          <div class="col-2">
+              <label>End Date</label>
+              <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]="false" [isStart]="false">
+              </uj-date-time-picker>
+          </div>
+
+          <div class="col-2 mt-4">
+            <button (click)="tollPayManagement()" class="btn btn-primary form-control" style="margin:0px;border:0px;">Submit</button>
+          </div>
+
+          
+      </div>
+  </div>
