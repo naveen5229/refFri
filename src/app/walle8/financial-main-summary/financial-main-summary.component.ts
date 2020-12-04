@@ -98,7 +98,8 @@ export class FinancialMainSummaryComponent implements OnInit {
     if (this.user._loggedInBy == "customer")
       mobileNo = this.user._details.mobileNo;
 
-    let param = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+ "&mobileno="+mobileNo;
+      let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let param = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getFinancialAccountMainSummary.json?' + param)
       .subscribe(Res => {

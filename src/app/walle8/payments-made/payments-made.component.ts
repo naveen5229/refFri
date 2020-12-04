@@ -51,7 +51,8 @@ export class PaymentsMadeComponent implements OnInit {
   }
   getPaymentMade() {
     this.total=0;
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.common.dateFormatter(new Date(this.startTime)) + "&enddate=" + this.common.dateFormatter(new Date(this.endTime));
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.common.dateFormatter(new Date(this.startTime)) + "&enddate=" + this.common.dateFormatter(new Date(this.endTime))+"&foid="+foid ;
     this.common.loading++;
     let response;
     this.api.walle8Get('PaymentApi/FoPaymentsView.json?' + params)

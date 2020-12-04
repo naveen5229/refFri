@@ -77,7 +77,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
   getUnloadingtat() {
     this.unloadingtat = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -110,7 +110,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
 
   getUnLoadingWorstTransportar1month() {
     this.unLoadingWorstTransportar1month = [];
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -132,7 +132,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
   getUnLoadingWorstTransportar() {
     this.unLoadingWorstTransportar = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 6));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 180));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -177,7 +177,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
   getUnLoadingWorstConsignee() {
     this.unLoadingWorstConsignee = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 6));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 180));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -198,7 +198,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
   getUnLoadingWorstConsignee1month() {
     this.unLoadingWorstConsignee1month = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -292,7 +292,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
             todate: todate,
             groupdays: 7
           }
-          this.getDetials('Tmgreport/GetLoadingtat',params)
+          this.getDetials('Tmgreport/GetUnLoadingtat',params)
 
         }
         // scales: {
@@ -307,6 +307,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
   }
 
   getlabelValue1() {
+    this.xAxisData1 = [];
     if (this.unloadingWorstDestination) {
       this.unloadingWorstDestination.forEach((cmg) => {
         this.chart1.data.line.push(cmg['detention_days']);
@@ -434,18 +435,18 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     return options;
   }
 
-  getDetials(url, params,days=0) {
+  getDetials(url, params, value = 0,type='days') {
     let dataparams = {
       view: {
         api: url,
         param: params,
         type: 'post'
       },
-
+  
       title: 'Details'
     }
-    if(days){
-      let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
       dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
       dataparams.view.param['todate'] = this.common.dateFormatter(endDate);

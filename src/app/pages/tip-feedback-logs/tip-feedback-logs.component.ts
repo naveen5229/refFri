@@ -5,6 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { stringify } from 'querystring';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'tip-feedback-logs',
   templateUrl: './tip-feedback-logs.component.html',
@@ -27,11 +28,12 @@ export class TipFeedbackLogsComponent implements OnInit {
       tableHeight: '75vh'
     }
   };
-
+  dataFormat = 'vehicle_wise';
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
-    public user: UserService) {
+    public user: UserService,
+    private sanitizer: DomSanitizer) {
 
     this.common.refresh = this.refresh.bind(this);
   }
@@ -74,7 +76,7 @@ export class TipFeedbackLogsComponent implements OnInit {
     }
 
     console.log("params:", params);
-    const data = "startDate=" + params.startDate +
+    const data = "startDate=" + params.startDate +"&pivotBy="+this.dataFormat+
       "&endDate=" + params.endDate + "&vehicleId=" + params.vehicleId;
     this.common.loading++;
 
@@ -87,7 +89,7 @@ export class TipFeedbackLogsComponent implements OnInit {
         if (this.activitySummary.length > 0) {
           let first_rec = this.activitySummary[0];
           console.log("first_Rec", first_rec);
-
+          this.headings = [];
           for (var key in first_rec) {
             if (key.charAt(0) != "_") {
               this.headings.push(key);
@@ -112,9 +114,13 @@ export class TipFeedbackLogsComponent implements OnInit {
     for (var i = 0; i < this.activitySummary.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        if (this.headings[j] == 'Date' || this.headings[j] == 'date') {
+      console.log("as",this.activitySummary[i],[this.headings[j]],this.activitySummary[i][this.headings[j]])
+        if (this.dataFormat=='date_wise' && this.headings[j] == 'Date' || this.headings[j] == 'date') {
           this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
-        } else
+        } else  if (this.dataFormat=='vehicle_wise' && this.headings[j] == 'Regno' || this.headings[j] == 'regno') {
+          this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
+        } 
+        else
           this.valobj[this.headings[j]] = { value: this.getHtml(this.activitySummary[i][this.headings[j]]), class: '', action: '', isHTML: true };
       }
       columns.push(this.valobj);
@@ -132,32 +138,32 @@ export class TipFeedbackLogsComponent implements OnInit {
   }
   getHtml(text) {
     let string = '';
+    console.log("text",text);
     text = JSON.parse(text);
+    console.log("text1",text);
     if (text && text.length > 0 && text != null) {
+      let oldTrip = JSON.parse(text[0].o_trip);
+      console.log("oldTrip",oldTrip);
+      string +=text[0].n_trip ? text[0].n_trip :this.getTripHtml(oldTrip);
+      // string +='<span>'+this.common.getTripStatusHTML(oldTrip._trip_status_type,oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name)+'</span><br>';
       string += '<span>' + text[0].location + '</span><br>';
       if (('' + text[0].state_name).search('Onward') > -1) {
-        string += '<span class="blue">(O)</span>';
-      } else if (('' + text[0].state_name).search('Available') > -1) {
-        string += '<span class="purple">(A)</span>';
+        string += '<span class="black">(O)</span>';
       } else if (('' + text[0].state_name).search('Unloading') > -1) {
-        string += '<span class="red">(UL)</span>';
+        string += '<span class="green">(UL)</span>';
       } else if (('' + text[0].state_name).search('Loading') > -1) {
-        string += '<span class="green">(L)</span>';
-      }
+        string += '<span class="blue">(L)</span>';
+      } else if ((('' + text[0].state_name).search('No Data 12 Hr') > -1 )|| (('' + text[0].state_name).search('No GPS Data')  > -1) || (('' + text[0].state_name).search('Undetected')  > -1)) {
+        string += '<span class="red">(Issue)</span>';
+      } 
       else {
         string += '<span>(' + text[0].state_name + ')</span>';
       }
       if (text[0].remarks) {
         string += '<span> - ' + text[0].remarks + '</span>';
       }
-      if (text[0].origin) {
-        string += '<br><span> ' + text[0].origin + ' -> </span>';
-      }
-      if (text[0].destination) {
-        string += '<span>' + text[0].destination + '</span>';
-      }
     }
-    return string;
+    return this.sanitizer.bypassSecurityTrustHtml(string);
   }
   printPDF(tblEltId) {
     this.common.loading++;
@@ -197,7 +203,11 @@ export class TipFeedbackLogsComponent implements OnInit {
 
   }
 
-
+getTripHtml(oldTrip){
+  let trip = '<span [innerHTML]='+this.common.getTripStatusHTML(oldTrip._trip_status_type,oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name)['changingThisBreaksApplicationSecurity']+'></span><br>';
+  console.log("trip",trip);
+  return trip;
+}
 
 
 

@@ -84,35 +84,18 @@ export class HeaderComponent implements OnInit {
           if (this.user._loggedInBy == 'customer') {
             this.activity.activityHandler('logout');
           }
-          this.user._token = '';
-          this.user._details = null;
-          this.user._loggedInBy = '';
-          this.user._pages = null;
-          this.user._customer = {
-            name: '',
-            id: '',
-            mobileNo: null,
-            foid:''
-          };
-          this.user._menu = {
-            admin: [],
-            pages: [],
-            tyres: [],
-            battery: [],
-            vehicleMaintenance: [],
-            wareHouse: [],
-            account: [],
-            challan: [],
-            walle8: [],
-            bidSystem: [],
-            loadIntelligence: []
-          };
+          this.user.resetUserService();
+          this.common.resetCommonService();
+          
           localStorage.removeItem('USER_DETAILS');
           localStorage.removeItem('USER_TOKEN');
           localStorage.removeItem('LOGGED_IN_BY');
           localStorage.removeItem('CUSTOMER_DETAILS');
           localStorage.removeItem('DOST_USER_PAGES');
           localStorage.removeItem('DOST_axesToken');
+          localStorage.removeItem('iswallet');
+          localStorage.removeItem('DOST_axesToken');
+          
           localforage.clear();
           this.router.navigate(['/auth/login']);
           console.log("logout", res);

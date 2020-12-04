@@ -46,8 +46,9 @@
             </td>
             <td>{{trip.r_tripstartdate}}</td>
             <td><span style="display:inline-flex">
-                <input type="text" [(ngModel)]="trip.origin" class="form-control" placeholder="Origin">
-                <input type="text" [(ngModel)]="trip.destination" class="form-control" placeholder="Destination">
+              <input type="text" [(ngModel)]="trip.trips" class="form-control" placeholder="Trips">
+                <!-- <input type="text" [(ngModel)]="trip.origin" class="form-control" placeholder="Origin">
+                <input type="text" [(ngModel)]="trip.destination" class="form-control" placeholder="Destination"> -->
                 <auto-suggestion (onSelected)="selectState($event,i)" display="description" [data]="states"
                   style="width:100%!important;" placeholder="Select Status" [preSelected]="null"
                   className="form-control">

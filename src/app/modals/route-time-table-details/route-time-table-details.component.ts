@@ -22,12 +22,11 @@ export class RouteTimeTableDetailsComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public modalService: NgbModal) {
     if (this.common.params && this.common.params.route) {
+      console.log("this.common.params.route",this.common.params.route)
       this.routeId = this.common.params.route._route_id;
       this.routeName = this.common.params.route._route_name;
       this.routeTimeName = this.common.params.route._rtt_name;
       this.routeTime = this.common.params.route._rtt_id;
-
-
     }
     if (this.routeId) {
       this.getrouteTime();

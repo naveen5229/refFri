@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from "lodash";
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
 @Component({
   selector: 'tmg-calls',
@@ -76,7 +77,7 @@ export class TmgCallsComponent implements OnInit {
   getCallsDrivar() {
     this.callsDrivar = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -99,7 +100,7 @@ export class TmgCallsComponent implements OnInit {
 
   getCallsSupervisorWiseNotRespod() {
     this.callsSupervisorWiseNotRespod = [];
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       totalrecord: 7,
@@ -123,7 +124,7 @@ export class TmgCallsComponent implements OnInit {
   getCallsNotRespod() {
     this.callsNotRespod = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -170,7 +171,7 @@ export class TmgCallsComponent implements OnInit {
   getCallsSupervisorLoadingTat() {
     this.callsSupervisorLoadingTat = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -193,7 +194,7 @@ export class TmgCallsComponent implements OnInit {
 
   getCallsSupervisorUnLoadingTat() {
     this.callsSupervisorUnLoadingTat = [];
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));;
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -216,12 +217,12 @@ export class TmgCallsComponent implements OnInit {
   }
   getCallOnwardKmd() {
     this.callOnwardKmd = [];
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 15,
+      groupdays: 7,
       isfo: true,
       isadmin: true
     };
@@ -240,12 +241,12 @@ export class TmgCallsComponent implements OnInit {
   getAlertWorstCallTat() {
     this.callsSupervisorUnLoadingTat = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 15,
+      groupdays: 7,
       isfo: true,
       isadmin: true
     };
@@ -536,4 +537,25 @@ export class TmgCallsComponent implements OnInit {
     };
   }
 
+  getDetials(url, params, value = 0,type='days') {
+    let dataparams = {
+      view: {
+        api: url,
+        param: params,
+        type: 'post'
+      },
+  
+      title: 'Details'
+    }
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
+      let endDate = new Date();
+      dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
+      dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
+    }
+    console.log("dataparams=", dataparams);
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.params = { data: dataparams };
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
 }

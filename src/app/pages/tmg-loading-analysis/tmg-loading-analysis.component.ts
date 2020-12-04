@@ -78,7 +78,7 @@ export class TmgLoadingAnalysisComponent implements OnInit {
   getLoadingtat() {
     this.loadingtat = [];
     ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -170,7 +170,9 @@ export class TmgLoadingAnalysisComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log('loadingAged:', res['data']);
-        this.loadingAged = res['data'];
+        if (res['data']) {
+          this.loadingAged = res['data'].filter(aged => aged.site_name);
+        }
         if (this.loadingAged.length > 0) this.handleChart2(params.fromdate, params.todate);
       }, err => {
         --this.common.loading;
@@ -397,18 +399,19 @@ export class TmgLoadingAnalysisComponent implements OnInit {
     return options;
   }
 
-  getDetials(url, params, days = 0) {
+  
+  getDetials(url, params, value = 0,type='days') {
     let dataparams = {
       view: {
         api: url,
         param: params,
         type: 'post'
       },
-
+  
       title: 'Details'
     }
-    if (days) {
-      let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
       dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
       dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
@@ -419,10 +422,10 @@ export class TmgLoadingAnalysisComponent implements OnInit {
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
-  handleChart2(fromdate, todate) {  
+  handleChart2(fromdate, todate) {
     let xaxis = [];
     let Periods = _.groupBy(this.loadingAged, 'Period');
-    console.log('Periods ',Periods);
+    console.log('Periods ', Periods);
     let site_names = _.groupBy(this.loadingAged, 'site_name');
     let yaxis = [];
     let datasets = Object.keys(site_names)
@@ -458,40 +461,42 @@ export class TmgLoadingAnalysisComponent implements OnInit {
       labels: Object.keys(Periods),
       datasets
     };
-        this.chart2.options = {
-        responsive: true,
-        legend: {
-          position: 'bottom',
-          display: true
-        },
-        scaleLabel: {
-          display: true,
-          fontSize: 17,
-        },
-
-        maintainAspectRatio: false,
-        title: {
-          display: true,
-        },
+    this.chart2.options = {
+      responsive: true,
+      legend: {
+        position: 'bottom',
+        display: true
+      },
+      scaleLabel: {
         display: true,
-        elements: {
-          line: {
-            tension: 0
-          }
-        },
-        scales: {
-          yAxes: [{
-            scaleLabel: {
-              display: true,
-            },
-            
-          }
+        fontSize: 17,
+      },
+
+      maintainAspectRatio: false,
+      title: {
+        display: true,
+      },
+      display: true,
+      elements: {
+        line: {
+          tension: 0
+        }
+      },
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Trip Counts',
+            fontSize: 16,
+          },
+
+        }
 
 
-          ]
-        },
-    
-      };
-console.log("chart2----",this.chart2);
+        ]
+      },
+
+    };
+    console.log("chart2----", this.chart2);
   }
 }

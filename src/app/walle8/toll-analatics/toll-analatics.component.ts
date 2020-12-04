@@ -223,8 +223,8 @@ export class TollAnalaticsComponent implements OnInit {
 
   getTollAnalatics() {
 
-
-    let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;
 
     this.common.loading++;
     let response;

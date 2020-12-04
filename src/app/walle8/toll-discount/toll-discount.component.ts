@@ -143,10 +143,8 @@ export class TollDiscountComponent implements OnInit {
 
 
   gettollDiscount() {
-
-
-    let params = "foid=" + this.user._details.foid;
-
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;
     this.common.loading++;
     let response;
     this.api.walle8Get('DiscountApi/getUserDiscountHistory.json?' + params)

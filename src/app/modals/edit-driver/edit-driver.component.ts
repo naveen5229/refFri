@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Driver } from 'selenium-webdriver/edge';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
+import { dateFieldName } from '@progress/kendo-angular-intl';
 @Component({
   selector: 'edit-driver',
   templateUrl: './edit-driver.component.html',
   styleUrls: ['./edit-driver.component.scss']
 })
 export class EditDriverComponent implements OnInit {
+ 
   submitted = false;
+  base64Data=null;
   isLCType = [];
   driverForm: FormGroup;
-  dlTypesData=null;
+  dlTypesData = null;
   dlTypes = [];
   driver = {
     name: null,
@@ -26,11 +29,14 @@ export class EditDriverComponent implements OnInit {
     guranterno: null,
     dateofbirth: null,
     address: null,
-    dlExpiryDate: null,
+    // dlExpiryDate: null,
     dlType: null,
     bankName: null,
+    accountHolderName:null,
     accountNo: null,
-    ifscCode: null
+    ifscCode: null,
+    driverImg: null,
+    driverId: null
   }
 
   bGConditions = [
@@ -40,13 +46,14 @@ export class EditDriverComponent implements OnInit {
       isExist: true
     }
   ];
-
+  selectedDLType = [];
 
 
   constructor(private apiservice: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
     private formbuilder: FormBuilder,
+    private cdr: ChangeDetectorRef,
     private activeModal: NgbActiveModal) {
     this.isLCType = [
       { name: 'HGMV', id: 'HGMV' },
@@ -60,35 +67,25 @@ export class EditDriverComponent implements OnInit {
     console.info("driver Data:", this.common.params.driver);
 
     if (this.common.params.driver.doj) {
-      this.driver.date = this.common.dateFormatter1(this.common.params.driver.doj);
-    }if(this.common.params.driver.expiry_date){
-      this.driver.dlExpiryDate=this.common.dateFormatter1(this.common.params.driver.expiry_date);
+      this.driver.date = new Date(this.common.params.driver.doj);
+      console.log("DriverDate:", this.driver.date);
     }
-    if(this.common.params.driver.dob){
-      this.driver.dateofbirth=this.common.dateFormatter1(this.common.params.driver.dob);
+    if (this.common.params.driver.photo) {
+      this.driver.driverImg = this.common.params.driver.photo;
     }
-
-//     address: "Test"
-// bank_acno: "111000111000"
-// bank_name: "SBITest"
-// dob: "2020-10-20"
-// doj: "2020-01-28"
-// empname: "Sakir Khan"
-// expiry_date: "2020-10-23"
-// foid: 6529
-// guarantor_mobileno: "9828910283"
-// guarantor_name: "Juber"
-// id: 12526
-// ifsc_code: "ABCD147147"
-// licence_type: "HGMV,HMV"
-// mobileno: "9079353582"
-// mobileno2: "8607725800"
-// salary: 10000
-    
+    if (this.common.params.driver.dob) {
+      this.driver.dateofbirth = new Date(this.common.params.driver.dob);
+    }
+    console.log('common.params.driver.licence_type:', this.common.params.driver.licence_type);
+    // setTimeout(() => {
+      this.selectedDLType = [{ name: this.common.params.driver.licence_type }];
+    //   console.log('selectedDLType:', this.selectedDLType);
+    //   this.cdr.detectChanges();
+    // }, 10000);
   }
 
   ngOnInit() {
-    console.log("Driver:",this.common.params.driver);
+    console.log("Driver:", this.common.params.driver);
     this.driverForm = this.formbuilder.group({
       name: [this.common.params.driver.empname],
       mobileno: [this.common.params.driver.mobileno, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
@@ -98,76 +95,114 @@ export class EditDriverComponent implements OnInit {
       guranter: [this.common.params.driver.guarantor_name],
       date: [this.driver.date],
       dateofbirth: [this.driver.dateofbirth],
-      address: [this.common.params.driver.address?this.common.params.driver.address:this.driver.address],
-      dlExpiryDate: [this.driver.dlExpiryDate],
-      dlType: [this.dlTypesData],
-      bankName: [this.common.params.driver.bank_name?this.common.params.driver.bank_name:this.driver.bankName],
-      accountNo: [this.common.params.driver.bank_acno?this.common.params.driver.bank_acno:this.driver.accountNo],
-      ifscCode:[this.common.params.driver.ifsc_code?this.common.params.driver.ifsc_code:this.driver.ifscCode,
-        [Validators.required,Validators.pattern(/^[A-Za-z]{4}\d{7}$/)]]
-        
-      // ifscCode: [Validators.required,Validators.pattern(/^[A-Za-z]{4}\d{7}$/)]
+      address: [this.common.params.driver.address ? this.common.params.driver.address : this.driver.address],
+      // dlExpiryDate: [this.driver.dlExpiryDate],
+      dlType: [this.common.params.driver.licence_type ? this.common.params.driver.licence_type : this.dlTypesData],
+      bankName: [this.common.params.driver.bank_name ? this.common.params.driver.bank_name : this.driver.bankName],
+      accountHolderName:[this.common.params.driver.account_holder_name ? this.common.params.driver.account_holder_name:this.driver.accountHolderName],
+      accountNo: [this.common.params.driver.bank_acno ? this.common.params.driver.bank_acno : this.driver.accountNo],
+      ifscCode: [this.common.params.driver.ifsc_code ? this.common.params.driver.ifsc_code : this.driver.ifscCode],
+      driverImg: [this.driver.driverImg],
+      driverId: [this.common.params.driver.id ? this.common.params.driver.id : null]
     });
+ 
+    if(this.driver.driverImg){
+      this. toDataUrl(this.driver.driverImg, myBase64  => {
+          console.log("MyBase64:",myBase64);
+          // console.log("driverImg:",this.driver.driverImg)
+          this.base64Data=myBase64;
+          console.log("baseData:",this.base64Data);
+     });  
+     
+     }
     console.log("driverForm", this.driverForm);
   }
 
-  get f() { return this.driverForm.controls;}
+  get f() { return this.driverForm.controls; }
 
   closeModal() {
     this.activeModal.close({ response: true });
-  }
-
-  getDate(type) {
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (type == 'doj'){
-          this.driver.date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        }
-        if (type == 'dlexp'){
-          this.driver.dlExpiryDate = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        }
-        if (type == 'dtbrth'){
-          this.driver.dateofbirth = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-          console.log("dateOfBirth:",this.driver.dateofbirth);
-        }
-      }
-    });
   }
 
   selectDLTypes(dlTypes) {
     this.dlTypes = dlTypes;
   }
 
+  handleFileSelection(event) {
+    this.common.loading++;
+    console.log("EVENT:",event.target.files[0]);
+    this.common.getBase64(event.target.files[0])
+      .then(res => {
+        this.common.loading--;
+        let file = event.target.files[0];
+        console.log("Type", file.type);
+        if (file.type == "image/jpeg" || file.type == "image/jpg" ||
+          file.type == "image/png" || file.type == "application/pdf" ||
+          file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          file.type == "application/vnd.ms-excel" || file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+          this.common.showToast("SuccessFull File Selected");
+        }
+        else {
+          this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
+          return false;
+        }
+        this.driver.driverImg = res;
+        console.log('Base 64 index 1: ', this.driver.driverImg);
+      }, err => {
+        this.common.loading--;
+        console.error('Base Err: ', err);
+      })
+  }
+
+
+  toDataUrl(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            callback(reader.result);
+        }
+        reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+}
+
+
 
   Updatedriver() {
-    if(this.dlTypes){
-    this.dlTypesData = this.dlTypes.map(dltype => dltype.id).join(',');
-    }else{
-      this.dlTypesData='';
+    let base64Data='';
+    if (this.dlTypes) {
+      this.dlTypesData = this.dlTypes.map(dltype => dltype.id).join(',');
+    } else {
+      this.dlTypesData = '';
     }
-
+    
     let params = {
       name: this.driverForm.controls.name.value,
-      doj: this.driver.date,
+      doj: this.common.dateFormatter(this.driver.date),
       mobileNo: this.driverForm.controls.mobileno.value,
       mobileNo2: this.driverForm.controls.mobileno2.value,
       salary: this.driverForm.controls.Salary.value,
       guarantorName: this.driverForm.controls.guranter.value,
       guarantorMobile: this.driverForm.controls.guranterno.value,
-      dob:this.driver.dateofbirth,
+      dob: this.common.dateFormatter(this.driver.dateofbirth),
       address: this.driverForm.controls.address.value,
-      dlexpdt:this.driver.dlExpiryDate,
+      // dlexpdt:this.driver.dlExpiryDate,
       dltype: this.dlTypesData,
-      bankName:this.driverForm.controls.bankName.value,
+      bankName: this.driverForm.controls.bankName.value,
+      accHolName:this.driverForm.controls.accountHolderName.value,
       accNumber: this.driverForm.controls.accountNo.value,
-      ifscCode: this.driverForm.controls.ifscCode.value
+      ifscCode: this.driverForm.controls.ifscCode.value,
+      driverImg: this.driver.driverImg ? this.base64Data:this.driver.driverImg,
+      driverId: this.driverForm.controls.driverId.value
     };
+    console.log("params:", params);
     this.common.loading++;
-    this.apiservice.post('Drivers/edit', params)
+    this.apiservice.post('Drivers/addEditDriverInfo', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
         this.common.showToast(res['msg']);
         this.closeModal();
       }, err => {
