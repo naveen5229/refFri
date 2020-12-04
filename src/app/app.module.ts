@@ -301,6 +301,7 @@ import { UploadFileComponent } from './modals/generic-modals/upload-file/upload-
 import { FoSiteAliasComponent } from './modals/fo-site-alias/fo-site-alias.component';
 import { TripKmRepairViewComponent } from './modals/trip-km-repair-view/trip-km-repair-view.component';
 import { AdhocRouteComponent } from './modals/adhoc-route/adhoc-route.component';
+import { TollpaymentmanagementComponent } from './modals/tollpaymentmanagement/tollpaymentmanagement.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -558,6 +559,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   UploadFileComponent,
   FoSiteAliasComponent,
   AdhocRouteComponent,
+  TollpaymentmanagementComponent
 
 ];
 
@@ -575,6 +577,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CheckloginandredirectComponent,
     CheckloginandredirectComponent,
     TripKmRepairViewComponent,
+    TollpaymentmanagementComponent,
 
   ],
   entryComponents: [

@@ -14,10 +14,12 @@
   </nb-card-header>
   <nb-card-body>
     <div>
+      <button class="btn btn-success" *ngIf="showVerify" (click)="verifyAll()">Verified</button>
       <table class="table table-bordered table-hover m-0" id="trip-feedback">
         <thead class="thead">
           <tr style="text-align:center">
             <th>#</th>
+            <th><input type="checkbox" class="anycheck" name="allselect" [(ngModel)]="allSelected" (change)="selectAllCheck()"></th>
             <th>Vehicle No</th>
             <th>Driver</th>
             <th>Trip</th>
@@ -31,6 +33,7 @@
         <tbody *ngIf="trips.length!=0">
           <tr *ngFor="let trip of trips; let i = index">
             <td> {{(i + 1) + ((pages.active - 1) * pages.limit)}}</td>
+            <td><input type="checkbox" class="anycheck" [name]="'allselect'+i" [(ngModel)]="trip.selected" (change)="selectOneCheck(trip)"></td>
             <td>{{trip.r_regno}}</td>
             <td>
               <div style="word-wrap: break-word;">{{trip.r_driver}}</div>

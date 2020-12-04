@@ -16,10 +16,16 @@ export class TripStatusFeedbackComponent implements OnInit {
   trips = [];
   allTrips = [];
   states = [];
+  allSelected = false;
+  showVerify = false;
   pages = {
     count: 1,
     active: 1,
     limit: 50
+  }
+
+  selected={
+    trip:false
   }
   constructor(public api: ApiService,
     public common: CommonService, private cdr: ChangeDetectorRef,
@@ -35,6 +41,74 @@ export class TripStatusFeedbackComponent implements OnInit {
 
   refresh() {
     this.getTrips();
+    this.getStates();
+    this.allSelected=false;
+    this.trips = [];
+    this.allTrips = [];
+    this.states = [];
+    this.allSelected = false;
+    this.showVerify = false;
+    this.pages = {
+      count: 1,
+      active: 1,
+      limit: 50
+    }
+
+    this.selected={
+      trip:false
+    }
+  }
+
+  selectOneCheck(trip){
+    if(trip.selected){
+      this.showVerify = true;
+    }
+
+    let firstSelected = this.trips.find((e)=>{
+      return e.selected;
+    });
+    let firstDeselected = this.trips.find((e)=>{
+      return !e.selected;
+    })
+    if(!firstSelected){
+      this.showVerify = false;
+    }
+    if(firstDeselected){
+      this.allSelected = false;
+    }else{
+      this.allSelected = true;
+    }
+    // console.log("trip.selected",trip.selected);
+    
+  }
+
+  selectAllCheck(){
+    if(this.allSelected){
+      this.showVerify = true;
+    }else{
+      this.showVerify = false;
+    }
+    for (let index = 0; index < this.trips.length; index++) {
+      const element = this.trips[index];
+      this.trips[index].selected = this.allSelected;
+    }
+  }
+
+  verifyAll(){
+    let promises = [];
+    for (let i = 0; i < this.trips.length; i++) {
+        if(this.trips[i].selected){
+          let p = this.tripVerified(this.trips[i],'true',i,false);
+          if(p){
+            promises.push(p);
+          }
+        }
+    }
+    console.log("Promises",promises);
+    
+    Promise.all(promises).then((values)=>{
+      this.refresh();
+    })
   }
 
   getStates() {
@@ -65,6 +139,7 @@ export class TripStatusFeedbackComponent implements OnInit {
         this.allTrips = res['data'];
         for (let i = 0; i < this.allTrips.length; i++) {
           this.allTrips[i].status = '';
+          this.allTrips[i].selected = false;
         }
         this.setData();
         this.cdr.detectChanges();
@@ -76,18 +151,20 @@ export class TripStatusFeedbackComponent implements OnInit {
       });
   }
 
-  tripVerified(trip, action, i) {
+  tripVerified(trip, action, i,isTrimFirst = true) {
+    let promise = null;
     if (action == "true") {
-      this.changeVerification(trip, action, i);
+      promise = this.changeVerification(trip, action, i,isTrimFirst);
     } else if ((action == 'false') && ((trip.status) || (trip.trips) )) {
-      this.changeVerification(trip, action, i);
+      promise = this.changeVerification(trip, action, i,isTrimFirst);
     } else {
       this.common.showError("One Input Field is Mandatory");
     }
     this.cdr.detectChanges();
+    return promise;
   }
 
-  changeVerification(trip, action, i?) {
+  changeVerification(trip, action, i?,isTrimFirst = true) {
     let params = {
       vehicleId: trip.r_vid,
       verifyFlag: action,
@@ -104,13 +181,15 @@ export class TripStatusFeedbackComponent implements OnInit {
     };
     console.log("params", params);
     // return;
-    let index = (i) + ((this.pages.active - 1) * this.pages.limit)
-    this.allTrips.splice(index, 1);
-    this.setData();
-    //this.common.loading++;
-    this.cdr.detectChanges();
+    if(isTrimFirst){
+      let index = (i) + ((this.pages.active - 1) * this.pages.limit)
+      this.allTrips.splice(index, 1);
+      this.setData();
+      //this.common.loading++;
+      this.cdr.detectChanges();
+    }
 
-    this.api.post('TripsOperation/tripVerification', params)
+    return this.api.post('TripsOperation/tripVerification', params)
       .subscribe(res => {
         // this.common.loading--;
         console.log("response", res['data'][0].rtn_id);
