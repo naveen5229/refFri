@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { TollpaymentmanagementComponent } from '../../modals/tollpaymentmanagement/tollpaymentmanagement.component';
 
 @Component({
   selector: 'trip-status-feedback',
@@ -80,6 +81,13 @@ export class TripStatusFeedbackComponent implements OnInit {
     }
     // console.log("trip.selected",trip.selected);
     
+  }
+
+  tollPaymentManagement(){
+    const activeModal = this.modalService.open(TollpaymentmanagementComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
   }
 
   selectAllCheck(){

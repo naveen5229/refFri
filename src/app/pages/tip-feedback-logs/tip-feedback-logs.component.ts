@@ -137,6 +137,7 @@ export class TipFeedbackLogsComponent implements OnInit {
     }
   }
   getHtml(text) {
+    console.log("HSSSSS:", text)
     let string = '';
     text = JSON.parse(text);
     if (text && text.length > 0 && text != null) {
@@ -149,6 +150,7 @@ export class TipFeedbackLogsComponent implements OnInit {
       if (('' + text[0].state_name).search('Onward') > -1) {
         string += '<span class="black">(O)</span>';
         title += '(O)';
+
       } else if (('' + text[0].state_name).search('Unloading') > -1) {
         string += '<span class="green">(UL)</span>';
         title += '(UL)';
@@ -168,6 +170,9 @@ export class TipFeedbackLogsComponent implements OnInit {
         string += '<span> - ' + text[0].remarks + '</span>';
         title += ' - ' + text[0].remarks;
       }
+
+      string += "<br>Added on : " + text[0]['addtime'];
+      title += ' Added on : ' + text[0]['addtime'];
       str = this.formatTripTitle(str, title);
       string = str + string;
     }

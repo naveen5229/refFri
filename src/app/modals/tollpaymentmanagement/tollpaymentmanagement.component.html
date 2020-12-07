@@ -5,7 +5,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" style="min-height:320px;">
     <div class="row">
           <div class="col-2">
               <label>Vehicle</label>
@@ -21,7 +21,7 @@
         </div>
           <div class="col-2">
               <label>Start Date</label>
-              <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
+              <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false" [isStart]="true">
               </uj-date-time-picker>
           </div>
 
@@ -36,5 +36,30 @@
           </div>
 
           
+      </div>
+      <div class="row mt-5">
+        <div class="col-4">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Arrival Time</th>
+                <th>Toll Name</th>
+                <th>Tariff</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of tpManagement_tolls; let i = index;">
+                <td>{{i+1}}</td>
+                <td [ngStyle]="{'color':data.arrivalTimeColor}">{{data.arrivalTime}}</td>
+                <td>{{data.name}}</td>
+                <td>{{data.tariff}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-8">
+          <div id="map" style="width: 100%; height: calc(100vh - 196px);"></div>
+        </div>
       </div>
   </div>

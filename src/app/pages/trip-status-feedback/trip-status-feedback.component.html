@@ -34,7 +34,7 @@
           <tr *ngFor="let trip of trips; let i = index">
             <td> {{(i + 1) + ((pages.active - 1) * pages.limit)}}</td>
             <td><input type="checkbox" class="anycheck" [name]="'allselect'+i" [(ngModel)]="trip.selected" (change)="selectOneCheck(trip)"></td>
-            <td>{{trip.r_regno}}</td>
+            <td (click)="tollPaymentManagement()">{{trip.r_regno}}</td>
             <td>
               <div style="word-wrap: break-word;">{{trip.r_driver}}</div>
             </td>
