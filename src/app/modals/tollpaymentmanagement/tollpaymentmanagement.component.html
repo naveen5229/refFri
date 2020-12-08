@@ -21,7 +21,7 @@
         </div>
           <div class="col-2">
               <label>Start Date</label>
-              <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false" [isStart]="true">
+              <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
               </uj-date-time-picker>
           </div>
 
@@ -51,9 +51,12 @@
             <tbody>
               <tr *ngFor="let data of tpManagement_tolls; let i = index;">
                 <td>{{i+1}}</td>
-                <td [ngStyle]="{'color':data.arrivalTimeColor}">{{data.arrivalTime}}</td>
+                <td [ngStyle]="{'color':data.arrivalTimeColor}">{{common.changeDateformat2(data.arrivalTime)}}</td>
                 <td>{{data.name}}</td>
-                <td>{{data.tariff}}</td>
+                <!-- <td *ngIf="data.tariff!=null"></td>
+                *ngIf="data.tariff==null" -->
+                <td  (click)="updateTeriff(data)">{{data.tariff}}<i class="fas fa-external-link-square-alt ml-1"  aria-hidden="true" ></i>
+                </td>
               </tr>
             </tbody>
           </table>

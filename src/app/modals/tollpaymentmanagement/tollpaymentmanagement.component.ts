@@ -3,6 +3,8 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
+import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
+import { isNumeric } from 'rxjs/util/isNumeric';
 
 @Component({
   selector: 'tollpaymentmanagement',
@@ -11,8 +13,8 @@ import { MapService } from '../../services/map.service';
 })
 export class TollpaymentmanagementComponent implements OnInit {
 
-  startDate = null;
-  endDate = null;
+  startDate = new Date();
+  endDate = new Date();
   vehicleId = null;
   vehicleRegNo = '';
   vehicleClass = [];
@@ -25,9 +27,8 @@ export class TollpaymentmanagementComponent implements OnInit {
     private modalService: NgbModal,
     public activeModal: NgbActiveModal) {
     this.common.handleModalSize('class', 'modal-lg', '1050');
-    let today = new Date();
-    this.endDate = new Date(today);
-    this.startDate = new Date(today);
+    // this.endDate = new Date();
+    // this.startDate = new Date();
     this.getVehicleClass();
   }
 
@@ -77,6 +78,7 @@ export class TollpaymentmanagementComponent implements OnInit {
         if(res['success']){
         console.log("response", res['data']);
         this.tpManagement_tolls=res['data']['tolls'];
+        this.mapService.clearAll();
         this.mapService.createMarkers(this.tpManagement_tolls,false,false);
         this.tpManagement_paths=res['data']['path'];
         this.showPoly(this.formatCSVData(this.tpManagement_paths)['data']);
@@ -114,6 +116,35 @@ export class TollpaymentmanagementComponent implements OnInit {
     let boundData = data.map(e=>{return {lat:parseFloat(e.lat),lng:parseFloat(e.long)};});
     this.mapService.setMultiBounds(boundData,true);
     return polyPath;
+  }
+
+  updateTeriff(teriffData){
+    console.log("testData:",teriffData);
+    this.common.params = {title: "Update Tariff",placeholder:"Enter Tariff", label:"Tariff",remark:teriffData.tariff};
+    const activeModal = this.modalService.open(RemarkModalComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });activeModal.result.then(data => {
+      console.log('Data: ', data);
+      if (isNumeric(data.remark)) {
+        let params={
+          tollId:teriffData.id,
+          vehicleClass:teriffData.vehicle_class,
+          tariff:data.remark,
+        }
+        console.log("data:",params);
+        this.api.post('Toll/saveTariffLogs', params)
+          .subscribe(res => {
+            if(res['success']){
+              this.tollPayManagement();
+            }
+          }, err => {
+            console.log(err);
+          });
+      }else{
+        this.common.showError("please enter numeric value");
+      }
+    });
   }
 
 }
