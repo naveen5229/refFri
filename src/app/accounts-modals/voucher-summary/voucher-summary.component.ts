@@ -927,7 +927,7 @@ export class VoucherSummaryComponent implements OnInit {
 
     console.log('vech id first', vehId);
     this.common.params = { vehId, vehclename };
-    const activeModal = this.modalService.open(AddTripComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddTripComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data5555555: ', data);
       if (data) {
