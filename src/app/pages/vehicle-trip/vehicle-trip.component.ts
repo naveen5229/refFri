@@ -22,6 +22,9 @@ import { PrintManifestComponent } from '../../modals/print-manifest/print-manife
 import { TripSettlementComponent } from '../../modals/trip-settlement/trip-settlement.component';
 import { VehicleInfoComponent } from '../../modals/vehicle-info/vehicle-info.component';
 import { MapService } from '../../services/map.service';
+import { UploadFileComponent } from '../../modals/generic-modals/upload-file/upload-file.component';
+import { AccountService } from '../../services/account.service';
+import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error-report.component';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -47,11 +50,13 @@ export class VehicleTripComponent implements OnInit {
       pagination:true
     }
   };
+  branchId = null;
   constructor(
     private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public dateService: DateService,
+    public accountService: AccountService,
     public user: UserService,
     public map : MapService,
     private modalService: NgbModal) {
@@ -77,6 +82,41 @@ export class VehicleTripComponent implements OnInit {
 
     this.getVehicleTrips();
   }
+
+  openUploadModal() {
+    this.common.params={sampleURL:'http://dev.elogist.in/sample/csv/SampleTripUpload.csv'};
+    const activeModal = this.modalService.open(UploadFileComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log("data",data);
+        this.uploadCsv(data.fileType,data.file);
+      }
+    });
+  }
+
+  uploadCsv(fileType,file) {
+    if (!file) {
+      return this.common.showError("Select  Option");
+    }
+    file = file.replace('77u/','');
+    const params = {
+      tripCSV: file,
+    };
+    this.common.loading++;
+    this.api.post('TripsOperation/bulkInsertTripsCSV', params)
+      .subscribe(res => {
+        this.common.loading--;
+        let successData =  res['data']['success'];
+        let errorData =res['data']['fail'];
+        alert(res["msg"]);
+        this.common.params = { apiData: params,successData, errorData, title: 'Bulk Site csv Report',isUpdate:false };
+        const activeModal = this.modalService.open(CsvErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
   getVehicleTrips() {
     this.vehicleTrips = [];
     this.table = {
