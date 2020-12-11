@@ -234,10 +234,11 @@ export class TmgChallanComponent implements OnInit {
         position: 'bottom',
         display: true
       },
-      tooltips: {
-        mode: 'index',
-        intersect: 'true'
-      },
+      // tooltips: {
+      //   mode: 'index',
+      //   intersect: 'true'
+      // },
+     
       maintainAspectRatio: false,
       title: {
         display: true,

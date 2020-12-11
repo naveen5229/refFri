@@ -281,6 +281,18 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
 
           ]
         },
+        tooltips: {
+          enabled: true,
+          mode: 'single',
+          callbacks: {
+              label: function(tooltipItems, data) { 
+                console.log("tooltipItems",tooltipItems, "data", data);
+                let tti = (''+tooltipItems.yLabel).split(".");
+                let min = tti[1] ? parseInt(tti[1])*6 :'00';
+                  return  tooltipItems.xLabel + " ( "+tti[0]+":"+min +" Hrs. )";
+              }
+          }
+      },
         onClick: (e, item) => {
           let idx = item[0]['_index'];
           // let xax = xaxis[idx];
