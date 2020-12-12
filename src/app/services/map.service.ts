@@ -101,8 +101,8 @@ export class MapService {
     }
   }
 
-  createSingleMarker(latLng, icons?, dragEvent?, clickEvent?,label?) {
-    console.log("label",label);
+  createSingleMarker(latLng, icons?, dragEvent?, clickEvent?, label?) {
+    console.log("label", label);
     var icon = icons ? icons : {
       path: google.maps.SymbolPath.redpin,
       scale: 4,
@@ -113,12 +113,12 @@ export class MapService {
     var marker = new google.maps.Marker({
       icon: icon,
       position: latLng,
-      label : label,
+      label: label,
       map: this.map,
       draggable: dragEvent ? true : false,
     });
 
-    console.log("marker",marker);
+    console.log("marker", marker);
 
     if (dragEvent) {
       this.addListerner(marker, 'dragend', (e) => dragEvent(e, latLng))
@@ -247,101 +247,105 @@ export class MapService {
   }
 
   createMarkers(markers, dropPoly = false, changeBounds = true, infoKeys?, afterClick?) {
-    let thisMarkers = [];
-    let infoWindows = [];
-    console.log("Markers", markers);
-    for (let index = 0; index < markers.length; index++) {
-      let subType = markers[index]["subType"];
-      let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
-        markers[index]["type"] == "subSite" ? this.designsDefaults[1] : null;
-      let text = markers[index]["text"] ? markers[index]["text"] : " ";
-      let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
-      let latLng = this.getLatLngValue(markers[index]);
-      let lat = latLng.lat;
-      let lng = latLng.lng;
-      let title = markers[index]["title"] ? markers[index]["title"] : "Untitled";
-      let latlng = new google.maps.LatLng(lat, lng);
-      let pinImage;
-      //pin Image
-      if (design) {
-        pinImage = {
-          path: design,
-          // set custom fillColor on each iteration
-          fillColor: "#" + pinColor,
-          fillOpacity: 1,
-          scale: 1.3,
-          strokeColor: pinColor,
-          strokeWeight: 2
-        };
-      } else {
-        if (subType == 'marker')
-          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + (index + 1) + "|" + pinColor + "|000000";
-        else //if(subType=='circle')
+    try {
+      let thisMarkers = [];
+      let infoWindows = [];
+      console.log("Markers", markers);
+      for (let index = 0; index < markers.length; index++) {
+        let subType = markers[index]["subType"];
+        let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
+          markers[index]["type"] == "subSite" ? this.designsDefaults[1] : null;
+        let text = markers[index]["text"] ? markers[index]["text"] : " ";
+        let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
+        let latLng = this.getLatLngValue(markers[index]);
+        let lat = latLng.lat;
+        let lng = latLng.lng;
+        let title = markers[index]["title"] ? markers[index]["title"] : "Untitled";
+        let latlng = new google.maps.LatLng(lat, lng);
+        let pinImage;
+        //pin Image
+        if (design) {
           pinImage = {
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: this.options ? this.options.circle.scale : 6,
+            path: design,
+            // set custom fillColor on each iteration
             fillColor: "#" + pinColor,
-            fillOpacity: 0.8,
-            strokeWeight: 1
+            fillOpacity: 1,
+            scale: 1.3,
+            strokeColor: pinColor,
+            strokeWeight: 2
           };
-      }
-
-      let marker = null;
-      if (dropPoly)
-        this.drawPolyMF(latlng);
-      if ((lat && lng)) {
-        marker = new google.maps.Marker({
-          position: latlng,
-          flat: true,
-          icon: pinImage,
-          map: this.map,
-          title: title
-        });
-        let displayText = '';
-        if (infoKeys) {
-          let infoWindow = this.createInfoWindow();
-          infoWindows.push(infoWindow);
-          infoWindow.opened = false;
-          console.log(infoWindow);
-          console.log("typeof (infoKeys)", typeof (infoKeys), infoKeys);
-          if (typeof (infoKeys) == 'object') {
-            infoKeys.map((display, indexx) => {
-              if (indexx != infoKeys.length - 1) {
-                displayText += this.common.ucWords(display) + " : " + markers[index][display] + ' <br> ';
-              } else {
-                displayText += this.common.ucWords(display) + " : " + markers[index][display];
-              }
-            });
-          } else {
-            displayText = this.common.ucWords(infoKeys) + " : " + markers[index][infoKeys];
-          }
-          google.maps.event.addListener(marker, 'click', function (evt) {
-            this.infoStart = new Date().getTime();
-            for (let infoIndex = 0; infoIndex < infoWindows.length; infoIndex++) {
-              const element = infoWindows[infoIndex];
-              if (element)
-                element.close();
-            }
-            infoWindow.setContent("<span style='color:blue'>Info</span> <br> " + displayText);
-            infoWindow.setPosition(evt.latLng); // or evt.latLng
-            infoWindow.open(this.map);
-            afterClick(markers[index]);
-          });
+        } else {
+          if (subType == 'marker')
+            pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + (index + 1) + "|" + pinColor + "|000000";
+          else //if(subType=='circle')
+            pinImage = {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: this.options ? this.options.circle.scale : 6,
+              fillColor: "#" + pinColor,
+              fillOpacity: 0.8,
+              strokeWeight: 1
+            };
         }
-        if (changeBounds)
-          this.setBounds(latlng);
+
+        let marker = null;
+        if (dropPoly)
+          this.drawPolyMF(latlng);
+        if ((lat && lng)) {
+          marker = new google.maps.Marker({
+            position: latlng,
+            flat: true,
+            icon: pinImage,
+            map: this.map,
+            title: title
+          });
+          let displayText = '';
+          if (infoKeys) {
+            let infoWindow = this.createInfoWindow();
+            infoWindows.push(infoWindow);
+            infoWindow.opened = false;
+            console.log(infoWindow);
+            console.log("typeof (infoKeys)", typeof (infoKeys), infoKeys);
+            if (typeof (infoKeys) == 'object') {
+              infoKeys.map((display, indexx) => {
+                if (indexx != infoKeys.length - 1) {
+                  displayText += this.common.ucWords(display) + " : " + markers[index][display] + ' <br> ';
+                } else {
+                  displayText += this.common.ucWords(display) + " : " + markers[index][display];
+                }
+              });
+            } else {
+              displayText = this.common.ucWords(infoKeys) + " : " + markers[index][infoKeys];
+            }
+            google.maps.event.addListener(marker, 'click', function (evt) {
+              this.infoStart = new Date().getTime();
+              for (let infoIndex = 0; infoIndex < infoWindows.length; infoIndex++) {
+                const element = infoWindows[infoIndex];
+                if (element)
+                  element.close();
+              }
+              infoWindow.setContent("<span style='color:blue'>Info</span> <br> " + displayText);
+              infoWindow.setPosition(evt.latLng); // or evt.latLng
+              infoWindow.open(this.map);
+              afterClick(markers[index]);
+            });
+          }
+          if (changeBounds)
+            this.setBounds(latlng);
+        }
+        this.markers.push(marker);
+        thisMarkers.push(marker);
+
+        //  marker.addListener('mouseover', this.infoWindow.bind(this, marker, show ));
+
+        //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
+        //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
+
+
       }
-      this.markers.push(marker);
-      thisMarkers.push(marker);
-
-      //  marker.addListener('mouseover', this.infoWindow.bind(this, marker, show ));
-
-      //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
-      //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
-
-
+      return thisMarkers;
+    } catch (e) {
+      console.error('Exception in createMarkers ', e);
     }
-    return thisMarkers;
   }
 
   createCluster(markers, ismake?) {
@@ -425,24 +429,32 @@ export class MapService {
     this.options ? this.options.clearHeat && this.resetHeatMap() : '';
   }
   resetHeatMap() {
-    if (this.heatmap) {
-      this.heatmap.setMap(null);
-      this.heatmap = null;
+    try {
+      if (this.heatmap) {
+        this.heatmap.setMap(null);
+        this.heatmap = null;
+      }
+    } catch (e) {
+      console.error('Exception in resetHeatMap', e);
     }
   }
 
   resetMarker(reset = true, boundsReset = true, markers?) {
-    let actualMarker = markers || this.markers;
-    for (let i = 0; i < actualMarker.length; i++) {
-      if (actualMarker[i])
-        console.log("reset");
+    try {
+      let actualMarker = markers || this.markers;
+      for (let i = 0; i < actualMarker.length; i++) {
+        if (actualMarker[i])
+          console.log("reset");
 
-      actualMarker[i].setMap(null);
-    }
-    if (reset)
-      actualMarker = [];
-    if (boundsReset) {
-      this.bounds = new google.maps.LatLngBounds();
+        actualMarker[i].setMap(null);
+      }
+      if (reset)
+        actualMarker = [];
+      if (boundsReset) {
+        this.bounds = new google.maps.LatLngBounds();
+      }
+    } catch (e) {
+      console.error('Exception in resetMarker:', e);
     }
   }
 
@@ -457,45 +469,57 @@ export class MapService {
     }
   }
   resetPolygons() {
-    if (this.polygon) {
-      this.polygon.setMap(null);
-      this.polygon = null;
-    }
-    if (this.polygons.length > 0) {
-      this.polygons.forEach(polygon => {
-        polygon.setMap(null);
-      });
-      this.polygons = [];
+    try {
+      if (this.polygon) {
+        this.polygon.setMap(null);
+        this.polygon = null;
+      }
+      if (this.polygons.length > 0) {
+        this.polygons.forEach(polygon => {
+          polygon.setMap(null);
+        });
+        this.polygons = [];
+      }
+    } catch (e) {
+      console.error('Exception in resetPolygons:', e);
     }
   }
   resetPolyPaths() {
-    if (this.polygonPaths.length > 0) {
-      this.polygonPaths.forEach(path => {
-        path.setMap(null);
-      });
-      this.polygonPaths = [];
-    }
-    if (this.polygonPathsVertices.length > 0) {
-      this.polygonPathsVertices.forEach(polyPathVertices => {
-        if (polyPathVertices.length > 0) {
-          polyPathVertices.forEach(polyPathVertix => {
-            polyPathVertix.setMap(null);
-          });
-        }
-      });
-      this.polygonPathsVertices = [[]];
+    try {
+      if (this.polygonPaths.length > 0) {
+        this.polygonPaths.forEach(path => {
+          path.setMap(null);
+        });
+        this.polygonPaths = [];
+      }
+      if (this.polygonPathsVertices.length > 0) {
+        this.polygonPathsVertices.forEach(polyPathVertices => {
+          if (polyPathVertices.length > 0) {
+            polyPathVertices.forEach(polyPathVertix => {
+              polyPathVertix.setMap(null);
+            });
+          }
+        });
+        this.polygonPathsVertices = [[]];
+      }
+    } catch (e) {
+      console.error('Exception in resetPolyPaths', e);
     }
   }
   resetPolyPath() {
-    if (this.polygonPath) {
-      this.polygonPath.setMap(null);
-      this.polygonPath = null;
-    }
-    if (this.polygonPathVertices.length > 0) {
-      this.polygonPathVertices.forEach(polyPathVertix => {
-        polyPathVertix.setMap(null);
-      });
-      this.polygonPathVertices = [];
+    try {
+      if (this.polygonPath) {
+        this.polygonPath.setMap(null);
+        this.polygonPath = null;
+      }
+      if (this.polygonPathVertices.length > 0) {
+        this.polygonPathVertices.forEach(polyPathVertix => {
+          polyPathVertix.setMap(null);
+        });
+        this.polygonPathVertices = [];
+      }
+    } catch (e) {
+      console.error('Exception in resetPolyPath', e);
     }
   }
 
@@ -507,25 +531,28 @@ export class MapService {
     });
   }
   createPolyPathManual(latLng, polygonOptions?, drawVertix?) {
-    // console.log(polygonOptions);
-    if (!this.polygonPath) {
-      const defaultPolygonOptions = {
-        strokeColor: 'black',
-        strokeOpacity: 1,
-        strokeWeight: 3,
-        icons: [{
-          icon: this.lineSymbol,
-          offset: '100%'
-        }]
-      };
-      // console.log(defaultPolygonOptions);
-      this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
-      this.polygonPath.setMap(this.map);
+    try {
+      if (!this.polygonPath) {
+        const defaultPolygonOptions = {
+          strokeColor: 'black',
+          strokeOpacity: 1,
+          strokeWeight: 3,
+          icons: [{
+            icon: this.lineSymbol,
+            offset: '100%'
+          }]
+        };
+        // console.log(defaultPolygonOptions);
+        this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
+        this.polygonPath.setMap(this.map);
+      }
+      let path = this.polygonPath.getPath();
+      path.push(latLng);
+      drawVertix && this.polygonPathVertices.push(this.createSingleMarker(latLng));
+      return this.polygonPath;
+    } catch (e) {
+      console.error('Exception in createPolyPathManual ', e);
     }
-    let path = this.polygonPath.getPath();
-    path.push(latLng);
-    drawVertix && this.polygonPathVertices.push(this.createSingleMarker(latLng));
-    return this.polygonPath;
   }
   createPolyPathDetached2(latLng, polygonOptions?, drawVertix?,) {
     // console.log(polygonOptions);
@@ -749,7 +776,7 @@ export class MapService {
         fillOpacity: 1,
         strokeWeight: 1
       };
-      
+
       if (ele.lat && ele.lng && ele.type == 'marker') {
         let showContent = ele.show;
         this.createSingleMarker(this.createLatLng(ele.lat, ele.lng), icon, false, (e, latlng) => {
@@ -778,7 +805,7 @@ export class MapService {
           infoWindow.setPosition(e.latLng); // or evt.latLng
           infoWindow.open(this.map);
 
-        },ele.label);
+        }, ele.label);
       }
     });
     this.setMultiBounds(data);
