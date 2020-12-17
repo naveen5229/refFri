@@ -87,6 +87,7 @@ export class GenericModelComponent implements OnInit {
           else
             str += "&" + element + "=" + this.common.params.data.view.param[element];
         });
+        this.viewObj = this.common.params.data.view;
         this.viewObj.api += str;
         this.view();
 
