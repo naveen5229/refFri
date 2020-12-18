@@ -297,6 +297,12 @@ button:hover {
     margin-right: 2px;
     height: 30px;
 }
+
+.customer_complain{
+    margin-right: 2px;
+    height: 30px;
+}
+
 .add_customer{
     margin-right: 2px;
     height: 30px;
@@ -424,7 +430,7 @@ button:hover {
     padding-top: 2px;
 }
 
-.add_customer button:hover, .bank_icon button:hover, .refresh_icon button:hover {
+.add_customer button:hover, .bank_icon button:hover,.customer_complain button:hover, .refresh_icon button:hover {
     background-color: #0c1427;
     border: 1px solid #5e7cf5;
     color: #5e7cf5;

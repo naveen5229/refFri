@@ -228,6 +228,8 @@ export class CommonService {
   changeDateformat(date, format = "dd-MMM-yyyy hh:mm:ss a") {
     return this.datePipe.transform(date, format);
   }
+
+  
   changeDateformat4(date) {
     let d = new Date(date);
     return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm");
