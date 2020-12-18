@@ -97,6 +97,14 @@ export const WALLE8_MENU_ITEMS = JSON.stringify([
         home: true,
 
     },
+
+    {
+        title: 'Financial History Summary(Add Time)',
+        icon: 'fa-credit-card',
+        link: '/walle8/financialhistorysummary',
+        home: true,
+
+    },
     {
         title: 'Financial Main Summary',
         icon: 'fa-credit-card',

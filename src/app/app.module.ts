@@ -302,6 +302,7 @@ import { FoSiteAliasComponent } from './modals/fo-site-alias/fo-site-alias.compo
 import { TripKmRepairViewComponent } from './modals/trip-km-repair-view/trip-km-repair-view.component';
 import { AdhocRouteComponent } from './modals/adhoc-route/adhoc-route.component';
 import { TollpaymentmanagementComponent } from './modals/tollpaymentmanagement/tollpaymentmanagement.component';
+import { AddmissingtollComponent } from './modals/addmissingtoll/addmissingtoll.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -559,7 +560,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   UploadFileComponent,
   FoSiteAliasComponent,
   AdhocRouteComponent,
-  TollpaymentmanagementComponent
+  TollpaymentmanagementComponent,
+  AddmissingtollComponent
 ];
 
 @NgModule({
@@ -577,6 +579,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CheckloginandredirectComponent,
     TripKmRepairViewComponent,
     TollpaymentmanagementComponent,
+    AddmissingtollComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
