@@ -219,8 +219,9 @@ export class ConciseComponent implements OnInit {
       columns.push({
         _id: kpi.x_showveh,
         vehicle: {
-          value: kpi.x_showveh,
+          value: this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${kpi.x_showveh}</div><div class="${kpi.x_gps_state=='Offline'?'ball red':kpi.x_gps_state=='Online'?'ball bgreen':'ball byellow'}" title=${kpi.x_gps_state}></div></span>`),
           action: '',
+          isHTML:true,
           colActions: {
             dblclick: '',
             click: '',
