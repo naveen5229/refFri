@@ -200,6 +200,7 @@ export class ConciseComponent implements OnInit {
           localStorage.setItem('KPI_DATA', JSON.stringify(this.allKpis));
           this.kpis = res["data"];
           this.grouping(this.viewType);
+          this.getGpsStatus();
           this.table = this.setTable();
           this.handlePdfPrint();
         }
@@ -1366,5 +1367,23 @@ export class ConciseComponent implements OnInit {
       return false;
     });
   }
+  gpsStatus = null;
+  gpsStatusKeys = [];
+  getGpsStatus(){
+    this.gpsStatus =_.groupBy(this.allKpis, 'x_gps_state');
+    this.gpsStatusKeys=Object.keys(this.gpsStatus)
+    console.log("this.gpsStatus=",this.gpsStatus);
+    console.log("this.gpsStatusKeys=",this.gpsStatusKeys);
+  }
 
+  filterByGpsData(filterKey){
+    this.kpis = this.allKpis.filter(kpi => {
+      if (kpi['x_gps_state'] == filterKey) {
+        return true;
+      }
+      return false;
+    });
+    console.log("filterKey",this.kpis);
+    this.table = this.setTable();
+  }
 }
