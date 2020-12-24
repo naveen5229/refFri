@@ -94,7 +94,6 @@ export class TollpaymentmanagementComponent implements OnInit {
         console.log("response", res['data']);
         this.tpManagement_tolls=res['data']['tolls'];
         this.mapService.clearAll();
-        this.mapService.markers = [];
         this.mapService.createMarkers(this.tpManagement_tolls,false,false);
         this.tpManagement_paths=res['data']['path'];
         this.terrifCount=(this.tpManagement_tolls).reduce((acc, val) => acc += val.tariff==null?0:val.tariff, 0);
