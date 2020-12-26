@@ -50,33 +50,30 @@ export class TmgCallsComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal) {
-    this.getCallsDrivar();
-    this.getCallsSupervisorWiseNotRespod();
-    this.getCallsNotRespod();
-    this.getCallsSupervisorWiseTopWorstDriverCalls();
-    this.getCallsSupervisorLoadingTat();
-    this.getCallOnwardKmd();
-    this.getCallsSupervisorUnLoadingTat();
     this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
 
-  refresh() {
-    this.xAxisData = [];
-    this.getCallsDrivar();
-    this.getCallsSupervisorWiseNotRespod();
-    this.getCallsNotRespod();
-    this.getCallsSupervisorWiseTopWorstDriverCalls();
-    this.getCallsSupervisorLoadingTat();
-    this.getCallOnwardKmd();
-    this.getCallsSupervisorUnLoadingTat();
+  ngAfterViewInit() {
+    this.refresh();
   }
 
-  getCallsDrivar() {
+  refresh() {
+    this.xAxisData = [];
+    this.getCallsDrivar(0);
+    this.getCallsSupervisorWiseNotRespod(1);
+    this.getCallsNotRespod(2);
+    this.getCallsSupervisorWiseTopWorstDriverCalls(3);
+    this.getCallsSupervisorLoadingTat(4);
+    this.getCallOnwardKmd(5);
+    this.getCallsSupervisorUnLoadingTat(6);
+  }
+
+  getCallsDrivar(index) {
     this.callsDrivar = [];
-    ++this.common.loading;
+    this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -88,17 +85,17 @@ export class TmgCallsComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetCallsDrivar', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('callsDrivar:', res);
         this.callsDrivar = res['data'];
         if (this.callsDrivar.length > 0) this.handleChart1();
+        this.hideLoader(index);;
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);;
         console.log('Err:', err);
       });
   }
 
-  getCallsSupervisorWiseNotRespod() {
+  getCallsSupervisorWiseNotRespod(index) {
     this.callsSupervisorWiseNotRespod = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
@@ -109,21 +106,21 @@ export class TmgCallsComponent implements OnInit {
       fromdate: startDate,
       todate: endDate,
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetCallsSupervisorWiseNotRespod', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('callsSupervisorWiseNotRespod:', res);
         this.callsSupervisorWiseNotRespod = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getCallsNotRespod() {
+  getCallsNotRespod(index) {
     this.callsNotRespod = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -135,17 +132,17 @@ export class TmgCallsComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetCallsNotRespod', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('tripUnLoadindTime:', res);
         this.callsNotRespod = res['data'];
         if (this.callsNotRespod.length > 0) this.handleChart2();
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getCallsSupervisorWiseTopWorstDriverCalls() {
+  getCallsSupervisorWiseTopWorstDriverCalls(index) {
     this.callsSupervisorWiseTopWorstDriverCalls = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
@@ -156,21 +153,21 @@ export class TmgCallsComponent implements OnInit {
       isfo: true,
       isadmin: true
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetCallsSupervisorWiseTopWorstDriverCalls', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('callsSupervisorWiseTopWorstDriverCalls:', res);
         this.callsSupervisorWiseTopWorstDriverCalls = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getCallsSupervisorLoadingTat() {
+  getCallsSupervisorLoadingTat(index) {
     this.callsSupervisorLoadingTat = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -182,17 +179,17 @@ export class TmgCallsComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetCallsSupervisorLoadingTat', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('callsSupervisorLoadingTat:', res);
         this.callsSupervisorLoadingTat = res['data'];
         if (this.callsSupervisorLoadingTat.length > 0) this.handleChart3();
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getCallsSupervisorUnLoadingTat() {
+  getCallsSupervisorUnLoadingTat(index) {
     this.callsSupervisorUnLoadingTat = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));;
     let endDate = new Date();
@@ -203,19 +200,19 @@ export class TmgCallsComponent implements OnInit {
       isfo: true,
       isadmin: true
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetCallsSupervisorUnLoadingTat', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('callsSupervisorUnLoadingTat:', res);
         this.callsSupervisorUnLoadingTat = res['data'];
         if (this.callsSupervisorUnLoadingTat.length > 0) this.handleChart5();
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
-  getCallOnwardKmd() {
+  getCallOnwardKmd(index) {
     this.callOnwardKmd = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
@@ -226,21 +223,21 @@ export class TmgCallsComponent implements OnInit {
       isfo: true,
       isadmin: true
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetCallOnwardKmd', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('callsSupervisorUnLoadingTat:', res);
         this.callOnwardKmd = res['data'];
         if (this.callOnwardKmd.length > 0) this.handleChart4();
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
-  getAlertWorstCallTat() {
+  getAlertWorstCallTat(index) {
     this.callsSupervisorUnLoadingTat = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -252,12 +249,12 @@ export class TmgCallsComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetAlertWorstCallTat', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('tripUnLoadindTime:', res);
         this.callsSupervisorUnLoadingTat = res['data'];
         if (this.callsSupervisorUnLoadingTat.length > 0) this.handleChart5();
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -558,5 +555,19 @@ export class TmgCallsComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  } 
+  showLoader(index) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("outer");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      outers[index].appendChild(loader);
+    }, 50);
   }
+
+  hideLoader(index) {
+    let outers = document.getElementsByClassName("outer");
+    outers[index].lastChild.remove();
+  }
+
 }

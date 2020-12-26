@@ -997,10 +997,15 @@ input[type=number] {
   border-radius: .75rem;
   border-color: #8b000000 !important;
 }
+
+
+
 @media (max-width: 1024px) and (min-width: 768px)
 {
 table thead, table tbody {
     display: block !important;
 }
+
+
 }
 

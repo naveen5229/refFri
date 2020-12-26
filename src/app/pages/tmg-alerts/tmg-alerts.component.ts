@@ -41,37 +41,32 @@ export class TmgAlertsComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal) {
-    this.getAlertAckTat();
-    this.getAlertCallTat();
-    this.getAlertVscTat();
-    this.getAlertNotAck();
-    this.getAlertNotCall();
-    this.getAlertOpen();
-    this.getAlertVscPending();
-    this.getAlertWorstCallTat();
-    this.getAlertVscWorst();
     this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
 
-  refresh() {
-    // this.xAxisData = [];
-    this.getAlertAckTat();
-    this.getAlertCallTat();
-    this.getAlertVscTat();
-    this.getAlertNotAck();
-    this.getAlertNotCall();
-    this.getAlertOpen();
-    this.getAlertVscPending();
-    this.getAlertWorstCallTat();
-    this.getAlertVscWorst();
+  ngAfterViewInit() {
+    this.refresh();
   }
 
-  getAlertAckTat() {
+  refresh() {
+    // this.xAxisData = [];
+    this.getAlertAckTat(0);
+    this.getAlertCallTat(1);
+    this.getAlertVscTat(2);
+    this.getAlertNotAck(3);
+    this.getAlertNotCall(4);
+    this.getAlertOpen(6);
+    this.getAlertVscPending(5);
+    this.getAlertWorstCallTat(7);
+    this.getAlertVscWorst(8);
+  }
+
+  getAlertAckTat(index) {
     this.alertAckTat = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
@@ -81,17 +76,17 @@ export class TmgAlertsComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetAlertAckTat', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('alertAckTat:', res);
         this.alertAckTat = res['data'];
         if(this.alertAckTat.length>0) this.handleChart();
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getAlertCallTat() {
+  getAlertCallTat(index) {
     this.alertCallTat = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
@@ -100,22 +95,22 @@ export class TmgAlertsComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       groupdays: 1
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetAlertCallTat', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('alertCallTat:', res);
         this.alertCallTat = res['data'];
         if(this.alertCallTat.length>0) this.handleChart1();
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getAlertVscTat() {
+  getAlertVscTat(index) {
     this.alertVscTat = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
@@ -125,17 +120,17 @@ export class TmgAlertsComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetAlertVscTat', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('alertVscTat:', res);
         this.alertVscTat = res['data'];
         if(this.alertVscTat.length>0) this.handleChart2();
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getAlertNotAck() {
+  getAlertNotAck(index) {
     this.alertNotAck = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
@@ -144,21 +139,21 @@ export class TmgAlertsComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       totalrecord:3
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetAlertNotAck', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('alertNotAck:', res);
         this.alertNotAck = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getAlertNotCall(){
+  getAlertNotCall(index){
     this.alertNotCall = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -168,18 +163,18 @@ export class TmgAlertsComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetAlertNotCall', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('alertNotCall:', res['data']);
         this.alertNotCall = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getAlertVscPending(){
+  getAlertVscPending(index){
     this.alertVscPending = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate =new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -189,16 +184,16 @@ export class TmgAlertsComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetAlertVscPending', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('alertVscPending:', res['data']);
         this.alertVscPending = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getAlertOpen() {
+  getAlertOpen(index) {
     this.alertOpen = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
@@ -207,21 +202,21 @@ export class TmgAlertsComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       totalrecord:3
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetAlertOpen', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('alertOpen:', res);
         this.alertOpen = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getAlertWorstCallTat() { 
+  getAlertWorstCallTat(index) { 
     this.alertWorstCallTat = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));;
     let endDate = new Date();
     let params = {
@@ -231,18 +226,18 @@ export class TmgAlertsComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetAlertWorstCallTat', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('alertWorstCallTat:', res['data']);
         this.alertWorstCallTat = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getAlertVscWorst() { 
+  getAlertVscWorst(index) { 
     this.alertVscWorst = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
@@ -252,11 +247,11 @@ export class TmgAlertsComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetAlertVscWorst', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('alertVscWorst:', res['data']);
         this.alertVscWorst = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -435,6 +430,19 @@ getDetials(url, params, value = 0,type='days') {
   this.common.handleModalSize('class', 'modal-lg', '1100');
   this.common.params = { data: dataparams };
   const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+}
+showLoader(index) {
+  setTimeout(() => {
+    let outers = document.getElementsByClassName("outer");
+    let loader = document.createElement('div');
+    loader.className = 'loader';
+    outers[index].appendChild(loader);
+  }, 50);
+}
+
+hideLoader(index) {
+  let outers = document.getElementsByClassName("outer");
+  outers[index].lastChild.remove();
 }
 }
 
