@@ -83,12 +83,13 @@ export class TripStatusFeedbackComponent implements OnInit {
     
   }
 
-  tollPaymentManagement(){
-    const activeModal = this.modalService.open(TollpaymentmanagementComponent, {
-      size: "lg",
-      container: "nb-layout"
-    });
-  }
+  // tollPaymentManagement(){
+  //   this.common.params={}
+  //   const activeModal = this.modalService.open(TollpaymentmanagementComponent, {
+  //     size: "lg",
+  //     container: "nb-layout"
+  //   });
+  // }
 
   selectAllCheck(){
     if(this.allSelected){

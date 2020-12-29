@@ -24,6 +24,7 @@ import { OtherUsageComponent } from './other-usage/other-usage.component';
 import { CardBalanceComponent } from './card-balance/card-balance.component';
 import { ChartModule } from 'angular2-chartjs';
 import { TagSummaryComponent } from './tag-summary/tag-summary.component';
+import { FinancialhistorysummaryComponent } from './financialhistorysummary/financialhistorysummary.component';
 const PAGES_COMPONENTS = [
   Walle8Component,
 ];
@@ -59,7 +60,7 @@ const PAGES_COMPONENTS = [
     OtherUsageComponent,
     CardBalanceComponent,
     TagSummaryComponent,
-
+    FinancialhistorysummaryComponent,
   ],
   exports: [
     CardUsageComponent,

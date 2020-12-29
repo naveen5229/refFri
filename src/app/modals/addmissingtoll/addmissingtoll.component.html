@@ -1,0 +1,70 @@
+
+
+
+<div class="modal-header">
+<h5 class="modal-title" id="modal-basic-title">Add Missing Toll</h5>
+<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+
+    
+<div class="modal-body" style="min-height:320px;">
+        <div class="container">
+           <div class="row">
+            <div class="tabs_style_main w-100">
+              <ul class="tabs_style text-left">
+                  <li [ngClass]="activeTab=='addByImage'?'active':''" (click)="activeTab='addByImage';">
+                      Add By Image
+                  </li>
+                  <li [ngClass]="activeTab=='addByDetails'?'active':''" (click)="activeTab='addByDetails';">
+                      Add By Details
+                  </li>
+              </ul>
+          </div>
+  
+           </div> 
+            <div class="row" *ngIf="activeTab == 'addByImage'">
+            <div class="col-2 mt-2">
+                <label>Toll Receipt</label>
+            </div>
+
+            <div class="col-3">
+                <input type="file" class="file-control" id="upload_img" (change)="handleFileSelection($event)">
+            </div>
+
+            <div class="col-3">
+                <button class="btn btn-primary ml-5" style="padding:6px;" type="button" id="submit" (click)="uploadMissingTollDetails()">Submit</button>
+              </div>
+            </div>
+
+
+
+          <div class="row" *ngIf="activeTab == 'addByDetails'">
+              <div class="col-3">
+                  <label>Toll Name</label>
+                  <input type="text" class="form-control" id="upload_img" 
+                    [(ngModel)]="tollName">
+                </div>
+              <div class="col-5" >
+              <label>Toll Encounter Time</label>
+              <uj-date-time-picker (onChanged)="encounterTime=$event" [dateTimeValue]="encounterTime" [isTime]="true">
+              </uj-date-time-picker>
+              </div>
+              <div class="col-2">
+                  <label>Toll Cost</label>
+                  <input type="text" class="form-control" [(ngModel)]="tollCost">
+              </div>
+              <div class="col-2">
+                <button class="btn btn-primary mt-4" style="padding:6px;" type="button" id="submit" (click)="uploadMissingTollDetails()">Submit</button>
+              </div>
+          </div>
+          
+          <div class="row mt-5" >
+            <smart-table *ngIf="missingTollDetails.length" id="missingTollDetails" [data]="table.data" [settings]="table.settings">
+            </smart-table>
+          </div>
+           
+          
+        </div>
+</div>

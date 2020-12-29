@@ -146,4 +146,13 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  // openCustomerComplaint(){
+  //   console.log("TestHemant");
+  //   console.log("companyId:")
+  //   let param=null;
+  //   param={
+
+  //   }
+  // } 
+
 }

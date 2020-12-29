@@ -10,6 +10,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 import { MapService } from '../../services/map.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AddDriverCompleteComponent } from '../DriverModals/add-driver-complete/add-driver-complete.component';
 
 declare var google: any;
 @Component({
@@ -51,6 +52,7 @@ export class AddTripComponent implements OnInit {
   routes = [];
   routeId = null;
   routeName = null;
+  driverId = null;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -66,6 +68,9 @@ export class AddTripComponent implements OnInit {
     this.prevehicleId = this.VehicleId;
     // this.getRoutes();
     console.log('veh id',this.common.params);
+    if(this.dis_all=='rbt'){
+      this.getRoutes();
+    }
   }
 
 
@@ -160,7 +165,7 @@ export class AddTripComponent implements OnInit {
 
   addTrip() {
     console.log(this.vehicleTrip);
-    this.startTime = this.common.dateFormatter(this.startTime).split(' ')[0];
+    this.startTime = this.common.dateFormatter(this.startTime);
     console.log('startTime', this.startTime);
     this.targetTime = this.common.dateFormatter(this.targetTime).split(' ')[0];
     console.log('targetTime', this.targetTime);
@@ -176,7 +181,8 @@ export class AddTripComponent implements OnInit {
       tripTypeId: this.tripTypeId,
       routeId: this.routeId,
       endTime: this.targetTime,
-      viapoints : this.viaPoints
+      viapoints : this.viaPoints,
+      driverId : this.driverId
     }
     console.log("params", params);
     ++this.common.loading;
@@ -204,9 +210,9 @@ export class AddTripComponent implements OnInit {
     this.viaPoints.map(vp=>{
       ids+=vp.siteId+','
     })
-    let param = "points="+ids.slice(0, -1);
-    console.log("param",param);
-    this.api.get('ViaRoutes/getViaRouteSuggestions?'+param)
+    // let param = "points="+ids.slice(0, -1);
+    // console.log("param",param);
+    this.api.get('ViaRoutes/getViaRouteSuggestions?')
       .subscribe(res => {
         this.routes = res['data'];
       }, err => {
@@ -269,7 +275,7 @@ export class AddTripComponent implements OnInit {
     console.log("Type Id", type);
     this.routeId = this.routes.find((element) => {
       return element.route_name == type;
-    }).id;
+    }).route_id;
     this.routeName = type;
   }
 
@@ -372,5 +378,18 @@ export class AddTripComponent implements OnInit {
    else{
      this.common.showError("Atleast Two Points required");
    }
+  }
+  getDriverInfo(driver) {  
+      this.driverId = driver.id ? driver.id : driver.driver_id;
+   
+  }
+  addDriver() {
+    this.common.params = { vehicleId: null, vehicleRegNo: null };
+    const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout', windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      console.log("data", data);
+      if (data.data) {
+      }
+    });
   }
 }
